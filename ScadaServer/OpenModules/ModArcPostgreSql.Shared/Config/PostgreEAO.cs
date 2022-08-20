@@ -54,8 +54,12 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
             base.AddToOptionList(options);
             options["UseStorageConn"] = UseStorageConn.ToLowerString();
             options["Connection"] = Connection;
-            options["MaxQueueSize"] = MaxQueueSize.ToString();
-            options["PartitionSize"] = PartitionSize.ToString();
+            
+            if (!ReadOnly)
+            {
+                options["MaxQueueSize"] = MaxQueueSize.ToString();
+                options["PartitionSize"] = PartitionSize.ToString();
+            }
         }
     }
 }
