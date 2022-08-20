@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ScadaServerDictionaries>
+  <!-- ScadaServerCommon.dll -->
   <Dictionary key="Scada.Server.Archives">
     <Phrase key="UnspecifiedArchiveKind">Не задан</Phrase>
     <Phrase key="CurrentArchiveKind">Текущий</Phrase>
@@ -13,5 +14,25 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Engine.CoreLogic">
     <Phrase key="CommandSentBy">Отправлена {0}</Phrase>
+  </Dictionary>
+  <!-- ScadaServerCommon.Forms.dll -->
+  <Dictionary key="Scada.Server.Forms.Controls.CtrlHistoricalArchiveOptions">
+    <Phrase key="gbOptions">Основные параметры</Phrase>
+    <Phrase key="lblReadOnly">Только чтение</Phrase>
+    <Phrase key="lblLogEnabled">Журнал включен</Phrase>
+    <Phrase key="lblRetention">Период хранения</Phrase>
+    <Phrase key="txtRetentionUnit">День</Phrase>
+    <Phrase key="lblIsPeriodic">Только периодические данные</Phrase>
+    <Phrase key="lblWriteWithPeriod">Записывать периодически</Phrase>
+    <Phrase key="lblWritingPeriod">Период записи</Phrase>
+    <Phrase key="cbPeriodUnit.Items[0]">Сек.</Phrase>
+    <Phrase key="cbPeriodUnit.Items[1]">Мин.</Phrase>
+    <Phrase key="cbPeriodUnit.Items[2]">Час</Phrase>
+    <Phrase key="lblPullToPeriod">Притягивать к периоду</Phrase>
+    <Phrase key="txtPullToPeriodUnit">Сек.</Phrase>
+    <Phrase key="lblWriteOnChange">Записывать по изменению</Phrase>
+    <Phrase key="lblDeadband">Зона нечувствительности</Phrase>
+    <Phrase key="cbDeadbandUnit.Items[0]">Абс.</Phrase>
+    <Phrase key="cbDeadbandUnit.Items[1]">%</Phrase>
   </Dictionary>
 </ScadaServerDictionaries>

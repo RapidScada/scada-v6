@@ -58,7 +58,7 @@ namespace Scada.Server.Forms.Controls
                 lblRetention.Enabled = numRetention.Enabled = txtRetentionUnit.Enabled =
                     lblIsPeriodic.Enabled = chkIsPeriodic.Enabled =
                     lblWriteWithPeriod.Enabled = chkWriteWithPeriod.Enabled =
-                    lblWritingPeriod.Enabled = chkWriteWithPeriod.Enabled = cbPeriodUnit.Enabled =
+                    lblWritingPeriod.Enabled = numWritingPeriod.Enabled = cbPeriodUnit.Enabled =
                     lblPullToPeriod.Enabled = numPullToPeriod.Enabled = txtPullToPeriodUnit.Enabled =
                     lblWriteOnChange.Enabled = chkWriteOnChange.Enabled =
                     lblDeadband.Enabled = numDeadband.Enabled = cbDeadbandUnit.Enabled = false;
@@ -69,7 +69,7 @@ namespace Scada.Server.Forms.Controls
                     lblIsPeriodic.Enabled = chkIsPeriodic.Enabled =
                     lblWriteWithPeriod.Enabled = chkWriteWithPeriod.Enabled = true;
 
-                lblWritingPeriod.Enabled = chkWriteWithPeriod.Enabled = cbPeriodUnit.Enabled = 
+                lblWritingPeriod.Enabled = numWritingPeriod.Enabled = cbPeriodUnit.Enabled = 
                     chkIsPeriodic.Checked || chkWriteWithPeriod.Checked;
 
                 lblPullToPeriod.Enabled = numPullToPeriod.Enabled = txtPullToPeriodUnit.Enabled =
@@ -118,6 +118,7 @@ namespace Scada.Server.Forms.Controls
             }
             else
             {
+                gbOptions.Enabled = true;
                 chkReadOnly.Checked = options.ReadOnly;
                 chkLogEnabled.Checked = options.LogEnabled;
                 numRetention.SetValue(options.Retention);

@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ScadaServerDictionaries>
+  <!-- ScadaServerCommon.dll -->
   <Dictionary key="Scada.Server.Archives">
     <Phrase key="UnspecifiedArchiveKind">Unspecified</Phrase>
     <Phrase key="CurrentArchiveKind">Current</Phrase>
@@ -13,5 +14,25 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Engine.CoreLogic">
     <Phrase key="CommandSentBy">Sent by {0}</Phrase>
+  </Dictionary>
+  <!-- ScadaServerCommon.Forms.dll -->
+  <Dictionary key="Scada.Server.Forms.Controls.CtrlHistoricalArchiveOptions">
+    <Phrase key="gbOptions">General Options</Phrase>
+    <Phrase key="lblReadOnly">Read only</Phrase>
+    <Phrase key="lblLogEnabled">Log enabled</Phrase>
+    <Phrase key="lblRetention">Retention period</Phrase>
+    <Phrase key="txtRetentionUnit">Day</Phrase>
+    <Phrase key="lblIsPeriodic">Only periodic data</Phrase>
+    <Phrase key="lblWriteWithPeriod">Write with period</Phrase>
+    <Phrase key="lblWritingPeriod">Writing period</Phrase>
+    <Phrase key="cbPeriodUnit.Items[0]">Sec</Phrase>
+    <Phrase key="cbPeriodUnit.Items[1]">Min</Phrase>
+    <Phrase key="cbPeriodUnit.Items[2]">Hour</Phrase>
+    <Phrase key="lblPullToPeriod">Pull to period</Phrase>
+    <Phrase key="txtPullToPeriodUnit">Sec</Phrase>
+    <Phrase key="lblWriteOnChange">Write on change</Phrase>
+    <Phrase key="lblDeadband">Deadband</Phrase>
+    <Phrase key="cbDeadbandUnit.Items[0]">Abs.</Phrase>
+    <Phrase key="cbDeadbandUnit.Items[1]">%</Phrase>
   </Dictionary>
 </ScadaServerDictionaries>

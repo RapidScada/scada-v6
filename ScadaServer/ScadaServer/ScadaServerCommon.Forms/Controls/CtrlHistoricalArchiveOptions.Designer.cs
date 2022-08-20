@@ -128,7 +128,7 @@
             // chkWriteOnChange
             // 
             this.chkWriteOnChange.AutoSize = true;
-            this.chkWriteOnChange.Location = new System.Drawing.Point(226, 229);
+            this.chkWriteOnChange.Location = new System.Drawing.Point(264, 229);
             this.chkWriteOnChange.Name = "chkWriteOnChange";
             this.chkWriteOnChange.Size = new System.Drawing.Size(15, 14);
             this.chkWriteOnChange.TabIndex = 18;
@@ -221,7 +221,7 @@
             // chkWriteWithPeriod
             // 
             this.chkWriteWithPeriod.AutoSize = true;
-            this.chkWriteWithPeriod.Location = new System.Drawing.Point(226, 142);
+            this.chkWriteWithPeriod.Location = new System.Drawing.Point(264, 142);
             this.chkWriteWithPeriod.Name = "chkWriteWithPeriod";
             this.chkWriteWithPeriod.Size = new System.Drawing.Size(15, 14);
             this.chkWriteWithPeriod.TabIndex = 10;
@@ -240,7 +240,7 @@
             // chkIsPeriodic
             // 
             this.chkIsPeriodic.AutoSize = true;
-            this.chkIsPeriodic.Location = new System.Drawing.Point(226, 113);
+            this.chkIsPeriodic.Location = new System.Drawing.Point(264, 113);
             this.chkIsPeriodic.Name = "chkIsPeriodic";
             this.chkIsPeriodic.Size = new System.Drawing.Size(15, 14);
             this.chkIsPeriodic.TabIndex = 8;
@@ -252,9 +252,9 @@
             this.lblIsPeriodic.AutoSize = true;
             this.lblIsPeriodic.Location = new System.Drawing.Point(13, 113);
             this.lblIsPeriodic.Name = "lblIsPeriodic";
-            this.lblIsPeriodic.Size = new System.Drawing.Size(78, 15);
+            this.lblIsPeriodic.Size = new System.Drawing.Size(104, 15);
             this.lblIsPeriodic.TabIndex = 7;
-            this.lblIsPeriodic.Text = "Only periodic";
+            this.lblIsPeriodic.Text = "Only periodic data";
             // 
             // txtRetentionUnit
             // 
@@ -263,7 +263,7 @@
             this.txtRetentionUnit.ReadOnly = true;
             this.txtRetentionUnit.Size = new System.Drawing.Size(70, 23);
             this.txtRetentionUnit.TabIndex = 6;
-            this.txtRetentionUnit.Text = "Days";
+            this.txtRetentionUnit.Text = "Day";
             // 
             // numRetention
             // 
@@ -299,7 +299,7 @@
             // chkLogEnabled
             // 
             this.chkLogEnabled.AutoSize = true;
-            this.chkLogEnabled.Location = new System.Drawing.Point(226, 55);
+            this.chkLogEnabled.Location = new System.Drawing.Point(264, 55);
             this.chkLogEnabled.Name = "chkLogEnabled";
             this.chkLogEnabled.Size = new System.Drawing.Size(15, 14);
             this.chkLogEnabled.TabIndex = 3;
@@ -317,7 +317,7 @@
             // chkReadOnly
             // 
             this.chkReadOnly.AutoSize = true;
-            this.chkReadOnly.Location = new System.Drawing.Point(226, 26);
+            this.chkReadOnly.Location = new System.Drawing.Point(264, 26);
             this.chkReadOnly.Name = "chkReadOnly";
             this.chkReadOnly.Size = new System.Drawing.Size(15, 14);
             this.chkReadOnly.TabIndex = 1;

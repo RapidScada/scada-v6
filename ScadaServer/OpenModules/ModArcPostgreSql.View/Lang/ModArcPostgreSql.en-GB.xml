@@ -39,20 +39,6 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreHAO">
     <Phrase key="this">Historical Archive Options</Phrase>
-    <Phrase key="gbGeneralOptions">General Options</Phrase>
-    <Phrase key="lblWritingMode">Writing mode</Phrase>
-    <Phrase key="cbWritingMode.Items[0]">Auto with period</Phrase>
-    <Phrase key="cbWritingMode.Items[1]">Auto on change</Phrase>
-    <Phrase key="cbWritingMode.Items[2]">On demand with period</Phrase>
-    <Phrase key="cbWritingMode.Items[3]">On demand</Phrase>
-    <Phrase key="lblWritingPeriod">Writing period</Phrase>
-    <Phrase key="lblWritingUnit">Writing unit</Phrase>
-    <Phrase key="cbWritingUnit.Items[0]">Second</Phrase>
-    <Phrase key="cbWritingUnit.Items[1]">Minute</Phrase>
-    <Phrase key="cbWritingUnit.Items[2]">Hour</Phrase>
-    <Phrase key="lblPullToPeriod">Pull to period, sec</Phrase>
-    <Phrase key="lblRetention">Retention period, days</Phrase>
-    <Phrase key="lblLogEnabled">Log enabled</Phrase>
     <Phrase key="gbDbOptions">Database Options</Phrase>
     <Phrase key="lblUseStorageConn">Use storage connection</Phrase>
     <Phrase key="lblConnection">Connection</Phrase>

@@ -39,20 +39,6 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreHAO">
     <Phrase key="this">Параметры архива исторических данных</Phrase>
-    <Phrase key="gbGeneralOptions">Основные параметры</Phrase>
-    <Phrase key="lblWritingMode">Режим записи</Phrase>
-    <Phrase key="cbWritingMode.Items[0]">Авто с периодом</Phrase>
-    <Phrase key="cbWritingMode.Items[1]">Авто по изменению</Phrase>
-    <Phrase key="cbWritingMode.Items[2]">По треб. с периодом</Phrase>
-    <Phrase key="cbWritingMode.Items[3]">По требованию</Phrase>
-    <Phrase key="lblWritingPeriod">Период записи</Phrase>
-    <Phrase key="lblWritingUnit">Единица измерения периода</Phrase>
-    <Phrase key="cbWritingUnit.Items[0]">Секунда</Phrase>
-    <Phrase key="cbWritingUnit.Items[1]">Минута</Phrase>
-    <Phrase key="cbWritingUnit.Items[2]">Час</Phrase>
-    <Phrase key="lblPullToPeriod">Притягивать к периоду, с</Phrase>
-    <Phrase key="lblRetention">Период хранения, дней</Phrase>
-    <Phrase key="lblLogEnabled">Журнал включен</Phrase>
     <Phrase key="gbDbOptions">Параметры базы данных</Phrase>
     <Phrase key="lblUseStorageConn">Соединение хранилища</Phrase>
     <Phrase key="lblConnection">Соединение</Phrase>

@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Forms;
-using Scada.Server.Archives;
+using Scada.Forms.Controls;
 using Scada.Server.Config;
 using Scada.Server.Modules.ModArcPostgreSql.Config;
 
@@ -22,7 +22,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmPostgreHAO()
+        private FrmPostgreHAO()
         {
             InitializeComponent();
         }
@@ -45,12 +45,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         private void OptionsToControls()
         {
             // general options
-            numWritingPeriod.SetValue(options.WritingPeriod);
-            //cbWritingMode.SelectedIndex = (int)options.WritingMode;
-            //cbWritingUnit.SelectedIndex = (int)options.WritingUnit;
-            numPullToPeriod.SetValue(options.PullToPeriod);
-            numRetention.SetValue(options.Retention);
-            chkLogEnabled.Checked = options.LogEnabled;
+            ctrlHistoricalArchiveOptions.ArchiveOptions = options;
 
             // database options
             chkUseStorageConn.Checked = options.UseStorageConn;
@@ -65,12 +60,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         private void ControlsToOptions()
         {
             // general options
-            options.WritingPeriod = Convert.ToInt32(numWritingPeriod.Value);
-            //options.WritingMode = (WritingMode)cbWritingMode.SelectedIndex;
-            //options.WritingUnit = (TimeUnit)cbWritingUnit.SelectedIndex;
-            options.PullToPeriod = Convert.ToInt32(numPullToPeriod.Value);
-            options.Retention = Convert.ToInt32(numRetention.Value);
-            options.LogEnabled = chkLogEnabled.Checked;
+            ctrlHistoricalArchiveOptions.ControlsToOptions();
 
             // database options
             options.UseStorageConn = chkUseStorageConn.Checked;
@@ -85,17 +75,10 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         private void FrmPostgreHAO_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
+            FormTranslator.Translate(ctrlHistoricalArchiveOptions, ctrlHistoricalArchiveOptions.GetType().FullName);
+
             UiUtils.FillConnections(cbConnection, appDirs.ConfigDir);
             OptionsToControls();
-        }
-
-        private void cbWritingMode_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //WritingMode writingMode = (WritingMode)cbWritingMode.SelectedIndex;
-            //lblWritingPeriod.Enabled = numWritingPeriod.Enabled =
-            //    lblWritingUnit.Enabled = cbWritingUnit.Enabled =
-            //    lblPullToPeriod.Enabled = numPullToPeriod.Enabled =
-            //    writingMode == WritingMode.AutoWithPeriod || writingMode == WritingMode.OnDemandWithPeriod;
         }
 
         private void chkUseStorageConn_CheckedChanged(object sender, EventArgs e)
