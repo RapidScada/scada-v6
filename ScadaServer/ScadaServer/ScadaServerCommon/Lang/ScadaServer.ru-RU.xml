@@ -23,6 +23,13 @@
     <Phrase key="lblFlushPeriod">Период сохранения</Phrase>
     <Phrase key="txtFlushPeriodUnit">Сек.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Server.Forms.Controls.CtrlEventArchiveOptions">
+    <Phrase key="gbOptions">Основные параметры</Phrase>
+    <Phrase key="lblReadOnly">Только чтение</Phrase>
+    <Phrase key="lblLogEnabled">Журнал включен</Phrase>
+    <Phrase key="lblRetention">Период хранения</Phrase>
+    <Phrase key="txtRetentionUnit">День</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Server.Forms.Controls.CtrlHistoricalArchiveOptions">
     <Phrase key="gbOptions">Основные параметры</Phrase>
     <Phrase key="lblReadOnly">Только чтение</Phrase>

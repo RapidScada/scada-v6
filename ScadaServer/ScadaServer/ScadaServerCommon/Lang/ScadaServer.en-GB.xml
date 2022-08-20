@@ -23,6 +23,13 @@
     <Phrase key="lblFlushPeriod">Flush period</Phrase>
     <Phrase key="txtFlushPeriodUnit">Sec</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Server.Forms.Controls.CtrlEventArchiveOptions">
+    <Phrase key="gbOptions">General Options</Phrase>
+    <Phrase key="lblReadOnly">Read only</Phrase>
+    <Phrase key="lblLogEnabled">Log enabled</Phrase>
+    <Phrase key="lblRetention">Retention period</Phrase>
+    <Phrase key="txtRetentionUnit">Day</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Server.Forms.Controls.CtrlHistoricalArchiveOptions">
     <Phrase key="gbOptions">General Options</Phrase>
     <Phrase key="lblReadOnly">Read only</Phrase>
