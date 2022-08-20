@@ -53,7 +53,9 @@ namespace Scada.Server.Archives
         public override void AddToOptionList(OptionList options)
         {
             base.AddToOptionList(options);
-            options["FlushPeriod"] = FlushPeriod.ToString();
+
+            if (!ReadOnly)
+                options["FlushPeriod"] = FlushPeriod.ToString();
         }
     }
 }

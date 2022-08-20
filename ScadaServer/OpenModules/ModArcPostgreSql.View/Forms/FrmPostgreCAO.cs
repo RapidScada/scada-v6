@@ -44,8 +44,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         private void OptionsToControls()
         {
             // general options
-            numFlushPeriod.SetValue(options.FlushPeriod);
-            chkLogEnabled.Checked = options.LogEnabled;
+            ctrlCurrentArchiveOptions.ArchiveOptions = options;
 
             // database options
             chkUseStorageConn.Checked = options.UseStorageConn;
@@ -59,8 +58,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         private void ControlsToOptions()
         {
             // general options
-            options.FlushPeriod = Convert.ToInt32(numFlushPeriod.Value);
-            options.LogEnabled = chkLogEnabled.Checked;
+            ctrlCurrentArchiveOptions.ControlsToOptions();
 
             // database options
             options.UseStorageConn = chkUseStorageConn.Checked;
@@ -74,6 +72,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         private void FrmPostgreHAO_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
+            FormTranslator.Translate(ctrlCurrentArchiveOptions, ctrlCurrentArchiveOptions.GetType().FullName);
+
             OptionsToControls();
             UiUtils.FillConnections(cbConnection, appDirs.ConfigDir);
         }

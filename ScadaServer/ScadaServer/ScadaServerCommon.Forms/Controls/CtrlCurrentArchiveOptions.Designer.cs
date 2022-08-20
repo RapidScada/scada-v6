@@ -54,7 +54,7 @@
             this.gbOptions.Name = "gbOptions";
             this.gbOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
             this.gbOptions.Size = new System.Drawing.Size(360, 116);
-            this.gbOptions.TabIndex = 1;
+            this.gbOptions.TabIndex = 0;
             this.gbOptions.TabStop = false;
             this.gbOptions.Text = "General Options";
             // 
@@ -124,6 +124,7 @@
             this.chkReadOnly.Size = new System.Drawing.Size(15, 14);
             this.chkReadOnly.TabIndex = 1;
             this.chkReadOnly.UseVisualStyleBackColor = true;
+            this.chkReadOnly.CheckedChanged += new System.EventHandler(this.chkReadOnly_CheckedChanged);
             // 
             // lblReadOnly
             // 

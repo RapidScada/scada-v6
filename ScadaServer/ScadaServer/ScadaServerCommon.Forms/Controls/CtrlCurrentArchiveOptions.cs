@@ -77,5 +77,12 @@ namespace Scada.Server.Forms.Controls
                 options.FlushPeriod = Convert.ToInt32(numFlushPeriod.Value);
             }
         }
+
+
+        private void chkReadOnly_CheckedChanged(object sender, EventArgs e)
+        {
+            lblFlushPeriod.Enabled = numFlushPeriod.Enabled = txtFlushPeriodUnit.Enabled =
+                !chkReadOnly.Checked;
+        }
     }
 }

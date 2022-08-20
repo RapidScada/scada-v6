@@ -10,9 +10,6 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreCAO">
     <Phrase key="this">Current Archive Options</Phrase>
-    <Phrase key="gbGeneralOptions">General Options</Phrase>
-    <Phrase key="lblFlushPeriod">Period of saving to database, sec</Phrase>
-    <Phrase key="lblLogEnabled">Log enabled</Phrase>
     <Phrase key="gbDbOptions">Database Options</Phrase>
     <Phrase key="lblUseStorageConn">Use storage connection</Phrase>
     <Phrase key="lblConnection">Connection</Phrase>
