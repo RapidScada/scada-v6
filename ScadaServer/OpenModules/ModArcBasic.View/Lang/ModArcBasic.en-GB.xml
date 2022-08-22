@@ -9,7 +9,6 @@
     <Phrase key="btnBrowseArcCopyDir">Browse...</Phrase>
     <Phrase key="btnSetToDefaultWin">Set for Windows</Phrase>
     <Phrase key="btnSetToDefaultLinux">Set for Linux</Phrase>
-    <Phrase key="btnSetToDefaultLinux">Set for Linux</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>
@@ -39,21 +38,18 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicHAO">
     <Phrase key="this">Historical Archive Options</Phrase>
-    <Phrase key="lblWritingMode">Writing mode</Phrase>
-    <Phrase key="cbWritingMode.Items[0]">Auto</Phrase>
-    <Phrase key="cbWritingMode.Items[1]">On demand</Phrase>
-    <Phrase key="pbWritingModeHint.ToolTip">Auto - appends current data to the archive with a specified period.&#13;&#10;On demand - writes data to the archive on explicit demand with a period check.</Phrase>
-    <Phrase key="lblWritingPeriod">Writing period</Phrase>
-    <Phrase key="pbWritingPeriodHint.ToolTip">Timestamps in the archive are multiples of the writing period.</Phrase>
-    <Phrase key="lblWritingUnit">Writing unit</Phrase>
-    <Phrase key="cbWritingUnit.Items[0]">Second</Phrase>
-    <Phrase key="cbWritingUnit.Items[1]">Minute</Phrase>
-    <Phrase key="cbWritingUnit.Items[2]">Hour</Phrase>
-    <Phrase key="lblPullToPeriod">Pull to period, sec</Phrase>
-    <Phrase key="pbPullToPeriodHint.ToolTip">Updates a timestamp according to the period if its deviation is less than or equal to the specified value.</Phrase>
-    <Phrase key="lblRetention">Retention period, days</Phrase>
-    <Phrase key="pbRetentionHint.ToolTip">How long data is stored in the archive.</Phrase>
+    <Phrase key="gbGeneralOptions">General Options</Phrase>
     <Phrase key="lblLogEnabled">Log enabled</Phrase>
+    <Phrase key="lblRetention">Retention period</Phrase>
+    <Phrase key="txtRetentionUnit">Day</Phrase>
+    <Phrase key="lblWriteWithPeriod">Write with period</Phrase>
+    <Phrase key="lblWritingPeriod">Writing period</Phrase>
+    <Phrase key="cbPeriodUnit.Items[0]">Sec</Phrase>
+    <Phrase key="cbPeriodUnit.Items[1]">Min</Phrase>
+    <Phrase key="cbPeriodUnit.Items[2]">Hour</Phrase>
+    <Phrase key="lblPullToPeriod">Pull to period</Phrase>
+    <Phrase key="txtPullToPeriodUnit">Sec</Phrase>
+    <Phrase key="gbPathOptions">Path Options</Phrase>
     <Phrase key="lblUseCopyDir">Write to copy directory</Phrase>
     <Phrase key="btnShowDir">Directories</Phrase>
     <Phrase key="btnOK">OK</Phrase>
