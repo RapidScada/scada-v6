@@ -43,8 +43,8 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         /// </summary>
         private void OptionsToControls()
         {
-            numFlushPeriod.SetValue(options.FlushPeriod);
             chkLogEnabled.Checked = options.LogEnabled;
+            numFlushPeriod.SetValue(options.FlushPeriod);
             chkUseCopyDir.Checked = options.UseCopyDir;
         }
 
@@ -53,16 +53,16 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         /// </summary>
         private void ControlsToOptions()
         {
+            options.UseCopyDir = chkUseCopyDir.Checked;
             options.FlushPeriod = Convert.ToInt32(numFlushPeriod.Value);
             options.LogEnabled = chkLogEnabled.Checked;
-            options.UseCopyDir = chkUseCopyDir.Checked;
             options.AddToOptionList(archiveConfig.CustomOptions);
         }
 
 
         private void FrmHAO_Load(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this, GetType().FullName, new FormTranslatorOptions { ToolTip = toolTip });
+            FormTranslator.Translate(this, GetType().FullName);
             OptionsToControls();
         }
 

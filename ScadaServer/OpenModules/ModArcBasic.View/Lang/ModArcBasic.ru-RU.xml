@@ -14,8 +14,11 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicCAO">
     <Phrase key="this">Параметры архива текущих данных</Phrase>
-    <Phrase key="lblFlushPeriod">Период сохранения на диск, с</Phrase>
+    <Phrase key="gbGeneralOptions">Основные параметры</Phrase>
     <Phrase key="lblLogEnabled">Журнал включен</Phrase>
+    <Phrase key="lblFlushPeriod">Период сохранения</Phrase>
+    <Phrase key="txtFlushPeriodUnit">Сек.</Phrase>
+    <Phrase key="gbPathOptions">Пути</Phrase>
     <Phrase key="lblUseCopyDir">Запись в директорию копии</Phrase>
     <Phrase key="btnShowDir">Директории</Phrase>
     <Phrase key="btnOK">OK</Phrase>

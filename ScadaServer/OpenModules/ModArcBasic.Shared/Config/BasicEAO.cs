@@ -18,6 +18,7 @@ namespace Scada.Server.Modules.ModArcBasic.Config
         public BasicEAO(OptionList options)
             : base(options)
         {
+            ReadOnly = false;
             UseCopyDir = options.GetValueAsBool("UseCopyDir");
         }
 
