@@ -541,7 +541,9 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
 
                 for (int i = 0; i < cnlCnt; i++)
                 {
-                    WritePoint(writeTime, CnlNums[i], curData.CnlData[cnlIndexes[i]]);
+                    CnlData curCnlData = curData.CnlData[cnlIndexes[i]];
+                    prevCnlData[i] = curCnlData;
+                    WritePoint(writeTime, CnlNums[i], curCnlData);
                 }
 
                 stopwatch.Stop();

@@ -535,7 +535,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 {
                     for (int i = 0; i < cnlCnt; i++)
                     {
-                        pointQueue.EnqueueWithoutLock(CnlNums[i], writeTime, curData.CnlData[cnlIndexes[i]]);
+                        CnlData curCnlData = curData.CnlData[cnlIndexes[i]];
+                        prevCnlData[i] = curCnlData;
+                        pointQueue.EnqueueWithoutLock(CnlNums[i], writeTime, curCnlData);
                     }
                 }
 
