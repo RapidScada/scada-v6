@@ -75,7 +75,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
             appLog = archiveContext.Log;
             arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
             stopwatch = new Stopwatch();
-            writingPeriod = GetPeriodInSec(options.WritingPeriod, options.PeriodUnit);
+            writingPeriod = GetPeriodInSec(options.WritingPeriod, options.WritingPeriodUnit);
             cnlDataEqualsFunc = SelectCnlDataEquals();
 
             connOptions = null;

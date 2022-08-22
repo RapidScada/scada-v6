@@ -39,9 +39,9 @@
     <Phrase key="lblIsPeriodic">Только периодические данные</Phrase>
     <Phrase key="lblWriteWithPeriod">Записывать периодически</Phrase>
     <Phrase key="lblWritingPeriod">Период записи</Phrase>
-    <Phrase key="cbPeriodUnit.Items[0]">Сек.</Phrase>
-    <Phrase key="cbPeriodUnit.Items[1]">Мин.</Phrase>
-    <Phrase key="cbPeriodUnit.Items[2]">Час</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[0]">Сек.</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[1]">Мин.</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[2]">Час</Phrase>
     <Phrase key="lblPullToPeriod">Притягивать к периоду</Phrase>
     <Phrase key="txtPullToPeriodUnit">Сек.</Phrase>
     <Phrase key="lblWriteOnChange">Записывать по изменению</Phrase>

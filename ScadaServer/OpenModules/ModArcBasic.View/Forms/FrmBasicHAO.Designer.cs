@@ -36,7 +36,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             this.txtPullToPeriodUnit = new System.Windows.Forms.TextBox();
             this.numPullToPeriod = new System.Windows.Forms.NumericUpDown();
             this.lblPullToPeriod = new System.Windows.Forms.Label();
-            this.cbPeriodUnit = new System.Windows.Forms.ComboBox();
+            this.cbWritingPeriodUnit = new System.Windows.Forms.ComboBox();
             this.numWritingPeriod = new System.Windows.Forms.NumericUpDown();
             this.lblWritingPeriod = new System.Windows.Forms.Label();
             this.chkWriteWithPeriod = new System.Windows.Forms.CheckBox();
@@ -90,7 +90,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             this.gbGeneralOptions.Controls.Add(this.txtPullToPeriodUnit);
             this.gbGeneralOptions.Controls.Add(this.numPullToPeriod);
             this.gbGeneralOptions.Controls.Add(this.lblPullToPeriod);
-            this.gbGeneralOptions.Controls.Add(this.cbPeriodUnit);
+            this.gbGeneralOptions.Controls.Add(this.cbWritingPeriodUnit);
             this.gbGeneralOptions.Controls.Add(this.numWritingPeriod);
             this.gbGeneralOptions.Controls.Add(this.lblWritingPeriod);
             this.gbGeneralOptions.Controls.Add(this.chkWriteWithPeriod);
@@ -138,18 +138,18 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             this.lblPullToPeriod.TabIndex = 10;
             this.lblPullToPeriod.Text = "Pull to period";
             // 
-            // cbPeriodUnit
+            // cbWritingPeriodUnit
             // 
-            this.cbPeriodUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbPeriodUnit.FormattingEnabled = true;
-            this.cbPeriodUnit.Items.AddRange(new object[] {
+            this.cbWritingPeriodUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbWritingPeriodUnit.FormattingEnabled = true;
+            this.cbWritingPeriodUnit.Items.AddRange(new object[] {
             "Sec",
             "Min",
             "Hour"});
-            this.cbPeriodUnit.Location = new System.Drawing.Point(277, 109);
-            this.cbPeriodUnit.Name = "cbPeriodUnit";
-            this.cbPeriodUnit.Size = new System.Drawing.Size(70, 23);
-            this.cbPeriodUnit.TabIndex = 9;
+            this.cbWritingPeriodUnit.Location = new System.Drawing.Point(277, 109);
+            this.cbWritingPeriodUnit.Name = "cbWritingPeriodUnit";
+            this.cbWritingPeriodUnit.Size = new System.Drawing.Size(70, 23);
+            this.cbWritingPeriodUnit.TabIndex = 9;
             // 
             // numWritingPeriod
             // 
@@ -327,7 +327,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         private TextBox txtPullToPeriodUnit;
         private NumericUpDown numPullToPeriod;
         private Label lblPullToPeriod;
-        private ComboBox cbPeriodUnit;
+        private ComboBox cbWritingPeriodUnit;
         private NumericUpDown numWritingPeriod;
         private Label lblWritingPeriod;
         private CheckBox chkWriteWithPeriod;

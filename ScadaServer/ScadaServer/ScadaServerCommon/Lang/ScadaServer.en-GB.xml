@@ -39,9 +39,9 @@
     <Phrase key="lblIsPeriodic">Only periodic data</Phrase>
     <Phrase key="lblWriteWithPeriod">Write with period</Phrase>
     <Phrase key="lblWritingPeriod">Writing period</Phrase>
-    <Phrase key="cbPeriodUnit.Items[0]">Sec</Phrase>
-    <Phrase key="cbPeriodUnit.Items[1]">Min</Phrase>
-    <Phrase key="cbPeriodUnit.Items[2]">Hour</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[0]">Sec</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[1]">Min</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[2]">Hour</Phrase>
     <Phrase key="lblPullToPeriod">Pull to period</Phrase>
     <Phrase key="txtPullToPeriodUnit">Sec</Phrase>
     <Phrase key="lblWriteOnChange">Write on change</Phrase>

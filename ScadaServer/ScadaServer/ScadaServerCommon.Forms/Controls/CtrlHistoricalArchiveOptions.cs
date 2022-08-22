@@ -58,7 +58,7 @@ namespace Scada.Server.Forms.Controls
                 lblRetention.Enabled = numRetention.Enabled = txtRetentionUnit.Enabled =
                     lblIsPeriodic.Enabled = chkIsPeriodic.Enabled =
                     lblWriteWithPeriod.Enabled = chkWriteWithPeriod.Enabled =
-                    lblWritingPeriod.Enabled = numWritingPeriod.Enabled = cbPeriodUnit.Enabled =
+                    lblWritingPeriod.Enabled = numWritingPeriod.Enabled = cbWritingPeriodUnit.Enabled =
                     lblPullToPeriod.Enabled = numPullToPeriod.Enabled = txtPullToPeriodUnit.Enabled =
                     lblWriteOnChange.Enabled = chkWriteOnChange.Enabled =
                     lblDeadband.Enabled = numDeadband.Enabled = cbDeadbandUnit.Enabled = false;
@@ -69,7 +69,7 @@ namespace Scada.Server.Forms.Controls
                     lblIsPeriodic.Enabled = chkIsPeriodic.Enabled =
                     lblWriteWithPeriod.Enabled = chkWriteWithPeriod.Enabled = true;
 
-                lblWritingPeriod.Enabled = numWritingPeriod.Enabled = cbPeriodUnit.Enabled = 
+                lblWritingPeriod.Enabled = numWritingPeriod.Enabled = cbWritingPeriodUnit.Enabled = 
                     chkIsPeriodic.Checked || chkWriteWithPeriod.Checked;
 
                 lblPullToPeriod.Enabled = numPullToPeriod.Enabled = txtPullToPeriodUnit.Enabled =
@@ -110,7 +110,7 @@ namespace Scada.Server.Forms.Controls
                 chkIsPeriodic.Checked = false;
                 chkWriteWithPeriod.Checked = false;
                 numWritingPeriod.Value = 1;
-                cbPeriodUnit.SelectedIndex = 0;
+                cbWritingPeriodUnit.SelectedIndex = 0;
                 numPullToPeriod.Value = 0;
                 chkWriteOnChange.Checked = false;
                 numDeadband.Value = 0;
@@ -125,7 +125,7 @@ namespace Scada.Server.Forms.Controls
                 chkIsPeriodic.Checked = options.IsPeriodic;
                 chkWriteWithPeriod.Checked = options.WriteWithPeriod;
                 numWritingPeriod.SetValue(options.WritingPeriod);
-                cbPeriodUnit.SelectedIndex = (int)options.PeriodUnit;
+                cbWritingPeriodUnit.SelectedIndex = (int)options.WritingPeriodUnit;
                 numPullToPeriod.SetValue(options.PullToPeriod);
                 chkWriteOnChange.Checked = options.WriteOnChange;
                 numDeadband.SetValue(Convert.ToDecimal(options.Deadband));
@@ -146,7 +146,7 @@ namespace Scada.Server.Forms.Controls
                 options.IsPeriodic = chkIsPeriodic.Checked;
                 options.WriteWithPeriod = chkWriteWithPeriod.Checked;
                 options.WritingPeriod = Convert.ToInt32(numWritingPeriod.Value);
-                options.PeriodUnit = (TimeUnit)cbPeriodUnit.SelectedIndex;
+                options.WritingPeriodUnit = (TimeUnit)cbWritingPeriodUnit.SelectedIndex;
                 options.PullToPeriod = Convert.ToInt32(numPullToPeriod.Value);
                 options.WriteOnChange = chkWriteOnChange.Checked;
                 options.Deadband = Convert.ToDouble(numDeadband.Value);

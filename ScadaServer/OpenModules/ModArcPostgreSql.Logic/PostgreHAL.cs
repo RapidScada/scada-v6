@@ -63,7 +63,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     AppLog = appLog,
                     ArcLog = arcLog
                 };
-            writingPeriod = GetPeriodInSec(options.WritingPeriod, options.PeriodUnit);
+            writingPeriod = GetPeriodInSec(options.WritingPeriod, options.WritingPeriodUnit);
             cnlDataEqualsFunc = SelectCnlDataEquals();
 
             hasError = false;

@@ -44,7 +44,7 @@ namespace Scada.Server.Archives
             IsPeriodic = options.GetValueAsBool("IsPeriodic", true);
             WriteWithPeriod = options.GetValueAsBool("WriteWithPeriod", true);
             WritingPeriod = options.GetValueAsInt("WritingPeriod", 1);
-            PeriodUnit = options.GetValueAsEnum("PeriodUnit", TimeUnit.Minute);
+            WritingPeriodUnit = options.GetValueAsEnum("WritingPeriodUnit", TimeUnit.Minute);
             PullToPeriod = options.GetValueAsInt("PullToPeriod", 0);
 
             if (IsPeriodic)
@@ -85,7 +85,7 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Gets or sets the unit of measure for the writing period.
         /// </summary>
-        public TimeUnit PeriodUnit { get; set; }
+        public TimeUnit WritingPeriodUnit { get; set; }
 
         /// <summary>
         /// Gets or sets the deviation of timestamps from the writing period to update timestamps, in seconds.
@@ -121,7 +121,7 @@ namespace Scada.Server.Archives
                 options["IsPeriodic"] = IsPeriodic.ToLowerString();
                 options["WriteWithPeriod"] = WriteWithPeriod.ToLowerString();
                 options["WritingPeriod"] = WritingPeriod.ToString();
-                options["PeriodUnit"] = PeriodUnit.ToString();
+                options["WritingPeriodUnit"] = WritingPeriodUnit.ToString();
                 options["PullToPeriod"] = PullToPeriod.ToString();
 
                 if (!IsPeriodic)

@@ -58,7 +58,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             };
             tableCache = new MemoryCache<DateTime, TrendTable>(ModuleUtils.CacheExpiration, ModuleUtils.CacheCapacity);
             slice = new Slice(DateTime.MinValue, cnlNums);
-            writingPeriod = GetPeriodInSec(options.WritingPeriod, options.PeriodUnit);
+            writingPeriod = GetPeriodInSec(options.WritingPeriod, options.WritingPeriodUnit);
 
             nextWriteTime = DateTime.MinValue;
             cnlIndexes = null;

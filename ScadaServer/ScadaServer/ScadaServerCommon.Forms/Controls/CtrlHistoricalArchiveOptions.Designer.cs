@@ -37,7 +37,7 @@
             this.txtPullToPeriodUnit = new System.Windows.Forms.TextBox();
             this.numPullToPeriod = new System.Windows.Forms.NumericUpDown();
             this.lblPullToPeriod = new System.Windows.Forms.Label();
-            this.cbPeriodUnit = new System.Windows.Forms.ComboBox();
+            this.cbWritingPeriodUnit = new System.Windows.Forms.ComboBox();
             this.numWritingPeriod = new System.Windows.Forms.NumericUpDown();
             this.lblWritingPeriod = new System.Windows.Forms.Label();
             this.chkWriteWithPeriod = new System.Windows.Forms.CheckBox();
@@ -68,7 +68,7 @@
             this.gbOptions.Controls.Add(this.txtPullToPeriodUnit);
             this.gbOptions.Controls.Add(this.numPullToPeriod);
             this.gbOptions.Controls.Add(this.lblPullToPeriod);
-            this.gbOptions.Controls.Add(this.cbPeriodUnit);
+            this.gbOptions.Controls.Add(this.cbWritingPeriodUnit);
             this.gbOptions.Controls.Add(this.numWritingPeriod);
             this.gbOptions.Controls.Add(this.lblWritingPeriod);
             this.gbOptions.Controls.Add(this.chkWriteWithPeriod);
@@ -174,18 +174,18 @@
             this.lblPullToPeriod.TabIndex = 14;
             this.lblPullToPeriod.Text = "Pull to period";
             // 
-            // cbPeriodUnit
+            // cbWritingPeriodUnit
             // 
-            this.cbPeriodUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbPeriodUnit.FormattingEnabled = true;
-            this.cbPeriodUnit.Items.AddRange(new object[] {
+            this.cbWritingPeriodUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbWritingPeriodUnit.FormattingEnabled = true;
+            this.cbWritingPeriodUnit.Items.AddRange(new object[] {
             "Sec",
             "Min",
             "Hour"});
-            this.cbPeriodUnit.Location = new System.Drawing.Point(277, 167);
-            this.cbPeriodUnit.Name = "cbPeriodUnit";
-            this.cbPeriodUnit.Size = new System.Drawing.Size(70, 23);
-            this.cbPeriodUnit.TabIndex = 13;
+            this.cbWritingPeriodUnit.Location = new System.Drawing.Point(277, 167);
+            this.cbWritingPeriodUnit.Name = "cbWritingPeriodUnit";
+            this.cbWritingPeriodUnit.Size = new System.Drawing.Size(70, 23);
+            this.cbWritingPeriodUnit.TabIndex = 13;
             // 
             // numWritingPeriod
             // 
@@ -359,7 +359,7 @@
         private Label lblRetention;
         private NumericUpDown numPullToPeriod;
         private Label lblPullToPeriod;
-        private ComboBox cbPeriodUnit;
+        private ComboBox cbWritingPeriodUnit;
         private NumericUpDown numWritingPeriod;
         private Label lblWritingPeriod;
         private Label lblReadOnly;

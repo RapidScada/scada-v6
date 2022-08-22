@@ -48,7 +48,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             numRetention.SetValue(options.Retention);
             chkWriteWithPeriod.Checked = options.WriteWithPeriod;
             numWritingPeriod.SetValue(options.WritingPeriod);
-            cbPeriodUnit.SelectedIndex = (int)options.PeriodUnit;
+            cbWritingPeriodUnit.SelectedIndex = (int)options.WritingPeriodUnit;
             numPullToPeriod.SetValue(options.PullToPeriod);
             chkUseCopyDir.Checked = options.UseCopyDir;
         }
@@ -62,7 +62,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             options.Retention = Convert.ToInt32(numRetention.Value);
             options.WriteWithPeriod = chkWriteWithPeriod.Checked;
             options.WritingPeriod = Convert.ToInt32(numWritingPeriod.Value);
-            options.PeriodUnit = (TimeUnit)cbPeriodUnit.SelectedIndex;
+            options.WritingPeriodUnit = (TimeUnit)cbWritingPeriodUnit.SelectedIndex;
             options.PullToPeriod = Convert.ToInt32(numPullToPeriod.Value);
             options.UseCopyDir = chkUseCopyDir.Checked;
             options.AddToOptionList(archiveConfig.CustomOptions);
