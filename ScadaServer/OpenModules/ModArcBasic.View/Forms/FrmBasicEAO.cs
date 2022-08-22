@@ -43,8 +43,8 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         /// </summary>
         private void OptionsToControls()
         {
-            numRetention.SetValue(options.Retention);
             chkLogEnabled.Checked = options.LogEnabled;
+            numRetention.SetValue(options.Retention);
             chkUseCopyDir.Checked = options.UseCopyDir;
         }
 
@@ -53,8 +53,8 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         /// </summary>
         private void ControlsToOptions()
         {
-            options.Retention = Convert.ToInt32(numRetention.Value);
             options.LogEnabled = chkLogEnabled.Checked;
+            options.Retention = Convert.ToInt32(numRetention.Value);
             options.UseCopyDir = chkUseCopyDir.Checked;
             options.AddToOptionList(archiveConfig.CustomOptions);
         }
@@ -62,7 +62,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
 
         private void FrmHAO_Load(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this, GetType().FullName, new FormTranslatorOptions { ToolTip = toolTip });
+            FormTranslator.Translate(this, GetType().FullName);
             OptionsToControls();
         }
 

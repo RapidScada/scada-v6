@@ -26,8 +26,11 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicEAO">
     <Phrase key="this">Параметры архива событий</Phrase>
-    <Phrase key="lblRetention">Период хранения, дней</Phrase>
+    <Phrase key="gbGeneralOptions">Основные параметры</Phrase>
     <Phrase key="lblLogEnabled">Журнал включен</Phrase>
+    <Phrase key="lblRetention">Период хранения</Phrase>
+    <Phrase key="txtRetentionUnit">День</Phrase>
+    <Phrase key="gbPathOptions">Пути</Phrase>
     <Phrase key="lblUseCopyDir">Запись в директорию копии</Phrase>
     <Phrase key="btnShowDir">Директории</Phrase>
     <Phrase key="btnOK">OK</Phrase>
