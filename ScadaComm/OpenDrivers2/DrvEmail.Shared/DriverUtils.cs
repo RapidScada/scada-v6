@@ -7,7 +7,7 @@ namespace Scada.Comm.Drivers.DrvEmail
     /// The class provides helper methods for the driver.
     /// <para>Класс, предоставляющий вспомогательные методы для драйвера.</para>
     /// </summary>
-    public static class DriverUtils
+    internal static class DriverUtils
     {
         /// <summary>
         /// The driver code.
