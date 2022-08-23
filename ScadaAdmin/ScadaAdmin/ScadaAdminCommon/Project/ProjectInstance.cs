@@ -136,9 +136,7 @@ namespace Scada.Admin.Project
         /// </summary>
         public void LoadFromXml(XmlNode xmlNode)
         {
-            if (xmlNode == null)
-                throw new ArgumentNullException(nameof(xmlNode));
-
+            ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
             ID = xmlNode.GetChildAsInt("ID", 1);
             Name = xmlNode.GetChildAsString("Name");
 
@@ -159,9 +157,7 @@ namespace Scada.Admin.Project
         /// </summary>
         public void SaveToXml(XmlElement xmlElem)
         {
-            if (xmlElem == null)
-                throw new ArgumentNullException(nameof(xmlElem));
-
+            ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
             xmlElem.AppendElem("ID", ID);
             xmlElem.AppendElem("Name", Name);
             ServerApp.SaveToXml(xmlElem.AppendElem("ServerApp"));

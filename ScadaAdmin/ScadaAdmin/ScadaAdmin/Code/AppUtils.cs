@@ -58,9 +58,7 @@ namespace Scada.Admin.App.Code
         /// </summary>
         public static void SetChecked(this CheckBox checkBox, DataGridViewCell cell)
         {
-            if (cell == null)
-                throw new ArgumentNullException(nameof(cell));
-            
+            ArgumentNullException.ThrowIfNull(cell, nameof(cell));
             checkBox.Checked = (bool)cell.Value;
         }
 
@@ -69,9 +67,7 @@ namespace Scada.Admin.App.Code
         /// </summary>
         public static void SetText(this TextBox textBox, DataGridViewCell cell)
         {
-            if (cell == null)
-                throw new ArgumentNullException(nameof(cell));
-
+            ArgumentNullException.ThrowIfNull(cell, nameof(cell));
             textBox.Text = Convert.ToString(cell.Value);
         }
 
@@ -80,8 +76,7 @@ namespace Scada.Admin.App.Code
         /// </summary>
         public static void SetValue(this ComboBox comboBox, DataGridViewCell cell)
         {
-            if (cell == null)
-                throw new ArgumentNullException(nameof(cell));
+            ArgumentNullException.ThrowIfNull(cell, nameof(cell));
 
             if (cell.OwningColumn is DataGridViewComboBoxColumn comboBoxColumn)
             {

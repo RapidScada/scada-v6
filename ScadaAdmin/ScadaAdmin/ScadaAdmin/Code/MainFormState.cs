@@ -107,9 +107,7 @@ namespace Scada.Admin.App.Code
         /// </summary>
         public void LoadFromXml(XmlNode xmlNode)
         {
-            if (xmlNode == null)
-                throw new ArgumentNullException(nameof(xmlNode));
-
+            ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
             Left = xmlNode.GetChildAsInt("Left");
             Top = xmlNode.GetChildAsInt("Top");
             Width = xmlNode.GetChildAsInt("Width");
@@ -123,9 +121,7 @@ namespace Scada.Admin.App.Code
         /// </summary>
         public void SaveToXml(XmlElement xmlElem)
         {
-            if (xmlElem == null)
-                throw new ArgumentNullException(nameof(xmlElem));
-
+            ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
             xmlElem.AppendElem("Left", Left);
             xmlElem.AppendElem("Top", Top);
             xmlElem.AppendElem("Width", Width);
@@ -139,8 +135,7 @@ namespace Scada.Admin.App.Code
         /// </summary>
         public void Apply(FrmMain form)
         {
-            if (form == null)
-                throw new ArgumentNullException(nameof(form));
+            ArgumentNullException.ThrowIfNull(form, nameof(form));
 
             if (!IsEmpty && ScadaUiUtils.AreaIsVisible(Left, Top, Width, Height))
             {
@@ -159,9 +154,7 @@ namespace Scada.Admin.App.Code
         /// </summary>
         public void Retrieve(FrmMain form)
         {
-            if (form == null)
-                throw new ArgumentNullException(nameof(form));
-
+            ArgumentNullException.ThrowIfNull(form, nameof(form));
             Rectangle bounds = form.WindowState == FormWindowState.Normal ? form.Bounds : form.RestoreBounds;
             Left = bounds.Left;
             Top = bounds.Top;

@@ -139,11 +139,8 @@ namespace Scada.Admin.App.Code
         {
             get
             {
-                if (dataSource1 == null)
-                {
-                    dataSource1 = Column is DataGridViewComboBoxColumn comboBoxColumn ?
-                        CopyTable(comboBoxColumn.DataSource as DataTable) : null;
-                }
+                if (dataSource1 == null && Column is DataGridViewComboBoxColumn comboBoxColumn)
+                    dataSource1 = CopyTable(comboBoxColumn.DataSource as DataTable);
 
                 return dataSource1;
             }
@@ -156,11 +153,8 @@ namespace Scada.Admin.App.Code
         {
             get
             {
-                if (dataSource2 == null)
-                {
-                    dataSource2 = Column is DataGridViewComboBoxColumn comboBoxColumn ?
-                        CopyTable(comboBoxColumn.DataSource as DataTable) : null;
-                }
+                if (dataSource2 == null && Column is DataGridViewComboBoxColumn comboBoxColumn)
+                    dataSource2 = CopyTable(comboBoxColumn.DataSource as DataTable);
 
                 return dataSource2;
             }

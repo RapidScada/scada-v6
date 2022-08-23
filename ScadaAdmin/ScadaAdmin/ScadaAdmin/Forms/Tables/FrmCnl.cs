@@ -189,9 +189,7 @@ namespace Scada.Admin.App.Forms.Tables
         /// </summary>
         private static void SetValue(CtrlBitmask ctrlBitmask, DataGridViewCell cell)
         {
-            if (cell == null)
-                throw new ArgumentNullException(nameof(cell));
-
+            ArgumentNullException.ThrowIfNull(cell, nameof(cell));
             ctrlBitmask.MaskValue = cell.Value is int intVal ? intVal : 0;
 
             if (cell.OwningColumn.Tag is ColumnOptions columnOptions)

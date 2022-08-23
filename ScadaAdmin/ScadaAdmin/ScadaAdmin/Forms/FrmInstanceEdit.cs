@@ -151,9 +151,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         public void Init(ProjectInstance projectInstance)
         {
-            if (projectInstance == null)
-                throw new ArgumentNullException(nameof(projectInstance));
-
+            ArgumentNullException.ThrowIfNull(projectInstance, nameof(projectInstance));
             InstanceName = projectInstance.Name;
             ServerAppEnabled = projectInstance.ServerApp.Enabled;
             CommAppEnabled = projectInstance.CommApp.Enabled;

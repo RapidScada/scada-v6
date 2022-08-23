@@ -125,10 +125,9 @@ namespace Scada.Admin.App.Controls.Deployment
         /// </summary>
         public void OptionsToControls(TransferOptions transferOptions)
         {
-            if (transferOptions == null)
-                throw new ArgumentNullException(nameof(transferOptions));
-
+            ArgumentNullException.ThrowIfNull(transferOptions, nameof(transferOptions));
             changing = true;
+
             gbOptions.Enabled = true;
             chkIncludeBase.Checked = transferOptions.IncludeBase;
             chkIncludeView.Checked = transferOptions.IncludeView;
@@ -153,8 +152,7 @@ namespace Scada.Admin.App.Controls.Deployment
         /// </summary>
         public void ControlsToOptions(TransferOptions transferOptions)
         {
-            if (transferOptions == null)
-                throw new ArgumentNullException(nameof(transferOptions));
+            ArgumentNullException.ThrowIfNull(transferOptions, nameof(transferOptions));
 
             transferOptions.IncludeBase = chkIncludeBase.Checked;
             transferOptions.IncludeView = chkIncludeView.Checked;

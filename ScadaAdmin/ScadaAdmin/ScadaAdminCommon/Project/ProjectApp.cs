@@ -107,9 +107,7 @@ namespace Scada.Admin.Project
         /// </summary>
         public void LoadFromXml(XmlElement xmlElem)
         {
-            if (xmlElem == null)
-                throw new ArgumentNullException(nameof(xmlElem));
-
+            ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
             Enabled = xmlElem.GetAttrAsBool("enabled");
         }
 
@@ -118,9 +116,7 @@ namespace Scada.Admin.Project
         /// </summary>
         public void SaveToXml(XmlElement xmlElem)
         {
-            if (xmlElem == null)
-                throw new ArgumentNullException(nameof(xmlElem));
-
+            ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
             xmlElem.SetAttribute("enabled", Enabled);
         }
 

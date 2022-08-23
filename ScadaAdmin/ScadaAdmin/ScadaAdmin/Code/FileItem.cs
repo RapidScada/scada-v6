@@ -72,9 +72,7 @@ namespace Scada.Admin.App.Code
         /// </summary>
         public void Update(DirectoryInfo directoryInfo)
         {
-            if (directoryInfo == null)
-                throw new ArgumentNullException(nameof(directoryInfo));
-
+            ArgumentNullException.ThrowIfNull(directoryInfo, nameof(directoryInfo));
             Path = directoryInfo.FullName;
             Name = directoryInfo.Name;
             IsDirectory = true;
@@ -85,9 +83,7 @@ namespace Scada.Admin.App.Code
         /// </summary>
         public void Update(FileInfo fileInfo)
         {
-            if (fileInfo == null)
-                throw new ArgumentNullException(nameof(fileInfo));
-
+            ArgumentNullException.ThrowIfNull(fileInfo, nameof(fileInfo));
             Path = fileInfo.FullName;
             Name = fileInfo.Name;
             IsDirectory = false;

@@ -523,8 +523,7 @@ namespace Scada.Admin.App.Code
         /// </summary>
         public static DataGridViewColumn[] CreateColumns(ConfigDatabase configDatabase, Type itemType)
         {
-            if (configDatabase == null)
-                throw new ArgumentNullException(nameof(configDatabase));
+            ArgumentNullException.ThrowIfNull(configDatabase, nameof(configDatabase));
 
             if (itemType == typeof(Archive))
                 return CreateArchiveTableColumns();
