@@ -5,6 +5,7 @@
     <Nullable>disable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>Scada.Comm.Drivers.DrvCnlMqtt.View</RootNamespace>
     <Version>6.0.0</Version>
     <Authors>Mikhail Shiryaev</Authors>
