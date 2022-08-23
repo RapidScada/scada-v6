@@ -3,7 +3,6 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
-using System.Collections.Generic;
 
 namespace Scada.Comm.Drivers.DrvSimulator.View
 {
