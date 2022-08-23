@@ -188,7 +188,7 @@ var viewPage = {
         });
 
         // reload data window
-        if (!reloadDataWindow) {
+        if (reloadDataWindow) {
             this._reloadDataWindow();
         }
     },
