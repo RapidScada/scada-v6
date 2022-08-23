@@ -6,7 +6,6 @@ using Scada.Comm.DataSources;
 using Scada.Comm.Drivers.DrvDsScadaServer.View.Forms;
 using Scada.Forms;
 using Scada.Lang;
-using System.Windows.Forms;
 
 namespace Scada.Comm.Drivers.DrvDsScadaServer.View
 {

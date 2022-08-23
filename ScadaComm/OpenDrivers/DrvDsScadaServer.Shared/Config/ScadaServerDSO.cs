@@ -4,13 +4,13 @@
 using Scada.Config;
 using System.Collections.Generic;
 
-namespace Scada.Comm.Drivers.DrvDsScadaServer
+namespace Scada.Comm.Drivers.DrvDsScadaServer.Config
 {
     /// <summary>
     /// Represents data source options.
     /// <para>Представляет параметры источника данных.</para>
     /// </summary>
-    public class ScadaServerDSO
+    internal class ScadaServerDSO
     {
         /// <summary>
         /// Initializes a new instance of the class.

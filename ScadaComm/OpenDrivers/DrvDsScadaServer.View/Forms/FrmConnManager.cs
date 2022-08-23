@@ -2,13 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Client;
+using Scada.Comm.Drivers.DrvDsScadaServer.Config;
 using Scada.Forms;
 using Scada.Lang;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Windows.Forms;
 
 namespace Scada.Comm.Drivers.DrvDsScadaServer.View.Forms
 {

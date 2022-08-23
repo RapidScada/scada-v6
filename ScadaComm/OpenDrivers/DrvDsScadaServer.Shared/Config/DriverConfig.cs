@@ -7,13 +7,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 
-namespace Scada.Comm.Drivers.DrvDsScadaServer
+namespace Scada.Comm.Drivers.DrvDsScadaServer.Config
 {
     /// <summary>
     /// Represents a driver configuration.
     /// <para>Представляет конфигурацию драйвера.</para>
     /// </summary>
-    public class DriverConfig : ConfigBase
+    internal class DriverConfig : ConfigBase
     {
         /// <summary>
         /// The default configuration file name.

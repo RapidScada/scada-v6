@@ -3,6 +3,7 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.DataSources;
+using Scada.Comm.Drivers.DrvDsScadaServer.Config;
 using Scada.Comm.Lang;
 using Scada.Storages;
 

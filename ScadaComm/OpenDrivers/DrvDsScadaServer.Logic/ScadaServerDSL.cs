@@ -5,6 +5,7 @@ using Scada.Client;
 using Scada.Comm.Config;
 using Scada.Comm.DataSources;
 using Scada.Comm.Devices;
+using Scada.Comm.Drivers.DrvDsScadaServer.Config;
 using Scada.Comm.Lang;
 using Scada.Data.Models;
 using Scada.Data.Tables;
