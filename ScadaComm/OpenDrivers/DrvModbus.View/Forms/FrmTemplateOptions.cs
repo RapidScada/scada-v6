@@ -3,8 +3,6 @@
 
 using Scada.Comm.Drivers.DrvModbus.Config;
 using Scada.Forms;
-using System;
-using System.Windows.Forms;
 
 namespace Scada.Comm.Drivers.DrvModbus.View.Forms
 {

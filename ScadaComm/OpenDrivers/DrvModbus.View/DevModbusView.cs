@@ -8,10 +8,6 @@ using Scada.Comm.Drivers.DrvModbus.Protocol;
 using Scada.Comm.Drivers.DrvModbus.View.Forms;
 using Scada.Data.Const;
 using Scada.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Windows.Forms;
 
 namespace Scada.Comm.Drivers.DrvModbus.View
 {

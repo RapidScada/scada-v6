@@ -5,9 +5,6 @@ using Scada.Comm.Config;
 using Scada.Comm.Drivers.DrvModbus.Protocol;
 using Scada.Forms;
 using Scada.Lang;
-using System;
-using System.IO;
-using System.Windows.Forms;
 
 namespace Scada.Comm.Drivers.DrvModbus.View.Forms
 {

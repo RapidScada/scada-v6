@@ -3,7 +3,6 @@
 
 using Scada.Comm.Drivers.DrvModbus.Config;
 using Scada.Comm.Drivers.DrvModbus.Protocol;
-using System;
 
 namespace Scada.Comm.Drivers.DrvModbus.View
 {
