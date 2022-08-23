@@ -4,7 +4,6 @@
 using Scada.Admin.Extensions.ExtCommConfig.Controls;
 using Scada.Admin.Extensions.ExtCommConfig.Forms;
 using Scada.Admin.Project;
-using Scada.Comm;
 using Scada.Comm.Config;
 using Scada.Forms;
 using System;

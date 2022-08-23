@@ -78,8 +78,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         /// </summary>
         public void OptionsToControls(OptionList options)
         {
-            if (options == null)
-                throw new ArgumentNullException(nameof(options));
+            ArgumentNullException.ThrowIfNull(options, nameof(options));
 
             try
             {
@@ -105,9 +104,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         /// </summary>
         public void ControlsToOptions(OptionList options)
         {
-            if (options == null)
-                throw new ArgumentNullException(nameof(options));
-
+            ArgumentNullException.ThrowIfNull(options, nameof(options));
             options.Clear();
 
             foreach (ListViewItem item in lvCustomOptions.Items)

@@ -7,7 +7,6 @@ using Scada.Admin.Project;
 using Scada.Agent;
 using Scada.Comm;
 using Scada.Comm.Config;
-using Scada.Comm.Devices;
 using Scada.Forms;
 using Scada.Protocol;
 using System;
@@ -161,9 +160,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             // show device command form
             if (dataBox.AgentClient is IAgentClient agentClient)
             {
-                if (frmDeviceCommand == null)
-                    frmDeviceCommand = new FrmDeviceCommand(adminContext, deviceConfig);
-
+                frmDeviceCommand ??= new FrmDeviceCommand(adminContext, deviceConfig);
                 frmDeviceCommand.AgentClient = agentClient;
                 frmDeviceCommand.ShowDialog();
             }

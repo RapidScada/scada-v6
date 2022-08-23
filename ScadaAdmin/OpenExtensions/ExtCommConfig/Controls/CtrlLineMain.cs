@@ -188,9 +188,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         /// </summary>
         public void ConfigToControls(LineConfig lineConfig)
         {
-            if (lineConfig == null)
-                throw new ArgumentNullException(nameof(lineConfig));
-
+            ArgumentNullException.ThrowIfNull(lineConfig, nameof(lineConfig));
             changing = true;
 
             chkActive.Checked = lineConfig.Active;
@@ -217,8 +215,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         /// </summary>
         public void ControlsToConfig(LineConfig lineConfig)
         {
-            if (lineConfig == null)
-                throw new ArgumentNullException(nameof(lineConfig));
+            ArgumentNullException.ThrowIfNull(lineConfig, nameof(lineConfig));
 
             lineConfig.Active = chkActive.Checked;
             lineConfig.IsBound = chkIsBound.Checked;
