@@ -56,8 +56,7 @@ namespace Scada.Web.Code
         {
             get
             {
-                if (scadaClient == null)
-                    scadaClient = webContext.ClientPool.GetClient(webContext.AppConfig.ConnectionOptions);
+                scadaClient ??= webContext.ClientPool.GetClient(webContext.AppConfig.ConnectionOptions);
                 return scadaClient;
             }
         }

@@ -158,9 +158,7 @@ namespace Scada.Web.Code
         {
             get
             {
-                if (stats == null)
-                    stats = new Stats(Storage, Log);
-
+                stats ??= new Stats(Storage, Log);
                 return stats.StatsID;
             }
         }

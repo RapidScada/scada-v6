@@ -140,8 +140,7 @@ namespace Scada.Web.Users
         /// </summary>
         public void Init(RightMatrix rightMatrix, int roleID)
         {
-            if (rightMatrix == null)
-                throw new ArgumentNullException(nameof(rightMatrix));
+            ArgumentNullException.ThrowIfNull(rightMatrix, nameof(rightMatrix));
 
             try
             {

@@ -79,9 +79,7 @@ namespace Scada.Web.Code
         /// </summary>
         public static IUserContext GetUserContext(IServiceProvider serviceProvider)
         {
-            if (serviceProvider == null)
-                throw new ArgumentNullException(nameof(serviceProvider));
-
+            ArgumentNullException.ThrowIfNull(serviceProvider, nameof(serviceProvider));
             ILog log = null;
 
             try

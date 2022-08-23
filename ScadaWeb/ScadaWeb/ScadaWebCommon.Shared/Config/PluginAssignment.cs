@@ -78,9 +78,7 @@ namespace Scada.Web.Config
         /// </summary>
         public void LoadFromXml(XmlNode xmlNode)
         {
-            if (xmlNode == null)
-                throw new ArgumentNullException(nameof(xmlNode));
-
+            ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
             ChartFeature = xmlNode.GetChildAsString("ChartFeature");
             CommandFeature = xmlNode.GetChildAsString("CommandFeature");
             EventAckFeature = xmlNode.GetChildAsString("EventAckFeature");
@@ -93,9 +91,7 @@ namespace Scada.Web.Config
         /// </summary>
         public void SaveToXml(XmlElement xmlElem)
         {
-            if (xmlElem == null)
-                throw new ArgumentNullException(nameof(xmlElem));
-
+            ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
             xmlElem.AppendElem("ChartFeature", ChartFeature);
             xmlElem.AppendElem("CommandFeature", CommandFeature);
             xmlElem.AppendElem("EventAckFeature", EventAckFeature);

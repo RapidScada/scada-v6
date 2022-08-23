@@ -86,9 +86,7 @@ namespace Scada.Web.Config
         /// </summary>
         public void LoadFromXml(XmlNode xmlNode)
         {
-            if (xmlNode == null)
-                throw new ArgumentNullException(nameof(xmlNode));
-
+            ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
             DefaultCulture = xmlNode.GetChildAsString("DefaultCulture", DefaultCulture);
             DefaultTimeZone = xmlNode.GetChildAsString("DefaultTimeZone", DefaultTimeZone);
             DefaultStartPage = xmlNode.GetChildAsString("DefaultStartPage", DefaultStartPage);
@@ -102,9 +100,7 @@ namespace Scada.Web.Config
         /// </summary>
         public void SaveToXml(XmlElement xmlElem)
         {
-            if (xmlElem == null)
-                throw new ArgumentNullException(nameof(xmlElem));
-
+            ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
             xmlElem.AppendElem("DefaultCulture", DefaultCulture);
             xmlElem.AppendElem("DefaultTimeZone", DefaultTimeZone);
             xmlElem.AppendElem("DefaultStartPage", DefaultStartPage);

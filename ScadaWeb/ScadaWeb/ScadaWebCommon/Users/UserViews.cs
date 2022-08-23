@@ -228,10 +228,8 @@ namespace Scada.Web.Users
         /// </summary>
         public void Init(IWebContext webContext, UserRights userRights)
         {
-            if (webContext == null)
-                throw new ArgumentNullException(nameof(webContext));
-            if (userRights == null)
-                throw new ArgumentNullException(nameof(userRights));
+            ArgumentNullException.ThrowIfNull(webContext, nameof(webContext));
+            ArgumentNullException.ThrowIfNull(userRights, nameof(userRights));
 
             try
             {

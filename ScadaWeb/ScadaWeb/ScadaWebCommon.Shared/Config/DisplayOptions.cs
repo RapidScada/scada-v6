@@ -72,9 +72,7 @@ namespace Scada.Web.Config
         /// </summary>
         public void LoadFromXml(XmlNode xmlNode)
         {
-            if (xmlNode == null)
-                throw new ArgumentNullException(nameof(xmlNode));
-
+            ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
             ShowHeader = xmlNode.GetChildAsBool("ShowHeader", ShowHeader);
             ShowMainMenu = xmlNode.GetChildAsBool("ShowMainMenu", ShowMainMenu);
             ShowViewExplorer = xmlNode.GetChildAsBool("ShowViewExplorer", ShowViewExplorer);
@@ -86,9 +84,7 @@ namespace Scada.Web.Config
         /// </summary>
         public void SaveToXml(XmlElement xmlElem)
         {
-            if (xmlElem == null)
-                throw new ArgumentNullException(nameof(xmlElem));
-
+            ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
             xmlElem.AppendElem("ShowHeader", ShowHeader);
             xmlElem.AppendElem("ShowMainMenu", ShowMainMenu);
             xmlElem.AppendElem("ShowViewExplorer", ShowViewExplorer);

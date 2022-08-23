@@ -79,9 +79,7 @@ namespace Scada.Web.Config
         /// </summary>
         public void LoadFromXml(XmlNode xmlNode)
         {
-            if (xmlNode == null)
-                throw new ArgumentNullException(nameof(xmlNode));
-
+            ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
             RequireCaptcha = xmlNode.GetChildAsBool("RequireCaptcha", RequireCaptcha);
             AllowRememberMe = xmlNode.GetChildAsBool("AllowRememberMe", AllowRememberMe);
             RememberMeExpires = xmlNode.GetChildAsInt("RememberMeExpires", RememberMeExpires);
@@ -94,9 +92,7 @@ namespace Scada.Web.Config
         /// </summary>
         public void SaveToXml(XmlElement xmlElem)
         {
-            if (xmlElem == null)
-                throw new ArgumentNullException(nameof(xmlElem));
-
+            ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
             xmlElem.AppendElem("RequireCaptcha", RequireCaptcha);
             xmlElem.AppendElem("AllowRememberMe", AllowRememberMe);
             xmlElem.AppendElem("RememberMeExpires", RememberMeExpires);
