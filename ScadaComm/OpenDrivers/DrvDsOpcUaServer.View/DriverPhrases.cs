@@ -9,7 +9,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer
     /// The phrases used by the driver.
     /// <para>Фразы, используемые драйвером.</para>
     /// </summary>
-    public static class DriverPhrases
+    internal static class DriverPhrases
     {
         // Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms.FrmOpcUaServerDSO
         public static string ConfigDirRequired { get; private set; }

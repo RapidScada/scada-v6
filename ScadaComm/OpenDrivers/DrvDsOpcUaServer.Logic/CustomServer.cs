@@ -3,6 +3,7 @@
 
 using Opc.Ua;
 using Opc.Ua.Server;
+using Scada.Comm.Drivers.DrvDsOpcUaServer.Config;
 using Scada.Lang;
 using Scada.Log;
 using System;

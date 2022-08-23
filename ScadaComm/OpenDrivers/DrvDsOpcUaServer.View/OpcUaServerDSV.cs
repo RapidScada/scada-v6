@@ -4,7 +4,6 @@
 using Scada.Comm.Config;
 using Scada.Comm.DataSources;
 using Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms;
-using System.Windows.Forms;
 
 namespace Scada.Comm.Drivers.DrvDsOpcUaServer.View
 {

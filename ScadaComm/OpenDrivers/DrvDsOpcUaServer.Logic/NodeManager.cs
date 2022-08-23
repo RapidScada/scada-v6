@@ -4,6 +4,7 @@
 using Opc.Ua;
 using Opc.Ua.Server;
 using Scada.Comm.Devices;
+using Scada.Comm.Drivers.DrvDsOpcUaServer.Config;
 using Scada.Data.Const;
 using Scada.Data.Models;
 using Scada.Lang;

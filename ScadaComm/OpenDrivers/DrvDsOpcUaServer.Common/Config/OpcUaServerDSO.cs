@@ -4,7 +4,7 @@
 using Scada.Config;
 using System.Collections.Generic;
 
-namespace Scada.Comm.Drivers.DrvDsOpcUaServer
+namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Config
 {
     /// <summary>
     /// Represents data source options.

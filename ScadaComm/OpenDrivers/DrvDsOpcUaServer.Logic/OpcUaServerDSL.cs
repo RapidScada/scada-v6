@@ -7,6 +7,7 @@ using Opc.Ua.Server;
 using Scada.Comm.Config;
 using Scada.Comm.DataSources;
 using Scada.Comm.Devices;
+using Scada.Comm.Drivers.DrvDsOpcUaServer.Config;
 using Scada.Lang;
 using Scada.Log;
 using Scada.Storages;
