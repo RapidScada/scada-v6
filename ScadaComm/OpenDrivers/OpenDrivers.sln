@@ -34,8 +34,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvDsOpcUaServer.Common", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvDsOpcUaServer.View", "DrvDsOpcUaServer.View\DrvDsOpcUaServer.View.csproj", "{F9DDE76C-9D18-4AF2-9A86-53237949AF73}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvCnlBasic.Common", "DrvCnlBasic.Common\DrvCnlBasic.Common.csproj", "{F2D90398-A272-4DFE-8001-7974FA255B6D}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvCnlBasic.View", "DrvCnlBasic.View\DrvCnlBasic.View.csproj", "{D3D46B37-5B2E-4A3B-86AB-2271F3EA23AA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DrvModbus", "DrvModbus", "{7CD0E214-65B2-4A37-875D-CDDFD4787FEA}"
@@ -90,21 +88,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvMqttClient.View", "DrvMq
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvMqttPublisher.View", "DrvMqttPublisher.View\DrvMqttPublisher.View.csproj", "{27244692-5102-434B-AC9E-E69C4EC95C8A}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvCnlBasic.Shared", "DrvCnlBasic.Shared\DrvCnlBasic.Shared.shproj", "{DE8C7D65-1037-4D04-8197-861BF5245DEB}"
+EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		DrvMqttPublisher.Shared\DrvMqttPublisher.Shared.projitems*{0d66317c-3cbf-4788-ac99-282423215dea}*SharedItemsImports = 5
-		DrvTester.Shared\DrvTester.Shared.projitems*{1a325222-6683-4d81-8293-ac5bd4c8d3ba}*SharedItemsImports = 13
-		DrvMqttPublisher.Shared\DrvMqttPublisher.Shared.projitems*{27244692-5102-434b-ac9e-e69c4ec95c8a}*SharedItemsImports = 5
-		DrvDsMqtt.Shared\DrvDsMqtt.Shared.projitems*{2dea42b9-127e-41fb-921b-356c4e290a8c}*SharedItemsImports = 5
-		DrvDsMqtt.Shared\DrvDsMqtt.Shared.projitems*{3f133c20-7e0e-4b31-8438-cac9dbc27e2f}*SharedItemsImports = 5
-		DrvSimulator.Shared\DrvSimulator.Shared.projitems*{459d0b20-51a9-4aa8-8ccc-9f5b34a74029}*SharedItemsImports = 13
-		DrvSimulator.Shared\DrvSimulator.Shared.projitems*{48043839-37e7-40ae-92e2-a31a79204cf5}*SharedItemsImports = 5
-		DrvDsMqtt.Shared\DrvDsMqtt.Shared.projitems*{709169f9-0f33-4e14-9fd1-aa9c3d5ed4aa}*SharedItemsImports = 13
-		DrvSimulator.Shared\DrvSimulator.Shared.projitems*{8f1c993e-1a67-494a-a5b9-9aedaa8feb9c}*SharedItemsImports = 5
-		DrvMqttPublisher.Shared\DrvMqttPublisher.Shared.projitems*{b4923372-4baa-4b51-995e-01ae7adbcbd7}*SharedItemsImports = 13
-		DrvTester.Shared\DrvTester.Shared.projitems*{b7f37122-5eb4-4cf6-b7e9-79e6d0e2083d}*SharedItemsImports = 5
-		DrvTester.Shared\DrvTester.Shared.projitems*{edaf9a96-07da-4a2d-ab7c-b299378f4433}*SharedItemsImports = 5
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -146,10 +132,6 @@ Global
 		{F9DDE76C-9D18-4AF2-9A86-53237949AF73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9DDE76C-9D18-4AF2-9A86-53237949AF73}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9DDE76C-9D18-4AF2-9A86-53237949AF73}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F2D90398-A272-4DFE-8001-7974FA255B6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F2D90398-A272-4DFE-8001-7974FA255B6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F2D90398-A272-4DFE-8001-7974FA255B6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F2D90398-A272-4DFE-8001-7974FA255B6D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D3D46B37-5B2E-4A3B-86AB-2271F3EA23AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D3D46B37-5B2E-4A3B-86AB-2271F3EA23AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3D46B37-5B2E-4A3B-86AB-2271F3EA23AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -240,7 +222,6 @@ Global
 		{EDE500EE-F541-4C63-83FE-AE59306881A4} = {BBCA2073-CEB8-4C92-B02C-B6A8452A67BB}
 		{A7E77986-72A0-440A-A8B1-C10D623D53D9} = {47637CBA-D2D4-421B-9682-E2B79E57C257}
 		{F9DDE76C-9D18-4AF2-9A86-53237949AF73} = {47637CBA-D2D4-421B-9682-E2B79E57C257}
-		{F2D90398-A272-4DFE-8001-7974FA255B6D} = {7DC12A37-79AF-43ED-AB94-7FE254FA0C46}
 		{D3D46B37-5B2E-4A3B-86AB-2271F3EA23AA} = {7DC12A37-79AF-43ED-AB94-7FE254FA0C46}
 		{92D69956-673B-410A-BC9C-06FD08073693} = {7CD0E214-65B2-4A37-875D-CDDFD4787FEA}
 		{290BC569-57B6-482C-8436-7479CE099171} = {7CD0E214-65B2-4A37-875D-CDDFD4787FEA}
@@ -264,8 +245,26 @@ Global
 		{87DD4D79-9BB4-4F15-98AE-464378B1613E} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
 		{C1CC1C89-F786-4D2E-B45C-8FFCBC9C22C1} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
 		{27244692-5102-434B-AC9E-E69C4EC95C8A} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
+		{DE8C7D65-1037-4D04-8197-861BF5245DEB} = {7DC12A37-79AF-43ED-AB94-7FE254FA0C46}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {961AA4C1-5D08-4B24-AE6B-99F3AB1A7AEF}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		DrvMqttPublisher.Shared\DrvMqttPublisher.Shared.projitems*{0d66317c-3cbf-4788-ac99-282423215dea}*SharedItemsImports = 5
+		DrvTester.Shared\DrvTester.Shared.projitems*{1a325222-6683-4d81-8293-ac5bd4c8d3ba}*SharedItemsImports = 13
+		DrvMqttPublisher.Shared\DrvMqttPublisher.Shared.projitems*{27244692-5102-434b-ac9e-e69c4ec95c8a}*SharedItemsImports = 5
+		DrvDsMqtt.Shared\DrvDsMqtt.Shared.projitems*{2dea42b9-127e-41fb-921b-356c4e290a8c}*SharedItemsImports = 5
+		DrvDsMqtt.Shared\DrvDsMqtt.Shared.projitems*{3f133c20-7e0e-4b31-8438-cac9dbc27e2f}*SharedItemsImports = 5
+		DrvSimulator.Shared\DrvSimulator.Shared.projitems*{459d0b20-51a9-4aa8-8ccc-9f5b34a74029}*SharedItemsImports = 13
+		DrvSimulator.Shared\DrvSimulator.Shared.projitems*{48043839-37e7-40ae-92e2-a31a79204cf5}*SharedItemsImports = 5
+		DrvDsMqtt.Shared\DrvDsMqtt.Shared.projitems*{709169f9-0f33-4e14-9fd1-aa9c3d5ed4aa}*SharedItemsImports = 13
+		DrvCnlBasic.Shared\DrvCnlBasic.Shared.projitems*{742e7f8c-ff6a-4893-b6a8-d800985f6543}*SharedItemsImports = 5
+		DrvSimulator.Shared\DrvSimulator.Shared.projitems*{8f1c993e-1a67-494a-a5b9-9aedaa8feb9c}*SharedItemsImports = 5
+		DrvMqttPublisher.Shared\DrvMqttPublisher.Shared.projitems*{b4923372-4baa-4b51-995e-01ae7adbcbd7}*SharedItemsImports = 13
+		DrvTester.Shared\DrvTester.Shared.projitems*{b7f37122-5eb4-4cf6-b7e9-79e6d0e2083d}*SharedItemsImports = 5
+		DrvCnlBasic.Shared\DrvCnlBasic.Shared.projitems*{d3d46b37-5b2e-4a3b-86ab-2271f3ea23aa}*SharedItemsImports = 5
+		DrvCnlBasic.Shared\DrvCnlBasic.Shared.projitems*{de8c7d65-1037-4d04-8197-861bf5245deb}*SharedItemsImports = 13
+		DrvTester.Shared\DrvTester.Shared.projitems*{edaf9a96-07da-4a2d-ab7c-b299378f4433}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

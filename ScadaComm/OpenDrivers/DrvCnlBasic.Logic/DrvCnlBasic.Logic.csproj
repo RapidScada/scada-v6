@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DrvCnlBasic.Common\DrvCnlBasic.Common.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="ScadaCommCommon">
       <HintPath>..\..\ScadaComm\ScadaCommCommon\bin\Release\netstandard2.0\ScadaCommCommon.dll</HintPath>
     </Reference>
@@ -29,5 +25,7 @@
       <HintPath>..\..\..\ScadaCommon\ScadaCommon.Log\bin\Release\netstandard2.0\ScadaCommon.Log.dll</HintPath>
     </Reference>
   </ItemGroup>
+
+  <Import Project="..\DrvCnlBasic.Shared\DrvCnlBasic.Shared.projitems" Label="Shared" />
 
 </Project>

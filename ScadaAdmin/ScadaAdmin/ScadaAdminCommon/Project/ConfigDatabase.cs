@@ -29,7 +29,6 @@ using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Lang;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 

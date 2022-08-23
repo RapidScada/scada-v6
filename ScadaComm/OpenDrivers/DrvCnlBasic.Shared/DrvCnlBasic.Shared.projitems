@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>de8c7d65-1037-4d04-8197-861bf5245deb</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Scada.Comm.Drivers.DrvCnlBasic</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ChannelTypeCode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DriverUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SerialPortChannelOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TcpClientChannelOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TcpServerChannelOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UdpChannelOptions.cs" />
+  </ItemGroup>
+</Project>

@@ -4,9 +4,7 @@
 using Scada.Comm.Channels;
 using Scada.Comm.Config;
 using Scada.Forms;
-using System;
 using System.IO.Ports;
-using System.Windows.Forms;
 
 namespace Scada.Comm.Drivers.DrvCnlBasic.View.Forms
 {
