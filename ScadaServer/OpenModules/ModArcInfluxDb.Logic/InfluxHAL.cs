@@ -541,9 +541,12 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
 
                 for (int i = 0; i < cnlCnt; i++)
                 {
-                    CnlData curCnlData = curData.CnlData[cnlIndexes[i]];
-                    prevCnlData[i] = curCnlData;
-                    WritePoint(writeTime, CnlNums[i], curCnlData);
+                    CnlData cnlData = curData.CnlData[cnlIndexes[i]];
+
+                    if (prevCnlData != null)
+                        prevCnlData[i] = cnlData;
+
+                    WritePoint(writeTime, CnlNums[i], cnlData);
                 }
 
                 stopwatch.Stop();
@@ -561,12 +564,12 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
                 {
                     for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
                     {
-                        CnlData curCnlData = curData.CnlData[cnlIndexes[i]];
+                        CnlData cnlData = curData.CnlData[cnlIndexes[i]];
 
-                        if (!cnlDataEqualsFunc(prevCnlData[i], curCnlData))
+                        if (!cnlDataEqualsFunc(prevCnlData[i], cnlData))
                         {
-                            prevCnlData[i] = curCnlData;
-                            WritePoint(curData.Timestamp, CnlNums[i], curCnlData);
+                            prevCnlData[i] = cnlData;
+                            WritePoint(curData.Timestamp, CnlNums[i], cnlData);
                             changesCnt++;
                         }
                     }

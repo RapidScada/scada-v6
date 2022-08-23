@@ -535,9 +535,12 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 {
                     for (int i = 0; i < cnlCnt; i++)
                     {
-                        CnlData curCnlData = curData.CnlData[cnlIndexes[i]];
-                        prevCnlData[i] = curCnlData;
-                        pointQueue.EnqueueWithoutLock(CnlNums[i], writeTime, curCnlData);
+                        CnlData cnlData = curData.CnlData[cnlIndexes[i]];
+
+                        if (prevCnlData != null)
+                            prevCnlData[i] = cnlData;
+
+                        pointQueue.EnqueueWithoutLock(CnlNums[i], writeTime, cnlData);
                     }
                 }
 
@@ -557,12 +560,12 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 {
                     for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
                     {
-                        CnlData curCnlData = curData.CnlData[cnlIndexes[i]];
+                        CnlData cnlData = curData.CnlData[cnlIndexes[i]];
 
-                        if (!cnlDataEqualsFunc(prevCnlData[i], curCnlData))
+                        if (!cnlDataEqualsFunc(prevCnlData[i], cnlData))
                         {
-                            prevCnlData[i] = curCnlData;
-                            pointQueue.EnqueuePoint(CnlNums[i], curData.Timestamp, curCnlData);
+                            prevCnlData[i] = cnlData;
+                            pointQueue.EnqueuePoint(CnlNums[i], curData.Timestamp, cnlData);
                             changesCnt++;
                         }
                     }
