@@ -53,8 +53,7 @@ namespace Scada.Web.Plugins.PlgScheme
         {
             get
             {
-                if (compItems == null)
-                    compItems = CreateCompItems();
+                compItems ??= CreateCompItems();
                 return compItems;
             }
         }
@@ -66,8 +65,7 @@ namespace Scada.Web.Plugins.PlgScheme
         {
             get
             {
-                if (compFactory == null)
-                    compFactory = CreateCompFactory();
+                compFactory ??= CreateCompFactory();
                 return compFactory;
             }
         }

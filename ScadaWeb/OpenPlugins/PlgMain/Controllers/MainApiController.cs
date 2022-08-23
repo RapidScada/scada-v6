@@ -160,9 +160,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// </summary>
         private HistData RequestHistData(int archiveBit, TimeRange timeRange, IList<int> cnlNums)
         {
-            if (cnlNums == null)
-                cnlNums = Array.Empty<int>();
-
+            cnlNums ??= Array.Empty<int>();
             int cnlCnt = cnlNums.Count;
             HistData.RecordList[] trends = new HistData.RecordList[cnlCnt];
 

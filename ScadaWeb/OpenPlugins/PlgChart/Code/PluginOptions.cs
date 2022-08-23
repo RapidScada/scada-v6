@@ -16,9 +16,7 @@ namespace Scada.Web.Plugins.PlgChart.Code
         /// </summary>
         public PluginOptions(OptionList options)
         {
-            if (options == null)
-                throw new ArgumentNullException(nameof(options));
-
+            ArgumentNullException.ThrowIfNull(options, nameof(options));
             ChartArchiveCode = options.GetValueAsString("ChartArchiveCode");
             GapBetweenPoints = options.GetValueAsInt("GapBetweenPoints", 90);
         }
