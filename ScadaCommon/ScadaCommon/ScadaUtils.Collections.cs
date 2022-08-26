@@ -149,7 +149,7 @@ namespace Scada
         }
 
         /// <summary>
-        /// Gets the child XML node value as an enumeration element.
+        /// Gets the value associated with the specified key as an enumeration element.
         /// </summary>
         public static T GetValueAsEnum<T>(this IDictionary<string, string> dictionary,
             string key, T defaultValue = default) where T : struct
@@ -162,6 +162,24 @@ namespace Scada
             catch (FormatException)
             {
                 throw NewFormatException(key);
+            }
+        }
+
+        /// <summary>
+        /// Gets the value associated with the specified key as an instance of the particular type.
+        /// </summary>
+        public static bool TryGetValueOfType<T>(this IDictionary<string, object> dictionary, 
+            string key, out T value)
+        {
+            if (dictionary.TryGetValue(key, out object obj) && obj is T val)
+            {
+                value = val;
+                return true;
+            }
+            else
+            {
+                value = default;
+                return false;
             }
         }
 
