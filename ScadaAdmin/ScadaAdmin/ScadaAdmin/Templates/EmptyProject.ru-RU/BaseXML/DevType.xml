@@ -86,8 +86,8 @@
   </DevType>
   <DevType>
     <DevTypeID>215</DevTypeID>
-    <Name>OPC</Name>
-    <Driver>DrvOpc</Driver>
+    <Name>OPC Classic</Name>
+    <Driver>DrvOpcClassic</Driver>
     <Descr>Взаимодействует с контроллерами по спецификациям OPC DA и OPC AE</Descr>
   </DevType>
   <DevType>
