@@ -116,7 +116,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
             // request data
             Log.WriteLine(Locale.IsRussian ?
                 "Запрос текущих данных" :
-                "Reques current data");
+                "Request current data");
 
             CnlData[] cnlDataArr = cnlListID > 0
                 ? lineData.ScadaClient.GetCurrentData(ref cnlListID)
