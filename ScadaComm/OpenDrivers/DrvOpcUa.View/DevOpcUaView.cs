@@ -71,7 +71,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
                     if (itemConfig.IsString)
                     {
                         cnl.DataTypeID = DataTypeID.Unicode;
-                        cnl.DataLen = DriverUtils.GetTagDataLength(itemConfig.DataLength);
+                        cnl.DataLen = DeviceTag.CalcDataLength(itemConfig.DataLength);
                         cnl.FormatCode = FormatCode.String;
                     }
                     else if (itemConfig.IsArray)

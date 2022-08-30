@@ -166,6 +166,16 @@ namespace Scada.Comm.Devices
         }
 
         /// <summary>
+        /// Calculates the length of the tag data required to store a Unicode string of the specified length.
+        /// </summary>
+        public static int CalcDataLength(int stringLength)
+        {
+            return stringLength <= 0
+                ? 1
+                : stringLength / 4 + ((stringLength % 4) == 0 ? 0 : 1);
+        }
+
+        /// <summary>
         /// Returns a string that represents the current object.
         /// </summary>
         public override string ToString()

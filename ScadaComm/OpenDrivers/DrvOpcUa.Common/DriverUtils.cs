@@ -16,15 +16,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa
         /// </summary>
         public const string DriverCode = "DrvOpcUa";
 
-
-        /// <summary>
-        /// Gets the length of the tag data required to store a string of the specified length.
-        /// </summary>
-        public static int GetTagDataLength(int stringLength)
-        {
-            return stringLength / 4 + ((stringLength % 4) == 0 ? 0 : 1);
-        }
-
         /// <summary>
         /// Checks if the specified data type name matches the type.
         /// </summary>

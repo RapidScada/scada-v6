@@ -692,8 +692,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 
                     if (itemConfig.IsString)
                     {
-                        deviceTag.DataLen = DriverUtils.GetTagDataLength(itemConfig.DataLength);
                         deviceTag.DataType = TagDataType.Unicode;
+                        deviceTag.DataLen = DeviceTag.CalcDataLength(itemConfig.DataLength);
                         deviceTag.Format = TagFormat.String;
                     }
                     else if (itemConfig.IsArray)
