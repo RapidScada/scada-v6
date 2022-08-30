@@ -503,6 +503,34 @@ namespace Scada.Comm.Devices
         }
 
         /// <summary>
+        /// Sets the value and status of the tag, updates the tag data type and format according to the value type.
+        /// </summary>
+        public void Set(DeviceTag deviceTag, object val, int stat)
+        {
+            if (deviceTag == null)
+                throw new ArgumentNullException(nameof(deviceTag));
+
+            if (val is string strVal)
+            {
+                deviceTag.DataType = TagDataType.Unicode;
+                deviceTag.Format = TagFormat.String;
+                SetUnicode(deviceTag.Index, strVal, stat);
+            }
+            else if (val is DateTime dtVal)
+            {
+                deviceTag.DataType = TagDataType.Double;
+                deviceTag.Format = TagFormat.DateTime;
+                SetDateTime(deviceTag.Index, dtVal, stat);
+            }
+            else
+            {
+                deviceTag.DataType = TagDataType.Double;
+                deviceTag.Format = TagFormat.FloatNumber;
+                Set(deviceTag.Index, Convert.ToDouble(val), stat);
+            }
+        }
+
+        /// <summary>
         /// Sets the integer value and status of the tag.
         /// </summary>
         public void SetInt64(int tagIndex, long val, int stat)
