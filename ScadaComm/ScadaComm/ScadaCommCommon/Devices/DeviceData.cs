@@ -655,7 +655,7 @@ namespace Scada.Comm.Devices
         /// </summary>
         public void SetStatusTag(DeviceStatus status)
         {
-            if (deviceTags.ContainsTag(CommUtils.StatusTagCode))
+            if (deviceTags != null && deviceTags.ContainsTag(CommUtils.StatusTagCode))
                 Set(CommUtils.StatusTagCode, (double)status);
         }
 
@@ -680,7 +680,12 @@ namespace Scada.Comm.Devices
         /// </summary>
         public void Invalidate()
         {
-            Invalidate(0, deviceTags.Count);
+            foreach (DeviceTag deviceTag in deviceTags)
+            {
+                // exclude status tag
+                if (deviceTag.Code != CommUtils.StatusTagCode)
+                    Invalidate(deviceTag.Index);
+            }
         }
 
         /// <summary>

@@ -444,6 +444,9 @@ namespace Scada.Comm.Engine
                     Thread.Sleep(ScadaUtils.ThreadDelay);
                 }
             }
+
+            // transfer remaining modified data
+            devices.ForEach(d => TransferDeviceData(d.DeviceLogic, false));
         }
 
         /// <summary>

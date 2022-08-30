@@ -46,9 +46,10 @@ namespace Scada.Comm.Devices
     /// </summary>
     public abstract class DeviceLogic
     {
-        private volatile bool terminated; // necessary to stop the current operation
-        private Connection connection;    // the device connection
-        private int lastInfoLength;       // the last info text length
+        private volatile bool terminated;  // necessary to stop the current operation
+        private Connection connection;     // the device connection
+        private DeviceStatus deviceStatus; // the device status
+        private int lastInfoLength;        // the last info text length
 
 
         /// <summary>
@@ -74,7 +75,6 @@ namespace Scada.Comm.Devices
             PollingOptions = deviceConfig.PollingOptions;
             CanSendCommands = false;
             ConnectionRequired = true;
-            DeviceStatus = DeviceStatus.Undefined;
             LastSessionTime = DateTime.MinValue;
             LastCommandTime = DateTime.MinValue;
             DeviceTags = new DeviceTags();
@@ -83,6 +83,7 @@ namespace Scada.Comm.Devices
 
             terminated = false;
             connection = ConnectionStub.Instance;
+            deviceStatus = DeviceStatus.Undefined;
             lastInfoLength = 0;
         }
 
@@ -202,7 +203,18 @@ namespace Scada.Comm.Devices
         /// <summary>
         /// Gets the current device status.
         /// </summary>
-        public DeviceStatus DeviceStatus { get; protected set; }
+        public DeviceStatus DeviceStatus
+        {
+            get
+            {
+                return deviceStatus;
+            }
+            set
+            {
+                deviceStatus = value;
+                DeviceData.SetStatusTag(deviceStatus);
+            }
+        }
 
         /// <summary>
         /// Gets the time (UTC) of the last device session.
@@ -281,8 +293,6 @@ namespace Scada.Comm.Devices
                 DeviceStats.SessionErrors++;
                 DeviceStatus = DeviceStatus.Error;
             }
-
-            DeviceData.SetStatusTag(DeviceStatus);
         }
 
         /// <summary>
@@ -305,8 +315,6 @@ namespace Scada.Comm.Devices
                 DeviceStats.CommandErrors++;
                 DeviceStatus = DeviceStatus.Error;
             }
-
-            DeviceData.SetStatusTag(DeviceStatus);
         }
 
         /// <summary>
