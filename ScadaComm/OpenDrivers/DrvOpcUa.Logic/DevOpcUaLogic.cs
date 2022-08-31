@@ -122,7 +122,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                         !string.IsNullOrEmpty(itemConfig.TagCode) && 
                         !cmdByCode.ContainsKey(itemConfig.TagCode))
                     {
-                        // created command based on item, having empty data type
                         cmdByCode.Add(itemConfig.TagCode, new CommandConfig
                         {
                             NodeID = itemConfig.NodeID,
