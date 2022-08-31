@@ -78,7 +78,7 @@ namespace Scada.Comm.Devices
             LastSessionTime = DateTime.MinValue;
             LastCommandTime = DateTime.MinValue;
             DeviceTags = new DeviceTags();
-            DeviceData = new DeviceData(deviceConfig.DeviceNum);
+            DeviceData = new DeviceData(deviceConfig.DeviceNum, DeviceTags);
             DeviceStats = new DeviceStats();
 
             terminated = false;
@@ -400,7 +400,7 @@ namespace Scada.Comm.Devices
         /// </summary>
         public virtual void InitDeviceData()
         {
-            DeviceData.Init(DeviceTags);
+            DeviceData.Init();
         }
 
         /// <summary>

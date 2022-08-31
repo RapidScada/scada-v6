@@ -40,30 +40,30 @@ namespace Scada.Comm.Devices
     public class DeviceData
     {
         private readonly int deviceNum;             // the device number
+        private readonly DeviceTags deviceTags;     // the device tags
         private readonly Queue<DeviceSlice> slices; // the historical data queue
         private readonly Queue<DeviceEvent> events; // the event queue
         private readonly DeviceDataView dataView;   // converts data to a string representation
         private readonly object curDataLock;        // syncronizes access to current data
 
-        private DeviceTags deviceTags; // the device tags
-        private bool[] modifiedFlags;  // the tag modification flags
-        private CnlData[] rawData;     // the raw tag data
+        private bool[] modifiedFlags; // the tag modification flags
+        private CnlData[] rawData;    // the raw tag data
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public DeviceData(int deviceNum)
+        public DeviceData(int deviceNum, DeviceTags deviceTags)
         {
             this.deviceNum = deviceNum;
+            this.deviceTags = deviceTags ?? throw new ArgumentNullException(nameof(deviceTags));
             slices = new Queue<DeviceSlice>();
             events = new Queue<DeviceEvent>();
             dataView = new DeviceDataView();
             curDataLock = new object();
 
-            deviceTags = null;
-            modifiedFlags = null;
-            rawData = null;
+            modifiedFlags = Array.Empty<bool>();
+            rawData = Array.Empty<CnlData>();
         }
 
 
@@ -105,17 +105,10 @@ namespace Scada.Comm.Devices
         /// </summary>
         private CnlData GetCnlData(int tagIndex, int offset)
         {
-            if (rawData == null)
+            lock (curDataLock)
             {
-                return CnlData.Empty;
-            }
-            else
-            {
-                lock (curDataLock)
-                {
-                    DeviceTag deviceTag = deviceTags[tagIndex];
-                    return rawData[deviceTag.DataIndex + offset];
-                }
+                DeviceTag deviceTag = deviceTags[tagIndex];
+                return rawData[deviceTag.DataIndex + offset];
             }
         }
 
@@ -124,17 +117,14 @@ namespace Scada.Comm.Devices
         /// </summary>
         private void SetCnlData(int tagIndex, int offset, CnlData value)
         {
-            if (rawData != null)
+            lock (curDataLock)
             {
-                lock (curDataLock)
-                {
-                    DeviceTag deviceTag = deviceTags[tagIndex];
+                DeviceTag deviceTag = deviceTags[tagIndex];
 
-                    if (rawData[deviceTag.DataIndex + offset] != value)
-                        modifiedFlags[tagIndex] = true;
+                if (rawData[deviceTag.DataIndex + offset] != value)
+                    modifiedFlags[tagIndex] = true;
 
-                    rawData[deviceTag.DataIndex + offset] = value;
-                }
+                rawData[deviceTag.DataIndex + offset] = value;
             }
         }
 
@@ -143,20 +133,17 @@ namespace Scada.Comm.Devices
         /// </summary>
         private void SetDisplayValues()
         {
-            if (deviceTags != null)
+            foreach (DeviceTag deviceTag in deviceTags)
             {
-                foreach (DeviceTag deviceTag in deviceTags)
-                {
-                    int tagIndex = deviceTag.Index;
-                    dataView.SetDisplayValue(tagIndex, 0, FormatTagData(deviceTag));
+                int tagIndex = deviceTag.Index;
+                dataView.SetDisplayValue(tagIndex, 0, FormatTagData(deviceTag));
 
-                    if (deviceTag.IsNumericArray)
+                if (deviceTag.IsNumericArray)
+                {
+                    for (int i = 0, len = deviceTag.DataLength; i < len; i++)
                     {
-                        for (int i = 0, len = deviceTag.DataLength; i < len; i++)
-                        {
-                            CnlData cnlData = GetCnlData(tagIndex, i);
-                            dataView.SetDisplayValue(tagIndex, i + 1, FormatNumericData(deviceTag, cnlData));
-                        }
+                        CnlData cnlData = GetCnlData(tagIndex, i);
+                        dataView.SetDisplayValue(tagIndex, i + 1, FormatNumericData(deviceTag, cnlData));
                     }
                 }
             }
@@ -290,11 +277,10 @@ namespace Scada.Comm.Devices
 
 
         /// <summary>
-        /// Initializes the device data to maintain the specified device tags.
+        /// Initializes the device data to maintain the device tags specified in the constructor.
         /// </summary>
-        public void Init(DeviceTags deviceTags)
+        public void Init()
         {
-            this.deviceTags = deviceTags ?? throw new ArgumentNullException(nameof(deviceTags));
             int dataLength = 0;
 
             foreach (DeviceTag deviceTag in deviceTags)
@@ -655,7 +641,7 @@ namespace Scada.Comm.Devices
         /// </summary>
         public void SetStatusTag(DeviceStatus status)
         {
-            if (deviceTags != null && deviceTags.ContainsTag(CommUtils.StatusTagCode))
+            if (deviceTags.ContainsTag(CommUtils.StatusTagCode))
                 Set(CommUtils.StatusTagCode, (double)status);
         }
 
