@@ -86,7 +86,7 @@ namespace Scada.Forms.Forms
         }
 
         /// <summary>
-        /// Takes the tree view and loads them into an image list.
+        /// Takes the tree view images and loads them into an image list.
         /// </summary>
         private void TakeTreeViewImages()
         {
