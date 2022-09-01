@@ -14,7 +14,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 {
     /// <summary>
     /// Represents a device configuration form.
-    /// <para>Представляет форму настройки конфигурации устройства.</para>
+    /// <para>Представляет форму конфигурации устройства.</para>
     /// </summary>
     public partial class FrmConfig : Form
     {
