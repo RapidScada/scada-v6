@@ -38,7 +38,7 @@ namespace Scada.Data.Tables
     /// <para>Представляет таблицу базы конфигурации.</para>
     /// </summary>
     /// <remarks>Reading is thread safe, writing requires synchronization.</remarks>
-    public class BaseTable<T> : IBaseTable
+    public class BaseTable<T> : IBaseTable, IEnumerable<T>
     {
         /// <summary>
         /// The collection of item properties.
@@ -433,6 +433,22 @@ namespace Scada.Data.Tables
             {
                 yield return (T)item;
             }
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the table items.
+        /// </summary>
+        public IEnumerator<T> GetEnumerator()
+        {
+            return Items.Values.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the table items.
+        /// </summary>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return Items.Values.GetEnumerator();
         }
 
         /// <summary>
