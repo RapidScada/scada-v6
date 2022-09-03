@@ -110,6 +110,29 @@ namespace Scada.Forms
                 treeView.SelectedNode.Text = obj.ToString();
         }
 
+        /// <summary>
+        /// Gets the top parent of the specified node.
+        /// </summary>
+        public static TreeNode GetTopParentNode(this TreeNode treeNode)
+        {
+            if (treeNode == null)
+            {
+                return null;
+            }
+            else
+            {
+                TreeNode parentNode = treeNode.Parent;
+
+                while (parentNode != null)
+                {
+                    treeNode = parentNode;
+                    parentNode = treeNode.Parent;
+                }
+
+                return treeNode;
+            }
+        }
+
 
         /// <summary>
         /// Finds the first tree node of the specified type among all child nodes, including the given node.
