@@ -137,6 +137,11 @@
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmBitSelect">
+    <Phrase key="this">Выбор бита</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmCnlSelect">
     <Phrase key="this">Выбор каналов</Phrase>
     <Phrase key="lblFilter">Фильтр</Phrase>
