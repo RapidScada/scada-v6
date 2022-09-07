@@ -75,7 +75,15 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
         private void btnSelectArchiveCode_Click(object sender, EventArgs e)
         {
             // show a dialog to select archive
-            FrmEntitySelect frmEntitySelect = new(configDatabase.ArchiveTable) { MultiSelect = false };
+            int archiveID = (from a in configDatabase.ArchiveTable
+                             where a.Code == txtArchiveCode.Text
+                             select a.ArchiveID).FirstOrDefault();
+
+            FrmEntitySelect frmEntitySelect = new(configDatabase.ArchiveTable) 
+            { 
+                MultiSelect = false,
+                SelectedID = archiveID
+            };
 
             if (frmEntitySelect.ShowDialog() == DialogResult.OK &&
                 frmEntitySelect.SelectedItem is Archive archive)
