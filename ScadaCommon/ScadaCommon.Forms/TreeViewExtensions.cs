@@ -340,8 +340,7 @@ namespace Scada.Forms
         /// </summary>
         public static void Insert(this TreeView treeView, TreeNode parentNode, TreeNode nodeToInsert)
         {
-            if (parentNode == null)
-                throw new ArgumentNullException(nameof(parentNode));
+            ArgumentNullException.ThrowIfNull(parentNode, nameof(parentNode));
 
             if (GetRelatedObject(parentNode) is ITreeNode parentObj &&
                 GetRelatedObject(nodeToInsert) is ITreeNode objToInsert)

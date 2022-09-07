@@ -110,7 +110,7 @@ namespace Scada.Forms.Forms
             items = new BindingList<SelectableItem>();
             selectedItems = new Dictionary<int, SelectableItem>();
 
-            foreach (Cnl srcItem in configDataset.CnlTable.EnumerateItems())
+            foreach (Cnl srcItem in configDataset.CnlTable)
             {
                 SelectableItem item = new() 
                 {

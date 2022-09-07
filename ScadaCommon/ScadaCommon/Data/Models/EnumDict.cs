@@ -61,7 +61,7 @@ namespace Scada.Data.Models
             if (configDataset == null)
                 throw new ArgumentNullException(nameof(configDataset));
 
-            foreach (Format format in configDataset.FormatTable.EnumerateItems())
+            foreach (Format format in configDataset.FormatTable)
             {
                 if (format.IsEnum)
                     Add(format.FormatID, EnumFormat.Parse(format));

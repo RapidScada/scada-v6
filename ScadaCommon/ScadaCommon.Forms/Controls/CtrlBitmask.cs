@@ -62,8 +62,7 @@ namespace Scada.Forms.Controls
                     {
                         if (bitObj != null)
                         {
-                            BitItem bitItem = bitObj as BitItem ??
-                                new BitItem(index, bitObj.ToString());
+                            BitItem bitItem = bitObj as BitItem ?? new BitItem(index, bitObj.ToString());
                             lbMaskBits.Items.Add(bitItem);
 
                             if (MaskValue.BitIsSet(bitItem.Bit))

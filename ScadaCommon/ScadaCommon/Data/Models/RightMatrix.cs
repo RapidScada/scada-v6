@@ -169,7 +169,7 @@ namespace Scada.Data.Models
                 throw new ScadaException(CommonPhrases.IndexNotFound);
 
             // fill rights
-            foreach (Role role in configDataset.RoleTable.EnumerateItems())
+            foreach (Role role in configDataset.RoleTable)
             {
                 int roleID = role.RoleID;
                 RightByObj rightByObj = new RightByObj();

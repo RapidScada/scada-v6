@@ -21,12 +21,10 @@ namespace Scada.Forms
         /// </summary>
         public static BitItemCollection Create(BaseTable<Archive> archiveTable)
         {
-            if (archiveTable == null)
-                throw new ArgumentNullException(nameof(archiveTable));
-
+            ArgumentNullException.ThrowIfNull(archiveTable, nameof(archiveTable));
             BitItemCollection bitItems = new();
 
-            foreach (Archive archive in archiveTable.EnumerateItems())
+            foreach (Archive archive in archiveTable)
             {
                 bitItems.Add(new BitItem(archive.Bit, archive.Name));
             }
