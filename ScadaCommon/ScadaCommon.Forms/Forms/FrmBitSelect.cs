@@ -109,5 +109,11 @@ namespace Scada.Forms.Forms
 
             btnOK.Enabled = lbBits.CheckedItems.Count > 0;
         }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            if (lbBits.CheckedItems.Count > 0)
+                DialogResult = DialogResult.OK;
+        }
     }
 }
