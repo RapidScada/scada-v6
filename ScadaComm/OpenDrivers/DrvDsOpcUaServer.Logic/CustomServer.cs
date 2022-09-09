@@ -6,7 +6,6 @@ using Opc.Ua.Server;
 using Scada.Comm.Drivers.DrvDsOpcUaServer.Config;
 using Scada.Lang;
 using Scada.Log;
-using System;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
@@ -60,7 +59,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
                     if (securityConfiguration.TrustedUserCertificates != null &&
                         securityConfiguration.UserIssuerCertificates != null)
                     {
-                        CertificateValidator validator = new CertificateValidator();
+                        CertificateValidator validator = new();
                         validator.Update(securityConfiguration).Wait();
                         validator.Update(
                             securityConfiguration.UserIssuerCertificates,

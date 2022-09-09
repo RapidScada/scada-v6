@@ -11,10 +11,7 @@ using Scada.Comm.Drivers.DrvDsOpcUaServer.Config;
 using Scada.Lang;
 using Scada.Log;
 using Scada.Storages;
-using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
 {
@@ -108,7 +105,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         {
             await opcApp.Start(opcServer);
 
-            StringBuilder sbStartInfo = new StringBuilder(Locale.IsRussian ? 
+            StringBuilder sbStartInfo = new(Locale.IsRussian ? 
                 "Сервер OPC UA запущен" :
                 "OPC UA server started");
             EndpointDescriptionCollection endpoints = opcServer.GetEndpoints();

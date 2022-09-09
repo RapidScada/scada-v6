@@ -9,9 +9,6 @@ using Scada.Data.Const;
 using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Log;
-using System;
-using System.Collections.Generic;
-using System.Threading;
 
 namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
 {
@@ -84,7 +81,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         {
             string path = name;
 
-            FolderState folder = new FolderState(parent)
+            FolderState folder = new(parent)
             {
                 SymbolicName = name,
                 ReferenceTypeId = ReferenceTypes.Organizes,
@@ -138,7 +135,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         private BaseDataVariableState CreateVariable(NodeState parent, string path, 
             string name, string displayName, NodeId dataType, bool isArray, object defaultValue)
         {
-            BaseDataVariableState variable = new BaseDataVariableState(parent)
+            BaseDataVariableState variable = new(parent)
             {
                 SymbolicName = name,
                 ReferenceTypeId = ReferenceTypes.Organizes,
@@ -172,7 +169,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         {
             foreach (ILineContext lineContext in commContext.GetCommLines())
             {
-                List<DeviceLogic> devices = new List<DeviceLogic>();
+                List<DeviceLogic> devices = new();
                 devices.AddRange(deviceFilter == null ? 
                     lineContext.SelectDevices() :
                     lineContext.SelectDevices(d => deviceFilter.Contains(d.DeviceNum)));
@@ -186,7 +183,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
                     {
                         string deviceFolderName = CommUtils.GetDeviceLogFileName(deviceLogic.DeviceNum, "");
                         FolderState deviceFolder = CreateFolder(lineFolder, deviceFolderName, deviceLogic.Title);
-                        DeviceVars deviceVars = new DeviceVars();
+                        DeviceVars deviceVars = new();
                         varByDevice[deviceLogic.DeviceNum] = deviceVars;
 
                         if (deviceLogic.DeviceTags.FlattenGroups)
@@ -228,7 +225,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
                     BaseDataVariableState variable = CreateVariable(folder, pathPrefix, deviceTag);
                     variable.OnSimpleWriteValue = OnSimpleWriteValue;
 
-                    VarItem varItem = new VarItem
+                    VarItem varItem = new()
                     {
                         Variable = variable,
                         DeviceTag = deviceTag,
@@ -356,7 +353,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// <summary>
         /// Converts the specified array of floating point numbers to command data.
         /// </summary>
-        private byte[] DoubleArrayToCmdData(Array array, int count)
+        private static byte[] DoubleArrayToCmdData(Array array, int count)
         {
             if (array == null)
             {
@@ -379,7 +376,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// <summary>
         /// Converts the specified array of integers to command data.
         /// </summary>
-        private byte[] Int64ArrayToCmdData(Array array, int count)
+        private static byte[] Int64ArrayToCmdData(Array array, int count)
         {
             if (array == null)
             {
