@@ -105,9 +105,12 @@ namespace Scada.Forms.Forms
                 BitItem bitItem = (BitItem)lbBits.Items[e.Index];
                 SelectedBit = bitItem.Bit;
                 DeselectItems(e.Index);
+                btnOK.Enabled = true;
             }
-
-            btnOK.Enabled = lbBits.CheckedItems.Count > 0;
+            else
+            {
+                btnOK.Enabled = false;
+            }
         }
 
         private void btnOK_Click(object sender, EventArgs e)
