@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System.IO;
 using System.Reflection;
 using System.Text;
 
@@ -33,10 +32,8 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer
 
             using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
             {
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    fileContents = reader.ReadToEnd();
-                }
+                using StreamReader reader = new(stream);
+                fileContents = reader.ReadToEnd();
             }
 
             File.WriteAllText(fileName, fileContents, Encoding.UTF8);
