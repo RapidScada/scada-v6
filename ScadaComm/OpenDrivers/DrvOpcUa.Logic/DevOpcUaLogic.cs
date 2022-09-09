@@ -43,6 +43,16 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         }
 
         /// <summary>
+        /// Contains data common to a communication line.
+        /// </summary>
+        private class OpcUaLineData
+        {
+            public bool FatalError { get; set; } = false;
+            public OpcClientHelper ClientHelper { get; init; }
+            public override string ToString() => CommPhrases.SharedObject;
+        }
+
+        /// <summary>
         /// Represents metadata about a device tag.
         /// </summary>
         private class DeviceTagMeta
@@ -60,8 +70,11 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// </summary>
         private static readonly TimeSpan ReconnectDelay = TimeSpan.FromSeconds(5);
 
+        private OpcDeviceConfig config;                       // the device configuration
         private readonly object opcLock;                      // synchronizes communication with OPC server
-        private OpcDeviceConfig opcDeviceConfig;              // the device configuration
+
+        private bool configError;                            // indicates that that device configuration is not loaded
+        private OpcUaLineData lineData;                      // data common to the communication line
         private bool connected;                               // connection with OPC server is established
         private DateTime connAttemptDT;                       // the timestamp of a connection attempt
         private Session opcSession;                           // the OPC session
@@ -77,8 +90,11 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         public DevOpcUaLogic(ICommContext commContext, ILineContext lineContext, DeviceConfig deviceConfig)
             : base(commContext, lineContext, deviceConfig)
         {
+            config = null;
             opcLock = new object();
-            opcDeviceConfig = null;
+
+            configError = false;
+            lineData = null;
             connected = false;
             connAttemptDT = DateTime.MinValue;
             opcSession = null;
@@ -93,15 +109,48 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 
 
         /// <summary>
+        /// Initializes data common to the communication line.
+        /// </summary>
+        private void InitLineData()
+        {
+            if (LineContext.SharedData.TryGetValueOfType(nameof(OpcUaLineData), out OpcUaLineData data))
+            {
+                lineData = data;
+            }
+            else
+            {
+                OpcLineConfig lineConfig = new();
+                bool lineConfigError = false;
+
+                if (!lineConfig.Load(Storage, OpcLineConfig.GetFileName(LineContext.CommLineNum), out string errMsg))
+                {
+                    Log.WriteLine(errMsg);
+                    Log.WriteLine(Locale.IsRussian ?
+                        "Взаимодействие с OPC-сервером невозможно, т.к. конфигурация линии не загружена" :
+                        "Interaction with OPC server is impossible because line configuration is not loaded");
+                    lineConfigError = true;
+                }
+
+                lineData = new OpcUaLineData()
+                {
+                    FatalError = lineConfigError,
+                    ClientHelper = new OpcClientHelper(lineConfig.ConnectionOptions, Log)
+                };
+
+                LineContext.SharedData[nameof(OpcUaLineData)] = lineData;
+            }
+        }
+
+        /// <summary>
         /// Initializes command maps.
         /// </summary>
-        private void InitCmdMaps()
+        private void InitCommandMaps()
         {
             cmdByNum = new Dictionary<int, CommandConfig>();
             cmdByCode = new Dictionary<string, CommandConfig>();
 
             // explicit commands
-            foreach (CommandConfig commandConfig in opcDeviceConfig.Commands)
+            foreach (CommandConfig commandConfig in config.Commands)
             {
                 if (commandConfig.CmdNum > 0 && !cmdByNum.ContainsKey(commandConfig.CmdNum))
                     cmdByNum.Add(commandConfig.CmdNum, commandConfig);
@@ -111,7 +160,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             }
 
             // commands from subscriptions
-            foreach (SubscriptionConfig subscriptionConfig in opcDeviceConfig.Subscriptions)
+            foreach (SubscriptionConfig subscriptionConfig in config.Subscriptions)
             {
                 foreach (ItemConfig itemConfig in subscriptionConfig.Items)
                 {
@@ -132,6 +181,27 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         }
 
         /// <summary>
+        /// Finds a command configuration by command code or number.
+        /// </summary>
+        private bool FindCommandConfig(TeleCommand cmd, out CommandConfig commandConfig)
+        {
+            if (cmdByCode != null && !string.IsNullOrEmpty(cmd.CmdCode) &&
+                cmdByCode.TryGetValue(cmd.CmdCode, out commandConfig))
+            {
+                return true;
+            }
+
+            if (cmdByNum != null && cmd.CmdNum > 0 &&
+                cmdByNum.TryGetValue(cmd.CmdNum, out commandConfig))
+            {
+                return true;
+            }
+
+            commandConfig = null;
+            return false;
+        }
+
+        /// <summary>
         /// Connects to the OPC server.
         /// </summary>
         private void ConnectToOpcServer()
@@ -139,7 +209,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             try
             {
                 OpcHelper helper = new(AppDirs, Log, DeviceNum, true);
-                connected = helper.ConnectAsync(opcDeviceConfig.ConnectionOptions, PollingOptions.Timeout).Result;
+                connected = helper.ConnectAsync(config.ConnectionOptions, PollingOptions.Timeout).Result;
                 opcSession = helper.OpcSession;
                 opcSession.KeepAlive += OpcSession_KeepAlive;
                 opcSession.Notification += OpcSession_Notification;
@@ -165,7 +235,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 
                 subscrByID = new Dictionary<uint, SubscriptionTag>();
 
-                foreach (SubscriptionConfig subscriptionConfig in opcDeviceConfig.Subscriptions)
+                foreach (SubscriptionConfig subscriptionConfig in config.Subscriptions)
                 {
                     if (!subscriptionConfig.Active)
                         continue;
@@ -463,27 +533,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         }
 
         /// <summary>
-        /// Finds a command configuration by command code or number.
-        /// </summary>
-        private bool FindCommandConfig(TeleCommand cmd, out CommandConfig commandConfig)
-        {
-            if (cmdByCode != null && !string.IsNullOrEmpty(cmd.CmdCode) &&
-                cmdByCode.TryGetValue(cmd.CmdCode, out commandConfig))
-            {
-                return true;
-            }
-
-            if (cmdByNum != null && cmd.CmdNum > 0 &&
-                cmdByNum.TryGetValue(cmd.CmdNum, out commandConfig))
-            {
-                return true;
-            }
-
-            commandConfig = null;
-            return false;
-        }
-
-        /// <summary>
         /// Writes an item value to the OPC server.
         /// </summary>
         private bool WriteItemValue(CommandConfig commandConfig, double cmdVal, string cmdData)
@@ -644,15 +693,15 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// </summary>
         public override void OnCommLineStart()
         {
-            opcDeviceConfig = new OpcDeviceConfig();
+            config = new OpcDeviceConfig();
 
-            if (opcDeviceConfig.Load(Storage, OpcDeviceConfig.GetFileName(DeviceNum), out string errMsg))
+            if (config.Load(Storage, OpcDeviceConfig.GetFileName(DeviceNum), out string errMsg))
             {
-                InitCmdMaps();
+                InitCommandMaps();
             }
             else
             {
-                opcDeviceConfig = null;
+                config = null;
                 Log.WriteLine(errMsg);
                 Log.WriteLine(Locale.IsRussian ?
                     "Взаимодействие с OPC-сервером невозможно, т.к. конфигурация устройства не загружена" :
@@ -673,10 +722,10 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// </summary>
         public override void InitDeviceTags()
         {
-            if (opcDeviceConfig == null)
+            if (config == null)
                 return;
 
-            foreach (SubscriptionConfig subscriptionConfig in opcDeviceConfig.Subscriptions)
+            foreach (SubscriptionConfig subscriptionConfig in config.Subscriptions)
             {
                 TagGroup tagGroup = new(subscriptionConfig.DisplayName);
 
@@ -707,7 +756,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// </summary>
         public override void Session()
         {
-            if (opcDeviceConfig == null)
+            if (config == null)
             {
                 LastRequestOK = false;
                 DeviceStatus = DeviceStatus.Error;

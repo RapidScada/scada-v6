@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<OpcLineConfig>
+  <ConnectionOptions>
+    <ServerUrl>opc.tcp://SERVER:53530/OPCUA/SimulationServer</ServerUrl>
+    <SecurityMode>None</SecurityMode>
+    <SecurityPolicy>None</SecurityPolicy>
+    <AuthenticationMode>Anonymous</AuthenticationMode>
+    <Username />
+    <Password />
+  </ConnectionOptions>
+</OpcLineConfig>

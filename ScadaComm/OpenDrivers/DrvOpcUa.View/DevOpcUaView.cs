@@ -40,9 +40,9 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
         /// </summary>
         public override ICollection<CnlPrototype> GetCnlPrototypes()
         {
-            OpcDeviceConfig opcDeviceConfig = new();
+            OpcDeviceConfig config = new();
 
-            if (!opcDeviceConfig.Load(Path.Combine(AppDirs.ConfigDir, OpcDeviceConfig.GetFileName(DeviceNum)),
+            if (!config.Load(Path.Combine(AppDirs.ConfigDir, OpcDeviceConfig.GetFileName(DeviceNum)),
                 out string errMsg))
             {
                 throw new ScadaException(errMsg);
@@ -54,7 +54,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
             int eventMask = new EventMask { Enabled = true, StatusChange = true, Command = true }.Value;
             int cmdEventMask = new EventMask { Enabled = true, Command = true }.Value;
 
-            foreach (SubscriptionConfig subscriptionConfig in opcDeviceConfig.Subscriptions)
+            foreach (SubscriptionConfig subscriptionConfig in config.Subscriptions)
             {
                 foreach (ItemConfig itemConfig in subscriptionConfig.Items)
                 {
@@ -88,7 +88,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
             }
 
             // create channels for commands
-            foreach (CommandConfig commandConfig in opcDeviceConfig.Commands)
+            foreach (CommandConfig commandConfig in config.Commands)
             {
                 CnlPrototype cnl = new()
                 {
