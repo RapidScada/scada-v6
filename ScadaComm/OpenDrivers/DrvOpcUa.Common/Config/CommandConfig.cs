@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
 using System.Xml;
 
 namespace Scada.Comm.Drivers.DrvOpcUa.Config
@@ -68,9 +67,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         /// </summary>
         public void LoadFromXml(XmlElement xmlElem)
         {
-            if (xmlElem == null)
-                throw new ArgumentNullException(nameof(xmlElem));
-
+            ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
             NodeID = xmlElem.GetAttrAsString("nodeID");
             ParentNodeID = xmlElem.GetAttrAsString("parentNodeID");
             DisplayName = xmlElem.GetAttrAsString("displayName");
@@ -85,9 +82,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         /// </summary>
         public void SaveToXml(XmlElement xmlElem)
         {
-            if (xmlElem == null)
-                throw new ArgumentNullException(nameof(xmlElem));
-
+            ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
             xmlElem.SetAttribute("nodeID", NodeID);
             xmlElem.SetAttribute("parentNodeID", ParentNodeID);
             xmlElem.SetAttribute("displayName", DisplayName);

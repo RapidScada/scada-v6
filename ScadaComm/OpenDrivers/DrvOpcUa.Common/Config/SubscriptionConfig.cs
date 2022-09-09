@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
-using System.Collections.Generic;
 using System.Xml;
 
 namespace Scada.Comm.Drivers.DrvOpcUa.Config
@@ -51,16 +49,14 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         /// </summary>
         public void LoadFromXml(XmlElement xmlElem)
         {
-            if (xmlElem == null)
-                throw new ArgumentNullException(nameof(xmlElem));
-
+            ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
             Active = xmlElem.GetAttrAsBool("active");
             DisplayName = xmlElem.GetAttrAsString("displayName");
             PublishingInterval = xmlElem.GetAttrAsInt("publishingInterval", PublishingInterval);
 
             foreach (XmlElement itemElem in xmlElem.SelectNodes("Item"))
             {
-                ItemConfig itemConfig = new ItemConfig();
+                ItemConfig itemConfig = new();
                 itemConfig.LoadFromXml(itemElem);
                 Items.Add(itemConfig);
             }
@@ -71,9 +67,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         /// </summary>
         public void SaveToXml(XmlElement xmlElem)
         {
-            if (xmlElem == null)
-                throw new ArgumentNullException(nameof(xmlElem));
-
+            ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
             xmlElem.SetAttribute("active", Active);
             xmlElem.SetAttribute("displayName", DisplayName);
             xmlElem.SetAttribute("publishingInterval", PublishingInterval);

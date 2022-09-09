@@ -10,9 +10,6 @@ using Scada.Comm.Lang;
 using Scada.Data.Const;
 using Scada.Data.Models;
 using Scada.Lang;
-using System;
-using System.Collections.Generic;
-using System.Threading;
 
 namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 {
@@ -141,7 +138,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         {
             try
             {
-                OpcHelper helper = new OpcHelper(AppDirs, Log, DeviceNum, true);
+                OpcHelper helper = new(AppDirs, Log, DeviceNum, true);
                 connected = helper.ConnectAsync(opcDeviceConfig.ConnectionOptions, PollingOptions.Timeout).Result;
                 opcSession = helper.OpcSession;
                 opcSession.KeepAlive += OpcSession_KeepAlive;
@@ -173,13 +170,13 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                     if (!subscriptionConfig.Active)
                         continue;
 
-                    Subscription subscription = new Subscription(opcSession.DefaultSubscription)
+                    Subscription subscription = new(opcSession.DefaultSubscription)
                     {
                         DisplayName = subscriptionConfig.DisplayName,
                         PublishingInterval = subscriptionConfig.PublishingInterval
                     };
 
-                    SubscriptionTag subscriptionTag = new SubscriptionTag(subscription);
+                    SubscriptionTag subscriptionTag = new(subscription);
 
                     foreach (ItemConfig itemConfig in subscriptionConfig.Items)
                     {
@@ -545,7 +542,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 "Отправка значения OPC-серверу: {0} = {1}" :
                 "Send value to the OPC server: {0} = {1}", commandConfig.DisplayName, itemVal);
 
-            WriteValue valueToWrite = new WriteValue
+            WriteValue valueToWrite = new()
             {
                 NodeId = commandConfig.NodeID,
                 AttributeId = Attributes.Value,
@@ -600,14 +597,14 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// <summary>
         /// Gets OPC method arguments from command data.
         /// </summary>
-        private object[] GetMethodArgs(string cmdData)
+        private static object[] GetMethodArgs(string cmdData)
         {
             if (string.IsNullOrEmpty(cmdData))
                 return Array.Empty<object>();
 
             // each line contains argument type and value, for example
             // double: 1.2
-            List<object> args = new List<object>();
+            List<object> args = new();
             string[] lines = cmdData.Split('\n');
 
             foreach (string line in lines)
@@ -616,8 +613,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 
                 if (colonIdx >= 0)
                 {
-                    string typeName = line.Substring(0, colonIdx);
-                    string argVal = line.Substring(colonIdx + 1);
+                    string typeName = line[..colonIdx];
+                    string argVal = line[(colonIdx + 1)..];
 
                     try
                     {
@@ -681,7 +678,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 
             foreach (SubscriptionConfig subscriptionConfig in opcDeviceConfig.Subscriptions)
             {
-                TagGroup tagGroup = new TagGroup(subscriptionConfig.DisplayName);
+                TagGroup tagGroup = new(subscriptionConfig.DisplayName);
 
                 foreach (ItemConfig itemConfig in subscriptionConfig.Items)
                 {

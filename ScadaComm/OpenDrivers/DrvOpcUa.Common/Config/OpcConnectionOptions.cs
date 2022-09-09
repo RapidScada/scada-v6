@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Opc.Ua;
-using System;
 using System.Xml;
 
 namespace Scada.Comm.Drivers.DrvOpcUa.Config
@@ -63,9 +62,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         /// </summary>
         public void LoadFromXml(XmlNode xmlNode)
         {
-            if (xmlNode == null)
-                throw new ArgumentNullException(nameof(xmlNode));
-
+            ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
             ServerUrl = xmlNode.GetChildAsString("ServerUrl");
             SecurityMode = xmlNode.GetChildAsEnum("SecurityMode", MessageSecurityMode.None);
             SecurityPolicy = xmlNode.GetChildAsEnum<SecurityPolicy>("SecurityPolicy");
@@ -79,9 +76,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         /// </summary>
         public void SaveToXml(XmlElement xmlElem)
         {
-            if (xmlElem == null)
-                throw new ArgumentNullException(nameof(xmlElem));
-
+            ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
             xmlElem.AppendElem("ServerUrl", ServerUrl);
             xmlElem.AppendElem("SecurityMode", SecurityMode);
             xmlElem.AppendElem("SecurityPolicy", SecurityPolicy);
@@ -95,29 +90,16 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         /// </summary>
         public string GetSecurityPolicy()
         {
-            switch (SecurityPolicy)
+            return SecurityPolicy switch
             {
-                case SecurityPolicy.Basic128Rsa15:
-                    return SecurityPolicies.Basic128Rsa15;
-
-                case SecurityPolicy.Basic256:
-                    return SecurityPolicies.Basic256;
-
-                case SecurityPolicy.Basic256Sha256:
-                    return SecurityPolicies.Basic256Sha256;
-
-                case SecurityPolicy.Aes128_Sha256_RsaOaep:
-                    return SecurityPolicies.Aes128_Sha256_RsaOaep;
-
-                case SecurityPolicy.Aes256_Sha256_RsaPss:
-                    return SecurityPolicies.Aes256_Sha256_RsaPss;
-
-                case SecurityPolicy.Https:
-                    return SecurityPolicies.Https;
-
-                default:
-                    return SecurityPolicies.None;
-            }
+                SecurityPolicy.Basic128Rsa15 => SecurityPolicies.Basic128Rsa15,
+                SecurityPolicy.Basic256 => SecurityPolicies.Basic256,
+                SecurityPolicy.Basic256Sha256 => SecurityPolicies.Basic256Sha256,
+                SecurityPolicy.Aes128_Sha256_RsaOaep => SecurityPolicies.Aes128_Sha256_RsaOaep,
+                SecurityPolicy.Aes256_Sha256_RsaPss => SecurityPolicies.Aes256_Sha256_RsaPss,
+                SecurityPolicy.Https => SecurityPolicies.Https,
+                _ => SecurityPolicies.None,
+            };
         }
     }
 }

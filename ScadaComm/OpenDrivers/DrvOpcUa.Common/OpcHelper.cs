@@ -7,11 +7,8 @@ using Opc.Ua.Configuration;
 using Scada.Comm.Drivers.DrvOpcUa.Config;
 using Scada.Lang;
 using Scada.Log;
-using System;
-using System.IO;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Scada.Comm.Drivers.DrvOpcUa
 {
@@ -84,10 +81,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa
                             "Ресурс {0} не найден." :
                             "Resource {0} not found.", resourceName));
 
-                    using (StreamReader reader = new StreamReader(stream))
-                    {
-                        fileContents = reader.ReadToEnd();
-                    }
+                    using StreamReader reader = new(stream);
+                    fileContents = reader.ReadToEnd();
                 }
                 finally
                 {
@@ -128,7 +123,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa
         /// </summary>
         public async Task<bool> ConnectAsync(OpcConnectionOptions connectionOptions, int operationTimeout = -1)
         {
-            ApplicationInstance application = new ApplicationInstance
+            ApplicationInstance application = new()
             {
                 ApplicationName = string.Format("DrvOpcUa_{0} Driver", deviceNumStr),
                 ApplicationType = ApplicationType.Client,
@@ -174,7 +169,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa
             selectedEndpoint.SecurityMode = connectionOptions.SecurityMode;
             selectedEndpoint.SecurityPolicyUri = connectionOptions.GetSecurityPolicy();
             EndpointConfiguration endpointConfiguration = EndpointConfiguration.Create(config);
-            ConfiguredEndpoint endpoint = new ConfiguredEndpoint(null, selectedEndpoint, endpointConfiguration);
+            ConfiguredEndpoint endpoint = new(null, selectedEndpoint, endpointConfiguration);
             UserIdentity userIdentity = connectionOptions.AuthenticationMode == AuthenticationMode.Username ?
                 new UserIdentity(connectionOptions.Username, connectionOptions.Password) :
                 new UserIdentity(new AnonymousIdentityToken());
