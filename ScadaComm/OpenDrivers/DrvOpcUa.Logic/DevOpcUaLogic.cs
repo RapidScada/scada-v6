@@ -70,11 +70,11 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// </summary>
         private static readonly TimeSpan ReconnectDelay = TimeSpan.FromSeconds(5);
 
-        private OpcDeviceConfig config;                       // the device configuration
+        private readonly OpcDeviceConfig config;              // the device configuration
         private readonly object opcLock;                      // synchronizes communication with OPC server
 
-        private bool configError;                            // indicates that that device configuration is not loaded
-        private OpcUaLineData lineData;                      // data common to the communication line
+        private bool configError;                             // indicates that that device configuration is not loaded
+        private OpcUaLineData lineData;                       // data common to the communication line
         private bool connected;                               // connection with OPC server is established
         private DateTime connAttemptDT;                       // the timestamp of a connection attempt
         private Session opcSession;                           // the OPC session
@@ -90,7 +90,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         public DevOpcUaLogic(ICommContext commContext, ILineContext lineContext, DeviceConfig deviceConfig)
             : base(commContext, lineContext, deviceConfig)
         {
-            config = null;
+            config = new OpcDeviceConfig();
             opcLock = new object();
 
             configError = false;
@@ -134,7 +134,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 lineData = new OpcUaLineData()
                 {
                     FatalError = lineConfigError,
-                    ClientHelper = new OpcClientHelper(lineConfig.ConnectionOptions, Log)
+                    ClientHelper = new OpcClientHelper(lineConfig.ConnectionOptions, Log, Storage) 
                 };
 
                 LineContext.SharedData[nameof(OpcUaLineData)] = lineData;
@@ -693,7 +693,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// </summary>
         public override void OnCommLineStart()
         {
-            config = new OpcDeviceConfig();
+            InitLineData();
 
             if (config.Load(Storage, OpcDeviceConfig.GetFileName(DeviceNum), out string errMsg))
             {
@@ -701,11 +701,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             }
             else
             {
-                config = null;
-                Log.WriteLine(errMsg);
-                Log.WriteLine(Locale.IsRussian ?
-                    "Взаимодействие с OPC-сервером невозможно, т.к. конфигурация устройства не загружена" :
-                    "Interaction with OPC server is impossible because device configuration is not loaded");
+                Log.WriteLine(CommPhrases.DeviceMessage, Title, errMsg);
+                configError = true;
             }
         }
 
@@ -722,7 +719,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// </summary>
         public override void InitDeviceTags()
         {
-            if (config == null)
+            if (configError)
                 return;
 
             foreach (SubscriptionConfig subscriptionConfig in config.Subscriptions)
