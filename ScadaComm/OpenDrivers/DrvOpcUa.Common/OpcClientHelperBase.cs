@@ -7,6 +7,7 @@ using Opc.Ua.Configuration;
 using Scada.Comm.Drivers.DrvOpcUa.Config;
 using Scada.Lang;
 using Scada.Log;
+using System.Reflection;
 
 namespace Scada.Comm.Drivers.DrvOpcUa
 {
@@ -98,13 +99,17 @@ namespace Scada.Comm.Drivers.DrvOpcUa
         protected abstract Stream ReadConfiguration();
 
         /// <summary>
-        /// Gets the name of the resource that contains the default OPC configuration.
+        /// Gets the resource stream that contains the default OPC configuration.
         /// </summary>
-        protected static string GetConfigResourceName()
+        protected static Stream GetConfigResourceStream()
         {
-            return ScadaUtils.IsRunningOnWin ?
+            string resourceName = ScadaUtils.IsRunningOnWin ?
                 "Scada.Comm.Drivers.DrvOpcUa.Config.DrvOpcUa.Win.xml" :
                 "Scada.Comm.Drivers.DrvOpcUa.Config.DrvOpcUa.Linux.xml";
+            return Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName) ??
+                throw new ScadaException(string.Format(Locale.IsRussian ?
+                    "Ресурс {0} не найден." :
+                    "Resource {0} not found.", resourceName));
         }
 
         /// <summary>
@@ -169,8 +174,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa
                 (uint)config.ClientConfiguration.DefaultSessionTimeout, userIdentity, null);
 
             log.WriteLine(Locale.IsRussian ?
-                "OPC сессия успешно создана: {0}" :
-                "OPC session created successfully: {0}", connectionOptions.ServerUrl);
+                "OPC сессия создана успешно" :
+                "OPC session created successfully");
         }
     }
 }

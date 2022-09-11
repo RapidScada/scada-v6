@@ -3,6 +3,7 @@
 
 using Opc.Ua;
 using Opc.Ua.Client;
+using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvOpcUa.Config;
 using Scada.Lang;
 using Scada.Log;
@@ -30,9 +31,12 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// </summary>
         private static readonly TimeSpan ReconnectDelay = TimeSpan.FromSeconds(5);
 
-        private readonly IStorage storage;                // the application storage
-        private DateTime connAttemptDT;                   // the timestamp of a connection attempt
-        private SessionReconnectHandler reconnectHandler; // the object needed to reconnect
+        private readonly IStorage storage;                    // the application storage
+        private readonly List<SubscriptionTag> subscrTags;    // metadata about subscriptions
+
+        private DateTime connAttemptDT;                       // the timestamp of a connection attempt
+        private SessionReconnectHandler reconnectHandler;     // the object needed to reconnect
+        private Dictionary<uint, SubscriptionTag> subscrByID; // the subscription tags accessed by IDs
 
 
         /// <summary>
@@ -42,8 +46,11 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             : base(connectionOptions, log)
         {
             this.storage = storage ?? throw new ArgumentNullException(nameof(storage));
+            subscrTags = new List<SubscriptionTag>();
+
             connAttemptDT = DateTime.MinValue;
             reconnectHandler = null;
+            subscrByID = null;
         }
 
 
@@ -78,10 +85,11 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 
                 if (reconnectHandler == null)
                 {
+                    //DeviceData.Invalidate();
+                    //DeviceStatus = DeviceStatus.Error;
                     log.WriteLine(Locale.IsRussian ?
                         "Переподключение к OPC-серверу" :
                         "Reconnecting to OPC server");
-                    // TODO: invalidate devices
                     reconnectHandler = new SessionReconnectHandler();
                     reconnectHandler.BeginReconnect(sender, ReconnectPeriod, OpcSession_ReconnectComplete);
                 }
@@ -117,6 +125,81 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// </summary>
         private void OpcSession_Notification(Session session, NotificationEventArgs e)
         {
+            /*try
+            {
+                Monitor.Enter(opcLock);
+                Log.WriteLine();
+                LastSessionTime = DateTime.UtcNow;
+
+                if (subscrByID != null &&
+                    subscrByID.TryGetValue(e.Subscription.Id, out SubscriptionTag subscriptionTag))
+                {
+                    Log.WriteAction(Locale.IsRussian ?
+                        "Устройство {0}. Обработка новых данных. Подписка: {1}" :
+                        "Device {0}. Process new data. Subscription: {1}",
+                        DeviceNum, e.Subscription.DisplayName);
+                    ProcessDataChanges(subscriptionTag, e.NotificationMessage);
+                    ProcessEvents(e.NotificationMessage);
+                    LastRequestOK = true;
+                }
+                else
+                {
+                    Log.WriteLine(Locale.IsRussian ?
+                        "Ошибка: подписка [{0}] \"{1}\" не найдена" :
+                        "Error: subscription [{0}] \"{1}\" not found",
+                        e.Subscription.Id, e.Subscription.DisplayName);
+                    LastRequestOK = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при обработке новых данных" :
+                    "Error processing new data");
+                LastRequestOK = false;
+            }
+            finally
+            {
+                FinishSession();
+                Monitor.Exit(opcLock);
+            }*/
+        }
+
+        /// <summary>
+        /// Clears all subscriptions of the OPC session.
+        /// </summary>
+        private void ClearSubscriptions()
+        {
+            /*try
+            {
+                subscrByID = null;
+                opcSession.RemoveSubscriptions(new List<Subscription>(opcSession.Subscriptions));
+            }
+            catch (Exception ex)
+            {
+                log.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при очистке подписок" :
+                    "Error clearing subscriptions");
+            }*/
+        }
+
+        /// <summary>
+        /// Writes the OPC configuration.
+        /// </summary>
+        private void WriteConfiguration(Stream stream)
+        {
+            try
+            {
+                BinaryReader reader = new(stream); // do not close reader
+                byte[] bytes = reader.ReadBytes((int)stream.Length);
+                storage.WriteBytes(DataCategory.Config, LogicOpcConfig, bytes);
+            }
+            catch (Exception ex)
+            {
+                log.WriteLine(Locale.IsRussian ?
+                    "Ошибка при записи конфигурации OPC: {0}" :
+                    "Error writing OPC configuration: {0}", ex.Message);
+            }
         }
 
         /// <summary>
@@ -131,16 +214,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             }
             else
             {
-                string resourceName = GetConfigResourceName();
-                Stream resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName) ??
-                    throw new ScadaException(string.Format(Locale.IsRussian ?
-                        "Ресурс {0} не найден." :
-                        "Resource {0} not found.", resourceName));
-
-                using BinaryReader reader = new(resourceStream);
-                byte[] bytes = reader.ReadBytes((int)resourceStream.Length);
-                storage.WriteBytes(DataCategory.Config, LogicOpcConfig, bytes);
-
+                Stream resourceStream = GetConfigResourceStream();
+                WriteConfiguration(resourceStream);
                 resourceStream.Position = 0;
                 return resourceStream;
             }
@@ -210,6 +285,98 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 }
 
                 OpcSession = null;
+            }
+        }
+
+        /// <summary>
+        /// Adds subscribtions according to the device configuration.
+        /// </summary>
+        public void AddSubscriptions(DevOpcUaLogic deviceLogic, OpcDeviceConfig deviceConfig)
+        {
+            foreach (SubscriptionConfig subscriptionConfig in deviceConfig.Subscriptions)
+            {
+                if (subscriptionConfig.Active)
+                {
+                    SubscriptionTag subscriptionTag = new()
+                    {
+                        DeviceLogic = deviceLogic,
+                        SubscriptionConfig = subscriptionConfig
+                    };
+
+                    foreach (ItemConfig itemConfig in subscriptionConfig.Items)
+                    {
+                        if (itemConfig.Active && 
+                            itemConfig.Tag is DeviceTag deviceTag)
+                        {
+                            subscriptionTag.ItemsByNodeID[itemConfig.NodeID] = new ItemTag
+                            {
+                                DeviceTag = deviceTag,
+                                ItemConfig = itemConfig
+                            };
+                        }
+                    }
+
+                    subscrTags.Add(subscriptionTag);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Creates the previously added subscriptions on the OPC server.
+        /// </summary>
+        public bool CreateSubscriptions()
+        {
+            try
+            {
+                log.WriteLine();
+                log.WriteAction(Locale.IsRussian ?
+                    "Создание подписок" :
+                    "Create subscriptions");
+
+                if (OpcSession == null)
+                    throw new InvalidOperationException("OPC session must not be null.");
+
+                subscrByID = new Dictionary<uint, SubscriptionTag>();
+
+                foreach (SubscriptionTag subscriptionTag in subscrTags)
+                {
+                    SubscriptionConfig subscriptionConfig = subscriptionTag.SubscriptionConfig;
+                    log.WriteLine(Locale.IsRussian ?
+                        "Создание подписки \"{0}\" для устройства {1}" :
+                        "Create subscription \"{0}\" for the device {1}",
+                        subscriptionConfig.DisplayName, subscriptionTag.DeviceLogic.Title);
+
+                    Subscription subscription = new(OpcSession.DefaultSubscription)
+                    {
+                        DisplayName = subscriptionConfig.DisplayName,
+                        PublishingInterval = subscriptionConfig.PublishingInterval
+                    };
+
+                    foreach (ItemConfig itemConfig in subscriptionConfig.Items)
+                    {
+                        if (itemConfig.Active)
+                        {
+                            subscription.AddItem(new MonitoredItem(subscription.DefaultItem)
+                            {
+                                StartNodeId = itemConfig.NodeID,
+                                DisplayName = itemConfig.DisplayName
+                            });
+                        }
+                    }
+
+                    OpcSession.AddSubscription(subscription);
+                    subscription.Create();
+                    subscrByID[subscription.Id] = subscriptionTag;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.WriteLine(Locale.IsRussian ?
+                    "Ошибка при создании подписок: {0}" :
+                    "Error creating subscriptions: {0}", ex.ToString());
+                return false;
             }
         }
     }
