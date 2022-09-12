@@ -234,7 +234,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// <summary>
         /// Writes an item value to the OPC server.
         /// </summary>
-        private bool WriteItemValue(CommandConfig commandConfig, double cmdVal, string cmdData)
+        private bool WriteItemValue(Session opcSession, CommandConfig commandConfig, double cmdVal, string cmdData)
         {
             try
             {
@@ -299,8 +299,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                     Value = new DataValue(new Variant(itemVal))
                 };
 
-                lineData.ClientHelper.OpcSession.Write(null, 
-                    new WriteValueCollection { valueToWrite },
+                opcSession.Write(null, new WriteValueCollection { valueToWrite }, 
                     out StatusCodeCollection results, out _);
 
                 if (StatusCode.IsGood(results[0]))
@@ -324,7 +323,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// <summary>
         /// Calls a method of the OPC server.
         /// </summary>
-        private bool CallMethod(CommandConfig commandConfig, string cmdData)
+        private bool CallMethod(Session opcSession, CommandConfig commandConfig, string cmdData)
         {
             try
             {
@@ -332,7 +331,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                     "Вызов метода {0}" :
                     "Call the {0} method", commandConfig.DisplayName);
 
-                IList<object> methodResults = lineData.ClientHelper.OpcSession.Call(
+                IList<object> methodResults = opcSession.Call(
                     new NodeId(commandConfig.ParentNodeID),
                     new NodeId(commandConfig.NodeID),
                     GetMethodArgs(cmdData));
@@ -501,8 +500,9 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 Monitor.Enter(opcLock);
                 base.SendCommand(cmd);
                 LastRequestOK = false;
+                Session opcSession = lineData.ClientHelper.OpcSession;
 
-                if (lineData.ClientHelper.OpcSession == null)
+                if (opcSession == null)
                 {
                     Log.WriteLine(Locale.IsRussian ?
                         "Ошибка: соединение с OPC-сервером не установлено" :
@@ -515,8 +515,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 else
                 {
                     LastRequestOK = commandConfig.IsMethod
-                        ? CallMethod(commandConfig, cmd.GetCmdDataString())
-                        : WriteItemValue(commandConfig, cmd.CmdVal, cmd.GetCmdDataString());
+                        ? CallMethod(opcSession, commandConfig, cmd.GetCmdDataString())
+                        : WriteItemValue(opcSession, commandConfig, cmd.CmdVal, cmd.GetCmdDataString());
                 }
 
                 FinishCommand();
