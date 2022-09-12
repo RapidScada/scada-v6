@@ -16,16 +16,11 @@
     <Phrase key="lblOrg">Организация</Phrase>
    </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmInfluxHAO">
-    <Phrase key="this">Historical Archive Options</Phrase>
-    <Phrase key="gbDbOptions">Database Options</Phrase>
-    <Phrase key="lblUseStorageConn">Use storage connection</Phrase>
-    <Phrase key="lblConnection">Connection</Phrase>
-    <Phrase key="lblMaxQueueSize">Maximum queue size</Phrase>
-    <Phrase key="lblPartitionSize">Partition size</Phrase>
-    <Phrase key="cbPartitionSize.Items[0]">One month</Phrase>
-    <Phrase key="cbPartitionSize.Items[1]">One year</Phrase>
-    <Phrase key="btnManageConn">Manage Connections</Phrase>
+    <Phrase key="this">Параметры архива исторических данных</Phrase>
+    <Phrase key="gbDbOptions">Параметры базы данных</Phrase>
+    <Phrase key="lblConnection">Соединение</Phrase>
+    <Phrase key="btnManageConn">Соединения</Phrase>
     <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnCancel">Cancel</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
 </ModArcInfluxDblDictionaries>

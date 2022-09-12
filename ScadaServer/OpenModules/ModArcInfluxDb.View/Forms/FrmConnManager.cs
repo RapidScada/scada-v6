@@ -15,7 +15,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
     {
         private readonly string configFileName;     // the module configuration file name
         private readonly ModuleConfig moduleConfig; // the module configuration
-        private bool sortRequired;                  // indicated whether to sort the list
+        
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -33,7 +33,6 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
         {
             configFileName = Path.Combine(configDir, ModuleConfig.ConfigFileName);
             moduleConfig = new ModuleConfig();
-            sortRequired = false;
         }
 
 
@@ -173,12 +172,9 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
         private void txtName_TextChanged(object sender, EventArgs e)
         {
             // update selected connection name
-            sortRequired = true;
-
             if (lvConn.GetSelectedItem() is ListViewItem listViewItem)
             {
-                ConnectionOptions options = (ConnectionOptions)listViewItem.Tag;
-                options.Name = txtName.Text;
+                ((ConnectionOptions)listViewItem.Tag).Name = txtName.Text;
 
                 listViewItem.Text = string.IsNullOrEmpty(txtName.Text)
                     ? CommonPhrases.UnnamedConnection
@@ -188,66 +184,38 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
 
         private void txtUrl_TextChanged(object sender, EventArgs e)
         {
-            sortRequired = true;
-
             if (lvConn.GetSelectedItem() is ListViewItem listViewItem)
-            {
-                ConnectionOptions options = (ConnectionOptions)listViewItem.Tag;
-                options.Url = txtUrl.Text;
-            }
+                ((ConnectionOptions)listViewItem.Tag).Url = txtUrl.Text;
         }
 
         private void txtToken_TextChanged(object sender, EventArgs e)
         {
-            sortRequired = true;
-
             if (lvConn.GetSelectedItem() is ListViewItem listViewItem)
-            {
-                ConnectionOptions options = (ConnectionOptions)listViewItem.Tag;
-                options.Token = txtToken.Text;
-            }
+                ((ConnectionOptions)listViewItem.Tag).Token = txtToken.Text;
         }
 
         private void txtUsername_TextChanged(object sender, EventArgs e)
         {
-            sortRequired = true;
-
             if (lvConn.GetSelectedItem() is ListViewItem listViewItem)
-            {
-                ConnectionOptions options = (ConnectionOptions)listViewItem.Tag;
-                options.Username = txtUsername.Text;
-            }
+                ((ConnectionOptions)listViewItem.Tag).Username = txtUsername.Text;
         }
 
         private void txtPassword_TextChanged(object sender, EventArgs e)
         {
-            sortRequired = true;
-
             if (lvConn.GetSelectedItem() is ListViewItem listViewItem)
-            {
-                ConnectionOptions options = (ConnectionOptions)listViewItem.Tag;
-                options.Password = txtPassword.Text;
-            }
+                ((ConnectionOptions)listViewItem.Tag).Password = txtPassword.Text;
         }
 
         private void txtBucket_TextChanged(object sender, EventArgs e)
         {
-            sortRequired = true;
-
             if (lvConn.GetSelectedItem() is ListViewItem listViewItem)
-            {
-                ConnectionOptions options = (ConnectionOptions)listViewItem.Tag;
-                options.Bucket = txtBucket.Text;
-            }
+                ((ConnectionOptions)listViewItem.Tag).Bucket = txtBucket.Text;
         }
 
         private void txtOrg_TextChanged(object sender, EventArgs e)
         {
             if (lvConn.GetSelectedItem() is ListViewItem listViewItem)
-            {
-                ConnectionOptions options = (ConnectionOptions)listViewItem.Tag;
-                options.Org = txtOrg.Text;
-            }
+                ((ConnectionOptions)listViewItem.Tag).Org = txtOrg.Text;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -259,3 +227,4 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
         }
     }
 }
+

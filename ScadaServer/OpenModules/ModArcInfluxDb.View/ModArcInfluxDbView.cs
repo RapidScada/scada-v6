@@ -20,7 +20,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View
         /// </summary>
         public ModArcInfluxDbView()
         {
-            //CanShowProperties = true;
+            CanShowProperties = true;
         }
 
 
@@ -66,7 +66,6 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View
         public override bool ShowProperties()
         {
             return new FrmConnManager(AppDirs.ConfigDir).ShowDialog() == DialogResult.OK;
-            //return false;
         }
 
         /// <summary>
@@ -83,7 +82,6 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View
         public override ArchiveView CreateArchiveView(ArchiveConfig archiveConfig)
         {
             return new InfluxArchiveView(this, archiveConfig);
-            //return null;
         }
     }
 }
