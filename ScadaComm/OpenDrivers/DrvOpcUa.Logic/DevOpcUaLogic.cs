@@ -42,7 +42,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 
         private bool configError;                             // indicates that that device configuration is not loaded
         private OpcUaLineData lineData;                       // data common to the communication line
-        private Dictionary<uint, SubscriptionTag> subscrByID; // the subscription tags accessed by IDs
         private Dictionary<int, CommandConfig> cmdByNum;      // the commands accessed by number
         private Dictionary<string, CommandConfig> cmdByCode;  // the commands accessed by code
 
@@ -58,7 +57,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 
             configError = false;
             lineData = null;
-            subscrByID = null;
             cmdByNum = null;
             cmdByCode = null;
 
@@ -472,11 +470,22 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// </summary>
         public override void Session()
         {
-            if (lineData.FatalError || configError ||
-                !lineData.ClientHelper.IsConnected &&
-                !(lineData.ClientHelper.Connect() && lineData.ClientHelper.CreateSubscriptions()))
+            if (lineData.FatalError || configError)
             {
                 DeviceStatus = DeviceStatus.Error;
+            }
+            else if (lineData.ClientHelper.OpcSession == null)
+            {
+                if (!(lineData.ClientHelper.Connect() && lineData.ClientHelper.CreateSubscriptions(true)))
+                {
+                    DeviceStatus = DeviceStatus.Error;
+                    DeviceData.Invalidate();
+                }
+            }
+            else if (!lineData.ClientHelper.IsConnected)
+            {
+                DeviceStatus = DeviceStatus.Error;
+                DeviceData.Invalidate();
             }
 
             SleepPollingDelay();
@@ -524,67 +533,86 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         public void ProcessDataChanges(SubscriptionTag subscriptionTag, NotificationMessage notificationMessage)
         {
             ArgumentNullException.ThrowIfNull(subscriptionTag, nameof(subscriptionTag));
-            ArgumentNullException.ThrowIfNull(notificationMessage, nameof(notificationMessage));
 
-            foreach (MonitoredItemNotification change in notificationMessage.GetDataChanges(false))
+            if (notificationMessage == null)
+                return;
+
+            try
             {
-                if (subscriptionTag.Subscription.FindItemByClientHandle(change.ClientHandle) is
-                    MonitoredItem monitoredItem)
+                Monitor.Enter(opcLock);
+                LastSessionTime = DateTime.UtcNow;
+                LastRequestOK = true;
+
+                Log.WriteLine();
+                Log.WriteAction(Locale.IsRussian ?
+                    "Устройство {0}. Обработка новых данных. Подписка: {1}" :
+                    "Device {0}. Process new data. Subscription: {1}",
+                    Title, subscriptionTag.SubscriptionConfig.DisplayName);
+
+                foreach (MonitoredItemNotification change in notificationMessage.GetDataChanges(false))
                 {
-                    if (subscriptionTag.ItemsByNodeID.TryGetValue(monitoredItem.StartNodeId.ToString(),
-                        out ItemTag itemTag))
+                    if (subscriptionTag.Subscription.FindItemByClientHandle(change.ClientHandle) is
+                        MonitoredItem monitoredItem)
                     {
-                        Log.WriteLine("{0} {1} = {2} ({3})", CommPhrases.ReceiveNotation,
-                            monitoredItem.DisplayName, change.Value, change.Value.StatusCode);
-
-                        int tagIndex = itemTag.DeviceTag.Index;
-                        int tagStatus = StatusCode.IsGood(change.Value.StatusCode) ?
-                            CnlStatusID.Defined : CnlStatusID.Undefined;
-
-                        if (itemTag.ItemConfig.IsArray && change.Value.Value is Array arrVal)
+                        if (subscriptionTag.ItemsByNodeID.TryGetValue(monitoredItem.StartNodeId.ToString(),
+                            out ItemTag itemTag))
                         {
-                            int arrLen = Math.Min(itemTag.ItemConfig.DataLength, arrVal.Length);
-                            double[] arr = new double[arrLen];
-                            TagFormat tagFormat = TagFormat.FloatNumber;
+                            Log.WriteLine("{0} {1} = {2} ({3})", CommPhrases.ReceiveNotation,
+                                monitoredItem.DisplayName, change.Value, change.Value.StatusCode);
 
-                            for (int i = 0; i < arrLen; i++)
+                            int tagIndex = itemTag.DeviceTag.Index;
+                            int tagStatus = StatusCode.IsGood(change.Value.StatusCode) ?
+                                CnlStatusID.Defined : CnlStatusID.Undefined;
+
+                            if (itemTag.ItemConfig.IsArray && change.Value.Value is Array arrVal)
                             {
-                                arr[i] = ConvertArrayElem(arrVal.GetValue(i), out TagFormat format);
-                                if (i == 0)
-                                    tagFormat = format;
-                            }
+                                int arrLen = Math.Min(itemTag.ItemConfig.DataLength, arrVal.Length);
+                                double[] arr = new double[arrLen];
+                                TagFormat tagFormat = TagFormat.FloatNumber;
 
-                            DeviceData.SetDoubleArray(tagIndex, arr, tagStatus);
-                            DeviceTags[tagIndex].Format = tagFormat;
+                                for (int i = 0; i < arrLen; i++)
+                                {
+                                    arr[i] = ConvertArrayElem(arrVal.GetValue(i), out TagFormat format);
+                                    if (i == 0)
+                                        tagFormat = format;
+                                }
+
+                                DeviceData.SetDoubleArray(tagIndex, arr, tagStatus);
+                                DeviceTags[tagIndex].Format = tagFormat;
+                            }
+                            else
+                            {
+                                SetTagData(tagIndex, change.Value.Value, tagStatus);
+                            }
                         }
                         else
                         {
-                            SetTagData(tagIndex, change.Value.Value, tagStatus);
+                            Log.WriteLine(Locale.IsRussian ?
+                                "Ошибка: тег \"{0}\" не найден" :
+                                "Error: tag \"{0}\" not found", monitoredItem.StartNodeId);
                         }
                     }
-                    else
-                    {
-                        Log.WriteLine(Locale.IsRussian ?
-                            "Ошибка: тег \"{0}\" не найден" :
-                            "Error: tag \"{0}\" not found", monitoredItem.StartNodeId);
-                    }
+                }
+
+                // events are not really implemented
+                foreach (EventFieldList eventFields in notificationMessage.GetEvents(false))
+                {
+                    Log.WriteLine(Locale.IsRussian ?
+                        "Новое событие {0}" :
+                        "New event {0}", eventFields);
                 }
             }
-        }
-
-        /// <summary>
-        /// Processes new events.
-        /// </summary>
-        public void ProcessEvents(NotificationMessage notificationMessage)
-        {
-            ArgumentNullException.ThrowIfNull(notificationMessage, nameof(notificationMessage));
-
-            foreach (EventFieldList eventFields in notificationMessage.GetEvents(true))
+            catch (Exception ex)
             {
-                // events are not really implemented
-                Log.WriteLine(Locale.IsRussian ?
-                    "Новое событие {0}" :
-                    "New event {0}", eventFields);
+                Log.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при обработке новых данных" :
+                    "Error processing new data");
+                LastRequestOK = false;
+            }
+            finally
+            {
+                FinishSession();
+                Monitor.Exit(opcLock);
             }
         }
     }

@@ -8,7 +8,6 @@ using Scada.Comm.Drivers.DrvOpcUa.Config;
 using Scada.Lang;
 using Scada.Log;
 using Scada.Storages;
-using System.Reflection;
 
 namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 {
@@ -81,13 +80,14 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         {
             if (e.Status != null && ServiceResult.IsNotGood(e.Status))
             {
-                log.WriteLine("{0} {1}/{2}", e.Status, sender.OutstandingRequestCount, sender.DefunctRequestCount);
+                log.WriteLine();
+                log.WriteAction(Locale.IsRussian ?
+                    "Статус сессии: {0}" :
+                    "Session status: {0}", e.Status);
 
                 if (reconnectHandler == null)
                 {
-                    //DeviceData.Invalidate();
-                    //DeviceStatus = DeviceStatus.Error;
-                    log.WriteLine(Locale.IsRussian ?
+                    log.WriteAction(Locale.IsRussian ?
                         "Переподключение к OPC-серверу" :
                         "Reconnecting to OPC server");
                     reconnectHandler = new SessionReconnectHandler();
@@ -103,9 +103,11 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         {
             // ignore callbacks from discarded objects
             if (!ReferenceEquals(sender, reconnectHandler))
-            {
                 return;
-            }
+
+            log.WriteAction(Locale.IsRussian ?
+                "Переподключено" :
+                "Reconnected");
 
             OpcSession = reconnectHandler.Session;
             reconnectHandler.Dispose();
@@ -113,11 +115,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 
             // after reconnecting, the subscriptions are automatically recreated, but with the wrong IDs and names,
             // so it's needed to clear them and create again
-            //ClearSubscriptions();
-            //DeviceStatus = CreateSubscriptions() ? DeviceStatus.Normal : DeviceStatus.Error;
-            log.WriteLine(Locale.IsRussian ?
-                "Переподключено" :
-                "Reconnected");
+            ClearSubscriptions();
+            CreateSubscriptions(false);
         }
 
         /// <summary>
@@ -125,44 +124,17 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// </summary>
         private void OpcSession_Notification(Session session, NotificationEventArgs e)
         {
-            /*try
+            if (subscrByID != null && e.Subscription != null &&
+                subscrByID.TryGetValue(e.Subscription.Id, out SubscriptionTag subscriptionTag))
             {
-                Monitor.Enter(opcLock);
-                Log.WriteLine();
-                LastSessionTime = DateTime.UtcNow;
-
-                if (subscrByID != null &&
-                    subscrByID.TryGetValue(e.Subscription.Id, out SubscriptionTag subscriptionTag))
-                {
-                    Log.WriteAction(Locale.IsRussian ?
-                        "Устройство {0}. Обработка новых данных. Подписка: {1}" :
-                        "Device {0}. Process new data. Subscription: {1}",
-                        DeviceNum, e.Subscription.DisplayName);
-                    ProcessDataChanges(subscriptionTag, e.NotificationMessage);
-                    ProcessEvents(e.NotificationMessage);
-                    LastRequestOK = true;
-                }
-                else
-                {
-                    Log.WriteLine(Locale.IsRussian ?
-                        "Ошибка: подписка [{0}] \"{1}\" не найдена" :
-                        "Error: subscription [{0}] \"{1}\" not found",
-                        e.Subscription.Id, e.Subscription.DisplayName);
-                    LastRequestOK = false;
-                }
+                subscriptionTag.DeviceLogic.ProcessDataChanges(subscriptionTag, e.NotificationMessage);
             }
-            catch (Exception ex)
+            else
             {
-                Log.WriteError(ex, Locale.IsRussian ?
-                    "Ошибка при обработке новых данных" :
-                    "Error processing new data");
-                LastRequestOK = false;
+                log.WriteError(Locale.IsRussian ?
+                    "Получены данные по неизвестной подписке" :
+                    "Received data for unknown subscription");
             }
-            finally
-            {
-                FinishSession();
-                Monitor.Exit(opcLock);
-            }*/
         }
 
         /// <summary>
@@ -170,17 +142,17 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// </summary>
         private void ClearSubscriptions()
         {
-            /*try
+            try
             {
                 subscrByID = null;
-                opcSession.RemoveSubscriptions(new List<Subscription>(opcSession.Subscriptions));
+                OpcSession.RemoveSubscriptions(OpcSession.Subscriptions.ToArray());
             }
             catch (Exception ex)
             {
-                log.WriteError(ex, Locale.IsRussian ?
+                log.WriteLine(ex.BuildErrorMessage(Locale.IsRussian ?
                     "Ошибка при очистке подписок" :
-                    "Error clearing subscriptions");
-            }*/
+                    "Error clearing subscriptions"));
+            }
         }
 
         /// <summary>
@@ -196,9 +168,9 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             }
             catch (Exception ex)
             {
-                log.WriteLine(Locale.IsRussian ?
-                    "Ошибка при записи конфигурации OPC: {0}" :
-                    "Error writing OPC configuration: {0}", ex.Message);
+                log.WriteLine(ex.BuildErrorMessage(Locale.IsRussian ?
+                    "Ошибка при записи конфигурации OPC" :
+                    "Error writing OPC configuration"));
             }
         }
 
@@ -279,9 +251,9 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 }
                 catch (Exception ex)
                 {
-                    log.WriteError(Locale.IsRussian ?
-                        "Ошибка при отключении от OPC-сервера: {0}" :
-                        "Error disconnecting OPC server: {0}", ex.Message);
+                    log.WriteError(ex.BuildErrorMessage(Locale.IsRussian ?
+                        "Ошибка при отключении от OPC-сервера" :
+                        "Error disconnecting OPC server"));
                 }
 
                 OpcSession = null;
@@ -324,7 +296,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// <summary>
         /// Creates the previously added subscriptions on the OPC server.
         /// </summary>
-        public bool CreateSubscriptions()
+        public bool CreateSubscriptions(bool detailedLog)
         {
             try
             {
@@ -341,10 +313,14 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 foreach (SubscriptionTag subscriptionTag in subscrTags)
                 {
                     SubscriptionConfig subscriptionConfig = subscriptionTag.SubscriptionConfig;
-                    log.WriteLine(Locale.IsRussian ?
-                        "Создание подписки \"{0}\" для устройства {1}" :
-                        "Create subscription \"{0}\" for the device {1}",
-                        subscriptionConfig.DisplayName, subscriptionTag.DeviceLogic.Title);
+
+                    if (detailedLog)
+                    {
+                        log.WriteLine(Locale.IsRussian ?
+                            "Создание подписки \"{0}\" для устройства {1}" :
+                            "Create subscription \"{0}\" for the device {1}",
+                            subscriptionConfig.DisplayName, subscriptionTag.DeviceLogic.Title);
+                    }
 
                     Subscription subscription = new(OpcSession.DefaultSubscription)
                     {
@@ -373,9 +349,9 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             }
             catch (Exception ex)
             {
-                log.WriteLine(Locale.IsRussian ?
-                    "Ошибка при создании подписок: {0}" :
-                    "Error creating subscriptions: {0}", ex.ToString());
+                log.WriteLine(ex.BuildErrorMessage(Locale.IsRussian ?
+                    "Ошибка при создании подписок" :
+                    "Error creating subscriptions"));
                 return false;
             }
         }
