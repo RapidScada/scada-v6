@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ModArcInfluxDblDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmConnManager">
+    <Phrase key="this">InfluxDB Connections</Phrase>
+    <Phrase key="gbConnList">Connections</Phrase>
+    <Phrase key="btnNewConn">New</Phrase>
+    <Phrase key="btnDeleteConn">Delete</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblUrl">Url</Phrase>
+    <Phrase key="lblToken">Token</Phrase>
+    <Phrase key="lblUsername">Username</Phrase>
+    <Phrase key="lblPassword">Password</Phrase>
+    <Phrase key="lblBucket">Bucket</Phrase>
+    <Phrase key="lblOrg">Organization</Phrase>
+  </Dictionary>  
+  <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmInfluxHAO">
+    <Phrase key="this">Historical Archive Options</Phrase>
+    <Phrase key="gbDbOptions">Database Options</Phrase>
+    <Phrase key="lblUseStorageConn">Use storage connection</Phrase>
+    <Phrase key="lblConnection">Connection</Phrase>
+    <Phrase key="lblMaxQueueSize">Maximum queue size</Phrase>
+    <Phrase key="lblPartitionSize">Partition size</Phrase>
+    <Phrase key="cbPartitionSize.Items[0]">One month</Phrase>
+    <Phrase key="cbPartitionSize.Items[1]">One year</Phrase>
+    <Phrase key="btnManageConn">Manage Connections</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
+</ModArcInfluxDblDictionaries> 

@@ -1,9 +1,11 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Forms;
 using Scada.Lang;
 using Scada.Server.Archives;
 using Scada.Server.Config;
+using Scada.Server.Modules.ModArcInfluxDb.View.Forms;
 
 namespace Scada.Server.Modules.ModArcInfluxDb.View
 {
@@ -63,8 +65,8 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View
         /// </summary>
         public override bool ShowProperties()
         {
-            //return new FrmConnManager(AppDirs.ConfigDir).ShowDialog() == DialogResult.OK;
-            return false;
+            return new FrmConnManager(AppDirs.ConfigDir).ShowDialog() == DialogResult.OK;
+            //return false;
         }
 
         /// <summary>
@@ -80,8 +82,8 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View
         /// </summary>
         public override ArchiveView CreateArchiveView(ArchiveConfig archiveConfig)
         {
-            //return new InfluxArchiveView(this, archiveConfig);
-            return null;
+            return new InfluxArchiveView(this, archiveConfig);
+            //return null;
         }
     }
 }

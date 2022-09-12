@@ -15,7 +15,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
     {
         private readonly AppDirs appDirs;             // the application directories
         private readonly ArchiveConfig archiveConfig; // the archive configuration
-        private readonly InfluxHAO options;          // the archive options
+        private readonly InfluxHAO options;           // the archive options
 
         /// <summary>
         /// Initializes a new instance of the class.
