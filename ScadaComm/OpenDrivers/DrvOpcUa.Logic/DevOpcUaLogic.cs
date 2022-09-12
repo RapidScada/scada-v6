@@ -37,13 +37,13 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             public Type ActualDataType { get; set; }
         }
 
-        private readonly OpcDeviceConfig config;              // the device configuration
-        private readonly object opcLock;                      // synchronizes communication with OPC server
+        private readonly OpcDeviceConfig config;             // the device configuration
+        private readonly object opcLock;                     // synchronizes communication with OPC server
 
-        private bool configError;                             // indicates that that device configuration is not loaded
-        private OpcUaLineData lineData;                       // data common to the communication line
-        private Dictionary<int, CommandConfig> cmdByNum;      // the commands accessed by number
-        private Dictionary<string, CommandConfig> cmdByCode;  // the commands accessed by code
+        private bool configError;                            // indicates that that device configuration is not loaded
+        private OpcUaLineData lineData;                      // data common to the communication line
+        private Dictionary<int, CommandConfig> cmdByNum;     // the commands accessed by number
+        private Dictionary<string, CommandConfig> cmdByCode; // the commands accessed by code
 
 
         /// <summary>
@@ -532,9 +532,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// </summary>
         public void ProcessDataChanges(SubscriptionTag subscriptionTag, NotificationMessage notificationMessage)
         {
-            ArgumentNullException.ThrowIfNull(subscriptionTag, nameof(subscriptionTag));
-
-            if (notificationMessage == null)
+            if (subscriptionTag == null || notificationMessage == null)
                 return;
 
             try
@@ -551,16 +549,16 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 
                 foreach (MonitoredItemNotification change in notificationMessage.GetDataChanges(false))
                 {
-                    if (subscriptionTag.Subscription.FindItemByClientHandle(change.ClientHandle) is
+                    if (subscriptionTag.Subscription?.FindItemByClientHandle(change.ClientHandle) is 
                         MonitoredItem monitoredItem)
                     {
-                        if (subscriptionTag.ItemsByNodeID.TryGetValue(monitoredItem.StartNodeId.ToString(),
-                            out ItemTag itemTag))
-                        {
-                            Log.WriteLine("{0} {1} = {2} ({3})", CommPhrases.ReceiveNotation,
-                                monitoredItem.DisplayName, change.Value, change.Value.StatusCode);
+                        Log.WriteLine("{0} {1} = {2} ({3})", CommPhrases.ReceiveNotation,
+                            monitoredItem.DisplayName, change.Value, change.Value.StatusCode);
 
-                            int tagIndex = itemTag.DeviceTag.Index;
+                        if (monitoredItem.Handle is ItemTag itemTag &&
+                            itemTag.DeviceTag is DeviceTag deviceTag)
+                        {
+                            int tagIndex = deviceTag.Index;
                             int tagStatus = StatusCode.IsGood(change.Value.StatusCode) ?
                                 CnlStatusID.Defined : CnlStatusID.Undefined;
 
@@ -588,8 +586,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                         else
                         {
                             Log.WriteLine(Locale.IsRussian ?
-                                "Ошибка: тег \"{0}\" не найден" :
-                                "Error: tag \"{0}\" not found", monitoredItem.StartNodeId);
+                                "Ошибка: тег не найден" :
+                                "Error: tag not found");
                         }
                     }
                 }

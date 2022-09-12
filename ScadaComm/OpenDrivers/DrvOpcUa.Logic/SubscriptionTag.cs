@@ -26,10 +26,5 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// Gets or sets the OPC subscription.
         /// </summary>
         public Subscription Subscription { get; set; }
-
-        /// <summary>
-        /// Gets the item tags accessed by node ID.
-        /// </summary>
-        public Dictionary<string, ItemTag> ItemsByNodeID { get; } = new();
     }
 }

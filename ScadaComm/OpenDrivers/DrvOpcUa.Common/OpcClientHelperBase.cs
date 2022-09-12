@@ -174,7 +174,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa
                 (uint)config.ClientConfiguration.DefaultSessionTimeout, userIdentity, null);
 
             log.WriteLine(Locale.IsRussian ?
-                "OPC сессия создана успешно" :
+                "OPC-сессия создана успешно" :
                 "OPC session created successfully");
         }
     }

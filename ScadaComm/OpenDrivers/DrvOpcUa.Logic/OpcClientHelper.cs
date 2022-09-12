@@ -35,7 +35,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 
         private DateTime connAttemptDT;                       // the timestamp of a connection attempt
         private SessionReconnectHandler reconnectHandler;     // the object needed to reconnect
-        private Dictionary<uint, SubscriptionTag> subscrByID; // the subscription tags accessed by IDs
 
 
         /// <summary>
@@ -49,7 +48,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 
             connAttemptDT = DateTime.MinValue;
             reconnectHandler = null;
-            subscrByID = null;
         }
 
 
@@ -105,6 +103,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             if (!ReferenceEquals(sender, reconnectHandler))
                 return;
 
+            log.WriteLine();
             log.WriteAction(Locale.IsRussian ?
                 "Переподключено" :
                 "Reconnected");
@@ -124,8 +123,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// </summary>
         private void OpcSession_Notification(Session session, NotificationEventArgs e)
         {
-            if (subscrByID != null && e.Subscription != null &&
-                subscrByID.TryGetValue(e.Subscription.Id, out SubscriptionTag subscriptionTag))
+            if (e.Subscription?.Handle is SubscriptionTag subscriptionTag)
             {
                 subscriptionTag.DeviceLogic.ProcessDataChanges(subscriptionTag, e.NotificationMessage);
             }
@@ -144,7 +142,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         {
             try
             {
-                subscrByID = null;
                 OpcSession.RemoveSubscriptions(OpcSession.Subscriptions.ToArray());
             }
             catch (Exception ex)
@@ -269,26 +266,11 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             {
                 if (subscriptionConfig.Active)
                 {
-                    SubscriptionTag subscriptionTag = new()
+                    subscrTags.Add(new SubscriptionTag()
                     {
                         DeviceLogic = deviceLogic,
                         SubscriptionConfig = subscriptionConfig
-                    };
-
-                    foreach (ItemConfig itemConfig in subscriptionConfig.Items)
-                    {
-                        if (itemConfig.Active && 
-                            itemConfig.Tag is DeviceTag deviceTag)
-                        {
-                            subscriptionTag.ItemsByNodeID[itemConfig.NodeID] = new ItemTag
-                            {
-                                DeviceTag = deviceTag,
-                                ItemConfig = itemConfig
-                            };
-                        }
-                    }
-
-                    subscrTags.Add(subscriptionTag);
+                    });
                 }
             }
         }
@@ -306,9 +288,11 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                     "Create subscriptions");
 
                 if (OpcSession == null)
-                    throw new InvalidOperationException("OPC session must not be null.");
-
-                subscrByID = new Dictionary<uint, SubscriptionTag>();
+                {
+                    throw new InvalidOperationException(Locale.IsRussian ?
+                        "OPC-сессия не определена." :
+                        "OPC session is undefined.");
+                }
 
                 foreach (SubscriptionTag subscriptionTag in subscrTags)
                 {
@@ -325,7 +309,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                     Subscription subscription = new(OpcSession.DefaultSubscription)
                     {
                         DisplayName = subscriptionConfig.DisplayName,
-                        PublishingInterval = subscriptionConfig.PublishingInterval
+                        PublishingInterval = subscriptionConfig.PublishingInterval,
+                        Handle = subscriptionTag
                     };
 
                     foreach (ItemConfig itemConfig in subscriptionConfig.Items)
@@ -335,14 +320,19 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                             subscription.AddItem(new MonitoredItem(subscription.DefaultItem)
                             {
                                 StartNodeId = itemConfig.NodeID,
-                                DisplayName = itemConfig.DisplayName
+                                DisplayName = itemConfig.DisplayName,
+                                Handle = new ItemTag
+                                {
+                                    DeviceTag = itemConfig.Tag as DeviceTag,
+                                    ItemConfig = itemConfig
+                                }
                             });
                         }
                     }
 
+                    subscriptionTag.Subscription = subscription;
                     OpcSession.AddSubscription(subscription);
                     subscription.Create();
-                    subscrByID[subscription.Id] = subscriptionTag;
                 }
 
                 return true;
