@@ -14,7 +14,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Config
         /// <summary>
         /// The configuration file name.
         /// </summary>
-        private const string ConfigFileName = "ModArcInfluxDb.xml";
+        public const string ConfigFileName = "ModArcInfluxDb.xml";
 
 
         /// <summary>
