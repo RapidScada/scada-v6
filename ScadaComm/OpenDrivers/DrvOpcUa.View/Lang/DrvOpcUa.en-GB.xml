@@ -10,6 +10,10 @@
     <Phrase key="lblDataType">Data type</Phrase>
     <Phrase key="chkIsMethod">Is method</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEmptyItem">
+    <Phrase key="gbEmptyItem">Item Parameters</Phrase>
+    <Phrase key="lblNotSelected">Item not selected</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlItem">
     <Phrase key="gbItem">Item Parameters</Phrase>
     <Phrase key="chkItemActive">Active</Phrase>
@@ -30,12 +34,13 @@
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmDeviceConfig">
     <Phrase key="this">Device {0} Properties - OPC UA</Phrase>
-    <Phrase key="gbConnection">Connection</Phrase>
+    <Phrase key="gbConnectionOptions">Connection Options</Phrase>
     <Phrase key="lblServerUrl">Server URL</Phrase>
+    <Phrase key="btnSecurityOptions.ToolTip">Security Options</Phrase>
+    <Phrase key="lblConnectionInfo">Connection options are common to the communication line.</Phrase>
+    <Phrase key="gbServerBrowse">Server Browse</Phrase>
     <Phrase key="btnConnect.ToolTip">Connect to Server</Phrase>
     <Phrase key="btnDisconnect.ToolTip">Disconnect from Server</Phrase>
-    <Phrase key="btnSecurityOptions.ToolTip">Security Options</Phrase>
-    <Phrase key="gbServerBrowse">Server Browse</Phrase>
     <Phrase key="btnViewAttrs.ToolTip">View Attributes</Phrase>
     <Phrase key="gbDevice">Device Configuration</Phrase>
     <Phrase key="btnAddItem.ToolTip">Add Selected Item</Phrase>
@@ -43,8 +48,6 @@
     <Phrase key="btnMoveUpItem.ToolTip">Move Up</Phrase>
     <Phrase key="btnMoveDownItem.ToolTip">Move Down</Phrase>
     <Phrase key="btnDeleteItem.ToolTip">Delete</Phrase>
-    <Phrase key="gbEmptyItem">Item Parameters</Phrase>
-    <Phrase key="lblEmptyItem">Item not selected</Phrase>
     <Phrase key="btnEditingOptions">Options</Phrase>
     <Phrase key="btnSave">Save</Phrase>
     <Phrase key="btnClose">Close</Phrase>

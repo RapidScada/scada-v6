@@ -10,6 +10,10 @@
     <Phrase key="lblDataType">Тип данных</Phrase>
     <Phrase key="chkIsMethod">Метод</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEmptyItem">
+    <Phrase key="gbEmptyItem">Параметры элемента</Phrase>
+    <Phrase key="lblNotSelected">Элемент не выбран</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlItem">
     <Phrase key="gbItem">Параметры элемента</Phrase>
     <Phrase key="chkItemActive">Активен</Phrase>
@@ -30,12 +34,13 @@
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmDeviceConfig">
     <Phrase key="this">Свойства устройства {0} - OPC UA</Phrase>
-    <Phrase key="gbConnection">Соединение</Phrase>
+    <Phrase key="gbConnectionOptions">Параметры соединения</Phrase>
     <Phrase key="lblServerUrl">Адрес сервера</Phrase>
+    <Phrase key="btnSecurityOptions.ToolTip">Настройки безопасности</Phrase>
+    <Phrase key="lblConnectionInfo">Параметры соединения общие для линии связи.</Phrase>
+    <Phrase key="gbServerBrowse">Обзор сервера</Phrase>
     <Phrase key="btnConnect.ToolTip">Соединиться с сервером</Phrase>
     <Phrase key="btnDisconnect.ToolTip">Разъединиться с сервером</Phrase>
-    <Phrase key="btnSecurityOptions.ToolTip">Настройки безопасности</Phrase>
-    <Phrase key="gbServerBrowse">Обзор сервера</Phrase>
     <Phrase key="btnViewAttrs.ToolTip">Просмотреть атрибуты</Phrase>
     <Phrase key="gbDevice">Конфигурация устройства</Phrase>
     <Phrase key="btnAddItem.ToolTip">Добавить выбранный элемент</Phrase>
@@ -43,8 +48,6 @@
     <Phrase key="btnMoveUpItem.ToolTip">Переместить вверх</Phrase>
     <Phrase key="btnMoveDownItem.ToolTip">Переместить вниз</Phrase>
     <Phrase key="btnDeleteItem.ToolTip">Удалить</Phrase>
-    <Phrase key="gbEmptyItem">Параметры элемента</Phrase>
-    <Phrase key="lblEmptyItem">Элемент не выбран</Phrase>
     <Phrase key="btnEditingOptions">Параметры</Phrase>
     <Phrase key="btnSave">Сохранить</Phrase>
     <Phrase key="btnClose">Закрыть</Phrase>

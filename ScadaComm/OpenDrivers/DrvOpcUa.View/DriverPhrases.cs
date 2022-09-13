@@ -3,15 +3,15 @@
 
 using Scada.Lang;
 
-namespace Scada.Comm.Drivers.DrvOpcUa
+namespace Scada.Comm.Drivers.DrvOpcUa.View
 {
     /// <summary>
     /// The phrases used by the driver.
     /// <para>Фразы, используемые драйвером.</para>
     /// </summary>
-    public static class DriverPhrases
+    internal static class DriverPhrases
     {
-        // Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmConfig
+        // Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmDeviceConfig
         public static string ConnectServerError { get; private set; }
         public static string DisconnectServerError { get; private set; }
         public static string BrowseServerError { get; private set; }
@@ -30,7 +30,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa
 
         public static void Init()
         {
-            LocaleDict dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmConfig");
+            LocaleDict dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmDeviceConfig");
             ConnectServerError = dict[nameof(ConnectServerError)];
             DisconnectServerError = dict[nameof(DisconnectServerError)];
             BrowseServerError = dict[nameof(BrowseServerError)];

@@ -33,14 +33,19 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         }
 
         private readonly AppDirs appDirs;              // the application directories
+        private readonly int lineNum;                  // the communication line number
         private readonly int deviceNum;                // the device number
+        private readonly OpcLineConfig lineConfig;     // the communication line configuration
         private readonly OpcDeviceConfig deviceConfig; // the device configuration
-        private string configFileName;                 // the configuration file name
-        private bool modified;                         // the configuration was modified
+
+        private string lineConfigFileName;             // the line configuration file name
+        private string deviceConfigFileName;           // the configuration file name
+        private bool lineConfigModified;               // the line configuration has been modified
+        private bool deviceConfigModified;             // the device configuration has been modified
         private bool changing;                         // controls are being changed programmatically
-        private Session opcSession;                    // the OPC session
         private TreeNode subscriptionsNode;            // the tree node of the subscriptions
         private TreeNode commandsNode;                 // the tree node of the commands
+        private Session opcSession;                    // the OPC session
 
 
         /// <summary>
@@ -49,43 +54,69 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private FrmDeviceConfig()
         {
             InitializeComponent();
-            ctrlSubscription.Top = ctrlItem.Top = ctrlCommand.Top = gbEmptyItem.Top;
+            ctrlSubscription.Top = ctrlItem.Top = ctrlCommand.Top = ctrlEmptyItem.Top;
             ctrlSubscription.Visible = ctrlItem.Visible = ctrlCommand.Visible = false;
         }
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmDeviceConfig(AppDirs appDirs, int deviceNum)
+        public FrmDeviceConfig(AppDirs appDirs, int lineNum, int deviceNum)
             : this()
         {
             this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
+            this.lineNum = lineNum;
             this.deviceNum = deviceNum;
+            lineConfig = new OpcLineConfig();
             deviceConfig = new OpcDeviceConfig();
-            configFileName = "";
-            modified = false;
+
+            lineConfigFileName = "";
+            deviceConfigFileName = "";
+            lineConfigModified = false;
+            deviceConfigModified = false;
             changing = false;
-            opcSession = null;
             subscriptionsNode = null;
             commandsNode = null;
+            opcSession = null;
         }
 
 
         /// <summary>
-        /// Gets or sets a value indicating whether the configuration was modified.
+        /// Gets or sets a value indicating whether the line configuration has been modified.
         /// </summary>
-        private bool Modified
+        private bool LineConfigModified
         {
             get
             {
-                return modified;
+                return lineConfigModified;
             }
             set
             {
-                modified = value;
-                btnSave.Enabled = modified;
+                lineConfigModified = value;
+                btnSave.Enabled = Modified;
             }
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the device configuration has been modified.
+        /// </summary>
+        private bool DeviceConfigModified
+        {
+            get
+            {
+                return deviceConfigModified;
+            }
+            set
+            {
+                deviceConfigModified = value;
+                btnSave.Enabled = Modified;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the configuration has been modified.
+        /// </summary>
+        private bool Modified => LineConfigModified || DeviceConfigModified;
 
 
         /// <summary>
@@ -109,7 +140,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private void ConfigToControls()
         {
             changing = true;
-            txtServerUrl.Text = deviceConfig.ConnectionOptions.ServerUrl;
+            txtServerUrl.Text = lineConfig.ConnectionOptions.ServerUrl;
             FillDeviceTree();
             changing = false;
         }
@@ -199,6 +230,123 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         }
 
         /// <summary>
+        /// Selects an image key depending on the node class.
+        /// </summary>
+        private static string SelectImageKey(NodeClass nodeClass)
+        {
+            if (nodeClass.HasFlag(NodeClass.Object))
+                return ImageKey.Object;
+            else if (nodeClass.HasFlag(NodeClass.Method))
+                return ImageKey.Method;
+            else
+                return ImageKey.Variable;
+        }
+
+        /// <summary>
+        /// Sets the node image as open or closed folder.
+        /// </summary>
+        private static void SetFolderImage(TreeNode treeNode)
+        {
+            if (treeNode.ImageKey.StartsWith("folder_"))
+                treeNode.SetImageKey(treeNode.IsExpanded ? ImageKey.FolderOpen : ImageKey.FolderClosed);
+        }
+
+        /// <summary>
+        /// Sets the enabled property of the server browsing buttons.
+        /// </summary>
+        private void SetServerButtonsEnabled()
+        {
+            if (opcSession == null)
+            {
+                btnConnect.Enabled = true;
+                btnDisconnect.Enabled = false;
+                btnViewAttrs.Enabled = false;
+            }
+            else
+            {
+                btnConnect.Enabled = false;
+                btnDisconnect.Enabled = true;
+                btnViewAttrs.Enabled = tvServer.SelectedNode != null;
+            }
+        }
+
+        /// <summary>
+        /// Sets the enabled property of the buttons that manipulate the device tree.
+        /// </summary>
+        private void SetDeviceButtonsEnabled()
+        {
+            btnAddItem.Enabled = tvServer.SelectedNode?.Tag is ServerNodeTag serverNodeTag &&
+                serverNodeTag.ClassIs(NodeClass.Variable, NodeClass.Method);
+
+            bool deviceNodeTagDefined = tvDevice.SelectedNode?.Tag != null;
+            btnMoveUpItem.Enabled = deviceNodeTagDefined && tvDevice.SelectedNode.PrevNode != null;
+            btnMoveDownItem.Enabled = deviceNodeTagDefined && tvDevice.SelectedNode.NextNode != null;
+            btnDeleteItem.Enabled = deviceNodeTagDefined;
+        }
+
+        /// <summary>
+        /// Update signals if 2 elements are reversed.
+        /// </summary>
+        private void SwapSignals(TreeNode treeNode1, TreeNode treeNode2)
+        {
+            if (treeNode1?.Tag is ItemConfig itemConfig1 &&
+                treeNode2?.Tag is ItemConfig itemConfig2 &&
+                itemConfig1.Tag is ItemConfigTag itemConfigTag1 &&
+                itemConfig2.Tag is ItemConfigTag itemConfigTag2)
+            {
+                (itemConfigTag1.TagNum, itemConfigTag2.TagNum) = (itemConfigTag2.TagNum, itemConfigTag1.TagNum);
+                ctrlItem.RefreshTagNum();
+            }
+        }
+
+        /// <summary>
+        /// Update tag numbers starting from the specified node.
+        /// </summary>
+        private void UpdateTagNums(TreeNode startNode)
+        {
+            TreeNode startSubscrNode = startNode?.FindClosest(typeof(SubscriptionConfig));
+
+            if (startSubscrNode != null)
+            {
+                // define initial tag number
+                int tagNum = 1;
+                TreeNode subscrNode = startSubscrNode.PrevNode;
+
+                while (subscrNode != null)
+                {
+                    if (subscrNode.LastNode?.Tag is ItemConfig itemConfig &&
+                        itemConfig.Tag is ItemConfigTag tag)
+                    {
+                        tagNum = tag.TagNum + 1;
+                        break;
+                    }
+
+                    subscrNode = subscrNode.PrevNode;
+                }
+
+                // recalculate tag numbers
+                subscrNode = startSubscrNode;
+
+                while (subscrNode != null)
+                {
+                    foreach (TreeNode itemNode in subscrNode.Nodes)
+                    {
+                        if (itemNode.Tag is ItemConfig itemConfig &&
+                            itemConfig.Tag is ItemConfigTag tag)
+                        {
+                            tag.TagNum = tagNum;
+                            tagNum++;
+                        }
+                    }
+
+                    subscrNode = subscrNode.NextNode;
+                }
+
+                ctrlItem.RefreshTagNum();
+            }
+        }
+
+        /// <summary>
         /// Connects to the OPC server.
         /// </summary>
         private async Task<bool> ConnectToOpcServer()
@@ -207,7 +355,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             {
                 OpcHelper helper = new(appDirs, LogStub.Instance, deviceNum, false) { AutoAccept = true };
 
-                if (await helper.ConnectAsync(deviceConfig.ConnectionOptions))
+                if (await helper.ConnectAsync(lineConfig.ConnectionOptions))
                 {
                     opcSession = helper.OpcSession;
                     return true;
@@ -225,7 +373,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             }
             finally
             {
-                SetConnButtonsEnabled();
+                SetServerButtonsEnabled();
             }
         }
 
@@ -254,7 +402,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             }
             finally
             {
-                SetConnButtonsEnabled();
+                SetServerButtonsEnabled();
             }
         }
 
@@ -332,7 +480,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             if (serverNode?.Tag is ServerNodeTag serverNodeTag && 
                 serverNodeTag.ClassIs(NodeClass.Variable, NodeClass.Method))
             {
-                if (GetTopParentNode(tvDevice.SelectedNode) == commandsNode || serverNodeTag.ClassIs(NodeClass.Method))
+                if (TreeViewExtensions.GetTopParentNode(tvDevice.SelectedNode) == commandsNode || 
+                    serverNodeTag.ClassIs(NodeClass.Method))
                 {
                     return AddCommand(serverNodeTag, serverNode.Parent?.Tag as ServerNodeTag);
                 }
@@ -375,7 +524,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             }
 
             tvDevice.Insert(commandsNode, CreateCommandNode(commandConfig), deviceConfig.Commands, commandConfig);
-            Modified = true;
+            DeviceConfigModified = true;
             return true;
         }
 
@@ -419,7 +568,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             TreeNode itemNode = CreateItemNode(itemConfig);
             tvDevice.Insert(subscriptionNode, itemNode, subscriptionConfig.Items, itemConfig);
             UpdateTagNums(itemNode);
-            Modified = true;
+            DeviceConfigModified = true;
         }
 
         /// <summary>
@@ -491,151 +640,41 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         }
 
         /// <summary>
-        /// Sets the enabled property of the connection buttons.
+        /// Saves the line and device configuration.
         /// </summary>
-        private void SetConnButtonsEnabled()
+        private bool SaveConfig()
         {
-            if (opcSession == null)
+            bool saveOK = true;
+
+            // save line configuration
+            if (LineConfigModified)
             {
-                btnConnect.Enabled = true;
-                btnDisconnect.Enabled = false;
-            }
-            else
-            {
-                btnConnect.Enabled = false;
-                btnDisconnect.Enabled = true;
-            }
-        }
-
-        /// <summary>
-        /// Sets the enabled property of the buttons that manipulate the server tree.
-        /// </summary>
-        private void SetServerButtonsEnabled()
-        {
-            btnViewAttrs.Enabled = opcSession != null && tvServer.SelectedNode != null;
-        }
-
-        /// <summary>
-        /// Sets the enabled property of the buttons that manipulate the device tree.
-        /// </summary>
-        private void SetDeviceButtonsEnabled()
-        {
-            btnAddItem.Enabled = tvServer.SelectedNode?.Tag is ServerNodeTag serverNodeTag && 
-                serverNodeTag.ClassIs(NodeClass.Variable, NodeClass.Method);
-
-            bool deviceNodeTagDefined = tvDevice.SelectedNode?.Tag != null;
-            btnMoveUpItem.Enabled = deviceNodeTagDefined && tvDevice.SelectedNode.PrevNode != null;
-            btnMoveDownItem.Enabled = deviceNodeTagDefined && tvDevice.SelectedNode.NextNode != null;
-            btnDeleteItem.Enabled = deviceNodeTagDefined;
-        }
-
-        /// <summary>
-        /// Update signals if 2 elements are reversed.
-        /// </summary>
-        private void SwapSignals(TreeNode treeNode1, TreeNode treeNode2)
-        {
-            if (treeNode1?.Tag is ItemConfig itemConfig1 &&
-                treeNode2?.Tag is ItemConfig itemConfig2 &&
-                itemConfig1.Tag is ItemConfigTag itemConfigTag1 &&
-                itemConfig2.Tag is ItemConfigTag itemConfigTag2)
-            {
-                int signal1 = itemConfigTag1.TagNum;
-                itemConfigTag1.TagNum = itemConfigTag2.TagNum;
-                itemConfigTag2.TagNum = signal1;
-                ctrlItem.RefreshTagNum();
-            }
-        }
-
-        /// <summary>
-        /// Update tag numbers starting from the specified node.
-        /// </summary>
-        private void UpdateTagNums(TreeNode startNode)
-        {
-            TreeNode startSubscrNode = startNode?.FindClosest(typeof(SubscriptionConfig));
-
-            if (startSubscrNode != null)
-            {
-                // define initial tag number
-                int tagNum = 1;
-                TreeNode subscrNode = startSubscrNode.PrevNode;
-
-                while (subscrNode != null)
+                if (lineConfig.Save(lineConfigFileName, out string errMsg))
                 {
-                    if (subscrNode.LastNode?.Tag is ItemConfig itemConfig &&
-                        itemConfig.Tag is ItemConfigTag tag)
-                    {
-                        tagNum = tag.TagNum + 1;
-                        break;
-                    }
-
-                    subscrNode = subscrNode.PrevNode;
+                    LineConfigModified = false;
                 }
-
-                // recalculate tag numbers
-                subscrNode = startSubscrNode;
-
-                while (subscrNode != null)
+                else
                 {
-                    foreach (TreeNode itemNode in subscrNode.Nodes)
-                    {
-                        if (itemNode.Tag is ItemConfig itemConfig &&
-                            itemConfig.Tag is ItemConfigTag tag)
-                        {
-                            tag.TagNum = tagNum;
-                            tagNum++;
-                        }
-                    }
-
-                    subscrNode = subscrNode.NextNode;
+                    saveOK = false;
+                    ScadaUiUtils.ShowError(errMsg);
                 }
-
-                ctrlItem.RefreshTagNum();
             }
-        }
 
-        /// <summary>
-        /// Selects an image key depending on the node class.
-        /// </summary>
-        private static string SelectImageKey(NodeClass nodeClass)
-        {
-            if (nodeClass.HasFlag(NodeClass.Object))
-                return ImageKey.Object;
-            else if (nodeClass.HasFlag(NodeClass.Method))
-                return ImageKey.Method;
-            else
-                return ImageKey.Variable;
-        }
-
-        /// <summary>
-        /// Sets the node image as open or closed folder.
-        /// </summary>
-        private static void SetFolderImage(TreeNode treeNode)
-        {
-            if (treeNode.ImageKey.StartsWith("folder_"))
-                treeNode.SetImageKey(treeNode.IsExpanded ? ImageKey.FolderOpen : ImageKey.FolderClosed);
-        }
-
-        /// <summary>
-        /// Gets the top parent of the specified node.
-        /// </summary>
-        private static TreeNode GetTopParentNode(TreeNode treeNode)
-        {
-            if (treeNode == null)
+            // save device configuration
+            if (DeviceConfigModified)
             {
-                return null;
-            }
-            else
-            {
-                TreeNode parentNode = treeNode.Parent;
-
-                while (parentNode != null)
+                if (deviceConfig.Save(deviceConfigFileName, out string errMsg))
                 {
-                    treeNode = parentNode;
-                    parentNode = treeNode.Parent;
+                    DeviceConfigModified = false;
                 }
-
-                return treeNode;
+                else
+                {
+                    saveOK = false;
+                    ScadaUiUtils.ShowError(errMsg);
+                }
             }
+
+            return saveOK;
         }
 
 
@@ -649,18 +688,22 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             Text = string.Format(Text, deviceNum);
 
             // load configuration
-            configFileName = Path.Combine(appDirs.ConfigDir, OpcDeviceConfig.GetFileName(deviceNum));
+            lineConfigFileName = Path.Combine(appDirs.ConfigDir, OpcLineConfig.GetFileName(lineNum));
+            deviceConfigFileName = Path.Combine(appDirs.ConfigDir, OpcDeviceConfig.GetFileName(deviceNum));
 
-            if (File.Exists(configFileName) && !deviceConfig.Load(configFileName, out string errMsg))
+            if (File.Exists(lineConfigFileName) && !lineConfig.Load(lineConfigFileName, out string errMsg))
+                ScadaUiUtils.ShowError(errMsg);
+
+            if (File.Exists(deviceConfigFileName) && !deviceConfig.Load(deviceConfigFileName, out errMsg))
                 ScadaUiUtils.ShowError(errMsg);
 
             // display configuration
             TakeTreeViewImages();
             ConfigToControls();
-            SetConnButtonsEnabled();
             SetServerButtonsEnabled();
             SetDeviceButtonsEnabled();
-            Modified = false;
+            LineConfigModified = false;
+            DeviceConfigModified = false;
         }
 
         private void FrmDeviceConfig_FormClosing(object sender, FormClosingEventArgs e)
@@ -673,11 +716,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 switch (result)
                 {
                     case DialogResult.Yes:
-                        if (!deviceConfig.Save(configFileName, out string errMsg))
-                        {
-                            ScadaUiUtils.ShowError(errMsg);
-                            e.Cancel = true;
-                        }
+                        e.Cancel = !SaveConfig();
                         break;
 
                     case DialogResult.No:
@@ -695,32 +734,33 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             opcSession?.Close();
         }
 
-        private async void btnConnect_ClickAsync(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(deviceConfig.ConnectionOptions.ServerUrl))
-                ScadaUiUtils.ShowError(DriverPhrases.ServerUrlRequired);
-            else if (await ConnectToOpcServer())
-                BrowseServerNode(null);
-        }
 
         private void txtServerUrl_TextChanged(object sender, EventArgs e)
         {
             if (!changing)
             {
-                deviceConfig.ConnectionOptions.ServerUrl = txtServerUrl.Text;
-                Modified = true;
+                lineConfig.ConnectionOptions.ServerUrl = txtServerUrl.Text;
+                LineConfigModified = true;
             }
+        }
+
+        private void btnSecurityOptions_Click(object sender, EventArgs e)
+        {
+            if (new FrmSecurityOptions(lineConfig.ConnectionOptions).ShowDialog() == DialogResult.OK)
+                LineConfigModified = true;
+        }
+
+        private async void btnConnect_ClickAsync(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(lineConfig.ConnectionOptions.ServerUrl))
+                ScadaUiUtils.ShowError(DriverPhrases.ServerUrlRequired);
+            else if (await ConnectToOpcServer())
+                BrowseServerNode(null);
         }
 
         private void btnDisconnect_Click(object sender, EventArgs e)
         {
             DisconnectFromOpcServer();
-        }
-
-        private void btnSecurityOptions_Click(object sender, EventArgs e)
-        {
-            if (new FrmSecurityOptions(deviceConfig.ConnectionOptions).ShowDialog() == DialogResult.OK)
-                Modified = true;
         }
 
         private void btnViewAttrs_Click(object sender, EventArgs e)
@@ -760,6 +800,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 AddItem(tvServer.SelectedNode);
         }
 
+
         private void btnAddItem_Click(object sender, EventArgs e)
         {
             AddItem(tvServer.SelectedNode);
@@ -773,7 +814,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             tvDevice.Insert(subscriptionsNode, subscriptionNode,
                 deviceConfig.Subscriptions, subscriptionConfig);
             ctrlSubscription.SetFocus();
-            Modified = true;
+            DeviceConfigModified = false;
         }
 
         private void btnMoveUpItem_Click(object sender, EventArgs e)
@@ -800,7 +841,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 tvDevice.MoveUpSelectedNode(deviceConfig.Commands);
             }
 
-            Modified = true;
+            DeviceConfigModified = false;
         }
 
         private void btnMoveDownItem_Click(object sender, EventArgs e)
@@ -827,7 +868,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 tvDevice.MoveDownSelectedNode(deviceConfig.Commands);
             }
 
-            Modified = true;
+            DeviceConfigModified = false;
         }
 
         private void btnDeleteItem_Click(object sender, EventArgs e)
@@ -856,7 +897,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 tvDevice.RemoveNode(selectedNode, deviceConfig.Commands);
             }
 
-            Modified = true;
+            DeviceConfigModified = false;
         }
 
         private void tvDevice_AfterSelect(object sender, TreeViewEventArgs e)
@@ -864,7 +905,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             SetDeviceButtonsEnabled();
 
             // show parameters of the selected item
-            gbEmptyItem.Visible = false;
+            ctrlEmptyItem.Visible = false;
             ctrlSubscription.Visible = false;
             ctrlItem.Visible = false;
             ctrlCommand.Visible = false;
@@ -887,7 +928,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             }
             else
             {
-                gbEmptyItem.Visible = true;
+                ctrlEmptyItem.Visible = true;
             }
         }
 
@@ -903,7 +944,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 
         private void ctrlItem_ObjectChanged(object sender, ObjectChangedEventArgs e)
         {
-            Modified = true;
+            DeviceConfigModified = false;
             TreeNode selectedNode = tvDevice.SelectedNode;
             TreeUpdateTypes treeUpdateTypes = (TreeUpdateTypes)e.ChangeArgument;
 
@@ -930,15 +971,12 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private void btnEditingOptions_Click(object sender, EventArgs e)
         {
             if (new FrmEditingOptions(deviceConfig.EditingOptions).ShowDialog() == DialogResult.OK)
-                Modified = true;
+                DeviceConfigModified = false;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (deviceConfig.Save(configFileName, out string errMsg))
-                Modified = false;
-            else
-                ScadaUiUtils.ShowError(errMsg);
+            SaveConfig();
         }
     }
 }
