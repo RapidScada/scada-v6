@@ -5,15 +5,16 @@
     <Phrase key="gbConnList">Connections</Phrase>
     <Phrase key="btnNewConn">New</Phrase>
     <Phrase key="btnDeleteConn">Delete</Phrase>
-    <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnCancel">Cancel</Phrase>
+    <Phrase key="gbOptions">Connections Options</Phrase>
     <Phrase key="lblName">Name</Phrase>
-    <Phrase key="lblUrl">Url</Phrase>
+    <Phrase key="lblUrl">URL</Phrase>
     <Phrase key="lblToken">Token</Phrase>
     <Phrase key="lblUsername">Username</Phrase>
     <Phrase key="lblPassword">Password</Phrase>
     <Phrase key="lblBucket">Bucket</Phrase>
     <Phrase key="lblOrg">Organization</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>  
   <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmInfluxHAO">
     <Phrase key="this">Historical Archive Options</Phrase>

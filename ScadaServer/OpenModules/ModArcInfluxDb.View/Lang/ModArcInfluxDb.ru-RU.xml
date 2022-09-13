@@ -5,15 +5,16 @@
     <Phrase key="gbConnList">Соединения</Phrase>
     <Phrase key="btnNewConn">Добавить</Phrase>
     <Phrase key="btnDeleteConn">Удалить</Phrase>
-    <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnCancel">Отмена</Phrase>
+    <Phrase key="gbOptions">Параметры базы данных </Phrase>
     <Phrase key="lblName">Наименование</Phrase>
-    <Phrase key="lblUrl">Ссылка</Phrase>
+    <Phrase key="lblUrl">Адрес</Phrase>
     <Phrase key="lblToken">Токен</Phrase>
     <Phrase key="lblUsername">Имя пользователя</Phrase>
     <Phrase key="lblPassword">Пароль</Phrase>
     <Phrase key="lblBucket">Корзина</Phrase>
     <Phrase key="lblOrg">Организация</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
    </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmInfluxHAO">
     <Phrase key="this">Параметры архива исторических данных</Phrase>

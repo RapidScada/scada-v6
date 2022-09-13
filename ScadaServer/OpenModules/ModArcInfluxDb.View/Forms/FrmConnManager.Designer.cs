@@ -191,6 +191,7 @@
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(274, 23);
             this.txtPassword.TabIndex = 9;
+            this.txtPassword.UseSystemPasswordChar = true;
             this.txtPassword.TextChanged += new System.EventHandler(this.txtPassword_TextChanged);
             // 
             // lblPassword
@@ -225,6 +226,7 @@
             this.txtToken.Name = "txtToken";
             this.txtToken.Size = new System.Drawing.Size(274, 23);
             this.txtToken.TabIndex = 5;
+            this.txtToken.UseSystemPasswordChar = true;
             this.txtToken.TextChanged += new System.EventHandler(this.txtToken_TextChanged);
             // 
             // lblToken
@@ -249,9 +251,9 @@
             this.lblUrl.AutoSize = true;
             this.lblUrl.Location = new System.Drawing.Point(10, 63);
             this.lblUrl.Name = "lblUrl";
-            this.lblUrl.Size = new System.Drawing.Size(22, 15);
+            this.lblUrl.Size = new System.Drawing.Size(28, 15);
             this.lblUrl.TabIndex = 2;
-            this.lblUrl.Text = "Url";
+            this.lblUrl.Text = "URL";
             // 
             // txtName
             // 

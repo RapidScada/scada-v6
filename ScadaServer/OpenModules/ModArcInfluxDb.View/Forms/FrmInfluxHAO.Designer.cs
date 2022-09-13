@@ -61,7 +61,7 @@
             // cbConnection
             // 
             this.cbConnection.FormattingEnabled = true;
-            this.cbConnection.Location = new System.Drawing.Point(196, 26);
+            this.cbConnection.Location = new System.Drawing.Point(196, 23);
             this.cbConnection.Name = "cbConnection";
             this.cbConnection.Size = new System.Drawing.Size(151, 23);
             this.cbConnection.TabIndex = 3;
@@ -69,7 +69,7 @@
             // lblConnection
             // 
             this.lblConnection.AutoSize = true;
-            this.lblConnection.Location = new System.Drawing.Point(12, 26);
+            this.lblConnection.Location = new System.Drawing.Point(13, 26);
             this.lblConnection.Name = "lblConnection";
             this.lblConnection.Size = new System.Drawing.Size(69, 15);
             this.lblConnection.TabIndex = 2;
