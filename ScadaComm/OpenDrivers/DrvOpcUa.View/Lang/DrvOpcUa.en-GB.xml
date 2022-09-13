@@ -28,7 +28,7 @@
     <Phrase key="lblDisplayName">Display name</Phrase>
     <Phrase key="lblPublishingInterval">Publishing interval</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmConfig">
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmDeviceConfig">
     <Phrase key="this">Device {0} Properties - OPC UA</Phrase>
     <Phrase key="gbConnection">Connection</Phrase>
     <Phrase key="lblServerUrl">Server URL</Phrase>

@@ -16,7 +16,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
     /// Represents a device configuration form.
     /// <para>Представляет форму конфигурации устройства.</para>
     /// </summary>
-    public partial class FrmConfig : Form
+    public partial class FrmDeviceConfig : Form
     {
         /// <summary>
         /// Specifies the image keys.
@@ -46,7 +46,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        private FrmConfig()
+        private FrmDeviceConfig()
         {
             InitializeComponent();
             ctrlSubscription.Top = ctrlItem.Top = ctrlCommand.Top = gbEmptyItem.Top;
@@ -56,7 +56,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmConfig(AppDirs appDirs, int deviceNum)
+        public FrmDeviceConfig(AppDirs appDirs, int deviceNum)
             : this()
         {
             this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
@@ -639,7 +639,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         }
 
 
-        private void FrmConfig_Load(object sender, EventArgs e)
+        private void FrmDeviceConfig_Load(object sender, EventArgs e)
         {
             // translate form
             FormTranslator.Translate(this, GetType().FullName, new FormTranslatorOptions { ToolTip = toolTip });
@@ -663,7 +663,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             Modified = false;
         }
 
-        private void FrmConfig_FormClosing(object sender, FormClosingEventArgs e)
+        private void FrmDeviceConfig_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (Modified)
             {
@@ -690,7 +690,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             }
         }
 
-        private void FrmConfig_FormClosed(object sender, FormClosedEventArgs e)
+        private void FrmDeviceConfig_FormClosed(object sender, FormClosedEventArgs e)
         {
             opcSession?.Close();
         }

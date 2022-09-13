@@ -31,7 +31,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
         /// </summary>
         public override bool ShowProperties()
         {
-            new FrmConfig(AppDirs, DeviceNum).ShowDialog();
+            new FrmDeviceConfig(AppDirs, DeviceNum).ShowDialog();
             return false;
         }
 

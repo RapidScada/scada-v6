@@ -1,6 +1,6 @@
 ﻿namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 {
-    partial class FrmConfig
+    partial class FrmDeviceConfig
     {
         /// <summary>
         /// Required designer variable.
@@ -369,9 +369,9 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Device {0} Properties - OPC UA";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmConfig_FormClosing);
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmConfig_FormClosed);
-            this.Load += new System.EventHandler(this.FrmConfig_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmDeviceConfig_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmDeviceConfig_FormClosed);
+            this.Load += new System.EventHandler(this.FrmDeviceConfig_Load);
             this.gbDevice.ResumeLayout(false);
             this.gbServerBrowse.ResumeLayout(false);
             this.gbConnection.ResumeLayout(false);
