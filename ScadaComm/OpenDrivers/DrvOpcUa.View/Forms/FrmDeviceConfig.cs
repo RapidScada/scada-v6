@@ -353,22 +353,19 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         {
             try
             {
-                OpcHelper helper = new(appDirs, LogStub.Instance, deviceNum, false) { AutoAccept = true };
+                OpcClientHelperView helper = new(lineConfig.ConnectionOptions, LogStub.Instance, appDirs)
+                { 
+                    AutoAccept = true 
+                };
 
-                if (await helper.ConnectAsync(lineConfig.ConnectionOptions))
-                {
-                    opcSession = helper.OpcSession;
-                    return true;
-                }
-                else
-                {
-                    opcSession = null;
-                    return false;
-                }
+                await helper.ConnectAsync();
+                opcSession = helper.OpcSession;
+                return true;
             }
             catch (Exception ex)
             {
                 ScadaUiUtils.ShowError(ex.BuildErrorMessage(DriverPhrases.ConnectServerError));
+                opcSession = null;
                 return false;
             }
             finally
@@ -814,7 +811,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             tvDevice.Insert(subscriptionsNode, subscriptionNode,
                 deviceConfig.Subscriptions, subscriptionConfig);
             ctrlSubscription.SetFocus();
-            DeviceConfigModified = false;
+            DeviceConfigModified = true;
         }
 
         private void btnMoveUpItem_Click(object sender, EventArgs e)
@@ -841,7 +838,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 tvDevice.MoveUpSelectedNode(deviceConfig.Commands);
             }
 
-            DeviceConfigModified = false;
+            DeviceConfigModified = true;
         }
 
         private void btnMoveDownItem_Click(object sender, EventArgs e)
@@ -868,7 +865,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 tvDevice.MoveDownSelectedNode(deviceConfig.Commands);
             }
 
-            DeviceConfigModified = false;
+            DeviceConfigModified = true;
         }
 
         private void btnDeleteItem_Click(object sender, EventArgs e)
@@ -897,7 +894,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 tvDevice.RemoveNode(selectedNode, deviceConfig.Commands);
             }
 
-            DeviceConfigModified = false;
+            DeviceConfigModified = true;
         }
 
         private void tvDevice_AfterSelect(object sender, TreeViewEventArgs e)
@@ -944,7 +941,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 
         private void ctrlItem_ObjectChanged(object sender, ObjectChangedEventArgs e)
         {
-            DeviceConfigModified = false;
+            DeviceConfigModified = true;
             TreeNode selectedNode = tvDevice.SelectedNode;
             TreeUpdateTypes treeUpdateTypes = (TreeUpdateTypes)e.ChangeArgument;
 
@@ -971,7 +968,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private void btnEditingOptions_Click(object sender, EventArgs e)
         {
             if (new FrmEditingOptions(deviceConfig.EditingOptions).ShowDialog() == DialogResult.OK)
-                DeviceConfigModified = false;
+                DeviceConfigModified = true;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
