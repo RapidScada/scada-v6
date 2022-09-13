@@ -128,7 +128,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
             };
         }
 
-
+         
         private void FrmConnManager_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);            

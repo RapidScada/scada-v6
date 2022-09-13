@@ -27,13 +27,8 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View
         /// </summary>
         public override bool ShowProperties()
         {
-            Form form = ArchiveConfig.Kind switch
-            {
-                ArchiveKind.Historical => new FrmInfluxHAO(AppDirs, ArchiveConfig),
-                _ => null
-            };
-
-            return form != null && form.ShowDialog() == DialogResult.OK;
+            return ArchiveConfig.Kind == ArchiveKind.Historical && 
+                new FrmInfluxHAO(AppDirs, ArchiveConfig).ShowDialog() == DialogResult.OK;
         }
     }
 }

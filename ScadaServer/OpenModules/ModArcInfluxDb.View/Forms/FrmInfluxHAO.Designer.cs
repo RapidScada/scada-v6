@@ -53,7 +53,7 @@
             this.gbDbOptions.Location = new System.Drawing.Point(12, 308);
             this.gbDbOptions.Name = "gbDbOptions";
             this.gbDbOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbDbOptions.Size = new System.Drawing.Size(360, 62);
+            this.gbDbOptions.Size = new System.Drawing.Size(360, 61);
             this.gbDbOptions.TabIndex = 2;
             this.gbDbOptions.TabStop = false;
             this.gbDbOptions.Text = "Database Options";
@@ -61,7 +61,7 @@
             // cbConnection
             // 
             this.cbConnection.FormattingEnabled = true;
-            this.cbConnection.Location = new System.Drawing.Point(196, 23);
+            this.cbConnection.Location = new System.Drawing.Point(196, 22);
             this.cbConnection.Name = "cbConnection";
             this.cbConnection.Size = new System.Drawing.Size(151, 23);
             this.cbConnection.TabIndex = 3;
@@ -77,7 +77,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(297, 386);
+            this.btnCancel.Location = new System.Drawing.Point(297, 385);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 7;
@@ -86,7 +86,7 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(216, 386);
+            this.btnOK.Location = new System.Drawing.Point(216, 385);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 6;
@@ -96,7 +96,7 @@
             // 
             // btnManageConn
             // 
-            this.btnManageConn.Location = new System.Drawing.Point(12, 386);
+            this.btnManageConn.Location = new System.Drawing.Point(12, 385);
             this.btnManageConn.Name = "btnManageConn";
             this.btnManageConn.Size = new System.Drawing.Size(140, 23);
             this.btnManageConn.TabIndex = 5;
@@ -110,7 +110,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(384, 421);
+            this.ClientSize = new System.Drawing.Size(384, 420);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnManageConn);

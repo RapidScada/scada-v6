@@ -17,6 +17,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
         private readonly ArchiveConfig archiveConfig; // the archive configuration
         private readonly InfluxHAO options;           // the archive options
 
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
@@ -34,6 +35,44 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
             this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
             this.archiveConfig = archiveConfig ?? throw new ArgumentNullException(nameof(archiveConfig));
             options = new InfluxHAO(archiveConfig.CustomOptions);
+        }
+
+
+        /// <summary>
+        /// Fills the connection combo box from a configuration file.
+        /// </summary>
+        private static void FillConnections(ComboBox comboBox, string configDir)
+        {
+            string configFileName = Path.Combine(configDir, ModuleConfig.ConfigFileName);
+
+            if (File.Exists(configFileName))
+            {
+                ModuleConfig moduleConfig = new();
+
+                if (moduleConfig.Load(configFileName, out string errMsg))
+                {
+                    comboBox.Items.Clear();
+                    comboBox.Items.AddRange(moduleConfig.Connections.Keys.ToArray());
+                }
+                else
+                {
+                    ScadaUiUtils.ShowError(errMsg);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Shows a connection manager and updates the connection combo box.
+        /// </summary>
+        private static void EditConnections(ComboBox comboBox, string configDir)
+        {
+            FrmConnManager frmConnManager = new(configDir);
+
+            if (frmConnManager.ShowDialog() == DialogResult.OK)
+            {
+                comboBox.Items.Clear();
+                comboBox.Items.AddRange(frmConnManager.ConnectionNames);
+            }
         }
 
         // <summary>
@@ -67,13 +106,13 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
             FormTranslator.Translate(this, GetType().FullName);
             FormTranslator.Translate(ctrlHistoricalArchiveOptions, ctrlHistoricalArchiveOptions.GetType().FullName);
 
-            UiUtils.FillConnections(cbConnection, appDirs.ConfigDir);
+            FillConnections(cbConnection, appDirs.ConfigDir);
             OptionsToControls();
         }
 
         private void btnManageConn_Click(object sender, EventArgs e)
         {
-            UiUtils.EditConnections(cbConnection, appDirs.ConfigDir);
+            EditConnections(cbConnection, appDirs.ConfigDir);
         }
 
         private void btnOK_Click(object sender, EventArgs e)
