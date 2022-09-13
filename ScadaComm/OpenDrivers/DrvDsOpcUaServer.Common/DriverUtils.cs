@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Lang;
 using System.Reflection;
-using System.Text;
 
 namespace Scada.Comm.Drivers.DrvDsOpcUaServer
 {
@@ -22,21 +22,16 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer
         public const string DefaultConfigFileName = DriverCode + ".xml";
 
         /// <summary>
-        /// Writes an OPC UA configuration file depending on operating system.
+        /// Gets the resource stream that contains the default OPC configuration.
         /// </summary>
-        public static void WriteConfigFile(string fileName, bool windows)
+        public static Stream GetConfigResourceStream(bool windows)
         {
             string suffix = windows ? "Win" : "Linux";
             string resourceName = $"Scada.Comm.Drivers.DrvDsOpcUaServer.Config.DrvDsOpcUaServer.{suffix}.xml";
-            string fileContents;
-
-            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
-            {
-                using StreamReader reader = new(stream);
-                fileContents = reader.ReadToEnd();
-            }
-
-            File.WriteAllText(fileName, fileContents, Encoding.UTF8);
+            return Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName) ??
+                throw new ScadaException(string.Format(Locale.IsRussian ?
+                    "Ресурс {0} не найден." :
+                    "Resource {0} not found.", resourceName));
         }
     }
 }

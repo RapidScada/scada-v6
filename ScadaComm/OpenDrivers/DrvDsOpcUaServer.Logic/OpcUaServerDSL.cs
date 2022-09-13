@@ -53,9 +53,12 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
             };
 
             // load the application configuration
-            // TODO: use stream instead of file after updating OPCFoundation.NetStandard.Opc.Ua
-            PrepareConfigFile(out string configFileName);
-            ApplicationConfiguration opcConfig = await opcApp.LoadApplicationConfiguration(configFileName, false);
+            ApplicationConfiguration opcConfig;
+
+            using (Stream stream = PrepareOpcConfig())
+            {
+                opcConfig = await opcApp.LoadApplicationConfiguration(stream, false);
+            }
 
             // check the application certificate
             bool haveAppCertificate = await opcApp.CheckApplicationInstanceCertificate(false, 
@@ -76,26 +79,34 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         }
 
         /// <summary>
-        /// Creates an OPC UA configuration file if does not exist or is outdated.
+        /// Reads an OPC UA configuration file, creating it if necessary.
         /// </summary>
-        private void PrepareConfigFile(out string configFileName)
+        private Stream PrepareOpcConfig()
         {
-            string shortFileName = string.IsNullOrEmpty(options.ConfigFileName) ? 
-                DriverUtils.DefaultConfigFileName : options.ConfigFileName;
-            configFileName = Path.Combine(CommContext.AppDirs.ConfigDir, shortFileName);
+            string path = ScadaUtils.FirstNonEmpty(options.ConfigFileName, DriverUtils.DefaultConfigFileName);
 
-            if (!CommContext.Storage.IsFileStorage &&
-                CommContext.Storage.GetFileInfo(DataCategory.Config, shortFileName).Exists)
+            if (CommContext.Storage.GetFileInfo(DataCategory.Config, path).Exists)
             {
-                // get configuration from database
-                string contents = CommContext.Storage.ReadText(DataCategory.Config, shortFileName);
-                File.WriteAllText(configFileName, contents, Encoding.UTF8);
+                byte[] bytes = CommContext.Storage.ReadBytes(DataCategory.Config, path);
+                return new MemoryStream(bytes);
             }
-            else if (!File.Exists(configFileName))
+            else
             {
-                // create configration file 
-                DriverUtils.WriteConfigFile(configFileName, ScadaUtils.IsRunningOnWin);
+                Stream resourceStream = DriverUtils.GetConfigResourceStream(ScadaUtils.IsRunningOnWin);
+                WriteOpcConfig(path, resourceStream);
+                resourceStream.Position = 0;
+                return resourceStream;
             }
+        }
+
+        /// <summary>
+        /// Writes the OPC UA configuration.
+        /// </summary>
+        private void WriteOpcConfig(string path, Stream stream)
+        {
+            BinaryReader reader = new(stream); // do not close reader
+            byte[] bytes = reader.ReadBytes((int)stream.Length);
+            CommContext.Storage.WriteBytes(DataCategory.Config, path, bytes);
         }
 
         /// <summary>

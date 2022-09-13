@@ -106,6 +106,16 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms
                 return false;
             }
         }
+        
+        /// <summary>
+        /// Writes the configuration file.
+        /// </summary>
+        private static void WriteConfig(string fileName, Stream stream)
+        {
+            BinaryReader reader = new(stream); // do not close reader
+            byte[] bytes = reader.ReadBytes((int)stream.Length);
+            File.WriteAllBytes(fileName, bytes);
+        }
 
 
         private void FrmOpcUaServerDSO_Load(object sender, EventArgs e)
@@ -127,7 +137,8 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms
                 ValidateConfigPath(saveFileDialog.FileName))
             {
                 txtConfigFileName.Text = saveFileDialog.FileName[appDirs.ConfigDir.Length..];
-                DriverUtils.WriteConfigFile(saveFileDialog.FileName, sender == btnCreateConfigWin);
+                using Stream stream = DriverUtils.GetConfigResourceStream(sender == btnCreateConfigWin);
+                WriteConfig(saveFileDialog.FileName, stream);
             }
         }
 
