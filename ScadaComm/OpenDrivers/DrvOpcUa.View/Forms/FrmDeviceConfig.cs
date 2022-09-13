@@ -480,49 +480,17 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 if (TreeViewExtensions.GetTopParentNode(tvDevice.SelectedNode) == commandsNode || 
                     serverNodeTag.ClassIs(NodeClass.Method))
                 {
-                    return AddCommand(serverNodeTag, serverNode.Parent?.Tag as ServerNodeTag);
+                    AddCommand(serverNodeTag, serverNode.Parent?.Tag as ServerNodeTag);
                 }
                 else
                 {
                     AddItemToSubscription(serverNodeTag);
-                    return true;
                 }
+
+                return true;
             }
 
             return false;
-        }
-
-        /// <summary>
-        /// Adds a new command to the configuration.
-        /// </summary>
-        private bool AddCommand(ServerNodeTag serverNodeTag, ServerNodeTag parentServerNodeTag)
-        {
-            // add new command
-            CommandConfig commandConfig = new()
-            {
-                NodeID = serverNodeTag.NodeIdStr,
-                DisplayName = serverNodeTag.DisplayName,
-                CmdCode = GetTagCode(serverNodeTag),
-                IsMethod = serverNodeTag.ClassIs(NodeClass.Method)
-            };
-
-            if (commandConfig.IsMethod)
-            {
-                if (parentServerNodeTag != null)
-                    commandConfig.ParentNodeID = parentServerNodeTag.NodeIdStr;
-            }
-            else if (GetDataTypeName(serverNodeTag.NodeId, out string dataTypeName))
-            {
-                commandConfig.DataTypeName = dataTypeName;
-            }
-            else
-            {
-                return false;
-            }
-
-            tvDevice.Insert(commandsNode, CreateCommandNode(commandConfig), deviceConfig.Commands, commandConfig);
-            DeviceConfigModified = true;
-            return true;
         }
 
         /// <summary>
@@ -539,8 +507,11 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 Tag = new ItemConfigTag(0)
             };
 
-            if (GetDataTypeName(serverNodeTag.NodeId, out string dataTypeName))
+            if (GetDataType(serverNodeTag.NodeId, out string dataTypeName, out bool isArray))
+            {
                 itemConfig.DataTypeName = dataTypeName;
+                itemConfig.IsArray = isArray;
+            }
 
             // find subscription
             TreeNode deviceNode = tvDevice.SelectedNode;
@@ -569,6 +540,34 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         }
 
         /// <summary>
+        /// Adds a new command to the configuration.
+        /// </summary>
+        private void AddCommand(ServerNodeTag serverNodeTag, ServerNodeTag parentServerNodeTag)
+        {
+            // add new command
+            CommandConfig commandConfig = new()
+            {
+                NodeID = serverNodeTag.NodeIdStr,
+                DisplayName = serverNodeTag.DisplayName,
+                CmdCode = GetTagCode(serverNodeTag),
+                IsMethod = serverNodeTag.ClassIs(NodeClass.Method)
+            };
+
+            if (commandConfig.IsMethod)
+            {
+                if (parentServerNodeTag != null)
+                    commandConfig.ParentNodeID = parentServerNodeTag.NodeIdStr;
+            }
+            else if (GetDataType(serverNodeTag.NodeId, out string dataTypeName, out _))
+            {
+                commandConfig.DataTypeName = dataTypeName;
+            }
+
+            tvDevice.Insert(commandsNode, CreateCommandNode(commandConfig), deviceConfig.Commands, commandConfig);
+            DeviceConfigModified = true;
+        }
+
+        /// <summary>
         /// Gets the tag code depending on the editing options.
         /// </summary>
         private string GetTagCode(ServerNodeTag serverNodeTag)
@@ -583,7 +582,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         /// <summary>
         /// Gets the data type name of the node.
         /// </summary>
-        private bool GetDataTypeName(NodeId nodeId, out string dataTypeName)
+        private bool GetDataType(NodeId nodeId, out string dataTypeName, out bool isArray)
         {
             if (nodeId == null)
                 throw new ArgumentNullException(nameof(nodeId));
@@ -597,7 +596,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                     new ReadValueId
                     {
                         NodeId = nodeId,
-                        AttributeId = Attributes.DataType
+                        AttributeId = Attributes.Value
                     }
                 };
 
@@ -605,33 +604,22 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                     out DataValueCollection results, out DiagnosticInfoCollection diagnosticInfos);
                 ClientBase.ValidateResponse(results, nodesToRead);
                 ClientBase.ValidateDiagnosticInfos(diagnosticInfos, nodesToRead);
+                DataValue nodeValue = results[0];
 
-                DataValue dataTypeValue = results[0];
-                INode dataType = opcSession.NodeCache.Find((NodeId)dataTypeValue.Value);
+                if (StatusCode.IsNotGood(nodeValue.StatusCode) || nodeValue.Value == null)
+                    throw new ScadaException(DriverPhrases.UnableToReadData);
 
-                if (dataType == null)
-                {
-                    throw new ScadaException(Locale.IsRussian ?
-                        "Не удалось получить тип данных от OPC-сервера." :
-                        "Unable to get data type from OPC server.");
-                }
-
-                if (KnownTypes.GetType(dataType.DisplayName.Text, out Type type))
-                {
-                    dataTypeName = type.FullName;
-                    return true;
-                }
-                else
-                {
-                    ScadaUiUtils.ShowError(DriverPhrases.UnknownDataType, dataType.DisplayName.Text);
-                    dataTypeName = "";
-                    return false;
-                }
+                Type dataType = nodeValue.Value.GetType();
+                Type elemType = dataType.IsArray ? dataType.GetElementType() : dataType;
+                dataTypeName = elemType.FullName;
+                isArray = dataType.IsArray && elemType != typeof(string); // string array not supported
+                return true;
             }
             catch (Exception ex)
             {
                 ScadaUiUtils.ShowError(ex.BuildErrorMessage(DriverPhrases.GetDataTypeError));
                 dataTypeName = "";
+                isArray = false;
                 return false;
             }
         }

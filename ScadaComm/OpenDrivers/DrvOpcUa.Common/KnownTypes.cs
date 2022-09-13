@@ -12,41 +12,26 @@ namespace Scada.Comm.Drivers.DrvOpcUa
     /// </summary>
     public static class KnownTypes
     {
-        private static readonly Dictionary<string, Type> TypesByName = new Dictionary<string, Type>
-        {
-            { "boolean", typeof(bool) },
-            { "byte", typeof(byte) },
-            { "datetime", typeof(DateTime) },
-            { "double", typeof(double) },
-            { "int16", typeof(short) },
-            { "int32", typeof(int) },
-            { "int64", typeof(long) },
-            { "sbyte", typeof(sbyte) },
-            { "string", typeof(string) },
-            { "float", typeof(float) },
-            { "uint16", typeof(ushort) },
-            { "uint32", typeof(uint) },
-            { "uint64", typeof(ulong) }
-        };
-
-
         /// <summary>
-        /// Gets the data type by name, case insensitive.
+        /// The known type names.
         /// </summary>
-        public static bool GetType(string typeName, out Type type)
+        public static readonly string[] TypeNames = new string[]
         {
-            typeName = (typeName ?? "").Trim().ToLowerInvariant();
-
-            if (TypesByName.TryGetValue(typeName, out type))
-            {
-                return true;
-            }
-            else
-            {
-                type = null;
-                return false;
-            }
-        }
+            "System.Boolean",
+            "System.Byte",
+            "System.DateTime",
+            "System.Decimal",
+            "System.Double",
+            "System.Int16",
+            "System.Int32",
+            "System.Int64",
+            "System.SByte",
+            "System.Single",
+            "System.String",
+            "System.UInt16",
+            "System.UInt32",
+            "System.UInt64"
+        };
 
         /// <summary>
         /// Converts the string to an object depending on the type name.
@@ -62,6 +47,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa
                 return byte.Parse(s, CultureInfo.InvariantCulture);
             else if (typeName == "datetime")
                 return DateTime.Parse(s, CultureInfo.InvariantCulture);
+            else if (typeName == "decimal")
+                return decimal.Parse(s, CultureInfo.InvariantCulture);
             else if (typeName == "double")
                 return double.Parse(s, CultureInfo.InvariantCulture);
             else if (typeName == "int16" || typeName == "short")

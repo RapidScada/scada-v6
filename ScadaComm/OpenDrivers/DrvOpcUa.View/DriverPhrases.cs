@@ -15,6 +15,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
         public static string ConnectServerError { get; private set; }
         public static string DisconnectServerError { get; private set; }
         public static string BrowseServerError { get; private set; }
+        public static string UnableToReadData { get; private set; }
         public static string GetDataTypeError { get; private set; }
         public static string ServerUrlRequired { get; private set; }
         public static string EmptyNode { get; private set; }
@@ -23,7 +24,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
         public static string UnnamedSubscription { get; private set; }
         public static string UnnamedItem { get; private set; }
         public static string UnnamedCommand { get; private set; }
-        public static string UnknownDataType { get; private set; }
 
         // Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmNodeAttr
         public static string ReadAttrError { get; private set; }
@@ -34,6 +34,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
             ConnectServerError = dict[nameof(ConnectServerError)];
             DisconnectServerError = dict[nameof(DisconnectServerError)];
             BrowseServerError = dict[nameof(BrowseServerError)];
+            UnableToReadData = dict[nameof(UnableToReadData)];
             GetDataTypeError = dict[nameof(GetDataTypeError)];
             ServerUrlRequired = dict[nameof(ServerUrlRequired)];
             EmptyNode = dict[nameof(EmptyNode)];
@@ -42,7 +43,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
             UnnamedSubscription = dict[nameof(UnnamedSubscription)];
             UnnamedItem = dict[nameof(UnnamedItem)];
             UnnamedCommand = dict[nameof(UnnamedCommand)];
-            UnknownDataType = dict[nameof(UnknownDataType)];
 
             dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmNodeAttr");
             ReadAttrError = dict[nameof(ReadAttrError)];
