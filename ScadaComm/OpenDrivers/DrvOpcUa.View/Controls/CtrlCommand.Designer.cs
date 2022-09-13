@@ -29,9 +29,8 @@
         private void InitializeComponent()
         {
             this.gbCommand = new System.Windows.Forms.GroupBox();
-            this.txtDataType = new System.Windows.Forms.TextBox();
-            this.lblDataType = new System.Windows.Forms.Label();
             this.chkIsMethod = new System.Windows.Forms.CheckBox();
+            this.lblDataType = new System.Windows.Forms.Label();
             this.txtParentNodeID = new System.Windows.Forms.TextBox();
             this.lblParentNodeID = new System.Windows.Forms.Label();
             this.txtNodeID = new System.Windows.Forms.TextBox();
@@ -42,14 +41,18 @@
             this.lblCmdCode = new System.Windows.Forms.Label();
             this.txtDisplayName = new System.Windows.Forms.TextBox();
             this.lblDisplayName = new System.Windows.Forms.Label();
+            this.pbDataTypeWarning = new System.Windows.Forms.PictureBox();
+            this.cbDataType = new System.Windows.Forms.ComboBox();
             this.gbCommand.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numCmdNum)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbDataTypeWarning)).BeginInit();
             this.SuspendLayout();
             // 
             // gbCommand
             // 
             this.gbCommand.Controls.Add(this.chkIsMethod);
-            this.gbCommand.Controls.Add(this.txtDataType);
+            this.gbCommand.Controls.Add(this.pbDataTypeWarning);
+            this.gbCommand.Controls.Add(this.cbDataType);
             this.gbCommand.Controls.Add(this.lblDataType);
             this.gbCommand.Controls.Add(this.txtParentNodeID);
             this.gbCommand.Controls.Add(this.lblParentNodeID);
@@ -69,23 +72,6 @@
             this.gbCommand.TabStop = false;
             this.gbCommand.Text = "Command Parameters";
             // 
-            // txtDataType
-            // 
-            this.txtDataType.Location = new System.Drawing.Point(13, 257);
-            this.txtDataType.Name = "txtDataType";
-            this.txtDataType.ReadOnly = true;
-            this.txtDataType.Size = new System.Drawing.Size(224, 23);
-            this.txtDataType.TabIndex = 11;
-            // 
-            // lblDataType
-            // 
-            this.lblDataType.AutoSize = true;
-            this.lblDataType.Location = new System.Drawing.Point(10, 239);
-            this.lblDataType.Name = "lblDataType";
-            this.lblDataType.Size = new System.Drawing.Size(57, 15);
-            this.lblDataType.TabIndex = 10;
-            this.lblDataType.Text = "Data type";
-            // 
             // chkIsMethod
             // 
             this.chkIsMethod.AutoSize = true;
@@ -96,6 +82,15 @@
             this.chkIsMethod.TabIndex = 12;
             this.chkIsMethod.Text = "Is method";
             this.chkIsMethod.UseVisualStyleBackColor = true;
+            // 
+            // lblDataType
+            // 
+            this.lblDataType.AutoSize = true;
+            this.lblDataType.Location = new System.Drawing.Point(10, 239);
+            this.lblDataType.Name = "lblDataType";
+            this.lblDataType.Size = new System.Drawing.Size(57, 15);
+            this.lblDataType.TabIndex = 10;
+            this.lblDataType.Text = "Data type";
             // 
             // txtParentNodeID
             // 
@@ -187,6 +182,25 @@
             this.lblDisplayName.TabIndex = 0;
             this.lblDisplayName.Text = "Display name";
             // 
+            // pbDataTypeWarning
+            // 
+            this.pbDataTypeWarning.BackColor = System.Drawing.SystemColors.Window;
+            this.pbDataTypeWarning.Image = global::Scada.Comm.Drivers.DrvOpcUa.View.Properties.Resources.warning;
+            this.pbDataTypeWarning.Location = new System.Drawing.Point(201, 260);
+            this.pbDataTypeWarning.Name = "pbDataTypeWarning";
+            this.pbDataTypeWarning.Size = new System.Drawing.Size(16, 16);
+            this.pbDataTypeWarning.TabIndex = 19;
+            this.pbDataTypeWarning.TabStop = false;
+            // 
+            // cbDataType
+            // 
+            this.cbDataType.FormattingEnabled = true;
+            this.cbDataType.Location = new System.Drawing.Point(13, 257);
+            this.cbDataType.Name = "cbDataType";
+            this.cbDataType.Size = new System.Drawing.Size(224, 23);
+            this.cbDataType.TabIndex = 11;
+            this.cbDataType.TextChanged += new System.EventHandler(this.cbDataType_TextChanged);
+            // 
             // CtrlCommand
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -197,6 +211,7 @@
             this.gbCommand.ResumeLayout(false);
             this.gbCommand.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numCmdNum)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbDataTypeWarning)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -208,7 +223,6 @@
         private System.Windows.Forms.Label lblNodeID;
         private System.Windows.Forms.TextBox txtDisplayName;
         private System.Windows.Forms.Label lblDisplayName;
-        private System.Windows.Forms.TextBox txtDataType;
         private System.Windows.Forms.Label lblDataType;
         private System.Windows.Forms.NumericUpDown numCmdNum;
         private System.Windows.Forms.Label lblCmdNum;
@@ -217,5 +231,7 @@
         private CheckBox chkIsMethod;
         private TextBox txtParentNodeID;
         private Label lblParentNodeID;
+        private PictureBox pbDataTypeWarning;
+        private ComboBox cbDataType;
     }
 }

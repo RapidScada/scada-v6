@@ -22,6 +22,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
         public CtrlCommand()
         {
             InitializeComponent();
+            cbDataType.Items.AddRange(KnownTypes.TypeNames);
         }
 
 
@@ -55,7 +56,10 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
                 numCmdNum.SetValue(commandConfig.CmdNum);
                 txtNodeID.Text = commandConfig.NodeID;
                 txtParentNodeID.Text = commandConfig.ParentNodeID;
-                txtDataType.Text = commandConfig.DataTypeName;
+                cbDataType.Text = commandConfig.DataTypeName;
+                cbDataType.Enabled = !commandConfig.IsMethod;
+                pbDataTypeWarning.Visible = string.IsNullOrWhiteSpace(commandConfig.DataTypeName) && 
+                    !commandConfig.IsMethod;
                 chkIsMethod.Checked = commandConfig.IsMethod;
             }
         }
@@ -107,6 +111,17 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
             if (commandConfig != null)
             {
                 commandConfig.CmdNum = Convert.ToInt32(numCmdNum.Value);
+                OnObjectChanged(TreeUpdateTypes.None);
+            }
+        }
+
+        private void cbDataType_TextChanged(object sender, EventArgs e)
+        {
+            if (commandConfig != null)
+            {
+                commandConfig.DataTypeName = cbDataType.Text;
+                pbDataTypeWarning.Visible = string.IsNullOrWhiteSpace(commandConfig.DataTypeName) && 
+                    !commandConfig.IsMethod;
                 OnObjectChanged(TreeUpdateTypes.None);
             }
         }
