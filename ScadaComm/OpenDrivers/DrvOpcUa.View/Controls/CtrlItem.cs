@@ -22,6 +22,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
         public CtrlItem()
         {
             InitializeComponent();
+            cbDataType.Items.AddRange(KnownTypes.TypeNames);
         }
 
 
@@ -55,7 +56,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
                 txtTagCode.Text = itemConfig.TagCode;
                 txtTagNum.Text = itemConfig?.Tag is ItemConfigTag tag ? tag.TagNumStr : "";
                 txtNodeID.Text = itemConfig.NodeID;
-                txtDataType.Text = itemConfig.DataTypeName;
+                cbDataType.Text = itemConfig.DataTypeName;
+                pbDataTypeWarning.Visible = string.IsNullOrWhiteSpace(itemConfig.DataTypeName);
                 chkIsString.Checked = itemConfig.IsString;
                 chkIsArray.Checked = itemConfig.IsArray;
                 chkIsArray.Enabled = !itemConfig.IsString;
@@ -120,6 +122,32 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
             {
                 itemConfig.TagCode = txtTagCode.Text;
                 OnObjectChanged(TreeUpdateTypes.None);
+            }
+        }
+
+        private void cbDataType_TextChanged(object sender, EventArgs e)
+        {
+            if (itemConfig != null)
+            {
+                itemConfig.DataTypeName = cbDataType.Text;
+                pbDataTypeWarning.Visible = string.IsNullOrWhiteSpace(itemConfig.DataTypeName);
+                OnObjectChanged(TreeUpdateTypes.None);
+
+                chkIsArray.Checked = false;
+                numDataLen.SetValue(1);
+
+                if (itemConfig.IsString)
+                {
+                    chkIsString.Checked = true;
+                    chkIsArray.Enabled = false;
+                    numDataLen.Enabled = true;
+                }
+                else
+                {
+                    chkIsString.Checked = false;
+                    chkIsArray.Enabled = true;
+                    numDataLen.Enabled = false;
+                }
             }
         }
 

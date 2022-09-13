@@ -33,7 +33,8 @@
             this.lblDataLen = new System.Windows.Forms.Label();
             this.chkIsArray = new System.Windows.Forms.CheckBox();
             this.chkIsString = new System.Windows.Forms.CheckBox();
-            this.txtDataType = new System.Windows.Forms.TextBox();
+            this.pbDataTypeWarning = new System.Windows.Forms.PictureBox();
+            this.cbDataType = new System.Windows.Forms.ComboBox();
             this.lblDataType = new System.Windows.Forms.Label();
             this.txtNodeID = new System.Windows.Forms.TextBox();
             this.lblNodeID = new System.Windows.Forms.Label();
@@ -46,6 +47,7 @@
             this.chkItemActive = new System.Windows.Forms.CheckBox();
             this.gbItem.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numDataLen)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbDataTypeWarning)).BeginInit();
             this.SuspendLayout();
             // 
             // gbItem
@@ -54,7 +56,8 @@
             this.gbItem.Controls.Add(this.lblDataLen);
             this.gbItem.Controls.Add(this.chkIsArray);
             this.gbItem.Controls.Add(this.chkIsString);
-            this.gbItem.Controls.Add(this.txtDataType);
+            this.gbItem.Controls.Add(this.pbDataTypeWarning);
+            this.gbItem.Controls.Add(this.cbDataType);
             this.gbItem.Controls.Add(this.lblDataType);
             this.gbItem.Controls.Add(this.txtNodeID);
             this.gbItem.Controls.Add(this.lblNodeID);
@@ -127,13 +130,24 @@
             this.chkIsString.Text = "Is string";
             this.chkIsString.UseVisualStyleBackColor = true;
             // 
-            // txtDataType
+            // pbDataTypeWarning
             // 
-            this.txtDataType.Location = new System.Drawing.Point(13, 238);
-            this.txtDataType.Name = "txtDataType";
-            this.txtDataType.ReadOnly = true;
-            this.txtDataType.Size = new System.Drawing.Size(224, 23);
-            this.txtDataType.TabIndex = 14;
+            this.pbDataTypeWarning.BackColor = System.Drawing.SystemColors.Window;
+            this.pbDataTypeWarning.Image = global::Scada.Comm.Drivers.DrvOpcUa.View.Properties.Resources.warning;
+            this.pbDataTypeWarning.Location = new System.Drawing.Point(201, 241);
+            this.pbDataTypeWarning.Name = "pbDataTypeWarning";
+            this.pbDataTypeWarning.Size = new System.Drawing.Size(16, 16);
+            this.pbDataTypeWarning.TabIndex = 17;
+            this.pbDataTypeWarning.TabStop = false;
+            // 
+            // cbDataType
+            // 
+            this.cbDataType.FormattingEnabled = true;
+            this.cbDataType.Location = new System.Drawing.Point(13, 238);
+            this.cbDataType.Name = "cbDataType";
+            this.cbDataType.Size = new System.Drawing.Size(224, 23);
+            this.cbDataType.TabIndex = 14;
+            this.cbDataType.TextChanged += new System.EventHandler(this.cbDataType_TextChanged);
             // 
             // lblDataType
             // 
@@ -233,6 +247,7 @@
             this.gbItem.ResumeLayout(false);
             this.gbItem.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numDataLen)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbDataTypeWarning)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -253,7 +268,8 @@
         private TextBox txtTagCode;
         private Label lblTagCode;
         private CheckBox chkIsString;
-        private TextBox txtDataType;
         private Label lblDataType;
+        private PictureBox pbDataTypeWarning;
+        private ComboBox cbDataType;
     }
 }

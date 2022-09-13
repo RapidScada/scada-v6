@@ -381,12 +381,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         {
             try
             {
-                tvServer.Nodes.Clear();
-                btnViewAttrs.Enabled = false;
-                btnAddItem.Enabled = false;
-                subscriptionsNode = null;
-                commandsNode = null;
-
                 if (opcSession != null)
                 {
                     opcSession.Close();
@@ -399,7 +393,9 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             }
             finally
             {
+                tvServer.Nodes.Clear();
                 SetServerButtonsEnabled();
+                SetDeviceButtonsEnabled();
             }
         }
 
