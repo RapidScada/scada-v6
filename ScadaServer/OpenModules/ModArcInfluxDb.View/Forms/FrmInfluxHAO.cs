@@ -21,7 +21,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmInfluxHAO()
+        private FrmInfluxHAO()
         {
             InitializeComponent();
         }
@@ -62,20 +62,6 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
         }
 
         /// <summary>
-        /// Shows a connection manager and updates the connection combo box.
-        /// </summary>
-        private static void EditConnections(ComboBox comboBox, string configDir)
-        {
-            FrmConnManager frmConnManager = new(configDir);
-
-            if (frmConnManager.ShowDialog() == DialogResult.OK)
-            {
-                comboBox.Items.Clear();
-                comboBox.Items.AddRange(frmConnManager.ConnectionNames);
-            }
-        }
-
-        // <summary>
         /// Sets the controls according to the options.
         /// </summary>
         private void OptionsToControls()
@@ -112,7 +98,13 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
 
         private void btnManageConn_Click(object sender, EventArgs e)
         {
-            EditConnections(cbConnection, appDirs.ConfigDir);
+            FrmConnManager frmConnManager = new(appDirs.ConfigDir);
+
+            if (frmConnManager.ShowDialog() == DialogResult.OK)
+            {
+                cbConnection.Items.Clear();
+                cbConnection.Items.AddRange(frmConnManager.ConnectionNames);
+            }
         }
 
         private void btnOK_Click(object sender, EventArgs e)

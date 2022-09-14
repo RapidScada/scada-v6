@@ -105,8 +105,10 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
 
             if (lvConn.Items.Count > 0)
                 lvConn.Items[0].Selected = true;
+            else
+                ShowConnOptions(null);
         }
-        
+
         /// <summary>
         /// Shows the connection options according to the select connection item.
         /// </summary>
@@ -121,6 +123,9 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
                 txtPassword.Text = "";
                 txtBucket.Text = "";
                 txtOrg.Text = "";
+
+                txtName.Enabled = txtUrl.Enabled = txtToken.Enabled = txtUsername.Enabled = txtPassword.Enabled 
+                    = txtBucket.Enabled = txtOrg.Enabled = false;
             }
             else
             {
@@ -131,6 +136,9 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
                 txtPassword.Text = connectionOptions.Password;
                 txtBucket.Text = connectionOptions.Bucket;
                 txtOrg.Text = connectionOptions.Org;
+
+                txtName.Enabled = txtUrl.Enabled = txtToken.Enabled = txtUsername.Enabled = txtPassword.Enabled
+                    = txtBucket.Enabled = txtOrg.Enabled = true;
             }
         }
         
@@ -167,9 +175,6 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
             ActiveControl = lvConn;
             LoadConfig();
             FillConnList();
-
-            //GetSelectedItem(out _, out ConnectionOptions connectionOptions);
-            //ShowConnOptions(connectionOptions);
         }
 
         private void btnNewConn_Click(object sender, EventArgs e)
