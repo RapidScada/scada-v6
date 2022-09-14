@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Data.Entities;
@@ -111,9 +111,9 @@ namespace Scada.Data.Models
 
                     if (color != "")
                         enumFormat.Colors[i] = color;
-                    else if (i == 0)
+                    else if (i == 0 && valueCount <= 2)
                         enumFormat.Colors[i] = EnumOffColor;
-                    else if (i == 1)
+                    else if (i == 1 && valueCount <= 2)
                         enumFormat.Colors[i] = EnumOnColor;
                     else
                         enumFormat.Colors[i] = "";
