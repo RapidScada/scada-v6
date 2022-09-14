@@ -17,6 +17,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
         private readonly ModuleConfig moduleConfig;  // the module configuration
         private bool changing;                       // controls are being changed programmatically
 
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
@@ -167,8 +168,8 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
             LoadConfig();
             FillConnList();
 
-            GetSelectedItem(out _, out ConnectionOptions connectionOptions);
-            ShowConnOptions(connectionOptions);
+            //GetSelectedItem(out _, out ConnectionOptions connectionOptions);
+            //ShowConnOptions(connectionOptions);
         }
 
         private void btnNewConn_Click(object sender, EventArgs e)
