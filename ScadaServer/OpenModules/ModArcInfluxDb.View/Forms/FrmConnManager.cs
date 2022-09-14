@@ -104,9 +104,14 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
             lvConn.EndUpdate();
 
             if (lvConn.Items.Count > 0)
+            {
                 lvConn.Items[0].Selected = true;
+            }
             else
+            {
+                btnDeleteConn.Enabled = false;
                 ShowConnOptions(null);
+            }
         }
 
         /// <summary>
@@ -116,6 +121,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
         {
             if (connectionOptions == null)
             {
+                gbOptions.Enabled = false;
                 txtName.Text = "";
                 txtUrl.Text = "";
                 txtToken.Text = "";
@@ -123,12 +129,10 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
                 txtPassword.Text = "";
                 txtBucket.Text = "";
                 txtOrg.Text = "";
-
-                txtName.Enabled = txtUrl.Enabled = txtToken.Enabled = txtUsername.Enabled = txtPassword.Enabled 
-                    = txtBucket.Enabled = txtOrg.Enabled = false;
             }
             else
             {
+                gbOptions.Enabled = true;
                 txtName.Text = connectionOptions.Name;
                 txtUrl.Text = connectionOptions.Url;
                 txtToken.Text = connectionOptions.Token;
@@ -136,9 +140,6 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
                 txtPassword.Text = connectionOptions.Password;
                 txtBucket.Text = connectionOptions.Bucket;
                 txtOrg.Text = connectionOptions.Org;
-
-                txtName.Enabled = txtUrl.Enabled = txtToken.Enabled = txtUsername.Enabled = txtPassword.Enabled
-                    = txtBucket.Enabled = txtOrg.Enabled = true;
             }
         }
         
@@ -198,10 +199,14 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
 
         private void lvConn_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // show selected connection options
             changing = true;
             GetSelectedItem(out _, out ConnectionOptions connectionOptions);
             ShowConnOptions(connectionOptions);
             changing = false;
+            
+            // enable or disable button
+            btnDeleteConn.Enabled = connectionOptions != null;
         }
 
         private void txtName_TextChanged(object sender, EventArgs e)
