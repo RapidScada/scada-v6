@@ -31,6 +31,15 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Lang\ModArcInfluxDb.en-GB.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Lang\ModArcInfluxDb.ru-RU.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
   <Import Project="..\ModArcInfluxDb.Shared\ModArcInfluxDb.Shared.projitems" Label="Shared" />
 
 </Project>
