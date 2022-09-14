@@ -88,6 +88,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
 
             if (lvConn.Items.Count > 0)
                 lvConn.Items[0].Selected = true;
+            else
+                btnDeleteConn.Enabled = false;
         }
 
         /// <summary>
