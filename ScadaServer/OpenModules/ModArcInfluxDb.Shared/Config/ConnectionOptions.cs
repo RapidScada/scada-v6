@@ -70,7 +70,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Config
             ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
             Name = xmlNode.GetChildAsString("Name");
             Url = xmlNode.GetChildAsString("Url");
-            Token = xmlNode.GetChildAsString("Token");
+            Token = ScadaUtils.Decrypt(xmlNode.GetChildAsString("Token"));
             Username = xmlNode.GetChildAsString("Username");
             Password = ScadaUtils.Decrypt(xmlNode.GetChildAsString("Password"));
             Bucket = xmlNode.GetChildAsString("Bucket");
@@ -86,7 +86,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Config
 
             xmlElem.AppendElem("Name", Name);
             xmlElem.AppendElem("Url", Url);
-            xmlElem.AppendElem("Token", Token);
+            xmlElem.AppendElem("Token", ScadaUtils.Encrypt(Token));
             xmlElem.AppendElem("Username", Username);
             xmlElem.AppendElem("Password", ScadaUtils.Encrypt(Password));
             xmlElem.AppendElem("Bucket", Bucket);

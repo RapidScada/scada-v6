@@ -142,7 +142,8 @@ namespace Scada
         /// </summary>
         public static string Decrypt(string s, byte[] secretKey, byte[] iv)
         {
-            return HexToBytes(s, out byte[] bytes) ? Encoding.UTF8.GetString(DecryptBytes(bytes, secretKey, iv)) : "";
+            byte[] bytes = HexToBytes(s, false, true);
+            return Encoding.UTF8.GetString(DecryptBytes(bytes, secretKey, iv));
         }
 
         /// <summary>
