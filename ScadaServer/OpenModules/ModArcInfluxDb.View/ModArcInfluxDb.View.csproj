@@ -26,6 +26,9 @@
     <Reference Include="ScadaServerCommon">
       <HintPath>..\..\ScadaServer\ScadaServerCommon\bin\Release\netstandard2.0\ScadaServerCommon.dll</HintPath>
     </Reference>
+    <Reference Include="ScadaServerCommon.Forms">
+      <HintPath>..\..\ScadaServer\ScadaServerCommon.Forms\bin\Release\net6.0-windows\ScadaServerCommon.Forms.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <Import Project="..\ModArcInfluxDb.Shared\ModArcInfluxDb.Shared.projitems" Label="Shared" />

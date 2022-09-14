@@ -98,7 +98,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             this.colName});
             this.lvConn.FullRowSelect = true;
             this.lvConn.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.lvConn.HideSelection = false;
             this.lvConn.Location = new System.Drawing.Point(13, 51);
             this.lvConn.MultiSelect = false;
             this.lvConn.Name = "lvConn";

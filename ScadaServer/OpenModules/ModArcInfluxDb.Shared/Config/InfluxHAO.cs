@@ -25,5 +25,14 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Config
         /// Gets or sets the connection name.
         /// </summary>
         public string Connection { get; set; }
+
+        /// <summary>
+        /// Adds the options to the list.
+        /// </summary>
+        public override void AddToOptionList(OptionList options)
+        {
+            base.AddToOptionList(options);
+            options["Connection"] = Connection;
+        }
     }
 }
