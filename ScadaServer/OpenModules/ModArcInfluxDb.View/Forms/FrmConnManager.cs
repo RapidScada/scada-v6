@@ -70,25 +70,6 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
         }
 
         /// <summary>
-        /// Gets the selected list view item and the corresponding configuration.
-        /// </summary>
-        private bool GetSelectedItem(out ListViewItem item, out ConnectionOptions connectionOptions)
-        {
-            if (lvConn.SelectedItems.Count > 0)
-            {
-                item = lvConn.SelectedItems[0];
-                connectionOptions = (ConnectionOptions)item.Tag;
-                return true;
-            }
-            else
-            {
-                item = null;
-                connectionOptions = null;
-                return false;
-            }
-        }
-
-        /// <summary>
         /// Fills the connection list according to the configuration.
         /// </summary>
         private void FillConnList()
@@ -154,6 +135,25 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
             {
                 ConnectionOptions options = (ConnectionOptions)item.Tag;
                 moduleConfig.Connections[options.Name] = options;
+            }
+        }
+
+        /// <summary>
+        /// Gets the selected list view item and the corresponding configuration.
+        /// </summary>
+        private bool GetSelectedItem(out ListViewItem item, out ConnectionOptions connectionOptions)
+        {
+            if (lvConn.SelectedItems.Count > 0)
+            {
+                item = lvConn.SelectedItems[0];
+                connectionOptions = (ConnectionOptions)item.Tag;
+                return true;
+            }
+            else
+            {
+                item = null;
+                connectionOptions = null;
+                return false;
             }
         }
 
