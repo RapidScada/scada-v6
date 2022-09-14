@@ -13,14 +13,14 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
     /// </summary>
     public partial class FrmConnManager : Form
     {
-        private readonly string configFileName;     // the module configuration file name
-        private readonly ModuleConfig moduleConfig; // the module configuration
-        
+        private readonly string configFileName;      // the module configuration file name
+        private readonly ModuleConfig moduleConfig;  // the module configuration
+        private bool changing;                       // controls are being changed programmatically
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmConnManager()
+        private FrmConnManager()
         {
             InitializeComponent();
         }
@@ -33,6 +33,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
         {
             configFileName = Path.Combine(configDir, ModuleConfig.ConfigFileName);
             moduleConfig = new ModuleConfig();
+            changing = false;
         }
 
 
@@ -68,6 +69,25 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
         }
 
         /// <summary>
+        /// Gets the selected list view item and the corresponding configuration.
+        /// </summary>
+        private bool GetSelectedItem(out ListViewItem item, out ConnectionOptions connectionOptions)
+        {
+            if (lvConn.SelectedItems.Count > 0)
+            {
+                item = lvConn.SelectedItems[0];
+                connectionOptions = (ConnectionOptions)item.Tag;
+                return true;
+            }
+            else
+            {
+                item = null;
+                connectionOptions = null;
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Fills the connection list according to the configuration.
         /// </summary>
         private void FillConnList()
@@ -87,19 +107,30 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
         }
         
         /// <summary>
-        /// Fills the connection options according to the select connection item.
+        /// Shows the connection options according to the select connection item.
         /// </summary>
-        private void FillConnOptions(ListViewItem listViewItem)
+        private void ShowConnOptions(ConnectionOptions connectionOptions)
         {
-            ConnectionOptions options = listViewItem?.Tag as ConnectionOptions;
-
-            txtName.Text = options.Name;
-            txtUrl.Text = options.Url;
-            txtToken.Text = options.Token;
-            txtUsername.Text = options.Username;
-            txtPassword.Text = options.Password;
-            txtBucket.Text = options.Bucket;
-            txtOrg.Text = options.Org;
+            if (connectionOptions == null)
+            {
+                txtName.Text = "";
+                txtUrl.Text = "";
+                txtToken.Text = "";
+                txtUsername.Text = "";
+                txtPassword.Text = "";
+                txtBucket.Text = "";
+                txtOrg.Text = "";
+            }
+            else
+            {
+                txtName.Text = connectionOptions.Name;
+                txtUrl.Text = connectionOptions.Url;
+                txtToken.Text = connectionOptions.Token;
+                txtUsername.Text = connectionOptions.Username;
+                txtPassword.Text = connectionOptions.Password;
+                txtBucket.Text = connectionOptions.Bucket;
+                txtOrg.Text = connectionOptions.Org;
+            }
         }
         
         /// <summary>
@@ -132,22 +163,12 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
         private void FrmConnManager_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);            
-
             ActiveControl = lvConn;
-
             LoadConfig();
             FillConnList();
-            
-            if (lvConn.Items.Count > 0)
-                FillConnOptions(lvConn.SelectedItems[0]);
-        }
 
-        private void lvConn_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ListViewItem listViewItem = lvConn.GetSelectedItem();
-            
-            if (listViewItem != null)
-                FillConnOptions(listViewItem);
+            GetSelectedItem(out _, out ConnectionOptions connectionOptions);
+            ShowConnOptions(connectionOptions);
         }
 
         private void btnNewConn_Click(object sender, EventArgs e)
@@ -169,53 +190,61 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
             lvConn.RemoveSelectedItem();
         }
 
+        private void lvConn_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            changing = true;
+            GetSelectedItem(out _, out ConnectionOptions connectionOptions);
+            ShowConnOptions(connectionOptions);
+            changing = false;
+        }
+
         private void txtName_TextChanged(object sender, EventArgs e)
         {
             // update selected connection name
-            if (lvConn.GetSelectedItem() is ListViewItem listViewItem)
+            if (!changing && GetSelectedItem(out ListViewItem item, out ConnectionOptions connectionOptions))
             {
-                ((ConnectionOptions)listViewItem.Tag).Name = txtName.Text;
+                connectionOptions.Name = txtName.Text;
 
-                listViewItem.Text = string.IsNullOrEmpty(txtName.Text)
+                item.Text = string.IsNullOrEmpty(txtName.Text)
                     ? CommonPhrases.UnnamedConnection
                     : txtName.Text;
             }
         }
 
         private void txtUrl_TextChanged(object sender, EventArgs e)
-        {
-            if (lvConn.GetSelectedItem() is ListViewItem listViewItem)
-                ((ConnectionOptions)listViewItem.Tag).Url = txtUrl.Text;
+        {           
+            if (!changing && GetSelectedItem(out _, out ConnectionOptions connectionOptions))
+                connectionOptions.Url = txtUrl.Text;
         }
 
         private void txtToken_TextChanged(object sender, EventArgs e)
         {
-            if (lvConn.GetSelectedItem() is ListViewItem listViewItem)
-                ((ConnectionOptions)listViewItem.Tag).Token = txtToken.Text;
+            if (!changing && GetSelectedItem(out _, out ConnectionOptions connectionOptions))
+                connectionOptions.Token = txtToken.Text;
         }
 
         private void txtUsername_TextChanged(object sender, EventArgs e)
         {
-            if (lvConn.GetSelectedItem() is ListViewItem listViewItem)
-                ((ConnectionOptions)listViewItem.Tag).Username = txtUsername.Text;
+            if (!changing && GetSelectedItem(out _, out ConnectionOptions connectionOptions))
+                connectionOptions.Username = txtUsername.Text;
         }
 
         private void txtPassword_TextChanged(object sender, EventArgs e)
         {
-            if (lvConn.GetSelectedItem() is ListViewItem listViewItem)
-                ((ConnectionOptions)listViewItem.Tag).Password = txtPassword.Text;
+            if (!changing && GetSelectedItem(out _, out ConnectionOptions connectionOptions))
+                connectionOptions.Password = txtPassword.Text;
         }
 
         private void txtBucket_TextChanged(object sender, EventArgs e)
         {
-            if (lvConn.GetSelectedItem() is ListViewItem listViewItem)
-                ((ConnectionOptions)listViewItem.Tag).Bucket = txtBucket.Text;
+            if (!changing && GetSelectedItem(out _, out ConnectionOptions connectionOptions))
+                connectionOptions.Bucket = txtBucket.Text;
         }
 
         private void txtOrg_TextChanged(object sender, EventArgs e)
         {
-            if (lvConn.GetSelectedItem() is ListViewItem listViewItem)
-                ((ConnectionOptions)listViewItem.Tag).Org = txtOrg.Text;
+            if (!changing && GetSelectedItem(out _, out ConnectionOptions connectionOptions))
+                connectionOptions.Org = txtOrg.Text;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
