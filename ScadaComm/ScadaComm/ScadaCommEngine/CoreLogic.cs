@@ -865,7 +865,7 @@ namespace Scada.Comm.Engine
                     Log.WriteAction(CommonPhrases.LogicAlreadyStarted);
                 }
 
-                return thread != null;
+                return true;
             }
             catch (Exception ex)
             {
