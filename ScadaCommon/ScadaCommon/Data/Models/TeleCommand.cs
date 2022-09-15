@@ -315,7 +315,7 @@ namespace Scada.Data.Models
                 }
 
                 errMsg = "";
-                return false;
+                return true;
             }
             catch (Exception ex)
             {

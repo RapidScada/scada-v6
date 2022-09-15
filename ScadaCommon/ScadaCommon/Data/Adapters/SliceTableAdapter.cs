@@ -142,7 +142,7 @@ namespace Scada.Data.Adapters
                             if (ScadaUtils.CRC32(buffer, 0, cnlNumsSize) != BitConverter.ToUInt32(buffer, cnlNumsSize))
                                 throw new ScadaException("CRC error.");
                         }
-                        else if (cnlCnt < 0) // channel numbers are the same
+                        else // cnlCnt < 0, channel numbers are the same
                         {
                             cnlCnt = ~cnlCnt;
 

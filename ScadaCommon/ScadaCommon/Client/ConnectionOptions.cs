@@ -137,7 +137,7 @@ namespace Scada.Client
             }
             else
             {
-                SecretKey = ScadaUtils.HexToBytes(secretKeyStr);
+                SecretKey = ScadaUtils.HexToBytes(secretKeyStr, false, true);
                 if (SecretKey.Length != ScadaUtils.SecretKeySize)
                     throw new ScadaException(CommonPhrases.InvalidParamVal, "SecretKey");
             }
