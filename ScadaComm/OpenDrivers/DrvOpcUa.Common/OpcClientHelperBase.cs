@@ -135,13 +135,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa
             // check application certificate
             bool haveAppCertificate = await application.CheckApplicationInstanceCertificate(false, 0);
 
-            if (!haveAppCertificate)
-            {
-                throw new ScadaException(Locale.IsRussian ?
-                    "Сертификат экземпляра приложения недействителен!" :
-                    "Application instance certificate invalid!");
-            }
-
             if (haveAppCertificate)
             {
                 config.ApplicationUri = X509Utils.GetApplicationUriFromCertificate(

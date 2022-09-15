@@ -54,7 +54,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
                 chkItemActive.Checked = itemConfig.Active;
                 txtDisplayName.Text = itemConfig.DisplayName;
                 txtTagCode.Text = itemConfig.TagCode;
-                txtTagNum.Text = itemConfig?.Tag is ItemConfigTag tag ? tag.TagNumStr : "";
+                txtTagNum.Text = itemConfig.Tag is ItemConfigTag tag ? tag.TagNumStr : "";
                 txtNodeID.Text = itemConfig.NodeID;
                 cbDataType.Text = itemConfig.DataTypeName;
                 pbDataTypeWarning.Visible = string.IsNullOrWhiteSpace(itemConfig.DataTypeName);
