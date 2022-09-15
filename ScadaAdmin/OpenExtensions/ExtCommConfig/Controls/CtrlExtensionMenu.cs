@@ -314,7 +314,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
                     if (frmSync.BaseToComm)
                     {
                         // update explorer and open forms
-                        TreeNode linesNode = SelectedNode?.FindClosest(CommNodeType.Lines);
+                        TreeNode linesNode = SelectedNode.FindClosest(CommNodeType.Lines);
 
                         if (frmSync.AddedToComm)
                         {
