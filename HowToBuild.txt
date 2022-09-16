@@ -12,6 +12,7 @@ Microsoft Visual Studio 2022 is needed. Visual Studio Community is OK.
    ScadaServer,
    ScadaWeb,
    ScadaAdmin,
+   ScadaReport,
    OpenDrivers,
    OpenDrivers2,
    OpenModules,
