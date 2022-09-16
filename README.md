@@ -9,3 +9,5 @@ The goals of the development:
 * The code system for objects, devices and tags.
 * Clean up the source code and the configuration database.
 * .NET Core support.
+
+Website https://rapidscada.org
