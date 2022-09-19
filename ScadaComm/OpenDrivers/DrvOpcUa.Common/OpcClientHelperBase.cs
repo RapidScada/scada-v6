@@ -7,6 +7,7 @@ using Opc.Ua.Configuration;
 using Scada.Comm.Drivers.DrvOpcUa.Config;
 using Scada.Lang;
 using Scada.Log;
+using System;
 using System.Reflection;
 
 namespace Scada.Comm.Drivers.DrvOpcUa
@@ -69,6 +70,37 @@ namespace Scada.Comm.Drivers.DrvOpcUa
         }
 
         /// <summary>
+        /// Selects an OPC endpoint according to the connection options.
+        /// </summary>
+        private EndpointDescription SelectEndpoint()
+        {
+            // see CoreClientUtils.SelectEndpoint method
+            // https://github.com/OPCFoundation/UA-.NETStandard/blob/master/Libraries/Opc.Ua.Client/CoreClientUtils.cs
+
+            Uri discoveryUrl = new(connectionOptions.ServerUrl + "/discovery");
+            EndpointConfiguration endpointConfiguration = EndpointConfiguration.Create();
+            endpointConfiguration.OperationTimeout = CoreClientUtils.DefaultDiscoverTimeout;
+
+            // connect to the server's discovery endpoint and find the available configuration
+            using DiscoveryClient client = DiscoveryClient.Create(discoveryUrl, endpointConfiguration);
+            string securityPolicy = connectionOptions.GetSecurityPolicy();
+
+            foreach (EndpointDescription endpoint in client.GetEndpoints(null))
+            {
+                if (endpoint.EndpointUrl.StartsWith(discoveryUrl.Scheme) &&
+                    endpoint.SecurityMode == connectionOptions.SecurityMode &&
+                    endpoint.SecurityPolicyUri == securityPolicy)
+                {
+                    return endpoint;
+                }
+            }
+
+            throw new ScadaException(Locale.IsRussian ?
+                "Конечная точка с указанными параметрами безопасности не найдена." :
+                "Endpoint with the specified security options not found.");
+        }
+
+        /// <summary>
         /// Validates the certificate.
         /// </summary>
         private void CertificateValidator_CertificateValidation(CertificateValidator validator,
@@ -117,6 +149,9 @@ namespace Scada.Comm.Drivers.DrvOpcUa
         /// </summary>
         public async Task ConnectAsync()
         {
+            // see client exmaple
+            // https://github.com/OPCFoundation/UA-.NETStandard/blob/master/Applications/ConsoleReferenceClient/UAClient.cs
+
             ApplicationInstance application = new()
             {
                 ApplicationName = GetAppName(),
@@ -135,28 +170,23 @@ namespace Scada.Comm.Drivers.DrvOpcUa
             // check application certificate
             bool haveAppCertificate = await application.CheckApplicationInstanceCertificate(false, 0);
 
-            if (haveAppCertificate)
+            if (!haveAppCertificate)
             {
-                config.ApplicationUri = X509Utils.GetApplicationUriFromCertificate(
-                    config.SecurityConfiguration.ApplicationCertificate.Certificate);
-
-                if (config.SecurityConfiguration.AutoAcceptUntrustedCertificates)
-                    AutoAccept = true;
-
-                config.CertificateValidator.CertificateValidation += CertificateValidator_CertificateValidation;
+                throw new ScadaException(Locale.IsRussian ?
+                    "Сертификат экземпляра приложения недействителен." :
+                    "Application instance certificate is invalid.");
             }
-            else
-            {
-                log.WriteLine(Locale.IsRussian ?
-                    "Предупреждение: отсутствует сертификат приложения, используется незащищенное соединение." :
-                    "Warning: missing application certificate, using unsecure connection.");
-            }
+
+            config.ApplicationUri = X509Utils.GetApplicationUriFromCertificate(
+                config.SecurityConfiguration.ApplicationCertificate.Certificate);
+
+            if (config.SecurityConfiguration.AutoAcceptUntrustedCertificates)
+                AutoAccept = true;
+
+            config.CertificateValidator.CertificateValidation += CertificateValidator_CertificateValidation;
 
             // create session
-            EndpointDescription selectedEndpoint = CoreClientUtils.SelectEndpoint(
-                connectionOptions.ServerUrl, haveAppCertificate);
-            selectedEndpoint.SecurityMode = connectionOptions.SecurityMode;
-            selectedEndpoint.SecurityPolicyUri = connectionOptions.GetSecurityPolicy();
+            EndpointDescription selectedEndpoint = SelectEndpoint();
             EndpointConfiguration endpointConfiguration = EndpointConfiguration.Create(config);
             ConfiguredEndpoint endpoint = new(null, selectedEndpoint, endpointConfiguration);
             UserIdentity userIdentity = connectionOptions.AuthenticationMode == AuthenticationMode.Username ?
