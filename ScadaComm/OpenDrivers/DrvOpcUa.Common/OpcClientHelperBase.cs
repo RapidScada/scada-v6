@@ -7,7 +7,6 @@ using Opc.Ua.Configuration;
 using Scada.Comm.Drivers.DrvOpcUa.Config;
 using Scada.Lang;
 using Scada.Log;
-using System;
 using System.Reflection;
 
 namespace Scada.Comm.Drivers.DrvOpcUa
