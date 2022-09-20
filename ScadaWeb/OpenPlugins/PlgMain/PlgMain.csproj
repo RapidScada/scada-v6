@@ -36,6 +36,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PlgMain.Common\PlgMain.Common.csproj" />
+    <ProjectReference Include="..\PlgMain.Report\PlgMain.Report.csproj" />
   </ItemGroup>
 
   <ItemGroup>

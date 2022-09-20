@@ -94,4 +94,7 @@
     <Phrase key="ItemCol">Элемент</Phrase>
     <Phrase key="WorksheetName">Табличное представление</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report">
+    <Phrase key="ArchiveNotFound">Архив не найдён в базе конфигурации.</Phrase>
+  </Dictionary>
 </PlgMainDictionaries>

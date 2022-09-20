@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scada.Data.Models;
 using Scada.Report;
+using Scada.Web.Api;
 using Scada.Web.Authorization;
 using Scada.Web.Plugins.PlgMain.Code;
+using Scada.Web.Plugins.PlgMain.Report;
 using Scada.Web.Services;
 using System.Net.Mime;
 
@@ -74,6 +76,20 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         }
 
         /// <summary>
+        /// Creates a new report context.
+        /// </summary>
+        private IReportContext CreateReportContext()
+        {
+            return new ReportContext
+            {
+                ConfigDatabase = webContext.ConfigDatabase,
+                ScadaClient = clientAccessor.ScadaClient,
+                TemplateDir = templateDir
+            };
+        }
+
+
+        /// <summary>
         /// Prints the specified table view to an Excel workbook.
         /// </summary>
         [Authorize(Policy = PolicyName.Restricted)]
@@ -136,6 +152,43 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 PrintEvents(null, out DateTime generateTime),
                 MediaTypeNames.Application.Octet,
                 ReportUtils.BuildFileName("Events", generateTime, OutputFormat.Xml2003));
+        }
+
+        /// <summary>
+        /// Generates a historical data report.
+        /// </summary>
+        [Authorize(Policy = PolicyName.Restricted)]
+        public IActionResult PrintHistDataReport(DateTime startTime, DateTime endTime, string archive, IdList cnlNums)
+        {
+            MemoryStream stream = new();
+            DateTime generateTime;
+
+            try
+            {
+                HistDataReportBuilder builder = new(CreateReportContext());
+                builder.Generate(new HistDataReportArgs
+                {
+                    StartTime = startTime,
+                    EndTime = endTime,
+                    TimeZone = userContext.TimeZone,
+                    Format = OutputFormat.Xml2003,
+                    ArchiveCode = archive,
+                    CnlNums = cnlNums
+                }, stream);
+
+                generateTime = builder.GenerateTime;
+                stream.Position = 0;
+            }
+            catch
+            {
+                stream.Dispose();
+                throw;
+            }
+
+            return File(
+                stream,
+                MediaTypeNames.Application.Octet,
+                ReportUtils.BuildFileName("HistData", generateTime, OutputFormat.Xml2003));
         }
     }
 }

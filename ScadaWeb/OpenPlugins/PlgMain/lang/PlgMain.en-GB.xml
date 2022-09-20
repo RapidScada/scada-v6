@@ -92,7 +92,17 @@
     <Phrase key="ArcCaption">Archive:</Phrase>
     <Phrase key="TzCaption">Time zone:</Phrase>
     <Phrase key="ItemCol">Item</Phrase>
-    <Phrase key=""></Phrase>
     <Phrase key="WorksheetName">Table View</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report">
+    <Phrase key="ArchiveNotFound">Archive not found in the configuration database.</Phrase>
+    <Phrase key="GenCaption">Generated:</Phrase>
+    <Phrase key="ArcCaption">Archive:</Phrase>
+    <Phrase key="TzCaption">Time zone:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.HistDataReportBuilder">
+    <Phrase key="TitleFormat">Historical Data, {0} - {1}</Phrase>
+    <Phrase key="CnlCaption">Channels:</Phrase>
+    <Phrase key=""></Phrase>
   </Dictionary>
 </PlgMainDictionaries>
