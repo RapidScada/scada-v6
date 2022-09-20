@@ -15,12 +15,20 @@ namespace Scada.Report
         public ReportBuilder(IReportContext reportContext)
         {
             ReportContext = reportContext ?? throw new ArgumentNullException(nameof(reportContext));
+            GenerateTime = DateTime.MinValue;
         }
+
 
         /// <summary>
         /// Gets the report context.
         /// </summary>
         protected IReportContext ReportContext { get; }
+
+        /// <summary>
+        /// Gets the time when a report was last built, UTC.
+        /// </summary>
+        public DateTime GenerateTime { get; protected set; }
+
 
         /// <summary>
         /// Generates a report to the output stream.

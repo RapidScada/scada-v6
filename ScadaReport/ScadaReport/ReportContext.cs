@@ -7,24 +7,24 @@ using Scada.Data.Models;
 namespace Scada.Report
 {
     /// <summary>
-    /// Defines functionality to access the report environment.
-    /// <para>Определяет функциональность для доступа к окружению отчёта.</para>
+    /// Represents a report environment.
+    /// <para>Представляет окружение отчёта.</para>
     /// </summary>
-    public interface IReportContext
+    public class ReportContext : IReportContext
     {
         /// <summary>
         /// Gets the cached configuration database.
         /// </summary>
-        ConfigDataset ConfigDatabase { get; }
+        public ConfigDataset ConfigDatabase { get; init; }
 
         /// <summary>
         /// Gets the client that interacts with the Server service.
         /// </summary>
-        ScadaClient ScadaClient { get; }
+        public ScadaClient ScadaClient { get; init; }
 
         /// <summary>
         /// Gets the directory of templates.
         /// </summary>
-        string TemplateDir { get; }
+        public string TemplateDir { get; init; }
     }
 }

@@ -14,8 +14,9 @@ namespace Scada.Report
         /// </summary>
         public ReportArgs()
         {
-            StartDT = DateTime.MinValue;
-            EndDT = DateTime.MinValue;
+            StartTime = DateTime.MinValue;
+            EndTime = DateTime.MinValue;
+            TimeZone = TimeZoneInfo.Local;
             Format = OutputFormat.Default;
             CustomArgs = new Dictionary<string, string>();
         }
@@ -24,12 +25,17 @@ namespace Scada.Report
         /// <summary>
         /// Gets or sets the start date and time of the report period, UTC.
         /// </summary>
-        public DateTime StartDT { get; set; }
+        public DateTime StartTime { get; set; }
 
         /// <summary>
         /// Gets or sets the end date and time of the report period, UTC.
         /// </summary>
-        public DateTime EndDT { get; set; }
+        public DateTime EndTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the report's time zone.
+        /// </summary>
+        public TimeZoneInfo TimeZone { get; set; }
 
         /// <summary>
         /// Gets or sets the output format.
@@ -39,6 +45,19 @@ namespace Scada.Report
         /// <summary>
         /// Gets the custom report arguments.
         /// </summary>
-        public IDictionary<string, string> CustomArgs { get; }
+        public IDictionary<string, string> CustomArgs { get; protected set; }
+
+
+        /// <summary>
+        /// Validates the arguments, raises an exception on failure.
+        /// </summary>
+        public virtual void Validate()
+        {
+            if (StartTime > EndTime)
+                throw new ScadaException("Invalid time range.");
+
+            if (TimeZone == null)
+                throw new ScadaException("Time zone must not be null.");
+        }
     }
 }
