@@ -23,6 +23,11 @@ namespace Scada.Report
         ScadaClient ScadaClient { get; }
 
         /// <summary>
+        /// Gets the report's time zone.
+        /// </summary>
+        public TimeZoneInfo TimeZone { get; init; }
+
+        /// <summary>
         /// Gets the directory of templates.
         /// </summary>
         public string TemplateDir { get; }
