@@ -33,6 +33,7 @@ namespace Scada.Web.Plugins.PlgMain.Report
 
         private HistDataReportArgs reportArgs;
         private Archive archiveEntity;
+        private Row cnlRowTemplate;
 
 
         /// <summary>
@@ -51,6 +52,7 @@ namespace Scada.Web.Plugins.PlgMain.Report
 
             reportArgs = null;
             archiveEntity = null;
+            cnlRowTemplate = null;
         }
 
 
