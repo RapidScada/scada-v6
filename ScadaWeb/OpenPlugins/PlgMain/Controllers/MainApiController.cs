@@ -110,14 +110,6 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         }
 
         /// <summary>
-        /// Creates a channel and event data formatter.
-        /// </summary>
-        private CnlDataFormatter CreateFormatter()
-        {
-            return new CnlDataFormatter(webContext.ConfigDatabase, webContext.ConfigDatabase.Enums, userContext.TimeZone);
-        }
-
-        /// <summary>
         /// Requests the current data from the server.
         /// </summary>
         private CurData RequestCurData(IList<int> cnlNums, long cnlListID, bool useCache)
@@ -137,7 +129,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                     ? clientAccessor.ScadaClient.GetCurrentData(ref cnlListID)
                     : clientAccessor.ScadaClient.GetCurrentData(cnlNums.ToArray(), useCache, out cnlListID);
                 curData.CnlListID = cnlListID.ToString();
-                CnlDataFormatter formatter = CreateFormatter();
+                CnlDataFormatter formatter = new(webContext.ConfigDatabase, userContext.TimeZone);
 
                 for (int i = 0; i < cnlCnt; i++)
                 {
@@ -188,7 +180,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 }
 
                 // copy channel data
-                CnlDataFormatter formatter = CreateFormatter();
+                CnlDataFormatter formatter = new(webContext.ConfigDatabase, userContext.TimeZone);
 
                 for (int cnlIdx = 0; cnlIdx < cnlCnt; cnlIdx++)
                 {
@@ -224,7 +216,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
 
             int eventCnt = events.Count;
             EventRecord[] records = new EventRecord[eventCnt];
-            CnlDataFormatter formatter = CreateFormatter();
+            CnlDataFormatter formatter = new(webContext.ConfigDatabase, userContext.TimeZone);
 
             for (int i = 0; i < eventCnt; i++)
             {

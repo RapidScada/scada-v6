@@ -199,7 +199,7 @@ namespace Scada.Web.Plugins.PlgMain.Code
                     archiveEntity.Bit, workbookArgs.TimeRange, workbookArgs.TableView.CnlNumList.ToArray());
                 Dictionary<int, int> cnlNumMap = MapCnlNums(trendBundle);
                 List<ColumnMeta> columnMetas = GetColumnMetas(trendBundle);
-                CnlDataFormatter formatter = new(configDatabase, configDatabase.Enums, workbookArgs.TimeZone)
+                CnlDataFormatter formatter = new(configDatabase, workbookArgs.TimeZone)
                 {
                     Culture = CultureInfo.InvariantCulture
                 };

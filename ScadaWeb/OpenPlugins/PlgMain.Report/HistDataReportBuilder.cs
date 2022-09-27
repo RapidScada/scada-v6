@@ -9,6 +9,7 @@ using Scada.Lang;
 using Scada.Report;
 using Scada.Report.Xml2003;
 using Scada.Report.Xml2003.Excel;
+using System.Globalization;
 using System.Xml;
 
 namespace Scada.Web.Plugins.PlgMain.Report
@@ -99,7 +100,7 @@ namespace Scada.Web.Plugins.PlgMain.Report
             TimeRange timeRange = new(reportArgs.StartTime, reportArgs.EndTime, true);
             TrendBundle trendBundle = ReportContext.ScadaClient.GetTrends(
                 archiveEntity.Bit, timeRange, reportArgs.CnlNums.ToArray());
-            CnlDataFormatter formatter = new(ReportContext.ConfigDatabase, ReportContext.ConfigDatabase.Enums, reportArgs.TimeZone)
+            CnlDataFormatter formatter = new(ReportContext.ConfigDatabase, reportArgs.TimeZone)
             {
                 Culture = CultureInfo.InvariantCulture
             };

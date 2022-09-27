@@ -106,7 +106,7 @@ namespace Scada.Web.Plugins.PlgMain.Code
                     ? new EventFilter(workbookArgs.EventCount)
                     : new EventFilter(workbookArgs.EventCount, workbookArgs.View);
                 List<Event> events = scadaClient.GetEvents(archiveEntity.Bit, timeRange, filter, false, out _);
-                CnlDataFormatter formatter = new(configDatabase, configDatabase.Enums, workbookArgs.TimeZone);
+                CnlDataFormatter formatter = new(configDatabase, workbookArgs.TimeZone);
 
                 // modify workbook
                 Table eventTable = eventRowTemplate.ParentTable;
