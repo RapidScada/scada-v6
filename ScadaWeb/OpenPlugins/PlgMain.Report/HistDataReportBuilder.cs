@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Client;
 using Scada.Data.Entities;
+using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Lang;
 using Scada.Report;
@@ -33,7 +35,14 @@ namespace Scada.Web.Plugins.PlgMain.Report
 
         private HistDataReportArgs reportArgs;
         private Archive archiveEntity;
+        private List<Cnl> cnls;
+        private Cnl currentCnl;
         private Row cnlRowTemplate;
+        private Cell dataColCellTemplate;
+        private Cell dataCellTemplate;
+        private Cell avgCellTemplate;
+        private Cell minCellTemplate;
+        private Cell maxCellTemplate;
 
 
         /// <summary>
@@ -52,7 +61,14 @@ namespace Scada.Web.Plugins.PlgMain.Report
 
             reportArgs = null;
             archiveEntity = null;
+            cnls = null;
+            currentCnl = null;
             cnlRowTemplate = null;
+            dataColCellTemplate = null;
+            dataCellTemplate = null;
+            avgCellTemplate = null;
+            minCellTemplate = null;
+            maxCellTemplate = null;
         }
 
 
@@ -67,6 +83,49 @@ namespace Scada.Web.Plugins.PlgMain.Report
                 localStartTime.ToLocalizedString(),
                 localEndTime.ToLocalizedString());
         }
+
+        /// <summary>
+        /// Receives and prints channel data.
+        /// </summary>
+        private void PrintChannelData()
+        {
+            if (dataColCellTemplate == null || dataCellTemplate == null ||
+                avgCellTemplate == null || minCellTemplate == null || maxCellTemplate == null)
+            {
+                return;
+            }
+
+            // prepare data
+            TimeRange timeRange = new(reportArgs.StartTime, reportArgs.EndTime, true);
+            TrendBundle trendBundle = ReportContext.ScadaClient.GetTrends(
+                archiveEntity.Bit, timeRange, reportArgs.CnlNums.ToArray());
+            CnlDataFormatter formatter = new(ReportContext.ConfigDatabase, ReportContext.ConfigDatabase.Enums, reportArgs.TimeZone)
+            {
+                Culture = CultureInfo.InvariantCulture
+            };
+
+            // columns
+            Table table = dataColCellTemplate.ParentRow.ParentTable;
+            table.Columns.Last().Span = cnls.Count - 1;
+
+            // header row
+            Row headerRow = dataColCellTemplate.ParentRow;
+            headerRow.RemoveCell(dataColCellTemplate);
+
+            foreach (Cnl cnl in cnls)
+            {
+                Cell dataColCell = dataColCellTemplate.Clone();
+                dataColCell.Text = string.Format(dict.DataCol, cnl.CnlNum);
+                headerRow.AppendCell(dataColCell);
+            }
+
+            /*Row dataRowTemplate = dataCellTemplate.ParentRow;
+            Table table = dataRowTemplate.ParentTable;
+            int dataRowIndex = table.Rows.IndexOf(dataRowTemplate);
+            table.ParentWorksheet.SplitHorizontal(dataRowIndex);
+            table.RemoveRow(dataRowIndex);*/
+        }
+
 
         /// <summary>
         /// Generates a report to the output stream.
@@ -85,10 +144,22 @@ namespace Scada.Web.Plugins.PlgMain.Report
             reportArgs.Validate();
             ArgumentNullException.ThrowIfNull(outStream, nameof(outStream));
 
+            // find archive
             string archiveCode = ScadaUtils.FirstNonEmpty(args.ArchiveCode, DefaultArchiveCode);
             archiveEntity = ReportContext.ConfigDatabase.ArchiveTable
                 .SelectFirst(new TableFilter("Code", archiveCode)) ??
                 throw new ScadaException(reportDict.ArchiveNotFound);
+
+            // find channels
+            cnls = new List<Cnl>(reportArgs.CnlNums.Count);
+
+            foreach (int cnlNum in reportArgs.CnlNums)
+            {
+                cnls.Add(
+                    ReportContext.ConfigDatabase.CnlTable.GetItem(cnlNum) ?? 
+                    new Cnl { CnlNum = cnlNum, Name = "" });
+            }
+
             renderer.Render(templateFilePath, outStream);
         }
 
@@ -100,7 +171,28 @@ namespace Scada.Web.Plugins.PlgMain.Report
 
         private void Renderer_AfterProcessing(object sender, XmlDocument e)
         {
+            if (cnlRowTemplate != null)
+            {
+                // update table
+                Table table = cnlRowTemplate.ParentTable;
+                table.RemoveUnwantedAttrs();
+                table.ParentWorksheet.Name = dict.WorksheetName;
 
+                // print channels
+                int cnlRowIndex = table.Rows.IndexOf(cnlRowTemplate);
+                table.RemoveRow(cnlRowIndex);
+
+                foreach (Cnl cnl in cnls)
+                {
+                    currentCnl = cnl;
+                    Row cnlRow = cnlRowTemplate.Clone();
+                    renderer.ProcessRow(cnlRow);
+                    table.InsertRow(cnlRowIndex, cnlRow);
+                    cnlRowIndex++;
+                }
+
+                PrintChannelData();
+            }
         }
 
         private void Renderer_DirectiveFound(object sender, ExcelDirectiveEventArgs e)
@@ -109,7 +201,9 @@ namespace Scada.Web.Plugins.PlgMain.Report
 
             if (e.Stage == ProcessingStage.Processing)
             {
-                if (e.DirectiveValue == "Title")
+                if (e.DirectiveName == ReportDirectives.RepRow && e.DirectiveValue == "CnlRow")
+                    cnlRowTemplate = e.Cell.ParentRow;
+                else if (e.DirectiveValue == "Title")
                     cellText = GetTitle();
                 else if (e.DirectiveValue == "GenCaption")
                     cellText = reportDict.GenCaption;
@@ -124,7 +218,27 @@ namespace Scada.Web.Plugins.PlgMain.Report
                 else if (e.DirectiveValue == "Tz")
                     cellText = reportArgs.TimeZone.DisplayName;
                 else if (e.DirectiveValue == "CnlCaption")
-                    cellText = reportDict.CnlCaption;
+                    cellText = dict.CnlCaption;
+                else if (e.DirectiveValue == "DataCol")
+                    dataColCellTemplate = e.Cell;
+                else if (e.DirectiveValue == "Data")
+                    dataCellTemplate = e.Cell;
+                else if (e.DirectiveValue == "Avg")
+                    avgCellTemplate = e.Cell;
+                else if (e.DirectiveValue == "Min")
+                    minCellTemplate = e.Cell;
+                else if (e.DirectiveValue == "Max")
+                    maxCellTemplate = e.Cell;
+            }
+            else if (e.Stage == ProcessingStage.Postprocessing)
+            {
+                if (e.DirectiveValue == "CnlNum")
+                {
+                    cellText = currentCnl.CnlNum.ToString();
+                    e.Cell.SetNumberType();
+                }
+                else if (e.DirectiveValue == "CnlName")
+                    cellText = currentCnl.Name;
             }
 
             if (cellText != null)

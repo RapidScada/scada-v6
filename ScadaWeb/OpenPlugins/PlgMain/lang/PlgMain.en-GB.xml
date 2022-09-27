@@ -103,6 +103,12 @@
   <Dictionary key="Scada.Web.Plugins.PlgMain.Report.HistDataReportBuilder">
     <Phrase key="TitleFormat">Historical Data, {0} - {1}</Phrase>
     <Phrase key="CnlCaption">Channels:</Phrase>
+    <Phrase key="TimeCol">Date and Time</Phrase>
+    <Phrase key="DataCol">Channel {0}</Phrase>
+    <Phrase key="AvgCaption">Average</Phrase>
+    <Phrase key="MinCaption">Minimum</Phrase>
+    <Phrase key="MaxCaption">Maximum</Phrase>
+    <Phrase key="WorksheetName">Historical Data</Phrase>
     <Phrase key=""></Phrase>
   </Dictionary>
 </PlgMainDictionaries>

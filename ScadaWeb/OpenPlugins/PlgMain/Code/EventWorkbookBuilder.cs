@@ -93,7 +93,6 @@ namespace Scada.Web.Plugins.PlgMain.Code
 
         private void Renderer_BeforeProcessing(object sender, XmlDocument e)
         {
-            eventRowTemplate = null;
             GenerateTime = DateTime.UtcNow;
         }
 
@@ -111,11 +110,9 @@ namespace Scada.Web.Plugins.PlgMain.Code
 
                 // modify workbook
                 Table eventTable = eventRowTemplate.ParentTable;
+                eventTable.RemoveRow(eventRowTemplate);
                 eventTable.RemoveUnwantedAttrs();
                 eventTable.ParentWorksheet.Name = dict.WorksheetName;
-
-                int rowIndex = eventTable.Rows.IndexOf(eventRowTemplate);
-                eventTable.RemoveRow(rowIndex);
 
                 foreach (Event ev in events)
                 {

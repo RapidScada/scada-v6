@@ -212,8 +212,7 @@ namespace Scada.Web.Plugins.PlgMain.Code
 
                 // header row
                 Row headerRow = dataColCellTemplate.ParentRow;
-                int cellIndex = headerRow.Cells.IndexOf(dataColCellTemplate);
-                headerRow.RemoveCell(cellIndex);
+                headerRow.RemoveCell(dataColCellTemplate);
                 bool showDate = columnMetas.First().ShortDate != columnMetas.Last().ShortDate;
 
                 foreach (ColumnMeta columnMeta in columnMetas)
@@ -227,11 +226,8 @@ namespace Scada.Web.Plugins.PlgMain.Code
 
                 // table view items
                 Row itemRowTemplate = dataCellTemplate.ParentRow;
-                cellIndex = itemRowTemplate.Cells.IndexOf(dataCellTemplate);
-                itemRowTemplate.RemoveCell(cellIndex);
-
-                int rowIndex = table.Rows.IndexOf(itemRowTemplate);
-                table.RemoveRow(rowIndex);
+                itemRowTemplate.RemoveCell(dataCellTemplate);
+                table.RemoveRow(itemRowTemplate);
 
                 foreach (TableItem tableItem in workbookArgs.TableView.VisibleItems)
                 {
