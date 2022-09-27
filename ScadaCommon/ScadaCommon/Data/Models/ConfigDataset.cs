@@ -42,113 +42,119 @@ namespace Scada.Data.Models
         {
             CreateAllTables();
             AddRelations();
+            Enums = new EnumDict();
         }
 
 
         /// <summary>
         /// Gets the archive table.
         /// </summary>
-        public BaseTable<Archive> ArchiveTable { get; protected set; }
+        public BaseTable<Archive> ArchiveTable { get; private set; }
 
         /// <summary>
         /// Gets the channel table.
         /// </summary>
-        public BaseTable<Cnl> CnlTable { get; protected set; }
+        public BaseTable<Cnl> CnlTable { get; private set; }
 
         /// <summary>
         /// Gets the channel status table.
         /// </summary>
-        public BaseTable<CnlStatus> CnlStatusTable { get; protected set; }
+        public BaseTable<CnlStatus> CnlStatusTable { get; private set; }
 
         /// <summary>
         /// Gets the channel type table.
         /// </summary>
-        public BaseTable<CnlType> CnlTypeTable { get; protected set; }
+        public BaseTable<CnlType> CnlTypeTable { get; private set; }
 
         /// <summary>
         /// Gets the communication line table.
         /// </summary>
-        public BaseTable<CommLine> CommLineTable { get; protected set; }
+        public BaseTable<CommLine> CommLineTable { get; private set; }
 
         /// <summary>
         /// Gets the data type table.
         /// </summary>
-        public BaseTable<DataType> DataTypeTable { get; protected set; }
+        public BaseTable<DataType> DataTypeTable { get; private set; }
 
         /// <summary>
         /// Gets the device table.
         /// </summary>
-        public BaseTable<Device> DeviceTable { get; protected set; }
+        public BaseTable<Device> DeviceTable { get; private set; }
 
         /// <summary>
         /// Gets the device type table.
         /// </summary>
-        public BaseTable<DevType> DevTypeTable { get; protected set; }
+        public BaseTable<DevType> DevTypeTable { get; private set; }
 
         /// <summary>
         /// Gets the format table.
         /// </summary>
-        public BaseTable<Format> FormatTable { get; protected set; }
+        public BaseTable<Format> FormatTable { get; private set; }
 
         /// <summary>
         /// Gets the limit table.
         /// </summary>
-        public BaseTable<Lim> LimTable { get; protected set; }
+        public BaseTable<Lim> LimTable { get; private set; }
 
         /// <summary>
         /// Gets the object (location) table.
         /// </summary>
-        public BaseTable<Obj> ObjTable { get; protected set; }
+        public BaseTable<Obj> ObjTable { get; private set; }
 
         /// <summary>
         /// Gets the object right table.
         /// </summary>
-        public BaseTable<ObjRight> ObjRightTable { get; protected set; }
+        public BaseTable<ObjRight> ObjRightTable { get; private set; }
 
         /// <summary>
         /// Gets the quantity table.
         /// </summary>
-        public BaseTable<Quantity> QuantityTable { get; protected set; }
+        public BaseTable<Quantity> QuantityTable { get; private set; }
 
         /// <summary>
         /// Gets the role table.
         /// </summary>
-        public BaseTable<Role> RoleTable { get; protected set; }
+        public BaseTable<Role> RoleTable { get; private set; }
 
         /// <summary>
         /// Gets the role inheritance table.
         /// </summary>
-        public BaseTable<RoleRef> RoleRefTable { get; protected set; }
+        public BaseTable<RoleRef> RoleRefTable { get; private set; }
 
         /// <summary>
         /// Gets the script table.
         /// </summary>
-        public BaseTable<Script> ScriptTable { get; protected set; }
+        public BaseTable<Script> ScriptTable { get; private set; }
 
         /// <summary>
         /// Gets the unit table.
         /// </summary>
-        public BaseTable<Unit> UnitTable { get; protected set; }
+        public BaseTable<Unit> UnitTable { get; private set; }
 
         /// <summary>
         /// Gets the user table.
         /// </summary>
-        public BaseTable<User> UserTable { get; protected set; }
+        public BaseTable<User> UserTable { get; private set; }
 
         /// <summary>
         /// Gets the view table.
         /// </summary>
-        public BaseTable<View> ViewTable { get; protected set; }
+        public BaseTable<View> ViewTable { get; private set; }
 
         /// <summary>
         /// Gets the view type table.
         /// </summary>
-        public BaseTable<ViewType> ViewTypeTable { get; protected set; }
+        public BaseTable<ViewType> ViewTypeTable { get; private set; }
 
         /// <summary>
         /// Gets all the tables of the configuration database.
         /// </summary>
-        public IBaseTable[] AllTables { get; protected set; }
+        public IBaseTable[] AllTables { get; private set; }
+        
+        /// <summary>
+        /// Gets the enumerations.
+        /// </summary>
+        public EnumDict Enums { get; }
 
 
         /// <summary>
@@ -228,6 +234,14 @@ namespace Scada.Data.Models
             childTable.AddIndex(childColumn);
             childTable.DependsOn.Add(relation);
             parentTable.Dependent.Add(relation);
+        }
+        
+        /// <summary>
+        /// Initializes data objects based on the configuration database tables.
+        /// </summary>
+        public virtual void Init()
+        {
+            Enums.Init(this);
         }
     }
 }

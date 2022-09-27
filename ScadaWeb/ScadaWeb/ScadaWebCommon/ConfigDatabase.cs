@@ -57,7 +57,6 @@ namespace Scada.Web
             : base()
         {
             RightMatrix = new RightMatrix();
-            Enums = new EnumDict();
             SortedViews = new List<View>();
         }
 
@@ -68,11 +67,6 @@ namespace Scada.Web
         public RightMatrix RightMatrix { get; }
 
         /// <summary>
-        /// Gets the enumerations.
-        /// </summary>
-        public EnumDict Enums { get; }
-
-        /// <summary>
         /// Gets the sorted view entities.
         /// </summary>
         public List<View> SortedViews { get; }
@@ -81,10 +75,10 @@ namespace Scada.Web
         /// <summary>
         /// Initializes data objects based on the configuration database tables.
         /// </summary>
-        public void Init()
+        public override void Init()
         {
+            base.Init();
             RightMatrix.Init(this);
-            Enums.Init(this);
 
             SortedViews.AddRange(ViewTable.Enumerate());
             SortedViews.Sort(new ViewComparer());

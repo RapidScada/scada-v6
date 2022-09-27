@@ -80,10 +80,6 @@ namespace Scada
         /// </summary>
         protected readonly ConfigDataset configDataset;
         /// <summary>
-        /// The enumeration dictionary.
-        /// </summary>
-        protected readonly EnumDict enums;
-        /// <summary>
         /// The user's time zone.
         /// </summary>
         protected readonly TimeZoneInfo timeZone;
@@ -97,25 +93,16 @@ namespace Scada
         /// Initializes a new instance of the class.
         /// </summary>
         public CnlDataFormatter(ConfigDataset configDataset)
-            : this(configDataset, new EnumDict(configDataset), TimeZoneInfo.Local)
+            : this(configDataset, TimeZoneInfo.Local)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CnlDataFormatter(ConfigDataset configDataset, EnumDict enums)
-            : this(configDataset, enums, TimeZoneInfo.Local)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public CnlDataFormatter(ConfigDataset configDataset, EnumDict enums, TimeZoneInfo timeZone)
+        public CnlDataFormatter(ConfigDataset configDataset, TimeZoneInfo timeZone)
         {
             this.configDataset = configDataset ?? throw new ArgumentNullException(nameof(configDataset));
-            this.enums = enums ?? throw new ArgumentNullException(nameof(enums));
             this.timeZone = timeZone ?? throw new ArgumentNullException(nameof(timeZone));
 
             Culture = Locale.Culture;
@@ -277,7 +264,7 @@ namespace Scada
             EnumFormat enumFormat = null;
 
             if (format != null && format.IsEnum)
-                enums.TryGetValue(format.FormatID, out enumFormat);
+                configDataset.Enums.TryGetValue(format.FormatID, out enumFormat);
 
             // displayed value
             try
