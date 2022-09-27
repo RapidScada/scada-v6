@@ -175,6 +175,17 @@ namespace Scada.Report.Xml2003.Excel
         }
 
         /// <summary>
+        /// Removes the cell from the row and updates the XML node of the row.
+        /// </summary>
+        public void RemoveCell(Cell cell)
+        {
+            int index = Cells.IndexOf(cell);
+            cell.ParentRow = null;
+            node.RemoveChild(cell.Node);
+            cells.RemoveAt(index);
+        }
+
+        /// <summary>
         /// Установить высоту строки.
         /// </summary>
         public static void SetRowHeight(XmlNode rowNode, double height)

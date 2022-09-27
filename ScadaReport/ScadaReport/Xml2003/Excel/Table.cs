@@ -210,6 +210,17 @@ namespace Scada.Report.Xml2003.Excel
         }
 
         /// <summary>
+        /// Removes the row from the table and updates the XML node of the table.
+        /// </summary>
+        public void RemoveRow(Row row)
+        {
+            int index = Rows.IndexOf(row);
+            row.ParentTable = null;
+            node.RemoveChild(row.Node);
+            rows.RemoveAt(index);
+        }
+
+        /// <summary>
         /// Удалить все строки из списка строк таблицы и модифицировать дерево XML-документа.
         /// </summary>
         public void RemoveAllRows()
