@@ -9,6 +9,7 @@ using Scada.Lang;
 using Scada.Report;
 using Scada.Report.Xml2003;
 using Scada.Report.Xml2003.Excel;
+using System;
 using System.Globalization;
 using System.Xml;
 
@@ -120,11 +121,59 @@ namespace Scada.Web.Plugins.PlgMain.Report
                 headerRow.AppendCell(dataColCell);
             }
 
-            /*Row dataRowTemplate = dataCellTemplate.ParentRow;
-            Table table = dataRowTemplate.ParentTable;
+            // data rows
+            Row dataRowTemplate = dataCellTemplate.ParentRow;
+            dataRowTemplate.RemoveCell(dataCellTemplate);
             int dataRowIndex = table.Rows.IndexOf(dataRowTemplate);
             table.ParentWorksheet.SplitHorizontal(dataRowIndex);
-            table.RemoveRow(dataRowIndex);*/
+            table.RemoveRow(dataRowIndex);
+
+            for (int timeIdx = 0, timeCnt = trendBundle.Timestamps.Count; timeIdx < timeCnt; timeIdx++)
+            {
+                Row dataRow = dataRowTemplate.Clone();
+                dataRow.Cells[0].Text = TimeZoneInfo.ConvertTimeFromUtc(
+                    trendBundle.Timestamps[timeIdx], reportArgs.TimeZone).ToLocalizedString();
+
+                for (int cnlIdx = 0, cnlCnt = cnls.Count; cnlIdx < cnlCnt; cnlIdx++)
+                {
+                    CnlData cnlData = trendBundle.Trends[cnlIdx][timeIdx];
+                    CnlDataFormatted cnlDataF = formatter.FormatCnlData(cnlData, cnls[cnlIdx], false);
+
+                    Cell dataCell = dataCellTemplate.Clone();
+                    dataCell.Text = cnlDataF.DispVal;
+
+                    if (formatter.LastResultInfo.IsFloat)
+                        dataCell.SetNumberType();
+
+                    if (cnlDataF.Colors.Length > 0)
+                        renderer.Workbook.SetColor(dataCell.Node, null, cnlDataF.Colors[0]);
+
+                    dataRow.AppendCell(dataCell);
+                }
+
+                table.InsertRow(dataRowIndex, dataRow);
+                dataRowIndex++;
+            }
+
+            // totals
+            Row avgRow = avgCellTemplate.ParentRow;
+            Row minRow = minCellTemplate.ParentRow;
+            Row maxRow = maxCellTemplate.ParentRow;
+            avgRow.RemoveCell(avgCellTemplate);
+            minRow.RemoveCell(minCellTemplate);
+            maxRow.RemoveCell(maxCellTemplate);
+
+            foreach (Cnl cnl in cnls)
+            {
+                Cell avgCell = avgCellTemplate.Clone();
+                avgRow.AppendCell(avgCell);
+
+                Cell minCell = minCellTemplate.Clone();
+                minRow.AppendCell(minCell);
+
+                Cell maxCell = maxCellTemplate.Clone();
+                maxRow.AppendCell(maxCell);
+            }
         }
 
 
@@ -220,10 +269,18 @@ namespace Scada.Web.Plugins.PlgMain.Report
                     cellText = reportArgs.TimeZone.DisplayName;
                 else if (e.DirectiveValue == "CnlCaption")
                     cellText = dict.CnlCaption;
+                else if (e.DirectiveValue == "TimeCol")
+                    cellText = dict.TimeCol;
                 else if (e.DirectiveValue == "DataCol")
                     dataColCellTemplate = e.Cell;
                 else if (e.DirectiveValue == "Data")
                     dataCellTemplate = e.Cell;
+                else if (e.DirectiveValue == "AvgCaption")
+                    cellText = dict.AvgCaption;
+                else if (e.DirectiveValue == "MinCaption")
+                    cellText = dict.MinCaption;
+                else if (e.DirectiveValue == "MaxCaption")
+                    cellText = dict.MaxCaption;
                 else if (e.DirectiveValue == "Avg")
                     avgCellTemplate = e.Cell;
                 else if (e.DirectiveValue == "Min")
