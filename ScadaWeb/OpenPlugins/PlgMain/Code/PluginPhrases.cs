@@ -28,6 +28,11 @@ namespace Scada.Web.Plugins.PlgMain.Code
         // Scada.Web.Plugins.PlgMain.Code.EventWindowSpec
         public static string EventWindowTitle { get; private set; }
 
+        // Scada.Web.Plugins.PlgMain.PlgMainLogic
+        public static string ReportGroup { get; private set; }
+        public static string HistDataReport { get; private set; }
+        public static string EventReport { get; private set; }
+
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView");
@@ -46,6 +51,11 @@ namespace Scada.Web.Plugins.PlgMain.Code
 
             dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Code.EventWindowSpec");
             EventWindowTitle = dict[nameof(EventWindowTitle)];
+
+            dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.PlgMainLogic");
+            ReportGroup = dict[nameof(ReportGroup)];
+            HistDataReport = dict[nameof(HistDataReport)];
+            EventReport = dict[nameof(EventReport)];
         }
     }
 }

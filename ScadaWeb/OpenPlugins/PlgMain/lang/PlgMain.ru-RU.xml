@@ -94,6 +94,11 @@
     <Phrase key="ItemCol">Элемент</Phrase>
     <Phrase key="WorksheetName">Табличное представление</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.PlgMainLogic">
+    <Phrase key="ReportGroup">Основные отчёты</Phrase>
+    <Phrase key="HistDataReport">Отчёт по историческим данным</Phrase>
+    <Phrase key="EventReport">Отчёт по событиям</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Report">
     <Phrase key="ArchiveNotFound">Архив не найдён в базе конфигурации.</Phrase>
     <Phrase key="GenCaption">Получено:</Phrase>

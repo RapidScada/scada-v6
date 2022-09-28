@@ -94,6 +94,11 @@
     <Phrase key="ItemCol">Item</Phrase>
     <Phrase key="WorksheetName">Table View</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.PlgMainLogic">
+    <Phrase key="ReportGroup">Main Reports</Phrase>
+    <Phrase key="HistDataReport">Historical data report</Phrase>
+    <Phrase key="EventReport">Event report</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Report">
     <Phrase key="ArchiveNotFound">Archive not found in the configuration database.</Phrase>
     <Phrase key="GenCaption">Generated:</Phrase>
