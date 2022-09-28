@@ -96,5 +96,18 @@
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Report">
     <Phrase key="ArchiveNotFound">Архив не найдён в базе конфигурации.</Phrase>
+    <Phrase key="GenCaption">Получено:</Phrase>
+    <Phrase key="ArcCaption">Архив:</Phrase>
+    <Phrase key="TzCaption">Часовой пояс:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.HistDataReportBuilder">
+    <Phrase key="TitleFormat">Исторические данные, {0} - {1}</Phrase>
+    <Phrase key="CnlCaption">Каналы:</Phrase>
+    <Phrase key="TimeCol">Дата и время</Phrase>
+    <Phrase key="DataCol">Канал {0}</Phrase>
+    <Phrase key="AvgCaption">Среднее</Phrase>
+    <Phrase key="MinCaption">Минимум</Phrase>
+    <Phrase key="MaxCaption">Максимум</Phrase>
+    <Phrase key="WorksheetName">Исторические данные</Phrase>
   </Dictionary>
 </PlgMainDictionaries>

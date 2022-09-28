@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Client;
+using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
@@ -9,7 +9,6 @@ using Scada.Lang;
 using Scada.Report;
 using Scada.Report.Xml2003;
 using Scada.Report.Xml2003.Excel;
-using System;
 using System.Globalization;
 using System.Xml;
 
@@ -21,6 +20,34 @@ namespace Scada.Web.Plugins.PlgMain.Report
     /// </summary>
     public class HistDataReportBuilder : ReportBuilder
     {
+        /// <summary>
+        /// Contains totals of a column.
+        /// </summary>
+        private class ColumnTotal
+        {
+            public int Count { get; set; } = 0;
+            public double Sum { get; set; } = 0;
+            public double Avg => Count > 0 ? Sum / Count : double.NaN;
+            public double Min { get; set; } = double.NaN;
+            public double Max { get; set; } = double.NaN;
+
+            public void CountData(CnlData cnlData)
+            {
+                if (cnlData.IsDefined && !double.IsNaN(cnlData.Val))
+                {
+                    Count++;
+                    Sum += cnlData.Val;
+
+                    if (double.IsNaN(Min) || Min > cnlData.Val)
+                        Min = cnlData.Val;
+
+                    if (double.IsNaN(Max) || Max < cnlData.Val)
+                        Max = cnlData.Val;
+                }
+            }
+        }
+
+
         /// <summary>
         /// The workbook template file name.
         /// </summary>
@@ -105,10 +132,17 @@ namespace Scada.Web.Plugins.PlgMain.Report
             {
                 Culture = CultureInfo.InvariantCulture
             };
+            int cnlCnt = cnls.Count;
+            ColumnTotal[] totals = new ColumnTotal[cnlCnt];
+
+            for (int cnlIdx = 0; cnlIdx < cnlCnt; cnlIdx++)
+            {
+                totals[cnlIdx] = new ColumnTotal();
+            }
 
             // columns
             Table table = dataColCellTemplate.ParentRow.ParentTable;
-            table.Columns.Last().Span = cnls.Count - 1;
+            table.Columns.Last().Span = cnlCnt - 1;
 
             // header row
             Row headerRow = dataColCellTemplate.ParentRow;
@@ -134,7 +168,7 @@ namespace Scada.Web.Plugins.PlgMain.Report
                 dataRow.Cells[0].Text = TimeZoneInfo.ConvertTimeFromUtc(
                     trendBundle.Timestamps[timeIdx], reportArgs.TimeZone).ToLocalizedString();
 
-                for (int cnlIdx = 0, cnlCnt = cnls.Count; cnlIdx < cnlCnt; cnlIdx++)
+                for (int cnlIdx = 0; cnlIdx < cnlCnt; cnlIdx++)
                 {
                     CnlData cnlData = trendBundle.Trends[cnlIdx][timeIdx];
                     CnlDataFormatted cnlDataF = formatter.FormatCnlData(cnlData, cnls[cnlIdx], false);
@@ -149,6 +183,7 @@ namespace Scada.Web.Plugins.PlgMain.Report
                         renderer.Workbook.SetColor(dataCell.Node, null, cnlDataF.Colors[0]);
 
                     dataRow.AppendCell(dataCell);
+                    totals[cnlIdx].CountData(cnlData);
                 }
 
                 table.InsertRow(dataRowIndex, dataRow);
@@ -162,17 +197,35 @@ namespace Scada.Web.Plugins.PlgMain.Report
             avgRow.RemoveCell(avgCellTemplate);
             minRow.RemoveCell(minCellTemplate);
             maxRow.RemoveCell(maxCellTemplate);
+            avgCellTemplate.Text = "";
+            minCellTemplate.Text = "";
+            maxCellTemplate.Text = "";
 
-            foreach (Cnl cnl in cnls)
+            void AppendTotalCell(Row row, Cell cellTemplate, double value, Cnl cnl)
             {
-                Cell avgCell = avgCellTemplate.Clone();
-                avgRow.AppendCell(avgCell);
+                Cell cell = cellTemplate.Clone();
+                row.AppendCell(cell);
 
-                Cell minCell = minCellTemplate.Clone();
-                minRow.AppendCell(minCell);
+                if (!double.IsNaN(value))
+                {
+                    CnlDataFormatted cnlDataF = formatter.FormatCnlData(
+                        new CnlData(value, CnlStatusID.Defined), cnl, false);
 
-                Cell maxCell = maxCellTemplate.Clone();
-                maxRow.AppendCell(maxCell);
+                    if (formatter.LastResultInfo.IsFloat)
+                    {
+                        cell.Text = cnlDataF.DispVal;
+                        cell.SetNumberType();
+                    }
+                }
+            }
+
+            for (int cnlIdx = 0; cnlIdx < cnlCnt; cnlIdx++)
+            {
+                Cnl cnl = cnls[cnlIdx];
+                ColumnTotal total = totals[cnlIdx];
+                AppendTotalCell(avgRow, avgCellTemplate, total.Avg, cnl);
+                AppendTotalCell(minRow, minCellTemplate, total.Min, cnl);
+                AppendTotalCell(maxRow, maxCellTemplate, total.Max, cnl);
             }
         }
 
