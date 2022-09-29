@@ -121,7 +121,11 @@ class ModalManager {
         if (submitElem.length > 0) {
             submitElem.click();
         } else {
-            modalWnd.$("form:first").submit();
+            let formElem = modalWnd.$("form:first");
+
+            if (formElem.length > 0 && formElem[0].reportValidity()) {
+                formElem.submit();
+            }
         }
     }
 
