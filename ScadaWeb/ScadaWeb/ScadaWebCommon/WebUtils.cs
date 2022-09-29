@@ -62,7 +62,7 @@ namespace Scada.Web
         /// Specifies how objects are converted to JSON.
         /// </summary>
         private static readonly JsonSerializerOptions JsonOptions = 
-            new () { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+            new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
 
         /// <summary>
