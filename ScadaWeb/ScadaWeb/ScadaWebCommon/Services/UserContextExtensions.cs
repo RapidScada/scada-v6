@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using System;
@@ -46,7 +46,9 @@ namespace Scada.Web.Services
         /// </summary>
         public static DateTime ConvertTimeToUtc(this IUserContext userContext, DateTime dateTime)
         {
-            return TimeZoneInfo.ConvertTimeToUtc(dateTime, userContext.TimeZone);
+            return dateTime.Kind == DateTimeKind.Utc
+                ? dateTime
+                : TimeZoneInfo.ConvertTimeToUtc(dateTime, userContext.TimeZone);
         }
     }
 }
