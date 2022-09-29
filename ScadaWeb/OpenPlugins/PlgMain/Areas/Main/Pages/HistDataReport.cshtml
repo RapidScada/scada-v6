@@ -11,6 +11,7 @@
 }
 
 @section Scripts {
+    <script src="~/js/dialogs.js" asp-append-version="true"></script>
     <script src="~/plugins/Main/js/hist-data-report.js" asp-append-version="true"></script>
 }
 
@@ -19,15 +20,15 @@
 <form id="frmReportArgs" method="post" class="report-args">
     <div class="mb-3">
         <label id="lblStartTime" for="txtStartTime" class="form-label">From</label>
-        <input type="datetime-local" id="txtStartTime" class="form-control" required />
+        <input type="datetime-local" id="txtStartTime" class="form-control" required asp-for="StartTime" asp-format="{0:yyyy-MM-ddTHH:mm}" />
     </div>
     <div class="mb-3">
         <label id="lblEndTime" for="txtEndTime" class="form-label">To</label>
-        <input type="datetime-local" id="txtEndTime" class="form-control" required />
+        <input type="datetime-local" id="txtEndTime" class="form-control" required asp-for="EndTime" asp-format="{0:yyyy-MM-ddTHH:mm}" />
     </div>
     <div class="mb-3">
         <label id="lblArchive" for="selArchive" class="form-label">Archive</label>
-        <select id="selArchive" class="form-select"></select>
+        <select id="selArchive" class="form-select" required asp-for="ArchiveCode" asp-items="Model.ArchiveList"></select>
     </div>
     <div class="mb-3">
         <label id="lblCnlNums" for="txtCnlNums" class="form-label">Channels</label>

@@ -55,7 +55,7 @@ namespace Scada.Web.Plugins.PlgMain.Report
         /// <summary>
         /// The default code of the historical archive.
         /// </summary>
-        private const string DefaultArchiveCode = "Min";
+        public const string DefaultArchiveCode = "Min";
 
         private readonly string templateFilePath;
         private readonly WorkbookRenderer renderer;
