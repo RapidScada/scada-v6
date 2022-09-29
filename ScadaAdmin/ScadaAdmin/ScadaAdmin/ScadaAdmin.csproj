@@ -11,6 +11,7 @@
     <Product>Rapid SCADA</Product>
     <Copyright>Copyright © 2022</Copyright>
     <ApplicationIcon>lamp.ico</ApplicationIcon>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
 
   <ItemGroup>
