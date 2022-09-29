@@ -1,0 +1,6 @@
+{
+  "solution": {
+    "path": "OpenExtensions.sln",
+    "projects": [] // All projects for Windows target
+  }
+}

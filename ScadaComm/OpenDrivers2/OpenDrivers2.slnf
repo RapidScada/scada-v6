@@ -1,0 +1,16 @@
+{
+  "solution": {
+    "path": "OpenDrivers2.sln",
+    "projects": [
+      "AddressBook\\AddressBook.csproj",
+      "AddressBookProjects",
+      "DrvHttpNotif",
+      "DrvHttpNotif.Shared\\DrvHttpNotif.Shared.shproj",
+      "DrvHttpNotif.Logic\\DrvHttpNotif.Logic.csproj",
+      "Solution Items",
+      "DrvEmail",
+      "DrvEmail.Shared\\DrvEmail.Shared.shproj",
+      "DrvEmail.Logic\\DrvEmail.Logic.csproj"
+    ]
+  }
+}

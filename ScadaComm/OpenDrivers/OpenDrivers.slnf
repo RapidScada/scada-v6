@@ -1,0 +1,37 @@
+{
+  "solution": {
+    "path": "OpenDrivers.sln",
+    "projects": [
+        "DrvSimulator",
+        "DrvSimulator.Logic\\DrvSimulator.Logic.csproj",
+        "DrvCnlBasic",
+        "DrvCnlBasic.Logic\\DrvCnlBasic.Logic.csproj",
+        "DrvDsScadaServer",
+        "DrvDsScadaServer.Logic\\DrvDsScadaServer.Logic.csproj",
+        "DrvDsOpcUaServer",
+        "DrvDsOpcUaServer.Logic\\DrvDsOpcUaServer.Logic.csproj",
+        "Solution Items",
+        "DrvDsOpcUaServer.Common\\DrvDsOpcUaServer.Common.csproj",
+        "DrvModbus.Common\\DrvModbus.Common.csproj",
+        "DrvModbus.Logic\\DrvModbus.Logic.csproj",
+        "DrvOpcUa",
+        "DrvOpcUa.Logic\\DrvOpcUa.Logic.csproj",
+        "DrvOpcUa.Common\\DrvOpcUa.Common.csproj",
+        "DrvSimulator.Shared\\DrvSimulator.Shared.shproj",
+        "DrvTester",
+        "DrvTester.Logic\\DrvTester.Logic.csproj",
+        "DrvTester.Shared\\DrvTester.Shared.shproj",
+        "DrvMqtt",
+        "DrvMqtt.Common\\DrvMqtt.Common.csproj",
+        "DrvCnlMqtt.Logic\\DrvCnlMqtt.Logic.csproj",
+        "DrvMqttClient.Logic\\DrvMqttClient.Logic.csproj",
+        "DrvMqttPublisher.Logic\\DrvMqttPublisher.Logic.csproj",
+        "DrvMqttPublisher.Shared\\DrvMqttPublisher.Shared.shproj",
+        "DrvDsMqtt.Logic\\DrvDsMqtt.Logic.csproj",
+        "DrvDsMqtt.Shared\\DrvDsMqtt.Shared.shproj",
+        "DrvMqttClient.Common\\DrvMqttClient.Common.csproj",
+        "DrvCnlBasic.Shared\\DrvCnlBasic.Shared.shproj",
+        "DrvDsScadaServer.Shared\\DrvDsScadaServer.Shared.shproj"
+    ]
+  }
+}

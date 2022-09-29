@@ -1,0 +1,17 @@
+{
+  "solution": {
+    "path": "OpenModules.sln",
+    "projects": [
+      "ModArcBasic.Logic\\ModArcBasic.Logic.csproj",
+      "ModArcBasic",
+      "Solution Items",
+      "ModArcPostgreSql",
+      "ModArcPostgreSql.Logic\\ModArcPostgreSql.Logic.csproj",
+      "ModArcInfluxDb",
+      "ModArcInfluxDb.Logic\\ModArcInfluxDb.Logic.csproj",
+      "ModArcInfluxDb.Shared\\ModArcInfluxDb.Shared.shproj",
+      "ModArcBasic.Shared\\ModArcBasic.Shared.shproj",
+      "ModArcPostgreSql.Shared\\ModArcPostgreSql.Shared.shproj"
+    ]
+  }
+}

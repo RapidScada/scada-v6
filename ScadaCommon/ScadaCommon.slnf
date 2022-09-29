@@ -1,0 +1,12 @@
+{
+  "solution": {
+    "path": "ScadaCommon.sln",
+    "projects": [
+      "ScadaCommon\\ScadaCommon.csproj",
+      "ScadaCommon.Log\\ScadaCommon.Log.csproj",
+      "Storages",
+      "FileStorage\\FileStorage.csproj",
+      "PostgreSqlStorage\\PostgreSqlStorage.csproj"
+    ]
+  }
+}

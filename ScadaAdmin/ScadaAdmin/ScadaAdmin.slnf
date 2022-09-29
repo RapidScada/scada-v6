@@ -1,0 +1,6 @@
+{
+  "solution": {
+    "path": "ScadaAdmin.sln",
+    "projects": [] // All projects for Windows target
+  }
+}
