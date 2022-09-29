@@ -45,6 +45,10 @@
     <Phrase key="spanPrintBtn_ToolTip">Export events</Phrase>
     <Phrase key="spanErrorBadge">Error</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.HistDataReport">
+    <Phrase key="PageTitle">Historical Data Report</Phrase>
+    <Phrase key=""></Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events.Js">
     <Phrase key="Loading">Loading...</Phrase>
     <Phrase key="NoEvents">No events</Phrase>
