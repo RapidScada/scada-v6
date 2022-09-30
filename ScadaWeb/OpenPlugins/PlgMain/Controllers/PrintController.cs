@@ -76,17 +76,6 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         }
 
         /// <summary>
-        /// Creates a time range with UTC timestamps.
-        /// </summary>
-        private TimeRange CreateTimeRange(DateTime startTime, DateTime endTime, bool endInclusive)
-        {
-            return new TimeRange(
-                userContext.ConvertTimeToUtc(startTime),
-                userContext.ConvertTimeToUtc(endTime),
-                endInclusive);
-        }
-
-        /// <summary>
         /// Creates a new report context.
         /// </summary>
         private IReportContext CreateReportContext()
@@ -119,7 +108,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 {
                     TableView = tableView,
                     TableOptions = pluginContext.GetTableOptions(tableView),
-                    TimeRange = CreateTimeRange(startTime, endTime, true),
+                    TimeRange = userContext.CreateTimeRangeUtc(startTime, endTime, true),
                     TimeZone = userContext.TimeZone
                 }, stream);
 

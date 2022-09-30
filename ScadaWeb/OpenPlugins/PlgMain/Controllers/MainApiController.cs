@@ -83,17 +83,6 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         }
 
         /// <summary>
-        /// Creates a time range with UTC timestamps.
-        /// </summary>
-        private TimeRange CreateTimeRange(DateTime startTime, DateTime endTime, bool endInclusive)
-        {
-            return new TimeRange(
-                userContext.ConvertTimeToUtc(startTime),
-                userContext.ConvertTimeToUtc(endTime), 
-                endInclusive);
-        }
-
-        /// <summary>
         /// Creates a time range with the specified number of days ending in the current time.
         /// </summary>
         private static TimeRange CreateTimeRange(int period)
@@ -354,7 +343,9 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             try
             {
                 CheckAccessRights(cnlNums);
-                HistData histData = RequestHistData(archiveBit, CreateTimeRange(startTime, endTime, endInclusive),
+                HistData histData = RequestHistData(
+                    archiveBit, 
+                    userContext.CreateTimeRangeUtc(startTime, endTime, endInclusive), 
                     cnlNums);
                 return Dto<HistData>.Success(histData);
             }
@@ -380,7 +371,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             {
                 if (viewLoader.GetViewFromCache(viewID, out ViewBase view, out string errMsg))
                 {
-                    TimeRange timeRange = CreateTimeRange(startTime, endTime, endInclusive);
+                    TimeRange timeRange = userContext.CreateTimeRangeUtc(startTime, endTime, endInclusive);
                     HistData histData = memoryCache.GetOrCreate(
                         PluginUtils.GetCacheKey("HistDataByView", archiveBit, timeRange.Key, viewID),
                         entry =>
@@ -411,7 +402,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             try
             {
                 RequireViewAll();
-                TimeRange timeRange = CreateTimeRange(startTime, endTime, endInclusive);
+                TimeRange timeRange = userContext.CreateTimeRangeUtc(startTime, endTime, endInclusive);
                 EventPacket eventPacket = memoryCache.GetOrCreate(
                     PluginUtils.GetCacheKey("Events", archiveBit, timeRange.Key),
                     entry =>

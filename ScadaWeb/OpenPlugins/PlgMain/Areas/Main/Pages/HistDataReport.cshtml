@@ -1,5 +1,6 @@
 ﻿@page
 @model HistDataReportModel
+@inject PluginContext pluginContext
 @{
     Layout = "_MainLayout";
     dynamic dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.HistDataReport");
@@ -13,11 +14,15 @@
 @section Scripts {
     <script src="~/js/dialogs.js" asp-append-version="true"></script>
     <script src="~/plugins/Main/js/hist-data-report.js" asp-append-version="true"></script>
+    <script>
+        maxReportPeriod = @pluginContext.Options.MaxReportPeriod;
+    </script>
 }
 
 <h1>@dict.PageTitle</h1>
 
-<form id="frmReportArgs" method="post" class="report-args">
+<form id="frmReportArgs" method="post" class="report-args needs-validation" novalidate>
+    <div id="divErrorMessage" class="alert alert-danger hidden">Error Message</div>
     <div class="mb-3">
         <label id="lblStartTime" for="txtStartTime" class="form-label">From</label>
         <input type="datetime-local" id="txtStartTime" class="form-control" required asp-for="StartTime" asp-format="{0:yyyy-MM-ddTHH:mm}" />
@@ -37,5 +42,8 @@
             <button type="button" id="btnSelectCnls" class="btn btn-outline-secondary">Select...</button>
         </div>
     </div>
-    <button type="button" id="btnGenerateReport" class="btn btn-primary">Download Report</button>
+    <div class="mb-3">
+        <button type="button" id="btnGenerateReport" class="btn btn-primary">Download Report</button>
+        <div id="divWaitHint" class="form-text hidden">Generating report. Please wait...</div>
+    </div>
 </form>

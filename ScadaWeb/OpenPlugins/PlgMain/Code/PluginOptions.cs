@@ -23,6 +23,7 @@ namespace Scada.Web.Plugins.PlgMain.Code
             EventArchiveCode = options.GetValueAsString("EventArchiveCode");
             EventCount = options.GetValueAsInt("EventCount", 100);
             EventDepth = options.GetValueAsInt("EventDepth", 2);
+            MaxReportPeriod = options.GetValueAsInt("MaxReportPeriod", 31);
             CommandPassword = options.GetValueAsBool("CommandPassword");
             AllowCommandApi = options.GetValueAsBool("AllowCommandApi");
             AllowAuthApi = options.GetValueAsBool("AllowAuthApi");
@@ -58,6 +59,11 @@ namespace Scada.Web.Plugins.PlgMain.Code
         /// Gets or sets the number of days to receive events.
         /// </summary>
         public int EventDepth { get; set; }
+
+        /// <summary>
+        /// Gets or sets the time maximum report period, in days.
+        /// </summary>
+        public int MaxReportPeriod { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether a password is required to send a command.
