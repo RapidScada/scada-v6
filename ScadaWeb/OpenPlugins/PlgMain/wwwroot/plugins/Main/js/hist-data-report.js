@@ -1,7 +1,9 @@
 ﻿const BUTTON_LOCK_DURATION = 3000; // ms
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
-var maxReportPeriod = 0; // set in HistDataReport.cshtml
+// The variables below are set in HistDataReport.cshtml
+var phrases = {};
+var maxReportPeriod = 0;
 
 function hideErrorMessage() {
     $("#divErrorMessage").addClass("hidden");
@@ -15,16 +17,16 @@ function reportValidityExtra() {
     let endTimeMs = Date.parse($("#txtEndTime").val());
 
     if (startTimeMs > endTimeMs) {
-        errors.push("Start date must be less or equal than end date.");
+        errors.push(phrases.InvalidPeriod);
     } else if (endTimeMs - startTimeMs > maxReportPeriod * MS_PER_DAY) {
-        errors.push(ScadaUtils.formatString("The maximum period length is {0} days.", maxReportPeriod));
+        errors.push(ScadaUtils.formatString(phrases.PeriodTooLong, maxReportPeriod));
     }
 
     // channel numbers
     let cnlNums = ScadaUtils.parseRange($("#txtCnlNums").val());
 
     if (!(cnlNums && cnlNums.length > 0)) {
-        errors.push("Invalid channel numbers.");
+        errors.push(phrases.InvalidChannels);
     }
 
     if (errors.length > 0) {

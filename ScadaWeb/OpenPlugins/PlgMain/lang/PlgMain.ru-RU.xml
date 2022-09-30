@@ -50,6 +50,21 @@
     <Phrase key="NoEvents">События отсутствуют</Phrase>
     <Phrase key="Ack">Квитировать</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.HistDataReport">
+    <Phrase key="PageTitle">Отчёт по историческим данным</Phrase>
+    <Phrase key="lblStartTime">Начало</Phrase>
+    <Phrase key="lblEndTime">Окончание</Phrase>
+    <Phrase key="lblArchive">Архив</Phrase>
+    <Phrase key="lblCnlNums">Каналы</Phrase>
+    <Phrase key="btnSelectCnls">Выбрать...</Phrase>
+    <Phrase key="btnGenerateReport">Скачать отчёт</Phrase>
+    <Phrase key="divWaitHint">Отчёт генерируется. Пожалуйста, подождите...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.HistDataReport.Js">
+    <Phrase key="InvalidPeriod">Дата начала должна быть меньше или равна дате окончания.</Phrase>
+    <Phrase key="PeriodTooLong">Максимальная длина периода {0} дн.</Phrase>
+    <Phrase key="InvalidChannels">Некорректные номера каналов.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView">
     <Phrase key="TableViewTitle">Таблица {0}</Phrase>
     <Phrase key="PrevDate">Предыдущая дата</Phrase>

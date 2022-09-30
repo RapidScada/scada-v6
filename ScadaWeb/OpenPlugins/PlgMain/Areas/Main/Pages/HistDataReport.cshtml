@@ -16,6 +16,7 @@
     <script src="~/plugins/Main/js/hist-data-report.js" asp-append-version="true"></script>
     <script>
         maxReportPeriod = @pluginContext.Options.MaxReportPeriod;
+        phrases = @WebUtils.DictionaryToJs("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.HistDataReport.Js");
     </script>
 }
 
@@ -24,26 +25,26 @@
 <form id="frmReportArgs" method="post" class="report-args needs-validation" novalidate>
     <div id="divErrorMessage" class="alert alert-danger hidden">Error Message</div>
     <div class="mb-3">
-        <label id="lblStartTime" for="txtStartTime" class="form-label">From</label>
+        <label id="lblStartTime" for="txtStartTime" class="form-label">@dict.lblStartTime</label>
         <input type="datetime-local" id="txtStartTime" class="form-control" required asp-for="StartTime" asp-format="{0:yyyy-MM-ddTHH:mm}" />
     </div>
     <div class="mb-3">
-        <label id="lblEndTime" for="txtEndTime" class="form-label">To</label>
+        <label id="lblEndTime" for="txtEndTime" class="form-label">@dict.lblEndTime</label>
         <input type="datetime-local" id="txtEndTime" class="form-control" required asp-for="EndTime" asp-format="{0:yyyy-MM-ddTHH:mm}" />
     </div>
     <div class="mb-3">
-        <label id="lblArchive" for="selArchive" class="form-label">Archive</label>
+        <label id="lblArchive" for="selArchive" class="form-label">@dict.lblArchive</label>
         <select id="selArchive" class="form-select" required asp-for="ArchiveCode" asp-items="Model.ArchiveList"></select>
     </div>
     <div class="mb-3">
-        <label id="lblCnlNums" for="txtCnlNums" class="form-label">Channels</label>
+        <label id="lblCnlNums" for="txtCnlNums" class="form-label">@dict.lblCnlNums</label>
         <div class="input-group">
             <input type="text" id="txtCnlNums" class="form-control" required />
-            <button type="button" id="btnSelectCnls" class="btn btn-outline-secondary">Select...</button>
+            <button type="button" id="btnSelectCnls" class="btn btn-outline-secondary">@dict.btnSelectCnls</button>
         </div>
     </div>
     <div class="mb-3">
-        <button type="button" id="btnGenerateReport" class="btn btn-primary">Download Report</button>
-        <div id="divWaitHint" class="form-text hidden">Generating report. Please wait...</div>
+        <button type="button" id="btnGenerateReport" class="btn btn-primary">@dict.btnGenerateReport</button>
+        <div id="divWaitHint" class="form-text hidden">@dict.divWaitHint</div>
     </div>
 </form>

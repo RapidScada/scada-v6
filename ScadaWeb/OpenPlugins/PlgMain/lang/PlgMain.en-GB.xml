@@ -45,14 +45,25 @@
     <Phrase key="spanPrintBtn_ToolTip">Export events</Phrase>
     <Phrase key="spanErrorBadge">Error</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.HistDataReport">
-    <Phrase key="PageTitle">Historical Data Report</Phrase>
-    <Phrase key=""></Phrase>
-  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events.Js">
     <Phrase key="Loading">Loading...</Phrase>
     <Phrase key="NoEvents">No events</Phrase>
     <Phrase key="Ack">Click to acknowledge</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.HistDataReport">
+    <Phrase key="PageTitle">Historical Data Report</Phrase>
+    <Phrase key="lblStartTime">From</Phrase>
+    <Phrase key="lblEndTime">To</Phrase>
+    <Phrase key="lblArchive">Archive</Phrase>
+    <Phrase key="lblCnlNums">Channels</Phrase>
+    <Phrase key="btnSelectCnls">Select...</Phrase>
+    <Phrase key="btnGenerateReport">Download Report</Phrase>
+    <Phrase key="divWaitHint">Generating report. Please wait...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.HistDataReport.Js">
+    <Phrase key="InvalidPeriod">Start date must be less or equal than end date.</Phrase>
+    <Phrase key="PeriodTooLong">The maximum period length is {0} days.</Phrase>
+    <Phrase key="InvalidChannels">Invalid channel numbers.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView">
     <Phrase key="TableViewTitle">Table {0}</Phrase>
