@@ -145,6 +145,53 @@ class ScadaUtils {
     static parseIntSet(s) {
         return new Set(ScadaUtils.parseIntArray(s));
     }
+
+    // Converts the string representation of an integer range to an array that contains unique and sorted values.
+    static parseRange(s) {
+        let intSet = new Set();
+
+        for (let part of s.split(",")) {
+            if (part) {
+                let dashIdx = part.indexOf('-');
+
+                if (dashIdx >= 0) {
+                    // two numbers separated by a dash
+                    let val1 = parseInt(part.substring(0, dashIdx));
+                    let val2 = parseInt(part.substring(dashIdx + 1));
+
+                    if (isNaN(val1) || isNaN(val2)) {
+                        return null;
+                    } else {
+                        for (let val = val1; val <= val2; val++) {
+                            intSet.add(val);
+                        }
+                    }
+                } else {
+                    // single number
+                    let val = parseInt(part);
+
+                    if (isNaN(val)) {
+                        return null;
+                    } else {
+                        intSet.add(val);
+                    }
+                }
+            }
+        }
+
+        return [...intSet].sort();
+    }
+
+    // Replaces the format items with the arguments.
+    static formatString(format, ...args) {
+        let s = format;
+
+        for (let i = 0; i < args.length; i++) {
+            s = s.replace("{" + i + "}", args[i]);
+        }
+
+        return s;
+    }
 }
 
 // Specifies event types.
