@@ -173,7 +173,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                     TimeZone = userContext.TimeZone,
                     Format = OutputFormat.Xml2003,
                     ArchiveCode = archive,
-                    CnlNums = cnlNums
+                    CnlNums = cnlNums,
+                    MaxPeriod = pluginContext.Options.MaxReportPeriod
                 }, stream);
 
                 generateTime = builder.GenerateTime;

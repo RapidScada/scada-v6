@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Lang;
 using Scada.Report;
 
 namespace Scada.Web.Plugins.PlgMain.Report
@@ -19,6 +20,7 @@ namespace Scada.Web.Plugins.PlgMain.Report
         {
             ArchiveCode = "";
             CnlNums = null;
+            MaxPeriod = 0;
         }
 
         /// <summary>
@@ -48,6 +50,11 @@ namespace Scada.Web.Plugins.PlgMain.Report
         /// </summary>
         public IList<int> CnlNums { get; init; }
 
+        /// <summary>
+        /// Gets the time maximum report period, in days.
+        /// </summary>
+        public int MaxPeriod { get; init; }
+
 
         /// <summary>
         /// Validates the arguments, raises an exception on failure.
@@ -56,8 +63,19 @@ namespace Scada.Web.Plugins.PlgMain.Report
         {
             base.Validate();
 
+            if (MaxPeriod > 0 && (EndTime - StartTime).TotalDays > MaxPeriod)
+            {
+                throw new ScadaException(Locale.IsRussian ?
+                    "Превышен период отчёта." :
+                    "Report period exceeded.") { MessageIsPublic = true };
+            }
+
             if (CnlNums == null || CnlNums.Count <= 0)
-                throw new ScadaException("Channel numbers are missing.");
+            {
+                throw new ScadaException(Locale.IsRussian ?
+                    "Номера каналов отсутствуют." :
+                    "Channel numbers are missing.") { MessageIsPublic = true };
+            }
         }
     }
 }
