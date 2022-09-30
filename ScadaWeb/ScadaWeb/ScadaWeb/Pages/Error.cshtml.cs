@@ -20,8 +20,8 @@ namespace Scada.Web.Pages
     [IgnoreAntiforgeryToken]
     public class ErrorModel : PageModel
     {
-        public string RequestId { get; set; }
-
+        public string ErrorMessage { get; private set; }
+        public string RequestId { get; private set; }
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 
         private readonly ILogger<ErrorModel> _logger;
@@ -48,6 +48,7 @@ namespace Scada.Web.Pages
                 _log.WriteError(ex, CommonPhrases.UnhandledException);
             }
 
+            ErrorMessage = ex is ScadaException scadaEx && scadaEx.MessageIsPublic ? ex.Message : null;
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
         }
     }
