@@ -83,21 +83,14 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         }
 
         /// <summary>
-        /// Converts the specified timestamp to UTC depending on its kind.
-        /// </summary>
-        private DateTime ConvertTimeToUtc(DateTime timestamp)
-        {
-            return timestamp.Kind == DateTimeKind.Utc
-                ? timestamp
-                : userContext.ConvertTimeToUtc(timestamp);
-        }
-
-        /// <summary>
         /// Creates a time range with UTC timestamps.
         /// </summary>
         private TimeRange CreateTimeRange(DateTime startTime, DateTime endTime, bool endInclusive)
         {
-            return new TimeRange(ConvertTimeToUtc(startTime), ConvertTimeToUtc(endTime), endInclusive);
+            return new TimeRange(
+                userContext.ConvertTimeToUtc(startTime),
+                userContext.ConvertTimeToUtc(endTime), 
+                endInclusive);
         }
 
         /// <summary>
