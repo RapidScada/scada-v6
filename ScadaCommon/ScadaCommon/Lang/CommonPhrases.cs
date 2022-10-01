@@ -107,11 +107,6 @@ namespace Scada.Lang
         public static string NotHexadecimal { get; private set; }
         public static string InvalidParamVal { get; private set; }
         public static string InvalidSecretKey { get; private set; }
-        public static string UndefinedSign { get; private set; }
-        public static string CriticalSeverity { get; private set; }
-        public static string MajorSeverity { get; private set; }
-        public static string MinorSeverity { get; private set; }
-        public static string InfoSeverity { get; private set; }
 
         // Scada.Forms
         public static string InfoCaption { get; private set; }
@@ -133,8 +128,13 @@ namespace Scada.Lang
         public static string CollectionValue { get; private set; }
 
         // Scada.CnlDataFormatter
+        public static string UndefinedSign { get; private set; }
         public static string CommandDescrPrefix { get; private set; }
         public static string StatusFormat { get; private set; }
+        public static string CriticalSeverity { get; private set; }
+        public static string MajorSeverity { get; private set; }
+        public static string MinorSeverity { get; private set; }
+        public static string InfoSeverity { get; private set; }
 
         // Scada.Forms.BitItemCollection
         public static string EventEnabled { get; private set; }
@@ -240,11 +240,6 @@ namespace Scada.Lang
             NotHexadecimal = dict["NotHexadecimal"];
             InvalidParamVal = dict["InvalidParamVal"];
             InvalidSecretKey = dict["InvalidSecretKey"];
-            UndefinedSign = dict["UndefinedSign"];
-            CriticalSeverity = dict["CriticalSeverity"];
-            MajorSeverity = dict["MajorSeverity"];
-            MinorSeverity = dict["MinorSeverity"];
-            InfoSeverity = dict["InfoSeverity"];
 
             dict = Locale.GetDictionary("Scada.Forms");
             InfoCaption = dict["InfoCaption"];
@@ -266,8 +261,13 @@ namespace Scada.Lang
             CollectionValue = dict["CollectionValue"];
 
             dict = Locale.GetDictionary("Scada.CnlDataFormatter");
+            UndefinedSign = dict["UndefinedSign"];
             CommandDescrPrefix = dict["CommandDescrPrefix"];
             StatusFormat = dict["StatusFormat"];
+            CriticalSeverity = dict["CriticalSeverity"];
+            MajorSeverity = dict["MajorSeverity"];
+            MinorSeverity = dict["MinorSeverity"];
+            InfoSeverity = dict["InfoSeverity"];
 
             dict = Locale.GetDictionary("Scada.Forms.BitItemCollection");
             EventEnabled = dict["EventEnabled"];
