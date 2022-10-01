@@ -33,6 +33,8 @@
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventReport">
     <Phrase key="PageTitle">Event Report</Phrase>
+    <Phrase key="AllObjectsItem">-- All available objects --</Phrase>
+    <Phrase key="AnySeverity">-- Any severity --</Phrase>
     <Phrase key="lblStartTime">From</Phrase>
     <Phrase key="lblEndTime">To</Phrase>
     <Phrase key="lblArchive">Archive</Phrase>

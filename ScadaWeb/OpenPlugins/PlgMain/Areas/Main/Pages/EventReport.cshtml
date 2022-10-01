@@ -37,11 +37,11 @@
     </div>
     <div class="mb-3">
         <label id="lblObj" for="selObj" class="form-label">@dict.lblObj</label>
-        <select id="selObj" class="form-select" required></select>
+        <select id="selObj" class="form-select" required asp-items="Model.ObjList"></select>
     </div>
     <div class="mb-3">
         <label id="lblSeverity" for="selObj" class="form-label">@dict.lblSeverity</label>
-        <select id="selSeverity" class="form-select" required></select>
+        <select id="selSeverity" class="form-select" required asp-items="Model.SeverityList"></select>
     </div>
     <div class="mb-3">
         <button type="submit" id="btnGenerateReport" class="btn btn-primary">@dict.btnGenerateReport</button>
