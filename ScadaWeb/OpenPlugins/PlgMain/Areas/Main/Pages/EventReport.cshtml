@@ -1,0 +1,50 @@
+﻿@page
+@model EventReportModel
+@inject PluginContext pluginContext
+@{
+    Layout = "_MainLayout";
+    dynamic dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventReport");
+    ViewBag.Title = dict.PageTitle;
+}
+
+@section Styles {
+    <link href="~/plugins/Main/css/report.min.css" rel="stylesheet" asp-append-version="true" />
+}
+
+@section Scripts {
+    <script src="~/plugins/Main/js/event-report.js" asp-append-version="true"></script>
+    <script>
+        maxReportPeriod = @pluginContext.Options.MaxReportPeriod;
+        phrases = @WebUtils.DictionaryToJs("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventReport.Js");
+    </script>
+}
+
+<h1>@dict.PageTitle</h1>
+
+<form id="frmReportArgs" method="post" class="report-args">
+    <div id="divErrorMessage" class="alert alert-danger hidden">Error Message</div>
+    <div class="mb-3">
+        <label id="lblStartTime" for="txtStartTime" class="form-label">@dict.lblStartTime</label>
+        <input type="datetime-local" id="txtStartTime" class="form-control" required asp-for="StartTime" asp-format="{0:yyyy-MM-ddTHH:mm}" />
+    </div>
+    <div class="mb-3">
+        <label id="lblEndTime" for="txtEndTime" class="form-label">@dict.lblEndTime</label>
+        <input type="datetime-local" id="txtEndTime" class="form-control" required asp-for="EndTime" asp-format="{0:yyyy-MM-ddTHH:mm}" />
+    </div>
+    <div class="mb-3">
+        <label id="lblArchive" for="selArchive" class="form-label">@dict.lblArchive</label>
+        <select id="selArchive" class="form-select" required asp-for="ArchiveCode" asp-items="Model.ArchiveList"></select>
+    </div>
+    <div class="mb-3">
+        <label id="lblObj" for="selObj" class="form-label">@dict.lblObj</label>
+        <select id="selObj" class="form-select" required></select>
+    </div>
+    <div class="mb-3">
+        <label id="lblSeverity" for="selObj" class="form-label">@dict.lblSeverity</label>
+        <select id="selSeverity" class="form-select" required></select>
+    </div>
+    <div class="mb-3">
+        <button type="submit" id="btnGenerateReport" class="btn btn-primary">@dict.btnGenerateReport</button>
+        <div id="divWaitHint" class="form-text hidden">@dict.divWaitHint</div>
+    </div>
+</form>
