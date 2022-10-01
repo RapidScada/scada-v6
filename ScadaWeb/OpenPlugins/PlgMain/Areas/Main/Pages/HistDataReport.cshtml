@@ -22,7 +22,7 @@
 
 <h1>@dict.PageTitle</h1>
 
-<form id="frmReportArgs" method="post" class="report-args needs-validation" novalidate>
+<form id="frmReportArgs" method="post" class="report-args">
     <div id="divErrorMessage" class="alert alert-danger hidden">Error Message</div>
     <div class="mb-3">
         <label id="lblStartTime" for="txtStartTime" class="form-label">@dict.lblStartTime</label>
@@ -44,7 +44,7 @@
         </div>
     </div>
     <div class="mb-3">
-        <button type="button" id="btnGenerateReport" class="btn btn-primary">@dict.btnGenerateReport</button>
+        <button type="submit" id="btnGenerateReport" class="btn btn-primary">@dict.btnGenerateReport</button>
         <div id="divWaitHint" class="form-text hidden">@dict.divWaitHint</div>
     </div>
 </form>
