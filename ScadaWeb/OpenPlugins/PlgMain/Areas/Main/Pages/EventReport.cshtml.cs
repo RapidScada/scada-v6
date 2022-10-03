@@ -42,7 +42,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         {
             foreach (Archive archive in webContext.ConfigDatabase.ArchiveTable)
             {
-                ArchiveList.Add(new SelectListItem(archive.Name, archive.Code, archive.Code == "Event"));
+                ArchiveList.Add(new SelectListItem(archive.Name, archive.Code));
 
                 //if (archive.Code == HistDataReportBuilder.DefaultArchiveCode)
                 //    ArchiveCode = archive.Code;

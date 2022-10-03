@@ -34,7 +34,7 @@
     </div>
     <div class="mb-3">
         <label id="lblArchive" for="selArchive" class="form-label">@dict.lblArchive</label>
-        <select id="selArchive" class="form-select" required asp-items="Model.ArchiveList"></select>
+        <select id="selArchive" class="form-select" required asp-for="ArchiveCode" asp-items="Model.ArchiveList"></select>
     </div>
     <div class="mb-3">
         <label id="lblObj" for="selObj" class="form-label">@dict.lblObj</label>

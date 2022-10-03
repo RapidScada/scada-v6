@@ -191,5 +191,15 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 MediaTypeNames.Application.Octet,
                 ReportUtils.BuildFileName("HistData", generateTime, OutputFormat.Xml2003));
         }
+
+        /// <summary>
+        /// Generates an event report.
+        /// </summary>
+        [Authorize(Policy = PolicyName.Restricted)]
+        public IActionResult PrintEventReport(DateTime startTime, DateTime endTime, string archive, 
+            int objNum, IdList severity)
+        {
+            return null;
+        }
     }
 }
