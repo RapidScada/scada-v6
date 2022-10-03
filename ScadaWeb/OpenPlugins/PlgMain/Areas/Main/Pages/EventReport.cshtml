@@ -33,15 +33,21 @@
     </div>
     <div class="mb-3">
         <label id="lblArchive" for="selArchive" class="form-label">@dict.lblArchive</label>
-        <select id="selArchive" class="form-select" required asp-for="ArchiveCode" asp-items="Model.ArchiveList"></select>
+        <select id="selArchive" class="form-select" required asp-items="Model.ArchiveList"></select>
     </div>
     <div class="mb-3">
         <label id="lblObj" for="selObj" class="form-label">@dict.lblObj</label>
         <select id="selObj" class="form-select" required asp-items="Model.ObjList"></select>
     </div>
-    <div class="mb-3">
-        <label id="lblSeverity" for="selObj" class="form-label">@dict.lblSeverity</label>
-        <select id="selSeverity" class="form-select" required asp-items="Model.SeverityList"></select>
+    <div class="row mb-3">
+        <div class="col">
+            <label id="lblMinSeverity" for="selObj" class="form-label">@dict.lblMinSeverity</label>
+            <select id="selMinSeverity" class="form-select" required asp-items="Model.MinSeverityList"></select>
+        </div>
+        <div class="col">
+            <label id="lblMaxSeverity" for="selObj" class="form-label">@dict.lblMaxSeverity</label>
+            <select id="selMaxSeverity" class="form-select" required asp-items="Model.MaxSeverityList"></select>
+        </div>
     </div>
     <div class="mb-3">
         <button type="submit" id="btnGenerateReport" class="btn btn-primary">@dict.btnGenerateReport</button>

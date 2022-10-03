@@ -3,7 +3,9 @@
 
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Scada.Data.Const;
 using Scada.Data.Entities;
+using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Web.Services;
 using Scada.Web.Users;
@@ -32,14 +34,15 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         public string ArchiveCode { get; private set; } = null;
         public List<SelectListItem> ArchiveList { get; private set; } = new();
         public List<SelectListItem> ObjList { get; private set; } = new();
-        public List<SelectListItem> SeverityList { get; private set; } = new();
+        public List<SelectListItem> MinSeverityList { get; private set; } = new();
+        public List<SelectListItem> MaxSeverityList { get; private set; } = new();
 
 
         private void FillArchiveList()
         {
             foreach (Archive archive in webContext.ConfigDatabase.ArchiveTable)
             {
-                ArchiveList.Add(new SelectListItem(archive.Name, archive.Code));
+                ArchiveList.Add(new SelectListItem(archive.Name, archive.Code, archive.Code == "Event"));
 
                 //if (archive.Code == HistDataReportBuilder.DefaultArchiveCode)
                 //    ArchiveCode = archive.Code;
@@ -48,7 +51,8 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
         private void FillObjList()
         {
-            ObjList.Add(new SelectListItem(dict.AllObjectsItem, "0"));
+            string itemText = userContext.Rights.ViewAll ? dict.AllObjItem : dict.AllAvailObjItem;
+            ObjList.Add(new SelectListItem(itemText, "0"));
 
             foreach (ObjectItem objectItem in userContext.Objects)
             {
@@ -60,7 +64,14 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
         private void FillSeverityList()
         {
-            SeverityList.Add(new SelectListItem(dict.AnySeverity, "0"));
+            MinSeverityList.Add(new SelectListItem(dict.NotSpecifiedItem, "0"));
+            MinSeverityList.Add(new SelectListItem(SeverityRange.Critical.ToString(), SeverityRange.Critical.Min.ToString()));
+            MinSeverityList.Add(new SelectListItem(SeverityRange.Major.ToString(), SeverityRange.Major.Min.ToString()));
+            MinSeverityList.Add(new SelectListItem(SeverityRange.Minor.ToString(), SeverityRange.Minor.Min.ToString()));
+            MinSeverityList.Add(new SelectListItem(SeverityRange.Info.ToString(), SeverityRange.Info.Min.ToString()));
+
+
+            MaxSeverityList.Add(new SelectListItem(dict.NotSpecifiedItem, "0"));
         }
 
         public void OnGet()

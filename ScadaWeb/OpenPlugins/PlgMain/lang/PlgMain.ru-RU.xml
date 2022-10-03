@@ -33,13 +33,15 @@
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventReport">
     <Phrase key="PageTitle">Отчёт по событиям</Phrase>
-    <Phrase key="AllObjectsItem">-- Все доступные объекты --</Phrase>
-    <Phrase key="AnySeverity">-- Любая серьёзность --</Phrase>
+    <Phrase key="AllObjItem">-- Все объекты --</Phrase>
+    <Phrase key="AllAvailObjItem">-- Все доступные объекты --</Phrase>
+    <Phrase key="NotSpecifiedItem">-- Не задана --</Phrase>
     <Phrase key="lblStartTime">Начало</Phrase>
     <Phrase key="lblEndTime">Окончание</Phrase>
     <Phrase key="lblArchive">Архив</Phrase>
     <Phrase key="lblObj">Объект</Phrase>
-    <Phrase key="lblSeverity">Серьёзность</Phrase>
+    <Phrase key="lblMinSeverity">Мин. серьёзность</Phrase>
+    <Phrase key="lblMaxSeverity">Макс. серьёзность</Phrase>
     <Phrase key="btnGenerateReport">Скачать отчёт</Phrase>
     <Phrase key="divWaitHint">Отчёт генерируется. Пожалуйста, подождите...</Phrase>
   </Dictionary>
