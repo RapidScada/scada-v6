@@ -41,7 +41,6 @@
     <Phrase key="lblArchive">Архив</Phrase>
     <Phrase key="lblObj">Объект</Phrase>
     <Phrase key="lblSeverity">Серьёзность</Phrase>
-    <Phrase key="lblAnySeverity">Любая</Phrase>
     <Phrase key="btnGenerateReport">Скачать отчёт</Phrase>
     <Phrase key="divWaitHint">Отчёт генерируется. Пожалуйста, подождите...</Phrase>
   </Dictionary>

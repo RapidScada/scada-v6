@@ -41,7 +41,6 @@
     <Phrase key="lblArchive">Archive</Phrase>
     <Phrase key="lblObj">Object</Phrase>
     <Phrase key="lblSeverity">Severity</Phrase>
-    <Phrase key="lblAnySeverity">Any</Phrase>
     <Phrase key="btnGenerateReport">Download Report</Phrase>
     <Phrase key="divWaitHint">Generating report. Please wait...</Phrase>
   </Dictionary>
