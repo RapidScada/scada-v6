@@ -1,4 +1,5 @@
 ﻿@page
+@using Scada.Data.Models
 @model EventReportModel
 @inject PluginContext pluginContext
 @{
@@ -39,15 +40,30 @@
         <label id="lblObj" for="selObj" class="form-label">@dict.lblObj</label>
         <select id="selObj" class="form-select" required asp-items="Model.ObjList"></select>
     </div>
-    <div class="row mb-3">
-        <div class="col">
-            <label id="lblMinSeverity" for="selObj" class="form-label">@dict.lblMinSeverity</label>
-            <select id="selMinSeverity" class="form-select" required asp-items="Model.MinSeverityList"></select>
-        </div>
-        <div class="col">
-            <label id="lblMaxSeverity" for="selObj" class="form-label">@dict.lblMaxSeverity</label>
-            <select id="selMaxSeverity" class="form-select" required asp-items="Model.MaxSeverityList"></select>
-        </div>
+    <div class="mb-3">
+        <label id="lblSeverity" for="ulSeverity" class="form-label">@dict.lblSeverity</label>
+        <ul id="ulSeverity" class="list-group">
+            <li class="list-group-item">
+                <input type="checkbox" id="chkAnySeverity" class="form-check-input me-1" value="0" checked>
+                <label id="lblAnySeverity" class="form-check-label stretched-link" for="chkAnySeverity">@dict.lblAnySeverity</label>
+            </li>
+            <li class="list-group-item">
+                <input type="checkbox" id="chkCriticalSeverity" class="form-check-input me-1" value="@Severity.Critical">
+                <label class="form-check-label stretched-link" for="chkCriticalSeverity">@SeverityRange.Critical.ToString()</label>
+            </li>
+            <li class="list-group-item">
+                <input type="checkbox" id="chkMajorSeverity" class="form-check-input me-1" value="@Severity.Major">
+                <label class="form-check-label stretched-link" for="chkMajorSeverity">@SeverityRange.Major.ToString()</label>
+            </li>
+            <li class="list-group-item">
+                <input type="checkbox" id="chkMinorSeverity" class="form-check-input me-1" value="@Severity.Minor">
+                <label class="form-check-label stretched-link" for="chkMinorSeverity">@SeverityRange.Minor.ToString()</label>
+            </li>
+            <li class="list-group-item">
+                <input type="checkbox" id="chkInfoSeverity" class="form-check-input me-1" value="@Severity.Info">
+                <label class="form-check-label stretched-link" for="chkInfoSeverity">@SeverityRange.Info.ToString()</label>
+            </li>
+        </ul>
     </div>
     <div class="mb-3">
         <button type="submit" id="btnGenerateReport" class="btn btn-primary">@dict.btnGenerateReport</button>

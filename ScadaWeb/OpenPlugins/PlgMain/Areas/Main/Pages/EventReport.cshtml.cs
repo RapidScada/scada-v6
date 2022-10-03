@@ -70,8 +70,11 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             MinSeverityList.Add(new SelectListItem(SeverityRange.Minor.ToString(), SeverityRange.Minor.Min.ToString()));
             MinSeverityList.Add(new SelectListItem(SeverityRange.Info.ToString(), SeverityRange.Info.Min.ToString()));
 
-
             MaxSeverityList.Add(new SelectListItem(dict.NotSpecifiedItem, "0"));
+            MaxSeverityList.Add(new SelectListItem(SeverityRange.Critical.ToString(), SeverityRange.Critical.Max.ToString()));
+            MaxSeverityList.Add(new SelectListItem(SeverityRange.Major.ToString(), SeverityRange.Major.Max.ToString()));
+            MaxSeverityList.Add(new SelectListItem(SeverityRange.Minor.ToString(), SeverityRange.Minor.Max.ToString()));
+            MaxSeverityList.Add(new SelectListItem(SeverityRange.Info.ToString(), SeverityRange.Info.Max.ToString()));
         }
 
         public void OnGet()
