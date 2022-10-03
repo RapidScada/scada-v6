@@ -409,22 +409,22 @@ namespace Scada
             eventFormatted.Descr = sbDescr.ToString();
 
             // severity
-            int knownSeverity = Severity.Closest(ev.Severity);
+            KnownSeverity knownSeverity = Severity.Closest(ev.Severity);
 
-            if (knownSeverity != Severity.Undefined)
+            if (knownSeverity != KnownSeverity.Undefined)
             {
                 switch (knownSeverity)
                 {
-                    case Severity.Critical:
+                    case KnownSeverity.Critical:
                         eventFormatted.Sev = CommonPhrases.CriticalSeverity;
                         break;
-                    case Severity.Major:
+                    case KnownSeverity.Major:
                         eventFormatted.Sev = CommonPhrases.MajorSeverity;
                         break;
-                    case Severity.Minor:
+                    case KnownSeverity.Minor:
                         eventFormatted.Sev = CommonPhrases.MinorSeverity;
                         break;
-                    case Severity.Info:
+                    case KnownSeverity.Info:
                         eventFormatted.Sev = CommonPhrases.InfoSeverity;
                         break;
                 }

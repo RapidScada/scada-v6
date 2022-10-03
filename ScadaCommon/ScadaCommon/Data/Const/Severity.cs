@@ -44,44 +44,44 @@ namespace Scada.Data.Const
         /// <summary>
         /// The undefined severity.
         /// </summary>
-        public const int Undefined = 0;
+        public const int Undefined = (int)KnownSeverity.Undefined;
 
         /// <summary>
         /// The critical severity from 1 to 249.
         /// </summary>
-        public const int Critical = 1;
+        public const int Critical = (int)KnownSeverity.Critical;
 
         /// <summary>
         /// The major severity from 250 to 499.
         /// </summary>
-        public const int Major = 250;
+        public const int Major = (int)KnownSeverity.Major;
 
         /// <summary>
         /// The minor severity from 500 to 749.
         /// </summary>
-        public const int Minor = 500;
+        public const int Minor = (int)KnownSeverity.Minor;
 
         /// <summary>
         /// The informational severity from 750 to 999.
         /// </summary>
-        public const int Info = 750;
+        public const int Info = (int)KnownSeverity.Info;
 
 
         /// <summary>
         /// Gets the closest known severity.
         /// </summary>
-        public static int Closest(int value)
+        public static KnownSeverity Closest(int value)
         {
             if (Critical <= value && value < Major)
-                return Critical;
+                return KnownSeverity.Critical;
             else if (Major <= value && value < Minor)
-                return Major;
+                return KnownSeverity.Major;
             else if (Minor <= value && value < Info)
-                return Minor;
+                return KnownSeverity.Minor;
             else if (Info <= value && value < Max)
-                return Info;
+                return KnownSeverity.Info;
             else
-                return Undefined;
+                return KnownSeverity.Undefined;
         }
     }
 }
