@@ -35,8 +35,10 @@ namespace Scada.Web.Plugins.PlgMain.Report
             TimeZone = reportArgs.TimeZone;
             Format = reportArgs.Format;
             CustomArgs = reportArgs.CustomArgs;
+
             ArchiveCode = CustomArgs.GetValueAsString("ArchiveCode");
             CnlNums = ScadaUtils.ParseRange(CustomArgs.GetValueAsString("CnlNums"), true, true);
+            MaxPeriod = 0;
         }
 
 

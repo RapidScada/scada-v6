@@ -86,7 +86,7 @@ $(document).ready(function () {
                 "&endTime=" + $("#txtEndTime").val() +
                 "&archive=" + $("#selArchive option:selected").val() +
                 "&objNum=" + $("#selObj option:selected").val() +
-                "&severity=" + getSeverityRange();
+                "&severities=" + getSeverityRange();
             location = reportUrl;
         }
 
