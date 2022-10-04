@@ -34,8 +34,6 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         public string ArchiveCode { get; private set; } = null;
         public List<SelectListItem> ArchiveList { get; private set; } = new();
         public List<SelectListItem> ObjList { get; private set; } = new();
-        public List<SelectListItem> MinSeverityList { get; private set; } = new();
-        public List<SelectListItem> MaxSeverityList { get; private set; } = new();
 
 
         private void FillArchiveList()
@@ -60,28 +58,12 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             }
         }
 
-        private void FillSeverityList()
-        {
-            MinSeverityList.Add(new SelectListItem(dict.NotSpecifiedItem, "0"));
-            MinSeverityList.Add(new SelectListItem(SeverityRange.Critical.ToString(), SeverityRange.Critical.Min.ToString()));
-            MinSeverityList.Add(new SelectListItem(SeverityRange.Major.ToString(), SeverityRange.Major.Min.ToString()));
-            MinSeverityList.Add(new SelectListItem(SeverityRange.Minor.ToString(), SeverityRange.Minor.Min.ToString()));
-            MinSeverityList.Add(new SelectListItem(SeverityRange.Info.ToString(), SeverityRange.Info.Min.ToString()));
-
-            MaxSeverityList.Add(new SelectListItem(dict.NotSpecifiedItem, "0"));
-            MaxSeverityList.Add(new SelectListItem(SeverityRange.Critical.ToString(), SeverityRange.Critical.Max.ToString()));
-            MaxSeverityList.Add(new SelectListItem(SeverityRange.Major.ToString(), SeverityRange.Major.Max.ToString()));
-            MaxSeverityList.Add(new SelectListItem(SeverityRange.Minor.ToString(), SeverityRange.Minor.Max.ToString()));
-            MaxSeverityList.Add(new SelectListItem(SeverityRange.Info.ToString(), SeverityRange.Info.Max.ToString()));
-        }
-
         public void OnGet()
         {
             StartTime = userContext.ConvertTimeFromUtc(DateTime.UtcNow).Date;
             EndTime = StartTime.AddDays(1.0);
             FillArchiveList();
             FillObjList();
-            FillSeverityList();
         }
     }
 }
