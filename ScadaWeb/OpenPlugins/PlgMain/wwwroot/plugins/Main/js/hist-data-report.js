@@ -58,7 +58,7 @@ $(document).ready(function () {
             let reportUrl = "Print/PrintHistDataReport" +
                 "?startTime=" + $("#txtStartTime").val() +
                 "&endTime=" + $("#txtEndTime").val() +
-                "&archive=" + ($("#selArchive option:selected").val() ?? "") +
+                "&archive=" + $("#selArchive option:selected").val() +
                 "&cnlNums=" + $("#txtCnlNums").val();
             location = reportUrl;
         }

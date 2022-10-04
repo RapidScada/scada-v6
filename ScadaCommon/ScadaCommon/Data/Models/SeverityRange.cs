@@ -87,6 +87,14 @@ namespace Scada.Data.Models
 
 
         /// <summary>
+        /// Returns a string in range format
+        /// </summary>
+        public string ToRangeString()
+        {
+            return Min + "-" + Max;
+        }
+
+        /// <summary>
         /// Returns a string that represents the current object.
         /// </summary>
         public override string ToString()

@@ -16,7 +16,7 @@
     <script src="~/plugins/Main/js/event-report.js" asp-append-version="true"></script>
     <script>
         maxReportPeriod = @pluginContext.Options.MaxReportPeriod;
-        phrases = @WebUtils.DictionaryToJs("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventReport.Js");
+        phrases = @WebUtils.DictionaryToJs("Scada.Web.Plugins.PlgMain.Report.Js");
     </script>
 }
 
@@ -34,7 +34,7 @@
     </div>
     <div class="mb-3">
         <label id="lblArchive" for="selArchive" class="form-label">@dict.lblArchive</label>
-        <select id="selArchive" class="form-select" required asp-for="ArchiveCode" asp-items="Model.ArchiveList"></select>
+        <select id="selArchive" class="form-select" required asp-items="Model.ArchiveList"></select>
     </div>
     <div class="mb-3">
         <label id="lblObj" for="selObj" class="form-label">@dict.lblObj</label>
@@ -44,19 +44,19 @@
         <label id="lblSeverity" for="ulSeverity" class="form-label">@dict.lblSeverity</label>
         <ul id="ulSeverity" class="list-group">
             <li class="list-group-item">
-                <input type="checkbox" id="chkCriticalSeverity" class="form-check-input me-1" value="@Severity.Critical" checked>
+                <input type="checkbox" id="chkCriticalSeverity" class="form-check-input me-1" value="@SeverityRange.Critical.ToRangeString()" checked>
                 <label class="form-check-label stretched-link" for="chkCriticalSeverity">@SeverityRange.Critical.ToString()</label>
             </li>
             <li class="list-group-item">
-                <input type="checkbox" id="chkMajorSeverity" class="form-check-input me-1" value="@Severity.Major" checked>
+                <input type="checkbox" id="chkMajorSeverity" class="form-check-input me-1" value="@SeverityRange.Major.ToRangeString()" checked>
                 <label class="form-check-label stretched-link" for="chkMajorSeverity">@SeverityRange.Major.ToString()</label>
             </li>
             <li class="list-group-item">
-                <input type="checkbox" id="chkMinorSeverity" class="form-check-input me-1" value="@Severity.Minor" checked>
+                <input type="checkbox" id="chkMinorSeverity" class="form-check-input me-1" value="@SeverityRange.Minor.ToRangeString()" checked>
                 <label class="form-check-label stretched-link" for="chkMinorSeverity">@SeverityRange.Minor.ToString()</label>
             </li>
             <li class="list-group-item">
-                <input type="checkbox" id="chkInfoSeverity" class="form-check-input me-1" value="@Severity.Info" checked>
+                <input type="checkbox" id="chkInfoSeverity" class="form-check-input me-1" value="@SeverityRange.Info.ToRangeString()" checked>
                 <label class="form-check-label stretched-link" for="chkInfoSeverity">@SeverityRange.Info.ToString()</label>
             </li>
         </ul>

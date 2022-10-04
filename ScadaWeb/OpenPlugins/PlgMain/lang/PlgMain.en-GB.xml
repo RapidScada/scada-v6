@@ -73,11 +73,6 @@
     <Phrase key="btnGenerateReport">Download Report</Phrase>
     <Phrase key="divWaitHint">Generating report. Please wait...</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.HistDataReport.Js">
-    <Phrase key="InvalidPeriod">Start date must be less or equal than end date.</Phrase>
-    <Phrase key="PeriodTooLong">The maximum period length is {0} days.</Phrase>
-    <Phrase key="InvalidChannels">Invalid channel numbers.</Phrase>
-  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView">
     <Phrase key="TableViewTitle">Table {0}</Phrase>
     <Phrase key="PrevDate">Previous date</Phrase>
@@ -132,6 +127,12 @@
     <Phrase key="GenCaption">Generated:</Phrase>
     <Phrase key="ArcCaption">Archive:</Phrase>
     <Phrase key="TzCaption">Time zone:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.Js">
+    <Phrase key="InvalidPeriod">Start date must be less or equal than end date.</Phrase>
+    <Phrase key="PeriodTooLong">The maximum period length is {0} days.</Phrase>
+    <Phrase key="InvalidChannels">Invalid channel numbers.</Phrase>
+    <Phrase key="NoSeverity">No severity selected.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Report.HistDataReportBuilder">
     <Phrase key="TitleFormat">Historical Data, {0} - {1}</Phrase>

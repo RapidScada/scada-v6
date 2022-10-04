@@ -26,7 +26,6 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
         public DateTime StartTime { get; private set; }
         public DateTime EndTime { get; private set; }
-        public string ArchiveCode { get; private set; } = null;
         public List<SelectListItem> ArchiveList { get; private set; } = new();
 
 
@@ -34,10 +33,8 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         {
             foreach (Archive archive in webContext.ConfigDatabase.ArchiveTable)
             {
-                ArchiveList.Add(new SelectListItem(archive.Name, archive.Code));
-
-                if (archive.Code == HistDataReportBuilder.DefaultArchiveCode)
-                    ArchiveCode = archive.Code;
+                ArchiveList.Add(new SelectListItem(archive.Name, archive.Code, 
+                    archive.Code == HistDataReportBuilder.DefaultArchiveCode));
             }
         }
 
