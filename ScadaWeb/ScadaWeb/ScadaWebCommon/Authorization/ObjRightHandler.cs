@@ -90,6 +90,15 @@ namespace Scada.Web.Authorization
         }
 
         /// <summary>
+        /// Checks object access rights.
+        /// </summary>
+        private bool CheckObjectAccess(string objNumStr)
+        {
+            return int.TryParse(objNumStr, out int objNum) &&
+                userContext.Rights.GetRightByObj(objNum).View;
+        }
+
+        /// <summary>
         /// Makes a decision if authorization is allowed based on a specific requirement.
         /// </summary>
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, ObjRightRequirement requirement)
@@ -105,8 +114,9 @@ namespace Scada.Web.Authorization
                 IQueryCollection query = httpContextAccessor.HttpContext.Request.Query;
                 bool cnlNumsOK = !query.ContainsKey("cnlNums") || CheckChannelAccess(query["cnlNums"]);
                 bool viewIdOK = !query.ContainsKey("viewID") || CheckViewAccess(query["viewID"]);
+                bool objNumOK = !query.ContainsKey("objNum") || CheckObjectAccess(query["objNum"]);
 
-                if (cnlNumsOK && viewIdOK)
+                if (cnlNumsOK && viewIdOK && objNumOK)
                     accessAllowed = true;
             }
 
