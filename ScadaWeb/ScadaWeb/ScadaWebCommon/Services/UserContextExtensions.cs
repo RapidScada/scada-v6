@@ -23,6 +23,7 @@
  * Modified : 2022
  */
 
+using Scada.Data.Models;
 using System;
 
 namespace Scada.Web.Services
@@ -49,6 +50,18 @@ namespace Scada.Web.Services
             return dateTime.Kind == DateTimeKind.Utc
                 ? dateTime
                 : TimeZoneInfo.ConvertTimeToUtc(dateTime, userContext.TimeZone);
+        }
+
+        /// <summary>
+        /// Creates a time range with UTC timestamps.
+        /// </summary>
+        public static TimeRange CreateTimeRangeUtc(this IUserContext userContext, 
+            DateTime startTime, DateTime endTime, bool endInclusive)
+        {
+            return new TimeRange(
+                userContext.ConvertTimeToUtc(startTime),
+                userContext.ConvertTimeToUtc(endTime),
+                endInclusive);
         }
     }
 }

@@ -224,8 +224,8 @@ class ModalManager {
                 // update the modal height
                 let frameWnd = ModalManager._getModalWnd(modalElem);
                 if (ScadaUtils.checkAccessToFrame(frameWnd, true) && !options.height) {
-                    let frameBody = frameWnd.$("body");
-                    modalFrame.css("height", frameBody.outerHeight(true));
+                    // html height can be greater than body height because of element margins
+                    modalFrame.css("height", frameWnd.$("html").height());
                 }
 
                 tempOverlay.remove();
@@ -323,8 +323,8 @@ class ModalManager {
     // Updates the modal dialog height according to its frame height.
     updateModalHeight(modalWnd, opt_growOnly) {
         let frame = $(modalWnd.frameElement);
-        let frameBody = frame.contents().find("body");
-        let newHeight = frameBody.outerHeight(true);
+        let frameHtml = frame.contents().find("html");
+        let newHeight = frameHtml.height();
 
         if (!opt_growOnly || newHeight > frame.height()) {
             frame.css("height", newHeight);

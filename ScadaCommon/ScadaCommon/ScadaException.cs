@@ -64,5 +64,11 @@ namespace Scada
             : base(string.Format(message, args))
         {
         }
+
+
+        /// <summary>
+        /// Gets or sets a value indicating whether an error message can be displayed to a user.
+        /// </summary>
+        public bool MessageIsPublic { get; set; } = false;
     }
 }

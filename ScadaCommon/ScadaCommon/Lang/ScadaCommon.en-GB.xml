@@ -75,11 +75,6 @@
     <Phrase key="NotHexadecimal">String is not hexadecimal.</Phrase>
     <Phrase key="InvalidParamVal">Invalid value of the &quot;{0}&quot; parameter.</Phrase>
     <Phrase key="InvalidSecretKey">Invalid secret key.</Phrase>
-    <Phrase key="UndefinedSign">---</Phrase>
-    <Phrase key="CriticalSeverity">Critical</Phrase>
-    <Phrase key="MajorSeverity">Major</Phrase>
-    <Phrase key="MinorSeverity">Minor</Phrase>
-    <Phrase key="InfoSeverity">Info</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms">
     <Phrase key="InfoCaption">Information</Phrase>
@@ -101,8 +96,13 @@
     <Phrase key="CollectionValue">(Collection)</Phrase>
   </Dictionary>
   <Dictionary key="Scada.CnlDataFormatter">
+    <Phrase key="UndefinedSign">---</Phrase>
     <Phrase key="CommandDescrPrefix">Command: </Phrase>
     <Phrase key="StatusFormat">Status {0}</Phrase>
+    <Phrase key="CriticalSeverity">Critical</Phrase>
+    <Phrase key="MajorSeverity">Major</Phrase>
+    <Phrase key="MinorSeverity">Minor</Phrase>
+    <Phrase key="InfoSeverity">Info</Phrase>
   </Dictionary>
   <!-- ScadaCommon.Forms.dll -->
   <Dictionary key="Scada.Forms.Controls.CtrlBitmask">

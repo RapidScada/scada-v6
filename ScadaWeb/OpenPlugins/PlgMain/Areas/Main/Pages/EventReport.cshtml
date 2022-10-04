@@ -1,0 +1,68 @@
+﻿@page
+@using Scada.Data.Models
+@model EventReportModel
+@inject PluginContext pluginContext
+@{
+    Layout = "_MainLayout";
+    dynamic dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventReport");
+    ViewBag.Title = dict.PageTitle;
+}
+
+@section Styles {
+    <link href="~/plugins/Main/css/report.min.css" rel="stylesheet" asp-append-version="true" />
+}
+
+@section Scripts {
+    <script src="~/plugins/Main/js/event-report.js" asp-append-version="true"></script>
+    <script>
+        maxReportPeriod = @pluginContext.Options.MaxReportPeriod;
+        phrases = @WebUtils.DictionaryToJs("Scada.Web.Plugins.PlgMain.Report.Js");
+    </script>
+}
+
+<h1>@dict.PageTitle</h1>
+
+<form id="frmReportArgs" method="post" class="report-args">
+    <div id="divErrorMessage" class="alert alert-danger hidden">Error Message</div>
+    <div class="mb-3">
+        <label id="lblStartTime" for="txtStartTime" class="form-label">@dict.lblStartTime</label>
+        <input type="datetime-local" id="txtStartTime" class="form-control" required asp-for="StartTime" asp-format="{0:yyyy-MM-ddTHH:mm}" />
+    </div>
+    <div class="mb-3">
+        <label id="lblEndTime" for="txtEndTime" class="form-label">@dict.lblEndTime</label>
+        <input type="datetime-local" id="txtEndTime" class="form-control" required asp-for="EndTime" asp-format="{0:yyyy-MM-ddTHH:mm}" />
+    </div>
+    <div class="mb-3">
+        <label id="lblArchive" for="selArchive" class="form-label">@dict.lblArchive</label>
+        <select id="selArchive" class="form-select" required asp-items="Model.ArchiveList"></select>
+    </div>
+    <div class="mb-3">
+        <label id="lblObj" for="selObj" class="form-label">@dict.lblObj</label>
+        <select id="selObj" class="form-select" required asp-items="Model.ObjList"></select>
+    </div>
+    <div class="mb-3">
+        <label id="lblSeverity" for="ulSeverity" class="form-label">@dict.lblSeverity</label>
+        <ul id="ulSeverity" class="list-group">
+            <li class="list-group-item">
+                <input type="checkbox" id="chkCriticalSeverity" class="form-check-input me-1" value="@SeverityRange.Critical.ToRangeString()" checked>
+                <label class="form-check-label stretched-link" for="chkCriticalSeverity">@SeverityRange.Critical.ToString()</label>
+            </li>
+            <li class="list-group-item">
+                <input type="checkbox" id="chkMajorSeverity" class="form-check-input me-1" value="@SeverityRange.Major.ToRangeString()" checked>
+                <label class="form-check-label stretched-link" for="chkMajorSeverity">@SeverityRange.Major.ToString()</label>
+            </li>
+            <li class="list-group-item">
+                <input type="checkbox" id="chkMinorSeverity" class="form-check-input me-1" value="@SeverityRange.Minor.ToRangeString()" checked>
+                <label class="form-check-label stretched-link" for="chkMinorSeverity">@SeverityRange.Minor.ToString()</label>
+            </li>
+            <li class="list-group-item">
+                <input type="checkbox" id="chkInfoSeverity" class="form-check-input me-1" value="@SeverityRange.Info.ToRangeString()" checked>
+                <label class="form-check-label stretched-link" for="chkInfoSeverity">@SeverityRange.Info.ToString()</label>
+            </li>
+        </ul>
+    </div>
+    <div class="mb-3">
+        <button type="submit" id="btnGenerateReport" class="btn btn-primary">@dict.btnGenerateReport</button>
+        <div id="divWaitHint" class="form-text hidden">@dict.divWaitHint</div>
+    </div>
+</form>

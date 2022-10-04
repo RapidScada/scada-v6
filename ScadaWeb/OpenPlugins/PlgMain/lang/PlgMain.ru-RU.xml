@@ -31,6 +31,19 @@
     <Phrase key="AckNo">Нет</Phrase>
     <Phrase key="AckTip">Нажмите кнопку OK, чтобы квитировать событие.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventReport">
+    <Phrase key="PageTitle">Отчёт по событиям</Phrase>
+    <Phrase key="AllObjItem">-- Все объекты --</Phrase>
+    <Phrase key="AllAvailObjItem">-- Все доступные объекты --</Phrase>
+    <Phrase key="NotSpecifiedItem">-- Не задана --</Phrase>
+    <Phrase key="lblStartTime">Начало</Phrase>
+    <Phrase key="lblEndTime">Окончание</Phrase>
+    <Phrase key="lblArchive">Архив</Phrase>
+    <Phrase key="lblObj">Объект</Phrase>
+    <Phrase key="lblSeverity">Серьёзность</Phrase>
+    <Phrase key="btnGenerateReport">Скачать отчёт</Phrase>
+    <Phrase key="divWaitHint">Отчёт генерируется. Пожалуйста, подождите...</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events">
     <Phrase key="TimeCol">Дата и время</Phrase>
     <Phrase key="ObjCol">Объект</Phrase>
@@ -49,6 +62,16 @@
     <Phrase key="Loading">Загрузка...</Phrase>
     <Phrase key="NoEvents">События отсутствуют</Phrase>
     <Phrase key="Ack">Квитировать</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.HistDataReport">
+    <Phrase key="PageTitle">Отчёт по историческим данным</Phrase>
+    <Phrase key="lblStartTime">Начало</Phrase>
+    <Phrase key="lblEndTime">Окончание</Phrase>
+    <Phrase key="lblArchive">Архив</Phrase>
+    <Phrase key="lblCnlNums">Каналы</Phrase>
+    <Phrase key="btnSelectCnls">Выбрать...</Phrase>
+    <Phrase key="btnGenerateReport">Скачать отчёт</Phrase>
+    <Phrase key="divWaitHint">Отчёт генерируется. Пожалуйста, подождите...</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView">
     <Phrase key="TableViewTitle">Таблица {0}</Phrase>
@@ -104,6 +127,12 @@
     <Phrase key="GenCaption">Получено:</Phrase>
     <Phrase key="ArcCaption">Архив:</Phrase>
     <Phrase key="TzCaption">Часовой пояс:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.Js">
+    <Phrase key="InvalidPeriod">Дата начала должна быть меньше или равна дате окончания.</Phrase>
+    <Phrase key="PeriodTooLong">Максимальная длина периода {0} дн.</Phrase>
+    <Phrase key="InvalidChannels">Некорректные номера каналов.</Phrase>
+    <Phrase key="NoSeverity">Серьёзность не выбрана.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Report.HistDataReportBuilder">
     <Phrase key="TitleFormat">Исторические данные, {0} - {1}</Phrase>

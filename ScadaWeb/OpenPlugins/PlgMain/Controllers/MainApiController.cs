@@ -56,7 +56,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Checks user permissions and throws an exception if access is denied.
         /// </summary>
-        private void CheckAccessRights(IdList cnlNums)
+        private void CheckAccessRights(IntRange cnlNums)
         {
             if (cnlNums == null || userContext.Rights.ViewAll)
                 return;
@@ -80,17 +80,6 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         {
             if (!userContext.Rights.ViewAll)
                 throw new AccessDeniedException();
-        }
-
-        /// <summary>
-        /// Creates a time range with UTC timestamps.
-        /// </summary>
-        private TimeRange CreateTimeRange(DateTime startTime, DateTime endTime, bool endInclusive)
-        {
-            return new TimeRange(
-                userContext.ConvertTimeToUtc(startTime),
-                userContext.ConvertTimeToUtc(endTime), 
-                endInclusive);
         }
 
         /// <summary>
@@ -233,7 +222,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Gets the current data without formatting.
         /// </summary>
-        public Dto<IEnumerable<CurDataPoint>> GetCurData(IdList cnlNums)
+        public Dto<IEnumerable<CurDataPoint>> GetCurData(IntRange cnlNums)
         {
             try
             {
@@ -267,7 +256,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Gets the current data of the specified channels.
         /// </summary>
-        public Dto<CurData> GetCurDataStep1(IdList cnlNums, bool useCache)
+        public Dto<CurData> GetCurDataStep1(IntRange cnlNums, bool useCache)
         {
             try
             {
@@ -304,7 +293,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         {
             try
             {
-                IdList cnlNums = memoryCache.Get<IdList>(PluginUtils.GetCacheKey("CnlList", cnlListID));
+                IntRange cnlNums = memoryCache.Get<IntRange>(PluginUtils.GetCacheKey("CnlList", cnlListID));
                 CurData curData = RequestCurData(cnlNums, cnlListID, true);
                 return Dto<CurData>.Success(curData);
             }
@@ -349,12 +338,14 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// Gets the historical data.
         /// </summary>
         public Dto<HistData> GetHistData(int archiveBit, DateTime startTime, DateTime endTime, bool endInclusive,
-            IdList cnlNums)
+            IntRange cnlNums)
         {
             try
             {
                 CheckAccessRights(cnlNums);
-                HistData histData = RequestHistData(archiveBit, CreateTimeRange(startTime, endTime, endInclusive),
+                HistData histData = RequestHistData(
+                    archiveBit, 
+                    userContext.CreateTimeRangeUtc(startTime, endTime, endInclusive), 
                     cnlNums);
                 return Dto<HistData>.Success(histData);
             }
@@ -380,7 +371,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             {
                 if (viewLoader.GetViewFromCache(viewID, out ViewBase view, out string errMsg))
                 {
-                    TimeRange timeRange = CreateTimeRange(startTime, endTime, endInclusive);
+                    TimeRange timeRange = userContext.CreateTimeRangeUtc(startTime, endTime, endInclusive);
                     HistData histData = memoryCache.GetOrCreate(
                         PluginUtils.GetCacheKey("HistDataByView", archiveBit, timeRange.Key, viewID),
                         entry =>
@@ -411,7 +402,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             try
             {
                 RequireViewAll();
-                TimeRange timeRange = CreateTimeRange(startTime, endTime, endInclusive);
+                TimeRange timeRange = userContext.CreateTimeRangeUtc(startTime, endTime, endInclusive);
                 EventPacket eventPacket = memoryCache.GetOrCreate(
                     PluginUtils.GetCacheKey("Events", archiveBit, timeRange.Key),
                     entry =>

@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Lang;
+
 namespace Scada.Report
 {
     /// <summary>
@@ -54,10 +56,18 @@ namespace Scada.Report
         public virtual void Validate()
         {
             if (StartTime > EndTime)
-                throw new ScadaException("Invalid time range.");
+            {
+                throw new ScadaException(Locale.IsRussian ?
+                    "Некорректный диапазон времени." :
+                    "Invalid time range.") { MessageIsPublic = true };
+            }
 
             if (TimeZone == null)
-                throw new ScadaException("Time zone must not be null.");
+            {
+                throw new ScadaException(Locale.IsRussian ?
+                    "Часовой пояс не может быть null." :
+                    "Time zone must not be null.") { MessageIsPublic = true };
+            }
         }
     }
 }
