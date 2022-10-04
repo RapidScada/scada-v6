@@ -16,11 +16,11 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaWebCommon
- * Summary  : Represents a list of identifiers
+ * Summary  : Represents a list of identifiers that contains ordered and unique integers
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using System;
@@ -32,8 +32,8 @@ using System.Globalization;
 namespace Scada.Web.Api
 {
     /// <summary>
-    /// Represents a list of identifiers.
-    /// <para>Представляет список идентификаторов.</para>
+    /// Represents a list of identifiers that contains ordered and unique integers.
+    /// <para>Представляет список идентификаторов, содержащий упорядоченные и уникальные целые числа.</para>
     /// </summary>
     [TypeConverter(typeof(IdListConverter))]
     public class IdList : Collection<int>
@@ -63,7 +63,7 @@ namespace Scada.Web.Api
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public IdList(IList<int> list)
+        private IdList(IList<int> list)
             : base(list)
         {
         }
