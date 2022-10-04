@@ -1,0 +1,224 @@
+{
+    "version": "2.0.0",
+    "inputs": [
+        {
+            "type": "pickString",
+            "id": "dotnetCommand",
+            "description": "Run build or clean command?",
+            "options": [
+                "build",
+                "clean"
+            ],
+            "default": "build"
+        },
+        {
+            "type": "pickString",
+            "id": "dotnetConfiguration",
+            "description": "Select Release or Debug configuration?",
+            "options": [
+                "Release",
+                "Debug"
+            ],
+            "default": "Release"
+        }
+    ],
+    "tasks": [
+        {
+            "label": "ScadaCommon",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "${input:dotnetCommand}",
+                "${workspaceFolder}/ScadaCommon/ScadaCommon.sln",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:Summary",
+                "/property:Configuration=${input:dotnetConfiguration}"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "ScadaAgent",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "${input:dotnetCommand}",
+                "${workspaceFolder}/ScadaAgent/ScadaAgent/ScadaAgent.sln",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:Summary",
+                "/property:Configuration=${input:dotnetConfiguration}"
+            ],
+            "problemMatcher": "$msCompile",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "ScadaCommon"
+            ]
+        },
+        {
+            "label": "ScadaComm",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "${input:dotnetCommand}",
+                "${workspaceFolder}/ScadaComm/ScadaComm/ScadaComm.sln",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:Summary",
+                "/property:Configuration=${input:dotnetConfiguration}"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "ScadaServer",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "${input:dotnetCommand}",
+                "${workspaceFolder}/ScadaServer/ScadaServer/ScadaServer.sln",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:Summary",
+                "/property:Configuration=${input:dotnetConfiguration}"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "ScadaWeb",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "${input:dotnetCommand}",
+                "${workspaceFolder}/ScadaWeb/ScadaWeb/ScadaWeb.sln",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:Summary",
+                "/property:Configuration=${input:dotnetConfiguration}"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "ScadaAdmin",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "${input:dotnetCommand}",
+                "${workspaceFolder}/ScadaAdmin/ScadaAdmin/ScadaAdmin.sln",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:Summary",
+                "/property:Configuration=${input:dotnetConfiguration}"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "ScadaReport",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "${input:dotnetCommand}",
+                "${workspaceFolder}/ScadaReport/ScadaReport.sln",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:Summary",
+                "/property:Configuration=${input:dotnetConfiguration}"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "OpenDrivers",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "${input:dotnetCommand}",
+                "${workspaceFolder}/ScadaComm/OpenDrivers/OpenDrivers.sln",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:Summary",
+                "/property:Configuration=${input:dotnetConfiguration}"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "OpenDrivers2",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "${input:dotnetCommand}",
+                "${workspaceFolder}/ScadaComm/OpenDrivers2/OpenDrivers2.sln",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:Summary",
+                "/property:Configuration=${input:dotnetConfiguration}"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "OpenModules",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "${input:dotnetCommand}",
+                "${workspaceFolder}/ScadaServer/OpenModules/OpenModules.sln",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:Summary",
+                "/property:Configuration=${input:dotnetConfiguration}"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "OpenPlugins",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "${input:dotnetCommand}",
+                "${workspaceFolder}/ScadaWeb/OpenPlugins/OpenPlugins.sln",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:Summary",
+                "/property:Configuration=${input:dotnetConfiguration}"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "OpenExtensions",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "${input:dotnetCommand}",
+                "${workspaceFolder}/ScadaAdmin/OpenExtensions/OpenExtensions.sln",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:Summary",
+                "/property:Configuration=${input:dotnetConfiguration}"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "ScadaAgent",
+                "ScadaComm",
+                "ScadaServer",
+                "ScadaWeb",
+                "ScadaAdmin",
+                "ScadaReport",
+                "OpenDrivers",
+                "OpenDrivers2",
+                "OpenModules",
+                "OpenPlugins",
+                "OpenExtensions"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "watch",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "--project",
+                "${workspaceFolder}/ScadaAgent/ScadaAgent/ScadaAgentWkr/ScadaAgentWkr.csproj"
+            ],
+            "problemMatcher": "$msCompile",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "ScadaCommon"
+            ]
+        }
+    ]
+}
