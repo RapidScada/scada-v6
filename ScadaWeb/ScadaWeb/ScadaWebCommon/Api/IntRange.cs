@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaWebCommon
- * Summary  : Represents a list of identifiers that contains ordered and unique integers
+ * Summary  : Represents a list of ordered and unique integers
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
@@ -32,16 +32,16 @@ using System.Globalization;
 namespace Scada.Web.Api
 {
     /// <summary>
-    /// Represents a list of identifiers that contains ordered and unique integers.
-    /// <para>Представляет список идентификаторов, содержащий упорядоченные и уникальные целые числа.</para>
+    /// Represents a list of ordered and unique integers.
+    /// <para>Представляет список упорядоченных и уникальных целых чисел.</para>
     /// </summary>
-    [TypeConverter(typeof(IdListConverter))]
-    public class IdList : Collection<int>
+    [TypeConverter(typeof(IntRangeConverter))]
+    public class IntRange : Collection<int>
     {
         /// <summary>
         /// Implements a converter for the IdList type.
         /// </summary>
-        public class IdListConverter : TypeConverter
+        public class IntRangeConverter : TypeConverter
         {
             /// <summary>
             /// Returns whether this converter can convert an object of the given type to the type of this converter.
@@ -56,14 +56,14 @@ namespace Scada.Web.Api
             /// </summary>
             public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
             {
-                return new IdList(ScadaUtils.ParseRange(value == null ? "" : value.ToString(), true, true));
+                return new IntRange(ScadaUtils.ParseRange(value == null ? "" : value.ToString(), true, true));
             }
         }
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        private IdList(IList<int> list)
+        private IntRange(IList<int> list)
             : base(list)
         {
         }

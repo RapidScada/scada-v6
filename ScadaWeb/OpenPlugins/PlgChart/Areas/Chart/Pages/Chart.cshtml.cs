@@ -34,7 +34,7 @@ namespace Scada.Web.Plugins.PlgChart.Areas.Chart.Pages
 
         public HtmlString ChartDataHtml { get; private set; }
 
-        public void OnGet(IdList cnlNums, DateTime startDate, string archive, int? gap)
+        public void OnGet(IntRange cnlNums, DateTime startDate, string archive, int? gap)
         {
             // get request parameters and plugin options
             int cnlNum = cnlNums != null && cnlNums.Count > 0 ? cnlNums[0] : 0;

@@ -158,7 +158,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// Generates a historical data report.
         /// </summary>
         [Authorize(Policy = PolicyName.Restricted)]
-        public IActionResult PrintHistDataReport(DateTime startTime, DateTime endTime, string archive, IdList cnlNums)
+        public IActionResult PrintHistDataReport(DateTime startTime, DateTime endTime, 
+            string archive, IntRange cnlNums)
         {
             MemoryStream stream = new();
             DateTime generateTime;
@@ -196,8 +197,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// Generates an event report.
         /// </summary>
         [Authorize(Policy = PolicyName.Restricted)]
-        public IActionResult PrintEventReport(DateTime startTime, DateTime endTime, string archive, 
-            int objNum, IdList severity)
+        public IActionResult PrintEventReport(DateTime startTime, DateTime endTime, 
+            string archive, int objNum, IntRange severity)
         {
             return null;
         }

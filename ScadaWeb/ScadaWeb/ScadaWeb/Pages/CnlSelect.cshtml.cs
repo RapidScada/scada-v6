@@ -119,7 +119,7 @@ namespace Scada.Web.Pages
         }
 
 
-        public void OnGet(IdList cnlNums)
+        public void OnGet(IntRange cnlNums)
         {
             ObjNum = 0;
             OnlySelected = cnlNums != null && cnlNums.Count > 0;
