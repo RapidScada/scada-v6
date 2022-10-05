@@ -32,7 +32,6 @@ namespace Scada.Web.Plugins.PlgMain.Report
             ArgumentNullException.ThrowIfNull(reportArgs, nameof(reportArgs));
             StartTime = reportArgs.StartTime;
             EndTime = reportArgs.EndTime;
-            TimeZone = reportArgs.TimeZone;
             Format = reportArgs.Format;
             CustomArgs = reportArgs.CustomArgs;
 

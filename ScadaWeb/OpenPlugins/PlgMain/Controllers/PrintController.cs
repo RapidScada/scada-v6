@@ -58,6 +58,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             {
                 ConfigDatabase = webContext.ConfigDatabase,
                 ScadaClient = clientAccessor.ScadaClient,
+                TimeZone = userContext.TimeZone,
+                Culture = Locale.Culture,
                 TemplateDir = templateDir
             };
         }
@@ -182,7 +184,6 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 {
                     StartTime = userContext.ConvertTimeToUtc(startTime),
                     EndTime = userContext.ConvertTimeToUtc(endTime),
-                    TimeZone = userContext.TimeZone,
                     ArchiveCode = archive,
                     CnlNums = cnlNums,
                     MaxPeriod = pluginContext.Options.MaxReportPeriod
@@ -209,7 +210,12 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         public IActionResult PrintEventReport(DateTime startTime, DateTime endTime, 
             string archive, int objNum, IntRange severities)
         {
-            if (!webContext.ConfigDatabase.ObjTable.PkExists(objNum))
+            if (objNum <= 0)
+            {
+                if (!userContext.Rights.ViewAll)
+                    return Forbid();
+            }
+            else if (!webContext.ConfigDatabase.ObjTable.PkExists(objNum))
             {
                 throw new ScadaException(Locale.IsRussian ?
                     "Объект не найден в базе конфигурации." :
@@ -220,7 +226,6 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             {
                 StartTime = userContext.ConvertTimeToUtc(startTime),
                 EndTime = userContext.ConvertTimeToUtc(endTime),
-                TimeZone = userContext.TimeZone,
                 ArchiveCode = archive,
                 ObjNum = objNum,
                 Severities = severities,
