@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Client;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
@@ -9,7 +8,6 @@ using Scada.Lang;
 using Scada.Report;
 using Scada.Report.Xml2003;
 using Scada.Report.Xml2003.Excel;
-using System.Globalization;
 using System.Xml;
 
 namespace Scada.Web.Plugins.PlgMain.Report
@@ -62,6 +60,41 @@ namespace Scada.Web.Plugins.PlgMain.Report
 
 
         /// <summary>
+        /// Gets the time range according to the report arguments.
+        /// </summary>
+        private TimeRange GetTimeRange()
+        {
+            return reportArgs.TailMode
+                ? new TimeRange(GenerateTime.AddDays(-reportArgs.EventDepth), GenerateTime, true)
+                : new TimeRange(reportArgs.StartTime, reportArgs.EndTime, true);
+        }
+
+        /// <summary>
+        /// Gets the event filter according to the report arguments.
+        /// </summary>
+        private DataFilter GetEventFilter()
+        {
+            DataFilter dataFilter = new(typeof(Event));
+
+            if (reportArgs.TailMode)
+            {
+                dataFilter.Limit = reportArgs.EventCount;
+                dataFilter.OriginBegin = false;
+            }
+
+            if (reportArgs.FilterByView)
+                dataFilter.AddCondition("CnlNum", FilterOperator.In, reportArgs.View.CnlNumList);
+
+            if (reportArgs.FilterByObj)
+                dataFilter.AddCondition("ObjNum", FilterOperator.In, reportArgs.ObjNums);
+
+            if (reportArgs.FilterBySeverity)
+                dataFilter.AddCondition("Severity", FilterOperator.In, reportArgs.Severities);
+
+            return dataFilter;
+        }
+
+        /// <summary>
         /// Generates a report to the output stream.
         /// </summary>
         public override void Generate(ReportArgs args, Stream outStream)
@@ -99,13 +132,8 @@ namespace Scada.Web.Plugins.PlgMain.Report
             if (eventRowTemplate != null)
             {
                 // select events
-                TimeRange timeRange = new(GenerateTime.AddDays(-reportArgs.EventDepth), GenerateTime, true);
-                DataFilter filter = null;
-                //EventFilter filter = reportArgs.View == null
-                //    ? new EventFilter(reportArgs.EventCount)
-                //    : new EventFilter(reportArgs.EventCount, reportArgs.View);
                 List<Event> events = ReportContext.ScadaClient.GetEvents(
-                    archiveEntity.Bit, timeRange, filter, false, out _);
+                    archiveEntity.Bit, GetTimeRange(), GetEventFilter(), false, out _);
                 CnlDataFormatter formatter = new(ReportContext.ConfigDatabase, ReportContext.TimeZone)
                 {
                     Culture = ReportContext.Culture
