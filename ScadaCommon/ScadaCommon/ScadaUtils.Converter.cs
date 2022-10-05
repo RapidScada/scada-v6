@@ -280,7 +280,15 @@ namespace Scada
         /// </summary>
         public static string ToLocalizedString(this DateTime dateTime)
         {
-            return dateTime.ToLocalizedDateString() + " " + dateTime.ToLocalizedTimeString();
+            return dateTime.ToLocalizedString(Locale.Culture);
+        }
+
+        /// <summary>
+        /// Converts the specified value to a string representation using the specified culture.
+        /// </summary>
+        public static string ToLocalizedString(this DateTime dateTime, CultureInfo culture)
+        {
+            return dateTime.ToString("d", culture) + " " + dateTime.ToString("T", culture);
         }
 
         /// <summary>
