@@ -314,14 +314,14 @@ namespace Scada.Web.Plugins.PlgMain.Report
                     cellText = reportDict.GenCaption;
                 else if (e.DirectiveValue == "Gen")
                     cellText = ReportContext.ConvertTimeFromUtc(GenerateTime).ToLocalizedString(ReportContext.Culture);
-                else if (e.DirectiveValue == "ArcCaption")
-                    cellText = reportDict.ArcCaption;
-                else if (e.DirectiveValue == "Arc")
-                    cellText = archiveEntity.Name;
                 else if (e.DirectiveValue == "TzCaption")
                     cellText = reportDict.TzCaption;
                 else if (e.DirectiveValue == "Tz")
                     cellText = ReportContext.TimeZone.DisplayName;
+                else if (e.DirectiveValue == "ArcCaption")
+                    cellText = reportDict.ArcCaption;
+                else if (e.DirectiveValue == "Arc")
+                    cellText = archiveEntity.Name;
                 else if (e.DirectiveValue == "CnlCaption")
                     cellText = dict.CnlCaption;
                 else if (e.DirectiveValue == "TimeCol")

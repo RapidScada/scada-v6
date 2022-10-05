@@ -109,8 +109,8 @@
   <Dictionary key="Scada.Web.Plugins.PlgMain.Report">
     <Phrase key="ArchiveNotFound">Archive not found in the configuration database.</Phrase>
     <Phrase key="GenCaption">Generated:</Phrase>
-    <Phrase key="ArcCaption">Archive:</Phrase>
     <Phrase key="TzCaption">Time zone:</Phrase>
+    <Phrase key="ArcCaption">Archive:</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Report.Js">
     <Phrase key="InvalidPeriod">Start date must be less or equal than end date.</Phrase>
@@ -119,12 +119,11 @@
     <Phrase key="NoSeverity">No severity selected.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Report.EventReportBuilder">
-    <Phrase key="TitleFormat">Last {0} events in {1} hours</Phrase>
-    <Phrase key="GenCaption">Generated:</Phrase>
-    <Phrase key="ArcCaption">Archive:</Phrase>
-    <Phrase key="FilterCaption">Filter:</Phrase>
-    <Phrase key="AllEventsFilter">All events</Phrase>
-    <Phrase key="TzCaption">Time zone:</Phrase>
+    <Phrase key="GeneralTitleFormat">Events, {0} - {1}</Phrase>
+    <Phrase key="TailTitleFormat">Last {0} events in {1} hours</Phrase>
+    <Phrase key="ViewCaption">View:</Phrase>
+    <Phrase key="ObjCaption">Objects:</Phrase>
+    <Phrase key="SevCaption">Severity:</Phrase>
     <Phrase key="TimeCol">Date and Time</Phrase>
     <Phrase key="ObjCol">Object</Phrase>
     <Phrase key="DevCol">Device</Phrase>

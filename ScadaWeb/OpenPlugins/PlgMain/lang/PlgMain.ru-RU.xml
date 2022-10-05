@@ -109,8 +109,8 @@
   <Dictionary key="Scada.Web.Plugins.PlgMain.Report">
     <Phrase key="ArchiveNotFound">Архив не найдён в базе конфигурации.</Phrase>
     <Phrase key="GenCaption">Получено:</Phrase>
-    <Phrase key="ArcCaption">Архив:</Phrase>
     <Phrase key="TzCaption">Часовой пояс:</Phrase>
+    <Phrase key="ArcCaption">Архив:</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Report.Js">
     <Phrase key="InvalidPeriod">Дата начала должна быть меньше или равна дате окончания.</Phrase>
@@ -119,12 +119,11 @@
     <Phrase key="NoSeverity">Серьёзность не выбрана.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Report.EventReportBuilder">
-    <Phrase key="TitleFormat">Последние {0} событий за {1} ч</Phrase>
-    <Phrase key="GenCaption">Получено:</Phrase>
-    <Phrase key="ArcCaption">Архив:</Phrase>
-    <Phrase key="FilterCaption">Фильтр:</Phrase>
-    <Phrase key="AllEventsFilter">Все события</Phrase>
-    <Phrase key="TzCaption">Часовой пояс:</Phrase>
+    <Phrase key="GeneralTitleFormat">События, {0} - {1}</Phrase>
+    <Phrase key="TailTitleFormat">Последние {0} событий за {1} ч</Phrase>
+    <Phrase key="ViewCaption">Представление:</Phrase>
+    <Phrase key="ObjCaption">Объекты:</Phrase>
+    <Phrase key="SevCaption">Серьёзность:</Phrase>
     <Phrase key="TimeCol">Дата и время</Phrase>
     <Phrase key="ObjCol">Объект</Phrase>
     <Phrase key="DevCol">Устройство</Phrase>

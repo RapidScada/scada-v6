@@ -34,6 +34,9 @@ namespace Scada.Web.Plugins.PlgMain.Report
 
         private EventReportArgs reportArgs;
         private Archive archiveEntity;
+        private Row viewFilterRow;
+        private Row objFilterRow;
+        private Row sevFilterRow;
         private Row eventRowTemplate;
         private EventFormatted currentEventF;
 
@@ -54,10 +57,32 @@ namespace Scada.Web.Plugins.PlgMain.Report
 
             reportArgs = null;
             archiveEntity = null;
+            viewFilterRow = null;
+            objFilterRow = null;
+            sevFilterRow = null;
             eventRowTemplate = null;
             currentEventF = null;
         }
 
+
+        /// <summary>
+        /// Gets the report title.
+        /// </summary>
+        private string GetTitle()
+        {
+            if (reportArgs.TailMode)
+            {
+                return string.Format(dict.TailTitleFormat, reportArgs.EventCount, reportArgs.EventDepth * 24);
+            }
+            else
+            {
+                DateTime localStartTime = ReportContext.ConvertTimeFromUtc(reportArgs.StartTime);
+                DateTime localEndTime = ReportContext.ConvertTimeFromUtc(reportArgs.EndTime);
+                return string.Format(dict.GeneralTitleFormat,
+                    localStartTime.ToLocalizedString(),
+                    localEndTime.ToLocalizedString());
+            }
+        }
 
         /// <summary>
         /// Gets the time range according to the report arguments.
@@ -145,6 +170,15 @@ namespace Scada.Web.Plugins.PlgMain.Report
                 eventTable.RemoveUnwantedAttrs();
                 eventTable.ParentWorksheet.Name = dict.WorksheetName;
 
+                if (viewFilterRow != null && !reportArgs.FilterByView)
+                    viewFilterRow.Hidden = true;
+
+                if (objFilterRow != null && !reportArgs.FilterByObj)
+                    objFilterRow.Hidden = true;
+
+                if (sevFilterRow != null && !reportArgs.FilterBySeverity)
+                    sevFilterRow.Hidden = true;
+
                 foreach (Event ev in events)
                 {
                     currentEventF = formatter.FormatEvent(ev);
@@ -164,23 +198,40 @@ namespace Scada.Web.Plugins.PlgMain.Report
                 if (e.DirectiveName == ReportDirectives.RepRow && e.DirectiveValue == "Event")
                     eventRowTemplate = e.Cell.ParentRow;
                 else if (e.DirectiveValue == "Title")
-                    cellText = string.Format(dict.TitleFormat, reportArgs.EventCount, reportArgs.EventDepth * 24);
+                    cellText = GetTitle();
                 else if (e.DirectiveValue == "GenCaption")
                     cellText = dict.GenCaption;
                 else if (e.DirectiveValue == "Gen")
                     cellText = ReportContext.ConvertTimeFromUtc(GenerateTime).ToLocalizedString(ReportContext.Culture);
-                else if (e.DirectiveValue == "ArcCaption")
-                    cellText = dict.ArcCaption;
-                else if (e.DirectiveValue == "Arc")
-                    cellText = archiveEntity.Name;
-                else if (e.DirectiveValue == "FilterCaption")
-                    cellText = dict.FilterCaption;
-                else if (e.DirectiveValue == "Filter")
-                    cellText = reportArgs.View == null ? dict.AllEventsFilter : reportArgs.View.Title;
                 else if (e.DirectiveValue == "TzCaption")
                     cellText = dict.TzCaption;
                 else if (e.DirectiveValue == "Tz")
                     cellText = ReportContext.TimeZone.DisplayName;
+                else if (e.DirectiveValue == "ArcCaption")
+                    cellText = dict.ArcCaption;
+                else if (e.DirectiveValue == "Arc")
+                    cellText = archiveEntity.Name;
+                else if (e.DirectiveValue == "ViewCaption")
+                {
+                    cellText = dict.ViewCaption;
+                    viewFilterRow = e.Cell.ParentRow;
+                }
+                else if (e.DirectiveValue == "ObjCaption")
+                {
+                    cellText = dict.ObjCaption;
+                    objFilterRow = e.Cell.ParentRow;
+                }
+                else if (e.DirectiveValue == "SevCaption")
+                {
+                    cellText = dict.SevCaption;
+                    sevFilterRow = e.Cell.ParentRow;
+                }
+                else if (e.DirectiveValue == "ViewFilter")
+                    cellText = reportArgs.FilterByView ? reportArgs.View.Title : "";
+                else if (e.DirectiveValue == "ObjFilter")
+                    cellText = reportArgs.FilterByObj ? reportArgs.ObjNums.ToRangeString() : "";
+                else if (e.DirectiveValue == "SevFilter")
+                    cellText = reportArgs.FilterBySeverity ? reportArgs.Severities.ToRangeString() : "";
                 else if (e.DirectiveValue == "TimeCol")
                     cellText = dict.TimeCol;
                 else if (e.DirectiveValue == "ObjCol")
