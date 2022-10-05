@@ -97,12 +97,12 @@
     <Cell><Data ss:Type="String">repVal=Gen</Data></Cell>
    </Row>
    <Row>
-    <Cell><Data ss:Type="String">repVal=ArcCaption</Data></Cell>
-    <Cell><Data ss:Type="String">repVal=Arc</Data></Cell>
-   </Row>
-   <Row>
     <Cell><Data ss:Type="String">repVal=TzCaption</Data></Cell>
     <Cell><Data ss:Type="String">repVal=Tz</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">repVal=ArcCaption</Data></Cell>
+    <Cell><Data ss:Type="String">repVal=Arc</Data></Cell>
    </Row>
    <Row>
     <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=CnlCaption</Data></Cell>

@@ -16,8 +16,8 @@
   <LocationOfComponents HRef="file:///G:/"/>
  </OfficeDocumentSettings>
  <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
-  <WindowHeight>11265</WindowHeight>
-  <WindowWidth>28800</WindowWidth>
+  <WindowHeight>25965</WindowHeight>
+  <WindowWidth>32767</WindowWidth>
   <WindowTopX>32767</WindowTopX>
   <WindowTopY>32767</WindowTopY>
   <ProtectStructure>False</ProtectStructure>
@@ -87,7 +87,7 @@
   </Style>
  </Styles>
  <Worksheet ss:Name="Events">
-  <Table ss:ExpandedColumnCount="7" ss:ExpandedRowCount="8" x:FullColumns="1"
+  <Table ss:ExpandedColumnCount="7" ss:ExpandedRowCount="10" x:FullColumns="1"
    x:FullRows="1">
    <Column ss:AutoFitWidth="0" ss:Width="108.75"/>
    <Column ss:AutoFitWidth="0" ss:Width="161.25" ss:Span="1"/>
@@ -102,18 +102,26 @@
     <Cell><Data ss:Type="String">repVal=Gen</Data></Cell>
    </Row>
    <Row>
+    <Cell><Data ss:Type="String">repVal=TzCaption</Data></Cell>
+    <Cell><Data ss:Type="String">repVal=Tz</Data></Cell>
+   </Row>
+   <Row>
     <Cell><Data ss:Type="String">repVal=ArcCaption</Data></Cell>
     <Cell><Data ss:Type="String">repVal=Arc</Data></Cell>
    </Row>
    <Row>
-    <Cell><Data ss:Type="String">repVal=FilterCaption</Data></Cell>
-    <Cell><Data ss:Type="String">repVal=Filter</Data></Cell>
+    <Cell><Data ss:Type="String">repVal=ViewCaption</Data></Cell>
+    <Cell><Data ss:Type="String">repVal=ViewFilter</Data></Cell>
    </Row>
    <Row>
-    <Cell><Data ss:Type="String">repVal=TzCaption</Data></Cell>
-    <Cell><Data ss:Type="String">repVal=Tz</Data></Cell>
+    <Cell><Data ss:Type="String">repVal=ObjCaption</Data></Cell>
+    <Cell><Data ss:Type="String">repVal=ObjFilter</Data></Cell>
    </Row>
-   <Row ss:Index="7" ss:AutoFitHeight="0" ss:Height="15.75">
+   <Row>
+    <Cell><Data ss:Type="String">repVal=SevCaption</Data></Cell>
+    <Cell><Data ss:Type="String">repVal=SevFilter</Data></Cell>
+   </Row>
+   <Row ss:Index="9" ss:AutoFitHeight="0" ss:Height="15.75">
     <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=TimeCol</Data></Cell>
     <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=ObjCol</Data></Cell>
     <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=DevCol</Data></Cell>
@@ -152,8 +160,8 @@
    <Selected/>
    <FreezePanes/>
    <FrozenNoSplit/>
-   <SplitHorizontal>7</SplitHorizontal>
-   <TopRowBottomPane>7</TopRowBottomPane>
+   <SplitHorizontal>9</SplitHorizontal>
+   <TopRowBottomPane>9</TopRowBottomPane>
    <ActivePane>2</ActivePane>
    <Panes>
     <Pane>
