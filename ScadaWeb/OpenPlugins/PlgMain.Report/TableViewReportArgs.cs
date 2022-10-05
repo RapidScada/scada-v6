@@ -7,49 +7,32 @@ using Scada.Report;
 namespace Scada.Web.Plugins.PlgMain.Report
 {
     /// <summary>
-    /// Represents arguments for generating a historical data report.
-    /// <para>Представляет аргументы для генерации отчёта по историческим данным.</para>
+    /// Represents arguments for generating a table view report.
+    /// <para>Представляет аргументы для генерации отчёта по табличному представлению.</para>
     /// </summary>
-    public class HistDataReportArgs : ReportArgs
+    public class TableViewReportArgs : ReportArgs
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public HistDataReportArgs()
+        public TableViewReportArgs()
             : base()
         {
-            ArchiveCode = "";
-            CnlNums = null;
-            MaxPeriod = 0;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public HistDataReportArgs(ReportArgs reportArgs)
-            : base()
-        {
-            ArgumentNullException.ThrowIfNull(reportArgs, nameof(reportArgs));
-            StartTime = reportArgs.StartTime;
-            EndTime = reportArgs.EndTime;
-            Format = reportArgs.Format;
-            CustomArgs = reportArgs.CustomArgs;
-
-            ArchiveCode = CustomArgs.GetValueAsString("ArchiveCode");
-            CnlNums = ScadaUtils.ParseRange(CustomArgs.GetValueAsString("CnlNums"), true, true);
+            TableView = null;
+            TableOptions = null;
             MaxPeriod = 0;
         }
 
 
         /// <summary>
-        /// Gets the archive code.
+        /// Gets the table view.
         /// </summary>
-        public string ArchiveCode { get; init; }
+        public TableView TableView { get; init; }
 
         /// <summary>
-        /// Gets the channel numbers.
+        /// Gets the table view options.
         /// </summary>
-        public IList<int> CnlNums { get; init; }
+        public TableOptions TableOptions { get; init; }
 
         /// <summary>
         /// Gets the time maximum report period, in days.
@@ -64,11 +47,19 @@ namespace Scada.Web.Plugins.PlgMain.Report
         {
             base.Validate();
 
-            if (CnlNums == null || CnlNums.Count <= 0)
+            if (TableView == null)
             {
                 throw new ScadaException(Locale.IsRussian ?
-                    "Номера каналов отсутствуют." :
-                    "Channel numbers are missing.")
+                    "Табличное представление не может быть null." :
+                    "Table view must not be null.")
+                { MessageIsPublic = true };
+            }
+
+            if (TableOptions == null)
+            {
+                throw new ScadaException(Locale.IsRussian ?
+                    "Параметры табличного представления не могут быть null." :
+                    "Table view options must not be null.")
                 { MessageIsPublic = true };
             }
 

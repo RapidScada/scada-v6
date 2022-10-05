@@ -13,8 +13,8 @@ using System.Xml;
 namespace Scada.Web.Plugins.PlgMain.Report
 {
     /// <summary>
-    /// Builds an Excel workbook that contains events.
-    /// <para>Создает книгу Excel, которая содержит события.</para>
+    /// Builds an event report.
+    /// <para>Строит отчёт по событиям.</para>
     /// </summary>
     public class EventReportBuilder : ReportBuilder
     {
@@ -118,6 +118,7 @@ namespace Scada.Web.Plugins.PlgMain.Report
 
             return dataFilter;
         }
+
 
         /// <summary>
         /// Generates a report to the output stream.

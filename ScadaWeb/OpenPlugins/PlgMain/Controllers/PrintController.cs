@@ -129,13 +129,14 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
 
             try
             {
-                TableWorkbookBuilder builder = new(webContext.ConfigDatabase, clientAccessor.ScadaClient, templateDir);
-                builder.Generate(new TableWorkbookArgs
+                TableViewReportBuilder builder = new(CreateReportContext());
+                builder.Generate(new TableViewReportArgs
                 {
+                    StartTime = userContext.ConvertTimeToUtc(startTime),
+                    EndTime = userContext.ConvertTimeToUtc(endTime),
                     TableView = tableView,
                     TableOptions = pluginContext.GetTableOptions(tableView),
-                    TimeRange = userContext.CreateTimeRangeUtc(startTime, endTime, true),
-                    TimeZone = userContext.TimeZone
+                    MaxPeriod = pluginContext.Options.MaxReportPeriod
                 }, stream);
 
                 generateTime = builder.GenerateTime;

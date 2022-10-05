@@ -93,14 +93,6 @@
   <Dictionary key="Scada.Web.Plugins.PlgMain.Code.EventWindowSpec">
     <Phrase key="EventWindowTitle">Events</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMain.Code.TableWorkbookBuilder">
-    <Phrase key="TitleFormat">{0}, {1} - {2}</Phrase>
-    <Phrase key="GenCaption">Generated:</Phrase>
-    <Phrase key="ArcCaption">Archive:</Phrase>
-    <Phrase key="TzCaption">Time zone:</Phrase>
-    <Phrase key="ItemCol">Item</Phrase>
-    <Phrase key="WorksheetName">Table View</Phrase>
-  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.PlgMainLogic">
     <Phrase key="ReportGroup">Main Reports</Phrase>
     <Phrase key="HistDataReport">Historical data report</Phrase>
@@ -142,5 +134,10 @@
     <Phrase key="MinCaption">Minimum</Phrase>
     <Phrase key="MaxCaption">Maximum</Phrase>
     <Phrase key="WorksheetName">Historical Data</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.TableViewReportBuilder">
+    <Phrase key="TitleFormat">{0}, {1} - {2}</Phrase>
+    <Phrase key="ItemCol">Item</Phrase>
+    <Phrase key="WorksheetName">Table View</Phrase>
   </Dictionary>
 </PlgMainDictionaries>

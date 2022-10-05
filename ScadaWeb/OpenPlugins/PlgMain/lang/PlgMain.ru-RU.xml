@@ -93,14 +93,6 @@
   <Dictionary key="Scada.Web.Plugins.PlgMain.Code.EventWindowSpec">
     <Phrase key="EventWindowTitle">События</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMain.Code.TableWorkbookBuilder">
-    <Phrase key="TitleFormat">{0}, {1} - {2}</Phrase>
-    <Phrase key="GenCaption">Получено:</Phrase>
-    <Phrase key="ArcCaption">Архив:</Phrase>
-    <Phrase key="TzCaption">Часовой пояс:</Phrase>
-    <Phrase key="ItemCol">Элемент</Phrase>
-    <Phrase key="WorksheetName">Табличное представление</Phrase>
-  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.PlgMainLogic">
     <Phrase key="ReportGroup">Основные отчёты</Phrase>
     <Phrase key="HistDataReport">Отчёт по историческим данным</Phrase>
@@ -142,5 +134,10 @@
     <Phrase key="MinCaption">Минимум</Phrase>
     <Phrase key="MaxCaption">Максимум</Phrase>
     <Phrase key="WorksheetName">Исторические данные</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.TableViewReportBuilder">
+    <Phrase key="TitleFormat">{0}, {1} - {2}</Phrase>
+    <Phrase key="ItemCol">Элемент</Phrase>
+    <Phrase key="WorksheetName">Табличное представление</Phrase>
   </Dictionary>
 </PlgMainDictionaries>

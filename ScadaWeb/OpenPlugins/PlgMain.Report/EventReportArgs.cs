@@ -122,7 +122,8 @@ namespace Scada.Web.Plugins.PlgMain.Report
             {
                 throw new ScadaException(Locale.IsRussian ?
                     "Превышен период отчёта." :
-                    "Report period exceeded.") { MessageIsPublic = true };
+                    "Report period exceeded.")
+                { MessageIsPublic = true };
             }
         }
     }
