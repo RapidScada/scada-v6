@@ -25,8 +25,9 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
     [Route("Main/Print/[action]")]
     public class PrintController : Controller
     {
-        private const string HistDataReportPrefix = "HistData";
+        private const string TableViewReportPrefix = "TableView";
         private const string EventReportPrefix = "Events";
+        private const string HistDataReportPrefix = "HistData";
 
         private readonly IWebContext webContext;
         private readonly IUserContext userContext;
@@ -151,7 +152,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             return File(
                 stream,
                 MediaTypeNames.Application.Octet,
-                ReportUtils.BuildFileName("TableView", generateTime, OutputFormat.Xml2003));
+                ReportUtils.BuildFileName(TableViewReportPrefix, generateTime, OutputFormat.Xml2003));
         }
 
         /// <summary>
