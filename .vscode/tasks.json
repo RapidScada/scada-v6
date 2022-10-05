@@ -64,7 +64,11 @@
                 "/consoleloggerparameters:Summary",
                 "/property:Configuration=${input:dotnetConfiguration}"
             ],
-            "problemMatcher": "$msCompile"
+            "problemMatcher": "$msCompile",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "ScadaCommon"
+            ]
         },
         {
             "label": "ScadaServer",
@@ -77,7 +81,11 @@
                 "/consoleloggerparameters:Summary",
                 "/property:Configuration=${input:dotnetConfiguration}"
             ],
-            "problemMatcher": "$msCompile"
+            "problemMatcher": "$msCompile",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "ScadaCommon"
+            ]
         },
         {
             "label": "ScadaWeb",
@@ -90,7 +98,11 @@
                 "/consoleloggerparameters:Summary",
                 "/property:Configuration=${input:dotnetConfiguration}"
             ],
-            "problemMatcher": "$msCompile"
+            "problemMatcher": "$msCompile",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "ScadaCommon"
+            ]
         },
         {
             "label": "ScadaAdmin",
@@ -103,7 +115,15 @@
                 "/consoleloggerparameters:Summary",
                 "/property:Configuration=${input:dotnetConfiguration}"
             ],
-            "problemMatcher": "$msCompile"
+            "problemMatcher": "$msCompile",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "ScadaAgent",
+                "OpenDrivers",
+                "OpenDrivers2",
+                "OpenModules",
+                "OpenPlugins"
+            ]
         },
         {
             "label": "ScadaReport",
@@ -116,7 +136,11 @@
                 "/consoleloggerparameters:Summary",
                 "/property:Configuration=${input:dotnetConfiguration}"
             ],
-            "problemMatcher": "$msCompile"
+            "problemMatcher": "$msCompile",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "ScadaCommon"
+            ]
         },
         {
             "label": "OpenDrivers",
@@ -129,7 +153,11 @@
                 "/consoleloggerparameters:Summary",
                 "/property:Configuration=${input:dotnetConfiguration}"
             ],
-            "problemMatcher": "$msCompile"
+            "problemMatcher": "$msCompile",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "ScadaComm"
+            ]
         },
         {
             "label": "OpenDrivers2",
@@ -142,7 +170,11 @@
                 "/consoleloggerparameters:Summary",
                 "/property:Configuration=${input:dotnetConfiguration}"
             ],
-            "problemMatcher": "$msCompile"
+            "problemMatcher": "$msCompile",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                 "ScadaComm"
+            ]
         },
         {
             "label": "OpenModules",
@@ -155,7 +187,11 @@
                 "/consoleloggerparameters:Summary",
                 "/property:Configuration=${input:dotnetConfiguration}"
             ],
-            "problemMatcher": "$msCompile"
+            "problemMatcher": "$msCompile",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "ScadaServer"
+            ]
         },
         {
             "label": "OpenPlugins",
@@ -168,7 +204,12 @@
                 "/consoleloggerparameters:Summary",
                 "/property:Configuration=${input:dotnetConfiguration}"
             ],
-            "problemMatcher": "$msCompile"
+            "problemMatcher": "$msCompile",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "ScadaReport",
+                "ScadaWeb"
+            ]
         },
         {
             "label": "OpenExtensions",
@@ -181,22 +222,16 @@
                 "/consoleloggerparameters:Summary",
                 "/property:Configuration=${input:dotnetConfiguration}"
             ],
-            "problemMatcher": "$msCompile"
+            "problemMatcher": "$msCompile",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "ScadaAdmin"
+            ]
         },
         {
             "label": "build",
             "dependsOrder": "sequence",
             "dependsOn": [
-                "ScadaAgent",
-                "ScadaComm",
-                "ScadaServer",
-                "ScadaWeb",
-                "ScadaAdmin",
-                "ScadaReport",
-                "OpenDrivers",
-                "OpenDrivers2",
-                "OpenModules",
-                "OpenPlugins",
                 "OpenExtensions"
             ],
             "group": {
