@@ -197,6 +197,40 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         }
 
         /// <summary>
+        /// Generates an event report.
+        /// </summary>
+        public IActionResult PrintEventReport(DateTime startTime, DateTime endTime,
+            string archive, int objNum, IntRange severities)
+        {
+            if (objNum <= 0)
+            {
+                if (!userContext.Rights.ViewAll)
+                    return Forbid();
+            }
+            else if (!webContext.ConfigDatabase.ObjTable.PkExists(objNum))
+            {
+                throw new ScadaException(Locale.IsRussian ?
+                    "Объект не найден в базе конфигурации." :
+                    "Object not found in the configuration database.");
+            }
+
+            EventReportArgs args = new()
+            {
+                StartTime = userContext.ConvertTimeToUtc(startTime),
+                EndTime = userContext.ConvertTimeToUtc(endTime),
+                ArchiveCode = archive,
+                ObjNums = objNum > 0 ? GetObjNums(objNum) : null,
+                Severities = severities,
+                MaxPeriod = pluginContext.Options.MaxReportPeriod
+            };
+
+            return File(
+                GenerateEventReport(args, out DateTime generateTime),
+                MediaTypeNames.Application.Octet,
+                ReportUtils.BuildFileName(EventReportPrefix, generateTime, OutputFormat.Xml2003));
+        }
+
+        /// <summary>
         /// Generates a historical data report.
         /// </summary>
         public IActionResult PrintHistDataReport(DateTime startTime, DateTime endTime, 
@@ -230,40 +264,6 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 stream,
                 MediaTypeNames.Application.Octet,
                 ReportUtils.BuildFileName(HistDataReportPrefix, generateTime, OutputFormat.Xml2003));
-        }
-
-        /// <summary>
-        /// Generates an event report.
-        /// </summary>
-        public IActionResult PrintEventReport(DateTime startTime, DateTime endTime, 
-            string archive, int objNum, IntRange severities)
-        {
-            if (objNum <= 0)
-            {
-                if (!userContext.Rights.ViewAll)
-                    return Forbid();
-            }
-            else if (!webContext.ConfigDatabase.ObjTable.PkExists(objNum))
-            {
-                throw new ScadaException(Locale.IsRussian ?
-                    "Объект не найден в базе конфигурации." :
-                    "Object not found in the configuration database.");
-            }
-
-            EventReportArgs args = new()
-            {
-                StartTime = userContext.ConvertTimeToUtc(startTime),
-                EndTime = userContext.ConvertTimeToUtc(endTime),
-                ArchiveCode = archive,
-                ObjNums = objNum > 0 ? GetObjNums(objNum) : null,
-                Severities = severities,
-                MaxPeriod = pluginContext.Options.MaxReportPeriod
-            };
-
-            return File(
-                GenerateEventReport(args, out DateTime generateTime),
-                MediaTypeNames.Application.Octet,
-                ReportUtils.BuildFileName(EventReportPrefix, generateTime, OutputFormat.Xml2003));
         }
     }
 }

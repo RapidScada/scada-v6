@@ -200,15 +200,15 @@ namespace Scada.Web.Plugins.PlgMain.Report
                 else if (e.DirectiveValue == "Title")
                     cellText = GetTitle();
                 else if (e.DirectiveValue == "GenCaption")
-                    cellText = dict.GenCaption;
+                    cellText = reportDict.GenCaption;
                 else if (e.DirectiveValue == "Gen")
                     cellText = ReportContext.ConvertTimeFromUtc(GenerateTime).ToLocalizedString(ReportContext.Culture);
                 else if (e.DirectiveValue == "TzCaption")
-                    cellText = dict.TzCaption;
+                    cellText = reportDict.TzCaption;
                 else if (e.DirectiveValue == "Tz")
                     cellText = ReportContext.TimeZone.DisplayName;
                 else if (e.DirectiveValue == "ArcCaption")
-                    cellText = dict.ArcCaption;
+                    cellText = reportDict.ArcCaption;
                 else if (e.DirectiveValue == "Arc")
                     cellText = archiveEntity.Name;
                 else if (e.DirectiveValue == "ViewCaption")
