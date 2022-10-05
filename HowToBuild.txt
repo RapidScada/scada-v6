@@ -1,6 +1,6 @@
 How to Build Rapid SCADA
 ------------------------
-Microsoft Visual Studio 2022 is needed. Visual Studio Community is OK.
+Option 1: Microsoft Visual Studio 2022 is needed. Visual Studio Community is OK.
 
 1. Download the source code from the repository:
    https://github.com/RapidScada/scada-v6
@@ -22,3 +22,17 @@ Microsoft Visual Studio 2022 is needed. Visual Studio Community is OK.
    Switch to the Release configuration so that the references are correct.
 
 3. Enjoy the binaries built by yourself.
+
+Option 2: Visual Studio Code
+
+1. Install Visual Studio Code, .NET 6.0 SDK, and git for your operating system.
+
+2. Run Visual Studio Code and add "C# for Visual Studio Code" extension.
+
+3. Clone Rapid SCADA repository https://github.com/RapidScada/scada-v6
+
+4. Select "Run Build Task..." from Terminal menu, select build and then Release.
+
+5. Enjoy the binaries built by yourself.
+
+6. For debugging ScadaAgent, select Run -> Start Debugging, select build and then Debug.
