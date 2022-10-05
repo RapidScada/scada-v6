@@ -822,6 +822,7 @@ namespace Scada.Admin.App.Forms
             {
                 frmStartPage = new FrmStartPage(appData.State);
                 wctrlMain.AddForm(frmStartPage, "", miFileShowStartPage.Image, null);
+                frmStartPage.Refresh();
             }
             else
             {
