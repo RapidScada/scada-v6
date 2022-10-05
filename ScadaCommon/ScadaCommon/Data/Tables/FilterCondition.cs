@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2022
  */
 
 using System;
@@ -43,7 +43,7 @@ namespace Scada.Data.Tables
         /// Initializes a new instance of the class.
         /// </summary>
         public FilterCondition(string columnName, PropertyDescriptor columnProperty,
-            FilterOperator filterOperator, IList args)
+            FilterOperator filterOperator, IEnumerable args)
         {
             ColumnName = columnName ?? throw new ArgumentNullException(nameof(columnName));
             ColumnProperty = columnProperty ?? throw new ArgumentNullException(nameof(columnProperty));
@@ -95,7 +95,7 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Sets the filter argument.
         /// </summary>
-        protected void SetArgument(IList args)
+        private void SetArgument(IEnumerable args)
         {
             if (args == null)
                 throw new ArgumentNullException(nameof(args));
@@ -105,10 +105,7 @@ namespace Scada.Data.Tables
             switch (Operator)
             {
                 case FilterOperator.Equals:
-                    if (args.Count < 1)
-                        throw new ArgumentException("Argument is required.", "args");
-
-                    object arg = args[0];
+                    object arg = GetElement(args, 0);
 
                     switch (DataType)
                     {
@@ -152,11 +149,8 @@ namespace Scada.Data.Tables
                     break;
 
                 case FilterOperator.Between:
-                    if (args.Count < 2)
-                        throw new ArgumentException("Two arguments are required.", "args");
-
-                    object beginArg = args[0];
-                    object endArg = args[1];
+                    object beginArg = GetElement(args, 0);
+                    object endArg = GetElement(args, 1);
 
                     switch (DataType)
                     {
@@ -180,6 +174,22 @@ namespace Scada.Data.Tables
 
             if (!argumentIsSet)
                 throw new InvalidOperationException("Unable to set argument.");
+        }
+
+        /// <summary>
+        /// Gets the element by index.
+        /// </summary>
+        private static object GetElement(IEnumerable collection, int index)
+        {
+            int i = 0;
+
+            foreach (object element in collection)
+            {
+                if (i++ == index)
+                    return element;
+            }
+
+            throw new IndexOutOfRangeException("Condition argument is missing.");
         }
 
         /// <summary>

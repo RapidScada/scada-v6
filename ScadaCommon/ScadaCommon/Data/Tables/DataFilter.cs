@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2022
  */
 
 using System;
@@ -94,7 +94,7 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Adds a new filter condition.
         /// </summary>
-        public FilterCondition AddCondition(string columnName, FilterOperator filterOperator, IList args)
+        public FilterCondition AddCondition(string columnName, FilterOperator filterOperator, IEnumerable args)
         {
             FilterCondition condition =
                 new FilterCondition(columnName, itemProperties[columnName], filterOperator, args);
@@ -107,7 +107,7 @@ namespace Scada.Data.Tables
         /// </summary>
         public FilterCondition AddCondition(string columnName, FilterOperator filterOperator, params object[] args)
         {
-            return AddCondition(columnName, filterOperator, args as IList);
+            return AddCondition(columnName, filterOperator, args as IEnumerable);
         }
 
         /// <summary>
