@@ -93,22 +93,6 @@
   <Dictionary key="Scada.Web.Plugins.PlgMain.Code.EventWindowSpec">
     <Phrase key="EventWindowTitle">Events</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Web.Plugins.PlgMain.Code.EventWorkbookBuilder">
-    <Phrase key="TitleFormat">Last {0} events in {1} hours</Phrase>
-    <Phrase key="GenCaption">Generated:</Phrase>
-    <Phrase key="ArcCaption">Archive:</Phrase>
-    <Phrase key="FilterCaption">Filter:</Phrase>
-    <Phrase key="AllEventsFilter">All events</Phrase>
-    <Phrase key="TzCaption">Time zone:</Phrase>
-    <Phrase key="TimeCol">Date and Time</Phrase>
-    <Phrase key="ObjCol">Object</Phrase>
-    <Phrase key="DevCol">Device</Phrase>
-    <Phrase key="CnlCol">Channel</Phrase>
-    <Phrase key="DescrCol">Description</Phrase>
-    <Phrase key="SevCol">Severity</Phrase>
-    <Phrase key="AckCol">Ack</Phrase>
-    <Phrase key="WorksheetName">Events</Phrase>
-  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Code.TableWorkbookBuilder">
     <Phrase key="TitleFormat">{0}, {1} - {2}</Phrase>
     <Phrase key="GenCaption">Generated:</Phrase>
@@ -133,6 +117,22 @@
     <Phrase key="PeriodTooLong">The maximum period length is {0} days.</Phrase>
     <Phrase key="InvalidChannels">Invalid channel numbers.</Phrase>
     <Phrase key="NoSeverity">No severity selected.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.EventReportBuilder">
+    <Phrase key="TitleFormat">Last {0} events in {1} hours</Phrase>
+    <Phrase key="GenCaption">Generated:</Phrase>
+    <Phrase key="ArcCaption">Archive:</Phrase>
+    <Phrase key="FilterCaption">Filter:</Phrase>
+    <Phrase key="AllEventsFilter">All events</Phrase>
+    <Phrase key="TzCaption">Time zone:</Phrase>
+    <Phrase key="TimeCol">Date and Time</Phrase>
+    <Phrase key="ObjCol">Object</Phrase>
+    <Phrase key="DevCol">Device</Phrase>
+    <Phrase key="CnlCol">Channel</Phrase>
+    <Phrase key="DescrCol">Description</Phrase>
+    <Phrase key="SevCol">Severity</Phrase>
+    <Phrase key="AckCol">Ack</Phrase>
+    <Phrase key="WorksheetName">Events</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Report.HistDataReportBuilder">
     <Phrase key="TitleFormat">Historical Data, {0} - {1}</Phrase>
