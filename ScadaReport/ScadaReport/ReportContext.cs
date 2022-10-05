@@ -3,6 +3,7 @@
 
 using Scada.Client;
 using Scada.Data.Models;
+using System.Globalization;
 
 namespace Scada.Report
 {
@@ -21,6 +22,16 @@ namespace Scada.Report
         /// Gets the client that interacts with the Server service.
         /// </summary>
         public ScadaClient ScadaClient { get; init; }
+
+        /// <summary>
+        /// Gets the time zone.
+        /// </summary>
+        public TimeZoneInfo TimeZone { get; init; }
+
+        /// <summary>
+        /// Gets the culture.
+        /// </summary>
+        public CultureInfo Culture { get; init; }
 
         /// <summary>
         /// Gets the directory of templates.
