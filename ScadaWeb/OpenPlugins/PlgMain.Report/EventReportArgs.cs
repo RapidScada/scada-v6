@@ -24,7 +24,6 @@ namespace Scada.Web.Plugins.PlgMain.Report
             EventCount = 0;
             EventDepth = 0;
             View = null;
-            ObjNum = 0;
             ObjNums = null;
             Severities = null;
             MaxPeriod = 0;
@@ -39,7 +38,6 @@ namespace Scada.Web.Plugins.PlgMain.Report
             ArgumentNullException.ThrowIfNull(reportArgs, nameof(reportArgs));
             StartTime = reportArgs.StartTime;
             EndTime = reportArgs.EndTime;
-            TimeZone = reportArgs.TimeZone;
             Format = reportArgs.Format;
             CustomArgs = reportArgs.CustomArgs;
 
@@ -48,9 +46,10 @@ namespace Scada.Web.Plugins.PlgMain.Report
             EventCount = CustomArgs.GetValueAsInt("EventCount");
             EventDepth = CustomArgs.GetValueAsInt("EventDepth");
             View = null;
-            ObjNum = CustomArgs.GetValueAsInt("ObjNum");
-            ObjNums = ScadaUtils.ParseRange(CustomArgs.GetValueAsString("ObjNums"), true, true);
-            Severities = ScadaUtils.ParseRange(CustomArgs.GetValueAsString("Severities"), true, true);
+            string objNumsStr = CustomArgs.GetValueAsString("ObjNums");
+            string severitiesStr = CustomArgs.GetValueAsString("Severities");
+            ObjNums = string.IsNullOrEmpty(objNumsStr) ? null : ScadaUtils.ParseRange(objNumsStr, true, true);
+            Severities = string.IsNullOrEmpty(severitiesStr) ? null : ScadaUtils.ParseRange(severitiesStr, true, true);
             MaxPeriod = 0;
         }
 
@@ -82,9 +81,9 @@ namespace Scada.Web.Plugins.PlgMain.Report
         public ViewBase View { get; init; }
 
         /// <summary>
-        /// Gets the parent object number to filter events.
+        /// Gets a value indicating whether to filter events by view.
         /// </summary>
-        public int ObjNum { get; init; }
+        public bool FilterByView => View != null;
 
         /// <summary>
         /// Gets the full list of object numbers to filter events.
@@ -92,9 +91,19 @@ namespace Scada.Web.Plugins.PlgMain.Report
         public IList<int> ObjNums { get; init; }
 
         /// <summary>
+        /// Gets a value indicating whether to filter events by object.
+        /// </summary>
+        public bool FilterByObj => ObjNums != null;
+
+        /// <summary>
         /// Gets the severities to filter events.
         /// </summary>
         public IList<int> Severities { get; init; }
+
+        /// <summary>
+        /// Gets a value indicating whether to filter events by severity.
+        /// </summary>
+        public bool FilterBySeverity => Severities != null;
 
         /// <summary>
         /// Gets the time maximum report period, in days.
@@ -113,7 +122,8 @@ namespace Scada.Web.Plugins.PlgMain.Report
             {
                 throw new ScadaException(Locale.IsRussian ?
                     "Превышен период отчёта." :
-                    "Report period exceeded.") { MessageIsPublic = true };
+                    "Report period exceeded.")
+                { MessageIsPublic = true };
             }
         }
     }

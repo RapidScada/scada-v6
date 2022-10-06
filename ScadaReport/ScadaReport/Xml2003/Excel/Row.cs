@@ -92,6 +92,22 @@ namespace Scada.Report.Xml2003.Excel
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the row is hidden.
+        /// </summary>
+        public bool Hidden
+        {
+            get
+            {
+                string hiddenStr = ExcelUtils.GetAttribute(node, "ss:Hidden");
+                return int.TryParse(hiddenStr, out int hiddenVal) && hiddenVal > 0;
+            }
+            set
+            {
+                ExcelUtils.SetAttribute(node, "Hidden", XmlNamespaces.Ss, value ? "1" : "0");
+            }
+        }
+
 
         /// <summary>
         /// Клонировать строку.

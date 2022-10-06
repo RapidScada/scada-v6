@@ -106,8 +106,8 @@ namespace Scada.Web.Plugins.PlgMain.Report
         /// </summary>
         private string GetTitle()
         {
-            DateTime localStartTime = TimeZoneInfo.ConvertTimeFromUtc(reportArgs.StartTime, reportArgs.TimeZone);
-            DateTime localEndTime = TimeZoneInfo.ConvertTimeFromUtc(reportArgs.EndTime, reportArgs.TimeZone);
+            DateTime localStartTime = ReportContext.ConvertTimeFromUtc(reportArgs.StartTime);
+            DateTime localEndTime = ReportContext.ConvertTimeFromUtc(reportArgs.EndTime);
             return string.Format(dict.TitleFormat,
                 localStartTime.ToLocalizedString(),
                 localEndTime.ToLocalizedString());
@@ -128,7 +128,7 @@ namespace Scada.Web.Plugins.PlgMain.Report
             TimeRange timeRange = new(reportArgs.StartTime, reportArgs.EndTime, true);
             TrendBundle trendBundle = ReportContext.ScadaClient.GetTrends(
                 archiveEntity.Bit, timeRange, reportArgs.CnlNums.ToArray());
-            CnlDataFormatter formatter = new(ReportContext.ConfigDatabase, reportArgs.TimeZone)
+            CnlDataFormatter formatter = new(ReportContext.ConfigDatabase, ReportContext.TimeZone)
             {
                 Culture = CultureInfo.InvariantCulture
             };
@@ -165,8 +165,9 @@ namespace Scada.Web.Plugins.PlgMain.Report
             for (int timeIdx = 0, timeCnt = trendBundle.Timestamps.Count; timeIdx < timeCnt; timeIdx++)
             {
                 Row dataRow = dataRowTemplate.Clone();
-                dataRow.Cells[0].Text = TimeZoneInfo.ConvertTimeFromUtc(
-                    trendBundle.Timestamps[timeIdx], reportArgs.TimeZone).ToLocalizedString();
+                dataRow.Cells[0].Text = ReportContext
+                    .ConvertTimeFromUtc(trendBundle.Timestamps[timeIdx])
+                    .ToLocalizedString(ReportContext.Culture);
 
                 for (int cnlIdx = 0; cnlIdx < cnlCnt; cnlIdx++)
                 {
@@ -263,6 +264,7 @@ namespace Scada.Web.Plugins.PlgMain.Report
                     new Cnl { CnlNum = cnlNum, Name = "" });
             }
 
+            // render report
             renderer.Render(templateFilePath, outStream);
         }
 
@@ -311,15 +313,15 @@ namespace Scada.Web.Plugins.PlgMain.Report
                 else if (e.DirectiveValue == "GenCaption")
                     cellText = reportDict.GenCaption;
                 else if (e.DirectiveValue == "Gen")
-                    cellText = TimeZoneInfo.ConvertTimeFromUtc(GenerateTime, reportArgs.TimeZone).ToLocalizedString();
+                    cellText = ReportContext.ConvertTimeFromUtc(GenerateTime).ToLocalizedString(ReportContext.Culture);
+                else if (e.DirectiveValue == "TzCaption")
+                    cellText = reportDict.TzCaption;
+                else if (e.DirectiveValue == "Tz")
+                    cellText = ReportContext.TimeZone.DisplayName;
                 else if (e.DirectiveValue == "ArcCaption")
                     cellText = reportDict.ArcCaption;
                 else if (e.DirectiveValue == "Arc")
                     cellText = archiveEntity.Name;
-                else if (e.DirectiveValue == "TzCaption")
-                    cellText = reportDict.TzCaption;
-                else if (e.DirectiveValue == "Tz")
-                    cellText = reportArgs.TimeZone.DisplayName;
                 else if (e.DirectiveValue == "CnlCaption")
                     cellText = dict.CnlCaption;
                 else if (e.DirectiveValue == "TimeCol")

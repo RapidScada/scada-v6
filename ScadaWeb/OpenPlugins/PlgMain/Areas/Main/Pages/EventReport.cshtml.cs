@@ -3,10 +3,9 @@
 
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Scada.Data.Const;
 using Scada.Data.Entities;
-using Scada.Data.Models;
 using Scada.Lang;
+using Scada.Web.Plugins.PlgMain.Report;
 using Scada.Web.Services;
 using Scada.Web.Users;
 
@@ -40,7 +39,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             foreach (Archive archive in webContext.ConfigDatabase.ArchiveTable)
             {
                 ArchiveList.Add(new SelectListItem(archive.Name, archive.Code, 
-                    archive.Code == "Events"));
+                    archive.Code == EventReportBuilder.DefaultArchiveCode));
             }
         }
 

@@ -3,7 +3,9 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Scada.Data.Entities;
 using Scada.Data.Models;
+using Scada.Data.Tables;
 using Scada.Lang;
 using Scada.Report;
 using Scada.Web.Api;
@@ -23,8 +25,9 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
     [Route("Main/Print/[action]")]
     public class PrintController : Controller
     {
-        private const string HistDataReportPrefix = "HistData";
+        private const string TableViewReportPrefix = "TableView";
         private const string EventReportPrefix = "Events";
+        private const string HistDataReportPrefix = "HistData";
 
         private readonly IWebContext webContext;
         private readonly IUserContext userContext;
@@ -58,6 +61,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             {
                 ConfigDatabase = webContext.ConfigDatabase,
                 ScadaClient = clientAccessor.ScadaClient,
+                TimeZone = userContext.TimeZone,
+                Culture = Locale.Culture,
                 TemplateDir = templateDir
             };
         }
@@ -67,29 +72,12 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// </summary>
         private Stream GenerateEventReport(EventReportArgs args, out DateTime generateTime)
         {
-            generateTime = DateTime.UtcNow;
-            return null;
-        }
-
-        /// <summary>
-        /// Prints events filtered by view to an Excel workbook.
-        /// </summary>
-        private Stream PrintEvents(ViewBase view, out DateTime generateTime)
-        {
             MemoryStream stream = new();
 
             try
             {
-                EventWorkbookBuilder builder = new(webContext.ConfigDatabase, clientAccessor.ScadaClient, templateDir);
-                builder.Generate(new EventWorkbookArgs
-                {
-                    ArchiveCode = pluginContext.Options.EventArchiveCode,
-                    EventCount = pluginContext.Options.EventCount,
-                    EventDepth = pluginContext.Options.EventDepth,
-                    View = view,
-                    TimeZone = userContext.TimeZone
-                }, stream);
-
+                EventReportBuilder builder = new(CreateReportContext());
+                builder.Generate(args, stream);
                 generateTime = builder.GenerateTime;
                 stream.Position = 0;
             }
@@ -100,6 +88,32 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             }
 
             return stream;
+        }
+
+        /// <summary>
+        /// Gets the numbers of available objects recursively.
+        /// </summary>
+        private List<int> GetObjNums(int startObjNum)
+        {
+            List<int> objNums = new() { startObjNum };
+
+            if (!webContext.ConfigDatabase.ObjTable.TryGetIndex("ParentObjNum", out ITableIndex parentObjIndex))
+                throw new ScadaException(CommonPhrases.IndexNotFound);
+
+            void AddChildObjects(int parentObjNum)
+            {
+                foreach (Obj childObj in parentObjIndex.SelectItems(parentObjNum))
+                {
+                    if (userContext.Rights.GetRightByObj(childObj.ObjNum).View)
+                    {
+                        objNums.Add(childObj.ObjNum);
+                        AddChildObjects(childObj.ObjNum);
+                    }
+                }
+            }
+
+            AddChildObjects(startObjNum);
+            return objNums;
         }
 
 
@@ -116,13 +130,14 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
 
             try
             {
-                TableWorkbookBuilder builder = new(webContext.ConfigDatabase, clientAccessor.ScadaClient, templateDir);
-                builder.Generate(new TableWorkbookArgs
+                TableViewReportBuilder builder = new(CreateReportContext());
+                builder.Generate(new TableViewReportArgs
                 {
+                    StartTime = userContext.ConvertTimeToUtc(startTime),
+                    EndTime = userContext.ConvertTimeToUtc(endTime),
                     TableView = tableView,
                     TableOptions = pluginContext.GetTableOptions(tableView),
-                    TimeRange = userContext.CreateTimeRangeUtc(startTime, endTime, true),
-                    TimeZone = userContext.TimeZone
+                    MaxPeriod = pluginContext.Options.MaxReportPeriod
                 }, stream);
 
                 generateTime = builder.GenerateTime;
@@ -137,7 +152,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             return File(
                 stream,
                 MediaTypeNames.Application.Octet,
-                ReportUtils.BuildFileName("TableView", generateTime, OutputFormat.Xml2003));
+                ReportUtils.BuildFileName(TableViewReportPrefix, generateTime, OutputFormat.Xml2003));
         }
 
         /// <summary>
@@ -148,8 +163,17 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             if (!viewLoader.GetView(viewID, out ViewBase view, out string errMsg))
                 throw new ScadaException(errMsg);
 
+            EventReportArgs args = new()
+            {
+                ArchiveCode = pluginContext.Options.EventArchiveCode,
+                TailMode = true,
+                EventCount = pluginContext.Options.EventCount,
+                EventDepth = pluginContext.Options.EventDepth,
+                View = view
+            };
+
             return File(
-                PrintEvents(view, out DateTime generateTime),
+                GenerateEventReport(args, out DateTime generateTime),
                 MediaTypeNames.Application.Octet,
                 ReportUtils.BuildFileName(EventReportPrefix, generateTime, OutputFormat.Xml2003));
         }
@@ -159,9 +183,51 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// </summary>
         public IActionResult PrintAllEvents()
         {
-            // TODO: available events
+            EventReportArgs args = new()
+            {
+                ArchiveCode = pluginContext.Options.EventArchiveCode,
+                TailMode = true,
+                EventCount = pluginContext.Options.EventCount,
+                EventDepth = pluginContext.Options.EventDepth,
+                ObjNums = userContext.Rights.ViewAll ? null : userContext.Rights.GetAvailableObjs().ToArray()
+            };
+
             return File(
-                PrintEvents(null, out DateTime generateTime),
+                GenerateEventReport(args, out DateTime generateTime),
+                MediaTypeNames.Application.Octet,
+                ReportUtils.BuildFileName(EventReportPrefix, generateTime, OutputFormat.Xml2003));
+        }
+
+        /// <summary>
+        /// Generates an event report.
+        /// </summary>
+        public IActionResult PrintEventReport(DateTime startTime, DateTime endTime,
+            string archive, int objNum, IntRange severities)
+        {
+            if (objNum <= 0)
+            {
+                if (!userContext.Rights.ViewAll)
+                    return Forbid();
+            }
+            else if (!webContext.ConfigDatabase.ObjTable.PkExists(objNum))
+            {
+                throw new ScadaException(Locale.IsRussian ?
+                    "Объект не найден в базе конфигурации." :
+                    "Object not found in the configuration database.");
+            }
+
+            EventReportArgs args = new()
+            {
+                StartTime = userContext.ConvertTimeToUtc(startTime),
+                EndTime = userContext.ConvertTimeToUtc(endTime),
+                ArchiveCode = archive,
+                ObjNums = objNum > 0 ? GetObjNums(objNum) : null,
+                Severities = severities,
+                MaxPeriod = pluginContext.Options.MaxReportPeriod
+            };
+
+            return File(
+                GenerateEventReport(args, out DateTime generateTime),
                 MediaTypeNames.Application.Octet,
                 ReportUtils.BuildFileName(EventReportPrefix, generateTime, OutputFormat.Xml2003));
         }
@@ -182,7 +248,6 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 {
                     StartTime = userContext.ConvertTimeToUtc(startTime),
                     EndTime = userContext.ConvertTimeToUtc(endTime),
-                    TimeZone = userContext.TimeZone,
                     ArchiveCode = archive,
                     CnlNums = cnlNums,
                     MaxPeriod = pluginContext.Options.MaxReportPeriod
@@ -201,36 +266,6 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 stream,
                 MediaTypeNames.Application.Octet,
                 ReportUtils.BuildFileName(HistDataReportPrefix, generateTime, OutputFormat.Xml2003));
-        }
-
-        /// <summary>
-        /// Generates an event report.
-        /// </summary>
-        public IActionResult PrintEventReport(DateTime startTime, DateTime endTime, 
-            string archive, int objNum, IntRange severities)
-        {
-            if (!webContext.ConfigDatabase.ObjTable.PkExists(objNum))
-            {
-                throw new ScadaException(Locale.IsRussian ?
-                    "Объект не найден в базе конфигурации." :
-                    "Object not found in the configuration database.");
-            }
-
-            EventReportArgs args = new()
-            {
-                StartTime = userContext.ConvertTimeToUtc(startTime),
-                EndTime = userContext.ConvertTimeToUtc(endTime),
-                TimeZone = userContext.TimeZone,
-                ArchiveCode = archive,
-                ObjNum = objNum,
-                Severities = severities,
-                MaxPeriod = pluginContext.Options.MaxReportPeriod
-            };
-
-            return File(
-                GenerateEventReport(args, out DateTime generateTime),
-                MediaTypeNames.Application.Octet,
-                ReportUtils.BuildFileName(EventReportPrefix, generateTime, OutputFormat.Xml2003));
         }
     }
 }

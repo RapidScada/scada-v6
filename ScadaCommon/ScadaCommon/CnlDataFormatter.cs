@@ -342,7 +342,7 @@ namespace Scada
 
             EventFormatted eventFormatted = new EventFormatted
             {
-                Time = TimeZoneInfo.ConvertTimeFromUtc(ev.Timestamp, timeZone).ToLocalizedString()
+                Time = TimeZoneInfo.ConvertTimeFromUtc(ev.Timestamp, timeZone).ToLocalizedString(culture)
             };
 
             // object

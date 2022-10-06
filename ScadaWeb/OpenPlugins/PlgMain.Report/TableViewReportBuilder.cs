@@ -1,23 +1,23 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Client;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Lang;
+using Scada.Report;
 using Scada.Report.Xml2003;
 using Scada.Report.Xml2003.Excel;
 using System.Globalization;
 using System.Xml;
 
-namespace Scada.Web.Plugins.PlgMain.Code
+namespace Scada.Web.Plugins.PlgMain.Report
 {
     /// <summary>
-    /// Builds an Excel workbook that contains a table view.
-    /// <para>Создает книгу Excel, которая содержит табличное представление.</para>
+    /// Builds a table view report.
+    /// <para>Строит отчёт по табличному представлению.</para>
     /// </summary>
-    internal class TableWorkbookBuilder
+    public class TableViewReportBuilder : ReportBuilder
     {
         /// <summary>
         /// Represents metadata about a column.
@@ -39,13 +39,12 @@ namespace Scada.Web.Plugins.PlgMain.Code
         /// </summary>
         private const string NextTimeSymbol = "*";
 
-        private readonly ConfigDatabase configDatabase;
-        private readonly ScadaClient scadaClient;
         private readonly string templateFilePath;
         private readonly WorkbookRenderer renderer;
+        private readonly dynamic reportDict;
         private readonly dynamic dict;
 
-        private TableWorkbookArgs workbookArgs;
+        private TableViewReportArgs reportArgs;
         private Archive archiveEntity;
         private Cell dataColCellTemplate;
         private Cell dataCellTemplate;
@@ -55,31 +54,23 @@ namespace Scada.Web.Plugins.PlgMain.Code
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public TableWorkbookBuilder(ConfigDatabase configDatabase, ScadaClient scadaClient, string templateDir)
+        public TableViewReportBuilder(IReportContext reportContext)
+            : base(reportContext)
         {
-            this.configDatabase = configDatabase ?? throw new ArgumentNullException(nameof(configDatabase));
-            this.scadaClient = scadaClient ?? throw new ArgumentNullException(nameof(scadaClient));
-            templateFilePath = Path.Combine(templateDir, TemplateFileName);
+            templateFilePath = Path.Combine(ReportContext.TemplateDir, TemplateFileName);
             renderer = new WorkbookRenderer();
             renderer.BeforeProcessing += Renderer_BeforeProcessing;
             renderer.AfterProcessing += Renderer_AfterProcessing;
             renderer.DirectiveFound += Renderer_DirectiveFound;
-            dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Code.TableWorkbookBuilder");
+            reportDict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Report");
+            dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Report.TableViewReportBuilder");
 
-            workbookArgs = null;
+            reportArgs = null;
             archiveEntity = null;
             dataColCellTemplate = null;
             dataCellTemplate = null;
             currentTableItem = null;
-
-            GenerateTime = DateTime.MinValue;
         }
-
-
-        /// <summary>
-        /// Gets the time when a workbook was last built, UTC.
-        /// </summary>
-        public DateTime GenerateTime { get; private set; }
 
 
         /// <summary>
@@ -87,12 +78,12 @@ namespace Scada.Web.Plugins.PlgMain.Code
         /// </summary>
         private string GetTitle()
         {
-            DateTime userStartTime = TimeZoneInfo.ConvertTimeFromUtc(workbookArgs.TimeRange.StartTime, workbookArgs.TimeZone);
-            DateTime userEndTime = TimeZoneInfo.ConvertTimeFromUtc(workbookArgs.TimeRange.EndTime, workbookArgs.TimeZone);
+            DateTime localStartTime = ReportContext.ConvertTimeFromUtc(reportArgs.StartTime);
+            DateTime localEndTime = ReportContext.ConvertTimeFromUtc(reportArgs.EndTime);
             return string.Format(dict.TitleFormat,
-                workbookArgs.TableView.Title,
-                userStartTime.ToLocalizedString(),
-                userEndTime.ToLocalizedString());
+                reportArgs.TableView.Title,
+                localStartTime.ToLocalizedString(),
+                localEndTime.ToLocalizedString());
         }
 
         /// <summary>
@@ -119,15 +110,15 @@ namespace Scada.Web.Plugins.PlgMain.Code
         private List<ColumnMeta> GetColumnMetas(TrendBundle trendBundle)
         {
             List<ColumnMeta> columnMetas = new();
-            DateTime curDT = workbookArgs.TimeRange.StartTime;
-            int tablePeriod = workbookArgs.TableOptions.Period <= 0
+            DateTime curDT = reportArgs.StartTime;
+            int tablePeriod = reportArgs.TableOptions.Period <= 0
                 ? TableOptions.DefaultPeriod
-                : workbookArgs.TableOptions.Period;
+                : reportArgs.TableOptions.Period;
             int pointIndex = 0;
 
-            while (curDT <= workbookArgs.TimeRange.EndTime)
+            while (curDT <= reportArgs.EndTime)
             {
-                DateTime userCurDT = TimeZoneInfo.ConvertTimeFromUtc(curDT, workbookArgs.TimeZone);
+                DateTime userCurDT = ReportContext.ConvertTimeFromUtc(curDT);
                 columnMetas.Add(new ColumnMeta
                 {
                     UtcTime = curDT,
@@ -163,26 +154,31 @@ namespace Scada.Web.Plugins.PlgMain.Code
 
 
         /// <summary>
-        /// Generates a workbook to the output stream.
+        /// Generates a report to the output stream.
         /// </summary>
-        public void Generate(TableWorkbookArgs args, Stream outStream)
+        public override void Generate(ReportArgs args, Stream outStream)
         {
-            workbookArgs = args ?? throw new ArgumentNullException(nameof(args));
-            workbookArgs.Validate();
+            throw new InvalidOperationException("Method not supported.");
+        }
+
+        /// <summary>
+        /// Generates a report to the output stream.
+        /// </summary>
+        public void Generate(TableViewReportArgs args, Stream outStream)
+        {
+            reportArgs = args ?? throw new ArgumentNullException(nameof(args));
+            reportArgs.Validate();
             ArgumentNullException.ThrowIfNull(outStream, nameof(outStream));
 
-            archiveEntity = configDatabase.ArchiveTable.SelectFirst(
-                new TableFilter("Code", args.TableOptions.ArchiveCode));
+            // find archive
+            archiveEntity = ReportContext.ConfigDatabase.ArchiveTable
+                .SelectFirst(new TableFilter("Code", args.TableOptions.ArchiveCode)) ??
+                throw new ScadaException(reportDict.ArchiveNotFound);
 
-            if (archiveEntity == null)
-            {
-                throw new ScadaException(Locale.IsRussian ?
-                    "Архив не найдён в базе конфигурации." :
-                    "Archive not found in the configuration database.");
-            }
-
+            // render report
             renderer.Render(templateFilePath, outStream);
         }
+
 
         private void Renderer_BeforeProcessing(object sender, XmlDocument e)
         {
@@ -195,11 +191,12 @@ namespace Scada.Web.Plugins.PlgMain.Code
                 dataCellTemplate != null)
             {
                 // prepare data
-                TrendBundle trendBundle = scadaClient.GetTrends(
-                    archiveEntity.Bit, workbookArgs.TimeRange, workbookArgs.TableView.CnlNumList.ToArray());
+                TimeRange timeRange = new(reportArgs.StartTime, reportArgs.EndTime, true);
+                TrendBundle trendBundle = ReportContext.ScadaClient.GetTrends(
+                    archiveEntity.Bit, timeRange, reportArgs.TableView.CnlNumList.ToArray());
                 Dictionary<int, int> cnlNumMap = MapCnlNums(trendBundle);
                 List<ColumnMeta> columnMetas = GetColumnMetas(trendBundle);
-                CnlDataFormatter formatter = new(configDatabase, workbookArgs.TimeZone)
+                CnlDataFormatter formatter = new(ReportContext.ConfigDatabase, ReportContext.TimeZone)
                 {
                     Culture = CultureInfo.InvariantCulture
                 };
@@ -229,7 +226,7 @@ namespace Scada.Web.Plugins.PlgMain.Code
                 itemRowTemplate.RemoveCell(dataCellTemplate);
                 table.RemoveRow(itemRowTemplate);
 
-                foreach (TableItem tableItem in workbookArgs.TableView.VisibleItems)
+                foreach (TableItem tableItem in reportArgs.TableView.VisibleItems)
                 {
                     currentTableItem = tableItem;
                     Row itemRow = itemRowTemplate.Clone();
@@ -291,17 +288,17 @@ namespace Scada.Web.Plugins.PlgMain.Code
                 if (e.DirectiveValue == "Title")
                     cellText = GetTitle();
                 else if (e.DirectiveValue == "GenCaption")
-                    cellText = dict.GenCaption;
+                    cellText = reportDict.GenCaption;
                 else if (e.DirectiveValue == "Gen")
-                    cellText = TimeZoneInfo.ConvertTimeFromUtc(GenerateTime, workbookArgs.TimeZone).ToLocalizedString();
+                    cellText = ReportContext.ConvertTimeFromUtc(GenerateTime).ToLocalizedString(ReportContext.Culture);
                 else if (e.DirectiveValue == "ArcCaption")
-                    cellText = dict.ArcCaption;
+                    cellText = reportDict.ArcCaption;
                 else if (e.DirectiveValue == "Arc")
                     cellText = archiveEntity.Name;
                 else if (e.DirectiveValue == "TzCaption")
-                    cellText = dict.TzCaption;
+                    cellText = reportDict.TzCaption;
                 else if (e.DirectiveValue == "Tz")
-                    cellText = workbookArgs.TimeZone.DisplayName;
+                    cellText = ReportContext.TimeZone.DisplayName;
                 else if (e.DirectiveValue == "ItemCol")
                     cellText = dict.ItemCol;
                 else if (e.DirectiveValue == "DataCol")
