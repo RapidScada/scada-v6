@@ -49,18 +49,21 @@ function lockGenerateButton() {
     }, BUTTON_LOCK_DURATION);
 }
 
+function getReportUrl() {
+    return "Print/PrintHistDataReport" +
+        "?startTime=" + $("#txtStartTime").val() +
+        "&endTime=" + $("#txtEndTime").val() +
+        "&archive=" + $("#selArchive option:selected").val() +
+        "&cnlNums=" + $("#txtCnlNums").val();
+}
+
 $(document).ready(function () {
     $("#btnGenerateReport").click(function () {
         hideErrorMessage();
 
         if ($("#frmReportArgs")[0].reportValidity() && reportValidityExtra()) {
             lockGenerateButton();
-            let reportUrl = "Print/PrintHistDataReport" +
-                "?startTime=" + $("#txtStartTime").val() +
-                "&endTime=" + $("#txtEndTime").val() +
-                "&archive=" + $("#selArchive option:selected").val() +
-                "&cnlNums=" + $("#txtCnlNums").val();
-            location = reportUrl;
+            location = getReportUrl();
         }
 
         return false;

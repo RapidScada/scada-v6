@@ -75,19 +75,33 @@ function getSeverityRange() {
     return anySeverity ? "" : severityArr.join(",");
 }
 
+function getReportUrl() {
+    let reportUrl = "Print/PrintEventReport" +
+        "?startTime=" + $("#txtStartTime").val() +
+        "&endTime=" + $("#txtEndTime").val() +
+        "&archive=" + $("#selArchive option:selected").val();
+
+    let obj = $("#selObj option:selected").val();
+    let sev = getSeverityRange();
+
+    if (obj && obj !== "0") {
+        reportUrl += "&objNum=" + obj;
+    }
+
+    if (sev) {
+        reportUrl += "&severities=" + sev;
+    }
+
+    return reportUrl;
+}
+
 $(document).ready(function () {
     $("#btnGenerateReport").click(function () {
         hideErrorMessage();
 
         if ($("#frmReportArgs")[0].reportValidity() && reportValidityExtra()) {
             lockGenerateButton();
-            let reportUrl = "Print/PrintEventReport" +
-                "?startTime=" + $("#txtStartTime").val() +
-                "&endTime=" + $("#txtEndTime").val() +
-                "&archive=" + $("#selArchive option:selected").val() +
-                "&objNum=" + $("#selObj option:selected").val() +
-                "&severities=" + getSeverityRange();
-            location = reportUrl;
+            location = getReportUrl();
         }
 
         return false;

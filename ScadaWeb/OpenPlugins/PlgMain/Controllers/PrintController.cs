@@ -91,9 +91,9 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         }
 
         /// <summary>
-        /// Gets the numbers of available objects recursively.
+        /// Gets the numbers of available objects starting from the specified object.
         /// </summary>
-        private List<int> GetObjNums(int startObjNum)
+        private List<int> GetObjNumHierarchy(int startObjNum)
         {
             List<int> objNums = new() { startObjNum };
 
@@ -204,12 +204,19 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         public IActionResult PrintEventReport(DateTime startTime, DateTime endTime,
             string archive, int objNum, IntRange severities)
         {
+            IList<int> objNums;
+
             if (objNum <= 0)
             {
-                if (!userContext.Rights.ViewAll)
-                    return Forbid();
+                objNums = userContext.Rights.ViewAll 
+                    ? null // all objects
+                    : userContext.Rights.GetAvailableObjs().ToArray();
             }
-            else if (!webContext.ConfigDatabase.ObjTable.PkExists(objNum))
+            else if (webContext.ConfigDatabase.ObjTable.PkExists(objNum))
+            {
+                objNums = GetObjNumHierarchy(objNum);
+            }
+            else
             {
                 throw new ScadaException(Locale.IsRussian ?
                     "Объект не найден в базе конфигурации." :
@@ -221,7 +228,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 StartTime = userContext.ConvertTimeToUtc(startTime),
                 EndTime = userContext.ConvertTimeToUtc(endTime),
                 ArchiveCode = archive,
-                ObjNums = objNum > 0 ? GetObjNums(objNum) : null,
+                ObjNums = objNums,
                 Severities = severities,
                 MaxPeriod = pluginContext.Options.MaxReportPeriod
             };
