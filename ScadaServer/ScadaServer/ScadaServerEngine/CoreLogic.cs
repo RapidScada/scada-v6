@@ -812,18 +812,21 @@ namespace Scada.Server.Engine
             {
                 // set status depending on channel limits
                 GetCnlLimits(cnlTag, out double lolo, out double low, out double high, out double hihi);
-                cnlData.Stat = GetCnlStatus(cnlData.Val, lolo, low, high, hihi);
+                int newStat = GetCnlStatus(cnlData.Val, lolo, low, high, hihi);
                 int prevStat = prevCnlData.Stat;
 
-                if (cnlData.Stat == CnlStatusID.Normal && 
-                    (prevStat == CnlStatusID.ExtremelyLow || prevStat == CnlStatusID.Low || 
-                    prevStat == CnlStatusID.High || prevStat == CnlStatusID.ExtremelyHigh))
+                if (prevStat != CnlStatusID.Normal && newStat == CnlStatusID.Normal ||
+                    prevStat == CnlStatusID.ExtremelyHigh && newStat == CnlStatusID.High ||
+                    prevStat == CnlStatusID.ExtremelyLow && newStat == CnlStatusID.Low)
                 {
+                    // take deadband into account
                     double deadband = cnlTag.Lim.Deadband ?? 0;
-                    cnlData.Stat = GetCnlStatus(cnlData.Val,
-                        lolo + deadband, low + deadband, 
+                    newStat = GetCnlStatus(cnlData.Val,
+                        lolo + deadband, low + deadband,
                         high - deadband, hihi - deadband);
                 }
+
+                cnlData.Stat = newStat;
             }
         }
 
