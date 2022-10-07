@@ -113,62 +113,62 @@ namespace Scada.Admin.Lang
 
             // load phrases from dictionaries
             LocaleDict dict = Locale.GetDictionary("Scada.Admin.Deployment.DeploymentConfig");
-            LoadDeploymentConfigError = dict["LoadDeploymentConfigError"];
-            SaveDeploymentConfigError = dict["SaveDeploymentConfigError"];
+            LoadDeploymentConfigError = dict[nameof(LoadDeploymentConfigError)];
+            SaveDeploymentConfigError = dict[nameof(SaveDeploymentConfigError)];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions");
-            AgentNotEnabled = dict["AgentNotEnabled"];
-            DbNotEnabled = dict["DbNotEnabled"];
-            UploadConfig = dict["UploadConfig"];
-            UploadConfigCompleted = dict["UploadConfigCompleted"];
-            DownloadConfig = dict["DownloadConfig"];
-            DownloadConfigCompleted = dict["DownloadConfigCompleted"];
-            DownloadBase = dict["DownloadBase"];
-            DownloadViews = dict["DownloadViews"];
-            DownloadAppConfig = dict["DownloadAppConfig"];
-            FileCount = dict["FileCount"];
-            FileLoading = dict["FileLoading"];
-            StartNamedService = dict["StartNamedService"];
-            StopNamedService = dict["StopNamedService"];
-            RestartNamedService = dict["RestartNamedService"];
-            ServiceCommandCompleted = dict["ServiceCommandCompleted"];
-            ServiceCommandFailed = dict["ServiceCommandFailed"];
-            EmptyDevice = dict["EmptyDevice"];
-            EmptyObject = dict["EmptyObject"];
+            AgentNotEnabled = dict[nameof(AgentNotEnabled)];
+            DbNotEnabled = dict[nameof(DbNotEnabled)];
+            UploadConfig = dict[nameof(UploadConfig)];
+            UploadConfigCompleted = dict[nameof(UploadConfigCompleted)];
+            DownloadConfig = dict[nameof(DownloadConfig)];
+            DownloadConfigCompleted = dict[nameof(DownloadConfigCompleted)];
+            DownloadBase = dict[nameof(DownloadBase)];
+            DownloadViews = dict[nameof(DownloadViews)];
+            DownloadAppConfig = dict[nameof(DownloadAppConfig)];
+            FileCount = dict[nameof(FileCount)];
+            FileLoading = dict[nameof(FileLoading)];
+            StartNamedService = dict[nameof(StartNamedService)];
+            StopNamedService = dict[nameof(StopNamedService)];
+            RestartNamedService = dict[nameof(RestartNamedService)];
+            ServiceCommandCompleted = dict[nameof(ServiceCommandCompleted)];
+            ServiceCommandFailed = dict[nameof(ServiceCommandFailed)];
+            EmptyDevice = dict[nameof(EmptyDevice)];
+            EmptyObject = dict[nameof(EmptyObject)];
 
             dict = Locale.GetDictionary("Scada.Admin.Forms.FrmLogs");
-            AllFilesFilter = dict["AllFilesFilter"];
+            AllFilesFilter = dict[nameof(AllFilesFilter)];
 
             dict = Locale.GetDictionary("Scada.Admin.Forms.FrmRegistration");
-            LoadRegKeyError = dict["LoadRegKeyError"];
-            SaveRegKeyError = dict["SaveRegKeyError"];
+            LoadRegKeyError = dict[nameof(LoadRegKeyError)];
+            SaveRegKeyError = dict[nameof(SaveRegKeyError)];
 
             dict = Locale.GetDictionary("Scada.Admin.Project");
-            CreateAppConfigError = dict["CreateAppConfigError"];
-            DeleteAppConfigError = dict["DeleteAppConfigError"];
+            CreateAppConfigError = dict[nameof(CreateAppConfigError)];
+            DeleteAppConfigError = dict[nameof(DeleteAppConfigError)];
 
             dict = Locale.GetDictionary("Scada.Admin.Project.ConfigDatabase");
-            LoadConfigDatabaseError = dict["LoadConfigDatabaseError"];
-            SaveConfigDatabaseError = dict["SaveConfigDatabaseError"];
-            LoadBaseTableError = dict["LoadBaseTableError"];
-            SaveBaseTableError = dict["SaveBaseTableError"];
+            LoadConfigDatabaseError = dict[nameof(LoadConfigDatabaseError)];
+            SaveConfigDatabaseError = dict[nameof(SaveConfigDatabaseError)];
+            LoadBaseTableError = dict[nameof(LoadBaseTableError)];
+            SaveBaseTableError = dict[nameof(SaveBaseTableError)];
 
             dict = Locale.GetDictionary("Scada.Admin.Project.ProjectInstance");
-            CreateInstanceFilesError = dict["CreateInstanceFilesError"];
-            DeleteInstanceFilesError = dict["DeleteInstanceFilesError"];
-            RenameInstanceError = dict["RenameInstanceError"];
-            InstanceNameEmpty = dict["InstanceNameEmpty"];
-            InstanceNameInvalid = dict["InstanceNameInvalid"];
+            CreateInstanceFilesError = dict[nameof(CreateInstanceFilesError)];
+            DeleteInstanceFilesError = dict[nameof(DeleteInstanceFilesError)];
+            RenameInstanceError = dict[nameof(RenameInstanceError)];
+            InstanceNameEmpty = dict[nameof(InstanceNameEmpty)];
+            InstanceNameInvalid = dict[nameof(InstanceNameInvalid)];
 
             dict = Locale.GetDictionary("Scada.Admin.Project.ScadaProject");
-            CreateProjectError = dict["CreateProjectError"];
-            LoadProjectError = dict["LoadProjectError"];
-            SaveProjectError = dict["SaveProjectError"];
-            LoadProjectDescrError = dict["LoadProjectDescrError"];
-            ProjectNameEmpty = dict["ProjectNameEmpty"];
-            ProjectNameInvalid = dict["ProjectNameInvalid"];
-            RenameProjectError = dict["RenameProjectError"];
-            ProjectDirectoryExists = dict["ProjectDirectoryExists"];
+            CreateProjectError = dict[nameof(CreateProjectError)];
+            LoadProjectError = dict[nameof(LoadProjectError)];
+            SaveProjectError = dict[nameof(SaveProjectError)];
+            LoadProjectDescrError = dict[nameof(LoadProjectDescrError)];
+            ProjectNameEmpty = dict[nameof(ProjectNameEmpty)];
+            ProjectNameInvalid = dict[nameof(ProjectNameInvalid)];
+            RenameProjectError = dict[nameof(RenameProjectError)];
+            ProjectDirectoryExists = dict[nameof(ProjectDirectoryExists)];
         }
     }
 }
