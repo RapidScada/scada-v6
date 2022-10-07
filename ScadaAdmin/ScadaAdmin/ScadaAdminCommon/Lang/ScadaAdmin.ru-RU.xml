@@ -8,7 +8,7 @@
     <Phrase key="ArchiveID">Идент.</Phrase>
     <Phrase key="Name">Наименование</Phrase>
     <Phrase key="Code">Код</Phrase>
-    <Phrase key="ArchiveKindID">Вид архива</Phrase>
+    <Phrase key="ArchiveKindID">Вид</Phrase>
     <Phrase key="IsDefault">По умолчанию</Phrase>
     <Phrase key="Bit">Бит</Phrase>
     <Phrase key="Descr">Описание</Phrase>
