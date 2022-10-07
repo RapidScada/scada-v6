@@ -598,7 +598,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
             }
 
             // receive tables
-            string tableName = CommonPhrases.UndefinedTable;
+            string tableTitle = CommonPhrases.UndefinedTable;
 
             try
             {
@@ -606,7 +606,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
 
                 foreach (IBaseTable baseTable in configDatabase.AllTables)
                 {
-                    tableName = baseTable.Name;
+                    tableTitle = baseTable.Title;
                     localClient.DownloadBaseTable(baseTable);
                 }
 
@@ -619,7 +619,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
             {
                 log.WriteError(ex, CommPhrases.DataSourceMessage, Code, string.Format(Locale.IsRussian ?
                     "Ошибка при приёме базы конфигурации, таблица {0}" :
-                    "Error receiving the configuration database, the {0} table", tableName));
+                    "Error receiving the configuration database, the {0} table", tableTitle));
                 configDatabase = null;
                 return false;
             }

@@ -332,7 +332,7 @@ namespace Scada.Web.Code
             }
 
             // receive tables
-            string tableName = CommonPhrases.UndefinedTable;
+            string tableTitle = CommonPhrases.UndefinedTable;
 
             try
             {
@@ -340,11 +340,11 @@ namespace Scada.Web.Code
 
                 foreach (IBaseTable baseTable in configDatabase.AllTables)
                 {
-                    tableName = baseTable.Name;
+                    tableTitle = baseTable.Title;
                     scadaClient.DownloadBaseTable(baseTable);
                 }
 
-                tableName = CommonPhrases.UndefinedTable;
+                tableTitle = CommonPhrases.UndefinedTable;
                 PostprocessConfigDatabase(configDatabase);
                 Log.WriteAction(Locale.IsRussian ?
                     "База конфигурации получена успешно" :
@@ -355,7 +355,7 @@ namespace Scada.Web.Code
             {
                 Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при приёме базы конфигурации, таблица {0}" :
-                    "Error receiving the configuration database, the {0} table", tableName);
+                    "Error receiving the configuration database, the {0} table", tableTitle);
                 configDatabase = null;
                 return false;
             }
