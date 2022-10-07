@@ -90,36 +90,36 @@ namespace Scada.Web.Lang
 
             // load phrases from dictionaries
             LocaleDict dict = Locale.GetDictionary("Scada.Web");
-            CorrectErrors = dict["CorrectErrors"];
-            ClientError = dict["ClientError"];
-            UnknownUsername = dict["UnknownUsername"];
-            AccessDenied = dict["AccessDenied"];
+            CorrectErrors = dict[nameof(CorrectErrors)];
+            ClientError = dict[nameof(ClientError)];
+            UnknownUsername = dict[nameof(UnknownUsername)];
+            AccessDenied = dict[nameof(AccessDenied)];
 
             dict = Locale.GetDictionary("Scada.Web.Code.ViewLoader");
-            ViewNotSpecified = dict["ViewNotSpecified"];
-            ViewNotExists = dict["ViewNotExists"];
-            InsufficientViewRights = dict["InsufficientViewRights"];
-            UnableResolveViewSpec = dict["UnableResolveViewSpec"];
-            UnableLoadView = dict["UnableLoadView"];
-            ViewMissingFromCache = dict["ViewMissingFromCache"];
-            ViewUndefined = dict["ViewUndefined"];
+            ViewNotSpecified = dict[nameof(ViewNotSpecified)];
+            ViewNotExists = dict[nameof(ViewNotExists)];
+            InsufficientViewRights = dict[nameof(InsufficientViewRights)];
+            UnableResolveViewSpec = dict[nameof(UnableResolveViewSpec)];
+            UnableLoadView = dict[nameof(UnableLoadView)];
+            ViewMissingFromCache = dict[nameof(ViewMissingFromCache)];
+            ViewUndefined = dict[nameof(ViewUndefined)];
 
             dict = Locale.GetDictionary("Scada.Web.Plugins");
-            LoadPluginConfigError = dict["LoadPluginConfigError"];
-            SavePluginConfigError = dict["SavePluginConfigError"];
-            CnlNotFound = dict["CnlNotFound"];
-            CnlNotOutput = dict["CnlNotOutput"];
-            CommandsDisabled = dict["CommandsDisabled"];
-            SendCommand = dict["SendCommand"];
-            ActionNotAllowed = dict["ActionNotAllowed"];
+            LoadPluginConfigError = dict[nameof(LoadPluginConfigError)];
+            SavePluginConfigError = dict[nameof(SavePluginConfigError)];
+            CnlNotFound = dict[nameof(CnlNotFound)];
+            CnlNotOutput = dict[nameof(CnlNotOutput)];
+            CommandsDisabled = dict[nameof(CommandsDisabled)];
+            SendCommand = dict[nameof(SendCommand)];
+            ActionNotAllowed = dict[nameof(ActionNotAllowed)];
 
             dict = Locale.GetDictionary("Scada.Web.TreeView.MenuItem");
-            ReportsMenuItem = dict["ReportsMenuItem"];
-            AdministrationMenuItem = dict["AdministrationMenuItem"];
-            ConfigurationMenuItem = dict["ConfigurationMenuItem"];
-            RegistrationMenuItem = dict["RegistrationMenuItem"];
-            PluginsMenuItem = dict["PluginsMenuItem"];
-            AboutMenuItem = dict["AboutMenuItem"];
+            ReportsMenuItem = dict[nameof(ReportsMenuItem)];
+            AdministrationMenuItem = dict[nameof(AdministrationMenuItem)];
+            ConfigurationMenuItem = dict[nameof(ConfigurationMenuItem)];
+            RegistrationMenuItem = dict[nameof(RegistrationMenuItem)];
+            PluginsMenuItem = dict[nameof(PluginsMenuItem)];
+            AboutMenuItem = dict[nameof(AboutMenuItem)];
         }
     }
 }
