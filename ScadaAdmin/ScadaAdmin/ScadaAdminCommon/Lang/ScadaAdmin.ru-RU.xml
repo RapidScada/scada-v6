@@ -8,8 +8,14 @@
     <Phrase key="ArchiveID">Идент.</Phrase>
     <Phrase key="Name">Наименование</Phrase>
     <Phrase key="Code">Код</Phrase>
+    <Phrase key="ArchiveKindID">Вид архива</Phrase>
     <Phrase key="IsDefault">По умолчанию</Phrase>
     <Phrase key="Bit">Бит</Phrase>
+    <Phrase key="Descr">Описание</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.ArchiveKindTable">
+    <Phrase key="ArchiveKindID">Идент.</Phrase>
+    <Phrase key="Name">Наименование</Phrase>
     <Phrase key="Descr">Описание</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.CnlTable">

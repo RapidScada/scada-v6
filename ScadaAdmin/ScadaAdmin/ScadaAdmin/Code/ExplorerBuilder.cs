@@ -126,6 +126,7 @@ namespace Scada.Admin.App.Code
             SortedList<string, TreeNode> secondaryNodes = new()
             {
                 { configDatabase.ArchiveTable.Title, CreateBaseTableNode(configDatabase.ArchiveTable) },
+                { configDatabase.ArchiveKindTable.Title, CreateBaseTableNode(configDatabase.ArchiveKindTable) },
                 { configDatabase.CnlStatusTable.Title, CreateBaseTableNode(configDatabase.CnlStatusTable) },
                 { configDatabase.CnlTypeTable.Title, CreateBaseTableNode(configDatabase.CnlTypeTable) },
                 { configDatabase.DataTypeTable.Title, CreateBaseTableNode(configDatabase.DataTypeTable) },

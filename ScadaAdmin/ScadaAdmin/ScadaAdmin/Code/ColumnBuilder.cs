@@ -185,15 +185,29 @@ namespace Scada.Admin.App.Code
         /// <summary>
         /// Creates columns for the archive table.
         /// </summary>
-        private static DataGridViewColumn[] CreateArchiveTableColumns()
+        private static DataGridViewColumn[] CreateArchiveTableColumns(ConfigDatabase configDatabase)
         {
             return TranslateHeaders("ArchiveTable", new DataGridViewColumn[]
             {
                 NewTextBoxColumn("ArchiveID", new ColumnOptions(ColumnKind.PrimaryKey)),
                 NewTextBoxColumn("Name", new ColumnOptions(ColumnLength.Name)),
                 NewTextBoxColumn("Code", new ColumnOptions(ColumnLength.Code)),
+                NewComboBoxColumn("ArchiveKindID", "Name", configDatabase.ArchiveKindTable, true),
                 NewCheckBoxColumn("IsDefault"),
                 NewTextBoxColumn("Bit", new ColumnOptions(ConfigDatabase.MinBit, ConfigDatabase.MaxBit)),
+                NewTextBoxColumn("Descr", new ColumnOptions(ColumnLength.Description))
+            });
+        }
+
+        /// <summary>
+        /// Creates columns for the archive kind table.
+        /// </summary>
+        private static DataGridViewColumn[] CreateArchiveKindTableColumns()
+        {
+            return TranslateHeaders("ArchiveKindTable", new DataGridViewColumn[]
+            {
+                NewTextBoxColumn("ArchiveKindID", new ColumnOptions(ColumnKind.PrimaryKey)),
+                NewTextBoxColumn("Name", new ColumnOptions(ColumnLength.Name)),
                 NewTextBoxColumn("Descr", new ColumnOptions(ColumnLength.Description))
             });
         }
@@ -526,7 +540,9 @@ namespace Scada.Admin.App.Code
             ArgumentNullException.ThrowIfNull(configDatabase, nameof(configDatabase));
 
             if (itemType == typeof(Archive))
-                return CreateArchiveTableColumns();
+                return CreateArchiveTableColumns(configDatabase);
+            else if (itemType == typeof(ArchiveKind))
+                return CreateArchiveKindTableColumns();
             else if (itemType == typeof(Cnl))
                 return CreateCnlTableColumns(configDatabase);
             else if (itemType == typeof(CnlStatus))
