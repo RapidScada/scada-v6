@@ -182,18 +182,18 @@ namespace Scada.Server.Lang
 
             // load phrases that are used in the multilingual user interface from dictionaries
             LocaleDict dict = Locale.GetDictionary("Scada.Server.Archives");
-            UnspecifiedArchiveKind = dict.GetPhrase("UnspecifiedArchiveKind");
-            CurrentArchiveKind = dict.GetPhrase("CurrentArchiveKind");
-            HistoricalArchiveKind = dict.GetPhrase("HistoricalArchiveKind");
-            EventsArchiveKind = dict.GetPhrase("EventsArchiveKind");
+            UnspecifiedArchiveKind = dict[nameof(UnspecifiedArchiveKind)];
+            CurrentArchiveKind = dict[nameof(CurrentArchiveKind)];
+            HistoricalArchiveKind = dict[nameof(HistoricalArchiveKind)];
+            EventsArchiveKind = dict[nameof(EventsArchiveKind)];
 
             dict = Locale.GetDictionary("Scada.Server.Modules");
-            LoadModuleConfigError = dict.GetPhrase("LoadModuleConfigError");
-            SaveModuleConfigError = dict.GetPhrase("SaveModuleConfigError");
-            SaveModuleConfigConfirm = dict.GetPhrase("SaveModuleConfigConfirm");
+            LoadModuleConfigError = dict[nameof(LoadModuleConfigError)];
+            SaveModuleConfigError = dict[nameof(SaveModuleConfigError)];
+            SaveModuleConfigConfirm = dict[nameof(SaveModuleConfigConfirm)];
 
             dict = Locale.GetDictionary("Scada.Server.Engine.CoreLogic");
-            CommandSentBy = dict.GetPhrase("CommandSentBy");
+            CommandSentBy = dict[nameof(CommandSentBy)];
         }
     }
 }
