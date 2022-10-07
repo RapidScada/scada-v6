@@ -61,6 +61,7 @@ namespace Scada.Lang
         // Scada.ConfigDatabase
         public static string UndefinedTable { get; private set; }
         public static string ArchiveTable { get; private set; }
+        public static string ArchiveKindTable { get; private set; }
         public static string CnlTable { get; private set; }
         public static string CnlStatusTable { get; private set; }
         public static string CnlTypeTable { get; private set; }
@@ -194,6 +195,7 @@ namespace Scada.Lang
             dict = Locale.GetDictionary("Scada.ConfigDatabase");
             UndefinedTable = dict["UndefinedTable"];
             ArchiveTable = dict["ArchiveTable"];
+            ArchiveKindTable = dict["ArchiveKindTable"];
             CnlTable = dict["CnlTable"];
             CnlStatusTable = dict["CnlStatusTable"];
             CnlTypeTable = dict["CnlTypeTable"];

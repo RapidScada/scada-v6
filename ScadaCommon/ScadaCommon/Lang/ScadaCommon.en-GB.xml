@@ -29,6 +29,7 @@
   <Dictionary key="Scada.ConfigDatabase">
     <Phrase key="UndefinedTable">Undefined</Phrase>
     <Phrase key="ArchiveTable">Archives</Phrase>
+    <Phrase key="ArchiveKindTable">Archive kinds</Phrase>
     <Phrase key="CnlTable">Channels</Phrase>
     <Phrase key="CnlStatusTable">Channel statuses</Phrase>
     <Phrase key="CnlTypeTable">Channel types</Phrase>

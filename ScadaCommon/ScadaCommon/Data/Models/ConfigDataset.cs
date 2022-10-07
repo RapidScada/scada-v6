@@ -52,6 +52,11 @@ namespace Scada.Data.Models
         public BaseTable<Archive> ArchiveTable { get; private set; }
 
         /// <summary>
+        /// Gets the archive table.
+        /// </summary>
+        public BaseTable<ArchiveKind> ArchiveKindTable { get; private set; }
+
+        /// <summary>
         /// Gets the channel table.
         /// </summary>
         public BaseTable<Cnl> CnlTable { get; private set; }
@@ -165,6 +170,7 @@ namespace Scada.Data.Models
             AllTables = new IBaseTable[]
             {
                 ArchiveTable = new BaseTable<Archive>("ArchiveID", CommonPhrases.ArchiveTable),
+                ArchiveKindTable = new BaseTable<ArchiveKind>("ArchiveKindID", CommonPhrases.ArchiveKindTable),
                 CnlTable = new BaseTable<Cnl>("CnlNum", CommonPhrases.CnlTable),
                 CnlStatusTable = new BaseTable<CnlStatus>("CnlStatusID", CommonPhrases.CnlStatusTable),
                 CnlTypeTable = new BaseTable<CnlType>("CnlTypeID", CommonPhrases.CnlTypeTable),
@@ -192,12 +198,8 @@ namespace Scada.Data.Models
         /// </summary>
         protected void AddRelations()
         {
-            // object table
-            AddRelation(ObjTable, ObjTable, "ParentObjNum");
-
-            // device table
-            AddRelation(DevTypeTable, DeviceTable, "DevTypeID");
-            AddRelation(CommLineTable, DeviceTable, "CommLineNum");
+            // archive table
+            AddRelation(ArchiveKindTable, ArchiveTable, "ArchiveKindID");
 
             // channel table
             AddRelation(CnlTypeTable, CnlTable, "CnlTypeID");
@@ -209,20 +211,27 @@ namespace Scada.Data.Models
             AddRelation(UnitTable, CnlTable, "UnitID");
             AddRelation(LimTable, CnlTable, "LimID");
 
-            // view table
-            AddRelation(ViewTypeTable, ViewTable, "ViewTypeID");
-            AddRelation(ObjTable, ViewTable, "ObjNum");
+            // device table
+            AddRelation(DevTypeTable, DeviceTable, "DevTypeID");
+            AddRelation(CommLineTable, DeviceTable, "CommLineNum");
 
-            // role inheritance table
-            AddRelation(RoleTable, RoleRefTable, "ParentRoleID");
-            AddRelation(RoleTable, RoleRefTable, "ChildRoleID");
+            // object table
+            AddRelation(ObjTable, ObjTable, "ParentObjNum");
 
             // object right table
             AddRelation(ObjTable, ObjRightTable, "ObjNum");
             AddRelation(RoleTable, ObjRightTable, "RoleID");
 
+            // role inheritance table
+            AddRelation(RoleTable, RoleRefTable, "ParentRoleID");
+            AddRelation(RoleTable, RoleRefTable, "ChildRoleID");
+
             // user table
             AddRelation(RoleTable, UserTable, "RoleID");
+
+            // view table
+            AddRelation(ViewTypeTable, ViewTable, "ViewTypeID");
+            AddRelation(ObjTable, ViewTable, "ObjNum");
         }
 
         /// <summary>
