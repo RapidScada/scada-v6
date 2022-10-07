@@ -3,6 +3,7 @@
 
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Web.Plugins.PlgMain.Report;
 using Scada.Web.Services;
@@ -33,8 +34,11 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         {
             foreach (Archive archive in webContext.ConfigDatabase.ArchiveTable)
             {
-                ArchiveList.Add(new SelectListItem(archive.Name, archive.Code, 
-                    archive.Code == HistDataReportBuilder.DefaultArchiveCode));
+                if (archive.ArchiveKindID == ArchiveKindID.Historical)
+                {
+                    ArchiveList.Add(new SelectListItem(archive.Name, archive.Code,
+                       archive.Code == HistDataReportBuilder.DefaultArchiveCode));
+                }
             }
         }
 
