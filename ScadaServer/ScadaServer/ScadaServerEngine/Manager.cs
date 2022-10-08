@@ -43,8 +43,8 @@ namespace Scada.Server.Engine
     {
         private ILog log;                          // the application log
         private StorageWrapper storageWrapper;     // contains the application storage
-        private CoreLogic coreLogic;               // the Server logic instance
         private AssemblyResolver assemblyResolver; // searches for assemblies
+        private CoreLogic coreLogic;               // the Server logic instance
 
 
         /// <summary>
@@ -54,8 +54,8 @@ namespace Scada.Server.Engine
         {
             log = LogStub.Instance;
             storageWrapper = null;
-            coreLogic = null;
             assemblyResolver = null;
+            coreLogic = null;
             AppDirs = new ServerDirs();
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_OnUnhandledException;
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
@@ -156,7 +156,8 @@ namespace Scada.Server.Engine
                 AppDirs = AppDirs,
                 Log = log
             }, instanceConfig);
-
+            
+            assemblyResolver = new AssemblyResolver(AppDirs.GetProbingDirs());
             ServerConfig appConfig = new ServerConfig();
 
             if (AppDirs.CheckExistence(out errMsg) &&
@@ -167,7 +168,6 @@ namespace Scada.Server.Engine
                 // start service
                 logFile.CapacityMB = appConfig.GeneralOptions.MaxLogSize;
                 coreLogic = new CoreLogic(instanceConfig, appConfig, AppDirs, storageWrapper.Storage, log);
-                assemblyResolver = new AssemblyResolver(AppDirs.GetProbingDirs());
 
                 if (coreLogic.StartProcessing())
                     return true;
