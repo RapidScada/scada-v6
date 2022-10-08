@@ -56,6 +56,7 @@ namespace Scada.Server.Engine
             storageWrapper = null;
             assemblyResolver = null;
             coreLogic = null;
+
             AppDirs = new ServerDirs();
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_OnUnhandledException;
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
