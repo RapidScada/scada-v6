@@ -115,6 +115,7 @@ namespace Scada.Admin.App.Forms
 
         private void FrmTextEditor_Load(object sender, EventArgs e)
         {
+            FormTranslator.Translate(this, GetType().FullName);
             ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
             LoadFile();
         }
@@ -128,6 +129,11 @@ namespace Scada.Admin.App.Forms
                 fileName = newFileName;
                 Text = Path.GetFileName(fileName);
             }
+        }
+
+        private void btnReload_Click(object sender, EventArgs e)
+        {
+            LoadFile();
         }
 
         private void richTextBox_TextChanged(object sender, EventArgs e)
