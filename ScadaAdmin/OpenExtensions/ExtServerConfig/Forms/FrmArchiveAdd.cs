@@ -59,7 +59,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         {
             Archive emptyItem = new() { ArchiveID = 0, Name = " " };
             List<Archive> archives = new(project.ConfigDatabase.ArchiveTable.ItemCount + 1) { emptyItem };
-            archives.AddRange(project.ConfigDatabase.ArchiveTable.Enumerate().OrderBy(dt => dt.Name));
+            archives.AddRange(project.ConfigDatabase.ArchiveTable.Enumerate().OrderBy(a => a.Name));
 
             cbSourceArchive.ValueMember = "project";
             cbSourceArchive.DisplayMember = "Name";
