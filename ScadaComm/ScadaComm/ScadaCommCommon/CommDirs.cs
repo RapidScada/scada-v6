@@ -20,10 +20,8 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2015
- * Modified : 2021
+ * Modified : 2022
  */
-
-using System.IO;
 
 namespace Scada.Comm
 {
@@ -67,20 +65,11 @@ namespace Scada.Comm
         }
 
         /// <summary>
-        /// Finds the specified assembly in the application directories.
+        /// Gets the directories to search for assemblies.
         /// </summary>
-        public bool FindAssembly(string simpleName, out string path)
+        public override string[] GetProbingDirs()
         {
-            foreach (string basePath in new string[] { ExeDir, DrvDir })
-            {
-                path = Path.Combine(basePath, simpleName + ".dll");
-
-                if (File.Exists(path))
-                    return true;
-            }
-
-            path = "";
-            return false;
+            return new string[] { ExeDir, DrvDir };
         }
     }
 }

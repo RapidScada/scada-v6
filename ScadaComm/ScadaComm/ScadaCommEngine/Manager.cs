@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Comm.Config;
@@ -41,9 +41,10 @@ namespace Scada.Comm.Engine
     /// </summary>
     public class Manager
     {
-        private ILog log;                      // the application log
-        private StorageWrapper storageWrapper; // contains the application storage
-        private CoreLogic coreLogic;           // the Communicator logic instance
+        private ILog log;                          // the application log
+        private StorageWrapper storageWrapper;     // contains the application storage
+        private AssemblyResolver assemblyResolver; // searches for assemblies
+        private CoreLogic coreLogic;               // the Communicator logic instance
 
 
         /// <summary>
@@ -53,10 +54,12 @@ namespace Scada.Comm.Engine
         {
             log = LogStub.Instance;
             storageWrapper = null;
+            assemblyResolver = null;
             coreLogic = null;
 
             AppDirs = new CommDirs();
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
         }
 
 
@@ -88,6 +91,24 @@ namespace Scada.Comm.Engine
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs args)
         {
             log.WriteError(args.ExceptionObject as Exception, CommonPhrases.UnhandledException);
+        }
+
+        /// <summary>
+        /// Handles an AssemblyResolve event of the current application domain.
+        /// </summary>
+        private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            Assembly assembly = assemblyResolver?.Resolve(args.Name, args.RequestingAssembly);
+
+            if (assembly == null)
+            {
+                log.WriteError(Locale.IsRussian ?
+                    "Резолвер не смог найти сборку '{0}'{1}   запрошенную '{2}'" :
+                    "Resolver could not find assembly '{0}'{1}   requested by '{2}'",
+                    args.Name, Environment.NewLine, args.RequestingAssembly.FullName);
+            }
+
+            return assembly;
         }
 
 
@@ -137,6 +158,7 @@ namespace Scada.Comm.Engine
                 Log = log
             }, instanceConfig);
 
+            assemblyResolver = new AssemblyResolver(AppDirs.GetProbingDirs());
             CommConfig appConfig = new CommConfig();
 
             if (AppDirs.CheckExistence(out errMsg) && 
