@@ -32,13 +32,12 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
         private void FillArchiveList()
         {
-            foreach (Archive archive in webContext.ConfigDatabase.ArchiveTable)
+            foreach (Archive archive in webContext.ConfigDatabase.ArchiveTable
+                .Where(a => a.ArchiveKindID == ArchiveKindID.Historical)
+                .OrderBy(a => a.Name))
             {
-                if (archive.ArchiveKindID == ArchiveKindID.Historical)
-                {
-                    ArchiveList.Add(new SelectListItem(archive.Name, archive.Code,
-                       archive.Code == HistDataReportBuilder.DefaultArchiveCode));
-                }
+                ArchiveList.Add(new SelectListItem(archive.Name, archive.Code,
+                    archive.Code == HistDataReportBuilder.DefaultArchiveCode));
             }
         }
 

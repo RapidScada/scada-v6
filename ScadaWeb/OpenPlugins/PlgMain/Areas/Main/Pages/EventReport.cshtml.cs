@@ -37,13 +37,12 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
         private void FillArchiveList()
         {
-            foreach (Archive archive in webContext.ConfigDatabase.ArchiveTable)
+            foreach (Archive archive in webContext.ConfigDatabase.ArchiveTable
+                .Where(a => a.ArchiveKindID == ArchiveKindID.Events)
+                .OrderBy(a => a.Name))
             {
-                if (archive.ArchiveKindID == ArchiveKindID.Events)
-                {
-                    ArchiveList.Add(new SelectListItem(archive.Name, archive.Code,
-                        archive.Code == EventReportBuilder.DefaultArchiveCode));
-                }
+                ArchiveList.Add(new SelectListItem(archive.Name, archive.Code,
+                    archive.Code == EventReportBuilder.DefaultArchiveCode));
             }
         }
 
