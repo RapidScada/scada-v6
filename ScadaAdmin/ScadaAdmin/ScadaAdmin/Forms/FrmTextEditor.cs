@@ -83,6 +83,7 @@ namespace Scada.Admin.App.Forms
                 using FileStream fileStream = new(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 using StreamReader reader = new(fileStream, Encoding.UTF8);
                 richTextBox.Text = reader.ReadToEnd(); // RichTextBox faster than TextBox
+                ChildFormTag.Modified = false;
             }
             catch (Exception ex)
             {
