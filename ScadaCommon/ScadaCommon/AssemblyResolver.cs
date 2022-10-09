@@ -76,40 +76,39 @@ namespace Scada
 
             // assembly name example:
             // MyAssembly, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-            string simpleName = assemblyName;
             int commaIdx = assemblyName.IndexOf(',');
+            string simpleName = commaIdx > 0
+                ? assemblyName.Substring(0, commaIdx)
+                : assemblyName;
+            string shortFileName = simpleName + ".dll";
+            errMsg = "";
 
-            if (commaIdx > 0)
+            // search in the directory of the requesting assembly
+            string assemblyDir = Path.GetDirectoryName(requestingAssembly.Location);
+            Assembly assembly = 
+                LoadAssembly(shortFileName, assemblyDir) ??
+                LoadAssembly(shortFileName, Path.Combine(assemblyDir, requestingAssembly.GetName().Name));
+
+            if (assembly != null)
+                return assembly;
+
+            // search in the probing directories
+            foreach (string probingDir in ProbingDirs)
             {
-                simpleName = assemblyName.Substring(0, commaIdx);
-                string shortFileName = simpleName + ".dll";
-                errMsg = "";
-
-                // search in the directory of the requesting assembly
-                string assemblyDir = Path.GetDirectoryName(requestingAssembly.Location);
-                Assembly assembly = 
-                    LoadAssembly(shortFileName, assemblyDir) ??
-                    LoadAssembly(shortFileName, Path.Combine(assemblyDir, requestingAssembly.GetName().Name));
+                assembly = LoadAssembly(shortFileName, probingDir);
 
                 if (assembly != null)
                     return assembly;
-
-                // search in the probing directories
-                foreach (string probingDir in ProbingDirs)
-                {
-                    assembly = LoadAssembly(shortFileName, probingDir);
-
-                    if (assembly != null)
-                        return assembly;
-                }
             }
 
-            errMsg = simpleName.EndsWith(".resources", StringComparison.Ordinal)
-                ? ""
-                : string.Format(Locale.IsRussian ?
+            if (!simpleName.EndsWith(".resources", StringComparison.Ordinal))
+            {
+                errMsg = string.Format(Locale.IsRussian ?
                     "Резолвер не смог найти сборку '{0}'{1}   запрошенную '{2}'" :
                     "Resolver could not find assembly '{0}'{1}   requested by '{2}'",
                     assemblyName, Environment.NewLine, requestingAssembly.FullName);
+            }
+
             return null;
         }
     }
