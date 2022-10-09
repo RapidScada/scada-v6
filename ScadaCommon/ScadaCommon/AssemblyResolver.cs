@@ -56,17 +56,18 @@ namespace Scada
         /// </summary>
         private Assembly LoadAssembly(string shortFileName, string probingDir)
         {
-            string fileName = Path.Combine(probingDir, shortFileName);
-
-            return File.Exists(fileName)
-                ? Assembly.LoadFrom(fileName)
+            // in .NET Core use
+            // AssemblyLoadContext.GetLoadContext(requestingAssembly).LoadFromAssemblyPath(path)
+            string path = Path.Combine(probingDir, shortFileName);
+            return File.Exists(path)
+                ? Assembly.LoadFrom(path)
                 : null;
         }
 
         /// <summary>
         /// Finds and loads the requested assembly into the default load context.
         /// </summary>
-        public Assembly Resolve(string assemblyName, Assembly requestingAssembly)
+        public Assembly Resolve(string assemblyName, Assembly requestingAssembly, out string errMsg)
         {
             if (assemblyName == null)
                 throw new ArgumentNullException(nameof(assemblyName));
@@ -80,26 +81,31 @@ namespace Scada
             if (commaIdx > 0)
             {
                 string shortFileName = assemblyName.Substring(0, commaIdx) + ".dll";
+                errMsg = "";
 
                 // search in the directory of the requesting assembly
-                if (LoadAssembly(shortFileName, Path.GetDirectoryName(requestingAssembly.Location))
-                    is Assembly assembly)
-                {
+                string assemblyDir = Path.GetDirectoryName(requestingAssembly.Location);
+                Assembly assembly = 
+                    LoadAssembly(shortFileName, assemblyDir) ??
+                    LoadAssembly(shortFileName, Path.Combine(assemblyDir, requestingAssembly.GetName().Name));
+
+                if (assembly != null)
                     return assembly;
-                }
 
                 // search in the probing directories
                 foreach (string probingDir in ProbingDirs)
                 {
-                    assembly =
-                        LoadAssembly(shortFileName, probingDir) ??
-                        LoadAssembly(shortFileName, Path.Combine(probingDir, requestingAssembly.GetName().Name));
+                    assembly = LoadAssembly(shortFileName, probingDir);
 
                     if (assembly != null)
                         return assembly;
                 }
             }
 
+            errMsg = string.Format(Locale.IsRussian ?
+                "Резолвер не смог найти сборку '{0}'{1}   запрошенную '{2}'" :
+                "Resolver could not find assembly '{0}'{1}   requested by '{2}'",
+                assemblyName, Environment.NewLine, requestingAssembly.FullName);
             return null;
         }
     }

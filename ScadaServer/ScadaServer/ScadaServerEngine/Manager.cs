@@ -98,15 +98,11 @@ namespace Scada.Server.Engine
         /// </summary>
         private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
-            Assembly assembly = assemblyResolver?.Resolve(args.Name, args.RequestingAssembly);
+            string errMsg = "";
+            Assembly assembly = assemblyResolver?.Resolve(args.Name, args.RequestingAssembly, out errMsg);
 
-            if (assembly == null)
-            {
-                log.WriteError(Locale.IsRussian ?
-                    "Резолвер не смог найти сборку '{0}'{1}   запрошенную '{2}'" :
-                    "Resolver could not find assembly '{0}'{1}   requested by '{2}'", 
-                    args.Name, Environment.NewLine, args.RequestingAssembly.FullName);
-            }
+            if (!string.IsNullOrEmpty(errMsg))
+                log.WriteError(errMsg);
 
             return assembly;
         }
