@@ -76,7 +76,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa
             // see CoreClientUtils.SelectEndpoint method
             // https://github.com/OPCFoundation/UA-.NETStandard/blob/master/Libraries/Opc.Ua.Client/CoreClientUtils.cs
 
-            Uri discoveryUrl = new(connectionOptions.ServerUrl + "/discovery");
+            Uri discoveryUrl = GetDiscoveryUrl(connectionOptions.ServerUrl);
             EndpointConfiguration endpointConfiguration = EndpointConfiguration.Create();
             endpointConfiguration.OperationTimeout = CoreClientUtils.DefaultDiscoverTimeout;
 
@@ -97,6 +97,17 @@ namespace Scada.Comm.Drivers.DrvOpcUa
             throw new ScadaException(Locale.IsRussian ?
                 "Конечная точка с указанными параметрами безопасности не найдена." :
                 "Endpoint with the specified security options not found.");
+        }
+
+        /// <summary>
+        /// Gets the discovery URL.
+        /// </summary>
+        private static Uri GetDiscoveryUrl(string url)
+        {
+            return new Uri(
+                url.StartsWith(Utils.UriSchemeHttp) && !url.EndsWith("/discovery")
+                ? url + "/discovery"
+                : url);
         }
 
         /// <summary>
