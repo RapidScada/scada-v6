@@ -76,11 +76,13 @@ namespace Scada
 
             // assembly name example:
             // MyAssembly, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+            string simpleName = assemblyName;
             int commaIdx = assemblyName.IndexOf(',');
 
             if (commaIdx > 0)
             {
-                string shortFileName = assemblyName.Substring(0, commaIdx) + ".dll";
+                simpleName = assemblyName.Substring(0, commaIdx);
+                string shortFileName = simpleName + ".dll";
                 errMsg = "";
 
                 // search in the directory of the requesting assembly
@@ -102,10 +104,12 @@ namespace Scada
                 }
             }
 
-            errMsg = string.Format(Locale.IsRussian ?
-                "Резолвер не смог найти сборку '{0}'{1}   запрошенную '{2}'" :
-                "Resolver could not find assembly '{0}'{1}   requested by '{2}'",
-                assemblyName, Environment.NewLine, requestingAssembly.FullName);
+            errMsg = simpleName.EndsWith(".resources", StringComparison.Ordinal)
+                ? ""
+                : string.Format(Locale.IsRussian ?
+                    "Резолвер не смог найти сборку '{0}'{1}   запрошенную '{2}'" :
+                    "Resolver could not find assembly '{0}'{1}   requested by '{2}'",
+                    assemblyName, Environment.NewLine, requestingAssembly.FullName);
             return null;
         }
     }
