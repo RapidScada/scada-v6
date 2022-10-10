@@ -104,8 +104,8 @@ namespace Scada
             if (!simpleName.EndsWith(".resources", StringComparison.Ordinal))
             {
                 errMsg = string.Format(Locale.IsRussian ?
-                    "Резолвер не смог найти сборку '{0}'{1}   запрошенную '{2}'" :
-                    "Resolver could not find assembly '{0}'{1}   requested by '{2}'",
+                    "Резолвер не смог найти сборку '{0}'{1}    запрошенную '{2}'" :
+                    "Resolver could not find assembly '{0}'{1}    requested by '{2}'",
                     assemblyName, Environment.NewLine, requestingAssembly.FullName);
             }
 
