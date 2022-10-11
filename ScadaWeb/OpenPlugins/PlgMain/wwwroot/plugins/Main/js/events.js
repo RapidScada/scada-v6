@@ -170,15 +170,14 @@ function showEvents(data, enableEffects) {
             let e = record.e;   // event data
             let ef = record.ef; // formatted event
 
-            let row = $("<tr class='row-event' data-id='" + record.id + "'>" +
-                "<td class='time'>" + ef.time + "</td>" +
-                "<td class='obj'>" + ef.obj + "</td>" +
-                "<td class='dev'>" + ef.dev + "</td>" +
-                "<td class='cnl'>" + ef.cnl + "</td>" +
-                "<td class='descr'>" + ef.descr + "</td>" +
-                "<td class='sev'>" + getSeverityHtml(e.severity, ef.sev) + "</td>" +
-                "<td class='ack'>" + getAckHtml(e, ef) + "</td>" +
-                "</tr>");
+            let row = $("<tr class='row-event' data-id='" + record.id + "'></tr>")
+                .append(createCell("time", ef.time))
+                .append(createCell("obj", ef.obj))
+                .append(createCell("dev", ef.dev))
+                .append(createCell("cnl", ef.cnl))
+                .append(createCell("descr", ef.descr))
+                .append(createCell("sev", getSeverityElem(e.severity, ef.sev)))
+                .append(createCell("ack", getAckElem(e, ef)));
 
             if (ef.color) {
                 row.css("color", ef.color);
@@ -215,32 +214,46 @@ function showEvents(data, enableEffects) {
     }
 }
 
-function getSeverityHtml(severityValue, severityText) {
+function createCell(cssClass, content) {
+    let cellElem = $(`<td class='${cssClass}'></td>`);
+
+    if (content) {
+        if (typeof content === "string") {
+            cellElem.text(content);
+        } else if (content.jquery) {
+            cellElem.append(content);
+        }
+    }
+
+    return cellElem;
+}
+
+function getSeverityElem(severityValue, severityText) {
     switch (Severity.closest(severityValue)) {
         case Severity.CRITICAL:
-            return `<i class='fas fa-exclamation-circle critical' title='${severityText}'></i>`;
+            return $("<i class='fas fa-exclamation-circle critical'></i>").attr("title", severityText);
 
         case Severity.MAJOR:
-            return `<i class='fas fa-exclamation-triangle major' title='${severityText}'></i>`;
+            return $("<i class='fas fa-exclamation-triangle major'></i>").attr("title", severityText);
 
         case Severity.MINOR:
-            return `<i class='fas fa-exclamation-triangle minor' title='${severityText}'></i>`;
+            return $("<i class='fas fa-exclamation-triangle minor'></i>").attr("title", severityText);
 
         case Severity.INFO:
-            return `<i class='fas fa-info info' title='${severityText}'></i>`;
+            return $("<i class='fas fa-info info'></i>").attr("title", severityText);
 
         default:
-            return "";
+            return null;
     }
 }
 
-function getAckHtml(e, ef) {
+function getAckElem(e, ef) {
     if (e.ack) {
-        return `<i class='far fa-check-square ack-yes' title='${ef.ack}'></i>`;
+        return $("<i class='far fa-check-square ack-yes'></i>").attr("title", ef.ack);
     } else if (e.ackRequired) {
-        return `<i class='far fa-square ack-no' title='${phrases.Ack}'></i>`;
+        return $("<i class='far fa-square ack-no'></i>").attr("title", phrases.Ack);
     } else {
-        return "";
+        return null;
     }
 }
 
