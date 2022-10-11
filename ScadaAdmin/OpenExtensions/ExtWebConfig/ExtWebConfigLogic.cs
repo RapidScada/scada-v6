@@ -2,12 +2,14 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Admin.Extensions.ExtWebConfig.Code;
+using Scada.Admin.Extensions.ExtWebConfig.Forms;
 using Scada.Admin.Extensions.ExtWebConfig.Properties;
 using Scada.Admin.Forms;
 using Scada.Admin.Lang;
 using Scada.Admin.Project;
 using Scada.Forms;
 using Scada.Lang;
+using Scada.Web.Config;
 
 namespace Scada.Admin.Extensions.ExtWebConfig
 {
@@ -24,6 +26,8 @@ namespace Scada.Admin.Extensions.ExtWebConfig
         {
             private const string ImagePrefix = "web_config_";
             public const string Logs = ImagePrefix + "logs.png";
+            public const string ApplcationOptions = ImagePrefix + "1.png"; //
+            public const string Plugins = ImagePrefix + "2.png"; //
         }
 
 
@@ -87,10 +91,8 @@ namespace Scada.Admin.Extensions.ExtWebConfig
         /// </summary>
         public override TreeNode[] GetTreeNodes(object relatedObject)
         {
-            if (relatedObject is not WebApp)
-                return null;
-
-            return new TreeNode[]
+            return relatedObject is WebApp webApp ? 
+            new TreeNode[]
             {
                 new TreeNode(ExtensionPhrases.LogsNode)
                 {
@@ -101,8 +103,28 @@ namespace Scada.Admin.Extensions.ExtWebConfig
                         FormType = typeof(FrmLogs),
                         FormArgs = new object[] { AdminContext, ServiceApp.Web }
                     }
+                },
+                new TreeNode(ExtensionPhrases.ApplicationOptionsNode)
+                {
+                    ImageKey = ImageKey.ApplcationOptions,
+                    SelectedImageKey = ImageKey.ApplcationOptions,
+                    Tag = new TreeNodeTag
+                    {
+                        FormType = typeof(FrmApplicationOptions),
+                        FormArgs = new object[] { AdminContext, webApp }
+                    }
+                },
+                new TreeNode(ExtensionPhrases.PluginsNode)
+                {
+                    ImageKey = ImageKey.Plugins,
+                    SelectedImageKey = ImageKey.Plugins,
+                    Tag = new TreeNodeTag
+                    {
+                        FormType = typeof(FrmPlugins),
+                        FormArgs = new object[] { AdminContext, webApp }
+                    }
                 }
-            };
+            } : null;
         }
 
         /// <summary>
@@ -113,6 +135,8 @@ namespace Scada.Admin.Extensions.ExtWebConfig
             return new Dictionary<string, Image>
             {
                 { ImageKey.Logs, Resources.logs },
+                { ImageKey.ApplcationOptions, Resources.logs },
+                { ImageKey.Plugins, Resources.logs }
             };
         }
     }

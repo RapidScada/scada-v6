@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿ <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
@@ -13,6 +13,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="WinControl" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="ScadaAdminCommon">
       <HintPath>..\..\ScadaAdmin\ScadaAdminCommon\bin\Release\net6.0-windows\ScadaAdminCommon.dll</HintPath>
     </Reference>
@@ -24,6 +28,9 @@
     </Reference>
     <Reference Include="ScadaCommon.Log">
       <HintPath>..\..\..\ScadaCommon\ScadaCommon.Log\bin\Release\netstandard2.0\ScadaCommon.Log.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaWebCommon">
+      <HintPath>..\..\..\ScadaWeb\ScadaWeb\ScadaWebCommon\bin\Release\net6.0\ScadaWebCommon.dll</HintPath>
     </Reference>
   </ItemGroup>
 

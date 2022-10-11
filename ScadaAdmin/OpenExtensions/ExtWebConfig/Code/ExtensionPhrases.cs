@@ -14,10 +14,16 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Code
         // Scada.Admin.Extensions.ExtWebConfig.ExtWebConfigLogic
         public static string LogsNode { get; private set; }
 
+        public static string ApplicationOptionsNode { get; private set; }
+
+        public static string PluginsNode { get; private set; }
+
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtWebConfig.ExtWebConfigLogic");
             LogsNode = dict["LogsNode"];
+            ApplicationOptionsNode = dict["ApplicationOptionsNode"];
+            PluginsNode = dict["PluginsNode"];
         }
     }
 }

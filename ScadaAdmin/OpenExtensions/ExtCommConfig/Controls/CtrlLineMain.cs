@@ -273,7 +273,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 
         private void btnChannelProperties_Click(object sender, EventArgs e)
         {
-            // show communication channel properties
+             // show communication channel properties
             if (cbChannelType.SelectedItem is ChannelTypeItem item)
             {
                 if (string.IsNullOrEmpty(item.Driver))
