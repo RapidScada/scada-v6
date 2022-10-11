@@ -230,10 +230,11 @@
         },
         {
             "label": "build",
-            "dependsOrder": "sequence",
-            "dependsOn": [
-                "OpenExtensions"
-            ],
+            "type": "shell",
+            "command": "${workspaceFolder}/.vscode/scripts/build.sh -t ${input:dotnetCommand} -c ${input:dotnetConfiguration}",
+            "windows": {
+                "command": "${workspaceFolder}\\.vscode\\scripts\\build.ps1 -t ${input:dotnetCommand} -c ${input:dotnetConfiguration}"
+             },
             "group": {
                 "kind": "build",
                 "isDefault": true
