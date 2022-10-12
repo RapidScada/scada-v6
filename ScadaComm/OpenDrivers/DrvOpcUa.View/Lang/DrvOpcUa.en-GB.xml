@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<DrvOpcUaDictionaries>
+<DrvOpcUaDictionaries culture="en-GB" lang="English">
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlCommand">
     <Phrase key="gbCommand">Command Parameters</Phrase>
     <Phrase key="lblDisplayName">Display name</Phrase>

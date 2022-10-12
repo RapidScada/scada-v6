@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<DrvCnlMqttDictionaries>
+<DrvCnlMqttDictionaries culture="en-GB" lang="English">
   <Dictionary key="Scada.Comm.Drivers.DrvCnlMqtt.View.Forms.FrmMqttClientChannelOptions">
     <Phrase key="this">MQTT Client Options</Phrase>
     <Phrase key="lblServer">Server</Phrase>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ExtWirenBoardDictionaries>
+<ExtWirenBoardDictionaries culture="ru-RU" lang="Russian">
   <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlDeviceTree">
     <Phrase key="btnSelectAll">Выбрать все</Phrase>
     <Phrase key="btnSelectNone">Снять выбор</Phrase>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<PlgMainDictionaries>
+<PlgMainDictionaries culture="ru-RU" lang="Russian">
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command">
     <Phrase key="PageTitle">Команда</Phrase>
     <Phrase key="CommandSent">Команда отправлена.</Phrase>

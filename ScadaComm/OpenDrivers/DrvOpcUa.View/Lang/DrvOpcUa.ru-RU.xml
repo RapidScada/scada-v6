@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<KpOpcUaDictionaries>
+<KpOpcUaDictionaries culture="ru-RU" lang="Russian">
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlCommand">
     <Phrase key="gbCommand">Параметры команды</Phrase>
     <Phrase key="lblDisplayName">Наименование</Phrase>

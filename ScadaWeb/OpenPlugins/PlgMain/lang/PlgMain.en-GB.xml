@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<PlgMainDictionaries>
+<PlgMainDictionaries culture="en-GB" lang="English">
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command">
     <Phrase key="PageTitle">Command</Phrase>
     <Phrase key="CommandSent">Command sent.</Phrase>

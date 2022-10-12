@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ScadaAdminDictionaries>
+<ScadaAdminDictionaries culture="en-GB" lang="English">
   <Dictionary key="Scada.Admin.App.Code.AppState">
     <Phrase key="LoadAppStateError">Error loading application state</Phrase>
     <Phrase key="SaveAppStateError">Error saving application state</Phrase>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ExtProjectToolsDictionaries>
+<ExtProjectToolsDictionaries culture="ru-RU" lang="Russian">
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.ChannelMap">
     <Phrase key="MapByDeviceTitle">Каналы по устройствам</Phrase>
     <Phrase key="MapByObjectTitle">Каналы по объектам</Phrase>

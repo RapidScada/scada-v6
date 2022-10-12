@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<DrvDsScadaServerDictionaries>
+<DrvDsScadaServerDictionaries culture="ru-RU" lang="Russian">
   <Dictionary key="Scada.Comm.Drivers.DrvDsScadaServer.View.Forms.FrmConnManager">
     <Phrase key="this">Соединения клиентов</Phrase>
     <Phrase key="gbConnList">Соединения</Phrase>

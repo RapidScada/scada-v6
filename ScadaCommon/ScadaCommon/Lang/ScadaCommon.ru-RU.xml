@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ScadaDictionaries>
+<ScadaDictionaries culture="ru-RU" lang="Russian">
   <!-- ScadaCommon.dll -->
   <Dictionary key="Scada.Application">
     <Phrase key="ProductName">Rapid SCADA</Phrase>

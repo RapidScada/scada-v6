@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<DrvDsMqttDictionaries>
+<DrvDsMqttDictionaries culture="ru-RU" lang="Russian">
   <Dictionary key="Scada.Comm.Drivers.DrvDsMqtt.View.Forms.FrmMqttDSO">
     <Phrase key="this">Параметры источника данных</Phrase>
     <Phrase key="pageConnectionOptions">Соединение</Phrase>

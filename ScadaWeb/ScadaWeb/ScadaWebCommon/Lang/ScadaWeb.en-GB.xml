@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ScadaWebDictionaries>
+<ScadaWebDictionaries culture="en-GB" lang="English">
   <Dictionary key="Scada.Web">
     <Phrase key="CorrectErrors">Please correct the following errors:</Phrase>
     <Phrase key="ClientError">Error communicating with the server</Phrase>

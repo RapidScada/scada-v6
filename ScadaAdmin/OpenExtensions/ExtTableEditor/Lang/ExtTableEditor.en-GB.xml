@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ExtTableEditorDictionaries>
+<ExtTableEditorDictionaries culture="en-GB" lang="English">
   <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableEditor">
     <Phrase key="btnRefreshBase.ToolTip">Refresh Configuration Database</Phrase>
     <Phrase key="btnAddItem.ToolTip">Add Item</Phrase>

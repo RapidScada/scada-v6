@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ExtDepPostgreSqlDictionaries>
+<ExtDepPostgreSqlDictionaries culture="ru-RU" lang="Russian">
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Downloader">
     <Phrase key="DownloadTable">Скачивание таблицы {0}</Phrase>
     <Phrase key="DownloadView">Скачивание представления &quot;{0}&quot;</Phrase>

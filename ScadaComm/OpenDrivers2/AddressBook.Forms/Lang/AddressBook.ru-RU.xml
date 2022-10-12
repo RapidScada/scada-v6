@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<AddressBookDictionaries>
+<AddressBookDictionaries culture="ru-RU" lang="Russian">
   <Dictionary key="Scada.AB.Forms.FrmAddressBook">
     <Phrase key="this">Адресная книга</Phrase>
     <Phrase key="btnAddContactGroup.ToolTip">Добавить группу контактов</Phrase>

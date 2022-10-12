@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ModArcPostgreSqlDictionaries>
+<ModArcPostgreSqlDictionaries culture="en-GB" lang="English">
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmConnManager">
     <Phrase key="this">PostgreSQL Connections</Phrase>
     <Phrase key="gbConnList">Connections</Phrase>

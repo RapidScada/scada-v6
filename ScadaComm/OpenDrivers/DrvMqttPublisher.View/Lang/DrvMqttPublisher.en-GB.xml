@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<DrvMqttPublisherDictionaries>
+<DrvMqttPublisherDictionaries culture="en-GB" lang="English">
   <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.Config.DeviceOptions">
     <Phrase key="RootTopic.DisplayName">Root topic</Phrase>
     <Phrase key="RootTopic.Category">Main Parameters</Phrase>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ExtCommConfigDictionaries>
+<ExtCommConfigDictionaries culture="ru-RU" lang="Russian">
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.ExtCommConfigLogic">
     <Phrase key="GeneralOptionsNode">Основные параметры</Phrase>
     <Phrase key="DriversNode">Драйверы</Phrase>

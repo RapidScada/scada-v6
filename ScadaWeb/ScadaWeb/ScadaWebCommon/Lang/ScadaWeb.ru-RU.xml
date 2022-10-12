@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ScadaWebDictionaries>
+<ScadaWebDictionaries culture="ru-RU" lang="Russian">
   <Dictionary key="Scada.Web">
     <Phrase key="CorrectErrors">Пожалуйста исправьте следующие ошибки:</Phrase>
     <Phrase key="ClientError">Ошибка при взаимодействии с сервером</Phrase>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PlgWebPageDictionaries>
+<PlgWebPageDictionaries culture="ru-RU" lang="Russian">
   <Dictionary key="Scada.Web.Plugins.PlgWebPage.Areas.Main.Pages.Landing">
     <Phrase key="PageTitle">Страница {0}</Phrase>
     <Phrase key="UrlIsEmpty">Переадресация невозможна, потому что адрес пуст</Phrase>
