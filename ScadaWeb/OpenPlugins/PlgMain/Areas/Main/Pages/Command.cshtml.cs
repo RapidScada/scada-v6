@@ -120,7 +120,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
         private bool CreateCommand(int cnlNum, out TeleCommand command)
         {
-            command = new()
+            command = new TeleCommand
             {
                 UserID = User.GetUserID(),
                 CnlNum = cnlNum,
