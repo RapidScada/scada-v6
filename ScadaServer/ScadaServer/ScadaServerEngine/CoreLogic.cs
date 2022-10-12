@@ -804,7 +804,9 @@ namespace Scada.Server.Engine
         /// </summary>
         private void UpdateCnlStatus(CnlTag cnlTag, ref CnlData cnlData, CnlData prevCnlData)
         {
-            if (double.IsNaN(cnlData.Val))
+            // use double.IsFinite on .NET Core
+            if (double.IsNaN(cnlData.Val) ||
+                double.IsInfinity(cnlData.Val))
             {
                 // set undefined status if value is not a number
                 cnlData = CnlData.Empty;
