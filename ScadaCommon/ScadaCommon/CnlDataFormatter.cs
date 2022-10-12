@@ -368,18 +368,19 @@ namespace Scada
 
             if (ev.TextFormat == EventTextFormat.Command)
             {
-                // Command Value, Data. Custom text
+                // Command: Value, Data. Custom text
                 sbDescr.Append(CommonPhrases.CommandDescrPrefix);
-                dataFormatted = FormatCnlData(new CnlData(ev.CnlVal, CnlStatusID.Defined), 
+                bool showValue = ev.CnlStat > CnlStatusID.Undefined;
+                dataFormatted = FormatCnlData(new CnlData(ev.CnlVal, CnlStatusID.Defined),
                     DataTypeID.Double, cnl?.FormatID ?? 0, cnl?.UnitID ?? 0);
 
-                if (ev.CnlStat > 0)
+                if (showValue)
                     sbDescr.Append(dataFormatted.DispVal);
 
                 if (ev.Data != null && ev.Data.Length > 0)
                 {
                     sbDescr
-                        .Append(ev.CnlStat > 0 ? ", " : "")
+                        .Append(showValue ? ", " : "")
                         .Append("0x")
                         .Append(ScadaUtils.BytesToHex(ev.Data, 0, Math.Min(DataDisplayLength, ev.Data.Length)))
                         .Append(DataDisplayLength < ev.Data.Length ? "..." : "");
