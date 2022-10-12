@@ -94,7 +94,7 @@
             // lblMaxLogSize
             // 
             this.lblMaxLogSize.AutoSize = true;
-            this.lblMaxLogSize.Location = new System.Drawing.Point(17, 200);
+            this.lblMaxLogSize.Location = new System.Drawing.Point(10, 200);
             this.lblMaxLogSize.Name = "lblMaxLogSize";
             this.lblMaxLogSize.Size = new System.Drawing.Size(147, 15);
             this.lblMaxLogSize.TabIndex = 12;
@@ -103,7 +103,7 @@
             // chkStartLinesOnCommand
             // 
             this.chkStartLinesOnCommand.AutoSize = true;
-            this.chkStartLinesOnCommand.Location = new System.Drawing.Point(430, 171);
+            this.chkStartLinesOnCommand.Location = new System.Drawing.Point(472, 171);
             this.chkStartLinesOnCommand.Name = "chkStartLinesOnCommand";
             this.chkStartLinesOnCommand.Size = new System.Drawing.Size(15, 14);
             this.chkStartLinesOnCommand.TabIndex = 11;
@@ -113,7 +113,7 @@
             // lblStartLinesOnCommand
             // 
             this.lblStartLinesOnCommand.AutoSize = true;
-            this.lblStartLinesOnCommand.Location = new System.Drawing.Point(17, 171);
+            this.lblStartLinesOnCommand.Location = new System.Drawing.Point(10, 171);
             this.lblStartLinesOnCommand.Name = "lblStartLinesOnCommand";
             this.lblStartLinesOnCommand.Size = new System.Drawing.Size(221, 15);
             this.lblStartLinesOnCommand.TabIndex = 10;
@@ -122,7 +122,7 @@
             // chkEnableFileCommands
             // 
             this.chkEnableFileCommands.AutoSize = true;
-            this.chkEnableFileCommands.Location = new System.Drawing.Point(430, 142);
+            this.chkEnableFileCommands.Location = new System.Drawing.Point(472, 142);
             this.chkEnableFileCommands.Name = "chkEnableFileCommands";
             this.chkEnableFileCommands.Size = new System.Drawing.Size(15, 14);
             this.chkEnableFileCommands.TabIndex = 9;
@@ -132,7 +132,7 @@
             // lblEnableFileCommands
             // 
             this.lblEnableFileCommands.AutoSize = true;
-            this.lblEnableFileCommands.Location = new System.Drawing.Point(17, 142);
+            this.lblEnableFileCommands.Location = new System.Drawing.Point(10, 142);
             this.lblEnableFileCommands.Name = "lblEnableFileCommands";
             this.lblEnableFileCommands.Size = new System.Drawing.Size(209, 15);
             this.lblEnableFileCommands.TabIndex = 8;
@@ -141,7 +141,7 @@
             // chkEnableCommands
             // 
             this.chkEnableCommands.AutoSize = true;
-            this.chkEnableCommands.Location = new System.Drawing.Point(430, 113);
+            this.chkEnableCommands.Location = new System.Drawing.Point(472, 113);
             this.chkEnableCommands.Name = "chkEnableCommands";
             this.chkEnableCommands.Size = new System.Drawing.Size(15, 14);
             this.chkEnableCommands.TabIndex = 7;
@@ -151,7 +151,7 @@
             // lblEnableCommands
             // 
             this.lblEnableCommands.AutoSize = true;
-            this.lblEnableCommands.Location = new System.Drawing.Point(17, 113);
+            this.lblEnableCommands.Location = new System.Drawing.Point(10, 113);
             this.lblEnableCommands.Name = "lblEnableCommands";
             this.lblEnableCommands.Size = new System.Drawing.Size(165, 15);
             this.lblEnableCommands.TabIndex = 6;
@@ -173,7 +173,7 @@
             // lblSendAllDataPeriod
             // 
             this.lblSendAllDataPeriod.AutoSize = true;
-            this.lblSendAllDataPeriod.Location = new System.Drawing.Point(17, 84);
+            this.lblSendAllDataPeriod.Location = new System.Drawing.Point(10, 84);
             this.lblSendAllDataPeriod.Name = "lblSendAllDataPeriod";
             this.lblSendAllDataPeriod.Size = new System.Drawing.Size(240, 15);
             this.lblSendAllDataPeriod.TabIndex = 4;
@@ -182,7 +182,7 @@
             // chkSendModifiedData
             // 
             this.chkSendModifiedData.AutoSize = true;
-            this.chkSendModifiedData.Location = new System.Drawing.Point(430, 55);
+            this.chkSendModifiedData.Location = new System.Drawing.Point(472, 55);
             this.chkSendModifiedData.Name = "chkSendModifiedData";
             this.chkSendModifiedData.Size = new System.Drawing.Size(15, 14);
             this.chkSendModifiedData.TabIndex = 3;
@@ -192,7 +192,7 @@
             // lblSendModifiedData
             // 
             this.lblSendModifiedData.AutoSize = true;
-            this.lblSendModifiedData.Location = new System.Drawing.Point(17, 55);
+            this.lblSendModifiedData.Location = new System.Drawing.Point(10, 55);
             this.lblSendModifiedData.Name = "lblSendModifiedData";
             this.lblSendModifiedData.Size = new System.Drawing.Size(212, 15);
             this.lblSendModifiedData.TabIndex = 2;
@@ -201,7 +201,7 @@
             // chkIsBound
             // 
             this.chkIsBound.AutoSize = true;
-            this.chkIsBound.Location = new System.Drawing.Point(430, 26);
+            this.chkIsBound.Location = new System.Drawing.Point(472, 26);
             this.chkIsBound.Name = "chkIsBound";
             this.chkIsBound.Size = new System.Drawing.Size(15, 14);
             this.chkIsBound.TabIndex = 1;
@@ -211,7 +211,7 @@
             // lblIsBound
             // 
             this.lblIsBound.AutoSize = true;
-            this.lblIsBound.Location = new System.Drawing.Point(17, 26);
+            this.lblIsBound.Location = new System.Drawing.Point(10, 26);
             this.lblIsBound.Name = "lblIsBound";
             this.lblIsBound.Size = new System.Drawing.Size(276, 15);
             this.lblIsBound.TabIndex = 0;
