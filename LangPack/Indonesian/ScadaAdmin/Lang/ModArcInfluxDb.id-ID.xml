@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModArcInfluxDblDictionaries name="Indonesian">
+  <General>
+    <CultureName>id-ID</CultureName>
+  </General>
+  <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmConnManager">
+    <Phrase key="this">Koneksi InfluxDB</Phrase>
+    <Phrase key="gbConnList">Koneksi</Phrase>
+    <Phrase key="btnNewConn">Baru</Phrase>
+    <Phrase key="btnDeleteConn">Hapus</Phrase>
+    <Phrase key="gbOptions">Opsi Koneksi</Phrase>
+    <Phrase key="lblName">Nama</Phrase>
+    <Phrase key="lblUrl">URL</Phrase>
+    <Phrase key="lblToken">Token</Phrase>
+    <Phrase key="lblUsername">Nama pengguna</Phrase>
+    <Phrase key="lblPassword">Kata sandi</Phrase>
+    <Phrase key="lblBucket">Keranjang</Phrase>
+    <Phrase key="lblOrg">Organisasi</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmInfluxHAO">
+    <Phrase key="this">Opsi Arsip Historis</Phrase>
+    <Phrase key="gbDbOptions">Opsi Basis Data</Phrase>
+    <Phrase key="lblConnection">Koneksi</Phrase>
+    <Phrase key="btnManageConn">Kelola Koneksi</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+  </Dictionary>
+</ModArcInfluxDblDictionaries>

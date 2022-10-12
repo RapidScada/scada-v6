@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgSchemeDictionaries name="Indonesian">
+  <General>
+    <CultureName>id-ID</CultureName>
+  </General>
+  <Dictionary key="Scada.Web.Plugins.PlgScheme.Areas.Scheme.Pages.SchemeView">
+    <Phrase key="SchemeViewTitle">Skema {0}</Phrase>
+    <Phrase key="spanFitScreenBtn_ToolTip">Pas Layar</Phrase>
+    <Phrase key="spanFitWidthBtn_ToolTip">Sesuai Lebar</Phrase>
+    <Phrase key="spanZoomOutBtn_ToolTip">Perkecil</Phrase>
+    <Phrase key="spanZoomInBtn_ToolTip">Perbesar</Phrase>
+    <Phrase key="spanErrorBadge">Kesalahan</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgScheme.Template.TemplateBindings">
+    <Phrase key="LoadTemplateBindingsError">Terjadi kesalahan saat memuat binding template skema</Phrase>
+    <Phrase key="SaveTemplateBindingsError">Terjadi kesalahan saat menyimpan binding template skema</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgScheme.CompManager">
+    <Phrase key="UnknownComponent">Komponen tidak diketahui {0}</Phrase>
+    <Phrase key="CompLibraryNotFound">Pustaka tidak ditemukan untuk komponen {0}</Phrase>
+    <Phrase key="UnableCreateComponent">Tidak dapat membuat komponen {0}</Phrase>
+    <Phrase key="ErrorCreatingComponent">Kesalahan saat membuat komponen {0}</Phrase>
+  </Dictionary>
+</PlgSchemeDictionaries>

@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModArcPostgreSqlDictionaries name="Indonesian">
+  <General>
+    <CultureName>id-ID</CultureName>
+  </General>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmConnManager">
+    <Phrase key="this">Koneksi PostgreSQL</Phrase>
+    <Phrase key="gbConnList">Koneksi</Phrase>
+    <Phrase key="btnNewConn">Baru</Phrase>
+    <Phrase key="btnDeleteConn">Hapus</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreCAO">
+    <Phrase key="this">Opsi Arsip Saat Ini</Phrase>
+    <Phrase key="gbDbOptions">Opsi Basis Data</Phrase>
+    <Phrase key="lblUseStorageConn">Gunakan koneksi penyimpanan</Phrase>
+    <Phrase key="lblConnection">Koneksi</Phrase>
+    <Phrase key="lblMaxQueueSize">Ukuran antrian maksimum</Phrase>
+    <Phrase key="btnManageConn">Kelola Koneksi</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreEAO">
+    <Phrase key="this">Opsi Arsip Kejadian</Phrase>
+    <Phrase key="gbDbOptions">Opsi Basis Data</Phrase>
+    <Phrase key="lblUseStorageConn">Gunakan koneksi penyimpanan</Phrase>
+    <Phrase key="lblConnection">Koneksi</Phrase>
+    <Phrase key="lblMaxQueueSize">Ukuran antrian maksimum</Phrase>
+    <Phrase key="lblPartitionSize">Ukuran partisi</Phrase>
+    <Phrase key="cbPartitionSize.Items[0]">Satu bulan</Phrase>
+    <Phrase key="cbPartitionSize.Items[1]">Satu tahun</Phrase>
+    <Phrase key="btnManageConn">Kelola Koneksi</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreHAO">
+    <Phrase key="this">Opsi Arsip Historis</Phrase>
+    <Phrase key="gbDbOptions">Opsi Basis Data</Phrase>
+    <Phrase key="lblUseStorageConn">Gunakan koneksi penyimpanan</Phrase>
+    <Phrase key="lblConnection">Koneksi</Phrase>
+    <Phrase key="lblMaxQueueSize">Ukuran antrian maksimum</Phrase>
+    <Phrase key="lblPartitionSize">Ukuran partisi</Phrase>
+    <Phrase key="cbPartitionSize.Items[0]">Satu bulan</Phrase>
+    <Phrase key="cbPartitionSize.Items[1]">Satu tahun</Phrase>
+    <Phrase key="btnManageConn">Kelola Koneksi</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+  </Dictionary>
+</ModArcPostgreSqlDictionaries>

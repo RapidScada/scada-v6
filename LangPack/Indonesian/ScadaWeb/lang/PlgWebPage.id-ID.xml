@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgWebPageDictionaries name="Indonesian">
+  <General>
+    <CultureName>id-ID</CultureName>
+  </General>
+  <Dictionary key="Scada.Web.Plugins.PlgWebPage.Areas.Main.Pages.Landing">
+    <Phrase key="PageTitle">Halaman {0}</Phrase>
+    <Phrase key="UrlIsEmpty">Tidak dapat mengalihkan karena URL kosong</Phrase>
+  </Dictionary>
+</PlgWebPageDictionaries>

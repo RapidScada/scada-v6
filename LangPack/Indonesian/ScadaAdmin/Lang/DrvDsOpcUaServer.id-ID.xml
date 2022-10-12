@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDsOpcUaServerDictionaries name="Indonesian">
+  <General>
+    <CultureName>id-ID</CultureName>
+  </General>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms.FrmOpcUaServerDSO">
+    <Phrase key="this">Opsi Sumber Data</Phrase>
+    <Phrase key="chkAutoAccept">Terima sertifikat secara otomatis</Phrase>
+    <Phrase key="lblUsername">Nama pengguna</Phrase>
+    <Phrase key="lblPassword">Kata sandi</Phrase>
+    <Phrase key="lblConfigFileName">Berkas konfigurasi</Phrase>
+    <Phrase key="btnCreateConfigWin.ToolTip">Buat berkas konfigurasi untuk Windows</Phrase>
+    <Phrase key="btnCreateConfigLinux.ToolTip">Buat berkas konfigurasi untuk Linux</Phrase>
+    <Phrase key="btnBrowseConfig.ToolTip">Jelajahi</Phrase>
+    <Phrase key="lblDeviceFilter">Filter perangkat</Phrase>
+    <Phrase key="btnSelectDevices.ToolTip">Pilih perangkat</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+    <Phrase key="ConfigDirRequired">Berkas konfigurasi harus berada di dalam {0}</Phrase>
+  </Dictionary>
+</DrvDsOpcUaServerDictionaries>

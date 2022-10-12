@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDsMqttDictionaries name="Indonesian">
+  <General>
+    <CultureName>id-ID</CultureName>
+  </General>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsMqtt.View.Forms.FrmMqttDSO">
+    <Phrase key="this">Opsi Sumber Data</Phrase>
+    <Phrase key="pageConnectionOptions">Koneksi</Phrase>
+    <Phrase key="lblServer">Server</Phrase>
+    <Phrase key="lblPort">Port TCP</Phrase>
+    <Phrase key="lblClientID">ID Klien</Phrase>
+    <Phrase key="lblUsername">Nama pengguna</Phrase>
+    <Phrase key="lblPassword">Kata sandi</Phrase>
+    <Phrase key="lblTimeout">Waktu habis, ms</Phrase>
+    <Phrase key="lblProtocolVersion">Versi protokol</Phrase>
+    <Phrase key="cbProtocolVersion.Items[0]">Default</Phrase>
+    <Phrase key="cbProtocolVersion.Items[1]">3.1</Phrase>
+    <Phrase key="cbProtocolVersion.Items[2]">3.1.1</Phrase>
+    <Phrase key="cbProtocolVersion.Items[3]">5.0</Phrase>
+    <Phrase key="pagePublishOptions">Penerbitan</Phrase>
+    <Phrase key="lblRootTopic">Induk topik</Phrase>
+    <Phrase key="lblUndefinedValue">Nilai yang tidak ditentukan</Phrase>
+    <Phrase key="lblPublishFormat">Format publikasi</Phrase>
+    <Phrase key="lblQosLevel">Level QoS</Phrase>
+    <Phrase key="cbQosLevel.Items[0]">Hanya sekali (0)</Phrase>
+    <Phrase key="cbQosLevel.Items[1]">Setidaknya sekali (1)</Phrase>
+    <Phrase key="cbQosLevel.Items[2]">Tepat sekali (2)</Phrase>
+    <Phrase key="lblRetain">Retain</Phrase>
+    <Phrase key="lblMaxQueueSize">Ukuran antrian maksimum</Phrase>
+    <Phrase key="lblDataLifetime">Umur data dalam antrian, detik</Phrase>
+    <Phrase key="lblDetailedLog">Log terperinci</Phrase>
+    <Phrase key="lblDeviceFilter">Filter perangkat</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+  </Dictionary>
+</DrvDsMqttDictionaries>

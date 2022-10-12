@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvHttpNotifDictionaries name="Indonesian">
+  <General>
+    <CultureName>id-ID</CultureName>
+  </General>
+  <Dictionary key="Scada.Comm.Drivers.DrvHttpNotif.View.Forms.FrmConfig">
+    <Phrase key="this">Properti Perangkat {0} - Pemberitahuan HTTP</Phrase>
+    <Phrase key="pageGeneral">Umum</Phrase>
+    <Phrase key="lblMethod">Metode</Phrase>
+    <Phrase key="lblUri">URI</Phrase>
+    <Phrase key="lblUriHint">Dapat berisi parameter, misalnya {phone}, {email} dan {text}</Phrase>
+    <Phrase key="gbParam">Parameter</Phrase>
+    <Phrase key="chkParamEnabled">Parameter aktif</Phrase>
+    <Phrase key="lblParamBegin">Mulai</Phrase>
+    <Phrase key="lblParamEnd">Akhir</Phrase>
+    <Phrase key="lblAddrSep">Separator</Phrase>
+    <Phrase key="pageHeaders">Header</Phrase>
+    <Phrase key="colName">Nama</Phrase>
+    <Phrase key="colValue">Nilai</Phrase>
+    <Phrase key="pageContent">Isi</Phrase>
+    <Phrase key="lblContentType">Jenis isi</Phrase>
+    <Phrase key="lblContentEscaping">Escaping</Phrase>
+    <Phrase key="cbContentEscaping.Items[0]">None</Phrase>
+    <Phrase key="cbContentEscaping.Items[1]">URL</Phrase>
+    <Phrase key="cbContentEscaping.Items[2]">JSON</Phrase>
+    <Phrase key="lblContent">Body</Phrase>
+    <Phrase key="lblContentHint">Dapat berisi parameter, misalnya {phone}, {email} dan {text}</Phrase>
+    <Phrase key="btnAddressBook">Buku alamat</Phrase>
+    <Phrase key="btnSave">Simpan</Phrase>
+    <Phrase key="btnClose">Tutup</Phrase>
+  </Dictionary>
+</DrvHttpNotifDictionaries>

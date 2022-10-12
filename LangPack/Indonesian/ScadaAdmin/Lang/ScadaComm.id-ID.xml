@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaCommDictionaries name="Indonesian">
+  <General>
+    <CultureName>id-ID</CultureName>
+  </General>
+  <Dictionary key="Scada.Comm.Devices">
+    <Phrase key="LoadDeviceConfigError">Terjadi kesalahan saat memuat konfigurasi perangkat</Phrase>
+    <Phrase key="SaveDeviceConfigError">Terjadi kesalahan saat menyimpan konfigurasi perangkat</Phrase>
+    <Phrase key="SaveDeviceConfigConfirm">Konfigurasi perangkat telah diubah. Simpan perubahan?</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers">
+    <Phrase key="LoadDriverConfigError">Kesalahan saat memuat konfigurasi pengendali</Phrase>
+    <Phrase key="SaveDriverConfigError">Kesalahan saat menyimpan konfigurasi pengendali</Phrase>
+    <Phrase key="SaveDriverConfigConfirm">Konfigurasi pengendali telah dimodifikasi. Simpan perubahan?</Phrase>
+  </Dictionary>
+</ScadaCommDictionaries>

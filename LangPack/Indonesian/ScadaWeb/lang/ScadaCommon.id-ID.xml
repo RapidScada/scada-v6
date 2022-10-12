@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaDictionaries name="Indonesian">
+  <General>
+    <CultureName>id-ID</CultureName>
+  </General>
+  <!-- ScadaCommon.dll -->
+  <Dictionary key="Scada.Application">
+    <Phrase key="ProductName">Rapid SCADA</Phrase>
+    <Phrase key="ServerAppName">Server</Phrase>
+    <Phrase key="CommAppName">Communicator</Phrase>
+    <Phrase key="WebAppName">Webstation</Phrase>
+    <Phrase key="WebsiteUrl">https://rapidscada.org</Phrase>
+    <Phrase key="UnhandledException">Masalah tdak tertangani</Phrase>
+    <Phrase key="ExecutionImpossible">Eksekusi normal tidak mungkin</Phrase>
+    <Phrase key="StartLogic">Mulai pemrosesan logika</Phrase>
+    <Phrase key="LogicAlreadyStarted">Pemrosesan logika sudah dimulai</Phrase>
+    <Phrase key="StartLogicError">Kesalahan memulai pemrosesan logika</Phrase>
+    <Phrase key="LogicStopped">Pemrosesan logika dihentikan</Phrase>
+    <Phrase key="UnableToStopLogic">Tidak dapat menghentikan pemrosesan logika untuk waktu yang ditentukan</Phrase>
+    <Phrase key="StopLogicError">Kesalahan menghentikan pemrosesan logika</Phrase>
+    <Phrase key="LogicCycleError">Kesalahan dalam siklus kerja logika</Phrase>
+    <Phrase key="ThreadFatalError">Kesalahan fatal di proses</Phrase>
+    <Phrase key="WriteInfoError">Kesalahan saat menulis informasi aplikasi ke berkas</Phrase>
+    <Phrase key="ConnectionNotFound">Sambungan "{0}" tidak ditemukan.</Phrase>
+    <Phrase key="ConnOptionsNotFound">Opsi koneksi tidak ditemukan.</Phrase>
+    <Phrase key="DatabaseNotSupported">Basis data tidak didukung.</Phrase>
+    <Phrase key="OperationNotSupported">Operasi tidak didukung.</Phrase>
+    <Phrase key="CommandSent">Perintah telah dikirim.</Phrase>
+    <Phrase key="SendCommandError">Kesalahan mengirim perintah</Phrase>
+    <Phrase key="AgentDisabled">Agent dinonaktifkan.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.ConfigDatabase">
+    <Phrase key="UndefinedTable">Tidak terdefinisi</Phrase>
+    <Phrase key="ArchiveTable">Arsip</Phrase>
+    <Phrase key="ArchiveKindTable">Jenis arsip</Phrase>
+    <Phrase key="CnlTable">Saluran</Phrase>
+    <Phrase key="CnlStatusTable">Status saluran</Phrase>
+    <Phrase key="CnlTypeTable">Tipe saluran</Phrase>
+    <Phrase key="CommLineTable">Jalur komunikasi</Phrase>
+    <Phrase key="DataTypeTable">Tipe data</Phrase>
+    <Phrase key="DeviceTable">Perangkat</Phrase>
+    <Phrase key="DevTypeTable">Tipe perangkat</Phrase>
+    <Phrase key="FormatTable">Format</Phrase>
+    <Phrase key="LimTable">Batas</Phrase>
+    <Phrase key="ObjTable">Objek</Phrase>
+    <Phrase key="ObjRightTable">Hak objek</Phrase>
+    <Phrase key="QuantityTable">Kuantitas</Phrase>
+    <Phrase key="RoleTable">Peran</Phrase>
+    <Phrase key="RoleRefTable">Peran turunan</Phrase>
+    <Phrase key="ScriptTable">Skrip</Phrase>
+    <Phrase key="UnitTable">Satuan</Phrase>
+    <Phrase key="UserTable">Pengguna</Phrase>
+    <Phrase key="ViewTable">Tampilan</Phrase>
+    <Phrase key="ViewTypeTable">Tipe tampilan</Phrase>
+    <Phrase key="IndexNotFound">Indeks tidak ditemukan.</Phrase>
+    <Phrase key="EntityCaption">[{0}] {1}</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Files">
+    <Phrase key="FileNotFound">Berkas tidak ditemukan.</Phrase>
+    <Phrase key="NamedFileNotFound">Berkas {0} tidak ditemukan.</Phrase>
+    <Phrase key="DirectoryNotExists">Direktori tidak ada.</Phrase>
+    <Phrase key="PathNotSupported">Jalur tidak didukung.</Phrase>
+    <Phrase key="InvalidFileFormat">Format berkas tidak valid.</Phrase>
+    <Phrase key="LoadConfigError">Terjadi kesalahan saat memuat konfigurasi</Phrase>
+    <Phrase key="SaveConfigError">Terjadi kesalahan saat menyimpan konfigurasi</Phrase>
+    <Phrase key="SaveConfigConfirm">Konfigurasi telah dimodifikasi.  Simpan perubahan?</Phrase>
+    <Phrase key="LoadViewError">Kesalahan saat memuat tampilan</Phrase>
+    <Phrase key="SaveViewError">Kesalahan saat menyimpan tampilan</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Format">
+    <Phrase key="IntegerRequired">Diperlukan bilangan bulat.</Phrase>
+    <Phrase key="IntegerInRangeRequired">Diperlukan bilangan bulat dari {0} hingga {1}.</Phrase>
+    <Phrase key="RealRequired">Diperlukan bilangan asli.</Phrase>
+    <Phrase key="NonemptyRequired">Diperlukan nilai yang tidak kosong.</Phrase>
+    <Phrase key="ValidUrlRequired">Diperlukan URL yang valid.</Phrase>
+    <Phrase key="ValidRangeRequired">Rentang bilangan bulat yang valid wajib diisi.</Phrase>
+    <Phrase key="DateTimeRequired">Tanggal dan waktu wajib diisi.</Phrase>
+    <Phrase key="NotNumber">String bukan angka.</Phrase>
+    <Phrase key="NotHexadecimal">String bukan heksadesimal.</Phrase>
+    <Phrase key="InvalidParamVal">Nilai parameter "{0}" tidak valid.</Phrase>
+    <Phrase key="InvalidSecretKey">Kunci rahasia tidak valid.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms">
+    <Phrase key="InfoCaption">Informasi</Phrase>
+    <Phrase key="QuestionCaption">Pertanyaan</Phrase>
+    <Phrase key="ErrorCaption">Kesalahan</Phrase>
+    <Phrase key="WarningCaption">Peringatan</Phrase>
+    <Phrase key="NoData">Tidak ada data</Phrase>
+    <Phrase key="EmptyData">Kosong</Phrase>
+    <Phrase key="CorrectErrors">Mohon perbaiki kesalahan-kesalahan berikut:</Phrase>
+    <Phrase key="HiddenPassword">*****</Phrase>
+    <Phrase key="NewConnection">Koneksi Baru</Phrase>
+    <Phrase key="UnnamedConnection">&lt;Koneksi Tanpa Nama&gt;</Phrase>
+    <Phrase key="XmlFileFilter">Berkas XML (*.xml)|*.xml|Semua Berkas (*.*)|*.*</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.ComponentModel">
+    <Phrase key="TrueValue">Ya</Phrase>
+    <Phrase key="FalseValue">Tidak</Phrase>
+    <Phrase key="EmptyValue">(Tidak ada)</Phrase>
+    <Phrase key="CollectionValue">(Koleksi)</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.CnlDataFormatter">
+    <Phrase key="UndefinedSign">---</Phrase>
+    <Phrase key="CommandDescrPrefix">Perintah:</Phrase>
+    <Phrase key="StatusFormat">Status {0}</Phrase>
+    <Phrase key="CriticalSeverity">Kritis</Phrase>
+    <Phrase key="MajorSeverity">Mayor</Phrase>
+    <Phrase key="MinorSeverity">Minor</Phrase>
+    <Phrase key="InfoSeverity">Info</Phrase>
+  </Dictionary>
+  <!-- ScadaCommon.Forms.dll -->
+  <Dictionary key="Scada.Forms.Controls.CtrlBitmask">
+    <Phrase key="lblMaskValue">Nilai desimal</Phrase>
+    <Phrase key="btnResetMask">Reset</Phrase>
+    <Phrase key="lblMaskBits">Bit</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlClientConnection">
+    <Phrase key="gbConnectionOptions">Opsi Koneksi</Phrase>
+    <Phrase key="lblName">Nama</Phrase>
+    <Phrase key="lblHost">Host</Phrase>
+    <Phrase key="lblPort">Port</Phrase>
+    <Phrase key="lblTimeout">Waktu habis</Phrase>
+    <Phrase key="lblUsername">Nama pengguna</Phrase>
+    <Phrase key="lblPassword">Kata sandi</Phrase>
+    <Phrase key="lblInstance">Proses</Phrase>
+    <Phrase key="lblSecretKey">Kunci rahasia</Phrase>
+    <Phrase key="btnPaste">Tempel</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlDbConnection">
+    <Phrase key="gbConnectionOptions">Opsi Koneksi</Phrase>
+    <Phrase key="lblName">Nama</Phrase>
+    <Phrase key="lblDbms">DBMS</Phrase>
+    <Phrase key="lblServer">Server</Phrase>
+    <Phrase key="lblDatabase">Basis data</Phrase>
+    <Phrase key="lblUsername">Nama pengguna</Phrase>
+    <Phrase key="lblPassword">Kata sandi</Phrase>
+    <Phrase key="chkConnectionString">String koneksi</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmBitmask">
+    <Phrase key="this">Masker Bit</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmBitSelect">
+    <Phrase key="this">Pilih Bit</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmCnlSelect">
+    <Phrase key="this">Pilih Saluran</Phrase>
+    <Phrase key="lblFilter">Saring</Phrase>
+    <Phrase key="btnApplyFilter">Lakukan</Phrase>
+    <Phrase key="lblObj">Obyek</Phrase>
+    <Phrase key="lblDevice">Perangkat</Phrase>
+    <Phrase key="chkOnlySelected">Tampilkan hanya baris yang dipilih</Phrase>
+    <Phrase key="colSelected">Terpilih</Phrase>
+    <Phrase key="colCnlNum">Nomor</Phrase>
+    <Phrase key="colName">Nama</Phrase>
+    <Phrase key="btnSelect">Pilih</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmEntitySelect">
+    <Phrase key="this">Pilih dari {0}</Phrase>
+    <Phrase key="lblFilter">Saring</Phrase>
+    <Phrase key="btnApplyFilter">Lakukan</Phrase>
+    <Phrase key="chkOnlySelected">Tampilkan hanya baris yang dipilih</Phrase>
+    <Phrase key="colSelected">Terpilih</Phrase>
+    <Phrase key="colID">ID</Phrase>
+    <Phrase key="colName">Nama</Phrase>
+    <Phrase key="colCode">Kode</Phrase>
+    <Phrase key="colDescr">Keterangan</Phrase>
+    <Phrase key="btnSelect">Pilih</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmModuleConfig">
+    <Phrase key="this">Konfigurasi Modul</Phrase>
+    <Phrase key="btnAdd.ToolTip">Tambah</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Naikkan</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Turunkan</Phrase>
+    <Phrase key="btnDelete.ToolTip">Hapus</Phrase>
+    <Phrase key="btnSave">Simpan</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+    <Phrase key="btnClose">Tutup</Phrase>
+    <Phrase key="miCollapseAll">Ciutkan Semua</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmOptions">
+    <Phrase key="this">Pilihan</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.BitItemCollection">
+    <Phrase key="EventEnabled">Kejadian diaktifkan</Phrase>
+    <Phrase key="EventBeep">Bunyi kejadian</Phrase>
+    <Phrase key="DataChangeEvent">Data saluran telah berubah</Phrase>
+    <Phrase key="ValueChangeEvent">Nilai saluran telah berubah</Phrase>
+    <Phrase key="StatusChangeEvent">Status saluran telah berubah</Phrase>
+    <Phrase key="CnlUndefinedEvent">Saluran tidak ditentukan</Phrase>
+    <Phrase key="CommandEvent">Perintah telah dikirim</Phrase>
+  </Dictionary>
+</ScadaDictionaries>
