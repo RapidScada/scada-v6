@@ -197,7 +197,7 @@
             // chkStayConnected
             // 
             this.chkStayConnected.AutoSize = true;
-            this.chkStayConnected.Location = new System.Drawing.Point(243, 113);
+            this.chkStayConnected.Location = new System.Drawing.Point(310, 113);
             this.chkStayConnected.Name = "chkStayConnected";
             this.chkStayConnected.Size = new System.Drawing.Size(15, 14);
             this.chkStayConnected.TabIndex = 7;

@@ -138,7 +138,7 @@
             // 
             // numTimeout
             // 
-            this.numTimeout.Location = new System.Drawing.Point(168, 153);
+            this.numTimeout.Location = new System.Drawing.Point(268, 153);
             this.numTimeout.Maximum = new decimal(new int[] {
             600000,
             0,
@@ -213,7 +213,7 @@
             // 
             // numPort
             // 
-            this.numPort.Location = new System.Drawing.Point(168, 37);
+            this.numPort.Location = new System.Drawing.Point(268, 37);
             this.numPort.Maximum = new decimal(new int[] {
             65535,
             0,
@@ -318,7 +318,7 @@
             // chkDetailedLog
             // 
             this.chkDetailedLog.AutoSize = true;
-            this.chkDetailedLog.Location = new System.Drawing.Point(261, 240);
+            this.chkDetailedLog.Location = new System.Drawing.Point(353, 240);
             this.chkDetailedLog.Name = "chkDetailedLog";
             this.chkDetailedLog.Size = new System.Drawing.Size(15, 14);
             this.chkDetailedLog.TabIndex = 16;
@@ -378,7 +378,7 @@
             // chkRetain
             // 
             this.chkRetain.AutoSize = true;
-            this.chkRetain.Location = new System.Drawing.Point(261, 153);
+            this.chkRetain.Location = new System.Drawing.Point(353, 153);
             this.chkRetain.Name = "chkRetain";
             this.chkRetain.Size = new System.Drawing.Size(15, 14);
             this.chkRetain.TabIndex = 10;

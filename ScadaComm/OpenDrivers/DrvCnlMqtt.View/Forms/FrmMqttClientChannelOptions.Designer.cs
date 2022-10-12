@@ -50,7 +50,7 @@
             // 
             // numPort
             // 
-            this.numPort.Location = new System.Drawing.Point(172, 41);
+            this.numPort.Location = new System.Drawing.Point(272, 41);
             this.numPort.Maximum = new decimal(new int[] {
             65535,
             0,
@@ -155,7 +155,7 @@
             // 
             // numTimeout
             // 
-            this.numTimeout.Location = new System.Drawing.Point(172, 157);
+            this.numTimeout.Location = new System.Drawing.Point(272, 157);
             this.numTimeout.Maximum = new decimal(new int[] {
             600000,
             0,

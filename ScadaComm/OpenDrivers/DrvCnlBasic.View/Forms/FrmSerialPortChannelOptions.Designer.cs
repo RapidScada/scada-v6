@@ -98,7 +98,7 @@
             // chkRtsEnable
             // 
             this.chkRtsEnable.AutoSize = true;
-            this.chkRtsEnable.Location = new System.Drawing.Point(265, 200);
+            this.chkRtsEnable.Location = new System.Drawing.Point(332, 200);
             this.chkRtsEnable.Name = "chkRtsEnable";
             this.chkRtsEnable.Size = new System.Drawing.Size(15, 14);
             this.chkRtsEnable.TabIndex = 13;
@@ -116,7 +116,7 @@
             // chkDtrEnable
             // 
             this.chkDtrEnable.AutoSize = true;
-            this.chkDtrEnable.Location = new System.Drawing.Point(265, 171);
+            this.chkDtrEnable.Location = new System.Drawing.Point(332, 171);
             this.chkDtrEnable.Name = "chkDtrEnable";
             this.chkDtrEnable.Size = new System.Drawing.Size(15, 14);
             this.chkDtrEnable.TabIndex = 11;
@@ -294,7 +294,7 @@
             this.lblBehavior.TabIndex = 0;
             this.lblBehavior.Text = "Behavior";
             // 
-            // FrmSerialChannelOptions
+            // FrmSerialPortChannelOptions
             // 
             this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -308,7 +308,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FrmSerialChannelOptions";
+            this.Name = "FrmSerialPortChannelOptions";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Serial Port Options";
