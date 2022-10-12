@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgMainDictionaries name="Indonesian">
+  <General>
+    <CultureName>id-ID</CultureName>
+  </General>
+  <Dictionary key="Scada.Web.Plugins.PlgChart.Areas.Chart.Pages.Chart">
+    <Phrase key="Title">{0} - Bagan</Phrase>
+    <Phrase key="Generated">Dibuat </Phrase>
+  </Dictionary>
+</PlgMainDictionaries>

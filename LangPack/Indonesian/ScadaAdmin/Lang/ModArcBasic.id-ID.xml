@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModArcBasicDictionaries name="Indonesian">
+  <General>
+    <CultureName>id-ID</CultureName>
+  </General>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmArcDir">
+    <Phrase key="this">Direktori Arsip</Phrase>
+    <Phrase key="chkUseDefaultDir">Gunakan direktori default</Phrase>
+    <Phrase key="lblArcDir">Arsip dalam format DAT</Phrase>
+    <Phrase key="btnBrowseArcDir">Jelajahi...</Phrase>
+    <Phrase key="lblArcCopyDir">Salinan arsip dalam format DAT</Phrase>
+    <Phrase key="btnBrowseArcCopyDir">Jelajahi...</Phrase>
+    <Phrase key="btnSetToDefaultWin">Setelan Windows</Phrase>
+    <Phrase key="btnSetToDefaultLinux">Setelan Linux</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicCAO">
+    <Phrase key="this">Opsi Arsip Saat Ini</Phrase>
+    <Phrase key="gbGeneralOptions">Pilihan Umum</Phrase>
+    <Phrase key="lblLogEnabled">Log diaktifkan</Phrase>
+    <Phrase key="lblFlushPeriod">Periode pembilasan</Phrase>
+    <Phrase key="txtFlushPeriodUnit">Detik</Phrase>
+    <Phrase key="gbPathOptions">Pilihan Lokasi</Phrase>
+    <Phrase key="lblUseCopyDir">Tulis ke direktori salinan</Phrase>
+    <Phrase key="btnShowDir">Direktori</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicEAO">
+    <Phrase key="this">Opsi Arsip Kejadian</Phrase>
+    <Phrase key="gbGeneralOptions">Pilihan Umum</Phrase>
+    <Phrase key="lblLogEnabled">Log diaktifkan</Phrase>
+    <Phrase key="lblRetention">Jangka waktu penyimpanan</Phrase>
+    <Phrase key="txtRetentionUnit">Hari</Phrase>
+    <Phrase key="gbPathOptions">Pilihan Lokasi</Phrase>
+    <Phrase key="lblUseCopyDir">Tulis ke direktori salinan</Phrase>
+    <Phrase key="btnShowDir">Direktori</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicHAO">
+    <Phrase key="this">Opsi Arsip Historis</Phrase>
+    <Phrase key="gbGeneralOptions">Pilihan Umum</Phrase>
+    <Phrase key="lblLogEnabled">Log diaktifkan</Phrase>
+    <Phrase key="lblRetention">Jangka waktu penyimpanan</Phrase>
+    <Phrase key="txtRetentionUnit">Hari</Phrase>
+    <Phrase key="lblWriteWithPeriod">Tulis dengan periode</Phrase>
+    <Phrase key="lblWritingPeriod">Periode menulis</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[0]">Detik</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[1]">Menit</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[2]">Jam</Phrase>
+    <Phrase key="lblPullToPeriod">Tarik ke periode</Phrase>
+    <Phrase key="txtPullToPeriodUnit">Detik</Phrase>
+    <Phrase key="gbPathOptions">Pilihan Lokasi</Phrase>
+    <Phrase key="lblUseCopyDir">Tulis ke direktori salinan</Phrase>
+    <Phrase key="btnShowDir">Direktori</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+  </Dictionary>
+</ModArcBasicDictionaries>

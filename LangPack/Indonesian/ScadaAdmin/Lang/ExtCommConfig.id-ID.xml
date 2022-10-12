@@ -1,0 +1,298 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtCommConfigDictionaries name="Indonesian">
+  <General>
+    <CultureName>id-ID</CultureName>
+  </General>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.ExtCommConfigLogic">
+    <Phrase key="GeneralOptionsNode">Pilihan Umum</Phrase>
+    <Phrase key="DriversNode">Pengendali</Phrase>
+    <Phrase key="DataSourcesNode">Sumber Data</Phrase>
+    <Phrase key="LinesNode">Jalur Komunikasi</Phrase>
+    <Phrase key="LineOptionsNode">Opsi Jalur</Phrase>
+    <Phrase key="LineStatsNode">Statistik Jalur</Phrase>
+    <Phrase key="LogsNode">Log</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Code.ExtensionUtils">
+    <Phrase key="DeviceNotSupported">Pengendali tidak mendukung pembuatan perangkat.</Phrase>
+    <Phrase key="UnableCreateDeviceView">Tidak dapat membuat antarmuka perangkat.</Phrase>
+    <Phrase key="NoDeviceProperties">Perangkat tidak menyediakan jendela properti.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate1">
+    <Phrase key="lblCommLine">Jalur komunikasi</Phrase>
+    <Phrase key="lblDevice">Perangkat</Phrase>
+    <Phrase key="AllCommLines">&lt;Semua jalur komunikasi&gt;</Phrase>
+    <Phrase key="DeviceInfo">Pengendali: {0}
+Proses: {1}
+Saluran: {2}</Phrase>
+    <Phrase key="DeviceNotFound">Perangkat tidak ditemukan di Communicator.</Phrase>
+    <Phrase key="NoDeviceSelected">Tidak ada perangkat yang dipilih.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate2">
+    <Phrase key="lblDevice">Perangkat</Phrase>
+    <Phrase key="lblObj">Obyek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate3">
+    <Phrase key="lblDevice">Perangkat</Phrase>
+    <Phrase key="gbCnlNums">Nomor Saluran</Phrase>
+    <Phrase key="lblStartCnlNum">Awal</Phrase>
+    <Phrase key="lblEndCnlNum">Akhir</Phrase>
+    <Phrase key="btnMap">Peta</Phrase>
+    <Phrase key="btnReset">Atur ulang</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu">
+    <Phrase key="miWizards">Wisaya</Phrase>
+    <Phrase key="miAddLine">Tambahkan Jalur...</Phrase>
+    <Phrase key="miAddDevice">Tambahkan Perangkat...</Phrase>
+    <Phrase key="miCreateChannels">Buat Saluran...</Phrase>
+    <Phrase key="btnAddLine.ToolTip">Tambahkan Jalur</Phrase>
+    <Phrase key="btnAddDevice.ToolTip">Tambahkan Perangkat</Phrase>
+    <Phrase key="btnCreateChannels.ToolTip">Buat Saluran</Phrase>
+    <Phrase key="miLineSync">Sinkronkan...</Phrase>
+    <Phrase key="miLineAdd">Tambahkan Jalur</Phrase>
+    <Phrase key="miLineMoveUp">Naikkan</Phrase>
+    <Phrase key="miLineMoveDown">Turunkan</Phrase>
+    <Phrase key="miLineDelete">Hapus Jalur</Phrase>
+    <Phrase key="miLineStart">Mulai Jalur</Phrase>
+    <Phrase key="miLineStop">Hentikan Jalur</Phrase>
+    <Phrase key="miLineRestart">Mulai Ulang Jalur</Phrase>
+    <Phrase key="miDeviceChannels">Ke Saluran</Phrase>
+    <Phrase key="miDeviceCommand">Kirim Perintah...</Phrase>
+    <Phrase key="miDevicePoll">Perangkat Polling</Phrase>
+    <Phrase key="miDeviceProperties">Properti</Phrase>
+    <Phrase key="ConfirmDeleteLine">Apakah Anda yakin ingin menghapus jalur komunikasi?</Phrase>
+    <Phrase key="CnlNodeNotFound">Node saluran tidak ditemukan.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineMain">
+    <Phrase key="gbLine">Jalur Komunikasi</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="chkIsBound">Ikatkan ke basis data konfigurasi</Phrase>
+    <Phrase key="lblCommLineNum">Nomor</Phrase>
+    <Phrase key="lblName">Nama</Phrase>
+    <Phrase key="gbLineOptions">Opsi Jalur</Phrase>
+    <Phrase key="lblReqRetries">Jumlah permintaan percobaan ulang pada kesalahan</Phrase>
+    <Phrase key="lblCycleDelay">Penundaan setelah siklus polling, ms</Phrase>
+    <Phrase key="lblCmdEnabled">Perintah diaktifkan</Phrase>
+    <Phrase key="lblPollAfterCmd">Polling perangkat setelah perintah</Phrase>
+    <Phrase key="lblDetailedLog">Log terperinci</Phrase>
+    <Phrase key="gbChannel">Saluran Komunikasi</Phrase>
+    <Phrase key="lblChannelType">Tipe</Phrase>
+    <Phrase key="btnChannelProperties">Properti</Phrase>
+    <Phrase key="lblChannelOptions">Pilihan</Phrase>
+    <Phrase key="UndefinedChannelType">Tidak terdefinisi</Phrase>
+    <Phrase key="ChannelNotSupported">Pengendali tidak mendukung pembuatan saluran komunikasi.</Phrase>
+    <Phrase key="UnableCreateChannelView">Tidak dapat membuat antarmuka saluran komunikasi.</Phrase>
+    <Phrase key="NoChannelProperties">Saluran komunikasi tidak menyediakan jendela properti.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineCustom">
+    <Phrase key="btnAddOption">Tambah</Phrase>
+    <Phrase key="btnDeleteOption">Hapus</Phrase>
+    <Phrase key="colOptionName">Nama</Phrase>
+    <Phrase key="colOptionValue">Nilai</Phrase>
+    <Phrase key="gbSelectedOption">Opsi yang Dipilih</Phrase>
+    <Phrase key="lblOptionName">Nama</Phrase>
+    <Phrase key="lblOptionValue">Nilai</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLinePolling">
+    <Phrase key="btnAddDevice">Tambah</Phrase>
+    <Phrase key="btnMoveUpDevice">Naikkan</Phrase>
+    <Phrase key="btnMoveDownDevice">Turunkan</Phrase>
+    <Phrase key="btnDeleteDevice">Hapus</Phrase>
+    <Phrase key="btnCutDevice">Potong</Phrase>
+    <Phrase key="btnCopyDevice">Salin</Phrase>
+    <Phrase key="btnPasteDevice">Tempel</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">Aktif</Phrase>
+    <Phrase key="colPollOnCmd">Polling saat Perintah</Phrase>
+    <Phrase key="colIsBound">Ikatkan</Phrase>
+    <Phrase key="colNumber">Nomor</Phrase>
+    <Phrase key="colName">Nama</Phrase>
+    <Phrase key="colDriver">Pengendali</Phrase>
+    <Phrase key="colNumAddress">Alamat Numerik</Phrase>
+    <Phrase key="colStrAddress">Alamat String</Phrase>
+    <Phrase key="colTimeout">Waktu habis</Phrase>
+    <Phrase key="colDelay">Tunda</Phrase>
+    <Phrase key="colTime">Waktu</Phrase>
+    <Phrase key="colPeriod">Periode</Phrase>
+    <Phrase key="colCmdLine">Jalur Perintah</Phrase>
+    <Phrase key="gbSelectedDevice">Perangkat yang Dipilih</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="chkPollOnCmd">Polling hanya saat perintah</Phrase>
+    <Phrase key="chkIsBound">Terikat ke basis data konfigurasi</Phrase>
+    <Phrase key="lblDeviceNum">Nomor</Phrase>
+    <Phrase key="lblName">Nama</Phrase>
+    <Phrase key="lblDriver">Pengendali</Phrase>
+    <Phrase key="lblNumAddress">Alamat numerik</Phrase>
+    <Phrase key="lblStrAddress">Alamat string atau nama host</Phrase>
+    <Phrase key="lblTimeout">Waktu habis</Phrase>
+    <Phrase key="lblDelay">Tunda</Phrase>
+    <Phrase key="lblTime">Waktu</Phrase>
+    <Phrase key="lblPeriod">Periode</Phrase>
+    <Phrase key="lblCmdLine">Jalur perintah</Phrase>
+    <Phrase key="lblCustomOptions">Pilihan</Phrase>
+    <Phrase key="btnDeviceProperties">Properti</Phrase>
+    <Phrase key="btnResetPollingOptions">Reset</Phrase>
+    <Phrase key="btnResetPollingOptions.ToolTip">Setel opsi polling perangkat ke default</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlSync1">
+    <Phrase key="lblSyncDirection">Pilih arah sinkronisasi:</Phrase>
+    <Phrase key="rbBaseToComm">Konfigurasi basis data ke Communicator</Phrase>
+    <Phrase key="rbCommToBase">Communicator ke basis data konfigurasi</Phrase>
+    <Phrase key="lblInfo">Saluran dan perangkat yang hilang akan dibuat.
+Jalur dan perangkat yang ada akan diperbarui.
+Properti yang terpengaruh:
+- Nama jalur komunikasi
+- Nama perangkat
+- Pengendali perangkat
+- Alamat perangkat</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlSync2">
+    <Phrase key="lblSelect">Pilih jalur dan perangkat yang akan disinkronkan:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCnlCreate">
+    <Phrase key="this">Buat Saluran</Phrase>
+    <Phrase key="chkPreview">Pratinjau</Phrase>
+    <Phrase key="btnBack">&lt; Kembali</Phrase>
+    <Phrase key="btnNext">Berikutnya &gt;</Phrase>
+    <Phrase key="btnCreate">Buat</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+    <Phrase key="CreateCnlsStep1">Langkah 1 dari 3: Pilih perangkat</Phrase>
+    <Phrase key="CreateCnlsStep2">Langkah 2 dari 3: Pilih objek saluran yang baru dibuat</Phrase>
+    <Phrase key="CreateCnlsStep3">Langkah 3 dari 3: Tetapkan nomor saluran</Phrase>
+    <Phrase key="CreateCnlsCompleted">Pembuatan saluran berhasil diselesaikan.
+{0} saluran ditambahkan.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCnlPreview">
+    <Phrase key="this">Pratinjau Saluran</Phrase>
+    <Phrase key="btnDelete">Hapus</Phrase>
+    <Phrase key="colCnlNum">Nomor</Phrase>
+    <Phrase key="colActive">Aktif</Phrase>
+    <Phrase key="colName">Nama</Phrase>
+    <Phrase key="colTagNum">Nomor Tag</Phrase>
+    <Phrase key="colTagCode">Kode Tag</Phrase>
+    <Phrase key="btnAdd">Tambah</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCommLogs">
+    <Phrase key="AppFilter">Aplikasi</Phrase>
+    <Phrase key="LinesFilter">Jalur Komunikasi</Phrase>
+    <Phrase key="DevicesFilter">Perangkat</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDataSources">
+    <Phrase key="this">Sumber Data</Phrase>
+    <Phrase key="btnAdd">Tambah</Phrase>
+    <Phrase key="btnMoveUp">Naikkan</Phrase>
+    <Phrase key="btnMoveDown">Turunkan</Phrase>
+    <Phrase key="btnDelete">Hapus</Phrase>
+    <Phrase key="btnCut">Potong</Phrase>
+    <Phrase key="btnCopy">Salin</Phrase>
+    <Phrase key="btnPaste">Tempel</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">Aktif</Phrase>
+    <Phrase key="colCode">Kode</Phrase>
+    <Phrase key="colName">Nama</Phrase>
+    <Phrase key="colDriver">Pengendali</Phrase>
+    <Phrase key="gbDataSource">Sumber Data yang Dipilih</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="lblCode">Kode</Phrase>
+    <Phrase key="lblName">Nama</Phrase>
+    <Phrase key="lblDriver">Pengendali</Phrase>
+    <Phrase key="lblOptions">Pilihan</Phrase>
+    <Phrase key="btnProperties">Properti</Phrase>
+    <Phrase key="DriverNotSpecified">Pengendali tidak ditentukan.</Phrase>
+    <Phrase key="DataSourceNotSupported">Pengendali tidak mendukung pembuatan sumber data.</Phrase>
+    <Phrase key="UnableCreateDataSourceView">Tidak dapat membuat antarmuka sumber data.</Phrase>
+    <Phrase key="NoDataSourceProperties">Sumber data tidak menyediakan jendela properti.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceAdd">
+    <Phrase key="this">Tambahkan Perangkat</Phrase>
+    <Phrase key="gbDevice">Perangkat</Phrase>
+    <Phrase key="lblDeviceNum">Nomor</Phrase>
+    <Phrase key="lblName">Nama</Phrase>
+    <Phrase key="lblCode">Kode</Phrase>
+    <Phrase key="lblDevType">Tipe perangkat</Phrase>
+    <Phrase key="lblNumAddress">Alamat numerik</Phrase>
+    <Phrase key="lblStrAddress">Alamat string atau nama host</Phrase>
+    <Phrase key="lblCommLine">Jalur komunikasi</Phrase>
+    <Phrase key="lblDescr">Keterangan</Phrase>
+    <Phrase key="gbComm">Communicator</Phrase>
+    <Phrase key="chkAddToComm">Tambahkan perangkat ke Communicator</Phrase>
+    <Phrase key="lblInstance">Proses</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+    <Phrase key="DeviceExistsInConfigDatabase">Perangkat dengan nomor yang sama sudah ada di basis data konfigurasi.</Phrase>
+    <Phrase key="DeviceExistsInLineConfig">Perangkat dengan nomor yang sama sudah ada dalam konfigurasi jalur komunikasi.</Phrase>
+    <Phrase key="LineNotFoundInCommConfig">Jalur komunikasi tidak ditemukan dalam konfigurasi Communicator.</Phrase>
+    <Phrase key="ChooseLine">Silakan pilih jalur komunikasi.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceCommand">
+    <Phrase key="this">Perintah ke {0}</Phrase>
+    <Phrase key="lblCmdNum">Nomor perintah</Phrase>
+    <Phrase key="lblCmdCode">Kode perintah</Phrase>
+    <Phrase key="rbNumVal">Numerik</Phrase>
+    <Phrase key="rbStrData">Data string</Phrase>
+    <Phrase key="rbHexData">Data heksadesimal</Phrase>
+    <Phrase key="btnOff">Mati</Phrase>
+    <Phrase key="btnOn">Hidup</Phrase>
+    <Phrase key="btnSend">Kirim</Phrase>
+    <Phrase key="btnClose">Tutup</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceData">
+    <Phrase key="this">Perangkat {0}</Phrase>
+    <Phrase key="btnDeviceProperties">Properti</Phrase>
+    <Phrase key="btnSendCommand">Perintah</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDrivers">
+    <Phrase key="this">Pengendali</Phrase>
+    <Phrase key="lblDrivers">Pengendali yang tersedia:</Phrase>
+    <Phrase key="btnProperties">Properti</Phrase>
+    <Phrase key="btnRegister">Daftar</Phrase>
+    <Phrase key="lblDescr">Keterangan</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmGeneralOptions">
+    <Phrase key="this">Pilihan Umum</Phrase>
+    <Phrase key="gbGeneralOptions">Pilihan Umum</Phrase>
+    <Phrase key="lblIsBound">Aplikasi terikat ke basis data konfigurasi</Phrase>
+    <Phrase key="lblSendModifiedData">Kirim hanya data tag perangkat yang dimodifikasi</Phrase>
+    <Phrase key="lblSendAllDataPeriod">Periode pengiriman data semua tag perangkat, detik</Phrase>
+    <Phrase key="lblEnableCommands">Aktifkan perintah telekontrol</Phrase>
+    <Phrase key="lblEnableFileCommands">Baca perintah telekontrol dari berkas</Phrase>
+    <Phrase key="lblStartLinesOnCommand">Mulai jalur komunikasi saat perintah</Phrase>
+    <Phrase key="lblMaxLogSize">Ukuran file log maksimum, MB</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineAdd">
+    <Phrase key="this">Tambahkan Jalur Komunikasi</Phrase>
+    <Phrase key="gbLine">Jalur Komunikasi</Phrase>
+    <Phrase key="lblCommLineNum">Nomor</Phrase>
+    <Phrase key="lblName">Nama</Phrase>
+    <Phrase key="lblDescr">Keterangan</Phrase>
+    <Phrase key="gbComm">Communicator</Phrase>
+    <Phrase key="chkAddToComm">Tambahkan jalur ke Communicator</Phrase>
+    <Phrase key="lblInstance">Proses</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+    <Phrase key="LineExistsInConfigDatabase">Jalur komunikasi dengan nomor yang sama sudah ada di basis data konfigurasi.</Phrase>
+    <Phrase key="LineExistsInCommConfig">Jalur komunikasi dengan nomor yang sama sudah ada dalam konfigurasi Communicator.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineConfig">
+    <Phrase key="lbTabs.Items[0]">Pilihan Utama</Phrase>
+    <Phrase key="lbTabs.Items[1]">Opsi Kustom</Phrase>
+    <Phrase key="lbTabs.Items[2]">Polling Perangkat</Phrase>
+    <Phrase key="LineConfigTitle">Opsi Jalur {0}</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineStats">
+    <Phrase key="lbTabs.Items[0]">Status Jalur</Phrase>
+    <Phrase key="lbTabs.Items[1]">Log Jalur</Phrase>
+    <Phrase key="chkPause">Hentikan</Phrase>
+    <Phrase key="LineStatsTitle">Status Jalur {0}</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmSync">
+    <Phrase key="this">Sinkronisasi Jalur dan Perangkat</Phrase>
+    <Phrase key="btnNext">Lanjut</Phrase>
+    <Phrase key="btnSync">Sinkronkan</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+    <Phrase key="SyncCompleted">Sinkronisasi berhasil diselesaikan.</Phrase>
+    <Phrase key="SyncCompletedWithError">Sinkronisasi selesai dengan kesalahan:
+{0}</Phrase>
+    <Phrase key="NoDataToSync">Tidak ada data yang dipilih untuk sinkronisasi.</Phrase>
+  </Dictionary>
+</ExtCommConfigDictionaries>

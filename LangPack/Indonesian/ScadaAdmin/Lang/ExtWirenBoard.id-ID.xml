@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtWirenBoardDictionaries name="Indonesian">
+  <General>
+    <CultureName>id-ID</CultureName>
+  </General>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlDeviceTree">
+    <Phrase key="btnSelectAll">Pilih Semua</Phrase>
+    <Phrase key="btnSelectNone">Tidak Ada Pilihan</Phrase>
+    <Phrase key="SelectDevice">Pilih setidaknya satu perangkat.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlEntityID">
+    <Phrase key="lblStartDeviceNum">Nomor awal perangkat</Phrase>
+    <Phrase key="btnDeviceMap">Peta</Phrase>
+    <Phrase key="lblStartCnlNum">Nomor saluran awal</Phrase>
+    <Phrase key="btnCnlMap">Peta</Phrase>
+    <Phrase key="lblObj">Obyek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlExtensionMenu">
+    <Phrase key="miWirenBoard">Wiren Board</Phrase>
+    <Phrase key="miCreateConfig">Buat Konfigurasi...</Phrase>
+    <Phrase key="btnCreateConfig.ToolTip">Buat konfigurasi proyek untuk Wiren Board</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlLineSelect">
+    <Phrase key="lblInstance">Proses</Phrase>
+    <Phrase key="lblLine">Jalur komunikasi</Phrase>
+    <Phrase key="lblWirenBoardIP">Alamat IP Wiren Board</Phrase>
+    <Phrase key="CommLineRequired">Silakan pilih jalur komunikasi.</Phrase>
+    <Phrase key="MqttLineRequired">Tipe saluran yang dipilih harus klien MQTT.</Phrase>
+    <Phrase key="WirenBoardIpRequired">Alamat IP Wire Board diperlukan.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Forms.FrmWirenBoardWizard">
+    <Phrase key="this">Wisaya konfigurasi proyek untuk Wiren Board</Phrase>
+    <Phrase key="btnBack">&lt; Kembali</Phrase>
+    <Phrase key="btnNext">Berikutnya &gt;</Phrase>
+    <Phrase key="btnCreate">Buat</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+    <Phrase key="Step1Descr">Langkah 1 dari 5: Pilih Jalur Komunikasi</Phrase>
+    <Phrase key="Step2Descr">Langkah 2 dari 5: Baca Topik dari Wiren Board</Phrase>
+    <Phrase key="Step3Descr">Langkah 3 dari 5: Pilih Perangkat dan Kontrol untuk Impor</Phrase>
+    <Phrase key="Step4Descr">Langkah 4 dari 5: Tetapkan ID untuk Basis Data Konfigurasi</Phrase>
+    <Phrase key="Step5Descr">Langkah 5 dari 5: Periksa Konfigurasi yang Dibuat</Phrase>
+    <Phrase key="CreateConfigCompleted">Konfigurasi berhasil dibuat</Phrase>
+    <Phrase key="CreateConfigError">Kesalahan saat membuat konfigurasi</Phrase>
+  </Dictionary>
+</ExtWirenBoardDictionaries>

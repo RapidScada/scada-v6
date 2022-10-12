@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvOpcClassicDictionaries name="Indonesian">
+  <General>
+    <CultureName>id-ID</CultureName>
+  </General>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlCommand">
+    <Phrase key="gbCommand">Parameter Perintah</Phrase>
+    <Phrase key="lblPath">Jalur</Phrase>
+    <Phrase key="lblName">Nama</Phrase>
+    <Phrase key="lblCmdCode">Kode perintah</Phrase>
+    <Phrase key="lblCmdNum">Nomor perintah</Phrase>
+    <Phrase key="lblDataType">Tipe data</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEmptyItem">
+    <Phrase key="gbEmptyItem">Parameter Isi</Phrase>
+    <Phrase key="lblNotSelected">Isi tidak dipilih</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEventCategory">
+    <Phrase key="gbEventCategory">Kategori Parameter</Phrase>
+    <Phrase key="lblName">Nama</Phrase>
+    <Phrase key="lblID">ID</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEventSubscription">
+    <Phrase key="gbSubscription">Parameter Langganan</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="lblDisplayName">Nama tampilan</Phrase>
+    <Phrase key="lblUpdateRate">Tingkat pembaruan, ms</Phrase>
+    <Phrase key="lblKeepAlive">Tetap hidup, ms</Phrase>
+    <Phrase key="lblMaxSize">Ukuran maksimum</Phrase>
+    <Phrase key="chkSimpleEvents">Kejadian sederhana</Phrase>
+    <Phrase key="chkTrackingEvents">Lacak kejadian</Phrase>
+    <Phrase key="chkConditionEvents">Kondisi kejadian</Phrase>
+    <Phrase key="lblHighSeverity">Keparahan tinggi</Phrase>
+    <Phrase key="lblLowSeverity">Keparahan rendah</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlItem">
+    <Phrase key="gbItem">Parameter Isi</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="lblPath">Jalur</Phrase>
+    <Phrase key="lblName">Nama</Phrase>
+    <Phrase key="lblTagCode">Kode tag</Phrase>
+    <Phrase key="lblTagNum">Nomor tag</Phrase>
+    <Phrase key="lblDataType">Tipe data</Phrase>
+    <Phrase key="chkIsString">String?</Phrase>
+    <Phrase key="chkIsArray">Array?</Phrase>
+    <Phrase key="lblDataLen">Panjang string atau larik</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlSubscription">
+    <Phrase key="gbSubscription">Parameter Langganan</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="lblDisplayName">Nama tampilan</Phrase>
+    <Phrase key="lblUpdateRate">Tingkat pembaruan, ms</Phrase>
+    <Phrase key="lblKeepAlive">Tetap hidup, ms</Phrase>
+    <Phrase key="lblDeadband">Deadband, %</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Properti Perangkat {0} - OPC Klasik</Phrase>
+    <Phrase key="gbConnectionOptions">Opsi Koneksi</Phrase>
+    <Phrase key="lblHost">Host remote</Phrase>
+    <Phrase key="btnShowNetworkOptions">Pilihan</Phrase>
+    <Phrase key="lblServerPath">Server OPC</Phrase>
+    <Phrase key="lblDaSpec">Spesifikasi DA</Phrase>
+    <Phrase key="lblAeSpec">Spesifikasi AE</Phrase>
+    <Phrase key="btnSelectServer">Pilih...</Phrase>
+    <Phrase key="lblConnectionInfo">Pilihan koneksi sama dengan jalur komunikasi.</Phrase>
+    <Phrase key="gbServerBrowse">Server Jelajah</Phrase>
+    <Phrase key="btnConnect.ToolTip">Hubungi</Phrase>
+    <Phrase key="btnDisconnect.ToolTip">Putuskan</Phrase>
+    <Phrase key="btnOpenFile.ToolTip">Buka Berkas</Phrase>
+    <Phrase key="gbDevice">Konfigurasi Perangkat</Phrase>
+    <Phrase key="btnAddSubscription.ToolTip">Tambah Langganan</Phrase>
+    <Phrase key="btnAddItem.ToolTip">Tambah Isi yang Dipilih</Phrase>
+    <Phrase key="btnMoveUpItem.ToolTip">Naikkan</Phrase>
+    <Phrase key="btnMoveDownItem.ToolTip">Turunkan</Phrase>
+    <Phrase key="btnDeleteItem.ToolTip">Hapus</Phrase>
+    <Phrase key="btnSave">Simpan</Phrase>
+    <Phrase key="btnClose">Tutup</Phrase>
+    <Phrase key="XmlFileFilter">Berkas XML (*.xml)|*.xml|Semua Berkas (*.*)|*.*</Phrase>
+    <Phrase key="ServerNotSelected">Server OPC tidak dipilih.</Phrase>
+    <Phrase key="DaServerUnavailable">Server OPC DA tidak tersedia atau tidak mendukung spesifikasi yang dipilih.</Phrase>
+    <Phrase key="AeServerUnavailable">Server OPC AE tidak tersedia atau tidak mendukung spesifikasi yang dipilih.</Phrase>
+    <Phrase key="ConnectDaServerError">Kesalahan saat menghubungi server OPC DA</Phrase>
+    <Phrase key="ConnectAeServerError">Kesalahan saat menghubungi server OPC AE</Phrase>
+    <Phrase key="DisconnectDaServerError">Kesalahan saat memutuskan sambungan server OPC DA</Phrase>
+    <Phrase key="DisconnectAeServerError">Kesalahan saat memutuskan sambungan server OPC AE</Phrase>
+    <Phrase key="BrowseServerError">Kesalahan saat merambah server OPC</Phrase>
+    <Phrase key="LoadServerContentError">Kesalahan saat memuat konten server OPC</Phrase>
+    <Phrase key="ServerNotConnected">Server OPC tidak terhubung.</Phrase>
+    <Phrase key="UnableToReadData">Tidak dapat membaca data.</Phrase>
+    <Phrase key="GetDataTypeError">Kesalahan mendapatkan tipe data</Phrase>
+    <Phrase key="DaServerNode">OPC DA</Phrase>
+    <Phrase key="AeServerNode">OPC AE</Phrase>
+    <Phrase key="EmptyNode">Kosong</Phrase>
+    <Phrase key="SubscriptionsNode">Langganan</Phrase>
+    <Phrase key="CommandsNode">Perintah</Phrase>
+    <Phrase key="EventSubscriptionsNode">Langganan Kejadian</Phrase>
+    <Phrase key="UnnamedSubscription">&amp;lt;Langganan Tanpa Nama&amp;gt;</Phrase>
+    <Phrase key="UnnamedItem">&amp;lt;Isi Tanpa Nama&amp;gt;</Phrase>
+    <Phrase key="UnnamedCommand">&amp;lt;Perintah Tanpa Nama&amp;gt;</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Forms.FrmNetworkOptions">
+    <Phrase key="this">Opsi Jaringan</Phrase>
+    <Phrase key="chkIsDefault">Gunakan opsi default</Phrase>
+    <Phrase key="gbCredentials">Kredensial</Phrase>
+    <Phrase key="lblUsername">Nama pengguna</Phrase>
+    <Phrase key="lblPassword">Kata sandi</Phrase>
+    <Phrase key="lblDomain">Domain</Phrase>
+    <Phrase key="gbProxy">Proksi Web</Phrase>
+    <Phrase key="lblProxyAddress">Alamat</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Forms.FrmServerSelect">
+    <Phrase key="this">Pilih Server OPC</Phrase>
+    <Phrase key="lblHost">Host</Phrase>
+    <Phrase key="lblServer">Server OPC</Phrase>
+    <Phrase key="gbDaSpec">Spesifikasi DA</Phrase>
+    <Phrase key="rbDaNone">None</Phrase>
+    <Phrase key="rbDa10">Data Access 1.0a</Phrase>
+    <Phrase key="rbDa20">Data Access 2.XX</Phrase>
+    <Phrase key="rbDa30">Data Access 3.00</Phrase>
+    <Phrase key="gbAeSpec">Spesifikasi AE</Phrase>
+    <Phrase key="rbAeNone">None</Phrase>
+    <Phrase key="rbAe10">Alarms and Events 1.XX</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+    <Phrase key="FillServersError">Kesalahan mengisi daftar server</Phrase>
+    <Phrase key="DisposeServersError">Kesalahan saat membuang server</Phrase>
+  </Dictionary>
+</DrvOpcClassicDictionaries>
