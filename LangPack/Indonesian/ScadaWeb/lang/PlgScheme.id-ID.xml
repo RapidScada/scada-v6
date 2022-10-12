@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PlgSchemeDictionaries name="Indonesian">
-  <General>
-    <CultureName>id-ID</CultureName>
-  </General>
+<PlgSchemeDictionaries culture="id-ID" lang="Indonesian">
   <Dictionary key="Scada.Web.Plugins.PlgScheme.Areas.Scheme.Pages.SchemeView">
     <Phrase key="SchemeViewTitle">Skema {0}</Phrase>
     <Phrase key="spanFitScreenBtn_ToolTip">Pas Layar</Phrase>

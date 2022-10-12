@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<DrvOpcUaDictionaries name="Indonesian">
-  <General>
-    <CultureName>id-ID</CultureName>
-  </General>
+<DrvOpcUaDictionaries culture="id-ID" lang="Indonesian">
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlCommand">
     <Phrase key="gbCommand">Parameter Perintah</Phrase>
     <Phrase key="lblDisplayName">Nama tampilan</Phrase>

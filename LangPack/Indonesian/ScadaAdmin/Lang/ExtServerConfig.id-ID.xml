@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ExtServerConfigDictionaries name="Indonesian">
-  <General>
-    <CultureName>id-ID</CultureName>
-  </General>
+<ExtServerConfigDictionaries culture="id-ID" lang="Indonesian">
   <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.ExtServerConfigLogic">
     <Phrase key="GeneralOptionsNode">Pilihan Umum</Phrase>
     <Phrase key="ModulesNode">Modul</Phrase>

@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ScadaAdminDictionaries name="Indonesian">
-  <General>
-    <CultureName>id-ID</CultureName>
-  </General>
+<ScadaAdminDictionaries culture="id-ID" lang="Indonesian">
   <Dictionary key="Scada.Admin.App.Code.AppState">
     <Phrase key="LoadAppStateError">Kesalahan saat memuat status aplikasi</Phrase>
     <Phrase key="SaveAppStateError">Kesalahan saat menyimpan status aplikasi</Phrase>

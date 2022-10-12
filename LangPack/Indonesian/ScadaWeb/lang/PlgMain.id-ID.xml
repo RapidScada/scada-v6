@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PlgMainDictionaries name="Indonesian">
-  <General>
-    <CultureName>id-ID</CultureName>
-  </General>
+<PlgMainDictionaries culture="id-ID" lang="Indonesian">
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command">
     <Phrase key="PageTitle">Perintah</Phrase>
     <Phrase key="CommandSent">Perintah dikirim.</Phrase>

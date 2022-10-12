@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ScadaDictionaries name="Indonesian">
-  <General>
-    <CultureName>id-ID</CultureName>
-  </General>
+<ScadaDictionaries culture="id-ID" lang="Indonesian">
   <!-- ScadaCommon.dll -->
   <Dictionary key="Scada.Application">
     <Phrase key="ProductName">Rapid SCADA</Phrase>

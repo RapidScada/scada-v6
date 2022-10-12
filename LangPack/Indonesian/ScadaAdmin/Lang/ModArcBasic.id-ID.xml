@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ModArcBasicDictionaries name="Indonesian">
-  <General>
-    <CultureName>id-ID</CultureName>
-  </General>
+<ModArcBasicDictionaries culture="id-ID" lang="Indonesian">
   <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmArcDir">
     <Phrase key="this">Direktori Arsip</Phrase>
     <Phrase key="chkUseDefaultDir">Gunakan direktori default</Phrase>

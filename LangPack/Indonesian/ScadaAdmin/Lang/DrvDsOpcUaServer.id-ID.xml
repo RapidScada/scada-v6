@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<DrvDsOpcUaServerDictionaries name="Indonesian">
-  <General>
-    <CultureName>id-ID</CultureName>
-  </General>
+<DrvDsOpcUaServerDictionaries culture="id-ID" lang="Indonesian">
   <Dictionary key="Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms.FrmOpcUaServerDSO">
     <Phrase key="this">Opsi Sumber Data</Phrase>
     <Phrase key="chkAutoAccept">Terima sertifikat secara otomatis</Phrase>

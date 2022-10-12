@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ExtProjectToolsDictionaries name="Indonesian">
-  <General>
-    <CultureName>id-ID</CultureName>
-  </General>
+<ExtProjectToolsDictionaries culture="id-ID" lang="Indonesian">
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.ChannelMap">
     <Phrase key="MapByDeviceTitle">Saluran menurut Perangkat</Phrase>
     <Phrase key="MapByObjectTitle">Saluran berdasarkan Obyek</Phrase>

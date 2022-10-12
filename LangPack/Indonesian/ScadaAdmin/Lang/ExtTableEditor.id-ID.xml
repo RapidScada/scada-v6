@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ExtTableEditorDictionaries name="Indonesian">
-  <General>
-    <CultureName>id-ID</CultureName>
-  </General>
+<ExtTableEditorDictionaries culture="id-ID" lang="Indonesian">
   <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableEditor">
     <Phrase key="btnRefreshBase.ToolTip">Segarkan Basis Data Konfigurasi</Phrase>
     <Phrase key="btnAddItem.ToolTip">Tambahkan Isi</Phrase>

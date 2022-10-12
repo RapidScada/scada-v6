@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<DrvCnlBasicDictionaries name="Indonesian">
-  <General>
-    <CultureName>id-ID</CultureName>
-  </General>
+<DrvCnlBasicDictionaries culture="id-ID" lang="Indonesian">
   <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.BasicChannelView">
     <Phrase key="ChannelTypeNotFound">Jenis saluran komunikasi tidak ditemukan.</Phrase>
   </Dictionary>

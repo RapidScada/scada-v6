@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<DrvDsMqttDictionaries name="Indonesian">
-  <General>
-    <CultureName>id-ID</CultureName>
-  </General>
+<DrvDsMqttDictionaries culture="id-ID" lang="Indonesian">
   <Dictionary key="Scada.Comm.Drivers.DrvDsMqtt.View.Forms.FrmMqttDSO">
     <Phrase key="this">Opsi Sumber Data</Phrase>
     <Phrase key="pageConnectionOptions">Koneksi</Phrase>

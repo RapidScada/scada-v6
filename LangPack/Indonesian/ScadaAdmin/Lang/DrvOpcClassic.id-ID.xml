@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<DrvOpcClassicDictionaries name="Indonesian">
-  <General>
-    <CultureName>id-ID</CultureName>
-  </General>
+<DrvOpcClassicDictionaries culture="id-ID" lang="Indonesian">
   <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlCommand">
     <Phrase key="gbCommand">Parameter Perintah</Phrase>
     <Phrase key="lblPath">Jalur</Phrase>
