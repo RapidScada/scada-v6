@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ExtServerConfigDictionaries>
+<ExtServerConfigDictionaries name="Russian">
+  <General>
+    <CultureName>ru-RU</CultureName>
+  </General>
   <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.ExtServerConfigLogic">
     <Phrase key="GeneralOptionsNode">Основные параметры</Phrase>
     <Phrase key="ModulesNode">Модули</Phrase>

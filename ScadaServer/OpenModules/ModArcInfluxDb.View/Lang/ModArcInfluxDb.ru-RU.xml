@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ModArcInfluxDblDictionaries>
+<ModArcInfluxDblDictionaries name="Russian">
+  <General>
+    <CultureName>ru-RU</CultureName>
+  </General>
   <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmConnManager">
     <Phrase key="this">Соединения InfluxDB</Phrase>
     <Phrase key="gbConnList">Соединения</Phrase>

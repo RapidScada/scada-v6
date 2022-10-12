@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<DrvHttpNotifDictionaries>
+<DrvHttpNotifDictionaries name="English">
+  <General>
+    <CultureName>en-GB</CultureName>
+  </General>
   <Dictionary key="Scada.Comm.Drivers.DrvHttpNotif.View.Forms.FrmConfig">
     <Phrase key="this">Device {0} Properties - HTTP Notifications</Phrase>
     <Phrase key="pageGeneral">General</Phrase>

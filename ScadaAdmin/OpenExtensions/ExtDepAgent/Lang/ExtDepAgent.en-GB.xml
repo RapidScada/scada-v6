@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ExtDepAgentDictionaries>
+<ExtDepAgentDictionaries name="English">
+  <General>
+    <CultureName>en-GB</CultureName>
+  </General>
   <Dictionary key="Scada.Admin.Extensions.ExtDepAgent.Downloader">
     <Phrase key="ImportTable">Import the {0} table</Phrase>
     <Phrase key="ExtractArchive">Extract archive</Phrase>

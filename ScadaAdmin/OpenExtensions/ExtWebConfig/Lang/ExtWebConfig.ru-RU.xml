@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ExtWebConfigDictionaries>
+<ExtWebConfigDictionaries name="Russian">
+  <General>
+    <CultureName>ru-RU</CultureName>
+  </General>
   <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.ExtWebConfigLogic">
     <Phrase key="LogsNode">Журналы</Phrase>
   </Dictionary>

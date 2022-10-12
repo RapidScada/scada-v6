@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<PlgSchemeDictionaries>
+<PlgSchemeDictionaries name="Russian">
+  <General>
+    <CultureName>ru-RU</CultureName>
+  </General>
   <Dictionary key="Scada.Web.Plugins.PlgScheme.Areas.Scheme.Pages.SchemeView">
     <Phrase key="SchemeViewTitle">Схема {0}</Phrase>
     <Phrase key="spanFitScreenBtn_ToolTip">По размеру экрана</Phrase>

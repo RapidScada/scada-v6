@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<PlgMainDictionaries>
+<PlgMainDictionaries name="Russian">
+  <General>
+    <CultureName>ru-RU</CultureName>
+  </General>
   <Dictionary key="Scada.Web.Plugins.PlgChart.Areas.Chart.Pages.Chart">
     <Phrase key="Title">{0} - График</Phrase>
     <Phrase key="Generated">Получено </Phrase>

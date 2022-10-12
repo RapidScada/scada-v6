@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ExtTableEditorDictionaries>
+<ExtTableEditorDictionaries name="Russian">
+  <General>
+    <CultureName>ru-RU</CultureName>
+  </General>
   <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableEditor">
     <Phrase key="btnRefreshBase.ToolTip">Обновить базу конфигурации</Phrase>
     <Phrase key="btnAddItem.ToolTip">Добавить элемент</Phrase>

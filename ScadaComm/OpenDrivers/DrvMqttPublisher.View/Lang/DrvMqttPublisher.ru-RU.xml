@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<DrvMqttPublisherDictionaries>
+<DrvMqttPublisherDictionaries name="Russian">
+  <General>
+    <CultureName>ru-RU</CultureName>
+  </General>
   <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.Config.DeviceOptions">
     <Phrase key="RootTopic.DisplayName">Корневой топик</Phrase>
     <Phrase key="RootTopic.Category">Основные параметры</Phrase>

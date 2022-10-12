@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<DrvCnlBasicDictionaries>
+<DrvCnlBasicDictionaries name="English">
+  <General>
+    <CultureName>en-GB</CultureName>
+  </General>
   <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.BasicChannelView">
     <Phrase key="ChannelTypeNotFound">Communication channel type not found.</Phrase>
   </Dictionary>

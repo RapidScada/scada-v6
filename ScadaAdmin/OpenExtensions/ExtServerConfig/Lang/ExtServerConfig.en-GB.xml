@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ExtServerConfigDictionaries>
+<ExtServerConfigDictionaries name="English">
+  <General>
+    <CultureName>en-GB</CultureName>
+  </General>
   <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.ExtServerConfigLogic">
     <Phrase key="GeneralOptionsNode">General Options</Phrase>
     <Phrase key="ModulesNode">Modules</Phrase>

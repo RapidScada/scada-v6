@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<DrvDsScadaServerDictionaries>
+<DrvDsScadaServerDictionaries name="English">
+  <General>
+    <CultureName>en-GB</CultureName>
+  </General>
   <Dictionary key="Scada.Comm.Drivers.DrvDsScadaServer.View.Forms.FrmConnManager">
     <Phrase key="this">Client Connections</Phrase>
     <Phrase key="gbConnList">Connections</Phrase>

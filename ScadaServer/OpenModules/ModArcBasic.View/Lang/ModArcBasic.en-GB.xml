@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ModArcBasicDictionaries>
+<ModArcBasicDictionaries name="English">
+  <General>
+    <CultureName>en-GB</CultureName>
+  </General>
   <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmArcDir">
     <Phrase key="this">Archive Directories</Phrase>
     <Phrase key="chkUseDefaultDir">Use default directories</Phrase>

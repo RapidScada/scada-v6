@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ScadaCommDictionaries>
+<ScadaCommDictionaries name="Russian">
+  <General>
+    <CultureName>ru-RU</CultureName>
+  </General>
   <Dictionary key="Scada.Comm.Devices">
     <Phrase key="LoadDeviceConfigError">Ошибка при загрузке конфигурации устройства</Phrase>
     <Phrase key="SaveDeviceConfigError">Ошибка при сохранении конфигурации устройства</Phrase>

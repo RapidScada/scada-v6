@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ScadaServerDictionaries>
+<ScadaServerDictionaries name="Russian">
+  <General>
+    <CultureName>ru-RU</CultureName>
+  </General>
   <!-- ScadaServerCommon.dll -->
   <Dictionary key="Scada.Server.Archives">
     <Phrase key="UnspecifiedArchiveKind">Не задан</Phrase>

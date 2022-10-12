@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<DrvHttpNotifDictionaries>
+<DrvHttpNotifDictionaries name="Russian">
+  <General>
+    <CultureName>ru-RU</CultureName>
+  </General>
   <Dictionary key="Scada.Comm.Drivers.DrvHttpNotif.View.Forms.FrmConfig">
     <Phrase key="this">Свойства устройства {0} - HTTP-уведомления</Phrase>
     <Phrase key="pageGeneral">Основные</Phrase>

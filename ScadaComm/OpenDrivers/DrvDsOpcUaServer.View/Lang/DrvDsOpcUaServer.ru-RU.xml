@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<DrvDsOpcUaServerDictionaries>
+<DrvDsOpcUaServerDictionaries name="Russian">
+  <General>
+    <CultureName>ru-RU</CultureName>
+  </General>
   <Dictionary key="Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms.FrmOpcUaServerDSO">
     <Phrase key="this">Параметры источника данных</Phrase>
     <Phrase key="chkAutoAccept">Автоматически принимать сертификаты</Phrase>

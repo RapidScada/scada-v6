@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PlgWebPageDictionaries>
+<PlgWebPageDictionaries name="English">
+  <General>
+    <CultureName>en-GB</CultureName>
+  </General>
   <Dictionary key="Scada.Web.Plugins.PlgWebPage.Areas.Main.Pages.Landing">
     <Phrase key="PageTitle">Page {0}</Phrase>
     <Phrase key="UrlIsEmpty">Unable to redirect because URL is empty</Phrase>

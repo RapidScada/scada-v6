@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ModArcPostgreSqlDictionaries>
+<ModArcPostgreSqlDictionaries name="Russian">
+  <General>
+    <CultureName>ru-RU</CultureName>
+  </General>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmConnManager">
     <Phrase key="this">Соединения PostgreSQL</Phrase>
     <Phrase key="gbConnList">Соединения</Phrase>

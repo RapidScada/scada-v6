@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ScadaServerDictionaries>
+<ScadaServerDictionaries name="English">
+  <General>
+    <CultureName>en-GB</CultureName>
+  </General>
   <!-- ScadaServerCommon.dll -->
   <Dictionary key="Scada.Server.Archives">
     <Phrase key="UnspecifiedArchiveKind">Unspecified</Phrase>

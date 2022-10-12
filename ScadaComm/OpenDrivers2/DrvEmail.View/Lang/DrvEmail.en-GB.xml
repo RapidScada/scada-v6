@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<DrvEmailDictionaries>
+<DrvEmailDictionaries name="English">
+  <General>
+    <CultureName>en-GB</CultureName>
+  </General>
   <Dictionary key="Scada.Comm.Drivers.DrvEmail.View.Forms.FrmConfig">
     <Phrase key="this">Device {0} Properties - Email</Phrase>
     <Phrase key="gbServer">SMTP Server</Phrase>

@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ExtWirenBoardDictionaries>
+<ExtWirenBoardDictionaries name="English">
+  <General>
+    <CultureName>en-GB</CultureName>
+  </General>
   <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlDeviceTree">
     <Phrase key="btnSelectAll">Select All</Phrase>
     <Phrase key="btnSelectNone">Select None</Phrase>
