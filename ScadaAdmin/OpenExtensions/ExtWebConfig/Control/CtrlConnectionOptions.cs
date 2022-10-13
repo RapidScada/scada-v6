@@ -1,5 +1,9 @@
-﻿using Scada.Admin.Project;
+﻿// Copyright (c) Rapid Software LLC. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
+using Scada.Admin.Project;
 using Scada.Client;
+using Scada.Forms;
 using Scada.Server;
 using Scada.Web.Config;
 using System;
@@ -14,10 +18,15 @@ using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions.ExtWebConfig.Control
 {
+    /// <summary>
+    /// Represents a control for connection options.
+    /// <para>Представляет элемент управления для редактирования параметров соединения.</para>
+    /// </summary>
     public partial class CtrlConnectionOptions : UserControl
     {
         private IAdminContext adminContext;      // the Administrator context
         private WebApp webApp;                   // the web application in a project
+        private bool changing;                   // controls are being changed programmatically
 
 
         public CtrlConnectionOptions()
@@ -40,6 +49,19 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         public event EventHandler OptionsChanged;
 
 
+        private void CtrlConnectionOptions_Load(object sender, EventArgs e)
+        {
+            FormTranslator.Translate(this, GetType().FullName);
+            FormTranslator.Translate(ctrlClientConnection, ctrlClientConnection.GetType().FullName);
+        }
+
+        private void control_Changed(object sender, EventArgs e)
+        {
+            if (!changing)
+                OnOptionsChanged();
+        }
+
+
         /// <summary>
         /// Initializes the control.
         /// </summary>
@@ -55,6 +77,10 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         public void OptionsToControls(ConnectionOptions connectionOptions)
         {
             ArgumentNullException.ThrowIfNull(connectionOptions, nameof(connectionOptions));
+
+            changing = true;
+            ctrlClientConnection.ConnectionOptions = connectionOptions;
+            changing = false;
         }
 
         /// <summary>

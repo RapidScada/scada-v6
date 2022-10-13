@@ -29,8 +29,8 @@
     <Reference Include="ScadaCommon.Log">
       <HintPath>..\..\..\ScadaCommon\ScadaCommon.Log\bin\Release\netstandard2.0\ScadaCommon.Log.dll</HintPath>
     </Reference>
-    <Reference Include="ScadaWebCommon">
-      <HintPath>..\..\..\ScadaWeb\ScadaWeb\ScadaWebCommon\bin\Release\net6.0\ScadaWebCommon.dll</HintPath>
+    <Reference Include="ScadaWebCommon.Subset">
+      <HintPath>..\..\..\ScadaWeb\ScadaWeb\ScadaWebCommon.Subset\bin\Release\net6.0\ScadaWebCommon.Subset.dll</HintPath>
     </Reference>
   </ItemGroup>
 

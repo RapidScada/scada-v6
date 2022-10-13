@@ -1,27 +1,32 @@
-﻿using Scada.Admin.Project;
-using Scada.Config;
+﻿// Copyright (c) Rapid Software LLC. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
+using Scada.Admin.Project;
+using Scada.Forms;
 using Scada.Web.Config;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions.ExtWebConfig.Control
 {
+    /// <summary>
+    /// Represents a control for editing general line options.
+    /// <para>Представляет элемент управления для редактирования основных параметров.</para>
+    /// </summary>
     public partial class CtrlGeneralOptions : UserControl
     {
         private IAdminContext adminContext;      // the Administrator context
         private WebApp webApp;                   // the web application in a project
+        private bool changing;                   // controls are being changed programmatically
 
 
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
         public CtrlGeneralOptions()
         {
             InitializeComponent();
+            adminContext = null;
+            webApp = null;
+            changing = false;
         }
 
 
@@ -39,6 +44,17 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         public event EventHandler OptionsChanged;
 
 
+        private void CtrlGeneralOptions_Load(object sender, EventArgs e)
+        {
+            FormTranslator.Translate(this, GetType().FullName);
+        }
+
+        private void control_Changed(object sender, EventArgs e)
+        {
+            if (!changing)
+                OnOptionsChanged();
+        }
+
         /// <summary>
         /// Initializes the control.
         /// </summary>
@@ -54,6 +70,16 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         public void OptionsToControls(GeneralOptions generalOptions)
         {
             ArgumentNullException.ThrowIfNull(generalOptions, nameof(generalOptions));
+            changing = true;
+
+            txtDefaultCulture.Text = generalOptions.DefaultCulture;
+            cbDefaultTimeZone.Text = generalOptions.DefaultTimeZone;
+            txtDefaultStartPage.Text = generalOptions.DefaultStartPage;
+            chkEnableCommands.Checked = generalOptions.EnableCommands;
+            chkShareStats.Checked = generalOptions.ShareStats;
+            numMaxLogSize.SetValue(generalOptions.MaxLogSize);
+
+            changing = false;
         }
 
         /// <summary>
@@ -62,6 +88,13 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         public void ControlsToOptions(GeneralOptions generalOptions)
         {
             ArgumentNullException.ThrowIfNull(generalOptions, nameof(generalOptions));
+
+            generalOptions.DefaultCulture = txtDefaultCulture.Text;
+            generalOptions.DefaultTimeZone = cbDefaultTimeZone.Text;
+            generalOptions.DefaultStartPage = txtDefaultStartPage.Text;
+            generalOptions.EnableCommands = chkEnableCommands.Checked;
+            generalOptions.ShareStats = chkShareStats.Checked;
+            generalOptions.MaxLogSize = Convert.ToInt32(numMaxLogSize.Value);
         }
     }
 }

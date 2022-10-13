@@ -40,6 +40,7 @@
             this.ctrlClientConnection.NameEnabled = false;
             this.ctrlClientConnection.Size = new System.Drawing.Size(487, 366);
             this.ctrlClientConnection.TabIndex = 4;
+            this.ctrlClientConnection.ConnectionOptionsChanged += new System.EventHandler(this.control_Changed);
             // 
             // CtrlConnectionOptions
             // 
@@ -48,6 +49,7 @@
             this.Controls.Add(this.ctrlClientConnection);
             this.Name = "CtrlConnectionOptions";
             this.Size = new System.Drawing.Size(550, 600);
+            this.Load += new System.EventHandler(this.CtrlConnectionOptions_Load);
             this.ResumeLayout(false);
 
         }

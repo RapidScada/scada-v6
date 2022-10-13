@@ -38,11 +38,9 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
         public FrmApplicationOptions(IAdminContext adminContext, WebApp webApp)
             : this()
         {
-            webConfig = new WebConfig();
-            //webConfig.Load();
-
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.webApp = webApp ?? throw new ArgumentNullException(nameof(webApp));
+            webConfig = webApp.AppConfig;
             generalOptionsReady = false;
             connectionOptionsReady = false;
             loginOptionsReady = false;

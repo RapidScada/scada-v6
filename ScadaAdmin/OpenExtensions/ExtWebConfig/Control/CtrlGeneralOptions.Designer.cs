@@ -47,23 +47,23 @@
             // 
             // gbGeneralOptions
             // 
-            this.gbGeneralOptions.Controls.Add(this.cbDefaultTimeZone);
-            this.gbGeneralOptions.Controls.Add(this.lblMaxLogSize);
             this.gbGeneralOptions.Controls.Add(this.numMaxLogSize);
+            this.gbGeneralOptions.Controls.Add(this.lblMaxLogSize);
             this.gbGeneralOptions.Controls.Add(this.chkShareStats);
             this.gbGeneralOptions.Controls.Add(this.lblShareStats);
-            this.gbGeneralOptions.Controls.Add(this.txtDefaultStartPage);
-            this.gbGeneralOptions.Controls.Add(this.txtDefaultCulture);
             this.gbGeneralOptions.Controls.Add(this.chkEnableCommands);
             this.gbGeneralOptions.Controls.Add(this.lblEnableCommands);
+            this.gbGeneralOptions.Controls.Add(this.txtDefaultStartPage);
             this.gbGeneralOptions.Controls.Add(this.lblDefaultStartPage);
+            this.gbGeneralOptions.Controls.Add(this.cbDefaultTimeZone);
             this.gbGeneralOptions.Controls.Add(this.lblDefaultTimeZone);
+            this.gbGeneralOptions.Controls.Add(this.txtDefaultCulture);
             this.gbGeneralOptions.Controls.Add(this.lblDefaultCulture);
             this.gbGeneralOptions.Location = new System.Drawing.Point(0, 0);
             this.gbGeneralOptions.Name = "gbGeneralOptions";
             this.gbGeneralOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
             this.gbGeneralOptions.Size = new System.Drawing.Size(500, 233);
-            this.gbGeneralOptions.TabIndex = 2;
+            this.gbGeneralOptions.TabIndex = 0;
             this.gbGeneralOptions.TabStop = false;
             this.gbGeneralOptions.Text = "General Options";
             // 
@@ -73,16 +73,17 @@
             this.cbDefaultTimeZone.Location = new System.Drawing.Point(287, 57);
             this.cbDefaultTimeZone.Name = "cbDefaultTimeZone";
             this.cbDefaultTimeZone.Size = new System.Drawing.Size(200, 23);
-            this.cbDefaultTimeZone.TabIndex = 17;
+            this.cbDefaultTimeZone.TabIndex = 3;
+            this.cbDefaultTimeZone.SelectedIndexChanged += new System.EventHandler(this.control_Changed);
             // 
             // lblMaxLogSize
             // 
             this.lblMaxLogSize.AutoSize = true;
             this.lblMaxLogSize.Location = new System.Drawing.Point(10, 201);
             this.lblMaxLogSize.Name = "lblMaxLogSize";
-            this.lblMaxLogSize.Size = new System.Drawing.Size(187, 15);
-            this.lblMaxLogSize.TabIndex = 16;
-            this.lblMaxLogSize.Text = "Maximum log file size, megabytes";
+            this.lblMaxLogSize.Size = new System.Drawing.Size(147, 15);
+            this.lblMaxLogSize.TabIndex = 10;
+            this.lblMaxLogSize.Text = "Maximum log file size, MB";
             // 
             // numMaxLogSize
             // 
@@ -99,12 +100,13 @@
             0});
             this.numMaxLogSize.Name = "numMaxLogSize";
             this.numMaxLogSize.Size = new System.Drawing.Size(100, 23);
-            this.numMaxLogSize.TabIndex = 15;
+            this.numMaxLogSize.TabIndex = 11;
             this.numMaxLogSize.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
+            this.numMaxLogSize.ValueChanged += new System.EventHandler(this.control_Changed);
             // 
             // chkShareStats
             // 
@@ -112,8 +114,9 @@
             this.chkShareStats.Location = new System.Drawing.Point(472, 172);
             this.chkShareStats.Name = "chkShareStats";
             this.chkShareStats.Size = new System.Drawing.Size(15, 14);
-            this.chkShareStats.TabIndex = 14;
+            this.chkShareStats.TabIndex = 9;
             this.chkShareStats.UseVisualStyleBackColor = true;
+            this.chkShareStats.CheckedChanged += new System.EventHandler(this.control_Changed);
             // 
             // lblShareStats
             // 
@@ -121,7 +124,7 @@
             this.lblShareStats.Location = new System.Drawing.Point(10, 172);
             this.lblShareStats.Name = "lblShareStats";
             this.lblShareStats.Size = new System.Drawing.Size(231, 15);
-            this.lblShareStats.TabIndex = 13;
+            this.lblShareStats.TabIndex = 8;
             this.lblShareStats.Text = "Share depersonalized stats with developers";
             // 
             // txtDefaultStartPage
@@ -129,14 +132,16 @@
             this.txtDefaultStartPage.Location = new System.Drawing.Point(13, 110);
             this.txtDefaultStartPage.Name = "txtDefaultStartPage";
             this.txtDefaultStartPage.Size = new System.Drawing.Size(474, 23);
-            this.txtDefaultStartPage.TabIndex = 12;
+            this.txtDefaultStartPage.TabIndex = 5;
+            this.txtDefaultStartPage.TextChanged += new System.EventHandler(this.control_Changed);
             // 
             // txtDefaultCulture
             // 
             this.txtDefaultCulture.Location = new System.Drawing.Point(287, 26);
             this.txtDefaultCulture.Name = "txtDefaultCulture";
             this.txtDefaultCulture.Size = new System.Drawing.Size(200, 23);
-            this.txtDefaultCulture.TabIndex = 10;
+            this.txtDefaultCulture.TabIndex = 0;
+            this.txtDefaultCulture.TextChanged += new System.EventHandler(this.control_Changed);
             // 
             // chkEnableCommands
             // 
@@ -146,6 +151,7 @@
             this.chkEnableCommands.Size = new System.Drawing.Size(15, 14);
             this.chkEnableCommands.TabIndex = 7;
             this.chkEnableCommands.UseVisualStyleBackColor = true;
+            this.chkEnableCommands.CheckedChanged += new System.EventHandler(this.control_Changed);
             // 
             // lblEnableCommands
             // 
@@ -161,18 +167,18 @@
             this.lblDefaultStartPage.AutoSize = true;
             this.lblDefaultStartPage.Location = new System.Drawing.Point(10, 92);
             this.lblDefaultStartPage.Name = "lblDefaultStartPage";
-            this.lblDefaultStartPage.Size = new System.Drawing.Size(194, 15);
+            this.lblDefaultStartPage.Size = new System.Drawing.Size(182, 15);
             this.lblDefaultStartPage.TabIndex = 4;
-            this.lblDefaultStartPage.Text = "Default start page auto using opens";
+            this.lblDefaultStartPage.Text = "Default start page after user login";
             // 
             // lblDefaultTimeZone
             // 
             this.lblDefaultTimeZone.AutoSize = true;
             this.lblDefaultTimeZone.Location = new System.Drawing.Point(10, 61);
             this.lblDefaultTimeZone.Name = "lblDefaultTimeZone";
-            this.lblDefaultTimeZone.Size = new System.Drawing.Size(150, 15);
+            this.lblDefaultTimeZone.Size = new System.Drawing.Size(100, 15);
             this.lblDefaultTimeZone.TabIndex = 2;
-            this.lblDefaultTimeZone.Text = "Default time zone identifier";
+            this.lblDefaultTimeZone.Text = "Default time zone";
             // 
             // lblDefaultCulture
             // 
@@ -190,6 +196,7 @@
             this.Controls.Add(this.gbGeneralOptions);
             this.Name = "CtrlGeneralOptions";
             this.Size = new System.Drawing.Size(550, 550);
+            this.Load += new System.EventHandler(this.CtrlGeneralOptions_Load);
             this.gbGeneralOptions.ResumeLayout(false);
             this.gbGeneralOptions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMaxLogSize)).EndInit();
