@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<DrvCnlMqttDictionaries name="Indonesian">
-  <General>
-    <CultureName>id-ID</CultureName>
-  </General>
+<DrvCnlMqttDictionaries culture="id-ID" lang="Indonesian">
   <Dictionary key="Scada.Comm.Drivers.DrvCnlMqtt.View.Forms.FrmMqttClientChannelOptions">
     <Phrase key="this">Opsi Klien MQTT</Phrase>
     <Phrase key="lblServer">Server</Phrase>

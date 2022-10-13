@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ExtCommConfigDictionaries name="Indonesian">
-  <General>
-    <CultureName>id-ID</CultureName>
-  </General>
+<ExtCommConfigDictionaries culture="id-ID" lang="Indonesian">
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.ExtCommConfigLogic">
     <Phrase key="GeneralOptionsNode">Pilihan Umum</Phrase>
     <Phrase key="DriversNode">Pengendali</Phrase>

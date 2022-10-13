@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ExtDepAgentDictionaries name="Indonesian">
-  <General>
-    <CultureName>id-ID</CultureName>
-  </General>
+<ExtDepAgentDictionaries culture="id-ID" lang="Indonesian">
   <Dictionary key="Scada.Admin.Extensions.ExtDepAgent.Downloader">
     <Phrase key="ImportTable">Impor tabel {0}</Phrase>
     <Phrase key="ExtractArchive">Ekstrak arsip</Phrase>

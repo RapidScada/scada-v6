@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<DrvMqttPublisherDictionaries name="Indonesian">
-  <General>
-    <CultureName>id-ID</CultureName>
-  </General>
+<DrvMqttPublisherDictionaries>
   <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.Config.DeviceOptions">
     <Phrase key="RootTopic.DisplayName">Induk topik</Phrase>
     <Phrase key="RootTopic.Category">Parameter Utama</Phrase>

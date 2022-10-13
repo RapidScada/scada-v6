@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ModArcPostgreSqlDictionaries name="Indonesian">
-  <General>
-    <CultureName>id-ID</CultureName>
-  </General>
+<ModArcPostgreSqlDictionaries culture="id-ID" lang="Indonesian">
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmConnManager">
     <Phrase key="this">Koneksi PostgreSQL</Phrase>
     <Phrase key="gbConnList">Koneksi</Phrase>

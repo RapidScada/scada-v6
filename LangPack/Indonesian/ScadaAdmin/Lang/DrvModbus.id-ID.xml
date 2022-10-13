@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<DrvModbusDictionaries name="Indonesian">
-  <General>
-    <CultureName>id-ID</CultureName>
-  </General>
+<DrvModbusDictionaries culture="id-ID" lang="Indonesian">
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.Config.DeviceTemplate">
     <Phrase key="LoadTemplateError">Terjadi kesalahan saat memuat template perangkat</Phrase>
     <Phrase key="SaveTemplateError">Terjadi kesalahan saat menyimpan template perangkat</Phrase>

@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ExtWirenBoardDictionaries name="Indonesian">
-  <General>
-    <CultureName>id-ID</CultureName>
-  </General>
+<ExtWirenBoardDictionaries culture="id-ID" lang="Indonesian">
   <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlDeviceTree">
     <Phrase key="btnSelectAll">Pilih Semua</Phrase>
     <Phrase key="btnSelectNone">Tidak Ada Pilihan</Phrase>
