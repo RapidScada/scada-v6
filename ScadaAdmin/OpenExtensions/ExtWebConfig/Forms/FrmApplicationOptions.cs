@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Admin.Extensions.ExtWebConfig.Code;
 using Scada.Admin.Project;
 using Scada.Forms;
 using Scada.Web.Config;
@@ -92,7 +93,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
 
             if (webApp.SaveConfig(out string errMsg))
             { 
-                Text = "Текст";
+                Text = ExtensionPhrases.ApplicationConfigTitle;
                 UpdateMainForm();
                 ChildFormTag.Modified = false;
             }
@@ -106,7 +107,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
         private void FrmApplicationOptions_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
-            Text = "Текст";
+            Text = ExtensionPhrases.ApplicationConfigTitle;
 
             ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
             ctrlGeneralOptions.Init(adminContext, webApp);

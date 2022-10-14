@@ -11,6 +11,10 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Code
     /// </summary>
     internal class ExtensionPhrases
     {
+               
+        // Scada.Admin.Extensions.ExtWebConfig.Forms.FrmApplicationOptions
+        public static string ApplicationConfigTitle { get; private set; }
+
         // Scada.Admin.Extensions.ExtWebConfig.ExtWebConfigLogic
         public static string LogsNode { get; private set; }
 
@@ -24,6 +28,9 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Code
             LogsNode = dict["LogsNode"];
             ApplicationOptionsNode = dict["ApplicationOptionsNode"];
             PluginsNode = dict["PluginsNode"];
+
+            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtWebConfig.Forms.FrmApplicationOptions");
+            ApplicationConfigTitle = dict["ApplicationConfigTitle"];
         }
     }
 }

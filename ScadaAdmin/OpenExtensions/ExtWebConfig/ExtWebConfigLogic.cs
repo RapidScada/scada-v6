@@ -93,17 +93,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig
         {
             return relatedObject is WebApp webApp ? 
             new TreeNode[]
-            {
-                new TreeNode(ExtensionPhrases.LogsNode)
-                {
-                    ImageKey = ImageKey.Logs,
-                    SelectedImageKey = ImageKey.Logs,
-                    Tag = new TreeNodeTag
-                    {
-                        FormType = typeof(FrmLogs),
-                        FormArgs = new object[] { AdminContext, ServiceApp.Web }
-                    }
-                },
+            {                
                 new TreeNode(ExtensionPhrases.ApplicationOptionsNode)
                 {
                     ImageKey = ImageKey.ApplcationOptions,
@@ -122,6 +112,16 @@ namespace Scada.Admin.Extensions.ExtWebConfig
                     {
                         FormType = typeof(FrmPlugins),
                         FormArgs = new object[] { AdminContext, webApp }
+                    }
+                },
+                new TreeNode(ExtensionPhrases.LogsNode)
+                {
+                    ImageKey = ImageKey.Logs,
+                    SelectedImageKey = ImageKey.Logs,
+                    Tag = new TreeNodeTag
+                    {
+                        FormType = typeof(FrmLogs),
+                        FormArgs = new object[] { AdminContext, ServiceApp.Web }
                     }
                 }
             } : null;

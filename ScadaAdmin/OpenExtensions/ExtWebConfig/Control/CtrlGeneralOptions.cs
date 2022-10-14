@@ -4,6 +4,9 @@
 using Scada.Admin.Project;
 using Scada.Forms;
 using Scada.Web.Config;
+using System;
+using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace Scada.Admin.Extensions.ExtWebConfig.Control
 {
@@ -62,6 +65,21 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         {
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.webApp = webApp ?? throw new ArgumentNullException(nameof(webApp));
+
+            cbDefaultTimeZone.Items.Clear();
+            ReadOnlyCollection<TimeZoneInfo> timeZones = TimeZoneInfo.GetSystemTimeZones();
+
+            foreach (TimeZoneInfo timeZone in timeZones)
+            {
+                cbDefaultTimeZone.Items.Add(timeZone);
+            }
+
+            cbDefaultCulture.Items.Clear();
+            foreach (CultureInfo cultureInfo in CultureInfo.GetCultures(CultureTypes.NeutralCultures))
+            {
+                cbDefaultCulture.Items.Add(cultureInfo.TwoLetterISOLanguageName  + " " + cultureInfo.ThreeLetterWindowsLanguageName + 
+                    " " + cultureInfo.DisplayName + " " + cultureInfo.Name); 
+            }
         }
 
         /// <summary>
@@ -72,8 +90,19 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
             ArgumentNullException.ThrowIfNull(generalOptions, nameof(generalOptions));
             changing = true;
 
-            txtDefaultCulture.Text = generalOptions.DefaultCulture;
-            cbDefaultTimeZone.Text = generalOptions.DefaultTimeZone;
+            cbDefaultCulture.Text = generalOptions.DefaultCulture;
+
+            ReadOnlyCollection<TimeZoneInfo> timeZones = TimeZoneInfo.GetSystemTimeZones();
+            
+            foreach (TimeZoneInfo timeZone in timeZones)
+            {
+                if (timeZone.Id == generalOptions.DefaultTimeZone)
+                {
+                    cbDefaultTimeZone.SelectedItem = timeZone;
+                    break;
+                }
+            }                       
+            
             txtDefaultStartPage.Text = generalOptions.DefaultStartPage;
             chkEnableCommands.Checked = generalOptions.EnableCommands;
             chkShareStats.Checked = generalOptions.ShareStats;
@@ -89,8 +118,8 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         {
             ArgumentNullException.ThrowIfNull(generalOptions, nameof(generalOptions));
 
-            generalOptions.DefaultCulture = txtDefaultCulture.Text;
-            generalOptions.DefaultTimeZone = cbDefaultTimeZone.Text;
+            generalOptions.DefaultCulture = cbDefaultCulture.Text;                        
+            generalOptions.DefaultTimeZone = ((TimeZoneInfo)cbDefaultTimeZone.SelectedItem).Id;
             generalOptions.DefaultStartPage = txtDefaultStartPage.Text;
             generalOptions.EnableCommands = chkEnableCommands.Checked;
             generalOptions.ShareStats = chkShareStats.Checked;

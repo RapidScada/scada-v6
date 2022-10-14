@@ -1,6 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ExtWebConfigDictionaries>
   <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.ExtWebConfigLogic">
+    <Phrase key="ApplicationOptionsNode">Application Options</Phrase>
+    <Phrase key="PluginsNode">Plugins</Phrase>
     <Phrase key="LogsNode">Журналы</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Forms.FrmApplicationOptions">
+    <Phrase key="ApplicationConfigTitle">Application Options</Phrase>
   </Dictionary>
 </ExtWebConfigDictionaries>

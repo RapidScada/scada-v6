@@ -87,9 +87,9 @@
             this.lblRefreshRate.AutoSize = true;
             this.lblRefreshRate.Location = new System.Drawing.Point(10, 113);
             this.lblRefreshRate.Name = "lblRefreshRate";
-            this.lblRefreshRate.Size = new System.Drawing.Size(91, 15);
+            this.lblRefreshRate.Size = new System.Drawing.Size(115, 15);
             this.lblRefreshRate.TabIndex = 6;
-            this.lblRefreshRate.Text = "Refresh rate, ms";
+            this.lblRefreshRate.Text = "Data refresh rate, ms";
             // 
             // chkShowViewExplorer
             // 
