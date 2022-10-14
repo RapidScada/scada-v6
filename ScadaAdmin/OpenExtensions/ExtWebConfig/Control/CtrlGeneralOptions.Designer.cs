@@ -39,8 +39,8 @@
             this.lblDefaultStartPage = new System.Windows.Forms.Label();
             this.cbDefaultTimeZone = new System.Windows.Forms.ComboBox();
             this.lblDefaultTimeZone = new System.Windows.Forms.Label();
-            this.lblDefaultCulture = new System.Windows.Forms.Label();
             this.cbDefaultCulture = new System.Windows.Forms.ComboBox();
+            this.lblDefaultCulture = new System.Windows.Forms.Label();
             this.gbGeneralOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMaxLogSize)).BeginInit();
             this.SuspendLayout();
@@ -173,6 +173,16 @@
             this.lblDefaultTimeZone.TabIndex = 2;
             this.lblDefaultTimeZone.Text = "Default time zone";
             // 
+            // cbDefaultCulture
+            // 
+            this.cbDefaultCulture.FormattingEnabled = true;
+            this.cbDefaultCulture.Location = new System.Drawing.Point(287, 26);
+            this.cbDefaultCulture.Name = "cbDefaultCulture";
+            this.cbDefaultCulture.Size = new System.Drawing.Size(200, 23);
+            this.cbDefaultCulture.TabIndex = 1;
+            this.cbDefaultCulture.SelectedIndexChanged += new System.EventHandler(this.control_Changed);
+            this.cbDefaultCulture.TextUpdate += new System.EventHandler(this.control_Changed);
+            // 
             // lblDefaultCulture
             // 
             this.lblDefaultCulture.AutoSize = true;
@@ -181,14 +191,6 @@
             this.lblDefaultCulture.Size = new System.Drawing.Size(118, 15);
             this.lblDefaultCulture.TabIndex = 0;
             this.lblDefaultCulture.Text = "Default culture name";
-            // 
-            // cbDefaultCulture
-            // 
-            this.cbDefaultCulture.FormattingEnabled = true;
-            this.cbDefaultCulture.Location = new System.Drawing.Point(287, 26);
-            this.cbDefaultCulture.Name = "cbDefaultCulture";
-            this.cbDefaultCulture.Size = new System.Drawing.Size(200, 23);
-            this.cbDefaultCulture.TabIndex = 1;
             // 
             // CtrlGeneralOptions
             // 

@@ -9,7 +9,6 @@ using Scada.Admin.Lang;
 using Scada.Admin.Project;
 using Scada.Forms;
 using Scada.Lang;
-using Scada.Web.Config;
 
 namespace Scada.Admin.Extensions.ExtWebConfig
 {
@@ -26,8 +25,8 @@ namespace Scada.Admin.Extensions.ExtWebConfig
         {
             private const string ImagePrefix = "web_config_";
             public const string Logs = ImagePrefix + "logs.png";
-            public const string ApplcationOptions = ImagePrefix + "1.png"; //
-            public const string Plugins = ImagePrefix + "2.png"; //
+            public const string ApplcationOptions = ImagePrefix + "general_options.png";
+            public const string Plugins = ImagePrefix + "driver.png";
         }
 
 
@@ -135,8 +134,8 @@ namespace Scada.Admin.Extensions.ExtWebConfig
             return new Dictionary<string, Image>
             {
                 { ImageKey.Logs, Resources.logs },
-                { ImageKey.ApplcationOptions, Resources.logs },
-                { ImageKey.Plugins, Resources.logs }
+                { ImageKey.ApplcationOptions, Resources.general_options },
+                { ImageKey.Plugins, Resources.driver }
             };
         }
     }

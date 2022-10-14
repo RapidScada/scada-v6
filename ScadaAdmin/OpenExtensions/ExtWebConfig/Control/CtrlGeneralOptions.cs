@@ -77,8 +77,8 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
             cbDefaultCulture.Items.Clear();
             foreach (CultureInfo cultureInfo in CultureInfo.GetCultures(CultureTypes.NeutralCultures))
             {
-                cbDefaultCulture.Items.Add(cultureInfo.TwoLetterISOLanguageName  + " " + cultureInfo.ThreeLetterWindowsLanguageName + 
-                    " " + cultureInfo.DisplayName + " " + cultureInfo.Name); 
+                cbDefaultCulture.Items.Add(cultureInfo.Name +
+                    " " + cultureInfo.DisplayName); 
             }
         }
 

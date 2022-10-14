@@ -5,7 +5,46 @@
     <Phrase key="PluginsNode">Plugins</Phrase>
     <Phrase key="LogsNode">Logs</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Controls.CtrlDisplayOptions">    
+    <Phrase key="gbDisplayOptions">Display Options</Phrase>
+    <Phrase key="lblShowHeader">Show page header</Phrase>
+    <Phrase key="lblShowMainMenu">Show main menu</Phrase>
+    <Phrase key="lblShowViewExplorer">Show view explorer</Phrase>
+    <Phrase key="lblRefreshRate">Data refresh rate, ms</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Controls.CtrlGeneralOptions">
+    <Phrase key="gbGeneralOptions">General Options</Phrase>
+    <Phrase key="lblDefaultCulture">Default culture name</Phrase>
+    <Phrase key="lblDefaultTimeZone">Default time zone</Phrase>
+    <Phrase key="lblDefaultStartPage">Default start page after user login</Phrase>
+    <Phrase key="lblEnableCommands">Enable telecontrol commands</Phrase>
+    <Phrase key="lblShareStats">Share depersonalized stats with developers</Phrase>
+    <Phrase key="lblMaxLogSize">Maximum log file size, MB</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Controls.CtrlLoginOptions">
+    <Phrase key="gbLoginOptions">Login Options</Phrase>
+    <Phrase key="lblRequireCaptcha">Require captcha at login</Phrase>
+    <Phrase key="lblAllowRememberMe">Allow to remember login</Phrase>
+    <Phrase key="lblRememberMeExpires">Login expires, days</Phrase>
+    <Phrase key="lblAutoLoginUsername">Username for automatic login</Phrase>
+    <Phrase key="lblAutoLoginPassword">Password for automatic login</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Controls.CtrlPluginAssignment">
+    <Phrase key="gbPluginAssignment">Login Options</Phrase>
+    <Phrase key="lblChartFeature">Plugin for charting</Phrase>
+    <Phrase key="lblCommandFeature">Plugin for sending commands</Phrase>
+    <Phrase key="lblEventAckFeature">Plugin for event acknowledgement</Phrase>
+    <Phrase key="lblUserManagementFeature">User management plugin</Phrase>
+    <Phrase key="lblNotificationFeature">Notification management plugin</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Forms.FrmApplicationOptions">
-    <Phrase key="ApplicationConfigTitle">Application Options</Phrase>    
+    <Phrase key="this">Application Options</Phrase>
+    <Phrase key="lbTabs.Items[0]">General Options</Phrase>
+    <Phrase key="lbTabs.Items[1]">Connection Options</Phrase>
+    <Phrase key="lbTabs.Items[2]">Login Options</Phrase>
+    <Phrase key="lbTabs.Items[3]">Display Options</Phrase>
+    <Phrase key="lbTabs.Items[4]">Plugin Assigment</Phrase>
+    <Phrase key="ApplicationConfigTitle">Application Options</Phrase>
   </Dictionary>
 </ExtWebConfigDictionaries>
+
