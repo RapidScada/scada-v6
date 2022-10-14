@@ -164,6 +164,7 @@
             this.Text = "Start Page";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmStartPage_FormClosed);
             this.Load += new System.EventHandler(this.FrmStartPage_Load);
+            this.Shown += new System.EventHandler(this.FrmStartPage_Shown);
             this.Resize += new System.EventHandler(this.FrmStartPage_Resize);
             this.pnlContent.ResumeLayout(false);
             this.pnlContent.PerformLayout();

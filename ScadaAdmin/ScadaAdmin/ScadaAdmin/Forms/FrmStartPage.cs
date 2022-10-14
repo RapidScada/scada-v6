@@ -177,6 +177,11 @@ namespace Scada.Admin.App.Forms
             FillRecentProjectList();
         }
 
+        private void FrmStartPage_Shown(object sender, EventArgs e)
+        {
+            Refresh(); // fix for Wine
+        }
+
         private void FrmStartPage_FormClosed(object sender, FormClosedEventArgs e)
         {
             itemMainFont.Dispose();
