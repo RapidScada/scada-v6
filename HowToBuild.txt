@@ -1,11 +1,14 @@
-How to Build Rapid SCADA
+Build with Visual Studio
 ------------------------
-Microsoft Visual Studio 2022 is needed. Visual Studio Community is OK.
 
-1. Download the source code from the repository:
+1. Download and install Microsoft Visual Studio 2022. Visual Studio Community is OK.
+
+2. Download the source code of Rapid SCADA from the repository:
    https://github.com/RapidScada/scada-v6
 
-2. Build the solutions using Visual Studio in the following sequence:
+3. Build the solutions using Visual Studio in the sequence below.
+   Switch to the Release configuration so that the references are correct.
+
    ScadaCommon,
    ScadaAgent,
    ScadaComm,
@@ -19,6 +22,27 @@ Microsoft Visual Studio 2022 is needed. Visual Studio Community is OK.
    OpenPlugins,
    OpenExtensions.
 
-   Switch to the Release configuration so that the references are correct.
 
-3. Enjoy the binaries built by yourself.
+Build from Command Line
+-----------------------
+1. Download and install .NET SDK 6.0 for your operating system.
+
+2. Download the source code of Rapid SCADA from the repository:
+   https://github.com/RapidScada/scada-v6
+
+3. Change directory to the source code root.
+ 
+4. Execute the following commands:
+
+dotnet build ScadaCommon/ScadaCommon.sln -c Release
+dotnet build ScadaAgent/ScadaAgent/ScadaAgent.sln -c Release
+dotnet build ScadaComm/ScadaComm/ScadaComm.sln -c Release
+dotnet build ScadaServer/ScadaServer/ScadaServer.sln -c Release
+dotnet build ScadaWeb/ScadaWeb/ScadaWeb.sln -c Release
+dotnet build ScadaAdmin/ScadaAdmin/ScadaAdmin.sln -c Release
+dotnet build ScadaReport/ScadaReport.sln -c Release
+dotnet build ScadaComm/OpenDrivers/OpenDrivers.sln -c Release
+dotnet build ScadaComm/OpenDrivers2/OpenDrivers2.sln -c Release
+dotnet build ScadaServer/OpenModules/OpenModules.sln -c Release
+dotnet build ScadaWeb/OpenPlugins/OpenPlugins.sln -c Release
+dotnet build ScadaAdmin/OpenExtensions/OpenExtensions.sln -c Release
