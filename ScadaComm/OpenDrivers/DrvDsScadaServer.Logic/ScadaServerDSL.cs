@@ -101,7 +101,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
             {
                 FileName = Path.Combine(CommContext.AppDirs.LogDir, DriverUtils.DriverCode + "_" + Code + "_Client.log"),
                 TimestampFormat = LogFile.DefaultTimestampFormat + "'.'ff",
-                Capacity = CommContext.AppConfig.GeneralOptions.MaxLogSize
+                CapacityMB = CommContext.AppConfig.GeneralOptions.MaxLogSize
             };
         }
 
