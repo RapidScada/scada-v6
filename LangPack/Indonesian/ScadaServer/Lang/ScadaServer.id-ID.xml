@@ -5,7 +5,7 @@
     <Phrase key="UnspecifiedArchiveKind">Tidak ditentukan</Phrase>
     <Phrase key="CurrentArchiveKind">Saat ini</Phrase>
     <Phrase key="HistoricalArchiveKind">Historis</Phrase>
-    <Phrase key="EventsArchiveKind">Kejadian</Phrase>
+    <Phrase key="EventsArchiveKind">Peringatan</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules">
     <Phrase key="LoadModuleConfigError">Kesalahan memuat konfigurasi modul</Phrase>
@@ -17,23 +17,23 @@
   </Dictionary>
   <!-- ScadaServerCommon.Forms.dll -->
   <Dictionary key="Scada.Server.Forms.Controls.CtrlCurrentArchiveOptions">
-    <Phrase key="gbOptions">Pilihan Umum</Phrase>
+    <Phrase key="gbOptions">Pilihan Utama</Phrase>
     <Phrase key="lblReadOnly">Baca saja</Phrase>
-    <Phrase key="lblLogEnabled">Log diaktifkan</Phrase>
+    <Phrase key="lblLogEnabled">Catatan diaktifkan</Phrase>
     <Phrase key="lblFlushPeriod">Periode pembilasan</Phrase>
     <Phrase key="txtFlushPeriodUnit">Detik</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Forms.Controls.CtrlEventArchiveOptions">
-    <Phrase key="gbOptions">Pilihan Umum</Phrase>
+    <Phrase key="gbOptions">Pilihan Utama</Phrase>
     <Phrase key="lblReadOnly">Baca saja</Phrase>
-    <Phrase key="lblLogEnabled">Log diaktifkan</Phrase>
+    <Phrase key="lblLogEnabled">Catatan diaktifkan</Phrase>
     <Phrase key="lblRetention">Jangka waktu penyimpanan</Phrase>
     <Phrase key="txtRetentionUnit">Hari</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Forms.Controls.CtrlHistoricalArchiveOptions">
-    <Phrase key="gbOptions">Pilihan Umum</Phrase>
+    <Phrase key="gbOptions">Pilihan Utama</Phrase>
     <Phrase key="lblReadOnly">Hanya baca</Phrase>
-    <Phrase key="lblLogEnabled">Log diaktifkan</Phrase>
+    <Phrase key="lblLogEnabled">Catatan diaktifkan</Phrase>
     <Phrase key="lblRetention">Jangka waktu penyimpanan</Phrase>
     <Phrase key="txtRetentionUnit">Hari</Phrase>
     <Phrase key="lblIsPeriodic">Hanya data berkala</Phrase>

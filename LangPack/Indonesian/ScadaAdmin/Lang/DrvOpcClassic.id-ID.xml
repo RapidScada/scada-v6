@@ -24,9 +24,9 @@
     <Phrase key="lblUpdateRate">Tingkat pembaruan, ms</Phrase>
     <Phrase key="lblKeepAlive">Tetap hidup, ms</Phrase>
     <Phrase key="lblMaxSize">Ukuran maksimum</Phrase>
-    <Phrase key="chkSimpleEvents">Kejadian sederhana</Phrase>
-    <Phrase key="chkTrackingEvents">Lacak kejadian</Phrase>
-    <Phrase key="chkConditionEvents">Kondisi kejadian</Phrase>
+    <Phrase key="chkSimpleEvents">Peringatan sederhana</Phrase>
+    <Phrase key="chkTrackingEvents">Lacak peringatan</Phrase>
+    <Phrase key="chkConditionEvents">Kondisi peringatan</Phrase>
     <Phrase key="lblHighSeverity">Keparahan tinggi</Phrase>
     <Phrase key="lblLowSeverity">Keparahan rendah</Phrase>
   </Dictionary>
@@ -90,7 +90,7 @@
     <Phrase key="EmptyNode">Kosong</Phrase>
     <Phrase key="SubscriptionsNode">Langganan</Phrase>
     <Phrase key="CommandsNode">Perintah</Phrase>
-    <Phrase key="EventSubscriptionsNode">Langganan Kejadian</Phrase>
+    <Phrase key="EventSubscriptionsNode">Langganan Peringatan</Phrase>
     <Phrase key="UnnamedSubscription">&amp;lt;Langganan Tanpa Nama&amp;gt;</Phrase>
     <Phrase key="UnnamedItem">&amp;lt;Isi Tanpa Nama&amp;gt;</Phrase>
     <Phrase key="UnnamedCommand">&amp;lt;Perintah Tanpa Nama&amp;gt;</Phrase>

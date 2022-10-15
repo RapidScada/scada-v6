@@ -56,7 +56,7 @@
     <Phrase key="FileNotFound">Berkas tidak ditemukan.</Phrase>
     <Phrase key="NamedFileNotFound">Berkas {0} tidak ditemukan.</Phrase>
     <Phrase key="DirectoryNotExists">Direktori tidak ada.</Phrase>
-    <Phrase key="PathNotSupported">Jalur tidak didukung.</Phrase>
+    <Phrase key="PathNotSupported">Lokasi tidak didukung.</Phrase>
     <Phrase key="InvalidFileFormat">Format berkas tidak valid.</Phrase>
     <Phrase key="LoadConfigError">Terjadi kesalahan saat memuat konfigurasi</Phrase>
     <Phrase key="SaveConfigError">Terjadi kesalahan saat menyimpan konfigurasi</Phrase>
@@ -186,8 +186,8 @@
     <Phrase key="btnCancel">Batal</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.BitItemCollection">
-    <Phrase key="EventEnabled">Kejadian diaktifkan</Phrase>
-    <Phrase key="EventBeep">Bunyi kejadian</Phrase>
+    <Phrase key="EventEnabled">Peringatan diaktifkan</Phrase>
+    <Phrase key="EventBeep">Bunyi peringatan</Phrase>
     <Phrase key="DataChangeEvent">Data saluran telah berubah</Phrase>
     <Phrase key="ValueChangeEvent">Nilai saluran telah berubah</Phrase>
     <Phrase key="StatusChangeEvent">Status saluran telah berubah</Phrase>

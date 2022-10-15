@@ -25,7 +25,7 @@
     <Phrase key="lblRetain">Retain</Phrase>
     <Phrase key="lblMaxQueueSize">Ukuran antrian maksimum</Phrase>
     <Phrase key="lblDataLifetime">Umur data dalam antrian, detik</Phrase>
-    <Phrase key="lblDetailedLog">Log terperinci</Phrase>
+    <Phrase key="lblDetailedLog">Catatan terperinci</Phrase>
     <Phrase key="lblDeviceFilter">Filter perangkat</Phrase>
     <Phrase key="btnOK">Oke</Phrase>
     <Phrase key="btnCancel">Batal</Phrase>

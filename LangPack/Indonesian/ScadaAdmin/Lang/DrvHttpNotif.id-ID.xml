@@ -2,7 +2,7 @@
 <DrvHttpNotifDictionaries culture="id-ID" lang="Indonesian">
   <Dictionary key="Scada.Comm.Drivers.DrvHttpNotif.View.Forms.FrmConfig">
     <Phrase key="this">Properti Perangkat {0} - Pemberitahuan HTTP</Phrase>
-    <Phrase key="pageGeneral">Umum</Phrase>
+    <Phrase key="pageGeneral">Utama</Phrase>
     <Phrase key="lblMethod">Metode</Phrase>
     <Phrase key="lblUri">URI</Phrase>
     <Phrase key="lblUriHint">Dapat berisi parameter, misalnya {phone}, {email} dan {text}</Phrase>
