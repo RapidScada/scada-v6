@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2019
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Admin.App.Code;
