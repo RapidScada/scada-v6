@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ExtServerConfigDictionaries culture="id-ID" lang="Indonesian">
   <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.ExtServerConfigLogic">
-    <Phrase key="GeneralOptionsNode">Pilihan Umum</Phrase>
+    <Phrase key="GeneralOptionsNode">Pilihan Utama</Phrase>
     <Phrase key="ModulesNode">Modul</Phrase>
     <Phrase key="ArchivesNode">Arsip</Phrase>
-    <Phrase key="LogsNode">Log</Phrase>
+    <Phrase key="LogsNode">Catatan</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchiveAdd">
     <Phrase key="this">Tambah Arsip</Phrase>
@@ -42,11 +42,11 @@
     <Phrase key="NoArchiveProperties">Arsip tidak menyediakan jendela properti.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions">
-    <Phrase key="this">Pilihan Umum</Phrase>
-    <Phrase key="gbGeneralOptions">Pilihan Umum</Phrase>
+    <Phrase key="this">Pilihan Utama</Phrase>
+    <Phrase key="gbGeneralOptions">Pilihan Utama</Phrase>
     <Phrase key="lblUnrelIfInactive">Saluran ditandai sebagai tidak dapat diandalkan jika tidak aktif, detik</Phrase>
-    <Phrase key="lblGenerateAckCmd">Hasilkan perintah saat kejadian diakui</Phrase>
-    <Phrase key="lblMaxLogSize">Ukuran file log maksimum, MB</Phrase>
+    <Phrase key="lblGenerateAckCmd">Hasilkan perintah saat peringatan diakui</Phrase>
+    <Phrase key="lblMaxLogSize">Ukuran file catatan maksimum, MB</Phrase>
     <Phrase key="lblDisableFormulas">Nonaktifkan rumus saluran, kecuali saluran milik objek</Phrase>
     <Phrase key="btnSelectObjects">Pilih...</Phrase>
     <Phrase key="gbListenerOptions">Opsi Pendengar</Phrase>

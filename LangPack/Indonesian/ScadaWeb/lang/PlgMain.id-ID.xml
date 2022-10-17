@@ -17,9 +17,9 @@
     <Phrase key="lblHex">Heksadesimal</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventAck">
-    <Phrase key="PageTitle">Kejadian</Phrase>
-    <Phrase key="EventNotFound">Kejadian {0} tidak ditemukan.</Phrase>
-    <Phrase key="EventAcknowledged">Kejadian diakui.</Phrase>
+    <Phrase key="PageTitle">Peringatan</Phrase>
+    <Phrase key="EventNotFound">Peringatan {0} tidak ditemukan.</Phrase>
+    <Phrase key="EventAcknowledged">Peringatan diakui.</Phrase>
     <Phrase key="TimeRow">Tanggal dan waktu:</Phrase>
     <Phrase key="ObjRow">Obyek:</Phrase>
     <Phrase key="DevRow">Perangkat:</Phrase>
@@ -29,10 +29,10 @@
     <Phrase key="AckRow">Diakui:</Phrase>
     <Phrase key="AckYes">Ya</Phrase>
     <Phrase key="AckNo">Tidak</Phrase>
-    <Phrase key="AckTip">Klik tombol Oke untuk mengakui kejadian tersebut.</Phrase>
+    <Phrase key="AckTip">Klik tombol Oke untuk mengakui peringatan tersebut.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventReport">
-    <Phrase key="PageTitle">Laporan Kejadian</Phrase>
+    <Phrase key="PageTitle">Laporan Peringatan</Phrase>
     <Phrase key="AllObjItem">-- Semua obyek --</Phrase>
     <Phrase key="AllAvailObjItem">-- Semua obyek yang tersedia --</Phrase>
     <Phrase key="NotSpecifiedItem">-- Tidak ditentukan --</Phrase>
@@ -52,15 +52,15 @@
     <Phrase key="DescrCol">Keterangan</Phrase>
     <Phrase key="SevCol">Keparahan</Phrase>
     <Phrase key="AckCol">Akui</Phrase>
-    <Phrase key="EventInfo">Terakhir {0} kejadian dalam {1} jam</Phrase>
-    <Phrase key="spanAllEventsBtn">Semua Kejadian</Phrase>
-    <Phrase key="spanEventsByViewBtn">Kejadian berdasarkan Tampilan</Phrase>
-    <Phrase key="spanPrintBtn_ToolTip">Ekspor kejadian</Phrase>
+    <Phrase key="EventInfo">Terakhir {0} peringatan dalam {1} jam</Phrase>
+    <Phrase key="spanAllEventsBtn">Semua Peringatan</Phrase>
+    <Phrase key="spanEventsByViewBtn">Peringatan berdasarkan Tampilan</Phrase>
+    <Phrase key="spanPrintBtn_ToolTip">Ekspor peringatan</Phrase>
     <Phrase key="spanErrorBadge">Kesalahan</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events.Js">
     <Phrase key="Loading">Memuat...</Phrase>
-    <Phrase key="NoEvents">Tidak ada kejadian</Phrase>
+    <Phrase key="NoEvents">Tidak ada peringatan</Phrase>
     <Phrase key="Ack">Klik untuk mengakui</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.HistDataReport">
@@ -91,12 +91,12 @@
     <Phrase key="spanErrorBadge">Kesalahan</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Code.EventWindowSpec">
-    <Phrase key="EventWindowTitle">Kejadian</Phrase>
+    <Phrase key="EventWindowTitle">Peringatan</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.PlgMainLogic">
     <Phrase key="ReportGroup">Laporan Utama</Phrase>
     <Phrase key="HistDataReport">Laporan data historis</Phrase>
-    <Phrase key="EventReport">Laporan kejadian</Phrase>
+    <Phrase key="EventReport">Laporan peringatan</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Report">
     <Phrase key="ArchiveNotFound">Arsip tidak ditemukan di basis data konfigurasi.</Phrase>
@@ -111,8 +111,8 @@
     <Phrase key="NoSeverity">Tidak ada tingkat keparahan yang dipilih.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Report.EventReportBuilder">
-    <Phrase key="GeneralTitleFormat">Kejadian, {0} - {1}</Phrase>
-    <Phrase key="TailTitleFormat">Terakhir {0} kejadian dalam {1} jam</Phrase>
+    <Phrase key="GeneralTitleFormat">Peringatan, {0} - {1}</Phrase>
+    <Phrase key="TailTitleFormat">Terakhir {0} peringatan dalam {1} jam</Phrase>
     <Phrase key="ViewCaption">Tampilan:</Phrase>
     <Phrase key="ObjCaption">Objek:</Phrase>
     <Phrase key="SevCaption">Keparahan:</Phrase>
@@ -123,7 +123,7 @@
     <Phrase key="DescrCol">Keterangan</Phrase>
     <Phrase key="SevCol">Keparahan</Phrase>
     <Phrase key="AckCol">Akui</Phrase>
-    <Phrase key="WorksheetName">Kejadian</Phrase>
+    <Phrase key="WorksheetName">Peringatan</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Report.HistDataReportBuilder">
     <Phrase key="TitleFormat">Data Historis, {0} - {1}</Phrase>

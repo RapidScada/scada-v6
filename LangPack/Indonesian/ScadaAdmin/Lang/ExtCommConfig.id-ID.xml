@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ExtCommConfigDictionaries culture="id-ID" lang="Indonesian">
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.ExtCommConfigLogic">
-    <Phrase key="GeneralOptionsNode">Pilihan Umum</Phrase>
+    <Phrase key="GeneralOptionsNode">Pilihan Utama</Phrase>
     <Phrase key="DriversNode">Pengendali</Phrase>
     <Phrase key="DataSourcesNode">Sumber Data</Phrase>
     <Phrase key="LinesNode">Jalur Komunikasi</Phrase>
     <Phrase key="LineOptionsNode">Opsi Jalur</Phrase>
-    <Phrase key="LineStatsNode">Statistik Jalur</Phrase>
-    <Phrase key="LogsNode">Log</Phrase>
+    <Phrase key="LineStatsNode">Status Jalur</Phrase>
+    <Phrase key="LogsNode">Catatan</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Code.ExtensionUtils">
     <Phrase key="DeviceNotSupported">Pengendali tidak mendukung pembuatan perangkat.</Phrase>
@@ -54,7 +54,7 @@ Saluran: {2}</Phrase>
     <Phrase key="miLineRestart">Mulai Ulang Jalur</Phrase>
     <Phrase key="miDeviceChannels">Ke Saluran</Phrase>
     <Phrase key="miDeviceCommand">Kirim Perintah...</Phrase>
-    <Phrase key="miDevicePoll">Perangkat Polling</Phrase>
+    <Phrase key="miDevicePoll">Perangkat Terhubung</Phrase>
     <Phrase key="miDeviceProperties">Properti</Phrase>
     <Phrase key="ConfirmDeleteLine">Apakah Anda yakin ingin menghapus jalur komunikasi?</Phrase>
     <Phrase key="CnlNodeNotFound">Node saluran tidak ditemukan.</Phrase>
@@ -67,10 +67,10 @@ Saluran: {2}</Phrase>
     <Phrase key="lblName">Nama</Phrase>
     <Phrase key="gbLineOptions">Opsi Jalur</Phrase>
     <Phrase key="lblReqRetries">Jumlah permintaan percobaan ulang pada kesalahan</Phrase>
-    <Phrase key="lblCycleDelay">Penundaan setelah siklus polling, ms</Phrase>
+    <Phrase key="lblCycleDelay">Penundaan setelah siklus terhubung, ms</Phrase>
     <Phrase key="lblCmdEnabled">Perintah diaktifkan</Phrase>
-    <Phrase key="lblPollAfterCmd">Polling perangkat setelah perintah</Phrase>
-    <Phrase key="lblDetailedLog">Log terperinci</Phrase>
+    <Phrase key="lblPollAfterCmd">Hubungi perangkat setelah perintah</Phrase>
+    <Phrase key="lblDetailedLog">Catatan terperinci</Phrase>
     <Phrase key="gbChannel">Saluran Komunikasi</Phrase>
     <Phrase key="lblChannelType">Tipe</Phrase>
     <Phrase key="btnChannelProperties">Properti</Phrase>
@@ -99,7 +99,7 @@ Saluran: {2}</Phrase>
     <Phrase key="btnPasteDevice">Tempel</Phrase>
     <Phrase key="colOrder">#</Phrase>
     <Phrase key="colActive">Aktif</Phrase>
-    <Phrase key="colPollOnCmd">Polling saat Perintah</Phrase>
+    <Phrase key="colPollOnCmd">Hubungi saat Perintah</Phrase>
     <Phrase key="colIsBound">Ikatkan</Phrase>
     <Phrase key="colNumber">Nomor</Phrase>
     <Phrase key="colName">Nama</Phrase>
@@ -113,7 +113,7 @@ Saluran: {2}</Phrase>
     <Phrase key="colCmdLine">Jalur Perintah</Phrase>
     <Phrase key="gbSelectedDevice">Perangkat yang Dipilih</Phrase>
     <Phrase key="chkActive">Aktif</Phrase>
-    <Phrase key="chkPollOnCmd">Polling hanya saat perintah</Phrase>
+    <Phrase key="chkPollOnCmd">Hubungi hanya saat perintah</Phrase>
     <Phrase key="chkIsBound">Terikat ke basis data konfigurasi</Phrase>
     <Phrase key="lblDeviceNum">Nomor</Phrase>
     <Phrase key="lblName">Nama</Phrase>
@@ -128,7 +128,7 @@ Saluran: {2}</Phrase>
     <Phrase key="lblCustomOptions">Pilihan</Phrase>
     <Phrase key="btnDeviceProperties">Properti</Phrase>
     <Phrase key="btnResetPollingOptions">Reset</Phrase>
-    <Phrase key="btnResetPollingOptions.ToolTip">Setel opsi polling perangkat ke default</Phrase>
+    <Phrase key="btnResetPollingOptions.ToolTip">Setel opsi perangkat terhubung ke default</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlSync1">
     <Phrase key="lblSyncDirection">Pilih arah sinkronisasi:</Phrase>
@@ -246,15 +246,15 @@ Properti yang terpengaruh:
     <Phrase key="lblDescr">Keterangan</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmGeneralOptions">
-    <Phrase key="this">Pilihan Umum</Phrase>
-    <Phrase key="gbGeneralOptions">Pilihan Umum</Phrase>
+    <Phrase key="this">Pilihan Utama</Phrase>
+    <Phrase key="gbGeneralOptions">Pilihan Utama</Phrase>
     <Phrase key="lblIsBound">Aplikasi terikat ke basis data konfigurasi</Phrase>
     <Phrase key="lblSendModifiedData">Kirim hanya data tag perangkat yang dimodifikasi</Phrase>
     <Phrase key="lblSendAllDataPeriod">Periode pengiriman data semua tag perangkat, detik</Phrase>
     <Phrase key="lblEnableCommands">Aktifkan perintah telekontrol</Phrase>
     <Phrase key="lblEnableFileCommands">Baca perintah telekontrol dari berkas</Phrase>
     <Phrase key="lblStartLinesOnCommand">Mulai jalur komunikasi saat perintah</Phrase>
-    <Phrase key="lblMaxLogSize">Ukuran file log maksimum, MB</Phrase>
+    <Phrase key="lblMaxLogSize">Ukuran file catatan maksimum, MB</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineAdd">
     <Phrase key="this">Tambahkan Jalur Komunikasi</Phrase>
@@ -272,13 +272,13 @@ Properti yang terpengaruh:
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineConfig">
     <Phrase key="lbTabs.Items[0]">Pilihan Utama</Phrase>
-    <Phrase key="lbTabs.Items[1]">Opsi Kustom</Phrase>
-    <Phrase key="lbTabs.Items[2]">Polling Perangkat</Phrase>
+    <Phrase key="lbTabs.Items[1]">Opsi Tambahan</Phrase>
+    <Phrase key="lbTabs.Items[2]">Perangkat Terhubung</Phrase>
     <Phrase key="LineConfigTitle">Opsi Jalur {0}</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineStats">
     <Phrase key="lbTabs.Items[0]">Status Jalur</Phrase>
-    <Phrase key="lbTabs.Items[1]">Log Jalur</Phrase>
+    <Phrase key="lbTabs.Items[1]">Catatan Jalur</Phrase>
     <Phrase key="chkPause">Hentikan</Phrase>
     <Phrase key="LineStatsTitle">Status Jalur {0}</Phrase>
   </Dictionary>

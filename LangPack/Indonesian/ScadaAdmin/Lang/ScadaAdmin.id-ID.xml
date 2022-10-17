@@ -38,8 +38,8 @@
     <Phrase key="LimID">Batas</Phrase>
     <Phrase key="ArchiveMask">Masker Arsip</Phrase>
     <Phrase key="ArchiveMaskButton">Pilih Arsip</Phrase>
-    <Phrase key="EventMask">Masker Kejadian</Phrase>
-    <Phrase key="EventMaskButton">Pilih Kejadian</Phrase>
+    <Phrase key="EventMask">Masker Peringatan</Phrase>
+    <Phrase key="EventMaskButton">Pilih Peringatan</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.CnlStatusTable">
     <Phrase key="CnlStatusID">ID</Phrase>
@@ -164,7 +164,7 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.ViewTable">
     <Phrase key="ViewID">ID</Phrase>
-    <Phrase key="Path">Jalur</Phrase>
+    <Phrase key="Path">Lokasi</Phrase>
     <Phrase key="PathSelectFileButton">Pilih Berkas</Phrase>
     <Phrase key="PathSelectFolderButton">Pilih Direktori</Phrase>
     <Phrase key="ViewTypeID">Jenis Tampilan</Phrase>
@@ -270,7 +270,7 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmProfileEdit">
     <Phrase key="this">Sunting Profil</Phrase>
-    <Phrase key="pageGeneral">Umum</Phrase>
+    <Phrase key="pageGeneral">Utama</Phrase>
     <Phrase key="lblName">Nama profil</Phrase>
     <Phrase key="lblExtension">Ekstensi</Phrase>
     <Phrase key="lblWebUrl">URL Webstation</Phrase>
@@ -390,7 +390,7 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmCnl">
     <Phrase key="this">Properti Saluran</Phrase>
-    <Phrase key="pageGeneral">Umum</Phrase>
+    <Phrase key="pageGeneral">Utama</Phrase>
     <Phrase key="chkActive">Aktif</Phrase>
     <Phrase key="lblCnlNum">Nomor</Phrase>
     <Phrase key="lblDataType">Tipe data</Phrase>
@@ -416,7 +416,7 @@
     <Phrase key="lblHiHi">Sangat tinggi</Phrase>
     <Phrase key="lblDeadband">Deadband</Phrase>
     <Phrase key="pageArchives">Arsip</Phrase>
-    <Phrase key="pageEvents">Kejadian</Phrase>
+    <Phrase key="pageEvents">Peringatan</Phrase>
     <Phrase key="btnOK">Oke</Phrase>
     <Phrase key="btnCancel">Batal</Phrase>
   </Dictionary>
@@ -657,7 +657,7 @@ proyek yang sudah ada.</Phrase>
     <Phrase key="EmptyObject">Objek kosong</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Forms.FrmLogs">
-    <Phrase key="this">Log</Phrase>
+    <Phrase key="this">Catatan</Phrase>
     <Phrase key="lblLoadFileList">Memuat daftar berkas...</Phrase>
     <Phrase key="chkPause">Berhenti</Phrase>
     <Phrase key="AllFilesFilter">Semua Berkas</Phrase>

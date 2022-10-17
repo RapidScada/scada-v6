@@ -14,8 +14,8 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicCAO">
     <Phrase key="this">Opsi Arsip Saat Ini</Phrase>
-    <Phrase key="gbGeneralOptions">Pilihan Umum</Phrase>
-    <Phrase key="lblLogEnabled">Log diaktifkan</Phrase>
+    <Phrase key="gbGeneralOptions">Pilihan Utama</Phrase>
+    <Phrase key="lblLogEnabled">Catatan diaktifkan</Phrase>
     <Phrase key="lblFlushPeriod">Periode pembilasan</Phrase>
     <Phrase key="txtFlushPeriodUnit">Detik</Phrase>
     <Phrase key="gbPathOptions">Pilihan Lokasi</Phrase>
@@ -25,9 +25,9 @@
     <Phrase key="btnCancel">Batal</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicEAO">
-    <Phrase key="this">Opsi Arsip Kejadian</Phrase>
-    <Phrase key="gbGeneralOptions">Pilihan Umum</Phrase>
-    <Phrase key="lblLogEnabled">Log diaktifkan</Phrase>
+    <Phrase key="this">Opsi Arsip Peringatan</Phrase>
+    <Phrase key="gbGeneralOptions">Pilihan Utama</Phrase>
+    <Phrase key="lblLogEnabled">Catatan diaktifkan</Phrase>
     <Phrase key="lblRetention">Jangka waktu penyimpanan</Phrase>
     <Phrase key="txtRetentionUnit">Hari</Phrase>
     <Phrase key="gbPathOptions">Pilihan Lokasi</Phrase>
@@ -38,8 +38,8 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicHAO">
     <Phrase key="this">Opsi Arsip Historis</Phrase>
-    <Phrase key="gbGeneralOptions">Pilihan Umum</Phrase>
-    <Phrase key="lblLogEnabled">Log diaktifkan</Phrase>
+    <Phrase key="gbGeneralOptions">Pilihan Utama</Phrase>
+    <Phrase key="lblLogEnabled">Catatan diaktifkan</Phrase>
     <Phrase key="lblRetention">Jangka waktu penyimpanan</Phrase>
     <Phrase key="txtRetentionUnit">Hari</Phrase>
     <Phrase key="lblWriteWithPeriod">Tulis dengan periode</Phrase>

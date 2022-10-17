@@ -15,7 +15,7 @@
     <Phrase key="lblMaxQueueSize">Ukuran antrian maksimum</Phrase>
     <Phrase key="lblMaxCurDataAge">Data saat ini menjadi historis, detik</Phrase>
     <Phrase key="lblDataLifetime">Masa hidup data dalam antrian, detik</Phrase>
-    <Phrase key="lblClientLogEnabled">Log klien diaktifkan</Phrase>
+    <Phrase key="lblClientLogEnabled">Catatan klien diaktifkan</Phrase>
     <Phrase key="lblDeviceFilter">Filter perangkat</Phrase>
     <Phrase key="btnSelectDevices">Pilih...</Phrase>
     <Phrase key="btnManageConn">Kelola Koneksi</Phrase>

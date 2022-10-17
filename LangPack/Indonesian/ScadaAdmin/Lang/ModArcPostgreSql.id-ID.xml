@@ -19,7 +19,7 @@
     <Phrase key="btnCancel">Batal</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreEAO">
-    <Phrase key="this">Opsi Arsip Kejadian</Phrase>
+    <Phrase key="this">Opsi Arsip Peringatan</Phrase>
     <Phrase key="gbDbOptions">Opsi Basis Data</Phrase>
     <Phrase key="lblUseStorageConn">Gunakan koneksi penyimpanan</Phrase>
     <Phrase key="lblConnection">Koneksi</Phrase>
