@@ -86,6 +86,10 @@ namespace Scada.Client
         /// The last successful response time (UTC).
         /// </summary>
         protected DateTime responseDT;
+        /// <summary>
+        /// The client communication state.
+        /// </summary>
+        protected ClientState clientState;
 
 
         /// <summary>
@@ -101,12 +105,12 @@ namespace Scada.Client
             transactionID = 0;
             connAttemptDT = DateTime.MinValue;
             responseDT = DateTime.MinValue;
+            clientState = ClientState.Disconnected;
 
             ConnectionOptions = connectionOptions ?? throw new ArgumentNullException(nameof(connectionOptions));
             ClientID = ScadaUtils.GenerateUniqueID();
             ClientMode = 0;
             CommLog = null;
-            ClientState = ClientState.Disconnected;
             SessionID = 0;
             ServerName = "";
             UserID = 0;
@@ -137,7 +141,21 @@ namespace Scada.Client
         /// <summary>
         /// Gets the client communication state.
         /// </summary>
-        public ClientState ClientState { get; protected set; }
+        public ClientState ClientState 
+        { 
+            get
+            {
+                return clientState;
+            }
+            protected set
+            {
+                if (clientState != value)
+                {
+                    clientState = value;
+                    OnClientStateChanged();
+                }
+            }
+        }
 
         /// <summary>
         /// Gets a value indicating whether the client is ready for communication.
@@ -563,6 +581,14 @@ namespace Scada.Client
         }
 
         /// <summary>
+        /// Raises the ClientStateChanged event.
+        /// </summary>
+        protected void OnClientStateChanged()
+        {
+            ClientStateChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
         /// Raises the Progress event.
         /// </summary>
         protected void OnProgress(int blockNumber, int blockCount)
@@ -843,6 +869,11 @@ namespace Scada.Client
             }
         }
 
+
+        /// <summary>
+        /// Occurs when the value of the ClientState property changes.
+        /// </summary>
+        public event EventHandler ClientStateChanged;
 
         /// <summary>
         /// Occurs during the progress of a long-term operation.

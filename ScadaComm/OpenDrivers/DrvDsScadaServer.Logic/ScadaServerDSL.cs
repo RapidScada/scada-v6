@@ -491,7 +491,18 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                     "Error calling the FailedToSendCallback method of the event");
             }
         }
-        
+
+        /// <summary>
+        /// Handles a ClientStateChanged event.
+        /// </summary>
+        private void ClientStateChanged(object sender, EventArgs e)
+        {
+            log.WriteAction(CommPhrases.DataSourceMessage, Code, string.Format(Locale.IsRussian ?
+                "Состояние соединения: {0}" :
+                "Connection state is {0}",
+                scadaClient.ClientState.ToString(Locale.IsRussian)));
+        }
+
         /// <summary>
         /// Operating cycle running in a separate thread.
         /// </summary>
@@ -531,6 +542,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         public override void Start()
         {
             scadaClient = new ScadaClient(connOptions) { ClientMode = ScadaClientMode.IncomingCommands };
+            scadaClient.ClientStateChanged += ClientStateChanged;
 
             if (options.ClientLogEnabled)
                 scadaClient.CommLog = CreateClientLog();
@@ -552,7 +564,11 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                 thread = null;
             }
 
-            scadaClient?.Close();
+            if (scadaClient != null)
+            {
+                scadaClient.ClientStateChanged -= ClientStateChanged;
+                scadaClient?.Close();
+            }
         }
 
         /// <summary>
