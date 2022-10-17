@@ -177,22 +177,10 @@ namespace Scada.Admin.App.Forms
             FillRecentProjectList();
         }
 
-        private void FrmStartPage_Shown(object sender, EventArgs e)
-        {
-            Refresh(); // fix for Wine
-        }
-
         private void FrmStartPage_FormClosed(object sender, FormClosedEventArgs e)
         {
             itemMainFont.Dispose();
             itemHintFont.Dispose();
-        }
-
-        private void FrmStartPage_Resize(object sender, EventArgs e)
-        {
-            pnlContent.Height = Height;
-            pnlContent.Left = Math.Max(0, (Width - pnlContent.Width) / 2);
-            lbRecentProjects.Height = Height - lbRecentProjects.Top;
         }
 
 
