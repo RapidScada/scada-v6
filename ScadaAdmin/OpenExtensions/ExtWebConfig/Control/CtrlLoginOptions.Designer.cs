@@ -30,11 +30,11 @@
         {
             this.gbLoginOptions = new System.Windows.Forms.GroupBox();
             this.txtAutoLoginPassword = new System.Windows.Forms.TextBox();
-            this.txtAutoLoginUsername = new System.Windows.Forms.TextBox();
             this.lblAutoLoginPassword = new System.Windows.Forms.Label();
+            this.txtAutoLoginUsername = new System.Windows.Forms.TextBox();
             this.lblAutoLoginUsername = new System.Windows.Forms.Label();
-            this.lblRememberMeExpires = new System.Windows.Forms.Label();
             this.numRememberMeExpires = new System.Windows.Forms.NumericUpDown();
+            this.lblRememberMeExpires = new System.Windows.Forms.Label();
             this.chkAllowRememberMe = new System.Windows.Forms.CheckBox();
             this.lblAllowRememberMe = new System.Windows.Forms.Label();
             this.chkRequireCaptcha = new System.Windows.Forms.CheckBox();
@@ -66,19 +66,11 @@
             // 
             // txtAutoLoginPassword
             // 
-            this.txtAutoLoginPassword.Location = new System.Drawing.Point(258, 144);
+            this.txtAutoLoginPassword.Location = new System.Drawing.Point(287, 144);
             this.txtAutoLoginPassword.Name = "txtAutoLoginPassword";
-            this.txtAutoLoginPassword.Size = new System.Drawing.Size(227, 23);
+            this.txtAutoLoginPassword.Size = new System.Drawing.Size(200, 23);
             this.txtAutoLoginPassword.TabIndex = 9;
             this.txtAutoLoginPassword.TextChanged += new System.EventHandler(this.control_Changed);
-            // 
-            // txtAutoLoginUsername
-            // 
-            this.txtAutoLoginUsername.Location = new System.Drawing.Point(258, 115);
-            this.txtAutoLoginUsername.Name = "txtAutoLoginUsername";
-            this.txtAutoLoginUsername.Size = new System.Drawing.Size(227, 23);
-            this.txtAutoLoginUsername.TabIndex = 8;
-            this.txtAutoLoginUsername.TextChanged += new System.EventHandler(this.control_Changed);
             // 
             // lblAutoLoginPassword
             // 
@@ -89,6 +81,14 @@
             this.lblAutoLoginPassword.TabIndex = 9;
             this.lblAutoLoginPassword.Text = "Password for automatic login";
             // 
+            // txtAutoLoginUsername
+            // 
+            this.txtAutoLoginUsername.Location = new System.Drawing.Point(287, 115);
+            this.txtAutoLoginUsername.Name = "txtAutoLoginUsername";
+            this.txtAutoLoginUsername.Size = new System.Drawing.Size(200, 23);
+            this.txtAutoLoginUsername.TabIndex = 8;
+            this.txtAutoLoginUsername.TextChanged += new System.EventHandler(this.control_Changed);
+            // 
             // lblAutoLoginUsername
             // 
             this.lblAutoLoginUsername.AutoSize = true;
@@ -97,15 +97,6 @@
             this.lblAutoLoginUsername.Size = new System.Drawing.Size(165, 15);
             this.lblAutoLoginUsername.TabIndex = 7;
             this.lblAutoLoginUsername.Text = "Username for automatic login";
-            // 
-            // lblRememberMeExpires
-            // 
-            this.lblRememberMeExpires.AutoSize = true;
-            this.lblRememberMeExpires.Location = new System.Drawing.Point(10, 84);
-            this.lblRememberMeExpires.Name = "lblRememberMeExpires";
-            this.lblRememberMeExpires.Size = new System.Drawing.Size(107, 15);
-            this.lblRememberMeExpires.TabIndex = 5;
-            this.lblRememberMeExpires.Text = "Login expires, days";
             // 
             // numRememberMeExpires
             // 
@@ -130,6 +121,15 @@
             0});
             this.numRememberMeExpires.ValueChanged += new System.EventHandler(this.control_Changed);
             // 
+            // lblRememberMeExpires
+            // 
+            this.lblRememberMeExpires.AutoSize = true;
+            this.lblRememberMeExpires.Location = new System.Drawing.Point(10, 84);
+            this.lblRememberMeExpires.Name = "lblRememberMeExpires";
+            this.lblRememberMeExpires.Size = new System.Drawing.Size(107, 15);
+            this.lblRememberMeExpires.TabIndex = 5;
+            this.lblRememberMeExpires.Text = "Login expires, days";
+            // 
             // chkAllowRememberMe
             // 
             this.chkAllowRememberMe.AutoSize = true;
@@ -138,7 +138,7 @@
             this.chkAllowRememberMe.Size = new System.Drawing.Size(15, 14);
             this.chkAllowRememberMe.TabIndex = 4;
             this.chkAllowRememberMe.UseVisualStyleBackColor = true;
-            this.chkAllowRememberMe.CheckedChanged += new System.EventHandler(this.control_Changed);
+            this.chkAllowRememberMe.CheckedChanged += new System.EventHandler(this.chkAllowRememberMe_CheckedChanged);
             // 
             // lblAllowRememberMe
             // 

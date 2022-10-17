@@ -80,6 +80,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
             txtAutoLoginUsername.Text = loginOptions.AutoLoginUsername;
             txtAutoLoginPassword.Text = loginOptions.AutoLoginPassword;
 
+            numRememberMeExpires.Enabled = loginOptions.AllowRememberMe;
             changing = false;
         }
 
@@ -95,6 +96,14 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
             loginOptions.RememberMeExpires = Convert.ToInt32(numRememberMeExpires.Value);
             loginOptions.AutoLoginUsername = txtAutoLoginUsername.Text;
             loginOptions.AutoLoginPassword = txtAutoLoginPassword.Text;
+        }
+
+        private void chkAllowRememberMe_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!changing)
+                OnOptionsChanged();
+            
+            numRememberMeExpires.Enabled = chkAllowRememberMe.Checked;
         }
     }
 }

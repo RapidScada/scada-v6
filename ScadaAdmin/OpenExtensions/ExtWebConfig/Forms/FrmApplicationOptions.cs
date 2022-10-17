@@ -76,13 +76,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
             if (pluginAssigmentReady)
                 ctrlPluginAssignment.ControlsToOptions(webConfig.PluginAssignment);
         }
-
-        /// <summary>
-        /// Updates the main form according to the configuration changes.
-        /// </summary>
-        private void UpdateMainForm()
-        {         
-        }
+        
 
         /// <summary>
         /// Saves the file.
@@ -94,7 +88,6 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
             if (webApp.SaveConfig(out string errMsg))
             { 
                 Text = ExtensionPhrases.ApplicationConfigTitle;
-                UpdateMainForm();
                 ChildFormTag.Modified = false;
             }
             else
