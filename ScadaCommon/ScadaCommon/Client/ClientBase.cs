@@ -214,7 +214,7 @@ namespace Scada.Client
         /// <summary>
         /// Connects and authenticates with the server.
         /// </summary>
-        protected void Connect()
+        protected void Connect(bool updateClientState)
         {
             // create connection
             tcpClient = new TcpClient
@@ -232,13 +232,15 @@ namespace Scada.Client
                 tcpClient.Connect(ConnectionOptions.Host, ConnectionOptions.Port);
 
             netStream = tcpClient.GetStream();
-            ClientState = ClientState.Connected;
+
+            if (updateClientState)
+                ClientState = ClientState.Connected;
         }
 
         /// <summary>
         /// Disconnects from the server.
         /// </summary>
-        protected void Disconnect()
+        protected void Disconnect(bool updateClientState)
         {
             if (tcpClient != null)
             {
@@ -254,10 +256,12 @@ namespace Scada.Client
                 tcpClient.Close();
                 tcpClient = null;
 
-                ClientState = ClientState.Disconnected;
                 SessionID = 0;
                 ServerName = "";
             }
+
+            if (updateClientState)
+                ClientState = ClientState.Disconnected;
         }
 
         /// <summary>
@@ -295,8 +299,8 @@ namespace Scada.Client
                 if (connectNeeded)
                 {
                     connAttemptDT = utcNow;
-                    Disconnect();
-                    Connect();
+                    Disconnect(false);
+                    Connect(false);
 
                     GetSessionInfo(out long sessionID, out string serverName);
                     SessionID = sessionID;
@@ -621,7 +625,7 @@ namespace Scada.Client
             DataPacket request = CreateRequest(FunctionID.TerminateSession, 10);
             SendRequest(request);
             ReceiveResponse(request);
-            Disconnect();
+            Disconnect(true);
         }
 
         /// <summary>
@@ -629,7 +633,7 @@ namespace Scada.Client
         /// </summary>
         public void Close()
         {
-            Disconnect();
+            Disconnect(true);
         }
 
         /// <summary>
