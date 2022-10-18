@@ -132,9 +132,9 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
             }
             catch (Exception ex)
             {
-                log.WriteError(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
+                log.WriteError(ex.BuildErrorMessage(CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
                     "Ошибка при приёме команд ТУ" :
-                    "Error receiving telecontrol commands");
+                    "Error receiving telecontrol commands"));
             }
         }
 
@@ -208,9 +208,9 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                     }
                     catch (Exception ex)
                     {
-                        log.WriteError(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
+                        log.WriteError(ex.BuildErrorMessage(CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
                             "Ошибка при передаче текущих данных" :
-                            "Error transferring current data");
+                            "Error transferring current data"));
 
                         Thread.Sleep(ErrorDelay);
                         break; // the slice is not removed from the queue
@@ -270,9 +270,9 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                     }
                     catch (Exception ex)
                     {
-                        log.WriteError(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
+                        log.WriteError(ex.BuildErrorMessage(CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
                             "Ошибка при передаче исторических данных" :
-                            "Error transferring historical data");
+                            "Error transferring historical data"));
 
                         // return the unsent slice to the queue
                         lock (histDataQueue)
@@ -331,9 +331,9 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                     }
                     catch (Exception ex)
                     {
-                        log.WriteError(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
+                        log.WriteError(ex.BuildErrorMessage(CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
                             "Ошибка при передаче события" :
-                            "Error transferring event");
+                            "Error transferring event"));
 
                         // return the unsent event to the queue
                         lock (eventQueue)
@@ -512,13 +512,11 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
 
             while (!terminated)
             {
-                if (scadaClient.IsReady)
-                {
-                    if (cmdEnabled)
-                        ReceiveCommands();
+                if (scadaClient.IsReady && cmdEnabled)
+                    ReceiveCommands();
 
+                if (scadaClient.IsReady)
                     TransferData();
-                }
 
                 Thread.Sleep(ScadaUtils.ThreadDelay);
             }
