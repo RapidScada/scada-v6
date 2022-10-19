@@ -46,4 +46,16 @@
     <Phrase key="lbTabs.Items[4]">Назначение планинов</Phrase>
     <Phrase key="ApplicationConfigTitle">Параметры приложения</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Forms.FrmPlugins">
+    <Phrase key="this">Плагины</Phrase>
+    <Phrase key="lblUnusedPlugins">Неиспользуемые плагины:</Phrase>
+    <Phrase key="btnActivate">Включить</Phrase>
+    <Phrase key="lblActivePlugins">Активные плагины:</Phrase>
+    <Phrase key="btnDeactivate">Отключить</Phrase>
+    <Phrase key="btnMoveUp">Вверх</Phrase>
+    <Phrase key="btnMoveDown">Вниз</Phrase>
+    <Phrase key="btnProperties">Свойства</Phrase>
+    <Phrase key="btnRegister">Регистрация</Phrase>
+    <Phrase key="lblDescr">Описание</Phrase>
+  </Dictionary>
 </ExtWebConfigDictionaries>

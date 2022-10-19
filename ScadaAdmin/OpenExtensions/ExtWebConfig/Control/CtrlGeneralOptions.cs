@@ -16,10 +16,20 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
     /// </summary>
     public partial class CtrlGeneralOptions : UserControl
     {
+        /// <summary>
+        /// Reprensents a culture information.
+        /// </summary>
+        private class Culture
+        {
+            public string DisplayInfo { get; set; }
+            public CultureInfo CultureInfo { get; set; }
+        }
+        
+         
         private IAdminContext adminContext;      // the Administrator context
         private WebApp webApp;                   // the web application in a project
         private bool changing;                   // controls are being changed programmatically
-
+        private List<Culture> cultures;          // the list of culture info 
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -30,6 +40,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
             adminContext = null;
             webApp = null;
             changing = false;
+            cultures = null;
         }
 
 
@@ -75,10 +86,22 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
             }
 
             cbDefaultCulture.Items.Clear();
-            foreach (CultureInfo cultureInfo in CultureInfo.GetCultures(CultureTypes.NeutralCultures))
+
+            cultures = new();
+
+            foreach (CultureInfo cultureInfo in CultureInfo.GetCultures(CultureTypes.SpecificCultures))
             {
-                cbDefaultCulture.Items.Add(cultureInfo.Name + ", " + cultureInfo.DisplayName);
+                Culture culture = new()
+                {
+                    CultureInfo = cultureInfo,
+                    DisplayInfo = cultureInfo.Name + ", " + cultureInfo.DisplayName
+                };
+                
+                cultures.Add(culture);
             }
+
+            cbDefaultCulture.DataSource = cultures;
+            cbDefaultCulture.DisplayMember = "DisplayInfo";
         }
 
         /// <summary>
@@ -88,9 +111,24 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         {
             ArgumentNullException.ThrowIfNull(generalOptions, nameof(generalOptions));
             changing = true;
+                       
+            bool prCulture = false;
 
-            cbDefaultCulture.Text = generalOptions.DefaultCulture;
+            foreach (Culture culture in cultures)
+            {
+                if (culture.CultureInfo.Name == generalOptions.DefaultCulture)
+                {
+                    cbDefaultCulture.SelectedItem = culture;
+                    prCulture = true;
+                    break;
+                }
+            }
+            
+            if (!prCulture)
+                cbDefaultCulture.Text = generalOptions.DefaultCulture;
 
+
+            bool prTime = false;
             ReadOnlyCollection<TimeZoneInfo> timeZones = TimeZoneInfo.GetSystemTimeZones();
             
             foreach (TimeZoneInfo timeZone in timeZones)
@@ -98,10 +136,14 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
                 if (timeZone.Id == generalOptions.DefaultTimeZone)
                 {
                     cbDefaultTimeZone.SelectedItem = timeZone;
+                    prTime = true;
                     break;
                 }
-            }                       
-            
+            }
+
+            if (!prTime)
+                cbDefaultTimeZone.Text = generalOptions.DefaultTimeZone;
+
             txtDefaultStartPage.Text = generalOptions.DefaultStartPage;
             chkEnableCommands.Checked = generalOptions.EnableCommands;
             chkShareStats.Checked = generalOptions.ShareStats;
@@ -117,8 +159,12 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         {
             ArgumentNullException.ThrowIfNull(generalOptions, nameof(generalOptions));
 
-            generalOptions.DefaultCulture = cbDefaultCulture.Text;                        
-            generalOptions.DefaultTimeZone = ((TimeZoneInfo)cbDefaultTimeZone.SelectedItem).Id;
+            generalOptions.DefaultCulture =  ((Culture)cbDefaultCulture.SelectedItem) != null ?
+                ((Culture)cbDefaultCulture.SelectedItem).CultureInfo.Name : cbDefaultCulture.Text;
+
+            generalOptions.DefaultTimeZone = ((TimeZoneInfo)cbDefaultTimeZone.SelectedItem) != null ? 
+                ((TimeZoneInfo)cbDefaultTimeZone.SelectedItem).Id : cbDefaultTimeZone.Text;
+          
             generalOptions.DefaultStartPage = txtDefaultStartPage.Text;
             generalOptions.EnableCommands = chkEnableCommands.Checked;
             generalOptions.ShareStats = chkShareStats.Checked;

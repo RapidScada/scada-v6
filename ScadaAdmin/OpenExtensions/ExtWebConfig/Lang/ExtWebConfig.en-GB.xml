@@ -46,5 +46,17 @@
     <Phrase key="lbTabs.Items[4]">Plugin Assigment</Phrase>
     <Phrase key="ApplicationConfigTitle">Application Options</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Forms.FrmPlugins">
+    <Phrase key="this">Plugins</Phrase>
+    <Phrase key="lblUnusedPlugins">Unused plugins:</Phrase>
+    <Phrase key="btnActivate">Activate</Phrase>
+    <Phrase key="lblActivePlugins">Active plugins:</Phrase>
+    <Phrase key="btnDeactivate">Deactivate</Phrase>
+    <Phrase key="btnMoveUp">Move Up</Phrase>
+    <Phrase key="btnMoveDown">Move Down</Phrase>
+    <Phrase key="btnProperties">Properties</Phrase>
+    <Phrase key="btnRegister">Register</Phrase>
+    <Phrase key="lblDescr">Description</Phrase>
+  </Dictionary>
 </ExtWebConfigDictionaries>
 

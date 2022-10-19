@@ -16,6 +16,7 @@ using System.Windows.Forms;
 using Scada.Web;
 using WinControl;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Scada.Admin.Forms;
 
 namespace Scada.Admin.Extensions.ExtWebConfig.Forms
 {
@@ -139,6 +140,54 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
         }
 
         /// <summary>
+        /// Sets the configuration according to the controls.
+        /// </summary>
+        private void ControlsToConfig()
+        {
+            webConfig.PluginCodes.Clear();
+
+            foreach (PluginItem item in lbActivePlugins.Items)
+            {
+                webConfig.PluginCodes.Add(item.PluginCode);
+            }
+        }
+
+        /// <summary>
+        /// Initializes the plugin item if needed.
+        /// </summary>
+        private void InitPluginItem(PluginItem pluginItem)
+        {
+            /*if (!pluginItem.IsInitialized)
+            {
+                pluginItem.IsInitialized = true;
+
+                if (ExtensionUtils.GetModuleView(adminContext, webApp, pluginItem.PluginCode,
+                    out ModuleView moduleView, out string message))
+                {
+                    pluginItem.Descr = BuildModuleDescr(moduleView);
+                    //pluginItem.ModuleView = moduleView;
+                }
+                else
+                {
+                    pluginItem.Descr = message;
+                    //pluginItem.ModuleView = null;
+                }
+            }*/
+        }
+
+        /// <summary>
+        /// Shows a description of the specified item.
+        /// </summary>
+        private void ShowItemDescr(object item)
+        {
+            if (item is PluginItem pluginItem)
+            {
+                InitPluginItem(pluginItem);
+                txtDescr.Text = pluginItem.Descr;
+            }
+        }
+
+        /// <summary>
         /// Enables or disables the buttons.
         /// </summary>
         private void SetButtonsEnabled()
@@ -158,16 +207,38 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
                 btnDeactivate.Enabled = false;
                 btnMoveUp.Enabled = false;
                 btnMoveDown.Enabled = false;
-                btnProperties.Enabled = false;
-                btnRegister.Visible = false;
+                //btnRegister.Visible = false;
             }
         }
+
+        // <summary>
+        /// Build the plugin description.
+        /// </summary>
+        /**private static string BuildModuleDescr(ModuleView moduleView)
+        {
+            string title = string.Format("{0} {1}",
+                moduleView.Name,
+                moduleView.Version);
+
+            return new StringBuilder()
+                .AppendLine(title)
+                .AppendLine(new string('-', title.Length))
+                .Append(moduleView.Descr?.Replace("\n", Environment.NewLine))
+                .ToString();
+        }*/
+
 
         /// <summary>
         /// Saves the file.
         /// </summary>
         public void Save()
         {
+            ControlsToConfig();
+
+            if (webApp.SaveConfig(out string errMsg))
+                ChildFormTag.Modified = false;
+            else
+                adminContext.ErrLog.HandleError(errMsg);
         }
 
 
@@ -177,6 +248,113 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
             ConfigToControls();
             FillUnusedModules();
             SetButtonsEnabled();
+        }
+
+        private void btnActivate_Click(object sender, EventArgs e)
+        {
+            // move the selected plugin from unused plugins to active plugins
+            if (lbUnusedPlugins.SelectedItem is PluginItem pluginItem)
+            {
+                lbUnusedPlugins.Items.RemoveAt(lbUnusedPlugins.SelectedIndex);
+                lbActivePlugins.SelectedIndex = lbActivePlugins.Items.Add(pluginItem);
+                lbActivePlugins.Focus();
+                ChildFormTag.Modified = true;
+            }
+        }
+
+        private void btnDeactivate_Click(object sender, EventArgs e)
+        {
+            // move the selected plugin from active plugins to unused plugins
+            if (lbActivePlugins.SelectedItem is PluginItem pluginItem)
+            {
+                lbActivePlugins.Items.RemoveAt(lbActivePlugins.SelectedIndex);
+                lbUnusedPlugins.SelectedIndex = lbUnusedPlugins.Items.Add(pluginItem);
+                lbUnusedPlugins.Focus();
+                ChildFormTag.Modified = true;
+            }
+        }
+
+        private void btnMoveUp_Click(object sender, EventArgs e)
+        {
+            // move up the selected plugin
+            if (lbActivePlugins.SelectedItem is PluginItem pluginItem)
+            {
+                int curInd = lbActivePlugins.SelectedIndex;
+                int prevInd = curInd - 1;
+
+                if (prevInd >= 0)
+                {
+                    lbActivePlugins.Items.RemoveAt(curInd);
+                    lbActivePlugins.Items.Insert(prevInd, pluginItem);
+                    lbActivePlugins.SelectedIndex = prevInd;
+                    lbActivePlugins.Focus();
+                    ChildFormTag.Modified = true;
+                }
+            }
+        }
+
+        private void btnMoveDown_Click(object sender, EventArgs e)
+        {
+            // move down the selected module
+            if (lbActivePlugins.SelectedItem is PluginItem pluginItem)
+            {
+                int curInd = lbActivePlugins.SelectedIndex;
+                int nextInd = curInd + 1;
+
+                if (nextInd < lbActivePlugins.Items.Count)
+                {
+                    lbActivePlugins.Items.RemoveAt(curInd);
+                    lbActivePlugins.Items.Insert(nextInd, pluginItem);
+                    lbActivePlugins.SelectedIndex = nextInd;
+                    lbActivePlugins.Focus();
+                    ChildFormTag.Modified = true;
+                }
+            }
+        }
+
+        private void btnProperties_Click(object sender, EventArgs e)
+        {
+            // show properties of the selected plugin
+            /*if (lbActivePlugins.SelectedItem is PluginItem pluginItem &&
+                pluginItem.ModuleView != null && pluginItem.ModuleView.CanShowProperties)
+            {
+                lbActivePlugins.Focus();
+                pluginItem.ModuleView.ShowProperties();
+            }*/
+        }
+
+        private void btnRegister_Click(object sender, EventArgs e)
+        {
+            // show registration form for the selected plugin
+            /*if (lbActivePlugins.SelectedItem is PluginItem pluginItem &&
+                pluginItem.ModuleView != null && moduleItem.ModuleView.RequireRegistration)
+            {
+                lbActivePlugins.Focus();
+                new FrmRegistration(adminContext, webApp,
+                    pluginItem.ModuleView.ProductCode, pluginItem.ModuleView.Name).ShowDialog();
+            }*/
+        }
+
+        private void lbUnusedPlugins_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ShowItemDescr(lbUnusedPlugins.SelectedItem);
+            SetButtonsEnabled();
+        }
+
+        private void lbUnusedPlugins_DoubleClick(object sender, EventArgs e)
+        {
+            btnActivate_Click(null, null);
+        }
+
+        private void lbActivePlugins_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ShowItemDescr(lbActivePlugins.SelectedItem);
+            SetButtonsEnabled();
+        }
+
+        private void lbActivePlugins_DoubleClick(object sender, EventArgs e)
+        {
+            btnProperties_Click(null, null);
         }
     }
 }
