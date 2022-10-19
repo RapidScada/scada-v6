@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Config\LoginOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\PluginAssignment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\WebConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Plugins\PluginView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Config\ScadaWebConfig.xml" />

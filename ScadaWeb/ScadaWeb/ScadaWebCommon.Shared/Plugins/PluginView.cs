@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaServerCommon
+ * Module   : ScadaWebCommon
  * Summary  : Represents the base class for plugin user interface for the Administrator application
  * 
  * Author   : Mikhail Shiryaev
