@@ -4,19 +4,7 @@
 using Scada.Admin.Project;
 using Scada.Forms;
 using Scada.Web.Config;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Scada.Web;
 using WinControl;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using Scada.Admin.Forms;
 
 namespace Scada.Admin.Extensions.ExtWebConfig.Forms
 {
@@ -35,6 +23,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
             public string PluginCode { get; set; }
             public string FileName { get; set; }
             public string Descr { get; set; }
+            //public PluginView PluginView { get; set; }          
             public override string ToString() => PluginCode;
         }
 
