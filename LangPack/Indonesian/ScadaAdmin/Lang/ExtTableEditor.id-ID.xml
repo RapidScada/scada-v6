@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtTableEditorDictionaries culture="id-ID" lang="Indonesian">
+  <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableEditor">
+    <Phrase key="btnRefreshBase.ToolTip">Segarkan Basis Data Konfigurasi</Phrase>
+    <Phrase key="btnAddItem.ToolTip">Tambahkan Isi</Phrase>
+    <Phrase key="btnAddEmptyItem.ToolTip">Tambahkan Isi Kosong</Phrase>
+    <Phrase key="btnMoveUpItem.ToolTip">Naikkan</Phrase>
+    <Phrase key="btnMoveDownItem.ToolTip">Turunkan</Phrase>
+    <Phrase key="btnDeleteItem.ToolTip">Hapus yang Dipilih</Phrase>
+    <Phrase key="btnTableOptions.ToolTip">Opsi Tampilan Tabel</Phrase>
+    <Phrase key="lblHint">Tekan Enter atau klik dua kali simpul untuk menambahkannya ke tabel.  Klik kanan simpul perangkat untuk menampilkan menu konteks.</Phrase>
+    <Phrase key="colCnlNum">Saluran</Phrase>
+    <Phrase key="colDeviceNum">Perangkat</Phrase>
+    <Phrase key="colAutoText">Teks Otomatis</Phrase>
+    <Phrase key="colText">Teks</Phrase>
+    <Phrase key="colHidden">Tersembunyi</Phrase>
+    <Phrase key="miDeviceAddDevice">Tambahkan Perangkat</Phrase>
+    <Phrase key="miDeviceAddAllChannels">Tambahkan Semua Saluran</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableOptions">
+    <Phrase key="this">Opsi Tampilan Tabel</Phrase>
+    <Phrase key="chkUseDefault">Gunakan opsi default</Phrase>
+    <Phrase key="lblArchiveCode">Kode arsip</Phrase>
+    <Phrase key="btnSelectArchiveCode">Pilih...</Phrase>
+    <Phrase key="lblPeriod">Periode tabel, menit</Phrase>
+    <Phrase key="lblChartArgs">Argumen bagan</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+  </Dictionary>
+</ExtTableEditorDictionaries>

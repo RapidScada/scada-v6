@@ -101,7 +101,7 @@
             // chkLogEnabled
             // 
             this.chkLogEnabled.AutoSize = true;
-            this.chkLogEnabled.Location = new System.Drawing.Point(264, 55);
+            this.chkLogEnabled.Location = new System.Drawing.Point(332, 55);
             this.chkLogEnabled.Name = "chkLogEnabled";
             this.chkLogEnabled.Size = new System.Drawing.Size(15, 14);
             this.chkLogEnabled.TabIndex = 3;
@@ -119,7 +119,7 @@
             // chkReadOnly
             // 
             this.chkReadOnly.AutoSize = true;
-            this.chkReadOnly.Location = new System.Drawing.Point(264, 26);
+            this.chkReadOnly.Location = new System.Drawing.Point(332, 26);
             this.chkReadOnly.Name = "chkReadOnly";
             this.chkReadOnly.Size = new System.Drawing.Size(15, 14);
             this.chkReadOnly.TabIndex = 1;

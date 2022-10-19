@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2019
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Admin.App.Code;
@@ -181,13 +181,6 @@ namespace Scada.Admin.App.Forms
         {
             itemMainFont.Dispose();
             itemHintFont.Dispose();
-        }
-
-        private void FrmStartPage_Resize(object sender, EventArgs e)
-        {
-            pnlContent.Height = Height;
-            pnlContent.Left = Math.Max(0, (Width - pnlContent.Width) / 2);
-            lbRecentProjects.Height = Height - lbRecentProjects.Top;
         }
 
 

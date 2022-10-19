@@ -61,6 +61,7 @@ namespace Scada.Lang
         // Scada.ConfigDatabase
         public static string UndefinedTable { get; private set; }
         public static string ArchiveTable { get; private set; }
+        public static string ArchiveKindTable { get; private set; }
         public static string CnlTable { get; private set; }
         public static string CnlStatusTable { get; private set; }
         public static string CnlTypeTable { get; private set; }
@@ -107,11 +108,6 @@ namespace Scada.Lang
         public static string NotHexadecimal { get; private set; }
         public static string InvalidParamVal { get; private set; }
         public static string InvalidSecretKey { get; private set; }
-        public static string UndefinedSign { get; private set; }
-        public static string CriticalSeverity { get; private set; }
-        public static string MajorSeverity { get; private set; }
-        public static string MinorSeverity { get; private set; }
-        public static string InfoSeverity { get; private set; }
 
         // Scada.Forms
         public static string InfoCaption { get; private set; }
@@ -133,8 +129,13 @@ namespace Scada.Lang
         public static string CollectionValue { get; private set; }
 
         // Scada.CnlDataFormatter
+        public static string UndefinedSign { get; private set; }
         public static string CommandDescrPrefix { get; private set; }
         public static string StatusFormat { get; private set; }
+        public static string CriticalSeverity { get; private set; }
+        public static string MajorSeverity { get; private set; }
+        public static string MinorSeverity { get; private set; }
+        public static string InfoSeverity { get; private set; }
 
         // Scada.Forms.BitItemCollection
         public static string EventEnabled { get; private set; }
@@ -167,116 +168,117 @@ namespace Scada.Lang
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Application");
-            ProductName = dict["ProductName"];
-            ServerAppName = dict["ServerAppName"];
-            CommAppName = dict["CommAppName"];
-            WebAppName = dict["WebAppName"];
-            WebsiteUrl = dict["WebsiteUrl"];
-            UnhandledException = dict["UnhandledException"];
-            ExecutionImpossible = dict["ExecutionImpossible"];
-            StartLogic = dict["StartLogic"];
-            LogicAlreadyStarted = dict["LogicAlreadyStarted"];
-            StartLogicError = dict["StartLogicError"];
-            LogicStopped = dict["LogicStopped"];
-            UnableToStopLogic = dict["UnableToStopLogic"];
-            StopLogicError = dict["StopLogicError"];
-            LogicCycleError = dict["LogicCycleError"];
-            ThreadFatalError = dict["ThreadFatalError"];
-            WriteInfoError = dict["WriteInfoError"];
-            ConnectionNotFound = dict["ConnectionNotFound"];
-            ConnOptionsNotFound = dict["ConnOptionsNotFound"];
-            DatabaseNotSupported = dict["DatabaseNotSupported"];
-            OperationNotSupported = dict["OperationNotSupported"];
-            CommandSent = dict["CommandSent"];
-            SendCommandError = dict["SendCommandError"];
-            AgentDisabled = dict["AgentDisabled"];
+            ProductName = dict[nameof(ProductName)];
+            ServerAppName = dict[nameof(ServerAppName)];
+            CommAppName = dict[nameof(CommAppName)];
+            WebAppName = dict[nameof(WebAppName)];
+            WebsiteUrl = dict[nameof(WebsiteUrl)];
+            UnhandledException = dict[nameof(UnhandledException)];
+            ExecutionImpossible = dict[nameof(ExecutionImpossible)];
+            StartLogic = dict[nameof(StartLogic)];
+            LogicAlreadyStarted = dict[nameof(LogicAlreadyStarted)];
+            StartLogicError = dict[nameof(StartLogicError)];
+            LogicStopped = dict[nameof(LogicStopped)];
+            UnableToStopLogic = dict[nameof(UnableToStopLogic)];
+            StopLogicError = dict[nameof(StopLogicError)];
+            LogicCycleError = dict[nameof(LogicCycleError)];
+            ThreadFatalError = dict[nameof(ThreadFatalError)];
+            WriteInfoError = dict[nameof(WriteInfoError)];
+            ConnectionNotFound = dict[nameof(ConnectionNotFound)];
+            ConnOptionsNotFound = dict[nameof(ConnOptionsNotFound)];
+            DatabaseNotSupported = dict[nameof(DatabaseNotSupported)];
+            OperationNotSupported = dict[nameof(OperationNotSupported)];
+            CommandSent = dict[nameof(CommandSent)];
+            SendCommandError = dict[nameof(SendCommandError)];
+            AgentDisabled = dict[nameof(AgentDisabled)];
 
             dict = Locale.GetDictionary("Scada.ConfigDatabase");
-            UndefinedTable = dict["UndefinedTable"];
-            ArchiveTable = dict["ArchiveTable"];
-            CnlTable = dict["CnlTable"];
-            CnlStatusTable = dict["CnlStatusTable"];
-            CnlTypeTable = dict["CnlTypeTable"];
-            CommLineTable = dict["CommLineTable"];
-            DataTypeTable = dict["DataTypeTable"];
-            DeviceTable = dict["DeviceTable"];
-            DevTypeTable = dict["DevTypeTable"];
-            FormatTable = dict["FormatTable"];
-            LimTable = dict["LimTable"];
-            ObjTable = dict["ObjTable"];
-            ObjRightTable = dict["ObjRightTable"];
-            QuantityTable = dict["QuantityTable"];
-            RoleTable = dict["RoleTable"];
-            RoleRefTable = dict["RoleRefTable"];
-            ScriptTable = dict["ScriptTable"];
-            UnitTable = dict["UnitTable"];
-            UserTable = dict["UserTable"];
-            ViewTable = dict["ViewTable"];
-            ViewTypeTable = dict["ViewTypeTable"];
-            IndexNotFound = dict["IndexNotFound"];
-            EntityCaption = dict["EntityCaption"];
+            UndefinedTable = dict[nameof(UndefinedTable)];
+            ArchiveTable = dict[nameof(ArchiveTable)];
+            ArchiveKindTable = dict[nameof(ArchiveKindTable)];
+            CnlTable = dict[nameof(CnlTable)];
+            CnlStatusTable = dict[nameof(CnlStatusTable)];
+            CnlTypeTable = dict[nameof(CnlTypeTable)];
+            CommLineTable = dict[nameof(CommLineTable)];
+            DataTypeTable = dict[nameof(DataTypeTable)];
+            DeviceTable = dict[nameof(DeviceTable)];
+            DevTypeTable = dict[nameof(DevTypeTable)];
+            FormatTable = dict[nameof(FormatTable)];
+            LimTable = dict[nameof(LimTable)];
+            ObjTable = dict[nameof(ObjTable)];
+            ObjRightTable = dict[nameof(ObjRightTable)];
+            QuantityTable = dict[nameof(QuantityTable)];
+            RoleTable = dict[nameof(RoleTable)];
+            RoleRefTable = dict[nameof(RoleRefTable)];
+            ScriptTable = dict[nameof(ScriptTable)];
+            UnitTable = dict[nameof(UnitTable)];
+            UserTable = dict[nameof(UserTable)];
+            ViewTable = dict[nameof(ViewTable)];
+            ViewTypeTable = dict[nameof(ViewTypeTable)];
+            IndexNotFound = dict[nameof(IndexNotFound)];
+            EntityCaption = dict[nameof(EntityCaption)];
 
             dict = Locale.GetDictionary("Scada.Files");
-            FileNotFound = dict["FileNotFound"];
-            NamedFileNotFound = dict["NamedFileNotFound"];
-            DirectoryNotExists = dict["DirectoryNotExists"];
-            PathNotSupported = dict["PathNotSupported"];
-            InvalidFileFormat = dict["InvalidFileFormat"];
-            LoadConfigError = dict["LoadConfigError"];
-            SaveConfigError = dict["SaveConfigError"];
-            SaveConfigConfirm = dict["SaveConfigConfirm"];
-            LoadViewError = dict["LoadViewError"];
-            SaveViewError = dict["SaveViewError"];
+            FileNotFound = dict[nameof(FileNotFound)];
+            NamedFileNotFound = dict[nameof(NamedFileNotFound)];
+            DirectoryNotExists = dict[nameof(DirectoryNotExists)];
+            PathNotSupported = dict[nameof(PathNotSupported)];
+            InvalidFileFormat = dict[nameof(InvalidFileFormat)];
+            LoadConfigError = dict[nameof(LoadConfigError)];
+            SaveConfigError = dict[nameof(SaveConfigError)];
+            SaveConfigConfirm = dict[nameof(SaveConfigConfirm)];
+            LoadViewError = dict[nameof(LoadViewError)];
+            SaveViewError = dict[nameof(SaveViewError)];
 
             dict = Locale.GetDictionary("Scada.Format");
-            IntegerRequired = dict["IntegerRequired"];
-            IntegerInRangeRequired = dict["IntegerInRangeRequired"];
-            RealRequired = dict["RealRequired"];
-            NonemptyRequired = dict["NonemptyRequired"];
-            ValidUrlRequired = dict["ValidUrlRequired"];
-            ValidRangeRequired = dict["ValidRangeRequired"];
-            DateTimeRequired = dict["DateTimeRequired"];
-            NotNumber = dict["NotNumber"];
-            NotHexadecimal = dict["NotHexadecimal"];
-            InvalidParamVal = dict["InvalidParamVal"];
-            InvalidSecretKey = dict["InvalidSecretKey"];
-            UndefinedSign = dict["UndefinedSign"];
-            CriticalSeverity = dict["CriticalSeverity"];
-            MajorSeverity = dict["MajorSeverity"];
-            MinorSeverity = dict["MinorSeverity"];
-            InfoSeverity = dict["InfoSeverity"];
+            IntegerRequired = dict[nameof(IntegerRequired)];
+            IntegerInRangeRequired = dict[nameof(IntegerInRangeRequired)];
+            RealRequired = dict[nameof(RealRequired)];
+            NonemptyRequired = dict[nameof(NonemptyRequired)];
+            ValidUrlRequired = dict[nameof(ValidUrlRequired)];
+            ValidRangeRequired = dict[nameof(ValidRangeRequired)];
+            DateTimeRequired = dict[nameof(DateTimeRequired)];
+            NotNumber = dict[nameof(NotNumber)];
+            NotHexadecimal = dict[nameof(NotHexadecimal)];
+            InvalidParamVal = dict[nameof(InvalidParamVal)];
+            InvalidSecretKey = dict[nameof(InvalidSecretKey)];
 
             dict = Locale.GetDictionary("Scada.Forms");
-            InfoCaption = dict["InfoCaption"];
-            QuestionCaption = dict["QuestionCaption"];
-            ErrorCaption = dict["ErrorCaption"];
-            WarningCaption = dict["WarningCaption"];
-            NoData = dict["NoData"];
-            EmptyData = dict["EmptyData"];
-            CorrectErrors = dict["CorrectErrors"];
-            HiddenPassword = dict["HiddenPassword"];
-            NewConnection = dict["NewConnection"];
-            UnnamedConnection = dict["UnnamedConnection"];
-            XmlFileFilter = dict["XmlFileFilter"];
+            InfoCaption = dict[nameof(InfoCaption)];
+            QuestionCaption = dict[nameof(QuestionCaption)];
+            ErrorCaption = dict[nameof(ErrorCaption)];
+            WarningCaption = dict[nameof(WarningCaption)];
+            NoData = dict[nameof(NoData)];
+            EmptyData = dict[nameof(EmptyData)];
+            CorrectErrors = dict[nameof(CorrectErrors)];
+            HiddenPassword = dict[nameof(HiddenPassword)];
+            NewConnection = dict[nameof(NewConnection)];
+            UnnamedConnection = dict[nameof(UnnamedConnection)];
+            XmlFileFilter = dict[nameof(XmlFileFilter)];
 
             dict = Locale.GetDictionary("Scada.ComponentModel");
-            TrueValue = dict["TrueValue"];
-            FalseValue = dict["FalseValue"];
-            EmptyValue = dict["EmptyValue"];
-            CollectionValue = dict["CollectionValue"];
+            TrueValue = dict[nameof(TrueValue)];
+            FalseValue = dict[nameof(FalseValue)];
+            EmptyValue = dict[nameof(EmptyValue)];
+            CollectionValue = dict[nameof(CollectionValue)];
 
             dict = Locale.GetDictionary("Scada.CnlDataFormatter");
-            CommandDescrPrefix = dict["CommandDescrPrefix"];
-            StatusFormat = dict["StatusFormat"];
+            UndefinedSign = dict[nameof(UndefinedSign)];
+            CommandDescrPrefix = dict[nameof(CommandDescrPrefix)];
+            StatusFormat = dict[nameof(StatusFormat)];
+            CriticalSeverity = dict[nameof(CriticalSeverity)];
+            MajorSeverity = dict[nameof(MajorSeverity)];
+            MinorSeverity = dict[nameof(MinorSeverity)];
+            InfoSeverity = dict[nameof(InfoSeverity)];
 
             dict = Locale.GetDictionary("Scada.Forms.BitItemCollection");
-            EventEnabled = dict["EventEnabled"];
-            EventBeep = dict["EventBeep"];
-            DataChangeEvent = dict["DataChangeEvent"];
-            ValueChangeEvent = dict["ValueChangeEvent"];
-            StatusChangeEvent = dict["StatusChangeEvent"];
-            CnlUndefinedEvent = dict["CnlUndefinedEvent"];
-            CommandEvent = dict["CommandEvent"];
+            EventEnabled = dict[nameof(EventEnabled)];
+            EventBeep = dict[nameof(EventBeep)];
+            DataChangeEvent = dict[nameof(DataChangeEvent)];
+            ValueChangeEvent = dict[nameof(ValueChangeEvent)];
+            StatusChangeEvent = dict[nameof(StatusChangeEvent)];
+            CnlUndefinedEvent = dict[nameof(CnlUndefinedEvent)];
+            CommandEvent = dict[nameof(CommandEvent)];
         }
     }
 }

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AddressBookDictionaries culture="id-ID" lang="Indonesian">
+  <Dictionary key="Scada.AB.Forms.FrmAddressBook">
+    <Phrase key="this">Buku Alamat</Phrase>
+    <Phrase key="btnAddContactGroup.ToolTip">Tambahkan grup kontak</Phrase>
+    <Phrase key="btnAddContact.ToolTip">Tambah kontak</Phrase>
+    <Phrase key="btnAddPhoneNumber.ToolTip">Tambahkan nomor telepon</Phrase>
+    <Phrase key="btnAddEmail.ToolTip">Tambahkan email</Phrase>
+    <Phrase key="btnEdit.ToolTip">Sunting</Phrase>
+    <Phrase key="btnDelete.ToolTip">Hapus</Phrase>
+    <Phrase key="btnSave">Simpan</Phrase>
+    <Phrase key="btnClose">Tutup</Phrase>
+    <Phrase key="AddressBookNode">Buku Alamat</Phrase>
+    <Phrase key="NewContactGroup">Grup baru</Phrase>
+    <Phrase key="NewContact">Kontak baru</Phrase>
+    <Phrase key="NewPhoneNumber">Nomor telepon baru</Phrase>
+    <Phrase key="NewEmail">Email baru</Phrase>
+    <Phrase key="ContactGroupExists">Grup kontak sudah ada.</Phrase>
+    <Phrase key="ContactExists">Kontak sudah ada di grup.</Phrase>
+    <Phrase key="PhoneNumberExists">Kontak sudah berisi nomor telepon yang ditentukan.</Phrase>
+    <Phrase key="EmailExists">Kontak sudah berisi email yang ditentukan.</Phrase>
+    <Phrase key="IncorrectEmail">Email salah.</Phrase>
+    <Phrase key="EmptyValueNotAllowed">Nilai kosong tidak diperbolehkan.</Phrase>
+    <Phrase key="SaveAddressBookConfirm">Buku alamat telah dimodifikasi. Simpan perubahan?</Phrase>
+  </Dictionary>
+</AddressBookDictionaries>

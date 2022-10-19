@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2022
  */
 
 using Scada.Config;
@@ -86,7 +86,7 @@ namespace Scada.Comm.Config
             Active = xmlElem.GetAttrAsBool("active");
             Code = xmlElem.GetAttrAsString("code");
             Name = xmlElem.GetAttrAsString("name");
-            Driver = ScadaUtils.RemoveFileNameSuffixes(xmlElem.GetAttrAsString("driver"));
+            Driver = xmlElem.GetAttrAsString("driver");
             CustomOptions.LoadFromXml(xmlElem);
         }
 

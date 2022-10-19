@@ -70,11 +70,11 @@ namespace Scada.Agent.Engine
         /// </summary>
         public CoreLogic(AgentConfig appConfig, AppDirs appDirs, ILog log)
         {
-            this.appConfig = appConfig ?? throw new ArgumentNullException(nameof(appConfig));
-            infoFileName = Path.Combine(appDirs.LogDir, EngineUtils.InfoFileName);
-
             AppDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
             Log = log ?? throw new ArgumentNullException(nameof(log));
+
+            this.appConfig = appConfig ?? throw new ArgumentNullException(nameof(appConfig));
+            infoFileName = Path.Combine(appDirs.LogDir, EngineUtils.InfoFileName);
 
             thread = null;
             terminated = false;

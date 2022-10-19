@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgMainDictionaries culture="id-ID" lang="Indonesian">
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command">
+    <Phrase key="PageTitle">Perintah</Phrase>
+    <Phrase key="CommandSent">Perintah dikirim.</Phrase>
+    <Phrase key="CmdParseError">Kesalahan penguraian perintah</Phrase>
+    <Phrase key="CnlRow">Saluran:</Phrase>
+    <Phrase key="ObjRow">Obyek:</Phrase>
+    <Phrase key="DevRow">Perangkat:</Phrase>
+    <Phrase key="lblPassword">Kata sandi</Phrase>
+    <Phrase key="lblCmdDec">Nilai perintah</Phrase>
+    <Phrase key="lblCmdHex">Nilai perintah (heksadesimal)</Phrase>
+    <Phrase key="lblCmdEnum">Perintah</Phrase>
+    <Phrase key="lblCmdDate">Nilai perintah (tanggal/waktu)</Phrase>
+    <Phrase key="lblCmdData">Data perintah</Phrase>
+    <Phrase key="lblStr">String</Phrase>
+    <Phrase key="lblHex">Heksadesimal</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventAck">
+    <Phrase key="PageTitle">Peringatan</Phrase>
+    <Phrase key="EventNotFound">Peringatan {0} tidak ditemukan.</Phrase>
+    <Phrase key="EventAcknowledged">Peringatan diakui.</Phrase>
+    <Phrase key="TimeRow">Tanggal dan waktu:</Phrase>
+    <Phrase key="ObjRow">Obyek:</Phrase>
+    <Phrase key="DevRow">Perangkat:</Phrase>
+    <Phrase key="CnlRow">Saluran:</Phrase>
+    <Phrase key="DescrRow">Keterangan:</Phrase>
+    <Phrase key="SevRow">Keparahan:</Phrase>
+    <Phrase key="AckRow">Diakui:</Phrase>
+    <Phrase key="AckYes">Ya</Phrase>
+    <Phrase key="AckNo">Tidak</Phrase>
+    <Phrase key="AckTip">Klik tombol Oke untuk mengakui peringatan tersebut.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventReport">
+    <Phrase key="PageTitle">Laporan Peringatan</Phrase>
+    <Phrase key="AllObjItem">-- Semua obyek --</Phrase>
+    <Phrase key="AllAvailObjItem">-- Semua obyek yang tersedia --</Phrase>
+    <Phrase key="NotSpecifiedItem">-- Tidak ditentukan --</Phrase>
+    <Phrase key="lblStartTime">Dari</Phrase>
+    <Phrase key="lblEndTime">Ke</Phrase>
+    <Phrase key="lblArchive">Arsip</Phrase>
+    <Phrase key="lblObj">Obyek</Phrase>
+    <Phrase key="lblSeverity">Keparahan</Phrase>
+    <Phrase key="btnGenerateReport">Unduh Laporan</Phrase>
+    <Phrase key="divWaitHint">Membuat laporan.  Mohon tunggu...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events">
+    <Phrase key="TimeCol">Tanggal dan waktu</Phrase>
+    <Phrase key="ObjCol">Obyek</Phrase>
+    <Phrase key="DevCol">Perangkat</Phrase>
+    <Phrase key="CnlCol">Saluran</Phrase>
+    <Phrase key="DescrCol">Keterangan</Phrase>
+    <Phrase key="SevCol">Keparahan</Phrase>
+    <Phrase key="AckCol">Akui</Phrase>
+    <Phrase key="EventInfo">Terakhir {0} peringatan dalam {1} jam</Phrase>
+    <Phrase key="spanAllEventsBtn">Semua Peringatan</Phrase>
+    <Phrase key="spanEventsByViewBtn">Peringatan berdasarkan Tampilan</Phrase>
+    <Phrase key="spanPrintBtn_ToolTip">Ekspor peringatan</Phrase>
+    <Phrase key="spanErrorBadge">Kesalahan</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events.Js">
+    <Phrase key="Loading">Memuat...</Phrase>
+    <Phrase key="NoEvents">Tidak ada peringatan</Phrase>
+    <Phrase key="Ack">Klik untuk mengakui</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.HistDataReport">
+    <Phrase key="PageTitle">Laporan Data Historis</Phrase>
+    <Phrase key="lblStartTime">Dari</Phrase>
+    <Phrase key="lblEndTime">Ke</Phrase>
+    <Phrase key="lblArchive">Arsip</Phrase>
+    <Phrase key="lblCnlNums">Saluran</Phrase>
+    <Phrase key="btnSelectCnls">Pilih...</Phrase>
+    <Phrase key="btnGenerateReport">Unduh Laporan</Phrase>
+    <Phrase key="divWaitHint">Membuat laporan. Mohon tunggu...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView">
+    <Phrase key="TableViewTitle">Tabel {0}</Phrase>
+    <Phrase key="PrevDate">Tanggal sebelumnya</Phrase>
+    <Phrase key="SelDate">Tanggal yang dipilih</Phrase>
+    <Phrase key="MinusOneDay">-1d</Phrase>
+    <Phrase key="ItemColumn">Isi</Phrase>
+    <Phrase key="CurrentColumn">Saat ini</Phrase>
+    <Phrase key="CnlTip">Saluran</Phrase>
+    <Phrase key="DeviceTip">Perangkat</Phrase>
+    <Phrase key="ObjTip">Obyek</Phrase>
+    <Phrase key="QuantityTip">Kuantitas</Phrase>
+    <Phrase key="UnitTip">Satuan</Phrase>
+    <Phrase key="SendCommandTip">Kirim Perintah</Phrase>
+    <Phrase key="spanPrintBtn_ToolTip">Ekspor tampilan tabel</Phrase>
+    <Phrase key="spanLoadingBadge">Memuat...</Phrase>
+    <Phrase key="spanErrorBadge">Kesalahan</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Code.EventWindowSpec">
+    <Phrase key="EventWindowTitle">Peringatan</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.PlgMainLogic">
+    <Phrase key="ReportGroup">Laporan Utama</Phrase>
+    <Phrase key="HistDataReport">Laporan data historis</Phrase>
+    <Phrase key="EventReport">Laporan peringatan</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report">
+    <Phrase key="ArchiveNotFound">Arsip tidak ditemukan di basis data konfigurasi.</Phrase>
+    <Phrase key="GenCaption">Dihasilkan:</Phrase>
+    <Phrase key="TzCaption">Zona waktu:</Phrase>
+    <Phrase key="ArcCaption">Arsip:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.Js">
+    <Phrase key="InvalidPeriod">Tanggal mulai harus kurang atau sama dengan tanggal akhir.</Phrase>
+    <Phrase key="PeriodTooLong">Durasi periode maksimum adalah {0} hari.</Phrase>
+    <Phrase key="InvalidChannels">Nomor saluran tidak valid.</Phrase>
+    <Phrase key="NoSeverity">Tidak ada tingkat keparahan yang dipilih.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.EventReportBuilder">
+    <Phrase key="GeneralTitleFormat">Peringatan, {0} - {1}</Phrase>
+    <Phrase key="TailTitleFormat">Terakhir {0} peringatan dalam {1} jam</Phrase>
+    <Phrase key="ViewCaption">Tampilan:</Phrase>
+    <Phrase key="ObjCaption">Objek:</Phrase>
+    <Phrase key="SevCaption">Keparahan:</Phrase>
+    <Phrase key="TimeCol">Tanggal dan Waktu</Phrase>
+    <Phrase key="ObjCol">Obyek</Phrase>
+    <Phrase key="DevCol">Perangkat</Phrase>
+    <Phrase key="CnlCol">Saluran</Phrase>
+    <Phrase key="DescrCol">Keterangan</Phrase>
+    <Phrase key="SevCol">Keparahan</Phrase>
+    <Phrase key="AckCol">Akui</Phrase>
+    <Phrase key="WorksheetName">Peringatan</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.HistDataReportBuilder">
+    <Phrase key="TitleFormat">Data Historis, {0} - {1}</Phrase>
+    <Phrase key="CnlCaption">Saluran:</Phrase>
+    <Phrase key="TimeCol">Tanggal dan Waktu</Phrase>
+    <Phrase key="DataCol">Saluran {0}</Phrase>
+    <Phrase key="AvgCaption">Rata-rata</Phrase>
+    <Phrase key="MinCaption">Minimum</Phrase>
+    <Phrase key="MaxCaption">Maksimum</Phrase>
+    <Phrase key="WorksheetName">Data historis</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.TableViewReportBuilder">
+    <Phrase key="TitleFormat">{0}, {1} - {2}</Phrase>
+    <Phrase key="ItemCol">Isi</Phrase>
+    <Phrase key="WorksheetName">Tampilan Tabel</Phrase>
+  </Dictionary>
+</PlgMainDictionaries>

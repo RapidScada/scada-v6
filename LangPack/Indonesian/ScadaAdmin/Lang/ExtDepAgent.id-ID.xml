@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtDepAgentDictionaries culture="id-ID" lang="Indonesian">
+  <Dictionary key="Scada.Admin.Extensions.ExtDepAgent.Downloader">
+    <Phrase key="ImportTable">Impor tabel {0}</Phrase>
+    <Phrase key="ExtractArchive">Ekstrak arsip</Phrase>
+    <Phrase key="MergeDirectory">Gabungkan direktori</Phrase>
+    <Phrase key="NothingToMerge">Tidak ada data untuk digabungkan</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepAgent.Uploader">
+    <Phrase key="TestAgentConn">Uji koneksi Agent</Phrase>
+    <Phrase key="CompressConfig">Kompres konfigurasi</Phrase>
+    <Phrase key="CompressBase">Kompres basis data konfigurasi</Phrase>
+    <Phrase key="CompressViews">Kompres tampilan</Phrase>
+    <Phrase key="CompressAppConfig">Kompres konfigurasi dari aplikasi {0}</Phrase>
+    <Phrase key="AddProjectInfo">Tambahkan informasi proyek</Phrase>
+    <Phrase key="AddTransferOptions">Tambahkan opsi transfer</Phrase>
+    <Phrase key="TransferConfig">Transfer konfigurasi</Phrase>
+    <Phrase key="ArchiveSize">Ukuran arsip: {0} byte</Phrase>
+  </Dictionary>
+</ExtDepAgentDictionaries>

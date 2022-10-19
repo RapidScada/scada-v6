@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvEmailDictionaries culture="id-ID" lang="Indonesian">
+  <Dictionary key="Scada.Comm.Drivers.DrvEmail.View.Forms.FrmConfig">
+    <Phrase key="this">Properti Perangkat {0} - Email</Phrase>
+    <Phrase key="gbServer">Server SMTP</Phrase>
+    <Phrase key="lblHost">Host server</Phrase>
+    <Phrase key="lblPort">Port</Phrase>
+    <Phrase key="lblUsername">Nama pengguna</Phrase>
+    <Phrase key="lblPassword">Kata sandi</Phrase>
+    <Phrase key="chkEnableSsl">Gunakan SSL</Phrase>
+    <Phrase key="gbSender">Dari</Phrase>
+    <Phrase key="lblSenderAddress">Alamat pengirim</Phrase>
+    <Phrase key="lblSenderDisplayName">Nama tampilan</Phrase>
+    <Phrase key="btnAddressBook">Buku alamat</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+  </Dictionary>
+</DrvEmailDictionaries>

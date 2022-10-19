@@ -185,7 +185,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             // chkWriteWithPeriod
             // 
             this.chkWriteWithPeriod.AutoSize = true;
-            this.chkWriteWithPeriod.Location = new System.Drawing.Point(264, 84);
+            this.chkWriteWithPeriod.Location = new System.Drawing.Point(332, 84);
             this.chkWriteWithPeriod.Name = "chkWriteWithPeriod";
             this.chkWriteWithPeriod.Size = new System.Drawing.Size(15, 14);
             this.chkWriteWithPeriod.TabIndex = 6;
@@ -243,7 +243,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             // chkLogEnabled
             // 
             this.chkLogEnabled.AutoSize = true;
-            this.chkLogEnabled.Location = new System.Drawing.Point(264, 26);
+            this.chkLogEnabled.Location = new System.Drawing.Point(332, 26);
             this.chkLogEnabled.Name = "chkLogEnabled";
             this.chkLogEnabled.Size = new System.Drawing.Size(15, 14);
             this.chkLogEnabled.TabIndex = 1;
@@ -282,7 +282,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             // chkUseCopyDir
             // 
             this.chkUseCopyDir.AutoSize = true;
-            this.chkUseCopyDir.Location = new System.Drawing.Point(264, 26);
+            this.chkUseCopyDir.Location = new System.Drawing.Point(332, 26);
             this.chkUseCopyDir.Name = "chkUseCopyDir";
             this.chkUseCopyDir.Size = new System.Drawing.Size(15, 14);
             this.chkUseCopyDir.TabIndex = 1;

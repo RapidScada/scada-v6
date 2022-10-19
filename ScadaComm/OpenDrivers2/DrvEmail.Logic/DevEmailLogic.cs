@@ -274,6 +274,14 @@ namespace Scada.Comm.Drivers.DrvEmail.Logic
         }
 
         /// <summary>
+        /// Performs actions when terminating a communication line.
+        /// </summary>
+        public override void OnCommLineTerminate()
+        {
+            smtpClient.Dispose();
+        }
+
+        /// <summary>
         /// Initializes the device tags.
         /// </summary>
         public override void InitDeviceTags()
@@ -282,6 +290,7 @@ namespace Scada.Comm.Drivers.DrvEmail.Logic
             tagGroup.AddTag(TagCode.Mail, TagName.Mail).Format = TagFormat.IntNumber;
             tagGroup.AddTag(TagCode.MailAttach, TagName.MailAttach).Format = TagFormat.IntNumber;
             DeviceTags.AddGroup(tagGroup);
+            DeviceTags.FlattenGroups = true;
         }
 
         /// <summary>

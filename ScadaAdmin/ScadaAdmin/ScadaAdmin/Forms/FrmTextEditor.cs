@@ -83,6 +83,7 @@ namespace Scada.Admin.App.Forms
                 using FileStream fileStream = new(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 using StreamReader reader = new(fileStream, Encoding.UTF8);
                 richTextBox.Text = reader.ReadToEnd(); // RichTextBox faster than TextBox
+                ChildFormTag.Modified = false;
             }
             catch (Exception ex)
             {
@@ -115,6 +116,7 @@ namespace Scada.Admin.App.Forms
 
         private void FrmTextEditor_Load(object sender, EventArgs e)
         {
+            FormTranslator.Translate(this, GetType().FullName);
             ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
             LoadFile();
         }
@@ -128,6 +130,11 @@ namespace Scada.Admin.App.Forms
                 fileName = newFileName;
                 Text = Path.GetFileName(fileName);
             }
+        }
+
+        private void btnReload_Click(object sender, EventArgs e)
+        {
+            LoadFile();
         }
 
         private void richTextBox_TextChanged(object sender, EventArgs e)

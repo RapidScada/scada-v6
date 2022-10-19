@@ -33,6 +33,7 @@ namespace Scada.Comm.Config
     /// Represents general Communicator options.
     /// <para>Представляет основные параметры Коммуникатора.</para>
     /// </summary>
+    [Serializable]
     public class GeneralOptions
     {
         /// <summary>

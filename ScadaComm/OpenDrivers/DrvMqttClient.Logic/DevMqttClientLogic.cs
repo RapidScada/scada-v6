@@ -160,25 +160,17 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
         private void ExecuteJavaScript(ReceivedMessage message, SubscriptionTag subscriptionTag)
         {
             // initialize engine
-            if (jsEngine == null)
-            {
-                jsEngine = new Engine()
-                    .SetValue("log", new Action<string>(s => Log.WriteLine(s)))
-                    .SetValue("setValue", new Action<int, double>((i, x) => { subscriptionTag.JsValues[i] = x; }));
-            }
+            jsEngine ??= new Engine()
+                .SetValue("log", new Action<string>(s => Log.WriteLine(s)))
+                .SetValue("setValue", new Action<int, double>((i, x) => { subscriptionTag.JsValues[i] = x; }));
 
             // load source code
-            if (subscriptionTag.JsSource == null)
-            {
-                subscriptionTag.JsSource =
-                    Storage.ReadText(Storages.DataCategory.Config, subscriptionTag.SubscriptionConfig.JsFileName);
-            }
+            subscriptionTag.JsSource ??= 
+                Storage.ReadText(Storages.DataCategory.Config, subscriptionTag.SubscriptionConfig.JsFileName);
 
             // initialize tag data
             int tagCount = Math.Max(1, subscriptionTag.SubscriptionConfig.SubItems.Count);
-
-            if (subscriptionTag.JsValues == null)
-                subscriptionTag.JsValues = new double[tagCount];
+            subscriptionTag.JsValues ??= new double[tagCount];
 
             for (int i = 0; i < tagCount; i++)
             {

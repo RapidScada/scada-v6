@@ -38,8 +38,10 @@
             this.btnOpenProject = new System.Windows.Forms.Button();
             this.btnNewProject = new System.Windows.Forms.Button();
             this.lblRecentProjects = new System.Windows.Forms.Label();
+            this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.pnlContent.SuspendLayout();
             this.cmsProjectList.SuspendLayout();
+            this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlContent
@@ -50,9 +52,11 @@
             this.pnlContent.Controls.Add(this.btnOpenProject);
             this.pnlContent.Controls.Add(this.btnNewProject);
             this.pnlContent.Controls.Add(this.lblRecentProjects);
-            this.pnlContent.Location = new System.Drawing.Point(0, 0);
+            this.pnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlContent.Location = new System.Drawing.Point(17, 0);
+            this.pnlContent.Margin = new System.Windows.Forms.Padding(0);
             this.pnlContent.Name = "pnlContent";
-            this.pnlContent.Size = new System.Drawing.Size(800, 400);
+            this.pnlContent.Size = new System.Drawing.Size(800, 461);
             this.pnlContent.TabIndex = 0;
             // 
             // lblNoRecentProjects
@@ -68,6 +72,8 @@
             // 
             // lbRecentProjects
             // 
+            this.lbRecentProjects.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.lbRecentProjects.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lbRecentProjects.ContextMenuStrip = this.cmsProjectList;
             this.lbRecentProjects.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
@@ -76,9 +82,9 @@
             this.lbRecentProjects.IntegralHeight = false;
             this.lbRecentProjects.ItemHeight = 50;
             this.lbRecentProjects.Location = new System.Drawing.Point(25, 59);
-            this.lbRecentProjects.Margin = new System.Windows.Forms.Padding(25, 10, 10, 10);
+            this.lbRecentProjects.Margin = new System.Windows.Forms.Padding(25, 10, 10, 0);
             this.lbRecentProjects.Name = "lbRecentProjects";
-            this.lbRecentProjects.Size = new System.Drawing.Size(535, 331);
+            this.lbRecentProjects.Size = new System.Drawing.Size(535, 402);
             this.lbRecentProjects.TabIndex = 2;
             this.lbRecentProjects.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lbRecentProjects_MouseClick);
             this.lbRecentProjects.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lbRecentProjects_DrawItem);
@@ -153,21 +159,36 @@
             this.lblRecentProjects.TabIndex = 0;
             this.lblRecentProjects.Text = "Recent Projects";
             // 
+            // tableLayoutPanel
+            // 
+            this.tableLayoutPanel.ColumnCount = 3;
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 800F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel.Controls.Add(this.pnlContent, 1, 0);
+            this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel.Name = "tableLayoutPanel";
+            this.tableLayoutPanel.RowCount = 1;
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel.Size = new System.Drawing.Size(834, 461);
+            this.tableLayoutPanel.TabIndex = 0;
+            // 
             // FrmStartPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(834, 461);
-            this.Controls.Add(this.pnlContent);
+            this.Controls.Add(this.tableLayoutPanel);
             this.Name = "FrmStartPage";
             this.Text = "Start Page";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmStartPage_FormClosed);
             this.Load += new System.EventHandler(this.FrmStartPage_Load);
-            this.Resize += new System.EventHandler(this.FrmStartPage_Resize);
             this.pnlContent.ResumeLayout(false);
             this.pnlContent.PerformLayout();
             this.cmsProjectList.ResumeLayout(false);
+            this.tableLayoutPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -183,5 +204,6 @@
         private System.Windows.Forms.ContextMenuStrip cmsProjectList;
         private System.Windows.Forms.ToolStripMenuItem miRemoveFromList;
         private System.Windows.Forms.ToolStripMenuItem miCopyPath;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
     }
 }

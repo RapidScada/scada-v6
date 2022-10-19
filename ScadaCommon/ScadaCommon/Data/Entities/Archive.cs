@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2022
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -41,6 +41,8 @@ namespace Scada.Data.Entities
         public string Name { get; set; }
 
         public string Code { get; set; }
+
+        public int? ArchiveKindID { get; set; }
 
         public bool IsDefault { get; set; }
 

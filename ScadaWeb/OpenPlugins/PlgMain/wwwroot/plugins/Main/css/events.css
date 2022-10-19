@@ -8,6 +8,7 @@
   line-height: 30px;
   font-size: 14px;
   padding: 0 10px;
+  white-space: nowrap;
 }
 .toolbar input,
 .toolbar select {

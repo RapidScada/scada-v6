@@ -8,8 +8,14 @@
     <Phrase key="ArchiveID">ID</Phrase>
     <Phrase key="Name">Name</Phrase>
     <Phrase key="Code">Code</Phrase>
+    <Phrase key="ArchiveKindID">Kind</Phrase>
     <Phrase key="IsDefault">Is Default</Phrase>
     <Phrase key="Bit">Bit</Phrase>
+    <Phrase key="Descr">Description</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.ArchiveKindTable">
+    <Phrase key="ArchiveKindID">ID</Phrase>
+    <Phrase key="Name">Name</Phrase>
     <Phrase key="Descr">Description</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.CnlTable">
@@ -620,6 +626,7 @@
     <Phrase key="btnOpenProject">Open Project</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmTextEditor">
+    <Phrase key="btnReload.ToolTip">Reload file</Phrase>
     <Phrase key="OpenTextFileError">Error opening file</Phrase>
     <Phrase key="SaveTextFileError">Error saving file</Phrase>
   </Dictionary>

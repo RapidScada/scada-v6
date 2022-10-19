@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -148,14 +148,14 @@ namespace Scada.Comm.Lang
 
             // load phrases that are used in the multilingual user interface from dictionaries
             LocaleDict dict = Locale.GetDictionary("Scada.Comm.Devices");
-            LoadDeviceConfigError = dict["LoadDeviceConfigError"];
-            SaveDeviceConfigError = dict["SaveDeviceConfigError"];
-            SaveDeviceConfigConfirm = dict["SaveDeviceConfigConfirm"];
+            LoadDeviceConfigError = dict[nameof(LoadDeviceConfigError)];
+            SaveDeviceConfigError = dict[nameof(SaveDeviceConfigError)];
+            SaveDeviceConfigConfirm = dict[nameof(SaveDeviceConfigConfirm)];
 
             dict = Locale.GetDictionary("Scada.Comm.Drivers");
-            LoadDriverConfigError = dict["LoadDriverConfigError"];
-            SaveDriverConfigError = dict["SaveDriverConfigError"];
-            SaveDriverConfigConfirm = dict["SaveDriverConfigConfirm"];
+            LoadDriverConfigError = dict[nameof(LoadDriverConfigError)];
+            SaveDriverConfigError = dict[nameof(SaveDriverConfigError)];
+            SaveDriverConfigConfirm = dict[nameof(SaveDriverConfigConfirm)];
         }
     }
 }

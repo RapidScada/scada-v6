@@ -95,7 +95,7 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.View.Forms
             publishOptions.Retain = chkRetain.Checked;
             publishOptions.MaxQueueSize = Convert.ToInt32(numMaxQueueSize.Value);
             publishOptions.DataLifetime = Convert.ToInt32(numDataLifetime.Value);
-            publishOptions.DetailedLog = publishOptions.DetailedLog;
+            publishOptions.DetailedLog = chkDetailedLog.Checked;
             publishOptions.DeviceFilter.Clear();
             publishOptions.DeviceFilter.AddRange(ScadaUtils.ParseRange(txtDeviceFilter.Text, true, true));
 

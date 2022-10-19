@@ -7,13 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScadaServerCommon", "ScadaS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScadaServerEngine", "ScadaServerEngine\ScadaServerEngine.csproj", "{FA1FA618-7BD6-4595-901D-84895635B9C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScadaServerSvc", "ScadaServerSvc\ScadaServerSvc.csproj", "{D876BF85-C99B-4C16-A053-8877C84E7E02}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScadaServerApp", "ScadaServerApp\ScadaServerApp.csproj", "{83027B1A-AEBB-44B9-B2EF-829A98CFE35B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScadaServerWkr", "ScadaServerWkr\ScadaServerWkr.csproj", "{ACC570CE-ECEB-4B7F-9566-067D9128C033}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScadaServerCommon.Forms", "ScadaServerCommon.Forms\ScadaServerCommon.Forms.csproj", "{10FACE34-AED6-4071-AAC0-4B2401E27F85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScadaServerCommon.Forms", "ScadaServerCommon.Forms\ScadaServerCommon.Forms.csproj", "{10FACE34-AED6-4071-AAC0-4B2401E27F85}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +27,6 @@ Global
 		{FA1FA618-7BD6-4595-901D-84895635B9C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA1FA618-7BD6-4595-901D-84895635B9C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA1FA618-7BD6-4595-901D-84895635B9C3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D876BF85-C99B-4C16-A053-8877C84E7E02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D876BF85-C99B-4C16-A053-8877C84E7E02}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D876BF85-C99B-4C16-A053-8877C84E7E02}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D876BF85-C99B-4C16-A053-8877C84E7E02}.Release|Any CPU.Build.0 = Release|Any CPU
 		{83027B1A-AEBB-44B9-B2EF-829A98CFE35B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{83027B1A-AEBB-44B9-B2EF-829A98CFE35B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83027B1A-AEBB-44B9-B2EF-829A98CFE35B}.Release|Any CPU.ActiveCfg = Release|Any CPU

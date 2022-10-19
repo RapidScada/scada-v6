@@ -284,7 +284,13 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            AddArchiveItem(new ArchiveConfig { Active = true });
+            FrmArchiveAdd frmArchiveAdd = new(adminContext.CurrentProject)
+            {
+                ModuleItems = cbModule.Items
+            };
+
+            if (frmArchiveAdd.ShowDialog() == DialogResult.OK)
+                AddArchiveItem(frmArchiveAdd.ArchiveConfig);
         }
 
         private void btnMoveUp_Click(object sender, EventArgs e)

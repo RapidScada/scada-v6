@@ -66,7 +66,7 @@ namespace Scada.Agent.Engine
             }
             else
             {
-                return Instance?.Name;
+                return Instance?.Name ?? "";
             }
         }
     }

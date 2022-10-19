@@ -161,7 +161,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             // chkDetailedLog
             // 
             this.chkDetailedLog.AutoSize = true;
-            this.chkDetailedLog.Location = new System.Drawing.Point(430, 142);
+            this.chkDetailedLog.Location = new System.Drawing.Point(472, 142);
             this.chkDetailedLog.Name = "chkDetailedLog";
             this.chkDetailedLog.Size = new System.Drawing.Size(15, 14);
             this.chkDetailedLog.TabIndex = 9;
@@ -180,7 +180,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             // chkPollAfterCmd
             // 
             this.chkPollAfterCmd.AutoSize = true;
-            this.chkPollAfterCmd.Location = new System.Drawing.Point(430, 113);
+            this.chkPollAfterCmd.Location = new System.Drawing.Point(472, 113);
             this.chkPollAfterCmd.Name = "chkPollAfterCmd";
             this.chkPollAfterCmd.Size = new System.Drawing.Size(15, 14);
             this.chkPollAfterCmd.TabIndex = 7;
@@ -199,7 +199,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             // chkCmdEnabled
             // 
             this.chkCmdEnabled.AutoSize = true;
-            this.chkCmdEnabled.Location = new System.Drawing.Point(430, 84);
+            this.chkCmdEnabled.Location = new System.Drawing.Point(472, 84);
             this.chkCmdEnabled.Name = "chkCmdEnabled";
             this.chkCmdEnabled.Size = new System.Drawing.Size(15, 14);
             this.chkCmdEnabled.TabIndex = 5;

@@ -80,10 +80,6 @@ namespace Scada
         /// </summary>
         protected readonly ConfigDataset configDataset;
         /// <summary>
-        /// The enumeration dictionary.
-        /// </summary>
-        protected readonly EnumDict enums;
-        /// <summary>
         /// The user's time zone.
         /// </summary>
         protected readonly TimeZoneInfo timeZone;
@@ -97,25 +93,16 @@ namespace Scada
         /// Initializes a new instance of the class.
         /// </summary>
         public CnlDataFormatter(ConfigDataset configDataset)
-            : this(configDataset, new EnumDict(configDataset), TimeZoneInfo.Local)
+            : this(configDataset, TimeZoneInfo.Local)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CnlDataFormatter(ConfigDataset configDataset, EnumDict enums)
-            : this(configDataset, enums, TimeZoneInfo.Local)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public CnlDataFormatter(ConfigDataset configDataset, EnumDict enums, TimeZoneInfo timeZone)
+        public CnlDataFormatter(ConfigDataset configDataset, TimeZoneInfo timeZone)
         {
             this.configDataset = configDataset ?? throw new ArgumentNullException(nameof(configDataset));
-            this.enums = enums ?? throw new ArgumentNullException(nameof(enums));
             this.timeZone = timeZone ?? throw new ArgumentNullException(nameof(timeZone));
 
             Culture = Locale.Culture;
@@ -277,7 +264,7 @@ namespace Scada
             EnumFormat enumFormat = null;
 
             if (format != null && format.IsEnum)
-                enums.TryGetValue(format.FormatID, out enumFormat);
+                configDataset.Enums.TryGetValue(format.FormatID, out enumFormat);
 
             // displayed value
             try
@@ -355,7 +342,7 @@ namespace Scada
 
             EventFormatted eventFormatted = new EventFormatted
             {
-                Time = TimeZoneInfo.ConvertTimeFromUtc(ev.Timestamp, timeZone).ToLocalizedString()
+                Time = TimeZoneInfo.ConvertTimeFromUtc(ev.Timestamp, timeZone).ToLocalizedString(culture)
             };
 
             // object
@@ -381,18 +368,19 @@ namespace Scada
 
             if (ev.TextFormat == EventTextFormat.Command)
             {
-                // Command Value, Data. Custom text
+                // Command: Value, Data. Custom text
                 sbDescr.Append(CommonPhrases.CommandDescrPrefix);
-                dataFormatted = FormatCnlData(new CnlData(ev.CnlVal, CnlStatusID.Defined), 
+                bool showValue = ev.CnlStat > CnlStatusID.Undefined;
+                dataFormatted = FormatCnlData(new CnlData(ev.CnlVal, CnlStatusID.Defined),
                     DataTypeID.Double, cnl?.FormatID ?? 0, cnl?.UnitID ?? 0);
 
-                if (ev.CnlStat > 0)
+                if (showValue)
                     sbDescr.Append(dataFormatted.DispVal);
 
                 if (ev.Data != null && ev.Data.Length > 0)
                 {
                     sbDescr
-                        .Append(ev.CnlStat > 0 ? ", " : "")
+                        .Append(showValue ? ", " : "")
                         .Append("0x")
                         .Append(ScadaUtils.BytesToHex(ev.Data, 0, Math.Min(DataDisplayLength, ev.Data.Length)))
                         .Append(DataDisplayLength < ev.Data.Length ? "..." : "");
@@ -422,22 +410,22 @@ namespace Scada
             eventFormatted.Descr = sbDescr.ToString();
 
             // severity
-            int knownSeverity = Severity.Closest(ev.Severity);
+            KnownSeverity knownSeverity = Severity.Closest(ev.Severity);
 
-            if (knownSeverity != Severity.Undefined)
+            if (knownSeverity != KnownSeverity.Undefined)
             {
                 switch (knownSeverity)
                 {
-                    case Severity.Critical:
+                    case KnownSeverity.Critical:
                         eventFormatted.Sev = CommonPhrases.CriticalSeverity;
                         break;
-                    case Severity.Major:
+                    case KnownSeverity.Major:
                         eventFormatted.Sev = CommonPhrases.MajorSeverity;
                         break;
-                    case Severity.Minor:
+                    case KnownSeverity.Minor:
                         eventFormatted.Sev = CommonPhrases.MinorSeverity;
                         break;
-                    case Severity.Info:
+                    case KnownSeverity.Info:
                         eventFormatted.Sev = CommonPhrases.InfoSeverity;
                         break;
                 }

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2022
  */
 
 namespace Scada.Client
@@ -32,22 +32,22 @@ namespace Scada.Client
     public enum ClientState
     {
         /// <summary>
-        /// A client is disconnected.
+        /// Client is disconnected.
         /// </summary>
         Disconnected,
 
         /// <summary>
-        /// A client is just connected.
+        /// Client is just connected.
         /// </summary>
         Connected,
 
         /// <summary>
-        /// A client is authenticated successfully.
+        /// Client is authenticated successfully.
         /// </summary>
         LoggedIn,
 
         /// <summary>
-        /// A communication error has occurred.
+        /// Communication error has occurred. Client is still connected.
         /// </summary>
         Error
     }

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Data.Models;
@@ -1204,7 +1204,7 @@ namespace Scada.Data.Adapters
             {
                 string s = origTableDir + ".copy" + copyNumber.ToString("D3");
 
-                if (!Directory.Exists(backupTableDir))
+                if (!Directory.Exists(s))
                 {
                     backupTableDir = s;
                     break;

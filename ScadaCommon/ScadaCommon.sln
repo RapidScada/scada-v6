@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30907.101
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScadaCommon", "ScadaCommon\ScadaCommon.csproj", "{11087010-4102-4B28-8D96-B069A2EC5CD0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScadaCommon.Svc", "ScadaCommon.Svc\ScadaCommon.Svc.csproj", "{827CCEDC-F418-4261-9448-EA28F9033A4D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScadaCommon.Log", "ScadaCommon.Log\ScadaCommon.Log.csproj", "{26F54CAB-5CA2-4A5D-B4A2-1E2545B576CE}"
 EndProject
@@ -15,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Storages", "Storages", "{69
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileStorage", "FileStorage\FileStorage.csproj", "{B26D0012-EC84-4FB9-9CEE-6A7B4AD5C58A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostgreSqlStorage", "PostgreSqlStorage\PostgreSqlStorage.csproj", "{A17F4CFF-901E-44A1-A1C6-62902B41FD9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostgreSqlStorage", "PostgreSqlStorage\PostgreSqlStorage.csproj", "{A17F4CFF-901E-44A1-A1C6-62902B41FD9E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,10 +25,6 @@ Global
 		{11087010-4102-4B28-8D96-B069A2EC5CD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11087010-4102-4B28-8D96-B069A2EC5CD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11087010-4102-4B28-8D96-B069A2EC5CD0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{827CCEDC-F418-4261-9448-EA28F9033A4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{827CCEDC-F418-4261-9448-EA28F9033A4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{827CCEDC-F418-4261-9448-EA28F9033A4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{827CCEDC-F418-4261-9448-EA28F9033A4D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{26F54CAB-5CA2-4A5D-B4A2-1E2545B576CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{26F54CAB-5CA2-4A5D-B4A2-1E2545B576CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26F54CAB-5CA2-4A5D-B4A2-1E2545B576CE}.Release|Any CPU.ActiveCfg = Release|Any CPU

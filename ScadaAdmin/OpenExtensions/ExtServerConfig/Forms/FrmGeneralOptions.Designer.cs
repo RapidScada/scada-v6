@@ -268,7 +268,7 @@
             // chkGenerateAckCmd
             // 
             this.chkGenerateAckCmd.AutoSize = true;
-            this.chkGenerateAckCmd.Location = new System.Drawing.Point(430, 55);
+            this.chkGenerateAckCmd.Location = new System.Drawing.Point(472, 55);
             this.chkGenerateAckCmd.Name = "chkGenerateAckCmd";
             this.chkGenerateAckCmd.Size = new System.Drawing.Size(15, 14);
             this.chkGenerateAckCmd.TabIndex = 3;

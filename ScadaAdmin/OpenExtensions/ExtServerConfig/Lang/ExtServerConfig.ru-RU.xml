@@ -6,6 +6,13 @@
     <Phrase key="ArchivesNode">Архивы</Phrase>
     <Phrase key="LogsNode">Журналы</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchiveAdd">
+    <Phrase key="this">Добавление архива</Phrase>
+    <Phrase key="lblSourceArchive">Исходный архив</Phrase>
+    <Phrase key="lblModule">Модуль</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchives">
     <Phrase key="this">Архивы</Phrase>
     <Phrase key="btnAdd">Добавить</Phrase>

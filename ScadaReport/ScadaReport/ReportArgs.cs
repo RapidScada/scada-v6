@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Lang;
+
 namespace Scada.Report
 {
     /// <summary>
@@ -14,8 +16,8 @@ namespace Scada.Report
         /// </summary>
         public ReportArgs()
         {
-            StartDT = DateTime.MinValue;
-            EndDT = DateTime.MinValue;
+            StartTime = DateTime.MinValue;
+            EndTime = DateTime.MinValue;
             Format = OutputFormat.Default;
             CustomArgs = new Dictionary<string, string>();
         }
@@ -24,12 +26,12 @@ namespace Scada.Report
         /// <summary>
         /// Gets or sets the start date and time of the report period, UTC.
         /// </summary>
-        public DateTime StartDT { get; set; }
+        public DateTime StartTime { get; set; }
 
         /// <summary>
         /// Gets or sets the end date and time of the report period, UTC.
         /// </summary>
-        public DateTime EndDT { get; set; }
+        public DateTime EndTime { get; set; }
 
         /// <summary>
         /// Gets or sets the output format.
@@ -39,6 +41,20 @@ namespace Scada.Report
         /// <summary>
         /// Gets the custom report arguments.
         /// </summary>
-        public IDictionary<string, string> CustomArgs { get; }
+        public IDictionary<string, string> CustomArgs { get; protected set; }
+
+
+        /// <summary>
+        /// Validates the arguments, raises an exception on failure.
+        /// </summary>
+        public virtual void Validate()
+        {
+            if (StartTime > EndTime)
+            {
+                throw new ScadaException(Locale.IsRussian ?
+                    "Некорректный диапазон времени." :
+                    "Invalid time range.") { MessageIsPublic = true };
+            }
+        }
     }
 }

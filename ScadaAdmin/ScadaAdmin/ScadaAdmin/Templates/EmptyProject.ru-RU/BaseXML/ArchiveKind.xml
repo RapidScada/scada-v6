@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfArchiveKind xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ArchiveKind>
+    <ArchiveKindID>1</ArchiveKindID>
+    <Name>Текущий</Name>
+    <Descr>Содержит текущие данные каналов</Descr>
+  </ArchiveKind>
+  <ArchiveKind>
+    <ArchiveKindID>2</ArchiveKindID>
+    <Name>Исторический</Name>
+    <Descr>Содержит исторические данные каналов</Descr>
+  </ArchiveKind>
+  <ArchiveKind>
+    <ArchiveKindID>3</ArchiveKindID>
+    <Name>События</Name>
+    <Descr>Содержит тревоги и события</Descr>
+  </ArchiveKind>
+</ArrayOfArchiveKind>

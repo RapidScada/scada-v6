@@ -8,8 +8,14 @@
     <Phrase key="ArchiveID">Идент.</Phrase>
     <Phrase key="Name">Наименование</Phrase>
     <Phrase key="Code">Код</Phrase>
+    <Phrase key="ArchiveKindID">Вид</Phrase>
     <Phrase key="IsDefault">По умолчанию</Phrase>
     <Phrase key="Bit">Бит</Phrase>
+    <Phrase key="Descr">Описание</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.ArchiveKindTable">
+    <Phrase key="ArchiveKindID">Идент.</Phrase>
+    <Phrase key="Name">Наименование</Phrase>
     <Phrase key="Descr">Описание</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.CnlTable">
@@ -620,6 +626,7 @@
     <Phrase key="btnOpenProject">Открыть проект</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmTextEditor">
+    <Phrase key="btnReload.ToolTip">Перезагрузить файл</Phrase>
     <Phrase key="OpenTextFileError">Ошибка при открытии файла</Phrase>
     <Phrase key="SaveTextFileError">Ошибка при сохранении файла</Phrase>
   </Dictionary>

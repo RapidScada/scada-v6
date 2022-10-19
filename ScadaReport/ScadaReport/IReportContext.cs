@@ -3,6 +3,7 @@
 
 using Scada.Client;
 using Scada.Data.Models;
+using System.Globalization;
 
 namespace Scada.Report
 {
@@ -23,8 +24,27 @@ namespace Scada.Report
         ScadaClient ScadaClient { get; }
 
         /// <summary>
+        /// Gets the time zone.
+        /// </summary>
+        TimeZoneInfo TimeZone { get; }
+
+        /// <summary>
+        /// Gets the culture.
+        /// </summary>
+        CultureInfo Culture { get; }
+
+        /// <summary>
         /// Gets the directory of templates.
         /// </summary>
-        public string TemplateDir { get; }
+        string TemplateDir { get; }
+
+
+        /// <summary>
+        /// Converts a universal time (UTC) to the time in the report's time zone.
+        /// </summary>
+        DateTime ConvertTimeFromUtc(DateTime dateTime)
+        {
+            return TimeZoneInfo.ConvertTimeFromUtc(dateTime, TimeZone);
+        }
     }
 }

@@ -92,6 +92,22 @@ namespace Scada.Report.Xml2003.Excel
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the row is hidden.
+        /// </summary>
+        public bool Hidden
+        {
+            get
+            {
+                string hiddenStr = ExcelUtils.GetAttribute(node, "ss:Hidden");
+                return int.TryParse(hiddenStr, out int hiddenVal) && hiddenVal > 0;
+            }
+            set
+            {
+                ExcelUtils.SetAttribute(node, "Hidden", XmlNamespaces.Ss, value ? "1" : "0");
+            }
+        }
+
 
         /// <summary>
         /// Клонировать строку.
@@ -172,6 +188,17 @@ namespace Scada.Report.Xml2003.Excel
             cell.ParentRow = null;
             node.RemoveChild(cell.Node);
             cells.RemoveAt(listIndex);
+        }
+
+        /// <summary>
+        /// Removes the cell from the row and updates the XML node of the row.
+        /// </summary>
+        public void RemoveCell(Cell cell)
+        {
+            int index = Cells.IndexOf(cell);
+            cell.ParentRow = null;
+            node.RemoveChild(cell.Node);
+            cells.RemoveAt(index);
         }
 
         /// <summary>

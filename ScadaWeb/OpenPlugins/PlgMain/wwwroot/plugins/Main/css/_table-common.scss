@@ -30,6 +30,7 @@ body {
     line-height: $toolbar-height;
     font-size: $toolbar-font-size;
     padding: 0 10px;
+    white-space: nowrap;
 
     input,
     select {

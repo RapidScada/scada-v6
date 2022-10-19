@@ -57,7 +57,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             // chkUseStorageConn
             // 
             this.chkUseStorageConn.AutoSize = true;
-            this.chkUseStorageConn.Location = new System.Drawing.Point(264, 26);
+            this.chkUseStorageConn.Location = new System.Drawing.Point(332, 26);
             this.chkUseStorageConn.Name = "chkUseStorageConn";
             this.chkUseStorageConn.Size = new System.Drawing.Size(15, 14);
             this.chkUseStorageConn.TabIndex = 1;

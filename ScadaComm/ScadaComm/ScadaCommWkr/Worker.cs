@@ -20,14 +20,12 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Scada.Comm.Engine;
-using System.Reflection;
-using System.Runtime.Loader;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -47,12 +45,6 @@ namespace Scada.Comm.Wkr
         {
             this.logger = logger;
             manager = new Manager();
-
-            AssemblyLoadContext.Default.Resolving += (AssemblyLoadContext context, AssemblyName name) =>
-            {
-                return manager.AppDirs.FindAssembly(name.Name, out string path) ?
-                    context.LoadFromAssemblyPath(path) : null;
-            };
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)

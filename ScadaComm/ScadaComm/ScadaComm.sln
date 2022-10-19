@@ -1,17 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30711.63
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScadaCommCommon", "ScadaCommCommon\ScadaCommCommon.csproj", "{20911928-25D1-4E9B-A1D8-75E57B2F8814}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScadaCommSvc", "ScadaCommSvc\ScadaCommSvc.csproj", "{300D114C-AE78-4DB8-9986-2B4B078FBA2D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScadaCommApp", "ScadaCommApp\ScadaCommApp.csproj", "{B78BDBA2-4E17-4DCA-B917-11EAB7AE23F7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScadaCommEngine", "ScadaCommEngine\ScadaCommEngine.csproj", "{10F56506-5176-4811-BD3E-F5FF5A867132}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScadaCommWkr", "ScadaCommWkr\ScadaCommWkr.csproj", "{2B7397BE-15C3-4B04-97C6-70F0D649BD49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScadaCommWkr", "ScadaCommWkr\ScadaCommWkr.csproj", "{2B7397BE-15C3-4B04-97C6-70F0D649BD49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		{20911928-25D1-4E9B-A1D8-75E57B2F8814}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20911928-25D1-4E9B-A1D8-75E57B2F8814}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20911928-25D1-4E9B-A1D8-75E57B2F8814}.Release|Any CPU.Build.0 = Release|Any CPU
-		{300D114C-AE78-4DB8-9986-2B4B078FBA2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{300D114C-AE78-4DB8-9986-2B4B078FBA2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{300D114C-AE78-4DB8-9986-2B4B078FBA2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{300D114C-AE78-4DB8-9986-2B4B078FBA2D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B78BDBA2-4E17-4DCA-B917-11EAB7AE23F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B78BDBA2-4E17-4DCA-B917-11EAB7AE23F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B78BDBA2-4E17-4DCA-B917-11EAB7AE23F7}.Release|Any CPU.ActiveCfg = Release|Any CPU

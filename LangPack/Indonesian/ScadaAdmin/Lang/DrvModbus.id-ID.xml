@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvModbusDictionaries culture="id-ID" lang="Indonesian">
+  <Dictionary key="Scada.Comm.Drivers.DrvModbus.Config.DeviceTemplate">
+    <Phrase key="LoadTemplateError">Terjadi kesalahan saat memuat template perangkat</Phrase>
+    <Phrase key="SaveTemplateError">Terjadi kesalahan saat menyimpan template perangkat</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls">
+    <Phrase key="AddressHint">{0}, mulai dari {1}</Phrase>
+    <Phrase key="ElemRemoveWarning">Blok data memungkinkan maksimum {0} element.
+Elemen tambahan akan disingkirkan. Lanjutkan?</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlCmd">
+    <Phrase key="gbCmd">Parameter Perintah</Phrase>
+    <Phrase key="lblCmdName">Nama</Phrase>
+    <Phrase key="lblCmdCode">Kode perintah</Phrase>
+    <Phrase key="lblCmdCodeWarn">Isi kode</Phrase>
+    <Phrase key="lblCmdNum">Nomor perintah</Phrase>
+    <Phrase key="lblCmdDataBlock">Blok data</Phrase>
+    <Phrase key="cbCmdDataBlock.Items[0]">Coils (0X)</Phrase>
+    <Phrase key="cbCmdDataBlock.Items[1]">Holding Registers (4X)</Phrase>
+    <Phrase key="cbCmdDataBlock.Items[2]">Custom</Phrase>
+    <Phrase key="chkCmdMultiple">Beberapa</Phrase>
+    <Phrase key="lblCmdFuncCode">Function code</Phrase>
+    <Phrase key="lblCmdFuncCodeHex">Heksadesimal</Phrase>
+    <Phrase key="lblCmdAddress">Alamat elemen</Phrase>
+    <Phrase key="lblCmdElemType">Tipe elemen</Phrase>
+    <Phrase key="cbCmdElemType.Items[0]">Tidak terdefinisi</Phrase>
+    <Phrase key="cbCmdElemType.Items[1]">ushort (2 bytes)</Phrase>
+    <Phrase key="cbCmdElemType.Items[2]">short (2 bytes)</Phrase>
+    <Phrase key="cbCmdElemType.Items[3]">uint (4 bytes)</Phrase>
+    <Phrase key="cbCmdElemType.Items[4]">int (4 bytes)</Phrase>
+    <Phrase key="cbCmdElemType.Items[5]">ulong (8 bytes)</Phrase>
+    <Phrase key="cbCmdElemType.Items[6]">long (8 bytes)</Phrase>
+    <Phrase key="cbCmdElemType.Items[7]">float (4 bytes)</Phrase>
+    <Phrase key="cbCmdElemType.Items[8]">double (8 bytes)</Phrase>
+    <Phrase key="cbCmdElemType.Items[9]">bool (1 bit)</Phrase>
+    <Phrase key="lblCmdElemCnt">Jumlah elemen</Phrase>
+    <Phrase key="lblCmdByteOrder">Byte order</Phrase>
+    <Phrase key="lblCmdByteOrderExample">Misalnya, 01234567</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlElem">
+    <Phrase key="gbElem">Parameter Elemen</Phrase>
+    <Phrase key="lblElemName">Nama</Phrase>
+    <Phrase key="lblElemTagCode">Kode tag</Phrase>
+    <Phrase key="lblElemTagCodeWarn">Isi kode</Phrase>
+    <Phrase key="lblElemTagNum">Nomor tag</Phrase>
+    <Phrase key="lblElemAddress">Alamat</Phrase>
+    <Phrase key="lblElemType">Jenis:</Phrase>
+    <Phrase key="rbUShort">ushort (2 bytes)</Phrase>
+    <Phrase key="rbShort">short (2 bytes)</Phrase>
+    <Phrase key="rbUInt">uint (4 bytes)</Phrase>
+    <Phrase key="rbInt">int (4 bytes)</Phrase>
+    <Phrase key="rbULong">ulong (8 bytes)</Phrase>
+    <Phrase key="rbLong">long (8 bytes)</Phrase>
+    <Phrase key="rbFloat">float (4 bytes)</Phrase>
+    <Phrase key="rbDouble">double (8 bytes)</Phrase>
+    <Phrase key="rbBool">bool (1 bit)</Phrase>
+    <Phrase key="lblElemByteOrder">Byte order</Phrase>
+    <Phrase key="lblElemByteOrderExample">Misalnya, 01234567</Phrase>
+    <Phrase key="chkElemReadOnly">Baca saja</Phrase>
+    <Phrase key="chkElemIsBitMask">Masker bit</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlElemGroup">
+    <Phrase key="gbElemGroup">Parameter Grup Elemen</Phrase>
+    <Phrase key="chkGrActive">Aktif</Phrase>
+    <Phrase key="lblGrName">Nama</Phrase>
+    <Phrase key="lblGrDataBlock">Blok data</Phrase>
+    <Phrase key="cbGrTableType.Items[0]">Discrete Inputs (1X)</Phrase>
+    <Phrase key="cbGrTableType.Items[1]">Coils (0X)</Phrase>
+    <Phrase key="cbGrTableType.Items[2]">Input Registers (3X)</Phrase>
+    <Phrase key="cbGrTableType.Items[3]">Holding Registers (4X)</Phrase>
+    <Phrase key="lblGrFuncCode">Function code</Phrase>
+    <Phrase key="lblGrAddress">Alamat awal elemen</Phrase>
+    <Phrase key="lblGrElemCnt">Jumlah elemen</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Forms.FrmDeviceProps">
+    <Phrase key="this">Properti Perangkat {0}</Phrase>
+    <Phrase key="gbCommLine">Jalur Komunikasi</Phrase>
+    <Phrase key="lblTransMode">Protokol</Phrase>
+    <Phrase key="gbDevice">Perangkat</Phrase>
+    <Phrase key="lblTemplateFileName">Template perangkat</Phrase>
+    <Phrase key="btnBrowseTemplate">Jelajahi...</Phrase>
+    <Phrase key="btnCreateTemplate">Buat</Phrase>
+    <Phrase key="btnEditTemplate">Sunting</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+    <Phrase key="ConfigDirRequired">Berkas template perangkat harus berada di dalam {0}</Phrase>
+    <Phrase key="TemplateNotExists">Berkas template perangkat tidak ada.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Forms.FrmDeviceTemplate">
+    <Phrase key="btnNew.ToolTip">Template Baru</Phrase>
+    <Phrase key="btnOpen.ToolTip">Buka Template</Phrase>
+    <Phrase key="btnSave.ToolTip">Simpan Template</Phrase>
+    <Phrase key="btnSaveAs.ToolTip">Simpan Template Sebagai</Phrase>
+    <Phrase key="btnAddElemGroup.ToolTip">Tambahkan Grup Elemen</Phrase>
+    <Phrase key="btnAddElem.ToolTip">Tambahkan Elemen</Phrase>
+    <Phrase key="btnAddCmd.ToolTip">Tambahkan Perintah</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Naikkan</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Turunkan</Phrase>
+    <Phrase key="btnDelete.ToolTip">Hapus</Phrase>
+    <Phrase key="btnEditOptions.ToolTip">Sunting Opsi Template</Phrase>
+    <Phrase key="btnEditOptionsExt.ToolTip">Sunting Opsi Tambahan</Phrase>
+    <Phrase key="btnValidate.ToolTip">Validasi Template</Phrase>
+    <Phrase key="gbTemplate">Template Perangkat</Phrase>
+    <Phrase key="miCollapseElemGroups">Ciutkan Grup Elemen</Phrase>
+    <Phrase key="miCloneElemConfig">Kloning Parameter Elemen</Phrase>
+    <Phrase key="TemplateTitle">{0} - MODBUS. Penyunting Template Perangkat</Phrase>
+    <Phrase key="ElemGroupsNode">Grup Elemen</Phrase>
+    <Phrase key="CommandsNode">Perintah</Phrase>
+    <Phrase key="UnnamedElemGroup">&lt;Grup Tanpa Nama&gt;</Phrase>
+    <Phrase key="UnnamedElem">&lt;Elemen Tanpa Nama&gt;</Phrase>
+    <Phrase key="UnnamedCommand">&lt;Perintah Tanpa Nama&gt;</Phrase>
+    <Phrase key="SaveTemplateConfirm">Template telah dimodifikasi. Simpan perubahan?</Phrase>
+    <Phrase key="ElemCntExceeded">Blok data memungkinkan maksimum {0} elemen.</Phrase>
+    <Phrase key="DuplicatedCodes">Tag dan kode perintah duplikat:</Phrase>
+    <Phrase key="DuplicatedCmdNums">Nomor perintah duplikat:</Phrase>
+    <Phrase key="EmptyTagCodes">Kode tag kosong ditemukan.</Phrase>
+    <Phrase key="EmptyCmdCodes">Kode perintah kosong ditemukan.</Phrase>
+    <Phrase key="VerificationPassed">Verifikasi berhasil.</Phrase>
+    <Phrase key="CloneElemConfigConfirm">Klik Ya untuk mengkloning parameter elemen ke elemen pasangan dari grup.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Forms.FrmTemplateOptions">
+    <Phrase key="this">Opsi Template</Phrase>
+    <Phrase key="gbAddressing">Pengalamatan</Phrase>
+    <Phrase key="rbZeroBased">Berbasis nol</Phrase>
+    <Phrase key="rbOneBased">Berbasis satu</Phrase>
+    <Phrase key="rbDec">Desimal</Phrase>
+    <Phrase key="rbHex">Heksadesimal</Phrase>
+    <Phrase key="gbDefByteOrder">Byte order default</Phrase>
+    <Phrase key="lblDefByteOrder2">2 bytes</Phrase>
+    <Phrase key="lblDefByteOrder4">4 bytes</Phrase>
+    <Phrase key="lblDefByteOrder8">8 bytes</Phrase>
+    <Phrase key="lblDefByteOrderExample">Misalnya, 01234567</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+  </Dictionary>
+</DrvModbusDictionaries>

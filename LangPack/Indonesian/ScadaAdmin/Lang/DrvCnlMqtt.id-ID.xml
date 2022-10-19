@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvCnlMqttDictionaries culture="id-ID" lang="Indonesian">
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlMqtt.View.Forms.FrmMqttClientChannelOptions">
+    <Phrase key="this">Opsi Klien MQTT</Phrase>
+    <Phrase key="lblServer">Server</Phrase>
+    <Phrase key="lblPort">Port TCP</Phrase>
+    <Phrase key="lblClientID">ID Klien</Phrase>
+    <Phrase key="lblUsername">Nama pengguna</Phrase>
+    <Phrase key="lblPassword">Kata sandi</Phrase>
+    <Phrase key="lblTimeout">Waktu habis, ms</Phrase>
+    <Phrase key="lblProtocolVersion">Versi protokol</Phrase>
+    <Phrase key="cbProtocolVersion.Items[0]">Default</Phrase>
+    <Phrase key="cbProtocolVersion.Items[1]">3.1</Phrase>
+    <Phrase key="cbProtocolVersion.Items[2]">3.1.1</Phrase>
+    <Phrase key="cbProtocolVersion.Items[3]">5.0</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+  </Dictionary>
+</DrvCnlMqttDictionaries>

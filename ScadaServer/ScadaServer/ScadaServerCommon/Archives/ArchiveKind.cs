@@ -20,10 +20,12 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2022
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
+
+using Scada.Data.Const;
 
 namespace Scada.Server.Archives
 {
@@ -34,8 +36,8 @@ namespace Scada.Server.Archives
     public enum ArchiveKind
     {
         Unspecified,
-        Current,
-        Historical,
-        Events
+        Current = ArchiveKindID.Current,
+        Historical = ArchiveKindID.Historical,
+        Events = ArchiveKindID.Events
     }
 }

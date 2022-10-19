@@ -1,0 +1,5 @@
+Language                 : Indonesian
+Culture name:            : id-ID
+Rapid SCADA version      : 6.0.0
+Rapid SCADA applications : All
+Author                   : Ketut Kumajaya

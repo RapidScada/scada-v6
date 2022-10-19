@@ -101,7 +101,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
             {
                 FileName = Path.Combine(CommContext.AppDirs.LogDir, DriverUtils.DriverCode + "_" + Code + "_Client.log"),
                 TimestampFormat = LogFile.DefaultTimestampFormat + "'.'ff",
-                Capacity = CommContext.AppConfig.GeneralOptions.MaxLogSize
+                CapacityMB = CommContext.AppConfig.GeneralOptions.MaxLogSize
             };
         }
 
@@ -132,9 +132,9 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
             }
             catch (Exception ex)
             {
-                log.WriteError(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
+                log.WriteError(ex.BuildErrorMessage(CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
                     "Ошибка при приёме команд ТУ" :
-                    "Error receiving telecontrol commands");
+                    "Error receiving telecontrol commands"));
             }
         }
 
@@ -208,9 +208,9 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                     }
                     catch (Exception ex)
                     {
-                        log.WriteError(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
+                        log.WriteError(ex.BuildErrorMessage(CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
                             "Ошибка при передаче текущих данных" :
-                            "Error transferring current data");
+                            "Error transferring current data"));
 
                         Thread.Sleep(ErrorDelay);
                         break; // the slice is not removed from the queue
@@ -270,9 +270,9 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                     }
                     catch (Exception ex)
                     {
-                        log.WriteError(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
+                        log.WriteError(ex.BuildErrorMessage(CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
                             "Ошибка при передаче исторических данных" :
-                            "Error transferring historical data");
+                            "Error transferring historical data"));
 
                         // return the unsent slice to the queue
                         lock (histDataQueue)
@@ -331,9 +331,9 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                     }
                     catch (Exception ex)
                     {
-                        log.WriteError(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
+                        log.WriteError(ex.BuildErrorMessage(CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
                             "Ошибка при передаче события" :
-                            "Error transferring event");
+                            "Error transferring event"));
 
                         // return the unsent event to the queue
                         lock (eventQueue)
@@ -491,7 +491,18 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                     "Error calling the FailedToSendCallback method of the event");
             }
         }
-        
+
+        /// <summary>
+        /// Handles a ClientStateChanged event.
+        /// </summary>
+        private void ClientStateChanged(object sender, EventArgs e)
+        {
+            log.WriteAction(CommPhrases.DataSourceMessage, Code, string.Format(Locale.IsRussian ?
+                "Состояние соединения: {0}" :
+                "Connection state is {0}",
+                scadaClient.ClientState.ToString(Locale.IsRussian)));
+        }
+
         /// <summary>
         /// Operating cycle running in a separate thread.
         /// </summary>
@@ -501,13 +512,11 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
 
             while (!terminated)
             {
-                if (scadaClient.IsReady)
-                {
-                    if (cmdEnabled)
-                        ReceiveCommands();
+                if (scadaClient.IsReady && cmdEnabled)
+                    ReceiveCommands();
 
+                if (scadaClient.IsReady)
                     TransferData();
-                }
 
                 Thread.Sleep(ScadaUtils.ThreadDelay);
             }
@@ -531,6 +540,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         public override void Start()
         {
             scadaClient = new ScadaClient(connOptions) { ClientMode = ScadaClientMode.IncomingCommands };
+            scadaClient.ClientStateChanged += ClientStateChanged;
 
             if (options.ClientLogEnabled)
                 scadaClient.CommLog = CreateClientLog();
@@ -552,7 +562,11 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                 thread = null;
             }
 
-            scadaClient?.Close();
+            if (scadaClient != null)
+            {
+                scadaClient.ClientStateChanged -= ClientStateChanged;
+                scadaClient?.Close();
+            }
         }
 
         /// <summary>
@@ -598,7 +612,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
             }
 
             // receive tables
-            string tableName = CommonPhrases.UndefinedTable;
+            string tableTitle = CommonPhrases.UndefinedTable;
 
             try
             {
@@ -606,7 +620,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
 
                 foreach (IBaseTable baseTable in configDatabase.AllTables)
                 {
-                    tableName = baseTable.Name;
+                    tableTitle = baseTable.Title;
                     localClient.DownloadBaseTable(baseTable);
                 }
 
@@ -619,7 +633,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
             {
                 log.WriteError(ex, CommPhrases.DataSourceMessage, Code, string.Format(Locale.IsRussian ?
                     "Ошибка при приёме базы конфигурации, таблица {0}" :
-                    "Error receiving the configuration database, the {0} table", tableName));
+                    "Error receiving the configuration database, the {0} table", tableTitle));
                 configDatabase = null;
                 return false;
             }

@@ -29,6 +29,7 @@
   <Dictionary key="Scada.ConfigDatabase">
     <Phrase key="UndefinedTable">Неопределённая</Phrase>
     <Phrase key="ArchiveTable">Архивы</Phrase>
+    <Phrase key="ArchiveKindTable">Виды архивов</Phrase>
     <Phrase key="CnlTable">Каналы</Phrase>
     <Phrase key="CnlStatusTable">Статусы каналов</Phrase>
     <Phrase key="CnlTypeTable">Типы каналов</Phrase>
@@ -75,11 +76,6 @@
     <Phrase key="NotHexadecimal">Строка не является 16-ричной записью.</Phrase>
     <Phrase key="InvalidParamVal">Некорректное значение параметра &quot;{0}&quot;.</Phrase>
     <Phrase key="InvalidSecretKey">Некорректный секретный ключ.</Phrase>
-    <Phrase key="UndefinedSign">---</Phrase>
-    <Phrase key="CriticalSeverity">Критическая</Phrase>
-    <Phrase key="MajorSeverity">Значительная</Phrase>
-    <Phrase key="MinorSeverity">Незначительная</Phrase>
-    <Phrase key="InfoSeverity">Информационная</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms">
     <Phrase key="InfoCaption">Информация</Phrase>
@@ -101,8 +97,13 @@
     <Phrase key="CollectionValue">(Коллекция)</Phrase>
   </Dictionary>
   <Dictionary key="Scada.CnlDataFormatter">
+    <Phrase key="UndefinedSign">---</Phrase>
     <Phrase key="CommandDescrPrefix">Команда: </Phrase>
     <Phrase key="StatusFormat">Статус {0}</Phrase>
+    <Phrase key="CriticalSeverity">Критическая</Phrase>
+    <Phrase key="MajorSeverity">Значительная</Phrase>
+    <Phrase key="MinorSeverity">Незначительная</Phrase>
+    <Phrase key="InfoSeverity">Информационная</Phrase>
   </Dictionary>
   <!-- ScadaCommon.Forms.dll -->
   <Dictionary key="Scada.Forms.Controls.CtrlBitmask">

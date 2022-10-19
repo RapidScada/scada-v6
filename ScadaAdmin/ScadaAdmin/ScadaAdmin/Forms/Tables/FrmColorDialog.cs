@@ -178,6 +178,11 @@ namespace Scada.Admin.App.Forms.Tables
             ActiveControl = lbColor;
         }
 
+        private void FrmColorDialog_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            textBrush.Dispose();
+        }
+
         private void rbSortAbc_CheckedChanged(object sender, EventArgs e)
         {
             FillListBox(ColorArr1);

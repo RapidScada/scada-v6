@@ -236,7 +236,7 @@ namespace Scada.Server.Engine
         /// </summary>
         private bool ReadConfigDatabase()
         {
-            string tableName = Locale.IsRussian ? "неопределена" : "undefined";
+            string tableTitle = CommonPhrases.UndefinedTable;
 
             try
             {
@@ -244,6 +244,7 @@ namespace Scada.Server.Engine
 
                 foreach (IBaseTable baseTable in ConfigDatabase.AllTables)
                 {
+                    tableTitle = baseTable.Title;
                     Storage.ReadBaseTable(baseTable);
                 }
 
@@ -256,7 +257,7 @@ namespace Scada.Server.Engine
             {
                 Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при чтении базы конфигурации, таблица {0}" :
-                    "Error reading the configuration database, the {0} table", tableName);
+                    "Error reading the configuration database, the {0} table", tableTitle);
                 return false;
             }
         }
@@ -803,7 +804,9 @@ namespace Scada.Server.Engine
         /// </summary>
         private void UpdateCnlStatus(CnlTag cnlTag, ref CnlData cnlData, CnlData prevCnlData)
         {
-            if (double.IsNaN(cnlData.Val))
+            // use double.IsFinite on .NET Core
+            if (double.IsNaN(cnlData.Val) ||
+                double.IsInfinity(cnlData.Val))
             {
                 // set undefined status if value is not a number
                 cnlData = CnlData.Empty;
@@ -812,18 +815,21 @@ namespace Scada.Server.Engine
             {
                 // set status depending on channel limits
                 GetCnlLimits(cnlTag, out double lolo, out double low, out double high, out double hihi);
-                cnlData.Stat = GetCnlStatus(cnlData.Val, lolo, low, high, hihi);
+                int newStat = GetCnlStatus(cnlData.Val, lolo, low, high, hihi);
                 int prevStat = prevCnlData.Stat;
 
-                if (cnlData.Stat == CnlStatusID.Normal && 
-                    (prevStat == CnlStatusID.ExtremelyLow || prevStat == CnlStatusID.Low || 
-                    prevStat == CnlStatusID.High || prevStat == CnlStatusID.ExtremelyHigh))
+                if (prevStat != CnlStatusID.Normal && newStat == CnlStatusID.Normal ||
+                    prevStat == CnlStatusID.ExtremelyHigh && newStat == CnlStatusID.High ||
+                    prevStat == CnlStatusID.ExtremelyLow && newStat == CnlStatusID.Low)
                 {
+                    // take deadband into account
                     double deadband = cnlTag.Lim.Deadband ?? 0;
-                    cnlData.Stat = GetCnlStatus(cnlData.Val,
-                        lolo + deadband, low + deadband, 
+                    newStat = GetCnlStatus(cnlData.Val,
+                        lolo + deadband, low + deadband,
                         high - deadband, hihi - deadband);
                 }
+
+                cnlData.Stat = newStat;
             }
         }
 

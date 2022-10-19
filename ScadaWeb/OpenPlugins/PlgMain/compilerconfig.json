@@ -14,5 +14,9 @@
   {
     "outputFile": "wwwroot/plugins/Main/css/command.css",
     "inputFile": "wwwroot/plugins/Main/css/command.scss"
+  },
+  {
+    "outputFile": "wwwroot/plugins/Main/css/report.css",
+    "inputFile": "wwwroot/plugins/Main/css/report.scss"
   }
 ]

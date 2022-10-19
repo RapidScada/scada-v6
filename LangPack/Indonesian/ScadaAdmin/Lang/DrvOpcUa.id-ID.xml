@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvOpcUaDictionaries culture="id-ID" lang="Indonesian">
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlCommand">
+    <Phrase key="gbCommand">Parameter Perintah</Phrase>
+    <Phrase key="lblDisplayName">Nama tampilan</Phrase>
+    <Phrase key="lblCmdCode">Kode perintah</Phrase>
+    <Phrase key="lblCmdNum">Nomor perintah</Phrase>
+    <Phrase key="lblNodeID">ID simpul</Phrase>
+    <Phrase key="lblParentNodeID">ID simpul induk</Phrase>
+    <Phrase key="lblDataType">Tipe data</Phrase>
+    <Phrase key="chkIsMethod">Metode</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEmptyItem">
+    <Phrase key="gbEmptyItem">Parameter Isi</Phrase>
+    <Phrase key="lblNotSelected">Isi tidak dipilih</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlItem">
+    <Phrase key="gbItem">Parameter Isi</Phrase>
+    <Phrase key="chkItemActive">Aktif</Phrase>
+    <Phrase key="lblDisplayName">Nama tampilan</Phrase>
+    <Phrase key="lblTagCode">Kode tag</Phrase>
+    <Phrase key="lblTagNum">Nomor tag</Phrase>
+    <Phrase key="lblNodeID">ID simpul</Phrase>
+    <Phrase key="lblDataType">Tipe data</Phrase>
+    <Phrase key="chkIsString">String?</Phrase>
+    <Phrase key="chkIsArray">Array?</Phrase>
+    <Phrase key="lblDataLen">Panjang string atau larik</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlSubscription">
+    <Phrase key="gbSubscription">Parameter Langganan</Phrase>
+    <Phrase key="chkSubscrActive">Aktif</Phrase>
+    <Phrase key="lblDisplayName">Nama tampilan</Phrase>
+    <Phrase key="lblPublishingInterval">Interval penerbitan</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Properti Perangkat {0} - OPC UA</Phrase>
+    <Phrase key="gbConnectionOptions">Opsi Koneksi</Phrase>
+    <Phrase key="lblServerUrl">URL Server</Phrase>
+    <Phrase key="btnSecurityOptions.ToolTip">Pilihan Keamanan</Phrase>
+    <Phrase key="lblConnectionInfo">Pilihan koneksi bersama untuk jalur komunikasi.</Phrase>
+    <Phrase key="gbServerBrowse">Server Jelajah</Phrase>
+    <Phrase key="btnConnect.ToolTip">Sambungkan ke Server</Phrase>
+    <Phrase key="btnDisconnect.ToolTip">Putuskan sambungan dari Server</Phrase>
+    <Phrase key="btnViewAttrs.ToolTip">Atribut Tampilan</Phrase>
+    <Phrase key="gbDevice">Konfigurasi Perangkat</Phrase>
+    <Phrase key="btnAddItem.ToolTip">Tambahkan Isi yang Dipilih</Phrase>
+    <Phrase key="btnAddSubscription.ToolTip">Tambahkan Langganan</Phrase>
+    <Phrase key="btnMoveUpItem.ToolTip">Naikkan</Phrase>
+    <Phrase key="btnMoveDownItem.ToolTip">Turunkan</Phrase>
+    <Phrase key="btnDeleteItem.ToolTip">Hapus</Phrase>
+    <Phrase key="btnEditingOptions">Pilihan</Phrase>
+    <Phrase key="btnSave">Simpan</Phrase>
+    <Phrase key="btnClose">Tutup</Phrase>
+    <Phrase key="ConnectServerError">Kesalahan saat menyambung ke server OPC</Phrase>
+    <Phrase key="DisconnectServerError">Terjadi kesalahan saat memutuskan sambungan dari server OPC</Phrase>
+    <Phrase key="BrowseServerError">Kesalahan saat merambah isi server OPC</Phrase>
+    <Phrase key="UnableToReadData">Tidak dapat membaca data.</Phrase>
+    <Phrase key="GetDataTypeError">Kesalahan mendapatkan tipe data</Phrase>
+    <Phrase key="ServerUrlRequired">URL server wajib diisi.</Phrase>
+    <Phrase key="EmptyNode">Kosong</Phrase>
+    <Phrase key="SubscriptionsNode">Langganan</Phrase>
+    <Phrase key="CommandsNode">Perintah</Phrase>
+    <Phrase key="UnnamedSubscription">&amp;lt;Langganan Tanpa Nama&amp;gt;</Phrase>
+    <Phrase key="UnnamedItem">&amp;lt;Isi Tanpa Nama&amp;gt;</Phrase>
+    <Phrase key="UnnamedCommand">&amp;lt;Perintah Tanpa Nama&amp;gt;</Phrase>
+    <Phrase key="UnknownDataType">Tipe data "{0}" tidak diketahui.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmEditingOptions">
+    <Phrase key="this">Opsi Penyuntingan</Phrase>
+    <Phrase key="lblDefaultTagCode">Kode tag default</Phrase>
+    <Phrase key="cbDefaultTagCode.Items[0]">ID simpul</Phrase>
+    <Phrase key="cbDefaultTagCode.Items[1]">Nama tampilan</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmNodeAttr">
+    <Phrase key="this">Atribut Simpul</Phrase>
+    <Phrase key="colName">Nama</Phrase>
+    <Phrase key="colValue">Nilai</Phrase>
+    <Phrase key="btnClose">Tutup</Phrase>
+    <Phrase key="ReadAttrError">Kesalahan membaca atribut dari server OPC</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmSecurityOptions">
+    <Phrase key="this">Pilihan Keamanan</Phrase>
+    <Phrase key="lblSecurityMode">Mode keamanan</Phrase>
+    <Phrase key="cbSecurityMode.Items[0]">None</Phrase>
+    <Phrase key="cbSecurityMode.Items[1]">Sign</Phrase>
+    <Phrase key="cbSecurityMode.Items[2]">Sign and encrypt</Phrase>
+    <Phrase key="lblSecurityPolicy">Kebijakan keamanan</Phrase>
+    <Phrase key="cbSecurityPolicy.Items[0]">None</Phrase>
+    <Phrase key="lblAuthenticationMode">Mode autentikasi</Phrase>
+    <Phrase key="cbAuthenticationMode.Items[0]">Anonim</Phrase>
+    <Phrase key="cbAuthenticationMode.Items[1]">Nama pengguna dan kata sandi</Phrase>
+    <Phrase key="lblUsername">Nama pengguna</Phrase>
+    <Phrase key="lblPassword">Kata sandi</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+  </Dictionary>
+</DrvOpcUaDictionaries>

@@ -3,10 +3,15 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Scada.Data.Entities;
 using Scada.Data.Models;
+using Scada.Data.Tables;
+using Scada.Lang;
 using Scada.Report;
+using Scada.Web.Api;
 using Scada.Web.Authorization;
 using Scada.Web.Plugins.PlgMain.Code;
+using Scada.Web.Plugins.PlgMain.Report;
 using Scada.Web.Services;
 using System.Net.Mime;
 
@@ -16,9 +21,14 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
     /// Represents a controller for printing table views and events.
     /// <para>Представляет контроллер для печати табличных представлений и событий.</para>
     /// </summary>
+    [Authorize(Policy = PolicyName.Restricted)]
     [Route("Main/Print/[action]")]
     public class PrintController : Controller
     {
+        private const string TableViewReportPrefix = "TableView";
+        private const string EventReportPrefix = "Events";
+        private const string HistDataReportPrefix = "HistData";
+
         private readonly IWebContext webContext;
         private readonly IUserContext userContext;
         private readonly IClientAccessor clientAccessor;
@@ -43,24 +53,31 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
 
 
         /// <summary>
-        /// Prints events filtered by view to an Excel workbook.
+        /// Creates a new report context.
         /// </summary>
-        private Stream PrintEvents(ViewBase view, out DateTime generateTime)
+        private IReportContext CreateReportContext()
+        {
+            return new ReportContext
+            {
+                ConfigDatabase = webContext.ConfigDatabase,
+                ScadaClient = clientAccessor.ScadaClient,
+                TimeZone = userContext.TimeZone,
+                Culture = Locale.Culture,
+                TemplateDir = templateDir
+            };
+        }
+
+        /// <summary>
+        /// Generates an event report with the specified arguments.
+        /// </summary>
+        private Stream GenerateEventReport(EventReportArgs args, out DateTime generateTime)
         {
             MemoryStream stream = new();
 
             try
             {
-                EventWorkbookBuilder builder = new(webContext.ConfigDatabase, clientAccessor.ScadaClient, templateDir);
-                builder.Generate(new EventWorkbookArgs
-                {
-                    ArchiveCode = pluginContext.Options.EventArchiveCode,
-                    EventCount = pluginContext.Options.EventCount,
-                    EventDepth = pluginContext.Options.EventDepth,
-                    View = view,
-                    TimeZone = userContext.TimeZone
-                }, stream);
-
+                EventReportBuilder builder = new(CreateReportContext());
+                builder.Generate(args, stream);
                 generateTime = builder.GenerateTime;
                 stream.Position = 0;
             }
@@ -74,9 +91,35 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         }
 
         /// <summary>
+        /// Gets the numbers of available objects starting from the specified object.
+        /// </summary>
+        private List<int> GetObjNumHierarchy(int startObjNum)
+        {
+            List<int> objNums = new() { startObjNum };
+
+            if (!webContext.ConfigDatabase.ObjTable.TryGetIndex("ParentObjNum", out ITableIndex parentObjIndex))
+                throw new ScadaException(CommonPhrases.IndexNotFound);
+
+            void AddChildObjects(int parentObjNum)
+            {
+                foreach (Obj childObj in parentObjIndex.SelectItems(parentObjNum))
+                {
+                    if (userContext.Rights.GetRightByObj(childObj.ObjNum).View)
+                    {
+                        objNums.Add(childObj.ObjNum);
+                        AddChildObjects(childObj.ObjNum);
+                    }
+                }
+            }
+
+            AddChildObjects(startObjNum);
+            return objNums;
+        }
+
+
+        /// <summary>
         /// Prints the specified table view to an Excel workbook.
         /// </summary>
-        [Authorize(Policy = PolicyName.Restricted)]
         public IActionResult PrintTableView(int viewID, DateTime startTime, DateTime endTime)
         {
             if (!viewLoader.GetView(viewID, out TableView tableView, out string errMsg))
@@ -87,13 +130,14 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
 
             try
             {
-                TableWorkbookBuilder builder = new(webContext.ConfigDatabase, clientAccessor.ScadaClient, templateDir);
-                builder.Generate(new TableWorkbookArgs
+                TableViewReportBuilder builder = new(CreateReportContext());
+                builder.Generate(new TableViewReportArgs
                 {
+                    StartTime = userContext.ConvertTimeToUtc(startTime),
+                    EndTime = userContext.ConvertTimeToUtc(endTime),
                     TableView = tableView,
                     TableOptions = pluginContext.GetTableOptions(tableView),
-                    TimeRange = new TimeRange(startTime, endTime, true),
-                    TimeZone = userContext.TimeZone
+                    MaxPeriod = pluginContext.Options.MaxReportPeriod
                 }, stream);
 
                 generateTime = builder.GenerateTime;
@@ -108,34 +152,127 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             return File(
                 stream,
                 MediaTypeNames.Application.Octet,
-                ReportUtils.BuildFileName("TableView", generateTime, OutputFormat.Xml2003));
+                ReportUtils.BuildFileName(TableViewReportPrefix, generateTime, OutputFormat.Xml2003));
         }
 
         /// <summary>
         /// Prints last events filtered by the specified view ID to an Excel workbook.
         /// </summary>
-        [Authorize(Policy = PolicyName.Restricted)]
         public IActionResult PrintEventsByView(int viewID)
         {
             if (!viewLoader.GetView(viewID, out ViewBase view, out string errMsg))
                 throw new ScadaException(errMsg);
 
+            EventReportArgs args = new()
+            {
+                ArchiveCode = pluginContext.Options.EventArchiveCode,
+                TailMode = true,
+                EventCount = pluginContext.Options.EventCount,
+                EventDepth = pluginContext.Options.EventDepth,
+                View = view
+            };
+
             return File(
-                PrintEvents(view, out DateTime generateTime),
+                GenerateEventReport(args, out DateTime generateTime),
                 MediaTypeNames.Application.Octet,
-                ReportUtils.BuildFileName("Events", generateTime, OutputFormat.Xml2003));
+                ReportUtils.BuildFileName(EventReportPrefix, generateTime, OutputFormat.Xml2003));
         }
 
         /// <summary>
         /// Prints all last events to an Excel workbook.
         /// </summary>
-        [Authorize(Policy = PolicyName.RequireViewAll)]
         public IActionResult PrintAllEvents()
         {
+            EventReportArgs args = new()
+            {
+                ArchiveCode = pluginContext.Options.EventArchiveCode,
+                TailMode = true,
+                EventCount = pluginContext.Options.EventCount,
+                EventDepth = pluginContext.Options.EventDepth,
+                ObjNums = userContext.Rights.ViewAll ? null : userContext.Rights.GetAvailableObjs().ToArray()
+            };
+
             return File(
-                PrintEvents(null, out DateTime generateTime),
+                GenerateEventReport(args, out DateTime generateTime),
                 MediaTypeNames.Application.Octet,
-                ReportUtils.BuildFileName("Events", generateTime, OutputFormat.Xml2003));
+                ReportUtils.BuildFileName(EventReportPrefix, generateTime, OutputFormat.Xml2003));
+        }
+
+        /// <summary>
+        /// Generates an event report.
+        /// </summary>
+        public IActionResult PrintEventReport(DateTime startTime, DateTime endTime,
+            string archive, int objNum, IntRange severities)
+        {
+            IList<int> objNums;
+
+            if (objNum <= 0)
+            {
+                objNums = userContext.Rights.ViewAll 
+                    ? null // all objects
+                    : userContext.Rights.GetAvailableObjs().ToArray();
+            }
+            else if (webContext.ConfigDatabase.ObjTable.PkExists(objNum))
+            {
+                objNums = GetObjNumHierarchy(objNum);
+            }
+            else
+            {
+                throw new ScadaException(Locale.IsRussian ?
+                    "Объект не найден в базе конфигурации." :
+                    "Object not found in the configuration database.");
+            }
+
+            EventReportArgs args = new()
+            {
+                StartTime = userContext.ConvertTimeToUtc(startTime),
+                EndTime = userContext.ConvertTimeToUtc(endTime),
+                ArchiveCode = archive,
+                ObjNums = objNums,
+                Severities = severities,
+                MaxPeriod = pluginContext.Options.MaxReportPeriod
+            };
+
+            return File(
+                GenerateEventReport(args, out DateTime generateTime),
+                MediaTypeNames.Application.Octet,
+                ReportUtils.BuildFileName(EventReportPrefix, generateTime, OutputFormat.Xml2003));
+        }
+
+        /// <summary>
+        /// Generates a historical data report.
+        /// </summary>
+        public IActionResult PrintHistDataReport(DateTime startTime, DateTime endTime, 
+            string archive, IntRange cnlNums)
+        {
+            MemoryStream stream = new();
+            DateTime generateTime;
+
+            try
+            {
+                HistDataReportBuilder builder = new(CreateReportContext());
+                builder.Generate(new HistDataReportArgs
+                {
+                    StartTime = userContext.ConvertTimeToUtc(startTime),
+                    EndTime = userContext.ConvertTimeToUtc(endTime),
+                    ArchiveCode = archive,
+                    CnlNums = cnlNums,
+                    MaxPeriod = pluginContext.Options.MaxReportPeriod
+                }, stream);
+
+                generateTime = builder.GenerateTime;
+                stream.Position = 0;
+            }
+            catch
+            {
+                stream.Dispose();
+                throw;
+            }
+
+            return File(
+                stream,
+                MediaTypeNames.Application.Octet,
+                ReportUtils.BuildFileName(HistDataReportPrefix, generateTime, OutputFormat.Xml2003));
         }
     }
 }

@@ -42,7 +42,7 @@ namespace Scada.Web.Authorization
         public const string RequireViewAll = nameof(RequireViewAll);
 
         /// <summary>
-        /// User access is restricted according to their rights specified in the configuration database.
+        /// User access is restricted according to user rights specified in the configuration database.
         /// </summary>
         public const string Restricted = nameof(Restricted);
     }

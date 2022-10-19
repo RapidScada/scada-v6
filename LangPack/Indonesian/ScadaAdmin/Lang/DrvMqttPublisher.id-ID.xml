@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvMqttPublisherDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.Config.DeviceOptions">
+    <Phrase key="RootTopic.DisplayName">Induk topik</Phrase>
+    <Phrase key="RootTopic.Category">Parameter Utama</Phrase>
+    <Phrase key="RootTopic.Description">Topik induk digunakan sebagai awalan untuk semua topik perangkat.</Phrase>
+    <Phrase key="UndefinedValue.DisplayName">Nilai tidak ditentukan</Phrase>
+    <Phrase key="UndefinedValue.Category">Parameter Utama</Phrase>
+    <Phrase key="UndefinedValue.Description">Payload untuk dikirim jika nilai saluran tidak ditentukan.</Phrase>
+    <Phrase key="PublishFormat.DisplayName">Format publikasi</Phrase>
+    <Phrase key="PublishFormat.Category">Parameter Utama</Phrase>
+    <Phrase key="PublishFormat.Description">Format data saluran yang dipublikasikan.
+Contoh format: { "Val": @val, "Stat": @stat }
+Format kosong sama dengan @val</Phrase>
+    <Phrase key="PublishOnChange.DisplayName">Publikasikan saat perubahan</Phrase>
+    <Phrase key="PublishOnChange.Category">Parameter Utama</Phrase>
+    <Phrase key="PublishOnChange.Description">Nilai yang menunjukkan apakah akan mengirim data saluran saat nilainya berubah.</Phrase>
+    <Phrase key="PublishPeriod.DisplayName">Periode publikasi</Phrase>
+    <Phrase key="PublishPeriod.Category">Parameter Utama</Phrase>
+    <Phrase key="PublishPeriod.Description">Periode publikasi untuk semua item perangkat, detik.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.Config.ItemConfig">
+    <Phrase key="CnlNum.DisplayName">Nomor saluran</Phrase>
+    <Phrase key="CnlNum.Category">Parameter Utama</Phrase>
+    <Phrase key="CnlNum.Description">Jumlah saluran yang dipublikasikan.</Phrase>
+    <Phrase key="Topic.DisplayName">Topik</Phrase>
+    <Phrase key="Topic.Category">Parameter Utama</Phrase>
+    <Phrase key="Topic.Description">Topik MQTT.</Phrase>
+    <Phrase key="Publish.DisplayName">Publikasi</Phrase>
+    <Phrase key="Publish.Category">Parameter Utama</Phrase>
+    <Phrase key="Publish.Description">Nilai yang menunjukkan apakah isi digunakan untuk memublikasikan nilai saluran.</Phrase>
+    <Phrase key="Subscribe.DisplayName">Langganan</Phrase>
+    <Phrase key="Subscribe.Category">Parameter Utama</Phrase>
+    <Phrase key="Subscribe.Description">Nilai yang menunjukkan apakah isi digunakan untuk menerima perintah.</Phrase>
+    <Phrase key="QosLevel.DisplayName">Tingkat QoS</Phrase>
+    <Phrase key="QosLevel.Category">Protokol</Phrase>
+    <Phrase key="QosLevel.Description">Kualitas tingkat layanan: 0 - hanya sekali, 1 - paling tidak sekali, 2 - tepat sekali.</Phrase>
+    <Phrase key="Retain.DisplayName">Retain</Phrase>
+    <Phrase key="Retain.Category">Protokol</Phrase>
+    <Phrase key="Retain.Description">Nilai yang menunjukkan apakah akan menyetel tanda 'retain' saat mempublikasikan.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.View.MqttPublisherConfigProvider">
+    <Phrase key="FormTitle">Properti Perangkat {0} - Penerbit MQTT</Phrase>
+    <Phrase key="AddItemButton">Tambahkan Isi</Phrase>
+    <Phrase key="OptionsNode">Pilihan</Phrase>
+    <Phrase key="ItemsNode">Isi</Phrase>
+    <Phrase key="ItemNodeFormat">Saluran {0}</Phrase>
+  </Dictionary>
+</DrvMqttPublisherDictionaries>

@@ -43,8 +43,8 @@ namespace Scada.Server.Engine
     {
         private ILog log;                          // the application log
         private StorageWrapper storageWrapper;     // contains the application storage
-        private CoreLogic coreLogic;               // the Server logic instance
         private AssemblyResolver assemblyResolver; // searches for assemblies
+        private CoreLogic coreLogic;               // the Server logic instance
 
 
         /// <summary>
@@ -54,8 +54,9 @@ namespace Scada.Server.Engine
         {
             log = LogStub.Instance;
             storageWrapper = null;
-            coreLogic = null;
             assemblyResolver = null;
+            coreLogic = null;
+
             AppDirs = new ServerDirs();
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_OnUnhandledException;
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
@@ -97,15 +98,11 @@ namespace Scada.Server.Engine
         /// </summary>
         private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
-            Assembly assembly = assemblyResolver?.Resolve(args.Name, args.RequestingAssembly);
+            string errMsg = "";
+            Assembly assembly = assemblyResolver?.Resolve(args.Name, args.RequestingAssembly, out errMsg);
 
-            if (assembly == null)
-            {
-                log.WriteError(Locale.IsRussian ?
-                    "Резолвер не смог найти сборку '{0}'{1}   запрошенную '{2}'" :
-                    "Resolver could not find assembly '{0}'{1}   requested by '{2}'", 
-                    args.Name, Environment.NewLine, args.RequestingAssembly.FullName);
-            }
+            if (!string.IsNullOrEmpty(errMsg))
+                log.WriteError(errMsg);
 
             return assembly;
         }
@@ -156,7 +153,8 @@ namespace Scada.Server.Engine
                 AppDirs = AppDirs,
                 Log = log
             }, instanceConfig);
-
+            
+            assemblyResolver = new AssemblyResolver(AppDirs.GetProbingDirs());
             ServerConfig appConfig = new ServerConfig();
 
             if (AppDirs.CheckExistence(out errMsg) &&
@@ -167,7 +165,6 @@ namespace Scada.Server.Engine
                 // start service
                 logFile.CapacityMB = appConfig.GeneralOptions.MaxLogSize;
                 coreLogic = new CoreLogic(instanceConfig, appConfig, AppDirs, storageWrapper.Storage, log);
-                assemblyResolver = new AssemblyResolver(AppDirs.GetProbingDirs());
 
                 if (coreLogic.StartProcessing())
                     return true;

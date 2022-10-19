@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaServerDictionaries culture="id-ID" lang="Indonesian">
+  <!-- ScadaServerCommon.dll -->
+  <Dictionary key="Scada.Server.Archives">
+    <Phrase key="UnspecifiedArchiveKind">Tidak ditentukan</Phrase>
+    <Phrase key="CurrentArchiveKind">Saat ini</Phrase>
+    <Phrase key="HistoricalArchiveKind">Historis</Phrase>
+    <Phrase key="EventsArchiveKind">Peringatan</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules">
+    <Phrase key="LoadModuleConfigError">Kesalahan memuat konfigurasi modul</Phrase>
+    <Phrase key="SaveModuleConfigError">Kesalahan saat menyimpan konfigurasi modul</Phrase>
+    <Phrase key="SaveModuleConfigConfirm">Konfigurasi modul telah dimodifikasi. Simpan perubahan?</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Engine.CoreLogic">
+    <Phrase key="CommandSentBy">Dikirim oleh {0}</Phrase>
+  </Dictionary>
+  <!-- ScadaServerCommon.Forms.dll -->
+  <Dictionary key="Scada.Server.Forms.Controls.CtrlCurrentArchiveOptions">
+    <Phrase key="gbOptions">Pilihan Utama</Phrase>
+    <Phrase key="lblReadOnly">Baca saja</Phrase>
+    <Phrase key="lblLogEnabled">Catatan diaktifkan</Phrase>
+    <Phrase key="lblFlushPeriod">Periode pembilasan</Phrase>
+    <Phrase key="txtFlushPeriodUnit">Detik</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Forms.Controls.CtrlEventArchiveOptions">
+    <Phrase key="gbOptions">Pilihan Utama</Phrase>
+    <Phrase key="lblReadOnly">Baca saja</Phrase>
+    <Phrase key="lblLogEnabled">Catatan diaktifkan</Phrase>
+    <Phrase key="lblRetention">Jangka waktu penyimpanan</Phrase>
+    <Phrase key="txtRetentionUnit">Hari</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Forms.Controls.CtrlHistoricalArchiveOptions">
+    <Phrase key="gbOptions">Pilihan Utama</Phrase>
+    <Phrase key="lblReadOnly">Hanya baca</Phrase>
+    <Phrase key="lblLogEnabled">Catatan diaktifkan</Phrase>
+    <Phrase key="lblRetention">Jangka waktu penyimpanan</Phrase>
+    <Phrase key="txtRetentionUnit">Hari</Phrase>
+    <Phrase key="lblIsPeriodic">Hanya data berkala</Phrase>
+    <Phrase key="lblWriteWithPeriod">Tulis dengan periode</Phrase>
+    <Phrase key="lblWritingPeriod">Periode penulisan</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[0]">Detik</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[1]">Menit</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[2]">Jam</Phrase>
+    <Phrase key="lblPullToPeriod">Tarik ke periode</Phrase>
+    <Phrase key="txtPullToPeriodUnit">Detik</Phrase>
+    <Phrase key="lblWriteOnChange">Tulis saat berubah</Phrase>
+    <Phrase key="lblDeadband">Deadband</Phrase>
+    <Phrase key="cbDeadbandUnit.Items[0]">Abs.</Phrase>
+    <Phrase key="cbDeadbandUnit.Items[1]">%</Phrase>
+  </Dictionary>
+</ScadaServerDictionaries>

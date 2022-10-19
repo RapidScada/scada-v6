@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtServerConfigDictionaries culture="id-ID" lang="Indonesian">
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.ExtServerConfigLogic">
+    <Phrase key="GeneralOptionsNode">Pilihan Utama</Phrase>
+    <Phrase key="ModulesNode">Modul</Phrase>
+    <Phrase key="ArchivesNode">Arsip</Phrase>
+    <Phrase key="LogsNode">Catatan</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchiveAdd">
+    <Phrase key="this">Tambah Arsip</Phrase>
+    <Phrase key="lblSourceArchive">Sumber arsip</Phrase>
+    <Phrase key="lblModule">Modul</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchives">
+    <Phrase key="this">Arsip</Phrase>
+    <Phrase key="btnAdd">Tambah</Phrase>
+    <Phrase key="btnMoveUp">Naikkan</Phrase>
+    <Phrase key="btnMoveDown">Turunkan</Phrase>
+    <Phrase key="btnDelete">Hapus</Phrase>
+    <Phrase key="btnCut">Potong</Phrase>
+    <Phrase key="btnCopy">Salin</Phrase>
+    <Phrase key="btnPaste">Tempel</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">Aktif</Phrase>
+    <Phrase key="colCode">Kode</Phrase>
+    <Phrase key="colName">Nama</Phrase>
+    <Phrase key="colKind">Jenis</Phrase>
+    <Phrase key="colModule">Modul</Phrase>
+    <Phrase key="gbArchive">Arsip Terpilih</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="lblCode">Kode</Phrase>
+    <Phrase key="lblName">Nama</Phrase>
+    <Phrase key="lblKind">Jenis</Phrase>
+    <Phrase key="lblModule">Modul</Phrase>
+    <Phrase key="lblOptions">Pilihan</Phrase>
+    <Phrase key="btnProperties">Properti</Phrase>
+    <Phrase key="ModuleNotSpecified">Modul tidak ditentukan.</Phrase>
+    <Phrase key="ArchiveNotSupported">Modul tidak mendukung pembuatan arsip jenis {0}.</Phrase>
+    <Phrase key="UnableCreateArchiveView">Tidak dapat membuat antarmuka arsip.</Phrase>
+    <Phrase key="NoArchiveProperties">Arsip tidak menyediakan jendela properti.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions">
+    <Phrase key="this">Pilihan Utama</Phrase>
+    <Phrase key="gbGeneralOptions">Pilihan Utama</Phrase>
+    <Phrase key="lblUnrelIfInactive">Saluran ditandai sebagai tidak dapat diandalkan jika tidak aktif, detik</Phrase>
+    <Phrase key="lblGenerateAckCmd">Hasilkan perintah saat peringatan diakui</Phrase>
+    <Phrase key="lblMaxLogSize">Ukuran file catatan maksimum, MB</Phrase>
+    <Phrase key="lblDisableFormulas">Nonaktifkan rumus saluran, kecuali saluran milik objek</Phrase>
+    <Phrase key="btnSelectObjects">Pilih...</Phrase>
+    <Phrase key="gbListenerOptions">Opsi Pendengar</Phrase>
+    <Phrase key="lblPort">Port TCP</Phrase>
+    <Phrase key="lblTimeout">Waktu habis, ms</Phrase>
+    <Phrase key="lblSecretKey">Kunci rahasia</Phrase>
+    <Phrase key="btnGenerateKey">Hasilkan</Phrase>
+    <Phrase key="btnCopyKey">Salin</Phrase>
+    <Phrase key="InvalidObjectRange">Rentang objek tidak valid.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmModules">
+    <Phrase key="this">Modul</Phrase>
+    <Phrase key="lblUnusedModules">Modul tidak digunakan:</Phrase>
+    <Phrase key="btnActivate">Aktifkan</Phrase>
+    <Phrase key="lblActiveModules">Modul aktif:</Phrase>
+    <Phrase key="btnDeactivate">Nonaktifkan</Phrase>
+    <Phrase key="btnMoveUp">Naikkan</Phrase>
+    <Phrase key="btnMoveDown">Turunkan</Phrase>
+    <Phrase key="btnProperties">Properti</Phrase>
+    <Phrase key="btnRegister">Daftar</Phrase>
+    <Phrase key="lblDescr">Keterangan</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmServerLogs">
+    <Phrase key="AppFilter">Aplikasi</Phrase>
+    <Phrase key="ModulesFilter">Modul</Phrase>
+  </Dictionary>
+</ExtServerConfigDictionaries>

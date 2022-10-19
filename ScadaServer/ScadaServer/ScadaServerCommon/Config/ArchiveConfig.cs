@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Config;
@@ -94,7 +94,7 @@ namespace Scada.Server.Config
             Code = xmlElem.GetAttrAsString("code");
             Name = xmlElem.GetAttrAsString("name");
             Kind = xmlElem.GetAttrAsEnum("kind", ArchiveKind.Unspecified);
-            Module = ScadaUtils.RemoveFileNameSuffixes(xmlElem.GetAttrAsString("module"));
+            Module = xmlElem.GetAttrAsString("module");
             CustomOptions.LoadFromXml(xmlElem);
         }
 

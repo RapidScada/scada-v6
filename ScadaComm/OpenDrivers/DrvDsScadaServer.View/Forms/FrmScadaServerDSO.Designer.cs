@@ -81,7 +81,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View.Forms
             // chkClientLogEnabled
             // 
             this.chkClientLogEnabled.AutoSize = true;
-            this.chkClientLogEnabled.Location = new System.Drawing.Point(290, 161);
+            this.chkClientLogEnabled.Location = new System.Drawing.Point(357, 161);
             this.chkClientLogEnabled.Name = "chkClientLogEnabled";
             this.chkClientLogEnabled.Size = new System.Drawing.Size(15, 14);
             this.chkClientLogEnabled.TabIndex = 11;
@@ -217,7 +217,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View.Forms
             // chkUseDefaultConn
             // 
             this.chkUseDefaultConn.AutoSize = true;
-            this.chkUseDefaultConn.Location = new System.Drawing.Point(290, 16);
+            this.chkUseDefaultConn.Location = new System.Drawing.Point(357, 16);
             this.chkUseDefaultConn.Name = "chkUseDefaultConn";
             this.chkUseDefaultConn.Size = new System.Drawing.Size(15, 14);
             this.chkUseDefaultConn.TabIndex = 1;

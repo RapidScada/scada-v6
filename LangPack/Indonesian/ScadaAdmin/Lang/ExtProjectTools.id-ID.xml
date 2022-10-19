@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtProjectToolsDictionaries culture="id-ID" lang="Indonesian">
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.ChannelMap">
+    <Phrase key="MapByDeviceTitle">Saluran menurut Perangkat</Phrase>
+    <Phrase key="MapByObjectTitle">Saluran berdasarkan Obyek</Phrase>
+    <Phrase key="ChannelsCaption">Saluran:</Phrase>
+    <Phrase key="NoChannels">Tidak ada saluran</Phrase>
+    <Phrase key="GenerateChannelMapError">Kesalahan saat membuat peta saluran</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.DeviceMap">
+    <Phrase key="DeviceMapTitle">Perangkat berdasarkan Jalur Komunikasi</Phrase>
+    <Phrase key="DevicesCaption">Perangkat:</Phrase>
+    <Phrase key="NoDevices">Tidak ada perangkat</Phrase>
+    <Phrase key="EmptyCommLine">Jalur komunikasi kosong</Phrase>
+    <Phrase key="GenerateDeviceMapError">Kesalahan saat membuat peta perangkat</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.IntegrityCheck">
+    <Phrase key="IntegrityCheckTitle">Pemeriksaan Integritas</Phrase>
+    <Phrase key="TableCorrect">Oke</Phrase>
+    <Phrase key="TableHasErrors">Kesalahan</Phrase>
+    <Phrase key="LostPrimaryKeys">Kunci utama yang hilang:</Phrase>
+    <Phrase key="BaseCorrect">Basis data konfigurasi sudah benar.</Phrase>
+    <Phrase key="BaseHasErrors">Basis data konfigurasi memiliki kesalahan.</Phrase>
+    <Phrase key="IntegrityCheckError">Kesalahan saat memeriksa integritas</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Controls.CtrlMainMenu">
+    <Phrase key="miProjectTools">Alat Proyek</Phrase>
+    <Phrase key="miCloneChannels">Kloning Saluran...</Phrase>
+    <Phrase key="miChannelMapByDevice">Peta Saluran berdasarkan Perangkat</Phrase>
+    <Phrase key="miChannelMapByObject">Peta Saluran berdasarkan Objek</Phrase>
+    <Phrase key="miDeviceMap">Peta Perangkat</Phrase>
+    <Phrase key="miCheckIntegrity">Periksa Integritas</Phrase>
+    <Phrase key="miImportTable">Impor Tabel...</Phrase>
+    <Phrase key="miExportTable">Ekspor Tabel...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmCnlClone">
+    <Phrase key="this">Kloning Saluran</Phrase>
+    <Phrase key="gbSrcNums">Nomor Saluran Sumber</Phrase>
+    <Phrase key="lblSrcStartNum">Awal</Phrase>
+    <Phrase key="lblSrcEndNum">Akhir</Phrase>
+    <Phrase key="gbDestNums">Nomor Saluran Tujuan</Phrase>
+    <Phrase key="lblDestStartNum">Awal</Phrase>
+    <Phrase key="lblDestEndNum">Akhir</Phrase>
+    <Phrase key="gbOptions">Pilihan</Phrase>
+    <Phrase key="lblReplaceObj">Ganti objek</Phrase>
+    <Phrase key="lblReplaceDevice">Ganti perangkat</Phrase>
+    <Phrase key="chkUpdateFormulas">Perbarui nomor saluran dalam rumus</Phrase>
+    <Phrase key="btnClone">Kloning</Phrase>
+    <Phrase key="btnClose">Tutup</Phrase>
+    <Phrase key="KeepUnchanged">&lt;Biarkan tidak berubah&gt;</Phrase>
+    <Phrase key="CloneChannelsCompleted">Kloning diselesaikan dengan sukses.
+{0} saluran ditambahkan.</Phrase>
+    <Phrase key="CloneChannelsError">Kesalahan saat mengkloning saluran</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
+    <Phrase key="this">Ekspor Tabel</Phrase>
+    <Phrase key="lblTable">Tabel</Phrase>
+    <Phrase key="lblFormat">Format</Phrase>
+    <Phrase key="gbIDs">ID</Phrase>
+    <Phrase key="lblStartID">Awal</Phrase>
+    <Phrase key="lblEndID">Akhir</Phrase>
+    <Phrase key="btnExport">Ekspor</Phrase>
+    <Phrase key="btnClose">Tutup</Phrase>
+    <Phrase key="ExportTableFilter">Tabel (*.dat;*.xml;*.csv)|*.dat;*.xml;*.csv|Semua Berkas (*.*)|*.*</Phrase>
+    <Phrase key="ExportTableError">Kesalahan saat mengekspor tabel</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableImport">
+    <Phrase key="this">Impor Tabel</Phrase>
+    <Phrase key="lblTable">Tabel</Phrase>
+    <Phrase key="lblSrcFile">Sumber berkas</Phrase>
+    <Phrase key="btnBrowse">Jelajahi...</Phrase>
+    <Phrase key="gbSrcIDs">ID Sumber</Phrase>
+    <Phrase key="lblSrcStartID">Awal</Phrase>
+    <Phrase key="lblSrcEndID">Akhir</Phrase>
+    <Phrase key="gbDestIDs">ID Tujuan</Phrase>
+    <Phrase key="lblDestStartID">Awal</Phrase>
+    <Phrase key="lblDestEndID">Akhir</Phrase>
+    <Phrase key="btnImport">Impor</Phrase>
+    <Phrase key="btnClose">Tutup</Phrase>
+    <Phrase key="ImportTableFilter">Tabel (*.dat;*.xml;*.csv)|*.dat;*.xml;*.csv|Semua Berkas (*.*)|*.*</Phrase>
+    <Phrase key="ImportTableCompleted">Import diselesaikan dengan sukses.
+{0} baris terpengaruh.</Phrase>
+    <Phrase key="ImportTableError">Kesalahan mengimpor tabel</Phrase>
+  </Dictionary>
+</ExtProjectToolsDictionaries>

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDsScadaServerDictionaries culture="id-ID" lang="Indonesian">
+  <Dictionary key="Scada.Comm.Drivers.DrvDsScadaServer.View.Forms.FrmConnManager">
+    <Phrase key="this">Koneksi Klien</Phrase>
+    <Phrase key="gbConnList">Koneksi</Phrase>
+    <Phrase key="btnNewConn">Baru</Phrase>
+    <Phrase key="btnDeleteConn">Hapus</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsScadaServer.View.Forms.FrmScadaServerDSO">
+    <Phrase key="this">Opsi Sumber Data</Phrase>
+    <Phrase key="lblUseDefaultConn">Gunakan koneksi default</Phrase>
+    <Phrase key="lblConnection">Koneksi</Phrase>
+    <Phrase key="lblMaxQueueSize">Ukuran antrian maksimum</Phrase>
+    <Phrase key="lblMaxCurDataAge">Data saat ini menjadi historis, detik</Phrase>
+    <Phrase key="lblDataLifetime">Masa hidup data dalam antrian, detik</Phrase>
+    <Phrase key="lblClientLogEnabled">Catatan klien diaktifkan</Phrase>
+    <Phrase key="lblDeviceFilter">Filter perangkat</Phrase>
+    <Phrase key="btnSelectDevices">Pilih...</Phrase>
+    <Phrase key="btnManageConn">Kelola Koneksi</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+  </Dictionary>
+</DrvDsScadaServerDictionaries>
