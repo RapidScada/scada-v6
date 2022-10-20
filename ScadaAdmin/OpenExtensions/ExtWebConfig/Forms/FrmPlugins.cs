@@ -79,7 +79,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
                 if (dirInfo.Exists)
                 {
                     foreach (FileInfo fileInfo in
-                        dirInfo.EnumerateFiles("Plg*.dll", SearchOption.TopDirectoryOnly))
+                        dirInfo.EnumerateFiles("Plg*.View.dll", SearchOption.TopDirectoryOnly))
                     {
                         string pluginCode = ScadaUtils.RemoveFileNameSuffixes(fileInfo.Name);
                         

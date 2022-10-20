@@ -15,7 +15,6 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
     public partial class CtrlPluginAssignment : UserControl
     {
         private IAdminContext adminContext;      // the Administrator context
-        private WebApp webApp;                   // the web application in a project
         private bool changing;                   // controls are being changed programmatically
 
 
@@ -26,7 +25,6 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         {
             InitializeComponent();
             adminContext = null;
-            webApp = null;
             changing = false;
         }
 
@@ -38,6 +36,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         {
             OptionsChanged?.Invoke(this, EventArgs.Empty);
         }
+
 
         /// <summary>
         /// Occurs when the options change.
@@ -83,10 +82,9 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         /// <summary>
         /// Initializes the control.
         /// </summary>
-        public void Init(IAdminContext adminContext, WebApp webApp)
+        public void Init(IAdminContext adminContext)
         {
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
-            this.webApp = webApp ?? throw new ArgumentNullException(nameof(webApp));
             FillPluginComboBox(cbChartFeature);
             FillPluginComboBox(cbCommandFeature);
             FillPluginComboBox(cbEventAckFeature);

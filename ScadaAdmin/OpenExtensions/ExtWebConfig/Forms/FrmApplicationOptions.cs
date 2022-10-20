@@ -103,11 +103,8 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
             Text = ExtensionPhrases.ApplicationConfigTitle;
 
             ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
-            ctrlGeneralOptions.Init(adminContext, webApp);
-            ctrlConnectionOptions.Init(adminContext, webApp);
-            ctrlLoginOptions.Init(adminContext, webApp);
-            ctrlDisplayOptions.Init(adminContext, webApp);
-            ctrlPluginAssignment.Init(adminContext, webApp);
+            ctrlGeneralOptions.Init();
+            ctrlPluginAssignment.Init(adminContext);
             lbTabs.SelectedIndex = 0;
         }
 

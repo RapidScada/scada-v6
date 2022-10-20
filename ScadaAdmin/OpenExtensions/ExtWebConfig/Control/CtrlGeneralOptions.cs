@@ -23,13 +23,11 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         {
             public string DisplayInfo { get; set; }
             public CultureInfo CultureInfo { get; set; }
-        }
+        }       
         
-         
-        private IAdminContext adminContext;      // the Administrator context
-        private WebApp webApp;                   // the web application in a project
         private bool changing;                   // controls are being changed programmatically
         private List<Culture> cultures;          // the list of culture info 
+
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -37,8 +35,6 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         public CtrlGeneralOptions()
         {
             InitializeComponent();
-            adminContext = null;
-            webApp = null;
             changing = false;
             cultures = null;
         }
@@ -51,6 +47,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         {
             OptionsChanged?.Invoke(this, EventArgs.Empty);
         }
+
 
         /// <summary>
         /// Occurs when the options change.
@@ -69,14 +66,12 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
                 OnOptionsChanged();
         }
 
+
         /// <summary>
         /// Initializes the control.
         /// </summary>
-        public void Init(IAdminContext adminContext, WebApp webApp)
+        public void Init()
         {
-            this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
-            this.webApp = webApp ?? throw new ArgumentNullException(nameof(webApp));
-
             cbDefaultTimeZone.Items.Clear();
             ReadOnlyCollection<TimeZoneInfo> timeZones = TimeZoneInfo.GetSystemTimeZones();
 

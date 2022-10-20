@@ -18,7 +18,7 @@
     <Phrase key="lblDefaultTimeZone">Часовой пояс по умолчанию</Phrase>
     <Phrase key="lblDefaultStartPage">Стартовая страница после входа пользователя</Phrase>
     <Phrase key="lblEnableCommands">Разрешить команды телеуправления</Phrase>
-    <Phrase key="lblShareStats">Предоставить обезличенную статистику разработчикам</Phrase>
+    <Phrase key="lblShareStats">Предоставлять обезличенную статистику разработчикам</Phrase>
     <Phrase key="lblMaxLogSize">Максимальный размер файла журнала, МБ</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlLoginOptions">
@@ -43,7 +43,7 @@
     <Phrase key="lbTabs.Items[1]">Соединение</Phrase>
     <Phrase key="lbTabs.Items[2]">Вход в систему</Phrase>
     <Phrase key="lbTabs.Items[3]">Отображение</Phrase>
-    <Phrase key="lbTabs.Items[4]">Назначение планинов</Phrase>
+    <Phrase key="lbTabs.Items[4]">Назначение плагинов</Phrase>
     <Phrase key="ApplicationConfigTitle">Параметры приложения</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Forms.FrmPlugins">

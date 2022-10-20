@@ -13,8 +13,6 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
     /// </summary>
     public partial class CtrlLoginOptions : UserControl
     {
-        private IAdminContext adminContext;      // the Administrator context
-        private WebApp webApp;                   // the web application in a project
         private bool changing;                   // controls are being changed programmatically
 
 
@@ -24,8 +22,6 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         public CtrlLoginOptions()
         {
             InitializeComponent();
-            adminContext = null;
-            webApp = null;
             changing = false;
         }
 
@@ -37,6 +33,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         {
             OptionsChanged?.Invoke(this, EventArgs.Empty);
         }
+
 
         /// <summary>
         /// Occurs when the options change.
@@ -56,15 +53,6 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
                 OnOptionsChanged();
         }
 
-
-        /// <summary>
-        /// Initializes the control.
-        /// </summary>
-        public void Init(IAdminContext adminContext, WebApp webApp)
-        {
-            this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
-            this.webApp = webApp ?? throw new ArgumentNullException(nameof(webApp));
-        }
 
         /// <summary>
         /// Sets the controls according to the options.
