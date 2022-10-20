@@ -363,7 +363,16 @@ scada.scheme.ComponentRenderer.prototype.setVAlign = function (jqObj, vAlign) {
 // Set tooltip (title) of the jQuery object
 scada.scheme.ComponentRenderer.prototype.setToolTip = function (jqObj, toolTip) {
     if (toolTip) {
-        jqObj.prop("title", toolTip);
+        const isTouchDevice = ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+
+        if (isTouchDevice) {
+            jqObj.prop("title", toolTip.replace(/\n|\r\n|\r/g, '<br>'));
+            jqObj.attr("data-bs-toggle", "tooltip");
+            jqObj.attr("data-bs-html", true);
+            jqObj.addClass("user-select-none");
+        } else {
+            jqObj.prop("title", toolTip);
+        }
     }
 };
 

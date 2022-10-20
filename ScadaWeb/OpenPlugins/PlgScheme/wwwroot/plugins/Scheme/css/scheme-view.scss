@@ -95,6 +95,13 @@ body {
     vertical-align: top;
 }
 
+/* Tooltip */
+.tooltip-inner {
+    text-align: left;
+    max-width: none;
+    white-space: nowrap;
+}
+
 /* Scheme */
 #divSchWrapper {
     font-family: $scheme-font-family;

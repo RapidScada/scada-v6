@@ -48,6 +48,15 @@ scada.scheme.env = {
     }
 };
 
+// Get or create the tooltip instance
+function initTooltips() {
+    if (scheme.dom && typeof bootstrap !== "undefined") {
+        scheme.dom.find("[data-bs-toggle='tooltip']").each(function () {
+            bootstrap.Tooltip.getOrCreateInstance(this);
+        });
+    }
+}
+
 // Load the scheme
 function loadScheme(viewID) {
     scheme.load(viewID, function (success) {
@@ -68,6 +77,7 @@ function loadScheme(viewID) {
                 loadScale();
                 displayScale();
                 alignHorizontally();
+                initTooltips();
                 startUpdatingScheme();
             }
         } else {
