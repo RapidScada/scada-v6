@@ -102,7 +102,7 @@
             // 
             this.numRememberMeExpires.Location = new System.Drawing.Point(387, 82);
             this.numRememberMeExpires.Maximum = new decimal(new int[] {
-            1000000,
+            365,
             0,
             0,
             0});

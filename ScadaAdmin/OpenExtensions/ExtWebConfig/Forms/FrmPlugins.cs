@@ -1,9 +1,13 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Admin.Extensions.ExtWebConfig.Code;
+using Scada.Admin.Forms;
 using Scada.Admin.Project;
 using Scada.Forms;
 using Scada.Web.Config;
+using Scada.Web.Plugins;
+using System.Text;
 using WinControl;
 
 namespace Scada.Admin.Extensions.ExtWebConfig.Forms
@@ -23,7 +27,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
             public string PluginCode { get; set; }
             public string FileName { get; set; }
             public string Descr { get; set; }
-            //public PluginView PluginView { get; set; }          
+            public PluginView PluginView { get; set; }          
             public override string ToString() => PluginCode;
         }
 
@@ -146,22 +150,22 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
         /// </summary>
         private void InitPluginItem(PluginItem pluginItem)
         {
-            /*if (!pluginItem.IsInitialized)
+            if (!pluginItem.IsInitialized)
             {
                 pluginItem.IsInitialized = true;
 
-                if (ExtensionUtils.GetModuleView(adminContext, webApp, pluginItem.PluginCode,
-                    out ModuleView moduleView, out string message))
+                if (ExtensionUtils.GetPluginView(adminContext, webApp, pluginItem.PluginCode,
+                    out PluginView pluginView, out string message))
                 {
-                    pluginItem.Descr = BuildModuleDescr(moduleView);
-                    //pluginItem.ModuleView = moduleView;
+                    pluginItem.Descr = BuildPluginDescr(pluginView);
+                    pluginItem.PluginView = pluginView;
                 }
                 else
                 {
                     pluginItem.Descr = message;
-                    //pluginItem.ModuleView = null;
+                    pluginItem.PluginView = null;
                 }
-            }*/
+            }
         }
 
         /// <summary>
@@ -188,33 +192,33 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
                 btnDeactivate.Enabled = true;
                 btnMoveUp.Enabled = lbActivePlugins.SelectedIndex > 0;
                 btnMoveDown.Enabled = lbActivePlugins.SelectedIndex < lbActivePlugins.Items.Count - 1;
-                //btnProperties.Enabled = pluginItem.ModuleView != null && pluginItem.ModuleView.CanShowProperties;
-                //btnRegister.Visible = pluginItem.ModuleView != null && pluginItem.ModuleView.RequireRegistration;
+                btnProperties.Enabled = pluginItem.PluginView != null && pluginItem.PluginView.CanShowProperties;
+                btnRegister.Visible = pluginItem.PluginView != null && pluginItem.PluginView.RequireRegistration;
             }
             else
             {
                 btnDeactivate.Enabled = false;
                 btnMoveUp.Enabled = false;
                 btnMoveDown.Enabled = false;
-                //btnRegister.Visible = false;
+                btnRegister.Visible = false;
             }
         }
 
         // <summary>
         /// Build the plugin description.
         /// </summary>
-        /**private static string BuildModuleDescr(ModuleView moduleView)
+        private static string BuildPluginDescr(PluginView pluginView)
         {
             string title = string.Format("{0} {1}",
-                moduleView.Name,
-                moduleView.Version);
+                pluginView.Name,
+                pluginView.Version);
 
             return new StringBuilder()
                 .AppendLine(title)
                 .AppendLine(new string('-', title.Length))
-                .Append(moduleView.Descr?.Replace("\n", Environment.NewLine))
+                .Append(pluginView.Descr?.Replace("\n", Environment.NewLine))
                 .ToString();
-        }*/
+        }
 
 
         /// <summary>
@@ -304,24 +308,24 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
         private void btnProperties_Click(object sender, EventArgs e)
         {
             // show properties of the selected plugin
-            /*if (lbActivePlugins.SelectedItem is PluginItem pluginItem &&
-                pluginItem.ModuleView != null && pluginItem.ModuleView.CanShowProperties)
+            if (lbActivePlugins.SelectedItem is PluginItem pluginItem &&
+                pluginItem.PluginView != null && pluginItem.PluginView.CanShowProperties)
             {
                 lbActivePlugins.Focus();
-                pluginItem.ModuleView.ShowProperties();
-            }*/
+                pluginItem.PluginView.ShowProperties();
+            }
         }
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
             // show registration form for the selected plugin
-            /*if (lbActivePlugins.SelectedItem is PluginItem pluginItem &&
-                pluginItem.ModuleView != null && moduleItem.ModuleView.RequireRegistration)
+            if (lbActivePlugins.SelectedItem is PluginItem pluginItem &&
+                pluginItem.PluginView != null && pluginItem.PluginView.RequireRegistration)
             {
                 lbActivePlugins.Focus();
                 new FrmRegistration(adminContext, webApp,
-                    pluginItem.ModuleView.ProductCode, pluginItem.ModuleView.Name).ShowDialog();
-            }*/
+                    pluginItem.PluginView.ProductCode, pluginItem.PluginView.Name).ShowDialog();
+            }
         }
 
         private void lbUnusedPlugins_SelectedIndexChanged(object sender, EventArgs e)

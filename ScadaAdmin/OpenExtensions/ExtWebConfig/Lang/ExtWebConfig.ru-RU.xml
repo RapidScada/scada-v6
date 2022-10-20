@@ -6,7 +6,7 @@
     <Phrase key="LogsNode">Журналы</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlDisplayOptions">
-    <Phrase key="gbDisplayOptions">Параметры отоброжения</Phrase>
+    <Phrase key="gbDisplayOptions">Параметры отображения</Phrase>
     <Phrase key="lblShowHeader">Показывать заголовок страницы</Phrase>
     <Phrase key="lblShowMainMenu">Показывать главное меню</Phrase>
     <Phrase key="lblShowViewExplorer">Показывать проводник представлений</Phrase>
@@ -39,10 +39,10 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Forms.FrmApplicationOptions">
     <Phrase key="this">Параметры приложения</Phrase>
-    <Phrase key="lbTabs.Items[0]">Основные параметры</Phrase>
-    <Phrase key="lbTabs.Items[1]">Параметры соединения</Phrase>
-    <Phrase key="lbTabs.Items[2]">Параметры входа</Phrase>
-    <Phrase key="lbTabs.Items[3]">Параметры отоброжения</Phrase>
+    <Phrase key="lbTabs.Items[0]">Основные</Phrase>
+    <Phrase key="lbTabs.Items[1]">Соединение</Phrase>
+    <Phrase key="lbTabs.Items[2]">Вход в систему</Phrase>
+    <Phrase key="lbTabs.Items[3]">Отображение</Phrase>
     <Phrase key="lbTabs.Items[4]">Назначение планинов</Phrase>
     <Phrase key="ApplicationConfigTitle">Параметры приложения</Phrase>
   </Dictionary>

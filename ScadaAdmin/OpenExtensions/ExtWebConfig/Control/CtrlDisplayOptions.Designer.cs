@@ -63,7 +63,7 @@
             // 
             this.numRefreshRate.Location = new System.Drawing.Point(387, 109);
             this.numRefreshRate.Maximum = new decimal(new int[] {
-            1000000,
+            100000,
             0,
             0,
             0});

@@ -57,7 +57,7 @@
             this.gbPluginAssignment.Location = new System.Drawing.Point(0, 0);
             this.gbPluginAssignment.Name = "gbPluginAssignment";
             this.gbPluginAssignment.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbPluginAssignment.Size = new System.Drawing.Size(500, 184);
+            this.gbPluginAssignment.Size = new System.Drawing.Size(500, 186);
             this.gbPluginAssignment.TabIndex = 0;
             this.gbPluginAssignment.TabStop = false;
             this.gbPluginAssignment.Text = "Plugin Assignment";

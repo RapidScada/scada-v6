@@ -70,11 +70,6 @@
             // numMaxLogSize
             // 
             this.numMaxLogSize.Location = new System.Drawing.Point(387, 197);
-            this.numMaxLogSize.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
             this.numMaxLogSize.Minimum = new decimal(new int[] {
             1,
             0,
@@ -157,9 +152,9 @@
             // cbDefaultTimeZone
             // 
             this.cbDefaultTimeZone.FormattingEnabled = true;
-            this.cbDefaultTimeZone.Location = new System.Drawing.Point(287, 57);
+            this.cbDefaultTimeZone.Location = new System.Drawing.Point(237, 57);
             this.cbDefaultTimeZone.Name = "cbDefaultTimeZone";
-            this.cbDefaultTimeZone.Size = new System.Drawing.Size(200, 23);
+            this.cbDefaultTimeZone.Size = new System.Drawing.Size(250, 23);
             this.cbDefaultTimeZone.TabIndex = 3;
             this.cbDefaultTimeZone.SelectedIndexChanged += new System.EventHandler(this.control_Changed);
             this.cbDefaultTimeZone.TextUpdate += new System.EventHandler(this.control_Changed);
@@ -176,9 +171,9 @@
             // cbDefaultCulture
             // 
             this.cbDefaultCulture.FormattingEnabled = true;
-            this.cbDefaultCulture.Location = new System.Drawing.Point(287, 26);
+            this.cbDefaultCulture.Location = new System.Drawing.Point(237, 26);
             this.cbDefaultCulture.Name = "cbDefaultCulture";
-            this.cbDefaultCulture.Size = new System.Drawing.Size(200, 23);
+            this.cbDefaultCulture.Size = new System.Drawing.Size(250, 23);
             this.cbDefaultCulture.TabIndex = 1;
             this.cbDefaultCulture.SelectedIndexChanged += new System.EventHandler(this.control_Changed);
             this.cbDefaultCulture.TextUpdate += new System.EventHandler(this.control_Changed);

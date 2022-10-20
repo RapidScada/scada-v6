@@ -37,12 +37,12 @@
             this.lblUnusedPlugins = new System.Windows.Forms.Label();
             this.btnActivate = new System.Windows.Forms.Button();
             this.pnlTopRight = new System.Windows.Forms.Panel();
-            this.btnProperties = new System.Windows.Forms.Button();
-            this.btnRegister = new System.Windows.Forms.Button();
             this.lblActivePlugins = new System.Windows.Forms.Label();
-            this.btnDeactivate = new System.Windows.Forms.Button();
-            this.btnMoveUp = new System.Windows.Forms.Button();
+            this.btnRegister = new System.Windows.Forms.Button();
+            this.btnProperties = new System.Windows.Forms.Button();
             this.btnMoveDown = new System.Windows.Forms.Button();
+            this.btnMoveUp = new System.Windows.Forms.Button();
+            this.btnDeactivate = new System.Windows.Forms.Button();
             this.tableLayoutPanel.SuspendLayout();
             this.pnlTopLeft.SuspendLayout();
             this.pnlTopRight.SuspendLayout();
@@ -59,7 +59,7 @@
             this.txtDescr.ReadOnly = true;
             this.txtDescr.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtDescr.Size = new System.Drawing.Size(810, 200);
-            this.txtDescr.TabIndex = 0;
+            this.txtDescr.TabIndex = 1;
             // 
             // lblDescr
             // 
@@ -68,7 +68,7 @@
             this.lblDescr.Location = new System.Drawing.Point(9, 301);
             this.lblDescr.Name = "lblDescr";
             this.lblDescr.Size = new System.Drawing.Size(67, 15);
-            this.lblDescr.TabIndex = 2;
+            this.lblDescr.TabIndex = 0;
             this.lblDescr.Text = "Description";
             // 
             // tableLayoutPanel
@@ -89,7 +89,7 @@
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 47F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel.Size = new System.Drawing.Size(810, 279);
-            this.tableLayoutPanel.TabIndex = 5;
+            this.tableLayoutPanel.TabIndex = 0;
             // 
             // lbUnusedPlugins
             // 
@@ -139,7 +139,7 @@
             this.lblUnusedPlugins.Location = new System.Drawing.Point(-3, 0);
             this.lblUnusedPlugins.Name = "lblUnusedPlugins";
             this.lblUnusedPlugins.Size = new System.Drawing.Size(92, 15);
-            this.lblUnusedPlugins.TabIndex = 1;
+            this.lblUnusedPlugins.TabIndex = 0;
             this.lblUnusedPlugins.Text = "Unused plugins:";
             // 
             // btnActivate
@@ -154,28 +154,27 @@
             // 
             // pnlTopRight
             // 
-            this.pnlTopRight.Controls.Add(this.btnProperties);
-            this.pnlTopRight.Controls.Add(this.btnRegister);
             this.pnlTopRight.Controls.Add(this.lblActivePlugins);
-            this.pnlTopRight.Controls.Add(this.btnDeactivate);
-            this.pnlTopRight.Controls.Add(this.btnMoveUp);
+            this.pnlTopRight.Controls.Add(this.btnRegister);
+            this.pnlTopRight.Controls.Add(this.btnProperties);
             this.pnlTopRight.Controls.Add(this.btnMoveDown);
+            this.pnlTopRight.Controls.Add(this.btnMoveUp);
+            this.pnlTopRight.Controls.Add(this.btnDeactivate);
             this.pnlTopRight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTopRight.Location = new System.Drawing.Point(408, 0);
             this.pnlTopRight.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.pnlTopRight.Name = "pnlTopRight";
             this.pnlTopRight.Size = new System.Drawing.Size(402, 47);
-            this.pnlTopRight.TabIndex = 1;
+            this.pnlTopRight.TabIndex = 0;
             // 
-            // btnProperties
+            // lblActivePlugins
             // 
-            this.btnProperties.Location = new System.Drawing.Point(258, 18);
-            this.btnProperties.Name = "btnProperties";
-            this.btnProperties.Size = new System.Drawing.Size(80, 23);
-            this.btnProperties.TabIndex = 4;
-            this.btnProperties.Text = "Properties";
-            this.btnProperties.UseVisualStyleBackColor = true;
-            this.btnProperties.Click += new System.EventHandler(this.btnProperties_Click);
+            this.lblActivePlugins.AutoSize = true;
+            this.lblActivePlugins.Location = new System.Drawing.Point(-3, 0);
+            this.lblActivePlugins.Name = "lblActivePlugins";
+            this.lblActivePlugins.Size = new System.Drawing.Size(85, 15);
+            this.lblActivePlugins.TabIndex = 0;
+            this.lblActivePlugins.Text = "Active plugins:";
             // 
             // btnRegister
             // 
@@ -187,24 +186,25 @@
             this.btnRegister.UseVisualStyleBackColor = true;
             this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
             // 
-            // lblActivePlugins
+            // btnProperties
             // 
-            this.lblActivePlugins.AutoSize = true;
-            this.lblActivePlugins.Location = new System.Drawing.Point(-3, 0);
-            this.lblActivePlugins.Name = "lblActivePlugins";
-            this.lblActivePlugins.Size = new System.Drawing.Size(85, 15);
-            this.lblActivePlugins.TabIndex = 0;
-            this.lblActivePlugins.Text = "Active plugins:";
+            this.btnProperties.Location = new System.Drawing.Point(258, 18);
+            this.btnProperties.Name = "btnProperties";
+            this.btnProperties.Size = new System.Drawing.Size(80, 23);
+            this.btnProperties.TabIndex = 4;
+            this.btnProperties.Text = "Properties";
+            this.btnProperties.UseVisualStyleBackColor = true;
+            this.btnProperties.Click += new System.EventHandler(this.btnProperties_Click);
             // 
-            // btnDeactivate
+            // btnMoveDown
             // 
-            this.btnDeactivate.Location = new System.Drawing.Point(0, 18);
-            this.btnDeactivate.Name = "btnDeactivate";
-            this.btnDeactivate.Size = new System.Drawing.Size(80, 23);
-            this.btnDeactivate.TabIndex = 1;
-            this.btnDeactivate.Text = "Deactivate";
-            this.btnDeactivate.UseVisualStyleBackColor = true;
-            this.btnDeactivate.Click += new System.EventHandler(this.btnDeactivate_Click);
+            this.btnMoveDown.Location = new System.Drawing.Point(172, 18);
+            this.btnMoveDown.Name = "btnMoveDown";
+            this.btnMoveDown.Size = new System.Drawing.Size(80, 23);
+            this.btnMoveDown.TabIndex = 3;
+            this.btnMoveDown.Text = "Move Down";
+            this.btnMoveDown.UseVisualStyleBackColor = true;
+            this.btnMoveDown.Click += new System.EventHandler(this.btnMoveDown_Click);
             // 
             // btnMoveUp
             // 
@@ -216,15 +216,15 @@
             this.btnMoveUp.UseVisualStyleBackColor = true;
             this.btnMoveUp.Click += new System.EventHandler(this.btnMoveUp_Click);
             // 
-            // btnMoveDown
+            // btnDeactivate
             // 
-            this.btnMoveDown.Location = new System.Drawing.Point(172, 18);
-            this.btnMoveDown.Name = "btnMoveDown";
-            this.btnMoveDown.Size = new System.Drawing.Size(80, 23);
-            this.btnMoveDown.TabIndex = 3;
-            this.btnMoveDown.Text = "Move Down";
-            this.btnMoveDown.UseVisualStyleBackColor = true;
-            this.btnMoveDown.Click += new System.EventHandler(this.btnMoveDown_Click);
+            this.btnDeactivate.Location = new System.Drawing.Point(0, 18);
+            this.btnDeactivate.Name = "btnDeactivate";
+            this.btnDeactivate.Size = new System.Drawing.Size(80, 23);
+            this.btnDeactivate.TabIndex = 1;
+            this.btnDeactivate.Text = "Deactivate";
+            this.btnDeactivate.UseVisualStyleBackColor = true;
+            this.btnDeactivate.Click += new System.EventHandler(this.btnDeactivate_Click);
             // 
             // FrmPlugins
             // 

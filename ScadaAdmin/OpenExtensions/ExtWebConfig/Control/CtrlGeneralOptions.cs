@@ -100,6 +100,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
                 cultures.Add(culture);
             }
 
+            changing = true;
             cbDefaultCulture.DataSource = cultures;
             cbDefaultCulture.DisplayMember = "DisplayInfo";
         }
