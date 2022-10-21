@@ -64,7 +64,7 @@
             this.ctrlDisplayOptions.Name = "ctrlDisplayOptions";
             this.ctrlDisplayOptions.Size = new System.Drawing.Size(550, 200);
             this.ctrlDisplayOptions.TabIndex = 2;
-            this.ctrlDisplayOptions.OptionsChanged += new System.EventHandler(this.ctrlDisplayOptions_OptionsChanged);
+            this.ctrlDisplayOptions.OptionsChanged += new System.EventHandler(this.control_Changed);
             // 
             // ctrlGeneralOptions
             // 
@@ -72,7 +72,7 @@
             this.ctrlGeneralOptions.Name = "ctrlGeneralOptions";
             this.ctrlGeneralOptions.Size = new System.Drawing.Size(550, 250);
             this.ctrlGeneralOptions.TabIndex = 3;
-            this.ctrlGeneralOptions.OptionsChanged += new System.EventHandler(this.ctrlGeneralOptions_OptionsChanged);
+            this.ctrlGeneralOptions.OptionsChanged += new System.EventHandler(this.control_Changed);
             // 
             // ctrlLoginOptions
             // 
@@ -80,7 +80,7 @@
             this.ctrlLoginOptions.Name = "ctrlLoginOptions";
             this.ctrlLoginOptions.Size = new System.Drawing.Size(550, 200);
             this.ctrlLoginOptions.TabIndex = 4;
-            this.ctrlLoginOptions.OptionsChanged += new System.EventHandler(this.ctrlLoginOptions_OptionsChanged);
+            this.ctrlLoginOptions.OptionsChanged += new System.EventHandler(this.control_Changed);
             // 
             // ctrlPluginAssignment
             // 
@@ -88,7 +88,7 @@
             this.ctrlPluginAssignment.Name = "ctrlPluginAssignment";
             this.ctrlPluginAssignment.Size = new System.Drawing.Size(550, 200);
             this.ctrlPluginAssignment.TabIndex = 5;
-            this.ctrlPluginAssignment.OptionsChanged += new System.EventHandler(this.ctrlPluginAssignment_OptionsChanged);
+            this.ctrlPluginAssignment.OptionsChanged += new System.EventHandler(this.control_Changed);
             // 
             // ctrlConnectionOptions
             // 
@@ -96,7 +96,7 @@
             this.ctrlConnectionOptions.Name = "ctrlConnectionOptions";
             this.ctrlConnectionOptions.Size = new System.Drawing.Size(550, 400);
             this.ctrlConnectionOptions.TabIndex = 1;
-            this.ctrlConnectionOptions.OptionsChanged += new System.EventHandler(this.ctrlConnectionOptions_OptionsChanged);
+            this.ctrlConnectionOptions.OptionsChanged += new System.EventHandler(this.control_Changed);
             // 
             // FrmApplicationOptions
             // 

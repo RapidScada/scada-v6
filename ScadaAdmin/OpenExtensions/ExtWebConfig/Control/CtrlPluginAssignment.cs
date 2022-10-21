@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Admin.Project;
 using Scada.Forms;
 using Scada.Web.Config;
 
@@ -14,8 +13,8 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
     /// </summary>
     public partial class CtrlPluginAssignment : UserControl
     {
-        private IAdminContext adminContext;      // the Administrator context
-        private bool changing;                   // controls are being changed programmatically
+        private IAdminContext adminContext; // the Administrator context
+        private bool changing;              // controls are being changed programmatically
 
 
         /// <summary>
@@ -44,19 +43,8 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         public event EventHandler OptionsChanged;
 
 
-        private void CtrlPluginAssignment_Load(object sender, EventArgs e)
-        {
-            FormTranslator.Translate(this, GetType().FullName);
-        }
-
-        private void control_Changed(object sender, EventArgs e)
-        {
-            if (!changing)
-                OnOptionsChanged();
-        }
-        
         /// <summary>
-        /// Fills the combobox by list of the plugins.
+        /// Fills the combo box by the plugins.
         /// </summary>
         private void FillPluginComboBox(ComboBox comboBox)
         {
@@ -121,6 +109,18 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
             pluginAssignment.EventAckFeature = cbEventAckFeature.Text;
             pluginAssignment.UserManagementFeature = cbUserManagementFeature.Text;
             pluginAssignment.NotificationFeature = cbNotificationFeature.Text;
+        }
+
+
+        private void CtrlPluginAssignment_Load(object sender, EventArgs e)
+        {
+            FormTranslator.Translate(this, GetType().FullName);
+        }
+
+        private void control_Changed(object sender, EventArgs e)
+        {
+            if (!changing)
+                OnOptionsChanged();
         }
     }
 }

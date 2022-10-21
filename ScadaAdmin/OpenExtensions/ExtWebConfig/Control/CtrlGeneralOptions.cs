@@ -1,12 +1,11 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Admin.Project;
 using Scada.Forms;
 using Scada.Web.Config;
-using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace Scada.Admin.Extensions.ExtWebConfig.Control
 {
@@ -19,14 +18,19 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         /// <summary>
         /// Reprensents a culture information.
         /// </summary>
-        private class Culture
+        private class CultureItem
         {
-            public string DisplayInfo { get; set; }
             public CultureInfo CultureInfo { get; set; }
-        }       
-        
-        private bool changing;                   // controls are being changed programmatically
-        private List<Culture> cultures;          // the list of culture info 
+            public override string ToString()
+            {
+                return CultureInfo == null
+                    ? ""
+                    : CultureInfo.Name + ", " + CultureInfo.DisplayName;
+            }
+        }
+
+        private bool changing;                  // controls are being changed programmatically
+        //private List<CultureItem> cultureItems; // the list of culture info 
 
 
         /// <summary>
@@ -36,7 +40,6 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         {
             InitializeComponent();
             changing = false;
-            cultures = null;
         }
 
 
@@ -55,15 +58,46 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         public event EventHandler OptionsChanged;
 
 
-        private void CtrlGeneralOptions_Load(object sender, EventArgs e)
+        /// <summary>
+        /// Fills the combo box by time zone.
+        /// </summary>
+        private void FillTimeZoneComboBox()
         {
-            FormTranslator.Translate(this, GetType().FullName);
+            try
+            {
+                cbDefaultTimeZone.BeginUpdate();
+                cbDefaultTimeZone.Items.Clear();
+                
+                foreach (TimeZoneInfo timeZone in TimeZoneInfo.GetSystemTimeZones())
+                {
+                    cbDefaultTimeZone.Items.Add(timeZone);
+                }
+            }
+            finally
+            {
+                cbDefaultTimeZone.EndUpdate();
+            }
         }
 
-        private void control_Changed(object sender, EventArgs e)
+        /// <summary>
+        /// Fills the combo box by culture.
+        /// </summary>
+        private void FillCutureInfoComboBox()
         {
-            if (!changing)
-                OnOptionsChanged();
+            try
+            {
+                cbDefaultCulture.BeginUpdate();
+                cbDefaultCulture.Items.Clear();
+                
+                foreach (CultureInfo cultureInfo in CultureInfo.GetCultures(CultureTypes.SpecificCultures))
+                {
+                    cbDefaultCulture.Items.Add(new CultureItem { CultureInfo = cultureInfo });
+                }
+            }
+            finally
+            {
+                cbDefaultCulture.EndUpdate();
+            }
         }
 
 
@@ -72,32 +106,8 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         /// </summary>
         public void Init()
         {
-            cbDefaultTimeZone.Items.Clear();
-            ReadOnlyCollection<TimeZoneInfo> timeZones = TimeZoneInfo.GetSystemTimeZones();
-
-            foreach (TimeZoneInfo timeZone in timeZones)
-            {
-                cbDefaultTimeZone.Items.Add(timeZone);
-            }
-
-            cbDefaultCulture.Items.Clear();
-
-            cultures = new();
-
-            foreach (CultureInfo cultureInfo in CultureInfo.GetCultures(CultureTypes.SpecificCultures))
-            {
-                Culture culture = new()
-                {
-                    CultureInfo = cultureInfo,
-                    DisplayInfo = cultureInfo.Name + ", " + cultureInfo.DisplayName
-                };
-                
-                cultures.Add(culture);
-            }
-
-            changing = true;
-            cbDefaultCulture.DataSource = cultures;
-            cbDefaultCulture.DisplayMember = "DisplayInfo";
+            FillTimeZoneComboBox();
+            FillCutureInfoComboBox();
         }
 
         /// <summary>
@@ -110,24 +120,23 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
                        
             bool prCulture = false;
 
-            foreach (Culture culture in cultures)
+            foreach (CultureInfo cultureInfo in CultureInfo.GetCultures(CultureTypes.SpecificCultures))
             {
-                if (culture.CultureInfo.Name == generalOptions.DefaultCulture)
+                if (cultureInfo.Name == generalOptions.DefaultCulture)
                 {
-                    cbDefaultCulture.SelectedItem = culture;
+                    cbDefaultCulture.Text = new CultureItem { CultureInfo = cultureInfo }.ToString() ;
                     prCulture = true;
                     break;
                 }
             }
-            
+
             if (!prCulture)
                 cbDefaultCulture.Text = generalOptions.DefaultCulture;
 
 
             bool prTime = false;
-            ReadOnlyCollection<TimeZoneInfo> timeZones = TimeZoneInfo.GetSystemTimeZones();
             
-            foreach (TimeZoneInfo timeZone in timeZones)
+            foreach (TimeZoneInfo timeZone in TimeZoneInfo.GetSystemTimeZones())
             {
                 if (timeZone.Id == generalOptions.DefaultTimeZone)
                 {
@@ -155,8 +164,8 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         {
             ArgumentNullException.ThrowIfNull(generalOptions, nameof(generalOptions));
 
-            generalOptions.DefaultCulture =  ((Culture)cbDefaultCulture.SelectedItem) != null ?
-                ((Culture)cbDefaultCulture.SelectedItem).CultureInfo.Name : cbDefaultCulture.Text;
+            generalOptions.DefaultCulture = ((CultureItem)cbDefaultCulture.SelectedItem) != null ?
+                ((CultureItem)cbDefaultCulture.SelectedItem).CultureInfo.Name : cbDefaultCulture.Text;
 
             generalOptions.DefaultTimeZone = ((TimeZoneInfo)cbDefaultTimeZone.SelectedItem) != null ? 
                 ((TimeZoneInfo)cbDefaultTimeZone.SelectedItem).Id : cbDefaultTimeZone.Text;
@@ -165,6 +174,18 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
             generalOptions.EnableCommands = chkEnableCommands.Checked;
             generalOptions.ShareStats = chkShareStats.Checked;
             generalOptions.MaxLogSize = Convert.ToInt32(numMaxLogSize.Value);
+        }
+
+
+        private void CtrlGeneralOptions_Load(object sender, EventArgs e)
+        {
+            FormTranslator.Translate(this, GetType().FullName);
+        }
+
+        private void control_Changed(object sender, EventArgs e)
+        {
+            if (!changing)
+                OnOptionsChanged();
         }
     }
 }

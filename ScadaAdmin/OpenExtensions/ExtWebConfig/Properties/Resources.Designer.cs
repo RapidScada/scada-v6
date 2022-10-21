@@ -63,9 +63,9 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap application_options {
+        internal static System.Drawing.Bitmap app_options {
             get {
-                object obj = ResourceManager.GetObject("application_options", resourceCulture);
+                object obj = ResourceManager.GetObject("app_options", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

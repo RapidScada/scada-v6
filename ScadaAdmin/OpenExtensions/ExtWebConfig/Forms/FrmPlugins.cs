@@ -204,8 +204,8 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
             }
         }
 
-        // <summary>
-        /// Build the plugin description.
+        /// <summary>
+        /// Builds the plugin description.
         /// </summary>
         private static string BuildPluginDescr(PluginView pluginView)
         {

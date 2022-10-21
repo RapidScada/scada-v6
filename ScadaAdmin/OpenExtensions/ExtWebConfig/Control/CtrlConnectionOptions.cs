@@ -12,7 +12,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
     /// </summary>
     public partial class CtrlConnectionOptions : UserControl
     {
-        private bool changing;                   // controls are being changed programmatically
+        private bool changing; // controls are being changed programmatically
 
 
         /// <summary>
@@ -37,7 +37,20 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         /// <summary>
         /// Occurs when the options change.
         /// </summary>
-        public event EventHandler OptionsChanged;
+        public event EventHandler OptionsChanged;                       
+
+
+        /// <summary>
+        /// Sets the controls according to the options.
+        /// </summary>
+        public void OptionsToControls(ConnectionOptions connectionOptions)
+        {
+            ArgumentNullException.ThrowIfNull(connectionOptions, nameof(connectionOptions));
+
+            changing = true;
+            ctrlClientConnection.ConnectionOptions = connectionOptions;
+            changing = false;
+        }                
 
 
         private void CtrlConnectionOptions_Load(object sender, EventArgs e)
@@ -50,27 +63,6 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         {
             if (!changing)
                 OnOptionsChanged();
-        }
-       
-
-        /// <summary>
-        /// Sets the controls according to the options.
-        /// </summary>
-        public void OptionsToControls(ConnectionOptions connectionOptions)
-        {
-            ArgumentNullException.ThrowIfNull(connectionOptions, nameof(connectionOptions));
-
-            changing = true;
-            ctrlClientConnection.ConnectionOptions = connectionOptions;
-            changing = false;
-        }
-
-        /// <summary>
-        /// Sets the configuration according to the controls.
-        /// </summary>
-        public void ControlsToOptions(ConnectionOptions connectionOptions)
-        {
-            ArgumentNullException.ThrowIfNull(connectionOptions, nameof(connectionOptions));
         }
     }
 }

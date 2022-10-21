@@ -12,7 +12,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
     /// </summary>
     public partial class CtrlDisplayOptions : UserControl
     {
-        private bool changing;                   // controls are being changed programmatically
+        private bool changing; // controls are being changed programmatically
 
 
         /// <summary>
@@ -38,19 +38,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         /// Occurs when the options change.
         /// </summary>
         public event EventHandler OptionsChanged;
-
-
-        private void CtrlDisplayOptions_Load(object sender, EventArgs e)
-        {
-            FormTranslator.Translate(this, GetType().FullName);
-        }
-
-        private void control_Changed(object sender, EventArgs e)
-        {
-            if (!changing)
-                OnOptionsChanged();
-        }
-
+                       
 
         /// <summary>
         /// Sets the controls according to the options.
@@ -79,6 +67,18 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
             displayOptions.ShowMainMenu = chkShowMainMenu.Checked;
             displayOptions.ShowViewExplorer = chkShowViewExplorer.Checked;
             displayOptions.RefreshRate = Convert.ToInt32(numRefreshRate.Value);
+        }
+
+
+        private void CtrlDisplayOptions_Load(object sender, EventArgs e)
+        {
+            FormTranslator.Translate(this, GetType().FullName);
+        }
+
+        private void control_Changed(object sender, EventArgs e)
+        {
+            if (!changing)
+                OnOptionsChanged();
         }
     }
 }

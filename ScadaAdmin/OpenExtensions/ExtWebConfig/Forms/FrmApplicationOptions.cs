@@ -28,7 +28,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmApplicationOptions()
+        private FrmApplicationOptions()
         {
             InitializeComponent();
         }
@@ -62,10 +62,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
         private void ControlsToConfig()
         {
             if (generalOptionsReady)
-                ctrlGeneralOptions.ControlsToOptions(webConfig.GeneralOptions);
-            
-            if (connectionOptionsReady)
-                ctrlConnectionOptions.ControlsToOptions(webConfig.ConnectionOptions);
+                ctrlGeneralOptions.ControlsToOptions(webConfig.GeneralOptions);          
 
             if (loginOptionsReady)
                 ctrlLoginOptions.ControlsToOptions(webConfig.LoginOptions);
@@ -183,27 +180,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
             }
         }
 
-        private void ctrlPluginAssignment_OptionsChanged(object sender, EventArgs e)
-        {
-            ChildFormTag.Modified = true;
-        }
-
-        private void ctrlLoginOptions_OptionsChanged(object sender, EventArgs e)
-        {
-            ChildFormTag.Modified = true;
-        }
-
-        private void ctrlGeneralOptions_OptionsChanged(object sender, EventArgs e)
-        {
-            ChildFormTag.Modified = true;
-        }
-
-        private void ctrlDisplayOptions_OptionsChanged(object sender, EventArgs e)
-        {
-            ChildFormTag.Modified = true;
-        }
-
-        private void ctrlConnectionOptions_OptionsChanged(object sender, EventArgs e)
+        private void control_Changed(object sender, EventArgs e)
         {
             ChildFormTag.Modified = true;
         }

@@ -37,20 +37,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         /// <summary>
         /// Occurs when the options change.
         /// </summary>
-        public event EventHandler OptionsChanged;
-
-
-
-        private void CtrlLoginOptions_Load(object sender, EventArgs e)
-        {
-            FormTranslator.Translate(this, GetType().FullName);
-        }
-
-        private void control_Changed(object sender, EventArgs e)
-        {
-            if (!changing)
-                OnOptionsChanged();
-        }
+        public event EventHandler OptionsChanged;    
 
 
         /// <summary>
@@ -83,6 +70,18 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
             loginOptions.RememberMeExpires = Convert.ToInt32(numRememberMeExpires.Value);
             loginOptions.AutoLoginUsername = txtAutoLoginUsername.Text;
             loginOptions.AutoLoginPassword = txtAutoLoginPassword.Text;
+        }
+
+
+        private void CtrlLoginOptions_Load(object sender, EventArgs e)
+        {
+            FormTranslator.Translate(this, GetType().FullName);
+        }
+
+        private void control_Changed(object sender, EventArgs e)
+        {
+            if (!changing)
+                OnOptionsChanged();
         }
 
         private void chkAllowRememberMe_CheckedChanged(object sender, EventArgs e)
