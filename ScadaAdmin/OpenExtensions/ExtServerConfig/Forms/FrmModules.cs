@@ -209,7 +209,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         }
 
         /// <summary>
-        /// Build the module description.
+        /// Builds the module description.
         /// </summary>
         private static string BuildModuleDescr(ModuleView moduleView)
         {
