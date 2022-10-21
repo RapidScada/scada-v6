@@ -13,8 +13,8 @@ using WinControl;
 namespace Scada.Admin.Extensions.ExtWebConfig.Forms
 {
     /// <summary>
-    /// Represents a form for editing a web config.
-    /// <para>Представляет форму для редактирования настроек web-интерфейса.</para>
+    /// Represents a form for editing a list of plugins.
+    /// <para>Представляет форму для редактирования списка плагинов.</para>
     /// </summary>
     public partial class FrmPlugins : Form, IChildForm
     {
