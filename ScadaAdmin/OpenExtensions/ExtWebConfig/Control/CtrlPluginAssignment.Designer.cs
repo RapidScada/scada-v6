@@ -163,7 +163,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.gbPluginAssignment);
             this.Name = "CtrlPluginAssignment";
-            this.Size = new System.Drawing.Size(550, 550);
+            this.Size = new System.Drawing.Size(550, 200);
             this.Load += new System.EventHandler(this.CtrlPluginAssignment_Load);
             this.gbPluginAssignment.ResumeLayout(false);
             this.gbPluginAssignment.PerformLayout();

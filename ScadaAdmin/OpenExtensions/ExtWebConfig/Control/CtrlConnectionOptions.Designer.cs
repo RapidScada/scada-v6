@@ -39,7 +39,7 @@
             this.ctrlClientConnection.Name = "ctrlClientConnection";
             this.ctrlClientConnection.NameEnabled = false;
             this.ctrlClientConnection.Size = new System.Drawing.Size(487, 366);
-            this.ctrlClientConnection.TabIndex = 4;
+            this.ctrlClientConnection.TabIndex = 0;
             this.ctrlClientConnection.ConnectionOptionsChanged += new System.EventHandler(this.control_Changed);
             // 
             // CtrlConnectionOptions
@@ -48,7 +48,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.ctrlClientConnection);
             this.Name = "CtrlConnectionOptions";
-            this.Size = new System.Drawing.Size(550, 600);
+            this.Size = new System.Drawing.Size(550, 400);
             this.Load += new System.EventHandler(this.CtrlConnectionOptions_Load);
             this.ResumeLayout(false);
 

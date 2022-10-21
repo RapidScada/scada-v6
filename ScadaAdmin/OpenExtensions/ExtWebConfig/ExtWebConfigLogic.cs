@@ -25,8 +25,8 @@ namespace Scada.Admin.Extensions.ExtWebConfig
         {
             private const string ImagePrefix = "web_config_";
             public const string Logs = ImagePrefix + "logs.png";
-            public const string ApplcationOptions = ImagePrefix + "general_options.png";
-            public const string Plugins = ImagePrefix + "driver.png";
+            public const string ApplcationOptions = ImagePrefix + "application_options.png";
+            public const string Plugins = ImagePrefix + "plugin.png";
         }
 
 
@@ -74,6 +74,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig
             }
         }
 
+
         /// <summary>
         /// Loads language dictionaries.
         /// </summary>
@@ -90,8 +91,10 @@ namespace Scada.Admin.Extensions.ExtWebConfig
         /// </summary>
         public override TreeNode[] GetTreeNodes(object relatedObject)
         {
-            return relatedObject is WebApp webApp ? 
-            new TreeNode[]
+            if (relatedObject is not WebApp webApp)
+                return null;
+
+            return new TreeNode[]
             {                
                 new TreeNode(ExtensionPhrases.ApplicationOptionsNode)
                 {
@@ -123,7 +126,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig
                         FormArgs = new object[] { AdminContext, ServiceApp.Web }
                     }
                 }
-            } : null;
+            };
         }
 
         /// <summary>
@@ -134,8 +137,8 @@ namespace Scada.Admin.Extensions.ExtWebConfig
             return new Dictionary<string, Image>
             {
                 { ImageKey.Logs, Resources.logs },
-                { ImageKey.ApplcationOptions, Resources.general_options },
-                { ImageKey.Plugins, Resources.driver }
+                { ImageKey.ApplcationOptions, Resources.application_options },
+                { ImageKey.Plugins, Resources.plugin }
             };
         }
     }

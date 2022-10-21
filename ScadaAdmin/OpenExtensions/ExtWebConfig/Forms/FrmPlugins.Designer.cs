@@ -124,8 +124,8 @@
             // 
             // pnlTopLeft
             // 
-            this.pnlTopLeft.Controls.Add(this.lblUnusedPlugins);
             this.pnlTopLeft.Controls.Add(this.btnActivate);
+            this.pnlTopLeft.Controls.Add(this.lblUnusedPlugins);
             this.pnlTopLeft.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTopLeft.Location = new System.Drawing.Point(0, 0);
             this.pnlTopLeft.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
@@ -154,12 +154,12 @@
             // 
             // pnlTopRight
             // 
-            this.pnlTopRight.Controls.Add(this.lblActivePlugins);
             this.pnlTopRight.Controls.Add(this.btnRegister);
             this.pnlTopRight.Controls.Add(this.btnProperties);
             this.pnlTopRight.Controls.Add(this.btnMoveDown);
             this.pnlTopRight.Controls.Add(this.btnMoveUp);
             this.pnlTopRight.Controls.Add(this.btnDeactivate);
+            this.pnlTopRight.Controls.Add(this.lblActivePlugins);
             this.pnlTopRight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTopRight.Location = new System.Drawing.Point(408, 0);
             this.pnlTopRight.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);

@@ -193,7 +193,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.gbGeneralOptions);
             this.Name = "CtrlGeneralOptions";
-            this.Size = new System.Drawing.Size(550, 550);
+            this.Size = new System.Drawing.Size(550, 250);
             this.Load += new System.EventHandler(this.CtrlGeneralOptions_Load);
             this.gbGeneralOptions.ResumeLayout(false);
             this.gbGeneralOptions.PerformLayout();

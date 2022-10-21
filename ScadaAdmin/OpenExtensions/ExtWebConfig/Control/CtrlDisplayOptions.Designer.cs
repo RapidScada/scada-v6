@@ -154,7 +154,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.gbDisplayOptions);
             this.Name = "CtrlDisplayOptions";
-            this.Size = new System.Drawing.Size(550, 550);
+            this.Size = new System.Drawing.Size(550, 200);
             this.Load += new System.EventHandler(this.CtrlDisplayOptions_Load);
             this.gbDisplayOptions.ResumeLayout(false);
             this.gbDisplayOptions.PerformLayout();

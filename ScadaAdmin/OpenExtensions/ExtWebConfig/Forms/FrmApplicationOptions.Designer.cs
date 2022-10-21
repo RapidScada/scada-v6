@@ -53,7 +53,7 @@
             this.lbTabs.Location = new System.Drawing.Point(0, 0);
             this.lbTabs.Name = "lbTabs";
             this.lbTabs.Size = new System.Drawing.Size(150, 561);
-            this.lbTabs.TabIndex = 1;
+            this.lbTabs.TabIndex = 0;
             this.lbTabs.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lbTabs_DrawItem);
             this.lbTabs.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(this.lbTabs_MeasureItem);
             this.lbTabs.SelectedIndexChanged += new System.EventHandler(this.lbTabs_SelectedIndexChanged);
@@ -62,7 +62,7 @@
             // 
             this.ctrlDisplayOptions.Location = new System.Drawing.Point(159, 12);
             this.ctrlDisplayOptions.Name = "ctrlDisplayOptions";
-            this.ctrlDisplayOptions.Size = new System.Drawing.Size(550, 550);
+            this.ctrlDisplayOptions.Size = new System.Drawing.Size(550, 200);
             this.ctrlDisplayOptions.TabIndex = 2;
             this.ctrlDisplayOptions.OptionsChanged += new System.EventHandler(this.ctrlDisplayOptions_OptionsChanged);
             // 
@@ -70,7 +70,7 @@
             // 
             this.ctrlGeneralOptions.Location = new System.Drawing.Point(159, 12);
             this.ctrlGeneralOptions.Name = "ctrlGeneralOptions";
-            this.ctrlGeneralOptions.Size = new System.Drawing.Size(550, 550);
+            this.ctrlGeneralOptions.Size = new System.Drawing.Size(550, 250);
             this.ctrlGeneralOptions.TabIndex = 3;
             this.ctrlGeneralOptions.OptionsChanged += new System.EventHandler(this.ctrlGeneralOptions_OptionsChanged);
             // 
@@ -78,7 +78,7 @@
             // 
             this.ctrlLoginOptions.Location = new System.Drawing.Point(159, 12);
             this.ctrlLoginOptions.Name = "ctrlLoginOptions";
-            this.ctrlLoginOptions.Size = new System.Drawing.Size(550, 550);
+            this.ctrlLoginOptions.Size = new System.Drawing.Size(550, 200);
             this.ctrlLoginOptions.TabIndex = 4;
             this.ctrlLoginOptions.OptionsChanged += new System.EventHandler(this.ctrlLoginOptions_OptionsChanged);
             // 
@@ -86,7 +86,7 @@
             // 
             this.ctrlPluginAssignment.Location = new System.Drawing.Point(159, 12);
             this.ctrlPluginAssignment.Name = "ctrlPluginAssignment";
-            this.ctrlPluginAssignment.Size = new System.Drawing.Size(550, 550);
+            this.ctrlPluginAssignment.Size = new System.Drawing.Size(550, 200);
             this.ctrlPluginAssignment.TabIndex = 5;
             this.ctrlPluginAssignment.OptionsChanged += new System.EventHandler(this.ctrlPluginAssignment_OptionsChanged);
             // 
@@ -94,8 +94,8 @@
             // 
             this.ctrlConnectionOptions.Location = new System.Drawing.Point(159, 12);
             this.ctrlConnectionOptions.Name = "ctrlConnectionOptions";
-            this.ctrlConnectionOptions.Size = new System.Drawing.Size(550, 550);
-            this.ctrlConnectionOptions.TabIndex = 6;
+            this.ctrlConnectionOptions.Size = new System.Drawing.Size(550, 400);
+            this.ctrlConnectionOptions.TabIndex = 1;
             this.ctrlConnectionOptions.OptionsChanged += new System.EventHandler(this.ctrlConnectionOptions_OptionsChanged);
             // 
             // FrmApplicationOptions

@@ -75,7 +75,7 @@
             // lblAutoLoginPassword
             // 
             this.lblAutoLoginPassword.AutoSize = true;
-            this.lblAutoLoginPassword.Location = new System.Drawing.Point(10, 142);
+            this.lblAutoLoginPassword.Location = new System.Drawing.Point(10, 148);
             this.lblAutoLoginPassword.Name = "lblAutoLoginPassword";
             this.lblAutoLoginPassword.Size = new System.Drawing.Size(162, 15);
             this.lblAutoLoginPassword.TabIndex = 9;
@@ -92,7 +92,7 @@
             // lblAutoLoginUsername
             // 
             this.lblAutoLoginUsername.AutoSize = true;
-            this.lblAutoLoginUsername.Location = new System.Drawing.Point(10, 113);
+            this.lblAutoLoginUsername.Location = new System.Drawing.Point(10, 119);
             this.lblAutoLoginUsername.Name = "lblAutoLoginUsername";
             this.lblAutoLoginUsername.Size = new System.Drawing.Size(165, 15);
             this.lblAutoLoginUsername.TabIndex = 7;
@@ -124,7 +124,7 @@
             // lblRememberMeExpires
             // 
             this.lblRememberMeExpires.AutoSize = true;
-            this.lblRememberMeExpires.Location = new System.Drawing.Point(10, 84);
+            this.lblRememberMeExpires.Location = new System.Drawing.Point(10, 86);
             this.lblRememberMeExpires.Name = "lblRememberMeExpires";
             this.lblRememberMeExpires.Size = new System.Drawing.Size(107, 15);
             this.lblRememberMeExpires.TabIndex = 5;
@@ -174,7 +174,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.gbLoginOptions);
             this.Name = "CtrlLoginOptions";
-            this.Size = new System.Drawing.Size(550, 550);
+            this.Size = new System.Drawing.Size(550, 200);
             this.Load += new System.EventHandler(this.CtrlLoginOptions_Load);
             this.gbLoginOptions.ResumeLayout(false);
             this.gbLoginOptions.PerformLayout();
