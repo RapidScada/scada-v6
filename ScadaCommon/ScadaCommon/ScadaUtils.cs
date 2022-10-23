@@ -78,7 +78,7 @@ namespace Scada
         /// <summary>
         /// Determines that the application is running on .NET Core.
         /// </summary>
-        public static readonly bool IsRunningOnCore = RuntimeInformation.FrameworkDescription.StartsWith(".NET Core");
+        public static readonly bool IsRunningOnCore = RuntimeInformation.FrameworkDescription.StartsWith(".NET");
 
         #region Tables for calculating CRC-16.
         /* Table of CRC values for high–order byte */
