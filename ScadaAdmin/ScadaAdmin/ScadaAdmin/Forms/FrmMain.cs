@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : Administrator
- * Summary  : Main form of the application
+ * Summary  : Represents a main form of the application
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
@@ -52,8 +52,8 @@ using WinControl;
 namespace Scada.Admin.App.Forms
 {
     /// <summary>
-    /// Main form of the application.
-    /// <para>Главная форма приложения.</para>
+    /// Represents a main form of the application.
+    /// <para>Представляет главную форма приложения.</para>
     /// </summary>
     public partial class FrmMain : Form, IMainForm
     {
