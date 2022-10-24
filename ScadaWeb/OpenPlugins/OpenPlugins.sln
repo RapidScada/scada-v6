@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgMain.View", "PlgMain.Vie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlgChart.View", "PlgChart.View\PlgChart.View.csproj", "{CA94CB14-312C-43A9-9B4C-3100A730AC5C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlgScheme.View", "PlgScheme.View\PlgScheme.View.csproj", "{95AE4F73-AC1A-43AF-9101-DA97109E8CD3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{CA94CB14-312C-43A9-9B4C-3100A730AC5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA94CB14-312C-43A9-9B4C-3100A730AC5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA94CB14-312C-43A9-9B4C-3100A730AC5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95AE4F73-AC1A-43AF-9101-DA97109E8CD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95AE4F73-AC1A-43AF-9101-DA97109E8CD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95AE4F73-AC1A-43AF-9101-DA97109E8CD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95AE4F73-AC1A-43AF-9101-DA97109E8CD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -96,6 +102,7 @@ Global
 		{5CA7615F-2ECE-4A9C-B78E-CCB0FD21B76D} = {00E81568-B4A8-4226-B454-2FDBA389CDC8}
 		{BC82E795-5707-4EDE-B4E8-20A2995E3AA7} = {00E81568-B4A8-4226-B454-2FDBA389CDC8}
 		{CA94CB14-312C-43A9-9B4C-3100A730AC5C} = {DABBA5AD-314E-4424-AA5B-C57D60C4E581}
+		{95AE4F73-AC1A-43AF-9101-DA97109E8CD3} = {1C746D2E-749E-408B-A180-63AD78EFFAFC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {19C6959B-66D1-4335-AA8A-0E2F23894099}
