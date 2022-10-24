@@ -73,7 +73,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             {
                 lbDrivers.BeginUpdate();
                 lbDrivers.Items.Clear();
-                DirectoryInfo dirInfo = new(adminContext.AppDirs.LibDir); 
+                DirectoryInfo dirInfo = new(adminContext.AppDirs.LibDir);
 
                 if (dirInfo.Exists)
                 {
