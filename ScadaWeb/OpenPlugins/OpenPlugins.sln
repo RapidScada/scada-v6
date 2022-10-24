@@ -27,7 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgWebPage", "PlgWebPage\Pl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgMain.Report", "PlgMain.Report\PlgMain.Report.csproj", "{5CA7615F-2ECE-4A9C-B78E-CCB0FD21B76D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlgMain.View", "PlgMain.View\PlgMain.View.csproj", "{BC82E795-5707-4EDE-B4E8-20A2995E3AA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgMain.View", "PlgMain.View\PlgMain.View.csproj", "{BC82E795-5707-4EDE-B4E8-20A2995E3AA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlgChart.View", "PlgChart.View\PlgChart.View.csproj", "{CA94CB14-312C-43A9-9B4C-3100A730AC5C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{BC82E795-5707-4EDE-B4E8-20A2995E3AA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC82E795-5707-4EDE-B4E8-20A2995E3AA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC82E795-5707-4EDE-B4E8-20A2995E3AA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA94CB14-312C-43A9-9B4C-3100A730AC5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA94CB14-312C-43A9-9B4C-3100A730AC5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA94CB14-312C-43A9-9B4C-3100A730AC5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA94CB14-312C-43A9-9B4C-3100A730AC5C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,6 +95,7 @@ Global
 		{FD3DEB6D-C6D7-4654-BB5C-B8BC0C97B4AC} = {1C746D2E-749E-408B-A180-63AD78EFFAFC}
 		{5CA7615F-2ECE-4A9C-B78E-CCB0FD21B76D} = {00E81568-B4A8-4226-B454-2FDBA389CDC8}
 		{BC82E795-5707-4EDE-B4E8-20A2995E3AA7} = {00E81568-B4A8-4226-B454-2FDBA389CDC8}
+		{CA94CB14-312C-43A9-9B4C-3100A730AC5C} = {DABBA5AD-314E-4424-AA5B-C57D60C4E581}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {19C6959B-66D1-4335-AA8A-0E2F23894099}
