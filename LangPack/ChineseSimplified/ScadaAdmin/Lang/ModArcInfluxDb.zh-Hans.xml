@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModArcInfluxDblDictionaries culture="zh-Hans" lang="ChineseSimplified">
+  <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmConnManager">
+    <Phrase key="this">InfluxDB Connections</Phrase>
+    <Phrase key="gbConnList">Connections</Phrase>
+    <Phrase key="btnNewConn">New</Phrase>
+    <Phrase key="btnDeleteConn">Delete</Phrase>
+    <Phrase key="gbOptions">Connections Options</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblUrl">URL</Phrase>
+    <Phrase key="lblToken">Token</Phrase>
+    <Phrase key="lblUsername">Username</Phrase>
+    <Phrase key="lblPassword">Password</Phrase>
+    <Phrase key="lblBucket">Bucket</Phrase>
+    <Phrase key="lblOrg">Organization</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>  
+  <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmInfluxHAO">
+    <Phrase key="this">Historical Archive Options</Phrase>
+    <Phrase key="gbDbOptions">Database Options</Phrase>    
+    <Phrase key="lblConnection">Connection</Phrase>
+    <Phrase key="btnManageConn">Manage Connections</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
+</ModArcInfluxDblDictionaries> 

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvEmailDictionaries culture="zh-Hans" lang="ChineseSimplified">
+  <Dictionary key="Scada.Comm.Drivers.DrvEmail.View.Forms.FrmConfig">
+    <Phrase key="this">配置电子邮件 - 设备 {0}</Phrase>
+    <Phrase key="gbServer">SMTP服务器</Phrase>
+    <Phrase key="lblHost">服务器主机</Phrase>
+    <Phrase key="lblPort">端口</Phrase>
+    <Phrase key="lblUsername">用户名</Phrase>
+    <Phrase key="lblPassword">密码</Phrase>
+    <Phrase key="chkEnableSsl">使用 SSL</Phrase>
+    <Phrase key="gbSender">发件人</Phrase>
+    <Phrase key="lblSenderAddress">发件人地址</Phrase>
+    <Phrase key="lblSenderDisplayName">用户显示名称</Phrase>
+    <Phrase key="btnAddressBook">通讯录</Phrase>
+    <Phrase key="btnOK">确定</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+  </Dictionary>
+</DrvEmailDictionaries>
