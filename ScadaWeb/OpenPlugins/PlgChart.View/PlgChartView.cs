@@ -3,13 +3,13 @@
 
 using Scada.Lang;
 
-namespace Scada.Web.Plugins.PlgMain.View
+namespace Scada.Web.Plugins.PlgChart.View
 {
     /// <summary>
     /// Implements the plugin user interface for the Administrator application.
     /// <para>Реализует пользовательский интерфейс плагина для приложения Администратор.</para>
     /// </summary>
-    public class PlgMainView : PluginView
+    public class PlgChartView : PluginView
     {
         /// <summary>
         /// Gets the module name.
@@ -19,8 +19,8 @@ namespace Scada.Web.Plugins.PlgMain.View
             get
             {
                 return Locale.IsRussian ?
-                    "Основной плагин" :
-                    "Main Plugin";
+                    "Графики" :
+                    "Chart";
             }
         }
 
@@ -32,10 +32,8 @@ namespace Scada.Web.Plugins.PlgMain.View
             get
             {
                 return Locale.IsRussian ?
-                    "Плагин реализует табличное представление, отправку команд, отображение и квитирование событий, " +
-                    "отчёты по историческим данным и событиям." :
-                    "The plugin implements a table view, sending commands, displaying and acknowledging events, " + 
-                    "reports on historical data and events.";
+                    "Плагин обеспечивает отображение графиков." :
+                    "The plugin provides displaying charts.";
             }
         }
     }

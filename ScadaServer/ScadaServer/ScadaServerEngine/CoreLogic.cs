@@ -1103,20 +1103,9 @@ namespace Scada.Server.Engine
                     serviceStatus = ServiceStatus.Terminating;
 
                     if (thread.Join(ScadaUtils.ThreadWait))
-                    {
                         Log.WriteAction(CommonPhrases.LogicStopped);
-                    }
-                    else if (ScadaUtils.IsRunningOnCore)
-                    {
-                        Log.WriteAction(CommonPhrases.UnableToStopLogic);
-                    }
                     else
-                    {
-                        thread.Abort(); // not supported on .NET Core
-                        Log.WriteAction(Locale.IsRussian ?
-                            "Обработка логики прервана" :
-                            "Logic processing is aborted");
-                    }
+                        Log.WriteAction(CommonPhrases.UnableToStopLogic);
 
                     thread = null;
                 }

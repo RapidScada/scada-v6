@@ -9,6 +9,7 @@
     <MaxLogSize>1</MaxLogSize>
   </GeneralOptions>
   <ConnectionOptions>
+    <Name>Default Connection</Name>
     <Host>localhost</Host>
     <Port>10000</Port>
     <Username>ScadaWeb</Username>
