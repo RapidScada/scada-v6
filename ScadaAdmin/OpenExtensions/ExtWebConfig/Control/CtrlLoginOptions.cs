@@ -12,7 +12,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
     /// </summary>
     public partial class CtrlLoginOptions : UserControl
     {
-        private bool changing;                   // controls are being changed programmatically
+        private bool changing; // controls are being changed programmatically
 
 
         /// <summary>
@@ -32,12 +32,6 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         {
             OptionsChanged?.Invoke(this, EventArgs.Empty);
         }
-
-
-        /// <summary>
-        /// Occurs when the options change.
-        /// </summary>
-        public event EventHandler OptionsChanged;    
 
 
         /// <summary>
@@ -71,6 +65,12 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
             loginOptions.AutoLoginUsername = txtAutoLoginUsername.Text;
             loginOptions.AutoLoginPassword = txtAutoLoginPassword.Text;
         }
+
+
+        /// <summary>
+        /// Occurs when the options change.
+        /// </summary>
+        public event EventHandler OptionsChanged;
 
 
         private void CtrlLoginOptions_Load(object sender, EventArgs e)

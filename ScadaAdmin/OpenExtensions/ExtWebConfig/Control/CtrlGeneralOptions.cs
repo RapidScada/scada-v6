@@ -3,14 +3,12 @@
 
 using Scada.Forms;
 using Scada.Web.Config;
-using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Text.RegularExpressions;
 
 namespace Scada.Admin.Extensions.ExtWebConfig.Control
 {
     /// <summary>
-    /// Represents a control for editing general line options.
+    /// Represents a control for editing general options.
     /// <para>Представляет элемент управления для редактирования основных параметров.</para>
     /// </summary>
     public partial class CtrlGeneralOptions : UserControl
@@ -29,8 +27,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
             }
         }
 
-        private bool changing;                  // controls are being changed programmatically
-        //private List<CultureItem> cultureItems; // the list of culture info 
+        private bool changing; // controls are being changed programmatically
 
 
         /// <summary>
@@ -50,12 +47,6 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         {
             OptionsChanged?.Invoke(this, EventArgs.Empty);
         }
-
-
-        /// <summary>
-        /// Occurs when the options change.
-        /// </summary>
-        public event EventHandler OptionsChanged;
 
 
         /// <summary>
@@ -80,7 +71,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         }
 
         /// <summary>
-        /// Fills the combo box by culture.
+        /// Fills the combo box by culture info .
         /// </summary>
         private void FillCutureInfoComboBox()
         {
@@ -118,35 +109,34 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
             ArgumentNullException.ThrowIfNull(generalOptions, nameof(generalOptions));
             changing = true;
                        
-            bool prCulture = false;
+            bool cultureFound = false;
 
             foreach (CultureInfo cultureInfo in CultureInfo.GetCultures(CultureTypes.SpecificCultures))
             {
                 if (cultureInfo.Name == generalOptions.DefaultCulture)
                 {
                     cbDefaultCulture.Text = new CultureItem { CultureInfo = cultureInfo }.ToString() ;
-                    prCulture = true;
+                    cultureFound = true;
                     break;
                 }
             }
 
-            if (!prCulture)
+            if (!cultureFound)
                 cbDefaultCulture.Text = generalOptions.DefaultCulture;
 
-
-            bool prTime = false;
+            bool timeFound = false;
             
             foreach (TimeZoneInfo timeZone in TimeZoneInfo.GetSystemTimeZones())
             {
                 if (timeZone.Id == generalOptions.DefaultTimeZone)
                 {
                     cbDefaultTimeZone.SelectedItem = timeZone;
-                    prTime = true;
+                    timeFound = true;
                     break;
                 }
             }
 
-            if (!prTime)
+            if (!timeFound)
                 cbDefaultTimeZone.Text = generalOptions.DefaultTimeZone;
 
             txtDefaultStartPage.Text = generalOptions.DefaultStartPage;
@@ -164,17 +154,23 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         {
             ArgumentNullException.ThrowIfNull(generalOptions, nameof(generalOptions));
 
-            generalOptions.DefaultCulture = ((CultureItem)cbDefaultCulture.SelectedItem) != null ?
-                ((CultureItem)cbDefaultCulture.SelectedItem).CultureInfo.Name : cbDefaultCulture.Text;
+            generalOptions.DefaultCulture = cbDefaultCulture.SelectedItem is CultureItem cultureItem ?
+                cultureItem.CultureInfo.Name : cbDefaultCulture.Text;
 
-            generalOptions.DefaultTimeZone = ((TimeZoneInfo)cbDefaultTimeZone.SelectedItem) != null ? 
-                ((TimeZoneInfo)cbDefaultTimeZone.SelectedItem).Id : cbDefaultTimeZone.Text;
-          
+            generalOptions.DefaultTimeZone = cbDefaultTimeZone.SelectedItem is TimeZoneInfo timeZoneInfo ?
+                 timeZoneInfo.Id : cbDefaultTimeZone.Text;
+            
             generalOptions.DefaultStartPage = txtDefaultStartPage.Text;
             generalOptions.EnableCommands = chkEnableCommands.Checked;
             generalOptions.ShareStats = chkShareStats.Checked;
             generalOptions.MaxLogSize = Convert.ToInt32(numMaxLogSize.Value);
         }
+
+
+        /// <summary>
+        /// Occurs when the options change.
+        /// </summary>
+        public event EventHandler OptionsChanged;
 
 
         private void CtrlGeneralOptions_Load(object sender, EventArgs e)

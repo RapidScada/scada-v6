@@ -32,12 +32,6 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         {
             OptionsChanged?.Invoke(this, EventArgs.Empty);
         }
-
-
-        /// <summary>
-        /// Occurs when the options change.
-        /// </summary>
-        public event EventHandler OptionsChanged;
                        
 
         /// <summary>
@@ -68,6 +62,12 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
             displayOptions.ShowViewExplorer = chkShowViewExplorer.Checked;
             displayOptions.RefreshRate = Convert.ToInt32(numRefreshRate.Value);
         }
+
+
+        /// <summary>
+        /// Occurs when the options change.
+        /// </summary>
+        public event EventHandler OptionsChanged;
 
 
         private void CtrlDisplayOptions_Load(object sender, EventArgs e)

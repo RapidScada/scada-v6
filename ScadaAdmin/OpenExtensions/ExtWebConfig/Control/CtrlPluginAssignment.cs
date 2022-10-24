@@ -38,12 +38,6 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
 
 
         /// <summary>
-        /// Occurs when the options change.
-        /// </summary>
-        public event EventHandler OptionsChanged;
-
-
-        /// <summary>
         /// Fills the combo box by the plugins.
         /// </summary>
         private void FillPluginComboBox(ComboBox comboBox)
@@ -110,6 +104,12 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
             pluginAssignment.UserManagementFeature = cbUserManagementFeature.Text;
             pluginAssignment.NotificationFeature = cbNotificationFeature.Text;
         }
+
+
+        /// <summary>
+        /// Occurs when the options change.
+        /// </summary>
+        public event EventHandler OptionsChanged;
 
 
         private void CtrlPluginAssignment_Load(object sender, EventArgs e)

@@ -18,6 +18,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
         private readonly IAdminContext adminContext; // the Administrator context
         private readonly WebApp webApp;              // the web application in a project
         private readonly WebConfig webConfig;        // the web configuration
+
         private bool generalOptionsReady;            // the general options control is displaying actual options
         private bool connectionOptionsReady;         // the connection options control is displaying actual options
         private bool loginOptionsReady;              // the login options control is displaying actual options
@@ -42,6 +43,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.webApp = webApp ?? throw new ArgumentNullException(nameof(webApp));
             webConfig = webApp.AppConfig;
+
             generalOptionsReady = false;
             connectionOptionsReady = false;
             loginOptionsReady = false;

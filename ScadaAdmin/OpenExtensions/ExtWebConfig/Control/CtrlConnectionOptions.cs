@@ -33,13 +33,6 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
             OptionsChanged?.Invoke(this, EventArgs.Empty);
         }
 
-
-        /// <summary>
-        /// Occurs when the options change.
-        /// </summary>
-        public event EventHandler OptionsChanged;                       
-
-
         /// <summary>
         /// Sets the controls according to the options.
         /// </summary>
@@ -50,7 +43,13 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
             changing = true;
             ctrlClientConnection.ConnectionOptions = connectionOptions;
             changing = false;
-        }                
+        }
+
+
+        /// <summary>
+        /// Occurs when the options change.
+        /// </summary>
+        public event EventHandler OptionsChanged;
 
 
         private void CtrlConnectionOptions_Load(object sender, EventArgs e)
