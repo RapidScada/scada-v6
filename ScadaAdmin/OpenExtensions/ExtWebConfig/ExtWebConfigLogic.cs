@@ -24,8 +24,8 @@ namespace Scada.Admin.Extensions.ExtWebConfig
         private static class ImageKey
         {
             private const string ImagePrefix = "web_config_";
-            public const string Logs = ImagePrefix + "logs.png";
             public const string ApplcationOptions = ImagePrefix + "app_options.png";
+            public const string Logs = ImagePrefix + "logs.png";
             public const string Plugins = ImagePrefix + "plugin.png";
         }
 
@@ -136,8 +136,8 @@ namespace Scada.Admin.Extensions.ExtWebConfig
         {
             return new Dictionary<string, Image>
             {
-                { ImageKey.Logs, Resources.logs },
                 { ImageKey.ApplcationOptions, Resources.app_options },
+                { ImageKey.Logs, Resources.logs },
                 { ImageKey.Plugins, Resources.plugin }
             };
         }
