@@ -96,7 +96,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             {
                 lbDrivers.EndUpdate();
             }
-        } 
+        }
 
         /// <summary>
         /// Initializes the driver item if needed.
@@ -115,7 +115,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                 }
                 else
                 {
-                    driverItem.Descr = message; 
+                    driverItem.Descr = message;
                     driverItem.DriverView = null;
                 }
             }
