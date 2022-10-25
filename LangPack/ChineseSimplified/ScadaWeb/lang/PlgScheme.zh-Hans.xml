@@ -2,20 +2,20 @@
 <PlgSchemeDictionaries culture="zh-Hans" lang="ChineseSimplified">
   <Dictionary key="Scada.Web.Plugins.PlgScheme.Areas.Scheme.Pages.SchemeView">
     <Phrase key="SchemeViewTitle">Scheme {0}</Phrase>
-    <Phrase key="spanFitScreenBtn_ToolTip">Fit to Screen</Phrase>
-    <Phrase key="spanFitWidthBtn_ToolTip">Fit to Width</Phrase>
-    <Phrase key="spanZoomOutBtn_ToolTip">Zoom Out</Phrase>
-    <Phrase key="spanZoomInBtn_ToolTip">Zoom In</Phrase>
-    <Phrase key="spanErrorBadge">Error</Phrase>
+    <Phrase key="spanFitScreenBtn_ToolTip">充满屏幕</Phrase>
+    <Phrase key="spanFitWidthBtn_ToolTip">横向拉伸</Phrase>
+    <Phrase key="spanZoomOutBtn_ToolTip">缩小</Phrase>
+    <Phrase key="spanZoomInBtn_ToolTip">放大</Phrase>
+    <Phrase key="spanErrorBadge">错误</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgScheme.Template.TemplateBindings">
-    <Phrase key="LoadTemplateBindingsError">Error loading scheme template bindings</Phrase>
-    <Phrase key="SaveTemplateBindingsError">Error saving scheme template bindings</Phrase>
+    <Phrase key="LoadTemplateBindingsError">加载scheme模板绑定信息时发生错误</Phrase>
+    <Phrase key="SaveTemplateBindingsError">保存scheme模板绑定信息时发生错误</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgScheme.CompManager">
-    <Phrase key="UnknownComponent">Unknown component {0}</Phrase>
-    <Phrase key="CompLibraryNotFound">No library found for component {0}</Phrase>
-    <Phrase key="UnableCreateComponent">Unable to create component {0}</Phrase>
-    <Phrase key="ErrorCreatingComponent">Error creating component {0}</Phrase>
+    <Phrase key="UnknownComponent">未知组件 {0}</Phrase>
+    <Phrase key="CompLibraryNotFound">未发现组件 {0} 的类库</Phrase>
+    <Phrase key="UnableCreateComponent">无法创建组件 {0}</Phrase>
+    <Phrase key="ErrorCreatingComponent">创建组件 {0} 时发生错误</Phrase>
   </Dictionary>
 </PlgSchemeDictionaries>
