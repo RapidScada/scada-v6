@@ -3,7 +3,7 @@ Description=Rapid SCADA Webstation
 
 [Service]
 WorkingDirectory=/opt/scada/ScadaWeb
-ExecStart=/usr/bin/dotnet /opt/scada/ScadaWeb/ScadaWeb.dll
+ExecStart=/usr/bin/dotnet /opt/scada/ScadaWeb/ScadaWeb.dll --urls=http://0.0.0.0:10080
 Restart=always
 RestartSec=10
 KillSignal=SIGINT
