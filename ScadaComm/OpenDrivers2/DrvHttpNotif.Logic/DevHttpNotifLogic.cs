@@ -450,21 +450,18 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
                     args = GetRequestArgs(cmd);
                 }
 
-                if (cmdCode != "" && args != null)
+                if (cmdCode != "" && args != null && CreateRequest(args, out HttpRequestMessage request))
                 {
-                    if (CreateRequest(args, out HttpRequestMessage request))
+                    int tryNum = 0;
+
+                    while (RequestNeeded(ref tryNum))
                     {
-                        int tryNum = 0;
-
-                        while (RequestNeeded(ref tryNum))
-                        {
-                            LastRequestOK = SendNotification(request, cmdCode);
-                            FinishRequest();
-                            tryNum++;
-                        }
-
-                        request.Dispose();
+                        LastRequestOK = SendNotification(request, cmdCode);
+                        FinishRequest();
+                        tryNum++;
                     }
+
+                    request.Dispose();
                 }
                 else
                 {
