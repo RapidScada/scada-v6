@@ -352,8 +352,16 @@ namespace Scada.Comm.Drivers.DrvEmail.Logic
 
                 if (cmdCode != "" && TryGetMessage(cmd, withAttachments, out MailMessage message))
                 {
-                    LastRequestOK = SendMessage(message, cmdCode);
-                    FinishRequest();
+                    int tryNum = 0;
+
+                    while (RequestNeeded(ref tryNum))
+                    {
+                        LastRequestOK = SendMessage(message, cmdCode);
+                        FinishRequest();
+                        tryNum++;
+                    }
+
+                    message.Dispose();
                 }
                 else
                 {
