@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
         <div class="container-xxl">
             <a class="navbar-brand mb-0 h1" href="#">Rapid SCADA Docs</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,28 +16,15 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">v6.0</a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item active" href="#">v6.0</a></li>
+                            <li><a class="dropdown-item" href="#">v5.8</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled">Disabled</a>
-                    </li>
                     <li class="nav-item d-lg-none">
-                        <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasResponsive">Table of contents</a>
+                        <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#divTableOfContents">Table of contents</a>
                     </li>
                 </ul>
                 <form class="d-flex" role="search">
@@ -48,19 +35,29 @@
         </div>
     </nav>
 
-    <div class="container-xxl">
-        <button class="btn btn-primary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasResponsive">Toggle offcanvas</button>
-        <div class="alert alert-info d-none d-lg-block">Resize your browser to show the responsive offcanvas toggle.</div>
-
+    <div class="container-xxl mt-3">
         <div class="row">
             <div class="col-lg-2">
-                <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="offcanvasResponsive">
+                <div id="divTableOfContents" class="offcanvas-lg offcanvas-start" tabindex="-1">
                     <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">Responsive offcanvas</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive"></button>
+                        <h5 class="offcanvas-title">Table of contents</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#divTableOfContents"></button>
                     </div>
                     <div class="offcanvas-body">
-                        <p class="mb-0">This is content within an <code>.offcanvas-lg</code>.</p>
+                        <!-- Table of contents -->
+                        <nav>
+                            <ul>
+                                <li>
+                                    <div>Software overview</div>
+                                    <ul>
+                                        <li><a href="#">Introduction</a></li>
+                                        <li><a href="#">Line</a></li>
+                                        <li><a href="#">Line</a></li>
+                                        <li><a href="#">Line</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>
