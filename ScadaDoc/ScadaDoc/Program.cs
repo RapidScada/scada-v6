@@ -1,14 +1,25 @@
-namespace ScadaDoc
+namespace Scada.Doc
 {
     public class Program
     {
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services
+                .AddRazorPages();
+
             var app = builder.Build();
+            app.UseForwardedHeaders();
+            app.UsePathBase(builder.Configuration["pathBase"]);
 
-            app.MapGet("/", () => "Hello World!");
+            if (app.Environment.IsDevelopment())
+                app.UseDeveloperExceptionPage();
+            else
+                app.UseHsts();
 
+            app.UseStaticFiles();
+            app.UseRouting();
+            app.MapRazorPages();
             app.Run();
         }
     }
