@@ -1,3 +1,5 @@
+using Scada.Doc.Code;
+
 namespace Scada.Doc
 {
     public class Program
@@ -6,6 +8,7 @@ namespace Scada.Doc
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services
+                .AddSingleton(typeof(TocManager))
                 .AddRazorPages();
 
             var app = builder.Build();

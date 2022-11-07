@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TableOfContents>
+  <Item>
+    <Text>Software Overview</Text>
+    <Subitems>
+      <Item>
+        <Text>Software Purpose and Characteristics</Text>
+        <Url>/en/5.8/software-overview/software-purpose</Url>
+      </Item>
+      <Item>
+        <Text>Software Architecture</Text>
+        <Url>/en/5.8/software-overview/software-architecture</Url>
+      </Item>
+      <Item>
+        <Text></Text>
+        <Url></Url>
+      </Item>
+    </Subitems>
+  </Item>
+</TableOfContents>

@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@inject TocManager tocManager
+@{
+    var toc = tocManager.GetToc(Context.Request.Path);
+    var tocRenderer = new TocRenderer(Url);
+}
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -44,20 +50,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#divTableOfContents"></button>
                     </div>
                     <div class="offcanvas-body">
-                        <!-- Table of contents -->
-                        <nav>
-                            <ul>
-                                <li>
-                                    <div>Software overview</div>
-                                    <ul>
-                                        <li><a href="#">Introduction</a></li>
-                                        <li><a href="#">Line</a></li>
-                                        <li><a href="#">Line</a></li>
-                                        <li><a href="#">Line</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </nav>
+                        @tocRenderer.RenderHtml(toc)
                     </div>
                 </div>
             </div>
