@@ -34,11 +34,14 @@ namespace Scada.Doc.Code
             item.Text = itemNode.GetChildAsString("Text");
             item.Url = itemNode.GetChildAsString("Url");
 
-            foreach (XmlNode subitemNode in itemNode.SelectNodes("Item"))
+            if (itemNode.SelectSingleNode("Subitems") is XmlNode subitemsNode)
             {
-                TocItem subitem = new();
-                LoadItem(subitem, subitemNode);
-                item.Subitems.Add(subitem);
+                foreach (XmlNode subitemNode in subitemsNode.SelectNodes("Item"))
+                {
+                    TocItem subitem = new();
+                    LoadItem(subitem, subitemNode);
+                    item.Subitems.Add(subitem);
+                }
             }
         }
 

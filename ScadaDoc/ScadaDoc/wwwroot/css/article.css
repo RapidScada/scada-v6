@@ -1,0 +1,40 @@
+﻿.doc-contents {
+  color: #6c757d;
+}
+.doc-contents div.item-text {
+  border-radius: 0.375rem;
+  display: inline-block;
+  padding: 3px 8px;
+}
+.doc-contents div.item-text.active {
+  background-color: #0d6efd;
+  color: #f8f9fa;
+  font-weight: 600;
+}
+.doc-contents div.item-text.active a {
+  color: #f8f9fa;
+}
+.doc-contents ul {
+  list-style: none;
+  padding-left: 0;
+}
+.doc-contents ul ul {
+  padding-left: 1rem;
+}
+.doc-contents ul ul ul {
+  padding-left: 2rem;
+}
+.doc-contents li a {
+  color: #6c757d;
+  text-decoration: none;
+}
+.doc-contents li a:hover {
+  text-decoration: underline;
+}
+.doc-contents hr {
+  margin: 0.5rem 0;
+}
+
+.doc-article .doc-contents {
+  margin-left: 1rem;
+}

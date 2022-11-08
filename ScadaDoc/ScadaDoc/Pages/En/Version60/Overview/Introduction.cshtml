@@ -1,30 +1,25 @@
 ﻿@page "/en/6.0/overview/introduction"
-@model IntroductionModel
 @{
     Layout = "_ArticleLayout";
     ViewBag.Title = "Introduction";
 }
 
-<div>
-    <div class="float-lg-end text-muted">
-        <div class="h6">On this page</div>
-        <hr class="d-none d-lg-block my-2">
-        <nav>
+<nav class="doc-contents float-lg-end">
+    <div class="h6">On this page</div>
+    <hr class="d-none d-lg-block">
+    <ul>
+        <li><a href="#how-they-work">How they work</a></li>
+        <li>
+            <a href="#alignment">Alignment</a>
             <ul>
-                <li><a href="#how-they-work">How they work</a></li>
-                <li>
-                    <a href="#alignment">Alignment</a>
-                    <ul>
-                        <li><a href="#vertical-alignment">Vertical alignment</a></li>
-                        <li><a href="#horizontal-alignment">Horizontal alignment</a></li>
-                        <li><a href="#column-wrapping">Column wrapping</a></li>
-                        <li><a href="#column-breaks">Column breaks</a></li>
-                    </ul>
-                </li>
+                <li><a href="#vertical-alignment">Vertical alignment</a></li>
+                <li><a href="#horizontal-alignment">Horizontal alignment</a></li>
+                <li><a href="#column-wrapping">Column wrapping</a></li>
+                <li><a href="#column-breaks">Column breaks</a></li>
             </ul>
-        </nav>
-    </div>
+        </li>
+    </ul>
+</nav>
 
-    <h1>Introduction</h1>
-    Rapid SCADA is a software that automatically collects data communicating with controllers, processes data and provides information to a dispatcher. Rapid SCADA supports commonly used communication standards such as Modbus protocol and OPC that allow using a huge amount of various devices. The list of supported devices can be extended by developing additional drivers.
-</div>
+<h1>Introduction</h1>
+Rapid SCADA is a software that automatically collects data communicating with controllers, processes data and provides information to a dispatcher. Rapid SCADA supports commonly used communication standards such as Modbus protocol and OPC that allow using a huge amount of various devices. The list of supported devices can be extended by developing additional drivers.
