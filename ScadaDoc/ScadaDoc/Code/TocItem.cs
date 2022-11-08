@@ -12,16 +12,16 @@ namespace Scada.Doc.Code
         /// <summary>
         /// Gets or sets the item text.
         /// </summary>
-        public string Text { get; set; }
+        public string Text { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the article URL.
         /// </summary>
-        public string Url { get; set; }
+        public string Url { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the subitems.
         /// </summary>
-        public List<TocItem> Subitems { get; set; }
+        public List<TocItem> Subitems { get; } = new();
     }
 }
