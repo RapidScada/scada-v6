@@ -32,7 +32,7 @@
                         </ul>
                     </li>
                     <li class="nav-item d-lg-none">
-                        <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#divTableOfContents">Table of contents</a>
+                        <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#divToc">Table of contents</a>
                     </li>
                 </ul>
                 <form class="d-flex" role="search">
@@ -43,23 +43,21 @@
         </div>
     </nav>
 
-    <div class="container-xxl mt-3">
-        <div class="row">
-            <div class="col-lg-2">
-                <div id="divTableOfContents" class="offcanvas-lg offcanvas-start" tabindex="-1">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title">Table of contents</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#divTableOfContents"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        @tocRenderer.RenderHtml(toc)
-                    </div>
+    <div id="divLayout" class="container-xxl mt-3">
+        <div id="divTocWrapper">
+            <div id="divToc" class="offcanvas-lg offcanvas-start" tabindex="-1">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title">Table of contents</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#divToc"></button>
+                </div>
+                <div class="offcanvas-body">
+                    @tocRenderer.RenderHtml(toc)
                 </div>
             </div>
-            <div class="col-lg-10 doc-article">
-                @RenderBody()
-            </div>
         </div>
+        <main class="doc-article">
+            @RenderBody()
+        </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 </body>

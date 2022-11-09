@@ -78,7 +78,7 @@ namespace Scada.Doc.Code
         public HtmlString RenderHtml(Toc toc)
         {
             StringBuilder sbHtml = new();
-            sbHtml.AppendLine("<nav class=\"doc-contents\">");
+            sbHtml.AppendLine("<nav class=\"doc-toc\">");
 
             if (toc != null && toc.Items.Count > 0)
             {

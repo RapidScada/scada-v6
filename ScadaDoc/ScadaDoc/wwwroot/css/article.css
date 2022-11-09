@@ -1,40 +1,68 @@
-﻿.doc-contents {
+﻿.doc-toc {
   color: #6c757d;
+  max-width: 100%;
 }
-.doc-contents div.item-text {
+.doc-toc div.item-text {
   border-radius: 0.375rem;
   display: inline-block;
   padding: 3px 8px;
 }
-.doc-contents div.item-text.active {
+.doc-toc div.item-text.active {
   background-color: #0d6efd;
   color: #f8f9fa;
   font-weight: 600;
 }
-.doc-contents div.item-text.active a {
+.doc-toc div.item-text.active a {
   color: #f8f9fa;
 }
-.doc-contents ul {
+.doc-toc ul {
   list-style: none;
   padding-left: 0;
 }
-.doc-contents ul ul {
+.doc-toc ul ul {
   padding-left: 1rem;
 }
-.doc-contents ul ul ul {
-  padding-left: 2rem;
-}
-.doc-contents li a {
+.doc-toc li a {
   color: #6c757d;
   text-decoration: none;
 }
-.doc-contents li a:hover {
+.doc-toc li a:hover {
   text-decoration: underline;
 }
-.doc-contents hr {
+
+.doc-article .doc-toc hr {
+  display: none;
   margin: 0.5rem 0;
 }
 
-.doc-article .doc-contents {
-  margin-left: 1rem;
+@media (min-width: 992px) {
+  #divLayout {
+    display: grid;
+    grid-template-areas: "toc main";
+    grid-template-columns: 1fr 5fr;
+    gap: 1.5rem;
+  }
+
+  #divTocWrapper {
+    grid-area: toc;
+    height: calc(100vh - 5rem);
+    overflow-y: auto;
+    padding-right: 0.5rem;
+    position: sticky;
+    top: 5rem;
+  }
+
+  .doc-article .doc-content {
+    width: 80%;
+  }
+  .doc-article .doc-toc {
+    float: right;
+    padding-left: 1rem;
+    position: sticky;
+    top: 5rem;
+    width: 20%;
+  }
+  .doc-article .doc-toc hr {
+    display: block;
+  }
 }
