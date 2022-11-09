@@ -59,11 +59,11 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
         /// Creates a new Modbus command based on the element configuration.
         /// </summary>
         private ModbusCmd CreateModbusCmd(DeviceTemplateOptions options, 
-            ElemGroupConfig elemGroupConfig, ElemConfig elemConfig, int elemAddrShift)
+            ElemGroupConfig elemGroupConfig, ElemConfig elemConfig, int elemAddrOffset)
         {
             ModbusCmd modbusCmd = deviceModel.CreateModbusCmd(elemGroupConfig.DataBlock, false);
             modbusCmd.Name = elemConfig.Name;
-            modbusCmd.Address = (ushort)(elemGroupConfig.Address + elemAddrShift);
+            modbusCmd.Address = (ushort)(elemGroupConfig.Address + elemAddrOffset);
             modbusCmd.ElemType = elemConfig.ElemType;
             modbusCmd.ElemCnt = 1;
             modbusCmd.ByteOrder = ModbusUtils.ParseByteOrder(elemConfig.ByteOrder) ??
@@ -277,7 +277,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
                 bool groupCommands = groupActive && elemGroupConfig.ReadOnlyEnabled;
                 ElemGroup elemGroup = null;
                 TagGroup tagGroup = new TagGroup(elemGroupConfig.Name) { Hidden = !groupActive };
-                int elemAddrShift = 0;
+                int elemAddrOffset = 0;
 
                 if (groupActive)
                 {
@@ -304,12 +304,12 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
                     if (groupCommands && !elemConfig.ReadOnly && !string.IsNullOrEmpty(elemConfig.TagCode))
                     {
                         deviceModel.Cmds.Add(
-                            CreateModbusCmd(deviceTemplate.Options, elemGroupConfig, elemConfig, elemAddrShift));
+                            CreateModbusCmd(deviceTemplate.Options, elemGroupConfig, elemConfig, elemAddrOffset));
                     }
 
                     // add device tag
                     tagGroup.AddTag(elemConfig.TagCode, elemConfig.Name).SetFormat(GetTagFormat(elemConfig));
-                    elemAddrShift += elemConfig.Quantity;
+                    elemAddrOffset += elemConfig.Quantity;
                 }
 
                 if (groupActive)
