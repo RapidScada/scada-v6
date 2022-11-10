@@ -5,7 +5,7 @@
 .doc-toc div.item-text {
   border-radius: 0.375rem;
   display: inline-block;
-  padding: 3px 8px;
+  padding: 0.25rem 0.5rem;
 }
 .doc-toc div.item-text.active {
   background-color: #0d6efd;
@@ -34,6 +34,10 @@
   display: none;
   margin: 0.5rem 0;
 }
+.doc-article :target {
+  padding-top: 5rem;
+  margin-top: -5rem;
+}
 
 @media (min-width: 992px) {
   #divLayout {
@@ -52,6 +56,9 @@
     top: 5rem;
   }
 
+  .doc-article {
+    grid-area: main;
+  }
   .doc-article .doc-content {
     width: 80%;
   }

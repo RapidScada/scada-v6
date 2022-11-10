@@ -7,7 +7,7 @@
     div.item-text {
         border-radius: 0.375rem;
         display: inline-block;
-        padding: 3px 8px;
+        padding: 0.25rem 0.5rem;
 
         &.active {
             background-color: $primary;
@@ -48,6 +48,11 @@
             margin: 0.5rem 0;
         }
     }
+
+    :target {
+        padding-top: 5rem;
+        margin-top: -5rem;
+    }
 }
 
 @media (min-width: $breakpoint-lg) {
@@ -68,6 +73,8 @@
     }
 
     .doc-article {
+        grid-area: main;
+
         .doc-content {
             width: 80%;
         }
