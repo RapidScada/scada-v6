@@ -54,6 +54,15 @@
         padding-top: 5rem;
         margin-top: -5rem;
     }
+
+    figure {
+        display: block;
+        text-align: center;
+    }
+
+    em {
+        color: $pink;
+    }
 }
 
 @media (min-width: $breakpoint-lg) {

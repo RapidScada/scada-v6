@@ -39,6 +39,13 @@
   padding-top: 5rem;
   margin-top: -5rem;
 }
+.doc-article figure {
+  display: block;
+  text-align: center;
+}
+.doc-article em {
+  color: #d63384;
+}
 
 @media (min-width: 992px) {
   #divLayout {
