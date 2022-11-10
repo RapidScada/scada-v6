@@ -14,40 +14,7 @@
       </Item>
       <Item>
         <Text>Description of Applications</Text>
-        <Subitems>
-          <Item>
-            <Text>Server Application</Text>
-            <Url>/en/5.8/software-overview/applications/server-application</Url>
-          </Item>
-          <Item>
-            <Text>Communicator Application</Text>
-            <Url>/en/5.8/software-overview/applications/communicator-application</Url>
-          </Item>
-          <Item>
-            <Text>Webstation Application</Text>
-            <Url>/en/5.8/software-overview/applications/webstation-application</Url>
-          </Item>
-          <Item>
-            <Text>Agent Application</Text>
-            <Url>/en/5.8/software-overview/applications/agent-application</Url>
-          </Item>
-          <Item>
-            <Text>Administrator Application</Text>
-            <Url>/en/5.8/software-overview/applications/administrator-application</Url>
-          </Item>
-          <Item>
-            <Text>Table Editor Application</Text>
-            <Url>/en/5.8/software-overview/applications/table-editor-application</Url>
-          </Item>
-          <Item>
-            <Text>Scheme Editor Application</Text>
-            <Url>/en/5.8/software-overview/applications/scheme-editor-application</Url>
-          </Item>
-        </Subitems>
-      </Item>
-      <Item>
-        <Text>Roadmap</Text>
-        <Url>/en/5.8/software-overview/roadmap</Url>
+        <Url>/en/5.8/software-overview/applications</Url>
       </Item>
     </Subitems>
   </Item>

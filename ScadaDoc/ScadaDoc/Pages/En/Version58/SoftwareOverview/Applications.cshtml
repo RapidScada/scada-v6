@@ -1,0 +1,105 @@
+﻿@page "/en/5.8/software-overview/applications"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Description of Applications";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#server-application">Server Application</a></li>
+        <li><a href="#communicator-application">Communicator Application</a></li>
+        <li><a href="#webstation-application">Webstation Application</a></li>
+        <li><a href="#agent-application">Agent Application</a></li>
+        <li><a href="#administrator-application">Administrator Application</a></li>
+        <li><a href="#table-editor-application">Table Editor Application</a></li>
+        <li><a href="#scheme-editor-application">Scheme Editor Application</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Description of Applications</h1>
+    <h2 id="server-application">Server Application</h2>
+    <p>Server manages the data archives, performs mathematical calculations and provides information to the client applications. Server writes data to the main archive and makes the backup copy simultaneously.</p>
+    <div class="text-center">
+        <figure class="figure">
+            <img src="applications-files/scada_server_shell_en.png" class="figure-img img-fluid" alt="Graphical shell for Server configuring">
+            <figcaption class="figure-caption text-center">Figure 1. Graphical shell for Server configuring</figcaption>
+        </figure>
+    </div>
+    <p>Server works as a service. It does not have a user interface. Server operates continuously in the background regardless of user login and logout. The graphical shell for Server configuring is built into the Administrator application (see Figure 1).</p>
+    <p>The application monitors user connections and checks user rights while processing requests and passing commands. Information about the application state and performed actions is stored in textual log files. Server is designed for non-stop running.</p>
+    <p>Additional server modules allow extending the functionality of Server according to customer requirements.</p>
+
+    <h2 id="communicator-application">Communicator Application</h2>
+    <p>Communicator interacts with controllers and transmits data to the Server application. Communication with controllers connected to a system is executed in parallel across multiple lines. Communicator receives current data, archive data, events from controllers and sends commands to controllers. The application helps troubleshooting issues with communication lines and devices.</p>
+    <div class="text-center">
+        <figure class="figure">
+            <img src="applications-files/scada_comm_shell_en.png" class="figure-img img-fluid" alt="Graphical shell for Communicator configuring">
+            <figcaption class="figure-caption text-center">Figure 2. Graphical shell for Communicator configuring</figcaption>
+        </figure>
+    </div>
+    <p>Communicator works as a service. The graphical shell for Communicator configuring is built into the Administrator application (see Figure 2). Information about the application, communication lines and each connected device is stored in log files. Communicator is designed for non-stop running.</p>
+    <p>Developers are able to implement their own device drivers to interact with a variety of controllers.</p>
+
+    <h2 id="webstation-application">Webstation Application</h2>
+    <p>Webstation is a web application that displays information to a dispatcher via browser in different forms (tabular, schematic, diagrams, reports, etc.) and provides sending commands. Reports are generated in commonly used HTML and Microsoft Excel formats.</p>
+    <div class="text-center">
+        <figure class="figure">
+            <img src="applications-files/scada_web_scheme_en.png" class="figure-img img-fluid" alt="Webstation application. Scheme view">
+            <figcaption class="figure-caption text-center">Figure 3. Webstation application. Scheme view</figcaption>
+        </figure>
+    </div>
+    <div class="text-center">
+        <figure class="figure">
+            <img src="applications-files/scada_web_table_en.png" class="figure-img img-fluid" alt="Webstation application. Table view">
+            <figcaption class="figure-caption text-center">Figure 4. Webstation application. Table view</figcaption>
+        </figure>
+    </div>
+    <p>User is able to choose a view (table or scheme) and a date to access archive data. To show a diagram of an input channel, click an item icon in a table or an appropriate element in a scheme.</p>
+    <p>Webstation is available from any computer or tablet connected to an organization network without any software installation. Access is managed by a system administrator who defines user rights.</p>
+    <p>The functionality of Webstation can be extended by additional plugins. For example, <a href="/en/5.8/modules/plg-chart-pro">Chart Pro Plugin</a> extends the capabilities of Rapid SCADA charts: adds scaling, displaying of multiple charts, export to PNG and PDF. <a href="/en/5.8/modules/plg-elastic-report.html">Elastic Report Plugin</a> allows to generate reports according to a custom configuration. Using this plugin, you can build almost any desired report. Developers can download Rapid SCADA source code and the documentation to learn how to implement plugins.</p>
+
+    <h2 id="agent-application">Agent Application</h2>
+    <p>Agent transfers configuration between Rapid SCADA instance and the Administrator application. In addition, Agent provides log files for displaying in Administrator. Agent runs as a service on a server where Rapid SCADA instance, controlled by Agent, is installed. An instance of Rapid SCADA includes the Server, Communicator and Webstation applications, all or some of these applications.</p>
+    <p>Agent communicates with Administrator via TCP. Therefore, Administrator can be installed on the same computer as Agent, or on another computer that is accessible over the network. By default, Agent uses TPC port 10002. In case of remote access, incoming connections on this port must be allowed by the server firewall.</p>
+    <p>Agent has no user interface. To check its operation, use the log files which default location is C:\SCADA\ScadaAgent\Log</p>
+
+    <h2 id="administrator-application">Administrator Application</h2>
+    <p>The Administrator application (see Figure 5) is intended for developing Rapid SCADA projects and monitoring the state of the automated system. The Administrator is an integrated development environment provides editing the configuration database, configuring the main Rapid SCADA applications, Server modules and device drivers.</p>
+    <div class="text-center">
+        <figure class="figure">
+            <img src="applications-files/scada_admin_en.png" class="figure-img img-fluid" alt="Administrator application">
+            <figcaption class="figure-caption text-center">Figure 5. Administrator application</figcaption>
+        </figure>
+    </div>
+    <p>The Administrator tools to speed up the configuration process:</p>
+    <ul>
+        <li>Import and export of configuration database tables for the exchange of works between projects.</li>
+        <li>Wizard to automatically create input and output channels.</li>
+        <li>Channel cloning feature that minimizes manual input.</li>
+    </ul>
+    <p>A project contains a set of configuration files, mainly using the XML format. This approach makes it easy to copy projects from one computer to another. To control project versions and collaboration, Git is the best choice.</p>
+
+    <h2 id="table-editor-application">Table Editor Application</h2>
+    <p>The Table Editor application is designed to create table views which are displayed on operator's workstation. Table Editor is used by engineers during Rapid SCADA configuration.</p>
+    <div class="text-center">
+        <figure class="figure">
+            <img src="applications-files/scada_table_editor_en.png" class="figure-img img-fluid" alt="Table Editor application">
+            <figcaption class="figure-caption text-center">Figure 6. Table Editor application</figcaption>
+        </figure>
+    </div>
+    <p>Choose the channels from the configuration database in the left pane of the window, and add them to the table view. The contents of the table view is displayed in the right pane. Hidden items of a table view are not displayed in the <a href="#webstation-application">Webstation application</a>, however they make sense when filtering events by view.</p>
+    <p>Table Editor is usually started from the Administrator application by double-clicking on a table view node in the project explorer. The status bar of the editor displays the configuration database path of the project in which contains the table being edited.</p>
+
+    <h2 id="scheme-editor-application">Scheme Editor Application</h2>
+    <p>The Scheme Editor application is designed to create schemes which are displayed on operator's workstation. Scheme Editor is used by engineers during Rapid SCADA configuration.</p>
+    <div class="text-center">
+        <figure class="figure">
+            <img src="applications-files/scada_scheme_editor_en.png" class="figure-img img-fluid" alt="Scheme Editor application">
+            <figcaption class="figure-caption text-center">Figure 7. Scheme Editor application</figcaption>
+        </figure>
+    </div>
+    <p>A scheme consists of textual and graphical elements which have a set of properties define their appearance and behavior. Static elements display unchanging content. Dynamic elements are bound to the channels of the configuration database that allows to display current measured values and states, draw charts and send commands by user click.</p>
+</div>
