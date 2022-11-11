@@ -4,6 +4,7 @@
     <ArchiveID>1</ArchiveID>
     <Name>Current data</Name>
     <Code>Cur</Code>
+    <ArchiveKindID>1</ArchiveKindID>
     <IsDefault>true</IsDefault>
     <Bit>0</Bit>
   </Archive>
@@ -11,6 +12,7 @@
     <ArchiveID>2</ArchiveID>
     <Name>Minute archive</Name>
     <Code>Min</Code>
+    <ArchiveKindID>2</ArchiveKindID>
     <IsDefault>true</IsDefault>
     <Bit>1</Bit>
   </Archive>
@@ -18,6 +20,7 @@
     <ArchiveID>3</ArchiveID>
     <Name>Hourly archive</Name>
     <Code>Hour</Code>
+    <ArchiveKindID>2</ArchiveKindID>
     <IsDefault>true</IsDefault>
     <Bit>2</Bit>
   </Archive>
@@ -25,6 +28,7 @@
     <ArchiveID>4</ArchiveID>
     <Name>Daily archive</Name>
     <Code>Day</Code>
+    <ArchiveKindID>2</ArchiveKindID>
     <IsDefault>true</IsDefault>
     <Bit>3</Bit>
   </Archive>
@@ -32,6 +36,7 @@
     <ArchiveID>5</ArchiveID>
     <Name>Event archive</Name>
     <Code>Events</Code>
+    <ArchiveKindID>3</ArchiveKindID>
     <IsDefault>true</IsDefault>
     <Bit>4</Bit>
   </Archive>
@@ -39,6 +44,7 @@
     <ArchiveID>6</ArchiveID>
     <Name>Current data copy</Name>
     <Code>CurCopy</Code>
+    <ArchiveKindID>1</ArchiveKindID>
     <IsDefault>true</IsDefault>
     <Bit>5</Bit>
   </Archive>
@@ -46,6 +52,7 @@
     <ArchiveID>7</ArchiveID>
     <Name>Minute archive copy</Name>
     <Code>MinCopy</Code>
+    <ArchiveKindID>2</ArchiveKindID>
     <IsDefault>true</IsDefault>
     <Bit>6</Bit>
   </Archive>
@@ -53,6 +60,7 @@
     <ArchiveID>8</ArchiveID>
     <Name>Hourly archive copy</Name>
     <Code>HourCopy</Code>
+    <ArchiveKindID>2</ArchiveKindID>
     <IsDefault>true</IsDefault>
     <Bit>7</Bit>
   </Archive>
@@ -60,6 +68,7 @@
     <ArchiveID>9</ArchiveID>
     <Name>Daily archive copy</Name>
     <Code>DayCopy</Code>
+    <ArchiveKindID>2</ArchiveKindID>
     <IsDefault>true</IsDefault>
     <Bit>8</Bit>
   </Archive>
@@ -67,12 +76,14 @@
     <ArchiveID>10</ArchiveID>
     <Name>Event archive copy</Name>
     <Code>EventsCopy</Code>
+    <ArchiveKindID>3</ArchiveKindID>
     <IsDefault>true</IsDefault>
     <Bit>9</Bit>
   </Archive>
   <Archive>
     <ArchiveID>101</ArchiveID>
     <Name>Custom archive</Name>
+    <ArchiveKindID xsi:nil="true" />
     <IsDefault>false</IsDefault>
     <Bit>16</Bit>
     <Descr>Add custom items starting from this row</Descr>
