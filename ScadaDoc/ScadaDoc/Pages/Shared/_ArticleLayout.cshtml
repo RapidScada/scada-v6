@@ -3,7 +3,8 @@
     Layout = "_BasicLayout";
 
     var pagePath = Context.Request.Path;
-    var toc = tocManager.GetToc(pagePath);
+    var pageMeta = PageMeta.Parse(pagePath);
+    var toc = tocManager.GetToc(pageMeta);
     var tocRenderer = new TocRenderer(Url) { ActivePagePath = pagePath };
 }
 

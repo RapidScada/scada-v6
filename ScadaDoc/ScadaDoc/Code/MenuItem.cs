@@ -4,10 +4,10 @@
 namespace Scada.Doc.Code
 {
     /// <summary>
-    /// Represents a table of contents item.
-    /// <para>Представляет элемент оглавления.</para>
+    /// Represents a menu item.
+    /// <para>Представляет элемент меню.</para>
     /// </summary>
-    public class TocItem
+    public class MenuItem
     {
         /// <summary>
         /// Gets or sets the item text.
@@ -15,13 +15,13 @@ namespace Scada.Doc.Code
         public string Text { get; set; } = "";
 
         /// <summary>
-        /// Gets or sets the article URL.
+        /// Gets or sets the item URL.
         /// </summary>
         public string Url { get; set; } = "";
 
         /// <summary>
-        /// Gets or sets the subitems.
+        /// Gets the subitems.
         /// </summary>
-        public List<TocItem> Subitems { get; } = new();
+        public List<MenuItem> Subitems { get; } = new();
     }
 }

@@ -6,24 +6,16 @@
 }
 
 <div class="row mt-5">
-    <div class="col-sm mb-4">
-        <h2>English</h2>
-        <div class="list-group">
-            <a class="list-group-item list-group-item-action text-primary" href="/en/6.0/">6.0</a>
-            <a class="list-group-item list-group-item-action text-primary" href="/en/5.8/">5.8</a>
-        </div>    
-    </div>
-    <div class="col-sm mb-4">
-        <h2>Russian</h2>
-        <div class="list-group">
-            <a class="list-group-item list-group-item-action text-primary" href="/ru/6.0/">6.0</a>
-            <a class="list-group-item list-group-item-action text-primary" href="/ru/5.8/">5.8</a>
-        </div>    
-    </div>
-    <div class="col-sm mb-4">
-        <h2>Spanish</h2>
-        <div class="list-group">
-            <a class="list-group-item list-group-item-action text-primary" href="/es/5.8/">5.8</a>
-        </div>    
-    </div>
+    @foreach (var menu in VersionMenu.All)
+    {
+        <div class="col-md mb-4">
+            <h2>@menu.Title</h2>
+            <div class="list-group">
+                @foreach (var item in menu)
+                {
+                    <a class="list-group-item list-group-item-action text-primary" href="@item.Url">@item.Text</a>
+                }
+            </div>    
+        </div>
+    }
 </div>

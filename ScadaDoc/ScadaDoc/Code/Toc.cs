@@ -16,20 +16,20 @@ namespace Scada.Doc.Code
         /// </summary>
         public Toc()
         {
-            Items = new List<TocItem>();
+            Items = new List<MenuItem>();
         }
 
 
         /// <summary>
         /// Gets the items.
         /// </summary>
-        public List<TocItem> Items { get; }
+        public List<MenuItem> Items { get; }
 
 
         /// <summary>
         /// Loads the item and subitems recursively.
         /// </summary>
-        private void LoadItem(TocItem item, XmlNode itemNode)
+        private void LoadItem(MenuItem item, XmlNode itemNode)
         {
             item.Text = itemNode.GetChildAsString("Text");
             item.Url = itemNode.GetChildAsString("Url");
@@ -38,7 +38,7 @@ namespace Scada.Doc.Code
             {
                 foreach (XmlNode subitemNode in subitemsNode.SelectNodes("Item"))
                 {
-                    TocItem subitem = new();
+                    MenuItem subitem = new();
                     LoadItem(subitem, subitemNode);
                     item.Subitems.Add(subitem);
                 }
@@ -56,7 +56,7 @@ namespace Scada.Doc.Code
 
             foreach (XmlNode itemNode in xmlDoc.DocumentElement.SelectNodes("Item"))
             {
-                TocItem item = new();
+                MenuItem item = new();
                 LoadItem(item, itemNode);
                 Items.Add(item);
             }

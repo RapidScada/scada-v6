@@ -19,5 +19,18 @@ namespace Scada.Doc.Code
             XmlNode node = parentXmlNode.SelectSingleNode(childNodeName);
             return node == null ? defaultVal : node.InnerText;
         }
+
+        /// <summary>
+        /// Returns a string that represents the known version.
+        /// </summary>
+        public static string ConvertToString(this KnownVersion version)
+        {
+            return version switch
+            {
+                KnownVersion.V58 => "v5.8",
+                KnownVersion.V60 => "v6.0",
+                _ => version.ToString()
+            };
+        }
     }
 }

@@ -11,6 +11,7 @@ namespace Scada.Doc.Code
     {
         None,
         En,
-        Ru
+        Ru,
+        Es
     }
 }

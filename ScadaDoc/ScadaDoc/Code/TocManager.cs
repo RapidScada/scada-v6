@@ -34,38 +34,22 @@ namespace Scada.Doc.Code
         /// <summary>
         /// Gets the short name of the table of contents file.
         /// </summary>
-        private static string GetTocFileName(string pagePath)
+        private static string GetTocFileName(PageMeta pageMeta)
         {
-            string[] parts = (pagePath ?? "").Split('/', StringSplitOptions.RemoveEmptyEntries);
-            string langStr = parts.Length > 0 ? parts[0].ToLowerInvariant() : "";
-            string versionStr = parts.Length > 1 ? parts[1].ToLowerInvariant() : "";
-
-            KnownLang lang = langStr switch
-            {
-                "en" => KnownLang.En,
-                "ru" => KnownLang.Ru,
-                _ => DefaultLang
-            };
-
-            KnownVersion version = versionStr switch
-            {
-                "5.8" => KnownVersion.V58,
-                "6.0" => KnownVersion.V60,
-                _ => DefaultVersion
-            };
-
+            KnownLang lang = pageMeta.Lang == KnownLang.None ? DefaultLang : pageMeta.Lang;
+            KnownVersion version = pageMeta.Version == KnownVersion.None ? DefaultVersion : pageMeta.Version;
             return "Contents" + lang + (int)version + ".xml";
         }
 
         /// <summary>
         /// Gets the table of contents corresponding to the web page.
         /// </summary>
-        public Toc GetToc(string pagePath)
+        public Toc GetToc(PageMeta pageMeta)
         {
             try
             {
                 Monitor.Enter(tocs);
-                string shortFileName = GetTocFileName(pagePath);
+                string shortFileName = GetTocFileName(pageMeta);
 
                 if (tocs.TryGetValue(shortFileName, out Toc toc))
                 {

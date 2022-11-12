@@ -36,7 +36,7 @@ namespace Scada.Doc.Code
         /// <summary>
         /// Renders HTML of the specified item.
         /// </summary>
-        private void RenderItem(TocItem item, StringBuilder sbHtml)
+        private void RenderItem(MenuItem item, StringBuilder sbHtml)
         {
             sbHtml.Append("<li>");
 
@@ -61,7 +61,7 @@ namespace Scada.Doc.Code
                 sbHtml.AppendLine();
                 sbHtml.AppendLine("<ul>");
 
-                foreach (TocItem subitem in item.Subitems)
+                foreach (MenuItem subitem in item.Subitems)
                 {
                     RenderItem(subitem, sbHtml);
                 }
@@ -84,7 +84,7 @@ namespace Scada.Doc.Code
             {
                 sbHtml.AppendLine("<ul>");
 
-                foreach (TocItem item in toc.Items)
+                foreach (MenuItem item in toc.Items)
                 {
                     RenderItem(item, sbHtml);
                 }
