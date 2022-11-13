@@ -10,14 +10,14 @@ namespace Scada.Doc.Code
     public class PageMeta
     {
         /// <summary>
-        /// Gets the page language.
+        /// Gets or sets the page language.
         /// </summary>
-        public KnownLang Lang { get; private set; } = KnownLang.None;
+        public KnownLang Lang { get; set; } = KnownLang.None;
 
         /// <summary>
-        /// Gets the documentation version.
+        /// Gets or sets the documentation version.
         /// </summary>
-        public KnownVersion Version { get; private set; } = KnownVersion.None;
+        public KnownVersion Version { get; set; } = KnownVersion.None;
 
 
         /// <summary>

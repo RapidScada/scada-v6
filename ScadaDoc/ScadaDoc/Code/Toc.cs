@@ -61,5 +61,26 @@ namespace Scada.Doc.Code
                 Items.Add(item);
             }
         }
+
+        /// <summary>
+        /// Enumerates all items recursively.
+        /// </summary>
+        public IEnumerable<MenuItem> EnumerateAllItems()
+        {
+            static IEnumerable<MenuItem> EnumerateItems(IEnumerable<MenuItem> items)
+            {
+                foreach (MenuItem item in items)
+                {
+                    yield return item;
+
+                    foreach (MenuItem subitem in EnumerateItems(item.Subitems))
+                    {
+                        yield return subitem;
+                    }
+                }
+            }
+
+            return EnumerateItems(Items);
+        }
     }
 }
