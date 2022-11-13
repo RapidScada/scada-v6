@@ -23,7 +23,7 @@
     }
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
         <div class="container-xxl">
-            <a class="navbar-brand mb-0 h1" href="/">Rapid SCADA Docs</a>
+            <a class="navbar-brand mb-0 h1" asp-page="/Index">Rapid SCADA Docs</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#divNavbarContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -37,7 +37,7 @@
                                 @foreach (var item in versionMenu)
                                 {
                                     var itemClass = item.Text == activeVersion ? "active" : "";
-                                    <li><a class="dropdown-item @itemClass" href="@item.Url">@item.Text</a></li>
+                                    <li><a class="dropdown-item @itemClass" href="@Url.Content(item.Url.PrependTilde())">@item.Text</a></li>
                                 }
                             </ul>
                         </li>

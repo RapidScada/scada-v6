@@ -46,5 +46,13 @@ namespace Scada.Doc.Code
                 _ => version.ToString()
             };
         }
+
+        /// <summary>
+        /// Prepends a tilde to the URL if needed.
+        /// </summary>
+        public static string PrependTilde(this string url)
+        {
+            return url.StartsWith('~') ? url : "~" + url;
+        }
     }
 }

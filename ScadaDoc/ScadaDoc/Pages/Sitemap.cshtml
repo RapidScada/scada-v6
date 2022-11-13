@@ -2,6 +2,7 @@
 @inject TocManager tocManager
 @{
     Response.ContentType = "application/xml";
+    var baseUrl = "https://" + Request.Host + Request.PathBase;
 }
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -17,7 +18,7 @@
                 foreach (var tocItem in toc.EnumerateAllItems().Where(i => !string.IsNullOrEmpty(i.Url)))
                 {
     <url>
-                        <loc>@tocItem.Url</loc>
+        <loc>@(baseUrl + tocItem.Url)</loc>
     </url>
                 }
             }
