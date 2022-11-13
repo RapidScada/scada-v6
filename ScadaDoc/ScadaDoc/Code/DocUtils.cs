@@ -21,6 +21,20 @@ namespace Scada.Doc.Code
         }
 
         /// <summary>
+        /// Returns a string that represents the known language.
+        /// </summary>
+        public static string ConvertToString(this KnownLang lang)
+        {
+            return lang switch
+            {
+                KnownLang.En => "English",
+                KnownLang.Ru => "Russian",
+                KnownLang.Es => "Spanish",
+                _ => lang.ToString()
+            };
+        }
+
+        /// <summary>
         /// Returns a string that represents the known version.
         /// </summary>
         public static string ConvertToString(this KnownVersion version)

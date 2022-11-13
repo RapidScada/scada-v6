@@ -2,24 +2,22 @@
 @inject TocManager tocManager
 @{
     Response.ContentType = "application/xml";
-    var langs = new KnownLang[] { KnownLang.En, KnownLang.Ru, KnownLang.Es };
-    var versions = new KnownVersion[] { KnownVersion.V60, KnownVersion.V58 };
 }
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    @foreach (var lang in langs)
+    @foreach (var menu in VersionMenu.All)
     {
-        foreach (var version in versions)
+        foreach (var versionItem in menu)
         {
-            var pageMeta = new PageMeta { Lang = lang, Version = version };
+            var pageMeta = new PageMeta { Lang = menu.Lang, Version = versionItem.Version };
             var toc = tocManager.GetToc(pageMeta);
 
             if (toc != null)
             {
-                foreach (var item in toc.EnumerateAllItems().Where(i => !string.IsNullOrEmpty(i.Url)))
+                foreach (var tocItem in toc.EnumerateAllItems().Where(i => !string.IsNullOrEmpty(i.Url)))
                 {
     <url>
-        <loc>@item.Url</loc>
+                        <loc>@tocItem.Url</loc>
     </url>
                 }
             }

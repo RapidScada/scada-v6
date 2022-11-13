@@ -7,15 +7,21 @@ namespace Scada.Doc.Code
     /// Represents a menu that contains version items.
     /// <para>Представляет меню, которое содержит элементы версий.</para>
     /// </summary>
-    public class VersionMenu : List<MenuItem>
+    public class VersionMenu : List<VersionItem>
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public VersionMenu(string title = "")
+        public VersionMenu(KnownLang lang)
         {
-            Title = title;
+            Lang = lang;
+            Title = lang.ConvertToString();
         }
+
+        /// <summary>
+        /// Gets the menu langugage.
+        /// </summary>
+        public KnownLang Lang { get; }
 
         /// <summary>
         /// Gets the menu title.
@@ -26,15 +32,17 @@ namespace Scada.Doc.Code
         /// <summary>
         /// English versions of the documentation.
         /// </summary>
-        public static readonly VersionMenu En = new("English")
+        public static readonly VersionMenu En = new(KnownLang.En)
         {
-            new MenuItem
+            new VersionItem
             {
+                Version = KnownVersion.V60,
                 Text = KnownVersion.V60.ConvertToString(),
                 Url = "/en/6.0/"
             },
-            new MenuItem
+            new VersionItem
             {
+                Version = KnownVersion.V58,
                 Text = KnownVersion.V58.ConvertToString(),
                 Url = "/en/5.8/"
             }
@@ -43,15 +51,17 @@ namespace Scada.Doc.Code
         /// <summary>
         /// Russian versions of the documentation.
         /// </summary>
-        public static readonly VersionMenu Ru = new("Russian")
+        public static readonly VersionMenu Ru = new(KnownLang.Ru)
         {
-            new MenuItem
+            new VersionItem
             {
+                Version = KnownVersion.V60,
                 Text = KnownVersion.V60.ConvertToString(),
                 Url = "/ru/6.0/"
             },
-            new MenuItem
+            new VersionItem
             {
+                Version = KnownVersion.V58,
                 Text = KnownVersion.V58.ConvertToString(),
                 Url = "/ru/5.8/"
             }
@@ -60,10 +70,11 @@ namespace Scada.Doc.Code
         /// <summary>
         /// Spanish versions of the documentation.
         /// </summary>
-        public static readonly VersionMenu Es = new("Spanish")
+        public static readonly VersionMenu Es = new(KnownLang.Es)
         {
-            new MenuItem
+            new VersionItem
             {
+                Version = KnownVersion.V58,
                 Text = KnownVersion.V58.ConvertToString(),
                 Url = "/es/5.8/"
             }
@@ -72,7 +83,7 @@ namespace Scada.Doc.Code
         /// <summary>
         /// The empty menu.
         /// </summary>
-        public static readonly VersionMenu Empty = new();
+        public static readonly VersionMenu Empty = new(KnownLang.None);
 
         /// <summary>
         /// The menus for all languages.
