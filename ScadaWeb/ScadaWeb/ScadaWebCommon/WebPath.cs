@@ -50,7 +50,7 @@ namespace Scada.Web
             return "/View/" + viewID;
         }
 
-        public static string PrependTilda(this string s)
+        public static string PrependTilde(this string s)
         {
             return s.StartsWith('~') ? s : "~" + s;
         }
