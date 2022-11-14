@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDsMqttDictionaries culture="zh-Hans" lang="ChineseSimplified">
+  <Dictionary key="Scada.Comm.Drivers.DrvDsMqtt.View.Forms.FrmMqttDSO">
+    <Phrase key="this">数据源属性</Phrase>
+    <Phrase key="pageConnectionOptions">连接</Phrase>
+    <Phrase key="lblServer">服务器</Phrase>
+    <Phrase key="lblPort"> TCP端口</Phrase>
+    <Phrase key="lblClientID">客户端ID</Phrase>
+    <Phrase key="lblUsername">用户名</Phrase>
+    <Phrase key="lblPassword">密码</Phrase>
+    <Phrase key="lblTimeout">超时时间, ms</Phrase>
+    <Phrase key="lblProtocolVersion">协议版本</Phrase>
+    <Phrase key="cbProtocolVersion.Items[0]">默认</Phrase>
+    <Phrase key="cbProtocolVersion.Items[1]">3.1</Phrase>
+    <Phrase key="cbProtocolVersion.Items[2]">3.1.1</Phrase>
+    <Phrase key="cbProtocolVersion.Items[3]">5.0</Phrase>
+    <Phrase key="pagePublishOptions">发布</Phrase>
+    <Phrase key="lblRootTopic">根主题</Phrase>
+    <Phrase key="lblUndefinedValue">未定义的值</Phrase>
+    <Phrase key="lblPublishFormat">发布格式</Phrase>
+    <Phrase key="lblQosLevel"> QoS级别</Phrase>
+    <Phrase key="cbQosLevel.Items[0]">最多一次 (0)</Phrase>
+    <Phrase key="cbQosLevel.Items[1]">最少一次 (1)</Phrase>
+    <Phrase key="cbQosLevel.Items[2]">几乎一次 (2)</Phrase>
+    <Phrase key="lblRetain">保留</Phrase>
+    <Phrase key="lblMaxQueueSize">最大队列大小</Phrase>
+    <Phrase key="lblDataLifetime">队列中的数据生存期，秒</Phrase>
+    <Phrase key="lblDetailedLog">详细日志</Phrase>
+    <Phrase key="lblDeviceFilter">设备筛选器</Phrase>
+    <Phrase key="btnOK">确定</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+  </Dictionary>
+</DrvDsMqttDictionaries>

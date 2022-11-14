@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvMqttPublisherDictionaries culture="zh-Hans" lang="ChineseSimplified">
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.Config.DeviceOptions">
+    <Phrase key="RootTopic.DisplayName">根主题</Phrase>
+    <Phrase key="RootTopic.Category">主要参数</Phrase>
+    <Phrase key="RootTopic.Description">根主题用作所有设备主题的前缀。</Phrase>
+    <Phrase key="UndefinedValue.DisplayName">未定义的值</Phrase>
+    <Phrase key="UndefinedValue.Category">主要参数</Phrase>
+    <Phrase key="UndefinedValue.Description">通道值未定义时要发送的有效负载。</Phrase>
+    <Phrase key="PublishFormat.DisplayName">发布格式</Phrase>
+    <Phrase key="PublishFormat.Category">主要参数</Phrase>
+    <Phrase key="PublishFormat.Description">已发布通道数据的格式.&#13;&#10;F例如: { "Val": @val, "Stat": @stat }&#13;&#10;Empty format equals to @val</Phrase>
+    <Phrase key="PublishOnChange.DisplayName">更改时发布</Phrase>
+    <Phrase key="PublishOnChange.Category">主要参数</Phrase>
+    <Phrase key="PublishOnChange.Description">表示更改时是否发送通道数据的一个值。</Phrase>
+    <Phrase key="PublishPeriod.DisplayName">发布期间</Phrase>
+    <Phrase key="PublishPeriod.Category">主要参数</Phrase>
+    <Phrase key="PublishPeriod.Description">所有设备项的发布周期, 单位秒。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.Config.ItemConfig">
+    <Phrase key="CnlNum.DisplayName">通道号</Phrase>
+    <Phrase key="CnlNum.Category">主要参数</Phrase>
+    <Phrase key="CnlNum.Description">已发布通道的编号。</Phrase>
+    <Phrase key="Topic.DisplayName">主题</Phrase>
+    <Phrase key="Topic.Category">主要参数</Phrase>
+    <Phrase key="Topic.Description">MQTT 主题.</Phrase>
+    <Phrase key="Publish.DisplayName">发布</Phrase>
+    <Phrase key="Publish.Category">主要参数</Phrase>
+    <Phrase key="Publish.Description">表示项目是否用于发布通道值的值</Phrase>
+    <Phrase key="Subscribe.DisplayName">订阅</Phrase>
+    <Phrase key="Subscribe.Category">主要参数</Phrase>
+    <Phrase key="Subscribe.Description">表示项目是否用于接收命令的值。</Phrase>
+    <Phrase key="QosLevel.DisplayName">服务质量级别</Phrase>
+    <Phrase key="QosLevel.Category">协议</Phrase>
+    <Phrase key="QosLevel.Description">服务质量级别: 0 - 至多一次, 1 - 至少一次, 2 - 恰好一次.</Phrase>
+    <Phrase key="Retain.DisplayName">保留</Phrase>
+    <Phrase key="Retain.Category">协议</Phrase>
+    <Phrase key="Retain.Description">表示在发布时是否设置保留标志一个值.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.View.MqttPublisherConfigProvider">
+    <Phrase key="FormTitle">设备 {0} 属性 - MQTT 发布器</Phrase>
+    <Phrase key="AddItemButton">添加一项</Phrase>
+    <Phrase key="OptionsNode">选项</Phrase>
+    <Phrase key="ItemsNode">项</Phrase>
+    <Phrase key="ItemNodeFormat">通道 {0}</Phrase>
+  </Dictionary>
+</DrvMqttPublisherDictionaries>

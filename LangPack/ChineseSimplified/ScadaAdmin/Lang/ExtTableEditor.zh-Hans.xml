@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtTableEditorDictionaries culture="zh-Hans" lang="ChineseSimplified">
+  <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableEditor">
+    <Phrase key="btnRefreshBase.ToolTip">刷新配置数据库</Phrase>
+    <Phrase key="btnAddItem.ToolTip">添加项</Phrase>
+    <Phrase key="btnAddEmptyItem.ToolTip">添加空项</Phrase>
+    <Phrase key="btnMoveUpItem.ToolTip">向上移动项目</Phrase>
+    <Phrase key="btnMoveDownItem.ToolTip">向下移动项目</Phrase>
+    <Phrase key="btnDeleteItem.ToolTip">删除所选项目</Phrase>
+    <Phrase key="btnTableOptions.ToolTip">表格视图选项</Phrase>
+    <Phrase key="lblHint">按回车键或双击节点将其添加到表格中。右键单击设备节点以显示上下文菜单.</Phrase>
+    <Phrase key="colCnlNum">通道</Phrase>
+    <Phrase key="colDeviceNum">设备</Phrase>
+    <Phrase key="colAutoText">自动文本</Phrase>
+    <Phrase key="colText">文本</Phrase>
+    <Phrase key="colHidden">隐藏</Phrase>
+    <Phrase key="miDeviceAddDevice">添加设备</Phrase>
+    <Phrase key="miDeviceAddAllChannels">添加所有通道</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableOptions">
+    <Phrase key="this">表格视图选项</Phrase>
+    <Phrase key="chkUseDefault">使用默认选项</Phrase>
+    <Phrase key="lblArchiveCode">存档代码</Phrase>
+    <Phrase key="btnSelectArchiveCode">选择...</Phrase>
+    <Phrase key="lblPeriod">表格周期, 分钟</Phrase>
+    <Phrase key="lblChartArgs">图表参数</Phrase>
+    <Phrase key="btnOK">确定</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+  </Dictionary>
+</ExtTableEditorDictionaries>

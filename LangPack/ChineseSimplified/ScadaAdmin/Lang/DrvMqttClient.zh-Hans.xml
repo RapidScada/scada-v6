@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvMqttClientDictionaries culture="zh-Hans" lang="ChineseSimplified">
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.BaseItemConfig">
+    <Phrase key="Topic.DisplayName">主题</Phrase>
+    <Phrase key="Topic.Category">主要参数</Phrase>
+    <Phrase key="Topic.Description">MQTT 主题。</Phrase>
+    <Phrase key="DisplayName.DisplayName">显示名称</Phrase>
+    <Phrase key="DisplayName.Category">主要参数</Phrase>
+    <Phrase key="DisplayName.Description">设备标记的显示名称</Phrase>
+    <Phrase key="QosLevel.DisplayName">QoS 级别</Phrase>
+    <Phrase key="QosLevel.Category">协议</Phrase>
+    <Phrase key="QosLevel.Description">服务质量级别: 0 - 最多一次, 1 - 最少一次, 2 - 恰好一次。</Phrase>
+    <Phrase key="Retain.DisplayName">保留</Phrase>
+    <Phrase key="Retain.Category">协议</Phrase>
+    <Phrase key="Retain.Description">指示在发布时是否设置保留标志的一个值。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.CommandConfig">
+    <Phrase key="CmdCode.DisplayName">命令代码</Phrase>
+    <Phrase key="CmdCode.Category">主要参数</Phrase>
+    <Phrase key="CmdCode.Description">与主题关联的命令代码。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.SubscriptionConfig">
+    <Phrase key="TagCode.DisplayName">标记代码</Phrase>
+    <Phrase key="TagCode.Category">主要参数</Phrase>
+    <Phrase key="TagCode.Description">与主题关联的标记代码。</Phrase>
+    <Phrase key="ReadOnly.DisplayName">只读</Phrase>
+    <Phrase key="ReadOnly.Category">主要参数</Phrase>
+    <Phrase key="ReadOnly.Description">表示主题是否只读的一个值。</Phrase>
+    <Phrase key="JsEnabled.DisplayName"> 启用JavaScript</Phrase>
+    <Phrase key="JsEnabled.Category">高级参数</Phrase>
+    <Phrase key="JsEnabled.Description">表示在收到消息时是否执行JavaScript 的一个值。</Phrase>
+    <Phrase key="JsFileName.DisplayName">JavaScript 文件名</Phrase>
+    <Phrase key="JsFileName.Category">高级参数</Phrase>
+    <Phrase key="JsFileName.Description">相对于通信器配置目录的 JavaScript 文件名。</Phrase>
+    <Phrase key="SubItems.DisplayName">子项</Phrase>
+    <Phrase key="SubItems.Category">高级参数</Phrase>
+    <Phrase key="SubItems.Description">表示主题的多个设备标记的子项.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.DeviceOptions">
+    <Phrase key="RootTopic.DisplayName">根主题</Phrase>
+    <Phrase key="RootTopic.Category">主要参数</Phrase>
+    <Phrase key="RootTopic.Description">根主题用作所有设备主题的前缀。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.View.MqttClientConfigProvider">
+    <Phrase key="FormTitle">设备 {0} 属性 - MQTT 客户端</Phrase>
+    <Phrase key="AddSubscriptionButton">添加订阅</Phrase>
+    <Phrase key="AddCommandButton">添加命令</Phrase>
+    <Phrase key="OptionsNode">选项</Phrase>
+    <Phrase key="SubscriptionsNode">订阅</Phrase>
+    <Phrase key="CommandsNode">命令</Phrase>
+    <Phrase key="UnnamedSubscription">&lt;未命名的订阅&gt;</Phrase>
+    <Phrase key="UnnamedCommand">&lt;未命名的命令&gt;</Phrase>
+  </Dictionary>
+</DrvMqttClientDictionaries>
