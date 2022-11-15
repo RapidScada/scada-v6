@@ -61,7 +61,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
         private ModbusCmd CreateModbusCmd(DeviceTemplateOptions options, 
             ElemGroupConfig elemGroupConfig, ElemConfig elemConfig, int elemAddrOffset)
         {
-            ModbusCmd modbusCmd = deviceModel.CreateModbusCmd(elemGroupConfig.DataBlock, false);
+            ModbusCmd modbusCmd = deviceModel.CreateModbusCmd(elemGroupConfig.DataBlock, elemConfig.Quantity > 1);
             modbusCmd.Name = elemConfig.Name;
             modbusCmd.Address = (ushort)(elemGroupConfig.Address + elemAddrOffset);
             modbusCmd.ElemType = elemConfig.ElemType;
@@ -415,15 +415,15 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
                 {
                     modbusCmd.Value = 0;
 
-                    if (cmd.CmdData == null)
-                        modbusCmd.SetCmdData(cmd.CmdVal);
-                    else
+                    if (cmd.CmdData != null && cmd.CmdData.Length > 0)
                         modbusCmd.Data = cmd.CmdData;
+                    else
+                        modbusCmd.SetCmdData(cmd.CmdVal);
                 }
                 else
                 {
                     modbusCmd.Value = modbusCmd.DataBlock == DataBlock.HoldingRegisters 
-                        ? (ushort)cmd.CmdVal 
+                        ? (ushort)cmd.CmdVal
                         : (ushort)(cmd.CmdVal > 0 ? 1 : 0);
                     modbusCmd.SetCmdData(cmd.CmdVal);
                 }
