@@ -2,7 +2,7 @@
 <ScadaInstanceConfig>
   <Culture>en-GB</Culture>
   <LogDir></LogDir>
-  <ActiveStorage>FileStorage</ActiveStorage>  
+  <ActiveStorage>FileStorage</ActiveStorage>
   <Storages>
     <Storage code="FileStorage">
       <ViewAvailable>false</ViewAvailable>
