@@ -5,22 +5,6 @@
     font-size: 0.875rem;
     max-width: 100%;
 
-    div.item-text {
-        border-radius: 0.375rem;
-        display: inline-block;
-        padding: 0.25rem 0.5rem;
-
-        &.active {
-            background-color: $primary;
-            color: $light;
-            font-weight: 600;
-
-            a {
-                color: $light;
-            }
-        }
-    }
-
     ul {
         list-style: none;
         padding-left: 0;
@@ -37,6 +21,26 @@
 
             &:hover {
                 text-decoration: underline;
+            }
+        }
+    }
+
+    li > div,
+    li > a {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+    }
+
+    div.item-text {
+        border-radius: 0.375rem;
+
+        &.active {
+            background-color: $primary;
+            color: $light;
+            font-weight: 600;
+
+            a {
+                color: $light;
             }
         }
     }
