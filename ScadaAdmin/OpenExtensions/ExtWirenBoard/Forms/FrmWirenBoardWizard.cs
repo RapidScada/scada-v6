@@ -9,15 +9,6 @@ using Scada.Comm.Drivers.DrvMqttClient.Config;
 using Scada.Data.Entities;
 using Scada.Data.Tables;
 using Scada.Forms;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
 {
@@ -227,6 +218,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
                         project.ConfigDatabase.DeviceTable.AddItem(entry.DeviceEntity);
                         entry.Cnls.ForEach(cnl => project.ConfigDatabase.CnlTable.AddItem(cnl));
                         ctrlLineSelect.Line.DevicePolling.Add(entry.DeviceConfig);
+                        entry.DeviceConfig.Parent = ctrlLineSelect.Line;
                         string fileName = Path.Combine(commConfigDir, 
                             MqttClientDeviceConfig.GetFileName(entry.DeviceConfig.DeviceNum));
 
