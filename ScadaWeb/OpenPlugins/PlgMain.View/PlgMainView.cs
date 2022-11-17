@@ -6,7 +6,7 @@ using Scada.Lang;
 namespace Scada.Web.Plugins.PlgMain.View
 {
     /// <summary>
-    /// Implements the plugin user interface for the Administrator application..
+    /// Implements the plugin user interface for the Administrator application.
     /// <para>Реализует пользовательский интерфейс плагина для приложения Администратор.</para>
     /// </summary>
     public class PlgMainView : PluginView

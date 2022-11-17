@@ -27,24 +27,6 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
     internal class MqttDSL : DataSourceLogic
     {
         /// <summary>
-        /// Represents a dictionary that stores device topics accessed by tag code.
-        /// </summary>
-        private class DeviceTopics : Dictionary<string, string>
-        {
-        }
-
-        /// <summary>
-        /// Represents a command received from an MQTT broker.
-        /// </summary>
-        private class ReceivedCommand
-        {
-            public int DeviceNum { get; set; }
-            public string CmdCode { get; set; }
-            public double CmdVal { get; set; }
-            public string CmdData { get; set; }
-        }
-
-        /// <summary>
         /// The minimum queue size.
         /// </summary>
         private const int MinQueueSize = 100;
@@ -113,17 +95,7 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
 
                 foreach (DeviceLogic deviceLogic in devices)
                 {
-                    string deviceTopic = lineTopic + CommUtils.GetDeviceLogFileName(deviceLogic.DeviceNum, "") + "/";
-                    DeviceTopics deviceTopics = new();
-
-                    foreach (DeviceTag deviceTag in deviceLogic.DeviceTags)
-                    {
-                        if (!string.IsNullOrEmpty(deviceTag.Code))
-                            deviceTopics[deviceTag.Code] = deviceTopic + deviceTag.Code;
-                    }
-
-                    if (deviceTopics.Count > 0)
-                        topicByDevice[deviceLogic.DeviceNum] = deviceTopics;
+                    topicByDevice[deviceLogic.DeviceNum] = new DeviceTopics(deviceLogic, lineTopic);
                 }
             }
         }
@@ -224,6 +196,7 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
             {
                 if (topicByDevice.TryGetValue(deviceSlice.DeviceNum, out DeviceTopics deviceTopics))
                 {
+                    deviceTopics.Initialize();
                     int dataIndex = 0;
 
                     foreach (DeviceTag deviceTag in deviceSlice.DeviceTags)

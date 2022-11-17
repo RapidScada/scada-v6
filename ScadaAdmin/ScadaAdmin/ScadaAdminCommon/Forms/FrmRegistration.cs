@@ -155,8 +155,8 @@ namespace Scada.Admin.Forms
         private string GetTrialKeyUrl()
         {
             return string.Format(Locale.IsRussian ?
-                "https://rapidscada.net/trial/?prod={0}&lang=ru" :
-                "https://rapidscada.net/trial/?prod={0}",
+                "https://rapidscada.net/trial/?prod={0}&ver=6&lang=ru" :
+                "https://rapidscada.net/trial/?prod={0}&ver=6",
                 productCode);
         }
 

@@ -44,6 +44,8 @@
             this.cbProtocolVersion = new System.Windows.Forms.ComboBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.lblUseTls = new System.Windows.Forms.Label();
+            this.chkUseTls = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numPort)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numTimeout)).BeginInit();
             this.SuspendLayout();
@@ -98,64 +100,64 @@
             // lblClientID
             // 
             this.lblClientID.AutoSize = true;
-            this.lblClientID.Location = new System.Drawing.Point(12, 74);
+            this.lblClientID.Location = new System.Drawing.Point(12, 132);
             this.lblClientID.Name = "lblClientID";
             this.lblClientID.Size = new System.Drawing.Size(52, 15);
-            this.lblClientID.TabIndex = 4;
+            this.lblClientID.TabIndex = 8;
             this.lblClientID.Text = "Client ID";
             // 
             // txtClientID
             // 
-            this.txtClientID.Location = new System.Drawing.Point(172, 70);
+            this.txtClientID.Location = new System.Drawing.Point(172, 128);
             this.txtClientID.Name = "txtClientID";
             this.txtClientID.Size = new System.Drawing.Size(200, 23);
-            this.txtClientID.TabIndex = 5;
+            this.txtClientID.TabIndex = 9;
             // 
             // lblUsername
             // 
             this.lblUsername.AutoSize = true;
-            this.lblUsername.Location = new System.Drawing.Point(12, 103);
+            this.lblUsername.Location = new System.Drawing.Point(12, 161);
             this.lblUsername.Name = "lblUsername";
             this.lblUsername.Size = new System.Drawing.Size(60, 15);
-            this.lblUsername.TabIndex = 6;
+            this.lblUsername.TabIndex = 10;
             this.lblUsername.Text = "Username";
             // 
             // txtUsername
             // 
-            this.txtUsername.Location = new System.Drawing.Point(172, 99);
+            this.txtUsername.Location = new System.Drawing.Point(172, 157);
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(200, 23);
-            this.txtUsername.TabIndex = 7;
+            this.txtUsername.TabIndex = 11;
             // 
             // lblPassword
             // 
             this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(12, 132);
+            this.lblPassword.Location = new System.Drawing.Point(12, 190);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(57, 15);
-            this.lblPassword.TabIndex = 8;
+            this.lblPassword.TabIndex = 12;
             this.lblPassword.Text = "Password";
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(172, 128);
+            this.txtPassword.Location = new System.Drawing.Point(172, 186);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(200, 23);
-            this.txtPassword.TabIndex = 9;
+            this.txtPassword.TabIndex = 13;
             this.txtPassword.UseSystemPasswordChar = true;
             // 
             // lblTimeout
             // 
             this.lblTimeout.AutoSize = true;
-            this.lblTimeout.Location = new System.Drawing.Point(12, 161);
+            this.lblTimeout.Location = new System.Drawing.Point(12, 74);
             this.lblTimeout.Name = "lblTimeout";
             this.lblTimeout.Size = new System.Drawing.Size(73, 15);
-            this.lblTimeout.TabIndex = 10;
+            this.lblTimeout.TabIndex = 4;
             this.lblTimeout.Text = "Timeout, ms";
             // 
             // numTimeout
             // 
-            this.numTimeout.Location = new System.Drawing.Point(272, 157);
+            this.numTimeout.Location = new System.Drawing.Point(272, 70);
             this.numTimeout.Maximum = new decimal(new int[] {
             600000,
             0,
@@ -163,7 +165,7 @@
             0});
             this.numTimeout.Name = "numTimeout";
             this.numTimeout.Size = new System.Drawing.Size(100, 23);
-            this.numTimeout.TabIndex = 11;
+            this.numTimeout.TabIndex = 5;
             this.numTimeout.Value = new decimal(new int[] {
             10000,
             0,
@@ -173,10 +175,10 @@
             // lblProtocolVersion
             // 
             this.lblProtocolVersion.AutoSize = true;
-            this.lblProtocolVersion.Location = new System.Drawing.Point(12, 190);
+            this.lblProtocolVersion.Location = new System.Drawing.Point(12, 219);
             this.lblProtocolVersion.Name = "lblProtocolVersion";
             this.lblProtocolVersion.Size = new System.Drawing.Size(93, 15);
-            this.lblProtocolVersion.TabIndex = 12;
+            this.lblProtocolVersion.TabIndex = 14;
             this.lblProtocolVersion.Text = "Protocol version";
             // 
             // cbProtocolVersion
@@ -188,29 +190,47 @@
             "3.1",
             "3.1.1",
             "5.0"});
-            this.cbProtocolVersion.Location = new System.Drawing.Point(172, 186);
+            this.cbProtocolVersion.Location = new System.Drawing.Point(172, 215);
             this.cbProtocolVersion.Name = "cbProtocolVersion";
             this.cbProtocolVersion.Size = new System.Drawing.Size(200, 23);
-            this.cbProtocolVersion.TabIndex = 13;
+            this.cbProtocolVersion.TabIndex = 15;
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(216, 225);
+            this.btnOK.Location = new System.Drawing.Point(216, 254);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 14;
+            this.btnOK.TabIndex = 16;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(297, 225);
+            this.btnCancel.Location = new System.Drawing.Point(297, 254);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 15;
+            this.btnCancel.TabIndex = 17;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
+            // 
+            // lblUseTls
+            // 
+            this.lblUseTls.AutoSize = true;
+            this.lblUseTls.Location = new System.Drawing.Point(12, 103);
+            this.lblUseTls.Name = "lblUseTls";
+            this.lblUseTls.Size = new System.Drawing.Size(47, 15);
+            this.lblUseTls.TabIndex = 6;
+            this.lblUseTls.Text = "Use TLS";
+            // 
+            // chkUseTls
+            // 
+            this.chkUseTls.AutoSize = true;
+            this.chkUseTls.Location = new System.Drawing.Point(357, 103);
+            this.chkUseTls.Name = "chkUseTls";
+            this.chkUseTls.Size = new System.Drawing.Size(15, 14);
+            this.chkUseTls.TabIndex = 7;
+            this.chkUseTls.UseVisualStyleBackColor = true;
             // 
             // FrmMqttClientChannelOptions
             // 
@@ -218,19 +238,21 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(384, 260);
+            this.ClientSize = new System.Drawing.Size(384, 289);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.cbProtocolVersion);
             this.Controls.Add(this.lblProtocolVersion);
-            this.Controls.Add(this.numTimeout);
-            this.Controls.Add(this.lblTimeout);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.lblPassword);
             this.Controls.Add(this.txtUsername);
             this.Controls.Add(this.lblUsername);
             this.Controls.Add(this.txtClientID);
             this.Controls.Add(this.lblClientID);
+            this.Controls.Add(this.chkUseTls);
+            this.Controls.Add(this.lblUseTls);
+            this.Controls.Add(this.numTimeout);
+            this.Controls.Add(this.lblTimeout);
             this.Controls.Add(this.numPort);
             this.Controls.Add(this.lblPort);
             this.Controls.Add(this.txtServer);
@@ -268,5 +290,7 @@
         private ComboBox cbProtocolVersion;
         private Button btnOK;
         private Button btnCancel;
+        private Label lblUseTls;
+        private CheckBox chkUseTls;
     }
 }

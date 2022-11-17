@@ -128,9 +128,9 @@
   </DevType>
   <DevType>
     <DevTypeID>222</DevTypeID>
-    <Name>Wiren Board ST</Name>
-    <Driver>DrvWirenBoardST</Driver>
-    <Descr>Wiren Board controller with the custom Sensor-Tools firmware</Descr>
+    <Name>Anemon</Name>
+    <Driver>DrvAnemon</Driver>
+    <Descr>Receives data from Anemon controllers manufactured by Disystec</Descr>
   </DevType>
   <DevType>
     <DevTypeID>223</DevTypeID>

@@ -128,9 +128,9 @@
   </DevType>
   <DevType>
     <DevTypeID>222</DevTypeID>
-    <Name>Wiren Board ST</Name>
-    <Driver>DrvWirenBoardST</Driver>
-    <Descr>Контроллер Wiren Board с заказной прошивкой Sensor-Tools</Descr>
+    <Name>Anemon</Name>
+    <Driver>DrvAnemon</Driver>
+    <Descr>Принимает данные от контроллеров Анемон производства ООО "Дисистех"</Descr>
   </DevType>
   <DevType>
     <DevTypeID>223</DevTypeID>
