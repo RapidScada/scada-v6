@@ -70,6 +70,7 @@
             this.txtAutoLoginPassword.Name = "txtAutoLoginPassword";
             this.txtAutoLoginPassword.Size = new System.Drawing.Size(200, 23);
             this.txtAutoLoginPassword.TabIndex = 9;
+            this.txtAutoLoginPassword.UseSystemPasswordChar = true;
             this.txtAutoLoginPassword.TextChanged += new System.EventHandler(this.control_Changed);
             // 
             // lblAutoLoginPassword
