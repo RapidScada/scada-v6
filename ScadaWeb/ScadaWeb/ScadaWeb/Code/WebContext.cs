@@ -250,8 +250,8 @@ namespace Scada.Web.Code
         private void UpdateCulture(WebConfig webConfig)
         {
             string cultureName = ScadaUtils.FirstNonEmpty(
-                InstanceConfig.Culture,
                 webConfig.GeneralOptions.DefaultCulture,
+                InstanceConfig.Culture,
                 Locale.DefaultCulture.Name);
 
             if (Locale.Culture.Name != cultureName)
