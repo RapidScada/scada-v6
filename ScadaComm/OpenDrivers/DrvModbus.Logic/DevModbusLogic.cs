@@ -59,11 +59,11 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
         /// Creates a new Modbus command based on the element configuration.
         /// </summary>
         private ModbusCmd CreateModbusCmd(DeviceTemplateOptions options, 
-            ElemGroupConfig elemGroupConfig, ElemConfig elemConfig, int elemIndex)
+            ElemGroupConfig elemGroupConfig, ElemConfig elemConfig, int elemAddrOffset)
         {
-            ModbusCmd modbusCmd = deviceModel.CreateModbusCmd(elemGroupConfig.DataBlock, false);
+            ModbusCmd modbusCmd = deviceModel.CreateModbusCmd(elemGroupConfig.DataBlock, elemConfig.Quantity > 1);
             modbusCmd.Name = elemConfig.Name;
-            modbusCmd.Address = (ushort)(elemGroupConfig.Address + elemIndex);
+            modbusCmd.Address = (ushort)(elemGroupConfig.Address + elemAddrOffset);
             modbusCmd.ElemType = elemConfig.ElemType;
             modbusCmd.ElemCnt = 1;
             modbusCmd.ByteOrder = ModbusUtils.ParseByteOrder(elemConfig.ByteOrder) ??
@@ -277,7 +277,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
                 bool groupCommands = groupActive && elemGroupConfig.ReadOnlyEnabled;
                 ElemGroup elemGroup = null;
                 TagGroup tagGroup = new TagGroup(elemGroupConfig.Name) { Hidden = !groupActive };
-                int elemIndex = 0;
+                int elemAddrOffset = 0;
 
                 if (groupActive)
                 {
@@ -304,12 +304,12 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
                     if (groupCommands && !elemConfig.ReadOnly && !string.IsNullOrEmpty(elemConfig.TagCode))
                     {
                         deviceModel.Cmds.Add(
-                            CreateModbusCmd(deviceTemplate.Options, elemGroupConfig, elemConfig, elemIndex));
+                            CreateModbusCmd(deviceTemplate.Options, elemGroupConfig, elemConfig, elemAddrOffset));
                     }
 
                     // add device tag
                     tagGroup.AddTag(elemConfig.TagCode, elemConfig.Name).SetFormat(GetTagFormat(elemConfig));
-                    elemIndex++;
+                    elemAddrOffset += elemConfig.Quantity;
                 }
 
                 if (groupActive)
@@ -415,15 +415,15 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
                 {
                     modbusCmd.Value = 0;
 
-                    if (cmd.CmdData == null)
-                        modbusCmd.SetCmdData(cmd.CmdVal);
-                    else
+                    if (cmd.CmdData != null && cmd.CmdData.Length > 0)
                         modbusCmd.Data = cmd.CmdData;
+                    else
+                        modbusCmd.SetCmdData(cmd.CmdVal);
                 }
                 else
                 {
                     modbusCmd.Value = modbusCmd.DataBlock == DataBlock.HoldingRegisters 
-                        ? (ushort)cmd.CmdVal 
+                        ? (ushort)cmd.CmdVal
                         : (ushort)(cmd.CmdVal > 0 ? 1 : 0);
                     modbusCmd.SetCmdData(cmd.CmdVal);
                 }

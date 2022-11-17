@@ -1,0 +1,285 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtCommConfigDictionaries culture="zh-Hans" lang="ChineseSimplified">
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.ExtCommConfigLogic">
+    <Phrase key="GeneralOptionsNode">常规选项</Phrase>
+    <Phrase key="DriversNode">驱动程序</Phrase>
+    <Phrase key="DataSourcesNode">数据源</Phrase>
+    <Phrase key="LinesNode">通信线路</Phrase>
+    <Phrase key="LineOptionsNode">线路选项</Phrase>
+    <Phrase key="LineStatsNode">线路统计</Phrase>
+    <Phrase key="LogsNode">日志</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Code.ExtensionUtils">
+    <Phrase key="DeviceNotSupported">驱动程序不支持创建设备。</Phrase>
+    <Phrase key="UnableCreateDeviceView">无法创建设备用户界面。</Phrase>
+    <Phrase key="NoDeviceProperties">设备没有提供属性窗口。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate1">
+    <Phrase key="lblCommLine">通信线路</Phrase>
+    <Phrase key="lblDevice">设备</Phrase>
+    <Phrase key="AllCommLines">&lt;所有的通信线路&gt;</Phrase>
+    <Phrase key="DeviceInfo">驱动: {0}&#13;&#10;实例: {1}&#13;&#10;通道: {2}</Phrase>
+    <Phrase key="DeviceNotFound">在通信线路中找不到设备。</Phrase>
+    <Phrase key="NoDeviceSelected">未选择设备。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate2">
+    <Phrase key="lblDevice">设备</Phrase>
+    <Phrase key="lblObj">对象</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate3">
+    <Phrase key="lblDevice">设备</Phrase>
+    <Phrase key="gbCnlNums">通道号</Phrase>
+    <Phrase key="lblStartCnlNum">开始</Phrase>
+    <Phrase key="lblEndCnlNum">结束</Phrase>
+    <Phrase key="btnMap">映射</Phrase>
+    <Phrase key="btnReset">重置</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu">
+    <Phrase key="miWizards">向导</Phrase>
+    <Phrase key="miAddLine">添加线路...</Phrase>
+    <Phrase key="miAddDevice">添加设备...</Phrase>
+    <Phrase key="miCreateChannels">创建通道...</Phrase>
+    <Phrase key="btnAddLine.ToolTip">添加线路</Phrase>
+    <Phrase key="btnAddDevice.ToolTip">添加设备</Phrase>
+    <Phrase key="btnCreateChannels.ToolTip">创建通道</Phrase>
+    <Phrase key="miLineSync">同步...</Phrase>
+    <Phrase key="miLineAdd">添加线路</Phrase>
+    <Phrase key="miLineMoveUp">向上移动线路</Phrase>
+    <Phrase key="miLineMoveDown">向下移动线路</Phrase>
+    <Phrase key="miLineDelete">删除线路</Phrase>
+    <Phrase key="miLineStart">启动线路</Phrase>
+    <Phrase key="miLineStop">停止线路</Phrase>
+    <Phrase key="miLineRestart">重启线路</Phrase>
+    <Phrase key="miDeviceChannels">跳转到通道</Phrase>
+    <Phrase key="miDeviceCommand">发送命令...</Phrase>
+    <Phrase key="miDevicePoll">Poll 设备</Phrase>
+    <Phrase key="miDeviceProperties">属性</Phrase>
+    <Phrase key="ConfirmDeleteLine">是否确实要删除通信线路？</Phrase>
+    <Phrase key="CnlNodeNotFound">找不到通道节点。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineMain">
+    <Phrase key="gbLine">通信线路</Phrase>
+    <Phrase key="chkActive">活动</Phrase>
+    <Phrase key="chkIsBound">绑定到配置数据库</Phrase>
+    <Phrase key="lblCommLineNum">号码</Phrase>
+    <Phrase key="lblName">名称</Phrase>
+    <Phrase key="gbLineOptions">线路选项</Phrase>
+    <Phrase key="lblReqRetries">出错时的请求重试次数</Phrase>
+    <Phrase key="lblCycleDelay">轮询周期后结束, ms</Phrase>
+    <Phrase key="lblCmdEnabled">已启用的命令</Phrase>
+    <Phrase key="lblPollAfterCmd">命令执行后检测设备</Phrase>
+    <Phrase key="lblDetailedLog">详细日志</Phrase>
+    <Phrase key="gbChannel">通信通道</Phrase>
+    <Phrase key="lblChannelType">类型</Phrase>
+    <Phrase key="btnChannelProperties">属性</Phrase>
+    <Phrase key="lblChannelOptions">选项</Phrase>
+    <Phrase key="UndefinedChannelType">未定义</Phrase>
+    <Phrase key="ChannelNotSupported">驱动程序不支持创建通信通道。</Phrase>
+    <Phrase key="UnableCreateChannelView">无法创建通信通道用户界面。</Phrase>
+    <Phrase key="NoChannelProperties">通信通道没有提供属性窗口。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineCustom">
+    <Phrase key="btnAddOption">添加</Phrase>
+    <Phrase key="btnDeleteOption">删除</Phrase>
+    <Phrase key="colOptionName">名称</Phrase>
+    <Phrase key="colOptionValue">值</Phrase>
+    <Phrase key="gbSelectedOption">选择选项</Phrase>
+    <Phrase key="lblOptionName">名称</Phrase>
+    <Phrase key="lblOptionValue">值</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLinePolling">
+    <Phrase key="btnAddDevice">添加</Phrase>
+    <Phrase key="btnMoveUpDevice">向上移动</Phrase>
+    <Phrase key="btnMoveDownDevice">向下移动</Phrase>
+    <Phrase key="btnDeleteDevice">删除</Phrase>
+    <Phrase key="btnCutDevice">剪切</Phrase>
+    <Phrase key="btnCopyDevice">拷贝</Phrase>
+    <Phrase key="btnPasteDevice">粘贴</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">活动</Phrase>
+    <Phrase key="colPollOnCmd">对命令进行轮询</Phrase>
+    <Phrase key="colIsBound">绑定</Phrase>
+    <Phrase key="colNumber">编号</Phrase>
+    <Phrase key="colName">名称</Phrase>
+    <Phrase key="colDriver">驱动程序</Phrase>
+    <Phrase key="colNumAddress">数字地址</Phrase>
+    <Phrase key="colStrAddress">字符串地址</Phrase>
+    <Phrase key="colTimeout">超时</Phrase>
+    <Phrase key="colDelay">延迟</Phrase>
+    <Phrase key="colTime">时间</Phrase>
+    <Phrase key="colPeriod">周期</Phrase>
+    <Phrase key="colCmdLine">命令行</Phrase>
+    <Phrase key="gbSelectedDevice">选定的设备</Phrase>
+    <Phrase key="chkActive">活动</Phrase>
+    <Phrase key="chkPollOnCmd">仅根据命令进行轮询</Phrase>
+    <Phrase key="chkIsBound">绑定到配置数据库</Phrase>
+    <Phrase key="lblDeviceNum">编号</Phrase>
+    <Phrase key="lblName">名称</Phrase>
+    <Phrase key="lblDriver">驱动程序</Phrase>
+    <Phrase key="lblNumAddress">数字地址</Phrase>
+    <Phrase key="lblStrAddress">字符串地址或者 主机名</Phrase>
+    <Phrase key="lblTimeout">超时</Phrase>
+    <Phrase key="lblDelay">延迟</Phrase>
+    <Phrase key="lblTime">时间</Phrase>
+    <Phrase key="lblPeriod">周期</Phrase>
+    <Phrase key="lblCmdLine">命令行</Phrase>
+    <Phrase key="lblCustomOptions">选项</Phrase>
+    <Phrase key="btnDeviceProperties">属性</Phrase>
+    <Phrase key="btnResetPollingOptions">重置</Phrase>
+    <Phrase key="btnResetPollingOptions.ToolTip">将设备轮询选项设置为默认值t</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlSync1">
+    <Phrase key="lblSyncDirection">选择同步方向:</Phrase>
+    <Phrase key="rbBaseToComm">配置数据库到通信器</Phrase>
+    <Phrase key="rbCommToBase">通信器到配置数据库</Phrase>
+    <Phrase key="lblInfo">将创建缺失的线路和设备。&#13;&#10;现有的线路和设备将被更新。&#13;&#10;&#13;&#10;受影响的属性:&#13;&#10;- 通信线路名称&#13;&#10;- 设备名称&#13;&#10;- 设备驱动程序&#13;&#10;- 设备地址</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlSync2">
+    <Phrase key="lblSelect">选择要同步的通信线路和设备:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCnlCreate">
+    <Phrase key="this">创建通道</Phrase>
+    <Phrase key="chkPreview">预览</Phrase>
+    <Phrase key="btnBack">&lt; 返回</Phrase>
+    <Phrase key="btnNext">下一步 &gt;</Phrase>
+    <Phrase key="btnCreate">创建</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+    <Phrase key="CreateCnlsStep1">步骤1（共3步）：选择设备</Phrase>
+    <Phrase key="CreateCnlsStep2">步骤2（共3步）：选择新创建的通道的对象</Phrase>
+    <Phrase key="CreateCnlsStep3">步骤3（共3步）：分配通道号</Phrase>
+    <Phrase key="CreateCnlsCompleted">通道已成功创建完成.&#13;&#10;添加了通道{0} .</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCnlPreview">
+    <Phrase key="this">预览通道</Phrase>
+    <Phrase key="btnDelete">删除</Phrase>
+    <Phrase key="colCnlNum">编号</Phrase>
+    <Phrase key="colActive">活动</Phrase>
+    <Phrase key="colName">名称</Phrase>
+    <Phrase key="colTagNum">标签号</Phrase>
+    <Phrase key="colTagCode">标签代码</Phrase>
+    <Phrase key="btnAdd">添加</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCommLogs">
+    <Phrase key="AppFilter">应用程序</Phrase>
+    <Phrase key="LinesFilter">通信线路</Phrase>
+    <Phrase key="DevicesFilter">设备</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDataSources">
+    <Phrase key="this">数据源</Phrase>
+    <Phrase key="btnAdd">添加</Phrase>
+    <Phrase key="btnMoveUp">向上移动</Phrase>
+    <Phrase key="btnMoveDown">向下移动</Phrase>
+    <Phrase key="btnDelete">删除</Phrase>
+    <Phrase key="btnCut">剪切</Phrase>
+    <Phrase key="btnCopy">拷贝</Phrase>
+    <Phrase key="btnPaste">粘贴</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">活动</Phrase>
+    <Phrase key="colCode">编码</Phrase>
+    <Phrase key="colName">名称</Phrase>
+    <Phrase key="colDriver">驱动程序</Phrase>
+    <Phrase key="gbDataSource">所选的数据源</Phrase>
+    <Phrase key="chkActive">活动</Phrase>
+    <Phrase key="lblCode">代码</Phrase>
+    <Phrase key="lblName">名称</Phrase>
+    <Phrase key="lblDriver">驱动程序</Phrase>
+    <Phrase key="lblOptions">选项</Phrase>
+    <Phrase key="btnProperties">属性</Phrase>
+    <Phrase key="DriverNotSpecified">未指定驱动程序。</Phrase>
+    <Phrase key="DataSourceNotSupported">驱动程序不支持创建数据源。</Phrase>
+    <Phrase key="UnableCreateDataSourceView">无法创建数据源用户界面。</Phrase>
+    <Phrase key="NoDataSourceProperties">数据源没有提供属性窗口。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceAdd">
+    <Phrase key="this">添加设备</Phrase>
+    <Phrase key="gbDevice">设备</Phrase>
+    <Phrase key="lblDeviceNum">编号</Phrase>
+    <Phrase key="lblName">名称</Phrase>
+    <Phrase key="lblCode">代码</Phrase>
+    <Phrase key="lblDevType">设备类型</Phrase>
+    <Phrase key="lblNumAddress">数字地址</Phrase>
+    <Phrase key="lblStrAddress">字符串地址或者主机名</Phrase>
+    <Phrase key="lblCommLine">通信线路</Phrase>
+    <Phrase key="lblDescr">说明</Phrase>
+    <Phrase key="gbComm">通信器</Phrase>
+    <Phrase key="chkAddToComm">将设备添加到通信器</Phrase>
+    <Phrase key="lblInstance">实例</Phrase>
+    <Phrase key="btnOK">确定</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+    <Phrase key="DeviceExistsInConfigDatabase">配置数据库中已存在具有相同编号的设备。</Phrase>
+    <Phrase key="DeviceExistsInLineConfig">通信线路配置中已存在具有相同编号的设备。</Phrase>
+    <Phrase key="LineNotFoundInCommConfig">在通信器配置中找不到通信线路。</Phrase>
+    <Phrase key="ChooseLine">请选择通信线路。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceCommand">
+    <Phrase key="this">命令到 {0}</Phrase>
+    <Phrase key="lblCmdNum">命令编号</Phrase>
+    <Phrase key="lblCmdCode">命令代码</Phrase>
+    <Phrase key="rbNumVal">数字</Phrase>
+    <Phrase key="rbStrData">字符串数据</Phrase>
+    <Phrase key="rbHexData">十六进制数据</Phrase>
+    <Phrase key="btnOff">关闭</Phrase>
+    <Phrase key="btnOn">开启</Phrase>
+    <Phrase key="btnSend">发送</Phrase>
+    <Phrase key="btnClose">关闭</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceData">
+    <Phrase key="this">设备 {0}</Phrase>
+    <Phrase key="btnDeviceProperties">属性</Phrase>
+    <Phrase key="btnSendCommand">命令</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDrivers">
+    <Phrase key="this">驱动程序</Phrase>
+    <Phrase key="lblDrivers">可用的驱动程序:</Phrase>
+    <Phrase key="btnProperties">属性</Phrase>
+    <Phrase key="btnRegister">注册</Phrase>
+    <Phrase key="lblDescr">说明</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmGeneralOptions">
+    <Phrase key="this">常规选项</Phrase>
+    <Phrase key="gbGeneralOptions">常规选项</Phrase>
+    <Phrase key="lblIsBound">应用程序绑定到配置数据库</Phrase>
+    <Phrase key="lblSendModifiedData">仅发送设备标记的修改部分数据</Phrase>
+    <Phrase key="lblSendAllDataPeriod">发送所有设备标记的数据周期, 秒</Phrase>
+    <Phrase key="lblEnableCommands">启用远程控制命令</Phrase>
+    <Phrase key="lblEnableFileCommands">从文件中读取远程控制命令</Phrase>
+    <Phrase key="lblStartLinesOnCommand">从命令启动通信线路</Phrase>
+    <Phrase key="lblMaxLogSize">最大日志文件大小, MB</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineAdd">
+    <Phrase key="this">添加通信线路</Phrase>
+    <Phrase key="gbLine">通信线路</Phrase>
+    <Phrase key="lblCommLineNum">编号</Phrase>
+    <Phrase key="lblName">名称</Phrase>
+    <Phrase key="lblDescr">说明</Phrase>
+    <Phrase key="gbComm">通信器</Phrase>
+    <Phrase key="chkAddToComm">添加通信线路到通信器</Phrase>
+    <Phrase key="lblInstance">实例</Phrase>
+    <Phrase key="btnOK">确定</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+    <Phrase key="LineExistsInConfigDatabase">配置数据库中已存在具有相同编号的通信线路。</Phrase>
+    <Phrase key="LineExistsInCommConfig">通信器配置中已存在具有相同编号的通信线路。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineConfig">
+    <Phrase key="lbTabs.Items[0]">主选项</Phrase>
+    <Phrase key="lbTabs.Items[1]">自定义选项</Phrase>
+    <Phrase key="lbTabs.Items[2]">设备轮询</Phrase>
+    <Phrase key="LineConfigTitle">线路 {0} 选项</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineStats">
+    <Phrase key="lbTabs.Items[0]">通信线路状态</Phrase>
+    <Phrase key="lbTabs.Items[1]">通信线路日志</Phrase>
+    <Phrase key="chkPause">暂停</Phrase>
+    <Phrase key="LineStatsTitle">通信线路 {0} 统计信息</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmSync">
+    <Phrase key="this">同步通信线路和设备</Phrase>
+    <Phrase key="btnNext">下一个</Phrase>
+    <Phrase key="btnSync">同步</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+    <Phrase key="SyncCompleted">同步成功完成。</Phrase>
+    <Phrase key="SyncCompletedWithError">同步完成，发送以下错误:&#13;&#10;{0}</Phrase>
+    <Phrase key="NoDataToSync">未选择用于同步的数据。</Phrase>
+  </Dictionary>
+</ExtCommConfigDictionaries>

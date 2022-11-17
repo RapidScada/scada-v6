@@ -104,7 +104,7 @@ namespace Scada.Web.Pages
                 returnUrl,
                 userConfig?.StartPage,
                 webContext.AppConfig.GeneralOptions.DefaultStartPage,
-                WebPath.DefaultStartPage.PrependTilda()));
+                WebPath.DefaultStartPage.PrependTilde()));
             return LocalRedirect(url);
         }
 

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDsOpcUaServerDictionaries culture="zh-Hans" lang="ChineseSimplified">
+  <Dictionary key="Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms.FrmOpcUaServerDSO">
+    <Phrase key="this">数据源属性</Phrase>
+    <Phrase key="chkAutoAccept">自动接受证书</Phrase>
+    <Phrase key="lblUsername">用户名</Phrase>
+    <Phrase key="lblPassword">密码</Phrase>
+    <Phrase key="lblConfigFileName">配置文件</Phrase>
+    <Phrase key="btnCreateConfigWin.ToolTip">创建Windows 配置文件</Phrase>
+    <Phrase key="btnCreateConfigLinux.ToolTip">创建Linux配置文件</Phrase>
+    <Phrase key="btnBrowseConfig.ToolTip">浏览</Phrase>
+    <Phrase key="lblDeviceFilter">设备筛选器</Phrase>
+    <Phrase key="btnSelectDevices.ToolTip">选择设备</Phrase>
+    <Phrase key="btnOK">确认</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+    <Phrase key="ConfigDirRequired">配置文件必须位于 {0}</Phrase>
+  </Dictionary>
+</DrvDsOpcUaServerDictionaries>

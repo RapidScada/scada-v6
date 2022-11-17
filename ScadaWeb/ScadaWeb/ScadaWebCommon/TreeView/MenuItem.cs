@@ -149,7 +149,7 @@ namespace Scada.Web.TreeView
                 KnownMenuItem.Reports => new MenuItem
                 {
                     Text = WebPhrases.ReportsMenuItem,
-                    Url = WebPath.ReportsPage.PrependTilda(),
+                    Url = WebPath.ReportsPage.PrependTilde(),
                     SortOrder = (int)KnownMenuItem.Reports * OrderCoef
                 },
 
@@ -180,7 +180,7 @@ namespace Scada.Web.TreeView
                 KnownMenuItem.About => new MenuItem
                 {
                     Text = WebPhrases.AboutMenuItem,
-                    Url = WebPath.AboutPage.PrependTilda(),
+                    Url = WebPath.AboutPage.PrependTilde(),
                     SortOrder = MenuItemSortOrder.Last
                 },
 

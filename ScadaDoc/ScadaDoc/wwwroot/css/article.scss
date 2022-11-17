@@ -1,0 +1,108 @@
+﻿@import "_variables.scss";
+
+.doc-toc {
+    color: $secondary;
+    font-size: 0.875rem;
+    max-width: 100%;
+
+    ul {
+        list-style: none;
+        padding-left: 0;
+
+        ul {
+            padding-left: 1rem;
+        }
+    }
+
+    li {
+        a {
+            color: $secondary;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    li > div,
+    li > a {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+    }
+
+    div.item-text {
+        border-radius: 0.375rem;
+
+        &.active {
+            background-color: $primary;
+            color: $light;
+            font-weight: 600;
+
+            a {
+                color: $light;
+            }
+        }
+    }
+}
+
+.doc-article {
+    .doc-toc {
+        hr {
+            display: none;
+            margin: 0.5rem 0;
+        }
+    }
+
+    :target {
+        padding-top: 5rem;
+        margin-top: -5rem;
+    }
+
+    figure {
+        display: block;
+        text-align: center;
+    }
+
+    em {
+        color: $pink;
+    }
+}
+
+@media (min-width: $breakpoint-lg) {
+    #divLayout {
+        display: grid;
+        grid-template-areas: "toc main";
+        grid-template-columns: 1fr 5fr;
+        gap: 1.5rem;
+    }
+
+    #divTocWrapper {
+        grid-area: toc;
+        height: calc(100vh - 5rem);
+        overflow-y: auto;
+        padding-right: 0.5rem;
+        position: sticky;
+        top: 5rem;
+    }
+
+    .doc-article {
+        grid-area: main;
+
+        .doc-content {
+            width: 80%;
+        }
+
+        .doc-toc {
+            float: right;
+            padding-left: 1rem;
+            position: sticky;
+            top: 5rem;
+            width: 20%;
+
+            hr {
+                display: block;
+            }
+        }
+    }
+}

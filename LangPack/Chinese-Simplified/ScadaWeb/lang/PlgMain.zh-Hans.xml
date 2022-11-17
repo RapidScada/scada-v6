@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgMainDictionaries culture="zh-Hans" lang="ChineseSimplified">
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command">
+    <Phrase key="PageTitle">命令</Phrase>
+    <Phrase key="CommandSent">命令已发送</Phrase>
+    <Phrase key="CmdParseError">解析命令发送错误。</Phrase>
+    <Phrase key="CnlRow">通道：</Phrase>
+    <Phrase key="ObjRow">对象：</Phrase>
+    <Phrase key="DevRow">设备：</Phrase>
+    <Phrase key="lblPassword">密码</Phrase>
+    <Phrase key="lblCmdDec">命令值</Phrase>
+    <Phrase key="lblCmdHex">命令值（十六进制）</Phrase>
+    <Phrase key="lblCmdEnum">命令</Phrase>
+    <Phrase key="lblCmdDate">命令值（日期/时间）</Phrase>
+    <Phrase key="lblCmdData">命令数据</Phrase>
+    <Phrase key="lblStr">字符串</Phrase>
+    <Phrase key="lblHex">十六进制</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventAck">
+    <Phrase key="PageTitle">事件</Phrase>
+    <Phrase key="EventNotFound">未发现事件 {0}。</Phrase>
+    <Phrase key="EventAcknowledged">事件已确认。</Phrase>
+    <Phrase key="TimeRow">日期和时间：</Phrase>
+    <Phrase key="ObjRow">对象：</Phrase>
+    <Phrase key="DevRow">设备：</Phrase>
+    <Phrase key="CnlRow">通道：</Phrase>
+    <Phrase key="DescrRow">描述</Phrase>
+    <Phrase key="SevRow">严重性：</Phrase>
+    <Phrase key="AckRow">确认</Phrase>
+    <Phrase key="AckYes">是</Phrase>
+    <Phrase key="AckNo">否</Phrase>
+    <Phrase key="AckTip">点击“确定”按钮确认事件。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventReport">
+    <Phrase key="PageTitle">事件报表</Phrase>
+    <Phrase key="AllObjItem">-- 所有对象 --</Phrase>
+    <Phrase key="AllAvailObjItem">-- 所有可用对象 --</Phrase>
+    <Phrase key="NotSpecifiedItem">-- 未指定 --</Phrase>
+    <Phrase key="lblStartTime">从</Phrase>
+    <Phrase key="lblEndTime">至</Phrase>
+    <Phrase key="lblArchive">存档</Phrase>
+    <Phrase key="lblObj">对象</Phrase>
+    <Phrase key="lblSeverity">严重性</Phrase>
+    <Phrase key="btnGenerateReport">下载报告</Phrase>
+    <Phrase key="divWaitHint">生成报告，请稍候……</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events">
+    <Phrase key="TimeCol">日期和时间</Phrase>
+    <Phrase key="ObjCol">对象</Phrase>
+    <Phrase key="DevCol">设备</Phrase>
+    <Phrase key="CnlCol">通道</Phrase>
+    <Phrase key="DescrCol">描述</Phrase>
+    <Phrase key="SevCol">严重性</Phrase>
+    <Phrase key="AckCol">确认</Phrase>
+    <Phrase key="EventInfo">{1} 小时内最新 {0} 个事件</Phrase>
+    <Phrase key="spanAllEventsBtn">所有事件</Phrase>
+    <Phrase key="spanEventsByViewBtn">？视图事件？</Phrase>
+    <Phrase key="spanPrintBtn_ToolTip">>导出事件</Phrase>
+    <Phrase key="spanErrorBadge">错误</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events.Js">
+    <Phrase key="Loading">加载……</Phrase>
+    <Phrase key="NoEvents">无事件</Phrase>
+    <Phrase key="Ack">点击确认</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.HistDataReport">
+    <Phrase key="PageTitle">历史数据报表</Phrase>
+    <Phrase key="lblStartTime">从</Phrase>
+    <Phrase key="lblEndTime">至</Phrase>
+    <Phrase key="lblArchive">存档</Phrase>
+    <Phrase key="lblCnlNums">通道</Phrase>
+    <Phrase key="btnSelectCnls">选择……</Phrase>
+    <Phrase key="btnGenerateReport">下载报告</Phrase>
+    <Phrase key="divWaitHint">生成报告，请稍候……</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView">
+    <Phrase key="TableViewTitle">表 {0}</Phrase>
+    <Phrase key="PrevDate">前一日</Phrase>
+    <Phrase key="SelDate">已选日期</Phrase>
+    <Phrase key="MinusOneDay">-1天</Phrase>
+    <Phrase key="ItemColumn">？项？</Phrase>
+    <Phrase key="CurrentColumn">当前</Phrase>
+    <Phrase key="CnlTip">通道</Phrase>
+    <Phrase key="DeviceTip">设备</Phrase>
+    <Phrase key="ObjTip">对象</Phrase>
+    <Phrase key="QuantityTip">数量</Phrase>
+    <Phrase key="UnitTip">单位</Phrase>
+    <Phrase key="SendCommandTip">发送命令</Phrase>
+    <Phrase key="spanPrintBtn_ToolTip">导出表视图</Phrase>
+    <Phrase key="spanLoadingBadge">加载……</Phrase>
+    <Phrase key="spanErrorBadge">错误</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Code.EventWindowSpec">
+    <Phrase key="EventWindowTitle">事件</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.PlgMainLogic">
+    <Phrase key="ReportGroup">主要报表</Phrase>
+    <Phrase key="HistDataReport">历史数据报表</Phrase>
+    <Phrase key="EventReport">事件报表</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report">
+    <Phrase key="ArchiveNotFound">在配置的数据库中未发现存档。</Phrase>
+    <Phrase key="GenCaption">创建者：</Phrase>
+    <Phrase key="TzCaption">时区：</Phrase>
+    <Phrase key="ArcCaption">存档：</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.Js">
+    <Phrase key="InvalidPeriod">开始日期必须小于或等于结束日期。</Phrase>
+    <Phrase key="PeriodTooLong">最长期限是 {0} 天。</Phrase>
+    <Phrase key="InvalidChannels">无效的通道编号。</Phrase>
+    <Phrase key="NoSeverity">未选择严重程度。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.EventReportBuilder">
+    <Phrase key="GeneralTitleFormat">事件 {0} - {1}</Phrase>
+    <Phrase key="TailTitleFormat">{1} 小时内最新 {0} 个事件</Phrase>
+    <Phrase key="ViewCaption">视图：</Phrase>
+    <Phrase key="ObjCaption">对象：</Phrase>
+    <Phrase key="SevCaption">严重性：</Phrase>
+    <Phrase key="TimeCol">日期和时间</Phrase>
+    <Phrase key="ObjCol">对象</Phrase>
+    <Phrase key="DevCol">设备</Phrase>
+    <Phrase key="CnlCol">通道</Phrase>
+    <Phrase key="DescrCol">描述</Phrase>
+    <Phrase key="SevCol">严重性</Phrase>
+    <Phrase key="AckCol">确认</Phrase>
+    <Phrase key="WorksheetName">事件</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.HistDataReportBuilder">
+    <Phrase key="TitleFormat">历史数据 {0} - {1}</Phrase>
+    <Phrase key="CnlCaption">通道：</Phrase>
+    <Phrase key="TimeCol">日期和时间</Phrase>
+    <Phrase key="DataCol">通道 {0}</Phrase>
+    <Phrase key="AvgCaption">平均值</Phrase>
+    <Phrase key="MinCaption">最小值</Phrase>
+    <Phrase key="MaxCaption">最大值</Phrase>
+    <Phrase key="WorksheetName">历史数据</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.TableViewReportBuilder">
+    <Phrase key="TitleFormat">{0}, {1} - {2}</Phrase>
+    <Phrase key="ItemCol">？项？</Phrase>
+    <Phrase key="WorksheetName">表视图</Phrase>
+  </Dictionary>
+</PlgMainDictionaries>

@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaDictionaries culture="zh-Hans" lang="ChineseSimplified">
+  <!-- ScadaCommon.dll -->
+  <Dictionary key="Scada.Application">
+    <Phrase key="ProductName">Rapid SCADA</Phrase>
+    <Phrase key="ServerAppName">服务器</Phrase>
+    <Phrase key="CommAppName">Communicator</Phrase>
+    <Phrase key="WebAppName">Webstation</Phrase>
+    <Phrase key="WebsiteUrl">https://rapidscada.org</Phrase>
+    <Phrase key="UnhandledException">未知错误</Phrase>
+    <Phrase key="ExecutionImpossible">无法正常执行</Phrase>
+    <Phrase key="StartLogic">启动逻辑处理</Phrase>
+    <Phrase key="LogicAlreadyStarted">逻辑处理已经启动</Phrase>
+    <Phrase key="StartLogicError">启动逻辑处理时发生错误</Phrase>
+    <Phrase key="LogicStopped">逻辑处理已经停止</Phrase>
+    <Phrase key="UnableToStopLogic">无法在指定时间内停止逻辑处理</Phrase>
+    <Phrase key="StopLogicError">停止逻辑处理时发生错误</Phrase>
+    <Phrase key="LogicCycleError">逻辑工作周期错误</Phrase>
+    <Phrase key="ThreadFatalError">线程发生严重错误</Phrase>
+    <Phrase key="WriteInfoError">将应用程序信息写入文件时出错</Phrase>
+    <Phrase key="ConnectionNotFound">未发现连接&quot;{0}&quot;。</Phrase>
+    <Phrase key="ConnOptionsNotFound">未发现连接选项。</Phrase>
+    <Phrase key="DatabaseNotSupported">数据库不支持。</Phrase>
+    <Phrase key="OperationNotSupported">操作不支持。</Phrase>
+    <Phrase key="CommandSent">命令已经发送。</Phrase>
+    <Phrase key="SendCommandError">发送命令时发生错误</Phrase>
+    <Phrase key="AgentDisabled">Agent已禁用。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.ConfigDatabase">
+    <Phrase key="UndefinedTable">未定义</Phrase>
+    <Phrase key="ArchiveTable">存档</Phrase>
+    <Phrase key="ArchiveKindTable">存档种类</Phrase>
+    <Phrase key="CnlTable">通道</Phrase>
+    <Phrase key="CnlStatusTable">通道状态</Phrase>
+    <Phrase key="CnlTypeTable">通道类型</Phrase>
+    <Phrase key="CommLineTable">通信线路</Phrase>
+    <Phrase key="DataTypeTable">数据类型</Phrase>
+    <Phrase key="DeviceTable">设备</Phrase>
+    <Phrase key="DevTypeTable">设备类型</Phrase>
+    <Phrase key="FormatTable">格式</Phrase>
+    <Phrase key="LimTable">限制</Phrase>
+    <Phrase key="ObjTable">对象</Phrase>
+    <Phrase key="ObjRightTable">对象权限</Phrase>
+    <Phrase key="QuantityTable">数量</Phrase>
+    <Phrase key="RoleTable">角色</Phrase>
+    <Phrase key="RoleRefTable">角色继承</Phrase>
+    <Phrase key="ScriptTable">脚本</Phrase>
+    <Phrase key="UnitTable">单位</Phrase>
+    <Phrase key="UserTable">用户</Phrase>
+    <Phrase key="ViewTable">视图</Phrase>
+    <Phrase key="ViewTypeTable">视图类型</Phrase>
+    <Phrase key="IndexNotFound">没有找到索引。</Phrase>
+    <Phrase key="EntityCaption">[{0}] {1}</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Files">
+    <Phrase key="FileNotFound">没有找到文件。</Phrase>
+    <Phrase key="NamedFileNotFound">没有找到文件 {0}。</Phrase>
+    <Phrase key="DirectoryNotExists">目录不存在。</Phrase>
+    <Phrase key="PathNotSupported">路径不支持。</Phrase>
+    <Phrase key="InvalidFileFormat">无效的文件格式。</Phrase>
+    <Phrase key="LoadConfigError">加载配置时发生错误</Phrase>
+    <Phrase key="SaveConfigError">保存配置时发生错误</Phrase>
+    <Phrase key="SaveConfigConfirm">配置已修改，是否保存？</Phrase>
+    <Phrase key="LoadViewError">加载视图时发生错误</Phrase>
+    <Phrase key="SaveViewError">保存视图时发生错误</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Format">
+    <Phrase key="IntegerRequired">需要一个整数</Phrase>
+    <Phrase key="IntegerInRangeRequired">需要从 {0} 到 {1} 之间的一个整数。</Phrase>
+    <Phrase key="RealRequired">需要一个实数。</Phrase>
+    <Phrase key="NonemptyRequired">需要一个非空数字。</Phrase>
+    <Phrase key="ValidUrlRequired">需要一个有效的URL地址。</Phrase>
+    <Phrase key="ValidRangeRequired">需要一个有效的整数范围。</Phrase>
+    <Phrase key="DateTimeRequired">需要日期和时间。</Phrase>
+    <Phrase key="NotNumber">不是一个数字。</Phrase>
+    <Phrase key="NotHexadecimal">不是一个十六进制数字。</Phrase>
+    <Phrase key="InvalidParamVal">参数 &quot;{0}&quot; 的值无效。</Phrase>
+    <Phrase key="InvalidSecretKey">无效的密钥。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms">
+    <Phrase key="InfoCaption">信息</Phrase>
+    <Phrase key="QuestionCaption">问题</Phrase>
+    <Phrase key="ErrorCaption">错误</Phrase>
+    <Phrase key="WarningCaption">警告</Phrase>
+    <Phrase key="NoData">无数据</Phrase>
+    <Phrase key="EmptyData">空白</Phrase>
+    <Phrase key="CorrectErrors">请修正下面的错误：</Phrase>
+    <Phrase key="HiddenPassword">*****</Phrase>
+    <Phrase key="NewConnection">新连接</Phrase>
+    <Phrase key="UnnamedConnection">&lt;未命名连接&gt;</Phrase>
+    <Phrase key="XmlFileFilter">XML文件 (*.xml)|*.xml|所有文件(*.*)|*.*</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.ComponentModel">
+    <Phrase key="TrueValue">是</Phrase>
+    <Phrase key="FalseValue">否</Phrase>
+    <Phrase key="EmptyValue">(空白)</Phrase>
+    <Phrase key="CollectionValue">(集合)</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.CnlDataFormatter">
+    <Phrase key="UndefinedSign">---</Phrase>
+    <Phrase key="CommandDescrPrefix">命令：</Phrase>
+    <Phrase key="StatusFormat">状态 {0}</Phrase>
+    <Phrase key="CriticalSeverity">关键</Phrase>
+    <Phrase key="MajorSeverity">主要</Phrase>
+    <Phrase key="MinorSeverity">轻微</Phrase>
+    <Phrase key="InfoSeverity">信息</Phrase>
+  </Dictionary>
+  <!-- ScadaCommon.Forms.dll -->
+  <Dictionary key="Scada.Forms.Controls.CtrlBitmask">
+    <Phrase key="lblMaskValue">十进制数据</Phrase>
+    <Phrase key="btnResetMask">重置</Phrase>
+    <Phrase key="lblMaskBits">位</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlClientConnection">
+    <Phrase key="gbConnectionOptions">连接选项</Phrase>
+    <Phrase key="lblName">名称</Phrase>
+    <Phrase key="lblHost">主机</Phrase>
+    <Phrase key="lblPort">端口</Phrase>
+    <Phrase key="lblTimeout">超时</Phrase>
+    <Phrase key="lblUsername">用户名</Phrase>
+    <Phrase key="lblPassword">密码</Phrase>
+    <Phrase key="lblInstance">实例</Phrase>
+    <Phrase key="lblSecretKey">密钥</Phrase>
+    <Phrase key="btnPaste">粘贴</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlDbConnection">
+    <Phrase key="gbConnectionOptions">连接选项</Phrase>
+    <Phrase key="lblName">名称</Phrase>
+    <Phrase key="lblDbms">数据库管理系统</Phrase>
+    <Phrase key="lblServer">服务器</Phrase>
+    <Phrase key="lblDatabase">数据库</Phrase>
+    <Phrase key="lblUsername">用户名</Phrase>
+    <Phrase key="lblPassword">密码</Phrase>
+    <Phrase key="chkConnectionString">连接字符串</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmBitmask">
+    <Phrase key="this">位掩码</Phrase>
+    <Phrase key="btnOK">确定</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmBitSelect">
+    <Phrase key="this">选择位</Phrase>
+    <Phrase key="btnOK">确定</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmCnlSelect">
+    <Phrase key="this">选择通道</Phrase>
+    <Phrase key="lblFilter">过滤</Phrase>
+    <Phrase key="btnApplyFilter">应用</Phrase>
+    <Phrase key="lblObj">对象</Phrase>
+    <Phrase key="lblDevice">设备</Phrase>
+    <Phrase key="chkOnlySelected">只显示选择行</Phrase>
+    <Phrase key="colSelected">已选择</Phrase>
+    <Phrase key="colCnlNum">编号</Phrase>
+    <Phrase key="colName">名称</Phrase>
+    <Phrase key="btnSelect">选择</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmEntitySelect">
+    <Phrase key="this">从 {0} 中选择</Phrase>
+    <Phrase key="lblFilter">过滤</Phrase>
+    <Phrase key="btnApplyFilter">应用</Phrase>
+    <Phrase key="chkOnlySelected">只显示选择行</Phrase>
+    <Phrase key="colSelected">已选择</Phrase>
+    <Phrase key="colID">ID</Phrase>
+    <Phrase key="colName">名称</Phrase>
+    <Phrase key="colCode">编码</Phrase>
+    <Phrase key="colDescr">描述</Phrase>
+    <Phrase key="btnSelect">选择</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmModuleConfig">
+    <Phrase key="this">模块配置</Phrase>
+    <Phrase key="btnAdd.ToolTip">增加</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">上移</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">下移</Phrase>
+    <Phrase key="btnDelete.ToolTip">删除</Phrase>
+    <Phrase key="btnSave">保存</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+    <Phrase key="btnClose">关闭</Phrase>
+    <Phrase key="miCollapseAll">全部折叠</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmOptions">
+    <Phrase key="this">选项</Phrase>
+    <Phrase key="btnOK">确定</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.BitItemCollection">
+    <Phrase key="EventEnabled">启用事件</Phrase>
+    <Phrase key="EventBeep">事件提示音</Phrase>
+    <Phrase key="DataChangeEvent">通道数据已修改</Phrase>
+    <Phrase key="ValueChangeEvent">通道数值已修改</Phrase>
+    <Phrase key="StatusChangeEvent">通道状态已修改</Phrase>
+    <Phrase key="CnlUndefinedEvent">通道未定义</Phrase>
+    <Phrase key="CommandEvent">命令已经发送</Phrase>
+  </Dictionary>
+</ScadaDictionaries>

@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtProjectToolsDictionaries culture="zh-Hans" lang="ChineseSimplified">
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.ChannelMap">
+    <Phrase key="MapByDeviceTitle">按设备通道</Phrase>
+    <Phrase key="MapByObjectTitle">按对象通道</Phrase>
+    <Phrase key="ChannelsCaption">通道 : </Phrase>
+    <Phrase key="NoChannels">无通道</Phrase>
+    <Phrase key="GenerateChannelMapError">生成通道映射发生错误</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.DeviceMap">
+    <Phrase key="DeviceMapTitle">按通信线路排列的设备</Phrase>
+    <Phrase key="DevicesCaption">设备 : </Phrase>
+    <Phrase key="NoDevices">无设备</Phrase>
+    <Phrase key="EmptyCommLine">空通信线路</Phrase>
+    <Phrase key="GenerateDeviceMapError">生成设备映射发生错误</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.IntegrityCheck">
+    <Phrase key="IntegrityCheckTitle">完整性检测</Phrase>
+    <Phrase key="TableCorrect">正确</Phrase>
+    <Phrase key="TableHasErrors">错误</Phrase>
+    <Phrase key="LostPrimaryKeys">主键丢失: </Phrase>
+    <Phrase key="BaseCorrect">配置数据库是正确的。</Phrase>
+    <Phrase key="BaseHasErrors">配置数据库有错误。</Phrase>
+    <Phrase key="IntegrityCheckError">完整性检测错误</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Controls.CtrlMainMenu">
+    <Phrase key="miProjectTools">项目工具</Phrase>
+    <Phrase key="miCloneChannels">克隆通道...</Phrase>
+    <Phrase key="miChannelMapByDevice">按设备映射通道</Phrase>
+    <Phrase key="miChannelMapByObject">按对象映射通道</Phrase>
+    <Phrase key="miDeviceMap">设备映射</Phrase>
+    <Phrase key="miCheckIntegrity">完整性检测</Phrase>
+    <Phrase key="miImportTable">导入表...</Phrase>
+    <Phrase key="miExportTable">导出表...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmCnlClone">
+    <Phrase key="this">克隆通道</Phrase>
+    <Phrase key="gbSrcNums">源通道编号</Phrase>
+    <Phrase key="lblSrcStartNum">开始</Phrase>
+    <Phrase key="lblSrcEndNum">结束</Phrase>
+    <Phrase key="gbDestNums">目标通道编号</Phrase>
+    <Phrase key="lblDestStartNum">开始</Phrase>
+    <Phrase key="lblDestEndNum">结束</Phrase>
+    <Phrase key="gbOptions">选项</Phrase>
+    <Phrase key="lblReplaceObj">替换对象</Phrase>
+    <Phrase key="lblReplaceDevice">替换设备</Phrase>
+    <Phrase key="chkUpdateFormulas">在公式里替换通道号</Phrase>
+    <Phrase key="btnClone">克隆</Phrase>
+    <Phrase key="btnClose">关闭</Phrase>
+    <Phrase key="KeepUnchanged">&lt;保持不变&gt;</Phrase>
+    <Phrase key="CloneChannelsCompleted">克隆已经成功完成.&#13;&#10;{0} 通道(s) 已经添加.</Phrase>
+    <Phrase key="CloneChannelsError">克隆通道发生错误</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
+    <Phrase key="this">导出表</Phrase>
+    <Phrase key="lblTable">表</Phrase>
+    <Phrase key="lblFormat">格式</Phrase>
+    <Phrase key="gbIDs">IDs</Phrase>
+    <Phrase key="lblStartID">开始</Phrase>
+    <Phrase key="lblEndID">结束</Phrase>
+    <Phrase key="btnExport">导出</Phrase>
+    <Phrase key="btnClose">关闭</Phrase>
+    <Phrase key="ExportTableFilter">表 (*.dat;*.xml;*.csv)|*.dat;*.xml;*.csv|All Files (*.*)|*.*</Phrase>
+    <Phrase key="ExportTableError">导出表发生错误</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableImport">
+    <Phrase key="this">导入表</Phrase>
+    <Phrase key="lblTable">表</Phrase>
+    <Phrase key="lblSrcFile">源文件</Phrase>
+    <Phrase key="btnBrowse">选择...</Phrase>
+    <Phrase key="gbSrcIDs">源IDs</Phrase>
+    <Phrase key="lblSrcStartID">开始</Phrase>
+    <Phrase key="lblSrcEndID">结束</Phrase>
+    <Phrase key="gbDestIDs">目标 IDs</Phrase>
+    <Phrase key="lblDestStartID">开始</Phrase>
+    <Phrase key="lblDestEndID">结束</Phrase>
+    <Phrase key="btnImport">导入</Phrase>
+    <Phrase key="btnClose">关闭</Phrase>
+    <Phrase key="ImportTableFilter">表 (*.dat;*.xml;*.csv)|*.dat;*.xml;*.csv|All Files (*.*)|*.*</Phrase>
+    <Phrase key="ImportTableCompleted">导入成功完成.&#13;&#10;受影响的行{0} 。</Phrase>
+    <Phrase key="ImportTableError">导入表发生错误</Phrase>
+  </Dictionary>
+</ExtProjectToolsDictionaries>
