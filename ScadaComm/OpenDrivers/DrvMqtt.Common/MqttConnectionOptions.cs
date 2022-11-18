@@ -99,6 +99,7 @@ namespace Scada.Comm.Drivers.DrvMqtt
             options["Username"] = Username;
             options["Password"] = ScadaUtils.Encrypt(Password);
             options["Timeout"] = Timeout.ToString();
+            options["UseTls"] = UseTls.ToLowerString();
             options["ProtocolVersion"] = ProtocolVersion.ToString();
         }
 
