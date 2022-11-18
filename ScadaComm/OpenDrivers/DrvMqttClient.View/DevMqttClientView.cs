@@ -40,7 +40,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.View
         /// </summary>
         public override PollingOptions GetPollingOptions()
         {
-            return new PollingOptions(0, 0);
+            return PollingOptions.CreateWithDefaultDelay();
         }
 
         /// <summary>
