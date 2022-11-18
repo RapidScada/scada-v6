@@ -277,6 +277,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
                         deviceConfig.DeviceNum = deviceNum;
                         deviceConfig.Name = deviceModel.Meta.Name;
                         deviceConfig.Driver = MqttDriverName;
+                        deviceConfig.PollingOptions.Delay = PollingOptions.DefaultDelay;
 
                         // channels and subscriptions
                         BuildCnls(entry, deviceModel, objNum, deviceNum, ref cnlNum);
