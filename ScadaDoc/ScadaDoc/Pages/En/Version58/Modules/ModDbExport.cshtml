@@ -118,7 +118,7 @@ WHEN NOT MATCHED THEN
 INSERT INTO Events (DateTime, ObjNum, KPNum, ParamID, CnlNum, OldCnlVal, OldCnlStat, NewCnlVal, NewCnlStat, Checked, UserID, Descr, Data)
 VALUES (@@dateTime, @@objNum, @@kpNum, @@paramID, @@cnlNum, @@oldCnlVal, @@oldCnlStat, @@newCnlVal, @@newCnlStat, @@checked, @@userID, @@descr, @@data)
 </code></pre>
-@*
+
     <h3>Oracle</h3>
 
     <pre><code class="language-sql">-- Delete channel data table if it exists
@@ -303,5 +303,4 @@ ON DUPLICATE KEY UPDATE val = @@val, stat = @@stat
 INSERT INTO events (datetime, objnum, kpnum, paramid, cnlnum, oldcnlval, oldcnlstat, newcnlval, newcnlstat, checked, userid, descr, data)
 VALUES (@@dateTime, @@objNum, @@kpNum, @@paramID, @@cnlNum, @@oldCnlVal, @@oldCnlStat, @@newCnlVal, @@newCnlStat, @@checked, @@userID, @@descr, @@data)
 </code></pre>
-*@
 </div>
