@@ -34,6 +34,7 @@ namespace Scada.Doc.Code
             {
                 "en" => KnownLang.En,
                 "ru" => KnownLang.Ru,
+                "zh" => KnownLang.Zh,
                 _ => KnownLang.None
             };
 

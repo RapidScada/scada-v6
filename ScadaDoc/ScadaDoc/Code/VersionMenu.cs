@@ -81,6 +81,19 @@ namespace Scada.Doc.Code
         };
 
         /// <summary>
+        /// Chinese versions of the documentation.
+        /// </summary>
+        public static readonly VersionMenu Zh = new(KnownLang.Zh)
+        {
+            new VersionItem
+            {
+                Version = KnownVersion.V60,
+                Text = KnownVersion.V60.ConvertToString(),
+                Url = "/zh/6.0/"
+            }
+        };
+
+        /// <summary>
         /// The empty menu.
         /// </summary>
         public static readonly VersionMenu Empty = new(KnownLang.None);
@@ -88,7 +101,7 @@ namespace Scada.Doc.Code
         /// <summary>
         /// The menus for all languages.
         /// </summary>
-        public static readonly List<VersionMenu> All = new() { En, Ru, Es };
+        public static readonly List<VersionMenu> All = new() { En, Ru, Es, Zh };
 
 
         /// <summary>
@@ -101,6 +114,7 @@ namespace Scada.Doc.Code
                 KnownLang.En => En,
                 KnownLang.Ru => Ru,
                 KnownLang.Es => Es,
+                KnownLang.Zh => Zh,
                 _ => Empty
             };
         }
