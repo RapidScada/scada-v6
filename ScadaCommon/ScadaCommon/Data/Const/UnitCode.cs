@@ -73,6 +73,7 @@ namespace Scada.Data.Const
         public const string Megapascal = "MPa";
         public const string TechnicalAtmosphere = "at";
         public const string StandardAtmosphere = "atm";
+        public const string MillimetreOfMercury = "mmHg";
         public const string CubicMeter = "m3";
         public const string KilogramPerCubicMeter = "kg/m3";
         public const string CubicMetersPerSecond = "m3/s";
@@ -84,6 +85,11 @@ namespace Scada.Data.Const
         public const string Kilocalorie = "kcal";
         public const string Gigacalorie = "Gcal";
         public const string Percent = "%";
+        public const string Permille = "permille";
+        public const string PartsPerMillion = "ppm";
+        public const string PartsPerBillion = "ppb";
+        public const string PartsPerTrillion = "ppt";
+        public const string PartsPerQuadrillion = "ppq";
         public const string Pieces = "pcs";
     }
 }

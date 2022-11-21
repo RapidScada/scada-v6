@@ -314,6 +314,36 @@
   </Unit>
   <Unit>
     <UnitID>102</UnitID>
+    <Name>‰</Name>
+    <Code>permille</Code>
+    <Descr>Per mille</Descr>
+  </Unit>
+  <Unit>
+    <UnitID>103</UnitID>
+    <Name>ppm</Name>
+    <Code>ppm</Code>
+    <Descr>Parts-per-million, 10e-6</Descr>
+  </Unit>
+  <Unit>
+    <UnitID>104</UnitID>
+    <Name>ppb</Name>
+    <Code>ppb</Code>
+    <Descr>Parts-per-billion, 10e-9</Descr>
+  </Unit>
+  <Unit>
+    <UnitID>105</UnitID>
+    <Name>ppt</Name>
+    <Code>ppt</Code>
+    <Descr>Parts-per-trillion, 10e-12</Descr>
+  </Unit>
+  <Unit>
+    <UnitID>106</UnitID>
+    <Name>ppq</Name>
+    <Code>ppq</Code>
+    <Descr>Parts-per-quadrillion, 10e-15</Descr>
+  </Unit>
+  <Unit>
+    <UnitID>107</UnitID>
     <Name>pcs</Name>
     <Code>pcs</Code>
     <Descr>Pieces</Descr>
