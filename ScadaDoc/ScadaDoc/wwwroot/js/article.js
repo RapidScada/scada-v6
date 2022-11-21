@@ -4,7 +4,10 @@
     let activeItem = tocWrapper.find(".item-text.active:first");
 
     if (activeItem.length > 0) {
-        //tocWrapper.scrollTop(activeItem.offset().top);
-        //activeItem[0].scrollIntoView();
+        activeItem[0].scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+            inline: "start"
+        });
     }
 });
