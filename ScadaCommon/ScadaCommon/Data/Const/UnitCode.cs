@@ -50,6 +50,8 @@ namespace Scada.Data.Const
         public const string MetersPerSecond = "m/s";
         public const string KilometersPerHour = "km/h";
         public const string MeterPerSecondSquared = "m/s2";
+        public const string RadianPerSecond = "rad/s";
+        public const string RevolutionsPerMinute = "rpm";
         public const string Volt = "V";
         public const string Kilovolt = "kV";
         public const string Ampere = "A";
