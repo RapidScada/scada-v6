@@ -41,6 +41,12 @@
     <Icon>a_.png</Icon>
   </Quantity>
   <Quantity>
+    <QuantityID>7</QuantityID>
+    <Name>Скорость вращения</Name>
+    <Code>rv</Code>
+    <Icon>rot.png</Icon>
+  </Quantity>
+  <Quantity>
     <QuantityID>11</QuantityID>
     <Name>Состояние</Name>
     <Code>State</Code>

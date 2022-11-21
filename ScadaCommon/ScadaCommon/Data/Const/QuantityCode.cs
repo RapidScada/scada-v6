@@ -39,6 +39,7 @@ namespace Scada.Data.Const
         public const string Temperature = "T";
         public const string Velocity = "v";
         public const string Acceleration = "a";
+        public const string RotationalVelocity = "rv";
         public const string State = "State";
         public const string RelayState = "RelayState";
         public const string SecurityAlarmState = "SecState";

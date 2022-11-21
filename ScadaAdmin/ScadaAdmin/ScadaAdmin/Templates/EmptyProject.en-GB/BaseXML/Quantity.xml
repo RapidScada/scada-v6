@@ -41,6 +41,12 @@
     <Icon>a_.png</Icon>
   </Quantity>
   <Quantity>
+    <QuantityID>7</QuantityID>
+    <Name>Rotational velocity</Name>
+    <Code>rv</Code>
+    <Icon>rot.png</Icon>
+  </Quantity>
+  <Quantity>
     <QuantityID>11</QuantityID>
     <Name>State</Name>
     <Code>State</Code>
