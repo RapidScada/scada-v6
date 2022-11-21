@@ -36,6 +36,14 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
         }
 
         /// <summary>
+        /// Gets the default polling options for the device.
+        /// </summary>
+        public override PollingOptions GetPollingOptions()
+        {
+            return PollingOptions.CreateWithDefaultDelay();
+        }
+
+        /// <summary>
         /// Gets the channel prototypes for the device.
         /// </summary>
         public override ICollection<CnlPrototype> GetCnlPrototypes()

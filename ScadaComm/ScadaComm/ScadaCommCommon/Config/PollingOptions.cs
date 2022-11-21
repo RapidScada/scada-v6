@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2022
  */
 
 using Scada.Config;
@@ -157,11 +157,19 @@ namespace Scada.Comm.Config
         }
 
         /// <summary>
-        /// Creates default polling options.
+        /// Creates polling options with a default timeout and delay.
         /// </summary>
         public static PollingOptions CreateDefault()
         {
             return new PollingOptions(DefaultTimeout, DefaultDelay);
+        }
+
+        /// <summary>
+        /// Creates polling options with zero timeout and default delay.
+        /// </summary>
+        public static PollingOptions CreateWithDefaultDelay()
+        {
+            return new PollingOptions(0, DefaultDelay);
         }
     }
 }
