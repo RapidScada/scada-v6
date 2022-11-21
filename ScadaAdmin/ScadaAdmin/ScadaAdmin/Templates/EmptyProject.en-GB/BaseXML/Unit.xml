@@ -103,6 +103,18 @@
     <Descr>Meter per second squared</Descr>
   </Unit>
   <Unit>
+    <UnitID>34</UnitID>
+    <Name>rad/s</Name>
+    <Code>rad/s</Code>
+    <Descr>Radian per second</Descr>
+  </Unit>
+  <Unit>
+    <UnitID>35</UnitID>
+    <Name>rpm</Name>
+    <Code>rpm</Code>
+    <Descr>Revolutions per minute</Descr>
+  </Unit>
+  <Unit>
     <UnitID>41</UnitID>
     <Name>V</Name>
     <Code>V</Code>

@@ -103,6 +103,18 @@
     <Descr>Метр на секунду в квадрате</Descr>
   </Unit>
   <Unit>
+    <UnitID>34</UnitID>
+    <Name>рад/с</Name>
+    <Code>rad/s</Code>
+    <Descr>Радиан в секунду</Descr>
+  </Unit>
+  <Unit>
+    <UnitID>35</UnitID>
+    <Name>об/мин</Name>
+    <Code>rpm</Code>
+    <Descr>Оборотов в минуту</Descr>
+  </Unit>
+  <Unit>
     <UnitID>41</UnitID>
     <Name>В</Name>
     <Code>V</Code>
