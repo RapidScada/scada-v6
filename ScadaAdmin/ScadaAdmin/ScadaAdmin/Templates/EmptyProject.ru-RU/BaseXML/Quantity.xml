@@ -198,6 +198,12 @@
     <Descr />
   </Quantity>
   <Quantity>
+    <QuantityID>47</QuantityID>
+    <Name>Концентрация</Name>
+    <Code>C</Code>
+    <Icon>c.png</Icon>
+  </Quantity>
+  <Quantity>
     <QuantityID>101</QuantityID>
     <Name>Пользовательская величина</Name>
     <Descr>Добавляйте пользовательские элементы, начиная с этой строки</Descr>

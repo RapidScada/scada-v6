@@ -198,6 +198,12 @@
     <Descr />
   </Quantity>
   <Quantity>
+    <QuantityID>47</QuantityID>
+    <Name>Concentration</Name>
+    <Code>C</Code>
+    <Icon>c.png</Icon>
+  </Quantity>
+  <Quantity>
     <QuantityID>101</QuantityID>
     <Name>Custom quantity</Name>
     <Descr>Add custom items starting from this row</Descr>
