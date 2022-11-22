@@ -127,6 +127,14 @@ namespace Scada.Comm.DataSources
         }
 
         /// <summary>
+        /// Refreshes the data source.
+        /// </summary>
+        /// <remarks>This method is called after a communication line is started or stopped.</remarks>
+        public virtual void Refresh()
+        {
+        }
+
+        /// <summary>
         /// Reads the configuration database.
         /// </summary>
         public virtual bool ReadConfigDatabase(out ConfigDatabase configDatabase)

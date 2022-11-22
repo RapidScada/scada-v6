@@ -385,22 +385,27 @@ namespace Scada.Comm.Engine
             {
                 case CommCmdCode.StartLine:
                     StartLine((int)cmd.CmdVal);
+                    dataSourceHolder.Refresh();
                     break;
 
                 case CommCmdCode.StopLine:
                     StopLine((int)cmd.CmdVal);
+                    dataSourceHolder.Refresh();
                     break;
 
                 case CommCmdCode.RestartLine:
                     RestartLine((int)cmd.CmdVal);
+                    dataSourceHolder.Refresh();
                     break;
 
                 case CommCmdCode.StartAllLines:
                     StartLines();
+                    dataSourceHolder.Refresh();
                     break;
 
                 case CommCmdCode.StopAllLines:
                     StopLines();
+                    dataSourceHolder.Refresh();
                     break;
 
                 case CommCmdCode.PollDevice:
