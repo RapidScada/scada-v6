@@ -45,13 +45,14 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// </summary>
         private const string RootFolderName = "Communicator";
 
-        private readonly ICommContext commContext;   // the application context
-        private readonly HashSet<int> deviceFilter;  // the device IDs to filter data
-        private readonly ILog log;                   // the data source log
-        private readonly object dataLock;            // syncronizes access to variable data
+        private readonly ICommContext commContext;  // the application context
+        private readonly HashSet<int> deviceFilter; // the device IDs to filter data
+        private readonly ILog log;                  // the data source log
+        private readonly object dataLock;           // syncronizes access to variable data
 
-        private Dictionary<int, DeviceVars> varByDevice; // variables accessed by device number
-        private Dictionary<string, VarItem> varByPath;   // variables accessed by path
+        private IDictionary<NodeId, IList<IReference>> references; // the references of the OPC nodes
+        private Dictionary<int, DeviceVars> varByDevice;           // variables accessed by device number
+        private Dictionary<string, VarItem> varByPath;             // variables accessed by path
 
 
         /// <summary>
@@ -69,6 +70,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
             this.log = log ?? throw new ArgumentNullException(nameof(log));
             dataLock = new object();
 
+            references = null;
             varByDevice = null;
             varByPath = null;
         }
@@ -423,24 +425,46 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         }
 
         /// <summary>
+        /// Refreshes the address space after the configuration is changed.
+        /// </summary>
+        public void RefreshAddressSpace()
+        {
+            DeleteAddressSpace();
+            CreateAddressSpace(references);
+        }
+
+        /// <summary>
         /// Does any initialization required before the address space can be used.
         /// </summary>
         public override void CreateAddressSpace(IDictionary<NodeId, IList<IReference>> externalReferences)
         {
+            // see ReferenceNodeManager.CreateAddressSpace method
+            // https://github.com/OPCFoundation/UA-.NETStandard/blob/master/Applications/Quickstarts.Servers/ReferenceServer/ReferenceNodeManager.cs
+
             try
             {
                 Monitor.Enter(dataLock);
 
-                // create the root folder
-                if (!externalReferences.TryGetValue(ObjectIds.ObjectsFolder, out IList<IReference> references))
+                // get or create references
+                IList<IReference> nodeReferences = null;
+
+                if (externalReferences == null)
                 {
-                    references = new List<IReference>();
-                    externalReferences[ObjectIds.ObjectsFolder] = references;
+                    nodeReferences = new List<IReference>();
+                    log.WriteWarning(Locale.IsRussian ? 
+                        "Ссылки OPC-узлов не определены" :
+                        "OPC node references undefined");
+                }
+                else if (!externalReferences.TryGetValue(ObjectIds.ObjectsFolder, out nodeReferences))
+                {
+                    nodeReferences = new List<IReference>();
+                    externalReferences[ObjectIds.ObjectsFolder] = nodeReferences;
                 }
 
+                // create the root folder
                 FolderState rootFolder = CreateFolder(null, RootFolderName, RootFolderName);
                 rootFolder.AddReference(ReferenceTypes.Organizes, true, ObjectIds.ObjectsFolder);
-                references.Add(new NodeStateReference(ReferenceTypes.Organizes, false, rootFolder.NodeId));
+                nodeReferences.Add(new NodeStateReference(ReferenceTypes.Organizes, false, rootFolder.NodeId));
                 rootFolder.EventNotifier = EventNotifiers.SubscribeToEvents;
                 AddRootNotifier(rootFolder);
 
@@ -476,6 +500,15 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
                 varByDevice = null;
                 varByPath = null;
             }
+        }
+
+        /// <summary>
+        /// Adds references to the node manager.
+        /// </summary>
+        public override void AddReferences(IDictionary<NodeId, IList<IReference>> references)
+        {
+            this.references = references;
+            base.AddReferences(references);
         }
     }
 }

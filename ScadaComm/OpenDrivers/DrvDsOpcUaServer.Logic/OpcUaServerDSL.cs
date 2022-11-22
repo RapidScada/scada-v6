@@ -249,6 +249,14 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         }
 
         /// <summary>
+        /// Refreshes the data source.
+        /// </summary>
+        public override void Refresh()
+        {
+            opcServer?.NodeManager?.RefreshAddressSpace();
+        }
+
+        /// <summary>
         /// Writes the slice of the current data.
         /// </summary>
         public override void WriteCurrentData(DeviceSlice deviceSlice)
