@@ -198,7 +198,8 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
         {
             try
             {
-                if (topicByDevice.TryGetValue(deviceSlice.DeviceNum, out DeviceTopics deviceTopics))
+                if (topicByDevice != null &&
+                    topicByDevice.TryGetValue(deviceSlice.DeviceNum, out DeviceTopics deviceTopics))
                 {
                     deviceTopics.Initialize();
                     int dataIndex = 0;
