@@ -419,7 +419,7 @@ namespace Scada.Comm.Engine
         /// <summary>
         /// Creates a communication line if it does not exists, and adds it to the lists.
         /// </summary>
-        private CommLine CreateLine(LineConfig lineConfig)
+        private bool CreateLine(LineConfig lineConfig, out CommLine commLine)
         {
             try
             {
@@ -430,11 +430,12 @@ namespace Scada.Comm.Engine
                         Log.WriteError(Locale.IsRussian ?
                             "Линия связи {0} уже создана" :
                             "Communication line {0} already created", lineConfig.Title);
-                        return null;
+                        commLine = null;
+                        return false;
                     }
                     else
                     {
-                        CommLine commLine = CommLine.Create(lineConfig, this, driverHolder);
+                        commLine = CommLine.Create(lineConfig, this, driverHolder);
                         commLine.Terminated += CommLine_Terminated;
                         commLines.Add(commLine);
                         commLineMap.Add(lineConfig.CommLineNum, commLine);
@@ -446,7 +447,7 @@ namespace Scada.Comm.Engine
                         }
 
                         maxLineTitleLength = -1; // reset max length
-                        return commLine;
+                        return true;
                     }
                 }
             }
@@ -455,7 +456,8 @@ namespace Scada.Comm.Engine
                 Log.WriteError(Locale.IsRussian ?
                     "Ошибка при создании линий связи {0}: {1}" :
                     "Error creating communication line {0}: {1}", lineConfig.Title, ex.Message);
-                return null;
+                commLine = null;
+                return false;
             }
         }
 
@@ -494,8 +496,8 @@ namespace Scada.Comm.Engine
 
                 foreach (LineConfig lineConfig in AppConfig.Lines)
                 {
-                    if (lineConfig.Active &&
-                        CreateLine(lineConfig) is CommLine commLine && 
+                    if (lineConfig.Active && 
+                        CreateLine(lineConfig, out CommLine commLine) && 
                         !commLine.Start())
                     {
                         Log.WriteError(Locale.IsRussian ?
@@ -603,7 +605,7 @@ namespace Scada.Comm.Engine
                         "Невозможно запустить линию связи {0}, потому что она не активна" :
                         "Unable to start communication line {0} because it is inactive", lineConfig.Title);
                 }
-                else if (CreateLine(lineConfig) is CommLine commLine)
+                else if (CreateLine(lineConfig, out CommLine commLine))
                 {
                     Log.WriteAction(Locale.IsRussian ?
                         "Запуск линии связи {0}" :
