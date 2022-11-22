@@ -75,8 +75,7 @@ namespace Scada
         /// Determines that the application is running on Windows.
         /// </summary>
         public static readonly bool IsRunningOnWin = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
- 
-
+        
         #region Tables for calculating CRC-16.
         /* Table of CRC values for high–order byte */
         private static readonly byte[] CRCHiTable = new byte[256] {
