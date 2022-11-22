@@ -45,7 +45,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private bool changing;                         // controls are being changed programmatically
         private TreeNode subscriptionsNode;            // the tree node of the subscriptions
         private TreeNode commandsNode;                 // the tree node of the commands
-        private Session opcSession;                    // the OPC session
+        private ISession opcSession;                   // the OPC session
 
 
         /// <summary>

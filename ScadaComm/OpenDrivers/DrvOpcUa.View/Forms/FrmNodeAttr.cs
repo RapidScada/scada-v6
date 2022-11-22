@@ -13,8 +13,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
     /// </summary>
     public partial class FrmNodeAttr : Form
     {
-        private readonly Session opcSession; // the OPC session
-        private readonly NodeId nodeId;      // the node whose attributes are shown
+        private readonly ISession opcSession; // the OPC session
+        private readonly NodeId nodeId;       // the node whose attributes are shown
 
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmNodeAttr(Session opcSession, NodeId nodeId)
+        public FrmNodeAttr(ISession opcSession, NodeId nodeId)
             : this()
         {
             this.opcSession = opcSession ?? throw new ArgumentNullException(nameof(opcSession));

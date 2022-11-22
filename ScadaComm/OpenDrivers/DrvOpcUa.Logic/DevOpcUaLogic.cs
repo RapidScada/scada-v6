@@ -234,7 +234,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// <summary>
         /// Writes an item value to the OPC server.
         /// </summary>
-        private bool WriteItemValue(Session opcSession, CommandConfig commandConfig, double cmdVal, string cmdData)
+        private bool WriteItemValue(ISession opcSession, CommandConfig commandConfig, double cmdVal, string cmdData)
         {
             try
             {
@@ -323,7 +323,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// <summary>
         /// Calls a method of the OPC server.
         /// </summary>
-        private bool CallMethod(Session opcSession, CommandConfig commandConfig, string cmdData)
+        private bool CallMethod(ISession opcSession, CommandConfig commandConfig, string cmdData)
         {
             try
             {
@@ -500,7 +500,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 Monitor.Enter(opcLock);
                 base.SendCommand(cmd);
                 LastRequestOK = false;
-                Session opcSession = lineData.ClientHelper.OpcSession;
+                ISession opcSession = lineData.ClientHelper.OpcSession;
 
                 if (opcSession == null)
                 {

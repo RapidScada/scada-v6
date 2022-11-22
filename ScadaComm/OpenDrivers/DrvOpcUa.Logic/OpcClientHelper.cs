@@ -74,7 +74,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// <summary>
         /// Reconnects if needed.
         /// </summary>
-        private void OpcSession_KeepAlive(Session sender, KeepAliveEventArgs e)
+        private void OpcSession_KeepAlive(ISession session, KeepAliveEventArgs e)
         {
             if (e.Status != null && ServiceResult.IsNotGood(e.Status))
             {
@@ -89,7 +89,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                         "Переподключение к OPC-серверу" :
                         "Reconnecting to OPC server");
                     reconnectHandler = new SessionReconnectHandler();
-                    reconnectHandler.BeginReconnect(sender, ReconnectPeriod, OpcSession_ReconnectComplete);
+                    reconnectHandler.BeginReconnect(session, ReconnectPeriod, OpcSession_ReconnectComplete);
                 }
             }
         }
@@ -121,7 +121,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// <summary>
         /// Processes new data received from the OPC server.
         /// </summary>
-        private void OpcSession_Notification(Session session, NotificationEventArgs e)
+        private void OpcSession_Notification(ISession session, NotificationEventArgs e)
         {
             if (e.Subscription?.Handle is SubscriptionTag subscriptionTag)
             {
