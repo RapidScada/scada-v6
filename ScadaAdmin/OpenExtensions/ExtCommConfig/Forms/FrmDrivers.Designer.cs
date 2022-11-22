@@ -64,6 +64,7 @@
             this.lbDrivers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbDrivers.ColumnWidth = 150;
             this.lbDrivers.HorizontalScrollbar = true;
             this.lbDrivers.IntegralHeight = false;
             this.lbDrivers.ItemHeight = 15;

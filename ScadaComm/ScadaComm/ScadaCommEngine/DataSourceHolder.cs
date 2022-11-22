@@ -191,6 +191,25 @@ namespace Scada.Comm.Engine
         }
 
         /// <summary>
+        /// Calls the Refresh method of the data sources.
+        /// </summary>
+        public void Refresh()
+        {
+            foreach (DataSourceLogic dataSourceLogic in dataSources)
+            {
+                try
+                {
+                    if (dataSourceLogic.IsReady)
+                        dataSourceLogic.Refresh();
+                }
+                catch (Exception ex)
+                {
+                    log.WriteError(ex, CommPhrases.ErrorInDataSource, nameof(Refresh), dataSourceLogic.Code);
+                }
+            }
+        }
+
+        /// <summary>
         /// Calls the ReadConfigDatabase method of the data sources.
         /// </summary>
         public bool ReadConfigDatabase(out ConfigDatabase configDatabase)

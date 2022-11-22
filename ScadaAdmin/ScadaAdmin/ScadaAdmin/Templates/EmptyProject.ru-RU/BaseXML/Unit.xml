@@ -103,6 +103,18 @@
     <Descr>Метр на секунду в квадрате</Descr>
   </Unit>
   <Unit>
+    <UnitID>34</UnitID>
+    <Name>рад/с</Name>
+    <Code>rad/s</Code>
+    <Descr>Радиан в секунду</Descr>
+  </Unit>
+  <Unit>
+    <UnitID>35</UnitID>
+    <Name>об/мин</Name>
+    <Code>rpm</Code>
+    <Descr>Оборотов в минуту</Descr>
+  </Unit>
+  <Unit>
     <UnitID>41</UnitID>
     <Name>В</Name>
     <Code>V</Code>
@@ -314,6 +326,36 @@
   </Unit>
   <Unit>
     <UnitID>102</UnitID>
+    <Name>‰</Name>
+    <Code>permille</Code>
+    <Descr>Промилле</Descr>
+  </Unit>
+  <Unit>
+    <UnitID>103</UnitID>
+    <Name>ppm</Name>
+    <Code>ppm</Code>
+    <Descr>Частей на миллион, 10e-6</Descr>
+  </Unit>
+  <Unit>
+    <UnitID>104</UnitID>
+    <Name>ppb</Name>
+    <Code>ppb</Code>
+    <Descr>Частей на миллиард, 10e-9</Descr>
+  </Unit>
+  <Unit>
+    <UnitID>105</UnitID>
+    <Name>ppt</Name>
+    <Code>ppt</Code>
+    <Descr>Частей на триллион, 10e-12</Descr>
+  </Unit>
+  <Unit>
+    <UnitID>106</UnitID>
+    <Name>ppq</Name>
+    <Code>ppq</Code>
+    <Descr>Частей на квадриллион, 10e-15</Descr>
+  </Unit>
+  <Unit>
+    <UnitID>107</UnitID>
     <Name>шт</Name>
     <Code>pcs</Code>
     <Descr>Штука</Descr>

@@ -34,15 +34,15 @@
             this.lbUnusedPlugins = new System.Windows.Forms.ListBox();
             this.lbActivePlugins = new System.Windows.Forms.ListBox();
             this.pnlTopLeft = new System.Windows.Forms.Panel();
-            this.lblUnusedPlugins = new System.Windows.Forms.Label();
             this.btnActivate = new System.Windows.Forms.Button();
+            this.lblUnusedPlugins = new System.Windows.Forms.Label();
             this.pnlTopRight = new System.Windows.Forms.Panel();
-            this.lblActivePlugins = new System.Windows.Forms.Label();
             this.btnRegister = new System.Windows.Forms.Button();
             this.btnProperties = new System.Windows.Forms.Button();
             this.btnMoveDown = new System.Windows.Forms.Button();
             this.btnMoveUp = new System.Windows.Forms.Button();
             this.btnDeactivate = new System.Windows.Forms.Button();
+            this.lblActivePlugins = new System.Windows.Forms.Label();
             this.tableLayoutPanel.SuspendLayout();
             this.pnlTopLeft.SuspendLayout();
             this.pnlTopRight.SuspendLayout();
@@ -93,6 +93,7 @@
             // 
             // lbUnusedPlugins
             // 
+            this.lbUnusedPlugins.ColumnWidth = 150;
             this.lbUnusedPlugins.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbUnusedPlugins.HorizontalScrollbar = true;
             this.lbUnusedPlugins.IntegralHeight = false;
@@ -109,6 +110,7 @@
             // 
             // lbActivePlugins
             // 
+            this.lbActivePlugins.ColumnWidth = 150;
             this.lbActivePlugins.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbActivePlugins.HorizontalScrollbar = true;
             this.lbActivePlugins.IntegralHeight = false;
@@ -133,15 +135,6 @@
             this.pnlTopLeft.Size = new System.Drawing.Size(402, 47);
             this.pnlTopLeft.TabIndex = 0;
             // 
-            // lblUnusedPlugins
-            // 
-            this.lblUnusedPlugins.AutoSize = true;
-            this.lblUnusedPlugins.Location = new System.Drawing.Point(-3, 0);
-            this.lblUnusedPlugins.Name = "lblUnusedPlugins";
-            this.lblUnusedPlugins.Size = new System.Drawing.Size(92, 15);
-            this.lblUnusedPlugins.TabIndex = 0;
-            this.lblUnusedPlugins.Text = "Unused plugins:";
-            // 
             // btnActivate
             // 
             this.btnActivate.Location = new System.Drawing.Point(0, 18);
@@ -151,6 +144,15 @@
             this.btnActivate.Text = "Activate";
             this.btnActivate.UseVisualStyleBackColor = true;
             this.btnActivate.Click += new System.EventHandler(this.btnActivate_Click);
+            // 
+            // lblUnusedPlugins
+            // 
+            this.lblUnusedPlugins.AutoSize = true;
+            this.lblUnusedPlugins.Location = new System.Drawing.Point(-3, 0);
+            this.lblUnusedPlugins.Name = "lblUnusedPlugins";
+            this.lblUnusedPlugins.Size = new System.Drawing.Size(92, 15);
+            this.lblUnusedPlugins.TabIndex = 0;
+            this.lblUnusedPlugins.Text = "Unused plugins:";
             // 
             // pnlTopRight
             // 
@@ -166,15 +168,6 @@
             this.pnlTopRight.Name = "pnlTopRight";
             this.pnlTopRight.Size = new System.Drawing.Size(402, 47);
             this.pnlTopRight.TabIndex = 0;
-            // 
-            // lblActivePlugins
-            // 
-            this.lblActivePlugins.AutoSize = true;
-            this.lblActivePlugins.Location = new System.Drawing.Point(-3, 0);
-            this.lblActivePlugins.Name = "lblActivePlugins";
-            this.lblActivePlugins.Size = new System.Drawing.Size(85, 15);
-            this.lblActivePlugins.TabIndex = 0;
-            this.lblActivePlugins.Text = "Active plugins:";
             // 
             // btnRegister
             // 
@@ -225,6 +218,15 @@
             this.btnDeactivate.Text = "Deactivate";
             this.btnDeactivate.UseVisualStyleBackColor = true;
             this.btnDeactivate.Click += new System.EventHandler(this.btnDeactivate_Click);
+            // 
+            // lblActivePlugins
+            // 
+            this.lblActivePlugins.AutoSize = true;
+            this.lblActivePlugins.Location = new System.Drawing.Point(-3, 0);
+            this.lblActivePlugins.Name = "lblActivePlugins";
+            this.lblActivePlugins.Size = new System.Drawing.Size(85, 15);
+            this.lblActivePlugins.TabIndex = 0;
+            this.lblActivePlugins.Text = "Active plugins:";
             // 
             // FrmPlugins
             // 

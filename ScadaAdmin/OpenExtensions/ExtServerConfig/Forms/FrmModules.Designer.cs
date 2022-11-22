@@ -123,6 +123,7 @@
             // 
             // lbActiveModules
             // 
+            this.lbActiveModules.ColumnWidth = 150;
             this.lbActiveModules.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbActiveModules.HorizontalScrollbar = true;
             this.lbActiveModules.IntegralHeight = false;
@@ -158,6 +159,7 @@
             // 
             // lbUnusedModules
             // 
+            this.lbUnusedModules.ColumnWidth = 150;
             this.lbUnusedModules.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbUnusedModules.HorizontalScrollbar = true;
             this.lbUnusedModules.IntegralHeight = false;

@@ -47,11 +47,11 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
         private readonly HashSet<int> deviceFilter;                   // the device IDs to filter data
         private readonly int maxQueueSize;                            // the maximum queue size
         private readonly Queue<QueueItem<DeviceSlice>> curDataQueue;  // the current data queue
-        private readonly Dictionary<int, DeviceTopics> topicByDevice; // the topics accessed by device number
 
-        private Thread thread;            // the thread for communication with the server
-        private volatile bool terminated; // necessary to stop the thread
-        private int curDataSkipped;       // the number of skipped slices of current data 
+        private Dictionary<int, DeviceTopics> topicByDevice;          // the topics accessed by device number
+        private Thread thread;                                        // the thread for communication with the server
+        private volatile bool terminated;                             // necessary to stop the thread
+        private int curDataSkipped;                                   // the number of skipped slices of current data 
 
 
         /// <summary>
@@ -69,8 +69,8 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
                 new HashSet<int>(dsOptions.PublishOptions.DeviceFilter) : null;
             maxQueueSize = Math.Max(dsOptions.PublishOptions.MaxQueueSize, MinQueueSize);
             curDataQueue = new Queue<QueueItem<DeviceSlice>>(maxQueueSize);
-            topicByDevice = new Dictionary<int, DeviceTopics>();
-
+            
+            topicByDevice = null;
             thread = null;
             terminated = false;
             curDataSkipped = 0;
@@ -78,12 +78,14 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
 
 
         /// <summary>
-        /// Fills the device topic dictionary.
+        /// Creates a device topic dictionary.
         /// </summary>
-        private void FillDeviceTopics()
+        private Dictionary<int, DeviceTopics> CreateTopicDictionary()
         {
             // topic example:
             // Communicator/line001/device001/Sin
+            Dictionary<int, DeviceTopics> topics = new();
+
             foreach (ILineContext lineContext in CommContext.GetCommLines())
             {
                 string lineTopic = dsOptions.PublishOptions.RootTopic + 
@@ -95,9 +97,11 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
 
                 foreach (DeviceLogic deviceLogic in devices)
                 {
-                    topicByDevice[deviceLogic.DeviceNum] = new DeviceTopics(deviceLogic, lineTopic);
+                    topics[deviceLogic.DeviceNum] = new DeviceTopics(deviceLogic, lineTopic);
                 }
             }
+
+            return topics;
         }
 
         /// <summary>
@@ -194,7 +198,8 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
         {
             try
             {
-                if (topicByDevice.TryGetValue(deviceSlice.DeviceNum, out DeviceTopics deviceTopics))
+                if (topicByDevice != null &&
+                    topicByDevice.TryGetValue(deviceSlice.DeviceNum, out DeviceTopics deviceTopics))
                 {
                     deviceTopics.Initialize();
                     int dataIndex = 0;
@@ -389,7 +394,7 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
             }
 
             // get information about devices
-            FillDeviceTopics();
+            topicByDevice = CreateTopicDictionary();
 
             // start thread
             terminated = false;
@@ -418,6 +423,14 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
                 "Источник данных MQTT остановлен" :
                 "MQTT data source stopped");
             dsLog.WriteBreak();
+        }
+
+        /// <summary>
+        /// Refreshes the data source.
+        /// </summary>
+        public override void Refresh()
+        {
+            topicByDevice = CreateTopicDictionary();
         }
 
         /// <summary>
