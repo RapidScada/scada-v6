@@ -1,0 +1,240 @@
+﻿@page "/en/5.8/use-cases/modbus-protocol"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Connecting Devices Using Modbus Protocol";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#creating-project">Creating Project</a></li>
+        <li><a href="#database-configuration">Preliminary Database Configuration</a></li>
+        <li><a href="#configuring-communication">Configuring Communication with Devices</a></li>
+        <li><a href="#creating-channels">Creating Channels</a></li>
+        <li><a href="#customizing-interface">Customizing Operator User Interface</a></li>
+        <li><a href="#tags-conversion">Modbus Tags Conversion</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Connecting Devices Using Modbus Protocol</h1>
+
+    <p>This article describes how to configure communication with devices using Modbus protocol. Simple and robust, Modbus has since become a de facto standard communication protocol, and it is now a commonly available means of connecting industrial electronic devices (see <a href="https://en.wikipedia.org/wiki/Modbus" target="_blank">Wikipedia</a>). Rapid SCADA supports Modbus RTU, ASCII and TCP modes.</p>
+
+    <p>The general sequence of configuring:</p>
+
+    <ol>
+        <li>Create a project using the Administrator application.</li>
+        <li>Create a new object, a communication line and devices.</li>
+        <li>Configure communication between Communicator and the devices.</li>
+        <li>Create input channels in the configuration database according to the tags of the devices. Create output channels according to the commands.</li>
+        <li>Create views (tables or schemes) to display data in the Webstation application. Define the views in the configuration database.</li>
+    </ol>
+
+    <p>The following is a step by step guide to setup a new Modbus device.</p>
+
+    <h2 id="creating-project">Creating Project</h2>
+
+    <p>Run Administrator and click the <em>New Project</em> button. Enter a project name in the dialog and click the <em>OK</em> button. The setup process fully consistent with the article if the empty project named EmptyProject.en-GB is selected as a template.</p>
+
+    <figure class="figure">
+        <img src="modbus-protocol-files/modbus_new_proj_en.png" class="figure-img img-fluid" alt="Creating a project">
+        <figcaption class="figure-caption">Figure 1. Creating a project</figcaption>
+    </figure>
+
+    <h2 id="database-configuration">Preliminary Database Configuration</h2>
+
+    <p>Expand the <em>Configuration Database</em> node, open the <em>Objects</em> table and add a new row for the object 2 "Test object" (see Figure 2). Click the <img src="../common-images/add_line.png" /> toolbar button to open the communication line wizard. Using the wizard, add the line 1 "Test line" (see Figure 3). After that click the <img src="../common-images/add_device.png" /> button and add the device 1 "Test device" (see Figure 4).</p>
+
+    <figure class="figure">
+        <img src="modbus-protocol-files/modbus_add_obj_en.png" class="figure-img img-fluid" alt="Adding an object" />
+        <figcaption class="figure-caption">Figure 2. Adding an object</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="modbus-protocol-files/modbus_add_line_en.png" class="figure-img img-fluid" alt="Adding a communication line" />
+        <figcaption class="figure-caption">Figure 3. Adding a communication line</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="modbus-protocol-files/modbus_add_device_en.png" class="figure-img img-fluid" alt="Adding a device" />
+        <figcaption class="figure-caption">Figure 4. Adding a device</figcaption>
+    </figure>
+
+    <p>Pay attention to the following fields when adding a device:</p>
+
+    <dl class="row">
+        <dt class="col-sm-3">Device type</dt>
+        <dd class="col-sm-9">Modbus</dd>
+
+        <dt class="col-sm-3">Address</dt>
+        <dd class="col-sm-9">Modbus address of your device, for example, 1</dd>
+
+        <dt class="col-sm-3">Call number</dt>
+        <dd class="col-sm-9">IP address, if the device is connected via Ethernet. Otherwise, leave blank</dd>
+
+        <dt class="col-sm-3">Communication line</dt>
+        <dd class="col-sm-9">"Test line", which was recently created</dd>
+    </dl>
+
+    <p>Open the <em>Communication lines</em> and <em>Devices</em> tables to check that the communication line and device were successfully added to the tables. Make sure that the corresponding communication line and device were created in the Communicator settings.</p>
+
+    <h2 id="configuring-communication">Configuring Communication with Devices</h2>
+
+    <p>In the project explorer, go to the Communicator settings, expand the node of the just created communication line and double click the <em>Line Parameters</em> node. Configure the communication channel which settings are presented on the <em>Main Parameters</em> page (see Figure 5). In case of Modbus communication, the most common channel types are <em>TCP client</em> and <em>Serial Port</em>.</p>
+
+    <figure class="figure">
+        <img src="modbus-protocol-files/modbus_line_main_en.png" class="figure-img img-fluid" alt="The main parameters of the communication line" />
+        <figcaption class="figure-caption">Figure 5. The main parameters of the communication line</figcaption>
+    </figure>
+
+    <p>If communication is performed via a serial port, the typical serial port parameters, depending on the Modbus type, are listed in the table below. In the RTU and ASCII modes, the baud rate specified in the Communicator settings and set on the devices must match. All devices connected to a one communication line must operate using the same Modbus type and with the same baud rate.</p>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Modbus RTU</th>
+                <th>Modbus ASCII</th>
+                <th>Modbus TCP</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>8 data bits,<br />Even parity,<br />1 stop bit</td>
+                <td>7 data bits,<br />Even parity,<br />1 stop bit</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>8 data bits,<br />No parity,<br />2 stop bits</td>
+                <td>7 data bits,<br />No parity,<br />2 stop bits</td>
+                <td>-</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Go to the <em>Request Sequence</em> page and select the "Test device" row (see Figure 6). If device polling time and period are not specified, the devices are polled cyclically. Commands are sent immediately after a poll is completed.</p>
+
+    <figure class="figure">
+        <img src="modbus-protocol-files/modbus_line_req_en.png" class="figure-img img-fluid" alt="Device request sequence" />
+        <figcaption class="figure-caption">Figure 6. Device request sequence</figcaption>
+    </figure>
+
+    <p>Click the <em>Properties</em> button to open the device properties form (see Figure 7). In the form choose the Modbus type, which have to be specified in the device manual. In our case, Modbus TCP.</p>
+
+    <figure class="figure">
+        <img src="modbus-protocol-files/modbus_device_props_en.png" class="figure-img img-fluid" alt="Device properties" />
+        <figcaption class="figure-caption">Figure 7. Device properties</figcaption>
+    </figure>
+
+    <p>Press the <img src="../common-images/open.png" /> button to select an existing device template, or click <img src="../common-images/blank.png" /> to create a new template. When the create button <img src="../common-images/blank.png" /> or the edit button <img src="../common-images/edit.png" /> is clicked, the <em>Device Template Editor</em> is shown (see Figure 8). This article uses the existing template KpModbus_Adam6015.xml, which was previously copied to the project directory C:\SCADA\Projects\ModbusTest\Instances\Default\ScadaComm\Config\</p>
+
+    <figure class="figure">
+        <img src="modbus-protocol-files/modbus_template_en.png" class="figure-img img-fluid" alt="Device template editor" />
+        <figcaption class="figure-caption">Figure 8. Device template editor</figcaption>
+    </figure>
+
+    <p>Device template reflects the structure of Modbus packages. Requested data are combined into groups of elements. Each group has its name, data table, start address and element count. Each element is a tag of a device. Rapid SCADA identifies a tag by its signal number. A command is described by its name, data table and address. A command number identifies the command within Rapid SCADA.</p>
+
+    <p>Names of groups, elements and commands are arbitrary. The available data tables and element addresses are usually described in device manual. Depending on the manufacturer, addressing of elements can be zero-based or one-based, specified as decimal or hexadecimal numbers. By default, addresses start with 1 and represented as decimals. To switch template addressing, click the <img src="../common-images/settings.png" /> button. Template settings dialog is opened (see Figure 9).</p>
+
+    <figure class="figure">
+        <img src="modbus-protocol-files/modbus_template_settings_en.png" class="figure-img img-fluid" alt="Template settings" />
+        <figcaption class="figure-caption">Figure 9. Template settings</figcaption>
+    </figure>
+
+    <p>When editing the device properties (see Figure 7) is completed, click <em>OK</em>. The <em>Command line</em> field of the device parameters contains the template file name KpModbus_Adam6015.xml. Upload the project to the server by the <img src="../common-images/upload.png" /> button.</p>
+
+    <p>Double click the device node in the project explorer to check device status and data availability (see Figure 10). Data for this example was provided by Modbus Simulator (mod_RSsim.exe).</p>
+
+    <figure class="figure">
+        <img src="modbus-protocol-files/modbus_data_en.png" class="figure-img img-fluid" alt="Device data" />
+        <figcaption class="figure-caption">Figure 10. Device data</figcaption>
+    </figure>
+
+    <p>In case of losing communication with the device, use a communication line log to realize the problem cause. To open the log, double click the <em>Line Stats</em> tree node and go to the <em>Line Log</em> page. Data packages can be decoded by <a href="https://rapidscada.net/modbus/" target="_blank">Online Modbus Parser</a>.</p>
+
+    <h2 id="creating-channels">Creating Channels</h2>
+
+    <p>After communication with the device is established, create input channels and output channels in the configuration database. The most fast way to create channels is the wizard called by the <img src="../common-images/create_cnls.png" /> button. If several devices of the same type are added to the system, configuring can be accelerated by the channel cloning tool.</p>
+
+    <p>Perform the wizard steps (see Figures 11-13), selecting the communication line, device and object created earlier from the drop-down lists. To check the available channel numbers, use the channel map in step 3.</p>
+
+    <figure class="figure">
+        <img src="modbus-protocol-files/modbus_create_cnls1_en.png" class="figure-img img-fluid" alt="Creating channels. Step 1" />
+        <figcaption class="figure-caption">Figure 11. Creating channels. Step 1</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="modbus-protocol-files/modbus_create_cnls2_en.png" class="figure-img img-fluid" alt="Creating channels. Step 2" />
+        <figcaption class="figure-caption">Figure 12. Creating channels. Step 2</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="modbus-protocol-files/modbus_create_cnls3_en.png" class="figure-img img-fluid" alt="Creating channels. Step 3" />
+        <figcaption class="figure-caption">Figure 13. Creating channels. Step 3</figcaption>
+    </figure>
+
+    <p>Clicking the <em>Create</em> button creates channels. The channels are created automatically based on the device template that has been created and assigned to the device in the previous section of this article. To view created channels, open the <em>Input channels &gt; Test device</em> table and the <em>Output channels &gt; Test device</em> table. It is recommended to manually fill in the <em>Quantity</em> and <em>Unit</em> fields of the input channels and the <em>Command values</em> field of the output channels. However, in the case of the first experiment it is unnecessary. Useful to understand that the input channels are bound to the device tags using the <em>Signal</em> field. The output channels are bound to device commands in accordance with the <em>Command number</em> field.</p>
+
+    <p>After editing the configuration database is complete, upload the project to the server by the <img src="../common-images/upload.png" /> button. Open the device data page in the Communicator settings and make sure that the input channels are bound to the device tags. The <em>Channel</em> column must contain numbers of the created input channels (see Figure 14).</p>
+
+    <figure class="figure">
+        <img src="modbus-protocol-files/modbus_data_bound_en.png" class="figure-img img-fluid" alt="Device data bound to channels" />
+        <figcaption class="figure-caption">Figure 14. Device data bound to channels</figcaption>
+    </figure>
+
+    <p>As a result of above actions, data should be collected from the device and stored in the archive. It remains to customize user interface for an operator.</p>
+
+    <h2 id="customizing-interface">Customizing Operator User Interface</h2>
+
+    <p>Consider creating a table view for the Webstation application. If it is necessary to display data on a scheme, the steps to create a view are similar.</p>
+
+    <p>Right click the <em>Interface</em> node of the project explorer. First, select <em>New Folder</em> in the context menu and create the ModbusTest folder. Then in the context menu of the created folder, select <em>New File</em> (see Figure 15). In the opened window, set the table view type, specify the filename ModbusDevice.tbl and click the <em>OK</em> button (see Figure 16).</p>
+
+    <figure class="figure">
+        <img src="modbus-protocol-files/modbus_interface_menu_en.png" class="figure-img img-fluid" alt="Menu for creating a view" />
+        <figcaption class="figure-caption">Figure 15. Menu for creating a view</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="modbus-protocol-files/modbus_interface_file_en.png" class="figure-img img-fluid" alt="The view creation dialog" />
+        <figcaption class="figure-caption">Figure 16. The view creation dialog</figcaption>
+    </figure>
+
+    <p>The created view file appears in the project explorer. Double clicking the file opens <a href="../software-overview/applications/table-editor-application.html">Table Editor</a>. Enter a title and fill in the view items, as shown in Figure 17. Save the changes and close the editor.</p>
+
+    <figure class="figure">
+        <img src="modbus-protocol-files/modbus_table_editor_en.png" class="figure-img img-fluid" alt="Editing a view" />
+        <figcaption class="figure-caption">Figure 17. Editing a view</figcaption>
+    </figure>
+
+    <p>After the view file is created, specify the parent directory and the file in the <em>Interface</em> table of the configuration database (see Figure 18).</p>
+
+    <figure class="figure">
+        <img src="modbus-protocol-files/modbus_interface_table_en.png" class="figure-img img-fluid" alt="Adding a view in the Interface table" />
+        <figcaption class="figure-caption">Figure 18. Adding a view in the Interface table</figcaption>
+    </figure>
+
+    <p>Upload the project to the server by the <img src="../common-images/upload.png" /> button. Now start your browser and enter the address <a href="http://localhost/scada/" target="_blank">http://localhost/scada/</a>. On the login form use <em>admin / 12345</em> (see Figure 19). If the configuration carried out correctly, after logging in, you will see a table with the data obtained from the device, similar to Figure 20.</p>
+
+    <figure class="figure">
+        <img src="modbus-protocol-files/modbus_web1_en.png" class="figure-img img-fluid" alt="Login form" />
+        <figcaption class="figure-caption">Figure 19. Login form</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="modbus-protocol-files/modbus_web2_en.png" class="figure-img img-fluid" alt="The Webstation application" />
+        <figcaption class="figure-caption">Figure 20. The Webstation application</figcaption>
+    </figure>
+
+    <h2 id="tags-conversion">Modbus Tags Conversion</h2>
+
+    <p>Received element values may need a conversion. A device template allows choosing a number of bytes used by an element and order of bytes. These settings define an initial conversion. An additional conversion, if needed, is performed by SCADA-Server based on formulas of input channels in the configuration database.</p>
+
+    <p>The simplest conversion is a proportional which is described by the following formula:</p>
+
+    <p>X * (B - A) / 2<sup>N</sup> + A, where A and B are the bounds of the element values range, N – number of bits in value, X – received value.</p>
+
+    <p>Another commonly used conversion is two’s complement. See <a href="https://en.wikipedia.org/wiki/Two's_complement" target="_blank">Wikipedia</a> for the details. Formulas can be defined inline in input channel rows of the configuration database or separately by using the <em>Formulas</em> table. Using of formulas is described in <a href="../software-configuration/using-formulas">this section</a>.</p>
+</div>
