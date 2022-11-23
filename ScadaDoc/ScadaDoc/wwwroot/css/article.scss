@@ -67,6 +67,11 @@
     em {
         color: $pink;
     }
+
+    pre {
+        background-color: #f5f2f0;
+        padding: 1rem;
+    }
 }
 
 @media (min-width: $breakpoint-lg) {
