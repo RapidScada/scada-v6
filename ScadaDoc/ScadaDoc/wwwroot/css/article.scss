@@ -68,7 +68,7 @@
         color: $pink;
     }
 
-    pre {
+    pre:has(code) {
         background-color: #f5f2f0;
         padding: 1rem;
     }

@@ -49,7 +49,7 @@
 .doc-article em {
   color: #d63384;
 }
-.doc-article pre {
+.doc-article pre:has(code) {
   background-color: #f5f2f0;
   padding: 1rem;
 }
