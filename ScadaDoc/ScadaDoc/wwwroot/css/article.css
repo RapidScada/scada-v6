@@ -73,7 +73,7 @@
 
   .doc-article {
     grid-area: main;
-    overflow: hidden;
+    contain: inline-size;
   }
   .doc-article .doc-content {
     width: 80%;
