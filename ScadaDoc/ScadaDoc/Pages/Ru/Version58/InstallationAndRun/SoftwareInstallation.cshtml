@@ -1,0 +1,55 @@
+﻿@page "/ru/5.8/installation-and-run/software-installation"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Software Installation";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#before-installation">Перед установкой</a></li>
+        <li><a href="#installation">Установка</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Установка программного комплекса</h1>
+    <h2 id="before-installation">Перед установкой</h2>
+    <p>Для корректной работы Rapid SCADA необходимо включить определённые компоненты Windows. Перейдите в <em>Панель управления &gt; Программы &gt; Включение или отключение компонентов Windows</em>. Компоненты Microsoft .NET Framework, которые нужно включить, показаны на рис. 1 и 3. Обратите внимание, что для Microsoft .NET Framework <strong>3.5</strong> обязательно должны быть отключены вложенные компоненты Windows Communication Foundation.</p>
+    <p>Для корректной работы веб-приложения Вебстанция должны быть установлены определённые компоненты веб-сервера Internet Information Services (IIS). На рис. 2 и 4 показан выбор обязательных для работоспособности веб-приложения компонентов. При установке веб-приложения наличие данных компонентов автоматически проверяется программой-установщиком.</p>
+    <figure class="figure">
+        <img src="software-installation-files/win7_features_dotnet_ru.png" class="figure-img img-fluid" alt="Компоненты .NET для Windows 7" />
+        <figcaption class="figure-caption">Рис. 1. Компоненты .NET для Windows 7</figcaption>
+    </figure>
+    <figure class="figure">
+        <img src="software-installation-files/win7_features_iis_ru.png" class="figure-img img-fluid" alt="Компоненты IIS для Windows 7" />
+        <figcaption class="figure-caption">Рис. 2. Компоненты IIS для Windows 7</figcaption>
+    </figure>
+    <figure class="figure">
+        <img src="software-installation-files/win10_features_dotnet_ru.png" class="figure-img img-fluid" alt="Компоненты .NET для Windows 10" />
+        <figcaption class="figure-caption">Рис. 3. Компоненты .NET для Windows 10</figcaption>
+    </figure>
+    <figure class="figure">
+        <img src="software-installation-files/win10_features_iis_ru.png" class="figure-img img-fluid" alt="Компоненты IIS для Windows 10" />
+        <figcaption class="figure-caption">Рис. 4. Компоненты IIS для Windows 10</figcaption>
+    </figure>
+
+    <h2 id="installation">Установка</h2>
+    <p>Для установки программного комплекса Rapid SCADA необходимо запустить файл <em>ScadaSetup.exe</em> из дистрибутива. Программа-установщик показана на рис. 5. Установку необходимо выполнять под учётной записью, обладающей правами администратора. Для работы Rapid SCADA требуется наличие на компьютере среды выполнения Microsoft .NET Framework актуальной версии. Программа установщик проверяет её наличие и предлагает скачать и установить при необходимости.</p>
+    <figure class="figure">
+        <img src="software-installation-files/scada_setup_ru.png" class="figure-img img-fluid" alt="Программа-установщик" />
+        <figcaption class="figure-caption">Рис. 5. Программа-установщик</figcaption>
+    </figure>
+    <p>В процессе установки сначала предлагается выбрать инсталлируемые приложения, входящие в состав комплекса, а затем предлагается выбрать директорию для установки (рис. 6). Данная директория определяет расположение всего программного комплекса, в ней создаются поддиректории, необходимые для работы инсталлируемых приложений. Рекомендуется использовать директорию по умолчанию <em>C:\SCADA</em>, чтобы упростить последующую настройку приложений.</p>
+    <figure class="figure">
+        <img src="software-installation-files/install_dir_ru.png" class="figure-img img-fluid" alt="Выбор директории для установки" />
+        <figcaption class="figure-caption">Рис. 6. Выбор директории для установки</figcaption>
+    </figure>
+    <p>Параметры установки веб-приложения (рис. 7) согласуются с системным администратором. Если специфические требования к веб-приложению отсутствуют, следует использовать значения по умолчанию.</p>
+    <figure class="figure">
+        <img src="software-installation-files/web_params_ru.png" class="figure-img img-fluid" alt="Параметры установки веб-приложения" />
+        <figcaption class="figure-caption">Рис. 7. Параметры установки веб-приложения</figcaption>
+    </figure>
+    <p>После завершения установки рекомендуется с помощью Диспетчера служб IIS убедиться, что веб-приложение <em>Scada</em> использует пул приложений с версией среды .NET 4.0 и встроенным режимом конвейера. В Windows 7 и Windows 10 диспетчер открывается так: <em>Панель управления &gt; Система и безопасность &gt; Администрирование &gt; Диспетчер служб IIS</em>.</p>
+</div>
