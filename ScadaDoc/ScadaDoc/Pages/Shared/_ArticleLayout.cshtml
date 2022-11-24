@@ -8,6 +8,8 @@
     var tocRenderer = new TocRenderer(Url) { ActivePagePath = pagePath };
 }
 
+<!-- @pagePath -->
+
 @section Styles {
     <link href="~/css/article.min.css" rel="stylesheet" asp-append-version="true" />
     @RenderSection("Styles", required: false)

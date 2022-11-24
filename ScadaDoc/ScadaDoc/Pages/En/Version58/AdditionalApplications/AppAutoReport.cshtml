@@ -1,0 +1,112 @@
+﻿@page "/en/5.8/additional-applications/app-auto-report"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Auto Report Application";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#algorithm">Work Algorithm</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#configuring">Configuring</a></li>
+        <li><a href="#operation">Operation</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Auto Report Application</h1>
+
+    <h2 id="overview">Overview</h2>
+
+    <p>The Auto Report application is designed to automatically generate various reports, save them to disk and send by email. The schedule for generating reports is set using <a href="../modules/mod-auto-control">Automatic Control Module</a>. Sending reports by email is provided by the corresponding KpEmail.dll driver, which is included in the standard Rapid SCADA installation.</p>
+
+    <p>The following types of reports are supported:</p>
+
+    <ul>
+        <li>Hourly data report;</li>
+        <li>Event report;</li>
+        <li>Minute data report;</li>
+        <li>Elastic report.</li>
+    </ul>
+
+    <h2 id="algorithm">Work Algorithm</h2>
+
+    <p>Auto Report works as a service. It connects to the <a href="../software-overview/applications#server-application">Server application</a> and is permanently ready to receive commands. Automatic Control Module, which operates as part of Server, sends commands to execute tasks for generating reports at specified time. Due to a command, a set of reports is generated and saved to disk in a format of office files or archive. If the corresponding option is set, the Auto Report application passes a command to Server to send the generated reports by email.</p>
+
+    <h2 id="installation">Installation</h2>
+
+    <ol>
+        <li>Unzip the application installation package.</li>
+        <li>Copy all files from the SCADA folder of the installation package to the Rapid SCADA installation directory, the default is C:\SCADA, with the hierarchy of directories retained.</li>
+        <li>Execute the file ScadaAutoReport\svc_install.bat as administrator to register the service.</li>
+        <li>Execute the file ScadaAutoReport\svc_start.bat as administrator to run the service.</li>
+        <li>Open the application ScadaAutoReport\ScadaAutoReportConfig.exe, go to the <em>Registration</em> tab and register the application.</li>
+    </ol>
+
+    <h2 id="configuring">Configuring</h2>
+
+    <p>The configuration of Auto Report is stored in the file C:\SCADA\ScadaAutoReport\Config\ScadaAutoReportConfig.xml. To edit the configuration, the ScadaAutoReportConfig.exe application is intended. Its user interface is shown in the following figures:</p>
+
+    <figure class="figure">
+        <img src="app-auto-report-files/auto_report_general_en.png" class="figure-img img-fluid" alt="General options of Auto Report" />
+    </figure>
+
+    <figure class="figure">
+        <img src="app-auto-report-files/auto_report_tasks_en.png" class="figure-img img-fluid" alt="Task options of Auto Report" />
+    </figure>
+
+    <p>To make Auto Report work, it is necessary to perform certain settings in the project:</p>
+
+    <ol>
+        <li>Create a communication line, device, and output channel to send reports by email to the specified recipients.</li>
+        <li>Create a device and an output channel to send and receive commands for generating reports.</li>
+        <li>Add a new user, which is used to connect the application to Server.</li>
+        <li>Configure Automatic Control Module to send commands on a schedule.</li>
+        <li>Set up email sending in Communicator.</li>
+    </ol>
+
+    <p>Actions 1, 2, and 3 are shown in the following figures:</p>
+
+    <figure class="figure">
+        <img src="app-auto-report-files/auto_report_lines_en.png" class="figure-img img-fluid" alt="Communication lines" />
+    </figure>
+
+    <figure class="figure">
+        <img src="app-auto-report-files/auto_report_devices_en.png" class="figure-img img-fluid" alt="Devices" />
+    </figure>
+
+    <figure class="figure">
+        <img src="app-auto-report-files/auto_report_out_cnls_en.png" class="figure-img img-fluid" alt="Output channels" />
+    </figure>
+
+    <figure class="figure">
+        <img src="app-auto-report-files/auto_report_users_en.png" class="figure-img img-fluid" alt="Users" />
+    </figure>
+
+    <p>The settings of Automatic Control Module (item 4) are shown below:</p>
+    
+    <figure class="figure">
+        <img src="app-auto-report-files/auto_report_module_en.png" class="figure-img img-fluid" alt="Automatic control module" />
+    </figure>
+
+    <p>An example of Communicator settings for sending emails (item 5) is contained in the DemoProject.en-GB.rsproj project. The following figure shows the device properties:</p>
+    
+    <figure class="figure">
+        <img src="app-auto-report-files/auto_report_email_en.png" class="figure-img img-fluid" alt="Email settings" />
+    </figure>
+
+    <h2 id="operation">Operation</h2>
+
+    <p>After completing the configuration or changing the existing configuration, restart the Auto Report service. To do this, run the file ScadaAutoReport\svc_restart.bat as administrator or use the Windows management console. The service name is ScadaAutoReportService.</p>
+
+    <p>To perform a check, run a task of generating report by the <a href="../software-overview/applications#administrator-application">Administrator application</a>. Open the <em>Generator</em> form and send a standard command, specifying the control channel that is responsible for generating reports. In this example, the output channel number is 201. Use the task ID as the command value. Then check the log files located in the directory C:\SCADA\ScadaAutoReport\Log\</p>
+
+    <figure class="figure">
+        <img src="app-auto-report-files/auto_report_cmd_en.png" class="figure-img img-fluid" alt="Telecontrol command" />
+    </figure>
+
+    <p>If the application works well, generated reports are saved in the directory specified in the general options, by default C:\SCADA\Reports\</p>
+</div>

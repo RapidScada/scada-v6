@@ -191,20 +191,20 @@
         <Url>/en/5.8/version-history/communicator-drivers-history</Url>
       </Item>
       <Item>
-        <Text>Agent History</Text>
-        <Url>/en/5.8/version-history/agent-history</Url>
-      </Item>
-      <Item>
-        <Text>Administrator History</Text>
-        <Url>/en/5.8/version-history/administrator-history</Url>
-      </Item>
-      <Item>
         <Text>Webstation History</Text>
         <Url>/en/5.8/version-history/webstation-history</Url>
       </Item>
       <Item>
         <Text>History of Webstation Plugins</Text>
         <Url>/en/5.8/version-history/webstation-plugins-history</Url>
+      </Item>
+      <Item>
+        <Text>Agent History</Text>
+        <Url>/en/5.8/version-history/agent-history</Url>
+      </Item>
+      <Item>
+        <Text>Administrator History</Text>
+        <Url>/en/5.8/version-history/administrator-history</Url>
       </Item>
       <Item>
         <Text>Table Editor History</Text>

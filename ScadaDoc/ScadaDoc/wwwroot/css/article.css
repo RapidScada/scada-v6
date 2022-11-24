@@ -49,6 +49,10 @@
 .doc-article em {
   color: #d63384;
 }
+.doc-article pre:has(code) {
+  background-color: #f5f2f0;
+  padding: 1rem;
+}
 
 @media (min-width: 992px) {
   #divLayout {
@@ -69,7 +73,7 @@
 
   .doc-article {
     grid-area: main;
-    overflow: hidden;
+    contain: inline-size;
   }
   .doc-article .doc-content {
     width: 80%;

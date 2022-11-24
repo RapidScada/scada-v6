@@ -67,6 +67,11 @@
     em {
         color: $pink;
     }
+
+    pre:has(code) {
+        background-color: #f5f2f0;
+        padding: 1rem;
+    }
 }
 
 @media (min-width: $breakpoint-lg) {
@@ -88,7 +93,7 @@
 
     .doc-article {
         grid-area: main;
-        overflow: hidden;
+        contain: inline-size;
 
         .doc-content {
             width: 80%;
