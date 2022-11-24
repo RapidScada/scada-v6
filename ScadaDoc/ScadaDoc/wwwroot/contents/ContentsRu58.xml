@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TableOfContents>
+  <!-- Обзор комплекса -->
+  <Item>
+    <Text>Обзор комплекса</Text>
+    <Subitems>
+      <Item>
+        <Text>Назначение и характеристики программного комплекса</Text>
+        <Url>/ru/5.8/software-overview/software-purpose</Url>
+      </Item>
+      <Item>
+        <Text>Архитектура программного комплекса</Text>
+        <Url>/ru/5.8/software-overview/software-architecture</Url>
+      </Item>
+      <Item>
+        <Text>Описание приложений</Text>
+        <Url>/ru/5.8/software-overview/applications</Url>
+      </Item>
+    </Subitems>
+  </Item>
+  
+  <!-- Установка и запуск -->
+  <Item>
+    <Text>Установка и запуск</Text>
+    <Subitems>
+      <Item>
+        <Text>Системные требования</Text>
+        <Url>/ru/5.8/installation-and-run/system-requirements</Url>
+      </Item>
+      <Item>
+        <Text>Установка программного комплекса</Text>
+        <Url>/ru/5.8/installation-and-run/software-installation</Url>
+      </Item>
+      <Item>
+        <Text>Установка вручную</Text>
+        <Url>/ru/5.8/installation-and-run/manual-installation</Url>
+      </Item>
+      <Item>
+        <Text>Установка дополнительных модулей</Text>
+        <Url>/ru/5.8/installation-and-run/module-installation</Url>
+      </Item>
+      <Item>
+        <Text>Запуск приложений</Text>
+        <Url>/ru/5.8/installation-and-run/run-applications</Url>
+      </Item>
+      <Item>
+        <Text>Перенос конфигурации на новый сервер</Text>
+        <Url>/ru/5.8/installation-and-run/migrate-configuration</Url>
+      </Item>
+      <Item>
+        <Text>Обновление программного комплекса</Text>
+        <Url>/ru/5.8/installation-and-run/software-update</Url>
+      </Item>
+      <Item>
+        <Text>Рекомендации по безопасности</Text>
+        <Url>/ru/5.8/installation-and-run/safety-recommendations</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
+  <!-- Настройка комплекса -->
+  <Item>
+    <Text>Настройка комплекса</Text>
+    <Subitems>
+      <Item>
+        <Text>Основы настройки</Text>
+        <Url>/ru/5.8/software-configuration/configuration-basics</Url>
+      </Item>
+      <Item>
+        <Text>Настройка базы конфигурации</Text>
+        <Url>/ru/5.8/software-configuration/tune-database</Url>
+      </Item>
+      <Item>
+        <Text>Использование формул</Text>
+        <Url>/ru/5.8/software-configuration/using-formulas</Url>
+      </Item>
+      <Item>
+        <Text>Настройка аутентификации пользователей</Text>
+        <Url>/ru/5.8/software-configuration/user-authentication</Url>
+      </Item>
+      <Item>
+        <Text>Настройка обмена данными с устройствами</Text>
+        <Url>/ru/5.8/software-configuration/communication-with-devices</Url>
+      </Item>
+      <Item>
+        <Text>Создание представлений</Text>
+        <Url>/ru/5.8/software-configuration/creating-views</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
+  <!-- Модули -->
+  <Item>
+    <Text>Модули</Text>
+    <Subitems>
+      <Item>
+        <Text>Драйвер импорта из БД</Text>
+        <Url>/ru/5.8/modules/kp-db-import</Url>
+      </Item>
+      <Item>
+        <Text>Драйвер Modbus Slave</Text>
+        <Url>/ru/5.8/modules/kp-modbus-slave</Url>
+      </Item>
+      <Item>
+        <Text>Драйвер Telegram</Text>
+        <Url>/ru/5.8/modules/kp-telegram</Url>
+      </Item>
+      <Item>
+        <Text>Модуль автоматического управления</Text>
+        <Url>/ru/5.8/modules/mod-auto-control</Url>
+      </Item>
+      <Item>
+        <Text>Модуль экспорта в БД</Text>
+        <Url>/ru/5.8/modules/mod-db-export</Url>
+      </Item>
+      <Item>
+        <Text>Модуль Быстрый шлюз</Text>
+        <Url>/ru/5.8/modules/mod-rapid-gate</Url>
+      </Item>
+      <Item>
+        <Text>Плагин Графики Про</Text>
+        <Url>/ru/5.8/modules/plg-chart-pro</Url>
+      </Item>
+      <Item>
+        <Text>Плагин Дэшборды</Text>
+        <Url>/ru/5.8/modules/plg-dashboard</Url>
+      </Item>
+      <Item>
+        <Text>Плагин Гибкий отчёт</Text>
+        <Url>/ru/5.8/modules/plg-elastic-report</Url>
+      </Item>
+      <Item>
+        <Text>Плагин Карты</Text>
+        <Url>/ru/5.8/modules/plg-map</Url>
+      </Item>
+      <Item>
+        <Text>Плагин Уведомления</Text>
+        <Url>/ru/5.8/modules/plg-notification</Url>
+      </Item>
+    </Subitems>
+  </Item>
+  
+  <!-- Дополнительные приложения -->
+  <Item>
+    <Text>Дополнительные приложения</Text>
+    <Subitems>
+      <Item>
+        <Text>Приложение Автоотчёт</Text>
+        <Url>/ru/5.8/additional-applications/app-auto-report</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
+  <!-- Сценарии использования -->
+  <Item>
+    <Text>Сценарии использования</Text>
+    <Subitems>
+      <Item>
+        <Text>Подключение устройств по протоколу Modbus</Text>
+        <Url>/ru/5.8/use-cases/modbus-protocol</Url>
+      </Item>
+      <Item>
+        <Text>Подключение устройств с использованием стандарта OPC</Text>
+        <Url>/ru/5.8/use-cases/opc-standard</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
+  <!-- История версий -->
+  <Item>
+    <Text>История версий</Text>
+    <Subitems>
+      <Item>
+        <Text>История Rapid SCADA</Text>
+        <Url>/ru/5.8/version-history/scada-history</Url>
+      </Item>
+      <Item>
+        <Text>История приложения Сервер</Text>
+        <Url>/ru/5.8/version-history/server-history</Url>
+      </Item>
+      <Item>
+        <Text>История модулей Сервера</Text>
+        <Url>/ru/5.8/version-history/server-modules-history</Url>
+      </Item>
+      <Item>
+        <Text>История приложения Коммуникатор</Text>
+        <Url>/ru/5.8/version-history/communicator-history</Url>
+      </Item>
+      <Item>
+        <Text>История драйверов Коммуникатора</Text>
+        <Url>/ru/5.8/version-history/communicator-drivers-history</Url>
+      </Item>
+      <Item>
+        <Text>История приложения Вебстанция</Text>
+        <Url>/ru/5.8/version-history/webstation-history</Url>
+      </Item>
+      <Item>
+        <Text>История плагинов Вебстанции</Text>
+        <Url>/ru/5.8/version-history/webstation-plugins-history</Url>
+      </Item>
+      <Item>
+        <Text>История приложения Агент</Text>
+        <Url>/ru/5.8/version-history/agent-history</Url>
+      </Item>
+      <Item>
+        <Text>История приложения Администратор</Text>
+        <Url>/ru/5.8/version-history/administrator-history</Url>
+      </Item>
+      <Item>
+        <Text>История приложения Редактор таблиц</Text>
+        <Url>/ru/5.8/version-history/table-editor-history</Url>
+      </Item>
+      <Item>
+        <Text>История приложения Редактор схем</Text>
+        <Url>/ru/5.8/version-history/scheme-editor-history</Url>
+      </Item>
+    </Subitems>
+  </Item>
+</TableOfContents>
