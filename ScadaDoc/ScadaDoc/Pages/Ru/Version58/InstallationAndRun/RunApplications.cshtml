@@ -1,0 +1,61 @@
+﻿@page "/ru/5.8/installation-and-run/run-applications"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Запуск приложений";
+}
+
+<nav class="doc-toc">
+    <div class="h6">На этой странице</div>
+    <hr>
+    <ul>
+        <li><a href="#first-run">Первый запуск</a></li>
+        <li><a href="#run-administrator">Запуск Администратора</a></li>
+        <li><a href="#services">Службы</a></li>
+        <li><a href="#web-application">Веб-приложение</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Запуск приложений</h1>
+
+    <h2 id="first-run">Первый запуск</h2>
+
+    <p>После установки Rapid SCADA рекомендуется перезагрузить компьютер, чтобы автоматически запустились службы Сервера, Коммуникатора и Агента. Когда компьютер перезагрузится, запустите браузер Google Chrome, Mozilla Firefox или Microsoft Edge и введите адрес <a href="http://localhost/scada/" target="_blank">http://localhost/scada/</a>. Должна открыться страница входа (рис. 1), на которой укажите имя пользователя <em>admin</em> и пароль <em>12345</em>, затем нажмите кнопку <em>Войти</em>.</p>
+
+    <figure class="figure">
+        <img src="run-applications-files/scada_web_login_ru.png" class="figure-img img-fluid" alt="Веб-форма входа в систему" />
+        <figcaption class="figure-caption">Рис. 1. Веб-форма входа в систему</figcaption>
+    </figure>
+
+    <h2 id="run-administrator">Запуск Администратора</h2>
+
+    <p>Для запуска приложения Администратор используйте ярлык, расположенный в меню <em>Пуск &gt; Программы &gt; SCADA</em>. Если ярлык по какой-либо причине отсутствует, Администратор можно запустить из исполняемого файла C:\SCADA\ScadaAdmin\ScadaAdmin.exe</p>
+
+    <p>Приложение Администратор имеет инструменты для управления остальными приложениями Rapid SCADA.</p>
+
+    <h2 id="services">Службы</h2>
+
+    <p>Приложения Сервер, Коммуникатор и Агент работают как службы. При использовании Windows для управления службами можно использовать оснастку services.msc. Она запускается из командной строки или через <em>Панель управления &gt; Система и безопасность &gt; Администрирование &gt; Службы</em>. Наименования служб: ScadaServerService, ScadaCommService и ScadaAgentService.</p>
+
+    <p>Кроме того, в директориях соответствующих приложений расположены файлы svc_start.bat и svc_stop.bat, которые позволяют запускать и останавливать службу. Bat-файлы необходимо запускать от имени администратора.</p>
+
+    <p>Приложение Администратор также позволяет запускать и останавливать Сервер и Коммуникатор. Для управления службами в Администраторе откройте проект и затем откройте форму статуса экземпляра (рис. 2) с помощью кнопки <img src="../common-images/status.png" />.</p>
+
+    <figure class="figure">
+        <img src="run-applications-files/instance_status_ru.png" class="figure-img img-fluid" alt="Статус экземпляра в Администраторе" />
+        <figcaption class="figure-caption">Рис. 2. Статус экземпляра в Администраторе</figcaption>
+    </figure>
+
+    <p>Тип запуска служб Сервера, Коммуникатора и Агента по умолчанию устанавливается автоматический, т.е. службы запускаются при старте операционной системы и останавливаются при завершении её работы. Если автозапуск не требуется, то в свойствах соответствующих служб нужно установить запуск вручную (рис. 3).</p>
+
+    <figure class="figure">
+        <img src="run-applications-files/service_props_ru.png" class="figure-img img-fluid" alt="Установка типа запуска службы" />
+        <figcaption class="figure-caption">Рис. 3. Установка типа запуска службы</figcaption>
+    </figure>
+
+    <h2 id="web-application">Веб-приложение</h2>
+
+    <p>Чтобы открыть веб-приложение Вебстанция, в адресной строке браузера необходимо ввести http://compname/scada/, где compname - имя компьютера или IP-адрес в локальной сети, на котором установлено веб-приложение, scada – виртуальный каталог, указанный при установке. Если веб-приложение открывается на том же компьютере, на котором оно установлено, то можно использовать ссылки <a href="http://localhost/scada/" target="_blank">http://localhost/scada/</a> или <a href="http://127.0.0.1/scada/" target="_blank">http://127.0.0.1/scada/</a></p>
+
+    <p>Имя пользователя по умолчанию: <em>admin</em><br />Пароль по умолчанию: <em>12345</em></p>
+</div>
