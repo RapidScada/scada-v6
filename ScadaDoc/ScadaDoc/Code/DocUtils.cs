@@ -30,6 +30,7 @@ namespace Scada.Doc.Code
                 KnownLang.En => "English",
                 KnownLang.Ru => "Russian",
                 KnownLang.Es => "Spanish",
+                KnownLang.Zh => "简体中文",
                 _ => lang.ToString()
             };
         }
