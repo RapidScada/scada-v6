@@ -1,0 +1,20 @@
+﻿@page "/es/5.8/software-overview/software-architecture"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Arquitectura del software";
+}
+
+<h1>Arquitectura del software</h1>
+<p>La arquitectura de Rapid SCADA es del tipo multi-nivel y distribuida (ver Figura 1). Las aplicaciones se pueden ejecutar en un solo servidor o en múltiples ordenadores conectados en una red. Los controladores pueden usar canales de comunicación de diferentes tipos para conectarse a un sistema. Los principales factores que determinan la configuración del sistema son el número de ubicaciones de los equipos, la distancia entre ellos, la estimación de la actividad del usuario final y las restricciones de los sistemas externos.</p>
+<figure class="figure">
+    <img src="software-architecture-files/scada_arc_en.png" class="figure-img img-fluid" alt="Arquitectura del Software" />
+    <figcaption class="figure-caption">Figura 1. Arquitectura del Software</figcaption>
+</figure>
+<p>Rapid SCADA incluye las siguientes aplicaciones principales:</p>
+<ol>
+    <li><em>Webstation (Estación Web)</em> es una aplicación web que muestra información a un operador a través del navegador, en diferentes formatos (tablas, esquemas, diagramas, informes) y además permite enviar comandos a los controladores.</li>
+    <li><em>Server (Servidor)</em> gestiona los archivos de datos, realiza cálculos matemáticos y proporciona información a las aplicaciones cliente.</li>
+    <li><em>Communicator (Comunicador)</em> interactúa con los controladores (equipos industriales, PLCs, etc.) y transmite datos a la aplicación <em>Server</em>.</li>
+</ol>
+<p>El acceso a los datos mediante la tecnología web simplifica significativamente la implementación y el mantenimiento del sistema, lo cual es especialmente importante para un gran número de usuarios.</p>
+<p>Entre los dispositivos habitualmente controlados por un sistema SCADA están los medidores de energía eléctrica, medidores de calefacción, alarmas de incendio y de seguridad, controladores de acceso y otros equipos.</p>

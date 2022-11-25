@@ -1,0 +1,94 @@
+﻿@page "/es/5.8/software-overview/applications"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Descripción de las aplicaciones";
+}
+
+<nav class="doc-toc">
+    <div class="h6">En esta página</div>
+    <hr>
+    <ul>
+        <li><a href="#server-application">Aplicación Server</a></li>
+        <li><a href="#communicator-application">Aplicación Communicator</a></li>
+        <li><a href="#webstation-application">Aplicación Webstation</a></li>
+        <li><a href="#agent-application">Aplicación Agent</a></li>
+        <li><a href="#administrator-application">Aplicación Administrator</a></li>
+        <li><a href="#table-editor-application">Aplicación Table Editor</a></li>
+        <li><a href="#scheme-editor-application">Aplicación Scheme Editor</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Descripción de las aplicaciones</h1>
+    <h2 id="server-application">Aplicación Server</h2>
+    <p>El Server gestiona los archivos de datos, realiza cálculos matemáticos y provee información a las aplicaciones cliente. Escribe datos en su archivo principal y simultáneamente crea una copia de respaldo.</p>
+    <figure class="figure">
+        <img src="applications-files/scada_server_shell_en.png" class="figure-img img-fluid" alt="Cuadro para configurar al Server" />
+        <figcaption class="figure-caption">Figura 1. Cuadro para configurar al Server</figcaption>
+    </figure>
+    <p>El Server trabaja como un servicio. No tiene interfaz de usuario. Opera continuamente en el trasfondo, independientemente de que el usuario haya abierto sesión o no. El cuadro  gráfico para configurar al Server está integrado en la aplicación Administrator (ver Figura 1).</p>
+    <p>
+        La aplicación monitoriza las conexiones del usuario y verifica sus derechos mientras procesa las solicitudes y pasa los comandos. La información sobre el estado de la aplicación y sobre las acciones realizadas se almacena en archivos de registro en texto.
+        El servidor está diseñado para ejecutarse sin parar.
+    </p>
+    <p>Se dispone de módulos de servidor adicionales que permiten ampliar la funcionalidad del Server de acuerdo con las necesidades del cliente.</p>
+
+    <h2 id="communicator-application">Aplicación Communicator</h2>
+    <p>Communicator interactúa con los controladores y transmite datos a la aplicación Server. La comunicación con los controladores conectados a un sistema se ejecuta en paralelo, a través de múltiples líneas de comunicación. Communicator recibe datos actuales, los archiva, identifica eventos de controladores y envía comandos a los mismos. Otra función de la aplicación es como herramienta para solucionar problemas con las líneas de comunicación y con los dispositivos.</p>
+    <figure class="figure">
+        <img src="applications-files/scada_comm_shell_en.png" class="figure-img img-fluid" alt="Interfaz gráfica para configurar al Communicator" />
+        <figcaption class="figure-caption">Figura 2. Interfaz gráfica para configurar al Communicator</figcaption>
+    </figure>
+    <p>Communicator funciona como un servicio. La interfaz gráfica para configurarlo está integrada en la aplicación Administrator (vea la Figura 2). La información sobre la aplicación, sobre las líneas de comunicación y sobre cada dispositivo conectado, se almacena en archivos de registro. Communicator está diseñado para funcionar sin parar.</p>
+    <p>Los desarrolladores pueden implementar sus propios controladores de dispositivo (drivers) para interactuar con una variedad de dispositivos.</p>
+
+    <h2 id="webstation-application">Aplicación Webstation</h2>
+    <p>Webstation es una aplicación web que muestra información a un operador a través del navegador en diferentes formatos (tablas, esquemas, diagramas, informes, etc.) y permite enviar comandos. Genera informes en los formatos comúnmente utilizados HTML y Microsoft Excel.</p>
+    <figure class="figure">
+        <img src="applications-files/scada_web_scheme_en.png" class="figure-img img-fluid" alt="Aplicación Webstation. Vista de Scheme (Esquema)" />
+        <figcaption class="figure-caption">Figura 3. Aplicación Webstation. Vista de Scheme (Esquema)</figcaption>
+    </figure>
+    <figure class="figure">
+        <img src="applications-files/scada_web_table_en.png" class="figure-img img-fluid" alt="Aplicación Webstation. Vista de Table (Tabla)" />
+        <figcaption class="figure-caption">Figura 4. Aplicación Webstation. Vista de Table (Tabla)</figcaption>
+    </figure>
+    <p>El usuario puede elegir una vista (de tabla o de esquema) y una fecha para acceder a los datos archivados. Para mostrar un diagrama (curva) de un canal de entrada haga clic en el ícono de un elemento de una tabla, o en un elemento (valor númérico) de un esquema.</p>
+    <p>Webstation es accesible desde cualquier computadora o tableta conectada a la red de una organización, sin necesidad de instalar ningún software adicional. El acceso es gestionado por un administrador del sistema, quien define los derechos de los usuarios..</p>
+    <p>Las funcionalidades de la aplicación Webstation se pueden ampliar mediante la incorporación de complementos (plugins) adicionales. . Por ejemplo, <a href="../modules/plg-chart-pro">Chart Pro Plugin</a> amplía las capacidades de las gráficas de Rapid SCADA: agrega escalado, puede mostrar múltiples gráficos (curvas) y puede exportarlos a formatos PNG y PDF. <a href="../modules/plg-elastic-report">Elastic Report Plugin</a> permite generar informes con una configuraciones personalizadas. Con este complemento, puede crear casi que cualquier informe deseado. Los desarrolladores pueden descargar el código fuente de Rapid SCADA y la documentación correspondiente para aprender cómo implementar complementos.</p>
+
+    <h2 id="agent-application">Aplicación Agent</h2>
+    <p>La aplicación Agent transfiere la configuración entre una instancia de Rapid SCADA y la aplicación Administrator. Adicionalmente, Agent proporciona archivos de registro (log files) para mostrar en Administrator. Agent se ejecuta como un servicio en el servidor en el que está instalada una instancia de Rapid SCADA, controlada por Agent. Una instancia de Rapid SCADA incluye las aplicaciones Server, Communicator y Webstation, todas o algunas de ellas.</p>
+    <p>Agent se comunica con Administrator a vía TCP. Por lo tanto, Administrator puede ser instalado en la misma computadora que Agent o en otra computadora a la que se pueda acceder a través de la red. De manera predeterminada (por defecto), Agent utiliza el puerto TPC 10002. En caso de acceso remoto, el servidor de seguridad (Firewall) debe permitir las conexiones entrantes a este puerto.</p>
+    <p>Agent no tiene interfaz de usuario. Para verificar su funcionamiento, utilize los archivos de registro cuya ubicación predeterminada es C:\SCADA\ScadaAgent\Log</p>
+
+    <h2 id="administrator-application">Aplicación Administrator</h2>
+    <p>La aplicación Administrator (vea la Figura 5) está diseñada para desarrollar proyectos con Rapid SCADA y monitorizar el estado de un sistema automatizado. Administrator es un entorno de desarrollo integrado (IDE) que permite editar la base de datos de configuración, configurando las principales aplicaciones de Rapid SCADA (integradas en Administrator), Server y Communicator (incluyendo los controladores de los dispositivos).</p>
+    <figure class="figure">
+        <img src="applications-files/scada_admin_en.png" class="figure-img img-fluid" alt="Aplicación Administrator" />
+        <figcaption class="figure-caption">Figura 5. Aplicación Administrator</figcaption>
+    </figure>
+    <p>Administrator tiene las siguientes herramientas para acelerar el proceso de configuración:</p>
+    <ul>
+        <li>Importar y exportar tablas de bases de datos de configuración para el intercambio de trabajos entre proyectos.</li>
+        <li>Un asistente para crear canales de entrada y salida automáticamente.</li>
+        <li>Función de clonación de canales que minimiza la introducción manual.</li>
+    </ul>
+    <p>Un proyecto contiene un conjunto de archivos de configuración, que utilizan principalmente el formato XML. Este enfoque facilita la copia de proyectos de una computadora a otra. Para controlar las versiones del proyecto y la colaboración, Git es la mejor opción.</p>
+
+    <h2 id="table-editor-application">Aplicación Table Editor</h2>
+    <p>Table Editor está diseñado para crear vistas de tabla que se muestran (vía Webstation) en la estación de trabajo del operador. Los ingenieros utilizan Table Editor durante la configuración de Rapid SCADA.</p>
+    <figure class="figure">
+        <img src="applications-files/scada_table_editor_en.png" class="figure-img img-fluid" alt="Aplicación Table Editor" />
+        <figcaption class="figure-caption">Figura 6. Aplicación Table Editor</figcaption>
+    </figure>
+    <p>Elija los canales en el panel izquierdo de la ventana y agréguelos a la vista de tabla en la ventana derecha. El contenido de la vista de tabla se muestra en el panel derecho. Los elementos ocultos de una tabla no se mostrarán en la aplicación <a href="#webstation-application">Webstation</a>, sin embargo, cobran sentido al filtrar eventos por vista.</p>
+    <p>Table Editor generalmente se inicia desde la aplicación Administrator haciendo doble clic en el nodo de una vista de tabla en el explorador de proyectos. La barra de estado del editor muestra la ruta de la base de datos de configuración del proyecto que contiene la tabla que se está editando.</p>
+
+    <h2 id="scheme-editor-application">Aplicación Scheme Editor</h2>
+    <p>La aplicación Scheme Editor está diseñada para crear esquemas que se muestran (vía Webstation) en la estación de trabajo del operador. Los ingenieros utilizan Scheme Editor durante la configuración de Rapid SCADA.</p>
+    <figure class="figure">
+        <img src="applications-files/scada_scheme_editor_en.png" class="figure-img img-fluid" alt="Aplicación Scheme" />
+        <figcaption class="figure-caption">Figura 7. Aplicación Scheme</figcaption>
+    </figure>
+    <p>Un esquema consiste en elementos textuales y gráficos que tienen un conjunto de propiedades que definen su contenido, apariencia y comportamiento. Los elementos estáticos muestran contenido inmutable. Los elementos dinámicos están vinculados a los canales de la base de datos de configuración lo que permite mostrar los valores y estados medidos actuales, dibujar gráficos y enviar comandos mediante un clic del usuario.</p>
+</div>
