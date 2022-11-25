@@ -38,9 +38,7 @@ class MainApi {
 
     // Formats the channel numbers for use in a query string.
     _cnlNumsToParam(cnlNums) {
-        return "cnlNums=" + Array.isArray(cnlNums)
-            ? cnlNums.join(",")
-            : cnlNums;
+        return "cnlNums=" + (Array.isArray(cnlNums) ? cnlNums.join(",") : cnlNums);
     }
 
     // Calls the callback function without any exception.
