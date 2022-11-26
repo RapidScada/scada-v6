@@ -1,0 +1,91 @@
+﻿@page "/es/5.8/modules/kp-telegram"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Controlador de Telegram";
+}
+
+<nav class="doc-toc">
+    <div class="h6">En esta página</div>
+    <hr>
+    <ul>
+        <li><a href="#overview">Introducción</a></li>
+        <li><a href="#installation">Instalación</a></li>
+        <li>
+            <a href="#configuring">Configuración</a>
+            <ul>
+                <li><a href="#creating-bot">Crear el bot de Telegram</a></li>
+                <li><a href="#driver-settings">Configuración del controlador</a></li>
+                <li><a href="#manage-subscriptions">Gestión de Suscripciones</a></li>
+            </ul>
+        </li>
+        <li><a href="#sending-messages">Envío de mensajes</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Controlador de Telegram</h1>
+    <h2 id="overview">Introducción</h2>
+    <p>El Controlador (Driver) de Telegram está diseñado para enviar notificaciones utilizando el popular programa de mensajería Telegram. Las ventajas de utilizar Telegram son la rapidez con la que se reciben las notificaciones, ser un servicio sin cargo y la fácil gestión de grupos de notificaciones.</p>
+
+    <h2 id="installation">Instalación</h2>
+    <p>El Controlador de Telegram es opcional y se puede adquirir de Rapid SCADA. Se instala de acuerdo con <a href="../installation-and-run/module-installation#drivers">la secuencia general de instalación de los drivers del Communicator.</a>. El archivo es KpTelegram.dll y está en la biblioteca “Drivers” de controladores de Communicator.</p>
+
+    <h2 id="configuring">Configuración</h2>
+    <h3 id="creating-bot">Crear el bot de Telegram</h3>
+    <p>Primero debe crear un bot para Telegram. Para hacerlo:</p>
+    <ol>
+        <li>Instale la aplicación y registrese en <a href="https://telegram.org/" target="_blank">Telegram</a>.</li>
+        <li>
+            Agregue el bot llamado <a href="https://telegram.me/botfather" target="_blank">BotFather</a> a la lista de contactos.
+            <figure class="figure text-start">
+                <img src="kp-telegram-files/bot_father.png" class="figure-img img-fluid border" alt="Telegram BotFather" />
+            </figure>
+        </li>
+        <li>En el diálogo con BotFather, ejecute el comando <em>/newbot</em> y siga las instrucciones de BotFather.</li>
+        <li>
+            Haga clic en el icono del menú y cree un nuevo grupo para recibir las notificaciones.
+            <figure class="figure text-start">
+                <img src="kp-telegram-files/new_group.png" class="figure-img img-fluid border" alt="Nuevo grupo Telegram" />
+            </figure>
+        </li>
+        <li>Agregue el bot que creó al nuevo grupo.</li>
+        <li>Agregue contactos al nuevo grupo. Estos contactos recibirán las notificaciones.</li>
+    </ol>
+
+    <h3 id="driver-settings">Configuración del controlador</h3>
+    <p>La configuración de las notificaciones como parte de un proyecto que usa Telegram se hace mediante la aplicación Administrator. Los pasos de la configuración son:</p>
+    <ol>
+        <li>En Administrator – Dictionaries – abra la tabla <em>Device types</em> y verifique que esté  &quot;224 Telegram&quot;. Si faltase, ingréselo manualmente.</li>
+        <li>En Administrator – System - Communication lines, cree una nueva línea de comunicación separada. Y en Administrator - Devices cree un dispositivo de tipo Telegram que corresponda a la línea de comunicación creada. Puede usar los asistentes mediante los botones <img src="../common-images/add_line.png" /> y <img src="../common-images/add_device.png" />.</li>
+        <li>
+            En Communicator – Communication lines abra las propiedades del dispositivo creado con clic derecho. Ingrese el token del bot, obtenido cuando lo creó y genere una contraseña para el mismo con el botón. Esta contraseña será necesaria para administrar las suscripciones.
+            <figure class="figure text-start">
+                <img src="kp-telegram-files/kp_telegram_config_en.png" class="figure-img img-fluid" alt="Telegram Driver configuración" />
+            </figure>
+        </li>
+        <li>Salve la configuración del controlador (driver).</li>
+        <li>Suba el proyecto al Server con el botón <img src="../common-images/upload.png" /> (Upload Configuration)..</li>
+        <li>
+            Vaya a la pestaña <em>Registration</em> y registre el controlador utilizando los hipervínculos que hallará en el formulario.
+            <figure class="figure text-start">
+                <img src="kp-telegram-files/kp_telegram_reg_en.png" class="figure-img img-fluid" alt="Telegram Driver registro" />
+            </figure>
+        </li>
+        <li>Guarde los cambios nuevamente y suba el proyecto al Server.</li>
+    </ol>
+
+    <h3 id="manage-subscriptions">Gestión de Suscripciones</h3>
+    <p>Si la configuración es correcta, su bot responderá a los comandos de Telegram, por ejemplo el comando <em>/help</em> o <em>/info</em>. Es necesario especificar las suscripciones (chats) en la configuración del driver.</p>
+    <figure class="figure">
+        <img src="kp-telegram-files/group_chat_en.png" class="figure-img img-fluid border" alt="Grupo de notificación de Telegram" />
+    </figure>
+    <p>Para obtener la ID y el nombre de la suscripción, envíe el comando <em>/info</em> en el Grupo de Telegram. Luego agregue los valores recibidos utilizando el formulario de configuración del dispositivo.</p>
+    <p>Método obsoleto: Para agregar o eliminar suscripciones al grupo, use los comandos <em>/start</em> y <em>/stop</em> con la contraseña generada anteriormente. Sin embargo, de forma predeterminada, los cambios de suscripciones están bloqueados. Para desbloquearlos, envíe el comando estándar número 2 con un valor de 1 por el Communicator. Ahora podrá añadir o eliminar suscripciones.</p>
+
+    <h2 id="sending-messages">Envío de mensajes</h2>
+    <p>Para enviar un mensaje desde Rapid SCADA a un grupo de Telegram, vaya a Communicator – Línea creada para Telegram – Dispositivo creado para Telegram – click derecho – Send Command. Ahora, necesita enviar el comando binario número 1, contenienedo el nombre del grupo (o ID);  texto del mensaje. Por ejemplo:<br />RapidScadaDemo; Mensaje de prueba.</p>
+    <figure class="figure">
+        <img src="kp-telegram-files/send_cmd_en.png" class="figure-img img-fluid" alt="Enviar mensaje de Telegram" />
+    </figure>
+    <p>El envío automático de notificaciones en caso de condiciones y eventos específicos se realiza mediante el <a href="mod-auto-control">Automatic Control Module</a> opcional.</p>
+</div>
