@@ -1,15 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <TableOfContents>
+  <!-- Overview -->
   <Item>
     <Text>Overview</Text>
     <Subitems>
       <Item>
         <Text>Introduction</Text>
-        <Url>/en/6.0/overview/introduction</Url>
-      </Item>
-      <Item>
-        <Text>Applications</Text>
-        <Url>/en/6.0/overview/applications</Url>
+        <Url>/en/6.0/software-overview/introduction</Url>
       </Item>
     </Subitems>
   </Item>
