@@ -24,7 +24,7 @@
         <Url>/en/6.0/installation/install-windows</Url>
       </Item>
       <Item>
-        <Text>Install on Windows manually</Text>
+        <Text>Install on Windows Manually</Text>
         <Url>/en/6.0/installation/install-windows-manual</Url>
       </Item>
       <Item>
@@ -63,7 +63,7 @@
         <Url>/en/6.0/version-history/administrator-history</Url>
       </Item>
       <Item>
-        <Text>History of additional applications</Text>
+        <Text>History of Additional Applications</Text>
         <Url>/en/6.0/version-history/applications-history</Url>
       </Item>
     </Subitems>
