@@ -62,10 +62,10 @@
         <Text>История Администратора</Text>
         <Url>/ru/6.0/version-history/administrator-history</Url>
       </Item>
-      <Item>
+      <!--<Item>
         <Text>История дополнительных приложений</Text>
         <Url>/ru/6.0/version-history/applications-history</Url>
-      </Item>
+      </Item>-->
     </Subitems>
   </Item>
 </TableOfContents>
