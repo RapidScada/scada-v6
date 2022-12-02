@@ -20,7 +20,7 @@ namespace Scada.Web.Plugins.PlgWebPage.View
             {
                 return Locale.IsRussian ?
                     "Веб-страницы" :
-                    "Web pages";
+                    "Web Pages";
             }
         }
 
