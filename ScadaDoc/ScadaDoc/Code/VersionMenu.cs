@@ -101,7 +101,13 @@ namespace Scada.Doc.Code
         /// <summary>
         /// The menus for all languages.
         /// </summary>
-        public static readonly List<VersionMenu> All = new() { En, Ru, Es, Zh };
+        public static readonly List<VersionMenu> All = new() 
+        { 
+            En, 
+            Ru, 
+            Es, 
+            //Zh Uncomment after translating articles
+        };
 
 
         /// <summary>
