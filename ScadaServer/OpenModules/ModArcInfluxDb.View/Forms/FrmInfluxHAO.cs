@@ -43,7 +43,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
         /// </summary>
         private static void FillConnections(ComboBox comboBox, string configDir)
         {
-            string configFileName = Path.Combine(configDir, ModuleConfig.ConfigFileName);
+            string configFileName = Path.Combine(configDir, ModuleConfig.DefaultFileName);
 
             if (File.Exists(configFileName))
             {
