@@ -6,8 +6,13 @@
     <SharedGUID>3e78954f-06ed-436b-b664-3558c497565f</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>ModActiveDirectory.Shared</Import_RootNamespace>
+    <Import_RootNamespace>Scada.Server.Modules.ModActiveDirectory</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Config\ModActiveDirectory.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Config\ModuleConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModuleUtils.cs" />
   </ItemGroup>
 </Project>
