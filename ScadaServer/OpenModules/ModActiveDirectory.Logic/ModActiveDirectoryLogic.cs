@@ -121,14 +121,40 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
                     AuthType.Ntlm);
 
                 connection.Bind();
+                Log.WriteLine("!!! Bind OK");
 
-                string filter = $"(|(mail=joao.silva@brunobrito.net)(sAMAccountName={username}))";
-                SearchRequest request = new("DC=brunobrito,DC=net", filter, SearchScope.Subtree, "displayName", "cn", "mail");
-                DirectoryResponse response = connection.SendRequest(request); // response is SearchResponse
+                SearchRequest request = new(null, "(sAMAccountName=" + username + ")", SearchScope.Subtree, "memberOf")
+                {
+                    SizeLimit = 1
+                };
+                DirectoryResponse response = connection.SendRequest(request);
+
+                if (response is SearchResponse searchResponse)
+                {
+                    Log.WriteLine("!!! Search OK");
+
+                    foreach (SearchResultEntry entry in searchResponse.Entries)
+                    {
+                        Log.WriteLine("!!! Entry=" + entry.ToString());
+
+                        if (entry.Attributes.Contains("memberOf"))
+                        {
+                            foreach (DirectoryAttribute attr in entry.Attributes["memberOf"])
+                            {
+                                Log.WriteLine("!!! Attr=" + attr.ToString());
+                            };
+                        }
+                    }
+                }
+
+                //string filter = $"(|(mail=joao.silva@brunobrito.net)(sAMAccountName={username}))";
+                //SearchRequest request = new("DC=brunobrito,DC=net", filter, SearchScope.Subtree, "displayName", "cn", "mail");
+                //DirectoryResponse response = connection.SendRequest(request); // response is SearchResponse
             }
             catch (Exception ex)
             {
-                Log.WriteError(ServerPhrases.ModuleMessage, Code, ex.Message);
+                Log.WriteError(ex);
+                //Log.WriteError(ServerPhrases.ModuleMessage, Code, ex.Message);
             }
 
             /*DirectoryEntry entry = null;
