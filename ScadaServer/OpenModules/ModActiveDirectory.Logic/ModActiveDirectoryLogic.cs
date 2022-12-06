@@ -15,11 +15,6 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
     /// </summary>
     public class ModActiveDirectoryLogic : ModuleLogic
     {
-        /// <summary>
-        /// The LDAP port.
-        /// </summary>
-        private const int LdapPort = 389;
-
         private readonly ModuleConfig moduleConfig;      // the module configuration
         private readonly Dictionary<string, User> users; // the users accessed by username
 
@@ -115,21 +110,20 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
 
             try
             {
+                Log.WriteLine("!!! ValidateUser");
                 using LdapConnection connection = new(
-                    new LdapDirectoryIdentifier(moduleConfig.LdapPath, LdapPort, false, false),
-                    new NetworkCredential(username, password),
-                    AuthType.Ntlm);
+                    new LdapDirectoryIdentifier(moduleConfig.LdapPath),
+                    new NetworkCredential(username, password));
 
                 connection.Bind();
                 Log.WriteLine("!!! Bind OK");
 
-                SearchRequest request = new(null, "(sAMAccountName=" + username + ")", SearchScope.Subtree, "memberOf")
+                SearchRequest request = new("", "(sAMAccountName=" + username + ")", SearchScope.Subtree, "memberOf")
                 {
                     SizeLimit = 1
                 };
-                DirectoryResponse response = connection.SendRequest(request);
 
-                if (response is SearchResponse searchResponse)
+                if (connection.SendRequest(request) is SearchResponse searchResponse)
                 {
                     Log.WriteLine("!!! Search OK");
 
