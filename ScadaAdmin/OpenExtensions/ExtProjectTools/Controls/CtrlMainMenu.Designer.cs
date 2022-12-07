@@ -35,11 +35,12 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             this.miCloneChannels = new System.Windows.Forms.ToolStripMenuItem();
             this.miChannelMapByDevice = new System.Windows.Forms.ToolStripMenuItem();
             this.miChannelMapByObject = new System.Windows.Forms.ToolStripMenuItem();
+            this.miDeviceMap = new System.Windows.Forms.ToolStripMenuItem();
             this.miCheckIntegrity = new System.Windows.Forms.ToolStripMenuItem();
             this.miSep = new System.Windows.Forms.ToolStripSeparator();
             this.miImportTable = new System.Windows.Forms.ToolStripMenuItem();
             this.miExportTable = new System.Windows.Forms.ToolStripMenuItem();
-            this.miDeviceMap = new System.Windows.Forms.ToolStripMenuItem();
+            this.miEncryptPassword = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -68,6 +69,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             this.miChannelMapByObject,
             this.miDeviceMap,
             this.miCheckIntegrity,
+            this.miEncryptPassword,
             this.miSep,
             this.miImportTable,
             this.miExportTable});
@@ -96,6 +98,13 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             this.miChannelMapByObject.Text = "Channel Map by Object";
             this.miChannelMapByObject.Click += new System.EventHandler(this.miChannelMap_Click);
             // 
+            // miDeviceMap
+            // 
+            this.miDeviceMap.Name = "miDeviceMap";
+            this.miDeviceMap.Size = new System.Drawing.Size(199, 22);
+            this.miDeviceMap.Text = "Device Map";
+            this.miDeviceMap.Click += new System.EventHandler(this.miDeviceMap_Click);
+            // 
             // miCheckIntegrity
             // 
             this.miCheckIntegrity.Name = "miCheckIntegrity";
@@ -122,12 +131,12 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             this.miExportTable.Text = "Export Table...";
             this.miExportTable.Click += new System.EventHandler(this.miExportTable_Click);
             // 
-            // miDeviceMap
+            // miEncryptPassword
             // 
-            this.miDeviceMap.Name = "miDeviceMap";
-            this.miDeviceMap.Size = new System.Drawing.Size(199, 22);
-            this.miDeviceMap.Text = "Device Map";
-            this.miDeviceMap.Click += new System.EventHandler(this.miDeviceMap_Click);
+            this.miEncryptPassword.Name = "miEncryptPassword";
+            this.miEncryptPassword.Size = new System.Drawing.Size(199, 22);
+            this.miEncryptPassword.Text = "Encrypt Password...";
+            this.miEncryptPassword.Click += new System.EventHandler(this.miEncryptPassword_Click);
             // 
             // CtrlMainMenu
             // 
@@ -154,5 +163,6 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
         private System.Windows.Forms.ToolStripMenuItem miExportTable;
         private System.Windows.Forms.ToolStripMenuItem miChannelMapByObject;
         private System.Windows.Forms.ToolStripMenuItem miDeviceMap;
+        private System.Windows.Forms.ToolStripMenuItem miEncryptPassword;
     }
 }

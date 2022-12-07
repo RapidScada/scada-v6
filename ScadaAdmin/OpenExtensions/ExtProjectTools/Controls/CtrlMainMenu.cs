@@ -136,6 +136,11 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             }
         }
 
+        private void miEncryptPassword_Click(object sender, EventArgs e)
+        {
+            new FrmPasswordEncrypt().ShowDialog();
+        }
+
         private void miImportTable_Click(object sender, EventArgs e)
         {
             // import table
