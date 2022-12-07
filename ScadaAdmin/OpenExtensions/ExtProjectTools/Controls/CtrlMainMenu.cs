@@ -4,9 +4,6 @@
 using Scada.Admin.Extensions.ExtProjectTools.Code;
 using Scada.Admin.Extensions.ExtProjectTools.Forms;
 using Scada.Data.Entities;
-using System;
-using System.IO;
-using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions.ExtProjectTools.Controls
 {
@@ -49,7 +46,9 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             miCloneChannels.Enabled = projectIsOpen;
             miChannelMapByDevice.Enabled = projectIsOpen;
             miChannelMapByObject.Enabled = projectIsOpen;
+            miDeviceMap.Enabled = projectIsOpen;
             miCheckIntegrity.Enabled = projectIsOpen;
+            miEncryptPassword.Enabled = projectIsOpen;
             miImportTable.Enabled = projectIsOpen;
             miExportTable.Enabled = projectIsOpen;
         }

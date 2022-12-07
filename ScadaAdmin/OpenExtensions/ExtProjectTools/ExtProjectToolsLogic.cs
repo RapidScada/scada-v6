@@ -6,7 +6,6 @@ using Scada.Admin.Extensions.ExtProjectTools.Controls;
 using Scada.Admin.Lang;
 using Scada.Forms;
 using Scada.Lang;
-using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions.ExtProjectTools
 {
