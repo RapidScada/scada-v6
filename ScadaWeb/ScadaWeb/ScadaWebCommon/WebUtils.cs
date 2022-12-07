@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Microsoft.AspNetCore.Html;
@@ -29,6 +29,7 @@ using Microsoft.AspNetCore.Mvc;
 using Scada.Lang;
 using System.Collections.Generic;
 using System.Net;
+using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
@@ -43,10 +44,6 @@ namespace Scada.Web
     public static partial class WebUtils
     {
         /// <summary>
-        /// The application version.
-        /// </summary>
-        public const string AppVersion = "6.0.0.0";
-        /// <summary>
         /// The application log file name.
         /// </summary>
         public const string LogFileName = "ScadaWeb.log";
@@ -58,6 +55,10 @@ namespace Scada.Web
         /// Formats date and time to use in JavaScript.
         /// </summary>
         public const string JsDateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffK";
+        /// <summary>
+        /// The application version.
+        /// </summary>
+        public static readonly string AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         /// <summary>
         /// Specifies how objects are converted to JSON.
         /// </summary>
