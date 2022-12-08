@@ -26,6 +26,7 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
             : base(serverContext)
         {
             moduleConfig = new ModuleConfig();
+            users = new Dictionary<string, User>();
         }
 
 
@@ -110,7 +111,7 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
 
             try
             {
-                Log.WriteLine("!!! ValidateUser");
+                Log.WriteLine("!!! ValidateUser " + username);
                 using LdapConnection connection = new(
                     new LdapDirectoryIdentifier(moduleConfig.LdapPath),
                     new NetworkCredential(username, password));
