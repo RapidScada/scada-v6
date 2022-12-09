@@ -1,0 +1,86 @@
+﻿@page "/zh/6.0/installation/install-windows"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "在Windows上安装";
+}
+
+<nav class="doc-toc">
+    <div class="h6">在这个页面上</div>
+    <hr>
+    <ul>
+        <li><a href="#preparing">准备安装</a></li>
+        <li><a href="#installation">安装</a></li>
+        <li><a href="#update">更新</a></li>
+        <li><a href="#uninstallation">卸载</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>在 Windows上安装</h1>
+    <h2 id="preparing">准备安装</h2>
+    <p>Rapid SCADA 需要安装 Internet Information Services （IIS） 和 .NET Runtime 。根据 Windows 的版本，这些组件的安装过程可能会有所不同。</p>
+    
+    <p>打开 <strong>控制面板 > 程序和功能 > 启用或关闭Windows功能</strong> 并启用 <strong>Internet Information Services</strong>. IIS 子组件的选择可以保留为默认值.</p>
+    <figure class="figure">
+        <img src="install-windows-files/win10-features-iis-zh.png" class="figure-img img-fluid" alt="IIS components">
+    </figure>
+
+    <p>从 <a href="https://dotnet.microsoft.com/zh-cn/download/dotnet/6.0" target="_blank">链接</a> 下载并安装  ASP.NET Core 运行时 6.0.x (托管捆绑包) 和 .NET 桌面运行时.</p>
+    <figure class="figure">
+        <img src="install-windows-files/dotnet-download.png" class="figure-img img-fluid" alt="下载 .NET">
+    </figure>
+
+    <p>组件安装完成后, 打开 <strong>控制面板 > 系统和安全 > Windows工具 > Internet Information Services (IIS) 管理器</strong>, 导航到 <strong>模块</strong>, 并确保已安装 <code>AspNetCoreModuleV2</code> 模块. 如果缺少该模块，请重新安装托管捆绑包。</p>
+    <figure class="figure">
+        <img src="install-windows-files/iis-modules-zh.png" class="figure-img img-fluid" alt="IIS modules">
+    </figure>
+
+    <h2 id="installation">安装</h2>
+    <p><a href="https://rapidscada.org/download-all-files/" target="_blank">下载</a> 并解压缩Rapid SCADA 分发包。运行 <code>ScadaSetup.exe</code> 文件以打开下图所示的安装程序。 必须使用管理员帐户执行安装。点击 <strong>Install</strong> 按钮 以输入安装选项。</p>
+    <p><strong>注意:</strong> 如果安装程序未启动，则打开<code>*.dll</code>, <code>*.exe</code> 文件的属性 ，并取消阻止这些文件。</p>
+    <figure class="figure">
+        <img src="install-windows-files/installer-en.png" class="figure-img img-fluid" alt="Rapid SCADA installer">
+    </figure>
+    <figure class="figure">
+        <img src="install-windows-files/installer-apps-en.png" class="figure-img img-fluid" alt="Rapid SCADA installer. Choose applications">
+    </figure>
+    <figure class="figure">
+        <img src="install-windows-files/installer-dir-en.png" class="figure-img img-fluid" alt="Rapid SCADA installer. Choose directory">
+    </figure>
+    <figure class="figure">
+        <img src="install-windows-files/installer-web-en.png" class="figure-img img-fluid" alt="Rapid SCADA installer. Web application options">
+    </figure>
+
+    <p>HTTP 端口 80 已经被 Default网站所使用。 因此, 安装程序建议使用其他端口，例如 10008。若要将端口 80 用于Rapid SCADA，必须停止Default 网站。</p>
+    <p>安装成功完成后，启动 Web 浏览器并打开 <a href="http://localhost:10008" target="_blank">http://localhost:10008</a>. <br/>
+        用户名: <em>admin</em><br />
+        密码: <em>scada</em>
+    </p>
+    <p> Web 应用程序首次启动时，加载数据需要一些时间，因此您可能需要等待大约 10 秒，然后刷新登录页面。默认情况下，Rapid SCADA运行Hello World项目。</p>
+    <p> 如果在安装过程中发生错误，请使用安装日志对其进行分析。 使用 <a href="https://forum.rapidscada.org/" target="_blank">支持论坛</a> 查找解决方案。</p>
+
+    <h2 id="update">更新</h2>
+    <p>安装程序允许更新以前安装的 Rapid SCADA 版本&nbsp;6.</p>
+
+    <div class="alert alert-warning">
+        <p><strong>重要</strong></p>
+        <ul>
+            <li>更新功能不能用于将Rapid SCADA 从版本 5 更新到版本 6.</li>
+            <li>更新功能不检查正在执行的项目与新版本软件的兼容性。</li>
+            <li>必须先在测试服务器上测试更新，并且只有在生产服务器上运行验证后才能测试。</li>
+        </ul>
+    </div>
+
+    <p>更新根据以下算法执行：</p>
+    <ol>
+        <li>检查指定的安装目录是否存在。</li>
+        <li>停止更新的服务。</li>
+        <li>创建已更新应用程序的备份副本。</li>
+        <li>更新选定的应用程序。更新应用程序时，现有文件将被新文件覆盖。应用程序的配置和存储目录不受影响。另外安装的软件模块保持不变。</li>
+        <li>启动服务。</li>
+    </ol>
+
+    <h2 id="uninstallation">卸载</h2>
+    <p>卸载Rapid SCADA也是使用安装程序完成的。因此 ，建议安装后不要从硬盘驱动器中删除   Rapid SCADA 发行包。</p>
+    <p>默认情况下，用户创建的Rapid SCADA 项目位于 <strong>文档</strong> 文件夹中。因此，在删除Rapid SCADA后，这些项目将保留。强烈建议不要将项目保存在安装目录中，因为它们可能会被安装程序意外删除。</p>
+</div>

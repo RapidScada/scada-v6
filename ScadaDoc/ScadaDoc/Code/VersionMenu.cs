@@ -106,7 +106,7 @@ namespace Scada.Doc.Code
             En, 
             Ru, 
             Es, 
-            //Zh Uncomment after translating articles
+            Zh 
         };
 
 
