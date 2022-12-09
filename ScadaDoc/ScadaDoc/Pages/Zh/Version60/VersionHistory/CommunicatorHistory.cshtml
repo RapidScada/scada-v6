@@ -1,139 +1,139 @@
-﻿@page "/en/6.0/version-history/communicator-history"
+﻿@page "/zh/6.0/version-history/communicator-history"
 @{
     Layout = "_ArticleLayout";
-    ViewBag.Title = "Communicator History";
+    ViewBag.Title = "通讯器版本历史";
 }
 
 <nav class="doc-toc">
-    <div class="h6">On this page</div>
+    <div class="h6">在当前页面上</div>
     <hr>
     <ul>
-        <li><a href="#communicator-app">Communicator Application</a></li>
-        <li><a href="#drv-cnl-basic">Basic Communication Channels</a></li>
-        <li><a href="#drv-cnl-mqtt">MQTT Communication Channel</a></li>
-        <li><a href="#drv-ds-mqtt">MQTT Data Source</a></li>
-        <li><a href="#drv-ds-opc-ua-server">OPC UA Server</a></li>
-        <li><a href="#drv-ds-scada-server">Server Data Source</a></li>
-        <li><a href="#drv-email">Email</a></li>
-        <li><a href="#drv-http-notif">HTTP Notifications</a></li>
+        <li><a href="#communicator-app">通信器应用</a></li>
+        <li><a href="#drv-cnl-basic">基础通信频道</a></li>
+        <li><a href="#drv-cnl-mqtt">MQTT 通信频道</a></li>
+        <li><a href="#drv-ds-mqtt">MQTT 数据源</a></li>
+        <li><a href="#drv-ds-opc-ua-server">OPC UA 服务器</a></li>
+        <li><a href="#drv-ds-scada-server">服务器数据源</a></li>
+        <li><a href="#drv-email">电子邮件</a></li>
+        <li><a href="#drv-http-notif">HTTP 通知</a></li>
         <li><a href="#drv-modbus">Modbus</a></li>
-        <li><a href="#drv-mqtt-client">MQTT Client</a></li>
-        <li><a href="#drv-mqtt-publisher">MQTT Publisher</a></li>
-        <li><a href="#drv-opc-classic">OPC Classic</a></li>
+        <li><a href="#drv-mqtt-client">MQTT 客户端</a></li>
+        <li><a href="#drv-mqtt-publisher">MQTT 发布者</a></li>
+        <li><a href="#drv-opc-classic">OPC 经典</a></li>
         <li><a href="#drv-opc-ua">OPC UA</a></li>
-        <li><a href="#drv-simulator">Device Simulator</a></li>
-        <li><a href="#drv-telegram">Telegram</a></li>
-        <li><a href="#drv-tester">Communication Channel Tester</a></li>
+        <li><a href="#drv-simulator">设备模拟器</a></li>
+        <li><a href="#drv-telegram">电报</a></li>
+        <li><a href="#drv-tester">通信通道测试仪</a></li>
     </ul>
 </nav>
 
 <div class="doc-content">
-    <h1>Communicator History</h1>
-    <h2 id="communicator-app">Communicator Application</h2>
-    <div>ScadaComm 6.0.0.0 (December 03, 2022)</div>
+    <h1>通信器版本历史</h1>
+    <h2 id="communicator-app">通信器应用</h2>
+    <div>ScadaComm 6.0.0.0 (2022年12月03 )</div>
     <ul>
-        <li>Communication channels are implemented using drivers</li>
-        <li>Data sources for interaction with other applications</li>
-        <li>Queue for sending data to the server</li>
-        <li>Device tag codes make it easy to bind tags to channels</li>
-        <li>Supports tags that are strings or arrays</li>
-        <li>Device status can be bound to a channel</li>
-        <li>Communication lines can be started or stopped with commands from the server</li>
-        <li>Configuration check: duplicate lines and devices are ignored, calculated channels are not bound to tags</li>
+        <li>使用驱动程序实现通信通道</li>
+        <li>数据源用于与其他应用程序交互</li>
+        <li>将数据发送到服务器的队列</li>
+        <li>设备标签代码可轻松将标签绑定到通道</li>
+        <li>支持字符串或数组标签</li>
+        <li>设备状态可以绑定通道</li>
+        <li>通信线路可以通过服务器的命令启动或停止</li>
+        <li>配置检查：忽略重复线路和设备，计算通道不绑定标签</li>
     </ul>
 
-    <h2 id="drv-cnl-basic">Basic Communication Channels</h2>
-    <div>DrvCnlBasic 6.0.0.0 (December 03, 2022)</div>
+    <h2 id="drv-cnl-basic">基础通信通道</h2>
+    <div>DrvCnlBasic 6.0.0.0 (2022年12月03 )</div>
     <ul>
-        <li>Initial development of the driver</li>
+        <li>驱动完成初步开发r</li>
     </ul>
 
-    <h2 id="drv-cnl-mqtt">MQTT Communication Channel</h2>
-    <div>DrvCnlMqtt 6.0.0.0 (December 03, 2022)</div>
+    <h2 id="drv-cnl-mqtt">MQTT 通信信道</h2>
+    <div>DrvCnlMqtt 6.0.0.0 (2022年12月03 ))</div>
     <ul>
-        <li>Initial development of the driver</li>
+        <li>驱动完成初步开发</li>
     </ul>
 
-    <h2 id="drv-ds-opc-ua-server">OPC UA Server</h2>
-    <div>DrvDsOpcUaServer 6.0.0.0 (December 03, 2022)</div>
+    <h2 id="drv-ds-opc-ua-server">OPC UA 服务器</h2>
+    <div>DrvDsOpcUaServer 6.0.0.0 (2022年12月03 )</div>
     <ul>
-        <li>Initial development of the driver</li>
+        <li>驱动完成初步开发</li>
     </ul>
 
-    <h2 id="drv-ds-scada-server">Server Data Source</h2>
-    <div>DrvDsScadaServer 6.0.0.0 (December 03, 2022)</div>
+    <h2 id="drv-ds-scada-server">Server 数据源</h2>
+    <div>DrvDsScadaServer 6.0.0.0 (2022年12月03 )</div>
     <ul>
-        <li>Initial development of the driver</li>
+        <li>驱动完成初步开发</li>
     </ul>
 
-    <h2 id="drv-email">Email</h2>
-    <div>DrvEmail 6.0.0.0 (December 03, 2022)</div>
+    <h2 id="drv-email">电子邮件</h2>
+    <div>DrvEmail 6.0.0.0 (2022年12月03 )</div>
     <ul>
-        <li>Email is resent in case of an error</li>
+        <li>如果出现错误，将重新发送电子邮件</li>
     </ul>
 
-    <h2 id="drv-http-notif">HTTP Notifications</h2>
-    <div>DrvHttpNotif 6.0.0.0 (December 03, 2022)</div>
+    <h2 id="drv-http-notif">HTTP 通知</h2>
+    <div>DrvHttpNotif 6.0.0.0 (2022年12月03 )</div>
     <ul>
-        <li>Porting the driver to the new version</li>
+        <li>将驱动程序移植到新版本</li>
     </ul>
 
     <h2 id="modbus">Modbus</h2>
-    <div>DrvModbus 6.0.0.0 (December 03, 2022)</div>
+    <div>DrvModbus 6.0.0.0 (2022年12月03 )</div>
     <ul>
-        <li>Added a feature to send commands with a custom function code</li>
-        <li>Template elements are both readable and writeable</li>
-        <li>Added the <strong>Bit mask</strong> element parameter for generating calculated channels</li>
-        <li>Inactive groups are not output to a device state file</li>
-        <li>Added a feature to copy element parameters to its group</li>
-        <li>Added a template validation feature</li>
+        <li>添加了使用自定义函数代码发送命令的功能</li>
+        <li>模板元素既可读又可写</li>
+        <li>添加了用于生成计算通道的 <strong>位掩码</strong> 元素参数</li>
+        <li>非活动组不会输出到设备状态文件</li>
+        <li>添加了一个将元素参数复制到其组的功能</li>
+        <li>添加了模板验证功能</li>
     </ul>
 
-    <h2 id="drv-mqtt-client">MQTT Client</h2>
-    <div>DrvMqttClient 6.0.0.0 (December 03, 2022)</div>
+    <h2 id="drv-mqtt-client">MQTT 客户端</h2>
+    <div>DrvMqttClient 6.0.0.0 (2022年12月03 )</div>
     <ul>
-        <li>The driver is completely redesigned</li>
+        <li>驱动程序完全重新设计</li>
     </ul>
 
-    <h2 id="drv-mqtt-publisher">MQTT Publisher</h2>
-    <div>DrvMqttPublisher 6.0.0.0 (December 03, 2022)</div>
+    <h2 id="drv-mqtt-publisher">MQTT 发布者</h2>
+    <div>DrvMqttPublisher 6.0.0.0 (2022年12月03 )</div>
     <ul>
-        <li>Initial development of the driver</li>
+        <li>驱动完成初步开发</li>
     </ul>
 
     <h2 id="drv-opc-classic">OPC Classic</h2>
-    <div>DrvOpcClassic 6.0.0.0 (December 03, 2022)</div>
+    <div>DrvOpcClassic 6.0.0.0 (2022年12月03 )</div>
     <ul>
-        <li>Client can connect to remote host</li>
-        <li>Connection options are common to communication line</li>
-        <li>Items are both readable and writeable</li>
-        <li>Supports arrays and strings</li>
+        <li>客户端可以连接到远程主机</li>
+        <li>连接选项与通信线路通用</li>
+        <li>Items 既可读又可写</li>
+        <li>支持 数组 和 字符串</li>
     </ul>
 
     <h2 id="drv-opc-ua">OPC UA</h2>
-    <div>DrvOpcUa 6.0.0.0 (December 03, 2022)</div>
+    <div>DrvOpcUa 6.0.0.0 (2022年12月03 )</div>
     <ul>
-        <li>Connection options are common to communication line</li>
-        <li>Items are both readable and writeable</li>
-        <li>Supports arrays and strings</li>
-        <li>User can select item data type</li>
+        <li>连接选项与通信线路通用</li>
+        <li>Items 既可读又可写</li>
+        <li>支持 数组 和 字符</li>
+        <li>用户可以选择项目数据类型</li>
     </ul>
 
-    <h2 id="drv-simulator">Device Simulator</h2>
-    <div>DrvSimulator 6.0.0.0 (December 03, 2022)</div>
+    <h2 id="drv-simulator">设备模拟器</h2>
+    <div>DrvSimulator 6.0.0.0 (2022年12月03 )</div>
     <ul>
-        <li>Added an array device tag</li>
+        <li>添加了阵列设备标记</li>
     </ul>
 
     <h2 id="drv-telegram">Telegram</h2>
-    <div>DrvTelegram 6.0.0.0 (December 03, 2022)</div>
+    <div>DrvTelegram 6.0.0.0 (2022年12月03 )</div>
     <ul>
-        <li>Bot token is stored encrypted</li>
+        <li>机器人令牌以加密方式存储</li>
     </ul>
 
-    <h2 id="drv-tester">Communication Channel Tester</h2>
-    <div>DrvTester 6.0.0.0 (December 03, 2022)</div>
+    <h2 id="drv-tester">通信通道测试仪</h2>
+    <div>DrvTester 6.0.0.0 (2022年12月03 )</div>
     <ul>
-        <li>Initial development of the driver</li>
+        <li>驱动完成初步开发</li>
     </ul>
 </div>
