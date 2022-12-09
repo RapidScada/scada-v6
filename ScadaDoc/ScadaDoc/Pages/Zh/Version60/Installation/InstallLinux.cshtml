@@ -1,0 +1,135 @@
+﻿@page "/zh/6.0/installation/install-linux"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "在 Linux上安装";
+}
+
+@section Styles {
+    <link href="~/lib/prismjs/prism.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="~/lib/prismjs/prism.js"></script>
+}
+
+<nav class="doc-toc">
+    <div class="h6">在这个页面上</div>
+    <hr>
+    <ul>
+        <li><a href="#installation">安装</a></li>
+        <li><a href="#uninstallation">卸载</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>I在 Linux上安装</h1>
+    <p>本文提供了适用于 Ubuntu 和 Debian 操作系统的命令。在 Linux 系列的其他操作系统上安装 Rapid SCADA 时，请使用相应的命令。</p>
+
+    <h2 id="installation">安装</h2>
+    <ol>
+        <li>
+            <p>根据<a href="https://docs.microsoft.com/zh-cn/dotnet/core/install/linux" target="_blank">说明</a> 安装 ASP.NET 核心运行时 6.0.x .</p>
+            <p>如果无法从安装包仓库里安装 .NET，则手动安装顺序如下：</p>
+            <ol type="a">
+                <li>从此 <a href="https://dotnet.microsoft.com/zh-cn/download/dotnet/6.0" target="_blank">链接</a>下载与操作系统对应的 .NET 二进制文件。</li>
+                <li> 将下载的文件解压缩并复制到 <code>/usr/share/dotnet/</code></li>
+                <li>
+                    使 <code>dotnet</code> 文件可执行:
+                    <pre><code class="language-sh">sudo chmod +x /usr/share/dotnet/dotnet</code></pre>
+                </li>
+                <li>
+                    创建指向 <code>dotnet</code> 文件的链接:
+                    <pre><code class="language-sh">sudo ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet</code></pre>
+                </li>
+            </ol>
+        </li>
+        <li>
+            从软件包安装 Rapid SCADA   (选项 1)
+            <pre><code class="language-sh">sudo dpkg -i rapidscada_VERSION_all.deb</code></pre>
+        </li>
+        <li>
+            手动安装 Rapid SCADA (选项 2)
+            <ol type="a">
+                <li>将提取的文件从文件夹 <code>scada</code> 复制到 <code>/opt/scada</code></li>
+                <li>
+                    使脚本可执行:
+                    <pre><code class="language-sh">sudo chmod +x /opt/scada/make_executable.sh
+sudo /opt/scada/make_executable.sh</code></pre>
+                </li>
+                <li>将提取的文件从文件夹 <code>daemons</code> 复制到 <code>/etc/systemd/system</code></li>
+                <li>
+                    启用守护服务:
+                    <pre><code class="language-sh">sudo systemctl enable scadaagent6.service
+sudo systemctl enable scadaserver6.service
+sudo systemctl enable scadacomm6.service
+sudo systemctl enable scadaweb6.service</code></pre>
+                </li>
+            </ol>
+        </li>
+        <li>
+            创建用于写入日志的 RAM 驱动器:
+            <ol type="a">
+                <li>
+                    创建日志目录:
+                    <pre><code class="language-sh">sudo mkdir /var/log/scada</code></pre>
+                </li>
+                <li>
+                    使备份副本文件<code>/etc/fstab</code> ，并将以下行添加到文件中
+                    <pre><code>tmpfs           /var/log/scada  tmpfs   defaults,noatime,size=100m    0    0</code></pre>
+                </li>
+            </ol>
+        </li>
+        <li>
+            安装和设置 Nginx:
+            <ol type="a">
+                <li>
+                    使用以下说明安装 Nginx:
+                    <a href="https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-20-04" target="_blank">链接 1</a>,
+                    <a href="https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-18-04" target="_blank">链接 2</a>,
+                    <a href="https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-20-04" target="_blank">链接 3</a>.
+                    安装命令:
+                    <pre><code class="language-sh">sudo apt update
+sudo apt install nginx</code></pre>
+                </li>
+                <li>
+                    创建自签名证书:
+                    <pre><code class="language-sh">sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt</code></pre>
+                </li>
+                <li>保存现有文件的备份副本后，将提取的文件<code>nginx/default</code> 复制到<code>/etc/nginx/sites-available</code>。</li>
+            </ol>
+        </li>
+        <li>
+            重启计算机:
+            <pre><code class="language-sh">sudo reboot</code></pre>
+        </li>
+        <li>
+            重新启动后，在 Web 浏览器中打开 <a href="http://localhost" target="_blank">http://localhost</a> 或者 http://SERVER_IP.<br />
+            用户名: <em>admin</em><br />
+            密码: <em>scada</em>
+        </li>
+    </ol>
+
+    <h2 id="uninstallation">卸载</h2>
+    <ol>
+        <li>还原原始文件 <code>/etc/fstab</code></li>
+        <li>
+            如果从软件包安装了Rapid Scada:
+            <pre><code class="language-sh">sudo dpkg -r rapidscada</code></pre>
+        </li>
+        <li>
+            如果是手动安装的 Rapid SCADA :
+            <ol type="a">
+                <li>
+                    禁用守护服务:
+                    <pre><code class="language-sh">sudo systemctl disable scadaagent6.service
+sudo systemctl disable scadaserver6.service
+sudo systemctl disable scadacomm6.service
+sudo systemctl disable scadaweb6.service</code></pre>
+                </li>
+                <li>从<code>/etc/systemd/system</code>中删除以前添加的守护程序文件 </li>
+                <li>删除 包含所有内容的目录 <code>/opt/scada</code>.</li>
+            </ol>
+        </li>
+        <li>如果有必要,移除.NET Runtime和Nginx </li>
+    </ol>
+</div>
