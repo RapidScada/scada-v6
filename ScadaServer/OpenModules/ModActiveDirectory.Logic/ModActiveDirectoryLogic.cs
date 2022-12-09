@@ -105,13 +105,16 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
             out int userID, out int roleID, out string errMsg, out bool handled)
         {
             // https://github.com/dotnet/runtime/tree/main/src/libraries/System.DirectoryServices/src/System/DirectoryServices
+            // https://github.com/dotnet/runtime/tree/main/src/libraries/System.DirectoryServices.Protocols/src/System/DirectoryServices/Protocols
             // https://github.com/dotnet/runtime/issues/36888
             // https://github.com/dotnet/runtime/issues/64900
             // https://learn.microsoft.com/en-us/previous-versions/windows/desktop/dacx/how-to-enumerate-active-directory-definitions-for-user-and-device-claims-and-resource-properties
+            // https://stackoverflow.com/questions/69806882/ldap-connection-response-server-unavailable
 
             try
             {
                 Log.WriteLine("!!! ValidateUser " + username);
+                Log.WriteLine("!!! LDAP path: " + moduleConfig.LdapPath);
                 using LdapConnection connection = new(
                     new LdapDirectoryIdentifier(moduleConfig.LdapPath),
                     new NetworkCredential(username, password));
