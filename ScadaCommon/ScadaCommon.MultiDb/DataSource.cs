@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Config;
+using Scada.Dbms;
 using System.Data.Common;
 using System.Diagnostics;
 
@@ -13,12 +14,6 @@ namespace Scada.MultiDb
     /// </summary>
     public abstract class DataSource
     {
-        /// <summary>
-        /// The string to hide a password. 0x25CF character is uded.
-        /// </summary>
-        protected const string HiddenPassword = "●●●●●";
-
-
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
@@ -49,7 +44,7 @@ namespace Scada.MultiDb
         protected abstract DbConnection CreateConnection();
 
         /// <summary>
-        /// Adds the command parameter containing the value.
+        /// Adds a command parameter with the specified name and value.
         /// </summary>
         protected abstract DbParameter AddParamWithValue(DbCommand cmd, string paramName, object value);
 
@@ -92,13 +87,16 @@ namespace Scada.MultiDb
         /// </summary>
         public virtual void SilentRollback(DbTransaction trans)
         {
-            try 
-            { 
-                trans?.Rollback(); 
-            } 
-            catch (Exception ex)
+            if (trans != null)
             {
-                Debug.WriteLine(ex);
+                try
+                {
+                    trans.Rollback();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                }
             }
         }
 
@@ -107,7 +105,7 @@ namespace Scada.MultiDb
         /// </summary>
         public virtual string BuildConnectionString()
         {
-            throw new NotImplementedException();
+            return ConnectionStringBuilder.Build(ConnectionOptions, false);
         }
 
         /// <summary>
