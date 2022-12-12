@@ -1,4 +1,93 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ModDbExport>
-  
+  <ExportTarget>
+    <GeneralOptions>
+      <Active>true</Active>
+      <ID>1</ID>
+      <Name>Target 1</Name>
+      <CmdCode>Target1</CmdCode>
+      <StatusCnlNum>0</StatusCnlNum>
+      <MaxQueueSize>1000</MaxQueueSize>
+      <DataLifetime>3600</DataLifetime>
+    </GeneralOptions>
+    <ConnectionOptions>
+      <Name></Name>
+      <DBMS>PostgreSQL</DBMS>
+      <Server>localhost</Server>
+      <Database>rapid_scada</Database>
+      <Username>postgres</Username>
+      <Password>4D83D8AEB31C1B40335A78AF3539DD22</Password>
+      <ConnectionString />
+    </ConnectionOptions>
+    <ExportOptions>
+      <CurDataExportOptions>
+        <!-- Trigger: OnReceive, OnTimer -->
+        <Trigger>OnReceive</Trigger>
+        <TimerPeriod>10</TimerPeriod>
+        <AllDataPeriod>60</AllDataPeriod>
+        <SkipUnchanged>false</SkipUnchanged>
+        <IncludeCalculated>false</IncludeCalculated>
+      </CurDataExportOptions>
+      <ArcReplicationOptions>
+        <Enabled>true</Enabled>
+        <AutoExport>false</AutoExport>
+        <MinDepth>10</MinDepth>
+        <MaxDepth>3600</MaxDepth>
+        <ReadingStep>60</ReadingStep>
+        <HistArchiveBit>1</HistArchiveBit>
+        <EventArchiveBit>4</EventArchiveBit>
+      </ArcReplicationOptions>
+    </ExportOptions>
+    <Queries>
+      <Query active="true" name="Query 1" dataKind="Current">
+        <Filter>
+          <CnlNums>101-105</CnlNums>
+          <DeviceNums></DeviceNums>
+          <ObjNums></ObjNums>
+        </Filter>
+        <SingleQuery>false</SingleQuery>
+        <Sql>
+          INSERT INTO mod_db_export.cnl_data (cnl_num, time_stamp, val, stat)
+          VALUES (@cnlNum, @timestamp, @val, @stat)
+        </Sql>
+      </Query>
+      <Query active="true" name="Query 2" dataKind="Historical">
+        <Filter />
+        <SingleQuery>false</SingleQuery>
+        <Sql>
+          INSERT INTO mod_db_export.cnl_data (cnl_num, time_stamp, val, stat)
+          VALUES (@cnlNum, @timestamp, @val, @stat)
+          ON CONFLICT (cnl_num, time_stamp) DO UPDATE
+          SET val = EXCLUDED.val, stat = EXCLUDED.stat
+        </Sql>
+      </Query>
+      <Query active="true" name="Query 3" dataKind="Event">
+        <Filter />
+        <Sql>
+          INSERT INTO mod_db_export.events (event_id, time_stamp, hidden, cnl_num, obj_num, device_num,
+            prev_cnl_val, prev_cnl_stat, cnl_val, cnl_stat, severity,
+            ack_required, ack, ack_timestamp, ack_user_id, text_format, event_text, event_data)
+          VALUES (@eventID, @timestamp, @hidden, @cnlNum, @objNum, @deviceNum, 
+            @prevCnlVal, @prevCnlStat, @cnlVal, @cnlStat, @severity,
+            @ackRequired, @ack, @ackTimestamp, @ackUserID, @textFormat, @eventText, @eventData)
+        </Sql>
+      </Query>
+      <Query active="true" name="Query 4" dataKind="EventAck">
+        <Sql>
+          UPDATE mod_db_export.events
+          SET ack = true, ack_timestamp = @ackTimestamp, ack_user_id = @ackUserID
+          WHERE event_id = @eventID
+        </Sql>
+      </Query>
+      <Query active="true" name="Query 5" dataKind="Command">
+        <Filter />
+        <Sql>
+          INSERT INTO mod_db_export.cmd (command_id, creation_time, client_name, user_id, 
+            cnl_num, obj_num, device_num, cmd_num, cmd_code, cmd_val, cmd_data)
+          VALUES (@commandID, @creationTime, @clientName, @userID, 
+            @cnlNum, @objNum, @deviceNum, @cmdNum, @cmdCode, @cmdVal, @cmdData)
+        </Sql>
+      </Query>
+    </Queries>
+  </ExportTarget>
 </ModDbExport>
