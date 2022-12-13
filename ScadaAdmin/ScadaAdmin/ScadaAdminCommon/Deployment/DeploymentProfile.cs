@@ -20,11 +20,11 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Client;
-using Scada.Config;
+using Scada.Dbms;
 using System;
 using System.Xml;
 

@@ -26,7 +26,7 @@
 using Scada.Admin.Config;
 using Scada.Admin.Deployment;
 using Scada.Admin.Project;
-using Scada.Config;
+using Scada.Dbms;
 using Scada.Lang;
 using System;
 using System.Collections.Generic;
