@@ -20,10 +20,11 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2021
+ * Modified : 2022
  */
 
 using System.IO;
+using System.Reflection;
 
 namespace Scada.Admin
 {
@@ -36,7 +37,7 @@ namespace Scada.Admin
         /// <summary>
         /// The application version.
         /// </summary>
-        public const string AppVersion = "6.0.0.0";
+        public static readonly string AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         /// <summary>
         /// The application log file name.
         /// </summary>
