@@ -31,7 +31,7 @@ namespace Scada.Server.Archives
 {
     /// <summary>
     /// Specifies the archive kinds.
-    /// <para>Задает виды архивов.</para>
+    /// <para>Задаёт виды архивов.</para>
     /// </summary>
     public enum ArchiveKind
     {

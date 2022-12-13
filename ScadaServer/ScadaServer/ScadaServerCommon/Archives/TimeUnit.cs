@@ -29,7 +29,7 @@ namespace Scada.Server.Archives
 {
     /// <summary>
     /// Specifies the time units.
-    /// <para>Задает единицы измерения времени.</para>
+    /// <para>Задаёт единицы измерения времени.</para>
     /// </summary>
     public enum TimeUnit
     {

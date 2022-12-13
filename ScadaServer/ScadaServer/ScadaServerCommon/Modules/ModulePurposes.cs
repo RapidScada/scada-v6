@@ -29,7 +29,7 @@ namespace Scada.Server.Modules
 {
     /// <summary>
     /// Specifies the module purposes.
-    /// <para>Задает предназначения модулей.</para>
+    /// <para>Задаёт предназначения модулей.</para>
     /// </summary>
     [Flags]
     public enum ModulePurposes

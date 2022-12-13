@@ -27,7 +27,7 @@ namespace Scada.Server.Archives
 {
     /// <summary>
     /// Specifies the kinds of current data.
-    /// <para>Задает виды текущих данных.</para>
+    /// <para>Задаёт виды текущих данных.</para>
     /// </summary>
     public enum CurrentDataKind
     {
