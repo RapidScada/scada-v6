@@ -1,22 +1,22 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Npgsql;
 using Scada.Dbms;
 using System.Data.Common;
+using System.Data.SqlClient;
 
 namespace Scada.MultiDb
 {
     /// <summary>
-    /// Represents a PostgreSQL data source.
-    /// <para>Представляет источник данных PostgreSQL.</para>
+    /// Implements a data source for Microsoft SQL Server.
+    /// <para>Реализует источник данных для Microsoft SQL Server.</para>
     /// </summary>
-    public class PostgreSqlDataSource : DataSource
+    public class SqlDataSource : DataSource
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public PostgreSqlDataSource(DbConnectionOptions connectionOptions)
+        public SqlDataSource(DbConnectionOptions connectionOptions)
             : base(connectionOptions)
         {
         }
@@ -27,7 +27,7 @@ namespace Scada.MultiDb
         /// </summary>
         protected override DbConnection CreateConnection()
         {
-            return new NpgsqlConnection();
+            return new SqlConnection();
         }
 
         /// <summary>
@@ -38,9 +38,9 @@ namespace Scada.MultiDb
             ArgumentNullException.ThrowIfNull(cmd, nameof(cmd));
             ArgumentNullException.ThrowIfNull(paramName, nameof(paramName));
 
-            return cmd is NpgsqlCommand npgsqlCommand 
-                ? npgsqlCommand.Parameters.AddWithValue(paramName, value) 
-                : throw new ArgumentException("NpgsqlCommand is required.", nameof(cmd));
+            return cmd is SqlCommand sqlCommand 
+                ? sqlCommand.Parameters.AddWithValue(paramName, value) 
+                : throw new ArgumentException("SqlCommand is required.", nameof(cmd));
         }
 
         /// <summary>
@@ -48,7 +48,8 @@ namespace Scada.MultiDb
         /// </summary>
         protected override void ClearPool()
         {
-            NpgsqlConnection.ClearAllPools();
+            if (Connection != null)
+                SqlConnection.ClearPool((SqlConnection)Connection);
         }
     }
 }

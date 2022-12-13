@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>Scada.MultiDb</RootNamespace>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Version>6.0.0</Version>
@@ -15,6 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="Npgsql" Version="6.0.6" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
   </ItemGroup>
 
   <ItemGroup>
