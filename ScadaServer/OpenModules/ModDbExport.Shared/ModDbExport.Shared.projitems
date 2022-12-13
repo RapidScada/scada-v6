@@ -9,6 +9,17 @@
     <Import_RootNamespace>Scada.Server.Modules.ModDbExport</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Config\ArcReplicationOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\CurDataExportOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\DataKind.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\ExportTargetConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\GeneralOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\ExportTrigger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\ExportOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\ModuleConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\QueryFilter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\QueryOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\QueryOptionList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModuleUtils.cs" />
   </ItemGroup>
   <ItemGroup>
