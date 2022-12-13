@@ -64,7 +64,7 @@ namespace Scada.Dbms
         public static string Build(DbConnectionOptions options, bool hidePassword)
         {
             if (options == null)
-                throw new ArgumentNullException(nameof(options));
+                return "";
 
             ScadaUtils.RetrieveHostAndPort(options.Server, GetDefaultPort(options.KnownDBMS), 
                 out string host, out int port);

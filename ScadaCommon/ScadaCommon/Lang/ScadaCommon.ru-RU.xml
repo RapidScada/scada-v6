@@ -127,6 +127,7 @@
     <Phrase key="gbConnectionOptions">Параметры соединения</Phrase>
     <Phrase key="lblName">Наименование</Phrase>
     <Phrase key="lblDbms">СУБД</Phrase>
+    <Phrase key="cbDbms.Items[0]">Не определена</Phrase>
     <Phrase key="lblServer">Сервер</Phrase>
     <Phrase key="lblDatabase">База данных</Phrase>
     <Phrase key="lblUsername">Имя пользователя</Phrase>

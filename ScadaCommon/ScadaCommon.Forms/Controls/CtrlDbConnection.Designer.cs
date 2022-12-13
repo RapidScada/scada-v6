@@ -178,13 +178,6 @@ namespace Scada.Forms.Controls
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbDbms.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbDbms.FormattingEnabled = true;
-            this.cbDbms.Items.AddRange(new object[] {
-            "Undefined",
-            "PostgreSQL",
-            "MySQL",
-            "MSSQL",
-            "Oracle",
-            "OLEDB"});
             this.cbDbms.Location = new System.Drawing.Point(13, 81);
             this.cbDbms.Name = "cbDbms";
             this.cbDbms.Size = new System.Drawing.Size(274, 23);

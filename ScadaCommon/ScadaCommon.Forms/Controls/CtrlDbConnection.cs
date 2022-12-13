@@ -25,6 +25,7 @@ namespace Scada.Forms.Controls
         public CtrlDbConnection()
         {
             InitializeComponent();
+            FillDbms();
 
             connectionOptions = null;
             nameEnabled = txtName.Enabled;
@@ -125,6 +126,21 @@ namespace Scada.Forms.Controls
 
 
         /// <summary>
+        /// Fills the DBMS combo box.
+        /// </summary>
+        private void FillDbms()
+        {
+            cbDbms.BeginUpdate();
+
+            foreach (string name in Enum.GetNames(typeof(KnownDBMS)))
+            {
+                cbDbms.Items.Add(name);
+            }
+
+            cbDbms.EndUpdate();
+        }
+
+        /// <summary>
         /// Sets the ReadOnly property of the textboxes depending on connection string usage.
         /// </summary>
         private void SetFieldsReadOnly(bool useConnectionString)
@@ -141,9 +157,12 @@ namespace Scada.Forms.Controls
         /// </summary>
         private string BuildConnectionString(DbConnectionOptions options)
         {
-            return options == null || BuildConnectionStringFunc == null
-                ? ""
-                : BuildConnectionStringFunc(options);
+            if (options == null)
+                return "";
+            else if (BuildConnectionStringFunc == null)
+                return ConnectionStringBuilder.Build(options, true);
+            else
+                return BuildConnectionStringFunc(options);
         }
 
         /// <summary>
