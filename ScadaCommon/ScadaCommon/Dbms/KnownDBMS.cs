@@ -34,10 +34,9 @@ namespace Scada.Dbms
     public enum KnownDBMS
     {
         Undefined,
-        PostgreSQL,
-        MySQL,
         MSSQL,
+        MySQL,
         Oracle,
-        OLEDB
+        PostgreSQL
     }
 }
