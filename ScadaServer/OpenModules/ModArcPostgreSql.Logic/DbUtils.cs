@@ -3,6 +3,7 @@
 
 using Npgsql;
 using Scada.Config;
+using Scada.Dbms;
 using Scada.Lang;
 using Scada.Server.Modules.ModArcPostgreSql.Config;
 using System.Globalization;

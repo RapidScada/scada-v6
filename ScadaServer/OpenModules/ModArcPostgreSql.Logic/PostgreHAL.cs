@@ -3,8 +3,8 @@
 
 using Npgsql;
 using NpgsqlTypes;
-using Scada.Config;
 using Scada.Data.Models;
+using Scada.Dbms;
 using Scada.Log;
 using Scada.Server.Archives;
 using Scada.Server.Config;
