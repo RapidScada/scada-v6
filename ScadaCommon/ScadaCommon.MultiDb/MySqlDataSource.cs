@@ -1,22 +1,28 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using MySql.Data.MySqlClient;
 using Scada.Dbms;
 using System.Data.Common;
-using System.Data.SqlClient;
 
 namespace Scada.MultiDb
 {
     /// <summary>
-    /// Represents a Microsoft SQL Server data source.
-    /// <para>Представляет источник данных Microsoft SQL Server.</para>
+    /// Represents a MySQL data source.
+    /// <para>Представляет источник данных MySQL.</para>
     /// </summary>
-    public class SqlDataSource : DataSource
+    public class MySqlDataSource : DataSource
     {
+        /// <summary>
+        /// The default port of the database server.
+        /// </summary>
+        private const int DefaultPort = 3306;
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public SqlDataSource(DbConnectionOptions connectionOptions)
+        public MySqlDataSource(DbConnectionOptions connectionOptions)
             : base(connectionOptions)
         {
         }
@@ -27,17 +33,17 @@ namespace Scada.MultiDb
         /// </summary>
         protected override DbConnection CreateConnection()
         {
-            return new SqlConnection();
+            return new MySqlConnection();
         }
 
         /// <summary>
-        /// Adds a command parameter with the specified name and value.
+        /// Adds the command parameter containing the value.
         /// </summary>
         protected override DbParameter AddParamWithValue(DbCommand cmd, string paramName, object value)
         {
-            return cmd is SqlCommand sqlCommand 
-                ? sqlCommand.Parameters.AddWithValue(paramName, value) 
-                : throw new ArgumentException("SqlCommand is required.", nameof(cmd));
+            return cmd is MySqlCommand mySqlCommand 
+                ? mySqlCommand.Parameters.AddWithValue(paramName, value) 
+                : throw new ArgumentException("MySqlCommand is required.", nameof(cmd));
         }
 
         /// <summary>
@@ -46,7 +52,7 @@ namespace Scada.MultiDb
         protected override void ClearPool()
         {
             if (Connection != null)
-                SqlConnection.ClearPool((SqlConnection)Connection);
+                MySqlConnection.ClearPool((MySqlConnection)Connection);
         }
     }
 }

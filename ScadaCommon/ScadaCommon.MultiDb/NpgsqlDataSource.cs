@@ -35,9 +35,6 @@ namespace Scada.MultiDb
         /// </summary>
         protected override DbParameter AddParamWithValue(DbCommand cmd, string paramName, object value)
         {
-            ArgumentNullException.ThrowIfNull(cmd, nameof(cmd));
-            ArgumentNullException.ThrowIfNull(paramName, nameof(paramName));
-
             return cmd is NpgsqlCommand npgsqlCommand 
                 ? npgsqlCommand.Parameters.AddWithValue(paramName, value) 
                 : throw new ArgumentException("NpgsqlCommand is required.", nameof(cmd));
