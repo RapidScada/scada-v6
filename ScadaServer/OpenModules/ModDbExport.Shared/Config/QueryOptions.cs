@@ -24,6 +24,7 @@ namespace Scada.Server.Modules.ModDbExport.Config
             Filter = new QueryFilter();
             SingleQuery = false;
             Sql = "";
+            Parent = null;
         }
 
 
@@ -57,6 +58,23 @@ namespace Scada.Server.Modules.ModDbExport.Config
         /// Gets or sets the SQL request.
         /// </summary>
         public string Sql { get; set; }
+
+
+        /// <summary>
+        /// Gets a value indicating whether a filter is applicable to the query options.
+        /// </summary>
+        public bool FilterApplicable => DataKind != DataKind.EventAck;
+
+        /// <summary>
+        /// Gets a value indicating whether an object filter is applicable to the query options.
+        /// </summary>
+        public bool ObjectFilterApplicable => DataKind == DataKind.Event || DataKind == DataKind.Command;
+
+        /// <summary>
+        /// Gets a value indicating whether the single query option is applicable to the query options.
+        /// </summary>
+        public bool SingleQueryApplicable => DataKind == DataKind.Current || DataKind == DataKind.Historical;
+
 
         /// <summary>
         /// Gets or sets the parent node.
