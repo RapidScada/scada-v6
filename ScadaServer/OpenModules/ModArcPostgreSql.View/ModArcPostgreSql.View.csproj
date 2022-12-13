@@ -39,15 +39,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Forms\FrmPostgreCAO.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\FrmPostgreEAO.cs">
-      <SubType>Form</SubType>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="Lang\ModArcPostgreSql.en-GB.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
