@@ -26,7 +26,7 @@
 using System;
 using System.Xml;
 
-namespace Scada.Config
+namespace Scada.Dbms
 {
     /// <summary>
     /// Represents database connection options.

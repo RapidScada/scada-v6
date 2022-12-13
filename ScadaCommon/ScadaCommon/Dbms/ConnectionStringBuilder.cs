@@ -23,7 +23,6 @@
  * Modified : 2022
  */
 
-using Scada.Config;
 using Scada.Lang;
 using System;
 

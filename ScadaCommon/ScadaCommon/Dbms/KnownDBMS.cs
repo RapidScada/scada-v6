@@ -20,12 +20,12 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
 
-namespace Scada.Config
+namespace Scada.Dbms
 {
     /// <summary>
     /// Specifies the known database management systems.

@@ -2,8 +2,8 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Npgsql;
-using Scada.Config;
 using Scada.Data.Tables;
+using Scada.Dbms;
 using Scada.Lang;
 using System.ComponentModel;
 
