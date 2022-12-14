@@ -117,6 +117,9 @@
     <None Update="Templates\EmptyProject.en-GB\BaseXML\Archive.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Templates\EmptyProject.en-GB\BaseXML\ArchiveKind.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Templates\EmptyProject.en-GB\BaseXML\CnlStatus.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -157,6 +160,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Templates\EmptyProject.ru-RU\BaseXML\Archive.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Templates\EmptyProject.ru-RU\BaseXML\ArchiveKind.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Templates\EmptyProject.ru-RU\BaseXML\CnlStatus.xml">
