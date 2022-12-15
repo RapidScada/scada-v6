@@ -33,7 +33,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         /// <summary>
         /// The number of queue items to send when performing a data transfer operation.
         /// </summary>
-        private const int BundleSize = 10;
+        private const int BundleSize = 100;
         /// <summary>
         /// The maximum number of commands received in one iteration.
         /// </summary>
