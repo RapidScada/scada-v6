@@ -33,7 +33,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         /// <summary>
         /// The number of queue items to send when performing a data transfer operation.
         /// </summary>
-        private const int BundleSize = 100;
+        private const int BundleSize = 10;
         /// <summary>
         /// The maximum number of commands received in one iteration.
         /// </summary>
@@ -574,8 +574,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         /// </summary>
         public override bool ReadConfigDatabase(out ConfigDatabase configDatabase)
         {
-            // do not read the configuration database from the server that likely contains partial data
-            if (deviceFilter != null)
+            if (!options.ReadConfigDatabase)
             {
                 configDatabase = null;
                 return false;
