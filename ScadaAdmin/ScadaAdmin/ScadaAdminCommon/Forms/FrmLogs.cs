@@ -178,6 +178,7 @@ namespace Scada.Admin.Forms
             string path = lbFiles.SelectedItem == null ? "" : lbFiles.SelectedItem.ToString();
             logBox.LogPath = new RelativePath(ServiceApp, AppFolder.Log, path);
             logBox.FullLogView = ShowFullExtensions.Contains(Path.GetExtension(path));
+            logBox.AutoScroll = !logBox.FullLogView;
             SetFirstLine();
         }
 
