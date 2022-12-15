@@ -74,7 +74,7 @@
   </TransportQuotas>
   <ServerConfiguration>
     <BaseAddresses>
-      <ua:String>https://localhost:62540/RapidScada/DrvDsOpcUaServer</ua:String>
+      <!--<ua:String>https://localhost:62540/RapidScada/DrvDsOpcUaServer</ua:String>-->
       <ua:String>opc.tcp://localhost:62541/RapidScada/DrvDsOpcUaServer</ua:String>
     </BaseAddresses>
     <!-- 
