@@ -574,7 +574,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         /// </summary>
         public override bool ReadConfigDatabase(out ConfigDatabase configDatabase)
         {
-            if (!options.ReadConfigDatabase)
+            if (!options.ReadConfigDb)
             {
                 configDatabase = null;
                 return false;

@@ -71,6 +71,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View.Forms
         /// </summary>
         private void OptionsToControls()
         {
+            chkReadConfigDb.Checked = options.ReadConfigDb;
             chkUseDefaultConn.Checked = options.UseDefaultConn;
             cbConnection.Text = options.Connection;
             numMaxQueueSize.SetValue(options.MaxQueueSize);
@@ -85,6 +86,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View.Forms
         /// </summary>
         private void ControlsToOptions()
         {
+            options.ReadConfigDb = chkReadConfigDb.Checked;
             options.UseDefaultConn = chkUseDefaultConn.Checked;
             options.Connection = cbConnection.Text;
             options.MaxQueueSize = Convert.ToInt32(numMaxQueueSize.Value);
