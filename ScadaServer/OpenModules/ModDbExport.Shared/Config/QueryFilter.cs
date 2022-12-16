@@ -56,9 +56,15 @@ namespace Scada.Server.Modules.ModDbExport.Config
         public void SaveToXml(XmlElement xmlElem)
         {
             ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
-            xmlElem.AppendElem("CnlNums", CnlNums.ToRangeString());
-            xmlElem.AppendElem("DeviceNums", DeviceNums.ToRangeString());
-            xmlElem.AppendElem("ObjNums", ObjNums.ToRangeString());
+
+            if (CnlNums.Count > 0)
+                xmlElem.AppendElem("CnlNums", CnlNums.ToRangeString());
+
+            if (DeviceNums.Count > 0)
+                xmlElem.AppendElem("DeviceNums", DeviceNums.ToRangeString());
+
+            if (ObjNums.Count > 0)
+                xmlElem.AppendElem("ObjNums", ObjNums.ToRangeString());
         }
     }
 }

@@ -120,8 +120,12 @@ namespace Scada.Server.Modules.ModDbExport.Config
             xmlElem.SetAttribute("name", Name);
             xmlElem.SetAttribute("dataKind", DataKind);
 
-            Filter.SaveToXml(xmlElem.AppendElem("Filter"));
-            xmlElem.AppendElem("SingleQuery", SingleQuery);
+            if (FilterApplicable)
+                Filter.SaveToXml(xmlElem.AppendElem("Filter"));
+
+            if (SingleQueryApplicable)
+                xmlElem.AppendElem("SingleQuery", SingleQuery);
+
             xmlElem.AppendElem("Sql", Sql);
         }
     }
