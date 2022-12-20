@@ -112,16 +112,16 @@ namespace Scada.Data.Queues
                 if (Enabled)
                 {
                     sbInfo
-                        .Append("Состояние       : ").AppendLine(HasError ? "ошибка" : "норма")
-                        .Append("В очереди       : ").Append(queueSize).Append(" из ").Append(MaxQueueSize).AppendLine()
-                        .Append("Экспортировано  : ").Append(ExportedItems).AppendLine()
-                        .Append("Пропущено       : ").Append(SkippedItems).AppendLine()
+                        .Append("Состояние      : ").AppendLine(HasError ? "ошибка" : "норма")
+                        .Append("В очереди      : ").Append(queueSize).Append(" из ").Append(MaxQueueSize).AppendLine()
+                        .Append("Экспортировано : ").Append(ExportedItems).AppendLine()
+                        .Append("Пропущено      : ").Append(SkippedItems).AppendLine()
                         .AppendLine();
                 }
                 else
                 {
                     sbInfo
-                        .Append("Состояние       : отключено").AppendLine()
+                        .Append("Состояние      : отключено").AppendLine()
                         .AppendLine();
                 }
             }
@@ -130,16 +130,16 @@ namespace Scada.Data.Queues
                 if (Enabled)
                 {
                     sbInfo
-                        .Append("Status         : ").AppendLine(HasError ? "Error" : "Normal")
-                        .Append("In queue       : ").Append(queueSize).Append(" of ").Append(MaxQueueSize).AppendLine()
-                        .Append("Exported       : ").Append(ExportedItems).AppendLine()
-                        .Append("Skipped        : ").Append(SkippedItems).AppendLine()
+                        .Append("Status   : ").AppendLine(HasError ? "Error" : "Normal")
+                        .Append("In queue : ").Append(queueSize).Append(" of ").Append(MaxQueueSize).AppendLine()
+                        .Append("Exported : ").Append(ExportedItems).AppendLine()
+                        .Append("Skipped  : ").Append(SkippedItems).AppendLine()
                         .AppendLine();
                 }
                 else
                 {
                     sbInfo
-                        .Append("Status         : Disabled").AppendLine()
+                        .Append("Status   : Disabled").AppendLine()
                         .AppendLine();
                 }
             }
