@@ -33,7 +33,7 @@ namespace Scada.Data.Queues
     /// Represents queue statistics.
     /// <para>Представляет статистику очереди.</para>
     /// </summary>
-    internal class QueueStats
+    public class QueueStats
     {
         private string title;
         private string underline;

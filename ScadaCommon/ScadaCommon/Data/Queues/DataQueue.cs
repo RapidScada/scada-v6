@@ -35,7 +35,7 @@ namespace Scada.Data.Queues
     /// Represents a thread-safe data queue.
     /// <para>Представляет потокобезопасную очередь данных.</para>
     /// </summary>
-    internal class DataQueue<T> : IDataQueue<T> where T : class
+    public class DataQueue<T> : IDataQueue<T> where T : class
     {
         /// <summary>
         /// The minimum queue size.

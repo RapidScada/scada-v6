@@ -31,7 +31,7 @@ namespace Scada.Data.Queues
     /// Defines functionality of a data queue.
     /// <para>Определяет функциональность очереди данных.</para>
     /// </summary>
-    internal interface IDataQueue<T>
+    public interface IDataQueue<T>
     {
         /// <summary>
         /// Enqueues the specified value.
