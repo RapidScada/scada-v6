@@ -57,8 +57,39 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         /// </summary>
         private bool InitExporters(out string errMsg)
         {
-            errMsg = "";
-            return true;
+            HashSet<int> exporterIDs = new();
+
+            foreach (ExportTargetConfig exporterConfig in moduleConfig.ExportTargets)
+            {
+                if (exporterConfig.GeneralOptions.Active)
+                {
+                    if (!exporterIDs.Add(exporterConfig.GeneralOptions.ID))
+                    {
+                        moduleLog.WriteError(Locale.IsRussian ?
+                            "Дублируется идентификатор цели экспорта {0}" :
+                            "Duplicate export target ID {0}",
+                            exporterConfig.GeneralOptions.Title);
+                    }
+                    else
+                    {
+                        Exporter exporter = new(exporterConfig, ServerContext);
+                        exporters.Add(exporter);
+                    }
+                }
+            }
+
+            if (exporters.Count > 0)
+            {
+                errMsg = "";
+                return true;
+            }
+            else
+            {
+                errMsg = Locale.IsRussian ?
+                    "Отсутствуют активные цели экспорта." :
+                    "Active export targets missing.";
+                return false;
+            }
         }
 
         /// <summary>

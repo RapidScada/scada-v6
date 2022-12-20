@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Collections;
+
 namespace Scada.Server.Modules.ModDbExport
 {
     /// <summary>
@@ -13,5 +15,13 @@ namespace Scada.Server.Modules.ModDbExport
         /// The module code.
         /// </summary>
         public const string ModuleCode = "ModDbExport";
+
+        /// <summary>
+        /// Determines whether the specified collection contains any elements.
+        /// </summary>
+        public static bool IsNotEmpty(this ICollection collection)
+        {
+            return collection.Count > 0;
+        }
     }
 }
