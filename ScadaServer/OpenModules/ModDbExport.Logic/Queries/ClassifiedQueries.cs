@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.MultiDb;
 using Scada.Server.Modules.ModDbExport.Config;
 
 namespace Scada.Server.Modules.ModDbExport.Logic.Queries
@@ -16,8 +17,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         /// </summary>
         public ClassifiedQueries()
         {
-            CurDataQueries = new List<CurDataQuery>();
-            HistDataQueries = new List<HistDataQuery>();
+            CurDataQueries = new List<DataQuery>();
+            HistDataQueries = new List<DataQuery>();
             EventQueries = new List<EventQuery>();
             EventAckQueries = new List<EventAckQuery>();
             CmdQueries = new List<CmdQuery>();
@@ -27,12 +28,12 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         /// <summary>
         /// Gets the current data queries.
         /// </summary>
-        public List<CurDataQuery> CurDataQueries { get; }
+        public List<DataQuery> CurDataQueries { get; }
 
         /// <summary>
         /// Gets the historical data queries.
         /// </summary>
-        public List<HistDataQuery> HistDataQueries { get; }
+        public List<DataQuery> HistDataQueries { get; }
 
         /// <summary>
         /// Gets the event queries.
@@ -53,8 +54,11 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         /// <summary>
         /// Creates queries according to the configuration.
         /// </summary>
-        public void CreateQueries(QueryOptionList queryOptionList)
+        public void CreateQueries(QueryOptionList queryOptionList, DataSource dataSource)
         {
+            ArgumentNullException.ThrowIfNull(queryOptionList, nameof(queryOptionList));
+            ArgumentNullException.ThrowIfNull(dataSource, nameof(dataSource));
+
             foreach (QueryOptions queryOptions in queryOptionList)
             {
                 if (queryOptions.Active)
@@ -62,23 +66,23 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
                     switch (queryOptions.DataKind)
                     {
                         case DataKind.Current:
-                            CurDataQueries.Add(new CurDataQuery());
+                            CurDataQueries.Add(new DataQuery(queryOptions, dataSource));
                             break;
 
                         case DataKind.Historical:
-                            HistDataQueries.Add(new HistDataQuery());
+                            HistDataQueries.Add(new DataQuery(queryOptions, dataSource));
                             break;
 
                         case DataKind.Event:
-                            EventQueries.Add(new EventQuery());
+                            EventQueries.Add(new EventQuery(queryOptions, dataSource));
                             break;
 
                         case DataKind.EventAck:
-                            EventAckQueries.Add(new EventAckQuery());
+                            EventAckQueries.Add(new EventAckQuery(queryOptions, dataSource));
                             break;
 
                         case DataKind.Command:
-                            CmdQueries.Add(new CmdQuery());
+                            CmdQueries.Add(new CmdQuery(queryOptions, dataSource));
                             break;
                     }
                 }

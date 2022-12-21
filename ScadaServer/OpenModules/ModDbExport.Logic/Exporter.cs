@@ -65,7 +65,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             // create data source and queries
             dataSource = DataSourceFactory.GetDataSource(exporterConfig.ConnectionOptions);
             classifiedQueries = new ClassifiedQueries();
-            classifiedQueries.CreateQueries(exporterConfig.Queries);
+            classifiedQueries.CreateQueries(exporterConfig.Queries, dataSource);
 
             // create queues
             int maxQueueSize = exporterConfig.GeneralOptions.MaxQueueSize;
