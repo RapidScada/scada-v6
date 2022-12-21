@@ -36,9 +36,9 @@
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.ddbAdd = new System.Windows.Forms.ToolStripDropDownButton();
             this.btnSqlServer = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnMySql = new System.Windows.Forms.ToolStripMenuItem();
             this.btnOracle = new System.Windows.Forms.ToolStripMenuItem();
             this.btnPostgreSql = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnMySql = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAddCurTrigger = new System.Windows.Forms.ToolStripButton();
             this.btnAddHistTrigger = new System.Windows.Forms.ToolStripButton();
             this.btnAddEventTrigger = new System.Windows.Forms.ToolStripButton();
@@ -100,6 +100,7 @@
             this.btnCancel.TabIndex = 1;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnSave
             // 
@@ -109,6 +110,7 @@
             this.btnSave.TabIndex = 0;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // toolStrip
             // 
@@ -155,6 +157,13 @@
             this.btnSqlServer.Size = new System.Drawing.Size(184, 22);
             this.btnSqlServer.Text = "Microsoft SQL Server";
             // 
+            // btnMySql
+            // 
+            this.btnMySql.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.db_mysql;
+            this.btnMySql.Name = "btnMySql";
+            this.btnMySql.Size = new System.Drawing.Size(184, 22);
+            this.btnMySql.Text = "MySQL";
+            // 
             // btnOracle
             // 
             this.btnOracle.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.db_oracle;
@@ -168,13 +177,6 @@
             this.btnPostgreSql.Name = "btnPostgreSql";
             this.btnPostgreSql.Size = new System.Drawing.Size(184, 22);
             this.btnPostgreSql.Text = "PostgreSQL";
-            // 
-            // btnMySql
-            // 
-            this.btnMySql.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.db_mysql;
-            this.btnMySql.Name = "btnMySql";
-            this.btnMySql.Size = new System.Drawing.Size(184, 22);
-            this.btnMySql.Text = "MySQL";
             // 
             // btnAddCurTrigger
             // 
@@ -234,6 +236,7 @@
             this.btnMoveUp.Size = new System.Drawing.Size(23, 22);
             this.btnMoveUp.Text = "Move Up";
             this.btnMoveUp.ToolTipText = "Move Up";
+            this.btnMoveUp.Click += new System.EventHandler(this.btnMoveUp_Click);
             // 
             // btnMoveDown
             // 
@@ -244,6 +247,7 @@
             this.btnMoveDown.Size = new System.Drawing.Size(23, 22);
             this.btnMoveDown.Text = "Move Down";
             this.btnMoveDown.ToolTipText = "Move Down";
+            this.btnMoveDown.Click += new System.EventHandler(this.btnMoveDown_Click);
             // 
             // btnDelete
             // 
@@ -254,6 +258,7 @@
             this.btnDelete.Size = new System.Drawing.Size(23, 22);
             this.btnDelete.Text = "Delete";
             this.btnDelete.ToolTipText = "Delete";
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // toolStripSeparator2
             // 
@@ -269,6 +274,7 @@
             this.btnCut.Size = new System.Drawing.Size(23, 22);
             this.btnCut.Text = "Cut";
             this.btnCut.ToolTipText = "Cut";
+            this.btnCut.Click += new System.EventHandler(this.btnCut_Click);
             // 
             // btnCopy
             // 
@@ -279,6 +285,7 @@
             this.btnCopy.Size = new System.Drawing.Size(23, 22);
             this.btnCopy.Text = "Copy";
             this.btnCopy.ToolTipText = "Copy";
+            this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
             // 
             // btnPaste
             // 
@@ -289,6 +296,7 @@
             this.btnPaste.Size = new System.Drawing.Size(23, 22);
             this.btnPaste.Text = "Paste";
             this.btnPaste.ToolTipText = "Paste";
+            this.btnPaste.Click += new System.EventHandler(this.btnPaste_Click);
             // 
             // pnlMain
             // 
@@ -353,7 +361,7 @@
             this.cmsTree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miCollapseAll});
             this.cmsTree.Name = "cmsTree";
-            this.cmsTree.Size = new System.Drawing.Size(181, 48);
+            this.cmsTree.Size = new System.Drawing.Size(137, 26);
             // 
             // miCollapseAll
             // 
@@ -361,6 +369,7 @@
             this.miCollapseAll.Name = "miCollapseAll";
             this.miCollapseAll.Size = new System.Drawing.Size(180, 22);
             this.miCollapseAll.Text = "Collapse All";
+            this.miCollapseAll.Click += new System.EventHandler(this.miCollapseAll_Click);
             // 
             // ilTree
             // 
@@ -393,6 +402,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(734, 541);
             this.Controls.Add(this.pnlMain);
             this.Controls.Add(this.toolStrip);
@@ -403,6 +413,7 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Export to DB";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmModuleConfig_FormClosing);
             this.Load += new System.EventHandler(this.FrmModuleConfig_Load);
             this.pnlBottom.ResumeLayout(false);
             this.toolStrip.ResumeLayout(false);

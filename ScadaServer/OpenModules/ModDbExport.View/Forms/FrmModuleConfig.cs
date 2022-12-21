@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO.Packaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,8 +17,10 @@ using Scada.Data.Models;
 using Scada.Dbms;
 using Scada.Forms;
 using Scada.Forms.Controls;
+using Scada.Lang;
 using Scada.Server.Archives;
 using Scada.Server.Config;
+using Scada.Server.Lang;
 using Scada.Server.Modules.ModDbExport.Config;
 using Scada.Server.Modules.ModDbExport.View.Properties;
 
@@ -40,7 +43,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             public const string DbOracle = "db_oracle.png";
             public const string DbOracleInactive = "db_oracle_inactive.png";
             public const string DbPostgresql = "db_postgresql.png";
-            public const string DbPostgresqlInactive = "db_postgresql_inactive.png";           
+            public const string DbPostgresqlInactive = "db_postgresql_inactive.png";
             public const string Connect = "connect.png";
             public const string ExportOption = "export_options.png";
             public const string Option = "options.png";
@@ -131,7 +134,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             ilTree.Images.Add(ImageKey.DbPostgresql, Resources.db_postgresql);
             ilTree.Images.Add(ImageKey.DbPostgresqlInactive, Resources.db_postgresql_inactive);
             ilTree.Images.Add(ImageKey.Connect, Resources.connect);
-            ilTree.Images.Add(ImageKey.ExportOption, Resources.export_options);            
+            ilTree.Images.Add(ImageKey.ExportOption, Resources.export_options);
             ilTree.Images.Add(ImageKey.Option, Resources.options);
             ilTree.Images.Add(ImageKey.Query, Resources.query);
             ilTree.Images.Add(ImageKey.QueryAck, Resources.query_ack);
@@ -180,14 +183,22 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         }
 
         /// <summary>
+        /// Gets next target ID.
+        /// </summary>
+        private int GetNextTargetID()
+        {
+            return config.ExportTargets.Count > 0 ? config.ExportTargets.Max(x => x.GeneralOptions.ID) + 1 : 1;
+        }
+
+        /// <summary>
         /// Creates a tree node according to the gates configuration.
         /// </summary>
         private static TreeNode CreateGroupNode(ExportTargetConfig exportTargetConfig)
         {
             TreeNode groupNode = TreeViewExtensions.CreateNode(exportTargetConfig, ChooseNodeImage(exportTargetConfig));
-            
+
             groupNode.Text = exportTargetConfig.GeneralOptions.Title;
-            
+
             groupNode.Nodes.Add(TreeViewExtensions.CreateNode(ModulePhrases.GeneralOptionsNode,
                 ChooseNodeImage(exportTargetConfig.GeneralOptions), exportTargetConfig.GeneralOptions));
 
@@ -199,17 +210,17 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             groupNode.Nodes.Add(exportOptionsNode);
 
             exportOptionsNode.Nodes.Add(TreeViewExtensions.CreateNode(ModulePhrases.CurrentExportOptionsNode,
-                ChooseNodeImage(exportTargetConfig.ExportOptions.CurDataExportOptions), 
+                ChooseNodeImage(exportTargetConfig.ExportOptions.CurDataExportOptions),
                 exportTargetConfig.ExportOptions.CurDataExportOptions));
 
             exportOptionsNode.Nodes.Add(TreeViewExtensions.CreateNode(ModulePhrases.ArchiveExportOptionsNode,
-                ChooseNodeImage(exportTargetConfig.ExportOptions.ArcReplicationOptions), 
+                ChooseNodeImage(exportTargetConfig.ExportOptions.ArcReplicationOptions),
                 exportTargetConfig.ExportOptions.ArcReplicationOptions));
 
-            TreeNode queriesNode  = TreeViewExtensions.CreateNode("Queries",
+            TreeNode queriesNode = TreeViewExtensions.CreateNode("Queries",
                 ChooseNodeImage(exportTargetConfig.Queries), exportTargetConfig.Queries);
             groupNode.Nodes.Add(queriesNode);
-            
+
             foreach (QueryOptions queryOptions in exportTargetConfig.Queries)
             {
                 queriesNode.Nodes.Add(TreeViewExtensions.CreateNode(queryOptions.Name,
@@ -232,8 +243,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                     return exportTargetConfig.GeneralOptions.Active ? ImageKey.DbMуsql : ImageKey.DbMуsqlInactive;
                 else if (exportTargetConfig.ConnectionOptions.DBMS == KnownDBMS.Oracle.ToString())
                     return exportTargetConfig.GeneralOptions.Active ? ImageKey.DbOracle : ImageKey.DbOracleInactive;
-                else if (exportTargetConfig.ConnectionOptions.DBMS == KnownDBMS.PostgreSQL.ToString())  
-                    return exportTargetConfig.GeneralOptions.Active ? ImageKey.DbPostgresql : ImageKey.DbPostgresqlInactive;                    
+                else if (exportTargetConfig.ConnectionOptions.DBMS == KnownDBMS.PostgreSQL.ToString())
+                    return exportTargetConfig.GeneralOptions.Active ? ImageKey.DbPostgresql : ImageKey.DbPostgresqlInactive;
                 else
                     return ImageKey.Option;
             }
@@ -272,7 +283,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                     DataKind.Command => queryOptions.Active ? ImageKey.QueryCmd : ImageKey.QueryCmdInactive,
                     _ => ImageKey.Option,
                 };
-            } 
+            }
             else
             {
                 return ImageKey.Option;
@@ -293,13 +304,51 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                 tvTargets.SelectedNode.Parent == null;
         }
 
+        /// <summary>
+        /// Checks gates name for uniqueness.
+        /// </summary>
+        private bool CheckGateNamesUnique()
+        {
+            HashSet<string> gateNames = new(config.ExportTargets.Select(g => g.GeneralOptions.Name.ToLowerInvariant()));
+            return config.ExportTargets.Count == gateNames.Count;
+        }
+
+        /// <summary>
+        /// Checks names for empty value.
+        /// </summary>
+        private bool CheckGateNamesEmpty()
+        {
+            return config.ExportTargets.Any(g => string.IsNullOrEmpty(g.GeneralOptions.Name));
+        }
+
+        /// <summary>
+        /// Checks the correctness of the gate.
+        /// </summary>
+        private bool ValidateConfig()
+        {
+            bool checkValidateName = true;
+
+            if (CheckGateNamesEmpty())
+            {
+                ScadaUiUtils.ShowError(ModulePhrases.TargetNameEmpty);
+                checkValidateName = false;
+            }
+            else if (!CheckGateNamesUnique())
+            {
+                ScadaUiUtils.ShowError(ModulePhrases.TargetNameNotUnique);
+                checkValidateName = false;
+            }
+
+            return checkValidateName;
+        }
+
 
         private void FrmModuleConfig_Load(object sender, EventArgs e)
         {
             // translate form
             FormTranslator.Translate(this, GetType().FullName,
                 new FormTranslatorOptions { ContextMenus = new ContextMenuStrip[] { cmsTree } });
-        
+
             // load configuration
             if (File.Exists(configFileName) && !config.Load(configFileName, out string errMsg))
                 ScadaUiUtils.ShowError(errMsg);
@@ -310,6 +359,146 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             // display configuration
             TakeTreeViewImages();
             FillTreeView();
+        }
+
+        private void FrmModuleConfig_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (Modified)
+            {
+                DialogResult result = MessageBox.Show(ServerPhrases.SaveModuleConfigConfirm,
+                    CommonPhrases.QuestionCaption, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+                switch (result)
+                {
+                    case DialogResult.Yes:
+                        if (!config.Save(configFileName, out string errMsg))
+                        {
+                            ScadaUiUtils.ShowError(errMsg);
+                            e.Cancel = true;
+                        }
+                        break;
+
+                    case DialogResult.No:
+                        break;
+
+                    default:
+                        e.Cancel = true;
+                        break;
+                }
+            }
+        }
+
+        private void btnMoveUp_Click(object sender, EventArgs e)
+        {
+            tvTargets.MoveUpSelectedNode(TreeNodeBehavior.WithinParent);
+            Modified = true;
+        }
+
+        private void btnMoveDown_Click(object sender, EventArgs e)
+        {
+            tvTargets.MoveDownSelectedNode(TreeNodeBehavior.WithinParent);
+            Modified = true;
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            tvTargets.RemoveSelectedNode();
+            Modified = true;
+
+            if (tvTargets.Nodes.Count == 0)
+            {
+                SetButtonsEnabled();
+                HideControls();
+                lblHint.Visible = true;
+                lblHint.Text = ModulePhrases.AddTargets;
+            }
+        }
+
+        private void btnCut_Click(object sender, EventArgs e)
+        {
+            if (tvTargets.SelectedNode?.Tag is object obj)
+            {
+                clipboard = obj;
+                btnPaste.Enabled = true;
+            }
+
+            btnDelete_Click(null, null);
+        }
+
+        private void btnCopy_Click(object sender, EventArgs e)
+        {
+            if (tvTargets.SelectedNode?.Tag is object obj)
+            {
+                clipboard = obj.DeepClone();
+                btnPaste.Enabled = true;
+            }
+        }
+
+        private void btnPaste_Click(object sender, EventArgs e)
+        {
+            if (clipboard is ExportTargetConfig exportTargetConfig)
+            {
+                // copy target
+                ExportTargetConfig exportTargetConfigCopy = exportTargetConfig.DeepClone();
+                exportTargetConfigCopy.GeneralOptions.Name += ModulePhrases.CopySuffix;
+                exportTargetConfigCopy.GeneralOptions.ID = GetNextTargetID();
+                exportTargetConfigCopy.Parent = config;
+                exportTargetConfigCopy.RestoreHierarchy();
+                TreeNode targetNode = CreateGroupNode(exportTargetConfigCopy);
+                tvTargets.Insert(null, targetNode, config.ExportTargets, exportTargetConfigCopy);
+                tvTargets.SelectedNode = targetNode.FirstNode;
+                
+                //ctrlGeneral.SetFocus();
+                Modified = true;
+            }
+            else if (clipboard is QueryOptions queryOptions)
+            {
+                QueryOptions queryOptionsCopy = queryOptions.DeepClone();
+                queryOptionsCopy.Name += ModulePhrases.CopySuffix;
+                queryOptionsCopy.Parent = config;
+                queryOptionsCopy.RestoreHierarchy();
+                TreeNode queryNode = TreeViewExtensions.CreateNode(queryOptionsCopy.Name,
+                    ChooseNodeImage(queryOptionsCopy), queryOptionsCopy);
+                
+                if (tvTargets.SelectedNode?.Tag is QueryOptions)
+                    tvTargets.Insert(tvTargets.SelectedNode.Parent, queryNode);
+                else if (tvTargets.SelectedNode?.Tag is QueryOptionList)
+                    tvTargets.Insert(tvTargets.SelectedNode, queryNode);
+                
+                //ctrlGeneral.SetFocus();
+                Modified = true;
+            }
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            if (ValidateConfig())
+            {
+                if (config.Save(configFileName, out string errMsg))
+                    Modified = false;
+                else
+                    ScadaUiUtils.ShowError(errMsg);
+            }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            // cancel configuration changes
+            config = configCopy;
+            configCopy = config.DeepClone();
+            config.RestoreHierarchy();
+            FillTreeView();
+            Modified = false;
+        }
+
+        private void miCollapseAll_Click(object sender, EventArgs e)
+        {
+            if (tvTargets.Nodes.Count > 0)
+            {
+                tvTargets.SelectedNode = null;
+                tvTargets.CollapseAll();
+                tvTargets.SelectedNode = tvTargets.Nodes[0];
+            }
         }
     }
 }
