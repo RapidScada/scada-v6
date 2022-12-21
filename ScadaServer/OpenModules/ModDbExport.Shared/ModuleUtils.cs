@@ -16,12 +16,23 @@ namespace Scada.Server.Modules.ModDbExport
         /// </summary>
         public const string ModuleCode = "ModDbExport";
 
+
         /// <summary>
         /// Determines whether the specified collection contains any elements.
         /// </summary>
         public static bool IsNotEmpty(this ICollection collection)
         {
             return collection.Count > 0;
+        }
+
+        /// <summary>
+        /// Calculates the next timer firing.
+        /// </summary>
+        public static DateTime CalcNextTimer(DateTime nowDT, int period)
+        {
+            return period > 0
+                ? nowDT.Date.AddSeconds(((int)nowDT.TimeOfDay.TotalSeconds / period + 1) * period)
+                : nowDT;
         }
     }
 }

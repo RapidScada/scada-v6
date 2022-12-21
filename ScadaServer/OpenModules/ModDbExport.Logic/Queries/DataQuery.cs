@@ -20,6 +20,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         {
             public DbParameter Timestamp { get; init; }
             public DbParameter CnlNum { get; init; }
+            public DbParameter ObjNum { get; init; }
             public DbParameter DeviceNum { get; init; }
             public DbParameter Val { get; init; }
             public DbParameter Stat { get; init; }
@@ -36,10 +37,13 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
             {
                 Timestamp = DataSource.SetParam(Command, "timestamp", DateTime.MinValue),
                 CnlNum = DataSource.SetParam(Command, "cnlNum", 0),
+                ObjNum = DataSource.SetParam(Command, "objNum", 0),
                 DeviceNum = DataSource.SetParam(Command, "deviceNum", 0),
                 Val = DataSource.SetParam(Command, "val", 0.0),
                 Stat = DataSource.SetParam(Command, "stat", 0)
             };
+
+            CnlNumFilter = new HashSet<int>();
         }
 
 
@@ -47,6 +51,11 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         /// Gets the query parameters.
         /// </summary>
         public QueryParameters Parameters { get; }
+
+        /// <summary>
+        /// Gets the channel filter that combines channel, device, and object filters.
+        /// </summary>
+        public HashSet<int> CnlNumFilter { get; }
 
 
         /// <summary>
