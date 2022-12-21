@@ -40,10 +40,10 @@
             this.btnPostgreSql = new System.Windows.Forms.ToolStripMenuItem();
             this.btnMySql = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAddCurTrigger = new System.Windows.Forms.ToolStripButton();
-            this.btnAddCommand = new System.Windows.Forms.ToolStripButton();
             this.btnAddHistTrigger = new System.Windows.Forms.ToolStripButton();
             this.btnAddEventTrigger = new System.Windows.Forms.ToolStripButton();
             this.btnAddAckTrigger = new System.Windows.Forms.ToolStripButton();
+            this.btnAddCommand = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnMoveUp = new System.Windows.Forms.ToolStripButton();
             this.btnMoveDown = new System.Windows.Forms.ToolStripButton();
@@ -57,18 +57,19 @@
             this.pnlTree = new System.Windows.Forms.Panel();
             this.gbTarget = new System.Windows.Forms.GroupBox();
             this.tvTargets = new System.Windows.Forms.TreeView();
-            this.pnlInfo = new System.Windows.Forms.Panel();
-            this.lblHint = new System.Windows.Forms.Label();
             this.cmsTree = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miCollapseAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.ilTree = new System.Windows.Forms.ImageList(this.components);
+            this.pnlInfo = new System.Windows.Forms.Panel();
+            this.lblHint = new System.Windows.Forms.Label();
             this.pnlBottom.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.pnlMain.SuspendLayout();
             this.tableLayoutPanel.SuspendLayout();
             this.pnlTree.SuspendLayout();
             this.gbTarget.SuspendLayout();
-            this.pnlInfo.SuspendLayout();
             this.cmsTree.SuspendLayout();
+            this.pnlInfo.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlBottom
@@ -137,9 +138,9 @@
             this.ddbAdd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.ddbAdd.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnSqlServer,
+            this.btnMySql,
             this.btnOracle,
-            this.btnPostgreSql,
-            this.btnMySql});
+            this.btnPostgreSql});
             this.ddbAdd.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.add_db;
             this.ddbAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ddbAdd.Name = "ddbAdd";
@@ -184,14 +185,6 @@
             this.btnAddCurTrigger.Size = new System.Drawing.Size(23, 22);
             this.btnAddCurTrigger.Text = "Add current data trigger";
             // 
-            // btnAddCommand
-            // 
-            this.btnAddCommand.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnAddCommand.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.query_cmd;
-            this.btnAddCommand.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnAddCommand.Name = "btnAddCommand";
-            this.btnAddCommand.Size = new System.Drawing.Size(23, 22);
-            // 
             // btnAddHistTrigger
             // 
             this.btnAddHistTrigger.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -218,6 +211,14 @@
             this.btnAddAckTrigger.Name = "btnAddAckTrigger";
             this.btnAddAckTrigger.Size = new System.Drawing.Size(23, 22);
             this.btnAddAckTrigger.Text = "toolStripButton4";
+            // 
+            // btnAddCommand
+            // 
+            this.btnAddCommand.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnAddCommand.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.query_cmd;
+            this.btnAddCommand.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnAddCommand.Name = "btnAddCommand";
+            this.btnAddCommand.Size = new System.Drawing.Size(23, 22);
             // 
             // toolStripSeparator1
             // 
@@ -339,10 +340,33 @@
             // 
             this.tvTargets.ContextMenuStrip = this.cmsTree;
             this.tvTargets.HideSelection = false;
+            this.tvTargets.ImageIndex = 0;
+            this.tvTargets.ImageList = this.ilTree;
             this.tvTargets.Location = new System.Drawing.Point(13, 22);
             this.tvTargets.Name = "tvTargets";
+            this.tvTargets.SelectedImageIndex = 0;
             this.tvTargets.Size = new System.Drawing.Size(274, 427);
             this.tvTargets.TabIndex = 0;
+            // 
+            // cmsTree
+            // 
+            this.cmsTree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miCollapseAll});
+            this.cmsTree.Name = "cmsTree";
+            this.cmsTree.Size = new System.Drawing.Size(181, 48);
+            // 
+            // miCollapseAll
+            // 
+            this.miCollapseAll.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.collapse_all;
+            this.miCollapseAll.Name = "miCollapseAll";
+            this.miCollapseAll.Size = new System.Drawing.Size(180, 22);
+            this.miCollapseAll.Text = "Collapse All";
+            // 
+            // ilTree
+            // 
+            this.ilTree.ColorDepth = System.Windows.Forms.ColorDepth.Depth24Bit;
+            this.ilTree.ImageSize = new System.Drawing.Size(16, 16);
+            this.ilTree.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // pnlInfo
             // 
@@ -364,19 +388,6 @@
             this.lblHint.TabIndex = 0;
             this.lblHint.Text = "Add tagret";
             this.lblHint.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // cmsTree
-            // 
-            this.cmsTree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miCollapseAll});
-            this.cmsTree.Name = "cmsTree";
-            this.cmsTree.Size = new System.Drawing.Size(137, 26);
-            // 
-            // miCollapseAll
-            // 
-            this.miCollapseAll.Name = "miCollapseAll";
-            this.miCollapseAll.Size = new System.Drawing.Size(136, 22);
-            this.miCollapseAll.Text = "Collapse All";
             // 
             // FrmModuleConfig
             // 
@@ -400,8 +411,8 @@
             this.tableLayoutPanel.ResumeLayout(false);
             this.pnlTree.ResumeLayout(false);
             this.gbTarget.ResumeLayout(false);
-            this.pnlInfo.ResumeLayout(false);
             this.cmsTree.ResumeLayout(false);
+            this.pnlInfo.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -441,5 +452,6 @@
         private Label lblHint;
         private ContextMenuStrip cmsTree;
         private ToolStripMenuItem miCollapseAll;
+        private ImageList ilTree;
     }
 }

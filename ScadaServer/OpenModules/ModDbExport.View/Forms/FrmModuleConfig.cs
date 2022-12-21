@@ -9,9 +9,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
+using Scada.Client;
+using Scada.Config;
 using Scada.Data.Models;
+using Scada.Dbms;
 using Scada.Forms;
 using Scada.Forms.Controls;
+using Scada.Server.Archives;
+using Scada.Server.Config;
 using Scada.Server.Modules.ModDbExport.Config;
 using Scada.Server.Modules.ModDbExport.View.Properties;
 
@@ -27,8 +33,28 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         /// </summary>
         private static class ImageKey
         {
-            public const string C = "connect.png";
+            public const string DbMssql = "db_mssql.png";
+            public const string DbMssqlInactive = "db_mssql_inactive.png";
+            public const string DbMуsql = "db_mуsql.png";
+            public const string DbMуsqlInactive = "db_mуsql_inactive.png";
+            public const string DbOracle = "db_oracle.png";
+            public const string DbOracleInactive = "db_oracle_inactive.png";
+            public const string DbPostgresql = "db_postgresql.png";
+            public const string DbPostgresqlInactive = "db_postgresql_inactive.png";           
             public const string Connect = "connect.png";
+            public const string ExportOption = "export_options.png";
+            public const string Option = "options.png";
+            public const string Query = "query";
+            public const string QueryAck = "query_ack";
+            public const string QueryAckInactive = "query_ack_inactive";
+            public const string QueryCmd = "query_cmd";
+            public const string QueryCmdInactive = "query_cmd_inactive";
+            public const string QueryCur = "query_cur";
+            public const string QueryCurInactive = "query_cur_inactive";
+            public const string QueryEvent = "query_event";
+            public const string QueryEventInactive = "query_event_inactive";
+            public const string QueryHist = "query_hist";
+            public const string QueryHistInactive = "query_hist_inactive";
         }
 
         private readonly string configFileName; // the configuration file name
@@ -96,6 +122,28 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         private void TakeTreeViewImages()
         {
             // loading images from resources instead of storing in image list prevents them from corruption
+            ilTree.Images.Add(ImageKey.DbMssql, Resources.db_mssql);
+            ilTree.Images.Add(ImageKey.DbMssqlInactive, Resources.db_mssql_inactive);
+            ilTree.Images.Add(ImageKey.DbMуsql, Resources.db_mysql);
+            ilTree.Images.Add(ImageKey.DbMуsql, Resources.db_mysql_inactive);
+            ilTree.Images.Add(ImageKey.DbOracle, Resources.db_oracle);
+            ilTree.Images.Add(ImageKey.DbOracleInactive, Resources.db_oracle_inactive);
+            ilTree.Images.Add(ImageKey.DbPostgresql, Resources.db_postgresql);
+            ilTree.Images.Add(ImageKey.DbPostgresqlInactive, Resources.db_postgresql_inactive);
+            ilTree.Images.Add(ImageKey.Connect, Resources.connect);
+            ilTree.Images.Add(ImageKey.ExportOption, Resources.export_options);            
+            ilTree.Images.Add(ImageKey.Option, Resources.options);
+            ilTree.Images.Add(ImageKey.Query, Resources.query);
+            ilTree.Images.Add(ImageKey.QueryAck, Resources.query_ack);
+            ilTree.Images.Add(ImageKey.QueryAckInactive, Resources.query_ack_inactive);
+            ilTree.Images.Add(ImageKey.QueryCmd, Resources.query_cmd);
+            ilTree.Images.Add(ImageKey.QueryCmdInactive, Resources.query_cmd_inactive);
+            ilTree.Images.Add(ImageKey.QueryCur, Resources.query_cur);
+            ilTree.Images.Add(ImageKey.QueryCurInactive, Resources.query_cur_inactive);
+            ilTree.Images.Add(ImageKey.QueryEvent, Resources.query_event);
+            ilTree.Images.Add(ImageKey.QueryEventInactive, Resources.query_event_inactive);
+            ilTree.Images.Add(ImageKey.QueryHist, Resources.query_hist);
+            ilTree.Images.Add(ImageKey.QueryHistInactive, Resources.query_hist_inactive);
         }
 
         /// <summary>
@@ -136,37 +184,99 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         /// </summary>
         private static TreeNode CreateGroupNode(ExportTargetConfig exportTargetConfig)
         {
-            TreeNode groupNode = TreeViewExtensions.CreateNode(exportTargetConfig, ImageKey.C);
+            TreeNode groupNode = TreeViewExtensions.CreateNode(exportTargetConfig, ChooseNodeImage(exportTargetConfig));
             
             groupNode.Text = exportTargetConfig.GeneralOptions.Title;
             
-            groupNode.Nodes.Add(TreeViewExtensions.CreateNode("General Options",
-                ImageKey.C, exportTargetConfig.GeneralOptions));
+            groupNode.Nodes.Add(TreeViewExtensions.CreateNode(ModulePhrases.GeneralOptionsNode,
+                ChooseNodeImage(exportTargetConfig.GeneralOptions), exportTargetConfig.GeneralOptions));
 
-            groupNode.Nodes.Add(TreeViewExtensions.CreateNode("Connection Options", 
-                ImageKey.Connect, exportTargetConfig.ConnectionOptions));
+            groupNode.Nodes.Add(TreeViewExtensions.CreateNode(ModulePhrases.ConnectionOptionsNode,
+                ChooseNodeImage(exportTargetConfig.ConnectionOptions), exportTargetConfig.ConnectionOptions));
 
-            TreeNode exportOptionsNode = TreeViewExtensions.CreateNode("Export Options",
-                ImageKey.C, exportTargetConfig.ExportOptions);
+            TreeNode exportOptionsNode = TreeViewExtensions.CreateNode(ModulePhrases.ExportOptionsNode,
+                ChooseNodeImage(exportTargetConfig.ExportOptions), exportTargetConfig.ExportOptions);
             groupNode.Nodes.Add(exportOptionsNode);
 
-            exportOptionsNode.Nodes.Add(TreeViewExtensions.CreateNode("Curent Export Options",
-                ImageKey.C, exportTargetConfig.ExportOptions.CurDataExportOptions));
+            exportOptionsNode.Nodes.Add(TreeViewExtensions.CreateNode(ModulePhrases.CurrentExportOptionsNode,
+                ChooseNodeImage(exportTargetConfig.ExportOptions.CurDataExportOptions), 
+                exportTargetConfig.ExportOptions.CurDataExportOptions));
 
-            exportOptionsNode.Nodes.Add(TreeViewExtensions.CreateNode("Archive Export Options",
-                ImageKey.C, exportTargetConfig.ExportOptions.ArcReplicationOptions));
+            exportOptionsNode.Nodes.Add(TreeViewExtensions.CreateNode(ModulePhrases.ArchiveExportOptionsNode,
+                ChooseNodeImage(exportTargetConfig.ExportOptions.ArcReplicationOptions), 
+                exportTargetConfig.ExportOptions.ArcReplicationOptions));
 
             TreeNode queriesNode  = TreeViewExtensions.CreateNode("Queries",
-                ImageKey.C, exportTargetConfig.Queries);
+                ChooseNodeImage(exportTargetConfig.Queries), exportTargetConfig.Queries);
             groupNode.Nodes.Add(queriesNode);
             
             foreach (QueryOptions queryOptions in exportTargetConfig.Queries)
             {
-                queriesNode.Nodes.Add(TreeViewExtensions.CreateNode("Query",
-                    ImageKey.C, queryOptions.Name));
+                queriesNode.Nodes.Add(TreeViewExtensions.CreateNode(queryOptions.Name,
+                    ChooseNodeImage(queryOptions), queryOptions));
             }
 
             return groupNode;
+        }
+
+        /// <summary>
+        /// Selects a node image key corresponding to the specified object.
+        /// </summary>
+        private static string ChooseNodeImage(object obj)
+        {
+            if (obj is ExportTargetConfig exportTargetConfig)
+            {
+                if (exportTargetConfig.ConnectionOptions.DBMS == KnownDBMS.MSSQL.ToString())
+                    return exportTargetConfig.GeneralOptions.Active ? ImageKey.DbMssql : ImageKey.DbMssqlInactive;
+                else if (exportTargetConfig.ConnectionOptions.DBMS == KnownDBMS.MySQL.ToString())
+                    return exportTargetConfig.GeneralOptions.Active ? ImageKey.DbMуsql : ImageKey.DbMуsqlInactive;
+                else if (exportTargetConfig.ConnectionOptions.DBMS == KnownDBMS.Oracle.ToString())
+                    return exportTargetConfig.GeneralOptions.Active ? ImageKey.DbOracle : ImageKey.DbOracleInactive;
+                else if (exportTargetConfig.ConnectionOptions.DBMS == KnownDBMS.PostgreSQL.ToString())  
+                    return exportTargetConfig.GeneralOptions.Active ? ImageKey.DbPostgresql : ImageKey.DbPostgresqlInactive;                    
+                else
+                    return ImageKey.Option;
+            }
+            else if (obj is Config.GeneralOptions)
+            {
+                return ImageKey.Option;
+            }
+            else if (obj is DbConnectionOptions)
+            {
+                return ImageKey.Connect;
+            }
+            else if (obj is ExportOptions)
+            {
+                return ImageKey.ExportOption;
+            }
+            else if (obj is CurDataExportOptions)
+            {
+                return ImageKey.Option;
+            }
+            else if (obj is ArcReplicationOptions)
+            {
+                return ImageKey.Option;
+            }
+            else if (obj is QueryOptionList)
+            {
+                return ImageKey.Query;
+            }
+            else if (obj is QueryOptions queryOptions)
+            {
+                return queryOptions.DataKind switch
+                {
+                    DataKind.Current => queryOptions.Active ? ImageKey.QueryCur : ImageKey.QueryCurInactive,
+                    DataKind.Historical => queryOptions.Active ? ImageKey.QueryHist : ImageKey.QueryHistInactive,
+                    DataKind.Event => queryOptions.Active ? ImageKey.QueryEvent : ImageKey.QueryEventInactive,
+                    DataKind.EventAck => queryOptions.Active ? ImageKey.QueryAck : ImageKey.QueryAckInactive,
+                    DataKind.Command => queryOptions.Active ? ImageKey.QueryCmd : ImageKey.QueryCmdInactive,
+                    _ => ImageKey.Option,
+                };
+            } 
+            else
+            {
+                return ImageKey.Option;
+            }
         }
 
         /// <summary>

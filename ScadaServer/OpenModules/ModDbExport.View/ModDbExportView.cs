@@ -60,6 +60,8 @@ namespace Scada.Server.Modules.ModDbExport.View
         {
             if (!Locale.LoadDictionaries(AppDirs.LangDir, ModuleUtils.ModuleCode, out string errMsg))
                 ScadaUiUtils.ShowError(errMsg);
+            
+            ModulePhrases.Init();
         }
 
         /// <summary>
