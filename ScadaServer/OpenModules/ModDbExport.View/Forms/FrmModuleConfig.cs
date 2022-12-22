@@ -14,6 +14,7 @@ using System.Xml.Linq;
 using Scada.Agent;
 using Scada.Client;
 using Scada.Config;
+using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Dbms;
 using Scada.Forms;
@@ -23,6 +24,7 @@ using Scada.Server.Archives;
 using Scada.Server.Config;
 using Scada.Server.Lang;
 using Scada.Server.Modules.ModDbExport.Config;
+using Scada.Server.Modules.ModDbExport.View.Controls;
 using Scada.Server.Modules.ModDbExport.View.Properties;
 
 namespace Scada.Server.Modules.ModDbExport.View.Forms
@@ -118,7 +120,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         /// </summary>
         private void HideControls()
         {
-            ctrlQuery.Visible = lblHint.Visible =  false;
+            ctrlGeneral.Visible = ctrlCurDataExport.Visible = ctrlQuery.Visible = lblHint.Visible =  false;
         }
 
         /// <summary>
@@ -351,6 +353,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             FormTranslator.Translate(this, GetType().FullName,
                 new FormTranslatorOptions { ContextMenus = new ContextMenuStrip[] { cmsTree } });
             FormTranslator.Translate(ctrlQuery, ctrlQuery.GetType().FullName);
+            FormTranslator.Translate(ctrlGeneral, ctrlGeneral.GetType().FullName);
+            FormTranslator.Translate(ctrlCurDataExport, ctrlCurDataExport.GetType().FullName);
 
             // load configuration
             if (File.Exists(configFileName) && !config.Load(configFileName, out string errMsg))
@@ -451,7 +455,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                 tvTargets.Insert(null, targetNode, config.ExportTargets, exportTargetConfigCopy);
                 tvTargets.SelectedNode = targetNode.FirstNode;
                 
-                //ctrlGeneral.SetFocus();
+                ctrlGeneral.SetFocus();
                 Modified = true;
             }
             else if (clipboard is QueryOptions queryOptions)
@@ -510,10 +514,20 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             object selectedObject = e.Node.Tag;
             HideControls();
 
-            if (selectedObject is QueryOptions queryOptions)
+            if (selectedObject is Config.GeneralOptions generalOptions)
+            {
+                ctrlGeneral.GeneralOptions = generalOptions;
+                ctrlGeneral.Visible = true;
+            }
+            else if (selectedObject is QueryOptions queryOptions)
             {
                 ctrlQuery.QueryOptions = queryOptions;
                 ctrlQuery.Visible = true;
+            }
+            else if (selectedObject is CurDataExportOptions curDataExportOptions)
+            {
+                ctrlCurDataExport.CurDataTransferOptions = curDataExportOptions;
+                ctrlCurDataExport.Visible = true;
             }
 
             SetButtonsEnabled();

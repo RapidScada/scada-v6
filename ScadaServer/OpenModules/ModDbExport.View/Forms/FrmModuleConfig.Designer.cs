@@ -61,8 +61,10 @@
             this.miCollapseAll = new System.Windows.Forms.ToolStripMenuItem();
             this.ilTree = new System.Windows.Forms.ImageList(this.components);
             this.pnlInfo = new System.Windows.Forms.Panel();
+            this.ctrlGeneral = new Scada.Server.Modules.ModDbExport.View.Controls.CtrlGeneral();
             this.ctrlQuery = new Scada.Server.Modules.ModDbExport.View.Controls.CtrlQuery();
             this.lblHint = new System.Windows.Forms.Label();
+            this.ctrlCurDataExport = new Scada.Server.Modules.ModDbExport.View.Controls.CtrlCurDataExport();
             this.pnlBottom.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.pnlMain.SuspendLayout();
@@ -86,6 +88,7 @@
             // 
             // btnClose
             // 
+            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.Location = new System.Drawing.Point(647, 10);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
@@ -95,6 +98,7 @@
             // 
             // btnCancel
             // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.Location = new System.Drawing.Point(566, 10);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
@@ -105,6 +109,7 @@
             // 
             // btnSave
             // 
+            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.Location = new System.Drawing.Point(485, 10);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
@@ -310,24 +315,25 @@
             // 
             // tableLayoutPanel
             // 
+            this.tableLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel.ColumnCount = 2;
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.91553F));
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.08447F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel.Controls.Add(this.pnlTree, 0, 0);
             this.tableLayoutPanel.Controls.Add(this.pnlInfo, 1, 0);
-            this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
             this.tableLayoutPanel.RowCount = 1;
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel.Size = new System.Drawing.Size(734, 471);
             this.tableLayoutPanel.TabIndex = 0;
             // 
             // pnlTree
             // 
             this.pnlTree.Controls.Add(this.gbTarget);
-            this.pnlTree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlTree.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlTree.Location = new System.Drawing.Point(0, 0);
             this.pnlTree.Margin = new System.Windows.Forms.Padding(0);
             this.pnlTree.Name = "pnlTree";
@@ -336,6 +342,8 @@
             // 
             // gbTarget
             // 
+            this.gbTarget.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.gbTarget.Controls.Add(this.tvTargets);
             this.gbTarget.Location = new System.Drawing.Point(12, 3);
             this.gbTarget.Name = "gbTarget";
@@ -347,6 +355,8 @@
             // 
             // tvTargets
             // 
+            this.tvTargets.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.tvTargets.ContextMenuStrip = this.cmsTree;
             this.tvTargets.HideSelection = false;
             this.tvTargets.ImageIndex = 0;
@@ -381,17 +391,36 @@
             // 
             // pnlInfo
             // 
+            this.pnlInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlInfo.Controls.Add(this.ctrlCurDataExport);
+            this.pnlInfo.Controls.Add(this.ctrlGeneral);
             this.pnlInfo.Controls.Add(this.ctrlQuery);
             this.pnlInfo.Controls.Add(this.lblHint);
-            this.pnlInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlInfo.Location = new System.Drawing.Point(315, 0);
             this.pnlInfo.Margin = new System.Windows.Forms.Padding(0);
             this.pnlInfo.Name = "pnlInfo";
             this.pnlInfo.Size = new System.Drawing.Size(419, 471);
             this.pnlInfo.TabIndex = 1;
             // 
+            // ctrlGeneral
+            // 
+            this.ctrlGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ctrlGeneral.ConfigDataset = null;
+            this.ctrlGeneral.Location = new System.Drawing.Point(0, 3);
+            this.ctrlGeneral.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+            this.ctrlGeneral.Name = "ctrlGeneral";
+            this.ctrlGeneral.Size = new System.Drawing.Size(404, 462);
+            this.ctrlGeneral.TabIndex = 2;
+            // 
             // ctrlQuery
             // 
+            this.ctrlQuery.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ctrlQuery.Location = new System.Drawing.Point(0, 3);
             this.ctrlQuery.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.ctrlQuery.Name = "ctrlQuery";
@@ -408,6 +437,17 @@
             this.lblHint.TabIndex = 0;
             this.lblHint.Text = "Add tagret";
             this.lblHint.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // ctrlCurDataExport
+            // 
+            this.ctrlCurDataExport.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ctrlCurDataExport.Location = new System.Drawing.Point(0, 3);
+            this.ctrlCurDataExport.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+            this.ctrlCurDataExport.Name = "ctrlCurDataExport";
+            this.ctrlCurDataExport.Size = new System.Drawing.Size(404, 462);
+            this.ctrlCurDataExport.TabIndex = 3;
             // 
             // FrmModuleConfig
             // 
@@ -476,5 +516,7 @@
         private ToolStripMenuItem miCollapseAll;
         private ImageList ilTree;
         private Controls.CtrlQuery ctrlQuery;
+        private Controls.CtrlGeneral ctrlGeneral;
+        private Controls.CtrlCurDataExport ctrlCurDataExport;
     }
 }

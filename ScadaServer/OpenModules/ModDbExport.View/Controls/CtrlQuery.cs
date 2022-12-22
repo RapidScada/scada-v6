@@ -21,7 +21,11 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
     public partial class CtrlQuery : UserControl
     {
         private QueryOptions queryOptions;
-
+        
+        
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
         public CtrlQuery()
         {
             InitializeComponent();
