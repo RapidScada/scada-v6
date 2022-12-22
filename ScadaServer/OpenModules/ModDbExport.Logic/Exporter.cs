@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Queues;
 using Scada.Lang;
@@ -185,6 +186,9 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             try
             {
                 InitCnlNums();
+
+                classifiedQueries.CurDataQueries.ForEach(q => q.FillCnlNumFilter(serverContext.ConfigDatabase));
+                classifiedQueries.HistDataQueries.ForEach(q => q.FillCnlNumFilter(serverContext.ConfigDatabase));
 
                 //if (arcReplicationOptions.Enabled)
                 //    arcReplicator.Init();
@@ -466,6 +470,104 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         }
 
         /// <summary>
+        /// Exports the specified slice.
+        /// </summary>
+        private bool ExportSlice(SliceItem sliceItem, DbTransaction trans)
+        {
+            Query currentQuery = null;
+
+            try
+            {
+                foreach (DataQuery query in classifiedQueries.CurDataQueries)
+                {
+                    currentQuery = query;
+                    Slice slice = sliceItem.Slice;
+
+                    if ((sliceItem.QueryID <= 0 || sliceItem.QueryID == query.QueryID) &&
+                        (sliceItem.SingleQuery == null || sliceItem.SingleQuery == query.Options.SingleQuery) &&
+                        (query.CnlNumFilter.Count == 0 || query.CnlNumFilter.Overlaps(slice.CnlNums)))
+                    {
+                        query.Command.Transaction = trans;
+                        query.Parameters.Timestamp.Value = slice.Timestamp;
+
+                        if (query.Options.SingleQuery)
+                        {
+                            List<int> queryCnlNums = query.Options.Filter.CnlNums;
+
+                            if (queryCnlNums.Count > 0)
+                            {
+                                foreach (int cnlNum in queryCnlNums)
+                                {
+                                    query.SetCnlDataParams(cnlNum, CnlData.Empty);
+                                }
+
+                                for (int i = 0, cnlCnt = slice.CnlNums.Length; i < cnlCnt; i++)
+                                {
+                                    int cnlNum = slice.CnlNums[i];
+                                    if (query.Filter.CnlNums.Contains(cnlNum))
+                                        query.SetCnlDataParams(cnlNum, slice.CnlData[i]);
+                                }
+
+                                if (query.CnlPropsRequired)
+                                {
+                                    Cnl cnl = serverContext.ConfigDatabase.CnlTable.GetItem(queryCnlNums[0]);
+                                    query.Parameters.ObjNum.Value = cnl?.ObjNum ?? 0;
+                                    query.Parameters.DeviceNum.Value = cnl?.DeviceNum ?? 0;
+                                }
+
+                                query.Command.ExecuteNonQuery();
+                            }
+                        }
+                        else
+                        {
+                            void ExportDataPoint(int cnlNum, CnlData cnlData)
+                            {
+                                if (query.CnlPropsRequired)
+                                {
+                                    Cnl cnl = serverContext.ConfigDatabase.CnlTable.GetItem(cnlNum);
+                                    query.Parameters.ObjNum.Value = cnl?.ObjNum ?? 0;
+                                    query.Parameters.DeviceNum.Value = cnl?.DeviceNum ?? 0;
+                                }
+
+                                query.Parameters.CnlNum.Value = cnlNum;
+                                query.Parameters.Val.Value = cnlData.Val;
+                                query.Parameters.Stat.Value = cnlData.Stat;
+                                query.Command.ExecuteNonQuery();
+                            }
+
+                            if (query.CnlNumFilter.Count > 0)
+                            {
+                                for (int i = 0, cnlCnt = slice.CnlNums.Length; i < cnlCnt; i++)
+                                {
+                                    int cnlNum = slice.CnlNums[i];
+                                    if (query.CnlNumFilter.Contains(cnlNum))
+                                        ExportDataPoint(cnlNum, slice.CnlData[i]);
+                                }
+                            }
+                            else
+                            {
+                                for (int i = 0, cnlCnt = slice.CnlNums.Length; i < cnlCnt; i++)
+                                {
+                                    ExportDataPoint(slice.CnlNums[i], slice.CnlData[i]);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                exporterLog.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при экспорте среза по запросу \"{0}\"" :
+                    "Error exporting slice by the query \"{0}\"",
+                    currentQuery?.Name);
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Exports the specified event.
         /// </summary>
         private bool ExportEvent(Event ev, DbTransaction trans)
@@ -480,25 +582,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
 
                     if (query.Filter.Match(ev))
                     {
-                        query.Parameters.EventID.Value = ev.EventID;
-                        query.Parameters.Timestamp.Value = ev.Timestamp;
-                        query.Parameters.Hidden.Value = ev.Hidden;
-                        query.Parameters.CnlNum.Value = ev.CnlNum;
-                        query.Parameters.ObjNum.Value = ev.ObjNum;
-                        query.Parameters.DeviceNum.Value = ev.DeviceNum;
-                        query.Parameters.PrevCnlVal.Value = ev.PrevCnlVal;
-                        query.Parameters.PrevCnlStat.Value = ev.PrevCnlStat;
-                        query.Parameters.CnlVal.Value = ev.CnlVal;
-                        query.Parameters.CnlStat.Value = ev.CnlStat;
-                        query.Parameters.Severity.Value = ev.Severity;
-                        query.Parameters.AckRequired.Value = ev.AckRequired;
-                        query.Parameters.Ack.Value = ev.Ack;
-                        query.Parameters.AckTimestamp.Value = ev.AckTimestamp;
-                        query.Parameters.AckUserID.Value = ev.AckUserID;
-                        query.Parameters.TextFormat.Value = (int)ev.TextFormat;
-                        query.Parameters.Text.Value = (object)ev.Text ?? DBNull.Value;
-                        query.Parameters.Data.Value = (object)ev.Data ?? DBNull.Value;
-
+                        query.SetParameters(ev);
                         query.Command.Transaction = trans;
                         query.Command.ExecuteNonQuery();
                     }
@@ -528,10 +612,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                 foreach (EventAckQuery query in classifiedQueries.EventAckQueries)
                 {
                     currentQuery = query;
-                    query.Parameters.EventID.Value = evAck.EventID;
-                    query.Parameters.Timestamp.Value = evAck.Timestamp;
-                    query.Parameters.UserID.Value = evAck.UserID;
-
+                    query.SetParameters(evAck);
                     query.Command.Transaction = trans;
                     query.Command.ExecuteNonQuery();
                 }
@@ -563,18 +644,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
 
                     if (query.Filter.Match(command))
                     {
-                        query.Parameters.CommandID.Value = command.CommandID;
-                        query.Parameters.CreationTime.Value = command.CreationTime;
-                        query.Parameters.ClientName.Value = command.ClientName ?? "";
-                        query.Parameters.UserID.Value = command.UserID;
-                        query.Parameters.CnlNum.Value = command.CnlNum;
-                        query.Parameters.ObjNum.Value = command.ObjNum;
-                        query.Parameters.DeviceNum.Value = command.DeviceNum;
-                        query.Parameters.CmdNum.Value = command.CmdNum;
-                        query.Parameters.CmdCode.Value = command.CmdCode ?? "";
-                        query.Parameters.CmdVal.Value = command.CmdVal;
-                        query.Parameters.CmdData.Value = (object)command.CmdData ?? DBNull.Value;
-
+                        query.SetParameters(command);
                         query.Command.Transaction = trans;
                         query.Command.ExecuteNonQuery();
                     }
@@ -652,11 +722,9 @@ namespace Scada.Server.Modules.ModDbExport.Logic
 
             void AddSlice()
             {
+                Slice slice = new(utcNow, sliceCnlNums.ToArray(), sliceCnlData.ToArray());
                 sliceItems ??= new List<SliceItem>();
-                sliceItems.Add(new SliceItem(new Slice(
-                    utcNow,
-                    sliceCnlNums.ToArray(),
-                    sliceCnlData.ToArray())));
+                sliceItems.Add(new SliceItem(slice) { SingleQuery = false });
                 sliceCnlNums = null;
                 sliceCnlData = null;
             }

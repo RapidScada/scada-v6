@@ -18,6 +18,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         {
             Slice = slice ?? throw new ArgumentNullException(nameof(slice));
             QueryID = 0;
+            SingleQuery = null;
         }
 
 
@@ -30,5 +31,10 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         /// Gets the ID of the query that exports the slice.
         /// </summary>
         public int QueryID { get; init; }
+        
+        /// <summary>
+        /// Gets a value indicating whether the item is intended for the specified type of query.
+        /// </summary>
+        public bool? SingleQuery { get; init; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Data.Models;
 using Scada.MultiDb;
 using Scada.Server.Modules.ModDbExport.Config;
 using System.Data.Common;
@@ -44,6 +45,11 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
             };
 
             CnlNumFilter = new HashSet<int>();
+            CnlPropsRequired = !string.IsNullOrEmpty(queryOptions.Sql) &&
+                (queryOptions.Sql.Contains("@objNum", StringComparison.OrdinalIgnoreCase) ||
+                queryOptions.Sql.Contains(":objNum", StringComparison.OrdinalIgnoreCase) ||
+                queryOptions.Sql.Contains("@deviceNum", StringComparison.OrdinalIgnoreCase) ||
+                queryOptions.Sql.Contains(":deviceNum", StringComparison.OrdinalIgnoreCase));
         }
 
 
@@ -57,21 +63,27 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         /// </summary>
         public HashSet<int> CnlNumFilter { get; }
 
+        /// <summary>
+        /// Gets a value indicating whether channel properties are required to define query parameters.
+        /// </summary>
+        public bool CnlPropsRequired { get; }
+
 
         /// <summary>
-        /// Sets the command parameter that represents a value of the specified channel.
+        /// Sets the command parameters that represents value and status of the specified channel.
         /// </summary>
-        public void SetValParam(int cnlNum, double val)
+        public void SetCnlDataParams(int cnlNum, CnlData cnlData)
         {
-            DataSource.SetParam(Command, "val" + cnlNum, val);
+            DataSource.SetParam(Command, "val" + cnlNum, cnlData.Val);
+            DataSource.SetParam(Command, "stat" + cnlNum, cnlData.Stat);
         }
 
         /// <summary>
-        /// Sets the command parameter that represents a status of the specified channel.
+        /// Fills the combined channel filter.
         /// </summary>
-        public void SetStatParam(int cnlNum, int stat)
+        public void FillCnlNumFilter(ConfigDatabase configDatabase)
         {
-            DataSource.SetParam(Command, "stat" + cnlNum, stat);
+
         }
     }
 }

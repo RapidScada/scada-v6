@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Data.Models;
 using Scada.MultiDb;
 using Scada.Server.Modules.ModDbExport.Config;
 using System.Data.Common;
@@ -71,5 +72,31 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         /// Gets the query parameters.
         /// </summary>
         public QueryParameters Parameters { get; }
+
+        /// <summary>
+        /// Sets the query parameters according the specified event.
+        /// </summary>
+        public void SetParameters(Event ev)
+        {
+            ArgumentNullException.ThrowIfNull(ev, nameof(ev));
+            Parameters.EventID.Value = ev.EventID;
+            Parameters.Timestamp.Value = ev.Timestamp;
+            Parameters.Hidden.Value = ev.Hidden;
+            Parameters.CnlNum.Value = ev.CnlNum;
+            Parameters.ObjNum.Value = ev.ObjNum;
+            Parameters.DeviceNum.Value = ev.DeviceNum;
+            Parameters.PrevCnlVal.Value = ev.PrevCnlVal;
+            Parameters.PrevCnlStat.Value = ev.PrevCnlStat;
+            Parameters.CnlVal.Value = ev.CnlVal;
+            Parameters.CnlStat.Value = ev.CnlStat;
+            Parameters.Severity.Value = ev.Severity;
+            Parameters.AckRequired.Value = ev.AckRequired;
+            Parameters.Ack.Value = ev.Ack;
+            Parameters.AckTimestamp.Value = ev.AckTimestamp;
+            Parameters.AckUserID.Value = ev.AckUserID;
+            Parameters.TextFormat.Value = (int)ev.TextFormat;
+            Parameters.Text.Value = (object)ev.Text ?? DBNull.Value;
+            Parameters.Data.Value = (object)ev.Data ?? DBNull.Value;
+        }
     }
 }

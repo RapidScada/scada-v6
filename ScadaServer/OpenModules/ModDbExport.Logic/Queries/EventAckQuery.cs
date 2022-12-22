@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Data.Models;
 using Scada.MultiDb;
 using Scada.Server.Modules.ModDbExport.Config;
 using System.Data.Common;
@@ -41,5 +42,16 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         /// Gets the query parameters.
         /// </summary>
         public QueryParameters Parameters { get; }
+
+        /// <summary>
+        /// Sets the query parameters according the specified acknowledgement.
+        /// </summary>
+        public void SetParameters(EventAck evAck)
+        {
+            ArgumentNullException.ThrowIfNull(evAck, nameof(evAck));
+            Parameters.EventID.Value = evAck.EventID;
+            Parameters.Timestamp.Value = evAck.Timestamp;
+            Parameters.UserID.Value = evAck.UserID;
+        }
     }
 }

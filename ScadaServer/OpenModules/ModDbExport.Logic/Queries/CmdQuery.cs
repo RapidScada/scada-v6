@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Data.Models;
 using Scada.MultiDb;
 using Scada.Server.Modules.ModDbExport.Config;
 using System.Data.Common;
@@ -57,5 +58,24 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         /// Gets the query parameters.
         /// </summary>
         public QueryParameters Parameters { get; }
+
+        /// <summary>
+        /// Sets the query parameters according the specified command.
+        /// </summary>
+        public void SetParameters(TeleCommand command)
+        {
+            ArgumentNullException.ThrowIfNull(command, nameof(command));
+            Parameters.CommandID.Value = command.CommandID;
+            Parameters.CreationTime.Value = command.CreationTime;
+            Parameters.ClientName.Value = command.ClientName ?? "";
+            Parameters.UserID.Value = command.UserID;
+            Parameters.CnlNum.Value = command.CnlNum;
+            Parameters.ObjNum.Value = command.ObjNum;
+            Parameters.DeviceNum.Value = command.DeviceNum;
+            Parameters.CmdNum.Value = command.CmdNum;
+            Parameters.CmdCode.Value = command.CmdCode ?? "";
+            Parameters.CmdVal.Value = command.CmdVal;
+            Parameters.CmdData.Value = (object)command.CmdData ?? DBNull.Value;
+        }
     }
 }
