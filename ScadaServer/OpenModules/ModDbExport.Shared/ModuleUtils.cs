@@ -13,15 +13,5 @@ namespace Scada.Server.Modules.ModDbExport
         /// The module code.
         /// </summary>
         public const string ModuleCode = "ModDbExport";
-
-        /// <summary>
-        /// Calculates the next timer firing.
-        /// </summary>
-        public static DateTime CalcNextTimer(DateTime nowDT, int period)
-        {
-            return period > 0
-                ? nowDT.Date.AddSeconds(((int)nowDT.TimeOfDay.TotalSeconds / period + 1) * period)
-                : nowDT;
-        }
     }
 }

@@ -9,6 +9,8 @@ using Scada.MultiDb;
 using Scada.Server.Modules.ModDbExport.Config;
 using Scada.Server.Modules.ModDbExport.Logic.Queries;
 using Scada.Server.Modules.ModDbExport.Logic.Replication;
+using System.Data.Common;
+using System.Text;
 
 namespace Scada.Server.Modules.ModDbExport.Logic
 {
@@ -18,6 +20,10 @@ namespace Scada.Server.Modules.ModDbExport.Logic
     /// </summary>
     internal sealed class Exporter : IExporterContext
     {
+        /// <summary>
+        /// The number of queue items to export in a single loop iteration.
+        /// </summary>
+        private const int BundleSize = 100;
         /// <summary>
         /// The size of the slices created by the exporter.
         /// </summary>
@@ -51,6 +57,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         private DateTime allDataDT;            // the timestamp of exporting all channel data
         private Thread exporterThread;         // the working thread of the exporter
         private volatile bool terminated;      // necessary to stop the thread
+        private ConnectionStatus connStatus;   // the status of the DB connection 
 
 
         /// <summary>
@@ -106,6 +113,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             allDataDT = DateTime.MinValue;
             exporterThread = null;
             terminated = false;
+            connStatus = ConnectionStatus.Undefined;
         }
 
 
@@ -116,7 +124,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         {
             DateTime utcNow = DateTime.UtcNow;
             bool timerMode = curDataExportOptions.Trigger == ExportTrigger.OnTimer;
-            DateTime timerDT = ModuleUtils.CalcNextTimer(utcNow, curDataExportOptions.TimerPeriod);
+            DateTime timerDT = LogicUtils.CalcNextTimer(utcNow, curDataExportOptions.TimerPeriod);
             allDataDT = utcNow.AddSeconds(curDataExportOptions.AllDataPeriod);
 
             DateTime writeInfoDT = utcNow;
@@ -125,9 +133,22 @@ namespace Scada.Server.Modules.ModDbExport.Logic
 
             while (!terminated)
             {
-                // export data to target database
-                //if (scadaClient.IsReady)
-                //    TransferData();
+                // export to database
+                try
+                {
+                    if (Connect())
+                    {
+                        ExportCurrentData();
+                        ExportHistoricalData();
+                        ExportEvents();
+                        ExportEventAcks();
+                        ExportCommands();
+                    }
+                }
+                finally
+                {
+                    Disconnect();
+                }
 
                 // make slices on timer
                 if (timerMode)
@@ -135,7 +156,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                     utcNow = DateTime.UtcNow;
                     if (timerDT <= utcNow)
                     {
-                        timerDT = ModuleUtils.CalcNextTimer(utcNow, curDataExportOptions.TimerPeriod);
+                        timerDT = LogicUtils.CalcNextTimer(utcNow, curDataExportOptions.TimerPeriod);
                         EnqueueCurrentDataOnTimer(utcNow);
                     }
                 }
@@ -218,13 +239,199 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         }
 
         /// <summary>
+        /// Connects to the database.
+        /// </summary>
+        private bool Connect()
+        {
+            try
+            {
+                dataSource.Connect();
+                connStatus = ConnectionStatus.Normal;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                connStatus = ConnectionStatus.Error;
+                exporterLog.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при соединении с БД" :
+                    "Error connecting to DB");
+                Thread.Sleep(ScadaUtils.ErrorDelay);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Disconnects from the database.
+        /// </summary>
+        private void Disconnect()
+        {
+            try
+            {
+                dataSource.Disconnect();
+            }
+            catch (Exception ex)
+            {
+                exporterLog.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при разъединении с БД" :
+                    "Error disconnecting from DB");
+            }
+        }
+
+        /// <summary>
+        /// Exports current data to the database.
+        /// </summary>
+        private void ExportCurrentData()
+        {
+            if (!curDataQueue.Enabled)
+                return;
+
+        }
+
+        /// <summary>
+        /// Exports historical data to the database.
+        /// </summary>
+        private void ExportHistoricalData()
+        {
+            if (!histDataQueue.Enabled)
+                return;
+
+        }
+
+        /// <summary>
+        /// Exports events to the database.
+        /// </summary>
+        private void ExportEvents()
+        {
+            if (!eventQueue.Enabled)
+                return;
+
+            DbTransaction trans = null;
+
+            try
+            {
+                trans = dataSource.Connection.BeginTransaction();
+
+                for (int i = 0; i < BundleSize; i++)
+                {
+                    // retrieve an item from the queue
+                    if (!eventQueue.TryDequeue(out QueueItem<Event> queueItem))
+                        break;
+
+                    // export the event
+                    if (DateTime.UtcNow - queueItem.CreationTime > dataLifetime)
+                    {
+                        exporterLog.WriteError(Locale.IsRussian ?
+                            "Устаревшее событие удалено из очереди" :
+                            "Outdated event removed from the queue");
+
+                        eventQueue.Stats.SkippedItems++;
+                    }
+                    else if (ExportEvent(queueItem.Value, trans))
+                    {
+                        eventQueue.Stats.ExportedItems++;
+                        eventQueue.Stats.HasError = false;
+                        eventQueue.CheckEmpty();
+                    }
+                    else
+                    {
+                        // return the unsent item to the queue
+                        eventQueue.ReturnItem(queueItem);
+                        eventQueue.Stats.HasError = true;
+                        Thread.Sleep(ScadaUtils.ErrorDelay);
+                        break;
+                    }
+                }
+
+                trans.Commit();
+            }
+            catch (Exception ex)
+            {
+                dataSource.SilentRollback(trans);
+                exporterLog.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при экспорте событий" :
+                    "Error export events");
+            }
+        }
+
+        /// <summary>
+        /// Exports event acknowledgements to the database.
+        /// </summary>
+        private void ExportEventAcks()
+        {
+            if (!eventAckQueue.Enabled)
+                return;
+
+        }
+
+        /// <summary>
+        /// Exports commands to the database.
+        /// </summary>
+        private void ExportCommands()
+        {
+            if (!cmdQueue.Enabled)
+                return;
+
+        }
+
+        /// <summary>
+        /// Exports the specified event.
+        /// </summary>
+        private bool ExportEvent(Event ev, DbTransaction trans)
+        {
+            Query currentQuery = null;
+
+            try
+            {
+                foreach (EventQuery query in classifiedQueries.EventQueries)
+                {
+                    currentQuery = query;
+
+                    if (query.Filter.Match(ev))
+                    {
+                        query.Parameters.EventID.Value = ev.EventID;
+                        query.Parameters.Timestamp.Value = ev.Timestamp;
+                        query.Parameters.Hidden.Value = ev.Hidden;
+                        query.Parameters.CnlNum.Value = ev.CnlNum;
+                        query.Parameters.ObjNum.Value = ev.ObjNum;
+                        query.Parameters.DeviceNum.Value = ev.DeviceNum;
+                        query.Parameters.PrevCnlVal.Value = ev.PrevCnlVal;
+                        query.Parameters.PrevCnlStat.Value = ev.PrevCnlStat;
+                        query.Parameters.CnlVal.Value = ev.CnlVal;
+                        query.Parameters.CnlStat.Value = ev.CnlStat;
+                        query.Parameters.Severity.Value = ev.Severity;
+                        query.Parameters.AckRequired.Value = ev.AckRequired;
+                        query.Parameters.Ack.Value = ev.Ack;
+                        query.Parameters.AckTimestamp.Value = ev.AckTimestamp;
+                        query.Parameters.AckUserID.Value = ev.AckUserID;
+                        query.Parameters.TextFormat.Value = (int)ev.TextFormat;
+                        query.Parameters.Text.Value = (object)ev.Text ?? DBNull.Value;
+                        query.Parameters.Data.Value = (object)ev.Data ?? DBNull.Value;
+
+                        query.Command.Transaction = trans;
+                        query.Command.ExecuteNonQuery();
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                exporterLog.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при экспорте события по запросу \"{0}\"" :
+                    "Error exporting event by the query \"{0}\"", 
+                    currentQuery?.Name);
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Filters the incoming current data.
         /// </summary>
-        private Slice FilterIncomingData(Slice slice)
+        private SliceItem FilterIncomingData(Slice slice)
         {
             if (cnlNumFilter == null && !curDataExportOptions.SkipUnchanged)
             {
-                return slice;
+                return new SliceItem(slice);
             }
             else
             {
@@ -250,10 +457,10 @@ namespace Scada.Server.Modules.ModDbExport.Logic
 
                 if (destCnlNums.Count > 0)
                 {
-                    return new Slice(
+                    return new SliceItem(new Slice(
                         slice.Timestamp, 
                         destCnlNums.ToArray(), 
-                        destCnlData.ToArray());
+                        destCnlData.ToArray()));
                 }
                 else
                 {
@@ -385,7 +592,48 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         /// </summary>
         private void WriteInfo()
         {
+            try
+            {
+                // prepare information
+                StringBuilder sbInfo = new();
 
+                if (Locale.IsRussian)
+                {
+                    sbInfo
+                        .AppendLine("Состояние экспортёра")
+                        .AppendLine("--------------------")
+                        .Append("Наименование : ").AppendLine(exporterTitle)
+                        .Append("Сервер БД    : ").AppendLine(exporterConfig.ConnectionOptions.Server)
+                        .Append("Соединение   : ").AppendLine(connStatus.ToString(true));
+                }
+                else
+                {
+                    sbInfo
+                        .AppendLine("Exporter State")
+                        .AppendLine("--------------")
+                        .Append("Name       : ").AppendLine(exporterTitle)
+                        .Append("DB server  : ").AppendLine(exporterConfig.ConnectionOptions.Server)
+                        .Append("Connection : ").AppendLine(connStatus.ToString(false));
+                }
+
+                sbInfo.AppendLine();
+                curDataQueue.AppendInfo(sbInfo);
+                histDataQueue.AppendInfo(sbInfo);
+                eventQueue.AppendInfo(sbInfo);
+                eventAckQueue.AppendInfo(sbInfo);
+                cmdQueue.AppendInfo(sbInfo);
+                //arcReplicator?.AppendInfo(sbInfo);
+
+                // write to file
+                using StreamWriter writer = new(infoFileName, false, Encoding.UTF8);
+                writer.Write(sbInfo.ToString());
+            }
+            catch (Exception ex)
+            {
+                exporterLog.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при записи в файл информации о работе экспортёра" :
+                    "Error writing exporter information to the file");
+            }
         }
 
 
@@ -459,9 +707,9 @@ namespace Scada.Server.Modules.ModDbExport.Logic
 
             if (curDataQueue.Enabled &&
                 curDataExportOptions.Trigger == ExportTrigger.OnReceive &&
-                FilterIncomingData(slice) is Slice destSlice)
+                FilterIncomingData(slice) is SliceItem sliceItem)
             {
-                curDataQueue.Enqueue(slice.Timestamp, new SliceItem(destSlice), out _);
+                curDataQueue.Enqueue(slice.Timestamp, sliceItem, out _);
             }
         }
 

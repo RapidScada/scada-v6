@@ -14,27 +14,6 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
     internal abstract class Query
     {
         /// <summary>
-        /// Represents a query filter for runtime.
-        /// </summary>
-        public class QueryFilterRuntime
-        {
-            public QueryFilterRuntime(QueryFilter queryFilter) 
-            {
-                ArgumentNullException.ThrowIfNull(queryFilter, nameof(queryFilter));
-                Enabled = false;
-                CnlNums = new HashSet<int>(queryFilter.CnlNums);
-                DeviceNums = new HashSet<int>(queryFilter.DeviceNums);
-                ObjNums = new HashSet<int>(queryFilter.ObjNums);
-            }
-
-            public bool Enabled { get; init; }
-            public HashSet<int> CnlNums { get; }
-            public HashSet<int> DeviceNums { get; }
-            public HashSet<int> ObjNums { get; }
-        }
-
-
-        /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public Query(int queryID, QueryOptions queryOptions, DataSource dataSource)
@@ -52,6 +31,11 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         /// Gets the query ID.
         /// </summary>
         public int QueryID { get; }
+
+        /// <summary>
+        /// Gets the query name.
+        /// </summary>
+        public string Name => Options.Name;
 
         /// <summary>
         /// Gets the query options.
