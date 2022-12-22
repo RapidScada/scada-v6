@@ -61,6 +61,7 @@
             this.miCollapseAll = new System.Windows.Forms.ToolStripMenuItem();
             this.ilTree = new System.Windows.Forms.ImageList(this.components);
             this.pnlInfo = new System.Windows.Forms.Panel();
+            this.ctrlQuery = new Scada.Server.Modules.ModDbExport.View.Controls.CtrlQuery();
             this.lblHint = new System.Windows.Forms.Label();
             this.pnlBottom.SuspendLayout();
             this.toolStrip.SuspendLayout();
@@ -355,6 +356,7 @@
             this.tvTargets.SelectedImageIndex = 0;
             this.tvTargets.Size = new System.Drawing.Size(274, 427);
             this.tvTargets.TabIndex = 0;
+            this.tvTargets.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvTargets_AfterSelect);
             // 
             // cmsTree
             // 
@@ -367,7 +369,7 @@
             // 
             this.miCollapseAll.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.collapse_all;
             this.miCollapseAll.Name = "miCollapseAll";
-            this.miCollapseAll.Size = new System.Drawing.Size(180, 22);
+            this.miCollapseAll.Size = new System.Drawing.Size(136, 22);
             this.miCollapseAll.Text = "Collapse All";
             this.miCollapseAll.Click += new System.EventHandler(this.miCollapseAll_Click);
             // 
@@ -379,6 +381,7 @@
             // 
             // pnlInfo
             // 
+            this.pnlInfo.Controls.Add(this.ctrlQuery);
             this.pnlInfo.Controls.Add(this.lblHint);
             this.pnlInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlInfo.Location = new System.Drawing.Point(315, 0);
@@ -386,6 +389,14 @@
             this.pnlInfo.Name = "pnlInfo";
             this.pnlInfo.Size = new System.Drawing.Size(419, 471);
             this.pnlInfo.TabIndex = 1;
+            // 
+            // ctrlQuery
+            // 
+            this.ctrlQuery.Location = new System.Drawing.Point(0, 3);
+            this.ctrlQuery.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+            this.ctrlQuery.Name = "ctrlQuery";
+            this.ctrlQuery.Size = new System.Drawing.Size(404, 462);
+            this.ctrlQuery.TabIndex = 1;
             // 
             // lblHint
             // 
@@ -464,5 +475,6 @@
         private ContextMenuStrip cmsTree;
         private ToolStripMenuItem miCollapseAll;
         private ImageList ilTree;
+        private Controls.CtrlQuery ctrlQuery;
     }
 }

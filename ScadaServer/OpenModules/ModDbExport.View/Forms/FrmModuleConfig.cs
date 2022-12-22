@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using Scada.Agent;
 using Scada.Client;
 using Scada.Config;
 using Scada.Data.Models;
@@ -117,6 +118,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         /// </summary>
         private void HideControls()
         {
+            ctrlQuery.Visible = lblHint.Visible =  false;
         }
 
         /// <summary>
@@ -348,6 +350,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             // translate form
             FormTranslator.Translate(this, GetType().FullName,
                 new FormTranslatorOptions { ContextMenus = new ContextMenuStrip[] { cmsTree } });
+            FormTranslator.Translate(ctrlQuery, ctrlQuery.GetType().FullName);
 
             // load configuration
             if (File.Exists(configFileName) && !config.Load(configFileName, out string errMsg))
@@ -465,7 +468,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                 else if (tvTargets.SelectedNode?.Tag is QueryOptionList)
                     tvTargets.Insert(tvTargets.SelectedNode, queryNode);
                 
-                //ctrlGeneral.SetFocus();
+                ctrlQuery.SetFocus();
                 Modified = true;
             }
         }
@@ -499,6 +502,21 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                 tvTargets.CollapseAll();
                 tvTargets.SelectedNode = tvTargets.Nodes[0];
             }
+        }
+
+        private void tvTargets_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            // show properties of the selected object
+            object selectedObject = e.Node.Tag;
+            HideControls();
+
+            if (selectedObject is QueryOptions queryOptions)
+            {
+                ctrlQuery.QueryOptions = queryOptions;
+                ctrlQuery.Visible = true;
+            }
+
+            SetButtonsEnabled();
         }
     }
 }
