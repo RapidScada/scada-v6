@@ -37,8 +37,9 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public Query(QueryOptions queryOptions, DataSource dataSource)
+        public Query(int queryID, QueryOptions queryOptions, DataSource dataSource)
         {
+            QueryID = queryID;
             Options = queryOptions ?? throw new ArgumentNullException(nameof(queryOptions));
             DataSource = dataSource ?? throw new ArgumentNullException(nameof(dataSource));
             Filter = new QueryFilterRuntime(queryOptions.Filter) { Enabled = queryOptions.FilterApplicable };
@@ -46,6 +47,11 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
             Command.CommandText = queryOptions.Sql;
         }
 
+
+        /// <summary>
+        /// Gets the query ID.
+        /// </summary>
+        public int QueryID { get; }
 
         /// <summary>
         /// Gets the query options.

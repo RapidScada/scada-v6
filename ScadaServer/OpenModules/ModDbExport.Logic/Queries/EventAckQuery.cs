@@ -26,8 +26,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public EventAckQuery(QueryOptions queryOptions, DataSource dataSource)
-            : base(queryOptions, dataSource)
+        public EventAckQuery(int queryID, QueryOptions queryOptions, DataSource dataSource)
+            : base(queryID, queryOptions, dataSource)
         {
             Parameters = new()
             {

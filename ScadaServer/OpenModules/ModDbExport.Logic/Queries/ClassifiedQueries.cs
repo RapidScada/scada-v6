@@ -57,7 +57,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         public void CreateQueries(QueryOptionList queryOptionList, DataSource dataSource)
         {
             ArgumentNullException.ThrowIfNull(queryOptionList, nameof(queryOptionList));
-            ArgumentNullException.ThrowIfNull(dataSource, nameof(dataSource));
+            ArgumentNullException.ThrowIfNull(dataSource, nameof(dataSource));            
+            int queryID = 1;
 
             foreach (QueryOptions queryOptions in queryOptionList)
             {
@@ -66,23 +67,23 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
                     switch (queryOptions.DataKind)
                     {
                         case DataKind.Current:
-                            CurDataQueries.Add(new DataQuery(queryOptions, dataSource));
+                            CurDataQueries.Add(new DataQuery(queryID++, queryOptions, dataSource));
                             break;
 
                         case DataKind.Historical:
-                            HistDataQueries.Add(new DataQuery(queryOptions, dataSource));
+                            HistDataQueries.Add(new DataQuery(queryID++, queryOptions, dataSource));
                             break;
 
                         case DataKind.Event:
-                            EventQueries.Add(new EventQuery(queryOptions, dataSource));
+                            EventQueries.Add(new EventQuery(queryID++, queryOptions, dataSource));
                             break;
 
                         case DataKind.EventAck:
-                            EventAckQueries.Add(new EventAckQuery(queryOptions, dataSource));
+                            EventAckQueries.Add(new EventAckQuery(queryID++, queryOptions, dataSource));
                             break;
 
                         case DataKind.Command:
-                            CmdQueries.Add(new CmdQuery(queryOptions, dataSource));
+                            CmdQueries.Add(new CmdQuery(queryID++, queryOptions, dataSource));
                             break;
                     }
                 }
