@@ -349,7 +349,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                 dataSource.SilentRollback(trans);
                 exporterLog.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при экспорте событий" :
-                    "Error export events");
+                    "Error exporting events");
             }
         }
 
@@ -361,6 +361,52 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             if (!eventAckQueue.Enabled)
                 return;
 
+            DbTransaction trans = null;
+
+            try
+            {
+                trans = dataSource.Connection.BeginTransaction();
+
+                for (int i = 0; i < BundleSize; i++)
+                {
+                    // retrieve an item from the queue
+                    if (!eventAckQueue.TryDequeue(out QueueItem<EventAck> queueItem))
+                        break;
+
+                    // export the acknowledgement
+                    if (DateTime.UtcNow - queueItem.CreationTime > dataLifetime)
+                    {
+                        exporterLog.WriteError(Locale.IsRussian ?
+                            "Устаревшее квитирование удалено из очереди" :
+                            "Outdated acknowledgement removed from the queue");
+
+                        eventAckQueue.Stats.SkippedItems++;
+                    }
+                    else if (ExportEventAck(queueItem.Value, trans))
+                    {
+                        eventAckQueue.Stats.ExportedItems++;
+                        eventAckQueue.Stats.HasError = false;
+                        eventAckQueue.CheckEmpty();
+                    }
+                    else
+                    {
+                        // return the unsent item to the queue
+                        eventAckQueue.ReturnItem(queueItem);
+                        eventAckQueue.Stats.HasError = true;
+                        Thread.Sleep(ScadaUtils.ErrorDelay);
+                        break;
+                    }
+                }
+
+                trans.Commit();
+            }
+            catch (Exception ex)
+            {
+                dataSource.SilentRollback(trans);
+                exporterLog.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при экспорте квитирований" :
+                    "Error exporting acknowledgements");
+            }
         }
 
         /// <summary>
@@ -371,6 +417,52 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             if (!cmdQueue.Enabled)
                 return;
 
+            DbTransaction trans = null;
+
+            try
+            {
+                trans = dataSource.Connection.BeginTransaction();
+
+                for (int i = 0; i < BundleSize; i++)
+                {
+                    // retrieve an item from the queue
+                    if (!cmdQueue.TryDequeue(out QueueItem<TeleCommand> queueItem))
+                        break;
+
+                    // export the command
+                    if (DateTime.UtcNow - queueItem.CreationTime > dataLifetime)
+                    {
+                        exporterLog.WriteError(Locale.IsRussian ?
+                            "Устаревшая команда удалена из очереди" :
+                            "Outdated command removed from the queue");
+
+                        cmdQueue.Stats.SkippedItems++;
+                    }
+                    else if (ExportCommand(queueItem.Value, trans))
+                    {
+                        cmdQueue.Stats.ExportedItems++;
+                        cmdQueue.Stats.HasError = false;
+                        cmdQueue.CheckEmpty();
+                    }
+                    else
+                    {
+                        // return the unsent item to the queue
+                        cmdQueue.ReturnItem(queueItem);
+                        cmdQueue.Stats.HasError = true;
+                        Thread.Sleep(ScadaUtils.ErrorDelay);
+                        break;
+                    }
+                }
+
+                trans.Commit();
+            }
+            catch (Exception ex)
+            {
+                dataSource.SilentRollback(trans);
+                exporterLog.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при экспорте команд" :
+                    "Error exporting commands");
+            }
         }
 
         /// <summary>
@@ -419,6 +511,82 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                 exporterLog.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при экспорте события по запросу \"{0}\"" :
                     "Error exporting event by the query \"{0}\"", 
+                    currentQuery?.Name);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Exports the specified event acknowledgement.
+        /// </summary>
+        private bool ExportEventAck(EventAck evAck, DbTransaction trans)
+        {
+            Query currentQuery = null;
+
+            try
+            {
+                foreach (EventAckQuery query in classifiedQueries.EventAckQueries)
+                {
+                    currentQuery = query;
+                    query.Parameters.EventID.Value = evAck.EventID;
+                    query.Parameters.Timestamp.Value = evAck.Timestamp;
+                    query.Parameters.UserID.Value = evAck.UserID;
+
+                    query.Command.Transaction = trans;
+                    query.Command.ExecuteNonQuery();
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                exporterLog.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при экспорте квитирования по запросу \"{0}\"" :
+                    "Error exporting acknowledgement by the query \"{0}\"",
+                    currentQuery?.Name);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Exports the specified command.
+        /// </summary>
+        private bool ExportCommand(TeleCommand command, DbTransaction trans)
+        {
+            Query currentQuery = null;
+
+            try
+            {
+                foreach (CmdQuery query in classifiedQueries.CmdQueries)
+                {
+                    currentQuery = query;
+
+                    if (query.Filter.Match(command))
+                    {
+                        query.Parameters.CommandID.Value = command.CommandID;
+                        query.Parameters.CreationTime.Value = command.CreationTime;
+                        query.Parameters.ClientName.Value = command.ClientName ?? "";
+                        query.Parameters.UserID.Value = command.UserID;
+                        query.Parameters.CnlNum.Value = command.CnlNum;
+                        query.Parameters.ObjNum.Value = command.ObjNum;
+                        query.Parameters.DeviceNum.Value = command.DeviceNum;
+                        query.Parameters.CmdNum.Value = command.CmdNum;
+                        query.Parameters.CmdCode.Value = command.CmdCode ?? "";
+                        query.Parameters.CmdVal.Value = command.CmdVal;
+                        query.Parameters.CmdData.Value = (object)command.CmdData ?? DBNull.Value;
+
+                        query.Command.Transaction = trans;
+                        query.Command.ExecuteNonQuery();
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                exporterLog.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при экспорте команды по запросу \"{0}\"" :
+                    "Error exporting command by the query \"{0}\"",
                     currentQuery?.Name);
                 return false;
             }

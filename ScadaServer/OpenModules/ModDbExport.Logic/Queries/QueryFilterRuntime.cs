@@ -57,5 +57,17 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
                 (DeviceNums.Count == 0 || DeviceNums.Contains(ev.DeviceNum)) &&
                 (ObjNums.Count == 0 || ObjNums.Contains(ev.ObjNum));
         }
+
+        /// <summary>
+        /// Checks if the command matches the filter.
+        /// </summary>
+        public bool Match(TeleCommand command)
+        {
+            ArgumentNullException.ThrowIfNull(command, nameof(command));
+            return Enabled &&
+                (CnlNums.Count == 0 || CnlNums.Contains(command.CnlNum)) &&
+                (DeviceNums.Count == 0 || DeviceNums.Contains(command.DeviceNum)) &&
+                (ObjNums.Count == 0 || ObjNums.Contains(command.ObjNum));
+        }
     }
 }
