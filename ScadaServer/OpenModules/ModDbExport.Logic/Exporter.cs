@@ -119,6 +119,32 @@ namespace Scada.Server.Modules.ModDbExport.Logic
 
 
         /// <summary>
+        /// Gets the gate configuration.
+        /// </summary>
+        ExportTargetConfig IExporterContext.ExporterConfig => exporterConfig;
+
+        /// <summary>
+        /// Gets the gate log.
+        /// </summary>
+        ILog IExporterContext.ExporterLog => exporterLog;
+
+        /// <summary>
+        /// Gets the prefix of the gate files.
+        /// </summary>
+        string IExporterContext.FilePrefix => filePrefix;
+
+        /// <summary>
+        /// Gets the historical data queue.
+        /// </summary>
+        IDataQueue<SliceItem> IExporterContext.HistDataQueue => histDataQueue;
+
+        /// <summary>
+        /// Gets the event queue.
+        /// </summary>
+        IDataQueue<Event> IExporterContext.EventQueue => eventQueue;
+
+
+        /// <summary>
         /// Operating loop running in a separate thread.
         /// </summary>
         private void Execute()
@@ -163,8 +189,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                 }
 
                 // export archives
-                //if (arcReplicationOptions.Enabled && scadaClient.IsReady)
-                //    arcReplicator.ReplicateData();
+                if (arcReplicationOptions.Enabled && connStatus == ConnectionStatus.Normal)
+                    arcReplicator.ReplicateData();
 
                 // write exporter info
                 utcNow = DateTime.UtcNow;
@@ -190,8 +216,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                 classifiedQueries.CurDataQueries.ForEach(q => q.FillCnlNumFilter(serverContext.ConfigDatabase));
                 classifiedQueries.HistDataQueries.ForEach(q => q.FillCnlNumFilter(serverContext.ConfigDatabase));
 
-                //if (arcReplicationOptions.Enabled)
-                //    arcReplicator.Init();
+                if (arcReplicationOptions.Enabled)
+                    arcReplicator.Init();
             }
             catch (Exception ex)
             {
@@ -948,7 +974,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                 eventQueue.AppendInfo(sbInfo);
                 eventAckQueue.AppendInfo(sbInfo);
                 cmdQueue.AppendInfo(sbInfo);
-                //arcReplicator?.AppendInfo(sbInfo);
+                arcReplicator?.AppendInfo(sbInfo);
 
                 // write to file
                 using StreamWriter writer = new(infoFileName, false, Encoding.UTF8);
@@ -1117,11 +1143,10 @@ namespace Scada.Server.Modules.ModDbExport.Logic
 
                     if (arcReplicationOptions.Enabled)
                     {
-                        // TODO: exporter tasks
-                        //if (exporterCommand == ExporterCommand.ClearTaskQueue)
-                        //    arcReplicator.ClearTaskQueue();
-                        //else if (ArcReplicationTask.CreateTask(exporterCommand, cmdArgs) is ArcReplicationTask task)
-                        //    arcReplicator.EnqueueTask(task);
+                        if (exporterCommand == ExporterCommand.ClearTaskQueue)
+                            arcReplicator.ClearTaskQueue();
+                        else if (ArcExportTask.CreateTask(exporterCommand, cmdArgs) is ArcExportTask task)
+                            arcReplicator.EnqueueTask(task);
                     }
                 }
                 else
