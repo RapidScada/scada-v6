@@ -84,6 +84,11 @@ namespace Scada.Data.Queues
         public bool RemoveExceeded { get; set; }
 
         /// <summary>
+        /// Gets a value indicating whether the queue is empty.
+        /// </summary>
+        public bool IsEmpty => queue == null || queue.Count == 0;
+
+        /// <summary>
         /// Gets the queue statistics.
         /// </summary>
         public QueueStats Stats { get; }

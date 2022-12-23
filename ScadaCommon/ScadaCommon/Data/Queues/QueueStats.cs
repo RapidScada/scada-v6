@@ -121,7 +121,7 @@ namespace Scada.Data.Queues
                 else
                 {
                     sbInfo
-                        .Append("Состояние      : отключено").AppendLine()
+                        .Append("Состояние : отключено").AppendLine()
                         .AppendLine();
                 }
             }
@@ -139,7 +139,7 @@ namespace Scada.Data.Queues
                 else
                 {
                     sbInfo
-                        .Append("Status   : Disabled").AppendLine()
+                        .Append("Status : Disabled").AppendLine()
                         .AppendLine();
                 }
             }
