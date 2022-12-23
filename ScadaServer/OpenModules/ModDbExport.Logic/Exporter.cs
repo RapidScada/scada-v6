@@ -348,13 +348,15 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         /// </summary>
         private void ExportCurrentData()
         {
-            if (!curDataQueue.Enabled)
+            if (!curDataQueue.Enabled || curDataQueue.IsEmpty)
                 return;
 
             DbTransaction trans = null;
 
             try
             {
+                trans = dataSource.Connection.BeginTransaction();
+
                 for (int i = 0; i < BundleSize; i++)
                 {
                     // get an item slice from the queue without removing it
@@ -403,7 +405,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         /// </summary>
         private void ExportHistoricalData()
         {
-            if (!histDataQueue.Enabled)
+            if (!histDataQueue.Enabled || histDataQueue.IsEmpty)
                 return;
 
             DbTransaction trans = null;
@@ -458,7 +460,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         /// </summary>
         private void ExportEvents()
         {
-            if (!eventQueue.Enabled)
+            if (!eventQueue.Enabled || eventQueue.IsEmpty)
                 return;
 
             DbTransaction trans = null;
@@ -514,7 +516,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         /// </summary>
         private void ExportEventAcks()
         {
-            if (!eventAckQueue.Enabled)
+            if (!eventAckQueue.Enabled || eventAckQueue.IsEmpty)
                 return;
 
             DbTransaction trans = null;
@@ -570,7 +572,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         /// </summary>
         private void ExportCommands()
         {
-            if (!cmdQueue.Enabled)
+            if (!cmdQueue.Enabled || cmdQueue.IsEmpty)
                 return;
 
             DbTransaction trans = null;
