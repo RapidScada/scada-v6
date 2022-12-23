@@ -134,6 +134,11 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         string IExporterContext.FilePrefix => filePrefix;
 
         /// <summary>
+        /// Gets the queries grouped by classes.
+        /// </summary>
+        ClassifiedQueries IExporterContext.ClassifiedQueries => classifiedQueries;
+
+        /// <summary>
         /// Gets the historical data queue.
         /// </summary>
         IDataQueue<SliceItem> IExporterContext.HistDataQueue => histDataQueue;

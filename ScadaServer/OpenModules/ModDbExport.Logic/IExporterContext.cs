@@ -5,6 +5,7 @@ using Scada.Data.Models;
 using Scada.Data.Queues;
 using Scada.Log;
 using Scada.Server.Modules.ModDbExport.Config;
+using Scada.Server.Modules.ModDbExport.Logic.Queries;
 
 namespace Scada.Server.Modules.ModDbExport.Logic
 {
@@ -28,6 +29,11 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         /// Gets the prefix of the exporter files.
         /// </summary>
         string FilePrefix { get; }
+
+        /// <summary>
+        /// Gets the queries grouped by classes.
+        /// </summary>
+        ClassifiedQueries ClassifiedQueries { get; }
 
         /// <summary>
         /// Gets the historical data queue.

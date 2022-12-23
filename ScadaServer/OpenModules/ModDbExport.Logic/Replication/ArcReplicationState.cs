@@ -152,18 +152,18 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Replication
             if (Locale.IsRussian)
             {
                 sbInfo
-                    .Append("Состояние     : ").AppendLine(HasError ? "ошибка" : "норма")
-                    .Append("Позиция       : ").Append(PositionDT.ToLocalTime().ToLocalizedString()).AppendLine()
-                    .Append("Индекс архива : ").Append(ArchiveIndex).AppendLine()
-                    .Append("Индекс группы : ").Append(GroupIndex).AppendLine();
+                    .Append("Состояние       : ").AppendLine(HasError ? "ошибка" : "норма")
+                    .Append("Позиция         : ").Append(PositionDT.ToLocalTime().ToLocalizedString()).AppendLine()
+                    .Append("Индекс архива   : ").Append(ArchiveIndex).AppendLine()
+                    .Append("Индекс группы   : ").Append(GroupIndex).AppendLine();
             }
             else
             {
                 sbInfo
-                    .Append("Status        : ").AppendLine(HasError ? "Error" : "Normal")
-                    .Append("Position      : ").Append(PositionDT.ToLocalTime().ToLocalizedString()).AppendLine()
-                    .Append("Archive index : ").Append(ArchiveIndex).AppendLine()
-                    .Append("Group index   : ").Append(GroupIndex).AppendLine();
+                    .Append("Status         : ").AppendLine(HasError ? "Error" : "Normal")
+                    .Append("Position       : ").Append(PositionDT.ToLocalTime().ToLocalizedString()).AppendLine()
+                    .Append("Archive index  : ").Append(ArchiveIndex).AppendLine()
+                    .Append("Group index    : ").Append(GroupIndex).AppendLine();
             }
         }
     }
