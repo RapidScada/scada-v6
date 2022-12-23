@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Queues;
@@ -119,6 +120,35 @@ namespace Scada.Server.Modules.ModDbExport.Logic
 
 
         /// <summary>
+        /// Gets or sets the status of the DB connection.
+        /// </summary>
+        private ConnectionStatus ConnStatus
+        {
+            get
+            {
+                return connStatus;
+            }
+            set
+            {
+                connStatus = value;
+
+                // write status to channel
+                if (exporterConfig.GeneralOptions.StatusCnlNum > 0)
+                {
+                    serverContext.WriteCurrentData(
+                        exporterConfig.GeneralOptions.StatusCnlNum, 
+                        connStatus switch
+                        {
+                            ConnectionStatus.Normal => new CnlData(0, CnlStatusID.Defined),
+                            ConnectionStatus.Error => new CnlData(1, CnlStatusID.Defined),
+                            _ => CnlData.Empty
+                        });
+                }
+            }
+        }
+
+
+        /// <summary>
         /// Gets the gate configuration.
         /// </summary>
         ExportTargetConfig IExporterContext.ExporterConfig => exporterConfig;
@@ -194,7 +224,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                 }
 
                 // export archives
-                if (arcReplicationOptions.Enabled && connStatus == ConnectionStatus.Normal)
+                if (arcReplicationOptions.Enabled && ConnStatus == ConnectionStatus.Normal)
                     arcReplicator.ReplicateData();
 
                 // write exporter info
@@ -216,6 +246,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         {
             try
             {
+                ConnStatus = ConnectionStatus.Undefined;
                 InitCnlNums();
 
                 classifiedQueries.CurDataQueries.ForEach(q => q.FillCnlNumFilter(serverContext.ConfigDatabase));
@@ -281,12 +312,12 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             try
             {
                 dataSource.Connect();
-                connStatus = ConnectionStatus.Normal;
+                ConnStatus = ConnectionStatus.Normal;
                 return true;
             }
             catch (Exception ex)
             {
-                connStatus = ConnectionStatus.Error;
+                ConnStatus = ConnectionStatus.Error;
                 exporterLog.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при соединении с БД" :
                     "Error connecting to DB");
@@ -961,7 +992,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                         .AppendLine("--------------------")
                         .Append("Наименование : ").AppendLine(exporterTitle)
                         .Append("Сервер БД    : ").AppendLine(exporterConfig.ConnectionOptions.Server)
-                        .Append("Соединение   : ").AppendLine(connStatus.ToString(true));
+                        .Append("Соединение   : ").AppendLine(ConnStatus.ToString(true));
                 }
                 else
                 {
@@ -970,7 +1001,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                         .AppendLine("--------------")
                         .Append("Name       : ").AppendLine(exporterTitle)
                         .Append("DB server  : ").AppendLine(exporterConfig.ConnectionOptions.Server)
-                        .Append("Connection : ").AppendLine(connStatus.ToString(false));
+                        .Append("Connection : ").AppendLine(ConnStatus.ToString(false));
                 }
 
                 sbInfo.AppendLine();
@@ -1134,9 +1165,9 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             ArgumentNullException.ThrowIfNull(command, nameof(command));
             ArgumentNullException.ThrowIfNull(commandResult, nameof(commandResult));
 
+            // handle exporter command
             if (command.CmdCode == exporterConfig.GeneralOptions.CmdCode)
             {
-                // handle exporter command
                 commandResult.TransmitToClients = false;
                 IDictionary<string, string> cmdArgs = command.GetCmdDataArgs();
 
@@ -1161,9 +1192,10 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                         "Unknown exporter command");
                 }
             }
-            else if (cmdQueue.Enabled)
+
+            // transfer command
+            if (cmdQueue.Enabled)
             {
-                // transfer command
                 if (!cmdQueue.Enqueue(DateTime.UtcNow, command, out string errMsg))
                     exporterLog.WriteError(errMsg);
             }
