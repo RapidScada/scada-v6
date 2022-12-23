@@ -18,17 +18,11 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         public QueryFilterRuntime(QueryFilter queryFilter)
         {
             ArgumentNullException.ThrowIfNull(queryFilter, nameof(queryFilter));
-            Enabled = false;
             CnlNums = new HashSet<int>(queryFilter.CnlNums);
             DeviceNums = new HashSet<int>(queryFilter.DeviceNums);
             ObjNums = new HashSet<int>(queryFilter.ObjNums);
         }
 
-
-        /// <summary>
-        /// Gets a value indicating whether the filter is being used.
-        /// </summary>
-        public bool Enabled { get; init; }
 
         /// <summary>
         /// Gets the channel numbers.
@@ -52,7 +46,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         public bool Match(Event ev)
         {
             ArgumentNullException.ThrowIfNull(ev, nameof(ev));
-            return Enabled &&
+            return
                 (CnlNums.Count == 0 || CnlNums.Contains(ev.CnlNum)) &&
                 (DeviceNums.Count == 0 || DeviceNums.Contains(ev.DeviceNum)) &&
                 (ObjNums.Count == 0 || ObjNums.Contains(ev.ObjNum));
@@ -64,7 +58,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         public bool Match(TeleCommand command)
         {
             ArgumentNullException.ThrowIfNull(command, nameof(command));
-            return Enabled &&
+            return
                 (CnlNums.Count == 0 || CnlNums.Contains(command.CnlNum)) &&
                 (DeviceNums.Count == 0 || DeviceNums.Contains(command.DeviceNum)) &&
                 (ObjNums.Count == 0 || ObjNums.Contains(command.ObjNum));

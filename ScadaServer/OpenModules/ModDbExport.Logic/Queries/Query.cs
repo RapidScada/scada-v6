@@ -21,7 +21,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
             QueryID = queryID;
             Options = queryOptions ?? throw new ArgumentNullException(nameof(queryOptions));
             DataSource = dataSource ?? throw new ArgumentNullException(nameof(dataSource));
-            Filter = new QueryFilterRuntime(queryOptions.Filter) { Enabled = queryOptions.FilterApplicable };
+            Filter = new QueryFilterRuntime(queryOptions.Filter);
             Command = dataSource.CreateCommand();
             Command.CommandText = queryOptions.Sql;
         }

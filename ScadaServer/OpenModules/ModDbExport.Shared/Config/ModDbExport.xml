@@ -42,8 +42,8 @@
       <Query active="true" name="Query 1" dataKind="Current">
         <Filter>
           <CnlNums>101-105</CnlNums>
-          <DeviceNums></DeviceNums>
           <ObjNums></ObjNums>
+          <DeviceNums></DeviceNums>
         </Filter>
         <SingleQuery>false</SingleQuery>
         <Sql>

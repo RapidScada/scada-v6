@@ -210,8 +210,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                 return;
 
             IEnumerable<int> cnlNumRange = 
-                classifiedQueries.CurDataQueries.All(q => q.Filter.CnlNums.Count > 0)
-                ? classifiedQueries.CurDataQueries.SelectMany(q => q.Filter.CnlNums).Distinct().OrderBy(n => n)
+                classifiedQueries.CurDataQueries.All(q => q.CnlNumFilter.Count > 0)
+                ? classifiedQueries.CurDataQueries.SelectMany(q => q.CnlNumFilter).Distinct().OrderBy(n => n)
                 : null;
 
             if (curDataExportOptions.Trigger == ExportTrigger.OnReceive)
@@ -289,6 +289,51 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             if (!curDataQueue.Enabled)
                 return;
 
+            DbTransaction trans = null;
+
+            try
+            {
+                for (int i = 0; i < BundleSize; i++)
+                {
+                    // get an item slice from the queue without removing it
+                    if (!curDataQueue.TryPeek(out QueueItem<SliceItem> queueItem))
+                        break;
+
+                    DateTime utcNow = DateTime.UtcNow;
+
+                    if (utcNow - queueItem.CreationTime > dataLifetime)
+                    {
+                        exporterLog.WriteError(Locale.IsRussian ?
+                            "Устаревшие текущие данные удалены из очереди" :
+                            "Outdated current data removed from the queue");
+
+                        curDataQueue.Stats.SkippedItems++;
+                    }
+                    else if (ExportSlice(queueItem.Value, trans))
+                    {
+                        curDataQueue.Stats.ExportedItems++;
+                        curDataQueue.Stats.HasError = false;
+                    }
+                    else
+                    {
+                        curDataQueue.Stats.HasError = true;
+                        Thread.Sleep(ScadaUtils.ErrorDelay);
+                        break; // the item is not removed from the queue
+                    }
+
+                    // remove the item from the queue
+                    curDataQueue.RemoveItem(queueItem);
+                }
+
+                trans.Commit();
+            }
+            catch (Exception ex)
+            {
+                dataSource.SilentRollback(trans);
+                exporterLog.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при экспорте текущих данных" :
+                    "Error exporting current data");
+            }
         }
 
         /// <summary>
@@ -299,6 +344,51 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             if (!histDataQueue.Enabled)
                 return;
 
+            DbTransaction trans = null;
+
+            try
+            {
+                trans = dataSource.Connection.BeginTransaction();
+
+                for (int i = 0; i < BundleSize; i++)
+                {
+                    // retrieve an item from the queue
+                    if (!histDataQueue.TryDequeue(out QueueItem<SliceItem> queueItem))
+                        break;
+
+                    if (DateTime.UtcNow - queueItem.CreationTime > dataLifetime)
+                    {
+                        exporterLog.WriteError(Locale.IsRussian ?
+                            "Устаревшие исторические данные удалены из очереди" :
+                            "Outdated historical data removed from the queue");
+
+                        histDataQueue.Stats.SkippedItems++;
+                    }
+                    else if (ExportSlice(queueItem.Value, trans))
+                    {
+                        histDataQueue.Stats.ExportedItems++;
+                        histDataQueue.Stats.HasError = false;
+                        histDataQueue.CheckEmpty();
+                    }
+                    else
+                    {
+                        // return the unsent item to the queue
+                        histDataQueue.ReturnItem(queueItem);
+                        histDataQueue.Stats.HasError = true;
+                        Thread.Sleep(ScadaUtils.ErrorDelay);
+                        break;
+                    }
+                }
+
+                trans.Commit();
+            }
+            catch (Exception ex)
+            {
+                dataSource.SilentRollback(trans);
+                exporterLog.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при экспорте исторических данных" :
+                    "Error exporting historical data");
+            }
         }
 
         /// <summary>
@@ -504,7 +594,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                                 for (int i = 0, cnlCnt = slice.CnlNums.Length; i < cnlCnt; i++)
                                 {
                                     int cnlNum = slice.CnlNums[i];
-                                    if (query.Filter.CnlNums.Contains(cnlNum))
+                                    if (query.CnlNumFilter.Contains(cnlNum))
                                         query.SetCnlDataParams(cnlNum, slice.CnlData[i]);
                                 }
 

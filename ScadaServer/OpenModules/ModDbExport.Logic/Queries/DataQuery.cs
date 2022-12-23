@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Data.Models;
+using Scada.Data.Tables;
 using Scada.MultiDb;
 using Scada.Server.Modules.ModDbExport.Config;
 using System.Data.Common;
@@ -83,7 +84,42 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         /// </summary>
         public void FillCnlNumFilter(ConfigDatabase configDatabase)
         {
+            ArgumentNullException.ThrowIfNull(configDatabase, nameof(configDatabase));
+            CnlNumFilter.UnionWith(Options.Filter.CnlNums);
 
+            if (Options.Filter.ObjNums.Count > 0)
+            {
+                List<int> cnlNumsByObj = new();
+
+                foreach (int objNum in Options.Filter.ObjNums)
+                {
+                    cnlNumsByObj.AddRange(configDatabase.CnlTable
+                        .Select(new TableFilter("ObjNum", objNum), true)
+                        .Select(cnl => cnl.CnlNum));
+                }
+
+                if (CnlNumFilter.Count > 0)
+                    CnlNumFilter.IntersectWith(cnlNumsByObj);
+                else
+                    CnlNumFilter.UnionWith(cnlNumsByObj);
+            }
+
+            if (Options.Filter.DeviceNums.Count > 0)
+            {
+                List<int> cnlNumsByDevice = new();
+
+                foreach (int deviceNum in Options.Filter.DeviceNums)
+                {
+                    cnlNumsByDevice.AddRange(configDatabase.CnlTable
+                        .Select(new TableFilter("DeviceNum", deviceNum), true)
+                        .Select(cnl => cnl.CnlNum));
+                }
+
+                if (CnlNumFilter.Count > 0)
+                    CnlNumFilter.IntersectWith(cnlNumsByDevice);
+                else
+                    CnlNumFilter.UnionWith(cnlNumsByDevice);
+            }
         }
     }
 }
