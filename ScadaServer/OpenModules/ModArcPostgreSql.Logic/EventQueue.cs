@@ -100,7 +100,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             ackUserIDParam.Value = ev.AckUserID;
             textFormatParam.Value = (int)ev.TextFormat;
             eventTextParam.Value = string.IsNullOrEmpty(ev.Text) ? DBNull.Value : ev.Text;
-            eventDataParam.Value = (object)ev.Data ?? DBNull.Value;
+            eventDataParam.Value = ev.Data == null || ev.Data.Length == 0 ? DBNull.Value : ev.Data;
         }
 
         /// <summary>
