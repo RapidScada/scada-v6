@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Npgsql;
+using NpgsqlTypes;
 using Scada.Dbms;
 using System.Data.Common;
 
@@ -35,9 +36,16 @@ namespace Scada.MultiDb
         /// </summary>
         protected override DbParameter AddParamWithValue(DbCommand cmd, string paramName, object value)
         {
-            return cmd is NpgsqlCommand npgsqlCommand 
-                ? npgsqlCommand.Parameters.AddWithValue(paramName, value) 
-                : throw new ArgumentException("NpgsqlCommand is required.", nameof(cmd));
+            if (cmd is NpgsqlCommand npgsqlCommand)
+            {
+                return value is DateTime
+                    ? npgsqlCommand.Parameters.AddWithValue(paramName, NpgsqlDbType.TimestampTz, value)
+                    : npgsqlCommand.Parameters.AddWithValue(paramName, value);
+            }
+            else
+            {
+                throw new ArgumentException("NpgsqlCommand is required.", nameof(cmd));
+            }
         }
 
         /// <summary>
