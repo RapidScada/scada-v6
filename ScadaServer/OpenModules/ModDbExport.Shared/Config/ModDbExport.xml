@@ -47,16 +47,16 @@
         </Filter>
         <SingleQuery>false</SingleQuery>
         <Sql>
-          INSERT INTO mod_db_export.cnl_data (time_stamp, cnl_num, val, stat)
-          VALUES (@timestamp, @cnlNum, @val, @stat)
+          INSERT INTO mod_db_export.cnl_data (cnl_num, time_stamp, val, stat)
+          VALUES (@cnlNum, @timestamp, @val, @stat)
         </Sql>
       </Query>
       <Query active="true" name="Query 2" dataKind="Historical">
         <Filter />
         <SingleQuery>false</SingleQuery>
         <Sql>
-          INSERT INTO mod_db_export.cnl_data (time_stamp, cnl_num, val, stat)
-          VALUES (@timestamp, @cnlNum, @val, @stat)
+          INSERT INTO mod_db_export.cnl_data (cnl_num, time_stamp, val, stat)
+          VALUES (@cnlNum, @timestamp, @val, @stat)
           ON CONFLICT (cnl_num, time_stamp) DO UPDATE
           SET val = EXCLUDED.val, stat = EXCLUDED.stat
         </Sql>

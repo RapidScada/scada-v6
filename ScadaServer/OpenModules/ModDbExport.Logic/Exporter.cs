@@ -775,7 +775,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             }
             catch (Exception ex)
             {
-                exporterLog.WriteError(ex, Locale.IsRussian ?
+                exporterLog.WriteError(Locale.IsRussian ?
                     "Ошибка при экспорте квитирования по запросу \"{0}\": {1}" :
                     "Error exporting acknowledgement by the query \"{0}\": {1}",
                     currentQuery?.Name, ex.Message);
@@ -808,7 +808,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             }
             catch (Exception ex)
             {
-                exporterLog.WriteError(ex, Locale.IsRussian ?
+                exporterLog.WriteError(Locale.IsRussian ?
                     "Ошибка при экспорте команды по запросу \"{0}\": {1}" :
                     "Error exporting command by the query \"{0}\": {1}",
                     currentQuery?.Name, ex.Message);

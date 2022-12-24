@@ -20,8 +20,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         public class QueryParameters
         {
             public DbParameter EventID { get; init; }
-            public DbParameter Timestamp { get; init; }
-            public DbParameter UserID { get; init; }
+            public DbParameter AckTimestamp { get; init; }
+            public DbParameter AckUserID { get; init; }
         }
 
         /// <summary>
@@ -33,8 +33,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
             Parameters = new()
             {
                 EventID = DataSource.SetParam(Command, "eventID", 0),
-                Timestamp = DataSource.SetParam(Command, "timestamp", DateTime.MinValue),
-                UserID = DataSource.SetParam(Command, "userID", 0)
+                AckTimestamp = DataSource.SetParam(Command, "ackTimestamp", DateTime.MinValue),
+                AckUserID = DataSource.SetParam(Command, "ackUserID", 0)
             };
         }
 
@@ -50,8 +50,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         {
             ArgumentNullException.ThrowIfNull(evAck, nameof(evAck));
             Parameters.EventID.Value = evAck.EventID;
-            Parameters.Timestamp.Value = evAck.Timestamp;
-            Parameters.UserID.Value = evAck.UserID;
+            Parameters.AckTimestamp.Value = evAck.Timestamp;
+            Parameters.AckUserID.Value = evAck.UserID;
         }
     }
 }

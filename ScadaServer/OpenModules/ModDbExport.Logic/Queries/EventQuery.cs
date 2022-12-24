@@ -35,8 +35,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
             public DbParameter AckTimestamp { get; init; }
             public DbParameter AckUserID { get; init; }
             public DbParameter TextFormat { get; init; }
-            public DbParameter Text { get; init; }
-            public DbParameter Data { get; init; }
+            public DbParameter EventText { get; init; }
+            public DbParameter EventData { get; init; }
         }
 
         /// <summary>
@@ -63,8 +63,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
                 AckTimestamp = DataSource.SetParam(Command, "ackTimestamp", DateTime.MinValue),
                 AckUserID = DataSource.SetParam(Command, "ackUserID", 0),
                 TextFormat = DataSource.SetParam(Command, "textFormat", 0),
-                Text = DataSource.SetParam(Command, "text", ""),
-                Data = DataSource.SetParam(Command, "data", Array.Empty<byte>())
+                EventText = DataSource.SetParam(Command, "eventText", ""),
+                EventData = DataSource.SetParam(Command, "eventData", Array.Empty<byte>())
             };
         }
 
@@ -95,8 +95,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
             Parameters.AckTimestamp.Value = ev.AckTimestamp;
             Parameters.AckUserID.Value = ev.AckUserID;
             Parameters.TextFormat.Value = (int)ev.TextFormat;
-            Parameters.Text.Value = (object)ev.Text ?? DBNull.Value;
-            Parameters.Data.Value = (object)ev.Data ?? DBNull.Value;
+            Parameters.EventText.Value = string.IsNullOrEmpty(ev.Text) ? DBNull.Value : ev.Text;
+            Parameters.EventData.Value = ev.Data == null || ev.Data.Length == 0 ? DBNull.Value : ev.Data;
         }
     }
 }
