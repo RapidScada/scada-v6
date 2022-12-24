@@ -713,10 +713,10 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             }
             catch (Exception ex)
             {
-                exporterLog.WriteError(ex, Locale.IsRussian ?
-                    "Ошибка при экспорте среза по запросу \"{0}\"" :
-                    "Error exporting slice by the query \"{0}\"",
-                    currentQuery?.Name);
+                exporterLog.WriteError(Locale.IsRussian ?
+                    "Ошибка при экспорте среза по запросу \"{0}\": {1}" :
+                    "Error exporting slice by the query \"{0}\": {1}",
+                    currentQuery?.Name, ex.Message);
                 return false;
             }
         }
@@ -746,10 +746,10 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             }
             catch (Exception ex)
             {
-                exporterLog.WriteError(ex, Locale.IsRussian ?
-                    "Ошибка при экспорте события по запросу \"{0}\"" :
-                    "Error exporting event by the query \"{0}\"", 
-                    currentQuery?.Name);
+                exporterLog.WriteError(Locale.IsRussian ?
+                    "Ошибка при экспорте события по запросу \"{0}\": {1}" :
+                    "Error exporting event by the query \"{0}\": {1}", 
+                    currentQuery?.Name, ex.Message);
                 return false;
             }
         }
@@ -776,9 +776,9 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             catch (Exception ex)
             {
                 exporterLog.WriteError(ex, Locale.IsRussian ?
-                    "Ошибка при экспорте квитирования по запросу \"{0}\"" :
-                    "Error exporting acknowledgement by the query \"{0}\"",
-                    currentQuery?.Name);
+                    "Ошибка при экспорте квитирования по запросу \"{0}\": {1}" :
+                    "Error exporting acknowledgement by the query \"{0}\": {1}",
+                    currentQuery?.Name, ex.Message);
                 return false;
             }
         }
@@ -809,9 +809,9 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             catch (Exception ex)
             {
                 exporterLog.WriteError(ex, Locale.IsRussian ?
-                    "Ошибка при экспорте команды по запросу \"{0}\"" :
-                    "Error exporting command by the query \"{0}\"",
-                    currentQuery?.Name);
+                    "Ошибка при экспорте команды по запросу \"{0}\": {1}" :
+                    "Error exporting command by the query \"{0}\": {1}",
+                    currentQuery?.Name, ex.Message);
                 return false;
             }
         }
