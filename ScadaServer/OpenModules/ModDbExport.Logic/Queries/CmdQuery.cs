@@ -75,7 +75,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
             Parameters.CmdNum.Value = command.CmdNum;
             Parameters.CmdCode.Value = command.CmdCode ?? "";
             Parameters.CmdVal.Value = command.CmdVal;
-            Parameters.CmdData.Value = (object)command.CmdData ?? DBNull.Value;
+            Parameters.CmdData.Value = command.CmdData == null || command.CmdData.Length == 0 ?
+                DBNull.Value : command.CmdData;
         }
     }
 }

@@ -50,6 +50,16 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         /// </summary>
         public List<CmdQuery> CmdQueries { get; }
 
+        /// <summary>
+        /// Gets a value indicating whether there are no active requests.
+        /// </summary>
+        public bool IsEmpty => 
+            CurDataQueries.Count == 0 && 
+            HistDataQueries.Count == 0 && 
+            EventQueries.Count == 0 && 
+            EventAckQueries.Count == 0 && 
+            CmdQueries.Count == 0;
+
 
         /// <summary>
         /// Creates queries according to the configuration.

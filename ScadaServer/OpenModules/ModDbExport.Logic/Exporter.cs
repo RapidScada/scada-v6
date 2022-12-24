@@ -247,13 +247,23 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             try
             {
                 ConnStatus = ConnectionStatus.Undefined;
-                InitCnlNums();
 
-                classifiedQueries.CurDataQueries.ForEach(q => q.FillCnlNumFilter(serverContext.ConfigDatabase));
-                classifiedQueries.HistDataQueries.ForEach(q => q.FillCnlNumFilter(serverContext.ConfigDatabase));
+                if (classifiedQueries.IsEmpty)
+                {
+                    exporterLog.WriteError(Locale.IsRussian ?
+                        "Отсутствуют активные запросы." :
+                        "Active queries missing.");
+                }
+                else
+                {
+                    InitCnlNums();
 
-                if (arcReplicationOptions.Enabled)
-                    arcReplicator.Init();
+                    classifiedQueries.CurDataQueries.ForEach(q => q.FillCnlNumFilter(serverContext.ConfigDatabase));
+                    classifiedQueries.HistDataQueries.ForEach(q => q.FillCnlNumFilter(serverContext.ConfigDatabase));
+
+                    if (arcReplicationOptions.Enabled)
+                        arcReplicator.Init();
+                }
             }
             catch (Exception ex)
             {
