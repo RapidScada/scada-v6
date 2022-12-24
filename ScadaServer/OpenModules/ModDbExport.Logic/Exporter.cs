@@ -1134,7 +1134,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         {
             ArgumentNullException.ThrowIfNull(slice, nameof(slice));
 
-            if (histDataQueue.Enabled && !arcReplicationOptions.Enabled)
+            if (histDataQueue.Enabled && !(arcReplicationOptions.Enabled && arcReplicationOptions.AutoExport))
             {
                 if (!histDataQueue.Enqueue(DateTime.UtcNow, new SliceItem(slice), out string errMsg))
                     exporterLog.WriteError(errMsg);
@@ -1148,7 +1148,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         {
             ArgumentNullException.ThrowIfNull(ev, nameof(ev));
 
-            if (eventQueue.Enabled && !arcReplicationOptions.Enabled)
+            if (eventQueue.Enabled && !(arcReplicationOptions.Enabled && arcReplicationOptions.AutoExport))
             {
                 if (!eventQueue.Enqueue(DateTime.UtcNow, ev, out string errMsg))
                     exporterLog.WriteError(errMsg);
