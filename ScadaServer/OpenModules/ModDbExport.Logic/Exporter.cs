@@ -373,7 +373,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
 
                         curDataQueue.Stats.SkippedItems++;
                     }
-                    else if (ExportSlice(queueItem.Value, trans))
+                    else if (ExportSlice(queueItem.Value, trans, classifiedQueries.CurDataQueries))
                     {
                         curDataQueue.Stats.ExportedItems++;
                         curDataQueue.Stats.HasError = false;
@@ -428,7 +428,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
 
                         histDataQueue.Stats.SkippedItems++;
                     }
-                    else if (ExportSlice(queueItem.Value, trans))
+                    else if (ExportSlice(queueItem.Value, trans, classifiedQueries.HistDataQueries))
                     {
                         histDataQueue.Stats.ExportedItems++;
                         histDataQueue.Stats.HasError = false;
@@ -626,13 +626,13 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         /// <summary>
         /// Exports the specified slice.
         /// </summary>
-        private bool ExportSlice(SliceItem sliceItem, DbTransaction trans)
+        private bool ExportSlice(SliceItem sliceItem, DbTransaction trans, List<DataQuery> queries)
         {
             Query currentQuery = null;
 
             try
             {
-                foreach (DataQuery query in classifiedQueries.CurDataQueries)
+                foreach (DataQuery query in queries)
                 {
                     currentQuery = query;
                     Slice slice = sliceItem.Slice;
