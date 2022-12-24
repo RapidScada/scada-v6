@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.MultiDb;
@@ -87,15 +88,22 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
             ArgumentNullException.ThrowIfNull(configDatabase, nameof(configDatabase));
             CnlNumFilter.UnionWith(Options.Filter.CnlNums);
 
+            // extract channels from object filter
             if (Options.Filter.ObjNums.Count > 0)
             {
                 List<int> cnlNumsByObj = new();
 
                 foreach (int objNum in Options.Filter.ObjNums)
                 {
-                    cnlNumsByObj.AddRange(configDatabase.CnlTable
+                    foreach (Cnl cnl in configDatabase.CnlTable
                         .Select(new TableFilter("ObjNum", objNum), true)
-                        .Select(cnl => cnl.CnlNum));
+                        .Where(c => c.Active))
+                    {
+                        for (int i = 0, len = cnl.GetDataLength(); i < len; i++)
+                        {
+                            cnlNumsByObj.Add(cnl.CnlNum + i);
+                        }
+                    }
                 }
 
                 if (CnlNumFilter.Count > 0)
@@ -104,15 +112,22 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
                     CnlNumFilter.UnionWith(cnlNumsByObj);
             }
 
+            // extract channels from device filter
             if (Options.Filter.DeviceNums.Count > 0)
             {
                 List<int> cnlNumsByDevice = new();
 
                 foreach (int deviceNum in Options.Filter.DeviceNums)
                 {
-                    cnlNumsByDevice.AddRange(configDatabase.CnlTable
+                    foreach (Cnl cnl in configDatabase.CnlTable
                         .Select(new TableFilter("DeviceNum", deviceNum), true)
-                        .Select(cnl => cnl.CnlNum));
+                        .Where(c => c.Active))
+                    {
+                        for (int i = 0, len = cnl.GetDataLength(); i < len; i++)
+                        {
+                            cnlNumsByDevice.Add(cnl.CnlNum + i);
+                        }
+                    }
                 }
 
                 if (CnlNumFilter.Count > 0)

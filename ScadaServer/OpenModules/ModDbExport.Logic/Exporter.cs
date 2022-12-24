@@ -187,7 +187,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             DateTime utcNow = DateTime.UtcNow;
             bool timerMode = curDataExportOptions.Trigger == ExportTrigger.OnTimer;
             DateTime timerDT = LogicUtils.CalcNextTimer(utcNow, curDataExportOptions.TimerPeriod);
-            allDataDT = utcNow.AddSeconds(curDataExportOptions.AllDataPeriod);
+            allDataDT = LogicUtils.CalcNextTimer(utcNow, curDataExportOptions.AllDataPeriod);
 
             DateTime writeInfoDT = utcNow;
             WriteInfo();
@@ -943,7 +943,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
 
                     if (skipUnchanged && curDataExportOptions.AllDataPeriod > 0 && allDataDT <= nowDT)
                     {
-                        allDataDT = nowDT.AddSeconds(curDataExportOptions.AllDataPeriod);
+                        allDataDT = LogicUtils.CalcNextTimer(nowDT, curDataExportOptions.AllDataPeriod);
                         skipUnchanged = false;
                     }
 
