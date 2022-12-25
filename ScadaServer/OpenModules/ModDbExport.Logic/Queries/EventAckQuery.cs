@@ -32,7 +32,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         {
             Parameters = new()
             {
-                EventID = DataSource.SetParam(Command, "eventID", 0),
+                EventID = DataSource.SetParam(Command, "eventID", 0L),
                 AckTimestamp = DataSource.SetParam(Command, "ackTimestamp", DateTime.MinValue),
                 AckUserID = DataSource.SetParam(Command, "ackUserID", 0)
             };

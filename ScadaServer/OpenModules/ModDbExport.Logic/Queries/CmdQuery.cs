@@ -40,7 +40,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         {
             Parameters = new()
             {
-                CommandID = DataSource.SetParam(Command, "commandID", 0),
+                CommandID = DataSource.SetParam(Command, "commandID", 0L),
                 CreationTime = DataSource.SetParam(Command, "creationTime", DateTime.MinValue),
                 ClientName = DataSource.SetParam(Command, "clientName", ""),
                 UserID = DataSource.SetParam(Command, "userID", 0),
@@ -48,7 +48,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
                 ObjNum = DataSource.SetParam(Command, "objNum", 0),
                 DeviceNum = DataSource.SetParam(Command, "deviceNum", 0),
                 CmdNum = DataSource.SetParam(Command, "cmdNum", 0),
-                CmdCode = DataSource.SetParam(Command, "cmdCode", 0),
+                CmdCode = DataSource.SetParam(Command, "cmdCode", ""),
                 CmdVal = DataSource.SetParam(Command, "cmdVal", 0.0),
                 CmdData = DataSource.SetParam(Command, "cmdData", Array.Empty<byte>())
             };
