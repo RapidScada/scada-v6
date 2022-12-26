@@ -201,7 +201,7 @@ namespace Scada.Comm.Devices
         }
 
         /// <summary>
-        /// Gets the current device status.
+        /// Gets or sets the current device status.
         /// </summary>
         public DeviceStatus DeviceStatus
         {
