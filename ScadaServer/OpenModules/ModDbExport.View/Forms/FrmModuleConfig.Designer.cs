@@ -61,10 +61,11 @@
             this.miCollapseAll = new System.Windows.Forms.ToolStripMenuItem();
             this.ilTree = new System.Windows.Forms.ImageList(this.components);
             this.pnlInfo = new System.Windows.Forms.Panel();
+            this.ctrlArcReplication = new Scada.Server.Modules.ModDbExport.View.Controls.CtrlArcReplication();
+            this.ctrlCurDataExport = new Scada.Server.Modules.ModDbExport.View.Controls.CtrlCurDataExport();
             this.ctrlGeneral = new Scada.Server.Modules.ModDbExport.View.Controls.CtrlGeneral();
             this.ctrlQuery = new Scada.Server.Modules.ModDbExport.View.Controls.CtrlQuery();
             this.lblHint = new System.Windows.Forms.Label();
-            this.ctrlCurDataExport = new Scada.Server.Modules.ModDbExport.View.Controls.CtrlCurDataExport();
             this.pnlBottom.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.pnlMain.SuspendLayout();
@@ -162,6 +163,7 @@
             this.btnSqlServer.Name = "btnSqlServer";
             this.btnSqlServer.Size = new System.Drawing.Size(184, 22);
             this.btnSqlServer.Text = "Microsoft SQL Server";
+            this.btnSqlServer.Click += new System.EventHandler(this.btnAddTagret_Click);
             // 
             // btnMySql
             // 
@@ -169,6 +171,7 @@
             this.btnMySql.Name = "btnMySql";
             this.btnMySql.Size = new System.Drawing.Size(184, 22);
             this.btnMySql.Text = "MySQL";
+            this.btnMySql.Click += new System.EventHandler(this.btnAddTagret_Click);
             // 
             // btnOracle
             // 
@@ -176,6 +179,7 @@
             this.btnOracle.Name = "btnOracle";
             this.btnOracle.Size = new System.Drawing.Size(184, 22);
             this.btnOracle.Text = "Oracle";
+            this.btnOracle.Click += new System.EventHandler(this.btnAddTagret_Click);
             // 
             // btnPostgreSql
             // 
@@ -183,6 +187,7 @@
             this.btnPostgreSql.Name = "btnPostgreSql";
             this.btnPostgreSql.Size = new System.Drawing.Size(184, 22);
             this.btnPostgreSql.Text = "PostgreSQL";
+            this.btnPostgreSql.Click += new System.EventHandler(this.btnAddTagret_Click);
             // 
             // btnAddCurTrigger
             // 
@@ -394,6 +399,7 @@
             this.pnlInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlInfo.Controls.Add(this.ctrlArcReplication);
             this.pnlInfo.Controls.Add(this.ctrlCurDataExport);
             this.pnlInfo.Controls.Add(this.ctrlGeneral);
             this.pnlInfo.Controls.Add(this.ctrlQuery);
@@ -403,6 +409,28 @@
             this.pnlInfo.Name = "pnlInfo";
             this.pnlInfo.Size = new System.Drawing.Size(419, 471);
             this.pnlInfo.TabIndex = 1;
+            // 
+            // ctrlArcReplication
+            // 
+            this.ctrlArcReplication.ConfigDataset = null;
+            this.ctrlArcReplication.Location = new System.Drawing.Point(0, 3);
+            this.ctrlArcReplication.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+            this.ctrlArcReplication.Name = "ctrlArcReplication";
+            this.ctrlArcReplication.Size = new System.Drawing.Size(404, 462);
+            this.ctrlArcReplication.TabIndex = 4;
+            this.ctrlArcReplication.ObjectChanged += new System.EventHandler<Scada.Forms.ObjectChangedEventArgs>(this.ctrl_ObjectChanged);
+            // 
+            // ctrlCurDataExport
+            // 
+            this.ctrlCurDataExport.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ctrlCurDataExport.Location = new System.Drawing.Point(0, 3);
+            this.ctrlCurDataExport.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+            this.ctrlCurDataExport.Name = "ctrlCurDataExport";
+            this.ctrlCurDataExport.Size = new System.Drawing.Size(404, 462);
+            this.ctrlCurDataExport.TabIndex = 3;
+            this.ctrlCurDataExport.ObjectChanged += new System.EventHandler<Scada.Forms.ObjectChangedEventArgs>(this.ctrl_ObjectChanged);
             // 
             // ctrlGeneral
             // 
@@ -415,6 +443,7 @@
             this.ctrlGeneral.Name = "ctrlGeneral";
             this.ctrlGeneral.Size = new System.Drawing.Size(404, 462);
             this.ctrlGeneral.TabIndex = 2;
+            this.ctrlGeneral.ObjectChanged += new System.EventHandler<Scada.Forms.ObjectChangedEventArgs>(this.ctrlGeneral_ObjectChanged);
             // 
             // ctrlQuery
             // 
@@ -437,17 +466,6 @@
             this.lblHint.TabIndex = 0;
             this.lblHint.Text = "Add tagret";
             this.lblHint.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // ctrlCurDataExport
-            // 
-            this.ctrlCurDataExport.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ctrlCurDataExport.Location = new System.Drawing.Point(0, 3);
-            this.ctrlCurDataExport.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
-            this.ctrlCurDataExport.Name = "ctrlCurDataExport";
-            this.ctrlCurDataExport.Size = new System.Drawing.Size(404, 462);
-            this.ctrlCurDataExport.TabIndex = 3;
             // 
             // FrmModuleConfig
             // 
@@ -518,5 +536,6 @@
         private Controls.CtrlQuery ctrlQuery;
         private Controls.CtrlGeneral ctrlGeneral;
         private Controls.CtrlCurDataExport ctrlCurDataExport;
+        private Controls.CtrlArcReplication ctrlArcReplication;
     }
 }

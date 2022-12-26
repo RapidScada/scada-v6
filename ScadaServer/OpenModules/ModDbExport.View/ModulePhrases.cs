@@ -11,13 +11,14 @@ namespace Scada.Server.Modules.ModDbExport.View
     internal class ModulePhrases
     {
         // Scada.Server.Modules.ModDbExport.View.Forms.FrmModuleConfig
-        public static string AddTargets { get; private set; }
+        public static string AddTargets { get; private set; }        
         public static string ArchiveExportOptionsNode { get; private set; }
         public static string ConnectionOptionsNode { get; private set; }
         public static string CopySuffix { get; private set; }
         public static string CurrentExportOptionsNode { get; private set; }
         public static string ExportOptionsNode { get; private set; }        
         public static string GeneralOptionsNode { get; private set; }
+        public static string TargetName { get; private set; }
         public static string TargetNameEmpty { get; private set; }
         public static string TargetNameNotUnique { get; private set; }
 
@@ -31,6 +32,7 @@ namespace Scada.Server.Modules.ModDbExport.View
             CurrentExportOptionsNode = dict[nameof(CurrentExportOptionsNode)];        
             ExportOptionsNode = dict[nameof(ExportOptionsNode)];
             GeneralOptionsNode = dict[nameof(GeneralOptionsNode)];
+            TargetName = dict[nameof(TargetName)];
             TargetNameEmpty = dict[nameof(TargetNameEmpty)];
             TargetNameNotUnique = dict[nameof(TargetNameNotUnique)];
         }

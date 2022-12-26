@@ -1,16 +1,8 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using Scada.Forms;
 using Scada.Server.Modules.ModDbExport.Config;
+using System.ComponentModel;
 
 namespace Scada.Server.Modules.ModDbExport.View.Controls
 {
@@ -31,6 +23,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
             InitializeComponent();
             curDataExportOptions = null;
         }
+
         /// <summary>
         /// Gets or sets the current data transfer options for editing.
         /// </summary>
@@ -90,5 +83,53 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
         /// </summary>
         [Category("Property Changed")]
         public event EventHandler<ObjectChangedEventArgs> ObjectChanged;
+
+
+        private void cbTrigger_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (curDataExportOptions != null)
+            {
+                curDataExportOptions.Trigger = (ExportTrigger)cbTrigger.SelectedIndex;
+                OnObjectChanged(TreeUpdateTypes.None);
+
+                numTimePeriod.Enabled = numAllDataPeriod.Enabled = cbTrigger.SelectedIndex > 0;
+            }
+        }
+
+        private void numTimePeriod_ValueChanged(object sender, EventArgs e)
+        {
+            if (curDataExportOptions != null)
+            {
+                curDataExportOptions.TimerPeriod = Convert.ToInt32(numTimePeriod.Value);
+                OnObjectChanged(TreeUpdateTypes.None);
+            }
+        }
+
+        private void numAllDataPeriod_ValueChanged(object sender, EventArgs e)
+        {
+            if (curDataExportOptions != null)
+            {
+                curDataExportOptions.AllDataPeriod = Convert.ToInt32(numAllDataPeriod.Value);
+                OnObjectChanged(TreeUpdateTypes.None);
+            }
+        }
+
+        private void chkSkipUnchanged_CheckedChanged(object sender, EventArgs e)
+        {
+            if (curDataExportOptions != null)
+            {
+                curDataExportOptions.SkipUnchanged = chkSkipUnchanged.Checked;
+                OnObjectChanged(TreeUpdateTypes.None);
+            }
+        }
+
+        private void chkIncludeCalculated_CheckedChanged(object sender, EventArgs e)
+        {
+            if (curDataExportOptions != null)
+            {
+                curDataExportOptions.IncludeCalculated = chkIncludeCalculated.Checked;
+                OnObjectChanged(TreeUpdateTypes.None);
+            }
+        }
     }
 }

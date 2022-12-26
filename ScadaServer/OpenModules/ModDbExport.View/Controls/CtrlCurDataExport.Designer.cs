@@ -65,22 +65,25 @@
             // chkIncludeCalculated
             // 
             this.chkIncludeCalculated.AutoSize = true;
-            this.chkIncludeCalculated.Location = new System.Drawing.Point(10, 201);
+            this.chkIncludeCalculated.Location = new System.Drawing.Point(10, 208);
             this.chkIncludeCalculated.Name = "chkIncludeCalculated";
             this.chkIncludeCalculated.Size = new System.Drawing.Size(172, 19);
             this.chkIncludeCalculated.TabIndex = 19;
             this.chkIncludeCalculated.Text = "Include calculated channels";
             this.chkIncludeCalculated.UseVisualStyleBackColor = true;
+            this.chkIncludeCalculated.CheckedChanged += new System.EventHandler(this.chkIncludeCalculated_CheckedChanged);
             // 
             // chkSkipUnchanged
             // 
             this.chkSkipUnchanged.AutoSize = true;
             this.chkSkipUnchanged.Location = new System.Drawing.Point(10, 176);
+            this.chkSkipUnchanged.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.chkSkipUnchanged.Name = "chkSkipUnchanged";
             this.chkSkipUnchanged.Size = new System.Drawing.Size(137, 19);
             this.chkSkipUnchanged.TabIndex = 18;
             this.chkSkipUnchanged.Text = "Skip unchanged data";
             this.chkSkipUnchanged.UseVisualStyleBackColor = true;
+            this.chkSkipUnchanged.CheckedChanged += new System.EventHandler(this.chkSkipUnchanged_CheckedChanged);
             // 
             // numAllDataPeriod
             // 
@@ -99,6 +102,7 @@
             0,
             0,
             0});
+            this.numAllDataPeriod.ValueChanged += new System.EventHandler(this.numAllDataPeriod_ValueChanged);
             // 
             // lblAllDataPeriod
             // 
@@ -126,6 +130,7 @@
             0,
             0,
             0});
+            this.numTimePeriod.ValueChanged += new System.EventHandler(this.numTimePeriod_ValueChanged);
             // 
             // lblTimePeriod
             // 
@@ -148,6 +153,7 @@
             this.cbTrigger.Name = "cbTrigger";
             this.cbTrigger.Size = new System.Drawing.Size(120, 23);
             this.cbTrigger.TabIndex = 13;
+            this.cbTrigger.SelectedIndexChanged += new System.EventHandler(this.cbTrigger_SelectedIndexChanged);
             // 
             // lblTrigger
             // 

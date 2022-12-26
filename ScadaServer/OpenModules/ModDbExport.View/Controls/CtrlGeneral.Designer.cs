@@ -95,6 +95,7 @@
             0,
             0,
             -2147483648});
+            this.numStatusCnlNum.ValueChanged += new System.EventHandler(this.numStatusCnlNum_ValueChanged);
             // 
             // lblStatusCnlNum
             // 
@@ -122,6 +123,7 @@
             0,
             0,
             0});
+            this.numDataLifetime.ValueChanged += new System.EventHandler(this.numDataLifetime_ValueChanged);
             // 
             // lblDataLifetime
             // 
@@ -149,6 +151,7 @@
             0,
             0,
             0});
+            this.numMaxQueueSize.ValueChanged += new System.EventHandler(this.numMaxQueueSize_ValueChanged);
             // 
             // lblMaxQueueSize
             // 
@@ -166,6 +169,7 @@
             this.txtCmdCode.Name = "txtCmdCode";
             this.txtCmdCode.Size = new System.Drawing.Size(120, 23);
             this.txtCmdCode.TabIndex = 10;
+            this.txtCmdCode.TextChanged += new System.EventHandler(this.txtCmdCode_TextChanged);
             // 
             // lblCmdCode
             // 
@@ -185,6 +189,7 @@
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(314, 23);
             this.txtName.TabIndex = 8;
+            this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
             // lblName
             // 
@@ -223,6 +228,7 @@
             this.chkActive.TabIndex = 1;
             this.chkActive.Text = "Active";
             this.chkActive.UseVisualStyleBackColor = true;
+            this.chkActive.CheckedChanged += new System.EventHandler(this.chkActive_CheckedChanged);
             // 
             // CtrlGeneral
             // 

@@ -1,18 +1,9 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Xml.Linq;
 using Scada.Data.Models;
 using Scada.Forms;
 using Scada.Server.Modules.ModDbExport.Config;
+using System.ComponentModel;
 
 namespace Scada.Server.Modules.ModDbExport.View.Controls
 {
@@ -108,5 +99,60 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
         /// </summary>
         [Category("Property Changed")]
         public event EventHandler<ObjectChangedEventArgs> ObjectChanged;
+
+
+        private void chkActive_CheckedChanged(object sender, EventArgs e)
+        {
+            if (generalOptions != null)
+            {
+                generalOptions.Active = chkActive.Checked;
+                OnObjectChanged(TreeUpdateTypes.None);
+            }
+        }
+
+        private void txtName_TextChanged(object sender, EventArgs e)
+        {
+            if (generalOptions != null)
+            {
+                generalOptions.Name = txtName.Text;
+                OnObjectChanged(TreeUpdateTypes.CurrentNode);
+            }
+        }
+
+        private void txtCmdCode_TextChanged(object sender, EventArgs e)
+        {
+            if (generalOptions != null)
+            {
+                generalOptions.CmdCode = txtCmdCode.Text;
+                OnObjectChanged(TreeUpdateTypes.None);
+            }
+        }
+
+        private void numStatusCnlNum_ValueChanged(object sender, EventArgs e)
+        {
+            if (generalOptions != null)
+            {
+                generalOptions.StatusCnlNum = Convert.ToInt32(numStatusCnlNum.Value);
+                OnObjectChanged(TreeUpdateTypes.None);
+            }
+        }
+
+        private void numMaxQueueSize_ValueChanged(object sender, EventArgs e)
+        {
+            if (generalOptions != null)
+            {
+                generalOptions.MaxQueueSize = Convert.ToInt32(numMaxQueueSize.Value);
+                OnObjectChanged(TreeUpdateTypes.None);
+            }
+        }
+
+        private void numDataLifetime_ValueChanged(object sender, EventArgs e)
+        {
+            if (generalOptions != null)
+            {
+                generalOptions.DataLifetime = Convert.ToInt32(numDataLifetime.Value);
+                OnObjectChanged(TreeUpdateTypes.None);
+            }
+        }
     }
 }

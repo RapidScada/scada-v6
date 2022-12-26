@@ -1,31 +1,13 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO.Packaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Xml.Linq;
-using Scada.Agent;
-using Scada.Client;
-using Scada.Config;
-using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Dbms;
 using Scada.Forms;
-using Scada.Forms.Controls;
 using Scada.Lang;
-using Scada.Server.Archives;
-using Scada.Server.Config;
 using Scada.Server.Lang;
 using Scada.Server.Modules.ModDbExport.Config;
-using Scada.Server.Modules.ModDbExport.View.Controls;
 using Scada.Server.Modules.ModDbExport.View.Properties;
+using System.Data;
 
 namespace Scada.Server.Modules.ModDbExport.View.Forms
 {
@@ -77,6 +59,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         {
             InitializeComponent();
             HideControls();
+
+            /*ctrlGeneral.Top = ctrlCurDataExport.Top = ctrlArcReplication.Top = ctrlQuery.Top = lblHint.Top;*/
         }
 
         /// <summary>
@@ -95,6 +79,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             clipboard = null;
 
             btnPaste.Enabled = false;
+            ctrlArcReplication.ConfigDataset = configDataset;
+            ctrlGeneral.ConfigDataset = configDataset;
         }
 
         /// <summary>
@@ -120,7 +106,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         /// </summary>
         private void HideControls()
         {
-            ctrlGeneral.Visible = ctrlCurDataExport.Visible = ctrlQuery.Visible = lblHint.Visible =  false;
+            ctrlGeneral.Visible = ctrlCurDataExport.Visible = ctrlArcReplication.Visible 
+                = ctrlQuery.Visible = lblHint.Visible =  false;
         }
 
         /// <summary>
@@ -355,6 +342,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             FormTranslator.Translate(ctrlQuery, ctrlQuery.GetType().FullName);
             FormTranslator.Translate(ctrlGeneral, ctrlGeneral.GetType().FullName);
             FormTranslator.Translate(ctrlCurDataExport, ctrlCurDataExport.GetType().FullName);
+            FormTranslator.Translate(ctrlArcReplication, ctrlArcReplication.GetType().FullName);
 
             // load configuration
             if (File.Exists(configFileName) && !config.Load(configFileName, out string errMsg))
@@ -393,6 +381,49 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                         break;
                 }
             }
+        }
+
+
+        private void btnAddTagret_Click(object sender, EventArgs e)
+        {
+            // add target
+            ExportTargetConfig target = new() { Parent = config };
+            target.GeneralOptions.ID = GetNextTargetID();
+            target.GeneralOptions.Name = ModulePhrases.TargetName + " " + target.GeneralOptions.ID;
+
+            // add dbconnection setting
+            if (sender == btnSqlServer)
+                target.ConnectionOptions.KnownDBMS = KnownDBMS.MSSQL;
+            else if (sender == btnOracle)
+                target.ConnectionOptions.KnownDBMS = KnownDBMS.Oracle;
+            else if (sender == btnPostgreSql)
+                target.ConnectionOptions.KnownDBMS = KnownDBMS.PostgreSQL;
+            else if (sender == btnMySql)
+                target.ConnectionOptions.KnownDBMS = KnownDBMS.MySQL;
+            else
+                throw new ScadaException("Unknown DBMS.");
+
+            TreeNode gateNode = CreateGroupNode(target);
+            tvTargets.Insert(null, gateNode, config.ExportTargets, target);
+            Modified = true;
+            ctrlGeneral.SetFocus();
+        }
+
+        private void ctrl_ObjectChanged(object sender, ObjectChangedEventArgs e)
+        {
+            Modified = true;
+        }
+
+        private void ctrlGeneral_ObjectChanged(object sender, ObjectChangedEventArgs e)
+        {
+            if (tvTargets.SelectedNode != null && (e.ChangeArgument is not TreeUpdateTypes treeUpdateTypes ||
+              treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode)) &&
+              (e.ChangedObject is GeneralOptions generalOptions))
+            {
+                tvTargets.SelectedNode.Parent.Text = generalOptions.Title;
+            }
+
+            Modified = true;
         }
 
         private void btnMoveUp_Click(object sender, EventArgs e)
@@ -528,6 +559,11 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             {
                 ctrlCurDataExport.CurDataTransferOptions = curDataExportOptions;
                 ctrlCurDataExport.Visible = true;
+            }
+            else if (selectedObject is ArcReplicationOptions arcReplicationOptions)
+            {
+                ctrlArcReplication.ArcReplicationOptions = arcReplicationOptions;
+                ctrlArcReplication.Visible = true;
             }
 
             SetButtonsEnabled();
