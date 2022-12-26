@@ -81,7 +81,7 @@
             // 
             this.btnSelectEventArchiveBit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSelectEventArchiveBit.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.find;
-            this.btnSelectEventArchiveBit.Location = new System.Drawing.Point(89, 336);
+            this.btnSelectEventArchiveBit.Location = new System.Drawing.Point(89, 305);
             this.btnSelectEventArchiveBit.Name = "btnSelectEventArchiveBit";
             this.btnSelectEventArchiveBit.Size = new System.Drawing.Size(23, 23);
             this.btnSelectEventArchiveBit.TabIndex = 22;
@@ -90,7 +90,8 @@
             // 
             // numEventArchiveBit
             // 
-            this.numEventArchiveBit.Location = new System.Drawing.Point(13, 336);
+            this.numEventArchiveBit.Location = new System.Drawing.Point(13, 305);
+            this.numEventArchiveBit.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.numEventArchiveBit.Maximum = new decimal(new int[] {
             30,
             0,
@@ -109,7 +110,7 @@
             // lblLocalEventArchiveBit
             // 
             this.lblLocalEventArchiveBit.AutoSize = true;
-            this.lblLocalEventArchiveBit.Location = new System.Drawing.Point(10, 318);
+            this.lblLocalEventArchiveBit.Location = new System.Drawing.Point(10, 287);
             this.lblLocalEventArchiveBit.Name = "lblLocalEventArchiveBit";
             this.lblLocalEventArchiveBit.Size = new System.Drawing.Size(108, 15);
             this.lblLocalEventArchiveBit.TabIndex = 20;
@@ -119,7 +120,7 @@
             // 
             this.btnSelectHistArchiveBit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSelectHistArchiveBit.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.find;
-            this.btnSelectHistArchiveBit.Location = new System.Drawing.Point(89, 274);
+            this.btnSelectHistArchiveBit.Location = new System.Drawing.Point(89, 254);
             this.btnSelectHistArchiveBit.Name = "btnSelectHistArchiveBit";
             this.btnSelectHistArchiveBit.Size = new System.Drawing.Size(23, 23);
             this.btnSelectHistArchiveBit.TabIndex = 19;
@@ -128,7 +129,8 @@
             // 
             // numHistArchiveBit
             // 
-            this.numHistArchiveBit.Location = new System.Drawing.Point(13, 274);
+            this.numHistArchiveBit.Location = new System.Drawing.Point(13, 254);
+            this.numHistArchiveBit.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.numHistArchiveBit.Maximum = new decimal(new int[] {
             30,
             0,
@@ -147,7 +149,7 @@
             // lblHistArchiveBit
             // 
             this.lblHistArchiveBit.AutoSize = true;
-            this.lblHistArchiveBit.Location = new System.Drawing.Point(10, 256);
+            this.lblHistArchiveBit.Location = new System.Drawing.Point(10, 236);
             this.lblHistArchiveBit.Name = "lblHistArchiveBit";
             this.lblHistArchiveBit.Size = new System.Drawing.Size(127, 15);
             this.lblHistArchiveBit.TabIndex = 17;
@@ -155,7 +157,8 @@
             // 
             // numReadingStep
             // 
-            this.numReadingStep.Location = new System.Drawing.Point(12, 215);
+            this.numReadingStep.Location = new System.Drawing.Point(13, 203);
+            this.numReadingStep.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.numReadingStep.Maximum = new decimal(new int[] {
             100000,
             0,
@@ -179,7 +182,7 @@
             // lblReadingStep
             // 
             this.lblReadingStep.AutoSize = true;
-            this.lblReadingStep.Location = new System.Drawing.Point(10, 197);
+            this.lblReadingStep.Location = new System.Drawing.Point(10, 185);
             this.lblReadingStep.Name = "lblReadingStep";
             this.lblReadingStep.Size = new System.Drawing.Size(98, 15);
             this.lblReadingStep.TabIndex = 15;
@@ -187,7 +190,8 @@
             // 
             // numMaxDepth
             // 
-            this.numMaxDepth.Location = new System.Drawing.Point(13, 156);
+            this.numMaxDepth.Location = new System.Drawing.Point(13, 152);
+            this.numMaxDepth.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.numMaxDepth.Maximum = new decimal(new int[] {
             100000,
             0,
@@ -211,7 +215,7 @@
             // lblMaxDepth
             // 
             this.lblMaxDepth.AutoSize = true;
-            this.lblMaxDepth.Location = new System.Drawing.Point(10, 138);
+            this.lblMaxDepth.Location = new System.Drawing.Point(10, 134);
             this.lblMaxDepth.Name = "lblMaxDepth";
             this.lblMaxDepth.Size = new System.Drawing.Size(116, 15);
             this.lblMaxDepth.TabIndex = 13;
@@ -220,6 +224,7 @@
             // numMinDepth
             // 
             this.numMinDepth.Location = new System.Drawing.Point(13, 101);
+            this.numMinDepth.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.numMinDepth.Maximum = new decimal(new int[] {
             100000,
             0,

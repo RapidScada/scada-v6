@@ -75,8 +75,8 @@
             // 
             // numStatusCnlNum
             // 
-            this.numStatusCnlNum.Location = new System.Drawing.Point(13, 161);
-            this.numStatusCnlNum.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.numStatusCnlNum.Location = new System.Drawing.Point(13, 171);
+            this.numStatusCnlNum.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.numStatusCnlNum.Maximum = new decimal(new int[] {
             2147483647,
             0,
@@ -100,15 +100,15 @@
             // lblStatusCnlNum
             // 
             this.lblStatusCnlNum.AutoSize = true;
-            this.lblStatusCnlNum.Location = new System.Drawing.Point(10, 143);
+            this.lblStatusCnlNum.Location = new System.Drawing.Point(10, 153);
             this.lblStatusCnlNum.Name = "lblStatusCnlNum";
-            this.lblStatusCnlNum.Size = new System.Drawing.Size(112, 15);
+            this.lblStatusCnlNum.Size = new System.Drawing.Size(129, 15);
             this.lblStatusCnlNum.TabIndex = 25;
-            this.lblStatusCnlNum.Text = "Status channel num";
+            this.lblStatusCnlNum.Text = "Status channel number";
             // 
             // numDataLifetime
             // 
-            this.numDataLifetime.Location = new System.Drawing.Point(13, 263);
+            this.numDataLifetime.Location = new System.Drawing.Point(13, 273);
             this.numDataLifetime.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.numDataLifetime.Maximum = new decimal(new int[] {
             100000,
@@ -128,7 +128,7 @@
             // lblDataLifetime
             // 
             this.lblDataLifetime.AutoSize = true;
-            this.lblDataLifetime.Location = new System.Drawing.Point(10, 245);
+            this.lblDataLifetime.Location = new System.Drawing.Point(10, 255);
             this.lblDataLifetime.Name = "lblDataLifetime";
             this.lblDataLifetime.Size = new System.Drawing.Size(146, 15);
             this.lblDataLifetime.TabIndex = 23;
@@ -136,7 +136,7 @@
             // 
             // numMaxQueueSize
             // 
-            this.numMaxQueueSize.Location = new System.Drawing.Point(13, 212);
+            this.numMaxQueueSize.Location = new System.Drawing.Point(13, 222);
             this.numMaxQueueSize.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.numMaxQueueSize.Maximum = new decimal(new int[] {
             100000,
@@ -156,7 +156,7 @@
             // lblMaxQueueSize
             // 
             this.lblMaxQueueSize.AutoSize = true;
-            this.lblMaxQueueSize.Location = new System.Drawing.Point(10, 194);
+            this.lblMaxQueueSize.Location = new System.Drawing.Point(10, 204);
             this.lblMaxQueueSize.Name = "lblMaxQueueSize";
             this.lblMaxQueueSize.Size = new System.Drawing.Size(120, 15);
             this.lblMaxQueueSize.TabIndex = 21;
@@ -164,7 +164,7 @@
             // 
             // txtCmdCode
             // 
-            this.txtCmdCode.Location = new System.Drawing.Point(13, 110);
+            this.txtCmdCode.Location = new System.Drawing.Point(10, 120);
             this.txtCmdCode.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.txtCmdCode.Name = "txtCmdCode";
             this.txtCmdCode.Size = new System.Drawing.Size(120, 23);
@@ -174,7 +174,7 @@
             // lblCmdCode
             // 
             this.lblCmdCode.AutoSize = true;
-            this.lblCmdCode.Location = new System.Drawing.Point(10, 92);
+            this.lblCmdCode.Location = new System.Drawing.Point(10, 102);
             this.lblCmdCode.Name = "lblCmdCode";
             this.lblCmdCode.Size = new System.Drawing.Size(93, 15);
             this.lblCmdCode.TabIndex = 9;
@@ -184,7 +184,7 @@
             // 
             this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtName.Location = new System.Drawing.Point(77, 59);
+            this.txtName.Location = new System.Drawing.Point(74, 69);
             this.txtName.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(314, 23);
@@ -194,7 +194,7 @@
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(74, 43);
+            this.lblName.Location = new System.Drawing.Point(74, 51);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(39, 15);
             this.lblName.TabIndex = 6;
@@ -202,7 +202,7 @@
             // 
             // txtTargetID
             // 
-            this.txtTargetID.Location = new System.Drawing.Point(13, 59);
+            this.txtTargetID.Location = new System.Drawing.Point(10, 69);
             this.txtTargetID.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.txtTargetID.Name = "txtTargetID";
             this.txtTargetID.ReadOnly = true;
@@ -212,7 +212,7 @@
             // lblID
             // 
             this.lblID.AutoSize = true;
-            this.lblID.Location = new System.Drawing.Point(10, 43);
+            this.lblID.Location = new System.Drawing.Point(10, 51);
             this.lblID.Name = "lblID";
             this.lblID.Size = new System.Drawing.Size(53, 15);
             this.lblID.TabIndex = 5;

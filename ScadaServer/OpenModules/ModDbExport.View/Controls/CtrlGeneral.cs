@@ -106,7 +106,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
             if (generalOptions != null)
             {
                 generalOptions.Active = chkActive.Checked;
-                OnObjectChanged(TreeUpdateTypes.None);
+                OnObjectChanged(TreeUpdateTypes.CurrentNode);
             }
         }
 

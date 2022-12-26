@@ -72,6 +72,7 @@
             // 
             // lblDataKind
             // 
+            this.lblDataKind.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblDataKind.AutoSize = true;
             this.lblDataKind.Location = new System.Drawing.Point(253, 43);
             this.lblDataKind.Name = "lblDataKind";
@@ -85,8 +86,11 @@
             this.cbDataKind.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbDataKind.FormattingEnabled = true;
             this.cbDataKind.Items.AddRange(new object[] {
-            "On Receive",
-            "On Timer"});
+            "Current",
+            "Historical",
+            "Event",
+            "EventAck",
+            "Command"});
             this.cbDataKind.Location = new System.Drawing.Point(256, 59);
             this.cbDataKind.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.cbDataKind.Name = "cbDataKind";
@@ -102,6 +106,7 @@
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(237, 23);
             this.txtName.TabIndex = 6;
+            this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
             // lblName
             // 
@@ -122,6 +127,7 @@
             this.chkActive.TabIndex = 1;
             this.chkActive.Text = "Active";
             this.chkActive.UseVisualStyleBackColor = true;
+            this.chkActive.CheckedChanged += new System.EventHandler(this.chkActive_CheckedChanged);
             // 
             // gbFilter
             // 

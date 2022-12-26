@@ -61,6 +61,7 @@
             this.miCollapseAll = new System.Windows.Forms.ToolStripMenuItem();
             this.ilTree = new System.Windows.Forms.ImageList(this.components);
             this.pnlInfo = new System.Windows.Forms.Panel();
+            this.ctrlDbConnection = new Scada.Forms.Controls.CtrlDbConnection();
             this.ctrlArcReplication = new Scada.Server.Modules.ModDbExport.View.Controls.CtrlArcReplication();
             this.ctrlCurDataExport = new Scada.Server.Modules.ModDbExport.View.Controls.CtrlCurDataExport();
             this.ctrlGeneral = new Scada.Server.Modules.ModDbExport.View.Controls.CtrlGeneral();
@@ -399,6 +400,7 @@
             this.pnlInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlInfo.Controls.Add(this.ctrlDbConnection);
             this.pnlInfo.Controls.Add(this.ctrlArcReplication);
             this.pnlInfo.Controls.Add(this.ctrlCurDataExport);
             this.pnlInfo.Controls.Add(this.ctrlGeneral);
@@ -409,6 +411,19 @@
             this.pnlInfo.Name = "pnlInfo";
             this.pnlInfo.Size = new System.Drawing.Size(419, 471);
             this.pnlInfo.TabIndex = 1;
+            // 
+            // ctrlDbConnection
+            // 
+            this.ctrlDbConnection.BuildConnectionStringFunc = null;
+            this.ctrlDbConnection.ConnectionOptions = null;
+            this.ctrlDbConnection.DbmsEnabled = true;
+            this.ctrlDbConnection.Location = new System.Drawing.Point(0, 3);
+            this.ctrlDbConnection.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+            this.ctrlDbConnection.Name = "ctrlDbConnection";
+            this.ctrlDbConnection.NameEnabled = true;
+            this.ctrlDbConnection.Size = new System.Drawing.Size(300, 399);
+            this.ctrlDbConnection.TabIndex = 7;
+            this.ctrlDbConnection.ConnectionOptionsChanged += new System.EventHandler(this.ctrlDbConnection_ConnectionOptionsChanged);
             // 
             // ctrlArcReplication
             // 
@@ -455,6 +470,7 @@
             this.ctrlQuery.Name = "ctrlQuery";
             this.ctrlQuery.Size = new System.Drawing.Size(404, 462);
             this.ctrlQuery.TabIndex = 1;
+            this.ctrlQuery.ObjectChanged += new System.EventHandler<Scada.Forms.ObjectChangedEventArgs>(this.ctrlQuery_ObjectChanged);
             // 
             // lblHint
             // 
@@ -537,5 +553,6 @@
         private Controls.CtrlGeneral ctrlGeneral;
         private Controls.CtrlCurDataExport ctrlCurDataExport;
         private Controls.CtrlArcReplication ctrlArcReplication;
+        private Scada.Forms.Controls.CtrlDbConnection ctrlDbConnection;
     }
 }

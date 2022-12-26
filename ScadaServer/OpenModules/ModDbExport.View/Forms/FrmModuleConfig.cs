@@ -4,6 +4,7 @@ using Scada.Data.Models;
 using Scada.Dbms;
 using Scada.Forms;
 using Scada.Lang;
+using Scada.Server.Config;
 using Scada.Server.Lang;
 using Scada.Server.Modules.ModDbExport.Config;
 using Scada.Server.Modules.ModDbExport.View.Properties;
@@ -106,8 +107,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         /// </summary>
         private void HideControls()
         {
-            ctrlGeneral.Visible = ctrlCurDataExport.Visible = ctrlArcReplication.Visible 
-                = ctrlQuery.Visible = lblHint.Visible =  false;
+            ctrlGeneral.Visible = ctrlDbConnection.Visible = ctrlCurDataExport.Visible = ctrlArcReplication.Visible
+                = ctrlQuery.Visible = lblHint.Visible = false;
         }
 
         /// <summary>
@@ -287,12 +288,18 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         private void SetButtonsEnabled()
         {
             TreeNode selectedNode = tvTargets.SelectedNode;
-            btnMoveUp.Enabled = tvTargets.MoveUpSelectedNodeIsEnabled(TreeNodeBehavior.WithinParent) &&
-                tvTargets.SelectedNode.Parent == null;
-            btnMoveDown.Enabled = tvTargets.MoveDownSelectedNodeIsEnabled(TreeNodeBehavior.WithinParent) &&
-                tvTargets.SelectedNode.Parent == null;
+            btnMoveUp.Enabled = (tvTargets.MoveUpSelectedNodeIsEnabled(TreeNodeBehavior.WithinParent) &&
+                tvTargets.SelectedNode.Parent == null) || 
+                (tvTargets.MoveUpSelectedNodeIsEnabled(TreeNodeBehavior.WithinParent) 
+                && tvTargets.SelectedNode.Tag is QueryOptions);
+            
+            btnMoveDown.Enabled = (tvTargets.MoveDownSelectedNodeIsEnabled(TreeNodeBehavior.WithinParent) &&
+                tvTargets.SelectedNode.Parent == null) || 
+                (tvTargets.MoveUpSelectedNodeIsEnabled(TreeNodeBehavior.WithinParent)
+                && tvTargets.SelectedNode.Tag is QueryOptions);
+            
             btnDelete.Enabled = btnCut.Enabled = btnCopy.Enabled = selectedNode != null &&
-                tvTargets.SelectedNode.Parent == null;
+                tvTargets.SelectedNode.Parent == null || (tvTargets.SelectedNode.Tag is QueryOptions);    
         }
 
         /// <summary>
@@ -339,10 +346,11 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             // translate form
             FormTranslator.Translate(this, GetType().FullName,
                 new FormTranslatorOptions { ContextMenus = new ContextMenuStrip[] { cmsTree } });
-            FormTranslator.Translate(ctrlQuery, ctrlQuery.GetType().FullName);
             FormTranslator.Translate(ctrlGeneral, ctrlGeneral.GetType().FullName);
+            FormTranslator.Translate(ctrlDbConnection, ctrlDbConnection.GetType().FullName);
             FormTranslator.Translate(ctrlCurDataExport, ctrlCurDataExport.GetType().FullName);
             FormTranslator.Translate(ctrlArcReplication, ctrlArcReplication.GetType().FullName);
+            FormTranslator.Translate(ctrlQuery, ctrlQuery.GetType().FullName);
 
             // load configuration
             if (File.Exists(configFileName) && !config.Load(configFileName, out string errMsg))
@@ -418,9 +426,28 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         {
             if (tvTargets.SelectedNode != null && (e.ChangeArgument is not TreeUpdateTypes treeUpdateTypes ||
               treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode)) &&
-              (e.ChangedObject is GeneralOptions generalOptions))
+              (e.ChangedObject is Config.GeneralOptions generalOptions))
             {
                 tvTargets.SelectedNode.Parent.Text = generalOptions.Title;
+                tvTargets.SelectedNode.Parent.SetImageKey(ChooseNodeImage(tvTargets.SelectedNode.Parent.Tag));
+            }
+
+            Modified = true;
+        }
+
+        private void ctrlDbConnection_ConnectionOptionsChanged(object sender, EventArgs e)
+        {
+            Modified = true;
+        }
+
+        private void ctrlQuery_ObjectChanged(object sender, ObjectChangedEventArgs e)
+        {
+            if (tvTargets.SelectedNode != null && (e.ChangeArgument is not TreeUpdateTypes treeUpdateTypes ||
+                          treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode)) &&
+                          (e.ChangedObject is QueryOptions queryOptions))
+            {
+                tvTargets.SelectedNode.Text = queryOptions.Name;
+                tvTargets.SelectedNode.SetImageKey(ChooseNodeImage(tvTargets.SelectedNode.Tag));
             }
 
             Modified = true;
@@ -550,10 +577,10 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                 ctrlGeneral.GeneralOptions = generalOptions;
                 ctrlGeneral.Visible = true;
             }
-            else if (selectedObject is QueryOptions queryOptions)
+            if (selectedObject is DbConnectionOptions dbConnectionOptions)
             {
-                ctrlQuery.QueryOptions = queryOptions;
-                ctrlQuery.Visible = true;
+                ctrlDbConnection.ConnectionOptions = dbConnectionOptions;
+                ctrlDbConnection.Visible = true;
             }
             else if (selectedObject is CurDataExportOptions curDataExportOptions)
             {
@@ -564,6 +591,11 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             {
                 ctrlArcReplication.ArcReplicationOptions = arcReplicationOptions;
                 ctrlArcReplication.Visible = true;
+            }
+            else if (selectedObject is QueryOptions queryOptions)
+            {
+                ctrlQuery.QueryOptions = queryOptions;
+                ctrlQuery.Visible = true;
             }
 
             SetButtonsEnabled();
