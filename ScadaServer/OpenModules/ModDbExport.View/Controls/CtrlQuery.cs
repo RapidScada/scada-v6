@@ -53,21 +53,32 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
             {
                 chkActive.Checked = false;
                 chkSingleQuery.Checked = false;
+                cbDataKind.SelectedIndex = 0;
                 txtName.Text = "";
                 txtCnlNum.Text = "";
                 txtObjNum.Text = "";
                 txtDeviceNum.Text = "";
                 txtSql.Text = "";
+                gbFilter.Visible = true;
+                chkSingleQuery.Visible = true;
+                btnEditParametrs.Visible = true;
             }
             else
             {
                 chkActive.Checked = options.Active;
                 chkSingleQuery.Checked = options.SingleQuery;
+                cbDataKind.SelectedIndex = (int)options.DataKind;
                 txtName.Text = options.Name;
                 txtCnlNum.Text = ScadaUtils.ToRangeString(options.Filter.CnlNums);
                 txtObjNum.Text = ScadaUtils.ToRangeString(options.Filter.ObjNums);
                 txtDeviceNum.Text = ScadaUtils.ToRangeString (options.Filter.DeviceNums);
                 txtSql.AppendText(options.Sql.Trim());
+                gbFilter.Visible = options.DataKind != DataKind.EventAck;
+
+                if (options.DataKind == DataKind.Current || options.DataKind == DataKind.Historical)
+                    chkSingleQuery.Visible = btnEditParametrs.Visible = true;
+                else
+                    chkSingleQuery.Visible = btnEditParametrs.Visible = false;
             }
         }
 
@@ -103,11 +114,36 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
             }
         }
 
+        private void cbDataKind_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (queryOptions != null)
+            {
+                queryOptions.DataKind = (DataKind)cbDataKind.SelectedIndex;
+                OnObjectChanged(TreeUpdateTypes.None);
+
+                gbFilter.Visible = queryOptions.DataKind != DataKind.EventAck;
+                
+                if (queryOptions.DataKind == DataKind.Current || queryOptions.DataKind == DataKind.Historical)
+                    chkSingleQuery.Visible = true;
+                else
+                    chkSingleQuery.Visible = false;
+            }
+        }
+
         private void txtName_TextChanged(object sender, EventArgs e)
         {
             if (queryOptions != null)
             {
                 queryOptions.Name = txtName.Text;
+                OnObjectChanged(TreeUpdateTypes.CurrentNode);
+            }
+        }
+
+        private void chkSingleQuery_CheckedChanged(object sender, EventArgs e)
+        {
+            if (queryOptions != null)
+            {
+                queryOptions.SingleQuery = chkSingleQuery.Checked;
                 OnObjectChanged(TreeUpdateTypes.CurrentNode);
             }
         }

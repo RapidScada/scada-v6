@@ -48,6 +48,9 @@
             this.btnEditParametrs = new System.Windows.Forms.Button();
             this.txtSql = new System.Windows.Forms.TextBox();
             this.chkSingleQuery = new System.Windows.Forms.CheckBox();
+            this.btnSelectCnlNum = new System.Windows.Forms.Button();
+            this.btnSelectObjNum = new System.Windows.Forms.Button();
+            this.btnSelectDeviceNum = new System.Windows.Forms.Button();
             this.gbName.SuspendLayout();
             this.gbFilter.SuspendLayout();
             this.gbQuery.SuspendLayout();
@@ -65,7 +68,7 @@
             this.gbName.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.gbName.Name = "gbName";
             this.gbName.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbName.Size = new System.Drawing.Size(404, 96);
+            this.gbName.Size = new System.Drawing.Size(404, 99);
             this.gbName.TabIndex = 0;
             this.gbName.TabStop = false;
             this.gbName.Text = " General Options";
@@ -74,7 +77,7 @@
             // 
             this.lblDataKind.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblDataKind.AutoSize = true;
-            this.lblDataKind.Location = new System.Drawing.Point(253, 43);
+            this.lblDataKind.Location = new System.Drawing.Point(256, 51);
             this.lblDataKind.Name = "lblDataKind";
             this.lblDataKind.Size = new System.Drawing.Size(57, 15);
             this.lblDataKind.TabIndex = 8;
@@ -91,17 +94,18 @@
             "Event",
             "EventAck",
             "Command"});
-            this.cbDataKind.Location = new System.Drawing.Point(256, 59);
+            this.cbDataKind.Location = new System.Drawing.Point(253, 69);
             this.cbDataKind.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.cbDataKind.Name = "cbDataKind";
-            this.cbDataKind.Size = new System.Drawing.Size(135, 23);
+            this.cbDataKind.Size = new System.Drawing.Size(138, 23);
             this.cbDataKind.TabIndex = 7;
+            this.cbDataKind.SelectedIndexChanged += new System.EventHandler(this.cbDataKind_SelectedIndexChanged);
             // 
             // txtName
             // 
             this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtName.Location = new System.Drawing.Point(13, 59);
+            this.txtName.Location = new System.Drawing.Point(10, 69);
             this.txtName.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(237, 23);
@@ -111,7 +115,7 @@
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(10, 43);
+            this.lblName.Location = new System.Drawing.Point(10, 51);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(39, 15);
             this.lblName.TabIndex = 5;
@@ -131,6 +135,9 @@
             // 
             // gbFilter
             // 
+            this.gbFilter.Controls.Add(this.btnSelectDeviceNum);
+            this.gbFilter.Controls.Add(this.btnSelectObjNum);
+            this.gbFilter.Controls.Add(this.btnSelectCnlNum);
             this.gbFilter.Controls.Add(this.btnEditDeviceNum);
             this.gbFilter.Controls.Add(this.txtDeviceNum);
             this.gbFilter.Controls.Add(this.lblDeviceNum);
@@ -141,7 +148,7 @@
             this.gbFilter.Controls.Add(this.txtCnlNum);
             this.gbFilter.Controls.Add(this.lblCnlNum);
             this.gbFilter.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbFilter.Location = new System.Drawing.Point(0, 96);
+            this.gbFilter.Location = new System.Drawing.Point(0, 99);
             this.gbFilter.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.gbFilter.Name = "gbFilter";
             this.gbFilter.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
@@ -154,7 +161,7 @@
             // 
             this.btnEditDeviceNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEditDeviceNum.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.edit;
-            this.btnEditDeviceNum.Location = new System.Drawing.Point(368, 138);
+            this.btnEditDeviceNum.Location = new System.Drawing.Point(339, 138);
             this.btnEditDeviceNum.Name = "btnEditDeviceNum";
             this.btnEditDeviceNum.Size = new System.Drawing.Size(23, 24);
             this.btnEditDeviceNum.TabIndex = 14;
@@ -164,16 +171,16 @@
             // 
             this.txtDeviceNum.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDeviceNum.Location = new System.Drawing.Point(13, 139);
+            this.txtDeviceNum.Location = new System.Drawing.Point(10, 138);
             this.txtDeviceNum.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.txtDeviceNum.Name = "txtDeviceNum";
-            this.txtDeviceNum.Size = new System.Drawing.Size(349, 23);
+            this.txtDeviceNum.Size = new System.Drawing.Size(323, 23);
             this.txtDeviceNum.TabIndex = 13;
             // 
             // lblDeviceNum
             // 
             this.lblDeviceNum.AutoSize = true;
-            this.lblDeviceNum.Location = new System.Drawing.Point(10, 121);
+            this.lblDeviceNum.Location = new System.Drawing.Point(10, 120);
             this.lblDeviceNum.Name = "lblDeviceNum";
             this.lblDeviceNum.Size = new System.Drawing.Size(92, 15);
             this.lblDeviceNum.TabIndex = 12;
@@ -183,7 +190,7 @@
             // 
             this.btnEditObjNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEditObjNum.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.edit;
-            this.btnEditObjNum.Location = new System.Drawing.Point(368, 87);
+            this.btnEditObjNum.Location = new System.Drawing.Point(339, 87);
             this.btnEditObjNum.Name = "btnEditObjNum";
             this.btnEditObjNum.Size = new System.Drawing.Size(23, 24);
             this.btnEditObjNum.TabIndex = 11;
@@ -193,16 +200,16 @@
             // 
             this.txtObjNum.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtObjNum.Location = new System.Drawing.Point(13, 88);
+            this.txtObjNum.Location = new System.Drawing.Point(10, 87);
             this.txtObjNum.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.txtObjNum.Name = "txtObjNum";
-            this.txtObjNum.Size = new System.Drawing.Size(349, 23);
+            this.txtObjNum.Size = new System.Drawing.Size(323, 23);
             this.txtObjNum.TabIndex = 10;
             // 
             // lblObjNum
             // 
             this.lblObjNum.AutoSize = true;
-            this.lblObjNum.Location = new System.Drawing.Point(10, 70);
+            this.lblObjNum.Location = new System.Drawing.Point(10, 73);
             this.lblObjNum.Name = "lblObjNum";
             this.lblObjNum.Size = new System.Drawing.Size(92, 15);
             this.lblObjNum.TabIndex = 9;
@@ -212,7 +219,7 @@
             // 
             this.btnEditCnlNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEditCnlNum.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.edit;
-            this.btnEditCnlNum.Location = new System.Drawing.Point(368, 39);
+            this.btnEditCnlNum.Location = new System.Drawing.Point(339, 40);
             this.btnEditCnlNum.Name = "btnEditCnlNum";
             this.btnEditCnlNum.Size = new System.Drawing.Size(23, 24);
             this.btnEditCnlNum.TabIndex = 8;
@@ -222,10 +229,10 @@
             // 
             this.txtCnlNum.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCnlNum.Location = new System.Drawing.Point(13, 40);
+            this.txtCnlNum.Location = new System.Drawing.Point(10, 40);
             this.txtCnlNum.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.txtCnlNum.Name = "txtCnlNum";
-            this.txtCnlNum.Size = new System.Drawing.Size(349, 23);
+            this.txtCnlNum.Size = new System.Drawing.Size(323, 23);
             this.txtCnlNum.TabIndex = 7;
             // 
             // lblCnlNum
@@ -243,11 +250,11 @@
             this.gbQuery.Controls.Add(this.txtSql);
             this.gbQuery.Controls.Add(this.chkSingleQuery);
             this.gbQuery.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbQuery.Location = new System.Drawing.Point(0, 269);
+            this.gbQuery.Location = new System.Drawing.Point(0, 272);
             this.gbQuery.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.gbQuery.Name = "gbQuery";
             this.gbQuery.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbQuery.Size = new System.Drawing.Size(404, 193);
+            this.gbQuery.Size = new System.Drawing.Size(404, 190);
             this.gbQuery.TabIndex = 2;
             this.gbQuery.TabStop = false;
             this.gbQuery.Text = "Query";
@@ -272,19 +279,50 @@
             this.txtSql.Multiline = true;
             this.txtSql.Name = "txtSql";
             this.txtSql.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtSql.Size = new System.Drawing.Size(378, 130);
+            this.txtSql.Size = new System.Drawing.Size(378, 127);
             this.txtSql.TabIndex = 7;
             // 
             // chkSingleQuery
             // 
             this.chkSingleQuery.AutoSize = true;
-            this.chkSingleQuery.Location = new System.Drawing.Point(13, 22);
+            this.chkSingleQuery.Location = new System.Drawing.Point(10, 22);
             this.chkSingleQuery.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.chkSingleQuery.Name = "chkSingleQuery";
             this.chkSingleQuery.Size = new System.Drawing.Size(227, 19);
             this.chkSingleQuery.TabIndex = 2;
             this.chkSingleQuery.Text = "Single query (input channels required)";
             this.chkSingleQuery.UseVisualStyleBackColor = true;
+            this.chkSingleQuery.CheckedChanged += new System.EventHandler(this.chkSingleQuery_CheckedChanged);
+            // 
+            // btnSelectCnlNum
+            // 
+            this.btnSelectCnlNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSelectCnlNum.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.find;
+            this.btnSelectCnlNum.Location = new System.Drawing.Point(368, 40);
+            this.btnSelectCnlNum.Name = "btnSelectCnlNum";
+            this.btnSelectCnlNum.Size = new System.Drawing.Size(23, 24);
+            this.btnSelectCnlNum.TabIndex = 15;
+            this.btnSelectCnlNum.UseVisualStyleBackColor = true;
+            // 
+            // btnSelectObjNum
+            // 
+            this.btnSelectObjNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSelectObjNum.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.find;
+            this.btnSelectObjNum.Location = new System.Drawing.Point(368, 87);
+            this.btnSelectObjNum.Name = "btnSelectObjNum";
+            this.btnSelectObjNum.Size = new System.Drawing.Size(23, 24);
+            this.btnSelectObjNum.TabIndex = 16;
+            this.btnSelectObjNum.UseVisualStyleBackColor = true;
+            // 
+            // btnSelectDeviceNum
+            // 
+            this.btnSelectDeviceNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSelectDeviceNum.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.find;
+            this.btnSelectDeviceNum.Location = new System.Drawing.Point(368, 138);
+            this.btnSelectDeviceNum.Name = "btnSelectDeviceNum";
+            this.btnSelectDeviceNum.Size = new System.Drawing.Size(23, 24);
+            this.btnSelectDeviceNum.TabIndex = 17;
+            this.btnSelectDeviceNum.UseVisualStyleBackColor = true;
             // 
             // CtrlQuery
             // 
@@ -328,5 +366,8 @@
         private CheckBox chkSingleQuery;
         private TextBox txtSql;
         private Button btnEditParametrs;
+        private Button btnSelectDeviceNum;
+        private Button btnSelectObjNum;
+        private Button btnSelectCnlNum;
     }
 }
