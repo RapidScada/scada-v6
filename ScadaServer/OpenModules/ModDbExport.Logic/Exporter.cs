@@ -993,6 +993,9 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             {
                 // prepare information
                 StringBuilder sbInfo = new();
+                string dbName = ScadaUtils.FirstNonEmpty(
+                    exporterConfig.ConnectionOptions.Server, 
+                    exporterConfig.ConnectionOptions.Name);
 
                 if (Locale.IsRussian)
                 {
@@ -1000,7 +1003,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                         .AppendLine("Состояние экспортёра")
                         .AppendLine("--------------------")
                         .Append("Наименование : ").AppendLine(exporterTitle)
-                        .Append("Сервер БД    : ").AppendLine(exporterConfig.ConnectionOptions.Server)
+                        .Append("Сервер БД    : ").AppendLine(dbName)
                         .Append("Соединение   : ").AppendLine(ConnStatus.ToString(true));
                 }
                 else
@@ -1009,7 +1012,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                         .AppendLine("Exporter State")
                         .AppendLine("--------------")
                         .Append("Name       : ").AppendLine(exporterTitle)
-                        .Append("DB server  : ").AppendLine(exporterConfig.ConnectionOptions.Server)
+                        .Append("DB server  : ").AppendLine(dbName)
                         .Append("Connection : ").AppendLine(ConnStatus.ToString(false));
                 }
 
