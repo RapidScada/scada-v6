@@ -86,14 +86,11 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             int maxQueueSize = exporterConfig.GeneralOptions.MaxQueueSize;
             curDataQueue = new DataQueue<SliceItem>(classifiedQueries.CurDataQueries.Count > 0, maxQueueSize,
                 Locale.IsRussian ? "Текущие данные" : "Current Data") { RemoveExceeded = true };
-            histDataQueue = new DataQueue<SliceItem>(
-                classifiedQueries.HistDataQueries.Count > 0 || arcReplicationOptions.Enabled, maxQueueSize,
+            histDataQueue = new DataQueue<SliceItem>(classifiedQueries.HistDataQueries.Count > 0, maxQueueSize,
                 Locale.IsRussian ? "Исторические данные" : "Historical Data");
-            eventQueue = new DataQueue<Event>(
-                classifiedQueries.EventQueries.Count > 0 || arcReplicationOptions.Enabled, maxQueueSize,
+            eventQueue = new DataQueue<Event>(classifiedQueries.EventQueries.Count > 0, maxQueueSize,
                 Locale.IsRussian ? "События" : "Events");
-            eventAckQueue = new DataQueue<EventAck>(
-                classifiedQueries.EventAckQueries.Count > 0, maxQueueSize,
+            eventAckQueue = new DataQueue<EventAck>(classifiedQueries.EventAckQueries.Count > 0, maxQueueSize,
                 Locale.IsRussian ? "Квитирование событий" : "Event Acknowledgements");
             cmdQueue = new DataQueue<TeleCommand>(classifiedQueries.CmdQueries.Count > 0, maxQueueSize,
                 Locale.IsRussian ? "Команды" : "Commands");
