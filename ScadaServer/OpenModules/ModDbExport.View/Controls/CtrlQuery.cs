@@ -77,6 +77,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
                 gbFilter.Visible = true;
                 chkSingleQuery.Visible = true;
                 btnEditParametrs.Visible = true;
+                txtSql.Location = new Point(10, 48);
+                txtSql.Size = new Size(378, 131);
             }
             else
             {
@@ -86,14 +88,22 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
                 txtName.Text = options.Name;
                 txtCnlNum.Text = ScadaUtils.ToRangeString(options.Filter.CnlNums);
                 txtObjNum.Text = ScadaUtils.ToRangeString(options.Filter.ObjNums);
-                txtDeviceNum.Text = ScadaUtils.ToRangeString (options.Filter.DeviceNums);
+                txtDeviceNum.Text = ScadaUtils.ToRangeString(options.Filter.DeviceNums);
                 txtSql.AppendText(options.Sql.Trim());
                 gbFilter.Visible = options.DataKind != DataKind.EventAck;
 
                 if (options.DataKind == DataKind.Current || options.DataKind == DataKind.Historical)
+                {
                     chkSingleQuery.Visible = btnEditParametrs.Visible = true;
+                    txtSql.Location = new Point(10, 48);
+                    txtSql.Size = new Size(378, 131);
+                }
                 else
+                {
                     chkSingleQuery.Visible = btnEditParametrs.Visible = false;
+                    txtSql.Location = new Point(10, 18);
+                    txtSql.Size = new Size(378, 161);
+                }
             }
         }
 
