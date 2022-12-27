@@ -98,7 +98,7 @@ SET ack = 1, ack_timestamp = :ackTimestamp, ack_user_id = :ackUserID
 WHERE event_id = :eventID
 
 -- Insert command
-INSERT INTO mod_db_export.commands (command_id, creation_time, client_name, user_id,
+INSERT INTO commands (command_id, creation_time, client_name, user_id,
   cnl_num, obj_num, device_num, cmd_num, cmd_code, cmd_val, cmd_data)
 VALUES (:commandID, :creationTime, :clientName, :userID, 
   :cnlNum, :objNum, :deviceNum, :cmdNum, :cmdCode, :cmdVal, :cmdData)
