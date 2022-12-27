@@ -48,6 +48,9 @@ CREATE INDEX idx_events_cnl_num ON events (cnl_num);
 CREATE INDEX idx_events_obj_num ON events (obj_num);
 CREATE INDEX idx_events_device_num ON events (device_num);
 
+-- Delete a command table if it exists
+DROP TABLE IF EXISTS commands;
+
 -- Create a command table
 CREATE TABLE commands (
   command_id    BIGINT NOT NULL,
@@ -59,7 +62,7 @@ CREATE TABLE commands (
   device_num    INT NOT NULL,
   cmd_num       INT NOT NULL,
   cmd_code      VARCHAR(100) NOT NULL,
-  cmd_val       DOUBLE NOT NULL,
+  cmd_val       DOUBLE,
   cmd_data      VARBINARY(1000),
   PRIMARY KEY (command_id)
 );

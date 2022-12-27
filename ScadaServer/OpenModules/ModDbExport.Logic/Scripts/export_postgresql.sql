@@ -48,6 +48,9 @@ CREATE INDEX ON mod_db_export.events (cnl_num);
 CREATE INDEX ON mod_db_export.events (obj_num);
 CREATE INDEX ON mod_db_export.events (device_num);
 
+-- Delete a command table if it exists
+DROP TABLE IF EXISTS mod_db_export.commands;
+
 -- Create a command table
 CREATE TABLE mod_db_export.commands (
   command_id    bigint NOT NULL,
@@ -59,7 +62,7 @@ CREATE TABLE mod_db_export.commands (
   device_num    integer NOT NULL,
   cmd_num       integer NOT NULL,
   cmd_code      character varying NOT NULL,
-  cmd_val       double precision NOT NULL,
+  cmd_val       double precision,
   cmd_data      bytea,
   PRIMARY KEY (command_id)
 );
@@ -95,7 +98,7 @@ SET ack = true, ack_timestamp = @ackTimestamp, ack_user_id = @ackUserID
 WHERE event_id = @eventID
 
 -- Insert command
-INSERT INTO mod_db_export.commands (command_id, creation_time, client_name, user_id, 
+INSERT INTO mod_db_export.commands (command_id, creation_time, client_name, user_id,
   cnl_num, obj_num, device_num, cmd_num, cmd_code, cmd_val, cmd_data)
 VALUES (@commandID, @creationTime, @clientName, @userID, 
   @cnlNum, @objNum, @deviceNum, @cmdNum, @cmdCode, @cmdVal, @cmdData)
