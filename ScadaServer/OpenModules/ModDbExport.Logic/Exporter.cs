@@ -234,6 +234,9 @@ namespace Scada.Server.Modules.ModDbExport.Logic
 
                 Thread.Sleep(ScadaUtils.ThreadDelay);
             }
+
+            connStatus = ConnectionStatus.Undefined; // do not write status to channel
+            WriteInfo();
         }
 
         /// <summary>
