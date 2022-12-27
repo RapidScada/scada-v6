@@ -66,13 +66,13 @@ namespace Scada.Dbms
             if (options == null)
                 return "";
 
-            ScadaUtils.RetrieveHostAndPort(options.Server, GetDefaultPort(options.KnownDBMS), 
-                out string host, out int port);
             string password = hidePassword ? CommonPhrases.HiddenPassword : options.Password;
 
             switch (options.KnownDBMS)
             {
                 case KnownDBMS.PostgreSQL:
+                    ScadaUtils.RetrieveHostAndPort(options.Server, GetDefaultPort(options.KnownDBMS),
+                        out string host, out int port);
                     return string.Format("Server={0};Port={1};Database={2};User Id={3};Password={4}",
                         host, port, options.Database, options.Username, password);
 
@@ -85,9 +85,8 @@ namespace Scada.Dbms
                         options.Server, options.Database, options.Username, password);
 
                 case KnownDBMS.Oracle:
-                    string database = string.IsNullOrEmpty(options.Database) ? "" : "/" + options.Database;
-                    return string.Format("Server={0}{1};User ID={2};Password={3}",
-                        options.Server, database, options.Username, password);
+                    return string.Format("User Id={0};Password={1};Data Source=//{2}/{3}",
+                        options.Username, password, options.Server, options.Database);
 
                 default:
                     return "";
