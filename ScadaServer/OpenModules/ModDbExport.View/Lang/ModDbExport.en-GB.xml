@@ -23,5 +23,6 @@
     <Phrase key="TargetName">Target</Phrase>
     <Phrase key="TargetNameNotUnique">Target names must be unique.</Phrase>
     <Phrase key="TargetNameEmpty">The name of the target cannot be empty.</Phrase>
+    <Phrase key="QueryName">Query</Phrase>
 </Dictionary>
 </ModRapidGateDictionaries>

@@ -21,6 +21,7 @@ namespace Scada.Server.Modules.ModDbExport.View
         public static string TargetName { get; private set; }
         public static string TargetNameEmpty { get; private set; }
         public static string TargetNameNotUnique { get; private set; }
+        public static string QueryName { get; private set; }
 
         public static void Init()
         {
@@ -35,6 +36,7 @@ namespace Scada.Server.Modules.ModDbExport.View
             TargetName = dict[nameof(TargetName)];
             TargetNameEmpty = dict[nameof(TargetNameEmpty)];
             TargetNameNotUnique = dict[nameof(TargetNameNotUnique)];
+            QueryName = dict[nameof(QueryName)];
         }
     }
 }

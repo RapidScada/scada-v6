@@ -39,11 +39,11 @@
             this.btnMySql = new System.Windows.Forms.ToolStripMenuItem();
             this.btnOracle = new System.Windows.Forms.ToolStripMenuItem();
             this.btnPostgreSql = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnAddCurTrigger = new System.Windows.Forms.ToolStripButton();
-            this.btnAddHistTrigger = new System.Windows.Forms.ToolStripButton();
-            this.btnAddEventTrigger = new System.Windows.Forms.ToolStripButton();
-            this.btnAddAckTrigger = new System.Windows.Forms.ToolStripButton();
-            this.btnAddCommand = new System.Windows.Forms.ToolStripButton();
+            this.btnAddCurrentQuery = new System.Windows.Forms.ToolStripButton();
+            this.btnAddHistoricalQuery = new System.Windows.Forms.ToolStripButton();
+            this.btnAddEventQuery = new System.Windows.Forms.ToolStripButton();
+            this.btnAddEventAckQuery = new System.Windows.Forms.ToolStripButton();
+            this.btnAddCommandQuery = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnMoveUp = new System.Windows.Forms.ToolStripButton();
             this.btnMoveDown = new System.Windows.Forms.ToolStripButton();
@@ -124,11 +124,11 @@
             // 
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ddbAdd,
-            this.btnAddCurTrigger,
-            this.btnAddHistTrigger,
-            this.btnAddEventTrigger,
-            this.btnAddAckTrigger,
-            this.btnAddCommand,
+            this.btnAddCurrentQuery,
+            this.btnAddHistoricalQuery,
+            this.btnAddEventQuery,
+            this.btnAddEventAckQuery,
+            this.btnAddCommandQuery,
             this.toolStripSeparator1,
             this.btnMoveUp,
             this.btnMoveDown,
@@ -190,49 +190,54 @@
             this.btnPostgreSql.Text = "PostgreSQL";
             this.btnPostgreSql.Click += new System.EventHandler(this.btnAddTagret_Click);
             // 
-            // btnAddCurTrigger
+            // btnAddCurrentQuery
             // 
-            this.btnAddCurTrigger.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnAddCurTrigger.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.query_cur;
-            this.btnAddCurTrigger.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnAddCurTrigger.Name = "btnAddCurTrigger";
-            this.btnAddCurTrigger.Size = new System.Drawing.Size(23, 22);
-            this.btnAddCurTrigger.Text = "Add current data trigger";
+            this.btnAddCurrentQuery.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnAddCurrentQuery.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.query_cur;
+            this.btnAddCurrentQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnAddCurrentQuery.Name = "btnAddCurrentQuery";
+            this.btnAddCurrentQuery.Size = new System.Drawing.Size(23, 22);
+            this.btnAddCurrentQuery.Text = "Add current data trigger";
+            this.btnAddCurrentQuery.Click += new System.EventHandler(this.btnAddQuery_Click);
             // 
-            // btnAddHistTrigger
+            // btnAddHistoricalQuery
             // 
-            this.btnAddHistTrigger.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnAddHistTrigger.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.query_hist;
-            this.btnAddHistTrigger.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnAddHistTrigger.Name = "btnAddHistTrigger";
-            this.btnAddHistTrigger.Size = new System.Drawing.Size(23, 22);
-            this.btnAddHistTrigger.Text = "toolStripButton5";
+            this.btnAddHistoricalQuery.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnAddHistoricalQuery.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.query_hist;
+            this.btnAddHistoricalQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnAddHistoricalQuery.Name = "btnAddHistoricalQuery";
+            this.btnAddHistoricalQuery.Size = new System.Drawing.Size(23, 22);
+            this.btnAddHistoricalQuery.Text = "toolStripButton5";
+            this.btnAddHistoricalQuery.Click += new System.EventHandler(this.btnAddQuery_Click);
             // 
-            // btnAddEventTrigger
+            // btnAddEventQuery
             // 
-            this.btnAddEventTrigger.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnAddEventTrigger.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.query_event;
-            this.btnAddEventTrigger.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnAddEventTrigger.Name = "btnAddEventTrigger";
-            this.btnAddEventTrigger.Size = new System.Drawing.Size(23, 22);
-            this.btnAddEventTrigger.Text = "Add event trigger";
+            this.btnAddEventQuery.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnAddEventQuery.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.query_event;
+            this.btnAddEventQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnAddEventQuery.Name = "btnAddEventQuery";
+            this.btnAddEventQuery.Size = new System.Drawing.Size(23, 22);
+            this.btnAddEventQuery.Text = "Add event trigger";
+            this.btnAddEventQuery.Click += new System.EventHandler(this.btnAddQuery_Click);
             // 
-            // btnAddAckTrigger
+            // btnAddEventAckQuery
             // 
-            this.btnAddAckTrigger.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnAddAckTrigger.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.query_ack;
-            this.btnAddAckTrigger.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnAddAckTrigger.Name = "btnAddAckTrigger";
-            this.btnAddAckTrigger.Size = new System.Drawing.Size(23, 22);
-            this.btnAddAckTrigger.Text = "toolStripButton4";
+            this.btnAddEventAckQuery.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnAddEventAckQuery.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.query_ack;
+            this.btnAddEventAckQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnAddEventAckQuery.Name = "btnAddEventAckQuery";
+            this.btnAddEventAckQuery.Size = new System.Drawing.Size(23, 22);
+            this.btnAddEventAckQuery.Text = "toolStripButton4";
+            this.btnAddEventAckQuery.Click += new System.EventHandler(this.btnAddQuery_Click);
             // 
-            // btnAddCommand
+            // btnAddCommandQuery
             // 
-            this.btnAddCommand.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnAddCommand.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.query_cmd;
-            this.btnAddCommand.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnAddCommand.Name = "btnAddCommand";
-            this.btnAddCommand.Size = new System.Drawing.Size(23, 22);
+            this.btnAddCommandQuery.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnAddCommandQuery.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.query_cmd;
+            this.btnAddCommandQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnAddCommandQuery.Name = "btnAddCommandQuery";
+            this.btnAddCommandQuery.Size = new System.Drawing.Size(23, 22);
+            this.btnAddCommandQuery.Click += new System.EventHandler(this.btnAddQuery_Click);
             // 
             // toolStripSeparator1
             // 
@@ -465,6 +470,7 @@
             this.ctrlQuery.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.ctrlQuery.ConfigDataset = null;
             this.ctrlQuery.Location = new System.Drawing.Point(0, 3);
             this.ctrlQuery.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.ctrlQuery.Name = "ctrlQuery";
@@ -541,11 +547,11 @@
         private ToolStripMenuItem btnOracle;
         private ToolStripMenuItem btnPostgreSql;
         private ToolStripMenuItem btnMySql;
-        private ToolStripButton btnAddCurTrigger;
-        private ToolStripButton btnAddCommand;
-        private ToolStripButton btnAddEventTrigger;
-        private ToolStripButton btnAddHistTrigger;
-        private ToolStripButton btnAddAckTrigger;
+        private ToolStripButton btnAddCurrentQuery;
+        private ToolStripButton btnAddCommandQuery;
+        private ToolStripButton btnAddEventQuery;
+        private ToolStripButton btnAddHistoricalQuery;
+        private ToolStripButton btnAddEventAckQuery;
         private Label lblHint;
         private ContextMenuStrip cmsTree;
         private ToolStripMenuItem miCollapseAll;

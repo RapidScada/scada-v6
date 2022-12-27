@@ -2,6 +2,7 @@
 
 using Scada.Data.Models;
 using Scada.Forms;
+using Scada.Forms.Forms;
 using Scada.Server.Modules.ModDbExport.Config;
 using System.ComponentModel;
 
@@ -152,6 +153,24 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
             {
                 generalOptions.DataLifetime = Convert.ToInt32(numDataLifetime.Value);
                 OnObjectChanged(TreeUpdateTypes.None);
+            }
+        }
+
+        private void btnSelectCnlStat_Click(object sender, EventArgs e)
+        {
+            if (generalOptions != null && ConfigDataset != null)
+            {
+                FrmEntitySelect frmEntitySelect = new(ConfigDataset.CnlStatusTable)
+                {
+                    MultiSelect = false,
+                    SelectedID = generalOptions.StatusCnlNum
+                };
+
+                if (frmEntitySelect.ShowDialog() == DialogResult.OK)
+                {
+                    numStatusCnlNum.Value = frmEntitySelect.SelectedID;
+                    OnObjectChanged(TreeUpdateTypes.None);
+                }
             }
         }
     }

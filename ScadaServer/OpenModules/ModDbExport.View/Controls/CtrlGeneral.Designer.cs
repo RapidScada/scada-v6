@@ -30,6 +30,7 @@
         {
             this.gbGeneral = new System.Windows.Forms.GroupBox();
             this.numStatusCnlNum = new System.Windows.Forms.NumericUpDown();
+            this.btnSelectCnlStat = new System.Windows.Forms.Button();
             this.lblStatusCnlNum = new System.Windows.Forms.Label();
             this.numDataLifetime = new System.Windows.Forms.NumericUpDown();
             this.lblDataLifetime = new System.Windows.Forms.Label();
@@ -51,6 +52,7 @@
             // gbGeneral
             // 
             this.gbGeneral.Controls.Add(this.numStatusCnlNum);
+            this.gbGeneral.Controls.Add(this.btnSelectCnlStat);
             this.gbGeneral.Controls.Add(this.lblStatusCnlNum);
             this.gbGeneral.Controls.Add(this.numDataLifetime);
             this.gbGeneral.Controls.Add(this.lblDataLifetime);
@@ -75,27 +77,33 @@
             // 
             // numStatusCnlNum
             // 
-            this.numStatusCnlNum.Location = new System.Drawing.Point(13, 171);
+            this.numStatusCnlNum.Location = new System.Drawing.Point(10, 170);
             this.numStatusCnlNum.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.numStatusCnlNum.Maximum = new decimal(new int[] {
-            2147483647,
+            100000,
             0,
             0,
             0});
-            this.numStatusCnlNum.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            -2147483648});
             this.numStatusCnlNum.Name = "numStatusCnlNum";
             this.numStatusCnlNum.Size = new System.Drawing.Size(120, 23);
-            this.numStatusCnlNum.TabIndex = 26;
+            this.numStatusCnlNum.TabIndex = 28;
             this.numStatusCnlNum.Value = new decimal(new int[] {
             1,
             0,
             0,
-            -2147483648});
+            0});
             this.numStatusCnlNum.ValueChanged += new System.EventHandler(this.numStatusCnlNum_ValueChanged);
+            // 
+            // btnSelectCnlStat
+            // 
+            this.btnSelectCnlStat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSelectCnlStat.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.find;
+            this.btnSelectCnlStat.Location = new System.Drawing.Point(136, 169);
+            this.btnSelectCnlStat.Name = "btnSelectCnlStat";
+            this.btnSelectCnlStat.Size = new System.Drawing.Size(23, 24);
+            this.btnSelectCnlStat.TabIndex = 27;
+            this.btnSelectCnlStat.UseVisualStyleBackColor = true;
+            this.btnSelectCnlStat.Click += new System.EventHandler(this.btnSelectCnlStat_Click);
             // 
             // lblStatusCnlNum
             // 
@@ -261,7 +269,8 @@
         private Label lblDataLifetime;
         private NumericUpDown numMaxQueueSize;
         private Label lblMaxQueueSize;
-        private NumericUpDown numStatusCnlNum;
         private Label lblStatusCnlNum;
+        private Button btnSelectCnlStat;
+        private NumericUpDown numStatusCnlNum;
     }
 }
