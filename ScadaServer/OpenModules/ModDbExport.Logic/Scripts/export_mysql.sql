@@ -93,7 +93,7 @@ VALUES (@eventID, @timestamp, @hidden, @cnlNum, @objNum, @deviceNum,
 
 -- Acknowledge event
 UPDATE events
-SET ack = true, ack_timestamp = @ackTimestamp, ack_user_id = @ackUserID
+SET ack = 1, ack_timestamp = @ackTimestamp, ack_user_id = @ackUserID
 WHERE event_id = @eventID
 
 -- Insert command

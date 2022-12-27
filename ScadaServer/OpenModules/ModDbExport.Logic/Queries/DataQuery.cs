@@ -4,6 +4,7 @@
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
+using Scada.Dbms;
 using Scada.MultiDb;
 using Scada.Server.Modules.ModDbExport.Config;
 using System.Data.Common;
@@ -23,8 +24,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         {
             public DbParameter Timestamp { get; init; }
             public DbParameter CnlNum { get; init; }
-            public DbParameter ObjNum { get; init; }
-            public DbParameter DeviceNum { get; init; }
+            public DbParameter ObjNum { get; set; }
+            public DbParameter DeviceNum { get; set; }
             public DbParameter Val { get; init; }
             public DbParameter Stat { get; init; }
         }
@@ -40,18 +41,29 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
             {
                 Timestamp = DataSource.SetParam(Command, "timestamp", DateTime.MinValue),
                 CnlNum = DataSource.SetParam(Command, "cnlNum", 0),
-                ObjNum = DataSource.SetParam(Command, "objNum", 0),
-                DeviceNum = DataSource.SetParam(Command, "deviceNum", 0),
                 Val = DataSource.SetParam(Command, "val", 0.0),
-                Stat = DataSource.SetParam(Command, "stat", 0)
+                Stat = DataSource.SetParam(Command, "stat", 0),
             };
 
+            if (dataSource.ConnectionOptions.KnownDBMS == KnownDBMS.Oracle)
+            {
+                // OracleCommand requires parameters to be strictly SQL-compliant
+                // https://docs.oracle.com/en/database/oracle/oracle-database/21/odpnt/CommandBindByName.html
+                Parameters.ObjNum = null;
+                Parameters.DeviceNum = null;
+                CnlPropsRequired = false;
+            }
+            else
+            {
+                Parameters.ObjNum = DataSource.SetParam(Command, "objNum", 0);
+                Parameters.DeviceNum = DataSource.SetParam(Command, "deviceNum", 0);
+
+                CnlPropsRequired = !string.IsNullOrEmpty(queryOptions.Sql) &&
+                    (queryOptions.Sql.Contains("@objNum", StringComparison.OrdinalIgnoreCase) ||
+                    queryOptions.Sql.Contains("@deviceNum", StringComparison.OrdinalIgnoreCase));
+            }
+
             CnlNumFilter = new HashSet<int>();
-            CnlPropsRequired = !string.IsNullOrEmpty(queryOptions.Sql) &&
-                (queryOptions.Sql.Contains("@objNum", StringComparison.OrdinalIgnoreCase) ||
-                queryOptions.Sql.Contains(":objNum", StringComparison.OrdinalIgnoreCase) ||
-                queryOptions.Sql.Contains("@deviceNum", StringComparison.OrdinalIgnoreCase) ||
-                queryOptions.Sql.Contains(":deviceNum", StringComparison.OrdinalIgnoreCase));
         }
 
 
@@ -61,14 +73,14 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         public QueryParameters Parameters { get; }
 
         /// <summary>
-        /// Gets the channel filter that combines channel, device, and object filters.
-        /// </summary>
-        public HashSet<int> CnlNumFilter { get; }
-
-        /// <summary>
         /// Gets a value indicating whether channel properties are required to define query parameters.
         /// </summary>
         public bool CnlPropsRequired { get; }
+
+        /// <summary>
+        /// Gets the channel filter that combines channel, device, and object filters.
+        /// </summary>
+        public HashSet<int> CnlNumFilter { get; }
 
 
         /// <summary>

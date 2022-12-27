@@ -71,34 +71,19 @@ CREATE INDEX idx_commands_device_num ON commands (device_num);
 
 /********** Data manipulation **********/
 
--- Insert current data
-INSERT INTO cnl_data (cnl_num, time_stamp, val, stat)
-VALUES (:cnlNum, :timestamp, :val, :stat)
+-- The order and number of query parameters must be exactly the same as in this example.
 
--- Insert or update historical data
-MERGE INTO cnl_data
-USING dual ON (cnl_num = :cnlNum AND time_stamp = :timestamp)
-WHEN MATCHED THEN 
-  UPDATE SET val = :val, stat = :stat
-WHEN NOT MATCHED THEN 
-  INSERT (cnl_num, time_stamp, val, stat)
-  VALUES (:cnlNum, :timestamp, :val, :stat)
+-- Insert current and historical data
+INSERT INTO cnl_data (time_stamp, cnl_num, val, stat)
+VALUES (:1, :2, :3, :4)
 
 -- Insert event
 INSERT INTO events (event_id, time_stamp, hidden, cnl_num, obj_num, device_num,
   prev_cnl_val, prev_cnl_stat, cnl_val, cnl_stat, severity,
   ack_required, ack, ack_timestamp, ack_user_id, text_format, event_text, event_data)
-VALUES (:eventID, :timestamp, :hidden, :cnlNum, :objNum, :deviceNum, 
-  :prevCnlVal, :prevCnlStat, :cnlVal, :cnlStat, :severity,
-  :ackRequired, :ack, :ackTimestamp, :ackUserID, :textFormat, :eventText, :eventData)
-
--- Acknowledge event
-UPDATE events
-SET ack = 1, ack_timestamp = :ackTimestamp, ack_user_id = :ackUserID
-WHERE event_id = :eventID
+VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18)
 
 -- Insert command
 INSERT INTO commands (command_id, creation_time, client_name, user_id,
   cnl_num, obj_num, device_num, cmd_num, cmd_code, cmd_val, cmd_data)
-VALUES (:commandID, :creationTime, :clientName, :userID, 
-  :cnlNum, :objNum, :deviceNum, :cmdNum, :cmdCode, :cmdVal, :cmdData)
+VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11)

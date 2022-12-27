@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS mod_db_export.events;
 CREATE TABLE mod_db_export.events (
   event_id      bigint NOT NULL,
   time_stamp    timestamp with time zone NOT NULL,
-  hidden        boolean NOT NULL,
+  hidden        smallint NOT NULL,
   cnl_num       integer NOT NULL,
   obj_num       integer NOT NULL,
   device_num    integer NOT NULL,
@@ -33,8 +33,8 @@ CREATE TABLE mod_db_export.events (
   cnl_val       double precision NOT NULL,
   cnl_stat      integer NOT NULL,
   severity      integer NOT NULL,
-  ack_required  boolean NOT NULL,
-  ack           boolean NOT NULL,
+  ack_required  smallint NOT NULL,
+  ack           smallint NOT NULL,
   ack_timestamp timestamp with time zone NOT NULL,
   ack_user_id   integer NOT NULL,
   text_format   integer NOT NULL,
@@ -94,7 +94,7 @@ VALUES (@eventID, @timestamp, @hidden, @cnlNum, @objNum, @deviceNum,
 
 -- Acknowledge event
 UPDATE mod_db_export.events
-SET ack = true, ack_timestamp = @ackTimestamp, ack_user_id = @ackUserID
+SET ack = 1, ack_timestamp = @ackTimestamp, ack_user_id = @ackUserID
 WHERE event_id = @eventID
 
 -- Insert command
