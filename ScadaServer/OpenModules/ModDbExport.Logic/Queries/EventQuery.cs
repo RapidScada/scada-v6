@@ -49,7 +49,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
             {
                 EventID = DataSource.SetParam(Command, "eventID", 0L),
                 Timestamp = DataSource.SetParam(Command, "timestamp", DateTime.MinValue),
-                Hidden = DataSource.SetParam(Command, "hidden", false),
+                Hidden = DataSource.SetParam(Command, "hidden", 0),
                 CnlNum = DataSource.SetParam(Command, "cnlNum", 0),
                 ObjNum = DataSource.SetParam(Command, "objNum", 0),
                 DeviceNum = DataSource.SetParam(Command, "deviceNum", 0),
@@ -58,8 +58,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
                 CnlVal = DataSource.SetParam(Command, "cnlVal", 0.0),
                 CnlStat = DataSource.SetParam(Command, "cnlStat", 0),
                 Severity = DataSource.SetParam(Command, "severity", 0),
-                AckRequired = DataSource.SetParam(Command, "ackRequired", false),
-                Ack = DataSource.SetParam(Command, "ack", false),
+                AckRequired = DataSource.SetParam(Command, "ackRequired", 0),
+                Ack = DataSource.SetParam(Command, "ack", 0),
                 AckTimestamp = DataSource.SetParam(Command, "ackTimestamp", DateTime.MinValue),
                 AckUserID = DataSource.SetParam(Command, "ackUserID", 0),
                 TextFormat = DataSource.SetParam(Command, "textFormat", 0),
@@ -81,7 +81,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
             ArgumentNullException.ThrowIfNull(ev, nameof(ev));
             Parameters.EventID.Value = ev.EventID;
             Parameters.Timestamp.Value = ev.Timestamp;
-            Parameters.Hidden.Value = ev.Hidden;
+            Parameters.Hidden.Value = ev.Hidden ? 1 : 0;
             Parameters.CnlNum.Value = ev.CnlNum;
             Parameters.ObjNum.Value = ev.ObjNum;
             Parameters.DeviceNum.Value = ev.DeviceNum;
@@ -90,8 +90,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
             Parameters.CnlVal.Value = ev.CnlVal;
             Parameters.CnlStat.Value = ev.CnlStat;
             Parameters.Severity.Value = ev.Severity;
-            Parameters.AckRequired.Value = ev.AckRequired;
-            Parameters.Ack.Value = ev.Ack;
+            Parameters.AckRequired.Value = ev.AckRequired ? 1 : 0;
+            Parameters.Ack.Value = ev.Ack ? 1 : 0;
             Parameters.AckTimestamp.Value = ev.AckTimestamp;
             Parameters.AckUserID.Value = ev.AckUserID;
             Parameters.TextFormat.Value = (int)ev.TextFormat;

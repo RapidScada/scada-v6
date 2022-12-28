@@ -36,16 +36,12 @@ namespace Scada.MultiDb
         /// </summary>
         protected override DbParameter AddParamWithValue(DbCommand cmd, string paramName, object value)
         {
-            if (cmd is NpgsqlCommand npgsqlCommand)
-            {
-                return value is DateTime
-                    ? npgsqlCommand.Parameters.AddWithValue(paramName, NpgsqlDbType.TimestampTz, value)
-                    : npgsqlCommand.Parameters.AddWithValue(paramName, value);
-            }
-            else
-            {
+            if (cmd is not NpgsqlCommand npgsqlCommand)
                 throw new ArgumentException("NpgsqlCommand is required.", nameof(cmd));
-            }
+
+            return value is DateTime
+                ? npgsqlCommand.Parameters.AddWithValue(paramName, NpgsqlDbType.TimestampTz, value)
+                : npgsqlCommand.Parameters.AddWithValue(paramName, value);
         }
 
         /// <summary>

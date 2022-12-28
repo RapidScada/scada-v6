@@ -74,7 +74,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
             Parameters.DeviceNum.Value = command.DeviceNum;
             Parameters.CmdNum.Value = command.CmdNum;
             Parameters.CmdCode.Value = command.CmdCode ?? "";
-            Parameters.CmdVal.Value = command.CmdVal;
+            Parameters.CmdVal.Value = double.IsNaN(command.CmdVal) ? 
+                DBNull.Value : command.CmdVal;
             Parameters.CmdData.Value = command.CmdData == null || command.CmdData.Length == 0 ?
                 DBNull.Value : command.CmdData;
         }

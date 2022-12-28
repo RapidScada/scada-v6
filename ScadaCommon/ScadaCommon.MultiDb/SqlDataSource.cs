@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Dbms;
+using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 
@@ -35,9 +36,15 @@ namespace Scada.MultiDb
         /// </summary>
         protected override DbParameter AddParamWithValue(DbCommand cmd, string paramName, object value)
         {
-            return cmd is SqlCommand sqlCommand 
-                ? sqlCommand.Parameters.AddWithValue(paramName, value) 
-                : throw new ArgumentException("SqlCommand is required.", nameof(cmd));
+            if (cmd is not SqlCommand sqlCommand)
+                throw new ArgumentException("SqlCommand is required.", nameof(cmd));
+
+            if (value is DateTime)
+                return sqlCommand.Parameters.Add(new SqlParameter(paramName, SqlDbType.DateTime2) { Value = value });
+            else if (value is byte[])
+                return sqlCommand.Parameters.Add(new SqlParameter(paramName, SqlDbType.VarBinary) { Value = value });
+            else
+                return sqlCommand.Parameters.AddWithValue(paramName, value);
         }
 
         /// <summary>

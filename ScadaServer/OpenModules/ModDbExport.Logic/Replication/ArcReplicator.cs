@@ -30,6 +30,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Replication
         private readonly string stateFileName;             // the short name of the replication state file
         private readonly ArcExportTask autoTask;           // the task of automatic replication
         private readonly Queue<ArcExportTask> taskQueue;   // the task queue
+        private readonly bool histDataEnabled;             // indicates if historical data is exported
+        private readonly bool eventsEnabled;               // indicates if events are exported
 
         private bool replicatorIsReady;                    // indicates that the replicator is ready
         private bool histDataQueueIsReady;                 // indicates that the historical data queue is ready
@@ -49,6 +51,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Replication
             stateFileName = exporterContext.FilePrefix + "_State.xml";
             autoTask = options.AutoExport ? CreateAutoTask() : null;
             taskQueue = new Queue<ArcExportTask>();
+            histDataEnabled = exporterContext.ClassifiedQueries.HistDataQueries.Count > 0;
+            eventsEnabled = exporterContext.ClassifiedQueries.EventQueries.Count > 0;
 
             replicatorIsReady = false;
             histDataQueueIsReady = true;
@@ -330,7 +334,9 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Replication
             if (ValidateOptions())
             {
                 replicatorIsReady = true;
-                InitCnlNumGroups();
+
+                if (histDataEnabled)
+                    InitCnlNumGroups();
 
                 if (autoTask != null)
                 {
@@ -386,7 +392,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Replication
                     }
                     else if (taskState.ArchiveIndex == 0)
                     {
-                        if (ExportHistoricalData(taskState.StepTimeRange, cnlNumGroups[taskState.GroupIndex]))
+                        if (!histDataEnabled || 
+                            ExportHistoricalData(taskState.StepTimeRange, cnlNumGroups[taskState.GroupIndex]))
                         {
                             transferOK = true;
 
@@ -397,7 +404,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Replication
                             }
                         }
                     }
-                    else if (ExportEvents(taskState.StepTimeRange))
+                    else if (!eventsEnabled || 
+                        ExportEvents(taskState.StepTimeRange))
                     {
                         transferOK = true;
                         stepCompleted = true;
