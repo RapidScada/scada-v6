@@ -197,7 +197,7 @@
             this.btnAddCurrentQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddCurrentQuery.Name = "btnAddCurrentQuery";
             this.btnAddCurrentQuery.Size = new System.Drawing.Size(23, 22);
-            this.btnAddCurrentQuery.Text = "Add current data trigger";
+            this.btnAddCurrentQuery.Text = "Add current data query";
             this.btnAddCurrentQuery.Click += new System.EventHandler(this.btnAddQuery_Click);
             // 
             // btnAddHistoricalQuery
@@ -207,7 +207,7 @@
             this.btnAddHistoricalQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddHistoricalQuery.Name = "btnAddHistoricalQuery";
             this.btnAddHistoricalQuery.Size = new System.Drawing.Size(23, 22);
-            this.btnAddHistoricalQuery.Text = "toolStripButton5";
+            this.btnAddHistoricalQuery.Text = "Add historical data query";
             this.btnAddHistoricalQuery.Click += new System.EventHandler(this.btnAddQuery_Click);
             // 
             // btnAddEventQuery
@@ -217,7 +217,7 @@
             this.btnAddEventQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddEventQuery.Name = "btnAddEventQuery";
             this.btnAddEventQuery.Size = new System.Drawing.Size(23, 22);
-            this.btnAddEventQuery.Text = "Add event trigger";
+            this.btnAddEventQuery.Text = "Add event data query";
             this.btnAddEventQuery.Click += new System.EventHandler(this.btnAddQuery_Click);
             // 
             // btnAddEventAckQuery
@@ -227,7 +227,7 @@
             this.btnAddEventAckQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddEventAckQuery.Name = "btnAddEventAckQuery";
             this.btnAddEventAckQuery.Size = new System.Drawing.Size(23, 22);
-            this.btnAddEventAckQuery.Text = "toolStripButton4";
+            this.btnAddEventAckQuery.Text = "Add event ack data query";
             this.btnAddEventAckQuery.Click += new System.EventHandler(this.btnAddQuery_Click);
             // 
             // btnAddCommandQuery
@@ -237,6 +237,7 @@
             this.btnAddCommandQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddCommandQuery.Name = "btnAddCommandQuery";
             this.btnAddCommandQuery.Size = new System.Drawing.Size(23, 22);
+            this.btnAddCommandQuery.Text = "Add command data query";
             this.btnAddCommandQuery.Click += new System.EventHandler(this.btnAddQuery_Click);
             // 
             // toolStripSeparator1
@@ -481,8 +482,9 @@
             // lblHint
             // 
             this.lblHint.BackColor = System.Drawing.SystemColors.Control;
+            this.lblHint.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblHint.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.lblHint.Location = new System.Drawing.Point(0, 352);
+            this.lblHint.Location = new System.Drawing.Point(0, 0);
             this.lblHint.Name = "lblHint";
             this.lblHint.Size = new System.Drawing.Size(404, 100);
             this.lblHint.TabIndex = 0;
@@ -500,6 +502,7 @@
             this.Controls.Add(this.pnlBottom);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(460, 280);
             this.Name = "FrmModuleConfig";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;

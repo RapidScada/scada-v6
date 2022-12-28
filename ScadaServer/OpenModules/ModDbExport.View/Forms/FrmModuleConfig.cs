@@ -60,8 +60,6 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         {
             InitializeComponent();
             HideControls();
-
-            /*ctrlGeneral.Top = ctrlCurDataExport.Top = ctrlArcReplication.Top = ctrlQuery.Top = lblHint.Top;*/
         }
 
         /// <summary>
@@ -181,7 +179,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         private int GetNextTargetID()
         {
             return config.ExportTargets.Count > 0 ? config.ExportTargets.Max(x => x.GeneralOptions.ID) + 1 : 1;
-        }      
+        }
 
         /// <summary>
         /// Creates a tree node according to the gates configuration.
@@ -289,18 +287,19 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         private void SetButtonsEnabled()
         {
             TreeNode selectedNode = tvTargets.SelectedNode;
-            btnMoveUp.Enabled = (tvTargets.MoveUpSelectedNodeIsEnabled(TreeNodeBehavior.WithinParent) &&
-                tvTargets.SelectedNode.Parent == null) || 
-                (tvTargets.MoveUpSelectedNodeIsEnabled(TreeNodeBehavior.WithinParent) 
-                && tvTargets.SelectedNode.Tag is QueryOptions);
-            
-            btnMoveDown.Enabled = (tvTargets.MoveDownSelectedNodeIsEnabled(TreeNodeBehavior.WithinParent) &&
-                tvTargets.SelectedNode.Parent == null) || 
-                (tvTargets.MoveUpSelectedNodeIsEnabled(TreeNodeBehavior.WithinParent)
-                && tvTargets.SelectedNode.Tag is QueryOptions);
-            
+
+            btnMoveUp.Enabled = tvTargets.MoveUpSelectedNodeIsEnabled(TreeNodeBehavior.WithinParent) &&
+                (tvTargets.SelectedNode.Parent == null || tvTargets.SelectedNode.Tag is QueryOptions);
+
+            btnMoveDown.Enabled = tvTargets.MoveDownSelectedNodeIsEnabled(TreeNodeBehavior.WithinParent) &&
+                (tvTargets.SelectedNode.Parent == null || tvTargets.SelectedNode.Tag is QueryOptions);
+
             btnDelete.Enabled = btnCut.Enabled = btnCopy.Enabled = selectedNode != null &&
-                tvTargets.SelectedNode.Parent == null /*|| (tvTargets.SelectedNode.Tag is QueryOptions)*/;    
+                (tvTargets.SelectedNode.Parent == null || tvTargets.SelectedNode.Tag is QueryOptions);
+
+            btnAddCurrentQuery.Enabled = btnAddHistoricalQuery.Enabled = btnAddEventQuery.Enabled = 
+                btnAddEventAckQuery.Enabled = btnAddCommandQuery.Enabled = selectedNode != null && 
+                (tvTargets.SelectedNode.Tag is QueryOptions || tvTargets.SelectedNode.Tag is QueryOptionList);
         }
 
         /// <summary>
@@ -420,14 +419,16 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
 
         private void btnAddQuery_Click(object sender, EventArgs e)
         {
-            // find or qyeries
+            // find parent for qyeries
             TreeNode queriesNode = tvTargets.SelectedNode?.FindClosest(typeof(QueryOptionList));
 
             if (queriesNode != null)
             {
                 // add query
-                QueryOptions queryOptions = new() /*{ Parent = config }*/;
-                queryOptions.Name = ModulePhrases.QueryName;
+                QueryOptions queryOptions = new()
+                {
+                    Name = ModulePhrases.QueryName
+                };
 
                 if (sender == btnAddCurrentQuery)
                     queryOptions.DataKind = DataKind.Current;
@@ -441,8 +442,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                     queryOptions.DataKind = DataKind.Command;
                 else
                     throw new ScadaException("Unknown DataKind.");
-               
-                tvTargets.Insert(queriesNode, TreeViewExtensions.CreateNode(queryOptions.Name, 
+
+                tvTargets.Insert(queriesNode, TreeViewExtensions.CreateNode(queryOptions.Name,
                     ChooseNodeImage(queryOptions), queryOptions));
                 Modified = true;
                 ctrlQuery.SetFocus();
@@ -544,7 +545,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                 TreeNode targetNode = CreateGroupNode(exportTargetConfigCopy);
                 tvTargets.Insert(null, targetNode, config.ExportTargets, exportTargetConfigCopy);
                 tvTargets.SelectedNode = targetNode.FirstNode;
-                
+
                 ctrlGeneral.SetFocus();
                 Modified = true;
             }
@@ -556,12 +557,12 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                 queryOptionsCopy.RestoreHierarchy();
                 TreeNode queryNode = TreeViewExtensions.CreateNode(queryOptionsCopy.Name,
                     ChooseNodeImage(queryOptionsCopy), queryOptionsCopy);
-                
+
                 if (tvTargets.SelectedNode?.Tag is QueryOptions)
                     tvTargets.Insert(tvTargets.SelectedNode.Parent, queryNode);
                 else if (tvTargets.SelectedNode?.Tag is QueryOptionList)
                     tvTargets.Insert(tvTargets.SelectedNode, queryNode);
-                
+
                 ctrlQuery.SetFocus();
                 Modified = true;
             }
@@ -626,8 +627,20 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             }
             else if (selectedObject is QueryOptions queryOptions)
             {
+                /*TreeNode treeNode = tvTargets.SelectedNode?.FindClosest(typeof(DbConnectionOptions));
+                KnownDBMS dBMSType = KnownDBMS.Undefined;
+                if (treeNode.Tag is DbConnectionOptions dbConnectionOptions1)
+                    dBMSType = dbConnectionOptions1.KnownDBMS;*/
+
                 ctrlQuery.QueryOptions = queryOptions;
+                ctrlQuery.DbmsType = /*dBMSType*/KnownDBMS.PostgreSQL;
                 ctrlQuery.Visible = true;
+            }
+            else if (selectedObject is QueryOptionList || selectedObject is ExportOptions || 
+                selectedObject is ExportTargetConfig)
+            {
+                lblHint.Visible = true;
+                lblHint.Text = ModulePhrases.SelectChildNode;
             }
 
             SetButtonsEnabled();

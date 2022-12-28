@@ -20,6 +20,7 @@
     <Phrase key="ExportOptionsNode">Export Options</Phrase>
     <Phrase key="GeneralOptionsNode">General Options</Phrase>
     <Phrase key="AddTargets">Add targets</Phrase>
+    <Phrase key="SelectChildNode">Select child node</Phrase>
     <Phrase key="TargetName">Target</Phrase>
     <Phrase key="TargetNameNotUnique">Target names must be unique.</Phrase>
     <Phrase key="TargetNameEmpty">The name of the target cannot be empty.</Phrase>

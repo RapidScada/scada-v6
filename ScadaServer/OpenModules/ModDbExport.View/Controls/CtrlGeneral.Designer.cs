@@ -96,7 +96,6 @@
             // 
             // btnSelectCnlStat
             // 
-            this.btnSelectCnlStat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSelectCnlStat.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.find;
             this.btnSelectCnlStat.Location = new System.Drawing.Point(136, 169);
             this.btnSelectCnlStat.Name = "btnSelectCnlStat";

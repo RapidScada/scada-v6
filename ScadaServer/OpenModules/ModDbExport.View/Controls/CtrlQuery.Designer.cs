@@ -48,8 +48,8 @@
             this.txtCnlNum = new System.Windows.Forms.TextBox();
             this.lblCnlNum = new System.Windows.Forms.Label();
             this.gbQuery = new System.Windows.Forms.GroupBox();
-            this.chkSingleQuery = new System.Windows.Forms.CheckBox();
             this.btnEditParametrs = new System.Windows.Forms.Button();
+            this.chkSingleQuery = new System.Windows.Forms.CheckBox();
             this.txtSql = new System.Windows.Forms.TextBox();
             this.gbName.SuspendLayout();
             this.gbFilter.SuspendLayout();
@@ -307,6 +307,17 @@
             this.gbQuery.TabStop = false;
             this.gbQuery.Text = "Query";
             // 
+            // btnEditParametrs
+            // 
+            this.btnEditParametrs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnEditParametrs.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.edit;
+            this.btnEditParametrs.Location = new System.Drawing.Point(339, 18);
+            this.btnEditParametrs.Name = "btnEditParametrs";
+            this.btnEditParametrs.Size = new System.Drawing.Size(23, 24);
+            this.btnEditParametrs.TabIndex = 15;
+            this.btnEditParametrs.UseVisualStyleBackColor = true;
+            this.btnEditParametrs.Click += new System.EventHandler(this.btnEditParametrs_Click);
+            // 
             // chkSingleQuery
             // 
             this.chkSingleQuery.AutoSize = true;
@@ -318,16 +329,6 @@
             this.chkSingleQuery.Text = "Single query (input channels required)";
             this.chkSingleQuery.UseVisualStyleBackColor = true;
             this.chkSingleQuery.CheckedChanged += new System.EventHandler(this.chkSingleQuery_CheckedChanged);
-            // 
-            // btnEditParametrs
-            // 
-            this.btnEditParametrs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnEditParametrs.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.edit;
-            this.btnEditParametrs.Location = new System.Drawing.Point(339, 18);
-            this.btnEditParametrs.Name = "btnEditParametrs";
-            this.btnEditParametrs.Size = new System.Drawing.Size(23, 24);
-            this.btnEditParametrs.TabIndex = 15;
-            this.btnEditParametrs.UseVisualStyleBackColor = true;
             // 
             // txtSql
             // 

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 
 using Scada.Data.Models;
+using Scada.Dbms;
 using Scada.Forms;
 using Scada.Forms.Forms;
 using Scada.Lang;
@@ -54,6 +55,12 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
         }
 
         /// <summary>
+        /// Gets editable target DbType.
+        /// </summary>
+        internal KnownDBMS DbmsType { get; set; }
+
+
+        /// <summary>
         /// Gets or sets the configuration database.
         /// </summary>
         public ConfigDataset ConfigDataset { get; set; }
@@ -75,10 +82,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
                 txtDeviceNum.Text = "";
                 txtSql.Text = "";
                 gbFilter.Visible = true;
-                chkSingleQuery.Visible = true;
-                btnEditParametrs.Visible = true;
-                txtSql.Location = new Point(10, 48);
-                txtSql.Size = new Size(378, 131);
+                chkSingleQuery.Enabled = true;
             }
             else
             {
@@ -93,17 +97,9 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
                 gbFilter.Visible = options.DataKind != DataKind.EventAck;
 
                 if (options.DataKind == DataKind.Current || options.DataKind == DataKind.Historical)
-                {
-                    chkSingleQuery.Visible = btnEditParametrs.Visible = true;
-                    txtSql.Location = new Point(10, 48);
-                    txtSql.Size = new Size(378, 131);
-                }
+                    chkSingleQuery.Enabled = true;
                 else
-                {
-                    chkSingleQuery.Visible = btnEditParametrs.Visible = false;
-                    txtSql.Location = new Point(10, 18);
-                    txtSql.Size = new Size(378, 161);
-                }
+                    chkSingleQuery.Enabled = false;
             }
         }
 
@@ -167,11 +163,11 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
                 OnObjectChanged(TreeUpdateTypes.None);
 
                 gbFilter.Visible = queryOptions.DataKind != DataKind.EventAck;
-                
+
                 if (queryOptions.DataKind == DataKind.Current || queryOptions.DataKind == DataKind.Historical)
-                    chkSingleQuery.Visible = true;
+                    chkSingleQuery.Enabled = true;
                 else
-                    chkSingleQuery.Visible = false;
+                    chkSingleQuery.Enabled = false;
             }
         }
 
@@ -380,6 +376,13 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
                 queryOptions.Sql = txtSql.Text;
                 OnObjectChanged(TreeUpdateTypes.None);
             }
+        }
+
+        private void btnEditParametrs_Click(object sender, EventArgs e)
+        {
+            if (queryOptions != null)
+                _ = new FrmQueryParametrs { DBMS = DbmsType, QueryOptions = queryOptions }
+                .ShowDialog() == DialogResult.OK;
         }
     }
 }

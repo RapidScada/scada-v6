@@ -18,6 +18,7 @@ namespace Scada.Server.Modules.ModDbExport.View
         public static string CurrentExportOptionsNode { get; private set; }
         public static string ExportOptionsNode { get; private set; }        
         public static string GeneralOptionsNode { get; private set; }
+        public static string SelectChildNode { get; private set; }
         public static string TargetName { get; private set; }
         public static string TargetNameEmpty { get; private set; }
         public static string TargetNameNotUnique { get; private set; }
@@ -33,6 +34,7 @@ namespace Scada.Server.Modules.ModDbExport.View
             CurrentExportOptionsNode = dict[nameof(CurrentExportOptionsNode)];        
             ExportOptionsNode = dict[nameof(ExportOptionsNode)];
             GeneralOptionsNode = dict[nameof(GeneralOptionsNode)];
+            SelectChildNode = dict[nameof(SelectChildNode)];
             TargetName = dict[nameof(TargetName)];
             TargetNameEmpty = dict[nameof(TargetNameEmpty)];
             TargetNameNotUnique = dict[nameof(TargetNameNotUnique)];
