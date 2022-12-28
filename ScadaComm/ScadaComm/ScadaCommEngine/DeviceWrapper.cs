@@ -68,7 +68,7 @@ namespace Scada.Comm.Engine
         /// <summary>
         /// Gets or sets the full file name to write device information.
         /// </summary>
-        public string InfoFileName { get; set;  }
+        public string InfoFileName { get; set; }
 
 
         /// <summary>
