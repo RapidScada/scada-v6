@@ -83,6 +83,13 @@ INSERT INTO events (event_id, time_stamp, hidden, cnl_num, obj_num, device_num,
   ack_required, ack, ack_timestamp, ack_user_id, text_format, event_text, event_data)
 VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18)
 
+/*
+Event acknowledgement parameters
+:1 - event_id
+:2 - ack_timestamp
+:3 - ack_user_id
+*/
+
 -- Insert command
 INSERT INTO commands (command_id, creation_time, client_name, user_id,
   cnl_num, obj_num, device_num, cmd_num, cmd_code, cmd_val, cmd_data)
