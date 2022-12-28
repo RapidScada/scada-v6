@@ -175,13 +175,13 @@
   </Format>
   <Format>
     <FormatID>26</FormatID>
-    <Name>Статус устройства</Name>
-    <Code>DeviceStatus</Code>
+    <Name>Норма-Ошибка</Name>
+    <Code>NormalError</Code>
     <IsNumber>false</IsNumber>
     <IsEnum>true</IsEnum>
     <IsDate>false</IsDate>
     <IsString>false</IsString>
-    <Frmt>Неопределён: black; Норма: green; Ошибка: red</Frmt>
+    <Frmt>Норма: green; Ошибка: red</Frmt>
   </Format>
   <Format>
     <FormatID>31</FormatID>
