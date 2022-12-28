@@ -119,7 +119,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             ilTree.Images.Add(ImageKey.DbMssql, Resources.db_mssql);
             ilTree.Images.Add(ImageKey.DbMssqlInactive, Resources.db_mssql_inactive);
             ilTree.Images.Add(ImageKey.DbMуsql, Resources.db_mysql);
-            ilTree.Images.Add(ImageKey.DbMуsql, Resources.db_mysql_inactive);
+            ilTree.Images.Add(ImageKey.DbMуsqlInactive, Resources.db_mysql_inactive);
             ilTree.Images.Add(ImageKey.DbOracle, Resources.db_oracle);
             ilTree.Images.Add(ImageKey.DbOracleInactive, Resources.db_oracle_inactive);
             ilTree.Images.Add(ImageKey.DbPostgresql, Resources.db_postgresql);
@@ -627,13 +627,12 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             }
             else if (selectedObject is QueryOptions queryOptions)
             {
-                /*TreeNode treeNode = tvTargets.SelectedNode?.FindClosest(typeof(DbConnectionOptions));
-                KnownDBMS dBMSType = KnownDBMS.Undefined;
-                if (treeNode.Tag is DbConnectionOptions dbConnectionOptions1)
+                /*KnownDBMS dBMSType = KnownDBMS.Undefined;
+                if (tvTargets.SelectedNode?.Parent.Parent.Nodes[1].Tag is DbConnectionOptions dbConnectionOptions1)
                     dBMSType = dbConnectionOptions1.KnownDBMS;*/
 
                 ctrlQuery.QueryOptions = queryOptions;
-                ctrlQuery.DbmsType = /*dBMSType*/KnownDBMS.PostgreSQL;
+                //ctrlQuery.DbmsType = dBMSType;
                 ctrlQuery.Visible = true;
             }
             else if (selectedObject is QueryOptionList || selectedObject is ExportOptions || 

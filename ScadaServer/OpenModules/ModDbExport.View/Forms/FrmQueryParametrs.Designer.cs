@@ -28,9 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("");
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.lvParametrs = new System.Windows.Forms.ListView();
+            this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -60,9 +62,13 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lvParametrs.BackColor = System.Drawing.SystemColors.Window;
+            this.lvParametrs.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1});
+            this.lvParametrs.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem1});
             this.lvParametrs.Location = new System.Drawing.Point(12, 12);
             this.lvParametrs.Name = "lvParametrs";
-            this.lvParametrs.Size = new System.Drawing.Size(493, 335);
+            this.lvParametrs.Size = new System.Drawing.Size(493, 325);
             this.lvParametrs.TabIndex = 12;
             this.lvParametrs.UseCompatibleStateImageBehavior = false;
             this.lvParametrs.View = System.Windows.Forms.View.List;
@@ -94,5 +100,6 @@
         private Button btnCancel;
         private Button btnOK;
         private ListView lvParametrs;
+        private ColumnHeader columnHeader1;
     }
 }

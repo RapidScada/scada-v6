@@ -197,7 +197,7 @@
             this.btnAddCurrentQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddCurrentQuery.Name = "btnAddCurrentQuery";
             this.btnAddCurrentQuery.Size = new System.Drawing.Size(23, 22);
-            this.btnAddCurrentQuery.Text = "Add current data query";
+            this.btnAddCurrentQuery.Text = "Add current query";
             this.btnAddCurrentQuery.Click += new System.EventHandler(this.btnAddQuery_Click);
             // 
             // btnAddHistoricalQuery
@@ -207,7 +207,7 @@
             this.btnAddHistoricalQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddHistoricalQuery.Name = "btnAddHistoricalQuery";
             this.btnAddHistoricalQuery.Size = new System.Drawing.Size(23, 22);
-            this.btnAddHistoricalQuery.Text = "Add historical data query";
+            this.btnAddHistoricalQuery.Text = "Add historical query";
             this.btnAddHistoricalQuery.Click += new System.EventHandler(this.btnAddQuery_Click);
             // 
             // btnAddEventQuery
@@ -217,7 +217,7 @@
             this.btnAddEventQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddEventQuery.Name = "btnAddEventQuery";
             this.btnAddEventQuery.Size = new System.Drawing.Size(23, 22);
-            this.btnAddEventQuery.Text = "Add event data query";
+            this.btnAddEventQuery.Text = "Add event query";
             this.btnAddEventQuery.Click += new System.EventHandler(this.btnAddQuery_Click);
             // 
             // btnAddEventAckQuery
@@ -227,7 +227,7 @@
             this.btnAddEventAckQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddEventAckQuery.Name = "btnAddEventAckQuery";
             this.btnAddEventAckQuery.Size = new System.Drawing.Size(23, 22);
-            this.btnAddEventAckQuery.Text = "Add event ack data query";
+            this.btnAddEventAckQuery.Text = "Add event acknowledgement query";
             this.btnAddEventAckQuery.Click += new System.EventHandler(this.btnAddQuery_Click);
             // 
             // btnAddCommandQuery
@@ -237,7 +237,7 @@
             this.btnAddCommandQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddCommandQuery.Name = "btnAddCommandQuery";
             this.btnAddCommandQuery.Size = new System.Drawing.Size(23, 22);
-            this.btnAddCommandQuery.Text = "Add command data query";
+            this.btnAddCommandQuery.Text = "Add command query";
             this.btnAddCommandQuery.Click += new System.EventHandler(this.btnAddQuery_Click);
             // 
             // toolStripSeparator1

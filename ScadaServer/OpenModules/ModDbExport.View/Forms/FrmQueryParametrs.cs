@@ -18,21 +18,18 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         public FrmQueryParametrs()
         {
             InitializeComponent();
-
-            DBMS = KnownDBMS.Undefined;
             QueryOptions = null;
         }
-
-        /// <summary>
-        /// Gets or sets the kind of DBMS.
-        /// </summary>
-        public KnownDBMS DBMS { get; set; }
-
+ 
         /// <summary>
         /// Gets or sets the query options.
         /// </summary>
         internal QueryOptions QueryOptions { get; set; }
 
+        /// <summary>
+        /// Gets or sets the kind of db.
+        /// </summary>
+        //internal KnownDBMS DBMS { get; set; }
 
         private void FrmQueryParametrs_Load(object sender, EventArgs e)
         {

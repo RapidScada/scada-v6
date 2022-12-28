@@ -57,7 +57,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
         /// <summary>
         /// Gets editable target DbType.
         /// </summary>
-        internal KnownDBMS DbmsType { get; set; }
+        //internal KnownDBMS DbmsType { get; set; }
 
 
         /// <summary>
@@ -160,7 +160,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
             if (queryOptions != null)
             {
                 queryOptions.DataKind = (DataKind)cbDataKind.SelectedIndex;
-                OnObjectChanged(TreeUpdateTypes.None);
+                OnObjectChanged(TreeUpdateTypes.CurrentNode);
 
                 gbFilter.Visible = queryOptions.DataKind != DataKind.EventAck;
 
@@ -381,7 +381,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
         private void btnEditParametrs_Click(object sender, EventArgs e)
         {
             if (queryOptions != null)
-                _ = new FrmQueryParametrs { DBMS = DbmsType, QueryOptions = queryOptions }
+                _ = new FrmQueryParametrs { /*DBMS = DbmsType, */QueryOptions = queryOptions }
                 .ShowDialog() == DialogResult.OK;
         }
     }
