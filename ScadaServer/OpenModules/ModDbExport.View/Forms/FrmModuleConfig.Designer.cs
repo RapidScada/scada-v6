@@ -86,7 +86,7 @@
             this.pnlBottom.Location = new System.Drawing.Point(0, 496);
             this.pnlBottom.Name = "pnlBottom";
             this.pnlBottom.Size = new System.Drawing.Size(734, 45);
-            this.pnlBottom.TabIndex = 3;
+            this.pnlBottom.TabIndex = 2;
             // 
             // btnClose
             // 
@@ -140,7 +140,7 @@
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(734, 25);
-            this.toolStrip.TabIndex = 5;
+            this.toolStrip.TabIndex = 0;
             this.toolStrip.Text = "Add export target";
             // 
             // ddbAdd
@@ -350,7 +350,7 @@
             this.pnlTree.Margin = new System.Windows.Forms.Padding(0);
             this.pnlTree.Name = "pnlTree";
             this.pnlTree.Size = new System.Drawing.Size(315, 471);
-            this.pnlTree.TabIndex = 0;
+            this.pnlTree.TabIndex = 1;
             // 
             // gbTarget
             // 
@@ -361,7 +361,7 @@
             this.gbTarget.Name = "gbTarget";
             this.gbTarget.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
             this.gbTarget.Size = new System.Drawing.Size(300, 462);
-            this.gbTarget.TabIndex = 1;
+            this.gbTarget.TabIndex = 0;
             this.gbTarget.TabStop = false;
             this.gbTarget.Text = "Export Targets";
             // 
@@ -510,7 +510,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Export to DB";
+            this.Text = " ";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmModuleConfig_FormClosing);
             this.Load += new System.EventHandler(this.FrmModuleConfig_Load);
             this.pnlBottom.ResumeLayout(false);

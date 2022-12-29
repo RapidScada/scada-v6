@@ -42,7 +42,7 @@
             this.btnCancel.Location = new System.Drawing.Point(249, 177);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 9;
+            this.btnCancel.TabIndex = 4;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
@@ -52,7 +52,7 @@
             this.btnOK.Location = new System.Drawing.Point(168, 177);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 8;
+            this.btnOK.TabIndex = 3;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
@@ -65,7 +65,7 @@
             this.lblExample.Location = new System.Drawing.Point(11, 159);
             this.lblExample.Name = "lblExample";
             this.lblExample.Size = new System.Drawing.Size(119, 15);
-            this.lblExample.TabIndex = 7;
+            this.lblExample.TabIndex = 2;
             this.lblExample.Text = "For example: 1 - 5, 10";
             // 
             // txtRange
@@ -78,7 +78,7 @@
             this.txtRange.Name = "txtRange";
             this.txtRange.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtRange.Size = new System.Drawing.Size(310, 128);
-            this.txtRange.TabIndex = 6;
+            this.txtRange.TabIndex = 1;
             // 
             // lblRange
             // 
@@ -86,7 +86,7 @@
             this.lblRange.Location = new System.Drawing.Point(11, 10);
             this.lblRange.Name = "lblRange";
             this.lblRange.Size = new System.Drawing.Size(144, 15);
-            this.lblRange.TabIndex = 5;
+            this.lblRange.TabIndex = 0;
             this.lblRange.Text = "Range of integer numbers";
             // 
             // FrmRangeEdit

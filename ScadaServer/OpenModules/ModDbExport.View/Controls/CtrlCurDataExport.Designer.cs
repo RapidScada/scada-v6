@@ -69,7 +69,7 @@
             this.chkIncludeCalculated.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.chkIncludeCalculated.Name = "chkIncludeCalculated";
             this.chkIncludeCalculated.Size = new System.Drawing.Size(172, 19);
-            this.chkIncludeCalculated.TabIndex = 19;
+            this.chkIncludeCalculated.TabIndex = 8;
             this.chkIncludeCalculated.Text = "Include calculated channels";
             this.chkIncludeCalculated.UseVisualStyleBackColor = true;
             this.chkIncludeCalculated.CheckedChanged += new System.EventHandler(this.chkIncludeCalculated_CheckedChanged);
@@ -81,7 +81,7 @@
             this.chkSkipUnchanged.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.chkSkipUnchanged.Name = "chkSkipUnchanged";
             this.chkSkipUnchanged.Size = new System.Drawing.Size(137, 19);
-            this.chkSkipUnchanged.TabIndex = 18;
+            this.chkSkipUnchanged.TabIndex = 7;
             this.chkSkipUnchanged.Text = "Skip unchanged data";
             this.chkSkipUnchanged.UseVisualStyleBackColor = true;
             this.chkSkipUnchanged.CheckedChanged += new System.EventHandler(this.chkSkipUnchanged_CheckedChanged);
@@ -97,7 +97,7 @@
             0});
             this.numAllDataPeriod.Name = "numAllDataPeriod";
             this.numAllDataPeriod.Size = new System.Drawing.Size(120, 23);
-            this.numAllDataPeriod.TabIndex = 17;
+            this.numAllDataPeriod.TabIndex = 6;
             this.numAllDataPeriod.Value = new decimal(new int[] {
             60,
             0,
@@ -111,7 +111,7 @@
             this.lblAllDataPeriod.Location = new System.Drawing.Point(10, 124);
             this.lblAllDataPeriod.Name = "lblAllDataPeriod";
             this.lblAllDataPeriod.Size = new System.Drawing.Size(237, 15);
-            this.lblAllDataPeriod.TabIndex = 16;
+            this.lblAllDataPeriod.TabIndex = 5;
             this.lblAllDataPeriod.Text = "Period of exporting data of all channels, sec";
             // 
             // numTimePeriod
@@ -125,7 +125,7 @@
             0});
             this.numTimePeriod.Name = "numTimePeriod";
             this.numTimePeriod.Size = new System.Drawing.Size(120, 23);
-            this.numTimePeriod.TabIndex = 15;
+            this.numTimePeriod.TabIndex = 4;
             this.numTimePeriod.Value = new decimal(new int[] {
             10,
             0,
@@ -139,7 +139,7 @@
             this.lblTimePeriod.Location = new System.Drawing.Point(10, 73);
             this.lblTimePeriod.Name = "lblTimePeriod";
             this.lblTimePeriod.Size = new System.Drawing.Size(97, 15);
-            this.lblTimePeriod.TabIndex = 14;
+            this.lblTimePeriod.TabIndex = 3;
             this.lblTimePeriod.Text = "Timer period, sec";
             // 
             // cbTrigger
@@ -153,7 +153,7 @@
             this.cbTrigger.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.cbTrigger.Name = "cbTrigger";
             this.cbTrigger.Size = new System.Drawing.Size(120, 23);
-            this.cbTrigger.TabIndex = 13;
+            this.cbTrigger.TabIndex = 2;
             this.cbTrigger.SelectedIndexChanged += new System.EventHandler(this.cbTrigger_SelectedIndexChanged);
             // 
             // lblTrigger
@@ -162,7 +162,7 @@
             this.lblTrigger.Location = new System.Drawing.Point(10, 22);
             this.lblTrigger.Name = "lblTrigger";
             this.lblTrigger.Size = new System.Drawing.Size(43, 15);
-            this.lblTrigger.TabIndex = 12;
+            this.lblTrigger.TabIndex = 1;
             this.lblTrigger.Text = "Trigger";
             // 
             // CtrlCurDataExport

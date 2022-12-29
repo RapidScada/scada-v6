@@ -86,7 +86,7 @@
             0});
             this.numStatusCnlNum.Name = "numStatusCnlNum";
             this.numStatusCnlNum.Size = new System.Drawing.Size(120, 23);
-            this.numStatusCnlNum.TabIndex = 28;
+            this.numStatusCnlNum.TabIndex = 9;
             this.numStatusCnlNum.Value = new decimal(new int[] {
             1,
             0,
@@ -101,7 +101,7 @@
             this.btnSelectCnlStat.Location = new System.Drawing.Point(139, 169);
             this.btnSelectCnlStat.Name = "btnSelectCnlStat";
             this.btnSelectCnlStat.Size = new System.Drawing.Size(23, 24);
-            this.btnSelectCnlStat.TabIndex = 27;
+            this.btnSelectCnlStat.TabIndex = 10;
             this.btnSelectCnlStat.UseVisualStyleBackColor = true;
             this.btnSelectCnlStat.Click += new System.EventHandler(this.btnSelectCnlStat_Click);
             // 
@@ -111,7 +111,7 @@
             this.lblStatusCnlNum.Location = new System.Drawing.Point(10, 153);
             this.lblStatusCnlNum.Name = "lblStatusCnlNum";
             this.lblStatusCnlNum.Size = new System.Drawing.Size(129, 15);
-            this.lblStatusCnlNum.TabIndex = 25;
+            this.lblStatusCnlNum.TabIndex = 8;
             this.lblStatusCnlNum.Text = "Status channel number";
             // 
             // numDataLifetime
@@ -125,7 +125,7 @@
             0});
             this.numDataLifetime.Name = "numDataLifetime";
             this.numDataLifetime.Size = new System.Drawing.Size(120, 23);
-            this.numDataLifetime.TabIndex = 24;
+            this.numDataLifetime.TabIndex = 14;
             this.numDataLifetime.Value = new decimal(new int[] {
             3600,
             0,
@@ -139,7 +139,7 @@
             this.lblDataLifetime.Location = new System.Drawing.Point(10, 255);
             this.lblDataLifetime.Name = "lblDataLifetime";
             this.lblDataLifetime.Size = new System.Drawing.Size(146, 15);
-            this.lblDataLifetime.TabIndex = 23;
+            this.lblDataLifetime.TabIndex = 13;
             this.lblDataLifetime.Text = "Data lifetime in queue, sec";
             // 
             // numMaxQueueSize
@@ -153,7 +153,7 @@
             0});
             this.numMaxQueueSize.Name = "numMaxQueueSize";
             this.numMaxQueueSize.Size = new System.Drawing.Size(120, 23);
-            this.numMaxQueueSize.TabIndex = 22;
+            this.numMaxQueueSize.TabIndex = 12;
             this.numMaxQueueSize.Value = new decimal(new int[] {
             10000,
             0,
@@ -167,7 +167,7 @@
             this.lblMaxQueueSize.Location = new System.Drawing.Point(10, 204);
             this.lblMaxQueueSize.Name = "lblMaxQueueSize";
             this.lblMaxQueueSize.Size = new System.Drawing.Size(120, 15);
-            this.lblMaxQueueSize.TabIndex = 21;
+            this.lblMaxQueueSize.TabIndex = 11;
             this.lblMaxQueueSize.Text = "Maximum queue size";
             // 
             // txtCmdCode
@@ -176,7 +176,7 @@
             this.txtCmdCode.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.txtCmdCode.Name = "txtCmdCode";
             this.txtCmdCode.Size = new System.Drawing.Size(120, 23);
-            this.txtCmdCode.TabIndex = 10;
+            this.txtCmdCode.TabIndex = 7;
             this.txtCmdCode.TextChanged += new System.EventHandler(this.txtCmdCode_TextChanged);
             // 
             // lblCmdCode
@@ -185,7 +185,7 @@
             this.lblCmdCode.Location = new System.Drawing.Point(10, 102);
             this.lblCmdCode.Name = "lblCmdCode";
             this.lblCmdCode.Size = new System.Drawing.Size(93, 15);
-            this.lblCmdCode.TabIndex = 9;
+            this.lblCmdCode.TabIndex = 6;
             this.lblCmdCode.Text = "Command code";
             // 
             // txtName
@@ -196,7 +196,7 @@
             this.txtName.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(314, 23);
-            this.txtName.TabIndex = 8;
+            this.txtName.TabIndex = 5;
             this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
             // lblName
@@ -205,7 +205,7 @@
             this.lblName.Location = new System.Drawing.Point(74, 51);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(39, 15);
-            this.lblName.TabIndex = 6;
+            this.lblName.TabIndex = 3;
             this.lblName.Text = "Name";
             // 
             // txtTargetID
@@ -215,7 +215,7 @@
             this.txtTargetID.Name = "txtTargetID";
             this.txtTargetID.ReadOnly = true;
             this.txtTargetID.Size = new System.Drawing.Size(58, 23);
-            this.txtTargetID.TabIndex = 7;
+            this.txtTargetID.TabIndex = 4;
             // 
             // lblID
             // 
@@ -223,7 +223,7 @@
             this.lblID.Location = new System.Drawing.Point(10, 51);
             this.lblID.Name = "lblID";
             this.lblID.Size = new System.Drawing.Size(53, 15);
-            this.lblID.TabIndex = 5;
+            this.lblID.TabIndex = 2;
             this.lblID.Text = "Target ID";
             // 
             // chkActive

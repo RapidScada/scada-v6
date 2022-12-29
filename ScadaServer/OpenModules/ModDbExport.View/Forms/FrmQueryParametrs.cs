@@ -2,7 +2,10 @@
 
 using Scada.Dbms;
 using Scada.Forms;
+using Scada.Server.Config;
 using Scada.Server.Modules.ModDbExport.Config;
+using System;
+using System.Reflection;
 
 namespace Scada.Server.Modules.ModDbExport.View.Forms
 {
@@ -43,7 +46,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
 
             foreach (KeyValuePair<string, string> pair in names)
             {
-                lvParametrs.Items.Add(pair.Key + pair.Value);
+                lvParametrs.Items.Add(new ListViewItem(new string[] { pair.Key, pair.Value }));
             }
         }
     }

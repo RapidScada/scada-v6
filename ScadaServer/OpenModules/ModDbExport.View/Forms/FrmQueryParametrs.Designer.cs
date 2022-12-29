@@ -32,7 +32,8 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.lvParametrs = new System.Windows.Forms.ListView();
-            this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
+            this.colParamsName = new System.Windows.Forms.ColumnHeader();
+            this.colParams = new System.Windows.Forms.ColumnHeader();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -42,7 +43,7 @@
             this.btnCancel.Location = new System.Drawing.Point(430, 353);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 11;
+            this.btnCancel.TabIndex = 2;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
@@ -52,7 +53,7 @@
             this.btnOK.Location = new System.Drawing.Point(349, 353);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 10;
+            this.btnOK.TabIndex = 1;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             // 
@@ -63,15 +64,28 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lvParametrs.BackColor = System.Drawing.SystemColors.Window;
             this.lvParametrs.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1});
+            this.colParamsName,
+            this.colParams});
+            this.lvParametrs.FullRowSelect = true;
+            this.lvParametrs.GridLines = true;
             this.lvParametrs.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem1});
             this.lvParametrs.Location = new System.Drawing.Point(12, 12);
             this.lvParametrs.Name = "lvParametrs";
             this.lvParametrs.Size = new System.Drawing.Size(493, 325);
-            this.lvParametrs.TabIndex = 12;
+            this.lvParametrs.TabIndex = 0;
             this.lvParametrs.UseCompatibleStateImageBehavior = false;
-            this.lvParametrs.View = System.Windows.Forms.View.List;
+            this.lvParametrs.View = System.Windows.Forms.View.Details;
+            // 
+            // colParamsName
+            // 
+            this.colParamsName.Text = "Name parameter";
+            this.colParamsName.Width = 160;
+            // 
+            // colParams
+            // 
+            this.colParams.Text = "Parameter";
+            this.colParams.Width = 260;
             // 
             // FrmQueryParametrs
             // 
@@ -100,6 +114,7 @@
         private Button btnCancel;
         private Button btnOK;
         private ListView lvParametrs;
-        private ColumnHeader columnHeader1;
+        private ColumnHeader colParamsName;
+        private ColumnHeader colParams;
     }
 }

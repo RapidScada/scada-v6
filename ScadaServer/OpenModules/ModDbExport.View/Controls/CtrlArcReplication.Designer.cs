@@ -84,7 +84,7 @@
             this.btnSelectEventArchiveBit.Location = new System.Drawing.Point(139, 305);
             this.btnSelectEventArchiveBit.Name = "btnSelectEventArchiveBit";
             this.btnSelectEventArchiveBit.Size = new System.Drawing.Size(23, 23);
-            this.btnSelectEventArchiveBit.TabIndex = 22;
+            this.btnSelectEventArchiveBit.TabIndex = 14;
             this.btnSelectEventArchiveBit.UseVisualStyleBackColor = true;
             this.btnSelectEventArchiveBit.Click += new System.EventHandler(this.btnSelectEventArchiveBit_Click);
             // 
@@ -99,7 +99,7 @@
             0});
             this.numEventArchiveBit.Name = "numEventArchiveBit";
             this.numEventArchiveBit.Size = new System.Drawing.Size(120, 23);
-            this.numEventArchiveBit.TabIndex = 21;
+            this.numEventArchiveBit.TabIndex = 13;
             this.numEventArchiveBit.Value = new decimal(new int[] {
             4,
             0,
@@ -113,7 +113,7 @@
             this.lblLocalEventArchiveBit.Location = new System.Drawing.Point(10, 287);
             this.lblLocalEventArchiveBit.Name = "lblLocalEventArchiveBit";
             this.lblLocalEventArchiveBit.Size = new System.Drawing.Size(108, 15);
-            this.lblLocalEventArchiveBit.TabIndex = 20;
+            this.lblLocalEventArchiveBit.TabIndex = 12;
             this.lblLocalEventArchiveBit.Text = "Bit of event archive";
             // 
             // btnSelectHistArchiveBit
@@ -123,7 +123,7 @@
             this.btnSelectHistArchiveBit.Location = new System.Drawing.Point(139, 254);
             this.btnSelectHistArchiveBit.Name = "btnSelectHistArchiveBit";
             this.btnSelectHistArchiveBit.Size = new System.Drawing.Size(23, 23);
-            this.btnSelectHistArchiveBit.TabIndex = 19;
+            this.btnSelectHistArchiveBit.TabIndex = 11;
             this.btnSelectHistArchiveBit.UseVisualStyleBackColor = true;
             this.btnSelectHistArchiveBit.Click += new System.EventHandler(this.btnSelectHistArchiveBit_Click);
             // 
@@ -138,7 +138,7 @@
             0});
             this.numHistArchiveBit.Name = "numHistArchiveBit";
             this.numHistArchiveBit.Size = new System.Drawing.Size(120, 23);
-            this.numHistArchiveBit.TabIndex = 18;
+            this.numHistArchiveBit.TabIndex = 10;
             this.numHistArchiveBit.Value = new decimal(new int[] {
             1,
             0,
@@ -152,7 +152,7 @@
             this.lblHistArchiveBit.Location = new System.Drawing.Point(10, 236);
             this.lblHistArchiveBit.Name = "lblHistArchiveBit";
             this.lblHistArchiveBit.Size = new System.Drawing.Size(127, 15);
-            this.lblHistArchiveBit.TabIndex = 17;
+            this.lblHistArchiveBit.TabIndex = 9;
             this.lblHistArchiveBit.Text = "Bit of historical archive";
             // 
             // numReadingStep
@@ -171,7 +171,7 @@
             0});
             this.numReadingStep.Name = "numReadingStep";
             this.numReadingStep.Size = new System.Drawing.Size(120, 23);
-            this.numReadingStep.TabIndex = 16;
+            this.numReadingStep.TabIndex = 8;
             this.numReadingStep.Value = new decimal(new int[] {
             60,
             0,
@@ -185,7 +185,7 @@
             this.lblReadingStep.Location = new System.Drawing.Point(10, 185);
             this.lblReadingStep.Name = "lblReadingStep";
             this.lblReadingStep.Size = new System.Drawing.Size(98, 15);
-            this.lblReadingStep.TabIndex = 15;
+            this.lblReadingStep.TabIndex = 7;
             this.lblReadingStep.Text = "Reading step, sec";
             // 
             // numMaxDepth
@@ -204,7 +204,7 @@
             0});
             this.numMaxDepth.Name = "numMaxDepth";
             this.numMaxDepth.Size = new System.Drawing.Size(120, 23);
-            this.numMaxDepth.TabIndex = 14;
+            this.numMaxDepth.TabIndex = 6;
             this.numMaxDepth.Value = new decimal(new int[] {
             3600,
             0,
@@ -218,7 +218,7 @@
             this.lblMaxDepth.Location = new System.Drawing.Point(10, 134);
             this.lblMaxDepth.Name = "lblMaxDepth";
             this.lblMaxDepth.Size = new System.Drawing.Size(116, 15);
-            this.lblMaxDepth.TabIndex = 13;
+            this.lblMaxDepth.TabIndex = 5;
             this.lblMaxDepth.Text = "Maximum depth,sec";
             // 
             // numMinDepth
@@ -237,7 +237,7 @@
             0});
             this.numMinDepth.Name = "numMinDepth";
             this.numMinDepth.Size = new System.Drawing.Size(120, 23);
-            this.numMinDepth.TabIndex = 12;
+            this.numMinDepth.TabIndex = 4;
             this.numMinDepth.Value = new decimal(new int[] {
             10,
             0,
@@ -251,7 +251,7 @@
             this.lblMinDepth.Location = new System.Drawing.Point(10, 83);
             this.lblMinDepth.Name = "lblMinDepth";
             this.lblMinDepth.Size = new System.Drawing.Size(117, 15);
-            this.lblMinDepth.TabIndex = 11;
+            this.lblMinDepth.TabIndex = 3;
             this.lblMinDepth.Text = "Minimum depth, sec";
             // 
             // chkAutoExport
@@ -261,7 +261,7 @@
             this.chkAutoExport.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.chkAutoExport.Name = "chkAutoExport";
             this.chkAutoExport.Size = new System.Drawing.Size(183, 19);
-            this.chkAutoExport.TabIndex = 3;
+            this.chkAutoExport.TabIndex = 2;
             this.chkAutoExport.Text = "Automatically export archives";
             this.chkAutoExport.UseVisualStyleBackColor = true;
             this.chkAutoExport.CheckedChanged += new System.EventHandler(this.chkAutoExport_CheckedChanged);
@@ -273,7 +273,7 @@
             this.chkEnabled.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.chkEnabled.Name = "chkEnabled";
             this.chkEnabled.Size = new System.Drawing.Size(68, 19);
-            this.chkEnabled.TabIndex = 2;
+            this.chkEnabled.TabIndex = 1;
             this.chkEnabled.Text = "Enabled";
             this.chkEnabled.UseVisualStyleBackColor = true;
             this.chkEnabled.CheckedChanged += new System.EventHandler(this.chkEnabled_CheckedChanged);

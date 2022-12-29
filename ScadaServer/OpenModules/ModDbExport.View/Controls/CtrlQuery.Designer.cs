@@ -80,7 +80,7 @@
             this.lblDataKind.Location = new System.Drawing.Point(250, 44);
             this.lblDataKind.Name = "lblDataKind";
             this.lblDataKind.Size = new System.Drawing.Size(57, 15);
-            this.lblDataKind.TabIndex = 8;
+            this.lblDataKind.TabIndex = 4;
             this.lblDataKind.Text = "Data kind";
             // 
             // cbDataKind
@@ -98,7 +98,7 @@
             this.cbDataKind.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.cbDataKind.Name = "cbDataKind";
             this.cbDataKind.Size = new System.Drawing.Size(138, 23);
-            this.cbDataKind.TabIndex = 7;
+            this.cbDataKind.TabIndex = 5;
             this.cbDataKind.SelectedIndexChanged += new System.EventHandler(this.cbDataKind_SelectedIndexChanged);
             // 
             // txtName
@@ -109,7 +109,7 @@
             this.txtName.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(237, 23);
-            this.txtName.TabIndex = 6;
+            this.txtName.TabIndex = 3;
             this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
             // lblName
@@ -118,7 +118,7 @@
             this.lblName.Location = new System.Drawing.Point(10, 44);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(39, 15);
-            this.lblName.TabIndex = 5;
+            this.lblName.TabIndex = 2;
             this.lblName.Text = "Name";
             // 
             // chkActive
@@ -164,7 +164,7 @@
             this.btnSelectDeviceNum.Location = new System.Drawing.Point(368, 125);
             this.btnSelectDeviceNum.Name = "btnSelectDeviceNum";
             this.btnSelectDeviceNum.Size = new System.Drawing.Size(23, 24);
-            this.btnSelectDeviceNum.TabIndex = 17;
+            this.btnSelectDeviceNum.TabIndex = 12;
             this.btnSelectDeviceNum.UseVisualStyleBackColor = true;
             this.btnSelectDeviceNum.Click += new System.EventHandler(this.btnSelectDeviceNum_Click);
             // 
@@ -176,7 +176,7 @@
             this.btnSelectObjNum.Location = new System.Drawing.Point(368, 81);
             this.btnSelectObjNum.Name = "btnSelectObjNum";
             this.btnSelectObjNum.Size = new System.Drawing.Size(23, 24);
-            this.btnSelectObjNum.TabIndex = 16;
+            this.btnSelectObjNum.TabIndex = 8;
             this.btnSelectObjNum.UseVisualStyleBackColor = true;
             this.btnSelectObjNum.Click += new System.EventHandler(this.btnSelectObjNum_Click);
             // 
@@ -188,7 +188,7 @@
             this.btnSelectCnlNum.Location = new System.Drawing.Point(368, 37);
             this.btnSelectCnlNum.Name = "btnSelectCnlNum";
             this.btnSelectCnlNum.Size = new System.Drawing.Size(23, 24);
-            this.btnSelectCnlNum.TabIndex = 15;
+            this.btnSelectCnlNum.TabIndex = 4;
             this.btnSelectCnlNum.UseVisualStyleBackColor = true;
             this.btnSelectCnlNum.Click += new System.EventHandler(this.btnSelectCnlNum_Click);
             // 
@@ -200,7 +200,7 @@
             this.btnEditDeviceNum.Location = new System.Drawing.Point(342, 125);
             this.btnEditDeviceNum.Name = "btnEditDeviceNum";
             this.btnEditDeviceNum.Size = new System.Drawing.Size(23, 24);
-            this.btnEditDeviceNum.TabIndex = 14;
+            this.btnEditDeviceNum.TabIndex = 11;
             this.btnEditDeviceNum.UseVisualStyleBackColor = true;
             this.btnEditDeviceNum.Click += new System.EventHandler(this.btnEditDeviceNum_Click);
             // 
@@ -211,7 +211,7 @@
             this.txtDeviceNum.Location = new System.Drawing.Point(13, 125);
             this.txtDeviceNum.Name = "txtDeviceNum";
             this.txtDeviceNum.Size = new System.Drawing.Size(323, 23);
-            this.txtDeviceNum.TabIndex = 13;
+            this.txtDeviceNum.TabIndex = 10;
             this.txtDeviceNum.TextChanged += new System.EventHandler(this.txtDeviceNum_TextChanged);
             this.txtDeviceNum.Enter += new System.EventHandler(this.txtDeviceNum_Enter);
             this.txtDeviceNum.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtDeviceNum_KeyDown);
@@ -223,7 +223,7 @@
             this.lblDeviceNum.Location = new System.Drawing.Point(10, 107);
             this.lblDeviceNum.Name = "lblDeviceNum";
             this.lblDeviceNum.Size = new System.Drawing.Size(92, 15);
-            this.lblDeviceNum.TabIndex = 12;
+            this.lblDeviceNum.TabIndex = 9;
             this.lblDeviceNum.Text = "Device numbers";
             // 
             // btnEditObjNum
@@ -234,7 +234,7 @@
             this.btnEditObjNum.Location = new System.Drawing.Point(342, 81);
             this.btnEditObjNum.Name = "btnEditObjNum";
             this.btnEditObjNum.Size = new System.Drawing.Size(23, 24);
-            this.btnEditObjNum.TabIndex = 11;
+            this.btnEditObjNum.TabIndex = 7;
             this.btnEditObjNum.UseVisualStyleBackColor = true;
             this.btnEditObjNum.Click += new System.EventHandler(this.btnEditObjNum_Click);
             // 
@@ -245,7 +245,7 @@
             this.txtObjNum.Location = new System.Drawing.Point(13, 81);
             this.txtObjNum.Name = "txtObjNum";
             this.txtObjNum.Size = new System.Drawing.Size(323, 23);
-            this.txtObjNum.TabIndex = 10;
+            this.txtObjNum.TabIndex = 6;
             this.txtObjNum.TextChanged += new System.EventHandler(this.txtObjNum_TextChanged);
             this.txtObjNum.Enter += new System.EventHandler(this.txtObjNum_Enter);
             this.txtObjNum.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtObjNum_KeyDown);
@@ -257,7 +257,7 @@
             this.lblObjNum.Location = new System.Drawing.Point(10, 63);
             this.lblObjNum.Name = "lblObjNum";
             this.lblObjNum.Size = new System.Drawing.Size(92, 15);
-            this.lblObjNum.TabIndex = 9;
+            this.lblObjNum.TabIndex = 5;
             this.lblObjNum.Text = "Object numbers";
             // 
             // btnEditCnlNum
@@ -268,7 +268,7 @@
             this.btnEditCnlNum.Location = new System.Drawing.Point(342, 37);
             this.btnEditCnlNum.Name = "btnEditCnlNum";
             this.btnEditCnlNum.Size = new System.Drawing.Size(23, 24);
-            this.btnEditCnlNum.TabIndex = 8;
+            this.btnEditCnlNum.TabIndex = 3;
             this.btnEditCnlNum.UseVisualStyleBackColor = true;
             this.btnEditCnlNum.Click += new System.EventHandler(this.btnEditCnlNum_Click);
             // 
@@ -279,7 +279,7 @@
             this.txtCnlNum.Location = new System.Drawing.Point(13, 37);
             this.txtCnlNum.Name = "txtCnlNum";
             this.txtCnlNum.Size = new System.Drawing.Size(323, 23);
-            this.txtCnlNum.TabIndex = 7;
+            this.txtCnlNum.TabIndex = 2;
             this.txtCnlNum.TextChanged += new System.EventHandler(this.txtCnlNum_TextChanged);
             this.txtCnlNum.Enter += new System.EventHandler(this.txtCnlNum_Enter);
             this.txtCnlNum.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCnlNum_KeyDown);
@@ -291,7 +291,7 @@
             this.lblCnlNum.Location = new System.Drawing.Point(10, 19);
             this.lblCnlNum.Name = "lblCnlNum";
             this.lblCnlNum.Size = new System.Drawing.Size(85, 15);
-            this.lblCnlNum.TabIndex = 6;
+            this.lblCnlNum.TabIndex = 1;
             this.lblCnlNum.Text = "Input channels";
             // 
             // gbQuery
@@ -316,7 +316,7 @@
             this.btnEditParametrs.Location = new System.Drawing.Point(368, 13);
             this.btnEditParametrs.Name = "btnEditParametrs";
             this.btnEditParametrs.Size = new System.Drawing.Size(23, 24);
-            this.btnEditParametrs.TabIndex = 15;
+            this.btnEditParametrs.TabIndex = 2;
             this.btnEditParametrs.UseVisualStyleBackColor = true;
             this.btnEditParametrs.Click += new System.EventHandler(this.btnEditParametrs_Click);
             // 
@@ -326,7 +326,7 @@
             this.chkSingleQuery.Location = new System.Drawing.Point(13, 16);
             this.chkSingleQuery.Name = "chkSingleQuery";
             this.chkSingleQuery.Size = new System.Drawing.Size(227, 19);
-            this.chkSingleQuery.TabIndex = 2;
+            this.chkSingleQuery.TabIndex = 1;
             this.chkSingleQuery.Text = "Single query (input channels required)";
             this.chkSingleQuery.UseVisualStyleBackColor = true;
             this.chkSingleQuery.CheckedChanged += new System.EventHandler(this.chkSingleQuery_CheckedChanged);
@@ -343,7 +343,7 @@
             this.txtSql.Name = "txtSql";
             this.txtSql.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtSql.Size = new System.Drawing.Size(381, 157);
-            this.txtSql.TabIndex = 7;
+            this.txtSql.TabIndex = 3;
             this.txtSql.TextChanged += new System.EventHandler(this.txtSql_TextChanged);
             // 
             // CtrlQuery
