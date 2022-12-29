@@ -3,8 +3,6 @@
 
 using MQTTnet;
 using MQTTnet.Client;
-using MQTTnet.Client.Connecting;
-using MQTTnet.Client.Subscribing;
 using Scada.Admin.Extensions.ExtWirenBoard.Code.Models;
 using Scada.Comm.Drivers.DrvMqtt;
 using Scada.Forms;
@@ -76,7 +74,8 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
             {
                 MqttFactory mqttFactory = new();
                 mqttClient = mqttFactory.CreateMqttClient();
-                mqttClient.UseApplicationMessageReceivedHandler(MqttClient_ApplicationMessageReceived);
+                mqttClient.ApplicationMessageReceivedAsync += 
+                    async e => await Task.Run(() => MqttClient_ApplicationMessageReceived(e));
 
                 logHelper.WriteMessage(string.Format(Locale.IsRussian ?
                     "Соединение с {0}:{1}" :
