@@ -1,7 +1,11 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.ComponentModel;
+using Scada.Forms;
+using Scada.Forms.Forms;
 using Scada.Lang;
+using Scada.Server.Modules.ModActiveDirectory.Config;
 
 namespace Scada.Server.Modules.ModActiveDirectory.View
 {
@@ -11,6 +15,15 @@ namespace Scada.Server.Modules.ModActiveDirectory.View
     /// </summary>
     public class ModActiveDirectoryView : ModuleView
     {
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public ModActiveDirectoryView()
+        {
+            CanShowProperties = true;
+        }
+
+
         /// <summary>
         /// Gets the module name.
         /// </summary>
@@ -35,6 +48,45 @@ namespace Scada.Server.Modules.ModActiveDirectory.View
                     "Модуль проверяет имя и пароль пользователя, используя Active Directory." :
                     "The module validates username and password using Active Directory.";
             }
+        }
+
+
+        /// <summary>
+        /// Loads language dictionaries.
+        /// </summary>
+        public override void LoadDictionaries()
+        {
+            if (!Locale.LoadDictionaries(AppDirs.LangDir, ModuleUtils.ModuleCode, out string errMsg))
+                ScadaUiUtils.ShowError(errMsg);
+
+            AttrTranslator.Translate(typeof(ModuleConfig));
+        }
+
+        /// <summary>
+        /// Shows a modal dialog box for editing module properties.
+        /// </summary>
+        public override bool ShowProperties()
+        {
+            // load module configuration
+            ModuleConfig moduleConfig = new();
+            string configFileName = Path.Combine(AppDirs.ConfigDir, ModuleConfig.DefaultFileName);
+
+            if (File.Exists(configFileName) && !moduleConfig.Load(configFileName, out string errMsg))
+                ScadaUiUtils.ShowError(errMsg);
+
+            // show configuration form
+            FrmOptions frmOptions = new() { Options = moduleConfig };
+
+            if (frmOptions.ShowDialog() == DialogResult.OK)
+            {
+                // save module configuration
+                if (moduleConfig.Save(configFileName, out errMsg))
+                    return true;
+                else
+                    ScadaUiUtils.ShowError(errMsg);
+            }
+
+            return false;
         }
     }
 }

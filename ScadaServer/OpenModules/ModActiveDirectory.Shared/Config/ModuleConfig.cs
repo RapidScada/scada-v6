@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.ComponentModel;
 using System.Xml;
 
 namespace Scada.Server.Modules.ModActiveDirectory.Config
@@ -20,11 +21,13 @@ namespace Scada.Server.Modules.ModActiveDirectory.Config
         /// <summary>
         /// Gets or sets the domain controller host or IP address.
         /// </summary>
+        [DisplayName, Category, Description]
         public string LdapServer { get; set; }
 
         /// <summary>
         /// Gets or sets the search root.
         /// </summary>
+        [DisplayName, Category, Description]
         public string SearchRoot { get; set; }
 
 
