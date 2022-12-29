@@ -77,7 +77,7 @@
             // 
             // numStatusCnlNum
             // 
-            this.numStatusCnlNum.Location = new System.Drawing.Point(10, 170);
+            this.numStatusCnlNum.Location = new System.Drawing.Point(13, 170);
             this.numStatusCnlNum.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.numStatusCnlNum.Maximum = new decimal(new int[] {
             100000,
@@ -98,7 +98,7 @@
             // 
             this.btnSelectCnlStat.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSelectCnlStat.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.find;
-            this.btnSelectCnlStat.Location = new System.Drawing.Point(136, 169);
+            this.btnSelectCnlStat.Location = new System.Drawing.Point(139, 169);
             this.btnSelectCnlStat.Name = "btnSelectCnlStat";
             this.btnSelectCnlStat.Size = new System.Drawing.Size(23, 24);
             this.btnSelectCnlStat.TabIndex = 27;
@@ -172,7 +172,7 @@
             // 
             // txtCmdCode
             // 
-            this.txtCmdCode.Location = new System.Drawing.Point(10, 120);
+            this.txtCmdCode.Location = new System.Drawing.Point(13, 120);
             this.txtCmdCode.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.txtCmdCode.Name = "txtCmdCode";
             this.txtCmdCode.Size = new System.Drawing.Size(120, 23);
@@ -192,7 +192,7 @@
             // 
             this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtName.Location = new System.Drawing.Point(74, 69);
+            this.txtName.Location = new System.Drawing.Point(77, 69);
             this.txtName.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(314, 23);
@@ -210,7 +210,7 @@
             // 
             // txtTargetID
             // 
-            this.txtTargetID.Location = new System.Drawing.Point(10, 69);
+            this.txtTargetID.Location = new System.Drawing.Point(13, 69);
             this.txtTargetID.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.txtTargetID.Name = "txtTargetID";
             this.txtTargetID.ReadOnly = true;

@@ -106,20 +106,60 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
         /// <summary>
         /// Calls the form for selecting list of channels.
         /// </summary>
-        private void selectNumsList(List<int> NumsList, TextBox textBox)
+        private void selectNumsList(List<int> numsList, TextBox textBox)
         {
             FrmCnlSelect frmCnlSelect = new(ConfigDataset)
             {
-                SelectedCnlNums = NumsList
+                SelectedCnlNums = numsList
             };
 
             if (frmCnlSelect.ShowDialog() == DialogResult.OK)
             {
-                NumsList.Clear();
-                NumsList.AddRange(frmCnlSelect.SelectedCnlNums);
+                numsList.Clear();
+                numsList.AddRange(frmCnlSelect.SelectedCnlNums);
 
-                textBox.Text = NumsList.ToRangeString();
+                textBox.Text = numsList.ToRangeString();
                 OnObjectChanged(TreeUpdateTypes.None);
+            }
+        }
+
+        /// <summary>
+        /// Validations textbox.
+        /// </summary>       
+        private void txtValidation(List<int> numsList, TextBox textBox)
+        {
+            if (queryOptions != null && cnlNumChanged)
+            {
+                if (ScadaUtils.ParseRange(textBox.Text, true, true, out IList<int> newRange))
+                {
+                    // update channel list
+                    numsList.Clear();
+
+                    if (newRange.Count > 0)
+                        numsList.AddRange(newRange);
+                    else
+                        numsList.Add(DefaultCnlNum);
+
+                    textBox.ForeColor = Color.FromKnownColor(KnownColor.WindowText);
+
+                    if (textBox.Text == "")
+                    {
+                        chkSingleQuery.Checked = false;
+                        chkSingleQuery.Enabled = false;
+                    }
+                    else
+                    {
+                        chkSingleQuery.Enabled = true;
+                    }
+
+                    OnObjectChanged(TreeUpdateTypes.None);
+                }
+                else
+                {
+                    // show error
+                    textBox.ForeColor = Color.Red;
+                    ScadaUiUtils.ShowError(CommonPhrases.ValidRangeRequired);
+                }
             }
         }
 
@@ -255,28 +295,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
 
         private void txtCnlNum_Validating(object sender, CancelEventArgs e)
         {
-            if (queryOptions != null && cnlNumChanged)
-            {
-                if (ScadaUtils.ParseRange(txtCnlNum.Text, true, true, out IList<int> newRange))
-                {
-                    // update channel list
-                    queryOptions.Filter.CnlNums.Clear();
-
-                    if (newRange.Count > 0)
-                        queryOptions.Filter.CnlNums.AddRange(newRange);
-                    else
-                        queryOptions.Filter.CnlNums.Add(DefaultCnlNum);
-
-                    txtCnlNum.ForeColor = Color.FromKnownColor(KnownColor.WindowText);
-                    OnObjectChanged(TreeUpdateTypes.None);
-                }
-                else
-                {
-                    // show error
-                    txtCnlNum.ForeColor = Color.Red;
-                    ScadaUiUtils.ShowError(CommonPhrases.ValidRangeRequired);
-                }
-            }
+            txtValidation(queryOptions.Filter.CnlNums, txtCnlNum);
         }
 
         private void txtCnlNum_KeyDown(object sender, KeyEventArgs e)
@@ -297,28 +316,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
 
         private void txtObjNum_Validating(object sender, CancelEventArgs e)
         {
-            if (queryOptions != null && cnlNumChanged)
-            {
-                if (ScadaUtils.ParseRange(txtObjNum.Text, true, true, out IList<int> newRange))
-                {
-                    // update channel list
-                    queryOptions.Filter.ObjNums.Clear();
-
-                    if (newRange.Count > 0)
-                        queryOptions.Filter.ObjNums.AddRange(newRange);
-                    else
-                        queryOptions.Filter.ObjNums.Add(DefaultCnlNum);
-
-                    txtObjNum.ForeColor = Color.FromKnownColor(KnownColor.WindowText);
-                    OnObjectChanged(TreeUpdateTypes.None);
-                }
-                else
-                {
-                    // show error
-                    txtObjNum.ForeColor = Color.Red;
-                    ScadaUiUtils.ShowError(CommonPhrases.ValidRangeRequired);
-                }
-            }
+            txtValidation(queryOptions.Filter.ObjNums, txtObjNum);
         }
 
         private void txtObjNum_KeyDown(object sender, KeyEventArgs e)
@@ -339,28 +337,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
 
         private void txtDeviceNum_Validating(object sender, CancelEventArgs e)
         {
-            if (queryOptions != null && cnlNumChanged)
-            {
-                if (ScadaUtils.ParseRange(txtDeviceNum.Text, true, true, out IList<int> newRange))
-                {
-                    // update channel list
-                    queryOptions.Filter.DeviceNums.Clear();
-
-                    if (newRange.Count > 0)
-                        queryOptions.Filter.DeviceNums.AddRange(newRange);
-                    else
-                        queryOptions.Filter.DeviceNums.Add(DefaultCnlNum);
-
-                    txtDeviceNum.ForeColor = Color.FromKnownColor(KnownColor.WindowText);
-                    OnObjectChanged(TreeUpdateTypes.None);
-                }
-                else
-                {
-                    // show error
-                    txtDeviceNum.ForeColor = Color.Red;
-                    ScadaUiUtils.ShowError(CommonPhrases.ValidRangeRequired);
-                }
-            }
+            txtValidation(queryOptions.Filter.DeviceNums, txtDeviceNum);
         }
 
         private void txtDeviceNum_KeyDown(object sender, KeyEventArgs e)

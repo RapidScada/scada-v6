@@ -420,10 +420,13 @@
             // 
             // ctrlDbConnection
             // 
+            this.ctrlDbConnection.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ctrlDbConnection.BuildConnectionStringFunc = null;
             this.ctrlDbConnection.ConnectionOptions = null;
             this.ctrlDbConnection.DbmsEnabled = true;
-            this.ctrlDbConnection.Location = new System.Drawing.Point(0, 3);
+            this.ctrlDbConnection.Location = new System.Drawing.Point(3, 3);
             this.ctrlDbConnection.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.ctrlDbConnection.Name = "ctrlDbConnection";
             this.ctrlDbConnection.NameEnabled = true;
@@ -434,7 +437,7 @@
             // ctrlArcReplication
             // 
             this.ctrlArcReplication.ConfigDataset = null;
-            this.ctrlArcReplication.Location = new System.Drawing.Point(0, 3);
+            this.ctrlArcReplication.Location = new System.Drawing.Point(3, 3);
             this.ctrlArcReplication.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.ctrlArcReplication.Name = "ctrlArcReplication";
             this.ctrlArcReplication.Size = new System.Drawing.Size(404, 462);
@@ -446,7 +449,7 @@
             this.ctrlCurDataExport.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ctrlCurDataExport.Location = new System.Drawing.Point(0, 3);
+            this.ctrlCurDataExport.Location = new System.Drawing.Point(3, 3);
             this.ctrlCurDataExport.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.ctrlCurDataExport.Name = "ctrlCurDataExport";
             this.ctrlCurDataExport.Size = new System.Drawing.Size(404, 462);
@@ -459,7 +462,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ctrlGeneral.ConfigDataset = null;
-            this.ctrlGeneral.Location = new System.Drawing.Point(0, 3);
+            this.ctrlGeneral.Location = new System.Drawing.Point(3, 3);
             this.ctrlGeneral.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.ctrlGeneral.Name = "ctrlGeneral";
             this.ctrlGeneral.Size = new System.Drawing.Size(404, 462);
@@ -472,7 +475,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ctrlQuery.ConfigDataset = null;
-            this.ctrlQuery.Location = new System.Drawing.Point(0, 3);
+            this.ctrlQuery.Location = new System.Drawing.Point(3, 3);
             this.ctrlQuery.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.ctrlQuery.Name = "ctrlQuery";
             this.ctrlQuery.Size = new System.Drawing.Size(404, 462);

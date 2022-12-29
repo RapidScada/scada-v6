@@ -81,7 +81,7 @@
             // 
             this.btnSelectEventArchiveBit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSelectEventArchiveBit.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.find;
-            this.btnSelectEventArchiveBit.Location = new System.Drawing.Point(89, 305);
+            this.btnSelectEventArchiveBit.Location = new System.Drawing.Point(139, 305);
             this.btnSelectEventArchiveBit.Name = "btnSelectEventArchiveBit";
             this.btnSelectEventArchiveBit.Size = new System.Drawing.Size(23, 23);
             this.btnSelectEventArchiveBit.TabIndex = 22;
@@ -98,7 +98,7 @@
             0,
             0});
             this.numEventArchiveBit.Name = "numEventArchiveBit";
-            this.numEventArchiveBit.Size = new System.Drawing.Size(71, 23);
+            this.numEventArchiveBit.Size = new System.Drawing.Size(120, 23);
             this.numEventArchiveBit.TabIndex = 21;
             this.numEventArchiveBit.Value = new decimal(new int[] {
             4,
@@ -120,7 +120,7 @@
             // 
             this.btnSelectHistArchiveBit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSelectHistArchiveBit.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.find;
-            this.btnSelectHistArchiveBit.Location = new System.Drawing.Point(89, 254);
+            this.btnSelectHistArchiveBit.Location = new System.Drawing.Point(139, 254);
             this.btnSelectHistArchiveBit.Name = "btnSelectHistArchiveBit";
             this.btnSelectHistArchiveBit.Size = new System.Drawing.Size(23, 23);
             this.btnSelectHistArchiveBit.TabIndex = 19;
@@ -137,7 +137,7 @@
             0,
             0});
             this.numHistArchiveBit.Name = "numHistArchiveBit";
-            this.numHistArchiveBit.Size = new System.Drawing.Size(71, 23);
+            this.numHistArchiveBit.Size = new System.Drawing.Size(120, 23);
             this.numHistArchiveBit.TabIndex = 18;
             this.numHistArchiveBit.Value = new decimal(new int[] {
             1,
@@ -170,7 +170,7 @@
             0,
             0});
             this.numReadingStep.Name = "numReadingStep";
-            this.numReadingStep.Size = new System.Drawing.Size(100, 23);
+            this.numReadingStep.Size = new System.Drawing.Size(120, 23);
             this.numReadingStep.TabIndex = 16;
             this.numReadingStep.Value = new decimal(new int[] {
             60,
@@ -203,7 +203,7 @@
             0,
             0});
             this.numMaxDepth.Name = "numMaxDepth";
-            this.numMaxDepth.Size = new System.Drawing.Size(100, 23);
+            this.numMaxDepth.Size = new System.Drawing.Size(120, 23);
             this.numMaxDepth.TabIndex = 14;
             this.numMaxDepth.Value = new decimal(new int[] {
             3600,
@@ -236,7 +236,7 @@
             0,
             0});
             this.numMinDepth.Name = "numMinDepth";
-            this.numMinDepth.Size = new System.Drawing.Size(100, 23);
+            this.numMinDepth.Size = new System.Drawing.Size(120, 23);
             this.numMinDepth.TabIndex = 12;
             this.numMinDepth.Value = new decimal(new int[] {
             10,
