@@ -5,11 +5,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <RootNamespace>Scada.Comm.Drivers.DrvCnlMqtt.Logic</RootNamespace>
-    <Version>6.0.0</Version>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
     <Copyright>Copyright © 2022</Copyright>
+    <Version>6.0.0</Version>
+    <AssemblyVersion>6.0.0.1</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
