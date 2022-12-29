@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Data.Const;
 using Scada.Data.Entities;
+using Scada.Lang;
 using Scada.Server.Lang;
 using Scada.Server.Modules.ModActiveDirectory.Config;
 using System.DirectoryServices.Protocols;
@@ -42,42 +44,116 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
         }
 
 
-        /*
         /// <summary>
-        /// Finds the security groups in Active Directory that the specified group belongs to and adds them to the list.
+        /// Validates user credentials.
         /// </summary>
-        private static void FindOwnerGroups(DirectoryEntry entry, string group, List<string> groups)
+        private static bool ValidateCredentials(LdapConnection connection)
         {
-            DirectorySearcher search = new DirectorySearcher(entry);
-            search.Filter = "(distinguishedName=" + group + ")";
-            search.PropertiesToLoad.Add("memberOf");
-            SearchResult searchRes = search.FindOne();
-
-            if (searchRes != null)
+            try
             {
-                foreach (object result in searchRes.Properties["memberOf"])
+                connection.Bind();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Finds the specified user.
+        /// </summary>
+        private bool FindUserEntry(LdapConnection connection, string username, out SearchResultEntry userEntry)
+        {
+            SearchRequest request = new(moduleConfig.SearchRoot, "(sAMAccountName=" + username + ")", 
+                SearchScope.Subtree, "memberOf")
+            {
+                SizeLimit = 1
+            };
+
+            if (connection.SendRequest(request) is SearchResponse searchResponse &&
+                searchResponse.Entries.Count > 0)
+            {
+                userEntry = searchResponse.Entries[0];
+                return true;
+            }
+            else
+            {
+                userEntry = null;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Finds security groups that the specified user is a member of.
+        /// </summary>
+        private List<string> FindUserGroups(LdapConnection connection, SearchResultEntry userEntry)
+        {
+            List<string> groups = new();
+
+            if (userEntry.Attributes.Contains("memberOf"))
+            {
+                foreach (object attrVal in userEntry.Attributes["memberOf"].GetValues(typeof(string)))
                 {
-                    string gr = result.ToString();
-                    groups.Add(gr);
-                    FindOwnerGroups(entry, gr, groups);
+                    string group = attrVal == null ? "" : attrVal.ToString();
+
+                    if (!string.IsNullOrEmpty(group))
+                    {
+                        groups.Add(group);
+                        FindOwnerGroups(connection, group, groups);
+                    }
+                }
+            }
+
+            return groups;
+        }
+
+        /// <summary>
+        /// Finds security groups that the specified group belongs to and adds them to the list.
+        /// </summary>
+        private void FindOwnerGroups(LdapConnection connection, string group, List<string> groups)
+        {
+            SearchRequest request = new(moduleConfig.SearchRoot, "(distinguishedName=" + group + ")", 
+                SearchScope.Subtree, "memberOf")
+            {
+                SizeLimit = 1
+            };
+
+            if (connection.SendRequest(request) is SearchResponse searchResponse)
+            {
+                foreach (SearchResultEntry entry in searchResponse.Entries)
+                {
+                    if (entry.Attributes.Contains("memberOf"))
+                    {
+                        foreach (object attrVal in entry.Attributes["memberOf"].GetValues(typeof(string)))
+                        {
+                            string ownerGroup = attrVal == null ? "" : attrVal.ToString();
+
+                            if (!string.IsNullOrEmpty(ownerGroup))
+                            {
+                                groups.Add(ownerGroup);
+                                FindOwnerGroups(connection, ownerGroup, groups);
+                            }
+                        }
+                    }
                 }
             }
         }
-        */
+
         /// <summary>
-        /// Checks if the list of security groups contains the specified user role.
+        /// Checks if the list of security groups contains the specified role.
         /// </summary>
-        private static bool GroupsContain(List<string> groups, string roleName)
+        private static bool GroupsContain(List<string> groups, string roleCode)
         {
-            roleName = "CN=" + roleName;
-
-            foreach (string group in groups)
+            if (string.IsNullOrEmpty(roleCode))
             {
-                if (group.StartsWith(roleName, StringComparison.OrdinalIgnoreCase))
-                    return true;
+                return false;
             }
-
-            return false;
+            else
+            {
+                string groupPrefix = "CN=" + roleCode;
+                return groups.Any(g => g.StartsWith(groupPrefix, StringComparison.OrdinalIgnoreCase));
+            }
         }
 
 
@@ -104,145 +180,94 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
         public override bool ValidateUser(string username, string password,
             out int userID, out int roleID, out string errMsg, out bool handled)
         {
-            // https://github.com/dotnet/runtime/tree/main/src/libraries/System.DirectoryServices/src/System/DirectoryServices
-            // https://github.com/dotnet/runtime/tree/main/src/libraries/System.DirectoryServices.Protocols/src/System/DirectoryServices/Protocols
-            // https://github.com/dotnet/runtime/issues/36888
-            // https://github.com/dotnet/runtime/issues/64900
-            // https://learn.microsoft.com/en-us/previous-versions/windows/desktop/dacx/how-to-enumerate-active-directory-definitions-for-user-and-device-claims-and-resource-properties
-            // https://stackoverflow.com/questions/69806882/ldap-connection-response-server-unavailable
+            userID = 0;
+            roleID = 0;
+            errMsg = "";
+            handled = false;
+
+            if (users.TryGetValue(username.ToLowerInvariant(), out User user) &&
+                !string.IsNullOrEmpty(user.Password))
+            {
+                return false; // use default validation
+            }
 
             try
             {
-                Log.WriteLine("!!! ValidateUser " + username);
-                Log.WriteLine("!!! LDAP path: " + moduleConfig.LdapPath);
                 using LdapConnection connection = new(
-                    new LdapDirectoryIdentifier(moduleConfig.LdapPath),
+                    new LdapDirectoryIdentifier(moduleConfig.LdapServer),
                     new NetworkCredential(username, password));
 
-                connection.Bind();
-                Log.WriteLine("!!! Bind OK");
-
-                SearchRequest request = new("", "(sAMAccountName=" + username + ")", SearchScope.Subtree, "memberOf")
+                if (ValidateCredentials(connection))
                 {
-                    SizeLimit = 1
-                };
-
-                if (connection.SendRequest(request) is SearchResponse searchResponse)
-                {
-                    Log.WriteLine("!!! Search OK");
-
-                    foreach (SearchResultEntry entry in searchResponse.Entries)
+                    if (user == null)
                     {
-                        Log.WriteLine("!!! Entry=" + entry.ToString());
-
-                        if (entry.Attributes.Contains("memberOf"))
+                        // user does not exist in the configuration database
+                        if (FindUserEntry(connection, username, out SearchResultEntry userEntry))
                         {
-                            foreach (DirectoryAttribute attr in entry.Attributes["memberOf"])
+                            List<string> userGroups = FindUserGroups(connection, userEntry);
+
+                            foreach (Role role in ServerContext.ConfigDatabase.RoleTable)
                             {
-                                Log.WriteLine("!!! Attr=" + attr.ToString());
-                            };
+                                if (GroupsContain(userGroups, role.Code))
+                                {
+                                    if (roleID > RoleID.Disabled)
+                                    {
+                                        roleID = role.RoleID;
+                                        handled = true;
+                                        return true;
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+                            }
                         }
-                    }
-                }
-
-                //string filter = $"(|(mail=joao.silva@brunobrito.net)(sAMAccountName={username}))";
-                //SearchRequest request = new("DC=brunobrito,DC=net", filter, SearchScope.Subtree, "displayName", "cn", "mail");
-                //DirectoryResponse response = connection.SendRequest(request); // response is SearchResponse
-            }
-            catch (Exception ex)
-            {
-                Log.WriteError(ex);
-                //Log.WriteError(ServerPhrases.ModuleMessage, Code, ex.Message);
-            }
-
-            /*DirectoryEntry entry = null;
-
-            try
-            {
-                // check password
-                bool pwdOK = false;
-
-                if (string.IsNullOrEmpty(password))
-                {
-                    entry = new DirectoryEntry(moduleConfig.LdapPath);
-                    pwdOK = true;
-                }
-                else
-                {
-                    entry = new DirectoryEntry(moduleConfig.LdapPath, username, password);
-
-                    // user authentication
-                    try
-                    {
-                        object native = entry.NativeObject;
-                        pwdOK = true;
-                    }
-                    catch { }
-                }
-
-                if (pwdOK)
-                {
-                    if (users.TryGetValue(username.Trim().ToLowerInvariant(), out User user))
-                    {
-                        roleID = user.RoleID;
-                        handled = true;
-                        return true;
+                        else
+                        {
+                            errMsg = Locale.IsRussian ?
+                                "Пользователь не найден в Active Directory" :
+                                "User not found in Active Directory";
+                        }
                     }
                     else
                     {
-                        // get user security groups
-                        DirectorySearcher search = new DirectorySearcher(entry);
-                        search.Filter = "(sAMAccountName=" + username + ")";
-                        search.PropertiesToLoad.Add("memberOf");
-                        SearchResult searchRes = search.FindOne();
+                        // user is found in the configuration database
+                        userID = user.UserID;
+                        roleID = user.RoleID;
 
-                        if (searchRes != null)
+                        if (user.Enabled && roleID > RoleID.Disabled)
                         {
-                            List<string> groups = new List<string>();
-                            foreach (object result in searchRes.Properties["memberOf"])
-                            {
-                                string group = result.ToString();
-                                groups.Add(group);
-                                FindOwnerGroups(entry, group, groups);
-                            }
-
-                            // define user role
-                            if (GroupsContain(groups, "ScadaDisabled"))
-                                roleID = BaseValues.Roles.Disabled;
-                            else if (GroupsContain(groups, "ScadaGuest"))
-                                roleID = BaseValues.Roles.Guest;
-                            else if (GroupsContain(groups, "ScadaDispatcher"))
-                                roleID = BaseValues.Roles.Dispatcher;
-                            else if (GroupsContain(groups, "ScadaAdmin"))
-                                roleID = BaseValues.Roles.Admin;
-                            else if (GroupsContain(groups, "ScadaApp"))
-                                roleID = BaseValues.Roles.App;
-                            else
-                                roleID = BaseValues.Roles.Err;
-
-                            // return successful result
-                            if (roleID != BaseValues.Roles.Err)
-                            {
-                                handled = true;
-                                return true;
-                            }
+                            errMsg = "";
+                            handled = true;
+                            return true;
                         }
                     }
+                }
+                else
+                {
+                    errMsg = Locale.IsRussian ?
+                        "Неверное имя пользователя или пароль" :
+                        "Invalid username or password";
                 }
             }
             catch (Exception ex)
             {
-                WriteToLog(string.Format(Localization.UseRussian ?
-                    "{0}. Ошибка при работе с Active Directory: {1}" :
-                    "{0}. Error working with Active Directory: {1}", Name, ex.Message),
-                    Log.ActTypes.Exception);
+                errMsg = Locale.IsRussian ?
+                    "Ошибка при взаимодействии с Active Directory" :
+                    "Error interacting with Active Directory";
+                Log.WriteError(ServerPhrases.ModuleMessage, Code, string.Format("{0}: {1}", errMsg, ex.Message));
             }
-            finally
-            {
-                entry?.Close();
-            }*/
 
-            return base.ValidateUser(username, password, out userID, out roleID, out errMsg, out handled);
+            if (roleID <= 0 && string.IsNullOrEmpty(errMsg))
+            {
+                errMsg = Locale.IsRussian ?
+                    "Пользователь отключен" :
+                    "Account is disabled";
+            }
+
+            handled = true;
+            return false;
         }
     }
 }
