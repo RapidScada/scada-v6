@@ -220,7 +220,11 @@ namespace Scada.Comm.Engine
             LineStatus = ServiceStatus.Starting;
             SharedData = new ConcurrentDictionary<string, object>();
             WriteInfo();
-            WriteDeviceInfo();
+
+            if (LineConfig.LineOptions.DetailedLog)
+                WriteDeviceInfo();
+            else
+                WriteDeviceInfoStubs();
 
             if (devices.Count > 0)
             {
@@ -690,7 +694,16 @@ namespace Scada.Comm.Engine
         /// </summary>
         private void WriteDeviceInfo()
         {
-            devices.ForEach(d => d.WriteInfo());
+            if (LineConfig.LineOptions.DetailedLog)
+                devices.ForEach(d => d.WriteInfo());
+        }
+
+        /// <summary>
+        /// Writes stubs to device information files.
+        /// </summary>
+        private void WriteDeviceInfoStubs()
+        {
+            devices.ForEach(d => d.WriteInfoStub());
         }
 
 
