@@ -3,7 +3,8 @@
 
 using Jint;
 using MQTTnet;
-using MQTTnet.Client.Publishing;
+using MQTTnet.Client;
+using MQTTnet.Packets;
 using MQTTnet.Protocol;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;

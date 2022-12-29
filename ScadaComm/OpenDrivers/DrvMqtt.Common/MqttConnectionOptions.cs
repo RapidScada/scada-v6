@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using MQTTnet.Client.Options;
+using MQTTnet.Client;
 using MQTTnet.Formatter;
 using Scada.Config;
 
@@ -106,13 +106,13 @@ namespace Scada.Comm.Drivers.DrvMqtt
         /// <summary>
         /// Converts the connection options to client options.
         /// </summary>
-        public IMqttClientOptions ToMqttClientOptions()
+        public MqttClientOptions ToMqttClientOptions()
         {
             MqttClientOptionsBuilder builder = new MqttClientOptionsBuilder()
                 .WithTcpServer(Server, Port > 0 ? Port : null);
 
             if (Timeout > 0)
-                builder.WithCommunicationTimeout(TimeSpan.FromMilliseconds(Timeout));
+                builder.WithTimeout(TimeSpan.FromMilliseconds(Timeout));
 
             if (UseTls)
                 builder.WithTls();

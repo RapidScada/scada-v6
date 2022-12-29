@@ -3,9 +3,7 @@
 
 using MQTTnet;
 using MQTTnet.Client;
-using MQTTnet.Client.Connecting;
-using MQTTnet.Client.Disconnecting;
-using MQTTnet.Client.Publishing;
+using MQTTnet.Packets;
 using Scada.Comm.Channels;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
@@ -35,13 +33,10 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
             {
                 get
                 {
-                    if (subscribedDevices == null)
-                    {
-                        subscribedDevices = string.Format(Locale.IsRussian ?
-                            "Подписанные устройства: {0}" :
-                            "Subscribed devices: {0}",
-                            string.Join(", ", Subscriptions.Select(s => s.Subscriber.DeviceNum)));
-                    }
+                    subscribedDevices ??= string.Format(Locale.IsRussian ?
+                        "Подписанные устройства: {0}" :
+                        "Subscribed devices: {0}",
+                        string.Join(", ", Subscriptions.Select(s => s.Subscriber.DeviceNum)));
 
                     return subscribedDevices;
                 }
@@ -220,9 +215,12 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
         /// </summary>
         public override void MakeReady()
         {
-            mqttClientHelper.Client.UseConnectedHandler(MqttClient_Connected);
-            mqttClientHelper.Client.UseDisconnectedHandler(MqttClient_Disconnected);
-            mqttClientHelper.Client.UseApplicationMessageReceivedHandler(MqttClient_ApplicationMessageReceived);
+            mqttClientHelper.Client.ConnectedAsync += 
+                async e => await Task.Run(() => MqttClient_Connected(e));
+            mqttClientHelper.Client.DisconnectedAsync += 
+                async e => await Task.Run(() => MqttClient_Disconnected(e));
+            mqttClientHelper.Client.ApplicationMessageReceivedAsync += 
+                async e => await Task.Run(() => MqttClient_ApplicationMessageReceived(e));
         }
 
         /// <summary>
