@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.gbGeneral = new System.Windows.Forms.GroupBox();
-            this.numStatusCnlNum = new System.Windows.Forms.NumericUpDown();
-            this.btnSelectCnlStat = new System.Windows.Forms.Button();
-            this.lblStatusCnlNum = new System.Windows.Forms.Label();
             this.numDataLifetime = new System.Windows.Forms.NumericUpDown();
             this.lblDataLifetime = new System.Windows.Forms.Label();
             this.numMaxQueueSize = new System.Windows.Forms.NumericUpDown();
             this.lblMaxQueueSize = new System.Windows.Forms.Label();
+            this.btnSelectCnlStat = new System.Windows.Forms.Button();
+            this.numStatusCnlNum = new System.Windows.Forms.NumericUpDown();
+            this.lblStatusCnlNum = new System.Windows.Forms.Label();
             this.txtCmdCode = new System.Windows.Forms.TextBox();
             this.lblCmdCode = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
@@ -44,9 +44,9 @@
             this.lblID = new System.Windows.Forms.Label();
             this.chkActive = new System.Windows.Forms.CheckBox();
             this.gbGeneral.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numStatusCnlNum)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numDataLifetime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMaxQueueSize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numStatusCnlNum)).BeginInit();
             this.SuspendLayout();
             // 
             // gbGeneral
@@ -74,45 +74,6 @@
             this.gbGeneral.TabIndex = 0;
             this.gbGeneral.TabStop = false;
             this.gbGeneral.Text = "General Options";
-            // 
-            // numStatusCnlNum
-            // 
-            this.numStatusCnlNum.Location = new System.Drawing.Point(13, 170);
-            this.numStatusCnlNum.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
-            this.numStatusCnlNum.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.numStatusCnlNum.Name = "numStatusCnlNum";
-            this.numStatusCnlNum.Size = new System.Drawing.Size(120, 23);
-            this.numStatusCnlNum.TabIndex = 9;
-            this.numStatusCnlNum.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numStatusCnlNum.ValueChanged += new System.EventHandler(this.numStatusCnlNum_ValueChanged);
-            // 
-            // btnSelectCnlStat
-            // 
-            this.btnSelectCnlStat.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSelectCnlStat.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.find;
-            this.btnSelectCnlStat.Location = new System.Drawing.Point(139, 169);
-            this.btnSelectCnlStat.Name = "btnSelectCnlStat";
-            this.btnSelectCnlStat.Size = new System.Drawing.Size(23, 24);
-            this.btnSelectCnlStat.TabIndex = 10;
-            this.btnSelectCnlStat.UseVisualStyleBackColor = true;
-            this.btnSelectCnlStat.Click += new System.EventHandler(this.btnSelectCnlStat_Click);
-            // 
-            // lblStatusCnlNum
-            // 
-            this.lblStatusCnlNum.AutoSize = true;
-            this.lblStatusCnlNum.Location = new System.Drawing.Point(10, 153);
-            this.lblStatusCnlNum.Name = "lblStatusCnlNum";
-            this.lblStatusCnlNum.Size = new System.Drawing.Size(129, 15);
-            this.lblStatusCnlNum.TabIndex = 8;
-            this.lblStatusCnlNum.Text = "Status channel number";
             // 
             // numDataLifetime
             // 
@@ -169,6 +130,45 @@
             this.lblMaxQueueSize.Size = new System.Drawing.Size(120, 15);
             this.lblMaxQueueSize.TabIndex = 11;
             this.lblMaxQueueSize.Text = "Maximum queue size";
+            // 
+            // btnSelectCnlStat
+            // 
+            this.btnSelectCnlStat.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnSelectCnlStat.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.find;
+            this.btnSelectCnlStat.Location = new System.Drawing.Point(139, 170);
+            this.btnSelectCnlStat.Name = "btnSelectCnlStat";
+            this.btnSelectCnlStat.Size = new System.Drawing.Size(23, 24);
+            this.btnSelectCnlStat.TabIndex = 10;
+            this.btnSelectCnlStat.UseVisualStyleBackColor = true;
+            this.btnSelectCnlStat.Click += new System.EventHandler(this.btnSelectCnlStat_Click);
+            // 
+            // numStatusCnlNum
+            // 
+            this.numStatusCnlNum.Location = new System.Drawing.Point(13, 170);
+            this.numStatusCnlNum.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+            this.numStatusCnlNum.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.numStatusCnlNum.Name = "numStatusCnlNum";
+            this.numStatusCnlNum.Size = new System.Drawing.Size(120, 23);
+            this.numStatusCnlNum.TabIndex = 9;
+            this.numStatusCnlNum.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numStatusCnlNum.ValueChanged += new System.EventHandler(this.numStatusCnlNum_ValueChanged);
+            // 
+            // lblStatusCnlNum
+            // 
+            this.lblStatusCnlNum.AutoSize = true;
+            this.lblStatusCnlNum.Location = new System.Drawing.Point(10, 153);
+            this.lblStatusCnlNum.Name = "lblStatusCnlNum";
+            this.lblStatusCnlNum.Size = new System.Drawing.Size(129, 15);
+            this.lblStatusCnlNum.TabIndex = 8;
+            this.lblStatusCnlNum.Text = "Status channel number";
             // 
             // txtCmdCode
             // 
@@ -248,9 +248,9 @@
             this.Size = new System.Drawing.Size(404, 462);
             this.gbGeneral.ResumeLayout(false);
             this.gbGeneral.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numStatusCnlNum)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numDataLifetime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMaxQueueSize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numStatusCnlNum)).EndInit();
             this.ResumeLayout(false);
 
         }

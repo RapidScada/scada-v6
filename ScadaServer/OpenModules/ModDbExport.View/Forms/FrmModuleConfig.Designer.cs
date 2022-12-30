@@ -430,7 +430,7 @@
             this.ctrlDbConnection.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.ctrlDbConnection.Name = "ctrlDbConnection";
             this.ctrlDbConnection.NameEnabled = true;
-            this.ctrlDbConnection.Size = new System.Drawing.Size(300, 399);
+            this.ctrlDbConnection.Size = new System.Drawing.Size(404, 462);
             this.ctrlDbConnection.TabIndex = 7;
             this.ctrlDbConnection.ConnectionOptionsChanged += new System.EventHandler(this.ctrlDbConnection_ConnectionOptionsChanged);
             // 

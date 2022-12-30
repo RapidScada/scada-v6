@@ -2,10 +2,7 @@
 
 using Scada.Dbms;
 using Scada.Forms;
-using Scada.Server.Config;
 using Scada.Server.Modules.ModDbExport.Config;
-using System;
-using System.Reflection;
 
 namespace Scada.Server.Modules.ModDbExport.View.Forms
 {
@@ -21,7 +18,9 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         public FrmQueryParametrs()
         {
             InitializeComponent();
+            
             QueryOptions = null;
+            DBMS = KnownDBMS.Undefined;
         }
  
         /// <summary>
@@ -30,9 +29,10 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         internal QueryOptions QueryOptions { get; set; }
 
         /// <summary>
-        /// Gets or sets the kind of db.
+        /// Gets or sets the database to generate query parameters.
         /// </summary>
-        //internal KnownDBMS DBMS { get; set; }
+        internal KnownDBMS DBMS { get; set; }
+
 
         private void FrmQueryParametrs_Load(object sender, EventArgs e)
         {
@@ -40,13 +40,12 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             
             lvParametrs.Items.Clear();
            
-            QueryInfo queryInfo = new(QueryOptions);
+            QueryInfo queryInfo = new(QueryOptions, DBMS);
+            IEnumerable<QueryParam> queryParamList = queryInfo.GetSqlParameters();
 
-            IDictionary<string, string> names = queryInfo.GetSqlParameters();
-
-            foreach (KeyValuePair<string, string> pair in names)
+            foreach (QueryParam queryParam in queryParamList)
             {
-                lvParametrs.Items.Add(new ListViewItem(new string[] { pair.Key, pair.Value }));
+                lvParametrs.Items.Add(new ListViewItem(new string[] { queryParam.Name, queryParam.Descr }));
             }
         }
     }

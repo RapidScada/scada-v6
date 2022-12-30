@@ -55,9 +55,9 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
         }
 
         /// <summary>
-        /// Gets editable target DbType.
+        /// Gets or sets editable target DbType.
         /// </summary>
-        //internal KnownDBMS DbmsType { get; set; }
+        internal KnownDBMS DbmsType { get; set; }
 
 
         /// <summary>
@@ -93,6 +93,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
                 txtCnlNum.Text = ScadaUtils.ToRangeString(options.Filter.CnlNums);
                 txtObjNum.Text = ScadaUtils.ToRangeString(options.Filter.ObjNums);
                 txtDeviceNum.Text = ScadaUtils.ToRangeString(options.Filter.DeviceNums);
+                txtSql.Clear();
                 txtSql.AppendText(options.Sql);
                 gbFilter.Visible = options.DataKind != DataKind.EventAck;
 
@@ -358,7 +359,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
         private void btnEditParametrs_Click(object sender, EventArgs e)
         {
             if (queryOptions != null)
-                _ = new FrmQueryParametrs { /*DBMS = DbmsType, */QueryOptions = queryOptions }
+                _ = new FrmQueryParametrs { QueryOptions = queryOptions, DBMS = DbmsType, }
                 .ShowDialog() == DialogResult.OK;
         }
     }

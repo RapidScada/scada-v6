@@ -470,6 +470,9 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
 
         private void ctrlDbConnection_ConnectionOptionsChanged(object sender, EventArgs e)
         {
+            if (tvTargets.SelectedNode != null)
+                tvTargets.SelectedNode.Parent.SetImageKey(ChooseNodeImage(tvTargets.SelectedNode.Parent.Tag));
+           
             Modified = true;
         }
 
@@ -627,12 +630,12 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             }
             else if (selectedObject is QueryOptions queryOptions)
             {
-                /*KnownDBMS dBMSType = KnownDBMS.Undefined;
+                KnownDBMS dBMSType = KnownDBMS.Undefined;
                 if (tvTargets.SelectedNode?.Parent.Parent.Nodes[1].Tag is DbConnectionOptions dbConnectionOptions1)
-                    dBMSType = dbConnectionOptions1.KnownDBMS;*/
+                    dBMSType = dbConnectionOptions1.KnownDBMS;
 
                 ctrlQuery.QueryOptions = queryOptions;
-                //ctrlQuery.DbmsType = dBMSType;
+                ctrlQuery.DbmsType = dBMSType;
                 ctrlQuery.Visible = true;
             }
             else if (selectedObject is QueryOptionList || selectedObject is ExportOptions || 
