@@ -323,7 +323,7 @@
             this.pnlMain.Location = new System.Drawing.Point(0, 25);
             this.pnlMain.Name = "pnlMain";
             this.pnlMain.Size = new System.Drawing.Size(734, 471);
-            this.pnlMain.TabIndex = 6;
+            this.pnlMain.TabIndex = 1;
             // 
             // tableLayoutPanel
             // 
@@ -350,7 +350,7 @@
             this.pnlTree.Margin = new System.Windows.Forms.Padding(0);
             this.pnlTree.Name = "pnlTree";
             this.pnlTree.Size = new System.Drawing.Size(315, 471);
-            this.pnlTree.TabIndex = 1;
+            this.pnlTree.TabIndex = 0;
             // 
             // gbTarget
             // 
@@ -510,7 +510,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = " ";
+            this.Text = "Export to DB";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmModuleConfig_FormClosing);
             this.Load += new System.EventHandler(this.FrmModuleConfig_Load);
             this.pnlBottom.ResumeLayout(false);

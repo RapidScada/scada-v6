@@ -51,13 +51,13 @@
             // 
             // gbGeneral
             // 
-            this.gbGeneral.Controls.Add(this.numStatusCnlNum);
-            this.gbGeneral.Controls.Add(this.btnSelectCnlStat);
-            this.gbGeneral.Controls.Add(this.lblStatusCnlNum);
             this.gbGeneral.Controls.Add(this.numDataLifetime);
             this.gbGeneral.Controls.Add(this.lblDataLifetime);
             this.gbGeneral.Controls.Add(this.numMaxQueueSize);
             this.gbGeneral.Controls.Add(this.lblMaxQueueSize);
+            this.gbGeneral.Controls.Add(this.btnSelectCnlStat);
+            this.gbGeneral.Controls.Add(this.numStatusCnlNum);
+            this.gbGeneral.Controls.Add(this.lblStatusCnlNum);
             this.gbGeneral.Controls.Add(this.txtCmdCode);
             this.gbGeneral.Controls.Add(this.lblCmdCode);
             this.gbGeneral.Controls.Add(this.txtName);

@@ -60,7 +60,7 @@
             this.gbOptions.Size = new System.Drawing.Size(404, 462);
             this.gbOptions.TabIndex = 0;
             this.gbOptions.TabStop = false;
-            this.gbOptions.Text = " Current Data Transfer Options";
+            this.gbOptions.Text = "Current Data Transfer Options";
             // 
             // chkIncludeCalculated
             // 

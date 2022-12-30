@@ -1,1 +1,94 @@
-﻿<?xml version="1.0" encoding="utf-8" ?> 
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ModRapidGateDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlArcReplication">
+    <Phrase key="gbOptions">Параметры репликации архивов</Phrase>
+    <Phrase key="chkEnabled">Включено</Phrase>
+    <Phrase key="chkAutoExport">Automatically export archives</Phrase>
+    <Phrase key="lblMinDepth">Минимальная глубина, с</Phrase>
+    <Phrase key="lblMaxDepth">Максимальная глубина, с</Phrase>
+    <Phrase key="lblReadingStep">Шаг чтения, c</Phrase>
+    <Phrase key="lblHistArchiveBit">Бит исторического архива</Phrase>
+    <Phrase key="lblLocalEventArchiveBit">Бит архива событий</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlCurDataExport">
+    <Phrase key="gbOptions">Параметры передачи текущих данных</Phrase>
+    <Phrase key="lblTrigger">Триггер</Phrase>
+    <Phrase key="cbTrigger.Items[0]">При получении</Phrase>
+    <Phrase key="cbTrigger.Items[1]">По таймеру</Phrase>
+    <Phrase key="lblTimePeriod">Период таймера, с</Phrase>
+    <Phrase key="lblAllDataPeriod">Период передачи данных всех каналов, с</Phrase>
+    <Phrase key="chkSkipUnchanged">Пропустить неизменённые данные</Phrase>
+    <Phrase key="chkIncludeCalculated">Передавать расчётные каналы</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlGeneral">
+    <Phrase key="gbGeneral">Основные параметры</Phrase>
+    <Phrase key="chkActive">Активен</Phrase>
+    <Phrase key="lblID">Идент.</Phrase>
+    <Phrase key="lblName">Наименование</Phrase>
+    <Phrase key="lblStatusCnlNum">Статус канала</Phrase>
+    <Phrase key="lblMaxQueueSize">Максимальный размер очереди</Phrase>
+    <Phrase key="lblDataLifetime">Время жизни данных в очереди, с</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlQuery">
+    <Phrase key="gbGeneral">Основные параметры</Phrase>
+    <Phrase key="chkActive">Активен</Phrase>
+    <Phrase key="lblName">Наименование</Phrase>
+    <Phrase key="lblDataKind">Тип данных</Phrase>
+    <Phrase key="cbDataKind.Items[0]">Current</Phrase>
+    <Phrase key="cbDataKind.Items[1]">Historical</Phrase>
+    <Phrase key="cbDataKind.Items[2]">Event</Phrase>
+    <Phrase key="cbDataKind.Items[3]">EventAck</Phrase>
+    <Phrase key="cbDataKind.Items[4]">Command</Phrase>
+    <Phrase key="gbFilter">Фильтр</Phrase>
+    <Phrase key="lblCnlNum">Channel numbers</Phrase>
+    <Phrase key="lblObjNum">Object numbers</Phrase>
+    <Phrase key="lblDeviceNum">Device numbers</Phrase>
+    <Phrase key="gbQuery">SQL</Phrase>
+    <Phrase key="chkSingleQuery">Одним запросом (требуются входные каналы)</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmModuleConfig">
+    <Phrase key="this">Экспорт в БД</Phrase>
+    <Phrase key="btnAddCurrentQuery.ToolTip">Add current query</Phrase>
+    <Phrase key="btnAddHistoricalQuery.ToolTip">Add historical query</Phrase>
+    <Phrase key="btnAddEventQuery.ToolTip">Add event query</Phrase>
+    <Phrase key="btnAddEventAckQuery.ToolTip">Add event acknowledgement query</Phrase>
+    <Phrase key="btnAddCommandQuery.ToolTip">Add command query</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Переместить вверх</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Переместить вниз</Phrase>
+    <Phrase key="btnDelete.ToolTip">Удалить</Phrase>
+    <Phrase key="btnCut.ToolTip">Вырезать</Phrase>
+    <Phrase key="btnCopy.ToolTip">Копировать</Phrase>
+    <Phrase key="btnPaste.ToolTip">Вставить</Phrase>
+    <Phrase key="gbTarget">Export Targets</Phrase>
+    <Phrase key="btnSave">Сохранить</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+    <Phrase key="btnClose">Закрыть</Phrase>
+    <Phrase key="miCollapseAll">Свернуть все</Phrase>
+    <Phrase key="CopySuffix"> - Копия</Phrase>
+    <Phrase key="ArchiveExportOptionsNode">Репликация архивов</Phrase>
+    <Phrase key="ConnectionOptionsNode">Параметры соединения</Phrase>
+    <Phrase key="CurrentExportOptionsNode">Текущие данные</Phrase>
+    <Phrase key="ExportOptionsNode">Export Options</Phrase>
+    <Phrase key="GeneralOptionsNode">Основные параметры</Phrase>
+    <Phrase key="AddTargets">Add targets</Phrase>
+    <Phrase key="SelectChildNode">Выберите дочерний узел</Phrase>
+    <Phrase key="TargetName">Target</Phrase>
+    <Phrase key="TargetNameNotUnique">Target names must be unique.</Phrase>
+    <Phrase key="TargetNameEmpty">The name of the target cannot be empty.</Phrase>
+    <Phrase key="QueryName">Query</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmQueryParametrs">
+    <Phrase key="this">Доступные параметры</Phrase>
+    <Phrase key="colParamsName">Имя параметра</Phrase>
+    <Phrase key="colParams">Параметр</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmRangeEdit">
+    <Phrase key="this">Редактирование диапазона</Phrase>
+    <Phrase key="lblRange">Диапазон целых чисел</Phrase>
+    <Phrase key="lblExample">Например: 1 - 5, 10</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
+</ModRapidGateDictionaries>

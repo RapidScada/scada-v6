@@ -94,9 +94,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(517, 388);
-            this.Controls.Add(this.lvParametrs);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
+            this.Controls.Add(this.lvParametrs);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmQueryParametrs";

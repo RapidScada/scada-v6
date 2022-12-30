@@ -28,60 +28,50 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.gbName = new System.Windows.Forms.GroupBox();
-            this.lblDataKind = new System.Windows.Forms.Label();
+            this.gbGeneral = new System.Windows.Forms.GroupBox();
             this.cbDataKind = new System.Windows.Forms.ComboBox();
+            this.lblDataKind = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
             this.chkActive = new System.Windows.Forms.CheckBox();
             this.gbFilter = new System.Windows.Forms.GroupBox();
             this.btnSelectDeviceNum = new System.Windows.Forms.Button();
-            this.btnSelectObjNum = new System.Windows.Forms.Button();
-            this.btnSelectCnlNum = new System.Windows.Forms.Button();
             this.btnEditDeviceNum = new System.Windows.Forms.Button();
             this.txtDeviceNum = new System.Windows.Forms.TextBox();
             this.lblDeviceNum = new System.Windows.Forms.Label();
+            this.btnSelectObjNum = new System.Windows.Forms.Button();
             this.btnEditObjNum = new System.Windows.Forms.Button();
             this.txtObjNum = new System.Windows.Forms.TextBox();
             this.lblObjNum = new System.Windows.Forms.Label();
+            this.btnSelectCnlNum = new System.Windows.Forms.Button();
             this.btnEditCnlNum = new System.Windows.Forms.Button();
             this.txtCnlNum = new System.Windows.Forms.TextBox();
             this.lblCnlNum = new System.Windows.Forms.Label();
             this.gbQuery = new System.Windows.Forms.GroupBox();
+            this.txtSql = new System.Windows.Forms.TextBox();
             this.btnEditParametrs = new System.Windows.Forms.Button();
             this.chkSingleQuery = new System.Windows.Forms.CheckBox();
-            this.txtSql = new System.Windows.Forms.TextBox();
-            this.gbName.SuspendLayout();
+            this.gbGeneral.SuspendLayout();
             this.gbFilter.SuspendLayout();
             this.gbQuery.SuspendLayout();
             this.SuspendLayout();
             // 
-            // gbName
+            // gbGeneral
             // 
-            this.gbName.Controls.Add(this.lblDataKind);
-            this.gbName.Controls.Add(this.cbDataKind);
-            this.gbName.Controls.Add(this.txtName);
-            this.gbName.Controls.Add(this.lblName);
-            this.gbName.Controls.Add(this.chkActive);
-            this.gbName.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbName.Location = new System.Drawing.Point(0, 0);
-            this.gbName.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
-            this.gbName.Name = "gbName";
-            this.gbName.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbName.Size = new System.Drawing.Size(404, 96);
-            this.gbName.TabIndex = 0;
-            this.gbName.TabStop = false;
-            this.gbName.Text = " General Options";
-            // 
-            // lblDataKind
-            // 
-            this.lblDataKind.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblDataKind.AutoSize = true;
-            this.lblDataKind.Location = new System.Drawing.Point(250, 44);
-            this.lblDataKind.Name = "lblDataKind";
-            this.lblDataKind.Size = new System.Drawing.Size(57, 15);
-            this.lblDataKind.TabIndex = 4;
-            this.lblDataKind.Text = "Data kind";
+            this.gbGeneral.Controls.Add(this.cbDataKind);
+            this.gbGeneral.Controls.Add(this.lblDataKind);
+            this.gbGeneral.Controls.Add(this.txtName);
+            this.gbGeneral.Controls.Add(this.lblName);
+            this.gbGeneral.Controls.Add(this.chkActive);
+            this.gbGeneral.Dock = System.Windows.Forms.DockStyle.Top;
+            this.gbGeneral.Location = new System.Drawing.Point(0, 0);
+            this.gbGeneral.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+            this.gbGeneral.Name = "gbGeneral";
+            this.gbGeneral.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
+            this.gbGeneral.Size = new System.Drawing.Size(404, 96);
+            this.gbGeneral.TabIndex = 0;
+            this.gbGeneral.TabStop = false;
+            this.gbGeneral.Text = "General Options";
             // 
             // cbDataKind
             // 
@@ -100,6 +90,16 @@
             this.cbDataKind.Size = new System.Drawing.Size(138, 23);
             this.cbDataKind.TabIndex = 5;
             this.cbDataKind.SelectedIndexChanged += new System.EventHandler(this.cbDataKind_SelectedIndexChanged);
+            // 
+            // lblDataKind
+            // 
+            this.lblDataKind.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblDataKind.AutoSize = true;
+            this.lblDataKind.Location = new System.Drawing.Point(250, 44);
+            this.lblDataKind.Name = "lblDataKind";
+            this.lblDataKind.Size = new System.Drawing.Size(57, 15);
+            this.lblDataKind.TabIndex = 4;
+            this.lblDataKind.Text = "Data kind";
             // 
             // txtName
             // 
@@ -135,14 +135,14 @@
             // gbFilter
             // 
             this.gbFilter.Controls.Add(this.btnSelectDeviceNum);
-            this.gbFilter.Controls.Add(this.btnSelectObjNum);
-            this.gbFilter.Controls.Add(this.btnSelectCnlNum);
             this.gbFilter.Controls.Add(this.btnEditDeviceNum);
             this.gbFilter.Controls.Add(this.txtDeviceNum);
             this.gbFilter.Controls.Add(this.lblDeviceNum);
+            this.gbFilter.Controls.Add(this.btnSelectObjNum);
             this.gbFilter.Controls.Add(this.btnEditObjNum);
             this.gbFilter.Controls.Add(this.txtObjNum);
             this.gbFilter.Controls.Add(this.lblObjNum);
+            this.gbFilter.Controls.Add(this.btnSelectCnlNum);
             this.gbFilter.Controls.Add(this.btnEditCnlNum);
             this.gbFilter.Controls.Add(this.txtCnlNum);
             this.gbFilter.Controls.Add(this.lblCnlNum);
@@ -167,30 +167,6 @@
             this.btnSelectDeviceNum.TabIndex = 12;
             this.btnSelectDeviceNum.UseVisualStyleBackColor = true;
             this.btnSelectDeviceNum.Click += new System.EventHandler(this.btnSelectDeviceNum_Click);
-            // 
-            // btnSelectObjNum
-            // 
-            this.btnSelectObjNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectObjNum.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSelectObjNum.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.find;
-            this.btnSelectObjNum.Location = new System.Drawing.Point(368, 81);
-            this.btnSelectObjNum.Name = "btnSelectObjNum";
-            this.btnSelectObjNum.Size = new System.Drawing.Size(23, 24);
-            this.btnSelectObjNum.TabIndex = 8;
-            this.btnSelectObjNum.UseVisualStyleBackColor = true;
-            this.btnSelectObjNum.Click += new System.EventHandler(this.btnSelectObjNum_Click);
-            // 
-            // btnSelectCnlNum
-            // 
-            this.btnSelectCnlNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelectCnlNum.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSelectCnlNum.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.find;
-            this.btnSelectCnlNum.Location = new System.Drawing.Point(368, 37);
-            this.btnSelectCnlNum.Name = "btnSelectCnlNum";
-            this.btnSelectCnlNum.Size = new System.Drawing.Size(23, 24);
-            this.btnSelectCnlNum.TabIndex = 4;
-            this.btnSelectCnlNum.UseVisualStyleBackColor = true;
-            this.btnSelectCnlNum.Click += new System.EventHandler(this.btnSelectCnlNum_Click);
             // 
             // btnEditDeviceNum
             // 
@@ -226,6 +202,18 @@
             this.lblDeviceNum.TabIndex = 9;
             this.lblDeviceNum.Text = "Device numbers";
             // 
+            // btnSelectObjNum
+            // 
+            this.btnSelectObjNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSelectObjNum.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnSelectObjNum.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.find;
+            this.btnSelectObjNum.Location = new System.Drawing.Point(368, 81);
+            this.btnSelectObjNum.Name = "btnSelectObjNum";
+            this.btnSelectObjNum.Size = new System.Drawing.Size(23, 24);
+            this.btnSelectObjNum.TabIndex = 8;
+            this.btnSelectObjNum.UseVisualStyleBackColor = true;
+            this.btnSelectObjNum.Click += new System.EventHandler(this.btnSelectObjNum_Click);
+            // 
             // btnEditObjNum
             // 
             this.btnEditObjNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -260,6 +248,18 @@
             this.lblObjNum.TabIndex = 5;
             this.lblObjNum.Text = "Object numbers";
             // 
+            // btnSelectCnlNum
+            // 
+            this.btnSelectCnlNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSelectCnlNum.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnSelectCnlNum.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.find;
+            this.btnSelectCnlNum.Location = new System.Drawing.Point(368, 37);
+            this.btnSelectCnlNum.Name = "btnSelectCnlNum";
+            this.btnSelectCnlNum.Size = new System.Drawing.Size(23, 24);
+            this.btnSelectCnlNum.TabIndex = 4;
+            this.btnSelectCnlNum.UseVisualStyleBackColor = true;
+            this.btnSelectCnlNum.Click += new System.EventHandler(this.btnSelectCnlNum_Click);
+            // 
             // btnEditCnlNum
             // 
             this.btnEditCnlNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -290,15 +290,15 @@
             this.lblCnlNum.AutoSize = true;
             this.lblCnlNum.Location = new System.Drawing.Point(10, 19);
             this.lblCnlNum.Name = "lblCnlNum";
-            this.lblCnlNum.Size = new System.Drawing.Size(85, 15);
+            this.lblCnlNum.Size = new System.Drawing.Size(101, 15);
             this.lblCnlNum.TabIndex = 1;
-            this.lblCnlNum.Text = "Input channels";
+            this.lblCnlNum.Text = "Channel numbers";
             // 
             // gbQuery
             // 
+            this.gbQuery.Controls.Add(this.txtSql);
             this.gbQuery.Controls.Add(this.btnEditParametrs);
             this.gbQuery.Controls.Add(this.chkSingleQuery);
-            this.gbQuery.Controls.Add(this.txtSql);
             this.gbQuery.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbQuery.Location = new System.Drawing.Point(0, 253);
             this.gbQuery.Name = "gbQuery";
@@ -307,6 +307,22 @@
             this.gbQuery.TabIndex = 2;
             this.gbQuery.TabStop = false;
             this.gbQuery.Text = "Query";
+            // 
+            // txtSql
+            // 
+            this.txtSql.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSql.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtSql.Location = new System.Drawing.Point(10, 41);
+            this.txtSql.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+            this.txtSql.Multiline = true;
+            this.txtSql.Name = "txtSql";
+            this.txtSql.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtSql.Size = new System.Drawing.Size(381, 157);
+            this.txtSql.TabIndex = 3;
+            this.txtSql.WordWrap = false;
+            this.txtSql.TextChanged += new System.EventHandler(this.txtSql_TextChanged);
             // 
             // btnEditParametrs
             // 
@@ -327,24 +343,9 @@
             this.chkSingleQuery.Name = "chkSingleQuery";
             this.chkSingleQuery.Size = new System.Drawing.Size(227, 19);
             this.chkSingleQuery.TabIndex = 1;
-            this.chkSingleQuery.Text = "Single query (input channels required)";
+            this.chkSingleQuery.Text = "Single query (input numbers required)";
             this.chkSingleQuery.UseVisualStyleBackColor = true;
             this.chkSingleQuery.CheckedChanged += new System.EventHandler(this.chkSingleQuery_CheckedChanged);
-            // 
-            // txtSql
-            // 
-            this.txtSql.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSql.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtSql.Location = new System.Drawing.Point(10, 41);
-            this.txtSql.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
-            this.txtSql.Multiline = true;
-            this.txtSql.Name = "txtSql";
-            this.txtSql.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtSql.Size = new System.Drawing.Size(381, 157);
-            this.txtSql.TabIndex = 3;
-            this.txtSql.TextChanged += new System.EventHandler(this.txtSql_TextChanged);
             // 
             // CtrlQuery
             // 
@@ -352,12 +353,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.gbQuery);
             this.Controls.Add(this.gbFilter);
-            this.Controls.Add(this.gbName);
+            this.Controls.Add(this.gbGeneral);
             this.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.Name = "CtrlQuery";
             this.Size = new System.Drawing.Size(404, 462);
-            this.gbName.ResumeLayout(false);
-            this.gbName.PerformLayout();
+            this.gbGeneral.ResumeLayout(false);
+            this.gbGeneral.PerformLayout();
             this.gbFilter.ResumeLayout(false);
             this.gbFilter.PerformLayout();
             this.gbQuery.ResumeLayout(false);
@@ -368,7 +369,7 @@
 
         #endregion
 
-        private GroupBox gbName;
+        private GroupBox gbGeneral;
         private CheckBox chkActive;
         private TextBox txtName;
         private Label lblName;
