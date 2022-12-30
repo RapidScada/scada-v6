@@ -127,6 +127,7 @@
     <Phrase key="gbConnectionOptions">Opsi Koneksi</Phrase>
     <Phrase key="lblName">Nama</Phrase>
     <Phrase key="lblDbms">DBMS</Phrase>
+    <Phrase key="cbDbms.Items[0]">Tidak ditentukan</Phrase>
     <Phrase key="lblServer">Server</Phrase>
     <Phrase key="lblDatabase">Basis data</Phrase>
     <Phrase key="lblUsername">Nama pengguna</Phrase>
