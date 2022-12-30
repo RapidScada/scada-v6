@@ -67,26 +67,12 @@ namespace Scada.Server.Modules.ModActiveDirectory.View
         /// </summary>
         public override bool ShowProperties()
         {
-            // load module configuration
-            ModuleConfig moduleConfig = new();
-            string configFileName = Path.Combine(AppDirs.ConfigDir, ModuleConfig.DefaultFileName);
-
-            if (File.Exists(configFileName) && !moduleConfig.Load(configFileName, out string errMsg))
-                ScadaUiUtils.ShowError(errMsg);
-
-            // show configuration form
-            FrmOptions frmOptions = new() { Options = moduleConfig };
-
-            if (frmOptions.ShowDialog() == DialogResult.OK)
-            {
-                // save module configuration
-                if (moduleConfig.Save(configFileName, out errMsg))
-                    return true;
-                else
-                    ScadaUiUtils.ShowError(errMsg);
+            return new FrmOptions
+            { 
+                Config = new ModuleConfig(),
+                ConfigFileName = Path.Combine(AppDirs.ConfigDir, ModuleConfig.DefaultFileName)
             }
-
-            return false;
+            .ShowDialog() == DialogResult.OK;
         }
     }
 }
