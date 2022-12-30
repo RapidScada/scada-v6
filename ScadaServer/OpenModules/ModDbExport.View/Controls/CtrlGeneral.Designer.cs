@@ -135,7 +135,7 @@
             // 
             this.btnSelectCnlStat.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSelectCnlStat.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.find;
-            this.btnSelectCnlStat.Location = new System.Drawing.Point(139, 170);
+            this.btnSelectCnlStat.Location = new System.Drawing.Point(139, 169);
             this.btnSelectCnlStat.Name = "btnSelectCnlStat";
             this.btnSelectCnlStat.Size = new System.Drawing.Size(23, 24);
             this.btnSelectCnlStat.TabIndex = 10;

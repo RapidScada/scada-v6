@@ -84,10 +84,10 @@
             "Event",
             "EventAck",
             "Command"});
-            this.cbDataKind.Location = new System.Drawing.Point(256, 62);
+            this.cbDataKind.Location = new System.Drawing.Point(269, 62);
             this.cbDataKind.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.cbDataKind.Name = "cbDataKind";
-            this.cbDataKind.Size = new System.Drawing.Size(138, 23);
+            this.cbDataKind.Size = new System.Drawing.Size(122, 23);
             this.cbDataKind.TabIndex = 5;
             this.cbDataKind.SelectedIndexChanged += new System.EventHandler(this.cbDataKind_SelectedIndexChanged);
             // 
@@ -95,7 +95,7 @@
             // 
             this.lblDataKind.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblDataKind.AutoSize = true;
-            this.lblDataKind.Location = new System.Drawing.Point(253, 44);
+            this.lblDataKind.Location = new System.Drawing.Point(266, 44);
             this.lblDataKind.Name = "lblDataKind";
             this.lblDataKind.Size = new System.Drawing.Size(57, 15);
             this.lblDataKind.TabIndex = 4;
@@ -108,7 +108,7 @@
             this.txtName.Location = new System.Drawing.Point(13, 62);
             this.txtName.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(237, 23);
+            this.txtName.Size = new System.Drawing.Size(250, 23);
             this.txtName.TabIndex = 3;
             this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
@@ -151,7 +151,7 @@
             this.gbFilter.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.gbFilter.Name = "gbFilter";
             this.gbFilter.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbFilter.Size = new System.Drawing.Size(404, 157);
+            this.gbFilter.Size = new System.Drawing.Size(404, 163);
             this.gbFilter.TabIndex = 1;
             this.gbFilter.TabStop = false;
             this.gbFilter.Text = "Filter";
@@ -161,7 +161,7 @@
             this.btnSelectDeviceNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSelectDeviceNum.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSelectDeviceNum.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.find;
-            this.btnSelectDeviceNum.Location = new System.Drawing.Point(371, 125);
+            this.btnSelectDeviceNum.Location = new System.Drawing.Point(368, 126);
             this.btnSelectDeviceNum.Name = "btnSelectDeviceNum";
             this.btnSelectDeviceNum.Size = new System.Drawing.Size(23, 24);
             this.btnSelectDeviceNum.TabIndex = 12;
@@ -173,7 +173,7 @@
             this.btnEditDeviceNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEditDeviceNum.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEditDeviceNum.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.edit;
-            this.btnEditDeviceNum.Location = new System.Drawing.Point(342, 125);
+            this.btnEditDeviceNum.Location = new System.Drawing.Point(339, 126);
             this.btnEditDeviceNum.Name = "btnEditDeviceNum";
             this.btnEditDeviceNum.Size = new System.Drawing.Size(23, 24);
             this.btnEditDeviceNum.TabIndex = 11;
@@ -184,9 +184,10 @@
             // 
             this.txtDeviceNum.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDeviceNum.Location = new System.Drawing.Point(13, 125);
+            this.txtDeviceNum.Location = new System.Drawing.Point(13, 127);
+            this.txtDeviceNum.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.txtDeviceNum.Name = "txtDeviceNum";
-            this.txtDeviceNum.Size = new System.Drawing.Size(323, 23);
+            this.txtDeviceNum.Size = new System.Drawing.Size(320, 23);
             this.txtDeviceNum.TabIndex = 10;
             this.txtDeviceNum.TextChanged += new System.EventHandler(this.txtDeviceNum_TextChanged);
             this.txtDeviceNum.Enter += new System.EventHandler(this.txtDeviceNum_Enter);
@@ -196,7 +197,7 @@
             // lblDeviceNum
             // 
             this.lblDeviceNum.AutoSize = true;
-            this.lblDeviceNum.Location = new System.Drawing.Point(10, 107);
+            this.lblDeviceNum.Location = new System.Drawing.Point(10, 109);
             this.lblDeviceNum.Name = "lblDeviceNum";
             this.lblDeviceNum.Size = new System.Drawing.Size(92, 15);
             this.lblDeviceNum.TabIndex = 9;
@@ -207,7 +208,7 @@
             this.btnSelectObjNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSelectObjNum.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSelectObjNum.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.find;
-            this.btnSelectObjNum.Location = new System.Drawing.Point(371, 81);
+            this.btnSelectObjNum.Location = new System.Drawing.Point(368, 80);
             this.btnSelectObjNum.Name = "btnSelectObjNum";
             this.btnSelectObjNum.Size = new System.Drawing.Size(23, 24);
             this.btnSelectObjNum.TabIndex = 8;
@@ -219,7 +220,7 @@
             this.btnEditObjNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEditObjNum.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEditObjNum.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.edit;
-            this.btnEditObjNum.Location = new System.Drawing.Point(342, 81);
+            this.btnEditObjNum.Location = new System.Drawing.Point(339, 79);
             this.btnEditObjNum.Name = "btnEditObjNum";
             this.btnEditObjNum.Size = new System.Drawing.Size(23, 24);
             this.btnEditObjNum.TabIndex = 7;
@@ -232,7 +233,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtObjNum.Location = new System.Drawing.Point(13, 81);
             this.txtObjNum.Name = "txtObjNum";
-            this.txtObjNum.Size = new System.Drawing.Size(323, 23);
+            this.txtObjNum.Size = new System.Drawing.Size(320, 23);
             this.txtObjNum.TabIndex = 6;
             this.txtObjNum.TextChanged += new System.EventHandler(this.txtObjNum_TextChanged);
             this.txtObjNum.Enter += new System.EventHandler(this.txtObjNum_Enter);
@@ -253,7 +254,7 @@
             this.btnSelectCnlNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSelectCnlNum.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSelectCnlNum.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.find;
-            this.btnSelectCnlNum.Location = new System.Drawing.Point(371, 36);
+            this.btnSelectCnlNum.Location = new System.Drawing.Point(368, 36);
             this.btnSelectCnlNum.Name = "btnSelectCnlNum";
             this.btnSelectCnlNum.Size = new System.Drawing.Size(23, 24);
             this.btnSelectCnlNum.TabIndex = 4;
@@ -265,7 +266,7 @@
             this.btnEditCnlNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEditCnlNum.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEditCnlNum.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.edit;
-            this.btnEditCnlNum.Location = new System.Drawing.Point(342, 36);
+            this.btnEditCnlNum.Location = new System.Drawing.Point(339, 36);
             this.btnEditCnlNum.Name = "btnEditCnlNum";
             this.btnEditCnlNum.Size = new System.Drawing.Size(23, 24);
             this.btnEditCnlNum.TabIndex = 3;
@@ -278,7 +279,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCnlNum.Location = new System.Drawing.Point(13, 37);
             this.txtCnlNum.Name = "txtCnlNum";
-            this.txtCnlNum.Size = new System.Drawing.Size(323, 23);
+            this.txtCnlNum.Size = new System.Drawing.Size(320, 23);
             this.txtCnlNum.TabIndex = 2;
             this.txtCnlNum.TextChanged += new System.EventHandler(this.txtCnlNum_TextChanged);
             this.txtCnlNum.Enter += new System.EventHandler(this.txtCnlNum_Enter);
@@ -300,10 +301,10 @@
             this.gbQuery.Controls.Add(this.btnEditParametrs);
             this.gbQuery.Controls.Add(this.chkSingleQuery);
             this.gbQuery.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbQuery.Location = new System.Drawing.Point(0, 253);
+            this.gbQuery.Location = new System.Drawing.Point(0, 259);
             this.gbQuery.Name = "gbQuery";
             this.gbQuery.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbQuery.Size = new System.Drawing.Size(404, 209);
+            this.gbQuery.Size = new System.Drawing.Size(404, 203);
             this.gbQuery.TabIndex = 2;
             this.gbQuery.TabStop = false;
             this.gbQuery.Text = "Query";
@@ -314,12 +315,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSql.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtSql.Location = new System.Drawing.Point(10, 41);
-            this.txtSql.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+            this.txtSql.Location = new System.Drawing.Point(13, 47);
             this.txtSql.Multiline = true;
             this.txtSql.Name = "txtSql";
             this.txtSql.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtSql.Size = new System.Drawing.Size(384, 157);
+            this.txtSql.Size = new System.Drawing.Size(378, 143);
             this.txtSql.TabIndex = 3;
             this.txtSql.WordWrap = false;
             this.txtSql.TextChanged += new System.EventHandler(this.txtSql_TextChanged);
@@ -329,7 +329,7 @@
             this.btnEditParametrs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEditParametrs.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEditParametrs.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.parameters;
-            this.btnEditParametrs.Location = new System.Drawing.Point(371, 13);
+            this.btnEditParametrs.Location = new System.Drawing.Point(368, 18);
             this.btnEditParametrs.Name = "btnEditParametrs";
             this.btnEditParametrs.Size = new System.Drawing.Size(23, 24);
             this.btnEditParametrs.TabIndex = 2;
@@ -339,7 +339,7 @@
             // chkSingleQuery
             // 
             this.chkSingleQuery.AutoSize = true;
-            this.chkSingleQuery.Location = new System.Drawing.Point(13, 16);
+            this.chkSingleQuery.Location = new System.Drawing.Point(13, 22);
             this.chkSingleQuery.Name = "chkSingleQuery";
             this.chkSingleQuery.Size = new System.Drawing.Size(227, 19);
             this.chkSingleQuery.TabIndex = 1;
