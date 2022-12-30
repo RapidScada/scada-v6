@@ -45,7 +45,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         public EventQuery(int queryID, QueryOptions queryOptions, DataSource dataSource)
             : base(queryID, queryOptions, dataSource)
         {
-            Parameters = new()
+            Parameters = new QueryParameters
             {
                 EventID = DataSource.SetParam(Command, "eventID", 0L),
                 Timestamp = DataSource.SetParam(Command, "timestamp", DateTime.MinValue),

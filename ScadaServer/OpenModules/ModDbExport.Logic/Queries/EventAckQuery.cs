@@ -30,7 +30,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         public EventAckQuery(int queryID, QueryOptions queryOptions, DataSource dataSource)
             : base(queryID, queryOptions, dataSource)
         {
-            Parameters = new()
+            Parameters = new QueryParameters
             {
                 EventID = DataSource.SetParam(Command, "eventID", 0L),
                 AckTimestamp = DataSource.SetParam(Command, "ackTimestamp", DateTime.MinValue),
