@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.ComponentModel;
 using System.Xml;
 
 namespace Scada.Server.Modules.ModActiveDirectory.Config
@@ -18,17 +19,25 @@ namespace Scada.Server.Modules.ModActiveDirectory.Config
 
 
         /// <summary>
-        /// Gets or sets the domain controller path.
+        /// Gets or sets the domain controller host or IP address.
         /// </summary>
-        public string LdapPath { get; set; }
-        
-        
+        [DisplayName, Category, Description]
+        public string LdapServer { get; set; }
+
+        /// <summary>
+        /// Gets or sets the search root.
+        /// </summary>
+        [DisplayName, Category, Description]
+        public string SearchRoot { get; set; }
+
+
         /// <summary>
         /// Sets the default values.
         /// </summary>
         protected override void SetToDefault()
         {
-            LdapPath = "LDAP://localhost";
+            LdapServer = "";
+            SearchRoot = "";
         }
 
         /// <summary>
@@ -36,9 +45,12 @@ namespace Scada.Server.Modules.ModActiveDirectory.Config
         /// </summary>
         protected override void Load(TextReader reader)
         {
-            XmlDocument xmlDoc = new XmlDocument();
+            XmlDocument xmlDoc = new();
             xmlDoc.Load(reader);
-            LdapPath = xmlDoc.DocumentElement.GetChildAsString("LdapPath");
+            XmlElement rootElem = xmlDoc.DocumentElement;
+
+            LdapServer = rootElem.GetChildAsString("LdapServer");
+            SearchRoot = rootElem.GetChildAsString("SearchRoot");
         }
         
         /// <summary>
@@ -46,13 +58,15 @@ namespace Scada.Server.Modules.ModActiveDirectory.Config
         /// </summary>
         protected override void Save(TextWriter writer)
         {
-            XmlDocument xmlDoc = new XmlDocument();
+            XmlDocument xmlDoc = new();
             XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
             xmlDoc.AppendChild(xmlDecl);
 
             XmlElement rootElem = xmlDoc.CreateElement("ModActiveDirectory");
             xmlDoc.AppendChild(rootElem);
-            rootElem.AppendElem("LdapPath", LdapPath);
+
+            rootElem.AppendElem("LdapServer", LdapServer);
+            rootElem.AppendElem("SearchRoot", SearchRoot);
 
             xmlDoc.Save(writer);
         }

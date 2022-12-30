@@ -315,7 +315,7 @@ namespace Scada.Server.Engine
                 }
             }
 
-            foreach (Cnl cnl in ConfigDatabase.CnlTable.EnumerateItems())
+            foreach (Cnl cnl in ConfigDatabase.CnlTable)
             {
                 if (cnl.Active && cnl.CnlNum >= cnlNum)
                 {
@@ -368,7 +368,7 @@ namespace Scada.Server.Engine
         {
             users = new Dictionary<string, User>(ConfigDatabase.UserTable.ItemCount);
 
-            foreach (User user in ConfigDatabase.UserTable.EnumerateItems())
+            foreach (User user in ConfigDatabase.UserTable)
             {
                 users[user.Name.ToLowerInvariant()] = user;
             }
@@ -424,7 +424,7 @@ namespace Scada.Server.Engine
             // create map of archives accessed by code
             Dictionary<string, Archive> arcByCode = new Dictionary<string, Archive>();
 
-            foreach (Archive archive in ConfigDatabase.ArchiveTable.EnumerateItems())
+            foreach (Archive archive in ConfigDatabase.ArchiveTable)
             {
                 if (!string.IsNullOrEmpty(archive.Code))
                 {

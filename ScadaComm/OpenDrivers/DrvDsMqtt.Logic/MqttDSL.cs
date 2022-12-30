@@ -3,7 +3,7 @@
 
 using MQTTnet;
 using MQTTnet.Client;
-using MQTTnet.Client.Publishing;
+using MQTTnet.Packets;
 using MQTTnet.Protocol;
 using Scada.Comm.Config;
 using Scada.Comm.DataSources;
@@ -374,7 +374,8 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
         public override void MakeReady()
         {
             dsLog.WriteBreak();
-            mqttClientHelper.Client.UseApplicationMessageReceivedHandler(MqttClient_ApplicationMessageReceived);
+            mqttClientHelper.Client.ApplicationMessageReceivedAsync += 
+                async e => await Task.Run(() => MqttClient_ApplicationMessageReceived(e));
         }
 
         /// <summary>

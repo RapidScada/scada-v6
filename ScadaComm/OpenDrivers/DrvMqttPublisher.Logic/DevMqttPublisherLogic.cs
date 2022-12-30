@@ -2,7 +2,8 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using MQTTnet;
-using MQTTnet.Client.Publishing;
+using MQTTnet.Client;
+using MQTTnet.Packets;
 using MQTTnet.Protocol;
 using Scada.Client;
 using Scada.Comm.Config;

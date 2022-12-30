@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -50,6 +50,7 @@ namespace Scada.Data.Const
         public const string Off = nameof(Off);
         public const string On = nameof(On);
         public const string Execute = nameof(Execute);
+        public const string NormalError = nameof(NormalError);
         public const string DateTime = nameof(DateTime);
         public const string Date = nameof(Date);
         public const string Time = nameof(Time);

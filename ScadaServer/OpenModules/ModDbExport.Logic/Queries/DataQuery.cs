@@ -24,8 +24,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         {
             public DbParameter Timestamp { get; init; }
             public DbParameter CnlNum { get; init; }
-            public DbParameter ObjNum { get; set; }
-            public DbParameter DeviceNum { get; set; }
+            public DbParameter ObjNum { get; init; }
+            public DbParameter DeviceNum { get; init; }
             public DbParameter Val { get; init; }
             public DbParameter Stat { get; init; }
         }
@@ -37,26 +37,37 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         public DataQuery(int queryID, QueryOptions queryOptions, DataSource dataSource)
             : base(queryID, queryOptions, dataSource)
         {
-            Parameters = new()
-            {
-                Timestamp = DataSource.SetParam(Command, "timestamp", DateTime.MinValue),
-                CnlNum = DataSource.SetParam(Command, "cnlNum", 0),
-                Val = DataSource.SetParam(Command, "val", 0.0),
-                Stat = DataSource.SetParam(Command, "stat", 0),
-            };
-
             if (dataSource.ConnectionOptions.KnownDBMS == KnownDBMS.Oracle)
             {
                 // OracleCommand requires parameters to be strictly SQL-compliant
                 // https://docs.oracle.com/en/database/oracle/oracle-database/21/odpnt/CommandBindByName.html
-                Parameters.ObjNum = null;
-                Parameters.DeviceNum = null;
+
+                Parameters = queryOptions.SingleQuery
+                    ? new QueryParameters
+                    {
+                        Timestamp = DataSource.SetParam(Command, "timestamp", DateTime.MinValue),
+                    }
+                    : new QueryParameters
+                    {
+                        Timestamp = DataSource.SetParam(Command, "timestamp", DateTime.MinValue),
+                        CnlNum = DataSource.SetParam(Command, "cnlNum", 0),
+                        Val = DataSource.SetParam(Command, "val", 0.0),
+                        Stat = DataSource.SetParam(Command, "stat", 0),
+                    };
+
                 CnlPropsRequired = false;
             }
             else
             {
-                Parameters.ObjNum = DataSource.SetParam(Command, "objNum", 0);
-                Parameters.DeviceNum = DataSource.SetParam(Command, "deviceNum", 0);
+                Parameters = new QueryParameters
+                {
+                    Timestamp = DataSource.SetParam(Command, "timestamp", DateTime.MinValue),
+                    CnlNum = DataSource.SetParam(Command, "cnlNum", 0),
+                    ObjNum = DataSource.SetParam(Command, "objNum", 0),
+                    DeviceNum = DataSource.SetParam(Command, "deviceNum", 0),
+                    Val = DataSource.SetParam(Command, "val", 0.0),
+                    Stat = DataSource.SetParam(Command, "stat", 0),
+                };
 
                 CnlPropsRequired = !string.IsNullOrEmpty(queryOptions.Sql) &&
                     (queryOptions.Sql.Contains("@objNum", StringComparison.OrdinalIgnoreCase) ||

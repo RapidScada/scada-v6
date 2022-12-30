@@ -9,10 +9,12 @@
     <hr>
     <ul>
         <li><a href="#server-app">Server Application</a></li>
+        <li><a href="#mod-active-directory">Active Directory Module</a></li>
         <li><a href="#mod-arc-basic">Basic Archive</a></li>
         <li><a href="#mod-arc-influx-db">InfluxDB Archive</a></li>
         <li><a href="#mod-arc-postgre-sql">PostgreSQL Archive</a></li>
         <li><a href="#mod-auto-control">Automatic Control Module</a></li>
+        <li><a href="#mod-db-export">DB Export</a></li>
         <li><a href="#mod-rapid-gate">Rapid Gate</a></li>
         <li><a href="#mod-replication-helper">Replication Helper</a></li>
     </ul>
@@ -21,6 +23,11 @@
 <div class="doc-content">
     <h1>Server History</h1>
     <h2 id="server-app">Server Application</h2>
+    <div>ScadaServer 6.0.0.1 (In development)</div>
+    <ul>
+        <li>Fixed hang on stop if some modules are in use</li>
+    </ul>
+
     <div>ScadaServer 6.0.0.0 (December 03, 2022)</div>
     <ul>
         <li>New configuration database</li>
@@ -29,6 +36,13 @@
         <li>Channel formulas became more powerful</li>
         <li>No limit on the number of channels and devices</li>
         <li>Flexible archives</li>
+    </ul>
+
+    @**** ModActiveDirectory ****@
+    <h2 id="mod-active-directory">Active Directory Module</h2>
+    <div>ModActiveDirectory 6.0.0.0 (In development)</div>
+    <ul>
+        <li>Security groups can be used to assign custom roles</li>
     </ul>
 
     @**** ModArcBasic ****@
@@ -64,6 +78,17 @@
         <li>Added new variables available in command text</li>
         <li>Channels, devices and other entities can be selected from dictionaries</li>
         <li>Implemented copying and pasting of triggers</li>
+    </ul>
+
+    @**** ModDbExport ****@
+    <h2 id="mod-db-export">DB Export</h2>
+    <div>ModDbExport 6.0.0.0 (In development)</div>
+    <ul>
+        <li>Export status can be bound to a channel</li>
+        <li>Added a feature to export current data on timer</li>
+        <li>Added a feature to export event acknowledgments and commands</li>
+        <li>Object filter added to query options</li>
+        <li>Module task queue</li>
     </ul>
 
     @**** ModRapidGate ****@

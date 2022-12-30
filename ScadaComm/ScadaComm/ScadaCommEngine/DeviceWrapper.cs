@@ -68,7 +68,7 @@ namespace Scada.Comm.Engine
         /// <summary>
         /// Gets or sets the full file name to write device information.
         /// </summary>
-        public string InfoFileName { get; set;  }
+        public string InfoFileName { get; set; }
 
 
         /// <summary>
@@ -210,8 +210,30 @@ namespace Scada.Comm.Engine
             catch (Exception ex)
             {
                 log.WriteError(ex, Locale.IsRussian ?
-                    "Ошибка при записи в файл информации о работе устройства {0}" :
-                    "Error writing device {0} information to the file", DeviceLogic.Title);
+                    "Ошибка при записи файла информации устройства {0}" :
+                    "Error writing information file of the {0} device", DeviceLogic.Title);
+            }
+        }
+
+        /// <summary>
+        /// Writes a stub to the device information file.
+        /// </summary>
+        public void WriteInfoStub()
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(InfoFileName, false, Encoding.UTF8))
+                {
+                    writer.Write(Locale.IsRussian ?
+                        "Запись отключена" :
+                        "Writing is disabled");
+                }
+            }
+            catch (Exception ex)
+            {
+                log.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при записи заглушки в файл информации устройства {0}" :
+                    "Error writing information file stub of the {0} device", DeviceLogic.Title);
             }
         }
     }

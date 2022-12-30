@@ -3,10 +3,7 @@
 
 using MQTTnet;
 using MQTTnet.Client;
-using MQTTnet.Client.Connecting;
-using MQTTnet.Client.Options;
-using MQTTnet.Client.Publishing;
-using MQTTnet.Client.Subscribing;
+using MQTTnet.Packets;
 using Scada.Lang;
 using Scada.Log;
 
@@ -26,7 +23,7 @@ namespace Scada.Comm.Drivers.DrvMqtt
         private readonly MqttConnectionOptions connectionOptions; // the connection options
         private readonly ILog log;                                // implements logging
         private readonly IMqttClient mqttClient;                  // interacts with an MQTT broker
-        private readonly IMqttClientOptions clientOptions;        // the client options
+        private readonly MqttClientOptions clientOptions;         // the client options
         private DateTime connAttemptDT;                           // the timestamp of a connection attempt
 
 
@@ -150,7 +147,9 @@ namespace Scada.Comm.Drivers.DrvMqtt
         public MqttClientSubscribeResult Subscribe(params MqttTopicFilter[] topicFilters)
         {
             ArgumentNullException.ThrowIfNull(topicFilters, nameof(topicFilters));
-            return mqttClient.SubscribeAsync(topicFilters).Result;
+            MqttClientSubscribeOptions subscribeOptions = new();
+            subscribeOptions.TopicFilters.AddRange(topicFilters);
+            return mqttClient.SubscribeAsync(subscribeOptions).Result;
         }
 
         /// <summary>

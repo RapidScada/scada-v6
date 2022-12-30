@@ -38,7 +38,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         public CmdQuery(int queryID, QueryOptions queryOptions, DataSource dataSource)
             : base(queryID, queryOptions, dataSource)
         {
-            Parameters = new()
+            Parameters = new QueryParameters
             {
                 CommandID = DataSource.SetParam(Command, "commandID", 0L),
                 CreationTime = DataSource.SetParam(Command, "creationTime", DateTime.MinValue),

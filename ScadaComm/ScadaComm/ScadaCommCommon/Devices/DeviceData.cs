@@ -642,7 +642,11 @@ namespace Scada.Comm.Devices
         public void SetStatusTag(DeviceStatus status)
         {
             if (deviceTags.ContainsTag(CommUtils.StatusTagCode))
-                Set(CommUtils.StatusTagCode, (double)status);
+            {
+                this[CommUtils.StatusTagCode] = status == DeviceStatus.Undefined 
+                    ? CnlData.Empty
+                    : new CnlData((double)status - 1, CnlStatusID.Defined);
+            }
         }
 
         /// <summary>

@@ -43,6 +43,7 @@ namespace Scada.Server.Engine
         private readonly List<ModuleLogic> logicModules; // the modules that have only a logical purpose
         private readonly Dictionary<string, ModuleLogic> moduleMap; // the modules accessed by code
         private readonly object moduleLock;              // synchronizes access to the modules
+        private volatile bool serviceStopped;            // ignore method calls after the service is stopped
 
 
         /// <summary>
@@ -55,6 +56,7 @@ namespace Scada.Server.Engine
             logicModules = new List<ModuleLogic>();
             moduleMap = new Dictionary<string, ModuleLogic>();
             moduleLock = new object();
+            serviceStopped = false;
         }
 
 
@@ -110,6 +112,8 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnServiceStop()
         {
+            serviceStopped = true;
+
             lock (moduleLock)
             {
                 foreach (ModuleLogic moduleLogic in modules)
@@ -152,6 +156,9 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnCurrentDataProcessing(Slice slice, int deviceNum)
         {
+            if (serviceStopped) 
+                return;
+
             lock (moduleLock)
             {
                 foreach (ModuleLogic moduleLogic in logicModules)
@@ -174,6 +181,9 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnCurrentDataProcessed(Slice slice, int deviceNum)
         {
+            if (serviceStopped)
+                return;
+
             lock (moduleLock)
             {
                 foreach (ModuleLogic moduleLogic in logicModules)
@@ -196,6 +206,9 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnHistoricalDataProcessing(Slice slice, int deviceNum)
         {
+            if (serviceStopped)
+                return;
+
             lock (moduleLock)
             {
                 foreach (ModuleLogic moduleLogic in logicModules)
@@ -218,6 +231,9 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnHistoricalDataProcessed(Slice slice, int deviceNum)
         {
+            if (serviceStopped)
+                return;
+
             lock (moduleLock)
             {
                 foreach (ModuleLogic moduleLogic in logicModules)
@@ -240,6 +256,9 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnEvent(Event ev)
         {
+            if (serviceStopped)
+                return;
+
             lock (moduleLock)
             {
                 foreach (ModuleLogic moduleLogic in logicModules)
@@ -261,6 +280,9 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnEventAck(EventAck eventAck)
         {
+            if (serviceStopped)
+                return;
+
             lock (moduleLock)
             {
                 foreach (ModuleLogic moduleLogic in logicModules)
@@ -282,6 +304,9 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnCommand(TeleCommand command, CommandResult commandResult)
         {
+            if (serviceStopped)
+                return;
+
             lock (moduleLock)
             {
                 foreach (ModuleLogic moduleLogic in logicModules)
