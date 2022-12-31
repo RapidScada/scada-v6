@@ -4,6 +4,7 @@
     <Phrase key="this">Opsi Klien MQTT</Phrase>
     <Phrase key="lblServer">Server</Phrase>
     <Phrase key="lblPort">Port TCP</Phrase>
+    <Phrase key="lblUseTls">Gunakan TLS</Phrase>
     <Phrase key="lblClientID">ID Klien</Phrase>
     <Phrase key="lblUsername">Nama pengguna</Phrase>
     <Phrase key="lblPassword">Kata sandi</Phrase>
