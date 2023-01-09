@@ -20,7 +20,7 @@
   </Queries>
   <Commands>
     <Command name="My command 1" cmdCode="MyCmd1">
-      <Sql>INSERT INTO table_out (cmd_val, cmd_data) VALUES(@cmdVal, @cmdData)</Sql>
+      <Sql>INSERT INTO table_out (cmd_val, cmd_data) VALUES (@cmdVal, @cmdData)</Sql>
     </Command>
   </Commands>
 </DbImportDeviceConfig>
