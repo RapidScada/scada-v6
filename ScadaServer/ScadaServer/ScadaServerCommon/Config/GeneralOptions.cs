@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Log;
@@ -46,6 +46,7 @@ namespace Scada.Server.Config
         public GeneralOptions()
         {
             UnrelIfInactive = 300;
+            UseArchivalStatus = false;
             GenerateAckCmd = false;
             DisableFormulas = false;
             EnableFormulasObjNums = Array.Empty<int>();
@@ -57,6 +58,11 @@ namespace Scada.Server.Config
         /// Gets or sets the time after which an inactive channel is marked as unreliable, sec.
         /// </summary>
         public int UnrelIfInactive { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to mark incoming historical data as archival.
+        /// </summary>
+        public bool UseArchivalStatus { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to generate a command when an event is acknowledged.
@@ -99,6 +105,7 @@ namespace Scada.Server.Config
                 throw new ArgumentNullException(nameof(xmlNode));
 
             UnrelIfInactive = xmlNode.GetChildAsInt("UnrelIfInactive", UnrelIfInactive);
+            UseArchivalStatus = xmlNode.GetChildAsBool("UseArchivalStatus", UseArchivalStatus);
             GenerateAckCmd = xmlNode.GetChildAsBool("GenerateAckCmd", GenerateAckCmd);
             DisableFormulas = xmlNode.GetChildAsBool("DisableFormulas", DisableFormulas);
             EnableFormulasObjNums = ScadaUtils.ParseRange(
@@ -115,6 +122,7 @@ namespace Scada.Server.Config
                 throw new ArgumentNullException(nameof(xmlElem));
 
             xmlElem.AppendElem("UnrelIfInactive", UnrelIfInactive);
+            xmlElem.AppendElem("UseArchivalStatus", UseArchivalStatus);
             xmlElem.AppendElem("GenerateAckCmd", GenerateAckCmd);
             xmlElem.AppendElem("DisableFormulas", DisableFormulas);
             xmlElem.AppendElem("EnableFormulasObjNums", EnableFormulasObjNums.ToRangeString());
