@@ -8,11 +8,7 @@ using Scada.Forms.Forms;
 using Scada.Lang;
 using Scada.Server;
 using Scada.Server.Config;
-using System;
-using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using WinControl;
 
 namespace Scada.Admin.Extensions.ExtServerConfig.Forms

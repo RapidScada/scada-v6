@@ -5,11 +5,7 @@ using Scada.Admin.Project;
 using Scada.Data.Entities;
 using Scada.Forms;
 using Scada.Server.Config;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions.ExtServerConfig.Forms
 {
