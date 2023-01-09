@@ -45,6 +45,7 @@
     <Phrase key="this">Основные параметры</Phrase>
     <Phrase key="gbGeneralOptions">Основные параметры</Phrase>
     <Phrase key="lblUnrelIfInactive">Канал помечается как недействительный при неактивности, с</Phrase>
+    <Phrase key="lblUseArchivalStatus">Помечать поступающие исторические данные как архивные</Phrase>
     <Phrase key="lblGenerateAckCmd">Генерировать команду при квитировании события</Phrase>
     <Phrase key="lblMaxLogSize">Максимальный размер файла журнала, МБ</Phrase>
     <Phrase key="lblDisableFormulas">Отключить формулы каналов, кроме каналов следующих объектов</Phrase>

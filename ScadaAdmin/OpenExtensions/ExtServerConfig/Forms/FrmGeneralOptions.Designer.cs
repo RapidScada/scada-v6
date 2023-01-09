@@ -49,6 +49,8 @@
             this.numUnrelIfInactive = new System.Windows.Forms.NumericUpDown();
             this.lblUnrelIfInactive = new System.Windows.Forms.Label();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.lblUseArchivalStatus = new System.Windows.Forms.Label();
+            this.chkUseArchivalStatus = new System.Windows.Forms.CheckBox();
             this.gbListenerOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTimeout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numPort)).BeginInit();
@@ -67,7 +69,7 @@
             this.gbListenerOptions.Controls.Add(this.lblTimeout);
             this.gbListenerOptions.Controls.Add(this.numPort);
             this.gbListenerOptions.Controls.Add(this.lblPort);
-            this.gbListenerOptions.Location = new System.Drawing.Point(12, 185);
+            this.gbListenerOptions.Location = new System.Drawing.Point(12, 214);
             this.gbListenerOptions.Name = "gbListenerOptions";
             this.gbListenerOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
             this.gbListenerOptions.Size = new System.Drawing.Size(500, 167);
@@ -190,22 +192,24 @@
             this.gbGeneralOptions.Controls.Add(this.lblMaxLogSize);
             this.gbGeneralOptions.Controls.Add(this.chkGenerateAckCmd);
             this.gbGeneralOptions.Controls.Add(this.lblGenerateAckCmd);
+            this.gbGeneralOptions.Controls.Add(this.chkUseArchivalStatus);
+            this.gbGeneralOptions.Controls.Add(this.lblUseArchivalStatus);
             this.gbGeneralOptions.Controls.Add(this.numUnrelIfInactive);
             this.gbGeneralOptions.Controls.Add(this.lblUnrelIfInactive);
             this.gbGeneralOptions.Location = new System.Drawing.Point(12, 12);
             this.gbGeneralOptions.Name = "gbGeneralOptions";
             this.gbGeneralOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbGeneralOptions.Size = new System.Drawing.Size(500, 167);
+            this.gbGeneralOptions.Size = new System.Drawing.Size(500, 196);
             this.gbGeneralOptions.TabIndex = 0;
             this.gbGeneralOptions.TabStop = false;
             this.gbGeneralOptions.Text = "General Options";
             // 
             // btnSelectObjects
             // 
-            this.btnSelectObjects.Location = new System.Drawing.Point(387, 131);
+            this.btnSelectObjects.Location = new System.Drawing.Point(387, 160);
             this.btnSelectObjects.Name = "btnSelectObjects";
             this.btnSelectObjects.Size = new System.Drawing.Size(100, 23);
-            this.btnSelectObjects.TabIndex = 9;
+            this.btnSelectObjects.TabIndex = 11;
             this.btnSelectObjects.Text = "Select...";
             this.btnSelectObjects.UseVisualStyleBackColor = true;
             this.btnSelectObjects.Click += new System.EventHandler(this.btnSelectObjects_Click);
@@ -213,34 +217,34 @@
             // txtEnableFormulasObjNums
             // 
             this.txtEnableFormulasObjNums.Enabled = false;
-            this.txtEnableFormulasObjNums.Location = new System.Drawing.Point(34, 131);
+            this.txtEnableFormulasObjNums.Location = new System.Drawing.Point(34, 160);
             this.txtEnableFormulasObjNums.Name = "txtEnableFormulasObjNums";
             this.txtEnableFormulasObjNums.Size = new System.Drawing.Size(347, 23);
-            this.txtEnableFormulasObjNums.TabIndex = 8;
+            this.txtEnableFormulasObjNums.TabIndex = 10;
             this.txtEnableFormulasObjNums.TextChanged += new System.EventHandler(this.control_Changed);
             // 
             // chkDisableFormulas
             // 
             this.chkDisableFormulas.AutoSize = true;
-            this.chkDisableFormulas.Location = new System.Drawing.Point(13, 135);
+            this.chkDisableFormulas.Location = new System.Drawing.Point(13, 164);
             this.chkDisableFormulas.Name = "chkDisableFormulas";
             this.chkDisableFormulas.Size = new System.Drawing.Size(15, 14);
-            this.chkDisableFormulas.TabIndex = 7;
+            this.chkDisableFormulas.TabIndex = 9;
             this.chkDisableFormulas.UseVisualStyleBackColor = true;
             this.chkDisableFormulas.CheckedChanged += new System.EventHandler(this.chkDisableFormulas_CheckedChanged);
             // 
             // lblDisableFormulas
             // 
             this.lblDisableFormulas.AutoSize = true;
-            this.lblDisableFormulas.Location = new System.Drawing.Point(10, 113);
+            this.lblDisableFormulas.Location = new System.Drawing.Point(10, 142);
             this.lblDisableFormulas.Name = "lblDisableFormulas";
             this.lblDisableFormulas.Size = new System.Drawing.Size(361, 15);
-            this.lblDisableFormulas.TabIndex = 6;
+            this.lblDisableFormulas.TabIndex = 8;
             this.lblDisableFormulas.Text = "Disable channel formulas, except for channels belonging to objects";
             // 
             // numMaxLogSize
             // 
-            this.numMaxLogSize.Location = new System.Drawing.Point(387, 80);
+            this.numMaxLogSize.Location = new System.Drawing.Point(387, 109);
             this.numMaxLogSize.Minimum = new decimal(new int[] {
             1,
             0,
@@ -248,7 +252,7 @@
             0});
             this.numMaxLogSize.Name = "numMaxLogSize";
             this.numMaxLogSize.Size = new System.Drawing.Size(100, 23);
-            this.numMaxLogSize.TabIndex = 5;
+            this.numMaxLogSize.TabIndex = 7;
             this.numMaxLogSize.Value = new decimal(new int[] {
             1,
             0,
@@ -259,29 +263,29 @@
             // lblMaxLogSize
             // 
             this.lblMaxLogSize.AutoSize = true;
-            this.lblMaxLogSize.Location = new System.Drawing.Point(10, 84);
+            this.lblMaxLogSize.Location = new System.Drawing.Point(10, 113);
             this.lblMaxLogSize.Name = "lblMaxLogSize";
             this.lblMaxLogSize.Size = new System.Drawing.Size(147, 15);
-            this.lblMaxLogSize.TabIndex = 4;
+            this.lblMaxLogSize.TabIndex = 6;
             this.lblMaxLogSize.Text = "Maximum log file size, MB";
             // 
             // chkGenerateAckCmd
             // 
             this.chkGenerateAckCmd.AutoSize = true;
-            this.chkGenerateAckCmd.Location = new System.Drawing.Point(472, 55);
+            this.chkGenerateAckCmd.Location = new System.Drawing.Point(472, 84);
             this.chkGenerateAckCmd.Name = "chkGenerateAckCmd";
             this.chkGenerateAckCmd.Size = new System.Drawing.Size(15, 14);
-            this.chkGenerateAckCmd.TabIndex = 3;
+            this.chkGenerateAckCmd.TabIndex = 5;
             this.chkGenerateAckCmd.UseVisualStyleBackColor = true;
             this.chkGenerateAckCmd.CheckedChanged += new System.EventHandler(this.control_Changed);
             // 
             // lblGenerateAckCmd
             // 
             this.lblGenerateAckCmd.AutoSize = true;
-            this.lblGenerateAckCmd.Location = new System.Drawing.Point(10, 55);
+            this.lblGenerateAckCmd.Location = new System.Drawing.Point(10, 84);
             this.lblGenerateAckCmd.Name = "lblGenerateAckCmd";
             this.lblGenerateAckCmd.Size = new System.Drawing.Size(267, 15);
-            this.lblGenerateAckCmd.TabIndex = 2;
+            this.lblGenerateAckCmd.TabIndex = 4;
             this.lblGenerateAckCmd.Text = "Generate command when event is acknowledged";
             // 
             // numUnrelIfInactive
@@ -315,11 +319,30 @@
             // 
             this.folderBrowserDialog.RootFolder = System.Environment.SpecialFolder.MyComputer;
             // 
+            // lblUseArchivalStatus
+            // 
+            this.lblUseArchivalStatus.AutoSize = true;
+            this.lblUseArchivalStatus.Location = new System.Drawing.Point(10, 55);
+            this.lblUseArchivalStatus.Name = "lblUseArchivalStatus";
+            this.lblUseArchivalStatus.Size = new System.Drawing.Size(223, 15);
+            this.lblUseArchivalStatus.TabIndex = 2;
+            this.lblUseArchivalStatus.Text = "Mark incoming historical data as archival";
+            // 
+            // chkUseArchivalStatus
+            // 
+            this.chkUseArchivalStatus.AutoSize = true;
+            this.chkUseArchivalStatus.Location = new System.Drawing.Point(472, 55);
+            this.chkUseArchivalStatus.Name = "chkUseArchivalStatus";
+            this.chkUseArchivalStatus.Size = new System.Drawing.Size(15, 14);
+            this.chkUseArchivalStatus.TabIndex = 3;
+            this.chkUseArchivalStatus.UseVisualStyleBackColor = true;
+            this.chkUseArchivalStatus.CheckedChanged += new System.EventHandler(this.control_Changed);
+            // 
             // FrmGeneralOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 361);
+            this.ClientSize = new System.Drawing.Size(684, 411);
             this.Controls.Add(this.gbGeneralOptions);
             this.Controls.Add(this.gbListenerOptions);
             this.Name = "FrmGeneralOptions";
@@ -359,5 +382,7 @@
         private System.Windows.Forms.TextBox txtEnableFormulasObjNums;
         private System.Windows.Forms.CheckBox chkDisableFormulas;
         private System.Windows.Forms.Label lblDisableFormulas;
+        private System.Windows.Forms.CheckBox chkUseArchivalStatus;
+        private System.Windows.Forms.Label lblUseArchivalStatus;
     }
 }

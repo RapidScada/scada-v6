@@ -6,7 +6,6 @@ using Scada.Admin.Project;
 using Scada.Forms;
 using Scada.Forms.Forms;
 using Scada.Lang;
-using Scada.Log;
 using Scada.Server;
 using Scada.Server.Config;
 using System;
@@ -67,6 +66,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             // general options
             GeneralOptions generalOptions = serverConfig.GeneralOptions;
             numUnrelIfInactive.SetValue(generalOptions.UnrelIfInactive);
+            chkUseArchivalStatus.Checked = generalOptions.UseArchivalStatus;
             chkGenerateAckCmd.Checked = generalOptions.GenerateAckCmd;
             numMaxLogSize.SetValue(generalOptions.MaxLogSize);
             chkDisableFormulas.Checked = generalOptions.DisableFormulas;
@@ -89,6 +89,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             // general options
             GeneralOptions generalOptions = serverConfig.GeneralOptions;
             generalOptions.UnrelIfInactive = decimal.ToInt32(numUnrelIfInactive.Value);
+            generalOptions.UseArchivalStatus = chkUseArchivalStatus.Checked;
             generalOptions.GenerateAckCmd = chkGenerateAckCmd.Checked;
             generalOptions.MaxLogSize = decimal.ToInt32(numMaxLogSize.Value);
             generalOptions.DisableFormulas = chkDisableFormulas.Checked;
