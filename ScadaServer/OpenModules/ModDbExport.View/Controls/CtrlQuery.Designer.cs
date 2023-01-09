@@ -68,7 +68,7 @@
             this.gbGeneral.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.gbGeneral.Name = "gbGeneral";
             this.gbGeneral.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbGeneral.Size = new System.Drawing.Size(404, 96);
+            this.gbGeneral.Size = new System.Drawing.Size(404, 98);
             this.gbGeneral.TabIndex = 0;
             this.gbGeneral.TabStop = false;
             this.gbGeneral.Text = "General Options";
@@ -147,7 +147,7 @@
             this.gbFilter.Controls.Add(this.txtCnlNum);
             this.gbFilter.Controls.Add(this.lblCnlNum);
             this.gbFilter.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbFilter.Location = new System.Drawing.Point(0, 96);
+            this.gbFilter.Location = new System.Drawing.Point(0, 98);
             this.gbFilter.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.gbFilter.Name = "gbFilter";
             this.gbFilter.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
@@ -220,7 +220,7 @@
             this.btnEditObjNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEditObjNum.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEditObjNum.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.edit;
-            this.btnEditObjNum.Location = new System.Drawing.Point(339, 79);
+            this.btnEditObjNum.Location = new System.Drawing.Point(339, 80);
             this.btnEditObjNum.Name = "btnEditObjNum";
             this.btnEditObjNum.Size = new System.Drawing.Size(23, 24);
             this.btnEditObjNum.TabIndex = 7;
@@ -301,10 +301,10 @@
             this.gbQuery.Controls.Add(this.btnEditParametrs);
             this.gbQuery.Controls.Add(this.chkSingleQuery);
             this.gbQuery.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbQuery.Location = new System.Drawing.Point(0, 259);
+            this.gbQuery.Location = new System.Drawing.Point(0, 261);
             this.gbQuery.Name = "gbQuery";
             this.gbQuery.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbQuery.Size = new System.Drawing.Size(404, 203);
+            this.gbQuery.Size = new System.Drawing.Size(404, 201);
             this.gbQuery.TabIndex = 2;
             this.gbQuery.TabStop = false;
             this.gbQuery.Text = "Query";
@@ -319,7 +319,7 @@
             this.txtSql.Multiline = true;
             this.txtSql.Name = "txtSql";
             this.txtSql.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtSql.Size = new System.Drawing.Size(378, 143);
+            this.txtSql.Size = new System.Drawing.Size(378, 141);
             this.txtSql.TabIndex = 3;
             this.txtSql.WordWrap = false;
             this.txtSql.TextChanged += new System.EventHandler(this.txtSql_TextChanged);

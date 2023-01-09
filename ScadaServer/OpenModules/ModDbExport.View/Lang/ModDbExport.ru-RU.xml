@@ -87,8 +87,8 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmModuleConfig">
     <Phrase key="this">Экспорт в БД</Phrase>
-    <Phrase key="btnAddCurrentQuery.ToolTip">Add current query</Phrase>
-    <Phrase key="btnAddHistoricalQuery.ToolTip">Add historical query</Phrase>
+    <Phrase key="btnAddCurrentDataQuery.ToolTip">Add current query</Phrase>
+    <Phrase key="btnAddHistoricalDataQuery.ToolTip">Add historical query</Phrase>
     <Phrase key="btnAddEventQuery.ToolTip">Add event query</Phrase>
     <Phrase key="btnAddEventAckQuery.ToolTip">Add event acknowledgement query</Phrase>
     <Phrase key="btnAddCommandQuery.ToolTip">Add command query</Phrase>

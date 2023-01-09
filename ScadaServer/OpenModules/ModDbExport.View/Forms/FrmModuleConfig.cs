@@ -297,7 +297,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             btnDelete.Enabled = btnCut.Enabled = btnCopy.Enabled = selectedNode != null &&
                 (tvTargets.SelectedNode.Parent == null || tvTargets.SelectedNode.Tag is QueryOptions);
 
-            btnAddCurrentQuery.Enabled = btnAddHistoricalQuery.Enabled = btnAddEventQuery.Enabled = 
+            btnAddCurrentDataQuery.Enabled = btnAddHistoricalDataQuery.Enabled = btnAddEventQuery.Enabled = 
                 btnAddEventAckQuery.Enabled = btnAddCommandQuery.Enabled = selectedNode != null && 
                 (tvTargets.SelectedNode.Tag is QueryOptions || tvTargets.SelectedNode.Tag is QueryOptionList);
         }
@@ -413,6 +413,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
 
             TreeNode targetNode = CreateGroupNode(target);
             tvTargets.Insert(null, targetNode, config.ExportTargets, target);
+            tvTargets.SelectedNode = targetNode.FirstNode;            
             Modified = true;
             ctrlGeneral.SetFocus();
         }
@@ -427,12 +428,12 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                 // add query
                 QueryOptions queryOptions = new()
                 {
-                    Name = ModulePhrases.QueryName
+                    Name = ModulePhrases.QueryName + " " + (queriesNode.GetNodeCount(true) + 1).ToString()
                 };
 
-                if (sender == btnAddCurrentQuery)
+                if (sender == btnAddCurrentDataQuery)
                     queryOptions.DataKind = DataKind.Current;
-                else if (sender == btnAddHistoricalQuery)
+                else if (sender == btnAddHistoricalDataQuery)
                     queryOptions.DataKind = DataKind.Historical;
                 else if (sender == btnAddEventQuery)
                     queryOptions.DataKind = DataKind.Event;

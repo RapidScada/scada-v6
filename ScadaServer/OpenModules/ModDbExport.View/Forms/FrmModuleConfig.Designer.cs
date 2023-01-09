@@ -39,8 +39,8 @@
             this.btnMySql = new System.Windows.Forms.ToolStripMenuItem();
             this.btnOracle = new System.Windows.Forms.ToolStripMenuItem();
             this.btnPostgreSql = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnAddCurrentQuery = new System.Windows.Forms.ToolStripButton();
-            this.btnAddHistoricalQuery = new System.Windows.Forms.ToolStripButton();
+            this.btnAddCurrentDataQuery = new System.Windows.Forms.ToolStripButton();
+            this.btnAddHistoricalDataQuery = new System.Windows.Forms.ToolStripButton();
             this.btnAddEventQuery = new System.Windows.Forms.ToolStripButton();
             this.btnAddEventAckQuery = new System.Windows.Forms.ToolStripButton();
             this.btnAddCommandQuery = new System.Windows.Forms.ToolStripButton();
@@ -124,8 +124,8 @@
             // 
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ddbAdd,
-            this.btnAddCurrentQuery,
-            this.btnAddHistoricalQuery,
+            this.btnAddCurrentDataQuery,
+            this.btnAddHistoricalDataQuery,
             this.btnAddEventQuery,
             this.btnAddEventAckQuery,
             this.btnAddCommandQuery,
@@ -190,25 +190,25 @@
             this.btnPostgreSql.Text = "PostgreSQL";
             this.btnPostgreSql.Click += new System.EventHandler(this.btnAddTagret_Click);
             // 
-            // btnAddCurrentQuery
+            // btnAddCurrentDataQuery
             // 
-            this.btnAddCurrentQuery.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnAddCurrentQuery.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.query_cur;
-            this.btnAddCurrentQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnAddCurrentQuery.Name = "btnAddCurrentQuery";
-            this.btnAddCurrentQuery.Size = new System.Drawing.Size(23, 22);
-            this.btnAddCurrentQuery.Text = "Add current query";
-            this.btnAddCurrentQuery.Click += new System.EventHandler(this.btnAddQuery_Click);
+            this.btnAddCurrentDataQuery.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnAddCurrentDataQuery.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.query_cur;
+            this.btnAddCurrentDataQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnAddCurrentDataQuery.Name = "btnAddCurrentDataQuery";
+            this.btnAddCurrentDataQuery.Size = new System.Drawing.Size(23, 22);
+            this.btnAddCurrentDataQuery.Text = "Add current data query";
+            this.btnAddCurrentDataQuery.Click += new System.EventHandler(this.btnAddQuery_Click);
             // 
-            // btnAddHistoricalQuery
+            // btnAddHistoricalDataQuery
             // 
-            this.btnAddHistoricalQuery.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnAddHistoricalQuery.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.query_hist;
-            this.btnAddHistoricalQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnAddHistoricalQuery.Name = "btnAddHistoricalQuery";
-            this.btnAddHistoricalQuery.Size = new System.Drawing.Size(23, 22);
-            this.btnAddHistoricalQuery.Text = "Add historical query";
-            this.btnAddHistoricalQuery.Click += new System.EventHandler(this.btnAddQuery_Click);
+            this.btnAddHistoricalDataQuery.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnAddHistoricalDataQuery.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.query_hist;
+            this.btnAddHistoricalDataQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnAddHistoricalDataQuery.Name = "btnAddHistoricalDataQuery";
+            this.btnAddHistoricalDataQuery.Size = new System.Drawing.Size(23, 22);
+            this.btnAddHistoricalDataQuery.Text = "Add historical data query";
+            this.btnAddHistoricalDataQuery.Click += new System.EventHandler(this.btnAddQuery_Click);
             // 
             // btnAddEventQuery
             // 
@@ -553,10 +553,10 @@
         private ToolStripMenuItem btnOracle;
         private ToolStripMenuItem btnPostgreSql;
         private ToolStripMenuItem btnMySql;
-        private ToolStripButton btnAddCurrentQuery;
+        private ToolStripButton btnAddCurrentDataQuery;
         private ToolStripButton btnAddCommandQuery;
         private ToolStripButton btnAddEventQuery;
-        private ToolStripButton btnAddHistoricalQuery;
+        private ToolStripButton btnAddHistoricalDataQuery;
         private ToolStripButton btnAddEventAckQuery;
         private Label lblHint;
         private ContextMenuStrip cmsTree;

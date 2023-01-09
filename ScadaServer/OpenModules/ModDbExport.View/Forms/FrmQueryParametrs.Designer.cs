@@ -85,7 +85,7 @@
             // colParams
             // 
             this.colParams.Text = "Parameter";
-            this.colParams.Width = 260;
+            this.colParams.Width = 310;
             // 
             // FrmQueryParametrs
             // 
@@ -99,6 +99,7 @@
             this.Controls.Add(this.lvParametrs);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(300, 200);
             this.Name = "FrmQueryParametrs";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
