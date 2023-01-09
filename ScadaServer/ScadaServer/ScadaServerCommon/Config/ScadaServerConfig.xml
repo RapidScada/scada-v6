@@ -2,6 +2,7 @@
 <ScadaServerConfig>
   <GeneralOptions>
     <UnrelIfInactive>300</UnrelIfInactive>
+    <UseArchivalStatus>false</UseArchivalStatus>
     <GenerateAckCmd>false</GenerateAckCmd>
     <DisableFormulas>false</DisableFormulas>
     <EnableFormulasObjNums></EnableFormulasObjNums>

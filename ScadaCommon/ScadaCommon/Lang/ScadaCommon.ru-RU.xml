@@ -186,6 +186,13 @@
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmRangeEdit">
+    <Phrase key="this">Редактирование диапазона</Phrase>
+    <Phrase key="lblRange">Диапазон целых чисел</Phrase>
+    <Phrase key="lblExample">Например: 1 - 5, 10</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Forms.BitItemCollection">
     <Phrase key="EventEnabled">События разрешены</Phrase>
     <Phrase key="EventBeep">Звук события</Phrase>

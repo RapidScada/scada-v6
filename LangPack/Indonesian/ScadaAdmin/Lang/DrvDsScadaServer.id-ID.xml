@@ -10,6 +10,7 @@
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvDsScadaServer.View.Forms.FrmScadaServerDSO">
     <Phrase key="this">Opsi Sumber Data</Phrase>
+    <Phrase key="lblReadConfigDb">Baca konfigurasi basis data</Phrase>
     <Phrase key="lblUseDefaultConn">Gunakan koneksi default</Phrase>
     <Phrase key="lblConnection">Koneksi</Phrase>
     <Phrase key="lblMaxQueueSize">Ukuran antrian maksimum</Phrase>

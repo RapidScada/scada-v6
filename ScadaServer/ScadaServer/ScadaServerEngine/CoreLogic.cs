@@ -847,7 +847,8 @@ namespace Scada.Server.Engine
             {
                 if (cnlTag.Lim == null)
                 {
-                    cnlData.Stat = CnlStatusID.Archival;
+                    if (AppConfig.GeneralOptions.UseArchivalStatus)
+                        cnlData.Stat = CnlStatusID.Archival;
                 }
                 else
                 {
