@@ -9,5 +9,7 @@
     <Import_RootNamespace>DrvDbImport.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Config\DrvDbImport_line001.xml" />
+    <Content Include="$(MSBuildThisFileDirectory)Config\DrvDbImport_001.xml" />
   </ItemGroup>
 </Project>
