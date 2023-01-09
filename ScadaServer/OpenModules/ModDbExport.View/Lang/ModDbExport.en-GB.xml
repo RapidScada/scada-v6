@@ -89,7 +89,7 @@
     <Phrase key="lblDataLifetime">Data lifetime in queue, sec</Phrase>   
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlQuery">
-    <Phrase key="gbGeneral">General Options</Phrase>
+    <Phrase key="gbGeneral">General</Phrase>
     <Phrase key="chkActive">Active</Phrase>    
     <Phrase key="lblName">Name</Phrase>
     <Phrase key="lblDataKind">Data kind</Phrase>

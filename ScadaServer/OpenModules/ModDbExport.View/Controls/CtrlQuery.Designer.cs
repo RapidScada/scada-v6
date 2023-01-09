@@ -71,7 +71,7 @@
             this.gbGeneral.Size = new System.Drawing.Size(404, 98);
             this.gbGeneral.TabIndex = 0;
             this.gbGeneral.TabStop = false;
-            this.gbGeneral.Text = "General Options";
+            this.gbGeneral.Text = "General";
             // 
             // cbDataKind
             // 
@@ -318,7 +318,7 @@
             this.txtSql.Location = new System.Drawing.Point(13, 47);
             this.txtSql.Multiline = true;
             this.txtSql.Name = "txtSql";
-            this.txtSql.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtSql.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtSql.Size = new System.Drawing.Size(378, 141);
             this.txtSql.TabIndex = 3;
             this.txtSql.WordWrap = false;

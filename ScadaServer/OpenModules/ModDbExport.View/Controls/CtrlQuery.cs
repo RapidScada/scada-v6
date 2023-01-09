@@ -94,7 +94,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
                 txtObjNum.Text = ScadaUtils.ToRangeString(options.Filter.ObjNums);
                 txtDeviceNum.Text = ScadaUtils.ToRangeString(options.Filter.DeviceNums);
                 txtSql.Clear();
-                txtSql.AppendText(options.Sql);
+                txtSql.AppendText(options.Sql.Replace("\n", Environment.NewLine));
                 gbFilter.Visible = options.DataKind != DataKind.EventAck;
 
                 if (options.DataKind == DataKind.Current || options.DataKind == DataKind.Historical)
