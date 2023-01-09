@@ -12,7 +12,7 @@ namespace Scada.Forms.Forms
     /// Represents a form for editing a numeric range.
     /// <para>Представляет форму для редактирования числового диапазона.</para>
     /// </summary>
-    internal partial class FrmRangeEdit : Form
+    public partial class FrmRangeEdit : Form
     {
         /// <summary>
         /// Initializes a new instance of the class.
