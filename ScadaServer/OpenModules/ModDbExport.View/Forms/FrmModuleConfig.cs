@@ -4,7 +4,6 @@ using Scada.Data.Models;
 using Scada.Dbms;
 using Scada.Forms;
 using Scada.Lang;
-using Scada.Server.Config;
 using Scada.Server.Lang;
 using Scada.Server.Modules.ModDbExport.Config;
 using Scada.Server.Modules.ModDbExport.View.Properties;
@@ -298,8 +297,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                 (tvTargets.SelectedNode.Parent == null || tvTargets.SelectedNode.Tag is QueryOptions);
 
             btnAddCurrentDataQuery.Enabled = btnAddHistoricalDataQuery.Enabled = btnAddEventQuery.Enabled = 
-                btnAddEventAckQuery.Enabled = btnAddCommandQuery.Enabled = selectedNode != null && 
-                (tvTargets.SelectedNode.Tag is QueryOptions || tvTargets.SelectedNode.Tag is QueryOptionList);
+                btnAddEventAckQuery.Enabled = btnAddCommandQuery.Enabled = selectedNode != null;
         }
 
         /// <summary>
@@ -338,6 +336,15 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             }
 
             return checkValidateName;
+        }
+
+        /// <summary>
+        /// Gets the main root by treeNode
+        /// </summary>
+        private TreeNode RootTreeNode(TreeNode treeNode) 
+        { 
+            while (treeNode.Level > 0) { treeNode = treeNode.Parent; } 
+            return treeNode; 
         }
 
 
@@ -422,6 +429,18 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         {
             // find parent for qyeries
             TreeNode queriesNode = tvTargets.SelectedNode?.FindClosest(typeof(QueryOptionList));
+
+            if (queriesNode is null)
+            {
+                foreach (TreeNode node in RootTreeNode(tvTargets.SelectedNode).Nodes)
+                {
+                    if (node.TagIs(typeof(QueryOptionList)))
+                    {
+                        queriesNode = node;
+                        break;
+                    }
+                }
+            }
 
             if (queriesNode != null)
             {

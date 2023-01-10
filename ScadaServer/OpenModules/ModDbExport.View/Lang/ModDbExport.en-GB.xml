@@ -137,7 +137,7 @@
     <Phrase key="QueryName">Query</Phrase>
 </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmQueryParametrs">
-    <Phrase key="this">Available parametrs</Phrase>
+    <Phrase key="this">Available Parameters</Phrase>
     <Phrase key="colParamsName">Name parameter</Phrase>
     <Phrase key="colParams">Parameter</Phrase>
     <Phrase key="btnOK">OK</Phrase>

@@ -104,7 +104,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Available parametrs";
+            this.Text = "Available Parameters";
             this.Load += new System.EventHandler(this.FrmQueryParametrs_Load);
             this.ResumeLayout(false);
 
