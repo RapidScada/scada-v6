@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<DbImportDeviceConfig>
+<DbDeviceConfig>
   <Queries>
     <Query active="true" name="Query 1">
       <Tags>
@@ -23,4 +23,4 @@
       <Sql>INSERT INTO table_out (cmd_val, cmd_data) VALUES (@cmdVal, @cmdData)</Sql>
     </Command>
   </Commands>
-</DbImportDeviceConfig>
+</DbDeviceConfig>

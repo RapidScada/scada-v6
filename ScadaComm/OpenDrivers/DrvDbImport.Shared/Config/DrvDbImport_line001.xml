@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<DbImportLineConfig>
+<DbLineConfig>
   <ConnectionOptions>
     <Name></Name>
     <DBMS>PostgreSQL</DBMS>
@@ -9,4 +9,4 @@
     <Password>4D83D8AEB31C1B40335A78AF3539DD22</Password>
     <ConnectionString />
   </ConnectionOptions>
-</DbImportLineConfig>
+</DbLineConfig>
