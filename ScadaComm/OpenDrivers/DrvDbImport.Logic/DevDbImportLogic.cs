@@ -5,9 +5,12 @@ using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvDbImport.Config;
 using Scada.Comm.Lang;
+using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Lang;
 using Scada.MultiDb;
+using System.Data;
+using System.Data.Common;
 
 namespace Scada.Comm.Drivers.DrvDbImport.Logic
 {
@@ -35,10 +38,11 @@ namespace Scada.Comm.Drivers.DrvDbImport.Logic
             public Type ActualDataType { get; set; }
         }
 
-        private readonly DbDeviceConfig config;              // the device configuration
-        private bool configError;                            // indicates that that device configuration is not loaded
-        private DbImportLineData lineData;                   // data common to the communication line
-        private Dictionary<string, CommandConfig> cmdByCode; // the commands accessed by code
+        private readonly DbDeviceConfig config;                       // the device configuration
+        private readonly Dictionary<string, CommandConfig> cmdByCode; // the commands accessed by code
+
+        private bool configError;          // indicates that that device configuration is not loaded
+        private DbImportLineData lineData; // data common to the communication line
 
 
         /// <summary>
@@ -48,9 +52,10 @@ namespace Scada.Comm.Drivers.DrvDbImport.Logic
             : base(commContext, lineContext, deviceConfig)
         {
             config = new DbDeviceConfig();
+            cmdByCode = new Dictionary<string, CommandConfig>();
+
             configError = false;
             lineData = null;
-            cmdByCode = null;
 
             ConnectionRequired = false;
         }
@@ -105,16 +110,85 @@ namespace Scada.Comm.Drivers.DrvDbImport.Logic
         }
 
         /// <summary>
-        /// Initializes a command map.
+        /// Fills the command map.
         /// </summary>
-        private void InitCommandMap()
+        private void FillCommandMap()
         {
-            cmdByCode = new Dictionary<string, CommandConfig>();
-
             foreach (CommandConfig commandConfig in config.Commands)
             {
                 if (!string.IsNullOrEmpty(commandConfig.CmdCode) && !cmdByCode.ContainsKey(commandConfig.CmdCode))
                     cmdByCode.Add(commandConfig.CmdCode, commandConfig);
+            }
+        }
+
+        /// <summary>
+        /// Connects to the database.
+        /// </summary>
+        private bool Connect()
+        {
+            try
+            {
+                lineData.DataSource.Connect();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.WriteLine(Locale.IsRussian ?
+                    "Ошибка при соединении с БД: {0}" :
+                    "Error connecting to DB: {0}", ex.Message);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Disconnects from the database.
+        /// </summary>
+        private void Disconnect()
+        {
+            try
+            {
+                lineData.DataSource.Disconnect();
+            }
+            catch (Exception ex)
+            {
+                Log.WriteLine(Locale.IsRussian ?
+                    "Ошибка при разъединении с БД: {0}" :
+                    "Error disconnecting from DB: {0}", ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Creates a database command according to the command configuration.
+        /// </summary>
+        private DbCommand CreateCommand(TeleCommand teleCommand, CommandConfig commandConfig)
+        {
+            DataSource dataSource = lineData.DataSource;
+            DbCommand dbCommand = dataSource.CreateCommand();
+            dbCommand.CommandText = commandConfig.Sql;
+            dataSource.SetParam(dbCommand, "cmdVal",
+                double.IsNaN(teleCommand.CmdVal) ? DBNull.Value : teleCommand.CmdVal);
+            dataSource.SetParam(dbCommand, "cmdData",
+                teleCommand.CmdData == null ? DBNull.Value : teleCommand.CmdData);
+            return dbCommand;
+        }
+
+        /// <summary>
+        /// Executes the specified command.
+        /// </summary>
+        private bool ExecuteCommand(DbCommand dbCommand, CommandConfig commandConfig)
+        {
+            try
+            {
+                Log.WriteLine(Locale.IsRussian ?
+                    "Выполнение команды \"{0}\"" :
+                    "Execute command \"{0}\"", commandConfig.Name);
+                dbCommand.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.WriteLine(CommPhrases.ErrorPrefix + ex.Message);
+                return false;
             }
         }
 
@@ -128,7 +202,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.Logic
 
             if (config.Load(Storage, DbDeviceConfig.GetFileName(DeviceNum), out string errMsg))
             {
-                InitCommandMap();
+                FillCommandMap();
                 CanSendCommands = cmdByCode.Count > 0;
             }
             else
@@ -182,7 +256,39 @@ namespace Scada.Comm.Drivers.DrvDbImport.Logic
         /// </summary>
         public override void SendCommand(TeleCommand cmd)
         {
+            base.SendCommand(cmd);
+            LastRequestOK = false;
 
+            if (lineData.DataSource == null)
+            {
+                Log.WriteLine(Locale.IsRussian ?
+                    "Ошибка: источник данных не определён" :
+                    "Error: data source is undefined");
+            }
+            else if (string.IsNullOrEmpty(cmd.CmdCode) ||
+                !cmdByCode.TryGetValue(cmd.CmdCode, out CommandConfig commandConfig))
+            {
+                Log.WriteLine(CommPhrases.InvalidCommand);
+            }
+            else if (Connect())
+            {
+                // create and execute command
+                DbCommand dbCommand = CreateCommand(cmd, commandConfig);
+                int tryNum = 0;
+
+                while (RequestNeeded(ref tryNum))
+                {
+                    if (ExecuteCommand(dbCommand, commandConfig))
+                        LastRequestOK = true;
+
+                    FinishRequest();
+                    tryNum++;
+                }
+
+                Disconnect();
+            }
+
+            FinishCommand();
         }
     }
 }
