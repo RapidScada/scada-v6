@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.gbGeneral = new System.Windows.Forms.GroupBox();
             this.cbDataKind = new System.Windows.Forms.ComboBox();
             this.lblDataKind = new System.Windows.Forms.Label();
@@ -49,8 +50,9 @@
             this.lblCnlNum = new System.Windows.Forms.Label();
             this.gbQuery = new System.Windows.Forms.GroupBox();
             this.txtSql = new System.Windows.Forms.TextBox();
-            this.btnEditParametrs = new System.Windows.Forms.Button();
+            this.btnViewParametrs = new System.Windows.Forms.Button();
             this.chkSingleQuery = new System.Windows.Forms.CheckBox();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.gbGeneral.SuspendLayout();
             this.gbFilter.SuspendLayout();
             this.gbQuery.SuspendLayout();
@@ -79,15 +81,15 @@
             this.cbDataKind.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbDataKind.FormattingEnabled = true;
             this.cbDataKind.Items.AddRange(new object[] {
-            "Current",
-            "Historical",
+            "Current data",
+            "Historical data",
             "Event",
-            "EventAck",
+            "Event acknowledgement",
             "Command"});
-            this.cbDataKind.Location = new System.Drawing.Point(269, 62);
+            this.cbDataKind.Location = new System.Drawing.Point(236, 62);
             this.cbDataKind.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.cbDataKind.Name = "cbDataKind";
-            this.cbDataKind.Size = new System.Drawing.Size(122, 23);
+            this.cbDataKind.Size = new System.Drawing.Size(155, 23);
             this.cbDataKind.TabIndex = 5;
             this.cbDataKind.SelectedIndexChanged += new System.EventHandler(this.cbDataKind_SelectedIndexChanged);
             // 
@@ -95,7 +97,7 @@
             // 
             this.lblDataKind.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblDataKind.AutoSize = true;
-            this.lblDataKind.Location = new System.Drawing.Point(266, 44);
+            this.lblDataKind.Location = new System.Drawing.Point(233, 44);
             this.lblDataKind.Name = "lblDataKind";
             this.lblDataKind.Size = new System.Drawing.Size(57, 15);
             this.lblDataKind.TabIndex = 4;
@@ -108,7 +110,7 @@
             this.txtName.Location = new System.Drawing.Point(13, 62);
             this.txtName.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(250, 23);
+            this.txtName.Size = new System.Drawing.Size(217, 23);
             this.txtName.TabIndex = 3;
             this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
@@ -298,7 +300,7 @@
             // gbQuery
             // 
             this.gbQuery.Controls.Add(this.txtSql);
-            this.gbQuery.Controls.Add(this.btnEditParametrs);
+            this.gbQuery.Controls.Add(this.btnViewParametrs);
             this.gbQuery.Controls.Add(this.chkSingleQuery);
             this.gbQuery.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbQuery.Location = new System.Drawing.Point(0, 261);
@@ -324,17 +326,18 @@
             this.txtSql.WordWrap = false;
             this.txtSql.TextChanged += new System.EventHandler(this.txtSql_TextChanged);
             // 
-            // btnEditParametrs
+            // btnViewParametrs
             // 
-            this.btnEditParametrs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnEditParametrs.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnEditParametrs.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.parameters;
-            this.btnEditParametrs.Location = new System.Drawing.Point(368, 18);
-            this.btnEditParametrs.Name = "btnEditParametrs";
-            this.btnEditParametrs.Size = new System.Drawing.Size(23, 24);
-            this.btnEditParametrs.TabIndex = 2;
-            this.btnEditParametrs.UseVisualStyleBackColor = true;
-            this.btnEditParametrs.Click += new System.EventHandler(this.btnEditParametrs_Click);
+            this.btnViewParametrs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnViewParametrs.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnViewParametrs.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.parameters;
+            this.btnViewParametrs.Location = new System.Drawing.Point(368, 18);
+            this.btnViewParametrs.Name = "btnViewParametrs";
+            this.btnViewParametrs.Size = new System.Drawing.Size(23, 24);
+            this.btnViewParametrs.TabIndex = 2;
+            this.toolTip.SetToolTip(this.btnViewParametrs, "Available parameters");
+            this.btnViewParametrs.UseVisualStyleBackColor = true;
+            this.btnViewParametrs.Click += new System.EventHandler(this.btnViewParametrs_Click);
             // 
             // chkSingleQuery
             // 
@@ -388,9 +391,10 @@
         private Label lblObjNum;
         private CheckBox chkSingleQuery;
         private TextBox txtSql;
-        private Button btnEditParametrs;
+        private Button btnViewParametrs;
         private Button btnSelectDeviceNum;
         private Button btnSelectObjNum;
         private Button btnSelectCnlNum;
+        private ToolTip toolTip;
     }
 }

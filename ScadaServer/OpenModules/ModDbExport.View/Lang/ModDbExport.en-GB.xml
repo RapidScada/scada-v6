@@ -59,16 +59,6 @@
     <Phrase key="lblHistArchiveBit">Bit of historical archive</Phrase>
     <Phrase key="lblLocalEventArchiveBit">Bit of event archive</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlArcReplication">
-    <Phrase key="gbOptions">Archive Replication Options</Phrase>
-    <Phrase key="chkEnabled">Enabled</Phrase>
-    <Phrase key="chkAutoExport">Automatically export archives</Phrase>
-    <Phrase key="lblMinDepth">Minimum depth, sec</Phrase>
-    <Phrase key="lblMaxDepth">Maximum depth, sec</Phrase>
-    <Phrase key="lblReadingStep">Reading step, sec</Phrase>
-    <Phrase key="lblHistArchiveBit">Bit of historical archive</Phrase>
-    <Phrase key="lblLocalEventArchiveBit">Bit of event archive</Phrase>
-  </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlCurDataExport">
     <Phrase key="gbOptions">Current Data Transfer Options</Phrase>
     <Phrase key="lblTrigger">Trigger</Phrase>
@@ -84,6 +74,7 @@
     <Phrase key="chkActive">Active</Phrase>
     <Phrase key="lblID">Target ID</Phrase>
     <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblCmdCode">Command code</Phrase>
     <Phrase key="lblStatusCnlNum">Status channel number</Phrase>
     <Phrase key="lblMaxQueueSize">Maximum queue size</Phrase>
     <Phrase key="lblDataLifetime">Data lifetime in queue, sec</Phrase>   
@@ -93,10 +84,10 @@
     <Phrase key="chkActive">Active</Phrase>    
     <Phrase key="lblName">Name</Phrase>
     <Phrase key="lblDataKind">Data kind</Phrase>
-    <Phrase key="cbDataKind.Items[0]">Current</Phrase>
-    <Phrase key="cbDataKind.Items[1]">Historical</Phrase>
+    <Phrase key="cbDataKind.Items[0]">Current data</Phrase>
+    <Phrase key="cbDataKind.Items[1]">Historical data</Phrase>
     <Phrase key="cbDataKind.Items[2]">Event</Phrase>
-    <Phrase key="cbDataKind.Items[3]">EventAck</Phrase>
+    <Phrase key="cbDataKind.Items[3]">Event acknowledgement</Phrase>
     <Phrase key="cbDataKind.Items[4]">Command</Phrase>
     <Phrase key="gbFilter">Filter</Phrase>
     <Phrase key="lblCnlNum">Channel numbers</Phrase>
@@ -104,9 +95,15 @@
     <Phrase key="lblDeviceNum">Device numbers</Phrase>
     <Phrase key="gbQuery">Query</Phrase>
     <Phrase key="chkSingleQuery">Single query (input numbers required)</Phrase>
+    <Phrase key="btnViewParametrs.ToolTip">Available parameters</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmModuleConfig">
     <Phrase key="this">Export to DB</Phrase>
+    <Phrase key="ddbAdd.ToolTip">Add export target</Phrase>
+    <Phrase key="btnSqlServer">Microsoft SQL Server</Phrase>
+    <Phrase key="btnMySql">MySQL</Phrase>
+    <Phrase key="btnOracle">Oracle</Phrase>
+    <Phrase key="btnPostgreSql">PostgreSQL</Phrase>
     <Phrase key="btnAddCurrentDataQuery.ToolTip">Add current data query</Phrase>
     <Phrase key="btnAddHistoricalDataQuery.ToolTip">Add historical data query</Phrase>
     <Phrase key="btnAddEventQuery.ToolTip">Add event query</Phrase>
@@ -129,24 +126,18 @@
     <Phrase key="CurrentExportOptionsNode">Current Data</Phrase>
     <Phrase key="ExportOptionsNode">Export Options</Phrase>
     <Phrase key="GeneralOptionsNode">General Options</Phrase>
+    <Phrase key="QueriesNode">Queries</Phrase>
     <Phrase key="AddTargets">Add targets</Phrase>
     <Phrase key="SelectChildNode">Select child node</Phrase>
-    <Phrase key="TargetName">Target</Phrase>
+    <Phrase key="TargetName">Target {0}</Phrase>
     <Phrase key="TargetNameNotUnique">Target names must be unique.</Phrase>
     <Phrase key="TargetNameEmpty">The name of the target cannot be empty.</Phrase>
-    <Phrase key="QueryName">Query</Phrase>
-</Dictionary>
+    <Phrase key="QueryName">Query {0}</Phrase>   
+  </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmQueryParametrs">
     <Phrase key="this">Available Parameters</Phrase>
-    <Phrase key="colParamsName">Name parameter</Phrase>
-    <Phrase key="colParams">Parameter</Phrase>
-    <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnCancel">Cancel</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmRangeEdit">
-    <Phrase key="this">Edit Range</Phrase>
-    <Phrase key="lblRange">Range of integer numbers</Phrase>
-    <Phrase key="lblExample">For example: 1 - 5, 10</Phrase>
+    <Phrase key="colParamsName">Name</Phrase>
+    <Phrase key="colParams">Description</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>

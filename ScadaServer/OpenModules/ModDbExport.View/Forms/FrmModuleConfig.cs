@@ -207,7 +207,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                 ChooseNodeImage(exportTargetConfig.ExportOptions.ArcReplicationOptions),
                 exportTargetConfig.ExportOptions.ArcReplicationOptions));
 
-            TreeNode queriesNode = TreeViewExtensions.CreateNode("Queries",
+            TreeNode queriesNode = TreeViewExtensions.CreateNode(ModulePhrases.QueriesNode,
                 ChooseNodeImage(exportTargetConfig.Queries), exportTargetConfig.Queries);
             groupNode.Nodes.Add(queriesNode);
 
@@ -352,12 +352,13 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         {
             // translate form
             FormTranslator.Translate(this, GetType().FullName,
-                new FormTranslatorOptions { ContextMenus = new ContextMenuStrip[] { cmsTree } });
+                new FormTranslatorOptions {ContextMenus = new ContextMenuStrip[] { cmsTree }}); 
             FormTranslator.Translate(ctrlGeneral, ctrlGeneral.GetType().FullName);
             FormTranslator.Translate(ctrlDbConnection, ctrlDbConnection.GetType().FullName);
             FormTranslator.Translate(ctrlCurDataExport, ctrlCurDataExport.GetType().FullName);
-            FormTranslator.Translate(ctrlArcReplication, ctrlArcReplication.GetType().FullName);
-            FormTranslator.Translate(ctrlQuery, ctrlQuery.GetType().FullName);
+            FormTranslator.Translate(ctrlArcReplication, ctrlArcReplication.GetType().FullName);           
+            FormTranslator.Translate(ctrlQuery, ctrlQuery.GetType().FullName,
+                new FormTranslatorOptions { ToolTip = ctrlQuery.ToolTip, SkipUserControls = false });
 
             // load configuration
             if (File.Exists(configFileName) && !config.Load(configFileName, out string errMsg))
@@ -404,7 +405,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             // add target
             ExportTargetConfig target = new() { Parent = config };
             target.GeneralOptions.ID = GetNextTargetID();
-            target.GeneralOptions.Name = ModulePhrases.TargetName + " " + target.GeneralOptions.ID;
+            target.GeneralOptions.Name = string.Format(ModulePhrases.TargetName, target.GeneralOptions.ID);
 
             // add dbconnection setting
             if (sender == btnSqlServer)
@@ -447,7 +448,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                 // add query
                 QueryOptions queryOptions = new()
                 {
-                    Name = ModulePhrases.QueryName + " " + (queriesNode.GetNodeCount(true) + 1).ToString()
+                    Name = string.Format(ModulePhrases.QueryName, queriesNode.GetNodeCount(true) + 1)
                 };
 
                 if (sender == btnAddCurrentDataQuery)

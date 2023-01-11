@@ -67,6 +67,22 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
 
 
         /// <summary>
+        /// Gets the tool tip to be accessed on the main form.
+        /// </summary>
+        internal ToolTip ToolTip
+        {
+            get
+            {
+                return toolTip;
+            }
+            set
+            {
+                toolTip = value;
+            }
+        }
+
+
+        /// <summary>
         /// Shows the options.
         /// </summary>
         private void ShowOptions(QueryOptions options)
@@ -356,7 +372,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
             }
         }
 
-        private void btnEditParametrs_Click(object sender, EventArgs e)
+        private void btnViewParametrs_Click(object sender, EventArgs e)
         {
             if (queryOptions != null)
                 _ = new FrmQueryParametrs { QueryOptions = queryOptions, DBMS = DbmsType, }

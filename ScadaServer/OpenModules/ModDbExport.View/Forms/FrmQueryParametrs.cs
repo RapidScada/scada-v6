@@ -18,7 +18,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         public FrmQueryParametrs()
         {
             InitializeComponent();
-            
+
+            SetColumnNames();
             QueryOptions = null;
             DBMS = KnownDBMS.Undefined;
         }
@@ -34,10 +35,21 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         internal KnownDBMS DBMS { get; set; }
 
 
+        /// <summary>
+        /// Sets the column names for the translation.
+        /// </summary>
+        private void SetColumnNames()
+        {
+            colParamsName.Name = "colParamsName";
+            colParams.Name = "colParams";
+        }
+
+
         private void FrmQueryParametrs_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
             
+            lvParametrs.BeginUpdate();
             lvParametrs.Items.Clear();
            
             QueryInfo queryInfo = new(QueryOptions, DBMS);
@@ -47,6 +59,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             {
                 lvParametrs.Items.Add(new ListViewItem(new string[] { queryParam.Name, queryParam.Descr }));
             }
+
+            lvParametrs.EndUpdate();
         }
     }
 }

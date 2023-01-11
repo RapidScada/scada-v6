@@ -79,12 +79,12 @@
             // 
             // colParamsName
             // 
-            this.colParamsName.Text = "Name parameter";
+            this.colParamsName.Text = "Name";
             this.colParamsName.Width = 160;
             // 
             // colParams
             // 
-            this.colParams.Text = "Parameter";
+            this.colParams.Text = "Description";
             this.colParams.Width = 310;
             // 
             // FrmQueryParametrs
