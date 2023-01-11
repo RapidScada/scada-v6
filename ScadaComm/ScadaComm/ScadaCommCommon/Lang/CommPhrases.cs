@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -60,6 +60,7 @@ namespace Scada.Comm.Lang
         public static string ResponseError { get; private set; }
         public static string ResponseCsError { get; private set; }
         public static string ResponseCrcError { get; private set; }
+        public static string UnablePollDevice { get; private set; }
         public static string InvalidCommand { get; private set; }
         public static string ErrorPrefix { get; private set; }
         public static string Off { get; private set; }
@@ -105,6 +106,7 @@ namespace Scada.Comm.Lang
                 ResponseError = "Ошибка связи";
                 ResponseCsError = "Ошибка КС";
                 ResponseCrcError = "Ошибка CRC";
+                UnablePollDevice = "Ошибка: взаимодействие с устройством невозможно";
                 InvalidCommand = "Ошибка: недопустимая команда";
                 ErrorPrefix = "Ошибка: ";
                 Off = "Откл";
@@ -136,6 +138,7 @@ namespace Scada.Comm.Lang
                 ResponseError = "Error: communication failed";
                 ResponseCsError = "Error: invalid checksum";
                 ResponseCrcError = "Error: invalid CRC";
+                UnablePollDevice = "Error: unable to poll device";
                 InvalidCommand = "Error: invalid command";
                 ErrorPrefix = "Error: ";
                 Off = "Off";
