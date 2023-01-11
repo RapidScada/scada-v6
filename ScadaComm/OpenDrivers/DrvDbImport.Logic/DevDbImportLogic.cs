@@ -266,10 +266,8 @@ namespace Scada.Comm.Drivers.DrvDbImport.Logic
         {
             DataSource dataSource = lineData.DataSource;
             DbCommand dbCommand = dataSource.CreateCommand(commandConfig.Sql);
-            dataSource.SetParam(dbCommand, "cmdVal",
-                double.IsNaN(teleCommand.CmdVal) ? DBNull.Value : teleCommand.CmdVal);
-            dataSource.SetParam(dbCommand, "cmdData",
-                teleCommand.CmdData == null ? DBNull.Value : teleCommand.CmdData);
+            dataSource.SetParam(dbCommand, "cmdVal", teleCommand.CmdValIsEmpty ? DBNull.Value : teleCommand.CmdVal);
+            dataSource.SetParam(dbCommand, "cmdData", teleCommand.CmdDataIsEmpty ? DBNull.Value : teleCommand.CmdData);
             return dbCommand;
         }
 

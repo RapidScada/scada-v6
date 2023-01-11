@@ -7,7 +7,7 @@
         <Tag>tag2</Tag>
       </Tags>
       <SingleRow>true</SingleRow>
-      <Sql>SELECT val1, val2 FROM table1 LIMIT 1</Sql>
+      <Sql>SELECT val1, val2 FROM drv_db_import.table1 LIMIT 1</Sql>
     </Query>
     <Query active="true" name="Query 2">
       <Tags>
@@ -15,12 +15,12 @@
         <Tag>tag4</Tag>
       </Tags>
       <SingleRow>false</SingleRow>
-      <Sql>SELECT code, val FROM table2</Sql>
+      <Sql>SELECT code, val FROM drv_db_import.table2</Sql>
     </Query>
   </Queries>
   <Commands>
     <Command name="My command 1" cmdCode="MyCmd1">
-      <Sql>INSERT INTO table_out (cmd_val, cmd_data) VALUES (@cmdVal, @cmdData)</Sql>
+      <Sql>INSERT INTO drv_db_import.table_out (cmd_val, cmd_data) VALUES (@cmdVal, @cmdData)</Sql>
     </Command>
   </Commands>
 </DbDeviceConfig>
