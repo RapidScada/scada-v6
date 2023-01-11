@@ -26,19 +26,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DrvEmail", "DrvEmail", "{86
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvEmail.Shared", "DrvEmail.Shared\DrvEmail.Shared.shproj", "{A28F2459-D7F3-4F5B-A53E-216CABE2310F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvEmail.Logic", "DrvEmail.Logic\DrvEmail.Logic.csproj", "{546559C2-4CF8-41AF-BBAE-0BE46F1289F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvEmail.Logic", "DrvEmail.Logic\DrvEmail.Logic.csproj", "{546559C2-4CF8-41AF-BBAE-0BE46F1289F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvEmail.View", "DrvEmail.View\DrvEmail.View.csproj", "{6593C194-5EDF-459F-9CBA-321A870B9677}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvEmail.View", "DrvEmail.View\DrvEmail.View.csproj", "{6593C194-5EDF-459F-9CBA-321A870B9677}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DrvSnmp", "DrvSnmp", "{D8B82F6B-B39A-472C-BAD1-1DA2BB1FEB47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvSnmp.View", "DrvSnmp.View\DrvSnmp.View.csproj", "{5C9089A5-4FEB-4FEE-B96A-3FEDE615C898}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvSnmp.Logic", "DrvSnmp.Logic\DrvSnmp.Logic.csproj", "{29F3F057-0B4F-4938-B775-6BCEF0645C90}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvSnmp.Shared", "DrvSnmp.Shared\DrvSnmp.Shared.shproj", "{C7419BB6-0C51-49A0-95D1-40938C203187}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		DrvHttpNotif.Shared\DrvHttpNotif.Shared.projitems*{111a85fb-e7b0-417c-8857-7d0b88a5f050}*SharedItemsImports = 5
-		DrvEmail.Shared\DrvEmail.Shared.projitems*{546559c2-4cf8-41af-bbae-0be46f1289f6}*SharedItemsImports = 5
-		DrvEmail.Shared\DrvEmail.Shared.projitems*{6593c194-5edf-459f-9cba-321a870b9677}*SharedItemsImports = 5
-		DrvEmail.Shared\DrvEmail.Shared.projitems*{a28f2459-d7f3-4f5b-a53e-216cabe2310f}*SharedItemsImports = 13
-		DrvHttpNotif.Shared\DrvHttpNotif.Shared.projitems*{b9f18976-dcb3-4895-be6e-3eba9129a370}*SharedItemsImports = 13
-		DrvHttpNotif.Shared\DrvHttpNotif.Shared.projitems*{f14824b7-4208-4314-a543-184e1573e1c9}*SharedItemsImports = 5
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -68,6 +68,14 @@ Global
 		{6593C194-5EDF-459F-9CBA-321A870B9677}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6593C194-5EDF-459F-9CBA-321A870B9677}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6593C194-5EDF-459F-9CBA-321A870B9677}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C9089A5-4FEB-4FEE-B96A-3FEDE615C898}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C9089A5-4FEB-4FEE-B96A-3FEDE615C898}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C9089A5-4FEB-4FEE-B96A-3FEDE615C898}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C9089A5-4FEB-4FEE-B96A-3FEDE615C898}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29F3F057-0B4F-4938-B775-6BCEF0645C90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29F3F057-0B4F-4938-B775-6BCEF0645C90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29F3F057-0B4F-4938-B775-6BCEF0645C90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29F3F057-0B4F-4938-B775-6BCEF0645C90}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,8 +89,22 @@ Global
 		{A28F2459-D7F3-4F5B-A53E-216CABE2310F} = {861EC90F-9C8C-4CAA-B706-61FEB8993D7F}
 		{546559C2-4CF8-41AF-BBAE-0BE46F1289F6} = {861EC90F-9C8C-4CAA-B706-61FEB8993D7F}
 		{6593C194-5EDF-459F-9CBA-321A870B9677} = {861EC90F-9C8C-4CAA-B706-61FEB8993D7F}
+		{5C9089A5-4FEB-4FEE-B96A-3FEDE615C898} = {D8B82F6B-B39A-472C-BAD1-1DA2BB1FEB47}
+		{29F3F057-0B4F-4938-B775-6BCEF0645C90} = {D8B82F6B-B39A-472C-BAD1-1DA2BB1FEB47}
+		{C7419BB6-0C51-49A0-95D1-40938C203187} = {D8B82F6B-B39A-472C-BAD1-1DA2BB1FEB47}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {621E3959-3A13-41B5-A559-AA02854D93A0}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		DrvHttpNotif.Shared\DrvHttpNotif.Shared.projitems*{111a85fb-e7b0-417c-8857-7d0b88a5f050}*SharedItemsImports = 5
+		DrvSnmp.Shared\DrvSnmp.Shared.projitems*{29f3f057-0b4f-4938-b775-6bcef0645c90}*SharedItemsImports = 5
+		DrvEmail.Shared\DrvEmail.Shared.projitems*{546559c2-4cf8-41af-bbae-0be46f1289f6}*SharedItemsImports = 5
+		DrvSnmp.Shared\DrvSnmp.Shared.projitems*{5c9089a5-4feb-4fee-b96a-3fede615c898}*SharedItemsImports = 5
+		DrvEmail.Shared\DrvEmail.Shared.projitems*{6593c194-5edf-459f-9cba-321a870b9677}*SharedItemsImports = 5
+		DrvEmail.Shared\DrvEmail.Shared.projitems*{a28f2459-d7f3-4f5b-a53e-216cabe2310f}*SharedItemsImports = 13
+		DrvHttpNotif.Shared\DrvHttpNotif.Shared.projitems*{b9f18976-dcb3-4895-be6e-3eba9129a370}*SharedItemsImports = 13
+		DrvSnmp.Shared\DrvSnmp.Shared.projitems*{c7419bb6-0c51-49a0-95d1-40938c203187}*SharedItemsImports = 13
+		DrvHttpNotif.Shared\DrvHttpNotif.Shared.projitems*{f14824b7-4208-4314-a543-184e1573e1c9}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal
