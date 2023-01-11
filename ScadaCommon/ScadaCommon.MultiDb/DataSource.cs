@@ -116,6 +116,16 @@ namespace Scada.MultiDb
         }
 
         /// <summary>
+        /// Creates a command with the specified command text.
+        /// </summary>
+        public virtual DbCommand CreateCommand(string commandText)
+        {
+            DbCommand command = CreateCommand();
+            command.CommandText = commandText;
+            return command;
+        }
+
+        /// <summary>
         /// Sets the command parameter.
         /// </summary>
         public virtual DbParameter SetParam(DbCommand cmd, string paramName, object value)
