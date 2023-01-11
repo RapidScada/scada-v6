@@ -5,12 +5,14 @@ using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvDbImport.Config;
 using Scada.Comm.Lang;
+using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Lang;
 using Scada.MultiDb;
 using System.Data;
 using System.Data.Common;
+using System.Windows.Input;
 
 namespace Scada.Comm.Drivers.DrvDbImport.Logic
 {
@@ -31,14 +33,18 @@ namespace Scada.Comm.Drivers.DrvDbImport.Logic
         }
 
         /// <summary>
-        /// Represents metadata about a device tag.
+        /// Contains data associated with a query.
         /// </summary>
-        private class DeviceTagMeta
+        private class QueryItem
         {
-            public Type ActualDataType { get; set; }
+            public QueryConfig Config { get; init; }
+            public DbCommand Command { get; init; }
+            public int StartTagIndex { get; init; }
+            public int TagCount => Config.TagCodes.Count;
         }
 
         private readonly DbDeviceConfig config;                       // the device configuration
+        private readonly List<QueryItem> queryItems;                  // the queries to execute
         private readonly Dictionary<string, CommandConfig> cmdByCode; // the commands accessed by code
 
         private bool configError;          // indicates that that device configuration is not loaded
@@ -52,6 +58,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.Logic
             : base(commContext, lineContext, deviceConfig)
         {
             config = new DbDeviceConfig();
+            queryItems = new List<QueryItem>();
             cmdByCode = new Dictionary<string, CommandConfig>();
 
             configError = false;
@@ -59,6 +66,12 @@ namespace Scada.Comm.Drivers.DrvDbImport.Logic
 
             ConnectionRequired = false;
         }
+
+
+        /// <summary>
+        /// Gets a value indicating whether the device is not ready to communicate.
+        /// </summary>
+        private bool DeviceIsNotReady => lineData.FatalError || configError;
 
 
         /// <summary>
@@ -158,13 +171,103 @@ namespace Scada.Comm.Drivers.DrvDbImport.Logic
         }
 
         /// <summary>
+        /// Executes the specified query.
+        /// </summary>
+        private bool ExecuteQuery(QueryItem queryItem)
+        {
+            try
+            {
+                QueryConfig queryConfig = queryItem.Config;
+                Log.WriteLine(Locale.IsRussian ?
+                    "Выполнение запроса \"{0}\"" :
+                    "Execute query \"{0}\"", queryConfig.Name);
+
+                if (queryConfig.SingleRow)
+                {
+                    using DbDataReader reader = queryItem.Command.ExecuteReader(CommandBehavior.SingleRow);
+
+                    if (reader.Read())
+                    {
+                        for (int i = 0, cnt = Math.Min(queryItem.TagCount, reader.FieldCount); i < cnt; i++)
+                        {
+                            SetTagData(DeviceTags[queryItem.StartTagIndex + i], reader[i]);
+                        }
+                    }
+                    else
+                    {
+                        DeviceData.Invalidate(queryItem.StartTagIndex, queryItem.TagCount);
+                    }
+                }
+                else
+                {
+                    using DbDataReader reader = queryItem.Command.ExecuteReader();
+                    int codeColIdx = reader.GetOrdinal("code");
+                    int valColIdx = reader.GetOrdinal("val");
+
+                    while (reader.Read())
+                    {
+                        if (DeviceTags.TryGetTag(reader.GetString(codeColIdx), out DeviceTag deviceTag))
+                            SetTagData(deviceTag, reader[valColIdx]);
+                    }
+                }
+
+                Log.WriteLine(CommPhrases.ResponseOK);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.WriteLine(CommPhrases.ErrorPrefix + ex.Message);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Sets value, status and format of the specified tag.
+        /// </summary>
+        private void SetTagData(DeviceTag deviceTag, object val)
+        {
+            try
+            {
+                int tagIndex = deviceTag.Index;
+
+                if (val == DBNull.Value)
+                {
+                    DeviceData.Invalidate(tagIndex);
+                }
+                else if (val is string strVal)
+                {
+                    deviceTag.DataType = TagDataType.Unicode;
+                    deviceTag.Format = TagFormat.String;
+                    DeviceData.SetUnicode(tagIndex, strVal, CnlStatusID.Defined);
+                }
+                else if (val is DateTime dtVal)
+                {
+                    deviceTag.DataType = TagDataType.Double;
+                    deviceTag.Format = TagFormat.DateTime;
+                    DeviceData.SetDateTime(tagIndex, dtVal, CnlStatusID.Defined);
+                }
+                else
+                {
+                    deviceTag.DataType = TagDataType.Double;
+                    deviceTag.Format = TagFormat.FloatNumber;
+                    DeviceData.Set(tagIndex, Convert.ToDouble(val));
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.WriteInfo(ex.BuildErrorMessage(Locale.IsRussian ?
+                    "Ошибка при установке данных тега \"{0}\"" :
+                    "Error setting \"{0}\" tag data", deviceTag.Code));
+            }
+        }
+
+        /// <summary>
         /// Creates a database command according to the command configuration.
         /// </summary>
         private DbCommand CreateCommand(TeleCommand teleCommand, CommandConfig commandConfig)
         {
             DataSource dataSource = lineData.DataSource;
-            DbCommand dbCommand = dataSource.CreateCommand();
-            dbCommand.CommandText = commandConfig.Sql;
+            DbCommand dbCommand = dataSource.CreateCommand(commandConfig.Sql);
             dataSource.SetParam(dbCommand, "cmdVal",
                 double.IsNaN(teleCommand.CmdVal) ? DBNull.Value : teleCommand.CmdVal);
             dataSource.SetParam(dbCommand, "cmdData",
@@ -183,6 +286,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.Logic
                     "Выполнение команды \"{0}\"" :
                     "Execute command \"{0}\"", commandConfig.Name);
                 dbCommand.ExecuteNonQuery();
+                Log.WriteLine(CommPhrases.ResponseOK);
                 return true;
             }
             catch (Exception ex)
@@ -222,15 +326,27 @@ namespace Scada.Comm.Drivers.DrvDbImport.Logic
 
             foreach (QueryConfig queryConfig in config.Queries)
             {
+                // create tag group
                 TagGroup tagGroup = new(queryConfig.Name);
+                int startTagIdx = DeviceTags.Count;
 
                 foreach (string tagCode in queryConfig.TagCodes)
                 {
-                    DeviceTag deviceTag = tagGroup.AddTag(tagCode, tagCode);
-                    deviceTag.Aux = new DeviceTagMeta();
+                    tagGroup.AddTag(tagCode, tagCode);
                 }
 
                 DeviceTags.AddGroup(tagGroup);
+
+                // create query item
+                if (lineData.DataSource != null && queryConfig.Active)
+                {
+                    queryItems.Add(new QueryItem
+                    {
+                        Config = queryConfig,
+                        Command = lineData.DataSource.CreateCommand(queryConfig.Sql),
+                        StartTagIndex = startTagIdx
+                    });
+                }
             }
         }
 
@@ -239,16 +355,66 @@ namespace Scada.Comm.Drivers.DrvDbImport.Logic
         /// </summary>
         public override void Session()
         {
-            if (lineData.FatalError || configError)
+            base.Session();
+
+            if (DeviceIsNotReady)
             {
-                DeviceStatus = DeviceStatus.Error;
+                Log.WriteLine(CommPhrases.UnablePollDevice);
+                SleepPollingDelay();
+                LastRequestOK = false;
+            }
+            else if (queryItems.Count == 0)
+            {
+                Log.WriteLine(Locale.IsRussian ?
+                    "Отсутствуют запросы" :
+                    "No queries");
+                SleepPollingDelay();
+            }
+            else if (Connect())
+            {
+                int queryIdx = 0;
+
+                while (queryIdx < queryItems.Count && LastRequestOK)
+                {
+                    QueryItem queryItem = queryItems[queryIdx];
+                    LastRequestOK = false;
+                    int tryNum = 0;
+
+                    while (RequestNeeded(ref tryNum))
+                    {
+                        if (ExecuteQuery(queryItem))
+                            LastRequestOK = true;
+
+                        FinishRequest();
+                        tryNum++;
+                    }
+
+                    if (LastRequestOK)
+                    {
+                        // next query
+                        queryIdx++;
+                    }
+                    else if (tryNum > 0)
+                    {
+                        // set tag data as undefined for the current and the next queries
+                        while (queryIdx < queryItems.Count)
+                        {
+                            queryItem = queryItems[queryIdx];
+                            DeviceData.Invalidate(queryItem.StartTagIndex, queryItem.TagCount);
+                            queryIdx++;
+                        }
+                    }
+                }
+
+                Disconnect();
             }
             else
             {
-
+                DeviceData.Invalidate();
+                LastRequestOK = false;
             }
 
-            SleepPollingDelay();
+            FinishSession();
         }
 
         /// <summary>
@@ -259,11 +425,9 @@ namespace Scada.Comm.Drivers.DrvDbImport.Logic
             base.SendCommand(cmd);
             LastRequestOK = false;
 
-            if (lineData.DataSource == null)
+            if (DeviceIsNotReady)
             {
-                Log.WriteLine(Locale.IsRussian ?
-                    "Ошибка: источник данных не определён" :
-                    "Error: data source is undefined");
+                Log.WriteLine(CommPhrases.UnablePollDevice);
             }
             else if (string.IsNullOrEmpty(cmd.CmdCode) ||
                 !cmdByCode.TryGetValue(cmd.CmdCode, out CommandConfig commandConfig))
