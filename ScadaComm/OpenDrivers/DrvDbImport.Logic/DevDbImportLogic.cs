@@ -6,13 +6,11 @@ using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvDbImport.Config;
 using Scada.Comm.Lang;
 using Scada.Data.Const;
-using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Lang;
 using Scada.MultiDb;
 using System.Data;
 using System.Data.Common;
-using System.Windows.Input;
 
 namespace Scada.Comm.Drivers.DrvDbImport.Logic
 {
