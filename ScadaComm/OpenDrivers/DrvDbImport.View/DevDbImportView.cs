@@ -38,7 +38,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View
         /// </summary>
         public override PollingOptions GetPollingOptions()
         {
-            return PollingOptions.CreateWithDefaultDelay();
+            return new PollingOptions(0, 1000);
         }
 
         /// <summary>
