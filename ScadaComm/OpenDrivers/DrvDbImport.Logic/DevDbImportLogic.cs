@@ -226,30 +226,10 @@ namespace Scada.Comm.Drivers.DrvDbImport.Logic
         {
             try
             {
-                int tagIndex = deviceTag.Index;
-
                 if (val == DBNull.Value)
-                {
-                    DeviceData.Invalidate(tagIndex);
-                }
-                else if (val is string strVal)
-                {
-                    deviceTag.DataType = TagDataType.Unicode;
-                    deviceTag.Format = TagFormat.String;
-                    DeviceData.SetUnicode(tagIndex, strVal, CnlStatusID.Defined);
-                }
-                else if (val is DateTime dtVal)
-                {
-                    deviceTag.DataType = TagDataType.Double;
-                    deviceTag.Format = TagFormat.DateTime;
-                    DeviceData.SetDateTime(tagIndex, dtVal, CnlStatusID.Defined);
-                }
+                    DeviceData.Invalidate(deviceTag.Index);
                 else
-                {
-                    deviceTag.DataType = TagDataType.Double;
-                    deviceTag.Format = TagFormat.FloatNumber;
-                    DeviceData.Set(tagIndex, Convert.ToDouble(val));
-                }
+                    DeviceData.Set(deviceTag, val, CnlStatusID.Defined);
             }
             catch (Exception ex)
             {
