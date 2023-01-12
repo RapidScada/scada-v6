@@ -1,54 +1,54 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ModRapidGateDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.Command">
+    <Phrase key="CommandID">Command ID</Phrase>
+    <Phrase key="CreationTime">Command creation time</Phrase>
+    <Phrase key="ClientName">Client who sent the command</Phrase>
+    <Phrase key="UserID">User ID</Phrase>
+    <Phrase key="CnlNum">Channel number</Phrase>
+    <Phrase key="ObjNum">Object number</Phrase>
+    <Phrase key="DeviceNum">Device number</Phrase>
+    <Phrase key="CmdNum">Command number</Phrase>
+    <Phrase key="CmdCode">Command code</Phrase>
+    <Phrase key="CmdVal">Command value</Phrase>
+    <Phrase key="CmdData">Command data</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.Data">
     <Phrase key="Timestamp">Timestamp</Phrase>
-    <Phrase key="ChannelValue">ChannelValue</Phrase>
-    <Phrase key="ChannelStatus">ChannelStatus</Phrase>
-    <Phrase key="FirstObject">FirstObject</Phrase>
-    <Phrase key="FirstDevice">FirstDevice</Phrase>
-    <Phrase key="CnlNum">CnlNum</Phrase>
-    <Phrase key="Val">Val</Phrase>
-    <Phrase key="Stat">Stat</Phrase>
-    <Phrase key="ObjNum">ObjNum</Phrase>
-    <Phrase key="DeviceNum">DeviceNum</Phrase>
+    <Phrase key="ChannelValue">Channel {0} value</Phrase>
+    <Phrase key="ChannelStatus">Channel {0} status</Phrase>
+    <Phrase key="FirstObject">Object number of the 1st channel</Phrase>
+    <Phrase key="FirstDevice">Device number of the 1st channel</Phrase>
+    <Phrase key="CnlNum">Channel number</Phrase>
+    <Phrase key="Val">Channel value</Phrase>
+    <Phrase key="Stat">Channel status</Phrase>
+    <Phrase key="ObjNum">Object number</Phrase>
+    <Phrase key="DeviceNum">Device number</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.Event">
-    <Phrase key="EventID">EventID</Phrase>
-    <Phrase key="Timestamp">Timestamp</Phrase>
-    <Phrase key="Hidden">Hidden</Phrase>
-    <Phrase key="CnlNum">CnlNum</Phrase>
-    <Phrase key="ObjNum">ObjNum</Phrase>
-    <Phrase key="DeviceNum">DeviceNum</Phrase>
-    <Phrase key="PrevCnlVal">PrevCnlVal</Phrase>
-    <Phrase key="PrevCnlStat">PrevCnlStat</Phrase>
-    <Phrase key="CnlVal">CnlVal</Phrase>
-    <Phrase key="CnlStat">CnlStat</Phrase>
+    <Phrase key="EventID">Event ID</Phrase>
+    <Phrase key="Timestamp">Event timestamp</Phrase>
+    <Phrase key="Hidden">Event is hidden</Phrase>
+    <Phrase key="CnlNum">Channel number</Phrase>
+    <Phrase key="ObjNum">Object number</Phrase>
+    <Phrase key="DeviceNum">Device number</Phrase>
+    <Phrase key="PrevCnlVal">Previous channel value</Phrase>
+    <Phrase key="PrevCnlStat">Previous channel status</Phrase>
+    <Phrase key="CnlVal">Channel value</Phrase>
+    <Phrase key="CnlStat">Channel status</Phrase>
     <Phrase key="Severity">Severity</Phrase>
-    <Phrase key="AckRequired">AckRequired</Phrase>
-    <Phrase key="AckTimestamp">AckTimestamp</Phrase>
-    <Phrase key="AckUserID">AckUserID</Phrase>
-    <Phrase key="TextFormat">TextFormat</Phrase>
-    <Phrase key="EventText">EventText</Phrase>
-    <Phrase key="EventData">EventData</Phrase>
+    <Phrase key="AckRequired">Acknowledgement is required</Phrase>
+    <Phrase key="AckTimestamp">Acknowledgement timestamp</Phrase>
+    <Phrase key="AckUserID">Acknowledgement user ID</Phrase>
+    <Phrase key="TextFormat">Text format</Phrase>
+    <Phrase key="EventText">Event text</Phrase>
+    <Phrase key="EventData">Event data</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.View.EventAck">
-    <Phrase key="EventID">EventID</Phrase>   
-    <Phrase key="AckTimestamp">AckTimestamp</Phrase>
-    <Phrase key="AckUserID">AckUserID</Phrase>    
-  </Dictionary>
-  <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.Command">
-    <Phrase key="CommandID">CommandID</Phrase>
-    <Phrase key="CreationTime">CreationTime</Phrase>
-    <Phrase key="ClientName">ClientName</Phrase>
-    <Phrase key="UserID">UserID</Phrase>
-    <Phrase key="CnlNum">CnlNum</Phrase>
-    <Phrase key="ObjNum">ObjNum</Phrase>
-    <Phrase key="DeviceNum">DeviceNum</Phrase>
-    <Phrase key="CmdNum">CmdNum</Phrase>
-    <Phrase key="CmdCode">CmdCode</Phrase>
-    <Phrase key="CmdVal">CmdVal</Phrase>
-    <Phrase key="CmdData">CmdData</Phrase>
-  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.EventAck">
+    <Phrase key="EventID">Event ID</Phrase>
+    <Phrase key="AckTimestamp">Acknowledgement timestamp</Phrase>
+    <Phrase key="AckUserID">User ID</Phrase>
+  </Dictionary>  
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlArcReplication">
     <Phrase key="gbOptions">Archive Replication Options</Phrase>
     <Phrase key="chkEnabled">Enabled</Phrase>
