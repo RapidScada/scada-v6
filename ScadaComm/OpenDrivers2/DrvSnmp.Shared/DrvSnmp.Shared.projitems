@@ -9,5 +9,14 @@
     <Import_RootNamespace>Scada.Comm.Drivers.DrvSnmp</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Config\DrvSnmp_001.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Config\DeviceOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\VarGroupList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\SnmpDeviceConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\VarGroupConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\VariableConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DriverUtils.cs" />
   </ItemGroup>
 </Project>
