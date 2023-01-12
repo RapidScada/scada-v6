@@ -168,22 +168,22 @@ namespace Scada.Comm.Devices
         /// <summary>
         /// Calculates the data length required to store the specified number of elements.
         /// </summary>
-        public static int CalcDataLength(int friendlyLength, TagDataType dataType)
+        public static int CalcDataLength(int elementCount, TagDataType dataType)
         {
             switch (dataType)
             {
                 case TagDataType.Unicode:
-                    return friendlyLength <= 0 
+                    return elementCount <= 0 
                         ? 1 
-                        : friendlyLength / 4 + ((friendlyLength % 4) == 0 ? 0 : 1);
+                        : elementCount / 4 + ((elementCount % 4) == 0 ? 0 : 1);
 
                 case TagDataType.ASCII:
-                    return friendlyLength <= 0
+                    return elementCount <= 0
                         ? 1
-                        : friendlyLength / 8 + ((friendlyLength % 8) == 0 ? 0 : 1);
+                        : elementCount / 8 + ((elementCount % 8) == 0 ? 0 : 1);
 
                 default:
-                    return friendlyLength;
+                    return elementCount;
             }
         }
 
