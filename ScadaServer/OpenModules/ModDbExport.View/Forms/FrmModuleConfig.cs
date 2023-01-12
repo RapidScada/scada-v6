@@ -82,6 +82,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             ctrlQuery.ConfigDataset = configDataset;
         }
 
+
         /// <summary>
         /// Gets or sets a value indicating whether the module configuration is modified.
         /// </summary>
@@ -339,9 +340,9 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         }
 
         /// <summary>
-        /// Gets the main root by treeNode
+        /// Gets the main root by treeNode.
         /// </summary>
-        private TreeNode RootTreeNode(TreeNode treeNode) 
+        private static TreeNode RootTreeNode(TreeNode treeNode) 
         { 
             while (treeNode.Level > 0) { treeNode = treeNode.Parent; } 
             return treeNode; 
