@@ -25,6 +25,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             DBMS = KnownDBMS.Undefined;
         }
  
+
         /// <summary>
         /// Gets or sets the query options.
         /// </summary>

@@ -25,6 +25,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
             curDataExportOptions = null;
         }
 
+
         /// <summary>
         /// Gets or sets the current data transfer options for editing.
         /// </summary>
@@ -65,8 +66,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
                 chkIncludeCalculated.Checked = options.IncludeCalculated;
                 numTimePeriod.Value = options.TimerPeriod;
                 numAllDataPeriod.Value = options.AllDataPeriod;
-
-                numTimePeriod.Enabled = numAllDataPeriod.Enabled = cbTrigger.SelectedIndex > 0;
+                numTimePeriod.Enabled = numAllDataPeriod.Enabled =
+                    cbTrigger.SelectedIndex > 0;
             }
         }
 
@@ -92,8 +93,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
             {
                 curDataExportOptions.Trigger = (ExportTrigger)cbTrigger.SelectedIndex;
                 OnObjectChanged(TreeUpdateTypes.None);
-
-                numTimePeriod.Enabled = numAllDataPeriod.Enabled = cbTrigger.SelectedIndex > 0;
+                numTimePeriod.Enabled = numAllDataPeriod.Enabled = 
+                    cbTrigger.SelectedIndex > 0;
             }
         }
 

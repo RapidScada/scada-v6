@@ -6,7 +6,6 @@ using Scada.Dbms;
 using Scada.Forms;
 using Scada.Forms.Forms;
 using Scada.Lang;
-using Scada.Server.Config;
 using Scada.Server.Modules.ModDbExport.Config;
 using Scada.Server.Modules.ModDbExport.View.Forms;
 using System.ComponentModel;
@@ -60,13 +59,6 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
         /// </summary>
         internal KnownDBMS DbmsType { get; set; }
 
-
-        /// <summary>
-        /// Gets or sets the configuration database.
-        /// </summary>
-        public ConfigDataset ConfigDataset { get; set; }
-
-
         /// <summary>
         /// Gets the tool tip to be accessed on the main form.
         /// </summary>
@@ -81,6 +73,11 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
                 toolTip = value;
             }
         }
+
+        /// <summary>
+        /// Gets or sets the configuration database.
+        /// </summary>
+        public ConfigDataset ConfigDataset { get; set; }
 
 
         /// <summary>
@@ -124,7 +121,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
         /// <summary>
         /// Calls the form for selecting list of channels.
         /// </summary>
-        private void selectNumsList(List<int> numsList, TextBox textBox)
+        private void SelectNumsList(List<int> numsList, TextBox textBox)
         {
             FrmCnlSelect frmCnlSelect = new(ConfigDataset)
             {
@@ -142,21 +139,21 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
         }
 
         /// <summary>
-        /// Validations textbox.
+        /// Validates the textbox of the filter.
         /// </summary>       
-        private void txtValidation(List<int> numsList, TextBox textBox)
+        private void ValidateFilterTextBox(List<int> numList, TextBox textBox)
         {
             if (queryOptions != null && cnlNumChanged)
             {
                 if (ScadaUtils.ParseRange(textBox.Text, true, true, out IList<int> newRange))
                 {
                     // update channel list
-                    numsList.Clear();
+                    numList.Clear();
 
                     if (newRange.Count > 0)
-                        numsList.AddRange(newRange);
+                        numList.AddRange(newRange);
                     else
-                        numsList.Add(DefaultCnlNum);
+                        numList.Add(DefaultCnlNum);
 
                     textBox.ForeColor = Color.FromKnownColor(KnownColor.WindowText);
 
@@ -181,7 +178,6 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
             }
         }
 
-
         /// <summary>
         /// Raises an ObjectChanged event.
         /// </summary>
@@ -197,6 +193,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
         {
             txtName.Select();
         }
+
 
         /// <summary>
         /// Occurs when the edited object changes.
@@ -251,19 +248,19 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
         private void btnSelectCnlNum_Click(object sender, EventArgs e)
         {
             if (queryOptions != null && ConfigDataset != null)
-                selectNumsList(queryOptions.Filter.CnlNums, txtCnlNum);
+                SelectNumsList(queryOptions.Filter.CnlNums, txtCnlNum);
         }
 
         private void btnSelectObjNum_Click(object sender, EventArgs e)
         {
             if (queryOptions != null && ConfigDataset != null)
-                selectNumsList(queryOptions.Filter.ObjNums, txtObjNum);
+                SelectNumsList(queryOptions.Filter.ObjNums, txtObjNum);
         }
 
         private void btnSelectDeviceNum_Click(object sender, EventArgs e)
         {
             if (queryOptions != null && ConfigDataset != null)
-                selectNumsList(queryOptions.Filter.DeviceNums, txtDeviceNum);
+                SelectNumsList(queryOptions.Filter.DeviceNums, txtDeviceNum);
         }
 
         private void btnEditCnlNum_Click(object sender, EventArgs e)
@@ -314,7 +311,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
 
         private void txtCnlNum_Validating(object sender, CancelEventArgs e)
         {
-            txtValidation(queryOptions.Filter.CnlNums, txtCnlNum);
+            ValidateFilterTextBox(queryOptions.Filter.CnlNums, txtCnlNum);
         }
 
         private void txtCnlNum_KeyDown(object sender, KeyEventArgs e)
@@ -330,12 +327,12 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
         
         private void txtObjNum_TextChanged(object sender, EventArgs e)
         {
-            cnlNumChanged = false;
+            cnlNumChanged = true;
         }     
 
         private void txtObjNum_Validating(object sender, CancelEventArgs e)
         {
-            txtValidation(queryOptions.Filter.ObjNums, txtObjNum);
+            ValidateFilterTextBox(queryOptions.Filter.ObjNums, txtObjNum);
         }
 
         private void txtObjNum_KeyDown(object sender, KeyEventArgs e)
@@ -351,12 +348,12 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
 
         private void txtDeviceNum_TextChanged(object sender, EventArgs e)
         {
-            cnlNumChanged = false;
+            cnlNumChanged = true;
         }
 
         private void txtDeviceNum_Validating(object sender, CancelEventArgs e)
         {
-            txtValidation(queryOptions.Filter.DeviceNums, txtDeviceNum);
+            ValidateFilterTextBox(queryOptions.Filter.DeviceNums, txtDeviceNum);
         }
 
         private void txtDeviceNum_KeyDown(object sender, KeyEventArgs e)

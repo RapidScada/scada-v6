@@ -17,6 +17,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
     {
         private GeneralOptions generalOptions;
 
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
