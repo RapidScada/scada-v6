@@ -3,8 +3,6 @@
 
 using Scada.Forms;
 using Scada.Lang;
-using Scada.Server.Archives;
-using Scada.Server.Config;
 using Scada.Server.Modules.ModDbExport.View.Forms;
 
 namespace Scada.Server.Modules.ModDbExport.View
