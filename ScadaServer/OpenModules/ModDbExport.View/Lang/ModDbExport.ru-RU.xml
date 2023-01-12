@@ -95,7 +95,7 @@
     <Phrase key="lblDeviceNum">Номера устройств</Phrase>
     <Phrase key="gbQuery">SQL</Phrase>
     <Phrase key="chkSingleQuery">Одним запросом (требуются входные каналы)</Phrase>
-    <Phrase key="btnViewParametrs.ToolTip">Доступные параметры</Phrase>
+    <Phrase key="btnViewParameters.ToolTip">Доступные параметры</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmModuleConfig">
     <Phrase key="this">Экспорт в БД</Phrase>

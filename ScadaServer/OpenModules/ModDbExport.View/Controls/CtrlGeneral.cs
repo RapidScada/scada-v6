@@ -156,7 +156,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
             }
         }
 
-        private void btnSelectCnlStat_Click(object sender, EventArgs e)
+        private void btnSelectCnlStatus_Click(object sender, EventArgs e)
         {
             if (generalOptions != null && ConfigDataset != null)
             {

@@ -49,18 +49,18 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         {
             FormTranslator.Translate(this, GetType().FullName);
             
-            lvParametrs.BeginUpdate();
-            lvParametrs.Items.Clear();
+            lvParameters.BeginUpdate();
+            lvParameters.Items.Clear();
            
             QueryInfo queryInfo = new(QueryOptions, DBMS);
             IEnumerable<QueryParam> queryParamList = queryInfo.GetSqlParameters();
 
             foreach (QueryParam queryParam in queryParamList)
             {
-                lvParametrs.Items.Add(new ListViewItem(new string[] { queryParam.Name, queryParam.Descr }));
+                lvParameters.Items.Add(new ListViewItem(new string[] { queryParam.Name, queryParam.Descr }));
             }
 
-            lvParametrs.EndUpdate();
+            lvParameters.EndUpdate();
         }
     }
 }

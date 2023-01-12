@@ -373,7 +373,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
             }
         }
 
-        private void btnViewParametrs_Click(object sender, EventArgs e)
+        private void btnViewParameters_Click(object sender, EventArgs e)
         {
             if (queryOptions != null)
                 _ = new FrmQueryParametrs { QueryOptions = queryOptions, DBMS = DbmsType, }

@@ -95,7 +95,7 @@
     <Phrase key="lblDeviceNum">Device numbers</Phrase>
     <Phrase key="gbQuery">Query</Phrase>
     <Phrase key="chkSingleQuery">Single query (input numbers required)</Phrase>
-    <Phrase key="btnViewParametrs.ToolTip">Available parameters</Phrase>
+    <Phrase key="btnViewParameters.ToolTip">Available parameters</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmModuleConfig">
     <Phrase key="this">Export to DB</Phrase>

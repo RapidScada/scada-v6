@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("");
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("");
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
-            this.lvParametrs = new System.Windows.Forms.ListView();
+            this.lvParameters = new System.Windows.Forms.ListView();
             this.colParamsName = new System.Windows.Forms.ColumnHeader();
             this.colParams = new System.Windows.Forms.ColumnHeader();
             this.SuspendLayout();
@@ -57,25 +57,25 @@
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             // 
-            // lvParametrs
+            // lvParameters
             // 
-            this.lvParametrs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.lvParameters.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lvParametrs.BackColor = System.Drawing.SystemColors.Window;
-            this.lvParametrs.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.lvParameters.BackColor = System.Drawing.SystemColors.Window;
+            this.lvParameters.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colParamsName,
             this.colParams});
-            this.lvParametrs.FullRowSelect = true;
-            this.lvParametrs.GridLines = true;
-            this.lvParametrs.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1});
-            this.lvParametrs.Location = new System.Drawing.Point(12, 12);
-            this.lvParametrs.Name = "lvParametrs";
-            this.lvParametrs.Size = new System.Drawing.Size(493, 325);
-            this.lvParametrs.TabIndex = 0;
-            this.lvParametrs.UseCompatibleStateImageBehavior = false;
-            this.lvParametrs.View = System.Windows.Forms.View.Details;
+            this.lvParameters.FullRowSelect = true;
+            this.lvParameters.GridLines = true;
+            this.lvParameters.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem2});
+            this.lvParameters.Location = new System.Drawing.Point(12, 12);
+            this.lvParameters.Name = "lvParameters";
+            this.lvParameters.Size = new System.Drawing.Size(493, 325);
+            this.lvParameters.TabIndex = 0;
+            this.lvParameters.UseCompatibleStateImageBehavior = false;
+            this.lvParameters.View = System.Windows.Forms.View.Details;
             // 
             // colParamsName
             // 
@@ -96,7 +96,7 @@
             this.ClientSize = new System.Drawing.Size(517, 388);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.lvParametrs);
+            this.Controls.Add(this.lvParameters);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(300, 200);
@@ -114,7 +114,7 @@
 
         private Button btnCancel;
         private Button btnOK;
-        private ListView lvParametrs;
+        private ListView lvParameters;
         private ColumnHeader colParamsName;
         private ColumnHeader colParams;
     }

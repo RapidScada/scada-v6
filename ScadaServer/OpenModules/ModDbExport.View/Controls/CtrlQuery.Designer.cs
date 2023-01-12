@@ -50,7 +50,7 @@
             this.lblCnlNum = new System.Windows.Forms.Label();
             this.gbQuery = new System.Windows.Forms.GroupBox();
             this.txtSql = new System.Windows.Forms.TextBox();
-            this.btnViewParametrs = new System.Windows.Forms.Button();
+            this.btnViewParameters = new System.Windows.Forms.Button();
             this.chkSingleQuery = new System.Windows.Forms.CheckBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.gbGeneral.SuspendLayout();
@@ -300,7 +300,7 @@
             // gbQuery
             // 
             this.gbQuery.Controls.Add(this.txtSql);
-            this.gbQuery.Controls.Add(this.btnViewParametrs);
+            this.gbQuery.Controls.Add(this.btnViewParameters);
             this.gbQuery.Controls.Add(this.chkSingleQuery);
             this.gbQuery.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbQuery.Location = new System.Drawing.Point(0, 259);
@@ -326,18 +326,18 @@
             this.txtSql.WordWrap = false;
             this.txtSql.TextChanged += new System.EventHandler(this.txtSql_TextChanged);
             // 
-            // btnViewParametrs
+            // btnViewParameters
             // 
-            this.btnViewParametrs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnViewParametrs.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnViewParametrs.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.parameters;
-            this.btnViewParametrs.Location = new System.Drawing.Point(368, 17);
-            this.btnViewParametrs.Name = "btnViewParametrs";
-            this.btnViewParametrs.Size = new System.Drawing.Size(23, 24);
-            this.btnViewParametrs.TabIndex = 2;
-            this.toolTip.SetToolTip(this.btnViewParametrs, "Available parameters");
-            this.btnViewParametrs.UseVisualStyleBackColor = true;
-            this.btnViewParametrs.Click += new System.EventHandler(this.btnViewParametrs_Click);
+            this.btnViewParameters.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnViewParameters.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnViewParameters.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.parameters;
+            this.btnViewParameters.Location = new System.Drawing.Point(368, 17);
+            this.btnViewParameters.Name = "btnViewParameters";
+            this.btnViewParameters.Size = new System.Drawing.Size(23, 24);
+            this.btnViewParameters.TabIndex = 2;
+            this.toolTip.SetToolTip(this.btnViewParameters, "Available parameters");
+            this.btnViewParameters.UseVisualStyleBackColor = true;
+            this.btnViewParameters.Click += new System.EventHandler(this.btnViewParameters_Click);
             // 
             // chkSingleQuery
             // 
@@ -391,7 +391,7 @@
         private Label lblObjNum;
         private CheckBox chkSingleQuery;
         private TextBox txtSql;
-        private Button btnViewParametrs;
+        private Button btnViewParameters;
         private Button btnSelectDeviceNum;
         private Button btnSelectObjNum;
         private Button btnSelectCnlNum;

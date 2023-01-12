@@ -33,7 +33,7 @@
             this.lblDataLifetime = new System.Windows.Forms.Label();
             this.numMaxQueueSize = new System.Windows.Forms.NumericUpDown();
             this.lblMaxQueueSize = new System.Windows.Forms.Label();
-            this.btnSelectCnlStat = new System.Windows.Forms.Button();
+            this.btnSelectCnlStatus = new System.Windows.Forms.Button();
             this.numStatusCnlNum = new System.Windows.Forms.NumericUpDown();
             this.lblStatusCnlNum = new System.Windows.Forms.Label();
             this.txtCmdCode = new System.Windows.Forms.TextBox();
@@ -55,7 +55,7 @@
             this.gbGeneral.Controls.Add(this.lblDataLifetime);
             this.gbGeneral.Controls.Add(this.numMaxQueueSize);
             this.gbGeneral.Controls.Add(this.lblMaxQueueSize);
-            this.gbGeneral.Controls.Add(this.btnSelectCnlStat);
+            this.gbGeneral.Controls.Add(this.btnSelectCnlStatus);
             this.gbGeneral.Controls.Add(this.numStatusCnlNum);
             this.gbGeneral.Controls.Add(this.lblStatusCnlNum);
             this.gbGeneral.Controls.Add(this.txtCmdCode);
@@ -131,16 +131,16 @@
             this.lblMaxQueueSize.TabIndex = 11;
             this.lblMaxQueueSize.Text = "Maximum queue size";
             // 
-            // btnSelectCnlStat
+            // btnSelectCnlStatus
             // 
-            this.btnSelectCnlStat.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSelectCnlStat.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.find;
-            this.btnSelectCnlStat.Location = new System.Drawing.Point(139, 169);
-            this.btnSelectCnlStat.Name = "btnSelectCnlStat";
-            this.btnSelectCnlStat.Size = new System.Drawing.Size(23, 24);
-            this.btnSelectCnlStat.TabIndex = 10;
-            this.btnSelectCnlStat.UseVisualStyleBackColor = true;
-            this.btnSelectCnlStat.Click += new System.EventHandler(this.btnSelectCnlStat_Click);
+            this.btnSelectCnlStatus.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnSelectCnlStatus.Image = global::Scada.Server.Modules.ModDbExport.View.Properties.Resources.find;
+            this.btnSelectCnlStatus.Location = new System.Drawing.Point(139, 169);
+            this.btnSelectCnlStatus.Name = "btnSelectCnlStatus";
+            this.btnSelectCnlStatus.Size = new System.Drawing.Size(23, 24);
+            this.btnSelectCnlStatus.TabIndex = 10;
+            this.btnSelectCnlStatus.UseVisualStyleBackColor = true;
+            this.btnSelectCnlStatus.Click += new System.EventHandler(this.btnSelectCnlStatus_Click);
             // 
             // numStatusCnlNum
             // 
@@ -270,7 +270,7 @@
         private NumericUpDown numMaxQueueSize;
         private Label lblMaxQueueSize;
         private Label lblStatusCnlNum;
-        private Button btnSelectCnlStat;
+        private Button btnSelectCnlStatus;
         private NumericUpDown numStatusCnlNum;
     }
 }
