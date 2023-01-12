@@ -9,8 +9,8 @@ using System.Collections;
 namespace Scada.Comm.Drivers.DrvMqttPublisher.View
 {
     /// <summary>
-    /// Represents an intermediary between a module configuration and a configuration form.
-    /// <para>Представляет посредника между конфигурацией модуля и формой конфигурации.</para>
+    /// Represents an intermediary between a driver configuration and a configuration form.
+    /// <para>Представляет посредника между конфигурацией драйвера и формой конфигурации.</para>
     /// </summary>
     internal class MqttPublisherConfigProvider : ConfigProvider
     {
