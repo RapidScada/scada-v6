@@ -192,17 +192,17 @@
             // 
             this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtName.Location = new System.Drawing.Point(77, 69);
+            this.txtName.Location = new System.Drawing.Point(79, 69);
             this.txtName.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(314, 23);
+            this.txtName.Size = new System.Drawing.Size(312, 23);
             this.txtName.TabIndex = 5;
             this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(74, 51);
+            this.lblName.Location = new System.Drawing.Point(76, 51);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(39, 15);
             this.lblName.TabIndex = 3;
@@ -214,7 +214,7 @@
             this.txtTargetID.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.txtTargetID.Name = "txtTargetID";
             this.txtTargetID.ReadOnly = true;
-            this.txtTargetID.Size = new System.Drawing.Size(58, 23);
+            this.txtTargetID.Size = new System.Drawing.Size(60, 23);
             this.txtTargetID.TabIndex = 4;
             // 
             // lblID

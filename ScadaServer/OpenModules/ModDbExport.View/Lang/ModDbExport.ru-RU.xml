@@ -57,7 +57,7 @@
     <Phrase key="lblMaxDepth">Максимальная глубина, с</Phrase>
     <Phrase key="lblReadingStep">Шаг чтения, c</Phrase>
     <Phrase key="lblHistArchiveBit">Бит исторического архива</Phrase>
-    <Phrase key="lblLocalEventArchiveBit">Бит архива событий</Phrase>
+    <Phrase key="lblEventArchiveBit">Бит архива событий</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlCurDataExport">
     <Phrase key="gbOptions">Параметры экспорта текущих данных</Phrase>

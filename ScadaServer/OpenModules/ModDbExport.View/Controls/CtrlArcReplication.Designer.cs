@@ -31,7 +31,7 @@
             this.gbOptions = new System.Windows.Forms.GroupBox();
             this.btnSelectEventArchiveBit = new System.Windows.Forms.Button();
             this.numEventArchiveBit = new System.Windows.Forms.NumericUpDown();
-            this.lblLocalEventArchiveBit = new System.Windows.Forms.Label();
+            this.lblEventArchiveBit = new System.Windows.Forms.Label();
             this.btnSelectHistArchiveBit = new System.Windows.Forms.Button();
             this.numHistArchiveBit = new System.Windows.Forms.NumericUpDown();
             this.lblHistArchiveBit = new System.Windows.Forms.Label();
@@ -55,7 +55,7 @@
             // 
             this.gbOptions.Controls.Add(this.btnSelectEventArchiveBit);
             this.gbOptions.Controls.Add(this.numEventArchiveBit);
-            this.gbOptions.Controls.Add(this.lblLocalEventArchiveBit);
+            this.gbOptions.Controls.Add(this.lblEventArchiveBit);
             this.gbOptions.Controls.Add(this.btnSelectHistArchiveBit);
             this.gbOptions.Controls.Add(this.numHistArchiveBit);
             this.gbOptions.Controls.Add(this.lblHistArchiveBit);
@@ -107,14 +107,14 @@
             0});
             this.numEventArchiveBit.ValueChanged += new System.EventHandler(this.numEventArchiveBit_ValueChanged);
             // 
-            // lblLocalEventArchiveBit
+            // lblEventArchiveBit
             // 
-            this.lblLocalEventArchiveBit.AutoSize = true;
-            this.lblLocalEventArchiveBit.Location = new System.Drawing.Point(10, 287);
-            this.lblLocalEventArchiveBit.Name = "lblLocalEventArchiveBit";
-            this.lblLocalEventArchiveBit.Size = new System.Drawing.Size(108, 15);
-            this.lblLocalEventArchiveBit.TabIndex = 12;
-            this.lblLocalEventArchiveBit.Text = "Bit of event archive";
+            this.lblEventArchiveBit.AutoSize = true;
+            this.lblEventArchiveBit.Location = new System.Drawing.Point(10, 287);
+            this.lblEventArchiveBit.Name = "lblEventArchiveBit";
+            this.lblEventArchiveBit.Size = new System.Drawing.Size(108, 15);
+            this.lblEventArchiveBit.TabIndex = 12;
+            this.lblEventArchiveBit.Text = "Bit of event archive";
             // 
             // btnSelectHistArchiveBit
             // 
@@ -310,7 +310,7 @@
         private Label lblMinDepth;
         private Button btnSelectEventArchiveBit;
         private NumericUpDown numEventArchiveBit;
-        private Label lblLocalEventArchiveBit;
+        private Label lblEventArchiveBit;
         private Button btnSelectHistArchiveBit;
         private NumericUpDown numHistArchiveBit;
         private Label lblHistArchiveBit;

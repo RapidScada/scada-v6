@@ -65,7 +65,7 @@
             // chkIncludeCalculated
             // 
             this.chkIncludeCalculated.AutoSize = true;
-            this.chkIncludeCalculated.Location = new System.Drawing.Point(13, 210);
+            this.chkIncludeCalculated.Location = new System.Drawing.Point(13, 207);
             this.chkIncludeCalculated.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.chkIncludeCalculated.Name = "chkIncludeCalculated";
             this.chkIncludeCalculated.Size = new System.Drawing.Size(172, 19);
@@ -77,7 +77,7 @@
             // chkSkipUnchanged
             // 
             this.chkSkipUnchanged.AutoSize = true;
-            this.chkSkipUnchanged.Location = new System.Drawing.Point(13, 178);
+            this.chkSkipUnchanged.Location = new System.Drawing.Point(13, 175);
             this.chkSkipUnchanged.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.chkSkipUnchanged.Name = "chkSkipUnchanged";
             this.chkSkipUnchanged.Size = new System.Drawing.Size(137, 19);
@@ -88,7 +88,7 @@
             // 
             // numAllDataPeriod
             // 
-            this.numAllDataPeriod.Location = new System.Drawing.Point(13, 142);
+            this.numAllDataPeriod.Location = new System.Drawing.Point(13, 139);
             this.numAllDataPeriod.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.numAllDataPeriod.Maximum = new decimal(new int[] {
             3600,
@@ -108,7 +108,7 @@
             // lblAllDataPeriod
             // 
             this.lblAllDataPeriod.AutoSize = true;
-            this.lblAllDataPeriod.Location = new System.Drawing.Point(10, 124);
+            this.lblAllDataPeriod.Location = new System.Drawing.Point(10, 121);
             this.lblAllDataPeriod.Name = "lblAllDataPeriod";
             this.lblAllDataPeriod.Size = new System.Drawing.Size(237, 15);
             this.lblAllDataPeriod.TabIndex = 5;
@@ -116,7 +116,7 @@
             // 
             // numTimePeriod
             // 
-            this.numTimePeriod.Location = new System.Drawing.Point(13, 91);
+            this.numTimePeriod.Location = new System.Drawing.Point(13, 88);
             this.numTimePeriod.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.numTimePeriod.Maximum = new decimal(new int[] {
             3600,
@@ -136,7 +136,7 @@
             // lblTimePeriod
             // 
             this.lblTimePeriod.AutoSize = true;
-            this.lblTimePeriod.Location = new System.Drawing.Point(10, 73);
+            this.lblTimePeriod.Location = new System.Drawing.Point(10, 70);
             this.lblTimePeriod.Name = "lblTimePeriod";
             this.lblTimePeriod.Size = new System.Drawing.Size(97, 15);
             this.lblTimePeriod.TabIndex = 3;
@@ -149,7 +149,7 @@
             this.cbTrigger.Items.AddRange(new object[] {
             "On Receive",
             "On Timer"});
-            this.cbTrigger.Location = new System.Drawing.Point(13, 40);
+            this.cbTrigger.Location = new System.Drawing.Point(13, 37);
             this.cbTrigger.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.cbTrigger.Name = "cbTrigger";
             this.cbTrigger.Size = new System.Drawing.Size(120, 23);
@@ -159,7 +159,7 @@
             // lblTrigger
             // 
             this.lblTrigger.AutoSize = true;
-            this.lblTrigger.Location = new System.Drawing.Point(10, 22);
+            this.lblTrigger.Location = new System.Drawing.Point(10, 19);
             this.lblTrigger.Name = "lblTrigger";
             this.lblTrigger.Size = new System.Drawing.Size(43, 15);
             this.lblTrigger.TabIndex = 1;
