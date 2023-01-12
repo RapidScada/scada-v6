@@ -3,6 +3,7 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
+using Scada.Forms.Forms;
 
 namespace Scada.Comm.Drivers.DrvSnmp.View
 {
@@ -26,7 +27,7 @@ namespace Scada.Comm.Drivers.DrvSnmp.View
         /// </summary>
         public override bool ShowProperties()
         {
-            //new FrmModuleConfig(new MqttPublisherConfigProvider(AppDirs.ConfigDir, DeviceNum)).ShowDialog();
+            new FrmModuleConfig(new SnmpConfigProvider(AppDirs.ConfigDir, DeviceNum)).ShowDialog();
             return false;
         }
     }
