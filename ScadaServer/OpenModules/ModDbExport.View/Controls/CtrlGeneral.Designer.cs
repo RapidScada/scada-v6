@@ -41,7 +41,7 @@
             this.txtName = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
             this.txtTargetID = new System.Windows.Forms.TextBox();
-            this.lblID = new System.Windows.Forms.Label();
+            this.lblTargetID = new System.Windows.Forms.Label();
             this.chkActive = new System.Windows.Forms.CheckBox();
             this.gbGeneral.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numDataLifetime)).BeginInit();
@@ -63,7 +63,7 @@
             this.gbGeneral.Controls.Add(this.txtName);
             this.gbGeneral.Controls.Add(this.lblName);
             this.gbGeneral.Controls.Add(this.txtTargetID);
-            this.gbGeneral.Controls.Add(this.lblID);
+            this.gbGeneral.Controls.Add(this.lblTargetID);
             this.gbGeneral.Controls.Add(this.chkActive);
             this.gbGeneral.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbGeneral.Location = new System.Drawing.Point(0, 0);
@@ -217,14 +217,14 @@
             this.txtTargetID.Size = new System.Drawing.Size(60, 23);
             this.txtTargetID.TabIndex = 4;
             // 
-            // lblID
+            // lblTargetID
             // 
-            this.lblID.AutoSize = true;
-            this.lblID.Location = new System.Drawing.Point(10, 51);
-            this.lblID.Name = "lblID";
-            this.lblID.Size = new System.Drawing.Size(53, 15);
-            this.lblID.TabIndex = 2;
-            this.lblID.Text = "Target ID";
+            this.lblTargetID.AutoSize = true;
+            this.lblTargetID.Location = new System.Drawing.Point(10, 51);
+            this.lblTargetID.Name = "lblTargetID";
+            this.lblTargetID.Size = new System.Drawing.Size(53, 15);
+            this.lblTargetID.TabIndex = 2;
+            this.lblTargetID.Text = "Target ID";
             // 
             // chkActive
             // 
@@ -262,7 +262,7 @@
         private TextBox txtName;
         private Label lblName;
         private TextBox txtTargetID;
-        private Label lblID;
+        private Label lblTargetID;
         private TextBox txtCmdCode;
         private Label lblCmdCode;
         private NumericUpDown numDataLifetime;

@@ -72,7 +72,7 @@
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlGeneral">
     <Phrase key="gbGeneral">General Options</Phrase>
     <Phrase key="chkActive">Active</Phrase>
-    <Phrase key="lblID">Target ID</Phrase>
+    <Phrase key="lblTargetID">Target ID</Phrase>
     <Phrase key="lblName">Name</Phrase>
     <Phrase key="lblCmdCode">Command code</Phrase>
     <Phrase key="lblStatusCnlNum">Status channel number</Phrase>

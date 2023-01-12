@@ -72,7 +72,7 @@
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlGeneral">
     <Phrase key="gbGeneral">Основные параметры</Phrase>
     <Phrase key="chkActive">Активен</Phrase>
-    <Phrase key="lblID">Идент.</Phrase>
+    <Phrase key="lblTargetID">Идент.</Phrase>
     <Phrase key="lblName">Наименование</Phrase>
     <Phrase key="lblCmdCode">Код команды</Phrase>
     <Phrase key="lblStatusCnlNum">Статус канала</Phrase>
