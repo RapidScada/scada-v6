@@ -343,7 +343,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         /// <summary>
         /// Gets the main root by treeNode.
         /// </summary>
-        private static TreeNode RootTreeNode(TreeNode treeNode) 
+        private static TreeNode ChooseRootTreeNode(TreeNode treeNode) 
         { 
             while (treeNode.Level > 0) { treeNode = treeNode.Parent; } 
             return treeNode; 
@@ -435,7 +435,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
 
             if (queriesNode is null)
             {
-                foreach (TreeNode node in RootTreeNode(tvTargets.SelectedNode).Nodes)
+                foreach (TreeNode node in ChooseRootTreeNode(tvTargets.SelectedNode).Nodes)
                 {
                     if (node.TagIs(typeof(QueryOptionList)))
                     {

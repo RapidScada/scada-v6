@@ -30,10 +30,10 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
         public CtrlQuery()
         {
             InitializeComponent();
+
             queryOptions = null;
-            
-            ConfigDataset = null;
             cnlNumChanged = false;
+            ConfigDataset = null;
         }
 
 
@@ -110,31 +110,31 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
                 txtSql.Clear();
                 txtSql.AppendText(options.Sql.Replace("\n", Environment.NewLine));
                 gbFilter.Visible = options.DataKind != DataKind.EventAck;
-
-                if (options.DataKind == DataKind.Current || options.DataKind == DataKind.Historical)
-                    chkSingleQuery.Enabled = true;
-                else
-                    chkSingleQuery.Enabled = false;
+                chkSingleQuery.Enabled = options.DataKind == DataKind.Current 
+                    || options.DataKind == DataKind.Historical;
             }
         }
 
         /// <summary>
-        /// Calls the form for selecting list of channels.
+        /// Opens a form for selecting numbers.
         /// </summary>
-        private void SelectNumsList(List<int> numsList, TextBox textBox)
+        private void SelectNums(List<int> numsList, TextBox textBox)
         {
-            FrmCnlSelect frmCnlSelect = new(ConfigDataset)
+            if (ConfigDataset != null)
             {
-                SelectedCnlNums = numsList
-            };
+                FrmCnlSelect frmCnlSelect = new(ConfigDataset)
+                {
+                    SelectedCnlNums = numsList
+                };
 
-            if (frmCnlSelect.ShowDialog() == DialogResult.OK)
-            {
-                numsList.Clear();
-                numsList.AddRange(frmCnlSelect.SelectedCnlNums);
+                if (frmCnlSelect.ShowDialog() == DialogResult.OK)
+                {
+                    numsList.Clear();
+                    numsList.AddRange(frmCnlSelect.SelectedCnlNums);
 
-                textBox.Text = numsList.ToRangeString();
-                OnObjectChanged(TreeUpdateTypes.None);
+                    textBox.Text = numsList.ToRangeString();
+                    OnObjectChanged(TreeUpdateTypes.None);
+                }
             }
         }
 
@@ -143,7 +143,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
         /// </summary>       
         private void ValidateFilterTextBox(List<int> numList, TextBox textBox)
         {
-            if (queryOptions != null && cnlNumChanged)
+            if (cnlNumChanged)
             {
                 if (ScadaUtils.ParseRange(textBox.Text, true, true, out IList<int> newRange))
                 {
@@ -219,11 +219,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
                 OnObjectChanged(TreeUpdateTypes.CurrentNode);
 
                 gbFilter.Visible = queryOptions.DataKind != DataKind.EventAck;
-
-                if (queryOptions.DataKind == DataKind.Current || queryOptions.DataKind == DataKind.Historical)
-                    chkSingleQuery.Enabled = true;
-                else
-                    chkSingleQuery.Enabled = false;
+                chkSingleQuery.Enabled = queryOptions.DataKind == DataKind.Current 
+                    || queryOptions.DataKind == DataKind.Historical;
             }
         }
 
@@ -247,55 +244,61 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
 
         private void btnSelectCnlNum_Click(object sender, EventArgs e)
         {
-            if (queryOptions != null && ConfigDataset != null)
-                SelectNumsList(queryOptions.Filter.CnlNums, txtCnlNum);
+            if (queryOptions != null)
+                SelectNums(queryOptions.Filter.CnlNums, txtCnlNum);
         }
 
         private void btnSelectObjNum_Click(object sender, EventArgs e)
         {
-            if (queryOptions != null && ConfigDataset != null)
-                SelectNumsList(queryOptions.Filter.ObjNums, txtObjNum);
+            if (queryOptions != null)
+                SelectNums(queryOptions.Filter.ObjNums, txtObjNum);
         }
 
         private void btnSelectDeviceNum_Click(object sender, EventArgs e)
         {
-            if (queryOptions != null && ConfigDataset != null)
-                SelectNumsList(queryOptions.Filter.DeviceNums, txtDeviceNum);
+            if (queryOptions != null)
+                SelectNums(queryOptions.Filter.DeviceNums, txtDeviceNum);
         }
 
         private void btnEditCnlNum_Click(object sender, EventArgs e)
         {
-            if (queryOptions != null &&
-                new FrmRangeEdit { Range = queryOptions.Filter.CnlNums, AllowEmpty = false, DefaultValue = DefaultCnlNum }
-                    .ShowDialog() == DialogResult.OK)
+            if (queryOptions != null)
             {
-                txtCnlNum.Text = queryOptions.Filter.CnlNums.ToRangeString();
-                txtCnlNum.ForeColor = Color.FromKnownColor(KnownColor.WindowText);
-                OnObjectChanged(TreeUpdateTypes.None);
+                if (new FrmRangeEdit { Range = queryOptions.Filter.CnlNums, AllowEmpty = false,
+                    DefaultValue = DefaultCnlNum }.ShowDialog() == DialogResult.OK)
+                {
+                    txtCnlNum.Text = queryOptions.Filter.CnlNums.ToRangeString();
+                    txtCnlNum.ForeColor = Color.FromKnownColor(KnownColor.WindowText);
+                     OnObjectChanged(TreeUpdateTypes.None);
+                }
             }
         }
 
         private void btnEditObjNum_Click(object sender, EventArgs e)
         {
-            if (queryOptions != null &&
-               new FrmRangeEdit { Range = queryOptions.Filter.ObjNums, AllowEmpty = false, DefaultValue = DefaultCnlNum }
-                   .ShowDialog() == DialogResult.OK)
+            if (queryOptions != null)
             {
-                txtObjNum.Text = queryOptions.Filter.ObjNums.ToRangeString();
-                txtObjNum.ForeColor = Color.FromKnownColor(KnownColor.WindowText);
-                OnObjectChanged(TreeUpdateTypes.None);
+                if (new FrmRangeEdit { Range = queryOptions.Filter.ObjNums, AllowEmpty = false, 
+                    DefaultValue = DefaultCnlNum }.ShowDialog() == DialogResult.OK)
+                {
+                    txtObjNum.Text = queryOptions.Filter.ObjNums.ToRangeString();
+                    txtObjNum.ForeColor = Color.FromKnownColor(KnownColor.WindowText);
+                    OnObjectChanged(TreeUpdateTypes.None);
+                }
             }
         }
 
         private void btnEditDeviceNum_Click(object sender, EventArgs e)
         {
-            if (queryOptions != null &&
-               new FrmRangeEdit { Range = queryOptions.Filter.DeviceNums, AllowEmpty = false, DefaultValue = DefaultCnlNum }
-                   .ShowDialog() == DialogResult.OK)
+            if (queryOptions != null)
             {
-                txtDeviceNum.Text = queryOptions.Filter.DeviceNums.ToRangeString();
-                txtDeviceNum.ForeColor = Color.FromKnownColor(KnownColor.WindowText);
-                OnObjectChanged(TreeUpdateTypes.None);
+                if (new FrmRangeEdit { Range = queryOptions.Filter.DeviceNums, AllowEmpty = false,
+                    DefaultValue = DefaultCnlNum }.ShowDialog() == DialogResult.OK)
+                {
+                    txtDeviceNum.Text = queryOptions.Filter.DeviceNums.ToRangeString();
+                    txtDeviceNum.ForeColor = Color.FromKnownColor(KnownColor.WindowText);
+                    OnObjectChanged(TreeUpdateTypes.None);
+                }
             }
         }
 
@@ -311,7 +314,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
 
         private void txtCnlNum_Validating(object sender, CancelEventArgs e)
         {
-            ValidateFilterTextBox(queryOptions.Filter.CnlNums, txtCnlNum);
+            if (queryOptions != null)
+                ValidateFilterTextBox(queryOptions.Filter.CnlNums, txtCnlNum);
         }
 
         private void txtCnlNum_KeyDown(object sender, KeyEventArgs e)
@@ -332,7 +336,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
 
         private void txtObjNum_Validating(object sender, CancelEventArgs e)
         {
-            ValidateFilterTextBox(queryOptions.Filter.ObjNums, txtObjNum);
+            if (queryOptions != null)
+                ValidateFilterTextBox(queryOptions.Filter.ObjNums, txtObjNum);
         }
 
         private void txtObjNum_KeyDown(object sender, KeyEventArgs e)
@@ -353,7 +358,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
 
         private void txtDeviceNum_Validating(object sender, CancelEventArgs e)
         {
-            ValidateFilterTextBox(queryOptions.Filter.DeviceNums, txtDeviceNum);
+            if (queryOptions != null)
+                ValidateFilterTextBox(queryOptions.Filter.DeviceNums, txtDeviceNum);
         }
 
         private void txtDeviceNum_KeyDown(object sender, KeyEventArgs e)
@@ -374,8 +380,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
         private void btnViewParameters_Click(object sender, EventArgs e)
         {
             if (queryOptions != null)
-                _ = new FrmQueryParametrs { QueryOptions = queryOptions, DBMS = DbmsType, }
-                .ShowDialog() == DialogResult.OK;
+                _ = new FrmQueryParametrs { QueryOptions = queryOptions, DBMS = DbmsType }.ShowDialog();
         }
     }
 }
