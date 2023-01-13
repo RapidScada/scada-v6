@@ -3,6 +3,7 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
+using Scada.Forms;
 using Scada.Lang;
 
 namespace Scada.Comm.Drivers.DrvSnmp.View
@@ -86,12 +87,12 @@ namespace Scada.Comm.Drivers.DrvSnmp.View
         /// </summary>
         public override void LoadDictionaries()
         {
-            /*if (!Locale.LoadDictionaries(AppDirs.LangDir, DriverUtils.DriverCode, out string errMsg))
+            if (!Locale.LoadDictionaries(AppDirs.LangDir, DriverUtils.DriverCode, out string errMsg))
                 ScadaUiUtils.ShowError(errMsg);
 
             DriverPhrases.Init();
-            AttrTranslator.Translate(typeof(DeviceOptions));
-            AttrTranslator.Translate(typeof(ItemConfig));*/
+            //AttrTranslator.Translate(typeof(DeviceOptions));
+            //AttrTranslator.Translate(typeof(ItemConfig));
         }
 
         /// <summary>

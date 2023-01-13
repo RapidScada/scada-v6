@@ -3,6 +3,7 @@
 
 using Scada.ComponentModel;
 using System.Xml;
+using NCM = System.ComponentModel;
 
 namespace Scada.Comm.Drivers.DrvSnmp.Config
 {
@@ -16,13 +17,13 @@ namespace Scada.Comm.Drivers.DrvSnmp.Config
         /// <summary>
         /// Gets or sets the password for reading data.
         /// </summary>
-        [DisplayName, Category, Description]
+        [DisplayName, Category, Description, NCM.PasswordPropertyText(true)]
         public string ReadCommunity { get; set; } = "public";
 
         /// <summary>
         /// Gets or sets the password for writing data.
         /// </summary>
-        [DisplayName, Category, Description]
+        [DisplayName, Category, Description, NCM.PasswordPropertyText(true)]
         public string WriteCommunity { get; set; } = "private";
 
         /// <summary>
@@ -38,8 +39,8 @@ namespace Scada.Comm.Drivers.DrvSnmp.Config
         public void LoadFromXml(XmlNode xmlNode)
         {
             ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
-            ReadCommunity = xmlNode.GetChildAsString("ReadCommunity", ReadCommunity);
-            WriteCommunity = xmlNode.GetChildAsString("WriteCommunity", WriteCommunity);
+            ReadCommunity = ScadaUtils.Decrypt(xmlNode.GetChildAsString("ReadCommunity", ReadCommunity));
+            WriteCommunity = ScadaUtils.Decrypt(xmlNode.GetChildAsString("WriteCommunity", WriteCommunity));
             SnmpVersion = xmlNode.GetChildAsInt("SnmpVersion", SnmpVersion);
         }
 
@@ -49,8 +50,8 @@ namespace Scada.Comm.Drivers.DrvSnmp.Config
         public void SaveToXml(XmlElement xmlElem)
         {
             ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
-            xmlElem.AppendElem("ReadCommunity", ReadCommunity);
-            xmlElem.AppendElem("WriteCommunity", WriteCommunity);
+            xmlElem.AppendElem("ReadCommunity", ScadaUtils.Encrypt(ReadCommunity));
+            xmlElem.AppendElem("WriteCommunity", ScadaUtils.Encrypt(WriteCommunity));
             xmlElem.AppendElem("SnmpVersion", SnmpVersion);
         }
     }

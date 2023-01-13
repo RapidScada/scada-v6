@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <SnmpDeviceConfig>
   <DeviceOptions>
-    <ReadCommunity>public</ReadCommunity>
-    <WriteCommunity>private</WriteCommunity>
+    <ReadCommunity>8B911608F03730018E83DD82C9D59C9A</ReadCommunity>
+    <WriteCommunity>F7BAE359F2121A511A04BF83C8F38C06</WriteCommunity>
     <SnmpVersion>2</SnmpVersion>
   </DeviceOptions>
   <VarGroups>

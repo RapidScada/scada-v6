@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DrvSnmpDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvSnmp.View.SnmpConfigProvider">
+    <Phrase key="FormTitle">Device {0} Properties - SNMP</Phrase>
+    <Phrase key="OptionsNode">Options</Phrase>
+  </Dictionary>
+</DrvSnmpDictionaries>

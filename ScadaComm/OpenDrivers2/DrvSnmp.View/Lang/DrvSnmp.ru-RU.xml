@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DrvSnmpDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvSnmp.View.SnmpConfigProvider">
+    <Phrase key="FormTitle">Свойства устройства {0} - SNMP</Phrase>
+    <Phrase key="OptionsNode">Параметры</Phrase>
+  </Dictionary>
+</DrvSnmpDictionaries>
