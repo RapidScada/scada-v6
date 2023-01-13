@@ -12,6 +12,19 @@ namespace Scada.Comm.Drivers.DrvSnmp.View
     internal class SnmpConfigProvider : ConfigProvider
     {
         /// <summary>
+        /// Specifies the image keys for the configuration tree.
+        /// </summary>
+        private static class ImageKey
+        {
+            public const string Cmd = "cmd.png";
+            public const string Elem = "elem.png";
+            public const string FolderClosed = "folder_closed.png";
+            public const string FolderOpen = "folder_open.png";
+            public const string Options = "options.png";
+        }
+
+
+        /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public SnmpConfigProvider(string configDir, int deviceNum)
