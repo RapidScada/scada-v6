@@ -69,7 +69,6 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         private void FrmQueryParametrs_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
-
             FillQueryParams();
         }
     }
