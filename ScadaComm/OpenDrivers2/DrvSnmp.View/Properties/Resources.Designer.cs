@@ -93,9 +93,29 @@ namespace Scada.Comm.Drivers.DrvSnmp.View.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap folder_closed_inactive {
+            get {
+                object obj = ResourceManager.GetObject("folder_closed_inactive", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap folder_open {
             get {
                 object obj = ResourceManager.GetObject("folder_open", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap folder_open_inactive {
+            get {
+                object obj = ResourceManager.GetObject("folder_open_inactive", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

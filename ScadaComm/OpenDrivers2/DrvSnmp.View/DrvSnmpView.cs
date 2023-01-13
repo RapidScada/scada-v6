@@ -3,6 +3,8 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
+using Scada.Comm.Drivers.DrvSnmp.Config;
+using Scada.ComponentModel;
 using Scada.Forms;
 using Scada.Lang;
 
@@ -91,8 +93,9 @@ namespace Scada.Comm.Drivers.DrvSnmp.View
                 ScadaUiUtils.ShowError(errMsg);
 
             DriverPhrases.Init();
-            //AttrTranslator.Translate(typeof(DeviceOptions));
-            //AttrTranslator.Translate(typeof(ItemConfig));
+            AttrTranslator.Translate(typeof(DeviceOptions));
+            AttrTranslator.Translate(typeof(VarGroupConfig));
+            AttrTranslator.Translate(typeof(VariableConfig));
         }
 
         /// <summary>

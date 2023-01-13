@@ -31,13 +31,13 @@ namespace Scada.Comm.Drivers.DrvSnmp.Config
         /// <summary>
         /// Gets or sets the data type of the device tag associated with the variable.
         /// </summary>
-        [DisplayName, Category, Description]
+        [DisplayName, Category, Description, NCM.DefaultValue(TagDataType.Double)]
         public TagDataType DataType { get; set; } = TagDataType.Double;
 
         /// <summary>
         /// Get or sets the data length if the variable represents a string or an array.
         /// </summary>
-        [DisplayName, Category, Description]
+        [DisplayName, Category, Description, NCM.DefaultValue(0)]
         public int DataLen { get; set; } = 0;
 
         /// <summary>
@@ -79,6 +79,14 @@ namespace Scada.Comm.Drivers.DrvSnmp.Config
 
             if (DataLen >= 1)
                 xmlElem.SetAttribute("dataLen", DataLen);
+        }
+
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        public override string ToString()
+        {
+            return string.Format("{0} ({1})", Name, OID);
         }
     }
 }
