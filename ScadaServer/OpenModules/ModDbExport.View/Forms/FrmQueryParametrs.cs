@@ -24,7 +24,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             QueryOptions = null;
             DBMS = KnownDBMS.Undefined;
         }
- 
+
 
         /// <summary>
         /// Gets or sets the query options.
@@ -46,23 +46,31 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             colParams.Name = "colParams";
         }
 
-
-        private void FrmQueryParametrs_Load(object sender, EventArgs e)
+        /// <summary>
+        /// Fills the list view with query parameters.
+        /// </summary>
+        private void FillQueryParams()
         {
-            FormTranslator.Translate(this, GetType().FullName);
-            
             lvParameters.BeginUpdate();
             lvParameters.Items.Clear();
-           
-            QueryInfo queryInfo = new(QueryOptions, DBMS);
-            IEnumerable<QueryParam> queryParamList = queryInfo.GetSqlParameters();
 
-            foreach (QueryParam queryParam in queryParamList)
+            QueryInfo queryInfo = new(QueryOptions, DBMS);
+            IEnumerable<QueryParam> queryParams = queryInfo.GetSqlParameters();
+
+            foreach (QueryParam queryParam in queryParams)
             {
                 lvParameters.Items.Add(new ListViewItem(new string[] { queryParam.Name, queryParam.Descr }));
             }
 
             lvParameters.EndUpdate();
+        }
+
+
+        private void FrmQueryParametrs_Load(object sender, EventArgs e)
+        {
+            FormTranslator.Translate(this, GetType().FullName);
+
+            FillQueryParams();
         }
     }
 }
