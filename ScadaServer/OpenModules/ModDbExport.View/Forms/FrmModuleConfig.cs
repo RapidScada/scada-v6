@@ -8,7 +8,6 @@ using Scada.Lang;
 using Scada.Server.Lang;
 using Scada.Server.Modules.ModDbExport.Config;
 using Scada.Server.Modules.ModDbExport.View.Properties;
-using System.Data;
 
 namespace Scada.Server.Modules.ModDbExport.View.Forms
 {
@@ -56,7 +55,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmModuleConfig()
+        private FrmModuleConfig()
         {
             InitializeComponent();
             HideControls();
@@ -107,8 +106,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         /// </summary>
         private void HideControls()
         {
-            ctrlGeneral.Visible = ctrlDbConnection.Visible = ctrlCurDataExport.Visible = ctrlArcReplication.Visible
-                = ctrlQuery.Visible = lblHint.Visible = false;
+            ctrlGeneral.Visible = ctrlDbConnection.Visible = ctrlCurDataExport.Visible = 
+                ctrlArcReplication.Visible = ctrlQuery.Visible = lblHint.Visible = false;
         }
 
         /// <summary>
@@ -188,7 +187,6 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         private static TreeNode CreateGroupNode(ExportTargetConfig exportTargetConfig)
         {
             TreeNode groupNode = TreeViewExtensions.CreateNode(exportTargetConfig, ChooseNodeImage(exportTargetConfig));
-
             groupNode.Text = exportTargetConfig.GeneralOptions.Title;
 
             groupNode.Nodes.Add(TreeViewExtensions.CreateNode(ModulePhrases.GeneralOptionsNode,
@@ -229,16 +227,15 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         {
             if (obj is ExportTargetConfig exportTargetConfig)
             {
-                if (exportTargetConfig.ConnectionOptions.DBMS == KnownDBMS.MSSQL.ToString())
-                    return exportTargetConfig.GeneralOptions.Active ? ImageKey.DbMssql : ImageKey.DbMssqlInactive;
-                else if (exportTargetConfig.ConnectionOptions.DBMS == KnownDBMS.MySQL.ToString())
-                    return exportTargetConfig.GeneralOptions.Active ? ImageKey.DbMуsql : ImageKey.DbMуsqlInactive;
-                else if (exportTargetConfig.ConnectionOptions.DBMS == KnownDBMS.Oracle.ToString())
-                    return exportTargetConfig.GeneralOptions.Active ? ImageKey.DbOracle : ImageKey.DbOracleInactive;
-                else if (exportTargetConfig.ConnectionOptions.DBMS == KnownDBMS.PostgreSQL.ToString())
-                    return exportTargetConfig.GeneralOptions.Active ? ImageKey.DbPostgresql : ImageKey.DbPostgresqlInactive;
-                else
-                    return ImageKey.Option;
+                bool active = exportTargetConfig.GeneralOptions.Active;
+                return exportTargetConfig.ConnectionOptions.KnownDBMS switch
+                {
+                    KnownDBMS.MSSQL => active ? ImageKey.DbMssql : ImageKey.DbMssqlInactive,
+                    KnownDBMS.MySQL => active ? ImageKey.DbMуsql : ImageKey.DbMуsqlInactive,
+                    KnownDBMS.Oracle => active ? ImageKey.DbOracle : ImageKey.DbOracleInactive,
+                    KnownDBMS.PostgreSQL => active ? ImageKey.DbPostgresql : ImageKey.DbPostgresqlInactive,
+                    _ => ImageKey.Option,
+                };
             }
             else if (obj is Config.GeneralOptions)
             {
@@ -307,8 +304,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         /// </summary>
         private bool CheckGateNamesUnique()
         {
-            HashSet<string> gateNames = new(config.ExportTargets.Select(g => g.GeneralOptions.Name.ToLowerInvariant()));
-            return config.ExportTargets.Count == gateNames.Count;
+            return config.ExportTargets.Count == 
+                config.ExportTargets.DistinctBy(g => g.GeneralOptions.Name.ToLowerInvariant()).Count();
         }
 
         /// <summary>
@@ -464,7 +461,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                 else if (sender == btnAddCommandQuery)
                     queryOptions.DataKind = DataKind.Command;
                 else
-                    throw new ScadaException("Unknown DataKind.");
+                    throw new ScadaException("Unknown query data kind.");
 
                 tvTargets.Insert(queriesNode, TreeViewExtensions.CreateNode(queryOptions.Name,
                     ChooseNodeImage(queryOptions), queryOptions));
@@ -480,9 +477,10 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
 
         private void ctrlGeneral_ObjectChanged(object sender, ObjectChangedEventArgs e)
         {
-            if (tvTargets.SelectedNode != null && (e.ChangeArgument is not TreeUpdateTypes treeUpdateTypes ||
-              treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode)) &&
-              (e.ChangedObject is Config.GeneralOptions generalOptions))
+            if (tvTargets.SelectedNode != null && 
+                (e.ChangeArgument is not TreeUpdateTypes treeUpdateTypes || 
+                treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode)) &&
+                e.ChangedObject is GeneralOptions generalOptions)
             {
                 tvTargets.SelectedNode.Parent.Text = generalOptions.Title;
                 tvTargets.SelectedNode.Parent.SetImageKey(ChooseNodeImage(tvTargets.SelectedNode.Parent.Tag));
@@ -501,9 +499,10 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
 
         private void ctrlQuery_ObjectChanged(object sender, ObjectChangedEventArgs e)
         {
-            if (tvTargets.SelectedNode != null && (e.ChangeArgument is not TreeUpdateTypes treeUpdateTypes ||
-                          treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode)) &&
-                          (e.ChangedObject is QueryOptions queryOptions))
+            if (tvTargets.SelectedNode != null && 
+                (e.ChangeArgument is not TreeUpdateTypes treeUpdateTypes ||
+                treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode)) &&
+                e.ChangedObject is QueryOptions queryOptions)
             {
                 tvTargets.SelectedNode.Text = queryOptions.Name;
                 tvTargets.SelectedNode.SetImageKey(ChooseNodeImage(tvTargets.SelectedNode.Tag));
@@ -631,12 +630,12 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             object selectedObject = e.Node.Tag;
             HideControls();
 
-            if (selectedObject is Config.GeneralOptions generalOptions)
+            if (selectedObject is GeneralOptions generalOptions)
             {
                 ctrlGeneral.GeneralOptions = generalOptions;
                 ctrlGeneral.Visible = true;
             }
-            if (selectedObject is DbConnectionOptions dbConnectionOptions)
+            else if (selectedObject is DbConnectionOptions dbConnectionOptions)
             {
                 ctrlDbConnection.ConnectionOptions = dbConnectionOptions;
                 ctrlDbConnection.Visible = true;
@@ -653,12 +652,9 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             }
             else if (selectedObject is QueryOptions queryOptions)
             {
-                KnownDBMS dBMSType = KnownDBMS.Undefined;
-                if (tvTargets.SelectedNode?.Parent.Parent.Nodes[1].Tag is DbConnectionOptions dbConnectionOptions1)
-                    dBMSType = dbConnectionOptions1.KnownDBMS;
-
                 ctrlQuery.QueryOptions = queryOptions;
-                ctrlQuery.DbmsType = dBMSType;
+                ctrlQuery.DbmsType = tvTargets.SelectedNode?.Parent.Parent.Nodes[1].Tag is
+                    DbConnectionOptions options ? options.KnownDBMS : KnownDBMS.Undefined;
                 ctrlQuery.Visible = true;
             }
             else if (selectedObject is QueryOptionList || selectedObject is ExportOptions || 

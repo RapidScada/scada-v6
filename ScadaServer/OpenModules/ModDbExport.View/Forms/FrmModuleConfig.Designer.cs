@@ -53,28 +53,24 @@
             this.btnCopy = new System.Windows.Forms.ToolStripButton();
             this.btnPaste = new System.Windows.Forms.ToolStripButton();
             this.pnlMain = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.pnlTree = new System.Windows.Forms.Panel();
+            this.pnlInfo = new System.Windows.Forms.Panel();
+            this.ctrlGeneral = new Scada.Server.Modules.ModDbExport.View.Controls.CtrlGeneral();
+            this.ctrlDbConnection = new Scada.Forms.Controls.CtrlDbConnection();
+            this.ctrlCurDataExport = new Scada.Server.Modules.ModDbExport.View.Controls.CtrlCurDataExport();
+            this.lblHint = new System.Windows.Forms.Label();
+            this.ctrlQuery = new Scada.Server.Modules.ModDbExport.View.Controls.CtrlQuery();
+            this.ctrlArcReplication = new Scada.Server.Modules.ModDbExport.View.Controls.CtrlArcReplication();
             this.gbTarget = new System.Windows.Forms.GroupBox();
             this.tvTargets = new System.Windows.Forms.TreeView();
             this.cmsTree = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miCollapseAll = new System.Windows.Forms.ToolStripMenuItem();
             this.ilTree = new System.Windows.Forms.ImageList(this.components);
-            this.pnlInfo = new System.Windows.Forms.Panel();
-            this.ctrlDbConnection = new Scada.Forms.Controls.CtrlDbConnection();
-            this.ctrlArcReplication = new Scada.Server.Modules.ModDbExport.View.Controls.CtrlArcReplication();
-            this.ctrlCurDataExport = new Scada.Server.Modules.ModDbExport.View.Controls.CtrlCurDataExport();
-            this.ctrlGeneral = new Scada.Server.Modules.ModDbExport.View.Controls.CtrlGeneral();
-            this.ctrlQuery = new Scada.Server.Modules.ModDbExport.View.Controls.CtrlQuery();
-            this.lblHint = new System.Windows.Forms.Label();
             this.pnlBottom.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.pnlMain.SuspendLayout();
-            this.tableLayoutPanel.SuspendLayout();
-            this.pnlTree.SuspendLayout();
+            this.pnlInfo.SuspendLayout();
             this.gbTarget.SuspendLayout();
             this.cmsTree.SuspendLayout();
-            this.pnlInfo.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlBottom
@@ -318,39 +314,99 @@
             // 
             // pnlMain
             // 
-            this.pnlMain.Controls.Add(this.tableLayoutPanel);
+            this.pnlMain.Controls.Add(this.pnlInfo);
+            this.pnlMain.Controls.Add(this.gbTarget);
             this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMain.Location = new System.Drawing.Point(0, 25);
             this.pnlMain.Name = "pnlMain";
             this.pnlMain.Size = new System.Drawing.Size(734, 471);
             this.pnlMain.TabIndex = 1;
             // 
-            // tableLayoutPanel
+            // pnlInfo
             // 
-            this.tableLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.pnlInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel.ColumnCount = 2;
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel.Controls.Add(this.pnlTree, 0, 0);
-            this.tableLayoutPanel.Controls.Add(this.pnlInfo, 1, 0);
-            this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel.Name = "tableLayoutPanel";
-            this.tableLayoutPanel.RowCount = 1;
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(734, 471);
-            this.tableLayoutPanel.TabIndex = 0;
+            this.pnlInfo.Controls.Add(this.ctrlGeneral);
+            this.pnlInfo.Controls.Add(this.ctrlDbConnection);
+            this.pnlInfo.Controls.Add(this.ctrlCurDataExport);
+            this.pnlInfo.Controls.Add(this.lblHint);
+            this.pnlInfo.Controls.Add(this.ctrlQuery);
+            this.pnlInfo.Controls.Add(this.ctrlArcReplication);
+            this.pnlInfo.Location = new System.Drawing.Point(318, 3);
+            this.pnlInfo.Margin = new System.Windows.Forms.Padding(0);
+            this.pnlInfo.Name = "pnlInfo";
+            this.pnlInfo.Size = new System.Drawing.Size(404, 462);
+            this.pnlInfo.TabIndex = 1;
             // 
-            // pnlTree
+            // ctrlGeneral
             // 
-            this.pnlTree.Controls.Add(this.gbTarget);
-            this.pnlTree.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pnlTree.Location = new System.Drawing.Point(0, 0);
-            this.pnlTree.Margin = new System.Windows.Forms.Padding(0);
-            this.pnlTree.Name = "pnlTree";
-            this.pnlTree.Size = new System.Drawing.Size(315, 471);
-            this.pnlTree.TabIndex = 0;
+            this.ctrlGeneral.ConfigDataset = null;
+            this.ctrlGeneral.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ctrlGeneral.Location = new System.Drawing.Point(0, 0);
+            this.ctrlGeneral.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+            this.ctrlGeneral.Name = "ctrlGeneral";
+            this.ctrlGeneral.Size = new System.Drawing.Size(404, 462);
+            this.ctrlGeneral.TabIndex = 2;
+            this.ctrlGeneral.ObjectChanged += new System.EventHandler<Scada.Forms.ObjectChangedEventArgs>(this.ctrlGeneral_ObjectChanged);
+            // 
+            // ctrlDbConnection
+            // 
+            this.ctrlDbConnection.BuildConnectionStringFunc = null;
+            this.ctrlDbConnection.ConnectionOptions = null;
+            this.ctrlDbConnection.DbmsEnabled = true;
+            this.ctrlDbConnection.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ctrlDbConnection.Location = new System.Drawing.Point(0, 0);
+            this.ctrlDbConnection.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+            this.ctrlDbConnection.Name = "ctrlDbConnection";
+            this.ctrlDbConnection.NameEnabled = true;
+            this.ctrlDbConnection.Size = new System.Drawing.Size(404, 462);
+            this.ctrlDbConnection.TabIndex = 7;
+            this.ctrlDbConnection.ConnectionOptionsChanged += new System.EventHandler(this.ctrlDbConnection_ConnectionOptionsChanged);
+            // 
+            // ctrlCurDataExport
+            // 
+            this.ctrlCurDataExport.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ctrlCurDataExport.Location = new System.Drawing.Point(0, 0);
+            this.ctrlCurDataExport.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+            this.ctrlCurDataExport.Name = "ctrlCurDataExport";
+            this.ctrlCurDataExport.Size = new System.Drawing.Size(404, 462);
+            this.ctrlCurDataExport.TabIndex = 3;
+            this.ctrlCurDataExport.ObjectChanged += new System.EventHandler<Scada.Forms.ObjectChangedEventArgs>(this.ctrl_ObjectChanged);
+            // 
+            // lblHint
+            // 
+            this.lblHint.BackColor = System.Drawing.SystemColors.Control;
+            this.lblHint.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblHint.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.lblHint.Location = new System.Drawing.Point(0, 0);
+            this.lblHint.Name = "lblHint";
+            this.lblHint.Size = new System.Drawing.Size(434, 74);
+            this.lblHint.TabIndex = 0;
+            this.lblHint.Text = "Add tagret";
+            this.lblHint.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // ctrlQuery
+            // 
+            this.ctrlQuery.ConfigDataset = null;
+            this.ctrlQuery.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ctrlQuery.Location = new System.Drawing.Point(0, 0);
+            this.ctrlQuery.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+            this.ctrlQuery.Name = "ctrlQuery";
+            this.ctrlQuery.Size = new System.Drawing.Size(404, 462);
+            this.ctrlQuery.TabIndex = 1;
+            this.ctrlQuery.ObjectChanged += new System.EventHandler<Scada.Forms.ObjectChangedEventArgs>(this.ctrlQuery_ObjectChanged);
+            // 
+            // ctrlArcReplication
+            // 
+            this.ctrlArcReplication.ConfigDataset = null;
+            this.ctrlArcReplication.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ctrlArcReplication.Location = new System.Drawing.Point(0, 0);
+            this.ctrlArcReplication.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+            this.ctrlArcReplication.Name = "ctrlArcReplication";
+            this.ctrlArcReplication.Size = new System.Drawing.Size(404, 462);
+            this.ctrlArcReplication.TabIndex = 4;
+            this.ctrlArcReplication.ObjectChanged += new System.EventHandler<Scada.Forms.ObjectChangedEventArgs>(this.ctrl_ObjectChanged);
             // 
             // gbTarget
             // 
@@ -401,99 +457,6 @@
             this.ilTree.ImageSize = new System.Drawing.Size(16, 16);
             this.ilTree.TransparentColor = System.Drawing.Color.Transparent;
             // 
-            // pnlInfo
-            // 
-            this.pnlInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlInfo.Controls.Add(this.ctrlDbConnection);
-            this.pnlInfo.Controls.Add(this.ctrlArcReplication);
-            this.pnlInfo.Controls.Add(this.ctrlCurDataExport);
-            this.pnlInfo.Controls.Add(this.ctrlGeneral);
-            this.pnlInfo.Controls.Add(this.ctrlQuery);
-            this.pnlInfo.Controls.Add(this.lblHint);
-            this.pnlInfo.Location = new System.Drawing.Point(315, 0);
-            this.pnlInfo.Margin = new System.Windows.Forms.Padding(0);
-            this.pnlInfo.Name = "pnlInfo";
-            this.pnlInfo.Size = new System.Drawing.Size(419, 471);
-            this.pnlInfo.TabIndex = 1;
-            // 
-            // ctrlDbConnection
-            // 
-            this.ctrlDbConnection.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ctrlDbConnection.BuildConnectionStringFunc = null;
-            this.ctrlDbConnection.ConnectionOptions = null;
-            this.ctrlDbConnection.DbmsEnabled = true;
-            this.ctrlDbConnection.Location = new System.Drawing.Point(3, 3);
-            this.ctrlDbConnection.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
-            this.ctrlDbConnection.Name = "ctrlDbConnection";
-            this.ctrlDbConnection.NameEnabled = true;
-            this.ctrlDbConnection.Size = new System.Drawing.Size(404, 462);
-            this.ctrlDbConnection.TabIndex = 7;
-            this.ctrlDbConnection.ConnectionOptionsChanged += new System.EventHandler(this.ctrlDbConnection_ConnectionOptionsChanged);
-            // 
-            // ctrlArcReplication
-            // 
-            this.ctrlArcReplication.ConfigDataset = null;
-            this.ctrlArcReplication.Location = new System.Drawing.Point(3, 3);
-            this.ctrlArcReplication.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
-            this.ctrlArcReplication.Name = "ctrlArcReplication";
-            this.ctrlArcReplication.Size = new System.Drawing.Size(404, 462);
-            this.ctrlArcReplication.TabIndex = 4;
-            this.ctrlArcReplication.ObjectChanged += new System.EventHandler<Scada.Forms.ObjectChangedEventArgs>(this.ctrl_ObjectChanged);
-            // 
-            // ctrlCurDataExport
-            // 
-            this.ctrlCurDataExport.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ctrlCurDataExport.Location = new System.Drawing.Point(3, 3);
-            this.ctrlCurDataExport.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
-            this.ctrlCurDataExport.Name = "ctrlCurDataExport";
-            this.ctrlCurDataExport.Size = new System.Drawing.Size(404, 462);
-            this.ctrlCurDataExport.TabIndex = 3;
-            this.ctrlCurDataExport.ObjectChanged += new System.EventHandler<Scada.Forms.ObjectChangedEventArgs>(this.ctrl_ObjectChanged);
-            // 
-            // ctrlGeneral
-            // 
-            this.ctrlGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ctrlGeneral.ConfigDataset = null;
-            this.ctrlGeneral.Location = new System.Drawing.Point(3, 3);
-            this.ctrlGeneral.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
-            this.ctrlGeneral.Name = "ctrlGeneral";
-            this.ctrlGeneral.Size = new System.Drawing.Size(404, 462);
-            this.ctrlGeneral.TabIndex = 2;
-            this.ctrlGeneral.ObjectChanged += new System.EventHandler<Scada.Forms.ObjectChangedEventArgs>(this.ctrlGeneral_ObjectChanged);
-            // 
-            // ctrlQuery
-            // 
-            this.ctrlQuery.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ctrlQuery.ConfigDataset = null;
-            this.ctrlQuery.Location = new System.Drawing.Point(3, 3);
-            this.ctrlQuery.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
-            this.ctrlQuery.Name = "ctrlQuery";
-            this.ctrlQuery.Size = new System.Drawing.Size(404, 462);
-            this.ctrlQuery.TabIndex = 1;
-            this.ctrlQuery.ObjectChanged += new System.EventHandler<Scada.Forms.ObjectChangedEventArgs>(this.ctrlQuery_ObjectChanged);
-            // 
-            // lblHint
-            // 
-            this.lblHint.BackColor = System.Drawing.SystemColors.Control;
-            this.lblHint.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblHint.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.lblHint.Location = new System.Drawing.Point(0, 0);
-            this.lblHint.Name = "lblHint";
-            this.lblHint.Size = new System.Drawing.Size(404, 100);
-            this.lblHint.TabIndex = 0;
-            this.lblHint.Text = "Add tagret";
-            this.lblHint.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // FrmModuleConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -505,7 +468,7 @@
             this.Controls.Add(this.pnlBottom);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(460, 280);
+            this.MinimumSize = new System.Drawing.Size(500, 300);
             this.Name = "FrmModuleConfig";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
@@ -517,11 +480,9 @@
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             this.pnlMain.ResumeLayout(false);
-            this.tableLayoutPanel.ResumeLayout(false);
-            this.pnlTree.ResumeLayout(false);
+            this.pnlInfo.ResumeLayout(false);
             this.gbTarget.ResumeLayout(false);
             this.cmsTree.ResumeLayout(false);
-            this.pnlInfo.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -543,11 +504,7 @@
         private ToolStripButton btnCopy;
         private ToolStripButton btnPaste;
         private Panel pnlMain;
-        private TableLayoutPanel tableLayoutPanel;
-        private Panel pnlTree;
         private Panel pnlInfo;
-        private GroupBox gbTarget;
-        private TreeView tvTargets;
         private ToolStripDropDownButton ddbAdd;
         private ToolStripMenuItem btnSqlServer;
         private ToolStripMenuItem btnOracle;
@@ -567,5 +524,7 @@
         private Controls.CtrlCurDataExport ctrlCurDataExport;
         private Controls.CtrlArcReplication ctrlArcReplication;
         private Scada.Forms.Controls.CtrlDbConnection ctrlDbConnection;
+        private GroupBox gbTarget;
+        private TreeView tvTargets;
     }
 }
