@@ -46,6 +46,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View
         /// </summary>
         public override ICollection<CnlPrototype> GetCnlPrototypes()
         {
+            // load device configuration
             DbDeviceConfig config = new();
 
             if (!config.Load(Path.Combine(AppDirs.ConfigDir, DbDeviceConfig.GetFileName(DeviceNum)),
@@ -66,6 +67,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View
                 {
                     cnlPrototypes.Add(new CnlPrototype
                     {
+                        Active = queryConfig.Active,
                         Name = tagCode,
                         CnlTypeID = CnlTypeID.Input,
                         TagCode = tagCode,
