@@ -9,6 +9,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.Config
     /// Represents a query configuration.
     /// <para>Представляет конфигурацию запроса.</para>
     /// </summary>
+    [Serializable]
     internal class QueryConfig
     {
         /// <summary>
