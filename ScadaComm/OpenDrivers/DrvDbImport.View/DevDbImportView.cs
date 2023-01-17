@@ -4,6 +4,7 @@
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvDbImport.Config;
+using Scada.Comm.Drivers.DrvDbImport.View.Forms;
 using Scada.Data.Const;
 using Scada.Data.Models;
 
@@ -21,7 +22,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View
         public DevDbImportView(DriverView parentView, LineConfig lineConfig, DeviceConfig deviceConfig)
             : base(parentView, lineConfig, deviceConfig)
         {
-            CanShowProperties = false;
+            CanShowProperties = true;
         }
 
 
@@ -30,6 +31,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View
         /// </summary>
         public override bool ShowProperties()
         {
+            new FrmDeviceConfig(AppDirs, LineConfig.CommLineNum, DeviceNum).ShowDialog();
             return false;
         }
 
