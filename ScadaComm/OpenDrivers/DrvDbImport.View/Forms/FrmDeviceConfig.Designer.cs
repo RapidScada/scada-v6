@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmDeviceConfig));
             this.pnlBottom = new System.Windows.Forms.Panel();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
@@ -42,14 +43,18 @@
             this.btnDelete = new System.Windows.Forms.ToolStripButton();
             this.pnlMain = new System.Windows.Forms.Panel();
             this.pnlInfo = new System.Windows.Forms.Panel();
+            this.lblHint = new System.Windows.Forms.Label();
             this.gbDevice = new System.Windows.Forms.GroupBox();
             this.tvDevice = new System.Windows.Forms.TreeView();
             this.ilTree = new System.Windows.Forms.ImageList(this.components);
-            this.btnCancel = new System.Windows.Forms.Button();
+            this.cmsTree = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.miCollapseAll = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlBottom.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.pnlMain.SuspendLayout();
+            this.pnlInfo.SuspendLayout();
             this.gbDevice.SuspendLayout();
+            this.cmsTree.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlBottom
@@ -62,6 +67,16 @@
             this.pnlBottom.Name = "pnlBottom";
             this.pnlBottom.Size = new System.Drawing.Size(734, 45);
             this.pnlBottom.TabIndex = 3;
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancel.Location = new System.Drawing.Point(566, 10);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.TabIndex = 3;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
             // 
             // btnClose
             // 
@@ -106,6 +121,7 @@
             this.btnAddQuery.Name = "btnAddQuery";
             this.btnAddQuery.Size = new System.Drawing.Size(23, 22);
             this.btnAddQuery.Text = "toolStripButton1";
+            this.btnAddQuery.Click += new System.EventHandler(this.btnAddQuery_Click);
             // 
             // btnAddCommand
             // 
@@ -115,6 +131,7 @@
             this.btnAddCommand.Name = "btnAddCommand";
             this.btnAddCommand.Size = new System.Drawing.Size(23, 22);
             this.btnAddCommand.Text = "toolStripButton1";
+            this.btnAddCommand.Click += new System.EventHandler(this.btnAddCommand_Click);
             // 
             // toolStripSeparator1
             // 
@@ -130,6 +147,7 @@
             this.btnMoveUp.Size = new System.Drawing.Size(23, 22);
             this.btnMoveUp.Text = "Move Up";
             this.btnMoveUp.ToolTipText = "Move Up";
+            this.btnMoveUp.Click += new System.EventHandler(this.btnMoveUp_Click);
             // 
             // btnMoveDown
             // 
@@ -140,6 +158,7 @@
             this.btnMoveDown.Size = new System.Drawing.Size(23, 22);
             this.btnMoveDown.Text = "Move Down";
             this.btnMoveDown.ToolTipText = "Move Down";
+            this.btnMoveDown.Click += new System.EventHandler(this.btnMoveDown_Click);
             // 
             // btnDelete
             // 
@@ -150,6 +169,7 @@
             this.btnDelete.Size = new System.Drawing.Size(23, 22);
             this.btnDelete.Text = "Delete";
             this.btnDelete.ToolTipText = "Delete";
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // pnlMain
             // 
@@ -166,11 +186,23 @@
             this.pnlInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlInfo.Controls.Add(this.lblHint);
             this.pnlInfo.Location = new System.Drawing.Point(318, 3);
             this.pnlInfo.Margin = new System.Windows.Forms.Padding(0);
             this.pnlInfo.Name = "pnlInfo";
             this.pnlInfo.Size = new System.Drawing.Size(404, 462);
             this.pnlInfo.TabIndex = 2;
+            // 
+            // lblHint
+            // 
+            this.lblHint.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblHint.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.lblHint.Location = new System.Drawing.Point(0, 0);
+            this.lblHint.Name = "lblHint";
+            this.lblHint.Size = new System.Drawing.Size(404, 74);
+            this.lblHint.TabIndex = 0;
+            this.lblHint.Text = "Add";
+            this.lblHint.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // gbDevice
             // 
@@ -189,9 +221,13 @@
             // 
             this.tvDevice.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.tvDevice.ContextMenuStrip = this.cmsTree;
             this.tvDevice.HideSelection = false;
+            this.tvDevice.ImageIndex = 0;
+            this.tvDevice.ImageList = this.ilTree;
             this.tvDevice.Location = new System.Drawing.Point(13, 22);
             this.tvDevice.Name = "tvDevice";
+            this.tvDevice.SelectedImageIndex = 0;
             this.tvDevice.Size = new System.Drawing.Size(274, 427);
             this.tvDevice.TabIndex = 0;
             this.tvDevice.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvDevice_AfterSelect);
@@ -202,15 +238,19 @@
             this.ilTree.ImageSize = new System.Drawing.Size(16, 16);
             this.ilTree.TransparentColor = System.Drawing.Color.Transparent;
             // 
-            // btnCancel
+            // cmsTree
             // 
-            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancel.Location = new System.Drawing.Point(566, 10);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 3;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
+            this.cmsTree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miCollapseAll});
+            this.cmsTree.Name = "cmsTree";
+            this.cmsTree.Size = new System.Drawing.Size(181, 48);
+            // 
+            // miCollapseAll
+            // 
+            this.miCollapseAll.Name = "miCollapseAll";
+            this.miCollapseAll.Size = new System.Drawing.Size(180, 22);
+            this.miCollapseAll.Text = "Collapse All";
+            this.miCollapseAll.Click += new System.EventHandler(this.miCollapseAll_Click);
             // 
             // FrmDeviceConfig
             // 
@@ -232,7 +272,9 @@
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             this.pnlMain.ResumeLayout(false);
+            this.pnlInfo.ResumeLayout(false);
             this.gbDevice.ResumeLayout(false);
+            this.cmsTree.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -256,5 +298,8 @@
         private ToolStripButton btnAddQuery;
         private ToolStripButton btnAddCommand;
         private Button btnCancel;
+        private Label lblHint;
+        private ContextMenuStrip cmsTree;
+        private ToolStripMenuItem miCollapseAll;
     }
 }

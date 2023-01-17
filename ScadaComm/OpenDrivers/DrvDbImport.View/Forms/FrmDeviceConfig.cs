@@ -18,6 +18,7 @@ using Scada.Forms;
 using Scada.Comm.Channels;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Scada.Config;
+using Scada.Forms.Controls;
 
 namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
 {
@@ -36,7 +37,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
             public const string Empty = "empty.png";*/
             public const string Connect = "connect.png";
             public const string FolderClosed = "folder_closed.png";
-            public const string Query = "query";
+            public const string Query = "query.png";
             /*public const string FolderOpen = "folder_open.png";
             public const string Method = "method.png";
             public const string Object = "obj.png";
@@ -53,11 +54,10 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
         private string lineConfigFileName;                // the line configuration file name
         private string deviceConfigFileName;              // the configuration file name
         private bool lineConfigModified;                  // the line configuration has been modified
-        private bool deviceConfigModified;                // the device configuration has been modified
-        //private DbLineConfig lineConfigCopy;              // the configuration copy to revert changes
-        //private DbDeviceConfig deviceConfigCopy;          // the configuration copy to revert changes
+        private bool deviceConfigModified;                // the device configuration has been modified        
+        private DbLineConfig lineConfigCopy;              // the configuration copy to revert changes
+        private DbDeviceConfig deviceConfigCopy;          // the configuration copy to revert changes
 
-        private bool changing;                            // controls are being changed programmatically
         private TreeNode connectionNode;                  // the tree node of the connection
         private TreeNode queriesNode;                     // the tree node of the queries
         private TreeNode commandsNode;                    // the tree node of the commands
@@ -82,14 +82,13 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
             this.deviceNum = deviceNum;
             lineConfig = new DbLineConfig();
             deviceConfig = new DbDeviceConfig();
-            //lineConfigCopy = null;
-            //deviceConfigCopy = null;
+            lineConfigCopy = null;
+            deviceConfigCopy = null;
 
             lineConfigFileName = "";
             deviceConfigFileName = "";
             lineConfigModified = false;
             deviceConfigModified = false;
-            changing = false;
             connectionNode = null;
             queriesNode = null;
             commandsNode = null;
@@ -133,6 +132,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
         /// </summary>
         private bool Modified => LineConfigModified || DeviceConfigModified;
 
+        
         /// <summary>
         /// Takes the tree view images and loads them into an image list.
         /// </summary>
@@ -147,6 +147,15 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
             /*ilTree.Images.Add(ImageKey.Method, Resources.method);
             ilTree.Images.Add(ImageKey.Object, Resources.obj);
             ilTree.Images.Add(ImageKey.Variable, Resources.variable);*/
+        }
+
+        /// <summary>
+        /// Hides the controls that display.
+        /// </summary>
+        private void HideControls()
+        {
+            /*ctrlDbConnection.Visible = ctrlQuery.Visible =
+                ctrlCommand.Visible = lblHint.Visible = false;*/
         }
 
         /// <summary>
@@ -202,7 +211,17 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
                          "", commandConfig));
                 }
 
-                SetButtonsEnabled();
+                if (tvDevice.Nodes.Count > 0)
+                {
+                    tvDevice.Nodes[0].ExpandAll();
+                    tvDevice.SelectedNode = tvDevice.Nodes[0].FirstNode;
+                }
+                else
+                {
+                    SetButtonsEnabled();
+                    HideControls();
+                    lblHint.Visible = true;
+                }
             }
             finally
             {
@@ -214,8 +233,8 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
         private void FrmDeviceConfig_Load(object sender, EventArgs e)
         {
             // translate form
-            FormTranslator.Translate(this, GetType().FullName);
-            Text = string.Format(Text, deviceNum);
+            FormTranslator.Translate(this, GetType().FullName, 
+                new FormTranslatorOptions { ContextMenus = new ContextMenuStrip[] { cmsTree } });
 
             // load configuration
             lineConfigFileName = Path.Combine(appDirs.ConfigDir, DbLineConfig.GetFileName(lineNum));
@@ -227,14 +246,12 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
             if (File.Exists(deviceConfigFileName) && !deviceConfig.Load(deviceConfigFileName, out errMsg))
                 ScadaUiUtils.ShowError(errMsg);
 
-            //lineConfigCopy = lineConfig.DeepClone();
-            //deviceConfigCopy = deviceConfig.DeepClone();
+            lineConfigCopy = lineConfig.DeepClone();
+            deviceConfigCopy = deviceConfig.DeepClone();
 
             // display configuration
             TakeTreeViewImages();
-            changing = true;
             FillDeviceTree();
-            changing = false;
             LineConfigModified = false;
             DeviceConfigModified = false;
         }
@@ -243,6 +260,82 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
         private void tvDevice_AfterSelect(object sender, TreeViewEventArgs e)
         {
             SetButtonsEnabled();
+        }
+
+        private void btnAddQuery_Click(object sender, EventArgs e)
+        {
+            if (queriesNode != null)
+            {
+                queriesNode.Expand();
+
+                // add query
+                QueryConfig queryConfig = new()
+                {
+                    Name = string.Format(DriverPhrases.QueryName, queriesNode.GetNodeCount(true) + 1)
+                };
+
+                tvDevice.Insert(queriesNode, TreeViewExtensions.CreateNode(queryConfig.Name,
+                    "", queryConfig), deviceConfig.Queries, queryConfig);
+                
+                deviceConfigModified = true;
+                //ctrlQuery.SetFocus();
+            }
+        }
+
+        private void btnAddCommand_Click(object sender, EventArgs e)
+        {
+            if (commandsNode != null)
+            {
+                commandsNode.Expand();
+
+                // add command
+                CommandConfig commandConfig = new()
+                {
+                    Name = string.Format(DriverPhrases.CommandName, commandsNode.GetNodeCount(true) + 1)
+                };
+
+                tvDevice.Insert(commandsNode, TreeViewExtensions.CreateNode(commandConfig.Name,
+                    "", commandConfig), deviceConfig.Commands, commandConfig);
+
+                deviceConfigModified = true;
+                //ctrlCommand.SetFocus();
+            }
+        }
+
+        private void btnMoveUp_Click(object sender, EventArgs e)
+        {
+            tvDevice.MoveUpSelectedNode(TreeNodeBehavior.WithinParent);
+            deviceConfigModified = true;
+        }
+
+        private void btnMoveDown_Click(object sender, EventArgs e)
+        {
+            tvDevice.MoveDownSelectedNode(TreeNodeBehavior.WithinParent);
+            deviceConfigModified = true;
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            tvDevice.RemoveSelectedNode();
+            deviceConfigModified = true;
+
+            if (tvDevice.Nodes.Count == 0)
+            {
+                SetButtonsEnabled();
+                HideControls();
+                lblHint.Visible = true;
+                lblHint.Text = DriverPhrases.AddRoots;
+            }
+        }
+
+        private void miCollapseAll_Click(object sender, EventArgs e)
+        {
+            if (tvDevice.Nodes.Count > 0)
+            {
+                tvDevice.SelectedNode = null;
+                tvDevice.CollapseAll();
+                tvDevice.SelectedNode = tvDevice.Nodes[0];
+            }
         }
     }
 }
