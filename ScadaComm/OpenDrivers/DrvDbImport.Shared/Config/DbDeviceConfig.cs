@@ -10,6 +10,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.Config
     /// Represents a configuration of a DB import device.
     /// <para>Представляет конфигурацию устройства импорта из БД.</para>
     /// </summary>
+    [Serializable]
     internal class DbDeviceConfig : DeviceConfigBase
     {
         /// <summary>

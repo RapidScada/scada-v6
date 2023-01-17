@@ -6,6 +6,7 @@
     <SendAllDataPeriod>60</SendAllDataPeriod>
     <EnableCommands>true</EnableCommands>
     <EnableFileCommands>true</EnableFileCommands>
+    <StartLinesOnCommand>false</StartLinesOnCommand>
     <MaxLogSize>1</MaxLogSize>
   </GeneralOptions>
   <ConnectionOptions>
