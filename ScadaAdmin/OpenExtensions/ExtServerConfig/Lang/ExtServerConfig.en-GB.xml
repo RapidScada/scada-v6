@@ -45,6 +45,7 @@
     <Phrase key="this">General Options</Phrase>
     <Phrase key="gbGeneralOptions">General Options</Phrase>
     <Phrase key="lblUnrelIfInactive">Channel is marked as unreliable if inactive, sec</Phrase>
+    <Phrase key="lblUseArchivalStatus">Mark incoming historical data as archival</Phrase>
     <Phrase key="lblGenerateAckCmd">Generate command when event is acknowledged</Phrase>
     <Phrase key="lblMaxLogSize">Maximum log file size, MB</Phrase>
     <Phrase key="lblDisableFormulas">Disable channel formulas, except for channels belonging to objects</Phrase>

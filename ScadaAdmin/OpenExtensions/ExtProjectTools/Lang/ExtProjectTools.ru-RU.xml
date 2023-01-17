@@ -30,6 +30,7 @@
     <Phrase key="miChannelMapByObject">Карта каналов по объектам</Phrase>
     <Phrase key="miDeviceMap">Карта устройств</Phrase>
     <Phrase key="miCheckIntegrity">Проверить целостность</Phrase>
+    <Phrase key="miEncryptPassword">Шифровать пароль...</Phrase>
     <Phrase key="miImportTable">Импортировать таблицу...</Phrase>
     <Phrase key="miExportTable">Экспортировать таблицу...</Phrase>
   </Dictionary>
@@ -50,6 +51,13 @@
     <Phrase key="KeepUnchanged">&lt;Без изменений&gt;</Phrase>
     <Phrase key="CloneChannelsCompleted">Клонирование завершено успешно.&#13;&#10;Добавлено каналов: {0}.</Phrase>
     <Phrase key="CloneChannelsError">Ошибка при клонировании каналов</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
+    <Phrase key="this">Шифрование пароля</Phrase>
+    <Phrase key="lblPassword">Пароль</Phrase>
+    <Phrase key="lblPasswordEncrypted">Зашифрованный пароль</Phrase>
+    <Phrase key="btnCopy">Копировать</Phrase>
+    <Phrase key="btnClose">Закрыть</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
     <Phrase key="this">Экспорт таблицы</Phrase>

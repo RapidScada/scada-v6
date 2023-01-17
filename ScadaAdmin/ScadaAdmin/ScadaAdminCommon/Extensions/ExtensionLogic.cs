@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2023 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 using Scada.Admin.Config;
 using Scada.Admin.Deployment;
 using Scada.Admin.Project;
-using Scada.Config;
+using Scada.Dbms;
 using Scada.Lang;
 using System;
 using System.Collections.Generic;

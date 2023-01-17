@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SnmpDeviceConfig>
+  <DeviceOptions>
+    <ReadCommunity>8B911608F03730018E83DD82C9D59C9A</ReadCommunity>
+    <WriteCommunity>F7BAE359F2121A511A04BF83C8F38C06</WriteCommunity>
+    <SnmpVersion>2</SnmpVersion>
+  </DeviceOptions>
+  <VarGroups>
+    <VarGroup active="true" name="Group 1">
+      <Variable name="sysDescr" oid=".1.3.6.1.2.1.1.1.0" dataType="ASCII" dataLen="10" />
+      <Variable name="sysUpTime" oid=".1.3.6.1.2.1.1.3.0" />
+      <Variable name="sysName" oid=".1.3.6.1.2.1.1.5.0" dataType="ASCII" dataLen="10" />
+    </VarGroup>
+    <VarGroup active="true" name="Group 2">
+      <Variable name="sysServices" oid=".1.3.6.1.2.1.1.7.0" />
+      <Variable name="snmpInPkts" oid=".1.3.6.1.2.1.11.1.0" />
+    </VarGroup>
+  </VarGroups>
+</SnmpDeviceConfig>

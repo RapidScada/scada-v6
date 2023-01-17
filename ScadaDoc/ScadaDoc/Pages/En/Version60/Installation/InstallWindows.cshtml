@@ -52,8 +52,16 @@
     </figure>
 
     <p>HTTP port 80 is used by the Default Web Site. Therefore, the installer suggests a different port, such as 10008. To use port 80 for Rapid SCADA, the Default Web Site must be stopped.</p>
-    <p>After the installation has completed successfully, launch a web browser and open <a href="http://localhost:10008" target="_blank">http://localhost:10008</a>. The first time the web application starts, it takes time to load the data, so you may need to wait about 10 seconds and then refresh the login page. By default, Rapid SCADA runs the Hello World project.</p>
-    <p>If errors occur during the installation process, analyze them using the installation log. Use the <a href="https://forum.rapidscada.org/" target="_blank">support forum</a> to find a solution.</p>
+    <p>After the installation has completed successfully, launch a web browser and open <a href="http://localhost:10008" target="_blank">http://localhost:10008</a><br />
+        Username: <em>admin</em><br />
+        Password: <em>scada</em></p>
+    <p>The first time the web application starts, it takes time to load the data, so you may need to wait about 10 seconds and then refresh the login page. By default, Rapid SCADA runs the Hello World project. If errors occur during the installation process, analyze them using the installation log. Use the <a href="https://forum.rapidscada.org/" target="_blank">support forum</a> to find a solution.</p>
+    <p>The Rapid SCADA services actively write to log files. To extend the life of the hard drive and increase system performance, it is recommended to configure logging to RAM drive. Action sequence:</p>
+    <ol>
+        <li>Install the software for creating RAM drives, for example, <a href="http://www.radeonramdisk.com/software_downloads.php" target="_blank">AMD Radeon RAMDisk</a> or <a href="http://memory.dataram.com/products-and-services/software/ramdisk" target="_blank">Dataram RAMDisk</a>.</li>
+        <li>Specify the log directory in <code>ScadaInstanceConfig.xml</code>, for example, <code><LogDir>R:\SCADA\</LogDir></code></li>
+        <li>Restart the Rapid SCADA services or reboot the computer.</li>
+    </ol>
 
     <h2 id="update">Update</h2>
     <p>The installer allows to update the previously installed Rapid SCADA version&nbsp;6.</p>

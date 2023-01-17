@@ -3,8 +3,8 @@
         super(appEnv);
     }
 
-    show(cnlNums, startDate, args) {
-        window.open(appEnv.rootPath + `Chart/Chart?cnlNums=${cnlNums}&startDate=${startDate}` +
-            (args ? "&" + args : ""));
+    getUrl(cnlNums, startDate, args) {
+        return appEnv.rootPath + `Chart/Chart?cnlNums=${cnlNums}&startDate=${startDate}` +
+            (args ? "&" + new URLSearchParams(args).toString() : "");
     }
 }

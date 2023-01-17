@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2023 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Data.Entities;
@@ -166,13 +166,25 @@ namespace Scada.Comm.Devices
         }
 
         /// <summary>
-        /// Calculates the length of the tag data required to store a Unicode string of the specified length.
+        /// Calculates the data length required to store the specified number of elements.
         /// </summary>
-        public static int CalcDataLength(int stringLength)
+        public static int CalcDataLength(int elementCount, TagDataType dataType)
         {
-            return stringLength <= 0
-                ? 1
-                : stringLength / 4 + ((stringLength % 4) == 0 ? 0 : 1);
+            switch (dataType)
+            {
+                case TagDataType.Unicode:
+                    return elementCount <= 0 
+                        ? 1 
+                        : elementCount / 4 + ((elementCount % 4) == 0 ? 0 : 1);
+
+                case TagDataType.ASCII:
+                    return elementCount <= 0
+                        ? 1
+                        : elementCount / 8 + ((elementCount % 8) == 0 ? 0 : 1);
+
+                default:
+                    return elementCount;
+            }
         }
 
         /// <summary>

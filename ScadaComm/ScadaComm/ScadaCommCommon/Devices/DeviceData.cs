@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2023 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -642,7 +642,11 @@ namespace Scada.Comm.Devices
         public void SetStatusTag(DeviceStatus status)
         {
             if (deviceTags.ContainsTag(CommUtils.StatusTagCode))
-                Set(CommUtils.StatusTagCode, (double)status);
+            {
+                this[CommUtils.StatusTagCode] = status == DeviceStatus.Undefined 
+                    ? CnlData.Empty
+                    : new CnlData((double)status - 1, CnlStatusID.Defined);
+            }
         }
 
         /// <summary>

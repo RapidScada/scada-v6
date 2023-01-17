@@ -2,14 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>disable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Scada.Admin.Extensions.ExtServerConfig</RootNamespace>
-    <Version>6.0.0</Version>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
     <Copyright>Copyright © 2022</Copyright>
+    <Version>6.0.0</Version>
+    <AssemblyVersion>6.0.0.1</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

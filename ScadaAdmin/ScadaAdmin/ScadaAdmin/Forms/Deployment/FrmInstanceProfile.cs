@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2023 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,17 +20,16 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2019
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Admin.App.Code;
 using Scada.Admin.Deployment;
 using Scada.Admin.Extensions;
 using Scada.Admin.Project;
-using Scada.Agent;
 using Scada.Agent.Client;
 using Scada.Client;
-using Scada.Config;
+using Scada.Dbms;
 using Scada.Forms;
 using System;
 using System.Text;

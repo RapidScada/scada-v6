@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2023 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -178,6 +178,7 @@ namespace Scada.Admin.Forms
             string path = lbFiles.SelectedItem == null ? "" : lbFiles.SelectedItem.ToString();
             logBox.LogPath = new RelativePath(ServiceApp, AppFolder.Log, path);
             logBox.FullLogView = ShowFullExtensions.Contains(Path.GetExtension(path));
+            logBox.AutoScroll = !logBox.FullLogView;
             SetFirstLine();
         }
 

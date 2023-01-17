@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2023 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,28 +16,31 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommon
- * Summary  : Specifies the known database management systems
+ * Summary  : Defines functionality of a data queue
  * 
  * Author   : Mikhail Shiryaev
- * Created  : 2021
- * Modified : 2021
+ * Created  : 2022
+ * Modified : 2022
  */
 
-#pragma warning disable 1591 // Missing XML comment for publicly visible type or member
+using System;
 
-namespace Scada.Config
+namespace Scada.Data.Queues
 {
     /// <summary>
-    /// Specifies the known database management systems.
-    /// <para>Задаёт известные системы управления базами данных.</para>
+    /// Defines functionality of a data queue.
+    /// <para>Определяет функциональность очереди данных.</para>
     /// </summary>
-    public enum KnownDBMS
+    public interface IDataQueue<T>
     {
-        Undefined,
-        PostgreSQL,
-        MySQL,
-        MSSQL,
-        Oracle,
-        OLEDB
+        /// <summary>
+        /// Enqueues the specified value.
+        /// </summary>
+        bool Enqueue(DateTime creationTime, T value, out string errMsg);
+
+        /// <summary>
+        /// Occurs when the queue is empty.
+        /// </summary>
+        event EventHandler Empty;
     }
 }

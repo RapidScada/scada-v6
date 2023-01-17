@@ -17,6 +17,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Config
         /// </summary>
         public ScadaServerDSO(OptionList options)
         {
+            ReadConfigDb = options.GetValueAsBool("ReadConfigDb", true);
             UseDefaultConn = options.GetValueAsBool("UseDefaultConn", true);
             Connection = options.GetValueAsString("Connection");
             MaxQueueSize = options.GetValueAsInt("MaxQueueSize", 1000);
@@ -27,6 +28,11 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Config
             DeviceFilter.AddRange(ScadaUtils.ParseRange(options.GetValueAsString("DeviceFilter"), true, true));
         }
 
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the data source can read the configuration database.
+        /// </summary>
+        public bool ReadConfigDb { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to use a connection specified in the application configuration.
@@ -70,6 +76,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Config
         public void AddToOptionList(OptionList options)
         {
             options.Clear();
+            options["ReadConfigDb"] = ReadConfigDb.ToLowerString();
             options["UseDefaultConn"] = UseDefaultConn.ToLowerString();
             options["Connection"] = Connection;
             options["MaxQueueSize"] = MaxQueueSize.ToString();

@@ -18,6 +18,8 @@ scada.scheme.BaseComponent = function (type) {
     this.dom = null;
     // Renderer of the component
     this.renderer = null;
+    // Component state written by renderer
+    this.state = null;
 };
 
 /********** Scheme Loading States **********/

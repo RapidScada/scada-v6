@@ -645,6 +645,7 @@ namespace Scada.Agent.Engine
                 {
                     return Directory.EnumerateFiles(directory, searchPattern, SearchOption.TopDirectoryOnly)
                         .Select(fullName => Path.GetFileName(fullName))
+                        .OrderBy(s => s)
                         .ToArray();
                 }
             }

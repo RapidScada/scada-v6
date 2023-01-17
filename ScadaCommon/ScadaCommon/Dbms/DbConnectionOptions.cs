@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2023 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +20,13 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using System;
 using System.Xml;
 
-namespace Scada.Config
+namespace Scada.Dbms
 {
     /// <summary>
     /// Represents database connection options.
@@ -133,7 +133,7 @@ namespace Scada.Config
             Database = xmlNode.GetChildAsString("Database");
             Username = xmlNode.GetChildAsString("Username");
             Password = ScadaUtils.Decrypt(xmlNode.GetChildAsString("Password"));
-            ConnectionString = xmlNode.GetChildAsString("ConnectionString");
+            ConnectionString = ScadaUtils.Decrypt(xmlNode.GetChildAsString("ConnectionString"));
         }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace Scada.Config
                 xmlElem.AppendElem("Database", "");
                 xmlElem.AppendElem("Username", "");
                 xmlElem.AppendElem("Password", "");
-                xmlElem.AppendElem("ConnectionString", ConnectionString);
+                xmlElem.AppendElem("ConnectionString", ScadaUtils.Encrypt(ConnectionString));
             }
         }
     }

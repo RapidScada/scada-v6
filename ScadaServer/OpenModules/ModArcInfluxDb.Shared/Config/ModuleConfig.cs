@@ -12,9 +12,9 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Config
     internal class ModuleConfig : ModuleConfigBase
     {
         /// <summary>
-        /// The configuration file name.
+        /// The default configuration file name.
         /// </summary>
-        public const string ConfigFileName = "ModArcInfluxDb.xml";
+        public const string DefaultFileName = "ModArcInfluxDb.xml";
 
 
         /// <summary>
@@ -69,14 +69,6 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Config
             }
 
             xmlDoc.Save(writer);
-        }
-
-        /// <summary>
-        /// Gets the full name of the configuration file.
-        /// </summary>
-        public static string GetFilePath(string configDir)
-        {
-            return Path.Combine(configDir, ConfigFileName);
         }
     }
 }

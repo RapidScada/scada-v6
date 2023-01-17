@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2023 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -101,7 +101,7 @@ namespace Scada.Server.Engine
             // add scripts
             sourceCode.AppendLine("public class Scripts : CalcEngine {");
 
-            foreach (Script script in scriptTable.EnumerateItems())
+            foreach (Script script in scriptTable)
             {
                 sourceCode
                     .Append("/********** ").Append(script.Name).AppendLine(" **********/")
@@ -130,7 +130,7 @@ namespace Scada.Server.Engine
             }
 
             // add formulas
-            foreach (Cnl cnl in cnlTable.EnumerateItems())
+            foreach (Cnl cnl in cnlTable)
             {
                 if (cnl.Active && cnl.FormulaEnabled && (enableFormulasObjNums == null || 
                     cnl.ObjNum.HasValue && enableFormulasObjNums.Contains(cnl.ObjNum.Value)))

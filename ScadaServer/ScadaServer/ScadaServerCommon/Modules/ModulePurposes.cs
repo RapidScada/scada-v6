@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2023 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ namespace Scada.Server.Modules
 {
     /// <summary>
     /// Specifies the module purposes.
-    /// <para>Задает предназначения модулей.</para>
+    /// <para>Задаёт предназначения модулей.</para>
     /// </summary>
     [Flags]
     public enum ModulePurposes

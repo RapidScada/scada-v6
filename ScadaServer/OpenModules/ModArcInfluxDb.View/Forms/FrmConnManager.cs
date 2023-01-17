@@ -32,7 +32,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
         public FrmConnManager(string configDir)
             : this()
         {
-            configFileName = Path.Combine(configDir, ModuleConfig.ConfigFileName);
+            configFileName = Path.Combine(configDir, ModuleConfig.DefaultFileName);
             moduleConfig = new ModuleConfig();
             changing = false;
         }

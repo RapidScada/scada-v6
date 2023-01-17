@@ -195,33 +195,14 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// <summary>
         /// Sets value, status and format of the specified tag.
         /// </summary>
-        private void SetTagData(int tagIndex, object val, int stat)
+        private void SetTagData(DeviceTag deviceTag, object val, int stat)
         {
             try
             {
-                DeviceTag deviceTag = DeviceTags[tagIndex];
-
                 if (deviceTag.Aux is DeviceTagMeta tagMeta && val != null)
                     tagMeta.ActualDataType = val.GetType();
 
-                if (val is string strVal)
-                {
-                    deviceTag.DataType = TagDataType.Unicode;
-                    deviceTag.Format = TagFormat.String;
-                    DeviceData.SetUnicode(tagIndex, strVal, stat);
-                }
-                else if (val is DateTime dtVal)
-                {
-                    deviceTag.DataType = TagDataType.Double;
-                    deviceTag.Format = TagFormat.DateTime;
-                    DeviceData.SetDateTime(tagIndex, dtVal, stat);
-                }
-                else
-                {
-                    deviceTag.DataType = TagDataType.Double;
-                    deviceTag.Format = TagFormat.FloatNumber;
-                    DeviceData.Set(tagIndex, Convert.ToDouble(val), stat);
-                }
+                DeviceData.Set(deviceTag, val, stat);
             }
             catch (Exception ex)
             {
@@ -451,7 +432,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                     if (itemConfig.IsString)
                     {
                         deviceTag.DataType = TagDataType.Unicode;
-                        deviceTag.DataLen = DeviceTag.CalcDataLength(itemConfig.DataLength);
+                        deviceTag.DataLen = DeviceTag.CalcDataLength(itemConfig.DataLength, TagDataType.Unicode);
                         deviceTag.Format = TagFormat.String;
                     }
                     else if (itemConfig.IsArray)
@@ -558,7 +539,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                         if (monitoredItem.Handle is ItemTag itemTag &&
                             itemTag.DeviceTag is DeviceTag deviceTag)
                         {
-                            int tagIndex = deviceTag.Index;
                             int tagStatus = StatusCode.IsGood(change.Value.StatusCode) ?
                                 CnlStatusID.Defined : CnlStatusID.Undefined;
 
@@ -575,12 +555,12 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                                         tagFormat = format;
                                 }
 
-                                DeviceData.SetDoubleArray(tagIndex, arr, tagStatus);
-                                DeviceTags[tagIndex].Format = tagFormat;
+                                DeviceData.SetDoubleArray(deviceTag.Index, arr, tagStatus);
+                                DeviceTags[deviceTag.Index].Format = tagFormat;
                             }
                             else
                             {
-                                SetTagData(tagIndex, change.Value.Value, tagStatus);
+                                SetTagData(deviceTag, change.Value.Value, tagStatus);
                             }
                         }
                         else

@@ -5,7 +5,7 @@ using Npgsql;
 using Scada.Admin.Deployment;
 using Scada.Admin.Lang;
 using Scada.Admin.Project;
-using Scada.Config;
+using Scada.Dbms;
 using Scada.Lang;
 using System;
 using static Scada.Storages.PostgreSqlStorage.PostgreSqlStorageShared;

@@ -30,6 +30,7 @@
     <Phrase key="miChannelMapByObject">Peta Saluran berdasarkan Objek</Phrase>
     <Phrase key="miDeviceMap">Peta Perangkat</Phrase>
     <Phrase key="miCheckIntegrity">Periksa Integritas</Phrase>
+    <Phrase key="miEncryptPassword">Enkripsi Kata Sandi</Phrase>
     <Phrase key="miImportTable">Impor Tabel...</Phrase>
     <Phrase key="miExportTable">Ekspor Tabel...</Phrase>
   </Dictionary>
@@ -51,6 +52,13 @@
     <Phrase key="CloneChannelsCompleted">Kloning diselesaikan dengan sukses.
 {0} saluran ditambahkan.</Phrase>
     <Phrase key="CloneChannelsError">Kesalahan saat mengkloning saluran</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
+    <Phrase key="this">Enkripsi Kata Sandi</Phrase>
+    <Phrase key="lblPassword">Kata Sandi</Phrase>
+    <Phrase key="lblPasswordEncrypted">Kata Sandi Terenkripsi</Phrase>
+    <Phrase key="btnCopy">Salin</Phrase>
+    <Phrase key="btnClose">Tutup</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
     <Phrase key="this">Ekspor Tabel</Phrase>

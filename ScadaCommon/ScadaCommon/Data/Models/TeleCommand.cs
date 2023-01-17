@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2023 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2015
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Lang;
@@ -143,15 +143,19 @@ namespace Scada.Data.Models
         public int RecursionLevel { get; set; }
 
         /// <summary>
+        /// Gets a value indicating whether the command value is empty or undefined.
+        /// </summary>
+        public bool CmdValIsEmpty => double.IsNaN(CmdVal);
+
+        /// <summary>
+        /// Gets a value indicating whether the command data is empty or undefined.
+        /// </summary>
+        public bool CmdDataIsEmpty => CmdData == null || CmdData.Length == 0;
+
+        /// <summary>
         /// Gets a value indicating whether the command should be processed by an application.
         /// </summary>
-        public bool IsAddressedToApp
-        {
-            get
-            {
-                return AddressedToApp(CmdCode);
-            }
-        }
+        public bool IsAddressedToApp => AddressedToApp(CmdCode);
 
 
         /// <summary>

@@ -175,13 +175,13 @@
   </Format>
   <Format>
     <FormatID>26</FormatID>
-    <Name>Device status</Name>
-    <Code>DeviceStatus</Code>
+    <Name>Normal-Error</Name>
+    <Code>NormalError</Code>
     <IsNumber>false</IsNumber>
     <IsEnum>true</IsEnum>
     <IsDate>false</IsDate>
     <IsString>false</IsString>
-    <Frmt>Undefined: black; Normal: green; Error: red</Frmt>
+    <Frmt>Normal: green; Error: red</Frmt>
   </Format>
   <Format>
     <FormatID>31</FormatID>

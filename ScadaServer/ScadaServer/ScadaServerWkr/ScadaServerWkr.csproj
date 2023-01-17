@@ -4,11 +4,12 @@
     <TargetFramework>net6.0</TargetFramework>
     <UserSecretsId>dotnet-ScadaServerWkr-524AF2CE-4F8C-4530-A1C7-58FD76646E1D</UserSecretsId>
     <RootNamespace>Scada.Server.Wkr</RootNamespace>
-    <Version>6.0.0</Version>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
-    <Copyright>Copyright © 2022</Copyright>
+    <Copyright>Copyright © 2023</Copyright>
+    <Version>6.0.0</Version>
+    <AssemblyVersion>6.0.0.1</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

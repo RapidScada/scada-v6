@@ -3,12 +3,13 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>Scada.Web</RootNamespace>
-    <Version>6.0.0</Version>
+    <UserSecretsId>3a1819be-265c-432d-a52b-86f3a2f19cc4</UserSecretsId>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
     <Copyright>Copyright © 2022</Copyright>
-    <UserSecretsId>3a1819be-265c-432d-a52b-86f3a2f19cc4</UserSecretsId>
+    <Version>6.0.0</Version>
+    <AssemblyVersion>6.0.0.1</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

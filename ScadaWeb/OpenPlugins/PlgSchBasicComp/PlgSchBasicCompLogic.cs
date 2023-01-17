@@ -21,6 +21,7 @@ namespace Scada.Web.Plugins.PlgSchBasicComp
         {
         }
 
+
         /// <summary>
         /// Gets the plugin code.
         /// </summary>

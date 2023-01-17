@@ -3,9 +3,6 @@
 
 using Scada.Admin.Project;
 using Scada.Data.Tables;
-using System;
-using System.Linq;
-using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions.ExtProjectTools.Code
 {

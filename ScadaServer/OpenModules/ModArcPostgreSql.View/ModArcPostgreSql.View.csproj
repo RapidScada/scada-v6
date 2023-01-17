@@ -8,11 +8,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>Scada.Server.Modules.ModArcPostgreSql.View</RootNamespace>
-    <Version>6.0.0</Version>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
     <Copyright>Copyright © 2022</Copyright>
+    <Version>6.0.0</Version>
+    <AssemblyVersion>6.0.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -35,15 +36,6 @@
     <Reference Include="ScadaServerCommon.Forms">
       <HintPath>..\..\ScadaServer\ScadaServerCommon.Forms\bin\Release\net6.0-windows\ScadaServerCommon.Forms.dll</HintPath>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Forms\FrmPostgreCAO.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\FrmPostgreEAO.cs">
-      <SubType>Form</SubType>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>

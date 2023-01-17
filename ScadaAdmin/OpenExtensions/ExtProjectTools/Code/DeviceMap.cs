@@ -7,12 +7,7 @@ using Scada.Data.Tables;
 using Scada.Forms;
 using Scada.Lang;
 using Scada.Log;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Scada.Admin.Extensions.ExtProjectTools.Code
 {

@@ -261,16 +261,29 @@ class PluginFeatures {
 class BaseChartFeature {
     constructor(appEnv) {
         this.appEnv = appEnv;
+        this._NO_PLUGIN = ScadaUtils.isRussian(appEnv.locale) ?
+            "Ни один плагин не реализует функцию графиков." :
+            "No plugin implements the charting feature.";
     }
 
-    // Shows a chart.
+    // Gets a chart URL.
     // cnlNums is a string containing a range of integers,
     // startDate is a string in the YYYY-MM-DD format,
     // args is a string containing arbitrary arguments.
+    getUrl(cnlNums, startDate, args) {
+        console.warn(this._NO_PLUGIN);
+        return "";
+    }
+
+    // Shows a chart.
     show(cnlNums, startDate, args) {
-        alert(ScadaUtils.isRussian(appEnv.locale) ?
-            "Ни один плагин не реализует функцию графиков." :
-            "No plugin implements the charting feature.");
+        let url = this.getUrl(cnlNums, startDate, args);
+
+        if (url) {
+            window.open(url);
+        } else {
+            alert(this.NO_PLUGIN);
+        }
     }
 }
 

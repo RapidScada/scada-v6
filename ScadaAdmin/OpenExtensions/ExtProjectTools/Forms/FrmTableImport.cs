@@ -9,9 +9,6 @@ using Scada.Data.Tables;
 using Scada.Forms;
 using Scada.Lang;
 using Scada.Log;
-using System;
-using System.IO;
-using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions.ExtProjectTools.Forms
 {

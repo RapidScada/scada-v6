@@ -176,7 +176,7 @@ CREATE INDEX idx_events_cnlnum ON events (cnlnum);
 
 -- Insert current data
 INSERT INTO cnldata (datetime, cnlnum, val, stat)
-VALUES (:dateTime, :cnlNum, @@val, :stat)
+VALUES (:dateTime, :cnlNum, :val, :stat)
 
 -- Insert or update existing archive data
 MERGE INTO cnldata

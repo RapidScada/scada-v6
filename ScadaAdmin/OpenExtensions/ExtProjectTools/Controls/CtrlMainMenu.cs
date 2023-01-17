@@ -4,9 +4,6 @@
 using Scada.Admin.Extensions.ExtProjectTools.Code;
 using Scada.Admin.Extensions.ExtProjectTools.Forms;
 using Scada.Data.Entities;
-using System;
-using System.IO;
-using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions.ExtProjectTools.Controls
 {
@@ -49,7 +46,9 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             miCloneChannels.Enabled = projectIsOpen;
             miChannelMapByDevice.Enabled = projectIsOpen;
             miChannelMapByObject.Enabled = projectIsOpen;
+            miDeviceMap.Enabled = projectIsOpen;
             miCheckIntegrity.Enabled = projectIsOpen;
+            miEncryptPassword.Enabled = projectIsOpen;
             miImportTable.Enabled = projectIsOpen;
             miExportTable.Enabled = projectIsOpen;
         }
@@ -134,6 +133,11 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
                 new IntegrityCheck(adminContext.ErrLog, adminContext.CurrentProject.ConfigDatabase)
                     .Execute(Path.Combine(adminContext.AppDirs.LogDir, IntegrityCheck.OutputFileName));
             }
+        }
+
+        private void miEncryptPassword_Click(object sender, EventArgs e)
+        {
+            new FrmPasswordEncrypt().ShowDialog();
         }
 
         private void miImportTable_Click(object sender, EventArgs e)

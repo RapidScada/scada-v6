@@ -66,7 +66,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// </summary>
         public override void OnServiceStart()
         {
-            if (!moduleConfig.Load(ModuleConfig.GetFilePath(AppDirs.ConfigDir), out string errMsg))
+            if (!moduleConfig.Load(ServerContext.Storage, ModuleConfig.DefaultFileName, out string errMsg))
                 Log.WriteError(ServerPhrases.ModuleMessage, Code, errMsg);
         }
     }

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ModActiveDirectoryDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModActiveDirectory.Config.ModuleConfig">
+    <Phrase key="LdapServer.DisplayName">Сервер LDAP</Phrase>
+    <Phrase key="LdapServer.Category">Основные параметры</Phrase>
+    <Phrase key="LdapServer.Description">Хост или IP-адрес контроллера домена. Например, 127.0.0.1</Phrase>
+    <Phrase key="SearchRoot.DisplayName">Корень поиска</Phrase>
+    <Phrase key="SearchRoot.Category">Основные параметры</Phrase>
+    <Phrase key="SearchRoot.Description">Корень поиска. Например, DC=company,DC=com</Phrase>
+  </Dictionary>
+</ModActiveDirectoryDictionaries>
