@@ -44,10 +44,6 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controls\" />
-  </ItemGroup>
-
   <Import Project="..\DrvDbImport.Shared\DrvDbImport.Shared.projitems" Label="Shared" />
 
 </Project>

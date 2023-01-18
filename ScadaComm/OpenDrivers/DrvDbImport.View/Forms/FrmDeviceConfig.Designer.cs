@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmDeviceConfig));
             this.pnlBottom = new System.Windows.Forms.Panel();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
@@ -43,12 +42,13 @@
             this.btnDelete = new System.Windows.Forms.ToolStripButton();
             this.pnlMain = new System.Windows.Forms.Panel();
             this.pnlInfo = new System.Windows.Forms.Panel();
+            this.ctrlQuery = new Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrQuery();
             this.lblHint = new System.Windows.Forms.Label();
             this.gbDevice = new System.Windows.Forms.GroupBox();
             this.tvDevice = new System.Windows.Forms.TreeView();
-            this.ilTree = new System.Windows.Forms.ImageList(this.components);
             this.cmsTree = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miCollapseAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.ilTree = new System.Windows.Forms.ImageList(this.components);
             this.pnlBottom.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.pnlMain.SuspendLayout();
@@ -77,6 +77,7 @@
             this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnClose
             // 
@@ -97,6 +98,7 @@
             this.btnSave.TabIndex = 0;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // toolStrip
             // 
@@ -116,7 +118,7 @@
             // btnAddQuery
             // 
             this.btnAddQuery.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnAddQuery.Image = ((System.Drawing.Image)(resources.GetObject("btnAddQuery.Image")));
+            this.btnAddQuery.Image = global::Scada.Comm.Drivers.DrvDbImport.View.Properties.Resource.query;
             this.btnAddQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddQuery.Name = "btnAddQuery";
             this.btnAddQuery.Size = new System.Drawing.Size(23, 22);
@@ -126,7 +128,7 @@
             // btnAddCommand
             // 
             this.btnAddCommand.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnAddCommand.Image = ((System.Drawing.Image)(resources.GetObject("btnAddCommand.Image")));
+            this.btnAddCommand.Image = global::Scada.Comm.Drivers.DrvDbImport.View.Properties.Resource.cmd;
             this.btnAddCommand.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddCommand.Name = "btnAddCommand";
             this.btnAddCommand.Size = new System.Drawing.Size(23, 22);
@@ -186,12 +188,23 @@
             this.pnlInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlInfo.Controls.Add(this.ctrlQuery);
             this.pnlInfo.Controls.Add(this.lblHint);
             this.pnlInfo.Location = new System.Drawing.Point(318, 3);
             this.pnlInfo.Margin = new System.Windows.Forms.Padding(0);
             this.pnlInfo.Name = "pnlInfo";
             this.pnlInfo.Size = new System.Drawing.Size(404, 462);
             this.pnlInfo.TabIndex = 2;
+            // 
+            // ctrlQuery
+            // 
+            this.ctrlQuery.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ctrlQuery.Location = new System.Drawing.Point(0, 0);
+            this.ctrlQuery.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+            this.ctrlQuery.Name = "ctrlQuery";
+            this.ctrlQuery.Size = new System.Drawing.Size(404, 462);
+            this.ctrlQuery.TabIndex = 1;
+            this.ctrlQuery.ObjectChanged += new System.EventHandler<Scada.Forms.ObjectChangedEventArgs>(this.ctrlQuery_ObjectChanged);
             // 
             // lblHint
             // 
@@ -232,30 +245,31 @@
             this.tvDevice.TabIndex = 0;
             this.tvDevice.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvDevice_AfterSelect);
             // 
+            // cmsTree
+            // 
+            this.cmsTree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miCollapseAll});
+            this.cmsTree.Name = "cmsTree";
+            this.cmsTree.Size = new System.Drawing.Size(137, 26);
+            // 
+            // miCollapseAll
+            // 
+            this.miCollapseAll.Name = "miCollapseAll";
+            this.miCollapseAll.Size = new System.Drawing.Size(136, 22);
+            this.miCollapseAll.Text = "Collapse All";
+            this.miCollapseAll.Click += new System.EventHandler(this.miCollapseAll_Click);
+            // 
             // ilTree
             // 
             this.ilTree.ColorDepth = System.Windows.Forms.ColorDepth.Depth24Bit;
             this.ilTree.ImageSize = new System.Drawing.Size(16, 16);
             this.ilTree.TransparentColor = System.Drawing.Color.Transparent;
             // 
-            // cmsTree
-            // 
-            this.cmsTree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miCollapseAll});
-            this.cmsTree.Name = "cmsTree";
-            this.cmsTree.Size = new System.Drawing.Size(181, 48);
-            // 
-            // miCollapseAll
-            // 
-            this.miCollapseAll.Name = "miCollapseAll";
-            this.miCollapseAll.Size = new System.Drawing.Size(180, 22);
-            this.miCollapseAll.Text = "Collapse All";
-            this.miCollapseAll.Click += new System.EventHandler(this.miCollapseAll_Click);
-            // 
             // FrmDeviceConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(734, 541);
             this.Controls.Add(this.pnlMain);
             this.Controls.Add(this.toolStrip);
@@ -267,6 +281,7 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DB Import";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmDeviceConfig_FormClosing);
             this.Load += new System.EventHandler(this.FrmDeviceConfig_Load);
             this.pnlBottom.ResumeLayout(false);
             this.toolStrip.ResumeLayout(false);
@@ -301,5 +316,6 @@
         private Label lblHint;
         private ContextMenuStrip cmsTree;
         private ToolStripMenuItem miCollapseAll;
+        private Controls.CtrQuery ctrlQuery;
     }
 }
