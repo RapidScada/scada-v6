@@ -73,6 +73,16 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap cmds {
+            get {
+                object obj = ResourceManager.GetObject("cmds", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap connect {
             get {
                 object obj = ResourceManager.GetObject("connect", resourceCulture);
@@ -93,6 +103,16 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap info {
+            get {
+                object obj = ResourceManager.GetObject("info", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap move_down {
             get {
                 object obj = ResourceManager.GetObject("move_down", resourceCulture);
@@ -106,6 +126,16 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Properties {
         internal static System.Drawing.Bitmap move_up {
             get {
                 object obj = ResourceManager.GetObject("move_up", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap queries {
+            get {
+                object obj = ResourceManager.GetObject("queries", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -42,7 +42,9 @@
             this.btnDelete = new System.Windows.Forms.ToolStripButton();
             this.pnlMain = new System.Windows.Forms.Panel();
             this.pnlInfo = new System.Windows.Forms.Panel();
-            this.ctrlQuery = new Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrQuery();
+            this.ctrlDbConnection = new Scada.Forms.Controls.CtrlDbConnection();
+            this.ctrlCommand = new Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlCommand();
+            this.ctrlQuery = new Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlQuery();
             this.lblHint = new System.Windows.Forms.Label();
             this.gbDevice = new System.Windows.Forms.GroupBox();
             this.tvDevice = new System.Windows.Forms.TreeView();
@@ -188,6 +190,8 @@
             this.pnlInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlInfo.Controls.Add(this.ctrlDbConnection);
+            this.pnlInfo.Controls.Add(this.ctrlCommand);
             this.pnlInfo.Controls.Add(this.ctrlQuery);
             this.pnlInfo.Controls.Add(this.lblHint);
             this.pnlInfo.Location = new System.Drawing.Point(318, 3);
@@ -195,6 +199,30 @@
             this.pnlInfo.Name = "pnlInfo";
             this.pnlInfo.Size = new System.Drawing.Size(404, 462);
             this.pnlInfo.TabIndex = 2;
+            // 
+            // ctrlDbConnection
+            // 
+            this.ctrlDbConnection.BuildConnectionStringFunc = null;
+            this.ctrlDbConnection.ConnectionOptions = null;
+            this.ctrlDbConnection.DbmsEnabled = true;
+            this.ctrlDbConnection.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ctrlDbConnection.Location = new System.Drawing.Point(0, 0);
+            this.ctrlDbConnection.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+            this.ctrlDbConnection.Name = "ctrlDbConnection";
+            this.ctrlDbConnection.NameEnabled = true;
+            this.ctrlDbConnection.Size = new System.Drawing.Size(404, 462);
+            this.ctrlDbConnection.TabIndex = 8;
+            this.ctrlDbConnection.ConnectionOptionsChanged += new System.EventHandler(this.ctrlDbConnection_ConnectionOptionsChanged);
+            // 
+            // ctrlCommand
+            // 
+            this.ctrlCommand.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ctrlCommand.Location = new System.Drawing.Point(0, 0);
+            this.ctrlCommand.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+            this.ctrlCommand.Name = "ctrlCommand";
+            this.ctrlCommand.Size = new System.Drawing.Size(404, 462);
+            this.ctrlCommand.TabIndex = 2;
+            this.ctrlCommand.ObjectChanged += new System.EventHandler<Scada.Forms.ObjectChangedEventArgs>(this.ctrlCommand_ObjectChanged);
             // 
             // ctrlQuery
             // 
@@ -228,7 +256,7 @@
             this.gbDevice.Size = new System.Drawing.Size(300, 462);
             this.gbDevice.TabIndex = 1;
             this.gbDevice.TabStop = false;
-            this.gbDevice.Text = "Import Devices";
+            this.gbDevice.Text = "Device Configuration";
             // 
             // tvDevice
             // 
@@ -280,7 +308,7 @@
             this.Name = "FrmDeviceConfig";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "DB Import";
+            this.Text = "Device {0} Properties";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmDeviceConfig_FormClosing);
             this.Load += new System.EventHandler(this.FrmDeviceConfig_Load);
             this.pnlBottom.ResumeLayout(false);
@@ -316,6 +344,8 @@
         private Label lblHint;
         private ContextMenuStrip cmsTree;
         private ToolStripMenuItem miCollapseAll;
-        private Controls.CtrQuery ctrlQuery;
+        private Controls.CtrlQuery ctrlQuery;
+        private Controls.CtrlCommand ctrlCommand;
+        private Scada.Forms.Controls.CtrlDbConnection ctrlDbConnection;
     }
 }

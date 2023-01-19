@@ -1,6 +1,6 @@
 ﻿namespace Scada.Comm.Drivers.DrvDbImport.View.Controls
 {
-    partial class CtrQuery
+    partial class CtrlQuery
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.gbOptions = new System.Windows.Forms.GroupBox();
-            this.chkActive = new System.Windows.Forms.CheckBox();
+            this.txtSql = new System.Windows.Forms.TextBox();
+            this.chkSingleRow = new System.Windows.Forms.CheckBox();
+            this.txtTags = new System.Windows.Forms.TextBox();
+            this.lblTag = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
-            this.lblTag = new System.Windows.Forms.Label();
-            this.txtTags = new System.Windows.Forms.TextBox();
-            this.chkSingleRow = new System.Windows.Forms.CheckBox();
-            this.txtSql = new System.Windows.Forms.TextBox();
+            this.chkActive = new System.Windows.Forms.CheckBox();
             this.gbOptions.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -56,19 +56,54 @@
             this.gbOptions.Size = new System.Drawing.Size(404, 462);
             this.gbOptions.TabIndex = 0;
             this.gbOptions.TabStop = false;
-            this.gbOptions.Text = "General";
+            this.gbOptions.Text = "Query";
             // 
-            // chkActive
+            // txtSql
             // 
-            this.chkActive.AutoSize = true;
-            this.chkActive.Location = new System.Drawing.Point(13, 22);
-            this.chkActive.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
-            this.chkActive.Name = "chkActive";
-            this.chkActive.Size = new System.Drawing.Size(59, 19);
-            this.chkActive.TabIndex = 0;
-            this.chkActive.Text = "Active";
-            this.chkActive.UseVisualStyleBackColor = true;
-            this.chkActive.CheckedChanged += new System.EventHandler(this.chkActive_CheckedChanged);
+            this.txtSql.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSql.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtSql.Location = new System.Drawing.Point(13, 252);
+            this.txtSql.Multiline = true;
+            this.txtSql.Name = "txtSql";
+            this.txtSql.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtSql.Size = new System.Drawing.Size(378, 197);
+            this.txtSql.TabIndex = 9;
+            this.txtSql.WordWrap = false;
+            this.txtSql.TextChanged += new System.EventHandler(this.txtSql_TextChanged);
+            // 
+            // chkSingleRow
+            // 
+            this.chkSingleRow.AutoSize = true;
+            this.chkSingleRow.Location = new System.Drawing.Point(13, 227);
+            this.chkSingleRow.Name = "chkSingleRow";
+            this.chkSingleRow.Size = new System.Drawing.Size(81, 19);
+            this.chkSingleRow.TabIndex = 8;
+            this.chkSingleRow.Text = "Single row";
+            this.chkSingleRow.UseVisualStyleBackColor = true;
+            this.chkSingleRow.CheckedChanged += new System.EventHandler(this.chkSingleRow_CheckedChanged);
+            // 
+            // txtTags
+            // 
+            this.txtTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTags.Location = new System.Drawing.Point(13, 120);
+            this.txtTags.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+            this.txtTags.Multiline = true;
+            this.txtTags.Name = "txtTags";
+            this.txtTags.Size = new System.Drawing.Size(378, 94);
+            this.txtTags.TabIndex = 7;
+            this.txtTags.TextChanged += new System.EventHandler(this.txtTags_TextChanged);
+            // 
+            // lblTag
+            // 
+            this.lblTag.AutoSize = true;
+            this.lblTag.Location = new System.Drawing.Point(10, 102);
+            this.lblTag.Name = "lblTag";
+            this.lblTag.Size = new System.Drawing.Size(30, 15);
+            this.lblTag.TabIndex = 6;
+            this.lblTag.Text = "Tags";
             // 
             // txtName
             // 
@@ -90,52 +125,17 @@
             this.lblName.TabIndex = 4;
             this.lblName.Text = "Name";
             // 
-            // lblTag
+            // chkActive
             // 
-            this.lblTag.AutoSize = true;
-            this.lblTag.Location = new System.Drawing.Point(10, 102);
-            this.lblTag.Name = "lblTag";
-            this.lblTag.Size = new System.Drawing.Size(30, 15);
-            this.lblTag.TabIndex = 6;
-            this.lblTag.Text = "Tags";
-            // 
-            // txtTags
-            // 
-            this.txtTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTags.Location = new System.Drawing.Point(13, 120);
-            this.txtTags.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
-            this.txtTags.Multiline = true;
-            this.txtTags.Name = "txtTags";
-            this.txtTags.Size = new System.Drawing.Size(378, 94);
-            this.txtTags.TabIndex = 7;
-            this.txtTags.TextChanged += new System.EventHandler(this.txtTags_TextChanged);
-            // 
-            // chkSingleRow
-            // 
-            this.chkSingleRow.AutoSize = true;
-            this.chkSingleRow.Location = new System.Drawing.Point(13, 227);
-            this.chkSingleRow.Name = "chkSingleRow";
-            this.chkSingleRow.Size = new System.Drawing.Size(81, 19);
-            this.chkSingleRow.TabIndex = 8;
-            this.chkSingleRow.Text = "Single row";
-            this.chkSingleRow.UseVisualStyleBackColor = true;
-            this.chkSingleRow.CheckedChanged += new System.EventHandler(this.chkSingleRow_CheckedChanged);
-            // 
-            // txtSql
-            // 
-            this.txtSql.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSql.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtSql.Location = new System.Drawing.Point(13, 252);
-            this.txtSql.Multiline = true;
-            this.txtSql.Name = "txtSql";
-            this.txtSql.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtSql.Size = new System.Drawing.Size(378, 197);
-            this.txtSql.TabIndex = 9;
-            this.txtSql.WordWrap = false;
-            this.txtSql.TextChanged += new System.EventHandler(this.txtSql_TextChanged);
+            this.chkActive.AutoSize = true;
+            this.chkActive.Location = new System.Drawing.Point(13, 22);
+            this.chkActive.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+            this.chkActive.Name = "chkActive";
+            this.chkActive.Size = new System.Drawing.Size(59, 19);
+            this.chkActive.TabIndex = 0;
+            this.chkActive.Text = "Active";
+            this.chkActive.UseVisualStyleBackColor = true;
+            this.chkActive.CheckedChanged += new System.EventHandler(this.chkActive_CheckedChanged);
             // 
             // CtrQuery
             // 

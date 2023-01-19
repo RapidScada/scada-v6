@@ -7,9 +7,7 @@ using Scada.Comm.Drivers.DrvDbImport.View.Properties;
 using Scada.Comm.Lang;
 using Scada.Dbms;
 using Scada.Forms;
-using Scada.Forms.Controls;
 using Scada.Lang;
-using System.Runtime.Serialization;
 
 namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
 {
@@ -25,7 +23,9 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
         private static class ImageKey
         {
             public const string Command = "cmd.png";
+            public const string Commands = "cmds.png";
             public const string Connect = "connect.png";
+            public const string Queries = "queries.png";
             public const string Query = "query.png";
             public const string QueryInactive = "query_inactive.png";
         }
@@ -126,7 +126,9 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
         {
             // loading images from resources instead of storing in image list prevents them from corruption
             ilTree.Images.Add(ImageKey.Command, Resource.cmd);
+            ilTree.Images.Add(ImageKey.Commands, Resource.cmds);
             ilTree.Images.Add(ImageKey.Connect, Resource.connect);
+            ilTree.Images.Add(ImageKey.Queries, Resource.queries);
             ilTree.Images.Add(ImageKey.Query, Resource.query);
             ilTree.Images.Add(ImageKey.QueryInactive, Resource.query_inactive);
         }
@@ -136,8 +138,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
         /// </summary>
         private void HideControls()
         {
-            /*ctrlDbConnection.Visible = */ctrlQuery.Visible =
-                /*ctrlCommand.Visible =*/ lblHint.Visible = false;
+            ctrlDbConnection.Visible = ctrlQuery.Visible = ctrlCommand.Visible = lblHint.Visible = false;
         }
 
         /// <summary>
@@ -258,16 +259,12 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
                 tvDevice.Nodes.Clear();
 
                 connectionNode = TreeViewExtensions.CreateNode(DriverPhrases.ConnectionNode, 
-                    ChooseNodeImage(connectionNode));
-                queriesNode = TreeViewExtensions.CreateNode(DriverPhrases.QueriesNode, 
-                    ChooseNodeImage(queriesNode));
-                commandsNode = TreeViewExtensions.CreateNode(DriverPhrases.CommandsNode,
-                    ChooseNodeImage(commandsNode));
+                    ChooseNodeImage(lineConfig.ConnectionOptions), lineConfig);
+                queriesNode = TreeViewExtensions.CreateNode(DriverPhrases.QueriesNode, ImageKey.Queries);
+                commandsNode = TreeViewExtensions.CreateNode(DriverPhrases.CommandsNode, ImageKey.Commands);
 
                 tvDevice.Nodes.Add(connectionNode);
-                connectionNode.Expand();
                 tvDevice.Nodes.Add(queriesNode);
-                queriesNode.Expand();
                 
                 foreach (QueryConfig queryConfig in deviceConfig.Queries)
                 {
@@ -286,15 +283,15 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
 
                 if (tvDevice.Nodes.Count > 0)
                 {
-                    tvDevice.Nodes[0].ExpandAll();
-                    tvDevice.SelectedNode = tvDevice.Nodes[0].FirstNode;
+                    tvDevice.SelectedNode = tvDevice.Nodes[0];
                 }
                 else
                 {
                     SetButtonsEnabled();
                     HideControls();
-                    lblHint.Visible = true;
                 }
+
+                tvDevice.ExpandAll();
             }
             finally
             {
@@ -346,7 +343,12 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
             // translate form
             FormTranslator.Translate(this, GetType().FullName, 
                 new FormTranslatorOptions { ContextMenus = new ContextMenuStrip[] { cmsTree } });
+
+            FormTranslator.Translate(ctrlCommand, ctrlCommand.GetType().FullName,
+                new FormTranslatorOptions { ToolTip = ctrlCommand.ToolTip, SkipUserControls = false });
+            FormTranslator.Translate(ctrlDbConnection, ctrlDbConnection.GetType().FullName);
             FormTranslator.Translate(ctrlQuery, ctrlQuery.GetType().FullName);
+            Text = string.Format(Text, deviceNum);
 
             // load configuration
             lineConfigFileName = Path.Combine(appDirs.ConfigDir, DbLineConfig.GetFileName(lineNum));
@@ -398,10 +400,10 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
             object selectedObject = e.Node.Tag;
             HideControls();
 
-            if (selectedObject is DbConnectionOptions dbConnectionOptions)
+            if (selectedObject is DbLineConfig dbLineConfig)
             {
-                //ctrlDbConnection.ConnectionOptions = dbConnectionOptions;
-                //ctrlDbConnection.Visible = true;
+                ctrlDbConnection.ConnectionOptions = dbLineConfig.ConnectionOptions;
+                ctrlDbConnection.Visible = true;
             }
             else if (selectedObject is QueryConfig queryConfig)
             {
@@ -410,8 +412,8 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
             }
             else if (selectedObject is CommandConfig commandConfig)
             {
-                //ctrlCommand.CommandConfig = commandConfig;
-                //ctrlCommand.Visible = true;
+                ctrlCommand.CommandConfig = commandConfig;
+                ctrlCommand.Visible = true;
             }
             else 
             {
@@ -458,7 +460,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
                     ChooseNodeImage(commandConfig), commandConfig), deviceConfig.Commands, commandConfig);
 
                 DeviceConfigModified = true;
-                //ctrlCommand.SetFocus();
+                ctrlCommand.SetFocus();
             }
         }
 
@@ -517,8 +519,6 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
             {
                 SetButtonsEnabled();
                 HideControls();
-                lblHint.Visible = true;
-                lblHint.Text = DriverPhrases.AddRoots;
             }
         }
 
@@ -562,6 +562,25 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
             }
 
             DeviceConfigModified = true;
+        }
+
+        private void ctrlCommand_ObjectChanged(object sender, ObjectChangedEventArgs e)
+        {
+            if (tvDevice.SelectedNode != null &&
+              (e.ChangeArgument is not TreeUpdateTypes treeUpdateTypes ||
+              treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode)) &&
+              e.ChangedObject is CommandConfig commandConfig)
+            {
+                tvDevice.SelectedNode.Text = commandConfig.Name;
+                tvDevice.SelectedNode.SetImageKey(ChooseNodeImage(tvDevice.SelectedNode.Tag));
+            }
+
+            DeviceConfigModified = true;
+        }
+
+        private void ctrlDbConnection_ConnectionOptionsChanged(object sender, EventArgs e)
+        {
+            LineConfigModified = true;
         }
     }
 }

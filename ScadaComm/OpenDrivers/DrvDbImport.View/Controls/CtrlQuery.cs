@@ -1,10 +1,9 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System.ComponentModel;
 using Scada.Comm.Drivers.DrvDbImport.Config;
 using Scada.Forms;
-using static System.Windows.Forms.Design.AxImporter;
+using System.ComponentModel;
 
 namespace Scada.Comm.Drivers.DrvDbImport.View.Controls
 {
@@ -12,7 +11,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Controls
     /// Represents a control for editing query options.
     /// <para>Представляет элемент управления для редактирования параметров запросов.</para>
     /// </summary>
-    public partial class CtrQuery : UserControl
+    public partial class CtrlQuery : UserControl
     {
         private QueryConfig queryConfig;
 
@@ -20,7 +19,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Controls
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CtrQuery()
+        public CtrlQuery()
         {
             InitializeComponent();
         }
@@ -37,15 +36,15 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Controls
             set
             {
                 queryConfig = null;
-                ShowCommandProps(value);
+                ShowQueryProps(value);
                 queryConfig = value;
             }
         }
 
         /// <summary>
-        /// Shows the command properties.
+        /// Shows the query properties.
         /// </summary>
-        private void ShowCommandProps(QueryConfig queryConfig)
+        private void ShowQueryProps(QueryConfig queryConfig)
         {
             if (queryConfig == null)
             {
