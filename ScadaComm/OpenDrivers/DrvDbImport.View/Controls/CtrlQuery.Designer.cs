@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.gbOptions = new System.Windows.Forms.GroupBox();
+            this.gbQuery = new System.Windows.Forms.GroupBox();
             this.txtSql = new System.Windows.Forms.TextBox();
             this.chkSingleRow = new System.Windows.Forms.CheckBox();
             this.txtTags = new System.Windows.Forms.TextBox();
@@ -36,27 +36,27 @@
             this.txtName = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
             this.chkActive = new System.Windows.Forms.CheckBox();
-            this.gbOptions.SuspendLayout();
+            this.gbQuery.SuspendLayout();
             this.SuspendLayout();
             // 
-            // gbOptions
+            // gbQuery
             // 
-            this.gbOptions.Controls.Add(this.txtSql);
-            this.gbOptions.Controls.Add(this.chkSingleRow);
-            this.gbOptions.Controls.Add(this.txtTags);
-            this.gbOptions.Controls.Add(this.lblTag);
-            this.gbOptions.Controls.Add(this.txtName);
-            this.gbOptions.Controls.Add(this.lblName);
-            this.gbOptions.Controls.Add(this.chkActive);
-            this.gbOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbOptions.Location = new System.Drawing.Point(0, 0);
-            this.gbOptions.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
-            this.gbOptions.Name = "gbOptions";
-            this.gbOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbOptions.Size = new System.Drawing.Size(404, 462);
-            this.gbOptions.TabIndex = 0;
-            this.gbOptions.TabStop = false;
-            this.gbOptions.Text = "Query";
+            this.gbQuery.Controls.Add(this.txtSql);
+            this.gbQuery.Controls.Add(this.chkSingleRow);
+            this.gbQuery.Controls.Add(this.txtTags);
+            this.gbQuery.Controls.Add(this.lblTag);
+            this.gbQuery.Controls.Add(this.txtName);
+            this.gbQuery.Controls.Add(this.lblName);
+            this.gbQuery.Controls.Add(this.chkActive);
+            this.gbQuery.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbQuery.Location = new System.Drawing.Point(0, 0);
+            this.gbQuery.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+            this.gbQuery.Name = "gbQuery";
+            this.gbQuery.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
+            this.gbQuery.Size = new System.Drawing.Size(404, 462);
+            this.gbQuery.TabIndex = 0;
+            this.gbQuery.TabStop = false;
+            this.gbQuery.Text = "Query";
             // 
             // txtSql
             // 
@@ -69,7 +69,7 @@
             this.txtSql.Name = "txtSql";
             this.txtSql.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtSql.Size = new System.Drawing.Size(378, 197);
-            this.txtSql.TabIndex = 9;
+            this.txtSql.TabIndex = 6;
             this.txtSql.WordWrap = false;
             this.txtSql.TextChanged += new System.EventHandler(this.txtSql_TextChanged);
             // 
@@ -79,7 +79,7 @@
             this.chkSingleRow.Location = new System.Drawing.Point(13, 227);
             this.chkSingleRow.Name = "chkSingleRow";
             this.chkSingleRow.Size = new System.Drawing.Size(81, 19);
-            this.chkSingleRow.TabIndex = 8;
+            this.chkSingleRow.TabIndex = 5;
             this.chkSingleRow.Text = "Single row";
             this.chkSingleRow.UseVisualStyleBackColor = true;
             this.chkSingleRow.CheckedChanged += new System.EventHandler(this.chkSingleRow_CheckedChanged);
@@ -93,7 +93,7 @@
             this.txtTags.Multiline = true;
             this.txtTags.Name = "txtTags";
             this.txtTags.Size = new System.Drawing.Size(378, 94);
-            this.txtTags.TabIndex = 7;
+            this.txtTags.TabIndex = 4;
             this.txtTags.TextChanged += new System.EventHandler(this.txtTags_TextChanged);
             // 
             // lblTag
@@ -102,7 +102,7 @@
             this.lblTag.Location = new System.Drawing.Point(10, 102);
             this.lblTag.Name = "lblTag";
             this.lblTag.Size = new System.Drawing.Size(30, 15);
-            this.lblTag.TabIndex = 6;
+            this.lblTag.TabIndex = 3;
             this.lblTag.Text = "Tags";
             // 
             // txtName
@@ -113,7 +113,7 @@
             this.txtName.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(378, 23);
-            this.txtName.TabIndex = 5;
+            this.txtName.TabIndex = 2;
             this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
             // lblName
@@ -122,7 +122,7 @@
             this.lblName.Location = new System.Drawing.Point(10, 51);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(39, 15);
-            this.lblName.TabIndex = 4;
+            this.lblName.TabIndex = 1;
             this.lblName.Text = "Name";
             // 
             // chkActive
@@ -137,23 +137,23 @@
             this.chkActive.UseVisualStyleBackColor = true;
             this.chkActive.CheckedChanged += new System.EventHandler(this.chkActive_CheckedChanged);
             // 
-            // CtrQuery
+            // CtrlQuery
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.gbOptions);
+            this.Controls.Add(this.gbQuery);
             this.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
-            this.Name = "CtrQuery";
+            this.Name = "CtrlQuery";
             this.Size = new System.Drawing.Size(404, 462);
-            this.gbOptions.ResumeLayout(false);
-            this.gbOptions.PerformLayout();
+            this.gbQuery.ResumeLayout(false);
+            this.gbQuery.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private GroupBox gbOptions;
+        private GroupBox gbQuery;
         private CheckBox chkActive;
         private TextBox txtName;
         private Label lblName;

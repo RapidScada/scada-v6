@@ -61,14 +61,14 @@
             // 
             // pnlBottom
             // 
-            this.pnlBottom.Controls.Add(this.btnCancel);
             this.pnlBottom.Controls.Add(this.btnClose);
+            this.pnlBottom.Controls.Add(this.btnCancel);
             this.pnlBottom.Controls.Add(this.btnSave);
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlBottom.Location = new System.Drawing.Point(0, 496);
             this.pnlBottom.Name = "pnlBottom";
             this.pnlBottom.Size = new System.Drawing.Size(734, 45);
-            this.pnlBottom.TabIndex = 3;
+            this.pnlBottom.TabIndex = 2;
             // 
             // btnCancel
             // 
@@ -114,7 +114,7 @@
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(734, 25);
-            this.toolStrip.TabIndex = 4;
+            this.toolStrip.TabIndex = 0;
             this.toolStrip.Text = "Add export target";
             // 
             // btnAddQuery
@@ -124,7 +124,7 @@
             this.btnAddQuery.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddQuery.Name = "btnAddQuery";
             this.btnAddQuery.Size = new System.Drawing.Size(23, 22);
-            this.btnAddQuery.Text = "toolStripButton1";
+            this.btnAddQuery.Text = "Add Query";
             this.btnAddQuery.Click += new System.EventHandler(this.btnAddQuery_Click);
             // 
             // btnAddCommand
@@ -134,7 +134,7 @@
             this.btnAddCommand.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddCommand.Name = "btnAddCommand";
             this.btnAddCommand.Size = new System.Drawing.Size(23, 22);
-            this.btnAddCommand.Text = "toolStripButton1";
+            this.btnAddCommand.Text = "Add Command";
             this.btnAddCommand.Click += new System.EventHandler(this.btnAddCommand_Click);
             // 
             // toolStripSeparator1
@@ -183,7 +183,7 @@
             this.pnlMain.Location = new System.Drawing.Point(0, 25);
             this.pnlMain.Name = "pnlMain";
             this.pnlMain.Size = new System.Drawing.Size(734, 471);
-            this.pnlMain.TabIndex = 5;
+            this.pnlMain.TabIndex = 1;
             // 
             // pnlInfo
             // 
@@ -211,7 +211,7 @@
             this.ctrlDbConnection.Name = "ctrlDbConnection";
             this.ctrlDbConnection.NameEnabled = true;
             this.ctrlDbConnection.Size = new System.Drawing.Size(404, 462);
-            this.ctrlDbConnection.TabIndex = 8;
+            this.ctrlDbConnection.TabIndex = 0;
             this.ctrlDbConnection.ConnectionOptionsChanged += new System.EventHandler(this.ctrlDbConnection_ConnectionOptionsChanged);
             // 
             // ctrlCommand

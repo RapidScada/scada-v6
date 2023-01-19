@@ -44,8 +44,8 @@
             // 
             // gbCmd
             // 
-            this.gbCmd.Controls.Add(this.pbParametersHint);
             this.gbCmd.Controls.Add(this.txtSql);
+            this.gbCmd.Controls.Add(this.pbParametersHint);
             this.gbCmd.Controls.Add(this.lblSql);
             this.gbCmd.Controls.Add(this.txtCmdCode);
             this.gbCmd.Controls.Add(this.lblCmdCode);
@@ -83,7 +83,7 @@
             this.txtSql.Name = "txtSql";
             this.txtSql.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtSql.Size = new System.Drawing.Size(378, 310);
-            this.txtSql.TabIndex = 11;
+            this.txtSql.TabIndex = 5;
             this.txtSql.WordWrap = false;
             this.txtSql.TextChanged += new System.EventHandler(this.txtSql_TextChanged);
             // 
@@ -93,7 +93,7 @@
             this.lblSql.Location = new System.Drawing.Point(10, 121);
             this.lblSql.Name = "lblSql";
             this.lblSql.Size = new System.Drawing.Size(23, 15);
-            this.lblSql.TabIndex = 10;
+            this.lblSql.TabIndex = 4;
             this.lblSql.Text = "Sql";
             // 
             // txtCmdCode
@@ -102,7 +102,7 @@
             this.txtCmdCode.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.txtCmdCode.Name = "txtCmdCode";
             this.txtCmdCode.Size = new System.Drawing.Size(134, 23);
-            this.txtCmdCode.TabIndex = 9;
+            this.txtCmdCode.TabIndex = 3;
             this.txtCmdCode.TextChanged += new System.EventHandler(this.txtCmdCode_TextChanged);
             // 
             // lblCmdCode
@@ -111,7 +111,7 @@
             this.lblCmdCode.Location = new System.Drawing.Point(10, 70);
             this.lblCmdCode.Name = "lblCmdCode";
             this.lblCmdCode.Size = new System.Drawing.Size(93, 15);
-            this.lblCmdCode.TabIndex = 8;
+            this.lblCmdCode.TabIndex = 2;
             this.lblCmdCode.Text = "Command code";
             // 
             // txtName
@@ -122,7 +122,7 @@
             this.txtName.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(378, 23);
-            this.txtName.TabIndex = 7;
+            this.txtName.TabIndex = 1;
             this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
             // lblName
@@ -131,7 +131,7 @@
             this.lblName.Location = new System.Drawing.Point(10, 19);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(39, 15);
-            this.lblName.TabIndex = 6;
+            this.lblName.TabIndex = 0;
             this.lblName.Text = "Name";
             // 
             // toolTip
