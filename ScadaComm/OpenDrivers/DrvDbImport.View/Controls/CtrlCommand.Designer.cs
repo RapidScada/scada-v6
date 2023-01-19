@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.gbCmd = new System.Windows.Forms.GroupBox();
-            this.pbParametersHint = new System.Windows.Forms.PictureBox();
             this.txtSql = new System.Windows.Forms.TextBox();
+            this.pbParametersHint = new System.Windows.Forms.PictureBox();
             this.lblSql = new System.Windows.Forms.Label();
             this.txtCmdCode = new System.Windows.Forms.TextBox();
             this.lblCmdCode = new System.Windows.Forms.Label();
@@ -61,17 +61,6 @@
             this.gbCmd.TabStop = false;
             this.gbCmd.Text = "Command Parameters";
             // 
-            // pbParametersHint
-            // 
-            this.pbParametersHint.Image = global::Scada.Comm.Drivers.DrvDbImport.View.Properties.Resource.info;
-            this.pbParametersHint.Location = new System.Drawing.Point(375, 117);
-            this.pbParametersHint.Name = "pbParametersHint";
-            this.pbParametersHint.Size = new System.Drawing.Size(16, 16);
-            this.pbParametersHint.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pbParametersHint.TabIndex = 12;
-            this.pbParametersHint.TabStop = false;
-            this.toolTip.SetToolTip(this.pbParametersHint, "Avaliable parameters:\r\n@cmdVal, @cmdData");
-            // 
             // txtSql
             // 
             this.txtSql.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -86,6 +75,18 @@
             this.txtSql.TabIndex = 5;
             this.txtSql.WordWrap = false;
             this.txtSql.TextChanged += new System.EventHandler(this.txtSql_TextChanged);
+            // 
+            // pbParametersHint
+            // 
+            this.pbParametersHint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbParametersHint.Image = global::Scada.Comm.Drivers.DrvDbImport.View.Properties.Resource.info;
+            this.pbParametersHint.Location = new System.Drawing.Point(375, 117);
+            this.pbParametersHint.Name = "pbParametersHint";
+            this.pbParametersHint.Size = new System.Drawing.Size(16, 16);
+            this.pbParametersHint.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbParametersHint.TabIndex = 12;
+            this.pbParametersHint.TabStop = false;
+            this.toolTip.SetToolTip(this.pbParametersHint, "Avaliable parameters:\r\n@cmdVal, @cmdData");
             // 
             // lblSql
             // 

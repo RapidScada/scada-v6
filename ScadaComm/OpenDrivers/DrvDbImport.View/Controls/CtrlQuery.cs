@@ -120,7 +120,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Controls
             {
                 queryConfig.TagCodes.Clear();
                 
-                for (int i = 0; i < txtTags.Lines.Count(); i++)
+                for (int i = 0; i < txtTags.Lines.Length; i++)
                 {
                     queryConfig.TagCodes.Add(txtTags.Lines[i]);
                 }
