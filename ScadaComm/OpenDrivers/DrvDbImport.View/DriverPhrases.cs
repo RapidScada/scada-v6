@@ -23,11 +23,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View
         public static string CommandNameNotUnique { get; private set; }
         public static string SelectChildNode { get; private set; }
 
-        // Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlQuery
-        public static string SingleRow { get; private set; }
-        public static string NoSingleRow { get; private set; }
-
-
+        
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvDbImport.View.Forms.FrmDeviceConfig");
@@ -41,10 +37,6 @@ namespace Scada.Comm.Drivers.DrvDbImport.View
             QueryNameNotUnique = dict[nameof(QueryNameNotUnique)];
             CommandNameNotUnique = dict[nameof(CommandNameNotUnique)];
             SelectChildNode = dict[nameof(SelectChildNode)];
-
-            dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlQuery");
-            SingleRow = dict[nameof(SingleRow)];
-            NoSingleRow = dict[nameof(NoSingleRow)];
         }
     }
 }

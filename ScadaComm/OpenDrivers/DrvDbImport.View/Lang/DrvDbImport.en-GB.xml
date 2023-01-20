@@ -5,16 +5,16 @@
     <Phrase key="lblName">Name</Phrase>
     <Phrase key="lblCmdCode">Command code</Phrase>
     <Phrase key="lblSql">SQL</Phrase>
-    <Phrase key="lblInfo">Avaliable parameters: @cmdVal, @cmdData</Phrase>
+    <Phrase key="pbHintInfo.ToolTip">Avaliable parameters: @cmdVal, @cmdData</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlQuery">
     <Phrase key="gbQuery">Query Parameters</Phrase>
     <Phrase key="chkActive">Active</Phrase>    
     <Phrase key="lblName">Name</Phrase>
     <Phrase key="lblTag">Tags</Phrase>
+    <Phrase key="lblSQL">SQL</Phrase>
     <Phrase key="chkSingleRow">Single row</Phrase>
-    <Phrase key="SingleRow">Single row</Phrase>
-    <Phrase key="NoSingleRow">No single row</Phrase>
+    <Phrase key="pbHintInfo.ToolTip">Single row&#13;&#10;No single row</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Forms.FrmDeviceConfig">
     <Phrase key="this">Device {0} Properties - DB Import</Phrase>

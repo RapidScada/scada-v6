@@ -28,27 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.gbQuery = new System.Windows.Forms.GroupBox();
-            this.pnlInfo = new System.Windows.Forms.Panel();
-            this.lblInfo = new System.Windows.Forms.Label();
-            this.pbInfo = new System.Windows.Forms.PictureBox();
-            this.txtSql = new System.Windows.Forms.TextBox();
+            this.pbHintInfo = new System.Windows.Forms.PictureBox();
             this.chkSingleRow = new System.Windows.Forms.CheckBox();
+            this.txtSql = new System.Windows.Forms.TextBox();
+            this.lblSql = new System.Windows.Forms.Label();
             this.txtTags = new System.Windows.Forms.TextBox();
             this.lblTag = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
             this.chkActive = new System.Windows.Forms.CheckBox();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.gbQuery.SuspendLayout();
-            this.pnlInfo.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbInfo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbHintInfo)).BeginInit();
             this.SuspendLayout();
             // 
             // gbQuery
             // 
-            this.gbQuery.Controls.Add(this.pnlInfo);
             this.gbQuery.Controls.Add(this.txtSql);
+            this.gbQuery.Controls.Add(this.pbHintInfo);
             this.gbQuery.Controls.Add(this.chkSingleRow);
+            this.gbQuery.Controls.Add(this.lblSql);
             this.gbQuery.Controls.Add(this.txtTags);
             this.gbQuery.Controls.Add(this.lblTag);
             this.gbQuery.Controls.Add(this.txtName);
@@ -64,36 +65,30 @@
             this.gbQuery.TabStop = false;
             this.gbQuery.Text = "Query Parameters";
             // 
-            // pnlInfo
+            // pbHintInfo
             // 
-            this.pnlInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlInfo.Controls.Add(this.lblInfo);
-            this.pnlInfo.Controls.Add(this.pbInfo);
-            this.pnlInfo.Location = new System.Drawing.Point(13, 410);
-            this.pnlInfo.Name = "pnlInfo";
-            this.pnlInfo.Size = new System.Drawing.Size(378, 39);
-            this.pnlInfo.TabIndex = 7;
+            this.pbHintInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbHintInfo.Image = global::Scada.Comm.Drivers.DrvDbImport.View.Properties.Resource.info;
+            this.pbHintInfo.Location = new System.Drawing.Point(375, 206);
+            this.pbHintInfo.Name = "pbHintInfo";
+            this.pbHintInfo.Size = new System.Drawing.Size(16, 16);
+            this.pbHintInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbHintInfo.TabIndex = 12;
+            this.pbHintInfo.TabStop = false;
+            this.toolTip.SetToolTip(this.pbHintInfo, "Single row\r\nNo single row");
             // 
-            // lblInfo
+            // chkSingleRow
             // 
-            this.lblInfo.AutoSize = true;
-            this.lblInfo.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.lblInfo.Location = new System.Drawing.Point(25, 4);
-            this.lblInfo.Name = "lblInfo";
-            this.lblInfo.Size = new System.Drawing.Size(62, 15);
-            this.lblInfo.TabIndex = 0;
-            this.lblInfo.Text = "Single row";
-            // 
-            // pbInfo
-            // 
-            this.pbInfo.Image = global::Scada.Comm.Drivers.DrvDbImport.View.Properties.Resource.info;
-            this.pbInfo.Location = new System.Drawing.Point(3, 3);
-            this.pbInfo.Name = "pbInfo";
-            this.pbInfo.Size = new System.Drawing.Size(16, 16);
-            this.pbInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pbInfo.TabIndex = 12;
-            this.pbInfo.TabStop = false;
+            this.chkSingleRow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkSingleRow.AutoSize = true;
+            this.chkSingleRow.Location = new System.Drawing.Point(288, 206);
+            this.chkSingleRow.Name = "chkSingleRow";
+            this.chkSingleRow.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.chkSingleRow.Size = new System.Drawing.Size(81, 19);
+            this.chkSingleRow.TabIndex = 6;
+            this.chkSingleRow.Text = "Single row";
+            this.chkSingleRow.UseVisualStyleBackColor = true;
+            this.chkSingleRow.CheckedChanged += new System.EventHandler(this.chkSingleRow_CheckedChanged);
             // 
             // txtSql
             // 
@@ -101,25 +96,24 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSql.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtSql.Location = new System.Drawing.Point(13, 231);
+            this.txtSql.Location = new System.Drawing.Point(13, 228);
             this.txtSql.Multiline = true;
             this.txtSql.Name = "txtSql";
             this.txtSql.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtSql.Size = new System.Drawing.Size(378, 173);
-            this.txtSql.TabIndex = 6;
+            this.txtSql.Size = new System.Drawing.Size(378, 221);
+            this.txtSql.TabIndex = 7;
             this.txtSql.WordWrap = false;
             this.txtSql.TextChanged += new System.EventHandler(this.txtSql_TextChanged);
             // 
-            // chkSingleRow
+            // lblSql
             // 
-            this.chkSingleRow.AutoSize = true;
-            this.chkSingleRow.Location = new System.Drawing.Point(13, 206);
-            this.chkSingleRow.Name = "chkSingleRow";
-            this.chkSingleRow.Size = new System.Drawing.Size(81, 19);
-            this.chkSingleRow.TabIndex = 5;
-            this.chkSingleRow.Text = "Single row";
-            this.chkSingleRow.UseVisualStyleBackColor = true;
-            this.chkSingleRow.CheckedChanged += new System.EventHandler(this.chkSingleRow_CheckedChanged);
+            this.lblSql.AutoSize = true;
+            this.lblSql.Location = new System.Drawing.Point(10, 206);
+            this.lblSql.Margin = new System.Windows.Forms.Padding(3);
+            this.lblSql.Name = "lblSql";
+            this.lblSql.Size = new System.Drawing.Size(28, 15);
+            this.lblSql.TabIndex = 5;
+            this.lblSql.Text = "SQL";
             // 
             // txtTags
             // 
@@ -182,9 +176,7 @@
             this.Size = new System.Drawing.Size(404, 462);
             this.gbQuery.ResumeLayout(false);
             this.gbQuery.PerformLayout();
-            this.pnlInfo.ResumeLayout(false);
-            this.pnlInfo.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbInfo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbHintInfo)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -199,8 +191,8 @@
         private TextBox txtTags;
         private CheckBox chkSingleRow;
         private TextBox txtSql;
-        private Panel pnlInfo;
-        private Label lblInfo;
-        private PictureBox pbInfo;
+        private PictureBox pbHintInfo;
+        private Label lblSql;
+        private ToolTip toolTip;
     }
 }

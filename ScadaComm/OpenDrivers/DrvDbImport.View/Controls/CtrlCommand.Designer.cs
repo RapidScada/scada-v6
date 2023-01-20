@@ -28,25 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.gbCmd = new System.Windows.Forms.GroupBox();
-            this.pnlInfo = new System.Windows.Forms.Panel();
-            this.lblInfo = new System.Windows.Forms.Label();
-            this.pbInfo = new System.Windows.Forms.PictureBox();
+            this.pbHintInfo = new System.Windows.Forms.PictureBox();
             this.txtSql = new System.Windows.Forms.TextBox();
             this.lblSql = new System.Windows.Forms.Label();
             this.txtCmdCode = new System.Windows.Forms.TextBox();
             this.lblCmdCode = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.gbCmd.SuspendLayout();
-            this.pnlInfo.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbInfo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbHintInfo)).BeginInit();
             this.SuspendLayout();
             // 
             // gbCmd
             // 
-            this.gbCmd.Controls.Add(this.pnlInfo);
             this.gbCmd.Controls.Add(this.txtSql);
+            this.gbCmd.Controls.Add(this.pbHintInfo);
             this.gbCmd.Controls.Add(this.lblSql);
             this.gbCmd.Controls.Add(this.txtCmdCode);
             this.gbCmd.Controls.Add(this.lblCmdCode);
@@ -62,36 +61,17 @@
             this.gbCmd.TabStop = false;
             this.gbCmd.Text = "Command Parameters";
             // 
-            // pnlInfo
+            // pbHintInfo
             // 
-            this.pnlInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlInfo.Controls.Add(this.lblInfo);
-            this.pnlInfo.Controls.Add(this.pbInfo);
-            this.pnlInfo.Location = new System.Drawing.Point(13, 410);
-            this.pnlInfo.Name = "pnlInfo";
-            this.pnlInfo.Size = new System.Drawing.Size(378, 39);
-            this.pnlInfo.TabIndex = 7;
-            // 
-            // lblInfo
-            // 
-            this.lblInfo.AutoSize = true;
-            this.lblInfo.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.lblInfo.Location = new System.Drawing.Point(25, 3);
-            this.lblInfo.Name = "lblInfo";
-            this.lblInfo.Size = new System.Drawing.Size(238, 15);
-            this.lblInfo.TabIndex = 0;
-            this.lblInfo.Text = "Avaliable parameters: @cmdVal, @cmdData\r\n";
-            // 
-            // pbInfo
-            // 
-            this.pbInfo.Image = global::Scada.Comm.Drivers.DrvDbImport.View.Properties.Resource.info;
-            this.pbInfo.Location = new System.Drawing.Point(3, 3);
-            this.pbInfo.Name = "pbInfo";
-            this.pbInfo.Size = new System.Drawing.Size(16, 16);
-            this.pbInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pbInfo.TabIndex = 12;
-            this.pbInfo.TabStop = false;
+            this.pbHintInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbHintInfo.Image = global::Scada.Comm.Drivers.DrvDbImport.View.Properties.Resource.info;
+            this.pbHintInfo.Location = new System.Drawing.Point(375, 103);
+            this.pbHintInfo.Name = "pbHintInfo";
+            this.pbHintInfo.Size = new System.Drawing.Size(16, 16);
+            this.pbHintInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbHintInfo.TabIndex = 12;
+            this.pbHintInfo.TabStop = false;
+            this.toolTip.SetToolTip(this.pbHintInfo, "Avaliable parameters: @cmdVal, @cmdData");
             // 
             // txtSql
             // 
@@ -103,7 +83,7 @@
             this.txtSql.Multiline = true;
             this.txtSql.Name = "txtSql";
             this.txtSql.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtSql.Size = new System.Drawing.Size(378, 279);
+            this.txtSql.Size = new System.Drawing.Size(378, 324);
             this.txtSql.TabIndex = 6;
             this.txtSql.WordWrap = false;
             this.txtSql.TextChanged += new System.EventHandler(this.txtSql_TextChanged);
@@ -163,9 +143,7 @@
             this.Size = new System.Drawing.Size(404, 462);
             this.gbCmd.ResumeLayout(false);
             this.gbCmd.PerformLayout();
-            this.pnlInfo.ResumeLayout(false);
-            this.pnlInfo.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbInfo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbHintInfo)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -179,8 +157,7 @@
         private Label lblCmdCode;
         private Label lblSql;
         private TextBox txtSql;
-        private PictureBox pbInfo;
-        private Panel pnlInfo;
-        private Label lblInfo;
+        private PictureBox pbHintInfo;
+        private ToolTip toolTip;
     }
 }

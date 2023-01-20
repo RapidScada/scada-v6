@@ -5,16 +5,16 @@
     <Phrase key="lblName">Наименование</Phrase>
     <Phrase key="lblCmdCode">Код команды</Phrase>
     <Phrase key="lblSql">SQL</Phrase>
-    <Phrase key="lblInfo">Доступные параметры: @cmdVal, @cmdData</Phrase>
+    <Phrase key="pbHintInfo.ToolTip">Доступные параметры: @cmdVal, @cmdData</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlQuery">
     <Phrase key="gbQuery">Параметры запроса</Phrase>
     <Phrase key="chkActive">Активен</Phrase>
     <Phrase key="lblName">Наименование</Phrase>
     <Phrase key="lblTag">Теги</Phrase>
+    <Phrase key="lblSQL">SQL</Phrase>
     <Phrase key="chkSingleRow">Одной строкой</Phrase>
-    <Phrase key="SingleRow">Одной строкой</Phrase>
-    <Phrase key="NoSingleRow">Не одной строкой</Phrase>
+    <Phrase key="pbHintInfo.ToolTip">Одной строкой&#13;&#10;Не одной строкой</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Forms.FrmDeviceConfig">
     <Phrase key="this">Свойства устройства {0} - Импорт из БД</Phrase>

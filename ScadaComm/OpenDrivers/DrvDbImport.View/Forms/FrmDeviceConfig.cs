@@ -344,9 +344,11 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
             FormTranslator.Translate(this, GetType().FullName, 
                 new FormTranslatorOptions { ContextMenus = new ContextMenuStrip[] { cmsTree } });
 
-            FormTranslator.Translate(ctrlCommand, ctrlCommand.GetType().FullName);
+            FormTranslator.Translate(ctrlCommand, ctrlCommand.GetType().FullName,
+                new FormTranslatorOptions { ToolTip = ctrlQuery.ToolTip, SkipUserControls = false });
             FormTranslator.Translate(ctrlDbConnection, ctrlDbConnection.GetType().FullName);
-            FormTranslator.Translate(ctrlQuery, ctrlQuery.GetType().FullName);
+            FormTranslator.Translate(ctrlQuery, ctrlQuery.GetType().FullName,
+                new FormTranslatorOptions { ToolTip = ctrlQuery.ToolTip, SkipUserControls = false });
             Text = string.Format(Text, deviceNum);
 
             // load configuration
