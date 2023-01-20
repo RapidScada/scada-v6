@@ -14,7 +14,8 @@
     <Phrase key="lblTag">Tags</Phrase>
     <Phrase key="lblSQL">SQL</Phrase>
     <Phrase key="chkSingleRow">Single row</Phrase>
-    <Phrase key="pbHintInfo.ToolTip">Single row&#13;&#10;No single row</Phrase>
+    <Phrase key="pbHintSqlInfo.ToolTip">Single row&#13;&#10;No single row</Phrase>
+    <Phrase key="pbHintTagInfo.ToolTip">Tags</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Forms.FrmDeviceConfig">
     <Phrase key="this">Device {0} Properties - DB Import</Phrase>
