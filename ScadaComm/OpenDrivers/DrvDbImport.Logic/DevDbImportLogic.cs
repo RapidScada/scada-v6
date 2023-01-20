@@ -342,8 +342,8 @@ namespace Scada.Comm.Drivers.DrvDbImport.Logic
             else if (queryItems.Count == 0)
             {
                 Log.WriteLine(Locale.IsRussian ?
-                    "Отсутствуют запросы" :
-                    "No queries");
+                    "Отсутствуют активные запросы" :
+                    "No active queries");
                 SleepPollingDelay();
             }
             else if (Connect())
