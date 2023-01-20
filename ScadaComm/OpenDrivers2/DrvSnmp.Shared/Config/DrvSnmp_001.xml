@@ -7,13 +7,13 @@
   </DeviceOptions>
   <VarGroups>
     <VarGroup active="true" name="Group 1">
-      <Variable name="sysDescr" oid=".1.3.6.1.2.1.1.1.0" dataType="ASCII" dataLen="10" />
-      <Variable name="sysUpTime" oid=".1.3.6.1.2.1.1.3.0" />
-      <Variable name="sysName" oid=".1.3.6.1.2.1.1.5.0" dataType="ASCII" dataLen="10" />
+      <Variable name="sysDescr" tagCode="sysDescr" oid=".1.3.6.1.2.1.1.1.0" dataType="ASCII" dataLen="10" />
+      <Variable name="sysUpTime" tagCode="sysUpTime" oid=".1.3.6.1.2.1.1.3.0" />
+      <Variable name="sysName" tagCode="sysName" oid=".1.3.6.1.2.1.1.5.0" dataType="ASCII" dataLen="10" />
     </VarGroup>
     <VarGroup active="true" name="Group 2">
-      <Variable name="sysServices" oid=".1.3.6.1.2.1.1.7.0" />
-      <Variable name="snmpInPkts" oid=".1.3.6.1.2.1.11.1.0" />
+      <Variable name="sysServices" tagCode="sysServices" oid=".1.3.6.1.2.1.1.7.0" />
+      <Variable name="snmpInPkts" tagCode="snmpInPkts" oid=".1.3.6.1.2.1.11.1.0" />
     </VarGroup>
   </VarGroups>
 </SnmpDeviceConfig>

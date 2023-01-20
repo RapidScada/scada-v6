@@ -23,6 +23,12 @@ namespace Scada.Comm.Drivers.DrvSnmp.Config
         public string Name { get; set; } = "";
 
         /// <summary>
+        /// Gets or sets the tag code associated with the variable.
+        /// </summary>
+        [DisplayName, Category, Description]
+        public string TagCode { get; set; } = "";
+
+        /// <summary>
         /// Gets or sets the object identifier.
         /// </summary>
         [DisplayName, Category, Description]
@@ -60,6 +66,7 @@ namespace Scada.Comm.Drivers.DrvSnmp.Config
         {
             ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
             Name = xmlElem.GetAttrAsString("name");
+            TagCode = xmlElem.GetAttrAsString("tagCode");
             OID = xmlElem.GetAttrAsString("oid");
             DataType = xmlElem.GetAttrAsEnum("dataType", DataType);
             DataLen = xmlElem.GetAttrAsInt("dataLen");
@@ -72,6 +79,7 @@ namespace Scada.Comm.Drivers.DrvSnmp.Config
         {
             ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
             xmlElem.SetAttribute("name", Name);
+            xmlElem.SetAttribute("tagCode", TagCode);
             xmlElem.SetAttribute("oid", OID);
 
             if (DataType != TagDataType.Double)

@@ -58,7 +58,7 @@ namespace Scada.Comm.Drivers.DrvSnmp.Logic
 
                 foreach (VariableConfig variableConfig in varGroupConfig.Variables)
                 {
-                    DeviceTag deviceTag = tagGroup.AddTag(variableConfig.Name /*TagCode*/, variableConfig.Name); // TODO: add tag code?
+                    DeviceTag deviceTag = tagGroup.AddTag(variableConfig.TagCode, variableConfig.Name);
                     deviceTag.DataType = variableConfig.DataType;
                     deviceTag.DataLen = DeviceTag.CalcDataLength(variableConfig.DataLen, variableConfig.DataType);
                     deviceTag.Format = TagFormat.GetDefault(variableConfig.DataType);

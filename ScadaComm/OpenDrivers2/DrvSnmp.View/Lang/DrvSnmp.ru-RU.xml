@@ -23,6 +23,9 @@
     <Phrase key="Name.DisplayName">Наименование</Phrase>
     <Phrase key="Name.Category">Основные параметры</Phrase>
     <Phrase key="Name.Description">Наименование переменной.</Phrase>
+    <Phrase key="TagCode.DisplayName">Код тега</Phrase>
+    <Phrase key="TagCode.Category">Основные параметры</Phrase>
+    <Phrase key="TagCode.Description">Код тега, связанного с переменной.</Phrase>
     <Phrase key="OID.DisplayName">OID</Phrase>
     <Phrase key="OID.Category">Основные параметры</Phrase>
     <Phrase key="OID.Description">Идентификатор объекта. Например, .1.3.6.1.2.1.1.5.0</Phrase>
