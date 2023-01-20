@@ -67,6 +67,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Controls
                 }
 
                 chkSingleRow.Checked = queryConfig.SingleRow;
+                lblInfo.Text = queryConfig.SingleRow ? DriverPhrases.SingleRow : DriverPhrases.NoSingleRow;
                 txtSql.Clear();
                 txtSql.AppendText(queryConfig.Sql.Replace("\n", Environment.NewLine));
             }
@@ -135,6 +136,8 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Controls
             {
                 queryConfig.SingleRow = chkActive.Checked;
                 OnObjectChanged(TreeUpdateTypes.None);
+                
+                lblInfo.Text = chkSingleRow.Checked ? DriverPhrases.SingleRow : DriverPhrases.NoSingleRow;
             }
         }
 

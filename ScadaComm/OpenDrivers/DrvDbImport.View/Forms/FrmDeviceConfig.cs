@@ -109,6 +109,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
             {
                 deviceConfigModified = value;
                 btnSave.Enabled = Modified;
+                btnCancel.Enabled = Modified;
             }
         }
 
@@ -343,8 +344,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
             FormTranslator.Translate(this, GetType().FullName, 
                 new FormTranslatorOptions { ContextMenus = new ContextMenuStrip[] { cmsTree } });
 
-            FormTranslator.Translate(ctrlCommand, ctrlCommand.GetType().FullName,
-                new FormTranslatorOptions { ToolTip = ctrlCommand.ToolTip, SkipUserControls = false });
+            FormTranslator.Translate(ctrlCommand, ctrlCommand.GetType().FullName);
             FormTranslator.Translate(ctrlDbConnection, ctrlDbConnection.GetType().FullName);
             FormTranslator.Translate(ctrlQuery, ctrlQuery.GetType().FullName);
             Text = string.Format(Text, deviceNum);

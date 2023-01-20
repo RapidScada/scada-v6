@@ -4,20 +4,22 @@
     <Phrase key="gbCmd">Параметры команды</Phrase>
     <Phrase key="lblName">Наименование</Phrase>
     <Phrase key="lblCmdCode">Код команды</Phrase>
-    <Phrase key="lblSql">Sql</Phrase>
-    <Phrase key="pbParametersHint.ToolTip">Доступные параметры:&#13;&#10;@cmdVal, @cmdData</Phrase>
+    <Phrase key="lblSql">SQL</Phrase>
+    <Phrase key="lblInfo">Доступные параметры: @cmdVal, @cmdData</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlQuery">
-    <Phrase key="gbQuery">Query</Phrase>
+    <Phrase key="gbQuery">Параметры запроса</Phrase>
     <Phrase key="chkActive">Активен</Phrase>
     <Phrase key="lblName">Наименование</Phrase>
-    <Phrase key="lblTag">Tags</Phrase>
+    <Phrase key="lblTag">Теги</Phrase>
     <Phrase key="chkSingleRow">Одной строкой</Phrase>
+    <Phrase key="SingleRow">Одной строкой</Phrase>
+    <Phrase key="NoSingleRow">Не одной строкой</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Forms.FrmDeviceConfig">
-    <Phrase key="this">Свойства устройства {0}</Phrase>
-    <Phrase key="btnAddQuery.ToolTip">Add query</Phrase>
-    <Phrase key="btnAddCommand.ToolTip">Add command</Phrase>
+    <Phrase key="this">Свойства устройства {0} - Импорт из БД</Phrase>
+    <Phrase key="btnAddQuery.ToolTip">Добавить запрос</Phrase>
+    <Phrase key="btnAddCommand.ToolTip">Добавить команду</Phrase>
     <Phrase key="btnMoveUp.ToolTip">Переместить вверх</Phrase>
     <Phrase key="btnMoveDown.ToolTip">Переместить вниз</Phrase>
     <Phrase key="btnDelete.ToolTip">Удалить</Phrase>
@@ -27,13 +29,13 @@
     <Phrase key="btnClose">Закрыть</Phrase>
     <Phrase key="miCollapseAll">Свернуть все</Phrase>
     <Phrase key="ConnectionNode">Параметры соединения</Phrase>
-    <Phrase key="CommandName">Command {0}</Phrase>
+    <Phrase key="CommandName">Команда {0}</Phrase>
     <Phrase key="CommandsNode">Команды</Phrase>
-    <Phrase key="QueryName">Query {0}</Phrase>
-    <Phrase key="QueriesNode">Queries</Phrase>
+    <Phrase key="QueryName">Запрос {0}</Phrase>
+    <Phrase key="QueriesNode">Запросы</Phrase>
     <Phrase key="SelectChildNode">Выберите дочерний узел</Phrase>
-    <Phrase key="QueryNameNotUnique">Query names must be unique.</Phrase>
-    <Phrase key="QueryNameEmpty">The name of the query cannot be empty.</Phrase>
+    <Phrase key="QueryNameNotUnique">Имя запроса должны быть уникальным.</Phrase>
+    <Phrase key="QueryNameEmpty">Имя запроса не должно быть пустым.</Phrase>
     <Phrase key="CommandNameNotUnique">Имя команды должны быть уникальным.</Phrase>
     <Phrase key="CommandNameEmpty">Имя команды не должно быть пустым.</Phrase>
   </Dictionary>

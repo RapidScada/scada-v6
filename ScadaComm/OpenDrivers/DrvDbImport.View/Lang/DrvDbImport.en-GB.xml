@@ -4,18 +4,20 @@
     <Phrase key="gbCmd">Command Parameters</Phrase>
     <Phrase key="lblName">Name</Phrase>
     <Phrase key="lblCmdCode">Command code</Phrase>
-    <Phrase key="lblSql">Sql</Phrase>
-    <Phrase key="pbParametersHint.ToolTip">Avaliable parameters:&#13;&#10;@cmdVal, @cmdData</Phrase>
+    <Phrase key="lblSql">SQL</Phrase>
+    <Phrase key="lblInfo">Avaliable parameters: @cmdVal, @cmdData</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlQuery">
-    <Phrase key="gbQuery">Query</Phrase>
+    <Phrase key="gbQuery">Query Parameters</Phrase>
     <Phrase key="chkActive">Active</Phrase>    
     <Phrase key="lblName">Name</Phrase>
     <Phrase key="lblTag">Tags</Phrase>
     <Phrase key="chkSingleRow">Single row</Phrase>
+    <Phrase key="SingleRow">Single row</Phrase>
+    <Phrase key="NoSingleRow">No single row</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Forms.FrmDeviceConfig">
-    <Phrase key="this">Device {0} Properties</Phrase>
+    <Phrase key="this">Device {0} Properties - DB Import</Phrase>
     <Phrase key="btnAddQuery.ToolTip">Add query</Phrase>
     <Phrase key="btnAddCommand.ToolTip">Add command</Phrase>
     <Phrase key="btnMoveUp.ToolTip">Move Up</Phrase>

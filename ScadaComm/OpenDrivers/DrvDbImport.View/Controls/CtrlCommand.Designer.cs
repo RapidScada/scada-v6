@@ -28,24 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.gbCmd = new System.Windows.Forms.GroupBox();
+            this.pnlInfo = new System.Windows.Forms.Panel();
+            this.lblInfo = new System.Windows.Forms.Label();
+            this.pbInfo = new System.Windows.Forms.PictureBox();
             this.txtSql = new System.Windows.Forms.TextBox();
-            this.pbParametersHint = new System.Windows.Forms.PictureBox();
             this.lblSql = new System.Windows.Forms.Label();
             this.txtCmdCode = new System.Windows.Forms.TextBox();
             this.lblCmdCode = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.gbCmd.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbParametersHint)).BeginInit();
+            this.pnlInfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbInfo)).BeginInit();
             this.SuspendLayout();
             // 
             // gbCmd
             // 
+            this.gbCmd.Controls.Add(this.pnlInfo);
             this.gbCmd.Controls.Add(this.txtSql);
-            this.gbCmd.Controls.Add(this.pbParametersHint);
             this.gbCmd.Controls.Add(this.lblSql);
             this.gbCmd.Controls.Add(this.txtCmdCode);
             this.gbCmd.Controls.Add(this.lblCmdCode);
@@ -61,58 +62,76 @@
             this.gbCmd.TabStop = false;
             this.gbCmd.Text = "Command Parameters";
             // 
+            // pnlInfo
+            // 
+            this.pnlInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlInfo.Controls.Add(this.lblInfo);
+            this.pnlInfo.Controls.Add(this.pbInfo);
+            this.pnlInfo.Location = new System.Drawing.Point(13, 410);
+            this.pnlInfo.Name = "pnlInfo";
+            this.pnlInfo.Size = new System.Drawing.Size(378, 39);
+            this.pnlInfo.TabIndex = 7;
+            // 
+            // lblInfo
+            // 
+            this.lblInfo.AutoSize = true;
+            this.lblInfo.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.lblInfo.Location = new System.Drawing.Point(25, 3);
+            this.lblInfo.Name = "lblInfo";
+            this.lblInfo.Size = new System.Drawing.Size(238, 15);
+            this.lblInfo.TabIndex = 0;
+            this.lblInfo.Text = "Avaliable parameters: @cmdVal, @cmdData\r\n";
+            // 
+            // pbInfo
+            // 
+            this.pbInfo.Image = global::Scada.Comm.Drivers.DrvDbImport.View.Properties.Resource.info;
+            this.pbInfo.Location = new System.Drawing.Point(3, 3);
+            this.pbInfo.Name = "pbInfo";
+            this.pbInfo.Size = new System.Drawing.Size(16, 16);
+            this.pbInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbInfo.TabIndex = 12;
+            this.pbInfo.TabStop = false;
+            // 
             // txtSql
             // 
             this.txtSql.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSql.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtSql.Location = new System.Drawing.Point(13, 139);
+            this.txtSql.Location = new System.Drawing.Point(13, 125);
             this.txtSql.Multiline = true;
             this.txtSql.Name = "txtSql";
             this.txtSql.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtSql.Size = new System.Drawing.Size(378, 310);
-            this.txtSql.TabIndex = 5;
+            this.txtSql.Size = new System.Drawing.Size(378, 279);
+            this.txtSql.TabIndex = 6;
             this.txtSql.WordWrap = false;
             this.txtSql.TextChanged += new System.EventHandler(this.txtSql_TextChanged);
-            // 
-            // pbParametersHint
-            // 
-            this.pbParametersHint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbParametersHint.Image = global::Scada.Comm.Drivers.DrvDbImport.View.Properties.Resource.info;
-            this.pbParametersHint.Location = new System.Drawing.Point(375, 117);
-            this.pbParametersHint.Name = "pbParametersHint";
-            this.pbParametersHint.Size = new System.Drawing.Size(16, 16);
-            this.pbParametersHint.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pbParametersHint.TabIndex = 12;
-            this.pbParametersHint.TabStop = false;
-            this.toolTip.SetToolTip(this.pbParametersHint, "Avaliable parameters:\r\n@cmdVal, @cmdData");
             // 
             // lblSql
             // 
             this.lblSql.AutoSize = true;
-            this.lblSql.Location = new System.Drawing.Point(10, 121);
+            this.lblSql.Location = new System.Drawing.Point(10, 107);
             this.lblSql.Name = "lblSql";
-            this.lblSql.Size = new System.Drawing.Size(23, 15);
-            this.lblSql.TabIndex = 4;
-            this.lblSql.Text = "Sql";
+            this.lblSql.Size = new System.Drawing.Size(28, 15);
+            this.lblSql.TabIndex = 5;
+            this.lblSql.Text = "SQL";
             // 
             // txtCmdCode
             // 
-            this.txtCmdCode.Location = new System.Drawing.Point(13, 88);
-            this.txtCmdCode.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+            this.txtCmdCode.Location = new System.Drawing.Point(13, 81);
             this.txtCmdCode.Name = "txtCmdCode";
             this.txtCmdCode.Size = new System.Drawing.Size(134, 23);
-            this.txtCmdCode.TabIndex = 3;
+            this.txtCmdCode.TabIndex = 4;
             this.txtCmdCode.TextChanged += new System.EventHandler(this.txtCmdCode_TextChanged);
             // 
             // lblCmdCode
             // 
             this.lblCmdCode.AutoSize = true;
-            this.lblCmdCode.Location = new System.Drawing.Point(10, 70);
+            this.lblCmdCode.Location = new System.Drawing.Point(10, 63);
             this.lblCmdCode.Name = "lblCmdCode";
             this.lblCmdCode.Size = new System.Drawing.Size(93, 15);
-            this.lblCmdCode.TabIndex = 2;
+            this.lblCmdCode.TabIndex = 3;
             this.lblCmdCode.Text = "Command code";
             // 
             // txtName
@@ -120,10 +139,9 @@
             this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtName.Location = new System.Drawing.Point(13, 37);
-            this.txtName.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(378, 23);
-            this.txtName.TabIndex = 1;
+            this.txtName.TabIndex = 2;
             this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
             // lblName
@@ -132,14 +150,8 @@
             this.lblName.Location = new System.Drawing.Point(10, 19);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(39, 15);
-            this.lblName.TabIndex = 0;
+            this.lblName.TabIndex = 1;
             this.lblName.Text = "Name";
-            // 
-            // toolTip
-            // 
-            this.toolTip.AutoPopDelay = 30000;
-            this.toolTip.InitialDelay = 500;
-            this.toolTip.ReshowDelay = 100;
             // 
             // CtrlCommand
             // 
@@ -151,7 +163,9 @@
             this.Size = new System.Drawing.Size(404, 462);
             this.gbCmd.ResumeLayout(false);
             this.gbCmd.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbParametersHint)).EndInit();
+            this.pnlInfo.ResumeLayout(false);
+            this.pnlInfo.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbInfo)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -165,7 +179,8 @@
         private Label lblCmdCode;
         private Label lblSql;
         private TextBox txtSql;
-        private PictureBox pbParametersHint;
-        private ToolTip toolTip;
+        private PictureBox pbInfo;
+        private Panel pnlInfo;
+        private Label lblInfo;
     }
 }

@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.pnlBottom = new System.Windows.Forms.Panel();
-            this.btnCancel = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.btnAddQuery = new System.Windows.Forms.ToolStripButton();
@@ -70,6 +70,16 @@
             this.pnlBottom.Size = new System.Drawing.Size(734, 45);
             this.pnlBottom.TabIndex = 2;
             // 
+            // btnClose
+            // 
+            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClose.Location = new System.Drawing.Point(647, 10);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(75, 23);
+            this.btnClose.TabIndex = 2;
+            this.btnClose.Text = "Close";
+            this.btnClose.UseVisualStyleBackColor = true;
+            // 
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -80,16 +90,6 @@
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            // 
-            // btnClose
-            // 
-            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClose.Location = new System.Drawing.Point(647, 10);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(75, 23);
-            this.btnClose.TabIndex = 2;
-            this.btnClose.Text = "Close";
-            this.btnClose.UseVisualStyleBackColor = true;
             // 
             // btnSave
             // 
@@ -278,12 +278,13 @@
             this.cmsTree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miCollapseAll});
             this.cmsTree.Name = "cmsTree";
-            this.cmsTree.Size = new System.Drawing.Size(137, 26);
+            this.cmsTree.Size = new System.Drawing.Size(181, 48);
             // 
             // miCollapseAll
             // 
+            this.miCollapseAll.Image = global::Scada.Comm.Drivers.DrvDbImport.View.Properties.Resource.collapse_all;
             this.miCollapseAll.Name = "miCollapseAll";
-            this.miCollapseAll.Size = new System.Drawing.Size(136, 22);
+            this.miCollapseAll.Size = new System.Drawing.Size(180, 22);
             this.miCollapseAll.Text = "Collapse All";
             this.miCollapseAll.Click += new System.EventHandler(this.miCollapseAll_Click);
             // 
@@ -308,7 +309,7 @@
             this.Name = "FrmDeviceConfig";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Device {0} Properties";
+            this.Text = "Device {0} Properties - DB Import";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmDeviceConfig_FormClosing);
             this.Load += new System.EventHandler(this.FrmDeviceConfig_Load);
             this.pnlBottom.ResumeLayout(false);
