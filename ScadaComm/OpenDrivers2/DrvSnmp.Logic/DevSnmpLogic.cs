@@ -10,6 +10,7 @@ using Scada.Comm.Lang;
 using Scada.Data.Const;
 using Scada.Data.Models;
 using Scada.Lang;
+using System.Globalization;
 using System.Net;
 using System.Text;
 
@@ -19,6 +20,10 @@ namespace Scada.Comm.Drivers.DrvSnmp.Logic
     /// Implements the device logic.
     /// <para>Реализует логику устройства.</para>
     /// </summary>
+    /// <remarks>
+    /// https://github.com/lextudio/sharpsnmplib
+    /// https://docs.sharpsnmp.com/
+    /// </remarks>
     internal class DevSnmpLogic : DeviceLogic
     {
         /// <summary>
@@ -30,6 +35,11 @@ namespace Scada.Comm.Drivers.DrvSnmp.Logic
             public List<Variable> Variables { get; } = new();
             public int StartTagIndex { get; init; }
         }
+
+        /// <summary>
+        /// The default SNMP port.
+        /// </summary>
+        private const int DefaultPort = 161;
 
         private readonly SnmpDeviceConfig config;  // the device configuration
         private readonly List<VarGroup> varGroups; // the active variable groups
@@ -74,7 +84,7 @@ namespace Scada.Comm.Drivers.DrvSnmp.Logic
         {
             try
             {
-                ScadaUtils.RetrieveHostAndPort(DeviceConfig.StrAddress, 161, out string host, out int port);
+                ScadaUtils.RetrieveHostAndPort(DeviceConfig.StrAddress, DefaultPort, out string host, out int port);
                 endPoint = new IPEndPoint(IPAddress.Parse(host), port);
             }
             catch (Exception ex)
@@ -138,6 +148,55 @@ namespace Scada.Comm.Drivers.DrvSnmp.Logic
         }
 
         /// <summary>
+        /// Sets value and status of the specified tag.
+        /// </summary>
+        private void SetTagData(int tagIndex, ISnmpData snmpData, VariableConfig variableConfig)
+        {
+            try
+            {
+                if (snmpData == null)
+                {
+                    DeviceData.Invalidate(tagIndex);
+                }
+                else
+                {
+                    switch (variableConfig.DataType)
+                    {
+                        case TagDataType.Double:
+                            if (GetDouble(snmpData, out double val1))
+                                DeviceData.Set(tagIndex, val1);
+                            else
+                                DeviceData.Invalidate(tagIndex);
+                            break;
+
+                        case TagDataType.Int64:
+                            if (snmpData is OctetString octetString) // BITS string
+                                DeviceData.SetByteArray(tagIndex, octetString.GetRaw(), CnlStatusID.Defined);
+                            else if (GetInt64(snmpData, out long val2))
+                                DeviceData.SetInt64(tagIndex, val2, CnlStatusID.Defined);
+                            else
+                                DeviceData.Invalidate(tagIndex);
+                            break;
+
+                        case TagDataType.ASCII:
+                            DeviceData.SetAscii(tagIndex, snmpData.ToString(), CnlStatusID.Defined);
+                            break;
+
+                        case TagDataType.Unicode:
+                            DeviceData.SetUnicode(tagIndex, snmpData.ToString(), CnlStatusID.Defined);
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.WriteInfo(ex.BuildErrorMessage(Locale.IsRussian ?
+                    "Ошибка при установке данных тега" :
+                    "Error setting tag data"));
+            }
+        }
+
+        /// <summary>
         /// Creates an SNMP variable according to the configuration.
         /// </summary>
         private static Variable CreateVariable(VariableConfig variableConfig)
@@ -168,7 +227,7 @@ namespace Scada.Comm.Drivers.DrvSnmp.Logic
             {
                 StringBuilder sb = new();
 
-                if (snmpData is OctetString octetString && variableConfig.IsNumeric)
+                if (snmpData is OctetString octetString && variableConfig.DataType == TagDataType.Int64)
                     sb.Append(octetString.ToHexString());
                 else
                     sb.Append(snmpData.ToString());
@@ -179,26 +238,91 @@ namespace Scada.Comm.Drivers.DrvSnmp.Logic
         }
 
         /// <summary>
-        /// Sets value and status of the specified tag.
+        /// Gets the variable data as a double.
         /// </summary>
-        private void SetTagData(int tagIndex, ISnmpData snmpData, VariableConfig variableConfig)
+        private static bool GetDouble(ISnmpData snmpData, out double val)
         {
-            try
+            switch (snmpData.TypeCode)
             {
-                if (snmpData == null)
-                {
-                    DeviceData.Invalidate(tagIndex);
-                }
-                else
-                {
+                case SnmpType.Integer32:
+                    val = ((Integer32)snmpData).ToInt32();
+                    return true;
 
-                }
+                case SnmpType.Counter32:
+                    val = ((Counter32)snmpData).ToUInt32();
+                    return true;
+
+                case SnmpType.Counter64:
+                    val = ((Counter64)snmpData).ToUInt64();
+                    return true;
+
+                case SnmpType.Gauge32:
+                    val = ((Gauge32)snmpData).ToUInt32();
+                    return true;
+
+                case SnmpType.TimeTicks:
+                    val = ((TimeTicks)snmpData).ToUInt32();
+                    return true;
+
+                case SnmpType.OctetString:
+                    string s = snmpData.ToString().Trim().ToLower();
+
+                    if (s == "true")
+                    {
+                        val = 1.0;
+                        return true;
+                    }
+                    else if (s == "false")
+                    {
+                        val = 0.0;
+                        return true;
+                    }
+                    else if (double.TryParse(s, NumberStyles.Float, CultureInfo.InvariantCulture, out val))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        val = 0.0;
+                        return false;
+                    }
+
+                default:
+                    val = 0.0;
+                    return false;
             }
-            catch (Exception ex)
+        }
+
+        /// <summary>
+        /// Gets the variable data as an integer.
+        /// </summary>
+        private static bool GetInt64(ISnmpData snmpData, out long val)
+        {
+            switch (snmpData.TypeCode)
             {
-                Log.WriteInfo(ex.BuildErrorMessage(Locale.IsRussian ?
-                    "Ошибка при установке данных тега" :
-                    "Error setting tag data"));
+                case SnmpType.Integer32:
+                    val = ((Integer32)snmpData).ToInt32();
+                    return true;
+
+                case SnmpType.Counter32:
+                    val = ((Counter32)snmpData).ToUInt32();
+                    return true;
+
+                case SnmpType.Counter64:
+                    val = (long)((Counter64)snmpData).ToUInt64();
+                    return true;
+
+                case SnmpType.Gauge32:
+                    val = ((Gauge32)snmpData).ToUInt32();
+                    return true;
+
+                case SnmpType.TimeTicks:
+                    val = ((TimeTicks)snmpData).ToUInt32();
+                    return true;
+
+                default:
+                    val = 0;
+                    return false;
             }
         }
 

@@ -47,12 +47,6 @@ namespace Scada.Comm.Drivers.DrvSnmp.Config
         public int DataLen { get; set; } = 0;
 
         /// <summary>
-        /// Gets a value indicating whether the tag data type is numeric.
-        /// </summary>
-        [NCM.Browsable(false)]
-        public bool IsNumeric => DataType == TagDataType.Double || DataType == TagDataType.Int64;
-
-        /// <summary>
         /// Gets or sets the parent tree node.
         /// </summary>
         [NCM.Browsable(false)]
