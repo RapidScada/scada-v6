@@ -9,7 +9,7 @@
     <Phrase key="WriteCommunity.Description">Пароль для записи данных.</Phrase>
     <Phrase key="SnmpVersion.DisplayName">Версия SNMP</Phrase>
     <Phrase key="SnmpVersion.Category">Основные параметры</Phrase>
-    <Phrase key="SnmpVersion.Description">Версия протокола. Возможные значения: 1, 2 и 3.</Phrase>
+    <Phrase key="SnmpVersion.Description">Версия протокола. Поддерживаемые версии: 1 и 2.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvSnmp.Config.VarGroupConfig">
     <Phrase key="Active.DisplayName">Активна</Phrase>

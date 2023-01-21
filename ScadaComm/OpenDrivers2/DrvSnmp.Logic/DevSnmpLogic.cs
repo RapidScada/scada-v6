@@ -43,8 +43,8 @@ namespace Scada.Comm.Drivers.DrvSnmp.Logic
 
         private readonly SnmpDeviceConfig config;  // the device configuration
         private readonly List<VarGroup> varGroups; // the active variable groups
-        
-        private bool configError;                  // indicates that that device configuration is not loaded
+
+        private bool fatalError;                   // normal operation is impossible
         private IPEndPoint endPoint;               // the IP address and port of the device
         private OctetString readCommunity;         // the password for reading data
         private OctetString writeCommunity;        // the password for writing data
@@ -63,18 +63,12 @@ namespace Scada.Comm.Drivers.DrvSnmp.Logic
             config = new SnmpDeviceConfig();
             varGroups = new List<VarGroup>();
 
-            configError = false;
+            fatalError = false;
             endPoint = null;
             readCommunity = null;
             writeCommunity = null;
             snmpVersion = VersionCode.V2;
         }
-
-
-        /// <summary>
-        /// Gets a value indicating whether the device is not ready to communicate.
-        /// </summary>
-        private bool DeviceIsNotReady => endPoint == null || configError;
 
 
         /// <summary>
@@ -89,10 +83,32 @@ namespace Scada.Comm.Drivers.DrvSnmp.Logic
             }
             catch (Exception ex)
             {
+                fatalError = true;
                 endPoint = null;
                 Log.WriteLine(Locale.IsRussian ?
                     "Ошибка при извлечении конечной точки для {0}: {1}" :
                     "Error retrieving endpoint for {0}: {1}", Title, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Retrieves a protocol version from the device configuration.
+        /// </summary>
+        private void RetrieveSnmpVersion()
+        {
+            snmpVersion = config.DeviceOptions.SnmpVersion switch
+            {
+                1 => VersionCode.V1,
+                3 => VersionCode.V3,
+                _ => VersionCode.V2
+            };
+
+            if (snmpVersion == VersionCode.V3)
+            {
+                fatalError = true;
+                Log.WriteLine(Locale.IsRussian ?
+                    "Ошибка в конфигурации {0}: SNMP v3 не поддерживается" :
+                    "Error in {0} configuration: SNMP v3 is not supported", Title);
             }
         }
 
@@ -194,6 +210,15 @@ namespace Scada.Comm.Drivers.DrvSnmp.Logic
                     "Ошибка при установке данных тега" :
                     "Error setting tag data"));
             }
+        }
+
+        /// <summary>
+        /// Finds a variable to set by the specified command.
+        /// </summary>
+        private bool FindVariable(TeleCommand cmd, out ObjectIdentifier oid)
+        {
+            oid = null;
+            return false;
         }
 
         /// <summary>
@@ -338,17 +363,12 @@ namespace Scada.Comm.Drivers.DrvSnmp.Logic
             {
                 readCommunity = new OctetString(config.DeviceOptions.ReadCommunity);
                 writeCommunity = new OctetString(config.DeviceOptions.WriteCommunity);
-                snmpVersion = config.DeviceOptions.SnmpVersion switch
-                {
-                    1 => VersionCode.V1,
-                    3 => VersionCode.V3,
-                    _ => VersionCode.V2
-                };
+                RetrieveSnmpVersion();
             }
             else
             {
                 Log.WriteLine(CommPhrases.DeviceMessage, Title, errMsg);
-                configError = true;
+                fatalError = true;
             }
         }
 
@@ -357,7 +377,7 @@ namespace Scada.Comm.Drivers.DrvSnmp.Logic
         /// </summary>
         public override void InitDeviceTags()
         {
-            if (configError)
+            if (fatalError)
                 return;
 
             foreach (VarGroupConfig varGroupConfig in config.VarGroups)
@@ -405,7 +425,7 @@ namespace Scada.Comm.Drivers.DrvSnmp.Logic
         {
             base.Session();
 
-            if (DeviceIsNotReady)
+            if (fatalError)
             {
                 Log.WriteLine(CommPhrases.UnablePollDevice);
                 SleepPollingDelay();
@@ -454,6 +474,22 @@ namespace Scada.Comm.Drivers.DrvSnmp.Logic
         public override void SendCommand(TeleCommand cmd)
         {
             base.SendCommand(cmd);
+            LastRequestOK = false;
+
+            if (fatalError)
+            {
+                Log.WriteLine(CommPhrases.UnablePollDevice);
+            }
+            else if (!FindVariable(cmd, out ObjectIdentifier oid))
+            {
+                Log.WriteLine(CommPhrases.InvalidCommand);
+            }
+            else
+            {
+
+            }
+
+            FinishCommand();
         }
     }
 }
