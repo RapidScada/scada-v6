@@ -96,7 +96,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
                 catch
                 {
                     errMsg = string.Format(Locale.IsRussian ?
-                        "Ошибка: {0}: некорректный URI" :
+                        "Ошибка: {0}: некорректный URI." :
                         "Error: {0}: invalid URI.", Title);
                     return false;
                 }
