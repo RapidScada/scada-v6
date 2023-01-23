@@ -108,8 +108,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
                 txtCnlNum.Text = ScadaUtils.ToRangeString(options.Filter.CnlNums);
                 txtObjNum.Text = ScadaUtils.ToRangeString(options.Filter.ObjNums);
                 txtDeviceNum.Text = ScadaUtils.ToRangeString(options.Filter.DeviceNums);
-                txtSql.Clear();
-                txtSql.AppendText(options.Sql.Replace("\n", Environment.NewLine));
+                txtSql.Text = options.Sql.Replace("\n", Environment.NewLine);
                 gbFilter.Visible = options.DataKind != DataKind.EventAck;
                 chkSingleQuery.Enabled = options.DataKind == DataKind.Current ||
                     options.DataKind == DataKind.Historical;
