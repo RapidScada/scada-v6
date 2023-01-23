@@ -184,40 +184,6 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
         }
 
         /// <summary>
-        /// Checks queries name for uniqueness.
-        /// </summary>
-        private bool CheckQueryNamesUnique()
-        {
-            return deviceConfig.Queries.Count ==
-                deviceConfig.Queries.DistinctBy(g => g.Name.ToLowerInvariant()).Count();
-        }
-
-        /// <summary>
-        /// Checks command name for uniqueness.
-        /// </summary>
-        private bool CheckCommandNamesUnique()
-        {
-            return deviceConfig.Commands.Count ==
-                deviceConfig.Commands.DistinctBy(g => g.Name.ToLowerInvariant()).Count();
-        }
-
-        /// <summary>
-        /// Checks query names for empty value.
-        /// </summary>
-        private bool CheckQueryNamesEmpty()
-        {
-            return deviceConfig.Queries.Any(g => string.IsNullOrEmpty(g.Name));
-        }
-
-        /// <summary>
-        /// Checks command names for empty value.
-        /// </summary>
-        private bool CheckCommandNamesEmpty()
-        {
-            return deviceConfig.Commands.Any(g => string.IsNullOrEmpty(g.Name));
-        }
-
-        /// <summary>
         /// Fills the device tree.
         /// </summary>
         private void FillDeviceTree()

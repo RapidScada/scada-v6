@@ -75,8 +75,6 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Controls
                 txtName.Text = commandConfig.Name;
                 txtCmdCode.Text = commandConfig.CmdCode;
                 pnlCmdCodeWarn.Visible = string.IsNullOrEmpty(commandConfig.CmdCode);
-
-                txtSql.Clear();
                 txtSql.Text = commandConfig.Sql.Replace("\n", Environment.NewLine);
             }
         }

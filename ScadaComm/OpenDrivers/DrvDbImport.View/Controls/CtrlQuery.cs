@@ -75,12 +75,8 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Controls
             {
                 chkActive.Checked = queryConfig.Active;
                 txtName.Text = queryConfig.Name;
-
-                txtTags.Clear();              
                 txtTags.Text = string.Join(Environment.NewLine, queryConfig.TagCodes);
-
                 chkSingleRow.Checked = queryConfig.SingleRow;
-                txtSql.Clear();
                 txtSql.Text = queryConfig.Sql.Replace("\n", Environment.NewLine);
             }
         }
