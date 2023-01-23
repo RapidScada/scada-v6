@@ -81,9 +81,10 @@
     <Phrase key="AddTargets">Добавьте цель</Phrase>
     <Phrase key="SelectChildNode">Выберите дочерний узел</Phrase>
     <Phrase key="TargetName">Цель {0}</Phrase>
+    <Phrase key="QueryName">Запрос {0}</Phrase>
     <Phrase key="TargetNameNotUnique">Имя цели должны быть уникальным.</Phrase>
-    <Phrase key="TargetNameEmpty">Имя цели не должно быть пустым.</Phrase>
-    <Phrase key="QueryName">Запрос {0}</Phrase>   
+    <Phrase key="UnnamedTarget">&lt;Безымянная цель&gt;</Phrase>
+    <Phrase key="UnnamedQuery">&lt;Безымянный запрос&gt;</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmQueryParametrs">
     <Phrase key="this">Доступные параметры</Phrase>

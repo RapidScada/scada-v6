@@ -50,16 +50,16 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmModuleConfig">
     <Phrase key="this">Export to DB</Phrase>
-    <Phrase key="ddbAdd.ToolTip">Add export target</Phrase>
+    <Phrase key="ddbAdd.ToolTip">Add Export Target</Phrase>
     <Phrase key="btnSqlServer">Microsoft SQL Server</Phrase>
     <Phrase key="btnMySql">MySQL</Phrase>
     <Phrase key="btnOracle">Oracle</Phrase>
     <Phrase key="btnPostgreSql">PostgreSQL</Phrase>
-    <Phrase key="btnAddCurrentDataQuery.ToolTip">Add current data query</Phrase>
-    <Phrase key="btnAddHistoricalDataQuery.ToolTip">Add historical data query</Phrase>
-    <Phrase key="btnAddEventQuery.ToolTip">Add event query</Phrase>
-    <Phrase key="btnAddEventAckQuery.ToolTip">Add event acknowledgement query</Phrase>
-    <Phrase key="btnAddCommandQuery.ToolTip">Add command query</Phrase>
+    <Phrase key="btnAddCurrentDataQuery.ToolTip">Add Current Data Query</Phrase>
+    <Phrase key="btnAddHistoricalDataQuery.ToolTip">Add Historical Data Query</Phrase>
+    <Phrase key="btnAddEventQuery.ToolTip">Add Event Query</Phrase>
+    <Phrase key="btnAddEventAckQuery.ToolTip">Add Event Acknowledgement Query</Phrase>
+    <Phrase key="btnAddCommandQuery.ToolTip">Add Command Query</Phrase>
     <Phrase key="btnMoveUp.ToolTip">Move Up</Phrase>
     <Phrase key="btnMoveDown.ToolTip">Move Down</Phrase>
     <Phrase key="btnDelete.ToolTip">Delete</Phrase>
@@ -81,9 +81,10 @@
     <Phrase key="AddTargets">Add targets</Phrase>
     <Phrase key="SelectChildNode">Select child node</Phrase>
     <Phrase key="TargetName">Target {0}</Phrase>
+    <Phrase key="QueryName">Query {0}</Phrase>
     <Phrase key="TargetNameNotUnique">Target names must be unique.</Phrase>
-    <Phrase key="TargetNameEmpty">The name of the target cannot be empty.</Phrase>
-    <Phrase key="QueryName">Query {0}</Phrase>   
+    <Phrase key="UnnamedTarget">&lt;Unnamed Target&gt;</Phrase>
+    <Phrase key="UnnamedQuery">&lt;Unnamed Query&gt;</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmQueryParametrs">
     <Phrase key="this">Available Parameters</Phrase>

@@ -5,6 +5,7 @@ using Scada.Data.Models;
 using Scada.Dbms;
 using Scada.Forms;
 using Scada.Lang;
+using Scada.Server.Config;
 using Scada.Server.Lang;
 using Scada.Server.Modules.ModDbExport.Config;
 using Scada.Server.Modules.ModDbExport.View.Properties;
@@ -165,6 +166,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                     SetButtonsEnabled();
                     HideControls();
                     lblHint.Visible = true;
+                    lblHint.Text = ModulePhrases.AddTargets;
                 }
             }
             finally
@@ -187,7 +189,9 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         private static TreeNode CreateGroupNode(ExportTargetConfig exportTargetConfig)
         {
             TreeNode groupNode = TreeViewExtensions.CreateNode(exportTargetConfig, ChooseNodeImage(exportTargetConfig));
-            groupNode.Text = exportTargetConfig.GeneralOptions.Title;
+            groupNode.Text = string.IsNullOrEmpty(exportTargetConfig.GeneralOptions.Name) ?
+                string.Format("[{0}] {1}", exportTargetConfig.GeneralOptions.ID, ModulePhrases.UnnamedTarget) : 
+                exportTargetConfig.GeneralOptions.Title;
 
             groupNode.Nodes.Add(TreeViewExtensions.CreateNode(ModulePhrases.GeneralOptionsNode,
                 ChooseNodeImage(exportTargetConfig.GeneralOptions), exportTargetConfig.GeneralOptions));
@@ -213,7 +217,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
 
             foreach (QueryOptions queryOptions in exportTargetConfig.Queries)
             {
-                queriesNode.Nodes.Add(TreeViewExtensions.CreateNode(queryOptions.Name,
+                queriesNode.Nodes.Add(TreeViewExtensions.CreateNode(string.IsNullOrEmpty(queryOptions.Name) ? 
+                    ModulePhrases.UnnamedQuery : queryOptions.Name,
                     ChooseNodeImage(queryOptions), queryOptions));
             }
 
@@ -309,11 +314,12 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         }
 
         /// <summary>
-        /// Checks names for empty value.
+        /// Gets the main root by treeNode.
         /// </summary>
-        private bool CheckGateNamesEmpty()
-        {
-            return config.ExportTargets.Any(g => string.IsNullOrEmpty(g.GeneralOptions.Name));
+        private static TreeNode ChooseRootTreeNode(TreeNode treeNode) 
+        { 
+            while (treeNode.Level > 0) { treeNode = treeNode.Parent; } 
+            return treeNode; 
         }
 
         /// <summary>
@@ -321,29 +327,15 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         /// </summary>
         private bool ValidateConfig()
         {
-            bool checkValidateName = true;
+           bool checkValidateName = true;
 
-            if (CheckGateNamesEmpty())
-            {
-                ScadaUiUtils.ShowError(ModulePhrases.TargetNameEmpty);
-                checkValidateName = false;
-            }
-            else if (!CheckGateNamesUnique())
-            {
+           if (!CheckGateNamesUnique())
+           {
                 ScadaUiUtils.ShowError(ModulePhrases.TargetNameNotUnique);
                 checkValidateName = false;
-            }
+           }
 
-            return checkValidateName;
-        }
-
-        /// <summary>
-        /// Gets the main root by treeNode.
-        /// </summary>
-        private static TreeNode ChooseRootTreeNode(TreeNode treeNode) 
-        { 
-            while (treeNode.Level > 0) { treeNode = treeNode.Parent; } 
-            return treeNode; 
+           return checkValidateName;
         }
 
 
@@ -480,9 +472,10 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             if (tvTargets.SelectedNode != null && 
                 (e.ChangeArgument is not TreeUpdateTypes treeUpdateTypes || 
                 treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode)) &&
-                e.ChangedObject is GeneralOptions generalOptions)
+                e.ChangedObject is Config.GeneralOptions generalOptions)
             {
-                tvTargets.SelectedNode.Parent.Text = generalOptions.Title;
+                tvTargets.SelectedNode.Parent.Text = string.IsNullOrEmpty(generalOptions.Name) ? 
+                    string.Format("[{0}] {1}", generalOptions.ID, ModulePhrases.UnnamedTarget) : generalOptions.Title;
                 tvTargets.SelectedNode.Parent.SetImageKey(ChooseNodeImage(tvTargets.SelectedNode.Parent.Tag));
             }
 
@@ -504,7 +497,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                 treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode)) &&
                 e.ChangedObject is QueryOptions queryOptions)
             {
-                tvTargets.SelectedNode.Text = queryOptions.Name;
+                tvTargets.SelectedNode.Text = string.IsNullOrEmpty(queryOptions.Name) ?
+                    ModulePhrases.UnnamedQuery : queryOptions.Name;
                 tvTargets.SelectedNode.SetImageKey(ChooseNodeImage(tvTargets.SelectedNode.Tag));
             }
 
@@ -630,7 +624,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             object selectedObject = e.Node.Tag;
             HideControls();
 
-            if (selectedObject is GeneralOptions generalOptions)
+            if (selectedObject is Config.GeneralOptions generalOptions)
             {
                 ctrlGeneral.GeneralOptions = generalOptions;
                 ctrlGeneral.Visible = true;
