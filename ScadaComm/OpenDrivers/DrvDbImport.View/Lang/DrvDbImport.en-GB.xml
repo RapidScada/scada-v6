@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DrvDbImportDictionaries>
   <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlCommand">
-    <Phrase key="gbCmd">Command Parameters</Phrase>
+    <Phrase key="gbCommand">Command Parameters</Phrase>
     <Phrase key="lblName">Name</Phrase>
     <Phrase key="lblCmdCode">Command code</Phrase>
     <Phrase key="lblCmdCodeWarn">Fill out code</Phrase>
     <Phrase key="lblSql">SQL</Phrase>
-    <Phrase key="pbHintInfo.ToolTip">Avaliable parameters: @cmdVal, @cmdData</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">Avaliable parameters: @cmdVal, @cmdData</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlQuery">
     <Phrase key="gbQuery">Query Parameters</Phrase>
@@ -15,8 +15,8 @@
     <Phrase key="lblTag">Tags</Phrase>
     <Phrase key="lblSQL">SQL</Phrase>
     <Phrase key="chkSingleRow">Single row result</Phrase>
-    <Phrase key="pbHintSqlInfo.ToolTip">Single row&#13;&#10;No single row</Phrase>
-    <Phrase key="pbHintTagInfo.ToolTip">Tags</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">Single row&#13;&#10;No single row</Phrase>
+    <Phrase key="pbTagInfo.ToolTip">Tags</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Forms.FrmDeviceConfig">
     <Phrase key="this">Device {0} Properties - DB Import</Phrase>

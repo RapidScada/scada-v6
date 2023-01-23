@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.gbCmd = new System.Windows.Forms.GroupBox();
+            this.gbCommand = new System.Windows.Forms.GroupBox();
             this.txtSql = new System.Windows.Forms.TextBox();
-            this.pbHintInfo = new System.Windows.Forms.PictureBox();
+            this.pbSqlInfo = new System.Windows.Forms.PictureBox();
             this.lblSql = new System.Windows.Forms.Label();
             this.pnlCmdCodeWarn = new System.Windows.Forms.Panel();
             this.lblCmdCodeWarn = new System.Windows.Forms.Label();
@@ -41,31 +41,31 @@
             this.txtName = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.gbCmd.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbHintInfo)).BeginInit();
+            this.gbCommand.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbSqlInfo)).BeginInit();
             this.pnlCmdCodeWarn.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbCmdCodeWarn)).BeginInit();
             this.SuspendLayout();
             // 
-            // gbCmd
+            // gbCommand
             // 
-            this.gbCmd.Controls.Add(this.txtSql);
-            this.gbCmd.Controls.Add(this.pbHintInfo);
-            this.gbCmd.Controls.Add(this.lblSql);
-            this.gbCmd.Controls.Add(this.pnlCmdCodeWarn);
-            this.gbCmd.Controls.Add(this.txtCmdCode);
-            this.gbCmd.Controls.Add(this.lblCmdCode);
-            this.gbCmd.Controls.Add(this.txtName);
-            this.gbCmd.Controls.Add(this.lblName);
-            this.gbCmd.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbCmd.Location = new System.Drawing.Point(0, 0);
-            this.gbCmd.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
-            this.gbCmd.Name = "gbCmd";
-            this.gbCmd.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbCmd.Size = new System.Drawing.Size(404, 462);
-            this.gbCmd.TabIndex = 0;
-            this.gbCmd.TabStop = false;
-            this.gbCmd.Text = "Command Parameters";
+            this.gbCommand.Controls.Add(this.txtSql);
+            this.gbCommand.Controls.Add(this.pbSqlInfo);
+            this.gbCommand.Controls.Add(this.lblSql);
+            this.gbCommand.Controls.Add(this.pnlCmdCodeWarn);
+            this.gbCommand.Controls.Add(this.txtCmdCode);
+            this.gbCommand.Controls.Add(this.lblCmdCode);
+            this.gbCommand.Controls.Add(this.txtName);
+            this.gbCommand.Controls.Add(this.lblName);
+            this.gbCommand.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbCommand.Location = new System.Drawing.Point(0, 0);
+            this.gbCommand.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+            this.gbCommand.Name = "gbCommand";
+            this.gbCommand.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
+            this.gbCommand.Size = new System.Drawing.Size(404, 462);
+            this.gbCommand.TabIndex = 0;
+            this.gbCommand.TabStop = false;
+            this.gbCommand.Text = "Command Parameters";
             // 
             // txtSql
             // 
@@ -73,30 +73,30 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSql.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtSql.Location = new System.Drawing.Point(13, 128);
+            this.txtSql.Location = new System.Drawing.Point(13, 132);
             this.txtSql.Multiline = true;
             this.txtSql.Name = "txtSql";
             this.txtSql.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtSql.Size = new System.Drawing.Size(378, 321);
+            this.txtSql.Size = new System.Drawing.Size(378, 317);
             this.txtSql.TabIndex = 7;
             this.txtSql.WordWrap = false;
             this.txtSql.TextChanged += new System.EventHandler(this.txtSql_TextChanged);
             // 
-            // pbHintInfo
+            // pbSqlInfo
             // 
-            this.pbHintInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbHintInfo.Image = global::Scada.Comm.Drivers.DrvDbImport.View.Properties.Resource.info;
-            this.pbHintInfo.Location = new System.Drawing.Point(375, 107);
-            this.pbHintInfo.Name = "pbHintInfo";
-            this.pbHintInfo.Size = new System.Drawing.Size(16, 16);
-            this.pbHintInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pbHintInfo.TabIndex = 12;
-            this.pbHintInfo.TabStop = false;
+            this.pbSqlInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbSqlInfo.Image = global::Scada.Comm.Drivers.DrvDbImport.View.Properties.Resource.info;
+            this.pbSqlInfo.Location = new System.Drawing.Point(375, 110);
+            this.pbSqlInfo.Name = "pbSqlInfo";
+            this.pbSqlInfo.Size = new System.Drawing.Size(16, 16);
+            this.pbSqlInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbSqlInfo.TabIndex = 12;
+            this.pbSqlInfo.TabStop = false;
             // 
             // lblSql
             // 
             this.lblSql.AutoSize = true;
-            this.lblSql.Location = new System.Drawing.Point(10, 107);
+            this.lblSql.Location = new System.Drawing.Point(10, 111);
             this.lblSql.Name = "lblSql";
             this.lblSql.Size = new System.Drawing.Size(28, 15);
             this.lblSql.TabIndex = 6;
@@ -170,13 +170,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.gbCmd);
+            this.Controls.Add(this.gbCommand);
             this.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.Name = "CtrlCommand";
             this.Size = new System.Drawing.Size(404, 462);
-            this.gbCmd.ResumeLayout(false);
-            this.gbCmd.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbHintInfo)).EndInit();
+            this.gbCommand.ResumeLayout(false);
+            this.gbCommand.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbSqlInfo)).EndInit();
             this.pnlCmdCodeWarn.ResumeLayout(false);
             this.pnlCmdCodeWarn.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbCmdCodeWarn)).EndInit();
@@ -186,14 +186,14 @@
 
         #endregion
 
-        private GroupBox gbCmd;
+        private GroupBox gbCommand;
         private TextBox txtName;
         private Label lblName;
         private TextBox txtCmdCode;
         private Label lblCmdCode;
         private Label lblSql;
         private TextBox txtSql;
-        private PictureBox pbHintInfo;
+        private PictureBox pbSqlInfo;
         private ToolTip toolTip;
         private Panel pnlCmdCodeWarn;
         private Label lblCmdCodeWarn;

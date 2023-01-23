@@ -31,29 +31,29 @@
             this.components = new System.ComponentModel.Container();
             this.gbQuery = new System.Windows.Forms.GroupBox();
             this.txtSql = new System.Windows.Forms.TextBox();
-            this.pbHintSqlInfo = new System.Windows.Forms.PictureBox();
+            this.pbSqlInfo = new System.Windows.Forms.PictureBox();
             this.chkSingleRow = new System.Windows.Forms.CheckBox();
             this.lblSql = new System.Windows.Forms.Label();
             this.txtTags = new System.Windows.Forms.TextBox();
-            this.pbHintTagInfo = new System.Windows.Forms.PictureBox();
+            this.pbTagInfo = new System.Windows.Forms.PictureBox();
             this.lblTag = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
             this.chkActive = new System.Windows.Forms.CheckBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.gbQuery.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbHintSqlInfo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbHintTagInfo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbSqlInfo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbTagInfo)).BeginInit();
             this.SuspendLayout();
             // 
             // gbQuery
             // 
             this.gbQuery.Controls.Add(this.txtSql);
-            this.gbQuery.Controls.Add(this.pbHintSqlInfo);
+            this.gbQuery.Controls.Add(this.pbSqlInfo);
             this.gbQuery.Controls.Add(this.chkSingleRow);
             this.gbQuery.Controls.Add(this.lblSql);
             this.gbQuery.Controls.Add(this.txtTags);
-            this.gbQuery.Controls.Add(this.pbHintTagInfo);
+            this.gbQuery.Controls.Add(this.pbTagInfo);
             this.gbQuery.Controls.Add(this.lblTag);
             this.gbQuery.Controls.Add(this.txtName);
             this.gbQuery.Controls.Add(this.lblName);
@@ -74,31 +74,31 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSql.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtSql.Location = new System.Drawing.Point(13, 228);
+            this.txtSql.Location = new System.Drawing.Point(13, 243);
             this.txtSql.Multiline = true;
             this.txtSql.Name = "txtSql";
             this.txtSql.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtSql.Size = new System.Drawing.Size(378, 221);
+            this.txtSql.Size = new System.Drawing.Size(378, 206);
             this.txtSql.TabIndex = 7;
             this.txtSql.WordWrap = false;
             this.txtSql.TextChanged += new System.EventHandler(this.txtSql_TextChanged);
             // 
-            // pbHintSqlInfo
+            // pbSqlInfo
             // 
-            this.pbHintSqlInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbHintSqlInfo.Image = global::Scada.Comm.Drivers.DrvDbImport.View.Properties.Resource.info;
-            this.pbHintSqlInfo.Location = new System.Drawing.Point(375, 206);
-            this.pbHintSqlInfo.Name = "pbHintSqlInfo";
-            this.pbHintSqlInfo.Size = new System.Drawing.Size(16, 16);
-            this.pbHintSqlInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pbHintSqlInfo.TabIndex = 12;
-            this.pbHintSqlInfo.TabStop = false;
+            this.pbSqlInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbSqlInfo.Image = global::Scada.Comm.Drivers.DrvDbImport.View.Properties.Resource.info;
+            this.pbSqlInfo.Location = new System.Drawing.Point(375, 219);
+            this.pbSqlInfo.Name = "pbSqlInfo";
+            this.pbSqlInfo.Size = new System.Drawing.Size(16, 16);
+            this.pbSqlInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbSqlInfo.TabIndex = 12;
+            this.pbSqlInfo.TabStop = false;
             // 
             // chkSingleRow
             // 
             this.chkSingleRow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkSingleRow.AutoSize = true;
-            this.chkSingleRow.Location = new System.Drawing.Point(256, 205);
+            this.chkSingleRow.Location = new System.Drawing.Point(256, 218);
             this.chkSingleRow.Name = "chkSingleRow";
             this.chkSingleRow.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.chkSingleRow.Size = new System.Drawing.Size(113, 19);
@@ -110,7 +110,7 @@
             // lblSql
             // 
             this.lblSql.AutoSize = true;
-            this.lblSql.Location = new System.Drawing.Point(10, 207);
+            this.lblSql.Location = new System.Drawing.Point(10, 220);
             this.lblSql.Margin = new System.Windows.Forms.Padding(3);
             this.lblSql.Name = "lblSql";
             this.lblSql.Size = new System.Drawing.Size(28, 15);
@@ -125,20 +125,20 @@
             this.txtTags.Multiline = true;
             this.txtTags.Name = "txtTags";
             this.txtTags.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtTags.Size = new System.Drawing.Size(378, 88);
+            this.txtTags.Size = new System.Drawing.Size(378, 100);
             this.txtTags.TabIndex = 4;
             this.txtTags.TextChanged += new System.EventHandler(this.txtTags_TextChanged);
             // 
-            // pbHintTagInfo
+            // pbTagInfo
             // 
-            this.pbHintTagInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbHintTagInfo.Image = global::Scada.Comm.Drivers.DrvDbImport.View.Properties.Resource.info;
-            this.pbHintTagInfo.Location = new System.Drawing.Point(375, 90);
-            this.pbHintTagInfo.Name = "pbHintTagInfo";
-            this.pbHintTagInfo.Size = new System.Drawing.Size(16, 16);
-            this.pbHintTagInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pbHintTagInfo.TabIndex = 13;
-            this.pbHintTagInfo.TabStop = false;
+            this.pbTagInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbTagInfo.Image = global::Scada.Comm.Drivers.DrvDbImport.View.Properties.Resource.info;
+            this.pbTagInfo.Location = new System.Drawing.Point(375, 91);
+            this.pbTagInfo.Name = "pbTagInfo";
+            this.pbTagInfo.Size = new System.Drawing.Size(16, 16);
+            this.pbTagInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbTagInfo.TabIndex = 13;
+            this.pbTagInfo.TabStop = false;
             // 
             // lblTag
             // 
@@ -190,8 +190,8 @@
             this.Size = new System.Drawing.Size(404, 462);
             this.gbQuery.ResumeLayout(false);
             this.gbQuery.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbHintSqlInfo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbHintTagInfo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbSqlInfo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbTagInfo)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -206,9 +206,9 @@
         private TextBox txtTags;
         private CheckBox chkSingleRow;
         private TextBox txtSql;
-        private PictureBox pbHintSqlInfo;
+        private PictureBox pbSqlInfo;
         private Label lblSql;
         private ToolTip toolTip;
-        private PictureBox pbHintTagInfo;
+        private PictureBox pbTagInfo;
     }
 }

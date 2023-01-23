@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DrvDbImportDictionaries>
   <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlCommand">
-    <Phrase key="gbCmd">Параметры команды</Phrase>
+    <Phrase key="gbCommand">Параметры команды</Phrase>
     <Phrase key="lblName">Наименование</Phrase>
     <Phrase key="lblCmdCode">Код команды</Phrase>
     <Phrase key="lblCmdCodeWarn">Заполните код</Phrase>
     <Phrase key="lblSql">SQL</Phrase>
-    <Phrase key="pbHintInfo.ToolTip">Доступные параметры: @cmdVal, @cmdData</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">Доступные параметры: @cmdVal, @cmdData</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlQuery">
     <Phrase key="gbQuery">Параметры запроса</Phrase>
@@ -15,8 +15,8 @@
     <Phrase key="lblTag">Теги</Phrase>
     <Phrase key="lblSQL">SQL</Phrase>
     <Phrase key="chkSingleRow">Результат одной строкой</Phrase>
-    <Phrase key="pbHintSqlInfo.ToolTip">Одной строкой&#13;&#10;Не одной строкой</Phrase>
-    <Phrase key="pbHintTagInfo.ToolTip">Теги</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">Одной строкой&#13;&#10;Не одной строкой</Phrase>
+    <Phrase key="pbTagInfo.ToolTip">Теги</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Forms.FrmDeviceConfig">
     <Phrase key="this">Свойства устройства {0} - Импорт из БД</Phrase>
