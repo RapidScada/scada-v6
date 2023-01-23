@@ -83,8 +83,8 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
             if (string.IsNullOrEmpty(config.Uri))
             {
                 errMsg = string.Format(Locale.IsRussian ?
-                    "Ошибка: {0}: URI не может быть пустым." :
-                    "Error: {0}: URI must not be empty.", Title);
+                    "Ошибка: {0}: URI не может быть пустым" :
+                    "Error: {0}: URI must not be empty", Title);
                 return false;
             }
             else
@@ -96,8 +96,8 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
                 catch
                 {
                     errMsg = string.Format(Locale.IsRussian ?
-                        "Ошибка: {0}: некорректный URI." :
-                        "Error: {0}: invalid URI.", Title);
+                        "Ошибка: {0}: некорректный URI" :
+                        "Error: {0}: invalid URI", Title);
                     return false;
                 }
             }
