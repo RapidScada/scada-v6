@@ -24,6 +24,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Controls
             InitializeComponent();
         }
 
+
         /// <summary>
         /// Gets or sets the edited query.
         /// </summary>
@@ -75,16 +76,12 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Controls
                 chkActive.Checked = queryConfig.Active;
                 txtName.Text = queryConfig.Name;
 
-                txtTags.Clear();
-                foreach (string tag in queryConfig.TagCodes)
-                {
-                    txtTags.AppendText(tag);
-                    txtTags.AppendText(Environment.NewLine);
-                }
+                txtTags.Clear();              
+                txtTags.Text = string.Join(Environment.NewLine, queryConfig.TagCodes);
 
                 chkSingleRow.Checked = queryConfig.SingleRow;
                 txtSql.Clear();
-                txtSql.AppendText(queryConfig.Sql.Replace("\n", Environment.NewLine));
+                txtSql.Text = queryConfig.Sql.Replace("\n", Environment.NewLine);
             }
         }
 
@@ -135,10 +132,11 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Controls
             if (queryConfig != null)
             {
                 queryConfig.TagCodes.Clear();
-                
-                for (int i = 0; i < txtTags.Lines.Length; i++)
+     
+                foreach (string tag in txtTags.Lines)
                 {
-                    queryConfig.TagCodes.Add(txtTags.Lines[i]);
+                    if (!string.IsNullOrEmpty(tag))
+                        queryConfig.TagCodes.Add(tag.Trim());
                 }
 
                 OnObjectChanged(TreeUpdateTypes.None);

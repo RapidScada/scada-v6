@@ -8,7 +8,7 @@ using System.ComponentModel;
 namespace Scada.Comm.Drivers.DrvDbImport.View.Controls
 {
     /// <summary>
-    /// Represetns a control for editing a command options.
+    /// Represetns a control for editing command options.
     /// <para>Представляет элемент управления для редактирования параметров команды.</para>
     /// </summary>
     public partial class CtrlCommand : UserControl
@@ -23,6 +23,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Controls
         {
             InitializeComponent();
         }
+
 
         /// <summary>
         /// Gets or sets the edited command.
@@ -76,7 +77,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Controls
                 pnlCmdCodeWarn.Visible = string.IsNullOrEmpty(commandConfig.CmdCode);
 
                 txtSql.Clear();
-                txtSql.AppendText(commandConfig.Sql.Replace("\n", Environment.NewLine));
+                txtSql.Text = commandConfig.Sql.Replace("\n", Environment.NewLine);
             }
         }
 
