@@ -52,7 +52,8 @@ namespace Scada.Comm.Drivers.DrvSnmp.View
                     "Команды ТУ:\n" +
                     "Команды позволяют установить значение переменных. " +
                     "Номер команды содержит номер тега устройства или код команды содержит наименование переменной.\n" +
-                    "Числовое значение команды позволяет установить целое значение переменной.\n" +
+                    "Указание числового значения команды позволяет установить целое значение переменной.\n" +
+                    "Указание данных команды позволяет установить значение переменной заданного типа.\n" +
                     "Данные команды имеют формат TYPE VALUE, где TYPE принимает значения:\n" +
                     "i - целое со знаком,\n" +
                     "u - мера (целое без знака),\n" +
@@ -69,8 +70,9 @@ namespace Scada.Comm.Drivers.DrvSnmp.View
                     "IP address and port (optional) are defined in the String address field.\n\n" +
                     "Commands:\n" +
                     "Command number contains a device tag number, or command code contains a variable name.\n" +
-                    "Numeric command value allows to set an integer variable value.\n" +
-                    "Command data is in the format TYPE VALUE, where TYPE akes the following values:\n" +
+                    "Specifying a numeric command value allows to set an integer variable value.\n" +
+                    "Specifying command data allows to set a variable value of a given type.\n" +
+                    "Command data is in the format TYPE VALUE, where TYPE takes the following values:\n" +
                     "i - signed integer,\n" +
                     "u - gauge (unsigned integer),\n" +
                     "t - time ticks (unsigned integer),\n" +

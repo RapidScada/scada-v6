@@ -37,6 +37,15 @@ namespace Scada.Comm.Drivers.DrvSnmp.Logic
         }
 
         /// <summary>
+        /// Represents metadata about a variable.
+        /// </summary>
+        private class VariableMeta
+        {
+            public VariableConfig VariableConfig { get; init; }
+            public SnmpType? TypeCode { get; set; } = null;
+        }
+
+        /// <summary>
         /// The default SNMP port.
         /// </summary>
         private const int DefaultPort = 161;
@@ -202,6 +211,9 @@ namespace Scada.Comm.Drivers.DrvSnmp.Logic
                             DeviceData.SetUnicode(tagIndex, snmpData.ToString(), CnlStatusID.Defined);
                             break;
                     }
+
+                    if (DeviceTags[tagIndex].Aux is VariableMeta variableMeta)
+                        variableMeta.TypeCode = snmpData.TypeCode;
                 }
             }
             catch (Exception ex)
@@ -213,22 +225,61 @@ namespace Scada.Comm.Drivers.DrvSnmp.Logic
         }
 
         /// <summary>
-        /// Finds a variable to set by the specified command.
+        /// Finds a variable metadata by command code or number.
         /// </summary>
-        private bool FindVariable(TeleCommand cmd, out ObjectIdentifier oid)
+        private bool FindVariableMeta(TeleCommand cmd, out VariableMeta variableMeta)
         {
-            oid = null;
-            return false;
+            if (!string.IsNullOrEmpty(cmd.CmdCode) && DeviceTags.TryGetTag(cmd.CmdCode, out DeviceTag deviceTag) ||
+                cmd.CmdNum > 0 && DeviceTags.TryGetTag(cmd.CmdNum - 1, out deviceTag))
+            {
+                variableMeta = deviceTag.Aux as VariableMeta;
+                return variableMeta != null;
+            }
+            else
+            {
+                variableMeta = null;
+                return false;
+            }
         }
 
         /// <summary>
-        /// Creates an SNMP variable according to the configuration.
+        /// Sets the variable.
         /// </summary>
-        private static Variable CreateVariable(VariableConfig variableConfig)
+        private bool SetVariable(Variable variable, VariableConfig variableConfig)
         {
             try
             {
-                return new Variable(new ObjectIdentifier(variableConfig.OID));
+                Log.WriteLine("{0} {1} = {2}", CommPhrases.SendNotation, variableConfig.Name,
+                    SnmpDataToString(variable.Data, variableConfig));
+
+                IList<Variable> sentVars = Messenger.Set(snmpVersion, endPoint, writeCommunity, 
+                    new List<Variable>() { variable }, PollingOptions.Timeout);
+
+                if (sentVars == null || sentVars.Count != 1 || sentVars[0].Id != variable.Id)
+                {
+                    throw new ScadaException(Locale.IsRussian ?
+                        "Несоответствие переменной в запросе и ответе." :
+                        "Variable mismatch in request and response.");
+                }
+
+                Log.WriteLine(CommPhrases.ResponseOK);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.WriteLine(CommPhrases.ErrorPrefix + ex.Message);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Creates a variable according to the configuration.
+        /// </summary>
+        private static Variable CreateVariable(VariableConfig variableConfig, ISnmpData snmpData = null)
+        {
+            try
+            {
+                return new Variable(new ObjectIdentifier(variableConfig.OID), snmpData);
             }
             catch (Exception ex)
             {
@@ -351,6 +402,66 @@ namespace Scada.Comm.Drivers.DrvSnmp.Logic
             }
         }
 
+        /// <summary>
+        /// Gets variable data to be sent by the command.
+        /// </summary>
+        private static bool GetSnmpData(TeleCommand cmd, VariableMeta variableMeta, out ISnmpData snmpData)
+        {
+            if (!double.IsNaN(cmd.CmdVal))
+            {
+                if (variableMeta.TypeCode != null)
+                {
+                    snmpData = variableMeta.TypeCode switch
+                    {
+                        SnmpType.Counter32 => new Counter32((int)cmd.CmdVal),
+                        SnmpType.Counter64 => new Counter64((ulong)cmd.CmdVal),
+                        SnmpType.Gauge32 => new Gauge32((uint)cmd.CmdVal),
+                        SnmpType.TimeTicks => new TimeTicks((uint)cmd.CmdVal),
+                        SnmpType.OctetString => new OctetString(cmd.CmdVal.ToString(CultureInfo.InvariantCulture)),
+                        _ => new Integer32((int)cmd.CmdVal)
+                    };
+
+                    return snmpData != null;
+                }
+            }
+            else if (cmd.CmdData != null)
+            {
+                string cmdDataStr = cmd.GetCmdDataString();
+
+                if (cmdDataStr.Length > 0)
+                {
+                    char typeCodeChar = cmdDataStr[0];
+                    string valStr = cmdDataStr.Length >= 3 ? cmdDataStr[2..] : "";
+
+                    try
+                    {
+                        snmpData = typeCodeChar switch
+                        {
+                            'i' => new Integer32(int.Parse(valStr)),
+                            'u' => new Gauge32(uint.Parse(valStr)),
+                            't' => new TimeTicks(uint.Parse(valStr)),
+                            'a' => new IP(valStr),
+                            'o' => new ObjectIdentifier(valStr),
+                            's' => new OctetString(valStr),
+                            'x' => new OctetString(ByteTool.Convert(valStr)),
+                            'd' => new OctetString(ByteTool.ConvertDecimal(valStr)),
+                            'n' => new Null(),
+                            _ => null
+                        };
+                    }
+                    catch
+                    {
+                        snmpData = null;
+                    }
+
+                    return snmpData != null;
+                }
+            }
+
+            snmpData = null;
+            return false;
+        }
+
 
         /// <summary>
         /// Performs actions when starting a communication line.
@@ -395,6 +506,7 @@ namespace Scada.Comm.Drivers.DrvSnmp.Logic
                     deviceTag.DataType = variableConfig.DataType;
                     deviceTag.DataLen = DeviceTag.CalcDataLength(variableConfig.DataLen, variableConfig.DataType);
                     deviceTag.Format = TagFormat.GetDefault(variableConfig.DataType);
+                    deviceTag.Aux = new VariableMeta { VariableConfig = variableConfig };
                 }
 
                 DeviceTags.AddGroup(tagGroup);
@@ -480,13 +592,29 @@ namespace Scada.Comm.Drivers.DrvSnmp.Logic
             {
                 Log.WriteLine(CommPhrases.UnablePollDevice);
             }
-            else if (!FindVariable(cmd, out ObjectIdentifier oid))
+            else if (!FindVariableMeta(cmd, out VariableMeta variableMeta))
             {
                 Log.WriteLine(CommPhrases.InvalidCommand);
             }
+            else if (!GetSnmpData(cmd, variableMeta, out ISnmpData snmpData))
+            {
+                Log.WriteLine(Locale.IsRussian ?
+                    "Ошибка: неопределенные данные переменной" :
+                    "Error: undefined variable data");
+            }
             else
             {
+                Variable variable = CreateVariable(variableMeta.VariableConfig, snmpData);
+                int tryNum = 0;
 
+                while (RequestNeeded(ref tryNum))
+                {
+                    if (SetVariable(variable, variableMeta.VariableConfig))
+                        LastRequestOK = true;
+
+                    FinishRequest();
+                    tryNum++;
+                }
             }
 
             FinishCommand();
