@@ -17,13 +17,11 @@ namespace Scada.Comm.Drivers.DrvDbImport.View
         public static string CommandsNode { get; private set; }
         public static string QueryName { get; private set; }
         public static string QueriesNode { get; private set; }
-        public static string QueryNameEmpty { get; private set; }
-        public static string CommandNameEmpty { get; private set; }
-        public static string QueryNameNotUnique { get; private set; }
-        public static string CommandNameNotUnique { get; private set; }
         public static string SelectChildNode { get; private set; }
+        public static string UnnamedCommand { get; private set; }
+        public static string UnnamedQuery { get; private set; }
 
-        
+
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvDbImport.View.Forms.FrmDeviceConfig");
@@ -32,11 +30,9 @@ namespace Scada.Comm.Drivers.DrvDbImport.View
             CommandsNode = dict[nameof(CommandsNode)];
             QueryName = dict[nameof(QueryName)];
             QueriesNode = dict[nameof(QueriesNode)];
-            QueryNameEmpty = dict[nameof(QueryNameEmpty)];
-            CommandNameEmpty = dict[nameof(CommandNameEmpty)];
-            QueryNameNotUnique = dict[nameof(QueryNameNotUnique)];
-            CommandNameNotUnique = dict[nameof(CommandNameNotUnique)];
             SelectChildNode = dict[nameof(SelectChildNode)];
+            UnnamedCommand = dict[nameof(UnnamedCommand)];
+            UnnamedQuery = dict[nameof(UnnamedQuery)];
         }
     }
 }

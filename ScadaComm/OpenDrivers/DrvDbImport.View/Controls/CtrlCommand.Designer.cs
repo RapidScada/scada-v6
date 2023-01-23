@@ -30,9 +30,12 @@
         {
             this.components = new System.ComponentModel.Container();
             this.gbCmd = new System.Windows.Forms.GroupBox();
-            this.pbHintInfo = new System.Windows.Forms.PictureBox();
             this.txtSql = new System.Windows.Forms.TextBox();
+            this.pbHintInfo = new System.Windows.Forms.PictureBox();
             this.lblSql = new System.Windows.Forms.Label();
+            this.pnlCmdCodeWarn = new System.Windows.Forms.Panel();
+            this.lblCmdCodeWarn = new System.Windows.Forms.Label();
+            this.pbCmdCodeWarn = new System.Windows.Forms.PictureBox();
             this.txtCmdCode = new System.Windows.Forms.TextBox();
             this.lblCmdCode = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
@@ -40,6 +43,8 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.gbCmd.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbHintInfo)).BeginInit();
+            this.pnlCmdCodeWarn.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbCmdCodeWarn)).BeginInit();
             this.SuspendLayout();
             // 
             // gbCmd
@@ -47,6 +52,7 @@
             this.gbCmd.Controls.Add(this.txtSql);
             this.gbCmd.Controls.Add(this.pbHintInfo);
             this.gbCmd.Controls.Add(this.lblSql);
+            this.gbCmd.Controls.Add(this.pnlCmdCodeWarn);
             this.gbCmd.Controls.Add(this.txtCmdCode);
             this.gbCmd.Controls.Add(this.lblCmdCode);
             this.gbCmd.Controls.Add(this.txtName);
@@ -61,32 +67,31 @@
             this.gbCmd.TabStop = false;
             this.gbCmd.Text = "Command Parameters";
             // 
-            // pbHintInfo
-            // 
-            this.pbHintInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbHintInfo.Image = global::Scada.Comm.Drivers.DrvDbImport.View.Properties.Resource.info;
-            this.pbHintInfo.Location = new System.Drawing.Point(375, 103);
-            this.pbHintInfo.Name = "pbHintInfo";
-            this.pbHintInfo.Size = new System.Drawing.Size(16, 16);
-            this.pbHintInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pbHintInfo.TabIndex = 12;
-            this.pbHintInfo.TabStop = false;
-            this.toolTip.SetToolTip(this.pbHintInfo, "Avaliable parameters: @cmdVal, @cmdData");
-            // 
             // txtSql
             // 
             this.txtSql.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSql.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtSql.Location = new System.Drawing.Point(13, 125);
+            this.txtSql.Location = new System.Drawing.Point(13, 128);
             this.txtSql.Multiline = true;
             this.txtSql.Name = "txtSql";
             this.txtSql.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtSql.Size = new System.Drawing.Size(378, 324);
-            this.txtSql.TabIndex = 6;
+            this.txtSql.Size = new System.Drawing.Size(378, 321);
+            this.txtSql.TabIndex = 7;
             this.txtSql.WordWrap = false;
             this.txtSql.TextChanged += new System.EventHandler(this.txtSql_TextChanged);
+            // 
+            // pbHintInfo
+            // 
+            this.pbHintInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbHintInfo.Image = global::Scada.Comm.Drivers.DrvDbImport.View.Properties.Resource.info;
+            this.pbHintInfo.Location = new System.Drawing.Point(375, 107);
+            this.pbHintInfo.Name = "pbHintInfo";
+            this.pbHintInfo.Size = new System.Drawing.Size(16, 16);
+            this.pbHintInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbHintInfo.TabIndex = 12;
+            this.pbHintInfo.TabStop = false;
             // 
             // lblSql
             // 
@@ -94,8 +99,36 @@
             this.lblSql.Location = new System.Drawing.Point(10, 107);
             this.lblSql.Name = "lblSql";
             this.lblSql.Size = new System.Drawing.Size(28, 15);
-            this.lblSql.TabIndex = 5;
+            this.lblSql.TabIndex = 6;
             this.lblSql.Text = "SQL";
+            // 
+            // pnlCmdCodeWarn
+            // 
+            this.pnlCmdCodeWarn.Controls.Add(this.lblCmdCodeWarn);
+            this.pnlCmdCodeWarn.Controls.Add(this.pbCmdCodeWarn);
+            this.pnlCmdCodeWarn.Location = new System.Drawing.Point(153, 81);
+            this.pnlCmdCodeWarn.Name = "pnlCmdCodeWarn";
+            this.pnlCmdCodeWarn.Size = new System.Drawing.Size(134, 23);
+            this.pnlCmdCodeWarn.TabIndex = 5;
+            // 
+            // lblCmdCodeWarn
+            // 
+            this.lblCmdCodeWarn.AutoSize = true;
+            this.lblCmdCodeWarn.ForeColor = System.Drawing.Color.Red;
+            this.lblCmdCodeWarn.Location = new System.Drawing.Point(19, 4);
+            this.lblCmdCodeWarn.Name = "lblCmdCodeWarn";
+            this.lblCmdCodeWarn.Size = new System.Drawing.Size(72, 15);
+            this.lblCmdCodeWarn.TabIndex = 0;
+            this.lblCmdCodeWarn.Text = "Fill out code";
+            // 
+            // pbCmdCodeWarn
+            // 
+            this.pbCmdCodeWarn.Image = global::Scada.Comm.Drivers.DrvDbImport.View.Properties.Resource.warning;
+            this.pbCmdCodeWarn.Location = new System.Drawing.Point(0, 3);
+            this.pbCmdCodeWarn.Name = "pbCmdCodeWarn";
+            this.pbCmdCodeWarn.Size = new System.Drawing.Size(16, 16);
+            this.pbCmdCodeWarn.TabIndex = 0;
+            this.pbCmdCodeWarn.TabStop = false;
             // 
             // txtCmdCode
             // 
@@ -144,6 +177,9 @@
             this.gbCmd.ResumeLayout(false);
             this.gbCmd.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbHintInfo)).EndInit();
+            this.pnlCmdCodeWarn.ResumeLayout(false);
+            this.pnlCmdCodeWarn.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbCmdCodeWarn)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -159,5 +195,8 @@
         private TextBox txtSql;
         private PictureBox pbHintInfo;
         private ToolTip toolTip;
+        private Panel pnlCmdCodeWarn;
+        private Label lblCmdCodeWarn;
+        private PictureBox pbCmdCodeWarn;
     }
 }

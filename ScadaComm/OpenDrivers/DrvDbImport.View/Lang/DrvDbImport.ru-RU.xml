@@ -4,6 +4,7 @@
     <Phrase key="gbCmd">Параметры команды</Phrase>
     <Phrase key="lblName">Наименование</Phrase>
     <Phrase key="lblCmdCode">Код команды</Phrase>
+    <Phrase key="lblCmdCodeWarn">Заполните код</Phrase>
     <Phrase key="lblSql">SQL</Phrase>
     <Phrase key="pbHintInfo.ToolTip">Доступные параметры: @cmdVal, @cmdData</Phrase>
   </Dictionary>
@@ -13,7 +14,7 @@
     <Phrase key="lblName">Наименование</Phrase>
     <Phrase key="lblTag">Теги</Phrase>
     <Phrase key="lblSQL">SQL</Phrase>
-    <Phrase key="chkSingleRow">Одной строкой</Phrase>
+    <Phrase key="chkSingleRow">Результат одной строкой</Phrase>
     <Phrase key="pbHintSqlInfo.ToolTip">Одной строкой&#13;&#10;Не одной строкой</Phrase>
     <Phrase key="pbHintTagInfo.ToolTip">Теги</Phrase>
   </Dictionary>
@@ -35,9 +36,7 @@
     <Phrase key="QueryName">Запрос {0}</Phrase>
     <Phrase key="QueriesNode">Запросы</Phrase>
     <Phrase key="SelectChildNode">Выберите дочерний узел</Phrase>
-    <Phrase key="QueryNameNotUnique">Имя запроса должны быть уникальным.</Phrase>
-    <Phrase key="QueryNameEmpty">Имя запроса не должно быть пустым.</Phrase>
-    <Phrase key="CommandNameNotUnique">Имя команды должны быть уникальным.</Phrase>
-    <Phrase key="CommandNameEmpty">Имя команды не должно быть пустым.</Phrase>
+    <Phrase key="UnnamedCommand">&lt;Безымянная команда&gt;</Phrase>
+    <Phrase key="UnnamedQuery">&lt;Безымянный запрос&gt;</Phrase>
   </Dictionary>
 </DrvDbImportDictionaries>

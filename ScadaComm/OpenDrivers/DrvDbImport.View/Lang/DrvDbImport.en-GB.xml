@@ -4,6 +4,7 @@
     <Phrase key="gbCmd">Command Parameters</Phrase>
     <Phrase key="lblName">Name</Phrase>
     <Phrase key="lblCmdCode">Command code</Phrase>
+    <Phrase key="lblCmdCodeWarn">Fill out code</Phrase>
     <Phrase key="lblSql">SQL</Phrase>
     <Phrase key="pbHintInfo.ToolTip">Avaliable parameters: @cmdVal, @cmdData</Phrase>
   </Dictionary>
@@ -13,14 +14,14 @@
     <Phrase key="lblName">Name</Phrase>
     <Phrase key="lblTag">Tags</Phrase>
     <Phrase key="lblSQL">SQL</Phrase>
-    <Phrase key="chkSingleRow">Single row</Phrase>
+    <Phrase key="chkSingleRow">Single row result</Phrase>
     <Phrase key="pbHintSqlInfo.ToolTip">Single row&#13;&#10;No single row</Phrase>
     <Phrase key="pbHintTagInfo.ToolTip">Tags</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Forms.FrmDeviceConfig">
     <Phrase key="this">Device {0} Properties - DB Import</Phrase>
-    <Phrase key="btnAddQuery.ToolTip">Add query</Phrase>
-    <Phrase key="btnAddCommand.ToolTip">Add command</Phrase>
+    <Phrase key="btnAddQuery.ToolTip">Add Query</Phrase>
+    <Phrase key="btnAddCommand.ToolTip">Add Command</Phrase>
     <Phrase key="btnMoveUp.ToolTip">Move Up</Phrase>
     <Phrase key="btnMoveDown.ToolTip">Move Down</Phrase>
     <Phrase key="btnDelete.ToolTip">Delete</Phrase>
@@ -34,10 +35,8 @@
     <Phrase key="CommandsNode">Commands</Phrase>
     <Phrase key="QueryName">Query {0}</Phrase>    
     <Phrase key="QueriesNode">Queries</Phrase>
-    <Phrase key="SelectChildNode">Select child node</Phrase>    
-    <Phrase key="QueryNameNotUnique">Query names must be unique.</Phrase>
-    <Phrase key="QueryNameEmpty">The name of the query cannot be empty.</Phrase>
-    <Phrase key="CommandNameNotUnique">Command names must be unique.</Phrase>
-    <Phrase key="CommandNameEmpty">The name of the command cannot be empty.</Phrase>
+    <Phrase key="SelectChildNode">Select child node</Phrase>
+    <Phrase key="UnnamedCommand">&lt;Unnamed Command&gt;</Phrase>
+    <Phrase key="UnnamedQuery">&lt;Unnamed Query&gt;</Phrase>
   </Dictionary>
 </DrvDbImportDictionaries>

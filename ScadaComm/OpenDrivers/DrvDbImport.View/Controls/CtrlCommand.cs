@@ -67,12 +67,14 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Controls
                 txtName.Text = "";
                 txtCmdCode.Text = "";
                 txtSql.Text = "";
+                pnlCmdCodeWarn.Visible = false;
             }
             else
             {
                 txtName.Text = commandConfig.Name;
                 txtCmdCode.Text = commandConfig.CmdCode;
-                
+                pnlCmdCodeWarn.Visible = string.IsNullOrEmpty(commandConfig.CmdCode);
+
                 txtSql.Clear();
                 txtSql.AppendText(commandConfig.Sql.Replace("\n", Environment.NewLine));
             }
@@ -106,8 +108,12 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Controls
         {
             if (commandConfig != null)
             {
+                bool updateCmdCode = commandConfig.Name == commandConfig.CmdCode;
                 commandConfig.Name = txtName.Text;
                 OnObjectChanged(TreeUpdateTypes.CurrentNode);
+
+                if (updateCmdCode)
+                    txtCmdCode.Text = txtName.Text;
             }
         }
 
@@ -116,6 +122,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Controls
             if (commandConfig != null)
             {
                 commandConfig.CmdCode = txtCmdCode.Text;
+                pnlCmdCodeWarn.Visible = txtCmdCode.Text == "";
                 OnObjectChanged(TreeUpdateTypes.None);
             }
         }

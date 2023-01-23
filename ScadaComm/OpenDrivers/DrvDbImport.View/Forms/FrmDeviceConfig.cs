@@ -218,37 +218,6 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
         }
 
         /// <summary>
-        /// Checks the correctness of the gate.
-        /// </summary>
-        private bool ValidateConfig()
-        {
-            bool checkValidateName = true;
-
-            if (CheckQueryNamesEmpty())
-            {
-                ScadaUiUtils.ShowError(DriverPhrases.QueryNameEmpty);
-                checkValidateName = false;
-            }
-            else if (CheckCommandNamesEmpty())
-            {
-                ScadaUiUtils.ShowError(DriverPhrases.CommandNameEmpty);
-                checkValidateName = false;
-            }
-            else if (!CheckQueryNamesUnique())
-            {
-                ScadaUiUtils.ShowError(DriverPhrases.QueryNameNotUnique);
-                checkValidateName = false;
-            }
-            else if (!CheckCommandNamesUnique())
-            {
-                ScadaUiUtils.ShowError(DriverPhrases.CommandNameNotUnique);
-                checkValidateName = false;
-            }
-
-            return checkValidateName;
-        }
-
-        /// <summary>
         /// Fills the device tree.
         /// </summary>
         private void FillDeviceTree()
@@ -535,8 +504,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (ValidateConfig())
-                SaveConfig();
+            SaveConfig();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -558,7 +526,8 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
                treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode)) &&
                e.ChangedObject is QueryConfig queryConfig)
             {
-                tvDevice.SelectedNode.Text = queryConfig.Name;
+                tvDevice.SelectedNode.Text = string.IsNullOrEmpty(queryConfig.Name) ?
+                    DriverPhrases.UnnamedQuery : queryConfig.Name;
                 tvDevice.SelectedNode.SetImageKey(ChooseNodeImage(tvDevice.SelectedNode.Tag));
             }
 
@@ -572,7 +541,8 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
               treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode)) &&
               e.ChangedObject is CommandConfig commandConfig)
             {
-                tvDevice.SelectedNode.Text = commandConfig.Name;
+                tvDevice.SelectedNode.Text = string.IsNullOrEmpty(commandConfig.Name) ? 
+                    DriverPhrases.UnnamedCommand : commandConfig.Name;
                 tvDevice.SelectedNode.SetImageKey(ChooseNodeImage(tvDevice.SelectedNode.Tag));
             }
 

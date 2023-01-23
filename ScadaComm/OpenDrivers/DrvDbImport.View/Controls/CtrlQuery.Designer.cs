@@ -35,12 +35,12 @@
             this.chkSingleRow = new System.Windows.Forms.CheckBox();
             this.lblSql = new System.Windows.Forms.Label();
             this.txtTags = new System.Windows.Forms.TextBox();
+            this.pbHintTagInfo = new System.Windows.Forms.PictureBox();
             this.lblTag = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
             this.chkActive = new System.Windows.Forms.CheckBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.pbHintTagInfo = new System.Windows.Forms.PictureBox();
             this.gbQuery.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbHintSqlInfo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHintTagInfo)).BeginInit();
@@ -93,25 +93,24 @@
             this.pbHintSqlInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pbHintSqlInfo.TabIndex = 12;
             this.pbHintSqlInfo.TabStop = false;
-            this.toolTip.SetToolTip(this.pbHintSqlInfo, "Single row\r\nNo single row");
             // 
             // chkSingleRow
             // 
             this.chkSingleRow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkSingleRow.AutoSize = true;
-            this.chkSingleRow.Location = new System.Drawing.Point(288, 206);
+            this.chkSingleRow.Location = new System.Drawing.Point(256, 205);
             this.chkSingleRow.Name = "chkSingleRow";
             this.chkSingleRow.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.chkSingleRow.Size = new System.Drawing.Size(81, 19);
+            this.chkSingleRow.Size = new System.Drawing.Size(113, 19);
             this.chkSingleRow.TabIndex = 6;
-            this.chkSingleRow.Text = "Single row";
+            this.chkSingleRow.Text = "Single row result";
             this.chkSingleRow.UseVisualStyleBackColor = true;
             this.chkSingleRow.CheckedChanged += new System.EventHandler(this.chkSingleRow_CheckedChanged);
             // 
             // lblSql
             // 
             this.lblSql.AutoSize = true;
-            this.lblSql.Location = new System.Drawing.Point(10, 206);
+            this.lblSql.Location = new System.Drawing.Point(10, 207);
             this.lblSql.Margin = new System.Windows.Forms.Padding(3);
             this.lblSql.Name = "lblSql";
             this.lblSql.Size = new System.Drawing.Size(28, 15);
@@ -122,18 +121,30 @@
             // 
             this.txtTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTags.Location = new System.Drawing.Point(13, 106);
+            this.txtTags.Location = new System.Drawing.Point(13, 112);
             this.txtTags.Multiline = true;
             this.txtTags.Name = "txtTags";
             this.txtTags.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtTags.Size = new System.Drawing.Size(378, 94);
+            this.txtTags.Size = new System.Drawing.Size(378, 88);
             this.txtTags.TabIndex = 4;
             this.txtTags.TextChanged += new System.EventHandler(this.txtTags_TextChanged);
+            // 
+            // pbHintTagInfo
+            // 
+            this.pbHintTagInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbHintTagInfo.Image = global::Scada.Comm.Drivers.DrvDbImport.View.Properties.Resource.info;
+            this.pbHintTagInfo.Location = new System.Drawing.Point(375, 90);
+            this.pbHintTagInfo.Name = "pbHintTagInfo";
+            this.pbHintTagInfo.Size = new System.Drawing.Size(16, 16);
+            this.pbHintTagInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbHintTagInfo.TabIndex = 13;
+            this.pbHintTagInfo.TabStop = false;
             // 
             // lblTag
             // 
             this.lblTag.AutoSize = true;
-            this.lblTag.Location = new System.Drawing.Point(10, 88);
+            this.lblTag.Location = new System.Drawing.Point(10, 91);
+            this.lblTag.Margin = new System.Windows.Forms.Padding(3);
             this.lblTag.Name = "lblTag";
             this.lblTag.Size = new System.Drawing.Size(30, 15);
             this.lblTag.TabIndex = 3;
@@ -168,18 +179,6 @@
             this.chkActive.Text = "Active";
             this.chkActive.UseVisualStyleBackColor = true;
             this.chkActive.CheckedChanged += new System.EventHandler(this.chkActive_CheckedChanged);
-            // 
-            // pbHintTagInfo
-            // 
-            this.pbHintTagInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbHintTagInfo.Image = global::Scada.Comm.Drivers.DrvDbImport.View.Properties.Resource.info;
-            this.pbHintTagInfo.Location = new System.Drawing.Point(375, 87);
-            this.pbHintTagInfo.Name = "pbHintTagInfo";
-            this.pbHintTagInfo.Size = new System.Drawing.Size(16, 16);
-            this.pbHintTagInfo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pbHintTagInfo.TabIndex = 13;
-            this.pbHintTagInfo.TabStop = false;
-            this.toolTip.SetToolTip(this.pbHintTagInfo, "Tags");
             // 
             // CtrlQuery
             // 

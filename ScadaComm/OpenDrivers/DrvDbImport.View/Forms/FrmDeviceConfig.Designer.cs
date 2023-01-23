@@ -115,7 +115,6 @@
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(734, 25);
             this.toolStrip.TabIndex = 0;
-            this.toolStrip.Text = "Add export target";
             // 
             // btnAddQuery
             // 
@@ -278,13 +277,13 @@
             this.cmsTree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miCollapseAll});
             this.cmsTree.Name = "cmsTree";
-            this.cmsTree.Size = new System.Drawing.Size(181, 48);
+            this.cmsTree.Size = new System.Drawing.Size(137, 26);
             // 
             // miCollapseAll
             // 
             this.miCollapseAll.Image = global::Scada.Comm.Drivers.DrvDbImport.View.Properties.Resource.collapse_all;
             this.miCollapseAll.Name = "miCollapseAll";
-            this.miCollapseAll.Size = new System.Drawing.Size(180, 22);
+            this.miCollapseAll.Size = new System.Drawing.Size(136, 22);
             this.miCollapseAll.Text = "Collapse All";
             this.miCollapseAll.Click += new System.EventHandler(this.miCollapseAll_Click);
             // 
