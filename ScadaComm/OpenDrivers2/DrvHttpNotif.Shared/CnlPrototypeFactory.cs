@@ -4,7 +4,6 @@
 using Scada.Comm.Devices;
 using Scada.Data.Const;
 using Scada.Lang;
-using System.Collections.Generic;
 
 namespace Scada.Comm.Drivers.DrvHttpNotif
 {
