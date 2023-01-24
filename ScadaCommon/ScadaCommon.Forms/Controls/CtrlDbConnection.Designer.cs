@@ -63,7 +63,7 @@ namespace Scada.Forms.Controls
             this.gbConnectionOptions.Controls.Add(this.lblDbms);
             this.gbConnectionOptions.Controls.Add(this.txtName);
             this.gbConnectionOptions.Controls.Add(this.lblName);
-            this.gbConnectionOptions.Dock = System.Windows.Forms.DockStyle.Top;
+            this.gbConnectionOptions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbConnectionOptions.Location = new System.Drawing.Point(0, 0);
             this.gbConnectionOptions.Name = "gbConnectionOptions";
             this.gbConnectionOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
@@ -74,7 +74,8 @@ namespace Scada.Forms.Controls
             // 
             // txtConnectionString
             // 
-            this.txtConnectionString.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtConnectionString.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtConnectionString.Location = new System.Drawing.Point(13, 311);
             this.txtConnectionString.Multiline = true;
