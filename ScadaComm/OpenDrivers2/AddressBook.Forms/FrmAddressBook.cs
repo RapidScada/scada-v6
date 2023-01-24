@@ -44,7 +44,6 @@ namespace Scada.AB.Forms
         private FrmAddressBook()
         {
             InitializeComponent();
-
         }
 
         /// <summary>
