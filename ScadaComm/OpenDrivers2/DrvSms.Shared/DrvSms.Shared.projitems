@@ -9,6 +9,8 @@
     <Import_RootNamespace>Scada.Comm.Drivers.DrvSms</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)CnlPrototypeFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DriverUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TagCode.cs" />
   </ItemGroup>
 </Project>
