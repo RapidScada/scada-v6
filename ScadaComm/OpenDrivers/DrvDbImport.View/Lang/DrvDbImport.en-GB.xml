@@ -15,8 +15,8 @@
     <Phrase key="lblTag">Tags</Phrase>
     <Phrase key="lblSQL">SQL</Phrase>
     <Phrase key="chkSingleRow">Single row result</Phrase>
-    <Phrase key="pbSqlInfo.ToolTip">Single row&#13;&#10;No single row</Phrase>
-    <Phrase key="pbTagInfo.ToolTip">Tags</Phrase>
+    <Phrase key="pbTagInfo.ToolTip">Each line contains a tag code.</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">ON - request returns a single row, each field of which contains a tag value.&#13;&#10;OFF - request returns a set of rows, each row contains a tag value. Required columns: code and val.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Forms.FrmDeviceConfig">
     <Phrase key="this">Device {0} Properties - DB Import</Phrase>

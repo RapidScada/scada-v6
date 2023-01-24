@@ -15,8 +15,8 @@
     <Phrase key="lblTag">Теги</Phrase>
     <Phrase key="lblSQL">SQL</Phrase>
     <Phrase key="chkSingleRow">Результат одной строкой</Phrase>
-    <Phrase key="pbSqlInfo.ToolTip">Одной строкой&#13;&#10;Не одной строкой</Phrase>
-    <Phrase key="pbTagInfo.ToolTip">Теги</Phrase>
+    <Phrase key="pbTagInfo.ToolTip">Каждая строка содержит код тега.</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">Включен - запрос возвращает одну строку, каждое поле которой содержит значение тега.&#13;&#10;Выключен - запрос возвращает набор строк, каждая из которых содержит значение тега. Требуемые столбцы: code и val.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Forms.FrmDeviceConfig">
     <Phrase key="this">Свойства устройства {0} - Импорт из БД</Phrase>
