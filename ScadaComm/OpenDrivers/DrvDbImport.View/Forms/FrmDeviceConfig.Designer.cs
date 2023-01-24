@@ -41,7 +41,7 @@
             this.btnMoveDown = new System.Windows.Forms.ToolStripButton();
             this.btnDelete = new System.Windows.Forms.ToolStripButton();
             this.pnlMain = new System.Windows.Forms.Panel();
-            this.pnlInfo = new System.Windows.Forms.Panel();
+            this.pnlOptions = new System.Windows.Forms.Panel();
             this.ctrlDbConnection = new Scada.Forms.Controls.CtrlDbConnection();
             this.ctrlCommand = new Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlCommand();
             this.ctrlQuery = new Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlQuery();
@@ -54,7 +54,7 @@
             this.pnlBottom.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.pnlMain.SuspendLayout();
-            this.pnlInfo.SuspendLayout();
+            this.pnlOptions.SuspendLayout();
             this.gbDevice.SuspendLayout();
             this.cmsTree.SuspendLayout();
             this.SuspendLayout();
@@ -86,7 +86,7 @@
             this.btnCancel.Location = new System.Drawing.Point(566, 10);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 3;
+            this.btnCancel.TabIndex = 1;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -176,7 +176,7 @@
             // 
             // pnlMain
             // 
-            this.pnlMain.Controls.Add(this.pnlInfo);
+            this.pnlMain.Controls.Add(this.pnlOptions);
             this.pnlMain.Controls.Add(this.gbDevice);
             this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMain.Location = new System.Drawing.Point(0, 25);
@@ -184,20 +184,20 @@
             this.pnlMain.Size = new System.Drawing.Size(734, 471);
             this.pnlMain.TabIndex = 1;
             // 
-            // pnlInfo
+            // pnlOptions
             // 
-            this.pnlInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.pnlOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlInfo.Controls.Add(this.ctrlDbConnection);
-            this.pnlInfo.Controls.Add(this.ctrlCommand);
-            this.pnlInfo.Controls.Add(this.ctrlQuery);
-            this.pnlInfo.Controls.Add(this.lblHint);
-            this.pnlInfo.Location = new System.Drawing.Point(318, 3);
-            this.pnlInfo.Margin = new System.Windows.Forms.Padding(0);
-            this.pnlInfo.Name = "pnlInfo";
-            this.pnlInfo.Size = new System.Drawing.Size(404, 462);
-            this.pnlInfo.TabIndex = 2;
+            this.pnlOptions.Controls.Add(this.ctrlDbConnection);
+            this.pnlOptions.Controls.Add(this.ctrlCommand);
+            this.pnlOptions.Controls.Add(this.ctrlQuery);
+            this.pnlOptions.Controls.Add(this.lblHint);
+            this.pnlOptions.Location = new System.Drawing.Point(318, 3);
+            this.pnlOptions.Margin = new System.Windows.Forms.Padding(0);
+            this.pnlOptions.Name = "pnlOptions";
+            this.pnlOptions.Size = new System.Drawing.Size(404, 462);
+            this.pnlOptions.TabIndex = 2;
             // 
             // ctrlDbConnection
             // 
@@ -315,7 +315,7 @@
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             this.pnlMain.ResumeLayout(false);
-            this.pnlInfo.ResumeLayout(false);
+            this.pnlOptions.ResumeLayout(false);
             this.gbDevice.ResumeLayout(false);
             this.cmsTree.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -336,7 +336,7 @@
         private Panel pnlMain;
         private GroupBox gbDevice;
         private TreeView tvDevice;
-        private Panel pnlInfo;
+        private Panel pnlOptions;
         private ImageList ilTree;
         private ToolStripButton btnAddQuery;
         private ToolStripButton btnAddCommand;
