@@ -1,8 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>Scada.Comm.Drivers.DrvSms.Logic</RootNamespace>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <RootNamespace>Scada.Comm.Drivers.DrvSms.View</RootNamespace>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
@@ -10,10 +12,6 @@
     <Version>6.0.0</Version>
     <AssemblyVersion>6.0.0.0</AssemblyVersion>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="..\AddressBook\AddressBook.csproj" />
-  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="ScadaCommCommon">
