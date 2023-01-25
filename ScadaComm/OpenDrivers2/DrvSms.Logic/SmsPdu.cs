@@ -15,6 +15,11 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
     /// </summary>
     internal static class SmsPdu
     {
+        // The masks for 7-bit decoding.
+        private static readonly byte[] MaskL = new byte[] { 0xFE, 0xFC, 0xF8, 0xF0, 0xE0, 0xC0, 0x80 };
+        private static readonly byte[] MaskR = new byte[] { 0x01, 0x03, 0x07, 0x0F, 0x1F, 0x3F, 0x7F };
+
+
         /// <summary>
         /// Decodes the phone number.
         /// </summary>
@@ -87,9 +92,6 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
         /// </summary>
         private static string Decode7bitText(string text)
         {
-            byte[] MaskL = new byte[] { 0xFE, 0xFC, 0xF8, 0xF0, 0xE0, 0xC0, 0x80 };
-            byte[] MaskR = new byte[] { 0x01, 0x03, 0x07, 0x0F, 0x1F, 0x3F, 0x7F };
-
             // replace pairs of characters with their hexadecimal values and write to buffer
             byte[] buf = new byte[text.Length / 2];
             int bufPos = 0;
