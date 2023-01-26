@@ -13,7 +13,7 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
     /// Provides methods for encoding and decoding messages in the SMS PDU mode.
     /// <para>Предоставляет методы для кодирования и декодирования сообщений в режиме SMS PDU.</para>
     /// </summary>
-    internal static class SmsPdu
+    internal static class PduConverter
     {
         // The masks for 7-bit decoding.
         private static readonly byte[] MaskL = new byte[] { 0xFE, 0xFC, 0xF8, 0xF0, 0xE0, 0xC0, 0x80 };
@@ -215,7 +215,7 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
         /// <summary>
         /// Creates a Protocol Data Unit for sending message.
         /// </summary>
-        public static string MakePDU(string phoneNumber, string messageText, out int pduLength)
+        public static Pdu MakePDU(string phoneNumber, string messageText)
         {
             if (phoneNumber == null)
                 throw new ArgumentNullException(nameof(phoneNumber));
@@ -240,16 +240,16 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
                 messageText = messageText.Substring(0, maxMsgLen);
 
             // build PDU
-            StringBuilder pdu = new StringBuilder();
-            pdu.Append("00");                          // Service Center Adress (SCA)
-            pdu.Append("01");                          // PDU-type
-            pdu.Append("00");                          // Message Reference (MR)
-            pdu.Append(EncodePhone(phoneNumber));      // Destination Adress (DA)
-            pdu.Append("00");                          // Protocol Identifier (PID)
+            StringBuilder sbPdu = new StringBuilder();
+            sbPdu.Append("00");                     // Service Center Adress (SCA)
+            sbPdu.Append("01");                     // PDU-type
+            sbPdu.Append("00");                     // Message Reference (MR)
+            sbPdu.Append(EncodePhone(phoneNumber)); // Destination Adress (DA)
+            sbPdu.Append("00");                     // Protocol Identifier (PID)
 
-            byte dcs;                                  // Data Coding Scheme (DCS)
-            List<byte> ud;                             // User Data (UD)
-            byte udl;                                  // User Data Length (UDL)
+            byte dcs;                               // Data Coding Scheme (DCS)
+            List<byte> ud;                          // User Data (UD)
+            byte udl;                               // User Data Length (UDL)
 
             if (sevenBit)
             {
@@ -264,16 +264,19 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
                 udl = (byte)ud.Count;
             }
 
-            pdu.Append(dcs.ToString("X2"));
-            pdu.Append(udl.ToString("X2"));
+            sbPdu.Append(dcs.ToString("X2"));
+            sbPdu.Append(udl.ToString("X2"));
 
             foreach (byte b in ud)
             {
-                pdu.Append(b.ToString("X2"));
+                sbPdu.Append(b.ToString("X2"));
             }
 
-            pduLength = (pdu.Length - 2) / 2;
-            return pdu.ToString();
+            return new Pdu
+            {
+                Data = sbPdu.ToString(),
+                Length = (sbPdu.Length - 2) / 2
+            };
         }
 
         /// <summary>

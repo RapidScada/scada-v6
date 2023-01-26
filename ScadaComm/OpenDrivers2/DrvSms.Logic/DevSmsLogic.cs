@@ -7,7 +7,11 @@ using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Lang;
 using Scada.Data.Models;
+using Scada.Lang;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 
 namespace Scada.Comm.Drivers.DrvSms.Logic
 {
@@ -90,15 +94,124 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
                     }
                 }
 
+                // validate phone numbers
+                bool commandIsValid = true;
+
+                if (phoneNumbers.Count > 0)
+                {
+                    foreach (string phoneNumber in phoneNumbers)
+                    {
+                        if (!ValidatePhoneNumber(phoneNumber))
+                            commandIsValid = false;
+                    }
+                }
+                else
+                {
+                    Log.WriteLine(Locale.IsRussian ?
+                        "{0}Телефонные номера отсутствуют" :
+                        "{0}Phone numbers are missing", CommPhrases.ErrorPrefix);
+                }
+
+                // get message text
                 messageText = cmdDataStr.Substring(sepIdx + 1);
-                return true; // TODO: validate results
+
+                if (string.IsNullOrEmpty(messageText))
+                {
+                    Log.WriteLine(Locale.IsRussian ?
+                        "{0}Текст сообщения отсутствует" :
+                        "{0}Message text is missing", CommPhrases.ErrorPrefix);
+                    commandIsValid = false;
+                }
+
+                return commandIsValid;
             }
             else
             {
+                Log.WriteLine(Locale.IsRussian ?
+                    "{0}Неверный формат команды" :
+                    "{0}Invalid command format", CommPhrases.ErrorPrefix);
                 phoneNumbers = null;
                 messageText = "";
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Validates the specified phone number.
+        /// </summary>
+        private bool ValidatePhoneNumber(string phoneNumber)
+        {
+            if (string.IsNullOrEmpty(phoneNumber))
+            {
+                Log.WriteLine(Locale.IsRussian ?
+                    "{0}Телефонный номер пуст" :
+                    "{0}Phone number is empty", CommPhrases.ErrorPrefix);
+                return false;
+            }
+            else
+            {
+                bool formatOK = phoneNumber[0] == '+'
+                    ? phoneNumber.Length > 1 && phoneNumber.Substring(1).AsEnumerable().All(c => char.IsDigit(c))
+                    : phoneNumber.AsEnumerable().All(c => char.IsDigit(c));
+
+                if (formatOK)
+                {
+                    return true;
+                }
+                else
+                {
+                    Log.WriteLine(Locale.IsRussian ?
+                        "{0}Телефонный номер \"{1}\" имеет неверный формат" :
+                        "{0}Phone number \"{1}\" is invalid", CommPhrases.ErrorPrefix, phoneNumber);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Tries to create a PDU.
+        /// </summary>
+        private bool TryCreatePdu(string phoneNumber, string messageText, out Pdu pdu)
+        {
+            try
+            {
+                pdu = PduConverter.MakePDU(phoneNumber, messageText);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.WriteLine(Locale.IsRussian ?
+                    "Ошибка при создании PDU: {0}" :
+                    "Error creating PDU", ex.Message);
+                pdu = null;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Sends the SMS message.
+        /// </summary>
+        private bool SendMessage(string phoneNumber, Pdu pdu)
+        {
+            Log.WriteLine(Locale.IsRussian ?
+                "Отправка SMS на номер {0}" :
+                "Send message to {0}", phoneNumber);
+
+            Connection.WriteLine("AT+CMGS=" + pdu.Length);
+            Thread.Sleep(100);
+
+            try
+            {
+                Connection.NewLine = "\x1A";
+                Connection.WriteLine(pdu.Data);
+            }
+            finally
+            {
+                Connection.NewLine = ModemNewLine;
+            }
+
+            Connection.ReadLines(PollingOptions.Timeout, OkStopCond, out bool stopReceived);
+            return stopReceived;
         }
 
 
@@ -155,14 +268,32 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
             {
                 if (ParseMessageCommand(cmd, out List<string> phoneNumbers, out string messageText))
                 {
+                    bool allMessagesSent = true;
+
                     foreach (string phoneNumber in phoneNumbers)
                     {
+                        if (TryCreatePdu(phoneNumber, messageText, out Pdu pdu))
+                        {
+                            LastRequestOK = false;
+                            int tryNum = 0;
 
+                            while (RequestNeeded(ref tryNum))
+                            {
+                                LastRequestOK = SendMessage(phoneNumber, pdu);
+                                FinishRequest();
+                                tryNum++;
+                            }
+
+                            if (!LastRequestOK)
+                                allMessagesSent = false;
+                        }
+                        else
+                        {
+                            allMessagesSent = false;
+                        }
                     }
-                }
-                else
-                {
-                    Log.WriteLine(CommPhrases.InvalidCommand);
+
+                    LastRequestOK = allMessagesSent;
                 }
             }
             else if (cmd.CmdCode == TagCode.AtCmd || cmd.CmdNum == 2)
@@ -170,6 +301,7 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
                 // send custom AT command
                 Connection.WriteLine(cmd.GetCmdDataString());
                 Connection.ReadLines(PollingOptions.Timeout, OkErrStopCond, out _);
+                DeviceData.Add(TagCode.AtCmd, 1);
                 LastRequestOK = true;
                 FinishRequest();
             }
