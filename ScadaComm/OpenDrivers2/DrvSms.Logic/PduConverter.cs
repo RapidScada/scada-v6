@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.AB;
 using Scada.Lang;
 using System;
 using System.Collections.Generic;
@@ -284,6 +285,11 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
         /// </summary>
         public static bool FillMessageList(List<Message> messages, List<string> response, out string logMsg)
         {
+            if (messages == null)
+                throw new ArgumentNullException(nameof(messages));
+            if (response == null)
+                throw new ArgumentNullException(nameof(response));
+
             bool result = true;
             StringBuilder sbLogMsg = new StringBuilder();
             int i = 1;

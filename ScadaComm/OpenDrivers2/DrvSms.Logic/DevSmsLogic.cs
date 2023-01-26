@@ -34,8 +34,8 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
         /// </summary>
         private readonly TextStopCondition OkErrStopCond = new TextStopCondition("OK", "ERROR");
 
-        private readonly List<Message> messageList; // contains messages received by the device
-        private AddressBook addressBook;            // the address book shared for the communication line
+        private readonly List<Message> messages; // contains messages received by the device
+        private AddressBook addressBook;         // the address book shared for the communication line
 
 
         /// <summary>
@@ -46,10 +46,25 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
         {
             CanSendCommands = true;
 
-            messageList = new List<Message>();
+            messages = new List<Message>();
             addressBook = null;
         }
 
+
+        /// <summary>
+        /// Creates events according to the received messages.
+        /// </summary>
+        private void CreateEvents()
+        {
+            foreach (Message message in messages)
+            {
+                DeviceData.EnqueueEvent(new DeviceEvent(DeviceTags[TagCode.Msg])
+                {
+                    Timestamp = DateTime.UtcNow,
+                    Descr = message.Phone + "; " + message.Text
+                });
+            }
+        }
 
         /// <summary>
         /// Parses the specified command to extract phone numbers and message text.
@@ -211,7 +226,16 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
             }
 
             Connection.ReadLines(PollingOptions.Timeout, OkStopCond, out bool stopReceived);
-            return stopReceived;
+
+            if (stopReceived)
+            {
+                DeviceData.Add(TagCode.Msg, 1);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
 
@@ -250,7 +274,106 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
         public override void Session()
         {
             base.Session();
+            Connection.NewLine = ModemNewLine;
 
+            // echo off
+            if (DeviceStatus != DeviceStatus.Normal)
+            {
+                LastRequestOK = false;
+                int tryNum = 0;
+
+                while (RequestNeeded(ref tryNum))
+                {
+                    Log.WriteLine(Locale.IsRussian ? 
+                        "Отключение эхо" : 
+                        "Set echo off");
+                    Connection.WriteLine("ATE0");
+                    Connection.ReadLines(PollingOptions.Timeout, OkStopCond, out bool stopReceived);
+                    LastRequestOK = stopReceived;
+                    FinishRequest();
+                    tryNum++;
+                }
+            }
+
+            // drop call
+            if (LastRequestOK)
+            {
+                LastRequestOK = false;
+                int tryNum = 0;
+
+                while (RequestNeeded(ref tryNum))
+                {
+                    Log.WriteLine(Locale.IsRussian ?
+                        "Сброс вызова" : 
+                        "Drop call");
+                    Connection.WriteLine("ATH"); // alternatively, AT+CHUP
+                    Connection.ReadLines(PollingOptions.Timeout, OkStopCond, out bool stopReceived);
+                    LastRequestOK = stopReceived;
+                    FinishRequest();
+                    tryNum++;
+                }
+            }
+
+            // read received messages
+            if (LastRequestOK)
+            {
+                LastRequestOK = false;
+                int tryNum = 0;
+                List<string> response = null;
+
+                while (RequestNeeded(ref tryNum))
+                {
+                    Log.WriteLine(Locale.IsRussian ?
+                        "Запрос списка сообщений" : 
+                        "Request message list");
+                    Connection.WriteLine("AT+CMGL=4");
+                    response = Connection.ReadLines(PollingOptions.Timeout, OkStopCond, out bool stopReceived);
+                    LastRequestOK = stopReceived;
+                    FinishRequest();
+                    tryNum++;
+                }
+
+                // decode messages
+                if (LastRequestOK)
+                {
+                    messages.Clear();
+                    LastRequestOK = PduConverter.FillMessageList(messages, response, out string logMsg);
+
+                    if (!string.IsNullOrEmpty(logMsg))
+                        Log.WriteLine(logMsg);
+
+                    CreateEvents();
+                }
+            }
+
+            // delete received messages
+            if (LastRequestOK)
+            {
+                bool allMessagesDeleted = true;
+
+                foreach (Message message in messages)
+                {
+                    LastRequestOK = false;
+                    int tryNum = 0;
+
+                    while (RequestNeeded(ref tryNum))
+                    {
+                        Log.WriteLine(Locale.IsRussian ?
+                            "Удаление сообщения {0}" : 
+                            "Delete message {0}", message.Index);
+                        Connection.WriteLine("AT+CMGD=" + message.Index);
+                        Connection.ReadLines(PollingOptions.Timeout, OkStopCond, out bool stopReceived);
+                        LastRequestOK = stopReceived;
+                        FinishRequest();
+                        tryNum++;
+                    }
+
+                    if (!LastRequestOK)
+                        allMessagesDeleted = false;
+                }
+
+                LastRequestOK = allMessagesDeleted;
+            }
 
             FinishSession();
         }
