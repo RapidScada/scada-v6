@@ -214,8 +214,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
 
             foreach (QueryOptions queryOptions in exportTargetConfig.Queries)
             {
-                queriesNode.Nodes.Add(TreeViewExtensions.CreateNode(string.IsNullOrEmpty
-                    (queryOptions.Name) ? ModulePhrases.UnnamedQuery : queryOptions.Name,
+                queriesNode.Nodes.Add(TreeViewExtensions.CreateNode(
+                    string.IsNullOrEmpty(queryOptions.Name) ? ModulePhrases.UnnamedQuery : queryOptions.Name,
                     ChooseNodeImage(queryOptions), queryOptions));
             }
 
@@ -308,20 +308,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         {
             return config.ExportTargets.Count == 
                 config.ExportTargets.DistinctBy(g => g.GeneralOptions.Name.ToLowerInvariant()).Count();
-        }
-
-        /// <summary>
-        /// Gets the main root by treeNode.
-        /// </summary>
-        private static TreeNode ChooseRootTreeNode(TreeNode treeNode) 
-        { 
-            while (treeNode.Level > 0)
-            { 
-                treeNode = treeNode.Parent;
-            } 
-            
-            return treeNode; 
-        }
+        }      
 
         /// <summary>
         /// Checks the correctness of the gate.
@@ -420,46 +407,41 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
 
         private void btnAddQuery_Click(object sender, EventArgs e)
         {
-            // find parent for qyeries
-            TreeNode queriesNode = tvTargets.SelectedNode?.FindClosest(typeof(QueryOptionList));
+             // find parent for queries
+            TreeNode selectedNode = tvTargets.SelectedNode;
 
-            if (queriesNode is null)
+            if (selectedNode != null)
             {
-                foreach (TreeNode node in ChooseRootTreeNode(tvTargets.SelectedNode).Nodes)
+                TreeNode queriesNode = selectedNode?.FindClosest(typeof(QueryOptionList));
+
+                queriesNode ??= selectedNode?.GetTopParentNode()?.FindFirst(typeof(QueryOptionList));
+
+                if (queriesNode != null)
                 {
-                    if (node.TagIs(typeof(QueryOptionList)))
+                    // add query
+                    QueryOptions queryOptions = new()
                     {
-                        queriesNode = node;
-                        break;
-                    }
+                        Name = string.Format(ModulePhrases.QueryName, queriesNode.GetNodeCount(true) + 1)
+                    };
+
+                    if (sender == btnAddCurrentDataQuery)
+                        queryOptions.DataKind = DataKind.Current;
+                    else if (sender == btnAddHistoricalDataQuery)
+                        queryOptions.DataKind = DataKind.Historical;
+                    else if (sender == btnAddEventQuery)
+                        queryOptions.DataKind = DataKind.Event;
+                    else if (sender == btnAddEventAckQuery)
+                        queryOptions.DataKind = DataKind.EventAck;
+                    else if (sender == btnAddCommandQuery)
+                        queryOptions.DataKind = DataKind.Command;
+                    else
+                        throw new ScadaException("Unknown query data kind.");
+
+                    tvTargets.Insert(queriesNode, TreeViewExtensions.CreateNode(queryOptions.Name,
+                        ChooseNodeImage(queryOptions), queryOptions));
+                    Modified = true;
+                    ctrlQuery.SetFocus();
                 }
-            }
-
-            if (queriesNode != null)
-            {
-                // add query
-                QueryOptions queryOptions = new()
-                {
-                    Name = string.Format(ModulePhrases.QueryName, queriesNode.GetNodeCount(true) + 1)
-                };
-
-                if (sender == btnAddCurrentDataQuery)
-                    queryOptions.DataKind = DataKind.Current;
-                else if (sender == btnAddHistoricalDataQuery)
-                    queryOptions.DataKind = DataKind.Historical;
-                else if (sender == btnAddEventQuery)
-                    queryOptions.DataKind = DataKind.Event;
-                else if (sender == btnAddEventAckQuery)
-                    queryOptions.DataKind = DataKind.EventAck;
-                else if (sender == btnAddCommandQuery)
-                    queryOptions.DataKind = DataKind.Command;
-                else
-                    throw new ScadaException("Unknown query data kind.");
-
-                tvTargets.Insert(queriesNode, TreeViewExtensions.CreateNode(queryOptions.Name,
-                    ChooseNodeImage(queryOptions), queryOptions));
-                Modified = true;
-                ctrlQuery.SetFocus();
             }
         }
 
@@ -497,8 +479,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                 treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode)) &&
                 e.ChangedObject is QueryOptions queryOptions)
             {
-                tvTargets.SelectedNode.Text = string.IsNullOrEmpty
-                    (queryOptions.Name) ? ModulePhrases.UnnamedQuery : queryOptions.Name;
+                tvTargets.SelectedNode.Text = 
+                    string.IsNullOrEmpty(queryOptions.Name) ? ModulePhrases.UnnamedQuery : queryOptions.Name;
                 tvTargets.SelectedNode.SetImageKey(ChooseNodeImage(tvTargets.SelectedNode.Tag));
             }
 
