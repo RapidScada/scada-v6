@@ -8,6 +8,7 @@ using Scada.Lang;
 using Scada.Server.Lang;
 using Scada.Server.Modules.ModDbExport.Config;
 using Scada.Server.Modules.ModDbExport.View.Properties;
+using System.Windows.Forms;
 
 namespace Scada.Server.Modules.ModDbExport.View.Forms
 {
@@ -165,6 +166,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                     SetButtonsEnabled();
                     HideControls();
                     lblHint.Visible = true;
+                    lblHint.Text = ModulePhrases.AddTargets;
                 }
             }
             finally
@@ -213,7 +215,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
 
             foreach (QueryOptions queryOptions in exportTargetConfig.Queries)
             {
-                queriesNode.Nodes.Add(TreeViewExtensions.CreateNode(queryOptions.Name,
+                queriesNode.Nodes.Add(TreeViewExtensions.CreateNode(
+                    string.IsNullOrEmpty(queryOptions.Name) ? ModulePhrases.UnnamedQuery : queryOptions.Name,
                     ChooseNodeImage(queryOptions), queryOptions));
             }
 
@@ -237,7 +240,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                     _ => ImageKey.Option,
                 };
             }
-            else if (obj is Config.GeneralOptions)
+            else if (obj is GeneralOptions)
             {
                 return ImageKey.Option;
             }
@@ -286,64 +289,42 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         {
             TreeNode selectedNode = tvTargets.SelectedNode;
 
+            btnAddCurrentDataQuery.Enabled = btnAddHistoricalDataQuery.Enabled = btnAddEventQuery.Enabled =
+                btnAddEventAckQuery.Enabled = btnAddCommandQuery.Enabled = selectedNode != null;
+
             btnMoveUp.Enabled = tvTargets.MoveUpSelectedNodeIsEnabled(TreeNodeBehavior.WithinParent) &&
-                (tvTargets.SelectedNode.Parent == null || tvTargets.SelectedNode.Tag is QueryOptions);
+                (selectedNode.Parent == null || selectedNode.Tag is QueryOptions);
 
             btnMoveDown.Enabled = tvTargets.MoveDownSelectedNodeIsEnabled(TreeNodeBehavior.WithinParent) &&
-                (tvTargets.SelectedNode.Parent == null || tvTargets.SelectedNode.Tag is QueryOptions);
+                (selectedNode.Parent == null || selectedNode.Tag is QueryOptions);
 
             btnDelete.Enabled = btnCut.Enabled = btnCopy.Enabled = selectedNode != null &&
-                (tvTargets.SelectedNode.Parent == null || tvTargets.SelectedNode.Tag is QueryOptions);
-
-            btnAddCurrentDataQuery.Enabled = btnAddHistoricalDataQuery.Enabled = btnAddEventQuery.Enabled = 
-                btnAddEventAckQuery.Enabled = btnAddCommandQuery.Enabled = selectedNode != null;
+                (selectedNode.Parent == null || selectedNode.Tag is QueryOptions);            
         }
 
         /// <summary>
-        /// Checks gates name for uniqueness.
+        /// Checks targets name for uniqueness.
         /// </summary>
-        private bool CheckGateNamesUnique()
+        private bool CheckTargetNamesUnique()
         {
             return config.ExportTargets.Count == 
                 config.ExportTargets.DistinctBy(g => g.GeneralOptions.Name.ToLowerInvariant()).Count();
-        }
-
-        /// <summary>
-        /// Checks names for empty value.
-        /// </summary>
-        private bool CheckGateNamesEmpty()
-        {
-            return config.ExportTargets.Any(g => string.IsNullOrEmpty(g.GeneralOptions.Name));
-        }
+        }      
 
         /// <summary>
         /// Checks the correctness of the gate.
         /// </summary>
         private bool ValidateConfig()
         {
-            bool checkValidateName = true;
-
-            if (CheckGateNamesEmpty())
-            {
-                ScadaUiUtils.ShowError(ModulePhrases.TargetNameEmpty);
-                checkValidateName = false;
-            }
-            else if (!CheckGateNamesUnique())
+            if (!CheckTargetNamesUnique())
             {
                 ScadaUiUtils.ShowError(ModulePhrases.TargetNameNotUnique);
-                checkValidateName = false;
+                return false;
             }
-
-            return checkValidateName;
-        }
-
-        /// <summary>
-        /// Gets the main root by treeNode.
-        /// </summary>
-        private static TreeNode ChooseRootTreeNode(TreeNode treeNode) 
-        { 
-            while (treeNode.Level > 0) { treeNode = treeNode.Parent; } 
-            return treeNode; 
+            else
+            {
+                return true;
+            }
         }
 
 
@@ -427,20 +408,12 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
 
         private void btnAddQuery_Click(object sender, EventArgs e)
         {
-            // find parent for qyeries
-            TreeNode queriesNode = tvTargets.SelectedNode?.FindClosest(typeof(QueryOptionList));
-
-            if (queriesNode is null)
-            {
-                foreach (TreeNode node in ChooseRootTreeNode(tvTargets.SelectedNode).Nodes)
-                {
-                    if (node.TagIs(typeof(QueryOptionList)))
-                    {
-                        queriesNode = node;
-                        break;
-                    }
-                }
-            }
+            if (tvTargets.SelectedNode is not TreeNode selectedNode)
+                return;
+   
+            TreeNode queriesNode = 
+                selectedNode.FindClosest(typeof(QueryOptionList)) ??
+                selectedNode.GetTopParentNode().FindFirst(typeof(QueryOptionList));
 
             if (queriesNode != null)
             {
@@ -504,7 +477,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                 treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode)) &&
                 e.ChangedObject is QueryOptions queryOptions)
             {
-                tvTargets.SelectedNode.Text = queryOptions.Name;
+                tvTargets.SelectedNode.Text = 
+                    string.IsNullOrEmpty(queryOptions.Name) ? ModulePhrases.UnnamedQuery : queryOptions.Name;
                 tvTargets.SelectedNode.SetImageKey(ChooseNodeImage(tvTargets.SelectedNode.Tag));
             }
 
