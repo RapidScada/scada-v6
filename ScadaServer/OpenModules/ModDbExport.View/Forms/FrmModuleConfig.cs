@@ -188,9 +188,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         private static TreeNode CreateGroupNode(ExportTargetConfig exportTargetConfig)
         {
             TreeNode groupNode = TreeViewExtensions.CreateNode(exportTargetConfig, ChooseNodeImage(exportTargetConfig));
-            groupNode.Text = string.IsNullOrEmpty(exportTargetConfig.GeneralOptions.Name) ?
-                string.Format("[{0}] {1}", exportTargetConfig.GeneralOptions.ID, ModulePhrases.UnnamedTarget) : 
-                exportTargetConfig.GeneralOptions.Title;
+            groupNode.Text = exportTargetConfig.GeneralOptions.Title;
 
             groupNode.Nodes.Add(TreeViewExtensions.CreateNode(ModulePhrases.GeneralOptionsNode,
                 ChooseNodeImage(exportTargetConfig.GeneralOptions), exportTargetConfig.GeneralOptions));
@@ -216,8 +214,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
 
             foreach (QueryOptions queryOptions in exportTargetConfig.Queries)
             {
-                queriesNode.Nodes.Add(TreeViewExtensions.CreateNode(string.IsNullOrEmpty(queryOptions.Name) ? 
-                    ModulePhrases.UnnamedQuery : queryOptions.Name,
+                queriesNode.Nodes.Add(TreeViewExtensions.CreateNode(string.IsNullOrEmpty
+                    (queryOptions.Name) ? ModulePhrases.UnnamedQuery : queryOptions.Name,
                     ChooseNodeImage(queryOptions), queryOptions));
             }
 
@@ -473,8 +471,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                 treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode)) &&
                 e.ChangedObject is GeneralOptions generalOptions)
             {
-                tvTargets.SelectedNode.Parent.Text = string.IsNullOrEmpty(generalOptions.Name) ? 
-                    string.Format("[{0}] {1}", generalOptions.ID, ModulePhrases.UnnamedTarget) : generalOptions.Title;
+                tvTargets.SelectedNode.Parent.Text = generalOptions.Title;
                 tvTargets.SelectedNode.Parent.SetImageKey(ChooseNodeImage(tvTargets.SelectedNode.Parent.Tag));
             }
 
@@ -496,8 +493,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                 treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode)) &&
                 e.ChangedObject is QueryOptions queryOptions)
             {
-                tvTargets.SelectedNode.Text = string.IsNullOrEmpty(queryOptions.Name) ?
-                    ModulePhrases.UnnamedQuery : queryOptions.Name;
+                tvTargets.SelectedNode.Text = string.IsNullOrEmpty
+                    (queryOptions.Name) ? ModulePhrases.UnnamedQuery : queryOptions.Name;
                 tvTargets.SelectedNode.SetImageKey(ChooseNodeImage(tvTargets.SelectedNode.Tag));
             }
 

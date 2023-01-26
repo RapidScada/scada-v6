@@ -24,7 +24,6 @@ namespace Scada.Server.Modules.ModDbExport.View
         public static string TargetNameNotUnique { get; private set; }
         public static string QueryName { get; private set; }
         public static string QueriesNode { get; private set; }
-        public static string UnnamedTarget { get; private set; }
         public static string UnnamedQuery { get; private set; }
 
         public static void Init()
@@ -42,7 +41,6 @@ namespace Scada.Server.Modules.ModDbExport.View
             TargetNameNotUnique = dict[nameof(TargetNameNotUnique)];
             QueryName = dict[nameof(QueryName)];
             QueriesNode = dict[nameof(QueriesNode)];
-            UnnamedTarget = dict[nameof(UnnamedTarget)];
             UnnamedQuery = dict[nameof(UnnamedQuery)];
         }
     }

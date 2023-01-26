@@ -83,7 +83,6 @@
     <Phrase key="TargetName">Target {0}</Phrase>
     <Phrase key="QueryName">Query {0}</Phrase>
     <Phrase key="TargetNameNotUnique">Target names must be unique.</Phrase>
-    <Phrase key="UnnamedTarget">&lt;Unnamed Target&gt;</Phrase>
     <Phrase key="UnnamedQuery">&lt;Unnamed Query&gt;</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmQueryParametrs">
