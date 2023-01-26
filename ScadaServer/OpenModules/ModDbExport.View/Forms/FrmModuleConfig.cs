@@ -407,7 +407,6 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
 
         private void btnAddQuery_Click(object sender, EventArgs e)
         {
-             // find parent for queries
             TreeNode selectedNode = tvTargets.SelectedNode;
 
             if (selectedNode != null)
