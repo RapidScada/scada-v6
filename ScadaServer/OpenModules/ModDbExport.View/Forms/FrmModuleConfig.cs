@@ -303,9 +303,9 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         }
 
         /// <summary>
-        /// Checks gates name for uniqueness.
+        /// Checks targets name for uniqueness.
         /// </summary>
-        private bool CheckGateNamesUnique()
+        private bool CheckTargetNamesUnique()
         {
             return config.ExportTargets.Count == 
                 config.ExportTargets.DistinctBy(g => g.GeneralOptions.Name.ToLowerInvariant()).Count();
@@ -316,15 +316,15 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         /// </summary>
         private bool ValidateConfig()
         {
-           bool checkValidateName = true;
-
-           if (!CheckGateNamesUnique())
-           {
+            if (!CheckTargetNamesUnique())
+            {
                 ScadaUiUtils.ShowError(ModulePhrases.TargetNameNotUnique);
-                checkValidateName = false;
-           }
-
-           return checkValidateName;
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
 
