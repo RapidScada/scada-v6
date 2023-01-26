@@ -1476,6 +1476,19 @@ namespace Scada.Server.Engine
                     }
                 }
 
+                // fix channel values
+                if (double.IsNaN(ev.PrevCnlVal) || double.IsInfinity(ev.PrevCnlVal))
+                {
+                    ev.PrevCnlVal = 0.0;
+                    ev.PrevCnlStat = 0;
+                }
+
+                if (double.IsNaN(ev.CnlVal) || double.IsInfinity(ev.CnlVal))
+                {
+                    ev.CnlVal = 0.0;
+                    ev.CnlStat = 0;
+                }
+
                 EnqueueEvent(archiveMask, ev);
             }
             catch (Exception ex)
