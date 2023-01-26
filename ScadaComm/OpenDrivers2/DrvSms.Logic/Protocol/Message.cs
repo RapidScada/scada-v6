@@ -3,13 +3,13 @@
 
 using System;
 
-namespace Scada.Comm.Drivers.DrvSms.Logic
+namespace Scada.Comm.Drivers.DrvSms.Logic.Protocol
 {
     /// <summary>
     /// Represents a message.
     /// <para>Представляет сообщение.</para>
     /// </summary>
-    internal class Message
+    public class Message
     {
         /// <summary>
         /// Gets or sets the index of the message in the device's message list.
