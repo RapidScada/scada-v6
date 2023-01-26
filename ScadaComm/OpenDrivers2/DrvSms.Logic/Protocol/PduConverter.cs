@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.AB;
 using Scada.Lang;
 using System;
 using System.Collections.Generic;
@@ -212,73 +211,6 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Protocol
             return result;
         }
 
-        /// <summary>
-        /// Decodes the PDU and write results to the message.
-        /// </summary>
-        private static bool DecodePDU(string pdu, Message msg, int lineNum, StringBuilder sbLogMsg)
-        {
-            try
-            {
-                int scaLen = int.Parse(pdu.Substring(0, 2));         // length of SMSC number
-                int oaPos = scaLen * 2 + 4;                          // position of sender number
-
-                if (msg.Length == (pdu.Length - oaPos + 2) / 2)
-                {
-                    int oaLen = int.Parse(pdu.Substring(oaPos, 2),
-                        NumberStyles.HexNumber);                     // length of sender number
-                    if (oaLen % 2 > 0) oaLen++;
-                    msg.Phone = DecodePhone(pdu.Substring(oaPos + 2, oaLen + 2));
-
-                    int sctsPos = oaPos + oaLen + 8;                 // position of timestamp
-                    msg.Timestamp = new DateTime(int.Parse("20" + pdu[sctsPos + 1] + pdu[sctsPos]),
-                        int.Parse(pdu[sctsPos + 3].ToString() + pdu[sctsPos + 2]),
-                        int.Parse(pdu[sctsPos + 5].ToString() + pdu[sctsPos + 4]),
-                        int.Parse(pdu[sctsPos + 7].ToString() + pdu[sctsPos + 6]),
-                        int.Parse(pdu[sctsPos + 9].ToString() + pdu[sctsPos + 8]),
-                        int.Parse(pdu[sctsPos + 11].ToString() + pdu[sctsPos + 10]));
-
-                    string dcs = pdu.Substring(sctsPos - 2, 2);      // encoding
-                    int udPos = sctsPos + 16;                        // position of message text
-                    int udl = int.Parse(pdu.Substring(udPos - 2, 2),
-                        NumberStyles.HexNumber);                     // length of message text
-                    string ud = pdu.Substring(udPos);                // message text
-
-                    // check length of message text, different modems calculate UDL differently
-                    if (!(dcs == "00" && ud.Length * 4 / 7 == udl ||
-                        dcs != "00" && ud.Length == udl * 2))
-                    {
-                        sbLogMsg.AppendLine(string.Format(Locale.IsRussian ?
-                            "Предупреждение в строке {0}: некорректная длина текста сообщения" :
-                            "Warning in line {0}: incorrect message length", lineNum));
-                    }
-
-                    // decode message
-                    if (dcs == "00")
-                        msg.Text = Decode7bitText(ud);
-                    else if (dcs == "F6")
-                        msg.Text = Decode8bitText(ud);
-                    else if (dcs == "08")
-                        msg.Text = DecodeUnicodeText(ud);
-
-                    return true;
-                }
-                else
-                {
-                    sbLogMsg.AppendLine(string.Format(Locale.IsRussian ?
-                        "Ошибка в строке {0}: некорректная длина PDU" :
-                        "Error in line {0}: incorrect PDU length", lineNum));
-                    return false;
-                }
-            }
-            catch
-            {
-                sbLogMsg.AppendLine(string.Format(Locale.IsRussian ?
-                    "Ошибка в строке {0}: невозможно расшифровать PDU" :
-                    "Error in line {0}: unable to decode PDU", lineNum));
-                return false;
-            }
-        }
-
 
         /// <summary>
         /// Creates a Protocol Data Unit for sending message.
@@ -348,23 +280,93 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Protocol
         }
 
         /// <summary>
+        /// Decodes the PDU and writes results to the message.
+        /// </summary>
+        public static bool DecodePDU(string pdu, Message msg, out string logMsg)
+        {
+            try
+            {
+                int scaLen = int.Parse(pdu.Substring(0, 2));         // length of SMSC number
+                int oaPos = scaLen * 2 + 4;                          // position of sender number
+
+                if (msg.Length == (pdu.Length - oaPos + 2) / 2)
+                {
+                    int oaLen = int.Parse(pdu.Substring(oaPos, 2),
+                        NumberStyles.HexNumber);                     // length of sender number
+                    if (oaLen % 2 > 0) oaLen++;
+                    msg.Phone = DecodePhone(pdu.Substring(oaPos + 2, oaLen + 2));
+
+                    int sctsPos = oaPos + oaLen + 8;                 // position of timestamp
+                    msg.Timestamp = new DateTime(int.Parse("20" + pdu[sctsPos + 1] + pdu[sctsPos]),
+                        int.Parse(pdu[sctsPos + 3].ToString() + pdu[sctsPos + 2]),
+                        int.Parse(pdu[sctsPos + 5].ToString() + pdu[sctsPos + 4]),
+                        int.Parse(pdu[sctsPos + 7].ToString() + pdu[sctsPos + 6]),
+                        int.Parse(pdu[sctsPos + 9].ToString() + pdu[sctsPos + 8]),
+                        int.Parse(pdu[sctsPos + 11].ToString() + pdu[sctsPos + 10]));
+
+                    string dcs = pdu.Substring(sctsPos - 2, 2);      // encoding
+                    int udPos = sctsPos + 16;                        // position of message text
+                    int udl = int.Parse(pdu.Substring(udPos - 2, 2),
+                        NumberStyles.HexNumber);                     // length of message text
+                    string ud = pdu.Substring(udPos);                // message text
+
+                    // check length of message text, different modems calculate UDL differently
+                    if (dcs == "00" && ud.Length * 4 / 7 == udl || 
+                        dcs != "00" && ud.Length == udl * 2)
+                    {
+                        logMsg = "";
+                    }
+                    else
+                    {
+                        logMsg = string.Format(Locale.IsRussian ?
+                            "Некорректная длина текста сообщения" :
+                            "Incorrect message length");
+                    }
+
+                    // decode message
+                    if (dcs == "00")
+                        msg.Text = Decode7bitText(ud);
+                    else if (dcs == "F6")
+                        msg.Text = Decode8bitText(ud);
+                    else if (dcs == "08")
+                        msg.Text = DecodeUnicodeText(ud);
+
+                    return true;
+                }
+                else
+                {
+                    logMsg = string.Format(Locale.IsRussian ?
+                        "Некорректная длина PDU" :
+                        "Incorrect PDU length");
+                    return false;
+                }
+            }
+            catch
+            {
+                logMsg = string.Format(Locale.IsRussian ?
+                    "Невозможно расшифровать PDU" :
+                    "Unable to decode PDU");
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Fills the list of messages from the device response to AT+CMGL command.
         /// </summary>
-        public static bool FillMessageList(List<Message> messages, List<string> response, out string logMsg)
+        public static void FillMessageList(List<Message> messages, List<string> response, out string logMsg)
         {
             if (messages == null)
                 throw new ArgumentNullException(nameof(messages));
             if (response == null)
                 throw new ArgumentNullException(nameof(response));
 
-            bool result = true;
             StringBuilder sbLogMsg = new StringBuilder();
-            int i = 1;
+            int lineNum = 1;
             int lineCnt = response.Count;
 
-            while (i <= lineCnt)
+            while (lineNum <= lineCnt)
             {
-                string line = response[i - 1].Trim();
+                string line = response[lineNum - 1].Trim();
                 if (line.StartsWith("+CMGL: ") && line.Length > 7)
                 {
                     // get message index, status and length
@@ -382,40 +384,52 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Protocol
                             msg.Index = val1;
                             msg.Status = val2;
                             msg.Length = val3;
-                            i++;
+                            lineNum++;
                         }
                     }
 
                     // decode PDU
                     if (paramsOK)
                     {
-                        if (i <= lineCnt)
+                        if (lineNum <= lineCnt)
                         {
-                            if (DecodePDU(response[i - 1].Trim(), msg, i, sbLogMsg))
+                            if (DecodePDU(response[lineNum - 1].Trim(), msg, out string logMsg2))
+                            {
                                 messages.Add(msg);
+
+                                if (!string.IsNullOrEmpty(logMsg2))
+                                {
+                                    sbLogMsg.AppendLine(string.Format(Locale.IsRussian ?
+                                        "Предупреждение в строке {0}: {1}" :
+                                        "Warning in line {0}: {1}", lineNum, logMsg2));
+                                }
+                            }
+                            else
+                            {
+                                sbLogMsg.AppendLine(string.Format(Locale.IsRussian ?
+                                    "Ошибка в строке {0}: {1}" :
+                                    "Error in line {0}: {1}", lineNum, logMsg2));
+                            }
                         }
                         else
                         {
-                            result = false;
                             sbLogMsg.AppendLine(Locale.IsRussian ?
-                                "Ошибка: некорректное завершение входных данных" :
-                                "Error: incorrect termination of the input data");
+                                "Ошибка: Некорректное завершение входных данных" :
+                                "Error: Incorrect termination of the input data");
                         }
                     }
                     else
                     {
-                        result = false;
                         sbLogMsg.AppendLine(string.Format(Locale.IsRussian ?
-                            "Ошибка в строке {0}: некорректные параметры сообщения" :
-                            "Error in line {0}: incorrect message parameters", i));
+                            "Ошибка в строке {0}: Некорректные параметры сообщения" :
+                            "Error in line {0}: Incorrect message parameters", lineNum));
                     }
                 }
 
-                i++;
+                lineNum++;
             }
 
             logMsg = sbLogMsg.ToString();
-            return result;
         }
     }
 }

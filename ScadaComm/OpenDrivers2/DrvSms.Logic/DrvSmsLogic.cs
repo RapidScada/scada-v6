@@ -10,7 +10,7 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
     /// Implements the driver logic.
     /// <para>Реализует логику драйвера.</para>
     /// </summary>
-    internal class DrvSmsLogic : DriverLogic
+    public class DrvSmsLogic : DriverLogic
     {
         /// <summary>
         /// Initializes a new instance of the class.

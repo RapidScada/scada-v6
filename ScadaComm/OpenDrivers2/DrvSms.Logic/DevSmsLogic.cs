@@ -345,7 +345,7 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
                 if (LastRequestOK)
                 {
                     messages.Clear();
-                    LastRequestOK = PduConverter.FillMessageList(messages, response, out string logMsg);
+                    PduConverter.FillMessageList(messages, response, out string logMsg);
 
                     if (!string.IsNullOrEmpty(logMsg))
                         Log.WriteLine(logMsg);
