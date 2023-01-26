@@ -315,7 +315,11 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         /// </summary>
         private static TreeNode ChooseRootTreeNode(TreeNode treeNode) 
         { 
-            while (treeNode.Level > 0) { treeNode = treeNode.Parent; } 
+            while (treeNode.Level > 0)
+            { 
+                treeNode = treeNode.Parent; 
+            } 
+            
             return treeNode; 
         }
 
