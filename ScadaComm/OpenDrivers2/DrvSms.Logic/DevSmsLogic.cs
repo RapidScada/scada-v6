@@ -6,6 +6,7 @@ using Scada.Comm.Channels;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Lang;
+using Scada.Data.Const;
 using Scada.Data.Models;
 using Scada.Lang;
 using System;
@@ -61,7 +62,13 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
                 DeviceData.EnqueueEvent(new DeviceEvent(DeviceTags[TagCode.Msg])
                 {
                     Timestamp = DateTime.UtcNow,
-                    Descr = message.Phone + "; " + message.Text
+                    CnlVal = 0.0,
+                    CnlStat = CnlStatusID.Defined, // has informational severity
+                    TextFormat = EventTextFormat.CustomText,
+                    Text = message.Phone + "; " + message.Text,
+                    Descr = string.Format(Locale.IsRussian ?
+                        "Сообщение от {0}" :
+                        "Message from {0}", message.Phone)
                 });
             }
         }
@@ -209,7 +216,7 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
         private bool SendMessage(string phoneNumber, Pdu pdu)
         {
             Log.WriteLine(Locale.IsRussian ?
-                "Отправка SMS на номер {0}" :
+                "Отправка сообщения на номер {0}" :
                 "Send message to {0}", phoneNumber);
 
             Connection.WriteLine("AT+CMGS=" + pdu.Length);
