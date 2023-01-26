@@ -8,6 +8,7 @@ using Scada.Lang;
 using Scada.Server.Lang;
 using Scada.Server.Modules.ModDbExport.Config;
 using Scada.Server.Modules.ModDbExport.View.Properties;
+using System.Windows.Forms;
 
 namespace Scada.Server.Modules.ModDbExport.View.Forms
 {
@@ -407,40 +408,38 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
 
         private void btnAddQuery_Click(object sender, EventArgs e)
         {
-            TreeNode selectedNode = tvTargets.SelectedNode;
+            if (tvTargets.SelectedNode is not TreeNode selectedNode)
+                return;
+   
+            TreeNode queriesNode = 
+                selectedNode.FindClosest(typeof(QueryOptionList)) ??
+                selectedNode.GetTopParentNode().FindFirst(typeof(QueryOptionList));
 
-            if (selectedNode != null)
+            if (queriesNode != null)
             {
-                TreeNode queriesNode = selectedNode?.FindClosest(typeof(QueryOptionList));
-
-                queriesNode ??= selectedNode?.GetTopParentNode()?.FindFirst(typeof(QueryOptionList));
-
-                if (queriesNode != null)
+                // add query
+                QueryOptions queryOptions = new()
                 {
-                    // add query
-                    QueryOptions queryOptions = new()
-                    {
-                        Name = string.Format(ModulePhrases.QueryName, queriesNode.GetNodeCount(true) + 1)
-                    };
+                    Name = string.Format(ModulePhrases.QueryName, queriesNode.GetNodeCount(true) + 1)
+                };
 
-                    if (sender == btnAddCurrentDataQuery)
-                        queryOptions.DataKind = DataKind.Current;
-                    else if (sender == btnAddHistoricalDataQuery)
-                        queryOptions.DataKind = DataKind.Historical;
-                    else if (sender == btnAddEventQuery)
-                        queryOptions.DataKind = DataKind.Event;
-                    else if (sender == btnAddEventAckQuery)
-                        queryOptions.DataKind = DataKind.EventAck;
-                    else if (sender == btnAddCommandQuery)
-                        queryOptions.DataKind = DataKind.Command;
-                    else
-                        throw new ScadaException("Unknown query data kind.");
+                if (sender == btnAddCurrentDataQuery)
+                    queryOptions.DataKind = DataKind.Current;
+                else if (sender == btnAddHistoricalDataQuery)
+                    queryOptions.DataKind = DataKind.Historical;
+                else if (sender == btnAddEventQuery)
+                    queryOptions.DataKind = DataKind.Event;
+                else if (sender == btnAddEventAckQuery)
+                    queryOptions.DataKind = DataKind.EventAck;
+                else if (sender == btnAddCommandQuery)
+                    queryOptions.DataKind = DataKind.Command;
+                else
+                    throw new ScadaException("Unknown query data kind.");
 
-                    tvTargets.Insert(queriesNode, TreeViewExtensions.CreateNode(queryOptions.Name,
-                        ChooseNodeImage(queryOptions), queryOptions));
-                    Modified = true;
-                    ctrlQuery.SetFocus();
-                }
+                tvTargets.Insert(queriesNode, TreeViewExtensions.CreateNode(queryOptions.Name,
+                    ChooseNodeImage(queryOptions), queryOptions));
+                Modified = true;
+                ctrlQuery.SetFocus();
             }
         }
 
