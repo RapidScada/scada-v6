@@ -317,7 +317,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         { 
             while (treeNode.Level > 0)
             { 
-                treeNode = treeNode.Parent; 
+                treeNode = treeNode.Parent;
             } 
             
             return treeNode; 
