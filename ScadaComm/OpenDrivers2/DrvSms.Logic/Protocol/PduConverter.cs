@@ -21,33 +21,6 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Protocol
 
 
         /// <summary>
-        /// Decodes the phone number.
-        /// </summary>
-        private static string DecodePhone(string phoneNumber)
-        {
-            StringBuilder result = new StringBuilder();
-
-            if (phoneNumber.StartsWith("91"))
-                result.Append("+");
-
-            for (int i = 2; i < phoneNumber.Length; i += 2)
-            {
-                if (i + 1 < phoneNumber.Length)
-                {
-                    char c = phoneNumber[i + 1];
-                    if ('0' <= c && c <= '9')
-                        result.Append(c);
-
-                    c = phoneNumber[i];
-                    if ('0' <= c && c <= '9')
-                        result.Append(c);
-                }
-            }
-
-            return result.ToString();
-        }
-
-        /// <summary>
         /// Encodes the phone number.
         /// </summary>
         private static string EncodePhone(string phoneNumber)
@@ -85,6 +58,68 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Protocol
             }
 
             return phoneLen.ToString("X2") + result.ToString();
+        }
+
+        /// <summary>
+        /// Decodes the phone number.
+        /// </summary>
+        private static string DecodePhone(string phoneNumber)
+        {
+            StringBuilder result = new StringBuilder();
+
+            if (phoneNumber.StartsWith("91"))
+                result.Append("+");
+
+            for (int i = 2; i < phoneNumber.Length; i += 2)
+            {
+                if (i + 1 < phoneNumber.Length)
+                {
+                    char c = phoneNumber[i + 1];
+                    if ('0' <= c && c <= '9')
+                        result.Append(c);
+
+                    c = phoneNumber[i];
+                    if ('0' <= c && c <= '9')
+                        result.Append(c);
+                }
+            }
+
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// Encodes the text in 7-bit encoding.
+        /// </summary>
+        private static List<byte> Encode7bitText(string text)
+        {
+            List<byte> result = new List<byte>();
+            byte[] bytes = Encoding.ASCII.GetBytes(text);
+
+            byte bit = 7; // from 7 to 1
+            int i = 0;
+            int len = bytes.Length;
+
+            while (i < len)
+            {
+                byte sym = (byte)(bytes[i] & 0x7F);
+                byte nextSym = i < len - 1 ? (byte)(bytes[i + 1] & 0x7F) : (byte)0;
+                byte code = (byte)(sym >> 7 - bit | nextSym << bit);
+
+                if (bit == 1)
+                {
+                    i++;
+                    bit = 7;
+                }
+                else
+                {
+                    bit--;
+                }
+
+                result.Add(code);
+                i++;
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -128,41 +163,6 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Protocol
         }
 
         /// <summary>
-        /// Encodes the text in 7-bit encoding.
-        /// </summary>
-        private static List<byte> Encode7bitText(string text)
-        {
-            List<byte> result = new List<byte>();
-            byte[] bytes = Encoding.ASCII.GetBytes(text);
-
-            byte bit = 7; // from 7 to 1
-            int i = 0;
-            int len = bytes.Length;
-
-            while (i < len)
-            {
-                byte sym = (byte)(bytes[i] & 0x7F);
-                byte nextSym = i < len - 1 ? (byte)(bytes[i + 1] & 0x7F) : (byte)0;
-                byte code = (byte)(sym >> 7 - bit | nextSym << bit);
-
-                if (bit == 1)
-                {
-                    i++;
-                    bit = 7;
-                }
-                else
-                {
-                    bit--;
-                }
-
-                result.Add(code);
-                i++;
-            }
-
-            return result;
-        }
-
-        /// <summary>
         /// Decodes the text from 8-bit encoding.
         /// </summary>
         private static string Decode8bitText(string text)
@@ -176,22 +176,6 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Protocol
             }
 
             return bufPos > 0 ? new string(Encoding.Default.GetChars(buf, 0, bufPos)) : "";
-        }
-
-        /// <summary>
-        /// Decodes the text from Unicode.
-        /// </summary>
-        private static string DecodeUnicodeText(string text)
-        {
-            StringBuilder result = new StringBuilder();
-
-            for (int i = 0; i < text.Length - 3; i += 4)
-            {
-                int val = int.Parse(text.Substring(i, 4), NumberStyles.HexNumber);
-                result.Append(char.ConvertFromUtf32(val));
-            }
-
-            return result.ToString();
         }
 
         /// <summary>
@@ -211,11 +195,27 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Protocol
             return result;
         }
 
+        /// <summary>
+        /// Decodes the text from Unicode.
+        /// </summary>
+        private static string DecodeUnicodeText(string text)
+        {
+            StringBuilder result = new StringBuilder();
+
+            for (int i = 0; i < text.Length - 3; i += 4)
+            {
+                int val = int.Parse(text.Substring(i, 4), NumberStyles.HexNumber);
+                result.Append(char.ConvertFromUtf32(val));
+            }
+
+            return result.ToString();
+        }
+
 
         /// <summary>
-        /// Creates a Protocol Data Unit for sending message.
+        /// Encodes a Protocol Data Unit for sending message.
         /// </summary>
-        public static Pdu MakePDU(string phoneNumber, string messageText)
+        public static Pdu EncodePDU(string phoneNumber, string messageText)
         {
             if (phoneNumber == null)
                 throw new ArgumentNullException(nameof(phoneNumber));

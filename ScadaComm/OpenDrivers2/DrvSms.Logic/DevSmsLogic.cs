@@ -192,20 +192,20 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
         }
 
         /// <summary>
-        /// Tries to create a PDU.
+        /// Tries to encode a PDU.
         /// </summary>
-        private bool TryCreatePdu(string phoneNumber, string messageText, out Pdu pdu)
+        private bool TryEncodePdu(string phoneNumber, string messageText, out Pdu pdu)
         {
             try
             {
-                pdu = PduConverter.MakePDU(phoneNumber, messageText);
+                pdu = PduConverter.EncodePDU(phoneNumber, messageText);
                 return true;
             }
             catch (Exception ex)
             {
                 Log.WriteLine(Locale.IsRussian ?
-                    "Ошибка при создании PDU: {0}" :
-                    "Error creating PDU", ex.Message);
+                    "Ошибка при кодировании PDU: {0}" :
+                    "Error encoding PDU", ex.Message);
                 pdu = null;
                 return false;
             }
@@ -403,7 +403,7 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
 
                     foreach (string phoneNumber in phoneNumbers)
                     {
-                        if (TryCreatePdu(phoneNumber, messageText, out Pdu pdu))
+                        if (TryEncodePdu(phoneNumber, messageText, out Pdu pdu))
                         {
                             LastRequestOK = false;
                             int tryNum = 0;
