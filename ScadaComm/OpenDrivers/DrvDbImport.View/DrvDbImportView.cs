@@ -18,6 +18,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View
         /// Initializes a new instance of the class.
         /// </summary>
         public DrvDbImportView()
+            : base()
         {
             CanCreateDevice = true;
         }

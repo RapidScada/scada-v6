@@ -19,6 +19,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View
         /// Initializes a new instance of the class.
         /// </summary>
         public DrvModbusView()
+             : base()
         {
             CanShowProperties = true;
             CanCreateDevice = true;
