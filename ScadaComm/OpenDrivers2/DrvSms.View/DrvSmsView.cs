@@ -18,6 +18,7 @@ namespace Scada.Comm.Drivers.DrvSms.View
         /// Initializes a new instance of the class.
         /// </summary>
         public DrvSmsView()
+            : base()
         {
             CanShowProperties = true;
             CanCreateDevice = true;

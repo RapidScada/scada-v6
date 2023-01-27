@@ -19,6 +19,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.View
         /// Initializes a new instance of the class.
         /// </summary>
         public DrvHttpNotifView()
+            : base()
         {
             CanShowProperties = true;
             CanCreateDevice = true;

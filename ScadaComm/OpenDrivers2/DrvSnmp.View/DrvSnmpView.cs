@@ -20,6 +20,7 @@ namespace Scada.Comm.Drivers.DrvSnmp.View
         /// Initializes a new instance of the class.
         /// </summary>
         public DrvSnmpView()
+            : base()
         {
             CanCreateDevice = true;
         }

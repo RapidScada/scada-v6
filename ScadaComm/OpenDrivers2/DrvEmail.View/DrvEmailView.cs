@@ -19,6 +19,7 @@ namespace Scada.Comm.Drivers.DrvEmail.View
         /// Initializes a new instance of the class.
         /// </summary>
         public DrvEmailView()
+            : base()
         {
             CanShowProperties = true;
             CanCreateDevice = true;
