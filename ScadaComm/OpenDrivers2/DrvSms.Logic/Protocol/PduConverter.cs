@@ -202,10 +202,13 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Protocol
         {
             StringBuilder result = new StringBuilder();
 
-            for (int i = 0; i < text.Length - 3; i += 4)
+            for (int i = 0; i < text.Length; i += 4)
             {
                 int val = int.Parse(text.Substring(i, 4), NumberStyles.HexNumber);
-                result.Append(char.ConvertFromUtf32(val));
+                string s;
+                try { s = char.ConvertFromUtf32(val); }
+                catch { s = " "; }
+                result.Append(s);
             }
 
             return result.ToString();
@@ -341,11 +344,11 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Protocol
                     return false;
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 logMsg = string.Format(Locale.IsRussian ?
-                    "Невозможно расшифровать PDU" :
-                    "Unable to decode PDU");
+                    "Невозможно расшифровать PDU: {0}" :
+                    "Unable to decode PDU: {0}", ex.Message);
                 return false;
             }
         }
