@@ -22,13 +22,13 @@
     <UnitID>4</UnitID>
     <Name>г</Name>
     <Code>g</Code>
-    <Descr>Грам</Descr>
+    <Descr>Грамм</Descr>
   </Unit>
   <Unit>
     <UnitID>5</UnitID>
     <Name>кг</Name>
     <Code>kg</Code>
-    <Descr>Килограм</Descr>
+    <Descr>Килограмм</Descr>
   </Unit>
   <Unit>
     <UnitID>6</UnitID>
@@ -88,13 +88,13 @@
     <UnitID>31</UnitID>
     <Name>м/с</Name>
     <Code>m/s</Code>
-    <Descr>Метров в секунду</Descr>
+    <Descr>Метр в секунду</Descr>
   </Unit>
   <Unit>
     <UnitID>32</UnitID>
     <Name>км/ч</Name>
     <Code>km/h</Code>
-    <Descr>Километров в час</Descr>
+    <Descr>Километр в час</Descr>
   </Unit>
   <Unit>
     <UnitID>33</UnitID>
@@ -112,7 +112,7 @@
     <UnitID>35</UnitID>
     <Name>об/мин</Name>
     <Code>rpm</Code>
-    <Descr>Оборотов в минуту</Descr>
+    <Descr>Оборот в минуту</Descr>
   </Unit>
   <Unit>
     <UnitID>41</UnitID>
@@ -274,13 +274,13 @@
     <UnitID>83</UnitID>
     <Name>м³/с</Name>
     <Code>m3/s</Code>
-    <Descr>Кубических метров в секунду</Descr>
+    <Descr>Кубический метр в секунду</Descr>
   </Unit>
   <Unit>
     <UnitID>84</UnitID>
     <Name>м³/ч</Name>
     <Code>m3/h</Code>
-    <Descr>Кубических метров в час</Descr>
+    <Descr>Кубический метр в час</Descr>
   </Unit>
   <Unit>
     <UnitID>91</UnitID>
@@ -359,6 +359,42 @@
     <Name>шт</Name>
     <Code>pcs</Code>
     <Descr>Штука</Descr>
+  </Unit>
+  <Unit>
+    <UnitID>111</UnitID>
+    <Name>л</Name>
+    <Code>L</Code>
+    <Descr>Литр</Descr>
+  </Unit>
+  <Unit>
+    <UnitID>112</UnitID>
+    <Name>л/с</Name>
+    <Code>L/s</Code>
+    <Descr>Литр в секунду</Descr>
+  </Unit>
+  <Unit>
+    <UnitID>113</UnitID>
+    <Name>л/мин</Name>
+    <Code>L/min</Code>
+    <Descr>Литр в минуту</Descr>
+  </Unit>
+  <Unit>
+    <UnitID>114</UnitID>
+    <Name>л/ч</Name>
+    <Code>L/h</Code>
+    <Descr>Литр в час</Descr>
+  </Unit>
+  <Unit>
+    <UnitID>115</UnitID>
+    <Name>г/л</Name>
+    <Code>g/L</Code>
+    <Descr>Грамм на литр</Descr>
+  </Unit>
+  <Unit>
+    <UnitID>116</UnitID>
+    <Name>кг/л</Name>
+    <Code>kg/L</Code>
+    <Descr>Килограмм на литр</Descr>
   </Unit>
   <Unit>
     <UnitID>1001</UnitID>
