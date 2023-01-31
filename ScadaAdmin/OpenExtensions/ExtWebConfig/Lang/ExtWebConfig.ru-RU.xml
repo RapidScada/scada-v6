@@ -33,7 +33,7 @@
     <Phrase key="gbPluginAssignment">Назначение плагинов</Phrase>
     <Phrase key="lblChartFeature">Плагин графиков</Phrase>
     <Phrase key="lblCommandFeature">Плагин отправки команд</Phrase>
-    <Phrase key="lblEventAckFeature">Плагин квинтирования событий</Phrase>
+    <Phrase key="lblEventAckFeature">Плагин квитирования событий</Phrase>
     <Phrase key="lblUserManagementFeature">Плагин управления пользователями</Phrase>
     <Phrase key="lblNotificationFeature">Плагин управления уведомлениями</Phrase>
   </Dictionary>
