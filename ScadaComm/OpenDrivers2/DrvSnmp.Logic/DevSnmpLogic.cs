@@ -147,13 +147,15 @@ namespace Scada.Comm.Drivers.DrvSnmp.Logic
 
                 for (int i = 0; i < varCnt; i++)
                 {
+                    Variable requestedVar = varGroup.Variables[i];
                     Variable receivedVar = receivedVars[i];
 
-                    if (receivedVar.Id != varGroup.Variables[i].Id)
+                    if (requestedVar.Id != receivedVar.Id)
                     {
                         throw new ScadaException(Locale.IsRussian ?
-                            "Несоответствие запрошенной и принятой переменной." :
-                            "Mismatch between requested and received variable.");
+                            "Несоответствие запрошенной ({0}) и принятой ({1}) переменной." :
+                            "Mismatch between requested ({0}) and received ({1}) variable.",
+                            requestedVar.Id, receivedVar.Id);
                     }
 
                     VariableConfig variableConfig = varGroupConfig.Variables[i];
