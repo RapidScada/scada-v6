@@ -74,7 +74,7 @@ namespace Scada.Forms
         /// </summary>
         public override void SetFirstLine(string s)
         {
-            if (AgentClient != null && !listBox.IsDisposed)
+            if (!listBox.IsDisposed)
                 base.SetFirstLine(s);
         }
 
@@ -83,7 +83,7 @@ namespace Scada.Forms
         /// </summary>
         public override void SetLines(ICollection<string> lines)
         {
-            if (AgentClient != null && !listBox.IsDisposed)
+            if (!listBox.IsDisposed)
                 base.SetLines(lines);
         }
 
