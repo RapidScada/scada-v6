@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Config;
@@ -338,8 +338,7 @@ namespace Scada.Server.Engine
             // find channel indexes for limits
             int FindIndex(double? n)
             {
-                return n.HasValue && !double.IsNaN(n.Value) && cnlTags.TryGetValue((int)n, out CnlTag t) ?
-                    t.Index : -1;
+                return n.HasValue && cnlTags.TryGetValue((int)n, out CnlTag t) ? t.Index : -1;
             }
 
             foreach (CnlTag cnlTag in limTags)
@@ -350,6 +349,7 @@ namespace Scada.Server.Engine
                     Low = FindIndex(cnlTag.Lim.Low),
                     High = FindIndex(cnlTag.Lim.High),
                     HiHi = FindIndex(cnlTag.Lim.HiHi),
+                    Deadband = FindIndex(cnlTag.Lim.Deadband)
                 };
             }
 
@@ -814,16 +814,17 @@ namespace Scada.Server.Engine
             else if (cnlData.Stat == CnlStatusID.Defined && cnlTag.Lim != null)
             {
                 // set status depending on channel limits
-                GetCnlLimits(cnlTag, out double lolo, out double low, out double high, out double hihi);
+                GetCnlLimits(cnlTag, out double lolo, out double low, 
+                    out double high, out double hihi, out double deadband);
                 int newStat = GetCnlStatus(cnlData.Val, lolo, low, high, hihi);
                 int prevStat = prevCnlData.Stat;
 
-                if (prevStat != CnlStatusID.Normal && newStat == CnlStatusID.Normal ||
+                // take deadband into account
+                if (deadband != 0.0 && (
+                    prevStat != CnlStatusID.Normal && newStat == CnlStatusID.Normal ||
                     prevStat == CnlStatusID.ExtremelyHigh && newStat == CnlStatusID.High ||
-                    prevStat == CnlStatusID.ExtremelyLow && newStat == CnlStatusID.Low)
+                    prevStat == CnlStatusID.ExtremelyLow && newStat == CnlStatusID.Low))
                 {
-                    // take deadband into account
-                    double deadband = cnlTag.Lim.Deadband ?? 0;
                     newStat = GetCnlStatus(cnlData.Val,
                         lolo + deadband, low + deadband,
                         high - deadband, hihi - deadband);
@@ -862,21 +863,23 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Get the channel limits for the current data.
         /// </summary>
-        private void GetCnlLimits(CnlTag cnlTag, out double lolo, out double low, out double high, out double hihi)
+        private void GetCnlLimits(CnlTag cnlTag, out double lolo, out double low, 
+            out double high, out double hihi, out double deadband)
         {
-            double GetLimit(int cnlIndex)
+            double GetLimit(int cnlIndex, double defaultVal)
             {
                 CnlData limData = cnlIndex >= 0 ? curData.CnlData[cnlIndex] : CnlData.Empty;
-                return limData.Stat > 0 ? limData.Val : double.NaN;
+                return limData.Stat > 0 ? limData.Val : defaultVal;
             }
 
             if (cnlTag.Lim.IsBoundToCnl)
             {
                 LimCnlIndex limCnlIndex = cnlTag.LimCnlIndex;
-                lolo = GetLimit(limCnlIndex.LoLo);
-                low = GetLimit(limCnlIndex.Low);
-                high = GetLimit(limCnlIndex.High);
-                hihi = GetLimit(limCnlIndex.HiHi);
+                lolo = GetLimit(limCnlIndex.LoLo, double.NaN);
+                low = GetLimit(limCnlIndex.Low, double.NaN);
+                high = GetLimit(limCnlIndex.High, double.NaN);
+                hihi = GetLimit(limCnlIndex.HiHi, double.NaN);
+                deadband = GetLimit(limCnlIndex.Deadband, 0);
             }
             else
             {
@@ -885,6 +888,7 @@ namespace Scada.Server.Engine
                 low = lim.Low ?? double.NaN;
                 high = lim.High ?? double.NaN;
                 hihi = lim.HiHi ?? double.NaN;
+                deadband = lim.Deadband ?? 0.0;
             }
         }
 

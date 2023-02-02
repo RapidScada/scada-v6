@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2023
  */
 
 namespace Scada.Server.Engine
@@ -38,5 +38,7 @@ namespace Scada.Server.Engine
         public int High { get; set; }
 
         public int HiHi { get; set; }
+
+        public int Deadband { get; set; }
     }
 }
