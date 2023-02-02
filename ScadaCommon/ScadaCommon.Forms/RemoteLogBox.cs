@@ -83,7 +83,7 @@ namespace Scada.Forms
         /// </summary>
         public override void SetLines(ICollection<string> lines)
         {
-            if (!listBox.IsDisposed)
+            if (AgentClient != null && !listBox.IsDisposed)
                 base.SetLines(lines);
         }
 
