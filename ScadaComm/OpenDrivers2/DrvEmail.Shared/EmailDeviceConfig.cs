@@ -92,7 +92,7 @@ namespace Scada.Comm.Drivers.DrvEmail
             XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
             xmlDoc.AppendChild(xmlDecl);
 
-            XmlElement rootElem = xmlDoc.CreateElement("DrvEmail");
+            XmlElement rootElem = xmlDoc.CreateElement("EmailDeviceConfig");
             xmlDoc.AppendChild(rootElem);
 
             rootElem.AppendElem("Host", Host);
