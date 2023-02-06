@@ -405,10 +405,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
 
             // set device status
             if (isReady)
-            {
                 DeviceStatus = DeviceStatus.Normal;
-                DeviceData.SetStatusTag(DeviceStatus);
-            }
         }
 
         /// <summary>
