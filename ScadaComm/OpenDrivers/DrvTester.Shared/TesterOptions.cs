@@ -48,7 +48,6 @@ namespace Scada.Comm.Drivers.DrvTester
         /// <summary>
         /// Adds the options to the list.
         /// </summary>
-        [Description("")]
         public void AddToOptionList(OptionList options)
         {
             options.Clear();
