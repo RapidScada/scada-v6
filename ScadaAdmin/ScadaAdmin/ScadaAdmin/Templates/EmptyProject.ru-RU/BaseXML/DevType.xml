@@ -106,7 +106,7 @@
     <DevTypeID>218</DevTypeID>
     <Name>ИВТМ-7М</Name>
     <Driver>DrvIvtm7M</Driver>
-    <Descr>Термогигрометр ИВТМ-7М производства ЗАО "ЭКСИС"</Descr>
+    <Descr>Термогигрометр ИВТМ-7М производства АО "ЭКСИС"</Descr>
   </DevType>
   <DevType>
     <DevTypeID>219</DevTypeID>
