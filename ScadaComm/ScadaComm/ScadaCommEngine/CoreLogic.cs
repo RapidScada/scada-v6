@@ -459,7 +459,7 @@ namespace Scada.Comm.Engine
             catch (Exception ex)
             {
                 Log.WriteError(Locale.IsRussian ?
-                    "Ошибка при создании линий связи {0}: {1}" :
+                    "Ошибка при создании линии связи {0}: {1}" :
                     "Error creating communication line {0}: {1}", lineConfig.Title, ex.Message);
                 commLine = null;
                 return false;
@@ -719,10 +719,10 @@ namespace Scada.Comm.Engine
                     commLine.LineStatus == ServiceStatus.Error)
                 {
                     if (lineExists)
-                        StopLine(commLine.CommLineNum);
+                        StopLine(commLineNum);
 
                     if (!lineExists || commLine.IsTerminated)
-                        StartLine(commLine.CommLineNum);
+                        StartLine(commLineNum);
                 }
                 else
                 {
