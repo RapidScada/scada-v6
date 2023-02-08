@@ -388,7 +388,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
         /// </summary>
         public override void InitDeviceTags()
         {
-            DeviceTags.AddGroup(CnlPrototypeFactory.GetCnlPrototypeGroup().ToTagGroup());
+            DeviceTags.AddGroup(CnlPrototypeFactory.GetGroup().ToTagGroup());
             DeviceTags.FlattenGroups = true;
         }
 

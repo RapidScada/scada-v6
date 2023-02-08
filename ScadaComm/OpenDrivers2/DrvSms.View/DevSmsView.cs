@@ -45,7 +45,7 @@ namespace Scada.Comm.Drivers.DrvSms.View
         /// </summary>
         public override ICollection<CnlPrototype> GetCnlPrototypes()
         {
-            return CnlPrototypeFactory.GetCnlPrototypeGroup().CnlPrototypes;
+            return CnlPrototypeFactory.GetGroup().CnlPrototypes;
         }
     }
 }

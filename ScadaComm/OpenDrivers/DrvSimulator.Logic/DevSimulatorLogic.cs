@@ -96,7 +96,7 @@ namespace Scada.Comm.Drivers.DrvSimulator.Logic
         /// </summary>
         public override void InitDeviceTags()
         {
-            foreach (CnlPrototypeGroup group in CnlPrototypeFactory.GetCnlPrototypeGroups())
+            foreach (CnlPrototypeGroup group in CnlPrototypeFactory.GetGroups())
             {
                 DeviceTags.AddGroup(group.ToTagGroup());
             }

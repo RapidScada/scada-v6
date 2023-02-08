@@ -14,9 +14,9 @@ namespace Scada.Comm.Drivers.DrvHttpNotif
     internal static class CnlPrototypeFactory
     {
         /// <summary>
-        /// Gets the grouped channel prototypes.
+        /// Gets a group of channel prototypes.
         /// </summary>
-        public static CnlPrototypeGroup GetCnlPrototypeGroup()
+        public static CnlPrototypeGroup GetGroup()
         {
             CnlPrototypeGroup group = new CnlPrototypeGroup();
             
