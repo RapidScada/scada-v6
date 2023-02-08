@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2015
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Comm.Devices;
@@ -156,9 +156,9 @@ namespace Scada.Comm
         /// <summary>
         /// Gets a flatten list of the channel prototypes.
         /// </summary>
-        public static List<CnlPrototype> GetCnlPrototypes(this List<CnlPrototypeGroup> cnlPrototypeGroups)
+        public static List<CnlPrototype> GetCnlPrototypes(this List<CnlPrototypeGroup> groups)
         {
-            return cnlPrototypeGroups.SelectMany(group => group.CnlPrototypes).ToList();
+            return groups.SelectMany(group => group.CnlPrototypes).ToList();
         }
     }
 }
