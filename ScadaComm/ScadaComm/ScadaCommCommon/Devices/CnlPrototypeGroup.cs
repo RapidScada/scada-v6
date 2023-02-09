@@ -20,9 +20,10 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2023
  */
 
+using Scada.Data.Const;
 using System.Collections.Generic;
 
 namespace Scada.Comm.Devices
@@ -90,7 +91,13 @@ namespace Scada.Comm.Devices
         public TagGroup ToTagGroup()
         {
             TagGroup tagGroup = new TagGroup(Name) { Hidden = Hidden };
-            CnlPrototypes.ForEach(c => tagGroup.DeviceTags.Add(c.ToDeviceTag()));
+
+            foreach (CnlPrototype cnlPrototype in CnlPrototypes)
+            {
+                if (CnlTypeID.IsInput(cnlPrototype.CnlTypeID))
+                    tagGroup.DeviceTags.Add(cnlPrototype.ToDeviceTag());
+            }
+
             return tagGroup;
         }
     }
