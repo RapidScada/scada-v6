@@ -144,7 +144,7 @@ namespace Scada.Comm.Drivers.DrvSimulator.Logic
                     new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, 0, DateTimeKind.Utc),
                     1, 1);
                 deviceSlice.DeviceTags[0] = DeviceTags[TagCode.Sin];
-                deviceSlice.CnlData[0] = new CnlData(cmd.CmdVal, CnlStatusID.Defined);
+                deviceSlice.CnlData[0] = new CnlData(cmd.CmdVal);
                 deviceSlice.Descr = "Demo slice";
                 DeviceData.EnqueueSlice(deviceSlice);
             }
