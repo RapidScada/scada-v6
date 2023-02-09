@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Data.Const;
@@ -44,6 +44,23 @@ namespace Scada.Data.Models
         /// </summary>
         public static readonly CnlData Zero = new CnlData(0.0, 1);
 
+
+        /// <summary>
+        /// Initializes a new instance of the structure.
+        /// </summary>
+        public CnlData(double val)
+        {
+            if (double.IsNaN(val))
+            {
+                Val = 0.0;
+                Stat = CnlStatusID.Undefined;
+            }
+            else
+            {
+                Val = val;
+                Stat = CnlStatusID.Defined;
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the structure.
