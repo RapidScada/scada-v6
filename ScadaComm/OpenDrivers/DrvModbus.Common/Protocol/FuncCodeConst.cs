@@ -9,7 +9,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
     /// Specifies the codes of the supported Modbus functions.
     /// <para>Задаёт коды поддерживаемых функций Modbus.</para>
     /// </summary>
-    public static class FuncCodes
+    public static class FuncCodeConst
     {
         public const byte ReadCoils = 0x01;
         public const byte ReadDiscreteInputs = 0x02;

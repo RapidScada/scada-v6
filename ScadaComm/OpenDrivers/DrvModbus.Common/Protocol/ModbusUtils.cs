@@ -279,16 +279,16 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             switch (dataBlock)
             {
                 case DataBlock.DiscreteInputs:
-                    return FuncCodes.ReadDiscreteInputs;
+                    return FuncCodeConst.ReadDiscreteInputs;
 
                 case DataBlock.Coils:
-                    return FuncCodes.ReadCoils;
+                    return FuncCodeConst.ReadCoils;
 
                 case DataBlock.InputRegisters:
-                    return FuncCodes.ReadInputRegisters;
+                    return FuncCodeConst.ReadInputRegisters;
 
                 case DataBlock.HoldingRegisters:
-                    return FuncCodes.ReadHoldingRegisters;
+                    return FuncCodeConst.ReadHoldingRegisters;
 
                 default:
                     return 0;
@@ -303,10 +303,10 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             switch (dataBlock)
             {
                 case DataBlock.Coils:
-                    return multiple ? FuncCodes.WriteMultipleCoils : FuncCodes.WriteSingleCoil;
+                    return multiple ? FuncCodeConst.WriteMultipleCoils : FuncCodeConst.WriteSingleCoil;
 
                 case DataBlock.HoldingRegisters:
-                    return multiple ? FuncCodes.WriteMultipleRegisters : FuncCodes.WriteSingleRegister;
+                    return multiple ? FuncCodeConst.WriteMultipleRegisters : FuncCodeConst.WriteSingleRegister;
 
                 default:
                     return 0;
