@@ -20,6 +20,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             Name = "";
             DataBlock = dataBlock;
             Address = 0;
+            Aux = null;
 
             FuncCode = 0;
             ExcFuncCode = 0;
@@ -45,6 +46,11 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         /// Gets or sets the zero-based address of the start element.
         /// </summary>
         public ushort Address { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the auxiliary object.
+        /// </summary>
+        public object Aux { get; set; }
 
         /// <summary>
         /// Gets a description of the request that reads or writes the data unit.

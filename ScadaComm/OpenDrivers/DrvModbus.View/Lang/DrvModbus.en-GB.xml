@@ -1,9 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DrvModbusDictionaries>
-  <Dictionary key="Scada.Comm.Drivers.DrvModbus.Config.DeviceTemplate">
-    <Phrase key="LoadTemplateError">Error loading device template</Phrase>
-    <Phrase key="SaveTemplateError">Error saving device template</Phrase>
-  </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls">
     <Phrase key="AddressHint">{0}, starting from {1}</Phrase>
     <Phrase key="ElemRemoveWarning">The data block allows a maximum of {0} elements.&#13;&#10;Extra elements will be removed. Continue?</Phrase>

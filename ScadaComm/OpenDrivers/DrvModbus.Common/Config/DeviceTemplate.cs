@@ -118,7 +118,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         /// </summary>
         protected override string BuildLoadErrorMessage(Exception ex)
         {
-            return ex.BuildErrorMessage(ModbusDriverPhrases.LoadTemplateError);
+            return ex.BuildErrorMessage(ModbusPhrases.LoadTemplateError);
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         /// </summary>
         protected override string BuildSaveErrorMessage(Exception ex)
         {
-            return ex.BuildErrorMessage(ModbusDriverPhrases.SaveTemplateError);
+            return ex.BuildErrorMessage(ModbusPhrases.SaveTemplateError);
         }
 
 

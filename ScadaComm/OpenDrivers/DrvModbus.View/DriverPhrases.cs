@@ -1,22 +1,16 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-#pragma warning disable 1591 // Missing XML comment for publicly visible type or member
-
 using Scada.Lang;
 
-namespace Scada.Comm.Drivers.DrvModbus
+namespace Scada.Comm.Drivers.DrvModbus.View
 {
     /// <summary>
     /// The phrases used by the driver.
     /// <para>Фразы, используемые драйвером.</para>
     /// </summary>
-    public static class ModbusDriverPhrases
+    public static class DriverPhrases
     {
-        // Scada.Comm.Drivers.DrvModbus.Config.DeviceTemplate
-        public static string LoadTemplateError { get; private set; }
-        public static string SaveTemplateError { get; private set; }
-
         // Scada.Comm.Drivers.DrvModbus.View.Controls
         public static string AddressHint { get; private set; }
         public static string ElemRemoveWarning { get; private set; }
@@ -43,33 +37,29 @@ namespace Scada.Comm.Drivers.DrvModbus
 
         public static void Init()
         {
-            LocaleDict dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvModbus.Config.DeviceTemplate");
-            LoadTemplateError = dict["LoadTemplateError"];
-            SaveTemplateError = dict["SaveTemplateError"];
-
-            dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvModbus.View.Controls");
-            AddressHint = dict["AddressHint"];
-            ElemRemoveWarning = dict["ElemRemoveWarning"];
+            LocaleDict dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvModbus.View.Controls");
+            AddressHint = dict[nameof(AddressHint)];
+            ElemRemoveWarning = dict[nameof(ElemRemoveWarning)];
 
             dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvModbus.View.Forms.FrmDeviceProps");
-            ConfigDirRequired = dict["ConfigDirRequired"];
-            TemplateNotExists = dict["TemplateNotExists"];
+            ConfigDirRequired = dict[nameof(ConfigDirRequired)];
+            TemplateNotExists = dict[nameof(TemplateNotExists)];
 
             dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvModbus.View.Forms.FrmDeviceTemplate");
-            TemplateTitle = dict["TemplateTitle"];
-            ElemGroupsNode = dict["ElemGroupsNode"];
-            CommandsNode = dict["CommandsNode"];
-            UnnamedElemGroup = dict["UnnamedElemGroup"];
-            UnnamedElem = dict["UnnamedElem"];
-            UnnamedCommand = dict["UnnamedCommand"];
-            SaveTemplateConfirm = dict["SaveTemplateConfirm"];
-            ElemCntExceeded = dict["ElemCntExceeded"];
-            DuplicatedCodes = dict["DuplicatedCodes"];
-            DuplicatedCmdNums = dict["DuplicatedCmdNums"];
-            EmptyTagCodes = dict["EmptyTagCodes"];
-            EmptyCmdCodes = dict["EmptyCmdCodes"];
-            VerificationPassed = dict["VerificationPassed"];
-            CloneElemConfigConfirm = dict["CloneElemConfigConfirm"];
+            TemplateTitle = dict[nameof(TemplateTitle)];
+            ElemGroupsNode = dict[nameof(ElemGroupsNode)];
+            CommandsNode = dict[nameof(CommandsNode)];
+            UnnamedElemGroup = dict[nameof(UnnamedElemGroup)];
+            UnnamedElem = dict[nameof(UnnamedElem)];
+            UnnamedCommand = dict[nameof(UnnamedCommand)];
+            SaveTemplateConfirm = dict[nameof(SaveTemplateConfirm)];
+            ElemCntExceeded = dict[nameof(ElemCntExceeded)];
+            DuplicatedCodes = dict[nameof(DuplicatedCodes)];
+            DuplicatedCmdNums = dict[nameof(DuplicatedCmdNums)];
+            EmptyTagCodes = dict[nameof(EmptyTagCodes)];
+            EmptyCmdCodes = dict[nameof(EmptyCmdCodes)];
+            VerificationPassed = dict[nameof(VerificationPassed)];
+            CloneElemConfigConfirm = dict[nameof(CloneElemConfigConfirm)];
         }
     }
 }

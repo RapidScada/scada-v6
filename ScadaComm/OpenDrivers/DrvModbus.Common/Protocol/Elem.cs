@@ -17,6 +17,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             Name = "";
             ElemType = ElemType.Undefined;
             ByteOrder = null;
+            Aux = null;
         }
 
 
@@ -34,6 +35,11 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         /// Gets or sets the byte order.
         /// </summary>
         public int[] ByteOrder { get; set; }
+
+        /// <summary>
+        /// Gets or sets the auxiliary object.
+        /// </summary>
+        public object Aux { get; set; }
 
         /// <summary>
         /// Gets the quantity of addresses.

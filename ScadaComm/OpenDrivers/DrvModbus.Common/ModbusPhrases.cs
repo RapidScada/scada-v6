@@ -5,7 +5,7 @@
 
 using Scada.Lang;
 
-namespace Scada.Comm.Drivers.DrvModbus.Protocol
+namespace Scada.Comm.Drivers.DrvModbus
 {
     /// <summary>
     /// The phrases used in the Modbus protocol implementation.
@@ -13,6 +13,11 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
     /// </summary>
     public static class ModbusPhrases
     {
+        // Scada.Comm.Drivers.DrvModbus.Config
+        public static string LoadTemplateError { get; private set; }
+        public static string SaveTemplateError { get; private set; }
+
+        // Scada.Comm.Drivers.DrvModbus.Protocol
         public static string Request { get; set; }
         public static string Command { get; set; }
         public static string DeviceError { get; set; }
@@ -33,6 +38,9 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         {
             if (Locale.IsRussian)
             {
+                LoadTemplateError = "Ошибка при загрузке шаблона устройства";
+                SaveTemplateError = "Ошибка при сохранении шаблона устройства";
+
                 Request = "Запрос значений группы элементов \"{0}\"";
                 Command = "Команда \"{0}\"";
                 DeviceError = "Ошибка, полученная от устройства";
@@ -51,6 +59,9 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             }
             else
             {
+                LoadTemplateError = "Error loading device template";
+                SaveTemplateError = "Error saving device template";
+
                 Request = "Request element group \"{0}\"";
                 Command = "Command \"{0}\"";
                 DeviceError = "Error received from device";

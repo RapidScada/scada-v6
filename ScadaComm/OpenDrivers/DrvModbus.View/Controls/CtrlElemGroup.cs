@@ -123,7 +123,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
                 txtGrName.Text = elemGroup.Name;
                 cbGrDataBlock.SelectedIndex = (int)elemGroup.DataBlock;
                 numGrAddress.SetValue(elemGroup.Address + AddrShift);
-                lblGrAddressHint.Text = string.Format(ModbusDriverPhrases.AddressHint, AddrNotation, AddrShift);
+                lblGrAddressHint.Text = string.Format(DriverPhrases.AddressHint, AddrNotation, AddrShift);
                 numGrElemCnt.Maximum = elemGroup.MaxElemCnt;
                 numGrElemCnt.SetValue(elemGroup.Elems.Count);
                 gbElemGroup.Enabled = true;
@@ -200,7 +200,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
 
                 bool cancel = elemGroup.Elems.Count > maxElemCnt &&
                     MessageBox.Show(
-                        string.Format(ModbusDriverPhrases.ElemRemoveWarning, maxElemCnt), 
+                        string.Format(DriverPhrases.ElemRemoveWarning, maxElemCnt), 
                         CommonPhrases.QuestionCaption, MessageBoxButtons.YesNoCancel, 
                         MessageBoxIcon.Question) != DialogResult.Yes;
 

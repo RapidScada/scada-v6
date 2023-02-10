@@ -1,9 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DrvModbusDictionaries>
-  <Dictionary key="Scada.Comm.Drivers.DrvModbus.Config.DeviceTemplate">
-    <Phrase key="LoadTemplateError">Ошибка при загрузке шаблона устройства</Phrase>
-    <Phrase key="SaveTemplateError">Ошибка при сохранении шаблона устройства</Phrase>
-  </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls">
     <Phrase key="AddressHint">{0}, начиная с {1}</Phrase>
     <Phrase key="ElemRemoveWarning">Блок данных допускает не более {0} элементов.&#13;&#10;Лишние элементы будут удалены. Продолжить?</Phrase>
