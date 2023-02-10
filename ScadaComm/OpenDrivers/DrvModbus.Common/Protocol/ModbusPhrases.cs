@@ -13,9 +13,6 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
     /// </summary>
     public static class ModbusPhrases
     {
-        public static string IncorrectPduLength { get; set; }
-        public static string IncorrectPduFuncCode { get; set; }
-        public static string IncorrectPduData { get; set; }
         public static string Request { get; set; }
         public static string Command { get; set; }
         public static string DeviceError { get; set; }
@@ -23,49 +20,52 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         public static string OK { get; set; }
         public static string CrcError { get; set; }
         public static string LrcError { get; set; }
-        public static string CommErrorWithExclamation { get; set; }
-        public static string IncorrectDevAddr { get; set; }
-        public static string IncorrectSymbol { get; set; }
-        public static string IncorrectAduLength { get; set; }
-        public static string IncorrectMbap { get; set; }
+        public static string CommError { get; set; }
+        public static string InvalidDevAddr { get; set; }
+        public static string InvalidSymbol { get; set; }
+        public static string InvalidAduLength { get; set; }
+        public static string InvalidMbap { get; set; }
+        public static string InvalidPduLength { get; set; }
+        public static string InvalidPduFuncCode { get; set; }
+        public static string InvalidPduData { get; set; }
 
         static ModbusPhrases()
         {
             if (Locale.IsRussian)
             {
-                IncorrectPduLength = "Некорректная длина PDU";
-                IncorrectPduFuncCode = "Некорректный код функции PDU";
-                IncorrectPduData = "Некорректные данные PDU";
                 Request = "Запрос значений группы элементов \"{0}\"";
                 Command = "Команда \"{0}\"";
-                DeviceError = "Ошибка устройства";
-                IllegalDataBlock = "Недопустимый блок данных.";
+                DeviceError = "Ошибка, полученная от устройства";
+                IllegalDataBlock = "Ошибка: недопустимый блок данных";
                 OK = "OK";
-                CrcError = "Ошибка CRC!";
-                LrcError = "Ошибка LRC!";
-                CommErrorWithExclamation = "Ошибка связи!";
-                IncorrectDevAddr = "Некорректный адрес устройства!";
-                IncorrectSymbol = "Некорректный символ!";
-                IncorrectAduLength = "Некорректная длина ADU!";
-                IncorrectMbap = "Некорректные данные MBAP Header!";
+                CrcError = "Ошибка CRC";
+                LrcError = "Ошибка LRC";
+                CommError = "Ошибка связи";
+                InvalidDevAddr = "Ошибка: неверный адрес устройства";
+                InvalidSymbol = "Ошибка: неверный символ";
+                InvalidAduLength = "Ошибка: неверная длина ADU";
+                InvalidMbap = "Ошибка: неверные данные MBAP Header";
+                InvalidPduLength = "Ошибка: неверная длина PDU";
+                InvalidPduFuncCode = "Ошибка: неверный код функции PDU";
+                InvalidPduData = "Ошибка: неверные данные PDU";
             }
             else
             {
-                IncorrectPduLength = "Incorrect PDU length";
-                IncorrectPduFuncCode = "Incorrect PDU function code";
-                IncorrectPduData = "Incorrect PDU data";
                 Request = "Request element group \"{0}\"";
                 Command = "Command \"{0}\"";
-                DeviceError = "Device error";
-                IllegalDataBlock = "Illegal data block.";
+                DeviceError = "Error received from device";
+                IllegalDataBlock = "Error: illegal data block.";
                 OK = "OK";
-                CrcError = "CRC error!";
-                LrcError = "LRC error!";
-                CommErrorWithExclamation = "Communication error!";
-                IncorrectDevAddr = "Incorrect device address!";
-                IncorrectSymbol = "Incorrect symbol!";
-                IncorrectAduLength = "Incorrect ADU length!";
-                IncorrectMbap = "Incorrect MBAP Header data!";
+                CrcError = "Error: invalid CRC";
+                LrcError = "Error: invalid LRC";
+                CommError = "Error: communication failed";
+                InvalidDevAddr = "Error: invalid device address";
+                InvalidSymbol = "Error: invalid symbol";
+                InvalidAduLength = "Error: invalid ADU length";
+                InvalidMbap = "Error: invalid MBAP Header data";
+                InvalidPduLength = "Error: invalid PDU length";
+                InvalidPduFuncCode = "Error: invalid PDU function code";
+                InvalidPduData = "Error: invalid PDU data";
             }
         }
     }

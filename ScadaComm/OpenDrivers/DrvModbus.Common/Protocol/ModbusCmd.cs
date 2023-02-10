@@ -190,7 +190,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
                 }
                 else
                 {
-                    errMsg = ModbusPhrases.IncorrectPduData;
+                    errMsg = ModbusPhrases.InvalidPduData;
                     return false;
                 }
             }

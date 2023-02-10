@@ -175,17 +175,17 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
                 if (length == RespPduLen)
                     result = true;
                 else
-                    errMsg = ModbusPhrases.IncorrectPduLength;
+                    errMsg = ModbusPhrases.InvalidPduLength;
             }
             else if (respFuncCode == ExcFuncCode)
             {
                 errMsg = length == 2 ? 
                     ModbusPhrases.DeviceError + ": " + ModbusUtils.GetExcDescr(buffer[offset + 1]) :
-                    ModbusPhrases.IncorrectPduLength;
+                    ModbusPhrases.InvalidPduLength;
             }
             else
             {
-                errMsg = ModbusPhrases.IncorrectPduFuncCode;
+                errMsg = ModbusPhrases.InvalidPduFuncCode;
             }
 
             return result;
