@@ -9,52 +9,52 @@
   </Options>
   <ElemGroups>
     <ElemGroup active="true" dataBlock="InputRegisters" address="4" name="AI1 float">
-      <Elem type="float" isBitMask="false" tagCode="" name="AI1" />
+      <Elem type="float" isBitMask="false" tagCode="AI1" name="AI1" />
     </ElemGroup>
     <ElemGroup active="true" dataBlock="InputRegisters" address="10" name="AI2 float">
-      <Elem type="float" isBitMask="false" tagCode="" name="AI2" />
+      <Elem type="float" isBitMask="false" tagCode="AI2" name="AI2" />
     </ElemGroup>
     <ElemGroup active="true" dataBlock="InputRegisters" address="16" name="AI3 float">
-      <Elem type="float" isBitMask="false" tagCode="" name="AI3" />
+      <Elem type="float" isBitMask="false" tagCode="AI3" name="AI3" />
     </ElemGroup>
     <ElemGroup active="true" dataBlock="InputRegisters" address="22" name="AI4 float">
-      <Elem type="float" isBitMask="false" tagCode="" name="AI4" />
+      <Elem type="float" isBitMask="false" tagCode="AI4" name="AI4" />
     </ElemGroup>
     <ElemGroup active="true" dataBlock="InputRegisters" address="28" name="AI5 float">
-      <Elem type="float" isBitMask="false" tagCode="" name="AI5" />
+      <Elem type="float" isBitMask="false" tagCode="AI5" name="AI5" />
     </ElemGroup>
     <ElemGroup active="true" dataBlock="InputRegisters" address="34" name="AI6 float">
-      <Elem type="float" isBitMask="false" tagCode="" name="AI6" />
+      <Elem type="float" isBitMask="false" tagCode="AI6" name="AI6" />
     </ElemGroup>
     <ElemGroup active="true" dataBlock="InputRegisters" address="40" name="AI7 float">
-      <Elem type="float" isBitMask="false" tagCode="" name="AI7" />
+      <Elem type="float" isBitMask="false" tagCode="AI7" name="AI7" />
     </ElemGroup>
     <ElemGroup active="true" dataBlock="InputRegisters" address="46" name="AI8 float">
-      <Elem type="float" isBitMask="false" tagCode="" name="AI8" />
+      <Elem type="float" isBitMask="false" tagCode="AI8" name="AI8" />
     </ElemGroup>
     <ElemGroup active="true" dataBlock="InputRegisters" address="2" name="AI1 ст.">
-      <Elem type="ushort" isBitMask="false" tagCode="" name="AI1 статус" />
+      <Elem type="ushort" isBitMask="false" tagCode="AI1_status" name="AI1 статус" />
     </ElemGroup>
     <ElemGroup active="true" dataBlock="InputRegisters" address="8" name="AI2 ст.">
-      <Elem type="ushort" isBitMask="false" tagCode="" name="AI2 статус" />
+      <Elem type="ushort" isBitMask="false" tagCode="AI2_status" name="AI2 статус" />
     </ElemGroup>
     <ElemGroup active="true" dataBlock="InputRegisters" address="14" name="AI3 ст.">
-      <Elem type="ushort" isBitMask="false" tagCode="" name="AI3 статус" />
+      <Elem type="ushort" isBitMask="false" tagCode="AI3_status" name="AI3 статус" />
     </ElemGroup>
     <ElemGroup active="true" dataBlock="InputRegisters" address="20" name="AI4 ст.">
-      <Elem type="ushort" isBitMask="false" tagCode="" name="AI4 статус" />
+      <Elem type="ushort" isBitMask="false" tagCode="AI4_status" name="AI4 статус" />
     </ElemGroup>
     <ElemGroup active="true" dataBlock="InputRegisters" address="26" name="AI5 ст.">
-      <Elem type="ushort" isBitMask="false" tagCode="" name="AI5 статус" />
+      <Elem type="ushort" isBitMask="false" tagCode="AI5_status" name="AI5 статус" />
     </ElemGroup>
     <ElemGroup active="true" dataBlock="InputRegisters" address="32" name="AI6 ст.">
-      <Elem type="ushort" isBitMask="false" tagCode="" name="AI6 статус" />
+      <Elem type="ushort" isBitMask="false" tagCode="AI6_status" name="AI6 статус" />
     </ElemGroup>
     <ElemGroup active="true" dataBlock="InputRegisters" address="38" name="AI7 ст.">
-      <Elem type="ushort" isBitMask="false" tagCode="" name="AI7 статус" />
+      <Elem type="ushort" isBitMask="false" tagCode="AI7_status" name="AI7 статус" />
     </ElemGroup>
     <ElemGroup active="true" dataBlock="InputRegisters" address="44" name="AI8 ст.">
-      <Elem type="ushort" isBitMask="false" tagCode="" name="AI8 статус" />
+      <Elem type="ushort" isBitMask="false" tagCode="AI8_status" name="AI8 статус" />
     </ElemGroup>
   </ElemGroups>
   <Cmds />

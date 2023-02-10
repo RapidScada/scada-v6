@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DeviceTemplate>
+  <Options>
+    <ZeroAddr>false</ZeroAddr>
+    <DecAddr>true</DecAddr>
+    <DefByteOrder2 />
+    <DefByteOrder4 />
+    <DefByteOrder8 />
+  </Options>
+  <ElemGroups>
+    <ElemGroup active="true" dataBlock="InputRegisters" address="51" name="Дискретные входы">
+      <Elem type="ushort" isBitMask="true" tagCode="IN" name="Входы 1-8" />
+    </ElemGroup>
+    <ElemGroup active="true" dataBlock="InputRegisters" address="64" name="Счётчики">
+      <Elem type="ushort" isBitMask="false" tagCode="Cntr1" name="Счётчик 1" />
+      <Elem type="ushort" isBitMask="false" tagCode="Cntr2" name="Счётчик 2" />
+      <Elem type="ushort" isBitMask="false" tagCode="Cntr3" name="Счётчик 3" />
+      <Elem type="ushort" isBitMask="false" tagCode="Cntr4" name="Счётчик 4" />
+      <Elem type="ushort" isBitMask="false" tagCode="Cntr5" name="Счётчик 5" />
+      <Elem type="ushort" isBitMask="false" tagCode="Cntr6" name="Счётчик 6" />
+      <Elem type="ushort" isBitMask="false" tagCode="Cntr7" name="Счётчик 7" />
+      <Elem type="ushort" isBitMask="false" tagCode="Cntr8" name="Счётчик 8" />
+    </ElemGroup>
+  </ElemGroups>
+  <Cmds>
+    <Cmd dataBlock="HoldingRegisters" multiple="true" address="64" elemType="ushort" elemCnt="1" cmdNum="1" cmdCode="Set_cntr1" name="Установка счётчика 1" />
+    <Cmd dataBlock="HoldingRegisters" multiple="true" address="65" elemType="ushort" elemCnt="1" cmdNum="2" cmdCode="Set_cntr2" name="Установка счётчика 2" />
+    <Cmd dataBlock="HoldingRegisters" multiple="true" address="66" elemType="ushort" elemCnt="1" cmdNum="3" cmdCode="Set_cntr3" name="Установка счётчика 3" />
+    <Cmd dataBlock="HoldingRegisters" multiple="true" address="67" elemType="ushort" elemCnt="1" cmdNum="4" cmdCode="Set_cntr4" name="Установка счётчика 4" />
+    <Cmd dataBlock="HoldingRegisters" multiple="true" address="68" elemType="ushort" elemCnt="1" cmdNum="5" cmdCode="Set_cntr5" name="Установка счётчика 5" />
+    <Cmd dataBlock="HoldingRegisters" multiple="true" address="69" elemType="ushort" elemCnt="1" cmdNum="6" cmdCode="Set_cntr6" name="Установка счётчика 6" />
+    <Cmd dataBlock="HoldingRegisters" multiple="true" address="70" elemType="ushort" elemCnt="1" cmdNum="7" cmdCode="Set_cntr7" name="Установка счётчика 7" />
+    <Cmd dataBlock="HoldingRegisters" multiple="true" address="71" elemType="ushort" elemCnt="1" cmdNum="8" cmdCode="Set_cntr8" name="Установка счётчика 8" />
+  </Cmds>
+</DeviceTemplate>

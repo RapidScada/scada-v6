@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DeviceTemplate>
+  <Options>
+    <ZeroAddr>false</ZeroAddr>
+    <DecAddr>true</DecAddr>
+    <DefByteOrder2 />
+    <DefByteOrder4 />
+    <DefByteOrder8 />
+  </Options>
+  <ElemGroups>
+    <ElemGroup active="true" dataBlock="Coils" address="0" name="Системные дискретные выходы">
+      <Elem readOnly="false" tagCode="" name="СПВ Привод жалюзи - Открытие/Закрытие" />
+      <Elem readOnly="false" tagCode="" name="СПВ Привод жалюзи - Закрытие" />
+      <Elem readOnly="false" tagCode="" name="СПВ Вентилятор приточный Старт/Стоп" />
+      <Elem readOnly="false" tagCode="" name="СПВ Вентилятор приточный Скорость" />
+      <Elem readOnly="false" tagCode="" name="СПВ Вентилятор вытяжной Старт/Стоп" />
+      <Elem readOnly="false" tagCode="" name="СПВ Вентилятор вытяжной Скорость" />
+      <Elem readOnly="false" tagCode="" name="СПВ Насос калорифера основной" />
+      <Elem readOnly="false" tagCode="" name="СПВ Насос калорифера резервный" />
+      <Elem readOnly="false" tagCode="" name="СПВ Насос кондиционера основной" />
+      <Elem readOnly="false" tagCode="" name="СПВ Насос кондиционера резервный" />
+      <Elem readOnly="false" tagCode="" name="СПВ Обогрев жалюзи" />
+      <Elem readOnly="false" tagCode="" name="СОт Насос основной" />
+      <Elem readOnly="false" tagCode="" name="СОт Насос резервный" />
+      <Elem readOnly="false" tagCode="" name="СГВС Насос основной" />
+      <Elem readOnly="false" tagCode="" name="СГВС Насос резервный" />
+      <Elem readOnly="false" tagCode="" name="Выход Зима/Лето" />
+      <Elem readOnly="false" tagCode="" name="Выход День/Ночь" />
+      <Elem readOnly="false" tagCode="" name="Авария" />
+      <Elem readOnly="false" tagCode="" name="Грязный воздушный фильтр" />
+      <Elem readOnly="false" tagCode="" name="СПВ Насос рекуператора" />
+      <Elem readOnly="false" tagCode="" name="ШИМ1" />
+      <Elem readOnly="false" tagCode="" name="ШИМ2" />
+      <Elem readOnly="false" tagCode="" name="ШИМ3" />
+      <Elem readOnly="false" tagCode="" name="Свободный дискретный выход 1" />
+      <Elem readOnly="false" tagCode="" name="Свободный дискретный выход 2" />
+      <Elem readOnly="false" tagCode="" name="Свободный дискретный выход 3" />
+      <Elem readOnly="false" tagCode="" name="Свободный дискретный выход 4" />
+      <Elem readOnly="false" tagCode="" name="Свободный дискретный выход 5" />
+      <Elem readOnly="false" tagCode="" name="Свободный дискретный выход 6" />
+      <Elem readOnly="false" tagCode="" name="Свободный дискретный выход 7" />
+      <Elem readOnly="false" tagCode="" name="Свободный дискретный выход 8" />
+      <Elem readOnly="false" tagCode="" name="Свободный дискретный выход 9" />
+    </ElemGroup>
+    <ElemGroup active="true" dataBlock="Coils" address="32" name="Логические флаги условий">
+      <Elem readOnly="true" tagCode="" name="Флаг 1" />
+      <Elem readOnly="true" tagCode="" name="Флаг 2" />
+      <Elem readOnly="true" tagCode="" name="Флаг 3" />
+      <Elem readOnly="true" tagCode="" name="Флаг 4" />
+      <Elem readOnly="true" tagCode="" name="Флаг 5" />
+      <Elem readOnly="true" tagCode="" name="Флаг 6" />
+      <Elem readOnly="true" tagCode="" name="Флаг 7" />
+      <Elem readOnly="true" tagCode="" name="Флаг 8" />
+      <Elem readOnly="true" tagCode="" name="Флаг 9" />
+      <Elem readOnly="true" tagCode="" name="Флаг 10" />
+      <Elem readOnly="true" tagCode="" name="Флаг 11" />
+      <Elem readOnly="true" tagCode="" name="Флаг 12" />
+      <Elem readOnly="true" tagCode="" name="Флаг 13" />
+      <Elem readOnly="true" tagCode="" name="Флаг 14" />
+      <Elem readOnly="true" tagCode="" name="Флаг 15" />
+      <Elem readOnly="true" tagCode="" name="Флаг 16" />
+      <Elem readOnly="true" tagCode="" name="Флаг 17" />
+      <Elem readOnly="true" tagCode="" name="Флаг 18" />
+      <Elem readOnly="true" tagCode="" name="Флаг 19" />
+      <Elem readOnly="true" tagCode="" name="Флаг 20" />
+      <Elem readOnly="true" tagCode="" name="Флаг 21" />
+      <Elem readOnly="true" tagCode="" name="Флаг 22" />
+      <Elem readOnly="true" tagCode="" name="Флаг 23" />
+      <Elem readOnly="true" tagCode="" name="Флаг 24" />
+      <Elem readOnly="true" tagCode="" name="Флаг 25" />
+      <Elem readOnly="true" tagCode="" name="Флаг 26" />
+      <Elem readOnly="true" tagCode="" name="Флаг 27" />
+      <Elem readOnly="true" tagCode="" name="Флаг 28" />
+      <Elem readOnly="true" tagCode="" name="Флаг 29" />
+      <Elem readOnly="true" tagCode="" name="Флаг 30" />
+      <Elem readOnly="true" tagCode="" name="Флаг 31" />
+      <Elem readOnly="true" tagCode="" name="Флаг 32" />
+    </ElemGroup>
+    <ElemGroup active="true" dataBlock="DiscreteInputs" address="10000" name="Системные дискретные входы">
+      <Elem tagCode="" name="СПВ Дежурный режим" />
+      <Elem tagCode="" name="СПВ Активный режим" />
+      <Elem tagCode="" name="СПВ Термостат" />
+      <Elem tagCode="" name="СПВ Перепад давл. на возд. фильтре" />
+      <Elem tagCode="" name="СПВ Перепад давл. на прит. вентиляторе" />
+      <Elem tagCode="" name="СПВ Перепад давл. на вытяж. вентиляторе" />
+      <Elem tagCode="" name="СПВ Датчик протока калорифера NO" />
+      <Elem tagCode="" name="СПВ Датчик протока калорифера NC" />
+      <Elem tagCode="" name="СПВ Датчик протока кондиционера NO" />
+      <Elem tagCode="" name="СПВ Датчик протока кондиционера NC" />
+      <Elem tagCode="" name="СОт Принудительно ночь" />
+      <Elem tagCode="" name="СОт Датчик протока NO" />
+      <Elem tagCode="" name="СОт Датчик протока NC" />
+      <Elem tagCode="" name="СГВС Датчик протока NO" />
+      <Elem tagCode="" name="СГВС Датчик протока NC" />
+      <Elem tagCode="" name="Датчик аварии роторного рекуператора" />
+      <Elem tagCode="" name="Датчик обмерзания трубчатого рекуператора" />
+      <Elem tagCode="" name="СПВ Контактный датчик Жалюзи открыты" />
+      <Elem tagCode="" name="СПВ Контактный датчик Жалюзи закрыты" />
+      <Elem tagCode="" name="Контроль РИП" />
+      <Elem tagCode="" name="Счётчик импульсов №1" />
+      <Elem tagCode="" name="Счётчик импульсов №2" />
+      <Elem tagCode="" name="Счётчик импульсов №3" />
+      <Elem tagCode="" name="Счётчик импульсов №4" />
+      <Elem tagCode="" name="Дискретный вход Пожар" />
+      <Elem tagCode="" name="Свободный дискретный датчик 1" />
+      <Elem tagCode="" name="Свободный дискретный датчик 2" />
+      <Elem tagCode="" name="Свободный дискретный датчик 3" />
+      <Elem tagCode="" name="Свободный дискретный датчик 4" />
+      <Elem tagCode="" name="Свободный дискретный датчик 5" />
+      <Elem tagCode="" name="Свободный дискретный датчик 6" />
+      <Elem tagCode="" name="Свободный дискретный датчик 7" />
+    </ElemGroup>
+    <ElemGroup active="true" dataBlock="HoldingRegisters" address="40000" name="Датчики 1">
+      <Elem type="float" byteOrder="3210" readOnly="true" isBitMask="false" tagCode="" name="СПВ Т канала" />
+      <Elem type="float" byteOrder="3210" readOnly="true" isBitMask="false" tagCode="" name="СПВ Т обратной воды" />
+      <Elem type="float" byteOrder="3210" readOnly="true" isBitMask="false" tagCode="" name="Т наружного воздуха" />
+      <Elem type="float" byteOrder="3210" readOnly="true" isBitMask="false" tagCode="" name="СПВ Т помещения" />
+      <Elem type="float" byteOrder="3210" readOnly="true" isBitMask="false" tagCode="" name="СПВ Т задатчика" />
+      <Elem type="float" byteOrder="3210" readOnly="true" isBitMask="false" tagCode="" name="СПВ Т корректора" />
+      <Elem type="float" byteOrder="3210" readOnly="true" isBitMask="false" tagCode="" name="СОт Т прямой воды" />
+      <Elem type="float" byteOrder="3210" readOnly="true" isBitMask="false" tagCode="" name="СОт Т обратной воды" />
+      <Elem type="float" byteOrder="3210" readOnly="true" isBitMask="false" tagCode="" name="СГВС Т воды" />
+      <Elem type="float" byteOrder="3210" readOnly="true" isBitMask="false" tagCode="" name="Технологический параметр" />
+      <Elem type="float" byteOrder="3210" readOnly="true" isBitMask="false" tagCode="" name="СПВ Т гликоля" />
+      <Elem type="float" byteOrder="3210" readOnly="true" isBitMask="false" tagCode="" name="СПВ Задатчик скорости вентилятора" />
+      <Elem type="float" byteOrder="3210" readOnly="true" isBitMask="false" tagCode="" name="Свободный датчик 1" />
+      <Elem type="float" byteOrder="3210" readOnly="true" isBitMask="false" tagCode="" name="Свободный датчик 2" />
+    </ElemGroup>
+    <ElemGroup active="true" dataBlock="HoldingRegisters" address="40028" name="Датчики 2">
+      <Elem type="float" byteOrder="3210" readOnly="false" isBitMask="false" tagCode="" name="СПВ привод КЗР калорифера" />
+      <Elem type="float" byteOrder="3210" readOnly="false" isBitMask="false" tagCode="" name="СПВ привод КЗР кондиционера" />
+      <Elem type="float" byteOrder="3210" readOnly="false" isBitMask="false" tagCode="" name="СОт привод КЗР" />
+      <Elem type="float" byteOrder="3210" readOnly="false" isBitMask="false" tagCode="" name="СГВС привод КЗР" />
+      <Elem type="float" byteOrder="3210" readOnly="false" isBitMask="false" tagCode="" name="Технологический процесс" />
+      <Elem type="float" byteOrder="3210" readOnly="false" isBitMask="false" tagCode="" name="Рекуперация" />
+    </ElemGroup>
+    <ElemGroup active="true" dataBlock="HoldingRegisters" address="42000" name="Дата и время">
+      <Elem type="ushort" readOnly="false" isBitMask="false" tagCode="" name="Час" />
+      <Elem type="ushort" readOnly="false" isBitMask="false" tagCode="" name="Минута" />
+      <Elem type="ushort" readOnly="false" isBitMask="false" tagCode="" name="Секунда" />
+      <Elem type="ushort" readOnly="false" isBitMask="false" tagCode="" name="Число" />
+      <Elem type="ushort" readOnly="false" isBitMask="false" tagCode="" name="Месяц" />
+      <Elem type="ushort" readOnly="false" isBitMask="false" tagCode="" name="Год" />
+    </ElemGroup>
+    <ElemGroup active="true" dataBlock="HoldingRegisters" address="50000" name="Состояние">
+      <Elem type="ushort" readOnly="false" isBitMask="false" tagCode="" name="Регистр состояния числовой" />
+    </ElemGroup>
+  </ElemGroups>
+  <Cmds />
+</DeviceTemplate>
