@@ -113,7 +113,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
                     case ElemType.Double:
                         rbDouble.Checked = true;
                         break;
-                    default:
+                    case ElemType.Bool:
                         rbBool.Checked = true;
                         break;
                 }

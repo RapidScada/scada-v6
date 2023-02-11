@@ -250,12 +250,9 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
                 if (oldElemCnt < newElemCnt)
                 {
                     // add new elements
-                    ElemType elemType = elemGroup.DefaultElemType;
-
                     for (int elemInd = oldElemCnt; elemInd < newElemCnt; elemInd++)
                     {
                         ElemConfig elem = elemGroup.CreateElemConfig();
-                        elem.ElemType = elemType;
                         elemGroup.Elems.Add(elem);
                     }
                 }

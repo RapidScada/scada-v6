@@ -69,7 +69,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         /// </summary>
         public virtual ElemConfig CreateElemConfig()
         {
-            return new ElemConfig();
+            return new ElemConfig { ElemType = DefaultElemType };
         }
 
         /// <summary>
