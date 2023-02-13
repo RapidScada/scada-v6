@@ -18,9 +18,9 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
     public partial class FrmDeviceTemplate : Form
     {
         /// <summary>
-        /// Имя файла нового шаблона устройства
+        /// The file name of a new device template.
         /// </summary>
-        private const string NewFileName = "KpModbus_NewTemplate.xml";
+        private const string NewFileName = "DrvModbus_NewTemplate.xml";
 
         private readonly AppDirs appDirs;          // the application directories
         private readonly CustomUi customUi;        // the UI customization object

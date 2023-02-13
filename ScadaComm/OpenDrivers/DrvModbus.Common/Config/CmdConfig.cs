@@ -22,7 +22,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
             DataBlock = DataBlock.Coils;
             Multiple = false;
             CustomFuncCode = 0;
-            ElemType = ElemType.Undefined;
+            ElemType = DefaultElemType;
             ElemCnt = 1;
             ByteOrder = "";
             CmdNum = 0;
