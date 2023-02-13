@@ -12,6 +12,12 @@ namespace Scada.Comm.Drivers.DrvEnronModbus.Config
     internal class EnronDeviceTemplate : DeviceTemplate
     {
         /// <summary>
+        /// Gets the file name for a newly created device template.
+        /// </summary>
+        public override string NewTemplateFileName => "DrvEnronModbus_NewTemplate.xml";
+
+
+        /// <summary>
         /// Sets the default values.
         /// </summary>
         protected override void SetToDefault()

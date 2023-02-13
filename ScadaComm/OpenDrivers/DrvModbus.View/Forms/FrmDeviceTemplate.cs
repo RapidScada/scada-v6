@@ -79,6 +79,19 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         }
 
         /// <summary>
+        /// Gets the short file name for saving the device template.
+        /// </summary>
+        private string ShortFileName
+        {
+            get
+            {
+                return string.IsNullOrEmpty(FileName)
+                    ? template?.NewTemplateFileName ?? ""
+                    : Path.GetFileName(FileName);
+            }
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating whether only the save file command is allowed.
         /// </summary>
         public bool SaveOnly { get; set; }
@@ -111,8 +124,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         /// </summary>
         private void SetFormTitle()
         {
-            Text = (Modified ? "*" : "") + string.Format(DriverPhrases.TemplateTitle, 
-                string.IsNullOrEmpty(FileName) ? customUi.NewTemplateFileName : Path.GetFileName(FileName));
+            Text = (Modified ? "*" : "") + string.Format(DriverPhrases.TemplateTitle, ShortFileName);
         }
 
         /// <summary>
@@ -424,8 +436,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
 
             if (saveAs || string.IsNullOrEmpty(FileName))
             {
-                saveFileDialog.FileName = string.IsNullOrEmpty(FileName) ? 
-                    customUi.NewTemplateFileName : Path.GetFileName(FileName);
+                saveFileDialog.FileName = ShortFileName;
 
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                     newFileName = saveFileDialog.FileName;
@@ -435,7 +446,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
                 newFileName = FileName;
             }
 
-            if (newFileName == "")
+            if (string.IsNullOrEmpty(newFileName))
             {
                 return false;
             }
