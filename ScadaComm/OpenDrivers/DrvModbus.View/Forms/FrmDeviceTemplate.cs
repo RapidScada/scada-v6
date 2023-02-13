@@ -17,11 +17,6 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
     /// </summary>
     public partial class FrmDeviceTemplate : Form
     {
-        /// <summary>
-        /// The file name of a new device template.
-        /// </summary>
-        private const string NewFileName = "DrvModbus_NewTemplate.xml";
-
         private readonly AppDirs appDirs;          // the application directories
         private readonly CustomUi customUi;        // the UI customization object
         private readonly TreeNode elemGroupsNode;  // the tree node containing element groups
@@ -117,7 +112,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         private void SetFormTitle()
         {
             Text = (Modified ? "*" : "") + string.Format(DriverPhrases.TemplateTitle, 
-                string.IsNullOrEmpty(FileName) ? NewFileName : Path.GetFileName(FileName));
+                string.IsNullOrEmpty(FileName) ? customUi.NewTemplateFileName : Path.GetFileName(FileName));
         }
 
         /// <summary>
@@ -429,7 +424,8 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
 
             if (saveAs || string.IsNullOrEmpty(FileName))
             {
-                saveFileDialog.FileName = string.IsNullOrEmpty(FileName) ? NewFileName : Path.GetFileName(FileName);
+                saveFileDialog.FileName = string.IsNullOrEmpty(FileName) ? 
+                    customUi.NewTemplateFileName : Path.GetFileName(FileName);
 
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                     newFileName = saveFileDialog.FileName;
@@ -576,7 +572,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             openFileDialog.InitialDirectory = appDirs.ConfigDir;
             saveFileDialog.InitialDirectory = appDirs.ConfigDir;
             ctrlElem.Top = ctrlCmd.Top = ctrlElemGroup.Top;
-            btnEditOptionsExt.Visible = customUi.ExtendedOptionsAvailable;
+            btnEditOptionsExt.Visible = customUi.CanShowExtendedOptions;
 
             if (SaveOnly)
             {
