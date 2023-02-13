@@ -66,6 +66,17 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         public string CmdCode { get; set; }
 
         /// <summary>
+        /// Gets the quantity of addresses.
+        /// </summary>
+        public virtual int Quantity
+        {
+            get
+            {
+                return ModbusUtils.GetQuantity(ElemType);
+            }
+        }
+
+        /// <summary>
         /// Gets a value indicating whether the data type selection is applicable for the command.
         /// </summary>
         public override bool ElemTypeEnabled

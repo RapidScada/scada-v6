@@ -251,8 +251,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             else
             {
                 string addrRange = ModbusUtils.GetAddressRange(cmd.Address,
-                    cmd.ElemCnt * ModbusUtils.GetQuantity(cmd.ElemType),
-                    template.Options.ZeroAddr, template.Options.DecAddr);
+                    cmd.ElemCnt * cmd.Quantity, template.Options.ZeroAddr, template.Options.DecAddr);
                 return string.Format("{0} ({1}, {2})", cmdName, blockName, addrRange);
             }
         }
