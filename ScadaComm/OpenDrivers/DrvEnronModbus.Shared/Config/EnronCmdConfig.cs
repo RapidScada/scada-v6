@@ -26,5 +26,16 @@ namespace Scada.Comm.Drivers.DrvEnronModbus.Config
                         : ElemType.Float;
             }
         }
+
+        /// <summary>
+        /// Gets the quantity of addresses.
+        /// </summary>
+        public override int Quantity
+        {
+            get
+            {
+                return 1;
+            }
+        }
     }
 }
