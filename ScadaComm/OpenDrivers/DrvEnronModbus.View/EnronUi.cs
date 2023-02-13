@@ -14,6 +14,11 @@ namespace Scada.Comm.Drivers.DrvEnronModbus.View
     internal class EnronUi : CustomUi
     {
         /// <summary>
+        /// Gets the file name for a newly created device template.
+        /// </summary>
+        public override string NewTemplateFileName => "DrvEnronModbus_NewTemplate.xml";
+
+        /// <summary>
         /// Creates a new device template.
         /// </summary>
         public override DeviceTemplate CreateDeviceTemplate() => new EnronDeviceTemplate();

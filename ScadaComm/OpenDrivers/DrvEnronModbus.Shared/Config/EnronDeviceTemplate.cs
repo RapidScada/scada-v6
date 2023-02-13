@@ -12,6 +12,15 @@ namespace Scada.Comm.Drivers.DrvEnronModbus.Config
     internal class EnronDeviceTemplate : DeviceTemplate
     {
         /// <summary>
+        /// Sets the default values.
+        /// </summary>
+        protected override void SetToDefault()
+        {
+            base.SetToDefault();
+            Options.ZeroAddr = true;
+        }
+
+        /// <summary>
         /// Creates a new element group configuration.
         /// </summary>
         public override ElemGroupConfig CreateElemGroupConfig()
