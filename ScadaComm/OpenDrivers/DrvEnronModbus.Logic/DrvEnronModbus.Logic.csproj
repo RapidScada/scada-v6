@@ -27,4 +27,6 @@
     </Reference>
   </ItemGroup>
 
+  <Import Project="..\DrvEnronModbus.Shared\DrvEnronModbus.Shared.projitems" Label="Shared" />
+
 </Project>
