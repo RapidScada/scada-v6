@@ -92,11 +92,17 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvDsScadaServer.Shared", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DrvDbImport", "DrvDbImport", "{BA7DEC7C-B9CC-4CFB-906D-3255F25AC285}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvDbImport.Logic", "DrvDbImport.Logic\DrvDbImport.Logic.csproj", "{38BA34DD-5754-4278-880C-E4B434AA8783}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvDbImport.Logic", "DrvDbImport.Logic\DrvDbImport.Logic.csproj", "{38BA34DD-5754-4278-880C-E4B434AA8783}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvDbImport.View", "DrvDbImport.View\DrvDbImport.View.csproj", "{DDFCDBEF-0B7D-458B-98E5-9168B04D85FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvDbImport.View", "DrvDbImport.View\DrvDbImport.View.csproj", "{DDFCDBEF-0B7D-458B-98E5-9168B04D85FD}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvDbImport.Shared", "DrvDbImport.Shared\DrvDbImport.Shared.shproj", "{BC00F25A-B6E7-47EF-86C6-739C89C67312}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DrvEnronModbus", "DrvEnronModbus", "{024631A2-4BAA-4EB8-907A-ACA215D00F0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvEnronModbus.Logic", "DrvEnronModbus.Logic\DrvEnronModbus.Logic.csproj", "{63F2BC6D-3FB2-4AF4-8381-486A946C5EB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvEnronModbus.View", "DrvEnronModbus.View\DrvEnronModbus.View.csproj", "{F19D06C6-C82C-4F06-8477-1954D25278FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -220,6 +226,14 @@ Global
 		{DDFCDBEF-0B7D-458B-98E5-9168B04D85FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDFCDBEF-0B7D-458B-98E5-9168B04D85FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDFCDBEF-0B7D-458B-98E5-9168B04D85FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63F2BC6D-3FB2-4AF4-8381-486A946C5EB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63F2BC6D-3FB2-4AF4-8381-486A946C5EB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63F2BC6D-3FB2-4AF4-8381-486A946C5EB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63F2BC6D-3FB2-4AF4-8381-486A946C5EB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F19D06C6-C82C-4F06-8477-1954D25278FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F19D06C6-C82C-4F06-8477-1954D25278FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F19D06C6-C82C-4F06-8477-1954D25278FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F19D06C6-C82C-4F06-8477-1954D25278FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -261,6 +275,8 @@ Global
 		{38BA34DD-5754-4278-880C-E4B434AA8783} = {BA7DEC7C-B9CC-4CFB-906D-3255F25AC285}
 		{DDFCDBEF-0B7D-458B-98E5-9168B04D85FD} = {BA7DEC7C-B9CC-4CFB-906D-3255F25AC285}
 		{BC00F25A-B6E7-47EF-86C6-739C89C67312} = {BA7DEC7C-B9CC-4CFB-906D-3255F25AC285}
+		{63F2BC6D-3FB2-4AF4-8381-486A946C5EB0} = {024631A2-4BAA-4EB8-907A-ACA215D00F0E}
+		{F19D06C6-C82C-4F06-8477-1954D25278FB} = {024631A2-4BAA-4EB8-907A-ACA215D00F0E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {961AA4C1-5D08-4B24-AE6B-99F3AB1A7AEF}
