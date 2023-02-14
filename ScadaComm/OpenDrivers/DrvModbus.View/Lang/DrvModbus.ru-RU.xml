@@ -74,9 +74,8 @@
     <Phrase key="lblTransMode">Протокол</Phrase>
     <Phrase key="gbDevice">Устройство</Phrase>
     <Phrase key="lblTemplateFileName">Шаблон устройства</Phrase>
-    <Phrase key="btnBrowseTemplate">Обзор...</Phrase>
-    <Phrase key="btnCreateTemplate">Создать</Phrase>
     <Phrase key="btnEditTemplate">Изменить</Phrase>
+    <Phrase key="btnBrowseTemplate">Обзор...</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
     <Phrase key="ConfigDirRequired">Файл шаблона устройства должен располагаться внутри {0}</Phrase>

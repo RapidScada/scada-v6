@@ -56,7 +56,6 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             selectedElemTag = null;
             selectedCmd = null;
 
-            SaveOnly = false;
             FileName = "";
         }
 
@@ -90,11 +89,6 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
                     : Path.GetFileName(FileName);
             }
         }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether only the save file command is allowed.
-        /// </summary>
-        public bool SaveOnly { get; set; }
 
         /// <summary>
         /// Gets or sets the device template file name.
@@ -583,12 +577,6 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             saveFileDialog.InitialDirectory = appDirs.ConfigDir;
             ctrlElem.Top = ctrlCmd.Top = ctrlElemGroup.Top;
             btnEditOptionsExt.Visible = customUi.CanShowExtendedOptions;
-
-            if (SaveOnly)
-            {
-                btnNew.Visible = false;
-                btnOpen.Visible = false;
-            }
 
             if (string.IsNullOrEmpty(FileName))
             {

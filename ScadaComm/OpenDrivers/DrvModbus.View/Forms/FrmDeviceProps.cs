@@ -106,14 +106,15 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         {
             FrmDeviceTemplate frmDeviceTemplate = new(appDirs, customUi)
             {
-                SaveOnly = true,
                 FileName = fileName
             };
 
             frmDeviceTemplate.ShowDialog();
             fileName = frmDeviceTemplate.FileName;
 
-            if (!string.IsNullOrEmpty(fileName) && ValidateTemplatePath(fileName, out string shortFileName))
+            if (string.IsNullOrEmpty(fileName))
+                txtTemplateFileName.Text = "";
+            else if (ValidateTemplatePath(fileName, out string shortFileName))
                 txtTemplateFileName.Text = shortFileName;
         }
 
@@ -125,11 +126,6 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
 
             Text = string.Format(Text, deviceConfig.DeviceNum);
             ConfigToControls();
-        }
-
-        private void txtTemplate_TextChanged(object sender, EventArgs e)
-        {
-            btnEditTemplate.Enabled = !string.IsNullOrWhiteSpace(txtTemplateFileName.Text);
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)
@@ -145,14 +141,12 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             }
         }
 
-        private void btnCreate_Click(object sender, EventArgs e)
-        {
-            EditDeviceTemplate();
-        }
-
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            EditDeviceTemplate(GetTemplatePath());
+            if (string.IsNullOrWhiteSpace(txtTemplateFileName.Text))
+                EditDeviceTemplate();
+            else
+                EditDeviceTemplate(GetTemplatePath());
         }
 
         private void btnOK_Click(object sender, EventArgs e)
