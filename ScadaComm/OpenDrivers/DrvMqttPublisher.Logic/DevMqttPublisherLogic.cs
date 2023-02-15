@@ -339,9 +339,6 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
             }
 
             InitLineData();
-
-            if (fatalError)
-                DeviceStatus = DeviceStatus.Error;
         }
 
         /// <summary>
@@ -390,6 +387,17 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
             DeviceTags.FlattenGroups = true;
             DeviceTags.UseStatusTag = false;
             publishCnlNums = cnlNumList.ToArray();
+        }
+
+        /// <summary>
+        /// Initializes the device data.
+        /// </summary>
+        public override void InitDeviceData()
+        {
+            base.InitDeviceData();
+
+            if (fatalError)
+                DeviceStatus = DeviceStatus.Error;
         }
 
         /// <summary>
