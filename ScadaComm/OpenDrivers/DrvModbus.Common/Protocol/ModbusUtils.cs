@@ -133,31 +133,31 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
 
             switch (excCode)
             {
-                case 0x01:
+                case ExcCodeConst.IllegalFunction:
                     descr += "ILLEGAL FUNCTION";
                     break;
-                case 0x02:
+                case ExcCodeConst.IllegalDataAddress:
                     descr += "ILLEGAL DATA ADDRESS";
                     break;
-                case 0x03:
+                case ExcCodeConst.IllegalDataValue:
                     descr += "ILLEGAL DATA VALUE";
                     break;
-                case 0x04:
+                case ExcCodeConst.SlaveDeviceFailure:
                     descr += "SLAVE DEVICE FAILURE";
                     break;
-                case 0x05:
+                case ExcCodeConst.Acknowledge:
                     descr += "ACKNOWLEDGE";
                     break;
-                case 0x06:
+                case ExcCodeConst.SlaveDeviceBusy:
                     descr += "SLAVE DEVICE BUSY";
                     break;
-                case 0x08:
+                case ExcCodeConst.MemoryParityError:
                     descr += "MEMORY PARITY ERROR";
                     break;
-                case 0x0A:
+                case ExcCodeConst.GatewayPathUnavailable:
                     descr += "GATEWAY PATH UNAVAILABLE";
                     break;
-                case 0x0B:
+                case ExcCodeConst.GatewayTargetFailed:
                     descr += "GATEWAY TARGET DEVICE FAILED TO RESPOND";
                     break;
                 default:
@@ -318,7 +318,19 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         /// </summary>
         public static bool IsReadFunction(byte funcCode)
         {
-            return funcCode <= 0x04;
+            return 0x01 <= funcCode && funcCode <= 0x04;
+        }
+
+        /// <summary>
+        /// Determines whether the specified function is a write function.
+        /// </summary>
+        public static bool IsWriteFunction(byte funcCode)
+        {
+            return
+                funcCode == FuncCodeConst.WriteSingleCoil ||
+                funcCode == FuncCodeConst.WriteSingleRegister ||
+                funcCode == FuncCodeConst.WriteMultipleCoils ||
+                funcCode == FuncCodeConst.WriteMultipleRegisters;
         }
     }
 }
