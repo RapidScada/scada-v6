@@ -360,7 +360,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
 
                 if (cnlNum > 0 && cnlNumSet.Add(cnlNum))
                 {
-                    if (cnlTable?.GetItem(cnlNum) is Cnl cnl)
+                    if (cnlTable?.GetItem(cnlNum) is Cnl cnl && cnl.Active)
                     {
                         deviceTag = tagGroup.AddTag("", cnl.Name);
                         deviceTag.Cnl = cnl;
