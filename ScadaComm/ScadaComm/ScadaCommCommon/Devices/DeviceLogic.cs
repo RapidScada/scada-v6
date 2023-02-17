@@ -455,6 +455,20 @@ namespace Scada.Comm.Devices
         /// </summary>
         public virtual void ReceiveIncomingRequest(Connection conn, IncomingRequestArgs requestArgs)
         {
+            Log.WriteLine();
+
+            if (string.IsNullOrEmpty(conn.RemoteAddress))
+            {
+                Log.WriteAction(Locale.IsRussian ?
+                    "Приём входящего запроса" :
+                    "Receive incoming request");
+            }
+            else
+            {
+                Log.WriteAction(Locale.IsRussian ?
+                    "Приём входящего запроса от {0}" :
+                    "Receive incoming request from {0}", conn.RemoteAddress);
+            }
         }
 
         /// <summary>
@@ -463,6 +477,22 @@ namespace Scada.Comm.Devices
         public virtual void ProcessIncomingRequest(byte[] buffer, int offset, int count, 
             IncomingRequestArgs requestArgs)
         {
+            Log.WriteLine();
+
+            if (string.IsNullOrEmpty(Connection.RemoteAddress))
+            {
+                Log.WriteAction(Locale.IsRussian ?
+                    "Обработка входящего запроса" :
+                    "Process incoming request");
+            }
+            else
+            {
+                Log.WriteAction(Locale.IsRussian ?
+                    "Обработка входящего запроса от {0}" :
+                    "Process incoming request from {0}", Connection.RemoteAddress);
+            }
+
+            Log.WriteLine(Connection.BuildReadLogText(buffer, offset, count, Connection.ProtocolFormat));
         }
 
         /// <summary>
