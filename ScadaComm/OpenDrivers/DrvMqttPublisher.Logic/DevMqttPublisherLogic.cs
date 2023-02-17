@@ -195,7 +195,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
         /// </summary>
         private bool SendCommands()
         {
-            // define user ID
+            // check connection with Server
             if (lineData.ScadaClient.UserID == 0)
             {
                 lineData.ScadaClient.GetStatus(out _, out bool userIsLoggedIn);
@@ -219,8 +219,6 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
                     Log.WriteLine(Locale.IsRussian ?
                         "Отправка команды на канал {0}" :
                         "Send command to channel {0}", cmd.CnlNum);
-
-                    cmd.UserID = lineData.ScadaClient.UserID;
                     lineData.ScadaClient.SendCommand(cmd, WriteFlags.EnableAll, out CommandResult result);
 
                     if (result.IsSuccessful)
