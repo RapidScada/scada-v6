@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2006
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Comm.Channels;
