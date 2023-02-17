@@ -82,7 +82,7 @@
     <Phrase key="lblLocalUdpPort">Локальный UDP-порт</Phrase>
     <Phrase key="pbLocalUdpPortHint.ToolTip">Локальный UDP-порт для входящих соединений.&#13;&#10;Входящие соединения должны быть разрешены брандмауэром.</Phrase>
     <Phrase key="lblRemoteUdpPort">Удалённый UDP-порт</Phrase>
-    <Phrase key="pbRemoteUdpPortHint.ToolTip">Удалённый UDP-порт одинаковый для всех устройств на линии связи.</Phrase>
+    <Phrase key="pbRemoteUdpPortHint.ToolTip">Удалённый UDP-порт по умолчанию. Одинаковый для всех устройств на линии связи.</Phrase>
     <Phrase key="lblRemoteIpAddress">Удалённый IP-адрес</Phrase>
     <Phrase key="pbRemoteIpAddressHint.ToolTip">Удалённый IP-адрес по умолчанию.&#13;&#10;Может использоваться, например, если устройства подключены через шлюз Ethernet - Serial.</Phrase>
     <Phrase key="btnOK">OK</Phrase>

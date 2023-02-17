@@ -116,6 +116,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                         lock (deviceLock)
                         {
                             // process the incoming request for the devices with the specified IP address
+                            masterConn.RemoteAddress = slaveConn.RemoteAddress;
                             ProcessIncomingRequest(deviceGroup, buf, 0, buf.Length, requestArgs);
                         }
                     }
@@ -129,6 +130,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                     lock (deviceLock)
                     {
                         // process the incoming request for any device
+                        masterConn.RemoteAddress = slaveConn.RemoteAddress;
                         ProcessIncomingRequest(LineContext.SelectDevices(), buf, 0, buf.Length, requestArgs);
                     }
                 }

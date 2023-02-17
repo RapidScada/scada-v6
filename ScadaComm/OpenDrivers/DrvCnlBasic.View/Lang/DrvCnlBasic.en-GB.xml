@@ -82,7 +82,7 @@
     <Phrase key="lblLocalUdpPort">Local UDP port</Phrase>
     <Phrase key="pbLocalUdpPortHint.ToolTip">Local UDP port for incoming connections.&#13;&#10;Incoming connections must be allowed by a firewall.</Phrase>
     <Phrase key="lblRemoteUdpPort">Remote UDP port</Phrase>
-    <Phrase key="pbRemoteUdpPortHint.ToolTip">Remote UDP port is the same for all devices of the communication line.</Phrase>
+    <Phrase key="pbRemoteUdpPortHint.ToolTip">The default remote UDP port. The same for all devices of the communication line.</Phrase>
     <Phrase key="lblRemoteIpAddress">Remote IP address</Phrase>
     <Phrase key="pbRemoteIpAddressHint.ToolTip">The default remote IP address.&#13;&#10;It can be used, for example, if the devices are connected via an Ethernet-Serial gateway.</Phrase>
     <Phrase key="btnOK">OK</Phrase>
