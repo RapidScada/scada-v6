@@ -84,7 +84,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         public byte[] ReqADU { get; protected set; }
 
         /// <summary>
-        /// Ges the request string in the ASCII mode.
+        /// Gets the request string in the ASCII mode.
         /// </summary>
         public string ReqStr { get; protected set; }
 
