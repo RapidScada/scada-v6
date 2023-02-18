@@ -9,7 +9,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
     /// Specifies the Modbus exception codes.
     /// <para>Задаёт коды исключений Modbus.</para>
     /// </summary>
-    public static class ExcCodeConst
+    public static class ExceptionCode
     {
         public const byte IllegalFunction = 0x01;
         public const byte IllegalDataAddress = 0x02;

@@ -133,31 +133,31 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
 
             switch (excCode)
             {
-                case ExcCodeConst.IllegalFunction:
+                case ExceptionCode.IllegalFunction:
                     descr += "ILLEGAL FUNCTION";
                     break;
-                case ExcCodeConst.IllegalDataAddress:
+                case ExceptionCode.IllegalDataAddress:
                     descr += "ILLEGAL DATA ADDRESS";
                     break;
-                case ExcCodeConst.IllegalDataValue:
+                case ExceptionCode.IllegalDataValue:
                     descr += "ILLEGAL DATA VALUE";
                     break;
-                case ExcCodeConst.SlaveDeviceFailure:
+                case ExceptionCode.SlaveDeviceFailure:
                     descr += "SLAVE DEVICE FAILURE";
                     break;
-                case ExcCodeConst.Acknowledge:
+                case ExceptionCode.Acknowledge:
                     descr += "ACKNOWLEDGE";
                     break;
-                case ExcCodeConst.SlaveDeviceBusy:
+                case ExceptionCode.SlaveDeviceBusy:
                     descr += "SLAVE DEVICE BUSY";
                     break;
-                case ExcCodeConst.MemoryParityError:
+                case ExceptionCode.MemoryParityError:
                     descr += "MEMORY PARITY ERROR";
                     break;
-                case ExcCodeConst.GatewayPathUnavailable:
+                case ExceptionCode.GatewayPathUnavailable:
                     descr += "GATEWAY PATH UNAVAILABLE";
                     break;
-                case ExcCodeConst.GatewayTargetFailed:
+                case ExceptionCode.GatewayTargetFailed:
                     descr += "GATEWAY TARGET DEVICE FAILED TO RESPOND";
                     break;
                 default:
@@ -279,16 +279,16 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             switch (dataBlock)
             {
                 case DataBlock.DiscreteInputs:
-                    return FuncCodeConst.ReadDiscreteInputs;
+                    return FunctionCode.ReadDiscreteInputs;
 
                 case DataBlock.Coils:
-                    return FuncCodeConst.ReadCoils;
+                    return FunctionCode.ReadCoils;
 
                 case DataBlock.InputRegisters:
-                    return FuncCodeConst.ReadInputRegisters;
+                    return FunctionCode.ReadInputRegisters;
 
                 case DataBlock.HoldingRegisters:
-                    return FuncCodeConst.ReadHoldingRegisters;
+                    return FunctionCode.ReadHoldingRegisters;
 
                 default:
                     return 0;
@@ -303,10 +303,10 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             switch (dataBlock)
             {
                 case DataBlock.Coils:
-                    return multiple ? FuncCodeConst.WriteMultipleCoils : FuncCodeConst.WriteSingleCoil;
+                    return multiple ? FunctionCode.WriteMultipleCoils : FunctionCode.WriteSingleCoil;
 
                 case DataBlock.HoldingRegisters:
-                    return multiple ? FuncCodeConst.WriteMultipleRegisters : FuncCodeConst.WriteSingleRegister;
+                    return multiple ? FunctionCode.WriteMultipleRegisters : FunctionCode.WriteSingleRegister;
 
                 default:
                     return 0;
@@ -327,10 +327,10 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         public static bool IsWriteFunction(byte funcCode)
         {
             return
-                funcCode == FuncCodeConst.WriteSingleCoil ||
-                funcCode == FuncCodeConst.WriteSingleRegister ||
-                funcCode == FuncCodeConst.WriteMultipleCoils ||
-                funcCode == FuncCodeConst.WriteMultipleRegisters;
+                funcCode == FunctionCode.WriteSingleCoil ||
+                funcCode == FunctionCode.WriteSingleRegister ||
+                funcCode == FunctionCode.WriteMultipleCoils ||
+                funcCode == FunctionCode.WriteMultipleRegisters;
         }
     }
 }
