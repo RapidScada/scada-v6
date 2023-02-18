@@ -429,43 +429,36 @@ namespace Scada.Comm.Engine
         /// </summary>
         private bool CreateLine(LineConfig lineConfig, out CommLine commLine)
         {
-            try
+            lock (commLineLock)
             {
-                lock (commLineLock)
+                if (commLineMap.ContainsKey(lineConfig.CommLineNum))
                 {
-                    if (commLineMap.ContainsKey(lineConfig.CommLineNum))
-                    {
-                        Log.WriteError(Locale.IsRussian ?
-                            "Линия связи {0} уже создана" :
-                            "Communication line {0} already created", lineConfig.Title);
-                        commLine = null;
-                        return false;
-                    }
-                    else
-                    {
-                        commLine = CommLine.Create(lineConfig, this, driverHolder);
-                        commLine.Terminated += CommLine_Terminated;
-                        commLines.Add(commLine);
-                        commLineMap.Add(lineConfig.CommLineNum, commLine);
-
-                        foreach (DeviceLogic deviceLogic in commLine.SelectDevices())
-                        {
-                            // only one device instance is possible
-                            deviceMap.Add(deviceLogic.DeviceNum, new DeviceItem(deviceLogic, commLine));
-                        }
-
-                        maxLineTitleLength = -1; // reset max length
-                        return true;
-                    }
+                    Log.WriteError(Locale.IsRussian ?
+                        "Линия связи {0} уже создана" :
+                        "Communication line {0} already created", lineConfig.Title);
+                    commLine = null;
+                    return false;
                 }
-            }
-            catch (Exception ex)
-            {
-                Log.WriteError(Locale.IsRussian ?
-                    "Ошибка при создании линии связи {0}: {1}" :
-                    "Error creating communication line {0}: {1}", lineConfig.Title, ex.Message);
-                commLine = null;
-                return false;
+                else if (CommLineFactory.GetCommLine(lineConfig, this, driverHolder, out commLine, out string errMsg))
+                {
+                    commLine.Terminated += CommLine_Terminated;
+                    commLines.Add(commLine);
+                    commLineMap.Add(lineConfig.CommLineNum, commLine);
+
+                    foreach (DeviceLogic deviceLogic in commLine.SelectDevices())
+                    {
+                        // only one device instance is possible
+                        deviceMap.Add(deviceLogic.DeviceNum, new DeviceItem(deviceLogic, commLine));
+                    }
+
+                    maxLineTitleLength = -1; // reset max length
+                    return true;
+                }
+                else
+                {
+                    Log.WriteError(errMsg);
+                    return false;
+                }
             }
         }
 
