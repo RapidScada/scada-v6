@@ -195,21 +195,6 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
         /// </summary>
         private bool SendCommands()
         {
-            // check connection with Server
-            if (lineData.ScadaClient.UserID == 0)
-            {
-                lineData.ScadaClient.GetStatus(out _, out bool userIsLoggedIn);
-
-                if (!userIsLoggedIn)
-                {
-                    Log.WriteLine(Locale.IsRussian ?
-                        "Отправка команд невозможна, потому что пользователь не вошел в систему" :
-                        "Unable to send commands because user is not logged in");
-                    return false;
-                }
-            }
-
-            // send commands
             bool sendOK = true;
 
             lock (lineData.CommandQueue)
