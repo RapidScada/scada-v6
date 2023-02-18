@@ -60,10 +60,10 @@
     <Phrase key="chkGrActive">Активность</Phrase>
     <Phrase key="lblGrName">Наименование</Phrase>
     <Phrase key="lblGrDataBlock">Блок данных</Phrase>
-    <Phrase key="cbGrTableType.Items[0]">Discrete Inputs (Дискретные входы, 1X)</Phrase>
-    <Phrase key="cbGrTableType.Items[1]">Coils (Флаги, 0X)</Phrase>
-    <Phrase key="cbGrTableType.Items[2]">Input Registers (Входные регистры, 3X)</Phrase>
-    <Phrase key="cbGrTableType.Items[3]">Holding Registers (Регистры хранения, 4X)</Phrase>
+    <Phrase key="cbGrDataBlock.Items[0]">Discrete Inputs (Дискретные входы, 1X)</Phrase>
+    <Phrase key="cbGrDataBlock.Items[1]">Coils (Флаги, 0X)</Phrase>
+    <Phrase key="cbGrDataBlock.Items[2]">Input Registers (Входные регистры, 3X)</Phrase>
+    <Phrase key="cbGrDataBlock.Items[3]">Holding Registers (Регистры хранения, 4X)</Phrase>
     <Phrase key="lblGrFuncCode">Код функции</Phrase>
     <Phrase key="lblGrAddress">Адрес нач. элемента</Phrase>
     <Phrase key="lblGrElemCnt">Количество элементов</Phrase>

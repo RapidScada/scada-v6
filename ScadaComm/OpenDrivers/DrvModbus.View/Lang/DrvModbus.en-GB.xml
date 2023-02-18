@@ -60,10 +60,10 @@
     <Phrase key="chkGrActive">Active</Phrase>
     <Phrase key="lblGrName">Name</Phrase>
     <Phrase key="lblGrDataBlock">Data block</Phrase>
-    <Phrase key="cbGrTableType.Items[0]">Discrete Inputs (1X)</Phrase>
-    <Phrase key="cbGrTableType.Items[1]">Coils (0X)</Phrase>
-    <Phrase key="cbGrTableType.Items[2]">Input Registers (3X)</Phrase>
-    <Phrase key="cbGrTableType.Items[3]">Holding Registers (4X)</Phrase>
+    <Phrase key="cbGrDataBlock.Items[0]">Discrete Inputs (1X)</Phrase>
+    <Phrase key="cbGrDataBlock.Items[1]">Coils (0X)</Phrase>
+    <Phrase key="cbGrDataBlock.Items[2]">Input Registers (3X)</Phrase>
+    <Phrase key="cbGrDataBlock.Items[3]">Holding Registers (4X)</Phrase>
     <Phrase key="lblGrFuncCode">Function code</Phrase>
     <Phrase key="lblGrAddress">Start element address</Phrase>
     <Phrase key="lblGrElemCnt">Element count</Phrase>
