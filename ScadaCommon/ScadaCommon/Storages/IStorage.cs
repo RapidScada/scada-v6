@@ -33,6 +33,7 @@ namespace Scada.Storages
     /// Defines functionality of an application data storage.
     /// <para>Определяет функциональность хранилища данных приложения.</para>
     /// </summary>
+    /// <remarks>Storage implementations must be thread-safe.</remarks>
     public interface IStorage
     {
         /// <summary>

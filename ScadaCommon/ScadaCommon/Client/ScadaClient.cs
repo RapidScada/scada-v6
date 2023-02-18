@@ -40,7 +40,7 @@ namespace Scada.Client
     /// Represents a TCP client which interacts with the Server service.
     /// <para>Представляет TCP-клиента, который взаимодействует со службой Сервера.</para>
     /// </summary>
-    /// <remarks>The class is not thread safe.</remarks>
+    /// <remarks>The class is not thread-safe.</remarks>
     public class ScadaClient : ClientBase
     {
         /// <summary>
