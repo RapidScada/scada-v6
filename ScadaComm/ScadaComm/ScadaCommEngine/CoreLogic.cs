@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Comm.Config;
@@ -179,28 +179,31 @@ namespace Scada.Comm.Engine
                 commandReader = AppConfig.GeneralOptions.EnableFileCommands ? new CommandReader(this) : null;
             }
 
-            InitDrivers();
+            InitDrivers(AppConfig.GetDriverCodes());
             InitDataSources();
         }
 
         /// <summary>
         /// Initializes drivers.
         /// </summary>
-        private void InitDrivers()
+        private void InitDrivers(List<string> driverCodes)
         {
             driverHolder = new DriverHolder(Log);
 
-            foreach (string driverCode in AppConfig.DriverCodes)
+            foreach (string driverCode in driverCodes)
             {
-                if (DriverFactory.GetDriverLogic(AppDirs.DrvDir, driverCode, this,
-                    out DriverLogic driverLogic, out string message))
+                if (!driverHolder.DriverExists(driverCode))
                 {
-                    Log.WriteAction(message);
-                    driverHolder.AddDriver(driverLogic);
-                }
-                else
-                {
-                    Log.WriteError(message);
+                    if (DriverFactory.GetDriverLogic(AppDirs.DrvDir, driverCode, this,
+                        out DriverLogic driverLogic, out string message))
+                    {
+                        Log.WriteAction(message);
+                        driverHolder.AddDriver(driverLogic);
+                    }
+                    else
+                    {
+                        Log.WriteError(message);
+                    }
                 }
             }
         }
@@ -599,32 +602,31 @@ namespace Scada.Comm.Engine
                     }
                 }
 
-                if (!CommConfig.LoadLineConfig(Storage, CommConfig.DefaultFileName, commLineNum,
+                if (CommConfig.LoadLineConfig(Storage, CommConfig.DefaultFileName, commLineNum, 
                     out LineConfig lineConfig, out string errMsg))
                 {
-                    Log.WriteError(errMsg);
-                }
-                else if (!lineConfig.Active)
-                {
-                    Log.WriteError(Locale.IsRussian ?
-                        "Невозможно запустить линию связи {0}, потому что она не активна" :
-                        "Unable to start communication line {0} because it is inactive", lineConfig.Title);
-                }
-                else if (CreateLine(lineConfig, out CommLine commLine))
-                {
-                    Log.WriteAction(Locale.IsRussian ?
-                        "Запуск линии связи {0}" :
-                        "Start communication line {0}", commLine.Title);
+                    InitDrivers(CommConfig.GetDriverCodes(lineConfig));
 
-                    if (dataSourceHolder.ReadConfigDatabase(out ConfigDatabase configDatabase))
-                        ConfigDatabase = configDatabase;
-
-                    if (!commLine.Start())
+                    if (CreateLine(lineConfig, out CommLine commLine))
                     {
-                        Log.WriteError(Locale.IsRussian ?
-                            "Не удалось запустить линию связи {0}" :
-                            "Failed to start communication line {0}", commLine.Title);
+                        Log.WriteAction(Locale.IsRussian ?
+                            "Запуск линии связи {0}" :
+                            "Start communication line {0}", commLine.Title);
+
+                        if (dataSourceHolder.ReadConfigDatabase(out ConfigDatabase configDatabase))
+                            ConfigDatabase = configDatabase;
+
+                        if (!commLine.Start())
+                        {
+                            Log.WriteError(Locale.IsRussian ?
+                                "Не удалось запустить линию связи {0}" :
+                                "Failed to start communication line {0}", commLine.Title);
+                        }
                     }
+                }
+                else
+                {
+                    Log.WriteError(errMsg);
                 }
             }
             catch (Exception ex)

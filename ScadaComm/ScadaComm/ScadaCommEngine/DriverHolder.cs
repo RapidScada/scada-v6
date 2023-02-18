@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2023
  */
 
 using Scada.Comm.Drivers;
@@ -52,6 +52,14 @@ namespace Scada.Comm.Engine
             driverMap = new Dictionary<string, DriverLogic>();
         }
 
+
+        /// <summary>
+        /// Checks if a driver with the specified code exists.
+        /// </summary>
+        public bool DriverExists(string code)
+        {
+            return driverMap.ContainsKey(code);
+        }
 
         /// <summary>
         /// Adds the specified driver to the lists.
