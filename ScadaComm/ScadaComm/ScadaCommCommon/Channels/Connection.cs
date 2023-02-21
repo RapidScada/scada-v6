@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2015
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Comm.Lang;
@@ -110,60 +110,6 @@ namespace Scada.Comm.Channels
         /// </summary>
         public virtual string NewLine { get; set; }
 
-
-        /// <summary>
-        /// Builds a log text about reading data.
-        /// </summary>
-        protected static string BuildReadLogText(byte[] buffer, int offset, int count, int readCnt, ProtocolFormat format)
-        {
-            return $"{CommPhrases.ReceiveNotation} ({readCnt}/{count}): " +
-                ScadaUtils.BytesToString(buffer, offset, readCnt, format == ProtocolFormat.Hex);
-        }
-
-        /// <summary>
-        /// Builds a log text about reading data.
-        /// </summary>
-        protected static string BuildReadLogText(byte[] buffer, int offset, int readCnt, ProtocolFormat format)
-        {
-            return $"{CommPhrases.ReceiveNotation} ({readCnt}): " +
-                ScadaUtils.BytesToString(buffer, offset, readCnt, format == ProtocolFormat.Hex);
-        }
-
-        /// <summary>
-        /// Builds a log text about reading lines.
-        /// </summary>
-        protected static string BuildReadLinesLogText(List<string> lines)
-        {
-            StringBuilder sbLines = new StringBuilder(CommPhrases.ReceiveNotation);
-            sbLines.Append(": ");
-            int lineCnt = lines.Count;
-
-            if (lineCnt > 0)
-            {
-                for (int i = 0; i < lineCnt; i++)
-                {
-                    if (i > 0)
-                        sbLines.AppendLine();
-
-                    sbLines.Append(lines[i].Trim(CommUtils.NewLineChars));
-                }
-            }
-            else
-            {
-                sbLines.Append(Locale.IsRussian ? "нет данных" : "no data");
-            }
-
-            return sbLines.ToString();
-        }
-
-        /// <summary>
-        /// Builds a log text about writing data.
-        /// </summary>
-        protected static string BuildWriteLogText(byte[] buffer, int offset, int count, ProtocolFormat format)
-        {
-            return $"{CommPhrases.SendNotation} ({count}): " +
-                ScadaUtils.BytesToString(buffer, offset, count, format == ProtocolFormat.Hex);
-        }
 
         /// <summary>
         /// Reads data.
@@ -261,6 +207,60 @@ namespace Scada.Comm.Channels
         {
             WriteLine(text, out string logText);
             Log?.WriteLine(logText);
+        }
+
+        /// <summary>
+        /// Builds a log text about reading data.
+        /// </summary>
+        public static string BuildReadLogText(byte[] buffer, int offset, int count, int readCnt, ProtocolFormat format)
+        {
+            return $"{CommPhrases.ReceiveNotation} ({readCnt}/{count}): " +
+                ScadaUtils.BytesToString(buffer, offset, readCnt, format == ProtocolFormat.Hex);
+        }
+
+        /// <summary>
+        /// Builds a log text about reading data.
+        /// </summary>
+        public static string BuildReadLogText(byte[] buffer, int offset, int readCnt, ProtocolFormat format)
+        {
+            return $"{CommPhrases.ReceiveNotation} ({readCnt}): " +
+                ScadaUtils.BytesToString(buffer, offset, readCnt, format == ProtocolFormat.Hex);
+        }
+
+        /// <summary>
+        /// Builds a log text about reading lines.
+        /// </summary>
+        public static string BuildReadLinesLogText(List<string> lines)
+        {
+            StringBuilder sbLines = new StringBuilder(CommPhrases.ReceiveNotation);
+            sbLines.Append(": ");
+            int lineCnt = lines.Count;
+
+            if (lineCnt > 0)
+            {
+                for (int i = 0; i < lineCnt; i++)
+                {
+                    if (i > 0)
+                        sbLines.AppendLine();
+
+                    sbLines.Append(lines[i].Trim(CommUtils.NewLineChars));
+                }
+            }
+            else
+            {
+                sbLines.Append(Locale.IsRussian ? "нет данных" : "no data");
+            }
+
+            return sbLines.ToString();
+        }
+
+        /// <summary>
+        /// Builds a log text about writing data.
+        /// </summary>
+        public static string BuildWriteLogText(byte[] buffer, int offset, int count, ProtocolFormat format)
+        {
+            return $"{CommPhrases.SendNotation} ({count}): " +
+                ScadaUtils.BytesToString(buffer, offset, count, format == ProtocolFormat.Hex);
         }
     }
 }

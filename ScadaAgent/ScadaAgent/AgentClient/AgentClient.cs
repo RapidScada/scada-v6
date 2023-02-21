@@ -223,6 +223,12 @@ namespace Scada.Agent.Client
                     lines = null;
                     return false;
                 }
+                else if (readingResult == FileReadingResult.FileNotFound)
+                {
+                    throw new FileNotFoundException(string.Format(Locale.IsRussian ?
+                        "Ошибка при чтении файла {0}: Файл не найден" :
+                        "Error reading file {0}: File not found", path));
+                }
                 else
                 {
                     throw new ScadaException(Locale.IsRussian ?

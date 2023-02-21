@@ -30,6 +30,11 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         /// </summary>
         public List<CmdConfig> Cmds { get; private set; }
 
+        /// <summary>
+        /// Gets the file name for a newly created device template.
+        /// </summary>
+        public virtual string NewTemplateFileName => "DrvModbus_NewTemplate.xml";
+
 
         /// <summary>
         /// Sets the default values.
@@ -118,7 +123,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         /// </summary>
         protected override string BuildLoadErrorMessage(Exception ex)
         {
-            return ex.BuildErrorMessage(ModbusDriverPhrases.LoadTemplateError);
+            return ex.BuildErrorMessage(ModbusPhrases.LoadTemplateError);
         }
 
         /// <summary>
@@ -126,7 +131,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         /// </summary>
         protected override string BuildSaveErrorMessage(Exception ex)
         {
-            return ex.BuildErrorMessage(ModbusDriverPhrases.SaveTemplateError);
+            return ex.BuildErrorMessage(ModbusPhrases.SaveTemplateError);
         }
 
 

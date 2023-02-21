@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DeviceTemplate>
+  <Options>
+    <ZeroAddr>false</ZeroAddr>
+    <DecAddr>true</DecAddr>
+    <DefByteOrder2 />
+    <DefByteOrder4 />
+    <DefByteOrder8 />
+  </Options>
+  <ElemGroups>
+    <ElemGroup active="true" dataBlock="InputRegisters" address="288" name="AI1 float">
+      <Elem type="float" isBitMask="false" tagCode="AI1" name="AI1" />
+    </ElemGroup>
+    <ElemGroup active="true" dataBlock="InputRegisters" address="291" name="AI2 float">
+      <Elem type="float" isBitMask="false" tagCode="AI2" name="AI2" />
+    </ElemGroup>
+    <ElemGroup active="true" dataBlock="InputRegisters" address="294" name="AI3 float">
+      <Elem type="float" isBitMask="false" tagCode="AI3" name="AI3" />
+    </ElemGroup>
+    <ElemGroup active="true" dataBlock="InputRegisters" address="297" name="AI4 float">
+      <Elem type="float" isBitMask="false" tagCode="AI4" name="AI4" />
+    </ElemGroup>
+    <ElemGroup active="true" dataBlock="InputRegisters" address="300" name="AI5 float">
+      <Elem type="float" isBitMask="false" tagCode="AI5" name="AI5" />
+    </ElemGroup>
+    <ElemGroup active="true" dataBlock="InputRegisters" address="303" name="AI6 float">
+      <Elem type="float" isBitMask="false" tagCode="AI6" name="AI6" />
+    </ElemGroup>
+    <ElemGroup active="true" dataBlock="InputRegisters" address="306" name="AI7 float">
+      <Elem type="float" isBitMask="false" tagCode="AI7" name="AI7" />
+    </ElemGroup>
+    <ElemGroup active="true" dataBlock="InputRegisters" address="309" name="AI8 float">
+      <Elem type="float" isBitMask="false" tagCode="AI8" name="AI8" />
+    </ElemGroup>
+    <ElemGroup active="true" dataBlock="InputRegisters" address="280" name="Статусы">
+      <Elem type="ushort" isBitMask="false" tagCode="AI1_status" name="AI1 статус" />
+      <Elem type="ushort" isBitMask="false" tagCode="AI2_status" name="AI2 статус" />
+      <Elem type="ushort" isBitMask="false" tagCode="AI3_status" name="AI3 статус" />
+      <Elem type="ushort" isBitMask="false" tagCode="AI4_status" name="AI4 статус" />
+      <Elem type="ushort" isBitMask="false" tagCode="AI5_status" name="AI5 статус" />
+      <Elem type="ushort" isBitMask="false" tagCode="AI6_status" name="AI6 статус" />
+      <Elem type="ushort" isBitMask="false" tagCode="AI7_status" name="AI7 статус" />
+      <Elem type="ushort" isBitMask="false" tagCode="AI8_status" name="AI8 статус" />
+    </ElemGroup>
+  </ElemGroups>
+  <Cmds />
+</DeviceTemplate>

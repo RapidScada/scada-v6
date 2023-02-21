@@ -9,7 +9,7 @@
     <Phrase key="WriteCommunity.Description">The password for writing data.</Phrase>
     <Phrase key="SnmpVersion.DisplayName">SNMP version</Phrase>
     <Phrase key="SnmpVersion.Category">Main Parameters</Phrase>
-    <Phrase key="SnmpVersion.Description">The protocol version. Possible values are 1, 2 and 3.</Phrase>
+    <Phrase key="SnmpVersion.Description">The protocol version. Supported versions are 1 and 2.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvSnmp.Config.VarGroupConfig">
     <Phrase key="Active.DisplayName">Active</Phrase>
@@ -23,6 +23,9 @@
     <Phrase key="Name.DisplayName">Name</Phrase>
     <Phrase key="Name.Category">Main Parameters</Phrase>
     <Phrase key="Name.Description">The variable name.</Phrase>
+    <Phrase key="TagCode.DisplayName">Tag code</Phrase>
+    <Phrase key="TagCode.Category">Main Parameters</Phrase>
+    <Phrase key="TagCode.Description">The tag code associated with the variable.</Phrase>
     <Phrase key="OID.DisplayName">OID</Phrase>
     <Phrase key="OID.Category">Main Parameters</Phrase>
     <Phrase key="OID.Description">The object identifier. For example, .1.3.6.1.2.1.1.5.0</Phrase>

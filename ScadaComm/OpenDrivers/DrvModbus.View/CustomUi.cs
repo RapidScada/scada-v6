@@ -14,7 +14,8 @@ namespace Scada.Comm.Drivers.DrvModbus.View
         /// <summary>
         /// Gets a value indicating whether to display the extended options button.
         /// </summary>
-        public virtual bool ExtendedOptionsAvailable => false;
+        public virtual bool CanShowExtendedOptions => false;
+
 
         /// <summary>
         /// Shows the extended template options as a modal dialog box.

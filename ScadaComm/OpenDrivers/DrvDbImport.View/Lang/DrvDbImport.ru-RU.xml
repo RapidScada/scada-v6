@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DrvDbImportDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlCommand">
+    <Phrase key="gbCommand">Параметры команды</Phrase>
+    <Phrase key="lblName">Наименование</Phrase>
+    <Phrase key="lblCmdCode">Код команды</Phrase>
+    <Phrase key="lblCmdCodeWarn">Заполните код</Phrase>
+    <Phrase key="lblSql">SQL</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">Доступные параметры: @cmdVal, @cmdData</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlQuery">
+    <Phrase key="gbQuery">Параметры запроса</Phrase>
+    <Phrase key="chkActive">Активен</Phrase>
+    <Phrase key="lblName">Наименование</Phrase>
+    <Phrase key="lblTag">Теги</Phrase>
+    <Phrase key="lblSQL">SQL</Phrase>
+    <Phrase key="chkSingleRow">Результат одной строкой</Phrase>
+    <Phrase key="pbTagInfo.ToolTip">Каждая строка содержит код тега.</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">Включен - запрос возвращает одну строку, каждое поле которой содержит значение тега.&#13;&#10;Выключен - запрос возвращает набор строк, каждая из которых содержит значение тега. Требуемые столбцы: code и val.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Свойства устройства {0} - Импорт из БД</Phrase>
+    <Phrase key="btnAddQuery.ToolTip">Добавить запрос</Phrase>
+    <Phrase key="btnAddCommand.ToolTip">Добавить команду</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Переместить вверх</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Переместить вниз</Phrase>
+    <Phrase key="btnDelete.ToolTip">Удалить</Phrase>
+    <Phrase key="gbDevice">Конфигурация устройства</Phrase>
+    <Phrase key="btnSave">Сохранить</Phrase>
+    <Phrase key="btnCancel">Отменить</Phrase>
+    <Phrase key="btnClose">Закрыть</Phrase>
+    <Phrase key="miCollapseAll">Свернуть все</Phrase>
+    <Phrase key="ConnectionNode">Параметры соединения</Phrase>
+    <Phrase key="CommandName">Команда {0}</Phrase>
+    <Phrase key="CommandsNode">Команды</Phrase>
+    <Phrase key="QueryName">Запрос {0}</Phrase>
+    <Phrase key="QueriesNode">Запросы</Phrase>
+    <Phrase key="SelectChildNode">Выберите дочерний узел</Phrase>
+    <Phrase key="UnnamedCommand">&lt;Безымянная команда&gt;</Phrase>
+    <Phrase key="UnnamedQuery">&lt;Безымянный запрос&gt;</Phrase>
+  </Dictionary>
+</DrvDbImportDictionaries>

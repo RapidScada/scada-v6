@@ -45,7 +45,7 @@
   <DevType>
     <DevTypeID>208</DevTypeID>
     <Name>ЦЭ6850</Name>
-    <Driver>DrvCE6850</Driver>
+    <Driver>DrvCe6850</Driver>
     <Descr>Электросчётчик ЦЭ6850 (6822, 6823, 6827, 6828, 6850М) производства ОАО "Энергомера"</Descr>
   </DevType>
   <DevType>
@@ -106,7 +106,7 @@
     <DevTypeID>218</DevTypeID>
     <Name>ИВТМ-7М</Name>
     <Driver>DrvIvtm7M</Driver>
-    <Descr>Термогигрометр ИВТМ-7М производства ЗАО "ЭКСИС"</Descr>
+    <Descr>Термогигрометр ИВТМ-7М производства АО "ЭКСИС"</Descr>
   </DevType>
   <DevType>
     <DevTypeID>219</DevTypeID>
@@ -153,7 +153,7 @@
   <DevType>
     <DevTypeID>226</DevTypeID>
     <Name>CE30X</Name>
-    <Driver>DrvCE301</Driver>
+    <Driver>DrvCe301</Driver>
     <Descr>Электросчётчики CE30X, использующие стандарт IEC 61107-2011, производства АО "Концерн Энергомера"</Descr>
   </DevType>
   <DevType>

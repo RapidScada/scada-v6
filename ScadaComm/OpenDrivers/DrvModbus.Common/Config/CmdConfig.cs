@@ -22,7 +22,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
             DataBlock = DataBlock.Coils;
             Multiple = false;
             CustomFuncCode = 0;
-            ElemType = ElemType.Undefined;
+            ElemType = DefaultElemType;
             ElemCnt = 1;
             ByteOrder = "";
             CmdNum = 0;
@@ -64,6 +64,17 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         /// Gets or sets the command code.
         /// </summary>
         public string CmdCode { get; set; }
+
+        /// <summary>
+        /// Gets the quantity of addresses.
+        /// </summary>
+        public virtual int Quantity
+        {
+            get
+            {
+                return ModbusUtils.GetQuantity(ElemType);
+            }
+        }
 
         /// <summary>
         /// Gets a value indicating whether the data type selection is applicable for the command.

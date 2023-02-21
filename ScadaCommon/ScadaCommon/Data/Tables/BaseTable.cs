@@ -37,7 +37,7 @@ namespace Scada.Data.Tables
     /// Represents a table of the configuration database.
     /// <para>Представляет таблицу базы конфигурации.</para>
     /// </summary>
-    /// <remarks>Reading is thread safe, writing requires synchronization.</remarks>
+    /// <remarks>Reading is thread-safe, writing requires synchronization.</remarks>
     public class BaseTable<T> : IBaseTable, IEnumerable<T>
     {
         /// <summary>

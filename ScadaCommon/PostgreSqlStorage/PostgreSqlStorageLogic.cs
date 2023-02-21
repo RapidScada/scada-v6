@@ -20,6 +20,7 @@ namespace Scada.Storages.PostgreSqlStorage
     /// Represents a storage logic.
     /// <para>Представляет логику хранилища.</para>
     /// </summary>
+    /// <remarks>The class is thread-safe.</remarks>
     public class PostgreSqlStorageLogic : StorageLogic
     {
         /// <summary>

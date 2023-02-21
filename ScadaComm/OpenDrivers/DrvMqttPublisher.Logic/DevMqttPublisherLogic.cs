@@ -195,21 +195,6 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
         /// </summary>
         private bool SendCommands()
         {
-            // define user ID
-            if (lineData.ScadaClient.UserID == 0)
-            {
-                lineData.ScadaClient.GetStatus(out _, out bool userIsLoggedIn);
-
-                if (!userIsLoggedIn)
-                {
-                    Log.WriteLine(Locale.IsRussian ?
-                        "Отправка команд невозможна, потому что пользователь не вошел в систему" :
-                        "Unable to send commands because user is not logged in");
-                    return false;
-                }
-            }
-
-            // send commands
             bool sendOK = true;
 
             lock (lineData.CommandQueue)
@@ -219,8 +204,6 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
                     Log.WriteLine(Locale.IsRussian ?
                         "Отправка команды на канал {0}" :
                         "Send command to channel {0}", cmd.CnlNum);
-
-                    cmd.UserID = lineData.ScadaClient.UserID;
                     lineData.ScadaClient.SendCommand(cmd, WriteFlags.EnableAll, out CommandResult result);
 
                     if (result.IsSuccessful)
@@ -339,9 +322,6 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
             }
 
             InitLineData();
-
-            if (fatalError)
-                DeviceStatus = DeviceStatus.Error;
         }
 
         /// <summary>
@@ -363,7 +343,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
 
                 if (cnlNum > 0 && cnlNumSet.Add(cnlNum))
                 {
-                    if (cnlTable?.GetItem(cnlNum) is Cnl cnl)
+                    if (cnlTable?.GetItem(cnlNum) is Cnl cnl && cnl.Active)
                     {
                         deviceTag = tagGroup.AddTag("", cnl.Name);
                         deviceTag.Cnl = cnl;
@@ -390,6 +370,17 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
             DeviceTags.FlattenGroups = true;
             DeviceTags.UseStatusTag = false;
             publishCnlNums = cnlNumList.ToArray();
+        }
+
+        /// <summary>
+        /// Initializes the device data.
+        /// </summary>
+        public override void InitDeviceData()
+        {
+            base.InitDeviceData();
+
+            if (fatalError)
+                DeviceStatus = DeviceStatus.Error;
         }
 
         /// <summary>

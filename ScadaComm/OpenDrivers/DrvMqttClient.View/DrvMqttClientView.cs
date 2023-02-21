@@ -20,6 +20,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.View
         /// Initializes a new instance of the class.
         /// </summary>
         public DrvMqttClientView()
+            : base()
         {
             CanCreateDevice = true;
         }

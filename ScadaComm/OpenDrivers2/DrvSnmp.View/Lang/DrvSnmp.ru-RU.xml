@@ -9,7 +9,7 @@
     <Phrase key="WriteCommunity.Description">Пароль для записи данных.</Phrase>
     <Phrase key="SnmpVersion.DisplayName">Версия SNMP</Phrase>
     <Phrase key="SnmpVersion.Category">Основные параметры</Phrase>
-    <Phrase key="SnmpVersion.Description">Версия протокола. Возможные значения: 1, 2 и 3.</Phrase>
+    <Phrase key="SnmpVersion.Description">Версия протокола. Поддерживаемые версии: 1 и 2.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvSnmp.Config.VarGroupConfig">
     <Phrase key="Active.DisplayName">Активна</Phrase>
@@ -23,6 +23,9 @@
     <Phrase key="Name.DisplayName">Наименование</Phrase>
     <Phrase key="Name.Category">Основные параметры</Phrase>
     <Phrase key="Name.Description">Наименование переменной.</Phrase>
+    <Phrase key="TagCode.DisplayName">Код тега</Phrase>
+    <Phrase key="TagCode.Category">Основные параметры</Phrase>
+    <Phrase key="TagCode.Description">Код тега, связанного с переменной.</Phrase>
     <Phrase key="OID.DisplayName">OID</Phrase>
     <Phrase key="OID.Category">Основные параметры</Phrase>
     <Phrase key="OID.Description">Идентификатор объекта. Например, .1.3.6.1.2.1.1.5.0</Phrase>

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2017
- * Modified : 2022
+ * Modified : 2023
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -30,6 +30,7 @@ using System;
 using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
+using NCM = System.ComponentModel;
 
 namespace Scada.ComponentModel
 {
@@ -37,7 +38,7 @@ namespace Scada.ComponentModel
     /// Converts enumeration objects to and from various other representations.
     /// <para>Преобразует объекты перечислений в различные представления и обратно.</para>
     /// </summary>
-    public class EnumConverter : System.ComponentModel.EnumConverter
+    public class EnumConverter : NCM.EnumConverter
     {
         private readonly Type enumType;
         private readonly LocaleDict enumDict;
@@ -55,8 +56,8 @@ namespace Scada.ComponentModel
             {
                 // get value from attribute
                 FieldInfo fi = enumType.GetField(fieldName);
-                DescriptionAttribute da =
-                    (DescriptionAttribute)Attribute.GetCustomAttribute(fi, typeof(DescriptionAttribute));
+                NCM.DescriptionAttribute da = (NCM.DescriptionAttribute)Attribute.GetCustomAttribute(
+                    fi, typeof(NCM.DescriptionAttribute));
                 return da == null ? fieldName : da.Description;
             }
             else

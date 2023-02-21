@@ -11,10 +11,12 @@
         <li><a href="#communicator-app">Communicator Application</a></li>
         <li><a href="#drv-cnl-basic">Basic Communication Channels</a></li>
         <li><a href="#drv-cnl-mqtt">MQTT Communication Channel</a></li>
+        <li><a href="#drv-db-import">DB Import</a></li>
         <li><a href="#drv-ds-mqtt">MQTT Data Source</a></li>
         <li><a href="#drv-ds-opc-ua-server">OPC UA Server</a></li>
         <li><a href="#drv-ds-scada-server">Server Data Source</a></li>
         <li><a href="#drv-email">Email</a></li>
+        <li><a href="#drv-enron-modbus">Enron Modbus</a></li>
         <li><a href="#drv-http-notif">HTTP Notifications</a></li>
         <li><a href="#drv-modbus">Modbus</a></li>
         <li><a href="#drv-mqtt-client">MQTT Client</a></li>
@@ -22,6 +24,8 @@
         <li><a href="#drv-opc-classic">OPC Classic</a></li>
         <li><a href="#drv-opc-ua">OPC UA</a></li>
         <li><a href="#drv-simulator">Device Simulator</a></li>
+        <li><a href="#drv-sms">SMS</a></li>
+        <li><a href="#drv-snmp">SNMP</a></li>
         <li><a href="#drv-telegram">Telegram</a></li>
         <li><a href="#drv-tester">Communication Channel Tester</a></li>
     </ul>
@@ -30,6 +34,11 @@
 <div class="doc-content">
     <h1>Communicator History</h1>
     <h2 id="communicator-app">Communicator Application</h2>
+    <div>ScadaComm 6.0.0.2 (February 20, 2023)</div>
+    <ul>
+        <li>Inactive communication line can be started with a command</li>
+    </ul>
+
     <div>ScadaComm 6.0.0.1 (January 17, 2023)</div>
     <ul>
         <li>Device status is written as 0 or 1</li>
@@ -49,6 +58,11 @@
     </ul>
 
     <h2 id="drv-cnl-basic">Basic Communication Channels</h2>
+    <div>DrvCnlBasic 6.0.0.1 (February 20, 2023)</div>
+    <ul>
+        <li>Fixed a bug in UDP communication channel</li>
+    </ul>
+
     <div>DrvCnlBasic 6.0.0.0 (December 03, 2022)</div>
     <ul>
         <li>Initial development of the driver</li>
@@ -63,6 +77,14 @@
     <div>DrvCnlMqtt 6.0.0.0 (December 03, 2022)</div>
     <ul>
         <li>Initial development of the driver</li>
+    </ul>
+
+    <h2 id="drv-db-import">DB Import</h2>
+    <div>DrvDbImport 6.0.0.0 (February 20, 2023)</div>
+    <ul>
+        <li>Common database connection is used on communication line</li>
+        <li>Reads values from row or column</li>
+        <li>Supports multiple requests per device</li>
     </ul>
 
     <h2 id="drv-ds-mqtt">MQTT Data Source</h2>
@@ -99,13 +121,24 @@
         <li>Email is resent in case of an error</li>
     </ul>
 
+    <h2 id="drv-enron-modbus">Enron Modbus</h2>
+    <div>DrvEnronModbus 6.0.0.0 (February 20, 2023)</div>
+    <ul>
+        <li>Porting the driver to the new version</li>
+    </ul>
+
     <h2 id="drv-http-notif">HTTP Notifications</h2>
     <div>DrvHttpNotif 6.0.0.0 (December 03, 2022)</div>
     <ul>
         <li>Porting the driver to the new version</li>
     </ul>
 
-    <h2 id="modbus">Modbus</h2>
+    <h2 id="drv-modbus">Modbus</h2>
+    <div>DrvModbus 6.0.0.1 (February 20, 2023)</div>
+    <ul>
+        <li>Fixed bugs in the driver user interface</li>
+    </ul>
+
     <div>DrvModbus 6.0.0.0 (December 03, 2022)</div>
     <ul>
         <li>Added a feature to send commands with a custom function code</li>
@@ -160,6 +193,18 @@
     <div>DrvSimulator 6.0.0.0 (December 03, 2022)</div>
     <ul>
         <li>Added an array device tag</li>
+    </ul>
+
+    <h2 id="drv-sms">SMS</h2>
+    <div>DrvSms 6.0.0.0 (February 20, 2023)</div>
+    <ul>
+        <li>Porting the driver to the new version</li>
+    </ul>
+
+    <h2 id="drv-snmp">SNMP</h2>
+    <div>DrvSnmp 6.0.0.0 (February 20, 2023)</div>
+    <ul>
+        <li>Porting the driver to the new version</li>
     </ul>
 
     <h2 id="drv-telegram">Telegram</h2>

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.AB.Forms;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Forms;
@@ -18,7 +19,9 @@ namespace Scada.Comm.Drivers.DrvEmail.View
         /// Initializes a new instance of the class.
         /// </summary>
         public DrvEmailView()
+            : base()
         {
+            CanShowProperties = true;
             CanCreateDevice = true;
         }
 
@@ -72,6 +75,15 @@ namespace Scada.Comm.Drivers.DrvEmail.View
         {
             if (!Locale.LoadDictionaries(AppDirs.LangDir, DriverUtils.DriverCode, out string errMsg))
                 ScadaUiUtils.ShowError(errMsg);
+        }
+
+        /// <summary>
+        /// Shows a modal dialog box for editing driver properties.
+        /// </summary>
+        public override bool ShowProperties()
+        {
+            new FrmAddressBook(AppDirs).ShowDialog();
+            return false;
         }
 
         /// <summary>

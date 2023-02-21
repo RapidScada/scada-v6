@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>a51de707-414b-4f30-8086-5a82a97d1a2a</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Scada.Comm.Drivers.DrvEnronModbus</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Config\EnronCmdConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\EnronDeviceTemplate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\EnronElemConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\EnronElemGroupConfig.cs" />
+  </ItemGroup>
+</Project>

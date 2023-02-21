@@ -4,7 +4,6 @@
 using Scada.Comm.Devices;
 using Scada.Data.Const;
 using Scada.Lang;
-using System.Collections.Generic;
 
 namespace Scada.Comm.Drivers.DrvHttpNotif
 {
@@ -15,9 +14,9 @@ namespace Scada.Comm.Drivers.DrvHttpNotif
     internal static class CnlPrototypeFactory
     {
         /// <summary>
-        /// Gets the grouped channel prototypes.
+        /// Gets a group of channel prototypes.
         /// </summary>
-        public static CnlPrototypeGroup GetCnlPrototypeGroup()
+        public static CnlPrototypeGroup GetGroup()
         {
             CnlPrototypeGroup group = new CnlPrototypeGroup();
             

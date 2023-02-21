@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2008
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Client;
@@ -69,11 +69,6 @@ namespace Scada.Comm.Config
         public List<LineConfig> Lines { get; private set; }
         
         /// <summary>
-        /// Gets the codes of the drivers used.
-        /// </summary>
-        public List<string> DriverCodes { get; private set; }
-        
-        /// <summary>
         /// Gets or sets the parent tree node.
         /// </summary>
         ITreeNode ITreeNode.Parent
@@ -101,42 +96,6 @@ namespace Scada.Comm.Config
 
 
         /// <summary>
-        /// Fills the list of driver codes.
-        /// </summary>
-        private void FillDriverCodes()
-        {
-            HashSet<string> driverCodeSet = new HashSet<string>();
-
-            void AddDriverCode(string driverCode)
-            {
-                if (!string.IsNullOrEmpty(driverCode) && driverCodeSet.Add(driverCode.ToLowerInvariant()))
-                    DriverCodes.Add(driverCode);
-            }
-
-            foreach (DataSourceConfig dataSourceConfig in DataSources)
-            {
-                if (dataSourceConfig.Active)
-                    AddDriverCode(dataSourceConfig.Driver);
-            }
-
-            foreach (LineConfig lineConfig in Lines)
-            {
-                if (lineConfig.Active)
-                {
-                    AddDriverCode(lineConfig.Channel.Driver);
-
-                    foreach (DeviceConfig deviceConfig in lineConfig.DevicePolling)
-                    {
-                        if (deviceConfig.Active)
-                            AddDriverCode(deviceConfig.Driver);
-                    }
-                }
-            }
-
-            DriverCodes.Sort();
-        }
-
-        /// <summary>
         /// Sets the default values.
         /// </summary>
         protected override void SetToDefault()
@@ -145,7 +104,6 @@ namespace Scada.Comm.Config
             ConnectionOptions = new ConnectionOptions();
             DataSources = new List<DataSourceConfig>();
             Lines = new List<LineConfig>();
-            DriverCodes = new List<string>();
         }
 
         /// <summary>
@@ -182,8 +140,6 @@ namespace Scada.Comm.Config
                     Lines.Add(lineConfig);
                 }
             }
-
-            FillDriverCodes();
         }
 
         /// <summary>
@@ -216,12 +172,83 @@ namespace Scada.Comm.Config
             xmlDoc.Save(writer);
         }
 
+
+        /// <summary>
+        /// Gets a list of driver codes actively used in the configuration.
+        /// </summary>
+        public List<string> GetDriverCodes()
+        {
+            List<string> driverCodes = new List<string>();
+            HashSet<string> driverCodeSet = new HashSet<string>();
+
+            void AddDriverCode(string driverCode)
+            {
+                if (!string.IsNullOrEmpty(driverCode) && driverCodeSet.Add(driverCode.ToLowerInvariant()))
+                    driverCodes.Add(driverCode);
+            }
+
+            foreach (DataSourceConfig dataSourceConfig in DataSources)
+            {
+                if (dataSourceConfig.Active)
+                    AddDriverCode(dataSourceConfig.Driver);
+            }
+
+            foreach (LineConfig lineConfig in Lines)
+            {
+                if (lineConfig.Active)
+                {
+                    AddDriverCode(lineConfig.Channel.Driver);
+
+                    foreach (DeviceConfig deviceConfig in lineConfig.DevicePolling)
+                    {
+                        if (deviceConfig.Active)
+                            AddDriverCode(deviceConfig.Driver);
+                    }
+                }
+            }
+
+            driverCodes.Sort();
+            return driverCodes;
+        }
+
+        /// <summary>
+        /// Gets a list of driver codes used by the communication line.
+        /// </summary>
+        public static List<string> GetDriverCodes(LineConfig lineConfig)
+        {
+            if (lineConfig == null)
+                throw new ArgumentNullException(nameof(lineConfig));
+
+            List<string> driverCodes = new List<string>();
+            HashSet<string> driverCodeSet = new HashSet<string>();
+
+            void AddDriverCode(string driverCode)
+            {
+                if (!string.IsNullOrEmpty(driverCode) && driverCodeSet.Add(driverCode.ToLowerInvariant()))
+                    driverCodes.Add(driverCode);
+            }
+
+            AddDriverCode(lineConfig.Channel.Driver);
+
+            foreach (DeviceConfig deviceConfig in lineConfig.DevicePolling)
+            {
+                if (deviceConfig.Active)
+                    AddDriverCode(deviceConfig.Driver);
+            }
+
+            driverCodes.Sort();
+            return driverCodes;
+        }
+
         /// <summary>
         /// Loads the communication line configuration from the specified storage.
         /// </summary>
         public static bool LoadLineConfig(IStorage storage, string fileName, int commLineNum, 
             out LineConfig lineConfig, out string errMsg)
         {
+            if (storage == null)
+                throw new ArgumentNullException(nameof(storage));
+
             try
             {
                 XmlDocument xmlDoc = new XmlDocument();

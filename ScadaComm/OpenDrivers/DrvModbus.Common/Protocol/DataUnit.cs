@@ -20,6 +20,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             Name = "";
             DataBlock = dataBlock;
             Address = 0;
+            Aux = null;
 
             FuncCode = 0;
             ExcFuncCode = 0;
@@ -45,6 +46,11 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         /// Gets or sets the zero-based address of the start element.
         /// </summary>
         public ushort Address { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the auxiliary object.
+        /// </summary>
+        public object Aux { get; set; }
 
         /// <summary>
         /// Gets a description of the request that reads or writes the data unit.
@@ -78,7 +84,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         public byte[] ReqADU { get; protected set; }
 
         /// <summary>
-        /// Ges the request string in the ASCII mode.
+        /// Gets the request string in the ASCII mode.
         /// </summary>
         public string ReqStr { get; protected set; }
 
@@ -175,17 +181,17 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
                 if (length == RespPduLen)
                     result = true;
                 else
-                    errMsg = ModbusPhrases.IncorrectPduLength;
+                    errMsg = ModbusPhrases.InvalidPduLength;
             }
             else if (respFuncCode == ExcFuncCode)
             {
                 errMsg = length == 2 ? 
                     ModbusPhrases.DeviceError + ": " + ModbusUtils.GetExcDescr(buffer[offset + 1]) :
-                    ModbusPhrases.IncorrectPduLength;
+                    ModbusPhrases.InvalidPduLength;
             }
             else
             {
-                errMsg = ModbusPhrases.IncorrectPduFuncCode;
+                errMsg = ModbusPhrases.InvalidPduFuncCode;
             }
 
             return result;

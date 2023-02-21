@@ -9,6 +9,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.Config
     /// Represents a command configuration.
     /// <para>Представляет конфигурацию команды.</para>
     /// </summary>
+    [Serializable]
     public class CommandConfig
     {
         /// <summary>

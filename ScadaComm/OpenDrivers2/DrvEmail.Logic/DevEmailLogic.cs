@@ -306,10 +306,7 @@ namespace Scada.Comm.Drivers.DrvEmail.Logic
 
             // set device status
             if (isReady)
-            {
                 DeviceStatus = DeviceStatus.Normal;
-                DeviceData.SetStatusTag(DeviceStatus);
-            }
         }
 
         /// <summary>

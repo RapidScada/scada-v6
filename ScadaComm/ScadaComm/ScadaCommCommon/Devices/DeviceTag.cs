@@ -166,6 +166,15 @@ namespace Scada.Comm.Devices
         }
 
         /// <summary>
+        /// Sets the auxiliary object.
+        /// </summary>
+        public DeviceTag SetAux(object aux)
+        {
+            Aux = aux;
+            return this;
+        }
+
+        /// <summary>
         /// Calculates the data length required to store the specified number of elements.
         /// </summary>
         public static int CalcDataLength(int elementCount, TagDataType dataType)

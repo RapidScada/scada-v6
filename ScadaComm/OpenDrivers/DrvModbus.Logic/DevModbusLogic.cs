@@ -9,7 +9,6 @@ using Scada.Comm.Lang;
 using Scada.Data.Models;
 using Scada.Lang;
 using System.Collections.Generic;
-using System.Threading;
 
 namespace Scada.Comm.Drivers.DrvModbus.Logic
 {

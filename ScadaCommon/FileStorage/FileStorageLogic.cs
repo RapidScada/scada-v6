@@ -14,6 +14,7 @@ namespace Scada.Storages.FileStorage
     /// Represents a storage logic.
     /// <para>Представляет логику хранилища.</para>
     /// </summary>
+    /// <remarks>The class is thread-safe.</remarks>
     public class FileStorageLogic : StorageLogic
     {
         private readonly string baseDir; // the directory of the configuration database in DAT format

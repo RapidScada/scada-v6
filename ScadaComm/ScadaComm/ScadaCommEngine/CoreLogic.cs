@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Comm.Config;
@@ -179,28 +179,31 @@ namespace Scada.Comm.Engine
                 commandReader = AppConfig.GeneralOptions.EnableFileCommands ? new CommandReader(this) : null;
             }
 
-            InitDrivers();
+            InitDrivers(AppConfig.GetDriverCodes());
             InitDataSources();
         }
 
         /// <summary>
         /// Initializes drivers.
         /// </summary>
-        private void InitDrivers()
+        private void InitDrivers(List<string> driverCodes)
         {
             driverHolder = new DriverHolder(Log);
 
-            foreach (string driverCode in AppConfig.DriverCodes)
+            foreach (string driverCode in driverCodes)
             {
-                if (DriverFactory.GetDriverLogic(AppDirs.DrvDir, driverCode, this,
-                    out DriverLogic driverLogic, out string message))
+                if (!driverHolder.DriverExists(driverCode))
                 {
-                    Log.WriteAction(message);
-                    driverHolder.AddDriver(driverLogic);
-                }
-                else
-                {
-                    Log.WriteError(message);
+                    if (DriverFactory.GetDriverLogic(AppDirs.DrvDir, driverCode, this,
+                        out DriverLogic driverLogic, out string message))
+                    {
+                        Log.WriteAction(message);
+                        driverHolder.AddDriver(driverLogic);
+                    }
+                    else
+                    {
+                        Log.WriteError(message);
+                    }
                 }
             }
         }
@@ -426,43 +429,36 @@ namespace Scada.Comm.Engine
         /// </summary>
         private bool CreateLine(LineConfig lineConfig, out CommLine commLine)
         {
-            try
+            lock (commLineLock)
             {
-                lock (commLineLock)
+                if (commLineMap.ContainsKey(lineConfig.CommLineNum))
                 {
-                    if (commLineMap.ContainsKey(lineConfig.CommLineNum))
-                    {
-                        Log.WriteError(Locale.IsRussian ?
-                            "Линия связи {0} уже создана" :
-                            "Communication line {0} already created", lineConfig.Title);
-                        commLine = null;
-                        return false;
-                    }
-                    else
-                    {
-                        commLine = CommLine.Create(lineConfig, this, driverHolder);
-                        commLine.Terminated += CommLine_Terminated;
-                        commLines.Add(commLine);
-                        commLineMap.Add(lineConfig.CommLineNum, commLine);
-
-                        foreach (DeviceLogic deviceLogic in commLine.SelectDevices())
-                        {
-                            // only one device instance is possible
-                            deviceMap.Add(deviceLogic.DeviceNum, new DeviceItem(deviceLogic, commLine));
-                        }
-
-                        maxLineTitleLength = -1; // reset max length
-                        return true;
-                    }
+                    Log.WriteError(Locale.IsRussian ?
+                        "Линия связи {0} уже создана" :
+                        "Communication line {0} already created", lineConfig.Title);
+                    commLine = null;
+                    return false;
                 }
-            }
-            catch (Exception ex)
-            {
-                Log.WriteError(Locale.IsRussian ?
-                    "Ошибка при создании линий связи {0}: {1}" :
-                    "Error creating communication line {0}: {1}", lineConfig.Title, ex.Message);
-                commLine = null;
-                return false;
+                else if (CommLineFactory.GetCommLine(lineConfig, this, driverHolder, out commLine, out string errMsg))
+                {
+                    commLine.Terminated += CommLine_Terminated;
+                    commLines.Add(commLine);
+                    commLineMap.Add(lineConfig.CommLineNum, commLine);
+
+                    foreach (DeviceLogic deviceLogic in commLine.SelectDevices())
+                    {
+                        // only one device instance is possible
+                        deviceMap.Add(deviceLogic.DeviceNum, new DeviceItem(deviceLogic, commLine));
+                    }
+
+                    maxLineTitleLength = -1; // reset max length
+                    return true;
+                }
+                else
+                {
+                    Log.WriteError(errMsg);
+                    return false;
+                }
             }
         }
 
@@ -599,32 +595,31 @@ namespace Scada.Comm.Engine
                     }
                 }
 
-                if (!CommConfig.LoadLineConfig(Storage, CommConfig.DefaultFileName, commLineNum,
+                if (CommConfig.LoadLineConfig(Storage, CommConfig.DefaultFileName, commLineNum, 
                     out LineConfig lineConfig, out string errMsg))
                 {
-                    Log.WriteError(errMsg);
-                }
-                else if (!lineConfig.Active)
-                {
-                    Log.WriteError(Locale.IsRussian ?
-                        "Невозможно запустить линию связи {0}, потому что она не активна" :
-                        "Unable to start communication line {0} because it is inactive", lineConfig.Title);
-                }
-                else if (CreateLine(lineConfig, out CommLine commLine))
-                {
-                    Log.WriteAction(Locale.IsRussian ?
-                        "Запуск линии связи {0}" :
-                        "Start communication line {0}", commLine.Title);
+                    InitDrivers(CommConfig.GetDriverCodes(lineConfig));
 
-                    if (dataSourceHolder.ReadConfigDatabase(out ConfigDatabase configDatabase))
-                        ConfigDatabase = configDatabase;
-
-                    if (!commLine.Start())
+                    if (CreateLine(lineConfig, out CommLine commLine))
                     {
-                        Log.WriteError(Locale.IsRussian ?
-                            "Не удалось запустить линию связи {0}" :
-                            "Failed to start communication line {0}", commLine.Title);
+                        Log.WriteAction(Locale.IsRussian ?
+                            "Запуск линии связи {0}" :
+                            "Start communication line {0}", commLine.Title);
+
+                        if (dataSourceHolder.ReadConfigDatabase(out ConfigDatabase configDatabase))
+                            ConfigDatabase = configDatabase;
+
+                        if (!commLine.Start())
+                        {
+                            Log.WriteError(Locale.IsRussian ?
+                                "Не удалось запустить линию связи {0}" :
+                                "Failed to start communication line {0}", commLine.Title);
+                        }
                     }
+                }
+                else
+                {
+                    Log.WriteError(errMsg);
                 }
             }
             catch (Exception ex)
@@ -719,10 +714,10 @@ namespace Scada.Comm.Engine
                     commLine.LineStatus == ServiceStatus.Error)
                 {
                     if (lineExists)
-                        StopLine(commLine.CommLineNum);
+                        StopLine(commLineNum);
 
                     if (!lineExists || commLine.IsTerminated)
-                        StartLine(commLine.CommLineNum);
+                        StartLine(commLineNum);
                 }
                 else
                 {

@@ -18,6 +18,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
         /// Initializes a new instance of the class.
         /// </summary>
         public DrvOpcUaView()
+            : base()
         {
             CanCreateDevice = true;
         }

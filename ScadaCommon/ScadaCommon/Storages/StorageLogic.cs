@@ -35,6 +35,7 @@ namespace Scada.Storages
     /// Represents the base class for storage logic.
     /// <para>Представляет базовый класс логики хранилища.</para>
     /// </summary>
+    /// <remarks>Derived classes must be thread-safe.</remarks>
     public abstract class StorageLogic : IStorage
     {
         /// <summary>

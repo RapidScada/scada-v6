@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DeviceTemplate>
+  <Options>
+    <ZeroAddr>false</ZeroAddr>
+    <DecAddr>true</DecAddr>
+    <DefByteOrder2 />
+    <DefByteOrder4 />
+    <DefByteOrder8 />
+  </Options>
+  <ElemGroups>
+    <ElemGroup active="true" dataBlock="HoldingRegisters" address="0" name="Temperature">
+      <Elem type="ushort" readOnly="true" isBitMask="false" tagCode="t0" name="t0" />
+      <Elem type="ushort" readOnly="true" isBitMask="false" tagCode="t1" name="t1" />
+      <Elem type="ushort" readOnly="true" isBitMask="false" tagCode="t2" name="t2" />
+      <Elem type="ushort" readOnly="true" isBitMask="false" tagCode="t3" name="t3" />
+      <Elem type="ushort" readOnly="true" isBitMask="false" tagCode="t4" name="t4" />
+      <Elem type="ushort" readOnly="true" isBitMask="false" tagCode="t5" name="t5" />
+      <Elem type="ushort" readOnly="true" isBitMask="false" tagCode="t6" name="t6" />
+    </ElemGroup>
+    <ElemGroup active="true" dataBlock="Coils" address="120" name="State">
+      <Elem readOnly="true" tagCode="Burnout0" name="Burnout0" />
+      <Elem readOnly="true" tagCode="Burnout1" name="Burnout1" />
+      <Elem readOnly="true" tagCode="Burnout2" name="Burnout2" />
+      <Elem readOnly="true" tagCode="Burnout3" name="Burnout3" />
+      <Elem readOnly="true" tagCode="Burnout4" name="Burnout4" />
+      <Elem readOnly="true" tagCode="Burnout5" name="Burnout5" />
+      <Elem readOnly="true" tagCode="Burnout6" name="Burnout6" />
+    </ElemGroup>
+    <ElemGroup active="true" dataBlock="HoldingRegisters" address="8" name="Average Temperature">
+      <Elem type="ushort" readOnly="true" isBitMask="false" tagCode="t_avg" name="t_avg" />
+    </ElemGroup>
+    <ElemGroup active="true" dataBlock="HoldingRegisters" address="10" name="Max. Temperature">
+      <Elem type="ushort" readOnly="true" isBitMask="false" tagCode="t0_max" name="t0_max" />
+      <Elem type="ushort" readOnly="true" isBitMask="false" tagCode="t1_max" name="t1_max" />
+      <Elem type="ushort" readOnly="true" isBitMask="false" tagCode="t2_max" name="t2_max" />
+      <Elem type="ushort" readOnly="true" isBitMask="false" tagCode="t3_max" name="t3_max" />
+      <Elem type="ushort" readOnly="true" isBitMask="false" tagCode="t4_max" name="t4_max" />
+      <Elem type="ushort" readOnly="true" isBitMask="false" tagCode="t5_max" name="t5_max" />
+      <Elem type="ushort" readOnly="true" isBitMask="false" tagCode="t6_max" name="t6_max" />
+    </ElemGroup>
+    <ElemGroup active="true" dataBlock="HoldingRegisters" address="20" name="Min. Temperature">
+      <Elem type="ushort" readOnly="true" isBitMask="false" tagCode="t0_min" name="t0_min" />
+      <Elem type="ushort" readOnly="true" isBitMask="false" tagCode="t1_min" name="t1_min" />
+      <Elem type="ushort" readOnly="true" isBitMask="false" tagCode="t2_min" name="t2_min" />
+      <Elem type="ushort" readOnly="true" isBitMask="false" tagCode="t3_min" name="t3_min" />
+      <Elem type="ushort" readOnly="true" isBitMask="false" tagCode="t4_min" name="t4_min" />
+      <Elem type="ushort" readOnly="true" isBitMask="false" tagCode="t5_min" name="t5_min" />
+      <Elem type="ushort" readOnly="true" isBitMask="false" tagCode="t6_min" name="t6_min" />
+    </ElemGroup>
+  </ElemGroups>
+  <Cmds>
+    <Cmd dataBlock="Coils" multiple="false" address="100" cmdNum="1" cmdCode="Reset t0_max" name="Reset t0_max" />
+    <Cmd dataBlock="Coils" multiple="false" address="101" cmdNum="2" cmdCode="Reset t1_max" name="Reset t1_max" />
+    <Cmd dataBlock="Coils" multiple="false" address="102" cmdNum="3" cmdCode="Reset t2_max" name="Reset t2_max" />
+    <Cmd dataBlock="Coils" multiple="false" address="103" cmdNum="4" cmdCode="Reset t3_max" name="Reset t3_max" />
+    <Cmd dataBlock="Coils" multiple="false" address="104" cmdNum="5" cmdCode="Reset t4_max" name="Reset t4_max" />
+    <Cmd dataBlock="Coils" multiple="false" address="105" cmdNum="6" cmdCode="Reset t5_max" name="Reset t5_max" />
+    <Cmd dataBlock="Coils" multiple="false" address="106" cmdNum="7" cmdCode="Reset t6_max" name="Reset t6_max" />
+    <Cmd dataBlock="Coils" multiple="false" address="110" cmdNum="11" cmdCode="Reset t0_min" name="Reset t0_min" />
+    <Cmd dataBlock="Coils" multiple="false" address="111" cmdNum="12" cmdCode="Reset t1_min" name="Reset t1_min" />
+    <Cmd dataBlock="Coils" multiple="false" address="112" cmdNum="13" cmdCode="Reset t2_min" name="Reset t2_min" />
+    <Cmd dataBlock="Coils" multiple="false" address="113" cmdNum="14" cmdCode="Reset t3_min" name="Reset t3_min" />
+    <Cmd dataBlock="Coils" multiple="false" address="114" cmdNum="15" cmdCode="Reset t4_min" name="Reset t4_min" />
+    <Cmd dataBlock="Coils" multiple="false" address="115" cmdNum="16" cmdCode="Reset t5_min" name="Reset t5_min" />
+    <Cmd dataBlock="Coils" multiple="false" address="116" cmdNum="17" cmdCode="Reset t6_min" name="Reset t6_min" />
+  </Cmds>
+</DeviceTemplate>

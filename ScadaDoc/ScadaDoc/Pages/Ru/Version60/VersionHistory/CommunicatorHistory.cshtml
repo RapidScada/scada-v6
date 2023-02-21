@@ -12,10 +12,12 @@
         <li><a href="#drv-anemon">Анемон</a></li>
         <li><a href="#drv-cnl-basic">Основные каналы связи</a></li>
         <li><a href="#drv-cnl-mqtt">Канал связи MQTT</a></li>
+        <li><a href="#drv-db-import">Импорт из БД</a></li>
         <li><a href="#drv-ds-mqtt">Источник данных MQTT</a></li>
         <li><a href="#drv-ds-opc-ua-server">Сервер OPC UA</a></li>
         <li><a href="#drv-ds-scada-server">Источник данных Сервер</a></li>
         <li><a href="#drv-email">Email</a></li>
+        <li><a href="#drv-enron-modbus">Enron Modbus</a></li>
         <li><a href="#drv-http-notif">HTTP уведомления</a></li>
         <li><a href="#drv-modbus">Modbus</a></li>
         <li><a href="#drv-mqtt-client">MQTT-клиент</a></li>
@@ -23,6 +25,8 @@
         <li><a href="#drv-opc-classic">OPC Classic</a></li>
         <li><a href="#drv-opc-ua">OPC UA</a></li>
         <li><a href="#drv-simulator">Симулятор устройства</a></li>
+        <li><a href="#drv-sms">SMS</a></li>
+        <li><a href="#drv-snmp">SNMP</a></li>
         <li><a href="#drv-telegram">Telegram</a></li>
         <li><a href="#drv-tester">Тестер каналов связи</a></li>
     </ul>
@@ -31,6 +35,11 @@
 <div class="doc-content">
     <h1>История Коммуникатора</h1>
     <h2 id="communicator-app">Приложение Коммуникатор</h2>
+    <div>ScadaComm 6.0.0.2 (20.02.2023)</div>
+    <ul>
+        <li>Неактивная линия связи может быть запущена с помощью команды</li>
+    </ul>
+
     <div>ScadaComm 6.0.0.1 (17.01.2023)</div>
     <ul>
         <li>Статус устройства записывается как 0 или 1</li>
@@ -56,6 +65,11 @@
     </ul>
 
     <h2 id="drv-cnl-basic">Основные каналы связи</h2>
+    <div>DrvCnlBasic 6.0.0.1 (20.02.2023)</div>
+    <ul>
+        <li>Исправлена ошибка в канале связи UDP</li>
+    </ul>
+
     <div>DrvCnlBasic 6.0.0.0 (03.12.2022)</div>
     <ul>
         <li>Первоначальная разработка драйвера</li>
@@ -70,6 +84,14 @@
     <div>DrvCnlMqtt 6.0.0.0 (03.12.2022)</div>
     <ul>
         <li>Первоначальная разработка драйвера</li>
+    </ul>
+
+    <h2 id="drv-db-import">Импорт из БД</h2>
+    <div>DrvDbImport 6.0.0.0 (20.02.2023)</div>
+    <ul>
+        <li>Общее соединение с БД для линии связи</li>
+        <li>Считывание значений по строке или столбцу</li>
+        <li>Поддерживает несколько запросов для одного устройства</li>
     </ul>
 
     <h2 id="drv-ds-mqtt">Источник данных MQTT</h2>
@@ -106,13 +128,24 @@
         <li>Повторная отправка письма в случае ошибки</li>
     </ul>
 
+    <h2 id="drv-enron-modbus">Enron Modbus</h2>
+    <div>DrvEnronModbus 6.0.0.0 (20.02.2023)</div>
+    <ul>
+        <li>Портирование драйвера на новую версию</li>
+    </ul>
+
     <h2 id="drv-http-notif">HTTP уведомления</h2>
     <div>DrvHttpNotif 6.0.0.0 (03.12.2022)</div>
     <ul>
         <li>Портирование драйвера на новую версию</li>
     </ul>
 
-    <h2 id="modbus">Modbus</h2>
+    <h2 id="drv-modbus">Modbus</h2>
+    <div>DrvModbus 6.0.0.1 (20.02.2023)</div>
+    <ul>
+        <li>Исправлены ошибки в пользовательском интерфейсе драйвера</li>
+    </ul>
+
     <div>DrvModbus 6.0.0.0 (03.12.2022)</div>
     <ul>
         <li>Возможность отправки команд с произвольным кодом функции</li>
@@ -167,6 +200,18 @@
     <div>DrvSimulator 6.0.0.0 (03.12.2022)</div>
     <ul>
         <li>Добавлен тег устройства, который является массивом</li>
+    </ul>
+
+    <h2 id="drv-sms">SMS</h2>
+    <div>DrvSms 6.0.0.0 (20.02.2023)</div>
+    <ul>
+        <li>Портирование драйвера на новую версию</li>
+    </ul>
+
+    <h2 id="drv-snmp">SNMP</h2>
+    <div>DrvSnmp 6.0.0.0 (20.02.2023)</div>
+    <ul>
+        <li>Портирование драйвера на новую версию</li>
     </ul>
 
     <h2 id="drv-telegram">Telegram</h2>

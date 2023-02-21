@@ -11,6 +11,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.Config
     /// Represents a configuration of a database communication line.
     /// <para>Представляет конфигурацию линии связи с базой данных.</para>
     /// </summary>
+    [Serializable]
     internal class DbLineConfig : ConfigBase
     {
         /// <summary>

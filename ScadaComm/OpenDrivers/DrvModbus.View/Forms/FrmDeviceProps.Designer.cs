@@ -29,9 +29,8 @@
         private void InitializeComponent()
         {
             this.gbDevice = new System.Windows.Forms.GroupBox();
-            this.btnEditTemplate = new System.Windows.Forms.Button();
-            this.btnCreateTemplate = new System.Windows.Forms.Button();
             this.btnBrowseTemplate = new System.Windows.Forms.Button();
+            this.btnEditTemplate = new System.Windows.Forms.Button();
             this.txtTemplateFileName = new System.Windows.Forms.TextBox();
             this.lblTemplateFileName = new System.Windows.Forms.Label();
             this.gbCommLine = new System.Windows.Forms.GroupBox();
@@ -46,57 +45,44 @@
             // 
             // gbDevice
             // 
-            this.gbDevice.Controls.Add(this.btnEditTemplate);
-            this.gbDevice.Controls.Add(this.btnCreateTemplate);
             this.gbDevice.Controls.Add(this.btnBrowseTemplate);
+            this.gbDevice.Controls.Add(this.btnEditTemplate);
             this.gbDevice.Controls.Add(this.txtTemplateFileName);
             this.gbDevice.Controls.Add(this.lblTemplateFileName);
             this.gbDevice.Location = new System.Drawing.Point(12, 91);
             this.gbDevice.Name = "gbDevice";
             this.gbDevice.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbDevice.Size = new System.Drawing.Size(360, 102);
+            this.gbDevice.Size = new System.Drawing.Size(410, 73);
             this.gbDevice.TabIndex = 1;
             this.gbDevice.TabStop = false;
             this.gbDevice.Text = "Device";
             // 
-            // btnEditTemplate
-            // 
-            this.btnEditTemplate.Enabled = false;
-            this.btnEditTemplate.Location = new System.Drawing.Point(94, 66);
-            this.btnEditTemplate.Name = "btnEditTemplate";
-            this.btnEditTemplate.Size = new System.Drawing.Size(75, 23);
-            this.btnEditTemplate.TabIndex = 4;
-            this.btnEditTemplate.Text = "Edit";
-            this.btnEditTemplate.UseVisualStyleBackColor = true;
-            this.btnEditTemplate.Click += new System.EventHandler(this.btnEdit_Click);
-            // 
-            // btnCreateTemplate
-            // 
-            this.btnCreateTemplate.Location = new System.Drawing.Point(13, 66);
-            this.btnCreateTemplate.Name = "btnCreateTemplate";
-            this.btnCreateTemplate.Size = new System.Drawing.Size(75, 23);
-            this.btnCreateTemplate.TabIndex = 3;
-            this.btnCreateTemplate.Text = "Create";
-            this.btnCreateTemplate.UseVisualStyleBackColor = true;
-            this.btnCreateTemplate.Click += new System.EventHandler(this.btnCreate_Click);
-            // 
             // btnBrowseTemplate
             // 
-            this.btnBrowseTemplate.Location = new System.Drawing.Point(272, 37);
+            this.btnBrowseTemplate.Location = new System.Drawing.Point(322, 37);
             this.btnBrowseTemplate.Name = "btnBrowseTemplate";
             this.btnBrowseTemplate.Size = new System.Drawing.Size(75, 23);
-            this.btnBrowseTemplate.TabIndex = 2;
+            this.btnBrowseTemplate.TabIndex = 3;
             this.btnBrowseTemplate.Text = "Browse...";
             this.btnBrowseTemplate.UseVisualStyleBackColor = true;
             this.btnBrowseTemplate.Click += new System.EventHandler(this.btnBrowse_Click);
+            // 
+            // btnEditTemplate
+            // 
+            this.btnEditTemplate.Location = new System.Drawing.Point(241, 37);
+            this.btnEditTemplate.Name = "btnEditTemplate";
+            this.btnEditTemplate.Size = new System.Drawing.Size(75, 23);
+            this.btnEditTemplate.TabIndex = 2;
+            this.btnEditTemplate.Text = "Edit";
+            this.btnEditTemplate.UseVisualStyleBackColor = true;
+            this.btnEditTemplate.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // txtTemplateFileName
             // 
             this.txtTemplateFileName.Location = new System.Drawing.Point(13, 37);
             this.txtTemplateFileName.Name = "txtTemplateFileName";
-            this.txtTemplateFileName.Size = new System.Drawing.Size(253, 23);
+            this.txtTemplateFileName.Size = new System.Drawing.Size(222, 23);
             this.txtTemplateFileName.TabIndex = 1;
-            this.txtTemplateFileName.TextChanged += new System.EventHandler(this.txtTemplate_TextChanged);
             // 
             // lblTemplateFileName
             // 
@@ -114,7 +100,7 @@
             this.gbCommLine.Location = new System.Drawing.Point(12, 12);
             this.gbCommLine.Name = "gbCommLine";
             this.gbCommLine.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbCommLine.Size = new System.Drawing.Size(360, 73);
+            this.gbCommLine.Size = new System.Drawing.Size(410, 73);
             this.gbCommLine.TabIndex = 0;
             this.gbCommLine.TabStop = false;
             this.gbCommLine.Text = "Communication Line";
@@ -129,7 +115,7 @@
             "Modbus TCP"});
             this.cbTransMode.Location = new System.Drawing.Point(13, 37);
             this.cbTransMode.Name = "cbTransMode";
-            this.cbTransMode.Size = new System.Drawing.Size(334, 23);
+            this.cbTransMode.Size = new System.Drawing.Size(384, 23);
             this.cbTransMode.TabIndex = 1;
             // 
             // lblTransMode
@@ -143,7 +129,7 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(216, 209);
+            this.btnOK.Location = new System.Drawing.Point(266, 180);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 2;
@@ -154,7 +140,7 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(297, 209);
+            this.btnCancel.Location = new System.Drawing.Point(347, 180);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 3;
@@ -173,7 +159,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(384, 244);
+            this.ClientSize = new System.Drawing.Size(434, 215);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.gbDevice);
@@ -207,6 +193,5 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.Button btnBrowseTemplate;
         private System.Windows.Forms.Button btnEditTemplate;
-        private System.Windows.Forms.Button btnCreateTemplate;
     }
 }

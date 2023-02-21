@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2023
  */
 
 using Scada.Comm.Channels;
@@ -41,6 +41,7 @@ namespace Scada.Comm.Drivers
         /// Initializes a new instance of the class.
         /// </summary>
         public DriverView()
+            : base()
         {
             AppConfig = null;
             CanCreateDataSource = false;

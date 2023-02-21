@@ -94,6 +94,7 @@ namespace Scada.Comm.Drivers.DrvTester.Logic
                 Log.WriteLine(Locale.IsRussian ?
                     "Отправлено за {0} мс" :
                     "Sent in {0} ms", stopwatch.ElapsedMilliseconds);
+                FinishRequest();
             }
             else if (cmd.CmdCode == "SendBin" || cmd.CmdNum == 2)
             {
@@ -105,6 +106,7 @@ namespace Scada.Comm.Drivers.DrvTester.Logic
                 Log.WriteLine(Locale.IsRussian ?
                     "Отправлено за {0} мс" :
                     "Sent in {0} ms", stopwatch.ElapsedMilliseconds);
+                FinishRequest();
             }
             else
             {

@@ -92,11 +92,19 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvDsScadaServer.Shared", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DrvDbImport", "DrvDbImport", "{BA7DEC7C-B9CC-4CFB-906D-3255F25AC285}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvDbImport.Logic", "DrvDbImport.Logic\DrvDbImport.Logic.csproj", "{38BA34DD-5754-4278-880C-E4B434AA8783}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvDbImport.Logic", "DrvDbImport.Logic\DrvDbImport.Logic.csproj", "{38BA34DD-5754-4278-880C-E4B434AA8783}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvDbImport.View", "DrvDbImport.View\DrvDbImport.View.csproj", "{DDFCDBEF-0B7D-458B-98E5-9168B04D85FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvDbImport.View", "DrvDbImport.View\DrvDbImport.View.csproj", "{DDFCDBEF-0B7D-458B-98E5-9168B04D85FD}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvDbImport.Shared", "DrvDbImport.Shared\DrvDbImport.Shared.shproj", "{BC00F25A-B6E7-47EF-86C6-739C89C67312}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DrvEnronModbus", "DrvEnronModbus", "{024631A2-4BAA-4EB8-907A-ACA215D00F0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvEnronModbus.Logic", "DrvEnronModbus.Logic\DrvEnronModbus.Logic.csproj", "{63F2BC6D-3FB2-4AF4-8381-486A946C5EB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvEnronModbus.View", "DrvEnronModbus.View\DrvEnronModbus.View.csproj", "{F19D06C6-C82C-4F06-8477-1954D25278FB}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvEnronModbus.Shared", "DrvEnronModbus.Shared\DrvEnronModbus.Shared.shproj", "{A51DE707-414B-4F30-8086-5A82A97D1A2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -220,6 +228,14 @@ Global
 		{DDFCDBEF-0B7D-458B-98E5-9168B04D85FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDFCDBEF-0B7D-458B-98E5-9168B04D85FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDFCDBEF-0B7D-458B-98E5-9168B04D85FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63F2BC6D-3FB2-4AF4-8381-486A946C5EB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63F2BC6D-3FB2-4AF4-8381-486A946C5EB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63F2BC6D-3FB2-4AF4-8381-486A946C5EB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63F2BC6D-3FB2-4AF4-8381-486A946C5EB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F19D06C6-C82C-4F06-8477-1954D25278FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F19D06C6-C82C-4F06-8477-1954D25278FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F19D06C6-C82C-4F06-8477-1954D25278FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F19D06C6-C82C-4F06-8477-1954D25278FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -261,6 +277,9 @@ Global
 		{38BA34DD-5754-4278-880C-E4B434AA8783} = {BA7DEC7C-B9CC-4CFB-906D-3255F25AC285}
 		{DDFCDBEF-0B7D-458B-98E5-9168B04D85FD} = {BA7DEC7C-B9CC-4CFB-906D-3255F25AC285}
 		{BC00F25A-B6E7-47EF-86C6-739C89C67312} = {BA7DEC7C-B9CC-4CFB-906D-3255F25AC285}
+		{63F2BC6D-3FB2-4AF4-8381-486A946C5EB0} = {024631A2-4BAA-4EB8-907A-ACA215D00F0E}
+		{F19D06C6-C82C-4F06-8477-1954D25278FB} = {024631A2-4BAA-4EB8-907A-ACA215D00F0E}
+		{A51DE707-414B-4F30-8086-5A82A97D1A2A} = {024631A2-4BAA-4EB8-907A-ACA215D00F0E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {961AA4C1-5D08-4B24-AE6B-99F3AB1A7AEF}
@@ -275,9 +294,11 @@ Global
 		DrvDsMqtt.Shared\DrvDsMqtt.Shared.projitems*{3f133c20-7e0e-4b31-8438-cac9dbc27e2f}*SharedItemsImports = 5
 		DrvSimulator.Shared\DrvSimulator.Shared.projitems*{459d0b20-51a9-4aa8-8ccc-9f5b34a74029}*SharedItemsImports = 13
 		DrvSimulator.Shared\DrvSimulator.Shared.projitems*{48043839-37e7-40ae-92e2-a31a79204cf5}*SharedItemsImports = 5
+		DrvEnronModbus.Shared\DrvEnronModbus.Shared.projitems*{63f2bc6d-3fb2-4af4-8381-486a946c5eb0}*SharedItemsImports = 5
 		DrvDsMqtt.Shared\DrvDsMqtt.Shared.projitems*{709169f9-0f33-4e14-9fd1-aa9c3d5ed4aa}*SharedItemsImports = 13
 		DrvCnlBasic.Shared\DrvCnlBasic.Shared.projitems*{742e7f8c-ff6a-4893-b6a8-d800985f6543}*SharedItemsImports = 5
 		DrvSimulator.Shared\DrvSimulator.Shared.projitems*{8f1c993e-1a67-494a-a5b9-9aedaa8feb9c}*SharedItemsImports = 5
+		DrvEnronModbus.Shared\DrvEnronModbus.Shared.projitems*{a51de707-414b-4f30-8086-5a82a97d1a2a}*SharedItemsImports = 13
 		DrvDsScadaServer.Shared\DrvDsScadaServer.Shared.projitems*{a8e564d4-b76a-408b-ad23-f43a486bd7bb}*SharedItemsImports = 13
 		DrvDsScadaServer.Shared\DrvDsScadaServer.Shared.projitems*{b1ea000b-e708-4c3a-baac-f71e40645aca}*SharedItemsImports = 5
 		DrvMqttPublisher.Shared\DrvMqttPublisher.Shared.projitems*{b4923372-4baa-4b51-995e-01ae7adbcbd7}*SharedItemsImports = 13
@@ -287,5 +308,6 @@ Global
 		DrvDbImport.Shared\DrvDbImport.Shared.projitems*{ddfcdbef-0b7d-458b-98e5-9168b04d85fd}*SharedItemsImports = 5
 		DrvCnlBasic.Shared\DrvCnlBasic.Shared.projitems*{de8c7d65-1037-4d04-8197-861bf5245deb}*SharedItemsImports = 13
 		DrvTester.Shared\DrvTester.Shared.projitems*{edaf9a96-07da-4a2d-ab7c-b299378f4433}*SharedItemsImports = 5
+		DrvEnronModbus.Shared\DrvEnronModbus.Shared.projitems*{f19d06c6-c82c-4f06-8477-1954d25278fb}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

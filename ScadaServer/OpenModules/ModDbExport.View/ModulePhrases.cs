@@ -21,10 +21,10 @@ namespace Scada.Server.Modules.ModDbExport.View
         public static string GeneralOptionsNode { get; private set; }
         public static string SelectChildNode { get; private set; }
         public static string TargetName { get; private set; }
-        public static string TargetNameEmpty { get; private set; }
         public static string TargetNameNotUnique { get; private set; }
         public static string QueryName { get; private set; }
         public static string QueriesNode { get; private set; }
+        public static string UnnamedQuery { get; private set; }
 
         public static void Init()
         {
@@ -38,10 +38,10 @@ namespace Scada.Server.Modules.ModDbExport.View
             GeneralOptionsNode = dict[nameof(GeneralOptionsNode)];
             SelectChildNode = dict[nameof(SelectChildNode)];
             TargetName = dict[nameof(TargetName)];
-            TargetNameEmpty = dict[nameof(TargetNameEmpty)];
             TargetNameNotUnique = dict[nameof(TargetNameNotUnique)];
             QueryName = dict[nameof(QueryName)];
             QueriesNode = dict[nameof(QueriesNode)];
+            UnnamedQuery = dict[nameof(UnnamedQuery)];
         }
     }
 }

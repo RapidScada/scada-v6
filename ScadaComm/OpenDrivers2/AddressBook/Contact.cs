@@ -101,7 +101,7 @@ namespace Scada.AB
 
             foreach (AddressBookItem item in ContactItems)
             {
-                if (item is PhoneNumber)
+                if (item is PhoneNumber && !string.IsNullOrEmpty(item.Value))
                     phoneNumbers.Add(item.Value);
             }
         }
@@ -115,7 +115,7 @@ namespace Scada.AB
 
             foreach (AddressBookItem item in ContactItems)
             {
-                if (item is Email)
+                if (item is Email && !string.IsNullOrEmpty(item.Value))
                     emails.Add(item.Value);
             }
         }

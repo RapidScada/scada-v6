@@ -88,13 +88,13 @@
     <UnitID>31</UnitID>
     <Name>m/s</Name>
     <Code>m/s</Code>
-    <Descr>Meters per second</Descr>
+    <Descr>Meter per second</Descr>
   </Unit>
   <Unit>
     <UnitID>32</UnitID>
     <Name>km/h</Name>
     <Code>km/h</Code>
-    <Descr>Kilometers per hour</Descr>
+    <Descr>Kilometer per hour</Descr>
   </Unit>
   <Unit>
     <UnitID>33</UnitID>
@@ -112,7 +112,7 @@
     <UnitID>35</UnitID>
     <Name>rpm</Name>
     <Code>rpm</Code>
-    <Descr>Revolutions per minute</Descr>
+    <Descr>Revolution per minute</Descr>
   </Unit>
   <Unit>
     <UnitID>41</UnitID>
@@ -274,13 +274,13 @@
     <UnitID>83</UnitID>
     <Name>m³/s</Name>
     <Code>m3/s</Code>
-    <Descr>Cubic meters per second</Descr>
+    <Descr>Cubic meter per second</Descr>
   </Unit>
   <Unit>
     <UnitID>84</UnitID>
     <Name>m³/h</Name>
     <Code>m3/h</Code>
-    <Descr>Cubic meters per hour</Descr>
+    <Descr>Cubic meter per hour</Descr>
   </Unit>
   <Unit>
     <UnitID>91</UnitID>
@@ -359,6 +359,42 @@
     <Name>pcs</Name>
     <Code>pcs</Code>
     <Descr>Pieces</Descr>
+  </Unit>
+  <Unit>
+    <UnitID>111</UnitID>
+    <Name>L</Name>
+    <Code>L</Code>
+    <Descr>Liter</Descr>
+  </Unit>
+  <Unit>
+    <UnitID>112</UnitID>
+    <Name>L/s</Name>
+    <Code>L/s</Code>
+    <Descr>Liter per second</Descr>
+  </Unit>
+  <Unit>
+    <UnitID>113</UnitID>
+    <Name>L/min</Name>
+    <Code>L/min</Code>
+    <Descr>Liter per minute</Descr>
+  </Unit>
+  <Unit>
+    <UnitID>114</UnitID>
+    <Name>L/h</Name>
+    <Code>L/h</Code>
+    <Descr>Liter per hour</Descr>
+  </Unit>
+  <Unit>
+    <UnitID>115</UnitID>
+    <Name>g/L</Name>
+    <Code>g/L</Code>
+    <Descr>Gram per liter</Descr>
+  </Unit>
+  <Unit>
+    <UnitID>116</UnitID>
+    <Name>kg/L</Name>
+    <Code>kg/L</Code>
+    <Descr>Kilogram per liter</Descr>
   </Unit>
   <Unit>
     <UnitID>1001</UnitID>
