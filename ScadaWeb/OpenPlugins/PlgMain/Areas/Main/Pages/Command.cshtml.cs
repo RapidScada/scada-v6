@@ -206,9 +206,11 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             if (Cnl.DeviceNum != null)
                 Device = webContext.ConfigDatabase.DeviceTable.GetItem(Cnl.DeviceNum.Value);
 
-            if (Cnl.FormatID != null)
+            int? formatID = Cnl.FormatID ?? Cnl.OutFormatID;
+
+            if (formatID != null)
             {
-                Format = webContext.ConfigDatabase.FormatTable.GetItem(Cnl.FormatID.Value);
+                Format = webContext.ConfigDatabase.FormatTable.GetItem(formatID.Value);
 
                 if (Format != null)
                 {
