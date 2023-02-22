@@ -59,7 +59,7 @@ namespace Scada.Comm.Engine
                 // create communication channel
                 if (string.IsNullOrEmpty(lineConfig.Channel.Driver))
                 {
-                    commLine.Channel = new ChannelLogic(commLine, lineConfig.Channel); // stub
+                    commLine.Channel = new ChannelLogicStub(commLine, lineConfig.Channel);
                 }
                 else if (driverHolder.GetDriver(lineConfig.Channel.Driver, out DriverLogic driverLogic))
                 {

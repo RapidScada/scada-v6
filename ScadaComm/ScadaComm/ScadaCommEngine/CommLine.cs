@@ -626,9 +626,7 @@ namespace Scada.Comm.Engine
                 }
 
                 channel.ChannelLogic.AppendInfo(sb);
-
-                if (SharedData != null && SharedData.Count > 0)
-                    EngineUtils.AppendSharedData(sb, SharedData);
+                SharedData.AppendInfo(sb);
 
                 sb
                     .AppendLine()
