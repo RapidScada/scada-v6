@@ -33,6 +33,7 @@
     <Phrase key="InFormula">Входная формула</Phrase>
     <Phrase key="OutFormula">Выходная формула</Phrase>
     <Phrase key="FormatID">Формат</Phrase>
+    <Phrase key="OutFormatID">Формат команды</Phrase>
     <Phrase key="QuantityID">Величина</Phrase>
     <Phrase key="UnitID">Размерность</Phrase>
     <Phrase key="LimID">Границы</Phrase>

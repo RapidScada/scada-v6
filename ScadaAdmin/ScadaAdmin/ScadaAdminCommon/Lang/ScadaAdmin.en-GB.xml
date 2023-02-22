@@ -33,6 +33,7 @@
     <Phrase key="InFormula">Input Formula</Phrase>
     <Phrase key="OutFormula">Output Formula</Phrase>
     <Phrase key="FormatID">Format</Phrase>
+    <Phrase key="OutFormatID">Command Format</Phrase>
     <Phrase key="QuantityID">Quantity</Phrase>
     <Phrase key="UnitID">Unit</Phrase>
     <Phrase key="LimID">Limits</Phrase>
