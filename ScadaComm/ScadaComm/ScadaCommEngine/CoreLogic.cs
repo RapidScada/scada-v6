@@ -790,11 +790,8 @@ namespace Scada.Comm.Engine
                         .Append("Version        : ").AppendLine(EngineUtils.AppVersion);
                 }
 
-                if (dataSourceHolder != null)
-                    dataSourceHolder.AppendInfo(sb);
-
-                if (SharedData != null && SharedData.Count > 0)
-                    EngineUtils.AppendSharedData(sb, SharedData);
+                dataSourceHolder?.AppendInfo(sb);
+                SharedData?.AppendInfo(sb);
 
                 if (commLines != null)
                 {
