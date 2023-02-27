@@ -106,6 +106,15 @@ namespace Scada.Data.Models
 
 
         /// <summary>
+        /// Converts the channel data to a double-precision floating-point number.
+        /// Returns the channel value if the channel data is defined, otherwise returns NaN.
+        /// </summary>
+        public double ToDouble()
+        {
+            return IsDefined ? Val : double.NaN;
+        }
+
+        /// <summary>
         /// Determines whether the specified object is equal to the current object.
         /// </summary>
         public override bool Equals(object obj)
