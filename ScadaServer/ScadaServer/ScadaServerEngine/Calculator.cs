@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Microsoft.CodeAnalysis;
@@ -509,6 +509,8 @@ namespace Scada.Server.Engine
                         cmdData = bytes;
                     else if (result is string str)
                         cmdData = Encoding.UTF8.GetBytes(str);
+                    else if (result is CnlData cnlData)
+                        cmdVal = cnlData.ToDouble();
                     else if (result != null)
                         cmdVal = Convert.ToDouble(result);
 
