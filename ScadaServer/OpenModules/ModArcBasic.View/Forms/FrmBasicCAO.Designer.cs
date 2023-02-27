@@ -121,7 +121,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             // 
             this.numFlushPeriod.Location = new System.Drawing.Point(196, 51);
             this.numFlushPeriod.Maximum = new decimal(new int[] {
-            1000,
+            86400,
             0,
             0,
             0});
