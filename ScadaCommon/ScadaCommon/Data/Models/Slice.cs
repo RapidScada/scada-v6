@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2023
  */
 
 using System;
@@ -81,5 +81,16 @@ namespace Scada.Data.Models
         /// Gets the channel data corresponding to the channel numbers.
         /// </summary>
         public CnlData[] CnlData { get; }
+
+        /// <summary>
+        /// Gets the number of channels in the slice.
+        /// </summary>
+        public int Length
+        {
+            get
+            {
+                return CnlNums.Length;
+            }
+        }
     }
 }
