@@ -1314,7 +1314,7 @@ namespace Scada.Server.Engine
                 bool applyFormulas = writeFlags.HasFlag(WriteFlags.ApplyFormulas);
                 bool enableEvents = writeFlags.HasFlag(WriteFlags.EnableEvents);
 
-                for (int i = 0, cnlCnt = slice.CnlNums.Length; i < cnlCnt; i++)
+                for (int i = 0, cnlCnt = slice.Length; i < cnlCnt; i++)
                 {
                     if (cnlTags.TryGetValue(slice.CnlNums[i], out CnlTag cnlTag))
                     {
@@ -1357,7 +1357,7 @@ namespace Scada.Server.Engine
                     archiveMask = archiveHolder.DefaultArchiveMask;
 
                 // find channel tags of the slice
-                int cnlCnt = slice.CnlNums.Length;
+                int cnlCnt = slice.Length;
                 CnlTag[] sliceCnlTags = new CnlTag[cnlCnt];
 
                 for (int i = 0; i < cnlCnt; i++)
