@@ -47,6 +47,11 @@ namespace Scada.Server
     public abstract class ListenerBase
     {
         /// <summary>
+        /// The delay in a client thread iteration, ms.
+        /// Limits the maximum number of requests per second.
+        /// </summary>
+        public const int ClientThreadDelay = 20;
+        /// <summary>
         /// The maximum number of client sessions.
         /// </summary>
         protected const int MaxSessionCount = 100;
@@ -223,7 +228,7 @@ namespace Scada.Server
             while (!client.Terminated)
             {
                 ReceiveData(client);
-                Thread.Sleep(ScadaUtils.ThreadDelay);
+                Thread.Sleep(ClientThreadDelay);
             }
         }
 
