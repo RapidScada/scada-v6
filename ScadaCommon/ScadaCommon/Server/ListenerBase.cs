@@ -50,7 +50,7 @@ namespace Scada.Server
         /// The delay in a client thread iteration, ms.
         /// Limits the maximum number of requests per second.
         /// </summary>
-        public const int ClientThreadDelay = 20;
+        public const int ClientThreadDelay = 10;
         /// <summary>
         /// The maximum number of client sessions.
         /// </summary>
