@@ -171,7 +171,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             }
             catch (Exception ex)
             {
-                DbUtils.SafeRollback(trans);
+                trans?.SilentRollback();
                 HasError = true;
                 AppLog?.WriteError(ex, ServerPhrases.ArchiveMessage, ArchiveCode, ServerPhrases.WriteDbError);
                 ArcLog?.WriteError(ex, ServerPhrases.WriteDbError);
@@ -219,7 +219,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             }
             catch (Exception ex)
             {
-                DbUtils.SafeRollback(trans);
+                trans?.SilentRollback();
                 HasError = true;
                 AppLog?.WriteError(ex, ServerPhrases.ArchiveMessage, ArchiveCode, ServerPhrases.WriteDbError);
                 ArcLog?.WriteError(ex, ServerPhrases.WriteDbError);

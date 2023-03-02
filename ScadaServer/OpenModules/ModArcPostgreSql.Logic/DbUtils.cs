@@ -6,6 +6,7 @@ using Scada.Config;
 using Scada.Dbms;
 using Scada.Lang;
 using Scada.Server.Modules.ModArcPostgreSql.Config;
+using System.Diagnostics;
 using System.Globalization;
 using System.Xml;
 
@@ -57,6 +58,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public static DbConnectionOptions GetConnectionOptions(ModuleConfig moduleConfig, string connName)
         {
+            ArgumentNullException.ThrowIfNull(moduleConfig, nameof(moduleConfig));
+            ArgumentNullException.ThrowIfNull(connName, nameof(connName));
+
             return moduleConfig.Connections.TryGetValue(connName, out DbConnectionOptions connOptions)
                 ? connOptions
                 : throw new ScadaException(CommonPhrases.ConnectionNotFound, connName);
@@ -67,6 +71,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public static DbConnectionOptions GetConnectionOptions(InstanceConfig instanceConfig)
         {
+            ArgumentNullException.ThrowIfNull(instanceConfig, nameof(instanceConfig));
+
             if (instanceConfig.Storages.TryGetValue(StorageCode, out XmlElement storageElem) &&
                 storageElem.SelectSingleNode("Connection") is XmlNode connectionNode)
             {
@@ -83,6 +89,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public static NpgsqlConnection CreateDbConnection(DbConnectionOptions options)
         {
+            ArgumentNullException.ThrowIfNull(options, nameof(options));
             string connectionString = options.ConnectionString;
 
             if (string.IsNullOrEmpty(connectionString))
@@ -110,6 +117,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         public static void CreatePartition(NpgsqlConnection conn, string tableName, 
             DateTime today, PartitionSize partitionSize, out string partitionName)
         {
+            ArgumentNullException.ThrowIfNull(conn, nameof(conn));
+            ArgumentNullException.ThrowIfNull(tableName, nameof(tableName));
+
             DateTime startDate;
             DateTime endDate;
 
@@ -139,6 +149,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public static List<string> GetOutdatedPartitions(NpgsqlConnection conn, string tableName, DateTime minDT)
         {
+            ArgumentNullException.ThrowIfNull(conn, nameof(conn));
+            ArgumentNullException.ThrowIfNull(tableName, nameof(tableName));
+
             string sql = "SELECT inhrelid::regclass::varchar AS child FROM pg_catalog.pg_inherits " +
                 $"WHERE inhparent = '{tableName}'::regclass";
             NpgsqlCommand cmd = new(sql, conn);
@@ -168,6 +181,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public static DateTime GetLastWriteTime(NpgsqlConnection conn, string tableName)
         {
+            ArgumentNullException.ThrowIfNull(conn, nameof(conn));
+            ArgumentNullException.ThrowIfNull(tableName, nameof(tableName));
+
             string sql = "SELECT MAX(time_stamp) FROM " + tableName;
             NpgsqlCommand cmd = new(sql, conn);
             object timestampObj = cmd.ExecuteScalar();
@@ -177,13 +193,38 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         }
 
         /// <summary>
-        /// Roll backs the transaction safely.
+        /// Rollbacks the transaction silently.
         /// </summary>
-        public static void SafeRollback(NpgsqlTransaction trans)
+        public static void SilentClose(this NpgsqlConnection conn)
+        {
+            if (conn != null)
+            {
+                try
+                {
+                    conn.Close();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Rollbacks the transaction silently.
+        /// </summary>
+        public static void SilentRollback(this NpgsqlTransaction trans)
         {
             if (trans != null)
             {
-                try { trans.Rollback(); } catch { }
+                try
+                {
+                    trans.Rollback();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                }
             }
         }
 
