@@ -30,6 +30,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         private readonly Stopwatch stopwatch;       // measures the time of operations
         private readonly EventTableAdapter adapter; // reads and writes events
         private readonly MemoryCache<DateTime, EventTable> tableCache; // the cache containing event tables
+        private readonly object archiveLock;        // synchronizes access to the archive
 
         private string archivePath;      // the full path of the archive
         private EventTable currentTable; // the today's event table
@@ -49,6 +50,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             stopwatch = new Stopwatch();
             adapter = new EventTableAdapter();
             tableCache = new MemoryCache<DateTime, EventTable>(ModuleUtils.CacheExpiration, ModuleUtils.CacheCapacity);
+            archiveLock = new object();
 
             archivePath = "";
             currentTable = null;
@@ -141,15 +143,18 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
 
             if (arcDirInfo.Exists)
             {
-                DateTime minDT = DateTime.UtcNow.AddDays(-options.Retention);
-                string minFileName = EventTableAdapter.GetTableFileName(Code, minDT);
-                appLog.WriteAction(ServerPhrases.DeleteOutdatedData, Code, minDT.ToLocalizedDateString());
-
-                foreach (FileInfo fileInfo in
-                    arcDirInfo.EnumerateFiles(Code + "*", SearchOption.TopDirectoryOnly))
+                lock (archiveLock)
                 {
-                    if (string.CompareOrdinal(fileInfo.Name, minFileName) < 0)
-                        fileInfo.Delete();
+                    DateTime minDT = DateTime.UtcNow.AddDays(-options.Retention);
+                    string minFileName = EventTableAdapter.GetTableFileName(Code, minDT);
+                    appLog.WriteAction(ServerPhrases.DeleteOutdatedData, Code, minDT.ToLocalizedDateString());
+
+                    foreach (FileInfo fileInfo in
+                        arcDirInfo.EnumerateFiles(Code + "*", SearchOption.TopDirectoryOnly))
+                    {
+                        if (string.CompareOrdinal(fileInfo.Name, minFileName) < 0)
+                            fileInfo.Delete();
+                    }
                 }
             }
         }
@@ -159,12 +164,15 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override Event GetEventByID(long eventID)
         {
-            stopwatch.Restart();
-            EventTable eventTable = GetEventTable(ScadaUtils.RetrieveTimeFromID(eventID));
-            Event ev = eventTable.GetEventByID(eventID);
-            stopwatch.Stop();
-            arcLog?.WriteAction(ServerPhrases.ReadingEventCompleted, stopwatch.ElapsedMilliseconds);
-            return ev;
+            lock (archiveLock)
+            {
+                stopwatch.Restart();
+                EventTable eventTable = GetEventTable(ScadaUtils.RetrieveTimeFromID(eventID));
+                Event ev = eventTable.GetEventByID(eventID);
+                stopwatch.Stop();
+                arcLog?.WriteAction(ServerPhrases.ReadingEventCompleted, stopwatch.ElapsedMilliseconds);
+                return ev;
+            }
         }
 
         /// <summary>
@@ -172,74 +180,77 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override List<Event> GetEvents(TimeRange timeRange, DataFilter filter)
         {
-            stopwatch.Restart();
-            List<Event> events;
-            List<DateTime> dates = new List<DateTime>(EnumerateDates(timeRange));
+            lock (archiveLock)
+            {
+                stopwatch.Restart();
+                List<Event> events;
+                List<DateTime> dates = new List<DateTime>(EnumerateDates(timeRange));
 
-            // simple cases first
-            if (dates.Count == 0)
-            {
-                events = new List<Event>();
-            }
-            else if (dates.Count == 1)
-            {
-                EventTable eventTable = GetEventTable(dates[0]);
-                events = new List<Event>(eventTable.SelectEvents(timeRange, filter));
-            }
-            else
-            {
-                // full case
-                events = new List<Event>();
-
-                if (filter == null)
+                // simple cases first
+                if (dates.Count == 0)
                 {
-                    foreach (DateTime date in dates)
-                    {
-                        EventTable eventTable = GetEventTable(date);
-                        events.AddRange(eventTable.SelectEvents(timeRange, null));
-                    }
+                    events = new List<Event>();
+                }
+                else if (dates.Count == 1)
+                {
+                    EventTable eventTable = GetEventTable(dates[0]);
+                    events = new List<Event>(eventTable.SelectEvents(timeRange, filter));
                 }
                 else
                 {
-                    int limit = filter.Limit > 0 ? filter.Limit : int.MaxValue;
-                    int selectedCount = 0;
-                    int addedCount = 0;
+                    // full case
+                    events = new List<Event>();
 
-                    DataFilter filterCopy = filter.ShallowCopy();
-                    filterCopy.Limit = 0;
-                    filterCopy.Offset = 0;
-
-                    if (!filter.OriginBegin)
-                        dates.Reverse();
-
-                    foreach (DateTime date in dates)
+                    if (filter == null)
                     {
-                        EventTable eventTable = GetEventTable(date);
-
-                        foreach (Event ev in eventTable.SelectEvents(timeRange, filterCopy))
+                        foreach (DateTime date in dates)
                         {
-                            if (++selectedCount > filter.Offset)
-                            {
-                                events.Add(ev);
-                                addedCount++;
+                            EventTable eventTable = GetEventTable(date);
+                            events.AddRange(eventTable.SelectEvents(timeRange, null));
+                        }
+                    }
+                    else
+                    {
+                        int limit = filter.Limit > 0 ? filter.Limit : int.MaxValue;
+                        int selectedCount = 0;
+                        int addedCount = 0;
 
-                                if (addedCount >= limit)
-                                    break;
+                        DataFilter filterCopy = filter.ShallowCopy();
+                        filterCopy.Limit = 0;
+                        filterCopy.Offset = 0;
+
+                        if (!filter.OriginBegin)
+                            dates.Reverse();
+
+                        foreach (DateTime date in dates)
+                        {
+                            EventTable eventTable = GetEventTable(date);
+
+                            foreach (Event ev in eventTable.SelectEvents(timeRange, filterCopy))
+                            {
+                                if (++selectedCount > filter.Offset)
+                                {
+                                    events.Add(ev);
+                                    addedCount++;
+
+                                    if (addedCount >= limit)
+                                        break;
+                                }
                             }
+
+                            if (addedCount >= limit)
+                                break;
                         }
 
-                        if (addedCount >= limit)
-                            break;
+                        if (!filter.OriginBegin)
+                            events.Reverse();
                     }
-
-                    if (!filter.OriginBegin)
-                        events.Reverse();
                 }
-            }
 
-            stopwatch.Stop();
-            arcLog?.WriteAction(ServerPhrases.ReadingEventsCompleted, events.Count, stopwatch.ElapsedMilliseconds);
-            return events;
+                stopwatch.Stop();
+                arcLog?.WriteAction(ServerPhrases.ReadingEventsCompleted, events.Count, stopwatch.ElapsedMilliseconds);
+                return events;
+            }
         }
 
         /// <summary>
@@ -247,19 +258,22 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void WriteEvent(Event ev)
         {
-            EventTable eventTable = GetEventTable(ev.Timestamp);
-            stopwatch.Restart();
-            adapter.FileName = eventTable.FileName;
+            lock (archiveLock)
+            {
+                EventTable eventTable = GetEventTable(ev.Timestamp);
+                stopwatch.Restart();
+                adapter.FileName = eventTable.FileName;
 
-            if (eventTable.AddEvent(ev))
-                adapter.AppendEvent(ev); // write new event
-            else if (ev.Ack)
-                adapter.WriteEventAck(ev); // update acknowledgement
+                if (eventTable.AddEvent(ev))
+                    adapter.AppendEvent(ev); // write new event
+                else if (ev.Ack)
+                    adapter.WriteEventAck(ev); // update acknowledgement
 
-            eventTable.LastWriteTime = File.GetLastWriteTimeUtc(eventTable.FileName);
-            LastWriteTime = eventTable.LastWriteTime;
-            stopwatch.Stop();
-            arcLog?.WriteAction(ServerPhrases.WritingEventCompleted, stopwatch.ElapsedMilliseconds);
+                eventTable.LastWriteTime = File.GetLastWriteTimeUtc(eventTable.FileName);
+                LastWriteTime = eventTable.LastWriteTime;
+                stopwatch.Stop();
+                arcLog?.WriteAction(ServerPhrases.WritingEventCompleted, stopwatch.ElapsedMilliseconds);
+            }
         }
 
         /// <summary>
@@ -267,23 +281,26 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void AckEvent(EventAck eventAck)
         {
-            EventTable eventTable = GetEventTable(ScadaUtils.RetrieveTimeFromID(eventAck.EventID));
-            Event ev = eventTable.GetEventByID(eventAck.EventID);
-
-            if (ev != null)
+            lock (archiveLock)
             {
-                stopwatch.Restart();
-                ev.Ack = true;
-                ev.AckTimestamp = eventAck.Timestamp;
-                ev.AckUserID = eventAck.UserID;
+                EventTable eventTable = GetEventTable(ScadaUtils.RetrieveTimeFromID(eventAck.EventID));
+                Event ev = eventTable.GetEventByID(eventAck.EventID);
 
-                adapter.FileName = eventTable.FileName;
-                adapter.WriteEventAck(ev);
-                eventTable.LastWriteTime = File.GetLastWriteTimeUtc(eventTable.FileName);
-                LastWriteTime = eventTable.LastWriteTime;
+                if (ev != null)
+                {
+                    stopwatch.Restart();
+                    ev.Ack = true;
+                    ev.AckTimestamp = eventAck.Timestamp;
+                    ev.AckUserID = eventAck.UserID;
 
-                stopwatch.Stop();
-                arcLog?.WriteAction(ServerPhrases.AckEventCompleted, stopwatch.ElapsedMilliseconds);
+                    adapter.FileName = eventTable.FileName;
+                    adapter.WriteEventAck(ev);
+                    eventTable.LastWriteTime = File.GetLastWriteTimeUtc(eventTable.FileName);
+                    LastWriteTime = eventTable.LastWriteTime;
+
+                    stopwatch.Stop();
+                    arcLog?.WriteAction(ServerPhrases.AckEventCompleted, stopwatch.ElapsedMilliseconds);
+                }
             }
         }
     }
