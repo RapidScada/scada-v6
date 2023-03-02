@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Data.Models;
@@ -1253,8 +1253,14 @@ namespace Scada.Data.Adapters
             if (page == null)
                 throw new ArgumentNullException(nameof(page));
 
-            return Path.Combine(GetTablePath(page.TrendTable),
-                GetPageFileName(ArchiveCode, page.TrendTable.TableDate, page.PageNumber));
+            if (string.IsNullOrEmpty(page.Path))
+            {
+                page.Path = Path.Combine(
+                    GetTablePath(page.TrendTable),
+                    GetPageFileName(ArchiveCode, page.TrendTable.TableDate, page.PageNumber));
+            }
+
+            return page.Path;
         }
 
         /// <summary>
