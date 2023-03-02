@@ -145,7 +145,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets an archive by the specified bit number.
+        /// Gets an archive by the specified bit number if the archive is ready for use.
         /// </summary>
         public bool GetArchive<T>(int archiveBit, out T archiveLogic) where T : ArchiveLogic
         {
