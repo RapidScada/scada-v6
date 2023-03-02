@@ -309,6 +309,7 @@ namespace Scada.Server.Engine
             }
         }
 
+
         /// <summary>
         /// Compiles the scripts and formulas.
         /// </summary>
@@ -417,61 +418,19 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Performs the necessary actions before the calculation.
-        /// </summary>
-        public void BeginCalculation(ICalcContext calcContext)
-        {
-            try
-            {
-                Monitor.Enter(this);
-
-                foreach (CalcEngine calcEngine in calcEngines)
-                {
-                    calcEngine.BeginCalculation(calcContext);
-                }
-            }
-            catch (Exception ex)
-            {
-                log.WriteError(ex, Locale.IsRussian ?
-                    "Ошибка при выполнении действий перед расчётом" :
-                    "Error performing actions before the calculation");
-            }
-        }
-
-        /// <summary>
-        /// Performs the necessary actions after the calculation.
-        /// </summary>
-        public void EndCalculation()
-        {
-            try
-            {
-                foreach (CalcEngine calcEngine in calcEngines)
-                {
-                    calcEngine.EndCalculation();
-                }
-            }
-            catch (Exception ex)
-            {
-                log.WriteError(ex, Locale.IsRussian ?
-                    "Ошибка при выполнении действий после расчёта" :
-                    "Error performing actions after the calculation");
-            }
-            finally
-            {
-                Monitor.Exit(this);
-            }
-        }
-
-        /// <summary>
         /// Calculates the channel data.
         /// </summary>
-        public CnlData CalcCnlData(CnlTag cnlTag, CnlData initialCnlData)
+        /// <remarks>The method is thread-safe.</remarks>
+        public CnlData CalcCnlData(ICalcContext calcContext, CnlTag cnlTag, CnlData initialCnlData)
         {
-            if (cnlTag != null && cnlTag.CalcEngine != null && cnlTag.CalcCnlDataFunc != null)
+            if (calcContext != null && cnlTag != null && cnlTag.CalcCnlDataFunc != null && 
+                cnlTag.CalcEngine is CalcEngine calcEngine)
             {
                 try
                 {
-                    cnlTag.CalcEngine.BeginCalcCnlData(cnlTag.CnlNum, cnlTag.Cnl, initialCnlData);
+                    Monitor.Enter(this);
+                    calcEngine.BeginCalculation(calcContext);
+                    calcEngine.BeginCalcCnlData(cnlTag.CnlNum, cnlTag.Cnl, initialCnlData);
                     return cnlTag.CalcCnlDataFunc();
                 }
                 catch
@@ -480,7 +439,9 @@ namespace Scada.Server.Engine
                 }
                 finally
                 {
-                    cnlTag.CalcEngine.EndCalcCnlData();
+                    calcEngine.EndCalcCnlData();
+                    calcEngine.EndCalculation();
+                    Monitor.Exit(this);
                 }
             }
             else
@@ -492,15 +453,20 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Calculates the command data.
         /// </summary>
-        public bool CalcCmdData(OutCnlTag outCnlTag, double initialCmdVal, byte[] initialCmdData,
+        /// <remarks>The method is thread-safe.</remarks>
+        public bool CalcCmdData(ICalcContext calcContext, OutCnlTag outCnlTag, 
+            double initialCmdVal, byte[] initialCmdData, 
             out double cmdVal, out byte[] cmdData, out string errMsg)
         {
-            if (outCnlTag != null && outCnlTag.CalcEngine != null && outCnlTag.CalcCmdDataFunc != null)
+            if (calcContext != null && outCnlTag != null && outCnlTag.CalcCmdDataFunc != null &&
+                outCnlTag.CalcEngine is CalcEngine calcEngine)
             {
                 try
                 {
-                    outCnlTag.CalcEngine.BeginCalcCmdData(outCnlTag.Cnl.CnlNum, outCnlTag.Cnl, 
-                        initialCmdVal, initialCmdData);
+                    Monitor.Enter(this);
+                    calcEngine.BeginCalculation(calcContext);
+                    calcEngine.BeginCalcCmdData(outCnlTag.Cnl.CnlNum, outCnlTag.Cnl, initialCmdVal, initialCmdData);
+
                     object result = outCnlTag.CalcCmdDataFunc();
                     cmdVal = double.NaN;
                     cmdData = null;
@@ -536,7 +502,9 @@ namespace Scada.Server.Engine
                 }
                 finally
                 {
-                    outCnlTag.CalcEngine.EndCalcCmdData();
+                    calcEngine.EndCalcCmdData();
+                    calcEngine.EndCalculation();
+                    Monitor.Exit(this);
                 }
             }
             else
