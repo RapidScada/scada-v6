@@ -143,8 +143,10 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
 
                 if (e is WriteErrorEvent e1)
                     ex = e1.Exception;
-                else if (e is WriteErrorEvent e2)
+                else if (e is WriteRetriableErrorEvent e2)
                     ex = e2.Exception;
+                else if (e is WriteRuntimeExceptionEvent e3)
+                    ex = e3.Exception;
 
                 if (ex != null)
                 {
