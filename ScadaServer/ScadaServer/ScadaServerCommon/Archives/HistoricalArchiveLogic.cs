@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Data.Models;
@@ -34,6 +34,7 @@ namespace Scada.Server.Archives
     /// Represents the base class for historical data archive logic.
     /// <para>Представляет базовый класс логики архива исторических данных.</para>
     /// </summary>
+    /// <remarks>Descendants of this class must be thread-safe.</remarks>
     public abstract class HistoricalArchiveLogic : ArchiveLogic
     {
         /// <summary>
@@ -71,48 +72,6 @@ namespace Scada.Server.Archives
             }
 
             return TrendHelper.MergeTrends(trends);
-        }
-
-        /// <summary>
-        /// Gets the time period in seconds.
-        /// </summary>
-        protected int GetPeriodInSec(int period, TimeUnit timeUnit)
-        {
-            switch (timeUnit)
-            {
-                case TimeUnit.Minute:
-                    return period * 60;
-                case TimeUnit.Hour:
-                    return period * 3600;
-                default: // TimeUnit.Second
-                    return period;
-            }
-        }
-
-        /// <summary>
-        /// Checks that the timestamp is a multiple of the period.
-        /// </summary>
-        protected bool TimeIsMultipleOfPeriod(DateTime timestamp, int period)
-        {
-            return period > 0 && (int)Math.Round(timestamp.TimeOfDay.TotalMilliseconds) % (period * 1000) == 0;
-        }
-
-        /// <summary>
-        /// Pulls a timestamp to the closest periodic timestamp within the specified range.
-        /// </summary>
-        protected bool PullTimeToPeriod(ref DateTime timestamp, int period, int pullingRange)
-        {
-            DateTime closestTime = GetClosestWriteTime(timestamp, period);
-
-            if ((timestamp - closestTime).TotalSeconds <= pullingRange)
-            {
-                timestamp = closestTime;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
 
         /// <summary>
@@ -178,6 +137,49 @@ namespace Scada.Server.Archives
             else
                 return CnlDataEquals3;
         }
+
+        /// <summary>
+        /// Gets the time period in seconds.
+        /// </summary>
+        protected static int GetPeriodInSec(int period, TimeUnit timeUnit)
+        {
+            switch (timeUnit)
+            {
+                case TimeUnit.Minute:
+                    return period * 60;
+                case TimeUnit.Hour:
+                    return period * 3600;
+                default: // TimeUnit.Second
+                    return period;
+            }
+        }
+
+        /// <summary>
+        /// Checks that the timestamp is a multiple of the period.
+        /// </summary>
+        protected static bool TimeIsMultipleOfPeriod(DateTime timestamp, int period)
+        {
+            return period > 0 && (int)Math.Round(timestamp.TimeOfDay.TotalMilliseconds) % (period * 1000) == 0;
+        }
+
+        /// <summary>
+        /// Pulls a timestamp to the closest periodic timestamp within the specified range.
+        /// </summary>
+        protected static bool PullTimeToPeriod(ref DateTime timestamp, int period, int pullingRange)
+        {
+            DateTime closestTime = GetClosestWriteTime(timestamp, period);
+
+            if ((timestamp - closestTime).TotalSeconds <= pullingRange)
+            {
+                timestamp = closestTime;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
 
         /// <summary>
         /// Gets the trends of the specified channels.

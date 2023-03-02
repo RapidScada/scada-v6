@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Data.Models;
@@ -38,6 +38,7 @@ namespace Scada.Server.Archives
     /// Represents the base class for archive logic.
     /// <para>Представляет базовый класс логики архива.</para>
     /// </summary>
+    /// <remarks>Descendants of this class must be thread-safe.</remarks>
     public abstract class ArchiveLogic
     {
         /// <summary>
@@ -77,6 +78,7 @@ namespace Scada.Server.Archives
         /// Gets or sets the time (UTC) when the archive was last written to.
         /// </summary>
         protected DateTime LastWriteTime { get; set; }
+
 
         /// <summary>
         /// Gets the archive code.
@@ -130,42 +132,6 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
-        /// Gets the closest time to write data to the archive, less than or equal to the specified timestamp.
-        /// </summary>
-        protected DateTime GetClosestWriteTime(DateTime timestamp, int period)
-        {
-            return period > 0 ?
-                timestamp.Date.AddSeconds((int)timestamp.TimeOfDay.TotalSeconds / period * period) :
-                timestamp;
-        }
-
-        /// <summary>
-        /// Gets the next time to write data to the archive, greater than or equal to the specified timestamp.
-        /// </summary>
-        protected DateTime GetNextWriteTime(DateTime timestamp, int period)
-        {
-            return period > 0 ?
-                timestamp.Date.AddSeconds(((int)timestamp.TimeOfDay.TotalSeconds / period + 1) * period) :
-                timestamp;
-        }
-
-        /// <summary>
-        /// Gets the channel indexes in the specified array.
-        /// </summary>
-        protected Dictionary<int, int> GetCnlIndexes(int[] cnlNums)
-        {
-            int cnlCnt = cnlNums.Length;
-            Dictionary<int, int> indexes = new Dictionary<int, int>(cnlCnt);
-
-            for (int i = 0; i < cnlCnt; i++)
-            {
-                indexes[cnlNums[i]] = i;
-            }
-
-            return indexes;
-        }
-
-        /// <summary>
         /// Initializes the indexes that map the archive channels to all channels.
         /// </summary>
         protected void InitCnlIndexes(ICurrentData curData, ref int[] cnlIndexes)
@@ -203,9 +169,45 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
+        /// Gets the channel indexes in the specified array.
+        /// </summary>
+        protected static Dictionary<int, int> GetCnlIndexes(int[] cnlNums)
+        {
+            int cnlCnt = cnlNums.Length;
+            Dictionary<int, int> indexes = new Dictionary<int, int>(cnlCnt);
+
+            for (int i = 0; i < cnlCnt; i++)
+            {
+                indexes[cnlNums[i]] = i;
+            }
+
+            return indexes;
+        }
+
+        /// <summary>
+        /// Gets the closest time to write data to the archive, less than or equal to the specified timestamp.
+        /// </summary>
+        protected static DateTime GetClosestWriteTime(DateTime timestamp, int period)
+        {
+            return period > 0 ?
+                timestamp.Date.AddSeconds((int)timestamp.TimeOfDay.TotalSeconds / period * period) :
+                timestamp;
+        }
+
+        /// <summary>
+        /// Gets the next time to write data to the archive, greater than or equal to the specified timestamp.
+        /// </summary>
+        protected static DateTime GetNextWriteTime(DateTime timestamp, int period)
+        {
+            return period > 0 ?
+                timestamp.Date.AddSeconds(((int)timestamp.TimeOfDay.TotalSeconds / period + 1) * period) :
+                timestamp;
+        }
+
+        /// <summary>
         /// Returns an enumerable collection of dates in the specified time interval.
         /// </summary>
-        protected IEnumerable<DateTime> EnumerateDates(TimeRange timeRange)
+        protected static IEnumerable<DateTime> EnumerateDates(TimeRange timeRange)
         {
             if (timeRange.EndInclusive)
             {
@@ -223,21 +225,6 @@ namespace Scada.Server.Archives
             }
         }
 
-        /// <summary>
-        /// Acquires an exclusive lock on the archive.
-        /// </summary>
-        public virtual void Lock()
-        {
-            Monitor.Enter(this);
-        }
-
-        /// <summary>
-        /// Releases an exclusive lock on the archive.
-        /// </summary>
-        public virtual void Unlock()
-        {
-            Monitor.Exit(this);
-        }
 
         /// <summary>
         /// Makes the archive ready for operating.

@@ -561,6 +561,7 @@ namespace Scada.Server.Engine
                     }
                     catch (ThreadAbortException)
                     {
+                        // do nothing
                     }
                     catch (Exception ex)
                     {
@@ -1367,7 +1368,6 @@ namespace Scada.Server.Engine
                     {
                         try
                         {
-                            archiveLogic.Lock();
                             archiveLogic.BeginUpdate(timestamp, deviceNum);
                             ICalcContext calcContext = new ArchiveCalcContext(archiveLogic, timestamp);
 
@@ -1408,7 +1408,6 @@ namespace Scada.Server.Engine
                         finally
                         {
                             archiveHolder.EndUpdate(archiveLogic, timestamp, deviceNum);
-                            archiveHolder.Unlock(archiveLogic);
                         }
                     }
                 }

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Data.Entities;
@@ -203,17 +203,12 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    archiveLogic.Lock();
                     archiveLogic.MakeReady();
                     archiveLogic.IsReady = true;
                 }
                 catch (Exception ex)
                 {
                     log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(MakeReady), archiveLogic.Code);
-                }
-                finally
-                {
-                    Unlock(archiveLogic);
                 }
             }
         }
@@ -227,17 +222,12 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    archiveLogic.Lock();
                     archiveLogic.Close();
                     archiveLogic.IsReady = false;
                 }
                 catch (Exception ex)
                 {
                     log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(Close), archiveLogic.Code);
-                }
-                finally
-                {
-                    Unlock(archiveLogic);
                 }
             }
         }
@@ -251,16 +241,11 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    archiveLogic.Lock();
                     return archiveLogic.GetLastWriteTime();
                 }
                 catch (Exception ex)
                 {
                     log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(GetLastWriteTime), archiveLogic.Code);
-                }
-                finally
-                {
-                    Unlock(archiveLogic);
                 }
             }
 
@@ -280,8 +265,6 @@ namespace Scada.Server.Engine
                 {
                     try
                     {
-                        archiveLogic.Lock();
-
                         if (utcNow - archiveLogic.LastCleanupTime > archiveLogic.CleanupPeriod)
                         {
                             archiveLogic.LastCleanupTime = utcNow;
@@ -292,10 +275,6 @@ namespace Scada.Server.Engine
                     {
                         log.WriteError(ex, ServerPhrases.ErrorInArchive,
                             nameof(DeleteOutdatedData), archiveLogic.Code);
-                    }
-                    finally
-                    {
-                        Unlock(archiveLogic);
                     }
                 }
             }
@@ -312,7 +291,6 @@ namespace Scada.Server.Engine
                 {
                     try
                     {
-                        archiveLogic.Lock();
                         archiveLogic.ReadData(curData, out bool completed);
 
                         if (completed)
@@ -321,10 +299,6 @@ namespace Scada.Server.Engine
                     catch (Exception ex)
                     {
                         log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(ReadCurrentData), archiveLogic.Code);
-                    }
-                    finally
-                    {
-                        Unlock(archiveLogic);
                     }
                 }
             }
@@ -345,16 +319,11 @@ namespace Scada.Server.Engine
                 {
                     try
                     {
-                        archiveLogic.Lock();
                         archiveLogic.WriteData(curData);
                     }
                     catch (Exception ex)
                     {
                         log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(WriteCurrentData), archiveLogic.Code);
-                    }
-                    finally
-                    {
-                        Unlock(archiveLogic);
                     }
                 }
             }
@@ -371,16 +340,11 @@ namespace Scada.Server.Engine
                 {
                     try
                     {
-                        archiveLogic.Lock();
                         archiveLogic.ProcessData(curData);
                     }
                     catch (Exception ex)
                     {
                         log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(ProcessData), archiveLogic.Code);
-                    }
-                    finally
-                    {
-                        Unlock(archiveLogic);
                     }
                 }
             }
@@ -391,16 +355,11 @@ namespace Scada.Server.Engine
                 {
                     try
                     {
-                        archiveLogic.Lock();
                         archiveLogic.ProcessData(curData);
                     }
                     catch (Exception ex)
                     {
                         log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(ProcessData), archiveLogic.Code);
-                    }
-                    finally
-                    {
-                        Unlock(archiveLogic);
                     }
                 }
             }
@@ -413,31 +372,11 @@ namespace Scada.Server.Engine
         {
             try
             {
-                archiveLogic.Lock();
                 archiveLogic.EndUpdate(timestamp, deviceNum);
             }
             catch (Exception ex)
             {
                 log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(EndUpdate), archiveLogic.Code);
-            }
-            finally
-            {
-                Unlock(archiveLogic);
-            }
-        }
-
-        /// <summary>
-        /// Calls the Unlock method of the specified archive.
-        /// </summary>
-        public void Unlock(ArchiveLogic archiveLogic)
-        {
-            try
-            {
-                archiveLogic.Unlock();
-            }
-            catch (Exception ex)
-            {
-                log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(Unlock), archiveLogic.Code);
             }
         }
 
@@ -456,7 +395,6 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    archiveLogic.Lock();
                     DefineEndTime(ref timeRange);
                     return archiveLogic.GetTrends(timeRange, cnlNums) ?? 
                         throw new ScadaException(ServerPhrases.NullResultNotAllowed);
@@ -464,10 +402,6 @@ namespace Scada.Server.Engine
                 catch (Exception ex)
                 {
                     log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(GetTrends), archiveLogic.Code);
-                }
-                finally
-                {
-                    Unlock(archiveLogic);
                 }
             }
 
@@ -483,7 +417,6 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    archiveLogic.Lock();
                     DefineEndTime(ref timeRange);
                     return archiveLogic.GetTrend(timeRange, cnlNum) ?? 
                         throw new ScadaException(ServerPhrases.NullResultNotAllowed);
@@ -491,10 +424,6 @@ namespace Scada.Server.Engine
                 catch (Exception ex)
                 {
                     log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(GetTrend), archiveLogic.Code);
-                }
-                finally
-                {
-                    Unlock(archiveLogic);
                 }
             }
 
@@ -510,7 +439,6 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    archiveLogic.Lock();
                     DefineEndTime(ref timeRange);
                     return archiveLogic.GetTimestamps(timeRange) ?? 
                         throw new ScadaException(ServerPhrases.NullResultNotAllowed);
@@ -518,10 +446,6 @@ namespace Scada.Server.Engine
                 catch (Exception ex)
                 {
                     log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(GetTimestamps), archiveLogic.Code);
-                }
-                finally
-                {
-                    Unlock(archiveLogic);
                 }
             }
 
@@ -543,17 +467,12 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    archiveLogic.Lock();
                     return archiveLogic.GetSlice(timestamp, cnlNums) ??
                         throw new ScadaException(ServerPhrases.NullResultNotAllowed);
                 }
                 catch (Exception ex)
                 {
                     log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(GetSlice), archiveLogic.Code);
-                }
-                finally
-                {
-                    Unlock(archiveLogic);
                 }
             }
 
@@ -569,16 +488,11 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    archiveLogic.Lock();
                     return archiveLogic.GetEventByID(eventID);
                 }
                 catch (Exception ex)
                 {
                     log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(GetEventByID), archiveLogic.Code);
-                }
-                finally
-                {
-                    Unlock(archiveLogic);
                 }
             }
 
@@ -594,7 +508,6 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    archiveLogic.Lock();
                     DefineEndTime(ref timeRange);
                     return archiveLogic.GetEvents(timeRange, filter) ?? 
                         throw new ScadaException(ServerPhrases.NullResultNotAllowed);
@@ -602,10 +515,6 @@ namespace Scada.Server.Engine
                 catch (Exception ex)
                 {
                     log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(GetEvents), archiveLogic.Code);
-                }
-                finally
-                {
-                    Unlock(archiveLogic);
                 }
             }
 
@@ -621,16 +530,11 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    archiveLogic.Lock();
                     archiveLogic.WriteEvent(ev);
                 }
                 catch (Exception ex)
                 {
                     log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(WriteEvent), archiveLogic.Code);
-                }
-                finally
-                {
-                    Unlock(archiveLogic);
                 }
             }
 
@@ -666,16 +570,11 @@ namespace Scada.Server.Engine
                 {
                     try
                     {
-                        archiveLogic.Lock();
                         archiveLogic.AckEvent(eventAck);
                     }
                     catch (Exception ex)
                     {
                         log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(AckEvent), archiveLogic.Code);
-                    }
-                    finally
-                    {
-                        Unlock(archiveLogic);
                     }
                 }
             }

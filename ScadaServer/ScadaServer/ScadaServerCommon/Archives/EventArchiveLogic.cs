@@ -34,6 +34,7 @@ namespace Scada.Server.Archives
     /// Represents the base class for event archive logic.
     /// <para>Представляет базовый класс логики архива событий.</para>
     /// </summary>
+    /// <remarks>Descendants of this class must be thread-safe.</remarks>
     public abstract class EventArchiveLogic : ArchiveLogic
     {
         /// <summary>
