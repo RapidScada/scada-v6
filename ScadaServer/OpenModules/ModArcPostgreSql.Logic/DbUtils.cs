@@ -6,7 +6,6 @@ using Scada.Config;
 using Scada.Dbms;
 using Scada.Lang;
 using Scada.Server.Modules.ModArcPostgreSql.Config;
-using System.Diagnostics;
 using System.Globalization;
 using System.Xml;
 
@@ -190,42 +189,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             return timestampObj is DateTime dateTime
                 ? dateTime.ToUniversalTime()
                 : DateTime.MinValue;
-        }
-
-        /// <summary>
-        /// Rollbacks the transaction silently.
-        /// </summary>
-        public static void SilentClose(this NpgsqlConnection conn)
-        {
-            if (conn != null)
-            {
-                try
-                {
-                    conn.Close();
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Rollbacks the transaction silently.
-        /// </summary>
-        public static void SilentRollback(this NpgsqlTransaction trans)
-        {
-            if (trans != null)
-            {
-                try
-                {
-                    trans.Rollback();
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex);
-                }
-            }
         }
 
         /// <summary>
