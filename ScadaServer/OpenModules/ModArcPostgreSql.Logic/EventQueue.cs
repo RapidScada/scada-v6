@@ -108,7 +108,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public void EnqueueEvent(Event ev)
         {
-            lock (eventQueue)
+            lock (SyncRoot)
             {
                 eventQueue.Enqueue(ev);
             }
@@ -136,7 +136,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     // retrieve an event from the queue
                     Event ev;
 
-                    lock (eventQueue)
+                    lock (SyncRoot)
                     {
                         if (eventQueue.Count > 0)
                             ev = eventQueue.Dequeue();
@@ -153,7 +153,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     catch
                     {
                         // return the unwritten event to the queue
-                        lock (eventQueue)
+                        lock (SyncRoot)
                         {
                             eventQueue.Enqueue(ev);
                         }
@@ -203,7 +203,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 command.Connection = Connection;
                 command.Transaction = trans;
 
-                lock (eventQueue)
+                lock (SyncRoot)
                 {
                     while (eventQueue.Count > 0)
                     {
@@ -237,7 +237,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         {
             int lostCnt = 0;
 
-            lock (eventQueue)
+            lock (SyncRoot)
             {
                 while (eventQueue.Count > MaxQueueSize)
                 {

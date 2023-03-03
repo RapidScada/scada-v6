@@ -230,6 +230,107 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         }
 
         /// <summary>
+        /// Gets the recently updated channel data.
+        /// </summary>
+        private bool GetRecentCnlData(DateTime timestamp, int cnlNum, out CnlData cnlData)
+        {
+            if (Monitor.TryEnter(writingLock))
+            {
+                try
+                {
+                    if (updatedCnlData != null && timestamp == updateTime && 
+                        updatedCnlData.TryGetValue(cnlNum, out cnlData))
+                    {
+                        return true;
+                    }
+                }
+                finally
+                {
+                    Monitor.Exit(writingLock); 
+                }
+            }
+
+            cnlData = CnlData.Empty;
+            return false;
+        }
+
+        /// <summary>
+        /// Writes the current data after the writing period has elapsed.
+        /// </summary>
+        private void WriteWithPeriod(ICurrentData curData)
+        {
+            lock (writingLock)
+            {
+                DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod);
+                nextWriteTime = writeTime.AddSeconds(writingPeriod);
+
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                InitCnlIndexes(curData, ref cnlIndexes);
+                InitPrevCnlData(curData, cnlIndexes, ref prevCnlData);
+                int cnlCnt = CnlNums.Length;
+
+                lock (pointQueue.SyncRoot)
+                {
+                    for (int i = 0; i < cnlCnt; i++)
+                    {
+                        CnlData cnlData = curData.CnlData[cnlIndexes[i]];
+
+                        if (prevCnlData != null)
+                            prevCnlData[i] = cnlData;
+
+                        pointQueue.EnqueueWithoutLock(CnlNums[i], writeTime, cnlData);
+                    }
+                }
+
+                pointQueue.RemoveExcessPoints();
+                stopwatch.Stop();
+                arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted, cnlCnt, stopwatch.ElapsedMilliseconds);
+            }
+        }
+
+        /// <summary>
+        /// Writes the current data on change.
+        /// </summary>
+        private void WriteOnChange(ICurrentData curData)
+        {
+            lock (writingLock)
+            {
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                int changesCnt = 0;
+                bool justInited = prevCnlData == null;
+                InitCnlIndexes(curData, ref cnlIndexes);
+                InitPrevCnlData(curData, cnlIndexes, ref prevCnlData);
+
+                if (!justInited)
+                {
+                    for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
+                    {
+                        CnlData cnlData = curData.CnlData[cnlIndexes[i]];
+
+                        if (!cnlDataEqualsFunc(prevCnlData[i], cnlData))
+                        {
+                            prevCnlData[i] = cnlData;
+                            pointQueue.EnqueuePoint(CnlNums[i], curData.Timestamp, cnlData);
+                            changesCnt++;
+                        }
+                    }
+                }
+
+                if (changesCnt > 0)
+                {
+                    pointQueue.RemoveExcessPoints();
+                    stopwatch.Stop();
+                    arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted,
+                        changesCnt, stopwatch.ElapsedMilliseconds);
+                }
+                else
+                {
+                    stopwatch.Stop();
+                }
+            }
+        }
+
+        /// <summary>
         /// Writing loop running in a separate thread.
         /// </summary>
         private void Execute()
@@ -512,11 +613,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public override CnlData GetCnlData(DateTime timestamp, int cnlNum)
         {
-            if (updatedCnlData != null && timestamp == updateTime &&
-                updatedCnlData.TryGetValue(cnlNum, out CnlData cnlData))
-            {
+            if (GetRecentCnlData(timestamp, cnlNum, out CnlData cnlData))
                 return cnlData;
-            }
 
             try
             {
@@ -546,72 +644,12 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public override void ProcessData(ICurrentData curData)
         {
-            if (options.ReadOnly)
+            if (!options.ReadOnly)
             {
-                // do nothing
-            }
-            else if (options.WriteWithPeriod && nextWriteTime <= curData.Timestamp)
-            {
-                // TODO: use writingLock
-                DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod);
-                nextWriteTime = writeTime.AddSeconds(writingPeriod);
-
-                stopwatch.Restart();
-                InitCnlIndexes(curData, ref cnlIndexes);
-                InitPrevCnlData(curData, cnlIndexes, ref prevCnlData);
-                int cnlCnt = CnlNums.Length;
-
-                lock (pointQueue.SyncRoot)
-                {
-                    for (int i = 0; i < cnlCnt; i++)
-                    {
-                        CnlData cnlData = curData.CnlData[cnlIndexes[i]];
-
-                        if (prevCnlData != null)
-                            prevCnlData[i] = cnlData;
-
-                        pointQueue.EnqueueWithoutLock(CnlNums[i], writeTime, cnlData);
-                    }
-                }
-
-                pointQueue.RemoveExcessPoints();
-                stopwatch.Stop();
-                arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted, cnlCnt, stopwatch.ElapsedMilliseconds);
-            }
-            else if (options.WriteOnChange)
-            {
-                stopwatch.Restart();
-                int changesCnt = 0;
-                bool justInited = prevCnlData == null;
-                InitCnlIndexes(curData, ref cnlIndexes);
-                InitPrevCnlData(curData, cnlIndexes, ref prevCnlData);
-
-                if (!justInited)
-                {
-                    for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
-                    {
-                        CnlData cnlData = curData.CnlData[cnlIndexes[i]];
-
-                        if (!cnlDataEqualsFunc(prevCnlData[i], cnlData))
-                        {
-                            prevCnlData[i] = cnlData;
-                            pointQueue.EnqueuePoint(CnlNums[i], curData.Timestamp, cnlData);
-                            changesCnt++;
-                        }
-                    }
-                }
-
-                if (changesCnt > 0)
-                {
-                    pointQueue.RemoveExcessPoints();
-                    stopwatch.Stop();
-                    arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted,
-                        changesCnt, stopwatch.ElapsedMilliseconds);
-                }
-                else
-                {
-                    stopwatch.Stop();
-                }
+                if (options.WriteWithPeriod && nextWriteTime <= curData.Timestamp)
+                    WriteWithPeriod(curData);
+                else if (options.WriteOnChange)
+                    WriteOnChange(curData);
             }
         }
 

@@ -27,14 +27,17 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         private readonly PostgreEAO options;        // the archive options
         private readonly ILog appLog;               // the application log
         private readonly ILog arcLog;               // the archive log
-        private readonly Stopwatch stopwatch;       // measures the time of operations
         private readonly QueryBuilder queryBuilder; // builds SQL requests
         private readonly EventQueue eventQueue;     // contains events for writing
+        private readonly object readingLock;        // synchronizes reading from the archive
+        private readonly object writingLock;        // synchronizes writing to the archive
 
-        private bool hasError;            // the archive is in error state
-        private NpgsqlConnection conn;    // the database connection
-        private Thread thread;            // the thread for writing events
-        private volatile bool terminated; // necessary to stop the thread
+        private bool hasError;                      // the archive is in error state
+        private DbConnectionOptions connOptions;    // the database connection options
+        private NpgsqlConnection readingConn;       // the database connection for reading
+        private NpgsqlConnection writingConn;       // the database connection for writing
+        private Thread thread;                      // the thread for writing events
+        private volatile bool terminated;           // necessary to stop the thread
 
 
         /// <summary>
@@ -47,7 +50,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             options = new PostgreEAO(archiveConfig.CustomOptions);
             appLog = archiveContext.Log;
             arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
-            stopwatch = new Stopwatch();
             queryBuilder = new QueryBuilder(Code);
             eventQueue = options.ReadOnly
                 ? null
@@ -57,9 +59,13 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     AppLog = appLog,
                     ArcLog = arcLog
                 };
+            readingLock = new object();
+            writingLock = new object();
 
             hasError = false;
-            conn = null;
+            connOptions = null;
+            readingConn = null;
+            writingConn = null;
             thread = null;
             terminated = false;
         }
@@ -90,8 +96,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         private void CreateDbEntities()
         {
+            NpgsqlConnection conn = null;
+
             try
             {
+                conn = DbUtils.CreateDbConnection(connOptions);
                 conn.Open();
 
                 NpgsqlCommand cmd1 = new(queryBuilder.CreateSchemaQuery, conn);
@@ -102,7 +111,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             }
             finally
             {
-                conn.Close();
+                conn?.Close();
             }
         }
 
@@ -111,10 +120,14 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         private void CreatePartition(DateTime today, bool throwOnFail)
         {
+            NpgsqlConnection conn = null;
+
             try
             {
-                stopwatch.Restart();
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                conn = DbUtils.CreateDbConnection(connOptions);
                 conn.Open();
+
                 DbUtils.CreatePartition(conn, queryBuilder.EventTable,
                     today, options.PartitionSize, out string partitionName);
                 stopwatch.Stop();
@@ -140,7 +153,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             }
             finally
             {
-                conn.Close();
+                conn?.Close();
             }
         }
 
@@ -203,10 +216,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         public override void MakeReady()
         {
             // prepare database
-            DbConnectionOptions connOptions = options.UseStorageConn
+            connOptions = options.UseStorageConn
                 ? DbUtils.GetConnectionOptions(ArchiveContext.InstanceConfig)
                 : DbUtils.GetConnectionOptions(moduleConfig, options.Connection);
-            conn = DbUtils.CreateDbConnection(connOptions);
+            readingConn = DbUtils.CreateDbConnection(connOptions);
+            writingConn = DbUtils.CreateDbConnection(connOptions);
 
             if (!options.ReadOnly)
             {
@@ -240,10 +254,10 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 eventQueue.Connection = null;
             }
 
-            if (conn != null)
+            if (readingConn != null)
             {
-                conn.Dispose();
-                conn = null;
+                readingConn.Dispose();
+                readingConn = null;
             }
         }
 
@@ -255,12 +269,16 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             if (options.ReadOnly)
                 return;
 
-            DateTime minDT = DateTime.UtcNow.AddDays(-options.Retention);
-            appLog.WriteAction(ServerPhrases.DeleteOutdatedData, Code, minDT.ToLocalizedDateString());
+            NpgsqlConnection conn = null;
 
             try
             {
+                DateTime minDT = DateTime.UtcNow.AddDays(-options.Retention);
+                appLog.WriteAction(ServerPhrases.DeleteOutdatedData, Code, minDT.ToLocalizedDateString());
+
+                conn = DbUtils.CreateDbConnection(connOptions);
                 conn.Open();
+                Stopwatch stopwatch = new();
 
                 foreach (string partitionName in
                     DbUtils.GetOutdatedPartitions(conn, queryBuilder.EventTable, minDT))
@@ -280,7 +298,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             }
             finally
             {
-                conn.Close();
+                conn?.Close();
             }
         }
 
@@ -294,14 +312,15 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
 
             try
             {
-                stopwatch.Restart();
-                conn.Open();
-                DateTime timestamp = DbUtils.GetLastWriteTime(conn, queryBuilder.EventTable);
+                Monitor.Enter(readingLock);
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                readingConn.Open();
+                DateTime timestamp = DbUtils.GetLastWriteTime(readingConn, queryBuilder.EventTable);
 
                 // get the last acknowledge timestamp of the past day
                 string sql = $"SELECT MAX(ack_timestamp) FROM {queryBuilder.EventTable} " + 
                     "WHERE @startTime <= time_stamp AND time_stamp < @endTime";
-                NpgsqlCommand cmd = new(sql, conn);
+                NpgsqlCommand cmd = new(sql, readingConn);
                 DateTime utcNow = DateTime.UtcNow;
                 cmd.Parameters.Add("startTime", NpgsqlDbType.TimestampTz).Value = utcNow.AddDays(-1.0);
                 cmd.Parameters.Add("endTime", NpgsqlDbType.TimestampTz).Value = utcNow;
@@ -316,7 +335,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             }
             finally
             {
-                conn.Close();
+                readingConn.SilentClose();
+                Monitor.Exit(readingLock);
             }
         }
 
@@ -327,14 +347,15 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         {
             try
             {
-                stopwatch.Restart();
-                conn.Open();
+                Monitor.Enter(readingLock);
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                readingConn.Open();
 
                 string sql = queryBuilder.SelectEventQuery +
                     "WHERE event_id = @eventID AND @startTime <= time_stamp AND time_stamp < @endTime";
 
                 DateTime eventTime = ScadaUtils.RetrieveTimeFromID(eventID); // accurate to seconds
-                NpgsqlCommand cmd = new(sql, conn);
+                NpgsqlCommand cmd = new(sql, readingConn);
                 cmd.Parameters.AddWithValue("eventID", eventID);
                 cmd.Parameters.AddWithValue("startTime", eventTime);
                 cmd.Parameters.AddWithValue("endTime", eventTime.AddSeconds(1.0));
@@ -352,7 +373,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             }
             finally
             {
-                conn.Close();
+                readingConn.SilentClose();
+                Monitor.Exit(readingLock);
             }
         }
 
@@ -363,8 +385,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         {
             try
             {
-                stopwatch.Restart();
-                conn.Open();
+                Monitor.Enter(readingLock);
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                readingConn.Open();
 
                 string sqlFilter = filter.GetSqlFilter(QueryBuilder.EventColumnMap, "AND (", ")",
                     () => { return new NpgsqlParameter(); }, out List<DbParameter> dbParams);
@@ -376,7 +399,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     $"LIMIT {(filter.Limit > 0 ? filter.Limit.ToString() : "ALL")} " +
                     $"OFFSET {filter.Offset}";
 
-                NpgsqlCommand cmd = new(sql, conn);
+                NpgsqlCommand cmd = new(sql, readingConn);
                 cmd.Parameters.Add("startTime", NpgsqlDbType.TimestampTz).Value = timeRange.StartTime;
                 cmd.Parameters.Add("endTime", NpgsqlDbType.TimestampTz).Value = timeRange.EndTime;
                 dbParams.ForEach(p => cmd.Parameters.Add(p));
@@ -399,7 +422,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             }
             finally
             {
-                conn.Close();
+                readingConn.SilentClose();
+                Monitor.Exit(readingLock);
             }
         }
 
@@ -410,7 +434,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         {
             if (!options.ReadOnly)
             {
-                stopwatch.Restart();
+                Stopwatch stopwatch = Stopwatch.StartNew();
                 eventQueue.EnqueueEvent(ev);
                 stopwatch.Stop();
                 arcLog?.WriteAction(ServerPhrases.QueueingEventCompleted, stopwatch.ElapsedMilliseconds);
@@ -424,15 +448,16 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         {
             try
             {
-                stopwatch.Restart();
-                conn.Open();
+                Monitor.Enter(writingLock);
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                writingConn.Open();
 
                 string sql = $"UPDATE {queryBuilder.EventTable} " +
                     "SET ack = true, ack_timestamp = @ackTimestamp, ack_user_id = @ackUserID " +
                     "WHERE event_id = @eventID AND @startTime <= time_stamp AND time_stamp < @endTime";
 
                 DateTime eventTime = ScadaUtils.RetrieveTimeFromID(eventAck.EventID);
-                NpgsqlCommand cmd = new(sql, conn);
+                NpgsqlCommand cmd = new(sql, writingConn);
                 cmd.Parameters.AddWithValue("ackTimestamp", eventAck.Timestamp);
                 cmd.Parameters.AddWithValue("ackUserID", eventAck.UserID);
                 cmd.Parameters.AddWithValue("eventID", eventAck.EventID);
@@ -454,7 +479,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             }
             finally
             {
-                conn.Close();
+                writingConn.SilentClose();
+                Monitor.Exit(writingLock);
             }
         }
     }
