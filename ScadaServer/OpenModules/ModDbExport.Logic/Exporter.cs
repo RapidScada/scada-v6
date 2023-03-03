@@ -5,6 +5,7 @@ using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Queues;
+using Scada.Dbms;
 using Scada.Lang;
 using Scada.Log;
 using Scada.MultiDb;
@@ -403,7 +404,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             }
             catch (Exception ex)
             {
-                dataSource.SilentRollback(trans);
+                trans?.SilentRollback();
                 exporterLog.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при экспорте текущих данных" :
                     "Error exporting current data");
@@ -458,7 +459,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             }
             catch (Exception ex)
             {
-                dataSource.SilentRollback(trans);
+                trans?.SilentRollback();
                 exporterLog.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при экспорте исторических данных" :
                     "Error exporting historical data");
@@ -514,7 +515,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             }
             catch (Exception ex)
             {
-                dataSource.SilentRollback(trans);
+                trans?.SilentRollback();
                 exporterLog.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при экспорте событий" :
                     "Error exporting events");
@@ -570,7 +571,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             }
             catch (Exception ex)
             {
-                dataSource.SilentRollback(trans);
+                trans?.SilentRollback();
                 exporterLog.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при экспорте квитирований" :
                     "Error exporting acknowledgements");
@@ -626,7 +627,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             }
             catch (Exception ex)
             {
-                dataSource.SilentRollback(trans);
+                trans?.SilentRollback();
                 exporterLog.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при экспорте команд" :
                     "Error exporting commands");
