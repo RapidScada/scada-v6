@@ -216,7 +216,17 @@ namespace Scada.Server.Engine
         private void SaveSourceCode(string sourceCode, out string fileName)
         {
             fileName = Path.Combine(appDirs.LogDir, SourceCodeFileName);
-            File.WriteAllText(fileName, sourceCode, Encoding.UTF8);
+
+            try
+            {
+                File.WriteAllText(fileName, sourceCode, Encoding.UTF8);
+            }
+            catch (Exception ex)
+            {
+                log.WriteError(Locale.IsRussian ?
+                    "Ошибка при сохранении исходного кода: {0}" :
+                    "Error saving the source code: {0}", ex.Message);
+            }
         }
 
         /// <summary>
