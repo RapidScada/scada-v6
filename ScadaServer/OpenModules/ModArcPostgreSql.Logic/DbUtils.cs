@@ -36,7 +36,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// <summary>
         /// The number of queue items transferred in a single loop iteration.
         /// </summary>
-        public const int BundleSize = 100;
+        public const int BundleSize = 1000;
         /// <summary>
         /// The delay in case of a database error, in milliseconds.
         /// </summary>
