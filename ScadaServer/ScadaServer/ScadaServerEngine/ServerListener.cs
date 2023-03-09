@@ -273,6 +273,7 @@ namespace Scada.Server.Engine
             WriteDataFlags flags = (WriteDataFlags)GetByte(buffer, ref index);
             int archiveMask = GetInt32(buffer, ref index);
             int sliceCnt = GetInt32(buffer, ref index);
+            bool isCurrent = flags.HasFlag(WriteDataFlags.IsCurrent);
 
             WriteFlags writeFlags = WriteFlags.None;
 
@@ -286,7 +287,7 @@ namespace Scada.Server.Engine
             {
                 Slice slice = BinaryConverter.GetSlice(buffer, ref index);
 
-                if (flags.HasFlag(WriteDataFlags.IsCurrent))
+                if (isCurrent)
                     coreLogic.WriteCurrentData(slice, slice.DeviceNum, writeFlags);
                 else
                     coreLogic.WriteHistoricalData(archiveMask, slice, slice.DeviceNum, writeFlags);
