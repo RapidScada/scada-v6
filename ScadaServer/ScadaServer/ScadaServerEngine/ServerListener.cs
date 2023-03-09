@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Client;
@@ -230,9 +230,9 @@ namespace Scada.Server.Engine
             }
 
             index += cnlCnt * 14;
-            int deviceNum = GetInt32(buffer, ref index);
+            slice.DeviceNum = GetInt32(buffer, ref index);
             WriteFlags writeFlags = (WriteFlags)buffer[index];
-            coreLogic.WriteCurrentData(slice, deviceNum, writeFlags);
+            coreLogic.WriteCurrentData(slice, slice.DeviceNum, writeFlags);
 
             response = new ResponsePacket(request, client.OutBuf);
         }
@@ -256,9 +256,41 @@ namespace Scada.Server.Engine
             }
 
             index += cnlCnt * 14;
-            int deviceNum = GetInt32(buffer, ref index);
+            slice.DeviceNum = GetInt32(buffer, ref index);
             WriteFlags writeFlags = (WriteFlags)buffer[index];
-            coreLogic.WriteHistoricalData(archiveMask, slice, deviceNum, writeFlags);
+            coreLogic.WriteHistoricalData(archiveMask, slice, slice.DeviceNum, writeFlags);
+
+            response = new ResponsePacket(request, client.OutBuf);
+        }
+
+        /// <summary>
+        /// Writes the channel data.
+        /// </summary>
+        private void WriteChannelData(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            byte[] buffer = request.Buffer;
+            int index = ArgumentIndex;
+            WriteDataFlags flags = (WriteDataFlags)buffer[index];
+            int archiveMask = GetInt32(buffer, ref index);
+            int sliceCnt = GetInt32(buffer, ref index);
+
+            WriteFlags writeFlags = WriteFlags.None;
+
+            if (flags.HasFlag(WriteDataFlags.ApplyFormulas))
+                writeFlags |= WriteFlags.ApplyFormulas;
+
+            if (flags.HasFlag(WriteDataFlags.EnableEvents))
+                writeFlags |= WriteFlags.EnableEvents;
+
+            for (int i = 0; i < sliceCnt; i++)
+            {
+                Slice slice = BinaryConverter.GetSlice(buffer, ref index);
+
+                if (flags.HasFlag(WriteDataFlags.IsCurrent))
+                    coreLogic.WriteCurrentData(slice, slice.DeviceNum, writeFlags);
+                else
+                    coreLogic.WriteHistoricalData(archiveMask, slice, slice.DeviceNum, writeFlags);
+            }
 
             response = new ResponsePacket(request, client.OutBuf);
         }
@@ -596,6 +628,10 @@ namespace Scada.Server.Engine
 
                 case FunctionID.WriteHistoricalData:
                     WriteHistoricalData(client, request, out response);
+                    break;
+
+                case FunctionID.WriteChannelData:
+                    WriteChannelData(client, request, out response);
                     break;
 
                 case FunctionID.GetEventByID:
