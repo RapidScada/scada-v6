@@ -8,6 +8,7 @@ using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvDsScadaServer.Config;
 using Scada.Comm.Lang;
 using Scada.Data.Models;
+using Scada.Data.Queues;
 using Scada.Data.Tables;
 using Scada.Lang;
 using Scada.Log;
@@ -51,7 +52,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         private readonly ILog log;                  // the application log
 
         private readonly int maxQueueSize;                            // the maximum queue size
-        private readonly Queue<QueueItem<DeviceSlice>> curDataQueue;  // the current data queue
+        private readonly DataQueue<DeviceSlice> curDataQueue;         // the current data queue
         private readonly Queue<QueueItem<DeviceSlice>> histDataQueue; // the historical data queue
         private readonly Queue<QueueItem<DeviceEvent>> eventQueue;    // the event queue
 
@@ -59,7 +60,6 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         private ScadaClient scadaClient;  // communicates with the server
         private Thread thread;            // the thread for communication with the server
         private volatile bool terminated; // necessary to stop the thread
-        private int curDataSkipped;       // the number of skipped slices of current data 
         private int histDataSkipped;      // the number of skipped slices of historical data
         private int eventSkipped;         // the number of skipped events
 
@@ -78,7 +78,8 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
             log = commContext.Log;
 
             maxQueueSize = Math.Max(options.MaxQueueSize, MinQueueSize);
-            curDataQueue = new Queue<QueueItem<DeviceSlice>>(maxQueueSize);
+            curDataQueue = new DataQueue<DeviceSlice>(true, maxQueueSize,
+                Locale.IsRussian ? "Очередь текущих данных" : "Current data queue") { RemoveExceeded = true };
             histDataQueue = new Queue<QueueItem<DeviceSlice>>(maxQueueSize);
             eventQueue = new Queue<QueueItem<DeviceEvent>>(maxQueueSize);
 
@@ -86,7 +87,6 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
             scadaClient = null;
             thread = null;
             terminated = false;
-            curDataSkipped = 0;
             histDataSkipped = 0;
             eventSkipped = 0;
         }
@@ -164,24 +164,10 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         {
             for (int i = 0; i < BundleSize; i++)
             {
-                // get a slice from the queue without removing it
-                QueueItem<DeviceSlice> queueItem;
-                DeviceSlice deviceSlice;
+                // get an item from the queue without removing it
+                if (!curDataQueue.TryPeek(out QueueItem<DeviceSlice> queueItem))
+                    break;
 
-                lock (curDataQueue)
-                {
-                    if (curDataQueue.Count > 0)
-                    {
-                        queueItem = curDataQueue.Peek();
-                        deviceSlice = queueItem.Value;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-
-                // export the slice
                 DateTime utcNow = DateTime.UtcNow;
 
                 if (utcNow - queueItem.CreationTime > dataLifetime)
@@ -190,20 +176,21 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                         "Устаревшие текущие данные удалены из очереди" :
                         "Outdated current data removed from the queue");
 
-                    curDataSkipped++;
+                    curDataQueue.Stats.SkippedItems++;
                 }
-                else if (ConvertSlice(deviceSlice, out Slice slice))
+                else if (ConvertSlice(queueItem.Value, out Slice slice))
                 {
                     try
                     {
+                        // export the slice
                         if (utcNow - queueItem.CreationTime > maxCurDataAge)
                         {
-                            scadaClient.WriteHistoricalData(deviceSlice.ArchiveMask, slice, 
-                                deviceSlice.DeviceNum, WriteFlags.EnableAll);
+                            scadaClient.WriteHistoricalData(queueItem.Value.ArchiveMask, slice, 
+                                WriteDataFlags.Default);
                         }
                         else
                         {
-                            scadaClient.WriteCurrentData(slice, deviceSlice.DeviceNum, WriteFlags.EnableAll);
+                            scadaClient.WriteCurrentData(slice, WriteDataFlags.Default);
                         }
                     }
                     catch (Exception ex)
@@ -212,17 +199,14 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                             "Ошибка при передаче текущих данных" :
                             "Error transferring current data"));
 
+                        curDataQueue.Stats.HasError = true;
                         Thread.Sleep(ErrorDelay);
-                        break; // the slice is not removed from the queue
+                        break; // the item is not removed from the queue
                     }
                 }
 
-                // remove the slice from the queue
-                lock (curDataQueue)
-                {
-                    if (curDataQueue.Count > 0 && curDataQueue.Peek() == queueItem)
-                        curDataQueue.Dequeue();
-                }
+                // remove the item from the queue
+                curDataQueue.RemoveItem(queueItem);
             }
         }
 
@@ -388,7 +372,10 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                 }
                 else if (destDataLength == srcDataLength)
                 {
-                    destSlice = new Slice(srcSlice.Timestamp, cnlNums.ToArray(), srcSlice.CnlData);
+                    destSlice = new Slice(srcSlice.Timestamp, cnlNums.ToArray(), srcSlice.CnlData) 
+                    {
+                        DeviceNum = srcSlice.DeviceNum 
+                    };
                     return true;
                 }
                 else
@@ -410,7 +397,10 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                         srcDataIndex += tagDataLength;
                     }
 
-                    destSlice = new Slice(srcSlice.Timestamp, cnlNums.ToArray(), destCnlData);
+                    destSlice = new Slice(srcSlice.Timestamp, cnlNums.ToArray(), destCnlData)
+                    {
+                        DeviceNum = srcSlice.DeviceNum
+                    };
                     return true;
                 }
             }
@@ -648,20 +638,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         public override void WriteCurrentData(DeviceSlice deviceSlice)
         {
             if (CheckDeviceFilter(deviceSlice.DeviceNum))
-            {
-                lock (curDataQueue)
-                {
-                    // remove current data from the beginning of the queue
-                    while (curDataQueue.Count >= maxQueueSize)
-                    {
-                        curDataQueue.Dequeue();
-                        curDataSkipped++;
-                    }
-
-                    // append current data
-                    curDataQueue.Enqueue(new QueueItem<DeviceSlice>(deviceSlice.Timestamp, deviceSlice));
-                }
-            }
+                curDataQueue.Enqueue(deviceSlice.Timestamp, deviceSlice, out _);
         }
 
         /// <summary>
@@ -735,9 +712,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                 else
                     sb.Append("Соединение                  : ").AppendLine(scadaClient.ClientState.ToString(true));
 
-                sb.Append("Очередь текущих данных      : ")
-                    .Append(curDataQueue.Count).Append(" из ").Append(maxQueueSize)
-                    .Append(", пропущено ").Append(curDataSkipped).AppendLine();
+                curDataQueue.AppendShortInfo(sb, 28);
 
                 sb.Append("Очередь исторических данных : ")
                     .Append(histDataQueue.Count).Append(" из ").Append(maxQueueSize)
@@ -754,9 +729,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                 else
                     sb.Append("Connection            : ").AppendLine(scadaClient.ClientState.ToString(false));
 
-                sb.Append("Current data queue    : ")
-                    .Append(curDataQueue.Count).Append(" of ").Append(maxQueueSize)
-                    .Append(", skipped ").Append(curDataSkipped).AppendLine();
+                curDataQueue.AppendShortInfo(sb, 22);
 
                 sb.Append("Historical data queue : ")
                     .Append(histDataQueue.Count).Append(" of ").Append(maxQueueSize)
