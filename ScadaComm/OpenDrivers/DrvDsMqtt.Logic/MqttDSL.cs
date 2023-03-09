@@ -12,6 +12,7 @@ using Scada.Comm.Drivers.DrvMqtt;
 using Scada.Comm.Lang;
 using Scada.Data.Const;
 using Scada.Data.Models;
+using Scada.Data.Queues;
 using Scada.Lang;
 using Scada.Log;
 using System.Globalization;
