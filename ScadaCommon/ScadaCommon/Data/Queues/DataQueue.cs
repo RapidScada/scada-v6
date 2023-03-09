@@ -20,10 +20,9 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2022
+ * Modified : 2023
  */
 
-using Scada.Data.Models;
 using Scada.Lang;
 using System;
 using System.Collections.Generic;
@@ -248,6 +247,14 @@ namespace Scada.Data.Queues
         public void AppendInfo(StringBuilder sbInfo)
         {
             Stats.AppendInfo(sbInfo, queue?.Count);
+        }
+
+        /// <summary>
+        /// Appends information to the string builder as a single line.
+        /// </summary>
+        public void AppendShortInfo(StringBuilder sbInfo, int titleWidth)
+        {
+            Stats.AppendShortInfo(sbInfo, queue?.Count, titleWidth);
         }
 
 

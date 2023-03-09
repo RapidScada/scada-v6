@@ -20,12 +20,12 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2023
  */
 
 using System;
 
-namespace Scada.Data.Models
+namespace Scada.Data.Queues
 {
     /// <summary>
     /// Represents a queue item.
