@@ -270,7 +270,7 @@ namespace Scada.Server.Engine
         {
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
-            WriteDataFlags flags = (WriteDataFlags)buffer[index];
+            WriteDataFlags flags = (WriteDataFlags)GetByte(buffer, ref index);
             int archiveMask = GetInt32(buffer, ref index);
             int sliceCnt = GetInt32(buffer, ref index);
 
