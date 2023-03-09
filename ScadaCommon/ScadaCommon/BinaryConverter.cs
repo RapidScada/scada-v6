@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2023
  */
 
 using Scada.Data.Models;
@@ -216,13 +216,15 @@ namespace Scada
         /// </summary>
         public static void CopyByteArray(byte[] srcArray, byte[] buffer, ref int index)
         {
-            int arrayLength = srcArray == null ? 0 : srcArray.Length;
-            CopyInt32(arrayLength, buffer, ref index);
-
-            if (srcArray != null)
+            if (srcArray == null)
             {
-                Buffer.BlockCopy(srcArray, 0, buffer, index, arrayLength);
-                index += arrayLength;
+                CopyInt32(0, buffer, ref index);
+            }
+            else
+            {
+                CopyInt32(srcArray.Length, buffer, ref index);
+                Buffer.BlockCopy(srcArray, 0, buffer, index, srcArray.Length);
+                index += srcArray.Length;
             }
         }
 
@@ -231,12 +233,14 @@ namespace Scada
         /// </summary>
         public static void CopyIntArray(int[] srcArray, byte[] buffer, ref int index)
         {
-            int arrayLength = srcArray == null ? 0 : srcArray.Length;
-            CopyInt32(arrayLength, buffer, ref index);
-
-            if (srcArray != null)
+            if (srcArray == null)
             {
-                int dataLength = arrayLength * 4;
+                CopyInt32(0, buffer, ref index);
+            }
+            else
+            {
+                CopyInt32(srcArray.Length, buffer, ref index);
+                int dataLength = srcArray.Length * 4;
                 Buffer.BlockCopy(srcArray, 0, buffer, index, dataLength);
                 index += dataLength;
             }
@@ -287,15 +291,43 @@ namespace Scada
         /// </summary>
         public static void CopyCnlDataArray(CnlData[] srcArray, byte[] buffer, ref int index)
         {
-            int arrayLength = srcArray == null ? 0 : srcArray.Length;
-            CopyInt32(arrayLength, buffer, ref index);
-
-            if (srcArray != null)
+            if (srcArray == null)
             {
+                CopyInt32(0, buffer, ref index);
+            }
+            else
+            {
+                CopyInt32(srcArray.Length, buffer, ref index);
+
                 foreach (CnlData cnlData in srcArray)
                 {
                     CopyCnlData(cnlData, buffer, ref index);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Copies the slice to the buffer.
+        /// </summary>
+        public static void CopySlice(Slice slice, byte[] buffer, ref int index)
+        {
+            if (slice == null)
+            {
+                CopyTime(DateTime.MinValue, buffer, ref index);
+                CopyInt32(0, buffer, ref index);
+                CopyInt32(0, buffer, ref index);
+            }
+            else
+            {
+                CopyTime(slice.Timestamp, buffer, ref index);
+                CopyIntArray(slice.CnlNums, buffer, ref index);
+
+                foreach (CnlData cnlData in slice.CnlData)
+                {
+                    CopyCnlData(cnlData, buffer, ref index);
+                }
+
+                CopyInt32(slice.DeviceNum, buffer, ref index);
             }
         }
 
@@ -568,8 +600,7 @@ namespace Scada
         /// </summary>
         public static CnlData[] GetCnlDataArray(byte[] buffer, ref int index)
         {
-            int arrayLength = BitConverter.ToInt32(buffer, index);
-            index += 4;
+            int arrayLength = GetInt32(buffer, ref index);
 
             if (arrayLength > 0)
             {
@@ -589,6 +620,24 @@ namespace Scada
             {
                 return Array.Empty<CnlData>();
             }
+        }
+
+        /// <summary>
+        /// Gets a slice from the buffer.
+        /// </summary>
+        public static Slice GetSlice(byte[] buffer, ref int index)
+        {
+            Slice slice = new Slice(
+                GetTime(buffer, ref index),
+                GetIntArray(buffer, ref index));
+
+            for (int i = 0, len = slice.Length; i < len; i++)
+            {
+                slice.CnlData[i] = GetCnlData(buffer, ref index);
+            }
+
+            slice.DeviceNum = GetInt32(buffer, ref index);
+            return slice;
         }
 
         /// <summary>

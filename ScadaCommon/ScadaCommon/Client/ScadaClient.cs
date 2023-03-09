@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Data.Adapters;
@@ -30,6 +30,7 @@ using Scada.Lang;
 using Scada.Protocol;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using static Scada.BinaryConverter;
 using static Scada.Protocol.ProtocolUtils;
@@ -58,6 +59,32 @@ namespace Scada.Client
             lastCommandID = 0;
         }
 
+
+        /// <summary>
+        /// Writes the channel data.
+        /// </summary>
+        protected void WriteChannelData(int archiveMask, ICollection<Slice> slices, WriteDataFlags flags)
+        {
+            if (slices == null)
+                throw new ArgumentNullException(nameof(slices));
+
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.WriteChannelData);
+            int index = ArgumentIndex;
+            CopyByte((byte)flags, outBuf, ref index);
+            CopyInt32(archiveMask, outBuf, ref index);
+            CopyInt32(slices.Count, outBuf, ref index);
+
+            foreach (Slice slice in slices)
+            {
+                CopySlice(slice, outBuf, ref index);
+            }
+
+            request.BufferLength = index;
+            SendRequest(request);
+            ReceiveResponse(request);
+        }
 
         /// <summary>
         /// Receives requested events.
@@ -102,6 +129,7 @@ namespace Scada.Client
 
             return events;
         }
+
 
         /// <summary>
         /// Validates the username and password.
@@ -451,6 +479,42 @@ namespace Scada.Client
             request.BufferLength = index;
             SendRequest(request);
             ReceiveResponse(request);
+        }
+
+        /// <summary>
+        /// Writes the slice of the current data.
+        /// </summary>
+        public void WriteCurrentData(Slice slice, WriteDataFlags flags)
+        {
+            flags |= WriteDataFlags.IsCurrent;
+            WriteChannelData(ArchiveMask.Default, new Slice[] { slice }, flags);
+        }
+
+        /// <summary>
+        /// Writes the multiple slices of the current data.
+        /// </summary>
+        public void WriteCurrentData(ICollection<Slice> slices, WriteDataFlags flags)
+        {
+            flags |= WriteDataFlags.IsCurrent;
+            WriteChannelData(ArchiveMask.Default, slices, flags);
+        }
+
+        /// <summary>
+        /// Writes the slice of historical data.
+        /// </summary>
+        public void WriteHistoricalData(int archiveMask, Slice slice, WriteDataFlags flags)
+        {
+            flags &= ~WriteDataFlags.IsCurrent;
+            WriteChannelData(archiveMask, new Slice[] { slice }, flags);
+        }
+
+        /// <summary>
+        /// Writes the multiple slices of historical data.
+        /// </summary>
+        public void WriteHistoricalData(int archiveMask, ICollection<Slice> slices, WriteDataFlags flags)
+        {
+            flags &= ~WriteDataFlags.IsCurrent;
+            WriteChannelData(archiveMask, slices, flags);
         }
 
         /// <summary>
