@@ -28,13 +28,17 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
     internal class ScadaServerDSL : DataSourceLogic
     {
         /// <summary>
-        /// The number of queue items to send when performing a data transfer operation.
+        /// The number of channels to send when writing current data.
         /// </summary>
-        private const int BundleSize = 10;
+        private const int ChannelBatchSize = 5000;
+        /// <summary>
+        /// The number of write requests sent in one iteration.
+        /// </summary>
+        private const int WritesPerIteration = 10;
         /// <summary>
         /// The maximum number of commands received in one iteration.
         /// </summary>
-        private const int MaxCommandCount = 100;
+        private const int CommandsPerIteration = 100;
 
         private readonly DriverConfig driverConfig; // the driver configuration
         private readonly ScadaServerDSO options;    // the data source options
@@ -46,6 +50,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         private readonly DataQueue<DeviceSlice> curDataQueue;  // the current data queue
         private readonly DataQueue<DeviceSlice> histDataQueue; // the historical data queue
         private readonly DataQueue<DeviceEvent> eventQueue;    // the event queue
+        private readonly List<Slice> slicesToSend;             // the slices dequeued for sending
 
         private ConnectionOptions connOptions; // the connection options
         private ScadaClient scadaClient;       // communicates with the server
@@ -72,6 +77,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                 Locale.IsRussian ? "Очередь исторических данных" : "Historical data queue");
             eventQueue = new DataQueue<DeviceEvent>(true, options.MaxQueueSize,
                 Locale.IsRussian ? "Очередь событий" : "Event queue");
+            slicesToSend = new List<Slice>();
 
             connOptions = null;
             scadaClient = null;
@@ -114,7 +120,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                 {
                     CommContext.SendCommand(cmd, Code);
 
-                    if (++cmdCnt == MaxCommandCount)
+                    if (++cmdCnt == CommandsPerIteration)
                         break;
                 }
             }
@@ -150,10 +156,69 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         /// </summary>
         private void TransferCurrentData()
         {
-            for (int i = 0; i < BundleSize; i++)
+            for (int i = 0; i < WritesPerIteration; i++)
             {
+                DateTime utcNow = DateTime.UtcNow;
+
+                // check the age of unsent slices
+                if (slicesToSend.Count > 0 && utcNow - slicesToSend[0].Timestamp > dataLifetime)
+                {
+                    log.WriteError(CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
+                        "Неотправленные текущие данные удалены" :
+                        "Unsent current data removed");
+
+                    curDataQueue.Stats.SkippedItems += slicesToSend.Count;
+                    slicesToSend.Clear();
+                }
+
+                // dequeue slices for sending
+                if (slicesToSend.Count == 0)
+                {
+                    int totalCnlCnt = 0;
+
+                    while (totalCnlCnt < ChannelBatchSize && 
+                        curDataQueue.TryDequeue(out QueueItem<DeviceSlice> queueItem))
+                    {
+                        if (utcNow - queueItem.CreationTime > dataLifetime)
+                        {
+                            log.WriteError(CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
+                                "Устаревшие текущие данные удалены из очереди" :
+                                "Outdated current data removed from the queue");
+
+                            curDataQueue.Stats.SkippedItems++;
+                        }
+                        else if (ConvertSlice(queueItem.Value, out Slice slice))
+                        {
+                            slicesToSend.Add(slice);
+                            totalCnlCnt += slice.Length;
+                        }
+                    }
+
+                    if (slicesToSend.Count == 0)
+                        break;
+                }
+
+                // send the slices
+                try
+                {
+                    scadaClient.WriteCurrentData(slicesToSend, WriteDataFlags.Default);
+                    slicesToSend.Clear();
+                }
+                catch (Exception ex)
+                {
+                    log.WriteError(ex.BuildErrorMessage(CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
+                        "Ошибка при передаче текущих данных" :
+                        "Error transferring current data"));
+
+                    curDataQueue.Stats.HasError = true;
+                    Thread.Sleep(ScadaUtils.ErrorDelay);
+                    break;
+                }
+
+                // ---
+
                 // get an item from the queue without removing it
-                if (!curDataQueue.TryPeek(out QueueItem<DeviceSlice> queueItem))
+                /*if (!curDataQueue.TryPeek(out QueueItem<DeviceSlice> queueItem))
                     break;
 
                 DateTime utcNow = DateTime.UtcNow;
@@ -170,7 +235,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                 {
                     try
                     {
-                        // export the slice
+                        // send the slice
                         if (utcNow - queueItem.CreationTime > maxCurDataAge)
                         {
                             scadaClient.WriteHistoricalData(queueItem.Value.ArchiveMask, slice, 
@@ -194,7 +259,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                 }
 
                 // remove the item from the queue
-                curDataQueue.RemoveItem(queueItem);
+                curDataQueue.RemoveItem(queueItem);*/
             }
         }
 
@@ -203,7 +268,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         /// </summary>
         private void TransferHistoricalData()
         {
-            for (int i = 0; i < BundleSize; i++)
+            for (int i = 0; i < WritesPerIteration; i++)
             {
                 // retrieve an item from the queue
                 if (!histDataQueue.TryDequeue(out QueueItem<DeviceSlice> queueItem))
@@ -224,7 +289,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                 {
                     try
                     {
-                        // export the slice
+                        // send the slice
                         scadaClient.WriteHistoricalData(deviceSlice.ArchiveMask, slice, WriteDataFlags.Default);
                         CallDataSent(deviceSlice);
                     }
@@ -249,7 +314,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         /// </summary>
         private void TransferEvents()
         {
-            for (int i = 0; i < BundleSize; i++)
+            for (int i = 0; i < WritesPerIteration; i++)
             {
                 // retrieve an item from the queue
                 if (!eventQueue.TryDequeue(out QueueItem<DeviceEvent> queueItem))
@@ -270,7 +335,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                 {
                     try
                     {
-                        // export the event
+                        // send the event
                         deviceEvent.CnlNum = deviceEvent.DeviceTag.Cnl.CnlNum;
                         scadaClient.WriteEvent(deviceEvent.ArchiveMask, deviceEvent);
                         CallEventSent(deviceEvent);
