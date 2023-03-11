@@ -28,6 +28,7 @@ using Scada.Data.Adapters;
 using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
+using Scada.Data.Queues;
 using Scada.Data.Tables;
 using Scada.Lang;
 using Scada.Protocol;
@@ -223,15 +224,32 @@ namespace Scada.Server.Engine
             int archiveMask = GetInt32(buffer, ref index);
             int sliceCnt = GetInt32(buffer, ref index);
             bool isCurrent = flags.HasFlag(WriteDataFlags.IsCurrent);
+            int maxCurDataAge = coreLogic.AppConfig.GeneralOptions.MaxCurDataAge;
+            DateTime utcNow = isCurrent && maxCurDataAge > 0 ? DateTime.UtcNow : DateTime.MinValue;
 
             for (int i = 0; i < sliceCnt; i++)
             {
                 Slice slice = BinaryConverter.GetSlice(buffer, ref index);
 
                 if (isCurrent)
-                    coreLogic.WriteCurrentData(slice, flags);
+                {
+                    if (maxCurDataAge > 0 && slice.Timestamp > DateTime.MinValue &&
+                        (utcNow - slice.Timestamp).TotalSeconds > maxCurDataAge)
+                    {
+                        // write current data as historical
+                        coreLogic.WriteHistoricalData(ArchiveMask.Default, slice, flags);
+                    }
+                    else
+                    {
+                        // write current data
+                        coreLogic.WriteCurrentData(slice, flags);
+                    }
+                }
                 else
+                {
+                    // write historical data
                     coreLogic.WriteHistoricalData(archiveMask, slice, flags);
+                }
             }
 
             response = new ResponsePacket(request, client.OutBuf);

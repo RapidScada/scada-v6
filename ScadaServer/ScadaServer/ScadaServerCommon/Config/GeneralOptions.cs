@@ -46,18 +46,25 @@ namespace Scada.Server.Config
         public GeneralOptions()
         {
             UnrelIfInactive = 300;
+            MaxCurDataAge = 0;
             UseArchivalStatus = false;
             GenerateAckCmd = false;
             DisableFormulas = false;
             EnableFormulasObjNums = Array.Empty<int>();
+            StopWait = 10;
             MaxLogSize = LogFile.DefaultCapacityMB;
         }
 
 
         /// <summary>
-        /// Gets or sets the time after which an inactive channel is marked as unreliable, sec.
+        /// Gets or sets the time after which an inactive channel is marked as unreliable, seconds.
         /// </summary>
         public int UnrelIfInactive { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maximum time after which the current data is written as historical, seconds.
+        /// </summary>
+        public int MaxCurDataAge { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to mark incoming historical data as archival.
@@ -91,6 +98,11 @@ namespace Scada.Server.Config
         }
 
         /// <summary>
+        /// The time to wait for the service to stop, seconds.
+        /// </summary>
+        public int StopWait { get; set; }
+
+        /// <summary>
         /// Gets or sets the maximum log file size, megabytes.
         /// </summary>
         public int MaxLogSize { get; set; }
@@ -105,11 +117,13 @@ namespace Scada.Server.Config
                 throw new ArgumentNullException(nameof(xmlNode));
 
             UnrelIfInactive = xmlNode.GetChildAsInt("UnrelIfInactive", UnrelIfInactive);
+            MaxCurDataAge = xmlNode.GetChildAsInt("MaxCurDataAge", MaxCurDataAge);
             UseArchivalStatus = xmlNode.GetChildAsBool("UseArchivalStatus", UseArchivalStatus);
             GenerateAckCmd = xmlNode.GetChildAsBool("GenerateAckCmd", GenerateAckCmd);
             DisableFormulas = xmlNode.GetChildAsBool("DisableFormulas", DisableFormulas);
             EnableFormulasObjNums = ScadaUtils.ParseRange(
                 xmlNode.GetChildAsString("EnableFormulasObjNums"), true, true);
+            StopWait = xmlNode.GetChildAsInt("StopWait", StopWait);
             MaxLogSize = xmlNode.GetChildAsInt("MaxLogSize", MaxLogSize);
         }
 
@@ -122,10 +136,12 @@ namespace Scada.Server.Config
                 throw new ArgumentNullException(nameof(xmlElem));
 
             xmlElem.AppendElem("UnrelIfInactive", UnrelIfInactive);
+            xmlElem.AppendElem("MaxCurDataAge", MaxCurDataAge);
             xmlElem.AppendElem("UseArchivalStatus", UseArchivalStatus);
             xmlElem.AppendElem("GenerateAckCmd", GenerateAckCmd);
             xmlElem.AppendElem("DisableFormulas", DisableFormulas);
             xmlElem.AppendElem("EnableFormulasObjNums", EnableFormulasObjNums.ToRangeString());
+            xmlElem.AppendElem("StopWait", StopWait);
             xmlElem.AppendElem("MaxLogSize", MaxLogSize);
         }
     }
