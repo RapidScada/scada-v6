@@ -30,7 +30,6 @@ using Scada.Lang;
 using Scada.Protocol;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using static Scada.BinaryConverter;
 using static Scada.Protocol.ProtocolUtils;
@@ -419,69 +418,6 @@ namespace Scada.Client
         }
 
         /// <summary>
-        /// Writes the current data.
-        /// </summary>
-        public void WriteCurrentData(Slice slice, int deviceNum, WriteFlags writeFlags)
-        {
-            if (slice == null)
-                throw new ArgumentNullException(nameof(slice));
-
-            RestoreConnection();
-
-            DataPacket request = CreateRequest(FunctionID.WriteCurrentData);
-            int index = ArgumentIndex;
-            CopyTime(slice.Timestamp, outBuf, ref index);
-            int cnlCnt = slice.CnlNums.Length;
-            CopyInt32(cnlCnt, outBuf, ref index);
-
-            for (int i = 0, idx1 = index, idx2 = index + cnlCnt * 4; i < cnlCnt; i++)
-            {
-                CnlData cnlDataElem = slice.CnlData[i];
-                CopyInt32(slice.CnlNums[i], outBuf, ref idx1);
-                CopyCnlData(cnlDataElem, outBuf, ref idx2);
-            }
-
-            index += cnlCnt * 14;
-            CopyInt32(deviceNum, outBuf, ref index);
-            CopyByte((byte)writeFlags, outBuf, ref index);
-            request.BufferLength = index;
-            SendRequest(request);
-            ReceiveResponse(request);
-        }
-
-        /// <summary>
-        /// Writes the historical data.
-        /// </summary>
-        public void WriteHistoricalData(int archiveMask, Slice slice, int deviceNum, WriteFlags writeFlags)
-        {
-            if (slice == null)
-                throw new ArgumentNullException(nameof(slice));
-
-            RestoreConnection();
-
-            DataPacket request = CreateRequest(FunctionID.WriteHistoricalData);
-            int index = ArgumentIndex;
-            CopyInt32(archiveMask, outBuf, ref index);
-            CopyTime(slice.Timestamp, outBuf, ref index);
-            int cnlCnt = slice.CnlNums.Length;
-            CopyInt32(cnlCnt, outBuf, ref index);
-
-            for (int i = 0, idx1 = index, idx2 = index + cnlCnt * 4; i < cnlCnt; i++)
-            {
-                CnlData cnlDataElem = slice.CnlData[i];
-                CopyInt32(slice.CnlNums[i], outBuf, ref idx1);
-                CopyCnlData(cnlDataElem, outBuf, ref idx2);
-            }
-
-            index += cnlCnt * 14;
-            CopyInt32(deviceNum, outBuf, ref index);
-            CopyByte((byte)writeFlags, outBuf, ref index);
-            request.BufferLength = index;
-            SendRequest(request);
-            ReceiveResponse(request);
-        }
-
-        /// <summary>
         /// Writes the slice of the current data.
         /// </summary>
         public void WriteCurrentData(Slice slice, WriteDataFlags flags)
@@ -623,7 +559,7 @@ namespace Scada.Client
         /// <summary>
         /// Sends the telecontrol command.
         /// </summary>
-        public void SendCommand(TeleCommand command, WriteFlags writeFlags, out CommandResult commandResult)
+        public CommandResult SendCommand(TeleCommand command, WriteCommandFlags flags)
         {
             RestoreConnection();
 
@@ -633,7 +569,7 @@ namespace Scada.Client
             CopyInt32(command.CnlNum, outBuf, ref index);
             CopyDouble(command.CmdVal, outBuf, ref index);
             CopyByteArray(command.CmdData, outBuf, ref index);
-            CopyByte((byte)writeFlags, outBuf, ref index);
+            CopyByte((byte)flags, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
 
@@ -641,15 +577,17 @@ namespace Scada.Client
             index = ArgumentIndex;
             long commandID = GetInt64(inBuf, ref index);
 
-            commandResult = new CommandResult
+            CommandResult result = new CommandResult
             {
                 IsSuccessful = GetBool(inBuf, ref index),
                 TransmitToClients = GetBool(inBuf, ref index),
                 ErrorMessage = GetString(inBuf, ref index)
             };
 
-            if (commandID > 0 && commandResult.IsSuccessful)
+            if (commandID > 0 && result.IsSuccessful)
                 command.CommandID = commandID;
+
+            return result;
         }
 
         /// <summary>

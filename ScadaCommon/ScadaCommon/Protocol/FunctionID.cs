@@ -50,8 +50,6 @@ namespace Scada.Protocol
         public const ushort GetTimestamps = 0x0203;
         public const ushort GetSlice = 0x0204;
         public const ushort GetLastWriteTime = 0x0205;
-        public const ushort WriteCurrentData = 0x0206;
-        public const ushort WriteHistoricalData = 0x0207;
         public const ushort WriteChannelData = 0x0208;
 
         public const ushort GetEventByID = 0x0301;
@@ -82,8 +80,6 @@ namespace Scada.Protocol
             { GetTimestamps, nameof(GetTimestamps) },
             { GetSlice, nameof(GetSlice) },
             { GetLastWriteTime, nameof(GetLastWriteTime) },
-            { WriteCurrentData, nameof(WriteCurrentData) },
-            { WriteHistoricalData, nameof(WriteHistoricalData) },
             { WriteChannelData, nameof(WriteChannelData) },
             { GetEventByID, nameof(GetEventByID) },
             { GetEvents, nameof(GetEvents) },

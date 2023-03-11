@@ -16,11 +16,11 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommon
- * Summary  : Specifies the writing data flags
+ * Summary  : Specifies the flags for writing commands
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2022
+ * Modified : 2023
  */
 
 using System;
@@ -28,30 +28,35 @@ using System;
 namespace Scada.Protocol
 {
     /// <summary>
-    /// Specifies the writing data flags.
-    /// <para>Задаёт флаги записи данных.</para>
+    /// Specifies the flags for writing commands.
+    /// <para>Задаёт флаги для записи команд.</para>
     /// </summary>
     [Flags]
-    public enum WriteFlags : byte
+    public enum WriteCommandFlags : byte
     {
         /// <summary>
-        /// Just write actual sent channel data.
+        /// Send command in one direction without applying formulas and generating events.
         /// </summary>
         None = 0,
 
         /// <summary>
+        /// Specifies that the command can be returned to the client that sent it.
+        /// </summary>
+        ReturnToSender = 1,
+
+        /// <summary>
         /// Apply channel formulas.
         /// </summary>
-        ApplyFormulas = 1,
+        ApplyFormulas = 2,
 
         /// <summary>
         /// Enable channel events for a particular write operation.
         /// </summary>
-        EnableEvents = 2,
+        EnableEvents = 4,
 
         /// <summary>
-        /// Enable all flags.
+        /// Write command with default behavior.
         /// </summary>
-        EnableAll = ApplyFormulas | EnableEvents
+        Default = ApplyFormulas | EnableEvents
     }
 }
