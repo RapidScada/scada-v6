@@ -42,7 +42,6 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
 
         private readonly DriverConfig driverConfig; // the driver configuration
         private readonly ScadaServerDSO options;    // the data source options
-        private readonly TimeSpan maxCurDataAge;    // determines sending current data as historical
         private readonly TimeSpan dataLifetime;     // the data lifetime in the queue
         private readonly HashSet<int> deviceFilter; // the device IDs to filter data
         private readonly ILog log;                  // the application log
@@ -66,7 +65,6 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         {
             this.driverConfig = driverConfig ?? throw new ArgumentNullException(nameof(driverConfig));
             options = new ScadaServerDSO(dataSourceConfig.CustomOptions);
-            maxCurDataAge = TimeSpan.FromSeconds(options.MaxCurDataAge);
             dataLifetime = TimeSpan.FromSeconds(options.DataLifetime);
             deviceFilter = options.DeviceFilter.Count > 0 ? new HashSet<int>(options.DeviceFilter) : null;
             log = commContext.Log;
