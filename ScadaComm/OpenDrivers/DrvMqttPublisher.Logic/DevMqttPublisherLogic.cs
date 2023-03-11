@@ -204,7 +204,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
                     Log.WriteLine(Locale.IsRussian ?
                         "Отправка команды на канал {0}" :
                         "Send command to channel {0}", cmd.CnlNum);
-                    lineData.ScadaClient.SendCommand(cmd, WriteFlags.EnableAll, out CommandResult result);
+                    CommandResult result = lineData.ScadaClient.SendCommand(cmd, WriteCommandFlags.EnableAll);
 
                     if (result.IsSuccessful)
                     {

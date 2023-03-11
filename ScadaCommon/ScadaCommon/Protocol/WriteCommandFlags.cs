@@ -57,6 +57,11 @@ namespace Scada.Protocol
         /// <summary>
         /// Write command with default behavior.
         /// </summary>
-        Default = ApplyFormulas | EnableEvents
+        Default = ApplyFormulas | EnableEvents,
+
+        /// <summary>
+        /// Enable all flags.
+        /// </summary>
+        EnableAll = ReturnToSender | ApplyFormulas | EnableEvents
     }
 }
