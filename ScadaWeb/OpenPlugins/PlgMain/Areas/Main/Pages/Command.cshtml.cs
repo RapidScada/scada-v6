@@ -168,7 +168,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             try
             {
                 webContext.Log.WriteAction(WebPhrases.SendCommand, command.CnlNum, User.GetUsername());
-                clientAccessor.ScadaClient.SendCommand(command, WriteFlags.EnableAll, out CommandResult result);
+                CommandResult result = clientAccessor.ScadaClient.SendCommand(command, WriteCommandFlags.Default);
 
                 if (result.IsSuccessful)
                 {
