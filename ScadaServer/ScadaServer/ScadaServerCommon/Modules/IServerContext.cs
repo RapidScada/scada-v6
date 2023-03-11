@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Config;
@@ -141,12 +141,12 @@ namespace Scada.Server.Modules
         /// <summary>
         /// Writes the current data of the specified channels.
         /// </summary>
-        void WriteCurrentData(Slice slice, int deviceNum, WriteFlags writeFlags);
+        void WriteCurrentData(Slice slice, WriteDataFlags flags);
 
         /// <summary>
         /// Writes the historical data.
         /// </summary>
-        void WriteHistoricalData(int archiveMask, Slice slice, int deviceNum, WriteFlags writeFlags);
+        void WriteHistoricalData(int archiveMask, Slice slice, WriteDataFlags flags);
 
         /// <summary>
         /// Writes the event.
@@ -161,6 +161,6 @@ namespace Scada.Server.Modules
         /// <summary>
         /// Sends the telecontrol command.
         /// </summary>
-        void SendCommand(TeleCommand command, WriteFlags writeFlags, out CommandResult commandResult);
+        CommandResult SendCommand(TeleCommand command, WriteCommandFlags flags);
     }
 }

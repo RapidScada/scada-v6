@@ -213,57 +213,6 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Writes the current data.
-        /// </summary>
-        private void WriteCurrentData(ConnectedClient client, DataPacket request, out ResponsePacket response)
-        {
-            byte[] buffer = request.Buffer;
-            int index = ArgumentIndex;
-            DateTime timestamp = GetTime(buffer, ref index);
-            int cnlCnt = GetInt32(buffer, ref index);
-            Slice slice = new Slice(timestamp, cnlCnt);
-
-            for (int i = 0, idx1 = index, idx2 = idx1 + cnlCnt * 4; i < cnlCnt; i++)
-            {
-                slice.CnlNums[i] = GetInt32(buffer, ref idx1);
-                slice.CnlData[i] = GetCnlData(buffer, ref idx2);
-            }
-
-            index += cnlCnt * 14;
-            slice.DeviceNum = GetInt32(buffer, ref index);
-            WriteFlags writeFlags = (WriteFlags)buffer[index];
-            coreLogic.WriteCurrentData(slice, slice.DeviceNum, writeFlags);
-
-            response = new ResponsePacket(request, client.OutBuf);
-        }
-
-        /// <summary>
-        /// Writes the historical data.
-        /// </summary>
-        private void WriteHistoricalData(ConnectedClient client, DataPacket request, out ResponsePacket response)
-        {
-            byte[] buffer = request.Buffer;
-            int index = ArgumentIndex;
-            int archiveMask = GetInt32(buffer, ref index);
-            DateTime timestamp = GetTime(buffer, ref index);
-            int cnlCnt = GetInt32(buffer, ref index);
-            Slice slice = new Slice(timestamp, cnlCnt);
-
-            for (int i = 0, idx1 = index, idx2 = idx1 + cnlCnt * 4; i < cnlCnt; i++)
-            {
-                slice.CnlNums[i] = GetInt32(buffer, ref idx1);
-                slice.CnlData[i] = GetCnlData(buffer, ref idx2);
-            }
-
-            index += cnlCnt * 14;
-            slice.DeviceNum = GetInt32(buffer, ref index);
-            WriteFlags writeFlags = (WriteFlags)buffer[index];
-            coreLogic.WriteHistoricalData(archiveMask, slice, slice.DeviceNum, writeFlags);
-
-            response = new ResponsePacket(request, client.OutBuf);
-        }
-
-        /// <summary>
         /// Writes the channel data.
         /// </summary>
         private void WriteChannelData(ConnectedClient client, DataPacket request, out ResponsePacket response)
@@ -275,22 +224,14 @@ namespace Scada.Server.Engine
             int sliceCnt = GetInt32(buffer, ref index);
             bool isCurrent = flags.HasFlag(WriteDataFlags.IsCurrent);
 
-            WriteFlags writeFlags = WriteFlags.None;
-
-            if (flags.HasFlag(WriteDataFlags.ApplyFormulas))
-                writeFlags |= WriteFlags.ApplyFormulas;
-
-            if (flags.HasFlag(WriteDataFlags.EnableEvents))
-                writeFlags |= WriteFlags.EnableEvents;
-
             for (int i = 0; i < sliceCnt; i++)
             {
                 Slice slice = BinaryConverter.GetSlice(buffer, ref index);
 
                 if (isCurrent)
-                    coreLogic.WriteCurrentData(slice, slice.DeviceNum, writeFlags);
+                    coreLogic.WriteCurrentData(slice, flags);
                 else
-                    coreLogic.WriteHistoricalData(archiveMask, slice, slice.DeviceNum, writeFlags);
+                    coreLogic.WriteHistoricalData(archiveMask, slice, flags);
             }
 
             response = new ResponsePacket(request, client.OutBuf);
@@ -444,8 +385,8 @@ namespace Scada.Server.Engine
             if (command.UserID <= 0)
                 command.UserID = client.UserID;
 
-            WriteFlags writeFlags = (WriteFlags)buffer[index];
-            coreLogic.SendCommand(command, writeFlags, out CommandResult commandResult);
+            WriteCommandFlags flags = (WriteCommandFlags)buffer[index];
+            CommandResult commandResult = coreLogic.SendCommand(command, flags);
 
             buffer = client.OutBuf;
             response = new ResponsePacket(request, buffer);
@@ -623,14 +564,6 @@ namespace Scada.Server.Engine
                     GetLastWriteTime(client, request, out response);
                     break;
 
-                case FunctionID.WriteCurrentData:
-                    WriteCurrentData(client, request, out response);
-                    break;
-
-                case FunctionID.WriteHistoricalData:
-                    WriteHistoricalData(client, request, out response);
-                    break;
-
                 case FunctionID.WriteChannelData:
                     WriteChannelData(client, request, out response);
                     break;
@@ -722,14 +655,14 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Enqueues the command to be transferred to the connected cliens.
         /// </summary>
-        public void EnqueueCommand(TeleCommand command)
+        public void EnqueueCommand(TeleCommand command, bool returnToSender)
         {
             foreach (KeyValuePair<long, ConnectedClient> pair in clients)
             {
                 ConnectedClient client = pair.Value;
 
-                // add a command to send if it was not delivered by the same client
-                if (string.IsNullOrEmpty(command.ClientName) ||
+                if (returnToSender ||
+                    string.IsNullOrEmpty(command.ClientName) ||
                     !string.Equals(command.ClientName, client.Username, StringComparison.OrdinalIgnoreCase))
                 {
                     GetClientTag(client).AddCommand(command);

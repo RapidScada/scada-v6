@@ -68,7 +68,7 @@ namespace Scada.Server.Engine
         {
             public OutCnlTag OutCnlTag { get; set; }
             public TeleCommand Command { get; set; }
-            public WriteFlags WriteFlags { get; set; }
+            public WriteCommandFlags Flags { get; set; }
             public CommandResult Result { get; set; }
         }
 
@@ -689,12 +689,13 @@ namespace Scada.Server.Engine
 
                 if (commandItem.Result.IsSuccessful)
                 {
-                    if (commandItem.WriteFlags.HasFlag(WriteFlags.EnableEvents))
+                    if (commandItem.Flags.HasFlag(WriteCommandFlags.EnableEvents))
                         GenerateEvent(commandItem.OutCnlTag, commandItem.Command);
 
                     if (commandItem.Result.TransmitToClients)
                     {
-                        listener.EnqueueCommand(commandItem.Command);
+                        listener.EnqueueCommand(commandItem.Command, 
+                            commandItem.Flags.HasFlag(WriteCommandFlags.ReturnToSender));
                         Log.WriteAction(Locale.IsRussian ?
                             "Команда поставлена в очередь на отправку клиентам" :
                             "Command is queued to be sent to clients");
@@ -1004,8 +1005,8 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Adds the command to the queue.
         /// </summary>
-        private void EnqueueCommand(OutCnlTag outCnlTag, TeleCommand command, WriteFlags writeFlags, 
-            CommandResult commandResult)
+        private void EnqueueCommand(OutCnlTag outCnlTag, TeleCommand command,
+            WriteCommandFlags flags, CommandResult result)
         {
             lock (commandQueue)
             {
@@ -1013,8 +1014,8 @@ namespace Scada.Server.Engine
                 {
                     OutCnlTag = outCnlTag,
                     Command = command,
-                    WriteFlags = writeFlags,
-                    Result = commandResult
+                    Flags = flags,
+                    Result = result
                 });
             }
         }
@@ -1288,22 +1289,22 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Writes the current data.
         /// </summary>
-        public void WriteCurrentData(Slice slice, int deviceNum, WriteFlags writeFlags)
+        public void WriteCurrentData(Slice slice, WriteDataFlags flags)
         {
             if (slice == null)
                 throw new ArgumentNullException(nameof(slice));
 
             try
             {
-                moduleHolder.OnCurrentDataProcessing(slice, deviceNum);
+                moduleHolder.OnCurrentDataProcessing(slice);
                 Monitor.Enter(curData);
 
                 if (slice.Timestamp == DateTime.MinValue)
                     slice.Timestamp = DateTime.UtcNow;
 
                 curData.Timestamp = slice.Timestamp;
-                bool applyFormulas = writeFlags.HasFlag(WriteFlags.ApplyFormulas);
-                bool enableEvents = writeFlags.HasFlag(WriteFlags.EnableEvents);
+                bool applyFormulas = flags.HasFlag(WriteDataFlags.ApplyFormulas);
+                bool enableEvents = flags.HasFlag(WriteDataFlags.EnableEvents);
 
                 for (int i = 0, cnlCnt = slice.Length; i < cnlCnt; i++)
                 {
@@ -1326,21 +1327,21 @@ namespace Scada.Server.Engine
             finally
             {
                 Monitor.Exit(curData);
-                moduleHolder.OnCurrentDataProcessed(slice, deviceNum);
+                moduleHolder.OnCurrentDataProcessed(slice);
             }
         }
 
         /// <summary>
         /// Writes the historical data.
         /// </summary>
-        public void WriteHistoricalData(int archiveMask, Slice slice, int deviceNum, WriteFlags writeFlags)
+        public void WriteHistoricalData(int archiveMask, Slice slice, WriteDataFlags flags)
         {
             if (slice == null)
                 throw new ArgumentNullException(nameof(slice));
 
             try
             {
-                moduleHolder.OnHistoricalDataProcessing(slice, deviceNum);
+                moduleHolder.OnHistoricalDataProcessing(slice);
                 DateTime timestamp = slice.Timestamp;
 
                 if (archiveMask == ArchiveMask.Default)
@@ -1357,7 +1358,7 @@ namespace Scada.Server.Engine
                 }
 
                 // write to archives
-                bool applyFormulas = writeFlags.HasFlag(WriteFlags.ApplyFormulas);
+                bool applyFormulas = flags.HasFlag(WriteDataFlags.ApplyFormulas);
                 CnlData[] cnlDataCopy = slice.CnlData.DeepClone();
 
                 for (int archiveBit = 0; archiveBit < ServerUtils.MaxArchiveCount; archiveBit++)
@@ -1368,7 +1369,7 @@ namespace Scada.Server.Engine
                     {
                         try
                         {
-                            archiveLogic.BeginUpdate(timestamp, deviceNum);
+                            archiveLogic.BeginUpdate(timestamp, slice.DeviceNum);
                             ICalcContext calcContext = new ArchiveCalcContext(archiveLogic, timestamp);
 
                             // calculate written channels
@@ -1407,7 +1408,7 @@ namespace Scada.Server.Engine
                         }
                         finally
                         {
-                            archiveHolder.EndUpdate(archiveLogic, timestamp, deviceNum);
+                            archiveHolder.EndUpdate(archiveLogic, timestamp, slice.DeviceNum);
                         }
                     }
                 }
@@ -1421,7 +1422,7 @@ namespace Scada.Server.Engine
             finally
             {
                 // in case of archive error, slice data may be inconsistent
-                moduleHolder.OnHistoricalDataProcessed(slice, deviceNum);
+                moduleHolder.OnHistoricalDataProcessed(slice);
             }
         }
 
@@ -1524,19 +1525,19 @@ namespace Scada.Server.Engine
                     UserID = eventAck.UserID,
                     CmdCode = ServerCmdCode.AckEvent,
                     CmdVal = BitConverter.Int64BitsToDouble(eventAck.EventID)
-                });
+                }, true);
             }
         }
 
         /// <summary>
         /// Sends the telecontrol command.
         /// </summary>
-        public void SendCommand(TeleCommand command, WriteFlags writeFlags, out CommandResult commandResult)
+        public CommandResult SendCommand(TeleCommand command, WriteCommandFlags flags)
         {
             if (command == null)
                 throw new ArgumentNullException(nameof(command));
 
-            commandResult = new CommandResult(false);
+            CommandResult result = new CommandResult(false);
 
             try
             {
@@ -1548,17 +1549,17 @@ namespace Scada.Server.Engine
 
                 if (!ConfigDatabase.UserTable.Items.TryGetValue(userID, out User user))
                 {
-                    commandResult.ErrorMessage = string.Format(Locale.IsRussian ?
+                    result.ErrorMessage = string.Format(Locale.IsRussian ?
                         "Пользователь {0} не найден" :
                         "User {0} not found", userID);
-                    Log.WriteError(commandResult.ErrorMessage);
+                    Log.WriteError(result.ErrorMessage);
                 }
                 else if (!outCnlTags.TryGetValue(cnlNum, out OutCnlTag outCnlTag))
                 {
-                    commandResult.ErrorMessage = string.Format(Locale.IsRussian ?
+                    result.ErrorMessage = string.Format(Locale.IsRussian ?
                         "Канал {0} не найден среди выходных каналов" :
                         "Channel {0} not found among output channels", cnlNum);
-                    Log.WriteError(commandResult.ErrorMessage);
+                    Log.WriteError(result.ErrorMessage);
                 }
                 else
                 {
@@ -1567,10 +1568,10 @@ namespace Scada.Server.Engine
 
                     if (!rightMatrix.GetRight(user.RoleID, objNum).Control)
                     {
-                        commandResult.ErrorMessage = string.Format(Locale.IsRussian ?
+                        result.ErrorMessage = string.Format(Locale.IsRussian ?
                             "Недостаточно прав пользователя с ролью {0} на управление объектом {1}" :
                             "Insufficient rights of user with role {0} to control object {1}", user.RoleID, objNum);
-                        Log.WriteError(commandResult.ErrorMessage);
+                        Log.WriteError(result.ErrorMessage);
                     }
                     else
                     {
@@ -1586,34 +1587,36 @@ namespace Scada.Server.Engine
                         {
                             curData.Timestamp = command.CreationTime;
 
-                            if (!writeFlags.HasFlag(WriteFlags.ApplyFormulas))
+                            if (!flags.HasFlag(WriteCommandFlags.ApplyFormulas))
                             {
-                                commandResult.IsSuccessful = true;
+                                result.IsSuccessful = true;
                             }
                             else if (calc.CalcCmdData(curData, outCnlTag, command.CmdVal, command.CmdData,
                                 out double cmdVal, out byte[] cmdData, out string errMsg))
                             {
-                                commandResult.IsSuccessful = true;
+                                result.IsSuccessful = true;
                                 command.CmdVal = cmdVal;
                                 command.CmdData = cmdData;
                             }
                             else
                             {
-                                commandResult.ErrorMessage = errMsg;
+                                result.ErrorMessage = errMsg;
                             }
                         }
 
-                        EnqueueCommand(outCnlTag, command, writeFlags, commandResult);
+                        EnqueueCommand(outCnlTag, command, flags, result);
                     }
                 }
             }
             catch (Exception ex)
             {
-                commandResult.ErrorMessage = ex.Message;
+                result.ErrorMessage = ex.Message;
                 Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при отправке команды" :
                     "Error sending command");
             }
+
+            return result;
         }
     }
 }

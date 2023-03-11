@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2013
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Data.Models;
@@ -132,7 +132,7 @@ namespace Scada.Server.Modules
         /// Performs actions after receiving and before processing new current data.
         /// </summary>
         /// <remarks>In general, channel numbers are not sorted.</remarks>
-        public virtual void OnCurrentDataProcessing(Slice slice, int deviceNum)
+        public virtual void OnCurrentDataProcessing(Slice slice)
         {
         }
 
@@ -140,21 +140,21 @@ namespace Scada.Server.Modules
         /// Performs actions after receiving and processing new current data.
         /// </summary>
         /// <remarks>In general, channel numbers are not sorted.</remarks>
-        public virtual void OnCurrentDataProcessed(Slice slice, int deviceNum)
+        public virtual void OnCurrentDataProcessed(Slice slice)
         {
         }
 
         /// <summary>
         /// Performs actions after receiving and before processing new historical data.
         /// </summary>
-        public virtual void OnHistoricalDataProcessing(Slice slice, int deviceNum)
+        public virtual void OnHistoricalDataProcessing(Slice slice)
         {
         }
 
         /// <summary>
         /// Performs actions after receiving and processing new historical data.
         /// </summary>
-        public virtual void OnHistoricalDataProcessed(Slice slice, int deviceNum)
+        public virtual void OnHistoricalDataProcessed(Slice slice)
         {
         }
 
