@@ -44,8 +44,8 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             serverConfig = serverApp.AppConfig;
             changing = false;
         }
-        
-        
+
+
         /// <summary>
         /// Gets or sets the object associated with the form.
         /// </summary>
