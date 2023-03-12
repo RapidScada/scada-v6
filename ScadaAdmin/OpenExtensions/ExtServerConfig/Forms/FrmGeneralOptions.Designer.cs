@@ -255,6 +255,7 @@
             numStopWait.Size = new Size(100, 23);
             numStopWait.TabIndex = 9;
             numStopWait.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            numStopWait.ValueChanged += control_Changed;
             // 
             // lblStopWait
             // 
@@ -310,6 +311,7 @@
             numMaxCurDataAge.Name = "numMaxCurDataAge";
             numMaxCurDataAge.Size = new Size(100, 23);
             numMaxCurDataAge.TabIndex = 3;
+            numMaxCurDataAge.ValueChanged += control_Changed;
             // 
             // lblMaxCurDataAge
             // 

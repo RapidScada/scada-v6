@@ -31,6 +31,8 @@
             gbGeneralOptions = new System.Windows.Forms.GroupBox();
             numMaxLogSize = new System.Windows.Forms.NumericUpDown();
             lblMaxLogSize = new System.Windows.Forms.Label();
+            numStopWait = new System.Windows.Forms.NumericUpDown();
+            lblStopWait = new System.Windows.Forms.Label();
             chkStartLinesOnCommand = new System.Windows.Forms.CheckBox();
             lblStartLinesOnCommand = new System.Windows.Forms.Label();
             chkEnableFileCommands = new System.Windows.Forms.CheckBox();
@@ -44,12 +46,10 @@
             chkIsBound = new System.Windows.Forms.CheckBox();
             lblIsBound = new System.Windows.Forms.Label();
             ctrlClientConnection = new Scada.Forms.Controls.CtrlClientConnection();
-            numStopWait = new System.Windows.Forms.NumericUpDown();
-            lblStopWait = new System.Windows.Forms.Label();
             gbGeneralOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numMaxLogSize).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numSendAllDataPeriod).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numStopWait).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numSendAllDataPeriod).BeginInit();
             SuspendLayout();
             // 
             // gbGeneralOptions
@@ -96,6 +96,25 @@
             lblMaxLogSize.Size = new System.Drawing.Size(147, 15);
             lblMaxLogSize.TabIndex = 14;
             lblMaxLogSize.Text = "Maximum log file size, MB";
+            // 
+            // numStopWait
+            // 
+            numStopWait.Location = new System.Drawing.Point(387, 196);
+            numStopWait.Maximum = new decimal(new int[] { 3600, 0, 0, 0 });
+            numStopWait.Name = "numStopWait";
+            numStopWait.Size = new System.Drawing.Size(100, 23);
+            numStopWait.TabIndex = 13;
+            numStopWait.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            numStopWait.ValueChanged += control_Changed;
+            // 
+            // lblStopWait
+            // 
+            lblStopWait.AutoSize = true;
+            lblStopWait.Location = new System.Drawing.Point(10, 200);
+            lblStopWait.Name = "lblStopWait";
+            lblStopWait.Size = new System.Drawing.Size(137, 15);
+            lblStopWait.TabIndex = 12;
+            lblStopWait.Text = "Wait for service stop, sec";
             // 
             // chkStartLinesOnCommand
             // 
@@ -221,24 +240,6 @@
             ctrlClientConnection.TabIndex = 1;
             ctrlClientConnection.ConnectionOptionsChanged += control_Changed;
             // 
-            // numStopWait
-            // 
-            numStopWait.Location = new System.Drawing.Point(387, 196);
-            numStopWait.Maximum = new decimal(new int[] { 3600, 0, 0, 0 });
-            numStopWait.Name = "numStopWait";
-            numStopWait.Size = new System.Drawing.Size(100, 23);
-            numStopWait.TabIndex = 13;
-            numStopWait.Value = new decimal(new int[] { 10, 0, 0, 0 });
-            // 
-            // lblStopWait
-            // 
-            lblStopWait.AutoSize = true;
-            lblStopWait.Location = new System.Drawing.Point(10, 200);
-            lblStopWait.Name = "lblStopWait";
-            lblStopWait.Size = new System.Drawing.Size(137, 15);
-            lblStopWait.TabIndex = 12;
-            lblStopWait.Text = "Wait for service stop, sec";
-            // 
             // FrmGeneralOptions
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -252,8 +253,8 @@
             gbGeneralOptions.ResumeLayout(false);
             gbGeneralOptions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)numMaxLogSize).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numSendAllDataPeriod).EndInit();
             ((System.ComponentModel.ISupportInitialize)numStopWait).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numSendAllDataPeriod).EndInit();
             ResumeLayout(false);
         }
 
