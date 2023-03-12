@@ -28,222 +28,233 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.gbGeneralOptions = new System.Windows.Forms.GroupBox();
-            this.numMaxLogSize = new System.Windows.Forms.NumericUpDown();
-            this.lblMaxLogSize = new System.Windows.Forms.Label();
-            this.chkStartLinesOnCommand = new System.Windows.Forms.CheckBox();
-            this.lblStartLinesOnCommand = new System.Windows.Forms.Label();
-            this.chkEnableFileCommands = new System.Windows.Forms.CheckBox();
-            this.lblEnableFileCommands = new System.Windows.Forms.Label();
-            this.chkEnableCommands = new System.Windows.Forms.CheckBox();
-            this.lblEnableCommands = new System.Windows.Forms.Label();
-            this.numSendAllDataPeriod = new System.Windows.Forms.NumericUpDown();
-            this.lblSendAllDataPeriod = new System.Windows.Forms.Label();
-            this.chkSendModifiedData = new System.Windows.Forms.CheckBox();
-            this.lblSendModifiedData = new System.Windows.Forms.Label();
-            this.chkIsBound = new System.Windows.Forms.CheckBox();
-            this.lblIsBound = new System.Windows.Forms.Label();
-            this.ctrlClientConnection = new Scada.Forms.Controls.CtrlClientConnection();
-            this.gbGeneralOptions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numMaxLogSize)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numSendAllDataPeriod)).BeginInit();
-            this.SuspendLayout();
+            gbGeneralOptions = new System.Windows.Forms.GroupBox();
+            numMaxLogSize = new System.Windows.Forms.NumericUpDown();
+            lblMaxLogSize = new System.Windows.Forms.Label();
+            chkStartLinesOnCommand = new System.Windows.Forms.CheckBox();
+            lblStartLinesOnCommand = new System.Windows.Forms.Label();
+            chkEnableFileCommands = new System.Windows.Forms.CheckBox();
+            lblEnableFileCommands = new System.Windows.Forms.Label();
+            chkEnableCommands = new System.Windows.Forms.CheckBox();
+            lblEnableCommands = new System.Windows.Forms.Label();
+            numSendAllDataPeriod = new System.Windows.Forms.NumericUpDown();
+            lblSendAllDataPeriod = new System.Windows.Forms.Label();
+            chkSendModifiedData = new System.Windows.Forms.CheckBox();
+            lblSendModifiedData = new System.Windows.Forms.Label();
+            chkIsBound = new System.Windows.Forms.CheckBox();
+            lblIsBound = new System.Windows.Forms.Label();
+            ctrlClientConnection = new Scada.Forms.Controls.CtrlClientConnection();
+            numStopWait = new System.Windows.Forms.NumericUpDown();
+            lblStopWait = new System.Windows.Forms.Label();
+            gbGeneralOptions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numMaxLogSize).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numSendAllDataPeriod).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numStopWait).BeginInit();
+            SuspendLayout();
             // 
             // gbGeneralOptions
             // 
-            this.gbGeneralOptions.Controls.Add(this.numMaxLogSize);
-            this.gbGeneralOptions.Controls.Add(this.lblMaxLogSize);
-            this.gbGeneralOptions.Controls.Add(this.chkStartLinesOnCommand);
-            this.gbGeneralOptions.Controls.Add(this.lblStartLinesOnCommand);
-            this.gbGeneralOptions.Controls.Add(this.chkEnableFileCommands);
-            this.gbGeneralOptions.Controls.Add(this.lblEnableFileCommands);
-            this.gbGeneralOptions.Controls.Add(this.chkEnableCommands);
-            this.gbGeneralOptions.Controls.Add(this.lblEnableCommands);
-            this.gbGeneralOptions.Controls.Add(this.numSendAllDataPeriod);
-            this.gbGeneralOptions.Controls.Add(this.lblSendAllDataPeriod);
-            this.gbGeneralOptions.Controls.Add(this.chkSendModifiedData);
-            this.gbGeneralOptions.Controls.Add(this.lblSendModifiedData);
-            this.gbGeneralOptions.Controls.Add(this.chkIsBound);
-            this.gbGeneralOptions.Controls.Add(this.lblIsBound);
-            this.gbGeneralOptions.Location = new System.Drawing.Point(12, 12);
-            this.gbGeneralOptions.Name = "gbGeneralOptions";
-            this.gbGeneralOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbGeneralOptions.Size = new System.Drawing.Size(500, 232);
-            this.gbGeneralOptions.TabIndex = 0;
-            this.gbGeneralOptions.TabStop = false;
-            this.gbGeneralOptions.Text = "General Options";
+            gbGeneralOptions.Controls.Add(numMaxLogSize);
+            gbGeneralOptions.Controls.Add(lblMaxLogSize);
+            gbGeneralOptions.Controls.Add(numStopWait);
+            gbGeneralOptions.Controls.Add(lblStopWait);
+            gbGeneralOptions.Controls.Add(chkStartLinesOnCommand);
+            gbGeneralOptions.Controls.Add(lblStartLinesOnCommand);
+            gbGeneralOptions.Controls.Add(chkEnableFileCommands);
+            gbGeneralOptions.Controls.Add(lblEnableFileCommands);
+            gbGeneralOptions.Controls.Add(chkEnableCommands);
+            gbGeneralOptions.Controls.Add(lblEnableCommands);
+            gbGeneralOptions.Controls.Add(numSendAllDataPeriod);
+            gbGeneralOptions.Controls.Add(lblSendAllDataPeriod);
+            gbGeneralOptions.Controls.Add(chkSendModifiedData);
+            gbGeneralOptions.Controls.Add(lblSendModifiedData);
+            gbGeneralOptions.Controls.Add(chkIsBound);
+            gbGeneralOptions.Controls.Add(lblIsBound);
+            gbGeneralOptions.Location = new System.Drawing.Point(12, 12);
+            gbGeneralOptions.Name = "gbGeneralOptions";
+            gbGeneralOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
+            gbGeneralOptions.Size = new System.Drawing.Size(500, 261);
+            gbGeneralOptions.TabIndex = 0;
+            gbGeneralOptions.TabStop = false;
+            gbGeneralOptions.Text = "General Options";
             // 
             // numMaxLogSize
             // 
-            this.numMaxLogSize.Location = new System.Drawing.Point(387, 196);
-            this.numMaxLogSize.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numMaxLogSize.Name = "numMaxLogSize";
-            this.numMaxLogSize.Size = new System.Drawing.Size(100, 23);
-            this.numMaxLogSize.TabIndex = 13;
-            this.numMaxLogSize.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numMaxLogSize.ValueChanged += new System.EventHandler(this.control_Changed);
+            numMaxLogSize.Location = new System.Drawing.Point(387, 225);
+            numMaxLogSize.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numMaxLogSize.Name = "numMaxLogSize";
+            numMaxLogSize.Size = new System.Drawing.Size(100, 23);
+            numMaxLogSize.TabIndex = 15;
+            numMaxLogSize.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            numMaxLogSize.ValueChanged += control_Changed;
             // 
             // lblMaxLogSize
             // 
-            this.lblMaxLogSize.AutoSize = true;
-            this.lblMaxLogSize.Location = new System.Drawing.Point(10, 200);
-            this.lblMaxLogSize.Name = "lblMaxLogSize";
-            this.lblMaxLogSize.Size = new System.Drawing.Size(147, 15);
-            this.lblMaxLogSize.TabIndex = 12;
-            this.lblMaxLogSize.Text = "Maximum log file size, MB";
+            lblMaxLogSize.AutoSize = true;
+            lblMaxLogSize.Location = new System.Drawing.Point(10, 229);
+            lblMaxLogSize.Name = "lblMaxLogSize";
+            lblMaxLogSize.Size = new System.Drawing.Size(147, 15);
+            lblMaxLogSize.TabIndex = 14;
+            lblMaxLogSize.Text = "Maximum log file size, MB";
             // 
             // chkStartLinesOnCommand
             // 
-            this.chkStartLinesOnCommand.AutoSize = true;
-            this.chkStartLinesOnCommand.Location = new System.Drawing.Point(472, 171);
-            this.chkStartLinesOnCommand.Name = "chkStartLinesOnCommand";
-            this.chkStartLinesOnCommand.Size = new System.Drawing.Size(15, 14);
-            this.chkStartLinesOnCommand.TabIndex = 11;
-            this.chkStartLinesOnCommand.UseVisualStyleBackColor = true;
-            this.chkStartLinesOnCommand.CheckedChanged += new System.EventHandler(this.control_Changed);
+            chkStartLinesOnCommand.AutoSize = true;
+            chkStartLinesOnCommand.Location = new System.Drawing.Point(472, 171);
+            chkStartLinesOnCommand.Name = "chkStartLinesOnCommand";
+            chkStartLinesOnCommand.Size = new System.Drawing.Size(15, 14);
+            chkStartLinesOnCommand.TabIndex = 11;
+            chkStartLinesOnCommand.UseVisualStyleBackColor = true;
+            chkStartLinesOnCommand.CheckedChanged += control_Changed;
             // 
             // lblStartLinesOnCommand
             // 
-            this.lblStartLinesOnCommand.AutoSize = true;
-            this.lblStartLinesOnCommand.Location = new System.Drawing.Point(10, 171);
-            this.lblStartLinesOnCommand.Name = "lblStartLinesOnCommand";
-            this.lblStartLinesOnCommand.Size = new System.Drawing.Size(221, 15);
-            this.lblStartLinesOnCommand.TabIndex = 10;
-            this.lblStartLinesOnCommand.Text = "Start communication lines on command";
+            lblStartLinesOnCommand.AutoSize = true;
+            lblStartLinesOnCommand.Location = new System.Drawing.Point(10, 171);
+            lblStartLinesOnCommand.Name = "lblStartLinesOnCommand";
+            lblStartLinesOnCommand.Size = new System.Drawing.Size(221, 15);
+            lblStartLinesOnCommand.TabIndex = 10;
+            lblStartLinesOnCommand.Text = "Start communication lines on command";
             // 
             // chkEnableFileCommands
             // 
-            this.chkEnableFileCommands.AutoSize = true;
-            this.chkEnableFileCommands.Location = new System.Drawing.Point(472, 142);
-            this.chkEnableFileCommands.Name = "chkEnableFileCommands";
-            this.chkEnableFileCommands.Size = new System.Drawing.Size(15, 14);
-            this.chkEnableFileCommands.TabIndex = 9;
-            this.chkEnableFileCommands.UseVisualStyleBackColor = true;
-            this.chkEnableFileCommands.CheckedChanged += new System.EventHandler(this.control_Changed);
+            chkEnableFileCommands.AutoSize = true;
+            chkEnableFileCommands.Location = new System.Drawing.Point(472, 142);
+            chkEnableFileCommands.Name = "chkEnableFileCommands";
+            chkEnableFileCommands.Size = new System.Drawing.Size(15, 14);
+            chkEnableFileCommands.TabIndex = 9;
+            chkEnableFileCommands.UseVisualStyleBackColor = true;
+            chkEnableFileCommands.CheckedChanged += control_Changed;
             // 
             // lblEnableFileCommands
             // 
-            this.lblEnableFileCommands.AutoSize = true;
-            this.lblEnableFileCommands.Location = new System.Drawing.Point(10, 142);
-            this.lblEnableFileCommands.Name = "lblEnableFileCommands";
-            this.lblEnableFileCommands.Size = new System.Drawing.Size(209, 15);
-            this.lblEnableFileCommands.TabIndex = 8;
-            this.lblEnableFileCommands.Text = "Read telecontrol commands from files";
+            lblEnableFileCommands.AutoSize = true;
+            lblEnableFileCommands.Location = new System.Drawing.Point(10, 142);
+            lblEnableFileCommands.Name = "lblEnableFileCommands";
+            lblEnableFileCommands.Size = new System.Drawing.Size(209, 15);
+            lblEnableFileCommands.TabIndex = 8;
+            lblEnableFileCommands.Text = "Read telecontrol commands from files";
             // 
             // chkEnableCommands
             // 
-            this.chkEnableCommands.AutoSize = true;
-            this.chkEnableCommands.Location = new System.Drawing.Point(472, 113);
-            this.chkEnableCommands.Name = "chkEnableCommands";
-            this.chkEnableCommands.Size = new System.Drawing.Size(15, 14);
-            this.chkEnableCommands.TabIndex = 7;
-            this.chkEnableCommands.UseVisualStyleBackColor = true;
-            this.chkEnableCommands.CheckedChanged += new System.EventHandler(this.control_Changed);
+            chkEnableCommands.AutoSize = true;
+            chkEnableCommands.Location = new System.Drawing.Point(472, 113);
+            chkEnableCommands.Name = "chkEnableCommands";
+            chkEnableCommands.Size = new System.Drawing.Size(15, 14);
+            chkEnableCommands.TabIndex = 7;
+            chkEnableCommands.UseVisualStyleBackColor = true;
+            chkEnableCommands.CheckedChanged += control_Changed;
             // 
             // lblEnableCommands
             // 
-            this.lblEnableCommands.AutoSize = true;
-            this.lblEnableCommands.Location = new System.Drawing.Point(10, 113);
-            this.lblEnableCommands.Name = "lblEnableCommands";
-            this.lblEnableCommands.Size = new System.Drawing.Size(165, 15);
-            this.lblEnableCommands.TabIndex = 6;
-            this.lblEnableCommands.Text = "Enable telecontrol commands";
+            lblEnableCommands.AutoSize = true;
+            lblEnableCommands.Location = new System.Drawing.Point(10, 113);
+            lblEnableCommands.Name = "lblEnableCommands";
+            lblEnableCommands.Size = new System.Drawing.Size(165, 15);
+            lblEnableCommands.TabIndex = 6;
+            lblEnableCommands.Text = "Enable telecontrol commands";
             // 
             // numSendAllDataPeriod
             // 
-            this.numSendAllDataPeriod.Location = new System.Drawing.Point(387, 80);
-            this.numSendAllDataPeriod.Maximum = new decimal(new int[] {
-            3600,
-            0,
-            0,
-            0});
-            this.numSendAllDataPeriod.Name = "numSendAllDataPeriod";
-            this.numSendAllDataPeriod.Size = new System.Drawing.Size(100, 23);
-            this.numSendAllDataPeriod.TabIndex = 5;
-            this.numSendAllDataPeriod.ValueChanged += new System.EventHandler(this.control_Changed);
+            numSendAllDataPeriod.Location = new System.Drawing.Point(387, 80);
+            numSendAllDataPeriod.Maximum = new decimal(new int[] { 3600, 0, 0, 0 });
+            numSendAllDataPeriod.Name = "numSendAllDataPeriod";
+            numSendAllDataPeriod.Size = new System.Drawing.Size(100, 23);
+            numSendAllDataPeriod.TabIndex = 5;
+            numSendAllDataPeriod.ValueChanged += control_Changed;
             // 
             // lblSendAllDataPeriod
             // 
-            this.lblSendAllDataPeriod.AutoSize = true;
-            this.lblSendAllDataPeriod.Location = new System.Drawing.Point(10, 84);
-            this.lblSendAllDataPeriod.Name = "lblSendAllDataPeriod";
-            this.lblSendAllDataPeriod.Size = new System.Drawing.Size(240, 15);
-            this.lblSendAllDataPeriod.TabIndex = 4;
-            this.lblSendAllDataPeriod.Text = "Period of sending data of all device tags, sec";
+            lblSendAllDataPeriod.AutoSize = true;
+            lblSendAllDataPeriod.Location = new System.Drawing.Point(10, 84);
+            lblSendAllDataPeriod.Name = "lblSendAllDataPeriod";
+            lblSendAllDataPeriod.Size = new System.Drawing.Size(240, 15);
+            lblSendAllDataPeriod.TabIndex = 4;
+            lblSendAllDataPeriod.Text = "Period of sending data of all device tags, sec";
             // 
             // chkSendModifiedData
             // 
-            this.chkSendModifiedData.AutoSize = true;
-            this.chkSendModifiedData.Location = new System.Drawing.Point(472, 55);
-            this.chkSendModifiedData.Name = "chkSendModifiedData";
-            this.chkSendModifiedData.Size = new System.Drawing.Size(15, 14);
-            this.chkSendModifiedData.TabIndex = 3;
-            this.chkSendModifiedData.UseVisualStyleBackColor = true;
-            this.chkSendModifiedData.CheckedChanged += new System.EventHandler(this.control_Changed);
+            chkSendModifiedData.AutoSize = true;
+            chkSendModifiedData.Location = new System.Drawing.Point(472, 55);
+            chkSendModifiedData.Name = "chkSendModifiedData";
+            chkSendModifiedData.Size = new System.Drawing.Size(15, 14);
+            chkSendModifiedData.TabIndex = 3;
+            chkSendModifiedData.UseVisualStyleBackColor = true;
+            chkSendModifiedData.CheckedChanged += control_Changed;
             // 
             // lblSendModifiedData
             // 
-            this.lblSendModifiedData.AutoSize = true;
-            this.lblSendModifiedData.Location = new System.Drawing.Point(10, 55);
-            this.lblSendModifiedData.Name = "lblSendModifiedData";
-            this.lblSendModifiedData.Size = new System.Drawing.Size(212, 15);
-            this.lblSendModifiedData.TabIndex = 2;
-            this.lblSendModifiedData.Text = "Send only modified data of device tags";
+            lblSendModifiedData.AutoSize = true;
+            lblSendModifiedData.Location = new System.Drawing.Point(10, 55);
+            lblSendModifiedData.Name = "lblSendModifiedData";
+            lblSendModifiedData.Size = new System.Drawing.Size(212, 15);
+            lblSendModifiedData.TabIndex = 2;
+            lblSendModifiedData.Text = "Send only modified data of device tags";
             // 
             // chkIsBound
             // 
-            this.chkIsBound.AutoSize = true;
-            this.chkIsBound.Location = new System.Drawing.Point(472, 26);
-            this.chkIsBound.Name = "chkIsBound";
-            this.chkIsBound.Size = new System.Drawing.Size(15, 14);
-            this.chkIsBound.TabIndex = 1;
-            this.chkIsBound.UseVisualStyleBackColor = true;
-            this.chkIsBound.CheckedChanged += new System.EventHandler(this.control_Changed);
+            chkIsBound.AutoSize = true;
+            chkIsBound.Location = new System.Drawing.Point(472, 26);
+            chkIsBound.Name = "chkIsBound";
+            chkIsBound.Size = new System.Drawing.Size(15, 14);
+            chkIsBound.TabIndex = 1;
+            chkIsBound.UseVisualStyleBackColor = true;
+            chkIsBound.CheckedChanged += control_Changed;
             // 
             // lblIsBound
             // 
-            this.lblIsBound.AutoSize = true;
-            this.lblIsBound.Location = new System.Drawing.Point(10, 26);
-            this.lblIsBound.Name = "lblIsBound";
-            this.lblIsBound.Size = new System.Drawing.Size(276, 15);
-            this.lblIsBound.TabIndex = 0;
-            this.lblIsBound.Text = "Application is bound to the configuration database";
+            lblIsBound.AutoSize = true;
+            lblIsBound.Location = new System.Drawing.Point(10, 26);
+            lblIsBound.Name = "lblIsBound";
+            lblIsBound.Size = new System.Drawing.Size(276, 15);
+            lblIsBound.TabIndex = 0;
+            lblIsBound.Text = "Application is bound to the configuration database";
             // 
             // ctrlClientConnection
             // 
-            this.ctrlClientConnection.ConnectionOptions = null;
-            this.ctrlClientConnection.InstanceEnabled = false;
-            this.ctrlClientConnection.Location = new System.Drawing.Point(12, 250);
-            this.ctrlClientConnection.Name = "ctrlClientConnection";
-            this.ctrlClientConnection.NameEnabled = false;
-            this.ctrlClientConnection.Size = new System.Drawing.Size(500, 366);
-            this.ctrlClientConnection.TabIndex = 1;
-            this.ctrlClientConnection.ConnectionOptionsChanged += new System.EventHandler(this.control_Changed);
+            ctrlClientConnection.ConnectionOptions = null;
+            ctrlClientConnection.InstanceEnabled = false;
+            ctrlClientConnection.Location = new System.Drawing.Point(12, 279);
+            ctrlClientConnection.Name = "ctrlClientConnection";
+            ctrlClientConnection.NameEnabled = false;
+            ctrlClientConnection.Size = new System.Drawing.Size(500, 366);
+            ctrlClientConnection.TabIndex = 1;
+            ctrlClientConnection.ConnectionOptionsChanged += control_Changed;
+            // 
+            // numStopWait
+            // 
+            numStopWait.Location = new System.Drawing.Point(387, 196);
+            numStopWait.Maximum = new decimal(new int[] { 3600, 0, 0, 0 });
+            numStopWait.Name = "numStopWait";
+            numStopWait.Size = new System.Drawing.Size(100, 23);
+            numStopWait.TabIndex = 13;
+            numStopWait.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            // 
+            // lblStopWait
+            // 
+            lblStopWait.AutoSize = true;
+            lblStopWait.Location = new System.Drawing.Point(10, 200);
+            lblStopWait.Name = "lblStopWait";
+            lblStopWait.Size = new System.Drawing.Size(137, 15);
+            lblStopWait.TabIndex = 12;
+            lblStopWait.Text = "Wait for service stop, sec";
             // 
             // FrmGeneralOptions
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 631);
-            this.Controls.Add(this.ctrlClientConnection);
-            this.Controls.Add(this.gbGeneralOptions);
-            this.Name = "FrmGeneralOptions";
-            this.Text = "General Options";
-            this.Load += new System.EventHandler(this.FrmGeneralOptions_Load);
-            this.gbGeneralOptions.ResumeLayout(false);
-            this.gbGeneralOptions.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numMaxLogSize)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numSendAllDataPeriod)).EndInit();
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(684, 661);
+            Controls.Add(ctrlClientConnection);
+            Controls.Add(gbGeneralOptions);
+            Name = "FrmGeneralOptions";
+            Text = "General Options";
+            Load += FrmGeneralOptions_Load;
+            gbGeneralOptions.ResumeLayout(false);
+            gbGeneralOptions.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numMaxLogSize).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numSendAllDataPeriod).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numStopWait).EndInit();
+            ResumeLayout(false);
         }
 
         #endregion
@@ -264,5 +275,7 @@
         private Scada.Forms.Controls.CtrlClientConnection ctrlClientConnection;
         private System.Windows.Forms.CheckBox chkStartLinesOnCommand;
         private System.Windows.Forms.Label lblStartLinesOnCommand;
+        private System.Windows.Forms.NumericUpDown numStopWait;
+        private System.Windows.Forms.Label lblStopWait;
     }
 }

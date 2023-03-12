@@ -112,7 +112,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             FormTranslator.Translate(ctrlClientConnection, ctrlClientConnection.GetType().FullName);
             ConfigToControls();
         }
-        
+
         private void control_Changed(object sender, EventArgs e)
         {
             if (!changing)
