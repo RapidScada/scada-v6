@@ -7,6 +7,7 @@
     <EnableCommands>true</EnableCommands>
     <EnableFileCommands>true</EnableFileCommands>
     <StartLinesOnCommand>false</StartLinesOnCommand>
+    <StopWait>10</StopWait>
     <MaxLogSize>1</MaxLogSize>
   </GeneralOptions>
   <ConnectionOptions>
