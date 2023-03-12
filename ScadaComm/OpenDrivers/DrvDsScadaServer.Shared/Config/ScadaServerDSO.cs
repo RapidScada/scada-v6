@@ -21,7 +21,6 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Config
             UseDefaultConn = options.GetValueAsBool("UseDefaultConn", true);
             Connection = options.GetValueAsString("Connection");
             MaxQueueSize = options.GetValueAsInt("MaxQueueSize", 1000);
-            MaxCurDataAge = options.GetValueAsInt("MaxCurDataAge", 60);
             DataLifetime = options.GetValueAsInt("DataLifetime", 3600);
             ClientLogEnabled = options.GetValueAsBool("ClientLogEnabled", false);
             DeviceFilter = new List<int>();
@@ -50,11 +49,6 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Config
         public int MaxQueueSize { get; set; }
 
         /// <summary>
-        /// Gets or sets the maximum time after which the current data is sent as historical, in seconds.
-        /// </summary>
-        public int MaxCurDataAge { get; set; }
-
-        /// <summary>
         /// Gets or sets the data lifetime in the queue, in seconds.
         /// </summary>
         public int DataLifetime { get; set; }
@@ -80,7 +74,6 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Config
             options["UseDefaultConn"] = UseDefaultConn.ToLowerString();
             options["Connection"] = Connection;
             options["MaxQueueSize"] = MaxQueueSize.ToString();
-            options["MaxCurDataAge"] = MaxCurDataAge.ToString();
             options["DataLifetime"] = DataLifetime.ToString();
             options["ClientLogEnabled"] = ClientLogEnabled.ToLowerString();
             options["DeviceFilter"] = DeviceFilter.ToRangeString();

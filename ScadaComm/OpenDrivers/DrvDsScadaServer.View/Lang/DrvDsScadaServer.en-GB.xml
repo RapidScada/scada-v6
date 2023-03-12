@@ -14,7 +14,6 @@
     <Phrase key="lblUseDefaultConn">Use default connection</Phrase>
     <Phrase key="lblConnection">Connection</Phrase>
     <Phrase key="lblMaxQueueSize">Maximum queue size</Phrase>
-    <Phrase key="lblMaxCurDataAge">Current data becomes historical, sec</Phrase>
     <Phrase key="lblDataLifetime">Data lifetime in queue, sec</Phrase>
     <Phrase key="lblClientLogEnabled">Client log enabled</Phrase>
     <Phrase key="lblDeviceFilter">Device filter</Phrase>

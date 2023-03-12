@@ -25,7 +25,6 @@
       <Option name="Connection" value="" />
       <Option name="DataLifetime" value="3600" />
       <Option name="DeviceFilter" value="" />
-      <Option name="MaxCurDataAge" value="60" />
       <Option name="MaxQueueSize" value="1000" />
       <Option name="ReadConfigDb" value="true" />
       <Option name="UseDefaultConn" value="true" />
