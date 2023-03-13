@@ -49,7 +49,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         private readonly DataQueue<DeviceSlice> curDataQueue;  // the current data queue
         private readonly DataQueue<DeviceSlice> histDataQueue; // the historical data queue
         private readonly DataQueue<DeviceEvent> eventQueue;    // the event queue
-        private readonly List<Slice> slicesToSend;             // the slices dequeued for sending
+        private readonly List<Slice> slicesToSend;             // the slices of current data dequeued for sending
 
         private ConnectionOptions connOptions; // the connection options
         private ScadaClient scadaClient;       // communicates with the server
@@ -212,52 +212,6 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                     Thread.Sleep(ScadaUtils.ErrorDelay);
                     break;
                 }
-
-                // ---
-
-                // get an item from the queue without removing it
-                /*if (!curDataQueue.TryPeek(out QueueItem<DeviceSlice> queueItem))
-                    break;
-
-                DateTime utcNow = DateTime.UtcNow;
-
-                if (utcNow - queueItem.CreationTime > dataLifetime)
-                {
-                    log.WriteError(CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
-                        "Устаревшие текущие данные удалены из очереди" :
-                        "Outdated current data removed from the queue");
-
-                    curDataQueue.Stats.SkippedItems++;
-                }
-                else if (ConvertSlice(queueItem.Value, out Slice slice))
-                {
-                    try
-                    {
-                        // send the slice
-                        if (utcNow - queueItem.CreationTime > maxCurDataAge)
-                        {
-                            scadaClient.WriteHistoricalData(queueItem.Value.ArchiveMask, slice, 
-                                WriteDataFlags.Default);
-                        }
-                        else
-                        {
-                            scadaClient.WriteCurrentData(slice, WriteDataFlags.Default);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        log.WriteError(ex.BuildErrorMessage(CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
-                            "Ошибка при передаче текущих данных" :
-                            "Error transferring current data"));
-
-                        curDataQueue.Stats.HasError = true;
-                        Thread.Sleep(ScadaUtils.ErrorDelay);
-                        break; // the item is not removed from the queue
-                    }
-                }
-
-                // remove the item from the queue
-                curDataQueue.RemoveItem(queueItem);*/
             }
         }
 
