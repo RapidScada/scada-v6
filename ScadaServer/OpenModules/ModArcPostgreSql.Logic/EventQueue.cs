@@ -13,10 +13,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
     /// Represents a queue for writing events to a database.
     /// <para>Представляет очередь для записи событий в базу данных.</para>
     /// </summary>
-    internal class EventQueue : QueueBase
+    internal class EventQueue : QueueBase<Event>, IArchiveQueue
     {
-        private readonly Queue<Event> eventQueue; // contains events for writing
-        private readonly NpgsqlCommand command;   // writes an event
+        private readonly NpgsqlCommand command; // writes an event
         private readonly NpgsqlParameter eventIdParam;
         private readonly NpgsqlParameter timestampParam;
         private readonly NpgsqlParameter hiddenParam;
@@ -43,8 +42,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         public EventQueue(int maxQueueSize, int batchSize, string insertSql)
             : base(maxQueueSize, batchSize)
         {
-            eventQueue = new Queue<Event>(maxQueueSize);
-
             command = new NpgsqlCommand(insertSql);
             eventIdParam = command.Parameters.Add("eventID", NpgsqlDbType.Bigint);
             timestampParam = command.Parameters.Add("timestamp", NpgsqlDbType.TimestampTz);
@@ -64,18 +61,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             textFormatParam = command.Parameters.Add("textFormat", NpgsqlDbType.Integer);
             eventTextParam = command.Parameters.Add("eventText", NpgsqlDbType.Varchar);
             eventDataParam = command.Parameters.Add("eventData", NpgsqlDbType.Bytea);
-        }
-
-
-        /// <summary>
-        /// Gets the current queue size.
-        /// </summary>
-        public override int Count
-        {
-            get
-            {
-                return eventQueue.Count;
-            }
         }
 
 
@@ -105,23 +90,15 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         }
 
         /// <summary>
-        /// Enqueues the event to the queue.
+        /// Retrieves items from the queue and inserts or updates them in the database.
         /// </summary>
-        public void EnqueueEvent(Event ev)
-        {
-            lock (SyncRoot)
-            {
-                eventQueue.Enqueue(ev);
-            }
-        }
-
-        /// <summary>
-        /// Inserts or updates events from the queue.
-        /// </summary>
-        public void InsertEvents()
+        public override bool ProcessItems()
         {
             if (Connection == null)
                 throw new InvalidOperationException("Connection must not be null.");
+
+            if (Count == 0)
+                return false;
 
             NpgsqlTransaction trans = null;
 
@@ -135,13 +112,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 for (int i = 0; i < BatchSize; i++)
                 {
                     // retrieve an event from the queue
-                    Event ev;
-
-                    lock (SyncRoot)
-                    {
-                        if (!eventQueue.TryDequeue(out ev))
-                            break;
-                    }
+                    if (!TryDequeue(out Event ev))
+                        break;
 
                     try
                     {
@@ -152,21 +124,18 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     catch
                     {
                         // return the unwritten event to the queue
-                        lock (SyncRoot)
-                        {
-                            eventQueue.Enqueue(ev);
-                        }
-
+                        Enqueue(ev);
                         throw;
                     }
                 }
 
-                if (eventQueue.Count == 0)
+                if (Count == 0)
                     ArcLog?.WriteInfo(ServerPhrases.QueueBecameEmpty);
 
                 trans.Commit();
                 HasError = false;
                 LastCommitTime = DateTime.UtcNow;
+                return true;
             }
             catch (Exception ex)
             {
@@ -175,6 +144,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 AppLog?.WriteError(ex, ServerPhrases.ArchiveMessage, ArchiveCode, ServerPhrases.WriteDbError);
                 ArcLog?.WriteError(ex, ServerPhrases.WriteDbError);
                 Thread.Sleep(ScadaUtils.ErrorDelay);
+                return false;
             }
             finally
             {
@@ -183,71 +153,13 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         }
 
         /// <summary>
-        /// Writes all events from the queue.
+        /// Removes excess items from the beginning of the queue.
         /// </summary>
-        public void FlushEvents()
+        public void RemoveExcessItems()
         {
-            if (Connection == null)
-                throw new InvalidOperationException("Connection must not be null.");
-
-            if (eventQueue.Count == 0)
-                return;
-
-            NpgsqlTransaction trans = null;
-
-            try
+            if (RemoveExcessItems(out int lostCount))
             {
-                Connection.Open();
-                trans = Connection.BeginTransaction();
-                command.Connection = Connection;
-                command.Transaction = trans;
-
-                lock (SyncRoot)
-                {
-                    while (eventQueue.Count > 0)
-                    {
-                        SetCommandParams(eventQueue.Dequeue());
-                        command.ExecuteNonQuery();
-                    }
-                }
-
-                ArcLog?.WriteInfo(ServerPhrases.QueueBecameEmpty);
-                trans.Commit();
-                HasError = false;
-                LastCommitTime = DateTime.UtcNow;
-            }
-            catch (Exception ex)
-            {
-                trans?.SilentRollback();
-                HasError = true;
-                AppLog?.WriteError(ex, ServerPhrases.ArchiveMessage, ArchiveCode, ServerPhrases.WriteDbError);
-                ArcLog?.WriteError(ex, ServerPhrases.WriteDbError);
-            }
-            finally
-            {
-                Connection.Close();
-            }
-        }
-
-        /// <summary>
-        /// Removes excess events from the head of the queue.
-        /// </summary>
-        public void RemoveExcessEvents()
-        {
-            int lostCnt = 0;
-
-            lock (SyncRoot)
-            {
-                while (eventQueue.Count > MaxQueueSize)
-                {
-                    eventQueue.Dequeue();
-                    lostCnt++;
-                }
-            }
-
-            if (lostCnt > 0)
-            {
-                string msg = string.Format(ServerPhrases.EventsWereLost, lostCnt);
+                string msg = string.Format(ServerPhrases.EventsWereLost, lostCount);
                 AppLog?.WriteError(ServerPhrases.ArchiveMessage, ArchiveCode, msg);
                 ArcLog?.WriteError(msg);
             }

@@ -13,9 +13,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
     /// Represents a queue for writing data points to a database.
     /// <para>Представляет очередь для записи точек данных в базу данных.</para>
     /// </summary>
-    internal class PointQueue : QueueBase
+    internal class PointQueue : QueueBase<CnlDataPoint>, IArchiveQueue
     {
-        private readonly Queue<CnlDataPoint> dataQueue;  // contains data points for writing
         private readonly NpgsqlCommand command;          // writes a data point
         private readonly NpgsqlParameter cnlNumParam;    // the channel number parameter
         private readonly NpgsqlParameter timestampParam; // the timestamp parameter
@@ -29,8 +28,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         public PointQueue(int maxQueueSize, int batchSize, string insertSql)
             : base(maxQueueSize, batchSize)
         {
-            dataQueue = new Queue<CnlDataPoint>(maxQueueSize);
-
             command = new NpgsqlCommand(insertSql);
             cnlNumParam = command.Parameters.Add("cnlNum", NpgsqlDbType.Integer);
             timestampParam = command.Parameters.Add("timestamp", NpgsqlDbType.TimestampTz);
@@ -40,17 +37,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             ReturnOnError = false;
         }
 
-
-        /// <summary>
-        /// Gets the current queue size.
-        /// </summary>
-        public override int Count
-        {
-            get
-            {
-                return dataQueue.Count;
-            }
-        }
 
         /// <summary>
         /// Gets a value indicating whether to return points to the queue in case of error.
@@ -74,10 +60,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public void EnqueuePoint(int cnlNum, DateTime timestamp, CnlData cnlData)
         {
-            lock (SyncRoot)
-            {
-                dataQueue.Enqueue(new CnlDataPoint(cnlNum, timestamp, cnlData));
-            }
+            Enqueue(new CnlDataPoint(cnlNum, timestamp, cnlData));
         }
 
         /// <summary>
@@ -85,16 +68,19 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public void EnqueueWithoutLock(int cnlNum, DateTime timestamp, CnlData cnlData)
         {
-            dataQueue.Enqueue(new CnlDataPoint(cnlNum, timestamp, cnlData));
+            queue.Enqueue(new CnlDataPoint(cnlNum, timestamp, cnlData));
         }
 
         /// <summary>
-        /// Inserts or updates data points from the queue.
+        /// Retrieves items from the queue and inserts or updates them in the database.
         /// </summary>
-        public void InsertPoints()
+        public override bool ProcessItems()
         {
             if (Connection == null)
                 throw new InvalidOperationException("Connection must not be null.");
+
+            if (Count == 0)
+                return false;
 
             NpgsqlTransaction trans = null;
 
@@ -108,13 +94,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 for (int i = 0; i < BatchSize; i++)
                 {
                     // retrieve a data point from the queue
-                    CnlDataPoint point;
-
-                    lock (SyncRoot)
-                    {
-                        if (!dataQueue.TryDequeue(out point))
-                            break;
-                    }
+                    if (!TryDequeue(out CnlDataPoint point))
+                        break;
 
                     try
                     {
@@ -126,23 +107,19 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     {
                         // return the unwritten data point to the queue
                         if (ReturnOnError)
-                        {
-                            lock (SyncRoot)
-                            {
-                                dataQueue.Enqueue(point);
-                            }
-                        }
+                            Enqueue(point);
 
                         throw;
                     }
                 }
 
-                if (dataQueue.Count == 0)
+                if (Count == 0)
                     ArcLog?.WriteInfo(ServerPhrases.QueueBecameEmpty);
 
                 trans.Commit();
                 HasError = false;
                 LastCommitTime = DateTime.UtcNow;
+                return true;
             }
             catch (Exception ex)
             {
@@ -151,6 +128,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 AppLog?.WriteError(ex, ServerPhrases.ArchiveMessage, ArchiveCode, ServerPhrases.WriteDbError);
                 ArcLog?.WriteError(ex, ServerPhrases.WriteDbError);
                 Thread.Sleep(ScadaUtils.ErrorDelay);
+                return false;
             }
             finally
             {
@@ -159,71 +137,13 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         }
 
         /// <summary>
-        /// Writes all data points from the queue.
+        /// Removes excess items from the beginning of the queue.
         /// </summary>
-        public void FlushPoints()
+        public void RemoveExcessItems()
         {
-            if (Connection == null)
-                throw new InvalidOperationException("Connection must not be null.");
-
-            if (dataQueue.Count == 0)
-                return;
-
-            NpgsqlTransaction trans = null;
-
-            try
+            if (RemoveExcessItems(out int lostCount))
             {
-                Connection.Open();
-                trans = Connection.BeginTransaction();
-                command.Connection = Connection;
-                command.Transaction = trans;
-
-                lock (SyncRoot)
-                {
-                    while (dataQueue.Count > 0)
-                    {
-                        SetCommandParams(dataQueue.Dequeue());
-                        command.ExecuteNonQuery();
-                    }
-                }
-
-                ArcLog?.WriteInfo(ServerPhrases.QueueBecameEmpty);
-                trans.Commit();
-                HasError = false;
-                LastCommitTime = DateTime.UtcNow;
-            }
-            catch (Exception ex)
-            {
-                trans?.SilentRollback();
-                HasError = true;
-                AppLog?.WriteError(ex, ServerPhrases.ArchiveMessage, ArchiveCode, ServerPhrases.WriteDbError);
-                ArcLog?.WriteError(ex, ServerPhrases.WriteDbError);
-            }
-            finally
-            {
-                Connection.Close();
-            }
-        }
-
-        /// <summary>
-        /// Removes excess points from the head of the queue.
-        /// </summary>
-        public void RemoveExcessPoints()
-        {
-            int lostCnt = 0;
-
-            lock (SyncRoot)
-            {
-                while (dataQueue.Count > MaxQueueSize)
-                {
-                    dataQueue.Dequeue();
-                    lostCnt++;
-                }
-            }
-
-            if (lostCnt > 0)
-            {
-                string msg = string.Format(ServerPhrases.PointsWereLost, lostCnt);
+                string msg = string.Format(ServerPhrases.PointsWereLost, lostCount);
                 AppLog?.WriteError(ServerPhrases.ArchiveMessage, ArchiveCode, msg);
                 ArcLog?.WriteError(msg);
             }

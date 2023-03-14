@@ -199,9 +199,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     CreatePartition(today, false);
                 }
 
-                if (eventQueue.Count > 0)
-                    eventQueue.InsertEvents();
-
+                eventQueue.ProcessItems();
                 Thread.Sleep(ScadaUtils.ThreadDelay);
             }
         }
@@ -246,7 +244,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
 
             if (eventQueue?.Connection != null)
             {
-                eventQueue.FlushEvents();
+                eventQueue.FlushItems(ArchiveContext.AppConfig.GeneralOptions.StopWait);
                 eventQueue.Connection.Dispose();
                 eventQueue.Connection = null;
             }
@@ -432,7 +430,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             if (!options.ReadOnly && TimeInsideRetention(ev.Timestamp, DateTime.UtcNow))
             {
                 Stopwatch stopwatch = Stopwatch.StartNew();
-                eventQueue.EnqueueEvent(ev);
+                eventQueue.Enqueue(ev);
+                eventQueue.RemoveExcessItems();
                 stopwatch.Stop();
                 arcLog?.WriteAction(ServerPhrases.QueueingEventCompleted, stopwatch.ElapsedMilliseconds);
             }

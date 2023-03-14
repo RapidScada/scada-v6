@@ -190,7 +190,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// <summary>
         /// Gets the archive status as text.
         /// </summary>
-        public static string GetStatusText(bool isReady, bool hasError, QueueBase queue)
+        public static string GetStatusText(bool isReady, bool hasError, IArchiveQueue queue)
         {
             if (isReady)
             {

@@ -281,7 +281,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     }
                 }
 
-                pointQueue.RemoveExcessPoints();
+                pointQueue.RemoveExcessItems();
                 stopwatch.Stop();
                 arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted, cnlCnt, stopwatch.ElapsedMilliseconds);
             }
@@ -317,7 +317,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
 
                 if (changesCnt > 0)
                 {
-                    pointQueue.RemoveExcessPoints();
+                    pointQueue.RemoveExcessItems();
                     stopwatch.Stop();
                     arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted,
                         changesCnt, stopwatch.ElapsedMilliseconds);
@@ -346,9 +346,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     CreatePartition(today, false);
                 }
 
-                if (pointQueue.Count > 0)
-                    pointQueue.InsertPoints();
-
+                pointQueue.ProcessItems();
                 Thread.Sleep(ScadaUtils.ThreadDelay);
             }
         }
@@ -398,7 +396,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
 
             if (pointQueue?.Connection != null)
             {
-                pointQueue.FlushPoints();
+                pointQueue.FlushItems(ArchiveContext.AppConfig.GeneralOptions.StopWait);
                 pointQueue.Connection.Dispose();
                 pointQueue.Connection = null;
             }
