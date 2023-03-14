@@ -20,6 +20,9 @@
     <Phrase key="this">Параметры архива исторических данных</Phrase>
     <Phrase key="gbDbOptions">Параметры базы данных</Phrase>
     <Phrase key="lblConnection">Соединение</Phrase>
+    <Phrase key="lblBatchSize">Размер пакета</Phrase>
+    <Phrase key="lblFlushInterval">Интервал передачи</Phrase>
+    <Phrase key="txtFlushIntervalUnit">ms</Phrase>
     <Phrase key="btnManageConn">Соединения</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
