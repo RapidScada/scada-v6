@@ -460,7 +460,11 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
                 ? new InfluxDBClient(connOptions.Url, connOptions.Username, connOptions.Password) 
                 : new InfluxDBClient(connOptions.Url, connOptions.Token);
             client.EnableGzip();
-            writeApi = client.GetWriteApi();
+            writeApi = client.GetWriteApi(new WriteOptions
+            {
+                BatchSize = options.BatchSize,
+                FlushInterval = options.FlushInterval
+            });
             writeApi.EventHandler += WriteApi_EventHandler;
             queryApi = client.GetQueryApi();
 
