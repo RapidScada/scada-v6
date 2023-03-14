@@ -139,6 +139,14 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
+        /// Checks that the timestamp is inside the retention period.
+        /// </summary>
+        protected bool TimeInsideRetention(DateTime timestamp, DateTime now)
+        {
+            return now.AddDays(-ArchiveOptions.Retention) <= timestamp;
+        }
+
+        /// <summary>
         /// Gets the time period in seconds.
         /// </summary>
         protected static int GetPeriodInSec(int period, TimeUnit timeUnit)
