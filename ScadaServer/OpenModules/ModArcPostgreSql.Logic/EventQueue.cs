@@ -139,9 +139,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
 
                     lock (SyncRoot)
                     {
-                        if (eventQueue.Count > 0)
-                            ev = eventQueue.Dequeue();
-                        else
+                        if (!eventQueue.TryDequeue(out ev))
                             break;
                     }
 
