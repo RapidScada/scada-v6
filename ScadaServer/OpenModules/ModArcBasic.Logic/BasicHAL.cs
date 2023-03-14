@@ -72,6 +72,12 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
 
 
         /// <summary>
+        /// Gets the archive options.
+        /// </summary>
+        protected override HistoricalArchiveOptions ArchiveOptions => options;
+
+
+        /// <summary>
         /// Validates the archive options and throws an exception on fail.
         /// </summary>
         private void ValidateOptions()
@@ -452,9 +458,16 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override bool AcceptData(ref DateTime timestamp)
         {
-            return options.PullToPeriod > 0 ?
-                PullTimeToPeriod(ref timestamp, writingPeriod, options.PullToPeriod) :
-                TimeIsMultipleOfPeriod(timestamp, writingPeriod);
+            if (TimeInsideRetention(timestamp, DateTime.UtcNow))
+            {
+                return options.PullToPeriod > 0 ?
+                    PullTimeToPeriod(ref timestamp, writingPeriod, options.PullToPeriod) :
+                    TimeIsMultipleOfPeriod(timestamp, writingPeriod);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>

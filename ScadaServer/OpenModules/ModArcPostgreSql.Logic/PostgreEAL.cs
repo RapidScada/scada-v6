@@ -82,6 +82,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             }
         }
 
+        /// <summary>
+        /// Gets the archive options.
+        /// </summary>
+        protected override EventArchiveOptions ArchiveOptions => options;
+
 
         /// <summary>
         /// Creates database entities if they do not exist.
@@ -424,7 +429,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public override void WriteEvent(Event ev)
         {
-            if (!options.ReadOnly)
+            if (!options.ReadOnly && TimeInsideRetention(ev.Timestamp, DateTime.UtcNow))
             {
                 Stopwatch stopwatch = Stopwatch.StartNew();
                 eventQueue.EnqueueEvent(ev);

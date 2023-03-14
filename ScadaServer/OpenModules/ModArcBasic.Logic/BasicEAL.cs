@@ -59,6 +59,12 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
 
 
         /// <summary>
+        /// Gets the archive options.
+        /// </summary>
+        protected override EventArchiveOptions ArchiveOptions => options;
+
+
+        /// <summary>
         /// Gets the event table from the cache, creating a table if necessary.
         /// </summary>
         private EventTable GetEventTable(DateTime timestamp)
@@ -258,21 +264,24 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void WriteEvent(Event ev)
         {
-            lock (archiveLock)
+            if (TimeInsideRetention(ev.Timestamp, DateTime.UtcNow))
             {
-                EventTable eventTable = GetEventTable(ev.Timestamp);
-                stopwatch.Restart();
-                adapter.FileName = eventTable.FileName;
+                lock (archiveLock)
+                {
+                    EventTable eventTable = GetEventTable(ev.Timestamp);
+                    stopwatch.Restart();
+                    adapter.FileName = eventTable.FileName;
 
-                if (eventTable.AddEvent(ev))
-                    adapter.AppendEvent(ev); // write new event
-                else if (ev.Ack)
-                    adapter.WriteEventAck(ev); // update acknowledgement
+                    if (eventTable.AddEvent(ev))
+                        adapter.AppendEvent(ev); // write new event
+                    else if (ev.Ack)
+                        adapter.WriteEventAck(ev); // update acknowledgement
 
-                eventTable.LastWriteTime = File.GetLastWriteTimeUtc(eventTable.FileName);
-                LastWriteTime = eventTable.LastWriteTime;
-                stopwatch.Stop();
-                arcLog?.WriteAction(ServerPhrases.WritingEventCompleted, stopwatch.ElapsedMilliseconds);
+                    eventTable.LastWriteTime = File.GetLastWriteTimeUtc(eventTable.FileName);
+                    LastWriteTime = eventTable.LastWriteTime;
+                    stopwatch.Stop();
+                    arcLog?.WriteAction(ServerPhrases.WritingEventCompleted, stopwatch.ElapsedMilliseconds);
+                }
             }
         }
 

@@ -26,6 +26,7 @@
 using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Server.Config;
+using System;
 using System.Collections.Generic;
 
 namespace Scada.Server.Archives
@@ -45,7 +46,21 @@ namespace Scada.Server.Archives
         {
         }
 
-        
+
+        /// <summary>
+        /// Gets the archive options.
+        /// </summary>
+        protected virtual EventArchiveOptions ArchiveOptions => null;
+
+
+        /// <summary>
+        /// Checks that the timestamp is inside the retention period.
+        /// </summary>
+        protected bool TimeInsideRetention(DateTime timestamp, DateTime now)
+        {
+            return ArchiveOptions != null && now.AddDays(-ArchiveOptions.Retention) <= timestamp;
+        }
+
         /// <summary>
         /// Gets the event by ID.
         /// </summary>

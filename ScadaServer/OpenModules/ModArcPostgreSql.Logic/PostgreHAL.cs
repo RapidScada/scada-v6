@@ -657,7 +657,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public override bool AcceptData(ref DateTime timestamp)
         {
-            if (options.ReadOnly)
+            if (options.ReadOnly || !TimeInsideRetention(timestamp, DateTime.UtcNow))
             {
                 return false;
             }

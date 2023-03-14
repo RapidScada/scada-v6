@@ -143,7 +143,7 @@ namespace Scada.Server.Archives
         /// </summary>
         protected bool TimeInsideRetention(DateTime timestamp, DateTime now)
         {
-            return now.AddDays(-ArchiveOptions.Retention) <= timestamp;
+            return ArchiveOptions != null && now.AddDays(-ArchiveOptions.Retention) <= timestamp;
         }
 
         /// <summary>
