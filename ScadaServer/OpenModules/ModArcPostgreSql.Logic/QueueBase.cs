@@ -13,11 +13,22 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
     internal abstract class QueueBase
     {
         /// <summary>
+        /// The minimum queue size.
+        /// </summary>
+        private const int MinQueueSize = 100;
+        /// <summary>
+        /// The minimum batch size.
+        /// </summary>
+        private const int MinBatchSize = 100;
+
+
+        /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public QueueBase(int maxQueueSize)
+        public QueueBase(int maxQueueSize, int batchSize)
         {
-            MaxQueueSize = maxQueueSize;
+            MaxQueueSize = Math.Max(maxQueueSize, MinQueueSize);
+            BatchSize = Math.Min(batchSize, MinBatchSize);
             HasError = false;
             LastCommitTime = DateTime.MinValue;
             ArchiveCode = "";
@@ -31,6 +42,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// Gets the maximum queue size.
         /// </summary>
         public int MaxQueueSize { get; }
+
+        /// <summary>
+        /// Gets the number of items transferred in one transaction.
+        /// </summary>
+        public int BatchSize { get; }
 
         /// <summary>
         /// Gets the current queue size.

@@ -40,8 +40,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public EventQueue(int maxQueueSize, string insertSql)
-            : base(maxQueueSize)
+        public EventQueue(int maxQueueSize, int batchSize, string insertSql)
+            : base(maxQueueSize, batchSize)
         {
             eventQueue = new Queue<Event>(maxQueueSize);
 
@@ -132,7 +132,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 command.Connection = Connection;
                 command.Transaction = trans;
 
-                for (int i = 0; i < DbUtils.BundleSize; i++)
+                for (int i = 0; i < BatchSize; i++)
                 {
                     // retrieve an event from the queue
                     Event ev;
@@ -176,7 +176,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 HasError = true;
                 AppLog?.WriteError(ex, ServerPhrases.ArchiveMessage, ArchiveCode, ServerPhrases.WriteDbError);
                 ArcLog?.WriteError(ex, ServerPhrases.WriteDbError);
-                Thread.Sleep(DbUtils.ErrorDelay);
+                Thread.Sleep(ScadaUtils.ErrorDelay);
             }
             finally
             {

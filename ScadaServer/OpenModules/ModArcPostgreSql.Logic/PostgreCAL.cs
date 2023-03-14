@@ -51,7 +51,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             queryBuilder = new QueryBuilder(Code);
             pointQueue = options.ReadOnly
                 ? null
-                : new PointQueue(FixQueueSize(), queryBuilder.InsertCurrentDataQuery)
+                : new PointQueue(FixQueueSize(), options.BatchSize, queryBuilder.InsertCurrentDataQuery)
                 {
                     ArchiveCode = Code,
                     AppLog = appLog,
@@ -83,12 +83,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
 
 
         /// <summary>
-        /// Checks and corrects the size of the data queue.
+        /// Corrects the size of the data queue.
         /// </summary>
         private int FixQueueSize()
         {
-            int recommendedSize = Math.Max(CnlNums.Length * 2, DbUtils.MinQueueSize);
-            return Math.Max(options.MaxQueueSize, recommendedSize);
+            return Math.Max(options.MaxQueueSize, CnlNums.Length * 2);
         }
 
         /// <summary>

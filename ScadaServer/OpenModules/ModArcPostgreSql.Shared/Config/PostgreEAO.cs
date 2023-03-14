@@ -20,8 +20,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
         {
             UseStorageConn = options.GetValueAsBool("UseStorageConn", true);
             Connection = options.GetValueAsString("Connection");
-            MaxQueueSize = options.GetValueAsInt("MaxQueueSize", ModuleUtils.DefaultQueueSize);
             PartitionSize = options.GetValueAsEnum("PartitionSize", PartitionSize.OneMonth);
+            MaxQueueSize = options.GetValueAsInt("MaxQueueSize", ModuleUtils.DefaultQueueSize);
+            BatchSize = options.GetValueAsInt("BatchSize", ModuleUtils.DefaultBatchSize);
         }
 
 
@@ -36,14 +37,19 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
         public string Connection { get; set; }
 
         /// <summary>
+        /// Gets or sets the partition size.
+        /// </summary>
+        public PartitionSize PartitionSize { get; set; }
+
+        /// <summary>
         /// Gets or sets the maximum queue size.
         /// </summary>
         public int MaxQueueSize { get; set; }
 
         /// <summary>
-        /// Gets or sets the partition size.
+        /// Gets or sets the number of events transferred in one transaction.
         /// </summary>
-        public PartitionSize PartitionSize { get; set; }
+        public int BatchSize { get; set; }
 
 
         /// <summary>
@@ -57,8 +63,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
             
             if (!ReadOnly)
             {
-                options["MaxQueueSize"] = MaxQueueSize.ToString();
                 options["PartitionSize"] = PartitionSize.ToString();
+                options["MaxQueueSize"] = MaxQueueSize.ToString();
+                options["BatchSize"] = BatchSize.ToString();
             }
         }
     }

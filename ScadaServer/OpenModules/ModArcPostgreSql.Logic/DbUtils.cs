@@ -29,18 +29,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// The database schema.
         /// </summary>
         public const string Schema = "mod_arc_postgre_sql";
-        /// <summary>
-        /// The minimum queue size.
-        /// </summary>
-        public const int MinQueueSize = 100;
-        /// <summary>
-        /// The number of queue items transferred in a single loop iteration.
-        /// </summary>
-        public const int BundleSize = 1000;
-        /// <summary>
-        /// The delay in case of a database error, in milliseconds.
-        /// </summary>
-        public const int ErrorDelay = 1000;
 
 
         /// <summary>

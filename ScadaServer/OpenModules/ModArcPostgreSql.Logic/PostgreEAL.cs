@@ -53,7 +53,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             queryBuilder = new QueryBuilder(Code);
             eventQueue = options.ReadOnly
                 ? null
-                : new EventQueue(FixQueueSize(), queryBuilder.InsertEventQuery)
+                : new EventQueue(options.MaxQueueSize, options.BatchSize, queryBuilder.InsertEventQuery)
                 {
                     ArchiveCode = Code,
                     AppLog = appLog,
@@ -82,14 +82,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             }
         }
 
-
-        /// <summary>
-        /// Checks and corrects the size of the event queue.
-        /// </summary>
-        private int FixQueueSize()
-        {
-            return Math.Max(options.MaxQueueSize, DbUtils.MinQueueSize);
-        }
 
         /// <summary>
         /// Creates database entities if they do not exist.
@@ -148,7 +140,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 {
                     appLog.WriteError(ex, ServerPhrases.ArchiveMessage, Code, ModulePhrases.CreatePartitionError);
                     arcLog?.WriteError(ex, ModulePhrases.CreatePartitionError);
-                    Thread.Sleep(DbUtils.ErrorDelay);
+                    Thread.Sleep(ScadaUtils.ErrorDelay);
                 }
             }
             finally
