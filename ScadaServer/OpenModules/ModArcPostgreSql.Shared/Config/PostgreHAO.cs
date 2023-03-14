@@ -10,7 +10,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
     /// Represents options of a historical data archive.
     /// <para>Представляет параметры архива исторических данных.</para>
     /// </summary>
-    internal class PostgreHAO : HistoricalArchiveOptions
+    internal class PostgreHAO : HistoricalArchiveOptions, IDatabaseOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.

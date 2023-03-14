@@ -50,6 +50,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             chkUseStorageConn.Checked = options.UseStorageConn;
             cbConnection.Text = options.Connection;
             numMaxQueueSize.SetValue(options.MaxQueueSize);
+            numBatchSize.SetValue(options.BatchSize);
         }
 
         /// <summary>
@@ -64,6 +65,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             options.UseStorageConn = chkUseStorageConn.Checked;
             options.Connection = cbConnection.Text;
             options.MaxQueueSize = Convert.ToInt32(numMaxQueueSize.Value);
+            options.BatchSize = Convert.ToInt32(numBatchSize.Value);
 
             options.AddToOptionList(archiveConfig.CustomOptions);
         }

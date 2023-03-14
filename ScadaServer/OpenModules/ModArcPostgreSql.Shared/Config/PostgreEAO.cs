@@ -10,7 +10,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
     /// Represents options of an event archive.
     /// <para>Представляет параметры архива событий.</para>
     /// </summary>
-    internal class PostgreEAO : EventArchiveOptions
+    internal class PostgreEAO : EventArchiveOptions, IDatabaseOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.
