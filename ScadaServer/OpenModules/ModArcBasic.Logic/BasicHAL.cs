@@ -473,17 +473,17 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Maintains performance when data is written one at a time.
         /// </summary>
-        public override void BeginUpdate(DateTime timestamp, int deviceNum)
+        public override void BeginUpdate(UpdateContext updateContext)
         {
             Monitor.Enter(archiveLock);
             stopwatch.Restart();
-            updatedTable = GetTrendTable(timestamp);
+            updatedTable = GetTrendTable(updateContext.Timestamp);
         }
 
         /// <summary>
         /// Completes the update operation.
         /// </summary>
-        public override void EndUpdate(DateTime timestamp, int deviceNum)
+        public override void EndUpdate(UpdateContext updateContext)
         {
             LastWriteTime = DateTime.UtcNow;
             updatedTable = null;
@@ -500,6 +500,9 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             lock (archiveLock)
             {
                 adapter.WriteCnlData(GetTrendTable(timestamp), timestamp, cnlNum, cnlData);
+
+                if (CurrentUpdateContext != null)
+                    CurrentUpdateContext.UpdatedCount++;
             }
         }
     }

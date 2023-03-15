@@ -1367,9 +1367,12 @@ namespace Scada.Server.Engine
                         archiveHolder.GetArchive(archiveBit, out HistoricalArchiveLogic archiveLogic) &&
                         archiveLogic.AcceptData(ref timestamp))
                     {
+                        UpdateContext updateContext = new UpdateContext(timestamp, slice.DeviceNum);
+
                         try
                         {
-                            archiveLogic.BeginUpdate(timestamp, slice.DeviceNum);
+                            archiveLogic.BeginUpdate(updateContext);
+                            archiveLogic.CurrentUpdateContext = updateContext;
                             ICalcContext calcContext = new ArchiveCalcContext(archiveLogic, timestamp);
 
                             // calculate written channels
@@ -1408,7 +1411,7 @@ namespace Scada.Server.Engine
                         }
                         finally
                         {
-                            archiveHolder.EndUpdate(archiveLogic, timestamp, slice.DeviceNum);
+                            archiveHolder.EndUpdate(archiveLogic, updateContext);
                         }
                     }
                 }

@@ -368,11 +368,12 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Calls the EndUpdate method of the specified archive.
         /// </summary>
-        public void EndUpdate(HistoricalArchiveLogic archiveLogic, DateTime timestamp, int deviceNum)
+        public void EndUpdate(HistoricalArchiveLogic archiveLogic, UpdateContext updateContext)
         {
             try
             {
-                archiveLogic.EndUpdate(timestamp, deviceNum);
+                archiveLogic.CurrentUpdateContext = null;
+                archiveLogic.EndUpdate(updateContext);
             }
             catch (Exception ex)
             {

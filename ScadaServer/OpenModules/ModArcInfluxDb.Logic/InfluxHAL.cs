@@ -62,8 +62,6 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         private DateTime nextWriteTime;             // the next time to write data to the archive
         private int[] cnlIndexes;                   // the channel mapping indexes
         private CnlData[] prevCnlData;              // the previous channel data
-        private DateTime updateTime;                // the timestamp of the current update operation
-        private Dictionary<int, CnlData> updatedCnlData; // holds recently updated channel data
 
 
         /// <summary>
@@ -89,8 +87,6 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
             nextWriteTime = DateTime.MinValue;
             cnlIndexes = null;
             prevCnlData = null;
-            updateTime = DateTime.MinValue;
-            updatedCnlData = null;
         }
 
 
@@ -300,8 +296,9 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
             {
                 try
                 {
-                    if (updatedCnlData != null && timestamp == updateTime &&
-                        updatedCnlData.TryGetValue(cnlNum, out cnlData))
+                    if (CurrentUpdateContext != null &&
+                        CurrentUpdateContext.Timestamp == timestamp &&
+                        CurrentUpdateContext.UpdatedData.TryGetValue(cnlNum, out cnlData))
                     {
                         return true;
                     }
@@ -680,24 +677,22 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// <summary>
         /// Maintains performance when data is written one at a time.
         /// </summary>
-        public override void BeginUpdate(DateTime timestamp, int deviceNum)
+        public override void BeginUpdate(UpdateContext updateContext)
         {
             Monitor.Enter(writingLock);
             stopwatch.Restart();
-            WriteFlag(timestamp);
-            updateTime = timestamp;
-            updatedCnlData = new Dictionary<int, CnlData>();
+            WriteFlag(updateContext.Timestamp);
+            updateContext.UpdatedData = new Dictionary<int, CnlData>();
         }
 
         /// <summary>
         /// Completes the update operation.
         /// </summary>
-        public override void EndUpdate(DateTime timestamp, int deviceNum)
+        public override void EndUpdate(UpdateContext updateContext)
         {
-            updateTime = DateTime.MinValue;
-            updatedCnlData = null;
             stopwatch.Stop();
-            arcLog?.WriteAction(ServerPhrases.UpdateCompleted, stopwatch.ElapsedMilliseconds);
+            arcLog?.WriteAction(ServerPhrases.UpdateCompleted,
+                updateContext.UpdatedCount, stopwatch.ElapsedMilliseconds);
             Monitor.Exit(writingLock);
         }
 
@@ -712,8 +707,11 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
                 {
                     WritePoint(timestamp, cnlNum, cnlData);
 
-                    if (updatedCnlData != null)
-                        updatedCnlData[cnlNum] = cnlData;
+                    if (CurrentUpdateContext != null)
+                    {
+                        CurrentUpdateContext.UpdatedData[cnlNum] = cnlData;
+                        CurrentUpdateContext.UpdatedCount++;
+                    }
                 }
             }
         }

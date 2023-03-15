@@ -49,6 +49,7 @@ namespace Scada.Server.Archives
         public HistoricalArchiveLogic(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums)
             : base(archiveContext, archiveConfig, cnlNums)
         {
+            CurrentUpdateContext = null;
         }
 
 
@@ -56,6 +57,11 @@ namespace Scada.Server.Archives
         /// Gets the archive options.
         /// </summary>
         protected virtual HistoricalArchiveOptions ArchiveOptions => null;
+
+        /// <summary>
+        /// Gets or sets the context of the current update operation.
+        /// </summary>
+        public UpdateContext CurrentUpdateContext { get; set; }
 
 
         /// <summary>
@@ -229,12 +235,12 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Maintains performance when data is written one at a time.
         /// </summary>
-        public abstract void BeginUpdate(DateTime timestamp, int deviceNum);
+        public abstract void BeginUpdate(UpdateContext updateContext);
 
         /// <summary>
         /// Completes the update operation.
         /// </summary>
-        public abstract void EndUpdate(DateTime timestamp, int deviceNum);
+        public abstract void EndUpdate(UpdateContext updateContext);
 
         /// <summary>
         /// Writes the channel data.

@@ -118,7 +118,7 @@ namespace Scada.Server.Lang
                 QueueingPointsCompleted = "Постановка в очередь {0} точек данных успешно завершена за {1} мс";
                 QueueBecameEmpty = "Очередь данных стала пустой";
                 PointsLost = "{0} точек данных были потеряны";
-                UpdateCompleted = "Обновление данных успешно завершено за {0} мс";
+                UpdateCompleted = "Обновление {0} точек данных успешно завершено за {1} мс";
                 ReadingEventsCompleted = "Чтение {0} событий успешно завершено за {1} мс";
                 ReadingEventCompleted = "Чтение события успешно завершено за {0} мс";
                 WritingEventCompleted = "Запись события успешно завершена за {0} мс";
@@ -160,7 +160,7 @@ namespace Scada.Server.Lang
                 QueueingPointsCompleted = "Enqueueing of {0} data points completed successfully in {1} ms";
                 QueueBecameEmpty = "Data queue has become empty";
                 PointsLost = "{0} data points were lost";
-                UpdateCompleted = "Data update completed successfully in {0} ms";
+                UpdateCompleted = "Update of {0} data points completed successfully in {1} ms";
                 ReadingEventsCompleted = "Reading of {0} events completed successfully in {1} ms";
                 ReadingEventCompleted = "Reading an event completed successfully in {0} ms";
                 WritingEventCompleted = "Event writing completed successfully in {0} ms";
