@@ -70,6 +70,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
 
 
         /// <summary>
+        /// Gets the archive options.
+        /// </summary>
+        protected override EventArchiveOptions ArchiveOptions => options;
+
+        /// <summary>
         /// Gets the current archive status as text.
         /// </summary>
         public override string StatusText
@@ -79,11 +84,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 return GetStatusText(eventQueue?.Stats, eventQueue?.Count);
             }
         }
-
-        /// <summary>
-        /// Gets the archive options.
-        /// </summary>
-        protected override EventArchiveOptions ArchiveOptions => options;
 
 
         /// <summary>

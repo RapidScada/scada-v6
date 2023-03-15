@@ -23,11 +23,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
     {
         private readonly ModuleConfig moduleConfig; // the module configuration
         private readonly PostgreHAO options;        // the archive options
+        private readonly int writingPeriod;         // the writing period in seconds
         private readonly ILog appLog;               // the application log
         private readonly ILog arcLog;               // the archive log
         private readonly QueryBuilder queryBuilder; // builds SQL requests
         private readonly PointQueue pointQueue;     // contains data points for writing
-        private readonly int writingPeriod;         // the writing period in seconds
         private readonly CnlDataEqualsDelegate cnlDataEqualsFunc; // the function for comparing channel data
         private readonly object readingLock;        // synchronizes reading from the archive
         private readonly object writingLock;        // synchronizes writing to the archive
@@ -49,6 +49,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         {
             this.moduleConfig = moduleConfig ?? throw new ArgumentNullException(nameof(moduleConfig));
             options = new PostgreHAO(archiveConfig.CustomOptions);
+            writingPeriod = GetPeriodInSec(options.WritingPeriod, options.WritingPeriodUnit);
             appLog = archiveContext.Log;
             arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
             queryBuilder = new QueryBuilder(Code);
@@ -61,7 +62,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     AppLog = appLog,
                     ArcLog = arcLog
                 };
-            writingPeriod = GetPeriodInSec(options.WritingPeriod, options.WritingPeriodUnit);
             cnlDataEqualsFunc = SelectCnlDataEquals();
             readingLock = new object();
             writingLock = new object();
@@ -77,6 +77,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
 
 
         /// <summary>
+        /// Gets the archive options.
+        /// </summary>
+        protected override HistoricalArchiveOptions ArchiveOptions => options;
+
+        /// <summary>
         /// Gets the current archive status as text.
         /// </summary>
         public override string StatusText
@@ -86,11 +91,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 return GetStatusText(pointQueue?.Stats, pointQueue?.Count);
             }
         }
-
-        /// <summary>
-        /// Gets the archive options.
-        /// </summary>
-        protected override HistoricalArchiveOptions ArchiveOptions => options;
 
 
         /// <summary>

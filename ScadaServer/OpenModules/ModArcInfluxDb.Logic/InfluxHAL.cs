@@ -47,9 +47,9 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
 
         private readonly ModuleConfig moduleConfig; // the module configuration
         private readonly InfluxHAO options;         // the archive options
+        private readonly int writingPeriod;         // the writing period in seconds
         private readonly ILog appLog;               // the application log
         private readonly ILog arcLog;               // the archive log
-        private readonly int writingPeriod;         // the writing period in seconds
         private readonly CnlDataEqualsDelegate cnlDataEqualsFunc; // the function for comparing channel data
         private readonly object readingLock;        // synchronizes reading from the archive
         private readonly object writingLock;        // synchronizes writing to the archive
@@ -71,9 +71,9 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         {
             this.moduleConfig = moduleConfig ?? throw new ArgumentNullException(nameof(moduleConfig));
             options = new InfluxHAO(archiveConfig.CustomOptions);
+            writingPeriod = GetPeriodInSec(options.WritingPeriod, options.WritingPeriodUnit);
             appLog = archiveContext.Log;
             arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
-            writingPeriod = GetPeriodInSec(options.WritingPeriod, options.WritingPeriodUnit);
             cnlDataEqualsFunc = SelectCnlDataEquals();
             readingLock = new object();
             writingLock = new object();
