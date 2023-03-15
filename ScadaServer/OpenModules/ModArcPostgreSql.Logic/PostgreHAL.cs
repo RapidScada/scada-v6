@@ -33,7 +33,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         private readonly object readingLock;        // synchronizes reading from the archive
         private readonly object writingLock;        // synchronizes writing to the archive
 
-        private bool hasError;                      // the archive is in error state
         private DbConnectionOptions connOptions;    // the database connection options
         private NpgsqlConnection readingConn;       // the database connection for reading
         private Thread thread;                      // the thread for writing data
@@ -71,7 +70,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             readingLock = new object();
             writingLock = new object();
 
-            hasError = false;
             connOptions = null;
             readingConn = null;
             thread = null;
@@ -91,7 +89,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         {
             get
             {
-                return DbUtils.GetStatusText(IsReady, hasError, pointQueue);
+                return GetStatusText(pointQueue?.Stats, pointQueue?.Count);
             }
         }
 
@@ -150,14 +148,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     today, options.PartitionSize, out string partitionName);
                 stopwatch.Stop();
 
-                hasError = false;
                 arcLog?.WriteAction(ModulePhrases.CreationPartitionCompleted,
                     partitionName, stopwatch.ElapsedMilliseconds);
             }
             catch (Exception ex)
             {
-                hasError = true;
-
                 if (throwOnFail)
                 {
                     throw;
@@ -435,13 +430,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     stopwatch.Stop();
                     arcLog?.WriteAction(ModulePhrases.PartitionDeleted, partitionName, stopwatch.ElapsedMilliseconds);
                 }
-
-                hasError = false;
-            }
-            catch
-            {
-                hasError = true;
-                throw;
             }
             finally
             {

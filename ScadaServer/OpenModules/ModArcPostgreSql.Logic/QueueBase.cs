@@ -33,12 +33,16 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         {
             MaxQueueSize = Math.Max(maxQueueSize, MinQueueSize);
             BatchSize = Math.Min(batchSize, MinBatchSize);
-            HasError = false;
             LastCommitTime = DateTime.MinValue;
             ArchiveCode = "";
             AppLog = null;
             ArcLog = null;
             Connection = null;
+            Stats = new QueueStats
+            {
+                Enabled = true,
+                MaxQueueSize = MaxQueueSize
+            };
 
             queue = new Queue<T>(MaxQueueSize);
         }
@@ -58,11 +62,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// Gets the current queue size.
         /// </summary>
         public int Count => queue.Count;
-
-        /// <summary>
-        /// Gets a value indicating whether the queue is in error state.
-        /// </summary>
-        public bool HasError { get; protected set; }
 
         /// <summary>
         /// Gets the time (UTC) of the last successful commit.
@@ -88,6 +87,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// Gets or sets the database connection.
         /// </summary>
         public NpgsqlConnection Connection { get; set; }
+
+        /// <summary>
+        /// Gets the queue statistics.
+        /// </summary>
+        public QueueStats Stats { get; }
 
         /// <summary>
         /// Gets an object that can be used to synchronize access to the queue.

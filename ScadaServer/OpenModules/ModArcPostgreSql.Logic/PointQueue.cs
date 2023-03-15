@@ -13,7 +13,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
     /// Represents a queue for writing data points to a database.
     /// <para>Представляет очередь для записи точек данных в базу данных.</para>
     /// </summary>
-    internal class PointQueue : QueueBase<CnlDataPoint>, IArchiveQueue
+    internal class PointQueue : QueueBase<CnlDataPoint>
     {
         private readonly NpgsqlCommand command;          // writes a data point
         private readonly NpgsqlParameter cnlNumParam;    // the channel number parameter
@@ -117,14 +117,14 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     ArcLog?.WriteInfo(ServerPhrases.QueueBecameEmpty);
 
                 trans.Commit();
-                HasError = false;
                 LastCommitTime = DateTime.UtcNow;
+                Stats.HasError = false;
                 return true;
             }
             catch (Exception ex)
             {
                 trans?.SilentRollback();
-                HasError = true;
+                Stats.HasError = true;
                 AppLog?.WriteError(ex, ServerPhrases.ArchiveMessage, ArchiveCode, ServerPhrases.WriteDbError);
                 ArcLog?.WriteError(ex, ServerPhrases.WriteDbError);
                 Thread.Sleep(ScadaUtils.ErrorDelay);

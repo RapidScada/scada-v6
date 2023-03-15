@@ -13,7 +13,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
     /// Represents a queue for writing events to a database.
     /// <para>Представляет очередь для записи событий в базу данных.</para>
     /// </summary>
-    internal class EventQueue : QueueBase<Event>, IArchiveQueue
+    internal class EventQueue : QueueBase<Event>
     {
         private readonly NpgsqlCommand command; // writes an event
         private readonly NpgsqlParameter eventIdParam;
@@ -133,14 +133,14 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     ArcLog?.WriteInfo(ServerPhrases.QueueBecameEmpty);
 
                 trans.Commit();
-                HasError = false;
                 LastCommitTime = DateTime.UtcNow;
+                Stats.HasError = false;
                 return true;
             }
             catch (Exception ex)
             {
                 trans?.SilentRollback();
-                HasError = true;
+                Stats.HasError = true;
                 AppLog?.WriteError(ex, ServerPhrases.ArchiveMessage, ArchiveCode, ServerPhrases.WriteDbError);
                 ArcLog?.WriteError(ex, ServerPhrases.WriteDbError);
                 Thread.Sleep(ScadaUtils.ErrorDelay);
