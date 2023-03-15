@@ -49,7 +49,6 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         private readonly InfluxHAO options;         // the archive options
         private readonly ILog appLog;               // the application log
         private readonly ILog arcLog;               // the archive log
-        private readonly Stopwatch stopwatch;       // measures the time of operations
         private readonly int writingPeriod;         // the writing period in seconds
         private readonly CnlDataEqualsDelegate cnlDataEqualsFunc; // the function for comparing channel data
         private readonly object readingLock;        // synchronizes reading from the archive
@@ -74,7 +73,6 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
             options = new InfluxHAO(archiveConfig.CustomOptions);
             appLog = archiveContext.Log;
             arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
-            stopwatch = new Stopwatch();
             writingPeriod = GetPeriodInSec(options.WritingPeriod, options.WritingPeriodUnit);
             cnlDataEqualsFunc = SelectCnlDataEquals();
             readingLock = new object();
@@ -288,32 +286,6 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         }
 
         /// <summary>
-        /// Gets the recently updated channel data.
-        /// </summary>
-        private bool GetRecentCnlData(DateTime timestamp, int cnlNum, out CnlData cnlData)
-        {
-            if (Monitor.TryEnter(writingLock))
-            {
-                try
-                {
-                    if (CurrentUpdateContext != null &&
-                        CurrentUpdateContext.Timestamp == timestamp &&
-                        CurrentUpdateContext.UpdatedData.TryGetValue(cnlNum, out cnlData))
-                    {
-                        return true;
-                    }
-                }
-                finally
-                {
-                    Monitor.Exit(writingLock);
-                }
-            }
-
-            cnlData = CnlData.Empty;
-            return false;
-        }
-
-        /// <summary>
         /// Writes the current data after the writing period has elapsed.
         /// </summary>
         private void WriteWithPeriod(ICurrentData curData)
@@ -351,7 +323,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         {
             lock (writingLock)
             {
-                stopwatch.Restart();
+                Stopwatch stopwatch = Stopwatch.StartNew();
                 int changesCnt = 0;
                 bool justInited = prevCnlData == null;
                 InitCnlIndexes(curData, ref cnlIndexes);
@@ -626,7 +598,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// </summary>
         public override CnlData GetCnlData(DateTime timestamp, int cnlNum)
         {
-            if (GetRecentCnlData(timestamp, cnlNum, out CnlData cnlData))
+            if (GetRecentCnlData(writingLock, timestamp, cnlNum, out CnlData cnlData))
                 return cnlData;
 
             lock (readingLock)
@@ -680,9 +652,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         public override void BeginUpdate(UpdateContext updateContext)
         {
             Monitor.Enter(writingLock);
-            stopwatch.Restart();
             WriteFlag(updateContext.Timestamp);
-            updateContext.UpdatedData = new Dictionary<int, CnlData>();
         }
 
         /// <summary>
@@ -690,9 +660,8 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// </summary>
         public override void EndUpdate(UpdateContext updateContext)
         {
-            stopwatch.Stop();
             arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted,
-                updateContext.UpdatedCount, stopwatch.ElapsedMilliseconds);
+                updateContext.UpdatedCount, updateContext.Stopwatch.ElapsedMilliseconds);
             Monitor.Exit(writingLock);
         }
 
