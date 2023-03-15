@@ -470,7 +470,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         }
 
         /// <summary>
-        /// Operating cycle running in a separate thread.
+        /// Operating loop running in a separate thread.
         /// </summary>
         private void Execute()
         {
