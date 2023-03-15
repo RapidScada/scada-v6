@@ -87,7 +87,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         {
             get
             {
-                return GetStatusText(sliceQueue?.Stats, sliceQueue?.Count);
+                return GetStatusText(sliceQueue.Stats, sliceQueue.Count);
             }
         }
 
@@ -227,9 +227,8 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                         }
 
                         updated = true;
-
                         stopwatch.Stop();
-                        arcLog?.WriteAction(ServerPhrases.WritingSliceCompleted, 
+                        arcLog?.WriteAction(ServerPhrases.WritingSliceCompleted,
                             slice.Length, stopwatch.ElapsedMilliseconds);
                     }
                     else
