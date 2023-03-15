@@ -169,7 +169,7 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
-        /// Gets the archive status containing queue statistics.
+        /// Gets the archive status, including queue statistics.
         /// </summary>
         protected string GetStatusText(QueueStats queueStats, int? queueSize)
         {
