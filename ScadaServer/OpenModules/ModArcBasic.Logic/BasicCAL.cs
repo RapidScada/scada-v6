@@ -11,6 +11,7 @@ using Scada.Server.Modules.ModArcBasic.Config;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Scada.Server.Modules.ModArcBasic.Logic
 {
@@ -35,6 +36,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
 
         private DateTime nextWriteTime; // the next time to write the current data
         private int[] cnlIndexes;       // the channel mapping indexes
+        private Task writingTask;       // the data writing task
 
 
         /// <summary>
@@ -53,6 +55,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
 
             nextWriteTime = DateTime.MinValue;
             cnlIndexes = null;
+            writingTask = null;
         }
 
 
@@ -107,17 +110,23 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void WriteData(ICurrentData curData)
         {
-            lock (archiveLock)
+            if (writingTask == null || writingTask.IsCompleted)
             {
-                stopwatch.Restart();
-                InitCnlIndexes(curData, ref cnlIndexes);
-                CopyCnlData(curData, slice, cnlIndexes);
-                adapter.WriteSingleSlice(slice);
-                LastWriteTime = curData.Timestamp;
+                writingTask = Task.Run(() =>
+                {
+                    lock (archiveLock)
+                    {
+                        stopwatch.Restart();
+                        InitCnlIndexes(curData, ref cnlIndexes);
+                        CopyCnlData(curData, slice, cnlIndexes);
+                        adapter.WriteSingleSlice(slice);
+                        LastWriteTime = curData.Timestamp;
 
-                stopwatch.Stop();
-                arcLog?.WriteAction(ServerPhrases.WritingSliceCompleted,
-                    slice.CnlNums.Length, stopwatch.ElapsedMilliseconds);
+                        stopwatch.Stop();
+                        arcLog?.WriteAction(ServerPhrases.WritingSliceCompleted,
+                            slice.CnlNums.Length, stopwatch.ElapsedMilliseconds);
+                    }
+                });
             }
         }
 
