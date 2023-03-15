@@ -488,7 +488,8 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             LastWriteTime = DateTime.UtcNow;
             updatedTable = null;
             stopwatch.Stop();
-            arcLog?.WriteAction(ServerPhrases.UpdateCompleted, stopwatch.ElapsedMilliseconds);
+            arcLog?.WriteAction(ServerPhrases.UpdateCompleted, 
+                updateContext.UpdatedCount, stopwatch.ElapsedMilliseconds);
             Monitor.Exit(archiveLock);
         }
 

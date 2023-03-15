@@ -685,8 +685,12 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         public override void EndUpdate(UpdateContext updateContext)
         {
             stopwatch.Stop();
-            arcLog?.WriteAction(ServerPhrases.UpdateCompleted, 
-                updateContext.UpdatedCount, stopwatch.ElapsedMilliseconds);
+
+            if (updateContext.UpdatedCount > 0)
+            {
+                arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted,
+                    updateContext.UpdatedCount, stopwatch.ElapsedMilliseconds);
+            }
 
             if (updateContext.LostCount > 0)
                 arcLog?.WriteAction(ServerPhrases.PointsLost, updateContext.LostCount);

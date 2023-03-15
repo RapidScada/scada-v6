@@ -691,7 +691,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         public override void EndUpdate(UpdateContext updateContext)
         {
             stopwatch.Stop();
-            arcLog?.WriteAction(ServerPhrases.UpdateCompleted,
+            arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted,
                 updateContext.UpdatedCount, stopwatch.ElapsedMilliseconds);
             Monitor.Exit(writingLock);
         }
