@@ -25,7 +25,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         private readonly PostgreHAO options;        // the archive options
         private readonly ILog appLog;               // the application log
         private readonly ILog arcLog;               // the archive log
-        private readonly Stopwatch stopwatch;       // measures the time of operations
         private readonly QueryBuilder queryBuilder; // builds SQL requests
         private readonly PointQueue pointQueue;     // contains data points for writing
         private readonly int writingPeriod;         // the writing period in seconds
@@ -52,7 +51,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             options = new PostgreHAO(archiveConfig.CustomOptions);
             appLog = archiveContext.Log;
             arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
-            stopwatch = new Stopwatch();
             queryBuilder = new QueryBuilder(Code);
             pointQueue = options.ReadOnly
                 ? null
@@ -217,32 +215,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             cmd.Parameters.Add("startTime", NpgsqlDbType.TimestampTz).Value = timeRange.StartTime;
             cmd.Parameters.Add("endTime", NpgsqlDbType.TimestampTz).Value = timeRange.EndTime;
             return cmd;
-        }
-
-        /// <summary>
-        /// Gets the recently updated channel data.
-        /// </summary>
-        private bool GetRecentCnlData(DateTime timestamp, int cnlNum, out CnlData cnlData)
-        {
-            if (Monitor.TryEnter(writingLock))
-            {
-                try
-                {
-                    if (CurrentUpdateContext != null && 
-                        CurrentUpdateContext.Timestamp == timestamp &&
-                        CurrentUpdateContext.UpdatedData.TryGetValue(cnlNum, out cnlData))
-                    {
-                        return true;
-                    }
-                }
-                finally
-                {
-                    Monitor.Exit(writingLock); 
-                }
-            }
-
-            cnlData = CnlData.Empty;
-            return false;
         }
 
         /// <summary>
@@ -608,7 +580,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public override CnlData GetCnlData(DateTime timestamp, int cnlNum)
         {
-            if (GetRecentCnlData(timestamp, cnlNum, out CnlData cnlData))
+            if (GetRecentCnlData(writingLock, timestamp, cnlNum, out CnlData cnlData))
                 return cnlData;
 
             try
@@ -675,8 +647,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         public override void BeginUpdate(UpdateContext updateContext)
         {
             Monitor.Enter(writingLock);
-            stopwatch.Restart();
-            updateContext.UpdatedData = new Dictionary<int, CnlData>();
         }
 
         /// <summary>
@@ -684,12 +654,10 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public override void EndUpdate(UpdateContext updateContext)
         {
-            stopwatch.Stop();
-
             if (updateContext.UpdatedCount > 0)
             {
                 arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted,
-                    updateContext.UpdatedCount, stopwatch.ElapsedMilliseconds);
+                    updateContext.UpdatedCount, updateContext.Stopwatch.ElapsedMilliseconds);
             }
 
             if (updateContext.LostCount > 0)
