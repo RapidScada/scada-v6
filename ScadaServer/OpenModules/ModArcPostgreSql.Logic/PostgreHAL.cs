@@ -261,24 +261,37 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 Stopwatch stopwatch = Stopwatch.StartNew();
                 InitCnlIndexes(curData, ref cnlIndexes);
                 InitPrevCnlData(curData, cnlIndexes, ref prevCnlData);
-                int cnlCnt = CnlNums.Length;
+                int addedCnt = 0;
+                int lostCnt = 0;
 
                 lock (pointQueue.SyncRoot)
                 {
-                    for (int i = 0; i < cnlCnt; i++)
+                    for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
                     {
                         CnlData cnlData = curData.CnlData[cnlIndexes[i]];
 
                         if (prevCnlData != null)
                             prevCnlData[i] = cnlData;
 
-                        pointQueue.EnqueueWithoutLock(CnlNums[i], writeTime, cnlData);
+                        if (pointQueue.EnqueueNoLock(new CnlDataPoint(CnlNums[i], writeTime, cnlData)))
+                        {
+                            addedCnt++;
+                        }
+                        else
+                        {
+                            lostCnt = cnlCnt - i;
+                            break;
+                        }
                     }
                 }
 
-                pointQueue.RemoveExcessItems();
                 stopwatch.Stop();
-                arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted, cnlCnt, stopwatch.ElapsedMilliseconds);
+
+                if (addedCnt > 0)
+                    arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted, addedCnt, stopwatch.ElapsedMilliseconds);
+
+                if (lostCnt > 0)
+                    arcLog?.WriteAction(ServerPhrases.PointsLost, lostCnt);
             }
         }
 
@@ -290,7 +303,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             lock (writingLock)
             {
                 Stopwatch stopwatch = Stopwatch.StartNew();
-                int changesCnt = 0;
+                int addedCnt = 0;
+                int lostCnt = 0;
                 bool justInited = prevCnlData == null;
                 InitCnlIndexes(curData, ref cnlIndexes);
                 InitPrevCnlData(curData, cnlIndexes, ref prevCnlData);
@@ -304,23 +318,22 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                         if (!cnlDataEqualsFunc(prevCnlData[i], cnlData))
                         {
                             prevCnlData[i] = cnlData;
-                            pointQueue.EnqueuePoint(CnlNums[i], curData.Timestamp, cnlData);
-                            changesCnt++;
+
+                            if (pointQueue.Enqueue(new CnlDataPoint(CnlNums[i], curData.Timestamp, cnlData)))
+                                addedCnt++;
+                            else
+                                lostCnt++;
                         }
                     }
                 }
 
-                if (changesCnt > 0)
-                {
-                    pointQueue.RemoveExcessItems();
-                    stopwatch.Stop();
-                    arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted,
-                        changesCnt, stopwatch.ElapsedMilliseconds);
-                }
-                else
-                {
-                    stopwatch.Stop();
-                }
+                stopwatch.Stop();
+
+                if (addedCnt > 0)
+                    arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted, addedCnt, stopwatch.ElapsedMilliseconds);
+
+                if (lostCnt > 0)
+                    arcLog?.WriteAction(ServerPhrases.PointsLost, lostCnt);
             }
         }
 
@@ -691,7 +704,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             {
                 lock (writingLock)
                 {
-                    pointQueue.EnqueuePoint(cnlNum, timestamp, cnlData);
+                    pointQueue.Enqueue(new CnlDataPoint(cnlNum, timestamp, cnlData));
 
                     if (updatedCnlData != null)
                         updatedCnlData[cnlNum] = cnlData;

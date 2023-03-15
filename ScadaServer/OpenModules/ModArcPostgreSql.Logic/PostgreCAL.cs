@@ -52,6 +52,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 ? null
                 : new PointQueue(FixQueueSize(), options.BatchSize, queryBuilder.InsertCurrentDataQuery)
                 {
+                    RemoveExceeded = true,
                     ArchiveCode = Code,
                     AppLog = appLog,
                     ArcLog = arcLog
@@ -292,12 +293,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
                     {
                         int cnlIndex = cnlIndexes[i];
-                        pointQueue.EnqueueWithoutLock(CnlNums[i], 
-                            curData.Timestamps[cnlIndex], curData.CnlData[cnlIndex]);
+                        pointQueue.EnqueueNoLock(new CnlDataPoint(
+                            CnlNums[i], curData.Timestamps[cnlIndex], curData.CnlData[cnlIndex]));
                     }
                 }
 
-                pointQueue.RemoveExcessItems();
                 stopwatch.Stop();
                 arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted, 
                     CnlNums.Length, stopwatch.ElapsedMilliseconds);

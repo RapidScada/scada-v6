@@ -418,10 +418,13 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             if (!options.ReadOnly && TimeInsideRetention(ev.Timestamp, DateTime.UtcNow))
             {
                 Stopwatch stopwatch = Stopwatch.StartNew();
-                eventQueue.Enqueue(ev);
-                eventQueue.RemoveExcessItems();
+                bool added = eventQueue.Enqueue(ev);
                 stopwatch.Stop();
-                arcLog?.WriteAction(ServerPhrases.QueueingEventCompleted, stopwatch.ElapsedMilliseconds);
+
+                if (added)
+                    arcLog?.WriteAction(ServerPhrases.QueueingEventCompleted, stopwatch.ElapsedMilliseconds);
+                else
+                    arcLog?.WriteAction(ServerPhrases.EventLost);
             }
         }
 

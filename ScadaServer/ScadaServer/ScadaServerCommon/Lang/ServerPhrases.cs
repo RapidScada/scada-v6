@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -57,13 +57,13 @@ namespace Scada.Server.Lang
         public static string WritingPointsCompleted { get; private set; }
         public static string QueueingPointsCompleted { get; private set; }
         public static string QueueBecameEmpty { get; private set; }
-        public static string PointsWereLost { get; private set; }
+        public static string PointsLost { get; private set; }
         public static string UpdateCompleted { get; private set; }
         public static string ReadingEventsCompleted { get; private set; }
         public static string ReadingEventCompleted { get; private set; }
         public static string WritingEventCompleted { get; private set; }
         public static string QueueingEventCompleted { get; private set; }
-        public static string EventsWereLost { get; private set; }
+        public static string EventLost { get; private set; }
         public static string AckEventCompleted { get; private set; }
         public static string AckEventNotFound { get; private set; }
 
@@ -117,13 +117,13 @@ namespace Scada.Server.Lang
                 WritingPointsCompleted = "Запись {0} точек данных успешно завершена за {1} мс";
                 QueueingPointsCompleted = "Постановка в очередь {0} точек данных успешно завершена за {1} мс";
                 QueueBecameEmpty = "Очередь данных стала пустой";
-                PointsWereLost = "{0} точек данных были потеряны";
+                PointsLost = "{0} точек данных были потеряны";
                 UpdateCompleted = "Обновление данных успешно завершено за {0} мс";
                 ReadingEventsCompleted = "Чтение {0} событий успешно завершено за {1} мс";
                 ReadingEventCompleted = "Чтение события успешно завершено за {0} мс";
                 WritingEventCompleted = "Запись события успешно завершена за {0} мс";
                 QueueingEventCompleted = "Постановка события в очередь успешно завершена за {0} мс";
-                EventsWereLost = "{0} событий были потеряны";
+                EventLost = "Событие было потеряно";
                 AckEventCompleted = "Квитирование события с ид. {0} успешно завершено за {1} мс";
                 AckEventNotFound = "Квитируемое событие с ид. {0} не найдено";
 
@@ -159,13 +159,13 @@ namespace Scada.Server.Lang
                 WritingPointsCompleted = "Writing of {0} data points completed successfully in {1} ms";
                 QueueingPointsCompleted = "Enqueueing of {0} data points completed successfully in {1} ms";
                 QueueBecameEmpty = "Data queue has become empty";
-                PointsWereLost = "{0} data points were lost";
+                PointsLost = "{0} data points were lost";
                 UpdateCompleted = "Data update completed successfully in {0} ms";
                 ReadingEventsCompleted = "Reading of {0} events completed successfully in {1} ms";
                 ReadingEventCompleted = "Reading an event completed successfully in {0} ms";
                 WritingEventCompleted = "Event writing completed successfully in {0} ms";
                 QueueingEventCompleted = "Enqueueing an event completed successfully in {0} ms";
-                EventsWereLost = "{0} events were lost";
+                EventLost = "Event was lost";
                 AckEventCompleted = "Acknowledging an event with ID {0} completed successfully in {1} ms";
                 AckEventNotFound = "Acknowledged event with ID {0} not found";
 

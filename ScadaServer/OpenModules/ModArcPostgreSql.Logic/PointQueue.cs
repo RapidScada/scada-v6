@@ -56,22 +56,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         }
 
         /// <summary>
-        /// Enqueues a data point to the queue.
-        /// </summary>
-        public void EnqueuePoint(int cnlNum, DateTime timestamp, CnlData cnlData)
-        {
-            Enqueue(new CnlDataPoint(cnlNum, timestamp, cnlData));
-        }
-
-        /// <summary>
-        /// Enqueues a data point without locking the queue.
-        /// </summary>
-        public void EnqueueWithoutLock(int cnlNum, DateTime timestamp, CnlData cnlData)
-        {
-            queue.Enqueue(new CnlDataPoint(cnlNum, timestamp, cnlData));
-        }
-
-        /// <summary>
         /// Retrieves items from the queue and inserts or updates them in the database.
         /// </summary>
         public override bool ProcessItems()
@@ -133,19 +117,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             finally
             {
                 Connection.Close();
-            }
-        }
-
-        /// <summary>
-        /// Removes excess items from the beginning of the queue.
-        /// </summary>
-        public void RemoveExcessItems()
-        {
-            if (RemoveExcessItems(out int lostCount))
-            {
-                string msg = string.Format(ServerPhrases.PointsWereLost, lostCount);
-                AppLog?.WriteError(ServerPhrases.ArchiveMessage, ArchiveCode, msg);
-                ArcLog?.WriteError(msg);
             }
         }
     }

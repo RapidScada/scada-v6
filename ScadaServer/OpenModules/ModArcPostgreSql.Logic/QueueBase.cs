@@ -3,6 +3,7 @@
 
 using Npgsql;
 using Scada.Data.Queues;
+using Scada.Lang;
 using Scada.Log;
 using System.Diagnostics;
 
@@ -33,11 +34,12 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         {
             MaxQueueSize = Math.Max(maxQueueSize, MinQueueSize);
             BatchSize = Math.Min(batchSize, MinBatchSize);
-            LastCommitTime = DateTime.MinValue;
+            RemoveExceeded = false;
             ArchiveCode = "";
             AppLog = null;
             ArcLog = null;
             Connection = null;
+            LastCommitTime = DateTime.MinValue;
             Stats = new QueueStats
             {
                 Enabled = true,
@@ -62,11 +64,12 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// Gets the current queue size.
         /// </summary>
         public int Count => queue.Count;
-
+        
         /// <summary>
-        /// Gets the time (UTC) of the last successful commit.
+        /// Gets or sets a value indicating whether to remove items from the beginning of the queue 
+        /// if the size is exceeded.
         /// </summary>
-        public DateTime LastCommitTime { get; protected set; }
+        public bool RemoveExceeded { get; init; }
 
         /// <summary>
         /// Gets or sets the archive code.
@@ -87,6 +90,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// Gets or sets the database connection.
         /// </summary>
         public NpgsqlConnection Connection { get; set; }
+
+        /// <summary>
+        /// Gets the time (UTC) of the last successful commit.
+        /// </summary>
+        public DateTime LastCommitTime { get; protected set; }
 
         /// <summary>
         /// Gets the queue statistics.
@@ -121,14 +129,37 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// <summary>
         /// Enqueues the item to the queue.
         /// </summary>
-        public void Enqueue(T item)
+        public bool Enqueue(T item)
         {
             lock (SyncRoot)
             {
-                queue.Enqueue(item);
+                return EnqueueNoLock(item);
             }
         }
-        
+
+        /// <summary>
+        /// Enqueues the item to the queue without locking the queue.
+        /// </summary>
+        public bool EnqueueNoLock(T item)
+        {
+            if (RemoveExceeded)
+            {
+                while (queue.Count >= MaxQueueSize)
+                {
+                    queue.Dequeue();
+                    Stats.SkippedItems++;
+                }
+            }
+            else if (queue.Count >= MaxQueueSize)
+            {
+                Stats.SkippedItems++;
+                return false;
+            }
+
+            queue.Enqueue(item);
+            return true;
+        }
+
         /// <summary>
         /// Removes and returns the item at the beginning of the queue.
         /// </summary>

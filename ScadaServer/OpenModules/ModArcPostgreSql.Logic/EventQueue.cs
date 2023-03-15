@@ -151,18 +151,5 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 Connection.Close();
             }
         }
-
-        /// <summary>
-        /// Removes excess items from the beginning of the queue.
-        /// </summary>
-        public void RemoveExcessItems()
-        {
-            if (RemoveExcessItems(out int lostCount))
-            {
-                string msg = string.Format(ServerPhrases.EventsWereLost, lostCount);
-                AppLog?.WriteError(ServerPhrases.ArchiveMessage, ArchiveCode, msg);
-                ArcLog?.WriteError(msg);
-            }
-        }
     }
 }
