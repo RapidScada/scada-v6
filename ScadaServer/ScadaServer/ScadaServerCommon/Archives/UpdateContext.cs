@@ -26,6 +26,7 @@
 using Scada.Data.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Scada.Server.Archives
 {
@@ -42,7 +43,8 @@ namespace Scada.Server.Archives
         {
             Timestamp = timestamp;
             DeviceNum = deviceNum;
-            UpdatedData = null;
+            Stopwatch = Stopwatch.StartNew();
+            UpdatedData = new Dictionary<int, CnlData>();
             UpdatedCount = 0;
             LostCount = 0;
         }
@@ -59,9 +61,14 @@ namespace Scada.Server.Archives
         public int DeviceNum { get; }
 
         /// <summary>
+        /// Gets the stopwatch to measure update time.
+        /// </summary>
+        public Stopwatch Stopwatch { get; }
+
+        /// <summary>
         /// Gets the channel data that was updated during the current operation.
         /// </summary>
-        public Dictionary<int, CnlData> UpdatedData { get; set; }
+        public Dictionary<int, CnlData> UpdatedData { get; }
 
         /// <summary>
         /// Gets or sets the number of updated data points.

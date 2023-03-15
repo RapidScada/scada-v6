@@ -372,6 +372,7 @@ namespace Scada.Server.Engine
         {
             try
             {
+                updateContext.Stopwatch.Stop();
                 archiveLogic.CurrentUpdateContext = null;
                 archiveLogic.EndUpdate(updateContext);
             }

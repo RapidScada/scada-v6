@@ -27,6 +27,7 @@ using Scada.Data.Models;
 using Scada.Server.Config;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Scada.Server.Archives
 {
@@ -78,6 +79,32 @@ namespace Scada.Server.Archives
             }
 
             return TrendHelper.MergeTrends(trends);
+        }
+
+        /// <summary>
+        /// Gets the recently updated channel data.
+        /// </summary>
+        protected bool GetRecentCnlData(object lockObj, DateTime timestamp, int cnlNum, out CnlData cnlData)
+        {
+            if (Monitor.TryEnter(lockObj))
+            {
+                try
+                {
+                    if (CurrentUpdateContext != null &&
+                        CurrentUpdateContext.Timestamp == timestamp &&
+                        CurrentUpdateContext.UpdatedData.TryGetValue(cnlNum, out cnlData))
+                    {
+                        return true;
+                    }
+                }
+                finally
+                {
+                    Monitor.Exit(lockObj);
+                }
+            }
+
+            cnlData = CnlData.Empty;
+            return false;
         }
 
         /// <summary>
