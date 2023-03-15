@@ -30,7 +30,6 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         private readonly ModuleConfig moduleConfig; // the module configuration
         private readonly BasicCAO options;          // the archive options
         private readonly ILog arcLog;               // the archive log
-        private readonly Stopwatch stopwatch;       // measures the time of operations
         private readonly SliceTableAdapter adapter; // reads and writes current data
         private readonly Slice slice;               // the slice for writing
         private readonly object archiveLock;        // synchronizes access to the archive
@@ -49,7 +48,6 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             this.moduleConfig = moduleConfig ?? throw new ArgumentNullException(nameof(moduleConfig));
             options = new BasicCAO(archiveConfig.CustomOptions);
             arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
-            stopwatch = new Stopwatch();
             adapter = new SliceTableAdapter();
             slice = new Slice(DateTime.MinValue, cnlNums);
             archiveLock = new object();
@@ -79,7 +77,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             {
                 lock (archiveLock)
                 {
-                    stopwatch.Restart();
+                    Stopwatch stopwatch = Stopwatch.StartNew();
                     Slice slice = adapter.ReadSingleSlice();
 
                     for (int i = 0, cnlCnt = slice.CnlNums.Length; i < cnlCnt; i++)
@@ -117,7 +115,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                 {
                     lock (archiveLock)
                     {
-                        stopwatch.Restart();
+                        Stopwatch stopwatch = Stopwatch.StartNew();
                         InitCnlIndexes(curData, ref cnlIndexes);
                         CopyCnlData(curData, slice, cnlIndexes);
                         adapter.WriteSingleSlice(slice);
