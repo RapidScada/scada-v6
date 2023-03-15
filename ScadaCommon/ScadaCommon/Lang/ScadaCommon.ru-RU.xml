@@ -15,7 +15,7 @@
     <Phrase key="LogicStopped">Обработка логики остановлена</Phrase>
     <Phrase key="UnableToStopLogic">Не удалось остановить обработку логики за установленное время</Phrase>
     <Phrase key="StopLogicError">Ошибка при остановке обработки логики</Phrase>
-    <Phrase key="LogicCycleError">Ошибка в цикле работы логики</Phrase>
+    <Phrase key="LogicLoopError">Ошибка в цикле работы логики</Phrase>
     <Phrase key="ThreadFatalError">Неустранимая ошибка в потоке</Phrase>
     <Phrase key="WriteInfoError">Ошибка при записи в файл информации о работе приложения</Phrase>
     <Phrase key="ConnectionNotFound">Соединение &quot;{0}&quot; не найдено.</Phrase>

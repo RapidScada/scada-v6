@@ -122,7 +122,7 @@ namespace Scada.Server.Modules
         }
 
         /// <summary>
-        /// Performs actions on a new iteration of the main operating cycle.
+        /// Performs actions on a new iteration of the main operating loop.
         /// </summary>
         public virtual void OnIteration()
         {

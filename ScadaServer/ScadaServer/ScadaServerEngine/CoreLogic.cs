@@ -508,7 +508,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Operating cycle running in a separate thread.
+        /// Operating loop running in a separate thread.
         /// </summary>
         private void Execute()
         {
@@ -565,7 +565,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        Log.WriteError(ex, CommonPhrases.LogicCycleError);
+                        Log.WriteError(ex, CommonPhrases.LogicLoopError);
                     }
                     finally
                     {

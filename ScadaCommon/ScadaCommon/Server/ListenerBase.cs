@@ -167,7 +167,7 @@ namespace Scada.Server
         }
 
         /// <summary>
-        /// Work cycle running in a separate thread.
+        /// Work loop running in a separate thread.
         /// </summary>
         protected void Execute()
         {
@@ -219,7 +219,7 @@ namespace Scada.Server
         }
 
         /// <summary>
-        /// Work cycle of a client.
+        /// Work loop of a client.
         /// </summary>
         protected void ClientExecute(object clientArg)
         {

@@ -355,7 +355,7 @@ namespace Scada.Comm.Engine
                     }
                     catch (Exception ex)
                     {
-                        Log.WriteError(ex, CommonPhrases.LogicCycleError);
+                        Log.WriteError(ex, CommonPhrases.LogicLoopError);
                     }
                     finally
                     {
