@@ -24,13 +24,13 @@
  */
 
 using Scada.Data.Models;
+using Scada.Data.Queues;
 using Scada.Lang;
 using Scada.Log;
 using Scada.Server.Config;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
 
 namespace Scada.Server.Archives
 {
@@ -113,7 +113,7 @@ namespace Scada.Server.Archives
             get
             {
                 return Locale.IsRussian ?
-                    (IsReady ? "готовность" : "не готов") :
+                    (IsReady ? "готов" : "не готов") :
                     (IsReady ? "Ready" : "Not Ready");
             }
         }
@@ -165,6 +165,35 @@ namespace Scada.Server.Archives
             else
             {
                 throw new ScadaException("Inappropriate slice.");
+            }
+        }
+
+        /// <summary>
+        /// Gets the archive status containing queue statistics.
+        /// </summary>
+        protected string GetStatusText(QueueStats queueStats, int? queueSize)
+        {
+            if (!IsReady)
+            {
+                return Locale.IsRussian ?
+                    "не готов" :
+                    "Not Ready";
+            }
+            else if (queueStats == null)
+            {
+                return Locale.IsRussian ?
+                    "готов" :
+                    "Ready";
+            }
+            else if (Locale.IsRussian)
+            {
+                return (queueStats.HasError ? "ошибка" : "готов") +
+                    $", очередь {queueSize} из {queueStats.MaxQueueSize}, потеряно {queueStats.SkippedItems}";
+            }
+            else
+            {
+                return (queueStats.HasError ? "Error" : "Ready") +
+                    $", queue {queueSize} of {queueStats.MaxQueueSize}, lost {queueStats.SkippedItems}";
             }
         }
 
