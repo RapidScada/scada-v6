@@ -315,7 +315,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted, addedCnt, stopwatch.ElapsedMilliseconds);
 
                 if (lostCnt > 0)
-                    arcLog?.WriteAction(ServerPhrases.PointsLost, lostCnt);
+                    arcLog?.WriteWarning(ServerPhrases.PointsLost, lostCnt);
             }
         }
 

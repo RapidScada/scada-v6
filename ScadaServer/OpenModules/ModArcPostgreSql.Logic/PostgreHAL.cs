@@ -288,7 +288,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted, addedCnt, stopwatch.ElapsedMilliseconds);
 
                 if (lostCnt > 0)
-                    arcLog?.WriteAction(ServerPhrases.PointsLost, lostCnt);
+                    arcLog?.WriteWarning(ServerPhrases.PointsLost, lostCnt);
             }
         }
 
@@ -330,7 +330,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted, addedCnt, stopwatch.ElapsedMilliseconds);
 
                 if (lostCnt > 0)
-                    arcLog?.WriteAction(ServerPhrases.PointsLost, lostCnt);
+                    arcLog?.WriteWarning(ServerPhrases.PointsLost, lostCnt);
             }
         }
 
@@ -693,7 +693,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             }
 
             if (updateContext.LostCount > 0)
-                arcLog?.WriteAction(ServerPhrases.PointsLost, updateContext.LostCount);
+                arcLog?.WriteWarning(ServerPhrases.PointsLost, updateContext.LostCount);
 
             Monitor.Exit(writingLock);
         }

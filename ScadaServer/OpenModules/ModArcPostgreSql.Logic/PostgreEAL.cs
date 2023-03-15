@@ -424,7 +424,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 if (added)
                     arcLog?.WriteAction(ServerPhrases.QueueingEventCompleted, stopwatch.ElapsedMilliseconds);
                 else
-                    arcLog?.WriteAction(ServerPhrases.EventLost);
+                    arcLog?.WriteWarning(ServerPhrases.EventLost);
             }
         }
 

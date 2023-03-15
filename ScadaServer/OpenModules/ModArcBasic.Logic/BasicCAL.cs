@@ -3,6 +3,7 @@
 
 using Scada.Data.Adapters;
 using Scada.Data.Models;
+using Scada.Lang;
 using Scada.Log;
 using Scada.Server.Archives;
 using Scada.Server.Config;
@@ -127,6 +128,12 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                             slice.CnlNums.Length, stopwatch.ElapsedMilliseconds);
                     }
                 });
+            }
+            else
+            {
+                arcLog?.WriteWarning(Locale.IsRussian ?
+                    "Операция записи ещё не завершена" :
+                    "Write operation not completed yet");
             }
         }
 
