@@ -146,7 +146,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         }
 
         /// <summary>
-        /// Performs actions on a new iteration of the main operating cycle.
+        /// Performs actions on a new iteration of the main operating loop.
         /// </summary>
         public override void OnIteration()
         {

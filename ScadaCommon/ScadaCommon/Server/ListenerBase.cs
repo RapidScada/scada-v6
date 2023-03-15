@@ -167,7 +167,7 @@ namespace Scada.Server
         }
 
         /// <summary>
-        /// Work loop running in a separate thread.
+        /// Operating loop running in a separate thread.
         /// </summary>
         protected void Execute()
         {
@@ -209,7 +209,7 @@ namespace Scada.Server
                 {
                     log.WriteError(ex, Locale.IsRussian ?
                         "Ошибка в цикле работы прослушивателя" :
-                        "Error in the listener work cycle");
+                        "Error in the listener loop");
                 }
                 finally
                 {
@@ -960,7 +960,7 @@ namespace Scada.Server
         }
 
         /// <summary>
-        /// Performs actions on a new iteration of the work cycle.
+        /// Performs actions on a new iteration of the listener loop.
         /// </summary>
         protected virtual void OnIteration()
         {

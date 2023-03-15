@@ -482,7 +482,7 @@ namespace Scada.Agent.Engine
         }
 
         /// <summary>
-        /// Performs actions on a new iteration of the work cycle.
+        /// Performs actions on a new iteration of the listener loop.
         /// </summary>
         protected override void OnIteration()
         {
