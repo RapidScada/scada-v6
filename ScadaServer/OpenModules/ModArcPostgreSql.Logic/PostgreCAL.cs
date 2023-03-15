@@ -287,20 +287,35 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             {
                 Stopwatch stopwatch = Stopwatch.StartNew();
                 InitCnlIndexes(curData, ref cnlIndexes);
+                int addedCnt = 0;
+                int lostCnt = 0;
 
                 lock (pointQueue.SyncRoot)
                 {
                     for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
                     {
                         int cnlIndex = cnlIndexes[i];
-                        pointQueue.EnqueueNoLock(new CnlDataPoint(
-                            CnlNums[i], curData.Timestamps[cnlIndex], curData.CnlData[cnlIndex]));
+
+                        if (pointQueue.EnqueueNoLock(new CnlDataPoint(
+                            CnlNums[i], curData.Timestamps[cnlIndex], curData.CnlData[cnlIndex])))
+                        {
+                            addedCnt++;
+                        }
+                        else
+                        {
+                            lostCnt = cnlCnt - i;
+                            break;
+                        }
                     }
                 }
 
                 stopwatch.Stop();
-                arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted, 
-                    CnlNums.Length, stopwatch.ElapsedMilliseconds);
+
+                if (addedCnt > 0)
+                    arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted, addedCnt, stopwatch.ElapsedMilliseconds);
+
+                if (lostCnt > 0)
+                    arcLog?.WriteAction(ServerPhrases.PointsLost, lostCnt);
             }
         }
 
