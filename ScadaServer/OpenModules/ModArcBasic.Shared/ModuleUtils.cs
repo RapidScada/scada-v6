@@ -19,7 +19,7 @@ namespace Scada.Server.Modules.ModArcBasic
         /// <summary>
         ///  The maximum number of entries that can be stored in the cache.
         /// </summary>
-        public const int CacheCapacity = 100;
+        public const int CacheCapacity = 1000;
 
         /// <summary>
         /// Determines how long an item is stored in the cache.
