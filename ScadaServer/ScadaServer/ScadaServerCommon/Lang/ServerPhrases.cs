@@ -71,12 +71,14 @@ namespace Scada.Server.Lang
         public static string StartModule { get; private set; }
         public static string StopModule { get; private set; }
         public static string ModuleMessage { get; private set; }
-        public static string ReadDbError { get; private set; }
-        public static string WriteDbError { get; private set; }
         public static string ModuleStateLoaded { get; private set; }
         public static string ModuleStateNotExists { get; private set; }
         public static string LoadModuleStateError { get; private set; }
         public static string SaveModuleStateError { get; private set; }
+        public static string ReadDbError { get; private set; }
+        public static string WriteDbError { get; private set; }
+        public static string ReadFileError { get; private set; }
+        public static string WriteFileError { get; private set; }
 
         // Scada.Server.Archives
         public static string UnspecifiedArchiveKind { get; private set; }
@@ -84,7 +86,7 @@ namespace Scada.Server.Lang
         public static string HistoricalArchiveKind { get; private set; }
         public static string EventsArchiveKind { get; private set; }
 
-        // Scada.Comm.Modules
+        // Scada.Server.Modules
         public static string LoadModuleConfigError { get; private set; }
         public static string SaveModuleConfigError { get; private set; }
         public static string SaveModuleConfigConfirm { get; private set; }
@@ -130,12 +132,14 @@ namespace Scada.Server.Lang
                 StartModule = "Модуль {0} {1} запущен";
                 StopModule = "Модуль {0} остановлен";
                 ModuleMessage = "Модуль {0}: {1}";
-                ReadDbError = "Ошибка при чтении из базы данных";
-                WriteDbError = "Ошибка при записи в базу данных";
                 ModuleStateLoaded = "Состояние модуля загружено";
                 ModuleStateNotExists = "Файл состояния модуля отсутствует или устарел";
                 LoadModuleStateError = "Ошибка при загрузке состояния модуля";
                 SaveModuleStateError = "Ошибка при сохранении состояния модуля";
+                ReadDbError = "Ошибка при чтении из базы данных";
+                WriteDbError = "Ошибка при записи в базу данных";
+                ReadFileError = "Ошибка при чтении из файла";
+                WriteFileError = "Ошибка при записи в файл";
             }
             else
             {
@@ -172,12 +176,14 @@ namespace Scada.Server.Lang
                 StartModule = "Module {0} {1} started";
                 StopModule = "Module {0} is stopped";
                 ModuleMessage = "Module {0}: {1}";
-                ReadDbError = "Error reading from database";
-                WriteDbError = "Error writing to database";
                 ModuleStateLoaded = "Module state loaded";
                 ModuleStateNotExists = "Module state file is missing or outdated";
                 LoadModuleStateError = "Error loading module state";
                 SaveModuleStateError = "Error saving module state";
+                ReadDbError = "Error reading from database";
+                WriteDbError = "Error writing to database";
+                ReadFileError = "Error reading from file";
+                WriteFileError = "Error writing to file";
             }
 
             // load phrases that are used in the multilingual user interface from dictionaries
