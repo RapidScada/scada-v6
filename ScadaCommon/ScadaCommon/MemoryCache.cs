@@ -32,6 +32,7 @@ namespace Scada
     /// Represents an in-memory cache.
     /// <para>Представляет кэш в памяти.</para>
     /// </summary>
+    /// <remarks>The class is thread-safe.</remarks>
     public class MemoryCache<TKey, TValue>
     {
         /// <summary>

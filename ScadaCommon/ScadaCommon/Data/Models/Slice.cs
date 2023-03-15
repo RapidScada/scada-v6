@@ -36,11 +36,11 @@ namespace Scada.Data.Models
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public Slice(DateTime timestamp, int cnlCnt)
+        public Slice(DateTime timestamp, int length)
         {
             Timestamp = timestamp;
-            CnlNums = new int[cnlCnt];
-            CnlData = new CnlData[cnlCnt];
+            CnlNums = new int[length];
+            CnlData = new CnlData[length];
             DeviceNum = 0;
         }
 

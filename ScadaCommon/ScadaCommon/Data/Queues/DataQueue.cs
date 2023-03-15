@@ -47,6 +47,14 @@ namespace Scada.Data.Queues
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
+        public DataQueue(int maxSize)
+            : this(true, maxSize, "")
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
         public DataQueue(bool enabled, int maxSize, string title)
         {
             if (maxSize < MinSize)
@@ -83,6 +91,11 @@ namespace Scada.Data.Queues
         public bool RemoveExceeded { get; set; }
 
         /// <summary>
+        /// Gets the current queue size.
+        /// </summary>
+        public int Count => queue == null ? 0 : queue.Count;
+
+        /// <summary>
         /// Gets a value indicating whether the queue is empty.
         /// </summary>
         public bool IsEmpty => queue == null || queue.Count == 0;
@@ -92,6 +105,14 @@ namespace Scada.Data.Queues
         /// </summary>
         public QueueStats Stats { get; }
 
+
+        /// <summary>
+        /// Enqueues the specified value.
+        /// </summary>
+        public bool Enqueue(DateTime creationTime, T value)
+        {
+            return Enqueue(creationTime, value, out _);
+        }
 
         /// <summary>
         /// Enqueues the specified value.
@@ -180,6 +201,23 @@ namespace Scada.Data.Queues
 
             item = default;
             return false;
+        }
+
+        /// <summary>
+        /// Removes and returns the item value at the beginning of the queue.
+        /// </summary>
+        public bool TryDequeueValue(out T value)
+        {
+            if (TryDequeue(out QueueItem<T> item))
+            {
+                value = item.Value;
+                return true;
+            }
+            else
+            {
+                value = default;
+                return false;
+            }
         }
 
         /// <summary>
