@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
+using static Scada.Server.Modules.ModArcBasic.Logic.ModuleConst;
 
 namespace Scada.Server.Modules.ModArcBasic.Logic
 {
@@ -25,11 +26,6 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
     /// </summary>
     internal class BasicHAL : HistoricalArchiveLogic
     {
-        /// <summary>
-        /// The number of slices written in one iteration.
-        /// </summary>
-        private const int SlicesPerIteration = 10;
-
         private readonly ModuleConfig moduleConfig;        // the module configuration
         private readonly BasicHAO options;                 // the archive options
         private readonly int writingPeriod;                // the writing period in seconds
@@ -63,7 +59,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             sliceQueue = new DataQueue<Slice>(options.MaxQueueSize);
             readingAdapter = CreateAdapter();
             writingAdapter = CreateAdapter();
-            tableCache = new MemoryCache<DateTime, TrendTable>(ModuleUtils.CacheExpiration, ModuleUtils.CacheCapacity);
+            tableCache = new MemoryCache<DateTime, TrendTable>(CacheExpiration, CacheCapacity);
             readingLock = new object();
             writingLock = new object();
 
@@ -100,7 +96,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             return new TrendTableAdapter
             {
                 ArchiveCode = Code,
-                CnlNumCache = new MemoryCache<long, CnlNumList>(ModuleUtils.CacheExpiration, ModuleUtils.CacheCapacity)
+                CnlNumCache = new MemoryCache<long, CnlNumList>(CacheExpiration, CacheCapacity)
             };
         }
 

@@ -20,7 +20,7 @@ namespace Scada.Server.Modules.ModArcBasic.Config
         {
             ReadOnly = false;
             UseCopyDir = options.GetValueAsBool("UseCopyDir");
-            MaxQueueSize = options.GetValueAsInt("MaxQueueSize", 1000);
+            MaxQueueSize = options.GetValueAsInt("MaxQueueSize", ModuleUtils.DefaultQueueSize);
         }
 
 
