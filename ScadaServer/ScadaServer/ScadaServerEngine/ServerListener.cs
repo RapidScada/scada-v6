@@ -28,10 +28,10 @@ using Scada.Data.Adapters;
 using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
-using Scada.Data.Queues;
 using Scada.Data.Tables;
 using Scada.Lang;
 using Scada.Protocol;
+using Scada.Server.Modules;
 using Scada.Storages;
 using System;
 using System.Collections.Generic;
@@ -483,7 +483,12 @@ namespace Scada.Server.Engine
         protected override bool ValidateUser(ConnectedClient client, string username, string password, string instance,
             out int userID, out int roleID, out string errMsg)
         {
-            if (coreLogic.ValidateUser(username, password, out userID, out roleID, out errMsg))
+            UserValidationResult result = coreLogic.ValidateUser(username, password);
+            userID = result.UserID;
+            roleID = result.RoleID;
+            errMsg = result.ErrorMessage;
+
+            if (result.IsValid)
             {
                 if (client.IsLoggedIn)
                 {

@@ -40,7 +40,8 @@ namespace Scada.Server.Engine
     {
         private readonly ILog log;                       // the application log
         private readonly List<ModuleLogic> modules;      // all the modules
-        private readonly List<ModuleLogic> logicModules; // the modules that have only a logical purpose
+        private readonly List<ModuleLogic> logicModules; // the modules that have a logical purpose
+        private readonly List<ModuleLogic> authModules;  // the modules that have an authorization purpose
         private readonly Dictionary<string, ModuleLogic> moduleMap; // the modules accessed by code
         private readonly object moduleLock;              // synchronizes access to the modules
         private volatile bool serviceStopped;            // ignore method calls after the service is stopped
@@ -54,6 +55,7 @@ namespace Scada.Server.Engine
             this.log = log ?? throw new ArgumentNullException(nameof(log));
             modules = new List<ModuleLogic>();
             logicModules = new List<ModuleLogic>();
+            authModules = new List<ModuleLogic>();
             moduleMap = new Dictionary<string, ModuleLogic>();
             moduleLock = new object();
             serviceStopped = false;
@@ -76,6 +78,9 @@ namespace Scada.Server.Engine
 
             if (moduleLogic.ModulePurposes.HasFlag(ModulePurposes.Logic))
                 logicModules.Add(moduleLogic);
+
+            if (moduleLogic.ModulePurposes.HasFlag(ModulePurposes.Auth))
+                authModules.Add(moduleLogic);
         }
 
         /// <summary>
@@ -326,25 +331,18 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Calls the ValidateUser method of the modules until a user is handled.
         /// </summary>
-        public bool ValidateUser(string username, string password, 
-            out int userID, out int roleID, out string errMsg, out bool handled)
+        public UserValidationResult ValidateUser(string username, string password)
         {
-            userID = 0;
-            roleID = 0;
-            errMsg = "";
-            handled = false;
-
             lock (moduleLock)
             {
-                foreach (ModuleLogic moduleLogic in logicModules)
+                foreach (ModuleLogic moduleLogic in authModules)
                 {
                     try
                     {
-                        bool userIsValid = moduleLogic.ValidateUser(username, password, 
-                            out userID, out roleID, out errMsg, out handled);
+                        UserValidationResult result = moduleLogic.ValidateUser(username, password);
 
-                        if (handled)
-                            return userIsValid;
+                        if (result.Handled)
+                            return result;
                     }
                     catch (Exception ex)
                     {
@@ -353,7 +351,7 @@ namespace Scada.Server.Engine
                 }
             }
 
-            return false;
+            return UserValidationResult.Empty;
         }
     }
 }

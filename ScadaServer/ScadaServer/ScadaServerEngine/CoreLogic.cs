@@ -1118,64 +1118,66 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Validates the username and password.
         /// </summary>
-        public bool ValidateUser(string username, string password, out int userID, out int roleID, out string errMsg)
+        public UserValidationResult ValidateUser(string username, string password)
         {
-            userID = 0;
-            roleID = RoleID.Disabled;
-
             try
             {
                 if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 {
-                    errMsg = Locale.IsRussian ?
-                        "Имя пользователя или пароль не может быть пустым" :
-                        "Username or password can not be empty";
-                    return false;
+                    return new UserValidationResult
+                    {
+                        ErrorMessage = Locale.IsRussian ?
+                            "Имя пользователя или пароль не может быть пустым" :
+                            "Username or password can not be empty"
+                    };
                 }
 
                 // validate by modules
-                bool userIsValid = moduleHolder.ValidateUser(username, password, 
-                    out userID, out roleID, out errMsg, out bool handled);
+                UserValidationResult result = moduleHolder.ValidateUser(username, password);
 
-                if (handled)
-                    return userIsValid;
+                if (result.Handled)
+                    return result;
 
                 // validate by the configuration database
                 if (users.TryGetValue(username.ToLowerInvariant(), out User user) &&
                     user.Password == ScadaUtils.GetPasswordHash(user.UserID, password))
                 {
-                    userID = user.UserID;
-                    roleID = user.RoleID;
-
-                    if (user.Enabled && roleID > RoleID.Disabled)
+                    result = new UserValidationResult
                     {
-                        errMsg = "";
-                        return true;
+                        UserID = user.UserID,
+                        RoleID = user.RoleID,
+                    };
+
+                    if (user.Enabled && user.RoleID > RoleID.Disabled)
+                    {
+                        result.IsValid = true;
                     }
                     else
                     {
-                        errMsg = Locale.IsRussian ?
+                        result.ErrorMessage = Locale.IsRussian ?
                             "Пользователь отключен" :
                             "Account is disabled";
-                        return false;
                     }
+
+                    return result;
                 }
                 else
                 {
-                    errMsg = Locale.IsRussian ?
-                        "Неверное имя пользователя или пароль" :
-                        "Invalid username or password";
-                    return false;
+                    return new UserValidationResult
+                    {
+                        ErrorMessage = Locale.IsRussian ?
+                            "Неверное имя пользователя или пароль" :
+                            "Invalid username or password"
+                    };
                 }
             }
             catch (Exception ex)
             {
-                errMsg = Locale.IsRussian ?
+                string errMsg = Locale.IsRussian ?
                     "Ошибка при проверке пользователя" :
                     "Error validating user";
-
                 Log.WriteError(ex, errMsg);
-                return false;
+                return new UserValidationResult { ErrorMessage = errMsg };
             }
         }
 

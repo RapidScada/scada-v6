@@ -182,14 +182,9 @@ namespace Scada.Server.Modules
         /// <summary>
         /// Validates the username and password.
         /// </summary>
-        public virtual bool ValidateUser(string username, string password,
-            out int userID, out int roleID, out string errMsg, out bool handled)
+        public virtual UserValidationResult ValidateUser(string username, string password)
         {
-            userID = 0;
-            roleID = 0;
-            errMsg = "";
-            handled = false;
-            return false;
+            return UserValidationResult.Empty;
         }
     }
 }
