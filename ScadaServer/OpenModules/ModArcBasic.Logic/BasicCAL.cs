@@ -80,7 +80,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                     Stopwatch stopwatch = Stopwatch.StartNew();
                     Slice slice = adapter.ReadSingleSlice();
 
-                    for (int i = 0, cnlCnt = slice.CnlNums.Length; i < cnlCnt; i++)
+                    for (int i = 0, len = slice.Length; i < len; i++)
                     {
                         int cnlNum = slice.CnlNums[i];
                         int cnlIndex = curData.GetCnlIndex(cnlNum);
@@ -95,7 +95,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                     completed = true;
                     stopwatch.Stop();
                     arcLog?.WriteAction(ServerPhrases.ReadingSliceCompleted,
-                        slice.CnlNums.Length, stopwatch.ElapsedMilliseconds);
+                        slice.Length, stopwatch.ElapsedMilliseconds);
                 }
             }
             else
@@ -118,12 +118,13 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                         Stopwatch stopwatch = Stopwatch.StartNew();
                         InitCnlIndexes(curData, ref cnlIndexes);
                         CopyCnlData(curData, slice, cnlIndexes);
+                        slice.Timestamp = curData.Timestamp;
                         adapter.WriteSingleSlice(slice);
                         LastWriteTime = curData.Timestamp;
 
                         stopwatch.Stop();
                         arcLog?.WriteAction(ServerPhrases.WritingSliceCompleted,
-                            slice.CnlNums.Length, stopwatch.ElapsedMilliseconds);
+                            slice.Length, stopwatch.ElapsedMilliseconds);
                     }
                 });
             }
