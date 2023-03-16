@@ -30,8 +30,9 @@
     <Phrase key="lblLogEnabled">Log enabled</Phrase>
     <Phrase key="lblRetention">Retention period</Phrase>
     <Phrase key="txtRetentionUnit">Day</Phrase>
-    <Phrase key="gbPathOptions">Path Options</Phrase>
+    <Phrase key="gbWritingOptions">Writing Options</Phrase>
     <Phrase key="lblUseCopyDir">Write to copy directory</Phrase>
+    <Phrase key="lblMaxQueueSize">Maximum queue size</Phrase>
     <Phrase key="btnShowDir">Directories</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
@@ -49,8 +50,9 @@
     <Phrase key="cbWritingPeriodUnit.Items[2]">Hour</Phrase>
     <Phrase key="lblPullToPeriod">Pull to period</Phrase>
     <Phrase key="txtPullToPeriodUnit">Sec</Phrase>
-    <Phrase key="gbPathOptions">Path Options</Phrase>
+    <Phrase key="gbWritingOptions">Writing Options</Phrase>
     <Phrase key="lblUseCopyDir">Write to copy directory</Phrase>
+    <Phrase key="lblMaxQueueSize">Maximum queue size</Phrase>
     <Phrase key="btnShowDir">Directories</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>

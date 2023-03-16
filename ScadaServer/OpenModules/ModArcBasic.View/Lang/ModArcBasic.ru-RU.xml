@@ -30,8 +30,9 @@
     <Phrase key="lblLogEnabled">Журнал включен</Phrase>
     <Phrase key="lblRetention">Период хранения</Phrase>
     <Phrase key="txtRetentionUnit">День</Phrase>
-    <Phrase key="gbPathOptions">Пути</Phrase>
+    <Phrase key="gbWritingOptions">Параметры записи</Phrase>
     <Phrase key="lblUseCopyDir">Запись в директорию копии</Phrase>
+    <Phrase key="lblMaxQueueSize">Макс. размер очереди</Phrase>
     <Phrase key="btnShowDir">Директории</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
@@ -49,8 +50,9 @@
     <Phrase key="cbWritingPeriodUnit.Items[2]">Час</Phrase>
     <Phrase key="lblPullToPeriod">Притягивать к периоду</Phrase>
     <Phrase key="txtPullToPeriodUnit">Сек.</Phrase>
-    <Phrase key="gbPathOptions">Пути</Phrase>
+    <Phrase key="gbWritingOptions">Параметры записи</Phrase>
     <Phrase key="lblUseCopyDir">Запись в директорию копии</Phrase>
+    <Phrase key="lblMaxQueueSize">Макс. размер очереди</Phrase>
     <Phrase key="btnShowDir">Директории</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>

@@ -37,7 +37,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             this.archiveConfig = archiveConfig ?? throw new ArgumentNullException(nameof(archiveConfig));
             options = new BasicHAO(archiveConfig.CustomOptions);
         }
-        
+
 
         /// <summary>
         /// Sets the controls according to the options.
@@ -50,7 +50,9 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             numWritingPeriod.SetValue(options.WritingPeriod);
             cbWritingPeriodUnit.SelectedIndex = (int)options.WritingPeriodUnit;
             numPullToPeriod.SetValue(options.PullToPeriod);
+
             chkUseCopyDir.Checked = options.UseCopyDir;
+            numMaxQueueSize.SetValue(options.MaxQueueSize);
         }
 
         /// <summary>
@@ -64,7 +66,10 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             options.WritingPeriod = Convert.ToInt32(numWritingPeriod.Value);
             options.WritingPeriodUnit = (TimeUnit)cbWritingPeriodUnit.SelectedIndex;
             options.PullToPeriod = Convert.ToInt32(numPullToPeriod.Value);
+
             options.UseCopyDir = chkUseCopyDir.Checked;
+            options.MaxQueueSize = Convert.ToInt32(numMaxQueueSize.Value);
+
             options.AddToOptionList(archiveConfig.CustomOptions);
         }
 
