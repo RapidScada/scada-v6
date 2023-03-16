@@ -203,6 +203,21 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         }
 
         /// <summary>
+        /// Closes the archive.
+        /// </summary>
+        public override void Close()
+        {
+            if (thread != null)
+            {
+                terminated = true;
+                thread.Join();
+                thread = null;
+            }
+
+            WriteEvents(); // flush
+        }
+
+        /// <summary>
         /// Deletes the outdated data from the archive.
         /// </summary>
         public override void DeleteOutdatedData()
