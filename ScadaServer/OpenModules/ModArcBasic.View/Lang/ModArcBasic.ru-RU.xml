@@ -18,7 +18,7 @@
     <Phrase key="lblLogEnabled">Журнал включен</Phrase>
     <Phrase key="lblFlushPeriod">Период сохранения</Phrase>
     <Phrase key="txtFlushPeriodUnit">Сек.</Phrase>
-    <Phrase key="gbPathOptions">Пути</Phrase>
+    <Phrase key="gbWritingOptions">Параметры записи</Phrase>
     <Phrase key="lblUseCopyDir">Запись в директорию копии</Phrase>
     <Phrase key="btnShowDir">Директории</Phrase>
     <Phrase key="btnOK">OK</Phrase>

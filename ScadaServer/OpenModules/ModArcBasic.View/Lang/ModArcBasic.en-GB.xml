@@ -18,7 +18,7 @@
     <Phrase key="lblLogEnabled">Log enabled</Phrase>
     <Phrase key="lblFlushPeriod">Flush period</Phrase>
     <Phrase key="txtFlushPeriodUnit">Sec</Phrase>
-    <Phrase key="gbPathOptions">Path Options</Phrase>
+    <Phrase key="gbWritingOptions">Writing Options</Phrase>
     <Phrase key="lblUseCopyDir">Write to copy directory</Phrase>
     <Phrase key="btnShowDir">Directories</Phrase>
     <Phrase key="btnOK">OK</Phrase>

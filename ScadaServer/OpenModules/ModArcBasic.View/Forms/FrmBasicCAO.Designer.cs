@@ -29,182 +29,169 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblUseCopyDir = new System.Windows.Forms.Label();
-            this.chkUseCopyDir = new System.Windows.Forms.CheckBox();
-            this.btnOK = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.btnShowDir = new System.Windows.Forms.Button();
-            this.gbGeneralOptions = new System.Windows.Forms.GroupBox();
-            this.txtFlushPeriodUnit = new System.Windows.Forms.TextBox();
-            this.numFlushPeriod = new System.Windows.Forms.NumericUpDown();
-            this.lblFlushPeriod = new System.Windows.Forms.Label();
-            this.chkLogEnabled = new System.Windows.Forms.CheckBox();
-            this.lblLogEnabled = new System.Windows.Forms.Label();
-            this.gbPathOptions = new System.Windows.Forms.GroupBox();
-            this.gbGeneralOptions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numFlushPeriod)).BeginInit();
-            this.gbPathOptions.SuspendLayout();
-            this.SuspendLayout();
+            lblUseCopyDir = new Label();
+            chkUseCopyDir = new CheckBox();
+            btnOK = new Button();
+            btnCancel = new Button();
+            btnShowDir = new Button();
+            gbGeneralOptions = new GroupBox();
+            txtFlushPeriodUnit = new TextBox();
+            numFlushPeriod = new NumericUpDown();
+            lblFlushPeriod = new Label();
+            chkLogEnabled = new CheckBox();
+            lblLogEnabled = new Label();
+            gbWritingOptions = new GroupBox();
+            gbGeneralOptions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numFlushPeriod).BeginInit();
+            gbWritingOptions.SuspendLayout();
+            SuspendLayout();
             // 
             // lblUseCopyDir
             // 
-            this.lblUseCopyDir.AutoSize = true;
-            this.lblUseCopyDir.Location = new System.Drawing.Point(13, 26);
-            this.lblUseCopyDir.Name = "lblUseCopyDir";
-            this.lblUseCopyDir.Size = new System.Drawing.Size(128, 15);
-            this.lblUseCopyDir.TabIndex = 0;
-            this.lblUseCopyDir.Text = "Write to copy directory";
+            lblUseCopyDir.AutoSize = true;
+            lblUseCopyDir.Location = new Point(13, 26);
+            lblUseCopyDir.Name = "lblUseCopyDir";
+            lblUseCopyDir.Size = new Size(128, 15);
+            lblUseCopyDir.TabIndex = 0;
+            lblUseCopyDir.Text = "Write to copy directory";
             // 
             // chkUseCopyDir
             // 
-            this.chkUseCopyDir.AutoSize = true;
-            this.chkUseCopyDir.Location = new System.Drawing.Point(332, 26);
-            this.chkUseCopyDir.Name = "chkUseCopyDir";
-            this.chkUseCopyDir.Size = new System.Drawing.Size(15, 14);
-            this.chkUseCopyDir.TabIndex = 1;
-            this.chkUseCopyDir.UseVisualStyleBackColor = true;
+            chkUseCopyDir.AutoSize = true;
+            chkUseCopyDir.Location = new Point(332, 26);
+            chkUseCopyDir.Name = "chkUseCopyDir";
+            chkUseCopyDir.Size = new Size(15, 14);
+            chkUseCopyDir.TabIndex = 1;
+            chkUseCopyDir.UseVisualStyleBackColor = true;
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(216, 179);
-            this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 3;
-            this.btnOK.Text = "OK";
-            this.btnOK.UseVisualStyleBackColor = true;
-            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            btnOK.Location = new Point(216, 179);
+            btnOK.Name = "btnOK";
+            btnOK.Size = new Size(75, 23);
+            btnOK.TabIndex = 3;
+            btnOK.Text = "OK";
+            btnOK.UseVisualStyleBackColor = true;
+            btnOK.Click += btnOK_Click;
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(297, 179);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 4;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Location = new Point(297, 179);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(75, 23);
+            btnCancel.TabIndex = 4;
+            btnCancel.Text = "Cancel";
+            btnCancel.UseVisualStyleBackColor = true;
             // 
             // btnShowDir
             // 
-            this.btnShowDir.Location = new System.Drawing.Point(12, 179);
-            this.btnShowDir.Name = "btnShowDir";
-            this.btnShowDir.Size = new System.Drawing.Size(100, 23);
-            this.btnShowDir.TabIndex = 2;
-            this.btnShowDir.Text = "Directories";
-            this.btnShowDir.UseVisualStyleBackColor = true;
-            this.btnShowDir.Click += new System.EventHandler(this.btnShowDir_Click);
+            btnShowDir.Location = new Point(12, 179);
+            btnShowDir.Name = "btnShowDir";
+            btnShowDir.Size = new Size(100, 23);
+            btnShowDir.TabIndex = 2;
+            btnShowDir.Text = "Directories";
+            btnShowDir.UseVisualStyleBackColor = true;
+            btnShowDir.Click += btnShowDir_Click;
             // 
             // gbGeneralOptions
             // 
-            this.gbGeneralOptions.Controls.Add(this.txtFlushPeriodUnit);
-            this.gbGeneralOptions.Controls.Add(this.numFlushPeriod);
-            this.gbGeneralOptions.Controls.Add(this.lblFlushPeriod);
-            this.gbGeneralOptions.Controls.Add(this.chkLogEnabled);
-            this.gbGeneralOptions.Controls.Add(this.lblLogEnabled);
-            this.gbGeneralOptions.Location = new System.Drawing.Point(12, 12);
-            this.gbGeneralOptions.Name = "gbGeneralOptions";
-            this.gbGeneralOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbGeneralOptions.Size = new System.Drawing.Size(360, 87);
-            this.gbGeneralOptions.TabIndex = 0;
-            this.gbGeneralOptions.TabStop = false;
-            this.gbGeneralOptions.Text = "General Options";
+            gbGeneralOptions.Controls.Add(txtFlushPeriodUnit);
+            gbGeneralOptions.Controls.Add(numFlushPeriod);
+            gbGeneralOptions.Controls.Add(lblFlushPeriod);
+            gbGeneralOptions.Controls.Add(chkLogEnabled);
+            gbGeneralOptions.Controls.Add(lblLogEnabled);
+            gbGeneralOptions.Location = new Point(12, 12);
+            gbGeneralOptions.Name = "gbGeneralOptions";
+            gbGeneralOptions.Padding = new Padding(10, 3, 10, 10);
+            gbGeneralOptions.Size = new Size(360, 87);
+            gbGeneralOptions.TabIndex = 0;
+            gbGeneralOptions.TabStop = false;
+            gbGeneralOptions.Text = "General Options";
             // 
             // txtFlushPeriodUnit
             // 
-            this.txtFlushPeriodUnit.Location = new System.Drawing.Point(277, 51);
-            this.txtFlushPeriodUnit.Name = "txtFlushPeriodUnit";
-            this.txtFlushPeriodUnit.ReadOnly = true;
-            this.txtFlushPeriodUnit.Size = new System.Drawing.Size(70, 23);
-            this.txtFlushPeriodUnit.TabIndex = 4;
-            this.txtFlushPeriodUnit.Text = "Sec";
+            txtFlushPeriodUnit.Location = new Point(277, 51);
+            txtFlushPeriodUnit.Name = "txtFlushPeriodUnit";
+            txtFlushPeriodUnit.ReadOnly = true;
+            txtFlushPeriodUnit.Size = new Size(70, 23);
+            txtFlushPeriodUnit.TabIndex = 4;
+            txtFlushPeriodUnit.Text = "Sec";
             // 
             // numFlushPeriod
             // 
-            this.numFlushPeriod.Location = new System.Drawing.Point(196, 51);
-            this.numFlushPeriod.Maximum = new decimal(new int[] {
-            86400,
-            0,
-            0,
-            0});
-            this.numFlushPeriod.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numFlushPeriod.Name = "numFlushPeriod";
-            this.numFlushPeriod.Size = new System.Drawing.Size(75, 23);
-            this.numFlushPeriod.TabIndex = 3;
-            this.numFlushPeriod.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            numFlushPeriod.Location = new Point(196, 51);
+            numFlushPeriod.Maximum = new decimal(new int[] { 86400, 0, 0, 0 });
+            numFlushPeriod.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numFlushPeriod.Name = "numFlushPeriod";
+            numFlushPeriod.Size = new Size(75, 23);
+            numFlushPeriod.TabIndex = 3;
+            numFlushPeriod.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // lblFlushPeriod
             // 
-            this.lblFlushPeriod.AutoSize = true;
-            this.lblFlushPeriod.Location = new System.Drawing.Point(13, 55);
-            this.lblFlushPeriod.Name = "lblFlushPeriod";
-            this.lblFlushPeriod.Size = new System.Drawing.Size(72, 15);
-            this.lblFlushPeriod.TabIndex = 2;
-            this.lblFlushPeriod.Text = "Flush period";
+            lblFlushPeriod.AutoSize = true;
+            lblFlushPeriod.Location = new Point(13, 55);
+            lblFlushPeriod.Name = "lblFlushPeriod";
+            lblFlushPeriod.Size = new Size(72, 15);
+            lblFlushPeriod.TabIndex = 2;
+            lblFlushPeriod.Text = "Flush period";
             // 
             // chkLogEnabled
             // 
-            this.chkLogEnabled.AutoSize = true;
-            this.chkLogEnabled.Location = new System.Drawing.Point(332, 26);
-            this.chkLogEnabled.Name = "chkLogEnabled";
-            this.chkLogEnabled.Size = new System.Drawing.Size(15, 14);
-            this.chkLogEnabled.TabIndex = 1;
-            this.chkLogEnabled.UseVisualStyleBackColor = true;
+            chkLogEnabled.AutoSize = true;
+            chkLogEnabled.Location = new Point(332, 26);
+            chkLogEnabled.Name = "chkLogEnabled";
+            chkLogEnabled.Size = new Size(15, 14);
+            chkLogEnabled.TabIndex = 1;
+            chkLogEnabled.UseVisualStyleBackColor = true;
             // 
             // lblLogEnabled
             // 
-            this.lblLogEnabled.AutoSize = true;
-            this.lblLogEnabled.Location = new System.Drawing.Point(13, 26);
-            this.lblLogEnabled.Name = "lblLogEnabled";
-            this.lblLogEnabled.Size = new System.Drawing.Size(72, 15);
-            this.lblLogEnabled.TabIndex = 0;
-            this.lblLogEnabled.Text = "Log enabled";
+            lblLogEnabled.AutoSize = true;
+            lblLogEnabled.Location = new Point(13, 26);
+            lblLogEnabled.Name = "lblLogEnabled";
+            lblLogEnabled.Size = new Size(72, 15);
+            lblLogEnabled.TabIndex = 0;
+            lblLogEnabled.Text = "Log enabled";
             // 
-            // gbPathOptions
+            // gbWritingOptions
             // 
-            this.gbPathOptions.Controls.Add(this.lblUseCopyDir);
-            this.gbPathOptions.Controls.Add(this.chkUseCopyDir);
-            this.gbPathOptions.Location = new System.Drawing.Point(12, 105);
-            this.gbPathOptions.Name = "gbPathOptions";
-            this.gbPathOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbPathOptions.Size = new System.Drawing.Size(360, 58);
-            this.gbPathOptions.TabIndex = 1;
-            this.gbPathOptions.TabStop = false;
-            this.gbPathOptions.Text = "Path Options";
+            gbWritingOptions.Controls.Add(lblUseCopyDir);
+            gbWritingOptions.Controls.Add(chkUseCopyDir);
+            gbWritingOptions.Location = new Point(12, 105);
+            gbWritingOptions.Name = "gbWritingOptions";
+            gbWritingOptions.Padding = new Padding(10, 3, 10, 10);
+            gbWritingOptions.Size = new Size(360, 58);
+            gbWritingOptions.TabIndex = 1;
+            gbWritingOptions.TabStop = false;
+            gbWritingOptions.Text = "Writing Options";
             // 
             // FrmBasicCAO
             // 
-            this.AcceptButton = this.btnOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(384, 214);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.btnShowDir);
-            this.Controls.Add(this.gbPathOptions);
-            this.Controls.Add(this.gbGeneralOptions);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FrmBasicCAO";
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Current Archive Options";
-            this.Load += new System.EventHandler(this.FrmHAO_Load);
-            this.gbGeneralOptions.ResumeLayout(false);
-            this.gbGeneralOptions.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numFlushPeriod)).EndInit();
-            this.gbPathOptions.ResumeLayout(false);
-            this.gbPathOptions.PerformLayout();
-            this.ResumeLayout(false);
-
+            AcceptButton = btnOK;
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            CancelButton = btnCancel;
+            ClientSize = new Size(384, 214);
+            Controls.Add(btnCancel);
+            Controls.Add(btnOK);
+            Controls.Add(btnShowDir);
+            Controls.Add(gbWritingOptions);
+            Controls.Add(gbGeneralOptions);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "FrmBasicCAO";
+            ShowInTaskbar = false;
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Current Archive Options";
+            Load += FrmHAO_Load;
+            gbGeneralOptions.ResumeLayout(false);
+            gbGeneralOptions.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numFlushPeriod).EndInit();
+            gbWritingOptions.ResumeLayout(false);
+            gbWritingOptions.PerformLayout();
+            ResumeLayout(false);
         }
 
         #endregion
@@ -219,6 +206,6 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         private Label lblFlushPeriod;
         private CheckBox chkLogEnabled;
         private Label lblLogEnabled;
-        private GroupBox gbPathOptions;
+        private GroupBox gbWritingOptions;
     }
 }
