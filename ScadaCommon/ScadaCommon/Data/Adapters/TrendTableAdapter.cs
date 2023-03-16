@@ -878,7 +878,7 @@ namespace Scada.Data.Adapters
 
                     if (slice.CnlNums == page.CnlNumList.CnlNums)
                     {
-                        for (int i = 0, cnlCnt = slice.CnlNums.Length; i < cnlCnt; i++)
+                        for (int i = 0, cnlCnt = slice.Length; i < cnlCnt; i++)
                         {
                             stream.Position = GetDataPosition(pageCnlCnt, pageCapacity, i, indexInPage);
                             WriteCnlData(writer, slice.CnlData[i]);
@@ -886,7 +886,7 @@ namespace Scada.Data.Adapters
                     }
                     else
                     {
-                        for (int i = 0, cnlCnt = slice.CnlNums.Length; i < cnlCnt; i++)
+                        for (int i = 0, cnlCnt = slice.Length; i < cnlCnt; i++)
                         {
                             if (page.GetCnlIndex(slice.CnlNums[i], out int cnlIndex))
                             {
