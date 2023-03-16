@@ -666,7 +666,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                                     query.SetCnlDataParams(cnlNum, CnlData.Empty);
                                 }
 
-                                for (int i = 0, cnlCnt = slice.CnlNums.Length; i < cnlCnt; i++)
+                                for (int i = 0, cnlCnt = slice.Length; i < cnlCnt; i++)
                                 {
                                     int cnlNum = slice.CnlNums[i];
                                     if (query.CnlNumFilter.Contains(cnlNum))
@@ -702,7 +702,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
 
                             if (query.CnlNumFilter.Count > 0)
                             {
-                                for (int i = 0, cnlCnt = slice.CnlNums.Length; i < cnlCnt; i++)
+                                for (int i = 0, cnlCnt = slice.Length; i < cnlCnt; i++)
                                 {
                                     int cnlNum = slice.CnlNums[i];
                                     if (query.CnlNumFilter.Contains(cnlNum))
@@ -711,7 +711,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                             }
                             else
                             {
-                                for (int i = 0, cnlCnt = slice.CnlNums.Length; i < cnlCnt; i++)
+                                for (int i = 0, cnlCnt = slice.Length; i < cnlCnt; i++)
                                 {
                                     ExportDataPoint(slice.CnlNums[i], slice.CnlData[i]);
                                 }
@@ -838,7 +838,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             }
             else
             {
-                int srcCnlCnt = slice.CnlNums.Length;
+                int srcCnlCnt = slice.Length;
                 List<int> destCnlNums = new(srcCnlCnt);
                 List<CnlData> destCnlData = new(srcCnlCnt);
 
