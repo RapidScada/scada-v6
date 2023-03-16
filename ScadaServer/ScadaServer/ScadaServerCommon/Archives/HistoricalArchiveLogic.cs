@@ -265,13 +265,13 @@ namespace Scada.Server.Archives
         public abstract void BeginUpdate(UpdateContext updateContext);
 
         /// <summary>
+        /// Updates the channel data.
+        /// </summary>
+        public abstract void UpdateData(UpdateContext updateContext, int cnlNum, CnlData cnlData);
+
+        /// <summary>
         /// Completes the update operation.
         /// </summary>
         public abstract void EndUpdate(UpdateContext updateContext);
-
-        /// <summary>
-        /// Writes the channel data.
-        /// </summary>
-        public abstract void WriteCnlData(DateTime timestamp, int cnlNum, CnlData cnlData);
     }
 }

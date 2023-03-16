@@ -650,6 +650,22 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         }
 
         /// <summary>
+        /// Updates the channel data.
+        /// </summary>
+        public override void UpdateData(UpdateContext updateContext, int cnlNum, CnlData cnlData)
+        {
+            if (!options.ReadOnly)
+            {
+                if (pointQueue.Enqueue(new CnlDataPoint(cnlNum, updateContext.Timestamp, cnlData)))
+                    updateContext.UpdatedCount++;
+                else
+                    updateContext.LostCount++;
+
+                updateContext.UpdatedData[cnlNum] = cnlData;
+            }
+        }
+
+        /// <summary>
         /// Completes the update operation.
         /// </summary>
         public override void EndUpdate(UpdateContext updateContext)
@@ -664,30 +680,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 arcLog?.WriteWarning(ServerPhrases.PointsLost, updateContext.LostCount);
 
             Monitor.Exit(writingLock);
-        }
-
-        /// <summary>
-        /// Writes the channel data.
-        /// </summary>
-        public override void WriteCnlData(DateTime timestamp, int cnlNum, CnlData cnlData)
-        {
-            if (!options.ReadOnly)
-            {
-                lock (writingLock)
-                {
-                    bool added = pointQueue.Enqueue(new CnlDataPoint(cnlNum, timestamp, cnlData));
-
-                    if (CurrentUpdateContext != null)
-                    {
-                        if (added)
-                            CurrentUpdateContext.UpdatedCount++;
-                        else
-                            CurrentUpdateContext.LostCount++;
-
-                        CurrentUpdateContext.UpdatedData[cnlNum] = cnlData;
-                    }
-                }
-            }
         }
     }
 }

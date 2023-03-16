@@ -656,6 +656,19 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         }
 
         /// <summary>
+        /// Updates the channel data.
+        /// </summary>
+        public override void UpdateData(UpdateContext updateContext, int cnlNum, CnlData cnlData)
+        {
+            if (!options.ReadOnly)
+            {
+                WritePoint(updateContext.Timestamp, cnlNum, cnlData);
+                updateContext.UpdatedData[cnlNum] = cnlData;
+                updateContext.UpdatedCount++;
+            }
+        }
+
+        /// <summary>
         /// Completes the update operation.
         /// </summary>
         public override void EndUpdate(UpdateContext updateContext)
@@ -663,26 +676,6 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
             arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted,
                 updateContext.UpdatedCount, updateContext.Stopwatch.ElapsedMilliseconds);
             Monitor.Exit(writingLock);
-        }
-
-        /// <summary>
-        /// Writes the channel data.
-        /// </summary>
-        public override void WriteCnlData(DateTime timestamp, int cnlNum, CnlData cnlData)
-        {
-            if (!options.ReadOnly)
-            {
-                lock (writingLock)
-                {
-                    WritePoint(timestamp, cnlNum, cnlData);
-
-                    if (CurrentUpdateContext != null)
-                    {
-                        CurrentUpdateContext.UpdatedData[cnlNum] = cnlData;
-                        CurrentUpdateContext.UpdatedCount++;
-                    }
-                }
-            }
         }
     }
 }

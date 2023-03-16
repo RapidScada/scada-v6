@@ -40,7 +40,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading;
 
@@ -1373,7 +1372,7 @@ namespace Scada.Server.Engine
                         {
                             archiveLogic.BeginUpdate(updateContext);
                             archiveLogic.CurrentUpdateContext = updateContext;
-                            ICalcContext calcContext = new ArchiveCalcContext(archiveLogic, timestamp);
+                            ICalcContext calcContext = new ArchiveCalcContext(archiveLogic, updateContext);
 
                             // calculate written channels
                             for (int i = 0; i < cnlCnt; i++)
@@ -1385,7 +1384,7 @@ namespace Scada.Server.Engine
                                         : cnlDataCopy[i];
                                     UpdateCnlStatus(archiveLogic, timestamp, cnlTag, ref cnlData);
                                     slice.CnlData[i] = cnlData;
-                                    archiveLogic.WriteCnlData(timestamp, cnlTag.CnlNum, cnlData);
+                                    archiveLogic.UpdateData(updateContext, cnlTag.CnlNum, cnlData);
                                 }
                             }
 
@@ -1399,7 +1398,7 @@ namespace Scada.Server.Engine
                                     UpdateCnlStatus(archiveLogic, timestamp, cnlTag, ref newCnlData);
 
                                     if (arcCnlData != newCnlData)
-                                        archiveLogic.WriteCnlData(timestamp, cnlTag.CnlNum, newCnlData);
+                                        archiveLogic.UpdateData(updateContext, cnlTag.CnlNum, newCnlData);
                                 }
                             }
                         }

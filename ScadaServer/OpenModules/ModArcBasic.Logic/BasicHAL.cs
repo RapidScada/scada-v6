@@ -554,6 +554,14 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         }
 
         /// <summary>
+        /// Updates the channel data.
+        /// </summary>
+        public override void UpdateData(UpdateContext updateContext, int cnlNum, CnlData cnlData)
+        {
+            updateContext.UpdatedData[cnlNum] = cnlData;
+        }
+
+        /// <summary>
         /// Completes the update operation.
         /// </summary>
         public override void EndUpdate(UpdateContext updateContext)
@@ -575,25 +583,6 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             }
 
             Monitor.Exit(writingLock);
-        }
-
-        /// <summary>
-        /// Writes the channel data.
-        /// </summary>
-        public override void WriteCnlData(DateTime timestamp, int cnlNum, CnlData cnlData)
-        {
-            lock (writingLock)
-            {
-                if (CurrentUpdateContext == null)
-                {
-                    sliceQueue.Enqueue(timestamp,
-                        new Slice(timestamp, new int[] { cnlNum }, new CnlData[] { cnlData }));
-                }
-                else
-                {
-                    CurrentUpdateContext.UpdatedData[cnlNum] = cnlData;
-                }
-            }
         }
     }
 }
