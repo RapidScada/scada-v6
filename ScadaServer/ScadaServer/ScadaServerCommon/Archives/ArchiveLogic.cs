@@ -155,8 +155,6 @@ namespace Scada.Server.Archives
         {
             if (slice.CnlNums == CnlNums)
             {
-                slice.Timestamp = curData.Timestamp;
-
                 for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
                 {
                     slice.CnlData[i] = curData.CnlData[cnlIndexes[i]];
