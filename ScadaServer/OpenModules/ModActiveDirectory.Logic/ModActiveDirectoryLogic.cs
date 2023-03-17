@@ -190,14 +190,6 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
         /// </summary>
         public override UserValidationResult ValidateUser(string username, string password)
         {
-            if (users.TryGetValue(username.ToLowerInvariant(), out User user) &&
-                !string.IsNullOrEmpty(user.Password))
-            {
-                return UserValidationResult.Empty; // use default validation
-            }
-
-            UserValidationResult result = new();
-
             try
             {
                 using LdapConnection connection = new(
@@ -206,7 +198,23 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
 
                 if (ValidateCredentials(connection))
                 {
-                    if (user == null)
+                    if (users.TryGetValue(username.ToLowerInvariant(), out User user))
+                    {
+                        // user is found in the configuration database
+                        UserValidationResult result = new()
+                        {
+                            UserID = user.UserID,
+                            RoleID = user.RoleID
+                        };
+
+                        if (user.Enabled && user.RoleID > RoleID.Disabled)
+                            result.IsValid = true;
+                        else
+                            result.ErrorMessage = ServerPhrases.AccountDisabled;
+
+                        return result;
+                    }
+                    else
                     {
                         // user does not exist in the configuration database
                         if (FindUserEntry(connection, username, out SearchResultEntry userEntry))
@@ -217,9 +225,14 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
                             {
                                 if (GroupsContain(userGroups, role.Code))
                                 {
+                                    UserValidationResult result = new()
+                                    {
+                                        UserID = 0, // TODO: unique user ID required
+                                        RoleID = user.RoleID
+                                    };
+
                                     if (role.RoleID > RoleID.Disabled)
                                     {
-                                        result.RoleID = role.RoleID;
                                         result.IsValid = true;
                                         return result;
                                     }
@@ -229,51 +242,29 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
                                     }
                                 }
                             }
+
+                            return UserValidationResult.Fail(ServerPhrases.AccountDisabled);
                         }
                         else
                         {
-                            result.ErrorMessage = Locale.IsRussian ?
+                            return UserValidationResult.Fail(Locale.IsRussian ?
                                 "Пользователь не найден в Active Directory" :
-                                "User not found in Active Directory";
-                        }
-                    }
-                    else
-                    {
-                        // user is found in the configuration database
-                        result.UserID = user.UserID;
-                        result.RoleID = user.RoleID;
-
-                        if (user.Enabled && user.RoleID > RoleID.Disabled)
-                        {
-                            result.IsValid = true;
-                            return result;
+                                "User not found in Active Directory");
                         }
                     }
                 }
                 else
                 {
-                    result.ErrorMessage = Locale.IsRussian ?
-                        "Неверное имя пользователя или пароль" :
-                        "Invalid username or password";
+                    return UserValidationResult.Fail(ServerPhrases.InvalidCredentials);
                 }
             }
             catch (Exception ex)
             {
-                result.ErrorMessage = Locale.IsRussian ?
+                Log.WriteError(ex.BuildErrorMessage(ServerPhrases.ModuleMessage, Code, Locale.IsRussian ?
                     "Ошибка при взаимодействии с Active Directory" :
-                    "Error interacting with Active Directory";
-                Log.WriteError(ServerPhrases.ModuleMessage, Code, 
-                    string.Format("{0}: {1}", result.ErrorMessage, ex.Message));
+                    "Error interacting with Active Directory"));
+                return UserValidationResult.Empty;
             }
-
-            if (result.RoleID <= 0 && string.IsNullOrEmpty(result.ErrorMessage))
-            {
-                result.ErrorMessage = Locale.IsRussian ?
-                    "Пользователь отключен" :
-                    "Account is disabled";
-            }
-
-            return result;
         }
     }
 }
