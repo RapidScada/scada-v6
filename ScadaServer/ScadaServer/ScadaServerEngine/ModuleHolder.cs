@@ -356,9 +356,9 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Calls the GetUser method of the modules until a user is found.
+        /// Calls the FindUser method of the modules until a user is found.
         /// </summary>
-        public User GetUser(int userID)
+        public User FindUser(int userID)
         {
             lock (moduleLock)
             {
@@ -366,14 +366,14 @@ namespace Scada.Server.Engine
                 {
                     try
                     {
-                        User user = moduleLogic.GetUser(userID);
+                        User user = moduleLogic.FindUser(userID);
 
                         if (user != null)
                             return user;
                     }
                     catch (Exception ex)
                     {
-                        log.WriteError(ex, ServerPhrases.ErrorInModule, nameof(GetUser), moduleLogic.Code);
+                        log.WriteError(ex, ServerPhrases.ErrorInModule, nameof(FindUser), moduleLogic.Code);
                     }
                 }
             }

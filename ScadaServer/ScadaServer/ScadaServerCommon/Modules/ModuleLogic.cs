@@ -189,9 +189,9 @@ namespace Scada.Server.Modules
         }
 
         /// <summary>
-        /// Gets the external user by ID.
+        /// Finds an external user by ID.
         /// </summary>
-        public virtual User GetUser(int userID)
+        public virtual User FindUser(int userID)
         {
             return null;
         }
