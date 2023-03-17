@@ -1123,53 +1123,40 @@ namespace Scada.Server.Engine
             try
             {
                 if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-                {
-                    return new UserValidationResult
-                    {
-                        ErrorMessage = Locale.IsRussian ?
-                            "Имя пользователя или пароль не может быть пустым" :
-                            "Username or password can not be empty"
-                    };
-                }
-
-                // validate by modules
-                UserValidationResult result = moduleHolder.ValidateUser(username, password);
-
-                if (result.Handled)
-                    return result;
+                    return UserValidationResult.Fail(ServerPhrases.EmptyCredentials);
 
                 // validate by the configuration database
                 if (users.TryGetValue(username.ToLowerInvariant(), out User user) &&
-                    user.Password == ScadaUtils.GetPasswordHash(user.UserID, password))
+                    !string.IsNullOrEmpty(user.Password))
                 {
-                    result = new UserValidationResult
+                    if (user.Password == ScadaUtils.GetPasswordHash(user.UserID, password))
                     {
-                        UserID = user.UserID,
-                        RoleID = user.RoleID,
-                    };
+                        UserValidationResult result = new UserValidationResult
+                        {
+                            UserID = user.UserID,
+                            RoleID = user.RoleID,
+                        };
 
-                    if (user.Enabled && user.RoleID > RoleID.Disabled)
-                    {
-                        result.IsValid = true;
+                        if (user.Enabled && user.RoleID > RoleID.Disabled)
+                            result.IsValid = true;
+                        else
+                            result.ErrorMessage = ServerPhrases.AccountDisabled;
+
+                        return result;
                     }
                     else
                     {
-                        result.ErrorMessage = Locale.IsRussian ?
-                            "Пользователь отключен" :
-                            "Account is disabled";
+                        return UserValidationResult.Fail(ServerPhrases.InvalidCredentials);
                     }
+                }
 
-                    return result;
-                }
+                // validate by modules
+                UserValidationResult moduleResult = moduleHolder.ValidateUser(username, password);
+
+                if (moduleResult.Handled)
+                    return moduleResult;
                 else
-                {
-                    return new UserValidationResult
-                    {
-                        ErrorMessage = Locale.IsRussian ?
-                            "Неверное имя пользователя или пароль" :
-                            "Invalid username or password"
-                    };
-                }
+                    return UserValidationResult.Fail(ServerPhrases.InvalidCredentials);
             }
             catch (Exception ex)
             {
@@ -1177,7 +1164,7 @@ namespace Scada.Server.Engine
                     "Ошибка при проверке пользователя" :
                     "Error validating user";
                 Log.WriteError(ex, errMsg);
-                return new UserValidationResult { ErrorMessage = errMsg };
+                return UserValidationResult.Fail(errMsg);
             }
         }
 
@@ -1550,8 +1537,9 @@ namespace Scada.Server.Engine
                 Log.WriteAction(Locale.IsRussian ?
                     "Команда на канал {0} от пользователя с ид. {1}" :
                     "Command to channel {0} from user with ID {1}", cnlNum, userID);
+                User user = ConfigDatabase.UserTable.GetItem(userID) ?? moduleHolder.GetUser(userID);
 
-                if (!ConfigDatabase.UserTable.Items.TryGetValue(userID, out User user))
+                if (user == null)
                 {
                     result.ErrorMessage = string.Format(Locale.IsRussian ?
                         "Пользователь {0} не найден" :

@@ -93,6 +93,9 @@ namespace Scada.Server.Lang
 
         // Scada.Server.Engine.CoreLogic
         public static string CommandSentBy { get; private set; }
+        public static string EmptyCredentials { get; private set; }
+        public static string InvalidCredentials { get; private set; }
+        public static string AccountDisabled { get; private set; }
 
         public static void Init()
         {
@@ -200,6 +203,9 @@ namespace Scada.Server.Lang
 
             dict = Locale.GetDictionary("Scada.Server.Engine.CoreLogic");
             CommandSentBy = dict[nameof(CommandSentBy)];
+            EmptyCredentials = dict[nameof(EmptyCredentials)];
+            InvalidCredentials = dict[nameof(InvalidCredentials)];
+            AccountDisabled = dict[nameof(AccountDisabled)];
         }
     }
 }

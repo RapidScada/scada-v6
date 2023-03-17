@@ -23,6 +23,7 @@
  * Modified : 2023
  */
 
+using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Log;
 using Scada.Server.Lang;
@@ -352,6 +353,32 @@ namespace Scada.Server.Engine
             }
 
             return UserValidationResult.Empty;
+        }
+
+        /// <summary>
+        /// Calls the GetUser method of the modules until a user is found.
+        /// </summary>
+        public User GetUser(int userID)
+        {
+            lock (moduleLock)
+            {
+                foreach (ModuleLogic moduleLogic in authModules)
+                {
+                    try
+                    {
+                        User user = moduleLogic.GetUser(userID);
+
+                        if (user != null)
+                            return user;
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteError(ex, ServerPhrases.ErrorInModule, nameof(GetUser), moduleLogic.Code);
+                    }
+                }
+            }
+
+            return null;
         }
     }
 }

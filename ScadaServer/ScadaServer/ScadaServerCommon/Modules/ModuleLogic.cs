@@ -23,6 +23,7 @@
  * Modified : 2023
  */
 
+using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Log;
 using Scada.Server.Archives;
@@ -185,6 +186,14 @@ namespace Scada.Server.Modules
         public virtual UserValidationResult ValidateUser(string username, string password)
         {
             return UserValidationResult.Empty;
+        }
+
+        /// <summary>
+        /// Gets the external user by ID.
+        /// </summary>
+        public virtual User GetUser(int userID)
+        {
+            return null;
         }
     }
 }

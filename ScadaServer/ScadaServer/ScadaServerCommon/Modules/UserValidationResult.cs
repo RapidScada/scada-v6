@@ -82,5 +82,17 @@ namespace Scada.Server.Modules
         /// Gets or sets the error message.
         /// </summary>
         public string ErrorMessage { get; set; }
+
+
+        /// <summary>
+        /// Creates a failed result with the specified message.
+        /// </summary>
+        public static UserValidationResult Fail(string message)
+        {
+            return new UserValidationResult
+            {
+                ErrorMessage = message
+            };
+        }
     }
 }
