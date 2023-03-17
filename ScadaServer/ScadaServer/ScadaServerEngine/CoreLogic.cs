@@ -370,7 +370,8 @@ namespace Scada.Server.Engine
 
             foreach (User user in ConfigDatabase.UserTable)
             {
-                users[user.Name.ToLowerInvariant()] = user;
+                if (!string.IsNullOrEmpty(user.Name))
+                    users[user.Name.ToLowerInvariant()] = user;
             }
         }
 
@@ -1124,6 +1125,10 @@ namespace Scada.Server.Engine
         {
             try
             {
+                // ignore leading and trailing white-space when searching for a user
+                username = username?.Trim();
+
+                // prohibit empty username or password
                 if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                     return UserValidationResult.Fail(ServerPhrases.EmptyCredentials);
 
