@@ -1556,6 +1556,13 @@ namespace Scada.Server.Engine
                         "User {0} not found", userID);
                     Log.WriteError(result.ErrorMessage);
                 }
+                else if (!user.Enabled)
+                {
+                    result.ErrorMessage = string.Format(Locale.IsRussian ?
+                        "Пользователь {0} отключен" :
+                        "User {0} is disabled", userID);
+                    Log.WriteError(result.ErrorMessage);
+                }
                 else if (!outCnlTags.TryGetValue(cnlNum, out OutCnlTag outCnlTag))
                 {
                     result.ErrorMessage = string.Format(Locale.IsRussian ?
