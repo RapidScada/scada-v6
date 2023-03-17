@@ -1169,6 +1169,14 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
+        /// Finds a user by ID.
+        /// </summary>
+        public User FindUser(int userID)
+        {
+            return ConfigDatabase.UserTable.GetItem(userID) ?? moduleHolder.FindUser(userID);
+        }
+
+        /// <summary>
         /// Gets the current data of the specified channel of the certain kind.
         /// </summary>
         public CnlData GetCurrentData(int cnlNum, CurrentDataKind kind)
@@ -1537,7 +1545,7 @@ namespace Scada.Server.Engine
                 Log.WriteAction(Locale.IsRussian ?
                     "Команда на канал {0} от пользователя с ид. {1}" :
                     "Command to channel {0} from user with ID {1}", cnlNum, userID);
-                User user = ConfigDatabase.UserTable.GetItem(userID) ?? moduleHolder.FindUser(userID);
+                User user = FindUser(userID);
 
                 if (user == null)
                 {

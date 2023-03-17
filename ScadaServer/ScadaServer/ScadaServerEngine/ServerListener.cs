@@ -540,6 +540,14 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
+        /// Finds a user by ID.
+        /// </summary>
+        protected override User FindUser(int userID)
+        {
+            return coreLogic.FindUser(userID);
+        }
+
+        /// <summary>
         /// Updates the client mode.
         /// </summary>
         protected override void UpdateClientMode(ConnectedClient client, int clientMode)
