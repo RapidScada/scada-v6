@@ -136,6 +136,7 @@ namespace Scada.Lang
         public static string MajorSeverity { get; private set; }
         public static string MinorSeverity { get; private set; }
         public static string InfoSeverity { get; private set; }
+        public static string UnknownUser { get; private set; }
 
         // Scada.Forms.BitItemCollection
         public static string EventEnabled { get; private set; }
@@ -270,6 +271,7 @@ namespace Scada.Lang
             MajorSeverity = dict[nameof(MajorSeverity)];
             MinorSeverity = dict[nameof(MinorSeverity)];
             InfoSeverity = dict[nameof(InfoSeverity)];
+            UnknownUser = dict[nameof(UnknownUser)];
 
             dict = Locale.GetDictionary("Scada.Forms.BitItemCollection");
             EventEnabled = dict[nameof(EventEnabled)];

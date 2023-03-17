@@ -104,6 +104,7 @@
     <Phrase key="MajorSeverity">Значительная</Phrase>
     <Phrase key="MinorSeverity">Незначительная</Phrase>
     <Phrase key="InfoSeverity">Информационная</Phrase>
+    <Phrase key="UnknownUser">Пользователь {0}</Phrase>
   </Dictionary>
   <!-- ScadaCommon.Forms.dll -->
   <Dictionary key="Scada.Forms.Controls.CtrlBitmask">
