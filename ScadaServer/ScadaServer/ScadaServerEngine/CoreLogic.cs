@@ -65,6 +65,7 @@ namespace Scada.Server.Engine
         /// </summary>
         private class CommandItem
         {
+            public User User { get; set; }
             public OutCnlTag OutCnlTag { get; set; }
             public TeleCommand Command { get; set; }
             public WriteCommandFlags Flags { get; set; }
@@ -689,7 +690,7 @@ namespace Scada.Server.Engine
                 if (commandItem.Result.IsSuccessful)
                 {
                     if (commandItem.Flags.HasFlag(WriteCommandFlags.EnableEvents))
-                        GenerateEvent(commandItem.OutCnlTag, commandItem.Command);
+                        GenerateEvent(commandItem);
 
                     if (commandItem.Result.TransmitToClients)
                     {
@@ -976,14 +977,14 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Generates an event based on the command.
         /// </summary>
-        private void GenerateEvent(OutCnlTag outCnlTag, TeleCommand command)
+        private void GenerateEvent(CommandItem commandItem)
         {
-            EventMask eventMask = new EventMask(outCnlTag.Cnl.EventMask);
+            EventMask eventMask = new EventMask(commandItem.OutCnlTag.Cnl.EventMask);
 
             if (eventMask.Enabled && eventMask.Command)
             {
                 DateTime utcNow = DateTime.UtcNow;
-                string userName = ConfigDatabase.UserTable.GetItem(command.UserID)?.Name;
+                TeleCommand command = commandItem.Command;
 
                 EnqueueEvent(ArchiveMask.Default, new Event
                 {
@@ -995,7 +996,7 @@ namespace Scada.Server.Engine
                     CnlVal = double.IsNaN(command.CmdVal) ? 0.0 : command.CmdVal,
                     CnlStat = double.IsNaN(command.CmdVal) ? CnlStatusID.Undefined : CnlStatusID.Defined,
                     TextFormat = EventTextFormat.Command,
-                    Text = string.Format(ServerPhrases.CommandSentBy, userName),
+                    Text = string.Format(ServerPhrases.CommandSentBy, commandItem.User.Name),
                     Data = command.CmdData
                 });
             }
@@ -1004,13 +1005,14 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Adds the command to the queue.
         /// </summary>
-        private void EnqueueCommand(OutCnlTag outCnlTag, TeleCommand command,
-            WriteCommandFlags flags, CommandResult result)
+        private void EnqueueCommand(User user, OutCnlTag outCnlTag, 
+            TeleCommand command, WriteCommandFlags flags, CommandResult result)
         {
             lock (commandQueue)
             {
                 commandQueue.Enqueue(new CommandItem
                 {
+                    User = user,
                     OutCnlTag = outCnlTag,
                     Command = command,
                     Flags = flags,
@@ -1604,7 +1606,7 @@ namespace Scada.Server.Engine
                             }
                         }
 
-                        EnqueueCommand(outCnlTag, command, flags, result);
+                        EnqueueCommand(user, outCnlTag, command, flags, result);
                     }
                 }
             }
