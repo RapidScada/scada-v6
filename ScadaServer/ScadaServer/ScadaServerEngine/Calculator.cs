@@ -92,6 +92,7 @@ namespace Scada.Server.Engine
             sourceCode.AppendLine("using Scada.Data.Models;");
             sourceCode.AppendLine("using System;");
             sourceCode.AppendLine("using System.Collections.Generic;");
+            sourceCode.AppendLine("using System.Diagnostics;");
             sourceCode.AppendLine("using System.IO;");
             sourceCode.AppendLine("using System.Linq;");
             sourceCode.AppendLine("using System.Text;");
