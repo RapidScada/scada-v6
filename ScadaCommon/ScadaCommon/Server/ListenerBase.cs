@@ -20,9 +20,11 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
+using Scada.Data.Entities;
+using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Log;
 using Scada.Protocol;
@@ -485,6 +487,10 @@ namespace Scada.Server
                             TerminateSession(client, request);
                             break;
 
+                        case FunctionID.GetUserByID:
+                            GetUserByID(client, request, out response);
+                            break;
+
                         case FunctionID.GetFileList:
                             GetFileList(client, request, out response);
                             break;
@@ -642,6 +648,36 @@ namespace Scada.Server
             ResponsePacket response = new ResponsePacket(request, client.OutBuf);
             client.SendResponse(response);
             client.Terminated = true;
+        }
+
+        /// <summary>
+        /// Gets the user by ID.
+        /// </summary>
+        protected void GetUserByID(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            byte[] buffer = request.Buffer;
+            int index = ArgumentIndex;
+            int userID = GetInt32(buffer, ref index);
+
+            User user = FindUser(userID);
+            buffer = client.OutBuf;
+            response = new ResponsePacket(request, buffer);
+            index = ArgumentIndex;
+
+            if (user == null)
+            {
+                CopyBool(false, buffer, ref index);
+            }
+            else
+            {
+                CopyBool(true, buffer, ref index);
+                CopyInt32(user.UserID, buffer, ref index);
+                CopyInt32(user.RoleID, buffer, ref index);
+                CopyBool(user.Enabled, buffer, ref index);
+                CopyString(user.Name, buffer, ref index);
+            }
+
+            response.BufferLength = index;
         }
 
         /// <summary>
@@ -993,6 +1029,14 @@ namespace Scada.Server
             roleID = 0;
             errMsg = "";
             return true;
+        }
+
+        /// <summary>
+        /// Finds a user by ID.
+        /// </summary>
+        protected virtual User FindUser(int userID)
+        {
+            return null;
         }
 
         /// <summary>
