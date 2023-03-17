@@ -25,6 +25,12 @@ namespace Scada.Server.Modules.ModActiveDirectory.Config
         public string LdapServer { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether to enable searching for user roles in Active Directory.
+        /// </summary>
+        [DisplayName, Category, Description]
+        public bool EnableSearch { get; set; }
+
+        /// <summary>
         /// Gets or sets the search root.
         /// </summary>
         [DisplayName, Category, Description]
@@ -50,6 +56,7 @@ namespace Scada.Server.Modules.ModActiveDirectory.Config
             XmlElement rootElem = xmlDoc.DocumentElement;
 
             LdapServer = rootElem.GetChildAsString("LdapServer");
+            EnableSearch = rootElem.GetChildAsBool("EnableSearch");
             SearchRoot = rootElem.GetChildAsString("SearchRoot");
         }
         
@@ -66,6 +73,7 @@ namespace Scada.Server.Modules.ModActiveDirectory.Config
             xmlDoc.AppendChild(rootElem);
 
             rootElem.AppendElem("LdapServer", LdapServer);
+            rootElem.AppendElem("EnableSearch", EnableSearch);
             rootElem.AppendElem("SearchRoot", SearchRoot);
 
             xmlDoc.Save(writer);

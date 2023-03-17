@@ -17,6 +17,11 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
     /// </summary>
     public class ModActiveDirectoryLogic : ModuleLogic
     {
+        /// <summary>
+        /// The identifier shared between Active Directory users as a temporary solution.
+        /// </summary>
+        private const int AdUserID = 1001;
+
         private readonly ModuleConfig moduleConfig;      // the module configuration
         private readonly Dictionary<string, User> users; // the users accessed by username
 
@@ -68,6 +73,66 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
             catch
             {
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Validates the user against the configuration database.
+        /// </summary>
+        private static UserValidationResult ValidateByConfigDatabase(User user)
+        {
+            UserValidationResult result = new()
+            {
+                UserID = user.UserID,
+                RoleID = user.RoleID
+            };
+
+            if (user.Enabled && user.RoleID > RoleID.Disabled)
+                result.IsValid = true;
+            else
+                result.ErrorMessage = ServerPhrases.AccountDisabled;
+
+            return result;
+        }
+
+        /// <summary>
+        /// Validates the user in Active Directory.
+        /// </summary>
+        private UserValidationResult ValidateByActiveDirectory(LdapConnection connection, string username)
+        {
+            if (FindUserEntry(connection, username, out SearchResultEntry userEntry))
+            {
+                List<string> userGroups = FindUserGroups(connection, userEntry);
+
+                foreach (Role role in ServerContext.ConfigDatabase.RoleTable)
+                {
+                    if (GroupsContain(userGroups, role.Code))
+                    {
+                        UserValidationResult result = new()
+                        {
+                            UserID = AdUserID,
+                            RoleID = role.RoleID
+                        };
+
+                        if (role.RoleID > RoleID.Disabled)
+                        {
+                            result.IsValid = true;
+                            return result;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                return UserValidationResult.Fail(ServerPhrases.AccountDisabled);
+            }
+            else
+            {
+                return UserValidationResult.Fail(Locale.IsRussian ?
+                    "Пользователь не найден в Active Directory" :
+                    "User not found in Active Directory");
             }
         }
 
@@ -181,7 +246,7 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
             foreach (User user in ServerContext.ConfigDatabase.UserTable)
             {
                 if (!string.IsNullOrEmpty(user.Name))
-                    users[user.Name.Trim().ToLowerInvariant()] = user;
+                    users[user.Name.ToLowerInvariant()] = user;
             }
         }
 
@@ -200,57 +265,17 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
                 {
                     if (users.TryGetValue(username.ToLowerInvariant(), out User user))
                     {
-                        // user is found in the configuration database
-                        UserValidationResult result = new()
-                        {
-                            UserID = user.UserID,
-                            RoleID = user.RoleID
-                        };
-
-                        if (user.Enabled && user.RoleID > RoleID.Disabled)
-                            result.IsValid = true;
-                        else
-                            result.ErrorMessage = ServerPhrases.AccountDisabled;
-
-                        return result;
+                        return ValidateByConfigDatabase(user);
+                    }
+                    else if (moduleConfig.EnableSearch)
+                    {
+                        return ValidateByActiveDirectory(connection, username);
                     }
                     else
                     {
-                        // user does not exist in the configuration database
-                        if (FindUserEntry(connection, username, out SearchResultEntry userEntry))
-                        {
-                            List<string> userGroups = FindUserGroups(connection, userEntry);
-
-                            foreach (Role role in ServerContext.ConfigDatabase.RoleTable)
-                            {
-                                if (GroupsContain(userGroups, role.Code))
-                                {
-                                    UserValidationResult result = new()
-                                    {
-                                        UserID = 0, // TODO: unique user ID required
-                                        RoleID = user.RoleID
-                                    };
-
-                                    if (role.RoleID > RoleID.Disabled)
-                                    {
-                                        result.IsValid = true;
-                                        return result;
-                                    }
-                                    else
-                                    {
-                                        break;
-                                    }
-                                }
-                            }
-
-                            return UserValidationResult.Fail(ServerPhrases.AccountDisabled);
-                        }
-                        else
-                        {
-                            return UserValidationResult.Fail(Locale.IsRussian ?
-                                "Пользователь не найден в Active Directory" :
-                                "User not found in Active Directory");
-                        }
+                        return UserValidationResult.Fail(Locale.IsRussian ?
+                            "Пользователь не найден в базе конфигурации" :
+                            "User not found in the configuration database");
                     }
                 }
                 else
@@ -265,6 +290,22 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
                     "Error interacting with Active Directory"));
                 return UserValidationResult.Empty;
             }
+        }
+
+        /// <summary>
+        /// Finds an external user by ID.
+        /// </summary>
+        public override User FindUser(int userID)
+        {
+            return moduleConfig.EnableSearch && userID == AdUserID
+                ? new User
+                {
+                    UserID = userID,
+                    Enabled = false,
+                    Name = "Active Directory user",
+                    RoleID = RoleID.Disabled
+                }
+                : null;
         }
     }
 }
