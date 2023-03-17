@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -39,6 +39,7 @@ namespace Scada.Protocol
         public const ushort Login = 0x0002;
         public const ushort GetStatus = 0x0003;
         public const ushort TerminateSession = 0x0004;
+        public const ushort GetUserByID = 0x0005;
 
         public const ushort GetFileList = 0x0101;
         public const ushort GetFileInfo = 0x0102;
@@ -71,6 +72,7 @@ namespace Scada.Protocol
             { Login, nameof(Login) },
             { GetStatus, nameof(GetStatus) },
             { TerminateSession, nameof(TerminateSession) },
+            { GetUserByID, nameof(GetUserByID) },
             { GetFileList, nameof(GetFileList) },
             { GetFileInfo, nameof(GetFileInfo) },
             { DownloadFile, nameof(DownloadFile) },

@@ -20,9 +20,10 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
+using Scada.Data.Entities;
 using Scada.Lang;
 using Scada.Log;
 using Scada.Protocol;
@@ -634,6 +635,47 @@ namespace Scada.Client
         public void Close()
         {
             Disconnect(true);
+        }
+
+        /// <summary>
+        /// Gets the user by ID.
+        /// </summary>
+        public User GetUserByID(int userID)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.GetUserByID);
+            int index = ArgumentIndex;
+            CopyInt32(userID, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            ReceiveResponse(request);
+            index = ArgumentIndex;
+
+            if (GetBool(inBuf, ref index))
+            {
+                User user = new User
+                {
+                    UserID = GetInt32(inBuf, ref index),
+                    RoleID = GetInt32(inBuf, ref index),
+                    Enabled = GetBool(inBuf, ref index),
+                    Name = GetString(inBuf, ref index)
+                };
+
+                if (user.UserID != userID)
+                {
+                    throw new ScadaException(Locale.IsRussian ?
+                        "Получен неверный пользователь." :
+                        "Invalid user received.");
+                }
+
+                return user;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
