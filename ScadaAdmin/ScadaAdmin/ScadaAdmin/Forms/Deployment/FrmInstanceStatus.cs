@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2019 Mikhail Shiryaev
+ * Copyright 2023 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2021
+ * Modified : 2023
  */
 
 using Scada.Admin.App.Code;
@@ -152,13 +152,11 @@ namespace Scada.Admin.App.Forms.Deployment
                 {
                     lock (client)
                     {
-                        bool statusOK = client.GetServiceStatus(serviceApp, out ServiceStatus status);
+                        ServiceStatus status = client.GetServiceStatus(serviceApp);
 
                         if (connected)
                         {
-                            statusTextBox.Text = statusOK
-                                ? status.ToString(Locale.IsRussian)
-                                : CommonPhrases.UndefinedSign;
+                            statusTextBox.Text = status.ToString(Locale.IsRussian);
                             txtUpdateTime.Text = DateTime.Now.ToLocalizedString();
                         }
                     }
