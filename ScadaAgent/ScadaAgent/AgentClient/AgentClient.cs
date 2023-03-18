@@ -30,6 +30,7 @@ using Scada.Protocol;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using static Scada.BinaryConverter;
@@ -107,19 +108,41 @@ namespace Scada.Agent.Client
         /// <summary>
         /// Gets the current status of the specified service.
         /// </summary>
-        public bool GetServiceStatus(ServiceApp serviceApp, out ServiceStatus serviceStatus)
+        public ServiceStatus GetServiceStatus(ServiceApp serviceApp)
         {
             RestoreConnection();
 
             DataPacket request = CreateRequest(FunctionID.GetServiceStatus);
-            outBuf[ArgumentIndex] = (byte)serviceApp;
-            request.ArgumentLength = 1;
+            int index = ArgumentIndex;
+            CopyInt32(1, outBuf, ref index); // array length
+            CopyByte((byte)serviceApp, outBuf, ref index);
+            request.BufferLength = index;
             SendRequest(request);
 
             ReceiveResponse(request);
-            bool parsed = inBuf[ArgumentIndex] > 0;
-            serviceStatus = (ServiceStatus)inBuf[ArgumentIndex + 1];
-            return parsed;
+            return (ServiceStatus)inBuf[ArgumentIndex + 4];
+        }
+
+        /// <summary>
+        /// Gets the current statuses of the specified services.
+        /// </summary>
+        public ServiceStatus[] GetServiceStatus(ServiceApp[] serviceApps)
+        {
+            if (serviceApps == null)
+                throw new ArgumentNullException(nameof(serviceApps));
+
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.GetServiceStatus);
+            int index = ArgumentIndex;
+            CopyByteArray(serviceApps.Cast<byte>().ToArray(), outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            ReceiveResponse(request);
+            index = ArgumentIndex;
+            byte[] statuses = GetByteArray(inBuf, ref index);
+            return statuses.Cast<ServiceStatus>().ToArray();
         }
 
         /// <summary>

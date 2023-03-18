@@ -20,11 +20,12 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Agent.Config;
 using Scada.Config;
+using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Log;
 using Scada.Protocol;
@@ -225,26 +226,24 @@ namespace Scada.Agent.Engine
         /// <summary>
         /// Validates the username and password.
         /// </summary>
-        public bool ValidateUser(string username, string password, out int userID, out int roleID, out string errMsg)
+        public UserValidationResult ValidateUser(string username, string password)
         {
-            userID = 0;
-            roleID = AgentRoleID.Disabled;
-
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
-                errMsg = Locale.IsRussian ?
+                return UserValidationResult.Fail(Locale.IsRussian ?
                     "Имя пользователя или пароль не может быть пустым" :
-                    "Username or password can not be empty";
-                return false;
+                    "Username or password can not be empty");
             }
 
             if (string.Equals(instanceOptions.AdminUser.Username, username, StringComparison.OrdinalIgnoreCase))
             {
                 if (instanceOptions.AdminUser.Password == password)
                 {
-                    roleID = AgentRoleID.Administrator;
-                    errMsg = "";
-                    return true;
+                    return new UserValidationResult
+                    {
+                        IsValid = true,
+                        RoleID = AgentRoleID.Administrator
+                    };
                 }
             }
 
@@ -253,22 +252,23 @@ namespace Scada.Agent.Engine
             {
                 if (instanceOptions.AgentUser.Password == password)
                 {
-                    roleID = AgentRoleID.Agent;
-                    errMsg = "";
-                    return true;
+                    return new UserValidationResult
+                    {
+                        IsValid = true,
+                        RoleID = AgentRoleID.Agent
+                    };
                 }
             }
 
-            errMsg = Locale.IsRussian ?
+            return UserValidationResult.Fail(Locale.IsRussian ?
                 "Неверное имя пользователя или пароль" :
-                "Invalid username or password";
-            return false;
+                "Invalid username or password");
         }
 
         /// <summary>
         /// Gets the current status of the specified service.
         /// </summary>
-        public bool GetServiceStatus(ServiceApp serviceApp, out ServiceStatus serviceStatus)
+        public ServiceStatus GetServiceStatus(ServiceApp serviceApp)
         {
             try
             {
@@ -298,8 +298,7 @@ namespace Scada.Agent.Engine
                                     if (colonIdx >= 0)
                                     {
                                         string s = line.Substring(colonIdx + 1).Trim();
-                                        serviceStatus = ScadaUtils.ParseServiceStatus(s);
-                                        return true;
+                                        return ScadaUtils.ParseServiceStatus(s);
                                     }
 
                                     break;
@@ -316,8 +315,7 @@ namespace Scada.Agent.Engine
                    "Error getting service status");
             }
 
-            serviceStatus = ServiceStatus.Undefined;
-            return false;
+            return ServiceStatus.Undefined;
         }
 
         /// <summary>
@@ -438,14 +436,10 @@ namespace Scada.Agent.Engine
                     {
                         // get upload options
                         TransferOptions uploadOptions = new TransferOptions();
-                        ZipArchiveEntry optionsEntry = zipArchive.GetEntry(AgentConst.UploadOptionsEntry);
-
-                        if (optionsEntry == null)
-                        {
+                        ZipArchiveEntry optionsEntry = zipArchive.GetEntry(AgentConst.UploadOptionsEntry) ??
                             throw new ScadaException(Locale.IsRussian ?
                                 "Параметры передачи не найдены." :
                                 "Upload options not found.");
-                        }
 
                         using (Stream optionsStream = optionsEntry.Open())
                         {

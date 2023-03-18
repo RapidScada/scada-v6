@@ -505,6 +505,7 @@ namespace Scada.Server.Engine
                 }
                 else
                 {
+                    result.IsValid = false;
                     result.ErrorMessage = Locale.IsRussian ?
                         "Недостаточно прав" :
                         "Insufficient rights";
