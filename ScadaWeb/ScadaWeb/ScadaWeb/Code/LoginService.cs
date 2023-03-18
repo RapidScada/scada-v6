@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2023 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,12 +20,13 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Web.Config;
 using Scada.Web.Lang;
@@ -104,9 +105,10 @@ namespace Scada.Web.Code
             // check user by server
             try
             {
-                userIsValid = clientAccessor.ScadaClient
-                    .ValidateUser(username, password, out userID, out roleID, out errMsg);
-                friendlyError = errMsg;
+                UserValidationResult result = clientAccessor.ScadaClient.ValidateUser(username, password);
+                userIsValid = result.IsValid;
+                errMsg = result.ErrorMessage;
+                friendlyError = result.ErrorMessage;
             }
             catch (Exception ex)
             {
