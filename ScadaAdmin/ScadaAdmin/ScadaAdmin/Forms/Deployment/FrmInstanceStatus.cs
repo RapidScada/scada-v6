@@ -209,8 +209,8 @@ namespace Scada.Admin.App.Forms.Deployment
             {
                 bool result;
 
-                lock (client) 
-                { 
+                lock (client)
+                {
                     result = client.ControlService(serviceApp, command, 0);
                 }
 

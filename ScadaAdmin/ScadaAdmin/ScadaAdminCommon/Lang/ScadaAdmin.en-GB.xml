@@ -258,7 +258,7 @@
     <Phrase key="btnStopComm">Stop</Phrase>
     <Phrase key="btnRestartComm">Restart</Phrase>
     <Phrase key="lblWebStatus">Webstation</Phrase>
-    <Phrase key="txtWebStatus">Not available</Phrase>
+    <Phrase key="txtWebStatus">Status not supported</Phrase>
     <Phrase key="btnStartWeb">Start</Phrase>
     <Phrase key="btnStopWeb">Stop</Phrase>
     <Phrase key="btnRestartWeb">Restart</Phrase>
