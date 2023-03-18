@@ -71,7 +71,6 @@ namespace Scada.Admin.App.Code
         public static string DbConnectionError { get; private set; }
 
         // Scada.Admin.App.Forms.Deployment.FrmInstanceStatus
-        public static string ControlServiceSuccessful { get; private set; }
         public static string UnableControlService { get; private set; }
         public static string ControlServiceError { get; private set; }
         public static string AgentDisabled { get; private set; }
@@ -218,7 +217,6 @@ namespace Scada.Admin.App.Code
             DbConnectionError = dict[nameof(DbConnectionError)];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.Deployment.FrmInstanceStatus");
-            ControlServiceSuccessful = dict[nameof(ControlServiceSuccessful)];
             UnableControlService = dict[nameof(UnableControlService)];
             ControlServiceError = dict[nameof(ControlServiceError)];
             AgentDisabled = dict[nameof(AgentDisabled)];
