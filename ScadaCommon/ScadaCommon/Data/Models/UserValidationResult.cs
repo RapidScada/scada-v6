@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaServerCommon
+ * Module   : ScadaCommon
  * Summary  : Represents a result of user validation
  * 
  * Author   : Mikhail Shiryaev
@@ -23,7 +23,7 @@
  * Modified : 2023
  */
 
-namespace Scada.Server.Modules
+namespace Scada.Data.Models
 {
     /// <summary>
     /// Represents a result of user validation.
