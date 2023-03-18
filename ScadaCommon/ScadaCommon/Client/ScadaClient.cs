@@ -133,24 +133,14 @@ namespace Scada.Client
         /// <summary>
         /// Validates the username and password.
         /// </summary>
-        public bool ValidateUser(string username, string password, out int userID, out int roleID, out string errMsg)
+        public UserValidationResult ValidateUser(string username, string password)
         {
             RestoreConnection();
-
-            if (ClientState == ClientState.LoggedIn)
-            {
-                Login(username, password, out bool loggedIn, out userID, out roleID, out errMsg);
-                return loggedIn;
-            }
-            else
-            {
-                userID = 0;
-                roleID = 0;
-                errMsg = Locale.IsRussian ?
+            return ClientState == ClientState.LoggedIn
+                ? Login(username, password)
+                : UserValidationResult.Fail(Locale.IsRussian ?
                     "Сервер недоступен" :
-                    "Server unavailable";
-                return false;
-            }
+                    "Server unavailable");
         }
 
         /// <summary>
