@@ -42,6 +42,11 @@ namespace Scada.Admin.App.Forms.Deployment
     /// </summary>
     public partial class FrmInstanceStatus : Form, IDeploymentForm
     {
+        /// <summary>
+        /// The services which status is displayed.
+        /// </summary>
+        private static ServiceApp[] ServiceApps = new ServiceApp[] { ServiceApp.Server, ServiceApp.Comm };
+
         private readonly AppData appData;          // the common data of the application
         private readonly ScadaProject project;     // the project under development
         private readonly ProjectInstance instance; // the affected instance
@@ -139,9 +144,9 @@ namespace Scada.Admin.App.Forms.Deployment
         }
 
         /// <summary>
-        /// Gets the current status of the specified service asynchronously.
+        /// Gets the current service statuses.
         /// </summary>
-        private async Task GetServiceStatusAsync(IAgentClient client, ServiceApp serviceApp, TextBox statusTextBox)
+        private async Task GetServiceStatusAsync(IAgentClient client)
         {
             await Task.Run(() =>
             {
@@ -152,11 +157,12 @@ namespace Scada.Admin.App.Forms.Deployment
                 {
                     lock (client)
                     {
-                        ServiceStatus status = client.GetServiceStatus(serviceApp);
+                        ServiceStatus[] statuses = client.GetServiceStatus(ServiceApps);
 
                         if (connected)
                         {
-                            statusTextBox.Text = status.ToString(Locale.IsRussian);
+                            txtServerStatus.Text = statuses[0].ToString(Locale.IsRussian);
+                            txtCommStatus.Text = statuses[1].ToString(Locale.IsRussian);
                             txtUpdateTime.Text = DateTime.Now.ToLocalizedString();
                         }
                     }
@@ -165,8 +171,9 @@ namespace Scada.Admin.App.Forms.Deployment
                 {
                     if (connected)
                     {
-                        statusTextBox.Text = ex.Message;
-                        txtUpdateTime.Text = DateTime.Now.ToLocalizedString();
+                        txtServerStatus.Text = CommonPhrases.UndefinedSign;
+                        txtCommStatus.Text = CommonPhrases.UndefinedSign;
+                        txtUpdateTime.Text = ex.Message;
                     }
                 }
             });
@@ -291,11 +298,10 @@ namespace Scada.Admin.App.Forms.Deployment
                 agentClient = new AgentClient(ctrlProfileSelector.SelectedProfile.AgentConnectionOptions);
             }
 
-            // request status
+            // request statuses
             if (agentClient != null)
             {
-                await GetServiceStatusAsync(agentClient, ServiceApp.Server, txtServerStatus);
-                await GetServiceStatusAsync(agentClient, ServiceApp.Comm, txtCommStatus);
+                await GetServiceStatusAsync(agentClient);
 
                 if (connected)
                     timer.Start();
