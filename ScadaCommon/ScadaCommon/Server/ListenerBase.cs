@@ -576,28 +576,26 @@ namespace Scada.Server
             response = new ResponsePacket(request, buffer);
             index = ArgumentIndex;
 
-            if (!protector.IsBlocked(out string errMsg) &&
-                DecryptPassword(encryptedPassword, client, out string password, out errMsg) &&
-                ValidateUser(client, username, password, instance, out int userID, out int roleID, out errMsg))
-            {
-                CopyBool(true, buffer, ref index);
-                CopyInt32(userID, buffer, ref index);
-                CopyInt32(roleID, buffer, ref index);
-                CopyString("", buffer, ref index);
+            UserValidationResult result =
+                protector.IsBlocked(out string errMsg) || 
+                !DecryptPassword(encryptedPassword, client, out string password, out errMsg)
+                ? UserValidationResult.Fail(errMsg)
+                : ValidateUser(client, username, password, instance);
 
+            if (result.IsValid)
+            {
                 UpdateClientMode(client, clientMode);
             }
             else
             {
-                CopyBool(false, buffer, ref index);
-                CopyInt32(0, buffer, ref index);
-                CopyInt32(0, buffer, ref index);
-                CopyString(errMsg, buffer, ref index);
-
                 protector.RegisterFailedLogin();
                 Thread.Sleep(WrongPasswordDelay);
             }
 
+            CopyBool(result.IsValid, buffer, ref index);
+            CopyInt32(result.UserID, buffer, ref index);
+            CopyInt32(result.RoleID, buffer, ref index);
+            CopyString(result.ErrorMessage, buffer, ref index);
             response.BufferLength = index;
         }
 
@@ -1019,16 +1017,16 @@ namespace Scada.Server
         /// <summary>
         /// Validates the username and password.
         /// </summary>
-        protected virtual bool ValidateUser(ConnectedClient client, string username, string password, string instance,
-            out int userID, out int roleID, out string errMsg)
+        protected virtual UserValidationResult ValidateUser(ConnectedClient client, 
+            string username, string password, string instance)
         {
             client.IsLoggedIn = true;
             client.Username = username;
 
-            userID = 0;
-            roleID = 0;
-            errMsg = "";
-            return true;
+            return new UserValidationResult
+            {
+                IsValid = true
+            };
         }
 
         /// <summary>

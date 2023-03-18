@@ -479,13 +479,10 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Validates the username and password.
         /// </summary>
-        protected override bool ValidateUser(ConnectedClient client, string username, string password, string instance,
-            out int userID, out int roleID, out string errMsg)
+        protected override UserValidationResult ValidateUser(ConnectedClient client,
+            string username, string password, string instance)
         {
             UserValidationResult result = coreLogic.ValidateUser(username, password);
-            userID = result.UserID;
-            roleID = result.RoleID;
-            errMsg = result.ErrorMessage;
 
             if (result.IsValid)
             {
@@ -494,9 +491,8 @@ namespace Scada.Server.Engine
                     log.WriteAction(Locale.IsRussian ?
                         "Проверка имени и пароля пользователя {0} успешна" :
                         "Checking username and password for user {0} is successful", username);
-                    return true;
                 }
-                else if (roleID == RoleID.Application)
+                else if (result.RoleID == RoleID.Application)
                 {
                     log.WriteAction(Locale.IsRussian ?
                         "Пользователь {0} успешно аутентифицирован" :
@@ -504,19 +500,17 @@ namespace Scada.Server.Engine
 
                     client.IsLoggedIn = true;
                     client.Username = username;
-                    client.UserID = userID;
-                    client.RoleID = roleID;
-                    return true;
+                    client.UserID = result.UserID;
+                    client.RoleID = result.RoleID;
                 }
                 else
                 {
-                    errMsg = Locale.IsRussian ?
+                    result.ErrorMessage = Locale.IsRussian ?
                         "Недостаточно прав" :
                         "Insufficient rights";
                     log.WriteError(Locale.IsRussian ?
                         "Пользователь {0} имеет недостаточно прав. Требуется роль Приложение" :
                         "User {0} has insufficient rights. The Application role required", username);
-                    return false;
                 }
             }
             else
@@ -525,17 +519,19 @@ namespace Scada.Server.Engine
                 {
                     log.WriteError(Locale.IsRussian ?
                         "Результат проверки имени и пароля пользователя {0} отрицательный: {1}" :
-                        "Checking username and password for user {0} is not successful: {1}", username, errMsg);
-                    return false;
+                        "Checking username and password for user {0} is not successful: {1}", 
+                        username, result.ErrorMessage);
                 }
                 else
                 {
                     log.WriteError(Locale.IsRussian ?
                         "Ошибка аутентификации пользователя {0}: {1}" :
-                        "Authentication failed for user {0}: {1}", username, errMsg);
-                    return false;
+                        "Authentication failed for user {0}: {1}", 
+                        username, result.ErrorMessage);
                 }
             }
+
+            return result;
         }
 
         /// <summary>
