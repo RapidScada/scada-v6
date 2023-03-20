@@ -96,23 +96,18 @@ namespace Scada.Web.Code
         /// </summary>
         public async Task<SimpleResult> LoginAsync(string username, string password, bool rememberMe)
         {
-            bool userIsValid = false;
-            int userID = 0;
-            int roleID = 0;
-            string errMsg;
+            UserValidationResult result;
             string friendlyError;
 
             // check user by server
             try
             {
-                UserValidationResult result = clientAccessor.ScadaClient.ValidateUser(username, password);
-                userIsValid = result.IsValid;
-                errMsg = result.ErrorMessage;
+                result = clientAccessor.ScadaClient.ValidateUser(username, password);
                 friendlyError = result.ErrorMessage;
             }
             catch (Exception ex)
             {
-                errMsg = ex.Message;
+                result = UserValidationResult.Fail(ex.Message);
                 friendlyError = WebPhrases.ClientError;
             }
 
@@ -120,12 +115,12 @@ namespace Scada.Web.Code
             UserLoginArgs userLoginArgs = new()
             {
                 Username = username,
-                UserID = userID,
-                RoleID = roleID,
+                UserID = result.UserID,
+                RoleID = result.RoleID,
                 SessionID = httpContext.Session.Id,
                 RemoteIP = httpContext.Connection.RemoteIpAddress?.ToString(),
-                UserIsValid = userIsValid,
-                ErrorMessage = errMsg,
+                UserIsValid = result.IsValid,
+                ErrorMessage = result.ErrorMessage,
                 FriendlyError = friendlyError
             };
 
@@ -135,7 +130,7 @@ namespace Scada.Web.Code
             if (userLoginArgs.UserIsValid)
             {
                 LoginOptions loginOptions = webContext.AppConfig.LoginOptions;
-                await DoLoginAsync(username, userID, roleID, 
+                await DoLoginAsync(username, result.UserID, result.RoleID, 
                     loginOptions.AllowRememberMe && rememberMe, loginOptions.RememberMeExpires);
 
                 webContext.Log.WriteAction(Locale.IsRussian ?
