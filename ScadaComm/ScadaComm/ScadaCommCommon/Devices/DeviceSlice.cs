@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Data.Models;
@@ -50,10 +50,18 @@ namespace Scada.Comm.Devices
         /// Initializes a new instance of the class.
         /// </summary>
         public DeviceSlice(DateTime timestamp, int tagCount, int dataLength)
+            : this(timestamp, new DeviceTag[tagCount], new CnlData[dataLength])
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public DeviceSlice(DateTime timestamp, DeviceTag[] deviceTags, CnlData[] cnlData)
         {
             Timestamp = timestamp;
-            DeviceTags = new DeviceTag[tagCount];
-            CnlData = new CnlData[dataLength];
+            DeviceTags = deviceTags ?? throw new ArgumentNullException(nameof(deviceTags));
+            CnlData = cnlData ?? throw new ArgumentNullException(nameof(cnlData));
             DeviceNum = 0;
             ArchiveMask = Data.Models.ArchiveMask.Default;
             Descr = "";
