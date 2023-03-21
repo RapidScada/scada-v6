@@ -14,6 +14,9 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Engine.CoreLogic">
     <Phrase key="CommandSentBy">Sent by {0}</Phrase>
+    <Phrase key="EmptyCredentials">Username or password can not be empty</Phrase>
+    <Phrase key="InvalidCredentials">Invalid username or password</Phrase>
+    <Phrase key="AccountDisabled">Account is disabled</Phrase>
   </Dictionary>
   <!-- ScadaServerCommon.Forms.dll -->
   <Dictionary key="Scada.Server.Forms.Controls.CtrlCurrentArchiveOptions">

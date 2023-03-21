@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2023 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Microsoft.AspNetCore.Http;
@@ -44,10 +44,11 @@ namespace Scada.Web.Code
         /// <summary>
         /// Creates a new user context.
         /// </summary>
-        private static UserContext CreateUserContext(int userID, IWebContext webContext)
+        private static UserContext CreateUserContext(int userID, 
+            IWebContext webContext, IClientAccessor clientAccessor)
         {
-            User userEntity = webContext.ConfigDatabase.UserTable.GetItem(userID) ?? 
-                webContext.PluginHolder.FindUser(userID);
+            User userEntity = webContext.ConfigDatabase.UserTable.GetItem(userID) ??
+                clientAccessor.ScadaClient.GetUserByID(userID);
 
             if (userEntity == null)
             {
@@ -85,10 +86,10 @@ namespace Scada.Web.Code
             try
             {
                 IWebContext webContext = serviceProvider.GetRequiredService<IWebContext>();
-                log = webContext.Log;
-
+                IClientAccessor clientAccessor = serviceProvider.GetRequiredService<IClientAccessor>();
                 IHttpContextAccessor httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
                 HttpContext httpContext = httpContextAccessor.HttpContext;
+                log = webContext.Log;
 
                 if (!(webContext.IsReady &&
                     httpContext?.User != null &&
@@ -102,7 +103,7 @@ namespace Scada.Web.Code
                 return memoryCache.GetOrCreate(WebUtils.GetUserCacheKey(userID), entry =>
                 {
                     entry.SetDefaultOptions(webContext);
-                    return CreateUserContext(userID, webContext);
+                    return CreateUserContext(userID, webContext, clientAccessor);
                 });
             }
             catch (Exception ex)

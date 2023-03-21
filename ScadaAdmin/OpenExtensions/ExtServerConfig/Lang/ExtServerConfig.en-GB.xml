@@ -44,11 +44,13 @@
   <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions">
     <Phrase key="this">General Options</Phrase>
     <Phrase key="gbGeneralOptions">General Options</Phrase>
-    <Phrase key="lblUnrelIfInactive">Channel is marked as unreliable if inactive, sec</Phrase>
+    <Phrase key="lblUnrelIfInactive">Mark channel as unreliable if inactive, sec</Phrase>
+    <Phrase key="lblMaxCurDataAge">Write current data as historical if older, sec</Phrase>
     <Phrase key="lblUseArchivalStatus">Mark incoming historical data as archival</Phrase>
     <Phrase key="lblGenerateAckCmd">Generate command when event is acknowledged</Phrase>
+    <Phrase key="lblStopWait">Wait for service stop, sec</Phrase>
     <Phrase key="lblMaxLogSize">Maximum log file size, MB</Phrase>
-    <Phrase key="lblDisableFormulas">Disable channel formulas, except for channels belonging to objects</Phrase>
+    <Phrase key="lblDisableFormulas">Enable channel formulas only for channels belonging to objects</Phrase>
     <Phrase key="btnSelectObjects">Select...</Phrase>
     <Phrase key="gbListenerOptions">Listener Options</Phrase>
     <Phrase key="lblPort">TCP port</Phrase>

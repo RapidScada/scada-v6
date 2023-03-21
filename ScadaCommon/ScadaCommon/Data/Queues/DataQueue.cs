@@ -20,10 +20,9 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2022
+ * Modified : 2023
  */
 
-using Scada.Data.Models;
 using Scada.Lang;
 using System;
 using System.Collections.Generic;
@@ -44,6 +43,14 @@ namespace Scada.Data.Queues
 
         private readonly Queue<QueueItem<T>> queue; // contains queue data
 
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public DataQueue(int maxSize)
+            : this(true, maxSize, "")
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -84,6 +91,11 @@ namespace Scada.Data.Queues
         public bool RemoveExceeded { get; set; }
 
         /// <summary>
+        /// Gets the current queue size.
+        /// </summary>
+        public int Count => queue == null ? 0 : queue.Count;
+
+        /// <summary>
         /// Gets a value indicating whether the queue is empty.
         /// </summary>
         public bool IsEmpty => queue == null || queue.Count == 0;
@@ -93,6 +105,14 @@ namespace Scada.Data.Queues
         /// </summary>
         public QueueStats Stats { get; }
 
+
+        /// <summary>
+        /// Enqueues the specified value.
+        /// </summary>
+        public bool Enqueue(DateTime creationTime, T value)
+        {
+            return Enqueue(creationTime, value, out _);
+        }
 
         /// <summary>
         /// Enqueues the specified value.
@@ -184,6 +204,23 @@ namespace Scada.Data.Queues
         }
 
         /// <summary>
+        /// Removes and returns the item value at the beginning of the queue.
+        /// </summary>
+        public bool TryDequeueValue(out T value)
+        {
+            if (TryDequeue(out QueueItem<T> item))
+            {
+                value = item.Value;
+                return true;
+            }
+            else
+            {
+                value = default;
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Returns the item at the beginning of the queue without removing it.
         /// </summary>
         public bool TryPeek(out QueueItem<T> item)
@@ -248,6 +285,14 @@ namespace Scada.Data.Queues
         public void AppendInfo(StringBuilder sbInfo)
         {
             Stats.AppendInfo(sbInfo, queue?.Count);
+        }
+
+        /// <summary>
+        /// Appends information to the string builder as a single line.
+        /// </summary>
+        public void AppendShortInfo(StringBuilder sbInfo, int titleWidth)
+        {
+            Stats.AppendShortInfo(sbInfo, queue?.Count, titleWidth);
         }
 
 

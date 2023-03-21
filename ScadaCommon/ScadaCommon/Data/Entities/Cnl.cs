@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2021
+ * Modified : 2023
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -63,6 +63,8 @@ namespace Scada.Data.Entities
         public string OutFormula { get; set; }
 
         public int? FormatID { get; set; }
+
+        public int? OutFormatID { get; set; }
 
         public int? QuantityID { get; set; }
 

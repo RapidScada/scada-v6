@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2023 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +20,15 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Agent.Config;
 using Scada.Client;
+using Scada.Data.Const;
+using Scada.Data.Entities;
+using Scada.Data.Models;
 using Scada.Lang;
-using Scada.Log;
 using Scada.Protocol;
 using Scada.Server;
 using System;
@@ -372,14 +374,19 @@ namespace Scada.Agent.Engine
         private void GetServiceStatus(ConnectedClient client, ScadaInstance instance, DataPacket request,
             out ResponsePacket response)
         {
-            ServiceApp serviceApp = (ServiceApp)client.InBuf[ArgumentIndex];
-            bool result = instance.GetServiceStatus(serviceApp, out ServiceStatus serviceStatus);
+            int index = ArgumentIndex;
+            byte[] services = GetByteArray(client.InBuf, ref index);
+            byte[] statuses = new byte[services.Length];
+
+            for (int i = 0; i < services.Length; i++)
+            {
+                statuses[i] = (byte)instance.GetServiceStatus((ServiceApp)services[i]);
+            }
 
             byte[] buffer = client.OutBuf;
             response = new ResponsePacket(request, buffer);
-            int index = ArgumentIndex;
-            CopyBool(result, buffer, ref index);
-            CopyByte((byte)serviceStatus, buffer, ref index);
+            index = ArgumentIndex;
+            CopyByteArray(statuses, buffer, ref index);
             response.BufferLength = index;
         }
         
@@ -482,7 +489,7 @@ namespace Scada.Agent.Engine
         }
 
         /// <summary>
-        /// Performs actions on a new iteration of the work cycle.
+        /// Performs actions on a new iteration of the listener loop.
         /// </summary>
         protected override void OnIteration()
         {
@@ -523,22 +530,30 @@ namespace Scada.Agent.Engine
         /// <summary>
         /// Validates the username and password.
         /// </summary>
-        protected override bool ValidateUser(ConnectedClient client, string username, string password, string instance,
-            out int userID, out int roleID, out string errMsg)
+        protected override UserValidationResult ValidateUser(ConnectedClient client, 
+            string username, string password, string instance)
         {
+            UserValidationResult result;
+            ScadaInstance scadaInstance = null;
+
             if (client.IsLoggedIn)
             {
-                errMsg = Locale.IsRussian ?
+                result = UserValidationResult.Fail(Locale.IsRussian ?
                     "Пользователь уже выполнил вход" :
-                    "User is already logged in";
+                    "User is already logged in");
             }
-            else if (!coreLogic.GetInstance(instance, out ScadaInstance scadaInstance))
+            else if (!coreLogic.GetInstance(instance, out scadaInstance))
             {
-                errMsg = Locale.IsRussian ?
+                result = UserValidationResult.Fail(Locale.IsRussian ?
                     "Неизвестный экземпляр" :
-                    "Unknown instance";
+                    "Unknown instance");
             }
-            else if (scadaInstance.ValidateUser(username, password, out userID, out roleID, out errMsg))
+            else
+            {
+                result = scadaInstance.ValidateUser(username, password);
+            }
+
+            if (result.IsValid)
             {
                 log.WriteAction(Locale.IsRussian ?
                     "Пользователь {0} успешно аутентифицирован" :
@@ -546,19 +561,19 @@ namespace Scada.Agent.Engine
 
                 client.IsLoggedIn = true;
                 client.Username = username;
-                client.UserID = userID;
-                client.RoleID = roleID;
+                client.UserID = result.UserID;
+                client.RoleID = result.RoleID;
                 GetClientTag(client).Instance = scadaInstance;
                 RegisterClient(client, scadaInstance);
-                return true;
+            }
+            else
+            {
+                log.WriteError(Locale.IsRussian ?
+                    "Ошибка аутентификации пользователя {0}: {1}" :
+                    "Authentication failed for user {0}: {1}", username, result.ErrorMessage);
             }
 
-            userID = 0;
-            roleID = 0;
-            log.WriteError(Locale.IsRussian ?
-                "Ошибка аутентификации пользователя {0}: {1}" :
-                "Authentication failed for user {0}: {1}", username, errMsg);
-            return false;
+            return result;
         }
 
         /// <summary>

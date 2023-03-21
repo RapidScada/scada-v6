@@ -44,8 +44,8 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             serverConfig = serverApp.AppConfig;
             changing = false;
         }
-        
-        
+
+
         /// <summary>
         /// Gets or sets the object associated with the form.
         /// </summary>
@@ -62,8 +62,10 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             // general options
             GeneralOptions generalOptions = serverConfig.GeneralOptions;
             numUnrelIfInactive.SetValue(generalOptions.UnrelIfInactive);
+            numMaxCurDataAge.SetValue(generalOptions.MaxCurDataAge);
             chkUseArchivalStatus.Checked = generalOptions.UseArchivalStatus;
             chkGenerateAckCmd.Checked = generalOptions.GenerateAckCmd;
+            numStopWait.SetValue(generalOptions.StopWait);
             numMaxLogSize.SetValue(generalOptions.MaxLogSize);
             chkDisableFormulas.Checked = generalOptions.DisableFormulas;
             txtEnableFormulasObjNums.Text = generalOptions.EnableFormulasObjNums.ToRangeString();
@@ -85,8 +87,10 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             // general options
             GeneralOptions generalOptions = serverConfig.GeneralOptions;
             generalOptions.UnrelIfInactive = decimal.ToInt32(numUnrelIfInactive.Value);
+            generalOptions.MaxCurDataAge = decimal.ToInt32(numMaxCurDataAge.Value);
             generalOptions.UseArchivalStatus = chkUseArchivalStatus.Checked;
             generalOptions.GenerateAckCmd = chkGenerateAckCmd.Checked;
+            generalOptions.StopWait = decimal.ToInt32(numStopWait.Value);
             generalOptions.MaxLogSize = decimal.ToInt32(numMaxLogSize.Value);
             generalOptions.DisableFormulas = chkDisableFormulas.Checked;
             generalOptions.EnableFormulasObjNums = ScadaUtils.ParseRange(txtEnableFormulasObjNums.Text, true, true);

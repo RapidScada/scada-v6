@@ -9,6 +9,7 @@ using Scada.Data.Tables;
 using Scada.Forms;
 using Scada.Lang;
 using Scada.Log;
+using System.Text;
 
 namespace Scada.Admin.Extensions.ExtProjectTools.Forms
 {
@@ -133,7 +134,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                         break;
 
                     case BaseTableFormat.CSV:
-                        using (StreamWriter writer = new(fileName))
+                        using (StreamWriter writer = new(fileName, false, new UTF8Encoding(true)))
                         {
                             using CsvWriter csvWriter = new(writer, Locale.Culture);
                             csvWriter.WriteRecords(filteredTable.EnumerateItems());

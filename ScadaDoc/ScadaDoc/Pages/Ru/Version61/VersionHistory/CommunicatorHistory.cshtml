@@ -1,0 +1,291 @@
+﻿@page "/ru/latest/version-history/communicator-history"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "История Коммуникатора";
+}
+
+<nav class="doc-toc">
+    <div class="h6">На этой странице</div>
+    <hr>
+    <ul>
+        <li><a href="#communicator-app">Приложение Коммуникатор</a></li>
+        <li><a href="#drv-anemon">Анемон</a></li>
+        <li><a href="#drv-cnl-basic">Основные каналы связи</a></li>
+        <li><a href="#drv-cnl-mqtt">Канал связи MQTT</a></li>
+        <li><a href="#drv-db-import">Импорт из БД</a></li>
+        <li><a href="#drv-ds-mqtt">Источник данных MQTT</a></li>
+        <li><a href="#drv-ds-opc-ua-server">Сервер OPC UA</a></li>
+        <li><a href="#drv-ds-scada-server">Источник данных Сервер</a></li>
+        <li><a href="#drv-email">Email</a></li>
+        <li><a href="#drv-enron-modbus">Enron Modbus</a></li>
+        <li><a href="#drv-http-notif">HTTP уведомления</a></li>
+        <li><a href="#drv-modbus">Modbus</a></li>
+        <li><a href="#drv-modbus-slave">Modbus Slave</a></li>
+        <li><a href="#drv-mqtt-client">MQTT-клиент</a></li>
+        <li><a href="#drv-mqtt-publisher">MQTT-издатель</a></li>
+        <li><a href="#drv-opc-classic">OPC Classic</a></li>
+        <li><a href="#drv-opc-ua">OPC UA</a></li>
+        <li><a href="#drv-simulator">Симулятор устройства</a></li>
+        <li><a href="#drv-sms">SMS</a></li>
+        <li><a href="#drv-snmp">SNMP</a></li>
+        <li><a href="#drv-telegram">Telegram</a></li>
+        <li><a href="#drv-tester">Тестер каналов связи</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>История Коммуникатора</h1>
+    <h2 id="communicator-app">Приложение Коммуникатор</h2>
+    <div>ScadaComm 6.1.0.0 (21.03.2023)</div>
+    <ul>
+        <li>Использует новую базу конфигурации и протокол приложений</li>
+    </ul>
+
+    <div>ScadaComm 6.0.0.2 (20.02.2023)</div>
+    <ul>
+        <li>Неактивная линия связи может быть запущена с помощью команды</li>
+    </ul>
+
+    <div>ScadaComm 6.0.0.1 (17.01.2023)</div>
+    <ul>
+        <li>Статус устройства записывается как 0 или 1</li>
+        <li>Если журнал линии отключен, то файлы информации устройств не записываются</li>
+    </ul>
+
+    <div>ScadaComm 6.0.0.0 (03.12.2022)</div>
+    <ul>
+        <li>Каналы связи с устройствами реализуются с помощью драйверов</li>
+        <li>Источники данных для взаимодействия с другими приложениями</li>
+        <li>Очередь передачи данных на сервер</li>
+        <li>Строковые коды тегов устройств для привязки к каналам</li>
+        <li>Поддержка тегов, которые являются строками или массивами</li>
+        <li>Возможность привязать статус устройства к каналу</li>
+        <li>Запуск и остановка линий связи с помощью команд от сервера</li>
+        <li>Проверка конфигурации: игнорируются дубликаты линий и устройств, вычисляемые каналы не привязываются к тегам</li>
+    </ul>
+
+    @**** DrvAnemon ****@
+    <h2 id="drv-anemon">Анемон</h2>
+    <div>DrvAnemon 6.0.1.0 (21.03.2023)</div>
+    <ul>
+        <li>Добавлен параметр количества датчиков</li>
+    </ul>
+
+    <div>DrvAnemon 6.0.0.0 (03.12.2022)</div>
+    <ul>
+        <li>Портирование драйвера на новую версию</li>
+    </ul>
+
+    @**** DrvCnlBasic ****@
+    <h2 id="drv-cnl-basic">Основные каналы связи</h2>
+    <div>DrvCnlBasic 6.0.0.1 (20.02.2023)</div>
+    <ul>
+        <li>Исправлена ошибка в канале связи UDP</li>
+    </ul>
+
+    <div>DrvCnlBasic 6.0.0.0 (03.12.2022)</div>
+    <ul>
+        <li>Первоначальная разработка драйвера</li>
+    </ul>
+
+    @**** DrvCnlMqtt ****@
+    <h2 id="drv-cnl-mqtt">Канал связи MQTT</h2>
+    <div>DrvCnlMqtt 6.0.0.2 (21.03.2023)</div>
+    <ul>
+        <li>Исправлено отображение статуса канала</li>
+    </ul>
+
+    <div>DrvCnlMqtt 6.0.0.1 (17.01.2023)</div>
+    <ul>
+        <li>Обновлена зависимость MQTTnet</li>
+    </ul>
+
+    <div>DrvCnlMqtt 6.0.0.0 (03.12.2022)</div>
+    <ul>
+        <li>Первоначальная разработка драйвера</li>
+    </ul>
+
+    @**** DrvDbImport ****@
+    <h2 id="drv-db-import">Импорт из БД</h2>
+    <div>DrvDbImport 6.0.0.0 (20.02.2023)</div>
+    <ul>
+        <li>Общее соединение с БД для линии связи</li>
+        <li>Считывание значений по строке или столбцу</li>
+        <li>Поддерживает несколько запросов для одного устройства</li>
+    </ul>
+
+    @**** DrvDsMqtt ****@
+    <h2 id="drv-ds-mqtt">Источник данных MQTT</h2>
+    <div>DrvDsMqtt 6.0.0.2 (21.03.2023)</div>
+    <ul>
+        <li>Рефакторинг очереди данных</li>
+    </ul>
+
+    <div>DrvDsMqtt 6.0.0.1 (17.01.2023)</div>
+    <ul>
+        <li>Обновлена зависимость MQTTnet</li>
+    </ul>
+
+    <div>DrvDsMqtt 6.0.0.0 (03.12.2022)</div>
+    <ul>
+        <li>Первоначальная разработка драйвера</li>
+    </ul>
+
+    @**** DrvDsOpcUaServer ****@
+    <h2 id="drv-ds-opc-ua-server">Сервер OPC UA</h2>
+    <div>DrvDsOpcUaServer 6.0.0.0 (03.12.2022)</div>
+    <ul>
+        <li>Первоначальная разработка драйвера</li>
+    </ul>
+
+    @**** DrvDsScadaServer ****@
+    <h2 id="drv-ds-scada-server">Источник данных Сервер</h2>
+    <div>DrvDsScadaServer 6.0.1.0 (21.03.2023)</div>
+    <ul>
+        <li>Пакетная передача текущих данных</li>
+    </ul>
+
+    <div>DrvDsScadaServer 6.0.0.1 (17.01.2023)</div>
+    <ul>
+        <li>Добавлен параметр считывания базы конфигурации</li>
+    </ul>
+
+    <div>DrvDsScadaServer 6.0.0.0 (03.12.2022)</div>
+    <ul>
+        <li>Первоначальная разработка драйвера</li>
+    </ul>
+
+    @**** DrvEmail ****@
+    <h2 id="drv-email">Email</h2>
+    <div>DrvEmail 6.0.0.0 (03.12.2022)</div>
+    <ul>
+        <li>Повторная отправка письма в случае ошибки</li>
+    </ul>
+
+    @**** DrvEnronModbus ****@
+    <h2 id="drv-enron-modbus">Enron Modbus</h2>
+    <div>DrvEnronModbus 6.0.0.0 (20.02.2023)</div>
+    <ul>
+        <li>Портирование драйвера на новую версию</li>
+    </ul>
+
+    @**** DrvHttpNotif ****@
+    <h2 id="drv-http-notif">HTTP уведомления</h2>
+    <div>DrvHttpNotif 6.0.0.0 (03.12.2022)</div>
+    <ul>
+        <li>Портирование драйвера на новую версию</li>
+    </ul>
+
+    @**** DrvModbus ****@
+    <h2 id="drv-modbus">Modbus</h2>
+    <div>DrvModbus 6.0.0.2 (21.03.2023)</div>
+    <ul>
+        <li>Исправлена генерация каналов</li>
+    </ul>
+
+    <div>DrvModbus 6.0.0.1 (20.02.2023)</div>
+    <ul>
+        <li>Исправлены ошибки в пользовательском интерфейсе драйвера</li>
+    </ul>
+
+    <div>DrvModbus 6.0.0.0 (03.12.2022)</div>
+    <ul>
+        <li>Возможность отправки команд с произвольным кодом функции</li>
+        <li>Элементы шаблона работают как на чтение, так и на запись</li>
+        <li>Параметр элемента <strong>Битовая маска</strong> для генерации вычислимых каналов</li>
+        <li>Неактивные группы не выводятся в файл состояния устройства</li>
+        <li>Функция копирования параметров элемента на его группу</li>
+        <li>Функция проверки шаблона</li>
+    </ul>
+
+    @**** DrvModbusSlave ****@
+    <h2 id="drv-modbus-slave">Modbus Slave</h2>
+    <div>DrvModbusSlave 6.0.0.0 (21.03.2023)</div>
+    <ul>
+        <li>Режим шлюза для выбранных каналов</li>
+    </ul>
+
+    @**** DrvMqttClient ****@
+    <h2 id="drv-mqtt-client">MQTT-клиент</h2>
+    <div>DrvMqttClient 6.0.0.1 (17.01.2023)</div>
+    <ul>
+        <li>Обновлена зависимость MQTTnet</li>
+    </ul>
+
+    <div>DrvMqttClient 6.0.0.0 (03.12.2022)</div>
+    <ul>
+        <li>Драйвер полностью перепроектирован</li>
+    </ul>
+
+    @**** DrvMqttPublisher ****@
+    <h2 id="drv-mqtt-publisher">MQTT-издатель</h2>
+    <div>DrvMqttPublisher 6.0.0.2 (21.03.2023)</div>
+    <ul>
+        <li>Команды возвращаются Коммуникатору</li>
+    </ul>
+
+    <div>DrvMqttPublisher 6.0.0.1 (17.01.2023)</div>
+    <ul>
+        <li>Обновлена зависимость MQTTnet</li>
+    </ul>
+
+    <div>DrvMqttPublisher 6.0.0.0 (03.12.2022)</div>
+    <ul>
+        <li>Первоначальная разработка драйвера</li>
+    </ul>
+
+    @**** DrvOpcClassic ****@
+    <h2 id="drv-opc-classic">OPC Classic</h2>
+    <div>DrvOpcClassic 6.0.0.0 (03.12.2022)</div>
+    <ul>
+        <li>Возможность подключения к удалённому хосту</li>
+        <li>Параметры соединения являются общими для линии связи</li>
+        <li>Элементы работают как на чтение, так и на запись</li>
+        <li>Поддержка массивов и строк</li>
+    </ul>
+
+    @**** DrvOpcUa ****@
+    <h2 id="drv-opc-ua">OPC UA</h2>
+    <div>DrvOpcUa 6.0.0.0 (03.12.2022)</div>
+    <ul>
+        <li>Параметры соединения являются общими для линии связи</li>
+        <li>Элементы работают как на чтение, так и на запись</li>
+        <li>Поддержка массивов и строк</li>
+        <li>Возможность выбрать тип данных элементов</li>
+    </ul>
+
+    @**** DrvSimulator ****@
+    <h2 id="drv-simulator">Симулятор устройства</h2>
+    <div>DrvSimulator 6.0.0.0 (03.12.2022)</div>
+    <ul>
+        <li>Добавлен тег устройства, который является массивом</li>
+    </ul>
+
+    @**** DrvSms ****@
+    <h2 id="drv-sms">SMS</h2>
+    <div>DrvSms 6.0.0.0 (20.02.2023)</div>
+    <ul>
+        <li>Портирование драйвера на новую версию</li>
+    </ul>
+
+    @**** DrvSnmp ****@
+    <h2 id="drv-snmp">SNMP</h2>
+    <div>DrvSnmp 6.0.0.0 (20.02.2023)</div>
+    <ul>
+        <li>Портирование драйвера на новую версию</li>
+    </ul>
+
+    @**** Drv ****@
+    <h2 id="drv-telegram">Telegram</h2>
+    <div>DrvTelegram 6.0.0.0 (03.12.2022)</div>
+    <ul>
+        <li>Токен бота сохраняется в зашифрованном виде</li>
+    </ul>
+
+    @**** DrvTester ****@
+    <h2 id="drv-tester">Тестер каналов связи</h2>
+    <div>DrvTester 6.0.0.0 (03.12.2022)</div>
+    <ul>
+        <li>Первоначальная разработка драйвера</li>
+    </ul>
+</div>

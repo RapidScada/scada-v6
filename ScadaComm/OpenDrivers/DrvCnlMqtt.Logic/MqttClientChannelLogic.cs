@@ -61,6 +61,29 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
 
 
         /// <summary>
+        /// Gets the current communication channel status as text.
+        /// </summary>
+        public override string StatusText
+        {
+            get
+            {
+                if (Locale.IsRussian)
+                {
+                    return mqttClientHelper.IsConnected ? 
+                        "MQTT-клиент, подключен" : 
+                        "MQTT-клиент, не подключен";
+                }
+                else
+                {
+                    return mqttClientHelper.IsConnected ?
+                        "MQTT client, connected" :
+                        "MQTT client, disconnected";
+                }
+            }
+        }
+
+
+        /// <summary>
         /// Reconnects the MQTT client to the MQTT broker if it is disconnected.
         /// </summary>
         private void ReconnectIfRequired()

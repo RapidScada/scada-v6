@@ -42,6 +42,13 @@ public double SetBit(double val, int n, double isOn)
     return isOn &gt; 0 ? ulVal | (1ul &lt;&lt; n) : ulVal &amp; ~(1ul &lt;&lt; n);
 }
 
+// Sets the n-th bit of the channel value, keeping the channel status unchanged.
+// Устанавливает бит n значения канала, сохраняя статус канала неизменным.
+public CnlData SetBit(CnlData cnlData, int n, double isOn)
+{
+    return NewData(SetBit(cnlData.Val, n, isOn), cnlData.Stat);
+}
+
 // Returns the n-th byte of the specified value.
 // Возвращает байт n значения val.
 double GetByte(double val, int n)
@@ -59,6 +66,13 @@ double GetByte(double val, int n)
 public CnlData DataRel(int cnlNumOffset)
 {
   return Data(CnlNum + cnlNumOffset);
+}
+
+// Sets the current channel data according to the command value.
+// Устанавливает текущие данные канала в соответствии со значением команды.
+public double SetData()
+{
+  return SetData(CnlNum, CmdVal, 1);
 }
 </Source>
   </Script>

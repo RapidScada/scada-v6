@@ -19,12 +19,26 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Config
             : base(options)
         {
             Connection = options.GetValueAsString("Connection");
+            BatchSize = options.GetValueAsInt("BatchSize", 1000);
+            FlushInterval = options.GetValueAsInt("FlushInterval", 1000);
         }
+
 
         /// <summary>
         /// Gets or sets the connection name.
         /// </summary>
         public string Connection { get; set; }
+
+        /// <summary>
+        /// Gets or sets the number of data points to write as a batch.
+        /// </summary>
+        public int BatchSize { get; set; }
+
+        /// <summary>
+        /// Gets or sets the time interval before a batch is written, ms.
+        /// </summary>
+        public int FlushInterval { get; set; }
+
 
         /// <summary>
         /// Adds the options to the list.
@@ -33,6 +47,8 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Config
         {
             base.AddToOptionList(options);
             options["Connection"] = Connection;
+            options["BatchSize"] = BatchSize.ToString();
+            options["FlushInterval"] = FlushInterval.ToString();
         }
     }
 }

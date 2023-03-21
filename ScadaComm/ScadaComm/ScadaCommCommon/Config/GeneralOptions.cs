@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Log;
@@ -47,6 +47,7 @@ namespace Scada.Comm.Config
             EnableCommands = true;
             EnableFileCommands = true;
             StartLinesOnCommand = false;
+            StopWait = 10;
             MaxLogSize = LogFile.DefaultCapacityMB;
         }
 
@@ -82,6 +83,11 @@ namespace Scada.Comm.Config
         public bool StartLinesOnCommand { get; set; }
 
         /// <summary>
+        /// The time to wait for the service to stop, seconds.
+        /// </summary>
+        public int StopWait { get; set; }
+
+        /// <summary>
         /// Gets or sets the maximum log file size, megabytes.
         /// </summary>
         public int MaxLogSize { get; set; }
@@ -101,6 +107,7 @@ namespace Scada.Comm.Config
             EnableCommands = xmlNode.GetChildAsBool("EnableCommands", EnableCommands);
             EnableFileCommands = xmlNode.GetChildAsBool("EnableFileCommands", EnableFileCommands);
             StartLinesOnCommand = xmlNode.GetChildAsBool("StartLinesOnCommand", StartLinesOnCommand);
+            StopWait = xmlNode.GetChildAsInt("StopWait", StopWait);
             MaxLogSize = xmlNode.GetChildAsInt("MaxLogSize", MaxLogSize);
         }
 
@@ -118,6 +125,7 @@ namespace Scada.Comm.Config
             xmlElem.AppendElem("EnableCommands", EnableCommands);
             xmlElem.AppendElem("EnableFileCommands", EnableFileCommands);
             xmlElem.AppendElem("StartLinesOnCommand", StartLinesOnCommand);
+            xmlElem.AppendElem("StopWait", StopWait);
             xmlElem.AppendElem("MaxLogSize", MaxLogSize);
         }
     }

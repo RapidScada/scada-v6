@@ -20,9 +20,11 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
+using Scada.Data.Entities;
+using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Log;
 using Scada.Protocol;
@@ -306,19 +308,18 @@ namespace Scada.Client
                     SessionID = sessionID;
                     ServerName = serverName;
 
-                    Login(ConnectionOptions.Username, ConnectionOptions.Password, 
-                        out bool loggedIn, out int userID, out int roleID, out string errMsg);
-                    UserID = userID;
-                    RoleID = roleID;
+                    UserValidationResult result = Login(ConnectionOptions.Username, ConnectionOptions.Password);
+                    UserID = result.UserID;
+                    RoleID = result.RoleID;
 
-                    if (loggedIn)
+                    if (result.IsValid)
                     {
                         ClientState = ClientState.LoggedIn;
                         CommLog?.WriteAction("User is logged in");
                     }
                     else
                     {
-                        throw new ScadaException(errMsg);
+                        throw new ScadaException(result.ErrorMessage);
                     }
                 }
                 else if (ClientState == ClientState.LoggedIn)
@@ -536,8 +537,7 @@ namespace Scada.Client
         /// <summary>
         /// Logins to the server.
         /// </summary>
-        protected void Login(string username, string password, 
-            out bool loggedIn, out int userID, out int roleID, out string errMsg)
+        protected UserValidationResult Login(string username, string password)
         {
             DataPacket request = CreateRequest(FunctionID.Login);
             int index = ArgumentIndex;
@@ -550,10 +550,13 @@ namespace Scada.Client
 
             ReceiveResponse(request);
             index = ArgumentIndex;
-            loggedIn = GetBool(inBuf, ref index);
-            userID = GetInt32(inBuf, ref index);
-            roleID = GetInt32(inBuf, ref index);
-            errMsg = GetString(inBuf, index);
+            return new UserValidationResult
+            {
+                IsValid = GetBool(inBuf, ref index),
+                UserID = GetInt32(inBuf, ref index),
+                RoleID = GetInt32(inBuf, ref index),
+                ErrorMessage = GetString(inBuf, index)
+            };
         }
 
         /// <summary>
@@ -634,6 +637,47 @@ namespace Scada.Client
         public void Close()
         {
             Disconnect(true);
+        }
+
+        /// <summary>
+        /// Gets the user by ID.
+        /// </summary>
+        public User GetUserByID(int userID)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.GetUserByID);
+            int index = ArgumentIndex;
+            CopyInt32(userID, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            ReceiveResponse(request);
+            index = ArgumentIndex;
+
+            if (GetBool(inBuf, ref index))
+            {
+                User user = new User
+                {
+                    UserID = GetInt32(inBuf, ref index),
+                    RoleID = GetInt32(inBuf, ref index),
+                    Enabled = GetBool(inBuf, ref index),
+                    Name = GetString(inBuf, ref index)
+                };
+
+                if (user.UserID != userID)
+                {
+                    throw new ScadaException(Locale.IsRussian ?
+                        "Получен неверный пользователь." :
+                        "Invalid user received.");
+                }
+
+                return user;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>

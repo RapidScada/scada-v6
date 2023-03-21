@@ -15,7 +15,7 @@
     <Phrase key="LogicStopped">Logic processing is stopped</Phrase>
     <Phrase key="UnableToStopLogic">Unable to stop logic processing for a specified time</Phrase>
     <Phrase key="StopLogicError">Error stopping logic processing</Phrase>
-    <Phrase key="LogicCycleError">Error in the logic work cycle</Phrase>
+    <Phrase key="LogicLoopError">Error in the logic loop</Phrase>
     <Phrase key="ThreadFatalError">Fatal error in thread</Phrase>
     <Phrase key="WriteInfoError">Error writing application information to the file</Phrase>
     <Phrase key="ConnectionNotFound">Connection &quot;{0}&quot; not found.</Phrase>
@@ -104,6 +104,7 @@
     <Phrase key="MajorSeverity">Major</Phrase>
     <Phrase key="MinorSeverity">Minor</Phrase>
     <Phrase key="InfoSeverity">Info</Phrase>
+    <Phrase key="UnknownUser">User {0}</Phrase>
   </Dictionary>
   <!-- ScadaCommon.Forms.dll -->
   <Dictionary key="Scada.Forms.Controls.CtrlBitmask">

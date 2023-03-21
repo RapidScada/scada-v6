@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2023
  */
 
 using System;
@@ -44,6 +44,7 @@ namespace Scada.Data.Tables
             TrendTable = trendTable ?? throw new ArgumentNullException(nameof(trendTable));
             Metadata = meta ?? throw new ArgumentNullException(nameof(meta));
             CnlNumList = null;
+            Path = "";
         }
 
 
@@ -77,6 +78,11 @@ namespace Scada.Data.Tables
         /// Gets or sets the list of channel numbers whose data is stored in the page.
         /// </summary>
         public CnlNumList CnlNumList { get; set; }
+
+        /// <summary>
+        /// Gets or sets the full path of the page file.
+        /// </summary>
+        public string Path { get; set; }
 
 
         /// <summary>

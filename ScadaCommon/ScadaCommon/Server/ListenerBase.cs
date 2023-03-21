@@ -20,9 +20,11 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
+using Scada.Data.Entities;
+using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Log;
 using Scada.Protocol;
@@ -46,6 +48,11 @@ namespace Scada.Server
     /// </summary>
     public abstract class ListenerBase
     {
+        /// <summary>
+        /// The delay in a client thread iteration, ms.
+        /// Limits the maximum number of requests per second.
+        /// </summary>
+        public const int ClientThreadDelay = 10;
         /// <summary>
         /// The maximum number of client sessions.
         /// </summary>
@@ -162,7 +169,7 @@ namespace Scada.Server
         }
 
         /// <summary>
-        /// Work cycle running in a separate thread.
+        /// Operating loop running in a separate thread.
         /// </summary>
         protected void Execute()
         {
@@ -204,7 +211,7 @@ namespace Scada.Server
                 {
                     log.WriteError(ex, Locale.IsRussian ?
                         "Ошибка в цикле работы прослушивателя" :
-                        "Error in the listener work cycle");
+                        "Error in the listener loop");
                 }
                 finally
                 {
@@ -214,7 +221,7 @@ namespace Scada.Server
         }
 
         /// <summary>
-        /// Work cycle of a client.
+        /// Work loop of a client.
         /// </summary>
         protected void ClientExecute(object clientArg)
         {
@@ -223,7 +230,7 @@ namespace Scada.Server
             while (!client.Terminated)
             {
                 ReceiveData(client);
-                Thread.Sleep(ScadaUtils.ThreadDelay);
+                Thread.Sleep(ClientThreadDelay);
             }
         }
 
@@ -480,6 +487,10 @@ namespace Scada.Server
                             TerminateSession(client, request);
                             break;
 
+                        case FunctionID.GetUserByID:
+                            GetUserByID(client, request, out response);
+                            break;
+
                         case FunctionID.GetFileList:
                             GetFileList(client, request, out response);
                             break;
@@ -565,28 +576,26 @@ namespace Scada.Server
             response = new ResponsePacket(request, buffer);
             index = ArgumentIndex;
 
-            if (!protector.IsBlocked(out string errMsg) &&
-                DecryptPassword(encryptedPassword, client, out string password, out errMsg) &&
-                ValidateUser(client, username, password, instance, out int userID, out int roleID, out errMsg))
-            {
-                CopyBool(true, buffer, ref index);
-                CopyInt32(userID, buffer, ref index);
-                CopyInt32(roleID, buffer, ref index);
-                CopyString("", buffer, ref index);
+            UserValidationResult result =
+                protector.IsBlocked(out string errMsg) || 
+                !DecryptPassword(encryptedPassword, client, out string password, out errMsg)
+                ? UserValidationResult.Fail(errMsg)
+                : ValidateUser(client, username, password, instance);
 
+            if (result.IsValid)
+            {
                 UpdateClientMode(client, clientMode);
             }
             else
             {
-                CopyBool(false, buffer, ref index);
-                CopyInt32(0, buffer, ref index);
-                CopyInt32(0, buffer, ref index);
-                CopyString(errMsg, buffer, ref index);
-
                 protector.RegisterFailedLogin();
                 Thread.Sleep(WrongPasswordDelay);
             }
 
+            CopyBool(result.IsValid, buffer, ref index);
+            CopyInt32(result.UserID, buffer, ref index);
+            CopyInt32(result.RoleID, buffer, ref index);
+            CopyString(result.ErrorMessage, buffer, ref index);
             response.BufferLength = index;
         }
 
@@ -637,6 +646,36 @@ namespace Scada.Server
             ResponsePacket response = new ResponsePacket(request, client.OutBuf);
             client.SendResponse(response);
             client.Terminated = true;
+        }
+
+        /// <summary>
+        /// Gets the user by ID.
+        /// </summary>
+        protected void GetUserByID(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            byte[] buffer = request.Buffer;
+            int index = ArgumentIndex;
+            int userID = GetInt32(buffer, ref index);
+
+            User user = FindUser(userID);
+            buffer = client.OutBuf;
+            response = new ResponsePacket(request, buffer);
+            index = ArgumentIndex;
+
+            if (user == null)
+            {
+                CopyBool(false, buffer, ref index);
+            }
+            else
+            {
+                CopyBool(true, buffer, ref index);
+                CopyInt32(user.UserID, buffer, ref index);
+                CopyInt32(user.RoleID, buffer, ref index);
+                CopyBool(user.Enabled, buffer, ref index);
+                CopyString(user.Name, buffer, ref index);
+            }
+
+            response.BufferLength = index;
         }
 
         /// <summary>
@@ -955,7 +994,7 @@ namespace Scada.Server
         }
 
         /// <summary>
-        /// Performs actions on a new iteration of the work cycle.
+        /// Performs actions on a new iteration of the listener loop.
         /// </summary>
         protected virtual void OnIteration()
         {
@@ -978,16 +1017,24 @@ namespace Scada.Server
         /// <summary>
         /// Validates the username and password.
         /// </summary>
-        protected virtual bool ValidateUser(ConnectedClient client, string username, string password, string instance,
-            out int userID, out int roleID, out string errMsg)
+        protected virtual UserValidationResult ValidateUser(ConnectedClient client, 
+            string username, string password, string instance)
         {
             client.IsLoggedIn = true;
             client.Username = username;
 
-            userID = 0;
-            roleID = 0;
-            errMsg = "";
-            return true;
+            return new UserValidationResult
+            {
+                IsValid = true
+            };
+        }
+
+        /// <summary>
+        /// Finds a user by ID.
+        /// </summary>
+        protected virtual User FindUser(int userID)
+        {
+            return null;
         }
 
         /// <summary>

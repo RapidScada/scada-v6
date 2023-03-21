@@ -3,6 +3,7 @@
 
 using Scada.Data.Adapters;
 using Scada.Data.Models;
+using Scada.Data.Queues;
 using Scada.Data.Tables;
 using Scada.Lang;
 using Scada.Log;
@@ -14,6 +15,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
+using static Scada.Server.Modules.ModArcBasic.Logic.ModuleConst;
 
 namespace Scada.Server.Modules.ModArcBasic.Logic
 {
@@ -23,21 +26,23 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
     /// </summary>
     internal class BasicHAL : HistoricalArchiveLogic
     {
-        private readonly ModuleConfig moduleConfig; // the module configuration
-        private readonly BasicHAO options;          // the archive options
-        private readonly ILog appLog;               // the application log
-        private readonly ILog arcLog;               // the archive log
-        private readonly Stopwatch stopwatch;       // measures the time of operations
-        private readonly TrendTableAdapter adapter; // reads and writes historical data
+        private readonly ModuleConfig moduleConfig;        // the module configuration
+        private readonly BasicHAO options;                 // the archive options
+        private readonly int writingPeriod;                // the writing period in seconds
+        private readonly ILog appLog;                      // the application log
+        private readonly ILog arcLog;                      // the archive log
+        private readonly DataQueue<Slice> sliceQueue;      // contains slices for writing
+        private readonly TrendTableAdapter readingAdapter; // reads historical data
+        private readonly TrendTableAdapter writingAdapter; // writes historical data
         private readonly MemoryCache<DateTime, TrendTable> tableCache; // the cache containing trend tables
-        private readonly Slice slice;               // the slice for writing
-        private readonly int writingPeriod;         // the writing period in seconds
+        private readonly object readingLock;               // synchronizes reading from the archive
+        private readonly object writingLock;               // synchronizes writing to the archive
 
-        private DateTime nextWriteTime;  // the next time to write data to the archive
-        private int[] cnlIndexes;        // the channel mapping indexes
-        private CnlNumList cnlNumList;   // the list of the channel numbers processed by the archive
-        private TrendTable currentTable; // the today's trend table
-        private TrendTable updatedTable; // the trend table that is currently being updated
+        private Thread thread;            // the thread for writing data
+        private volatile bool terminated; // necessary to stop the thread
+        private DateTime nextWriteTime;   // the next time to write data to the archive
+        private int[] cnlIndexes;         // the channel mapping indexes
+        private CnlNumList cnlNumList;    // the list of the channel numbers processed by the archive
 
 
         /// <summary>
@@ -48,25 +53,52 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         {
             this.moduleConfig = moduleConfig ?? throw new ArgumentNullException(nameof(moduleConfig));
             options = new BasicHAO(archiveConfig.CustomOptions);
+            writingPeriod = GetPeriodInSec(options.WritingPeriod, options.WritingPeriodUnit);
             appLog = archiveContext.Log;
             arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
-            stopwatch = new Stopwatch();
-            adapter = new TrendTableAdapter
-            {
-                ArchiveCode = Code,
-                CnlNumCache = new MemoryCache<long, CnlNumList>(ModuleUtils.CacheExpiration, ModuleUtils.CacheCapacity)
-            };
-            tableCache = new MemoryCache<DateTime, TrendTable>(ModuleUtils.CacheExpiration, ModuleUtils.CacheCapacity);
-            slice = new Slice(DateTime.MinValue, cnlNums);
-            writingPeriod = GetPeriodInSec(options.WritingPeriod, options.WritingPeriodUnit);
+            sliceQueue = new DataQueue<Slice>(options.MaxQueueSize);
+            readingAdapter = CreateAdapter();
+            writingAdapter = CreateAdapter();
+            tableCache = new MemoryCache<DateTime, TrendTable>(CacheExpiration, CacheCapacity);
+            readingLock = new object();
+            writingLock = new object();
 
+            thread = null;
+            terminated = false;
             nextWriteTime = DateTime.MinValue;
             cnlIndexes = null;
             cnlNumList = new CnlNumList(cnlNums);
-            currentTable = null;
-            updatedTable = null;
         }
 
+
+        /// <summary>
+        /// Gets the archive options.
+        /// </summary>
+        protected override HistoricalArchiveOptions ArchiveOptions => options;
+        
+        /// <summary>
+        /// Gets the current archive status as text.
+        /// </summary>
+        public override string StatusText
+        {
+            get
+            {
+                return GetStatusText(sliceQueue.Stats, sliceQueue.Count);
+            }
+        }
+
+
+        /// <summary>
+        /// Creates a trend table adapter.
+        /// </summary>
+        private TrendTableAdapter CreateAdapter()
+        {
+            return new TrendTableAdapter
+            {
+                ArchiveCode = Code,
+                CnlNumCache = new MemoryCache<long, CnlNumList>(CacheExpiration, CacheCapacity)
+            };
+        }
 
         /// <summary>
         /// Validates the archive options and throws an exception on fail.
@@ -88,13 +120,15 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         private void CheckCurrentTrendTable(DateTime nowDT)
         {
-            currentTable = GetCurrentTrendTable(nowDT);
-            string tableDir = adapter.GetTablePath(currentTable);
-            string metaFileName = adapter.GetMetaPath(currentTable);
+            TrendTable currentTable = new TrendTable(nowDT.Date, writingPeriod) { CnlNumList = cnlNumList };
+            currentTable.SetDefaultMetadata();
+
+            string tableDir = readingAdapter.GetTablePath(currentTable);
+            string metaFileName = readingAdapter.GetMetaPath(currentTable);
 
             if (Directory.Exists(tableDir))
             {
-                TrendTableMeta srcTableMeta = adapter.ReadMetadata(metaFileName);
+                TrendTableMeta srcTableMeta = readingAdapter.ReadMetadata(metaFileName);
 
                 if (srcTableMeta == null)
                 {
@@ -106,8 +140,8 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                     if (currentTable.GetDataPosition(nowDT, PositionKind.Ceiling,
                         out TrendTablePage page, out _))
                     {
-                        string pageFileName = adapter.GetPagePath(page);
-                        CnlNumList srcCnlNums = adapter.ReadCnlNums(pageFileName);
+                        string pageFileName = readingAdapter.GetPagePath(page);
+                        CnlNumList srcCnlNums = readingAdapter.ReadCnlNums(pageFileName);
 
                         if (srcCnlNums == null)
                         {
@@ -127,7 +161,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                                 "Update channel numbers of the page {0}", pageFileName);
                             appLog.WriteAction(ServerPhrases.ArchiveMessage, Code, msg);
                             arcLog?.WriteAction(msg);
-                            adapter.UpdatePageChannels(page, srcCnlNums);
+                            readingAdapter.UpdatePageChannels(page, srcCnlNums);
                         }
                     }
                 }
@@ -139,41 +173,19 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                         "Backup the table {0}", tableDir);
                     appLog.WriteAction(ServerPhrases.ArchiveMessage, Code, msg);
                     arcLog?.WriteAction(msg);
-                    adapter.BackupTable(currentTable);
+                    readingAdapter.BackupTable(currentTable);
                 }
             }
 
             // create an empty table if it does not exist
             if (!Directory.Exists(tableDir))
             {
-                adapter.WriteMetadata(metaFileName, currentTable.Metadata);
+                readingAdapter.WriteMetadata(metaFileName, currentTable.Metadata);
                 currentTable.IsReady = true;
             }
 
             // add the archive channel list to the cache
-            adapter.CnlNumCache.Add(cnlNumList.ListID, cnlNumList);
-        }
-
-        /// <summary>
-        /// Gets the today's trend table, creating it if necessary.
-        /// </summary>
-        private TrendTable GetCurrentTrendTable(DateTime nowDT)
-        {
-            DateTime today = nowDT.Date;
-
-            if (currentTable == null)
-            {
-                currentTable = new TrendTable(today, writingPeriod) { CnlNumList = cnlNumList };
-                currentTable.SetDefaultMetadata();
-            }
-            else if (currentTable.TableDate != today) // current date is changed
-            {
-                tableCache.Add(currentTable.TableDate, currentTable);
-                currentTable = new TrendTable(today, writingPeriod) { CnlNumList = cnlNumList };
-                currentTable.SetDefaultMetadata();
-            }
-
-            return currentTable;
+            readingAdapter.CnlNumCache.Add(cnlNumList.ListID, cnlNumList);
         }
 
         /// <summary>
@@ -183,25 +195,67 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         {
             DateTime tableDate = timestamp.Date;
 
-            if (currentTable != null && currentTable.TableDate == tableDate)
+            return tableCache.GetOrCreate(tableDate, () =>
             {
-                return currentTable;
-            }
-            else if (updatedTable != null && updatedTable.TableDate == tableDate)
-            {
-                return updatedTable;
-            }
-            else
-            {
-                TrendTable trendTable = tableCache.Get(tableDate);
+                return new TrendTable(tableDate, writingPeriod) { CnlNumList = cnlNumList };
+            });
+        }
 
-                if (trendTable == null)
+        /// <summary>
+        /// Writes slices from the queue.
+        /// </summary>
+        private void WriteSlices()
+        {
+            bool updated = false;
+
+            try
+            {
+                for (int i = 0; i < SlicesPerIteration; i++)
                 {
-                    trendTable = new TrendTable(tableDate, writingPeriod) { CnlNumList = cnlNumList };
-                    tableCache.Add(tableDate, trendTable);
-                }
+                    if (sliceQueue.TryDequeueValue(out Slice slice))
+                    {
+                        Stopwatch stopwatch = Stopwatch.StartNew();
+                        TrendTable trendTable = GetTrendTable(slice.Timestamp);
+                        
+                        lock (trendTable)
+                        {
+                            writingAdapter.WriteSlice(trendTable, slice);
+                        }
 
-                return trendTable;
+                        updated = true;
+                        stopwatch.Stop();
+                        arcLog?.WriteAction(ServerPhrases.WritingSliceCompleted,
+                            slice.Length, stopwatch.ElapsedMilliseconds);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                sliceQueue.Stats.HasError = true;
+                appLog?.WriteError(ex, ServerPhrases.ArchiveMessage, Code, ServerPhrases.WriteFileError);
+                arcLog?.WriteError(ex, ServerPhrases.WriteFileError);
+                Thread.Sleep(ScadaUtils.ErrorDelay);
+            }
+            finally
+            {
+                if (updated)
+                    LastWriteTime = DateTime.UtcNow;
+            }
+        }
+
+        /// <summary>
+        /// Writing loop running in a separate thread.
+        /// </summary>
+        private void Execute()
+        {
+            while (!terminated)
+            {
+                WriteSlices();
+                Thread.Sleep(ScadaUtils.ThreadDelay);
             }
         }
 
@@ -212,14 +266,37 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         public override void MakeReady()
         {
             ValidateOptions();
-            adapter.ParentDirectory = Path.Combine(moduleConfig.SelectArcDir(options.UseCopyDir), Code);
-            Directory.CreateDirectory(adapter.ParentDirectory);
+
+            string parentDir = Path.Combine(moduleConfig.SelectArcDir(options.UseCopyDir), Code);
+            readingAdapter.ParentDirectory = parentDir;
+            writingAdapter.ParentDirectory = parentDir;
+            Directory.CreateDirectory(parentDir);
 
             DateTime utcNow = DateTime.UtcNow;
             CheckCurrentTrendTable(utcNow);
 
             if (options.WriteWithPeriod)
                 nextWriteTime = GetNextWriteTime(utcNow, writingPeriod);
+
+            // start thread for writing data
+            terminated = false;
+            thread = new Thread(Execute);
+            thread.Start();
+        }
+
+        /// <summary>
+        /// Closes the archive.
+        /// </summary>
+        public override void Close()
+        {
+            if (thread != null)
+            {
+                terminated = true;
+                thread.Join();
+                thread = null;
+            }
+
+            WriteSlices(); // flush
         }
 
         /// <summary>
@@ -227,19 +304,22 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void DeleteOutdatedData()
         {
-            DirectoryInfo arcDirInfo = new DirectoryInfo(adapter.ParentDirectory);
+            DirectoryInfo arcDirInfo = new DirectoryInfo(readingAdapter.ParentDirectory);
 
             if (arcDirInfo.Exists)
             {
-                DateTime minDT = DateTime.UtcNow.AddDays(-options.Retention);
-                string minDirName = TrendTableAdapter.GetTableDirectory(Code, minDT);
-                appLog.WriteAction(ServerPhrases.DeleteOutdatedData, Code, minDT.ToLocalizedDateString());
-
-                foreach (DirectoryInfo dirInfo in
-                    arcDirInfo.EnumerateDirectories(Code + "*", SearchOption.TopDirectoryOnly))
+                lock (readingLock)
                 {
-                    if (string.CompareOrdinal(dirInfo.Name, minDirName) < 0)
-                        dirInfo.Delete(true);
+                    DateTime minDT = DateTime.UtcNow.AddDays(-options.Retention);
+                    string minDirName = TrendTableAdapter.GetTableDirectory(Code, minDT);
+                    appLog.WriteAction(ServerPhrases.DeleteOutdatedData, Code, minDT.ToLocalizedDateString());
+
+                    foreach (DirectoryInfo dirInfo in
+                        arcDirInfo.EnumerateDirectories(Code + "*", SearchOption.TopDirectoryOnly))
+                    {
+                        if (string.CompareOrdinal(dirInfo.Name, minDirName) < 0)
+                            dirInfo.Delete(true);
+                    }
                 }
             }
         }
@@ -249,47 +329,56 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override TrendBundle GetTrends(TimeRange timeRange, int[] cnlNums)
         {
-            stopwatch.Restart();
-            TrendBundle trendBundle;
-            List<TrendBundle> bundles = new List<TrendBundle>();
-            int totalCapacity = 0;
+            lock (readingLock)
+            {
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                TrendBundle trendBundle;
+                List<TrendBundle> bundles = new List<TrendBundle>();
+                int totalCapacity = 0;
 
-            foreach (DateTime date in EnumerateDates(timeRange))
-            {
-                TrendTable trendTable = GetTrendTable(date);
-                TrendBundle bundle = adapter.ReadTrends(trendTable, timeRange, cnlNums);
-                bundles.Add(bundle);
-                totalCapacity += bundle.Timestamps.Count;
-            }
-
-            if (bundles.Count <= 0)
-            {
-                trendBundle = new TrendBundle(cnlNums, 0);
-            }
-            else if (bundles.Count == 1)
-            {
-                trendBundle = bundles[0];
-            }
-            else
-            {
-                // unite bundles
-                trendBundle = new TrendBundle(cnlNums, totalCapacity);
-
-                foreach (TrendBundle bundle in bundles)
+                foreach (DateTime date in EnumerateDates(timeRange))
                 {
-                    trendBundle.Timestamps.AddRange(bundle.Timestamps);
+                    TrendTable trendTable = GetTrendTable(date);
+                    TrendBundle bundle;
 
-                    for (int i = 0, trendCnt = trendBundle.Trends.Count; i < trendCnt; i++)
+                    lock (trendTable)
                     {
-                        trendBundle.Trends[i].AddRange(bundle.Trends[i]);
+                        bundle = readingAdapter.ReadTrends(trendTable, timeRange, cnlNums);
+                    }
+
+                    bundles.Add(bundle);
+                    totalCapacity += bundle.Timestamps.Count;
+                }
+
+                if (bundles.Count <= 0)
+                {
+                    trendBundle = new TrendBundle(cnlNums, 0);
+                }
+                else if (bundles.Count == 1)
+                {
+                    trendBundle = bundles[0];
+                }
+                else
+                {
+                    // unite bundles
+                    trendBundle = new TrendBundle(cnlNums, totalCapacity);
+
+                    foreach (TrendBundle bundle in bundles)
+                    {
+                        trendBundle.Timestamps.AddRange(bundle.Timestamps);
+
+                        for (int i = 0, trendCnt = trendBundle.Trends.Count; i < trendCnt; i++)
+                        {
+                            trendBundle.Trends[i].AddRange(bundle.Trends[i]);
+                        }
                     }
                 }
-            }
 
-            stopwatch.Stop();
-            arcLog?.WriteAction(ServerPhrases.ReadingTrendsCompleted, 
-                trendBundle.Timestamps.Count, stopwatch.ElapsedMilliseconds);
-            return trendBundle;
+                stopwatch.Stop();
+                arcLog?.WriteAction(ServerPhrases.ReadingTrendsCompleted,
+                    trendBundle.Timestamps.Count, stopwatch.ElapsedMilliseconds);
+                return trendBundle;
+            }
         }
 
         /// <summary>
@@ -297,42 +386,51 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override Trend GetTrend(TimeRange timeRange, int cnlNum)
         {
-            stopwatch.Restart();
-            Trend resultTrend;
-            List<Trend> trends = new List<Trend>();
-            int totalCapacity = 0;
+            lock (readingLock)
+            {
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                Trend resultTrend;
+                List<Trend> trends = new List<Trend>();
+                int totalCapacity = 0;
 
-            foreach (DateTime date in EnumerateDates(timeRange))
-            {
-                TrendTable trendTable = GetTrendTable(date);
-                Trend trend = adapter.ReadTrend(trendTable, timeRange, cnlNum);
-                trends.Add(trend);
-                totalCapacity += trend.Points.Count;
-            }
-
-            if (trends.Count <= 0)
-            {
-                resultTrend = new Trend(cnlNum, 0);
-            }
-            else if (trends.Count == 1)
-            {
-                resultTrend = trends[0];
-            }
-            else
-            {
-                // unite trends
-                resultTrend = new Trend(cnlNum, totalCapacity);
-
-                foreach (Trend trend in trends)
+                foreach (DateTime date in EnumerateDates(timeRange))
                 {
-                    resultTrend.Points.AddRange(trend.Points);
-                }
-            }
+                    TrendTable trendTable = GetTrendTable(date);
+                    Trend trend;
 
-            stopwatch.Stop();
-            arcLog?.WriteAction(ServerPhrases.ReadingTrendCompleted,
-                resultTrend.Points.Count, stopwatch.ElapsedMilliseconds);
-            return resultTrend;
+                    lock (trendTable)
+                    {
+                        trend = readingAdapter.ReadTrend(trendTable, timeRange, cnlNum);
+                    }
+
+                    trends.Add(trend);
+                    totalCapacity += trend.Points.Count;
+                }
+
+                if (trends.Count <= 0)
+                {
+                    resultTrend = new Trend(cnlNum, 0);
+                }
+                else if (trends.Count == 1)
+                {
+                    resultTrend = trends[0];
+                }
+                else
+                {
+                    // unite trends
+                    resultTrend = new Trend(cnlNum, totalCapacity);
+
+                    foreach (Trend trend in trends)
+                    {
+                        resultTrend.Points.AddRange(trend.Points);
+                    }
+                }
+
+                stopwatch.Stop();
+                arcLog?.WriteAction(ServerPhrases.ReadingTrendCompleted,
+                    resultTrend.Points.Count, stopwatch.ElapsedMilliseconds);
+                return resultTrend;
+            }
         }
 
         /// <summary>
@@ -340,42 +438,51 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override List<DateTime> GetTimestamps(TimeRange timeRange)
         {
-            stopwatch.Restart();
-            List<DateTime> resultTimestamps;
-            List<List<DateTime>> listOfTimestamps = new List<List<DateTime>>();
-            int totalCapacity = 0;
+            lock (readingLock)
+            {
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                List<DateTime> resultTimestamps;
+                List<List<DateTime>> listOfTimestamps = new List<List<DateTime>>();
+                int totalCapacity = 0;
 
-            foreach (DateTime date in EnumerateDates(timeRange))
-            {
-                TrendTable trendTable = GetTrendTable(date);
-                List<DateTime> timestamps = adapter.ReadTimestamps(trendTable, timeRange);
-                listOfTimestamps.Add(timestamps);
-                totalCapacity += timestamps.Count;
-            }
-
-            if (listOfTimestamps.Count <= 0)
-            {
-                resultTimestamps = new List<DateTime>();
-            }
-            else if (listOfTimestamps.Count == 1)
-            {
-                resultTimestamps = listOfTimestamps[0];
-            }
-            else
-            {
-                // unite timestamps
-                resultTimestamps = new List<DateTime>(totalCapacity);
-
-                foreach (List<DateTime> timestamps in listOfTimestamps)
+                foreach (DateTime date in EnumerateDates(timeRange))
                 {
-                    resultTimestamps.AddRange(timestamps);
-                }
-            }
+                    TrendTable trendTable = GetTrendTable(date);
+                    List<DateTime> timestamps;
 
-            stopwatch.Stop();
-            arcLog?.WriteAction(ServerPhrases.ReadingTimestampsCompleted,
-                resultTimestamps.Count, stopwatch.ElapsedMilliseconds);
-            return resultTimestamps;
+                    lock (trendTable)
+                    {
+                        timestamps = readingAdapter.ReadTimestamps(trendTable, timeRange);
+                    }
+
+                    listOfTimestamps.Add(timestamps);
+                    totalCapacity += timestamps.Count;
+                }
+
+                if (listOfTimestamps.Count <= 0)
+                {
+                    resultTimestamps = new List<DateTime>();
+                }
+                else if (listOfTimestamps.Count == 1)
+                {
+                    resultTimestamps = listOfTimestamps[0];
+                }
+                else
+                {
+                    // unite timestamps
+                    resultTimestamps = new List<DateTime>(totalCapacity);
+
+                    foreach (List<DateTime> timestamps in listOfTimestamps)
+                    {
+                        resultTimestamps.AddRange(timestamps);
+                    }
+                }
+
+                stopwatch.Stop();
+                arcLog?.WriteAction(ServerPhrases.ReadingTimestampsCompleted,
+                    resultTimestamps.Count, stopwatch.ElapsedMilliseconds);
+                return resultTimestamps;
+            }
         }
 
         /// <summary>
@@ -383,12 +490,21 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override Slice GetSlice(DateTime timestamp, int[] cnlNums)
         {
-            stopwatch.Restart();
-            Slice slice = adapter.ReadSlice(GetTrendTable(timestamp), timestamp, cnlNums);
-            stopwatch.Stop();
-            arcLog?.WriteAction(ServerPhrases.ReadingSliceCompleted, 
-                slice.CnlNums.Length, stopwatch.ElapsedMilliseconds);
-            return slice;
+            lock (readingLock)
+            {
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                TrendTable trendTable = GetTrendTable(timestamp);
+                Slice slice;
+
+                lock (trendTable)
+                {
+                    slice = readingAdapter.ReadSlice(trendTable, timestamp, cnlNums);
+                }
+
+                stopwatch.Stop();
+                arcLog?.WriteAction(ServerPhrases.ReadingSliceCompleted, slice.Length, stopwatch.ElapsedMilliseconds);
+                return slice;
+            }
         }
 
         /// <summary>
@@ -396,7 +512,18 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override CnlData GetCnlData(DateTime timestamp, int cnlNum)
         {
-            return adapter.ReadCnlData(GetTrendTable(timestamp), timestamp, cnlNum);
+            if (GetRecentCnlData(writingLock, timestamp, cnlNum, out CnlData cnlData))
+                return cnlData;
+
+            lock (readingLock)
+            {
+                TrendTable trendTable = GetTrendTable(timestamp);
+
+                lock (trendTable)
+                {
+                    return readingAdapter.ReadCnlData(trendTable, timestamp, cnlNum);
+                }
+            }
         }
 
         /// <summary>
@@ -409,17 +536,10 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                 DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod);
                 nextWriteTime = writeTime.AddSeconds(writingPeriod);
 
-                stopwatch.Restart();
-                TrendTable trendTable = GetCurrentTrendTable(writeTime);
+                Slice slice = new Slice(writeTime, CnlNums);
                 InitCnlIndexes(curData, ref cnlIndexes);
                 CopyCnlData(curData, slice, cnlIndexes);
-                slice.Timestamp = writeTime;
-                adapter.WriteSlice(trendTable, slice);
-                LastWriteTime = curData.Timestamp;
-
-                stopwatch.Stop();
-                arcLog?.WriteAction(ServerPhrases.WritingSliceCompleted,
-                    slice.CnlNums.Length, stopwatch.ElapsedMilliseconds);
+                sliceQueue.Enqueue(slice.Timestamp, slice);
             }
         }
 
@@ -428,37 +548,56 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override bool AcceptData(ref DateTime timestamp)
         {
-            return options.PullToPeriod > 0 ?
-                PullTimeToPeriod(ref timestamp, writingPeriod, options.PullToPeriod) :
-                TimeIsMultipleOfPeriod(timestamp, writingPeriod);
+            if (TimeInsideRetention(timestamp, DateTime.UtcNow))
+            {
+                return options.PullToPeriod > 0 ?
+                    PullTimeToPeriod(ref timestamp, writingPeriod, options.PullToPeriod) :
+                    TimeIsMultipleOfPeriod(timestamp, writingPeriod);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
         /// Maintains performance when data is written one at a time.
         /// </summary>
-        public override void BeginUpdate(DateTime timestamp, int deviceNum)
+        public override void BeginUpdate(UpdateContext updateContext)
         {
-            stopwatch.Restart();
-            updatedTable = GetTrendTable(timestamp);
+            Monitor.Enter(writingLock);
+        }
+
+        /// <summary>
+        /// Updates the channel data.
+        /// </summary>
+        public override void UpdateData(UpdateContext updateContext, int cnlNum, CnlData cnlData)
+        {
+            updateContext.UpdatedData[cnlNum] = cnlData;
         }
 
         /// <summary>
         /// Completes the update operation.
         /// </summary>
-        public override void EndUpdate(DateTime timestamp, int deviceNum)
+        public override void EndUpdate(UpdateContext updateContext)
         {
-            LastWriteTime = DateTime.UtcNow;
-            updatedTable = null;
-            stopwatch.Stop();
-            arcLog?.WriteAction(ServerPhrases.UpdateCompleted, stopwatch.ElapsedMilliseconds);
-        }
+            // convert updated data to slice
+            if (updateContext.UpdatedData.Count > 0)
+            {
+                Slice slice = new Slice(updateContext.Timestamp, updateContext.UpdatedData.Count);
+                int i = 0;
 
-        /// <summary>
-        /// Writes the channel data.
-        /// </summary>
-        public override void WriteCnlData(DateTime timestamp, int cnlNum, CnlData cnlData)
-        {
-            adapter.WriteCnlData(GetTrendTable(timestamp), timestamp, cnlNum, cnlData);
+                foreach (KeyValuePair<int, CnlData> pair in updateContext.UpdatedData)
+                {
+                    slice.CnlNums[i] = pair.Key;
+                    slice.CnlData[i] = pair.Value;
+                    i++;
+                }
+
+                sliceQueue.Enqueue(slice.Timestamp, slice);
+            }
+
+            Monitor.Exit(writingLock);
         }
     }
 }

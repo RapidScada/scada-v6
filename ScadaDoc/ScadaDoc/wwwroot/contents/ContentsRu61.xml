@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TableOfContents>
+  <!-- Обзор -->
+  <Item>
+    <Text>Обзор</Text>
+    <Subitems>
+      <Item>
+        <Text>Введение</Text>
+        <Url>/ru/latest/software-overview/introduction</Url>
+      </Item>
+    </Subitems>
+  </Item>
+  
+  <!-- Установка -->
+  <Item>
+    <Text>Установка</Text>
+    <Subitems>
+      <Item>
+        <Text>Системные требования</Text>
+        <Url>/ru/latest/installation/system-requirements</Url>
+      </Item>
+      <Item>
+        <Text>Установка на Windows</Text>
+        <Url>/ru/latest/installation/install-windows</Url>
+      </Item>
+      <Item>
+        <Text>Установка на Windows вручную</Text>
+        <Url>/ru/latest/installation/install-windows-manual</Url>
+      </Item>
+      <Item>
+        <Text>Установка на Linux</Text>
+        <Url>/ru/latest/installation/install-linux</Url>
+      </Item>
+    </Subitems>
+  </Item>
+  
+  <!-- История версий -->
+  <Item>
+    <Text>История версий</Text>
+    <Subitems>
+      <Item>
+        <Text>История Rapid SCADA</Text>
+        <Url>/ru/latest/version-history/scada-history</Url>
+      </Item>
+      <Item>
+        <Text>История Сервера</Text>
+        <Url>/ru/latest/version-history/server-history</Url>
+      </Item>
+      <Item>
+        <Text>История Коммуникатора</Text>
+        <Url>/ru/latest/version-history/communicator-history</Url>
+      </Item>
+      <Item>
+        <Text>История Вебстанции</Text>
+        <Url>/ru/latest/version-history/webstation-history</Url>
+      </Item>
+      <Item>
+        <Text>История Агента</Text>
+        <Url>/ru/latest/version-history/agent-history</Url>
+      </Item>
+      <Item>
+        <Text>История Администратора</Text>
+        <Url>/ru/latest/version-history/administrator-history</Url>
+      </Item>
+      <!--<Item>
+        <Text>История дополнительных приложений</Text>
+        <Url>/ru/latest/version-history/applications-history</Url>
+      </Item>-->
+    </Subitems>
+  </Item>
+</TableOfContents>

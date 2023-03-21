@@ -81,7 +81,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
 
 
         /// <summary>
-        /// Communication cycle running in a separate thread.
+        /// Communication loop running in a separate thread.
         /// </summary>
         protected void Execute()
         {

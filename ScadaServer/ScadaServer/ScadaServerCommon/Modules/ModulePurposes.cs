@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2023
  */
 
 using System;
@@ -35,13 +35,18 @@ namespace Scada.Server.Modules
     public enum ModulePurposes
     {
         /// <summary>
-        /// Indicates that a module implement data processing logic.
+        /// Indicates that a module implements data processing logic.
         /// </summary>
-        Logic,
+        Logic = 1,
 
         /// <summary>
-        /// Indicates that a module implement data archive.
+        /// Indicates that a module implements data archive.
         /// </summary>
-        Archive
+        Archive = 2,
+
+        /// <summary>
+        /// Indicates that a module implements user authorization and authentication.
+        /// </summary>
+        Auth = 4
     }
 }

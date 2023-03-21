@@ -20,9 +20,10 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2013
- * Modified : 2022
+ * Modified : 2023
  */
 
+using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Log;
 using Scada.Server.Archives;
@@ -122,7 +123,7 @@ namespace Scada.Server.Modules
         }
 
         /// <summary>
-        /// Performs actions on a new iteration of the main operating cycle.
+        /// Performs actions on a new iteration of the main operating loop.
         /// </summary>
         public virtual void OnIteration()
         {
@@ -132,7 +133,7 @@ namespace Scada.Server.Modules
         /// Performs actions after receiving and before processing new current data.
         /// </summary>
         /// <remarks>In general, channel numbers are not sorted.</remarks>
-        public virtual void OnCurrentDataProcessing(Slice slice, int deviceNum)
+        public virtual void OnCurrentDataProcessing(Slice slice)
         {
         }
 
@@ -140,21 +141,21 @@ namespace Scada.Server.Modules
         /// Performs actions after receiving and processing new current data.
         /// </summary>
         /// <remarks>In general, channel numbers are not sorted.</remarks>
-        public virtual void OnCurrentDataProcessed(Slice slice, int deviceNum)
+        public virtual void OnCurrentDataProcessed(Slice slice)
         {
         }
 
         /// <summary>
         /// Performs actions after receiving and before processing new historical data.
         /// </summary>
-        public virtual void OnHistoricalDataProcessing(Slice slice, int deviceNum)
+        public virtual void OnHistoricalDataProcessing(Slice slice)
         {
         }
 
         /// <summary>
         /// Performs actions after receiving and processing new historical data.
         /// </summary>
-        public virtual void OnHistoricalDataProcessed(Slice slice, int deviceNum)
+        public virtual void OnHistoricalDataProcessed(Slice slice)
         {
         }
 
@@ -182,14 +183,17 @@ namespace Scada.Server.Modules
         /// <summary>
         /// Validates the username and password.
         /// </summary>
-        public virtual bool ValidateUser(string username, string password,
-            out int userID, out int roleID, out string errMsg, out bool handled)
+        public virtual UserValidationResult ValidateUser(string username, string password)
         {
-            userID = 0;
-            roleID = 0;
-            errMsg = "";
-            handled = false;
-            return false;
+            return UserValidationResult.Empty;
+        }
+
+        /// <summary>
+        /// Finds an external user by ID.
+        /// </summary>
+        public virtual User FindUser(int userID)
+        {
+            return null;
         }
     }
 }

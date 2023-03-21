@@ -31,6 +31,7 @@ namespace Scada.Server.Archives
     /// Represents the base class for current data archive logic.
     /// <para>Представляет базовый класс логики архива текщих данных.</para>
     /// </summary>
+    /// <remarks>Descendants of this class must be thread-safe.</remarks>
     public abstract class CurrentArchiveLogic : ArchiveLogic
     {
         /// <summary>

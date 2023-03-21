@@ -11,6 +11,7 @@ namespace Scada.Doc.Code
     {
         None = 0,
         V58 = 58,
-        V60 = 60
+        V60 = 60,
+        V61 = 61
     }
 }

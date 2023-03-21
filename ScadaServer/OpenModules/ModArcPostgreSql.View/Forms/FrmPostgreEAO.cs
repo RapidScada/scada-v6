@@ -43,14 +43,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         /// </summary>
         private void OptionsToControls()
         {
-            // general options
             ctrlEventArchiveOptions.ArchiveOptions = options;
-
-            // database options
-            chkUseStorageConn.Checked = options.UseStorageConn;
-            cbConnection.Text = options.Connection;
-            numMaxQueueSize.SetValue(options.MaxQueueSize);
-            cbPartitionSize.SelectedIndex = (int)options.PartitionSize;
+            ctrlDatabaseOptions.DatabaseOptions = options;
         }
 
         /// <summary>
@@ -58,15 +52,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         /// </summary>
         private void ControlsToOptions()
         {
-            // general options
             ctrlEventArchiveOptions.ControlsToOptions();
-
-            // database options
-            options.UseStorageConn = chkUseStorageConn.Checked;
-            options.Connection = cbConnection.Text;
-            options.MaxQueueSize = Convert.ToInt32(numMaxQueueSize.Value);
-            options.PartitionSize = (PartitionSize)cbPartitionSize.SelectedIndex;
-
+            ctrlDatabaseOptions.ControlsToOptions();
             options.AddToOptionList(archiveConfig.CustomOptions);
         }
 
@@ -75,19 +62,15 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         {
             FormTranslator.Translate(this, GetType().FullName);
             FormTranslator.Translate(ctrlEventArchiveOptions, ctrlEventArchiveOptions.GetType().FullName);
+            FormTranslator.Translate(ctrlDatabaseOptions, ctrlDatabaseOptions.GetType().FullName);
 
             OptionsToControls();
-            UiUtils.FillConnections(cbConnection, appDirs.ConfigDir);
-        }
-
-        private void chkUseStorageConn_CheckedChanged(object sender, EventArgs e)
-        {
-            cbConnection.Enabled = !chkUseStorageConn.Checked;
+            UiUtils.FillConnections(ctrlDatabaseOptions.ConnectionComboBox, appDirs.ConfigDir);
         }
 
         private void btnManageConn_Click(object sender, EventArgs e)
         {
-            UiUtils.EditConnections(cbConnection, appDirs.ConfigDir);
+            UiUtils.EditConnections(ctrlDatabaseOptions.ConnectionComboBox, appDirs.ConfigDir);
         }
 
         private void btnOK_Click(object sender, EventArgs e)

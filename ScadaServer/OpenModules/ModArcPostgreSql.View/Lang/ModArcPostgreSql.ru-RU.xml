@@ -1,5 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ModArcPostgreSqlDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Controls.CtrlDatabaseOptions">
+    <Phrase key="gbDbOptions">Параметры базы данных</Phrase>
+    <Phrase key="lblUseStorageConn">Соединение хранилища</Phrase>
+    <Phrase key="lblConnection">Соединение</Phrase>
+    <Phrase key="lblPartitionSize">Размер секции</Phrase>
+    <Phrase key="cbPartitionSize.Items[0]">Один месяц</Phrase>
+    <Phrase key="cbPartitionSize.Items[1]">Один год</Phrase>
+    <Phrase key="lblMaxQueueSize">Макс. размер очереди</Phrase>
+    <Phrase key="lblBatchSize">Элементов на транзакцию</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmConnManager">
     <Phrase key="this">Соединения PostgreSQL</Phrase>
     <Phrase key="gbConnList">Соединения</Phrase>
@@ -14,6 +24,7 @@
     <Phrase key="lblUseStorageConn">Соединение хранилища</Phrase>
     <Phrase key="lblConnection">Соединение</Phrase>
     <Phrase key="lblMaxQueueSize">Макс. размер очереди</Phrase>
+    <Phrase key="lblBatchSize">Элементов на транзакцию</Phrase>
     <Phrase key="btnManageConn">Соединения</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
@@ -21,25 +32,12 @@
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreEAO">
     <Phrase key="this">Параметры архива событий</Phrase>
     <Phrase key="gbDbOptions">Параметры базы данных</Phrase>
-    <Phrase key="lblUseStorageConn">Соединение хранилища</Phrase>
-    <Phrase key="lblConnection">Соединение</Phrase>
-    <Phrase key="lblMaxQueueSize">Макс. размер очереди</Phrase>
-    <Phrase key="lblPartitionSize">Размер секции</Phrase>
-    <Phrase key="cbPartitionSize.Items[0]">Один месяц</Phrase>
-    <Phrase key="cbPartitionSize.Items[1]">Один год</Phrase>
     <Phrase key="btnManageConn">Соединения</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreHAO">
     <Phrase key="this">Параметры архива исторических данных</Phrase>
-    <Phrase key="gbDbOptions">Параметры базы данных</Phrase>
-    <Phrase key="lblUseStorageConn">Соединение хранилища</Phrase>
-    <Phrase key="lblConnection">Соединение</Phrase>
-    <Phrase key="lblMaxQueueSize">Макс. размер очереди</Phrase>
-    <Phrase key="lblPartitionSize">Размер секции</Phrase>
-    <Phrase key="cbPartitionSize.Items[0]">Один месяц</Phrase>
-    <Phrase key="cbPartitionSize.Items[1]">Один год</Phrase>
     <Phrase key="btnManageConn">Соединения</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>

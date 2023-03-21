@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ModActiveDirectory>
   <LdapServer>127.0.0.1</LdapServer>
+  <EnableSearch>false</EnableSearch>
   <SearchRoot>DC=company,DC=com</SearchRoot>
 </ModActiveDirectory>

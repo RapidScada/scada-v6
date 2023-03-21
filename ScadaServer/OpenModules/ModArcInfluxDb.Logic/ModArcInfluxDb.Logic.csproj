@@ -9,13 +9,13 @@
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
-    <Copyright>Copyright © 2022</Copyright>
-    <Version>6.0.0</Version>
-    <AssemblyVersion>6.0.0.1</AssemblyVersion>
+    <Copyright>Copyright © 2023</Copyright>
+    <Version>6.1.0</Version>
+    <AssemblyVersion>6.1.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="InfluxDB.Client" Version="4.4.0" />
+    <PackageReference Include="InfluxDB.Client" Version="4.11.0" />
   </ItemGroup>
 
   <ItemGroup>

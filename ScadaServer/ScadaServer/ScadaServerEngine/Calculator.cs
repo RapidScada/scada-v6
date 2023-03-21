@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Microsoft.CodeAnalysis;
@@ -34,6 +34,7 @@ using Scada.Lang;
 using Scada.Log;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -91,6 +92,7 @@ namespace Scada.Server.Engine
             sourceCode.AppendLine("using Scada.Data.Models;");
             sourceCode.AppendLine("using System;");
             sourceCode.AppendLine("using System.Collections.Generic;");
+            sourceCode.AppendLine("using System.Diagnostics;");
             sourceCode.AppendLine("using System.IO;");
             sourceCode.AppendLine("using System.Linq;");
             sourceCode.AppendLine("using System.Text;");
@@ -216,7 +218,17 @@ namespace Scada.Server.Engine
         private void SaveSourceCode(string sourceCode, out string fileName)
         {
             fileName = Path.Combine(appDirs.LogDir, SourceCodeFileName);
-            File.WriteAllText(fileName, sourceCode, Encoding.UTF8);
+
+            try
+            {
+                File.WriteAllText(fileName, sourceCode, Encoding.UTF8);
+            }
+            catch (Exception ex)
+            {
+                log.WriteError(Locale.IsRussian ?
+                    "Ошибка при сохранении исходного кода: {0}" :
+                    "Error saving the source code: {0}", ex.Message);
+            }
         }
 
         /// <summary>
@@ -231,10 +243,12 @@ namespace Scada.Server.Engine
                 Path.Combine(dotnetDir, "netstandard.dll"),
                 Path.Combine(dotnetDir, "System.Runtime.dll"),
                 typeof(object).Assembly.Location,
+                typeof(Component).Assembly.Location, // required by Process
                 typeof(Console).Assembly.Location,
                 typeof(Enumerable).Assembly.Location,
                 typeof(File).Assembly.Location,
                 typeof(Math).Assembly.Location,
+                typeof(Process).Assembly.Location,
                 typeof(Stopwatch).Assembly.Location,
                 typeof(CalcEngine).Assembly.Location,
                 typeof(ScadaUtils).Assembly.Location
@@ -308,6 +322,7 @@ namespace Scada.Server.Engine
                 }
             }
         }
+
 
         /// <summary>
         /// Compiles the scripts and formulas.
@@ -417,61 +432,19 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Performs the necessary actions before the calculation.
-        /// </summary>
-        public void BeginCalculation(ICalcContext calcContext)
-        {
-            try
-            {
-                Monitor.Enter(this);
-
-                foreach (CalcEngine calcEngine in calcEngines)
-                {
-                    calcEngine.BeginCalculation(calcContext);
-                }
-            }
-            catch (Exception ex)
-            {
-                log.WriteError(ex, Locale.IsRussian ?
-                    "Ошибка при выполнении действий перед расчётом" :
-                    "Error performing actions before the calculation");
-            }
-        }
-
-        /// <summary>
-        /// Performs the necessary actions after the calculation.
-        /// </summary>
-        public void EndCalculation()
-        {
-            try
-            {
-                foreach (CalcEngine calcEngine in calcEngines)
-                {
-                    calcEngine.EndCalculation();
-                }
-            }
-            catch (Exception ex)
-            {
-                log.WriteError(ex, Locale.IsRussian ?
-                    "Ошибка при выполнении действий после расчёта" :
-                    "Error performing actions after the calculation");
-            }
-            finally
-            {
-                Monitor.Exit(this);
-            }
-        }
-
-        /// <summary>
         /// Calculates the channel data.
         /// </summary>
-        public CnlData CalcCnlData(CnlTag cnlTag, CnlData initialCnlData)
+        /// <remarks>The method is thread-safe.</remarks>
+        public CnlData CalcCnlData(ICalcContext calcContext, CnlTag cnlTag, CnlData initialCnlData)
         {
-            if (cnlTag != null && cnlTag.CalcEngine != null && cnlTag.CalcCnlDataFunc != null)
+            if (calcContext != null && cnlTag != null && cnlTag.CalcCnlDataFunc != null && 
+                cnlTag.CalcEngine is CalcEngine calcEngine)
             {
                 try
                 {
-                    cnlTag.CalcEngine.BeginCalcCnlData(cnlTag.CnlNum, cnlTag.Cnl, initialCnlData);
+                    Monitor.Enter(this);
+                    calcEngine.BeginCalculation(calcContext);
+                    calcEngine.BeginCalcCnlData(cnlTag.CnlNum, cnlTag.Cnl, initialCnlData);
                     return cnlTag.CalcCnlDataFunc();
                 }
                 catch
@@ -480,7 +453,9 @@ namespace Scada.Server.Engine
                 }
                 finally
                 {
-                    cnlTag.CalcEngine.EndCalcCnlData();
+                    calcEngine.EndCalcCnlData();
+                    calcEngine.EndCalculation();
+                    Monitor.Exit(this);
                 }
             }
             else
@@ -492,15 +467,20 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Calculates the command data.
         /// </summary>
-        public bool CalcCmdData(OutCnlTag outCnlTag, double initialCmdVal, byte[] initialCmdData,
+        /// <remarks>The method is thread-safe.</remarks>
+        public bool CalcCmdData(ICalcContext calcContext, OutCnlTag outCnlTag, 
+            double initialCmdVal, byte[] initialCmdData, 
             out double cmdVal, out byte[] cmdData, out string errMsg)
         {
-            if (outCnlTag != null && outCnlTag.CalcEngine != null && outCnlTag.CalcCmdDataFunc != null)
+            if (calcContext != null && outCnlTag != null && outCnlTag.CalcCmdDataFunc != null &&
+                outCnlTag.CalcEngine is CalcEngine calcEngine)
             {
                 try
                 {
-                    outCnlTag.CalcEngine.BeginCalcCmdData(outCnlTag.Cnl.CnlNum, outCnlTag.Cnl, 
-                        initialCmdVal, initialCmdData);
+                    Monitor.Enter(this);
+                    calcEngine.BeginCalculation(calcContext);
+                    calcEngine.BeginCalcCmdData(outCnlTag.Cnl.CnlNum, outCnlTag.Cnl, initialCmdVal, initialCmdData);
+
                     object result = outCnlTag.CalcCmdDataFunc();
                     cmdVal = double.NaN;
                     cmdData = null;
@@ -509,6 +489,8 @@ namespace Scada.Server.Engine
                         cmdData = bytes;
                     else if (result is string str)
                         cmdData = Encoding.UTF8.GetBytes(str);
+                    else if (result is CnlData cnlData)
+                        cmdVal = cnlData.ToDouble();
                     else if (result != null)
                         cmdVal = Convert.ToDouble(result);
 
@@ -534,7 +516,9 @@ namespace Scada.Server.Engine
                 }
                 finally
                 {
-                    outCnlTag.CalcEngine.EndCalcCmdData();
+                    calcEngine.EndCalcCmdData();
+                    calcEngine.EndCalculation();
+                    Monitor.Exit(this);
                 }
             }
             else

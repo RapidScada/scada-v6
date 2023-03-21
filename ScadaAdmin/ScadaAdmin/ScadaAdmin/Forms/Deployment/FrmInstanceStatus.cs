@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2019 Mikhail Shiryaev
+ * Copyright 2023 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2021
+ * Modified : 2023
  */
 
 using Scada.Admin.App.Code;
@@ -31,6 +31,7 @@ using Scada.Agent.Client;
 using Scada.Forms;
 using Scada.Lang;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -42,6 +43,15 @@ namespace Scada.Admin.App.Forms.Deployment
     /// </summary>
     public partial class FrmInstanceStatus : Form, IDeploymentForm
     {
+        /// <summary>
+        /// The time period for disabling the button after pressing, ms.
+        /// </summary>
+        private const int ButtonWait = 1000;
+        /// <summary>
+        /// The services which status is displayed.
+        /// </summary>
+        private static readonly ServiceApp[] ServiceApps = new ServiceApp[] { ServiceApp.Server, ServiceApp.Comm };
+
         private readonly AppData appData;          // the common data of the application
         private readonly ScadaProject project;     // the project under development
         private readonly ProjectInstance instance; // the affected instance
@@ -139,26 +149,25 @@ namespace Scada.Admin.App.Forms.Deployment
         }
 
         /// <summary>
-        /// Gets the current status of the specified service asynchronously.
+        /// Gets the current service statuses.
         /// </summary>
-        private async Task GetServiceStatusAsync(IAgentClient client, ServiceApp serviceApp, TextBox statusTextBox)
+        private async Task GetServiceStatusAsync(IAgentClient client)
         {
+            if (client == null)
+                return;
+
             await Task.Run(() =>
             {
-                if (client == null)
-                    return;
-
                 try
                 {
                     lock (client)
                     {
-                        bool statusOK = client.GetServiceStatus(serviceApp, out ServiceStatus status);
+                        ServiceStatus[] statuses = client.GetServiceStatus(ServiceApps);
 
                         if (connected)
                         {
-                            statusTextBox.Text = statusOK
-                                ? status.ToString(Locale.IsRussian)
-                                : CommonPhrases.UndefinedSign;
+                            txtServerStatus.Text = statuses[0].ToString(Locale.IsRussian);
+                            txtCommStatus.Text = statuses[1].ToString(Locale.IsRussian);
                             txtUpdateTime.Text = DateTime.Now.ToLocalizedString();
                         }
                     }
@@ -167,10 +176,24 @@ namespace Scada.Admin.App.Forms.Deployment
                 {
                     if (connected)
                     {
-                        statusTextBox.Text = ex.Message;
-                        txtUpdateTime.Text = DateTime.Now.ToLocalizedString();
+                        txtServerStatus.Text = CommonPhrases.UndefinedSign;
+                        txtCommStatus.Text = CommonPhrases.UndefinedSign;
+                        txtUpdateTime.Text = ex.Message;
                     }
                 }
+            });
+        }
+
+        /// <summary>
+        /// Displays the button in waiting state.
+        /// </summary>
+        private static void DisplayWait(Button button)
+        {
+            Task.Run(() =>
+            {
+                button.Enabled = false;
+                Thread.Sleep(ButtonWait);
+                button.Enabled = true;
             });
         }
 
@@ -184,15 +207,14 @@ namespace Scada.Admin.App.Forms.Deployment
 
             try
             {
-                bool commandResult;
-                lock (client) 
-                { 
-                    commandResult = client.ControlService(serviceApp, command, 0);
+                bool result;
+
+                lock (client)
+                {
+                    result = client.ControlService(serviceApp, command, 0);
                 }
 
-                if (commandResult)
-                    ScadaUiUtils.ShowInfo(AppPhrases.ControlServiceSuccessful);
-                else
+                if (!result)
                     ScadaUiUtils.ShowError(AppPhrases.UnableControlService);
             }
             catch (Exception ex)
@@ -256,7 +278,8 @@ namespace Scada.Admin.App.Forms.Deployment
 
         private void btnControlService_Click(object sender, EventArgs e)
         {
-            string buttonName = ((Button)sender).Name;
+            Button button = (Button)sender;
+            string buttonName = button.Name;
             ServiceCommand? serviceCommand = null;
             ServiceApp? serviceApp = null;
 
@@ -278,7 +301,10 @@ namespace Scada.Admin.App.Forms.Deployment
 
             // send command to application
             if (serviceApp != null && serviceCommand != null)
+            {
+                DisplayWait(button);
                 ControlService(agentClient, serviceApp.Value, serviceCommand.Value);
+            }
         }
 
         private async void timer_Tick(object sender, EventArgs e)
@@ -293,15 +319,11 @@ namespace Scada.Admin.App.Forms.Deployment
                 agentClient = new AgentClient(ctrlProfileSelector.SelectedProfile.AgentConnectionOptions);
             }
 
-            // request status
-            if (agentClient != null)
-            {
-                await GetServiceStatusAsync(agentClient, ServiceApp.Server, txtServerStatus);
-                await GetServiceStatusAsync(agentClient, ServiceApp.Comm, txtCommStatus);
+            // request statuses
+            await GetServiceStatusAsync(agentClient);
 
-                if (connected)
-                    timer.Start();
-            }
+            if (connected)
+                timer.Start();
         }
     }
 }

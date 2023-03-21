@@ -2,10 +2,12 @@
 <ScadaServerConfig>
   <GeneralOptions>
     <UnrelIfInactive>300</UnrelIfInactive>
+    <MaxCurDataAge>0</MaxCurDataAge>
     <UseArchivalStatus>false</UseArchivalStatus>
     <GenerateAckCmd>false</GenerateAckCmd>
     <DisableFormulas>false</DisableFormulas>
     <EnableFormulasObjNums />
+    <StopWait>10</StopWait>
     <MaxLogSize>1</MaxLogSize>
   </GeneralOptions>
   <ListenerOptions>

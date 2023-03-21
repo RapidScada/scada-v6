@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2010
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Admin.App.Code;
@@ -92,6 +92,7 @@ namespace Scada.Admin.App.Forms.Tables
                 txtInFormula.SetText(cells["InFormula"]);
                 txtOutFormula.SetText(cells["OutFormula"]);
                 cbFormat.SetValue(cells["FormatID"]);
+                cbOutFormat.SetValue(cells["OutFormatID"]);
                 cbQuantity.SetValue(cells["QuantityID"]);
                 cbUnit.SetValue(cells["UnitID"]);
                 cbLim.SetValue(cells["LimID"]);
@@ -175,6 +176,7 @@ namespace Scada.Admin.App.Forms.Tables
                 cells["InFormula"].Value = txtInFormula.Text;
                 cells["OutFormula"].Value = txtOutFormula.Text;
                 cells["FormatID"].Value = cbFormat.SelectedValue ?? DBNull.Value;
+                cells["OutFormatID"].Value = cbOutFormat.SelectedValue ?? DBNull.Value;
                 cells["QuantityID"].Value = cbQuantity.SelectedValue ?? DBNull.Value;
                 cells["UnitID"].Value = cbUnit.SelectedValue ?? DBNull.Value;
                 cells["LimID"].Value = cbLim.SelectedValue ?? DBNull.Value;

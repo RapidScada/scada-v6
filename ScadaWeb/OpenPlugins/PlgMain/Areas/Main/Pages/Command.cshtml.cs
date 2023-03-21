@@ -95,19 +95,24 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
         private bool CheckPassword()
         {
+            if (!pluginContext.Options.CommandPassword)
+                return true;
+
             try
             {
-                if (pluginContext.Options.CommandPassword &&
-                    !clientAccessor.ScadaClient.ValidateUser(User.GetUsername(), Password,
-                        out _, out _, out string errMsg))
+                UserValidationResult result = clientAccessor.ScadaClient.ValidateUser(User.GetUsername(), Password);
+
+                if (result.IsValid)
+                {
+                    return true;
+                }
+                else
                 {
                     HasError = true;
-                    Message = errMsg;
+                    Message = result.ErrorMessage;
                     PwdIsInvalid = true;
                     return false;
                 }
-
-                return true;
             }
             catch (Exception ex)
             {
@@ -168,7 +173,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             try
             {
                 webContext.Log.WriteAction(WebPhrases.SendCommand, command.CnlNum, User.GetUsername());
-                clientAccessor.ScadaClient.SendCommand(command, WriteFlags.EnableAll, out CommandResult result);
+                CommandResult result = clientAccessor.ScadaClient.SendCommand(command, WriteCommandFlags.Default);
 
                 if (result.IsSuccessful)
                 {
@@ -206,9 +211,11 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             if (Cnl.DeviceNum != null)
                 Device = webContext.ConfigDatabase.DeviceTable.GetItem(Cnl.DeviceNum.Value);
 
-            if (Cnl.FormatID != null)
+            int? formatID = Cnl.OutFormatID ?? Cnl.FormatID;
+
+            if (formatID != null)
             {
-                Format = webContext.ConfigDatabase.FormatTable.GetItem(Cnl.FormatID.Value);
+                Format = webContext.ConfigDatabase.FormatTable.GetItem(formatID.Value);
 
                 if (Format != null)
                 {

@@ -184,7 +184,7 @@
     <DevTypeID>231</DevTypeID>
     <Name>MQTT</Name>
     <Driver>DrvMqtt</Driver>
-    <Descr>Interacts with controllers via MQTT protocol</Descr>
+    <Descr>Interacts with controllers via MQTT protocol. Deprecated</Descr>
   </DevType>
   <DevType>
     <DevTypeID>232</DevTypeID>

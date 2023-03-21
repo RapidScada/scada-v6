@@ -150,17 +150,17 @@ namespace Scada.Web.Plugins.PlgScheme.Controllers
                     else
                     {
                         webContext.Log.WriteAction(WebPhrases.SendCommand, ctrlCnlNum, User.GetUsername());
-                        clientAccessor.ScadaClient.SendCommand(new TeleCommand
+                        CommandResult result = clientAccessor.ScadaClient.SendCommand(new TeleCommand
                         {
                             UserID = User.GetUserID(),
                             CnlNum = ctrlCnlNum,
                             CmdVal = cmdVal
-                        }, WriteFlags.EnableAll, out CommandResult commandResult);
+                        }, WriteCommandFlags.Default);
 
-                        if (commandResult.IsSuccessful)
+                        if (result.IsSuccessful)
                             return Dto<bool>.Success(true);
                         else
-                            errMsg = commandResult.ErrorMessage;
+                            errMsg = result.ErrorMessage;
                     }
                 }
 

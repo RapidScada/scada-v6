@@ -20,12 +20,20 @@ namespace Scada.Server.Modules.ModArcBasic.Config
         {
             ReadOnly = false;
             UseCopyDir = options.GetValueAsBool("UseCopyDir");
+            MaxQueueSize = options.GetValueAsInt("MaxQueueSize", ModuleUtils.DefaultQueueSize);
         }
+
 
         /// <summary>
         /// Gets or sets a value indicating whether to store data in the archive copy directory.
         /// </summary>
         public bool UseCopyDir { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maximum queue size.
+        /// </summary>
+        public int MaxQueueSize { get; set; }
+
 
         /// <summary>
         /// Adds the options to the list.
@@ -34,6 +42,7 @@ namespace Scada.Server.Modules.ModArcBasic.Config
         {
             base.AddToOptionList(options);
             options["UseCopyDir"] = UseCopyDir.ToLowerString();
+            options["MaxQueueSize"] = MaxQueueSize.ToString();
         }
     }
 }

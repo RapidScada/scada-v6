@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -57,13 +57,13 @@ namespace Scada.Server.Lang
         public static string WritingPointsCompleted { get; private set; }
         public static string QueueingPointsCompleted { get; private set; }
         public static string QueueBecameEmpty { get; private set; }
-        public static string PointsWereLost { get; private set; }
+        public static string PointsLost { get; private set; }
         public static string UpdateCompleted { get; private set; }
         public static string ReadingEventsCompleted { get; private set; }
         public static string ReadingEventCompleted { get; private set; }
         public static string WritingEventCompleted { get; private set; }
         public static string QueueingEventCompleted { get; private set; }
-        public static string EventsWereLost { get; private set; }
+        public static string EventLost { get; private set; }
         public static string AckEventCompleted { get; private set; }
         public static string AckEventNotFound { get; private set; }
 
@@ -71,12 +71,14 @@ namespace Scada.Server.Lang
         public static string StartModule { get; private set; }
         public static string StopModule { get; private set; }
         public static string ModuleMessage { get; private set; }
-        public static string ReadDbError { get; private set; }
-        public static string WriteDbError { get; private set; }
         public static string ModuleStateLoaded { get; private set; }
         public static string ModuleStateNotExists { get; private set; }
         public static string LoadModuleStateError { get; private set; }
         public static string SaveModuleStateError { get; private set; }
+        public static string ReadDbError { get; private set; }
+        public static string WriteDbError { get; private set; }
+        public static string ReadFileError { get; private set; }
+        public static string WriteFileError { get; private set; }
 
         // Scada.Server.Archives
         public static string UnspecifiedArchiveKind { get; private set; }
@@ -84,13 +86,16 @@ namespace Scada.Server.Lang
         public static string HistoricalArchiveKind { get; private set; }
         public static string EventsArchiveKind { get; private set; }
 
-        // Scada.Comm.Modules
+        // Scada.Server.Modules
         public static string LoadModuleConfigError { get; private set; }
         public static string SaveModuleConfigError { get; private set; }
         public static string SaveModuleConfigConfirm { get; private set; }
 
         // Scada.Server.Engine.CoreLogic
         public static string CommandSentBy { get; private set; }
+        public static string EmptyCredentials { get; private set; }
+        public static string InvalidCredentials { get; private set; }
+        public static string AccountDisabled { get; private set; }
 
         public static void Init()
         {
@@ -117,25 +122,27 @@ namespace Scada.Server.Lang
                 WritingPointsCompleted = "Запись {0} точек данных успешно завершена за {1} мс";
                 QueueingPointsCompleted = "Постановка в очередь {0} точек данных успешно завершена за {1} мс";
                 QueueBecameEmpty = "Очередь данных стала пустой";
-                PointsWereLost = "{0} точек данных были потеряны";
-                UpdateCompleted = "Обновление данных успешно завершено за {0} мс";
+                PointsLost = "{0} точек данных были потеряны";
+                UpdateCompleted = "Обновление {0} точек данных успешно завершено за {1} мс";
                 ReadingEventsCompleted = "Чтение {0} событий успешно завершено за {1} мс";
                 ReadingEventCompleted = "Чтение события успешно завершено за {0} мс";
                 WritingEventCompleted = "Запись события успешно завершена за {0} мс";
                 QueueingEventCompleted = "Постановка события в очередь успешно завершена за {0} мс";
-                EventsWereLost = "{0} событий были потеряны";
+                EventLost = "Событие было потеряно";
                 AckEventCompleted = "Квитирование события с ид. {0} успешно завершено за {1} мс";
                 AckEventNotFound = "Квитируемое событие с ид. {0} не найдено";
 
                 StartModule = "Модуль {0} {1} запущен";
                 StopModule = "Модуль {0} остановлен";
                 ModuleMessage = "Модуль {0}: {1}";
-                ReadDbError = "Ошибка при чтении из базы данных";
-                WriteDbError = "Ошибка при записи в базу данных";
                 ModuleStateLoaded = "Состояние модуля загружено";
                 ModuleStateNotExists = "Файл состояния модуля отсутствует или устарел";
                 LoadModuleStateError = "Ошибка при загрузке состояния модуля";
                 SaveModuleStateError = "Ошибка при сохранении состояния модуля";
+                ReadDbError = "Ошибка при чтении из базы данных";
+                WriteDbError = "Ошибка при записи в базу данных";
+                ReadFileError = "Ошибка при чтении из файла";
+                WriteFileError = "Ошибка при записи в файл";
             }
             else
             {
@@ -159,25 +166,27 @@ namespace Scada.Server.Lang
                 WritingPointsCompleted = "Writing of {0} data points completed successfully in {1} ms";
                 QueueingPointsCompleted = "Enqueueing of {0} data points completed successfully in {1} ms";
                 QueueBecameEmpty = "Data queue has become empty";
-                PointsWereLost = "{0} data points were lost";
-                UpdateCompleted = "Data update completed successfully in {0} ms";
+                PointsLost = "{0} data points were lost";
+                UpdateCompleted = "Update of {0} data points completed successfully in {1} ms";
                 ReadingEventsCompleted = "Reading of {0} events completed successfully in {1} ms";
                 ReadingEventCompleted = "Reading an event completed successfully in {0} ms";
                 WritingEventCompleted = "Event writing completed successfully in {0} ms";
                 QueueingEventCompleted = "Enqueueing an event completed successfully in {0} ms";
-                EventsWereLost = "{0} events were lost";
+                EventLost = "Event was lost";
                 AckEventCompleted = "Acknowledging an event with ID {0} completed successfully in {1} ms";
                 AckEventNotFound = "Acknowledged event with ID {0} not found";
 
                 StartModule = "Module {0} {1} started";
                 StopModule = "Module {0} is stopped";
                 ModuleMessage = "Module {0}: {1}";
-                ReadDbError = "Error reading from database";
-                WriteDbError = "Error writing to database";
                 ModuleStateLoaded = "Module state loaded";
                 ModuleStateNotExists = "Module state file is missing or outdated";
                 LoadModuleStateError = "Error loading module state";
                 SaveModuleStateError = "Error saving module state";
+                ReadDbError = "Error reading from database";
+                WriteDbError = "Error writing to database";
+                ReadFileError = "Error reading from file";
+                WriteFileError = "Error writing to file";
             }
 
             // load phrases that are used in the multilingual user interface from dictionaries
@@ -194,6 +203,9 @@ namespace Scada.Server.Lang
 
             dict = Locale.GetDictionary("Scada.Server.Engine.CoreLogic");
             CommandSentBy = dict[nameof(CommandSentBy)];
+            EmptyCredentials = dict[nameof(EmptyCredentials)];
+            InvalidCredentials = dict[nameof(InvalidCredentials)];
+            AccountDisabled = dict[nameof(AccountDisabled)];
         }
     }
 }

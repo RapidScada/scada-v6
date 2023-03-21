@@ -276,7 +276,7 @@ namespace Scada.Data.Adapters
                 writer.Write(ReserveBuffer, 0, 14);
 
                 // write slice
-                int cnlCnt = slice.CnlNums.Length;
+                int cnlCnt = slice.Length;
                 int sliceSize = cnlCnt > 0 ? cnlCnt * 14 + 18 : 14;
                 ResizeBuffer(ref sliceBuffer, sliceSize);
                 byte[] buffer = sliceBuffer;

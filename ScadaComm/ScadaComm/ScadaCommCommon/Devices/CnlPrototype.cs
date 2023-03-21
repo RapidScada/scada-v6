@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2023
  */
 
 using Scada.Data.Entities;
@@ -48,6 +48,11 @@ namespace Scada.Comm.Devices
         /// Gets or sets the channel format code.
         /// </summary>
         public string FormatCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the channel format code for commands.
+        /// </summary>
+        public string OutFormatCode { get; set; }
 
         /// <summary>
         /// Gets or sets the channel quantity code.

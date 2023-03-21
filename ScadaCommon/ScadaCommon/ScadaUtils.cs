@@ -48,7 +48,7 @@ namespace Scada
         /// </summary>
         public const int ThreadDelay = 100;
         /// <summary>
-        /// The waiting time to stop the thread, ms.
+        /// The time to wait for the thread to stop, ms.
         /// </summary>
         public const int ThreadWait = 10000;
         /// <summary>

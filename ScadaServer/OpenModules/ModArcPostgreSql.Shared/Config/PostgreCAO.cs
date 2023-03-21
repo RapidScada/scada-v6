@@ -21,6 +21,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
             UseStorageConn = options.GetValueAsBool("UseStorageConn", true);
             Connection = options.GetValueAsString("Connection");
             MaxQueueSize = options.GetValueAsInt("MaxQueueSize", ModuleUtils.DefaultQueueSize);
+            BatchSize = options.GetValueAsInt("BatchSize", ModuleUtils.DefaultBatchSize);
         }
 
 
@@ -39,6 +40,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
         /// </summary>
         public int MaxQueueSize { get; set; }
 
+        /// <summary>
+        /// Gets or sets the number of data points transferred in one transaction.
+        /// </summary>
+        public int BatchSize { get; set; }
+
 
         /// <summary>
         /// Adds the options to the list.
@@ -50,7 +56,10 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
             options["Connection"] = Connection;
 
             if (!ReadOnly)
+            {
                 options["MaxQueueSize"] = MaxQueueSize.ToString();
+                options["BatchSize"] = BatchSize.ToString();
+            }
         }
     }
 }

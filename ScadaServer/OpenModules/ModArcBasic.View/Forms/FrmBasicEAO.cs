@@ -36,7 +36,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             this.archiveConfig = archiveConfig ?? throw new ArgumentNullException(nameof(archiveConfig));
             options = new BasicEAO(archiveConfig.CustomOptions);
         }
-        
+
 
         /// <summary>
         /// Sets the controls according to the options.
@@ -46,6 +46,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             chkLogEnabled.Checked = options.LogEnabled;
             numRetention.SetValue(options.Retention);
             chkUseCopyDir.Checked = options.UseCopyDir;
+            numMaxQueueSize.SetValue(options.MaxQueueSize);
         }
 
         /// <summary>
@@ -56,6 +57,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             options.LogEnabled = chkLogEnabled.Checked;
             options.Retention = Convert.ToInt32(numRetention.Value);
             options.UseCopyDir = chkUseCopyDir.Checked;
+            options.MaxQueueSize = Convert.ToInt32(numMaxQueueSize.Value);
             options.AddToOptionList(archiveConfig.CustomOptions);
         }
 

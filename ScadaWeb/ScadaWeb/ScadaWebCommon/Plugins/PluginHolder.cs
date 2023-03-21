@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2023 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -501,29 +501,6 @@ namespace Scada.Web.Plugins
                 catch (Exception ex)
                 {
                     log.WriteError(ex, WebPhrases.ErrorInPlugin, nameof(GetUserReports), pluginLogic.Code);
-                    return null;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Calls the FindUser method of the user management plugin.
-        /// </summary>
-        public User FindUser(int userID)
-        {
-            if (FeaturedPlugins.UserManagementPlugin == null)
-                return null;
-
-            lock (pluginLock)
-            {
-                try
-                {
-                    return FeaturedPlugins.UserManagementPlugin.Features?.FindUser(userID);
-                }
-                catch (Exception ex)
-                {
-                    log.WriteError(ex, WebPhrases.ErrorInPlugin,
-                        nameof(FindUser), FeaturedPlugins.UserManagementPlugin.Code);
                     return null;
                 }
             }

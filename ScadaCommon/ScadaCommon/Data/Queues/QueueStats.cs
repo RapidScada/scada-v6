@@ -144,5 +144,45 @@ namespace Scada.Data.Queues
                 }
             }
         }
+
+        /// <summary>
+        /// Appends information to the string builder as a single line.
+        /// </summary>
+        public void AppendShortInfo(StringBuilder sbInfo, int? queueSize, int titleWidth)
+        {
+            if (sbInfo == null)
+                throw new ArgumentNullException(nameof(sbInfo));
+
+            sbInfo
+                .Append(title.PadRight(titleWidth))
+                .Append(": ");
+
+            if (Locale.IsRussian)
+            {
+                if (Enabled)
+                {
+                    sbInfo
+                        .Append(queueSize).Append(" из ").Append(MaxQueueSize)
+                        .Append(", пропущено ").Append(SkippedItems).AppendLine();
+                }
+                else
+                {
+                    sbInfo.AppendLine("отключено");
+                }
+            }
+            else
+            {
+                if (Enabled)
+                {
+                    sbInfo
+                        .Append(queueSize).Append(" of ").Append(MaxQueueSize)
+                        .Append(", skipped ").Append(SkippedItems).AppendLine();
+                }
+                else
+                {
+                    sbInfo.AppendLine("disabled");
+                }
+            }
+        }
     }
 }

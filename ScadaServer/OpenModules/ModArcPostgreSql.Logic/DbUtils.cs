@@ -29,18 +29,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// The database schema.
         /// </summary>
         public const string Schema = "mod_arc_postgre_sql";
-        /// <summary>
-        /// The minimum queue size.
-        /// </summary>
-        public const int MinQueueSize = 100;
-        /// <summary>
-        /// The number of queue items transferred in a single loop iteration.
-        /// </summary>
-        public const int BundleSize = 100;
-        /// <summary>
-        /// The delay in case of a database error, in milliseconds.
-        /// </summary>
-        public const int ErrorDelay = 1000;
 
 
         /// <summary>
@@ -57,6 +45,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public static DbConnectionOptions GetConnectionOptions(ModuleConfig moduleConfig, string connName)
         {
+            ArgumentNullException.ThrowIfNull(moduleConfig, nameof(moduleConfig));
+            ArgumentNullException.ThrowIfNull(connName, nameof(connName));
+
             return moduleConfig.Connections.TryGetValue(connName, out DbConnectionOptions connOptions)
                 ? connOptions
                 : throw new ScadaException(CommonPhrases.ConnectionNotFound, connName);
@@ -67,6 +58,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public static DbConnectionOptions GetConnectionOptions(InstanceConfig instanceConfig)
         {
+            ArgumentNullException.ThrowIfNull(instanceConfig, nameof(instanceConfig));
+
             if (instanceConfig.Storages.TryGetValue(StorageCode, out XmlElement storageElem) &&
                 storageElem.SelectSingleNode("Connection") is XmlNode connectionNode)
             {
@@ -83,6 +76,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public static NpgsqlConnection CreateDbConnection(DbConnectionOptions options)
         {
+            ArgumentNullException.ThrowIfNull(options, nameof(options));
             string connectionString = options.ConnectionString;
 
             if (string.IsNullOrEmpty(connectionString))
@@ -110,6 +104,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         public static void CreatePartition(NpgsqlConnection conn, string tableName, 
             DateTime today, PartitionSize partitionSize, out string partitionName)
         {
+            ArgumentNullException.ThrowIfNull(conn, nameof(conn));
+            ArgumentNullException.ThrowIfNull(tableName, nameof(tableName));
+
             DateTime startDate;
             DateTime endDate;
 
@@ -139,6 +136,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public static List<string> GetOutdatedPartitions(NpgsqlConnection conn, string tableName, DateTime minDT)
         {
+            ArgumentNullException.ThrowIfNull(conn, nameof(conn));
+            ArgumentNullException.ThrowIfNull(tableName, nameof(tableName));
+
             string sql = "SELECT inhrelid::regclass::varchar AS child FROM pg_catalog.pg_inherits " +
                 $"WHERE inhparent = '{tableName}'::regclass";
             NpgsqlCommand cmd = new(sql, conn);
@@ -168,6 +168,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public static DateTime GetLastWriteTime(NpgsqlConnection conn, string tableName)
         {
+            ArgumentNullException.ThrowIfNull(conn, nameof(conn));
+            ArgumentNullException.ThrowIfNull(tableName, nameof(tableName));
+
             string sql = "SELECT MAX(time_stamp) FROM " + tableName;
             NpgsqlCommand cmd = new(sql, conn);
             object timestampObj = cmd.ExecuteScalar();
@@ -177,55 +180,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         }
 
         /// <summary>
-        /// Roll backs the transaction safely.
-        /// </summary>
-        public static void SafeRollback(NpgsqlTransaction trans)
-        {
-            if (trans != null)
-            {
-                try { trans.Rollback(); } catch { }
-            }
-        }
-
-        /// <summary>
         /// Gets the value of the specified column as a universal time.
         /// </summary>
         public static DateTime GetDateTimeUtc(this NpgsqlDataReader reader, int columnIndex)
         {
             return reader.GetDateTime(columnIndex).ToUniversalTime();
-        }
-
-        /// <summary>
-        /// Gets the archive status as text.
-        /// </summary>
-        public static string GetStatusText(bool isReady, bool hasError, QueueBase queue)
-        {
-            if (isReady)
-            {
-                hasError |= queue != null && queue.HasError;
-                string readyText = Locale.IsRussian
-                    ? (hasError ? "ошибка" : "готовность")
-                    : (hasError ? "Error" : "Ready");
-
-                if (queue == null)
-                {
-                    return Locale.IsRussian
-                        ? readyText + ", только чтение"
-                        : readyText + ". Read only";
-                }
-                else
-                {
-                    return Locale.IsRussian 
-                        ? readyText + $", заполнение очереди {queue.Count}/{queue.MaxQueueSize}" 
-                        : readyText + $". Queue fullness is {queue.Count}/{queue.MaxQueueSize}";
-                }
-            }
-            else
-            {
-                return Locale.IsRussian 
-                    ? "не готов" 
-                    : "Not Ready";
-            }
         }
     }
 }

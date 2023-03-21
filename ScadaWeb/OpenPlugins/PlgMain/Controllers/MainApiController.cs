@@ -578,7 +578,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 else
                 {
                     webContext.Log.WriteAction(WebPhrases.SendCommand, cnlNum, User.GetUsername());
-                    clientAccessor.ScadaClient.SendCommand(new TeleCommand
+                    CommandResult result = clientAccessor.ScadaClient.SendCommand(new TeleCommand
                     {
                         UserID = User.GetUserID(),
                         CnlNum = cnlNum,
@@ -586,12 +586,12 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                         CmdData = commandDTO.IsHex
                             ? ScadaUtils.HexToBytes(commandDTO.CmdData, true, true)
                             : TeleCommand.StringToCmdData(commandDTO.CmdData)
-                    }, WriteFlags.EnableAll, out CommandResult commandResult);
+                    }, WriteCommandFlags.Default);
 
-                    if (commandResult.IsSuccessful)
+                    if (result.IsSuccessful)
                         return Dto.Success();
                     else
-                        errMsg = commandResult.ErrorMessage;
+                        errMsg = result.ErrorMessage;
                 }
 
                 return Dto.Fail(errMsg);

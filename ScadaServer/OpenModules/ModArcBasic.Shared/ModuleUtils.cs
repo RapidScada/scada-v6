@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
-
 namespace Scada.Server.Modules.ModArcBasic
 {
     /// <summary>
@@ -17,13 +15,8 @@ namespace Scada.Server.Modules.ModArcBasic
         public const string ModuleCode = "ModArcBasic";
 
         /// <summary>
-        ///  The maximum number of entries that can be stored in the cache.
+        /// The default queue size.
         /// </summary>
-        public const int CacheCapacity = 100;
-
-        /// <summary>
-        /// Determines how long an item is stored in the cache.
-        /// </summary>
-        public static readonly TimeSpan CacheExpiration = TimeSpan.FromMinutes(1);
+        public const int DefaultQueueSize = 1000;
     }
 }

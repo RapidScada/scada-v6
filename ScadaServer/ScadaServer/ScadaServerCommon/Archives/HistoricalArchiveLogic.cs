@@ -20,13 +20,14 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Data.Models;
 using Scada.Server.Config;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Scada.Server.Archives
 {
@@ -34,6 +35,7 @@ namespace Scada.Server.Archives
     /// Represents the base class for historical data archive logic.
     /// <para>Представляет базовый класс логики архива исторических данных.</para>
     /// </summary>
+    /// <remarks>Descendants of this class must be thread-safe.</remarks>
     public abstract class HistoricalArchiveLogic : ArchiveLogic
     {
         /// <summary>
@@ -48,6 +50,7 @@ namespace Scada.Server.Archives
         public HistoricalArchiveLogic(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums)
             : base(archiveContext, archiveConfig, cnlNums)
         {
+            CurrentUpdateContext = null;
         }
 
 
@@ -55,6 +58,11 @@ namespace Scada.Server.Archives
         /// Gets the archive options.
         /// </summary>
         protected virtual HistoricalArchiveOptions ArchiveOptions => null;
+
+        /// <summary>
+        /// Gets or sets the context of the current update operation.
+        /// </summary>
+        public UpdateContext CurrentUpdateContext { get; set; }
 
 
         /// <summary>
@@ -74,45 +82,29 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
-        /// Gets the time period in seconds.
+        /// Gets the recently updated channel data.
         /// </summary>
-        protected int GetPeriodInSec(int period, TimeUnit timeUnit)
+        protected bool GetRecentCnlData(object lockObj, DateTime timestamp, int cnlNum, out CnlData cnlData)
         {
-            switch (timeUnit)
+            if (Monitor.TryEnter(lockObj))
             {
-                case TimeUnit.Minute:
-                    return period * 60;
-                case TimeUnit.Hour:
-                    return period * 3600;
-                default: // TimeUnit.Second
-                    return period;
+                try
+                {
+                    if (CurrentUpdateContext != null &&
+                        CurrentUpdateContext.Timestamp == timestamp &&
+                        CurrentUpdateContext.UpdatedData.TryGetValue(cnlNum, out cnlData))
+                    {
+                        return true;
+                    }
+                }
+                finally
+                {
+                    Monitor.Exit(lockObj);
+                }
             }
-        }
 
-        /// <summary>
-        /// Checks that the timestamp is a multiple of the period.
-        /// </summary>
-        protected bool TimeIsMultipleOfPeriod(DateTime timestamp, int period)
-        {
-            return period > 0 && (int)Math.Round(timestamp.TimeOfDay.TotalMilliseconds) % (period * 1000) == 0;
-        }
-
-        /// <summary>
-        /// Pulls a timestamp to the closest periodic timestamp within the specified range.
-        /// </summary>
-        protected bool PullTimeToPeriod(ref DateTime timestamp, int period, int pullingRange)
-        {
-            DateTime closestTime = GetClosestWriteTime(timestamp, period);
-
-            if ((timestamp - closestTime).TotalSeconds <= pullingRange)
-            {
-                timestamp = closestTime;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            cnlData = CnlData.Empty;
+            return false;
         }
 
         /// <summary>
@@ -180,6 +172,57 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
+        /// Checks that the timestamp is inside the retention period.
+        /// </summary>
+        protected bool TimeInsideRetention(DateTime timestamp, DateTime now)
+        {
+            return ArchiveOptions != null && now.AddDays(-ArchiveOptions.Retention) <= timestamp;
+        }
+
+        /// <summary>
+        /// Gets the time period in seconds.
+        /// </summary>
+        protected static int GetPeriodInSec(int period, TimeUnit timeUnit)
+        {
+            switch (timeUnit)
+            {
+                case TimeUnit.Minute:
+                    return period * 60;
+                case TimeUnit.Hour:
+                    return period * 3600;
+                default: // TimeUnit.Second
+                    return period;
+            }
+        }
+
+        /// <summary>
+        /// Checks that the timestamp is a multiple of the period.
+        /// </summary>
+        protected static bool TimeIsMultipleOfPeriod(DateTime timestamp, int period)
+        {
+            return period > 0 && (int)Math.Round(timestamp.TimeOfDay.TotalMilliseconds) % (period * 1000) == 0;
+        }
+
+        /// <summary>
+        /// Pulls a timestamp to the closest periodic timestamp within the specified range.
+        /// </summary>
+        protected static bool PullTimeToPeriod(ref DateTime timestamp, int period, int pullingRange)
+        {
+            DateTime closestTime = GetClosestWriteTime(timestamp, period);
+
+            if ((timestamp - closestTime).TotalSeconds <= pullingRange)
+            {
+                timestamp = closestTime;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+        /// <summary>
         /// Gets the trends of the specified channels.
         /// </summary>
         public abstract TrendBundle GetTrends(TimeRange timeRange, int[] cnlNums);
@@ -219,16 +262,16 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Maintains performance when data is written one at a time.
         /// </summary>
-        public abstract void BeginUpdate(DateTime timestamp, int deviceNum);
+        public abstract void BeginUpdate(UpdateContext updateContext);
+
+        /// <summary>
+        /// Updates the channel data.
+        /// </summary>
+        public abstract void UpdateData(UpdateContext updateContext, int cnlNum, CnlData cnlData);
 
         /// <summary>
         /// Completes the update operation.
         /// </summary>
-        public abstract void EndUpdate(DateTime timestamp, int deviceNum);
-
-        /// <summary>
-        /// Writes the channel data.
-        /// </summary>
-        public abstract void WriteCnlData(DateTime timestamp, int cnlNum, CnlData cnlData);
+        public abstract void EndUpdate(UpdateContext updateContext);
     }
 }

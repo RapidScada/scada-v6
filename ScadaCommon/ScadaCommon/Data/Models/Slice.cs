@@ -16,11 +16,11 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommon
- * Summary  : Represents a slice of channels having the same timestamp
+ * Summary  : Represents a slice of channel data having the same timestamp
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2023
  */
 
 using System;
@@ -28,19 +28,20 @@ using System;
 namespace Scada.Data.Models
 {
     /// <summary>
-    /// Represents a slice of channels having the same timestamp.
-    /// <para>Представляет срез каналов, имеющих одинаковую временную метку.</para>
+    /// Represents a slice of channel data having the same timestamp.
+    /// <para>Представляет срез данных каналов, имеющих одинаковую временную метку.</para>
     /// </summary>
     public class Slice
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public Slice(DateTime timestamp, int cnlCnt)
+        public Slice(DateTime timestamp, int length)
         {
             Timestamp = timestamp;
-            CnlNums = new int[cnlCnt];
-            CnlData = new CnlData[cnlCnt];
+            CnlNums = new int[length];
+            CnlData = new CnlData[length];
+            DeviceNum = 0;
         }
 
         /// <summary>
@@ -51,6 +52,7 @@ namespace Scada.Data.Models
             Timestamp = timestamp;
             CnlNums = cnlNums ?? throw new ArgumentNullException(nameof(cnlNums));
             CnlData = new CnlData[cnlNums.Length];
+            DeviceNum = 0;
         }
 
         /// <summary>
@@ -61,6 +63,7 @@ namespace Scada.Data.Models
             Timestamp = timestamp;
             CnlNums = cnlNums ?? throw new ArgumentNullException(nameof(cnlNums));
             CnlData = cnlData ?? throw new ArgumentNullException(nameof(cnlData));
+            DeviceNum = 0;
 
             if (cnlNums.Length != cnlData.Length)
                 throw new ArgumentException("Invalid data size.");
@@ -81,5 +84,25 @@ namespace Scada.Data.Models
         /// Gets the channel data corresponding to the channel numbers.
         /// </summary>
         public CnlData[] CnlData { get; }
+
+        /// <summary>
+        /// Gets or sets the device number.
+        /// </summary>
+        /// <remarks>
+        /// Identifies the device to which the channels belong.
+        /// The value is zero if the device is undefined.
+        /// </remarks>
+        public int DeviceNum { get; set; }
+
+        /// <summary>
+        /// Gets the number of channels in the slice.
+        /// </summary>
+        public int Length
+        {
+            get
+            {
+                return CnlNums.Length;
+            }
+        }
     }
 }

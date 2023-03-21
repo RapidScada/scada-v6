@@ -47,7 +47,7 @@ namespace Scada.Lang
         public static string LogicStopped { get; private set; }
         public static string UnableToStopLogic { get; private set; }
         public static string StopLogicError { get; private set; }
-        public static string LogicCycleError { get; private set; }
+        public static string LogicLoopError { get; private set; }
         public static string ThreadFatalError { get; private set; }
         public static string WriteInfoError { get; private set; }
         public static string ConnectionNotFound { get; private set; }
@@ -136,6 +136,7 @@ namespace Scada.Lang
         public static string MajorSeverity { get; private set; }
         public static string MinorSeverity { get; private set; }
         public static string InfoSeverity { get; private set; }
+        public static string UnknownUser { get; private set; }
 
         // Scada.Forms.BitItemCollection
         public static string EventEnabled { get; private set; }
@@ -181,7 +182,7 @@ namespace Scada.Lang
             LogicStopped = dict[nameof(LogicStopped)];
             UnableToStopLogic = dict[nameof(UnableToStopLogic)];
             StopLogicError = dict[nameof(StopLogicError)];
-            LogicCycleError = dict[nameof(LogicCycleError)];
+            LogicLoopError = dict[nameof(LogicLoopError)];
             ThreadFatalError = dict[nameof(ThreadFatalError)];
             WriteInfoError = dict[nameof(WriteInfoError)];
             ConnectionNotFound = dict[nameof(ConnectionNotFound)];
@@ -270,6 +271,7 @@ namespace Scada.Lang
             MajorSeverity = dict[nameof(MajorSeverity)];
             MinorSeverity = dict[nameof(MinorSeverity)];
             InfoSeverity = dict[nameof(InfoSeverity)];
+            UnknownUser = dict[nameof(UnknownUser)];
 
             dict = Locale.GetDictionary("Scada.Forms.BitItemCollection");
             EventEnabled = dict[nameof(EventEnabled)];

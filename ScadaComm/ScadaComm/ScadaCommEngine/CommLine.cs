@@ -220,7 +220,7 @@ namespace Scada.Comm.Engine
         }
 
         /// <summary>
-        /// Operating cycle running in a separate thread.
+        /// Operating loop running in a separate thread.
         /// </summary>
         private void Execute()
         {
@@ -626,9 +626,7 @@ namespace Scada.Comm.Engine
                 }
 
                 channel.ChannelLogic.AppendInfo(sb);
-
-                if (SharedData != null && SharedData.Count > 0)
-                    EngineUtils.AppendSharedData(sb, SharedData);
+                SharedData.AppendInfo(sb);
 
                 sb
                     .AppendLine()

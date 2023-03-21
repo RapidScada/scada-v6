@@ -82,24 +82,6 @@ namespace Scada.MultiDb
         }
 
         /// <summary>
-        /// Rollbacks the transaction silently.
-        /// </summary>
-        public virtual void SilentRollback(DbTransaction trans)
-        {
-            if (trans != null)
-            {
-                try
-                {
-                    trans.Rollback();
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex);
-                }
-            }
-        }
-
-        /// <summary>
         /// Builds a connection string based on the specified connection settings.
         /// </summary>
         public virtual string BuildConnectionString()

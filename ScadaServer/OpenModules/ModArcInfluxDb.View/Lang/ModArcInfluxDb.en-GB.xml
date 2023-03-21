@@ -20,6 +20,9 @@
     <Phrase key="this">Historical Archive Options</Phrase>
     <Phrase key="gbDbOptions">Database Options</Phrase>    
     <Phrase key="lblConnection">Connection</Phrase>
+    <Phrase key="lblBatchSize">Batch size</Phrase>
+    <Phrase key="lblFlushInterval">Flush interval</Phrase>
+    <Phrase key="txtFlushIntervalUnit">ms</Phrase>
     <Phrase key="btnManageConn">Manage Connections</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>

@@ -355,7 +355,7 @@ namespace Scada.Comm.Engine
                     }
                     catch (Exception ex)
                     {
-                        Log.WriteError(ex, CommonPhrases.LogicCycleError);
+                        Log.WriteError(ex, CommonPhrases.LogicLoopError);
                     }
                     finally
                     {
@@ -790,11 +790,8 @@ namespace Scada.Comm.Engine
                         .Append("Version        : ").AppendLine(EngineUtils.AppVersion);
                 }
 
-                if (dataSourceHolder != null)
-                    dataSourceHolder.AppendInfo(sb);
-
-                if (SharedData != null && SharedData.Count > 0)
-                    EngineUtils.AppendSharedData(sb, SharedData);
+                dataSourceHolder?.AppendInfo(sb);
+                SharedData?.AppendInfo(sb);
 
                 if (commLines != null)
                 {
@@ -896,7 +893,7 @@ namespace Scada.Comm.Engine
                     terminated = true;
                     serviceStatus = ServiceStatus.Terminating;
 
-                    if (thread.Join(ScadaUtils.ThreadWait))
+                    if (thread.Join(AppConfig.GeneralOptions.StopWait))
                         Log.WriteAction(CommonPhrases.LogicStopped);
                     else
                         Log.WriteAction(CommonPhrases.UnableToStopLogic);

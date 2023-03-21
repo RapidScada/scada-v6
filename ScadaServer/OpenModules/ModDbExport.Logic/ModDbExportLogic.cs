@@ -146,7 +146,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         }
 
         /// <summary>
-        /// Performs actions on a new iteration of the main operating cycle.
+        /// Performs actions on a new iteration of the main operating loop.
         /// </summary>
         public override void OnIteration()
         {
@@ -160,7 +160,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         /// Performs actions after receiving and processing new current data.
         /// </summary>
         /// <remarks>In general, channel numbers are not sorted.</remarks>
-        public override void OnCurrentDataProcessed(Slice slice, int deviceNum)
+        public override void OnCurrentDataProcessed(Slice slice)
         {
             foreach (Exporter exporter in exporters)
             {
@@ -171,7 +171,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         /// <summary>
         /// Performs actions after receiving and processing new historical data.
         /// </summary>
-        public override void OnHistoricalDataProcessed(Slice slice, int deviceNum)
+        public override void OnHistoricalDataProcessed(Slice slice)
         {
             foreach (Exporter exporter in exporters)
             {

@@ -29,262 +29,226 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblConnection = new System.Windows.Forms.Label();
-            this.cbConnection = new System.Windows.Forms.ComboBox();
-            this.lblClientLogEnabled = new System.Windows.Forms.Label();
-            this.chkClientLogEnabled = new System.Windows.Forms.CheckBox();
-            this.lblMaxQueueSize = new System.Windows.Forms.Label();
-            this.numMaxQueueSize = new System.Windows.Forms.NumericUpDown();
-            this.lblMaxCurDataAge = new System.Windows.Forms.Label();
-            this.numMaxCurDataAge = new System.Windows.Forms.NumericUpDown();
-            this.lblDataLifetime = new System.Windows.Forms.Label();
-            this.numDataLifetime = new System.Windows.Forms.NumericUpDown();
-            this.lblDeviceFilter = new System.Windows.Forms.Label();
-            this.txtDeviceFilter = new System.Windows.Forms.TextBox();
-            this.btnSelectDevices = new System.Windows.Forms.Button();
-            this.btnManageConn = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.btnOK = new System.Windows.Forms.Button();
-            this.lblUseDefaultConn = new System.Windows.Forms.Label();
-            this.chkUseDefaultConn = new System.Windows.Forms.CheckBox();
-            this.chkReadConfigDb = new System.Windows.Forms.CheckBox();
-            this.lblReadConfigDb = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.numMaxQueueSize)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numMaxCurDataAge)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numDataLifetime)).BeginInit();
-            this.SuspendLayout();
+            lblConnection = new Label();
+            cbConnection = new ComboBox();
+            lblClientLogEnabled = new Label();
+            chkClientLogEnabled = new CheckBox();
+            lblMaxQueueSize = new Label();
+            numMaxQueueSize = new NumericUpDown();
+            lblDataLifetime = new Label();
+            numDataLifetime = new NumericUpDown();
+            lblDeviceFilter = new Label();
+            txtDeviceFilter = new TextBox();
+            btnSelectDevices = new Button();
+            btnManageConn = new Button();
+            btnCancel = new Button();
+            btnOK = new Button();
+            lblUseDefaultConn = new Label();
+            chkUseDefaultConn = new CheckBox();
+            chkReadConfigDb = new CheckBox();
+            lblReadConfigDb = new Label();
+            ((System.ComponentModel.ISupportInitialize)numMaxQueueSize).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numDataLifetime).BeginInit();
+            SuspendLayout();
             // 
             // lblConnection
             // 
-            this.lblConnection.AutoSize = true;
-            this.lblConnection.Location = new System.Drawing.Point(9, 74);
-            this.lblConnection.Name = "lblConnection";
-            this.lblConnection.Size = new System.Drawing.Size(69, 15);
-            this.lblConnection.TabIndex = 4;
-            this.lblConnection.Text = "Connection";
+            lblConnection.AutoSize = true;
+            lblConnection.Location = new Point(9, 74);
+            lblConnection.Name = "lblConnection";
+            lblConnection.Size = new Size(69, 15);
+            lblConnection.TabIndex = 4;
+            lblConnection.Text = "Connection";
             // 
             // cbConnection
             // 
-            this.cbConnection.FormattingEnabled = true;
-            this.cbConnection.Location = new System.Drawing.Point(222, 70);
-            this.cbConnection.Name = "cbConnection";
-            this.cbConnection.Size = new System.Drawing.Size(150, 23);
-            this.cbConnection.TabIndex = 5;
+            cbConnection.FormattingEnabled = true;
+            cbConnection.Location = new Point(222, 70);
+            cbConnection.Name = "cbConnection";
+            cbConnection.Size = new Size(150, 23);
+            cbConnection.TabIndex = 5;
             // 
             // lblClientLogEnabled
             // 
-            this.lblClientLogEnabled.AutoSize = true;
-            this.lblClientLogEnabled.Location = new System.Drawing.Point(9, 190);
-            this.lblClientLogEnabled.Name = "lblClientLogEnabled";
-            this.lblClientLogEnabled.Size = new System.Drawing.Size(103, 15);
-            this.lblClientLogEnabled.TabIndex = 12;
-            this.lblClientLogEnabled.Text = "Client log enabled";
+            lblClientLogEnabled.AutoSize = true;
+            lblClientLogEnabled.Location = new Point(9, 161);
+            lblClientLogEnabled.Name = "lblClientLogEnabled";
+            lblClientLogEnabled.Size = new Size(103, 15);
+            lblClientLogEnabled.TabIndex = 10;
+            lblClientLogEnabled.Text = "Client log enabled";
             // 
             // chkClientLogEnabled
             // 
-            this.chkClientLogEnabled.AutoSize = true;
-            this.chkClientLogEnabled.Location = new System.Drawing.Point(357, 190);
-            this.chkClientLogEnabled.Name = "chkClientLogEnabled";
-            this.chkClientLogEnabled.Size = new System.Drawing.Size(15, 14);
-            this.chkClientLogEnabled.TabIndex = 13;
-            this.chkClientLogEnabled.UseVisualStyleBackColor = true;
+            chkClientLogEnabled.AutoSize = true;
+            chkClientLogEnabled.Location = new Point(357, 161);
+            chkClientLogEnabled.Name = "chkClientLogEnabled";
+            chkClientLogEnabled.Size = new Size(15, 14);
+            chkClientLogEnabled.TabIndex = 11;
+            chkClientLogEnabled.UseVisualStyleBackColor = true;
             // 
             // lblMaxQueueSize
             // 
-            this.lblMaxQueueSize.AutoSize = true;
-            this.lblMaxQueueSize.Location = new System.Drawing.Point(9, 103);
-            this.lblMaxQueueSize.Name = "lblMaxQueueSize";
-            this.lblMaxQueueSize.Size = new System.Drawing.Size(120, 15);
-            this.lblMaxQueueSize.TabIndex = 6;
-            this.lblMaxQueueSize.Text = "Maximum queue size";
+            lblMaxQueueSize.AutoSize = true;
+            lblMaxQueueSize.Location = new Point(9, 103);
+            lblMaxQueueSize.Name = "lblMaxQueueSize";
+            lblMaxQueueSize.Size = new Size(120, 15);
+            lblMaxQueueSize.TabIndex = 6;
+            lblMaxQueueSize.Text = "Maximum queue size";
             // 
             // numMaxQueueSize
             // 
-            this.numMaxQueueSize.Location = new System.Drawing.Point(222, 99);
-            this.numMaxQueueSize.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.numMaxQueueSize.Name = "numMaxQueueSize";
-            this.numMaxQueueSize.Size = new System.Drawing.Size(150, 23);
-            this.numMaxQueueSize.TabIndex = 7;
-            // 
-            // lblMaxCurDataAge
-            // 
-            this.lblMaxCurDataAge.AutoSize = true;
-            this.lblMaxCurDataAge.Location = new System.Drawing.Point(9, 132);
-            this.lblMaxCurDataAge.Name = "lblMaxCurDataAge";
-            this.lblMaxCurDataAge.Size = new System.Drawing.Size(198, 15);
-            this.lblMaxCurDataAge.TabIndex = 8;
-            this.lblMaxCurDataAge.Text = "Current data becomes historical, sec";
-            // 
-            // numMaxCurDataAge
-            // 
-            this.numMaxCurDataAge.Location = new System.Drawing.Point(222, 128);
-            this.numMaxCurDataAge.Maximum = new decimal(new int[] {
-            3600,
-            0,
-            0,
-            0});
-            this.numMaxCurDataAge.Name = "numMaxCurDataAge";
-            this.numMaxCurDataAge.Size = new System.Drawing.Size(150, 23);
-            this.numMaxCurDataAge.TabIndex = 9;
+            numMaxQueueSize.Location = new Point(222, 99);
+            numMaxQueueSize.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
+            numMaxQueueSize.Name = "numMaxQueueSize";
+            numMaxQueueSize.Size = new Size(150, 23);
+            numMaxQueueSize.TabIndex = 7;
             // 
             // lblDataLifetime
             // 
-            this.lblDataLifetime.AutoSize = true;
-            this.lblDataLifetime.Location = new System.Drawing.Point(9, 161);
-            this.lblDataLifetime.Name = "lblDataLifetime";
-            this.lblDataLifetime.Size = new System.Drawing.Size(146, 15);
-            this.lblDataLifetime.TabIndex = 10;
-            this.lblDataLifetime.Text = "Data lifetime in queue, sec";
+            lblDataLifetime.AutoSize = true;
+            lblDataLifetime.Location = new Point(9, 132);
+            lblDataLifetime.Name = "lblDataLifetime";
+            lblDataLifetime.Size = new Size(146, 15);
+            lblDataLifetime.TabIndex = 8;
+            lblDataLifetime.Text = "Data lifetime in queue, sec";
             // 
             // numDataLifetime
             // 
-            this.numDataLifetime.Location = new System.Drawing.Point(222, 157);
-            this.numDataLifetime.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.numDataLifetime.Name = "numDataLifetime";
-            this.numDataLifetime.Size = new System.Drawing.Size(150, 23);
-            this.numDataLifetime.TabIndex = 11;
+            numDataLifetime.Location = new Point(222, 128);
+            numDataLifetime.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
+            numDataLifetime.Name = "numDataLifetime";
+            numDataLifetime.Size = new Size(150, 23);
+            numDataLifetime.TabIndex = 9;
             // 
             // lblDeviceFilter
             // 
-            this.lblDeviceFilter.AutoSize = true;
-            this.lblDeviceFilter.Location = new System.Drawing.Point(9, 219);
-            this.lblDeviceFilter.Name = "lblDeviceFilter";
-            this.lblDeviceFilter.Size = new System.Drawing.Size(69, 15);
-            this.lblDeviceFilter.TabIndex = 14;
-            this.lblDeviceFilter.Text = "Device filter";
+            lblDeviceFilter.AutoSize = true;
+            lblDeviceFilter.Location = new Point(9, 190);
+            lblDeviceFilter.Name = "lblDeviceFilter";
+            lblDeviceFilter.Size = new Size(69, 15);
+            lblDeviceFilter.TabIndex = 12;
+            lblDeviceFilter.Text = "Device filter";
             // 
             // txtDeviceFilter
             // 
-            this.txtDeviceFilter.Location = new System.Drawing.Point(12, 237);
-            this.txtDeviceFilter.Name = "txtDeviceFilter";
-            this.txtDeviceFilter.Size = new System.Drawing.Size(279, 23);
-            this.txtDeviceFilter.TabIndex = 15;
+            txtDeviceFilter.Location = new Point(12, 208);
+            txtDeviceFilter.Name = "txtDeviceFilter";
+            txtDeviceFilter.Size = new Size(279, 23);
+            txtDeviceFilter.TabIndex = 13;
             // 
             // btnSelectDevices
             // 
-            this.btnSelectDevices.Location = new System.Drawing.Point(297, 237);
-            this.btnSelectDevices.Name = "btnSelectDevices";
-            this.btnSelectDevices.Size = new System.Drawing.Size(75, 23);
-            this.btnSelectDevices.TabIndex = 16;
-            this.btnSelectDevices.Text = "Select...";
-            this.btnSelectDevices.UseVisualStyleBackColor = true;
-            this.btnSelectDevices.Click += new System.EventHandler(this.btnSelectDevices_Click);
+            btnSelectDevices.Location = new Point(297, 208);
+            btnSelectDevices.Name = "btnSelectDevices";
+            btnSelectDevices.Size = new Size(75, 23);
+            btnSelectDevices.TabIndex = 14;
+            btnSelectDevices.Text = "Select...";
+            btnSelectDevices.UseVisualStyleBackColor = true;
+            btnSelectDevices.Click += btnSelectDevices_Click;
             // 
             // btnManageConn
             // 
-            this.btnManageConn.Location = new System.Drawing.Point(12, 276);
-            this.btnManageConn.Name = "btnManageConn";
-            this.btnManageConn.Size = new System.Drawing.Size(140, 23);
-            this.btnManageConn.TabIndex = 17;
-            this.btnManageConn.Text = "Manage Connections";
-            this.btnManageConn.UseVisualStyleBackColor = true;
-            this.btnManageConn.Click += new System.EventHandler(this.btnManageConn_Click);
+            btnManageConn.Location = new Point(12, 247);
+            btnManageConn.Name = "btnManageConn";
+            btnManageConn.Size = new Size(140, 23);
+            btnManageConn.TabIndex = 15;
+            btnManageConn.Text = "Manage Connections";
+            btnManageConn.UseVisualStyleBackColor = true;
+            btnManageConn.Click += btnManageConn_Click;
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(297, 276);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 19;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Location = new Point(297, 247);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(75, 23);
+            btnCancel.TabIndex = 17;
+            btnCancel.Text = "Cancel";
+            btnCancel.UseVisualStyleBackColor = true;
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(216, 276);
-            this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 18;
-            this.btnOK.Text = "OK";
-            this.btnOK.UseVisualStyleBackColor = true;
-            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            btnOK.Location = new Point(216, 247);
+            btnOK.Name = "btnOK";
+            btnOK.Size = new Size(75, 23);
+            btnOK.TabIndex = 16;
+            btnOK.Text = "OK";
+            btnOK.UseVisualStyleBackColor = true;
+            btnOK.Click += btnOK_Click;
             // 
             // lblUseDefaultConn
             // 
-            this.lblUseDefaultConn.AutoSize = true;
-            this.lblUseDefaultConn.Location = new System.Drawing.Point(9, 45);
-            this.lblUseDefaultConn.Name = "lblUseDefaultConn";
-            this.lblUseDefaultConn.Size = new System.Drawing.Size(129, 15);
-            this.lblUseDefaultConn.TabIndex = 2;
-            this.lblUseDefaultConn.Text = "Use default connection";
+            lblUseDefaultConn.AutoSize = true;
+            lblUseDefaultConn.Location = new Point(9, 45);
+            lblUseDefaultConn.Name = "lblUseDefaultConn";
+            lblUseDefaultConn.Size = new Size(129, 15);
+            lblUseDefaultConn.TabIndex = 2;
+            lblUseDefaultConn.Text = "Use default connection";
             // 
             // chkUseDefaultConn
             // 
-            this.chkUseDefaultConn.AutoSize = true;
-            this.chkUseDefaultConn.Location = new System.Drawing.Point(357, 45);
-            this.chkUseDefaultConn.Name = "chkUseDefaultConn";
-            this.chkUseDefaultConn.Size = new System.Drawing.Size(15, 14);
-            this.chkUseDefaultConn.TabIndex = 3;
-            this.chkUseDefaultConn.UseVisualStyleBackColor = true;
-            this.chkUseDefaultConn.CheckedChanged += new System.EventHandler(this.chkUseDefaultConn_CheckedChanged);
+            chkUseDefaultConn.AutoSize = true;
+            chkUseDefaultConn.Location = new Point(357, 45);
+            chkUseDefaultConn.Name = "chkUseDefaultConn";
+            chkUseDefaultConn.Size = new Size(15, 14);
+            chkUseDefaultConn.TabIndex = 3;
+            chkUseDefaultConn.UseVisualStyleBackColor = true;
+            chkUseDefaultConn.CheckedChanged += chkUseDefaultConn_CheckedChanged;
             // 
             // chkReadConfigDb
             // 
-            this.chkReadConfigDb.AutoSize = true;
-            this.chkReadConfigDb.Location = new System.Drawing.Point(357, 16);
-            this.chkReadConfigDb.Name = "chkReadConfigDb";
-            this.chkReadConfigDb.Size = new System.Drawing.Size(15, 14);
-            this.chkReadConfigDb.TabIndex = 1;
-            this.chkReadConfigDb.UseVisualStyleBackColor = true;
+            chkReadConfigDb.AutoSize = true;
+            chkReadConfigDb.Location = new Point(357, 16);
+            chkReadConfigDb.Name = "chkReadConfigDb";
+            chkReadConfigDb.Size = new Size(15, 14);
+            chkReadConfigDb.TabIndex = 1;
+            chkReadConfigDb.UseVisualStyleBackColor = true;
             // 
             // lblReadConfigDb
             // 
-            this.lblReadConfigDb.AutoSize = true;
-            this.lblReadConfigDb.Location = new System.Drawing.Point(9, 16);
-            this.lblReadConfigDb.Name = "lblReadConfigDb";
-            this.lblReadConfigDb.Size = new System.Drawing.Size(158, 15);
-            this.lblReadConfigDb.TabIndex = 0;
-            this.lblReadConfigDb.Text = "Read configuration database";
+            lblReadConfigDb.AutoSize = true;
+            lblReadConfigDb.Location = new Point(9, 16);
+            lblReadConfigDb.Name = "lblReadConfigDb";
+            lblReadConfigDb.Size = new Size(158, 15);
+            lblReadConfigDb.TabIndex = 0;
+            lblReadConfigDb.Text = "Read configuration database";
             // 
             // FrmScadaServerDSO
             // 
-            this.AcceptButton = this.btnOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(384, 311);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.btnManageConn);
-            this.Controls.Add(this.btnSelectDevices);
-            this.Controls.Add(this.txtDeviceFilter);
-            this.Controls.Add(this.lblDeviceFilter);
-            this.Controls.Add(this.chkClientLogEnabled);
-            this.Controls.Add(this.lblClientLogEnabled);
-            this.Controls.Add(this.numDataLifetime);
-            this.Controls.Add(this.lblDataLifetime);
-            this.Controls.Add(this.numMaxCurDataAge);
-            this.Controls.Add(this.lblMaxCurDataAge);
-            this.Controls.Add(this.numMaxQueueSize);
-            this.Controls.Add(this.lblMaxQueueSize);
-            this.Controls.Add(this.cbConnection);
-            this.Controls.Add(this.lblConnection);
-            this.Controls.Add(this.chkUseDefaultConn);
-            this.Controls.Add(this.lblUseDefaultConn);
-            this.Controls.Add(this.chkReadConfigDb);
-            this.Controls.Add(this.lblReadConfigDb);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FrmScadaServerDSO";
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Data Source Options";
-            this.Load += new System.EventHandler(this.FrmScadaServerDSO_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.numMaxQueueSize)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numMaxCurDataAge)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numDataLifetime)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AcceptButton = btnOK;
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            CancelButton = btnCancel;
+            ClientSize = new Size(384, 282);
+            Controls.Add(btnCancel);
+            Controls.Add(btnOK);
+            Controls.Add(btnManageConn);
+            Controls.Add(btnSelectDevices);
+            Controls.Add(txtDeviceFilter);
+            Controls.Add(lblDeviceFilter);
+            Controls.Add(chkClientLogEnabled);
+            Controls.Add(lblClientLogEnabled);
+            Controls.Add(numDataLifetime);
+            Controls.Add(lblDataLifetime);
+            Controls.Add(numMaxQueueSize);
+            Controls.Add(lblMaxQueueSize);
+            Controls.Add(cbConnection);
+            Controls.Add(lblConnection);
+            Controls.Add(chkUseDefaultConn);
+            Controls.Add(lblUseDefaultConn);
+            Controls.Add(chkReadConfigDb);
+            Controls.Add(lblReadConfigDb);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "FrmScadaServerDSO";
+            ShowInTaskbar = false;
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Data Source Options";
+            Load += FrmScadaServerDSO_Load;
+            ((System.ComponentModel.ISupportInitialize)numMaxQueueSize).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numDataLifetime).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -295,8 +259,6 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View.Forms
         private System.Windows.Forms.CheckBox chkClientLogEnabled;
         private System.Windows.Forms.Label lblMaxQueueSize;
         private System.Windows.Forms.NumericUpDown numMaxQueueSize;
-        private System.Windows.Forms.Label lblMaxCurDataAge;
-        private System.Windows.Forms.NumericUpDown numMaxCurDataAge;
         private System.Windows.Forms.Label lblDataLifetime;
         private System.Windows.Forms.NumericUpDown numDataLifetime;
         private System.Windows.Forms.Label lblDeviceFilter;

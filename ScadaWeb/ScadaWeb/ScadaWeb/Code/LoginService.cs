@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2023 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,12 +20,13 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Web.Config;
 using Scada.Web.Lang;
@@ -95,22 +96,18 @@ namespace Scada.Web.Code
         /// </summary>
         public async Task<SimpleResult> LoginAsync(string username, string password, bool rememberMe)
         {
-            bool userIsValid = false;
-            int userID = 0;
-            int roleID = 0;
-            string errMsg;
+            UserValidationResult result;
             string friendlyError;
 
             // check user by server
             try
             {
-                userIsValid = clientAccessor.ScadaClient
-                    .ValidateUser(username, password, out userID, out roleID, out errMsg);
-                friendlyError = errMsg;
+                result = clientAccessor.ScadaClient.ValidateUser(username, password);
+                friendlyError = result.ErrorMessage;
             }
             catch (Exception ex)
             {
-                errMsg = ex.Message;
+                result = UserValidationResult.Fail(ex.Message);
                 friendlyError = WebPhrases.ClientError;
             }
 
@@ -118,12 +115,12 @@ namespace Scada.Web.Code
             UserLoginArgs userLoginArgs = new()
             {
                 Username = username,
-                UserID = userID,
-                RoleID = roleID,
+                UserID = result.UserID,
+                RoleID = result.RoleID,
                 SessionID = httpContext.Session.Id,
                 RemoteIP = httpContext.Connection.RemoteIpAddress?.ToString(),
-                UserIsValid = userIsValid,
-                ErrorMessage = errMsg,
+                UserIsValid = result.IsValid,
+                ErrorMessage = result.ErrorMessage,
                 FriendlyError = friendlyError
             };
 
@@ -133,7 +130,7 @@ namespace Scada.Web.Code
             if (userLoginArgs.UserIsValid)
             {
                 LoginOptions loginOptions = webContext.AppConfig.LoginOptions;
-                await DoLoginAsync(username, userID, roleID, 
+                await DoLoginAsync(username, result.UserID, result.RoleID, 
                     loginOptions.AllowRememberMe && rememberMe, loginOptions.RememberMeExpires);
 
                 webContext.Log.WriteAction(Locale.IsRussian ?

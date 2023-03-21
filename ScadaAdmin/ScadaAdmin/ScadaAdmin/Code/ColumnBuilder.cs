@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Admin.Project;
@@ -234,6 +234,7 @@ namespace Scada.Admin.App.Code
                 NewTextBoxColumn("InFormula", new ColumnOptions(ColumnLength.Default)),
                 NewTextBoxColumn("OutFormula", new ColumnOptions(ColumnLength.Default)),
                 NewComboBoxColumn("FormatID", "Name", configDatabase.FormatTable, true),
+                NewComboBoxColumn("OutFormatID", "FormatID", "Name", configDatabase.FormatTable, true),
                 NewComboBoxColumn("QuantityID", "Name", configDatabase.QuantityTable, true),
                 NewComboBoxColumn("UnitID", "Name", configDatabase.UnitTable, true),
                 NewComboBoxColumn("LimID", "Name", configDatabase.LimTable, true),
