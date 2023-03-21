@@ -3,6 +3,7 @@
 
 using Scada.Data.Const;
 using Scada.Data.Entities;
+using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Server.Lang;
 using Scada.Server.Modules.ModActiveDirectory.Config;
