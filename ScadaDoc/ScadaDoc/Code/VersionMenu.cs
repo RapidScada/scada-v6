@@ -36,9 +36,9 @@ namespace Scada.Doc.Code
         {
             new VersionItem
             {
-                Version = KnownVersion.V60,
-                Text = KnownVersion.V60.ConvertToString(),
-                Url = "/en/6.0/"
+                Version = KnownVersion.V61,
+                Text = KnownVersion.V61.ConvertToString(),
+                Url = "/en/latest/"
             },
             new VersionItem
             {

@@ -6,7 +6,7 @@
     <Subitems>
       <Item>
         <Text>Introduction</Text>
-        <Url>/en/6.0/software-overview/introduction</Url>
+        <Url>/en/latest/software-overview/introduction</Url>
       </Item>
     </Subitems>
   </Item>
@@ -17,19 +17,19 @@
     <Subitems>
       <Item>
         <Text>System Requirements</Text>
-        <Url>/en/6.0/installation/system-requirements</Url>
+        <Url>/en/latest/installation/system-requirements</Url>
       </Item>
       <Item>
         <Text>Install on Windows</Text>
-        <Url>/en/6.0/installation/install-windows</Url>
+        <Url>/en/latest/installation/install-windows</Url>
       </Item>
       <Item>
         <Text>Install on Windows Manually</Text>
-        <Url>/en/6.0/installation/install-windows-manual</Url>
+        <Url>/en/latest/installation/install-windows-manual</Url>
       </Item>
       <Item>
         <Text>Install on Linux</Text>
-        <Url>/en/6.0/installation/install-linux</Url>
+        <Url>/en/latest/installation/install-linux</Url>
       </Item>
     </Subitems>
   </Item>
@@ -40,31 +40,31 @@
     <Subitems>
       <Item>
         <Text>History of Rapid SCADA</Text>
-        <Url>/en/6.0/version-history/scada-history</Url>
+        <Url>/en/latest/version-history/scada-history</Url>
       </Item>
       <Item>
         <Text>Server History</Text>
-        <Url>/en/6.0/version-history/server-history</Url>
+        <Url>/en/latest/version-history/server-history</Url>
       </Item>
       <Item>
         <Text>Communicator History</Text>
-        <Url>/en/6.0/version-history/communicator-history</Url>
+        <Url>/en/latest/version-history/communicator-history</Url>
       </Item>
       <Item>
         <Text>Webstation History</Text>
-        <Url>/en/6.0/version-history/webstation-history</Url>
+        <Url>/en/latest/version-history/webstation-history</Url>
       </Item>
       <Item>
         <Text>Agent History</Text>
-        <Url>/en/6.0/version-history/agent-history</Url>
+        <Url>/en/latest/version-history/agent-history</Url>
       </Item>
       <Item>
         <Text>Administrator History</Text>
-        <Url>/en/6.0/version-history/administrator-history</Url>
+        <Url>/en/latest/version-history/administrator-history</Url>
       </Item>
       <!--<Item>
         <Text>History of Additional Applications</Text>
-        <Url>/en/6.0/version-history/applications-history</Url>
+        <Url>/en/latest/version-history/applications-history</Url>
       </Item>-->
     </Subitems>
   </Item>
