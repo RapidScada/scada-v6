@@ -95,19 +95,24 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
         private bool CheckPassword()
         {
+            if (!pluginContext.Options.CommandPassword)
+                return true;
+
             try
             {
-                if (pluginContext.Options.CommandPassword &&
-                    !clientAccessor.ScadaClient.ValidateUser(User.GetUsername(), Password,
-                        out _, out _, out string errMsg))
+                UserValidationResult result = clientAccessor.ScadaClient.ValidateUser(User.GetUsername(), Password);
+
+                if (result.IsValid)
+                {
+                    return true;
+                }
+                else
                 {
                     HasError = true;
-                    Message = errMsg;
+                    Message = result.ErrorMessage;
                     PwdIsInvalid = true;
                     return false;
                 }
-
-                return true;
             }
             catch (Exception ex)
             {
