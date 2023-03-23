@@ -227,6 +227,9 @@ namespace Scada.Server.Engine
         /// </summary>
         public CommandResult SendCommand(TeleCommand command, WriteCommandFlags flags)
         {
+            if (command == null)
+                throw new ArgumentNullException(nameof(command));
+
             if (command.CnlNum > 0)
             {
                 // validate and send command
