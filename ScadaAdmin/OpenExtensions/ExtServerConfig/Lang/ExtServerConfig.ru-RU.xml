@@ -50,7 +50,7 @@
     <Phrase key="lblGenerateAckCmd">Генерировать команду при квитировании события</Phrase>
     <Phrase key="lblStopWait">Ожидание остановки сервиса, с</Phrase>
     <Phrase key="lblMaxLogSize">Максимальный размер файла журнала, МБ</Phrase>
-    <Phrase key="lblDisableFormulas">Включить формулы каналов только для следующих объектов</Phrase>
+    <Phrase key="lblDisableFormulas">Отключить формулы каналов, кроме объектов</Phrase>
     <Phrase key="btnSelectObjects">Выбрать...</Phrase>
     <Phrase key="gbListenerOptions">Прослушиватель</Phrase>
     <Phrase key="lblPort">TCP-порт</Phrase>
