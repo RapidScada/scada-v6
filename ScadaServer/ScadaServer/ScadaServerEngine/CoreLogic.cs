@@ -248,6 +248,8 @@ namespace Scada.Server.Engine
                     Storage.ReadBaseTable(baseTable);
                 }
 
+                tableTitle = CommonPhrases.UndefinedTable;
+                ConfigDatabase.Init();
                 Log.WriteAction(Locale.IsRussian ?
                     "База конфигурации считана успешно" :
                     "The configuration database has been read successfully");
