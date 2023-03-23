@@ -259,7 +259,7 @@ namespace Scada.Admin.App.Forms.Tables
                 txtLow.Text = LimToStr("Low");
                 txtHigh.Text = LimToStr("High");
                 txtHiHi.Text = LimToStr("HiHi");
-                txtDeadband.Text = Convert.ToString(rowView["Deadband"]);
+                txtDeadband.Text = LimToStr("Deadband");
             }
             else
             {
