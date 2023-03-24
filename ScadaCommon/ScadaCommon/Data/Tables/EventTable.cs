@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2023
  */
 
 using Scada.Data.Models;
@@ -269,7 +269,16 @@ namespace Scada.Data.Tables
             if (ev == null)
                 throw new ArgumentNullException(nameof(ev));
 
-            if (eventsByID != null && !eventsByID.ContainsKey(ev.EventID))
+            if (eventsByID == null)
+            {
+                return false;
+            }
+            else if (eventsByID.TryGetValue(ev.EventID, out Event existingEvent))
+            {
+                ev.Position = existingEvent.Position;
+                return false;
+            }
+            else
             {
                 int index = Events.BinarySearch(ev, EventComparer);
                 if (index < 0)
@@ -278,10 +287,6 @@ namespace Scada.Data.Tables
                 Events.Insert(index, ev);
                 eventsByID.Add(ev.EventID, ev);
                 return true;
-            }
-            else
-            {
-                return false;
             }
         }
     }
