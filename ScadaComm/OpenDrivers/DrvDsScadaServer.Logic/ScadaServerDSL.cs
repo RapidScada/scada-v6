@@ -200,6 +200,8 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                 try
                 {
                     scadaClient.WriteCurrentData(slicesToSend, WriteDataFlags.Default);
+                    curDataQueue.Stats.ExportedItems += slicesToSend.Count;
+                    curDataQueue.Stats.HasError = false;
                     slicesToSend.Clear();
                 }
                 catch (Exception ex)
@@ -243,6 +245,8 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                     {
                         // send the slice
                         scadaClient.WriteHistoricalData(deviceSlice.ArchiveMask, slice, WriteDataFlags.Default);
+                        histDataQueue.Stats.ExportedItems++;
+                        histDataQueue.Stats.HasError = false;
                         CallDataSent(deviceSlice);
                     }
                     catch (Exception ex)
@@ -290,6 +294,8 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                         // send the event
                         deviceEvent.CnlNum = deviceEvent.DeviceTag.Cnl.CnlNum;
                         scadaClient.WriteEvent(deviceEvent.ArchiveMask, deviceEvent);
+                        eventQueue.Stats.ExportedItems++;
+                        eventQueue.Stats.HasError = false;
                         CallEventSent(deviceEvent);
                     }
                     catch (Exception ex)
@@ -588,6 +594,9 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                     tableTitle = baseTable.Title;
                     localClient.DownloadBaseTable(baseTable);
                 }
+
+                tableTitle = CommonPhrases.UndefinedTable;
+                configDatabase.Init();
 
                 log.WriteAction(CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
                     "База конфигурации получена успешно" :

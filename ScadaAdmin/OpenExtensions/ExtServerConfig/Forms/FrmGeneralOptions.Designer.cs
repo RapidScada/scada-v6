@@ -224,9 +224,9 @@
             lblDisableFormulas.AutoSize = true;
             lblDisableFormulas.Location = new Point(10, 200);
             lblDisableFormulas.Name = "lblDisableFormulas";
-            lblDisableFormulas.Size = new Size(343, 15);
+            lblDisableFormulas.Size = new Size(219, 15);
             lblDisableFormulas.TabIndex = 12;
-            lblDisableFormulas.Text = "Enable channel formulas only for channels belonging to objects";
+            lblDisableFormulas.Text = "Disable channel formulas except objects";
             // 
             // numMaxLogSize
             // 

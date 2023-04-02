@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2023
  */
 
 using Scada.Data.Const;
@@ -219,6 +219,17 @@ namespace Scada.Server.Engine
             get
             {
                 return initialCmdData;
+            }
+        }
+
+        /// <summary>
+        /// Gets the command data as a string.
+        /// </summary>
+        public string CmdDataStr
+        {
+            get
+            {
+                return TeleCommand.CmdDataToString(initialCmdData);
             }
         }
 

@@ -346,6 +346,7 @@ namespace Scada.Web.Code
 
                 tableTitle = CommonPhrases.UndefinedTable;
                 PostprocessConfigDatabase(configDatabase);
+
                 Log.WriteAction(Locale.IsRussian ?
                     "База конфигурации получена успешно" :
                     "The configuration database has been received successfully");

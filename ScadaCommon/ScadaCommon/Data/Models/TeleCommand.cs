@@ -94,7 +94,7 @@ namespace Scada.Data.Models
         /// <summary>
         /// Gets or sets the name of the client delivered the command.
         /// </summary>
-        /// <remarks>Used to avoid receiving own commands.</remarks>
+        /// <remarks>Set by the server and used to avoid receiving own commands.</remarks>
         public string ClientName { get; set; }
 
         /// <summary>

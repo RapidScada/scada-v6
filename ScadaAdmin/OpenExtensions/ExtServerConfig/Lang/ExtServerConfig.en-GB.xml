@@ -50,7 +50,7 @@
     <Phrase key="lblGenerateAckCmd">Generate command when event is acknowledged</Phrase>
     <Phrase key="lblStopWait">Wait for service stop, sec</Phrase>
     <Phrase key="lblMaxLogSize">Maximum log file size, MB</Phrase>
-    <Phrase key="lblDisableFormulas">Enable channel formulas only for channels belonging to objects</Phrase>
+    <Phrase key="lblDisableFormulas">Disable channel formulas except objects</Phrase>
     <Phrase key="btnSelectObjects">Select...</Phrase>
     <Phrase key="gbListenerOptions">Listener Options</Phrase>
     <Phrase key="lblPort">TCP port</Phrase>
