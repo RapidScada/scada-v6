@@ -40,6 +40,12 @@
   border-radius: 6px;
 }
 
+.tooltip-inner {
+  text-align: left;
+  max-width: none;
+  white-space: nowrap;
+}
+
 body {
   margin: 0;
   padding: 0;

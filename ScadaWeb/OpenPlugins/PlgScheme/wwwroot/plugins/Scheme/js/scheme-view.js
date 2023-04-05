@@ -50,6 +50,16 @@ scada.scheme.env = {
     }
 };
 
+// Get or create the tooltip instance
+function initTooltips() {
+    if (scheme.dom) {
+        $("[data-bs-toggle='tooltip']").each(function () {
+            var tooltip = bootstrap.Tooltip.getOrCreateInstance($(this)[0]);
+            // do something
+        });
+    }
+};
+
 // Load the scheme
 function loadScheme(viewID) {
     scheme.load(viewID, function (success) {
@@ -70,6 +80,7 @@ function loadScheme(viewID) {
                 loadScale();
                 displayScale();
                 alignHorizontally();
+                initTooltips();
                 startUpdatingScheme();
             }
         } else {
@@ -262,6 +273,7 @@ function initDebugTools() {
     $("#spanCreateDomBtn").click(function () {
         scheme.createDom();
         alignHorizontally();
+        initTooltips();
     });
 
     $("#spanStartUpdBtn").click(function () {
