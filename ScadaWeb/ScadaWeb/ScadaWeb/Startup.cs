@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -108,12 +108,13 @@ namespace Scada.Web
             services
                 .AddRazorPages(options =>
                 {
-                    options.Conventions.AuthorizeFolder(WebPath.Root);
-                    options.Conventions.AllowAnonymousToPage(WebPath.ConfigReloadPage);
-                    options.Conventions.AllowAnonymousToPage(WebPath.ErrorPage);
-                    options.Conventions.AllowAnonymousToPage(WebPath.IndexPage);
-                    options.Conventions.AllowAnonymousToPage(WebPath.LoginPage);
-                    options.Conventions.AllowAnonymousToPage(WebPath.LogoutPage);
+                    options.Conventions
+                        .AuthorizeFolder(WebPath.Root)
+                        .AllowAnonymousToPage(WebPath.ConfigReloadPage)
+                        .AllowAnonymousToPage(WebPath.ErrorPage)
+                        .AllowAnonymousToPage(WebPath.IndexPage)
+                        .AllowAnonymousToPage(WebPath.LoginPage)
+                        .AllowAnonymousToPage(WebPath.LogoutPage);
                 })
                 .AddMvcOptions(options =>
                 {
