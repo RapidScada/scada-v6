@@ -67,20 +67,18 @@ namespace Scada.Report
         public static void NormalizeTimeRange(ref DateTime startTime, ref DateTime endTime, ref int period, 
             PeriodUnit unit)
         {
-            bool periodInMonths = unit == PeriodUnit.Month;
-
             if (startTime > DateTime.MinValue && endTime > DateTime.MinValue)
             {
                 if (endTime < startTime)
                     endTime = startTime;
-                period = periodInMonths ?
+                period = unit == PeriodUnit.Month ?
                     ((endTime.Year - startTime.Year) * 12) + endTime.Month - startTime.Month :
                     (int)(endTime - startTime).TotalDays + 1;
             }
             else if (startTime > DateTime.MinValue)
             {
                 NormalizeTimeRange(ref startTime, ref period, unit);
-                endTime = periodInMonths ?
+                endTime = unit == PeriodUnit.Month ?
                     startTime.AddMonths(period) :
                     startTime.AddDays(period - 1);
             }
@@ -88,7 +86,7 @@ namespace Scada.Report
             {
                 period = Math.Abs(period);
                 NormalizeTimeRange(ref endTime, ref period, unit);
-                startTime = periodInMonths ?
+                startTime = unit == PeriodUnit.Month ?
                     endTime.AddMonths(-period) :
                     endTime.AddDays(-period + 1);
             }
