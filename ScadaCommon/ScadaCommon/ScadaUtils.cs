@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2007
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Lang;
@@ -488,6 +488,14 @@ namespace Scada
         public static string FirstNonEmpty(params string[] args)
         {
             return args.FirstOrDefault(s => !string.IsNullOrEmpty(s));
+        }
+
+        /// <summary>
+        /// Returns the first non-empty string result returned by the specified functions.
+        /// </summary>
+        public static string FirstNonEmpty(params Func<string>[] args)
+        {
+            return args.Select(f => f()).FirstOrDefault(s => !string.IsNullOrEmpty(s));
         }
 
         /// <summary>
