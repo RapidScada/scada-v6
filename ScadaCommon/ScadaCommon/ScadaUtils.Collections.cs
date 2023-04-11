@@ -315,7 +315,7 @@ namespace Scada
         public static string ToRangeString(this IEnumerable<int> collection)
         {
             if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
+                return "";
 
             List<int> list = new List<int>(collection);
             list.Sort();
