@@ -14,6 +14,7 @@ namespace Scada.Report
         Default,
         Pdf,
         Xml2003,
-        OpenXml
+        OpenXml,
+        Html
     }
 }
