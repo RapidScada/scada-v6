@@ -487,7 +487,7 @@ namespace Scada
         /// </summary>
         public static string FirstNonEmpty(params string[] args)
         {
-            return args.FirstOrDefault(s => !string.IsNullOrEmpty(s));
+            return args?.FirstOrDefault(s => !string.IsNullOrEmpty(s));
         }
 
         /// <summary>
@@ -495,7 +495,7 @@ namespace Scada
         /// </summary>
         public static string FirstNonEmpty(params Func<string>[] args)
         {
-            return args.Select(f => f()).FirstOrDefault(s => !string.IsNullOrEmpty(s));
+            return args?.Select(f => f()).FirstOrDefault(s => !string.IsNullOrEmpty(s));
         }
 
         /// <summary>
@@ -516,7 +516,7 @@ namespace Scada
         /// </summary>
         public static void RestoreHierarchy(this ITreeNode treeNode)
         {
-            if (treeNode.Children != null)
+            if (treeNode?.Children != null)
             {
                 foreach (object child in treeNode.Children)
                 {
