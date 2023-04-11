@@ -10,18 +10,18 @@ namespace Scada.Report
     public static class ReportUtils
     {
         /// <summary>
-        /// Gets the report start time if not specified by a user.
+        /// Gets the report start time as UTC if not specified by a user.
         /// </summary>
-        public static DateTime GetStartTime(DateTime utcNow, TimeZoneInfo timeZone, PeriodUnit unit)
+        public static DateTime GetUtcStartTime(DateTime utcNow, TimeZoneInfo timeZone, PeriodUnit unit)
         {
             ArgumentNullException.ThrowIfNull(timeZone, nameof(timeZone));
-            DateTime startDate = TimeZoneInfo.ConvertTimeFromUtc(utcNow, timeZone);
+            DateTime localStartTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, timeZone);
 
-            startDate = unit == PeriodUnit.Month
-                ? new DateTime(startDate.Year, startDate.Month, 1, 0, 0, 0, DateTimeKind.Local)
-                : startDate.Date;
+            localStartTime = unit == PeriodUnit.Month
+                ? new DateTime(localStartTime.Year, localStartTime.Month, 1, 0, 0, 0, DateTimeKind.Local)
+                : localStartTime.Date;
 
-            return TimeZoneInfo.ConvertTimeToUtc(startDate, timeZone);
+            return TimeZoneInfo.ConvertTimeToUtc(localStartTime, timeZone);
         }
 
         /// <summary>
@@ -71,24 +71,23 @@ namespace Scada.Report
             {
                 if (endTime < startTime)
                     endTime = startTime;
-                period = unit == PeriodUnit.Month ?
-                    ((endTime.Year - startTime.Year) * 12) + endTime.Month - startTime.Month :
-                    (int)(endTime - startTime).TotalDays + 1;
+                period = unit == PeriodUnit.Month 
+                    ? ((endTime.Year - startTime.Year) * 12) + endTime.Month - startTime.Month
+                    : (int)(endTime - startTime).TotalDays;
             }
             else if (startTime > DateTime.MinValue)
             {
                 NormalizeTimeRange(ref startTime, ref period, unit);
-                endTime = unit == PeriodUnit.Month ?
-                    startTime.AddMonths(period) :
-                    startTime.AddDays(period - 1);
+                endTime = unit == PeriodUnit.Month 
+                    ? startTime.AddMonths(period)
+                    : startTime.AddDays(period);
             }
             else if (endTime > DateTime.MinValue)
             {
-                period = Math.Abs(period);
-                NormalizeTimeRange(ref endTime, ref period, unit);
-                startTime = unit == PeriodUnit.Month ?
-                    endTime.AddMonths(-period) :
-                    endTime.AddDays(-period + 1);
+                period = Math.Max(Math.Abs(period), 1);
+                startTime = unit == PeriodUnit.Month 
+                    ? endTime.AddMonths(-period)
+                    : endTime.AddDays(-period);
             }
             else
             {
