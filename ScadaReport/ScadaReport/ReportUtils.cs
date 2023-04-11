@@ -10,45 +10,48 @@ namespace Scada.Report
     public static class ReportUtils
     {
         /// <summary>
-        /// Gets the actual report start date.
+        /// Gets the report start time if not specified by a user.
         /// </summary>
-        public static DateTime GetStartDate(RelativeDate startDate, DateTime currentDate)
+        public static DateTime GetStartTime(DateTime utcNow, TimeZoneInfo timeZone, PeriodUnit unit)
         {
-            return startDate switch
-            {
-                RelativeDate.Yesterday => currentDate.AddDays(-1.0).Date,
-                _ => currentDate.Date,
-            };
+            ArgumentNullException.ThrowIfNull(timeZone, nameof(timeZone));
+            DateTime startDate = TimeZoneInfo.ConvertTimeFromUtc(utcNow, timeZone);
+
+            startDate = unit == PeriodUnit.Month
+                ? new DateTime(startDate.Year, startDate.Month, 1, 0, 0, 0, DateTimeKind.Local)
+                : startDate.Date;
+
+            return TimeZoneInfo.ConvertTimeToUtc(startDate, timeZone);
         }
 
         /// <summary>
-        /// Normalizes the time range.
+        /// Normalizes the report time range.
         /// </summary>
         /// <remarks>
-        /// Makes the startDate a left point of the time range, and makes the period positive.
+        /// Makes the startTime a left point of the time range, and makes the period positive.
         /// </remarks>
-        public static void NormalizeTimeRange(ref DateTime startDate, ref int period, 
-            PeriodUnit unit = PeriodUnit.Day)
+        public static void NormalizeTimeRange(ref DateTime startTime, ref int period, PeriodUnit unit)
         {
-            startDate = startDate > DateTime.MinValue ? startDate.Date : DateTime.Today;
+            if (startTime == DateTime.MinValue)
+                throw new ArgumentException("Start time is not specified.", nameof(startTime));
 
             if (unit == PeriodUnit.Month)
             {
                 if (period < 0)
                 {
-                    startDate = startDate.AddMonths(period).Date;
+                    startTime = startTime.AddMonths(period);
                     period = -period;
                 }
             }
             else
             {
                 // Examples:
-                // If the period is -1, 0 or 1, it means the single day, the startDate.
-                // If the period is 2, it means 2 days starting from the startDate.
-                // If the period is -2, it means 2 days ending with the startDate and including it.
+                // If the period is -1, 0 or 1, it means the single day, the startTime.
+                // If the period is 2, it means 2 days starting from the startTime.
+                // If the period is -2, it means 2 days ending with the startTime and including it.
                 if (period <= -2)
                 {
-                    startDate = startDate.AddDays(period + 1).Date;
+                    startTime = startTime.AddDays(period + 1);
                     period = -period;
                 }
                 else if (period < 1)
@@ -59,42 +62,39 @@ namespace Scada.Report
         }
 
         /// <summary>
-        /// Normalizes the time range.
+        /// Normalizes the report time range.
         /// </summary>
-        public static void NormalizeTimeRange(ref DateTime startDate, ref DateTime endDate, ref int period,
-            PeriodUnit unit = PeriodUnit.Day)
+        public static void NormalizeTimeRange(ref DateTime startTime, ref DateTime endTime, ref int period, 
+            PeriodUnit unit)
         {
             bool periodInMonths = unit == PeriodUnit.Month;
 
-            if (startDate > DateTime.MinValue && endDate > DateTime.MinValue)
+            if (startTime > DateTime.MinValue && endTime > DateTime.MinValue)
             {
-                if (endDate < startDate)
-                    endDate = startDate;
+                if (endTime < startTime)
+                    endTime = startTime;
                 period = periodInMonths ?
-                    ((endDate.Year - startDate.Year) * 12) + endDate.Month - startDate.Month :
-                    (int)(endDate - startDate).TotalDays + 1;
+                    ((endTime.Year - startTime.Year) * 12) + endTime.Month - startTime.Month :
+                    (int)(endTime - startTime).TotalDays + 1;
             }
-            else if (startDate > DateTime.MinValue)
+            else if (startTime > DateTime.MinValue)
             {
-                NormalizeTimeRange(ref startDate, ref period, unit);
-                endDate = periodInMonths ?
-                    startDate.AddMonths(period) :
-                    startDate.AddDays(period - 1);
+                NormalizeTimeRange(ref startTime, ref period, unit);
+                endTime = periodInMonths ?
+                    startTime.AddMonths(period) :
+                    startTime.AddDays(period - 1);
             }
-            else if (endDate > DateTime.MinValue)
+            else if (endTime > DateTime.MinValue)
             {
                 period = Math.Abs(period);
-                NormalizeTimeRange(ref endDate, ref period, unit);
-                startDate = periodInMonths ?
-                    endDate.AddMonths(-period) :
-                    endDate.AddDays(-period + 1);
+                NormalizeTimeRange(ref endTime, ref period, unit);
+                startTime = periodInMonths ?
+                    endTime.AddMonths(-period) :
+                    endTime.AddDays(-period + 1);
             }
             else
             {
-                NormalizeTimeRange(ref startDate, ref period, unit);
-                endDate = periodInMonths ?
-                    startDate.AddMonths(period) :
-                    startDate.AddDays(period - 1);
+                throw new ArgumentException("Neither start time nor end time is not specified.");
             }
         }
 
@@ -118,6 +118,7 @@ namespace Scada.Report
                 OutputFormat.Pdf => ".pdf",
                 OutputFormat.Xml2003 => ".xml",
                 OutputFormat.OpenXml => ".xlsx",
+                OutputFormat.Html => ".html",
                 _ => ""
             };
         }
