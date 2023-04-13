@@ -296,13 +296,29 @@ namespace Scada
         /// </summary>
         public static string ToLocalizedDateString(this DateTime dateTime)
         {
-            return dateTime.ToString("d", Locale.Culture);
+            return dateTime.ToLocalizedDateString(Locale.Culture);
+        }
+
+        /// <summary>
+        /// Converts the specified value to a string representation of the date using the specified culture.
+        /// </summary>
+        public static string ToLocalizedDateString(this DateTime dateTime, CultureInfo culture)
+        {
+            return dateTime.ToString("d", culture);
         }
 
         /// <summary>
         /// Converts the specified value to a string representation of the time using the selected culture.
         /// </summary>
         public static string ToLocalizedTimeString(this DateTime dateTime)
+        {
+            return dateTime.ToLocalizedTimeString(Locale.Culture);
+        }
+
+        /// <summary>
+        /// Converts the specified value to a string representation of the time using the specified culture.
+        /// </summary>
+        public static string ToLocalizedTimeString(this DateTime dateTime, CultureInfo culture)
         {
             return dateTime.ToString("T", Locale.Culture);
         }
