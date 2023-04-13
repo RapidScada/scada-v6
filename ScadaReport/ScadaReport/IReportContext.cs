@@ -2,7 +2,10 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Client;
+using Scada.Data.Entities;
 using Scada.Data.Models;
+using Scada.Data.Tables;
+using Scada.Lang;
 using System.Globalization;
 
 namespace Scada.Report
@@ -45,6 +48,44 @@ namespace Scada.Report
         DateTime ConvertTimeFromUtc(DateTime dateTime)
         {
             return TimeZoneInfo.ConvertTimeFromUtc(dateTime, TimeZone);
+        }
+
+        /// <summary>
+        /// Finds an archive entity by the first non-empty archive code.
+        /// Raises an exception if not found.
+        /// </summary>
+        Archive FindArchive(params string[] archiveCodes)
+        {
+            string archiveCode = ScadaUtils.FirstNonEmpty(archiveCodes);
+            return ConfigDatabase.ArchiveTable.SelectFirst(new TableFilter("Code", archiveCode)) ??
+                throw new ScadaException(Locale.IsRussian ?
+                    "Архив не найдён в базе конфигурации." :
+                    "Archive not found in the configuration database.");
+        }
+
+        /// <summary>
+        /// Finds channel entities by the specified channel numbers.
+        /// If some channel does not exists, adds an empty channel.
+        /// </summary>
+        List<Cnl> FindChannels(IList<int> cnlNums)
+        {
+            if (cnlNums == null)
+            {
+                return new List<Cnl>();
+            }
+            else
+            {
+                List<Cnl> cnls = new(cnlNums.Count);
+
+                foreach (int cnlNum in cnlNums)
+                {
+                    cnls.Add(
+                        ConfigDatabase.CnlTable.GetItem(cnlNum) ??
+                        new Cnl { CnlNum = cnlNum, Name = "" });
+                }
+
+                return cnls;
+            }
         }
     }
 }
