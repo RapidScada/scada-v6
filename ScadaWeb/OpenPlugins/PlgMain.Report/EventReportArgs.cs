@@ -38,10 +38,10 @@ namespace Scada.Web.Plugins.PlgMain.Report
             ArgumentNullException.ThrowIfNull(reportArgs, nameof(reportArgs));
             StartTime = reportArgs.StartTime;
             EndTime = reportArgs.EndTime;
+            ArchiveCode = reportArgs.ArchiveCode;
             Format = reportArgs.Format;
             CustomArgs = reportArgs.CustomArgs;
 
-            ArchiveCode = CustomArgs.GetValueAsString("ArchiveCode");
             TailMode = CustomArgs.GetValueAsBool("TailMode");
             EventCount = CustomArgs.GetValueAsInt("EventCount");
             EventDepth = CustomArgs.GetValueAsInt("EventDepth");
@@ -53,11 +53,6 @@ namespace Scada.Web.Plugins.PlgMain.Report
             MaxPeriod = 0;
         }
 
-
-        /// <summary>
-        /// Gets the archive code.
-        /// </summary>
-        public string ArchiveCode { get; init; }
 
         /// <summary>
         /// Gets a value indicating whether to retrieve only the specified number of recent events.
