@@ -14,9 +14,8 @@ namespace Scada.Report
     public static class ReportContextExtensions
     {
         /// <summary>
-        /// Finds an archive entity by the archive code. 
-        /// If the specified archive code is empty, the default code is used. 
-        /// Raises an exception if not found. 
+        /// Finds an archive entity by the first non-empty archive code.
+        /// Raises an exception if not found.
         /// </summary>
         public static Archive FindArchive(this IReportContext reportContext, params string[] archiveCodes)
         {
