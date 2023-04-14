@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Data.Entities;
@@ -75,14 +75,14 @@ namespace Scada.Data.Models
             if (protectionSet == null)
                 protectionSet = new HashSet<int> { childRoleID };
 
-            foreach (int parentRoleID in roleRef_childRoleIndex.SelectItems(childRoleID))
+            foreach (RoleRef roleRef in roleRef_childRoleIndex.SelectItems(childRoleID))
             {
-                if (protectionSet.Add(parentRoleID))
+                if (protectionSet.Add(roleRef.ParentRoleID))
                 {
-                    yield return parentRoleID;
+                    yield return roleRef.ParentRoleID;
 
                     foreach (int grandparentRoleID in
-                        EnumerateParentRoleIDs(roleRef_childRoleIndex, parentRoleID, protectionSet))
+                        EnumerateParentRoleIDs(roleRef_childRoleIndex, roleRef.ParentRoleID, protectionSet))
                     {
                         yield return grandparentRoleID;
                     }
