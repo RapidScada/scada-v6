@@ -105,7 +105,8 @@ namespace Scada.Data.Models
                 {
                     yield return childObj;
 
-                    foreach (Obj grandchildObj in EnumerateChildObjects(obj_parentObjIndex, childObj.ObjNum))
+                    foreach (Obj grandchildObj in 
+                        EnumerateChildObjects(obj_parentObjIndex, childObj.ObjNum, protectionSet))
                     {
                         yield return grandchildObj;
                     }
