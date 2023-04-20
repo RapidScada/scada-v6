@@ -8,6 +8,8 @@
     <Extension code="ExtWebConfig" />
     <Extension code="ExtProjectTools" />
     <Extension code="ExtTableEditor" />
+	  <Extension code="ExtImport" />
+
   </Extensions>
   <FileAssociations>
     <Association ext="sch" path="C:\Program Files\SCADA\ScadaSchemeEditor\ScadaSchemeEditor.exe" />
