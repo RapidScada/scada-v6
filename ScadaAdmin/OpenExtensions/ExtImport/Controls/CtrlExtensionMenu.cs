@@ -41,20 +41,16 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
             return new ToolStripItem[] { miImport };
         }
 
-        public ToolStripItem[] GetToobarButtons()
-        {
-            return new ToolStripItem[] { btnImport };
-        }
-        private void importToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("I swear this is an import");
-        }
+		public ToolStripItem[] GetToobarButtons()
+		{
+			return new ToolStripItem[] { btnImport };
+		}
 
-        private void btnImport_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("I swear this is an import 22");
-        }
+		private void miImportLine_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("I swear this is an import 22");
+		}
 
 
-    }
+	}
 }
