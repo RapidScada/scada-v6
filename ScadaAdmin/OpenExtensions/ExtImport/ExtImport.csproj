@@ -1,5 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
+	<ItemGroup>
+		<PackageReference Include="WinControl" Version="2.1.0" />
+	</ItemGroup>
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
 	  <UseWindowsForms>true</UseWindowsForms>
