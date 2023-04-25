@@ -28,4 +28,8 @@
       <HintPath>..\..\ScadaAdmin\ScadaAdminCommon\bin\Release\net6.0-windows\ScadaServerCommon.dll</HintPath>
     </Reference>
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Code\" />
+  </ItemGroup>
 </Project>
