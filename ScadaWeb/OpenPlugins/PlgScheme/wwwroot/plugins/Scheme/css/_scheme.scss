@@ -25,6 +25,7 @@ $cmd-frame-border-color: #999;
 
     .comp {
         box-sizing: border-box;
+        line-height: normal;
         position: absolute;
 
         &.action {
