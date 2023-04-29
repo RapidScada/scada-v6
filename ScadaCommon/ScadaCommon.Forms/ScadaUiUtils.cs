@@ -115,8 +115,7 @@ namespace Scada.Forms
         /// </summary>
         public static void SetTime(this DateTimePicker dateTimePicker, DateTime time)
         {
-            DateTime date = dateTimePicker.MinDate;
-            dateTimePicker.Value = new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second);
+            dateTimePicker.Value = dateTimePicker.MinDate + time.TimeOfDay;
         }
 
         /// <summary>
@@ -124,8 +123,7 @@ namespace Scada.Forms
         /// </summary>
         public static void SetTime(this DateTimePicker dateTimePicker, TimeSpan timeSpan)
         {
-            DateTime date = dateTimePicker.MinDate;
-            dateTimePicker.Value = new DateTime(date.Year, date.Month, date.Day).Add(timeSpan);
+            dateTimePicker.Value = dateTimePicker.MinDate + timeSpan;
         }
 
         /// <summary>
