@@ -44,10 +44,6 @@ namespace Scada.Admin.App.Forms.Deployment
     public partial class FrmInstanceStatus : Form, IDeploymentForm
     {
         /// <summary>
-        /// The time period for disabling the button after pressing, ms.
-        /// </summary>
-        private const int ButtonWait = 1000;
-        /// <summary>
         /// The services which status is displayed.
         /// </summary>
         private static readonly ServiceApp[] ServiceApps = new ServiceApp[] { ServiceApp.Server, ServiceApp.Comm };
@@ -185,19 +181,6 @@ namespace Scada.Admin.App.Forms.Deployment
         }
 
         /// <summary>
-        /// Displays the button in waiting state.
-        /// </summary>
-        private static void DisplayWait(Button button)
-        {
-            Task.Run(() =>
-            {
-                button.Enabled = false;
-                Thread.Sleep(ButtonWait);
-                button.Enabled = true;
-            });
-        }
-
-        /// <summary>
         /// Sends the command to the service.
         /// </summary>
         private static void ControlService(IAgentClient client, ServiceApp serviceApp, ServiceCommand command)
@@ -302,7 +285,7 @@ namespace Scada.Admin.App.Forms.Deployment
             // send command to application
             if (serviceApp != null && serviceCommand != null)
             {
-                DisplayWait(button);
+                button.DisplayWait();
                 ControlService(agentClient, serviceApp.Value, serviceCommand.Value);
             }
         }
