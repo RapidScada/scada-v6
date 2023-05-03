@@ -153,15 +153,6 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 					}
 				}
 			}
-
-			// passage des informations
-			if (_dictio.Count > 0)
-			{
-				//new Form2(_dictio).ShowDialog();
-				//TODO: passage au controle suivant en envoyant _dictio
-				ctrlCnlImport4.setDictio(_dictio);
-				_dictio.Clear();
-			}
 		}
 
 		private void readTxtPL7(string l)

@@ -39,7 +39,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 		{
 			step += offset;
 
-			if (step < 1)
+			if (step =< 1)
 				step = 1;
 			else if (step > 4)
 				step = 4;
@@ -93,14 +93,20 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 					CtrlCnlImport3.SetFocus();
 					break;
 				case 4:
-					lblStep.Text = "Étape 4"; // Remplacez par un texte approprié
-					CtrlCnlImport4.Visible = true;
-					btnBack.Visible = true;
-					btnCreate.Visible = true;
+					if (CtrlCnlImport3._dictio.Count > 0)
+					{
+						lblStep.Text = "Étape 4"; // Remplacez par un texte approprié
+						CtrlCnlImport4.Visible = true;
+						btnBack.Visible = true;
+						btnCreate.Visible = true;
 
-					// Mettre à jour les données de ctrlCnlImport4 
-					CtrlCnlImport4.setDictio(CtrlCnlImport3._dictio);
+						// Mettre à jour les données de ctrlCnlImport4 
+						CtrlCnlImport4.setDictio(CtrlCnlImport3._dictio);
+						CtrlCnlImport4.xmlReader();
+						CtrlCnlImport4.gridViewFiller();
+						CtrlCnlImport3._dictio.Clear();
 
+                    }
 					//CtrlCnlImport4.SetFocus();
 					break;
 			}

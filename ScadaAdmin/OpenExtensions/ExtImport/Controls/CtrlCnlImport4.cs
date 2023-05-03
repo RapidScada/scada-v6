@@ -26,8 +26,8 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
         {
             InitializeComponent();
 
-            xmlReader();
-            gridViewFiller();
+           // xmlReader();
+           // gridViewFiller();
         }
 
         public void setDictio(Dictionary<string, List<string>> dictio)
@@ -42,7 +42,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 
         }
 
-        private void xmlReader()
+        public void xmlReader()
         {
             string filePath = @"C:/Users/AnaisT/Documents/testsScada/testXML.xml";
             XmlDocument xmlDoc = new XmlDocument();
@@ -70,7 +70,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
             }
         }
 
-        private void gridViewFiller()
+        public void gridViewFiller()
         {
             foreach (KeyValuePair<string, List<string>> kvp in dictio)
             {
@@ -84,8 +84,6 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
                 }
             }
         }
-
-
 
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
         {// on va garder les descriptions déjà présentes dans le système

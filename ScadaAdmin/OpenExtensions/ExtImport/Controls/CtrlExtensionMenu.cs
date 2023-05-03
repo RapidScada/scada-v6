@@ -162,14 +162,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 				if (frmCnlImport.ShowDialog() == DialogResult.OK)
 					adminContext.MainForm.RefreshBaseTables(typeof(Cnl), true);
 
-
-
 			}
-		}
-
-		private void btnImport_Click(object sender, EventArgs e)
-		{
-
 		}
 	}
 }
