@@ -7,6 +7,9 @@
     <Nullable>disable</Nullable>
     <RootNamespace>Scada.Admin.Extensions.ExtImport</RootNamespace>
   </PropertyGroup>
+ <ItemGroup>
+    <PackageReference Include="WinControl" Version="2.1.0" />
+  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="ScadaAdminCommon">
