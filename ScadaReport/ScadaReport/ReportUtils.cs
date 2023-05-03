@@ -114,7 +114,7 @@ namespace Scada.Report
             {
                 OutputFormat.Pdf => ".pdf",
                 OutputFormat.Xml2003 => ".xml",
-                OutputFormat.OpenXml => ".xlsx",
+                OutputFormat.Xlsx => ".xlsx",
                 OutputFormat.Html => ".html",
                 _ => ""
             };
