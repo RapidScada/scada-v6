@@ -17,7 +17,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 {
 	public partial class FrmCnlMerge : Form
 	{
-
+		private List<Cnl> cnls;
 		private Dictionary<string, List<string>> dictio;
 		private Dictionary<string, List<string>> _oldDictio = new Dictionary<string, List<string>>();
 		private Dictionary<string, List<string>> _newDictio = new Dictionary<string, List<string>>();
@@ -25,19 +25,29 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 		private IAdminContext adminContext; // the Administrator context
 		private ScadaProject project;       // the project under development
 
-		public FrmCnlMerge()
+		private FrmCnlMerge()
 		{
 			InitializeComponent();
-
+			dataGridView1.AutoGenerateColumns = false;
 			// xmlReader();
 			// gridViewFiller();
+		}
+
+
+		public FrmCnlMerge(List<Cnl> cnls, Dictionary<string, List<string>> dictio) : this()
+		{
+			//bindingSource.DataSource = cnls ?? throw new ArgumentNullException(nameof(cnls));
+			this.cnls = cnls;
+			setDictio(dictio);
+			xmlReader();
+			gridViewFiller();
 		}
 
 		public void setDictio(Dictionary<string, List<string>> dictio)
 		{
 			this.dictio = dictio;
 		}
-
+		//A supprimer
 		public void Init(IAdminContext adminContext, ScadaProject project)
 		{
 			this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
@@ -257,57 +267,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			}
 		}
 
-		///// <summary>
-		///// Initializes a new instance of the class.
-		///// </summary>
-		//private FrmCnlMerge()
-		//{
-		//	InitializeComponent();
-		//	dataGridView.AutoGenerateColumns = false;
-		//}
-
-		///// <summary>
-		///// Initializes a new instance of the class.
-		///// </summary>
-		//public FrmCnlMerge(List<Cnl> cnls)
-		//	: this()
-		//{
-		//	bindingSource.DataSource = cnls ?? throw new ArgumentNullException(nameof(cnls));
-		//}
-
-
-		//private void FrmCnlPreview_Load(object sender, EventArgs e)
-		//{
-		//	FormTranslator.Translate(this, GetType().FullName);
-		//	dataGridView.AutoSizeColumns();
-		//}
-
-		//private void btnDelete_Click(object sender, EventArgs e)
-		//{
-		//	// delete selected rows
-		//	DataGridViewSelectedRowCollection selectedRows = dataGridView.SelectedRows;
-
-		//	if (selectedRows.Count > 0)
-		//	{
-		//		for (int i = selectedRows.Count - 1; i >= 0; i--)
-		//		{
-		//			dataGridView.Rows.RemoveAt(selectedRows[i].Index);
-		//		}
-		//	}
-		//	else if (dataGridView.CurrentRow != null)
-		//	{
-		//		dataGridView.Rows.RemoveAt(dataGridView.CurrentRow.Index);
-		//	}
-		//}
-
-		//private void dataGridView_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
-		//{
-		//	btnAdd.Enabled = dataGridView.Rows.Count > 0;
-		//}
-
-		//private void btnAdd_Click(object sender, EventArgs e)
-		//{
-		//	DialogResult = DialogResult.OK;
-		//}
+		
 	}
 }
