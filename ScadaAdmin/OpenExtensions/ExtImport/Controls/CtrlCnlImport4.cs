@@ -44,7 +44,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 
         public void xmlReader()
         {
-            string filePath = @"C:/Users/AnaisT/Documents/testsScada/testXML.xml";
+            string filePath = @"C:/Users/messiem/Documents/testsScada/testXML.xml";
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(filePath);
 

@@ -110,6 +110,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			if (openFileDialog.ShowDialog() == DialogResult.OK)
 			{
 				string fileSelected = openFileDialog.FileName;
+				pathFile.Text = Path.GetFileNameWithoutExtension(fileSelected);
 				readFile(fileSelected);
 			}
 
@@ -232,6 +233,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 				list.Add(_comment);
 
 				_dictio.Add(_adress, list);
+				Console.WriteLine(_dictio.Count);
 			}
 		}
 
@@ -249,8 +251,18 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 					break;
 			}
 		}
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void label1_Click(object sender, EventArgs e)
+		{
+
+		}
 	}
 
 
-	}
+}
 
