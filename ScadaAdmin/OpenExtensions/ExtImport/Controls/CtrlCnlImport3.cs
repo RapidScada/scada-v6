@@ -20,13 +20,14 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 		private string _adress;
 		private string _type;
 		private string _comment;
+		
+		public bool FileSelected { get; set; } = false;
+        
 
-		//public Dictionary<string, List<string>>  ImportedData { get; private set; }
-
-		/// <summary>
-		/// Initializes a new instance of the class.
-		/// </summary>
-		public CtrlCnlImport3()
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public CtrlCnlImport3()
 		{
 			InitializeComponent();
 		}
@@ -47,7 +48,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 		/// </summary>
 		public void SetFocus()
 		{
-			// You can set focus to a specific control, e.g., a TextBox or a Button
+			// set focus to a specific control, ( a Button)
 		}
 
 		/// <summary>
@@ -62,55 +63,16 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 
 		private void btnImport_Click(object sender, EventArgs e)
 		{
-			//// Créer une nouvelle instance de OpenFileDialog
-			//OpenFileDialog openFileDialog = new OpenFileDialog();
-
-			//// Configurer les propriétés de OpenFileDialog
-			//openFileDialog.Filter = "Fichiers texte (*.txt)|*.txt|Tous les fichiers (*.*)|*.*";
-			//openFileDialog.Title = "Sélectionner un fichier texte à importer";
-
-			//// Afficher la boîte de dialogue et vérifier si l'utilisateur a sélectionné un fichier
-			//if (openFileDialog.ShowDialog() == DialogResult.OK)
-			//{
-			//	// Lire le contenu du fichier sélectionné
-			//	string contenuFichier = File.ReadAllText(openFileDialog.FileName);
-
-			//	// Analyser le contenu du fichier et stocker les données importées
-			//	Dictionary<string, string> importedData = new Dictionary<string, string>();
-			//	string[] lines = contenuFichier.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-
-			//	foreach (string line in lines)
-			//	{
-			//		string[] columns = line.Split(',');
-			//		if (columns.Length >= 2)
-			//		{
-			//			Console.WriteLine(columns[0]);
-			//			importedData.Add(columns[0], columns[1]);
-			//		}
-			//	}
-			//	Console.WriteLine("Données importées : ");
-			//	foreach (KeyValuePair<string, string> entry in importedData)
-			//	{
-			//		Console.WriteLine("Clé : " + entry.Key + " Valeur : " + entry.Value);
-			//	}
-
-			//	// Passer les données importées à CtrlCnlImport4
-			//	if (CtrlCnlImport4Instance != null)
-			//	{
-			//		Console.WriteLine(importedData);
-			//		CtrlCnlImport4Instance.SetDictio(importedData);
-			//	}
-
-			//	// Passer à l'étape suivante (CtrlCnlImport4) - SUPPRIMER CETTE LIGNE
-			//	// ApplyStep(1);
-
 			OpenFileDialog openFileDialog = new OpenFileDialog();
 			openFileDialog.Filter = "Fichiers texte (*.txt)|*.txt|Fichiers SCY (*.scy)|*.scy";
 
 			if (openFileDialog.ShowDialog() == DialogResult.OK)
 			{
+				FileSelected = true;
 				string fileSelected = openFileDialog.FileName;
-				pathFile.Text = Path.GetFileNameWithoutExtension(fileSelected);
+				
+				txtPathFile.Text = fileSelected;
+				
 				readFile(fileSelected);
 			}
 
@@ -250,11 +212,6 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 				default:
 					break;
 			}
-		}
-
-		private void button1_Click(object sender, EventArgs e)
-		{
-
 		}
 
 		private void label1_Click(object sender, EventArgs e)

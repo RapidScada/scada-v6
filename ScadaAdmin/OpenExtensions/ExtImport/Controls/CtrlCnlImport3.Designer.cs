@@ -29,52 +29,59 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 		private void InitializeComponent()
 		{
 			btnImport = new Button();
-			pathFile = new Button();
-			label1 = new Label();
+			lblImport = new Label();
+			txtPathFile = new TextBox();
 			SuspendLayout();
 			// 
 			// btnImport
 			// 
-			btnImport.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point);
-			btnImport.Location = new Point(323, 75);
+			btnImport.Anchor = AnchorStyles.None;
+			btnImport.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
+			btnImport.ForeColor = SystemColors.ActiveCaptionText;
+			btnImport.ImageAlign = ContentAlignment.TopCenter;
+			btnImport.Location = new Point(384, 115);
 			btnImport.Margin = new Padding(3, 4, 3, 4);
 			btnImport.Name = "btnImport";
-			btnImport.Size = new Size(65, 53);
+			btnImport.Size = new Size(40, 27);
 			btnImport.TabIndex = 0;
 			btnImport.Text = ". . .";
-			btnImport.TextAlign = ContentAlignment.TopCenter;
 			btnImport.UseVisualStyleBackColor = true;
 			btnImport.Click += btnImport_Click;
 			// 
-			// pathFile
+			// lblImport
 			// 
-			pathFile.Cursor = Cursors.Hand;
-			pathFile.Location = new Point(15, 75);
-			pathFile.Name = "pathFile";
-			pathFile.Size = new Size(289, 53);
-			pathFile.TabIndex = 0;
-			pathFile.Click += button1_Click;
+			lblImport.Anchor = AnchorStyles.None;
+			lblImport.AutoSize = true;
+			lblImport.Location = new Point(42, 80);
+			lblImport.Name = "lblImport";
+			lblImport.Size = new Size(152, 20);
+			lblImport.TabIndex = 1;
+			lblImport.Text = "Selectionner le fichier";
+			lblImport.Click += label1_Click;
 			// 
-			// label1
+			// txtPathFile
 			// 
-			label1.AutoSize = true;
-			label1.Location = new Point(31, 147);
-			label1.Name = "label1";
-			label1.Size = new Size(38, 15);
-			label1.TabIndex = 1;
-			label1.Text = "label1";
-			label1.Click += label1_Click;
+			txtPathFile.Anchor = AnchorStyles.None;
+			txtPathFile.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+			txtPathFile.Location = new Point(42, 116);
+			txtPathFile.Margin = new Padding(5, 5, 3, 3);
+			txtPathFile.Name = "txtPathFile";
+			txtPathFile.ReadOnly = true;
+			txtPathFile.Size = new Size(336, 27);
+			txtPathFile.TabIndex = 2;
+			txtPathFile.TabStop = false;
+			txtPathFile.TextAlign = HorizontalAlignment.Center;
 			// 
 			// CtrlCnlImport3
 			// 
-			AutoScaleDimensions = new SizeF(7F, 15F);
+			AutoScaleDimensions = new SizeF(8F, 20F);
 			AutoScaleMode = AutoScaleMode.Font;
-			Controls.Add(label1);
-			Controls.Add(pathFile);
+			Controls.Add(txtPathFile);
+			Controls.Add(lblImport);
 			Controls.Add(btnImport);
 			Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
 			Name = "CtrlCnlImport3";
-			Size = new Size(411, 213);
+			Size = new Size(475, 214);
 			ResumeLayout(false);
 			PerformLayout();
 		}
@@ -82,7 +89,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 		#endregion
 
 		private System.Windows.Forms.Button btnImport;
-		private Button pathFile;
-		private Label label1;
+		private Label lblImport;
+		private TextBox txtPathFile;
 	}
 }

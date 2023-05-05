@@ -6,7 +6,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 {
     partial class CtrlCnlImport4
     {
-        private DataGridView dataGridView;
+       // private DataGridView dataGridView;
 
         /// <summary> 
         /// Variable nécessaire au concepteur.

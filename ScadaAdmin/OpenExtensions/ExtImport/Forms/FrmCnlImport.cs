@@ -35,86 +35,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			step = 1;
 		}
 
-		//private void ApplyStep(int offset)
-		//{
-		//	step += offset;
-
-		//	if (step < 1)
-		//		step = 1;
-		//	else if (step > 4)
-		//		step = 4;
-
-		//	CtrlCnlImport1.Visible = false;
-		//	CtrlCnlImport2.Visible = false;
-		//	CtrlCnlImport3.Visible = false;
-		//	CtrlCnlImport4.Visible = false;
-		//	chkPreview.Visible = false;
-		//	btnBack.Visible = false;
-		//	btnNext.Visible = false;
-		//	btnCreate.Visible = false;
-
-		//	switch (step)
-		//	{
-		//		case 1:
-		//			lblStep.Text = ExtensionPhrases.CreateCnlsStep1;
-		//			CtrlCnlImport1.Visible = true;
-		//			btnNext.Visible = true;
-
-		//			CtrlCnlImport1.SetFocus();
-		//			btnNext.Enabled = CtrlCnlImport1.StatusOK;
-		//			break;
-		//		case 2:
-		//			lblStep.Text = ExtensionPhrases.CreateCnlsStep2;
-		//			CtrlCnlImport2.Visible = true;
-		//			btnBack.Visible = true;
-		//			btnNext.Visible = true;
-
-		//			CtrlCnlImport2.DeviceName = CtrlCnlImport1.SelectedDevice?.Name;
-		//			CtrlCnlImport2.SetFocus();
-		//			break;
-		//		case 3:
-		//			lblStep.Text = ExtensionPhrases.CreateCnlsStep3;
-		//			CtrlCnlImport3.Visible = true;
-		//			//chkPreview.Visible = true;
-		//			btnNext.Visible = true;
-		//			btnBack.Visible = true;
-		//			//btnCreate.Visible = true;
-
-
-		//			//if (CtrlCnlImport1.StatusOK)
-		//			//{
-		//			//	//CtrlCnlImport3.ResetCnlNums(CtrlCnlImport1.CnlPrototypes.Count);
-		//			//	btnCreate.Enabled = true;
-		//			//}
-		//			//else
-		//			//{
-		//			//	btnCreate.Enabled = false;
-		//			//}
-
-		//			//CtrlCnlImport3.DeviceName = CtrlCnlImport1.SelectedDevice?.Name;
-		//			//CtrlCnlImport3.SetFocus();
-		//			break;
-		//		case 4:
-		//			//console.writeline(ctrlcnlimport3._dictio.count);
-		//			//if (Ctrlcnlimport3._dictio.count > 0)
-		//			//{
-		//			//lblstep.text = "étape 4"; // remplacez par un texte approprié
-		//			CtrlCnlImport4.Visible = true;
-		//			btnBack.Visible = true;
-		//			btnCreate.Visible = true;
-
-		//			// mettre à jour les données de ctrlcnlimport4
-		//			CtrlCnlImport4.setDictio(CtrlCnlImport3._dictio);
-		//			CtrlCnlImport4.xmlReader();
-		//			CtrlCnlImport4.gridViewFiller();
-		//			CtrlCnlImport3._dictio.Clear();
-		//			break;
-
-
-		//			//ctrlcnlimport4.setfocus();
-
-		//	}
-		//}
+		
 		private void ApplyStep(int offset)
 		{
 			step += offset;
@@ -127,7 +48,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			CtrlCnlImport1.Visible = false;
 			CtrlCnlImport2.Visible = false;
 			CtrlCnlImport3.Visible = false;
-			chkPreview.Visible = false;
 			btnBack.Visible = false;
 			btnNext.Visible = false;
 			btnCreate.Visible = false;
@@ -150,24 +70,15 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 
 					CtrlCnlImport2.DeviceName = CtrlCnlImport1.SelectedDevice?.Name;
 					CtrlCnlImport2.SetFocus();
+					
 					break;
 				case 3:
 					lblStep.Text = ExtensionPhrases.CreateCnlsStep3;
 					CtrlCnlImport3.Visible = true;
-					chkPreview.Visible = true;
-					btnBack.Visible = true;
 					btnCreate.Visible = true;
-
-					if (CtrlCnlImport1.StatusOK)
-					{
-						// ctrlCnlImport3.ResetCnlNums(ctrlCnlImport1.CnlPrototypes.Count);
-						btnCreate.Enabled = true;
-					}
-					else
-					{
-						btnCreate.Enabled = false;
-					}
-
+					//btnCreate.Enabled = CtrlCnlImport3.FileSelected;
+					btnBack.Visible = true;
+					
 					// ctrlCnlImport3.DeviceName = ctrlCnlImport1.SelectedDevice?.Name;
 					// ctrlCnlImport3.SetFocus();
 					break;
@@ -216,7 +127,8 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			return cnls;
 		}
 
-		private void AddChannels(List<Cnl> cnls, bool silent)
+		//private void AddChannels(List<Cnl> cnls, bool silent)
+		private void AddChannels(List<Cnl> cnls)
 		{
 			if (cnls.Count > 0)
 			{
@@ -224,8 +136,8 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 				project.ConfigDatabase.CnlTable.Modified = true;
 			}
 
-			if (!silent)
-				ScadaUiUtils.ShowInfo(ExtensionPhrases.CreateCnlsCompleted, cnls.Count);
+			//if (!silent)
+			//	ScadaUiUtils.ShowInfo(ExtensionPhrases.CreateCnlsCompleted, cnls.Count);
 		}
 
 		private void FrmCnlCreate_Load(object sender, EventArgs e)
@@ -234,11 +146,11 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			FormTranslator.Translate(CtrlCnlImport1, CtrlCnlImport1.GetType().FullName);
 			FormTranslator.Translate(CtrlCnlImport2, CtrlCnlImport2.GetType().FullName);
 			FormTranslator.Translate(CtrlCnlImport3, CtrlCnlImport3.GetType().FullName);
-			FormTranslator.Translate(CtrlCnlImport4, CtrlCnlImport4.GetType().FullName);
+		
 			CtrlCnlImport1.Init(adminContext, project, recentSelection);
 			CtrlCnlImport2.Init(project, recentSelection);
 			CtrlCnlImport3.Init(adminContext, project);
-			CtrlCnlImport4.Init(adminContext, project);
+			
 			ApplyStep(0);
 		}
 
@@ -253,19 +165,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			ApplyStep(-1);
 		}
 
-		//private void btnNext_Click(object sender, EventArgs e)
-		//{
-		//	//ApplyStep(1);
-		//	//if (step == 3 && CtrlCnlImport3.ImportedData != null)
-		//	if (step == 4)
-		//	{
-		//		ApplyStep(1);
-		//	}
-		//	else
-		//	{
-		//		ApplyStep(1);
-		//	}
-		//}
+	
 		private void btnNext_Click(object sender, EventArgs e)
 		{
 			ApplyStep(1);
@@ -277,11 +177,11 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			{
 				List<Cnl> cnls = CreateChannels();
 
-				if (!chkPreview.Checked ||
-					new FrmCnlMerge(cnls, CtrlCnlImport3._dictio).ShowDialog() == DialogResult.OK)
-					//new FrmCnlMerge().ShowDialog() == DialogResult.OK)
+				if (new FrmCnlMerge(cnls, CtrlCnlImport3._dictio).ShowDialog() == DialogResult.OK)
+				//new FrmCnlMerge().ShowDialog() == DialogResult.OK)
 				{
-					AddChannels(cnls, chkPreview.Checked);
+					//AddChannels(cnls, chkPreview.Checked);
+					AddChannels(cnls);
 					DialogResult = DialogResult.OK;
 				}
 			}
