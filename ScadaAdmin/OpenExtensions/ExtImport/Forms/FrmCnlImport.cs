@@ -55,7 +55,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			switch (step)
 			{
 				case 1:
-					lblStep.Text = ExtensionPhrases.CreateCnlsStep1;
+					lblStep.Text = ExtensionPhrases.ImportCnlsStep1 ?? "Import Cnls Step1";
 					CtrlCnlImport1.Visible = true;
 					btnNext.Visible = true;
 
@@ -63,7 +63,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 					btnNext.Enabled = CtrlCnlImport1.StatusOK;
 					break;
 				case 2:
-					lblStep.Text = ExtensionPhrases.CreateCnlsStep2;
+					lblStep.Text = ExtensionPhrases.ImportCnlsStep2 ?? "Import Cnls Step2";
 					CtrlCnlImport2.Visible = true;
 					btnBack.Visible = true;
 					btnNext.Visible = true;
@@ -73,7 +73,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 					
 					break;
 				case 3:
-					lblStep.Text = ExtensionPhrases.CreateCnlsStep3;
+					lblStep.Text = ExtensionPhrases.ImportCnlsStep3 ?? "Import Cnls Step3";
 					CtrlCnlImport3.Visible = true;
 					btnCreate.Visible = true;
 					//btnCreate.Enabled = CtrlCnlImport3.FileSelected;
@@ -137,7 +137,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			}
 
 			//if (!silent)
-			//	ScadaUiUtils.ShowInfo(ExtensionPhrases.CreateCnlsCompleted, cnls.Count);
+			//	ScadaUiUtils.ShowInfo(ExtensionPhrases.ImportCnlsCompleted, cnls.Count);
 		}
 
 		private void FrmCnlCreate_Load(object sender, EventArgs e)

@@ -39,10 +39,10 @@ namespace Scada.Admin.Extensions.ExtImport.Code
 		public static string NoChannelProperties { get; private set; }
 
 		// Scada.Admin.Extensions.ExtImport.Forms.FrmCnlCreate
-		public static string CreateCnlsStep1 { get; private set; }
-		public static string CreateCnlsStep2 { get; private set; }
-		public static string CreateCnlsStep3 { get; private set; }
-		public static string CreateCnlsCompleted { get; private set; }
+		public static string ImportCnlsStep1 { get; private set; }
+		public static string ImportCnlsStep2 { get; private set; }
+		public static string ImportCnlsStep3 { get; private set; }
+		public static string ImportCnlsCompleted { get; private set; }
 
 		// Scada.Admin.Extensions.ExtImport.Forms.FrmCommLogs
 		public static string AppFilter { get; private set; }
@@ -110,10 +110,10 @@ namespace Scada.Admin.Extensions.ExtImport.Code
 			NoChannelProperties = dict["NoChannelProperties"];
 
 			dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtImport.Forms.FrmCnlImport");
-			CreateCnlsStep1 = dict["CreateCnlsStep1"];
-			CreateCnlsStep2 = dict["CreateCnlsStep2"];
-			CreateCnlsStep3 = dict["CreateCnlsStep3"];
-			CreateCnlsCompleted = dict["CreateCnlsCompleted"];
+			ImportCnlsStep1 = dict["ImportCnlsStep1"];
+			ImportCnlsStep2 = dict["ImportCnlsStep2"];
+			ImportCnlsStep3 = dict["ImportCnlsStep3"];
+			ImportCnlsCompleted = dict["ImportCnlsCompleted"];
 
 			dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtImport.Forms.FrmCommLogs");
 			AppFilter = dict["AppFilter"];
