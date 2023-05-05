@@ -185,6 +185,15 @@ namespace Scada.Admin.App.Code
                 cnlsByDeviceNode.Tag = CreateBaseTableTag(configDatabase.CnlTable, CreateFilterByDevice(device));
                 cnlTableNode.Nodes.Add(cnlsByDeviceNode);
             }
+            foreach (Obj obj in configDatabase.ObjTable.EnumerateItems())
+            {
+
+                string nodeText = string.Format(CommonPhrases.EntityCaption, obj.ObjNum, obj.Name);
+                TreeNode cnlsByDeviceNode = TreeViewExtensions.CreateNode(nodeText, "folder_closed.png");
+                cnlsByDeviceNode.ContextMenuStrip = contextMenus.CnlTableMenu;
+                cnlsByDeviceNode.Tag = CreateBaseTableTag(configDatabase.CnlTable, CreateFilterByObject(obj));
+                cnlTableNode.Nodes.Add(cnlsByDeviceNode);
+            }
 
             TreeNode cnlsEmptyDeviceNode = TreeViewExtensions.CreateNode(AdminPhrases.EmptyDevice, "table.png");
             cnlsEmptyDeviceNode.ContextMenuStrip = contextMenus.CnlTableMenu;
@@ -281,6 +290,14 @@ namespace Scada.Admin.App.Code
                     Title = string.Format(AppPhrases.DeviceFilter, device.DeviceNum)
                 };
         }
+        private static TableFilter CreateFilterByObject(Obj obj)
+        {
+            return new TableFilter("ObjNum", obj.ObjNum)
+                {
+                    Title = string.Format("Object {0}", obj.ObjNum)
+                };
+
+        }
 
 
         /// <summary>
@@ -344,6 +361,7 @@ namespace Scada.Admin.App.Code
             instanceNode.Nodes.Add(CreateEmptyNode());
             return instanceNode;
         }
+
 
         /// <summary>
         /// Fills the channel table node, creating child nodes.
