@@ -41,6 +41,11 @@ namespace Scada.Report
         /// </summary>
         string TemplateDir { get; }
 
+        /// <summary>
+        /// Get the path to CSS files for HTML reports.
+        /// </summary>
+        string CssPath { get; }
+
 
         /// <summary>
         /// Converts a universal time (UTC) to the time in the report's time zone.

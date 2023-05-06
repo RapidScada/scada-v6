@@ -37,5 +37,10 @@ namespace Scada.Report
         /// Gets the directory of templates.
         /// </summary>
         public string TemplateDir { get; init; }
+
+        /// <summary>
+        /// Get the path to CSS files for HTML reports.
+        /// </summary>
+        public string CssPath { get; init; }
     }
 }
