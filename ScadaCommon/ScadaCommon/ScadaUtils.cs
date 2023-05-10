@@ -430,6 +430,23 @@ namespace Scada
         }
 
         /// <summary>
+        /// Gets the start date of the month for the specified timestamp.
+        /// </summary>
+        public static DateTime GetMonthStart(this DateTime dateTime)
+        {
+            return new DateTime(dateTime.Year, dateTime.Month, 1, 0, 0, 0, dateTime.Kind);
+        }
+
+        /// <summary>
+        /// Gets the end date of the month for the specified timestamp.
+        /// </summary>
+        public static DateTime GetMonthEnd(this DateTime dateTime)
+        {
+            return new DateTime(dateTime.Year, dateTime.Month, 
+                DateTime.DaysInMonth(dateTime.Year, dateTime.Month), 0, 0, 0, dateTime.Kind);
+        }
+
+        /// <summary>
         /// Returns the larger of two timestamps.
         /// </summary>
         public static DateTime Max(DateTime dateTime1, DateTime dateTime2)
