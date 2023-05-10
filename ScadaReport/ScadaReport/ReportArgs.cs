@@ -59,7 +59,8 @@ namespace Scada.Report
             {
                 throw new ScadaException(Locale.IsRussian ?
                     "Некорректный диапазон времени." :
-                    "Invalid time range.") { MessageIsPublic = true };
+                    "Invalid time range.")
+                { MessageIsPublic = true };
             }
         }
     }

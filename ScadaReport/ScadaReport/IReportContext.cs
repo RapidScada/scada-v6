@@ -65,7 +65,8 @@ namespace Scada.Report
             return ConfigDatabase.ArchiveTable.SelectFirst(new TableFilter("Code", archiveCode)) ??
                 throw new ScadaException(Locale.IsRussian ?
                     "Архив не найдён в базе конфигурации." :
-                    "Archive not found in the configuration database.");
+                    "Archive not found in the configuration database.")
+                { MessageIsPublic = true };
         }
 
         /// <summary>
