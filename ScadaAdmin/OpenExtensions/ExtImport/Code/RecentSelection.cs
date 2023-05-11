@@ -1,4 +1,4 @@
-namespace Scada.Admin.Extensions.ExtImport.Code
+﻿namespace Scada.Admin.Extensions.ExtImport.Code
 {
 	/// <summary>
 	/// Represents IDs of recently selected objects.

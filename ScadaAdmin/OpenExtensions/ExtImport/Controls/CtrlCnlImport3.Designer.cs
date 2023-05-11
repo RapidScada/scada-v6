@@ -1,21 +1,20 @@
-﻿using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
+﻿
+using System;
+
 
 namespace Scada.Admin.Extensions.ExtImport.Controls
 {
 	partial class CtrlCnlImport3
 	{
 		/// <summary> 
-		/// Variable nécessaire au concepteur.
+		/// Required designer variable.
 		/// </summary>
-		private IContainer components = null;
-		private Button btnSelectFile;
+		private System.ComponentModel.IContainer components = null;
 
 		/// <summary> 
-		/// Nettoyage des ressources utilisées.
+		/// Clean up any resources being used.
 		/// </summary>
-		/// <param name="disposing">true si les ressources managées doivent être supprimées ; sinon, false.</param>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing && (components != null))
@@ -25,38 +24,72 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			base.Dispose(disposing);
 		}
 
-		#region Code généré par le Concepteur de composants
+		#region Component Designer generated code
 
-		/// <summary> 
-		/// Méthode requise pour la prise en charge du concepteur - ne modifiez pas 
-		/// le contenu de cette méthode avec l'éditeur de code.
-		/// </summary>
 		private void InitializeComponent()
 		{
-			btnSelectFile = new Button();
-			openFileDialog = new OpenFileDialog();
+			btnImport = new Button();
+			lblImport = new Label();
+			txtPathFile = new TextBox();
 			SuspendLayout();
 			// 
-			// btnSelectFile
+			// btnImport
 			// 
-			btnSelectFile.Location = new Point(0, 0);
-			btnSelectFile.Name = "btnSelectFile";
-			btnSelectFile.Size = new Size(75, 23);
-			btnSelectFile.TabIndex = 0;
-			btnSelectFile.Click += BtnImport_Click;
+			btnImport.Anchor = AnchorStyles.None;
+			btnImport.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
+			btnImport.ForeColor = SystemColors.ActiveCaptionText;
+			btnImport.ImageAlign = ContentAlignment.TopCenter;
+			btnImport.Location = new Point(384, 115);
+			btnImport.Margin = new Padding(3, 4, 3, 4);
+			btnImport.Name = "btnImport";
+			btnImport.Size = new Size(40, 27);
+			btnImport.TabIndex = 0;
+			btnImport.Text = ". . .";
+			btnImport.UseVisualStyleBackColor = true;
+			btnImport.Click += btnImport_Click;
+			// 
+			// lblImport
+			// 
+			lblImport.Anchor = AnchorStyles.None;
+			lblImport.AutoSize = true;
+			lblImport.Location = new Point(42, 80);
+			lblImport.Name = "lblImport";
+			lblImport.Size = new Size(152, 20);
+			lblImport.TabIndex = 1;
+			lblImport.Text = "Selectionner le fichier";
+			lblImport.Click += label1_Click;
+			// 
+			// txtPathFile
+			// 
+			txtPathFile.Anchor = AnchorStyles.None;
+			txtPathFile.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+			txtPathFile.Location = new Point(42, 116);
+			txtPathFile.Margin = new Padding(5, 5, 3, 3);
+			txtPathFile.Name = "txtPathFile";
+			txtPathFile.ReadOnly = true;
+			txtPathFile.Size = new Size(336, 27);
+			txtPathFile.TabIndex = 2;
+			txtPathFile.TabStop = false;
+			txtPathFile.TextAlign = HorizontalAlignment.Center;
 			// 
 			// CtrlCnlImport3
 			// 
-			AutoScaleDimensions = new SizeF(7F, 15F);
+			AutoScaleDimensions = new SizeF(8F, 20F);
 			AutoScaleMode = AutoScaleMode.Font;
-			Margin = new Padding(3, 2, 3, 2);
+			Controls.Add(txtPathFile);
+			Controls.Add(lblImport);
+			Controls.Add(btnImport);
+			Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
 			Name = "CtrlCnlImport3";
-			Size = new Size(274, 151);
-			Load += CtrlCnlImport3_Load;
+			Size = new Size(475, 214);
 			ResumeLayout(false);
+			PerformLayout();
 		}
 
 		#endregion
+
+		private System.Windows.Forms.Button btnImport;
+		private Label lblImport;
+		private TextBox txtPathFile;
 	}
 }
-

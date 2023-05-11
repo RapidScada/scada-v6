@@ -1,87 +1,240 @@
-﻿using Scada.Admin.Extensions.ExtImport.Code;
+﻿using Scada.Admin.Config;
 using Scada.Admin.Project;
-using Scada.Data.Entities;
+using Scada.Forms;
 using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 using System.Windows.Forms;
+using System.ComponentModel;
 
 namespace Scada.Admin.Extensions.ExtImport.Controls
 {
-	public partial class CtrlCnlImport3 : UserControl
+	public partial class CtrlCnlImport3 : UserControl, INotifyPropertyChanged
 	{
 		private IAdminContext adminContext; // the Administrator context
 		private ScadaProject project;       // the project under development
-		private OpenFileDialog openFileDialog;
-		private CtrlCnlImport4 ctrlCnlImport4;
+		public CtrlCnlImport4 ctrlCnlImport4 { get; set; }
+		private System.Windows.Forms.OpenFileDialog openFileDialog1;
+		public Dictionary<string, List<string>> _dictio = new Dictionary<string, List<string>>();
 
-		public CtrlCnlImport3()
+		private string _mnemonique;
+		private string _adress;
+		private string _type;
+		private string _comment;
+		
+		//public bool FileSelected { get; set; } = false;
+        
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public CtrlCnlImport3()
 		{
 			InitializeComponent();
-
-			ctrlCnlImport4 = new CtrlCnlImport4
-			{
-				Dock = DockStyle.Fill,
-				Visible = false // masquer le contrôle au début
-			};
-			Controls.Add(btnSelectFile);
-
-			Controls.Add(ctrlCnlImport4);
 		}
 
+		/// <summary>
+		/// Initializes the control.
+		/// </summary>
 		public void Init(IAdminContext adminContext, ScadaProject project)
 		{
 			this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
 			this.project = project ?? throw new ArgumentNullException(nameof(project));
+			openFileDialog1 = new OpenFileDialog();
+
 		}
 
-		private void BtnImport_Click(object sender, EventArgs e)
+		/// <summary>
+		/// Sets the input focus.
+		/// </summary>
+		public void SetFocus()
 		{
-			if (openFileDialog.ShowDialog() == DialogResult.OK)
+			// set focus to a specific control, ( a Button)
+		}
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		private bool _fileSelected = false;
+		public bool FileSelected
+		{
+			get { return _fileSelected; }
+			set
 			{
-				string fileName = openFileDialog.FileName;
-				ImportChannels(fileName);
-				UpdateControlVisibility(true); // rendre le contrôle visible après l'importation du fichier
+				if (_fileSelected != value)
+				{
+					_fileSelected = value;
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileSelected)));
+				}
 			}
 		}
-		private void UpdateControlVisibility(bool fileSelected)
+		/// <summary>
+		/// Imports channels based on user input.
+		/// </summary>
+		public void ImportChannels()
 		{
-			ctrlCnlImport4.Visible = fileSelected;
+			// Implement the import functionality based on user input
+			// You may need to access controls in the designer file
 		}
-		private void ImportChannels(string fileName)
+		public void ImportProject() { }
+
+		private void btnImport_Click(object sender, EventArgs e)
 		{
-			if (File.Exists(fileName))
+			OpenFileDialog openFileDialog = new OpenFileDialog();
+			openFileDialog.Filter = "Fichiers texte (*.txt)|*.txt|Fichiers SCY (*.scy)|*.scy";
+
+			if (openFileDialog.ShowDialog() == DialogResult.OK)
 			{
-				// Read the file and add the data to the DataGridView in ctrlCnlImport4
-				using (StreamReader reader = new StreamReader(fileName))
+				//FileSelected = true;
+				string fileSelected = openFileDialog.FileName;
+				
+				txtPathFile.Text = fileSelected;
+				
+				readFile(fileSelected);
+			}
+
+		}
+		private void readFile(string fileName)
+		{
+			using (StreamReader sr = new StreamReader(fileName))
+			{
+				if (Path.GetExtension(fileName) == ".txt" || Path.GetExtension(fileName) == ".TXT")
 				{
-					string line;
+					int count = 0;
+					bool isPL7 = false;
 
-					while ((line = reader.ReadLine()) != null)
+					while (!sr.EndOfStream)
 					{
-						// Parse the line to get the old and new data (adapt this to your specific data format)
-						string[] columns = line.Split(';');
-						string oldData = columns[0];
-						string newData = columns[1];
+						if (count == 0)
+						{
+							string firstLine = sr.ReadLine();
+							if (firstLine.StartsWith("%")) isPL7 = true;
 
-						// Add the data to the DataGridView
-						//ctrlCnlImport4.dataGridView.Rows.Add(newData, oldData, false);
+							if (isPL7) readTxtPL7(firstLine);
+
+							else readTxtControlExpert(firstLine);
+							count++;
+						}
+
+						string line = sr.ReadLine();
+
+						if (isPL7) readTxtPL7(line);
+
+						else readTxtControlExpert(line);
 					}
 				}
 
-				MessageBox.Show($"Importing channels from {fileName}");
-			}
-			else
-			{
-				MessageBox.Show($"File not found: {fileName}");
+				if (Path.GetExtension(fileName) == ".SCY")
+				{
+					while (!sr.EndOfStream)
+					{
+						string line = sr.ReadLine();
+						readSCYPL7(line);
+					}
+				}
 			}
 		}
 
-		private void CtrlCnlImport3_Load(object sender, EventArgs e)
+		private void readTxtPL7(string l)
+		{
+			string[] columns = l.Split('\t');
+
+			_mnemonique = columns[1];
+			_adress = columns[0];
+			setFormatType(columns[2]);
+			_comment = columns[3];
+
+			//add in dictionary
+
+			List<string> list = new List<string>();
+			list.Add(_mnemonique);
+			list.Add(_type);
+			list.Add(_comment);
+
+			_dictio.Add(_adress, list);
+		}
+
+		private void readTxtControlExpert(string l)
+		{
+			string[] colums = l.Split("\t");
+
+			bool isAVar = true;
+
+			foreach (string colum in colums)
+			{
+				if (String.IsNullOrEmpty(colum) && colums[4] != colum)
+				{
+					isAVar = false;
+				}
+			}
+
+			if (isAVar)
+			{
+				_mnemonique = colums[0];
+				_adress = colums[1];
+				setFormatType(colums[2]);
+				_comment = colums[3];
+
+				//add in dictionary
+
+				List<string> list = new List<string>();
+				list.Add(_mnemonique);
+				list.Add(_type);
+				list.Add(_comment);
+
+				if (!_dictio.ContainsKey(_adress))
+					_dictio.Add(_adress, list);
+			}
+		}
+
+		private void readSCYPL7(string l)
+		{
+			string[] splitInTwo = l.Split(" AT ");
+
+			if (splitInTwo.Length >= 2)
+			{
+				_mnemonique = splitInTwo[0];
+
+				string[] splitAdress = splitInTwo[1].Split(" : ");
+				_adress = splitAdress[0];
+
+				string[] splitType = splitAdress[1].Split(" (*");
+				_type = splitType[0];
+
+				string[] splitComment = splitType[1].Split('*');
+				_comment = splitComment[0];
+
+				//add in dictionary
+
+				List<string> list = new List<string>();
+				list.Add(_mnemonique);
+				list.Add(_type);
+				list.Add(_comment);
+
+				_dictio.Add(_adress, list);
+				Console.WriteLine(_dictio.Count);
+			}
+		}
+
+		private void setFormatType(string type)
+		{
+			switch (type)
+			{
+				case "DWORD":
+					_type = "DINT";
+					break;
+				case "WORD":
+					_type = "INT";
+					break;
+				default:
+					break;
+			}
+		}
+
+		private void label1_Click(object sender, EventArgs e)
 		{
 
 		}
 	}
+
+
 }
+

@@ -1,5 +1,4 @@
-﻿
-using Scada.Admin.Extensions.ExtImport.Code;
+﻿using Scada.Admin.Extensions.ExtImport.Code;
 using Scada.Admin.Project;
 using Scada.Data.Entities;
 using System;

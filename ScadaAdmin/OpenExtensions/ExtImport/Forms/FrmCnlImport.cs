@@ -1,35 +1,33 @@
-﻿using Scada.Admin.Extensions.ExtImport.Code;
+﻿using Scada.Admin.Config;
+using Scada.Admin.Extensions.ExtImport.Code;
+using Scada.Admin.Extensions.ExtImport.Controls;
 using Scada.Admin.Project;
 using Scada.Comm.Devices;
 using Scada.Data.Entities;
+using Scada.Data.Models;
+using Scada.Data.Tables;
 using Scada.Forms;
+using Scada.Lang;
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
-
+using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions.ExtImport.Forms
 {
 	public partial class FrmCnlImport : Form
 	{
-		/// <summary>
-		/// Represents a form for Import channels.
-		/// </summary>
-		private readonly IAdminContext adminContext;      // the Administrator context
-		private readonly ScadaProject project;            // the project under development
-		private readonly RecentSelection recentSelection; // the recently selected objects
+		private readonly IAdminContext adminContext;
+		private readonly ScadaProject project;
+		private readonly RecentSelection recentSelection;
 		private int step;
-		public FrmCnlImport()
+
+		private FrmCnlImport()
 		{
 			InitializeComponent();
+			CtrlCnlImport3.PropertyChanged += CtrlCnlImport3_PropertyChanged;
 		}
 
-
-
-		/// <summary>
-		/// Initializes a new instance of the class.
-		/// </summary>
 		public FrmCnlImport(IAdminContext adminContext, ScadaProject project, RecentSelection recentSelection)
 			: this()
 		{
@@ -39,10 +37,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			step = 1;
 		}
 
-
-		/// <summary>
-		/// Applies the wizard step.
-		/// </summary>
+		
 		private void ApplyStep(int offset)
 		{
 			step += offset;
@@ -52,10 +47,9 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			else if (step > 3)
 				step = 3;
 
-			ctrlCnlImport1.Visible = false;
-			ctrlCnlImport2.Visible = false;
-			ctrlCnlImport3.Visible = false;
-			chkPreview.Visible = false;
+			CtrlCnlImport1.Visible = false;
+			CtrlCnlImport2.Visible = false;
+			CtrlCnlImport3.Visible = false;
 			btnBack.Visible = false;
 			btnNext.Visible = false;
 			btnCreate.Visible = false;
@@ -63,76 +57,115 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			switch (step)
 			{
 				case 1:
-					lblStep.Text = ExtensionPhrases.CreateCnlsStep1;
-					ctrlCnlImport1.Visible = true;
+					lblStep.Text = ExtensionPhrases.ImportCnlsStep1 ?? "Import Cnls Step1";
+					CtrlCnlImport1.Visible = true;
 					btnNext.Visible = true;
 
-					ctrlCnlImport1.SetFocus();
-					btnNext.Enabled = ctrlCnlImport1.StatusOK;
+					CtrlCnlImport1.SetFocus();
+					btnNext.Enabled = CtrlCnlImport1.StatusOK;
 					break;
 				case 2:
-					lblStep.Text = ExtensionPhrases.CreateCnlsStep2;
-					ctrlCnlImport2.Visible = true;
+					lblStep.Text = ExtensionPhrases.ImportCnlsStep2 ?? "Import Cnls Step2";
+					CtrlCnlImport2.Visible = true;
 					btnBack.Visible = true;
 					btnNext.Visible = true;
 
-					ctrlCnlImport2.DeviceName = ctrlCnlImport1.SelectedDevice?.Name;
-					ctrlCnlImport2.SetFocus();
+					CtrlCnlImport2.DeviceName = CtrlCnlImport1.SelectedDevice?.Name;
+					CtrlCnlImport2.SetFocus();
+					
 					break;
 				case 3:
-					lblStep.Text = ExtensionPhrases.CreateCnlsStep3;
-					ctrlCnlImport3.Visible = true;
-					chkPreview.Visible = true;
-					btnBack.Visible = true;
+					lblStep.Text = ExtensionPhrases.ImportCnlsStep3 ?? "Import Cnls Step3";
+					CtrlCnlImport3.Visible = true;
 					btnCreate.Visible = true;
-
-					if (ctrlCnlImport1.StatusOK)
-					{
-						// ctrlCnlImport3.ResetCnlNums(ctrlCnlImport1.CnlPrototypes.Count);
-						btnCreate.Enabled = true;
-					}
-					else
-					{
-						btnCreate.Enabled = false;
-					}
-
+					btnCreate.Enabled = true;//CtrlCnlImport3.FileSelected;
+					btnBack.Visible = true;
+					
 					// ctrlCnlImport3.DeviceName = ctrlCnlImport1.SelectedDevice?.Name;
 					// ctrlCnlImport3.SetFocus();
 					break;
 			}
 		}
-
-		/// <summary>
-		/// Creates channels based on the channel prototypes with parameters from file.
-		/// </summary>
-		//private List<Cnl> CreateChannels()
-		//{ 
-		//}
-
-		/// <summary>
-		/// Adds the specified channels into the configuration database.
-		/// </summary>
-		private void AddChannels(List<Cnl> cnls, bool silent)
+		private List<Cnl> CreateChannels()
 		{
+			List<Cnl> cnls = new();
+			//int cnlNum = CtrlCnlImport3.StartCnlNum;
+			string namePrefix = adminContext.AppConfig.ChannelNumberingOptions.PrependDeviceName ?
+				CtrlCnlImport1.SelectedDevice.Name + " - " : "";
+			int? objNum = CtrlCnlImport2.ObjNum;
+			int deviceNum = CtrlCnlImport1.SelectedDevice.DeviceNum;
+
+			foreach (CnlPrototype cnlPrototype in CtrlCnlImport1.CnlPrototypes)
+			{
+				cnls.Add(new Cnl
+				{
+					//CnlNum = cnlNum,
+					Active = cnlPrototype.Active,
+					Name = namePrefix + cnlPrototype.Name,
+					DataTypeID = cnlPrototype.DataTypeID,
+					DataLen = cnlPrototype.DataLen,
+					CnlTypeID = cnlPrototype.CnlTypeID,
+					ObjNum = objNum,
+					DeviceNum = deviceNum,
+					TagNum = cnlPrototype.TagNum,
+					TagCode = cnlPrototype.TagCode,
+					FormulaEnabled = cnlPrototype.FormulaEnabled,
+					InFormula = cnlPrototype.InFormula,
+					OutFormula = cnlPrototype.OutFormula,
+					FormatID = project.ConfigDatabase.GetFormatByCode(cnlPrototype.FormatCode)?.FormatID,
+					QuantityID = project.ConfigDatabase.GetQuantityByCode(cnlPrototype.QuantityCode)?.QuantityID,
+					UnitID = project.ConfigDatabase.GetUnitByCode(cnlPrototype.UnitCode)?.UnitID,
+					LimID = null,
+					ArchiveMask = cnlPrototype.ArchiveMask,
+					EventMask = cnlPrototype.EventMask
+				});
+
+				int dataLength = cnlPrototype.GetDataLength();
+				//if (cnlNum > ConfigDatabase.MaxID - dataLength)
+				//	break;
+				//cnlNum += dataLength;
+			}
+
+			return cnls;
 		}
 
-		private void FrmCnlImport_Load(object sender, EventArgs e)
+		//private void AddChannels(List<Cnl> cnls, bool silent)
+		private void AddChannels(List<Cnl> cnls)
+		{
+			if (cnls.Count > 0)
+			{
+				cnls.ForEach(cnl => project.ConfigDatabase.CnlTable.AddItem(cnl));
+				project.ConfigDatabase.CnlTable.Modified = true;
+			}
+
+			//if (!silent)
+			//	ScadaUiUtils.ShowInfo(ExtensionPhrases.ImportCnlsCompleted, cnls.Count);
+		}
+
+		private void FrmCnlCreate_Load(object sender, EventArgs e)
 		{
 			FormTranslator.Translate(this, GetType().FullName);
-			FormTranslator.Translate(ctrlCnlImport1, ctrlCnlImport1.GetType().FullName);
-			FormTranslator.Translate(ctrlCnlImport2, ctrlCnlImport2.GetType().FullName);
-			FormTranslator.Translate(ctrlCnlImport3, ctrlCnlImport3.GetType().FullName);
-
-			ctrlCnlImport1.Init(adminContext, project, recentSelection);
-			ctrlCnlImport2.Init(project, recentSelection);
-			ctrlCnlImport3.Init(adminContext, project);
+			FormTranslator.Translate(CtrlCnlImport1, CtrlCnlImport1.GetType().FullName);
+			FormTranslator.Translate(CtrlCnlImport2, CtrlCnlImport2.GetType().FullName);
+			FormTranslator.Translate(CtrlCnlImport3, CtrlCnlImport3.GetType().FullName);
+		
+			CtrlCnlImport1.Init(adminContext, project, recentSelection);
+			CtrlCnlImport2.Init(project, recentSelection);
+			CtrlCnlImport3.Init(adminContext, project);
+			
 			ApplyStep(0);
 		}
-
-		private void ctrlCnlImport1_SelectedDeviceChanged(object sender, EventArgs e)
+		private void CtrlCnlImport3_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(CtrlCnlImport3.FileSelected))
+			{
+				btnCreate.Enabled = CtrlCnlImport3.FileSelected;
+			}
+		}
+		private void ctrlCnlCreate1_SelectedDeviceChanged(object sender, EventArgs e)
 		{
 			if (step == 1)
-				btnNext.Enabled = ctrlCnlImport1.StatusOK;
+				btnNext.Enabled = CtrlCnlImport1.StatusOK;
 		}
 
 		private void btnBack_Click(object sender, EventArgs e)
@@ -140,6 +173,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			ApplyStep(-1);
 		}
 
+	
 		private void btnNext_Click(object sender, EventArgs e)
 		{
 			ApplyStep(1);
@@ -147,22 +181,20 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 
 		private void btnCreate_Click(object sender, EventArgs e)
 		{
-			if (ctrlCnlImport1.StatusOK)
+			if (CtrlCnlImport1.StatusOK)
 			{
-				//List<Cnl> cnls = CreateChannels();
+				List<Cnl> cnls = CreateChannels();
 
-				if (!chkPreview.Checked)
-				//||new FrmCnlPreview(cnls).ShowDialog() == DialogResult.OK)
+				if (new FrmCnlMerge(cnls, CtrlCnlImport3._dictio).ShowDialog() == DialogResult.OK)
+				//new FrmCnlMerge().ShowDialog() == DialogResult.OK)
 				{
 					//AddChannels(cnls, chkPreview.Checked);
+					AddChannels(cnls);
 					DialogResult = DialogResult.OK;
 				}
 			}
 		}
-
-		private void ctrlCnlImport3_Load(object sender, EventArgs e)
-		{
-
-		}
 	}
 }
+
+
