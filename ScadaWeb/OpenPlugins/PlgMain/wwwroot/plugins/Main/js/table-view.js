@@ -29,7 +29,7 @@ const START_TIME_KEY = "TableView.StartTime";
 const END_TIME_KEY = "TableView.EndTime";
 const DEFAULT_CELL_COLOR = "Black";
 const NEXT_TIME_SYMBOL = "*";
-const UPDATE_HIST_DATA_OFFSET = 500; //ms
+const UPDATE_HIST_DATA_OFFSET = 500; // ms
 
 var localDate = "";
 var timeRange = null;
