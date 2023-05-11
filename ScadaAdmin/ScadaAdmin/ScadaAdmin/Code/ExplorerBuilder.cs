@@ -26,6 +26,7 @@
 using Scada.Admin.App.Forms.Tables;
 using Scada.Admin.Lang;
 using Scada.Admin.Project;
+using Scada.Config;
 using Scada.Data.Entities;
 using Scada.Data.Tables;
 using Scada.Forms;
@@ -112,6 +113,7 @@ namespace Scada.Admin.App.Code
             cnlTableNode.ContextMenuStrip = contextMenus.CnlTableMenu;
             primaryNode.Nodes.Add(cnlTableNode);
             FillCnlTableNodeInternal(cnlTableNode, configDatabase);
+            FillCnlTableNodesByObjects(cnlTableNode, configDatabase);
 
             primaryNode.Nodes.Add(CreateBaseTableNode(configDatabase.LimTable));
             primaryNode.Nodes.Add(CreateBaseTableNode(configDatabase.ViewTable));
@@ -184,21 +186,72 @@ namespace Scada.Admin.App.Code
                 cnlsByDeviceNode.ContextMenuStrip = contextMenus.CnlTableMenu;
                 cnlsByDeviceNode.Tag = CreateBaseTableTag(configDatabase.CnlTable, CreateFilterByDevice(device));
                 cnlTableNode.Nodes.Add(cnlsByDeviceNode);
-            }
-            foreach (Obj obj in configDatabase.ObjTable.EnumerateItems())
-            {
 
-                string nodeText = string.Format(CommonPhrases.EntityCaption, obj.ObjNum, obj.Name);
-                TreeNode cnlsByDeviceNode = TreeViewExtensions.CreateNode(nodeText, "folder_closed.png");
-                cnlsByDeviceNode.ContextMenuStrip = contextMenus.CnlTableMenu;
-                cnlsByDeviceNode.Tag = CreateBaseTableTag(configDatabase.CnlTable, CreateFilterByObject(obj));
-                cnlTableNode.Nodes.Add(cnlsByDeviceNode);
             }
 
             TreeNode cnlsEmptyDeviceNode = TreeViewExtensions.CreateNode(AdminPhrases.EmptyDevice, "table.png");
             cnlsEmptyDeviceNode.ContextMenuStrip = contextMenus.CnlTableMenu;
             cnlsEmptyDeviceNode.Tag = CreateBaseTableTag(configDatabase.CnlTable, CreateFilterByDevice(null));
             cnlTableNode.Nodes.Add(cnlsEmptyDeviceNode);
+        }
+
+        private void FillCnlTableNodesByObjects(TreeNode CnlTable, ConfigDatabase configDatabase)
+        {
+            TreeNode folderNode = TreeViewExtensions.CreateNode("Channels by objects", "folder_closed.png");
+            Dictionary<int, TreeNode> nodeList = new Dictionary<int, TreeNode>();
+
+            foreach(Obj obj in configDatabase.ObjTable.Enumerate().Where(x => x.ParentObjNum == null))
+            {
+                TreeNode cnlsByObjectNode = addNode(configDatabase, obj);
+                folderNode.Nodes.Add(cnlsByObjectNode);
+            }
+
+            CnlTable.Nodes.Add(folderNode);
+
+        }
+
+        private bool HasParentChildLoopInObjects(ConfigDatabase configDatabase)
+        {
+            List<int> objNums = new List<int>();
+            if (configDatabase.ObjTable.Enumerate().Count() == 0) return false;
+            if (configDatabase.ObjTable.Enumerate().Where(x => x.ParentObjNum == null).Count() == 0) return true;
+            foreach (Obj item in configDatabase.ObjTable.Enumerate())
+            {
+                
+            }
+
+            return false;
+        }
+        private bool CildrenNodeAlreadyChecked(Obj obj,List<int> objNums, ConfigDatabase configDatabase)
+        {
+
+            return false;
+        }
+
+        private TreeNode addNode(ConfigDatabase configDatabase, Obj obj)
+        {
+            
+            string nodeText = string.Format(CommonPhrases.EntityCaption, obj.ObjNum, obj.Name);
+            TreeNode cnlsByObjectNode = TreeViewExtensions.CreateNode(nodeText, "folder_closed.png");
+            cnlsByObjectNode.ContextMenuStrip = contextMenus.CnlTableMenu;
+            cnlsByObjectNode.Tag = CreateBaseTableTag(configDatabase.CnlTable, CreateFilterByObject(obj));
+            if (hasChildrenObjects(obj, configDatabase))
+            {
+                foreach (Obj item in configDatabase.ObjTable.Enumerate().Where(x=>x.ParentObjNum==obj.ObjNum))
+                {
+                    cnlsByObjectNode.Nodes.Add(addNode(configDatabase, item));
+                }
+            }
+            return cnlsByObjectNode;
+        }
+
+        private bool hasChildrenObjects (Obj obj, ConfigDatabase configDatabase)
+        {
+            foreach (Obj items in configDatabase.ObjTable.Enumerate())
+            {
+                if (items.ParentObjNum == obj.ObjNum) return true;
+            }
+            return false;
         }
 
         /// <summary>
@@ -292,10 +345,14 @@ namespace Scada.Admin.App.Code
         }
         private static TableFilter CreateFilterByObject(Obj obj)
         {
-            return new TableFilter("ObjNum", obj.ObjNum)
-                {
-                    Title = string.Format("Object {0}", obj.ObjNum)
-                };
+            TableFilter res = new TableFilter("ObjNum", obj.ObjNum)
+            {
+                Title = string.Format("Object {0}", obj.ObjNum)
+            };
+
+            
+
+            return res;
 
         }
 
@@ -373,6 +430,7 @@ namespace Scada.Admin.App.Code
                 treeView.BeginUpdate();
                 cnlTableNode.Nodes.Clear();
                 FillCnlTableNodeInternal(cnlTableNode, configDatabase);
+                FillCnlTableNodesByObjects(cnlTableNode, configDatabase);
             }
             finally
             {

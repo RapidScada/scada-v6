@@ -31,10 +31,12 @@ using Scada.Forms;
 using Scada.Forms.Forms;
 using Scada.Lang;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using WinControl;
 
@@ -102,6 +104,28 @@ namespace Scada.Admin.App.Forms.Tables
             frmFilter = null;
 
             Text = baseTable.Title + (tableFilter == null ? "" : " - " + tableFilter);
+            btnChangeObject.Visible = true;
+
+            Obj[] objs = project.ConfigDatabase.ObjTable.Enumerate().ToArray();
+
+            foreach (Obj item in objs)
+            {
+                cmsChangeObject.Items.Add(new ToolStripMenuItem()
+                {
+                    Name = "btnObj"+item.Name,
+                    Text = item.Name,
+                });            
+            }
+
+
+            miComboBoxObject.Items.AddRange(objs);
+            miComboBoxObject.Visible = false;
+
+            if (baseTable.Name != "Cnl")
+            {
+                btnChangeObject.Visible = false;
+
+            }
         }
 
 
@@ -749,7 +773,7 @@ namespace Scada.Admin.App.Forms.Tables
 
         private void FrmBaseTable_Load(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this, GetType().FullName, 
+            FormTranslator.Translate(this, GetType().FullName,
                 new FormTranslatorOptions { ContextMenus = new ContextMenuStrip[] { cmsTable } });
 
             if (lblCount.Text.Contains("{0}"))
@@ -812,7 +836,7 @@ namespace Scada.Admin.App.Forms.Tables
         {
             int colInd = e.ColumnIndex;
 
-            if (0 <= colInd && colInd < dataGridView.ColumnCount && 
+            if (0 <= colInd && colInd < dataGridView.ColumnCount &&
                 dataGridView.Columns[colInd].Tag is ColumnOptions options)
             {
                 if (e.Value is string valStr && valStr != "")
@@ -1062,7 +1086,7 @@ namespace Scada.Admin.App.Forms.Tables
         {
             if (MessageBox.Show(
                     dataGridView.SelectedRows.Count > 1 ? AppPhrases.DeleteRowsConfirm : AppPhrases.DeleteRowConfirm,
-                    CommonPhrases.QuestionCaption, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) == 
+                    CommonPhrases.QuestionCaption, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) ==
                     DialogResult.Yes)
             {
                 DeleteSelectedRows();
@@ -1116,8 +1140,8 @@ namespace Scada.Admin.App.Forms.Tables
 
             if (frmFilter.ShowDialog() == DialogResult.OK)
             {
-                btnFilter.Image = frmFilter.FilterIsEmpty ? 
-                    Properties.Resources.filter : 
+                btnFilter.Image = frmFilter.FilterIsEmpty ?
+                    Properties.Resources.filter :
                     Properties.Resources.filter_set;
             }
         }
@@ -1130,6 +1154,10 @@ namespace Scada.Admin.App.Forms.Tables
         private void btnProperties_Click(object sender, EventArgs e)
         {
             ShowPropertiesForm();
+        }
+        private void btnChangeObject_Click(object sender, EventArgs e)
+        {
+            cmsChangeObject.Show(new Point(MousePosition.X, MousePosition.Y));
         }
     }
 }
