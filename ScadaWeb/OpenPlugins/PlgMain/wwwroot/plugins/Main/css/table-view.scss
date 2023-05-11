@@ -1,5 +1,6 @@
 ﻿@import '_table-common';
 
+$item-hdr-color: $gray-700;
 $cmd-btn-color: #a00;
 $cmd-btn-hover-color: red;
 
@@ -28,6 +29,11 @@ $cmd-btn-hover-color: red;
         }
     }
 
+    .item-hdr {
+        color: $item-hdr-color;
+        font-weight: 600;
+    }
+
     .item-icon {
         width: 16px;
         min-width: 16px;
@@ -41,11 +47,11 @@ $cmd-btn-hover-color: red;
     }
 
     .item-text {
+        color: $link-fore-color;
         padding: 0 5px;
     }
 
     .item-link {
-        color: $link-fore-color;
         cursor: pointer;
     }
 
