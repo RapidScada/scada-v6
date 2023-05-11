@@ -199,7 +199,10 @@ namespace Scada.Admin.App.Code
         {
             TreeNode folderNode = TreeViewExtensions.CreateNode("Channels by objects", "folder_closed.png");
             Dictionary<int, TreeNode> nodeList = new Dictionary<int, TreeNode>();
-
+            if (HasParentChildLoopInObjects(configDatabase))
+            {
+                return;
+            }
             foreach(Obj obj in configDatabase.ObjTable.Enumerate().Where(x => x.ParentObjNum == null))
             {
                 TreeNode cnlsByObjectNode = addNode(configDatabase, obj);
@@ -215,15 +218,28 @@ namespace Scada.Admin.App.Code
             List<int> objNums = new List<int>();
             if (configDatabase.ObjTable.Enumerate().Count() == 0) return false;
             if (configDatabase.ObjTable.Enumerate().Where(x => x.ParentObjNum == null).Count() == 0) return true;
-            foreach (Obj item in configDatabase.ObjTable.Enumerate())
-            {
-                
+            while(objNums.Count != configDatabase.ObjTable.Count()){
+                Obj obj = configDatabase.ObjTable.Enumerate().Where(x => !objNums.Contains(x.ObjNum)).FirstOrDefault();
+                if (ChildrenNodeAlreadyChecked(obj, objNums, configDatabase))
+                {
+                    MessageBox.Show("The following object may be part of an infinite loop: "+obj.Name, "error");
+
+                    return true;
+                }
             }
 
             return false;
         }
-        private bool CildrenNodeAlreadyChecked(Obj obj,List<int> objNums, ConfigDatabase configDatabase)
+        private bool ChildrenNodeAlreadyChecked(Obj obj,List<int> objNums, ConfigDatabase configDatabase)
         {
+
+            if (obj == null) return false;
+            objNums.Add(obj.ObjNum);
+            foreach (Obj item in configDatabase.ObjTable.Enumerate().Where(x=>x.ParentObjNum == obj.ObjNum))
+            {
+                if (objNums.Contains(item.ObjNum)) return true;
+                return ChildrenNodeAlreadyChecked(item,objNums, configDatabase);
+            }
 
             return false;
         }
