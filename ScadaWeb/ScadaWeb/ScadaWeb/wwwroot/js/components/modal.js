@@ -221,15 +221,23 @@ class ModalManager {
         // bind events to the modal
         modalElem
             .on('shown.bs.modal', function () {
-                // update the modal height
                 let frameWnd = ModalManager._getModalWnd(modalElem);
-                if (ScadaUtils.checkAccessToFrame(frameWnd, true) && !options.height) {
+                let frameAccessible = ScadaUtils.checkAccessToFrame(frameWnd, true);
+
+                // update the modal height
+                if (frameAccessible && !options.height) {
                     // html height can be greater than body height because of element margins
                     modalFrame.css("height", frameWnd.$("html").height());
                 }
 
+                // set input focus
+                let autofocusElem = frameAccessible
+                    ? frameWnd.$(frameWnd.document).find("[autofocus]").add(modalFrame).first()
+                    : modalFrame;
+                autofocusElem.trigger("focus");
+
+                // remove overlay to allow user activity
                 tempOverlay.remove();
-                modalFrame.focus();
             })
             .on('hidden.bs.modal', function () {
                 let callback = $(this).data("rs-callback");
