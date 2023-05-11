@@ -213,6 +213,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			ClientSize = new Size(1246, 502);
+			CancelButton = btnCancel;
 			Controls.Add(btnCancel);
 			Controls.Add(btnAdd);
 			Controls.Add(dataGridView1);

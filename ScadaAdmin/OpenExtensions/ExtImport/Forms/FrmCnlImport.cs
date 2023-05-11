@@ -10,6 +10,7 @@ using Scada.Forms;
 using Scada.Lang;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions.ExtImport.Forms
@@ -24,6 +25,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 		private FrmCnlImport()
 		{
 			InitializeComponent();
+			CtrlCnlImport3.PropertyChanged += CtrlCnlImport3_PropertyChanged;
 		}
 
 		public FrmCnlImport(IAdminContext adminContext, ScadaProject project, RecentSelection recentSelection)
@@ -76,7 +78,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 					lblStep.Text = ExtensionPhrases.ImportCnlsStep3 ?? "Import Cnls Step3";
 					CtrlCnlImport3.Visible = true;
 					btnCreate.Visible = true;
-					//btnCreate.Enabled = CtrlCnlImport3.FileSelected;
+					btnCreate.Enabled = true;//CtrlCnlImport3.FileSelected;
 					btnBack.Visible = true;
 					
 					// ctrlCnlImport3.DeviceName = ctrlCnlImport1.SelectedDevice?.Name;
@@ -153,7 +155,13 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			
 			ApplyStep(0);
 		}
-
+		private void CtrlCnlImport3_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(CtrlCnlImport3.FileSelected))
+			{
+				btnCreate.Enabled = CtrlCnlImport3.FileSelected;
+			}
+		}
 		private void ctrlCnlCreate1_SelectedDeviceChanged(object sender, EventArgs e)
 		{
 			if (step == 1)

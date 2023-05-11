@@ -5,10 +5,11 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.ComponentModel;
 
 namespace Scada.Admin.Extensions.ExtImport.Controls
 {
-	public partial class CtrlCnlImport3 : UserControl
+	public partial class CtrlCnlImport3 : UserControl, INotifyPropertyChanged
 	{
 		private IAdminContext adminContext; // the Administrator context
 		private ScadaProject project;       // the project under development
@@ -21,7 +22,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 		private string _type;
 		private string _comment;
 		
-		public bool FileSelected { get; set; } = false;
+		//public bool FileSelected { get; set; } = false;
         
 
         /// <summary>
@@ -50,7 +51,21 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 		{
 			// set focus to a specific control, ( a Button)
 		}
+		public event PropertyChangedEventHandler PropertyChanged;
 
+		private bool _fileSelected = false;
+		public bool FileSelected
+		{
+			get { return _fileSelected; }
+			set
+			{
+				if (_fileSelected != value)
+				{
+					_fileSelected = value;
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileSelected)));
+				}
+			}
+		}
 		/// <summary>
 		/// Imports channels based on user input.
 		/// </summary>
@@ -68,7 +83,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 
 			if (openFileDialog.ShowDialog() == DialogResult.OK)
 			{
-				FileSelected = true;
+				//FileSelected = true;
 				string fileSelected = openFileDialog.FileName;
 				
 				txtPathFile.Text = fileSelected;
