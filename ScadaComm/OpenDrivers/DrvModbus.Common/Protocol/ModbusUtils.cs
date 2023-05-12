@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Globalization;
+
 namespace Scada.Comm.Drivers.DrvModbus.Protocol
 {
     /// <summary>
@@ -183,7 +185,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         }
 
         /// <summary>
-        /// Parses a byte order array from the string notation like '01234567'.
+        /// Parses a byte order array from the string notation like '0123456789ABCDEF'.
         /// </summary>
         public static int[] ParseByteOrder(string byteOrderStr)
         {
@@ -198,7 +200,8 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
 
                 for (int i = 0; i < len; i++)
                 {
-                    byteOrder[i] = int.TryParse(byteOrderStr[i].ToString(), out int n) ? n : 0;
+                    byteOrder[i] = int.TryParse(byteOrderStr[i].ToString(),
+                        NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int n) ? n : 0;
                 }
 
                 return byteOrder;
