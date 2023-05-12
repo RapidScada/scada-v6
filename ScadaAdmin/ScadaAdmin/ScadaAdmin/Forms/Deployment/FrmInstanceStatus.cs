@@ -31,7 +31,6 @@ using Scada.Agent.Client;
 using Scada.Forms;
 using Scada.Lang;
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -81,6 +80,11 @@ namespace Scada.Admin.App.Forms.Deployment
             ConnectionModified = false;
         }
 
+
+        /// <summary>
+        /// Gets a value indicating whether the form is available to a user.
+        /// </summary>
+        private bool FormAvailable => Visible && !IsDisposed;
 
         /// <summary>
         /// Gets a value indicating whether the selected profile changed.
@@ -183,27 +187,31 @@ namespace Scada.Admin.App.Forms.Deployment
         /// <summary>
         /// Sends the command to the service.
         /// </summary>
-        private static void ControlService(IAgentClient client, ServiceApp serviceApp, ServiceCommand command)
+        private async Task ControlServiceAsync(IAgentClient client, ServiceApp serviceApp, ServiceCommand command)
         {
             if (client == null)
                 return;
 
-            try
+            await Task.Run(() =>
             {
-                bool result;
-
-                lock (client)
+                try
                 {
-                    result = client.ControlService(serviceApp, command, 0);
-                }
+                    bool result;
 
-                if (!result)
-                    ScadaUiUtils.ShowError(AppPhrases.UnableControlService);
-            }
-            catch (Exception ex)
-            {
-                ScadaUiUtils.ShowError(ex.BuildErrorMessage(AppPhrases.ControlServiceError));
-            }
+                    lock (client)
+                    {
+                        result = client.ControlService(serviceApp, command, 0);
+                    }
+
+                    if (!result && FormAvailable)
+                        ScadaUiUtils.ShowError(AppPhrases.UnableControlService);
+                }
+                catch (Exception ex)
+                {
+                    if (FormAvailable)
+                        ScadaUiUtils.ShowError(ex.BuildErrorMessage(AppPhrases.ControlServiceError));
+                }
+            });
         }
 
 
@@ -259,7 +267,7 @@ namespace Scada.Admin.App.Forms.Deployment
             Disconnect();
         }
 
-        private void btnControlService_Click(object sender, EventArgs e)
+        private async void btnControlService_Click(object sender, EventArgs e)
         {
             Button button = (Button)sender;
             string buttonName = button.Name;
@@ -286,7 +294,7 @@ namespace Scada.Admin.App.Forms.Deployment
             if (serviceApp != null && serviceCommand != null)
             {
                 button.DisplayWait();
-                ControlService(agentClient, serviceApp.Value, serviceCommand.Value);
+                await ControlServiceAsync(agentClient, serviceApp.Value, serviceCommand.Value);
             }
         }
 
