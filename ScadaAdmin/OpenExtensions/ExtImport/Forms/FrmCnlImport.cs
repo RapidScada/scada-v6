@@ -185,7 +185,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			{
 				List<Cnl> cnls = CreateChannels();
 
-				if (new FrmCnlMerge(cnls, CtrlCnlImport3._dictio).ShowDialog() == DialogResult.OK)
+				if (new FrmCnlMerge(project, cnls, CtrlCnlImport3._dictio).ShowDialog() == DialogResult.OK)
 				//new FrmCnlMerge().ShowDialog() == DialogResult.OK)
 				{
 					//AddChannels(cnls, chkPreview.Checked);

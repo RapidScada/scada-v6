@@ -139,6 +139,10 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 
 			_mnemonique = columns[1];
 			_adress = columns[0];
+			
+			// DG
+			_adress = new string(_adress.SkipWhile(x => !char.IsDigit(x)).ToArray());
+
 			setFormatType(columns[2]);
 			_comment = columns[3];
 
@@ -233,7 +237,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 		{
 
 		}
-	}
+  }
 
 
 }

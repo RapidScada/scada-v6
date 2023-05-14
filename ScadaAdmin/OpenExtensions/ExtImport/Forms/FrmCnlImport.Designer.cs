@@ -74,7 +74,7 @@
 			CtrlCnlImport3.ctrlCnlImport4 = null;
 			CtrlCnlImport3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
 			CtrlCnlImport3.Location = new Point(14, 44);
-			CtrlCnlImport3.Margin = new Padding(3, 4, 3, 4);
+			CtrlCnlImport3.Margin = new Padding(3, 5, 3, 5);
 			CtrlCnlImport3.Name = "CtrlCnlImport3";
 			CtrlCnlImport3.Size = new Size(411, 213);
 			CtrlCnlImport3.TabIndex = 3;
