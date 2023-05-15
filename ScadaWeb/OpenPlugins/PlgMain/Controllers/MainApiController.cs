@@ -63,9 +63,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
 
             foreach (int cnlNum in cnlNums)
             {
-                Cnl cnl = webContext.ConfigDatabase.CnlTable.GetItem(cnlNum);
-
-                if (cnl == null)
+                Cnl cnl = webContext.ConfigDatabase.CnlTable.GetItem(cnlNum) ??
                     throw new AccessDeniedException(); // no rights on undefined channel
 
                 if (!userContext.Rights.GetRightByObj(cnl.ObjNum).View)

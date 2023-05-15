@@ -137,13 +137,7 @@ namespace Scada.Web.Plugins.PlgMain.Report
             reportArgs.Validate();
             ArgumentNullException.ThrowIfNull(outStream, nameof(outStream));
 
-            // find archive
-            string archiveCode = ScadaUtils.FirstNonEmpty(args.ArchiveCode, DefaultArchiveCode);
-            archiveEntity = ReportContext.ConfigDatabase.ArchiveTable
-                .SelectFirst(new TableFilter("Code", archiveCode)) ??
-                throw new ScadaException(reportDict.ArchiveNotFound);
-
-            // render report
+            archiveEntity = ReportContext.FindArchive(args.ArchiveCode, DefaultArchiveCode);
             renderer.Render(templateFilePath, outStream);
         }
 

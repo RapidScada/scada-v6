@@ -11,20 +11,11 @@
     <Product>Rapid SCADA</Product>
     <Copyright>Copyright © 2023</Copyright>
     <Version>6.0.1</Version>
-    <AssemblyVersion>6.0.1.0</AssemblyVersion>
+    <AssemblyVersion>6.0.1.1</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Remove="compilerconfig.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="wwwroot\plugins\Main\css\command.css" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="lang\PlgMain.en-GB.xml" />
-    <Content Include="lang\PlgMain.ru-RU.xml" />
   </ItemGroup>
 
   <ItemGroup>

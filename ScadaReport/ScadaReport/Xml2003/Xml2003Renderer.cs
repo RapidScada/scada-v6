@@ -126,7 +126,7 @@ namespace Scada.Report.Xml2003
         
         
         /// <summary>
-        /// Renders a workbook to the output stream.
+        /// Renders a document to the output stream.
         /// </summary>
         public virtual void Render(string templateFileName, Stream outStream)
         {

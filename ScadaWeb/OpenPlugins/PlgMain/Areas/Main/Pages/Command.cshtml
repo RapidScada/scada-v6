@@ -59,7 +59,7 @@
         {
             <div class="mb-3">
                 <label id="lblPassword" for="txtPassword" class="form-label">@dict.lblPassword</label>
-                <input type="password" id="txtPassword" class="form-control @pwdExtraClass" required asp-for="Password" />
+                <input type="password" id="txtPassword" class="form-control @pwdExtraClass" required autofocus asp-for="Password" />
             </div>
         }
 
@@ -67,14 +67,14 @@
         { 
             <div class="mb-3">
                 <label id="lblCmdDec" for="txtCmdDec" class="form-label">@dict.lblCmdDec</label>
-                <input type="number" id="txtCmdDec" class="form-control @cmdExtraClass" step="any" required asp-for="CmdDec" />
+                <input type="number" id="txtCmdDec" class="form-control @cmdExtraClass" step="any" required autofocus asp-for="CmdDec" />
             </div>
         }
         else if (Model.Input == CommandModel.InputType.Hex)
         { 
             <div class="mb-3">
                 <label id="lblCmdHex" for="txtCmdHex" class="form-label">@dict.lblCmdHex</label>
-                <input type="text" id="txtCmdHex" class="form-control @cmdExtraClass" pattern="[a-fA-F0-9]+" required asp-for="CmdHex" />
+                <input type="text" id="txtCmdHex" class="form-control @cmdExtraClass" pattern="[a-fA-F0-9]+" required autofocus asp-for="CmdHex" />
             </div>
         }
         else if (Model.Input == CommandModel.InputType.Enum)
@@ -105,7 +105,7 @@
 
             <div class="mb-3">
                 <label id="lblCmdDate" for="txtCmdDate" class="form-label">@dict.lblCmdDate</label>
-                <input type="@inputSubtype" id="txtCmdDate" class="form-control" required asp-for="CmdDate" />
+                <input type="@inputSubtype" id="txtCmdDate" class="form-control" required autofocus asp-for="CmdDate" />
             </div>
         }
         else if (Model.Input == CommandModel.InputType.Str)
@@ -120,7 +120,7 @@
                   <input type="radio" id="rbHex" name="cmdDataFormat" class="form-check-input" value="hex" asp-for="CmdDataFormat">
                   <label id="lblHex" class="form-check-label" for="rbHex">@dict.lblHex</label>
                 </div>
-                <textarea id="txtCmdData" class="form-control @cmdExtraClass" rows="3" asp-for="CmdData"></textarea>
+                <textarea id="txtCmdData" class="form-control @cmdExtraClass" rows="3" autofocus asp-for="CmdData"></textarea>
                 <div class="form-text">@Model.Format.Descr</div>
             </div>
         }

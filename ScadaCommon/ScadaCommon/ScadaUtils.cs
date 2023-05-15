@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2007
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Lang;
@@ -430,6 +430,23 @@ namespace Scada
         }
 
         /// <summary>
+        /// Gets the start date of the month for the specified timestamp.
+        /// </summary>
+        public static DateTime GetMonthStart(this DateTime dateTime)
+        {
+            return new DateTime(dateTime.Year, dateTime.Month, 1, 0, 0, 0, dateTime.Kind);
+        }
+
+        /// <summary>
+        /// Gets the end date of the month for the specified timestamp.
+        /// </summary>
+        public static DateTime GetMonthEnd(this DateTime dateTime)
+        {
+            return new DateTime(dateTime.Year, dateTime.Month, 
+                DateTime.DaysInMonth(dateTime.Year, dateTime.Month), 0, 0, 0, dateTime.Kind);
+        }
+
+        /// <summary>
         /// Returns the larger of two timestamps.
         /// </summary>
         public static DateTime Max(DateTime dateTime1, DateTime dateTime2)
@@ -487,7 +504,15 @@ namespace Scada
         /// </summary>
         public static string FirstNonEmpty(params string[] args)
         {
-            return args.FirstOrDefault(s => !string.IsNullOrEmpty(s));
+            return args?.FirstOrDefault(s => !string.IsNullOrEmpty(s));
+        }
+
+        /// <summary>
+        /// Returns the first non-empty string result returned by the specified functions.
+        /// </summary>
+        public static string FirstNonEmpty(params Func<string>[] args)
+        {
+            return args?.Select(f => f()).FirstOrDefault(s => !string.IsNullOrEmpty(s));
         }
 
         /// <summary>
@@ -508,7 +533,7 @@ namespace Scada
         /// </summary>
         public static void RestoreHierarchy(this ITreeNode treeNode)
         {
-            if (treeNode.Children != null)
+            if (treeNode?.Children != null)
             {
                 foreach (object child in treeNode.Children)
                 {

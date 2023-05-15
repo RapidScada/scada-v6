@@ -135,7 +135,8 @@ namespace Scada.Admin.App.Forms.Tables
             if (!(int.TryParse(txtCnlNum.Text, out int cnlNum) &&
                 ConfigDatabase.MinID <= cnlNum && cnlNum <= ConfigDatabase.MaxID))
             {
-                sbError.AppendError(lblCnlNum, CommonPhrases.IntegerInRangeRequired, ConfigDatabase.MinID, ConfigDatabase.MaxID);
+                sbError.AppendError(lblCnlNum, CommonPhrases.IntegerInRangeRequired, 
+                    ConfigDatabase.MinID, ConfigDatabase.MaxID);
             }
 
             int dataLen = -1;

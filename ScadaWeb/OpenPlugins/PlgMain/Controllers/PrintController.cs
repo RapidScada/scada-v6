@@ -70,7 +70,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Generates an event report with the specified arguments.
         /// </summary>
-        private Stream GenerateEventReport(EventReportArgs args, out DateTime generateTime)
+        private Stream GenerateEventReport(EventReportArgs args, out string fileName)
         {
             MemoryStream stream = new();
 
@@ -78,7 +78,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             {
                 EventReportBuilder builder = new(CreateReportContext());
                 builder.Generate(args, stream);
-                generateTime = builder.GenerateTime;
+                fileName = ReportUtils.BuildFileName(EventReportPrefix, builder.GenerateTime, OutputFormat.Xml2003);
                 stream.Position = 0;
             }
             catch
@@ -126,7 +126,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 throw new ScadaException(errMsg);
 
             MemoryStream stream = new();
-            DateTime generateTime;
+            string fileName;
 
             try
             {
@@ -140,7 +140,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                     MaxPeriod = pluginContext.Options.MaxReportPeriod
                 }, stream);
 
-                generateTime = builder.GenerateTime;
+                fileName = ReportUtils.BuildFileName(TableViewReportPrefix, 
+                    builder.GenerateTime, OutputFormat.Xml2003);
                 stream.Position = 0;
             }
             catch
@@ -149,10 +150,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 throw;
             }
 
-            return File(
-                stream,
-                MediaTypeNames.Application.Octet,
-                ReportUtils.BuildFileName(TableViewReportPrefix, generateTime, OutputFormat.Xml2003));
+            return File(stream, MediaTypeNames.Application.Octet, fileName);
         }
 
         /// <summary>
@@ -173,9 +171,9 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             };
 
             return File(
-                GenerateEventReport(args, out DateTime generateTime),
+                GenerateEventReport(args, out string fileName),
                 MediaTypeNames.Application.Octet,
-                ReportUtils.BuildFileName(EventReportPrefix, generateTime, OutputFormat.Xml2003));
+                fileName);
         }
 
         /// <summary>
@@ -193,9 +191,9 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             };
 
             return File(
-                GenerateEventReport(args, out DateTime generateTime),
+                GenerateEventReport(args, out string fileName),
                 MediaTypeNames.Application.Octet,
-                ReportUtils.BuildFileName(EventReportPrefix, generateTime, OutputFormat.Xml2003));
+                fileName);
         }
 
         /// <summary>
@@ -234,9 +232,9 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             };
 
             return File(
-                GenerateEventReport(args, out DateTime generateTime),
+                GenerateEventReport(args, out string fileName),
                 MediaTypeNames.Application.Octet,
-                ReportUtils.BuildFileName(EventReportPrefix, generateTime, OutputFormat.Xml2003));
+                fileName);
         }
 
         /// <summary>
@@ -246,7 +244,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             string archive, IntRange cnlNums)
         {
             MemoryStream stream = new();
-            DateTime generateTime;
+            string fileName;
 
             try
             {
@@ -260,7 +258,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                     MaxPeriod = pluginContext.Options.MaxReportPeriod
                 }, stream);
 
-                generateTime = builder.GenerateTime;
+                fileName = ReportUtils.BuildFileName(HistDataReportPrefix, builder.GenerateTime, OutputFormat.Xml2003);
                 stream.Position = 0;
             }
             catch
@@ -269,10 +267,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 throw;
             }
 
-            return File(
-                stream,
-                MediaTypeNames.Application.Octet,
-                ReportUtils.BuildFileName(HistDataReportPrefix, generateTime, OutputFormat.Xml2003));
+            return File(stream, MediaTypeNames.Application.Octet, fileName);
         }
     }
 }

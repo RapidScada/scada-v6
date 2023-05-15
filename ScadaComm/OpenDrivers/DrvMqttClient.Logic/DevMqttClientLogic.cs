@@ -192,12 +192,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
                 {
                     int tagIndex = subscriptionTag.TagIndex + i;
                     double tagValue = subscriptionTag.JsValues[i];
-
-                    if (double.IsNaN(tagValue))
-                        DeviceData.Invalidate(tagIndex);
-                    else
-                        DeviceData.Set(tagIndex, tagValue);
-
+                    DeviceData.Set(tagIndex, tagValue);
                     updateTimestamps[tagIndex] = LastSessionTime;
                 }
             }

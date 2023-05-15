@@ -18,6 +18,7 @@ namespace Scada.Report
         {
             StartTime = DateTime.MinValue;
             EndTime = DateTime.MinValue;
+            ArchiveCode = "";
             Format = OutputFormat.Default;
             CustomArgs = new Dictionary<string, string>();
         }
@@ -32,6 +33,11 @@ namespace Scada.Report
         /// Gets or sets the end date and time of the report period, UTC.
         /// </summary>
         public DateTime EndTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the archive code.
+        /// </summary>
+        public string ArchiveCode { get; set; }
 
         /// <summary>
         /// Gets or sets the output format.
@@ -53,7 +59,8 @@ namespace Scada.Report
             {
                 throw new ScadaException(Locale.IsRussian ?
                     "Некорректный диапазон времени." :
-                    "Invalid time range.") { MessageIsPublic = true };
+                    "Invalid time range.")
+                { MessageIsPublic = true };
             }
         }
     }

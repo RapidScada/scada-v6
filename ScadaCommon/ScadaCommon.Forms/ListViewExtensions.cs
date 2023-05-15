@@ -51,6 +51,14 @@ namespace Scada.Forms
         }
 
         /// <summary>
+        /// Gets an object associated with the first selected list item.
+        /// </summary>
+        public static object GetSelectedObject(this ListView listView)
+        {
+            return listView.GetSelectedItem()?.Tag;
+        }
+
+        /// <summary>
         /// Moves up the selected list item.
         /// </summary>
         public static bool MoveUpSelectedItem(this ListView listView, bool updateOrder = false)

@@ -31,7 +31,6 @@ using Scada.Agent.Client;
 using Scada.Forms;
 using Scada.Lang;
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -43,10 +42,6 @@ namespace Scada.Admin.App.Forms.Deployment
     /// </summary>
     public partial class FrmInstanceStatus : Form, IDeploymentForm
     {
-        /// <summary>
-        /// The time period for disabling the button after pressing, ms.
-        /// </summary>
-        private const int ButtonWait = 1000;
         /// <summary>
         /// The services which status is displayed.
         /// </summary>
@@ -85,6 +80,11 @@ namespace Scada.Admin.App.Forms.Deployment
             ConnectionModified = false;
         }
 
+
+        /// <summary>
+        /// Gets a value indicating whether the form is available to a user.
+        /// </summary>
+        private bool FormAvailable => Visible && !IsDisposed;
 
         /// <summary>
         /// Gets a value indicating whether the selected profile changed.
@@ -185,42 +185,33 @@ namespace Scada.Admin.App.Forms.Deployment
         }
 
         /// <summary>
-        /// Displays the button in waiting state.
-        /// </summary>
-        private static void DisplayWait(Button button)
-        {
-            Task.Run(() =>
-            {
-                button.Enabled = false;
-                Thread.Sleep(ButtonWait);
-                button.Enabled = true;
-            });
-        }
-
-        /// <summary>
         /// Sends the command to the service.
         /// </summary>
-        private static void ControlService(IAgentClient client, ServiceApp serviceApp, ServiceCommand command)
+        private async Task ControlServiceAsync(IAgentClient client, ServiceApp serviceApp, ServiceCommand command)
         {
             if (client == null)
                 return;
 
-            try
+            await Task.Run(() =>
             {
-                bool result;
-
-                lock (client)
+                try
                 {
-                    result = client.ControlService(serviceApp, command, 0);
-                }
+                    bool result;
 
-                if (!result)
-                    ScadaUiUtils.ShowError(AppPhrases.UnableControlService);
-            }
-            catch (Exception ex)
-            {
-                ScadaUiUtils.ShowError(ex.BuildErrorMessage(AppPhrases.ControlServiceError));
-            }
+                    lock (client)
+                    {
+                        result = client.ControlService(serviceApp, command, 0);
+                    }
+
+                    if (!result && FormAvailable)
+                        ScadaUiUtils.ShowError(AppPhrases.UnableControlService);
+                }
+                catch (Exception ex)
+                {
+                    if (FormAvailable)
+                        ScadaUiUtils.ShowError(ex.BuildErrorMessage(AppPhrases.ControlServiceError));
+                }
+            });
         }
 
 
@@ -276,7 +267,7 @@ namespace Scada.Admin.App.Forms.Deployment
             Disconnect();
         }
 
-        private void btnControlService_Click(object sender, EventArgs e)
+        private async void btnControlService_Click(object sender, EventArgs e)
         {
             Button button = (Button)sender;
             string buttonName = button.Name;
@@ -302,8 +293,8 @@ namespace Scada.Admin.App.Forms.Deployment
             // send command to application
             if (serviceApp != null && serviceCommand != null)
             {
-                DisplayWait(button);
-                ControlService(agentClient, serviceApp.Value, serviceCommand.Value);
+                button.DisplayWait();
+                await ControlServiceAsync(agentClient, serviceApp.Value, serviceCommand.Value);
             }
         }
 

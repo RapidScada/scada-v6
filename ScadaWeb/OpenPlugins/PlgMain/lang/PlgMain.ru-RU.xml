@@ -99,7 +99,6 @@
     <Phrase key="EventReport">Отчёт по событиям</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Report">
-    <Phrase key="ArchiveNotFound">Архив не найдён в базе конфигурации.</Phrase>
     <Phrase key="GenCaption">Получено:</Phrase>
     <Phrase key="TzCaption">Часовой пояс:</Phrase>
     <Phrase key="ArcCaption">Архив:</Phrase>

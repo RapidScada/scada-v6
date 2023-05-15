@@ -29,6 +29,7 @@ class Severity {
 }
 
 const ALL_EVENTS_KEY = "Events.AllEvents";
+const START_DELAY = 550; // ms
 const POSTPONE_SCROLL_PERIOD = 10000; // ms
 
 var allEvents = false;
@@ -303,5 +304,5 @@ $(document).ready(function () {
     bindEvents();
     updateLayout();
     showMessage(phrases.Loading);
-    startUpdatingEvents();
+    setTimeout(startUpdatingEvents, START_DELAY); // wait for loading view in cache
 });

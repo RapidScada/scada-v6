@@ -248,21 +248,9 @@ namespace Scada.Web.Plugins.PlgMain.Report
             reportArgs.Validate();
             ArgumentNullException.ThrowIfNull(outStream, nameof(outStream));
 
-            // find archive
-            string archiveCode = ScadaUtils.FirstNonEmpty(args.ArchiveCode, DefaultArchiveCode);
-            archiveEntity = ReportContext.ConfigDatabase.ArchiveTable
-                .SelectFirst(new TableFilter("Code", archiveCode)) ??
-                throw new ScadaException(reportDict.ArchiveNotFound);
-
-            // find channels
-            cnls = new List<Cnl>(reportArgs.CnlNums.Count);
-
-            foreach (int cnlNum in reportArgs.CnlNums)
-            {
-                cnls.Add(
-                    ReportContext.ConfigDatabase.CnlTable.GetItem(cnlNum) ?? 
-                    new Cnl { CnlNum = cnlNum, Name = "" });
-            }
+            // find entities
+            archiveEntity = ReportContext.FindArchive(args.ArchiveCode, DefaultArchiveCode);
+            cnls = ReportContext.FindChannels(reportArgs.CnlNums);
 
             // render report
             renderer.Render(templateFilePath, outStream);

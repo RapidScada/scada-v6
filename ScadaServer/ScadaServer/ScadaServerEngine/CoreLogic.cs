@@ -1105,7 +1105,7 @@ namespace Scada.Server.Engine
                     terminated = true;
                     serviceStatus = ServiceStatus.Terminating;
 
-                    if (thread.Join(AppConfig.GeneralOptions.StopWait))
+                    if (thread.Join(TimeSpan.FromSeconds(AppConfig.GeneralOptions.StopWait)))
                         Log.WriteAction(CommonPhrases.LogicStopped);
                     else
                         Log.WriteAction(CommonPhrases.UnableToStopLogic);

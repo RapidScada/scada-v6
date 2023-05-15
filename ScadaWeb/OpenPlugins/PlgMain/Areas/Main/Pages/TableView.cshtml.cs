@@ -283,8 +283,9 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                     AddTooltipHtml(sbHtml, tableItem.CnlNum, itemCnl);
 
                     sbHtml
-                        .Append("' /></span>")
-                        .Append("<span class='item-text item-link'>").Append(itemText).Append("</span>");
+                        .Append("' /></span><span class='item-text")
+                        .Append(showVal ? " item-link" : "").Append("'>")
+                        .Append(itemText).Append("</span>");
 
                     if (enableCommands && itemCnl != null && itemCnl.IsOutput())
                     {
@@ -295,7 +296,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                 }
                 else
                 {
-                    sbHtml.Append("<span class='item-text'>").Append(itemText).Append("</span>");
+                    sbHtml.Append("<span class='item-hdr'>").Append(itemText).Append("</span>");
                 }
 
                 sbHtml.AppendLine("</div></td>"); // close first cell

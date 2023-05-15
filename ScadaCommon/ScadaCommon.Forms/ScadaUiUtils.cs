@@ -9,6 +9,8 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Scada.Forms
@@ -27,7 +29,11 @@ namespace Scada.Forms
         /// The maximum column width in DataGridView in pixels.
         /// </summary>
         private const int MaxColumnWidth = 500;
-        
+        /// <summary>
+        /// The time period for disabling the button after pressing, ms.
+        /// </summary>
+        private const int ButtonWait = 1000;
+
         /// <summary>
         /// The log refresh interval for local access, ms.
         /// </summary>
@@ -115,8 +121,7 @@ namespace Scada.Forms
         /// </summary>
         public static void SetTime(this DateTimePicker dateTimePicker, DateTime time)
         {
-            DateTime date = dateTimePicker.MinDate;
-            dateTimePicker.Value = new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second);
+            dateTimePicker.Value = dateTimePicker.MinDate + time.TimeOfDay;
         }
 
         /// <summary>
@@ -124,8 +129,7 @@ namespace Scada.Forms
         /// </summary>
         public static void SetTime(this DateTimePicker dateTimePicker, TimeSpan timeSpan)
         {
-            DateTime date = dateTimePicker.MinDate;
-            dateTimePicker.Value = new DateTime(date.Year, date.Month, date.Day).Add(timeSpan);
+            dateTimePicker.Value = dateTimePicker.MinDate + timeSpan;
         }
 
         /// <summary>
@@ -172,6 +176,19 @@ namespace Scada.Forms
             e.Graphics.DrawString(text, listBox.Font, brush,
                 e.Bounds.Left + paddingLeft, e.Bounds.Top + (e.Bounds.Height - textSize.Height) / 2);
             e.DrawFocusRectangle();
+        }
+
+        /// <summary>
+        /// Displays the button in waiting state.
+        /// </summary>
+        public static void DisplayWait(this Button button)
+        {
+            Task.Run(() =>
+            {
+                button.Enabled = false;
+                Thread.Sleep(ButtonWait);
+                button.Enabled = true;
+            });
         }
 
         /// <summary>
