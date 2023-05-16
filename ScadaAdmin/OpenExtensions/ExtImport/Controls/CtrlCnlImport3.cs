@@ -144,7 +144,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			_adress = new string(_adress.SkipWhile(x => !char.IsDigit(x)).ToArray());
 
 			setFormatType(columns[2]);
-			_comment = columns[3];
+			_comment = columns[3].Replace("\"", "");
 
 			//add in dictionary
 
@@ -175,7 +175,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 				_mnemonique = colums[0];
 				_adress = colums[1];
 				setFormatType(colums[2]);
-				_comment = colums[3];
+				_comment = colums[3].Replace("\"", "");
 
 				//add in dictionary
 
@@ -204,7 +204,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 				_type = splitType[0];
 
 				string[] splitComment = splitType[1].Split('*');
-				_comment = splitComment[0];
+				_comment = splitComment[0].Replace("\"", "");
 
 				//add in dictionary
 
@@ -223,10 +223,10 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			switch (type)
 			{
 				case "DWORD":
-					_type = "DINT";
+					_type = "Double";
 					break;
 				case "WORD":
-					_type = "INT";
+					_type = "Integer";
 					break;
 				default:
 					break;
