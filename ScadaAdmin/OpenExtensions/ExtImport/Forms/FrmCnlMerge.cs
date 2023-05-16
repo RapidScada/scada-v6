@@ -31,8 +31,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
     {
       InitializeComponent();
       dataGridView1.AutoGenerateColumns = false;
-      // xmlReader();
-      // gridViewFiller();
+      
     }
 
     public FrmCnlMerge(ScadaProject project, List<Cnl> cnls, Dictionary<string, List<string>> dictio) : this()
@@ -43,7 +42,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 
       this.cnls = cnls;
       setDictio(dictio);
-      //xmlReader();
+      
 
       Dictionary<int, string> dataTypes = new Dictionary<int, string>();
       dataTypes = project.ConfigDatabase.DataTypeTable.ToDictionary(x => x.DataTypeID, x => x.Name);
@@ -370,6 +369,45 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
     private void lblSource_Click(object sender, EventArgs e)
     {
 
-    }
-  }
+		}
+
+		private void btnAdd_Click_1(object sender, EventArgs e)
+		{
+			_newDictio.Clear();
+			foreach (DataGridViewRow row in dataGridView1.Rows)
+			{
+				if (Convert.ToBoolean(row.Cells[1].Value) == true) // Si la case de gauche est cochée
+				{
+					var key = row.Cells[0].Value.ToString();
+					var list = new List<string>
+			{
+				row.Cells[2].Value.ToString(),
+				row.Cells[3].Value.ToString(),
+				row.Cells[4].Value.ToString()
+			};
+					_newDictio[key] = list;
+				}
+				else if (Convert.ToBoolean(row.Cells[6].Value) == true) // Si la case de droite est cochée
+				{
+					var key = row.Cells[0].Value.ToString();
+					var list = new List<string>
+			{
+				row.Cells[7].Value.ToString(),
+				row.Cells[8].Value.ToString(),
+				row.Cells[9].Value.ToString()
+			};
+					_newDictio[key] = list;
+				}
+			}
+
+			// Afficher toutes les clés dans _newDictio
+			foreach (var key in _newDictio.Keys)
+			{
+				Console.WriteLine(key);
+			}
+
+			DialogResult = DialogResult.OK;
+
+		}
+	}
 }
