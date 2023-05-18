@@ -27,14 +27,14 @@ namespace Scada.Report
         ScadaClient ScadaClient { get; }
 
         /// <summary>
-        /// Gets the time zone.
-        /// </summary>
-        TimeZoneInfo TimeZone { get; }
-
-        /// <summary>
         /// Gets the culture.
         /// </summary>
         CultureInfo Culture { get; }
+
+        /// <summary>
+        /// Gets the time zone.
+        /// </summary>
+        TimeZoneInfo TimeZone { get; }
 
         /// <summary>
         /// Gets the directory of templates.

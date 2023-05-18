@@ -61,8 +61,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             {
                 ConfigDatabase = webContext.ConfigDatabase,
                 ScadaClient = clientAccessor.ScadaClient,
-                TimeZone = userContext.TimeZone,
                 Culture = Locale.Culture,
+                TimeZone = userContext.TimeZone,
                 TemplateDir = templateDir
             };
         }
