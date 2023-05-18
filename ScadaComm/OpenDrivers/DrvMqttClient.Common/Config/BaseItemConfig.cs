@@ -56,6 +56,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
         /// Gets or sets the parent tree node.
         /// </summary>
         [NCM.Browsable(false)]
+        [field: NonSerialized]
         public ITreeNode Parent { get; set; }
 
         /// <summary>
