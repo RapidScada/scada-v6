@@ -64,16 +64,13 @@ namespace Scada.Report
         /// <summary>
         /// Normalizes the report time range.
         /// </summary>
-        public static void NormalizeTimeRange(ref DateTime startTime, ref DateTime endTime, ref int period, 
+        public static void NormalizeTimeRange(ref DateTime startTime, ref DateTime endTime, int period, 
             PeriodUnit unit)
         {
             if (startTime > DateTime.MinValue && endTime > DateTime.MinValue)
             {
-                if (endTime < startTime)
-                    endTime = startTime;
-                period = unit == PeriodUnit.Month 
-                    ? ((endTime.Year - startTime.Year) * 12) + endTime.Month - startTime.Month
-                    : (int)(endTime - startTime).TotalDays;
+                if (startTime > endTime)
+                    (startTime, endTime) = (endTime, startTime); // swap values
             }
             else if (startTime > DateTime.MinValue)
             {
