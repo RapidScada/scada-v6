@@ -78,16 +78,12 @@ namespace Scada.Report
             else if (startTime > DateTime.MinValue)
             {
                 NormalizeTimeRange(ref startTime, ref period, unit);
-                endTime = unit == PeriodUnit.Month 
-                    ? startTime.AddMonths(period)
-                    : startTime.AddDays(period);
+                endTime = AddPeriod(startTime, period, unit);
             }
             else if (endTime > DateTime.MinValue)
             {
                 period = Math.Max(Math.Abs(period), 1);
-                startTime = unit == PeriodUnit.Month 
-                    ? endTime.AddMonths(-period)
-                    : endTime.AddDays(-period);
+                startTime = AddPeriod(endTime, -period, unit);
             }
             else
             {
@@ -96,12 +92,22 @@ namespace Scada.Report
         }
 
         /// <summary>
+        /// Adds the specified period to the date and time value.
+        /// </summary>
+        public static DateTime AddPeriod(DateTime dateTime, int period, PeriodUnit unit)
+        {
+            return unit == PeriodUnit.Month
+                ? dateTime.AddMonths(period)
+                : dateTime.AddDays(period);
+        }
+
+        /// <summary>
         /// Builds a report file name to save or download.
         /// </summary>
         public static string BuildFileName(string prefix, DateTime generateTime, OutputFormat format)
         {
             return prefix + "_" +
-                generateTime.ToLocalTime().ToString("yyyy-MM-dd_HH-mm-ss") + 
+                generateTime.ToString("yyyy-MM-dd_HH-mm-ss") + 
                 format.GetExtension();
         }
 
