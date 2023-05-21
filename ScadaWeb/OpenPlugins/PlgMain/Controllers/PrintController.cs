@@ -78,7 +78,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             {
                 EventReportBuilder builder = new(CreateReportContext());
                 builder.Generate(args, stream);
-                fileName = ReportUtils.BuildFileName(EventReportPrefix, builder.GenerateTime, OutputFormat.Xml2003);
+                fileName = ReportUtils.BuildFileName(EventReportPrefix, 
+                    userContext.ConvertTimeFromUtc(builder.GenerateTime), OutputFormat.Xml2003);
                 stream.Position = 0;
             }
             catch
@@ -140,8 +141,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                     MaxPeriod = pluginContext.Options.MaxReportPeriod
                 }, stream);
 
-                fileName = ReportUtils.BuildFileName(TableViewReportPrefix, 
-                    builder.GenerateTime, OutputFormat.Xml2003);
+                fileName = ReportUtils.BuildFileName(TableViewReportPrefix,
+                    userContext.ConvertTimeFromUtc(builder.GenerateTime), OutputFormat.Xml2003);
                 stream.Position = 0;
             }
             catch
@@ -258,7 +259,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                     MaxPeriod = pluginContext.Options.MaxReportPeriod
                 }, stream);
 
-                fileName = ReportUtils.BuildFileName(HistDataReportPrefix, builder.GenerateTime, OutputFormat.Xml2003);
+                fileName = ReportUtils.BuildFileName(HistDataReportPrefix,
+                    userContext.ConvertTimeFromUtc(builder.GenerateTime), OutputFormat.Xml2003);
                 stream.Position = 0;
             }
             catch
