@@ -376,5 +376,33 @@ namespace Scada
             else
                 return Enumerable.SequenceEqual(a, b);
         }
+
+        /// <summary>
+        /// Adds elements to the current dictionary from the other dictionary.
+        /// </summary>
+        public static void MergeWith<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, 
+            IDictionary<TKey, TValue> otherDictionary, bool overwriteExisting)
+        {
+            if (dictionary == null)
+                throw new ArgumentNullException(nameof(dictionary));
+            if (otherDictionary == null)
+                return;
+
+            if (overwriteExisting)
+            {
+                foreach (KeyValuePair<TKey, TValue> pair in otherDictionary)
+                {
+                    dictionary[pair.Key] = pair.Value;
+                }
+            }
+            else
+            {
+                foreach (KeyValuePair<TKey, TValue> pair in otherDictionary)
+                {
+                    if (!dictionary.ContainsKey(pair.Key))
+                        dictionary.Add(pair.Key, pair.Value);
+                }
+            }
+        }
     }
 }
