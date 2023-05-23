@@ -546,7 +546,7 @@ Zmiany zaczną obowiązywać po ponownym uruchomieniu aplikacji.</Phrase>
     <Phrase key="miHelp">&amp;Pomoc</Phrase>
     <Phrase key="miHelpDoc">Dokumentacja</Phrase>
     <Phrase key="miHelpSupport">Pomoc techniczna</Phrase>
-    <Phrase key="miHelpAbout">O</Phrase>
+    <Phrase key="miHelpAbout">O programie</Phrase>
     <Phrase key="btnFileNewProject.ToolTip">Nowy projekt (Ctrl+N)</Phrase>
     <Phrase key="btnFileOpenProject.ToolTip">Otwórz projekt (Ctrl+O)</Phrase>
     <Phrase key="btnFileSave.ToolTip">Zapisz (Ctrl+S)</Phrase>

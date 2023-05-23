@@ -41,7 +41,7 @@
     <Phrase key="AckAll">Potwierdź wszystko</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.About">
-    <Phrase key="PageTitle">O</Phrase>
+    <Phrase key="PageTitle">O programie</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.AccessDenied">
     <Phrase key="PageTitle">Brak dostępu</Phrase>

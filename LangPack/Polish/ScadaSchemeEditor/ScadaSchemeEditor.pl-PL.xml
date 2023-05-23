@@ -24,7 +24,7 @@
     <Phrase key="miTools">&amp;Narzędzia</Phrase>
     <Phrase key="miToolsOptions">Opcje...</Phrase>
     <Phrase key="miHelp">&amp;Pomoc</Phrase>
-    <Phrase key="miHelpAbout">O</Phrase>
+    <Phrase key="miHelpAbout">O programie</Phrase>
     <Phrase key="btnFileNew.ToolTip">Nowy schemat (Ctrl+N)</Phrase>
     <Phrase key="btnFileOpen.ToolTip">Schemat otwarty (Ctrl+O)</Phrase>
     <Phrase key="btnFileSave.ToolTip">Zapisz schemat (Ctrl+S)</Phrase>
