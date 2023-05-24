@@ -160,7 +160,7 @@
             this.btnSqlServer.Name = "btnSqlServer";
             this.btnSqlServer.Size = new System.Drawing.Size(184, 22);
             this.btnSqlServer.Text = "Microsoft SQL Server";
-            this.btnSqlServer.Click += new System.EventHandler(this.btnAddTagret_Click);
+            this.btnSqlServer.Click += new System.EventHandler(this.btnAddTarget_Click);
             // 
             // btnMySql
             // 
@@ -168,7 +168,7 @@
             this.btnMySql.Name = "btnMySql";
             this.btnMySql.Size = new System.Drawing.Size(184, 22);
             this.btnMySql.Text = "MySQL";
-            this.btnMySql.Click += new System.EventHandler(this.btnAddTagret_Click);
+            this.btnMySql.Click += new System.EventHandler(this.btnAddTarget_Click);
             // 
             // btnOracle
             // 
@@ -176,7 +176,7 @@
             this.btnOracle.Name = "btnOracle";
             this.btnOracle.Size = new System.Drawing.Size(184, 22);
             this.btnOracle.Text = "Oracle";
-            this.btnOracle.Click += new System.EventHandler(this.btnAddTagret_Click);
+            this.btnOracle.Click += new System.EventHandler(this.btnAddTarget_Click);
             // 
             // btnPostgreSql
             // 
@@ -184,7 +184,7 @@
             this.btnPostgreSql.Name = "btnPostgreSql";
             this.btnPostgreSql.Size = new System.Drawing.Size(184, 22);
             this.btnPostgreSql.Text = "PostgreSQL";
-            this.btnPostgreSql.Click += new System.EventHandler(this.btnAddTagret_Click);
+            this.btnPostgreSql.Click += new System.EventHandler(this.btnAddTarget_Click);
             // 
             // btnAddCurrentDataQuery
             // 

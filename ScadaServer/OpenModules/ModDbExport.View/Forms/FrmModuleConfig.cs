@@ -380,14 +380,14 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         }
 
 
-        private void btnAddTagret_Click(object sender, EventArgs e)
+        private void btnAddTarget_Click(object sender, EventArgs e)
         {
             // add target
             ExportTargetConfig target = new() { Parent = config };
             target.GeneralOptions.ID = GetNextTargetID();
             target.GeneralOptions.Name = string.Format(ModulePhrases.TargetName, target.GeneralOptions.ID);
 
-            // add dbconnection setting
+            // add database type
             if (sender == btnSqlServer)
                 target.ConnectionOptions.KnownDBMS = KnownDBMS.MSSQL;
             else if (sender == btnOracle)
@@ -464,9 +464,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
 
         private void ctrlDbConnection_ConnectionOptionsChanged(object sender, EventArgs e)
         {
-            if (tvTargets.SelectedNode != null)
-                tvTargets.SelectedNode.Parent.SetImageKey(ChooseNodeImage(tvTargets.SelectedNode.Parent.Tag));
-           
+            tvTargets.SelectedNode?.Parent.SetImageKey(ChooseNodeImage(tvTargets.SelectedNode.Parent.Tag));
             Modified = true;
         }
 
