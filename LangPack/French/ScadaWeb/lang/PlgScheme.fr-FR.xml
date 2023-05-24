@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgSchemeDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgScheme.Areas.Scheme.Pages.SchemeView">
+    <Phrase key="SchemeViewTitle">Régime {0}</Phrase>
+    <Phrase key="spanFitScreenBtn_ToolTip">S'adapter a l'ecran</Phrase>
+    <Phrase key="spanFitWidthBtn_ToolTip">Ajuster à la largeur</Phrase>
+    <Phrase key="spanZoomOutBtn_ToolTip">Dézoomer</Phrase>
+    <Phrase key="spanZoomInBtn_ToolTip">Agrandir</Phrase>
+    <Phrase key="spanErrorBadge">Erreur</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgScheme.Template.TemplateBindings">
+    <Phrase key="LoadTemplateBindingsError">Erreur lors du chargement des liaisons de modèle de schéma</Phrase>
+    <Phrase key="SaveTemplateBindingsError">Erreur lors de l'enregistrement des liaisons du modèle de schéma</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgScheme.CompManager">
+    <Phrase key="UnknownComponent">Composant inconnu {0}</Phrase>
+    <Phrase key="CompLibraryNotFound">Aucune bibliothèque trouvée pour le composant {0}</Phrase>
+    <Phrase key="UnableCreateComponent">Impossible de créer le composant {0}</Phrase>
+    <Phrase key="ErrorCreatingComponent">Erreur lors de la création du composant {0}</Phrase>
+  </Dictionary>
+</PlgSchemeDictionaries>

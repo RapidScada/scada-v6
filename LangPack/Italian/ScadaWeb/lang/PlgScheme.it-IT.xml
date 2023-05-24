@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgSchemeDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgScheme.Areas.Scheme.Pages.SchemeView">
+    <Phrase key="SchemeViewTitle">Schema {0}</Phrase>
+    <Phrase key="spanFitScreenBtn_ToolTip">Adatta allo schermo</Phrase>
+    <Phrase key="spanFitWidthBtn_ToolTip">Adatta alla larghezza</Phrase>
+    <Phrase key="spanZoomOutBtn_ToolTip">Zoom indietro</Phrase>
+    <Phrase key="spanZoomInBtn_ToolTip">Ingrandire</Phrase>
+    <Phrase key="spanErrorBadge">Errore</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgScheme.Template.TemplateBindings">
+    <Phrase key="LoadTemplateBindingsError">Errore durante il caricamento dei binding del modello dello schema</Phrase>
+    <Phrase key="SaveTemplateBindingsError">Errore durante il salvataggio delle associazioni del modello di schema</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgScheme.CompManager">
+    <Phrase key="UnknownComponent">Componente sconosciuto {0}</Phrase>
+    <Phrase key="CompLibraryNotFound">Nessuna libreria trovata per il componente {0}</Phrase>
+    <Phrase key="UnableCreateComponent">Impossibile creare il componente {0}</Phrase>
+    <Phrase key="ErrorCreatingComponent">Errore durante la creazione del componente {0}</Phrase>
+  </Dictionary>
+</PlgSchemeDictionaries>
