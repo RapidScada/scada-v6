@@ -417,7 +417,7 @@ namespace Scada
         /// <summary>
         /// Calculates a 32-bit CRC.
         /// </summary>
-        /// <remarks>CRC-32C algorithm with 0x1EDC6F41 polynom.</remarks>
+        /// <remarks>CRC-32C algorithm with 0x1EDC6F41 polynomial.</remarks>
         public static uint CRC32(byte[] buffer, int offset, int length)
         {
             uint crc = 0xFFFFFFFF;

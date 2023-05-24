@@ -35,7 +35,7 @@ namespace Scada
         /// </summary>
         public static IDictionary<string, string> ParseArgs(string s, char separator = '\n')
         {
-            // string exmaple:
+            // string example:
             // argument1 = val1
             // argument2 = val2
             Dictionary<string, string> args = new Dictionary<string, string>();
