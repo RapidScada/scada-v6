@@ -67,7 +67,7 @@ namespace Scada.Lang
         /// <summary>
         /// Gets the default culture.
         /// </summary>
-        public static CultureInfo DefaultCulture { get; private set; }
+        public static CultureInfo DefaultCulture { get; }
 
         /// <summary>
         /// Gets the culture of the software package.
@@ -93,9 +93,9 @@ namespace Scada.Lang
         /// <summary>
         /// Gets the dictionary file name depending on the selected culture.
         /// </summary>
-        private static string GetDictFileName(string directory, string fileNamePrefix)
+        private static string GetDictFileName(string directory, string fileNamePrefix, string cultureName)
         {
-            return Path.Combine(directory, fileNamePrefix + "." + Culture.Name + ".xml");
+            return Path.Combine(directory, fileNamePrefix + "." + cultureName + ".xml");
         }
 
 
@@ -176,46 +176,36 @@ namespace Scada.Lang
         /// </remarks>
         public static bool LoadDictionaries(string fileName, out string errMsg)
         {
-            if (File.Exists(fileName))
+            try
             {
-                try
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load(fileName);
+
+                foreach (XmlElement dictElem in xmlDoc.DocumentElement.SelectNodes("Dictionary"))
                 {
-                    XmlDocument xmlDoc = new XmlDocument();
-                    xmlDoc.Load(fileName);
+                    string dictKey = dictElem.GetAttribute("key");
 
-                    foreach (XmlElement dictElem in xmlDoc.DocumentElement.SelectNodes("Dictionary"))
+                    if (!Dictionaries.TryGetValue(dictKey, out LocaleDict dict))
                     {
-                        string dictKey = dictElem.GetAttribute("key");
-
-                        if (!Dictionaries.TryGetValue(dictKey, out LocaleDict dict))
-                        {
-                            dict = new LocaleDict(dictKey);
-                            Dictionaries.Add(dictKey, dict);
-                        }
-
-                        foreach (XmlElement phraseElem in dictElem.SelectNodes("Phrase"))
-                        {
-                            string phraseKey = phraseElem.GetAttribute("key");
-                            dict.Phrases[phraseKey] = phraseElem.InnerText;
-                        }
+                        dict = new LocaleDict(dictKey);
+                        Dictionaries.Add(dictKey, dict);
                     }
 
-                    errMsg = "";
-                    return true;
+                    foreach (XmlElement phraseElem in dictElem.SelectNodes("Phrase"))
+                    {
+                        string phraseKey = phraseElem.GetAttribute("key");
+                        dict.Phrases[phraseKey] = phraseElem.InnerText;
+                    }
                 }
-                catch (Exception ex)
-                {
-                    errMsg = string.Format(IsRussian ?
-                        "Ошибка при загрузке словарей из файла {0}: {1}" :
-                        "Error loading dictionaries from file {0}: {1}", fileName, ex.Message);
-                    return false;
-                }
+
+                errMsg = "";
+                return true;
             }
-            else
+            catch (Exception ex)
             {
                 errMsg = string.Format(IsRussian ?
-                    "Не найден файл словарей: {0}" :
-                    "Dictionary file not found: {0}", fileName);
+                    "Ошибка при загрузке словарей из файла {0}: {1}" :
+                    "Error loading dictionaries from file {0}: {1}", fileName, ex.Message);
                 return false;
             }
         }
@@ -225,7 +215,31 @@ namespace Scada.Lang
         /// </summary>
         public static bool LoadDictionaries(string directory, string fileNamePrefix, out string errMsg)
         {
-            return LoadDictionaries(GetDictFileName(directory, fileNamePrefix), out errMsg);
+            string fileName = GetDictFileName(directory, fileNamePrefix, Culture.Name);
+            string fallbackFileName = GetDictFileName(directory, fileNamePrefix, DefaultCulture.Name);
+
+            if (File.Exists(fileName))
+            {
+                return LoadDictionaries(fileName, out errMsg);
+            }
+            else if (File.Exists(fallbackFileName))
+            {
+                if (LoadDictionaries(fallbackFileName, out errMsg))
+                {
+                    errMsg = string.Format(IsRussian ?
+                        "Файл словарей не найден и заменён файлом по умолчанию: {0}" :
+                        "Dictionary file not found and replaced with default file: {0}", fileName);
+                }
+
+                return false;
+            }
+            else
+            {
+                errMsg = string.Format(IsRussian ?
+                    "Не найден файл словарей: {0}" :
+                    "Dictionary file not found: {0}", fileName);
+                return false;
+            }
         }
 
         /// <summary>
