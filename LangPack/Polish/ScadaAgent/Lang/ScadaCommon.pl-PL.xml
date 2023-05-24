@@ -18,7 +18,7 @@
     <Phrase key="LogicLoopError">Błąd w pętli logicznej</Phrase>
     <Phrase key="ThreadFatalError">Fatalny błąd w wątku</Phrase>
     <Phrase key="WriteInfoError">Błąd podczas zapisywania informacji o aplikacji do pliku</Phrase>
-    <Phrase key="ConnectionNotFound">Nie znaleziono połączenia „{0}”.</Phrase>
+    <Phrase key="ConnectionNotFound">Nie znaleziono połączenia &quot;{0}&quot;.</Phrase>
     <Phrase key="ConnOptionsNotFound">Nie znaleziono opcji połączenia.</Phrase>
     <Phrase key="DatabaseNotSupported">Baza danych nie jest obsługiwana.</Phrase>
     <Phrase key="OperationNotSupported">Operacja nie jest obsługiwana.</Phrase>

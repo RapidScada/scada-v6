@@ -16,8 +16,7 @@
     <Phrase key="lblSQL">SQL</Phrase>
     <Phrase key="chkSingleRow">Wynik w jednym rzędzie</Phrase>
     <Phrase key="pbTagInfo.ToolTip">Każda linia zawiera kod znacznika.</Phrase>
-    <Phrase key="pbSqlInfo.ToolTip">ON — żądanie zwraca pojedynczy wiersz, z którego każde pole zawiera wartość znacznika.
-OFF — żądanie zwraca zestaw wierszy, z których każdy zawiera wartość znacznika.  Kolumny wymagane: code i val.</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">ON — żądanie zwraca pojedynczy wiersz, z którego każde pole zawiera wartość znacznika.&#13;&#10;OFF — żądanie zwraca zestaw wierszy, z których każdy zawiera wartość znacznika.  Kolumny wymagane: code i val.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Forms.FrmDeviceConfig">
     <Phrase key="this">Właściwości urządzenia {0} — import bazy danych</Phrase>

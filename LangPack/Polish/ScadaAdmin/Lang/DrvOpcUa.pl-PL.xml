@@ -63,7 +63,7 @@
     <Phrase key="UnnamedSubscription">&lt;Subskrypcja bez nazwy&gt;</Phrase>
     <Phrase key="UnnamedItem">&lt;Element bez nazwy&gt;</Phrase>
     <Phrase key="UnnamedCommand">&lt;polecenie bez nazwy&gt;</Phrase>
-    <Phrase key="UnknownDataType">Typ danych „{0}” jest nieznany.</Phrase>
+    <Phrase key="UnknownDataType">Typ danych &quot;{0}&quot; jest nieznany.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmEditingOptions">
     <Phrase key="this">Edytuj opcje</Phrase>

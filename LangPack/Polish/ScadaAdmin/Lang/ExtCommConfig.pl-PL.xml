@@ -134,13 +134,7 @@ Kanały: {2}</Phrase>
     <Phrase key="lblSyncDirection">Wybierz kierunek synchronizacji:</Phrase>
     <Phrase key="rbBaseToComm">Baza danych konfiguracji do komunikatora</Phrase>
     <Phrase key="rbCommToBase">Komunikator do bazy konfiguracji</Phrase>
-    <Phrase key="lblInfo">Brakujące linie i urządzenia zostaną utworzone.
-Istniejące linie i urządzenia zostaną zaktualizowane.
-Właściwości, których to dotyczy:
-- Nazwa linii komunikacyjnej
-- Nazwa urządzenia
-- Sterownik urządzenia
-- Adres urządzenia</Phrase>
+    <Phrase key="lblInfo">Brakujące linie i urządzenia zostaną utworzone.&#13;&#10;Istniejące linie i urządzenia zostaną zaktualizowane.&#13;&#10;Właściwości, których to dotyczy:&#13;&#10;- Nazwa linii komunikacyjnej&#13;&#10;- Nazwa urządzenia&#13;&#10;- Sterownik urządzenia&#13;&#10;- Adres urządzenia</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlSync2">
     <Phrase key="lblSelect">Wybierz linie i urządzenia do synchronizacji:</Phrase>
@@ -155,8 +149,7 @@ Właściwości, których to dotyczy:
     <Phrase key="CreateCnlsStep1">Krok 1 z 3: Wybierz urządzenie</Phrase>
     <Phrase key="CreateCnlsStep2">Krok 2 z 3: Wybierz obiekt z nowo utworzonych kanałów</Phrase>
     <Phrase key="CreateCnlsStep3">Krok 3 z 3: Przypisz numery kanałów</Phrase>
-    <Phrase key="CreateCnlsCompleted">Tworzenie kanału zostało pomyślnie zakończone.
-Dodano {0} kanałów.</Phrase>
+    <Phrase key="CreateCnlsCompleted">Tworzenie kanału zostało pomyślnie zakończone.&#13;&#10;Dodano {0} kanałów.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCnlPreview">
     <Phrase key="this">Podgląd kanałów</Phrase>
@@ -289,8 +282,7 @@ Dodano {0} kanałów.</Phrase>
     <Phrase key="btnSync">Synchronizacja</Phrase>
     <Phrase key="btnCancel">Anulować</Phrase>
     <Phrase key="SyncCompleted">Synchronizacja zakończona pomyślnie.</Phrase>
-    <Phrase key="SyncCompletedWithError">Synchronizacja zakończona z błędem:
-{0}</Phrase>
+    <Phrase key="SyncCompletedWithError">Synchronizacja zakończona z błędem:&#13;&#10;{0}</Phrase>
     <Phrase key="NoDataToSync">Nie wybrano danych do synchronizacji.</Phrase>
   </Dictionary>
 </ExtCommConfigDictionaries>

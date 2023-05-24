@@ -28,19 +28,17 @@
     <Phrase key="NonemptyRequired">Wymagana jest niepusta wartość.</Phrase>
     <Phrase key="DateTimeRequired">Data i godzina są wymagane.</Phrase>
     <Phrase key="LineLengthLimit">Długość łańcucha nie może przekraczać {0} znaków.</Phrase>
-    <Phrase key="NotNumber">„{0}” nie jest liczbą.</Phrase>
+    <Phrase key="NotNumber">&quot;{0}&quot; nie jest liczbą.</Phrase>
     <Phrase key="NotHexadecimal">Ciąg nie jest szesnastkowy.</Phrase>
-    <Phrase key="LoadImageError">Błąd ładowania obrazu z pliku:
-{0}</Phrase>
-    <Phrase key="LoadHyperlinkError">Błąd ładowania hiperłącza z pliku:
-{0}</Phrase>
+    <Phrase key="LoadImageError">Błąd ładowania obrazu z pliku:&#13;&#10;{0}</Phrase>
+    <Phrase key="LoadHyperlinkError">Błąd ładowania hiperłącza z pliku:&#13;&#10;{0}</Phrase>
     <Phrase key="IncorrectFileFormat">Nieprawidłowy format pliku.</Phrase>
     <Phrase key="NoData">Brak danych</Phrase>
     <Phrase key="NoRights">Niewystarczające prawa.</Phrase>
-    <Phrase key="IncorrectXmlNodeVal">Niepoprawna wartość węzła XML "{0}".</Phrase>
-    <Phrase key="IncorrectXmlAttrVal">Niepoprawna wartość atrybutu XML „{0}”.</Phrase>
-    <Phrase key="IncorrectXmlParamVal">Niepoprawna wartość parametru "{0}".</Phrase>
-    <Phrase key="XmlNodeNotFound">Nie znaleziono węzła XML „{0}” w węźle „{1}”.</Phrase>
+    <Phrase key="IncorrectXmlNodeVal">Niepoprawna wartość węzła XML &quot;{0}&quot;.</Phrase>
+    <Phrase key="IncorrectXmlAttrVal">Niepoprawna wartość atrybutu XML &quot;{0}&quot;.</Phrase>
+    <Phrase key="IncorrectXmlParamVal">Niepoprawna wartość parametru &quot;{0}&quot;.</Phrase>
+    <Phrase key="XmlNodeNotFound">Nie znaleziono węzła XML &quot;{0}&quot; w węźle &quot;{0}&quot;.</Phrase>
     <Phrase key="EventAck">Tak</Phrase>
     <Phrase key="EventNotAck">NIE</Phrase>
     <Phrase key="IncorrectCmdVal">Nieprawidłowa wartość polecenia.</Phrase>
@@ -92,10 +90,10 @@
     <Phrase key="SaveCompCodeError">Błąd podczas zapisywania kodu komputera</Phrase>
     <Phrase key="LoadKeyError">Błąd ładowania klucza rejestracyjnego</Phrase>
     <Phrase key="SaveKeyError">Błąd podczas zapisywania klucza rejestracyjnego</Phrase>
-    <Phrase key="CheckRegistration">Sprawdź rejestrację „{0}”:</Phrase>
+    <Phrase key="CheckRegistration">Sprawdź rejestrację &quot;{0}&quot;:</Phrase>
     <Phrase key="CompCodeIs">Kod komputera: {0}</Phrase>
     <Phrase key="RegistrationFailed">Rejestracja nie powiodła się.</Phrase>
-    <Phrase key="RegistrationFailedFor">Rejestracja nie powiodła się dla „{0}”.</Phrase>
+    <Phrase key="RegistrationFailedFor">Rejestracja nie powiodła się dla &quot;{0}&quot;.</Phrase>
   </Dictionary>
   <Dictionary key="KeyGen.UI">
     <Phrase key="lblCompCode">Kod komputerowy</Phrase>

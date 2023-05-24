@@ -9,9 +9,7 @@
     <Phrase key="UndefinedValue.Description">Ładunek do wysłania, jeśli wartość kanału jest niezdefiniowana.</Phrase>
     <Phrase key="PublishFormat.DisplayName">Opublikuj format</Phrase>
     <Phrase key="PublishFormat.Category">Główne parametry</Phrase>
-    <Phrase key="PublishFormat.Description">Format opublikowanych danych kanału.
-Przykład formatu: { "Val": @val, "Stat": @stat }
-Pusty format równa się @val</Phrase>
+    <Phrase key="PublishFormat.Description">Format opublikowanych danych kanału.&#13;&#10;Przykład formatu: { "Val": @val, "Stat": @stat }&#13;&#10;Pusty format równa się @val</Phrase>
     <Phrase key="PublishOnChange.DisplayName">Opublikuj po zmianie</Phrase>
     <Phrase key="PublishOnChange.Category">Główne parametry</Phrase>
     <Phrase key="PublishOnChange.Description">Wartość wskazująca, czy po zmianie mają być wysyłane dane kanału.</Phrase>

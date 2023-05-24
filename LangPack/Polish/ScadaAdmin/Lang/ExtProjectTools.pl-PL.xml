@@ -49,8 +49,7 @@
     <Phrase key="btnClone">Klon</Phrase>
     <Phrase key="btnClose">Zamknąć</Phrase>
     <Phrase key="KeepUnchanged">&lt;Zachowaj bez zmian&gt;</Phrase>
-    <Phrase key="CloneChannelsCompleted">Klonowanie zakończone pomyślnie.
-Dodano {0} kanałów.</Phrase>
+    <Phrase key="CloneChannelsCompleted">Klonowanie zakończone pomyślnie.&#13;&#10;Dodano {0} kanałów.</Phrase>
     <Phrase key="CloneChannelsError">Błąd klonowania kanałów</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
@@ -86,8 +85,7 @@ Dodano {0} kanałów.</Phrase>
     <Phrase key="btnImport">Import</Phrase>
     <Phrase key="btnClose">Zamknąć</Phrase>
     <Phrase key="ImportTableFilter">Tabele (*.dat;*.xml;*.csv)|*.dat;*.xml;*.csv|Wszystkie pliki (*.*)|*.*</Phrase>
-    <Phrase key="ImportTableCompleted">Importowanie zakończone pomyślnie.
-Efekt dotyczy {0} wierszy.</Phrase>
+    <Phrase key="ImportTableCompleted">Importowanie zakończone pomyślnie.&#13;&#10;Efekt dotyczy {0} wierszy.</Phrase>
     <Phrase key="ImportTableError">Błąd podczas importowania tabeli</Phrase>
   </Dictionary>
 </ExtProjectToolsDictionaries>

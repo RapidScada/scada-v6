@@ -2,8 +2,7 @@
 <DrvModbusDictionaries>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls">
     <Phrase key="AddressHint">{0}, począwszy od {1}</Phrase>
-    <Phrase key="ElemRemoveWarning">Blok danych dopuszcza maksymalnie {0} elementów.
-Dodatkowe elementy zostaną usunięte.  Kontynuować?</Phrase>
+    <Phrase key="ElemRemoveWarning">Blok danych dopuszcza maksymalnie {0} elementów.&#13;&#10;Dodatkowe elementy zostaną usunięte.  Kontynuować?</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlCmd">
     <Phrase key="gbCmd">Parametry poleceń</Phrase>
@@ -21,14 +20,14 @@ Dodatkowe elementy zostaną usunięte.  Kontynuować?</Phrase>
     <Phrase key="lblCmdAddress">Adres elementu</Phrase>
     <Phrase key="lblCmdElemType">Typ elementu</Phrase>
     <Phrase key="cbCmdElemType.Items[0]">Nieokreślony</Phrase>
-    <Phrase key="cbCmdElemType.Items[1]">ushort (2 bajty)</Phrase>
-    <Phrase key="cbCmdElemType.Items[2]">krótki (2 bajty)</Phrase>
-    <Phrase key="cbCmdElemType.Items[3]">uint (4 bajty)</Phrase>
-    <Phrase key="cbCmdElemType.Items[4]">int (4 bajty)</Phrase>
-    <Phrase key="cbCmdElemType.Items[5]">ulong (8 bajtów)</Phrase>
-    <Phrase key="cbCmdElemType.Items[6]">długi (8 bajtów)</Phrase>
-    <Phrase key="cbCmdElemType.Items[7]">pływak (4 bajty)</Phrase>
-    <Phrase key="cbCmdElemType.Items[8]">podwójny (8 bajtów)</Phrase>
+    <Phrase key="cbCmdElemType.Items[1]">ushort (2 bytes)</Phrase>
+    <Phrase key="cbCmdElemType.Items[2]">short (2 bytes)</Phrase>
+    <Phrase key="cbCmdElemType.Items[3]">uint (4 bytes)</Phrase>
+    <Phrase key="cbCmdElemType.Items[4]">int (4 bytes)</Phrase>
+    <Phrase key="cbCmdElemType.Items[5]">ulong (8 bytes)</Phrase>
+    <Phrase key="cbCmdElemType.Items[6]">long (8 bytes)</Phrase>
+    <Phrase key="cbCmdElemType.Items[7]">float (4 bytes)</Phrase>
+    <Phrase key="cbCmdElemType.Items[8]">double (8 bytes)</Phrase>
     <Phrase key="cbCmdElemType.Items[9]">bool (1 bit)</Phrase>
     <Phrase key="lblCmdElemCnt">Liczba elementów</Phrase>
     <Phrase key="lblCmdByteOrder">Kolejność bajtów</Phrase>
