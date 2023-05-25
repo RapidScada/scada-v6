@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvCnlBasicDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.BasicChannelView">
+    <Phrase key="ChannelTypeNotFound">İletişim kanalı tipi bulunamadı.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmSerialPortChannelOptions">
+    <Phrase key="this">Seri Port Seçenekleri</Phrase>
+    <Phrase key="gbPort">Seri port</Phrase>
+    <Phrase key="lblPortName">bağlantı noktası adı</Phrase>
+    <Phrase key="lblBaudRate">Baud hızı</Phrase>
+    <Phrase key="lblDataBits">Veri bitleri</Phrase>
+    <Phrase key="lblParity">parite</Phrase>
+    <Phrase key="cbParity.Items[0]">Hiçbiri</Phrase>
+    <Phrase key="cbParity.Items[1]">Garip</Phrase>
+    <Phrase key="cbParity.Items[2]">Eşit</Phrase>
+    <Phrase key="cbParity.Items[3]">İşaret</Phrase>
+    <Phrase key="cbParity.Items[4]">Uzay</Phrase>
+    <Phrase key="lblStopBits">Durdurma bitleri</Phrase>
+    <Phrase key="lblDtrEnable">DTR</Phrase>
+    <Phrase key="lblRtsEnable">RTS</Phrase>
+    <Phrase key="gbMode">Çalışma modu</Phrase>
+    <Phrase key="lblBehavior">Davranış</Phrase>
+    <Phrase key="cbBehavior.Items[0]">Usta</Phrase>
+    <Phrase key="cbBehavior.Items[1]">Köle</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpClientChannelOptions">
+    <Phrase key="this">TCP İstemci Seçenekleri</Phrase>
+    <Phrase key="gbMode">Çalışma modu</Phrase>
+    <Phrase key="lblBehavior">Davranış</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master - Communicator bir cihaza istek gönderir ve yanıt alır.&#13;&#10;Bağımlı - Communicator pasif olarak bir cihazdan veri bekler.</Phrase>
+    <Phrase key="lblConnectionMode">Bağlantı modu</Phrase>
+    <Phrase key="cbConnectionMode.Items[0]">Bireysel</Phrase>
+    <Phrase key="cbConnectionMode.Items[1]">Paylaşılan</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">Bireysel - Communicator, her cihazla ayrı bir TCP bağlantısı kurar.&#13;&#10;Paylaşılan - Communicator, belirtilen uzak IP adresini kullanarak&#13;&#10;iletişim hattındaki tüm cihazlar için tek bir paylaşılan bağlantı kurar.&#13;&#10;Paylaşılan bağlantı kullanılır,  örneğin, cihazlar bir Ethernet-Serial ağ geçidi üzerinden bağlıysa.</Phrase>
+    <Phrase key="gbConnection">Bağlantı</Phrase>
+    <Phrase key="lblHost">Uzak ana bilgisayar</Phrase>
+    <Phrase key="pbHostHint.ToolTip">Paylaşılan bağlantı kullanılması durumunda uzak DNS adı veya IP adresi.</Phrase>
+    <Phrase key="lblTcpPort">Uzak TCP bağlantı noktası</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">Bireysel bağlantı modunda, bir cihaz için bağlantı noktası belirtilmezse varsayılan TCP bağlantı noktası olarak kullanılır.&#13;&#10;Paylaşımlı bağlantı modunda parametre gereklidir.&#13;&#10;502 bağlantı noktası, varsayılan Modbus TCP bağlantı noktasıdır.</Phrase>
+    <Phrase key="lblReconnectAfter">Yeniden bağlan, saniye</Phrase>
+    <Phrase key="pbReconnectAfterHint.ToolTip">Başarısız bir denemeden sonra yeniden bağlanmak için zaman aralığını belirtir.</Phrase>
+    <Phrase key="lblStayConnected">Bağlı kalın</Phrase>
+    <Phrase key="pbStayConnectedHint.ToolTip">Ayarlanırsa bağlantı, iletişim oturumları arasında etkindir. Aksi takdirde, bağlantı her oturumdan sonra sonlandırılır.</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+    <Phrase key="HostRequired">Uzak ana bilgisayar gerekli.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpServerChannelOptions">
+    <Phrase key="this">TCP Sunucu Seçenekleri</Phrase>
+    <Phrase key="gbMode">Çalışma modu</Phrase>
+    <Phrase key="lblBehavior">Davranış</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master - bağlantı kurulduktan sonra Communicator bir cihaza istek gönderir ve yanıt alır.&#13;&#10;Bağımlı - Communicator pasif olarak bir cihazdan veri bekler.</Phrase>
+    <Phrase key="lblConnectionMode">Bağlantı modu</Phrase>
+    <Phrase key="cbConnectionMode.Items[0]">Bireysel</Phrase>
+    <Phrase key="cbConnectionMode.Items[1]">Paylaşılan</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">Bireysel - Communicator, her cihazla ayrı bir TCP bağlantısı kurar.&#13;&#10;Paylaşılan - Communicator, iletişim hattındaki tüm cihazlar için tek bir paylaşılan bağlantı kurar.&#13;&#10;Paylaşılan bağlantı, örneğin, cihazlar üzerinden bağlanırsa kullanılır.  bir Ethernet-Seri ağ geçidi.</Phrase>
+    <Phrase key="lblDeviceMapping">Cihaz eşleme</Phrase>
+    <Phrase key="cbDeviceMapping.Items[0]">IP adresine göre</Phrase>
+    <Phrase key="cbDeviceMapping.Items[1]">merhaba paketi ile</Phrase>
+    <Phrase key="cbDeviceMapping.Items[2]">Sürücü belirlendi</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">Yeni bir gelen bağlantıyı bir cihaza bağlama yöntemi:&#13;&#10;IP adresine göre - uzak IP adresi, bir cihazın dize adresine eşittir.&#13;&#10;Merhaba paketine göre - bir cihazdan alınan ilk paket, dize adresini içerir.&lt;  br/&gt;Sürücü belirlendi - algoritma aygıt sürücüsünde uygulanır.</Phrase>
+    <Phrase key="gbConnection">Bağlantı</Phrase>
+    <Phrase key="lblTcpPort">Yerel TCP bağlantı noktası</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">Gelen bağlantılar için yerel TCP bağlantı noktası.&#13;&#10;Gelen bağlantılara bir güvenlik duvarı tarafından izin verilmelidir.</Phrase>
+    <Phrase key="lblClientLifetime">Aktif olmayan kullanım ömrü, saniye</Phrase>
+    <Phrase key="pbClientLifetimeHint.ToolTip">Etkin olmayan bir istemcinin bağlantısının kesildiği süre.</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmUdpChannelOptions">
+    <Phrase key="this">UDP Seçenekleri</Phrase>
+    <Phrase key="gbMode">Çalışma modu</Phrase>
+    <Phrase key="lblBehavior">Davranış</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master - Communicator bir cihaza istek gönderir ve yanıt alır.&#13;&#10;Bağımlı - Communicator pasif olarak bir cihazdan veri bekler.</Phrase>
+    <Phrase key="lblDeviceMapping">Cihaz eşleme</Phrase>
+    <Phrase key="cbDeviceMapping.Items[0]">IP adresine göre</Phrase>
+    <Phrase key="cbDeviceMapping.Items[1]">Sürücü belirlendi</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">Yeni bir gelen bağlantıyı bir cihaza bağlama yöntemi:&#13;&#10;IP adresine göre - uzak IP adresi, bir cihaz dize adresine eşittir.&#13;&#10;Sürücü belirlenir - algoritma, cihaz sürücüsünde uygulanır.</Phrase>
+    <Phrase key="gbConnection">Bağlantı</Phrase>
+    <Phrase key="lblLocalUdpPort">Yerel UDP bağlantı noktası</Phrase>
+    <Phrase key="pbLocalUdpPortHint.ToolTip">Gelen bağlantılar için yerel UDP bağlantı noktası.&#13;&#10;Gelen bağlantılara bir güvenlik duvarı tarafından izin verilmelidir.</Phrase>
+    <Phrase key="lblRemoteUdpPort">Uzak UDP bağlantı noktası</Phrase>
+    <Phrase key="pbRemoteUdpPortHint.ToolTip">Varsayılan uzak UDP bağlantı noktası.  İletişim hattındaki tüm cihazlar için aynıdır.</Phrase>
+    <Phrase key="lblRemoteIpAddress">Uzak IP adresi</Phrase>
+    <Phrase key="pbRemoteIpAddressHint.ToolTip">Varsayılan uzak IP adresi.&#13;&#10;Örneğin, cihazlar bir Ethernet-Serial ağ geçidi üzerinden bağlıysa kullanılabilir.</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+</DrvCnlBasicDictionaries>

@@ -127,7 +127,7 @@
   <Dictionary key="Scada.Forms.Controls.CtrlDbConnection">
     <Phrase key="gbConnectionOptions">Options de connexion</Phrase>
     <Phrase key="lblName">Nom</Phrase>
-    <Phrase key="lblDbms">SGBD</Phrase>
+    <Phrase key="lblDbms">DBMS</Phrase>
     <Phrase key="cbDbms.Items[0]">Indéfini</Phrase>
     <Phrase key="lblServer">Serveur</Phrase>
     <Phrase key="lblDatabase">Base de données</Phrase>

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDsScadaServerDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsScadaServer.View.Forms.FrmConnManager">
+    <Phrase key="this">İstemci Bağlantıları</Phrase>
+    <Phrase key="gbConnList">Bağlantılar</Phrase>
+    <Phrase key="btnNewConn">Yeni</Phrase>
+    <Phrase key="btnDeleteConn">Silmek</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsScadaServer.View.Forms.FrmScadaServerDSO">
+    <Phrase key="this">Veri Kaynağı Seçenekleri</Phrase>
+    <Phrase key="lblReadConfigDb">Yapılandırma veritabanını oku</Phrase>
+    <Phrase key="lblUseDefaultConn">Varsayılan bağlantıyı kullan</Phrase>
+    <Phrase key="lblConnection">Bağlantı</Phrase>
+    <Phrase key="lblMaxQueueSize">Maksimum sıra boyutu</Phrase>
+    <Phrase key="lblDataLifetime">Sıradaki veri ömrü, saniye</Phrase>
+    <Phrase key="lblClientLogEnabled">İstemci günlüğü etkinleştirildi</Phrase>
+    <Phrase key="lblDeviceFilter">Cihaz filtresi</Phrase>
+    <Phrase key="btnSelectDevices">Seçme...</Phrase>
+    <Phrase key="btnManageConn">Bağlantıları yönet</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+</DrvDsScadaServerDictionaries>

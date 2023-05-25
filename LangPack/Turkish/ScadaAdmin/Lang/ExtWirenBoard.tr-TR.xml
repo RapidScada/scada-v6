@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtWirenBoardDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlDeviceTree">
+    <Phrase key="btnSelectAll">Hepsini seç</Phrase>
+    <Phrase key="btnSelectNone">Hiçbirini Seçme</Phrase>
+    <Phrase key="SelectDevice">Lütfen en az bir cihaz seçin.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlEntityID">
+    <Phrase key="lblStartDeviceNum">Başlangıç ​​cihaz numarası</Phrase>
+    <Phrase key="btnDeviceMap">Harita</Phrase>
+    <Phrase key="lblStartCnlNum">Başlangıç ​​kanal numarası</Phrase>
+    <Phrase key="btnCnlMap">Harita</Phrase>
+    <Phrase key="lblObj">Nesne</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlExtensionMenu">
+    <Phrase key="miWirenBoard">Tel Kurulu</Phrase>
+    <Phrase key="miCreateConfig">Yapılandırma Oluştur...</Phrase>
+    <Phrase key="btnCreateConfig.ToolTip">Wiren Board için proje yapılandırması oluşturun</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlLineSelect">
+    <Phrase key="lblInstance">Misal</Phrase>
+    <Phrase key="lblLine">iletişim hattı</Phrase>
+    <Phrase key="lblWirenBoardIP">Wiren Board IP adresi</Phrase>
+    <Phrase key="CommLineRequired">Lütfen bir iletişim hattı seçin.</Phrase>
+    <Phrase key="MqttLineRequired">Seçilen hattın kanal tipi MQTT client olmalıdır.</Phrase>
+    <Phrase key="WirenBoardIpRequired">Wiren Board IP adresi gereklidir.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Forms.FrmWirenBoardWizard">
+    <Phrase key="this">Wiren Board için proje yapılandırma sihirbazı</Phrase>
+    <Phrase key="btnBack">&lt; Geri</Phrase>
+    <Phrase key="btnNext">Sonraki &gt;</Phrase>
+    <Phrase key="btnCreate">Yaratmak</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+    <Phrase key="Step1Descr">Adım 1/5: İletişim Hattını Seçin</Phrase>
+    <Phrase key="Step2Descr">Adım 2/5: Wiren Board'dan Konuları Okuyun</Phrase>
+    <Phrase key="Step3Descr">Adım 3/5: İçe Aktarma için Cihazları ve Kontrolleri Seçin</Phrase>
+    <Phrase key="Step4Descr">Adım 4/5: Yapılandırma Veritabanı için Kimlikleri Ayarlayın</Phrase>
+    <Phrase key="Step5Descr">Adım 5/5: Oluşturulan Konfigürasyonu Kontrol Edin</Phrase>
+    <Phrase key="CreateConfigCompleted">Yapılandırma başarıyla oluşturuldu</Phrase>
+    <Phrase key="CreateConfigError">Yapılandırma oluşturulurken hata oluştu</Phrase>
+  </Dictionary>
+</ExtWirenBoardDictionaries>

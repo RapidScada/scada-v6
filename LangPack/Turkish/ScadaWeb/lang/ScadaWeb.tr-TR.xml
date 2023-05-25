@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaWebDictionaries>
+  <Dictionary key="Scada.Web">
+    <Phrase key="CorrectErrors">Lütfen aşağıdaki hataları düzeltin:</Phrase>
+    <Phrase key="ClientError">Sunucuyla iletişim hatası</Phrase>
+    <Phrase key="UnknownUsername">Bilinmeyen</Phrase>
+    <Phrase key="AccessDenied">Erişim engellendi</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Code.ViewLoader">
+    <Phrase key="ViewNotSpecified">İstenen görünüm belirtilmedi.</Phrase>
+    <Phrase key="ViewNotExists">İstenen görünüm mevcut değil.</Phrase>
+    <Phrase key="InsufficientViewRights">Görünüm için yetersiz erişim hakları.</Phrase>
+    <Phrase key="UnableResolveViewSpec">Görünüm belirtimi çözülemiyor.</Phrase>
+    <Phrase key="UnableLoadView">Görünüm yüklenemiyor.</Phrase>
+    <Phrase key="ViewMissingFromCache">Görünüm, önbellekten eksik.</Phrase>
+    <Phrase key="ViewUndefined">Görünüm tanımsız.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Shared._MainLayout">
+    <Phrase key="spanMenuBtn_ToolTip">Menüyü Göster/Gizle</Phrase>
+    <Phrase key="spanNotifBtn_ToolTip">Bildirimleri Göster/Gizle</Phrase>
+    <Phrase key="spanProfileBtn_ToolTip">Kullanıcı profili</Phrase>
+    <Phrase key="spanLogoutBtn">Çıkış Yap</Phrase>
+    <Phrase key="spanLogoutBtn_ToolTip">Çıkış Yap</Phrase>
+    <Phrase key="spanFullscreenBtn_ToolTip">Tam ekran</Phrase>
+    <Phrase key="spanExitFullscreenBtn_ToolTip">Normal görünüm</Phrase>
+    <Phrase key="divMainMenuTab">Ana menü</Phrase>
+    <Phrase key="divViewExplorerTab">Görüntüleme</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Shared._MainLayout.Modal">
+    <Phrase key="Ok">TAMAM</Phrase>
+    <Phrase key="Yes">Evet</Phrase>
+    <Phrase key="No">HAYIR</Phrase>
+    <Phrase key="Execute">Uygulamak</Phrase>
+    <Phrase key="Cancel">İptal etmek</Phrase>
+    <Phrase key="Close">Kapalı</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Shared._MainLayout.NotifPanel">
+    <Phrase key="NoNotif">bildirim yok</Phrase>
+    <Phrase key="Mute">Sesini kapatmak</Phrase>
+    <Phrase key="Unmute">Sesini açmak</Phrase>
+    <Phrase key="AckAll">Tümünü Kabul Et</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.About">
+    <Phrase key="PageTitle">Program hakkında</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.AccessDenied">
+    <Phrase key="PageTitle">Erişim engellendi</Phrase>
+    <Phrase key="ErrorMessage">İstenen kaynağa erişmek için yeterli hakkınız yok.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.CnlSelect">
+    <Phrase key="PageTitle">Kanal Seç</Phrase>
+    <Phrase key="lblObj">Nesne</Phrase>
+    <Phrase key="lblOnlySelected">Yalnızca seçili kanalları göster</Phrase>
+    <Phrase key="SelectObjectItem">-- Bir nesne seçin --</Phrase>
+    <Phrase key="FilterRequired">Lütfen bir filtre belirtin.</Phrase>
+    <Phrase key="NoChannels">Filtreyle eşleşen kanal yok.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Error">
+    <Phrase key="PageTitle">Hata</Phrase>
+    <Phrase key="ErrorMessage">İşleminiz gerçekleştirilirken bir hata oluştu.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Login">
+    <Phrase key="PageTitle">Giriş yapmak</Phrase>
+    <Phrase key="NotReady">Uygulama hazır değil.  Daha sonra tekrar deneyin.</Phrase>
+    <Phrase key="InvalidCaptcha">Geçersiz koruma kodu.</Phrase>
+    <Phrase key="lblUsername">Kullanıcı adı</Phrase>
+    <Phrase key="lblPassword">Şifre</Phrase>
+    <Phrase key="lblCaptcha">Koruma kodu</Phrase>
+    <Phrase key="lblRememberMe">Beni Hatırla</Phrase>
+    <Phrase key="btnLogin">Giriş yapmak</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Reports">
+    <Phrase key="PageTitle">Raporlar</Phrase>
+    <Phrase key="NoReports">Kullanılabilir rapor yok.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.UserProfile">
+    <Phrase key="PageTitle">Kullanıcı profili</Phrase>
+    <Phrase key="lblUserID">Kullanıcı kimliği:</Phrase>
+    <Phrase key="lblUsername">Kullanıcı adı:</Phrase>
+    <Phrase key="lblRole">rol:</Phrase>
+    <Phrase key="lblTimeZone">Saat dilimi:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.View">
+    <Phrase key="PageTitle">Görüş</Phrase>
+    <Phrase key="divHideDataWindowBtn_ToolTip">Veri Penceresini Gizle</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.ViewFrame">
+    <Phrase key="PageTitle">Görüş</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins">
+    <Phrase key="LoadPluginConfigError">Eklenti yapılandırması yüklenirken hata oluştu</Phrase>
+    <Phrase key="SavePluginConfigError">Eklenti yapılandırması kaydedilirken hata oluştu</Phrase>
+    <Phrase key="CnlNotFound">Kanal {0} bulunamadı.</Phrase>
+    <Phrase key="CnlNotOutput">{0} kanalı bir çıkış değil.</Phrase>
+    <Phrase key="CommandsDisabled">Komutlar devre dışı.</Phrase>
+    <Phrase key="SendCommand">{1} tarafından {0} kanalına komut gönder</Phrase>
+    <Phrase key="ActionNotAllowed">Eyleme izin verilmiyor.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.TreeView.MenuItem">
+    <Phrase key="ReportsMenuItem">Raporlar</Phrase>
+    <Phrase key="AdministrationMenuItem">Yönetim</Phrase>
+    <Phrase key="ConfigurationMenuItem">Yapılandırma</Phrase>
+    <Phrase key="RegistrationMenuItem">Kayıt</Phrase>
+    <Phrase key="PluginsMenuItem">Eklentiler</Phrase>
+    <Phrase key="AboutMenuItem">Program hakkında</Phrase>
+  </Dictionary>
+</ScadaWebDictionaries>

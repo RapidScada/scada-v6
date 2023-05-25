@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvEmailDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvEmail.View.Forms.FrmConfig">
+    <Phrase key="this">Cihaz {0} Özellikleri - E-posta</Phrase>
+    <Phrase key="gbServer">SMTP sunucusu</Phrase>
+    <Phrase key="lblHost">Sunucu ana bilgisayarı</Phrase>
+    <Phrase key="lblPort">Liman</Phrase>
+    <Phrase key="lblUsername">Kullanıcı adı</Phrase>
+    <Phrase key="lblPassword">Şifre</Phrase>
+    <Phrase key="chkEnableSsl">SSL kullan</Phrase>
+    <Phrase key="gbSender">İtibaren</Phrase>
+    <Phrase key="lblSenderAddress">Gönderen adresi</Phrase>
+    <Phrase key="lblSenderDisplayName">Ekran adı</Phrase>
+    <Phrase key="btnAddressBook">Adres defteri</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+</DrvEmailDictionaries>

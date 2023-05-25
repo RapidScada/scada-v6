@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModArcInfluxDblDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmConnManager">
+    <Phrase key="this">InfluxDB Bağlantıları</Phrase>
+    <Phrase key="gbConnList">Bağlantılar</Phrase>
+    <Phrase key="btnNewConn">Yeni</Phrase>
+    <Phrase key="btnDeleteConn">Silmek</Phrase>
+    <Phrase key="gbOptions">Bağlantı Seçenekleri</Phrase>
+    <Phrase key="lblName">İsim</Phrase>
+    <Phrase key="lblUrl">URL</Phrase>
+    <Phrase key="lblToken">Jeton</Phrase>
+    <Phrase key="lblUsername">Kullanıcı adı</Phrase>
+    <Phrase key="lblPassword">Şifre</Phrase>
+    <Phrase key="lblBucket">Kova</Phrase>
+    <Phrase key="lblOrg">organizasyon</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmInfluxHAO">
+    <Phrase key="this">Tarihsel Arşiv Seçenekleri</Phrase>
+    <Phrase key="gbDbOptions">Veritabanı Seçenekleri</Phrase>
+    <Phrase key="lblConnection">Bağlantı</Phrase>
+    <Phrase key="lblBatchSize">Parti boyutu</Phrase>
+    <Phrase key="lblFlushInterval">Yıkama aralığı</Phrase>
+    <Phrase key="txtFlushIntervalUnit">Hanım</Phrase>
+    <Phrase key="btnManageConn">Bağlantıları yönet</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+</ModArcInfluxDblDictionaries>

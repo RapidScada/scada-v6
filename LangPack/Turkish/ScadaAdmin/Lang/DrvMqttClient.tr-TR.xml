@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvMqttClientDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.BaseItemConfig">
+    <Phrase key="Topic.DisplayName">Başlık</Phrase>
+    <Phrase key="Topic.Category">Ana Parametreler</Phrase>
+    <Phrase key="Topic.Description">MQTT konusu.</Phrase>
+    <Phrase key="DisplayName.DisplayName">Ekran adı</Phrase>
+    <Phrase key="DisplayName.Category">Ana Parametreler</Phrase>
+    <Phrase key="DisplayName.Description">Aygıt etiketinin görünen adı.</Phrase>
+    <Phrase key="QosLevel.DisplayName">QoS seviyesi</Phrase>
+    <Phrase key="QosLevel.Category">Protokol</Phrase>
+    <Phrase key="QosLevel.Description">Hizmet düzeyi kalitesi: 0 - en fazla bir kez, 1 - en az bir kez, 2 - tam olarak bir kez.</Phrase>
+    <Phrase key="Retain.DisplayName">Sürdürmek</Phrase>
+    <Phrase key="Retain.Category">Protokol</Phrase>
+    <Phrase key="Retain.Description">Yayınlama sırasında tutulan bayrağın ayarlanıp ayarlanmadığını gösteren bir değer.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.CommandConfig">
+    <Phrase key="CmdCode.DisplayName">komut kodu</Phrase>
+    <Phrase key="CmdCode.Category">Ana Parametreler</Phrase>
+    <Phrase key="CmdCode.Description">Konuyla ilişkili komut kodu.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.SubscriptionConfig">
+    <Phrase key="TagCode.DisplayName">etiket kodu</Phrase>
+    <Phrase key="TagCode.Category">Ana Parametreler</Phrase>
+    <Phrase key="TagCode.Description">Konuyla ilişkili etiket kodu.</Phrase>
+    <Phrase key="ReadOnly.DisplayName">Sadece oku</Phrase>
+    <Phrase key="ReadOnly.Category">Ana Parametreler</Phrase>
+    <Phrase key="ReadOnly.Description">Konunun salt okunur olup olmadığını gösteren bir değer.</Phrase>
+    <Phrase key="JsEnabled.DisplayName">JavaScript etkin</Phrase>
+    <Phrase key="JsEnabled.Category">Gelişmiş Parametreler</Phrase>
+    <Phrase key="JsEnabled.Description">Bir mesaj alındığında JavaScript'in yürütülüp yürütülmeyeceğini gösteren bir değer.</Phrase>
+    <Phrase key="JsFileName.DisplayName">JavaScript dosya adı</Phrase>
+    <Phrase key="JsFileName.Category">Gelişmiş Parametreler</Phrase>
+    <Phrase key="JsFileName.Description">Communicator yapılandırma dizinine göre JavaScript dosya adı.</Phrase>
+    <Phrase key="SubItems.DisplayName">alt öğeler</Phrase>
+    <Phrase key="SubItems.Category">Gelişmiş Parametreler</Phrase>
+    <Phrase key="SubItems.Description">Konu için birden çok aygıt etiketini temsil eden alt öğeler.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.DeviceOptions">
+    <Phrase key="RootTopic.DisplayName">Kök konu</Phrase>
+    <Phrase key="RootTopic.Category">Ana Parametreler</Phrase>
+    <Phrase key="RootTopic.Description">Tüm cihaz konuları için önek olarak kullanılan kök konu.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.View.MqttClientConfigProvider">
+    <Phrase key="FormTitle">Cihaz {0} Özellikleri - MQTT İstemcisi</Phrase>
+    <Phrase key="AddSubscriptionButton">Abonelik Ekle</Phrase>
+    <Phrase key="AddCommandButton">Komut Ekle</Phrase>
+    <Phrase key="OptionsNode">Seçenekler</Phrase>
+    <Phrase key="SubscriptionsNode">Abonelikler</Phrase>
+    <Phrase key="CommandsNode">komutlar</Phrase>
+    <Phrase key="UnnamedSubscription">&lt;Adsız Abonelik&gt;</Phrase>
+    <Phrase key="UnnamedCommand">&lt;Adsız Komut&gt;</Phrase>
+  </Dictionary>
+</DrvMqttClientDictionaries>

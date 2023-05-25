@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvHttpNotifDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvHttpNotif.View.Forms.FrmConfig">
+    <Phrase key="this">Cihaz {0} Özellikleri - HTTP Bildirimleri</Phrase>
+    <Phrase key="pageGeneral">Genel</Phrase>
+    <Phrase key="lblMethod">Yöntem</Phrase>
+    <Phrase key="lblUri">URI</Phrase>
+    <Phrase key="lblUriHint">Parametreler içerebilir, örneğin {phone}, {email} ve {text}</Phrase>
+    <Phrase key="gbParam">parametreler</Phrase>
+    <Phrase key="chkParamEnabled">Parametreler etkinleştirildi</Phrase>
+    <Phrase key="lblParamBegin">Başlamak</Phrase>
+    <Phrase key="lblParamEnd">Son</Phrase>
+    <Phrase key="lblAddrSep">Ayırıcı</Phrase>
+    <Phrase key="pageHeaders">Başlıklar</Phrase>
+    <Phrase key="colName">İsim</Phrase>
+    <Phrase key="colValue">Değer</Phrase>
+    <Phrase key="pageContent">İçerik</Phrase>
+    <Phrase key="lblContentType">İçerik türü</Phrase>
+    <Phrase key="lblContentEscaping">kaçış</Phrase>
+    <Phrase key="cbContentEscaping.Items[0]">Hiçbiri</Phrase>
+    <Phrase key="cbContentEscaping.Items[1]">URL</Phrase>
+    <Phrase key="cbContentEscaping.Items[2]">JSON</Phrase>
+    <Phrase key="lblContent">Vücut</Phrase>
+    <Phrase key="lblContentHint">Parametreler içerebilir, örneğin {phone}, {email} ve {text}</Phrase>
+    <Phrase key="btnAddressBook">Adres defteri</Phrase>
+    <Phrase key="btnSave">Kaydetmek</Phrase>
+    <Phrase key="btnClose">Kapalı</Phrase>
+  </Dictionary>
+</DrvHttpNotifDictionaries>

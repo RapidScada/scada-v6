@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDsMqttDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsMqtt.View.Forms.FrmMqttDSO">
+    <Phrase key="this">Veri Kaynağı Seçenekleri</Phrase>
+    <Phrase key="pageConnectionOptions">Bağlantı</Phrase>
+    <Phrase key="lblServer">sunucu</Phrase>
+    <Phrase key="lblPort">TCP bağlantı noktası</Phrase>
+    <Phrase key="lblTimeout">Zaman aşımı, ms</Phrase>
+    <Phrase key="lblUseTls">TLS kullan</Phrase>
+    <Phrase key="lblClientID">Müşteri Kimliği</Phrase>
+    <Phrase key="lblUsername">Kullanıcı adı</Phrase>
+    <Phrase key="lblPassword">Şifre</Phrase>
+    <Phrase key="lblProtocolVersion">protokol versiyonu</Phrase>
+    <Phrase key="cbProtocolVersion.Items[0]">Varsayılan</Phrase>
+    <Phrase key="cbProtocolVersion.Items[1]">3.1</Phrase>
+    <Phrase key="cbProtocolVersion.Items[2]">3.1.1</Phrase>
+    <Phrase key="cbProtocolVersion.Items[3]">5.0</Phrase>
+    <Phrase key="pagePublishOptions">Yayıncılık</Phrase>
+    <Phrase key="lblRootTopic">Kök konu</Phrase>
+    <Phrase key="lblUndefinedValue">tanımsız değer</Phrase>
+    <Phrase key="lblPublishFormat">Yayın biçimi</Phrase>
+    <Phrase key="lblQosLevel">Hizmet seviyesi kalitesi</Phrase>
+    <Phrase key="cbQosLevel.Items[0]">En fazla bir kez (0)</Phrase>
+    <Phrase key="cbQosLevel.Items[1]">En az bir kez (1)</Phrase>
+    <Phrase key="cbQosLevel.Items[2]">Tam olarak bir kez (2)</Phrase>
+    <Phrase key="lblRetain">Sürdürmek</Phrase>
+    <Phrase key="lblMaxQueueSize">Maksimum sıra boyutu</Phrase>
+    <Phrase key="lblDataLifetime">Sıradaki veri ömrü, saniye</Phrase>
+    <Phrase key="lblDetailedLog">Ayrıntılı günlük</Phrase>
+    <Phrase key="lblDeviceFilter">Cihaz filtresi</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+</DrvDsMqttDictionaries>

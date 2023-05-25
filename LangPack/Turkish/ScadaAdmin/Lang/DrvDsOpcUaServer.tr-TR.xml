@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDsOpcUaServerDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms.FrmOpcUaServerDSO">
+    <Phrase key="this">Veri Kaynağı Seçenekleri</Phrase>
+    <Phrase key="chkAutoAccept">Sertifikaları otomatik olarak kabul et</Phrase>
+    <Phrase key="lblUsername">Kullanıcı adı</Phrase>
+    <Phrase key="lblPassword">Şifre</Phrase>
+    <Phrase key="lblConfigFileName">Yapılandırma dosyası</Phrase>
+    <Phrase key="btnCreateConfigWin.ToolTip">Windows için yapılandırma dosyası oluştur</Phrase>
+    <Phrase key="btnCreateConfigLinux.ToolTip">Linux için yapılandırma dosyası oluştur</Phrase>
+    <Phrase key="btnBrowseConfig.ToolTip">Araştır</Phrase>
+    <Phrase key="lblDeviceFilter">Cihaz filtresi</Phrase>
+    <Phrase key="btnSelectDevices.ToolTip">Cihazları seçin</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+    <Phrase key="ConfigDirRequired">Yapılandırma dosyası {0} içinde yer almalıdır</Phrase>
+  </Dictionary>
+</DrvDsOpcUaServerDictionaries>
