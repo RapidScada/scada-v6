@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AddressBookDictionaries>
+  <Dictionary key="Scada.AB.Forms.FrmAddressBook">
+    <Phrase key="this">住所録</Phrase>
+    <Phrase key="btnAddContactGroup.ToolTip">連絡先グループを追加する</Phrase>
+    <Phrase key="btnAddContact.ToolTip">連絡先を追加</Phrase>
+    <Phrase key="btnAddPhoneNumber.ToolTip">電話番号を追加</Phrase>
+    <Phrase key="btnAddEmail.ToolTip">メールアドレスを追加</Phrase>
+    <Phrase key="btnEdit.ToolTip">編集</Phrase>
+    <Phrase key="btnDelete.ToolTip">消去</Phrase>
+    <Phrase key="btnSave">保存</Phrase>
+    <Phrase key="btnClose">近い</Phrase>
+    <Phrase key="AddressBookNode">住所録</Phrase>
+    <Phrase key="NewContactGroup">新しい集団</Phrase>
+    <Phrase key="NewContact">新しい連絡先</Phrase>
+    <Phrase key="NewPhoneNumber">新しい電話番号</Phrase>
+    <Phrase key="NewEmail">新しいメール</Phrase>
+    <Phrase key="ContactGroupExists">連絡先グループはすでに存在します。</Phrase>
+    <Phrase key="ContactExists">連絡先はグループ内にすでに存在します。</Phrase>
+    <Phrase key="PhoneNumberExists">連絡先には、指定された電話番号がすでに含まれています。</Phrase>
+    <Phrase key="EmailExists">連絡先には指定された電子メールがすでに含まれています。</Phrase>
+    <Phrase key="IncorrectEmail">メールが間違っています。</Phrase>
+    <Phrase key="EmptyValueNotAllowed">空の値は許可されません。</Phrase>
+    <Phrase key="SaveAddressBookConfirm">アドレス帳が変更されました。 変更を保存しますか?</Phrase>
+  </Dictionary>
+</AddressBookDictionaries>

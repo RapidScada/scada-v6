@@ -2,7 +2,7 @@
 <ScadaDictionaries>
   <!-- ScadaCommon.dll -->
   <Dictionary key="Scada.Application">
-    <Phrase key="ProductName">Szybka SCADA</Phrase>
+    <Phrase key="ProductName">Rapid SCADA</Phrase>
     <Phrase key="ServerAppName">serwer</Phrase>
     <Phrase key="CommAppName">Komunikator</Phrase>
     <Phrase key="WebAppName">Stacja internetowa</Phrase>

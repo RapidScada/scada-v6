@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModArcInfluxDblDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmConnManager">
+    <Phrase key="this">InfluxDB 接続</Phrase>
+    <Phrase key="gbConnList">接続</Phrase>
+    <Phrase key="btnNewConn">新しい</Phrase>
+    <Phrase key="btnDeleteConn">消去</Phrase>
+    <Phrase key="gbOptions">接続オプション</Phrase>
+    <Phrase key="lblName">名前</Phrase>
+    <Phrase key="lblUrl">URL</Phrase>
+    <Phrase key="lblToken">トークン</Phrase>
+    <Phrase key="lblUsername">ユーザー名</Phrase>
+    <Phrase key="lblPassword">パスワード</Phrase>
+    <Phrase key="lblBucket">バケツ</Phrase>
+    <Phrase key="lblOrg">組織</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmInfluxHAO">
+    <Phrase key="this">履歴アーカイブのオプション</Phrase>
+    <Phrase key="gbDbOptions">データベースオプション</Phrase>
+    <Phrase key="lblConnection">繋がり</Phrase>
+    <Phrase key="lblBatchSize">バッチサイズ</Phrase>
+    <Phrase key="lblFlushInterval">フラッシュ間隔</Phrase>
+    <Phrase key="txtFlushIntervalUnit">MS</Phrase>
+    <Phrase key="btnManageConn">接続の管理</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+</ModArcInfluxDblDictionaries>

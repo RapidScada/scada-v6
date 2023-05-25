@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaSchemeEditorDictionaries>
+  <Dictionary key="Scada.Scheme.Editor.Editor">
+    <Phrase key="EditorTitle">スキームエディター</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FrmMain">
+    <Phrase key="miFile">＆ファイル</Phrase>
+    <Phrase key="miFileNew">新しい</Phrase>
+    <Phrase key="miFileOpen">開ける...</Phrase>
+    <Phrase key="miFileSave">保存</Phrase>
+    <Phrase key="miFileSaveAs">名前を付けて保存...</Phrase>
+    <Phrase key="miFileOpenBrowser">ブラウザを開く</Phrase>
+    <Phrase key="miFileImport">輸入...</Phrase>
+    <Phrase key="miFileExit">出口</Phrase>
+    <Phrase key="miEdit">＆編集</Phrase>
+    <Phrase key="miEditCut">切る</Phrase>
+    <Phrase key="miEditCopy">コピー</Phrase>
+    <Phrase key="miEditPaste">ペースト</Phrase>
+    <Phrase key="miEditPasteSpecial">特殊貼り付け...</Phrase>
+    <Phrase key="miEditUndo">元に戻す</Phrase>
+    <Phrase key="miEditRedo">やり直し</Phrase>
+    <Phrase key="miEditPointer">ポインタ</Phrase>
+    <Phrase key="miEditDelete">消去</Phrase>
+    <Phrase key="miTools">ツール(&amp;T)</Phrase>
+    <Phrase key="miToolsOptions">オプション...</Phrase>
+    <Phrase key="miHelp">＆ヘルプ</Phrase>
+    <Phrase key="miHelpAbout">プログラムについて</Phrase>
+    <Phrase key="btnFileNew.ToolTip">新しいスキーム (Ctrl+N)</Phrase>
+    <Phrase key="btnFileOpen.ToolTip">スキームを開く (Ctrl+O)</Phrase>
+    <Phrase key="btnFileSave.ToolTip">スキームの保存 (Ctrl+S)</Phrase>
+    <Phrase key="miFileSaveAs2">名前を付けて保存...</Phrase>
+    <Phrase key="btnFileOpenBrowser.ToolTip">新しいブラウザタブを開く</Phrase>
+    <Phrase key="btnEditCut.ToolTip">スキームコンポーネントのカット (Ctrl+X)</Phrase>
+    <Phrase key="btnEditCopy.ToolTip">スキームコンポーネントをコピー (Ctrl+C)</Phrase>
+    <Phrase key="btnEditPaste.ToolTip">スキームコンポーネントを貼り付けます (Ctrl+V)</Phrase>
+    <Phrase key="btnEditUndo.ToolTip">元に戻す (Ctrl+Z)</Phrase>
+    <Phrase key="btnEditRedo.ToolTip">やり直し (Ctrl+Y)</Phrase>
+    <Phrase key="btnSchemePointer.ToolTip">コンポーネントの追加をキャンセル (Esc)</Phrase>
+    <Phrase key="btnSchemeDelete.ToolTip">選択したコンポーネントを削除 (Del)</Phrase>
+    <Phrase key="pageComponents">コンポーネント</Phrase>
+    <Phrase key="pageProperties">プロパティ</Phrase>
+    <Phrase key="lvgStandard">標準</Phrase>
+    <Phrase key="lvCompTypes.Items[0]">ポインタ</Phrase>
+    <Phrase key="lvCompTypes.Items[1]">静的テキスト</Phrase>
+    <Phrase key="lvCompTypes.Items[2]">ダイナミックテキスト</Phrase>
+    <Phrase key="lvCompTypes.Items[3]">静止画</Phrase>
+    <Phrase key="lvCompTypes.Items[4]">ダイナミックピクチャー</Phrase>
+    <Phrase key="CloseSecondInstance">スキーム エディターはすでに開始されています。&#13;&#10;2 番目のインスタンスは閉じられます。</Phrase>
+    <Phrase key="FailedToStartEditor">Scada Editor の起動に失敗しました。&#13;&#10;詳細については、&#13;&#10;{0} をご覧ください。</Phrase>
+    <Phrase key="OpenBrowserError">ブラウザを開くときにエラーが発生しました</Phrase>
+    <Phrase key="PointerItem">ポインタ</Phrase>
+    <Phrase key="SchemeFileFilter">スキーム (*.sch)|*.sch|すべてのファイル (*.*)|*.*</Phrase>
+    <Phrase key="SaveSchemeConfirm">スキームが変更されました。 変更を保存しますか?</Phrase>
+    <Phrase key="RestartNeeded">設定変更はアプリケーションの再起動後に有効になります。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FrmPasteSpecial">
+    <Phrase key="this">特殊貼り付け</Phrase>
+    <Phrase key="lblInCnlOffset">入力チャンネル数を増やす</Phrase>
+    <Phrase key="lblCtrlCnlOffset">出力チャンネル数を増やす</Phrase>
+    <Phrase key="btnPaste">ペースト</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FrmSettings">
+    <Phrase key="this">オプション</Phrase>
+    <Phrase key="lblWebDir">Webアプリケーションディレクトリ</Phrase>
+    <Phrase key="gbBrowser">ブラウザ</Phrase>
+    <Phrase key="rbDefault">デフォルト</Phrase>
+    <Phrase key="rbChrome">Chrome</Phrase>
+    <Phrase key="rbFirefox">Firefox</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+    <Phrase key="WebDirNotExists">Web アプリケーションのディレクトリが存在しません。</Phrase>
+    <Phrase key="ChooseWebDir">Web アプリケーションのディレクトリを選択します</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FormState">
+    <Phrase key="LoadFormStateError">フォーム状態の読み込みエラー</Phrase>
+    <Phrase key="SaveFormStateError">フォーム状態の保存中にエラーが発生しました</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.Js">
+    <Phrase key="UnableLoadScheme">スキームを Web ページにアップロードできません。</Phrase>
+    <Phrase key="PageNotValid">Web ページはもはや実際のものではありません。 閉めることをお勧めします。</Phrase>
+    <Phrase key="DataError">データ処理中にエラーが発生しました。</Phrase>
+    <Phrase key="EditorClosed">Scheme Editor が閉じられた可能性があります。  Web ページを閉じることをお勧めします。</Phrase>
+    <Phrase key="BrowserOutdated">お使いのブラウザは最新ではありません。 最新のブラウザに更新してください。</Phrase>
+  </Dictionary>
+</ScadaSchemeEditorDictionaries>

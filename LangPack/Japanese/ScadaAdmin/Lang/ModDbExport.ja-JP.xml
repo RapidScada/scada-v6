@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModDbExportDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlArcReplication">
+    <Phrase key="gbOptions">アーカイブ複製オプション</Phrase>
+    <Phrase key="chkEnabled">有効</Phrase>
+    <Phrase key="chkAutoExport">アーカイブを自動的にエクスポートする</Phrase>
+    <Phrase key="lblMinDepth">最小深さ、秒</Phrase>
+    <Phrase key="lblMaxDepth">最大深度、秒</Phrase>
+    <Phrase key="lblReadingStep">読み取りステップ、秒</Phrase>
+    <Phrase key="lblHistArchiveBit">歴史的なアーカイブの一部</Phrase>
+    <Phrase key="lblEventArchiveBit">イベントアーカイブの一部</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlCurDataExport">
+    <Phrase key="gbOptions">現在のデータ転送オプション</Phrase>
+    <Phrase key="lblTrigger">引き金</Phrase>
+    <Phrase key="cbTrigger.Items[0]">受信時</Phrase>
+    <Phrase key="cbTrigger.Items[1]">オンタイマー</Phrase>
+    <Phrase key="lblTimePeriod">タイマー期間、秒</Phrase>
+    <Phrase key="lblAllDataPeriod">全チャンネルのデータをエクスポートする期間、秒</Phrase>
+    <Phrase key="chkSkipUnchanged">変更されていないデータをスキップする</Phrase>
+    <Phrase key="chkIncludeCalculated">計算されたチャネルを含める</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlGeneral">
+    <Phrase key="gbGeneral">一般的なオプション</Phrase>
+    <Phrase key="chkActive">アクティブ</Phrase>
+    <Phrase key="lblTargetID">ターゲットID</Phrase>
+    <Phrase key="lblName">名前</Phrase>
+    <Phrase key="lblCmdCode">コマンドコード</Phrase>
+    <Phrase key="lblStatusCnlNum">ステータスチャンネル番号</Phrase>
+    <Phrase key="lblMaxQueueSize">最大キューサイズ</Phrase>
+    <Phrase key="lblDataLifetime">キュー内のデータの有効期間 (秒)</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlQuery">
+    <Phrase key="gbGeneral">全般的</Phrase>
+    <Phrase key="chkActive">アクティブ</Phrase>
+    <Phrase key="lblName">名前</Phrase>
+    <Phrase key="lblDataKind">データの種類</Phrase>
+    <Phrase key="cbDataKind.Items[0]">現在のデータ</Phrase>
+    <Phrase key="cbDataKind.Items[1]">歴史的なデータ</Phrase>
+    <Phrase key="cbDataKind.Items[2]">イベント</Phrase>
+    <Phrase key="cbDataKind.Items[3]">イベントの確認</Phrase>
+    <Phrase key="cbDataKind.Items[4]">指図</Phrase>
+    <Phrase key="gbFilter">フィルター</Phrase>
+    <Phrase key="lblCnlNum">チャンネル番号</Phrase>
+    <Phrase key="lblObjNum">オブジェクト番号</Phrase>
+    <Phrase key="lblDeviceNum">デバイス番号</Phrase>
+    <Phrase key="gbQuery">クエリ</Phrase>
+    <Phrase key="chkSingleQuery">単一クエリ (数値の入力が必要)</Phrase>
+    <Phrase key="btnViewParameters.ToolTip">利用可能なパラメータ</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmModuleConfig">
+    <Phrase key="this">DBへのエクスポート</Phrase>
+    <Phrase key="ddbAdd.ToolTip">エクスポート対象の追加</Phrase>
+    <Phrase key="btnSqlServer">Microsoft SQLサーバー</Phrase>
+    <Phrase key="btnMySql">MySQL</Phrase>
+    <Phrase key="btnOracle">オラクル</Phrase>
+    <Phrase key="btnPostgreSql">PostgreSQL</Phrase>
+    <Phrase key="btnAddCurrentDataQuery.ToolTip">現在のデータクエリを追加</Phrase>
+    <Phrase key="btnAddHistoricalDataQuery.ToolTip">履歴データクエリの追加</Phrase>
+    <Phrase key="btnAddEventQuery.ToolTip">イベントクエリの追加</Phrase>
+    <Phrase key="btnAddEventAckQuery.ToolTip">イベント確認クエリの追加</Phrase>
+    <Phrase key="btnAddCommandQuery.ToolTip">コマンドクエリの追加</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">上に移動</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">下に移動</Phrase>
+    <Phrase key="btnDelete.ToolTip">消去</Phrase>
+    <Phrase key="btnCut.ToolTip">切る</Phrase>
+    <Phrase key="btnCopy.ToolTip">コピー</Phrase>
+    <Phrase key="btnPaste.ToolTip">ペースト</Phrase>
+    <Phrase key="gbTarget">輸出対象</Phrase>
+    <Phrase key="btnSave">保存</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+    <Phrase key="btnClose">近い</Phrase>
+    <Phrase key="miCollapseAll">すべて折りたたむ</Phrase>
+    <Phrase key="CopySuffix">- コピー</Phrase>
+    <Phrase key="ArchiveExportOptionsNode">アーカイブレプリケーション</Phrase>
+    <Phrase key="ConnectionOptionsNode">接続オプション</Phrase>
+    <Phrase key="CurrentExportOptionsNode">現在のデータ</Phrase>
+    <Phrase key="ExportOptionsNode">エクスポートオプション</Phrase>
+    <Phrase key="GeneralOptionsNode">一般的なオプション</Phrase>
+    <Phrase key="QueriesNode">クエリ</Phrase>
+    <Phrase key="AddTargets">ターゲットの追加</Phrase>
+    <Phrase key="SelectChildNode">子ノードの選択</Phrase>
+    <Phrase key="TargetName">ターゲット {0}</Phrase>
+    <Phrase key="QueryName">クエリ {0}</Phrase>
+    <Phrase key="TargetNameNotUnique">ターゲット名は一意である必要があります。</Phrase>
+    <Phrase key="UnnamedQuery">&lt;名前のないクエリ&gt;</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmQueryParametrs">
+    <Phrase key="this">利用可能なパラメータ</Phrase>
+    <Phrase key="colParamsName">名前</Phrase>
+    <Phrase key="colParams">説明</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.Command">
+    <Phrase key="CommandID">コマンドID</Phrase>
+    <Phrase key="CreationTime">コマンド作成時間</Phrase>
+    <Phrase key="ClientName">コマンドを送信したクライアント</Phrase>
+    <Phrase key="UserID">ユーザーID</Phrase>
+    <Phrase key="CnlNum">チャンネル番号</Phrase>
+    <Phrase key="ObjNum">オブジェクト番号</Phrase>
+    <Phrase key="DeviceNum">装置番号</Phrase>
+    <Phrase key="CmdNum">コマンド番号</Phrase>
+    <Phrase key="CmdCode">コマンドコード</Phrase>
+    <Phrase key="CmdVal">指令値</Phrase>
+    <Phrase key="CmdData">コマンドデータ</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.Data">
+    <Phrase key="Timestamp">タイムスタンプ</Phrase>
+    <Phrase key="ChannelValue">チャンネル {0} の値</Phrase>
+    <Phrase key="ChannelStatus">チャンネル {0} のステータス</Phrase>
+    <Phrase key="FirstObject">1番目のチャンネルのオブジェクト番号</Phrase>
+    <Phrase key="FirstDevice">1チャンネル目のデバイス番号</Phrase>
+    <Phrase key="CnlNum">チャンネル番号</Phrase>
+    <Phrase key="Val">チャンネル値</Phrase>
+    <Phrase key="Stat">チャンネルステータス</Phrase>
+    <Phrase key="ObjNum">オブジェクト番号</Phrase>
+    <Phrase key="DeviceNum">装置番号</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.Event">
+    <Phrase key="EventID">イベントID</Phrase>
+    <Phrase key="Timestamp">イベントのタイムスタンプ</Phrase>
+    <Phrase key="Hidden">イベントは非表示になっています</Phrase>
+    <Phrase key="CnlNum">チャンネル番号</Phrase>
+    <Phrase key="ObjNum">オブジェクト番号</Phrase>
+    <Phrase key="DeviceNum">装置番号</Phrase>
+    <Phrase key="PrevCnlVal">前のチャンネル値</Phrase>
+    <Phrase key="PrevCnlStat">以前のチャンネルステータス</Phrase>
+    <Phrase key="CnlVal">チャンネル値</Phrase>
+    <Phrase key="CnlStat">チャンネルステータス</Phrase>
+    <Phrase key="Severity">重大度</Phrase>
+    <Phrase key="AckRequired">承認が必要です</Phrase>
+    <Phrase key="AckTimestamp">確認応答のタイムスタンプ</Phrase>
+    <Phrase key="AckUserID">承認ユーザーID</Phrase>
+    <Phrase key="TextFormat">テキスト形式</Phrase>
+    <Phrase key="EventText">イベントテキスト</Phrase>
+    <Phrase key="EventData">イベントデータ</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.EventAck">
+    <Phrase key="EventID">イベントID</Phrase>
+    <Phrase key="AckTimestamp">確認応答のタイムスタンプ</Phrase>
+    <Phrase key="AckUserID">ユーザーID</Phrase>
+  </Dictionary>
+</ModDbExportDictionaries>

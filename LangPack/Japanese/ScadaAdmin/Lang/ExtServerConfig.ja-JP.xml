@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtServerConfigDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.ExtServerConfigLogic">
+    <Phrase key="GeneralOptionsNode">一般的なオプション</Phrase>
+    <Phrase key="ModulesNode">モジュール</Phrase>
+    <Phrase key="ArchivesNode">アーカイブ</Phrase>
+    <Phrase key="LogsNode">ログ</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchiveAdd">
+    <Phrase key="this">アーカイブを追加</Phrase>
+    <Phrase key="lblSourceArchive">ソースアーカイブ</Phrase>
+    <Phrase key="lblModule">モジュール</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchives">
+    <Phrase key="this">アーカイブ</Phrase>
+    <Phrase key="btnAdd">追加</Phrase>
+    <Phrase key="btnMoveUp">上に移動</Phrase>
+    <Phrase key="btnMoveDown">下に移動</Phrase>
+    <Phrase key="btnDelete">消去</Phrase>
+    <Phrase key="btnCut">切る</Phrase>
+    <Phrase key="btnCopy">コピー</Phrase>
+    <Phrase key="btnPaste">ペースト</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">アクティブ</Phrase>
+    <Phrase key="colCode">コード</Phrase>
+    <Phrase key="colName">名前</Phrase>
+    <Phrase key="colKind">親切</Phrase>
+    <Phrase key="colModule">モジュール</Phrase>
+    <Phrase key="gbArchive">選択されたアーカイブ</Phrase>
+    <Phrase key="chkActive">アクティブ</Phrase>
+    <Phrase key="lblCode">コード</Phrase>
+    <Phrase key="lblName">名前</Phrase>
+    <Phrase key="lblKind">親切</Phrase>
+    <Phrase key="lblModule">モジュール</Phrase>
+    <Phrase key="lblOptions">オプション</Phrase>
+    <Phrase key="btnProperties">プロパティ</Phrase>
+    <Phrase key="ModuleNotSpecified">モジュールは指定されていません。</Phrase>
+    <Phrase key="ArchiveNotSupported">このモジュールは、{0} 種類のアーカイブの作成をサポートしていません。</Phrase>
+    <Phrase key="UnableCreateArchiveView">アーカイブ ユーザー インターフェイスを作成できません。</Phrase>
+    <Phrase key="NoArchiveProperties">アーカイブにはプロパティ ウィンドウがありません。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions">
+    <Phrase key="this">一般的なオプション</Phrase>
+    <Phrase key="gbGeneralOptions">一般的なオプション</Phrase>
+    <Phrase key="lblUnrelIfInactive">非アクティブな場合、チャネルを信頼性の低いものとしてマークします (秒)</Phrase>
+    <Phrase key="lblMaxCurDataAge">現在のデータが古い場合は履歴として書き込みます (秒)</Phrase>
+    <Phrase key="lblUseArchivalStatus">受信した履歴データをアーカイブとしてマークする</Phrase>
+    <Phrase key="lblGenerateAckCmd">イベントが確認されたときにコマンドを生成する</Phrase>
+    <Phrase key="lblStopWait">サービスが停止するまで待機します (秒)</Phrase>
+    <Phrase key="lblMaxLogSize">最大ログ ファイル サイズ、MB</Phrase>
+    <Phrase key="lblDisableFormulas">オブジェクト以外のチャネル式を無効にする</Phrase>
+    <Phrase key="btnSelectObjects">選択する...</Phrase>
+    <Phrase key="gbListenerOptions">リスナーのオプション</Phrase>
+    <Phrase key="lblPort">TCPポート</Phrase>
+    <Phrase key="lblTimeout">タイムアウト、ミリ秒</Phrase>
+    <Phrase key="lblSecretKey">秘密鍵</Phrase>
+    <Phrase key="btnGenerateKey">生成</Phrase>
+    <Phrase key="btnCopyKey">コピー</Phrase>
+    <Phrase key="InvalidObjectRange">オブジェクト範囲が無効です。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmModules">
+    <Phrase key="this">モジュール</Phrase>
+    <Phrase key="lblUnusedModules">未使用のモジュール:</Phrase>
+    <Phrase key="btnActivate">活性化</Phrase>
+    <Phrase key="lblActiveModules">アクティブなモジュール:</Phrase>
+    <Phrase key="btnDeactivate">非アクティブ化</Phrase>
+    <Phrase key="btnMoveUp">上に移動</Phrase>
+    <Phrase key="btnMoveDown">下に移動</Phrase>
+    <Phrase key="btnProperties">プロパティ</Phrase>
+    <Phrase key="btnRegister">登録</Phrase>
+    <Phrase key="lblDescr">説明</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmServerLogs">
+    <Phrase key="AppFilter">応用</Phrase>
+    <Phrase key="ModulesFilter">モジュール</Phrase>
+  </Dictionary>
+</ExtServerConfigDictionaries>

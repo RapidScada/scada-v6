@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaServerDictionaries>
+  <!-- ScadaServerCommon.dll -->
+  <Dictionary key="Scada.Server.Archives">
+    <Phrase key="UnspecifiedArchiveKind">不特定</Phrase>
+    <Phrase key="CurrentArchiveKind">現在</Phrase>
+    <Phrase key="HistoricalArchiveKind">歴史的</Phrase>
+    <Phrase key="EventsArchiveKind">イベント</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules">
+    <Phrase key="LoadModuleConfigError">モジュール構成のロード中にエラーが発生しました</Phrase>
+    <Phrase key="SaveModuleConfigError">モジュール設定の保存中にエラーが発生しました</Phrase>
+    <Phrase key="SaveModuleConfigConfirm">モジュール構成が変更されました。 変更を保存しますか?</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Engine.CoreLogic">
+    <Phrase key="CommandSentBy">{0} によって送信されました</Phrase>
+    <Phrase key="EmptyCredentials">ユーザー名またはパスワードを空にすることはできません</Phrase>
+    <Phrase key="InvalidCredentials">ユーザー名かパスワードが無効</Phrase>
+    <Phrase key="AccountDisabled">アカウントが無効になっています</Phrase>
+  </Dictionary>
+  <!-- ScadaServerCommon.Forms.dll -->
+  <Dictionary key="Scada.Server.Forms.Controls.CtrlCurrentArchiveOptions">
+    <Phrase key="gbOptions">一般的なオプション</Phrase>
+    <Phrase key="lblReadOnly">読み取り専用</Phrase>
+    <Phrase key="lblLogEnabled">ログを有効にする</Phrase>
+    <Phrase key="lblFlushPeriod">フラッシュ期間</Phrase>
+    <Phrase key="txtFlushPeriodUnit">秒</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Forms.Controls.CtrlEventArchiveOptions">
+    <Phrase key="gbOptions">一般的なオプション</Phrase>
+    <Phrase key="lblReadOnly">読み取り専用</Phrase>
+    <Phrase key="lblLogEnabled">ログを有効にする</Phrase>
+    <Phrase key="lblRetention">保存期間</Phrase>
+    <Phrase key="txtRetentionUnit">日</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Forms.Controls.CtrlHistoricalArchiveOptions">
+    <Phrase key="gbOptions">一般的なオプション</Phrase>
+    <Phrase key="lblReadOnly">読み取り専用</Phrase>
+    <Phrase key="lblLogEnabled">ログを有効にする</Phrase>
+    <Phrase key="lblRetention">保存期間</Phrase>
+    <Phrase key="txtRetentionUnit">日</Phrase>
+    <Phrase key="lblIsPeriodic">定期的なデータのみ</Phrase>
+    <Phrase key="lblWriteWithPeriod">ピリオドを付けて書く</Phrase>
+    <Phrase key="lblWritingPeriod">執筆期間</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[0]">秒</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[1]">分</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[2]">時間</Phrase>
+    <Phrase key="lblPullToPeriod">ピリオドまでプル</Phrase>
+    <Phrase key="txtPullToPeriodUnit">秒</Phrase>
+    <Phrase key="lblWriteOnChange">変更時に書き込みます</Phrase>
+    <Phrase key="lblDeadband">デッドバンド</Phrase>
+    <Phrase key="cbDeadbandUnit.Items[0]">腹筋</Phrase>
+    <Phrase key="cbDeadbandUnit.Items[1]">%</Phrase>
+  </Dictionary>
+</ScadaServerDictionaries>

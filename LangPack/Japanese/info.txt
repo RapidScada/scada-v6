@@ -1,0 +1,5 @@
+Language                 : Japanese
+Culture name:            : ja-JP
+Rapid SCADA version      : 6.1.2
+Rapid SCADA applications : All
+Author                   : Automation
