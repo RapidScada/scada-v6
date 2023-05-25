@@ -65,7 +65,7 @@
     <Phrase key="lblWebDir">Directory dell'applicazione Web</Phrase>
     <Phrase key="gbBrowser">Navigatore</Phrase>
     <Phrase key="rbDefault">Predefinito</Phrase>
-    <Phrase key="rbChrome">Cromo</Phrase>
+    <Phrase key="rbChrome">Chrome</Phrase>
     <Phrase key="rbFirefox">Firefox</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Annulla</Phrase>

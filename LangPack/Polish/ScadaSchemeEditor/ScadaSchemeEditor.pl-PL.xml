@@ -65,8 +65,8 @@
     <Phrase key="lblWebDir">Katalog aplikacji internetowych</Phrase>
     <Phrase key="gbBrowser">Przeglądarka</Phrase>
     <Phrase key="rbDefault">Domyślny</Phrase>
-    <Phrase key="rbChrome">Chrom</Phrase>
-    <Phrase key="rbFirefox">Firefoxa</Phrase>
+    <Phrase key="rbChrome">Chrome</Phrase>
+    <Phrase key="rbFirefox">Firefox</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Anulować</Phrase>
     <Phrase key="WebDirNotExists">Katalog aplikacji WWW nie istnieje.</Phrase>
