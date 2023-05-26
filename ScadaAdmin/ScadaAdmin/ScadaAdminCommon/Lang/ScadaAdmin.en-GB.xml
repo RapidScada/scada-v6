@@ -193,7 +193,12 @@
     <Phrase key="WebNode">Webstation</Phrase>
     <Phrase key="AppConfigNode">Configuration Files</Phrase>
     <Phrase key="DeviceFilter">Device {0}</Phrase>
+    <Phrase key="ObjectFilter">Object {0}</Phrase>
     <Phrase key="EmptyDeviceFilter">Empty device</Phrase>
+	<Phrase key="MainObjectFolder">Channels by Objects</Phrase>
+	<Phrase key="InfiniteLoopError">The following object may be part of an infinite loop: </Phrase>
+	<Phrase key="InfiniteLoopAllParentError">All your objects have a parent object which may create an infinite loop</Phrase>
+
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Controls.Deployment.CtrlProfileSelector">
     <Phrase key="gbInstance">Instance</Phrase>
@@ -323,6 +328,8 @@
     <Phrase key="btnFind.ToolTip">Find and Replace (Ctrl+F)</Phrase>
     <Phrase key="btnAutoSizeColumns.ToolTip">Autofit Column Widths</Phrase>
     <Phrase key="btnProperties.ToolTip">Item Properties</Phrase>
+    <Phrase key="btnChangeObjects.ToolTip">Change the object of the selected item</Phrase>
+
     <Phrase key="GridViewError">Error displaying table, the &quot;{0}&quot; column</Phrase>
     <Phrase key="ColumnLabel">Column: </Phrase>
     <Phrase key="DeleteRowConfirm">Are you sure you want to delete the row?</Phrase>

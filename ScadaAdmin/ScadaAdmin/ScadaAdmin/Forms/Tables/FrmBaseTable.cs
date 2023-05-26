@@ -31,10 +31,12 @@ using Scada.Forms;
 using Scada.Forms.Forms;
 using Scada.Lang;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using WinControl;
 
@@ -75,7 +77,9 @@ namespace Scada.Admin.App.Forms.Tables
         private int maxRowID;        // the maximum ID in the table
         private FrmFind frmFind;     // the find and replace form
         private FrmFilter frmFilter; // the filter form
-
+        private FrmFilter objectFrmFilter;
+        private bool isObjectBased = false;
+        private string filter;
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -100,9 +104,64 @@ namespace Scada.Admin.App.Forms.Tables
             maxRowID = 0;
             frmFind = null;
             frmFilter = null;
-
+            if (tableFilter != null)
+            {
+                if (tableFilter.ColumnName == "ObjNum")
+                {
+                    isObjectBased = true;
+                    int objNum = (int)tableFilter.Argument;
+                    filter = "ObjNum = " + objNum;
+                }
+            }
             Text = baseTable.Title + (tableFilter == null ? "" : " - " + tableFilter);
+            btnChangeObject.Visible = true;
+
+            Obj[] objs = project.ConfigDatabase.ObjTable.Enumerate().ToArray();
+
+            foreach (Obj item in objs)
+            {
+                int objnum = item.ObjNum;
+                ToolStripMenuItem button = new ToolStripMenuItem()
+                {
+
+                    Name = "btnObj" + item.Name,
+                    Text = item.Name,
+
+                };
+                void Button_Click(object sender, EventArgs e)
+                {
+                    _ = dataGridView.SelectedRows;
+                    while(dataGridView.SelectedCells.Count!=0)
+                    {
+                        DataGridViewCell cell = dataGridView.SelectedCells[0];
+                        DataGridViewRow row= dataGridView.Rows[cell.RowIndex];
+                        DataGridViewCell objCell = row.Cells["ObjNum"];
+                        objCell.Value = objnum;
+                        cell.Selected = false;
+                        foreach (DataGridViewCell item in row.Cells)
+                        {
+                            item.Selected = false;
+                        }
+                        ValidateRow(cell.RowIndex, out string msg);
+                    }
+                    btnRefresh.PerformClick();
+                }
+                button.Click += Button_Click;
+                cmsChangeObject.Items.Add(button);            
+            }
+
+
+            miComboBoxObject.Items.AddRange(objs);
+            miComboBoxObject.Visible = false;
+
+            if (baseTable.Name != "Cnl")
+            {
+                btnChangeObject.Visible = false;
+
+            }
         }
+
+
 
 
         /// <summary>
@@ -174,9 +233,16 @@ namespace Scada.Admin.App.Forms.Tables
             if (tableFilter != null)
                 dataTable.Columns[tableFilter.ColumnName].DefaultValue = tableFilter.Argument;
 
+
+
             bindingSource.DataSource = dataTable;
             dataGridView.AutoSizeColumns();
             ChildFormTag.Modified = baseTable.Modified;
+
+            if (isObjectBased && !rowFilter.Contains("ObjNum"))
+            {
+                dataTable.DefaultView.RowFilter += filter;
+            }
         }
 
         /// <summary>
@@ -749,7 +815,7 @@ namespace Scada.Admin.App.Forms.Tables
 
         private void FrmBaseTable_Load(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this, GetType().FullName, 
+            FormTranslator.Translate(this, GetType().FullName,
                 new FormTranslatorOptions { ContextMenus = new ContextMenuStrip[] { cmsTable } });
 
             if (lblCount.Text.Contains("{0}"))
@@ -812,7 +878,7 @@ namespace Scada.Admin.App.Forms.Tables
         {
             int colInd = e.ColumnIndex;
 
-            if (0 <= colInd && colInd < dataGridView.ColumnCount && 
+            if (0 <= colInd && colInd < dataGridView.ColumnCount &&
                 dataGridView.Columns[colInd].Tag is ColumnOptions options)
             {
                 if (e.Value is string valStr && valStr != "")
@@ -853,6 +919,7 @@ namespace Scada.Admin.App.Forms.Tables
             {
                 ScadaUiUtils.ShowError(errMsg);
                 e.Cancel = true;
+                return;
             }
         }
 
@@ -862,6 +929,7 @@ namespace Scada.Admin.App.Forms.Tables
             {
                 ScadaUiUtils.ShowError(errMsg);
                 e.Cancel = true;
+                return;
             }
         }
 
@@ -1062,7 +1130,7 @@ namespace Scada.Admin.App.Forms.Tables
         {
             if (MessageBox.Show(
                     dataGridView.SelectedRows.Count > 1 ? AppPhrases.DeleteRowsConfirm : AppPhrases.DeleteRowConfirm,
-                    CommonPhrases.QuestionCaption, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) == 
+                    CommonPhrases.QuestionCaption, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) ==
                     DialogResult.Yes)
             {
                 DeleteSelectedRows();
@@ -1116,9 +1184,19 @@ namespace Scada.Admin.App.Forms.Tables
 
             if (frmFilter.ShowDialog() == DialogResult.OK)
             {
-                btnFilter.Image = frmFilter.FilterIsEmpty ? 
-                    Properties.Resources.filter : 
+                btnFilter.Image = frmFilter.FilterIsEmpty ?
+                    Properties.Resources.filter :
                     Properties.Resources.filter_set;
+                if (isObjectBased) 
+                { 
+                    if(!(dataTable.DefaultView.RowFilter == null || dataTable.DefaultView.RowFilter == "")) 
+                    {
+                        string currentFilter = "("+dataTable.DefaultView.RowFilter+ " AND ";
+                         dataTable.DefaultView.RowFilter = currentFilter + filter + ")";
+                        return;
+                    }
+                    dataTable.DefaultView.RowFilter += filter;
+                } 
             }
         }
 
@@ -1130,6 +1208,10 @@ namespace Scada.Admin.App.Forms.Tables
         private void btnProperties_Click(object sender, EventArgs e)
         {
             ShowPropertiesForm();
+        }
+        private void btnChangeObject_Click(object sender, EventArgs e)
+        {
+            cmsChangeObject.Show(new Point(MousePosition.X, MousePosition.Y));
         }
     }
 }

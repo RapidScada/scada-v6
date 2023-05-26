@@ -361,6 +361,7 @@ namespace Scada.Admin.App.Forms.Tools
             // move the selected extension from unused extensions to active extensions
             if (lbUnusedExt.SelectedItem is ExtentionItem extentionItem)
             {
+                if (extentionItem.ExtentionCode == "ExtSubFolder") config.EnableSubFolder(true);
                 lbUnusedExt.Items.RemoveAt(lbUnusedExt.SelectedIndex);
                 lbActiveExt.SelectedIndex = lbActiveExt.Items.Add(extentionItem);
                 lbActiveExt.Focus();
@@ -372,6 +373,7 @@ namespace Scada.Admin.App.Forms.Tools
             // move the selected extension from active extensions to unused extensions
             if (lbActiveExt.SelectedItem is ExtentionItem extentionItem)
             {
+                if (extentionItem.ExtentionCode == "ExtSubFolder") config.EnableSubFolder(true);
                 lbActiveExt.Items.RemoveAt(lbActiveExt.SelectedIndex);
                 lbUnusedExt.SelectedIndex = lbUnusedExt.Items.Add(extentionItem);
                 lbUnusedExt.Focus();

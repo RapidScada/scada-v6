@@ -50,6 +50,7 @@ namespace Scada.Admin.App.Forms.Tables
 
             public string GetRowFilter()
             {
+                string res = "";
                 if (Argument == null)
                 {
                     return "";
@@ -65,8 +66,8 @@ namespace Scada.Admin.App.Forms.Tables
                     string valStr = Argument is double valDbl ?
                         valDbl.ToString(CultureInfo.InvariantCulture) :
                         Argument.ToString();
-
-                    return string.Format("{0} {1} {2}", ColumnName, MathOperations[MathOperation], valStr);
+                    res = string.Format("{0} {1} {2}", ColumnName, MathOperations[MathOperation], valStr);
+                    return res;
                 }
             }
         }
