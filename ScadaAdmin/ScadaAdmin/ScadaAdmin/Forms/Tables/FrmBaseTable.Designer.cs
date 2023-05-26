@@ -308,7 +308,7 @@
             // btnChangeObject
             // 
             btnChangeObject.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            btnChangeObject.Image = Properties.Resources.download_32;
+            btnChangeObject.Image = Properties.Resources.folder_closed;
             btnChangeObject.ImageTransparentColor = System.Drawing.Color.Magenta;
             btnChangeObject.Name = "btnChangeObject";
             btnChangeObject.Size = new System.Drawing.Size(29, 24);
