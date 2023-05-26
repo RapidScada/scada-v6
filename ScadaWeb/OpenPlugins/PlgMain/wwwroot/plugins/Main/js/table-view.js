@@ -1,4 +1,4 @@
-﻿// Depends on jquery, scada-common.js, view-hub.js, main-api.js
+﻿// Depends on jquery, scada-common.js, view-hub.js, main-api.js, table-common.js
 
 // Represent metadata about a data cell.
 class CellMeta {
