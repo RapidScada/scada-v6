@@ -60,7 +60,7 @@ namespace Scada.Admin.App.Code
             MainForm = null;
         }
 
-
+        public bool ExtSubFolder { get; private set; }
         /// <summary>
         /// Gets the application configuration.
         /// </summary>
@@ -274,6 +274,8 @@ namespace Scada.Admin.App.Code
         }
 
 
+        
+        
         /// <summary>
         /// Occurs when the current project changes.
         /// </summary>

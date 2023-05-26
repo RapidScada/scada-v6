@@ -113,7 +113,7 @@ namespace Scada.Admin.App.Code
             cnlTableNode.ContextMenuStrip = contextMenus.CnlTableMenu;
             primaryNode.Nodes.Add(cnlTableNode);
             FillCnlTableNodeInternal(cnlTableNode, configDatabase);
-            FillCnlTableNodesByObjects(cnlTableNode, configDatabase);
+            if (appData.AppConfig.subFolderEnabled) FillCnlTableNodesByObjects(cnlTableNode, configDatabase);
 
             primaryNode.Nodes.Add(CreateBaseTableNode(configDatabase.LimTable));
             primaryNode.Nodes.Add(CreateBaseTableNode(configDatabase.ViewTable));
@@ -217,7 +217,11 @@ namespace Scada.Admin.App.Code
         {
             List<int> objNums = new List<int>();
             if (configDatabase.ObjTable.Enumerate().Count() == 0) return false;
-            if (configDatabase.ObjTable.Enumerate().Where(x => x.ParentObjNum == null).Count() == 0) return true;
+            if (configDatabase.ObjTable.Enumerate().Where(x => x.ParentObjNum == null).Count() == 0) 
+            {
+                MessageBox.Show("All your objects have a parent object which may create an infinite loop", "error");
+                return true; 
+            }
             while(objNums.Count != configDatabase.ObjTable.Count()){
                 Obj obj = configDatabase.ObjTable.Enumerate().Where(x => !objNums.Contains(x.ObjNum)).FirstOrDefault();
                 if (ChildrenNodeAlreadyChecked(obj, objNums, configDatabase))
@@ -446,7 +450,8 @@ namespace Scada.Admin.App.Code
                 treeView.BeginUpdate();
                 cnlTableNode.Nodes.Clear();
                 FillCnlTableNodeInternal(cnlTableNode, configDatabase);
-                FillCnlTableNodesByObjects(cnlTableNode, configDatabase);
+
+                if (appData.AppConfig.subFolderEnabled) FillCnlTableNodesByObjects(cnlTableNode, configDatabase);
             }
             finally
             {
