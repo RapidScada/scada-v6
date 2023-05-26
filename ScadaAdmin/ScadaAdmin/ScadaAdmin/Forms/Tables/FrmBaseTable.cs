@@ -104,14 +104,15 @@ namespace Scada.Admin.App.Forms.Tables
             maxRowID = 0;
             frmFind = null;
             frmFilter = null;
-
-            if (tableFilter.ColumnName == "ObjNum")
+            if (tableFilter != null)
             {
-                isObjectBased = true;
-                int objNum = (int)tableFilter.Argument;
-                filter = "ObjNum = " + objNum;
+                if (tableFilter.ColumnName == "ObjNum")
+                {
+                    isObjectBased = true;
+                    int objNum = (int)tableFilter.Argument;
+                    filter = "ObjNum = " + objNum;
+                }
             }
-
             Text = baseTable.Title + (tableFilter == null ? "" : " - " + tableFilter);
             btnChangeObject.Visible = true;
 

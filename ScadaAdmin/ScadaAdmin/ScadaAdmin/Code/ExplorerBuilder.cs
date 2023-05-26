@@ -197,7 +197,7 @@ namespace Scada.Admin.App.Code
 
         private void FillCnlTableNodesByObjects(TreeNode CnlTable, ConfigDatabase configDatabase)
         {
-            TreeNode folderNode = TreeViewExtensions.CreateNode("Channels by objects", "folder_closed.png");
+            TreeNode folderNode = TreeViewExtensions.CreateNode(AppPhrases.MainObjectFolder, "folder_closed.png");
             Dictionary<int, TreeNode> nodeList = new Dictionary<int, TreeNode>();
             if (HasParentChildLoopInObjects(configDatabase))
             {
@@ -219,14 +219,14 @@ namespace Scada.Admin.App.Code
             if (configDatabase.ObjTable.Enumerate().Count() == 0) return false;
             if (configDatabase.ObjTable.Enumerate().Where(x => x.ParentObjNum == null).Count() == 0) 
             {
-                MessageBox.Show("All your objects have a parent object which may create an infinite loop", "error");
+                MessageBox.Show(AppPhrases.InfiniteLoopNoParentError,"error",MessageBoxButtons.OK,MessageBoxIcon.Error);
                 return true; 
             }
             while(objNums.Count != configDatabase.ObjTable.Count()){
                 Obj obj = configDatabase.ObjTable.Enumerate().Where(x => !objNums.Contains(x.ObjNum)).FirstOrDefault();
                 if (ChildrenNodeAlreadyChecked(obj, objNums, configDatabase))
                 {
-                    MessageBox.Show("The following object may be part of an infinite loop: "+obj.Name, "error");
+                    MessageBox.Show(AppPhrases.InfiniteLoopError+obj.Name, "error",MessageBoxButtons.OK,MessageBoxIcon.Error);
 
                     return true;
                 }
@@ -367,7 +367,7 @@ namespace Scada.Admin.App.Code
         {
             TableFilter res = new TableFilter("ObjNum", obj.ObjNum)
             {
-                Title = string.Format("Object {0}", obj.ObjNum)
+                Title = string.Format(AppPhrases.ObjectFilter, obj.ObjNum)
             };
 
             
