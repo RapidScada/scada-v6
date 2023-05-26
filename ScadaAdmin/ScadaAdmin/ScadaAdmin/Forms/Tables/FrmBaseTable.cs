@@ -143,7 +143,7 @@ namespace Scada.Admin.App.Forms.Tables
                         }
                         ValidateRow(cell.RowIndex, out string msg);
                     }
-                    dataGridView.ClearSelection();
+                    btnRefresh.PerformClick();
                 }
                 button.Click += Button_Click;
                 cmsChangeObject.Items.Add(button);            
@@ -238,7 +238,7 @@ namespace Scada.Admin.App.Forms.Tables
             dataGridView.AutoSizeColumns();
             ChildFormTag.Modified = baseTable.Modified;
 
-            if (isObjectBased)
+            if (isObjectBased && !rowFilter.Contains("ObjNum"))
             {
                 dataTable.DefaultView.RowFilter += filter;
             }
