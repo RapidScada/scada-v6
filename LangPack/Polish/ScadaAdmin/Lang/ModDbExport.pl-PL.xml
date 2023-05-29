@@ -51,9 +51,9 @@
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmModuleConfig">
     <Phrase key="this">Eksportuj do bazy danych</Phrase>
     <Phrase key="ddbAdd.ToolTip">Dodaj cel eksportu</Phrase>
-    <Phrase key="btnSqlServer">Serwer Microsoft SQL</Phrase>
+    <Phrase key="btnSqlServer">Microsoft SQL Server</Phrase>
     <Phrase key="btnMySql">MySQL</Phrase>
-    <Phrase key="btnOracle">Wyrocznia</Phrase>
+    <Phrase key="btnOracle">Oracle</Phrase>
     <Phrase key="btnPostgreSql">PostgreSQL</Phrase>
     <Phrase key="btnAddCurrentDataQuery.ToolTip">Dodaj aktualne zapytanie o dane</Phrase>
     <Phrase key="btnAddHistoricalDataQuery.ToolTip">Dodaj zapytanie o dane historyczne</Phrase>

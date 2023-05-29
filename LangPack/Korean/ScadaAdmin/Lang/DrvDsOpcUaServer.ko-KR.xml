@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDsOpcUaServerDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms.FrmOpcUaServerDSO">
+    <Phrase key="this">데이터 소스 옵션</Phrase>
+    <Phrase key="chkAutoAccept">인증서 자동 수락</Phrase>
+    <Phrase key="lblUsername">사용자 이름</Phrase>
+    <Phrase key="lblPassword">비밀번호</Phrase>
+    <Phrase key="lblConfigFileName">구성 파일</Phrase>
+    <Phrase key="btnCreateConfigWin.ToolTip">Windows용 구성 파일 생성</Phrase>
+    <Phrase key="btnCreateConfigLinux.ToolTip">Linux용 구성 파일 생성</Phrase>
+    <Phrase key="btnBrowseConfig.ToolTip">검색</Phrase>
+    <Phrase key="lblDeviceFilter">장치 필터</Phrase>
+    <Phrase key="btnSelectDevices.ToolTip">기기 선택</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+    <Phrase key="ConfigDirRequired">구성 파일은 {0} 내에 있어야 합니다.</Phrase>
+  </Dictionary>
+</DrvDsOpcUaServerDictionaries>

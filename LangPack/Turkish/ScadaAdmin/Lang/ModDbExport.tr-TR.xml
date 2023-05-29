@@ -51,10 +51,10 @@
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmModuleConfig">
     <Phrase key="this">DB'ye Aktar</Phrase>
     <Phrase key="ddbAdd.ToolTip">İhracat Hedefi Ekle</Phrase>
-    <Phrase key="btnSqlServer">Microsoft SQL Sunucusu</Phrase>
+    <Phrase key="btnSqlServer">Microsoft SQL Server</Phrase>
     <Phrase key="btnMySql">MySQL</Phrase>
-    <Phrase key="btnOracle">kehanet</Phrase>
-    <Phrase key="btnPostgreSql">postgresql</Phrase>
+    <Phrase key="btnOracle">Oracle</Phrase>
+    <Phrase key="btnPostgreSql">PostgreSql</Phrase>
     <Phrase key="btnAddCurrentDataQuery.ToolTip">Geçerli Veri Sorgusu Ekle</Phrase>
     <Phrase key="btnAddHistoricalDataQuery.ToolTip">Geçmiş Veri Sorgusu Ekle</Phrase>
     <Phrase key="btnAddEventQuery.ToolTip">Etkinlik Sorgusu Ekle</Phrase>

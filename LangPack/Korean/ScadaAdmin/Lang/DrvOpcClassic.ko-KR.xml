@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvOpcClassicDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlCommand">
+    <Phrase key="gbCommand">명령 매개변수</Phrase>
+    <Phrase key="lblPath">길</Phrase>
+    <Phrase key="lblName">이름</Phrase>
+    <Phrase key="lblCmdCode">명령 코드</Phrase>
+    <Phrase key="lblCmdNum">명령 번호</Phrase>
+    <Phrase key="lblDataType">데이터 형식</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEmptyItem">
+    <Phrase key="gbEmptyItem">항목 매개변수</Phrase>
+    <Phrase key="lblNotSelected">선택되지 않은 항목</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEventCategory">
+    <Phrase key="gbEventCategory">범주 매개변수</Phrase>
+    <Phrase key="lblName">이름</Phrase>
+    <Phrase key="lblID">ID</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEventSubscription">
+    <Phrase key="gbSubscription">구독 매개변수</Phrase>
+    <Phrase key="chkActive">활동적인</Phrase>
+    <Phrase key="lblDisplayName">이름 표시하기</Phrase>
+    <Phrase key="lblUpdateRate">업데이트 속도, ms</Phrase>
+    <Phrase key="lblKeepAlive">계속 살아있어, ms</Phrase>
+    <Phrase key="lblMaxSize">최대 크기</Phrase>
+    <Phrase key="chkSimpleEvents">간단한 이벤트</Phrase>
+    <Phrase key="chkTrackingEvents">추적 이벤트</Phrase>
+    <Phrase key="chkConditionEvents">조건 이벤트</Phrase>
+    <Phrase key="lblHighSeverity">높은 심각도</Phrase>
+    <Phrase key="lblLowSeverity">낮은 심각도</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlItem">
+    <Phrase key="gbItem">항목 매개변수</Phrase>
+    <Phrase key="chkActive">활동적인</Phrase>
+    <Phrase key="lblPath">길</Phrase>
+    <Phrase key="lblName">이름</Phrase>
+    <Phrase key="lblTagCode">태그 코드</Phrase>
+    <Phrase key="lblTagNum">태그 번호</Phrase>
+    <Phrase key="lblDataType">데이터 형식</Phrase>
+    <Phrase key="chkIsString">문자열</Phrase>
+    <Phrase key="chkIsArray">배열</Phrase>
+    <Phrase key="lblDataLen">문자열 또는 배열 길이</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlSubscription">
+    <Phrase key="gbSubscription">구독 매개변수</Phrase>
+    <Phrase key="chkActive">활동적인</Phrase>
+    <Phrase key="lblDisplayName">이름 표시하기</Phrase>
+    <Phrase key="lblUpdateRate">업데이트 속도, ms</Phrase>
+    <Phrase key="lblKeepAlive">계속 살아있어, ms</Phrase>
+    <Phrase key="lblDeadband">데드밴드, %</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">장치 {0} 속성 - OPC 클래식</Phrase>
+    <Phrase key="gbConnectionOptions">연결 옵션</Phrase>
+    <Phrase key="lblHost">원격 호스트</Phrase>
+    <Phrase key="btnShowNetworkOptions">옵션</Phrase>
+    <Phrase key="lblServerPath">OPC 서버</Phrase>
+    <Phrase key="lblDaSpec">DA 사양</Phrase>
+    <Phrase key="lblAeSpec">AE 사양</Phrase>
+    <Phrase key="btnSelectServer">선택하다...</Phrase>
+    <Phrase key="lblConnectionInfo">연결 옵션은 통신 회선에 공통입니다.</Phrase>
+    <Phrase key="gbServerBrowse">서버 찾아보기</Phrase>
+    <Phrase key="btnConnect.ToolTip">연결하다</Phrase>
+    <Phrase key="btnDisconnect.ToolTip">연결 끊기</Phrase>
+    <Phrase key="btnOpenFile.ToolTip">파일 열기</Phrase>
+    <Phrase key="gbDevice">장치 구성</Phrase>
+    <Phrase key="btnAddSubscription.ToolTip">구독 추가</Phrase>
+    <Phrase key="btnAddItem.ToolTip">선택한 항목 추가</Phrase>
+    <Phrase key="btnMoveUpItem.ToolTip">이동</Phrase>
+    <Phrase key="btnMoveDownItem.ToolTip">아래로 이동</Phrase>
+    <Phrase key="btnDeleteItem.ToolTip">삭제</Phrase>
+    <Phrase key="btnSave">구하다</Phrase>
+    <Phrase key="btnClose">닫다</Phrase>
+    <Phrase key="XmlFileFilter">XML 파일(*.xml)|*.xml|모든 파일(*.*)|*.*</Phrase>
+    <Phrase key="ServerNotSelected">OPC 서버가 선택되지 않았습니다.</Phrase>
+    <Phrase key="DaServerUnavailable">OPC DA 서버를 사용할 수 없거나 선택한 사양을 지원하지 않습니다.</Phrase>
+    <Phrase key="AeServerUnavailable">OPC AE 서버를 사용할 수 없거나 선택한 사양을 지원하지 않습니다.</Phrase>
+    <Phrase key="ConnectDaServerError">OPC DA 서버 연결 오류</Phrase>
+    <Phrase key="ConnectAeServerError">OPC AE 서버 연결 오류</Phrase>
+    <Phrase key="DisconnectDaServerError">OPC DA 서버 연결 해제 오류</Phrase>
+    <Phrase key="DisconnectAeServerError">OPC AE 서버 연결 해제 오류</Phrase>
+    <Phrase key="BrowseServerError">OPC 서버 찾아보기 오류</Phrase>
+    <Phrase key="LoadServerContentError">OPC 서버 콘텐츠를 로드하는 중에 오류가 발생했습니다.</Phrase>
+    <Phrase key="ServerNotConnected">OPC 서버가 연결되지 않았습니다.</Phrase>
+    <Phrase key="UnableToReadData">데이터를 읽을 수 없습니다.</Phrase>
+    <Phrase key="GetDataTypeError">데이터 유형을 가져오는 중에 오류가 발생했습니다.</Phrase>
+    <Phrase key="DaServerNode">OPC DA</Phrase>
+    <Phrase key="AeServerNode">OPC AE</Phrase>
+    <Phrase key="EmptyNode">비어 있는</Phrase>
+    <Phrase key="SubscriptionsNode">구독</Phrase>
+    <Phrase key="CommandsNode">명령</Phrase>
+    <Phrase key="EventSubscriptionsNode">이벤트 구독</Phrase>
+    <Phrase key="UnnamedSubscription">&lt;이름 없는 구독&gt;</Phrase>
+    <Phrase key="UnnamedItem">&lt;이름 없는 아이템&gt;</Phrase>
+    <Phrase key="UnnamedCommand">&lt;이름 없는 명령&gt;</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Forms.FrmNetworkOptions">
+    <Phrase key="this">네트워크 옵션</Phrase>
+    <Phrase key="chkIsDefault">기본 옵션 사용</Phrase>
+    <Phrase key="gbCredentials">신임장</Phrase>
+    <Phrase key="lblUsername">사용자 이름</Phrase>
+    <Phrase key="lblPassword">비밀번호</Phrase>
+    <Phrase key="lblDomain">도메인</Phrase>
+    <Phrase key="gbProxy">웹 프록시</Phrase>
+    <Phrase key="lblProxyAddress">주소</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Forms.FrmServerSelect">
+    <Phrase key="this">OPC 서버 선택</Phrase>
+    <Phrase key="lblHost">주인</Phrase>
+    <Phrase key="lblServer">OPC 서버</Phrase>
+    <Phrase key="gbDaSpec">DA 사양</Phrase>
+    <Phrase key="rbDaNone">없음</Phrase>
+    <Phrase key="rbDa10">데이터 액세스 1.0a</Phrase>
+    <Phrase key="rbDa20">데이터 액세스 2.XX</Phrase>
+    <Phrase key="rbDa30">데이터 액세스 3.00</Phrase>
+    <Phrase key="gbAeSpec">AE 사양</Phrase>
+    <Phrase key="rbAeNone">없음</Phrase>
+    <Phrase key="rbAe10">알람 및 이벤트 1.XX</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+    <Phrase key="FillServersError">서버 목록을 채우는 중에 오류가 발생했습니다.</Phrase>
+    <Phrase key="DisposeServersError">서버 폐기 오류</Phrase>
+  </Dictionary>
+</DrvOpcClassicDictionaries>

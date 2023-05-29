@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDsScadaServerDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsScadaServer.View.Forms.FrmConnManager">
+    <Phrase key="this">클라이언트 연결</Phrase>
+    <Phrase key="gbConnList">사이</Phrase>
+    <Phrase key="btnNewConn">새로운</Phrase>
+    <Phrase key="btnDeleteConn">삭제</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsScadaServer.View.Forms.FrmScadaServerDSO">
+    <Phrase key="this">데이터 소스 옵션</Phrase>
+    <Phrase key="lblReadConfigDb">구성 데이터베이스 읽기</Phrase>
+    <Phrase key="lblUseDefaultConn">기본 연결 사용</Phrase>
+    <Phrase key="lblConnection">연결</Phrase>
+    <Phrase key="lblMaxQueueSize">최대 대기열 크기</Phrase>
+    <Phrase key="lblDataLifetime">대기열의 데이터 수명, 초</Phrase>
+    <Phrase key="lblClientLogEnabled">클라이언트 로그 사용</Phrase>
+    <Phrase key="lblDeviceFilter">장치 필터</Phrase>
+    <Phrase key="btnSelectDevices">선택하다...</Phrase>
+    <Phrase key="btnManageConn">연결 관리</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+</DrvDsScadaServerDictionaries>

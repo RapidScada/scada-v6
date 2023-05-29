@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvCnlBasicDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.BasicChannelView">
+    <Phrase key="ChannelTypeNotFound">통신 채널 유형을 찾을 수 없습니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmSerialPortChannelOptions">
+    <Phrase key="this">직렬 포트 옵션</Phrase>
+    <Phrase key="gbPort">직렬 포트</Phrase>
+    <Phrase key="lblPortName">포트 이름</Phrase>
+    <Phrase key="lblBaudRate">전송 속도</Phrase>
+    <Phrase key="lblDataBits">데이터 비트</Phrase>
+    <Phrase key="lblParity">동등</Phrase>
+    <Phrase key="cbParity.Items[0]">없음</Phrase>
+    <Phrase key="cbParity.Items[1]">이상한</Phrase>
+    <Phrase key="cbParity.Items[2]">심지어</Phrase>
+    <Phrase key="cbParity.Items[3]">표시</Phrase>
+    <Phrase key="cbParity.Items[4]">공간</Phrase>
+    <Phrase key="lblStopBits">정지 비트</Phrase>
+    <Phrase key="lblDtrEnable">DTR</Phrase>
+    <Phrase key="lblRtsEnable">RTS</Phrase>
+    <Phrase key="gbMode">작동 모드</Phrase>
+    <Phrase key="lblBehavior">행동</Phrase>
+    <Phrase key="cbBehavior.Items[0]">주인</Phrase>
+    <Phrase key="cbBehavior.Items[1]">노예</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpClientChannelOptions">
+    <Phrase key="this">TCP 클라이언트 옵션</Phrase>
+    <Phrase key="gbMode">작동 모드</Phrase>
+    <Phrase key="lblBehavior">행동</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">마스터 - 커뮤니케이터는 장치에 요청을 보내고 응답을 받습니다.&#13;&#10;슬레이브 - 커뮤니케이터는 수동적으로 장치의 데이터를 기다립니다.</Phrase>
+    <Phrase key="lblConnectionMode">연결 모드</Phrase>
+    <Phrase key="cbConnectionMode.Items[0]">개인</Phrase>
+    <Phrase key="cbConnectionMode.Items[1]">공유</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">개별 - Communicator가 각 장치와 개별 TCP 연결을 설정합니다.&#13;&#10;공유 - Communicator가 지정된 원격 IP 주소를 사용하여&#13;&#10;통신 회선의 모든 장치에 대해 단일 공유 연결을 설정합니다.&#13;&#10;공유 연결이 사용됩니다.  예를 들어 장치가 이더넷-직렬 게이트웨이를 통해 연결된 경우입니다.</Phrase>
+    <Phrase key="gbConnection">연결</Phrase>
+    <Phrase key="lblHost">원격 호스트</Phrase>
+    <Phrase key="pbHostHint.ToolTip">공유 연결을 사용하는 경우 원격 DNS 이름 또는 IP 주소.</Phrase>
+    <Phrase key="lblTcpPort">원격 TCP 포트</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">개별 연결 모드에서 장치에 지정된 포트가 없으면 기본 TCP 포트로 사용됩니다.&#13;&#10;공유 연결 모드에서는 매개변수가 필요합니다.&#13;&#10;502 포트는 기본 Modbus TCP 포트입니다.</Phrase>
+    <Phrase key="lblReconnectAfter">다시 연결, 초</Phrase>
+    <Phrase key="pbReconnectAfterHint.ToolTip">실패한 시도 후 다시 연결할 시간 간격을 지정합니다.</Phrase>
+    <Phrase key="lblStayConnected">대기 중</Phrase>
+    <Phrase key="pbStayConnectedHint.ToolTip">설정하면 통신 세션 간에 연결이 활성화됩니다.&#13;&#10;그렇지 않으면 각 세션 후에 연결이 종료됩니다.</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+    <Phrase key="HostRequired">원격 호스트가 필요합니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpServerChannelOptions">
+    <Phrase key="this">TCP 서버 옵션</Phrase>
+    <Phrase key="gbMode">작동 모드</Phrase>
+    <Phrase key="lblBehavior">행동</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">마스터 - 연결 설정 후 커뮤니케이터는 장치에 요청을 보내고 응답을 받습니다.&#13;&#10;슬레이브 - 커뮤니케이터는 수동적으로 장치에서 데이터를 기다립니다.</Phrase>
+    <Phrase key="lblConnectionMode">연결 모드</Phrase>
+    <Phrase key="cbConnectionMode.Items[0]">개인</Phrase>
+    <Phrase key="cbConnectionMode.Items[1]">공유</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">개별 - Communicator가 각 장치와 개별 TCP 연결을 설정합니다.&#13;&#10;공유 - Communicator가 통신 회선의 모든 장치에 대해 단일 공유 연결을 설정합니다.&#13;&#10;예를 들어 장치가 다음을 통해 연결된 경우 공유 연결이 사용됩니다.  이더넷 직렬 게이트웨이.</Phrase>
+    <Phrase key="lblDeviceMapping">장치 매핑</Phrase>
+    <Phrase key="cbDeviceMapping.Items[0]">IP 주소로</Phrase>
+    <Phrase key="cbDeviceMapping.Items[1]">헬로 패킷으로</Phrase>
+    <Phrase key="cbDeviceMapping.Items[2]">드라이버가 결정됨</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">새로 들어오는 연결을 장치에 바인딩하는 방법:&#13;&#10;IP 주소 - 원격 IP 주소는 장치 문자열 주소와 같습니다.&#13;&#10;Hello 패킷 - 장치에서 받은 첫 번째 패키지에는 문자열 주소가 포함됩니다.&lt;  br/&gt;드라이버 결정됨 - 장치 드라이버에서 알고리즘이 구현됩니다.</Phrase>
+    <Phrase key="gbConnection">연결</Phrase>
+    <Phrase key="lblTcpPort">로컬 TCP 포트</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">들어오는 연결을 위한 로컬 TCP 포트입니다.&#13;&#10;들어오는 연결은 방화벽에서 허용되어야 합니다.</Phrase>
+    <Phrase key="lblClientLifetime">비활성 수명, 초</Phrase>
+    <Phrase key="pbClientLifetimeHint.ToolTip">비활성 클라이언트의 연결이 끊어지는 시간입니다.</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmUdpChannelOptions">
+    <Phrase key="this">UDP 옵션</Phrase>
+    <Phrase key="gbMode">작동 모드</Phrase>
+    <Phrase key="lblBehavior">행동</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">마스터 - 커뮤니케이터는 장치에 요청을 보내고 응답을 받습니다.&#13;&#10;슬레이브 - 커뮤니케이터는 수동적으로 장치의 데이터를 기다립니다.</Phrase>
+    <Phrase key="lblDeviceMapping">장치 매핑</Phrase>
+    <Phrase key="cbDeviceMapping.Items[0]">IP 주소로</Phrase>
+    <Phrase key="cbDeviceMapping.Items[1]">드라이버가 결정됨</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">새 수신 연결을 장치에 바인딩하는 방법:&#13;&#10;IP 주소 - 원격 IP 주소는 장치 문자열 주소와 같습니다.&#13;&#10;드라이버 결정 - 알고리즘은 장치 드라이버에서 구현됩니다.</Phrase>
+    <Phrase key="gbConnection">연결</Phrase>
+    <Phrase key="lblLocalUdpPort">로컬 UDP 포트</Phrase>
+    <Phrase key="pbLocalUdpPortHint.ToolTip">들어오는 연결을 위한 로컬 UDP 포트입니다.&#13;&#10;들어오는 연결은 방화벽에서 허용되어야 합니다.</Phrase>
+    <Phrase key="lblRemoteUdpPort">원격 UDP 포트</Phrase>
+    <Phrase key="pbRemoteUdpPortHint.ToolTip">기본 원격 UDP 포트입니다.  통신 회선의 모든 장치에 대해 동일합니다.</Phrase>
+    <Phrase key="lblRemoteIpAddress">원격 IP 주소</Phrase>
+    <Phrase key="pbRemoteIpAddressHint.ToolTip">기본 원격 IP 주소입니다.&#13;&#10;예를 들어 장치가 이더넷-직렬 게이트웨이를 통해 연결된 경우 사용할 수 있습니다.</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+</DrvCnlBasicDictionaries>

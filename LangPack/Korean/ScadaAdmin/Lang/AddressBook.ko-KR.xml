@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AddressBookDictionaries>
+  <Dictionary key="Scada.AB.Forms.FrmAddressBook">
+    <Phrase key="this">주소록</Phrase>
+    <Phrase key="btnAddContactGroup.ToolTip">연락처 그룹 추가</Phrase>
+    <Phrase key="btnAddContact.ToolTip">주소록에 추가</Phrase>
+    <Phrase key="btnAddPhoneNumber.ToolTip">전화번호 추가</Phrase>
+    <Phrase key="btnAddEmail.ToolTip">이메일 추가</Phrase>
+    <Phrase key="btnEdit.ToolTip">편집하다</Phrase>
+    <Phrase key="btnDelete.ToolTip">삭제</Phrase>
+    <Phrase key="btnSave">구하다</Phrase>
+    <Phrase key="btnClose">닫다</Phrase>
+    <Phrase key="AddressBookNode">주소록</Phrase>
+    <Phrase key="NewContactGroup">새 그룹</Phrase>
+    <Phrase key="NewContact">새 연락처</Phrase>
+    <Phrase key="NewPhoneNumber">새 전화번호</Phrase>
+    <Phrase key="NewEmail">새 이메일</Phrase>
+    <Phrase key="ContactGroupExists">연락처 그룹이 이미 존재합니다.</Phrase>
+    <Phrase key="ContactExists">연락처가 이미 그룹에 있습니다.</Phrase>
+    <Phrase key="PhoneNumberExists">연락처에 지정된 전화번호가 이미 포함되어 있습니다.</Phrase>
+    <Phrase key="EmailExists">연락처에 이미 지정된 이메일이 포함되어 있습니다.</Phrase>
+    <Phrase key="IncorrectEmail">이메일이 올바르지 않습니다.</Phrase>
+    <Phrase key="EmptyValueNotAllowed">빈 값은 허용되지 않습니다.</Phrase>
+    <Phrase key="SaveAddressBookConfirm">주소록이 수정되었습니다.  변경 사항을 저장하시겠습니까?</Phrase>
+  </Dictionary>
+</AddressBookDictionaries>

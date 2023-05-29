@@ -53,7 +53,7 @@
     <Phrase key="ddbAdd.ToolTip">Exportziel hinzufügen</Phrase>
     <Phrase key="btnSqlServer">Microsoft SQL Server</Phrase>
     <Phrase key="btnMySql">MySQL</Phrase>
-    <Phrase key="btnOracle">Orakel</Phrase>
+    <Phrase key="btnOracle">Oracle</Phrase>
     <Phrase key="btnPostgreSql">PostgreSQL</Phrase>
     <Phrase key="btnAddCurrentDataQuery.ToolTip">Aktuelle Datenabfrage hinzufügen</Phrase>
     <Phrase key="btnAddHistoricalDataQuery.ToolTip">Historische Datenabfrage hinzufügen</Phrase>

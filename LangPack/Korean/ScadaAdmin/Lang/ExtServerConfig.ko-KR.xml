@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtServerConfigDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.ExtServerConfigLogic">
+    <Phrase key="GeneralOptionsNode">일반 옵션</Phrase>
+    <Phrase key="ModulesNode">모듈</Phrase>
+    <Phrase key="ArchivesNode">아카이브</Phrase>
+    <Phrase key="LogsNode">로그</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchiveAdd">
+    <Phrase key="this">아카이브 추가</Phrase>
+    <Phrase key="lblSourceArchive">소스 아카이브</Phrase>
+    <Phrase key="lblModule">기준 치수</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchives">
+    <Phrase key="this">아카이브</Phrase>
+    <Phrase key="btnAdd">추가하다</Phrase>
+    <Phrase key="btnMoveUp">이동</Phrase>
+    <Phrase key="btnMoveDown">아래로 이동</Phrase>
+    <Phrase key="btnDelete">삭제</Phrase>
+    <Phrase key="btnCut">자르다</Phrase>
+    <Phrase key="btnCopy">복사</Phrase>
+    <Phrase key="btnPaste">반죽</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">활동적인</Phrase>
+    <Phrase key="colCode">암호</Phrase>
+    <Phrase key="colName">이름</Phrase>
+    <Phrase key="colKind">친절한</Phrase>
+    <Phrase key="colModule">기준 치수</Phrase>
+    <Phrase key="gbArchive">선택된 아카이브</Phrase>
+    <Phrase key="chkActive">활동적인</Phrase>
+    <Phrase key="lblCode">암호</Phrase>
+    <Phrase key="lblName">이름</Phrase>
+    <Phrase key="lblKind">친절한</Phrase>
+    <Phrase key="lblModule">기준 치수</Phrase>
+    <Phrase key="lblOptions">옵션</Phrase>
+    <Phrase key="btnProperties">속성</Phrase>
+    <Phrase key="ModuleNotSpecified">모듈이 지정되지 않았습니다.</Phrase>
+    <Phrase key="ArchiveNotSupported">모듈은 {0} 종류의 아카이브 생성을 지원하지 않습니다.</Phrase>
+    <Phrase key="UnableCreateArchiveView">아카이브 사용자 인터페이스를 생성할 수 없습니다.</Phrase>
+    <Phrase key="NoArchiveProperties">아카이브는 속성 창을 제공하지 않습니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions">
+    <Phrase key="this">일반 옵션</Phrase>
+    <Phrase key="gbGeneralOptions">일반 옵션</Phrase>
+    <Phrase key="lblUnrelIfInactive">비활성인 경우 채널을 신뢰할 수 없는 것으로 표시, 초</Phrase>
+    <Phrase key="lblMaxCurDataAge">오래된 경우 현재 데이터를 기록으로 쓰기, 초</Phrase>
+    <Phrase key="lblUseArchivalStatus">수신 기록 데이터를 아카이브로 표시</Phrase>
+    <Phrase key="lblGenerateAckCmd">이벤트가 확인되면 명령 생성</Phrase>
+    <Phrase key="lblStopWait">서비스 중지 대기, 초</Phrase>
+    <Phrase key="lblMaxLogSize">최대 로그 파일 크기, MB</Phrase>
+    <Phrase key="lblDisableFormulas">개체를 제외한 채널 수식 비활성화</Phrase>
+    <Phrase key="btnSelectObjects">선택하다...</Phrase>
+    <Phrase key="gbListenerOptions">리스너 옵션</Phrase>
+    <Phrase key="lblPort">TCP 포트</Phrase>
+    <Phrase key="lblTimeout">시간 초과, 밀리초</Phrase>
+    <Phrase key="lblSecretKey">비밀 키</Phrase>
+    <Phrase key="btnGenerateKey">생성하다</Phrase>
+    <Phrase key="btnCopyKey">복사</Phrase>
+    <Phrase key="InvalidObjectRange">잘못된 개체 범위입니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmModules">
+    <Phrase key="this">모듈</Phrase>
+    <Phrase key="lblUnusedModules">미사용 모듈:</Phrase>
+    <Phrase key="btnActivate">활성화</Phrase>
+    <Phrase key="lblActiveModules">활성 모듈:</Phrase>
+    <Phrase key="btnDeactivate">비활성화</Phrase>
+    <Phrase key="btnMoveUp">이동</Phrase>
+    <Phrase key="btnMoveDown">아래로 이동</Phrase>
+    <Phrase key="btnProperties">속성</Phrase>
+    <Phrase key="btnRegister">등록하다</Phrase>
+    <Phrase key="lblDescr">설명</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmServerLogs">
+    <Phrase key="AppFilter">애플리케이션</Phrase>
+    <Phrase key="ModulesFilter">모듈</Phrase>
+  </Dictionary>
+</ExtServerConfigDictionaries>

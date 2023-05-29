@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvHttpNotifDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvHttpNotif.View.Forms.FrmConfig">
+    <Phrase key="this">기기 {0} 속성 - HTTP 알림</Phrase>
+    <Phrase key="pageGeneral">일반적인</Phrase>
+    <Phrase key="lblMethod">방법</Phrase>
+    <Phrase key="lblUri">URI</Phrase>
+    <Phrase key="lblUriHint">예를 들어 {phone}, {email} 및 {text}와 같은 매개변수를 포함할 수 있습니다.</Phrase>
+    <Phrase key="gbParam">매개변수</Phrase>
+    <Phrase key="chkParamEnabled">활성화된 매개변수</Phrase>
+    <Phrase key="lblParamBegin">시작하다</Phrase>
+    <Phrase key="lblParamEnd">끝</Phrase>
+    <Phrase key="lblAddrSep">분리 기호</Phrase>
+    <Phrase key="pageHeaders">헤더</Phrase>
+    <Phrase key="colName">이름</Phrase>
+    <Phrase key="colValue">값</Phrase>
+    <Phrase key="pageContent">콘텐츠</Phrase>
+    <Phrase key="lblContentType">컨텐츠 타입</Phrase>
+    <Phrase key="lblContentEscaping">탈출</Phrase>
+    <Phrase key="cbContentEscaping.Items[0]">없음</Phrase>
+    <Phrase key="cbContentEscaping.Items[1]">URL</Phrase>
+    <Phrase key="cbContentEscaping.Items[2]">JSON</Phrase>
+    <Phrase key="lblContent">몸</Phrase>
+    <Phrase key="lblContentHint">예를 들어 {phone}, {email} 및 {text}와 같은 매개변수를 포함할 수 있습니다.</Phrase>
+    <Phrase key="btnAddressBook">주소록</Phrase>
+    <Phrase key="btnSave">구하다</Phrase>
+    <Phrase key="btnClose">닫다</Phrase>
+  </Dictionary>
+</DrvHttpNotifDictionaries>

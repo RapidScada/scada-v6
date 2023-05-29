@@ -51,9 +51,9 @@
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmModuleConfig">
     <Phrase key="this">DBへのエクスポート</Phrase>
     <Phrase key="ddbAdd.ToolTip">エクスポート対象の追加</Phrase>
-    <Phrase key="btnSqlServer">Microsoft SQLサーバー</Phrase>
+    <Phrase key="btnSqlServer">Microsoft SQL Server</Phrase>
     <Phrase key="btnMySql">MySQL</Phrase>
-    <Phrase key="btnOracle">オラクル</Phrase>
+    <Phrase key="btnOracle">Oracle</Phrase>
     <Phrase key="btnPostgreSql">PostgreSQL</Phrase>
     <Phrase key="btnAddCurrentDataQuery.ToolTip">現在のデータクエリを追加</Phrase>
     <Phrase key="btnAddHistoricalDataQuery.ToolTip">履歴データクエリの追加</Phrase>

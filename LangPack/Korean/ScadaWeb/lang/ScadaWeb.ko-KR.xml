@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaWebDictionaries>
+  <Dictionary key="Scada.Web">
+    <Phrase key="CorrectErrors">다음 오류를 수정하십시오.</Phrase>
+    <Phrase key="ClientError">서버와 통신 오류</Phrase>
+    <Phrase key="UnknownUsername">알려지지 않은</Phrase>
+    <Phrase key="AccessDenied">접근 불가</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Code.ViewLoader">
+    <Phrase key="ViewNotSpecified">요청한 보기가 지정되지 않았습니다.</Phrase>
+    <Phrase key="ViewNotExists">요청한 보기가 존재하지 않습니다.</Phrase>
+    <Phrase key="InsufficientViewRights">보기에 대한 액세스 권한이 부족합니다.</Phrase>
+    <Phrase key="UnableResolveViewSpec">보기 사양을 확인할 수 없습니다.</Phrase>
+    <Phrase key="UnableLoadView">보기를 로드할 수 없습니다.</Phrase>
+    <Phrase key="ViewMissingFromCache">캐시에서 보기가 누락되었습니다.</Phrase>
+    <Phrase key="ViewUndefined">보기가 정의되지 않았습니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Shared._MainLayout">
+    <Phrase key="spanMenuBtn_ToolTip">메뉴 표시/숨기기</Phrase>
+    <Phrase key="spanNotifBtn_ToolTip">알림 표시/숨기기</Phrase>
+    <Phrase key="spanProfileBtn_ToolTip">유저 프로필</Phrase>
+    <Phrase key="spanLogoutBtn">로그 아웃</Phrase>
+    <Phrase key="spanLogoutBtn_ToolTip">로그 아웃</Phrase>
+    <Phrase key="spanFullscreenBtn_ToolTip">전체 화면</Phrase>
+    <Phrase key="spanExitFullscreenBtn_ToolTip">일반보기</Phrase>
+    <Phrase key="divMainMenuTab">메인 메뉴</Phrase>
+    <Phrase key="divViewExplorerTab">견해</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Shared._MainLayout.Modal">
+    <Phrase key="Ok">좋아요</Phrase>
+    <Phrase key="Yes">예</Phrase>
+    <Phrase key="No">아니요</Phrase>
+    <Phrase key="Execute">실행하다</Phrase>
+    <Phrase key="Cancel">취소</Phrase>
+    <Phrase key="Close">닫다</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Shared._MainLayout.NotifPanel">
+    <Phrase key="NoNotif">알림 없음</Phrase>
+    <Phrase key="Mute">무음</Phrase>
+    <Phrase key="Unmute">음소거 해제</Phrase>
+    <Phrase key="AckAll">모두 확인</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.About">
+    <Phrase key="PageTitle">프로그램에 대해</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.AccessDenied">
+    <Phrase key="PageTitle">접근 불가</Phrase>
+    <Phrase key="ErrorMessage">요청한 리소스에 액세스할 수 있는 권한이 없습니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.CnlSelect">
+    <Phrase key="PageTitle">채널 선택</Phrase>
+    <Phrase key="lblObj">물체</Phrase>
+    <Phrase key="lblOnlySelected">선택한 채널만 표시</Phrase>
+    <Phrase key="SelectObjectItem">-- 개체 선택 --</Phrase>
+    <Phrase key="FilterRequired">필터를 지정하십시오.</Phrase>
+    <Phrase key="NoChannels">필터와 일치하는 채널이 없습니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Error">
+    <Phrase key="PageTitle">오류</Phrase>
+    <Phrase key="ErrorMessage">요청을 처리하는 동안 오류가 발생했습니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Login">
+    <Phrase key="PageTitle">로그인</Phrase>
+    <Phrase key="NotReady">애플리케이션이 준비되지 않았습니다.  나중에 다시 시도하십시오.</Phrase>
+    <Phrase key="InvalidCaptcha">잘못된 보호 코드입니다.</Phrase>
+    <Phrase key="lblUsername">사용자 이름</Phrase>
+    <Phrase key="lblPassword">비밀번호</Phrase>
+    <Phrase key="lblCaptcha">보호 코드</Phrase>
+    <Phrase key="lblRememberMe">날 기억해</Phrase>
+    <Phrase key="btnLogin">로그인</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Reports">
+    <Phrase key="PageTitle">보고서</Phrase>
+    <Phrase key="NoReports">사용 가능한 보고서가 없습니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.UserProfile">
+    <Phrase key="PageTitle">유저 프로필</Phrase>
+    <Phrase key="lblUserID">사용자 ID:</Phrase>
+    <Phrase key="lblUsername">사용자 이름:</Phrase>
+    <Phrase key="lblRole">역할:</Phrase>
+    <Phrase key="lblTimeZone">시간대:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.View">
+    <Phrase key="PageTitle">보다</Phrase>
+    <Phrase key="divHideDataWindowBtn_ToolTip">데이터 창 숨기기</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.ViewFrame">
+    <Phrase key="PageTitle">보다</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins">
+    <Phrase key="LoadPluginConfigError">플러그인 구성을 로드하는 중에 오류가 발생했습니다.</Phrase>
+    <Phrase key="SavePluginConfigError">플러그인 구성 저장 오류</Phrase>
+    <Phrase key="CnlNotFound">채널 {0}을(를) 찾을 수 없습니다.</Phrase>
+    <Phrase key="CnlNotOutput">{0} 채널은 출력이 아닙니다.</Phrase>
+    <Phrase key="CommandsDisabled">명령이 비활성화되었습니다.</Phrase>
+    <Phrase key="SendCommand">{1}까지 채널 {0}에 명령 보내기</Phrase>
+    <Phrase key="ActionNotAllowed">조치가 허용되지 않습니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.TreeView.MenuItem">
+    <Phrase key="ReportsMenuItem">보고서</Phrase>
+    <Phrase key="AdministrationMenuItem">관리</Phrase>
+    <Phrase key="ConfigurationMenuItem">구성</Phrase>
+    <Phrase key="RegistrationMenuItem">등록</Phrase>
+    <Phrase key="PluginsMenuItem">플러그인</Phrase>
+    <Phrase key="AboutMenuItem">프로그램에 대해</Phrase>
+  </Dictionary>
+</ScadaWebDictionaries>

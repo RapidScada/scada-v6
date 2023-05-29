@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgSchemeDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgScheme.Areas.Scheme.Pages.SchemeView">
+    <Phrase key="SchemeViewTitle">계획 {0}</Phrase>
+    <Phrase key="spanFitScreenBtn_ToolTip">화면에 맞추기</Phrase>
+    <Phrase key="spanFitWidthBtn_ToolTip">너비에 맞추기</Phrase>
+    <Phrase key="spanZoomOutBtn_ToolTip">축소</Phrase>
+    <Phrase key="spanZoomInBtn_ToolTip">확대</Phrase>
+    <Phrase key="spanErrorBadge">오류</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgScheme.Template.TemplateBindings">
+    <Phrase key="LoadTemplateBindingsError">스키마 템플릿 바인딩을 로드하는 중 오류가 발생했습니다.</Phrase>
+    <Phrase key="SaveTemplateBindingsError">구성표 템플릿 결합을 저장하는 중 오류가 발생했습니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgScheme.CompManager">
+    <Phrase key="UnknownComponent">알 수 없는 구성 요소 {0}</Phrase>
+    <Phrase key="CompLibraryNotFound">구성 요소 {0}에 대한 라이브러리를 찾을 수 없습니다.</Phrase>
+    <Phrase key="UnableCreateComponent">{0} 구성요소를 생성할 수 없습니다.</Phrase>
+    <Phrase key="ErrorCreatingComponent">구성 요소 {0} 생성 오류</Phrase>
+  </Dictionary>
+</PlgSchemeDictionaries>
