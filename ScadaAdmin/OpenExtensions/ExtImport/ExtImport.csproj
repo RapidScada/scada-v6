@@ -9,9 +9,6 @@
     <Nullable>disable</Nullable>
     <RootNamespace>Scada.Admin.Extensions.ExtImport</RootNamespace>
   </PropertyGroup>
- <ItemGroup>
-    <PackageReference Include="WinControl" Version="2.1.0" />
-  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="ScadaAdminCommon">
@@ -29,16 +26,21 @@
     <Reference Include="ScadaCommon.Log">
       <HintPath>..\..\ScadaAdmin\ScadaAdminCommon\bin\Release\net6.0-windows\ScadaCommon.Log.dll</HintPath>
     </Reference>
-    <Reference Include="ScadaServerCommon">
-      <HintPath>..\..\ScadaAdmin\ScadaAdminCommon\bin\Release\net6.0-windows\ScadaServerCommon.dll</HintPath>
-    </Reference>
+	<Reference Include="ScadaServerCommon">
+		<HintPath>..\..\ScadaAdmin\ScadaAdminCommon\bin\Release\net6.0-windows\ScadaServerCommon.dll</HintPath>
+	</Reference>
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Code\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ScadaComm\OpenDrivers\DrvModbus.Common\DrvModbus.Common.csproj" />
+  </ItemGroup>
+
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;C:\Projets\GrandLyon\RS6\ScadaAdmin\ScadaAdmin\ScadaAdmin\bin\Debug\net6.0-windows\Lib\$(ProjectName).dll&quot;" />
+    <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;C:\Users\louisc\Documents\scada-v6\ScadaAdmin\ScadaAdmin\ScadaAdmin\bin\Debug\net6.0-windows\Lib\$(ProjectName).dll&quot;" />
   </Target>
 </Project>
