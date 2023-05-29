@@ -38,7 +38,7 @@
     <Phrase key="IncorrectXmlNodeVal">XML ノード&quot;{0}&quot;の値が正しくありません。</Phrase>
     <Phrase key="IncorrectXmlAttrVal">XML 属性&quot;{0}&quot;の値が正しくありません。</Phrase>
     <Phrase key="IncorrectXmlParamVal">パラメータ&quot;{0}&quot;の値が正しくありません。</Phrase>
-    <Phrase key="XmlNodeNotFound">XML ノード&quot;{0}&quot;がノード「{1}」内に見つかりません。</Phrase>
+    <Phrase key="XmlNodeNotFound">XML ノード&quot;{0}&quot;がノード&quot;{1}&quot;内に見つかりません。</Phrase>
     <Phrase key="EventAck">はい</Phrase>
     <Phrase key="EventNotAck">いいえ</Phrase>
     <Phrase key="IncorrectCmdVal">コマンド値が正しくありません。</Phrase>

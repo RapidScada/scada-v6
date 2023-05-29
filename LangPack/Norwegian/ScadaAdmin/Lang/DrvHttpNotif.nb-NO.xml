@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvHttpNotifDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvHttpNotif.View.Forms.FrmConfig">
+    <Phrase key="this">Egenskaper for enhet {0} – HTTP-varsler</Phrase>
+    <Phrase key="pageGeneral">Generell</Phrase>
+    <Phrase key="lblMethod">Metode</Phrase>
+    <Phrase key="lblUri">URI</Phrase>
+    <Phrase key="lblUriHint">Kan inneholde parametere, for eksempel {phone}, {email} og {tekst}</Phrase>
+    <Phrase key="gbParam">Parametere</Phrase>
+    <Phrase key="chkParamEnabled">Parametere aktivert</Phrase>
+    <Phrase key="lblParamBegin">Begynne</Phrase>
+    <Phrase key="lblParamEnd">Slutt</Phrase>
+    <Phrase key="lblAddrSep">Separator</Phrase>
+    <Phrase key="pageHeaders">Overskrifter</Phrase>
+    <Phrase key="colName">Navn</Phrase>
+    <Phrase key="colValue">Verdi</Phrase>
+    <Phrase key="pageContent">Innhold</Phrase>
+    <Phrase key="lblContentType">Innholdstype</Phrase>
+    <Phrase key="lblContentEscaping">Rømmer</Phrase>
+    <Phrase key="cbContentEscaping.Items[0]">Ingen</Phrase>
+    <Phrase key="cbContentEscaping.Items[1]">URL</Phrase>
+    <Phrase key="cbContentEscaping.Items[2]">JSON</Phrase>
+    <Phrase key="lblContent">Kropp</Phrase>
+    <Phrase key="lblContentHint">Kan inneholde parametere, for eksempel {phone}, {email} og {tekst}</Phrase>
+    <Phrase key="btnAddressBook">Adressebok</Phrase>
+    <Phrase key="btnSave">Lagre</Phrase>
+    <Phrase key="btnClose">Lukk</Phrase>
+  </Dictionary>
+</DrvHttpNotifDictionaries>

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgSchemeDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgScheme.Areas.Scheme.Pages.SchemeView">
+    <Phrase key="SchemeViewTitle">Opplegg {0}</Phrase>
+    <Phrase key="spanFitScreenBtn_ToolTip">Tilpass til skjermen</Phrase>
+    <Phrase key="spanFitWidthBtn_ToolTip">Tilpass til bredde</Phrase>
+    <Phrase key="spanZoomOutBtn_ToolTip">Zoome ut</Phrase>
+    <Phrase key="spanZoomInBtn_ToolTip">Zoom inn</Phrase>
+    <Phrase key="spanErrorBadge">Feil</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgScheme.Template.TemplateBindings">
+    <Phrase key="LoadTemplateBindingsError">Feil ved innlasting av skjemamalbindinger</Phrase>
+    <Phrase key="SaveTemplateBindingsError">Feil ved lagring av skjemamalbindinger</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgScheme.CompManager">
+    <Phrase key="UnknownComponent">Ukjent komponent {0}</Phrase>
+    <Phrase key="CompLibraryNotFound">Finner ikke noe bibliotek for komponent {0}</Phrase>
+    <Phrase key="UnableCreateComponent">Kan ikke opprette komponent {0}</Phrase>
+    <Phrase key="ErrorCreatingComponent">Feil ved opprettelse av komponent {0}</Phrase>
+  </Dictionary>
+</PlgSchemeDictionaries>

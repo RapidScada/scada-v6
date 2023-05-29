@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaDictionaries>
+  <!-- ScadaCommon.dll -->
+  <Dictionary key="Scada.Application">
+    <Phrase key="ProductName">Rapid SCADA</Phrase>
+    <Phrase key="ServerAppName">Server</Phrase>
+    <Phrase key="CommAppName">Kommunikator</Phrase>
+    <Phrase key="WebAppName">Nettstasjon</Phrase>
+    <Phrase key="WebsiteUrl">https://rapidscada.org</Phrase>
+    <Phrase key="UnhandledException">Ubehandlet unntak</Phrase>
+    <Phrase key="ExecutionImpossible">Normal utførelse er umulig</Phrase>
+    <Phrase key="StartLogic">Start logisk behandling</Phrase>
+    <Phrase key="LogicAlreadyStarted">Logisk behandling er allerede startet</Phrase>
+    <Phrase key="StartLogicError">Feil ved start av logisk behandling</Phrase>
+    <Phrase key="LogicStopped">Logisk behandling er stoppet</Phrase>
+    <Phrase key="UnableToStopLogic">Kan ikke stoppe logisk behandling for en spesifisert tid</Phrase>
+    <Phrase key="StopLogicError">Feil ved stopp av logisk behandling</Phrase>
+    <Phrase key="LogicLoopError">Feil i logikksløyfen</Phrase>
+    <Phrase key="ThreadFatalError">Fatal feil i tråden</Phrase>
+    <Phrase key="WriteInfoError">Feil ved skriving av programinformasjon til filen</Phrase>
+    <Phrase key="ConnectionNotFound">Fant ikke tilkoblingen "&quot;{0}&quot;.</Phrase>
+    <Phrase key="ConnOptionsNotFound">Finner ikke tilkoblingsalternativer.</Phrase>
+    <Phrase key="DatabaseNotSupported">Database støttes ikke.</Phrase>
+    <Phrase key="OperationNotSupported">Operasjonen støttes ikke.</Phrase>
+    <Phrase key="CommandSent">Kommandoen er sendt.</Phrase>
+    <Phrase key="SendCommandError">Feil ved sending av kommando</Phrase>
+    <Phrase key="AgentDisabled">Agenten er deaktivert.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.ConfigDatabase">
+    <Phrase key="UndefinedTable">Udefinert</Phrase>
+    <Phrase key="ArchiveTable">Arkiv</Phrase>
+    <Phrase key="ArchiveKindTable">Arkivtyper</Phrase>
+    <Phrase key="CnlTable">Kanaler</Phrase>
+    <Phrase key="CnlStatusTable">Kanalstatuser</Phrase>
+    <Phrase key="CnlTypeTable">Kanaltyper</Phrase>
+    <Phrase key="CommLineTable">Kommunikasjonslinjer</Phrase>
+    <Phrase key="DataTypeTable">Datatyper</Phrase>
+    <Phrase key="DeviceTable">Enheter</Phrase>
+    <Phrase key="DevTypeTable">Enhetstyper</Phrase>
+    <Phrase key="FormatTable">Formater</Phrase>
+    <Phrase key="LimTable">Grenser</Phrase>
+    <Phrase key="ObjTable">Objekter</Phrase>
+    <Phrase key="ObjRightTable">Objektrettigheter</Phrase>
+    <Phrase key="QuantityTable">Mengder</Phrase>
+    <Phrase key="RoleTable">Roller</Phrase>
+    <Phrase key="RoleRefTable">Rollearv</Phrase>
+    <Phrase key="ScriptTable">Skript</Phrase>
+    <Phrase key="UnitTable">Enheter</Phrase>
+    <Phrase key="UserTable">Brukere</Phrase>
+    <Phrase key="ViewTable">Visninger</Phrase>
+    <Phrase key="ViewTypeTable">Vis typer</Phrase>
+    <Phrase key="IndexNotFound">Indeks ikke funnet.</Phrase>
+    <Phrase key="EntityCaption">[{0}] {1}</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Files">
+    <Phrase key="FileNotFound">Fil ikke funnet.</Phrase>
+    <Phrase key="NamedFileNotFound">Finner ikke filen {0}.</Phrase>
+    <Phrase key="DirectoryNotExists">Katalog finnes ikke.</Phrase>
+    <Phrase key="PathNotSupported">Banen støttes ikke.</Phrase>
+    <Phrase key="InvalidFileFormat">Ugyldig filformat.</Phrase>
+    <Phrase key="LoadConfigError">Feil ved lasting av konfigurasjon</Phrase>
+    <Phrase key="SaveConfigError">Feil under lagring av konfigurasjon</Phrase>
+    <Phrase key="SaveConfigConfirm">Konfigurasjonen er endret.  Vil du lagre endringene?</Phrase>
+    <Phrase key="LoadViewError">Feil ved innlasting av visning</Phrase>
+    <Phrase key="SaveViewError">Feil under lagring av visning</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Format">
+    <Phrase key="IntegerRequired">Et heltall kreves.</Phrase>
+    <Phrase key="IntegerInRangeRequired">Et heltall fra {0} til {1} ​​kreves.</Phrase>
+    <Phrase key="RealRequired">Et reelt tall kreves.</Phrase>
+    <Phrase key="NonemptyRequired">Det kreves en verdi som ikke er tom.</Phrase>
+    <Phrase key="ValidUrlRequired">En gyldig URL kreves.</Phrase>
+    <Phrase key="ValidRangeRequired">Det kreves et gyldig område med heltall.</Phrase>
+    <Phrase key="DateTimeRequired">Dato og klokkeslett er påkrevd.</Phrase>
+    <Phrase key="NotNumber">String er ikke et tall.</Phrase>
+    <Phrase key="NotHexadecimal">Strengen er ikke heksadesimal.</Phrase>
+    <Phrase key="InvalidParamVal">Ugyldig verdi for &quot;{0}&quot;-parameteren.</Phrase>
+    <Phrase key="InvalidSecretKey">Ugyldig hemmelig nøkkel.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms">
+    <Phrase key="InfoCaption">Informasjon</Phrase>
+    <Phrase key="QuestionCaption">Spørsmål</Phrase>
+    <Phrase key="ErrorCaption">Feil</Phrase>
+    <Phrase key="WarningCaption">Advarsel</Phrase>
+    <Phrase key="NoData">Ingen data</Phrase>
+    <Phrase key="EmptyData">Tømme</Phrase>
+    <Phrase key="CorrectErrors">Rett opp følgende feil:</Phrase>
+    <Phrase key="HiddenPassword">*****</Phrase>
+    <Phrase key="NewConnection">Ny tilkobling</Phrase>
+    <Phrase key="UnnamedConnection">&lt;Unavngitt tilkobling&gt;</Phrase>
+    <Phrase key="XmlFileFilter">XML-filer (*.xml)|*.xml|Alle filer (*.*)|*.*</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.ComponentModel">
+    <Phrase key="TrueValue">Ja</Phrase>
+    <Phrase key="FalseValue">Nei</Phrase>
+    <Phrase key="EmptyValue">(Ingen)</Phrase>
+    <Phrase key="CollectionValue">(Samling)</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.CnlDataFormatter">
+    <Phrase key="UndefinedSign">---</Phrase>
+    <Phrase key="CommandDescrPrefix">Kommando:</Phrase>
+    <Phrase key="StatusFormat">Status {0}</Phrase>
+    <Phrase key="CriticalSeverity">Kritisk</Phrase>
+    <Phrase key="MajorSeverity">Major</Phrase>
+    <Phrase key="MinorSeverity">Liten</Phrase>
+    <Phrase key="InfoSeverity">Info</Phrase>
+    <Phrase key="UnknownUser">Bruker {0}</Phrase>
+  </Dictionary>
+  <!-- ScadaCommon.Forms.dll -->
+  <Dictionary key="Scada.Forms.Controls.CtrlBitmask">
+    <Phrase key="lblMaskValue">Desimalverdi</Phrase>
+    <Phrase key="btnResetMask">Nullstille</Phrase>
+    <Phrase key="lblMaskBits">Bits</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlClientConnection">
+    <Phrase key="gbConnectionOptions">Tilkoblingsalternativer</Phrase>
+    <Phrase key="lblName">Navn</Phrase>
+    <Phrase key="lblHost">Vert</Phrase>
+    <Phrase key="lblPort">Havn</Phrase>
+    <Phrase key="lblTimeout">Pause</Phrase>
+    <Phrase key="lblUsername">Brukernavn</Phrase>
+    <Phrase key="lblPassword">Passord</Phrase>
+    <Phrase key="lblInstance">Forekomst</Phrase>
+    <Phrase key="lblSecretKey">Hemmelig nøkkel</Phrase>
+    <Phrase key="btnPaste">Lim inn</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlDbConnection">
+    <Phrase key="gbConnectionOptions">Tilkoblingsalternativer</Phrase>
+    <Phrase key="lblName">Navn</Phrase>
+    <Phrase key="lblDbms">DBMS</Phrase>
+    <Phrase key="cbDbms.Items[0]">Udefinert</Phrase>
+    <Phrase key="lblServer">Server</Phrase>
+    <Phrase key="lblDatabase">Database</Phrase>
+    <Phrase key="lblUsername">Brukernavn</Phrase>
+    <Phrase key="lblPassword">Passord</Phrase>
+    <Phrase key="chkConnectionString">Tilkoblingsstreng</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmBitmask">
+    <Phrase key="this">Bit Mask</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmBitSelect">
+    <Phrase key="this">Velg Bit</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmCnlSelect">
+    <Phrase key="this">Velg Kanaler</Phrase>
+    <Phrase key="lblFilter">Filter</Phrase>
+    <Phrase key="btnApplyFilter">Søke om</Phrase>
+    <Phrase key="lblObj">Gjenstand</Phrase>
+    <Phrase key="lblDevice">Enhet</Phrase>
+    <Phrase key="chkOnlySelected">Vis kun valgte rader</Phrase>
+    <Phrase key="colSelected">Valgt</Phrase>
+    <Phrase key="colCnlNum">Antall</Phrase>
+    <Phrase key="colName">Navn</Phrase>
+    <Phrase key="btnSelect">Plukke ut</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmEntitySelect">
+    <Phrase key="this">Velg fra {0}</Phrase>
+    <Phrase key="lblFilter">Filter</Phrase>
+    <Phrase key="btnApplyFilter">Søke om</Phrase>
+    <Phrase key="chkOnlySelected">Vis kun valgte rader</Phrase>
+    <Phrase key="colSelected">Valgt</Phrase>
+    <Phrase key="colID">ID</Phrase>
+    <Phrase key="colName">Navn</Phrase>
+    <Phrase key="colCode">Kode</Phrase>
+    <Phrase key="colDescr">Beskrivelse</Phrase>
+    <Phrase key="btnSelect">Plukke ut</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmModuleConfig">
+    <Phrase key="this">Modulkonfigurasjon</Phrase>
+    <Phrase key="btnAdd.ToolTip">Legg til</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Flytte opp</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Flytt ned</Phrase>
+    <Phrase key="btnDelete.ToolTip">Slett</Phrase>
+    <Phrase key="btnSave">Lagre</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+    <Phrase key="btnClose">Lukk</Phrase>
+    <Phrase key="miCollapseAll">Skjul alle</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmOptions">
+    <Phrase key="this">Alternativer</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmRangeEdit">
+    <Phrase key="this">Rediger område</Phrase>
+    <Phrase key="lblRange">Område med heltall</Phrase>
+    <Phrase key="lblExample">For eksempel: 1 - 5, 10</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.BitItemCollection">
+    <Phrase key="EventEnabled">Hendelse aktivert</Phrase>
+    <Phrase key="EventBeep">Begivenhetspip</Phrase>
+    <Phrase key="DataChangeEvent">Kanaldata er endret</Phrase>
+    <Phrase key="ValueChangeEvent">Kanalverdien er endret</Phrase>
+    <Phrase key="StatusChangeEvent">Kanalstatus er endret</Phrase>
+    <Phrase key="CnlUndefinedEvent">Kanalen er udefinert</Phrase>
+    <Phrase key="CommandEvent">Kommandoen er sendt</Phrase>
+  </Dictionary>
+</ScadaDictionaries>

@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaSchemeEditorDictionaries>
+  <Dictionary key="Scada.Scheme.Editor.Editor">
+    <Phrase key="EditorTitle">Ordningsredaktør</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FrmMain">
+    <Phrase key="miFile">&amp;Fil</Phrase>
+    <Phrase key="miFileNew">Ny</Phrase>
+    <Phrase key="miFileOpen">Åpen...</Phrase>
+    <Phrase key="miFileSave">Lagre</Phrase>
+    <Phrase key="miFileSaveAs">Lagre som...</Phrase>
+    <Phrase key="miFileOpenBrowser">Åpne nettleseren</Phrase>
+    <Phrase key="miFileImport">Import...</Phrase>
+    <Phrase key="miFileExit">Exit</Phrase>
+    <Phrase key="miEdit">&amp;Redigere</Phrase>
+    <Phrase key="miEditCut">Kutte opp</Phrase>
+    <Phrase key="miEditCopy">Kopiere</Phrase>
+    <Phrase key="miEditPaste">Lim inn</Phrase>
+    <Phrase key="miEditPasteSpecial">Lim inn spesial...</Phrase>
+    <Phrase key="miEditUndo">Angre</Phrase>
+    <Phrase key="miEditRedo">Gjøre om</Phrase>
+    <Phrase key="miEditPointer">Peker</Phrase>
+    <Phrase key="miEditDelete">Slett</Phrase>
+    <Phrase key="miTools">&amp;Verktøy</Phrase>
+    <Phrase key="miToolsOptions">Alternativer...</Phrase>
+    <Phrase key="miHelp">&amp;Hjelp</Phrase>
+    <Phrase key="miHelpAbout">Om programmet</Phrase>
+    <Phrase key="btnFileNew.ToolTip">Nytt skjema (Ctrl+N)</Phrase>
+    <Phrase key="btnFileOpen.ToolTip">Åpent skjema (Ctrl+O)</Phrase>
+    <Phrase key="btnFileSave.ToolTip">Lagre skjema (Ctrl+S)</Phrase>
+    <Phrase key="miFileSaveAs2">Lagre som...</Phrase>
+    <Phrase key="btnFileOpenBrowser.ToolTip">Åpne ny nettleserfane</Phrase>
+    <Phrase key="btnEditCut.ToolTip">Klipp ut skjemakomponenter (Ctrl+X)</Phrase>
+    <Phrase key="btnEditCopy.ToolTip">Kopier skjemakomponenter (Ctrl+C)</Phrase>
+    <Phrase key="btnEditPaste.ToolTip">Lim inn skjemakomponenter (Ctrl+V)</Phrase>
+    <Phrase key="btnEditUndo.ToolTip">Angre (Ctrl+Z)</Phrase>
+    <Phrase key="btnEditRedo.ToolTip">Gjenta (Ctrl+Y)</Phrase>
+    <Phrase key="btnSchemePointer.ToolTip">Avbryt å legge til komponent (Esc)</Phrase>
+    <Phrase key="btnSchemeDelete.ToolTip">Slett valgte komponenter (Del)</Phrase>
+    <Phrase key="pageComponents">Komponenter</Phrase>
+    <Phrase key="pageProperties">Egenskaper</Phrase>
+    <Phrase key="lvgStandard">Standard</Phrase>
+    <Phrase key="lvCompTypes.Items[0]">Peker</Phrase>
+    <Phrase key="lvCompTypes.Items[1]">Statisk tekst</Phrase>
+    <Phrase key="lvCompTypes.Items[2]">Dynamisk tekst</Phrase>
+    <Phrase key="lvCompTypes.Items[3]">Statisk bilde</Phrase>
+    <Phrase key="lvCompTypes.Items[4]">Dynamisk bilde</Phrase>
+    <Phrase key="CloseSecondInstance">Scheme Editor allerede startet.&#13;&#10;Den andre forekomsten vil bli stengt.</Phrase>
+    <Phrase key="FailedToStartEditor">Kunne ikke starte Scada Editor.&#13;&#10;Se detaljene i&#13;&#10;{0}</Phrase>
+    <Phrase key="OpenBrowserError">Feil ved åpning av nettleser</Phrase>
+    <Phrase key="PointerItem">Peker</Phrase>
+    <Phrase key="SchemeFileFilter">Schemer (*.sch)|*.sch|Alle filer (*.*)|*.*</Phrase>
+    <Phrase key="SaveSchemeConfirm">Ordningen er endret.  Vil du lagre endringene?</Phrase>
+    <Phrase key="RestartNeeded">Innstillingsendringer trer i kraft etter omstart av applikasjonen.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FrmPasteSpecial">
+    <Phrase key="this">Lim inn spesial</Phrase>
+    <Phrase key="lblInCnlOffset">Øk inngangskanalnumrene med</Phrase>
+    <Phrase key="lblCtrlCnlOffset">Øk utgangskanalnummer med</Phrase>
+    <Phrase key="btnPaste">Lim inn</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FrmSettings">
+    <Phrase key="this">Alternativer</Phrase>
+    <Phrase key="lblWebDir">Nettapplikasjonskatalog</Phrase>
+    <Phrase key="gbBrowser">Nettleser</Phrase>
+    <Phrase key="rbDefault">Misligholde</Phrase>
+    <Phrase key="rbChrome">Chrome</Phrase>
+    <Phrase key="rbFirefox">Firefox</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+    <Phrase key="WebDirNotExists">Nettapplikasjonskatalog eksisterer ikke.</Phrase>
+    <Phrase key="ChooseWebDir">Velg webapplikasjonskatalogen</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FormState">
+    <Phrase key="LoadFormStateError">Feil ved innlasting av skjemastatus</Phrase>
+    <Phrase key="SaveFormStateError">Feil ved lagring av skjemastatus</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.Js">
+    <Phrase key="UnableLoadScheme">Kan ikke laste opp skjemaet til nettsiden.</Phrase>
+    <Phrase key="PageNotValid">Nettsiden er ikke lenger faktisk.  Det anbefales å lukke den.</Phrase>
+    <Phrase key="DataError">Feil ved behandling av data.</Phrase>
+    <Phrase key="EditorClosed">Scheme Editor ble sannsynligvis stengt.  Det anbefales å lukke nettsiden.</Phrase>
+    <Phrase key="BrowserOutdated">Nettleseren din er utdatert.  Vennligst oppdater til en moderne nettleser.</Phrase>
+  </Dictionary>
+</ScadaSchemeEditorDictionaries>

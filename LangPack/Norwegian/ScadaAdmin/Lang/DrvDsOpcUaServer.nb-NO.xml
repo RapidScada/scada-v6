@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDsOpcUaServerDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms.FrmOpcUaServerDSO">
+    <Phrase key="this">Alternativer for datakilde</Phrase>
+    <Phrase key="chkAutoAccept">Godta sertifikater automatisk</Phrase>
+    <Phrase key="lblUsername">Brukernavn</Phrase>
+    <Phrase key="lblPassword">Passord</Phrase>
+    <Phrase key="lblConfigFileName">Konfigurasjonsfil</Phrase>
+    <Phrase key="btnCreateConfigWin.ToolTip">Lag konfigurasjonsfil for Windows</Phrase>
+    <Phrase key="btnCreateConfigLinux.ToolTip">Lag konfigurasjonsfil for Linux</Phrase>
+    <Phrase key="btnBrowseConfig.ToolTip">Bla gjennom</Phrase>
+    <Phrase key="lblDeviceFilter">Enhetsfilter</Phrase>
+    <Phrase key="btnSelectDevices.ToolTip">Velg enheter</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+    <Phrase key="ConfigDirRequired">Konfigurasjonsfilen må være plassert inne i {0}</Phrase>
+  </Dictionary>
+</DrvDsOpcUaServerDictionaries>

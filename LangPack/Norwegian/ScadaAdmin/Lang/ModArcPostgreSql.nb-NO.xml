@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModArcPostgreSqlDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Controls.CtrlDatabaseOptions">
+    <Phrase key="gbDbOptions">Databasealternativer</Phrase>
+    <Phrase key="lblUseStorageConn">Bruk lagringstilkobling</Phrase>
+    <Phrase key="lblConnection">Forbindelse</Phrase>
+    <Phrase key="lblPartitionSize">Partisjonsstørrelse</Phrase>
+    <Phrase key="cbPartitionSize.Items[0]">En måned</Phrase>
+    <Phrase key="cbPartitionSize.Items[1]">Ett år</Phrase>
+    <Phrase key="lblMaxQueueSize">Maksimal køstørrelse</Phrase>
+    <Phrase key="lblBatchSize">Varer per transaksjon</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmConnManager">
+    <Phrase key="this">PostgreSQL-tilkoblinger</Phrase>
+    <Phrase key="gbConnList">Tilkoblinger</Phrase>
+    <Phrase key="btnNewConn">Ny</Phrase>
+    <Phrase key="btnDeleteConn">Slett</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreCAO">
+    <Phrase key="this">Gjeldende arkivalternativer</Phrase>
+    <Phrase key="gbDbOptions">Databasealternativer</Phrase>
+    <Phrase key="lblUseStorageConn">Bruk lagringstilkobling</Phrase>
+    <Phrase key="lblConnection">Forbindelse</Phrase>
+    <Phrase key="lblMaxQueueSize">Maksimal køstørrelse</Phrase>
+    <Phrase key="lblBatchSize">Varer per transaksjon</Phrase>
+    <Phrase key="btnManageConn">Administrer tilkoblinger</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreEAO">
+    <Phrase key="this">Alternativer for hendelsesarkiv</Phrase>
+    <Phrase key="btnManageConn">Administrer tilkoblinger</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreHAO">
+    <Phrase key="this">Historiske arkivalternativer</Phrase>
+    <Phrase key="btnManageConn">Administrer tilkoblinger</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+</ModArcPostgreSqlDictionaries>

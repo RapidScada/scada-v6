@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvEmailDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvEmail.View.Forms.FrmConfig">
+    <Phrase key="this">Egenskaper for enhet {0} – e-post</Phrase>
+    <Phrase key="gbServer">SMTP-server</Phrase>
+    <Phrase key="lblHost">Serververt</Phrase>
+    <Phrase key="lblPort">Havn</Phrase>
+    <Phrase key="lblUsername">Brukernavn</Phrase>
+    <Phrase key="lblPassword">Passord</Phrase>
+    <Phrase key="chkEnableSsl">Bruk SSL</Phrase>
+    <Phrase key="gbSender">Fra</Phrase>
+    <Phrase key="lblSenderAddress">Avsenderadresse</Phrase>
+    <Phrase key="lblSenderDisplayName">Visningsnavn</Phrase>
+    <Phrase key="btnAddressBook">Adressebok</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+</DrvEmailDictionaries>

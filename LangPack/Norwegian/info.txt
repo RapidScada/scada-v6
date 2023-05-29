@@ -1,0 +1,5 @@
+Language                 : Norwegian
+Culture name:            : nb-NO
+Rapid SCADA version      : 6.1.2
+Rapid SCADA applications : All
+Author                   : Automation

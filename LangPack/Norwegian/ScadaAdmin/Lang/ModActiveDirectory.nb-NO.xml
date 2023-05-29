@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModActiveDirectoryDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModActiveDirectory.Config.ModuleConfig">
+    <Phrase key="LdapServer.DisplayName">LDAP-server</Phrase>
+    <Phrase key="LdapServer.Category">Hovedparametere</Phrase>
+    <Phrase key="LdapServer.Description">Verten for domenekontrolleren eller IP-adressen.  For eksempel 127.0.0.1</Phrase>
+    <Phrase key="EnableSearch.DisplayName">Aktiver søk</Phrase>
+    <Phrase key="EnableSearch.Category">Hovedparametere</Phrase>
+    <Phrase key="EnableSearch.Description">Aktiver søk etter brukerroller i Active Directory.</Phrase>
+    <Phrase key="SearchRoot.DisplayName">Søk root</Phrase>
+    <Phrase key="SearchRoot.Category">Hovedparametere</Phrase>
+    <Phrase key="SearchRoot.Description">Søkeroten.  For eksempel DC=company,DC=com</Phrase>
+  </Dictionary>
+</ModActiveDirectoryDictionaries>

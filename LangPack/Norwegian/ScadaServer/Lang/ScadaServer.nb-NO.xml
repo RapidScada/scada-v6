@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaServerDictionaries>
+  <!-- ScadaServerCommon.dll -->
+  <Dictionary key="Scada.Server.Archives">
+    <Phrase key="UnspecifiedArchiveKind">Uspesifisert</Phrase>
+    <Phrase key="CurrentArchiveKind">Nåværende</Phrase>
+    <Phrase key="HistoricalArchiveKind">Historisk</Phrase>
+    <Phrase key="EventsArchiveKind">arrangementer</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules">
+    <Phrase key="LoadModuleConfigError">Feil ved lasting av modulkonfigurasjon</Phrase>
+    <Phrase key="SaveModuleConfigError">Feil ved lagring av modulkonfigurasjon</Phrase>
+    <Phrase key="SaveModuleConfigConfirm">Modulkonfigurasjonen er endret.  Vil du lagre endringene?</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Engine.CoreLogic">
+    <Phrase key="CommandSentBy">Sendt av {0}</Phrase>
+    <Phrase key="EmptyCredentials">Brukernavn eller passord kan ikke være tomt</Phrase>
+    <Phrase key="InvalidCredentials">Ugyldig brukernavn eller passord</Phrase>
+    <Phrase key="AccountDisabled">Kontoen er deaktivert</Phrase>
+  </Dictionary>
+  <!-- ScadaServerCommon.Forms.dll -->
+  <Dictionary key="Scada.Server.Forms.Controls.CtrlCurrentArchiveOptions">
+    <Phrase key="gbOptions">Generelle alternativer</Phrase>
+    <Phrase key="lblReadOnly">Lesebeskyttet</Phrase>
+    <Phrase key="lblLogEnabled">Logg aktivert</Phrase>
+    <Phrase key="lblFlushPeriod">Skylleperiode</Phrase>
+    <Phrase key="txtFlushPeriodUnit">Sec</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Forms.Controls.CtrlEventArchiveOptions">
+    <Phrase key="gbOptions">Generelle alternativer</Phrase>
+    <Phrase key="lblReadOnly">Lesebeskyttet</Phrase>
+    <Phrase key="lblLogEnabled">Logg aktivert</Phrase>
+    <Phrase key="lblRetention">Oppbevaringsperiode</Phrase>
+    <Phrase key="txtRetentionUnit">Dag</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Forms.Controls.CtrlHistoricalArchiveOptions">
+    <Phrase key="gbOptions">Generelle alternativer</Phrase>
+    <Phrase key="lblReadOnly">Lesebeskyttet</Phrase>
+    <Phrase key="lblLogEnabled">Logg aktivert</Phrase>
+    <Phrase key="lblRetention">Oppbevaringsperiode</Phrase>
+    <Phrase key="txtRetentionUnit">Dag</Phrase>
+    <Phrase key="lblIsPeriodic">Kun periodiske data</Phrase>
+    <Phrase key="lblWriteWithPeriod">Skriv med punktum</Phrase>
+    <Phrase key="lblWritingPeriod">Skriveperiode</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[0]">Sec</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[1]">Min</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[2]">Time</Phrase>
+    <Phrase key="lblPullToPeriod">Trekk til punktum</Phrase>
+    <Phrase key="txtPullToPeriodUnit">Sec</Phrase>
+    <Phrase key="lblWriteOnChange">Skriv om endring</Phrase>
+    <Phrase key="lblDeadband">Dødbånd</Phrase>
+    <Phrase key="cbDeadbandUnit.Items[0]">Abs.</Phrase>
+    <Phrase key="cbDeadbandUnit.Items[1]">%</Phrase>
+  </Dictionary>
+</ScadaServerDictionaries>

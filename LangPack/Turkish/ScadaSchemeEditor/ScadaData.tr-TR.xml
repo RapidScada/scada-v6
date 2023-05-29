@@ -38,7 +38,7 @@
     <Phrase key="IncorrectXmlNodeVal">&quot;{0}&quot; XML düğümünün yanlış değeri.</Phrase>
     <Phrase key="IncorrectXmlAttrVal">&quot;{0}&quot; XML özniteliğinin yanlış değeri.</Phrase>
     <Phrase key="IncorrectXmlParamVal">&quot;{0}&quot; parametresinin yanlış değeri.</Phrase>
-    <Phrase key="XmlNodeNotFound">"&quot;{0}&quot; XML düğümü, "{1}" düğümü içinde bulunamadı.</Phrase>
+    <Phrase key="XmlNodeNotFound">&quot;{0}&quot; XML düğümü, &quot;{1}&quot; düğümü içinde bulunamadı.</Phrase>
     <Phrase key="EventAck">Evet</Phrase>
     <Phrase key="EventNotAck">HAYIR</Phrase>
     <Phrase key="IncorrectCmdVal">Yanlış komut değeri.</Phrase>

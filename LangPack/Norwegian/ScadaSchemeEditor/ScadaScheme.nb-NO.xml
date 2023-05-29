@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaSchemeDictionaries>
+  <Dictionary key="Scada.Scheme.Model.DataTypes.ImageCondition">
+    <Phrase key="DisplayName">Bildetilstand</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid">
+    <Phrase key="StringConvertError">Kan ikke konvertere strengen</Phrase>
+    <Phrase key="StringUniqueError">Eiendomsverdien må være unik</Phrase>
+    <Phrase key="TrueValue">Ja</Phrase>
+    <Phrase key="FalseValue">Nei</Phrase>
+    <Phrase key="EmptyValue">(Ingen)</Phrase>
+    <Phrase key="ObjectValue">(Gjenstand)</Phrase>
+    <Phrase key="CollectionValue">(Samling)</Phrase>
+    <Phrase key="ComponentNotFound">Komponent ikke funnet</Phrase>
+    <Phrase key="BoldSymbol">B</Phrase>
+    <Phrase key="ItalicSymbol">Jeg</Phrase>
+    <Phrase key="UnderlineSymbol">U</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmCollectionDialog">
+    <Phrase key="this">{0} Samling</Phrase>
+    <Phrase key="lblItems">Varer</Phrase>
+    <Phrase key="lblProps">Vareegenskaper</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmFontDialog">
+    <Phrase key="this">Font</Phrase>
+    <Phrase key="lblFontName">Font</Phrase>
+    <Phrase key="lblFontSize">Size</Phrase>
+    <Phrase key="gbStyle">Style</Phrase>
+    <Phrase key="chkBold">Bold</Phrase>
+    <Phrase key="chkItalic">Italic</Phrase>
+    <Phrase key="chkUnderline">Underline</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmImageDialog">
+    <Phrase key="this">Bilder</Phrase>
+    <Phrase key="lblImages">Bilder</Phrase>
+    <Phrase key="lblImageProps">Bildeegenskaper</Phrase>
+    <Phrase key="lblPreview">Forhåndsvisning</Phrase>
+    <Phrase key="btnSelectEmpty">Tømme</Phrase>
+    <Phrase key="btnSelect">Plukke ut</Phrase>
+    <Phrase key="btnClose">Lukk</Phrase>
+    <Phrase key="ImageFileFilter">Bilder (*.jpg;*.png;*.gif;*.svg)|*.jpg;*.png;*.gif;*.svg|Alle filer (*.*)|*.*</Phrase>
+    <Phrase key="DisplayImageError">Feil under visning av bilde</Phrase>
+    <Phrase key="LoadImageError">Feil ved innlasting av bildet</Phrase>
+    <Phrase key="SaveImageError">Feil under lagring av bildet</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmRangeDialog">
+    <Phrase key="this">Utvalg av heltall</Phrase>
+    <Phrase key="lblExample">For eksempel: 1 - 5, 10</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+    <Phrase key="RangeNotValid">Området er ikke gyldig</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Template.TemplateBindings">
+    <Phrase key="LoadTemplateBindingsError">Feil ved innlasting av skjemamalbindinger fra fil</Phrase>
+    <Phrase key="SaveTemplateBindingsError">Feil ved lagring av skjemamalbindinger til fil</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.CompManager">
+    <Phrase key="UnknownComponent">Ukjent komponent {0}</Phrase>
+    <Phrase key="CompLibraryNotFound">Finner ikke noe bibliotek for komponent {0}</Phrase>
+    <Phrase key="UnableCreateComponent">Kan ikke opprette komponent {0}</Phrase>
+    <Phrase key="ErrorCreatingComponent">Feil ved opprettelse av komponent {0}</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.SchemeView">
+    <Phrase key="LoadSchemeViewError">Feil ved innlasting av skjema fra fil</Phrase>
+    <Phrase key="SaveSchemeViewError">Feil under lagring av skjema til fil</Phrase>
+    <Phrase key="IncorrectFileFormat">Feil format på skjemafilen</Phrase>
+  </Dictionary>
+</ScadaSchemeDictionaries>

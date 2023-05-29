@@ -38,7 +38,7 @@
     <Phrase key="IncorrectXmlNodeVal">Falscher Wert des XML-Knotens &quot;{0}&quot;.</Phrase>
     <Phrase key="IncorrectXmlAttrVal">Falscher Wert des XML-Attributs &quot;{0}&quot;.</Phrase>
     <Phrase key="IncorrectXmlParamVal">Falscher Wert des Parameters &quot;{0}&quot;.</Phrase>
-    <Phrase key="XmlNodeNotFound">Der XML-Knoten &quot;{0}&quot; wurde im Knoten &quot;{0}&quot; nicht gefunden.</Phrase>
+    <Phrase key="XmlNodeNotFound">Der XML-Knoten &quot;{0}&quot; wurde im Knoten &quot;{1}&quot; nicht gefunden.</Phrase>
     <Phrase key="EventAck">Ja</Phrase>
     <Phrase key="EventNotAck">NEIN</Phrase>
     <Phrase key="IncorrectCmdVal">Falscher Befehlswert.</Phrase>

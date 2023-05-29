@@ -38,7 +38,7 @@
     <Phrase key="IncorrectXmlNodeVal">Valeur incorrecte du nœud XML &quot;{0}&quot;.</Phrase>
     <Phrase key="IncorrectXmlAttrVal">Valeur incorrecte de l'attribut XML &quot;{0}&quot;.</Phrase>
     <Phrase key="IncorrectXmlParamVal">Valeur incorrecte du paramètre &quot;{0}&quot;.</Phrase>
-    <Phrase key="XmlNodeNotFound">Nœud XML &quot;{0}&quot; introuvable dans le nœud "{1}".</Phrase>
+    <Phrase key="XmlNodeNotFound">Nœud XML &quot;{0}&quot; introuvable dans le nœud &quot;{1}&quot;.</Phrase>
     <Phrase key="EventAck">Oui</Phrase>
     <Phrase key="EventNotAck">Non</Phrase>
     <Phrase key="IncorrectCmdVal">Valeur de commande incorrecte.</Phrase>

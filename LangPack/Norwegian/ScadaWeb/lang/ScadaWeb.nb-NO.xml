@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaWebDictionaries>
+  <Dictionary key="Scada.Web">
+    <Phrase key="CorrectErrors">Rett opp følgende feil:</Phrase>
+    <Phrase key="ClientError">Feil under kommunikasjon med serveren</Phrase>
+    <Phrase key="UnknownUsername">Ukjent</Phrase>
+    <Phrase key="AccessDenied">Ingen tilgang</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Code.ViewLoader">
+    <Phrase key="ViewNotSpecified">Den forespurte visningen er ikke spesifisert.</Phrase>
+    <Phrase key="ViewNotExists">Den forespurte visningen eksisterer ikke.</Phrase>
+    <Phrase key="InsufficientViewRights">Utilstrekkelige tilgangsrettigheter for visningen.</Phrase>
+    <Phrase key="UnableResolveViewSpec">Kan ikke løse visningsspesifikasjonen.</Phrase>
+    <Phrase key="UnableLoadView">Kan ikke laste visningen.</Phrase>
+    <Phrase key="ViewMissingFromCache">Visningen mangler fra hurtigbufferen.</Phrase>
+    <Phrase key="ViewUndefined">Visningen er udefinert.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Shared._MainLayout">
+    <Phrase key="spanMenuBtn_ToolTip">Vis/skjul meny</Phrase>
+    <Phrase key="spanNotifBtn_ToolTip">Vis/skjul varsler</Phrase>
+    <Phrase key="spanProfileBtn_ToolTip">Brukerprofil</Phrase>
+    <Phrase key="spanLogoutBtn">Logg ut</Phrase>
+    <Phrase key="spanLogoutBtn_ToolTip">Logg ut</Phrase>
+    <Phrase key="spanFullscreenBtn_ToolTip">Full skjerm</Phrase>
+    <Phrase key="spanExitFullscreenBtn_ToolTip">Normal visning</Phrase>
+    <Phrase key="divMainMenuTab">Hovedmeny</Phrase>
+    <Phrase key="divViewExplorerTab">Visninger</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Shared._MainLayout.Modal">
+    <Phrase key="Ok">OK</Phrase>
+    <Phrase key="Yes">Ja</Phrase>
+    <Phrase key="No">Nei</Phrase>
+    <Phrase key="Execute">Henrette</Phrase>
+    <Phrase key="Cancel">Avbryt</Phrase>
+    <Phrase key="Close">Lukk</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Shared._MainLayout.NotifPanel">
+    <Phrase key="NoNotif">Ingen varsler</Phrase>
+    <Phrase key="Mute">Stum</Phrase>
+    <Phrase key="Unmute">Slå på lyden</Phrase>
+    <Phrase key="AckAll">Ack All</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.About">
+    <Phrase key="PageTitle">Om programmet</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.AccessDenied">
+    <Phrase key="PageTitle">Ingen tilgang</Phrase>
+    <Phrase key="ErrorMessage">Du har ikke tilstrekkelige rettigheter til å få tilgang til den forespurte ressursen.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.CnlSelect">
+    <Phrase key="PageTitle">Velg Kanaler</Phrase>
+    <Phrase key="lblObj">Gjenstand</Phrase>
+    <Phrase key="lblOnlySelected">Vis kun valgte kanaler</Phrase>
+    <Phrase key="SelectObjectItem">-- Velg et objekt --</Phrase>
+    <Phrase key="FilterRequired">Vennligst spesifiser et filter.</Phrase>
+    <Phrase key="NoChannels">Ingen kanaler samsvarer med filteret.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Error">
+    <Phrase key="PageTitle">Feil</Phrase>
+    <Phrase key="ErrorMessage">Det oppsto en feil under behandlingen av forespørselen din.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Login">
+    <Phrase key="PageTitle">Logg Inn</Phrase>
+    <Phrase key="NotReady">Søknaden er ikke klar.  Prøv igjen senere.</Phrase>
+    <Phrase key="InvalidCaptcha">Ugyldig beskyttelseskode.</Phrase>
+    <Phrase key="lblUsername">Brukernavn</Phrase>
+    <Phrase key="lblPassword">Passord</Phrase>
+    <Phrase key="lblCaptcha">Beskyttelseskode</Phrase>
+    <Phrase key="lblRememberMe">Husk meg</Phrase>
+    <Phrase key="btnLogin">Logg Inn</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Reports">
+    <Phrase key="PageTitle">Rapporter</Phrase>
+    <Phrase key="NoReports">Ingen rapporter tilgjengelig.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.UserProfile">
+    <Phrase key="PageTitle">Brukerprofil</Phrase>
+    <Phrase key="lblUserID">Bruker-ID:</Phrase>
+    <Phrase key="lblUsername">Brukernavn:</Phrase>
+    <Phrase key="lblRole">Rolle:</Phrase>
+    <Phrase key="lblTimeZone">Tidssone:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.View">
+    <Phrase key="PageTitle">Utsikt</Phrase>
+    <Phrase key="divHideDataWindowBtn_ToolTip">Skjul datavindu</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.ViewFrame">
+    <Phrase key="PageTitle">Utsikt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins">
+    <Phrase key="LoadPluginConfigError">Feil ved lasting av plugin-konfigurasjon</Phrase>
+    <Phrase key="SavePluginConfigError">Feil under lagring av plugin-konfigurasjon</Phrase>
+    <Phrase key="CnlNotFound">Finner ikke kanalen {0}.</Phrase>
+    <Phrase key="CnlNotOutput">Kanal {0} er ikke en utgang.</Phrase>
+    <Phrase key="CommandsDisabled">Kommandoer deaktivert.</Phrase>
+    <Phrase key="SendCommand">Send kommando til kanal {0} av {1}</Phrase>
+    <Phrase key="ActionNotAllowed">Handling ikke tillatt.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.TreeView.MenuItem">
+    <Phrase key="ReportsMenuItem">Rapporter</Phrase>
+    <Phrase key="AdministrationMenuItem">Administrasjon</Phrase>
+    <Phrase key="ConfigurationMenuItem">Konfigurasjon</Phrase>
+    <Phrase key="RegistrationMenuItem">Registrering</Phrase>
+    <Phrase key="PluginsMenuItem">Plugins</Phrase>
+    <Phrase key="AboutMenuItem">Om programmet</Phrase>
+  </Dictionary>
+</ScadaWebDictionaries>

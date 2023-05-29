@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDsScadaServerDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsScadaServer.View.Forms.FrmConnManager">
+    <Phrase key="this">Klientforbindelser</Phrase>
+    <Phrase key="gbConnList">Tilkoblinger</Phrase>
+    <Phrase key="btnNewConn">Ny</Phrase>
+    <Phrase key="btnDeleteConn">Slett</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsScadaServer.View.Forms.FrmScadaServerDSO">
+    <Phrase key="this">Alternativer for datakilde</Phrase>
+    <Phrase key="lblReadConfigDb">Les konfigurasjonsdatabasen</Phrase>
+    <Phrase key="lblUseDefaultConn">Bruk standardtilkobling</Phrase>
+    <Phrase key="lblConnection">Forbindelse</Phrase>
+    <Phrase key="lblMaxQueueSize">Maksimal køstørrelse</Phrase>
+    <Phrase key="lblDataLifetime">Datalevetid i kø, sek</Phrase>
+    <Phrase key="lblClientLogEnabled">Klientlogg aktivert</Phrase>
+    <Phrase key="lblDeviceFilter">Enhetsfilter</Phrase>
+    <Phrase key="btnSelectDevices">Plukke ut...</Phrase>
+    <Phrase key="btnManageConn">Administrer tilkoblinger</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+</DrvDsScadaServerDictionaries>

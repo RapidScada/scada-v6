@@ -38,7 +38,7 @@
     <Phrase key="IncorrectXmlNodeVal">Niepoprawna wartość węzła XML &quot;{0}&quot;.</Phrase>
     <Phrase key="IncorrectXmlAttrVal">Niepoprawna wartość atrybutu XML &quot;{0}&quot;.</Phrase>
     <Phrase key="IncorrectXmlParamVal">Niepoprawna wartość parametru &quot;{0}&quot;.</Phrase>
-    <Phrase key="XmlNodeNotFound">Nie znaleziono węzła XML &quot;{0}&quot; w węźle &quot;{0}&quot;.</Phrase>
+    <Phrase key="XmlNodeNotFound">Nie znaleziono węzła XML &quot;{0}&quot; w węźle &quot;{1}&quot;.</Phrase>
     <Phrase key="EventAck">Tak</Phrase>
     <Phrase key="EventNotAck">NIE</Phrase>
     <Phrase key="IncorrectCmdVal">Nieprawidłowa wartość polecenia.</Phrase>
