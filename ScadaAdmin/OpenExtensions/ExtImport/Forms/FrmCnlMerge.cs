@@ -22,6 +22,9 @@ using Scada.Comm.Drivers.DrvModbus.Protocol;
 using static System.Windows.Forms.Design.AxImporter;
 using System.Windows.Forms.Design;
 using static System.Windows.Forms.DataFormats;
+using System.Text.RegularExpressions;
+using System.Reflection;
+using System.Web;
 
 namespace Scada.Admin.Extensions.ExtImport.Forms
 {
@@ -35,11 +38,26 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
         private IAdminContext adminContext; // the Administrator context
         private ScadaProject project;       // the project under development
         string selectedDeviceName;
+        Dictionary<string, ElemType> elemTypeDico;
 
         private FrmCnlMerge()
         {
             InitializeComponent();
             dataGridView1.AutoGenerateColumns = false;
+            this.elemTypeDico = new Dictionary<string, ElemType>
+            {
+                { "BOOL", ElemType.Bool },
+                { "EBOOL", ElemType.Bool },
+                {"REAL", ElemType.Double },
+                {"FLOAT", ElemType.Float },
+                {"INT", ElemType.Int },
+                {"LONG", ElemType.Long },
+                {"SHORT", ElemType.Short },
+                {"DWORD", ElemType.UInt },
+                {"QWORD", ElemType.ULong },
+                {"UNDEFINED", ElemType.Undefined },
+                {"WORD", ElemType.UShort },
+            };
 
         }
 
@@ -75,13 +93,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
         public void setDictio(Dictionary<string, List<string>> dictio)
         {
             this.dictio = dictio;
-        }
-        //A supprimer
-        public void Init(IAdminContext adminContext, ScadaProject project)
-        {
-            this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
-            this.project = project ?? throw new ArgumentNullException(nameof(project));
-
         }
 
         public void xmlReader()
@@ -417,22 +428,46 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             return dico;
         }
 
+
+        private DeviceTemplate generateDeviceTemplateFromDictionnary(Dictionary<string, List<string>> dico)
+        {
+            //create empty template
+            DeviceTemplate template = new DeviceTemplate();
+
+            //Create Elems
+            ElemGroupConfig newElemenGroup = new ElemGroupConfig();
+            int previousTagCode = 0;
+            for (int index = 0; index < dico.Count; index++)
+            {
+                List<string> entry = dico.ElementAt(index).Value;
+                int intTagCode = int.Parse(Regex.Split(dico.ElementAt(index).Key, @"[^0-9]").Last());
+                if (index == 0 || previousTagCode != intTagCode - 1)
+                {
+                    if (index > 0)
+                    {
+                        template.ElemGroups.Add(newElemenGroup);
+                    }
+                    newElemenGroup = new ElemGroupConfig();
+                    newElemenGroup.Address = int.Parse(Regex.Replace(dico.ElementAt(index).Key, @"[^0-9]", "")) - 1;
+                }
+                previousTagCode = intTagCode;
+                ElemConfig newElem = new ElemConfig();
+                newElem.Name = entry[0];
+                newElem.TagCode = dico.ElementAt(index).Key;
+                newElem.ElemType = elemTypeDico.Keys.Contains(entry[1]) ? elemTypeDico[entry[1]] : ElemType.Undefined;
+                newElemenGroup.Elems.Add(newElem);
+            }
+            template.ElemGroups.Add(newElemenGroup);
+            return template;
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             //Generate dictionnary
             var dico = generateDictionnary();
 
             //Fill new DeviceTemplate with dictionnary
-            DeviceTemplate template = new DeviceTemplate();
-            ElemGroupConfig newElemenGroup = new ElemGroupConfig();
-            foreach (var entry in dico.Values)
-            {
-                ElemConfig newElem = new ElemConfig();
-                newElem.ElemType = ElemType.Double;
-                newElem.Name = entry[0];
-                newElemenGroup.Elems.Add(newElem);
-            }
-            template.ElemGroups.Add(newElemenGroup);
+            DeviceTemplate template = this.generateDeviceTemplateFromDictionnary(dico);
 
             //Fill XML with DeviceTemplate
             XmlDocument xmlDoc = new XmlDocument();
@@ -457,14 +492,19 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 
 
             //Save file
-            if(saveFileDialog1.ShowDialog() == DialogResult.OK)
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                using (Stream s = File.Open(saveFileDialog1.FileName, FileMode.OpenOrCreate))
+                using (Stream s = File.Open(saveFileDialog1.FileName, FileMode.Create))
                 using (StreamWriter sw = new StreamWriter(s))
                 {
                     xmlDoc.Save(sw);
                 }
             }
+        }
+
+        private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

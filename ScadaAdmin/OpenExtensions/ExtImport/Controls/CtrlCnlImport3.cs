@@ -143,14 +143,14 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			// DG
 			_adress = new string(_adress.SkipWhile(x => !char.IsDigit(x)).ToArray());
 
-			setFormatType(columns[2]);
+			//setFormatType(columns[2]);
 			_comment = columns[3].Replace("\"", "");
 
 			//add in dictionary
 
 			List<string> list = new List<string>();
 			list.Add(_mnemonique);
-			list.Add(_type);
+			list.Add(columns[2]);
 			list.Add(_comment);
 
 			_dictio.Add(_adress, list);
@@ -174,14 +174,15 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			{
 				_mnemonique = colums[0];
 				_adress = colums[1];
-				setFormatType(colums[2]);
-				_comment = colums[3].Replace("\"", "");
+                _adress = new string(_adress.SkipWhile(x => !char.IsDigit(x)).ToArray());
+                //setFormatType(colums[2]);
+                _comment = colums[3].Replace("\"", "");
 
 				//add in dictionary
 
 				List<string> list = new List<string>();
 				list.Add(_mnemonique);
-				list.Add(_type);
+				list.Add(colums[2]);
 				list.Add(_comment);
 
 				if (!_dictio.ContainsKey(_adress))
@@ -206,32 +207,34 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 				string[] splitComment = splitType[1].Split('*');
 				_comment = splitComment[0].Replace("\"", "");
 
-				//add in dictionary
+                //add in dictionary
 
-				List<string> list = new List<string>();
-				list.Add(_mnemonique);
-				list.Add(_type);
-				list.Add(_comment);
+                List<string> list = new List<string>
+                {
+                    _mnemonique,
+                    _type,
+                    _comment
+                };
 
-				_dictio.Add(_adress, list);
+                _dictio.Add(_adress, list);
 				Console.WriteLine(_dictio.Count);
 			}
 		}
 
-		private void setFormatType(string type)
-		{
-			switch (type)
-			{
-				case "DWORD":
-					_type = "Double";
-					break;
-				case "WORD":
-					_type = "Integer";
-					break;
-				default:
-					break;
-			}
-		}
+		//private void setFormatType(string type)
+		//{
+		//	switch (type)
+		//	{
+		//		case "DWORD":
+		//			_type = "Double";
+		//			break;
+		//		case "WORD":
+		//			_type = "Integer";
+		//			break;
+		//		default:
+		//			break;
+		//	}
+		//}
 
 		private void label1_Click(object sender, EventArgs e)
 		{

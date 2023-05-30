@@ -85,6 +85,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             dataGridView1.RowTemplate.Height = 29;
             dataGridView1.Size = new Size(1223, 433);
             dataGridView1.TabIndex = 21;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick_1;
             // 
             // Column1Txt
             // 
@@ -209,6 +210,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             // 
             // button1
             // 
+            button1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             button1.Location = new Point(1006, 465);
             button1.Name = "button1";
             button1.Size = new Size(150, 26);
