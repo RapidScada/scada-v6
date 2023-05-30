@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvCnlMqttDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlMqtt.View.Forms.FrmMqttClientChannelOptions">
+    <Phrase key="this">Opções do cliente MQTT</Phrase>
+    <Phrase key="lblServer">Servidor</Phrase>
+    <Phrase key="lblPort">porta TCP</Phrase>
+    <Phrase key="lblTimeout">Tempo limite, ms</Phrase>
+    <Phrase key="lblUseTls">Usar TLS</Phrase>
+    <Phrase key="lblClientID">ID do Cliente</Phrase>
+    <Phrase key="lblUsername">Nome de usuário</Phrase>
+    <Phrase key="lblPassword">Senha</Phrase>
+    <Phrase key="lblProtocolVersion">Versão do protocolo</Phrase>
+    <Phrase key="cbProtocolVersion.Items[0]">Padrão</Phrase>
+    <Phrase key="cbProtocolVersion.Items[1]">3.1</Phrase>
+    <Phrase key="cbProtocolVersion.Items[2]">3.1.1</Phrase>
+    <Phrase key="cbProtocolVersion.Items[3]">5,0</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+</DrvCnlMqttDictionaries>

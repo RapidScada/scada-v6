@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AddressBookDictionaries>
+  <Dictionary key="Scada.AB.Forms.FrmAddressBook">
+    <Phrase key="this">Livro de endereços</Phrase>
+    <Phrase key="btnAddContactGroup.ToolTip">Adicionar grupo de contato</Phrase>
+    <Phrase key="btnAddContact.ToolTip">Adicionar contato</Phrase>
+    <Phrase key="btnAddPhoneNumber.ToolTip">Adicionar número de telefone</Phrase>
+    <Phrase key="btnAddEmail.ToolTip">Adicionar e-mail</Phrase>
+    <Phrase key="btnEdit.ToolTip">Editar</Phrase>
+    <Phrase key="btnDelete.ToolTip">Excluir</Phrase>
+    <Phrase key="btnSave">Salvar</Phrase>
+    <Phrase key="btnClose">Fechar</Phrase>
+    <Phrase key="AddressBookNode">Livro de endereços</Phrase>
+    <Phrase key="NewContactGroup">Novo grupo</Phrase>
+    <Phrase key="NewContact">Novo contato</Phrase>
+    <Phrase key="NewPhoneNumber">Novo número de telefone</Phrase>
+    <Phrase key="NewEmail">Novo Email</Phrase>
+    <Phrase key="ContactGroupExists">O grupo de contato já existe.</Phrase>
+    <Phrase key="ContactExists">O contato já existe no grupo.</Phrase>
+    <Phrase key="PhoneNumberExists">O contato já contém o número de telefone especificado.</Phrase>
+    <Phrase key="EmailExists">O contato já contém o e-mail especificado.</Phrase>
+    <Phrase key="IncorrectEmail">O e-mail está incorreto.</Phrase>
+    <Phrase key="EmptyValueNotAllowed">Valor vazio não é permitido.</Phrase>
+    <Phrase key="SaveAddressBookConfirm">O livro de endereços foi modificado.  Salvar as alterações?</Phrase>
+  </Dictionary>
+</AddressBookDictionaries>

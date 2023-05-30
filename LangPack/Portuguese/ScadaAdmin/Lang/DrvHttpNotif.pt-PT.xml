@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvHttpNotifDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvHttpNotif.View.Forms.FrmConfig">
+    <Phrase key="this">Propriedades do dispositivo {0} - Notificações HTTP</Phrase>
+    <Phrase key="pageGeneral">Em geral</Phrase>
+    <Phrase key="lblMethod">Método</Phrase>
+    <Phrase key="lblUri">URI</Phrase>
+    <Phrase key="lblUriHint">Pode conter parâmetros, por exemplo {phone}, {email} e {text}</Phrase>
+    <Phrase key="gbParam">Parâmetros</Phrase>
+    <Phrase key="chkParamEnabled">Parâmetros ativados</Phrase>
+    <Phrase key="lblParamBegin">Começar</Phrase>
+    <Phrase key="lblParamEnd">Fim</Phrase>
+    <Phrase key="lblAddrSep">Separador</Phrase>
+    <Phrase key="pageHeaders">Cabeçalhos</Phrase>
+    <Phrase key="colName">Nome</Phrase>
+    <Phrase key="colValue">Valor</Phrase>
+    <Phrase key="pageContent">Contente</Phrase>
+    <Phrase key="lblContentType">Tipo de conteúdo</Phrase>
+    <Phrase key="lblContentEscaping">escapando</Phrase>
+    <Phrase key="cbContentEscaping.Items[0]">Nenhum</Phrase>
+    <Phrase key="cbContentEscaping.Items[1]">URL</Phrase>
+    <Phrase key="cbContentEscaping.Items[2]">JSON</Phrase>
+    <Phrase key="lblContent">Corpo</Phrase>
+    <Phrase key="lblContentHint">Pode conter parâmetros, por exemplo {phone}, {email} e {text}</Phrase>
+    <Phrase key="btnAddressBook">Livro de endereços</Phrase>
+    <Phrase key="btnSave">Salvar</Phrase>
+    <Phrase key="btnClose">Fechar</Phrase>
+  </Dictionary>
+</DrvHttpNotifDictionaries>
