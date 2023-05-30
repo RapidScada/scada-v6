@@ -185,7 +185,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             {
                 List<Cnl> cnls = CreateChannels();
 
-                if (new FrmCnlMerge(adminContext, project, cnls, CtrlCnlImport3._dictio, CtrlCnlImport1.SelectedDevice?.Name).ShowDialog() == DialogResult.OK)
+                if (new FrmCnlMerge(project, cnls, CtrlCnlImport3._dictio, CtrlCnlImport1.SelectedDevice?.Name).ShowDialog() == DialogResult.OK)
                 //new FrmCnlMerge().ShowDialog() == DialogResult.OK)
                 {
                     //AddChannels(cnls, chkPreview.Checked);
@@ -193,11 +193,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                     DialogResult = DialogResult.OK;
                 }
             }
-        }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

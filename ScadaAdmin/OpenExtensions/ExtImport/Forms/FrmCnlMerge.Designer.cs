@@ -85,7 +85,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             dataGridView1.RowTemplate.Height = 29;
             dataGridView1.Size = new Size(1223, 433);
             dataGridView1.TabIndex = 21;
-            dataGridView1.CellContentClick += dataGridView1_CellContentClick_1;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // Column1Txt
             // 
@@ -191,7 +191,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             lblSource.Size = new Size(49, 21);
             lblSource.TabIndex = 24;
             lblSource.Text = "Source";
-            lblSource.Click += lblSource_Click;
             // 
             // lblDestination
             // 

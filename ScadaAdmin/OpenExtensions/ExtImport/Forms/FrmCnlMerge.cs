@@ -35,10 +35,11 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
         private Dictionary<string, List<string>> _oldDictio = new Dictionary<string, List<string>>();
         private Dictionary<string, List<string>> _newDictio = new Dictionary<string, List<string>>();
         private List<string> _listOfKey = new List<string>();
-        private IAdminContext adminContext; // the Administrator context
         private ScadaProject project;       // the project under development
         string selectedDeviceName;
         Dictionary<string, ElemType> elemTypeDico;
+        private System.Windows.Forms.CheckBox _headerCheckBox1 = new System.Windows.Forms.CheckBox();
+        private System.Windows.Forms.CheckBox _headerCheckBox2 = new System.Windows.Forms.CheckBox();
 
         private FrmCnlMerge()
         {
@@ -61,10 +62,9 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 
         }
 
-        public FrmCnlMerge(IAdminContext adminContext, ScadaProject project, List<Cnl> cnls, Dictionary<string, List<string>> dictio, string selectedDeviceName) : this()
+        public FrmCnlMerge(ScadaProject project, List<Cnl> cnls, Dictionary<string, List<string>> dictio, string selectedDeviceName) : this()
         {
             //bindingSource.DataSource = cnls ?? throw new ArgumentNullException(nameof(cnls));
-            this.adminContext = adminContext;
             this.project = project;
             this.cnls = cnls;
             this.selectedDeviceName = selectedDeviceName;
@@ -95,34 +95,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             this.dictio = dictio;
         }
 
-        public void xmlReader()
-        {
-            string filePath = @"C:/Users/messiem/Documents/testsScada/testXML.xml";
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(filePath);
-
-            // Récupérer les valeurs des balises XML
-            XmlNodeList entries = xmlDoc.GetElementsByTagName("ENTREE");
-
-            foreach (XmlNode entry in entries)
-            {
-                XmlNodeList childNodes = entry.ChildNodes;
-                List<string> list = new List<string>();
-                string adress = "";
-
-                for (int i = 0; i < childNodes.Count; i++)
-                {
-                    if (childNodes[i].Name == "Adress") adress = childNodes[i].InnerText;
-                    if (childNodes[i].Name == "Mnemonique") list.Add(childNodes[i].InnerText);
-                    if (childNodes[i].Name == "Type") list.Add(childNodes[i].InnerText);
-                    if (childNodes[i].Name == "Descr") list.Add(childNodes[i].InnerText);
-                }
-
-                if (!String.IsNullOrEmpty(adress))
-                    _oldDictio.Add(adress, list);
-            }
-        }
-
         public void gridViewFiller()
         {
             foreach (KeyValuePair<string, List<string>> kvp in dictio)
@@ -144,19 +116,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                     _listOfKey.Add(kvp.Key);
                     //dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells[6].Style.BackColor = Color.Red;
                     dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells[6].ReadOnly = true;
-                }
-            }
-        }
-
-        private void checkBox3_CheckedChanged(object sender, EventArgs e)
-        {// on va garder les descriptions déjà présentes dans le système
-
-            foreach (KeyValuePair<string, List<string>> kvp in _newDictio)
-            {
-                foreach (KeyValuePair<string, List<string>> kvpOld in _oldDictio)
-                {
-                    if (kvp.Key == kvpOld.Key)
-                        kvp.Value[2] = kvpOld.Value[2];
                 }
             }
         }
@@ -216,20 +175,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                     }
                 }
 
-            }
-        }
-
-        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            if (dataGridView1.Columns[e.ColumnIndex] is DataGridViewCheckBoxColumn && e.RowIndex >= 0)
-            {
-                DataGridViewCheckBoxCell currentCheckbox = (DataGridViewCheckBoxCell)dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
-                DataGridViewCheckBoxCell otherCheckbox = (DataGridViewCheckBoxCell)dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex == 1 ? 6 : 1];
-
-                if ((bool)currentCheckbox.Value == true)
-                {
-                    otherCheckbox.Value = false;
-                }
             }
         }
 
@@ -329,14 +274,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             }
         }
 
-        private void btnAdd_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.OK;
-        }
-
-        private System.Windows.Forms.CheckBox _headerCheckBox1 = new System.Windows.Forms.CheckBox();
-        private System.Windows.Forms.CheckBox _headerCheckBox2 = new System.Windows.Forms.CheckBox();
-
         private void FrmCnlMerge_Load(object sender, EventArgs e)
         {
             SetCheckboxLocation(_headerCheckBox1, 1);
@@ -381,16 +318,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             lbl.Size = new Size((headerCell2Rectangle.X + dataGridView1.Location.X + headerCell2Rectangle.Width) - headerCell1Rectangle.X, 21);
         }
 
-        private void checkBox1_CheckedChanged_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblSource_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnAdd_Click_1(object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;
@@ -431,10 +358,8 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 
         private DeviceTemplate generateDeviceTemplateFromDictionnary(Dictionary<string, List<string>> dico)
         {
-            //create empty template
             DeviceTemplate template = new DeviceTemplate();
 
-            //Create Elems
             ElemGroupConfig newElemenGroup = new ElemGroupConfig();
             int previousTagCode = 0;
             for (int index = 0; index < dico.Count; index++)
@@ -500,11 +425,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                     xmlDoc.Save(sw);
                 }
             }
-        }
-
-        private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
     }
 }
