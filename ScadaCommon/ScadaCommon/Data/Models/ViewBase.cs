@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2011
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Data.Entities;
@@ -118,7 +118,7 @@ namespace Scada.Data.Models
         }
 
         /// <summary>
-        /// Adds the channel number to the list and set.
+        /// Adds the channel number to the view.
         /// </summary>
         protected void AddCnlNum(int cnlNum)
         {
@@ -127,6 +127,20 @@ namespace Scada.Data.Models
                 int index = CnlNumList.BinarySearch(cnlNum);
                 if (index < 0)
                     CnlNumList.Insert(~index, cnlNum);
+            }
+        }
+
+        /// <summary>
+        /// Adds the channel numbers to the view.
+        /// </summary>
+        protected void AddCnlNums(IEnumerable<int> cnlNums)
+        {
+            if (cnlNums != null)
+            {
+                foreach (int cnlNum in cnlNums)
+                {
+                    AddCnlNum(cnlNum);
+                }
             }
         }
 
