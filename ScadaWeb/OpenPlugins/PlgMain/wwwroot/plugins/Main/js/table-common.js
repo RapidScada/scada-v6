@@ -6,8 +6,6 @@ var pluginOptions = {
     eventDepth: 2
 };
 
-const ERROR_DISPLAY_DURATION = 10000; // ms
-
 var viewHub = ViewHub.getInstance();
 var mainApi = new MainApi();
 var errorTimeoutID = 0;
@@ -19,5 +17,5 @@ function showErrorBadge() {
     errorTimeoutID = setTimeout(function () {
         $("#spanErrorBadge").addClass("hidden");
         errorTimeoutID = 0;
-    }, ERROR_DISPLAY_DURATION);
+    }, ScadaUtils.ERROR_DISPLAY_DURATION);
 }

@@ -168,34 +168,34 @@ function initTooltips() {
 };
 
 function bindEvents() {
-    $(window).resize(function () {
+    $(window).on("resize", function () {
         updateLayout();
     });
 
-    $("#localDate").change(function () {
+    $("#localDate").on("change", function () {
         $("form:first").submit();
     });
 
-    $("#selStartTime, #selEndTime").change(function () {
+    $("#selStartTime, #selEndTime").on("change", function () {
         // update time range
         initTimeRange(true);
         setColVisibe();
     });
 
-    $("#spanPrintBtn").click(function () {
+    $("#spanPrintBtn").on("click", function () {
         // generate Excel workbook
         location = "../Print/PrintTableView?viewID=" + viewID +
             "&startTime=" + timeRange.startTime + "&endTime=" + timeRange.endTime;
     });
 
-    $(".item-link").click(function () {
+    $(".item-link").on("click", function () {
         // show chart
         let cnlNum = $(this).closest(".row-item").attr("data-cnlnum");
         let startDate = $("#localDate").val();
         viewHub.features.chart.show(cnlNum, startDate, chartArgs);
     });
 
-    $(".item-cmd").click(function () {
+    $(".item-cmd").on("click", function () {
         // show command dialog
         let cnlNum = $(this).closest(".row-item").attr("data-cnlnum");
         viewHub.features.command.show(cnlNum);
@@ -285,8 +285,8 @@ function checkNewDate(newServerTime) {
     if (localTime && localDate && localTime.startsWith(localDate) &&
         newLocalTime && !newLocalTime.startsWith(localDate)) {
         // switch table view to new date
-        let newLocalDate = newLocalTime.substr(0, 10); // yyyy-MM-dd
-        $("#localDate").val(newLocalDate).change();    // submit form
+        let newLocalDate = newLocalTime.substr(0, 10);       // yyyy-MM-dd
+        $("#localDate").val(newLocalDate).trigger("change"); // submit form
     }
 
     serverTime = newServerTime;

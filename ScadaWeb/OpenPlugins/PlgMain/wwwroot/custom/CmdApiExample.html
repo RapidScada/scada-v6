@@ -27,7 +27,7 @@
             let mainApi = new MainApi();
             mainApi.rootPath = "../";
 
-            $("#btnSend").click(function () {
+            $("#btnSend").on("click", function () {
                 const CNL_NUM = 104;
                 let cmdVal = $("#txtCmdVal").val();
                 let cmdData = $("#txtCmdData").val();

@@ -8,6 +8,8 @@ class ScadaUtils {
     static SMALL_WND_WIDTH = 800;
     // The z-index that moves an element to the front.
     static FRONT_ZINDEX = 10000;
+    // Specifies how long an error badge is displayed, ms.
+    static ERROR_DISPLAY_DURATION = 5000;
 
     // Checks if a browser window is small sized, such as a mobile device.
     static get isSmallScreen() {

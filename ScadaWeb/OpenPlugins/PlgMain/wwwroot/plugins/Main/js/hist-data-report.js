@@ -58,7 +58,7 @@ function getReportUrl() {
 }
 
 $(document).ready(function () {
-    $("#btnGenerateReport").click(function () {
+    $("#btnGenerateReport").on("click", function () {
         hideErrorMessage();
 
         if ($("#frmReportArgs")[0].reportValidity() && reportValidityExtra()) {
@@ -69,7 +69,7 @@ $(document).ready(function () {
         return false;
     });
 
-    $("#btnSelectCnls").click(function () {
+    $("#btnSelectCnls").on("click", function () {
         let dialogs = new Dialogs("../../");
         let txtCnlNums = $("#txtCnlNums");
 

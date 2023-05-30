@@ -96,7 +96,7 @@ function getReportUrl() {
 }
 
 $(document).ready(function () {
-    $("#btnGenerateReport").click(function () {
+    $("#btnGenerateReport").on("click", function () {
         hideErrorMessage();
 
         if ($("#frmReportArgs")[0].reportValidity() && reportValidityExtra()) {

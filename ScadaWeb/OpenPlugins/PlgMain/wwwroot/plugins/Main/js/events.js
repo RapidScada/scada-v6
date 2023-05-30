@@ -54,11 +54,11 @@ function initTooltips() {
 };
 
 function bindEvents() {
-    $(window).resize(function () {
+    $(window).on("resize", function () {
         updateLayout();
     });
 
-    $("#spanAllEventsBtn").click(function () {
+    $("#spanAllEventsBtn").on("click", function () {
         // load all events
         $(this).addClass("selected");
         $("#spanEventsByViewBtn").removeClass("selected");
@@ -68,7 +68,7 @@ function bindEvents() {
         resetEvents();
     });
 
-    $("#spanEventsByViewBtn").click(function () {
+    $("#spanEventsByViewBtn").on("click", function () {
         // load events by view
         $(this).addClass("selected");
         $("#spanAllEventsBtn").removeClass("selected");
@@ -78,14 +78,14 @@ function bindEvents() {
         resetEvents();
     });
 
-    $("#spanPrintBtn").click(function () {
+    $("#spanPrintBtn").on("click", function () {
         // generate Excel workbook
         location = allEvents
             ? "Print/PrintAllEvents"
             : "Print/PrintEventsByView?viewID=" + viewHub.viewID;
     });
 
-    $("#tblEvents").click(function (event) {
+    $("#tblEvents").on("click", function (event) {
         let target = $(event.target);
         if (target.is("td.ack i")) {
             // show event acknowledgement dialog
