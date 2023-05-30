@@ -280,7 +280,7 @@ scada.scheme.ComponentRenderer.constructor = scada.scheme.ComponentRenderer;
 
 // Get a status color from the extended channel data
 scada.scheme.ComponentRenderer.prototype._getStatusColor = function (cnlDataExt) {
-    return cnlDataExt.df.colors.length > 0 ? cnlDataExt.df.colors[0] : this.STATUS_DISPLAY_COLOR;
+    return MainApi.getColor(cnlDataExt, ColorIndex.MAIN_COLOR, this.STATUS_DISPLAY_COLOR);
 };
 
 // Get dynamic color that may depend on input channel status
@@ -656,8 +656,7 @@ scada.scheme.DynamicTextRenderer.prototype.updateData = function (component, ren
         // show value of the appropriate input channel
         switch (props.showValue) {
             case ShowValueKinds.SHOW_WITH_UNIT:
-                let unit = cnlDataExt.d.stat > 0 && cnlProps.unit ? " " + cnlProps.unit : "";
-                spanText.text(cnlDataExt.df.dispVal + unit);
+                spanText.text(MainApi.getDisplayValue(cnlDataExt, cnlProps.unit));
                 break;
             case ShowValueKinds.SHOW_WITHOUT_UNIT:
                 spanText.text(cnlDataExt.df.dispVal);
@@ -843,7 +842,7 @@ scada.scheme.RenderContext = function () {
 
 // Get a non-null channel data by the specified channel number
 scada.scheme.RenderContext.prototype.getCnlDataExt = function (cnlNum, opt_joinLen) {
-    return MainApi.getCurData(this.curCnlDataMap, cnlNum, opt_joinLen);
+    return MainApi.getCurDataFromMap(this.curCnlDataMap, cnlNum, opt_joinLen);
 };
 
 // Get a non-null channel properties by the specified channel number

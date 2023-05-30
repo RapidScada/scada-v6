@@ -626,7 +626,7 @@ scada.scheme.Scheme.prototype.updateData = function (mainApi, callback) {
             thisScheme._cnlFilter.cnlListID = dto.data.cnlListID;
         }
 
-        thisScheme.renderContext.curCnlDataMap = mainApi.mapCurData(dto.data);
+        thisScheme.renderContext.curCnlDataMap = MainApi.mapCurData(dto.data);
 
         for (let component of thisScheme.componentMap.values()) {
             thisScheme._updateComponentData(component);
