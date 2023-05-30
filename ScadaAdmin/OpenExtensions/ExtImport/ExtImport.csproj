@@ -41,6 +41,6 @@
 
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;C:\Users\louisc\Documents\scada-v6\ScadaAdmin\ScadaAdmin\ScadaAdmin\bin\Debug\net6.0-windows\Lib\$(ProjectName).dll&quot;" />
+    <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(TargetDir)\..\..\..\..\..\ScadaAdmin\ScadaAdmin\bin\Debug\net6.0-windows\Lib\$(ProjectName).dll&quot;" />
   </Target>
 </Project>
