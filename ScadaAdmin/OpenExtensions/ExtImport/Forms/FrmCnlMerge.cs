@@ -1,30 +1,9 @@
 ﻿using Scada.Admin.Project;
 using Scada.Data.Entities;
-using Scada.Forms;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 using System.Xml;
-using Scada.Comm.Devices;
-using System.ComponentModel.Design;
-using System.Diagnostics.Metrics;
-using System.Diagnostics;
-using System.Threading.Channels;
 using Scada.Comm.Drivers.DrvModbus.Config;
 using Scada.Comm.Drivers.DrvModbus.Protocol;
-using static System.Windows.Forms.Design.AxImporter;
-using System.Windows.Forms.Design;
-using static System.Windows.Forms.DataFormats;
 using System.Text.RegularExpressions;
-using System.Reflection;
-using System.Web;
 
 namespace Scada.Admin.Extensions.ExtImport.Forms
 {
@@ -38,8 +17,8 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
         private ScadaProject project;       // the project under development
         string selectedDeviceName;
         Dictionary<string, ElemType> elemTypeDico;
-        private System.Windows.Forms.CheckBox _headerCheckBox1 = new System.Windows.Forms.CheckBox();
-        private System.Windows.Forms.CheckBox _headerCheckBox2 = new System.Windows.Forms.CheckBox();
+        private CheckBox _headerCheckBox1 = new CheckBox();
+        private CheckBox _headerCheckBox2 = new CheckBox();
 
         private FrmCnlMerge()
         {
@@ -47,8 +26,8 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             dataGridView1.AutoGenerateColumns = false;
             this.elemTypeDico = new Dictionary<string, ElemType>
             {
-                { "BOOL", ElemType.Bool },
-                { "EBOOL", ElemType.Bool },
+                {"BOOL", ElemType.Bool },
+                {"EBOOL", ElemType.Bool },
                 {"REAL", ElemType.Double },
                 {"FLOAT", ElemType.Float },
                 {"INT", ElemType.Int },
