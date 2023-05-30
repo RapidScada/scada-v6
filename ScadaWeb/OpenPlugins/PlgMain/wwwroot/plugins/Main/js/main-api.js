@@ -150,7 +150,7 @@ class MainApi {
     }
 
     // Gets the last events by view.
-    // The specified view must already be loaded into the cache.
+    // Loads the specified view if it is not in the cache.
     // URL example: http://localhost/Api/Main/GetLastEventsByView?archiveBit=1&period=2&limit=100&viewID=1&filterID=1
     getLastEventsByView(archiveBit, period, limit, viewID, filterID, callback) {
         fetch(this.rootPath + "Api/Main/GetLastEventsByView?archiveBit=" + archiveBit +

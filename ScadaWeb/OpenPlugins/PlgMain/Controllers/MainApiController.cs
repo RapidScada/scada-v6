@@ -488,7 +488,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         {
             try
             {
-                if (viewLoader.GetViewFromCache(viewID, out ViewBase view, out string errMsg))
+                if (viewLoader.GetView(viewID, out ViewBase view, out string errMsg))
                 {
                     EventPacket eventPacket = memoryCache.GetOrCreate(
                         PluginUtils.GetCacheKey("LastEventsByView", archiveBit, period, limit, viewID),
