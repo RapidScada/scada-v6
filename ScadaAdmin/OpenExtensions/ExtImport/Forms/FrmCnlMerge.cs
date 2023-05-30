@@ -359,6 +359,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                 newElem.Name = entry[0];
                 newElem.TagCode = dico.ElementAt(index).Key;
                 newElem.ElemType = elemTypeDico.Keys.Contains(entry[1]) ? elemTypeDico[entry[1]] : ElemType.Undefined;
+                newElemenGroup.DataBlock = DataBlock.InputRegisters;
                 newElemenGroup.Elems.Add(newElem);
             }
             template.ElemGroups.Add(newElemenGroup);
