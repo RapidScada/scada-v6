@@ -58,7 +58,7 @@ class NotifPanel {
 
         this._muteBtn
             .off()
-            .click(function () {
+            .on("click", function () {
                 if (thisObj._isMuted) {
                     thisObj._unmute();
                 } else {
@@ -68,7 +68,7 @@ class NotifPanel {
 
         this.bellElem
             .off()
-            .click(function () {
+            .on("click", function () {
                 thisObj._toggle();
             });
     }

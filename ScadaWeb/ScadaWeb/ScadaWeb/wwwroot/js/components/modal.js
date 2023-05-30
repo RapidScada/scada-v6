@@ -119,7 +119,7 @@ class ModalManager {
         let submitElem = modalWnd.$(".rs-modal-submit:first");
 
         if (submitElem.length > 0) {
-            submitElem.click();
+            submitElem.trigger("click");
         } else {
             let formElem = modalWnd.$("form:first");
 
@@ -249,7 +249,7 @@ class ModalManager {
                 $(this).remove();
             });
 
-        modalElem.find(".modal-footer button").click(function () {
+        modalElem.find(".modal-footer button").on("click", function () {
             // raise event
             let buttonValue = $(this).data("rs-value");
             let frameWnd = ModalManager._getModalWnd(modalElem);

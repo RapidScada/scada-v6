@@ -18,13 +18,13 @@ var viewPage = {
 
         $("#divBottomPanel .bottom-pnl-tab")
             .off()
-            .click(function () {
+            .on("click", function () {
                 thisObj._showDataWindow($(this), true);
             });
 
         $("#divHideDataWindowBtn")
             .off()
-            .click(function () {
+            .on("click", function () {
                 thisObj._hideDataWindow(true);
             });
 

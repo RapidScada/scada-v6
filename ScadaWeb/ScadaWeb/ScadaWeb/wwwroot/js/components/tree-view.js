@@ -75,7 +75,7 @@ class TreeView {
         let thisObj = this;
         allNodes
             .off()
-            .click(function (event) {
+            .on("click", function (event) {
                 if (event.ctrlKey || event.button == 1 /*middle*/) {
                     return true; // allow the default link behavior
                 } else {

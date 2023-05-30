@@ -102,21 +102,21 @@ var mainLayout = {
         let thisObj = this;
 
         // update layout on window resize
-        $(window).resize(function () {
+        $(window).on("resize", function () {
             thisObj.updateLayout();
         });
 
         // activate a clicked tab
         $("#Main_divTabPanel .tab")
             .off()
-            .click(function () {
+            .on("click", function () {
                 thisObj._activateTab($(this));
             });
 
         // toggle the left panel
         $("#Main_spanMenuBtn, #Main_spanMenuBtn2")
             .off()
-            .click(function () {
+            .on("click", function () {
                 if ($("body").hasClass("left-panel-visible")) {
                     thisObj._hideLeftPanel(true);
                 } else {
@@ -127,14 +127,14 @@ var mainLayout = {
         // enter full screen
         $("#Main_spanFullscreenBtn, #Main_spanFullscreenBtn2")
             .off()
-            .click(function () {
+            .on("click", function () {
                 thisObj._enterFullscreen();
             });
 
         // exit full screen
         $("#Main_spanExitFullscreenBtn")
             .off()
-            .click(function () {
+            .on("click", function () {
                 thisObj._exitFullscreen();
             });
 
