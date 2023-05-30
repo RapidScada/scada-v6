@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvCnlBasicDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.BasicChannelView">
+    <Phrase key="ChannelTypeNotFound">Typ komunikačního kanálu nebyl nalezen.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmSerialPortChannelOptions">
+    <Phrase key="this">Možnosti sériového portu</Phrase>
+    <Phrase key="gbPort">Sériový port</Phrase>
+    <Phrase key="lblPortName">Název portu</Phrase>
+    <Phrase key="lblBaudRate">Přenosová rychlost</Phrase>
+    <Phrase key="lblDataBits">Datové bity</Phrase>
+    <Phrase key="lblParity">Parita</Phrase>
+    <Phrase key="cbParity.Items[0]">Žádný</Phrase>
+    <Phrase key="cbParity.Items[1]">Zvláštní</Phrase>
+    <Phrase key="cbParity.Items[2]">Dokonce</Phrase>
+    <Phrase key="cbParity.Items[3]">Označit</Phrase>
+    <Phrase key="cbParity.Items[4]">Prostor</Phrase>
+    <Phrase key="lblStopBits">Stop bity</Phrase>
+    <Phrase key="lblDtrEnable">DTR</Phrase>
+    <Phrase key="lblRtsEnable">RTS</Phrase>
+    <Phrase key="gbMode">Pracovní režim</Phrase>
+    <Phrase key="lblBehavior">Chování</Phrase>
+    <Phrase key="cbBehavior.Items[0]">Mistr</Phrase>
+    <Phrase key="cbBehavior.Items[1]">Otrok</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">zrušení</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpClientChannelOptions">
+    <Phrase key="this">Možnosti klienta TCP</Phrase>
+    <Phrase key="gbMode">Pracovní režim</Phrase>
+    <Phrase key="lblBehavior">Behavior</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master - Communicator sends request to a device and receives answer.&#13;&#10;Slave - Communicator passively waits for data from a device.</Phrase>
+    <Phrase key="lblConnectionMode">Connection mode</Phrase>
+    <Phrase key="cbConnectionMode.Items[0]">Individual</Phrase>
+    <Phrase key="cbConnectionMode.Items[1]">Shared</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">Individual - Communicator establishes an individual TCP connection with each device.&#13;&#10;Shared - Communicator establishes a single shared connection for all devices of the communication line&#13;&#10;using specified remote IP address.&#13;&#10;Shared connection is used, for example, if the devices are connected via an Ethernet-Serial gateway.</Phrase>
+    <Phrase key="gbConnection">Connection</Phrase>
+    <Phrase key="lblHost">Remote host</Phrase>
+    <Phrase key="pbHostHint.ToolTip">Remote DNS name or IP address in case of using shared connection.</Phrase>
+    <Phrase key="lblTcpPort">Remote TCP port</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">In individual connection mode it is used as a default TCP port if no port is specified for a device.&#13;&#10;In shared connection mode the parameter is required.&#13;&#10;The 502 port is the default Modbus TCP port.</Phrase>
+    <Phrase key="lblReconnectAfter">Reconnect, sec</Phrase>
+    <Phrase key="pbReconnectAfterHint.ToolTip">Specifies time interval to reconnect after an unsuccessful attempt.</Phrase>
+    <Phrase key="lblStayConnected">Stay connected</Phrase>
+    <Phrase key="pbStayConnectedHint.ToolTip">If set, the connection is active between communication sessions.&#13;&#10;Otherwise, the connection is terminated after each session.</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+    <Phrase key="HostRequired">Remote host is required.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpServerChannelOptions">
+    <Phrase key="this">TCP Server Options</Phrase>
+    <Phrase key="gbMode">Operating Mode</Phrase>
+    <Phrase key="lblBehavior">Behavior</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master - after establishing connection Communicator sends request to a device and receives answer.&#13;&#10;Slave - Communicator passively waits for data from a device.</Phrase>
+    <Phrase key="lblConnectionMode">Connection mode</Phrase>
+    <Phrase key="cbConnectionMode.Items[0]">Individual</Phrase>
+    <Phrase key="cbConnectionMode.Items[1]">Shared</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">Individual - Communicator establishes an individual TCP connection with each device.&#13;&#10;Shared - Communicator establishes a single shared connection for all devices of the communication line.&#13;&#10;Shared connection is used, for example, if the devices are connected via an Ethernet-Serial gateway.</Phrase>
+    <Phrase key="lblDeviceMapping">Device mapping</Phrase>
+    <Phrase key="cbDeviceMapping.Items[0]">By IP address</Phrase>
+    <Phrase key="cbDeviceMapping.Items[1]">By hello packet</Phrase>
+    <Phrase key="cbDeviceMapping.Items[2]">Driver determined</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">The method of binding a new incoming connection to a device:&#13;&#10;By IP address - remote IP address equals a device string address.&#13;&#10;By hello packet - a first package received from a device contains the string address.&#13;&#10;Driver determined - algorithm is implemented in the device driver.</Phrase>
+    <Phrase key="gbConnection">Connection</Phrase>
+    <Phrase key="lblTcpPort">Local TCP port</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">Local TCP port for incoming connections.&#13;&#10;Incoming connections must be allowed by a firewall.</Phrase>
+    <Phrase key="lblClientLifetime">Inactive lifetime, sec</Phrase>
+    <Phrase key="pbClientLifetimeHint.ToolTip">The time after which an inactive client is disconnected.</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmUdpChannelOptions">
+    <Phrase key="this">UDP Options</Phrase>
+    <Phrase key="gbMode">Operating Mode</Phrase>
+    <Phrase key="lblBehavior">Behavior</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master - Communicator sends request to a device and receives answer.&#13;&#10;Slave - Communicator passively waits for data from a device.</Phrase>
+    <Phrase key="lblDeviceMapping">Device mapping</Phrase>
+    <Phrase key="cbDeviceMapping.Items[0]">By IP address</Phrase>
+    <Phrase key="cbDeviceMapping.Items[1]">Driver determined</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">The method of binding a new incoming connection to a device:&#13;&#10;By IP address - remote IP address equals a device string address.&#13;&#10;Driver determined - algorithm is implemented in the device driver.</Phrase>
+    <Phrase key="gbConnection">Connection</Phrase>
+    <Phrase key="lblLocalUdpPort">Local UDP port</Phrase>
+    <Phrase key="pbLocalUdpPortHint.ToolTip">Local UDP port for incoming connections.&#13;&#10;Incoming connections must be allowed by a firewall.</Phrase>
+    <Phrase key="lblRemoteUdpPort">Remote UDP port</Phrase>
+    <Phrase key="pbRemoteUdpPortHint.ToolTip">The default remote UDP port. The same for all devices of the communication line.</Phrase>
+    <Phrase key="lblRemoteIpAddress">Remote IP address</Phrase>
+    <Phrase key="pbRemoteIpAddressHint.ToolTip">The default remote IP address.&#13;&#10;It can be used, for example, if the devices are connected via an Ethernet-Serial gateway.</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
+</DrvCnlBasicDictionaries>

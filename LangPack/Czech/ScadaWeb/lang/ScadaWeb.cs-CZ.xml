@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaWebDictionaries>
+  <Dictionary key="Scada.Web">
+    <Phrase key="CorrectErrors">Prosím opravte následující chyby:</Phrase>
+    <Phrase key="ClientError">Chyba při komunikaci se serverem</Phrase>
+    <Phrase key="UnknownUsername">Neznámý</Phrase>
+    <Phrase key="AccessDenied">Přístup odepřen</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Code.ViewLoader">
+    <Phrase key="ViewNotSpecified">Požadovaný pohled není zadán.</Phrase>
+    <Phrase key="ViewNotExists">Požadovaný pohled neexistuje.</Phrase>
+    <Phrase key="InsufficientViewRights">Nedostatečná přístupová práva k zobrazení.</Phrase>
+    <Phrase key="UnableResolveViewSpec">Nelze vyřešit specifikaci zobrazení.</Phrase>
+    <Phrase key="UnableLoadView">Zobrazení nelze načíst.</Phrase>
+    <Phrase key="ViewMissingFromCache">V mezipaměti chybí pohled.</Phrase>
+    <Phrase key="ViewUndefined">Pohled není definován.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Shared._MainLayout">
+    <Phrase key="spanMenuBtn_ToolTip">Zobrazit/Skrýt nabídku</Phrase>
+    <Phrase key="spanNotifBtn_ToolTip">Zobrazit/skrýt upozornění</Phrase>
+    <Phrase key="spanProfileBtn_ToolTip">Uživatelský profil</Phrase>
+    <Phrase key="spanLogoutBtn">Odhlásit se</Phrase>
+    <Phrase key="spanLogoutBtn_ToolTip">Odhlásit se</Phrase>
+    <Phrase key="spanFullscreenBtn_ToolTip">Celá obrazovka</Phrase>
+    <Phrase key="spanExitFullscreenBtn_ToolTip">Normální pohled</Phrase>
+    <Phrase key="divMainMenuTab">Hlavní menu</Phrase>
+    <Phrase key="divViewExplorerTab">Pohledy</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Shared._MainLayout.Modal">
+    <Phrase key="Ok">OK</Phrase>
+    <Phrase key="Yes">Ano</Phrase>
+    <Phrase key="No">Ne</Phrase>
+    <Phrase key="Execute">Vykonat</Phrase>
+    <Phrase key="Cancel">zrušení</Phrase>
+    <Phrase key="Close">Zavřít</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Shared._MainLayout.NotifPanel">
+    <Phrase key="NoNotif">Žádná upozornění</Phrase>
+    <Phrase key="Mute">Ztlumit</Phrase>
+    <Phrase key="Unmute">Zapnout zvuk</Phrase>
+    <Phrase key="AckAll">Ack All</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.About">
+    <Phrase key="PageTitle">O programu</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.AccessDenied">
+    <Phrase key="PageTitle">Přístup odepřen</Phrase>
+    <Phrase key="ErrorMessage">Nemáte dostatečná práva pro přístup k požadovanému zdroji.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.CnlSelect">
+    <Phrase key="PageTitle">Vyberte Kanály</Phrase>
+    <Phrase key="lblObj">Objekt</Phrase>
+    <Phrase key="lblOnlySelected">Zobrazit pouze vybrané kanály</Phrase>
+    <Phrase key="SelectObjectItem">-- Vyberte objekt --</Phrase>
+    <Phrase key="FilterRequired">Zadejte filtr.</Phrase>
+    <Phrase key="NoChannels">Žádné kanály neodpovídají filtru.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Error">
+    <Phrase key="PageTitle">Chyba</Phrase>
+    <Phrase key="ErrorMessage">Při zpracování vašeho požadavku nastala chyba.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Login">
+    <Phrase key="PageTitle">Přihlásit se</Phrase>
+    <Phrase key="NotReady">Aplikace není připravena.  Zkuste to později znovu.</Phrase>
+    <Phrase key="InvalidCaptcha">Neplatný ochranný kód.</Phrase>
+    <Phrase key="lblUsername">Uživatelské jméno</Phrase>
+    <Phrase key="lblPassword">Heslo</Phrase>
+    <Phrase key="lblCaptcha">Ochranný kód</Phrase>
+    <Phrase key="lblRememberMe">Zapamatuj si mě</Phrase>
+    <Phrase key="btnLogin">Přihlásit se</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Reports">
+    <Phrase key="PageTitle">Zprávy</Phrase>
+    <Phrase key="NoReports">Nejsou k dispozici žádné přehledy.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.UserProfile">
+    <Phrase key="PageTitle">Uživatelský profil</Phrase>
+    <Phrase key="lblUserID">Uživatelské ID:</Phrase>
+    <Phrase key="lblUsername">uživatelské jméno:</Phrase>
+    <Phrase key="lblRole">Role:</Phrase>
+    <Phrase key="lblTimeZone">Časové pásmo:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.View">
+    <Phrase key="PageTitle">Pohled</Phrase>
+    <Phrase key="divHideDataWindowBtn_ToolTip">Skrýt datové okno</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.ViewFrame">
+    <Phrase key="PageTitle">Pohled</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins">
+    <Phrase key="LoadPluginConfigError">Chyba při načítání konfigurace pluginu</Phrase>
+    <Phrase key="SavePluginConfigError">Chyba při ukládání konfigurace pluginu</Phrase>
+    <Phrase key="CnlNotFound">Kanál {0} nebyl nalezen.</Phrase>
+    <Phrase key="CnlNotOutput">Kanál {0} není výstup.</Phrase>
+    <Phrase key="CommandsDisabled">Příkazy zakázány.</Phrase>
+    <Phrase key="SendCommand">Odeslat příkaz kanálu {0} uživatelem {1}</Phrase>
+    <Phrase key="ActionNotAllowed">Akce není povolena.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.TreeView.MenuItem">
+    <Phrase key="ReportsMenuItem">Zprávy</Phrase>
+    <Phrase key="AdministrationMenuItem">Správa</Phrase>
+    <Phrase key="ConfigurationMenuItem">Konfigurace</Phrase>
+    <Phrase key="RegistrationMenuItem">Registrace</Phrase>
+    <Phrase key="PluginsMenuItem">Pluginy</Phrase>
+    <Phrase key="AboutMenuItem">O programu</Phrase>
+  </Dictionary>
+</ScadaWebDictionaries>

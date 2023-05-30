@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDsOpcUaServerDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms.FrmOpcUaServerDSO">
+    <Phrase key="this">Možnosti zdroje dat</Phrase>
+    <Phrase key="chkAutoAccept">Automaticky přijímat certifikáty</Phrase>
+    <Phrase key="lblUsername">Uživatelské jméno</Phrase>
+    <Phrase key="lblPassword">Heslo</Phrase>
+    <Phrase key="lblConfigFileName">Konfigurační soubor</Phrase>
+    <Phrase key="btnCreateConfigWin.ToolTip">Vytvořte konfigurační soubor pro Windows</Phrase>
+    <Phrase key="btnCreateConfigLinux.ToolTip">Vytvořte konfigurační soubor pro Linux</Phrase>
+    <Phrase key="btnBrowseConfig.ToolTip">Procházet</Phrase>
+    <Phrase key="lblDeviceFilter">Filtr zařízení</Phrase>
+    <Phrase key="btnSelectDevices.ToolTip">Vyberte zařízení</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">zrušení</Phrase>
+    <Phrase key="ConfigDirRequired">Konfigurační soubor musí být umístěn uvnitř {0}</Phrase>
+  </Dictionary>
+</DrvDsOpcUaServerDictionaries>

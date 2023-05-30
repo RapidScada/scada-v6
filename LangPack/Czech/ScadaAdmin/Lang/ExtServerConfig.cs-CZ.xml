@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtServerConfigDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.ExtServerConfigLogic">
+    <Phrase key="GeneralOptionsNode">Obecné možnosti</Phrase>
+    <Phrase key="ModulesNode">Moduly</Phrase>
+    <Phrase key="ArchivesNode">Archiv</Phrase>
+    <Phrase key="LogsNode">Protokoly</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchiveAdd">
+    <Phrase key="this">Přidat archiv</Phrase>
+    <Phrase key="lblSourceArchive">Zdrojový archiv</Phrase>
+    <Phrase key="lblModule">Modul</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">zrušení</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchives">
+    <Phrase key="this">Archiv</Phrase>
+    <Phrase key="btnAdd">Přidat</Phrase>
+    <Phrase key="btnMoveUp">Posunout nahoru</Phrase>
+    <Phrase key="btnMoveDown">Posunout dolů</Phrase>
+    <Phrase key="btnDelete">Vymazat</Phrase>
+    <Phrase key="btnCut">Střih</Phrase>
+    <Phrase key="btnCopy">kopírovat</Phrase>
+    <Phrase key="btnPaste">Vložit</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">Aktivní</Phrase>
+    <Phrase key="colCode">Kód</Phrase>
+    <Phrase key="colName">název</Phrase>
+    <Phrase key="colKind">Druh</Phrase>
+    <Phrase key="colModule">Modul</Phrase>
+    <Phrase key="gbArchive">Vybraný archiv</Phrase>
+    <Phrase key="chkActive">Aktivní</Phrase>
+    <Phrase key="lblCode">Kód</Phrase>
+    <Phrase key="lblName">název</Phrase>
+    <Phrase key="lblKind">Druh</Phrase>
+    <Phrase key="lblModule">Modul</Phrase>
+    <Phrase key="lblOptions">Možnosti</Phrase>
+    <Phrase key="btnProperties">Vlastnosti</Phrase>
+    <Phrase key="ModuleNotSpecified">Modul není specifikován.</Phrase>
+    <Phrase key="ArchiveNotSupported">Modul nepodporuje vytváření archivů typu {0}.</Phrase>
+    <Phrase key="UnableCreateArchiveView">Uživatelské rozhraní archivu nelze vytvořit.</Phrase>
+    <Phrase key="NoArchiveProperties">Archiv neposkytuje okno vlastností.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions">
+    <Phrase key="this">Obecné možnosti</Phrase>
+    <Phrase key="gbGeneralOptions">Obecné možnosti</Phrase>
+    <Phrase key="lblUnrelIfInactive">Označit kanál jako nespolehlivý, pokud je neaktivní, sec</Phrase>
+    <Phrase key="lblMaxCurDataAge">Zapsat aktuální data jako historická, pokud jsou starší, sec</Phrase>
+    <Phrase key="lblUseArchivalStatus">Označte příchozí historická data jako archivní</Phrase>
+    <Phrase key="lblGenerateAckCmd">Generovat příkaz, když je událost potvrzena</Phrase>
+    <Phrase key="lblStopWait">Počkejte na servisní stop, sec</Phrase>
+    <Phrase key="lblMaxLogSize">Maximální velikost souboru protokolu, MB</Phrase>
+    <Phrase key="lblDisableFormulas">Zakázat vzorce kanálu kromě objektů</Phrase>
+    <Phrase key="btnSelectObjects">Vybrat...</Phrase>
+    <Phrase key="gbListenerOptions">Možnosti posluchače</Phrase>
+    <Phrase key="lblPort">TCP port</Phrase>
+    <Phrase key="lblTimeout">Vypršel časový limit, paní</Phrase>
+    <Phrase key="lblSecretKey">Tajný klíč</Phrase>
+    <Phrase key="btnGenerateKey">generovat</Phrase>
+    <Phrase key="btnCopyKey">kopírovat</Phrase>
+    <Phrase key="InvalidObjectRange">Neplatný rozsah objektů.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmModules">
+    <Phrase key="this">Moduly</Phrase>
+    <Phrase key="lblUnusedModules">Nepoužité moduly:</Phrase>
+    <Phrase key="btnActivate">aktivovat</Phrase>
+    <Phrase key="lblActiveModules">Aktivní moduly:</Phrase>
+    <Phrase key="btnDeactivate">Deaktivovat</Phrase>
+    <Phrase key="btnMoveUp">Posunout nahoru</Phrase>
+    <Phrase key="btnMoveDown">Posunout dolů</Phrase>
+    <Phrase key="btnProperties">Vlastnosti</Phrase>
+    <Phrase key="btnRegister">Registrovat</Phrase>
+    <Phrase key="lblDescr">Popis</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmServerLogs">
+    <Phrase key="AppFilter">aplikace</Phrase>
+    <Phrase key="ModulesFilter">Moduly</Phrase>
+  </Dictionary>
+</ExtServerConfigDictionaries>
