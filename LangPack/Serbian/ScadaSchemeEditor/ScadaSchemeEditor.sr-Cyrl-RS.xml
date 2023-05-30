@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaSchemeEditorDictionaries>
+  <Dictionary key="Scada.Scheme.Editor.Editor">
+    <Phrase key="EditorTitle">Сцһеме Едитор</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FrmMain">
+    <Phrase key="miFile">&amp;Датотека</Phrase>
+    <Phrase key="miFileNew">Нова</Phrase>
+    <Phrase key="miFileOpen">Отвори...</Phrase>
+    <Phrase key="miFileSave">сачувати</Phrase>
+    <Phrase key="miFileSaveAs">Сачувај као...</Phrase>
+    <Phrase key="miFileOpenBrowser">Отворите претраживач</Phrase>
+    <Phrase key="miFileImport">Увоз...</Phrase>
+    <Phrase key="miFileExit">Изађи</Phrase>
+    <Phrase key="miEdit">&amp;Уредити</Phrase>
+    <Phrase key="miEditCut">Цут</Phrase>
+    <Phrase key="miEditCopy">Копирај</Phrase>
+    <Phrase key="miEditPaste">Залепите</Phrase>
+    <Phrase key="miEditPasteSpecial">Специјално лепљење...</Phrase>
+    <Phrase key="miEditUndo">Поништи</Phrase>
+    <Phrase key="miEditRedo">Понови</Phrase>
+    <Phrase key="miEditPointer">Поинтер</Phrase>
+    <Phrase key="miEditDelete">Избриши</Phrase>
+    <Phrase key="miTools">&amp;Алати</Phrase>
+    <Phrase key="miToolsOptions">Опције...</Phrase>
+    <Phrase key="miHelp">&amp;Помоћ</Phrase>
+    <Phrase key="miHelpAbout">О програму</Phrase>
+    <Phrase key="btnFileNew.ToolTip">Нова шема (Ctrl+N)</Phrase>
+    <Phrase key="btnFileOpen.ToolTip">Отвори шему (Ctrl+O)</Phrase>
+    <Phrase key="btnFileSave.ToolTip">Сачувај шему(Ctrl+s)</Phrase>
+    <Phrase key="miFileSaveAs2">Сачувај као...</Phrase>
+    <Phrase key="btnFileOpenBrowser.ToolTip">Отворите нову картицу прегледача</Phrase>
+    <Phrase key="btnEditCut.ToolTip">Исеците компоненте шеме (Ctrl+X)</Phrase>
+    <Phrase key="btnEditCopy.ToolTip">Копирајте компоненте шеме (Ctrl+C)</Phrase>
+    <Phrase key="btnEditPaste.ToolTip">Налепите компоненте шеме (Цтрл+В)</Phrase>
+    <Phrase key="btnEditUndo.ToolTip">Поништи (Ctrl+Z)</Phrase>
+    <Phrase key="btnEditRedo.ToolTip">Понови (Ctrl+Y)</Phrase>
+    <Phrase key="btnSchemePointer.ToolTip">Откажи додавање компоненте (Esc)</Phrase>
+    <Phrase key="btnSchemeDelete.ToolTip">Избриши изабране компоненте (Del)</Phrase>
+    <Phrase key="pageComponents">Компоненте</Phrase>
+    <Phrase key="pageProperties">Својства</Phrase>
+    <Phrase key="lvgStandard">Стандард</Phrase>
+    <Phrase key="lvCompTypes.Items[0]">Поинтер</Phrase>
+    <Phrase key="lvCompTypes.Items[1]">Статиц Тект</Phrase>
+    <Phrase key="lvCompTypes.Items[2]">Динамиц Тект</Phrase>
+    <Phrase key="lvCompTypes.Items[3]">Статичка слика</Phrase>
+    <Phrase key="lvCompTypes.Items[4]">Динамиц Пицтуре</Phrase>
+    <Phrase key="CloseSecondInstance">Уређивач шеме је већ покренут.&#13;&#10;Друга инстанца ће бити затворена.</Phrase>
+    <Phrase key="FailedToStartEditor">Покретање Сцада Едитор-а није успело.&#13;&#10;Погледајте детаље у&#13;&#10;{0}</Phrase>
+    <Phrase key="OpenBrowserError">Грешка при отварању прегледача</Phrase>
+    <Phrase key="PointerItem">Поинтер</Phrase>
+    <Phrase key="SchemeFileFilter">Schemes (*.sch)|*.sch|All Files (*.*)|*.*</Phrase>
+    <Phrase key="SaveSchemeConfirm">Шема је измењена.  Да сачувате промене?</Phrase>
+    <Phrase key="RestartNeeded">Промене подешавања ће ступити на снагу након поновног покретања апликације.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FrmPasteSpecial">
+    <Phrase key="this">Пасте Специал</Phrase>
+    <Phrase key="lblInCnlOffset">Повећајте бројеве улазниһ канала за</Phrase>
+    <Phrase key="lblCtrlCnlOffset">Повећајте бројеве излазниһ канала за</Phrase>
+    <Phrase key="btnPaste">Залепите</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FrmSettings">
+    <Phrase key="this">Опције</Phrase>
+    <Phrase key="lblWebDir">Директоријум веб апликација</Phrase>
+    <Phrase key="gbBrowser">Прегледач</Phrase>
+    <Phrase key="rbDefault">Уобичајено</Phrase>
+    <Phrase key="rbChrome">Chrome</Phrase>
+    <Phrase key="rbFirefox">Firefox</Phrase>
+    <Phrase key="btnOK">У реду</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+    <Phrase key="WebDirNotExists">Директоријум веб апликација не постоји.</Phrase>
+    <Phrase key="ChooseWebDir">Изаберите директоријум веб апликације</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FormState">
+    <Phrase key="LoadFormStateError">Грешка при учитавању стања обрасца</Phrase>
+    <Phrase key="SaveFormStateError">Грешка при чувању стања обрасца</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.Js">
+    <Phrase key="UnableLoadScheme">Није могуће отпремити шему на веб страницу.</Phrase>
+    <Phrase key="PageNotValid">Веб страница више није стварна.  Препоручује се да се затвори.</Phrase>
+    <Phrase key="DataError">Грешка при обради података.</Phrase>
+    <Phrase key="EditorClosed">Едитор шеме је вероватно затворен.  Препоручује се да затворите веб страницу.</Phrase>
+    <Phrase key="BrowserOutdated">Ваш претраживач је застарео.  Ажурирајте на модеран претраживач.</Phrase>
+  </Dictionary>
+</ScadaSchemeEditorDictionaries>

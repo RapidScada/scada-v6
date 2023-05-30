@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvCnlBasicDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.BasicChannelView">
+    <Phrase key="ChannelTypeNotFound">Тип комуникационог канала није пронађен.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmSerialPortChannelOptions">
+    <Phrase key="this">Опције серијског порта</Phrase>
+    <Phrase key="gbPort">Серијски порт</Phrase>
+    <Phrase key="lblPortName">Име порта</Phrase>
+    <Phrase key="lblBaudRate">Број бауда</Phrase>
+    <Phrase key="lblDataBits">Битови података</Phrase>
+    <Phrase key="lblParity">Паритет</Phrase>
+    <Phrase key="cbParity.Items[0]">Ниједан</Phrase>
+    <Phrase key="cbParity.Items[1]">Одд</Phrase>
+    <Phrase key="cbParity.Items[2]">Чак</Phrase>
+    <Phrase key="cbParity.Items[3]">Марк</Phrase>
+    <Phrase key="cbParity.Items[4]">Спаце</Phrase>
+    <Phrase key="lblStopBits">Стоп битови</Phrase>
+    <Phrase key="lblDtrEnable">DTR</Phrase>
+    <Phrase key="lblRtsEnable">RTS</Phrase>
+    <Phrase key="gbMode">Начин рада</Phrase>
+    <Phrase key="lblBehavior">Понашање</Phrase>
+    <Phrase key="cbBehavior.Items[0]">Господару</Phrase>
+    <Phrase key="cbBehavior.Items[1]">Роб</Phrase>
+    <Phrase key="btnOK">У реду</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpClientChannelOptions">
+    <Phrase key="this">TCP клијентске опције</Phrase>
+    <Phrase key="gbMode">Начин рада</Phrase>
+    <Phrase key="lblBehavior">Понашање</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master – комуникатор шаље заһтев уређају и прима одговор.&#13;&#10;Slave – комуникатор пасивно чека податке са уређаја.</Phrase>
+    <Phrase key="lblConnectionMode">Режим везе</Phrase>
+    <Phrase key="cbConnectionMode.Items[0]">Појединац</Phrase>
+    <Phrase key="cbConnectionMode.Items[1]">Сһаред</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">Појединачно – Цоммуницатор успоставља индивидуалну TCP везу са сваким уређајем.&#13;&#10;Дељено – Цоммуницатор успоставља једну заједничку везу за све уређаје комуникационе линије&#13;&#10;користећи одређену удаљену IP адресу.&#13;&#10;Користи се дељена веза,  на пример, ако су уређаји повезани преко Етһернет-серијског мрежног пролаза.</Phrase>
+    <Phrase key="gbConnection">Веза</Phrase>
+    <Phrase key="lblHost">Удаљени хост</Phrase>
+    <Phrase key="pbHostHint.ToolTip">Удаљено DNS име или IP адреса у случају коришћења дељене везе.</Phrase>
+    <Phrase key="lblTcpPort">Удаљени TCP порт</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">У режиму индивидуалне везе користи се као подразумевани TCP порт ако није наведен порт за уређај.&#13;&#10;У режиму дељене везе параметар је обавезан.&#13;&#10;502 порт је подразумевани ModBus TCP порт.</Phrase>
+    <Phrase key="lblReconnectAfter">Поново повежите, сек</Phrase>
+    <Phrase key="pbReconnectAfterHint.ToolTip">Одређује временски интервал за поновно повезивање након неуспешног покушаја.</Phrase>
+    <Phrase key="lblStayConnected">Останите повезани</Phrase>
+    <Phrase key="pbStayConnectedHint.ToolTip">Ако је подешено, веза је активна између сесија комуникације.&#13;&#10;У супротном, веза се прекида након сваке сесије.</Phrase>
+    <Phrase key="btnOK">У реду</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+    <Phrase key="HostRequired">Потребан је удаљени һост.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpServerChannelOptions">
+    <Phrase key="this">Опције TCP сервера</Phrase>
+    <Phrase key="gbMode">Начин рада</Phrase>
+    <Phrase key="lblBehavior">Понашање</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Мастер – након успостављања везе комуникатор шаље заһтев уређају и прима одговор.&#13;&#10;Славе – комуникатор пасивно чека податке са уређаја.</Phrase>
+    <Phrase key="lblConnectionMode">Режим везе</Phrase>
+    <Phrase key="cbConnectionMode.Items[0]">Појединац</Phrase>
+    <Phrase key="cbConnectionMode.Items[1]">Сһаред</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">Појединачно – Цоммуницатор успоставља индивидуалну TCP везу са сваким уређајем.&#13;&#10;Дељено – Цоммуницатор успоставља једну заједничку везу за све уређаје комуникационе линије.&#13;&#10;Дељена веза се користи, на пример, ако су уређаји повезани преко  Етһернет-сериал гатеваи.</Phrase>
+    <Phrase key="lblDeviceMapping">Мапирање уређаја</Phrase>
+    <Phrase key="cbDeviceMapping.Items[0]">По IP адреси</Phrase>
+    <Phrase key="cbDeviceMapping.Items[1]">По һелло пакету</Phrase>
+    <Phrase key="cbDeviceMapping.Items[2]">Возач одлучан</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">Метод повезивања нове долазне везе са уређајем:&#13;&#10;Према IP адреси - удаљена IP адреса је једнака адреси стринга уређаја.&#13;&#10;Преко һелло пакета - први пакет примљен са уређаја садржи адресу стринга.&#13;&#10;Управљачки програм је одређен - алгоритам је имплементиран у драјвер уређаја.</Phrase>
+    <Phrase key="gbConnection">Веза</Phrase>
+    <Phrase key="lblTcpPort">Локални TCP порт</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">Локални TCP порт за долазне везе.&#13;&#10;Заштитни зид мора да дозволи долазне везе.</Phrase>
+    <Phrase key="lblClientLifetime">Неактиван животни век, сек</Phrase>
+    <Phrase key="pbClientLifetimeHint.ToolTip">Време након којег се неактивни клијент прекида.</Phrase>
+    <Phrase key="btnOK">У реду</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmUdpChannelOptions">
+    <Phrase key="this">UDP опције</Phrase>
+    <Phrase key="gbMode">Начин рада</Phrase>
+    <Phrase key="lblBehavior">Понашање</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Главни – комуникатор шаље заһтев уређају и прима одговор.&#13;&#10;Подређени – комуникатор пасивно чека податке са уређаја.</Phrase>
+    <Phrase key="lblDeviceMapping">Мапирање уређаја</Phrase>
+    <Phrase key="cbDeviceMapping.Items[0]">По IP адреси</Phrase>
+    <Phrase key="cbDeviceMapping.Items[1]">Возач одлучан</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">Метод повезивања нове долазне везе са уређајем:&#13;&#10;Према IP адреси - удаљена IP адреса је једнака адреси стринга уређаја.&#13;&#10;Утврђен управљачки програм - алгоритам је имплементиран у управљачки програм уређаја.</Phrase>
+    <Phrase key="gbConnection">Веза</Phrase>
+    <Phrase key="lblLocalUdpPort">Локални UDP порт</Phrase>
+    <Phrase key="pbLocalUdpPortHint.ToolTip">Локални UDP порт за долазне везе.&#13;&#10;Заштитни зид мора да дозволи долазне везе.</Phrase>
+    <Phrase key="lblRemoteUdpPort">Удаљени UDP порт</Phrase>
+    <Phrase key="pbRemoteUdpPortHint.ToolTip">Подразумевани удаљени UDP порт.  Исто за све уређаје комуникационе линије.</Phrase>
+    <Phrase key="lblRemoteIpAddress">Удаљена IP адреса</Phrase>
+    <Phrase key="pbRemoteIpAddressHint.ToolTip">Подразумевана удаљена IP адреса.&#13;&#10;Може да се користи, на пример, ако су уређаји повезани преко Етһернет-серијског мрежног пролаза.</Phrase>
+    <Phrase key="btnOK">У реду</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+  </Dictionary>
+</DrvCnlBasicDictionaries>

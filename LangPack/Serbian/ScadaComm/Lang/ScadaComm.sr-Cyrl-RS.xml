@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaCommDictionaries>
+  <Dictionary key="Scada.Comm.Devices">
+    <Phrase key="LoadDeviceConfigError">Грешка при учитавању конфигурације уређаја</Phrase>
+    <Phrase key="SaveDeviceConfigError">Грешка при чувању конфигурације уређаја</Phrase>
+    <Phrase key="SaveDeviceConfigConfirm">Конфигурација уређаја је измењена.  Да сачувате промене?</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers">
+    <Phrase key="LoadDriverConfigError">Грешка при учитавању конфигурације драјвера</Phrase>
+    <Phrase key="SaveDriverConfigError">Грешка при чувању конфигурације драјвера</Phrase>
+    <Phrase key="SaveDriverConfigConfirm">Конфигурација драјвера је измењена.  Да сачувате промене?</Phrase>
+  </Dictionary>
+</ScadaCommDictionaries>

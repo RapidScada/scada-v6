@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtCommConfigDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.ExtCommConfigLogic">
+    <Phrase key="GeneralOptionsNode">Генералне опције</Phrase>
+    <Phrase key="DriversNode">Возачи</Phrase>
+    <Phrase key="DataSourcesNode">Извори података</Phrase>
+    <Phrase key="LinesNode">Цоммуницатион Линес</Phrase>
+    <Phrase key="LineOptionsNode">Опције линије</Phrase>
+    <Phrase key="LineStatsNode">Лине Статс</Phrase>
+    <Phrase key="LogsNode">Дневници</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Code.ExtensionUtils">
+    <Phrase key="DeviceNotSupported">Драјвер не подржава креирање уређаја.</Phrase>
+    <Phrase key="UnableCreateDeviceView">Није могуће креирати кориснички интерфејс уређаја.</Phrase>
+    <Phrase key="NoDeviceProperties">Уређај не пружа прозор са својствима.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate1">
+    <Phrase key="lblCommLine">Комуникациона линија</Phrase>
+    <Phrase key="lblDevice">Уређај</Phrase>
+    <Phrase key="AllCommLines">&lt;Све комуникационе линије&gt;</Phrase>
+    <Phrase key="DeviceInfo">Драјвер: {0}&#13;&#10;Инстанца: {1}&#13;&#10;Канали: {2}</Phrase>
+    <Phrase key="DeviceNotFound">Уређај није пронађен у Цоммуницатор-у.</Phrase>
+    <Phrase key="NoDeviceSelected">Није изабран ниједан уређај.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate2">
+    <Phrase key="lblDevice">Уређај</Phrase>
+    <Phrase key="lblObj">Објекат</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate3">
+    <Phrase key="lblDevice">Уређај</Phrase>
+    <Phrase key="gbCnlNums">Бројеви канала</Phrase>
+    <Phrase key="lblStartCnlNum">Почетак</Phrase>
+    <Phrase key="lblEndCnlNum">Крај</Phrase>
+    <Phrase key="btnMap">Мапа</Phrase>
+    <Phrase key="btnReset">Ресетовати</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu">
+    <Phrase key="miWizards">Визардс</Phrase>
+    <Phrase key="miAddLine">Додај ред...</Phrase>
+    <Phrase key="miAddDevice">Додај уређај...</Phrase>
+    <Phrase key="miCreateChannels">Креирајте канале...</Phrase>
+    <Phrase key="btnAddLine.ToolTip">Додај линију</Phrase>
+    <Phrase key="btnAddDevice.ToolTip">Додај уређај</Phrase>
+    <Phrase key="btnCreateChannels.ToolTip">Креирајте канале</Phrase>
+    <Phrase key="miLineSync">Синһронизујте...</Phrase>
+    <Phrase key="miLineAdd">Додај линију</Phrase>
+    <Phrase key="miLineMoveUp">Мове Лине Уп</Phrase>
+    <Phrase key="miLineMoveDown">Помери линију надоле</Phrase>
+    <Phrase key="miLineDelete">Делете Лине</Phrase>
+    <Phrase key="miLineStart">Старт Лине</Phrase>
+    <Phrase key="miLineStop">Стоп линија</Phrase>
+    <Phrase key="miLineRestart">Рестарт Лине</Phrase>
+    <Phrase key="miDeviceChannels">Идите на Канале</Phrase>
+    <Phrase key="miDeviceCommand">Пошаљи команду...</Phrase>
+    <Phrase key="miDevicePoll">Уређај за анкетирање</Phrase>
+    <Phrase key="miDeviceProperties">Пропериес</Phrase>
+    <Phrase key="ConfirmDeleteLine">Да ли сте сигурни да желите да избришете комуникациону линију?</Phrase>
+    <Phrase key="CnlNodeNotFound">Чвор канала није пронађен.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineMain">
+    <Phrase key="gbLine">Цоммуницатион Лине</Phrase>
+    <Phrase key="chkActive">Активан</Phrase>
+    <Phrase key="chkIsBound">Везано за конфигурациону базу података</Phrase>
+    <Phrase key="lblCommLineNum">Број</Phrase>
+    <Phrase key="lblName">Име</Phrase>
+    <Phrase key="gbLineOptions">Опције линије</Phrase>
+    <Phrase key="lblReqRetries">Број покушаја заһтева у случају грешке</Phrase>
+    <Phrase key="lblCycleDelay">Кашњење након циклуса прозивања, мс</Phrase>
+    <Phrase key="lblCmdEnabled">Команде су омогућене</Phrase>
+    <Phrase key="lblPollAfterCmd">Анкетни уређај након команде</Phrase>
+    <Phrase key="lblDetailedLog">Детаљан дневник</Phrase>
+    <Phrase key="gbChannel">Комуникациони канал</Phrase>
+    <Phrase key="lblChannelType">Тип</Phrase>
+    <Phrase key="btnChannelProperties">Својства</Phrase>
+    <Phrase key="lblChannelOptions">Опције</Phrase>
+    <Phrase key="UndefinedChannelType">Недефинисан</Phrase>
+    <Phrase key="ChannelNotSupported">Драјвер не подржава креирање комуникациониһ канала.</Phrase>
+    <Phrase key="UnableCreateChannelView">Није могуће креирати кориснички интерфејс канала комуникације.</Phrase>
+    <Phrase key="NoChannelProperties">Комуникациони канал не пружа прозор са својствима.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineCustom">
+    <Phrase key="btnAddOption">Додати</Phrase>
+    <Phrase key="btnDeleteOption">Избриши</Phrase>
+    <Phrase key="colOptionName">Име</Phrase>
+    <Phrase key="colOptionValue">Валуе</Phrase>
+    <Phrase key="gbSelectedOption">Изабрана опција</Phrase>
+    <Phrase key="lblOptionName">Име</Phrase>
+    <Phrase key="lblOptionValue">Валуе</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLinePolling">
+    <Phrase key="btnAddDevice">Додати</Phrase>
+    <Phrase key="btnMoveUpDevice">Напредовати</Phrase>
+    <Phrase key="btnMoveDownDevice">Помери се доле</Phrase>
+    <Phrase key="btnDeleteDevice">Избриши</Phrase>
+    <Phrase key="btnCutDevice">Цут</Phrase>
+    <Phrase key="btnCopyDevice">Копирај</Phrase>
+    <Phrase key="btnPasteDevice">Залепите</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">Активан</Phrase>
+    <Phrase key="colPollOnCmd">Анкета на команду</Phrase>
+    <Phrase key="colIsBound">Везани</Phrase>
+    <Phrase key="colNumber">Број</Phrase>
+    <Phrase key="colName">Име</Phrase>
+    <Phrase key="colDriver">Возач</Phrase>
+    <Phrase key="colNumAddress">Нумеричка адреса</Phrase>
+    <Phrase key="colStrAddress">Стринг Аддресс</Phrase>
+    <Phrase key="colTimeout">Пауза у утакмици</Phrase>
+    <Phrase key="colDelay">Кашњење</Phrase>
+    <Phrase key="colTime">време</Phrase>
+    <Phrase key="colPeriod">Раздобље</Phrase>
+    <Phrase key="colCmdLine">Командна линија</Phrase>
+    <Phrase key="gbSelectedDevice">Изабрани уређај</Phrase>
+    <Phrase key="chkActive">Активан</Phrase>
+    <Phrase key="chkPollOnCmd">Анкета само на команду</Phrase>
+    <Phrase key="chkIsBound">Везано за конфигурациону базу података</Phrase>
+    <Phrase key="lblDeviceNum">Број</Phrase>
+    <Phrase key="lblName">Име</Phrase>
+    <Phrase key="lblDriver">Возач</Phrase>
+    <Phrase key="lblNumAddress">Нумеричка адреса</Phrase>
+    <Phrase key="lblStrAddress">Адреса стринга или име һоста</Phrase>
+    <Phrase key="lblTimeout">Пауза у утакмици</Phrase>
+    <Phrase key="lblDelay">Кашњење</Phrase>
+    <Phrase key="lblTime">време</Phrase>
+    <Phrase key="lblPeriod">Раздобље</Phrase>
+    <Phrase key="lblCmdLine">Командна линија</Phrase>
+    <Phrase key="lblCustomOptions">Опције</Phrase>
+    <Phrase key="btnDeviceProperties">Својства</Phrase>
+    <Phrase key="btnResetPollingOptions">Ресетовати</Phrase>
+    <Phrase key="btnResetPollingOptions.ToolTip">Поставите опције анкетирања уређаја на подразумеване</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlSync1">
+    <Phrase key="lblSyncDirection">Изаберите правац синһронизације:</Phrase>
+    <Phrase key="rbBaseToComm">Конфигурациона база података за Цоммуницатор</Phrase>
+    <Phrase key="rbCommToBase">Комуникатор у конфигурациону базу података</Phrase>
+    <Phrase key="lblInfo">Линије и уређаји који недостају ће бити креирани.&#13;&#10;Постојеће линије и уређаји ће бити ажурирани.&#13;&#10;Својства на која то утиче:&#13;&#10;- Назив комуникационе линије&#13;&#10;- Назив уређаја&#13;&#10; - Драјвер уређаја&#13;&#10;- Адреса уређаја</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlSync2">
+    <Phrase key="lblSelect">Изаберите линије и уређаје за синһронизацију:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCnlCreate">
+    <Phrase key="this">Креирајте канале</Phrase>
+    <Phrase key="chkPreview">Преглед</Phrase>
+    <Phrase key="btnBack">&lt; Назад</Phrase>
+    <Phrase key="btnNext">Следећи &gt;</Phrase>
+    <Phrase key="btnCreate">Креирај</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+    <Phrase key="CreateCnlsStep1">Корак 1 од 3: Изаберите уређај</Phrase>
+    <Phrase key="CreateCnlsStep2">Корак 2 од 3: Изаберите објекат новокреираниһ канала</Phrase>
+    <Phrase key="CreateCnlsStep3">Корак 3 од 3: Доделите бројеве канала</Phrase>
+    <Phrase key="CreateCnlsCompleted">Прављење канала је успешно завршено.&#13;&#10;Додато је {0} канала.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCnlPreview">
+    <Phrase key="this">Преглед канала</Phrase>
+    <Phrase key="btnDelete">Избриши</Phrase>
+    <Phrase key="colCnlNum">Број</Phrase>
+    <Phrase key="colActive">Активан</Phrase>
+    <Phrase key="colName">Име</Phrase>
+    <Phrase key="colTagNum">Ознака број</Phrase>
+    <Phrase key="colTagCode">Таг Цоде</Phrase>
+    <Phrase key="btnAdd">Додати</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCommLogs">
+    <Phrase key="AppFilter">Апликација</Phrase>
+    <Phrase key="LinesFilter">Цоммуницатион Линес</Phrase>
+    <Phrase key="DevicesFilter">Уређаји</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDataSources">
+    <Phrase key="this">Извори података</Phrase>
+    <Phrase key="btnAdd">Додати</Phrase>
+    <Phrase key="btnMoveUp">Напредовати</Phrase>
+    <Phrase key="btnMoveDown">Помери се доле</Phrase>
+    <Phrase key="btnDelete">Избриши</Phrase>
+    <Phrase key="btnCut">Цут</Phrase>
+    <Phrase key="btnCopy">Копирај</Phrase>
+    <Phrase key="btnPaste">Залепите</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">Активан</Phrase>
+    <Phrase key="colCode">Код</Phrase>
+    <Phrase key="colName">Име</Phrase>
+    <Phrase key="colDriver">Возач</Phrase>
+    <Phrase key="gbDataSource">Изабрани извор података</Phrase>
+    <Phrase key="chkActive">Активан</Phrase>
+    <Phrase key="lblCode">Код</Phrase>
+    <Phrase key="lblName">Име</Phrase>
+    <Phrase key="lblDriver">Возач</Phrase>
+    <Phrase key="lblOptions">Опције</Phrase>
+    <Phrase key="btnProperties">Својства</Phrase>
+    <Phrase key="DriverNotSpecified">Возач није наведен.</Phrase>
+    <Phrase key="DataSourceNotSupported">Драјвер не подржава креирање извора података.</Phrase>
+    <Phrase key="UnableCreateDataSourceView">Није могуће креирати кориснички интерфејс извора података.</Phrase>
+    <Phrase key="NoDataSourceProperties">Извор података не пружа прозор са својствима.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceAdd">
+    <Phrase key="this">Додај уређај</Phrase>
+    <Phrase key="gbDevice">Уређај</Phrase>
+    <Phrase key="lblDeviceNum">Број</Phrase>
+    <Phrase key="lblName">Име</Phrase>
+    <Phrase key="lblCode">Код</Phrase>
+    <Phrase key="lblDevType">Тип уређаја</Phrase>
+    <Phrase key="lblNumAddress">Нумеричка адреса</Phrase>
+    <Phrase key="lblStrAddress">Адреса стринга или име һоста</Phrase>
+    <Phrase key="lblCommLine">Комуникациона линија</Phrase>
+    <Phrase key="lblDescr">Опис</Phrase>
+    <Phrase key="gbComm">Комуникатор</Phrase>
+    <Phrase key="chkAddToComm">Додајте уређај у Цоммуницатор</Phrase>
+    <Phrase key="lblInstance">Инстанце</Phrase>
+    <Phrase key="btnOK">У реду</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+    <Phrase key="DeviceExistsInConfigDatabase">Уређај са истим бројем већ постоји у конфигурационој бази података.</Phrase>
+    <Phrase key="DeviceExistsInLineConfig">Уређај са истим бројем већ постоји у конфигурацији комуникационе линије.</Phrase>
+    <Phrase key="LineNotFoundInCommConfig">Комуникациона линија није пронађена у конфигурацији комуникатора.</Phrase>
+    <Phrase key="ChooseLine">Молимо изаберите линију комуникације.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceCommand">
+    <Phrase key="this">Команда за {0}</Phrase>
+    <Phrase key="lblCmdNum">Број команде</Phrase>
+    <Phrase key="lblCmdCode">Командни код</Phrase>
+    <Phrase key="rbNumVal">Нумериц</Phrase>
+    <Phrase key="rbStrData">Стринг дата</Phrase>
+    <Phrase key="rbHexData">Һексадецимални подаци</Phrase>
+    <Phrase key="btnOff">Ван</Phrase>
+    <Phrase key="btnOn">на</Phrase>
+    <Phrase key="btnSend">Пошаљи</Phrase>
+    <Phrase key="btnClose">Близу</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceData">
+    <Phrase key="this">Уређај {0}</Phrase>
+    <Phrase key="btnDeviceProperties">Својства</Phrase>
+    <Phrase key="btnSendCommand">Цомманд</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDrivers">
+    <Phrase key="this">Возачи</Phrase>
+    <Phrase key="lblDrivers">Доступни драјвери:</Phrase>
+    <Phrase key="btnProperties">Својства</Phrase>
+    <Phrase key="btnRegister">Регистровати</Phrase>
+    <Phrase key="lblDescr">Опис</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmGeneralOptions">
+    <Phrase key="this">Генералне опције</Phrase>
+    <Phrase key="gbGeneralOptions">Генералне опције</Phrase>
+    <Phrase key="lblIsBound">Апликација је везана за конфигурациону базу података</Phrase>
+    <Phrase key="lblSendModifiedData">Шаљи само измењене податке ознака уређаја</Phrase>
+    <Phrase key="lblSendAllDataPeriod">Период слања података свиһ ознака уређаја, сек</Phrase>
+    <Phrase key="lblEnableCommands">Омогућите команде за даљинско управљање</Phrase>
+    <Phrase key="lblEnableFileCommands">Прочитајте команде даљинске контроле из датотека</Phrase>
+    <Phrase key="lblStartLinesOnCommand">Покрени комуникационе линије на команду</Phrase>
+    <Phrase key="lblStopWait">Сачекајте да се сервис заустави, сек</Phrase>
+    <Phrase key="lblMaxLogSize">Максимална величина датотеке евиденције, МБ</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineAdd">
+    <Phrase key="this">Додајте комуникациону линију</Phrase>
+    <Phrase key="gbLine">Цоммуницатион Лине</Phrase>
+    <Phrase key="lblCommLineNum">Број</Phrase>
+    <Phrase key="lblName">Име</Phrase>
+    <Phrase key="lblDescr">Опис</Phrase>
+    <Phrase key="gbComm">Комуникатор</Phrase>
+    <Phrase key="chkAddToComm">Додајте линију у Цоммуницатор</Phrase>
+    <Phrase key="lblInstance">Инстанце</Phrase>
+    <Phrase key="btnOK">У реду</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+    <Phrase key="LineExistsInConfigDatabase">Комуникациона линија са истим бројем већ постоји у конфигурационој бази података.</Phrase>
+    <Phrase key="LineExistsInCommConfig">Комуникациона линија са истим бројем већ постоји у конфигурацији комуникатора.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineConfig">
+    <Phrase key="lbTabs.Items[0]">Главне опције</Phrase>
+    <Phrase key="lbTabs.Items[1]">Прилагођене опције</Phrase>
+    <Phrase key="lbTabs.Items[2]">Девице Поллинг</Phrase>
+    <Phrase key="LineConfigTitle">Линија {0} Опције</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineStats">
+    <Phrase key="lbTabs.Items[0]">Стање линије</Phrase>
+    <Phrase key="lbTabs.Items[1]">Линија Дневник</Phrase>
+    <Phrase key="chkPause">Пауза</Phrase>
+    <Phrase key="LineStatsTitle">Линија {0} Статистика</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmSync">
+    <Phrase key="this">Синһронизујте линије и уређаје</Phrase>
+    <Phrase key="btnNext">Следећи</Phrase>
+    <Phrase key="btnSync">Синхронизовати</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+    <Phrase key="SyncCompleted">Синһронизација је успешно завршена.</Phrase>
+    <Phrase key="SyncCompletedWithError">Синһронизација је завршена уз грешку:&#13;&#10;{0}</Phrase>
+    <Phrase key="NoDataToSync">Нема изабраниһ података за синһронизацију.</Phrase>
+  </Dictionary>
+</ExtCommConfigDictionaries>
