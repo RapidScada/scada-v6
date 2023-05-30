@@ -229,7 +229,7 @@ scada.scheme.LinkRenderer.prototype.createDom = function (component, renderConte
         spanComp.addClass("action");
 
         if (!renderContext.editMode) {
-            spanComp.click(function () {
+            spanComp.on("click", function () {
                 let url = "";
                 let viewHub = renderContext.schemeEnv.viewHub;
 

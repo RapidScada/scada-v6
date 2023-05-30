@@ -7,8 +7,6 @@ scada.scheme = scada.scheme || {};
 
 // Used for testing
 const DEBUG_MODE = false;
-// How long to show the error badge
-const ERROR_DISPLAY_DURATION = 10000; // ms
 
 // Scheme object
 var scheme = null;
@@ -100,19 +98,19 @@ function startUpdatingScheme() {
 function initToolbar() {
     var ScaleTypes = scada.scheme.ScaleTypes;
 
-    $("#spanFitScreenBtn").click(function () {
+    $("#spanFitScreenBtn").on("click", function () {
         changeScale(ScaleTypes.FIT_SCREEN, 0);
     });
 
-    $("#spanFitWidthBtn").click(function () {
+    $("#spanFitWidthBtn").on("click", function () {
         changeScale(ScaleTypes.FIT_WIDTH, 0);
     });
 
-    $("#spanZoomInBtn").click(function () {
+    $("#spanZoomInBtn").on("click", function () {
         changeScale(ScaleTypes.NUMERIC, getNextScale());
     });
 
-    $("#spanZoomOutBtn").click(function () {
+    $("#spanZoomOutBtn").on("click", function () {
         changeScale(ScaleTypes.NUMERIC, getPrevScale());
     });
 }
@@ -230,7 +228,7 @@ function showErrorBadge(opt_permanent) {
         errorTimeoutID = setTimeout(function () {
             $("#spanErrorBadge").addClass("hidden");
             errorTimeoutID = 0;
-        }, ERROR_DISPLAY_DURATION);
+        }, ScadaUtils.ERROR_DISPLAY_DURATION);
     }
 }
 
@@ -255,21 +253,21 @@ function addNotification(messageHtml, isError) {
 function initDebugTools() {
     $("#divDebugTools").css("display", "inline-block");
 
-    $("#spanLoadSchemeBtn").click(function () {
+    $("#spanLoadSchemeBtn").on("click", function () {
         loadScheme(viewID);
     });
 
-    $("#spanCreateDomBtn").click(function () {
+    $("#spanCreateDomBtn").on("click", function () {
         scheme.createDom();
         alignHorizontally();
     });
 
-    $("#spanStartUpdBtn").click(function () {
+    $("#spanStartUpdBtn").on("click", function () {
         startUpdatingScheme();
         $(this).prop("disabled", true);
     });
 
-    $("#spanAddNotifBtn").click(function () {
+    $("#spanAddNotifBtn").on("click", function () {
         addNotification("Test notification", true);
     });
 }

@@ -411,7 +411,7 @@ scada.scheme.ComponentRenderer.prototype.bindAction = function (jqObj, component
         if (!renderContext.editMode) {
             var viewHub = renderContext.schemeEnv.viewHub;
 
-            jqObj.click(function () {
+            jqObj.on("click", function () {
                 switch (props.action) {
                     case Actions.DRAW_DIAGRAM:
                         viewHub.features.chart.show(props.inCnlNum, new Date().toISOString().slice(0, 10));
