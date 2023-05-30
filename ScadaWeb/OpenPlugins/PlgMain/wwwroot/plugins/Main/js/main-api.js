@@ -29,6 +29,13 @@ class TimeRange {
     }
 }
 
+// Specifies the color indexes in a formatted channel data.
+class ColorIndex {
+    static MAIN_COLOR = 0;
+    static SECOND_COLOR = 1;
+    static BACK_COLOR = 2;
+}
+
 // Represents a JavaScript wrapper for the plugin's web API.
 // Callbacks are function (dto)
 class MainApi {
@@ -191,7 +198,7 @@ class MainApi {
     }
 
     // Creates a map of current data records accessed by channel number.
-    mapCurData(curData) {
+    static mapCurData(curData) {
         let map = new Map();
 
         if (curData) {
@@ -204,7 +211,7 @@ class MainApi {
     }
 
     // Creates a map of channel indexes accessed by channel number.
-    mapCnlNums(cnlNums) {
+    static mapCnlNums(cnlNums) {
         let map = new Map();
 
         if (cnlNums) {
@@ -220,7 +227,7 @@ class MainApi {
     }
 
     // Gets a non-null current data record from the map by the channel number.
-    static getCurData(curDataMap, cnlNum, opt_joinLen) {
+    static getCurDataFromMap(curDataMap, cnlNum, opt_joinLen) {
         let record = curDataMap ? curDataMap.get(cnlNum) : null;
 
         if (!record) {
@@ -242,5 +249,18 @@ class MainApi {
         }
 
         return record;
+    }
+
+    // Gets the display value of the channel from the record.
+    static getDisplayValue(record, opt_unit) {
+        return record.df.dispVal + (opt_unit && record.d.stat > 0 ? " " + opt_unit : "");
+    }
+
+    // Gets the specified color from the record.
+    static getColor(record, colorIndex, opt_defaultColor) {
+        let colors = record.df.colors;
+        return Array.isArray(colors) && colors.length > colorIndex && colors[colorIndex]
+            ? colors[colorIndex]
+            : opt_defaultColor ?? "";
     }
 }

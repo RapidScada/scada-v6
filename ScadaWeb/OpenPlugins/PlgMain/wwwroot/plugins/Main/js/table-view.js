@@ -293,16 +293,16 @@ function checkNewDate(newServerTime) {
 }
 
 function showCurData(data) {
-    let map = mainApi.mapCurData(data);
+    let map = MainApi.mapCurData(data);
 
     for (let cellMeta of curCells) {
-        let record = MainApi.getCurData(map, cellMeta.cnlNum, cellMeta.joinLen);
+        let record = MainApi.getCurDataFromMap(map, cellMeta.cnlNum, cellMeta.joinLen);
         displayCell(cellMeta, record);
     }
 }
 
 function showHistData(data) {
-    let map = mainApi.mapCnlNums(data.cnlNums);
+    let map = MainApi.mapCnlNums(data.cnlNums);
     let startIdx = 0;
     let prevColMeta = null;
 
@@ -370,18 +370,11 @@ function displayCell(cellMeta, record, opt_subrecords) {
         }
 
         cellElem.text(cellText);
-        cellElem.css("color", getCellColor(record));
+        cellElem.css("color", MainApi.getColor(record, ColorIndex.MAIN_COLOR, DEFAULT_CELL_COLOR));
     } else {
         cellElem.text("");
         cellElem.css("color", "");
     }
-}
-
-function getCellColor(record) {
-    let colors = record.df.colors;
-    return Array.isArray(colors) && colors.length > 0 && colors[0]
-        ? colors[0]
-        : DEFAULT_CELL_COLOR;
 }
 
 $(document).ready(function () {
