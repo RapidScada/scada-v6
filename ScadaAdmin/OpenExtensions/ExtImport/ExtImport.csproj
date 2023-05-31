@@ -27,18 +27,16 @@
       <HintPath>..\..\ScadaAdmin\ScadaAdminCommon\bin\Release\net6.0-windows\ScadaCommon.Log.dll</HintPath>
     </Reference>
 	<Reference Include="ScadaServerCommon">
-		<HintPath>..\..\ScadaAdmin\ScadaAdminCommon\bin\Release\net6.0-windows\ScadaServerCommon.dll</HintPath>
+      <HintPath>..\..\ScadaAdmin\ScadaAdminCommon\bin\Release\net6.0-windows\ScadaServerCommon.dll</HintPath>
 	</Reference>
+	  <Reference Include="DrvModbus.Common">
+		  <HintPath>..\..\ScadaAdmin\ScadaAdmin\bin\Release\net6.0-windows\Lib\DrvModbus.Common.dll</HintPath>
+	  </Reference>
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Code\" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\ScadaComm\OpenDrivers\DrvModbus.Common\DrvModbus.Common.csproj" />
-  </ItemGroup>
-
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(TargetDir)\..\..\..\..\..\ScadaAdmin\ScadaAdmin\bin\Debug\net6.0-windows\Lib\$(ProjectName).dll&quot;" />
