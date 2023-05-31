@@ -334,7 +334,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             return dico;
         }
 
-
         private DeviceTemplate generateDeviceTemplateFromDictionnary(Dictionary<string, List<string>> dico)
         {
             DeviceTemplate template = new DeviceTemplate();
@@ -345,7 +344,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             {
                 List<string> entry = dico.ElementAt(index).Value;
                 int intTagCode = int.Parse(Regex.Split(dico.ElementAt(index).Key, @"[^0-9]").Last());
-                if (index == 0 || previousTagCode != intTagCode - 1)
+                if (index == 0 || (previousTagCode != intTagCode - 1 && previousTagCode != intTagCode - 2))
                 {
                     if (index > 0)
                     {
