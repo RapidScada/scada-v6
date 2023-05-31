@@ -394,8 +394,8 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             }
             saveFileDialog1.FileName = selectedDeviceName;
 
-
             //Save file
+            saveFileDialog1.InitialDirectory = string.Format("{0}\\Instances\\Default\\ScadaComm\\Config", this.project.ProjectDir);
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 using (Stream s = File.Open(saveFileDialog1.FileName, FileMode.Create))
