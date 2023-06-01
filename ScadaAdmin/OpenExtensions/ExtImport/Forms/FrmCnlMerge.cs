@@ -4,23 +4,49 @@ using System.Xml;
 using Scada.Comm.Drivers.DrvModbus.Config;
 using Scada.Comm.Drivers.DrvModbus.Protocol;
 using System.Text.RegularExpressions;
+using Scada.Comm.Devices;
+using Scada.Data.Const;
 
 namespace Scada.Admin.Extensions.ExtImport.Forms
 {
     public partial class FrmCnlMerge : Form
     {
-        private List<Cnl> cnls;
+     
         private Dictionary<string, List<string>> dictio;
-        private Dictionary<string, List<string>> _oldDictio = new Dictionary<string, List<string>>();
-        private Dictionary<string, List<string>> _newDictio = new Dictionary<string, List<string>>();
-        private List<string> _listOfKey = new List<string>();
-        private ScadaProject project;       // the project under development
-        string selectedDeviceName;
+		//private Dictionary<string, List<string>> _oldDictio = new Dictionary<string, List<string>>();
+		Dictionary<string, Dictionary<string, string>> _oldDictio = new Dictionary<string, Dictionary<string, string>>();
+
+		//private Dictionary<string, List<string>> _newDictio = new Dictionary<string, List<string>>();
+		private Dictionary<string, Dictionary<string, string>> _newDictio = new Dictionary<string, Dictionary<string, string>>();
+
+		Dictionary<string, object> deviceInfoDict = new Dictionary<string, object>();
+
+		private List<string> _listOfKey = new List<string>();
+		private IAdminContext adminContext; // the Administrator context
+		private ScadaProject project;       // the project under development
+		private Controls.CtrlCnlImport3 CtrlCnlImport3;
+		string selectedDeviceName;
         Dictionary<string, ElemType> elemTypeDico;
         private CheckBox _headerCheckBox1 = new CheckBox();
         private CheckBox _headerCheckBox2 = new CheckBox();
 
-        private FrmCnlMerge()
+
+		private Dictionary<string, int> cnlDataType = new Dictionary<string, int>
+            {
+	            {"BOOL", 1 },
+	            {"EBOOL", 1 },
+	            {"REAL", 0 },
+	            {"FLOAT", 0 },
+	            {"INT", 1 },
+	            {"LONG", 1 },
+	            {"SHORT", 1 },
+	            {"DWORD", 1 },
+	            {"QWORD", 1 },
+	            {"UNDEFINED", 3 }, // or any other default value
+                {"WORD", 1 },
+            };
+
+	private FrmCnlMerge()
         {
             InitializeComponent();
             dataGridView1.AutoGenerateColumns = false;
@@ -39,67 +65,114 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                 {"WORD", ElemType.UShort },
             };
 
-        }
 
-        public FrmCnlMerge(ScadaProject project, List<Cnl> cnls, Dictionary<string, List<string>> dictio, string selectedDeviceName) : this()
-        {
-            //bindingSource.DataSource = cnls ?? throw new ArgumentNullException(nameof(cnls));
-            this.project = project;
-            this.cnls = cnls;
-            this.selectedDeviceName = selectedDeviceName;
-            setDictio(dictio);
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="adminContext"></param>
+		/// <param name="project"></param>
+		/// <exception cref="ArgumentNullException"></exception>
+		public void Init(IAdminContext adminContext, ScadaProject project)
+		{
+			this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
+			this.project = project ?? throw new ArgumentNullException(nameof(project));
+
+		}
+		
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="project"></param>
+        /// <param name="deviceInfoDict"></param>
+        /// <param name="dictio"></param>
+        /// <param name="CtrlCnlImport3"></param>
+
+		public FrmCnlMerge(ScadaProject project, Dictionary<string, object> deviceInfoDict, Dictionary<string, List<string>> dictio, Controls.CtrlCnlImport3 CtrlCnlImport3) : this()
+		{
+
+			this.project = project;
+			this.deviceInfoDict = deviceInfoDict;
+			this.selectedDeviceName =  deviceInfoDict.ContainsKey("deviceName") ? (string)deviceInfoDict["deviceName"] : "default value";
 
 
-            Dictionary<int, string> dataTypes = new Dictionary<int, string>();
-            dataTypes = project.ConfigDatabase.DataTypeTable.ToDictionary(x => x.DataTypeID, x => x.Name);
+			 this.CtrlCnlImport3 = CtrlCnlImport3;
+	
+		     setDictio(dictio);
 
-            foreach (Cnl cnl in project.ConfigDatabase.CnlTable)
-            {
-                List<string> list = new List<string>();
 
-                string address = cnl.TagNum.ToString();
-                list.Add(cnl.TagCode); // Mnemonique
-                list.Add(dataTypes.ContainsKey(cnl.DataTypeID ?? 0) ? dataTypes[cnl.DataTypeID ?? 0] : ""); // Type
-                list.Add(cnl.Name); // Descr
+			List<Cnl> listCnl = new List<Cnl>();
+			Dictionary<int, string> dataTypes = new Dictionary<int, string>();
+			dataTypes = project.ConfigDatabase.DataTypeTable.ToDictionary(x => x.DataTypeID, x => x.Name);
 
-                if (!String.IsNullOrEmpty(address) && !_oldDictio.ContainsKey(address))
-                    _oldDictio.Add(address, list);
-            }
+			foreach (Cnl cnl in project.ConfigDatabase.CnlTable)
+			{
+				string address = cnl.TagNum.ToString();
+				Dictionary<string, string> data = new Dictionary<string, string>
+				{
+					{ "Mnemonique", cnl.TagCode },
+					{ "Type", dataTypes.ContainsKey(cnl.DataTypeID ?? 0) ? dataTypes[cnl.DataTypeID ?? 0] : "" },
+					{ "Descr", cnl.Name },
+					{ "NumCnl", cnl.CnlNum.ToString()}
+				};
+				if (!String.IsNullOrEmpty(address) && !_oldDictio.ContainsKey(address))
+				{
+					_oldDictio.Add(address, data);
+				}
 
-            gridViewFiller();
-        }
 
-        public void setDictio(Dictionary<string, List<string>> dictio)
+			}
+
+			gridViewFiller();
+		}
+
+
+		public void setDictio(Dictionary<string, List<string>> dictio)
         {
             this.dictio = dictio;
         }
 
-        public void gridViewFiller()
-        {
-            foreach (KeyValuePair<string, List<string>> kvp in dictio)
-            {
-                bool rowAdded = false;
-                foreach (KeyValuePair<string, List<string>> kvpOld in _oldDictio)
-                {
-                    if (kvp.Key == kvpOld.Key)
-                    {
-                        dataGridView1.Rows.Add(kvp.Key, false, kvp.Value[0], kvp.Value[1], kvp.Value[2], "", false, kvpOld.Value[0], kvpOld.Value[1], kvpOld.Value[2]);
-                        _listOfKey.Add(kvp.Key);
-                        rowAdded = true;
-                    }
-                }
+		public void gridViewFiller()
+		{
+			Dictionary<string, Dictionary<string, string>> importDictio = new Dictionary<string, Dictionary<string, string>>();
 
-                if (!rowAdded)
-                {
-                    dataGridView1.Rows.Add(kvp.Key, false, kvp.Value[0], kvp.Value[1], kvp.Value[2], "", false, "", "", "");
-                    _listOfKey.Add(kvp.Key);
-                    //dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells[6].Style.BackColor = Color.Red;
-                    dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells[6].ReadOnly = true;
-                }
-            }
-        }
+			foreach (KeyValuePair<string, List<string>> kvp in dictio)
+			{
+				var innerDict = new Dictionary<string, string>
+				{
+					{"Mnemonique", kvp.Value[0]},
+					{"Type", kvp.Value[1]},
+					{"Descr", kvp.Value[2]}
+				};
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+				importDictio[kvp.Key] = innerDict;
+			}
+
+			foreach (KeyValuePair<string, Dictionary<string, string>> kvp in importDictio)
+			{
+				bool rowAdded = false;
+
+				foreach (KeyValuePair<string, Dictionary<string, string>> kvpOld in _oldDictio)
+				{
+					if (kvp.Key == kvpOld.Key)
+					{
+						dataGridView1.Rows.Add(kvp.Key, false, kvp.Value["Mnemonique"], kvp.Value["Type"], kvp.Value["Descr"], "", false, kvpOld.Value["Mnemonique"], kvpOld.Value["Type"], kvpOld.Value["Descr"]);
+						_listOfKey.Add(kvp.Key);
+						rowAdded = true;
+					}
+				}
+
+				if (!rowAdded)
+				{
+					dataGridView1.Rows.Add(kvp.Key, false, kvp.Value["Mnemonique"], kvp.Value["Type"], kvp.Value["Descr"], "", false, "", "", "");
+					_listOfKey.Add(kvp.Key);
+					dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells[6].ReadOnly = true;
+				}
+			}
+		}
+
+		
+		private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (dataGridView1.Columns[e.ColumnIndex] is DataGridViewCheckBoxColumn && e.RowIndex >= 0)
             {
@@ -297,10 +370,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             lbl.Size = new Size((headerCell2Rectangle.X + dataGridView1.Location.X + headerCell2Rectangle.Width) - headerCell1Rectangle.X, 21);
         }
 
-        private void btnAdd_Click_1(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.OK;
-        }
+        
 
         private Dictionary<string, List<string>> generateDictionnary()
         {
@@ -334,7 +404,146 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             return dico;
         }
 
-        private DeviceTemplate generateDeviceTemplateFromDictionnary(Dictionary<string, List<string>> dico)
+        /// <summary>
+        /// Add cnls 
+        /// </summary>
+        /// <param name="cnls"></param>
+		private void AddChannels(List<Cnl> cnls)
+		{
+			if (cnls == null || cnls.Count <= 0)
+			{
+				return;
+			}
+
+			cnls.ForEach(cnl => project.ConfigDatabase.CnlTable.AddItem(cnl));
+			project.ConfigDatabase.CnlTable.Modified = true;
+		}
+        /// <summary>
+        /// Create or update cnl from file
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+		private void btnAdd_Click_1(object sender, EventArgs e)
+		{
+			_newDictio = ProcessDataGridView(dataGridView1);
+			CtrlCnlImport3.ResetCnlNums(_newDictio.Count());
+			string deviceName = (string)deviceInfoDict["deviceName"];
+			int? objNum = deviceInfoDict.ContainsKey("objNum") ? (int?)deviceInfoDict["objNum"] : null;
+			int deviceNum = (int)deviceInfoDict["deviceNum"];
+			int cnlNum = (int)deviceInfoDict["cnlNum"];
+
+			List<Cnl> cnls = new();
+
+			foreach (var kvp in _newDictio)
+			{
+				string address = kvp.Key;
+				Dictionary<string, string> data = kvp.Value;
+				CnlPrototype cnlPrototype = ((List<CnlPrototype>)deviceInfoDict["Prototypes"])[0]; // Assuming there is at least one prototype
+
+				Cnl cnl;
+			
+
+				if (_oldDictio.TryGetValue(address, out var oldData) && project.ConfigDatabase.CnlTable.GetItem(int.Parse(oldData["NumCnl"]) ) != null)
+				{
+					cnl = project.ConfigDatabase.CnlTable.GetItem(int.Parse(oldData["NumCnl"]));
+				}
+				else
+				{
+					cnl = new Cnl
+					{
+						CnlNum = cnlNum,
+						Active = cnlPrototype.Active,
+						DataLen = cnlPrototype.DataLen,
+						CnlTypeID = cnlPrototype.CnlTypeID,
+						DeviceNum = deviceNum,
+						FormulaEnabled = cnlPrototype.FormulaEnabled,
+						InFormula = cnlPrototype.InFormula,
+						OutFormula = cnlPrototype.OutFormula,
+						ArchiveMask = cnlPrototype.ArchiveMask,
+						EventMask = cnlPrototype.EventMask
+					};
+					int dataLength = cnlPrototype.GetDataLength();
+					if (cnlNum > ConfigDatabase.MaxID - dataLength)
+					{
+						break;
+					}
+
+					cnlNum += dataLength; // Increment cnlNum for each new address by the length of data
+				}
+				//cnl.DataTypeID = cnlDataType.TryGetValue(data["type"], out int dataTypeID);
+				cnl.DataTypeID = cnlDataType.GetValueOrDefault(data["type"]);
+				cnl.ObjNum = objNum;
+				cnl.Name = data["name"];
+				//cnl.TagNum = int.Parse(address);
+				cnl.TagNum = int.Parse(address.Contains(":") ? address.Split(':')[0] : address);
+				cnl.TagCode = data["tagCode"];
+				cnl.FormatID = project.ConfigDatabase.GetFormatByCode(cnlPrototype.FormatCode)?.FormatID;
+				cnl.QuantityID = project.ConfigDatabase.GetQuantityByCode(cnlPrototype.QuantityCode)?.QuantityID;
+				cnl.UnitID = project.ConfigDatabase.GetUnitByCode(cnlPrototype.UnitCode)?.UnitID;
+
+				cnls.Add(cnl);
+
+			}
+
+			AddChannels(cnls);
+			DialogResult = DialogResult.OK;
+		}
+
+
+		/// <summary>
+		/// Get merge selection
+		/// </summary>
+		/// <param name="dgv"></param>
+		/// <returns></returns>
+		private Dictionary<string, Dictionary<string, string>> ProcessDataGridView(DataGridView dgv)
+		{
+			var resultDict = new Dictionary<string, Dictionary<string, string>>();
+
+			foreach (DataGridViewRow row in dgv.Rows)
+			{
+				if (Convert.ToBoolean(row.Cells[1].Value)) // Si la case de gauche est cochée
+				{
+					AddRowToDict(row, resultDict, 2, 3, 4, true);
+				}
+				else if (Convert.ToBoolean(row.Cells[6].Value)) // Si la case de droite est cochée
+				{
+					AddRowToDict(row, resultDict, 7, 8, 9, false);
+				}
+			}
+
+			return resultDict;
+		}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="dict"></param>
+        /// <param name="cell1"></param>
+        /// <param name="cell2"></param>
+        /// <param name="cell3"></param>
+        /// <param name="isLeft"></param>
+		private void AddRowToDict(DataGridViewRow row, Dictionary<string, Dictionary<string, string>> dict, int cell1, int cell2, int cell3, bool isLeft)
+		{
+			var key = row.Cells[0].Value.ToString();
+			var data = new Dictionary<string, string>
+	        {
+		        {"tagCode", row.Cells[cell1].Value.ToString()},
+		        {"type", row.Cells[cell2].Value.ToString()},
+		        {"name", row.Cells[cell3].Value.ToString()},
+		        {"numCnl", isLeft ? "" : _oldDictio.ContainsKey(key) ? _oldDictio[key]["NumCnl"] : ""}
+	        };
+
+			dict[key] = data;
+		}
+
+		/// <summary>
+		/// Generate xml device variable
+		/// </summary>
+		/// <param name="dico"></param>
+		/// <returns></returns>
+
+		private DeviceTemplate generateDeviceTemplateFromDictionnary(Dictionary<string, List<string>> dico)
         {
             DeviceTemplate template = new DeviceTemplate();
 
@@ -364,7 +573,11 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             template.ElemGroups.Add(newElemenGroup);
             return template;
         }
-
+        /// <summary>
+        /// Save import config from merge
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             //Generate dictionnary

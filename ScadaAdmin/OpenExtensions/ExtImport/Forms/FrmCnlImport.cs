@@ -81,11 +81,21 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                     btnCreate.Enabled = true;//CtrlCnlImport3.FileSelected;
                     btnBack.Visible = true;
 
-                    // ctrlCnlImport3.DeviceName = ctrlCnlImport1.SelectedDevice?.Name;
-                    // ctrlCnlImport3.SetFocus();
-                    break;
+					if (CtrlCnlImport1.StatusOK)//remplace by file selection check :CtrlCnlImport3.FileSelected
+					{
+						CtrlCnlImport3.ResetCnlNums(CtrlCnlImport1.CnlPrototypes.Count);
+						btnCreate.Enabled = true;
+					}
+					else
+					{
+						btnCreate.Enabled = false;
+					}
+					// ctrlCnlImport3.DeviceName = ctrlCnlImport1.SelectedDevice?.Name;
+					// ctrlCnlImport3.SetFocus();
+					break;
             }
         }
+        //A supprimé
         private List<Cnl> CreateChannels()
         {
             List<Cnl> cnls = new();
@@ -129,20 +139,8 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             return cnls;
         }
 
-        //private void AddChannels(List<Cnl> cnls, bool silent)
-        private void AddChannels(List<Cnl> cnls)
-        {
-            if (cnls.Count > 0)
-            {
-                cnls.ForEach(cnl => project.ConfigDatabase.CnlTable.AddItem(cnl));
-                project.ConfigDatabase.CnlTable.Modified = true;
-            }
-
-            //if (!silent)
-            //	ScadaUiUtils.ShowInfo(ExtensionPhrases.ImportCnlsCompleted, cnls.Count);
-        }
-
-        private void FrmCnlCreate_Load(object sender, EventArgs e)
+    
+        private void FrmCnlImport_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
             FormTranslator.Translate(CtrlCnlImport1, CtrlCnlImport1.GetType().FullName);
@@ -181,19 +179,29 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 
         private void btnCreate_Click(object sender, EventArgs e)
         {
-            if (CtrlCnlImport1.StatusOK)
-            {
-                List<Cnl> cnls = CreateChannels();
+			
+			if (CtrlCnlImport1.StatusOK)
+			{
 
-                if (new FrmCnlMerge(project, cnls, CtrlCnlImport3._dictio, CtrlCnlImport1.SelectedDevice?.Name).ShowDialog() == DialogResult.OK)
-                //new FrmCnlMerge().ShowDialog() == DialogResult.OK)
-                {
-                    //AddChannels(cnls, chkPreview.Checked);
-                    AddChannels(cnls);
-                    DialogResult = DialogResult.OK;
-                }
-            }
-        }
+				int? objNum = CtrlCnlImport2.ObjNum;
+				int deviceNum = CtrlCnlImport1.SelectedDevice.DeviceNum;
+
+				Dictionary<string, object> deviceInfoDict = new Dictionary<string, object>();
+				deviceInfoDict.Add("cnlNum", CtrlCnlImport3.StartCnlNum);
+				deviceInfoDict.Add("deviceName", CtrlCnlImport1.SelectedDevice.Name);
+				deviceInfoDict.Add("objNum", objNum);
+				deviceInfoDict.Add("deviceNum", deviceNum);
+				deviceInfoDict.Add("Prototypes", CtrlCnlImport1.CnlPrototypes);
+
+
+				//remove cnls
+				if (new FrmCnlMerge(project, deviceInfoDict, CtrlCnlImport3._dictio, CtrlCnlImport3).ShowDialog() == DialogResult.OK)
+				{
+
+					DialogResult = DialogResult.OK;
+				}
+			}
+		}
     }
 }
 
