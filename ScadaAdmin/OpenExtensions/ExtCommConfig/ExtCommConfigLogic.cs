@@ -134,6 +134,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig
             {
                 { ImageKey.DataSource, Resources.data_source },
                 { ImageKey.Device, Resources.device },
+                { ImageKey.DeviceInactive, Resources.device_inactive },
                 { ImageKey.Driver, Resources.driver },
                 { ImageKey.Options, Resources.options },
                 { ImageKey.Line, Resources.line },

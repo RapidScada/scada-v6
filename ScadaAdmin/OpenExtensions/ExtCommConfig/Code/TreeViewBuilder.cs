@@ -175,17 +175,17 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         /// </summary>
         public TreeNode CreateDeviceNode(CommApp commApp, DeviceConfig deviceConfig)
         {
-            return new TreeNode(deviceConfig.Title)
-            {
-                ImageKey = ImageKey.Device,
-                SelectedImageKey = ImageKey.Device,
-                ContextMenuStrip = menuControl.DeviceMenu,
-                Tag = new CommNodeTag(commApp, deviceConfig, CommNodeType.Device)
+            TreeNode deviceNide = TreeViewExtensions.CreateNode(
+                deviceConfig.Title,
+                deviceConfig.Active ? ImageKey.Device : ImageKey.DeviceInactive,
+                new CommNodeTag(commApp, deviceConfig, CommNodeType.Device)
                 {
                     FormType = typeof(FrmDeviceData),
                     FormArgs = new object[] { adminContext, commApp, deviceConfig }
-                }
-            };
+                });
+
+            deviceNide.ContextMenuStrip = menuControl.DeviceMenu;
+            return deviceNide;
         }
 
         /// <summary>

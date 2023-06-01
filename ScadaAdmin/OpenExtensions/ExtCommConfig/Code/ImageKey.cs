@@ -12,6 +12,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         private const string ImagePrefix = "comm_config_";
         public const string DataSource = ImagePrefix + "data_source.png";
         public const string Device = ImagePrefix + "device.png";
+        public const string DeviceInactive = ImagePrefix + "device_inactive.png";
         public const string Driver = ImagePrefix + "driver.png";
         public const string Options = ImagePrefix + "options.png";
         public const string Line = ImagePrefix + "line.png";
