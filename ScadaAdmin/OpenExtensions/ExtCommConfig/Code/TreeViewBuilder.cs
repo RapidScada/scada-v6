@@ -86,10 +86,11 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         /// </summary>
         public TreeNode CreateLineNode(CommApp commApp, LineConfig lineConfig)
         {
-            TreeNode lineNode = TreeViewExtensions.CreateNode(lineConfig.Title,
-                lineConfig.Active ? ImageKey.Line : ImageKey.LineInactive);
+            TreeNode lineNode = TreeViewExtensions.CreateNode(
+                lineConfig.Title,
+                lineConfig.Active ? ImageKey.Line : ImageKey.LineInactive,
+                new CommNodeTag(commApp, lineConfig, CommNodeType.Line));
             lineNode.ContextMenuStrip = menuControl.LineMenu;
-            lineNode.Tag = new CommNodeTag(commApp, lineConfig, CommNodeType.Line);
 
             lineNode.Nodes.AddRange(new TreeNode[]
             {
@@ -175,7 +176,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         /// </summary>
         public TreeNode CreateDeviceNode(CommApp commApp, DeviceConfig deviceConfig)
         {
-            TreeNode deviceNide = TreeViewExtensions.CreateNode(
+            TreeNode deviceNode = TreeViewExtensions.CreateNode(
                 deviceConfig.Title,
                 deviceConfig.Active ? ImageKey.Device : ImageKey.DeviceInactive,
                 new CommNodeTag(commApp, deviceConfig, CommNodeType.Device)
@@ -184,8 +185,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
                     FormArgs = new object[] { adminContext, commApp, deviceConfig }
                 });
 
-            deviceNide.ContextMenuStrip = menuControl.DeviceMenu;
-            return deviceNide;
+            deviceNode.ContextMenuStrip = menuControl.DeviceMenu;
+            return deviceNode;
         }
 
         /// <summary>
