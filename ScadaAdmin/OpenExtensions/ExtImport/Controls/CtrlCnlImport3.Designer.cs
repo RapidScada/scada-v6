@@ -35,12 +35,9 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			gbCnlNums = new GroupBox();
 			btnReset = new Button();
 			btnMap = new Button();
-			numEndCnlNum = new NumericUpDown();
-			lblEndCnlNum = new Label();
 			numStartCnlNum = new NumericUpDown();
 			lblStartCnlNum = new Label();
 			gbCnlNums.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)numEndCnlNum).BeginInit();
 			((System.ComponentModel.ISupportInitialize)numStartCnlNum).BeginInit();
 			SuspendLayout();
 			// 
@@ -82,8 +79,6 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			// 
 			gbCnlNums.Controls.Add(btnReset);
 			gbCnlNums.Controls.Add(btnMap);
-			gbCnlNums.Controls.Add(numEndCnlNum);
-			gbCnlNums.Controls.Add(lblEndCnlNum);
 			gbCnlNums.Controls.Add(numStartCnlNum);
 			gbCnlNums.Controls.Add(lblStartCnlNum);
 			gbCnlNums.Location = new Point(13, 72);
@@ -97,7 +92,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			// 
 			// btnReset
 			// 
-			btnReset.Location = new Point(311, 88);
+			btnReset.Location = new Point(255, 88);
 			btnReset.Margin = new Padding(3, 4, 3, 4);
 			btnReset.Name = "btnReset";
 			btnReset.Size = new Size(86, 31);
@@ -108,7 +103,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			// 
 			// btnMap
 			// 
-			btnMap.Location = new Point(311, 49);
+			btnMap.Location = new Point(255, 49);
 			btnMap.Margin = new Padding(3, 4, 3, 4);
 			btnMap.Name = "btnMap";
 			btnMap.Size = new Size(86, 31);
@@ -117,29 +112,9 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			btnMap.UseVisualStyleBackColor = true;
 			btnMap.Click += btnMap_Click;
 			// 
-			// numEndCnlNum
-			// 
-			numEndCnlNum.Increment = new decimal(new int[] { 0, 0, 0, 0 });
-			numEndCnlNum.Location = new Point(162, 49);
-			numEndCnlNum.Margin = new Padding(3, 4, 3, 4);
-			numEndCnlNum.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
-			numEndCnlNum.Name = "numEndCnlNum";
-			numEndCnlNum.ReadOnly = true;
-			numEndCnlNum.Size = new Size(142, 27);
-			numEndCnlNum.TabIndex = 3;
-			// 
-			// lblEndCnlNum
-			// 
-			lblEndCnlNum.AutoSize = true;
-			lblEndCnlNum.Location = new Point(167, 26);
-			lblEndCnlNum.Name = "lblEndCnlNum";
-			lblEndCnlNum.Size = new Size(34, 20);
-			lblEndCnlNum.TabIndex = 2;
-			lblEndCnlNum.Text = "End";
-			// 
 			// numStartCnlNum
 			// 
-			numStartCnlNum.Location = new Point(15, 49);
+			numStartCnlNum.Location = new Point(76, 49);
 			numStartCnlNum.Margin = new Padding(3, 4, 3, 4);
 			numStartCnlNum.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
 			numStartCnlNum.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
@@ -152,7 +127,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			// lblStartCnlNum
 			// 
 			lblStartCnlNum.AutoSize = true;
-			lblStartCnlNum.Location = new Point(19, 26);
+			lblStartCnlNum.Location = new Point(76, 24);
 			lblStartCnlNum.Name = "lblStartCnlNum";
 			lblStartCnlNum.Size = new Size(40, 20);
 			lblStartCnlNum.TabIndex = 0;
@@ -168,10 +143,9 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			Controls.Add(btnImport);
 			Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
 			Name = "CtrlCnlImport3";
-			Size = new Size(428, 204);
+			Size = new Size(436, 204);
 			gbCnlNums.ResumeLayout(false);
 			gbCnlNums.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)numEndCnlNum).EndInit();
 			((System.ComponentModel.ISupportInitialize)numStartCnlNum).EndInit();
 			ResumeLayout(false);
 			PerformLayout();
@@ -185,8 +159,6 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 		private GroupBox gbCnlNums;
 		private Button btnReset;
 		private Button btnMap;
-		private NumericUpDown numEndCnlNum;
-		private Label lblEndCnlNum;
 		private NumericUpDown numStartCnlNum;
 		private Label lblStartCnlNum;
 	}

@@ -22,14 +22,14 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 		private string _adress;
 		private string _type;
 		private string _comment;
-		
-		//public bool FileSelected { get; set; } = false;
-        
 
-        /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public CtrlCnlImport3()
+		//public bool FileSelected { get; set; } = false;
+
+
+		/// <summary>
+		/// Initializes a new instance of the class.
+		/// </summary>
+		public CtrlCnlImport3()
 		{
 			InitializeComponent();
 		}
@@ -79,9 +79,9 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			{
 				//FileSelected = true;
 				string fileSelected = openFileDialog.FileName;
-				
+
 				txtPathFile.Text = fileSelected;
-				
+
 				readFile(fileSelected);
 			}
 
@@ -133,7 +133,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 
 			_mnemonique = columns[1];
 			_adress = columns[0];
-			
+
 			// DG
 			_adress = new string(_adress.SkipWhile(x => !char.IsDigit(x)).ToArray());
 
@@ -168,9 +168,9 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			{
 				_mnemonique = colums[0];
 				_adress = colums[1];
-                _adress = new string(_adress.SkipWhile(x => !char.IsDigit(x)).ToArray());
-                //setFormatType(colums[2]);
-                _comment = colums[3].Replace("\"", "");
+				_adress = new string(_adress.SkipWhile(x => !char.IsDigit(x)).ToArray());
+				//setFormatType(colums[2]);
+				_comment = colums[3].Replace("\"", "");
 
 				//add in dictionary
 
@@ -201,16 +201,16 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 				string[] splitComment = splitType[1].Split('*');
 				_comment = splitComment[0].Replace("\"", "");
 
-                //add in dictionary
+				//add in dictionary
 
-                List<string> list = new List<string>
-                {
-                    _mnemonique,
-                    _type,
-                    _comment
-                };
+				List<string> list = new List<string>
+				{
+					_mnemonique,
+					_type,
+					_comment
+				};
 
-                _dictio.Add(_adress, list);
+				_dictio.Add(_adress, list);
 				Console.WriteLine(_dictio.Count);
 			}
 		}
@@ -219,7 +219,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 		private void numStartCnlNum_ValueChanged(object sender, EventArgs e)
 		{
 			int startCnlNum = Convert.ToInt32(numStartCnlNum.Value);
-			numEndCnlNum.SetValue(startCnlNum + lastCnlCnt - 1);
+			
 		}
 
 		private void btnMap_Click(object sender, EventArgs e)
@@ -256,7 +256,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			}
 
 			numStartCnlNum.SetValue(lastStartCnlNum);
-			numEndCnlNum.SetValue(lastStartCnlNum + lastCnlCnt - 1);
+			
 		}
 		private bool CalcStartCnlNum(int cnlCnt, out int startCnlNum)
 		{
@@ -279,7 +279,6 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 
 			return startCnlNum <= ushort.MaxValue;
 		}
-
 
 	}
 
