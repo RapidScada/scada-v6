@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtWebConfigDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.ExtWebConfigLogic">
+    <Phrase key="ApplicationOptionsNode">Opciones de aplicación</Phrase>
+    <Phrase key="PluginsNode">Complementos</Phrase>
+    <Phrase key="LogsNode">Registros</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlDisplayOptions">
+    <Phrase key="gbDisplayOptions">Opciones de pantalla</Phrase>
+    <Phrase key="lblShowHeader">Mostrar encabezado de página</Phrase>
+    <Phrase key="lblShowMainMenu">Mostrar menú principal</Phrase>
+    <Phrase key="lblShowViewExplorer">Mostrar explorador de vistas</Phrase>
+    <Phrase key="lblRefreshRate">Frecuencia de actualización de datos, ms</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlGeneralOptions">
+    <Phrase key="gbGeneralOptions">Opciones generales</Phrase>
+    <Phrase key="lblDefaultCulture">Nombre cultural predeterminado</Phrase>
+    <Phrase key="lblDefaultTimeZone">Zona horaria predeterminada</Phrase>
+    <Phrase key="lblDefaultStartPage">Página de inicio predeterminada después del inicio de sesión del usuario</Phrase>
+    <Phrase key="lblEnableCommands">Habilitar comandos de telecontrol</Phrase>
+    <Phrase key="lblShareStats">Comparte estadísticas despersonalizadas con los desarrolladores</Phrase>
+    <Phrase key="lblMaxLogSize">Tamaño máximo del archivo de registro, MB</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlLoginOptions">
+    <Phrase key="gbLoginOptions">Opciones de inicio de sesión</Phrase>
+    <Phrase key="lblRequireCaptcha">Requerir captcha al iniciar sesión</Phrase>
+    <Phrase key="lblAllowRememberMe">Permitir recordar inicio de sesión</Phrase>
+    <Phrase key="lblRememberMeExpires">El inicio de sesión caduca, días</Phrase>
+    <Phrase key="lblAutoLoginUsername">Nombre de usuario para inicio de sesión automático</Phrase>
+    <Phrase key="lblAutoLoginPassword">Contraseña para inicio de sesión automático</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlPluginAssignment">
+    <Phrase key="gbPluginAssignment">Asignación de complementos</Phrase>
+    <Phrase key="lblChartFeature">Complemento para gráficos</Phrase>
+    <Phrase key="lblCommandFeature">Complemento para enviar comandos</Phrase>
+    <Phrase key="lblEventAckFeature">Complemento para el reconocimiento de eventos</Phrase>
+    <Phrase key="lblUserManagementFeature">Complemento de gestión de usuarios</Phrase>
+    <Phrase key="lblNotificationFeature">Complemento de gestión de notificaciones</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Forms.FrmApplicationOptions">
+    <Phrase key="this">Opciones de aplicación</Phrase>
+    <Phrase key="lbTabs.Items[0]">Opciones generales</Phrase>
+    <Phrase key="lbTabs.Items[1]">Opciones de conexión</Phrase>
+    <Phrase key="lbTabs.Items[2]">Opciones de inicio de sesión</Phrase>
+    <Phrase key="lbTabs.Items[3]">Opciones de pantalla</Phrase>
+    <Phrase key="lbTabs.Items[4]">Asignación de complementos</Phrase>
+    <Phrase key="ApplicationConfigTitle">Opciones de aplicación</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Forms.FrmPlugins">
+    <Phrase key="this">Complementos</Phrase>
+    <Phrase key="lblUnusedPlugins">Complementos no utilizados:</Phrase>
+    <Phrase key="btnActivate">Activar</Phrase>
+    <Phrase key="lblActivePlugins">Complementos activos:</Phrase>
+    <Phrase key="btnDeactivate">Desactivar</Phrase>
+    <Phrase key="btnMoveUp">Ascender</Phrase>
+    <Phrase key="btnMoveDown">Mover hacia abajo</Phrase>
+    <Phrase key="btnProperties">Propiedades</Phrase>
+    <Phrase key="btnRegister">Registro</Phrase>
+    <Phrase key="lblDescr">Descripción</Phrase>
+  </Dictionary>
+</ExtWebConfigDictionaries>

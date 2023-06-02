@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModArcBasicDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmArcDir">
+    <Phrase key="this">Directorios de archivo</Phrase>
+    <Phrase key="chkUseDefaultDir">Usar directorios predeterminados</Phrase>
+    <Phrase key="lblArcDir">Archivar en formato DAT</Phrase>
+    <Phrase key="btnBrowseArcDir">Navegar...</Phrase>
+    <Phrase key="lblArcCopyDir">Copia de archivo en formato DAT</Phrase>
+    <Phrase key="btnBrowseArcCopyDir">Navegar...</Phrase>
+    <Phrase key="btnSetToDefaultWin">Configurar para Windows</Phrase>
+    <Phrase key="btnSetToDefaultLinux">Establecer para Linux</Phrase>
+    <Phrase key="btnOK">DE ACUERDO</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicCAO">
+    <Phrase key="this">Opciones de archivo actual</Phrase>
+    <Phrase key="gbGeneralOptions">Opciones generales</Phrase>
+    <Phrase key="lblLogEnabled">Registro habilitado</Phrase>
+    <Phrase key="lblFlushPeriod">Período de descarga</Phrase>
+    <Phrase key="txtFlushPeriodUnit">Segundo</Phrase>
+    <Phrase key="gbWritingOptions">Opciones de escritura</Phrase>
+    <Phrase key="lblUseCopyDir">Escribir en el directorio de copia</Phrase>
+    <Phrase key="btnShowDir">directorios</Phrase>
+    <Phrase key="btnOK">DE ACUERDO</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicEAO">
+    <Phrase key="this">Opciones de archivo de eventos</Phrase>
+    <Phrase key="gbGeneralOptions">Opciones generales</Phrase>
+    <Phrase key="lblLogEnabled">Registro habilitado</Phrase>
+    <Phrase key="lblRetention">Periodo de retención</Phrase>
+    <Phrase key="txtRetentionUnit">Día</Phrase>
+    <Phrase key="gbWritingOptions">Opciones de escritura</Phrase>
+    <Phrase key="lblUseCopyDir">Escribir en el directorio de copia</Phrase>
+    <Phrase key="lblMaxQueueSize">Tamaño máximo de cola</Phrase>
+    <Phrase key="btnShowDir">directorios</Phrase>
+    <Phrase key="btnOK">DE ACUERDO</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicHAO">
+    <Phrase key="this">Opciones de archivo histórico</Phrase>
+    <Phrase key="gbGeneralOptions">Opciones generales</Phrase>
+    <Phrase key="lblLogEnabled">Registro habilitado</Phrase>
+    <Phrase key="lblRetention">Periodo de retención</Phrase>
+    <Phrase key="txtRetentionUnit">Day</Phrase>
+    <Phrase key="lblWriteWithPeriod">Write with period</Phrase>
+    <Phrase key="lblWritingPeriod">Writing period</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[0]">Sec</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[1]">Min</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[2]">Hour</Phrase>
+    <Phrase key="lblPullToPeriod">Pull to period</Phrase>
+    <Phrase key="txtPullToPeriodUnit">Sec</Phrase>
+    <Phrase key="gbWritingOptions">Writing Options</Phrase>
+    <Phrase key="lblUseCopyDir">Write to copy directory</Phrase>
+    <Phrase key="lblMaxQueueSize">Maximum queue size</Phrase>
+    <Phrase key="btnShowDir">Directories</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
+</ModArcBasicDictionaries>

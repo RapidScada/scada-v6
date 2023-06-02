@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgWebPageDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgWebPage.Areas.Main.Pages.Landing">
+    <Phrase key="PageTitle">Página {0}</Phrase>
+    <Phrase key="UrlIsEmpty">No se puede redirigir porque la URL está vacía</Phrase>
+  </Dictionary>
+</PlgWebPageDictionaries>

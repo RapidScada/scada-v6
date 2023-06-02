@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvCnlBasicDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.BasicChannelView">
+    <Phrase key="ChannelTypeNotFound">Tipo de canal de comunicación no encontrado.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmSerialPortChannelOptions">
+    <Phrase key="this">Opciones de puerto serie</Phrase>
+    <Phrase key="gbPort">Puerto serial</Phrase>
+    <Phrase key="lblPortName">Nombre del puerto</Phrase>
+    <Phrase key="lblBaudRate">Tasa de baudios</Phrase>
+    <Phrase key="lblDataBits">Bits de datos</Phrase>
+    <Phrase key="lblParity">Paridad</Phrase>
+    <Phrase key="cbParity.Items[0]">Ninguno</Phrase>
+    <Phrase key="cbParity.Items[1]">Extraño</Phrase>
+    <Phrase key="cbParity.Items[2]">Incluso</Phrase>
+    <Phrase key="cbParity.Items[3]">Marca</Phrase>
+    <Phrase key="cbParity.Items[4]">Espacio</Phrase>
+    <Phrase key="lblStopBits">Bits de parada</Phrase>
+    <Phrase key="lblDtrEnable">DTR</Phrase>
+    <Phrase key="lblRtsEnable">RTS</Phrase>
+    <Phrase key="gbMode">Modo operativo</Phrase>
+    <Phrase key="lblBehavior">Comportamiento</Phrase>
+    <Phrase key="cbBehavior.Items[0]">Maestro</Phrase>
+    <Phrase key="cbBehavior.Items[1]">Esclavo</Phrase>
+    <Phrase key="btnOK">DE ACUERDO</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpClientChannelOptions">
+    <Phrase key="this">Opciones de cliente TCP</Phrase>
+    <Phrase key="gbMode">Modo operativo</Phrase>
+    <Phrase key="lblBehavior">Comportamiento</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Maestro: el comunicador envía una solicitud a un dispositivo y recibe una respuesta.&#13;&#10;Esclavo: el comunicador espera de forma pasiva los datos de un dispositivo.</Phrase>
+    <Phrase key="lblConnectionMode">Modo de conexión</Phrase>
+    <Phrase key="cbConnectionMode.Items[0]">Individual</Phrase>
+    <Phrase key="cbConnectionMode.Items[1]">Compartido</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">Individual: Communicator establece una conexión TCP individual con cada dispositivo.&#13;&#10;Compartido: Communicator establece una única conexión compartida para todos los dispositivos de la línea de comunicación&#13;&#10;utilizando la dirección IP remota especificada.&#13;&#10;Se utiliza una conexión compartida,  por ejemplo, si los dispositivos están conectados a través de una puerta de enlace Ethernet-Serie.</Phrase>
+    <Phrase key="gbConnection">Conexión</Phrase>
+    <Phrase key="lblHost">Servidor remoto</Phrase>
+    <Phrase key="pbHostHint.ToolTip">Nombre DNS remoto o dirección IP en caso de utilizar una conexión compartida.</Phrase>
+    <Phrase key="lblTcpPort">Puerto TCP remoto</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">En el modo de conexión individual, se utiliza como puerto TCP predeterminado si no se especifica ningún puerto para un dispositivo.&#13;&#10;En el modo de conexión compartida, el parámetro es obligatorio.&#13;&#10;El puerto 502 es el puerto Modbus TCP predeterminado.</Phrase>
+    <Phrase key="lblReconnectAfter">Reconectar, segundo</Phrase>
+    <Phrase key="pbReconnectAfterHint.ToolTip">Especifica el intervalo de tiempo para volver a conectarse después de un intento fallido.</Phrase>
+    <Phrase key="lblStayConnected">Mantente conectado</Phrase>
+    <Phrase key="pbStayConnectedHint.ToolTip">Si se establece, la conexión está activa entre sesiones de comunicación.&#13;&#10;De lo contrario, la conexión finaliza después de cada sesión.</Phrase>
+    <Phrase key="btnOK">DE ACUERDO</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+    <Phrase key="HostRequired">Se requiere host remoto.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpServerChannelOptions">
+    <Phrase key="this">Opciones del servidor TCP</Phrase>
+    <Phrase key="gbMode">Modo operativo</Phrase>
+    <Phrase key="lblBehavior">Comportamiento</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Maestro: después de establecer la conexión, Communicator envía una solicitud a un dispositivo y recibe una respuesta.&#13;&#10;Esclavo: Communicator espera de forma pasiva los datos de un dispositivo.</Phrase>
+    <Phrase key="lblConnectionMode">Modo de conexión</Phrase>
+    <Phrase key="cbConnectionMode.Items[0]">Individual</Phrase>
+    <Phrase key="cbConnectionMode.Items[1]">Compartido</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">Individual: Communicator establece una conexión TCP individual con cada dispositivo.&#13;&#10;Compartido: Communicator establece una única conexión compartida para todos los dispositivos de la línea de comunicación.&#13;&#10;La conexión compartida se utiliza, por ejemplo, si los dispositivos están conectados a través de  una puerta de enlace Ethernet-serie.</Phrase>
+    <Phrase key="lblDeviceMapping">Mapeo de dispositivos</Phrase>
+    <Phrase key="cbDeviceMapping.Items[0]">Por dirección IP</Phrase>
+    <Phrase key="cbDeviceMapping.Items[1]">por paquete hola</Phrase>
+    <Phrase key="cbDeviceMapping.Items[2]">Conductor determinado</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">El método para vincular una nueva conexión entrante a un dispositivo:&#13;&#10;Por dirección IP: la dirección IP remota equivale a una dirección de cadena de dispositivo.&#13;&#10;Por paquete de saludo: un primer paquete recibido de un dispositivo contiene la dirección de cadena.&lt;  br/&gt;Determinado por el controlador: el algoritmo se implementa en el controlador del dispositivo.</Phrase>
+    <Phrase key="gbConnection">Conexión</Phrase>
+    <Phrase key="lblTcpPort">Puerto TCP local</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">Puerto TCP local para conexiones entrantes.&#13;&#10;Un cortafuegos debe permitir las conexiones entrantes.</Phrase>
+    <Phrase key="lblClientLifetime">Tiempo de vida inactivo, seg.</Phrase>
+    <Phrase key="pbClientLifetimeHint.ToolTip">El tiempo después del cual se desconecta un cliente inactivo.</Phrase>
+    <Phrase key="btnOK">DE ACUERDO</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmUdpChannelOptions">
+    <Phrase key="this">Opciones UDP</Phrase>
+    <Phrase key="gbMode">Modo operativo</Phrase>
+    <Phrase key="lblBehavior">Comportamiento</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Maestro: el comunicador envía una solicitud a un dispositivo y recibe una respuesta.&#13;&#10;Esclavo: el comunicador espera de forma pasiva los datos de un dispositivo.</Phrase>
+    <Phrase key="lblDeviceMapping">Mapeo de dispositivos</Phrase>
+    <Phrase key="cbDeviceMapping.Items[0]">Por dirección IP</Phrase>
+    <Phrase key="cbDeviceMapping.Items[1]">Conductor determinado</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">El método para vincular una nueva conexión entrante a un dispositivo:&#13;&#10;Por dirección IP: la dirección IP remota equivale a una dirección de cadena de dispositivo.&#13;&#10;Determinado por el controlador: el algoritmo se implementa en el controlador del dispositivo.</Phrase>
+    <Phrase key="gbConnection">Conexión</Phrase>
+    <Phrase key="lblLocalUdpPort">Puerto UDP local</Phrase>
+    <Phrase key="pbLocalUdpPortHint.ToolTip">Puerto UDP local para conexiones entrantes.&#13;&#10;Un cortafuegos debe permitir las conexiones entrantes.</Phrase>
+    <Phrase key="lblRemoteUdpPort">Puerto UDP remoto</Phrase>
+    <Phrase key="pbRemoteUdpPortHint.ToolTip">El puerto UDP remoto predeterminado.  Lo mismo para todos los dispositivos de la línea de comunicación.</Phrase>
+    <Phrase key="lblRemoteIpAddress">Dirección IP remota</Phrase>
+    <Phrase key="pbRemoteIpAddressHint.ToolTip">La dirección IP remota predeterminada.&#13;&#10;Se puede usar, por ejemplo, si los dispositivos están conectados a través de una puerta de enlace serie Ethernet.</Phrase>
+    <Phrase key="btnOK">DE ACUERDO</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+</DrvCnlBasicDictionaries>
