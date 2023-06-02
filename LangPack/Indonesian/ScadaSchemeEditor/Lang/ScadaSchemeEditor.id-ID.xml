@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaSchemeEditorDictionaries>
+  <Dictionary key="Scada.Scheme.Editor.Editor">
+    <Phrase key="EditorTitle">Editor Skema</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FrmMain">
+    <Phrase key="miFile">&amp;Mengajukan</Phrase>
+    <Phrase key="miFileNew">Baru</Phrase>
+    <Phrase key="miFileOpen">Membuka...</Phrase>
+    <Phrase key="miFileSave">Menyimpan</Phrase>
+    <Phrase key="miFileSaveAs">Simpan Sebagai...</Phrase>
+    <Phrase key="miFileOpenBrowser">Buka Peramban</Phrase>
+    <Phrase key="miFileImport">Impor...</Phrase>
+    <Phrase key="miFileExit">KELUAR</Phrase>
+    <Phrase key="miEdit">&amp;Edit</Phrase>
+    <Phrase key="miEditCut">Memotong</Phrase>
+    <Phrase key="miEditCopy">Menyalin</Phrase>
+    <Phrase key="miEditPaste">Tempel</Phrase>
+    <Phrase key="miEditPasteSpecial">Tempel Spesial...</Phrase>
+    <Phrase key="miEditUndo">Membuka</Phrase>
+    <Phrase key="miEditRedo">Mengulangi</Phrase>
+    <Phrase key="miEditPointer">Penunjuk</Phrase>
+    <Phrase key="miEditDelete">Menghapus</Phrase>
+    <Phrase key="miTools">&amp;Peralatan</Phrase>
+    <Phrase key="miToolsOptions">Pilihan...</Phrase>
+    <Phrase key="miHelp">&amp;Membantu</Phrase>
+    <Phrase key="miHelpAbout">About</Phrase>
+    <Phrase key="btnFileNew.ToolTip">Skema baru (Ctrl+N)</Phrase>
+    <Phrase key="btnFileOpen.ToolTip">Buka skema (Ctrl+O)</Phrase>
+    <Phrase key="btnFileSave.ToolTip">Simpan skema (Ctrl+S)</Phrase>
+    <Phrase key="miFileSaveAs2">Simpan Sebagai...</Phrase>
+    <Phrase key="btnFileOpenBrowser.ToolTip">Buka tab browser baru</Phrase>
+    <Phrase key="btnEditCut.ToolTip">Potong komponen skema (Ctrl+X)</Phrase>
+    <Phrase key="btnEditCopy.ToolTip">Salin komponen skema (Ctrl+C)</Phrase>
+    <Phrase key="btnEditPaste.ToolTip">Tempel komponen skema (Ctrl+V)</Phrase>
+    <Phrase key="btnEditUndo.ToolTip">Urungkan (Ctrl+Z)</Phrase>
+    <Phrase key="btnEditRedo.ToolTip">Ulangi (Ctrl+Y)</Phrase>
+    <Phrase key="btnSchemePointer.ToolTip">Batal menambahkan komponen (Esc)</Phrase>
+    <Phrase key="btnSchemeDelete.ToolTip">Hapus komponen yang dipilih (Del)</Phrase>
+    <Phrase key="pageComponents">Komponen</Phrase>
+    <Phrase key="pageProperties">Properti</Phrase>
+    <Phrase key="lvgStandard">Standar</Phrase>
+    <Phrase key="lvCompTypes.Items[0]">Penunjuk</Phrase>
+    <Phrase key="lvCompTypes.Items[1]">Teks Statis</Phrase>
+    <Phrase key="lvCompTypes.Items[2]">Teks Dinamis</Phrase>
+    <Phrase key="lvCompTypes.Items[3]">Gambar Statis</Phrase>
+    <Phrase key="lvCompTypes.Items[4]">Gambar Dinamis</Phrase>
+    <Phrase key="CloseSecondInstance">Editor Skema sudah dimulai.
+Instance kedua akan ditutup.</Phrase>
+    <Phrase key="FailedToStartEditor">Gagal memulai Scada Editor.
+Lihat detailnya di
+{0}</Phrase>
+    <Phrase key="OpenBrowserError">Galat membuka browser</Phrase>
+    <Phrase key="PointerItem">Penunjuk</Phrase>
+    <Phrase key="SchemeFileFilter">Schemes (*.sch)|*.sch|All Files (*.*)|*.*</Phrase>
+    <Phrase key="SaveSchemeConfirm">Skema telah dimodifikasi.  Simpan perubahannya?</Phrase>
+    <Phrase key="RestartNeeded">Perubahan pengaturan akan berlaku setelah memulai ulang aplikasi.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FrmPasteSpecial">
+    <Phrase key="this">Tempel Spesial</Phrase>
+    <Phrase key="lblInCnlOffset">Tingkatkan nomor saluran masukan sebesar</Phrase>
+    <Phrase key="lblCtrlCnlOffset">Tingkatkan nomor saluran keluaran sebesar</Phrase>
+    <Phrase key="btnPaste">Tempel</Phrase>
+    <Phrase key="btnCancel">Membatalkan</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FrmSettings">
+    <Phrase key="this">Pilihan</Phrase>
+    <Phrase key="lblWebDir">Direktori aplikasi web</Phrase>
+    <Phrase key="gbBrowser">Peramban</Phrase>
+    <Phrase key="rbDefault">Bawaan</Phrase>
+    <Phrase key="rbChrome">Chrome</Phrase>
+    <Phrase key="rbFirefox">Firefox</Phrase>
+    <Phrase key="btnOK">OKE</Phrase>
+    <Phrase key="btnCancel">Membatalkan</Phrase>
+    <Phrase key="WebDirNotExists">Direktori aplikasi web tidak ada.</Phrase>
+    <Phrase key="ChooseWebDir">Pilih direktori aplikasi web</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FormState">
+    <Phrase key="LoadFormStateError">Terjadi kesalahan saat memuat status formulir</Phrase>
+    <Phrase key="SaveFormStateError">Terjadi error saat menyimpan status formulir</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.Js">
+    <Phrase key="UnableLoadScheme">Tidak dapat mengunggah skema ke halaman web.</Phrase>
+    <Phrase key="PageNotValid">Halaman web tidak lagi aktual.  Disarankan untuk menutupnya.</Phrase>
+    <Phrase key="DataError">Kesalahan memproses data.</Phrase>
+    <Phrase key="EditorClosed">Editor Skema mungkin ditutup.  Disarankan untuk menutup halaman web.</Phrase>
+    <Phrase key="BrowserOutdated">Browser Anda kedaluwarsa.  Perbarui ke browser modern.</Phrase>
+  </Dictionary>
+</ScadaSchemeEditorDictionaries>
