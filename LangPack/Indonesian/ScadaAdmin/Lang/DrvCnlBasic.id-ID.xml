@@ -29,27 +29,20 @@
     <Phrase key="this">Opsi Klien TCP</Phrase>
     <Phrase key="gbMode">Mode Operasi</Phrase>
     <Phrase key="lblBehavior">Perilaku</Phrase>
-    <Phrase key="pbBehaviorHint.ToolTip">Master - Communicator mengirim permintaan ke perangkat dan menerima jawaban.
-Slave - Communicator secara pasif menunggu data dari perangkat.</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master - Communicator mengirim permintaan ke perangkat dan menerima jawaban.&#13;&#10;Slave - Communicator secara pasif menunggu data dari perangkat.</Phrase>
     <Phrase key="lblConnectionMode">Mode koneksi</Phrase>
     <Phrase key="cbConnectionMode.Items[0]">Individu</Phrase>
     <Phrase key="cbConnectionMode.Items[1]">Bersama</Phrase>
-    <Phrase key="pbConnectionModeHint.ToolTip">Individual - Communicator membuat koneksi TCP individual dengan setiap perangkat.
-Bersama - Communicator membuat koneksi bersama tunggal untuk semua perangkat jalur komunikasi
-menggunakan alamat IP remote yang ditentukan.
-Koneksi bersama digunakan, misalnya jika perangkat terhubung melalui gateway Ethernet-Serial.</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">Individual - Communicator membuat koneksi TCP individual dengan setiap perangkat.&#13;&#10;Bersama - Communicator membuat koneksi bersama tunggal untuk semua perangkat jalur komunikasi&#13;&#10;menggunakan alamat IP remote yang ditentukan.&#13;&#10;Koneksi bersama digunakan, misalnya jika perangkat terhubung melalui gateway Ethernet-Serial.</Phrase>
     <Phrase key="gbConnection">Koneksi</Phrase>
     <Phrase key="lblHost">Host remote</Phrase>
     <Phrase key="pbHostHint.ToolTip">Nama DNS remote atau alamat IP jika menggunakan koneksi bersama.</Phrase>
     <Phrase key="lblTcpPort">Port TCP remote</Phrase>
-    <Phrase key="pbTcpPortHint.ToolTip">Dalam mode koneksi individual, ini digunakan sebagai port TCP default jika tidak ada port yang ditentukan untuk perangkat.
-Dalam mode koneksi bersama, parameter diperlukan.
-Port 502 adalah port Modbus TCP default.</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">Dalam mode koneksi individual, ini digunakan sebagai port TCP default jika tidak ada port yang ditentukan untuk perangkat.&#13;&#10;Dalam mode koneksi bersama, parameter diperlukan.&#13;&#10;Port 502 adalah port Modbus TCP default.</Phrase>
     <Phrase key="lblReconnectAfter">Sambungkan kembali, detik</Phrase>
     <Phrase key="pbReconnectAfterHint.ToolTip">Menentukan interval waktu untuk menyambung kembali setelah upaya yang gagal.</Phrase>
     <Phrase key="lblStayConnected">Tetap terhubung</Phrase>
-    <Phrase key="pbStayConnectedHint.ToolTip">Jika disetel, koneksi akan aktif di antara sesi komunikasi.
-Jika tidak, koneksi akan dihentikan setelah setiap sesi.</Phrase>
+    <Phrase key="pbStayConnectedHint.ToolTip">Jika disetel, koneksi akan aktif di antara sesi komunikasi.&#13;&#10;Jika tidak, koneksi akan dihentikan setelah setiap sesi.</Phrase>
     <Phrase key="lblDisconnectOnError">Oke</Phrase>
     <Phrase key="pbDisconnectOnError.ToolTip">Batal</Phrase>
     <Phrase key="btnOK">Host remote diperlukan.</Phrase>
@@ -60,26 +53,19 @@ Jika tidak, koneksi akan dihentikan setelah setiap sesi.</Phrase>
     <Phrase key="this">Opsi Server TCP</Phrase>
     <Phrase key="gbMode">Mode Operasi</Phrase>
     <Phrase key="lblBehavior">Perilaku</Phrase>
-    <Phrase key="pbBehaviorHint.ToolTip">Master - setelah membuat koneksi, Communicator mengirim permintaan ke perangkat dan menerima jawaban.
-Slave - Communicator secara pasif menunggu data dari perangkat.</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master - setelah membuat koneksi, Communicator mengirim permintaan ke perangkat dan menerima jawaban.&#13;&#10;Slave - Communicator secara pasif menunggu data dari perangkat.</Phrase>
     <Phrase key="lblConnectionMode">Mode koneksi</Phrase>
     <Phrase key="cbConnectionMode.Items[0]">Individu</Phrase>
     <Phrase key="cbConnectionMode.Items[1]">Bersama</Phrase>
-    <Phrase key="pbConnectionModeHint.ToolTip">Individual - Communicator membuat koneksi TCP individual dengan setiap perangkat.
-Bersama - Communicator membuat satu koneksi bersama untuk semua perangkat jalur komunikasi.
-Koneksi bersama digunakan, misalnya jika perangkat terhubung melalui  gateway Ethernet-Serial.</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">Individual - Communicator membuat koneksi TCP individual dengan setiap perangkat.&#13;&#10;Bersama - Communicator membuat satu koneksi bersama untuk semua perangkat jalur komunikasi.&#13;&#10;Koneksi bersama digunakan, misalnya jika perangkat terhubung melalui  gateway Ethernet-Serial.</Phrase>
     <Phrase key="lblDeviceMapping">Pemetaan perangkat</Phrase>
     <Phrase key="cbDeviceMapping.Items[0]">Berdasarkan alamat IP</Phrase>
     <Phrase key="cbDeviceMapping.Items[1]">Berdasarkan paket hello</Phrase>
     <Phrase key="cbDeviceMapping.Items[2]">Ditentukan pengendali </Phrase>
-    <Phrase key="pbDeviceMappingHint.ToolTip">Metode mengikat koneksi masuk baru ke perangkat:
-Berdasarkan alamat IP - alamat IP remote sama dengan alamat string perangkat.
-Dengan paket hello - paket pertama yang diterima dari perangkat berisi alamat string.
-Ditentukan pengendali - algoritma diimplementasikan dalam driver perangkat.</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">Metode mengikat koneksi masuk baru ke perangkat:&#13;&#10;Berdasarkan alamat IP - alamat IP remote sama dengan alamat string perangkat.&#13;&#10;Dengan paket hello - paket pertama yang diterima dari perangkat berisi alamat string.&#13;&#10;Ditentukan pengendali - algoritma diimplementasikan dalam driver perangkat.</Phrase>
     <Phrase key="gbConnection">Koneksi</Phrase>
     <Phrase key="lblTcpPort">Port TCP lokal</Phrase>
-    <Phrase key="pbTcpPortHint.ToolTip">Port TCP lokal untuk koneksi masuk.
-Koneksi masuk harus diizinkan oleh Firewall.</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">Port TCP lokal untuk koneksi masuk.&#13;&#10;Koneksi masuk harus diizinkan oleh Firewall.</Phrase>
     <Phrase key="lblClientLifetime">Umur tidak aktif, detik</Phrase>
     <Phrase key="pbClientLifetimeHint.ToolTip">Waktu setelah klien tidak aktif terputus.</Phrase>
     <Phrase key="btnOK">Oke</Phrase>
@@ -89,23 +75,18 @@ Koneksi masuk harus diizinkan oleh Firewall.</Phrase>
     <Phrase key="this">Opsi UDP</Phrase>
     <Phrase key="gbMode">Mode Operasi</Phrase>
     <Phrase key="lblBehavior">Perilaku</Phrase>
-    <Phrase key="pbBehaviorHint.ToolTip">Master - Communicator mengirim permintaan ke perangkat dan menerima jawaban.
-Slave - Communicator secara pasif menunggu data dari perangkat.</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master - Communicator mengirim permintaan ke perangkat dan menerima jawaban.&#13;&#10;Slave - Communicator secara pasif menunggu data dari perangkat.</Phrase>
     <Phrase key="lblDeviceMapping">Pemetaan perangkat</Phrase>
     <Phrase key="cbDeviceMapping.Items[0]">Berdasarkan alamat IP</Phrase>
     <Phrase key="cbDeviceMapping.Items[1]">Pengendali ditentukan</Phrase>
-    <Phrase key="pbDeviceMappingHint.ToolTip">Metode mengikat koneksi masuk baru ke perangkat:
-Berdasarkan alamat IP - alamat IP remote sama dengan alamat string perangkat.
-Ditentukan pengendali - algoritme diimplementasikan di pengendali perangkat.</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">Metode mengikat koneksi masuk baru ke perangkat:&#13;&#10;Berdasarkan alamat IP - alamat IP remote sama dengan alamat string perangkat.&#13;&#10;Ditentukan pengendali - algoritme diimplementasikan di pengendali perangkat.</Phrase>
     <Phrase key="gbConnection">Koneksi</Phrase>
     <Phrase key="lblLocalUdpPort">Port UDP lokal</Phrase>
-    <Phrase key="pbLocalUdpPortHint.ToolTip">Port UDP lokal untuk koneksi masuk.
-Koneksi masuk harus diizinkan oleh Firewall.</Phrase>
+    <Phrase key="pbLocalUdpPortHint.ToolTip">Port UDP lokal untuk koneksi masuk.&#13;&#10;Koneksi masuk harus diizinkan oleh Firewall.</Phrase>
     <Phrase key="lblRemoteUdpPort">Port UDP remote</Phrase>
     <Phrase key="pbRemoteUdpPortHint.ToolTip">Port UDP remote sama untuk semua perangkat jalur komunikasi.</Phrase>
     <Phrase key="lblRemoteIpAddress">Alamat IP remote</Phrase>
-    <Phrase key="pbRemoteIpAddressHint.ToolTip">Alamat IP remote default.
-Ini dapat digunakan, misalnya jika perangkat terhubung melalui gateway Ethernet-Serial.</Phrase>
+    <Phrase key="pbRemoteIpAddressHint.ToolTip">Alamat IP remote default.&#13;&#10;Ini dapat digunakan, misalnya jika perangkat terhubung melalui gateway Ethernet-Serial.</Phrase>
     <Phrase key="btnOK">Oke</Phrase>
     <Phrase key="btnCancel">Batal</Phrase>
   </Dictionary>
