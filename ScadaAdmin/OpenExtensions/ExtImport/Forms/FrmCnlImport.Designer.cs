@@ -148,7 +148,7 @@
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;
             Text = "Import Channels";
-            Load += FrmCnlCreate_Load;
+            Load += FrmCnlImport_Load;
             ResumeLayout(false);
         }
 

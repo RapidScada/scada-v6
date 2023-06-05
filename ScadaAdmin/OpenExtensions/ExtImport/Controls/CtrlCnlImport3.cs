@@ -16,19 +16,20 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 		public CtrlCnlImport4 ctrlCnlImport4 { get; set; }
 		private System.Windows.Forms.OpenFileDialog openFileDialog1;
 		public Dictionary<string, List<string>> _dictio = new Dictionary<string, List<string>>();
-
+		private int lastStartCnlNum;        // the last calculated start channel number
+		private int lastCnlCnt;             // the last specified number of channels
 		private string _mnemonique;
 		private string _adress;
 		private string _type;
 		private string _comment;
-		
-		//public bool FileSelected { get; set; } = false;
-        
 
-        /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public CtrlCnlImport3()
+		//public bool FileSelected { get; set; } = false;
+
+
+		/// <summary>
+		/// Initializes a new instance of the class.
+		/// </summary>
+		public CtrlCnlImport3()
 		{
 			InitializeComponent();
 		}
@@ -41,7 +42,8 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
 			this.project = project ?? throw new ArgumentNullException(nameof(project));
 			openFileDialog1 = new OpenFileDialog();
-
+			lastStartCnlNum = 1;
+			lastCnlCnt = 0;
 		}
 
 		/// <summary>
@@ -49,10 +51,10 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 		/// </summary>
 		public void SetFocus()
 		{
-			// set focus to a specific control, ( a Button)
+			numStartCnlNum.Select();
 		}
 		public event PropertyChangedEventHandler PropertyChanged;
-
+		public int StartCnlNum => Convert.ToInt32(numStartCnlNum.Value);
 		private bool _fileSelected = false;
 		public bool FileSelected
 		{
@@ -66,15 +68,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 				}
 			}
 		}
-		/// <summary>
-		/// Imports channels based on user input.
-		/// </summary>
-		public void ImportChannels()
-		{
-			// Implement the import functionality based on user input
-			// You may need to access controls in the designer file
-		}
-		public void ImportProject() { }
+
 
 		private void btnImport_Click(object sender, EventArgs e)
 		{
@@ -85,9 +79,9 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			{
 				//FileSelected = true;
 				string fileSelected = openFileDialog.FileName;
-				
+
 				txtPathFile.Text = fileSelected;
-				
+
 				readFile(fileSelected);
 			}
 
@@ -139,7 +133,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 
 			_mnemonique = columns[1];
 			_adress = columns[0];
-			
+
 			// DG
 			_adress = new string(_adress.SkipWhile(x => !char.IsDigit(x)).ToArray());
 
@@ -174,9 +168,9 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			{
 				_mnemonique = colums[0];
 				_adress = colums[1];
-                _adress = new string(_adress.SkipWhile(x => !char.IsDigit(x)).ToArray());
-                //setFormatType(colums[2]);
-                _comment = colums[3].Replace("\"", "");
+				_adress = new string(_adress.SkipWhile(x => !char.IsDigit(x)).ToArray());
+				//setFormatType(colums[2]);
+				_comment = colums[3].Replace("\"", "");
 
 				//add in dictionary
 
@@ -207,40 +201,86 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 				string[] splitComment = splitType[1].Split('*');
 				_comment = splitComment[0].Replace("\"", "");
 
-                //add in dictionary
+				//add in dictionary
 
-                List<string> list = new List<string>
-                {
-                    _mnemonique,
-                    _type,
-                    _comment
-                };
+				List<string> list = new List<string>
+				{
+					_mnemonique,
+					_type,
+					_comment
+				};
 
-                _dictio.Add(_adress, list);
+				_dictio.Add(_adress, list);
 				Console.WriteLine(_dictio.Count);
 			}
 		}
 
-		//private void setFormatType(string type)
-		//{
-		//	switch (type)
-		//	{
-		//		case "DWORD":
-		//			_type = "Double";
-		//			break;
-		//		case "WORD":
-		//			_type = "Integer";
-		//			break;
-		//		default:
-		//			break;
-		//	}
-		//}
 
-		private void label1_Click(object sender, EventArgs e)
+		private void numStartCnlNum_ValueChanged(object sender, EventArgs e)
 		{
+			int startCnlNum = Convert.ToInt32(numStartCnlNum.Value);
+			
+		}
+
+		private void btnMap_Click(object sender, EventArgs e)
+		{
+			// send message to generate map
+			adminContext.MessageToExtensions(new MessageEventArgs
+			{
+				Message = KnownExtensionMessage.GenerateChannelMap,
+				Arguments = new Dictionary<string, object> { { "GroupByDevices", true } }
+			});
+		}
+
+		private void btnReset_Click(object sender, EventArgs e)
+		{
+			if (lastStartCnlNum > 0)
+				numStartCnlNum.SetValue(lastStartCnlNum);
 
 		}
-  }
+		public void ResetCnlNums(int cnlCnt)
+		{
+			lastStartCnlNum = 1;
+			lastCnlCnt = cnlCnt;
+
+			if (cnlCnt > 0)
+			{
+				gbCnlNums.Enabled = true;
+
+				if (CalcStartCnlNum(cnlCnt, out int startCnlNum))
+					lastStartCnlNum = startCnlNum;
+			}
+			else
+			{
+				gbCnlNums.Enabled = false;
+			}
+
+			numStartCnlNum.SetValue(lastStartCnlNum);
+			
+		}
+		private bool CalcStartCnlNum(int cnlCnt, out int startCnlNum)
+		{
+			ChannelNumberingOptions options = adminContext.AppConfig.ChannelNumberingOptions;
+			startCnlNum = options.Multiplicity + options.Shift;
+			int prevCnlNum = 0;
+
+			foreach (int cnlNum in project.ConfigDatabase.CnlTable.EnumerateKeys())
+			{
+				if (prevCnlNum < startCnlNum && startCnlNum <= cnlNum)
+				{
+					if (startCnlNum + cnlCnt + options.Gap <= cnlNum)
+						return true;
+					else
+						startCnlNum += options.Multiplicity;
+				}
+
+				prevCnlNum = cnlNum;
+			}
+
+			return startCnlNum <= ushort.MaxValue;
+		}
+
+	}
 
 
 }
