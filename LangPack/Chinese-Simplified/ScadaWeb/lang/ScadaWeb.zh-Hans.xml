@@ -1,107 +1,107 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ScadaWebDictionaries>
   <Dictionary key="Scada.Web">
-    <Phrase key="CorrectErrors">请改正下面的错误：</Phrase>
-    <Phrase key="ClientError">与服务器通信时出错</Phrase>
+    <Phrase key="CorrectErrors">请修正下面的错误：</Phrase>
+    <Phrase key="ClientError">与server通信时发生错误</Phrase>
     <Phrase key="UnknownUsername">未知</Phrase>
-    <Phrase key="AccessDenied">拒绝访问</Phrase>
+    <Phrase key="AccessDenied">访问受限</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Code.ViewLoader">
-    <Phrase key="ViewNotSpecified">未指定请求的视图。</Phrase>
+    <Phrase key="ViewNotSpecified">请求的视图未指定。</Phrase>
     <Phrase key="ViewNotExists">请求的视图不存在。</Phrase>
     <Phrase key="InsufficientViewRights">视图的访问权限不足。</Phrase>
     <Phrase key="UnableResolveViewSpec">无法解析视图规范。</Phrase>
     <Phrase key="UnableLoadView">无法加载视图。</Phrase>
-    <Phrase key="ViewMissingFromCache">缓存中缺少视图。</Phrase>
+    <Phrase key="ViewMissingFromCache">缓冲区视图数据丢失。</Phrase>
     <Phrase key="ViewUndefined">视图未定义。</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Shared._MainLayout">
     <Phrase key="spanMenuBtn_ToolTip">显示/隐藏菜单</Phrase>
     <Phrase key="spanNotifBtn_ToolTip">显示/隐藏通知</Phrase>
     <Phrase key="spanProfileBtn_ToolTip">用户资料</Phrase>
-    <Phrase key="spanLogoutBtn">登出</Phrase>
-    <Phrase key="spanLogoutBtn_ToolTip">登出</Phrase>
+    <Phrase key="spanLogoutBtn">退出</Phrase>
+    <Phrase key="spanLogoutBtn_ToolTip">退出</Phrase>
     <Phrase key="spanFullscreenBtn_ToolTip">全屏</Phrase>
-    <Phrase key="spanExitFullscreenBtn_ToolTip">普通视图</Phrase>
+    <Phrase key="spanExitFullscreenBtn_ToolTip">常规视图</Phrase>
     <Phrase key="divMainMenuTab">主菜单</Phrase>
-    <Phrase key="divViewExplorerTab">观点</Phrase>
+    <Phrase key="divViewExplorerTab">视图</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Shared._MainLayout.Modal">
-    <Phrase key="Ok">好的</Phrase>
-    <Phrase key="Yes">是的</Phrase>
-    <Phrase key="No">不</Phrase>
+    <Phrase key="Ok">确定</Phrase>
+    <Phrase key="Yes">是</Phrase>
+    <Phrase key="No">否</Phrase>
     <Phrase key="Execute">执行</Phrase>
     <Phrase key="Cancel">取消</Phrase>
     <Phrase key="Close">关闭</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Shared._MainLayout.NotifPanel">
-    <Phrase key="NoNotif">没有通知</Phrase>
-    <Phrase key="Mute">沉默的</Phrase>
+    <Phrase key="NoNotif">无通知</Phrase>
+    <Phrase key="Mute">静音</Phrase>
     <Phrase key="Unmute">取消静音</Phrase>
-    <Phrase key="AckAll">全部确认</Phrase>
+    <Phrase key="AckAll">确认所有</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.About">
     <Phrase key="PageTitle">关于</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.AccessDenied">
-    <Phrase key="PageTitle">拒绝访问</Phrase>
-    <Phrase key="ErrorMessage">您没有足够的权限访问所请求的资源。</Phrase>
+    <Phrase key="PageTitle">访问受限</Phrase>
+    <Phrase key="ErrorMessage">您没有足够的权限访问请求的资源。</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.CnlSelect">
-    <Phrase key="PageTitle">选择频道</Phrase>
-    <Phrase key="lblObj">目的</Phrase>
-    <Phrase key="lblOnlySelected">仅显示选定的频道</Phrase>
-    <Phrase key="SelectObjectItem">-- 选择对象 --</Phrase>
-    <Phrase key="FilterRequired">请指定过滤器。</Phrase>
-    <Phrase key="NoChannels">没有符合过滤器的频道。</Phrase>
+    <Phrase key="PageTitle">选择通道</Phrase>
+    <Phrase key="lblObj">对象</Phrase>
+    <Phrase key="lblOnlySelected">只显示选择的通道</Phrase>
+    <Phrase key="SelectObjectItem">-- 选择一个对象 --</Phrase>
+    <Phrase key="FilterRequired">请指定一个过滤器</Phrase>
+    <Phrase key="NoChannels">没有通道匹配过滤器</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Error">
     <Phrase key="PageTitle">错误</Phrase>
-    <Phrase key="ErrorMessage">处理您的请求时发生错误。</Phrase>
+    <Phrase key="ErrorMessage">处理请求时发生错误。</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Login">
     <Phrase key="PageTitle">登录</Phrase>
-    <Phrase key="NotReady">应用程序尚未准备好。 稍后再试。</Phrase>
-    <Phrase key="InvalidCaptcha">保护代码无效。</Phrase>
+    <Phrase key="NotReady">应用未准备好，请稍后再试。</Phrase>
+    <Phrase key="InvalidCaptcha">验证码无效</Phrase>
     <Phrase key="lblUsername">用户名</Phrase>
     <Phrase key="lblPassword">密码</Phrase>
-    <Phrase key="lblCaptcha">保护码</Phrase>
-    <Phrase key="lblRememberMe">记住账号</Phrase>
+    <Phrase key="lblCaptcha">验证码</Phrase>
+    <Phrase key="lblRememberMe">记住我</Phrase>
     <Phrase key="btnLogin">登录</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Reports">
     <Phrase key="PageTitle">报告</Phrase>
-    <Phrase key="NoReports">没有可用的报告。</Phrase>
+    <Phrase key="NoReports">无可用报表。</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.UserProfile">
     <Phrase key="PageTitle">用户资料</Phrase>
-    <Phrase key="lblUserID">用户身份：</Phrase>
+    <Phrase key="lblUserID">用户编号：</Phrase>
     <Phrase key="lblUsername">用户名：</Phrase>
     <Phrase key="lblRole">角色：</Phrase>
     <Phrase key="lblTimeZone">时区：</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.View">
-    <Phrase key="PageTitle">看法</Phrase>
+    <Phrase key="PageTitle">视图</Phrase>
     <Phrase key="divHideDataWindowBtn_ToolTip">隐藏数据窗口</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.ViewFrame">
-    <Phrase key="PageTitle">看法</Phrase>
+    <Phrase key="PageTitle">视图</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins">
-    <Phrase key="LoadPluginConfigError">加载插件配置时出错</Phrase>
-    <Phrase key="SavePluginConfigError">保存插件配置时出错</Phrase>
-    <Phrase key="CnlNotFound">找不到频道 {0}。</Phrase>
-    <Phrase key="CnlNotOutput">通道 {0} 不是输出。</Phrase>
+    <Phrase key="LoadPluginConfigError">加载插件配置时发生错误</Phrase>
+    <Phrase key="SavePluginConfigError">保存插件配置时发生错误</Phrase>
+    <Phrase key="CnlNotFound">通道 {0} 未发现。</Phrase>
+    <Phrase key="CnlNotOutput">通道 {0} 不是输出通道。</Phrase>
     <Phrase key="CommandsDisabled">命令已禁用。</Phrase>
-    <Phrase key="SendCommand">通过 {1} 向频道 {0} 发送命令</Phrase>
-    <Phrase key="ActionNotAllowed">不允许操作。</Phrase>
+    <Phrase key="SendCommand">{1} 发送命令至通道 {0}</Phrase>
+    <Phrase key="ActionNotAllowed">操作不允许</Phrase>
     <Phrase key="ViewTitle">查看{0}</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.TreeView.MenuItem">
     <Phrase key="ReportsMenuItem">报告</Phrase>
-    <Phrase key="AdministrationMenuItem">行政</Phrase>
+    <Phrase key="AdministrationMenuItem">管理</Phrase>
     <Phrase key="ConfigurationMenuItem">配置</Phrase>
-    <Phrase key="RegistrationMenuItem">登记</Phrase>
+    <Phrase key="RegistrationMenuItem">注册</Phrase>
     <Phrase key="PluginsMenuItem">插件</Phrase>
     <Phrase key="AboutMenuItem">关于</Phrase>
   </Dictionary>

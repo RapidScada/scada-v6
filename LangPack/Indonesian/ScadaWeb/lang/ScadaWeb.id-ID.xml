@@ -1,57 +1,57 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ScadaWebDictionaries>
   <Dictionary key="Scada.Web">
-    <Phrase key="CorrectErrors">Harap perbaiki kesalahan berikut:</Phrase>
-    <Phrase key="ClientError">Kesalahan berkomunikasi dengan server</Phrase>
+    <Phrase key="CorrectErrors">Mohon perbaiki kesalahan-kesalahan berikut:</Phrase>
+    <Phrase key="ClientError">Terjadi kesalahan saat berkomunikasi dengan server</Phrase>
     <Phrase key="UnknownUsername">Tidak dikenal</Phrase>
     <Phrase key="AccessDenied">Akses ditolak</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Code.ViewLoader">
     <Phrase key="ViewNotSpecified">Tampilan yang diminta tidak ditentukan.</Phrase>
     <Phrase key="ViewNotExists">Tampilan yang diminta tidak ada.</Phrase>
-    <Phrase key="InsufficientViewRights">Hak akses tidak cukup untuk tampilan.</Phrase>
+    <Phrase key="InsufficientViewRights">Hak akses tidak memadai untuk tampilan.</Phrase>
     <Phrase key="UnableResolveViewSpec">Tidak dapat menyelesaikan spesifikasi tampilan.</Phrase>
     <Phrase key="UnableLoadView">Tidak dapat memuat tampilan.</Phrase>
-    <Phrase key="ViewMissingFromCache">Tampilan hilang dari cache.</Phrase>
+    <Phrase key="ViewMissingFromCache">Tampilan hilang dari tembolok.</Phrase>
     <Phrase key="ViewUndefined">Tampilan tidak ditentukan.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Shared._MainLayout">
     <Phrase key="spanMenuBtn_ToolTip">Tampilkan/Sembunyikan Menu</Phrase>
     <Phrase key="spanNotifBtn_ToolTip">Tampilkan/Sembunyikan Notifikasi</Phrase>
-    <Phrase key="spanProfileBtn_ToolTip">Profil pengguna</Phrase>
+    <Phrase key="spanProfileBtn_ToolTip">Profil Pengguna</Phrase>
     <Phrase key="spanLogoutBtn">Keluar</Phrase>
     <Phrase key="spanLogoutBtn_ToolTip">Keluar</Phrase>
-    <Phrase key="spanFullscreenBtn_ToolTip">Layar penuh</Phrase>
+    <Phrase key="spanFullscreenBtn_ToolTip">Layar Penuh</Phrase>
     <Phrase key="spanExitFullscreenBtn_ToolTip">Tampilan Normal</Phrase>
-    <Phrase key="divMainMenuTab">Menu utama</Phrase>
+    <Phrase key="divMainMenuTab">Menu Utama</Phrase>
     <Phrase key="divViewExplorerTab">Tampilan</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Shared._MainLayout.Modal">
-    <Phrase key="Ok">OKE</Phrase>
+    <Phrase key="Ok">Oke</Phrase>
     <Phrase key="Yes">Ya</Phrase>
-    <Phrase key="No">TIDAK</Phrase>
-    <Phrase key="Execute">Menjalankan</Phrase>
-    <Phrase key="Cancel">Membatalkan</Phrase>
-    <Phrase key="Close">Menutup</Phrase>
+    <Phrase key="No">Tidak</Phrase>
+    <Phrase key="Execute">Jalankan</Phrase>
+    <Phrase key="Cancel">Batal</Phrase>
+    <Phrase key="Close">Tutup</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Shared._MainLayout.NotifPanel">
     <Phrase key="NoNotif">Tidak ada pemberitahuan</Phrase>
-    <Phrase key="Mute">Bisu</Phrase>
-    <Phrase key="Unmute">Membunyikan</Phrase>
+    <Phrase key="Mute">Bisukan</Phrase>
+    <Phrase key="Unmute">Bunyikan</Phrase>
     <Phrase key="AckAll">Akui Semua</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.About">
     <Phrase key="PageTitle">Tentang</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.AccessDenied">
-    <Phrase key="PageTitle">Akses ditolak</Phrase>
-    <Phrase key="ErrorMessage">Anda tidak memiliki cukup hak untuk mengakses sumber daya yang diminta.</Phrase>
+    <Phrase key="PageTitle">Akses Ditolak</Phrase>
+    <Phrase key="ErrorMessage">Anda tidak memiliki hak yang cukup untuk mengakses sumber daya yang diminta.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.CnlSelect">
     <Phrase key="PageTitle">Pilih Saluran</Phrase>
     <Phrase key="lblObj">Obyek</Phrase>
-    <Phrase key="lblOnlySelected">Hanya tampilkan saluran yang dipilih</Phrase>
-    <Phrase key="SelectObjectItem">-- Pilih objek --</Phrase>
+    <Phrase key="lblOnlySelected">Tampilkan hanya saluran yang dipilih</Phrase>
+    <Phrase key="SelectObjectItem">-- Pilih obyek --</Phrase>
     <Phrase key="FilterRequired">Harap tentukan filter.</Phrase>
     <Phrase key="NoChannels">Tidak ada saluran yang cocok dengan filter.</Phrase>
   </Dictionary>
@@ -60,14 +60,14 @@
     <Phrase key="ErrorMessage">Kesalahan terjadi saat memproses permintaan Anda.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Login">
-    <Phrase key="PageTitle">Gabung</Phrase>
-    <Phrase key="NotReady">Aplikasi belum siap.  Coba lagi nanti.</Phrase>
+    <Phrase key="PageTitle">Masuk</Phrase>
+    <Phrase key="NotReady">Aplikasi belum siap. Coba lagi nanti.</Phrase>
     <Phrase key="InvalidCaptcha">Kode perlindungan tidak valid.</Phrase>
-    <Phrase key="lblUsername">Nama belakang</Phrase>
+    <Phrase key="lblUsername">Nama pengguna</Phrase>
     <Phrase key="lblPassword">Kata sandi</Phrase>
     <Phrase key="lblCaptcha">Kode perlindungan</Phrase>
     <Phrase key="lblRememberMe">Ingat saya</Phrase>
-    <Phrase key="btnLogin">Gabung</Phrase>
+    <Phrase key="btnLogin">Masuk</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Reports">
     <Phrase key="PageTitle">Laporan</Phrase>
@@ -76,20 +76,20 @@
   <Dictionary key="Scada.Web.Pages.UserProfile">
     <Phrase key="PageTitle">Profil pengguna</Phrase>
     <Phrase key="lblUserID">Identitas pengguna:</Phrase>
-    <Phrase key="lblUsername">Nama belakang:</Phrase>
+    <Phrase key="lblUsername">Nama pengguna:</Phrase>
     <Phrase key="lblRole">Peran:</Phrase>
     <Phrase key="lblTimeZone">Zona waktu:</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.View">
-    <Phrase key="PageTitle">Melihat</Phrase>
+    <Phrase key="PageTitle">Tampilan</Phrase>
     <Phrase key="divHideDataWindowBtn_ToolTip">Sembunyikan Jendela Data</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.ViewFrame">
-    <Phrase key="PageTitle">Melihat</Phrase>
+    <Phrase key="PageTitle">Tampilan</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins">
-    <Phrase key="LoadPluginConfigError">Kesalahan memuat konfigurasi plugin</Phrase>
-    <Phrase key="SavePluginConfigError">Kesalahan menyimpan konfigurasi plugin</Phrase>
+    <Phrase key="LoadPluginConfigError">Kesalahan saat memuat konfigurasi plugin</Phrase>
+    <Phrase key="SavePluginConfigError">Kesalahan saat menyimpan konfigurasi plugin</Phrase>
     <Phrase key="CnlNotFound">Saluran {0} tidak ditemukan.</Phrase>
     <Phrase key="CnlNotOutput">Saluran {0} bukan keluaran.</Phrase>
     <Phrase key="CommandsDisabled">Perintah dinonaktifkan.</Phrase>
