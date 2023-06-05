@@ -6,6 +6,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 
 namespace Scada.Admin.Extensions.ExtImport.Controls
 {
@@ -94,8 +95,9 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 				{
 					int count = 0;
 					bool isPL7 = false;
+                    _dictio.Clear();
 
-					while (!sr.EndOfStream)
+                    while (!sr.EndOfStream)
 					{
 						if (count == 0)
 						{
@@ -130,12 +132,12 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 		private void readTxtPL7(string l)
 		{
 			string[] columns = l.Split('\t');
+            _mnemonique = columns[1];
+            _adress = columns[0];
 
-			_mnemonique = columns[1];
-			_adress = columns[0];
-
-			// DG
-			_adress = new string(_adress.SkipWhile(x => !char.IsDigit(x)).ToArray());
+			string prefix = Regex.Split(_adress, @"[0-9]").First(); //Regex.Replace(_adress, @"[^0-9]", "");
+            // DG
+            _adress = new string(_adress.SkipWhile(x => !char.IsDigit(x)).ToArray());
 
 			//setFormatType(columns[2]);
 			_comment = columns[3].Replace("\"", "");
@@ -145,14 +147,15 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			List<string> list = new List<string>();
 			list.Add(_mnemonique);
 			list.Add(columns[2]);
-			list.Add(_comment);
+            list.Add(_comment);
+            list.Add(prefix);
 
-			_dictio.Add(_adress, list);
+            _dictio.Add(_adress, list);
 		}
 
 		private void readTxtControlExpert(string l)
-		{
-			string[] colums = l.Split("\t");
+        {
+            string[] colums = l.Split("\t");
 
 			bool isAVar = true;
 
@@ -171,22 +174,24 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 				_adress = new string(_adress.SkipWhile(x => !char.IsDigit(x)).ToArray());
 				//setFormatType(colums[2]);
 				_comment = colums[3].Replace("\"", "");
+                string prefix = Regex.Split(_adress, @"[0-9]").First();
 
-				//add in dictionary
+                //add in dictionary
 
-				List<string> list = new List<string>();
+                List<string> list = new List<string>();
 				list.Add(_mnemonique);
 				list.Add(colums[2]);
 				list.Add(_comment);
+                list.Add(prefix);
 
-				if (!_dictio.ContainsKey(_adress))
+                if (!_dictio.ContainsKey(_adress))
 					_dictio.Add(_adress, list);
 			}
 		}
 
 		private void readSCYPL7(string l)
-		{
-			string[] splitInTwo = l.Split(" AT ");
+        {
+            string[] splitInTwo = l.Split(" AT ");
 
 			if (splitInTwo.Length >= 2)
 			{
@@ -201,13 +206,15 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 				string[] splitComment = splitType[1].Split('*');
 				_comment = splitComment[0].Replace("\"", "");
 
-				//add in dictionary
+                string prefix = Regex.Split(_adress, @"[0-9]").First();
 
-				List<string> list = new List<string>
+                //add in dictionary
+                List<string> list = new List<string>
 				{
 					_mnemonique,
 					_type,
-					_comment
+					_comment,
+					prefix,
 				};
 
 				_dictio.Add(_adress, list);

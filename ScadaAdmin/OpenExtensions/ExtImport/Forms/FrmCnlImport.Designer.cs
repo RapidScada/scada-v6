@@ -45,7 +45,7 @@
             lblStep.Dock = DockStyle.Top;
             lblStep.Location = new Point(0, 0);
             lblStep.Name = "lblStep";
-            lblStep.Size = new Size(384, 30);
+            lblStep.Size = new Size(445, 30);
             lblStep.TabIndex = 0;
             lblStep.Text = "Step 1 of 3: Step description";
             lblStep.TextAlign = ContentAlignment.MiddleCenter;
@@ -76,7 +76,7 @@
             CtrlCnlImport3.Location = new Point(12, 33);
             CtrlCnlImport3.Margin = new Padding(3, 4, 3, 4);
             CtrlCnlImport3.Name = "CtrlCnlImport3";
-            CtrlCnlImport3.Size = new Size(360, 160);
+            CtrlCnlImport3.Size = new Size(421, 160);
             CtrlCnlImport3.TabIndex = 3;
             // 
             // CtrlCnlImport4
@@ -132,7 +132,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = btnCancel;
-            ClientSize = new Size(384, 284);
+            ClientSize = new Size(445, 284);
             Controls.Add(btnCancel);
             Controls.Add(btnCreate);
             Controls.Add(btnNext);

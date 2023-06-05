@@ -81,18 +81,18 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                     btnCreate.Enabled = true;//CtrlCnlImport3.FileSelected;
                     btnBack.Visible = true;
 
-					if (CtrlCnlImport1.StatusOK)//remplace by file selection check :CtrlCnlImport3.FileSelected
-					{
-						CtrlCnlImport3.ResetCnlNums(CtrlCnlImport1.CnlPrototypes.Count);
-						btnCreate.Enabled = true;
-					}
-					else
-					{
-						btnCreate.Enabled = false;
-					}
-					// ctrlCnlImport3.DeviceName = ctrlCnlImport1.SelectedDevice?.Name;
-					// ctrlCnlImport3.SetFocus();
-					break;
+                    if (CtrlCnlImport1.StatusOK)//remplace by file selection check :CtrlCnlImport3.FileSelected
+                    {
+                        CtrlCnlImport3.ResetCnlNums(CtrlCnlImport1.CnlPrototypes.Count);
+                        btnCreate.Enabled = true;
+                    }
+                    else
+                    {
+                        btnCreate.Enabled = false;
+                    }
+                    // ctrlCnlImport3.DeviceName = ctrlCnlImport1.SelectedDevice?.Name;
+                    // ctrlCnlImport3.SetFocus();
+                    break;
             }
         }
         //A supprimé
@@ -139,7 +139,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             return cnls;
         }
 
-    
+
         private void FrmCnlImport_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
@@ -179,29 +179,29 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 
         private void btnCreate_Click(object sender, EventArgs e)
         {
-			
-			if (CtrlCnlImport1.StatusOK)
-			{
 
-				int? objNum = CtrlCnlImport2.ObjNum;
-				int deviceNum = CtrlCnlImport1.SelectedDevice.DeviceNum;
+            if (CtrlCnlImport1.StatusOK)
+            {
 
-				Dictionary<string, object> deviceInfoDict = new Dictionary<string, object>();
-				deviceInfoDict.Add("cnlNum", CtrlCnlImport3.StartCnlNum);
-				deviceInfoDict.Add("deviceName", CtrlCnlImport1.SelectedDevice.Name);
-				deviceInfoDict.Add("objNum", objNum);
-				deviceInfoDict.Add("deviceNum", deviceNum);
-				deviceInfoDict.Add("Prototypes", CtrlCnlImport1.CnlPrototypes);
+                int? objNum = CtrlCnlImport2.ObjNum;
+                int deviceNum = CtrlCnlImport1.SelectedDevice.DeviceNum;
+
+                Dictionary<string, object> deviceInfoDict = new Dictionary<string, object>();
+                deviceInfoDict.Add("cnlNum", CtrlCnlImport3.StartCnlNum);
+                deviceInfoDict.Add("deviceName", CtrlCnlImport1.SelectedDevice.Name);
+                deviceInfoDict.Add("objNum", objNum);
+                deviceInfoDict.Add("deviceNum", deviceNum);
+                deviceInfoDict.Add("Prototypes", CtrlCnlImport1.CnlPrototypes);
 
 
-				//remove cnls
-				if (new FrmCnlMerge(project, deviceInfoDict, CtrlCnlImport3._dictio, CtrlCnlImport3).ShowDialog() == DialogResult.OK)
-				{
+                //remove cnls
+                if (new FrmCnlMerge(project, deviceInfoDict, CtrlCnlImport3._dictio, CtrlCnlImport3).ShowDialog() == DialogResult.OK)
+                {
 
-					DialogResult = DialogResult.OK;
-				}
-			}
-		}
+                    DialogResult = DialogResult.OK;
+                }
+            }
+        }
     }
 }
 

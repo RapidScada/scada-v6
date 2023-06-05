@@ -548,26 +548,33 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             DeviceTemplate template = new DeviceTemplate();
 
             ElemGroupConfig newElemenGroup = new ElemGroupConfig();
-            int previousTagCode = 0;
+
+            Dictionary<int, string> dataTypes = new Dictionary<int, string>();
+            dataTypes = project.ConfigDatabase.DataTypeTable.ToDictionary(x => x.DataTypeID, x => x.Name);
+            string previousPrefix = "";
+            ElemType previousType = ElemType.Undefined;
             for (int index = 0; index < dico.Count; index++)
             {
                 List<string> entry = dico.ElementAt(index).Value;
-                int intTagCode = int.Parse(Regex.Split(dico.ElementAt(index).Key, @"[^0-9]").Last());
-                if (index == 0 || (previousTagCode != intTagCode - 1 && previousTagCode != intTagCode - 2))
+                var prefix = dictio[dico.ElementAt(index).Key][3] ?? "";
+                ElemConfig newElem = new ElemConfig();
+                string newType = elemTypeDico.Keys.Contains(entry[1]) ? entry[1] : cnlDataType.FirstOrDefault(t => t.Value == dataTypes.FirstOrDefault(dt => dt.Value == entry[1]).Key).Key;
+                newElem.ElemType = elemTypeDico.Keys.Contains(newType) ? elemTypeDico[newType] : ElemType.Undefined;
+                newElem.ByteOrder = newElem.ElemType == ElemType.UShort ? "01" : "0123";
+                newElem.Name = entry[0];
+                newElem.TagCode = dico.ElementAt(index).Key;
+                newElemenGroup.DataBlock = DataBlock.HoldingRegisters;
+                if (index == 0 || prefix != previousPrefix || newElem.ElemType != previousType || (prefix == "%MW" && newElemenGroup.Elems.Count ==125) || (prefix == "%M" && newElemenGroup.Elems.Count == 2000))
                 {
                     if (index > 0)
                     {
                         template.ElemGroups.Add(newElemenGroup);
                     }
                     newElemenGroup = new ElemGroupConfig();
-                    newElemenGroup.Address = int.Parse(Regex.Replace(dico.ElementAt(index).Key, @"[^0-9]", "")) - 1;
+                    newElemenGroup.Address = int.Parse(Regex.Replace(dico.ElementAt(index).Key, @"[^0-9]", ""));
                 }
-                previousTagCode = intTagCode;
-                ElemConfig newElem = new ElemConfig();
-                newElem.Name = entry[0];
-                newElem.TagCode = dico.ElementAt(index).Key;
-                newElem.ElemType = elemTypeDico.Keys.Contains(entry[1]) ? elemTypeDico[entry[1]] : ElemType.Undefined;
-                newElemenGroup.DataBlock = DataBlock.InputRegisters;
+                previousPrefix = prefix;
+                previousType = newElem.ElemType;
                 newElemenGroup.Elems.Add(newElem);
             }
             template.ElemGroups.Add(newElemenGroup);
