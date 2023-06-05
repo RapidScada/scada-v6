@@ -2,4 +2,4 @@ Language                 : German
 Culture name:            : de-DE
 Rapid SCADA version      : 6.1.2
 Rapid SCADA applications : All
-Author                   : Automation
+Author                   : Machine translate
