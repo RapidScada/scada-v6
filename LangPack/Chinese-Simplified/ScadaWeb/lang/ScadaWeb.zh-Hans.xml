@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ScadaWebDictionaries>
+<ScadaWebDictionaries culture="zh-Hans" lang="ChineseSimplified">
   <Dictionary key="Scada.Web">
     <Phrase key="CorrectErrors">请修正下面的错误：</Phrase>
     <Phrase key="ClientError">与server通信时发生错误</Phrase>

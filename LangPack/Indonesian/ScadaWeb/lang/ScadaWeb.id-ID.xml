@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ScadaWebDictionaries>
+<ScadaWebDictionaries culture="id-ID" lang="Indonesian">
   <Dictionary key="Scada.Web">
     <Phrase key="CorrectErrors">Mohon perbaiki kesalahan-kesalahan berikut:</Phrase>
     <Phrase key="ClientError">Terjadi kesalahan saat berkomunikasi dengan server</Phrase>

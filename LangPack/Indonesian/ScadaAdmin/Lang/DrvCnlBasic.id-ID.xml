@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<DrvCnlBasicDictionaries>
+<DrvCnlBasicDictionaries culture="id-ID" lang="Indonesian">
   <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.BasicChannelView">
     <Phrase key="ChannelTypeNotFound">Jenis saluran komunikasi tidak ditemukan.</Phrase>
   </Dictionary>
@@ -43,11 +43,11 @@
     <Phrase key="pbReconnectAfterHint.ToolTip">Menentukan interval waktu untuk menyambung kembali setelah upaya yang gagal.</Phrase>
     <Phrase key="lblStayConnected">Tetap terhubung</Phrase>
     <Phrase key="pbStayConnectedHint.ToolTip">Jika disetel, koneksi akan aktif di antara sesi komunikasi.&#13;&#10;Jika tidak, koneksi akan dihentikan setelah setiap sesi.</Phrase>
-    <Phrase key="lblDisconnectOnError">Oke</Phrase>
-    <Phrase key="pbDisconnectOnError.ToolTip">Batal</Phrase>
-    <Phrase key="btnOK">Host remote diperlukan.</Phrase>
-    <Phrase key="btnCancel">Membatalkan</Phrase>
-    <Phrase key="HostRequired">Host jarak jauh diperlukan.</Phrase>
+    <Phrase key="lblDisconnectOnError">Putuskan sambungan karena kesalahan</Phrase>
+    <Phrase key="pbDisconnectOnError.ToolTip">Menunjukkan apakah akan memutuskan sambungan jika sesi gagal.</Phrase>
+    <Phrase key="btnOK">Oke</Phrase>
+    <Phrase key="btnCancel">Batal</Phrase>
+    <Phrase key="HostRequired">Host remote diperlukan.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpServerChannelOptions">
     <Phrase key="this">Opsi Server TCP</Phrase>
