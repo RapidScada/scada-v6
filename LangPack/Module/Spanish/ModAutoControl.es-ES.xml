@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModAutoControlDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlCmdTrigger">
+    <Phrase key="gbTrigger">Parámetros de disparo</Phrase>
+    <Phrase key="chkActive">Activo</Phrase>
+    <Phrase key="lblName">Nombre</Phrase>
+    <Phrase key="lblDescr">aumenta</Phrase>
+    <Phrase key="txtDescr">al mando</Phrase>
+    <Phrase key="lblCnlNum">Canal</Phrase>
+    <Phrase key="lblCmdVal">Valor</Phrase>
+    <Phrase key="btnOff">Apagado</Phrase>
+    <Phrase key="btnOn">En</Phrase>
+    <Phrase key="lblCmdData">Datos</Phrase>
+    <Phrase key="cbCmdDataCompareOper.Items[0]">no comprobar</Phrase>
+    <Phrase key="cbCmdDataCompareOper.Items[1]">igual</Phrase>
+    <Phrase key="cbCmdDataCompareOper.Items[2]">Contiene</Phrase>
+    <Phrase key="chkTransmitCmd">Transmitir comando</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlCnlDataChangeTrigger">
+    <Phrase key="gbTrigger">Parámetros de disparo</Phrase>
+    <Phrase key="chkActive">Activo</Phrase>
+    <Phrase key="lblName">Nombre</Phrase>
+    <Phrase key="lblDescr">aumenta</Phrase>
+    <Phrase key="txtDescr">En el cambio de datos del canal</Phrase>
+    <Phrase key="lblCnlNum">Canal</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlCnlDataTrigger">
+    <Phrase key="gbTrigger">Parámetros de disparo</Phrase>
+    <Phrase key="chkActive">Activo</Phrase>
+    <Phrase key="lblName">Nombre</Phrase>
+    <Phrase key="lblDescr">aumenta</Phrase>
+    <Phrase key="txtDescr">En los datos del canal</Phrase>
+    <Phrase key="lblCnlNum">Canales</Phrase>
+    <Phrase key="lblCnlValCond">Valor</Phrase>
+    <Phrase key="lblDeadband">banda muerta</Phrase>
+    <Phrase key="lblCnlStat">Estados</Phrase>
+    <Phrase key="lblDelay">Retraso, seg</Phrase>
+    <Phrase key="lblRepeat">Repetir ciclo, seg.</Phrase>
+    <Phrase key="lblRepeatCnt">Repetir conteo</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlEvTrigger">
+    <Phrase key="gbTrigger">Parámetros de disparo</Phrase>
+    <Phrase key="chkActive">Activo</Phrase>
+    <Phrase key="lblName">Nombre</Phrase>
+    <Phrase key="lblDescr">aumenta</Phrase>
+    <Phrase key="txtDescr">en evento</Phrase>
+    <Phrase key="lblObjNum">Objeto</Phrase>
+    <Phrase key="lblDeviceNum">Dispositivo</Phrase>
+    <Phrase key="lblCnlNum">Canal</Phrase>
+    <Phrase key="lblSeverity">Gravedad (mín., máx.)</Phrase>
+    <Phrase key="lblNewCnlValCond">Nuevo valor</Phrase>
+    <Phrase key="lblNewCnlStat">Nuevo estado</Phrase>
+    <Phrase key="lblTextCompareOper">Texto</Phrase>
+    <Phrase key="cbTextCompareOper.Items[0]">no comprobar</Phrase>
+    <Phrase key="cbTextCompareOper.Items[1]">igual</Phrase>
+    <Phrase key="cbTextCompareOper.Items[2]">Contiene</Phrase>
+    <Phrase key="lblDataCompareOper">Datos</Phrase>
+    <Phrase key="cbDataCompareOper.Items[0]">no comprobar</Phrase>
+    <Phrase key="cbDataCompareOper.Items[1]">igual</Phrase>
+    <Phrase key="cbDataCompareOper.Items[2]">Contiene</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlTiggerGroup">
+    <Phrase key="gbTriggerGroup">Parámetros de grupo</Phrase>
+    <Phrase key="chkActive">Activo</Phrase>
+    <Phrase key="lblName">Nombre</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlTimeTrigger">
+    <Phrase key="gbTrigger">Parámetros de disparo</Phrase>
+    <Phrase key="chkActive">Activo</Phrase>
+    <Phrase key="lblName">Nombre</Phrase>
+    <Phrase key="lblDescr">aumenta</Phrase>
+    <Phrase key="txtDescr">A tiempo</Phrase>
+    <Phrase key="rbEveryDay">Cada día</Phrase>
+    <Phrase key="rbDaysOfWeek">Días de la semana</Phrase>
+    <Phrase key="rbDaysOfMonth">dias del mes</Phrase>
+    <Phrase key="rbDates">fechas</Phrase>
+    <Phrase key="chkSun">Sol</Phrase>
+    <Phrase key="chkMon">Lun</Phrase>
+    <Phrase key="chkTue">Mar</Phrase>
+    <Phrase key="chkWed">Casarse</Phrase>
+    <Phrase key="chkThu">Jue</Phrase>
+    <Phrase key="chkFri">Vie</Phrase>
+    <Phrase key="chkSat">Se sentó</Phrase>
+    <Phrase key="lblTimes">Tiempos de subida</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlTriggerCommand">
+    <Phrase key="gbCommand">Parámetros de comando</Phrase>
+    <Phrase key="lblCnlNum">Canal</Phrase>
+    <Phrase key="lblOr">O</Phrase>
+    <Phrase key="lblDeviceNum">Dispositivo</Phrase>
+    <Phrase key="lblCmdNum">Número de comando</Phrase>
+    <Phrase key="lblCmdCode">Código de comando</Phrase>
+    <Phrase key="lblDelay">Retraso, seg</Phrase>
+    <Phrase key="chkSendOnFiring">al disparar</Phrase>
+    <Phrase key="chkSendOnNorm">Sobre la normalización</Phrase>
+    <Phrase key="chkCopyCmdVal">Copiar valor y datos</Phrase>
+    <Phrase key="rbNumVal">Numérico</Phrase>
+    <Phrase key="rbStrData">Cadena de datos</Phrase>
+    <Phrase key="rbHexData">datos hexadecimales</Phrase>
+    <Phrase key="btnOff">Apagado</Phrase>
+    <Phrase key="btnOn">En</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmConditionEdit">
+    <Phrase key="this">Editar condición</Phrase>
+    <Phrase key="lblCompareOper1">Comparar oper.  1</Phrase>
+    <Phrase key="lblCompareArg1">Argumento 1</Phrase>
+    <Phrase key="lblLogicalOper">operacion logica</Phrase>
+    <Phrase key="cbLogicalOper.Items[0]">Ninguno</Phrase>
+    <Phrase key="cbLogicalOper.Items[1]">Y</Phrase>
+    <Phrase key="cbLogicalOper.Items[2]">O</Phrase>
+    <Phrase key="lblCompareOper2">Comparar oper.  2</Phrase>
+    <Phrase key="lblCompareArg2">Argumento 2</Phrase>
+    <Phrase key="lblResult">Resultado</Phrase>
+    <Phrase key="btnOK">DE ACUERDO</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmDateTimeAdd">
+    <Phrase key="title1">Añadir fecha</Phrase>
+    <Phrase key="title2">Agregar tiempo</Phrase>
+    <Phrase key="lblDate">Fecha</Phrase>
+    <Phrase key="lblTime">Tiempo</Phrase>
+    <Phrase key="btnAdd">Agregar</Phrase>
+    <Phrase key="btnClose">Cerca</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmDayAdd">
+    <Phrase key="this">Añadir día del mes</Phrase>
+    <Phrase key="lblDay">Día</Phrase>
+    <Phrase key="btnAdd">Agregar</Phrase>
+    <Phrase key="btnClose">Cerca</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmGeneralOptions">
+    <Phrase key="this">Opciones del módulo</Phrase>
+    <Phrase key="lblUsername">Nombre de usuario</Phrase>
+    <Phrase key="btnOK">DE ACUERDO</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmModuleConfig">
+    <Phrase key="this">Control automático</Phrase>
+    <Phrase key="btnAddTriggerGroup.ToolTip">Agregar grupo de activación</Phrase>
+    <Phrase key="btnAddCnlDataTrigger.ToolTip">Agregar disparador de datos de canal</Phrase>
+    <Phrase key="btnAddCnlDataChangeTrigger.ToolTip">Agregar disparador de cambio de datos de canal</Phrase>
+    <Phrase key="btnAddEvTrigger.ToolTip">Agregar activador de evento</Phrase>
+    <Phrase key="btnAddTimeTrigger.ToolTip">Agregar disparador de tiempo</Phrase>
+    <Phrase key="btnAddCmdTrigger.ToolTip">Agregar disparador de comando</Phrase>
+    <Phrase key="btnAddCommand.ToolTip">Añadir comando</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Ascender</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Mover hacia abajo</Phrase>
+    <Phrase key="btnDelete.ToolTip">Borrar</Phrase>
+    <Phrase key="btnCut.ToolTip">Cortar</Phrase>
+    <Phrase key="btnCopy.ToolTip">Copiar</Phrase>
+    <Phrase key="btnPaste.ToolTip">Pegar</Phrase>
+    <Phrase key="btnOptions.ToolTip">Opciones del módulo</Phrase>
+    <Phrase key="gbTriggers">disparadores</Phrase>
+    <Phrase key="lblHint">Agregar disparadores y comandos</Phrase>
+    <Phrase key="btnSave">Ahorrar</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+    <Phrase key="btnClose">Cerca</Phrase>
+    <Phrase key="miCollapseAll">Desplegar todo</Phrase>
+    <Phrase key="UnnamedGroup">&lt;Grupo sin nombre&gt;</Phrase>
+    <Phrase key="UnnamedTrigger">&lt;Disparador sin nombre&gt;</Phrase>
+    <Phrase key="CommandDescr1">Canal {0}</Phrase>
+    <Phrase key="CommandDescr2">Dispositivo {0}, comando {1}</Phrase>
+    <Phrase key="CopySuffix">- Copiar</Phrase>
+  </Dictionary>
+</ModAutoControlDictionaries>

@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvModbusSlaveDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls">
+    <Phrase key="ConfigDirRequired">Enhetsmalfilen må være plassert i {0}</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlChannelGateway">
+    <Phrase key="gbChannelGateway">Alternativer for kanalgateway</Phrase>
+    <Phrase key="btnEdit">Redigere</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlDeviceGateway">
+    <Phrase key="gbDeviceGateway">Alternativer for enhetsgateway</Phrase>
+    <Phrase key="lblTemplateFileName">Enhetsmal</Phrase>
+    <Phrase key="btnEditTemplate">Redigere</Phrase>
+    <Phrase key="btnBrowseTemplate">Bla gjennom...</Phrase>
+    <Phrase key="lblSourceDeviceNum">Datakildeenhet</Phrase>
+    <Phrase key="btnSelect">Plukke ut</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlElem">
+    <Phrase key="gbElem">Elementparametre</Phrase>
+    <Phrase key="lblChannel">Kanal</Phrase>
+    <Phrase key="lblAddress">Adresse</Phrase>
+    <Phrase key="lblAddressHint">DES, fra 0</Phrase>
+    <Phrase key="lblDataType">Data-type</Phrase>
+    <Phrase key="cbType.Items[0]">Udefinert</Phrase>
+    <Phrase key="cbType.Items[1]">ushort (2 bytes)</Phrase>
+    <Phrase key="cbType.Items[2]">short (2 bytes)</Phrase>
+    <Phrase key="cbType.Items[3]">uint (4 bytes)</Phrase>
+    <Phrase key="cbType.Items[4]">int (4 bytes)</Phrase>
+    <Phrase key="cbType.Items[5]">ulong (8 bytes)</Phrase>
+    <Phrase key="cbType.Items[6]">long (8 bytes)</Phrase>
+    <Phrase key="cbType.Items[7]">float (4 bytes)</Phrase>
+    <Phrase key="cbType.Items[8]">double (8 bytes)</Phrase>
+    <Phrase key="cbType.Items[9]">bool (1 bit)</Phrase>
+    <Phrase key="lblRatio">Forhold</Phrase>
+    <Phrase key="chkReadOnly">Lesebeskyttet</Phrase>
+    <Phrase key="ChannelNotSpecified">Kanal ikke spesifisert</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlIndependentDevice">
+    <Phrase key="gbIndependentDevice">Uavhengige enhetsalternativer</Phrase>
+    <Phrase key="lblTemplateFileName">Enhetsmal</Phrase>
+    <Phrase key="btnEditTemplate">Redigere</Phrase>
+    <Phrase key="btnBrowseTemplate">Bla gjennom...</Phrase>
+    <Phrase key="lblDataLifetime">Datagyldighetsperiode, min</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Forms.FrmChannelGatewayOptions">
+    <Phrase key="this">Alternativer for kanalgateway</Phrase>
+    <Phrase key="btnAdd">Legg til kanal</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Flytte opp</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Flytt ned</Phrase>
+    <Phrase key="btnDelete.ToolTip">Slett</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+    <Phrase key="miCollapseAll">Skjul alle</Phrase>
+    <Phrase key="gbChannelGateway">Kanaler</Phrase>
+    <Phrase key="SelectChildNode">Velg underordnet node</Phrase>
+    <Phrase key="ChannelItem">Kanal {0}</Phrase>
+    <Phrase key="DiscreteInputs">Diskrete innganger</Phrase>
+    <Phrase key="Coils">Spoler</Phrase>
+    <Phrase key="InputRegisters">Inndata registre</Phrase>
+    <Phrase key="HoldingRegisters">Holde registre</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Egenskaper for enhet {0} - Modbus Slave</Phrase>
+    <Phrase key="gbGeneralOptions">Generelle alternativer</Phrase>
+    <Phrase key="lblMode">Modus</Phrase>
+    <Phrase key="cbDevicesMode.Items[0]">Uavhengig enhet</Phrase>
+    <Phrase key="cbDevicesMode.Items[1]">Enhetsgateway</Phrase>
+    <Phrase key="cbDevicesMode.Items[2]">Kanalgateway</Phrase>
+    <Phrase key="lblUndefinedValue">Udefinert verdi</Phrase>
+    <Phrase key="btnSave">Lagre</Phrase>
+    <Phrase key="btnClose">Lukk</Phrase>
+    <Phrase key="IndependentDeviceDescription">Mottar data fra Modbus Master.</Phrase>
+    <Phrase key="DeviceGatewayDescription">Gir data om den valgte enheten til Modbus Master.</Phrase>
+    <Phrase key="ChannelGatewayDescription">Gir data for de valgte kanalene til Modbus Master.</Phrase>
+  </Dictionary>
+</DrvModbusSlaveDictionaries>

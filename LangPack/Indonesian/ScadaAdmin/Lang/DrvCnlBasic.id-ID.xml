@@ -1,110 +1,93 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<DrvCnlBasicDictionaries culture="id-ID" lang="Indonesian">
+<DrvCnlBasicDictionaries>
   <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.BasicChannelView">
     <Phrase key="ChannelTypeNotFound">Jenis saluran komunikasi tidak ditemukan.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmSerialPortChannelOptions">
-    <Phrase key="this">Opsi Port Serial</Phrase>
+    <Phrase key="this">Opsi Port Seri</Phrase>
     <Phrase key="gbPort">Port Serial</Phrase>
-    <Phrase key="lblPortName">Nama port</Phrase>
-    <Phrase key="lblBaudRate">Baud rate</Phrase>
-    <Phrase key="lblDataBits">Data bits</Phrase>
-    <Phrase key="lblParity">Parity</Phrase>
-    <Phrase key="cbParity.Items[0]">None</Phrase>
-    <Phrase key="cbParity.Items[1]">Odd</Phrase>
-    <Phrase key="cbParity.Items[2]">Even</Phrase>
-    <Phrase key="cbParity.Items[3]">Mark</Phrase>
-    <Phrase key="cbParity.Items[4]">Space</Phrase>
-    <Phrase key="lblStopBits">Stop bits</Phrase>
+    <Phrase key="lblPortName">Nama pelabuhan</Phrase>
+    <Phrase key="lblBaudRate">Tingkat Baud</Phrase>
+    <Phrase key="lblDataBits">Bit data</Phrase>
+    <Phrase key="lblParity">Keseimbangan</Phrase>
+    <Phrase key="cbParity.Items[0]">Tidak ada</Phrase>
+    <Phrase key="cbParity.Items[1]">Aneh</Phrase>
+    <Phrase key="cbParity.Items[2]">Bahkan</Phrase>
+    <Phrase key="cbParity.Items[3]">Tanda</Phrase>
+    <Phrase key="cbParity.Items[4]">Ruang angkasa</Phrase>
+    <Phrase key="lblStopBits">Hentikan sedikit</Phrase>
     <Phrase key="lblDtrEnable">DTR</Phrase>
     <Phrase key="lblRtsEnable">RTS</Phrase>
-    <Phrase key="gbMode">Mode operasi</Phrase>
+    <Phrase key="gbMode">Modus operasi</Phrase>
     <Phrase key="lblBehavior">Perilaku</Phrase>
-    <Phrase key="cbBehavior.Items[0]">Master</Phrase>
+    <Phrase key="cbBehavior.Items[0]">Menguasai</Phrase>
     <Phrase key="cbBehavior.Items[1]">Slave</Phrase>
-    <Phrase key="btnOK">Oke</Phrase>
-    <Phrase key="btnCancel">Batal</Phrase>
+    <Phrase key="btnOK">OKE</Phrase>
+    <Phrase key="btnCancel">Membatalkan</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpClientChannelOptions">
     <Phrase key="this">Opsi Klien TCP</Phrase>
-    <Phrase key="gbMode">Mode Operasi</Phrase>
+    <Phrase key="gbMode">Modus operasi</Phrase>
     <Phrase key="lblBehavior">Perilaku</Phrase>
-    <Phrase key="pbBehaviorHint.ToolTip">Master - Communicator mengirim permintaan ke perangkat dan menerima jawaban.
-Slave - Communicator secara pasif menunggu data dari perangkat.</Phrase>
-    <Phrase key="lblConnectionMode">Mode koneksi</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master - Communicator mengirim permintaan ke perangkat dan menerima jawaban.&#13;&#10;Slave - Communicator secara pasif menunggu data dari perangkat.</Phrase>
+    <Phrase key="lblConnectionMode">Modus koneksi</Phrase>
     <Phrase key="cbConnectionMode.Items[0]">Individu</Phrase>
     <Phrase key="cbConnectionMode.Items[1]">Bersama</Phrase>
-    <Phrase key="pbConnectionModeHint.ToolTip">Individual - Communicator membuat koneksi TCP individual dengan setiap perangkat.
-Bersama - Communicator membuat koneksi bersama tunggal untuk semua perangkat jalur komunikasi
-menggunakan alamat IP remote yang ditentukan.
-Koneksi bersama digunakan, misalnya jika perangkat terhubung melalui gateway Ethernet-Serial.</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">Individual - Communicator membuat koneksi TCP individual dengan setiap perangkat.&#13;&#10;Bersama - Communicator membuat satu koneksi bersama untuk semua perangkat jalur komunikasi&#13;&#10;menggunakan alamat IP jarak jauh yang ditentukan.&#13;&#10;Koneksi bersama digunakan,  misalnya, jika perangkat terhubung melalui gateway Ethernet-Serial.</Phrase>
     <Phrase key="gbConnection">Koneksi</Phrase>
-    <Phrase key="lblHost">Host remote</Phrase>
-    <Phrase key="pbHostHint.ToolTip">Nama DNS remote atau alamat IP jika menggunakan koneksi bersama.</Phrase>
-    <Phrase key="lblTcpPort">Port TCP remote</Phrase>
-    <Phrase key="pbTcpPortHint.ToolTip">Dalam mode koneksi individual, ini digunakan sebagai port TCP default jika tidak ada port yang ditentukan untuk perangkat.
-Dalam mode koneksi bersama, parameter diperlukan.
-Port 502 adalah port Modbus TCP default.</Phrase>
-    <Phrase key="lblReconnectAfter">Sambungkan kembali, detik</Phrase>
+    <Phrase key="lblHost">Tuan rumah jarak jauh</Phrase>
+    <Phrase key="pbHostHint.ToolTip">Nama DNS jarak jauh atau alamat IP jika menggunakan koneksi bersama.</Phrase>
+    <Phrase key="lblTcpPort">Port TCP jarak jauh</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">Dalam mode koneksi individual, ini digunakan sebagai port TCP default jika tidak ada port yang ditentukan untuk perangkat.&#13;&#10;Dalam mode koneksi bersama, parameter diperlukan.&#13;&#10;Port 502 adalah port Modbus TCP default.</Phrase>
+    <Phrase key="lblReconnectAfter">Hubungkan kembali, dtk</Phrase>
     <Phrase key="pbReconnectAfterHint.ToolTip">Menentukan interval waktu untuk menyambung kembali setelah upaya yang gagal.</Phrase>
     <Phrase key="lblStayConnected">Tetap terhubung</Phrase>
-    <Phrase key="pbStayConnectedHint.ToolTip">Jika disetel, koneksi akan aktif di antara sesi komunikasi.
-Jika tidak, koneksi akan dihentikan setelah setiap sesi.</Phrase>
-    <Phrase key="btnOK">Oke</Phrase>
-    <Phrase key="btnCancel">Batal</Phrase>
-    <Phrase key="HostRequired">Host remote diperlukan.</Phrase>
+    <Phrase key="pbStayConnectedHint.ToolTip">Jika disetel, sambungan akan aktif di antara sesi komunikasi.&#13;&#10;Jika tidak, sambungan akan dihentikan setelah setiap sesi.</Phrase>
+    <Phrase key="lblDisconnectOnError">Putuskan sambungan karena kesalahan</Phrase>
+    <Phrase key="pbDisconnectOnError.ToolTip">Menunjukkan apakah akan memutuskan sambungan jika sesi gagal.</Phrase>
+    <Phrase key="btnOK">OKE</Phrase>
+    <Phrase key="btnCancel">Membatalkan</Phrase>
+    <Phrase key="HostRequired">Host jarak jauh diperlukan.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpServerChannelOptions">
     <Phrase key="this">Opsi Server TCP</Phrase>
-    <Phrase key="gbMode">Mode Operasi</Phrase>
+    <Phrase key="gbMode">Modus operasi</Phrase>
     <Phrase key="lblBehavior">Perilaku</Phrase>
-    <Phrase key="pbBehaviorHint.ToolTip">Master - setelah membuat koneksi, Communicator mengirim permintaan ke perangkat dan menerima jawaban.
-Slave - Communicator secara pasif menunggu data dari perangkat.</Phrase>
-    <Phrase key="lblConnectionMode">Mode koneksi</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master - setelah membangun koneksi, Communicator mengirim permintaan ke perangkat dan menerima jawaban.&#13;&#10;Slave - Communicator secara pasif menunggu data dari perangkat.</Phrase>
+    <Phrase key="lblConnectionMode">Modus koneksi</Phrase>
     <Phrase key="cbConnectionMode.Items[0]">Individu</Phrase>
     <Phrase key="cbConnectionMode.Items[1]">Bersama</Phrase>
-    <Phrase key="pbConnectionModeHint.ToolTip">Individual - Communicator membuat koneksi TCP individual dengan setiap perangkat.
-Bersama - Communicator membuat satu koneksi bersama untuk semua perangkat jalur komunikasi.
-Koneksi bersama digunakan, misalnya jika perangkat terhubung melalui  gateway Ethernet-Serial.</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">Individu - Komunikator membuat koneksi TCP individu dengan setiap perangkat.&#13;&#10;Bersama - Komunikator membuat satu koneksi bersama untuk semua perangkat jalur komunikasi.&#13;&#10;Koneksi bersama digunakan, misalnya, jika perangkat terhubung melalui  gateway Ethernet-Serial.</Phrase>
     <Phrase key="lblDeviceMapping">Pemetaan perangkat</Phrase>
     <Phrase key="cbDeviceMapping.Items[0]">Berdasarkan alamat IP</Phrase>
-    <Phrase key="cbDeviceMapping.Items[1]">Berdasarkan paket hello</Phrase>
-    <Phrase key="cbDeviceMapping.Items[2]">Ditentukan pengendali </Phrase>
-    <Phrase key="pbDeviceMappingHint.ToolTip">Metode mengikat koneksi masuk baru ke perangkat:
-Berdasarkan alamat IP - alamat IP remote sama dengan alamat string perangkat.
-Dengan paket hello - paket pertama yang diterima dari perangkat berisi alamat string.
-Ditentukan pengendali - algoritma diimplementasikan dalam driver perangkat.</Phrase>
+    <Phrase key="cbDeviceMapping.Items[1]">Dengan halo paket</Phrase>
+    <Phrase key="cbDeviceMapping.Items[2]">Pengemudi ditentukan</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">Metode mengikat koneksi masuk baru ke perangkat:&#13;&#10;Dengan alamat IP - alamat IP jarak jauh sama dengan alamat string perangkat.&#13;&#10;Dengan paket halo - paket pertama yang diterima dari perangkat berisi alamat string.&lt;  br/&gt;Driver ditentukan - algoritma diimplementasikan pada driver perangkat.</Phrase>
     <Phrase key="gbConnection">Koneksi</Phrase>
     <Phrase key="lblTcpPort">Port TCP lokal</Phrase>
-    <Phrase key="pbTcpPortHint.ToolTip">Port TCP lokal untuk koneksi masuk.
-Koneksi masuk harus diizinkan oleh Firewall.</Phrase>
-    <Phrase key="lblClientLifetime">Umur tidak aktif, detik</Phrase>
-    <Phrase key="pbClientLifetimeHint.ToolTip">Waktu setelah klien tidak aktif terputus.</Phrase>
-    <Phrase key="btnOK">Oke</Phrase>
-    <Phrase key="btnCancel">Batal</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">Port TCP lokal untuk koneksi masuk.&#13;&#10;Koneksi masuk harus diizinkan oleh firewall.</Phrase>
+    <Phrase key="lblClientLifetime">Seumur hidup tidak aktif, dtk</Phrase>
+    <Phrase key="pbClientLifetimeHint.ToolTip">Waktu setelah klien yang tidak aktif terputus.</Phrase>
+    <Phrase key="btnOK">OKE</Phrase>
+    <Phrase key="btnCancel">Membatalkan</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmUdpChannelOptions">
     <Phrase key="this">Opsi UDP</Phrase>
-    <Phrase key="gbMode">Mode Operasi</Phrase>
+    <Phrase key="gbMode">Modus operasi</Phrase>
     <Phrase key="lblBehavior">Perilaku</Phrase>
-    <Phrase key="pbBehaviorHint.ToolTip">Master - Communicator mengirim permintaan ke perangkat dan menerima jawaban.
-Slave - Communicator secara pasif menunggu data dari perangkat.</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master - Communicator mengirim permintaan ke perangkat dan menerima jawaban.&#13;&#10;Slave - Communicator secara pasif menunggu data dari perangkat.</Phrase>
     <Phrase key="lblDeviceMapping">Pemetaan perangkat</Phrase>
     <Phrase key="cbDeviceMapping.Items[0]">Berdasarkan alamat IP</Phrase>
-    <Phrase key="cbDeviceMapping.Items[1]">Pengendali ditentukan</Phrase>
-    <Phrase key="pbDeviceMappingHint.ToolTip">Metode mengikat koneksi masuk baru ke perangkat:
-Berdasarkan alamat IP - alamat IP remote sama dengan alamat string perangkat.
-Ditentukan pengendali - algoritme diimplementasikan di pengendali perangkat.</Phrase>
+    <Phrase key="cbDeviceMapping.Items[1]">Pengemudi ditentukan</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">Metode pengikatan koneksi masuk baru ke perangkat:&#13;&#10;Dengan alamat IP - alamat IP jarak jauh sama dengan alamat rangkaian perangkat.&#13;&#10;Ditentukan driver - algoritme diterapkan di driver perangkat.</Phrase>
     <Phrase key="gbConnection">Koneksi</Phrase>
     <Phrase key="lblLocalUdpPort">Port UDP lokal</Phrase>
-    <Phrase key="pbLocalUdpPortHint.ToolTip">Port UDP lokal untuk koneksi masuk.
-Koneksi masuk harus diizinkan oleh Firewall.</Phrase>
-    <Phrase key="lblRemoteUdpPort">Port UDP remote</Phrase>
-    <Phrase key="pbRemoteUdpPortHint.ToolTip">Port UDP remote sama untuk semua perangkat jalur komunikasi.</Phrase>
-    <Phrase key="lblRemoteIpAddress">Alamat IP remote</Phrase>
-    <Phrase key="pbRemoteIpAddressHint.ToolTip">Alamat IP remote default.
-Ini dapat digunakan, misalnya jika perangkat terhubung melalui gateway Ethernet-Serial.</Phrase>
-    <Phrase key="btnOK">Oke</Phrase>
-    <Phrase key="btnCancel">Batal</Phrase>
+    <Phrase key="pbLocalUdpPortHint.ToolTip">Port UDP lokal untuk koneksi masuk.&#13;&#10;Koneksi masuk harus diizinkan oleh firewall.</Phrase>
+    <Phrase key="lblRemoteUdpPort">Port UDP jarak jauh</Phrase>
+    <Phrase key="pbRemoteUdpPortHint.ToolTip">Port UDP jarak jauh default.  Hal yang sama untuk semua perangkat jalur komunikasi.</Phrase>
+    <Phrase key="lblRemoteIpAddress">Alamat IP jarak jauh</Phrase>
+    <Phrase key="pbRemoteIpAddressHint.ToolTip">Alamat IP jarak jauh default.&#13;&#10;Ini dapat digunakan, misalnya, jika perangkat terhubung melalui gateway Ethernet-Serial.</Phrase>
+    <Phrase key="btnOK">OKE</Phrase>
+    <Phrase key="btnCancel">Membatalkan</Phrase>
   </Dictionary>
 </DrvCnlBasicDictionaries>

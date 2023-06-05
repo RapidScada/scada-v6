@@ -95,6 +95,7 @@
     <Phrase key="CommandsDisabled">Příkazy zakázány.</Phrase>
     <Phrase key="SendCommand">Odeslat příkaz kanálu {0} uživatelem {1}</Phrase>
     <Phrase key="ActionNotAllowed">Akce není povolena.</Phrase>
+    <Phrase key="ViewTitle">Zobrazit {0}</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.TreeView.MenuItem">
     <Phrase key="ReportsMenuItem">Zprávy</Phrase>

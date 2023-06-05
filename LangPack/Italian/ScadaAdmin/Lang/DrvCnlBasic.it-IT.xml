@@ -43,6 +43,8 @@
     <Phrase key="pbReconnectAfterHint.ToolTip">Specifica l'intervallo di tempo per la riconnessione dopo un tentativo non riuscito.</Phrase>
     <Phrase key="lblStayConnected">Rimani connesso</Phrase>
     <Phrase key="pbStayConnectedHint.ToolTip">Se impostato, la connessione è attiva tra le sessioni di comunicazione.&#13;&#10;In caso contrario, la connessione viene terminata dopo ogni sessione.</Phrase>
+    <Phrase key="lblDisconnectOnError">Disconnetti in caso di errore</Phrase>
+    <Phrase key="pbDisconnectOnError.ToolTip">Indica se disconnettersi se una sessione non riesce.</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Annulla</Phrase>
     <Phrase key="HostRequired">È richiesto un host remoto.</Phrase>

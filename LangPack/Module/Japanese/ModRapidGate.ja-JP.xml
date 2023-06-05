@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModRapidGateDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlArcReplication">
+    <Phrase key="gbReplicationOptions">アーカイブ複製オプション</Phrase>
+    <Phrase key="lblEnabled">有効</Phrase>
+    <Phrase key="lblLocalHistArchiveBit">地元の歴史アーカイブの一部</Phrase>
+    <Phrase key="lblLocalEventArchiveBit">ローカルイベントのアーカイブの一部</Phrase>
+    <Phrase key="lblRemoteHistArchiveBit">リモートの歴史アーカイブの一部</Phrase>
+    <Phrase key="lblRemoteEventArchiveBit">リモート イベント アーカイブの一部</Phrase>
+    <Phrase key="lblAutoUpload">自動的にアップロードする</Phrase>
+    <Phrase key="lblAutoDowload">自動的にダウンロード</Phrase>
+    <Phrase key="lblDataAvailCnlNum">データの可用性を示すチャネル</Phrase>
+    <Phrase key="lblMinDepth">最小深さ、秒</Phrase>
+    <Phrase key="lblMaxDepth">最大深度、秒</Phrase>
+    <Phrase key="lblReadingStep">読み取りステップ、秒</Phrase>
+    <Phrase key="gbUploadOptions">アップロード</Phrase>
+    <Phrase key="gbDowloadOptions">ダウンロード</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlCurDataTransfer">
+    <Phrase key="gbOptions">現在のデータ転送オプション</Phrase>
+    <Phrase key="chkEnabled">有効</Phrase>
+    <Phrase key="lblTrigger">引き金</Phrase>
+    <Phrase key="cbTrigger.Items[0]">受信時</Phrase>
+    <Phrase key="cbTrigger.Items[1]">オンタイマー</Phrase>
+    <Phrase key="lblTimePeriod">タイマー期間、秒</Phrase>
+    <Phrase key="lblAllDataPeriod">全チャンネルのデータ転送周期、秒</Phrase>
+    <Phrase key="chkUseRawData">生データを使用する（処理前のデータを転送する）</Phrase>
+    <Phrase key="chkApplyFormulas">リモートサーバーに数式を適用する</Phrase>
+    <Phrase key="chkEnableEvents">リモートサーバー上でイベントを生成する</Phrase>
+    <Phrase key="chkSkipUnchanged">変更されていないデータをスキップする</Phrase>
+    <Phrase key="chkIncludeCalculated">計算されたチャネルを含める</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlEventTransfer">
+    <Phrase key="gbOptions">イベント転送オプション</Phrase>
+    <Phrase key="chkEnabled">有効</Phrase>
+    <Phrase key="chkTransferAck">転送確認</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlGeneral">
+    <Phrase key="gbOptions">一般的なオプション</Phrase>
+    <Phrase key="chkActive">アクティブ</Phrase>
+    <Phrase key="lblGateID">ゲートID</Phrase>
+    <Phrase key="lblName">名前</Phrase>
+    <Phrase key="lblCmdCode">コマンドコード</Phrase>
+    <Phrase key="lblLocalArchiveMask">ローカルサーバーにデータを保存するためのアーカイブマスク</Phrase>
+    <Phrase key="lblDefaultArchiveMaskLocal">デフォルトのアーカイブを選択するには、-1 を設定します。</Phrase>
+    <Phrase key="lblRemoteArchiveMask">リモートサーバーにデータを送信するためのアーカイブマスク</Phrase>
+    <Phrase key="lblDefaultArchiveMaskRemote">デフォルトのアーカイブを選択するには、-1 を設定します。</Phrase>
+    <Phrase key="lblMaxQueueSize">最大キューサイズ</Phrase>
+    <Phrase key="lblDataLifetime">キュー内のデータの有効期間 (秒)</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlHistDataTransfer">
+    <Phrase key="gbOptions">履歴データ転送オプション</Phrase>
+    <Phrase key="chkEnabled">有効</Phrase>
+    <Phrase key="chkUseRawData">生データを使用する（処理前のデータを転送する）</Phrase>
+    <Phrase key="chkApplyFormulas">リモートサーバーに数式を適用する</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlInCmdTransfer">
+    <Phrase key="gbOptions">受信コマンド転送オプション</Phrase>
+    <Phrase key="chkEnabled">有効</Phrase>
+    <Phrase key="chkApplyFormulas">ローカルサーバーに数式を適用する</Phrase>
+    <Phrase key="lblPollingRate">コマンドポーリングレート、ミリ秒</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlMapping">
+    <Phrase key="gbOptions">マッピングオプション</Phrase>
+    <Phrase key="btnAddMapItem.ToolTip">マッピングの追加</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">上に移動</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">下に移動</Phrase>
+    <Phrase key="btnDel.ToolTip">消去</Phrase>
+    <Phrase key="btnEdit.ToolTip">編集</Phrase>
+    <Phrase key="colLocalIDs">ローカルID</Phrase>
+    <Phrase key="colRemoteIDs">リモートID</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlOutCmdTransfer">
+    <Phrase key="gbOptions">送信コマンド転送オプション</Phrase>
+    <Phrase key="chkEnabled">有効</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Forms.FrmIdMapping">
+    <Phrase key="this">IDマッピング</Phrase>
+    <Phrase key="lblRange">IDマッピング</Phrase>
+    <Phrase key="lblParamLocal">ローカルID</Phrase>
+    <Phrase key="lblParamRemote">リモートID</Phrase>
+    <Phrase key="lblExample">例: 1 ～ 5、10</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Forms.FrmModuleConfig">
+    <Phrase key="this">ラピッドゲート</Phrase>
+    <Phrase key="btnAdd.ToolTip">ゲートの追加</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">上に移動</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">下に移動</Phrase>
+    <Phrase key="btnDelete.ToolTip">消去</Phrase>
+    <Phrase key="btnCut.ToolTip">切る</Phrase>
+    <Phrase key="btnCopy.ToolTip">コピー</Phrase>
+    <Phrase key="btnPaste.ToolTip">ペースト</Phrase>
+    <Phrase key="gbGates">ゲイツ</Phrase>
+    <Phrase key="lblHint">ゲートの追加</Phrase>
+    <Phrase key="btnSave">保存</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+    <Phrase key="btnClose">近い</Phrase>
+    <Phrase key="miCollapseAll">すべて折りたたむ</Phrase>
+    <Phrase key="CopySuffix">- コピー</Phrase>
+    <Phrase key="GeneralOptionsNode">一般的なオプション</Phrase>
+    <Phrase key="ConnectionOptionsNode">接続オプション</Phrase>
+    <Phrase key="MappingOptionsNode">マッピングオプション</Phrase>
+    <Phrase key="ChannelMappingNode">チャンネルマッピングオプション</Phrase>
+    <Phrase key="UserMappingNode">ユーザーマッピングオプション</Phrase>
+    <Phrase key="TransferOptionsNode">転送オプション</Phrase>
+    <Phrase key="CurDataTransferOptionsNode">現在のデータ</Phrase>
+    <Phrase key="HistDataTransferOptionsNode">歴史的なデータ</Phrase>
+    <Phrase key="EventTransferOptionsNode">イベント</Phrase>
+    <Phrase key="InCmdTransferOptionsNode">受信コマンド</Phrase>
+    <Phrase key="OutCmdTransferOptionsNode">送信されるコマンド</Phrase>
+    <Phrase key="ArcReplicationOptionsNode">アーカイブレプリケーション</Phrase>
+    <Phrase key="GateName">ゲート{0}</Phrase>
+    <Phrase key="GateNameNotUnique">ゲート名は一意である必要があります。</Phrase>
+    <Phrase key="GateNameEmpty">ゲートの名前を空にすることはできません。</Phrase>
+    <Phrase key="AddGates">ゲートを追加する</Phrase>
+    <Phrase key="SelectChildNode">子ノードの選択</Phrase>
+    <Phrase key="ArchiveText">アーカイブ ビット {0}</Phrase>
+  </Dictionary>
+</ModRapidGateDictionaries>

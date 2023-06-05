@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgElasticReportDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgElasticReport.Areas.ElasticReport.Pages.ReportArgsModel">
+    <Phrase key="PageTitle">Esnek Rapor</Phrase>
+    <Phrase key="ReportNotFound">{0} kimlikli rapor, eklenti yapılandırmasında bulunamadı.</Phrase>
+    <Phrase key="LoadInputOptionsError">Rapor giriş seçenekleri yüklenirken hata oluştu.</Phrase>
+    <Phrase key="lblSingleDate">Tarih</Phrase>
+    <Phrase key="lblSingleMonth">Ay</Phrase>
+    <Phrase key="lblStartTime">İtibaren</Phrase>
+    <Phrase key="lblEndTime">İle</Phrase>
+    <Phrase key="lblArchive">Arşiv</Phrase>
+    <Phrase key="lblCnlNums">Kanallar</Phrase>
+    <Phrase key="btnSelectCnls">Seçme...</Phrase>
+    <Phrase key="lblFormat">Çıkış biçimi</Phrase>
+    <Phrase key="lblPdf">PDF</Phrase>
+    <Phrase key="lblXlsx">Excel</Phrase>
+    <Phrase key="lblHtml">HTML</Phrase>
+    <Phrase key="btnGenerateReport">Raporu İndir</Phrase>
+    <Phrase key="divWaitHint">Rapor oluşturuluyor.  Lütfen bekleyin...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgElasticReport.Areas.ElasticReport.Pages.ReportArgsModel.Js">
+    <Phrase key="InvalidPeriod">Başlangıç ​​tarihi, bitiş tarihinden küçük veya ona eşit olmalıdır.</Phrase>
+    <Phrase key="PeriodTooLong">Maksimum süre uzunluğu {0} gündür.</Phrase>
+    <Phrase key="InvalidChannels">Geçersiz kanal numaraları.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgElasticReport.Builder">
+    <Phrase key="HeadingFormat1">{0}, {1}</Phrase>
+    <Phrase key="HeadingFormat2">{0}, {1} - {2}</Phrase>
+    <Phrase key="InfoFormat">Oluşturuldu: {0}.  Saat dilimi: {1}.  Arşiv: {2}</Phrase>
+    <Phrase key="CnlCaption">Kanallar:</Phrase>
+    <Phrase key="DateTimeCol">Tarih ve saat</Phrase>
+    <Phrase key="DateCol">Tarih</Phrase>
+    <Phrase key="NotApplicable">Yok</Phrase>
+    <Phrase key="SumHeader">Toplam</Phrase>
+    <Phrase key="AvgHeader">Ortalama</Phrase>
+    <Phrase key="MinHeader">Asgari</Phrase>
+    <Phrase key="MaxHeader">Maksimum</Phrase>
+    <Phrase key="DayUnit">d</Phrase>
+    <Phrase key="WorksheetName">Sayfa {0}</Phrase>
+    <Phrase key="CloseButton">Kapalı</Phrase>
+  </Dictionary>
+</PlgElasticReportDictionaries>

@@ -95,6 +95,7 @@
     <Phrase key="CommandsDisabled">Команде су онемогућене.</Phrase>
     <Phrase key="SendCommand">Пошаљи команду каналу {0} од {1}</Phrase>
     <Phrase key="ActionNotAllowed">Радња није дозвољена.</Phrase>
+    <Phrase key="ViewTitle">Прикажи {0}</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.TreeView.MenuItem">
     <Phrase key="ReportsMenuItem">Извештаји</Phrase>

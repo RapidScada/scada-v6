@@ -20,8 +20,8 @@
     <Phrase key="lblRtsEnable">RTS</Phrase>
     <Phrase key="gbMode">작동 모드</Phrase>
     <Phrase key="lblBehavior">행동</Phrase>
-    <Phrase key="cbBehavior.Items[0]">주인</Phrase>
-    <Phrase key="cbBehavior.Items[1]">노예</Phrase>
+    <Phrase key="cbBehavior.Items[0]">Master</Phrase>
+    <Phrase key="cbBehavior.Items[1]">Slave</Phrase>
     <Phrase key="btnOK">좋아요</Phrase>
     <Phrase key="btnCancel">취소</Phrase>
   </Dictionary>
@@ -29,7 +29,7 @@
     <Phrase key="this">TCP 클라이언트 옵션</Phrase>
     <Phrase key="gbMode">작동 모드</Phrase>
     <Phrase key="lblBehavior">행동</Phrase>
-    <Phrase key="pbBehaviorHint.ToolTip">마스터 - 커뮤니케이터는 장치에 요청을 보내고 응답을 받습니다.&#13;&#10;슬레이브 - 커뮤니케이터는 수동적으로 장치의 데이터를 기다립니다.</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">마스터 - 커뮤니케이터는 장치에 요청을 보내고 응답을 받습니다.&#13;&#10;Slave - 커뮤니케이터는 수동적으로 장치의 데이터를 기다립니다.</Phrase>
     <Phrase key="lblConnectionMode">연결 모드</Phrase>
     <Phrase key="cbConnectionMode.Items[0]">개인</Phrase>
     <Phrase key="cbConnectionMode.Items[1]">공유</Phrase>
@@ -43,6 +43,8 @@
     <Phrase key="pbReconnectAfterHint.ToolTip">실패한 시도 후 다시 연결할 시간 간격을 지정합니다.</Phrase>
     <Phrase key="lblStayConnected">대기 중</Phrase>
     <Phrase key="pbStayConnectedHint.ToolTip">설정하면 통신 세션 간에 연결이 활성화됩니다.&#13;&#10;그렇지 않으면 각 세션 후에 연결이 종료됩니다.</Phrase>
+    <Phrase key="lblDisconnectOnError">오류 시 연결 해제</Phrase>
+    <Phrase key="pbDisconnectOnError.ToolTip">세션 실패 시 연결 해제 여부를 나타냅니다.</Phrase>
     <Phrase key="btnOK">좋아요</Phrase>
     <Phrase key="btnCancel">취소</Phrase>
     <Phrase key="HostRequired">원격 호스트가 필요합니다.</Phrase>
@@ -51,7 +53,7 @@
     <Phrase key="this">TCP 서버 옵션</Phrase>
     <Phrase key="gbMode">작동 모드</Phrase>
     <Phrase key="lblBehavior">행동</Phrase>
-    <Phrase key="pbBehaviorHint.ToolTip">마스터 - 연결 설정 후 커뮤니케이터는 장치에 요청을 보내고 응답을 받습니다.&#13;&#10;슬레이브 - 커뮤니케이터는 수동적으로 장치에서 데이터를 기다립니다.</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">마스터 - 연결 설정 후 커뮤니케이터는 장치에 요청을 보내고 응답을 받습니다.&#13;&#10;Slave - 커뮤니케이터는 수동적으로 장치에서 데이터를 기다립니다.</Phrase>
     <Phrase key="lblConnectionMode">연결 모드</Phrase>
     <Phrase key="cbConnectionMode.Items[0]">개인</Phrase>
     <Phrase key="cbConnectionMode.Items[1]">공유</Phrase>

@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModAutoControlDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlCmdTrigger">
+    <Phrase key="gbTrigger">Tetikleme Parametreleri</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="lblName">İsim</Phrase>
+    <Phrase key="lblDescr">yükseltir</Phrase>
+    <Phrase key="txtDescr">Emrinle</Phrase>
+    <Phrase key="lblCnlNum">Kanal</Phrase>
+    <Phrase key="lblCmdVal">Değer</Phrase>
+    <Phrase key="btnOff">Kapalı</Phrase>
+    <Phrase key="btnOn">Açık</Phrase>
+    <Phrase key="lblCmdData">Veri</Phrase>
+    <Phrase key="cbCmdDataCompareOper.Items[0]">Kontrol etme</Phrase>
+    <Phrase key="cbCmdDataCompareOper.Items[1]">eşittir</Phrase>
+    <Phrase key="cbCmdDataCompareOper.Items[2]">içerir</Phrase>
+    <Phrase key="chkTransmitCmd">komutu ilet</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlCnlDataChangeTrigger">
+    <Phrase key="gbTrigger">Tetikleme Parametreleri</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="lblName">İsim</Phrase>
+    <Phrase key="lblDescr">yükseltir</Phrase>
+    <Phrase key="txtDescr">Kanal veri değişikliğinde</Phrase>
+    <Phrase key="lblCnlNum">Kanal</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlCnlDataTrigger">
+    <Phrase key="gbTrigger">Tetikleme Parametreleri</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="lblName">İsim</Phrase>
+    <Phrase key="lblDescr">yükseltir</Phrase>
+    <Phrase key="txtDescr">kanal verileri üzerinde</Phrase>
+    <Phrase key="lblCnlNum">Kanallar</Phrase>
+    <Phrase key="lblCnlValCond">Değer</Phrase>
+    <Phrase key="lblDeadband">ölü bant</Phrase>
+    <Phrase key="lblCnlStat">Durumlar</Phrase>
+    <Phrase key="lblDelay">Gecikme, saniye</Phrase>
+    <Phrase key="lblRepeat">Tekrar döngüsü, saniye</Phrase>
+    <Phrase key="lblRepeatCnt">Tekrar sayısı</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlEvTrigger">
+    <Phrase key="gbTrigger">Tetikleme Parametreleri</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="lblName">İsim</Phrase>
+    <Phrase key="lblDescr">yükseltir</Phrase>
+    <Phrase key="txtDescr">etkinlikte</Phrase>
+    <Phrase key="lblObjNum">Nesne</Phrase>
+    <Phrase key="lblDeviceNum">Cihaz</Phrase>
+    <Phrase key="lblCnlNum">Kanal</Phrase>
+    <Phrase key="lblSeverity">Şiddet (min, maks)</Phrase>
+    <Phrase key="lblNewCnlValCond">Yeni değer</Phrase>
+    <Phrase key="lblNewCnlStat">Yeni statü</Phrase>
+    <Phrase key="lblTextCompareOper">Metin</Phrase>
+    <Phrase key="cbTextCompareOper.Items[0]">Kontrol etme</Phrase>
+    <Phrase key="cbTextCompareOper.Items[1]">eşittir</Phrase>
+    <Phrase key="cbTextCompareOper.Items[2]">içerir</Phrase>
+    <Phrase key="lblDataCompareOper">Veri</Phrase>
+    <Phrase key="cbDataCompareOper.Items[0]">Kontrol etme</Phrase>
+    <Phrase key="cbDataCompareOper.Items[1]">eşittir</Phrase>
+    <Phrase key="cbDataCompareOper.Items[2]">içerir</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlTiggerGroup">
+    <Phrase key="gbTriggerGroup">Grup Parametreleri</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="lblName">İsim</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlTimeTrigger">
+    <Phrase key="gbTrigger">Tetikleme Parametreleri</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="lblName">İsim</Phrase>
+    <Phrase key="lblDescr">yükseltir</Phrase>
+    <Phrase key="txtDescr">Zamanında</Phrase>
+    <Phrase key="rbEveryDay">Her gün</Phrase>
+    <Phrase key="rbDaysOfWeek">Haftanın günleri</Phrase>
+    <Phrase key="rbDaysOfMonth">ayın günleri</Phrase>
+    <Phrase key="rbDates">Tarih</Phrase>
+    <Phrase key="chkSun">Güneş</Phrase>
+    <Phrase key="chkMon">Pzt</Phrase>
+    <Phrase key="chkTue">Sal</Phrase>
+    <Phrase key="chkWed">evlenmek</Phrase>
+    <Phrase key="chkThu">Perşembe</Phrase>
+    <Phrase key="chkFri">Cum</Phrase>
+    <Phrase key="chkSat">Doygunluk</Phrase>
+    <Phrase key="lblTimes">zam süreleri</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlTriggerCommand">
+    <Phrase key="gbCommand">Komut Parametreleri</Phrase>
+    <Phrase key="lblCnlNum">Kanal</Phrase>
+    <Phrase key="lblOr">VEYA</Phrase>
+    <Phrase key="lblDeviceNum">Cihaz</Phrase>
+    <Phrase key="lblCmdNum">Komut numarası</Phrase>
+    <Phrase key="lblCmdCode">komut kodu</Phrase>
+    <Phrase key="lblDelay">Gecikme, saniye</Phrase>
+    <Phrase key="chkSendOnFiring">ateş ederken</Phrase>
+    <Phrase key="chkSendOnNorm">normalleşme üzerine</Phrase>
+    <Phrase key="chkCopyCmdVal">Değeri ve verileri kopyala</Phrase>
+    <Phrase key="rbNumVal">sayısal</Phrase>
+    <Phrase key="rbStrData">Dize verileri</Phrase>
+    <Phrase key="rbHexData">Onaltılık veri</Phrase>
+    <Phrase key="btnOff">Kapalı</Phrase>
+    <Phrase key="btnOn">Açık</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmConditionEdit">
+    <Phrase key="this">Koşulu Düzenle</Phrase>
+    <Phrase key="lblCompareOper1">İşlemi karşılaştırın.  1</Phrase>
+    <Phrase key="lblCompareArg1">Argüman 1</Phrase>
+    <Phrase key="lblLogicalOper">Mantıksal işlem</Phrase>
+    <Phrase key="cbLogicalOper.Items[0]">Hiçbiri</Phrase>
+    <Phrase key="cbLogicalOper.Items[1]">Ve</Phrase>
+    <Phrase key="cbLogicalOper.Items[2]">Veya</Phrase>
+    <Phrase key="lblCompareOper2">İşlemi karşılaştırın.  2</Phrase>
+    <Phrase key="lblCompareArg2">Argüman 2</Phrase>
+    <Phrase key="lblResult">Sonuç</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmDateTimeAdd">
+    <Phrase key="title1">Tarih ekle</Phrase>
+    <Phrase key="title2">Zaman ekle</Phrase>
+    <Phrase key="lblDate">Tarih</Phrase>
+    <Phrase key="lblTime">Zaman</Phrase>
+    <Phrase key="btnAdd">Eklemek</Phrase>
+    <Phrase key="btnClose">Kapalı</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmDayAdd">
+    <Phrase key="this">Ayın Günü Ekle</Phrase>
+    <Phrase key="lblDay">Gün</Phrase>
+    <Phrase key="btnAdd">Eklemek</Phrase>
+    <Phrase key="btnClose">Kapalı</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmGeneralOptions">
+    <Phrase key="this">Modül Seçenekleri</Phrase>
+    <Phrase key="lblUsername">Kullanıcı adı</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmModuleConfig">
+    <Phrase key="this">Otomatik Kontrol</Phrase>
+    <Phrase key="btnAddTriggerGroup.ToolTip">Tetikleme Grubu Ekle</Phrase>
+    <Phrase key="btnAddCnlDataTrigger.ToolTip">Kanal Veri Tetikleyicisi Ekle</Phrase>
+    <Phrase key="btnAddCnlDataChangeTrigger.ToolTip">Kanal Verisi Değişikliği Tetikleyicisi Ekle</Phrase>
+    <Phrase key="btnAddEvTrigger.ToolTip">Olay Tetikleyici Ekle</Phrase>
+    <Phrase key="btnAddTimeTrigger.ToolTip">Zaman Tetikleyicisi Ekle</Phrase>
+    <Phrase key="btnAddCmdTrigger.ToolTip">Komut Tetikleyici Ekle</Phrase>
+    <Phrase key="btnAddCommand.ToolTip">Komut Ekle</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Yukarı Taşı</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Aşağı inmek</Phrase>
+    <Phrase key="btnDelete.ToolTip">Silmek</Phrase>
+    <Phrase key="btnCut.ToolTip">Kesmek</Phrase>
+    <Phrase key="btnCopy.ToolTip">kopyala</Phrase>
+    <Phrase key="btnPaste.ToolTip">Yapıştırmak</Phrase>
+    <Phrase key="btnOptions.ToolTip">Modül Seçenekleri</Phrase>
+    <Phrase key="gbTriggers">Tetikleyiciler</Phrase>
+    <Phrase key="lblHint">Tetikleyiciler ve komutlar ekleyin</Phrase>
+    <Phrase key="btnSave">Kaydetmek</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+    <Phrase key="btnClose">Kapalı</Phrase>
+    <Phrase key="miCollapseAll">Hepsini Daralt</Phrase>
+    <Phrase key="UnnamedGroup">&lt;Adsız Grup&gt;</Phrase>
+    <Phrase key="UnnamedTrigger">&lt;Adsız Tetikleyici&gt;</Phrase>
+    <Phrase key="CommandDescr1">Kanal {0}</Phrase>
+    <Phrase key="CommandDescr2">Cihaz {0}, komut {1}</Phrase>
+    <Phrase key="CopySuffix">- Kopyala</Phrase>
+  </Dictionary>
+</ModAutoControlDictionaries>

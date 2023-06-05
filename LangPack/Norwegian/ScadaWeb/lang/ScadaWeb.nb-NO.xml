@@ -95,6 +95,7 @@
     <Phrase key="CommandsDisabled">Kommandoer deaktivert.</Phrase>
     <Phrase key="SendCommand">Send kommando til kanal {0} av {1}</Phrase>
     <Phrase key="ActionNotAllowed">Handling ikke tillatt.</Phrase>
+    <Phrase key="ViewTitle">Vis {0}</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.TreeView.MenuItem">
     <Phrase key="ReportsMenuItem">Rapporter</Phrase>

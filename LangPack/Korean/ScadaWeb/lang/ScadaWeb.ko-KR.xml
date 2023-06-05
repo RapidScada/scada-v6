@@ -95,6 +95,7 @@
     <Phrase key="CommandsDisabled">명령이 비활성화되었습니다.</Phrase>
     <Phrase key="SendCommand">{1}까지 채널 {0}에 명령 보내기</Phrase>
     <Phrase key="ActionNotAllowed">조치가 허용되지 않습니다.</Phrase>
+    <Phrase key="ViewTitle">{0} 보기</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.TreeView.MenuItem">
     <Phrase key="ReportsMenuItem">보고서</Phrase>

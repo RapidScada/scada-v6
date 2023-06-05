@@ -17,11 +17,11 @@
     <Phrase key="cbParity.Items[4]">Espacio</Phrase>
     <Phrase key="lblStopBits">Bits de parada</Phrase>
     <Phrase key="lblDtrEnable">DTR</Phrase>
-    <Phrase key="lblRtsEnable">RTS</Phrase>
+    <Phrase key="lblRtsEnable">estrategia en tiempo real</Phrase>
     <Phrase key="gbMode">Modo operativo</Phrase>
     <Phrase key="lblBehavior">Comportamiento</Phrase>
     <Phrase key="cbBehavior.Items[0]">Maestro</Phrase>
-    <Phrase key="cbBehavior.Items[1]">Esclavo</Phrase>
+    <Phrase key="cbBehavior.Items[1]">Slave</Phrase>
     <Phrase key="btnOK">DE ACUERDO</Phrase>
     <Phrase key="btnCancel">Cancelar</Phrase>
   </Dictionary>
@@ -29,7 +29,7 @@
     <Phrase key="this">Opciones de cliente TCP</Phrase>
     <Phrase key="gbMode">Modo operativo</Phrase>
     <Phrase key="lblBehavior">Comportamiento</Phrase>
-    <Phrase key="pbBehaviorHint.ToolTip">Maestro: el comunicador envía una solicitud a un dispositivo y recibe una respuesta.&#13;&#10;Esclavo: el comunicador espera de forma pasiva los datos de un dispositivo.</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Maestro: el comunicador envía una solicitud a un dispositivo y recibe una respuesta.&#13;&#10;Slave: el comunicador espera de forma pasiva los datos de un dispositivo.</Phrase>
     <Phrase key="lblConnectionMode">Modo de conexión</Phrase>
     <Phrase key="cbConnectionMode.Items[0]">Individual</Phrase>
     <Phrase key="cbConnectionMode.Items[1]">Compartido</Phrase>
@@ -43,6 +43,8 @@
     <Phrase key="pbReconnectAfterHint.ToolTip">Especifica el intervalo de tiempo para volver a conectarse después de un intento fallido.</Phrase>
     <Phrase key="lblStayConnected">Mantente conectado</Phrase>
     <Phrase key="pbStayConnectedHint.ToolTip">Si se establece, la conexión está activa entre sesiones de comunicación.&#13;&#10;De lo contrario, la conexión finaliza después de cada sesión.</Phrase>
+    <Phrase key="lblDisconnectOnError">Desconectar por error</Phrase>
+    <Phrase key="pbDisconnectOnError.ToolTip">Indica si desconectarse si falla una sesión.</Phrase>
     <Phrase key="btnOK">DE ACUERDO</Phrase>
     <Phrase key="btnCancel">Cancelar</Phrase>
     <Phrase key="HostRequired">Se requiere host remoto.</Phrase>
@@ -51,7 +53,7 @@
     <Phrase key="this">Opciones del servidor TCP</Phrase>
     <Phrase key="gbMode">Modo operativo</Phrase>
     <Phrase key="lblBehavior">Comportamiento</Phrase>
-    <Phrase key="pbBehaviorHint.ToolTip">Maestro: después de establecer la conexión, Communicator envía una solicitud a un dispositivo y recibe una respuesta.&#13;&#10;Esclavo: Communicator espera de forma pasiva los datos de un dispositivo.</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Maestro: después de establecer la conexión, Communicator envía una solicitud a un dispositivo y recibe una respuesta.&#13;&#10;Slave: Communicator espera de forma pasiva los datos de un dispositivo.</Phrase>
     <Phrase key="lblConnectionMode">Modo de conexión</Phrase>
     <Phrase key="cbConnectionMode.Items[0]">Individual</Phrase>
     <Phrase key="cbConnectionMode.Items[1]">Compartido</Phrase>
@@ -73,7 +75,7 @@
     <Phrase key="this">Opciones UDP</Phrase>
     <Phrase key="gbMode">Modo operativo</Phrase>
     <Phrase key="lblBehavior">Comportamiento</Phrase>
-    <Phrase key="pbBehaviorHint.ToolTip">Maestro: el comunicador envía una solicitud a un dispositivo y recibe una respuesta.&#13;&#10;Esclavo: el comunicador espera de forma pasiva los datos de un dispositivo.</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Maestro: el comunicador envía una solicitud a un dispositivo y recibe una respuesta.&#13;&#10;Slave: el comunicador espera de forma pasiva los datos de un dispositivo.</Phrase>
     <Phrase key="lblDeviceMapping">Mapeo de dispositivos</Phrase>
     <Phrase key="cbDeviceMapping.Items[0]">Por dirección IP</Phrase>
     <Phrase key="cbDeviceMapping.Items[1]">Conductor determinado</Phrase>

@@ -20,8 +20,8 @@
     <Phrase key="lblRtsEnable">RTS</Phrase>
     <Phrase key="gbMode">動作モード</Phrase>
     <Phrase key="lblBehavior">行動</Phrase>
-    <Phrase key="cbBehavior.Items[0]">マスター</Phrase>
-    <Phrase key="cbBehavior.Items[1]">スレーブ</Phrase>
+    <Phrase key="cbBehavior.Items[0]">Master</Phrase>
+    <Phrase key="cbBehavior.Items[1]">Slave</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">キャンセル</Phrase>
   </Dictionary>
@@ -29,7 +29,7 @@
     <Phrase key="this">TCPクライアントオプション</Phrase>
     <Phrase key="gbMode">動作モード</Phrase>
     <Phrase key="lblBehavior">行動</Phrase>
-    <Phrase key="pbBehaviorHint.ToolTip">マスター - コミュニケーターはデバイスにリクエストを送信し、応答を受け取ります。&#13;&#10;スレーブ - コミュニケーターはデバイスからのデータを受動的に待ちます。</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">マスター - コミュニケーターはデバイスにリクエストを送信し、応答を受け取ります。&#13;&#10;Slave - コミュニケーターはデバイスからのデータを受動的に待ちます。</Phrase>
     <Phrase key="lblConnectionMode">接続モード</Phrase>
     <Phrase key="cbConnectionMode.Items[0]">個人</Phrase>
     <Phrase key="cbConnectionMode.Items[1]">共有</Phrase>
@@ -43,6 +43,8 @@
     <Phrase key="pbReconnectAfterHint.ToolTip">試行が失敗した後に再接続するまでの時間間隔を指定します。</Phrase>
     <Phrase key="lblStayConnected">つながりを保つ</Phrase>
     <Phrase key="pbStayConnectedHint.ToolTip">設定されている場合、接続は通信セッション間でアクティブになります。&#13;&#10;それ以外の場合、接続は各セッションの後に終了します。</Phrase>
+    <Phrase key="lblDisconnectOnError">エラー時に切断する</Phrase>
+    <Phrase key="pbDisconnectOnError.ToolTip">セッションが失敗した場合に切断するかどうかを示します。</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">キャンセル</Phrase>
     <Phrase key="HostRequired">リモートホストが必要です。</Phrase>
@@ -51,7 +53,7 @@
     <Phrase key="this">TCPサーバーオプション</Phrase>
     <Phrase key="gbMode">動作モード</Phrase>
     <Phrase key="lblBehavior">行動</Phrase>
-    <Phrase key="pbBehaviorHint.ToolTip">マスター - 接続を確立した後、コミュニケーターはデバイスにリクエストを送信し、応答を受け取ります。&#13;&#10;スレーブ - コミュニケーターはデバイスからのデータを受動的に待ちます。</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">マスター - 接続を確立した後、コミュニケーターはデバイスにリクエストを送信し、応答を受け取ります。&#13;&#10;Slave - コミュニケーターはデバイスからのデータを受動的に待ちます。</Phrase>
     <Phrase key="lblConnectionMode">接続モード</Phrase>
     <Phrase key="cbConnectionMode.Items[0]">個人</Phrase>
     <Phrase key="cbConnectionMode.Items[1]">共有</Phrase>

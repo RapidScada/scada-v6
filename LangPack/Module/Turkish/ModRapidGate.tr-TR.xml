@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModRapidGateDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlArcReplication">
+    <Phrase key="gbReplicationOptions">Arşiv Çoğaltma Seçenekleri</Phrase>
+    <Phrase key="lblEnabled">Etkinleştirilmiş</Phrase>
+    <Phrase key="lblLocalHistArchiveBit">Biraz yerel tarihi arşiv</Phrase>
+    <Phrase key="lblLocalEventArchiveBit">Biraz yerel olay arşivi</Phrase>
+    <Phrase key="lblRemoteHistArchiveBit">Biraz uzak tarihsel arşiv</Phrase>
+    <Phrase key="lblRemoteEventArchiveBit">Biraz uzak olay arşivi</Phrase>
+    <Phrase key="lblAutoUpload">Otomatik olarak yükle</Phrase>
+    <Phrase key="lblAutoDowload">Otomatik olarak indir</Phrase>
+    <Phrase key="lblDataAvailCnlNum">Veri kullanılabilirliğini gösteren kanal</Phrase>
+    <Phrase key="lblMinDepth">Minimum derinlik, saniye</Phrase>
+    <Phrase key="lblMaxDepth">Maksimum derinlik, saniye</Phrase>
+    <Phrase key="lblReadingStep">Okuma adımı, saniye</Phrase>
+    <Phrase key="gbUploadOptions">Yüklemek</Phrase>
+    <Phrase key="gbDowloadOptions">İndirmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlCurDataTransfer">
+    <Phrase key="gbOptions">Geçerli Veri Aktarım Seçenekleri</Phrase>
+    <Phrase key="chkEnabled">Etkinleştirilmiş</Phrase>
+    <Phrase key="lblTrigger">Tetiklemek</Phrase>
+    <Phrase key="cbTrigger.Items[0]">Alındığında</Phrase>
+    <Phrase key="cbTrigger.Items[1]">Zamanlayıcıda</Phrase>
+    <Phrase key="lblTimePeriod">Zamanlayıcı periyodu, saniye</Phrase>
+    <Phrase key="lblAllDataPeriod">Tüm kanalların veri aktarma süresi, saniye</Phrase>
+    <Phrase key="chkUseRawData">Ham verileri kullanın (verileri işlemeden önce aktarın)</Phrase>
+    <Phrase key="chkApplyFormulas">Formülleri uzak sunucuya uygulama</Phrase>
+    <Phrase key="chkEnableEvents">Uzak sunucuda olaylar oluştur</Phrase>
+    <Phrase key="chkSkipUnchanged">Değiştirilmemiş verileri atla</Phrase>
+    <Phrase key="chkIncludeCalculated">Hesaplanan kanalları dahil et</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlEventTransfer">
+    <Phrase key="gbOptions">Olay Aktarım Seçenekleri</Phrase>
+    <Phrase key="chkEnabled">Etkinleştirilmiş</Phrase>
+    <Phrase key="chkTransferAck">Transfer onayları</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlGeneral">
+    <Phrase key="gbOptions">Genel seçenekler</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="lblGateID">Kapı Kimliği</Phrase>
+    <Phrase key="lblName">İsim</Phrase>
+    <Phrase key="lblCmdCode">komut kodu</Phrase>
+    <Phrase key="lblLocalArchiveMask">Yerel sunucuda veri depolamak için arşiv maskesi</Phrase>
+    <Phrase key="lblDefaultArchiveMaskLocal">Varsayılan arşivleri seçmek için -1'i ayarlayın</Phrase>
+    <Phrase key="lblRemoteArchiveMask">Uzak sunucuya veri göndermek için arşiv maskesi</Phrase>
+    <Phrase key="lblDefaultArchiveMaskRemote">Varsayılan arşivleri seçmek için -1'i ayarlayın</Phrase>
+    <Phrase key="lblMaxQueueSize">Maksimum sıra boyutu</Phrase>
+    <Phrase key="lblDataLifetime">Sıradaki veri ömrü, saniye</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlHistDataTransfer">
+    <Phrase key="gbOptions">Geçmiş Veri Aktarım Seçenekleri</Phrase>
+    <Phrase key="chkEnabled">Etkinleştirilmiş</Phrase>
+    <Phrase key="chkUseRawData">Ham verileri kullanın (verileri işlemeden önce aktarın)</Phrase>
+    <Phrase key="chkApplyFormulas">Formülleri uzak sunucuya uygulama</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlInCmdTransfer">
+    <Phrase key="gbOptions">Gelen Komut Aktarım Seçenekleri</Phrase>
+    <Phrase key="chkEnabled">Etkinleştirilmiş</Phrase>
+    <Phrase key="chkApplyFormulas">Formülleri yerel sunucuda uygulama</Phrase>
+    <Phrase key="lblPollingRate">Komut yoklama oranı, ms</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlMapping">
+    <Phrase key="gbOptions">Eşleme Seçenekleri</Phrase>
+    <Phrase key="btnAddMapItem.ToolTip">Eşleme Ekle</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Yukarı Taşı</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Aşağı inmek</Phrase>
+    <Phrase key="btnDel.ToolTip">Silmek</Phrase>
+    <Phrase key="btnEdit.ToolTip">Düzenlemek</Phrase>
+    <Phrase key="colLocalIDs">Yerel kimlikler</Phrase>
+    <Phrase key="colRemoteIDs">Uzak kimlikler</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlOutCmdTransfer">
+    <Phrase key="gbOptions">Giden Komut Aktarım Seçenekleri</Phrase>
+    <Phrase key="chkEnabled">Etkinleştirilmiş</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Forms.FrmIdMapping">
+    <Phrase key="this">Kimlik Eşleme</Phrase>
+    <Phrase key="lblRange">Kimlik Eşleme</Phrase>
+    <Phrase key="lblParamLocal">Yerel kimlikler</Phrase>
+    <Phrase key="lblParamRemote">Uzak kimlikler</Phrase>
+    <Phrase key="lblExample">Örneğin: 1 - 5, 10</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Forms.FrmModuleConfig">
+    <Phrase key="this">Hızlı Kapı</Phrase>
+    <Phrase key="btnAdd.ToolTip">Kapı Ekle</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Yukarı Taşı</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Aşağı inmek</Phrase>
+    <Phrase key="btnDelete.ToolTip">Silmek</Phrase>
+    <Phrase key="btnCut.ToolTip">Kesmek</Phrase>
+    <Phrase key="btnCopy.ToolTip">kopyala</Phrase>
+    <Phrase key="btnPaste.ToolTip">Yapıştırmak</Phrase>
+    <Phrase key="gbGates">Kapılar</Phrase>
+    <Phrase key="lblHint">Kapı Ekle</Phrase>
+    <Phrase key="btnSave">Kaydetmek</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+    <Phrase key="btnClose">Kapalı</Phrase>
+    <Phrase key="miCollapseAll">Hepsini Daralt</Phrase>
+    <Phrase key="CopySuffix">- Kopyala</Phrase>
+    <Phrase key="GeneralOptionsNode">Genel seçenekler</Phrase>
+    <Phrase key="ConnectionOptionsNode">Bağlantı Seçenekleri</Phrase>
+    <Phrase key="MappingOptionsNode">Eşleme Seçenekleri</Phrase>
+    <Phrase key="ChannelMappingNode">Kanal Eşleme Seçenekleri</Phrase>
+    <Phrase key="UserMappingNode">Kullanıcı Eşleme Seçenekleri</Phrase>
+    <Phrase key="TransferOptionsNode">Transfer Seçenekleri</Phrase>
+    <Phrase key="CurDataTransferOptionsNode">Güncel veri</Phrase>
+    <Phrase key="HistDataTransferOptionsNode">Tarihsel veri</Phrase>
+    <Phrase key="EventTransferOptionsNode">Olaylar</Phrase>
+    <Phrase key="InCmdTransferOptionsNode">Gelen Komutlar</Phrase>
+    <Phrase key="OutCmdTransferOptionsNode">Giden Komutlar</Phrase>
+    <Phrase key="ArcReplicationOptionsNode">Arşiv Çoğaltma</Phrase>
+    <Phrase key="GateName">Kapı {0}</Phrase>
+    <Phrase key="GateNameNotUnique">Kapı adları benzersiz olmalıdır.</Phrase>
+    <Phrase key="GateNameEmpty">Kapının adı boş olamaz.</Phrase>
+    <Phrase key="AddGates">Kapı ekle</Phrase>
+    <Phrase key="SelectChildNode">Alt düğümü seçin</Phrase>
+    <Phrase key="ArchiveText">Arşiv Biti {0}</Phrase>
+  </Dictionary>
+</ModRapidGateDictionaries>

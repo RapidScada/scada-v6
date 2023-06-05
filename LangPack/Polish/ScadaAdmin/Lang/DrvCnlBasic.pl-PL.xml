@@ -43,6 +43,8 @@
     <Phrase key="pbReconnectAfterHint.ToolTip">Określa przedział czasu do ponownego połączenia po nieudanej próbie.</Phrase>
     <Phrase key="lblStayConnected">Pozostawanie w kontakcie</Phrase>
     <Phrase key="pbStayConnectedHint.ToolTip">Jeśli ustawione, połączenie jest aktywne między sesjami komunikacyjnymi.&#13;&#10;W przeciwnym razie połączenie jest przerywane po każdej sesji.</Phrase>
+    <Phrase key="lblDisconnectOnError">Rozłącz przy błędzie</Phrase>
+    <Phrase key="pbDisconnectOnError.ToolTip">Wskazuje, czy rozłączyć się w przypadku niepowodzenia sesji.</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Anulować</Phrase>
     <Phrase key="HostRequired">Wymagany jest zdalny host.</Phrase>
@@ -55,7 +57,7 @@
     <Phrase key="lblConnectionMode">Tryb połączenia</Phrase>
     <Phrase key="cbConnectionMode.Items[0]">Indywidualny</Phrase>
     <Phrase key="cbConnectionMode.Items[1]">Wspólny</Phrase>
-    <Phrase key="pbConnectionModeHint.ToolTip">Indywidualne — program Communicator ustanawia indywidualne połączenie TCP z każdym urządzeniem.&#13;&#10;Wspólne — program Communicator ustanawia jedno wspólne połączenie dla wszystkich urządzeń linii komunikacyjnej.&#13;&#10;Połączenie współdzielone jest używane na przykład wtedy, gdy urządzenia są połączone przez  bramka Ethernet-Serial.</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">Indywidualne — program Communicator ustanawia indywidualne połączenie TCP z każdym urządzeniem.&#13;&#10;Wspólne — program Communicator ustanawia jedno wspólne połączenie dla wszystkich urządzeń linii komunikacyjnej.&#13;&#10;Połączenie współdzielone jest używane, na przykład, jeśli urządzenia są połączone przez  bramka Ethernet-Serial.</Phrase>
     <Phrase key="lblDeviceMapping">Mapowanie urządzeń</Phrase>
     <Phrase key="cbDeviceMapping.Items[0]">Według adresu IP</Phrase>
     <Phrase key="cbDeviceMapping.Items[1]">Witam pakiet</Phrase>

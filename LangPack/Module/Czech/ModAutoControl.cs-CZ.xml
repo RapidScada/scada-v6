@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModAutoControlDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlCmdTrigger">
+    <Phrase key="gbTrigger">Spouštěcí parametry</Phrase>
+    <Phrase key="chkActive">Aktivní</Phrase>
+    <Phrase key="lblName">název</Phrase>
+    <Phrase key="lblDescr">Zvyšuje</Phrase>
+    <Phrase key="txtDescr">Na povel</Phrase>
+    <Phrase key="lblCnlNum">Kanál</Phrase>
+    <Phrase key="lblCmdVal">Hodnota</Phrase>
+    <Phrase key="btnOff">Vypnuto</Phrase>
+    <Phrase key="btnOn">Na</Phrase>
+    <Phrase key="lblCmdData">Data</Phrase>
+    <Phrase key="cbCmdDataCompareOper.Items[0]">Nekontrolovat</Phrase>
+    <Phrase key="cbCmdDataCompareOper.Items[1]">Rovná se</Phrase>
+    <Phrase key="cbCmdDataCompareOper.Items[2]">Obsahuje</Phrase>
+    <Phrase key="chkTransmitCmd">Vyslat příkaz</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlCnlDataChangeTrigger">
+    <Phrase key="gbTrigger">Spouštěcí parametry</Phrase>
+    <Phrase key="chkActive">Aktivní</Phrase>
+    <Phrase key="lblName">název</Phrase>
+    <Phrase key="lblDescr">Zvyšuje</Phrase>
+    <Phrase key="txtDescr">Při změně dat kanálu</Phrase>
+    <Phrase key="lblCnlNum">Kanál</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlCnlDataTrigger">
+    <Phrase key="gbTrigger">Spouštěcí parametry</Phrase>
+    <Phrase key="chkActive">Aktivní</Phrase>
+    <Phrase key="lblName">název</Phrase>
+    <Phrase key="lblDescr">Zvyšuje</Phrase>
+    <Phrase key="txtDescr">Údaje o kanálu</Phrase>
+    <Phrase key="lblCnlNum">Kanály</Phrase>
+    <Phrase key="lblCnlValCond">Hodnota</Phrase>
+    <Phrase key="lblDeadband">Mrtvý pás</Phrase>
+    <Phrase key="lblCnlStat">Stavy</Phrase>
+    <Phrase key="lblDelay">Zpoždění, sec</Phrase>
+    <Phrase key="lblRepeat">Opakujte cyklus, sec</Phrase>
+    <Phrase key="lblRepeatCnt">Počet opakování</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlEvTrigger">
+    <Phrase key="gbTrigger">Spouštěcí parametry</Phrase>
+    <Phrase key="chkActive">Aktivní</Phrase>
+    <Phrase key="lblName">název</Phrase>
+    <Phrase key="lblDescr">Zvyšuje</Phrase>
+    <Phrase key="txtDescr">Na akci</Phrase>
+    <Phrase key="lblObjNum">Objekt</Phrase>
+    <Phrase key="lblDeviceNum">přístroj</Phrase>
+    <Phrase key="lblCnlNum">Kanál</Phrase>
+    <Phrase key="lblSeverity">Závažnost (min, max)</Phrase>
+    <Phrase key="lblNewCnlValCond">Nová hodnota</Phrase>
+    <Phrase key="lblNewCnlStat">Nový stav</Phrase>
+    <Phrase key="lblTextCompareOper">Text</Phrase>
+    <Phrase key="cbTextCompareOper.Items[0]">Nekontrolovat</Phrase>
+    <Phrase key="cbTextCompareOper.Items[1]">Rovná se</Phrase>
+    <Phrase key="cbTextCompareOper.Items[2]">Obsahuje</Phrase>
+    <Phrase key="lblDataCompareOper">Data</Phrase>
+    <Phrase key="cbDataCompareOper.Items[0]">Nekontrolovat</Phrase>
+    <Phrase key="cbDataCompareOper.Items[1]">Rovná se</Phrase>
+    <Phrase key="cbDataCompareOper.Items[2]">Obsahuje</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlTiggerGroup">
+    <Phrase key="gbTriggerGroup">Parametry skupiny</Phrase>
+    <Phrase key="chkActive">Aktivní</Phrase>
+    <Phrase key="lblName">název</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlTimeTrigger">
+    <Phrase key="gbTrigger">Spouštěcí parametry</Phrase>
+    <Phrase key="chkActive">Aktivní</Phrase>
+    <Phrase key="lblName">název</Phrase>
+    <Phrase key="lblDescr">Zvyšuje</Phrase>
+    <Phrase key="txtDescr">Včas</Phrase>
+    <Phrase key="rbEveryDay">Každý den</Phrase>
+    <Phrase key="rbDaysOfWeek">Dny v týdnu</Phrase>
+    <Phrase key="rbDaysOfMonth">Dny v měsíci</Phrase>
+    <Phrase key="rbDates">Termíny</Phrase>
+    <Phrase key="chkSun">slunce</Phrase>
+    <Phrase key="chkMon">Po</Phrase>
+    <Phrase key="chkTue">út</Phrase>
+    <Phrase key="chkWed">St</Phrase>
+    <Phrase key="chkThu">Čtvrtek</Phrase>
+    <Phrase key="chkFri">pá</Phrase>
+    <Phrase key="chkSat">So</Phrase>
+    <Phrase key="lblTimes">Zvyšte časy</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlTriggerCommand">
+    <Phrase key="gbCommand">Parametry příkazu</Phrase>
+    <Phrase key="lblCnlNum">Kanál</Phrase>
+    <Phrase key="lblOr">NEBO</Phrase>
+    <Phrase key="lblDeviceNum">přístroj</Phrase>
+    <Phrase key="lblCmdNum">Číslo příkazu</Phrase>
+    <Phrase key="lblCmdCode">Příkazový kód</Phrase>
+    <Phrase key="lblDelay">Zpoždění, sec</Phrase>
+    <Phrase key="chkSendOnFiring">Při střelbě</Phrase>
+    <Phrase key="chkSendOnNorm">O normalizaci</Phrase>
+    <Phrase key="chkCopyCmdVal">Zkopírujte hodnotu a data</Phrase>
+    <Phrase key="rbNumVal">Numerický</Phrase>
+    <Phrase key="rbStrData">Řetězcová data</Phrase>
+    <Phrase key="rbHexData">Hexadecimální údaje</Phrase>
+    <Phrase key="btnOff">Vypnuto</Phrase>
+    <Phrase key="btnOn">Na</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmConditionEdit">
+    <Phrase key="this">Upravit podmínku</Phrase>
+    <Phrase key="lblCompareOper1">Porovnej oper.  1</Phrase>
+    <Phrase key="lblCompareArg1">Argument 1</Phrase>
+    <Phrase key="lblLogicalOper">Logická oper.</Phrase>
+    <Phrase key="cbLogicalOper.Items[0]">Žádný</Phrase>
+    <Phrase key="cbLogicalOper.Items[1]">A</Phrase>
+    <Phrase key="cbLogicalOper.Items[2]">Nebo</Phrase>
+    <Phrase key="lblCompareOper2">Porovnej oper.  2</Phrase>
+    <Phrase key="lblCompareArg2">argument 2</Phrase>
+    <Phrase key="lblResult">Výsledek</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">zrušení</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmDateTimeAdd">
+    <Phrase key="title1">Přidat datum</Phrase>
+    <Phrase key="title2">Přidat čas</Phrase>
+    <Phrase key="lblDate">datum</Phrase>
+    <Phrase key="lblTime">Čas</Phrase>
+    <Phrase key="btnAdd">Přidat</Phrase>
+    <Phrase key="btnClose">Zavřít</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmDayAdd">
+    <Phrase key="this">Přidat den v měsíci</Phrase>
+    <Phrase key="lblDay">Den</Phrase>
+    <Phrase key="btnAdd">Přidat</Phrase>
+    <Phrase key="btnClose">Zavřít</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmGeneralOptions">
+    <Phrase key="this">Možnosti modulu</Phrase>
+    <Phrase key="lblUsername">Uživatelské jméno</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">zrušení</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmModuleConfig">
+    <Phrase key="this">Automatické ovládání</Phrase>
+    <Phrase key="btnAddTriggerGroup.ToolTip">Přidat spouštěcí skupinu</Phrase>
+    <Phrase key="btnAddCnlDataTrigger.ToolTip">Přidat spouštěč dat kanálu</Phrase>
+    <Phrase key="btnAddCnlDataChangeTrigger.ToolTip">Přidat spouštěč změny dat kanálu</Phrase>
+    <Phrase key="btnAddEvTrigger.ToolTip">Přidat spouštěč události</Phrase>
+    <Phrase key="btnAddTimeTrigger.ToolTip">Přidat časový spínač</Phrase>
+    <Phrase key="btnAddCmdTrigger.ToolTip">Přidat spouštěč příkazů</Phrase>
+    <Phrase key="btnAddCommand.ToolTip">Přidat příkaz</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Posunout nahoru</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Posunout dolů</Phrase>
+    <Phrase key="btnDelete.ToolTip">Vymazat</Phrase>
+    <Phrase key="btnCut.ToolTip">Střih</Phrase>
+    <Phrase key="btnCopy.ToolTip">kopírovat</Phrase>
+    <Phrase key="btnPaste.ToolTip">Vložit</Phrase>
+    <Phrase key="btnOptions.ToolTip">Možnosti modulu</Phrase>
+    <Phrase key="gbTriggers">Spouštěče</Phrase>
+    <Phrase key="lblHint">Přidejte spouštěče a příkazy</Phrase>
+    <Phrase key="btnSave">Uložit</Phrase>
+    <Phrase key="btnCancel">zrušení</Phrase>
+    <Phrase key="btnClose">Zavřít</Phrase>
+    <Phrase key="miCollapseAll">Sbalit vše</Phrase>
+    <Phrase key="UnnamedGroup">&lt;Nepojmenovaná skupina&gt;</Phrase>
+    <Phrase key="UnnamedTrigger">&lt;Unnamed Trigger&gt;</Phrase>
+    <Phrase key="CommandDescr1">Kanál {0}</Phrase>
+    <Phrase key="CommandDescr2">Zařízení {0}, příkaz {1}</Phrase>
+    <Phrase key="CopySuffix">- Kopírovat</Phrase>
+  </Dictionary>
+</ModAutoControlDictionaries>

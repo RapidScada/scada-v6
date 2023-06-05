@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvTelegramDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvTelegram.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Својства уређаја {0} – Telegram</Phrase>
+    <Phrase key="lblBotToken">Bot token</Phrase>
+    <Phrase key="btnPasteBotToken.ToolTip">Пасте Bot Token</Phrase>
+    <Phrase key="lblSubscr">Претплате</Phrase>
+    <Phrase key="btnAddSubscr.ToolTip">Додај претплату</Phrase>
+    <Phrase key="btnEditSubscr.ToolTip">Уредите изабрану претплату</Phrase>
+    <Phrase key="btnDeleteSubscr.ToolTip">Избришите изабрану претплату</Phrase>
+    <Phrase key="btnCopySubscrName.ToolTip">Копирај назив претплате</Phrase>
+    <Phrase key="colSubscrID">ID</Phrase>
+    <Phrase key="colSubscrName">Име</Phrase>
+    <Phrase key="btnSave">сачувати</Phrase>
+    <Phrase key="btnClose">Близу</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvTelegram.View.Forms.FrmSubscriptionOptions">
+    <Phrase key="lblChatID">ID ћаскања</Phrase>
+    <Phrase key="lblName">Име</Phrase>
+    <Phrase key="btnOK">У реду</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+    <Phrase key="NewSubscriptionTitle">Нова претплата</Phrase>
+    <Phrase key="EditSubscriptionTitle">Уреди претплату</Phrase>
+  </Dictionary>
+</DrvTelegramDictionaries>

@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgChartProDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.ChartPro">
+    <Phrase key="PageTitle">{0} - 专业图表</Phrase>
+    <Phrase key="aToday">今天</Phrase>
+    <Phrase key="aYesterday">昨天</Phrase>
+    <Phrase key="aPastWeek">上周</Phrase>
+    <Phrase key="aPastMonth">过去一个月</Phrase>
+    <Phrase key="aCustomPeriod">自定义期间</Phrase>
+    <Phrase key="aSelectChannels">选择频道</Phrase>
+    <Phrase key="aSelectProfile">选择资料</Phrase>
+    <Phrase key="aShowData">显示数据</Phrase>
+    <Phrase key="aHideData">隐藏数据</Phrase>
+    <Phrase key="aExport">出口</Phrase>
+    <Phrase key="ChartTitleFixed">{0}，{1}</Phrase>
+    <Phrase key="ChartTitleRolling">{0}，{1} 分钟</Phrase>
+    <Phrase key="Generated">生成的</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.ChartPro.Js">
+    <Phrase key="DataLoading">数据加载...</Phrase>
+    <Phrase key="LoadError">加载数据时出错</Phrase>
+    <Phrase key="Generated">生成的</Phrase>
+    <Phrase key="TimeCol">时间</Phrase>
+    <Phrase key="ZoomIn">放大</Phrase>
+    <Phrase key="ZoomOut">缩小</Phrase>
+    <Phrase key="ResetZoom">重置缩放</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.ChartProView">
+    <Phrase key="PageTitle">图表临</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.Export">
+    <Phrase key="PageTitle">图表导出</Phrase>
+    <Phrase key="btnExportPdf">将图表导出为 PDF</Phrase>
+    <Phrase key="btnExportPng">将图表导出为 PNG</Phrase>
+    <Phrase key="btnExportExcel">将数据导出到 Excel</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.Period">
+    <Phrase key="PageTitle">图表周期</Phrase>
+    <Phrase key="lblFrom">从</Phrase>
+    <Phrase key="lblTo">到</Phrase>
+    <Phrase key="InvalidPeriod">开始日期必须早于或等于结束日期。</Phrase>
+    <Phrase key="PeriodTooLong">最大周期长度为 {0} 天。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.PeriodRolling">
+    <Phrase key="PageTitle">图表周期</Phrase>
+    <Phrase key="lblPeriod">时期</Phrase>
+    <Phrase key="lblMin">分钟</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.Profile">
+    <Phrase key="PageTitle">图表简介</Phrase>
+    <Phrase key="lblProfile">轮廓</Phrase>
+    <Phrase key="ProfileListEmpty">配置文件列表为空。 检查插件配置。</Phrase>
+  </Dictionary>
+</PlgChartProDictionaries>

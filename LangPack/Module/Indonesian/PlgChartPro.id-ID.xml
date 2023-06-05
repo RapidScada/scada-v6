@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgChartProDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.ChartPro">
+    <Phrase key="PageTitle">{0} - Bagan Pro</Phrase>
+    <Phrase key="aToday">Hari ini</Phrase>
+    <Phrase key="aYesterday">Kemarin</Phrase>
+    <Phrase key="aPastWeek">Minggu lalu</Phrase>
+    <Phrase key="aPastMonth">Bulan lalu</Phrase>
+    <Phrase key="aCustomPeriod">Periode Kustom</Phrase>
+    <Phrase key="aSelectChannels">Pilih Saluran</Phrase>
+    <Phrase key="aSelectProfile">Pilih Profil</Phrase>
+    <Phrase key="aShowData">Tampilkan Data</Phrase>
+    <Phrase key="aHideData">Sembunyikan Data</Phrase>
+    <Phrase key="aExport">Ekspor</Phrase>
+    <Phrase key="ChartTitleFixed">{0}, {1}</Phrase>
+    <Phrase key="ChartTitleRolling">{0}, {1} menit</Phrase>
+    <Phrase key="Generated">Dihasilkan</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.ChartPro.Js">
+    <Phrase key="DataLoading">Memuat data...</Phrase>
+    <Phrase key="LoadError">Kesalahan memuat data</Phrase>
+    <Phrase key="Generated">Dihasilkan</Phrase>
+    <Phrase key="TimeCol">Waktu</Phrase>
+    <Phrase key="ZoomIn">Perbesar</Phrase>
+    <Phrase key="ZoomOut">Perkecil</Phrase>
+    <Phrase key="ResetZoom">Atur Ulang Zoom</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.ChartProView">
+    <Phrase key="PageTitle">Bagan Pro</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.Export">
+    <Phrase key="PageTitle">Ekspor Bagan</Phrase>
+    <Phrase key="btnExportPdf">Ekspor bagan ke PDF</Phrase>
+    <Phrase key="btnExportPng">Ekspor bagan ke PNG</Phrase>
+    <Phrase key="btnExportExcel">Ekspor data ke Excel</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.Period">
+    <Phrase key="PageTitle">Periode Bagan</Phrase>
+    <Phrase key="lblFrom">Dari</Phrase>
+    <Phrase key="lblTo">Ke</Phrase>
+    <Phrase key="InvalidPeriod">Tanggal mulai harus kurang dari atau sama dengan tanggal akhir.</Phrase>
+    <Phrase key="PeriodTooLong">Panjang periode maksimum adalah {0} hari.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.PeriodRolling">
+    <Phrase key="PageTitle">Periode Bagan</Phrase>
+    <Phrase key="lblPeriod">Periode</Phrase>
+    <Phrase key="lblMin">min</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.Profile">
+    <Phrase key="PageTitle">Profil Bagan</Phrase>
+    <Phrase key="lblProfile">Profil</Phrase>
+    <Phrase key="ProfileListEmpty">Daftar profil kosong.  Periksa konfigurasi plugin.</Phrase>
+  </Dictionary>
+</PlgChartProDictionaries>

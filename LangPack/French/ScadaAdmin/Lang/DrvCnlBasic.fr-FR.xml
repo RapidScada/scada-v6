@@ -29,7 +29,7 @@
     <Phrase key="this">Options du client TCP</Phrase>
     <Phrase key="gbMode">Mode de fonctionnement</Phrase>
     <Phrase key="lblBehavior">Comportement</Phrase>
-    <Phrase key="pbBehaviorHint.ToolTip">Maître - Le Communicateur envoie une requête à un appareil et reçoit une réponse.&#13;&#10;Esclave - Le Communicateur attend passivement les données d'un appareil.</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Maître - Le Communicateur envoie une requête à un appareil et reçoit une réponse.&#13;&#10;Slave - Le Communicateur attend passivement les données d'un appareil.</Phrase>
     <Phrase key="lblConnectionMode">Mode de connexion</Phrase>
     <Phrase key="cbConnectionMode.Items[0]">Individuel</Phrase>
     <Phrase key="cbConnectionMode.Items[1]">partagé</Phrase>
@@ -43,6 +43,8 @@
     <Phrase key="pbReconnectAfterHint.ToolTip">Spécifie l'intervalle de temps pour se reconnecter après une tentative infructueuse.</Phrase>
     <Phrase key="lblStayConnected">Rester connecté</Phrase>
     <Phrase key="pbStayConnectedHint.ToolTip">S'il est défini, la connexion est active entre les sessions de communication.&#13;&#10;Sinon, la connexion est interrompue après chaque session.</Phrase>
+    <Phrase key="lblDisconnectOnError">Déconnecter en cas d'erreur</Phrase>
+    <Phrase key="pbDisconnectOnError.ToolTip">Indique s'il faut se déconnecter en cas d'échec d'une session.</Phrase>
     <Phrase key="btnOK">D'ACCORD</Phrase>
     <Phrase key="btnCancel">Annuler</Phrase>
     <Phrase key="HostRequired">Un hôte distant est requis.</Phrase>
@@ -51,7 +53,7 @@
     <Phrase key="this">Options du serveur TCP</Phrase>
     <Phrase key="gbMode">Mode de fonctionnement</Phrase>
     <Phrase key="lblBehavior">Comportement</Phrase>
-    <Phrase key="pbBehaviorHint.ToolTip">Maître - après avoir établi la connexion, Communicator envoie une demande à un appareil et reçoit une réponse.&#13;&#10;Esclave - Communicator attend passivement les données d'un appareil.</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Maître - après avoir établi la connexion, Communicator envoie une demande à un appareil et reçoit une réponse.&#13;&#10;Slave - Communicator attend passivement les données d'un appareil.</Phrase>
     <Phrase key="lblConnectionMode">Mode de connexion</Phrase>
     <Phrase key="cbConnectionMode.Items[0]">Individuel</Phrase>
     <Phrase key="cbConnectionMode.Items[1]">partagé</Phrase>
@@ -73,7 +75,7 @@
     <Phrase key="this">Options UDP</Phrase>
     <Phrase key="gbMode">Mode de fonctionnement</Phrase>
     <Phrase key="lblBehavior">Comportement</Phrase>
-    <Phrase key="pbBehaviorHint.ToolTip">Maître - Le Communicateur envoie une requête à un appareil et reçoit une réponse.&#13;&#10;Esclave - Le Communicateur attend passivement les données d'un appareil.</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Maître - Le Communicateur envoie une requête à un appareil et reçoit une réponse.&#13;&#10;Slave - Le Communicateur attend passivement les données d'un appareil.</Phrase>
     <Phrase key="lblDeviceMapping">Cartographie des appareils</Phrase>
     <Phrase key="cbDeviceMapping.Items[0]">Par adresse IP</Phrase>
     <Phrase key="cbDeviceMapping.Items[1]">Chauffeur déterminé</Phrase>

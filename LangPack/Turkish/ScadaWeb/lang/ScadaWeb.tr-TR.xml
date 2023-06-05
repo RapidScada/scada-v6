@@ -95,6 +95,7 @@
     <Phrase key="CommandsDisabled">Komutlar devre dışı.</Phrase>
     <Phrase key="SendCommand">{1} tarafından {0} kanalına komut gönder</Phrase>
     <Phrase key="ActionNotAllowed">Eyleme izin verilmiyor.</Phrase>
+    <Phrase key="ViewTitle">{0} görüntüle</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.TreeView.MenuItem">
     <Phrase key="ReportsMenuItem">Raporlar</Phrase>

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgGuardDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages">
+    <Phrase key="NoData">Tidak ada data</Phrase>
+    <Phrase key="UsernameColumn">Nama belakang</Phrase>
+    <Phrase key="SessionIdColumn">ID sesi</Phrase>
+    <Phrase key="RemoteIpColumn">Alamat IP</Phrase>
+    <Phrase key="AccessTimeColumn">Waktu akses</Phrase>
+    <Phrase key="FailCountColumn">Hitungan Gagal</Phrase>
+    <Phrase key="AccessColumn">Mengakses</Phrase>
+    <Phrase key="AccessAllowed">Diizinkan</Phrase>
+    <Phrase key="AccessBlocked">Diblokir</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.Addresses">
+    <Phrase key="PageTitle">Alamat IP</Phrase>
+    <Phrase key="UsernameColumn">Nama Pengguna Terakhir</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.General">
+    <Phrase key="PageTitle">Umum</Phrase>
+    <Phrase key="CacheInfoFormat">{0} dari {1}</Phrase>
+    <Phrase key="lblGlobalAccess">Akses global:</Phrase>
+    <Phrase key="lblBlockedUsers">Pengguna diblokir:</Phrase>
+    <Phrase key="lblBlockedAddresses">Alamat IP yang diblokir:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.Sessions">
+    <Phrase key="PageTitle">Sesi</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.Users">
+    <Phrase key="PageTitle">Pengguna</Phrase>
+    <Phrase key="RemoteIpColumn">Alamat IP terakhir</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.PlgGuardLogic">
+    <Phrase key="GuardMenuItem">Penjaga</Phrase>
+    <Phrase key="GeneralMenuItem">Umum</Phrase>
+    <Phrase key="UsersMenuItem">Pengguna</Phrase>
+    <Phrase key="AddressesMenuItem">Alamat IP</Phrase>
+    <Phrase key="SessionsMenuItem">Sesi</Phrase>
+  </Dictionary>
+</PlgGuardDictionaries>

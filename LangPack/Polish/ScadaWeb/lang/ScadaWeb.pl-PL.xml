@@ -41,7 +41,7 @@
     <Phrase key="AckAll">Potwierdź wszystko</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.About">
-    <Phrase key="PageTitle">O programie</Phrase>
+    <Phrase key="PageTitle">O</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.AccessDenied">
     <Phrase key="PageTitle">Brak dostępu</Phrase>
@@ -95,6 +95,7 @@
     <Phrase key="CommandsDisabled">Polecenia wyłączone.</Phrase>
     <Phrase key="SendCommand">Wyślij polecenie do kanału {0} przez {1}</Phrase>
     <Phrase key="ActionNotAllowed">Działanie niedozwolone.</Phrase>
+    <Phrase key="ViewTitle">Zobacz {0}</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.TreeView.MenuItem">
     <Phrase key="ReportsMenuItem">Raporty</Phrase>

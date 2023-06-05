@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModAutoControlDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlCmdTrigger">
+    <Phrase key="gbTrigger">Параметри окидача</Phrase>
+    <Phrase key="chkActive">Активан</Phrase>
+    <Phrase key="lblName">Име</Phrase>
+    <Phrase key="lblDescr">Раисес</Phrase>
+    <Phrase key="txtDescr">На команду</Phrase>
+    <Phrase key="lblCnlNum">Канал</Phrase>
+    <Phrase key="lblCmdVal">Валуе</Phrase>
+    <Phrase key="btnOff">Ван</Phrase>
+    <Phrase key="btnOn">на</Phrase>
+    <Phrase key="lblCmdData">Подаци</Phrase>
+    <Phrase key="cbCmdDataCompareOper.Items[0]">Не проверавајте</Phrase>
+    <Phrase key="cbCmdDataCompareOper.Items[1]">Једнако</Phrase>
+    <Phrase key="cbCmdDataCompareOper.Items[2]">Садржи</Phrase>
+    <Phrase key="chkTransmitCmd">Пренесите команду</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlCnlDataChangeTrigger">
+    <Phrase key="gbTrigger">Параметри окидача</Phrase>
+    <Phrase key="chkActive">Активан</Phrase>
+    <Phrase key="lblName">Име</Phrase>
+    <Phrase key="lblDescr">Раисес</Phrase>
+    <Phrase key="txtDescr">О промени података о каналу</Phrase>
+    <Phrase key="lblCnlNum">Канал</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlCnlDataTrigger">
+    <Phrase key="gbTrigger">Параметри окидача</Phrase>
+    <Phrase key="chkActive">Активан</Phrase>
+    <Phrase key="lblName">Име</Phrase>
+    <Phrase key="lblDescr">Раисес</Phrase>
+    <Phrase key="txtDescr">Подаци о каналу</Phrase>
+    <Phrase key="lblCnlNum">Канали</Phrase>
+    <Phrase key="lblCnlValCond">Валуе</Phrase>
+    <Phrase key="lblDeadband">Деадбанд</Phrase>
+    <Phrase key="lblCnlStat">Статуси</Phrase>
+    <Phrase key="lblDelay">Кашњење, сек</Phrase>
+    <Phrase key="lblRepeat">Понављање циклуса, сек</Phrase>
+    <Phrase key="lblRepeatCnt">Поновите бројање</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlEvTrigger">
+    <Phrase key="gbTrigger">Параметри окидача</Phrase>
+    <Phrase key="chkActive">Активан</Phrase>
+    <Phrase key="lblName">Име</Phrase>
+    <Phrase key="lblDescr">Раисес</Phrase>
+    <Phrase key="txtDescr">На догађају</Phrase>
+    <Phrase key="lblObjNum">Објекат</Phrase>
+    <Phrase key="lblDeviceNum">Уређај</Phrase>
+    <Phrase key="lblCnlNum">Канал</Phrase>
+    <Phrase key="lblSeverity">Озбиљност (мин, макс.)</Phrase>
+    <Phrase key="lblNewCnlValCond">Нова вредност</Phrase>
+    <Phrase key="lblNewCnlStat">Нови статус</Phrase>
+    <Phrase key="lblTextCompareOper">Текст</Phrase>
+    <Phrase key="cbTextCompareOper.Items[0]">Не проверавајте</Phrase>
+    <Phrase key="cbTextCompareOper.Items[1]">Једнако</Phrase>
+    <Phrase key="cbTextCompareOper.Items[2]">Садржи</Phrase>
+    <Phrase key="lblDataCompareOper">Подаци</Phrase>
+    <Phrase key="cbDataCompareOper.Items[0]">Не проверавајте</Phrase>
+    <Phrase key="cbDataCompareOper.Items[1]">Једнако</Phrase>
+    <Phrase key="cbDataCompareOper.Items[2]">Садржи</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlTiggerGroup">
+    <Phrase key="gbTriggerGroup">Гроуп Параметерс</Phrase>
+    <Phrase key="chkActive">Активан</Phrase>
+    <Phrase key="lblName">Име</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlTimeTrigger">
+    <Phrase key="gbTrigger">Параметри окидача</Phrase>
+    <Phrase key="chkActive">Активан</Phrase>
+    <Phrase key="lblName">Име</Phrase>
+    <Phrase key="lblDescr">Раисес</Phrase>
+    <Phrase key="txtDescr">На време</Phrase>
+    <Phrase key="rbEveryDay">Сваки дан</Phrase>
+    <Phrase key="rbDaysOfWeek">Дани у недељи</Phrase>
+    <Phrase key="rbDaysOfMonth">Дани у месецу</Phrase>
+    <Phrase key="rbDates">Датуми</Phrase>
+    <Phrase key="chkSun">Сун</Phrase>
+    <Phrase key="chkMon">пон</Phrase>
+    <Phrase key="chkTue">уто</Phrase>
+    <Phrase key="chkWed">ср</Phrase>
+    <Phrase key="chkThu">Тху</Phrase>
+    <Phrase key="chkFri">пет</Phrase>
+    <Phrase key="chkSat">Сат</Phrase>
+    <Phrase key="lblTimes">Раисе тимес</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlTriggerCommand">
+    <Phrase key="gbCommand">Цомманд Параметерс</Phrase>
+    <Phrase key="lblCnlNum">Канал</Phrase>
+    <Phrase key="lblOr">ИЛИ</Phrase>
+    <Phrase key="lblDeviceNum">Уређај</Phrase>
+    <Phrase key="lblCmdNum">Број команде</Phrase>
+    <Phrase key="lblCmdCode">Командни код</Phrase>
+    <Phrase key="lblDelay">Кашњење, сек</Phrase>
+    <Phrase key="chkSendOnFiring">На пуцању</Phrase>
+    <Phrase key="chkSendOnNorm">О нормализацији</Phrase>
+    <Phrase key="chkCopyCmdVal">Копирајте вредност и податке</Phrase>
+    <Phrase key="rbNumVal">Нумериц</Phrase>
+    <Phrase key="rbStrData">Стринг дата</Phrase>
+    <Phrase key="rbHexData">Хексадецимални подаци</Phrase>
+    <Phrase key="btnOff">Ван</Phrase>
+    <Phrase key="btnOn">на</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmConditionEdit">
+    <Phrase key="this">Едит Цондитион</Phrase>
+    <Phrase key="lblCompareOper1">Упоредите опер.  1</Phrase>
+    <Phrase key="lblCompareArg1">Аргумент 1</Phrase>
+    <Phrase key="lblLogicalOper">Логицал опер.</Phrase>
+    <Phrase key="cbLogicalOper.Items[0]">Ниједан</Phrase>
+    <Phrase key="cbLogicalOper.Items[1]">И</Phrase>
+    <Phrase key="cbLogicalOper.Items[2]">Ор</Phrase>
+    <Phrase key="lblCompareOper2">Упоредите опер.  2</Phrase>
+    <Phrase key="lblCompareArg2">Аргумент 2</Phrase>
+    <Phrase key="lblResult">Резултат</Phrase>
+    <Phrase key="btnOK">У реду</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmDateTimeAdd">
+    <Phrase key="title1">Додај датум</Phrase>
+    <Phrase key="title2">Додај време</Phrase>
+    <Phrase key="lblDate">Датум</Phrase>
+    <Phrase key="lblTime">време</Phrase>
+    <Phrase key="btnAdd">Додати</Phrase>
+    <Phrase key="btnClose">Близу</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmDayAdd">
+    <Phrase key="this">Додајте дан у месецу</Phrase>
+    <Phrase key="lblDay">Дан</Phrase>
+    <Phrase key="btnAdd">Додати</Phrase>
+    <Phrase key="btnClose">Близу</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmGeneralOptions">
+    <Phrase key="this">Опције модула</Phrase>
+    <Phrase key="lblUsername">Корисничко име</Phrase>
+    <Phrase key="btnOK">У реду</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmModuleConfig">
+    <Phrase key="this">Аутоматска контрола</Phrase>
+    <Phrase key="btnAddTriggerGroup.ToolTip">Додај групу покретача</Phrase>
+    <Phrase key="btnAddCnlDataTrigger.ToolTip">Додај покретач података о каналу</Phrase>
+    <Phrase key="btnAddCnlDataChangeTrigger.ToolTip">Додајте покретач промене података о каналу</Phrase>
+    <Phrase key="btnAddEvTrigger.ToolTip">Додајте покретач догађаја</Phrase>
+    <Phrase key="btnAddTimeTrigger.ToolTip">Додајте окидач времена</Phrase>
+    <Phrase key="btnAddCmdTrigger.ToolTip">Додај командни окидач</Phrase>
+    <Phrase key="btnAddCommand.ToolTip">Додај команду</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Напредовати</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Помери се доле</Phrase>
+    <Phrase key="btnDelete.ToolTip">Избриши</Phrase>
+    <Phrase key="btnCut.ToolTip">Цут</Phrase>
+    <Phrase key="btnCopy.ToolTip">Копирај</Phrase>
+    <Phrase key="btnPaste.ToolTip">Залепите</Phrase>
+    <Phrase key="btnOptions.ToolTip">Опције модула</Phrase>
+    <Phrase key="gbTriggers">Триггерс</Phrase>
+    <Phrase key="lblHint">Додајте окидаче и команде</Phrase>
+    <Phrase key="btnSave">сачувати</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+    <Phrase key="btnClose">Близу</Phrase>
+    <Phrase key="miCollapseAll">Скупи све</Phrase>
+    <Phrase key="UnnamedGroup">&lt;Неименована група&gt;</Phrase>
+    <Phrase key="UnnamedTrigger">&lt;Неименовани окидач&gt;</Phrase>
+    <Phrase key="CommandDescr1">Канал {0}</Phrase>
+    <Phrase key="CommandDescr2">Уређај {0}, команда {1}</Phrase>
+    <Phrase key="CopySuffix">- Примљено</Phrase>
+  </Dictionary>
+</ModAutoControlDictionaries>

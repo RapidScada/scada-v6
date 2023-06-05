@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvModbusSlaveDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls">
+    <Phrase key="ConfigDirRequired">デバイス テンプレート ファイルは、{0} 内に配置する必要があります</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlChannelGateway">
+    <Phrase key="gbChannelGateway">チャネルゲートウェイのオプション</Phrase>
+    <Phrase key="btnEdit">編集</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlDeviceGateway">
+    <Phrase key="gbDeviceGateway">デバイスゲートウェイオプション</Phrase>
+    <Phrase key="lblTemplateFileName">デバイステンプレート</Phrase>
+    <Phrase key="btnEditTemplate">編集</Phrase>
+    <Phrase key="btnBrowseTemplate">ブラウズ...</Phrase>
+    <Phrase key="lblSourceDeviceNum">データソースデバイス</Phrase>
+    <Phrase key="btnSelect">選択する</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlElem">
+    <Phrase key="gbElem">要素パラメータ</Phrase>
+    <Phrase key="lblChannel">チャネル</Phrase>
+    <Phrase key="lblAddress">住所</Phrase>
+    <Phrase key="lblAddressHint">DEC、0 から開始</Phrase>
+    <Phrase key="lblDataType">データ・タイプ</Phrase>
+    <Phrase key="cbType.Items[0]">未定義</Phrase>
+    <Phrase key="cbType.Items[1]">ushort (2 bytes)</Phrase>
+    <Phrase key="cbType.Items[2]">short (2 bytes)</Phrase>
+    <Phrase key="cbType.Items[3]">uint (4 bytes)</Phrase>
+    <Phrase key="cbType.Items[4]">int (4 bytes)</Phrase>
+    <Phrase key="cbType.Items[5]">ulong (8 bytes)</Phrase>
+    <Phrase key="cbType.Items[6]">long (8 bytes)</Phrase>
+    <Phrase key="cbType.Items[7]">float (4 bytes)</Phrase>
+    <Phrase key="cbType.Items[8]">double (8 bytes)</Phrase>
+    <Phrase key="cbType.Items[9]">bool (1 bit)</Phrase>
+    <Phrase key="lblRatio">比</Phrase>
+    <Phrase key="chkReadOnly">読み取り専用</Phrase>
+    <Phrase key="ChannelNotSpecified">チャンネルが指定されていません</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlIndependentDevice">
+    <Phrase key="gbIndependentDevice">独立したデバイスのオプション</Phrase>
+    <Phrase key="lblTemplateFileName">デバイステンプレート</Phrase>
+    <Phrase key="btnEditTemplate">編集</Phrase>
+    <Phrase key="btnBrowseTemplate">ブラウズ...</Phrase>
+    <Phrase key="lblDataLifetime">データ有効期間、分</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Forms.FrmChannelGatewayOptions">
+    <Phrase key="this">チャネルゲートウェイのオプション</Phrase>
+    <Phrase key="btnAdd">チャンネルの追加</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">上に移動</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">下に移動</Phrase>
+    <Phrase key="btnDelete.ToolTip">消去</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+    <Phrase key="miCollapseAll">すべて折りたたむ</Phrase>
+    <Phrase key="gbChannelGateway">チャンネル</Phrase>
+    <Phrase key="SelectChildNode">子ノードの選択</Phrase>
+    <Phrase key="ChannelItem">チャンネル {0}</Phrase>
+    <Phrase key="DiscreteInputs">ディスクリート入力</Phrase>
+    <Phrase key="Coils">コイル</Phrase>
+    <Phrase key="InputRegisters">入力レジスタ</Phrase>
+    <Phrase key="HoldingRegisters">所蔵レジスター</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">デバイス {0} プロパティ - Modbus Slave</Phrase>
+    <Phrase key="gbGeneralOptions">一般的なオプション</Phrase>
+    <Phrase key="lblMode">モード</Phrase>
+    <Phrase key="cbDevicesMode.Items[0]">独立したデバイス</Phrase>
+    <Phrase key="cbDevicesMode.Items[1]">デバイスゲートウェイ</Phrase>
+    <Phrase key="cbDevicesMode.Items[2]">チャネルゲートウェイ</Phrase>
+    <Phrase key="lblUndefinedValue">未定義の値</Phrase>
+    <Phrase key="btnSave">保存</Phrase>
+    <Phrase key="btnClose">近い</Phrase>
+    <Phrase key="IndependentDeviceDescription">Modbus マスターからデータを受信します。</Phrase>
+    <Phrase key="DeviceGatewayDescription">選択したデバイスのデータを Modbus マスターに提供します。</Phrase>
+    <Phrase key="ChannelGatewayDescription">選択したチャンネルのデータを Modbus マスターに提供します。</Phrase>
+  </Dictionary>
+</DrvModbusSlaveDictionaries>

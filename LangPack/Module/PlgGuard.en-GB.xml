@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PlgGuardDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages">
+    <Phrase key="NoData">No data</Phrase>
+    <Phrase key="UsernameColumn">Username</Phrase>
+    <Phrase key="SessionIdColumn">Session ID</Phrase>
+    <Phrase key="RemoteIpColumn">IP Address</Phrase>
+    <Phrase key="AccessTimeColumn">Access Time</Phrase>
+    <Phrase key="FailCountColumn">Fail Count</Phrase>
+    <Phrase key="AccessColumn">Access</Phrase>
+    <Phrase key="AccessAllowed">Allowed</Phrase>
+    <Phrase key="AccessBlocked">Blocked</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.Addresses">
+    <Phrase key="PageTitle">IP Addresses</Phrase>
+    <Phrase key="UsernameColumn">Last Username</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.General">
+    <Phrase key="PageTitle">General</Phrase>
+    <Phrase key="CacheInfoFormat">{0} of {1}</Phrase>
+    <Phrase key="lblGlobalAccess">Global access:</Phrase>
+    <Phrase key="lblBlockedUsers">Blocked users:</Phrase>
+    <Phrase key="lblBlockedAddresses">Blocked IP addresses:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.Sessions">
+    <Phrase key="PageTitle">Sessions</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.Users">
+    <Phrase key="PageTitle">Users</Phrase>
+    <Phrase key="RemoteIpColumn">Last IP Address</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.PlgGuardLogic">
+    <Phrase key="GuardMenuItem">Guard</Phrase>
+    <Phrase key="GeneralMenuItem">General</Phrase>
+    <Phrase key="UsersMenuItem">Users</Phrase>
+    <Phrase key="AddressesMenuItem">IP Addresses</Phrase>
+    <Phrase key="SessionsMenuItem">Sessions</Phrase>
+  </Dictionary>
+</PlgGuardDictionaries>

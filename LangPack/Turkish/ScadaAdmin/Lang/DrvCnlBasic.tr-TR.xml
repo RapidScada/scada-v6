@@ -20,8 +20,8 @@
     <Phrase key="lblRtsEnable">RTS</Phrase>
     <Phrase key="gbMode">Çalışma modu</Phrase>
     <Phrase key="lblBehavior">Davranış</Phrase>
-    <Phrase key="cbBehavior.Items[0]">Usta</Phrase>
-    <Phrase key="cbBehavior.Items[1]">Köle</Phrase>
+    <Phrase key="cbBehavior.Items[0]">Master</Phrase>
+    <Phrase key="cbBehavior.Items[1]">Slave</Phrase>
     <Phrase key="btnOK">TAMAM</Phrase>
     <Phrase key="btnCancel">İptal etmek</Phrase>
   </Dictionary>
@@ -29,7 +29,7 @@
     <Phrase key="this">TCP İstemci Seçenekleri</Phrase>
     <Phrase key="gbMode">Çalışma modu</Phrase>
     <Phrase key="lblBehavior">Davranış</Phrase>
-    <Phrase key="pbBehaviorHint.ToolTip">Master - Communicator bir cihaza istek gönderir ve yanıt alır.&#13;&#10;Bağımlı - Communicator pasif olarak bir cihazdan veri bekler.</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master - Communicator bir cihaza istek gönderir ve yanıt alır.&#13;&#10;Slave - Communicator pasif olarak bir cihazdan veri bekler.</Phrase>
     <Phrase key="lblConnectionMode">Bağlantı modu</Phrase>
     <Phrase key="cbConnectionMode.Items[0]">Bireysel</Phrase>
     <Phrase key="cbConnectionMode.Items[1]">Paylaşılan</Phrase>
@@ -38,11 +38,13 @@
     <Phrase key="lblHost">Uzak ana bilgisayar</Phrase>
     <Phrase key="pbHostHint.ToolTip">Paylaşılan bağlantı kullanılması durumunda uzak DNS adı veya IP adresi.</Phrase>
     <Phrase key="lblTcpPort">Uzak TCP bağlantı noktası</Phrase>
-    <Phrase key="pbTcpPortHint.ToolTip">Bireysel bağlantı modunda, bir cihaz için bağlantı noktası belirtilmezse varsayılan TCP bağlantı noktası olarak kullanılır.&#13;&#10;Paylaşımlı bağlantı modunda parametre gereklidir.&#13;&#10;502 bağlantı noktası, varsayılan Modbus TCP bağlantı noktasıdır.</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">Bireysel bağlantı modunda, bir cihaz için bağlantı noktası belirtilmezse varsayılan TCP bağlantı noktası olarak kullanılır.&#13;&#10;Paylaşılan bağlantı modunda parametre gereklidir.&#13;&#10;502 bağlantı noktası, varsayılan Modbus TCP bağlantı noktasıdır.</Phrase>
     <Phrase key="lblReconnectAfter">Yeniden bağlan, saniye</Phrase>
     <Phrase key="pbReconnectAfterHint.ToolTip">Başarısız bir denemeden sonra yeniden bağlanmak için zaman aralığını belirtir.</Phrase>
     <Phrase key="lblStayConnected">Bağlı kalın</Phrase>
     <Phrase key="pbStayConnectedHint.ToolTip">Ayarlanırsa bağlantı, iletişim oturumları arasında etkindir. Aksi takdirde, bağlantı her oturumdan sonra sonlandırılır.</Phrase>
+    <Phrase key="lblDisconnectOnError">Hata durumunda bağlantıyı kes</Phrase>
+    <Phrase key="pbDisconnectOnError.ToolTip">Bir oturum başarısız olursa bağlantının kesilip kesilmeyeceğini belirtir.</Phrase>
     <Phrase key="btnOK">TAMAM</Phrase>
     <Phrase key="btnCancel">İptal etmek</Phrase>
     <Phrase key="HostRequired">Uzak ana bilgisayar gerekli.</Phrase>
@@ -51,7 +53,7 @@
     <Phrase key="this">TCP Sunucu Seçenekleri</Phrase>
     <Phrase key="gbMode">Çalışma modu</Phrase>
     <Phrase key="lblBehavior">Davranış</Phrase>
-    <Phrase key="pbBehaviorHint.ToolTip">Master - bağlantı kurulduktan sonra Communicator bir cihaza istek gönderir ve yanıt alır.&#13;&#10;Bağımlı - Communicator pasif olarak bir cihazdan veri bekler.</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master - bağlantı kurulduktan sonra Communicator bir cihaza istek gönderir ve yanıt alır.&#13;&#10;Slave - Communicator pasif olarak bir cihazdan veri bekler.</Phrase>
     <Phrase key="lblConnectionMode">Bağlantı modu</Phrase>
     <Phrase key="cbConnectionMode.Items[0]">Bireysel</Phrase>
     <Phrase key="cbConnectionMode.Items[1]">Paylaşılan</Phrase>
@@ -73,7 +75,7 @@
     <Phrase key="this">UDP Seçenekleri</Phrase>
     <Phrase key="gbMode">Çalışma modu</Phrase>
     <Phrase key="lblBehavior">Davranış</Phrase>
-    <Phrase key="pbBehaviorHint.ToolTip">Master - Communicator bir cihaza istek gönderir ve yanıt alır.&#13;&#10;Bağımlı - Communicator pasif olarak bir cihazdan veri bekler.</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master - Communicator bir cihaza istek gönderir ve yanıt alır.&#13;&#10;Slave - Communicator pasif olarak bir cihazdan veri bekler.</Phrase>
     <Phrase key="lblDeviceMapping">Cihaz eşleme</Phrase>
     <Phrase key="cbDeviceMapping.Items[0]">IP adresine göre</Phrase>
     <Phrase key="cbDeviceMapping.Items[1]">Sürücü belirlendi</Phrase>

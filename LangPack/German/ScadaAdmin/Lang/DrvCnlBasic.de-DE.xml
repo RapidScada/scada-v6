@@ -38,11 +38,13 @@
     <Phrase key="lblHost">Remote-Host</Phrase>
     <Phrase key="pbHostHint.ToolTip">Remote-DNS-Name oder IP-Adresse bei Verwendung einer gemeinsam genutzten Verbindung.</Phrase>
     <Phrase key="lblTcpPort">Remote-TCP-Port</Phrase>
-    <Phrase key="pbTcpPortHint.ToolTip">Im Einzelverbindungsmodus wird er als Standard-TCP-Port verwendet, wenn für ein Gerät kein Port angegeben ist.&#13;&#10;Im gemeinsamen Verbindungsmodus ist der Parameter erforderlich.&#13;&#10;Der 502-Port ist der Standard-Modbus-TCP-Port.</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">Im Einzelverbindungsmodus wird er als Standard-TCP-Port verwendet, wenn für ein Gerät kein Port angegeben ist.&#13;&#10;Im gemeinsam genutzten Verbindungsmodus ist der Parameter erforderlich.&#13;&#10;Der 502-Port ist der Standard-Modbus-TCP-Port.</Phrase>
     <Phrase key="lblReconnectAfter">Wieder verbinden, Sek</Phrase>
     <Phrase key="pbReconnectAfterHint.ToolTip">Gibt das Zeitintervall für die Wiederherstellung der Verbindung nach einem erfolglosen Versuch an.</Phrase>
     <Phrase key="lblStayConnected">In Verbindung bleiben</Phrase>
     <Phrase key="pbStayConnectedHint.ToolTip">Wenn gesetzt, ist die Verbindung zwischen Kommunikationssitzungen aktiv.&#13;&#10;Andernfalls wird die Verbindung nach jeder Sitzung beendet.</Phrase>
+    <Phrase key="lblDisconnectOnError">Bei Fehler trennen</Phrase>
+    <Phrase key="pbDisconnectOnError.ToolTip">Gibt an, ob die Verbindung getrennt werden soll, wenn eine Sitzung fehlschlägt.</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Stornieren</Phrase>
     <Phrase key="HostRequired">Remote-Host ist erforderlich.</Phrase>

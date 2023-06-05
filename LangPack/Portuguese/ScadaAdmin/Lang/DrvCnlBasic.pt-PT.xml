@@ -21,7 +21,7 @@
     <Phrase key="gbMode">Modo operacional</Phrase>
     <Phrase key="lblBehavior">Comportamento</Phrase>
     <Phrase key="cbBehavior.Items[0]">Mestre</Phrase>
-    <Phrase key="cbBehavior.Items[1]">Escravo</Phrase>
+    <Phrase key="cbBehavior.Items[1]">Slave</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancelar</Phrase>
   </Dictionary>
@@ -29,7 +29,7 @@
     <Phrase key="this">Opções do Cliente TCP</Phrase>
     <Phrase key="gbMode">Modo operacional</Phrase>
     <Phrase key="lblBehavior">Comportamento</Phrase>
-    <Phrase key="pbBehaviorHint.ToolTip">Mestre - O comunicador envia uma solicitação para um dispositivo e recebe a resposta.&#13;&#10;Escravo - O comunicador espera passivamente pelos dados de um dispositivo.</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Mestre - O comunicador envia uma solicitação para um dispositivo e recebe a resposta.&#13;&#10;Slave - O comunicador espera passivamente pelos dados de um dispositivo.</Phrase>
     <Phrase key="lblConnectionMode">Modo de conexão</Phrase>
     <Phrase key="cbConnectionMode.Items[0]">Individual</Phrase>
     <Phrase key="cbConnectionMode.Items[1]">Compartilhado</Phrase>
@@ -43,6 +43,8 @@
     <Phrase key="pbReconnectAfterHint.ToolTip">Especifica o intervalo de tempo para reconectar após uma tentativa malsucedida.</Phrase>
     <Phrase key="lblStayConnected">Permaneça conectado</Phrase>
     <Phrase key="pbStayConnectedHint.ToolTip">Se definido, a conexão fica ativa entre as sessões de comunicação.&#13;&#10;Caso contrário, a conexão é encerrada após cada sessão.</Phrase>
+    <Phrase key="lblDisconnectOnError">Desconectar em caso de erro</Phrase>
+    <Phrase key="pbDisconnectOnError.ToolTip">Indica se deve desconectar se uma sessão falhar.</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancelar</Phrase>
     <Phrase key="HostRequired">Host remoto é necessário.</Phrase>
@@ -51,12 +53,12 @@
     <Phrase key="this">Opções do Servidor TCP</Phrase>
     <Phrase key="gbMode">Modo operacional</Phrase>
     <Phrase key="lblBehavior">Comportamento</Phrase>
-    <Phrase key="pbBehaviorHint.ToolTip">Mestre - após estabelecer a conexão, o comunicador envia solicitação para um dispositivo e recebe a resposta.&#13;&#10;Escravo - o comunicador espera passivamente pelos dados de um dispositivo.</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Mestre - após estabelecer a conexão, o comunicador envia solicitação para um dispositivo e recebe a resposta.&#13;&#10;Slave - o comunicador espera passivamente pelos dados de um dispositivo.</Phrase>
     <Phrase key="lblConnectionMode">Modo de conexão</Phrase>
     <Phrase key="cbConnectionMode.Items[0]">Individual</Phrase>
     <Phrase key="cbConnectionMode.Items[1]">Compartilhado</Phrase>
     <Phrase key="pbConnectionModeHint.ToolTip">Individual - O Communicator estabelece uma conexão TCP individual com cada dispositivo.&#13;&#10;Compartilhado - O Communicator estabelece uma única conexão compartilhada para todos os dispositivos da linha de comunicação.&#13;&#10;A conexão compartilhada é usada, por exemplo, se os dispositivos estiverem conectados via  um gateway Ethernet-Serial.</Phrase>
-    <Phrase key="lblDeviceMapping">Mapeamento de dispositivos</Phrase>
+    <Phrase key="lblDeviceMapping">Mapeamento de dispositivo</Phrase>
     <Phrase key="cbDeviceMapping.Items[0]">Por endereço IP</Phrase>
     <Phrase key="cbDeviceMapping.Items[1]">por pacote de alô</Phrase>
     <Phrase key="cbDeviceMapping.Items[2]">Motorista determinado</Phrase>
@@ -73,11 +75,11 @@
     <Phrase key="this">Opções UDP</Phrase>
     <Phrase key="gbMode">Modo operacional</Phrase>
     <Phrase key="lblBehavior">Comportamento</Phrase>
-    <Phrase key="pbBehaviorHint.ToolTip">Mestre - O comunicador envia uma solicitação para um dispositivo e recebe a resposta.&#13;&#10;Escravo - O comunicador espera passivamente pelos dados de um dispositivo.</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Mestre - O comunicador envia uma solicitação para um dispositivo e recebe a resposta.&#13;&#10;Slave - O comunicador espera passivamente pelos dados de um dispositivo.</Phrase>
     <Phrase key="lblDeviceMapping">Mapeamento de dispositivo</Phrase>
     <Phrase key="cbDeviceMapping.Items[0]">Por endereço IP</Phrase>
     <Phrase key="cbDeviceMapping.Items[1]">Motorista determinado</Phrase>
-    <Phrase key="pbDeviceMappingHint.ToolTip">O método de vincular uma nova conexão de entrada a um dispositivo:&#13;&#10;Por endereço IP - endereço IP remoto é igual a um endereço de string do dispositivo.&#13;&#10;Driver determinado - o algoritmo é implementado no driver do dispositivo.</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">O método de vincular uma nova conexão de entrada a um dispositivo:&#13;&#10;Por endereço IP - o endereço IP remoto é igual a um endereço de string do dispositivo.&#13;&#10;Driver determinado - o algoritmo é implementado no driver do dispositivo.</Phrase>
     <Phrase key="gbConnection">Conexão</Phrase>
     <Phrase key="lblLocalUdpPort">Porta UDP local</Phrase>
     <Phrase key="pbLocalUdpPortHint.ToolTip">Porta UDP local para conexões de entrada.&#13;&#10;As conexões de entrada devem ser permitidas por um firewall.</Phrase>

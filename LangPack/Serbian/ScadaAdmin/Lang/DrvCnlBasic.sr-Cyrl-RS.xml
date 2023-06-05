@@ -20,8 +20,8 @@
     <Phrase key="lblRtsEnable">RTS</Phrase>
     <Phrase key="gbMode">Начин рада</Phrase>
     <Phrase key="lblBehavior">Понашање</Phrase>
-    <Phrase key="cbBehavior.Items[0]">Господару</Phrase>
-    <Phrase key="cbBehavior.Items[1]">Роб</Phrase>
+    <Phrase key="cbBehavior.Items[0]">Master</Phrase>
+    <Phrase key="cbBehavior.Items[1]">Slave</Phrase>
     <Phrase key="btnOK">У реду</Phrase>
     <Phrase key="btnCancel">Поништити, отказати</Phrase>
   </Dictionary>
@@ -43,15 +43,17 @@
     <Phrase key="pbReconnectAfterHint.ToolTip">Одређује временски интервал за поновно повезивање након неуспешног покушаја.</Phrase>
     <Phrase key="lblStayConnected">Останите повезани</Phrase>
     <Phrase key="pbStayConnectedHint.ToolTip">Ако је подешено, веза је активна између сесија комуникације.&#13;&#10;У супротном, веза се прекида након сваке сесије.</Phrase>
-    <Phrase key="btnOK">У реду</Phrase>
+    <Phrase key="lblDisconnectOnError">У реду</Phrase>
+    <Phrase key="pbDisconnectOnError.ToolTip">Поништити, отказати</Phrase>
+    <Phrase key="btnOK">Потребан је удаљени һост.</Phrase>
     <Phrase key="btnCancel">Поништити, отказати</Phrase>
-    <Phrase key="HostRequired">Потребан је удаљени һост.</Phrase>
+    <Phrase key="HostRequired">Потребан је удаљени хост.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpServerChannelOptions">
     <Phrase key="this">Опције TCP сервера</Phrase>
     <Phrase key="gbMode">Начин рада</Phrase>
     <Phrase key="lblBehavior">Понашање</Phrase>
-    <Phrase key="pbBehaviorHint.ToolTip">Мастер – након успостављања везе комуникатор шаље заһтев уређају и прима одговор.&#13;&#10;Славе – комуникатор пасивно чека податке са уређаја.</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Мастер – након успостављања везе комуникатор шаље заһтев уређају и прима одговор.&#13;&#10;Slave – комуникатор пасивно чека податке са уређаја.</Phrase>
     <Phrase key="lblConnectionMode">Режим везе</Phrase>
     <Phrase key="cbConnectionMode.Items[0]">Појединац</Phrase>
     <Phrase key="cbConnectionMode.Items[1]">Сһаред</Phrase>

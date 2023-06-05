@@ -43,6 +43,8 @@
     <Phrase key="pbReconnectAfterHint.ToolTip">Angir tidsintervall for å koble til igjen etter et mislykket forsøk.</Phrase>
     <Phrase key="lblStayConnected">Hold kontakten</Phrase>
     <Phrase key="pbStayConnectedHint.ToolTip">Hvis angitt, er tilkoblingen aktiv mellom kommunikasjonsøktene.&#13;&#10;Ellers avsluttes tilkoblingen etter hver økt.</Phrase>
+    <Phrase key="lblDisconnectOnError">Koble fra ved feil</Phrase>
+    <Phrase key="pbDisconnectOnError.ToolTip">Angir om du skal koble fra hvis en økt mislykkes.</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Avbryt</Phrase>
     <Phrase key="HostRequired">Ekstern vert kreves.</Phrase>

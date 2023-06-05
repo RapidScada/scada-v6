@@ -95,6 +95,7 @@
     <Phrase key="CommandsDisabled">コマンドが無効になりました。</Phrase>
     <Phrase key="SendCommand">{1} によってコマンドをチャネル {0} に送信します</Phrase>
     <Phrase key="ActionNotAllowed">アクションは許可されません。</Phrase>
+    <Phrase key="ViewTitle">{0} を表示</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.TreeView.MenuItem">
     <Phrase key="ReportsMenuItem">レポート</Phrase>
