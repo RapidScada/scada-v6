@@ -446,7 +446,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             }
             catch (Exception ex)
             {
-                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetEvents)));
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetLastEvents)));
                 return Dto<EventPacket>.Fail(ex.Message);
             }
         }

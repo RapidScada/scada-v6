@@ -22,7 +22,7 @@ namespace Scada.Web.Plugins.PlgMain.Code
 
 
         /// <summary>
-        /// Gets or sets the plugin options.
+        /// Gets the plugin options.
         /// </summary>
         public PluginOptions Options { get; private set; }
 
