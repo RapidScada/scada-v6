@@ -9,9 +9,7 @@
     <Phrase key="UndefinedValue.Description">Payload untuk dikirim jika nilai saluran tidak ditentukan.</Phrase>
     <Phrase key="PublishFormat.DisplayName">Format publikasi</Phrase>
     <Phrase key="PublishFormat.Category">Parameter Utama</Phrase>
-    <Phrase key="PublishFormat.Description">Format data saluran yang dipublikasikan.
-Contoh format: { "Val": @val, "Stat": @stat }
-Format kosong sama dengan @val</Phrase>
+    <Phrase key="PublishFormat.Description">Format data saluran yang dipublikasikan.&#13;&#10;Contoh format: { "Val": @val, "Stat": @stat }&#13;&#10;Format kosong sama dengan @val</Phrase>
     <Phrase key="PublishOnChange.DisplayName">Publikasikan saat perubahan</Phrase>
     <Phrase key="PublishOnChange.Category">Parameter Utama</Phrase>
     <Phrase key="PublishOnChange.Description">Nilai yang menunjukkan apakah akan mengirim data saluran saat nilainya berubah.</Phrase>

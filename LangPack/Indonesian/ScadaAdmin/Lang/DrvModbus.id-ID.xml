@@ -6,8 +6,7 @@
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls">
     <Phrase key="AddressHint">{0}, mulai dari {1}</Phrase>
-    <Phrase key="ElemRemoveWarning">Blok data memungkinkan maksimum {0} element.
-Elemen tambahan akan disingkirkan. Lanjutkan?</Phrase>
+    <Phrase key="ElemRemoveWarning">Blok data memungkinkan maksimum {0} element.&#13;&#10;Elemen tambahan akan disingkirkan. Lanjutkan?</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlCmd">
     <Phrase key="gbCmd">Parameter Perintah</Phrase>

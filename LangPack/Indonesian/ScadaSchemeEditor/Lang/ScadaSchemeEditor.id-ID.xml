@@ -45,11 +45,8 @@
     <Phrase key="lvCompTypes.Items[2]">Teks Dinamis</Phrase>
     <Phrase key="lvCompTypes.Items[3]">Gambar Statis</Phrase>
     <Phrase key="lvCompTypes.Items[4]">Gambar Dinamis</Phrase>
-    <Phrase key="CloseSecondInstance">Editor Skema sudah dimulai.
-Instance kedua akan ditutup.</Phrase>
-    <Phrase key="FailedToStartEditor">Gagal memulai Scada Editor.
-Lihat detailnya di
-{0}</Phrase>
+    <Phrase key="CloseSecondInstance">Editor Skema sudah dimulai.&#13;&#10;Instance kedua akan ditutup.</Phrase>
+    <Phrase key="FailedToStartEditor">Gagal memulai Scada Editor.&#13;&#10;Lihat detailnya di&#13;&#10;{0}</Phrase>
     <Phrase key="OpenBrowserError">Galat membuka browser</Phrase>
     <Phrase key="PointerItem">Penunjuk</Phrase>
     <Phrase key="SchemeFileFilter">Schemes (*.sch)|*.sch|All Files (*.*)|*.*</Phrase>
