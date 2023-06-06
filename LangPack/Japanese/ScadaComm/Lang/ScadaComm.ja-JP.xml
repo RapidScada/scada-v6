@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaCommDictionaries>
+  <Dictionary key="Scada.Comm.Devices">
+    <Phrase key="LoadDeviceConfigError">デバイス構成のロード中にエラーが発生しました</Phrase>
+    <Phrase key="SaveDeviceConfigError">デバイス構成の保存中にエラーが発生しました</Phrase>
+    <Phrase key="SaveDeviceConfigConfirm">デバイス構成が変更されました。 変更を保存しますか?</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers">
+    <Phrase key="LoadDriverConfigError">ドライバー構成のロード中にエラーが発生しました</Phrase>
+    <Phrase key="SaveDriverConfigError">ドライバー設定の保存中にエラーが発生しました</Phrase>
+    <Phrase key="SaveDriverConfigConfirm">ドライバーの構成が変更されました。 変更を保存しますか?</Phrase>
+  </Dictionary>
+</ScadaCommDictionaries>

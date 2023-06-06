@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgElasticReportDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgElasticReport.Areas.ElasticReport.Pages.ReportArgsModel">
+    <Phrase key="PageTitle">탄성 보고서</Phrase>
+    <Phrase key="ReportNotFound">플러그인 구성에서 ID가 {0}인 보고서를 찾을 수 없습니다.</Phrase>
+    <Phrase key="LoadInputOptionsError">보고서 입력 옵션을 로드하는 중에 오류가 발생했습니다.</Phrase>
+    <Phrase key="lblSingleDate">날짜</Phrase>
+    <Phrase key="lblSingleMonth">월</Phrase>
+    <Phrase key="lblStartTime">에서</Phrase>
+    <Phrase key="lblEndTime">에게</Phrase>
+    <Phrase key="lblArchive">보관소</Phrase>
+    <Phrase key="lblCnlNums">채널</Phrase>
+    <Phrase key="btnSelectCnls">선택하다...</Phrase>
+    <Phrase key="lblFormat">출력 형식</Phrase>
+    <Phrase key="lblPdf">PDF</Phrase>
+    <Phrase key="lblXlsx">Excel</Phrase>
+    <Phrase key="lblHtml">HTML</Phrase>
+    <Phrase key="btnGenerateReport">보고서 다운로드</Phrase>
+    <Phrase key="divWaitHint">보고서 생성 중.  기다리세요...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgElasticReport.Areas.ElasticReport.Pages.ReportArgsModel.Js">
+    <Phrase key="InvalidPeriod">시작 날짜는 종료 날짜보다 이전이거나 같아야 합니다.</Phrase>
+    <Phrase key="PeriodTooLong">최대 생리 기간은 {0}일입니다.</Phrase>
+    <Phrase key="InvalidChannels">잘못된 채널 번호입니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgElasticReport.Builder">
+    <Phrase key="HeadingFormat1">{0}, {1}</Phrase>
+    <Phrase key="HeadingFormat2">{0}, {1} - {2}</Phrase>
+    <Phrase key="InfoFormat">생성됨: {0}.  시간대: {1}.  아카이브: {2}</Phrase>
+    <Phrase key="CnlCaption">채널:</Phrase>
+    <Phrase key="DateTimeCol">날짜와 시간</Phrase>
+    <Phrase key="DateCol">날짜</Phrase>
+    <Phrase key="NotApplicable">해당 없음</Phrase>
+    <Phrase key="SumHeader">총</Phrase>
+    <Phrase key="AvgHeader">평균</Phrase>
+    <Phrase key="MinHeader">최저한의</Phrase>
+    <Phrase key="MaxHeader">최고</Phrase>
+    <Phrase key="DayUnit">디</Phrase>
+    <Phrase key="WorksheetName">시트 {0}</Phrase>
+    <Phrase key="CloseButton">닫다</Phrase>
+  </Dictionary>
+</PlgElasticReportDictionaries>

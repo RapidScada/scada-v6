@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaCommDictionaries>
+  <Dictionary key="Scada.Comm.Devices">
+    <Phrase key="LoadDeviceConfigError">Feil ved lasting av enhetskonfigurasjon</Phrase>
+    <Phrase key="SaveDeviceConfigError">Feil under lagring av enhetskonfigurasjon</Phrase>
+    <Phrase key="SaveDeviceConfigConfirm">Enhetskonfigurasjonen er endret.  Vil du lagre endringene?</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers">
+    <Phrase key="LoadDriverConfigError">Feil ved lasting av driverkonfigurasjon</Phrase>
+    <Phrase key="SaveDriverConfigError">Feil ved lagring av driverkonfigurasjon</Phrase>
+    <Phrase key="SaveDriverConfigConfirm">Driverkonfigurasjonen er endret.  Vil du lagre endringene?</Phrase>
+  </Dictionary>
+</ScadaCommDictionaries>

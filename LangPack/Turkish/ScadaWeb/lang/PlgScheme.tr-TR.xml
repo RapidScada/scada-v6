@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgSchemeDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgScheme.Areas.Scheme.Pages.SchemeView">
+    <Phrase key="SchemeViewTitle">Şema {0}</Phrase>
+    <Phrase key="spanFitScreenBtn_ToolTip">Ekrana sığdır</Phrase>
+    <Phrase key="spanFitWidthBtn_ToolTip">Genişliğe Sığdır</Phrase>
+    <Phrase key="spanZoomOutBtn_ToolTip">Uzaklaştır</Phrase>
+    <Phrase key="spanZoomInBtn_ToolTip">Yakınlaştır</Phrase>
+    <Phrase key="spanErrorBadge">Hata</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgScheme.Template.TemplateBindings">
+    <Phrase key="LoadTemplateBindingsError">Şema şablonu bağlamaları yüklenirken hata oluştu</Phrase>
+    <Phrase key="SaveTemplateBindingsError">Şema şablonu bağlamaları kaydedilirken hata oluştu</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgScheme.CompManager">
+    <Phrase key="UnknownComponent">Bilinmeyen bileşen {0}</Phrase>
+    <Phrase key="CompLibraryNotFound">{0} bileşeni için kitaplık bulunamadı</Phrase>
+    <Phrase key="UnableCreateComponent">{0} bileşeni oluşturulamıyor</Phrase>
+    <Phrase key="ErrorCreatingComponent">{0} bileşeni oluşturulurken hata oluştu</Phrase>
+  </Dictionary>
+</PlgSchemeDictionaries>

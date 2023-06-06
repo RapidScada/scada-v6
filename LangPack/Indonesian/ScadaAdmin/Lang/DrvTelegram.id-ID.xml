@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvTelegramDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvTelegram.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Perangkat {0} Properti - Telegram</Phrase>
+    <Phrase key="lblBotToken">Token bot</Phrase>
+    <Phrase key="btnPasteBotToken.ToolTip">Tempel Token Bot</Phrase>
+    <Phrase key="lblSubscr">Langganan</Phrase>
+    <Phrase key="btnAddSubscr.ToolTip">Tambahkan Langganan</Phrase>
+    <Phrase key="btnEditSubscr.ToolTip">Edit Langganan yang Dipilih</Phrase>
+    <Phrase key="btnDeleteSubscr.ToolTip">Hapus Langganan yang Dipilih</Phrase>
+    <Phrase key="btnCopySubscrName.ToolTip">Salin Nama Langganan</Phrase>
+    <Phrase key="colSubscrID">PENGENAL</Phrase>
+    <Phrase key="colSubscrName">Nama</Phrase>
+    <Phrase key="btnSave">Menyimpan</Phrase>
+    <Phrase key="btnClose">Menutup</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvTelegram.View.Forms.FrmSubscriptionOptions">
+    <Phrase key="lblChatID">ID Obrolan</Phrase>
+    <Phrase key="lblName">Nama</Phrase>
+    <Phrase key="btnOK">OKE</Phrase>
+    <Phrase key="btnCancel">Membatalkan</Phrase>
+    <Phrase key="NewSubscriptionTitle">Langganan Baru</Phrase>
+    <Phrase key="EditSubscriptionTitle">Sunting Langganan</Phrase>
+  </Dictionary>
+</DrvTelegramDictionaries>

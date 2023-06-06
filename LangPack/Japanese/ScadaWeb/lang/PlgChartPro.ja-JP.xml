@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgChartProDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.ChartPro">
+    <Phrase key="PageTitle">{0} - チャートプロ</Phrase>
+    <Phrase key="aToday">今日</Phrase>
+    <Phrase key="aYesterday">昨日</Phrase>
+    <Phrase key="aPastWeek">この1週間</Phrase>
+    <Phrase key="aPastMonth">先月</Phrase>
+    <Phrase key="aCustomPeriod">カスタム期間</Phrase>
+    <Phrase key="aSelectChannels">チャンネルの選択</Phrase>
+    <Phrase key="aSelectProfile">プロファイルの選択</Phrase>
+    <Phrase key="aShowData">データの表示</Phrase>
+    <Phrase key="aHideData">データを隠す</Phrase>
+    <Phrase key="aExport">輸出</Phrase>
+    <Phrase key="ChartTitleFixed">{0}、{1}</Phrase>
+    <Phrase key="ChartTitleRolling">{0}、{1} 分</Phrase>
+    <Phrase key="Generated">生成された</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.ChartPro.Js">
+    <Phrase key="DataLoading">データ読み込み中...</Phrase>
+    <Phrase key="LoadError">データのロード中にエラーが発生しました</Phrase>
+    <Phrase key="Generated">生成された</Phrase>
+    <Phrase key="TimeCol">時間</Phrase>
+    <Phrase key="ZoomIn">ズームイン</Phrase>
+    <Phrase key="ZoomOut">ズームアウトする</Phrase>
+    <Phrase key="ResetZoom">ズームをリセット</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.ChartProView">
+    <Phrase key="PageTitle">チャートプロ</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.Export">
+    <Phrase key="PageTitle">チャートのエクスポート</Phrase>
+    <Phrase key="btnExportPdf">グラフを PDF にエクスポート</Phrase>
+    <Phrase key="btnExportPng">グラフを PNG にエクスポート</Phrase>
+    <Phrase key="btnExportExcel">データを Excel にエクスポートする</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.Period">
+    <Phrase key="PageTitle">チャート期間</Phrase>
+    <Phrase key="lblFrom">から</Phrase>
+    <Phrase key="lblTo">に</Phrase>
+    <Phrase key="InvalidPeriod">開始日は終了日以降である必要があります。</Phrase>
+    <Phrase key="PeriodTooLong">期間の最大長は {0} 日です。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.PeriodRolling">
+    <Phrase key="PageTitle">チャート期間</Phrase>
+    <Phrase key="lblPeriod">期間</Phrase>
+    <Phrase key="lblMin">分</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.Profile">
+    <Phrase key="PageTitle">チャートプロファイル</Phrase>
+    <Phrase key="lblProfile">プロフィール</Phrase>
+    <Phrase key="ProfileListEmpty">プロファイルリストが空です。 プラグインの設定を確認してください。</Phrase>
+  </Dictionary>
+</PlgChartProDictionaries>

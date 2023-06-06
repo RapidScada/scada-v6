@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaWebDictionaries>
+  <Dictionary key="Scada.Web">
+    <Phrase key="CorrectErrors">以下のエラーを修正してください：</Phrase>
+    <Phrase key="ClientError">サーバーとの通信エラー</Phrase>
+    <Phrase key="UnknownUsername">知らない</Phrase>
+    <Phrase key="AccessDenied">アクセス拒否</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Code.ViewLoader">
+    <Phrase key="ViewNotSpecified">要求されたビューが指定されていません。</Phrase>
+    <Phrase key="ViewNotExists">要求されたビューは存在しません。</Phrase>
+    <Phrase key="InsufficientViewRights">ビューに対するアクセス権が不十分です。</Phrase>
+    <Phrase key="UnableResolveViewSpec">ビューの仕様を解決できません。</Phrase>
+    <Phrase key="UnableLoadView">ビューをロードできません。</Phrase>
+    <Phrase key="ViewMissingFromCache">ビューがキャッシュから欠落しています。</Phrase>
+    <Phrase key="ViewUndefined">ビューは未定義です。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Shared._MainLayout">
+    <Phrase key="spanMenuBtn_ToolTip">メニューの表示/非表示</Phrase>
+    <Phrase key="spanNotifBtn_ToolTip">通知の表示/非表示</Phrase>
+    <Phrase key="spanProfileBtn_ToolTip">ユーザープロフィール</Phrase>
+    <Phrase key="spanLogoutBtn">ログアウト</Phrase>
+    <Phrase key="spanLogoutBtn_ToolTip">ログアウト</Phrase>
+    <Phrase key="spanFullscreenBtn_ToolTip">全画面表示</Phrase>
+    <Phrase key="spanExitFullscreenBtn_ToolTip">通常のビュー</Phrase>
+    <Phrase key="divMainMenuTab">メインメニュー</Phrase>
+    <Phrase key="divViewExplorerTab">ビュー</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Shared._MainLayout.Modal">
+    <Phrase key="Ok">OK</Phrase>
+    <Phrase key="Yes">はい</Phrase>
+    <Phrase key="No">いいえ</Phrase>
+    <Phrase key="Execute">実行する</Phrase>
+    <Phrase key="Cancel">キャンセル</Phrase>
+    <Phrase key="Close">近い</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Shared._MainLayout.NotifPanel">
+    <Phrase key="NoNotif">通知はありません</Phrase>
+    <Phrase key="Mute">無音</Phrase>
+    <Phrase key="Unmute">ミュートを解除する</Phrase>
+    <Phrase key="AckAll">すべて確認する</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.About">
+    <Phrase key="PageTitle">だいたい</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.AccessDenied">
+    <Phrase key="PageTitle">アクセス拒否</Phrase>
+    <Phrase key="ErrorMessage">要求されたリソースにアクセスするための十分な権限がありません。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.CnlSelect">
+    <Phrase key="PageTitle">チャンネルの選択</Phrase>
+    <Phrase key="lblObj">物体</Phrase>
+    <Phrase key="lblOnlySelected">選択したチャンネルのみを表示</Phrase>
+    <Phrase key="SelectObjectItem">-- オブジェクトを選択します --</Phrase>
+    <Phrase key="FilterRequired">フィルタを指定してください。</Phrase>
+    <Phrase key="NoChannels">フィルターに一致するチャンネルがありません。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Error">
+    <Phrase key="PageTitle">エラー</Phrase>
+    <Phrase key="ErrorMessage">リクエストの処理中にエラーが発生しました。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Login">
+    <Phrase key="PageTitle">ログイン</Phrase>
+    <Phrase key="NotReady">アプリケーションの準備ができていません。 あとでもう一度試してみてください。</Phrase>
+    <Phrase key="InvalidCaptcha">無効な保護コードです。</Phrase>
+    <Phrase key="lblUsername">ユーザー名</Phrase>
+    <Phrase key="lblPassword">パスワード</Phrase>
+    <Phrase key="lblCaptcha">プロテクトコード</Phrase>
+    <Phrase key="lblRememberMe">私を覚えてますか</Phrase>
+    <Phrase key="btnLogin">ログイン</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Reports">
+    <Phrase key="PageTitle">レポート</Phrase>
+    <Phrase key="NoReports">利用可能なレポートはありません。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.UserProfile">
+    <Phrase key="PageTitle">ユーザープロフィール</Phrase>
+    <Phrase key="lblUserID">ユーザーID：</Phrase>
+    <Phrase key="lblUsername">ユーザー名:</Phrase>
+    <Phrase key="lblRole">役割：</Phrase>
+    <Phrase key="lblTimeZone">タイムゾーン:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.View">
+    <Phrase key="PageTitle">意見</Phrase>
+    <Phrase key="divHideDataWindowBtn_ToolTip">データウィンドウを非表示にする</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.ViewFrame">
+    <Phrase key="PageTitle">意見</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins">
+    <Phrase key="LoadPluginConfigError">プラグイン設定のロード中にエラーが発生しました</Phrase>
+    <Phrase key="SavePluginConfigError">プラグイン設定の保存中にエラーが発生しました</Phrase>
+    <Phrase key="CnlNotFound">チャンネル {0} が見つかりません。</Phrase>
+    <Phrase key="CnlNotOutput">チャンネル {0} は出力ではありません。</Phrase>
+    <Phrase key="CommandsDisabled">コマンドが無効になりました。</Phrase>
+    <Phrase key="SendCommand">{1} によってコマンドをチャネル {0} に送信します</Phrase>
+    <Phrase key="ActionNotAllowed">アクションは許可されません。</Phrase>
+    <Phrase key="ViewTitle">{0} を表示</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.TreeView.MenuItem">
+    <Phrase key="ReportsMenuItem">レポート</Phrase>
+    <Phrase key="AdministrationMenuItem">管理</Phrase>
+    <Phrase key="ConfigurationMenuItem">構成</Phrase>
+    <Phrase key="RegistrationMenuItem">登録</Phrase>
+    <Phrase key="PluginsMenuItem">プラグイン</Phrase>
+    <Phrase key="AboutMenuItem">プログラムについて</Phrase>
+  </Dictionary>
+</ScadaWebDictionaries>

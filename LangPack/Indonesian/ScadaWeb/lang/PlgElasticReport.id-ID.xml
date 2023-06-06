@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgElasticReportDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgElasticReport.Areas.ElasticReport.Pages.ReportArgsModel">
+    <Phrase key="PageTitle">Laporan Elastis</Phrase>
+    <Phrase key="ReportNotFound">Laporkan dengan ID {0} tidak ditemukan dalam konfigurasi plugin.</Phrase>
+    <Phrase key="LoadInputOptionsError">Terjadi error saat memuat opsi masukan laporan.</Phrase>
+    <Phrase key="lblSingleDate">Tanggal</Phrase>
+    <Phrase key="lblSingleMonth">Bulan</Phrase>
+    <Phrase key="lblStartTime">Dari</Phrase>
+    <Phrase key="lblEndTime">Ke</Phrase>
+    <Phrase key="lblArchive">Arsip</Phrase>
+    <Phrase key="lblCnlNums">Saluran</Phrase>
+    <Phrase key="btnSelectCnls">Pilih...</Phrase>
+    <Phrase key="lblFormat">Format output</Phrase>
+    <Phrase key="lblPdf">PDF</Phrase>
+    <Phrase key="lblXlsx">Excel</Phrase>
+    <Phrase key="lblHtml">HTML</Phrase>
+    <Phrase key="btnGenerateReport">Unduh Laporan</Phrase>
+    <Phrase key="divWaitHint">Membuat laporan.  Harap tunggu...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgElasticReport.Areas.ElasticReport.Pages.ReportArgsModel.Js">
+    <Phrase key="InvalidPeriod">Tanggal mulai harus kurang dari atau sama dengan tanggal akhir.</Phrase>
+    <Phrase key="PeriodTooLong">Panjang periode maksimum adalah {0} hari.</Phrase>
+    <Phrase key="InvalidChannels">Nomor saluran tidak valid.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgElasticReport.Builder">
+    <Phrase key="HeadingFormat1">{0}, {1}</Phrase>
+    <Phrase key="HeadingFormat2">{0}, {1} - {2}</Phrase>
+    <Phrase key="InfoFormat">Dihasilkan: {0}.  Zona waktu: {1}.  Arsipkan: {2}</Phrase>
+    <Phrase key="CnlCaption">Saluran:</Phrase>
+    <Phrase key="DateTimeCol">Tanggal dan waktu</Phrase>
+    <Phrase key="DateCol">Tanggal</Phrase>
+    <Phrase key="NotApplicable">T/a</Phrase>
+    <Phrase key="SumHeader">Total</Phrase>
+    <Phrase key="AvgHeader">Rata-rata</Phrase>
+    <Phrase key="MinHeader">Minimum</Phrase>
+    <Phrase key="MaxHeader">Maksimum</Phrase>
+    <Phrase key="DayUnit">D</Phrase>
+    <Phrase key="WorksheetName">Lembar {0}</Phrase>
+    <Phrase key="CloseButton">Menutup</Phrase>
+  </Dictionary>
+</PlgElasticReportDictionaries>

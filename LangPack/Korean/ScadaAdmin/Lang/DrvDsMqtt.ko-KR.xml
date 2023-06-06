@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDsMqttDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsMqtt.View.Forms.FrmMqttDSO">
+    <Phrase key="this">데이터 소스 옵션</Phrase>
+    <Phrase key="pageConnectionOptions">연결</Phrase>
+    <Phrase key="lblServer">섬기는 사람</Phrase>
+    <Phrase key="lblPort">TCP 포트</Phrase>
+    <Phrase key="lblTimeout">시간 초과, 밀리초</Phrase>
+    <Phrase key="lblUseTls">TLS 사용</Phrase>
+    <Phrase key="lblClientID">클라이언트 ID</Phrase>
+    <Phrase key="lblUsername">사용자 이름</Phrase>
+    <Phrase key="lblPassword">비밀번호</Phrase>
+    <Phrase key="lblProtocolVersion">프로토콜 버전</Phrase>
+    <Phrase key="cbProtocolVersion.Items[0]">기본</Phrase>
+    <Phrase key="cbProtocolVersion.Items[1]">3.1</Phrase>
+    <Phrase key="cbProtocolVersion.Items[2]">3.1.1</Phrase>
+    <Phrase key="cbProtocolVersion.Items[3]">5.0</Phrase>
+    <Phrase key="pagePublishOptions">출판</Phrase>
+    <Phrase key="lblRootTopic">루트 주제</Phrase>
+    <Phrase key="lblUndefinedValue">정의되지 않은 값</Phrase>
+    <Phrase key="lblPublishFormat">게시 형식</Phrase>
+    <Phrase key="lblQosLevel">서비스 품질 수준</Phrase>
+    <Phrase key="cbQosLevel.Items[0]">최대 한 번 (0)</Phrase>
+    <Phrase key="cbQosLevel.Items[1]">적어도 한 번 (1)</Phrase>
+    <Phrase key="cbQosLevel.Items[2]">정확히 한 번 (2)</Phrase>
+    <Phrase key="lblRetain">유지하다</Phrase>
+    <Phrase key="lblMaxQueueSize">최대 대기열 크기</Phrase>
+    <Phrase key="lblDataLifetime">대기열의 데이터 수명, 초</Phrase>
+    <Phrase key="lblDetailedLog">상세 로그</Phrase>
+    <Phrase key="lblDeviceFilter">장치 필터</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+</DrvDsMqttDictionaries>

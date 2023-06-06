@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvHttpNotifDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvHttpNotif.View.Forms.FrmConfig">
+    <Phrase key="this">デバイス {0} のプロパティ - HTTP 通知</Phrase>
+    <Phrase key="pageGeneral">全般的</Phrase>
+    <Phrase key="lblMethod">方法</Phrase>
+    <Phrase key="lblUri">URI</Phrase>
+    <Phrase key="lblUriHint">{phone}、{email}、{text} などのパラメータが含まれる場合があります</Phrase>
+    <Phrase key="gbParam">パラメーター</Phrase>
+    <Phrase key="chkParamEnabled">パラメータが有効です</Phrase>
+    <Phrase key="lblParamBegin">始める</Phrase>
+    <Phrase key="lblParamEnd">終わり</Phrase>
+    <Phrase key="lblAddrSep">セパレータ</Phrase>
+    <Phrase key="pageHeaders">ヘッダー</Phrase>
+    <Phrase key="colName">名前</Phrase>
+    <Phrase key="colValue">価値</Phrase>
+    <Phrase key="pageContent">コンテンツ</Phrase>
+    <Phrase key="lblContentType">コンテンツタイプ</Phrase>
+    <Phrase key="lblContentEscaping">逃げる</Phrase>
+    <Phrase key="cbContentEscaping.Items[0]">なし</Phrase>
+    <Phrase key="cbContentEscaping.Items[1]">URL</Phrase>
+    <Phrase key="cbContentEscaping.Items[2]">JSON</Phrase>
+    <Phrase key="lblContent">体</Phrase>
+    <Phrase key="lblContentHint">{phone}、{email}、{text} などのパラメータが含まれる場合があります</Phrase>
+    <Phrase key="btnAddressBook">住所録</Phrase>
+    <Phrase key="btnSave">保存</Phrase>
+    <Phrase key="btnClose">近い</Phrase>
+  </Dictionary>
+</DrvHttpNotifDictionaries>

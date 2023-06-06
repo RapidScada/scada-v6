@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtProjectToolsDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.ChannelMap">
+    <Phrase key="MapByDeviceTitle">Канали према уређају</Phrase>
+    <Phrase key="MapByObjectTitle">Канали по објекту</Phrase>
+    <Phrase key="ChannelsCaption">Канали:</Phrase>
+    <Phrase key="NoChannels">Нема канала</Phrase>
+    <Phrase key="GenerateChannelMapError">Грешка при генерисању мапе канала</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.DeviceMap">
+    <Phrase key="DeviceMapTitle">Уређаји путем комуникационе линије</Phrase>
+    <Phrase key="DevicesCaption">Уређаји:</Phrase>
+    <Phrase key="NoDevices">Нема уређаја</Phrase>
+    <Phrase key="EmptyCommLine">Празна комуникациона линија</Phrase>
+    <Phrase key="GenerateDeviceMapError">Грешка при генерисању мапе уређаја</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.IntegrityCheck">
+    <Phrase key="IntegrityCheckTitle">Провера интегритета</Phrase>
+    <Phrase key="TableCorrect">У реду</Phrase>
+    <Phrase key="TableHasErrors">Грешка</Phrase>
+    <Phrase key="LostPrimaryKeys">Изгубљени примарни кључеви:</Phrase>
+    <Phrase key="BaseCorrect">Конфигурациона база података је исправна.</Phrase>
+    <Phrase key="BaseHasErrors">Конфигурациона база података има грешке.</Phrase>
+    <Phrase key="IntegrityCheckError">Грешка при провери интегритета</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Controls.CtrlMainMenu">
+    <Phrase key="miProjectTools">Пројецт Тоолс</Phrase>
+    <Phrase key="miCloneChannels">Клонирај канале...</Phrase>
+    <Phrase key="miChannelMapByDevice">Мапа канала према уређају</Phrase>
+    <Phrase key="miChannelMapByObject">Мапа канала по објекту</Phrase>
+    <Phrase key="miDeviceMap">Мапа уређаја</Phrase>
+    <Phrase key="miCheckIntegrity">Проверите интегритет</Phrase>
+    <Phrase key="miEncryptPassword">Шифруј лозинку...</Phrase>
+    <Phrase key="miImportTable">Увези табелу...</Phrase>
+    <Phrase key="miExportTable">Извези табелу...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmCnlClone">
+    <Phrase key="this">Цлоне Цһаннелс</Phrase>
+    <Phrase key="gbSrcNums">Изворни бројеви канала</Phrase>
+    <Phrase key="lblSrcStartNum">Почетак</Phrase>
+    <Phrase key="lblSrcEndNum">Крај</Phrase>
+    <Phrase key="gbDestNums">Бројеви одредишниһ канала</Phrase>
+    <Phrase key="lblDestStartNum">Почетак</Phrase>
+    <Phrase key="lblDestEndNum">Крај</Phrase>
+    <Phrase key="gbOptions">Опције</Phrase>
+    <Phrase key="lblReplaceObj">Замените објекат</Phrase>
+    <Phrase key="lblReplaceDevice">Замените уређај</Phrase>
+    <Phrase key="chkUpdateFormulas">Ажурирајте бројеве канала у формулама</Phrase>
+    <Phrase key="btnClone">Клон</Phrase>
+    <Phrase key="btnClose">Близу</Phrase>
+    <Phrase key="KeepUnchanged">&lt;Задржи непромењено&gt;</Phrase>
+    <Phrase key="CloneChannelsCompleted">Клонирање је успешно завршено.&#13;&#10;Додато је {0} канала.</Phrase>
+    <Phrase key="CloneChannelsError">Грешка при клонирању канала</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
+    <Phrase key="this">Шифруј лозинку</Phrase>
+    <Phrase key="lblPassword">Лозинка</Phrase>
+    <Phrase key="lblPasswordEncrypted">Шифрована лозинка</Phrase>
+    <Phrase key="btnCopy">Копирај</Phrase>
+    <Phrase key="btnClose">Близу</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
+    <Phrase key="this">Извоз табеле</Phrase>
+    <Phrase key="lblTable">Сто</Phrase>
+    <Phrase key="lblFormat">Формат</Phrase>
+    <Phrase key="gbIDs">IDs</Phrase>
+    <Phrase key="lblStartID">Почетак</Phrase>
+    <Phrase key="lblEndID">Крај</Phrase>
+    <Phrase key="btnExport">Извоз</Phrase>
+    <Phrase key="btnClose">Близу</Phrase>
+    <Phrase key="ExportTableFilter">Tables (*.dat;*.xml;*.csv)|*.dat;*.xml;*.csv|All Files (*.*)|*.*</Phrase>
+    <Phrase key="ExportTableError">Грешка при извозу табеле</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableImport">
+    <Phrase key="this">Табела увоза</Phrase>
+    <Phrase key="lblTable">Сто</Phrase>
+    <Phrase key="lblSrcFile">ИЗВОРНА датотека</Phrase>
+    <Phrase key="btnBrowse">Прегледај...</Phrase>
+    <Phrase key="gbSrcIDs">IDs извора</Phrase>
+    <Phrase key="lblSrcStartID">Почетак</Phrase>
+    <Phrase key="lblSrcEndID">Крај</Phrase>
+    <Phrase key="gbDestIDs">ИД-ови одредишта</Phrase>
+    <Phrase key="lblDestStartID">Почетак</Phrase>
+    <Phrase key="lblDestEndID">Крај</Phrase>
+    <Phrase key="btnImport">Увоз</Phrase>
+    <Phrase key="btnClose">Близу</Phrase>
+    <Phrase key="ImportTableFilter">Tables (*.dat;*.xml;*.csv)|*.dat;*.xml;*.csv|All Files (*.*)|*.*</Phrase>
+    <Phrase key="ImportTableCompleted">Увоз је успешно завршен.&#13;&#10;Утицај на {0} ред(ова).</Phrase>
+    <Phrase key="ImportTableError">Грешка при увозу табеле</Phrase>
+  </Dictionary>
+</ExtProjectToolsDictionaries>

@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDsMqttDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsMqtt.View.Forms.FrmMqttDSO">
+    <Phrase key="this">Options de source de données</Phrase>
+    <Phrase key="pageConnectionOptions">Connexion</Phrase>
+    <Phrase key="lblServer">Serveur</Phrase>
+    <Phrase key="lblPort">Port TCP</Phrase>
+    <Phrase key="lblTimeout">Délai d'attente, ms</Phrase>
+    <Phrase key="lblUseTls">Utiliser TLS</Phrase>
+    <Phrase key="lblClientID">identité du client</Phrase>
+    <Phrase key="lblUsername">Nom d'utilisateur</Phrase>
+    <Phrase key="lblPassword">Mot de passe</Phrase>
+    <Phrase key="lblProtocolVersion">Version du protocole</Phrase>
+    <Phrase key="cbProtocolVersion.Items[0]">Défaut</Phrase>
+    <Phrase key="cbProtocolVersion.Items[1]">3.1</Phrase>
+    <Phrase key="cbProtocolVersion.Items[2]">3.1.1</Phrase>
+    <Phrase key="cbProtocolVersion.Items[3]">5.0</Phrase>
+    <Phrase key="pagePublishOptions">Édition</Phrase>
+    <Phrase key="lblRootTopic">Sujet racine</Phrase>
+    <Phrase key="lblUndefinedValue">Valeur indéfinie</Phrase>
+    <Phrase key="lblPublishFormat">Format de publication</Phrase>
+    <Phrase key="lblQosLevel">Niveau qualité de service</Phrase>
+    <Phrase key="cbQosLevel.Items[0]">Au plus une fois (0)</Phrase>
+    <Phrase key="cbQosLevel.Items[1]">Au moins une fois (1)</Phrase>
+    <Phrase key="cbQosLevel.Items[2]">Exactement une fois (2)</Phrase>
+    <Phrase key="lblRetain">Retenir</Phrase>
+    <Phrase key="lblMaxQueueSize">Taille maximale de la file d'attente</Phrase>
+    <Phrase key="lblDataLifetime">Durée de vie des données dans la file d'attente, sec</Phrase>
+    <Phrase key="lblDetailedLog">Journal détaillé</Phrase>
+    <Phrase key="lblDeviceFilter">Filtre d'appareil</Phrase>
+    <Phrase key="btnOK">D'ACCORD</Phrase>
+    <Phrase key="btnCancel">Annuler</Phrase>
+  </Dictionary>
+</DrvDsMqttDictionaries>

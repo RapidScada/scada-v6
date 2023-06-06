@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvOpcUaDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlCommand">
+    <Phrase key="gbCommand">Parametri di comando</Phrase>
+    <Phrase key="lblDisplayName">Nome da visualizzare</Phrase>
+    <Phrase key="lblCmdCode">Codice di comando</Phrase>
+    <Phrase key="lblCmdNum">Numero di comando</Phrase>
+    <Phrase key="lblNodeID">ID nodo</Phrase>
+    <Phrase key="lblParentNodeID">ID nodo padre</Phrase>
+    <Phrase key="lblDataType">Tipo di dati</Phrase>
+    <Phrase key="chkIsMethod">È metodo</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEmptyItem">
+    <Phrase key="gbEmptyItem">Parametri elemento</Phrase>
+    <Phrase key="lblNotSelected">Articolo non selezionato</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlItem">
+    <Phrase key="gbItem">Parametri elemento</Phrase>
+    <Phrase key="chkItemActive">Attivo</Phrase>
+    <Phrase key="lblDisplayName">Nome da visualizzare</Phrase>
+    <Phrase key="lblTagCode">Codice etichetta</Phrase>
+    <Phrase key="lblTagNum">Numero identificativo</Phrase>
+    <Phrase key="lblNodeID">ID nodo</Phrase>
+    <Phrase key="lblDataType">Tipo di dati</Phrase>
+    <Phrase key="chkIsString">È stringa</Phrase>
+    <Phrase key="chkIsArray">È matrice</Phrase>
+    <Phrase key="lblDataLen">Lunghezza della stringa o dell'array</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlSubscription">
+    <Phrase key="gbSubscription">Parametri di abbonamento</Phrase>
+    <Phrase key="chkSubscrActive">Attivo</Phrase>
+    <Phrase key="lblDisplayName">Nome da visualizzare</Phrase>
+    <Phrase key="lblPublishingInterval">Intervallo di pubblicazione</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Proprietà dispositivo {0} - OPC UA</Phrase>
+    <Phrase key="gbConnectionOptions">Opzioni di connessione</Phrase>
+    <Phrase key="lblServerUrl">URL del server</Phrase>
+    <Phrase key="btnSecurityOptions.ToolTip">Opzioni di sicurezza</Phrase>
+    <Phrase key="lblConnectionInfo">Le opzioni di connessione sono comuni alla linea di comunicazione.</Phrase>
+    <Phrase key="gbServerBrowse">Sfoglia server</Phrase>
+    <Phrase key="btnConnect.ToolTip">Connetti al server</Phrase>
+    <Phrase key="btnDisconnect.ToolTip">Disconnetti dal server</Phrase>
+    <Phrase key="btnViewAttrs.ToolTip">Visualizza attributi</Phrase>
+    <Phrase key="gbDevice">Configurazione del dispositivo</Phrase>
+    <Phrase key="btnAddItem.ToolTip">Aggiungi elemento selezionato</Phrase>
+    <Phrase key="btnAddSubscription.ToolTip">Aggiungi abbonamento</Phrase>
+    <Phrase key="btnMoveUpItem.ToolTip">Andare avanti</Phrase>
+    <Phrase key="btnMoveDownItem.ToolTip">Abbassati</Phrase>
+    <Phrase key="btnDeleteItem.ToolTip">Eliminare</Phrase>
+    <Phrase key="btnEditingOptions">Opzioni</Phrase>
+    <Phrase key="btnSave">Salva</Phrase>
+    <Phrase key="btnClose">Vicino</Phrase>
+    <Phrase key="ConnectServerError">Errore durante la connessione al server OPC</Phrase>
+    <Phrase key="DisconnectServerError">Errore durante la disconnessione dal server OPC</Phrase>
+    <Phrase key="BrowseServerError">Errore durante la ricerca dell'elemento del server OPC</Phrase>
+    <Phrase key="UnableToReadData">Impossibile leggere i dati.</Phrase>
+    <Phrase key="GetDataTypeError">Errore durante l'acquisizione del tipo di dati</Phrase>
+    <Phrase key="ServerUrlRequired">L'URL del server non deve essere vuoto.</Phrase>
+    <Phrase key="EmptyNode">Vuoto</Phrase>
+    <Phrase key="SubscriptionsNode">Abbonamenti</Phrase>
+    <Phrase key="CommandsNode">Comandi</Phrase>
+    <Phrase key="UnnamedSubscription">&lt;Abbonamento senza nome&gt;</Phrase>
+    <Phrase key="UnnamedItem">&lt;Elemento senza nome&gt;</Phrase>
+    <Phrase key="UnnamedCommand">&lt;Comando senza nome&gt;</Phrase>
+    <Phrase key="UnknownDataType">Il tipo di dati &quot;{0}&quot; è sconosciuto.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmEditingOptions">
+    <Phrase key="this">Opzioni di modifica</Phrase>
+    <Phrase key="lblDefaultTagCode">Codice tag predefinito</Phrase>
+    <Phrase key="cbDefaultTagCode.Items[0]">ID nodo</Phrase>
+    <Phrase key="cbDefaultTagCode.Items[1]">Nome da visualizzare</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Annulla</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmNodeAttr">
+    <Phrase key="this">Attributi del nodo</Phrase>
+    <Phrase key="colName">Nome</Phrase>
+    <Phrase key="colValue">Valore</Phrase>
+    <Phrase key="btnClose">Vicino</Phrase>
+    <Phrase key="ReadAttrError">Errore durante la lettura degli attributi dal server OPC</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmSecurityOptions">
+    <Phrase key="this">Opzioni di sicurezza</Phrase>
+    <Phrase key="lblSecurityMode">Modalità di sicurezza</Phrase>
+    <Phrase key="cbSecurityMode.Items[0]">Nessuno</Phrase>
+    <Phrase key="cbSecurityMode.Items[1]">Cartello</Phrase>
+    <Phrase key="cbSecurityMode.Items[2]">Firma e crittografa</Phrase>
+    <Phrase key="lblSecurityPolicy">Politica di sicurezza</Phrase>
+    <Phrase key="cbSecurityPolicy.Items[0]">Nessuno</Phrase>
+    <Phrase key="lblAuthenticationMode">Modalità di autenticazione</Phrase>
+    <Phrase key="cbAuthenticationMode.Items[0]">Anonimo</Phrase>
+    <Phrase key="cbAuthenticationMode.Items[1]">Nome utente e password</Phrase>
+    <Phrase key="lblUsername">Nome utente</Phrase>
+    <Phrase key="lblPassword">Parola d'ordine</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Annulla</Phrase>
+  </Dictionary>
+</DrvOpcUaDictionaries>

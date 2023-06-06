@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtWebConfigDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.ExtWebConfigLogic">
+    <Phrase key="ApplicationOptionsNode">응용 프로그램 옵션</Phrase>
+    <Phrase key="PluginsNode">플러그인</Phrase>
+    <Phrase key="LogsNode">로그</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlDisplayOptions">
+    <Phrase key="gbDisplayOptions">디스플레이 옵션</Phrase>
+    <Phrase key="lblShowHeader">페이지 헤더 표시</Phrase>
+    <Phrase key="lblShowMainMenu">기본 메뉴 표시</Phrase>
+    <Phrase key="lblShowViewExplorer">보기 탐색기 표시</Phrase>
+    <Phrase key="lblRefreshRate">데이터 새로 고침 속도, ms</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlGeneralOptions">
+    <Phrase key="gbGeneralOptions">일반 옵션</Phrase>
+    <Phrase key="lblDefaultCulture">기본 문화권 이름</Phrase>
+    <Phrase key="lblDefaultTimeZone">기본 시간대</Phrase>
+    <Phrase key="lblDefaultStartPage">사용자 로그인 후 기본 시작 페이지</Phrase>
+    <Phrase key="lblEnableCommands">원격 제어 명령 활성화</Phrase>
+    <Phrase key="lblShareStats">개인화되지 않은 통계를 개발자와 공유</Phrase>
+    <Phrase key="lblMaxLogSize">최대 로그 파일 크기, MB</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlLoginOptions">
+    <Phrase key="gbLoginOptions">로그인 옵션</Phrase>
+    <Phrase key="lblRequireCaptcha">로그인 시 보안 문자 필요</Phrase>
+    <Phrase key="lblAllowRememberMe">로그인 기억 허용</Phrase>
+    <Phrase key="lblRememberMeExpires">로그인 만료, 일</Phrase>
+    <Phrase key="lblAutoLoginUsername">자동 로그인을 위한 사용자 이름</Phrase>
+    <Phrase key="lblAutoLoginPassword">자동 로그인 비밀번호</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlPluginAssignment">
+    <Phrase key="gbPluginAssignment">플러그인 할당</Phrase>
+    <Phrase key="lblChartFeature">차트용 플러그인</Phrase>
+    <Phrase key="lblCommandFeature">명령어 전송 플러그인</Phrase>
+    <Phrase key="lblEventAckFeature">이벤트 확인용 플러그인</Phrase>
+    <Phrase key="lblUserManagementFeature">사용자 관리 플러그인</Phrase>
+    <Phrase key="lblNotificationFeature">알림 관리 플러그인</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Forms.FrmApplicationOptions">
+    <Phrase key="this">응용 프로그램 옵션</Phrase>
+    <Phrase key="lbTabs.Items[0]">일반 옵션</Phrase>
+    <Phrase key="lbTabs.Items[1]">연결 옵션</Phrase>
+    <Phrase key="lbTabs.Items[2]">로그인 옵션</Phrase>
+    <Phrase key="lbTabs.Items[3]">디스플레이 옵션</Phrase>
+    <Phrase key="lbTabs.Items[4]">플러그인 할당</Phrase>
+    <Phrase key="ApplicationConfigTitle">응용 프로그램 옵션</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Forms.FrmPlugins">
+    <Phrase key="this">플러그인</Phrase>
+    <Phrase key="lblUnusedPlugins">사용하지 않는 플러그인:</Phrase>
+    <Phrase key="btnActivate">활성화</Phrase>
+    <Phrase key="lblActivePlugins">활성 플러그인:</Phrase>
+    <Phrase key="btnDeactivate">비활성화</Phrase>
+    <Phrase key="btnMoveUp">이동</Phrase>
+    <Phrase key="btnMoveDown">아래로 이동</Phrase>
+    <Phrase key="btnProperties">속성</Phrase>
+    <Phrase key="btnRegister">등록하다</Phrase>
+    <Phrase key="lblDescr">설명</Phrase>
+  </Dictionary>
+</ExtWebConfigDictionaries>

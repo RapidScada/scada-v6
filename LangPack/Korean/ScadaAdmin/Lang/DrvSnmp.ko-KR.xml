@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvSnmpDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvSnmp.Config.DeviceOptions">
+    <Phrase key="ReadCommunity.DisplayName">커뮤니티 읽기</Phrase>
+    <Phrase key="ReadCommunity.Category">주요 매개변수</Phrase>
+    <Phrase key="ReadCommunity.Description">데이터를 읽기 위한 암호입니다.</Phrase>
+    <Phrase key="WriteCommunity.DisplayName">커뮤니티 쓰기</Phrase>
+    <Phrase key="WriteCommunity.Category">주요 매개변수</Phrase>
+    <Phrase key="WriteCommunity.Description">데이터를 쓰기 위한 암호입니다.</Phrase>
+    <Phrase key="SnmpVersion.DisplayName">SNMP 버전</Phrase>
+    <Phrase key="SnmpVersion.Category">주요 매개변수</Phrase>
+    <Phrase key="SnmpVersion.Description">프로토콜 버전입니다.  지원되는 버전은 1과 2입니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvSnmp.Config.VarGroupConfig">
+    <Phrase key="Active.DisplayName">활동적인</Phrase>
+    <Phrase key="Active.Category">주요 매개변수</Phrase>
+    <Phrase key="Active.Description">그룹이 활성 상태인지 여부를 나타내는 값입니다.</Phrase>
+    <Phrase key="Name.DisplayName">이름</Phrase>
+    <Phrase key="Name.Category">주요 매개변수</Phrase>
+    <Phrase key="Name.Description">그룹 이름입니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvSnmp.Config.VariableConfig">
+    <Phrase key="Name.DisplayName">이름</Phrase>
+    <Phrase key="Name.Category">주요 매개변수</Phrase>
+    <Phrase key="Name.Description">변수 이름입니다.</Phrase>
+    <Phrase key="TagCode.DisplayName">태그 코드</Phrase>
+    <Phrase key="TagCode.Category">주요 매개변수</Phrase>
+    <Phrase key="TagCode.Description">변수와 관련된 태그 코드입니다.</Phrase>
+    <Phrase key="OID.DisplayName">OID</Phrase>
+    <Phrase key="OID.Category">주요 매개변수</Phrase>
+    <Phrase key="OID.Description">개체 식별자입니다.  예: .1.3.6.1.2.1.1.5.0</Phrase>
+    <Phrase key="DataType.DisplayName">데이터 형식</Phrase>
+    <Phrase key="DataType.Category">주요 매개변수</Phrase>
+    <Phrase key="DataType.Description">변수와 관련된 장치 태그의 데이터 유형입니다.</Phrase>
+    <Phrase key="DataLen.DisplayName">데이터 길이</Phrase>
+    <Phrase key="DataLen.Category">주요 매개변수</Phrase>
+    <Phrase key="DataLen.Description">변수가 문자열 또는 배열을 나타내는 경우 데이터 길이입니다.  문자열의 경우 문자 수입니다.  그렇지 않으면 8바이트 블록의 수입니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvSnmp.View.SnmpConfigProvider">
+    <Phrase key="FormTitle">장치 {0} 속성 - SNMP</Phrase>
+    <Phrase key="AddVarGroupButton">그룹 추가</Phrase>
+    <Phrase key="AddVariableButton">변수 추가</Phrase>
+    <Phrase key="OptionsNode">옵션</Phrase>
+    <Phrase key="VarGroupsNode">변수 그룹</Phrase>
+    <Phrase key="UnnamedGroup">&lt;이름 없는 그룹&gt;</Phrase>
+    <Phrase key="UnnamedVariable">&lt;이름 없는 변수&gt;</Phrase>
+  </Dictionary>
+</DrvSnmpDictionaries>

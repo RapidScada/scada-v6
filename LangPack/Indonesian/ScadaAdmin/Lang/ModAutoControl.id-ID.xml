@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModAutoControlDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlCmdTrigger">
+    <Phrase key="gbTrigger">Parameter Pemicu</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="lblName">Nama</Phrase>
+    <Phrase key="lblDescr">Meningkatkan</Phrase>
+    <Phrase key="txtDescr">Atas perintah</Phrase>
+    <Phrase key="lblCnlNum">Saluran</Phrase>
+    <Phrase key="lblCmdVal">Nilai</Phrase>
+    <Phrase key="btnOff">Mati</Phrase>
+    <Phrase key="btnOn">Pada</Phrase>
+    <Phrase key="lblCmdData">Data</Phrase>
+    <Phrase key="cbCmdDataCompareOper.Items[0]">Jangan periksa</Phrase>
+    <Phrase key="cbCmdDataCompareOper.Items[1]">Sama dengan</Phrase>
+    <Phrase key="cbCmdDataCompareOper.Items[2]">Mengandung</Phrase>
+    <Phrase key="chkTransmitCmd">Mengirimkan perintah</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlCnlDataChangeTrigger">
+    <Phrase key="gbTrigger">Parameter Pemicu</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="lblName">Nama</Phrase>
+    <Phrase key="lblDescr">Meningkatkan</Phrase>
+    <Phrase key="txtDescr">Pada perubahan data saluran</Phrase>
+    <Phrase key="lblCnlNum">Saluran</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlCnlDataTrigger">
+    <Phrase key="gbTrigger">Parameter Pemicu</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="lblName">Nama</Phrase>
+    <Phrase key="lblDescr">Meningkatkan</Phrase>
+    <Phrase key="txtDescr">Pada data saluran</Phrase>
+    <Phrase key="lblCnlNum">Saluran</Phrase>
+    <Phrase key="lblCnlValCond">Nilai</Phrase>
+    <Phrase key="lblDeadband">Deadband</Phrase>
+    <Phrase key="lblCnlStat">Status</Phrase>
+    <Phrase key="lblDelay">Penundaan, dtk</Phrase>
+    <Phrase key="lblRepeat">Ulangi siklus, dtk</Phrase>
+    <Phrase key="lblRepeatCnt">Hitung ulang</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlEvTrigger">
+    <Phrase key="gbTrigger">Parameter Pemicu</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="lblName">Nama</Phrase>
+    <Phrase key="lblDescr">Meningkatkan</Phrase>
+    <Phrase key="txtDescr">Pada acara</Phrase>
+    <Phrase key="lblObjNum">Obyek</Phrase>
+    <Phrase key="lblDeviceNum">Perangkat</Phrase>
+    <Phrase key="lblCnlNum">Saluran</Phrase>
+    <Phrase key="lblSeverity">Tingkat keparahan (min, maks)</Phrase>
+    <Phrase key="lblNewCnlValCond">Nilai baru</Phrase>
+    <Phrase key="lblNewCnlStat">Status baru</Phrase>
+    <Phrase key="lblTextCompareOper">Teks</Phrase>
+    <Phrase key="cbTextCompareOper.Items[0]">Jangan periksa</Phrase>
+    <Phrase key="cbTextCompareOper.Items[1]">Sama dengan</Phrase>
+    <Phrase key="cbTextCompareOper.Items[2]">Mengandung</Phrase>
+    <Phrase key="lblDataCompareOper">Data</Phrase>
+    <Phrase key="cbDataCompareOper.Items[0]">Jangan periksa</Phrase>
+    <Phrase key="cbDataCompareOper.Items[1]">Sama dengan</Phrase>
+    <Phrase key="cbDataCompareOper.Items[2]">Mengandung</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlTiggerGroup">
+    <Phrase key="gbTriggerGroup">Parameter Grup</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="lblName">Nama</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlTimeTrigger">
+    <Phrase key="gbTrigger">Parameter Pemicu</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="lblName">Nama</Phrase>
+    <Phrase key="lblDescr">Meningkatkan</Phrase>
+    <Phrase key="txtDescr">Tepat waktu</Phrase>
+    <Phrase key="rbEveryDay">Setiap hari</Phrase>
+    <Phrase key="rbDaysOfWeek">Hari-hari dalam seminggu</Phrase>
+    <Phrase key="rbDaysOfMonth">Hari dalam sebulan</Phrase>
+    <Phrase key="rbDates">tanggal</Phrase>
+    <Phrase key="chkSun">Matahari</Phrase>
+    <Phrase key="chkMon">Sen</Phrase>
+    <Phrase key="chkTue">Selasa</Phrase>
+    <Phrase key="chkWed">Menikahi</Phrase>
+    <Phrase key="chkThu">Kam</Phrase>
+    <Phrase key="chkFri">Jum</Phrase>
+    <Phrase key="chkSat">Duduk</Phrase>
+    <Phrase key="lblTimes">Angkat kali</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlTriggerCommand">
+    <Phrase key="gbCommand">Parameter Perintah</Phrase>
+    <Phrase key="lblCnlNum">Saluran</Phrase>
+    <Phrase key="lblOr">ATAU</Phrase>
+    <Phrase key="lblDeviceNum">Perangkat</Phrase>
+    <Phrase key="lblCmdNum">Nomor perintah</Phrase>
+    <Phrase key="lblCmdCode">Kode perintah</Phrase>
+    <Phrase key="lblDelay">Penundaan, dtk</Phrase>
+    <Phrase key="chkSendOnFiring">Saat menembak</Phrase>
+    <Phrase key="chkSendOnNorm">Pada normalisasi</Phrase>
+    <Phrase key="chkCopyCmdVal">Salin nilai dan data</Phrase>
+    <Phrase key="rbNumVal">Numerik</Phrase>
+    <Phrase key="rbStrData">Data tali</Phrase>
+    <Phrase key="rbHexData">Data heksadesimal</Phrase>
+    <Phrase key="btnOff">Mati</Phrase>
+    <Phrase key="btnOn">Pada</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmConditionEdit">
+    <Phrase key="this">Sunting Kondisi</Phrase>
+    <Phrase key="lblCompareOper1">Bandingkan oper.  1</Phrase>
+    <Phrase key="lblCompareArg1">Argumen 1</Phrase>
+    <Phrase key="lblLogicalOper">Operasi logis.</Phrase>
+    <Phrase key="cbLogicalOper.Items[0]">Tidak ada</Phrase>
+    <Phrase key="cbLogicalOper.Items[1]">Dan</Phrase>
+    <Phrase key="cbLogicalOper.Items[2]">Atau</Phrase>
+    <Phrase key="lblCompareOper2">Bandingkan oper.  2</Phrase>
+    <Phrase key="lblCompareArg2">Argumen 2</Phrase>
+    <Phrase key="lblResult">Hasil</Phrase>
+    <Phrase key="btnOK">OKE</Phrase>
+    <Phrase key="btnCancel">Membatalkan</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmDateTimeAdd">
+    <Phrase key="title1">Tambahkan Tanggal</Phrase>
+    <Phrase key="title2">Tambahkan Waktu</Phrase>
+    <Phrase key="lblDate">Tanggal</Phrase>
+    <Phrase key="lblTime">Waktu</Phrase>
+    <Phrase key="btnAdd">Menambahkan</Phrase>
+    <Phrase key="btnClose">Menutup</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmDayAdd">
+    <Phrase key="this">Tambahkan Hari dalam Bulan</Phrase>
+    <Phrase key="lblDay">Hari</Phrase>
+    <Phrase key="btnAdd">Menambahkan</Phrase>
+    <Phrase key="btnClose">Menutup</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmGeneralOptions">
+    <Phrase key="this">Opsi Modul</Phrase>
+    <Phrase key="lblUsername">Nama belakang</Phrase>
+    <Phrase key="btnOK">OKE</Phrase>
+    <Phrase key="btnCancel">Membatalkan</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmModuleConfig">
+    <Phrase key="this">Kontrol otomatis</Phrase>
+    <Phrase key="btnAddTriggerGroup.ToolTip">Tambahkan Grup Pemicu</Phrase>
+    <Phrase key="btnAddCnlDataTrigger.ToolTip">Tambahkan Pemicu Data Saluran</Phrase>
+    <Phrase key="btnAddCnlDataChangeTrigger.ToolTip">Tambahkan Pemicu Perubahan Data Saluran</Phrase>
+    <Phrase key="btnAddEvTrigger.ToolTip">Tambahkan Pemicu Peristiwa</Phrase>
+    <Phrase key="btnAddTimeTrigger.ToolTip">Tambahkan Pemicu Waktu</Phrase>
+    <Phrase key="btnAddCmdTrigger.ToolTip">Tambahkan Pemicu Perintah</Phrase>
+    <Phrase key="btnAddCommand.ToolTip">Tambahkan Perintah</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Naik</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Turunkan</Phrase>
+    <Phrase key="btnDelete.ToolTip">Menghapus</Phrase>
+    <Phrase key="btnCut.ToolTip">Memotong</Phrase>
+    <Phrase key="btnCopy.ToolTip">Menyalin</Phrase>
+    <Phrase key="btnPaste.ToolTip">Tempel</Phrase>
+    <Phrase key="btnOptions.ToolTip">Opsi Modul</Phrase>
+    <Phrase key="gbTriggers">Pemicu</Phrase>
+    <Phrase key="lblHint">Tambahkan pemicu dan perintah</Phrase>
+    <Phrase key="btnSave">Menyimpan</Phrase>
+    <Phrase key="btnCancel">Membatalkan</Phrase>
+    <Phrase key="btnClose">Menutup</Phrase>
+    <Phrase key="miCollapseAll">Ciutkan Semua</Phrase>
+    <Phrase key="UnnamedGroup">&lt;Grup Tanpa Nama&gt;</Phrase>
+    <Phrase key="UnnamedTrigger">&lt;Pemicu Tanpa Nama&gt;</Phrase>
+    <Phrase key="CommandDescr1">Saluran {0}</Phrase>
+    <Phrase key="CommandDescr2">Perangkat {0}, perintah {1}</Phrase>
+    <Phrase key="CopySuffix">- Salin</Phrase>
+  </Dictionary>
+</ModAutoControlDictionaries>

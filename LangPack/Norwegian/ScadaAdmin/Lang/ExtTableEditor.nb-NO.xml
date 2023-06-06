@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtTableEditorDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableEditor">
+    <Phrase key="btnRefreshBase.ToolTip">Oppdater konfigurasjonsdatabasen</Phrase>
+    <Phrase key="btnAddItem.ToolTip">Legg til element</Phrase>
+    <Phrase key="btnAddEmptyItem.ToolTip">Legg til et tomt element</Phrase>
+    <Phrase key="btnMoveUpItem.ToolTip">Flytt element opp</Phrase>
+    <Phrase key="btnMoveDownItem.ToolTip">Flytt element ned</Phrase>
+    <Phrase key="btnDeleteItem.ToolTip">Slett valgte elementer</Phrase>
+    <Phrase key="btnTableOptions.ToolTip">Alternativer for tabellvisning</Phrase>
+    <Phrase key="lblHint">Trykk på Enter eller dobbeltklikk på en node for å legge den til i tabellen.  Høyreklikk på en enhetsnode for å vise kontekstmenyen.</Phrase>
+    <Phrase key="colCnlNum">Kanal</Phrase>
+    <Phrase key="colDeviceNum">Enhet</Phrase>
+    <Phrase key="colAutoText">Auto tekst</Phrase>
+    <Phrase key="colText">Tekst</Phrase>
+    <Phrase key="colHidden">Skjult</Phrase>
+    <Phrase key="miDeviceAddDevice">Legg til enhet</Phrase>
+    <Phrase key="miDeviceAddAllChannels">Legg til alle kanaler</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableOptions">
+    <Phrase key="this">Alternativer for tabellvisning</Phrase>
+    <Phrase key="chkUseDefault">Bruk standardalternativer</Phrase>
+    <Phrase key="lblArchiveCode">Arkivkode</Phrase>
+    <Phrase key="btnSelectArchiveCode">Plukke ut...</Phrase>
+    <Phrase key="lblPeriod">Tabellperiode, min</Phrase>
+    <Phrase key="lblChartArgs">Diagramargumenter</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+</ExtTableEditorDictionaries>

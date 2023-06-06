@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaWebDictionaries>
+  <Dictionary key="Scada.Web">
+    <Phrase key="CorrectErrors">Por favor corrija os seguintes erros:</Phrase>
+    <Phrase key="ClientError">Erro de comunicação com o servidor</Phrase>
+    <Phrase key="UnknownUsername">Desconhecido</Phrase>
+    <Phrase key="AccessDenied">Acesso negado</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Code.ViewLoader">
+    <Phrase key="ViewNotSpecified">A visualização solicitada não foi especificada.</Phrase>
+    <Phrase key="ViewNotExists">A visualização solicitada não existe.</Phrase>
+    <Phrase key="InsufficientViewRights">Direitos de acesso insuficientes para a exibição.</Phrase>
+    <Phrase key="UnableResolveViewSpec">Não foi possível resolver a especificação de exibição.</Phrase>
+    <Phrase key="UnableLoadView">Não foi possível carregar a visualização.</Phrase>
+    <Phrase key="ViewMissingFromCache">View está faltando no cache.</Phrase>
+    <Phrase key="ViewUndefined">A visualização é indefinida.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Shared._MainLayout">
+    <Phrase key="spanMenuBtn_ToolTip">Mostrar/Ocultar Menu</Phrase>
+    <Phrase key="spanNotifBtn_ToolTip">Mostrar/ocultar notificações</Phrase>
+    <Phrase key="spanProfileBtn_ToolTip">Perfil de usuário</Phrase>
+    <Phrase key="spanLogoutBtn">Sair</Phrase>
+    <Phrase key="spanLogoutBtn_ToolTip">Sair</Phrase>
+    <Phrase key="spanFullscreenBtn_ToolTip">Tela cheia</Phrase>
+    <Phrase key="spanExitFullscreenBtn_ToolTip">Visualização Normal</Phrase>
+    <Phrase key="divMainMenuTab">Menu principal</Phrase>
+    <Phrase key="divViewExplorerTab">Visualizações</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Shared._MainLayout.Modal">
+    <Phrase key="Ok">OK</Phrase>
+    <Phrase key="Yes">Sim</Phrase>
+    <Phrase key="No">Não</Phrase>
+    <Phrase key="Execute">Executar</Phrase>
+    <Phrase key="Cancel">Cancelar</Phrase>
+    <Phrase key="Close">Fechar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Shared._MainLayout.NotifPanel">
+    <Phrase key="NoNotif">Nenhuma notificação</Phrase>
+    <Phrase key="Mute">Mudo</Phrase>
+    <Phrase key="Unmute">Ativar som</Phrase>
+    <Phrase key="AckAll">Ack All</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.About">
+    <Phrase key="PageTitle">Sobre o programa</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.AccessDenied">
+    <Phrase key="PageTitle">Acesso negado</Phrase>
+    <Phrase key="ErrorMessage">Você não tem direitos suficientes para acessar o recurso solicitado.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.CnlSelect">
+    <Phrase key="PageTitle">Selecionar canais</Phrase>
+    <Phrase key="lblObj">Objeto</Phrase>
+    <Phrase key="lblOnlySelected">Mostrar apenas canais selecionados</Phrase>
+    <Phrase key="SelectObjectItem">-- Selecione um objeto --</Phrase>
+    <Phrase key="FilterRequired">Especifique um filtro.</Phrase>
+    <Phrase key="NoChannels">Nenhum canal corresponde ao filtro.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Error">
+    <Phrase key="PageTitle">Erro</Phrase>
+    <Phrase key="ErrorMessage">Um erro ocorreu durante o processamento do seu pedido.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Login">
+    <Phrase key="PageTitle">Conecte-se</Phrase>
+    <Phrase key="NotReady">O aplicativo não está pronto.  Tente mais tarde.</Phrase>
+    <Phrase key="InvalidCaptcha">Código de proteção inválido.</Phrase>
+    <Phrase key="lblUsername">Nome de usuário</Phrase>
+    <Phrase key="lblPassword">Senha</Phrase>
+    <Phrase key="lblCaptcha">código de proteção</Phrase>
+    <Phrase key="lblRememberMe">Lembre de mim</Phrase>
+    <Phrase key="btnLogin">Conecte-se</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Reports">
+    <Phrase key="PageTitle">Relatórios</Phrase>
+    <Phrase key="NoReports">Nenhum relatório disponível.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.UserProfile">
+    <Phrase key="PageTitle">Perfil de usuário</Phrase>
+    <Phrase key="lblUserID">ID do usuário:</Phrase>
+    <Phrase key="lblUsername">Nome de usuário:</Phrase>
+    <Phrase key="lblRole">Papel:</Phrase>
+    <Phrase key="lblTimeZone">Fuso horário:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.View">
+    <Phrase key="PageTitle">Visualizar</Phrase>
+    <Phrase key="divHideDataWindowBtn_ToolTip">Ocultar Janela de Dados</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.ViewFrame">
+    <Phrase key="PageTitle">Visualizar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins">
+    <Phrase key="LoadPluginConfigError">Erro ao carregar a configuração do plug-in</Phrase>
+    <Phrase key="SavePluginConfigError">Erro ao salvar a configuração do plug-in</Phrase>
+    <Phrase key="CnlNotFound">Canal {0} não encontrado.</Phrase>
+    <Phrase key="CnlNotOutput">O canal {0} não é uma saída.</Phrase>
+    <Phrase key="CommandsDisabled">Comandos desativados.</Phrase>
+    <Phrase key="SendCommand">Enviar comando para o canal {0} por {1}</Phrase>
+    <Phrase key="ActionNotAllowed">Ação não permitida.</Phrase>
+    <Phrase key="ViewTitle">Ver {0}</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.TreeView.MenuItem">
+    <Phrase key="ReportsMenuItem">Relatórios</Phrase>
+    <Phrase key="AdministrationMenuItem">Administração</Phrase>
+    <Phrase key="ConfigurationMenuItem">Configuração</Phrase>
+    <Phrase key="RegistrationMenuItem">Cadastro</Phrase>
+    <Phrase key="PluginsMenuItem">Plugins</Phrase>
+    <Phrase key="AboutMenuItem">Sobre o programa</Phrase>
+  </Dictionary>
+</ScadaWebDictionaries>

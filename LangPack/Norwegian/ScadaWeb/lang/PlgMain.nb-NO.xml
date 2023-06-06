@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgMainDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command">
+    <Phrase key="PageTitle">Kommando</Phrase>
+    <Phrase key="CommandSent">Kommandoen er sendt.</Phrase>
+    <Phrase key="CmdParseError">Feil ved parsing av kommando</Phrase>
+    <Phrase key="CnlRow">Kanal:</Phrase>
+    <Phrase key="ObjRow">Gjenstand:</Phrase>
+    <Phrase key="DevRow">Enhet:</Phrase>
+    <Phrase key="lblPassword">Passord</Phrase>
+    <Phrase key="lblCmdDec">Kommandoverdi</Phrase>
+    <Phrase key="lblCmdHex">Kommandoverdi (heksadesimal)</Phrase>
+    <Phrase key="lblCmdEnum">Kommando</Phrase>
+    <Phrase key="lblCmdDate">Kommandoverdi (dato/klokkeslett)</Phrase>
+    <Phrase key="lblCmdData">Kommandodata</Phrase>
+    <Phrase key="lblStr">String</Phrase>
+    <Phrase key="lblHex">Heksadesimal</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventAck">
+    <Phrase key="PageTitle">Begivenhet</Phrase>
+    <Phrase key="EventNotFound">Arrangementet {0} ble ikke funnet.</Phrase>
+    <Phrase key="EventAcknowledged">Hendelsen er bekreftet.</Phrase>
+    <Phrase key="TimeRow">Dato og tid:</Phrase>
+    <Phrase key="ObjRow">Gjenstand:</Phrase>
+    <Phrase key="DevRow">Enhet:</Phrase>
+    <Phrase key="CnlRow">Kanal:</Phrase>
+    <Phrase key="DescrRow">Beskrivelse:</Phrase>
+    <Phrase key="SevRow">Alvorlighetsgrad:</Phrase>
+    <Phrase key="AckRow">Ack:</Phrase>
+    <Phrase key="AckYes">Ja</Phrase>
+    <Phrase key="AckNo">Nei</Phrase>
+    <Phrase key="AckTip">Klikk OK-knappen for å bekrefte hendelsen.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventReport">
+    <Phrase key="PageTitle">Hendelsesrapport</Phrase>
+    <Phrase key="AllObjItem">-- Alle objekter --</Phrase>
+    <Phrase key="AllAvailObjItem">-- Alle tilgjengelige objekter --</Phrase>
+    <Phrase key="NotSpecifiedItem">-- Ikke spesifisert --</Phrase>
+    <Phrase key="lblStartTime">Fra</Phrase>
+    <Phrase key="lblEndTime">Til</Phrase>
+    <Phrase key="lblArchive">Arkiv</Phrase>
+    <Phrase key="lblObj">Gjenstand</Phrase>
+    <Phrase key="lblSeverity">Alvorlighetsgrad</Phrase>
+    <Phrase key="btnGenerateReport">Last ned rapport</Phrase>
+    <Phrase key="divWaitHint">Genererer rapport.  Vennligst vent...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events">
+    <Phrase key="TimeCol">Dato og tid</Phrase>
+    <Phrase key="ObjCol">Gjenstand</Phrase>
+    <Phrase key="DevCol">Enhet</Phrase>
+    <Phrase key="CnlCol">Kanal</Phrase>
+    <Phrase key="DescrCol">Beskrivelse</Phrase>
+    <Phrase key="SevCol">Alvorlighetsgrad</Phrase>
+    <Phrase key="AckCol">Ack</Phrase>
+    <Phrase key="EventInfo">Siste {0} hendelser på {1} timer</Phrase>
+    <Phrase key="spanAllEventsBtn">Alle hendelser</Phrase>
+    <Phrase key="spanEventsByViewBtn">Hendelser etter visning</Phrase>
+    <Phrase key="spanPrintBtn_ToolTip">Eksporter hendelser</Phrase>
+    <Phrase key="spanErrorBadge">Feil</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events.Js">
+    <Phrase key="Loading">Laster inn...</Phrase>
+    <Phrase key="NoEvents">Ingen hendelser</Phrase>
+    <Phrase key="Ack">Klikk for å bekrefte</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.HistDataReport">
+    <Phrase key="PageTitle">Historisk datarapport</Phrase>
+    <Phrase key="lblStartTime">Fra</Phrase>
+    <Phrase key="lblEndTime">Til</Phrase>
+    <Phrase key="lblArchive">Arkiv</Phrase>
+    <Phrase key="lblCnlNums">Kanaler</Phrase>
+    <Phrase key="btnSelectCnls">Plukke ut...</Phrase>
+    <Phrase key="btnGenerateReport">Last ned rapport</Phrase>
+    <Phrase key="divWaitHint">Genererer rapport.  Vennligst vent...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView">
+    <Phrase key="TableViewTitle">Tabell {0}</Phrase>
+    <Phrase key="PrevDate">Forrige dato</Phrase>
+    <Phrase key="SelDate">Valgt dato</Phrase>
+    <Phrase key="MinusOneDay">-1d</Phrase>
+    <Phrase key="ItemColumn">Punkt</Phrase>
+    <Phrase key="CurrentColumn">Nåværende</Phrase>
+    <Phrase key="CnlTip">Kanal</Phrase>
+    <Phrase key="DeviceTip">Enhet</Phrase>
+    <Phrase key="ObjTip">Gjenstand</Phrase>
+    <Phrase key="QuantityTip">Mengde</Phrase>
+    <Phrase key="UnitTip">Enhet</Phrase>
+    <Phrase key="SendCommandTip">Send kommando</Phrase>
+    <Phrase key="spanPrintBtn_ToolTip">Eksporter tabellvisning</Phrase>
+    <Phrase key="spanLoadingBadge">Laster inn...</Phrase>
+    <Phrase key="spanErrorBadge">Feil</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Code.EventWindowSpec">
+    <Phrase key="EventWindowTitle">arrangementer</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.PlgMainLogic">
+    <Phrase key="ReportGroup">Hovedrapporter</Phrase>
+    <Phrase key="HistDataReport">Historisk datarapport</Phrase>
+    <Phrase key="EventReport">Hendelsesrapport</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report">
+    <Phrase key="GenCaption">Generert:</Phrase>
+    <Phrase key="TzCaption">Tidssone:</Phrase>
+    <Phrase key="ArcCaption">Arkiv:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.Js">
+    <Phrase key="InvalidPeriod">Startdatoen må være mindre eller lik sluttdatoen.</Phrase>
+    <Phrase key="PeriodTooLong">Maksimal periodelengde er {0} dager.</Phrase>
+    <Phrase key="InvalidChannels">Ugyldige kanalnumre.</Phrase>
+    <Phrase key="NoSeverity">Ingen alvorlighetsgrad valgt.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.EventReportBuilder">
+    <Phrase key="GeneralTitleFormat">Hendelser, {0} - {1}</Phrase>
+    <Phrase key="TailTitleFormat">Siste {0} hendelser på {1} timer</Phrase>
+    <Phrase key="ViewCaption">Utsikt:</Phrase>
+    <Phrase key="ObjCaption">Objekter:</Phrase>
+    <Phrase key="SevCaption">Alvorlighetsgrad:</Phrase>
+    <Phrase key="TimeCol">Dato og tid</Phrase>
+    <Phrase key="ObjCol">Gjenstand</Phrase>
+    <Phrase key="DevCol">Enhet</Phrase>
+    <Phrase key="CnlCol">Kanal</Phrase>
+    <Phrase key="DescrCol">Beskrivelse</Phrase>
+    <Phrase key="SevCol">Alvorlighetsgrad</Phrase>
+    <Phrase key="AckCol">Ack</Phrase>
+    <Phrase key="WorksheetName">arrangementer</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.HistDataReportBuilder">
+    <Phrase key="TitleFormat">Historiske data, {0} - {1}</Phrase>
+    <Phrase key="CnlCaption">Kanaler:</Phrase>
+    <Phrase key="TimeCol">Dato og tid</Phrase>
+    <Phrase key="DataCol">Kanal {0}</Phrase>
+    <Phrase key="AvgCaption">Gjennomsnitt</Phrase>
+    <Phrase key="MinCaption">Minimum</Phrase>
+    <Phrase key="MaxCaption">Maksimum</Phrase>
+    <Phrase key="WorksheetName">Historisk data</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.TableViewReportBuilder">
+    <Phrase key="TitleFormat">{0}, {1} - {2}</Phrase>
+    <Phrase key="ItemCol">Punkt</Phrase>
+    <Phrase key="WorksheetName">Tabellvisning</Phrase>
+  </Dictionary>
+</PlgMainDictionaries>

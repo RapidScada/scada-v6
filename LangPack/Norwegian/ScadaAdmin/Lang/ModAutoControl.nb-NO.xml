@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModAutoControlDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlCmdTrigger">
+    <Phrase key="gbTrigger">Utløserparametere</Phrase>
+    <Phrase key="chkActive">Aktiv</Phrase>
+    <Phrase key="lblName">Navn</Phrase>
+    <Phrase key="lblDescr">Hever</Phrase>
+    <Phrase key="txtDescr">På kommando</Phrase>
+    <Phrase key="lblCnlNum">Kanal</Phrase>
+    <Phrase key="lblCmdVal">Verdi</Phrase>
+    <Phrase key="btnOff">Av</Phrase>
+    <Phrase key="btnOn">På</Phrase>
+    <Phrase key="lblCmdData">Data</Phrase>
+    <Phrase key="cbCmdDataCompareOper.Items[0]">Ikke sjekk</Phrase>
+    <Phrase key="cbCmdDataCompareOper.Items[1]">Er lik</Phrase>
+    <Phrase key="cbCmdDataCompareOper.Items[2]">Inneholder</Phrase>
+    <Phrase key="chkTransmitCmd">Send kommando</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlCnlDataChangeTrigger">
+    <Phrase key="gbTrigger">Utløserparametere</Phrase>
+    <Phrase key="chkActive">Aktiv</Phrase>
+    <Phrase key="lblName">Navn</Phrase>
+    <Phrase key="lblDescr">Hever</Phrase>
+    <Phrase key="txtDescr">På kanaldataendring</Phrase>
+    <Phrase key="lblCnlNum">Kanal</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlCnlDataTrigger">
+    <Phrase key="gbTrigger">Utløserparametere</Phrase>
+    <Phrase key="chkActive">Aktiv</Phrase>
+    <Phrase key="lblName">Navn</Phrase>
+    <Phrase key="lblDescr">Hever</Phrase>
+    <Phrase key="txtDescr">På kanaldata</Phrase>
+    <Phrase key="lblCnlNum">Kanaler</Phrase>
+    <Phrase key="lblCnlValCond">Verdi</Phrase>
+    <Phrase key="lblDeadband">Dødbånd</Phrase>
+    <Phrase key="lblCnlStat">Statuser</Phrase>
+    <Phrase key="lblDelay">Forsinkelse, sek</Phrase>
+    <Phrase key="lblRepeat">Gjenta syklus, sek</Phrase>
+    <Phrase key="lblRepeatCnt">Gjenta tellingen</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlEvTrigger">
+    <Phrase key="gbTrigger">Utløserparametere</Phrase>
+    <Phrase key="chkActive">Aktiv</Phrase>
+    <Phrase key="lblName">Navn</Phrase>
+    <Phrase key="lblDescr">Hever</Phrase>
+    <Phrase key="txtDescr">På arrangement</Phrase>
+    <Phrase key="lblObjNum">Gjenstand</Phrase>
+    <Phrase key="lblDeviceNum">Enhet</Phrase>
+    <Phrase key="lblCnlNum">Kanal</Phrase>
+    <Phrase key="lblSeverity">Alvorlighetsgrad (min, maks)</Phrase>
+    <Phrase key="lblNewCnlValCond">Ny verdi</Phrase>
+    <Phrase key="lblNewCnlStat">Ny status</Phrase>
+    <Phrase key="lblTextCompareOper">Tekst</Phrase>
+    <Phrase key="cbTextCompareOper.Items[0]">Ikke sjekk</Phrase>
+    <Phrase key="cbTextCompareOper.Items[1]">Er lik</Phrase>
+    <Phrase key="cbTextCompareOper.Items[2]">Inneholder</Phrase>
+    <Phrase key="lblDataCompareOper">Data</Phrase>
+    <Phrase key="cbDataCompareOper.Items[0]">Ikke sjekk</Phrase>
+    <Phrase key="cbDataCompareOper.Items[1]">Er lik</Phrase>
+    <Phrase key="cbDataCompareOper.Items[2]">Inneholder</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlTiggerGroup">
+    <Phrase key="gbTriggerGroup">Gruppeparametere</Phrase>
+    <Phrase key="chkActive">Aktiv</Phrase>
+    <Phrase key="lblName">Navn</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlTimeTrigger">
+    <Phrase key="gbTrigger">Utløserparametere</Phrase>
+    <Phrase key="chkActive">Aktiv</Phrase>
+    <Phrase key="lblName">Navn</Phrase>
+    <Phrase key="lblDescr">Hever</Phrase>
+    <Phrase key="txtDescr">På tide</Phrase>
+    <Phrase key="rbEveryDay">Hver dag</Phrase>
+    <Phrase key="rbDaysOfWeek">Dager i uken</Phrase>
+    <Phrase key="rbDaysOfMonth">Dager i måneden</Phrase>
+    <Phrase key="rbDates">Datoer</Phrase>
+    <Phrase key="chkSun">Sol</Phrase>
+    <Phrase key="chkMon">man</Phrase>
+    <Phrase key="chkTue">tirs</Phrase>
+    <Phrase key="chkWed">ons</Phrase>
+    <Phrase key="chkThu">tor</Phrase>
+    <Phrase key="chkFri">fre</Phrase>
+    <Phrase key="chkSat">Lør</Phrase>
+    <Phrase key="lblTimes">Øk tidene</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlTriggerCommand">
+    <Phrase key="gbCommand">Kommandoparametere</Phrase>
+    <Phrase key="lblCnlNum">Kanal</Phrase>
+    <Phrase key="lblOr">ELLER</Phrase>
+    <Phrase key="lblDeviceNum">Enhet</Phrase>
+    <Phrase key="lblCmdNum">Kommandonummer</Phrase>
+    <Phrase key="lblCmdCode">Kommandokode</Phrase>
+    <Phrase key="lblDelay">Forsinkelse, sek</Phrase>
+    <Phrase key="chkSendOnFiring">På avfyring</Phrase>
+    <Phrase key="chkSendOnNorm">Om normalisering</Phrase>
+    <Phrase key="chkCopyCmdVal">Kopier verdi og data</Phrase>
+    <Phrase key="rbNumVal">Numerisk</Phrase>
+    <Phrase key="rbStrData">Strengdata</Phrase>
+    <Phrase key="rbHexData">Heksadesimale data</Phrase>
+    <Phrase key="btnOff">Av</Phrase>
+    <Phrase key="btnOn">På</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmConditionEdit">
+    <Phrase key="this">Rediger tilstand</Phrase>
+    <Phrase key="lblCompareOper1">Sammenlign oper.  1</Phrase>
+    <Phrase key="lblCompareArg1">Argument 1</Phrase>
+    <Phrase key="lblLogicalOper">Logisk oper.</Phrase>
+    <Phrase key="cbLogicalOper.Items[0]">Ingen</Phrase>
+    <Phrase key="cbLogicalOper.Items[1]">Og</Phrase>
+    <Phrase key="cbLogicalOper.Items[2]">Eller</Phrase>
+    <Phrase key="lblCompareOper2">Sammenlign oper.  2</Phrase>
+    <Phrase key="lblCompareArg2">Argument 2</Phrase>
+    <Phrase key="lblResult">Resultat</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmDateTimeAdd">
+    <Phrase key="title1">Legg til dato</Phrase>
+    <Phrase key="title2">Legg til tid</Phrase>
+    <Phrase key="lblDate">Dato</Phrase>
+    <Phrase key="lblTime">Tid</Phrase>
+    <Phrase key="btnAdd">Legg til</Phrase>
+    <Phrase key="btnClose">Lukk</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmDayAdd">
+    <Phrase key="this">Legg til dag i måneden</Phrase>
+    <Phrase key="lblDay">Dag</Phrase>
+    <Phrase key="btnAdd">Legg til</Phrase>
+    <Phrase key="btnClose">Lukk</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmGeneralOptions">
+    <Phrase key="this">Modulalternativer</Phrase>
+    <Phrase key="lblUsername">Brukernavn</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmModuleConfig">
+    <Phrase key="this">Automatisk kontroll</Phrase>
+    <Phrase key="btnAddTriggerGroup.ToolTip">Legg til utløsergruppe</Phrase>
+    <Phrase key="btnAddCnlDataTrigger.ToolTip">Legg til kanaldatautløser</Phrase>
+    <Phrase key="btnAddCnlDataChangeTrigger.ToolTip">Legg til utløser for endring av kanaldata</Phrase>
+    <Phrase key="btnAddEvTrigger.ToolTip">Legg til hendelsestrigger</Phrase>
+    <Phrase key="btnAddTimeTrigger.ToolTip">Legg til Time Trigger</Phrase>
+    <Phrase key="btnAddCmdTrigger.ToolTip">Legg til kommandoutløser</Phrase>
+    <Phrase key="btnAddCommand.ToolTip">Legg til kommando</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Flytte opp</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Flytt ned</Phrase>
+    <Phrase key="btnDelete.ToolTip">Slett</Phrase>
+    <Phrase key="btnCut.ToolTip">Kutte opp</Phrase>
+    <Phrase key="btnCopy.ToolTip">Kopiere</Phrase>
+    <Phrase key="btnPaste.ToolTip">Lim inn</Phrase>
+    <Phrase key="btnOptions.ToolTip">Modulalternativer</Phrase>
+    <Phrase key="gbTriggers">Utløsere</Phrase>
+    <Phrase key="lblHint">Legg til triggere og kommandoer</Phrase>
+    <Phrase key="btnSave">Lagre</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+    <Phrase key="btnClose">Lukk</Phrase>
+    <Phrase key="miCollapseAll">Skjul alle</Phrase>
+    <Phrase key="UnnamedGroup">&lt;Unavngitt gruppe&gt;</Phrase>
+    <Phrase key="UnnamedTrigger">&lt;Unavngitt utløser&gt;</Phrase>
+    <Phrase key="CommandDescr1">Kanal {0}</Phrase>
+    <Phrase key="CommandDescr2">Enhet {0}, kommando {1}</Phrase>
+    <Phrase key="CopySuffix">- Kopier</Phrase>
+  </Dictionary>
+</ModAutoControlDictionaries>

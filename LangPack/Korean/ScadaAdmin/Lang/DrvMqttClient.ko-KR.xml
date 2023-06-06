@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvMqttClientDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.BaseItemConfig">
+    <Phrase key="Topic.DisplayName">주제</Phrase>
+    <Phrase key="Topic.Category">주요 매개변수</Phrase>
+    <Phrase key="Topic.Description">MQTT 주제.</Phrase>
+    <Phrase key="DisplayName.DisplayName">이름 표시하기</Phrase>
+    <Phrase key="DisplayName.Category">주요 매개변수</Phrase>
+    <Phrase key="DisplayName.Description">장치 태그의 표시 이름입니다.</Phrase>
+    <Phrase key="QosLevel.DisplayName">QoS 수준</Phrase>
+    <Phrase key="QosLevel.Category">규약</Phrase>
+    <Phrase key="QosLevel.Description">서비스 품질 수준: 0 - 최대 한 번, 1 - 최소 한 번, 2 - 정확히 한 번.</Phrase>
+    <Phrase key="Retain.DisplayName">유지하다</Phrase>
+    <Phrase key="Retain.Category">규약</Phrase>
+    <Phrase key="Retain.Description">게시할 때 유지 플래그를 설정할지 여부를 나타내는 값입니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.CommandConfig">
+    <Phrase key="CmdCode.DisplayName">명령 코드</Phrase>
+    <Phrase key="CmdCode.Category">주요 매개변수</Phrase>
+    <Phrase key="CmdCode.Description">주제와 관련된 명령 코드입니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.SubscriptionConfig">
+    <Phrase key="TagCode.DisplayName">태그 코드</Phrase>
+    <Phrase key="TagCode.Category">주요 매개변수</Phrase>
+    <Phrase key="TagCode.Description">주제와 관련된 태그 코드입니다.</Phrase>
+    <Phrase key="ReadOnly.DisplayName">읽기 전용</Phrase>
+    <Phrase key="ReadOnly.Category">주요 매개변수</Phrase>
+    <Phrase key="ReadOnly.Description">주제가 읽기 전용인지 여부를 나타내는 값입니다.</Phrase>
+    <Phrase key="JsEnabled.DisplayName">자바스크립트 사용</Phrase>
+    <Phrase key="JsEnabled.Category">고급 매개변수</Phrase>
+    <Phrase key="JsEnabled.Description">메시지 수신 시 자바스크립트 실행 여부를 나타내는 값.</Phrase>
+    <Phrase key="JsFileName.DisplayName">자바스크립트 파일 이름</Phrase>
+    <Phrase key="JsFileName.Category">고급 매개변수</Phrase>
+    <Phrase key="JsFileName.Description">Communicator 구성 디렉터리에 상대적인 JavaScript 파일 이름입니다.</Phrase>
+    <Phrase key="SubItems.DisplayName">하위 항목</Phrase>
+    <Phrase key="SubItems.Category">고급 매개변수</Phrase>
+    <Phrase key="SubItems.Description">주제에 대한 여러 장치 태그를 나타내는 하위 항목입니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.DeviceOptions">
+    <Phrase key="RootTopic.DisplayName">루트 주제</Phrase>
+    <Phrase key="RootTopic.Category">주요 매개변수</Phrase>
+    <Phrase key="RootTopic.Description">모든 장치 항목의 접두사로 사용되는 루트 항목입니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.View.MqttClientConfigProvider">
+    <Phrase key="FormTitle">기기 {0} 속성 - MQTT 클라이언트</Phrase>
+    <Phrase key="AddSubscriptionButton">구독 추가</Phrase>
+    <Phrase key="AddCommandButton">명령 추가</Phrase>
+    <Phrase key="OptionsNode">옵션</Phrase>
+    <Phrase key="SubscriptionsNode">구독</Phrase>
+    <Phrase key="CommandsNode">명령</Phrase>
+    <Phrase key="UnnamedSubscription">&lt;이름 없는 구독&gt;</Phrase>
+    <Phrase key="UnnamedCommand">&lt;이름 없는 명령&gt;</Phrase>
+  </Dictionary>
+</DrvMqttClientDictionaries>

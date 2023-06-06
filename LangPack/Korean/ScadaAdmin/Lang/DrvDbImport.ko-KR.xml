@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDbImportDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlCommand">
+    <Phrase key="gbCommand">명령 매개변수</Phrase>
+    <Phrase key="lblName">이름</Phrase>
+    <Phrase key="lblCmdCode">명령 코드</Phrase>
+    <Phrase key="lblCmdCodeWarn">코드 작성</Phrase>
+    <Phrase key="lblSql">SQL</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">사용 가능한 매개변수: @cmdVal, @cmdData</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlQuery">
+    <Phrase key="gbQuery">쿼리 매개변수</Phrase>
+    <Phrase key="chkActive">활동적인</Phrase>
+    <Phrase key="lblName">이름</Phrase>
+    <Phrase key="lblTag">태그</Phrase>
+    <Phrase key="lblSQL">SQL</Phrase>
+    <Phrase key="chkSingleRow">단일 행 결과</Phrase>
+    <Phrase key="pbTagInfo.ToolTip">각 행에는 태그 코드가 포함되어 있습니다.</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">ON - 요청은 각 필드에 태그 값이 포함된 단일 행을 반환합니다.&#13;&#10;OFF - 요청은 각 행에 태그 값이 포함된 일련의 행을 반환합니다.  필수 열: code 및 val.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">장치 {0} 속성 - DB 가져오기</Phrase>
+    <Phrase key="btnAddQuery.ToolTip">쿼리 추가</Phrase>
+    <Phrase key="btnAddCommand.ToolTip">명령 추가</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">이동</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">아래로 이동</Phrase>
+    <Phrase key="btnDelete.ToolTip">삭제</Phrase>
+    <Phrase key="gbDevice">장치 구성</Phrase>
+    <Phrase key="btnSave">구하다</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+    <Phrase key="btnClose">닫다</Phrase>
+    <Phrase key="miCollapseAll">모든 축소</Phrase>
+    <Phrase key="ConnectionNode">연결 옵션</Phrase>
+    <Phrase key="CommandName">명령 {0}</Phrase>
+    <Phrase key="CommandsNode">명령</Phrase>
+    <Phrase key="QueryName">쿼리 {0}</Phrase>
+    <Phrase key="QueriesNode">쿼리</Phrase>
+    <Phrase key="SelectChildNode">하위 노드 선택</Phrase>
+    <Phrase key="UnnamedCommand">&lt;이름 없는 명령&gt;</Phrase>
+    <Phrase key="UnnamedQuery">&lt;이름 없는 쿼리&gt;</Phrase>
+  </Dictionary>
+</DrvDbImportDictionaries>

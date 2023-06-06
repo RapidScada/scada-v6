@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModRapidGateDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlArcReplication">
+    <Phrase key="gbReplicationOptions">Opsi Replikasi Arsip</Phrase>
+    <Phrase key="lblEnabled">Diaktifkan</Phrase>
+    <Phrase key="lblLocalHistArchiveBit">Sedikit arsip sejarah lokal</Phrase>
+    <Phrase key="lblLocalEventArchiveBit">Sedikit arsip acara lokal</Phrase>
+    <Phrase key="lblRemoteHistArchiveBit">Sedikit arsip sejarah jarak jauh</Phrase>
+    <Phrase key="lblRemoteEventArchiveBit">Sedikit arsip acara jarak jauh</Phrase>
+    <Phrase key="lblAutoUpload">Unggah secara otomatis</Phrase>
+    <Phrase key="lblAutoDowload">Mengunduh secara otomatis</Phrase>
+    <Phrase key="lblDataAvailCnlNum">Saluran yang menunjukkan ketersediaan data</Phrase>
+    <Phrase key="lblMinDepth">Kedalaman minimum, dtk</Phrase>
+    <Phrase key="lblMaxDepth">Kedalaman maksimum, dtk</Phrase>
+    <Phrase key="lblReadingStep">Langkah membaca, dtk</Phrase>
+    <Phrase key="gbUploadOptions">Mengunggah</Phrase>
+    <Phrase key="gbDowloadOptions">Unduh</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlCurDataTransfer">
+    <Phrase key="gbOptions">Opsi Transfer Data Saat Ini</Phrase>
+    <Phrase key="chkEnabled">Diaktifkan</Phrase>
+    <Phrase key="lblTrigger">Pemicu</Phrase>
+    <Phrase key="cbTrigger.Items[0]">Di Terima</Phrase>
+    <Phrase key="cbTrigger.Items[1]">Timer Aktif</Phrase>
+    <Phrase key="lblTimePeriod">Periode pengatur waktu, dtk</Phrase>
+    <Phrase key="lblAllDataPeriod">Periode mentransfer data dari semua saluran, dtk</Phrase>
+    <Phrase key="chkUseRawData">Gunakan data mentah (transfer data sebelum diproses)</Phrase>
+    <Phrase key="chkApplyFormulas">Terapkan formula di server jauh</Phrase>
+    <Phrase key="chkEnableEvents">Hasilkan acara di server jarak jauh</Phrase>
+    <Phrase key="chkSkipUnchanged">Lewati data yang tidak diubah</Phrase>
+    <Phrase key="chkIncludeCalculated">Sertakan saluran yang dihitung</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlEventTransfer">
+    <Phrase key="gbOptions">Opsi Transfer Acara</Phrase>
+    <Phrase key="chkEnabled">Diaktifkan</Phrase>
+    <Phrase key="chkTransferAck">Tanda terima transfer</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlGeneral">
+    <Phrase key="gbOptions">Pilihan umum</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="lblGateID">Gerbang ID</Phrase>
+    <Phrase key="lblName">Nama</Phrase>
+    <Phrase key="lblCmdCode">Kode perintah</Phrase>
+    <Phrase key="lblLocalArchiveMask">Masker arsip untuk menyimpan data di server lokal</Phrase>
+    <Phrase key="lblDefaultArchiveMaskLocal">Setel -1 untuk memilih arsip default</Phrase>
+    <Phrase key="lblRemoteArchiveMask">Topeng arsip untuk mengirim data ke server jarak jauh</Phrase>
+    <Phrase key="lblDefaultArchiveMaskRemote">Setel -1 untuk memilih arsip default</Phrase>
+    <Phrase key="lblMaxQueueSize">Ukuran antrian maksimum</Phrase>
+    <Phrase key="lblDataLifetime">Masa pakai data dalam antrean, dtk</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlHistDataTransfer">
+    <Phrase key="gbOptions">Opsi Transfer Data Historis</Phrase>
+    <Phrase key="chkEnabled">Diaktifkan</Phrase>
+    <Phrase key="chkUseRawData">Gunakan data mentah (transfer data sebelum diproses)</Phrase>
+    <Phrase key="chkApplyFormulas">Terapkan formula di server jauh</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlInCmdTransfer">
+    <Phrase key="gbOptions">Opsi Transfer Perintah Masuk</Phrase>
+    <Phrase key="chkEnabled">Diaktifkan</Phrase>
+    <Phrase key="chkApplyFormulas">Menerapkan formula di server lokal</Phrase>
+    <Phrase key="lblPollingRate">Tingkat polling perintah, ms</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlMapping">
+    <Phrase key="gbOptions">Opsi Pemetaan</Phrase>
+    <Phrase key="btnAddMapItem.ToolTip">Tambahkan Pemetaan</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Naik</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Turunkan</Phrase>
+    <Phrase key="btnDel.ToolTip">Menghapus</Phrase>
+    <Phrase key="btnEdit.ToolTip">Sunting</Phrase>
+    <Phrase key="colLocalIDs">ID lokal</Phrase>
+    <Phrase key="colRemoteIDs">ID jarak jauh</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlOutCmdTransfer">
+    <Phrase key="gbOptions">Opsi Transfer Perintah Keluar</Phrase>
+    <Phrase key="chkEnabled">Diaktifkan</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Forms.FrmIdMapping">
+    <Phrase key="this">Pemetaan ID</Phrase>
+    <Phrase key="lblRange">Pemetaan ID</Phrase>
+    <Phrase key="lblParamLocal">ID lokal</Phrase>
+    <Phrase key="lblParamRemote">ID jarak jauh</Phrase>
+    <Phrase key="lblExample">Misalnya: 1 - 5, 10</Phrase>
+    <Phrase key="btnOK">OKE</Phrase>
+    <Phrase key="btnCancel">Membatalkan</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Forms.FrmModuleConfig">
+    <Phrase key="this">Gerbang Cepat</Phrase>
+    <Phrase key="btnAdd.ToolTip">Tambahkan Gerbang</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Naik</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Turunkan</Phrase>
+    <Phrase key="btnDelete.ToolTip">Menghapus</Phrase>
+    <Phrase key="btnCut.ToolTip">Memotong</Phrase>
+    <Phrase key="btnCopy.ToolTip">Menyalin</Phrase>
+    <Phrase key="btnPaste.ToolTip">Tempel</Phrase>
+    <Phrase key="gbGates">Gerbang</Phrase>
+    <Phrase key="lblHint">Tambahkan Gerbang</Phrase>
+    <Phrase key="btnSave">Menyimpan</Phrase>
+    <Phrase key="btnCancel">Membatalkan</Phrase>
+    <Phrase key="btnClose">Menutup</Phrase>
+    <Phrase key="miCollapseAll">Ciutkan Semua</Phrase>
+    <Phrase key="CopySuffix">- Salin</Phrase>
+    <Phrase key="GeneralOptionsNode">Pilihan umum</Phrase>
+    <Phrase key="ConnectionOptionsNode">Opsi Koneksi</Phrase>
+    <Phrase key="MappingOptionsNode">Opsi Pemetaan</Phrase>
+    <Phrase key="ChannelMappingNode">Opsi Pemetaan Saluran</Phrase>
+    <Phrase key="UserMappingNode">Opsi Pemetaan Pengguna</Phrase>
+    <Phrase key="TransferOptionsNode">Opsi Transfer</Phrase>
+    <Phrase key="CurDataTransferOptionsNode">Data sekarang</Phrase>
+    <Phrase key="HistDataTransferOptionsNode">Data historis</Phrase>
+    <Phrase key="EventTransferOptionsNode">Acara</Phrase>
+    <Phrase key="InCmdTransferOptionsNode">Perintah Masuk</Phrase>
+    <Phrase key="OutCmdTransferOptionsNode">Perintah Keluar</Phrase>
+    <Phrase key="ArcReplicationOptionsNode">Replikasi Arsip</Phrase>
+    <Phrase key="GateName">Gerbang {0}</Phrase>
+    <Phrase key="GateNameNotUnique">Nama gerbang harus unik.</Phrase>
+    <Phrase key="GateNameEmpty">Nama gerbang tidak boleh kosong.</Phrase>
+    <Phrase key="AddGates">Tambahkan gerbang</Phrase>
+    <Phrase key="SelectChildNode">Pilih simpul anak</Phrase>
+    <Phrase key="ArchiveText">Bit Arsip {0}</Phrase>
+  </Dictionary>
+</ModRapidGateDictionaries>

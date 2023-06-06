@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtServerConfigDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.ExtServerConfigLogic">
+    <Phrase key="GeneralOptionsNode">Opciones generales</Phrase>
+    <Phrase key="ModulesNode">Módulos</Phrase>
+    <Phrase key="ArchivesNode">Archivo</Phrase>
+    <Phrase key="LogsNode">Registros</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchiveAdd">
+    <Phrase key="this">Añadir archivo</Phrase>
+    <Phrase key="lblSourceArchive">Archivo fuente</Phrase>
+    <Phrase key="lblModule">Módulo</Phrase>
+    <Phrase key="btnOK">DE ACUERDO</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchives">
+    <Phrase key="this">Archivo</Phrase>
+    <Phrase key="btnAdd">Agregar</Phrase>
+    <Phrase key="btnMoveUp">Ascender</Phrase>
+    <Phrase key="btnMoveDown">Mover hacia abajo</Phrase>
+    <Phrase key="btnDelete">Borrar</Phrase>
+    <Phrase key="btnCut">Cortar</Phrase>
+    <Phrase key="btnCopy">Copiar</Phrase>
+    <Phrase key="btnPaste">Pegar</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">Activo</Phrase>
+    <Phrase key="colCode">Código</Phrase>
+    <Phrase key="colName">Nombre</Phrase>
+    <Phrase key="colKind">Amable</Phrase>
+    <Phrase key="colModule">Módulo</Phrase>
+    <Phrase key="gbArchive">Archivo seleccionado</Phrase>
+    <Phrase key="chkActive">Activo</Phrase>
+    <Phrase key="lblCode">Código</Phrase>
+    <Phrase key="lblName">Nombre</Phrase>
+    <Phrase key="lblKind">Amable</Phrase>
+    <Phrase key="lblModule">Módulo</Phrase>
+    <Phrase key="lblOptions">Opciones</Phrase>
+    <Phrase key="btnProperties">Propiedades</Phrase>
+    <Phrase key="ModuleNotSpecified">No se especifica el módulo.</Phrase>
+    <Phrase key="ArchiveNotSupported">El módulo no admite la creación de archivos del tipo {0}.</Phrase>
+    <Phrase key="UnableCreateArchiveView">No se puede crear la interfaz de usuario de archivo.</Phrase>
+    <Phrase key="NoArchiveProperties">El archivo no proporciona una ventana de propiedades.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions">
+    <Phrase key="this">Opciones generales</Phrase>
+    <Phrase key="gbGeneralOptions">Opciones generales</Phrase>
+    <Phrase key="lblUnrelIfInactive">Marcar el canal como no confiable si está inactivo, segundo</Phrase>
+    <Phrase key="lblMaxCurDataAge">Escriba los datos actuales como históricos si son más antiguos, seg.</Phrase>
+    <Phrase key="lblUseArchivalStatus">Marcar datos históricos entrantes como archivo</Phrase>
+    <Phrase key="lblGenerateAckCmd">Generar comando cuando se reconoce el evento</Phrase>
+    <Phrase key="lblStopWait">Espere a que pare el servicio, seg.</Phrase>
+    <Phrase key="lblMaxLogSize">Tamaño máximo del archivo de registro, MB</Phrase>
+    <Phrase key="lblDisableFormulas">Deshabilitar fórmulas de canal excepto objetos</Phrase>
+    <Phrase key="btnSelectObjects">Seleccionar...</Phrase>
+    <Phrase key="gbListenerOptions">Opciones de escucha</Phrase>
+    <Phrase key="lblPort">puerto TCP</Phrase>
+    <Phrase key="lblTimeout">Tiempo de espera, ms</Phrase>
+    <Phrase key="lblSecretKey">Llave secreta</Phrase>
+    <Phrase key="btnGenerateKey">Generar</Phrase>
+    <Phrase key="btnCopyKey">Copiar</Phrase>
+    <Phrase key="InvalidObjectRange">Intervalo de objetos no válido.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmModules">
+    <Phrase key="this">Módulos</Phrase>
+    <Phrase key="lblUnusedModules">Módulos no utilizados:</Phrase>
+    <Phrase key="btnActivate">Activar</Phrase>
+    <Phrase key="lblActiveModules">Módulos activos:</Phrase>
+    <Phrase key="btnDeactivate">Desactivar</Phrase>
+    <Phrase key="btnMoveUp">Ascender</Phrase>
+    <Phrase key="btnMoveDown">Mover hacia abajo</Phrase>
+    <Phrase key="btnProperties">Propiedades</Phrase>
+    <Phrase key="btnRegister">Registro</Phrase>
+    <Phrase key="lblDescr">Descripción</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmServerLogs">
+    <Phrase key="AppFilter">Solicitud</Phrase>
+    <Phrase key="ModulesFilter">Módulos</Phrase>
+  </Dictionary>
+</ExtServerConfigDictionaries>

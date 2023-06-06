@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgGuardDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages">
+    <Phrase key="NoData">데이터 없음</Phrase>
+    <Phrase key="UsernameColumn">사용자 이름</Phrase>
+    <Phrase key="SessionIdColumn">세션 ID</Phrase>
+    <Phrase key="RemoteIpColumn">IP 주소</Phrase>
+    <Phrase key="AccessTimeColumn">액세스 시간</Phrase>
+    <Phrase key="FailCountColumn">실패 횟수</Phrase>
+    <Phrase key="AccessColumn">입장</Phrase>
+    <Phrase key="AccessAllowed">허용된</Phrase>
+    <Phrase key="AccessBlocked">막힌</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.Addresses">
+    <Phrase key="PageTitle">IP 주소</Phrase>
+    <Phrase key="UsernameColumn">마지막 사용자 이름</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.General">
+    <Phrase key="PageTitle">일반적인</Phrase>
+    <Phrase key="CacheInfoFormat">{1} 중 {0}</Phrase>
+    <Phrase key="lblGlobalAccess">글로벌 액세스:</Phrase>
+    <Phrase key="lblBlockedUsers">차단된 사용자:</Phrase>
+    <Phrase key="lblBlockedAddresses">차단된 IP 주소:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.Sessions">
+    <Phrase key="PageTitle">세션</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.Users">
+    <Phrase key="PageTitle">사용자</Phrase>
+    <Phrase key="RemoteIpColumn">마지막 IP 주소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.PlgGuardLogic">
+    <Phrase key="GuardMenuItem">경비원</Phrase>
+    <Phrase key="GeneralMenuItem">일반적인</Phrase>
+    <Phrase key="UsersMenuItem">사용자</Phrase>
+    <Phrase key="AddressesMenuItem">IP 주소</Phrase>
+    <Phrase key="SessionsMenuItem">세션</Phrase>
+  </Dictionary>
+</PlgGuardDictionaries>

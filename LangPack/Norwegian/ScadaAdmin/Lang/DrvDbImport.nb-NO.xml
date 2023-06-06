@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDbImportDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlCommand">
+    <Phrase key="gbCommand">Kommandoparametere</Phrase>
+    <Phrase key="lblName">Navn</Phrase>
+    <Phrase key="lblCmdCode">Kommandokode</Phrase>
+    <Phrase key="lblCmdCodeWarn">Fyll ut kode</Phrase>
+    <Phrase key="lblSql">SQL</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">Tilgjengelige parametere: @cmdVal, @cmdData</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlQuery">
+    <Phrase key="gbQuery">Spørringsparametere</Phrase>
+    <Phrase key="chkActive">Aktiv</Phrase>
+    <Phrase key="lblName">Navn</Phrase>
+    <Phrase key="lblTag">Tagger</Phrase>
+    <Phrase key="lblSQL">SQL</Phrase>
+    <Phrase key="chkSingleRow">Resultat på én rad</Phrase>
+    <Phrase key="pbTagInfo.ToolTip">Hver linje inneholder en kode.</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">PÅ - forespørsel returnerer en enkelt rad, hvor hvert felt inneholder en kodeverdi.&#13;&#10;AV - forespørsel returnerer et sett med rader, hver rad inneholder en kodeverdi.  Nødvendige kolonner: kode og verdi.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Enhets {0}-egenskaper – DB-import</Phrase>
+    <Phrase key="btnAddQuery.ToolTip">Legg til spørring</Phrase>
+    <Phrase key="btnAddCommand.ToolTip">Legg til kommando</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Flytte opp</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Flytt ned</Phrase>
+    <Phrase key="btnDelete.ToolTip">Slett</Phrase>
+    <Phrase key="gbDevice">Enhetskonfigurasjon</Phrase>
+    <Phrase key="btnSave">Lagre</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+    <Phrase key="btnClose">Lukk</Phrase>
+    <Phrase key="miCollapseAll">Skjul alle</Phrase>
+    <Phrase key="ConnectionNode">Tilkoblingsalternativer</Phrase>
+    <Phrase key="CommandName">Kommando {0}</Phrase>
+    <Phrase key="CommandsNode">Kommandoer</Phrase>
+    <Phrase key="QueryName">Søk {0}</Phrase>
+    <Phrase key="QueriesNode">Forespørsler</Phrase>
+    <Phrase key="SelectChildNode">Velg underordnet node</Phrase>
+    <Phrase key="UnnamedCommand">&lt;Unavngitt kommando&gt;</Phrase>
+    <Phrase key="UnnamedQuery">&lt;Unavngitt spørring&gt;</Phrase>
+  </Dictionary>
+</DrvDbImportDictionaries>

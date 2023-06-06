@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModActiveDirectoryDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModActiveDirectory.Config.ModuleConfig">
+    <Phrase key="LdapServer.DisplayName">Server LDAP</Phrase>
+    <Phrase key="LdapServer.Category">Parametri principali</Phrase>
+    <Phrase key="LdapServer.Description">L'host del controller di dominio o l'indirizzo IP.  Ad esempio, 127.0.0.1</Phrase>
+    <Phrase key="EnableSearch.DisplayName">Abilita la ricerca</Phrase>
+    <Phrase key="EnableSearch.Category">Parametri principali</Phrase>
+    <Phrase key="EnableSearch.Description">Abilita la ricerca dei ruoli utente in Active Directory.</Phrase>
+    <Phrase key="SearchRoot.DisplayName">Radice di ricerca</Phrase>
+    <Phrase key="SearchRoot.Category">Parametri principali</Phrase>
+    <Phrase key="SearchRoot.Description">La radice di ricerca.  Ad esempio, DC=società,DC=com</Phrase>
+  </Dictionary>
+</ModActiveDirectoryDictionaries>

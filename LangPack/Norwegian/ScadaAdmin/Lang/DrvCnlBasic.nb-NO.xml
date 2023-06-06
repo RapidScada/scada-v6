@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvCnlBasicDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.BasicChannelView">
+    <Phrase key="ChannelTypeNotFound">Finner ikke kommunikasjonskanaltype.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmSerialPortChannelOptions">
+    <Phrase key="this">Alternativer for serieporter</Phrase>
+    <Phrase key="gbPort">Seriell port</Phrase>
+    <Phrase key="lblPortName">Portnavn</Phrase>
+    <Phrase key="lblBaudRate">Baud rate</Phrase>
+    <Phrase key="lblDataBits">Databiter</Phrase>
+    <Phrase key="lblParity">Paritet</Phrase>
+    <Phrase key="cbParity.Items[0]">Ingen</Phrase>
+    <Phrase key="cbParity.Items[1]">Merkelig</Phrase>
+    <Phrase key="cbParity.Items[2]">Til og med</Phrase>
+    <Phrase key="cbParity.Items[3]">merke</Phrase>
+    <Phrase key="cbParity.Items[4]">Rom</Phrase>
+    <Phrase key="lblStopBits">Stoppbiter</Phrase>
+    <Phrase key="lblDtrEnable">DTR</Phrase>
+    <Phrase key="lblRtsEnable">RTS</Phrase>
+    <Phrase key="gbMode">Driftsmodus</Phrase>
+    <Phrase key="lblBehavior">Oppførsel</Phrase>
+    <Phrase key="cbBehavior.Items[0]">Herre</Phrase>
+    <Phrase key="cbBehavior.Items[1]">Slave</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpClientChannelOptions">
+    <Phrase key="this">TCP-klientalternativer</Phrase>
+    <Phrase key="gbMode">Driftsmodus</Phrase>
+    <Phrase key="lblBehavior">Oppførsel</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master – Communicator sender forespørsel til en enhet og mottar svar.&#13;&#10;Slave – Communicator venter passivt på data fra en enhet.</Phrase>
+    <Phrase key="lblConnectionMode">Tilkoblingsmodus</Phrase>
+    <Phrase key="cbConnectionMode.Items[0]">Individuell</Phrase>
+    <Phrase key="cbConnectionMode.Items[1]">Delt</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">Individuell – Communicator oppretter en individuell TCP-tilkobling med hver enhet.&#13;&#10;Delt – Communicator oppretter én enkelt delt tilkobling for alle enheter på kommunikasjonslinjen&#13;&#10;ved å bruke spesifisert ekstern IP-adresse.&#13;&#10;Delt tilkobling brukes,  for eksempel hvis enhetene er koblet til via en Ethernet-seriell gateway.</Phrase>
+    <Phrase key="gbConnection">Forbindelse</Phrase>
+    <Phrase key="lblHost">Ekstern vert</Phrase>
+    <Phrase key="pbHostHint.ToolTip">Eksternt DNS-navn eller IP-adresse ved bruk av delt tilkobling.</Phrase>
+    <Phrase key="lblTcpPort">Ekstern TCP-port</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">I individuell tilkoblingsmodus brukes den som standard TCP-port hvis ingen port er spesifisert for en enhet.&#13;&#10;I delt tilkoblingsmodus kreves parameteren.&#13;&#10;502-porten er standard Modbus TCP-port.</Phrase>
+    <Phrase key="lblReconnectAfter">Koble til på nytt, sek</Phrase>
+    <Phrase key="pbReconnectAfterHint.ToolTip">Angir tidsintervall for å koble til igjen etter et mislykket forsøk.</Phrase>
+    <Phrase key="lblStayConnected">Hold kontakten</Phrase>
+    <Phrase key="pbStayConnectedHint.ToolTip">Hvis angitt, er tilkoblingen aktiv mellom kommunikasjonsøktene.&#13;&#10;Ellers avsluttes tilkoblingen etter hver økt.</Phrase>
+    <Phrase key="lblDisconnectOnError">Koble fra ved feil</Phrase>
+    <Phrase key="pbDisconnectOnError.ToolTip">Angir om du skal koble fra hvis en økt mislykkes.</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+    <Phrase key="HostRequired">Ekstern vert kreves.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpServerChannelOptions">
+    <Phrase key="this">TCP-serveralternativer</Phrase>
+    <Phrase key="gbMode">Driftsmodus</Phrase>
+    <Phrase key="lblBehavior">Oppførsel</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master - etter å ha opprettet forbindelse sender Communicator forespørsel til en enhet og mottar svar.&#13;&#10;Slave - Communicator venter passivt på data fra en enhet.</Phrase>
+    <Phrase key="lblConnectionMode">Tilkoblingsmodus</Phrase>
+    <Phrase key="cbConnectionMode.Items[0]">Individuell</Phrase>
+    <Phrase key="cbConnectionMode.Items[1]">Delt</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">Individuell - Communicator oppretter en individuell TCP-forbindelse med hver enhet.&#13;&#10;Delt - Communicator oppretter en enkelt delt tilkobling for alle enheter på kommunikasjonslinjen.&#13;&#10;Delt tilkobling brukes for eksempel hvis enhetene er koblet til via  en Ethernet-seriell gateway.</Phrase>
+    <Phrase key="lblDeviceMapping">Enhetskartlegging</Phrase>
+    <Phrase key="cbDeviceMapping.Items[0]">Etter IP-adresse</Phrase>
+    <Phrase key="cbDeviceMapping.Items[1]">Med hallo pakke</Phrase>
+    <Phrase key="cbDeviceMapping.Items[2]">Sjåføren bestemt</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">Metoden for å binde en ny innkommende tilkobling til en enhet:&#13;&#10;Ved IP-adresse – ekstern IP-adresse er lik en enhetsstrengadresse.&#13;&#10;Med hello-pakke – en første pakke mottatt fra en enhet inneholder strengadressen.&lt;  br/&gt;Driver bestemt - algoritmen er implementert i enhetsdriveren.</Phrase>
+    <Phrase key="gbConnection">Forbindelse</Phrase>
+    <Phrase key="lblTcpPort">Lokal TCP-port</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">Lokal TCP-port for innkommende tilkoblinger.&#13;&#10;Innkommende tilkoblinger må tillates av en brannmur.</Phrase>
+    <Phrase key="lblClientLifetime">Inaktiv levetid, sek</Phrase>
+    <Phrase key="pbClientLifetimeHint.ToolTip">Tiden etter at en inaktiv klient kobles fra.</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmUdpChannelOptions">
+    <Phrase key="this">UDP-alternativer</Phrase>
+    <Phrase key="gbMode">Driftsmodus</Phrase>
+    <Phrase key="lblBehavior">Oppførsel</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master – Communicator sender forespørsel til en enhet og mottar svar.&#13;&#10;Slave – Communicator venter passivt på data fra en enhet.</Phrase>
+    <Phrase key="lblDeviceMapping">Enhetskartlegging</Phrase>
+    <Phrase key="cbDeviceMapping.Items[0]">Etter IP-adresse</Phrase>
+    <Phrase key="cbDeviceMapping.Items[1]">Sjåføren bestemt</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">Metoden for å binde en ny innkommende tilkobling til en enhet:&#13;&#10;Etter IP-adresse – ekstern IP-adresse er lik en enhetsstrengadresse.&#13;&#10;Driverbestemt – algoritmen er implementert i enhetsdriveren.</Phrase>
+    <Phrase key="gbConnection">Forbindelse</Phrase>
+    <Phrase key="lblLocalUdpPort">Lokal UDP-port</Phrase>
+    <Phrase key="pbLocalUdpPortHint.ToolTip">Lokal UDP-port for innkommende tilkoblinger.&#13;&#10;Innkommende tilkoblinger må tillates av en brannmur.</Phrase>
+    <Phrase key="lblRemoteUdpPort">Ekstern UDP-port</Phrase>
+    <Phrase key="pbRemoteUdpPortHint.ToolTip">Standard ekstern UDP-port.  Det samme for alle enheter på kommunikasjonslinjen.</Phrase>
+    <Phrase key="lblRemoteIpAddress">Ekstern IP-adresse</Phrase>
+    <Phrase key="pbRemoteIpAddressHint.ToolTip">Standard ekstern IP-adresse.&#13;&#10;Den kan for eksempel brukes hvis enhetene er koblet til via en Ethernet-seriell gateway.</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+</DrvCnlBasicDictionaries>

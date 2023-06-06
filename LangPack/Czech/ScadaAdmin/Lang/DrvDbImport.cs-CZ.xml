@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDbImportDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlCommand">
+    <Phrase key="gbCommand">Parametry příkazu</Phrase>
+    <Phrase key="lblName">název</Phrase>
+    <Phrase key="lblCmdCode">Příkazový kód</Phrase>
+    <Phrase key="lblCmdCodeWarn">Vyplňte kód</Phrase>
+    <Phrase key="lblSql">SQL</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">Dostupné parametry: @cmdVal, @cmdData</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlQuery">
+    <Phrase key="gbQuery">Parametry dotazu</Phrase>
+    <Phrase key="chkActive">Aktivní</Phrase>
+    <Phrase key="lblName">název</Phrase>
+    <Phrase key="lblTag">Tagy</Phrase>
+    <Phrase key="lblSQL">SQL</Phrase>
+    <Phrase key="chkSingleRow">Výsledek jednoho řádku</Phrase>
+    <Phrase key="pbTagInfo.ToolTip">Každý řádek obsahuje kód značky.</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">ON - požadavek vrací jeden řádek, jehož každé pole obsahuje hodnotu tagu.&#13;&#10;OFF - požadavek vrací sadu řádků, každý řádek obsahuje hodnotu tagu.  Povinné sloupce: kód a val.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Vlastnosti zařízení {0} – Import DB</Phrase>
+    <Phrase key="btnAddQuery.ToolTip">Přidat dotaz</Phrase>
+    <Phrase key="btnAddCommand.ToolTip">Přidat příkaz</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Posunout nahoru</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Posunout dolů</Phrase>
+    <Phrase key="btnDelete.ToolTip">Vymazat</Phrase>
+    <Phrase key="gbDevice">Konfigurace zařízení</Phrase>
+    <Phrase key="btnSave">Uložit</Phrase>
+    <Phrase key="btnCancel">zrušení</Phrase>
+    <Phrase key="btnClose">Zavřít</Phrase>
+    <Phrase key="miCollapseAll">Sbalit vše</Phrase>
+    <Phrase key="ConnectionNode">Možnosti připojení</Phrase>
+    <Phrase key="CommandName">Příkaz {0}</Phrase>
+    <Phrase key="CommandsNode">Příkazy</Phrase>
+    <Phrase key="QueryName">Dotaz {0}</Phrase>
+    <Phrase key="QueriesNode">Dotazy</Phrase>
+    <Phrase key="SelectChildNode">Vyberte podřízený uzel</Phrase>
+    <Phrase key="UnnamedCommand">&lt;Nepojmenovaný příkaz&gt;</Phrase>
+    <Phrase key="UnnamedQuery">&lt;Nepojmenovaný dotaz&gt;</Phrase>
+  </Dictionary>
+</DrvDbImportDictionaries>

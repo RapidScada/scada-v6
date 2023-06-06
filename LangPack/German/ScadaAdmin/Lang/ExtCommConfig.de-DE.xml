@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtCommConfigDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.ExtCommConfigLogic">
+    <Phrase key="GeneralOptionsNode">Allgemeine Optionen</Phrase>
+    <Phrase key="DriversNode">Treiber</Phrase>
+    <Phrase key="DataSourcesNode">Datenquellen</Phrase>
+    <Phrase key="LinesNode">Kommunikationsleitungen</Phrase>
+    <Phrase key="LineOptionsNode">Linienoptionen</Phrase>
+    <Phrase key="LineStatsNode">Linienstatistiken</Phrase>
+    <Phrase key="LogsNode">Protokolle</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Code.ExtensionUtils">
+    <Phrase key="DeviceNotSupported">Der Treiber unterstützt das Erstellen von Geräten nicht.</Phrase>
+    <Phrase key="UnableCreateDeviceView">Die Benutzeroberfläche des Geräts konnte nicht erstellt werden.</Phrase>
+    <Phrase key="NoDeviceProperties">Das Gerät bietet kein Eigenschaftenfenster.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate1">
+    <Phrase key="lblCommLine">Kommunikationslinie</Phrase>
+    <Phrase key="lblDevice">Gerät</Phrase>
+    <Phrase key="AllCommLines">&lt;Alle Kommunikationsleitungen&gt;</Phrase>
+    <Phrase key="DeviceInfo">Treiber: {0}&#13;&#10;Instanz: {1}&#13;&#10;Kanäle: {2}</Phrase>
+    <Phrase key="DeviceNotFound">Gerät wurde im Communicator nicht gefunden.</Phrase>
+    <Phrase key="NoDeviceSelected">Kein Gerät ausgewählt.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate2">
+    <Phrase key="lblDevice">Gerät</Phrase>
+    <Phrase key="lblObj">Objekt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate3">
+    <Phrase key="lblDevice">Gerät</Phrase>
+    <Phrase key="gbCnlNums">Kanalnummern</Phrase>
+    <Phrase key="lblStartCnlNum">Start</Phrase>
+    <Phrase key="lblEndCnlNum">Ende</Phrase>
+    <Phrase key="btnMap">Karte</Phrase>
+    <Phrase key="btnReset">Zurücksetzen</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu">
+    <Phrase key="miWizards">Zauberer</Phrase>
+    <Phrase key="miAddLine">Zeile hinzufügen...</Phrase>
+    <Phrase key="miAddDevice">Gerät hinzufügen...</Phrase>
+    <Phrase key="miCreateChannels">Kanäle erstellen...</Phrase>
+    <Phrase key="btnAddLine.ToolTip">Zeile hinzufügen</Phrase>
+    <Phrase key="btnAddDevice.ToolTip">Gerät hinzufügen</Phrase>
+    <Phrase key="btnCreateChannels.ToolTip">Erstellen Sie Kanäle</Phrase>
+    <Phrase key="miLineSync">Synchronisieren...</Phrase>
+    <Phrase key="miLineAdd">Zeile hinzufügen</Phrase>
+    <Phrase key="miLineMoveUp">Aufstellung nach oben verschieben</Phrase>
+    <Phrase key="miLineMoveDown">Zeile nach unten verschieben</Phrase>
+    <Phrase key="miLineDelete">Zeile löschen</Phrase>
+    <Phrase key="miLineStart">Startlinie</Phrase>
+    <Phrase key="miLineStop">Stopplinie</Phrase>
+    <Phrase key="miLineRestart">Zeile neu starten</Phrase>
+    <Phrase key="miDeviceChannels">Gehen Sie zu Kanäle</Phrase>
+    <Phrase key="miDeviceCommand">Befehl senden...</Phrase>
+    <Phrase key="miDevicePoll">Gerät abfragen</Phrase>
+    <Phrase key="miDeviceProperties">Eigenschaften</Phrase>
+    <Phrase key="ConfirmDeleteLine">Sind Sie sicher, dass Sie die Kommunikationsleitung löschen möchten?</Phrase>
+    <Phrase key="CnlNodeNotFound">Kanalknoten nicht gefunden.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineMain">
+    <Phrase key="gbLine">Kommunikationsleitung</Phrase>
+    <Phrase key="chkActive">Aktiv</Phrase>
+    <Phrase key="chkIsBound">An die Konfigurationsdatenbank gebunden</Phrase>
+    <Phrase key="lblCommLineNum">Nummer</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="gbLineOptions">Linienoptionen</Phrase>
+    <Phrase key="lblReqRetries">Anzahl der Anforderungswiederholungen bei Fehler</Phrase>
+    <Phrase key="lblCycleDelay">Verzögerung nach dem Abfragezyklus, ms</Phrase>
+    <Phrase key="lblCmdEnabled">Befehle aktiviert</Phrase>
+    <Phrase key="lblPollAfterCmd">Gerät nach Befehl abfragen</Phrase>
+    <Phrase key="lblDetailedLog">Detailliertes Protokoll</Phrase>
+    <Phrase key="gbChannel">Kommunikationskanal</Phrase>
+    <Phrase key="lblChannelType">Typ</Phrase>
+    <Phrase key="btnChannelProperties">Eigenschaften</Phrase>
+    <Phrase key="lblChannelOptions">Optionen</Phrase>
+    <Phrase key="UndefinedChannelType">Nicht definiert</Phrase>
+    <Phrase key="ChannelNotSupported">Der Treiber unterstützt das Erstellen von Kommunikationskanälen nicht.</Phrase>
+    <Phrase key="UnableCreateChannelView">Die Benutzeroberfläche für den Kommunikationskanal konnte nicht erstellt werden.</Phrase>
+    <Phrase key="NoChannelProperties">Der Kommunikationskanal stellt kein Eigenschaftenfenster zur Verfügung.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineCustom">
+    <Phrase key="btnAddOption">Hinzufügen</Phrase>
+    <Phrase key="btnDeleteOption">Löschen</Phrase>
+    <Phrase key="colOptionName">Name</Phrase>
+    <Phrase key="colOptionValue">Wert</Phrase>
+    <Phrase key="gbSelectedOption">Ausgewählte Option</Phrase>
+    <Phrase key="lblOptionName">Name</Phrase>
+    <Phrase key="lblOptionValue">Wert</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLinePolling">
+    <Phrase key="btnAddDevice">Hinzufügen</Phrase>
+    <Phrase key="btnMoveUpDevice">Nach oben bewegen</Phrase>
+    <Phrase key="btnMoveDownDevice">Sich abwärts bewegen</Phrase>
+    <Phrase key="btnDeleteDevice">Löschen</Phrase>
+    <Phrase key="btnCutDevice">Schneiden</Phrase>
+    <Phrase key="btnCopyDevice">Kopieren</Phrase>
+    <Phrase key="btnPasteDevice">Paste</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">Aktiv</Phrase>
+    <Phrase key="colPollOnCmd">Umfrage zum Kommando</Phrase>
+    <Phrase key="colIsBound">Gebunden</Phrase>
+    <Phrase key="colNumber">Nummer</Phrase>
+    <Phrase key="colName">Name</Phrase>
+    <Phrase key="colDriver">Treiber</Phrase>
+    <Phrase key="colNumAddress">Numerische Adresse</Phrase>
+    <Phrase key="colStrAddress">String-Adresse</Phrase>
+    <Phrase key="colTimeout">Auszeit</Phrase>
+    <Phrase key="colDelay">Verzögerung</Phrase>
+    <Phrase key="colTime">Zeit</Phrase>
+    <Phrase key="colPeriod">Zeitraum</Phrase>
+    <Phrase key="colCmdLine">Befehlszeile</Phrase>
+    <Phrase key="gbSelectedDevice">Ausgewähltes Gerät</Phrase>
+    <Phrase key="chkActive">Aktiv</Phrase>
+    <Phrase key="chkPollOnCmd">Umfrage nur auf Befehl</Phrase>
+    <Phrase key="chkIsBound">An die Konfigurationsdatenbank gebunden</Phrase>
+    <Phrase key="lblDeviceNum">Nummer</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblDriver">Treiber</Phrase>
+    <Phrase key="lblNumAddress">Numerische Adresse</Phrase>
+    <Phrase key="lblStrAddress">String-Adresse oder Hostname</Phrase>
+    <Phrase key="lblTimeout">Auszeit</Phrase>
+    <Phrase key="lblDelay">Verzögerung</Phrase>
+    <Phrase key="lblTime">Zeit</Phrase>
+    <Phrase key="lblPeriod">Zeitraum</Phrase>
+    <Phrase key="lblCmdLine">Befehlszeile</Phrase>
+    <Phrase key="lblCustomOptions">Optionen</Phrase>
+    <Phrase key="btnDeviceProperties">Eigenschaften</Phrase>
+    <Phrase key="btnResetPollingOptions">Zurücksetzen</Phrase>
+    <Phrase key="btnResetPollingOptions.ToolTip">Stellen Sie die Geräteabfrageoptionen auf die Standardeinstellungen ein</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlSync1">
+    <Phrase key="lblSyncDirection">Wählen Sie die Synchronisationsrichtung:</Phrase>
+    <Phrase key="rbBaseToComm">Konfigurationsdatenbank an Communicator</Phrase>
+    <Phrase key="rbCommToBase">Kommunikator zur Konfigurationsdatenbank</Phrase>
+    <Phrase key="lblInfo">Fehlende Leitungen und Geräte werden erstellt.&#13;&#10;Bestehende Leitungen und Geräte werden aktualisiert.&#13;&#10;Betroffene Eigenschaften:&#13;&#10;- Name der Kommunikationsleitung&#13;&#10;- Gerätename&#13;&#10;- Gerätetreiber&#13;&#10;- Geräteadresse</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlSync2">
+    <Phrase key="lblSelect">Wählen Sie Leitungen und Geräte zur Synchronisierung aus:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCnlCreate">
+    <Phrase key="this">Erstellen Sie Kanäle</Phrase>
+    <Phrase key="chkPreview">Vorschau</Phrase>
+    <Phrase key="btnBack">&lt; Zurück</Phrase>
+    <Phrase key="btnNext">Weiter &gt;</Phrase>
+    <Phrase key="btnCreate">Erstellen</Phrase>
+    <Phrase key="btnCancel">Stornieren</Phrase>
+    <Phrase key="CreateCnlsStep1">Schritt 1 von 3: Wählen Sie ein Gerät aus</Phrase>
+    <Phrase key="CreateCnlsStep2">Schritt 2 von 3: Wählen Sie ein Objekt aus neu erstellten Kanälen aus</Phrase>
+    <Phrase key="CreateCnlsStep3">Schritt 3 von 3: Kanalnummern zuweisen</Phrase>
+    <Phrase key="CreateCnlsCompleted">Kanalerstellung erfolgreich abgeschlossen.&#13;&#10;{0} Kanal(e) hinzugefügt.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCnlPreview">
+    <Phrase key="this">Vorschau der Kanäle</Phrase>
+    <Phrase key="btnDelete">Löschen</Phrase>
+    <Phrase key="colCnlNum">Nummer</Phrase>
+    <Phrase key="colActive">Aktiv</Phrase>
+    <Phrase key="colName">Name</Phrase>
+    <Phrase key="colTagNum">Tag-Nummer</Phrase>
+    <Phrase key="colTagCode">Tag-Code</Phrase>
+    <Phrase key="btnAdd">Hinzufügen</Phrase>
+    <Phrase key="btnCancel">Stornieren</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCommLogs">
+    <Phrase key="AppFilter">Anwendung</Phrase>
+    <Phrase key="LinesFilter">Kommunikationsleitungen</Phrase>
+    <Phrase key="DevicesFilter">Geräte</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDataSources">
+    <Phrase key="this">Datenquellen</Phrase>
+    <Phrase key="btnAdd">Hinzufügen</Phrase>
+    <Phrase key="btnMoveUp">Nach oben bewegen</Phrase>
+    <Phrase key="btnMoveDown">Sich abwärts bewegen</Phrase>
+    <Phrase key="btnDelete">Löschen</Phrase>
+    <Phrase key="btnCut">Schneiden</Phrase>
+    <Phrase key="btnCopy">Kopieren</Phrase>
+    <Phrase key="btnPaste">Paste</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">Aktiv</Phrase>
+    <Phrase key="colCode">Code</Phrase>
+    <Phrase key="colName">Name</Phrase>
+    <Phrase key="colDriver">Treiber</Phrase>
+    <Phrase key="gbDataSource">Ausgewählte Datenquelle</Phrase>
+    <Phrase key="chkActive">Aktiv</Phrase>
+    <Phrase key="lblCode">Code</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblDriver">Treiber</Phrase>
+    <Phrase key="lblOptions">Optionen</Phrase>
+    <Phrase key="btnProperties">Eigenschaften</Phrase>
+    <Phrase key="DriverNotSpecified">Treiber ist nicht angegeben.</Phrase>
+    <Phrase key="DataSourceNotSupported">Der Treiber unterstützt das Erstellen von Datenquellen nicht.</Phrase>
+    <Phrase key="UnableCreateDataSourceView">Die Benutzeroberfläche für die Datenquelle konnte nicht erstellt werden.</Phrase>
+    <Phrase key="NoDataSourceProperties">Die Datenquelle stellt kein Eigenschaftenfenster bereit.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceAdd">
+    <Phrase key="this">Gerät hinzufügen</Phrase>
+    <Phrase key="gbDevice">Gerät</Phrase>
+    <Phrase key="lblDeviceNum">Nummer</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblCode">Code</Phrase>
+    <Phrase key="lblDevType">Gerätetyp</Phrase>
+    <Phrase key="lblNumAddress">Numerische Adresse</Phrase>
+    <Phrase key="lblStrAddress">String-Adresse oder Hostname</Phrase>
+    <Phrase key="lblCommLine">Kommunikationslinie</Phrase>
+    <Phrase key="lblDescr">Beschreibung</Phrase>
+    <Phrase key="gbComm">Kommunikator</Phrase>
+    <Phrase key="chkAddToComm">Gerät zum Communicator hinzufügen</Phrase>
+    <Phrase key="lblInstance">Beispiel</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Stornieren</Phrase>
+    <Phrase key="DeviceExistsInConfigDatabase">In der Konfigurationsdatenbank ist bereits ein Gerät mit derselben Nummer vorhanden.</Phrase>
+    <Phrase key="DeviceExistsInLineConfig">In der Kommunikationsleitungskonfiguration ist bereits ein Gerät mit derselben Nummer vorhanden.</Phrase>
+    <Phrase key="LineNotFoundInCommConfig">Die Kommunikationsleitung wurde in der Communicator-Konfiguration nicht gefunden.</Phrase>
+    <Phrase key="ChooseLine">Bitte wählen Sie eine Kommunikationslinie.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceCommand">
+    <Phrase key="this">Befehl an {0}</Phrase>
+    <Phrase key="lblCmdNum">Befehlsnummer</Phrase>
+    <Phrase key="lblCmdCode">Befehlscode</Phrase>
+    <Phrase key="rbNumVal">Numerisch</Phrase>
+    <Phrase key="rbStrData">String-Daten</Phrase>
+    <Phrase key="rbHexData">Hexadezimale Daten</Phrase>
+    <Phrase key="btnOff">Aus</Phrase>
+    <Phrase key="btnOn">An</Phrase>
+    <Phrase key="btnSend">Schicken</Phrase>
+    <Phrase key="btnClose">Schließen</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceData">
+    <Phrase key="this">Gerät {0}</Phrase>
+    <Phrase key="btnDeviceProperties">Eigenschaften</Phrase>
+    <Phrase key="btnSendCommand">Befehl</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDrivers">
+    <Phrase key="this">Treiber</Phrase>
+    <Phrase key="lblDrivers">Verfügbare Treiber:</Phrase>
+    <Phrase key="btnProperties">Eigenschaften</Phrase>
+    <Phrase key="btnRegister">Registrieren</Phrase>
+    <Phrase key="lblDescr">Beschreibung</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmGeneralOptions">
+    <Phrase key="this">Allgemeine Optionen</Phrase>
+    <Phrase key="gbGeneralOptions">Allgemeine Optionen</Phrase>
+    <Phrase key="lblIsBound">Die Anwendung ist an die Konfigurationsdatenbank gebunden</Phrase>
+    <Phrase key="lblSendModifiedData">Senden Sie nur geänderte Daten von Geräte-Tags</Phrase>
+    <Phrase key="lblSendAllDataPeriod">Zeitraum des Sendens der Daten aller Geräte-Tags, Sek</Phrase>
+    <Phrase key="lblEnableCommands">Fernwirkbefehle aktivieren</Phrase>
+    <Phrase key="lblEnableFileCommands">Fernwirkbefehle aus Dateien lesen</Phrase>
+    <Phrase key="lblStartLinesOnCommand">Starten Sie Kommunikationsleitungen auf Befehl</Phrase>
+    <Phrase key="lblStopWait">Warten Sie auf den Dienststopp, Sek</Phrase>
+    <Phrase key="lblMaxLogSize">Maximale Protokolldateigröße, MB</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineAdd">
+    <Phrase key="this">Kommunikationsleitung hinzufügen</Phrase>
+    <Phrase key="gbLine">Kommunikationsleitung</Phrase>
+    <Phrase key="lblCommLineNum">Nummer</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblDescr">Beschreibung</Phrase>
+    <Phrase key="gbComm">Kommunikator</Phrase>
+    <Phrase key="chkAddToComm">Zeile zum Communicator hinzufügen</Phrase>
+    <Phrase key="lblInstance">Beispiel</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Stornieren</Phrase>
+    <Phrase key="LineExistsInConfigDatabase">In der Konfigurationsdatenbank ist bereits eine Kommunikationsleitung mit derselben Nummer vorhanden.</Phrase>
+    <Phrase key="LineExistsInCommConfig">In der Communicator-Konfiguration ist bereits eine Kommunikationsleitung mit derselben Nummer vorhanden.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineConfig">
+    <Phrase key="lbTabs.Items[0]">Hauptoptionen</Phrase>
+    <Phrase key="lbTabs.Items[1]">Benutzerdefinierte Optionen</Phrase>
+    <Phrase key="lbTabs.Items[2]">Geräteabfrage</Phrase>
+    <Phrase key="LineConfigTitle">Zeile {0} Optionen</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineStats">
+    <Phrase key="lbTabs.Items[0]">Leitungsstatus</Phrase>
+    <Phrase key="lbTabs.Items[1]">Leitungsprotokoll</Phrase>
+    <Phrase key="chkPause">Pause</Phrase>
+    <Phrase key="LineStatsTitle">Zeile {0} Statistiken</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmSync">
+    <Phrase key="this">Leitungen und Geräte synchronisieren</Phrase>
+    <Phrase key="btnNext">Nächste</Phrase>
+    <Phrase key="btnSync">Synchronisieren</Phrase>
+    <Phrase key="btnCancel">Stornieren</Phrase>
+    <Phrase key="SyncCompleted">Die Synchronisierung wurde erfolgreich abgeschlossen.</Phrase>
+    <Phrase key="SyncCompletedWithError">Synchronisierung mit Fehler abgeschlossen:&#13;&#10;{0}</Phrase>
+    <Phrase key="NoDataToSync">Keine Daten für die Synchronisierung ausgewählt.</Phrase>
+  </Dictionary>
+</ExtCommConfigDictionaries>

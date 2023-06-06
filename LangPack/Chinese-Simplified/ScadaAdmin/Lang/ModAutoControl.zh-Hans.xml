@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModAutoControlDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlCmdTrigger">
+    <Phrase key="gbTrigger">触发器参数</Phrase>
+    <Phrase key="chkActive">积极的</Phrase>
+    <Phrase key="lblName">姓名</Phrase>
+    <Phrase key="lblDescr">加薪</Phrase>
+    <Phrase key="txtDescr">根据命令</Phrase>
+    <Phrase key="lblCnlNum">渠道</Phrase>
+    <Phrase key="lblCmdVal">价值</Phrase>
+    <Phrase key="btnOff">离开</Phrase>
+    <Phrase key="btnOn">在</Phrase>
+    <Phrase key="lblCmdData">数据</Phrase>
+    <Phrase key="cbCmdDataCompareOper.Items[0]">不检查</Phrase>
+    <Phrase key="cbCmdDataCompareOper.Items[1]">等于</Phrase>
+    <Phrase key="cbCmdDataCompareOper.Items[2]">包含</Phrase>
+    <Phrase key="chkTransmitCmd">发送指令</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlCnlDataChangeTrigger">
+    <Phrase key="gbTrigger">触发器参数</Phrase>
+    <Phrase key="chkActive">积极的</Phrase>
+    <Phrase key="lblName">姓名</Phrase>
+    <Phrase key="lblDescr">加薪</Phrase>
+    <Phrase key="txtDescr">通道数据变化</Phrase>
+    <Phrase key="lblCnlNum">渠道</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlCnlDataTrigger">
+    <Phrase key="gbTrigger">触发器参数</Phrase>
+    <Phrase key="chkActive">积极的</Phrase>
+    <Phrase key="lblName">姓名</Phrase>
+    <Phrase key="lblDescr">加薪</Phrase>
+    <Phrase key="txtDescr">频道数据</Phrase>
+    <Phrase key="lblCnlNum">频道</Phrase>
+    <Phrase key="lblCnlValCond">价值</Phrase>
+    <Phrase key="lblDeadband">死区</Phrase>
+    <Phrase key="lblCnlStat">状态</Phrase>
+    <Phrase key="lblDelay">延迟，秒</Phrase>
+    <Phrase key="lblRepeat">重复周期，秒</Phrase>
+    <Phrase key="lblRepeatCnt">重复计数</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlEvTrigger">
+    <Phrase key="gbTrigger">触发器参数</Phrase>
+    <Phrase key="chkActive">积极的</Phrase>
+    <Phrase key="lblName">姓名</Phrase>
+    <Phrase key="lblDescr">加薪</Phrase>
+    <Phrase key="txtDescr">活动现场</Phrase>
+    <Phrase key="lblObjNum">目的</Phrase>
+    <Phrase key="lblDeviceNum">设备</Phrase>
+    <Phrase key="lblCnlNum">渠道</Phrase>
+    <Phrase key="lblSeverity">严重性（最小值、最大值）</Phrase>
+    <Phrase key="lblNewCnlValCond">新价值</Phrase>
+    <Phrase key="lblNewCnlStat">新状态</Phrase>
+    <Phrase key="lblTextCompareOper">文本</Phrase>
+    <Phrase key="cbTextCompareOper.Items[0]">不检查</Phrase>
+    <Phrase key="cbTextCompareOper.Items[1]">等于</Phrase>
+    <Phrase key="cbTextCompareOper.Items[2]">包含</Phrase>
+    <Phrase key="lblDataCompareOper">数据</Phrase>
+    <Phrase key="cbDataCompareOper.Items[0]">不检查</Phrase>
+    <Phrase key="cbDataCompareOper.Items[1]">等于</Phrase>
+    <Phrase key="cbDataCompareOper.Items[2]">包含</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlTiggerGroup">
+    <Phrase key="gbTriggerGroup">组参数</Phrase>
+    <Phrase key="chkActive">积极的</Phrase>
+    <Phrase key="lblName">姓名</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlTimeTrigger">
+    <Phrase key="gbTrigger">触发器参数</Phrase>
+    <Phrase key="chkActive">积极的</Phrase>
+    <Phrase key="lblName">姓名</Phrase>
+    <Phrase key="lblDescr">加薪</Phrase>
+    <Phrase key="txtDescr">准时</Phrase>
+    <Phrase key="rbEveryDay">每天</Phrase>
+    <Phrase key="rbDaysOfWeek">星期几</Phrase>
+    <Phrase key="rbDaysOfMonth">每月的天数</Phrase>
+    <Phrase key="rbDates">日期</Phrase>
+    <Phrase key="chkSun">太阳</Phrase>
+    <Phrase key="chkMon">星期一</Phrase>
+    <Phrase key="chkTue">星期二</Phrase>
+    <Phrase key="chkWed">星期三</Phrase>
+    <Phrase key="chkThu">星期四</Phrase>
+    <Phrase key="chkFri">星期五</Phrase>
+    <Phrase key="chkSat">星期六</Phrase>
+    <Phrase key="lblTimes">提高次数</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlTriggerCommand">
+    <Phrase key="gbCommand">命令参数</Phrase>
+    <Phrase key="lblCnlNum">渠道</Phrase>
+    <Phrase key="lblOr">或者</Phrase>
+    <Phrase key="lblDeviceNum">设备</Phrase>
+    <Phrase key="lblCmdNum">命令号</Phrase>
+    <Phrase key="lblCmdCode">命令码</Phrase>
+    <Phrase key="lblDelay">延迟，秒</Phrase>
+    <Phrase key="chkSendOnFiring">开火时</Phrase>
+    <Phrase key="chkSendOnNorm">关于归一化</Phrase>
+    <Phrase key="chkCopyCmdVal">复制值和数据</Phrase>
+    <Phrase key="rbNumVal">数字</Phrase>
+    <Phrase key="rbStrData">字符串数据</Phrase>
+    <Phrase key="rbHexData">十六进制数据</Phrase>
+    <Phrase key="btnOff">离开</Phrase>
+    <Phrase key="btnOn">在</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmConditionEdit">
+    <Phrase key="this">编辑条件</Phrase>
+    <Phrase key="lblCompareOper1">比较操作。  1个</Phrase>
+    <Phrase key="lblCompareArg1">参数 1</Phrase>
+    <Phrase key="lblLogicalOper">逻辑操作。</Phrase>
+    <Phrase key="cbLogicalOper.Items[0]">没有任何</Phrase>
+    <Phrase key="cbLogicalOper.Items[1]">和</Phrase>
+    <Phrase key="cbLogicalOper.Items[2]">或者</Phrase>
+    <Phrase key="lblCompareOper2">比较操作。  2个</Phrase>
+    <Phrase key="lblCompareArg2">论点 2</Phrase>
+    <Phrase key="lblResult">结果</Phrase>
+    <Phrase key="btnOK">好的</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmDateTimeAdd">
+    <Phrase key="title1">添加日期</Phrase>
+    <Phrase key="title2">添加时间</Phrase>
+    <Phrase key="lblDate">日期</Phrase>
+    <Phrase key="lblTime">时间</Phrase>
+    <Phrase key="btnAdd">添加</Phrase>
+    <Phrase key="btnClose">关闭</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmDayAdd">
+    <Phrase key="this">添加日期</Phrase>
+    <Phrase key="lblDay">天</Phrase>
+    <Phrase key="btnAdd">添加</Phrase>
+    <Phrase key="btnClose">关闭</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmGeneralOptions">
+    <Phrase key="this">模块选项</Phrase>
+    <Phrase key="lblUsername">用户名</Phrase>
+    <Phrase key="btnOK">好的</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmModuleConfig">
+    <Phrase key="this">自动控制</Phrase>
+    <Phrase key="btnAddTriggerGroup.ToolTip">添加触发组</Phrase>
+    <Phrase key="btnAddCnlDataTrigger.ToolTip">添加通道数据触发器</Phrase>
+    <Phrase key="btnAddCnlDataChangeTrigger.ToolTip">添加通道数据更改触发器</Phrase>
+    <Phrase key="btnAddEvTrigger.ToolTip">添加事件触发器</Phrase>
+    <Phrase key="btnAddTimeTrigger.ToolTip">添加时间触发器</Phrase>
+    <Phrase key="btnAddCmdTrigger.ToolTip">添加命令触发器</Phrase>
+    <Phrase key="btnAddCommand.ToolTip">添加命令</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">提升</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">下移</Phrase>
+    <Phrase key="btnDelete.ToolTip">删除</Phrase>
+    <Phrase key="btnCut.ToolTip">切</Phrase>
+    <Phrase key="btnCopy.ToolTip">复制</Phrase>
+    <Phrase key="btnPaste.ToolTip">粘贴</Phrase>
+    <Phrase key="btnOptions.ToolTip">模块选项</Phrase>
+    <Phrase key="gbTriggers">触发器</Phrase>
+    <Phrase key="lblHint">添加触发器和命令</Phrase>
+    <Phrase key="btnSave">节省</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+    <Phrase key="btnClose">关闭</Phrase>
+    <Phrase key="miCollapseAll">全部收缩</Phrase>
+    <Phrase key="UnnamedGroup">&lt;未命名团体&gt;</Phrase>
+    <Phrase key="UnnamedTrigger">&lt;未命名触发器&gt;</Phrase>
+    <Phrase key="CommandDescr1">频道{0}</Phrase>
+    <Phrase key="CommandDescr2">设备 {0}，命令 {1}</Phrase>
+    <Phrase key="CopySuffix">- 复制</Phrase>
+  </Dictionary>
+</ModAutoControlDictionaries>

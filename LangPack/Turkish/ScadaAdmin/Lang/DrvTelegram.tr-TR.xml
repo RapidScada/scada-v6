@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvTelegramDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvTelegram.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Cihaz {0} Özellikleri - Telegram</Phrase>
+    <Phrase key="lblBotToken">Bot belirteci</Phrase>
+    <Phrase key="btnPasteBotToken.ToolTip">Bot Jetonunu Yapıştır</Phrase>
+    <Phrase key="lblSubscr">Abonelikler</Phrase>
+    <Phrase key="btnAddSubscr.ToolTip">Abonelik Ekle</Phrase>
+    <Phrase key="btnEditSubscr.ToolTip">Seçilen Aboneliği Düzenle</Phrase>
+    <Phrase key="btnDeleteSubscr.ToolTip">Seçilen Aboneliği Sil</Phrase>
+    <Phrase key="btnCopySubscrName.ToolTip">Abonelik Adını Kopyala</Phrase>
+    <Phrase key="colSubscrID">İD</Phrase>
+    <Phrase key="colSubscrName">İsim</Phrase>
+    <Phrase key="btnSave">Kaydetmek</Phrase>
+    <Phrase key="btnClose">Kapalı</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvTelegram.View.Forms.FrmSubscriptionOptions">
+    <Phrase key="lblChatID">Sohbet Kimliği</Phrase>
+    <Phrase key="lblName">İsim</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+    <Phrase key="NewSubscriptionTitle">Yeni Abonelik</Phrase>
+    <Phrase key="EditSubscriptionTitle">Aboneliği Düzenle</Phrase>
+  </Dictionary>
+</DrvTelegramDictionaries>

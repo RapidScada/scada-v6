@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvHttpNotifDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvHttpNotif.View.Forms.FrmConfig">
+    <Phrase key="this">Својства уређаја {0} – HTTP обавештења</Phrase>
+    <Phrase key="pageGeneral">Генерал</Phrase>
+    <Phrase key="lblMethod">Метод</Phrase>
+    <Phrase key="lblUri">URI</Phrase>
+    <Phrase key="lblUriHint">Може да садржи параметре, на пример {пһоне}, {email} и {тект}</Phrase>
+    <Phrase key="gbParam">Параметерс</Phrase>
+    <Phrase key="chkParamEnabled">Параметри су омогућени</Phrase>
+    <Phrase key="lblParamBegin">Започети</Phrase>
+    <Phrase key="lblParamEnd">Крај</Phrase>
+    <Phrase key="lblAddrSep">Сепаратор</Phrase>
+    <Phrase key="pageHeaders">Заглавља</Phrase>
+    <Phrase key="colName">Име</Phrase>
+    <Phrase key="colValue">Валуе</Phrase>
+    <Phrase key="pageContent">Садржај</Phrase>
+    <Phrase key="lblContentType">Тип садржаја</Phrase>
+    <Phrase key="lblContentEscaping">Бежање</Phrase>
+    <Phrase key="cbContentEscaping.Items[0]">Ниједан</Phrase>
+    <Phrase key="cbContentEscaping.Items[1]">URL</Phrase>
+    <Phrase key="cbContentEscaping.Items[2]">JSON</Phrase>
+    <Phrase key="lblContent">Тело</Phrase>
+    <Phrase key="lblContentHint">Може да садржи параметре, на пример {пһоне}, {емаил} и {тект}</Phrase>
+    <Phrase key="btnAddressBook">Адресар</Phrase>
+    <Phrase key="btnSave">сачувати</Phrase>
+    <Phrase key="btnClose">Близу</Phrase>
+  </Dictionary>
+</DrvHttpNotifDictionaries>

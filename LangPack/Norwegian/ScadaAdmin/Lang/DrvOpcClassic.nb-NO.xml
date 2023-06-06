@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvOpcClassicDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlCommand">
+    <Phrase key="gbCommand">Kommandoparametere</Phrase>
+    <Phrase key="lblPath">Sti</Phrase>
+    <Phrase key="lblName">Navn</Phrase>
+    <Phrase key="lblCmdCode">Kommandokode</Phrase>
+    <Phrase key="lblCmdNum">Kommandonummer</Phrase>
+    <Phrase key="lblDataType">Data-type</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEmptyItem">
+    <Phrase key="gbEmptyItem">Elementparametere</Phrase>
+    <Phrase key="lblNotSelected">Varen er ikke valgt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEventCategory">
+    <Phrase key="gbEventCategory">Kategoriparametere</Phrase>
+    <Phrase key="lblName">Navn</Phrase>
+    <Phrase key="lblID">ID</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEventSubscription">
+    <Phrase key="gbSubscription">Abonnementsparametre</Phrase>
+    <Phrase key="chkActive">Aktiv</Phrase>
+    <Phrase key="lblDisplayName">Visningsnavn</Phrase>
+    <Phrase key="lblUpdateRate">Oppdateringshastighet, ms</Phrase>
+    <Phrase key="lblKeepAlive">Hold deg i live, ms</Phrase>
+    <Phrase key="lblMaxSize">Maksimal størrelse</Phrase>
+    <Phrase key="chkSimpleEvents">Enkle hendelser</Phrase>
+    <Phrase key="chkTrackingEvents">Sporing av hendelser</Phrase>
+    <Phrase key="chkConditionEvents">Tilstandshendelser</Phrase>
+    <Phrase key="lblHighSeverity">Høy alvorlighetsgrad</Phrase>
+    <Phrase key="lblLowSeverity">Lav alvorlighetsgrad</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlItem">
+    <Phrase key="gbItem">Elementparametere</Phrase>
+    <Phrase key="chkActive">Aktiv</Phrase>
+    <Phrase key="lblPath">Sti</Phrase>
+    <Phrase key="lblName">Navn</Phrase>
+    <Phrase key="lblTagCode">Tag kode</Phrase>
+    <Phrase key="lblTagNum">Tag nummer</Phrase>
+    <Phrase key="lblDataType">Data-type</Phrase>
+    <Phrase key="chkIsString">Er streng</Phrase>
+    <Phrase key="chkIsArray">Er array</Phrase>
+    <Phrase key="lblDataLen">Lengde på streng eller array</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlSubscription">
+    <Phrase key="gbSubscription">Abonnementsparametre</Phrase>
+    <Phrase key="chkActive">Aktiv</Phrase>
+    <Phrase key="lblDisplayName">Visningsnavn</Phrase>
+    <Phrase key="lblUpdateRate">Oppdateringshastighet, ms</Phrase>
+    <Phrase key="lblKeepAlive">Hold deg i live, ms</Phrase>
+    <Phrase key="lblDeadband">Dødbånd, %</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Egenskaper for enhet {0} – OPC Classic</Phrase>
+    <Phrase key="gbConnectionOptions">Tilkoblingsalternativer</Phrase>
+    <Phrase key="lblHost">Ekstern vert</Phrase>
+    <Phrase key="btnShowNetworkOptions">Alternativer</Phrase>
+    <Phrase key="lblServerPath">OPC server</Phrase>
+    <Phrase key="lblDaSpec">DA-spesifikasjon</Phrase>
+    <Phrase key="lblAeSpec">AE-spesifikasjon</Phrase>
+    <Phrase key="btnSelectServer">Plukke ut...</Phrase>
+    <Phrase key="lblConnectionInfo">Tilkoblingsmuligheter er felles for kommunikasjonslinjen.</Phrase>
+    <Phrase key="gbServerBrowse">Server Bla gjennom</Phrase>
+    <Phrase key="btnConnect.ToolTip">Koble</Phrase>
+    <Phrase key="btnDisconnect.ToolTip">Koble fra</Phrase>
+    <Phrase key="btnOpenFile.ToolTip">Åpen fil</Phrase>
+    <Phrase key="gbDevice">Enhetskonfigurasjon</Phrase>
+    <Phrase key="btnAddSubscription.ToolTip">Legg til abonnement</Phrase>
+    <Phrase key="btnAddItem.ToolTip">Legg til valgt element</Phrase>
+    <Phrase key="btnMoveUpItem.ToolTip">Flytte opp</Phrase>
+    <Phrase key="btnMoveDownItem.ToolTip">Flytt ned</Phrase>
+    <Phrase key="btnDeleteItem.ToolTip">Slett</Phrase>
+    <Phrase key="btnSave">Lagre</Phrase>
+    <Phrase key="btnClose">Lukk</Phrase>
+    <Phrase key="XmlFileFilter">XML-filer (*.xml)|*.xml|Alle filer (*.*)|*.*</Phrase>
+    <Phrase key="ServerNotSelected">OPC-serveren er ikke valgt.</Phrase>
+    <Phrase key="DaServerUnavailable">OPC DA-serveren er utilgjengelig eller støtter ikke den valgte spesifikasjonen.</Phrase>
+    <Phrase key="AeServerUnavailable">OPC AE-serveren er utilgjengelig eller støtter ikke den valgte spesifikasjonen.</Phrase>
+    <Phrase key="ConnectDaServerError">Feil ved tilkobling av OPC DA-server</Phrase>
+    <Phrase key="ConnectAeServerError">Feil ved tilkobling av OPC AE-server</Phrase>
+    <Phrase key="DisconnectDaServerError">Feil ved frakobling av OPC DA-server</Phrase>
+    <Phrase key="DisconnectAeServerError">Feil ved frakobling av OPC AE-server</Phrase>
+    <Phrase key="BrowseServerError">Feil ved gjennomlesing av OPC-server</Phrase>
+    <Phrase key="LoadServerContentError">Feil ved innlasting av OPC-serverinnhold</Phrase>
+    <Phrase key="ServerNotConnected">OPC-serveren er ikke tilkoblet.</Phrase>
+    <Phrase key="UnableToReadData">Kan ikke lese data.</Phrase>
+    <Phrase key="GetDataTypeError">Feil ved henting av datatype</Phrase>
+    <Phrase key="DaServerNode">OPC DA</Phrase>
+    <Phrase key="AeServerNode">OPC AE</Phrase>
+    <Phrase key="EmptyNode">Tømme</Phrase>
+    <Phrase key="SubscriptionsNode">Abonnementer</Phrase>
+    <Phrase key="CommandsNode">Kommandoer</Phrase>
+    <Phrase key="EventSubscriptionsNode">Arrangementsabonnement</Phrase>
+    <Phrase key="UnnamedSubscription">&lt;Unavngitt abonnement&gt;</Phrase>
+    <Phrase key="UnnamedItem">&lt;Unavngitt element&gt;</Phrase>
+    <Phrase key="UnnamedCommand">&lt;Unavngitt kommando&gt;</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Forms.FrmNetworkOptions">
+    <Phrase key="this">Nettverksalternativer</Phrase>
+    <Phrase key="chkIsDefault">Bruk standardalternativer</Phrase>
+    <Phrase key="gbCredentials">Legitimasjon</Phrase>
+    <Phrase key="lblUsername">Brukernavn</Phrase>
+    <Phrase key="lblPassword">Passord</Phrase>
+    <Phrase key="lblDomain">Domene</Phrase>
+    <Phrase key="gbProxy">Web proxy</Phrase>
+    <Phrase key="lblProxyAddress">Adresse</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Forms.FrmServerSelect">
+    <Phrase key="this">Velg OPC Server</Phrase>
+    <Phrase key="lblHost">Vert</Phrase>
+    <Phrase key="lblServer">OPC server</Phrase>
+    <Phrase key="gbDaSpec">DA-spesifikasjon</Phrase>
+    <Phrase key="rbDaNone">Ingen</Phrase>
+    <Phrase key="rbDa10">Datatilgang 1.0a</Phrase>
+    <Phrase key="rbDa20">Datatilgang 2.XX</Phrase>
+    <Phrase key="rbDa30">Datatilgang 3.00</Phrase>
+    <Phrase key="gbAeSpec">AE-spesifikasjon</Phrase>
+    <Phrase key="rbAeNone">Ingen</Phrase>
+    <Phrase key="rbAe10">Alarmer og hendelser 1.XX</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+    <Phrase key="FillServersError">Feil ved utfylling av serverliste</Phrase>
+    <Phrase key="DisposeServersError">Feil ved avhending av servere</Phrase>
+  </Dictionary>
+</DrvOpcClassicDictionaries>

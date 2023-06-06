@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModRapidGateDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlArcReplication">
+    <Phrase key="gbReplicationOptions">아카이브 복제 옵션</Phrase>
+    <Phrase key="lblEnabled">사용</Phrase>
+    <Phrase key="lblLocalHistArchiveBit">지역 역사 기록 보관소의 일부</Phrase>
+    <Phrase key="lblLocalEventArchiveBit">지역 이벤트 아카이브의 비트</Phrase>
+    <Phrase key="lblRemoteHistArchiveBit">원격 히스토리컬 아카이브의 비트</Phrase>
+    <Phrase key="lblRemoteEventArchiveBit">원격 이벤트 아카이브의 비트</Phrase>
+    <Phrase key="lblAutoUpload">자동 업로드</Phrase>
+    <Phrase key="lblAutoDowload">자동으로 다운로드</Phrase>
+    <Phrase key="lblDataAvailCnlNum">데이터 가용성을 나타내는 채널</Phrase>
+    <Phrase key="lblMinDepth">최소 깊이, 초</Phrase>
+    <Phrase key="lblMaxDepth">최대 깊이, 초</Phrase>
+    <Phrase key="lblReadingStep">읽기 단계, 초</Phrase>
+    <Phrase key="gbUploadOptions">업로드</Phrase>
+    <Phrase key="gbDowloadOptions">다운로드</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlCurDataTransfer">
+    <Phrase key="gbOptions">현재 데이터 전송 옵션</Phrase>
+    <Phrase key="chkEnabled">사용</Phrase>
+    <Phrase key="lblTrigger">방아쇠</Phrase>
+    <Phrase key="cbTrigger.Items[0]">수신 시</Phrase>
+    <Phrase key="cbTrigger.Items[1]">온 타이머</Phrase>
+    <Phrase key="lblTimePeriod">타이머 기간, 초</Phrase>
+    <Phrase key="lblAllDataPeriod">전 채널 데이터 전송 주기, 초</Phrase>
+    <Phrase key="chkUseRawData">원시 데이터 사용(처리 전 데이터 전송)</Phrase>
+    <Phrase key="chkApplyFormulas">원격 서버에 수식 적용</Phrase>
+    <Phrase key="chkEnableEvents">원격 서버에서 이벤트 생성</Phrase>
+    <Phrase key="chkSkipUnchanged">변경되지 않은 데이터 건너뛰기</Phrase>
+    <Phrase key="chkIncludeCalculated">계산된 채널 포함</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlEventTransfer">
+    <Phrase key="gbOptions">이벤트 이전 옵션</Phrase>
+    <Phrase key="chkEnabled">사용</Phrase>
+    <Phrase key="chkTransferAck">승인 전송</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlGeneral">
+    <Phrase key="gbOptions">일반 옵션</Phrase>
+    <Phrase key="chkActive">활동적인</Phrase>
+    <Phrase key="lblGateID">게이트 ID</Phrase>
+    <Phrase key="lblName">이름</Phrase>
+    <Phrase key="lblCmdCode">명령 코드</Phrase>
+    <Phrase key="lblLocalArchiveMask">로컬 서버에 데이터를 저장하기 위한 아카이브 마스크</Phrase>
+    <Phrase key="lblDefaultArchiveMaskLocal">기본 아카이브를 선택하려면 -1을 설정하십시오.</Phrase>
+    <Phrase key="lblRemoteArchiveMask">원격 서버로 데이터를 보내기 위한 아카이브 마스크</Phrase>
+    <Phrase key="lblDefaultArchiveMaskRemote">기본 아카이브를 선택하려면 -1을 설정하십시오.</Phrase>
+    <Phrase key="lblMaxQueueSize">최대 대기열 크기</Phrase>
+    <Phrase key="lblDataLifetime">대기열의 데이터 수명, 초</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlHistDataTransfer">
+    <Phrase key="gbOptions">과거 데이터 전송 옵션</Phrase>
+    <Phrase key="chkEnabled">사용</Phrase>
+    <Phrase key="chkUseRawData">원시 데이터 사용(처리 전 데이터 전송)</Phrase>
+    <Phrase key="chkApplyFormulas">원격 서버에 수식 적용</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlInCmdTransfer">
+    <Phrase key="gbOptions">수신 명령 전송 옵션</Phrase>
+    <Phrase key="chkEnabled">사용</Phrase>
+    <Phrase key="chkApplyFormulas">로컬 서버에서 수식 적용</Phrase>
+    <Phrase key="lblPollingRate">명령 폴링 속도, ms</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlMapping">
+    <Phrase key="gbOptions">매핑 옵션</Phrase>
+    <Phrase key="btnAddMapItem.ToolTip">매핑 추가</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">이동</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">아래로 이동</Phrase>
+    <Phrase key="btnDel.ToolTip">삭제</Phrase>
+    <Phrase key="btnEdit.ToolTip">편집하다</Phrase>
+    <Phrase key="colLocalIDs">로컬 ID</Phrase>
+    <Phrase key="colRemoteIDs">원격 ID</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlOutCmdTransfer">
+    <Phrase key="gbOptions">결과 명령 전송 옵션</Phrase>
+    <Phrase key="chkEnabled">사용</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Forms.FrmIdMapping">
+    <Phrase key="this">ID 매핑</Phrase>
+    <Phrase key="lblRange">ID 매핑</Phrase>
+    <Phrase key="lblParamLocal">로컬 ID</Phrase>
+    <Phrase key="lblParamRemote">원격 ID</Phrase>
+    <Phrase key="lblExample">예: 1 - 5, 10</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Forms.FrmModuleConfig">
+    <Phrase key="this">래피드 게이트</Phrase>
+    <Phrase key="btnAdd.ToolTip">게이트 추가</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">이동</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">아래로 이동</Phrase>
+    <Phrase key="btnDelete.ToolTip">삭제</Phrase>
+    <Phrase key="btnCut.ToolTip">자르다</Phrase>
+    <Phrase key="btnCopy.ToolTip">복사</Phrase>
+    <Phrase key="btnPaste.ToolTip">반죽</Phrase>
+    <Phrase key="gbGates">게이츠</Phrase>
+    <Phrase key="lblHint">게이트 추가</Phrase>
+    <Phrase key="btnSave">구하다</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+    <Phrase key="btnClose">닫다</Phrase>
+    <Phrase key="miCollapseAll">모든 축소</Phrase>
+    <Phrase key="CopySuffix">- 복사</Phrase>
+    <Phrase key="GeneralOptionsNode">일반 옵션</Phrase>
+    <Phrase key="ConnectionOptionsNode">연결 옵션</Phrase>
+    <Phrase key="MappingOptionsNode">매핑 옵션</Phrase>
+    <Phrase key="ChannelMappingNode">채널 매핑 옵션</Phrase>
+    <Phrase key="UserMappingNode">사용자 매핑 옵션</Phrase>
+    <Phrase key="TransferOptionsNode">전송 옵션</Phrase>
+    <Phrase key="CurDataTransferOptionsNode">현재의 데이터</Phrase>
+    <Phrase key="HistDataTransferOptionsNode">과거 데이터</Phrase>
+    <Phrase key="EventTransferOptionsNode">이벤트</Phrase>
+    <Phrase key="InCmdTransferOptionsNode">수신 명령</Phrase>
+    <Phrase key="OutCmdTransferOptionsNode">결과 명령</Phrase>
+    <Phrase key="ArcReplicationOptionsNode">아카이브 복제</Phrase>
+    <Phrase key="GateName">게이트 {0}</Phrase>
+    <Phrase key="GateNameNotUnique">게이트 이름은 고유해야 합니다.</Phrase>
+    <Phrase key="GateNameEmpty">게이트 이름은 비워 둘 수 없습니다.</Phrase>
+    <Phrase key="AddGates">게이트 추가</Phrase>
+    <Phrase key="SelectChildNode">하위 노드 선택</Phrase>
+    <Phrase key="ArchiveText">아카이브 비트 {0}</Phrase>
+  </Dictionary>
+</ModRapidGateDictionaries>

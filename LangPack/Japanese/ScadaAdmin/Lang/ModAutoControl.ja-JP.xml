@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModAutoControlDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlCmdTrigger">
+    <Phrase key="gbTrigger">トリガーパラメータ</Phrase>
+    <Phrase key="chkActive">アクティブ</Phrase>
+    <Phrase key="lblName">名前</Phrase>
+    <Phrase key="lblDescr">レイズ</Phrase>
+    <Phrase key="txtDescr">命令に従って</Phrase>
+    <Phrase key="lblCnlNum">チャネル</Phrase>
+    <Phrase key="lblCmdVal">価値</Phrase>
+    <Phrase key="btnOff">オフ</Phrase>
+    <Phrase key="btnOn">の上</Phrase>
+    <Phrase key="lblCmdData">データ</Phrase>
+    <Phrase key="cbCmdDataCompareOper.Items[0]">チェックしないでください</Phrase>
+    <Phrase key="cbCmdDataCompareOper.Items[1]">等しい</Phrase>
+    <Phrase key="cbCmdDataCompareOper.Items[2]">含まれています</Phrase>
+    <Phrase key="chkTransmitCmd">送信コマンド</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlCnlDataChangeTrigger">
+    <Phrase key="gbTrigger">トリガーパラメータ</Phrase>
+    <Phrase key="chkActive">アクティブ</Phrase>
+    <Phrase key="lblName">名前</Phrase>
+    <Phrase key="lblDescr">レイズ</Phrase>
+    <Phrase key="txtDescr">チャンネルデータ変更時</Phrase>
+    <Phrase key="lblCnlNum">チャネル</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlCnlDataTrigger">
+    <Phrase key="gbTrigger">トリガーパラメータ</Phrase>
+    <Phrase key="chkActive">アクティブ</Phrase>
+    <Phrase key="lblName">名前</Phrase>
+    <Phrase key="lblDescr">レイズ</Phrase>
+    <Phrase key="txtDescr">オンチャンネルデータ</Phrase>
+    <Phrase key="lblCnlNum">チャンネル</Phrase>
+    <Phrase key="lblCnlValCond">価値</Phrase>
+    <Phrase key="lblDeadband">デッドバンド</Phrase>
+    <Phrase key="lblCnlStat">ステータス</Phrase>
+    <Phrase key="lblDelay">遅延、秒</Phrase>
+    <Phrase key="lblRepeat">繰り返しサイクル、秒</Phrase>
+    <Phrase key="lblRepeatCnt">リピート回数</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlEvTrigger">
+    <Phrase key="gbTrigger">トリガーパラメータ</Phrase>
+    <Phrase key="chkActive">アクティブ</Phrase>
+    <Phrase key="lblName">名前</Phrase>
+    <Phrase key="lblDescr">レイズ</Phrase>
+    <Phrase key="txtDescr">イベント中</Phrase>
+    <Phrase key="lblObjNum">物体</Phrase>
+    <Phrase key="lblDeviceNum">デバイス</Phrase>
+    <Phrase key="lblCnlNum">チャネル</Phrase>
+    <Phrase key="lblSeverity">重大度 (最小、最大)</Phrase>
+    <Phrase key="lblNewCnlValCond">新しい価値</Phrase>
+    <Phrase key="lblNewCnlStat">新しいステータス</Phrase>
+    <Phrase key="lblTextCompareOper">文章</Phrase>
+    <Phrase key="cbTextCompareOper.Items[0]">チェックしないでください</Phrase>
+    <Phrase key="cbTextCompareOper.Items[1]">等しい</Phrase>
+    <Phrase key="cbTextCompareOper.Items[2]">含まれています</Phrase>
+    <Phrase key="lblDataCompareOper">データ</Phrase>
+    <Phrase key="cbDataCompareOper.Items[0]">チェックしないでください</Phrase>
+    <Phrase key="cbDataCompareOper.Items[1]">等しい</Phrase>
+    <Phrase key="cbDataCompareOper.Items[2]">含まれています</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlTiggerGroup">
+    <Phrase key="gbTriggerGroup">グループパラメータ</Phrase>
+    <Phrase key="chkActive">アクティブ</Phrase>
+    <Phrase key="lblName">名前</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlTimeTrigger">
+    <Phrase key="gbTrigger">トリガーパラメータ</Phrase>
+    <Phrase key="chkActive">アクティブ</Phrase>
+    <Phrase key="lblName">名前</Phrase>
+    <Phrase key="lblDescr">レイズ</Phrase>
+    <Phrase key="txtDescr">定刻</Phrase>
+    <Phrase key="rbEveryDay">毎日</Phrase>
+    <Phrase key="rbDaysOfWeek">曜日</Phrase>
+    <Phrase key="rbDaysOfMonth">月の日</Phrase>
+    <Phrase key="rbDates">日付</Phrase>
+    <Phrase key="chkSun">太陽</Phrase>
+    <Phrase key="chkMon">月</Phrase>
+    <Phrase key="chkTue">火</Phrase>
+    <Phrase key="chkWed">結婚した</Phrase>
+    <Phrase key="chkThu">木</Phrase>
+    <Phrase key="chkFri">金</Phrase>
+    <Phrase key="chkSat">土</Phrase>
+    <Phrase key="lblTimes">レイズ回数</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlTriggerCommand">
+    <Phrase key="gbCommand">コマンドパラメータ</Phrase>
+    <Phrase key="lblCnlNum">チャネル</Phrase>
+    <Phrase key="lblOr">また</Phrase>
+    <Phrase key="lblDeviceNum">デバイス</Phrase>
+    <Phrase key="lblCmdNum">コマンド番号</Phrase>
+    <Phrase key="lblCmdCode">コマンドコード</Phrase>
+    <Phrase key="lblDelay">遅延、秒</Phrase>
+    <Phrase key="chkSendOnFiring">発砲中</Phrase>
+    <Phrase key="chkSendOnNorm">正規化について</Phrase>
+    <Phrase key="chkCopyCmdVal">値とデータをコピーする</Phrase>
+    <Phrase key="rbNumVal">数値</Phrase>
+    <Phrase key="rbStrData">文字列データ</Phrase>
+    <Phrase key="rbHexData">16進数データ</Phrase>
+    <Phrase key="btnOff">オフ</Phrase>
+    <Phrase key="btnOn">の上</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmConditionEdit">
+    <Phrase key="this">条件の編集</Phrase>
+    <Phrase key="lblCompareOper1">オペラを比較してください。  1</Phrase>
+    <Phrase key="lblCompareArg1">引数 1</Phrase>
+    <Phrase key="lblLogicalOper">論理演算。</Phrase>
+    <Phrase key="cbLogicalOper.Items[0]">なし</Phrase>
+    <Phrase key="cbLogicalOper.Items[1]">と</Phrase>
+    <Phrase key="cbLogicalOper.Items[2]">また</Phrase>
+    <Phrase key="lblCompareOper2">オペラを比較してください。  2</Phrase>
+    <Phrase key="lblCompareArg2">引数 2</Phrase>
+    <Phrase key="lblResult">結果</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmDateTimeAdd">
+    <Phrase key="title1">日付を追加</Phrase>
+    <Phrase key="title2">時間を追加する</Phrase>
+    <Phrase key="lblDate">日にち</Phrase>
+    <Phrase key="lblTime">時間</Phrase>
+    <Phrase key="btnAdd">追加</Phrase>
+    <Phrase key="btnClose">近い</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmDayAdd">
+    <Phrase key="this">日付を追加</Phrase>
+    <Phrase key="lblDay">日</Phrase>
+    <Phrase key="btnAdd">追加</Phrase>
+    <Phrase key="btnClose">近い</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmGeneralOptions">
+    <Phrase key="this">モジュールオプション</Phrase>
+    <Phrase key="lblUsername">ユーザー名</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmModuleConfig">
+    <Phrase key="this">自動運転</Phrase>
+    <Phrase key="btnAddTriggerGroup.ToolTip">トリガーグループの追加</Phrase>
+    <Phrase key="btnAddCnlDataTrigger.ToolTip">チャンネルデータトリガーの追加</Phrase>
+    <Phrase key="btnAddCnlDataChangeTrigger.ToolTip">チャネルデータ変更トリガーの追加</Phrase>
+    <Phrase key="btnAddEvTrigger.ToolTip">イベントトリガーの追加</Phrase>
+    <Phrase key="btnAddTimeTrigger.ToolTip">タイムトリガーの追加</Phrase>
+    <Phrase key="btnAddCmdTrigger.ToolTip">コマンドトリガーの追加</Phrase>
+    <Phrase key="btnAddCommand.ToolTip">コマンドの追加</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">上に移動</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">下に移動</Phrase>
+    <Phrase key="btnDelete.ToolTip">消去</Phrase>
+    <Phrase key="btnCut.ToolTip">切る</Phrase>
+    <Phrase key="btnCopy.ToolTip">コピー</Phrase>
+    <Phrase key="btnPaste.ToolTip">ペースト</Phrase>
+    <Phrase key="btnOptions.ToolTip">モジュールオプション</Phrase>
+    <Phrase key="gbTriggers">トリガー</Phrase>
+    <Phrase key="lblHint">トリガーとコマンドを追加する</Phrase>
+    <Phrase key="btnSave">保存</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+    <Phrase key="btnClose">近い</Phrase>
+    <Phrase key="miCollapseAll">すべて折りたたむ</Phrase>
+    <Phrase key="UnnamedGroup">&lt;名前のないグループ&gt;</Phrase>
+    <Phrase key="UnnamedTrigger">&lt;名前のないトリガー&gt;</Phrase>
+    <Phrase key="CommandDescr1">チャンネル {0}</Phrase>
+    <Phrase key="CommandDescr2">デバイス {0}、コマンド {1}</Phrase>
+    <Phrase key="CopySuffix">- コピー</Phrase>
+  </Dictionary>
+</ModAutoControlDictionaries>

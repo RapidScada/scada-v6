@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvTelegramDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvTelegram.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Egenskaper for enhet {0} – Telegram</Phrase>
+    <Phrase key="lblBotToken">Bot token</Phrase>
+    <Phrase key="btnPasteBotToken.ToolTip">Lim inn bot-token</Phrase>
+    <Phrase key="lblSubscr">Abonnementer</Phrase>
+    <Phrase key="btnAddSubscr.ToolTip">Legg til abonnement</Phrase>
+    <Phrase key="btnEditSubscr.ToolTip">Rediger valgt abonnement</Phrase>
+    <Phrase key="btnDeleteSubscr.ToolTip">Slett valgt abonnement</Phrase>
+    <Phrase key="btnCopySubscrName.ToolTip">Kopier abonnementsnavn</Phrase>
+    <Phrase key="colSubscrID">ID</Phrase>
+    <Phrase key="colSubscrName">Navn</Phrase>
+    <Phrase key="btnSave">Lagre</Phrase>
+    <Phrase key="btnClose">Lukk</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvTelegram.View.Forms.FrmSubscriptionOptions">
+    <Phrase key="lblChatID">Chat-ID</Phrase>
+    <Phrase key="lblName">Navn</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+    <Phrase key="NewSubscriptionTitle">Nytt abonnement</Phrase>
+    <Phrase key="EditSubscriptionTitle">Rediger abonnement</Phrase>
+  </Dictionary>
+</DrvTelegramDictionaries>

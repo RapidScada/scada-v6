@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModDbExportDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlArcReplication">
+    <Phrase key="gbOptions">Arkivreplikeringsalternativer</Phrase>
+    <Phrase key="chkEnabled">Aktivert</Phrase>
+    <Phrase key="chkAutoExport">Eksporter arkiver automatisk</Phrase>
+    <Phrase key="lblMinDepth">Minimum dybde, sek</Phrase>
+    <Phrase key="lblMaxDepth">Maksimal dybde, sek</Phrase>
+    <Phrase key="lblReadingStep">Lesetrinn, sek</Phrase>
+    <Phrase key="lblHistArchiveBit">Litt historisk arkiv</Phrase>
+    <Phrase key="lblEventArchiveBit">Litt av hendelsesarkivet</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlCurDataExport">
+    <Phrase key="gbOptions">Gjeldende dataoverføringsalternativer</Phrase>
+    <Phrase key="lblTrigger">Avtrekker</Phrase>
+    <Phrase key="cbTrigger.Items[0]">Ved mottak</Phrase>
+    <Phrase key="cbTrigger.Items[1]">På timer</Phrase>
+    <Phrase key="lblTimePeriod">Tidsurperiode, sek</Phrase>
+    <Phrase key="lblAllDataPeriod">Periode for eksport av data for alle kanaler, sek</Phrase>
+    <Phrase key="chkSkipUnchanged">Hopp over uendrede data</Phrase>
+    <Phrase key="chkIncludeCalculated">Ta med beregnede kanaler</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlGeneral">
+    <Phrase key="gbGeneral">Generelle alternativer</Phrase>
+    <Phrase key="chkActive">Aktiv</Phrase>
+    <Phrase key="lblTargetID">Mål-ID</Phrase>
+    <Phrase key="lblName">Navn</Phrase>
+    <Phrase key="lblCmdCode">Kommandokode</Phrase>
+    <Phrase key="lblStatusCnlNum">Status kanalnummer</Phrase>
+    <Phrase key="lblMaxQueueSize">Maksimal køstørrelse</Phrase>
+    <Phrase key="lblDataLifetime">Datalevetid i kø, sek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlQuery">
+    <Phrase key="gbGeneral">Generell</Phrase>
+    <Phrase key="chkActive">Aktiv</Phrase>
+    <Phrase key="lblName">Navn</Phrase>
+    <Phrase key="lblDataKind">Datatype</Phrase>
+    <Phrase key="cbDataKind.Items[0]">Aktuelle data</Phrase>
+    <Phrase key="cbDataKind.Items[1]">Historisk data</Phrase>
+    <Phrase key="cbDataKind.Items[2]">Begivenhet</Phrase>
+    <Phrase key="cbDataKind.Items[3]">Hendelsesbekreftelse</Phrase>
+    <Phrase key="cbDataKind.Items[4]">Kommando</Phrase>
+    <Phrase key="gbFilter">Filter</Phrase>
+    <Phrase key="lblCnlNum">Kanalnummer</Phrase>
+    <Phrase key="lblObjNum">Objektnummer</Phrase>
+    <Phrase key="lblDeviceNum">Enhetsnummer</Phrase>
+    <Phrase key="gbQuery">Spørsmål</Phrase>
+    <Phrase key="chkSingleQuery">Enkeltspørring (krever inn tall)</Phrase>
+    <Phrase key="btnViewParameters.ToolTip">Tilgjengelige parametere</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmModuleConfig">
+    <Phrase key="this">Eksporter til DB</Phrase>
+    <Phrase key="ddbAdd.ToolTip">Legg til eksportmål</Phrase>
+    <Phrase key="btnSqlServer">Microsoft SQL Server</Phrase>
+    <Phrase key="btnMySql">MySQL</Phrase>
+    <Phrase key="btnOracle">Oracle</Phrase>
+    <Phrase key="btnPostgreSql">PostgreSQL</Phrase>
+    <Phrase key="btnAddCurrentDataQuery.ToolTip">Legg til gjeldende dataspørring</Phrase>
+    <Phrase key="btnAddHistoricalDataQuery.ToolTip">Legg til historiske dataspørring</Phrase>
+    <Phrase key="btnAddEventQuery.ToolTip">Legg til hendelsesforespørsel</Phrase>
+    <Phrase key="btnAddEventAckQuery.ToolTip">Legg til hendelsesbekreftelsesspørring</Phrase>
+    <Phrase key="btnAddCommandQuery.ToolTip">Legg til kommandospørring</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Flytte opp</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Flytt ned</Phrase>
+    <Phrase key="btnDelete.ToolTip">Slett</Phrase>
+    <Phrase key="btnCut.ToolTip">Kutte opp</Phrase>
+    <Phrase key="btnCopy.ToolTip">Kopiere</Phrase>
+    <Phrase key="btnPaste.ToolTip">Lim inn</Phrase>
+    <Phrase key="gbTarget">Eksporter mål</Phrase>
+    <Phrase key="btnSave">Lagre</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+    <Phrase key="btnClose">Lukk</Phrase>
+    <Phrase key="miCollapseAll">Skjul alle</Phrase>
+    <Phrase key="CopySuffix">- Kopier</Phrase>
+    <Phrase key="ArchiveExportOptionsNode">Arkivreplikering</Phrase>
+    <Phrase key="ConnectionOptionsNode">Tilkoblingsalternativer</Phrase>
+    <Phrase key="CurrentExportOptionsNode">Aktuelle data</Phrase>
+    <Phrase key="ExportOptionsNode">Eksportalternativer</Phrase>
+    <Phrase key="GeneralOptionsNode">Generelle alternativer</Phrase>
+    <Phrase key="QueriesNode">Forespørsler</Phrase>
+    <Phrase key="AddTargets">Legg til mål</Phrase>
+    <Phrase key="SelectChildNode">Velg underordnet node</Phrase>
+    <Phrase key="TargetName">Målrett mot {0}</Phrase>
+    <Phrase key="QueryName">Søk {0}</Phrase>
+    <Phrase key="TargetNameNotUnique">Målnavn må være unike.</Phrase>
+    <Phrase key="UnnamedQuery">&lt;Unavngitt spørring&gt;</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmQueryParametrs">
+    <Phrase key="this">Tilgjengelige parametere</Phrase>
+    <Phrase key="colParamsName">Navn</Phrase>
+    <Phrase key="colParams">Beskrivelse</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.Command">
+    <Phrase key="CommandID">Kommando ID</Phrase>
+    <Phrase key="CreationTime">Tid for opprettelse av kommando</Phrase>
+    <Phrase key="ClientName">Klienten som sendte kommandoen</Phrase>
+    <Phrase key="UserID">bruker-ID</Phrase>
+    <Phrase key="CnlNum">Kanalnummer</Phrase>
+    <Phrase key="ObjNum">Objektnummer</Phrase>
+    <Phrase key="DeviceNum">Enhetsnummer</Phrase>
+    <Phrase key="CmdNum">Kommandonummer</Phrase>
+    <Phrase key="CmdCode">Kommandokode</Phrase>
+    <Phrase key="CmdVal">Kommandoverdi</Phrase>
+    <Phrase key="CmdData">Kommandodata</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.Data">
+    <Phrase key="Timestamp">Tidsstempel</Phrase>
+    <Phrase key="ChannelValue">Kanal {0}-verdi</Phrase>
+    <Phrase key="ChannelStatus">Status for kanal {0}</Phrase>
+    <Phrase key="FirstObject">Objektnummer til 1. kanal</Phrase>
+    <Phrase key="FirstDevice">Enhetsnummeret til den første kanalen</Phrase>
+    <Phrase key="CnlNum">Kanalnummer</Phrase>
+    <Phrase key="Val">Kanalverdi</Phrase>
+    <Phrase key="Stat">Kanalstatus</Phrase>
+    <Phrase key="ObjNum">Objektnummer</Phrase>
+    <Phrase key="DeviceNum">Enhetsnummer</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.Event">
+    <Phrase key="EventID">Hendelses-ID</Phrase>
+    <Phrase key="Timestamp">Tidsstempel for hendelsen</Phrase>
+    <Phrase key="Hidden">Hendelsen er skjult</Phrase>
+    <Phrase key="CnlNum">Kanalnummer</Phrase>
+    <Phrase key="ObjNum">Objektnummer</Phrase>
+    <Phrase key="DeviceNum">Enhetsnummer</Phrase>
+    <Phrase key="PrevCnlVal">Forrige kanalverdi</Phrase>
+    <Phrase key="PrevCnlStat">Tidligere kanalstatus</Phrase>
+    <Phrase key="CnlVal">Kanalverdi</Phrase>
+    <Phrase key="CnlStat">Kanalstatus</Phrase>
+    <Phrase key="Severity">Alvorlighetsgrad</Phrase>
+    <Phrase key="AckRequired">Bekreftelse kreves</Phrase>
+    <Phrase key="AckTimestamp">Tidsstempel for bekreftelse</Phrase>
+    <Phrase key="AckUserID">Bekreftelse bruker-ID</Phrase>
+    <Phrase key="TextFormat">Tekstformat</Phrase>
+    <Phrase key="EventText">Hendelsestekst</Phrase>
+    <Phrase key="EventData">Hendelsesdata</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.EventAck">
+    <Phrase key="EventID">Hendelses-ID</Phrase>
+    <Phrase key="AckTimestamp">Tidsstempel for bekreftelse</Phrase>
+    <Phrase key="AckUserID">bruker-ID</Phrase>
+  </Dictionary>
+</ModDbExportDictionaries>

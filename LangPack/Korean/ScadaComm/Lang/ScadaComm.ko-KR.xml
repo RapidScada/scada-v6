@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaCommDictionaries>
+  <Dictionary key="Scada.Comm.Devices">
+    <Phrase key="LoadDeviceConfigError">기기 구성을 로드하는 중에 오류가 발생했습니다.</Phrase>
+    <Phrase key="SaveDeviceConfigError">기기 구성을 저장하는 중에 오류가 발생했습니다.</Phrase>
+    <Phrase key="SaveDeviceConfigConfirm">장치 구성이 수정되었습니다.  변경 사항을 저장하시겠습니까?</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers">
+    <Phrase key="LoadDriverConfigError">드라이버 구성을 로드하는 중 오류가 발생했습니다.</Phrase>
+    <Phrase key="SaveDriverConfigError">드라이버 구성 저장 오류</Phrase>
+    <Phrase key="SaveDriverConfigConfirm">드라이버 구성이 수정되었습니다.  변경 사항을 저장하시겠습니까?</Phrase>
+  </Dictionary>
+</ScadaCommDictionaries>

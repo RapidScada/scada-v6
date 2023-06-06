@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModDbExportDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlArcReplication">
+    <Phrase key="gbOptions">Opções de replicação de arquivo</Phrase>
+    <Phrase key="chkEnabled">Habilitado</Phrase>
+    <Phrase key="chkAutoExport">Exportar arquivos automaticamente</Phrase>
+    <Phrase key="lblMinDepth">Profundidade mínima, seg</Phrase>
+    <Phrase key="lblMaxDepth">Profundidade máxima, seg</Phrase>
+    <Phrase key="lblReadingStep">Etapa de leitura, seg</Phrase>
+    <Phrase key="lblHistArchiveBit">Pouco de arquivo histórico</Phrase>
+    <Phrase key="lblEventArchiveBit">Bit de arquivo de eventos</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlCurDataExport">
+    <Phrase key="gbOptions">Opções atuais de transferência de dados</Phrase>
+    <Phrase key="lblTrigger">Acionar</Phrase>
+    <Phrase key="cbTrigger.Items[0]">Ao receber</Phrase>
+    <Phrase key="cbTrigger.Items[1]">No temporizador</Phrase>
+    <Phrase key="lblTimePeriod">Período do temporizador, seg</Phrase>
+    <Phrase key="lblAllDataPeriod">Período de exportação de dados de todos os canais, seg</Phrase>
+    <Phrase key="chkSkipUnchanged">Ignorar dados inalterados</Phrase>
+    <Phrase key="chkIncludeCalculated">Incluir canais calculados</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlGeneral">
+    <Phrase key="gbGeneral">Opções gerais</Phrase>
+    <Phrase key="chkActive">Ativo</Phrase>
+    <Phrase key="lblTargetID">ID do alvo</Phrase>
+    <Phrase key="lblName">Nome</Phrase>
+    <Phrase key="lblCmdCode">código de comando</Phrase>
+    <Phrase key="lblStatusCnlNum">Número do canal de status</Phrase>
+    <Phrase key="lblMaxQueueSize">Tamanho máximo da fila</Phrase>
+    <Phrase key="lblDataLifetime">Vida útil dos dados na fila, segundos</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlQuery">
+    <Phrase key="gbGeneral">Em geral</Phrase>
+    <Phrase key="chkActive">Ativo</Phrase>
+    <Phrase key="lblName">Nome</Phrase>
+    <Phrase key="lblDataKind">tipo de dados</Phrase>
+    <Phrase key="cbDataKind.Items[0]">dados atuais</Phrase>
+    <Phrase key="cbDataKind.Items[1]">Data histórica</Phrase>
+    <Phrase key="cbDataKind.Items[2]">Evento</Phrase>
+    <Phrase key="cbDataKind.Items[3]">Reconhecimento do evento</Phrase>
+    <Phrase key="cbDataKind.Items[4]">Comando</Phrase>
+    <Phrase key="gbFilter">Filtro</Phrase>
+    <Phrase key="lblCnlNum">números de canal</Phrase>
+    <Phrase key="lblObjNum">números de objeto</Phrase>
+    <Phrase key="lblDeviceNum">Números de dispositivos</Phrase>
+    <Phrase key="gbQuery">Consulta</Phrase>
+    <Phrase key="chkSingleQuery">Consulta única (números de entrada obrigatórios)</Phrase>
+    <Phrase key="btnViewParameters.ToolTip">Parâmetros disponíveis</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmModuleConfig">
+    <Phrase key="this">Exportar para banco de dados</Phrase>
+    <Phrase key="ddbAdd.ToolTip">Adicionar destino de exportação</Phrase>
+    <Phrase key="btnSqlServer">Microsoft SQL Server</Phrase>
+    <Phrase key="btnMySql">MySQL</Phrase>
+    <Phrase key="btnOracle">Oracle</Phrase>
+    <Phrase key="btnPostgreSql">PostgreSQL</Phrase>
+    <Phrase key="btnAddCurrentDataQuery.ToolTip">Adicionar Consulta de Dados Atual</Phrase>
+    <Phrase key="btnAddHistoricalDataQuery.ToolTip">Adicionar consulta de dados históricos</Phrase>
+    <Phrase key="btnAddEventQuery.ToolTip">Adicionar consulta de evento</Phrase>
+    <Phrase key="btnAddEventAckQuery.ToolTip">Adicionar consulta de confirmação de evento</Phrase>
+    <Phrase key="btnAddCommandQuery.ToolTip">Adicionar consulta de comando</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Subir</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">mover para baixo</Phrase>
+    <Phrase key="btnDelete.ToolTip">Excluir</Phrase>
+    <Phrase key="btnCut.ToolTip">Corte</Phrase>
+    <Phrase key="btnCopy.ToolTip">cópia de</Phrase>
+    <Phrase key="btnPaste.ToolTip">Colar</Phrase>
+    <Phrase key="gbTarget">Destinos de exportação</Phrase>
+    <Phrase key="btnSave">Salvar</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+    <Phrase key="btnClose">Fechar</Phrase>
+    <Phrase key="miCollapseAll">Recolher todos</Phrase>
+    <Phrase key="CopySuffix">- Cópia de</Phrase>
+    <Phrase key="ArchiveExportOptionsNode">Replicação de arquivo</Phrase>
+    <Phrase key="ConnectionOptionsNode">Opções de conexão</Phrase>
+    <Phrase key="CurrentExportOptionsNode">Dados atuais</Phrase>
+    <Phrase key="ExportOptionsNode">Opções de exportação</Phrase>
+    <Phrase key="GeneralOptionsNode">Opções gerais</Phrase>
+    <Phrase key="QueriesNode">Consultas</Phrase>
+    <Phrase key="AddTargets">Adicionar alvos</Phrase>
+    <Phrase key="SelectChildNode">Selecione o nó filho</Phrase>
+    <Phrase key="TargetName">Alvo {0}</Phrase>
+    <Phrase key="QueryName">Consulta {0}</Phrase>
+    <Phrase key="TargetNameNotUnique">Os nomes de destino devem ser exclusivos.</Phrase>
+    <Phrase key="UnnamedQuery">&lt;Consulta sem nome&gt;</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmQueryParametrs">
+    <Phrase key="this">Parâmetros Disponíveis</Phrase>
+    <Phrase key="colParamsName">Nome</Phrase>
+    <Phrase key="colParams">Descrição</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.Command">
+    <Phrase key="CommandID">ID de comando</Phrase>
+    <Phrase key="CreationTime">Hora de criação do comando</Phrase>
+    <Phrase key="ClientName">Cliente que enviou o comando</Phrase>
+    <Phrase key="UserID">ID do usuário</Phrase>
+    <Phrase key="CnlNum">Número do canal</Phrase>
+    <Phrase key="ObjNum">número do objeto</Phrase>
+    <Phrase key="DeviceNum">Número do dispositivo</Phrase>
+    <Phrase key="CmdNum">número de comando</Phrase>
+    <Phrase key="CmdCode">código de comando</Phrase>
+    <Phrase key="CmdVal">valor de comando</Phrase>
+    <Phrase key="CmdData">dados de comando</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.Data">
+    <Phrase key="Timestamp">carimbo de data/hora</Phrase>
+    <Phrase key="ChannelValue">Valor do canal {0}</Phrase>
+    <Phrase key="ChannelStatus">Status do canal {0}</Phrase>
+    <Phrase key="FirstObject">Número do objeto do 1º canal</Phrase>
+    <Phrase key="FirstDevice">Número do dispositivo do 1º canal</Phrase>
+    <Phrase key="CnlNum">Número do canal</Phrase>
+    <Phrase key="Val">Valor do canal</Phrase>
+    <Phrase key="Stat">status do canal</Phrase>
+    <Phrase key="ObjNum">número do objeto</Phrase>
+    <Phrase key="DeviceNum">Número do dispositivo</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.Event">
+    <Phrase key="EventID">Identificação do evento</Phrase>
+    <Phrase key="Timestamp">carimbo de data/hora do evento</Phrase>
+    <Phrase key="Hidden">O evento está oculto</Phrase>
+    <Phrase key="CnlNum">Número do canal</Phrase>
+    <Phrase key="ObjNum">número do objeto</Phrase>
+    <Phrase key="DeviceNum">Número do dispositivo</Phrase>
+    <Phrase key="PrevCnlVal">Valor do canal anterior</Phrase>
+    <Phrase key="PrevCnlStat">Status do canal anterior</Phrase>
+    <Phrase key="CnlVal">Valor do canal</Phrase>
+    <Phrase key="CnlStat">status do canal</Phrase>
+    <Phrase key="Severity">Gravidade</Phrase>
+    <Phrase key="AckRequired">O reconhecimento é necessário</Phrase>
+    <Phrase key="AckTimestamp">carimbo de data/hora de confirmação</Phrase>
+    <Phrase key="AckUserID">ID do usuário de reconhecimento</Phrase>
+    <Phrase key="TextFormat">Formato de texto</Phrase>
+    <Phrase key="EventText">Texto do evento</Phrase>
+    <Phrase key="EventData">Dados do evento</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.EventAck">
+    <Phrase key="EventID">Identificação do evento</Phrase>
+    <Phrase key="AckTimestamp">carimbo de data/hora de confirmação</Phrase>
+    <Phrase key="AckUserID">ID do usuário</Phrase>
+  </Dictionary>
+</ModDbExportDictionaries>

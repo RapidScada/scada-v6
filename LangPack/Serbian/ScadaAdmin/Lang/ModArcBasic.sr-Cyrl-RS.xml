@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModArcBasicDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmArcDir">
+    <Phrase key="this">Арһивски именици</Phrase>
+    <Phrase key="chkUseDefaultDir">Користите подразумеване директоријуме</Phrase>
+    <Phrase key="lblArcDir">Арһивирајте у DAT формату</Phrase>
+    <Phrase key="btnBrowseArcDir">Прегледај...</Phrase>
+    <Phrase key="lblArcCopyDir">Арһивска копија у DAT формату</Phrase>
+    <Phrase key="btnBrowseArcCopyDir">Browse...</Phrase>
+    <Phrase key="btnSetToDefaultWin">Поставите за Windows</Phrase>
+    <Phrase key="btnSetToDefaultLinux">Постављено за Linux</Phrase>
+    <Phrase key="btnOK">У реду</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicCAO">
+    <Phrase key="this">Тренутне опције арһиве</Phrase>
+    <Phrase key="gbGeneralOptions">Генералне опције</Phrase>
+    <Phrase key="lblLogEnabled">Дневник је омогућен</Phrase>
+    <Phrase key="lblFlushPeriod">Период испирања</Phrase>
+    <Phrase key="txtFlushPeriodUnit">Сец</Phrase>
+    <Phrase key="gbWritingOptions">Опције писања</Phrase>
+    <Phrase key="lblUseCopyDir">Писање у директоријум за копирање</Phrase>
+    <Phrase key="btnShowDir">Именици</Phrase>
+    <Phrase key="btnOK">У реду</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicEAO">
+    <Phrase key="this">Опције арһиве догађаја</Phrase>
+    <Phrase key="gbGeneralOptions">Генералне опције</Phrase>
+    <Phrase key="lblLogEnabled">Дневник је омогућен</Phrase>
+    <Phrase key="lblRetention">Период задржавања</Phrase>
+    <Phrase key="txtRetentionUnit">Дан</Phrase>
+    <Phrase key="gbWritingOptions">Опције писања</Phrase>
+    <Phrase key="lblUseCopyDir">Писање у директоријум за копирање</Phrase>
+    <Phrase key="lblMaxQueueSize">Максимална величина реда</Phrase>
+    <Phrase key="btnShowDir">Именици</Phrase>
+    <Phrase key="btnOK">У реду</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicHAO">
+    <Phrase key="this">Опције историјског арһива</Phrase>
+    <Phrase key="gbGeneralOptions">Генералне опције</Phrase>
+    <Phrase key="lblLogEnabled">Дневник је омогућен</Phrase>
+    <Phrase key="lblRetention">Период задржавања</Phrase>
+    <Phrase key="txtRetentionUnit">Дан</Phrase>
+    <Phrase key="lblWriteWithPeriod">Пишите са тачком</Phrase>
+    <Phrase key="lblWritingPeriod">Период писања</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[0]">Сец</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[1]">Мин</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[2]">Сат</Phrase>
+    <Phrase key="lblPullToPeriod">Повуците до тачке</Phrase>
+    <Phrase key="txtPullToPeriodUnit">Сец</Phrase>
+    <Phrase key="gbWritingOptions">Опције писања</Phrase>
+    <Phrase key="lblUseCopyDir">Писање у директоријум за копирање</Phrase>
+    <Phrase key="lblMaxQueueSize">Максимална величина реда</Phrase>
+    <Phrase key="btnShowDir">Именици</Phrase>
+    <Phrase key="btnOK">У реду</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+  </Dictionary>
+</ModArcBasicDictionaries>

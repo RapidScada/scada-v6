@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgChartProDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.ChartPro">
+    <Phrase key="PageTitle">{0} - Grafik Pro</Phrase>
+    <Phrase key="aToday">Bugün</Phrase>
+    <Phrase key="aYesterday">Dün</Phrase>
+    <Phrase key="aPastWeek">Geçen hafta</Phrase>
+    <Phrase key="aPastMonth">Geçen ay</Phrase>
+    <Phrase key="aCustomPeriod">Özel Dönem</Phrase>
+    <Phrase key="aSelectChannels">Kanal Seç</Phrase>
+    <Phrase key="aSelectProfile">Profil seç</Phrase>
+    <Phrase key="aShowData">Verileri Göster</Phrase>
+    <Phrase key="aHideData">Verileri Gizle</Phrase>
+    <Phrase key="aExport">İhracat</Phrase>
+    <Phrase key="ChartTitleFixed">{0}, {1}</Phrase>
+    <Phrase key="ChartTitleRolling">{0}, {1} dakika</Phrase>
+    <Phrase key="Generated">oluşturuldu</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.ChartPro.Js">
+    <Phrase key="DataLoading">Veri yükleniyor...</Phrase>
+    <Phrase key="LoadError">Veriler yüklenirken hata oluştu</Phrase>
+    <Phrase key="Generated">oluşturuldu</Phrase>
+    <Phrase key="TimeCol">Zaman</Phrase>
+    <Phrase key="ZoomIn">Yakınlaştır</Phrase>
+    <Phrase key="ZoomOut">Uzaklaştır</Phrase>
+    <Phrase key="ResetZoom">Yakınlaştırmayı Sıfırla</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.ChartProView">
+    <Phrase key="PageTitle">Grafik Pro</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.Export">
+    <Phrase key="PageTitle">Grafik Dışa Aktarma</Phrase>
+    <Phrase key="btnExportPdf">Grafiği PDF aktar</Phrase>
+    <Phrase key="btnExportPng">Grafiği PNG aktar</Phrase>
+    <Phrase key="btnExportExcel">Verileri Excel aktarın</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.Period">
+    <Phrase key="PageTitle">Grafik Dönemi</Phrase>
+    <Phrase key="lblFrom">İtibaren</Phrase>
+    <Phrase key="lblTo">İle</Phrase>
+    <Phrase key="InvalidPeriod">Başlangıç ​​tarihi, bitiş tarihinden küçük veya ona eşit olmalıdır.</Phrase>
+    <Phrase key="PeriodTooLong">Maksimum süre uzunluğu {0} gündür.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.PeriodRolling">
+    <Phrase key="PageTitle">Grafik Dönemi</Phrase>
+    <Phrase key="lblPeriod">Dönem</Phrase>
+    <Phrase key="lblMin">dakika</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.Profile">
+    <Phrase key="PageTitle">Grafik Profili</Phrase>
+    <Phrase key="lblProfile">Profil</Phrase>
+    <Phrase key="ProfileListEmpty">Profil listesi boş.  Eklenti yapılandırmasını kontrol edin.</Phrase>
+  </Dictionary>
+</PlgChartProDictionaries>

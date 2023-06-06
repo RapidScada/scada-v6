@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModRapidGateDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlArcReplication">
+    <Phrase key="gbReplicationOptions">存档复制选项</Phrase>
+    <Phrase key="lblEnabled">启用</Phrase>
+    <Phrase key="lblLocalHistArchiveBit">一些当地的历史档案</Phrase>
+    <Phrase key="lblLocalEventArchiveBit">一些本地事件存档</Phrase>
+    <Phrase key="lblRemoteHistArchiveBit">一些遥远的历史档案</Phrase>
+    <Phrase key="lblRemoteEventArchiveBit">一些远程事件存档</Phrase>
+    <Phrase key="lblAutoUpload">自动上传</Phrase>
+    <Phrase key="lblAutoDowload">自动下载</Phrase>
+    <Phrase key="lblDataAvailCnlNum">表示数据可用性的通道</Phrase>
+    <Phrase key="lblMinDepth">最小深度，秒</Phrase>
+    <Phrase key="lblMaxDepth">最大深度，秒</Phrase>
+    <Phrase key="lblReadingStep">读数步长，秒</Phrase>
+    <Phrase key="gbUploadOptions">上传</Phrase>
+    <Phrase key="gbDowloadOptions">下载</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlCurDataTransfer">
+    <Phrase key="gbOptions">当前数据传输选项</Phrase>
+    <Phrase key="chkEnabled">启用</Phrase>
+    <Phrase key="lblTrigger">扳机</Phrase>
+    <Phrase key="cbTrigger.Items[0]">接收时</Phrase>
+    <Phrase key="cbTrigger.Items[1]">定时器</Phrase>
+    <Phrase key="lblTimePeriod">定时器周期，秒</Phrase>
+    <Phrase key="lblAllDataPeriod">所有通道数据传输周期，sec</Phrase>
+    <Phrase key="chkUseRawData">使用原始数据（处理前传输数据）</Phrase>
+    <Phrase key="chkApplyFormulas">在远程服务器上应用公式</Phrase>
+    <Phrase key="chkEnableEvents">在远程服务器上生成事件</Phrase>
+    <Phrase key="chkSkipUnchanged">跳过未更改的数据</Phrase>
+    <Phrase key="chkIncludeCalculated">包括计算通道</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlEventTransfer">
+    <Phrase key="gbOptions">事件传输选项</Phrase>
+    <Phrase key="chkEnabled">启用</Phrase>
+    <Phrase key="chkTransferAck">转移确认</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlGeneral">
+    <Phrase key="gbOptions">常规选项</Phrase>
+    <Phrase key="chkActive">积极的</Phrase>
+    <Phrase key="lblGateID">门号</Phrase>
+    <Phrase key="lblName">姓名</Phrase>
+    <Phrase key="lblCmdCode">命令码</Phrase>
+    <Phrase key="lblLocalArchiveMask">用于在本地服务器上存储数据的存档掩码</Phrase>
+    <Phrase key="lblDefaultArchiveMaskLocal">设置 -1 以选择默认存档</Phrase>
+    <Phrase key="lblRemoteArchiveMask">用于将数据发送到远程服务器的存档掩码</Phrase>
+    <Phrase key="lblDefaultArchiveMaskRemote">设置 -1 以选择默认存档</Phrase>
+    <Phrase key="lblMaxQueueSize">最大队列大小</Phrase>
+    <Phrase key="lblDataLifetime">队列中的数据生命周期，秒</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlHistDataTransfer">
+    <Phrase key="gbOptions">历史数据传输选项</Phrase>
+    <Phrase key="chkEnabled">启用</Phrase>
+    <Phrase key="chkUseRawData">使用原始数据（处理前传输数据）</Phrase>
+    <Phrase key="chkApplyFormulas">在远程服务器上应用公式</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlInCmdTransfer">
+    <Phrase key="gbOptions">传入命令传输选项</Phrase>
+    <Phrase key="chkEnabled">启用</Phrase>
+    <Phrase key="chkApplyFormulas">在本地服务器上应用公式</Phrase>
+    <Phrase key="lblPollingRate">命令轮询率，毫秒</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlMapping">
+    <Phrase key="gbOptions">映射选项</Phrase>
+    <Phrase key="btnAddMapItem.ToolTip">添加映射</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">提升</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">下移</Phrase>
+    <Phrase key="btnDel.ToolTip">删除</Phrase>
+    <Phrase key="btnEdit.ToolTip">编辑</Phrase>
+    <Phrase key="colLocalIDs">本地 ID</Phrase>
+    <Phrase key="colRemoteIDs">远程 ID</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlOutCmdTransfer">
+    <Phrase key="gbOptions">输出命令传输选项</Phrase>
+    <Phrase key="chkEnabled">启用</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Forms.FrmIdMapping">
+    <Phrase key="this">身份映射</Phrase>
+    <Phrase key="lblRange">身份映射</Phrase>
+    <Phrase key="lblParamLocal">本地 ID</Phrase>
+    <Phrase key="lblParamRemote">远程 ID</Phrase>
+    <Phrase key="lblExample">例如：1 - 5、10</Phrase>
+    <Phrase key="btnOK">好的</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Forms.FrmModuleConfig">
+    <Phrase key="this">快速门</Phrase>
+    <Phrase key="btnAdd.ToolTip">添加门</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">提升</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">下移</Phrase>
+    <Phrase key="btnDelete.ToolTip">删除</Phrase>
+    <Phrase key="btnCut.ToolTip">切</Phrase>
+    <Phrase key="btnCopy.ToolTip">复制</Phrase>
+    <Phrase key="btnPaste.ToolTip">粘贴</Phrase>
+    <Phrase key="gbGates">盖茨</Phrase>
+    <Phrase key="lblHint">添加门</Phrase>
+    <Phrase key="btnSave">节省</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+    <Phrase key="btnClose">关闭</Phrase>
+    <Phrase key="miCollapseAll">全部收缩</Phrase>
+    <Phrase key="CopySuffix">- 复制</Phrase>
+    <Phrase key="GeneralOptionsNode">常规选项</Phrase>
+    <Phrase key="ConnectionOptionsNode">连接选项</Phrase>
+    <Phrase key="MappingOptionsNode">映射选项</Phrase>
+    <Phrase key="ChannelMappingNode">通道映射选项</Phrase>
+    <Phrase key="UserMappingNode">用户映射选项</Phrase>
+    <Phrase key="TransferOptionsNode">传输选项</Phrase>
+    <Phrase key="CurDataTransferOptionsNode">当前数据</Phrase>
+    <Phrase key="HistDataTransferOptionsNode">历史数据</Phrase>
+    <Phrase key="EventTransferOptionsNode">事件</Phrase>
+    <Phrase key="InCmdTransferOptionsNode">传入命令</Phrase>
+    <Phrase key="OutCmdTransferOptionsNode">输出命令</Phrase>
+    <Phrase key="ArcReplicationOptionsNode">存档复制</Phrase>
+    <Phrase key="GateName">登机口 {0}</Phrase>
+    <Phrase key="GateNameNotUnique">门名称必须是唯一的。</Phrase>
+    <Phrase key="GateNameEmpty">门的名称不能为空。</Phrase>
+    <Phrase key="AddGates">添加门</Phrase>
+    <Phrase key="SelectChildNode">选择子节点</Phrase>
+    <Phrase key="ArchiveText">存档位 {0}</Phrase>
+  </Dictionary>
+</ModRapidGateDictionaries>

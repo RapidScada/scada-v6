@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaSchemeDictionaries>
+  <Dictionary key="Scada.Scheme.Model.DataTypes.ImageCondition">
+    <Phrase key="DisplayName">Stav obrázku</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid">
+    <Phrase key="StringConvertError">Řetězec nelze převést</Phrase>
+    <Phrase key="StringUniqueError">Hodnota vlastnosti musí být jedinečná</Phrase>
+    <Phrase key="TrueValue">Ano</Phrase>
+    <Phrase key="FalseValue">Ne</Phrase>
+    <Phrase key="EmptyValue">(žádný)</Phrase>
+    <Phrase key="ObjectValue">(Objekt)</Phrase>
+    <Phrase key="CollectionValue">(Sbírka)</Phrase>
+    <Phrase key="ComponentNotFound">Komponenta nenalezena</Phrase>
+    <Phrase key="BoldSymbol">B</Phrase>
+    <Phrase key="ItalicSymbol">I</Phrase>
+    <Phrase key="UnderlineSymbol">U</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmCollectionDialog">
+    <Phrase key="this">Sbírka {0}</Phrase>
+    <Phrase key="lblItems">položky</Phrase>
+    <Phrase key="lblProps">Vlastnosti položky</Phrase>
+    <Phrase key="btnOK">dobře</Phrase>
+    <Phrase key="btnCancel">zrušení</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmFontDialog">
+    <Phrase key="this">zdroj</Phrase>
+    <Phrase key="lblFontName">zdroj</Phrase>
+    <Phrase key="lblFontSize">Velikost</Phrase>
+    <Phrase key="gbStyle">Style</Phrase>
+    <Phrase key="chkBold">Bold</Phrase>
+    <Phrase key="chkItalic">Italic</Phrase>
+    <Phrase key="chkUnderline">Underline</Phrase>
+    <Phrase key="btnOK">dobře</Phrase>
+    <Phrase key="btnCancel">zrušení</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmImageDialog">
+    <Phrase key="this">snímky</Phrase>
+    <Phrase key="lblImages">snímky</Phrase>
+    <Phrase key="lblImageProps">Vlastnosti obrázku</Phrase>
+    <Phrase key="lblPreview">Náhled</Phrase>
+    <Phrase key="btnSelectEmpty">Prázdný</Phrase>
+    <Phrase key="btnSelect">Vybrat</Phrase>
+    <Phrase key="btnClose">Zavřít</Phrase>
+    <Phrase key="ImageFileFilter">Obrázky (*.jpg;*.png;*.gif;*.svg)|*.jpg;*.png;*.gif;*.svg|Všechny soubory (*.*)|*.*</Phrase>
+    <Phrase key="DisplayImageError">Chyba při zobrazování obrázku</Phrase>
+    <Phrase key="LoadImageError">Chyba při načítání obrázku</Phrase>
+    <Phrase key="SaveImageError">Při ukládání obrázku došlo k chybě</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmRangeDialog">
+    <Phrase key="this">Rozsah celých čísel</Phrase>
+    <Phrase key="lblExample">Například: 1 - 5, 10</Phrase>
+    <Phrase key="btnOK">dobře</Phrase>
+    <Phrase key="btnCancel">zrušení</Phrase>
+    <Phrase key="RangeNotValid">Rozsah není platný</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Template.TemplateBindings">
+    <Phrase key="LoadTemplateBindingsError">Chyba při načítání vazeb šablony schématu ze souboru</Phrase>
+    <Phrase key="SaveTemplateBindingsError">Chyba při ukládání vazeb šablony schématu do souboru</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.CompManager">
+    <Phrase key="UnknownComponent">Neznámá součást {0}</Phrase>
+    <Phrase key="CompLibraryNotFound">Pro komponentu {0} nebyla nalezena žádná knihovna</Phrase>
+    <Phrase key="UnableCreateComponent">Nelze vytvořit komponentu {0}</Phrase>
+    <Phrase key="ErrorCreatingComponent">Chyba při vytváření komponenty {0}</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.SchemeView">
+    <Phrase key="LoadSchemeViewError">Chyba při načítání schématu ze souboru</Phrase>
+    <Phrase key="SaveSchemeViewError">Chyba při ukládání schématu do souboru</Phrase>
+    <Phrase key="IncorrectFileFormat">Nesprávný formát souboru schématu</Phrase>
+  </Dictionary>
+</ScadaSchemeDictionaries>

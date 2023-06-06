@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtWebConfigDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.ExtWebConfigLogic">
+    <Phrase key="ApplicationOptionsNode">Uygulama Seçenekleri</Phrase>
+    <Phrase key="PluginsNode">Eklentiler</Phrase>
+    <Phrase key="LogsNode">Kütükler</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlDisplayOptions">
+    <Phrase key="gbDisplayOptions">Görüntüleme seçenekleri</Phrase>
+    <Phrase key="lblShowHeader">Sayfa başlığını göster</Phrase>
+    <Phrase key="lblShowMainMenu">Ana menüyü göster</Phrase>
+    <Phrase key="lblShowViewExplorer">Görünüm gezginini göster</Phrase>
+    <Phrase key="lblRefreshRate">Veri yenileme hızı, ms</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlGeneralOptions">
+    <Phrase key="gbGeneralOptions">Genel seçenekler</Phrase>
+    <Phrase key="lblDefaultCulture">Varsayılan kültür adı</Phrase>
+    <Phrase key="lblDefaultTimeZone">Varsayılan saat dilimi</Phrase>
+    <Phrase key="lblDefaultStartPage">Kullanıcı oturum açtıktan sonra varsayılan başlangıç ​​sayfası</Phrase>
+    <Phrase key="lblEnableCommands">Telekontrol komutlarını etkinleştir</Phrase>
+    <Phrase key="lblShareStats">Kişisellikten arındırılmış istatistikleri geliştiricilerle paylaşın</Phrase>
+    <Phrase key="lblMaxLogSize">Maksimum günlük dosyası boyutu, MB</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlLoginOptions">
+    <Phrase key="gbLoginOptions">Giriş Seçenekleri</Phrase>
+    <Phrase key="lblRequireCaptcha">Oturum açarken captcha iste</Phrase>
+    <Phrase key="lblAllowRememberMe">Oturum açmayı hatırlamaya izin ver</Phrase>
+    <Phrase key="lblRememberMeExpires">Giriş süresi doluyor, gün</Phrase>
+    <Phrase key="lblAutoLoginUsername">Otomatik oturum açma için kullanıcı adı</Phrase>
+    <Phrase key="lblAutoLoginPassword">Otomatik giriş için şifre</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlPluginAssignment">
+    <Phrase key="gbPluginAssignment">Eklenti Ataması</Phrase>
+    <Phrase key="lblChartFeature">Grafik için eklenti</Phrase>
+    <Phrase key="lblCommandFeature">Komut göndermek için eklenti</Phrase>
+    <Phrase key="lblEventAckFeature">Olay onayı eklentisi</Phrase>
+    <Phrase key="lblUserManagementFeature">Kullanıcı yönetimi eklentisi</Phrase>
+    <Phrase key="lblNotificationFeature">Bildirim yönetimi eklentisi</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Forms.FrmApplicationOptions">
+    <Phrase key="this">Uygulama Seçenekleri</Phrase>
+    <Phrase key="lbTabs.Items[0]">Genel seçenekler</Phrase>
+    <Phrase key="lbTabs.Items[1]">Bağlantı Seçenekleri</Phrase>
+    <Phrase key="lbTabs.Items[2]">Giriş Seçenekleri</Phrase>
+    <Phrase key="lbTabs.Items[3]">Görüntüleme seçenekleri</Phrase>
+    <Phrase key="lbTabs.Items[4]">Eklenti Ataması</Phrase>
+    <Phrase key="ApplicationConfigTitle">Uygulama Seçenekleri</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Forms.FrmPlugins">
+    <Phrase key="this">Eklentiler</Phrase>
+    <Phrase key="lblUnusedPlugins">Kullanılmayan eklentiler:</Phrase>
+    <Phrase key="btnActivate">Etkinleştir</Phrase>
+    <Phrase key="lblActivePlugins">Aktif eklentiler:</Phrase>
+    <Phrase key="btnDeactivate">Devre dışı bırakmak</Phrase>
+    <Phrase key="btnMoveUp">Yukarı Taşı</Phrase>
+    <Phrase key="btnMoveDown">Aşağı inmek</Phrase>
+    <Phrase key="btnProperties">Özellikler</Phrase>
+    <Phrase key="btnRegister">Kayıt olmak</Phrase>
+    <Phrase key="lblDescr">Tanım</Phrase>
+  </Dictionary>
+</ExtWebConfigDictionaries>

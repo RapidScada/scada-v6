@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtWirenBoardDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlDeviceTree">
+    <Phrase key="btnSelectAll">すべて選択</Phrase>
+    <Phrase key="btnSelectNone">なしを選択します</Phrase>
+    <Phrase key="SelectDevice">少なくとも 1 つのデバイスを選択してください。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlEntityID">
+    <Phrase key="lblStartDeviceNum">開始デバイス番号</Phrase>
+    <Phrase key="btnDeviceMap">地図</Phrase>
+    <Phrase key="lblStartCnlNum">開始チャンネル番号</Phrase>
+    <Phrase key="btnCnlMap">地図</Phrase>
+    <Phrase key="lblObj">物体</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlExtensionMenu">
+    <Phrase key="miWirenBoard">ワイヤーボード</Phrase>
+    <Phrase key="miCreateConfig">構成を作成...</Phrase>
+    <Phrase key="btnCreateConfig.ToolTip">Wiren Board のプロジェクト構成を作成する</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlLineSelect">
+    <Phrase key="lblInstance">実例</Phrase>
+    <Phrase key="lblLine">通信回線</Phrase>
+    <Phrase key="lblWirenBoardIP">有線ボードの IP アドレス</Phrase>
+    <Phrase key="CommLineRequired">通信回線を選択してください。</Phrase>
+    <Phrase key="MqttLineRequired">選択した回線のチャネル タイプは MQTT クライアントである必要があります。</Phrase>
+    <Phrase key="WirenBoardIpRequired">Wiren Board の IP アドレスが必要になります。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Forms.FrmWirenBoardWizard">
+    <Phrase key="this">Wiren Board のプロジェクト構成ウィザード</Phrase>
+    <Phrase key="btnBack">&lt; 戻る</Phrase>
+    <Phrase key="btnNext">次へ &gt;</Phrase>
+    <Phrase key="btnCreate">作成</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+    <Phrase key="Step1Descr">ステップ 1/5: 通信回線の選択</Phrase>
+    <Phrase key="Step2Descr">ステップ 2/5: Wiren Board からトピックを読む</Phrase>
+    <Phrase key="Step3Descr">ステップ 3/5: インポートするデバイスとコントロールを選択する</Phrase>
+    <Phrase key="Step4Descr">ステップ 4/5: 構成データベースの ID を設定する</Phrase>
+    <Phrase key="Step5Descr">ステップ 5/5: 作成中の構成を確認する</Phrase>
+    <Phrase key="CreateConfigCompleted">構成が正常に作成されました</Phrase>
+    <Phrase key="CreateConfigError">構成作成エラー</Phrase>
+  </Dictionary>
+</ExtWirenBoardDictionaries>

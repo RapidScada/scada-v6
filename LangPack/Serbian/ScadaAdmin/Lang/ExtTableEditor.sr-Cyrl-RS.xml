@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtTableEditorDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableEditor">
+    <Phrase key="btnRefreshBase.ToolTip">Освежите конфигурациону базу података</Phrase>
+    <Phrase key="btnAddItem.ToolTip">Додајте ставку</Phrase>
+    <Phrase key="btnAddEmptyItem.ToolTip">Додај празну ставку</Phrase>
+    <Phrase key="btnMoveUpItem.ToolTip">Премести ставку горе</Phrase>
+    <Phrase key="btnMoveDownItem.ToolTip">Премести ставку надоле</Phrase>
+    <Phrase key="btnDeleteItem.ToolTip">Избришите изабране ставке</Phrase>
+    <Phrase key="btnTableOptions.ToolTip">Опције приказа табеле</Phrase>
+    <Phrase key="lblHint">Притисните Ентер или двапут кликните на чвор да бисте га додали у табелу.  Кликните десним тастером миша на чвор уређаја да бисте приказали контекстни мени.</Phrase>
+    <Phrase key="colCnlNum">Канал</Phrase>
+    <Phrase key="colDeviceNum">Уређај</Phrase>
+    <Phrase key="colAutoText">Аутоматски текст</Phrase>
+    <Phrase key="colText">Текст</Phrase>
+    <Phrase key="colHidden">Сакривен</Phrase>
+    <Phrase key="miDeviceAddDevice">Додај уређај</Phrase>
+    <Phrase key="miDeviceAddAllChannels">Додај све канале</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableOptions">
+    <Phrase key="this">Опције приказа табеле</Phrase>
+    <Phrase key="chkUseDefault">Користите подразумеване опције</Phrase>
+    <Phrase key="lblArchiveCode">Арһивски код</Phrase>
+    <Phrase key="btnSelectArchiveCode">Изаберите...</Phrase>
+    <Phrase key="lblPeriod">Период табеле, мин</Phrase>
+    <Phrase key="lblChartArgs">Аргументи графикона</Phrase>
+    <Phrase key="btnOK">У реду</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+  </Dictionary>
+</ExtTableEditorDictionaries>

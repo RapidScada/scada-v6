@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtWirenBoardDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlDeviceTree">
+    <Phrase key="btnSelectAll">모두 선택</Phrase>
+    <Phrase key="btnSelectNone">없음 선택</Phrase>
+    <Phrase key="SelectDevice">장치를 하나 이상 선택하십시오.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlEntityID">
+    <Phrase key="lblStartDeviceNum">시작 장치 번호</Phrase>
+    <Phrase key="btnDeviceMap">지도</Phrase>
+    <Phrase key="lblStartCnlNum">시작 채널 번호</Phrase>
+    <Phrase key="btnCnlMap">지도</Phrase>
+    <Phrase key="lblObj">물체</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlExtensionMenu">
+    <Phrase key="miWirenBoard">Wiren Board</Phrase>
+    <Phrase key="miCreateConfig">구성 만들기...</Phrase>
+    <Phrase key="btnCreateConfig.ToolTip">Wire Board용 프로젝트 구성 생성</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlLineSelect">
+    <Phrase key="lblInstance">사례</Phrase>
+    <Phrase key="lblLine">통신선</Phrase>
+    <Phrase key="lblWirenBoardIP">Wiren Board IP 주소</Phrase>
+    <Phrase key="CommLineRequired">통신 회선을 선택하십시오.</Phrase>
+    <Phrase key="MqttLineRequired">선택한 회선의 채널 유형은 MQTT 클라이언트여야 합니다.</Phrase>
+    <Phrase key="WirenBoardIpRequired">와이어 보드 IP 주소가 필요합니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Forms.FrmWirenBoardWizard">
+    <Phrase key="this">Wire Board용 프로젝트 구성 마법사</Phrase>
+    <Phrase key="btnBack">&lt; 뒤로</Phrase>
+    <Phrase key="btnNext">다음 &gt;</Phrase>
+    <Phrase key="btnCreate">만들다</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+    <Phrase key="Step1Descr">5단계 중 1단계: 통신 회선 선택</Phrase>
+    <Phrase key="Step2Descr">5단계 중 2단계: 와이어 보드에서 주제 읽기</Phrase>
+    <Phrase key="Step3Descr">5단계 중 3단계: 가져올 장치 및 컨트롤 선택</Phrase>
+    <Phrase key="Step4Descr">4/5단계: 구성 데이터베이스의 ID 설정</Phrase>
+    <Phrase key="Step5Descr">5/5단계: 생성 중인 구성 확인</Phrase>
+    <Phrase key="CreateConfigCompleted">구성이 성공적으로 생성되었습니다.</Phrase>
+    <Phrase key="CreateConfigError">구성 생성 오류</Phrase>
+  </Dictionary>
+</ExtWirenBoardDictionaries>

@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvModbusSlaveDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls">
+    <Phrase key="ConfigDirRequired">Cihaz şablon dosyası {0} içinde yer almalıdır.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlChannelGateway">
+    <Phrase key="gbChannelGateway">Kanal Ağ Geçidi Seçenekleri</Phrase>
+    <Phrase key="btnEdit">Düzenlemek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlDeviceGateway">
+    <Phrase key="gbDeviceGateway">Cihaz Ağ Geçidi Seçenekleri</Phrase>
+    <Phrase key="lblTemplateFileName">Cihaz şablonu</Phrase>
+    <Phrase key="btnEditTemplate">Düzenlemek</Phrase>
+    <Phrase key="btnBrowseTemplate">Araştır...</Phrase>
+    <Phrase key="lblSourceDeviceNum">Veri kaynağı cihazı</Phrase>
+    <Phrase key="btnSelect">Seçme</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlElem">
+    <Phrase key="gbElem">Eleman Parametreleri</Phrase>
+    <Phrase key="lblChannel">Kanal</Phrase>
+    <Phrase key="lblAddress">Adres</Phrase>
+    <Phrase key="lblAddressHint">DEC, 0'dan başlayarak</Phrase>
+    <Phrase key="lblDataType">Veri tipi</Phrase>
+    <Phrase key="cbType.Items[0]">Tanımsız</Phrase>
+    <Phrase key="cbType.Items[1]">ushort (2 bytes)</Phrase>
+    <Phrase key="cbType.Items[2]">short (2 bytes)</Phrase>
+    <Phrase key="cbType.Items[3]">uint (4 bytes)</Phrase>
+    <Phrase key="cbType.Items[4]">int (4 bytes)</Phrase>
+    <Phrase key="cbType.Items[5]">ulong (8 bytes)</Phrase>
+    <Phrase key="cbType.Items[6]">long (8 bytes)</Phrase>
+    <Phrase key="cbType.Items[7]">float (4 bytes)</Phrase>
+    <Phrase key="cbType.Items[8]">double (8 bytes)</Phrase>
+    <Phrase key="cbType.Items[9]">bool (1 bit)</Phrase>
+    <Phrase key="lblRatio">Oran</Phrase>
+    <Phrase key="chkReadOnly">Sadece oku</Phrase>
+    <Phrase key="ChannelNotSpecified">kanal belirtilmedi</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlIndependentDevice">
+    <Phrase key="gbIndependentDevice">Bağımsız Cihaz Seçenekleri</Phrase>
+    <Phrase key="lblTemplateFileName">Cihaz şablonu</Phrase>
+    <Phrase key="btnEditTemplate">Düzenlemek</Phrase>
+    <Phrase key="btnBrowseTemplate">Araştır...</Phrase>
+    <Phrase key="lblDataLifetime">Veri geçerlilik süresi, dk</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Forms.FrmChannelGatewayOptions">
+    <Phrase key="this">Kanal Ağ Geçidi Seçenekleri</Phrase>
+    <Phrase key="btnAdd">Kanal Ekle</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Yukarı Taşı</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Aşağı inmek</Phrase>
+    <Phrase key="btnDelete.ToolTip">Silmek</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+    <Phrase key="miCollapseAll">Hepsini Daralt</Phrase>
+    <Phrase key="gbChannelGateway">Kanallar</Phrase>
+    <Phrase key="SelectChildNode">Alt düğümü seçin</Phrase>
+    <Phrase key="ChannelItem">Kanal {0}</Phrase>
+    <Phrase key="DiscreteInputs">Ayrı Girişler</Phrase>
+    <Phrase key="Coils">Bobinler</Phrase>
+    <Phrase key="InputRegisters">Giriş Kayıtları</Phrase>
+    <Phrase key="HoldingRegisters">Tutma Kayıtları</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Cihaz {0} Özellikleri - Modbus Bağımlısı</Phrase>
+    <Phrase key="gbGeneralOptions">Genel seçenekler</Phrase>
+    <Phrase key="lblMode">mod</Phrase>
+    <Phrase key="cbDevicesMode.Items[0]">Bağımsız cihaz</Phrase>
+    <Phrase key="cbDevicesMode.Items[1]">Cihaz ağ geçidi</Phrase>
+    <Phrase key="cbDevicesMode.Items[2]">Kanal ağ geçidi</Phrase>
+    <Phrase key="lblUndefinedValue">tanımsız değer</Phrase>
+    <Phrase key="btnSave">Kaydetmek</Phrase>
+    <Phrase key="btnClose">Kapalı</Phrase>
+    <Phrase key="IndependentDeviceDescription">Modbus Master'dan veri alır.</Phrase>
+    <Phrase key="DeviceGatewayDescription">Seçilen cihazın verilerini Modbus Master'a sağlar.</Phrase>
+    <Phrase key="ChannelGatewayDescription">Seçilen kanalların verilerini Modbus Master'a sağlar.</Phrase>
+  </Dictionary>
+</DrvModbusSlaveDictionaries>

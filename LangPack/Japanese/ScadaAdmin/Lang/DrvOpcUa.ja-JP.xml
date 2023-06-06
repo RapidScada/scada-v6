@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvOpcUaDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlCommand">
+    <Phrase key="gbCommand">コマンドパラメータ</Phrase>
+    <Phrase key="lblDisplayName">表示名</Phrase>
+    <Phrase key="lblCmdCode">コマンドコード</Phrase>
+    <Phrase key="lblCmdNum">コマンド番号</Phrase>
+    <Phrase key="lblNodeID">ノードID</Phrase>
+    <Phrase key="lblParentNodeID">親ノードID</Phrase>
+    <Phrase key="lblDataType">データ・タイプ</Phrase>
+    <Phrase key="chkIsMethod">メソッドです</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEmptyItem">
+    <Phrase key="gbEmptyItem">アイテムパラメータ</Phrase>
+    <Phrase key="lblNotSelected">項目が選択されていません</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlItem">
+    <Phrase key="gbItem">アイテムパラメータ</Phrase>
+    <Phrase key="chkItemActive">アクティブ</Phrase>
+    <Phrase key="lblDisplayName">表示名</Phrase>
+    <Phrase key="lblTagCode">タグコード</Phrase>
+    <Phrase key="lblTagNum">タグ番号</Phrase>
+    <Phrase key="lblNodeID">ノードID</Phrase>
+    <Phrase key="lblDataType">データ・タイプ</Phrase>
+    <Phrase key="chkIsString">文字列です</Phrase>
+    <Phrase key="chkIsArray">配列です</Phrase>
+    <Phrase key="lblDataLen">文字列または配列の長さ</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlSubscription">
+    <Phrase key="gbSubscription">サブスクリプションパラメータ</Phrase>
+    <Phrase key="chkSubscrActive">アクティブ</Phrase>
+    <Phrase key="lblDisplayName">表示名</Phrase>
+    <Phrase key="lblPublishingInterval">公開間隔</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">デバイス {0} プロパティ - OPC UA</Phrase>
+    <Phrase key="gbConnectionOptions">接続オプション</Phrase>
+    <Phrase key="lblServerUrl">サーバーURL</Phrase>
+    <Phrase key="btnSecurityOptions.ToolTip">セキュリティオプション</Phrase>
+    <Phrase key="lblConnectionInfo">接続オプションは通信回線共通です。</Phrase>
+    <Phrase key="gbServerBrowse">サーバーの参照</Phrase>
+    <Phrase key="btnConnect.ToolTip">サーバーに接続する</Phrase>
+    <Phrase key="btnDisconnect.ToolTip">サーバーから切断する</Phrase>
+    <Phrase key="btnViewAttrs.ToolTip">属性の表示</Phrase>
+    <Phrase key="gbDevice">デバイス構成</Phrase>
+    <Phrase key="btnAddItem.ToolTip">選択した項目を追加</Phrase>
+    <Phrase key="btnAddSubscription.ToolTip">サブスクリプションの追加</Phrase>
+    <Phrase key="btnMoveUpItem.ToolTip">上に移動</Phrase>
+    <Phrase key="btnMoveDownItem.ToolTip">下に移動</Phrase>
+    <Phrase key="btnDeleteItem.ToolTip">消去</Phrase>
+    <Phrase key="btnEditingOptions">オプション</Phrase>
+    <Phrase key="btnSave">保存</Phrase>
+    <Phrase key="btnClose">近い</Phrase>
+    <Phrase key="ConnectServerError">OPCサーバーへの接続エラー</Phrase>
+    <Phrase key="DisconnectServerError">OPC サーバーからの切断エラー</Phrase>
+    <Phrase key="BrowseServerError">OPC サーバー項目の参照中にエラーが発生しました</Phrase>
+    <Phrase key="UnableToReadData">データを読み取れません。</Phrase>
+    <Phrase key="GetDataTypeError">データ型の取得エラー</Phrase>
+    <Phrase key="ServerUrlRequired">サーバー URL を空にすることはできません。</Phrase>
+    <Phrase key="EmptyNode">空</Phrase>
+    <Phrase key="SubscriptionsNode">定期購入</Phrase>
+    <Phrase key="CommandsNode">コマンド</Phrase>
+    <Phrase key="UnnamedSubscription">&lt;名前のないサブスクリプション&gt;</Phrase>
+    <Phrase key="UnnamedItem">&lt;名前のないアイテム&gt;</Phrase>
+    <Phrase key="UnnamedCommand">&lt;名前のないコマンド&gt;</Phrase>
+    <Phrase key="UnknownDataType">データ型&quot;{0}&quot;が不明です。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmEditingOptions">
+    <Phrase key="this">編集オプション</Phrase>
+    <Phrase key="lblDefaultTagCode">デフォルトのタグコード</Phrase>
+    <Phrase key="cbDefaultTagCode.Items[0]">ノードID</Phrase>
+    <Phrase key="cbDefaultTagCode.Items[1]">表示名</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmNodeAttr">
+    <Phrase key="this">ノードの属性</Phrase>
+    <Phrase key="colName">名前</Phrase>
+    <Phrase key="colValue">価値</Phrase>
+    <Phrase key="btnClose">近い</Phrase>
+    <Phrase key="ReadAttrError">OPC サーバーからの属性の読み取りエラー</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmSecurityOptions">
+    <Phrase key="this">セキュリティオプション</Phrase>
+    <Phrase key="lblSecurityMode">セキュリティモード</Phrase>
+    <Phrase key="cbSecurityMode.Items[0]">なし</Phrase>
+    <Phrase key="cbSecurityMode.Items[1]">サイン</Phrase>
+    <Phrase key="cbSecurityMode.Items[2]">署名と暗号化</Phrase>
+    <Phrase key="lblSecurityPolicy">セキュリティポリシー</Phrase>
+    <Phrase key="cbSecurityPolicy.Items[0]">なし</Phrase>
+    <Phrase key="lblAuthenticationMode">認証モード</Phrase>
+    <Phrase key="cbAuthenticationMode.Items[0]">匿名</Phrase>
+    <Phrase key="cbAuthenticationMode.Items[1]">ユーザー名とパスワード</Phrase>
+    <Phrase key="lblUsername">ユーザー名</Phrase>
+    <Phrase key="lblPassword">パスワード</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+</DrvOpcUaDictionaries>

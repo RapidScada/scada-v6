@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvModbusSlaveDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls">
+    <Phrase key="ConfigDirRequired">File template perangkat harus berada di dalam {0}</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlChannelGateway">
+    <Phrase key="gbChannelGateway">Opsi Gateway Saluran</Phrase>
+    <Phrase key="btnEdit">Sunting</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlDeviceGateway">
+    <Phrase key="gbDeviceGateway">Opsi Gateway Perangkat</Phrase>
+    <Phrase key="lblTemplateFileName">Templat perangkat</Phrase>
+    <Phrase key="btnEditTemplate">Sunting</Phrase>
+    <Phrase key="btnBrowseTemplate">Jelajahi...</Phrase>
+    <Phrase key="lblSourceDeviceNum">Perangkat sumber data</Phrase>
+    <Phrase key="btnSelect">Pilih</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlElem">
+    <Phrase key="gbElem">Parameter Elemen</Phrase>
+    <Phrase key="lblChannel">Saluran</Phrase>
+    <Phrase key="lblAddress">Alamat</Phrase>
+    <Phrase key="lblAddressHint">Desember, mulai dari 0</Phrase>
+    <Phrase key="lblDataType">Tipe data</Phrase>
+    <Phrase key="cbType.Items[0]">Belum diartikan</Phrase>
+    <Phrase key="cbType.Items[1]">ushort (2 bytes)</Phrase>
+    <Phrase key="cbType.Items[2]">short (2 bytes)</Phrase>
+    <Phrase key="cbType.Items[3]">uint (4 bytes)</Phrase>
+    <Phrase key="cbType.Items[4]">int (4 bytes)</Phrase>
+    <Phrase key="cbType.Items[5]">ulong (8 bytes)</Phrase>
+    <Phrase key="cbType.Items[6]">long (8 bytes)</Phrase>
+    <Phrase key="cbType.Items[7]">float (4 bytes)</Phrase>
+    <Phrase key="cbType.Items[8]">double (8 bytes)</Phrase>
+    <Phrase key="cbType.Items[9]">bool (1 bit)</Phrase>
+    <Phrase key="lblRatio">Perbandingan</Phrase>
+    <Phrase key="chkReadOnly">Baca saja</Phrase>
+    <Phrase key="ChannelNotSpecified">Saluran tidak ditentukan</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlIndependentDevice">
+    <Phrase key="gbIndependentDevice">Opsi Perangkat Independen</Phrase>
+    <Phrase key="lblTemplateFileName">Templat perangkat</Phrase>
+    <Phrase key="btnEditTemplate">Sunting</Phrase>
+    <Phrase key="btnBrowseTemplate">Jelajahi...</Phrase>
+    <Phrase key="lblDataLifetime">Masa berlaku data, min</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Forms.FrmChannelGatewayOptions">
+    <Phrase key="this">Opsi Gateway Saluran</Phrase>
+    <Phrase key="btnAdd">Tambahkan Saluran</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Naik</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Turunkan</Phrase>
+    <Phrase key="btnDelete.ToolTip">Menghapus</Phrase>
+    <Phrase key="btnOK">OKE</Phrase>
+    <Phrase key="btnCancel">Membatalkan</Phrase>
+    <Phrase key="miCollapseAll">Ciutkan Semua</Phrase>
+    <Phrase key="gbChannelGateway">Saluran</Phrase>
+    <Phrase key="SelectChildNode">Pilih simpul anak</Phrase>
+    <Phrase key="ChannelItem">Saluran {0}</Phrase>
+    <Phrase key="DiscreteInputs">Input Diskrit</Phrase>
+    <Phrase key="Coils">Gulungan</Phrase>
+    <Phrase key="InputRegisters">Register Masukan</Phrase>
+    <Phrase key="HoldingRegisters">Memegang Register</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Perangkat {0} Properti - Modbus Slave</Phrase>
+    <Phrase key="gbGeneralOptions">Pilihan umum</Phrase>
+    <Phrase key="lblMode">Mode</Phrase>
+    <Phrase key="cbDevicesMode.Items[0]">Perangkat independen</Phrase>
+    <Phrase key="cbDevicesMode.Items[1]">Gerbang perangkat</Phrase>
+    <Phrase key="cbDevicesMode.Items[2]">Gerbang saluran</Phrase>
+    <Phrase key="lblUndefinedValue">Nilai yang tidak ditentukan</Phrase>
+    <Phrase key="btnSave">Menyimpan</Phrase>
+    <Phrase key="btnClose">Menutup</Phrase>
+    <Phrase key="IndependentDeviceDescription">Menerima data dari Modbus Master.</Phrase>
+    <Phrase key="DeviceGatewayDescription">Memberikan data perangkat yang dipilih ke Modbus Master.</Phrase>
+    <Phrase key="ChannelGatewayDescription">Memberikan data saluran yang dipilih ke Modbus Master.</Phrase>
+  </Dictionary>
+</DrvModbusSlaveDictionaries>

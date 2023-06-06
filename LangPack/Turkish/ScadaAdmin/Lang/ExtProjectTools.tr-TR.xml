@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtProjectToolsDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.ChannelMap">
+    <Phrase key="MapByDeviceTitle">Cihaza Göre Kanallar</Phrase>
+    <Phrase key="MapByObjectTitle">Nesneye Göre Kanallar</Phrase>
+    <Phrase key="ChannelsCaption">Kanallar:</Phrase>
+    <Phrase key="NoChannels">kanal yok</Phrase>
+    <Phrase key="GenerateChannelMapError">Kanal haritası oluşturulurken hata oluştu</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.DeviceMap">
+    <Phrase key="DeviceMapTitle">İletişim Hattına Göre Cihazlar</Phrase>
+    <Phrase key="DevicesCaption">cihazlar:</Phrase>
+    <Phrase key="NoDevices">Cihaz yok</Phrase>
+    <Phrase key="EmptyCommLine">Boş iletişim hattı</Phrase>
+    <Phrase key="GenerateDeviceMapError">Cihaz haritası oluşturulurken hata oluştu</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.IntegrityCheck">
+    <Phrase key="IntegrityCheckTitle">Bütünlük denetimi</Phrase>
+    <Phrase key="TableCorrect">TAMAM</Phrase>
+    <Phrase key="TableHasErrors">Hata</Phrase>
+    <Phrase key="LostPrimaryKeys">Kayıp birincil anahtarlar:</Phrase>
+    <Phrase key="BaseCorrect">Yapılandırma veritabanı doğru.</Phrase>
+    <Phrase key="BaseHasErrors">Yapılandırma veritabanında hatalar var.</Phrase>
+    <Phrase key="IntegrityCheckError">Bütünlük kontrolünde hata</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Controls.CtrlMainMenu">
+    <Phrase key="miProjectTools">Proje Araçları</Phrase>
+    <Phrase key="miCloneChannels">Kanalları Klonla...</Phrase>
+    <Phrase key="miChannelMapByDevice">Cihaza Göre Kanal Haritası</Phrase>
+    <Phrase key="miChannelMapByObject">Nesneye Göre Kanal Haritası</Phrase>
+    <Phrase key="miDeviceMap">Cihaz Haritası</Phrase>
+    <Phrase key="miCheckIntegrity">Bütünlüğü Kontrol Et</Phrase>
+    <Phrase key="miEncryptPassword">Şifreyi Şifrele...</Phrase>
+    <Phrase key="miImportTable">Tabloyu İçe Aktar...</Phrase>
+    <Phrase key="miExportTable">Tabloyu Dışa Aktar...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmCnlClone">
+    <Phrase key="this">Kanalları Klonla</Phrase>
+    <Phrase key="gbSrcNums">Kaynak Kanal Numaraları</Phrase>
+    <Phrase key="lblSrcStartNum">Başlangıç</Phrase>
+    <Phrase key="lblSrcEndNum">Son</Phrase>
+    <Phrase key="gbDestNums">Hedef Kanal Numaraları</Phrase>
+    <Phrase key="lblDestStartNum">Başlangıç</Phrase>
+    <Phrase key="lblDestEndNum">Son</Phrase>
+    <Phrase key="gbOptions">Seçenekler</Phrase>
+    <Phrase key="lblReplaceObj">nesneyi değiştir</Phrase>
+    <Phrase key="lblReplaceDevice">Cihazı değiştir</Phrase>
+    <Phrase key="chkUpdateFormulas">Formüllerdeki kanal numaralarını güncelleme</Phrase>
+    <Phrase key="btnClone">Klon</Phrase>
+    <Phrase key="btnClose">Kapalı</Phrase>
+    <Phrase key="KeepUnchanged">&lt;Değiştirmeden kal&gt;</Phrase>
+    <Phrase key="CloneChannelsCompleted">Klonlama başarıyla tamamlandı.&#13;&#10;{0} kanal eklendi.</Phrase>
+    <Phrase key="CloneChannelsError">Kanal klonlama hatası</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
+    <Phrase key="this">Şifreyi Şifrele</Phrase>
+    <Phrase key="lblPassword">Şifre</Phrase>
+    <Phrase key="lblPasswordEncrypted">şifreli şifre</Phrase>
+    <Phrase key="btnCopy">kopyala</Phrase>
+    <Phrase key="btnClose">Kapalı</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
+    <Phrase key="this">Tabloyu Dışa Aktar</Phrase>
+    <Phrase key="lblTable">Masa</Phrase>
+    <Phrase key="lblFormat">Biçim</Phrase>
+    <Phrase key="gbIDs">Kimlikler</Phrase>
+    <Phrase key="lblStartID">Başlangıç</Phrase>
+    <Phrase key="lblEndID">Son</Phrase>
+    <Phrase key="btnExport">İhracat</Phrase>
+    <Phrase key="btnClose">Kapalı</Phrase>
+    <Phrase key="ExportTableFilter">Tablolar (*.dat;*.xml;*.csv)|*.dat;*.xml;*.csv|Tüm Dosyalar (*.*)|*.*</Phrase>
+    <Phrase key="ExportTableError">Tablo dışa aktarılırken hata oluştu</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableImport">
+    <Phrase key="this">Tabloyu İçe Aktar</Phrase>
+    <Phrase key="lblTable">Masa</Phrase>
+    <Phrase key="lblSrcFile">Kaynak dosyası</Phrase>
+    <Phrase key="btnBrowse">Araştır...</Phrase>
+    <Phrase key="gbSrcIDs">Kaynak kimlikleri</Phrase>
+    <Phrase key="lblSrcStartID">Başlangıç</Phrase>
+    <Phrase key="lblSrcEndID">Son</Phrase>
+    <Phrase key="gbDestIDs">Hedef kimlikleri</Phrase>
+    <Phrase key="lblDestStartID">Başlangıç</Phrase>
+    <Phrase key="lblDestEndID">Son</Phrase>
+    <Phrase key="btnImport">İçe aktarmak</Phrase>
+    <Phrase key="btnClose">Kapalı</Phrase>
+    <Phrase key="ImportTableFilter">Tablolar (*.dat;*.xml;*.csv)|*.dat;*.xml;*.csv|Tüm Dosyalar (*.*)|*.*</Phrase>
+    <Phrase key="ImportTableCompleted">İçe aktarma başarıyla tamamlandı.&#13;&#10;{0} satır etkilendi.</Phrase>
+    <Phrase key="ImportTableError">Tablo içe aktarılırken hata oluştu</Phrase>
+  </Dictionary>
+</ExtProjectToolsDictionaries>

@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtCommConfigDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.ExtCommConfigLogic">
+    <Phrase key="GeneralOptionsNode">Generelle alternativer</Phrase>
+    <Phrase key="DriversNode">Drivere</Phrase>
+    <Phrase key="DataSourcesNode">Datakilder</Phrase>
+    <Phrase key="LinesNode">Kommunikasjonslinjer</Phrase>
+    <Phrase key="LineOptionsNode">Linjealternativer</Phrase>
+    <Phrase key="LineStatsNode">Linjestatistikk</Phrase>
+    <Phrase key="LogsNode">Tømmerstokker</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Code.ExtensionUtils">
+    <Phrase key="DeviceNotSupported">Driveren støtter ikke opprettelse av enheter.</Phrase>
+    <Phrase key="UnableCreateDeviceView">Kan ikke opprette enhetens brukergrensesnitt.</Phrase>
+    <Phrase key="NoDeviceProperties">Enheten har ikke et egenskapsvindu.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate1">
+    <Phrase key="lblCommLine">Kommunikasjonslinje</Phrase>
+    <Phrase key="lblDevice">Enhet</Phrase>
+    <Phrase key="AllCommLines">&lt;Alle kommunikasjonslinjer&gt;</Phrase>
+    <Phrase key="DeviceInfo">Driver: {0}&#13;&#10;Forekomst: {1}&#13;&#10;Kanaler: {2}</Phrase>
+    <Phrase key="DeviceNotFound">Finner ikke enheten i Communicator.</Phrase>
+    <Phrase key="NoDeviceSelected">Ingen enhet er valgt.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate2">
+    <Phrase key="lblDevice">Enhet</Phrase>
+    <Phrase key="lblObj">Gjenstand</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate3">
+    <Phrase key="lblDevice">Enhet</Phrase>
+    <Phrase key="gbCnlNums">Kanalnumre</Phrase>
+    <Phrase key="lblStartCnlNum">Start</Phrase>
+    <Phrase key="lblEndCnlNum">Slutt</Phrase>
+    <Phrase key="btnMap">Kart</Phrase>
+    <Phrase key="btnReset">Nullstille</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu">
+    <Phrase key="miWizards">Veivisere</Phrase>
+    <Phrase key="miAddLine">Legg til linje...</Phrase>
+    <Phrase key="miAddDevice">Legg til enhet...</Phrase>
+    <Phrase key="miCreateChannels">Opprett kanaler...</Phrase>
+    <Phrase key="btnAddLine.ToolTip">Legg til linje</Phrase>
+    <Phrase key="btnAddDevice.ToolTip">Legg til enhet</Phrase>
+    <Phrase key="btnCreateChannels.ToolTip">Opprett kanaler</Phrase>
+    <Phrase key="miLineSync">Synkroniser...</Phrase>
+    <Phrase key="miLineAdd">Legg til linje</Phrase>
+    <Phrase key="miLineMoveUp">Flytt oppstilling</Phrase>
+    <Phrase key="miLineMoveDown">Flytt linje ned</Phrase>
+    <Phrase key="miLineDelete">Slett linje</Phrase>
+    <Phrase key="miLineStart">Startlinje</Phrase>
+    <Phrase key="miLineStop">Stopplinje</Phrase>
+    <Phrase key="miLineRestart">Start linjen på nytt</Phrase>
+    <Phrase key="miDeviceChannels">Gå til kanaler</Phrase>
+    <Phrase key="miDeviceCommand">Send kommando...</Phrase>
+    <Phrase key="miDevicePoll">Avstemningsenhet</Phrase>
+    <Phrase key="miDeviceProperties">Eiendommer</Phrase>
+    <Phrase key="ConfirmDeleteLine">Er du sikker på at du vil slette kommunikasjonslinjen?</Phrase>
+    <Phrase key="CnlNodeNotFound">Finner ikke kanalnoden.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineMain">
+    <Phrase key="gbLine">Kommunikasjonslinje</Phrase>
+    <Phrase key="chkActive">Aktiv</Phrase>
+    <Phrase key="chkIsBound">Bundet til konfigurasjonsdatabasen</Phrase>
+    <Phrase key="lblCommLineNum">Antall</Phrase>
+    <Phrase key="lblName">Navn</Phrase>
+    <Phrase key="gbLineOptions">Linjealternativer</Phrase>
+    <Phrase key="lblReqRetries">Antall forespørselsforsøk ved feil</Phrase>
+    <Phrase key="lblCycleDelay">Forsinkelse etter pollingsyklus, ms</Phrase>
+    <Phrase key="lblCmdEnabled">Kommandoer aktivert</Phrase>
+    <Phrase key="lblPollAfterCmd">Avstemning enhet etter kommando</Phrase>
+    <Phrase key="lblDetailedLog">Detaljert logg</Phrase>
+    <Phrase key="gbChannel">Kommunikasjonskanal</Phrase>
+    <Phrase key="lblChannelType">Type</Phrase>
+    <Phrase key="btnChannelProperties">Egenskaper</Phrase>
+    <Phrase key="lblChannelOptions">Alternativer</Phrase>
+    <Phrase key="UndefinedChannelType">Udefinert</Phrase>
+    <Phrase key="ChannelNotSupported">Driveren støtter ikke opprettelse av kommunikasjonskanaler.</Phrase>
+    <Phrase key="UnableCreateChannelView">Kan ikke opprette kommunikasjonskanal brukergrensesnitt.</Phrase>
+    <Phrase key="NoChannelProperties">Kommunikasjonskanalen gir ikke et egenskapsvindu.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineCustom">
+    <Phrase key="btnAddOption">Legg til</Phrase>
+    <Phrase key="btnDeleteOption">Slett</Phrase>
+    <Phrase key="colOptionName">Navn</Phrase>
+    <Phrase key="colOptionValue">Verdi</Phrase>
+    <Phrase key="gbSelectedOption">Valgt alternativ</Phrase>
+    <Phrase key="lblOptionName">Navn</Phrase>
+    <Phrase key="lblOptionValue">Verdi</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLinePolling">
+    <Phrase key="btnAddDevice">Legg til</Phrase>
+    <Phrase key="btnMoveUpDevice">Flytte opp</Phrase>
+    <Phrase key="btnMoveDownDevice">Flytt ned</Phrase>
+    <Phrase key="btnDeleteDevice">Slett</Phrase>
+    <Phrase key="btnCutDevice">Kutte opp</Phrase>
+    <Phrase key="btnCopyDevice">Kopiere</Phrase>
+    <Phrase key="btnPasteDevice">Lim inn</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">Aktiv</Phrase>
+    <Phrase key="colPollOnCmd">Avstemning på kommando</Phrase>
+    <Phrase key="colIsBound">Bundet</Phrase>
+    <Phrase key="colNumber">Antall</Phrase>
+    <Phrase key="colName">Navn</Phrase>
+    <Phrase key="colDriver">Sjåfør</Phrase>
+    <Phrase key="colNumAddress">Numerisk adresse</Phrase>
+    <Phrase key="colStrAddress">Stringadresse</Phrase>
+    <Phrase key="colTimeout">Pause</Phrase>
+    <Phrase key="colDelay">Forsinkelse</Phrase>
+    <Phrase key="colTime">Tid</Phrase>
+    <Phrase key="colPeriod">Periode</Phrase>
+    <Phrase key="colCmdLine">Kommandolinje</Phrase>
+    <Phrase key="gbSelectedDevice">Valgt enhet</Phrase>
+    <Phrase key="chkActive">Aktiv</Phrase>
+    <Phrase key="chkPollOnCmd">Avstemning kun på kommando</Phrase>
+    <Phrase key="chkIsBound">Bundet til konfigurasjonsdatabasen</Phrase>
+    <Phrase key="lblDeviceNum">Antall</Phrase>
+    <Phrase key="lblName">Navn</Phrase>
+    <Phrase key="lblDriver">Sjåfør</Phrase>
+    <Phrase key="lblNumAddress">Numerisk adresse</Phrase>
+    <Phrase key="lblStrAddress">Strengadresse eller vertsnavn</Phrase>
+    <Phrase key="lblTimeout">Pause</Phrase>
+    <Phrase key="lblDelay">Forsinkelse</Phrase>
+    <Phrase key="lblTime">Tid</Phrase>
+    <Phrase key="lblPeriod">Periode</Phrase>
+    <Phrase key="lblCmdLine">Kommandolinje</Phrase>
+    <Phrase key="lblCustomOptions">Alternativer</Phrase>
+    <Phrase key="btnDeviceProperties">Egenskaper</Phrase>
+    <Phrase key="btnResetPollingOptions">Nullstille</Phrase>
+    <Phrase key="btnResetPollingOptions.ToolTip">Sett enhetens pollingalternativer til standard</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlSync1">
+    <Phrase key="lblSyncDirection">Velg synkroniseringsretning:</Phrase>
+    <Phrase key="rbBaseToComm">Konfigurasjonsdatabase til Communicator</Phrase>
+    <Phrase key="rbCommToBase">Kommunikator til konfigurasjonsdatabase</Phrase>
+    <Phrase key="lblInfo">Manglende linjer og enheter vil bli opprettet.&#13;&#10;Eksisterende linjer og enheter vil bli oppdatert.&#13;&#10;Berørte egenskaper:&#13;&#10;- Kommunikasjonslinjenavn&#13;&#10;- Enhetsnavn&#13;&#10;- Enhetsdriver&#13;&#10;- Enhetsadresse</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlSync2">
+    <Phrase key="lblSelect">Velg linjer og enheter som skal synkroniseres:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCnlCreate">
+    <Phrase key="this">Opprett kanaler</Phrase>
+    <Phrase key="chkPreview">Forhåndsvisning</Phrase>
+    <Phrase key="btnBack">&lt; Tilbake</Phrase>
+    <Phrase key="btnNext">Neste &gt;</Phrase>
+    <Phrase key="btnCreate">Skape</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+    <Phrase key="CreateCnlsStep1">Trinn 1 av 3: Velg en enhet</Phrase>
+    <Phrase key="CreateCnlsStep2">Trinn 2 av 3: Velg et objekt med nyopprettede kanaler</Phrase>
+    <Phrase key="CreateCnlsStep3">Trinn 3 av 3: Tildel kanalnumre</Phrase>
+    <Phrase key="CreateCnlsCompleted">Kanalopprettingen er fullført.&#13;&#10;{0} kanal(er) er lagt til.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCnlPreview">
+    <Phrase key="this">Forhåndsvis kanaler</Phrase>
+    <Phrase key="btnDelete">Slett</Phrase>
+    <Phrase key="colCnlNum">Antall</Phrase>
+    <Phrase key="colActive">Aktiv</Phrase>
+    <Phrase key="colName">Navn</Phrase>
+    <Phrase key="colTagNum">Tag nummer</Phrase>
+    <Phrase key="colTagCode">Tag-kode</Phrase>
+    <Phrase key="btnAdd">Legg til</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCommLogs">
+    <Phrase key="AppFilter">applikasjon</Phrase>
+    <Phrase key="LinesFilter">Kommunikasjonslinjer</Phrase>
+    <Phrase key="DevicesFilter">Enheter</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDataSources">
+    <Phrase key="this">Datakilder</Phrase>
+    <Phrase key="btnAdd">Legg til</Phrase>
+    <Phrase key="btnMoveUp">Flytte opp</Phrase>
+    <Phrase key="btnMoveDown">Flytt ned</Phrase>
+    <Phrase key="btnDelete">Slett</Phrase>
+    <Phrase key="btnCut">Kutte opp</Phrase>
+    <Phrase key="btnCopy">Kopiere</Phrase>
+    <Phrase key="btnPaste">Lim inn</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">Aktiv</Phrase>
+    <Phrase key="colCode">Kode</Phrase>
+    <Phrase key="colName">Navn</Phrase>
+    <Phrase key="colDriver">Sjåfør</Phrase>
+    <Phrase key="gbDataSource">Valgt datakilde</Phrase>
+    <Phrase key="chkActive">Aktiv</Phrase>
+    <Phrase key="lblCode">Kode</Phrase>
+    <Phrase key="lblName">Navn</Phrase>
+    <Phrase key="lblDriver">Sjåfør</Phrase>
+    <Phrase key="lblOptions">Alternativer</Phrase>
+    <Phrase key="btnProperties">Egenskaper</Phrase>
+    <Phrase key="DriverNotSpecified">Driver er ikke spesifisert.</Phrase>
+    <Phrase key="DataSourceNotSupported">Driveren støtter ikke opprettelse av datakilder.</Phrase>
+    <Phrase key="UnableCreateDataSourceView">Kan ikke opprette datakildebrukergrensesnitt.</Phrase>
+    <Phrase key="NoDataSourceProperties">Datakilden gir ikke et egenskapsvindu.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceAdd">
+    <Phrase key="this">Legg til enhet</Phrase>
+    <Phrase key="gbDevice">Enhet</Phrase>
+    <Phrase key="lblDeviceNum">Antall</Phrase>
+    <Phrase key="lblName">Navn</Phrase>
+    <Phrase key="lblCode">Kode</Phrase>
+    <Phrase key="lblDevType">Enhetstype</Phrase>
+    <Phrase key="lblNumAddress">Numerisk adresse</Phrase>
+    <Phrase key="lblStrAddress">Strengadresse eller vertsnavn</Phrase>
+    <Phrase key="lblCommLine">Kommunikasjonslinje</Phrase>
+    <Phrase key="lblDescr">Beskrivelse</Phrase>
+    <Phrase key="gbComm">Kommunikator</Phrase>
+    <Phrase key="chkAddToComm">Legg til enhet i Communicator</Phrase>
+    <Phrase key="lblInstance">Forekomst</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+    <Phrase key="DeviceExistsInConfigDatabase">En enhet med samme nummer finnes allerede i konfigurasjonsdatabasen.</Phrase>
+    <Phrase key="DeviceExistsInLineConfig">En enhet med samme nummer finnes allerede i kommunikasjonslinjekonfigurasjonen.</Phrase>
+    <Phrase key="LineNotFoundInCommConfig">Finner ikke kommunikasjonslinjen i Communicator-konfigurasjonen.</Phrase>
+    <Phrase key="ChooseLine">Velg en kommunikasjonslinje.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceCommand">
+    <Phrase key="this">Kommando til {0}</Phrase>
+    <Phrase key="lblCmdNum">Kommandonummer</Phrase>
+    <Phrase key="lblCmdCode">Kommandokode</Phrase>
+    <Phrase key="rbNumVal">Numerisk</Phrase>
+    <Phrase key="rbStrData">Strengdata</Phrase>
+    <Phrase key="rbHexData">Heksadesimale data</Phrase>
+    <Phrase key="btnOff">Av</Phrase>
+    <Phrase key="btnOn">På</Phrase>
+    <Phrase key="btnSend">Sende</Phrase>
+    <Phrase key="btnClose">Lukk</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceData">
+    <Phrase key="this">Enhet {0}</Phrase>
+    <Phrase key="btnDeviceProperties">Egenskaper</Phrase>
+    <Phrase key="btnSendCommand">Kommando</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDrivers">
+    <Phrase key="this">Drivere</Phrase>
+    <Phrase key="lblDrivers">Tilgjengelige drivere:</Phrase>
+    <Phrase key="btnProperties">Egenskaper</Phrase>
+    <Phrase key="btnRegister">Registrere</Phrase>
+    <Phrase key="lblDescr">Beskrivelse</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmGeneralOptions">
+    <Phrase key="this">Generelle alternativer</Phrase>
+    <Phrase key="gbGeneralOptions">Generelle alternativer</Phrase>
+    <Phrase key="lblIsBound">Applikasjonen er bundet til konfigurasjonsdatabasen</Phrase>
+    <Phrase key="lblSendModifiedData">Send kun modifiserte data for enhetstagger</Phrase>
+    <Phrase key="lblSendAllDataPeriod">Periode for sending av data for alle enhetsetiketter, sek</Phrase>
+    <Phrase key="lblEnableCommands">Aktiver fjernkontrollkommandoer</Phrase>
+    <Phrase key="lblEnableFileCommands">Les fjernkontrollkommandoer fra filer</Phrase>
+    <Phrase key="lblStartLinesOnCommand">Start kommunikasjonslinjer på kommando</Phrase>
+    <Phrase key="lblStopWait">Vent på servicestopp, sek</Phrase>
+    <Phrase key="lblMaxLogSize">Maksimal loggfilstørrelse, MB</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineAdd">
+    <Phrase key="this">Legg til kommunikasjonslinje</Phrase>
+    <Phrase key="gbLine">Kommunikasjonslinje</Phrase>
+    <Phrase key="lblCommLineNum">Antall</Phrase>
+    <Phrase key="lblName">Navn</Phrase>
+    <Phrase key="lblDescr">Beskrivelse</Phrase>
+    <Phrase key="gbComm">Kommunikator</Phrase>
+    <Phrase key="chkAddToComm">Legg til linje i Communicator</Phrase>
+    <Phrase key="lblInstance">Forekomst</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+    <Phrase key="LineExistsInConfigDatabase">En kommunikasjonslinje med samme nummer finnes allerede i konfigurasjonsdatabasen.</Phrase>
+    <Phrase key="LineExistsInCommConfig">En kommunikasjonslinje med samme nummer finnes allerede i Communicator-konfigurasjonen.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineConfig">
+    <Phrase key="lbTabs.Items[0]">Hovedalternativer</Phrase>
+    <Phrase key="lbTabs.Items[1]">Egendefinerte alternativer</Phrase>
+    <Phrase key="lbTabs.Items[2]">Enhetsavstemning</Phrase>
+    <Phrase key="LineConfigTitle">Linje {0} Alternativer</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineStats">
+    <Phrase key="lbTabs.Items[0]">Linjetilstand</Phrase>
+    <Phrase key="lbTabs.Items[1]">Linjelogg</Phrase>
+    <Phrase key="chkPause">Pause</Phrase>
+    <Phrase key="LineStatsTitle">Linje {0}-statistikk</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmSync">
+    <Phrase key="this">Synkroniser linjer og enheter</Phrase>
+    <Phrase key="btnNext">Neste</Phrase>
+    <Phrase key="btnSync">Synkroniser</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+    <Phrase key="SyncCompleted">Synkronisering fullført.</Phrase>
+    <Phrase key="SyncCompletedWithError">Synkronisering fullført med feil:&#13;&#10;{0}</Phrase>
+    <Phrase key="NoDataToSync">Ingen data valgt for synkronisering.</Phrase>
+  </Dictionary>
+</ExtCommConfigDictionaries>

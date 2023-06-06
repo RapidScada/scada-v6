@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvCnlMqttDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlMqtt.View.Forms.FrmMqttClientChannelOptions">
+    <Phrase key="this">Možnosti klienta MQTT</Phrase>
+    <Phrase key="lblServer">Server</Phrase>
+    <Phrase key="lblPort">TCP port</Phrase>
+    <Phrase key="lblTimeout">Vypršel časový limit, paní</Phrase>
+    <Phrase key="lblUseTls">Použijte TLS</Phrase>
+    <Phrase key="lblClientID">ID klienta</Phrase>
+    <Phrase key="lblUsername">Uživatelské jméno</Phrase>
+    <Phrase key="lblPassword">Heslo</Phrase>
+    <Phrase key="lblProtocolVersion">Verze protokolu</Phrase>
+    <Phrase key="cbProtocolVersion.Items[0]">Výchozí</Phrase>
+    <Phrase key="cbProtocolVersion.Items[1]">3.1</Phrase>
+    <Phrase key="cbProtocolVersion.Items[2]">3.1.1</Phrase>
+    <Phrase key="cbProtocolVersion.Items[3]">5,0</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">zrušení</Phrase>
+  </Dictionary>
+</DrvCnlMqttDictionaries>

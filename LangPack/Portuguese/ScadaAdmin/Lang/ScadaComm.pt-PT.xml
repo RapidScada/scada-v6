@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaCommDictionaries>
+  <Dictionary key="Scada.Comm.Devices">
+    <Phrase key="LoadDeviceConfigError">Erro ao carregar a configuração do dispositivo</Phrase>
+    <Phrase key="SaveDeviceConfigError">Erro ao salvar a configuração do dispositivo</Phrase>
+    <Phrase key="SaveDeviceConfigConfirm">A configuração do dispositivo foi modificada.  Salvar as alterações?</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers">
+    <Phrase key="LoadDriverConfigError">Erro ao carregar a configuração do driver</Phrase>
+    <Phrase key="SaveDriverConfigError">Erro ao salvar a configuração do driver</Phrase>
+    <Phrase key="SaveDriverConfigConfirm">A configuração do driver foi modificada.  Salvar as alterações?</Phrase>
+  </Dictionary>
+</ScadaCommDictionaries>

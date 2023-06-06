@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaDictionaries>
+  <!-- ScadaCommon.dll -->
+  <Dictionary key="Scada.Application">
+    <Phrase key="ProductName">Rapid SCADA</Phrase>
+    <Phrase key="ServerAppName">섬기는 사람</Phrase>
+    <Phrase key="CommAppName">전달자</Phrase>
+    <Phrase key="WebAppName">웹스테이션</Phrase>
+    <Phrase key="WebsiteUrl">https://rapidscada.org</Phrase>
+    <Phrase key="UnhandledException">처리되지 않은 예외</Phrase>
+    <Phrase key="ExecutionImpossible">정상적인 실행이 불가능하다</Phrase>
+    <Phrase key="StartLogic">논리 처리 시작</Phrase>
+    <Phrase key="LogicAlreadyStarted">논리 처리가 이미 시작되었습니다.</Phrase>
+    <Phrase key="StartLogicError">논리 처리 시작 오류</Phrase>
+    <Phrase key="LogicStopped">논리 처리가 중지됨</Phrase>
+    <Phrase key="UnableToStopLogic">지정된 시간 동안 논리 처리를 중지할 수 없습니다.</Phrase>
+    <Phrase key="StopLogicError">논리 처리를 중지하는 중 오류가 발생했습니다.</Phrase>
+    <Phrase key="LogicLoopError">논리 루프의 오류</Phrase>
+    <Phrase key="ThreadFatalError">스레드의 치명적인 오류</Phrase>
+    <Phrase key="WriteInfoError">파일에 응용 프로그램 정보를 쓰는 중 오류가 발생했습니다.</Phrase>
+    <Phrase key="ConnectionNotFound">연결 &quot;{0}&quot;을(를) 찾을 수 없습니다.</Phrase>
+    <Phrase key="ConnOptionsNotFound">연결 옵션을 찾을 수 없습니다.</Phrase>
+    <Phrase key="DatabaseNotSupported">데이터베이스가 지원되지 않습니다.</Phrase>
+    <Phrase key="OperationNotSupported">지원되지 않는 작업입니다.</Phrase>
+    <Phrase key="CommandSent">명령이 전송되었습니다.</Phrase>
+    <Phrase key="SendCommandError">명령 전송 오류</Phrase>
+    <Phrase key="AgentDisabled">에이전트가 비활성화되었습니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.ConfigDatabase">
+    <Phrase key="UndefinedTable">한정되지 않은</Phrase>
+    <Phrase key="ArchiveTable">아카이브</Phrase>
+    <Phrase key="ArchiveKindTable">아카이브 종류</Phrase>
+    <Phrase key="CnlTable">채널</Phrase>
+    <Phrase key="CnlStatusTable">채널 상태</Phrase>
+    <Phrase key="CnlTypeTable">채널 유형</Phrase>
+    <Phrase key="CommLineTable">통신선</Phrase>
+    <Phrase key="DataTypeTable">데이터 유형</Phrase>
+    <Phrase key="DeviceTable">장치</Phrase>
+    <Phrase key="DevTypeTable">장치 유형</Phrase>
+    <Phrase key="FormatTable">형식</Phrase>
+    <Phrase key="LimTable">제한</Phrase>
+    <Phrase key="ObjTable">사물</Phrase>
+    <Phrase key="ObjRightTable">개체 권한</Phrase>
+    <Phrase key="QuantityTable">수량</Phrase>
+    <Phrase key="RoleTable">역할</Phrase>
+    <Phrase key="RoleRefTable">역할 상속</Phrase>
+    <Phrase key="ScriptTable">스크립트</Phrase>
+    <Phrase key="UnitTable">단위</Phrase>
+    <Phrase key="UserTable">사용자</Phrase>
+    <Phrase key="ViewTable">견해</Phrase>
+    <Phrase key="ViewTypeTable">보기 유형</Phrase>
+    <Phrase key="IndexNotFound">인덱스를 찾을 수 없습니다.</Phrase>
+    <Phrase key="EntityCaption">[{0}] {1}</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Files">
+    <Phrase key="FileNotFound">파일을 찾을 수 없습니다.</Phrase>
+    <Phrase key="NamedFileNotFound">{0} 파일을 찾을 수 없습니다.</Phrase>
+    <Phrase key="DirectoryNotExists">디렉토리가 존재하지 않습니다.</Phrase>
+    <Phrase key="PathNotSupported">경로가 지원되지 않습니다.</Phrase>
+    <Phrase key="InvalidFileFormat">잘못된 파일 형식입니다.</Phrase>
+    <Phrase key="LoadConfigError">구성을 로드하는 중에 오류가 발생했습니다.</Phrase>
+    <Phrase key="SaveConfigError">구성 저장 오류</Phrase>
+    <Phrase key="SaveConfigConfirm">구성이 수정되었습니다.  변경 사항을 저장하시겠습니까?</Phrase>
+    <Phrase key="LoadViewError">보기를 로드하는 중에 오류가 발생했습니다.</Phrase>
+    <Phrase key="SaveViewError">보기를 저장하는 중에 오류가 발생했습니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Format">
+    <Phrase key="IntegerRequired">정수가 필요합니다.</Phrase>
+    <Phrase key="IntegerInRangeRequired">{0}에서 {1}까지의 정수가 필요합니다.</Phrase>
+    <Phrase key="RealRequired">실제 번호가 필요합니다.</Phrase>
+    <Phrase key="NonemptyRequired">비어 있지 않은 값이 필요합니다.</Phrase>
+    <Phrase key="ValidUrlRequired">유효한 URL이 필요합니다.</Phrase>
+    <Phrase key="ValidRangeRequired">유효한 정수 범위가 필요합니다.</Phrase>
+    <Phrase key="DateTimeRequired">날짜와 시간이 필요합니다.</Phrase>
+    <Phrase key="NotNumber">문자열은 숫자가 아닙니다.</Phrase>
+    <Phrase key="NotHexadecimal">문자열이 16진수가 아닙니다.</Phrase>
+    <Phrase key="InvalidParamVal">&quot;{0}&quot; 매개변수 값이 잘못되었습니다.</Phrase>
+    <Phrase key="InvalidSecretKey">잘못된 비밀 키입니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms">
+    <Phrase key="InfoCaption">정보</Phrase>
+    <Phrase key="QuestionCaption">질문</Phrase>
+    <Phrase key="ErrorCaption">오류</Phrase>
+    <Phrase key="WarningCaption">경고</Phrase>
+    <Phrase key="NoData">데이터 없음</Phrase>
+    <Phrase key="EmptyData">비어 있는</Phrase>
+    <Phrase key="CorrectErrors">다음 오류를 수정하십시오.</Phrase>
+    <Phrase key="HiddenPassword">*****</Phrase>
+    <Phrase key="NewConnection">새로운 연결</Phrase>
+    <Phrase key="UnnamedConnection">&lt;이름 없는 연결&gt;</Phrase>
+    <Phrase key="XmlFileFilter">XML 파일(*.xml)|*.xml|모든 파일(*.*)|*.*</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.ComponentModel">
+    <Phrase key="TrueValue">예</Phrase>
+    <Phrase key="FalseValue">아니요</Phrase>
+    <Phrase key="EmptyValue">(없음)</Phrase>
+    <Phrase key="CollectionValue">(수집)</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.CnlDataFormatter">
+    <Phrase key="UndefinedSign">---</Phrase>
+    <Phrase key="CommandDescrPrefix">명령:</Phrase>
+    <Phrase key="StatusFormat">상태 {0}</Phrase>
+    <Phrase key="CriticalSeverity">비판적인</Phrase>
+    <Phrase key="MajorSeverity">주요한</Phrase>
+    <Phrase key="MinorSeverity">미성년자</Phrase>
+    <Phrase key="InfoSeverity">정보</Phrase>
+    <Phrase key="UnknownUser">사용자 {0}</Phrase>
+  </Dictionary>
+  <!-- ScadaCommon.Forms.dll -->
+  <Dictionary key="Scada.Forms.Controls.CtrlBitmask">
+    <Phrase key="lblMaskValue">소수점</Phrase>
+    <Phrase key="btnResetMask">초기화</Phrase>
+    <Phrase key="lblMaskBits">비트</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlClientConnection">
+    <Phrase key="gbConnectionOptions">연결 옵션</Phrase>
+    <Phrase key="lblName">이름</Phrase>
+    <Phrase key="lblHost">주인</Phrase>
+    <Phrase key="lblPort">포트</Phrase>
+    <Phrase key="lblTimeout">타임아웃</Phrase>
+    <Phrase key="lblUsername">사용자 이름</Phrase>
+    <Phrase key="lblPassword">비밀번호</Phrase>
+    <Phrase key="lblInstance">사례</Phrase>
+    <Phrase key="lblSecretKey">비밀 키</Phrase>
+    <Phrase key="btnPaste">반죽</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlDbConnection">
+    <Phrase key="gbConnectionOptions">연결 옵션</Phrase>
+    <Phrase key="lblName">이름</Phrase>
+    <Phrase key="lblDbms">DBMS</Phrase>
+    <Phrase key="cbDbms.Items[0]">한정되지 않은</Phrase>
+    <Phrase key="lblServer">섬기는 사람</Phrase>
+    <Phrase key="lblDatabase">데이터 베이스</Phrase>
+    <Phrase key="lblUsername">사용자 이름</Phrase>
+    <Phrase key="lblPassword">비밀번호</Phrase>
+    <Phrase key="chkConnectionString">연결 문자열</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmBitmask">
+    <Phrase key="this">비트 마스크</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmBitSelect">
+    <Phrase key="this">비트 선택</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmCnlSelect">
+    <Phrase key="this">채널 선택</Phrase>
+    <Phrase key="lblFilter">필터</Phrase>
+    <Phrase key="btnApplyFilter">적용하다</Phrase>
+    <Phrase key="lblObj">물체</Phrase>
+    <Phrase key="lblDevice">장치</Phrase>
+    <Phrase key="chkOnlySelected">선택한 행만 표시</Phrase>
+    <Phrase key="colSelected">선택된</Phrase>
+    <Phrase key="colCnlNum">숫자</Phrase>
+    <Phrase key="colName">이름</Phrase>
+    <Phrase key="btnSelect">선택하다</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmEntitySelect">
+    <Phrase key="this">{0}에서 선택</Phrase>
+    <Phrase key="lblFilter">필터</Phrase>
+    <Phrase key="btnApplyFilter">적용하다</Phrase>
+    <Phrase key="chkOnlySelected">선택한 행만 표시</Phrase>
+    <Phrase key="colSelected">선택된</Phrase>
+    <Phrase key="colID">ID</Phrase>
+    <Phrase key="colName">이름</Phrase>
+    <Phrase key="colCode">암호</Phrase>
+    <Phrase key="colDescr">설명</Phrase>
+    <Phrase key="btnSelect">선택하다</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmModuleConfig">
+    <Phrase key="this">모듈 구성</Phrase>
+    <Phrase key="btnAdd.ToolTip">추가하다</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">이동</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">아래로 이동</Phrase>
+    <Phrase key="btnDelete.ToolTip">삭제</Phrase>
+    <Phrase key="btnSave">구하다</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+    <Phrase key="btnClose">닫다</Phrase>
+    <Phrase key="miCollapseAll">모든 축소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmOptions">
+    <Phrase key="this">옵션</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmRangeEdit">
+    <Phrase key="this">범위 수정</Phrase>
+    <Phrase key="lblRange">정수 범위</Phrase>
+    <Phrase key="lblExample">예: 1 - 5, 10</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.BitItemCollection">
+    <Phrase key="EventEnabled">이벤트 활성화</Phrase>
+    <Phrase key="EventBeep">이벤트 신호음</Phrase>
+    <Phrase key="DataChangeEvent">채널 데이터가 변경되었습니다</Phrase>
+    <Phrase key="ValueChangeEvent">채널 값이 변경됨</Phrase>
+    <Phrase key="StatusChangeEvent">채널 상태가 변경되었습니다.</Phrase>
+    <Phrase key="CnlUndefinedEvent">채널이 정의되지 않음</Phrase>
+    <Phrase key="CommandEvent">명령이 전송되었습니다</Phrase>
+  </Dictionary>
+</ScadaDictionaries>

@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaSchemeEditorDictionaries>
+  <Dictionary key="Scada.Scheme.Editor.Editor">
+    <Phrase key="EditorTitle">Düzen Düzenleyici</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FrmMain">
+    <Phrase key="miFile">&amp;Dosya</Phrase>
+    <Phrase key="miFileNew">Yeni</Phrase>
+    <Phrase key="miFileOpen">Açık...</Phrase>
+    <Phrase key="miFileSave">Kaydetmek</Phrase>
+    <Phrase key="miFileSaveAs">Farklı kaydet...</Phrase>
+    <Phrase key="miFileOpenBrowser">Tarayıcı aç</Phrase>
+    <Phrase key="miFileImport">İçe aktarmak...</Phrase>
+    <Phrase key="miFileExit">çıkış</Phrase>
+    <Phrase key="miEdit">&amp;Düzenlemek</Phrase>
+    <Phrase key="miEditCut">Kesmek</Phrase>
+    <Phrase key="miEditCopy">kopyala</Phrase>
+    <Phrase key="miEditPaste">Yapıştırmak</Phrase>
+    <Phrase key="miEditPasteSpecial">Özel yapıştır...</Phrase>
+    <Phrase key="miEditUndo">Geri alma</Phrase>
+    <Phrase key="miEditRedo">Yeniden yap</Phrase>
+    <Phrase key="miEditPointer">Işaretçi</Phrase>
+    <Phrase key="miEditDelete">Silmek</Phrase>
+    <Phrase key="miTools">&amp;Aletler</Phrase>
+    <Phrase key="miToolsOptions">Seçenekler...</Phrase>
+    <Phrase key="miHelp">&amp;Yardım</Phrase>
+    <Phrase key="miHelpAbout">Program hakkında</Phrase>
+    <Phrase key="btnFileNew.ToolTip">Yeni şema (Ctrl+N)</Phrase>
+    <Phrase key="btnFileOpen.ToolTip">Şemayı aç (Ctrl+O)</Phrase>
+    <Phrase key="btnFileSave.ToolTip">Şemayı kaydet (Ctrl+S)</Phrase>
+    <Phrase key="miFileSaveAs2">Farklı kaydet...</Phrase>
+    <Phrase key="btnFileOpenBrowser.ToolTip">Yeni tarayıcı sekmesini aç</Phrase>
+    <Phrase key="btnEditCut.ToolTip">Kesim şeması bileşenleri (Ctrl+X)</Phrase>
+    <Phrase key="btnEditCopy.ToolTip">Şema bileşenlerini kopyala (Ctrl+C)</Phrase>
+    <Phrase key="btnEditPaste.ToolTip">Şema bileşenlerini yapıştır (Ctrl+V)</Phrase>
+    <Phrase key="btnEditUndo.ToolTip">Geri al (Ctrl+Z)</Phrase>
+    <Phrase key="btnEditRedo.ToolTip">Yinele (Ctrl+Y)</Phrase>
+    <Phrase key="btnSchemePointer.ToolTip">Bileşen eklemeyi iptal et (Esc)</Phrase>
+    <Phrase key="btnSchemeDelete.ToolTip">Seçilen bileşenleri sil (Del)</Phrase>
+    <Phrase key="pageComponents">Bileşenler</Phrase>
+    <Phrase key="pageProperties">Özellikler</Phrase>
+    <Phrase key="lvgStandard">Standart</Phrase>
+    <Phrase key="lvCompTypes.Items[0]">Işaretçi</Phrase>
+    <Phrase key="lvCompTypes.Items[1]">Statik Metin</Phrase>
+    <Phrase key="lvCompTypes.Items[2]">Dinamik Metin</Phrase>
+    <Phrase key="lvCompTypes.Items[3]">Statik Resim</Phrase>
+    <Phrase key="lvCompTypes.Items[4]">Dinamik Resim</Phrase>
+    <Phrase key="CloseSecondInstance">Şema Düzenleyici zaten başladı.&#13;&#10;İkinci örnek kapatılacak.</Phrase>
+    <Phrase key="FailedToStartEditor">Scada Editor başlatılamadı.&#13;&#10;Ayrıntıları şurada bulabilirsiniz:&#13;&#10;{0}</Phrase>
+    <Phrase key="OpenBrowserError">Tarayıcı açılırken hata oluştu</Phrase>
+    <Phrase key="PointerItem">Işaretçi</Phrase>
+    <Phrase key="SchemeFileFilter">Şemalar (*.sch)|*.sch|Tüm Dosyalar (*.*)|*.*</Phrase>
+    <Phrase key="SaveSchemeConfirm">Şema değiştirildi.  Değişiklikler kaydedilsin mi?</Phrase>
+    <Phrase key="RestartNeeded">Ayar değişiklikleri, uygulamayı yeniden başlattıktan sonra geçerli olacaktır.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FrmPasteSpecial">
+    <Phrase key="this">Özel yapıştır</Phrase>
+    <Phrase key="lblInCnlOffset">Giriş kanalı numaralarını şu kadar artırın:</Phrase>
+    <Phrase key="lblCtrlCnlOffset">Çıkış kanalı numaralarını şu kadar artırın:</Phrase>
+    <Phrase key="btnPaste">Yapıştırmak</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FrmSettings">
+    <Phrase key="this">Seçenekler</Phrase>
+    <Phrase key="lblWebDir">Web uygulama dizini</Phrase>
+    <Phrase key="gbBrowser">Tarayıcı</Phrase>
+    <Phrase key="rbDefault">Varsayılan</Phrase>
+    <Phrase key="rbChrome">Chrome</Phrase>
+    <Phrase key="rbFirefox">Firefox</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+    <Phrase key="WebDirNotExists">Web uygulama dizini mevcut değil.</Phrase>
+    <Phrase key="ChooseWebDir">Web uygulama dizinini seçin</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FormState">
+    <Phrase key="LoadFormStateError">Form durumu yüklenirken hata oluştu</Phrase>
+    <Phrase key="SaveFormStateError">Form durumu kaydedilirken hata oluştu</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.Js">
+    <Phrase key="UnableLoadScheme">Şema web sayfasına yüklenemiyor.</Phrase>
+    <Phrase key="PageNotValid">Web sayfası artık gerçek değil.  Kapatılması tavsiye edilir.</Phrase>
+    <Phrase key="DataError">Veriler işlenirken hata oluştu.</Phrase>
+    <Phrase key="EditorClosed">Şema Düzenleyici muhtemelen kapatıldı.  Web sayfasını kapatmanız önerilir.</Phrase>
+    <Phrase key="BrowserOutdated">Tarayıcınız güncel değil.  Lütfen modern bir tarayıcıya güncelleyin.</Phrase>
+  </Dictionary>
+</ScadaSchemeEditorDictionaries>

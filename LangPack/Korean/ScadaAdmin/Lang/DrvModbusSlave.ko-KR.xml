@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvModbusSlaveDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls">
+    <Phrase key="ConfigDirRequired">기기 템플릿 파일은 {0} 내에 있어야 합니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlChannelGateway">
+    <Phrase key="gbChannelGateway">채널 게이트웨이 옵션</Phrase>
+    <Phrase key="btnEdit">편집하다</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlDeviceGateway">
+    <Phrase key="gbDeviceGateway">장치 게이트웨이 옵션</Phrase>
+    <Phrase key="lblTemplateFileName">장치 템플릿</Phrase>
+    <Phrase key="btnEditTemplate">편집하다</Phrase>
+    <Phrase key="btnBrowseTemplate">검색...</Phrase>
+    <Phrase key="lblSourceDeviceNum">데이터 소스 장치</Phrase>
+    <Phrase key="btnSelect">선택하다</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlElem">
+    <Phrase key="gbElem">요소 매개변수</Phrase>
+    <Phrase key="lblChannel">채널</Phrase>
+    <Phrase key="lblAddress">주소</Phrase>
+    <Phrase key="lblAddressHint">DEC, 0부터 시작</Phrase>
+    <Phrase key="lblDataType">데이터 형식</Phrase>
+    <Phrase key="cbType.Items[1]">ushort (2 bytes)</Phrase>
+    <Phrase key="cbType.Items[2]">short (2 bytes)</Phrase>
+    <Phrase key="cbType.Items[3]">uint (4 bytes)</Phrase>
+    <Phrase key="cbType.Items[4]">int (4 bytes)</Phrase>
+    <Phrase key="cbType.Items[5]">ulong (8 bytes)</Phrase>
+    <Phrase key="cbType.Items[6]">long (8 bytes)</Phrase>
+    <Phrase key="cbType.Items[7]">float (4 bytes)</Phrase>
+    <Phrase key="cbType.Items[8]">double (8 bytes)</Phrase>
+    <Phrase key="cbType.Items[9]">bool (1 bit)</Phrase>
+    <Phrase key="lblRatio">비율</Phrase>
+    <Phrase key="chkReadOnly">읽기 전용</Phrase>
+    <Phrase key="ChannelNotSpecified">채널이 지정되지 않음</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlIndependentDevice">
+    <Phrase key="gbIndependentDevice">독립 장치 옵션</Phrase>
+    <Phrase key="lblTemplateFileName">장치 템플릿</Phrase>
+    <Phrase key="btnEditTemplate">편집하다</Phrase>
+    <Phrase key="btnBrowseTemplate">검색...</Phrase>
+    <Phrase key="lblDataLifetime">데이터 유효 기간, 분</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Forms.FrmChannelGatewayOptions">
+    <Phrase key="this">채널 게이트웨이 옵션</Phrase>
+    <Phrase key="btnAdd">채널 추가</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">이동</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">아래로 이동</Phrase>
+    <Phrase key="btnDelete.ToolTip">삭제</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+    <Phrase key="miCollapseAll">모든 축소</Phrase>
+    <Phrase key="gbChannelGateway">채널</Phrase>
+    <Phrase key="SelectChildNode">하위 노드 선택</Phrase>
+    <Phrase key="ChannelItem">채널 {0}</Phrase>
+    <Phrase key="DiscreteInputs">개별 입력</Phrase>
+    <Phrase key="Coils">코일</Phrase>
+    <Phrase key="InputRegisters">입력 레지스터</Phrase>
+    <Phrase key="HoldingRegisters">홀딩 레지스터</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">장치 {0} 속성 - Modbus Slave</Phrase>
+    <Phrase key="gbGeneralOptions">일반 옵션</Phrase>
+    <Phrase key="lblMode">방법</Phrase>
+    <Phrase key="cbDevicesMode.Items[0]">독립 장치</Phrase>
+    <Phrase key="cbDevicesMode.Items[1]">장치 게이트웨이</Phrase>
+    <Phrase key="cbDevicesMode.Items[2]">채널 게이트웨이</Phrase>
+    <Phrase key="lblUndefinedValue">정의되지 않은 값</Phrase>
+    <Phrase key="btnSave">구하다</Phrase>
+    <Phrase key="btnClose">닫다</Phrase>
+    <Phrase key="IndependentDeviceDescription">Modbus 마스터에서 데이터를 수신합니다.</Phrase>
+    <Phrase key="DeviceGatewayDescription">선택한 디바이스의 데이터를 Modbus Master에 제공합니다.</Phrase>
+    <Phrase key="ChannelGatewayDescription">선택한 채널의 데이터를 Modbus Master에 제공합니다.</Phrase>
+  </Dictionary>
+</DrvModbusSlaveDictionaries>

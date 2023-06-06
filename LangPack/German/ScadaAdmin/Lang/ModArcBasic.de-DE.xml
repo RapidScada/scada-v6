@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModArcBasicDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmArcDir">
+    <Phrase key="this">Archivverzeichnisse</Phrase>
+    <Phrase key="chkUseDefaultDir">Verwenden Sie Standardverzeichnisse</Phrase>
+    <Phrase key="lblArcDir">Archiv im DAT-Format</Phrase>
+    <Phrase key="btnBrowseArcDir">Durchsuche...</Phrase>
+    <Phrase key="lblArcCopyDir">Archivkopie im DAT-Format</Phrase>
+    <Phrase key="btnBrowseArcCopyDir">Durchsuche...</Phrase>
+    <Phrase key="btnSetToDefaultWin">Für Windows eingestellt</Phrase>
+    <Phrase key="btnSetToDefaultLinux">Auf Linux eingestellt</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Stornieren</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicCAO">
+    <Phrase key="this">Aktuelle Archivoptionen</Phrase>
+    <Phrase key="gbGeneralOptions">Allgemeine Optionen</Phrase>
+    <Phrase key="lblLogEnabled">Protokoll aktiviert</Phrase>
+    <Phrase key="lblFlushPeriod">Spülzeitraum</Phrase>
+    <Phrase key="txtFlushPeriodUnit">Sek</Phrase>
+    <Phrase key="gbWritingOptions">Schreiboptionen</Phrase>
+    <Phrase key="lblUseCopyDir">Schreiben Sie, um das Verzeichnis zu kopieren</Phrase>
+    <Phrase key="btnShowDir">Verzeichnisse</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Stornieren</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicEAO">
+    <Phrase key="this">Optionen für das Ereignisarchiv</Phrase>
+    <Phrase key="gbGeneralOptions">Allgemeine Optionen</Phrase>
+    <Phrase key="lblLogEnabled">Protokoll aktiviert</Phrase>
+    <Phrase key="lblRetention">Aufbewahrungsfrist</Phrase>
+    <Phrase key="txtRetentionUnit">Tag</Phrase>
+    <Phrase key="gbWritingOptions">Schreiboptionen</Phrase>
+    <Phrase key="lblUseCopyDir">Schreiben Sie, um das Verzeichnis zu kopieren</Phrase>
+    <Phrase key="lblMaxQueueSize">Maximale Warteschlangengröße</Phrase>
+    <Phrase key="btnShowDir">Verzeichnisse</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Stornieren</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicHAO">
+    <Phrase key="this">Historische Archivoptionen</Phrase>
+    <Phrase key="gbGeneralOptions">Allgemeine Optionen</Phrase>
+    <Phrase key="lblLogEnabled">Protokoll aktiviert</Phrase>
+    <Phrase key="lblRetention">Aufbewahrungsfrist</Phrase>
+    <Phrase key="txtRetentionUnit">Tag</Phrase>
+    <Phrase key="lblWriteWithPeriod">Schreiben Sie mit Punkt</Phrase>
+    <Phrase key="lblWritingPeriod">Schreibzeitraum</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[0]">Sek</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[1]">Mindest</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[2]">Stunde</Phrase>
+    <Phrase key="lblPullToPeriod">Ziehen Sie zur Periode</Phrase>
+    <Phrase key="txtPullToPeriodUnit">Sek</Phrase>
+    <Phrase key="gbWritingOptions">Schreiboptionen</Phrase>
+    <Phrase key="lblUseCopyDir">Schreiben Sie, um das Verzeichnis zu kopieren</Phrase>
+    <Phrase key="lblMaxQueueSize">Maximale Warteschlangengröße</Phrase>
+    <Phrase key="btnShowDir">Verzeichnisse</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Stornieren</Phrase>
+  </Dictionary>
+</ModArcBasicDictionaries>

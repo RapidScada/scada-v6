@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModDbExportDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlArcReplication">
+    <Phrase key="gbOptions">아카이브 복제 옵션</Phrase>
+    <Phrase key="chkEnabled">사용</Phrase>
+    <Phrase key="chkAutoExport">자동으로 아카이브 내보내기</Phrase>
+    <Phrase key="lblMinDepth">최소 깊이, 초</Phrase>
+    <Phrase key="lblMaxDepth">최대 깊이, 초</Phrase>
+    <Phrase key="lblReadingStep">읽기 단계, 초</Phrase>
+    <Phrase key="lblHistArchiveBit">역사적 아카이브의 비트</Phrase>
+    <Phrase key="lblEventArchiveBit">이벤트 아카이브의 비트</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlCurDataExport">
+    <Phrase key="gbOptions">현재 데이터 전송 옵션</Phrase>
+    <Phrase key="lblTrigger">방아쇠</Phrase>
+    <Phrase key="cbTrigger.Items[0]">수신 시</Phrase>
+    <Phrase key="cbTrigger.Items[1]">온 타이머</Phrase>
+    <Phrase key="lblTimePeriod">타이머 기간, 초</Phrase>
+    <Phrase key="lblAllDataPeriod">전 채널 데이터 내보내기 기간, 초</Phrase>
+    <Phrase key="chkSkipUnchanged">변경되지 않은 데이터 건너뛰기</Phrase>
+    <Phrase key="chkIncludeCalculated">계산된 채널 포함</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlGeneral">
+    <Phrase key="gbGeneral">일반 옵션</Phrase>
+    <Phrase key="chkActive">활동적인</Phrase>
+    <Phrase key="lblTargetID">대상 ID</Phrase>
+    <Phrase key="lblName">이름</Phrase>
+    <Phrase key="lblCmdCode">명령 코드</Phrase>
+    <Phrase key="lblStatusCnlNum">상태 채널 번호</Phrase>
+    <Phrase key="lblMaxQueueSize">최대 대기열 크기</Phrase>
+    <Phrase key="lblDataLifetime">대기열의 데이터 수명, 초</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlQuery">
+    <Phrase key="gbGeneral">일반적인</Phrase>
+    <Phrase key="chkActive">활동적인</Phrase>
+    <Phrase key="lblName">이름</Phrase>
+    <Phrase key="lblDataKind">데이터 종류</Phrase>
+    <Phrase key="cbDataKind.Items[0]">현재의 데이터</Phrase>
+    <Phrase key="cbDataKind.Items[1]">과거 데이터</Phrase>
+    <Phrase key="cbDataKind.Items[2]">이벤트</Phrase>
+    <Phrase key="cbDataKind.Items[3]">이벤트 확인</Phrase>
+    <Phrase key="cbDataKind.Items[4]">명령</Phrase>
+    <Phrase key="gbFilter">필터</Phrase>
+    <Phrase key="lblCnlNum">채널 번호</Phrase>
+    <Phrase key="lblObjNum">개체 번호</Phrase>
+    <Phrase key="lblDeviceNum">장치 번호</Phrase>
+    <Phrase key="gbQuery">질문</Phrase>
+    <Phrase key="chkSingleQuery">단일 쿼리(숫자 입력 필요)</Phrase>
+    <Phrase key="btnViewParameters.ToolTip">사용 가능한 매개변수</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmModuleConfig">
+    <Phrase key="this">DB로 내보내기</Phrase>
+    <Phrase key="ddbAdd.ToolTip">내보내기 대상 추가</Phrase>
+    <Phrase key="btnSqlServer">Microsoft SQL Server</Phrase>
+    <Phrase key="btnMySql">MySQL</Phrase>
+    <Phrase key="btnOracle">Oracle</Phrase>
+    <Phrase key="btnPostgreSql">PostgreSQL</Phrase>
+    <Phrase key="btnAddCurrentDataQuery.ToolTip">현재 데이터 쿼리 추가</Phrase>
+    <Phrase key="btnAddHistoricalDataQuery.ToolTip">과거 데이터 쿼리 추가</Phrase>
+    <Phrase key="btnAddEventQuery.ToolTip">이벤트 쿼리 추가</Phrase>
+    <Phrase key="btnAddEventAckQuery.ToolTip">이벤트 확인 쿼리 추가</Phrase>
+    <Phrase key="btnAddCommandQuery.ToolTip">명령 쿼리 추가</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">이동</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">아래로 이동</Phrase>
+    <Phrase key="btnDelete.ToolTip">삭제</Phrase>
+    <Phrase key="btnCut.ToolTip">자르다</Phrase>
+    <Phrase key="btnCopy.ToolTip">복사</Phrase>
+    <Phrase key="btnPaste.ToolTip">반죽</Phrase>
+    <Phrase key="gbTarget">수출 대상</Phrase>
+    <Phrase key="btnSave">구하다</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+    <Phrase key="btnClose">닫다</Phrase>
+    <Phrase key="miCollapseAll">모든 축소</Phrase>
+    <Phrase key="CopySuffix">- 복사</Phrase>
+    <Phrase key="ArchiveExportOptionsNode">아카이브 복제</Phrase>
+    <Phrase key="ConnectionOptionsNode">연결 옵션</Phrase>
+    <Phrase key="CurrentExportOptionsNode">현재의 데이터</Phrase>
+    <Phrase key="ExportOptionsNode">내보내기 옵션</Phrase>
+    <Phrase key="GeneralOptionsNode">일반 옵션</Phrase>
+    <Phrase key="QueriesNode">쿼리</Phrase>
+    <Phrase key="AddTargets">대상 추가</Phrase>
+    <Phrase key="SelectChildNode">하위 노드 선택</Phrase>
+    <Phrase key="TargetName">대상 {0}</Phrase>
+    <Phrase key="QueryName">쿼리 {0}</Phrase>
+    <Phrase key="TargetNameNotUnique">대상 이름은 고유해야 합니다.</Phrase>
+    <Phrase key="UnnamedQuery">&lt;이름 없는 쿼리&gt;</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmQueryParametrs">
+    <Phrase key="this">사용 가능한 매개변수</Phrase>
+    <Phrase key="colParamsName">이름</Phrase>
+    <Phrase key="colParams">설명</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.Command">
+    <Phrase key="CommandID">명령 ID</Phrase>
+    <Phrase key="CreationTime">명령 생성 시간</Phrase>
+    <Phrase key="ClientName">명령을 보낸 클라이언트</Phrase>
+    <Phrase key="UserID">사용자 아이디</Phrase>
+    <Phrase key="CnlNum">채널 번호</Phrase>
+    <Phrase key="ObjNum">개체 번호</Phrase>
+    <Phrase key="DeviceNum">장치 번호</Phrase>
+    <Phrase key="CmdNum">명령 번호</Phrase>
+    <Phrase key="CmdCode">명령 코드</Phrase>
+    <Phrase key="CmdVal">명령 값</Phrase>
+    <Phrase key="CmdData">명령 데이터</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.Data">
+    <Phrase key="Timestamp">타임스탬프</Phrase>
+    <Phrase key="ChannelValue">채널 {0} 값</Phrase>
+    <Phrase key="ChannelStatus">채널 {0} 상태</Phrase>
+    <Phrase key="FirstObject">첫 번째 채널의 개체 번호</Phrase>
+    <Phrase key="FirstDevice">첫 번째 채널의 장치 번호</Phrase>
+    <Phrase key="CnlNum">채널 번호</Phrase>
+    <Phrase key="Val">채널 값</Phrase>
+    <Phrase key="Stat">채널 상태</Phrase>
+    <Phrase key="ObjNum">개체 번호</Phrase>
+    <Phrase key="DeviceNum">장치 번호</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.Event">
+    <Phrase key="EventID">이벤트 ID</Phrase>
+    <Phrase key="Timestamp">이벤트 타임스탬프</Phrase>
+    <Phrase key="Hidden">이벤트가 숨겨져 있습니다.</Phrase>
+    <Phrase key="CnlNum">채널 번호</Phrase>
+    <Phrase key="ObjNum">개체 번호</Phrase>
+    <Phrase key="DeviceNum">장치 번호</Phrase>
+    <Phrase key="PrevCnlVal">이전 채널 값</Phrase>
+    <Phrase key="PrevCnlStat">이전 채널 상태</Phrase>
+    <Phrase key="CnlVal">채널 값</Phrase>
+    <Phrase key="CnlStat">채널 상태</Phrase>
+    <Phrase key="Severity">심각성</Phrase>
+    <Phrase key="AckRequired">확인이 필요합니다.</Phrase>
+    <Phrase key="AckTimestamp">승인 타임스탬프</Phrase>
+    <Phrase key="AckUserID">확인 사용자 ID</Phrase>
+    <Phrase key="TextFormat">텍스트 형식</Phrase>
+    <Phrase key="EventText">이벤트 텍스트</Phrase>
+    <Phrase key="EventData">이벤트 데이터</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.EventAck">
+    <Phrase key="EventID">이벤트 ID</Phrase>
+    <Phrase key="AckTimestamp">승인 타임스탬프</Phrase>
+    <Phrase key="AckUserID">사용자 아이디</Phrase>
+  </Dictionary>
+</ModDbExportDictionaries>

@@ -43,6 +43,8 @@
     <Phrase key="pbReconnectAfterHint.ToolTip">指定连接失败后，重新连接的间隔时间。</Phrase>
     <Phrase key="lblStayConnected">保持连接</Phrase>
     <Phrase key="pbStayConnectedHint.ToolTip">如果设置此项，在会话结束后将保持连接。&#13;&#10;否则连接将在每次会话后断开。</Phrase>
+    <Phrase key="lblDisconnectOnError">错误断开连接</Phrase>
+    <Phrase key="pbDisconnectOnError.ToolTip">指示是否在会话失败时断开连接。</Phrase>
     <Phrase key="btnOK">确定</Phrase>
     <Phrase key="btnCancel">取消</Phrase>
     <Phrase key="HostRequired">远程服务器是必需的。</Phrase>

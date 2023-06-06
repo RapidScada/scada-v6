@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgGuardDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages">
+    <Phrase key="NoData">没有数据</Phrase>
+    <Phrase key="UsernameColumn">用户名</Phrase>
+    <Phrase key="SessionIdColumn">会话编号</Phrase>
+    <Phrase key="RemoteIpColumn">IP地址</Phrase>
+    <Phrase key="AccessTimeColumn">访问时间</Phrase>
+    <Phrase key="FailCountColumn">失败次数</Phrase>
+    <Phrase key="AccessColumn">使用权</Phrase>
+    <Phrase key="AccessAllowed">允许</Phrase>
+    <Phrase key="AccessBlocked">封锁</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.Addresses">
+    <Phrase key="PageTitle">IP地址</Phrase>
+    <Phrase key="UsernameColumn">最后用户名</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.General">
+    <Phrase key="PageTitle">一般的</Phrase>
+    <Phrase key="CacheInfoFormat">{0} 个，共 {1} 个</Phrase>
+    <Phrase key="lblGlobalAccess">全球访问：</Phrase>
+    <Phrase key="lblBlockedUsers">被阻止的用户：</Phrase>
+    <Phrase key="lblBlockedAddresses">被阻止的 IP 地址：</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.Sessions">
+    <Phrase key="PageTitle">会话</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.Users">
+    <Phrase key="PageTitle">用户</Phrase>
+    <Phrase key="RemoteIpColumn">最后一个 IP 地址</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.PlgGuardLogic">
+    <Phrase key="GuardMenuItem">警卫</Phrase>
+    <Phrase key="GeneralMenuItem">一般的</Phrase>
+    <Phrase key="UsersMenuItem">用户</Phrase>
+    <Phrase key="AddressesMenuItem">IP地址</Phrase>
+    <Phrase key="SessionsMenuItem">会话</Phrase>
+  </Dictionary>
+</PlgGuardDictionaries>

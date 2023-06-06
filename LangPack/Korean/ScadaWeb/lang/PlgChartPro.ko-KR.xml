@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgChartProDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.ChartPro">
+    <Phrase key="PageTitle">{0} - 차트 프로</Phrase>
+    <Phrase key="aToday">오늘</Phrase>
+    <Phrase key="aYesterday">어제</Phrase>
+    <Phrase key="aPastWeek">지난 주</Phrase>
+    <Phrase key="aPastMonth">지난달</Phrase>
+    <Phrase key="aCustomPeriod">맞춤 기간</Phrase>
+    <Phrase key="aSelectChannels">채널 선택</Phrase>
+    <Phrase key="aSelectProfile">프로필 선택</Phrase>
+    <Phrase key="aShowData">데이터 표시</Phrase>
+    <Phrase key="aHideData">데이터 숨기기</Phrase>
+    <Phrase key="aExport">내보내다</Phrase>
+    <Phrase key="ChartTitleFixed">{0}, {1}</Phrase>
+    <Phrase key="ChartTitleRolling">{0}, {1}분</Phrase>
+    <Phrase key="Generated">생성됨</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.ChartPro.Js">
+    <Phrase key="DataLoading">데이터 로드 중...</Phrase>
+    <Phrase key="LoadError">데이터를 로드하는 중에 오류가 발생했습니다.</Phrase>
+    <Phrase key="Generated">생성됨</Phrase>
+    <Phrase key="TimeCol">시간</Phrase>
+    <Phrase key="ZoomIn">확대</Phrase>
+    <Phrase key="ZoomOut">축소</Phrase>
+    <Phrase key="ResetZoom">줌 재설정</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.ChartProView">
+    <Phrase key="PageTitle">차트 프로</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.Export">
+    <Phrase key="PageTitle">차트 내보내기</Phrase>
+    <Phrase key="btnExportPdf">차트를 PDF로 내보내기</Phrase>
+    <Phrase key="btnExportPng">차트를 PNG로 내보내기</Phrase>
+    <Phrase key="btnExportExcel">Excel로 데이터 내보내기</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.Period">
+    <Phrase key="PageTitle">차트 기간</Phrase>
+    <Phrase key="lblFrom">에서</Phrase>
+    <Phrase key="lblTo">에게</Phrase>
+    <Phrase key="InvalidPeriod">시작 날짜는 종료 날짜보다 이전이거나 같아야 합니다.</Phrase>
+    <Phrase key="PeriodTooLong">최대 생리 기간은 {0}일입니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.PeriodRolling">
+    <Phrase key="PageTitle">차트 기간</Phrase>
+    <Phrase key="lblPeriod">기간</Phrase>
+    <Phrase key="lblMin">분</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.Profile">
+    <Phrase key="PageTitle">차트 프로필</Phrase>
+    <Phrase key="lblProfile">프로필</Phrase>
+    <Phrase key="ProfileListEmpty">프로필 목록이 비어 있습니다.  플러그인 구성을 확인하십시오.</Phrase>
+  </Dictionary>
+</PlgChartProDictionaries>

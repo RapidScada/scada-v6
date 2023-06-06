@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgSchemeDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgScheme.Areas.Scheme.Pages.SchemeView">
+    <Phrase key="SchemeViewTitle">スキーム {0}</Phrase>
+    <Phrase key="spanFitScreenBtn_ToolTip">画面にフィット</Phrase>
+    <Phrase key="spanFitWidthBtn_ToolTip">幅に合わせる</Phrase>
+    <Phrase key="spanZoomOutBtn_ToolTip">ズームアウトする</Phrase>
+    <Phrase key="spanZoomInBtn_ToolTip">ズームイン</Phrase>
+    <Phrase key="spanErrorBadge">エラー</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgScheme.Template.TemplateBindings">
+    <Phrase key="LoadTemplateBindingsError">スキーム テンプレート バインディングの読み込みエラー</Phrase>
+    <Phrase key="SaveTemplateBindingsError">スキーム テンプレート バインディングの保存中にエラーが発生しました</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgScheme.CompManager">
+    <Phrase key="UnknownComponent">不明なコンポーネント {0}</Phrase>
+    <Phrase key="CompLibraryNotFound">コンポーネント {0} のライブラリが見つかりませんでした</Phrase>
+    <Phrase key="UnableCreateComponent">コンポーネント {0} を作成できません</Phrase>
+    <Phrase key="ErrorCreatingComponent">コンポーネント {0} の作成中にエラーが発生しました</Phrase>
+  </Dictionary>
+</PlgSchemeDictionaries>

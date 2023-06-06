@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDsScadaServerDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsScadaServer.View.Forms.FrmConnManager">
+    <Phrase key="this">Conexões do cliente</Phrase>
+    <Phrase key="gbConnList">Conexões</Phrase>
+    <Phrase key="btnNewConn">Novo</Phrase>
+    <Phrase key="btnDeleteConn">Excluir</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsScadaServer.View.Forms.FrmScadaServerDSO">
+    <Phrase key="this">Opções de fonte de dados</Phrase>
+    <Phrase key="lblReadConfigDb">Ler banco de dados de configuração</Phrase>
+    <Phrase key="lblUseDefaultConn">Usar conexão padrão</Phrase>
+    <Phrase key="lblConnection">Conexão</Phrase>
+    <Phrase key="lblMaxQueueSize">Tamanho máximo da fila</Phrase>
+    <Phrase key="lblDataLifetime">Vida útil dos dados na fila, segundos</Phrase>
+    <Phrase key="lblClientLogEnabled">Registro do cliente ativado</Phrase>
+    <Phrase key="lblDeviceFilter">Filtro de dispositivo</Phrase>
+    <Phrase key="btnSelectDevices">Selecione...</Phrase>
+    <Phrase key="btnManageConn">Administrar conexões</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+</DrvDsScadaServerDictionaries>
