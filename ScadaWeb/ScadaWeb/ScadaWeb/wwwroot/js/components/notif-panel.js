@@ -40,7 +40,7 @@ class NotifPanel {
     // Determines whether the notification panel contains any notifications.
     get _isEmpty() {
         return this.panelElem.children(".notif:not(.empty):first").length === 0;
-    };
+    }
 
     // Determines whether sound is muted.
     get _isMuted() {
@@ -137,7 +137,7 @@ class NotifPanel {
         } else {
             this._hide();
         }
-    };
+    }
 
     // Creates a jQuery element for the notification.
     _createNotifElem(notif) {
@@ -230,7 +230,7 @@ class NotifPanel {
             this._muteBtn.children("i").removeClass("fa-toggle-off").addClass("fa-toggle-on");
             this._muteBtn.children("span").text(notifPhrases.Mute);
         }
-    };
+    }
 
     // Updates the elements depending on whether notifications exist or not.
     _displayEmptyState(isEmpty) {
@@ -250,7 +250,7 @@ class NotifPanel {
         if (this._notifType === null || this._notifType < notifType) {
             this._notifType = notifType;
         }
-    };
+    }
 
     // Decreases a notification counter corresponding to the specified type.
     _decNotifCounter(notifType) {
@@ -267,7 +267,7 @@ class NotifPanel {
         } else {
             this._notifType = null;
         }
-    };
+    }
 
     // Resets the notification counters.
     _resetNotifCounters() {
@@ -275,13 +275,13 @@ class NotifPanel {
         this._notifCounters[NotifType.WARNING] = 0;
         this._notifCounters[NotifType.ERROR] = 0;
         this._notifType = null;
-    };
+    }
 
     // Gets the key of the last notification.
     _getLastNotifKey() {
         let lastNotifElem = this.panelElem.children(".notif:first");
         return lastNotifElem.length > 0 ? lastNotifElem.data("notif").key : null;
-    };
+    }
 
     // Prepares the notification panel for work.
     prepare(rootPath) {
@@ -322,7 +322,7 @@ class NotifPanel {
     }
 
     // Adds the collection of notifications to the notification panel.
-    addNotifications = function (notifs) {
+    addNotifications(notifs) {
         if (notifs.length > 0) {
             this._displayEmptyState(false);
             let lastNotifKey = this._getLastNotifKey();
@@ -337,7 +337,7 @@ class NotifPanel {
 
             this._alarmOnOff();
         }
-    };
+    }
 
     // Adds sample notifications.
     addSamples() {
@@ -353,7 +353,7 @@ class NotifPanel {
     }
 
     // Removes the notification with the specified ID from the notification panel.
-    removeNotification = function (notifID) {
+    removeNotification(notifID) {
         let notifElem = this.panelElem.children("#notif_" + notifID);
         let notif = notifElem.data("notif");
         notifElem.remove();
@@ -363,7 +363,7 @@ class NotifPanel {
             this._decNotifCounter(notif.notifType);
             this._alarmOnOff();
         }
-    };
+    }
 
     // Removes all notifications from the notification panel.
     clearNotifications() {
@@ -371,7 +371,7 @@ class NotifPanel {
         this._displayEmptyState(true);
         this._resetNotifCounters();
         this._alarmOnOff();
-    };
+    }
 }
 
 // Specifies the notification phrases.
