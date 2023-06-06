@@ -1,20 +1,5 @@
 ﻿// The plugin's web API.
-// No dependencies.
-
-// Represents a data transfer object that carries data from the server side to a client.
-class Dto {
-    constructor() {
-        this.ok = false;
-        this.msg = "";
-        this.data = null;
-    }
-
-    static fail(msg) {
-        let dto = new Dto();
-        dto.msg = msg;
-        return dto;
-    }
-}
+// Depends on scada-common.js
 
 // Represents a time range.
 class TimeRange {

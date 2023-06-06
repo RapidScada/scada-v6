@@ -319,6 +319,22 @@ class BaseEventAckFeature {
     }
 }
 
+// Represents a data transfer object that carries data from the server side to a client.
+class Dto {
+    constructor() {
+        this.ok = false;
+        this.msg = "";
+        this.data = null;
+    }
+
+    // Creates a data transfer object containing a failed result.
+    static fail(msg) {
+        let dto = new Dto();
+        dto.msg = msg;
+        return dto;
+    }
+}
+
 // The stub of an application environment object.
 const appEnvStub = {
     isStub: true,
