@@ -71,13 +71,13 @@
             // CtrlCnlImport3
             // 
             CtrlCnlImport3.ctrlCnlImport4 = null;
-            CtrlCnlImport3.FileSelected = false;
             CtrlCnlImport3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             CtrlCnlImport3.Location = new Point(12, 33);
             CtrlCnlImport3.Margin = new Padding(3, 4, 3, 4);
             CtrlCnlImport3.Name = "CtrlCnlImport3";
             CtrlCnlImport3.Size = new Size(421, 160);
             CtrlCnlImport3.TabIndex = 3;
+            CtrlCnlImport3.SelectedFileChanged += CtrlCnlImport3_SelectedDeviceChanged;
             // 
             // CtrlCnlImport4
             // 

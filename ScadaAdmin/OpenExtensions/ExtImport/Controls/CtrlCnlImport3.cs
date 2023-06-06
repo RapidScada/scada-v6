@@ -24,28 +24,38 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 		private string _type;
 		private string _comment;
 
-		//public bool FileSelected { get; set; } = false;
 
-
-		/// <summary>
-		/// Initializes a new instance of the class.
-		/// </summary>
-		public CtrlCnlImport3()
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public CtrlCnlImport3()
 		{
 			InitializeComponent();
 		}
 
-		/// <summary>
-		/// Initializes the control.
-		/// </summary>
-		public void Init(IAdminContext adminContext, ScadaProject project)
+        public event EventHandler SelectedFileChanged;
+        /// <summary>
+        /// Raises a SelectedDeviceChanged event.
+        /// </summary>
+        private void OnSelectedFileChanged()
+        {
+            SelectedFileChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Initializes the control.
+        /// </summary>
+        public void Init(IAdminContext adminContext, ScadaProject project)
 		{
 			this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
 			this.project = project ?? throw new ArgumentNullException(nameof(project));
 			openFileDialog1 = new OpenFileDialog();
 			lastStartCnlNum = 1;
 			lastCnlCnt = 0;
-		}
+            FileSelected = false;
+			OnSelectedFileChanged();
+
+        }
 
 		/// <summary>
 		/// Sets the input focus.
@@ -56,22 +66,11 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 		}
 		public event PropertyChangedEventHandler PropertyChanged;
 		public int StartCnlNum => Convert.ToInt32(numStartCnlNum.Value);
-		private bool _fileSelected = false;
-		public bool FileSelected
-		{
-			get { return _fileSelected; }
-			set
-			{
-				if (_fileSelected != value)
-				{
-					_fileSelected = value;
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FileSelected)));
-				}
-			}
-		}
+
+        public bool FileSelected { get; internal set; }
 
 
-		private void btnImport_Click(object sender, EventArgs e)
+        private void btnImport_Click(object sender, EventArgs e)
 		{
 			OpenFileDialog openFileDialog = new OpenFileDialog();
 			openFileDialog.Filter = "Fichiers texte (*.txt)|*.txt|Fichiers SCY (*.scy)|*.scy";
@@ -96,6 +95,8 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 					int count = 0;
 					bool isPL7 = false;
                     _dictio.Clear();
+					FileSelected = true;
+                    OnSelectedFileChanged();
 
                     while (!sr.EndOfStream)
 					{
@@ -118,14 +119,21 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 					}
 				}
 
-				if (Path.GetExtension(fileName) == ".SCY")
-				{
-					while (!sr.EndOfStream)
+				else if (Path.GetExtension(fileName) == ".SCY")
+                {
+                    FileSelected = true;
+                    OnSelectedFileChanged();
+                    while (!sr.EndOfStream)
 					{
 						string line = sr.ReadLine();
 						readSCYPL7(line);
 					}
 				}
+				else
+				{
+                    FileSelected = false;
+                    OnSelectedFileChanged();
+                }
 			}
 		}
 

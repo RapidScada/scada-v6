@@ -25,7 +25,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
         private FrmCnlImport()
         {
             InitializeComponent();
-            CtrlCnlImport3.PropertyChanged += CtrlCnlImport3_PropertyChanged;
         }
 
         public FrmCnlImport(IAdminContext adminContext, ScadaProject project, RecentSelection recentSelection)
@@ -78,18 +77,10 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                     lblStep.Text = ExtensionPhrases.ImportCnlsStep3 ?? "Import Cnls Step3";
                     CtrlCnlImport3.Visible = true;
                     btnCreate.Visible = true;
-                    btnCreate.Enabled = true;//CtrlCnlImport3.FileSelected;
+                    btnCreate.Enabled = CtrlCnlImport3.FileSelected;
                     btnBack.Visible = true;
 
-                    if (CtrlCnlImport1.StatusOK)//remplace by file selection check :CtrlCnlImport3.FileSelected
-                    {
-                        CtrlCnlImport3.ResetCnlNums(CtrlCnlImport1.CnlPrototypes.Count);
-                        btnCreate.Enabled = true;
-                    }
-                    else
-                    {
-                        btnCreate.Enabled = false;
-                    }
+                    
                     // ctrlCnlImport3.DeviceName = ctrlCnlImport1.SelectedDevice?.Name;
                     // ctrlCnlImport3.SetFocus();
                     break;
@@ -153,12 +144,9 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 
             ApplyStep(0);
         }
-        private void CtrlCnlImport3_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void CtrlCnlImport3_SelectedDeviceChanged(object sender, EventArgs e)
         {
-            if (e.PropertyName == nameof(CtrlCnlImport3.FileSelected))
-            {
-                btnCreate.Enabled = CtrlCnlImport3.FileSelected;
-            }
+            btnCreate.Enabled = CtrlCnlImport3.FileSelected;
         }
         private void ctrlCnlCreate1_SelectedDeviceChanged(object sender, EventArgs e)
         {
@@ -179,7 +167,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 
         private void btnCreate_Click(object sender, EventArgs e)
         {
-
             if (CtrlCnlImport1.StatusOK)
             {
 
