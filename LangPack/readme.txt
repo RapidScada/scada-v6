@@ -10,13 +10,12 @@ Language Installation
 How to Localize UI to Any Language
 ----------------------------------
 Most of Rapid SCADA applications contain special localization files. Usually they are located in a Lang folder:
-C:\SCADA\ScadaAgent\Lang
-C:\SCADA\ScadaAdmin\Lang
-C:\SCADA\ScadaComm\Lang
-C:\SCADA\ScadaSchemeEditor\Lang
-C:\SCADA\ScadaServer\Lang
-C:\SCADA\ScadaTableEditor\Lang
-C:\SCADA\ScadaWeb\lang
+C:\Program Files\SCADA\ScadaAdmin\Lang
+C:\Program Files\SCADA\ScadaAgent\Lang
+C:\Program Files\SCADA\ScadaComm\Lang
+C:\Program Files\SCADA\ScadaSchemeEditor\Lang
+C:\Program Files\SCADA\ScadaServer\Lang
+C:\Program Files\SCADA\ScadaWeb\lang
 
 To add a new language support, create copies of *.en-GB.xml files and give the file names according to your culture. In this example "en" means English language and "GB" is Great Britain.
 Using your favorite text editor (Notepad++ is OK) translate the phrases in the created xml files. Then open the Administrator application, go to Tools -> Language menu and enter your localization name, for example, es-ES
