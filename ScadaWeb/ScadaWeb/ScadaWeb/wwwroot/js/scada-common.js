@@ -1,5 +1,5 @@
-﻿// Contains classes: ScadaUtils, ScadaEventType, PluginFeatures, 
-//     BaseChartFeature, BaseCommandFeature, BaseEventAckFeature, Dto
+﻿// Contains classes: ScadaUtils, ScadaEventType, PluginFeatures,
+//     ChartFeatureBase, CommandFeatureBase, EventAckFeatureBase, Dto
 // Contains objects: appEnvStub
 // No dependencies.
 
@@ -227,9 +227,9 @@ class PluginFeatures {
     get chart() {
         if (this._chart === null) {
             this._chart = typeof ChartFeature === "function" &&
-                ChartFeature.prototype instanceof BaseChartFeature
+                ChartFeature.prototype instanceof ChartFeatureBase
                 ? new ChartFeature(this.appEnv)
-                : new BaseChartFeature(this.appEnv);
+                : new ChartFeatureBase(this.appEnv);
         }
 
         return this._chart;
@@ -239,9 +239,9 @@ class PluginFeatures {
     get command() {
         if (this._command === null) {
             this._command = typeof CommandFeature === "function" &&
-                CommandFeature.prototype instanceof BaseCommandFeature
+                CommandFeature.prototype instanceof CommandFeatureBase
                 ? new CommandFeature(this.appEnv)
-                : new BaseCommandFeature(this.appEnv);
+                : new CommandFeatureBase(this.appEnv);
         }
 
         return this._command;
@@ -251,9 +251,9 @@ class PluginFeatures {
     get eventAck() {
         if (this._eventAck === null) {
             this._eventAck = typeof EventAckFeature === "function" &&
-                EventAckFeature.prototype instanceof BaseEventAckFeature
+                EventAckFeature.prototype instanceof EventAckFeatureBase
                 ? new EventAckFeature(this.appEnv)
-                : new BaseEventAckFeature(this.appEnv);
+                : new EventAckFeatureBase(this.appEnv);
         }
 
         return this._eventAck;
@@ -261,7 +261,7 @@ class PluginFeatures {
 }
 
 // Represents a default charting feature.
-class BaseChartFeature {
+class ChartFeatureBase {
     constructor(appEnv) {
         this.appEnv = appEnv;
         this._NO_PLUGIN = ScadaUtils.isRussian(appEnv.locale) ?
@@ -291,7 +291,7 @@ class BaseChartFeature {
 }
 
 // Represents a default command feature.
-class BaseCommandFeature {
+class CommandFeatureBase {
     constructor(appEnv) {
         this.appEnv = appEnv;
     }
@@ -306,7 +306,7 @@ class BaseCommandFeature {
 }
 
 // Represents a default event acknowledgement feature.
-class BaseEventAckFeature {
+class EventAckFeatureBase {
     constructor(appEnv) {
         this.appEnv = appEnv;
     }
