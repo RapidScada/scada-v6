@@ -80,56 +80,17 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                     btnCreate.Enabled = CtrlCnlImport3.FileSelected;
                     btnBack.Visible = true;
 
-                    
-                    // ctrlCnlImport3.DeviceName = ctrlCnlImport1.SelectedDevice?.Name;
-                    // ctrlCnlImport3.SetFocus();
-                    break;
+					if (CtrlCnlImport1.StatusOK)
+					{
+						CtrlCnlImport3.ResetCnlNums(CtrlCnlImport1.CnlPrototypes.Count);
+						
+					}
+					
+					break;
             }
         }
-        //A supprimé
-        private List<Cnl> CreateChannels()
-        {
-            List<Cnl> cnls = new();
-            //int cnlNum = CtrlCnlImport3.StartCnlNum;
-            string namePrefix = adminContext.AppConfig.ChannelNumberingOptions.PrependDeviceName ?
-                CtrlCnlImport1.SelectedDevice.Name + " - " : "";
-            int? objNum = CtrlCnlImport2.ObjNum;
-            int deviceNum = CtrlCnlImport1.SelectedDevice.DeviceNum;
-
-            foreach (CnlPrototype cnlPrototype in CtrlCnlImport1.CnlPrototypes)
-            {
-                cnls.Add(new Cnl
-                {
-                    //CnlNum = cnlNum,
-                    Active = cnlPrototype.Active,
-                    Name = namePrefix + cnlPrototype.Name,
-                    DataTypeID = cnlPrototype.DataTypeID,
-                    DataLen = cnlPrototype.DataLen,
-                    CnlTypeID = cnlPrototype.CnlTypeID,
-                    ObjNum = objNum,
-                    DeviceNum = deviceNum,
-                    TagNum = cnlPrototype.TagNum,
-                    TagCode = cnlPrototype.TagCode,
-                    FormulaEnabled = cnlPrototype.FormulaEnabled,
-                    InFormula = cnlPrototype.InFormula,
-                    OutFormula = cnlPrototype.OutFormula,
-                    FormatID = project.ConfigDatabase.GetFormatByCode(cnlPrototype.FormatCode)?.FormatID,
-                    QuantityID = project.ConfigDatabase.GetQuantityByCode(cnlPrototype.QuantityCode)?.QuantityID,
-                    UnitID = project.ConfigDatabase.GetUnitByCode(cnlPrototype.UnitCode)?.UnitID,
-                    LimID = null,
-                    ArchiveMask = cnlPrototype.ArchiveMask,
-                    EventMask = cnlPrototype.EventMask
-                });
-
-                int dataLength = cnlPrototype.GetDataLength();
-                //if (cnlNum > ConfigDatabase.MaxID - dataLength)
-                //	break;
-                //cnlNum += dataLength;
-            }
-
-            return cnls;
-        }
-
+       
+     
 
         private void FrmCnlImport_Load(object sender, EventArgs e)
         {
