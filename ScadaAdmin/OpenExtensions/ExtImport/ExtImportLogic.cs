@@ -1,6 +1,9 @@
 ﻿using Scada.Admin.Extensions;
+using Scada.Admin.Extensions.ExtImport.Code;
 using Scada.Admin.Extensions.ExtImport.Controls;
+using Scada.Admin.Lang;
 using Scada.Forms;
+using Scada.Lang;
 
 namespace Scada.Admin.Extensions.ExtImport
 {
@@ -31,8 +34,15 @@ namespace Scada.Admin.Extensions.ExtImport
                 return "ExtImport";
             }
         }
+		public override void LoadDictionaries()
+		{
+			if (!Locale.LoadDictionaries(AdminContext.AppDirs.LangDir, Code, out string errMsg))
+				AdminContext.ErrLog.WriteError(AdminPhrases.ExtensionMessage, Code, errMsg);
 
-        public override string Name
+			ExtensionPhrases.Init();
+		}
+
+		public override string Name
         {
             get
             {

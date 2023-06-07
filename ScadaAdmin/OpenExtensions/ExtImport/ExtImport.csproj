@@ -38,6 +38,12 @@
     <Folder Include="Code\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Lang\ExtImport.en-GB.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(TargetDir)\..\..\..\..\..\ScadaAdmin\ScadaAdmin\bin\Debug\net6.0-windows\Lib\$(ProjectName).dll&quot;" />
   </Target>
