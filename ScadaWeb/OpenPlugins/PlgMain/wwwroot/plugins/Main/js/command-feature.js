@@ -1,4 +1,4 @@
-﻿class CommandFeature extends BaseCommandFeature {
+﻿class CommandFeature extends CommandFeatureBase {
     constructor(appEnv) {
         super(appEnv);
     }

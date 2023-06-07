@@ -1,4 +1,4 @@
-﻿class EventAckFeature extends BaseEventAckFeature {
+﻿class EventAckFeature extends EventAckFeatureBase {
     constructor(appEnv) {
         super(appEnv);
     }
