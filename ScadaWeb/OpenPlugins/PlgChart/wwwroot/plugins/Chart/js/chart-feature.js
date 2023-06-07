@@ -1,4 +1,4 @@
-﻿class ChartFeature extends BaseChartFeature {
+﻿class ChartFeature extends ChartFeatureBase {
     constructor(appEnv) {
         super(appEnv);
     }
