@@ -297,6 +297,23 @@ namespace Scada.Web.Plugins
         }
 
         /// <summary>
+        /// Returns an enumerable collection of all client-side JavaScripts.
+        /// </summary>
+        public IEnumerable<string> AllClientScripts()
+        {
+            foreach (PluginLogic pluginLogic in plugins)
+            {
+                if (pluginLogic.ClientScripts != null)
+                {
+                    foreach (string script in pluginLogic.ClientScripts)
+                    {
+                        yield return script;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Calls the LoadDictionaries method of the plugins.
         /// </summary>
         public void LoadDictionaries()

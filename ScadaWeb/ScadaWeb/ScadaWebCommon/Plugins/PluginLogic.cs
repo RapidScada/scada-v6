@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -97,6 +97,11 @@ namespace Scada.Web.Plugins
         /// Gets the URLs of the CSS stylesheets to add to the main page.
         /// </summary>
         public virtual ICollection<string> StyleUrls => null;
+
+        /// <summary>
+        /// Gets the client-side JavaScript to add to the main page.
+        /// </summary>
+        public virtual ICollection<string> ClientScripts => null;
 
 
         /// <summary>

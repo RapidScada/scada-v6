@@ -41,6 +41,13 @@
     {
         <script src="@url" asp-append-version="true"></script>
     }
+
+    @foreach (string script in webContext.PluginHolder.AllClientScripts())
+    {
+        <script>
+            @script
+        </script>
+    }
 }
 
 @if (displayOptions.ShowHeader)
