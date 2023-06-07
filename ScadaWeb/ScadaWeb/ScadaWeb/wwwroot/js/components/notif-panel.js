@@ -3,6 +3,9 @@
 
 // Represents a panel that contains notifications.
 class NotifPanel {
+    // Occurs when the Ack All button is clicked.
+    ACK_ALL_EVENT = "rs:ackAll";
+
     constructor(panelID, ...bellIDs) {
         // The storage key for muting.
         this._MUTE_KEY = "NotifPanel.Mute";
@@ -339,6 +342,11 @@ class NotifPanel {
         }
     }
 
+    // Deletes the existing notifications and adds the specified notifications.
+    replaceNotifications(notifs) {
+
+    }
+
     // Adds sample notifications.
     addSamples() {
         const messageHtml =
@@ -371,6 +379,11 @@ class NotifPanel {
         this._displayEmptyState(true);
         this._resetNotifCounters();
         this._alarmOnOff();
+    }
+
+    // Shows or hides the wait symbol.
+    displayWaitingState(isWaiting) {
+
     }
 }
 

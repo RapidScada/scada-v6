@@ -88,7 +88,7 @@ var viewPage = {
         }
     },
 
-    _showDataWindowByUrl(url) {
+    _showDataWindowByUrl: function(url) {
         let thisObj = this;
         let found = false;
 
@@ -109,7 +109,7 @@ var viewPage = {
         }
     },
 
-    _reloadDataWindow() {
+    _reloadDataWindow: function () {
         if (!$("#divDataWindow").hasClass("hidden")) {
             ScadaUtils.replaceFrame($("#frameDataWindow"));
         }
