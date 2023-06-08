@@ -7,11 +7,17 @@ using Scada.Lang;
 
 namespace Scada.Admin.Extensions.ExtImport
 {
-    public class ExtImportLogic : ExtensionLogic
+	/// <summary>
+	/// Represents an extension logic.
+	/// </summary>
+	public class ExtImportLogic : ExtensionLogic
     {
         private CtrlExtensionMenu ctrlExtensionMenu;
 
-        public ExtImportLogic(IAdminContext adminContext) : base(adminContext)
+		/// <summary>
+		/// Initializes a new instance of the class.
+		/// </summary>
+		public ExtImportLogic(IAdminContext adminContext) : base(adminContext)
         {
             ctrlExtensionMenu = null;
         }

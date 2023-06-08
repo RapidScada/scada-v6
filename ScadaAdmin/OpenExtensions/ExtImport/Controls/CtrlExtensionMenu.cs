@@ -154,12 +154,11 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 
 		private void miImportCnl_Click(object sender, EventArgs e)
 		{
-
 			if (adminContext.CurrentProject != null)
 			{
-				FrmCnlImport frmCnlImport = new(adminContext, adminContext.CurrentProject, recentSelection);
-
-				if (frmCnlImport.ShowDialog() == DialogResult.OK)
+				//FrmCnlImport frmCnlImport = new(adminContext, adminContext.CurrentProject, recentSelection);
+				FrmCnlCreate frmCnlCreate = new(adminContext, adminContext.CurrentProject, recentSelection);
+				if (frmCnlCreate.ShowDialog() == DialogResult.OK)
 					adminContext.MainForm.RefreshBaseTables(typeof(Cnl), true);
 
 			}

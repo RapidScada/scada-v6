@@ -39,6 +39,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Controls\CtrlCnlCreate1.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\CtrlCnlCreate2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Controls\CtrlCnlCreate3.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Forms\FrmCnlCreate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Lang\ExtImport.en-GB.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
