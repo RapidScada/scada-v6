@@ -3,31 +3,6 @@
 // The variables below are set in Events.cshtml
 var phrases = {};
 
-// Specifies the severity levels.
-class Severity {
-    static MIN = 1;
-    static MAX = 999;
-    static UNDEFINED = 0;
-    static CRITICAL = 1;
-    static MAJOR = 250;
-    static MINOR = 500;
-    static INFO = 750;
-
-    static closest(value) {
-        if (Severity.CRITICAL <= value && value < Severity.MAJOR) {
-            return Severity.CRITICAL;
-        } else if (Severity.MAJOR <= value && value < Severity.MINOR) {
-            return Severity.MAJOR;
-        } else if (Severity.MINOR <= value && value < Severity.INFO) {
-            return Severity.MINOR;
-        } else if (Severity.INFO <= value && value < Severity.MAX) {
-            return Severity.INFO;
-        } else {
-            return Severity.UNDEFINED;
-        }
-    }
-}
-
 const ALL_EVENTS_KEY = "Events.AllEvents";
 const START_DELAY = 550; // ms
 const POSTPONE_SCROLL_PERIOD = 10000; // ms
