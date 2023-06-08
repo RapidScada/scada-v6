@@ -19,10 +19,6 @@ $panel-opacity: 0.97;
 $notif-fore-color: $main-menu-fore-color;
 $notif-btn-fore-color: $main-menu-fore-color-dark;
 
-$info-color: $info;
-$warning-color: $warning;
-$error-color: $danger;
-
 /********** Notification Panel **********/
 .notif-panel {
     background-color: $panel-back-color;
@@ -123,16 +119,24 @@ body {
         float: left;
         font-size: $notif-icon-font-size;
 
+        .critical {
+            color: $danger;
+        }
+
+        .major {
+            color: $orange;
+        }
+
+        .minor {
+            color: $yellow;
+        }
+
         .info {
-            color: $info-color;
+            color: $info;
         }
 
-        .warning {
-            color: $warning-color;
-        }
-
-        .error {
-            color: $error-color;
+        .undef {
+            color: $white;
         }
     }
 
@@ -150,15 +154,15 @@ body {
 
 /********** Bell **********/
 .notif-bell {
-    &.info {
-        color: $info-color;
+    &.error {
+        color: $danger;
     }
 
     &.warning {
-        color: $warning-color;
+        color: $warning;
     }
 
-    &.error {
-        color: $error-color;
+    &.info {
+        color: $info;
     }
 }

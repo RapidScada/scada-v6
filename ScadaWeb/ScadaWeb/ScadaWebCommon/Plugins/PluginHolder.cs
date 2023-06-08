@@ -303,13 +303,8 @@ namespace Scada.Web.Plugins
         {
             foreach (PluginLogic pluginLogic in plugins)
             {
-                if (pluginLogic.ClientScripts != null)
-                {
-                    foreach (string script in pluginLogic.ClientScripts)
-                    {
-                        yield return script;
-                    }
-                }
+                if (!string.IsNullOrEmpty(pluginLogic.ClientScript))
+                    yield return pluginLogic.ClientScript;
             }
         }
 

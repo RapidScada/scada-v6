@@ -18,9 +18,7 @@
 
 .modal-footer .btn {
   min-width: 75px;
-}
-
-/********** Notification Panel **********/
+} /********** Notification Panel **********/
 .notif-panel {
   background-color: #111;
   bottom: 0;
@@ -105,14 +103,20 @@ body:not(.header-visible) .notif-panel .notif-toolbar {
   float: left;
   font-size: 14px;
 }
+.notif-panel .notif .notif-icon .critical {
+  color: #dc3545;
+}
+.notif-panel .notif .notif-icon .major {
+  color: #fd7e14;
+}
+.notif-panel .notif .notif-icon .minor {
+  color: #ffc107;
+}
 .notif-panel .notif .notif-icon .info {
   color: #0dcaf0;
 }
-.notif-panel .notif .notif-icon .warning {
-  color: #ffc107;
-}
-.notif-panel .notif .notif-icon .error {
-  color: #dc3545;
+.notif-panel .notif .notif-icon .undef {
+  color: #fff;
 }
 .notif-panel .notif .notif-time,
 .notif-panel .notif .notif-msg {
@@ -125,14 +129,14 @@ body:not(.header-visible) .notif-panel .notif-toolbar {
 }
 
 /********** Bell **********/
-.notif-bell.info {
-  color: #0dcaf0;
+.notif-bell.error {
+  color: #dc3545;
 }
 .notif-bell.warning {
   color: #ffc107;
 }
-.notif-bell.error {
-  color: #dc3545;
+.notif-bell.info {
+  color: #0dcaf0;
 }
 
 .tree-view .node {

@@ -101,7 +101,7 @@ namespace Scada.Web.Plugins
         /// <summary>
         /// Gets the client-side JavaScript to add to the main page.
         /// </summary>
-        public virtual ICollection<string> ClientScripts => null;
+        public virtual string ClientScript => null;
 
 
         /// <summary>

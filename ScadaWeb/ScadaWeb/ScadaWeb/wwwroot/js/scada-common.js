@@ -1,5 +1,5 @@
 ﻿// Contains classes: ScadaUtils, ScadaEventType, PluginFeatures,
-//     ChartFeatureBase, CommandFeatureBase, EventAckFeatureBase, Dto
+//     ChartFeatureBase, CommandFeatureBase, EventAckFeatureBase, Dto, KnownSeverity
 // Contains objects: appEnvStub
 // No dependencies.
 
@@ -333,6 +333,32 @@ class Dto {
         let dto = new Dto();
         dto.msg = msg;
         return dto;
+    }
+}
+
+// Specifies the severity levels.
+class Severity {
+    static MIN = 1;
+    static MAX = 999;
+    static UNDEFINED = 0;
+    static CRITICAL = 1;
+    static MAJOR = 250;
+    static MINOR = 500;
+    static INFO = 750;
+
+    // Gets the closest known severity.
+    static closest(value) {
+        if (Severity.CRITICAL <= value && value < Severity.MAJOR) {
+            return Severity.CRITICAL;
+        } else if (Severity.MAJOR <= value && value < Severity.MINOR) {
+            return Severity.MAJOR;
+        } else if (Severity.MINOR <= value && value < Severity.INFO) {
+            return Severity.MINOR;
+        } else if (Severity.INFO <= value && value < Severity.MAX) {
+            return Severity.INFO;
+        } else {
+            return Severity.UNDEFINED;
+        }
     }
 }
 

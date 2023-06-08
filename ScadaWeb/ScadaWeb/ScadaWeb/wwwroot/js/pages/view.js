@@ -1,6 +1,6 @@
 ﻿// Depends on jquery, scada-common.js, view-hub.js, main-layout.js
 
-var viewHub = new ViewHub(window, appEnv, modalManager);
+var viewHub = new ViewHub(window, mainObj);
 
 var viewPage = {
     _DATA_WINDOW_VISIBLE_KEY: "View.DataWindowVisible",
