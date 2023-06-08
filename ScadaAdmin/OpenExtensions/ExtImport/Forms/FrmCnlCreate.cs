@@ -90,15 +90,18 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 					ctrlCnlCreate3.Visible = true;
 					chkPreview.Visible = true;
 					btnBack.Visible = true;
-					if(ctrlCnlCreate3.lastCheckState)
-						btnCreate.Visible = ctrlCnlCreate3.FileSelected;//true;
-					else
-						btnCreate.Visible = true;
+					btnCreate.Visible = true;
+					//if(ctrlCnlCreate3.lastCheckState)
+					//	btnCreate.Visible = ctrlCnlCreate3.FileSelected;//true;
+					//else
 
 					if (ctrlCnlCreate1.StatusOK)
 					{
 						ctrlCnlCreate3.ResetCnlNums(ctrlCnlCreate1.CnlPrototypes.Count);
-						btnCreate.Enabled = true;
+						if (!ctrlCnlCreate3.lastCheckState)
+							btnCreate.Enabled = true;
+						else
+							btnCreate.Enabled = ctrlCnlCreate3.FileSelected;
 					}
 					else
 					{
@@ -175,6 +178,8 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 		{
 			if(ctrlCnlCreate3.lastCheckState)
 				btnCreate.Enabled = ctrlCnlCreate3.FileSelected;
+			else
+				btnCreate.Enabled = true;
 		}
 
 		private void FrmCnlCreate_Load(object sender, EventArgs e)

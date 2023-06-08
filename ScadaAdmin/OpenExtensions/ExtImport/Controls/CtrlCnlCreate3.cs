@@ -27,6 +27,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 		
 		public bool lastCheckState { get; internal set; }
 		public event EventHandler SelectedFileChanged;
+		public event EventHandler rdbCheckStateChanged;
 		public Dictionary<string, List<string>> _dictio = new Dictionary<string, List<string>>();
 		public bool FileSelected { get; internal set; }
 		private string _mnemonique;
@@ -44,6 +45,10 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 		private void OnSelectedFileChanged()
 		{
 			SelectedFileChanged?.Invoke(this, EventArgs.Empty);
+		}
+		private void OnRdbCheckStateChanged()
+		{
+			rdbCheckStateChanged?.Invoke(this, EventArgs.Empty);
 		}
 
 		/// <summary>
@@ -105,6 +110,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			FileSelected = false;
 			lastCheckState = false;
 		OnSelectedFileChanged();
+			OnRdbCheckStateChanged();
 		}
 
 		/// <summary>
