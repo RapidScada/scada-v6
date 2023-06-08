@@ -18,7 +18,7 @@
 
     @RenderSection("Styles", required: false)
 
-    @foreach (string url in webContext.PluginHolder.AllStyleUrls())
+    @foreach (var url in webContext.PluginHolder.AllStyleUrls())
     {
         <link href="@url" rel="stylesheet" asp-append-version="true" />
     }
@@ -37,12 +37,12 @@
 
     @RenderSection("Scripts", required: false)
 
-    @foreach (string url in webContext.PluginHolder.AllScriptUrls())
+    @foreach (var url in webContext.PluginHolder.AllScriptUrls())
     {
         <script src="@url" asp-append-version="true"></script>
     }
 
-    @foreach (string script in webContext.PluginHolder.AllClientScripts())
+    @foreach (var script in webContext.PluginHolder.AllClientScripts())
     {
         <script>
             @script

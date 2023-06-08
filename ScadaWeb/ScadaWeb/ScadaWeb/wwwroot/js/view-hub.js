@@ -48,9 +48,9 @@ class ViewHub {
     static getInstance() {
         return ViewHub._findInstance() ??
             new ViewHub(window, {
-                appEnv = appEnvStub,
-                modalManager = new ModalManager(),
-                features = new PluginFeatures(appEnvStub)
+                appEnv: appEnvStub,
+                modalManager: new ModalManager(),
+                features: new PluginFeatures(appEnvStub)
             });
     }
 }

@@ -23,6 +23,7 @@
  * Modified : 2023
  */
 
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Scada.Data.Entities;
@@ -299,12 +300,12 @@ namespace Scada.Web.Plugins
         /// <summary>
         /// Returns an enumerable collection of all client-side JavaScripts.
         /// </summary>
-        public IEnumerable<string> AllClientScripts()
+        public IEnumerable<HtmlString> AllClientScripts()
         {
             foreach (PluginLogic pluginLogic in plugins)
             {
                 if (!string.IsNullOrEmpty(pluginLogic.ClientScript))
-                    yield return pluginLogic.ClientScript;
+                    yield return new HtmlString(pluginLogic.ClientScript);
             }
         }
 

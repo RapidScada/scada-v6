@@ -210,9 +210,10 @@ class NotifPanel {
 
     // Continues to play sounds if needed.
     _continueSounds() {
-        if (this._notifType === NotifType.WARNING) {
+        if (this._highestSeverity === Severity.MINOR ||
+            this._highestSeverity === Severity.MAJOR) {
             this._playWarningSound();
-        } else if (this._notifType === NotifType.ERROR) {
+        } else if (this._highestSeverity === Severity.CRITICAL) {
             this._playErrorSound();
         }
     }
@@ -260,7 +261,7 @@ class NotifPanel {
     _displayEmptyState(isEmpty) {
         if (isEmpty) {
             this._ackAllBtn.addClass("disabled");
-            this._emptyNotif.prependTo(this.panelElem);
+            this._emptyNotifElem.prependTo(this.panelElem);
         } else {
             this._ackAllBtn.removeClass("disabled");
             this._emptyNotifElem.detach();
@@ -350,24 +351,6 @@ class NotifPanel {
         this.panelElem.prepend(this._createNotifElem(notif));
         this._incNotifCounter(notif.knownSeverity);
         this._alarmOnOff();
-    }
-
-    // Adds the collection of notifications to the notification panel.
-    addNotifications(notifs) {
-        if (notifs.length > 0) {
-            this._displayEmptyState(false);
-            let lastNotifKey = this._getLastNotifKey();
-
-            for (let notif of notifs) {
-                if (lastNotifKey === null || notif.key > lastNotifKey) {
-                    notif.id = ++this._lastNotifID;
-                    this.panelElem.prepend(this._createNotifElem(notif));
-                    this._incNotifCounter(notif.notifType);
-                }
-            }
-
-            this._alarmOnOff();
-        }
     }
 
     // Deletes the existing notifications and adds the specified notifications.

@@ -6,9 +6,9 @@ var appEnv = appEnvStub;
 var modalManager = new ModalManager();
 // Contains references to widely used objects.
 var mainObj = {
-    appEnv = appEnv,
-    modalManager = modalManager,
-    features = new PluginFeatures(appEnv)
+    appEnv: appEnv,
+    modalManager: modalManager,
+    features: new PluginFeatures(appEnv)
 };
 
 // Manages the layout page.
