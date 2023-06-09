@@ -51,6 +51,9 @@
     <Compile Update="Forms\FrmCnlCreate.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\FrmCnlImportMerge.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

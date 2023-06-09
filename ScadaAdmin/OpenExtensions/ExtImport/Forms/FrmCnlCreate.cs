@@ -114,52 +114,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			}
 		}
 
-		/// <summary>
-		/// Creates channels based on the channel prototypes.
-		/// </summary>
-		private List<Cnl> CreateChannels()
-		{
-			List<Cnl> cnls = new();
-			int cnlNum = ctrlCnlCreate3.StartCnlNum;
-			string namePrefix = adminContext.AppConfig.ChannelNumberingOptions.PrependDeviceName ?
-				ctrlCnlCreate1.SelectedDevice.Name + " - " : "";
-			int? objNum = ctrlCnlCreate2.ObjNum;
-			int deviceNum = ctrlCnlCreate1.SelectedDevice.DeviceNum;
-
-			foreach (CnlPrototype cnlPrototype in ctrlCnlCreate1.CnlPrototypes)
-			{
-				cnls.Add(new Cnl
-				{
-					CnlNum = cnlNum,
-					Active = cnlPrototype.Active,
-					Name = namePrefix + cnlPrototype.Name,
-					DataTypeID = cnlPrototype.DataTypeID,
-					DataLen = cnlPrototype.DataLen,
-					CnlTypeID = cnlPrototype.CnlTypeID,
-					ObjNum = objNum,
-					DeviceNum = deviceNum,
-					TagNum = cnlPrototype.TagNum,
-					TagCode = cnlPrototype.TagCode,
-					FormulaEnabled = cnlPrototype.FormulaEnabled,
-					InFormula = cnlPrototype.InFormula,
-					OutFormula = cnlPrototype.OutFormula,
-					FormatID = project.ConfigDatabase.GetFormatByCode(cnlPrototype.FormatCode)?.FormatID,
-					QuantityID = project.ConfigDatabase.GetQuantityByCode(cnlPrototype.QuantityCode)?.QuantityID,
-					UnitID = project.ConfigDatabase.GetUnitByCode(cnlPrototype.UnitCode)?.UnitID,
-					LimID = null,
-					ArchiveMask = cnlPrototype.ArchiveMask,
-					EventMask = cnlPrototype.EventMask
-				});
-
-				int dataLength = cnlPrototype.GetDataLength();
-				if (cnlNum > ConfigDatabase.MaxID - dataLength)
-					break;
-				cnlNum += dataLength;
-			}
-
-			return cnls;
-		}
-
+		
 		/// <summary>
 		/// Adds the specified channels into the configuration database.
 		/// </summary>
@@ -215,15 +170,31 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 		{
 			if (ctrlCnlCreate1.StatusOK)
 			{
-				List<Cnl> cnls = CreateChannels();
 
-				if (!chkPreview.Checked ||
-					new FrmCnlPreview(cnls).ShowDialog() == DialogResult.OK)
+				int? objNum = ctrlCnlCreate2.ObjNum;
+				int deviceNum = ctrlCnlCreate1.SelectedDevice.DeviceNum;
+
+				Dictionary<string, object> deviceInfoDict = new Dictionary<string, object>();
+			
+
+
+				//remove cnls
+				if (new FrmCnlImportMerge(project, ctrlCnlCreate1,ctrlCnlCreate2 ,ctrlCnlCreate3).ShowDialog() == DialogResult.OK)
 				{
-					AddChannels(cnls, chkPreview.Checked);
 					DialogResult = DialogResult.OK;
 				}
 			}
+			//if (ctrlCnlCreate1.StatusOK)
+			//{
+			//	List<Cnl> cnls = CreateChannels();
+
+			//	if (!chkPreview.Checked ||
+			//		new FrmCnlPreview(cnls).ShowDialog() == DialogResult.OK)
+			//	{
+			//		AddChannels(cnls, chkPreview.Checked);
+			//		DialogResult = DialogResult.OK;
+			//	}
+			//}
 		}
 	}
 }
