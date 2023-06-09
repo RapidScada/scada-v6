@@ -14,6 +14,8 @@ class NotifPanel {
     _ackAllBtn = $();
     // The jQuery object that represents an empty notification.
     _emptyNotifElem = $();
+    // The jQuery object that contains notifications.
+    _notifContainerElem = $();
     // The jQuery objects that represent elements to play sounds.
     _audio = { info: null, warning: null, error: null };
     // The highest severity of the existing notifications.
@@ -37,7 +39,7 @@ class NotifPanel {
 
     // Determines whether the notification panel contains any notifications.
     get _isEmpty() {
-        return this.panelElem.children(".notif:not(.empty):first").length === 0;
+        return this._notifContainerElem.children(".notif:first").length === 0;
     }
 
     // Determines whether sound is muted.
@@ -141,7 +143,7 @@ class NotifPanel {
 
     // Creates a jQuery element for the notification.
     _createNotifElem(notif) {
-        let notifElem = $(`<div id='${this._getNotifElemID(notif)} class='notif'></div>`).data("notif", notif);
+        let notifElem = $(`<div id='${this._getNotifElemID(notif.key)}' class='notif'></div>`).data("notif", notif);
         $(`<div class='notif-icon'>${this._getNotifIconHtml(notif.knownSeverity)}</div>`).appendTo(notifElem);
 
         if (notif.timestamp) {
@@ -268,8 +270,9 @@ class NotifPanel {
         }
     }
 
-    // Increases a notification counter corresponding to the specified severity.
-    _incNotifCounter(knownSeverity) {
+    // Increases a notification counter corresponding to the notification severity.
+    _incNotifCounter(notif) {
+        let knownSeverity = notif.knownSeverity;
         this._notifCounters[knownSeverity]++;
 
         if (knownSeverity !== Severity.UNDEFINED &&
@@ -278,8 +281,10 @@ class NotifPanel {
         }
     }
 
-    // Decreases a notification counter corresponding to the specified severity.
-    _decNotifCounter(knownSeverity) {
+    // Decreases a notification counter corresponding to the notification severity.
+    _decNotifCounter(notif) {
+        let knownSeverity = notif.knownSeverity;
+
         if (this._notifCounters[knownSeverity] > 0) {
             this._notifCounters[knownSeverity]--;
         }
@@ -332,6 +337,9 @@ class NotifPanel {
             .text(notifPhrases.NoNotif)
             .appendTo(this.panelElem);
 
+        this._notifContainerElem = $("<div class='notif-container'></div>")
+            .appendTo(this.panelElem);
+
         if (ScadaUtils.isSmallScreen) {
             this.panelElem.addClass("mobile");
         }
@@ -348,15 +356,15 @@ class NotifPanel {
     // Adds the notification to the notification panel.
     addNotification(notif) {
         this._displayEmptyState(false);
-        this.panelElem.prepend(this._createNotifElem(notif));
-        this._incNotifCounter(notif.knownSeverity);
+        this._notifContainerElem.prepend(this._createNotifElem(notif));
+        this._incNotifCounter(notif);
         this._alarmOnOff();
     }
 
     // Deletes the existing notifications and adds the specified notifications.
     replaceNotifications(notifs) {
-        this.panelElem.children(".notif:not(.empty)").remove();
-        this.panelElem.append(Array.from(notifs, n => this._createNotifElem(n)));
+        this._notifContainerElem.empty();
+        this._notifContainerElem.append(Array.from(notifs, n => this._createNotifElem(n)).reverse());
         this._displayEmptyState(this._isEmpty);
         this._calcNotifCounters(notifs);
         this._alarmOnOff();
@@ -378,7 +386,7 @@ class NotifPanel {
 
     // Removes the notification with the specified key from the notification panel.
     removeNotification(notifKey) {
-        let notifElem = this.panelElem.children("#" + this._getNotifElemID(notifKey));
+        let notifElem = this._notifContainerElem.children("#" + this._getNotifElemID(notifKey));
 
         if (notifElem.length > 0) {
             let notif = notifElem.data("notif");
@@ -386,7 +394,7 @@ class NotifPanel {
             this._displayEmptyState(this._isEmpty);
 
             if (notif) {
-                this._decNotifCounter(notif.knownSeverity);
+                this._decNotifCounter(notif);
                 this._alarmOnOff();
             }
         }

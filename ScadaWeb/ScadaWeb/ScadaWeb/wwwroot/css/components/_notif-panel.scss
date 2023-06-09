@@ -22,7 +22,6 @@ $notif-btn-fore-color: $main-menu-fore-color-dark;
 /********** Notification Panel **********/
 .notif-panel {
     background-color: $panel-back-color;
-    bottom: 0;
     color: $panel-fore-color;
     opacity: $panel-opacity;
     overflow-x: hidden;
@@ -30,6 +29,7 @@ $notif-btn-fore-color: $main-menu-fore-color-dark;
     padding: $toolbar-height 0 0;
     position: fixed;
     right: 0;
+    top: $header-height;
     width: $panel-width;
     z-index: $zindex-notif;
 
@@ -81,6 +81,7 @@ body {
     &:not(.header-visible) {
         .notif-panel {
             padding-top: $header-height + $toolbar-height;
+            top: 0;
 
             .notif-toolbar {
                 top: $header-height;
@@ -118,6 +119,8 @@ body {
     .notif-icon {
         float: left;
         font-size: $notif-icon-font-size;
+        width: $notif-icon-font-size;
+        text-align: center;
 
         .critical {
             color: $danger;
@@ -147,8 +150,13 @@ body {
 
     .notif-btn {
         color: $notif-btn-fore-color;
+        cursor: pointer;
         margin: 0 10px 0 -10px;
         padding: 5px 10px;
+
+        &:hover {
+            text-decoration: underline;
+        }
     }
 }
 

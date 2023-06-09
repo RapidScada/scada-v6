@@ -21,7 +21,6 @@
 } /********** Notification Panel **********/
 .notif-panel {
   background-color: #111;
-  bottom: 0;
   color: #eee;
   opacity: 0.97;
   overflow-x: hidden;
@@ -29,6 +28,7 @@
   padding: 30px 0 0;
   position: fixed;
   right: 0;
+  top: 30px;
   width: 30%;
   z-index: 2000;
 }
@@ -72,6 +72,7 @@
 
 body:not(.header-visible) .notif-panel {
   padding-top: 60px;
+  top: 0;
 }
 body:not(.header-visible) .notif-panel .notif-toolbar {
   top: 30px;
@@ -102,6 +103,8 @@ body:not(.header-visible) .notif-panel .notif-toolbar {
 .notif-panel .notif .notif-icon {
   float: left;
   font-size: 14px;
+  width: 14px;
+  text-align: center;
 }
 .notif-panel .notif .notif-icon .critical {
   color: #dc3545;
@@ -124,8 +127,12 @@ body:not(.header-visible) .notif-panel .notif-toolbar {
 }
 .notif-panel .notif .notif-btn {
   color: #9ca1a6;
+  cursor: pointer;
   margin: 0 10px 0 -10px;
   padding: 5px 10px;
+}
+.notif-panel .notif .notif-btn:hover {
+  text-decoration: underline;
 }
 
 /********** Bell **********/

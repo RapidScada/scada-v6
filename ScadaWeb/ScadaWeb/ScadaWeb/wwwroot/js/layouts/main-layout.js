@@ -70,7 +70,7 @@ var mainLayout = {
         if ($("#Main_divNotifPanel").length > 0) {
             this.notifPanel = new NotifPanel("Main_divNotifPanel", "Main_spanNotifBtn", "Main_spanNotifBtn2");
             this.notifPanel.prepare(appEnv.rootPath);
-            this.notifPanel.addSamples();
+            //this.notifPanel.addSamples();
         }
     },
 
