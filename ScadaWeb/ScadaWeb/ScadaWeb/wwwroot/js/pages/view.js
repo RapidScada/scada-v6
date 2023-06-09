@@ -14,7 +14,7 @@ var viewPage = {
     initialViewFrameUrl: "",
 
     _bindEvents: function () {
-        let thisObj = this;
+        const thisObj = this;
 
         $("#divBottomPanel .bottom-pnl-tab")
             .off()
@@ -89,7 +89,7 @@ var viewPage = {
     },
 
     _showDataWindowByUrl: function(url) {
-        let thisObj = this;
+        const thisObj = this;
         let found = false;
 
         if (url) {
@@ -118,7 +118,7 @@ var viewPage = {
     prepare: function () {
         if ($("#divBottomPanel .bottom-pnl-tab").length > 0) {
             // create splitter
-            let thisObj = this;
+            const thisObj = this;
             let splitter = new Splitter("divViewSplitter");
 
             splitter.exitResizeModeCallbacks.add(function () {

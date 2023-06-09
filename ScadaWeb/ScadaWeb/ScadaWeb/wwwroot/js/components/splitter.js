@@ -37,7 +37,7 @@ class Splitter {
 
     // Binds events to the DOM elements.
     _bindEvents() {
-        let thisObj = this;
+        const thisObj = this;
 
         $(document)
             .on("mouseup mouseleave touchend touchcancel", function () {

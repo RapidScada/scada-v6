@@ -14,7 +14,7 @@ class ScadaUtils {
 
     // Checks if a browser window is small sized, such as a mobile device.
     static get isSmallScreen() {
-        return top.innerWidth <= this.SMALL_WND_WIDTH;
+        return top.innerWidth <= ScadaUtils.SMALL_WND_WIDTH;
     }
 
     // Checks if browser is in full screen mode switched on programmatically.

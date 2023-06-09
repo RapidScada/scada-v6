@@ -39,7 +39,7 @@ var mainLayout = {
 
         // view explorer
         this.viewExplorer = new TreeView("Main_divViewExplorer");
-        let thisObj = this;
+        const thisObj = this;
 
         if (this.viewExplorer.treeViewElem.length > 0) {
             this.viewExplorer.nodeClickCallbacks.add(function (node, result) {
@@ -108,7 +108,7 @@ var mainLayout = {
 
     // Binds events to the DOM elements.
     _bindEvents: function () {
-        let thisObj = this;
+        const thisObj = this;
 
         // update layout on window resize
         $(window).on("resize", function () {

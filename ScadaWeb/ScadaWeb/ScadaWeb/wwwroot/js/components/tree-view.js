@@ -72,7 +72,7 @@ class TreeView {
         this._expandSelectedNodes(allNodes);
 
         // do action or toggle on node click
-        let thisObj = this;
+        const thisObj = this;
         allNodes
             .off()
             .on("click", function (event) {

@@ -4,9 +4,9 @@
 // Represents a panel that contains notifications.
 class NotifPanel {
     // The storage key for muting.
-    _MUTE_KEY = "NotifPanel.Mute";
+    static _MUTE_KEY = "NotifPanel.Mute";
     // An event that occurs when the Ack All button is clicked.
-    ACK_ALL_EVENT = "rs:ackAll";
+    static ACK_ALL_EVENT = "rs:ackAll";
 
     // The jQuery object that represents the mute button.
     _muteBtn = $();
@@ -44,12 +44,12 @@ class NotifPanel {
 
     // Determines whether sound is muted.
     get _isMuted() {
-        return ScadaUtils.getStorageItem(sessionStorage, this._MUTE_KEY, "false") === "true";
+        return ScadaUtils.getStorageItem(sessionStorage, NotifPanel._MUTE_KEY, "false") === "true";
     }
 
     // Binds events to the DOM elements.
     _bindEvents() {
-        let thisObj = this;
+        const thisObj = this;
 
         this._muteBtn
             .off()
@@ -64,7 +64,7 @@ class NotifPanel {
         this._ackAllBtn
             .off()
             .on("click", function () {
-                thisObj.panelElem.trigger(thisObj.ACK_ALL_EVENT);
+                thisObj.panelElem.trigger(NotifPanel.ACK_ALL_EVENT);
             });
 
         this.bellElem
@@ -192,14 +192,14 @@ class NotifPanel {
 
     // Mutes notification sound.
     _mute() {
-        ScadaUtils.setStorageItem(sessionStorage, this._MUTE_KEY, "true");
+        ScadaUtils.setStorageItem(sessionStorage, NotifPanel._MUTE_KEY, "true");
         this._stopSounds();
         this._displayMuteState(true);
     }
 
     // Unmutes notification sound.
     _unmute() {
-        ScadaUtils.setStorageItem(sessionStorage, this._MUTE_KEY, "false");
+        ScadaUtils.setStorageItem(sessionStorage, NotifPanel._MUTE_KEY, "false");
         this._continueSounds();
         this._displayMuteState(false);
     }
@@ -402,7 +402,7 @@ class NotifPanel {
 
     // Removes all notifications from the notification panel.
     clearNotifications() {
-        this.panelElem.children(".notif:not(.empty)").remove();
+        this._notifContainerElem.empty();
         this._displayEmptyState(true);
         this._resetNotifCounters();
         this._alarmOnOff();
