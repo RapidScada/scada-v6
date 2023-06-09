@@ -79,6 +79,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			ctrlCnlCreate3.Size = new Size(451, 331);
 			ctrlCnlCreate3.TabIndex = 3;
 			ctrlCnlCreate3.SelectedFileChanged += CtrlCnlImport3_SelectedDeviceChanged;
+			ctrlCnlCreate3.rdbCheckStateChanged += CtrlCnlCnl3_rdbCheckStateChanged;
 			// 
 			// chkPreview
 			// 

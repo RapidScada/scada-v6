@@ -134,6 +134,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 
 		public void gridViewFiller()
 		{
+            var store = StoreDictioData();
 			Dictionary<string, Dictionary<string, string>> importDictio = new Dictionary<string, Dictionary<string, string>>();
 
 			foreach (KeyValuePair<string, List<string>> kvp in dictio)
@@ -403,11 +404,31 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 
             return dico;
         }
+		public Dictionary<string, List<string>> StoreDictioData()
+		{
+			Dictionary<string, List<string>> resultDictionnary = new Dictionary<string, List<string>>();
 
-        /// <summary>
-        /// Add cnls 
-        /// </summary>
-        /// <param name="cnls"></param>
+			// Parcourir dictio et ajouter des éléments à resultDictionnary
+			foreach (KeyValuePair<string, List<string>> kvp in dictio)
+			{
+				var list = new List<string>
+		{
+			kvp.Value[0], // Mnemonique
+            kvp.Value[1], // Type
+            kvp.Value[2]  // Descr
+        };
+
+				resultDictionnary[kvp.Key] = list;
+			}
+
+			return resultDictionnary;
+		}
+
+
+		/// <summary>
+		/// Add cnls 
+		/// </summary>
+		/// <param name="cnls"></param>
 		private void AddChannels(List<Cnl> cnls)
 		{
 			if (cnls == null || cnls.Count <= 0)
@@ -580,12 +601,61 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             template.ElemGroups.Add(newElemenGroup);
             return template;
         }
-        /// <summary>
-        /// Save import config from merge
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button1_Click(object sender, EventArgs e)
+
+
+
+
+		private DeviceTemplate generateDeviceTemplateDicFile(Dictionary<string, List<string>> dico)
+		{
+			DeviceTemplate template = new DeviceTemplate();
+
+			ElemGroupConfig newElemenGroup = new ElemGroupConfig();
+
+			Dictionary<int, string> dataTypes = new Dictionary<int, string>();
+			dataTypes = project.ConfigDatabase.DataTypeTable.ToDictionary(x => x.DataTypeID, x => x.Name);
+			string previousPrefix = "";
+			ElemType previousType = ElemType.Undefined;
+			for (int index = 0; index < dico.Count; index++)
+			{
+				List<string> entry = dico.ElementAt(index).Value;
+				var prefix = dictio[dico.ElementAt(index).Key][3] ?? "";
+				ElemConfig newElem = new ElemConfig();
+				string newType = elemTypeDico.Keys.Contains(entry[1]) ? entry[1] : cnlDataType.FirstOrDefault(t => t.Value == dataTypes.FirstOrDefault(dt => dt.Value == entry[1]).Key).Key;
+				newElem.ElemType = elemTypeDico.Keys.Contains(newType) ? elemTypeDico[newType] : ElemType.Undefined;
+				newElem.ByteOrder = newElem.ElemType == ElemType.UShort ? "01" : "0123";
+				newElem.Name = entry[0];
+				newElem.TagCode = dico.ElementAt(index).Key;
+				newElemenGroup.DataBlock = DataBlock.HoldingRegisters;
+				if (index == 0 || prefix != previousPrefix || newElem.ElemType != previousType || (prefix == "%MW" && newElemenGroup.Elems.Count == 125) || (prefix == "%M" && newElemenGroup.Elems.Count == 2000))
+				{
+					if (index > 0)
+					{
+						template.ElemGroups.Add(newElemenGroup);
+					}
+					newElemenGroup = new ElemGroupConfig();
+					//newElemenGroup.Address = int.Parse(Regex.Replace(dico.ElementAt(index).Key, @"[^0-9]", ""));
+					string key = dico.ElementAt(index).Key;
+					string numericPart = Regex.Replace(key, @"[^0-9]", "");
+
+					if (int.TryParse(numericPart, out int address))
+					{
+						newElemenGroup.Address = address;
+					}
+				}
+				previousPrefix = prefix;
+				previousType = newElem.ElemType;
+				newElemenGroup.Elems.Add(newElem);
+			}
+			template.ElemGroups.Add(newElemenGroup);
+			return template;
+		}
+
+		/// <summary>
+		/// Save import config from merge
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void button1_Click(object sender, EventArgs e)
         {
             //Generate dictionnary
             var dico = generateDictionnary();

@@ -98,10 +98,18 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 					if (ctrlCnlCreate1.StatusOK)
 					{
 						ctrlCnlCreate3.ResetCnlNums(ctrlCnlCreate1.CnlPrototypes.Count);
-						if (!ctrlCnlCreate3.lastCheckState)
+						if(ctrlCnlCreate3.lastCheckState2)
 							btnCreate.Enabled = true;
+						else if(ctrlCnlCreate3.lastCheckState)
+							if(!ctrlCnlCreate3.FileSelected) 
+								btnCreate.Enabled = false;
+							else
+								btnCreate.Enabled = true;
 						else
-							btnCreate.Enabled = ctrlCnlCreate3.FileSelected;
+							btnCreate.Enabled = false;
+
+
+						
 					}
 					else
 					{
@@ -131,10 +139,24 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 		}
 		private void CtrlCnlImport3_SelectedDeviceChanged(object sender, EventArgs e)
 		{
-			if(ctrlCnlCreate3.lastCheckState)
-				btnCreate.Enabled = ctrlCnlCreate3.FileSelected;
-			else
+			if (ctrlCnlCreate3.lastCheckState2)
 				btnCreate.Enabled = true;
+			else 
+				if (ctrlCnlCreate3.FileSelected)
+					btnCreate.Enabled = true;
+				else { btnCreate.Enabled = false; }
+
+		}
+		private void CtrlCnlCnl3_rdbCheckStateChanged(object sender, EventArgs e)
+		{
+		
+			if (ctrlCnlCreate3.lastCheckState2)
+				btnCreate.Enabled = true;
+			else
+				if (ctrlCnlCreate3.FileSelected)
+				btnCreate.Enabled = true;
+			else { btnCreate.Enabled = false; }
+
 		}
 
 		private void FrmCnlCreate_Load(object sender, EventArgs e)

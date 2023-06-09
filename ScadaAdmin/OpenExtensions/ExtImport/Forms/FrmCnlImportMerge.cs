@@ -148,7 +148,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			this.CtrlCnlCreate2 = ctrlCnlCreate2;//?? throw new ArgumentNullException(nameof(project));
 			this.CtrlCnlCreate3 = ctrlCnlCreate3;// ?? throw new ArgumentNullException(nameof(project)); 
 
-			setDictio(dictio);
+			setDictio(ctrlCnlCreate3._dictio);
 
 
 			List<Cnl> listCnl = new List<Cnl>();
@@ -209,51 +209,198 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 		{
 			this.dictio = dictio;
 		}
-
 		public void gridViewFiller()
 		{
 			// Clear all existing rows
 			dataGridView1.Rows.Clear();
 
-			// Create channel prototypes
-			List<Cnl> channelPrototypes = CreateChannels();
+			List<Cnl> channelPrototypes;
 
+			// Create channel prototypes
+			if (dictio.Count != 0)
+			{
+				channelPrototypes = this.CreateChannelsFromFille(StoreDictioData());
+			}
+			else
+			{
+				channelPrototypes = CreateChannels();
+			}
+
+			// Loop through each prototype and add a new row to the dataGridView
 			foreach (var prototype in channelPrototypes)
 			{
+				int rowIndex = dataGridView1.Rows.Add(); // Add a new row and get its index
+				DataGridViewRow row = dataGridView1.Rows[rowIndex];
+
+				// Populate the row with the relevant data
 				var cnlNum = prototype.CnlNum;
 				var projectItem = project.ConfigDatabase.CnlTable.GetItem(cnlNum);
 
 				string projectCnlName = projectItem != null ? projectItem.Name : "";
 				string projectCnlType = projectItem != null ? cnlTypeDictionary[projectItem.CnlTypeID] : "";
-				//string projectDataType = projectItem != null ? cnlDataTypeDictionary[projectItem.DataTypeID] : "";
 				string projectDataType = (projectItem != null && projectItem.DataTypeID.HasValue) ? dataTypeDictionary[projectItem.DataTypeID.Value] : "";
-
 				string projectTagCode = projectItem != null ? projectItem.TagCode : "";
-
 				string prototypeCnlType = cnlTypeDictionary[prototype.CnlTypeID];
-				//string prototypeDataType = cnlDataTypeDictionary[prototype.DataTypeID];
 				string prototypeDataType = prototype.DataTypeID.HasValue ? dataTypeDictionary[prototype.DataTypeID.Value] : "";
 
+				row.Cells[0].Value = prototype.CnlNum;  // Number
+				row.Cells[1].Value = false;             // Checkbox
+				row.Cells[2].Value = prototype.Name;    // Name
+				row.Cells[3].Value = prototypeDataType; // Type
+				row.Cells[4].Value = prototypeCnlType;  // Channel Type
+				row.Cells[5].Value = prototype.TagCode; // Tag Code
+				row.Cells[6].Value = "";                // Empty column
+				row.Cells[7].Value = false;             // Checkbox
+				row.Cells[8].Value = projectCnlName;    // Name
+				row.Cells[9].Value = projectDataType;   // Type
+				row.Cells[10].Value = projectCnlType;   // Channel Type
+				row.Cells[11].Value = projectTagCode;   // Tag Code
 
-				dataGridView1.Rows.Add(
-					prototype.CnlNum, // Number
-					false, // Checkbox
-					prototype.Name, // Name
-					prototypeDataType, // Type
-					prototypeCnlType, // Channel Type
-					prototype.TagCode, // Tag Code
-					"", // Empty column
-					false, // Checkbox
-					projectCnlName, // Name
-					projectDataType, // Type
-					projectCnlType, // Channel Type
-					projectTagCode // Tag Code
-				);
+				// Store the Cnl object in a hidden column
+				row.Cells[6].Value = prototype;
 			}
+
+			// Hide the column containing the Cnl objects
+			dataGridView1.Columns[6].Visible = false;
+		}
+		private void AddSelectedChannels()
+		{
+			List<Cnl> selectedChannels = new List<Cnl>();
+
+			// Loop through all rows of the dataGridView
+			foreach (DataGridViewRow row in dataGridView1.Rows)
+			{
+				// Check if the checkbox in the first column (index 1) is checked
+				if (Convert.ToBoolean(row.Cells[1].Value) == true)
+				{
+					// Retrieve the Cnl object from the hidden column
+					Cnl cnl = (Cnl)row.Cells[6].Value;
+
+					// Add the Cnl object to the list
+					selectedChannels.Add(cnl);
+				}
+			}
+
+			// Use the AddChannels function to add the selected channels
+			AddChannels(selectedChannels);
+		}
+		//public void gridViewFiller()
+		//{
+		//	// Clear all existing rows
+		//	dataGridView1.Rows.Clear();
+		//	List<Cnl> channelPrototypes;
+		//	// Create channel prototypes
+		//	if (dictio.Count != 0)
+		//          {
+		//		channelPrototypes = this.CreateChannelsFromFille(StoreDictioData());
+
+		//	}
+		//	else
+		//	{
+		//		channelPrototypes= CreateChannels();
+
+		//	}
+
+
+		//	foreach (var prototype in channelPrototypes)
+		//	{
+		//		var cnlNum = prototype.CnlNum;
+		//		var projectItem = project.ConfigDatabase.CnlTable.GetItem(cnlNum);
+
+		//		string projectCnlName = projectItem != null ? projectItem.Name : "";
+		//		string projectCnlType = projectItem != null ? cnlTypeDictionary[projectItem.CnlTypeID] : "";
+		//		//string projectDataType = projectItem != null ? cnlDataTypeDictionary[projectItem.DataTypeID] : "";
+		//		string projectDataType = (projectItem != null && projectItem.DataTypeID.HasValue) ? dataTypeDictionary[projectItem.DataTypeID.Value] : "";
+
+		//		string projectTagCode = projectItem != null ? projectItem.TagCode : "";
+
+		//		string prototypeCnlType = cnlTypeDictionary[prototype.CnlTypeID];
+		//		//string prototypeDataType = cnlDataTypeDictionary[prototype.DataTypeID];
+		//		string prototypeDataType = prototype.DataTypeID.HasValue ? dataTypeDictionary[prototype.DataTypeID.Value] : "";
+
+
+		//		dataGridView1.Rows.Add(
+		//			prototype.CnlNum, // Number
+		//			false, // Checkbox
+		//			prototype.Name, // Name
+		//			prototypeDataType, // Type
+		//			prototypeCnlType, // Channel Type
+		//			prototype.TagCode, // Tag Code
+		//			"", // Empty column
+		//			false, // Checkbox
+		//			projectCnlName, // Name
+		//			projectDataType, // Type
+		//			projectCnlType, // Channel Type
+		//			projectTagCode // Tag Code
+		//		);
+		//	}
+		//}
+
+		private List<Cnl> CreateChannelsFromFille(Dictionary<string, List<string>> store)
+		{
+			List<Cnl> cnls = new List<Cnl>();
+			int cnlNum = CtrlCnlCreate3.StartCnlNum;
+			string namePrefix = CtrlCnlCreate1.SelectedDevice.Name;
+			int? objNum = CtrlCnlCreate2.ObjNum;
+			int deviceNum = CtrlCnlCreate1.SelectedDevice.DeviceNum;
+
+			foreach (KeyValuePair<string, List<string>> element in store)
+			{
+				string tagCode = element.Key;
+				CnlPrototype cnlPrototype = CtrlCnlCreate1.CnlPrototypes.FirstOrDefault(); // or some other way to get the prototype
+
+				if (cnlPrototype != null)
+				{
+					cnls.Add(new Cnl
+					{
+						CnlNum = cnlNum,
+						Active = cnlPrototype.Active,
+						Name = namePrefix + cnlPrototype.Name,
+						DataTypeID = cnlPrototype.DataTypeID,
+						DataLen = cnlPrototype.DataLen,
+						CnlTypeID = cnlPrototype.CnlTypeID,
+						ObjNum = objNum,
+						DeviceNum = deviceNum,
+						TagNum = cnlPrototype.TagNum,
+						TagCode = tagCode,
+						FormulaEnabled = cnlPrototype.FormulaEnabled,
+						InFormula = cnlPrototype.InFormula,
+						OutFormula = cnlPrototype.OutFormula,
+						FormatID = project.ConfigDatabase.GetFormatByCode(cnlPrototype.FormatCode)?.FormatID,
+						QuantityID = project.ConfigDatabase.GetQuantityByCode(cnlPrototype.QuantityCode)?.QuantityID,
+						UnitID = project.ConfigDatabase.GetUnitByCode(cnlPrototype.UnitCode)?.UnitID,
+						LimID = null,
+						ArchiveMask = cnlPrototype.ArchiveMask,
+						EventMask = cnlPrototype.EventMask
+					});
+
+					cnlNum++; // Increment cnlNum for each element in store
+				}
+			}
+
+			return cnls;
+		}
+		public Dictionary<string, List<string>> StoreDictioData()
+		{
+			Dictionary<string, List<string>> resultDictionnary = new Dictionary<string, List<string>>();
+
+			// Parcourir dictio et ajouter des éléments à resultDictionnary
+			foreach (KeyValuePair<string, List<string>> kvp in dictio)
+			{
+				var list = new List<string>
+		{
+			kvp.Value[0], // Mnemonique
+            kvp.Value[1], // Type
+            kvp.Value[2]  // Descr
+        };
+
+				resultDictionnary[kvp.Key] = list;
+			}
+
+			return resultDictionnary;
 		}
 
 
-		
 		/// <summary>
 		/// Creates channels based on the channel prototypes.
 		/// </summary>
@@ -390,7 +537,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 						row.Cells[4].Style.BackColor = Color.LightGreen;
 						row.Cells[5].Style.BackColor = Color.LightGreen;
 
-						//row.Cells[6].Style.BackColor = Color.PaleVioletRed;
 						row.Cells[7].Style.BackColor = Color.PaleVioletRed;
 						row.Cells[8].Style.BackColor = Color.PaleVioletRed;
 						row.Cells[9].Style.BackColor = Color.PaleVioletRed;
@@ -414,7 +560,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 						row.Cells[4].Style.BackColor = Color.White;
 						row.Cells[5].Style.BackColor = Color.White;
 
-						//row.Cells[6].Style.BackColor = Color.White;
 						row.Cells[7].Style.BackColor = Color.White;
 						row.Cells[8].Style.BackColor = Color.White;
 						row.Cells[9].Style.BackColor = Color.White;
@@ -444,7 +589,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 						row.Cells[4].Style.BackColor = Color.PaleVioletRed;
 						row.Cells[5].Style.BackColor = Color.PaleVioletRed;
 
-						//row.Cells[6].Style.BackColor = Color.LightGreen;
 						row.Cells[7].Style.BackColor = Color.LightGreen;
 						row.Cells[8].Style.BackColor = Color.LightGreen;
 						row.Cells[9].Style.BackColor = Color.LightGreen;
@@ -468,7 +612,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 						row.Cells[4].Style.BackColor = Color.White;
 						row.Cells[5].Style.BackColor = Color.White;
 
-						//row.Cells[6].Style.BackColor = Color.White;
 						row.Cells[7].Style.BackColor = Color.White;
 						row.Cells[8].Style.BackColor = Color.White;
 						row.Cells[9].Style.BackColor = Color.White;
@@ -578,71 +721,77 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
+		/// 
 		private void btnAdd_Click_1(object sender, EventArgs e)
 		{
-			_newDictio = ProcessDataGridView(dataGridView1);
-			CtrlCnlCreate3.ResetCnlNums(_newDictio.Count());
-			string deviceName = (string)deviceInfoDict["deviceName"];
-			int? objNum = deviceInfoDict.ContainsKey("objNum") ? (int?)deviceInfoDict["objNum"] : null;
-			int deviceNum = (int)deviceInfoDict["deviceNum"];
-			int cnlNum = (int)deviceInfoDict["cnlNum"];
-
-			List<Cnl> cnls = new();
-
-			foreach (var kvp in _newDictio)
-			{
-				string address = kvp.Key;
-				Dictionary<string, string> data = kvp.Value;
-				CnlPrototype cnlPrototype = ((List<CnlPrototype>)deviceInfoDict["Prototypes"])[0]; // Assuming there is at least one prototype
-
-				Cnl cnl;
-
-
-				if (_oldDictio.TryGetValue(address, out var oldData) && project.ConfigDatabase.CnlTable.GetItem(int.Parse(oldData["NumCnl"])) != null)
-				{
-					cnl = project.ConfigDatabase.CnlTable.GetItem(int.Parse(oldData["NumCnl"]));
-				}
-				else
-				{
-					cnl = new Cnl
-					{
-						CnlNum = cnlNum,
-						Active = cnlPrototype.Active,
-						DataLen = cnlPrototype.DataLen,
-						CnlTypeID = cnlPrototype.CnlTypeID,
-						DeviceNum = deviceNum,
-						FormulaEnabled = cnlPrototype.FormulaEnabled,
-						InFormula = cnlPrototype.InFormula,
-						OutFormula = cnlPrototype.OutFormula,
-						ArchiveMask = cnlPrototype.ArchiveMask,
-						EventMask = cnlPrototype.EventMask
-					};
-					int dataLength = cnlPrototype.GetDataLength();
-					if (cnlNum > ConfigDatabase.MaxID - dataLength)
-					{
-						break;
-					}
-
-					cnlNum += dataLength; // Increment cnlNum for each new address by the length of data
-				}
-				//cnl.DataTypeID = cnlDataType.TryGetValue(data["type"], out int dataTypeID);
-				cnl.DataTypeID = cnlDataType.GetValueOrDefault(data["type"]);
-				cnl.ObjNum = objNum;
-				cnl.Name = data["name"];
-				//cnl.TagNum = int.Parse(address);
-				cnl.TagNum = int.Parse(address.Contains(":") ? address.Split(':')[0] : address);
-				cnl.TagCode = data["tagCode"];
-				cnl.FormatID = project.ConfigDatabase.GetFormatByCode(cnlPrototype.FormatCode)?.FormatID;
-				cnl.QuantityID = project.ConfigDatabase.GetQuantityByCode(cnlPrototype.QuantityCode)?.QuantityID;
-				cnl.UnitID = project.ConfigDatabase.GetUnitByCode(cnlPrototype.UnitCode)?.UnitID;
-
-				cnls.Add(cnl);
-
-			}
-
-			AddChannels(cnls);
+			AddSelectedChannels();
 			DialogResult = DialogResult.OK;
 		}
+		//private void btnAdd_Click_1(object sender, EventArgs e)
+		//{
+		//	_newDictio = ProcessDataGridView(dataGridView1);
+		//	CtrlCnlCreate3.ResetCnlNums(_newDictio.Count());
+		//	string deviceName = (string)deviceInfoDict["deviceName"];
+		//	int? objNum = deviceInfoDict.ContainsKey("objNum") ? (int?)deviceInfoDict["objNum"] : null;
+		//	int deviceNum = (int)deviceInfoDict["deviceNum"];
+		//	int cnlNum = (int)deviceInfoDict["cnlNum"];
+
+		//	List<Cnl> cnls = new();
+
+		//	foreach (var kvp in _newDictio)
+		//	{
+		//		string address = kvp.Key;
+		//		Dictionary<string, string> data = kvp.Value;
+		//		CnlPrototype cnlPrototype = ((List<CnlPrototype>)deviceInfoDict["Prototypes"])[0]; // Assuming there is at least one prototype
+
+		//		Cnl cnl;
+
+
+		//		if (_oldDictio.TryGetValue(address, out var oldData) && project.ConfigDatabase.CnlTable.GetItem(int.Parse(oldData["NumCnl"])) != null)
+		//		{
+		//			cnl = project.ConfigDatabase.CnlTable.GetItem(int.Parse(oldData["NumCnl"]));
+		//		}
+		//		else
+		//		{
+		//			cnl = new Cnl
+		//			{
+		//				CnlNum = cnlNum,
+		//				Active = cnlPrototype.Active,
+		//				DataLen = cnlPrototype.DataLen,
+		//				CnlTypeID = cnlPrototype.CnlTypeID,
+		//				DeviceNum = deviceNum,
+		//				FormulaEnabled = cnlPrototype.FormulaEnabled,
+		//				InFormula = cnlPrototype.InFormula,
+		//				OutFormula = cnlPrototype.OutFormula,
+		//				ArchiveMask = cnlPrototype.ArchiveMask,
+		//				EventMask = cnlPrototype.EventMask
+		//			};
+		//			int dataLength = cnlPrototype.GetDataLength();
+		//			if (cnlNum > ConfigDatabase.MaxID - dataLength)
+		//			{
+		//				break;
+		//			}
+
+		//			cnlNum += dataLength; // Increment cnlNum for each new address by the length of data
+		//		}
+		//		//cnl.DataTypeID = cnlDataType.TryGetValue(data["type"], out int dataTypeID);
+		//		cnl.DataTypeID = cnlDataType.GetValueOrDefault(data["type"]);
+		//		cnl.ObjNum = objNum;
+		//		cnl.Name = data["name"];
+		//		//cnl.TagNum = int.Parse(address);
+		//		cnl.TagNum = int.Parse(address.Contains(":") ? address.Split(':')[0] : address);
+		//		cnl.TagCode = data["tagCode"];
+		//		cnl.FormatID = project.ConfigDatabase.GetFormatByCode(cnlPrototype.FormatCode)?.FormatID;
+		//		cnl.QuantityID = project.ConfigDatabase.GetQuantityByCode(cnlPrototype.QuantityCode)?.QuantityID;
+		//		cnl.UnitID = project.ConfigDatabase.GetUnitByCode(cnlPrototype.UnitCode)?.UnitID;
+
+		//		cnls.Add(cnl);
+
+		//	}
+
+		//	AddChannels(cnls);
+		//	DialogResult = DialogResult.OK;
+		//}
 
 
 		/// <summary>

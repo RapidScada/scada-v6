@@ -24,8 +24,9 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 		private ScadaProject project;       // the project under development
 		private int lastStartCnlNum;        // the last calculated start channel number
 		private int lastCnlCnt;             // the last specified number of channels
-		
+
 		public bool lastCheckState { get; internal set; }
+		public bool lastCheckState2 { get; internal set; }
 		public event EventHandler SelectedFileChanged;
 		public event EventHandler rdbCheckStateChanged;
 		public Dictionary<string, List<string>> _dictio = new Dictionary<string, List<string>>();
@@ -109,7 +110,8 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			lastCnlCnt = 0;
 			FileSelected = false;
 			lastCheckState = false;
-		OnSelectedFileChanged();
+			radioButton2.Checked = true;
+			OnSelectedFileChanged();
 			OnRdbCheckStateChanged();
 		}
 
@@ -179,6 +181,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			txtPathFile.Visible = radioButton1.Checked;
 			btnSelectFile.Enabled = radioButton1.Checked;
 			btnSelectFile.Visible = radioButton1.Checked;
+			OnRdbCheckStateChanged();
 		}
 		private void rdoEnableImport_MouseClick(object sender, MouseEventArgs e)
 		{
@@ -188,6 +191,13 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			//}
 
 			lastCheckState = radioButton1.Checked;
+			OnRdbCheckStateChanged();
+		}
+		private void radioButton2_CheckedChanged(object sender, EventArgs e)
+		{
+			lastCheckState2 = radioButton2.Checked;
+			OnRdbCheckStateChanged();
+
 		}
 
 		private void btnSelectFile_Click(object sender, EventArgs e)
@@ -197,7 +207,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 
 			if (openFileDialog.ShowDialog() == DialogResult.OK)
 			{
-				
+
 				string fileSelected = openFileDialog.FileName;
 
 				txtPathFile.Text = fileSelected;
@@ -351,6 +361,6 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			}
 		}
 
-
+		
 	}
 }

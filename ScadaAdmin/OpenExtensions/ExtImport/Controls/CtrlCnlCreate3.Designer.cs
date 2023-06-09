@@ -195,6 +195,7 @@
 			radioButton2.TabStop = true;
 			radioButton2.Text = "Importer depuis l'équipement";
 			radioButton2.UseVisualStyleBackColor = true;
+			radioButton2.CheckedChanged += radioButton2_CheckedChanged;
 			// 
 			// groupBox1
 			// 
