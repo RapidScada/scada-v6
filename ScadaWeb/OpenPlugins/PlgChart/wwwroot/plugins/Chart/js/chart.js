@@ -1121,7 +1121,7 @@ scada.chart.Chart = class Chart {
     // Binds the events to allow hints.
     bindHintEvents() {
         if (this._canvasJqElem) {
-            let thisObj = this;
+            const thisObj = this;
 
             $(this._canvasJqElem.parent())
                 .off(".scada.chart.hint")
