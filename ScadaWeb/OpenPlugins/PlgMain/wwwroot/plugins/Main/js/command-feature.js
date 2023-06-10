@@ -3,7 +3,7 @@
         super(appEnv);
     }
 
-    show(cnlNum, opt_callback) {
+    show(cnlNum, opt_args, opt_callback) {
         ModalManager.getInstance().showModal(
             appEnv.rootPath + "Main/Command?cnlNum=" + cnlNum,
             new ModalOptions([ModalButton.EXEC, ModalButton.CLOSE], ModalSize.LARGE),

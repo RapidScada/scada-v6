@@ -3,9 +3,11 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Scada.Data.Const;
 using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Web.Lang;
+using Scada.Web.Plugins.PlgMain.Code;
 using Scada.Web.Services;
 
 namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
@@ -19,13 +21,16 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         private readonly IWebContext webContext;
         private readonly IUserContext userContext;
         private readonly IClientAccessor clientAccessor;
+        private readonly PluginContext pluginContext;
         private readonly dynamic dict;
 
-        public EventAckModel(IWebContext webContext, IUserContext userContext, IClientAccessor clientAccessor)
+        public EventAckModel(IWebContext webContext, IUserContext userContext, 
+            IClientAccessor clientAccessor, PluginContext pluginContext)
         {
             this.webContext = webContext;
             this.userContext = userContext;
             this.clientAccessor = clientAccessor;
+            this.pluginContext = pluginContext;
             dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventAck");
         }
 
@@ -38,11 +43,17 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         public bool CloseModal { get; private set; } = false;
 
 
-        private Event GetEvent(int archiveBit, long eventID, out Right right)
+        private Event GetEvent(int? archiveBit, long eventID, out Right right)
         {
             try
             {
-                Event ev = clientAccessor.ScadaClient.GetEventByID(archiveBit, eventID);
+                if (archiveBit == null || archiveBit < 0)
+                {
+                    archiveBit = webContext.ConfigDatabase.FindArchiveBit(
+                        pluginContext.Options.EventArchiveCode, ArchiveBit.Event);
+                }
+
+                Event ev = clientAccessor.ScadaClient.GetEventByID(archiveBit.Value, eventID);
 
                 if (ev == null)
                 {
@@ -72,7 +83,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                 .FormatEvent(ev);
         }
 
-        public IActionResult OnGet(int archiveBit, long eventID)
+        public IActionResult OnGet(long eventID, int? archiveBit)
         {
             Event = GetEvent(archiveBit, eventID, out Right right);
 
@@ -87,7 +98,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             return Page();
         }
 
-        public IActionResult OnPost(int archiveBit, long eventID)
+        public IActionResult OnPost(long eventID, int? archiveBit)
         {
             Event = GetEvent(archiveBit, eventID, out Right right);
 
