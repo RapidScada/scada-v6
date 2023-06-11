@@ -66,7 +66,9 @@ class NotifPanel {
         this._ackAllBtn
             .off()
             .on("click", function () {
-                thisObj.panelElem.trigger(NotifPanel.ACK_ALL_EVENT);
+                if (!thisObj._ackAllBtn.hasClass("disabled")) {
+                    thisObj.panelElem.trigger(NotifPanel.ACK_ALL_EVENT);
+                }
             });
 
         this.bellElem
