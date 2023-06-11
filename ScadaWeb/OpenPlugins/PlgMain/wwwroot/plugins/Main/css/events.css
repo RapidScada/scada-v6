@@ -14,8 +14,7 @@
 .toolbar select {
   height: 24px;
   line-height: normal;
-  border: 1px solid #6c757d;
-  /*required for correct height*/
+  border: 1px solid #6c757d; /*required for correct height*/
   border-radius: 3px;
 }
 .toolbar .toolbar-group {
@@ -50,8 +49,7 @@
 }
 
 .table-main {
-  border-collapse: separate;
-  /*required for header stickiness*/
+  border-collapse: separate; /*required for header stickiness*/
   border-spacing: 0;
   border-left: 1px solid #6c757d;
   border-top: 1px solid #6c757d;
@@ -80,8 +78,7 @@
   font-weight: 600;
   padding: 2px 5px;
   position: sticky;
-  top: 0;
-  /*required for header stickiness*/
+  top: 0; /*required for header stickiness*/
   z-index: 1;
 }
 
