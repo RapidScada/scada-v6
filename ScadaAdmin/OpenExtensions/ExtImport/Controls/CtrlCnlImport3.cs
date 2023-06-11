@@ -14,7 +14,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 	{
 		private IAdminContext adminContext; // the Administrator context
 		private ScadaProject project;       // the project under development
-		public CtrlCnlImport4 ctrlCnlImport4 { get; set; }
+		
 		private System.Windows.Forms.OpenFileDialog openFileDialog1;
 		public Dictionary<string, List<string>> _dictio = new Dictionary<string, List<string>>();
 		private int lastStartCnlNum;        // the last calculated start channel number

@@ -143,11 +143,11 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 
 
                 //remove cnls
-                if (new FrmCnlMerge(project, deviceInfoDict, CtrlCnlImport3._dictio, CtrlCnlImport3).ShowDialog() == DialogResult.OK)
-                {
+                //if (new FrmCnlMerge(project, deviceInfoDict, CtrlCnlImport3._dictio, CtrlCnlImport3).ShowDialog() == DialogResult.OK)
+                //{
 
-                    DialogResult = DialogResult.OK;
-                }
+                //    DialogResult = DialogResult.OK;
+                //}
             }
         }
     }

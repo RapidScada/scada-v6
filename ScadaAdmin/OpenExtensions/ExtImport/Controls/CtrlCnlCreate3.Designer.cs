@@ -58,7 +58,7 @@
 			// 
 			// txtDevice
 			// 
-			txtDevice.Location = new Point(18, 26);
+			txtDevice.Location = new Point(23, 26);
 			txtDevice.Margin = new Padding(3, 4, 3, 4);
 			txtDevice.Name = "txtDevice";
 			txtDevice.ReadOnly = true;
@@ -147,7 +147,7 @@
 			// lblStartCnlNum
 			// 
 			lblStartCnlNum.AutoSize = true;
-			lblStartCnlNum.Location = new Point(14, 23);
+			lblStartCnlNum.Location = new Point(11, 23);
 			lblStartCnlNum.Name = "lblStartCnlNum";
 			lblStartCnlNum.Size = new Size(40, 20);
 			lblStartCnlNum.TabIndex = 0;
@@ -158,10 +158,10 @@
 			radioButton1.AutoSize = true;
 			radioButton1.Location = new Point(6, 26);
 			radioButton1.Name = "radioButton1";
-			radioButton1.Size = new Size(205, 24);
+			radioButton1.Size = new Size(289, 24);
 			radioButton1.TabIndex = 9;
 			radioButton1.TabStop = true;
-			radioButton1.Text = "Importer depuis un fichier ";
+			radioButton1.Text = "Importer des variable depuis un fichier ";
 			radioButton1.UseVisualStyleBackColor = true;
 			radioButton1.CheckedChanged += radioButton1_CheckedChanged;
 			radioButton1.MouseClick += rdoEnableImport_MouseClick;
@@ -198,10 +198,10 @@
 			radioButton2.AutoSize = true;
 			radioButton2.Location = new Point(6, 93);
 			radioButton2.Name = "radioButton2";
-			radioButton2.Size = new Size(227, 24);
+			radioButton2.Size = new Size(370, 24);
 			radioButton2.TabIndex = 10;
 			radioButton2.TabStop = true;
-			radioButton2.Text = "Importer depuis l'équipement";
+			radioButton2.Text = "Générer des Canaux avec les variable d'équipement";
 			radioButton2.UseVisualStyleBackColor = true;
 			radioButton2.CheckedChanged += radioButton2_CheckedChanged;
 			// 
@@ -266,25 +266,27 @@
 			txtSeparator.Name = "txtSeparator";
 			txtSeparator.Size = new Size(74, 27);
 			txtSeparator.TabIndex = 11;
-			txtSeparator.TextChanged += txtSeparator_TextChanged_1;
+			txtSeparator.TextChanged += txtSeparator_TextChanged;
 			// 
 			// cbBoxSuffix
 			// 
+			cbBoxSuffix.DropDownStyle = ComboBoxStyle.DropDownList;
 			cbBoxSuffix.FormattingEnabled = true;
 			cbBoxSuffix.Location = new Point(289, 55);
 			cbBoxSuffix.Name = "cbBoxSuffix";
 			cbBoxSuffix.Size = new Size(148, 28);
 			cbBoxSuffix.TabIndex = 10;
-			cbBoxSuffix.SelectedIndexChanged += cbBoxSuffix_SelectedIndexChanged;
+			cbBoxSuffix.SelectionChangeCommitted += cbBoxSuffix_SelectionChangeCommitted;
 			// 
 			// cbBoxPrefix
 			// 
+			cbBoxPrefix.DropDownStyle = ComboBoxStyle.DropDownList;
 			cbBoxPrefix.FormattingEnabled = true;
 			cbBoxPrefix.Location = new Point(14, 55);
 			cbBoxPrefix.Name = "cbBoxPrefix";
 			cbBoxPrefix.Size = new Size(169, 28);
 			cbBoxPrefix.TabIndex = 9;
-			cbBoxPrefix.SelectedIndexChanged += cbBoxPrefix_SelectedIndexChanged;
+			cbBoxPrefix.SelectionChangeCommitted += cbBoxPrefix_SelectionChangeCommitted;
 			// 
 			// CtrlCnlCreate3
 			// 

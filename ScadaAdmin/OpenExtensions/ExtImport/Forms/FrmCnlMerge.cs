@@ -6,6 +6,8 @@ using Scada.Comm.Drivers.DrvModbus.Protocol;
 using System.Text.RegularExpressions;
 using Scada.Comm.Devices;
 using Scada.Data.Const;
+using System.Xml.Linq;
+using System;
 
 namespace Scada.Admin.Extensions.ExtImport.Forms
 {
@@ -19,8 +21,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 		//private Dictionary<string, List<string>> _newDictio = new Dictionary<string, List<string>>();
 		private Dictionary<string, Dictionary<string, string>> _newDictio = new Dictionary<string, Dictionary<string, string>>();
 
-		Dictionary<string, object> deviceInfoDict = new Dictionary<string, object>();
-
+		
 		private List<string> _listOfKey = new List<string>();
 		private IAdminContext adminContext; // the Administrator context
 		private ScadaProject project;       // the project under development
@@ -29,6 +30,9 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
         Dictionary<string, ElemType> elemTypeDico;
         private CheckBox _headerCheckBox1 = new CheckBox();
         private CheckBox _headerCheckBox2 = new CheckBox();
+		private Controls.CtrlCnlCreate3 CtrlCnlCreate3;
+		private Controls.CtrlCnlCreate2 CtrlCnlCreate2;
+		private Controls.CtrlCnlCreate1 CtrlCnlCreate1;
 
 
 		private Dictionary<string, int> cnlDataType = new Dictionary<string, int>
@@ -88,18 +92,17 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
         /// <param name="dictio"></param>
         /// <param name="CtrlCnlImport3"></param>
 
-		public FrmCnlMerge(ScadaProject project, Dictionary<string, object> deviceInfoDict, Dictionary<string, List<string>> dictio, Controls.CtrlCnlCreate3 CtrlCnlImport3) : this()
+		public FrmCnlMerge(ScadaProject project, Controls.CtrlCnlCreate1 ctrlCnlCreate1, Controls.CtrlCnlCreate2 ctrlCnlCreate2, Controls.CtrlCnlCreate3 ctrlCnlCreate3) : this()
 		{
 
 			this.project = project;
-			this.deviceInfoDict = deviceInfoDict;
-			this.selectedDeviceName =  deviceInfoDict.ContainsKey("deviceName") ? (string)deviceInfoDict["deviceName"] : "default value";
-
-
-			 this.CtrlCnlImport3 = CtrlCnlImport3;
+            this.selectedDeviceName = ctrlCnlCreate3.DeviceName;
+			this.CtrlCnlCreate1 = ctrlCnlCreate1;
+			this.CtrlCnlCreate2 = ctrlCnlCreate2;
+			this.CtrlCnlCreate3 = ctrlCnlCreate3;
+			//this.CtrlCnlImport3 = ctrlCnlCreate3;
 	
-		     setDictio(dictio);
-
+		     setDictio(ctrlCnlCreate3._dictio);
 
 			List<Cnl> listCnl = new List<Cnl>();
 			Dictionary<int, string> dataTypes = new Dictionary<int, string>();
@@ -447,22 +450,25 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 		private void btnAdd_Click_1(object sender, EventArgs e)
 		{
 			_newDictio = ProcessDataGridView(dataGridView1);
-			CtrlCnlImport3.ResetCnlNums(_newDictio.Count());
-			string deviceName = (string)deviceInfoDict["deviceName"];
-			int? objNum = deviceInfoDict.ContainsKey("objNum") ? (int?)deviceInfoDict["objNum"] : null;
-			int deviceNum = (int)deviceInfoDict["deviceNum"];
-			int cnlNum = (int)deviceInfoDict["cnlNum"];
-
+			CtrlCnlCreate3.ResetCnlNums(_newDictio.Count());
+			string deviceName = CtrlCnlCreate3.DeviceName; 
+			int? objNum =  CtrlCnlCreate2.ObjNum;
+			int deviceNum = CtrlCnlCreate1.SelectedDevice.DeviceNum;
+			int cnlNum = CtrlCnlCreate3.StartCnlNum;
+			string name;
+			CtrlCnlCreate3.CnlNameFormat.TryGetValue("separator", out string separator);
+			CtrlCnlCreate3.CnlNameFormat.TryGetValue("prefix", out string prefix);
+			CtrlCnlCreate3.CnlNameFormat.TryGetValue("suffix", out string suffix);
 			List<Cnl> cnls = new();
 
 			foreach (var kvp in _newDictio)
 			{
-				string address = kvp.Key;
+				string address = Regex.Replace(kvp.Key, @"[^0-9]", ""); 
 				Dictionary<string, string> data = kvp.Value;
-				CnlPrototype cnlPrototype = ((List<CnlPrototype>)deviceInfoDict["Prototypes"])[0]; // Assuming there is at least one prototype
+				CnlPrototype cnlPrototype = ((List<CnlPrototype>)CtrlCnlCreate1.CnlPrototypes)[0]; // Assuming there is at least one prototype
 
 				Cnl cnl;
-			
+
 
 				if (_oldDictio.TryGetValue(address, out var oldData) && project.ConfigDatabase.CnlTable.GetItem(int.Parse(oldData["NumCnl"]) ) != null)
 				{
@@ -491,13 +497,42 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 
 					cnlNum += dataLength; // Increment cnlNum for each new address by the length of data
 				}
+				
+
+			
+				cnl.TagCode = address; 
 				//cnl.DataTypeID = cnlDataType.TryGetValue(data["type"], out int dataTypeID);
 				cnl.DataTypeID = cnlDataType.GetValueOrDefault(data["type"]);
 				cnl.ObjNum = objNum;
-				cnl.Name = data["name"];
-				//cnl.TagNum = int.Parse(address);
-				cnl.TagNum = int.Parse(address.Contains(":") ? address.Split(':')[0] : address);
-				cnl.TagCode = data["tagCode"];
+		
+				if (!string.IsNullOrWhiteSpace(prefix) || !string.IsNullOrWhiteSpace(suffix))
+				{
+					name = prefix switch
+					{
+						"DeviceName" => CtrlCnlCreate3.DeviceName,
+						"TagCode" => address,
+						"TagNumber" => cnlPrototype.TagNum.ToString(),
+						"Type" => cnlPrototype.CnlTypeID.ToString(),
+						_ => prefix
+					};
+					name += separator;
+					name += suffix switch
+					{
+						"DeviceName" => CtrlCnlCreate3.DeviceName,
+						"TagCode" => address,
+						"TagNumber" => cnlPrototype.TagNum.ToString(),
+						"Type" => cnlPrototype.CnlTypeID.ToString(),
+						_ => ""
+					};
+				}
+				else
+				{
+                    name = CtrlCnlCreate3.DeviceName + "-" + address;
+				}
+
+				cnl.Name = name;
+
+
 				cnl.FormatID = project.ConfigDatabase.GetFormatByCode(cnlPrototype.FormatCode)?.FormatID;
 				cnl.QuantityID = project.ConfigDatabase.GetQuantityByCode(cnlPrototype.QuantityCode)?.QuantityID;
 				cnl.UnitID = project.ConfigDatabase.GetUnitByCode(cnlPrototype.UnitCode)?.UnitID;
@@ -601,54 +636,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             template.ElemGroups.Add(newElemenGroup);
             return template;
         }
-
-
-
-
-		private DeviceTemplate generateDeviceTemplateDicFile(Dictionary<string, List<string>> dico)
-		{
-			DeviceTemplate template = new DeviceTemplate();
-
-			ElemGroupConfig newElemenGroup = new ElemGroupConfig();
-
-			Dictionary<int, string> dataTypes = new Dictionary<int, string>();
-			dataTypes = project.ConfigDatabase.DataTypeTable.ToDictionary(x => x.DataTypeID, x => x.Name);
-			string previousPrefix = "";
-			ElemType previousType = ElemType.Undefined;
-			for (int index = 0; index < dico.Count; index++)
-			{
-				List<string> entry = dico.ElementAt(index).Value;
-				var prefix = dictio[dico.ElementAt(index).Key][3] ?? "";
-				ElemConfig newElem = new ElemConfig();
-				string newType = elemTypeDico.Keys.Contains(entry[1]) ? entry[1] : cnlDataType.FirstOrDefault(t => t.Value == dataTypes.FirstOrDefault(dt => dt.Value == entry[1]).Key).Key;
-				newElem.ElemType = elemTypeDico.Keys.Contains(newType) ? elemTypeDico[newType] : ElemType.Undefined;
-				newElem.ByteOrder = newElem.ElemType == ElemType.UShort ? "01" : "0123";
-				newElem.Name = entry[0];
-				newElem.TagCode = dico.ElementAt(index).Key;
-				newElemenGroup.DataBlock = DataBlock.HoldingRegisters;
-				if (index == 0 || prefix != previousPrefix || newElem.ElemType != previousType || (prefix == "%MW" && newElemenGroup.Elems.Count == 125) || (prefix == "%M" && newElemenGroup.Elems.Count == 2000))
-				{
-					if (index > 0)
-					{
-						template.ElemGroups.Add(newElemenGroup);
-					}
-					newElemenGroup = new ElemGroupConfig();
-					//newElemenGroup.Address = int.Parse(Regex.Replace(dico.ElementAt(index).Key, @"[^0-9]", ""));
-					string key = dico.ElementAt(index).Key;
-					string numericPart = Regex.Replace(key, @"[^0-9]", "");
-
-					if (int.TryParse(numericPart, out int address))
-					{
-						newElemenGroup.Address = address;
-					}
-				}
-				previousPrefix = prefix;
-				previousType = newElem.ElemType;
-				newElemenGroup.Elems.Add(newElem);
-			}
-			template.ElemGroups.Add(newElemenGroup);
-			return template;
-		}
 
 		/// <summary>
 		/// Save import config from merge

@@ -193,7 +193,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			if (ctrlCnlCreate1.StatusOK)
 			{
 
-				Dictionary<string, object> deviceInfoDict = new Dictionary<string, object>();
+				
 				var cnlNamf = ctrlCnlCreate3.CnlNameFormat;
 				if (ctrlCnlCreate3.lastCheckState2)
 				{
@@ -206,7 +206,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 				}
 				else
 				{
-					if (new FrmCnlMerge(project, deviceInfoDict, ctrlCnlCreate3._dictio, ctrlCnlCreate3).ShowDialog() == DialogResult.OK)
+					if (new FrmCnlMerge(project, ctrlCnlCreate1, ctrlCnlCreate2, ctrlCnlCreate3).ShowDialog() == DialogResult.OK)
 					{
 
 						DialogResult = DialogResult.OK;

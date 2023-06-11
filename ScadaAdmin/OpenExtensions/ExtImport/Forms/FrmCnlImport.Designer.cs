@@ -32,7 +32,7 @@
             CtrlCnlImport1 = new Controls.CtrlCnlImport1();
             CtrlCnlImport2 = new Controls.CtrlCnlImport2();
             CtrlCnlImport3 = new Controls.CtrlCnlImport3();
-            CtrlCnlImport4 = new Controls.CtrlCnlImport4();
+           
             btnBack = new Button();
             btnNext = new Button();
             btnCreate = new Button();
@@ -70,7 +70,7 @@
             // 
             // CtrlCnlImport3
             // 
-            CtrlCnlImport3.ctrlCnlImport4 = null;
+            
             CtrlCnlImport3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             CtrlCnlImport3.Location = new Point(12, 33);
             CtrlCnlImport3.Margin = new Padding(3, 4, 3, 4);
@@ -78,14 +78,7 @@
             CtrlCnlImport3.Size = new Size(421, 160);
             CtrlCnlImport3.TabIndex = 3;
             CtrlCnlImport3.SelectedFileChanged += CtrlCnlImport3_SelectedDeviceChanged;
-            // 
-            // CtrlCnlImport4
-            // 
-            CtrlCnlImport4.Location = new Point(0, 0);
-            CtrlCnlImport4.Margin = new Padding(3, 4, 3, 4);
-            CtrlCnlImport4.Name = "CtrlCnlImport4";
-            CtrlCnlImport4.Size = new Size(1153, 564);
-            CtrlCnlImport4.TabIndex = 0;
+          
             // 
             // btnBack
             // 
@@ -158,7 +151,7 @@
         private Controls.CtrlCnlImport1 CtrlCnlImport1;
         private Controls.CtrlCnlImport2 CtrlCnlImport2;
         private Controls.CtrlCnlImport3 CtrlCnlImport3;
-        private Controls.CtrlCnlImport4 CtrlCnlImport4;
+       
         private CheckBox chkPreview;
         private Button btnBack;
         private Button btnNext;

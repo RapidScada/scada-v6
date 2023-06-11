@@ -3,9 +3,11 @@
 
 using Scada.Admin.Config;
 using Scada.Admin.Project;
+using Scada.Data.Entities;
 using Scada.Forms;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -13,14 +15,11 @@ using System.Xml.Linq;
 
 namespace Scada.Admin.Extensions.ExtImport.Controls
 {
-	/// <summary>
-	/// Represents a control for selecting channel numbers when creating channels.
-	/// <para>Представляет элемент управления для выбора номеров каналов при создании каналов.</para>
-	/// </summary>
+
 	public partial class CtrlCnlCreate3 : UserControl
 	{
 		private IAdminContext adminContext; // the Administrator context
-		private System.Windows.Forms.OpenFileDialog openFileDialog1;
+		private OpenFileDialog openFileDialog1;
 		private ScadaProject project;       // the project under development
 		private int lastStartCnlNum;        // the last calculated start channel number
 		private int lastCnlCnt;             // the last specified number of channels
@@ -36,6 +35,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 		private string _adress;
 		private string _type;
 		private string _comment;
+
 		/// <summary>
 		/// Initializes a new instance of the class.
 		/// </summary>
@@ -52,14 +52,16 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 		{
 			rdbCheckStateChanged?.Invoke(this, EventArgs.Empty);
 		}
-		public List<string> prefixesAndSuffixes = new List<string>
+
+		private readonly List<Obj> prefixesAndSuffixes = new List<Obj>
 		{
-			" ",
-			"DeviceName" ,
-			"TagCode",
-			"TagNumber",
-			"Type"
+			new Obj { ObjNum = 0, Name = " " },
+			new Obj { ObjNum = 1, Name = "DeviceName" },
+			new Obj { ObjNum = 2, Name = "TagCode" },
+			new Obj { ObjNum = 3, Name = "TagNumber" },
+			new Obj { ObjNum = 4, Name = "Type" }
 		};
+
 		/// <summary>
 		/// Gets or sets the selected device name.
 		/// </summary>
@@ -75,44 +77,11 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			}
 		}
 
-		private Dictionary<string, string> _cnlNameFormat;
-
-		public Dictionary<string, string> CnlNameFormat
+		private Dictionary<string, string> _cnlNameFormat = new Dictionary<string, string>();
+		public IReadOnlyDictionary<string, string> CnlNameFormat
 		{
-			get
-			{
-				if (_cnlNameFormat == null)
-				{
-					_cnlNameFormat = new Dictionary<string, string>()
-			{
-				{"prefix", cbBoxPrefix.SelectedItem?.ToString() ?? "DeviceName" },
-				{"separator", txtSeparator.Text ?? "-" },
-				{"suffix", cbBoxSuffix.SelectedItem?.ToString() ?? "TagCode" }
-			};
-				}
-
-				return _cnlNameFormat;
-			}
+			get { return new ReadOnlyDictionary<string, string>(_cnlNameFormat); }
 		}
-
-		//public Dictionary<string, string> _cnlNameFormat = new Dictionary<string, string>()
-		//{
-		//	{"prefix",(string)cbBoxPrefix.SelectedItem ?? "DeviceName" },
-		//	{"separator",(string)txtSeparator.Text ?? "-" },
-		//	{"suffix", (string)cbBoxSuffix.SelectedItem ?? "TagCode"},
-
-		//};
-
-
-		//public Dictionary<string, string> CnlNameFormat
-		//{
-		//	get { return _cnlNameFormat; }
-		//	internal set { _cnlNameFormat = value; }
-		//}
-		//public string prefix { get { return (string)cbBoxPrefix.SelectedItem; }  }
-		//public string separator { get { return (string)txtSeparator.Text; } }
-		//public string suffix { get { return (string)cbBoxSuffix.SelectedItem; } }
-
 
 
 		/// <summary>
@@ -161,8 +130,8 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			radioButton2.Checked = true;
 			OnSelectedFileChanged();
 			OnRdbCheckStateChanged();
-			cbBoxPrefix.Items.AddRange(prefixesAndSuffixes.ToArray());
-			cbBoxSuffix.Items.AddRange(prefixesAndSuffixes.ToArray());
+			initCmbNameFormat();
+
 		}
 
 		/// <summary>
@@ -198,6 +167,41 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 
 			numStartCnlNum.SetValue(lastStartCnlNum);
 			numEndCnlNum.SetValue(lastStartCnlNum + lastCnlCnt - 1);
+		}
+		private void initCmbNameFormat()
+		{
+			List<Obj> listPrefix = prefixesAndSuffixes.Select(item => new Obj { ObjNum = item.ObjNum, Name = item.Name }).ToList();
+			cbBoxPrefix.Items.Clear();
+			//set display member and value member for combobox
+			cbBoxPrefix.DataSource = listPrefix;
+			cbBoxPrefix.ValueMember = "ObjNum";
+			cbBoxPrefix.DisplayMember = "Name";
+
+			List<Obj> listSuffix = prefixesAndSuffixes.Select(item => new Obj { ObjNum = item.ObjNum, Name = item.Name }).ToList();
+			cbBoxSuffix.Items.Clear();
+			cbBoxSuffix.DataSource = listSuffix;
+			cbBoxSuffix.ValueMember = "ObjNum";
+			cbBoxSuffix.DisplayMember = "Name";
+
+		}
+
+		private void cbBoxPrefix_SelectionChangeCommitted(object sender, EventArgs e)
+		{
+			Obj obj = cbBoxPrefix.SelectedItem as Obj;
+			if (obj != null)
+			{
+				_cnlNameFormat["prefix"] = obj.Name;
+			}
+		}
+
+		private void cbBoxSuffix_SelectionChangeCommitted(object sender, EventArgs e)
+		{
+			Obj obj2 = cbBoxSuffix.SelectedItem as Obj;
+			if (obj2 != null)
+			{
+
+				_cnlNameFormat["suffix"] = obj2.Name;
+			}
 		}
 
 
@@ -321,7 +325,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			_adress = columns[0];
 
 			string prefix = Regex.Split(_adress, @"[0-9]").First(); //Regex.Replace(_adress, @"[^0-9]", "");
-																	// DG
+
 			_adress = new string(_adress.SkipWhile(x => !char.IsDigit(x)).ToArray());
 
 			//setFormatType(columns[2]);
@@ -407,37 +411,13 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			}
 		}
 
-		private void txtSeparator_TextChanged_1(object sender, EventArgs e)
+		private void txtSeparator_TextChanged(object sender, EventArgs e)
 		{
 			string separator = string.IsNullOrEmpty(txtSeparator.Text) ? string.Empty : txtSeparator.Text;
-			//if (_cnlNameFormat != null)
-				_cnlNameFormat["separator"] = separator;
-			//else
-			//	_cnlNameFormat.Add("separator", separator);
-		}
-		
-		private void cbBoxSuffix_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			string value = cbBoxSuffix.SelectedItem?.ToString() ?? string.Empty;
-			//if (_cnlNameFormat != null)
-				_cnlNameFormat["suffix"] = value;
-			//else
-			//	_cnlNameFormat.Add("suffix", value);
-			cbBoxSuffix.SelectedIndex = cbBoxSuffix.FindStringExact(value);
+			_cnlNameFormat["separator"] = separator;
+
 		}
 
-		private void cbBoxPrefix_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			string value = cbBoxPrefix.SelectedItem?.ToString() ?? string.Empty;
 
-			//if (_cnlNameFormat != null)
-				_cnlNameFormat["prefix"] = value;
-			//else
-			//	_cnlNameFormat.Add("prefix", value);
-
-			cbBoxPrefix.SelectedIndex = cbBoxPrefix.FindStringExact(value);
-		}
-
-		
 	}
 }

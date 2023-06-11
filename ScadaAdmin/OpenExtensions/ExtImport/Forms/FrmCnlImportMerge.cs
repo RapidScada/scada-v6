@@ -283,24 +283,31 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 
 			foreach (CnlPrototype cnlPrototype in CtrlCnlCreate1.CnlPrototypes)
 			{
-
-				name = prefix switch
+				if(!string.IsNullOrWhiteSpace(prefix) || !string.IsNullOrWhiteSpace(suffix))
 				{
-					"DeviceName" => CtrlCnlCreate3.DeviceName,
-					"TagCode" => cnlPrototype.TagCode,
-					"TagNumber" => cnlPrototype.TagNum.ToString(),
-					"Type" => cnlPrototype.CnlTypeID.ToString(),
-					_ => prefix
-				};
-				name += separator;
-				name += suffix switch
+					name = prefix switch
+					{
+						"DeviceName" => CtrlCnlCreate3.DeviceName,
+						"TagCode" => cnlPrototype.TagCode,
+						"TagNumber" => cnlPrototype.TagNum.ToString(),
+						"Type" => cnlPrototype.CnlTypeID.ToString(),
+						_ => prefix
+					};
+					name += separator;
+					name += suffix switch
+					{
+						"DeviceName" => CtrlCnlCreate3.DeviceName,
+						"TagCode" => cnlPrototype.TagCode,
+						"TagNumber" => cnlPrototype.TagNum.ToString(),
+						"Type" => cnlPrototype.CnlTypeID.ToString(),
+						_ => ""
+					};
+				}
+				else
 				{
-					"DeviceName" => CtrlCnlCreate3.DeviceName,
-					"TagCode" => cnlPrototype.TagCode,
-					"TagNumber" => cnlPrototype.TagNum.ToString(),
-					"Type" => cnlPrototype.CnlTypeID.ToString(),
-					_ => ""
-				};
+					name = CtrlCnlCreate3.DeviceName + "-" + cnlPrototype.TagCode;
+				}
+				
 				cnls.Add(new Cnl
 				{
 					CnlNum = cnlNum,
