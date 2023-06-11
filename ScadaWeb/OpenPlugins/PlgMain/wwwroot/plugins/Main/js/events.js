@@ -98,13 +98,8 @@ function updateEvents(callback) {
                         if (dto.ok) {
                             let oldFilterID = filterID;
                             filterID = dto.data.filterID;
-
-                            if (filterID > 0) {
-                                arcWriteTime = newArcWriteTime;
-                                showEvents(dto.data, oldFilterID > 0);
-                            } else {
-                                showErrorBadge();
-                            }
+                            arcWriteTime = newArcWriteTime;
+                            showEvents(dto.data, oldFilterID > 0);
                         } else {
                             showErrorBadge();
                         }

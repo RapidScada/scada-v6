@@ -186,7 +186,7 @@ class MainApi {
     static mapCurData(curData) {
         let map = new Map();
 
-        if (curData) {
+        if (Array.isArray(curData?.records)) {
             for (let record of curData.records) {
                 map.set(record.d.cnlNum, record);
             }
@@ -199,7 +199,7 @@ class MainApi {
     static mapCnlNums(cnlNums) {
         let map = new Map();
 
-        if (cnlNums) {
+        if (Array.isArray(cnlNums)) {
             let idx = 0;
 
             for (let cnlNum of cnlNums) {
@@ -213,14 +213,10 @@ class MainApi {
 
     // Gets a non-null current data record from the map by the channel number.
     static getCurDataFromMap(curDataMap, cnlNum, opt_joinLen) {
-        let record = curDataMap ? curDataMap.get(cnlNum) : null;
-
-        if (!record) {
-            record = {
-                d: { cnlNum: 0, val: 0.0, stat: 0 },
-                df: { dispVal: "", colors: [] }
-            };
-        }
+        let record = curDataMap?.get(cnlNum) ?? {
+            d: { cnlNum: 0, val: 0.0, stat: 0 },
+            df: { dispVal: "", colors: [] }
+        };
 
         if (opt_joinLen > 1 && curDataMap && record.d.stat > 0) {
             record = JSON.parse(JSON.stringify(record)); // clone record

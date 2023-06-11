@@ -105,9 +105,14 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
 
             if (cnlCnt > 0)
             {
-                CnlData[] cnlDataArr = cnlListID > 0
-                    ? clientAccessor.ScadaClient.GetCurrentData(ref cnlListID)
-                    : clientAccessor.ScadaClient.GetCurrentData(cnlNums.ToArray(), useCache, out cnlListID);
+                CnlData[] cnlDataArr = Array.Empty<CnlData>();
+
+                if (cnlListID > 0)
+                    cnlDataArr = clientAccessor.ScadaClient.GetCurrentData(ref cnlListID);
+
+                if (cnlListID <= 0)
+                    cnlDataArr = clientAccessor.ScadaClient.GetCurrentData(cnlNums.ToArray(), useCache, out cnlListID);
+
                 curData.CnlListID = cnlListID.ToString();
                 CnlDataFormatter formatter = new(webContext.ConfigDatabase, userContext.TimeZone);
 
@@ -188,25 +193,34 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// Requests events from the server.
         /// </summary>
         private EventPacket RequestEvents(int archiveBit, TimeRange timeRange, 
-            EventFilter filter, long filterID, bool useCache)
+            long filterID, bool useCache, Func<EventFilter> createFilterFunc)
         {
-            List<Event> events = filterID > 0
-                ? clientAccessor.ScadaClient.GetEvents(archiveBit, timeRange, ref filterID)
-                : clientAccessor.ScadaClient.GetEvents(archiveBit, timeRange, filter, useCache, out filterID);
+            ICollection<Event> events = Array.Empty<Event>();
+            ICollection<EventRecord> records = Array.Empty<EventRecord>();
 
-            int eventCnt = events.Count;
-            EventRecord[] records = new EventRecord[eventCnt];
-            CnlDataFormatter formatter = new(webContext.ConfigDatabase, userContext.TimeZone);
+            if (filterID > 0)
+                events = clientAccessor.ScadaClient.GetEvents(archiveBit, timeRange, ref filterID);
 
-            for (int i = 0; i < eventCnt; i++)
+            if (filterID <= 0)
             {
-                Event ev = events[i];
-                records[i] = new EventRecord
+                events = clientAccessor.ScadaClient.GetEvents(archiveBit, timeRange, 
+                    createFilterFunc(), useCache, out filterID);
+            }
+
+            if (events.Count > 0)
+            {
+                records = new List<EventRecord>(events.Count);
+                CnlDataFormatter formatter = new(webContext.ConfigDatabase, userContext.TimeZone);
+
+                foreach (Event ev in events)
                 {
-                    Id = ev.EventID.ToString(),
-                    E = ev,
-                    Ef = formatter.FormatEvent(ev)
-                };
+                    records.Add(new EventRecord
+                    {
+                        Id = ev.EventID.ToString(),
+                        E = ev,
+                        Ef = formatter.FormatEvent(ev)
+                    });
+                }
             }
 
             return new EventPacket
@@ -406,7 +420,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                     entry =>
                     {
                         entry.SetAbsoluteExpiration(DataCacheExpiration);
-                        return RequestEvents(archiveBit, timeRange, null, 0, false);
+                        return RequestEvents(archiveBit, timeRange, 0, false, () => null);
                     });
 
                 return Dto<EventPacket>.Success(eventPacket);
@@ -435,7 +449,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                     entry =>
                     {
                         entry.SetAbsoluteExpiration(DataCacheExpiration);
-                        return RequestEvents(archiveBit, CreateTimeRange(period), new EventFilter(limit), 0, false);
+                        return RequestEvents(archiveBit, CreateTimeRange(period), 
+                            0, false, () => new EventFilter(limit));
                     });
 
                 return Dto<EventPacket>.Success(eventPacket);
@@ -466,8 +481,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 EventPacket eventPacket = memoryCache.GetOrCreate(cacheKey, entry =>
                 {
                     entry.SetAbsoluteExpiration(DataCacheExpiration);
-                    EventFilter filter = filterID > 0 ? null : new EventFilter(limit, rights);
-                    return RequestEvents(archiveBit, CreateTimeRange(period), filter, filterID, true);
+                    return RequestEvents(archiveBit, CreateTimeRange(period), 
+                        filterID, true, () => new EventFilter(limit, rights));
                 });
 
                 return Dto<EventPacket>.Success(eventPacket);
@@ -495,8 +510,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                         entry =>
                         {
                             entry.SetAbsoluteExpiration(DataCacheExpiration);
-                            EventFilter filter = filterID > 0 ? null : new EventFilter(limit, view);
-                            return RequestEvents(archiveBit, CreateTimeRange(period), filter, filterID, true);
+                            return RequestEvents(archiveBit, CreateTimeRange(period), 
+                                filterID, true, () => new EventFilter(limit, view));
                         });
 
                     return Dto<EventPacket>.Success(eventPacket);
