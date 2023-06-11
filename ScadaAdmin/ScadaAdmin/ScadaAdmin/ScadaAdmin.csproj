@@ -40,7 +40,7 @@
     <Content Include="..\..\..\ScadaServer\ScadaServer\ScadaServerCommon\Lang\ScadaServer.ru-RU.xml" Link="Lang\ScadaServer.ru-RU.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\ScadaWeb\ScadaWeb\ScadaWebCommon.Shared\Config\ScadaWebConfig.xml" Link="Templates\EmptyProject.en-GB\Instances\Default\ScadaWeb\config\ScadaWebConfig.xml">
+    <Content Include="..\..\..\ScadaWeb\ScadaWeb\ScadaWebCommon\Config\ScadaWebConfig.xml" Link="Templates\EmptyProject.en-GB\Instances\Default\ScadaWeb\config\ScadaWebConfig.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\ScadaAdminCommon\Config\ScadaAdminConfig.xml" Link="Config\ScadaAdminConfig.xml">
@@ -96,12 +96,6 @@
 
   <ItemGroup>
     <PackageReference Include="WinControl" Version="2.1.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Lang\" />
-    <Folder Include="Config\" />
-    <Folder Include="Templates\EmptyProject.en-GB\Instances\Default\ScadaWeb\config\" />
   </ItemGroup>
 
   <ItemGroup>
