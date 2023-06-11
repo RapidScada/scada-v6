@@ -250,14 +250,17 @@ class ModalManager {
             });
 
         modalElem.find(".modal-footer button").on("click", function () {
-            // raise event
-            let buttonValue = $(this).data("rs-value");
             let frameWnd = ModalManager._getModalWnd(modalElem);
-            frameWnd.$(frameWnd).trigger(ScadaEventType.MODAL_BTN_CLICK, buttonValue);
 
-            // submit the modal
-            if ($(this).hasClass("rs-btn-submit")) {
-                ModalManager._submitModal(frameWnd, buttonValue);
+            if (ScadaUtils.checkAccessToFrame(frameWnd, true)) {
+                // raise event
+                let buttonValue = $(this).data("rs-value");
+                frameWnd.$(frameWnd).trigger(ScadaEventType.MODAL_BTN_CLICK, buttonValue);
+
+                // submit the modal
+                if ($(this).hasClass("rs-btn-submit")) {
+                    ModalManager._submitModal(frameWnd, buttonValue);
+                }
             }
         });
 
