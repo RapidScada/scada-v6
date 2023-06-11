@@ -272,15 +272,15 @@ class ChartFeatureBase {
     // Gets a chart URL.
     // cnlNums is a string containing a range of integers,
     // startDate is a string in the YYYY-MM-DD format,
-    // opt_args is a string or an object containing arbitrary arguments.
-    getUrl(cnlNums, startDate, opt_args) {
+    // args is a string or an object containing arbitrary arguments.
+    getUrl(cnlNums, startDate, args) {
         console.warn(this._NO_PLUGIN);
         return "";
     }
 
     // Shows a chart.
-    show(cnlNums, startDate, opt_args) {
-        let url = this.getUrl(cnlNums, startDate, opt_args);
+    show(cnlNums, startDate, args) {
+        let url = this.getUrl(cnlNums, startDate, args);
 
         if (url) {
             window.open(url);
@@ -298,9 +298,9 @@ class CommandFeatureBase {
 
     // Shows a command dialog.
     // cnlNum is the channel number that defines a command,
-    // opt_args is a string or an object containing arbitrary arguments,
+    // args is a string or an object containing arbitrary arguments,
     // opt_callback is a function (result), where result can be true or false.
-    show(cnlNum, opt_args, opt_callback) {
+    show(cnlNum, args, opt_callback) {
         alert(ScadaUtils.isRussian(appEnv.locale) ?
             "Ни один плагин не реализует функцию команд." :
             "No plugin implements the command feature.");
@@ -316,9 +316,9 @@ class EventAckFeatureBase {
 
     // Shows an event acknowledgement dialog.
     // eventID specifies the event to display and acknowledge,
-    // opt_args is a string or an object containing arbitrary arguments,
+    // args is a string or an object containing arbitrary arguments,
     // opt_callback is a function (result), where result can be true or false.
-    show(eventID, opt_args, opt_callback) {
+    show(eventID, args, opt_callback) {
         alert(ScadaUtils.isRussian(appEnv.locale) ?
             "Ни один плагин не реализует функцию квитирования." :
             "No plugin implements the acknowledgement feature.");

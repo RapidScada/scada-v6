@@ -3,8 +3,8 @@
         super(appEnv);
     }
 
-    getUrl(cnlNums, startDate, opt_args) {
+    getUrl(cnlNums, startDate, args) {
         return appEnv.rootPath + `Chart/Chart?cnlNums=${cnlNums}&startDate=${startDate}` +
-            (opt_args ? "&" + new URLSearchParams(opt_args).toString() : "");
+            (args ? "&" + new URLSearchParams(args).toString() : "");
     }
 }

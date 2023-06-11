@@ -3,10 +3,10 @@
         super(appEnv);
     }
 
-    show(eventID, opt_args, opt_callback) {
+    show(eventID, args, opt_callback) {
         ModalManager.getInstance().showModal(
             appEnv.rootPath + "Main/EventAck?eventID=" + eventID +
-            (opt_args ? "&" + new URLSearchParams(opt_args).toString() : ""),
+            (args ? "&" + new URLSearchParams(args).toString() : ""),
             new ModalOptions({ buttons: [ModalButton.OK, ModalButton.CLOSE], size: ModalSize.LARGE }),
             opt_callback);
     }
