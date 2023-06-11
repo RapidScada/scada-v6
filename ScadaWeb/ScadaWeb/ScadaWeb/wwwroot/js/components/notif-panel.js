@@ -104,7 +104,7 @@ class NotifPanel {
 
     // Sets the bell style, plays or stops a sound, and shows or hides the notification panel.
     _alarmOnOff() {
-        this.bellElem.removeClass("info warning error");
+        this.bellElem.removeClass("critical major minor info");
         let bellIcon = this.bellElem.find("i:first");
         bellIcon.removeClass("fa-regular fa-solid");
         let showPanel = true;
