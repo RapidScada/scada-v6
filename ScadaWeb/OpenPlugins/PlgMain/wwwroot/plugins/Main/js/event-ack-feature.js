@@ -7,7 +7,7 @@
         ModalManager.getInstance().showModal(
             appEnv.rootPath + "Main/EventAck?eventID=" + eventID +
             (opt_args ? "&" + new URLSearchParams(opt_args).toString() : ""),
-            new ModalOptions([ModalButton.OK, ModalButton.CLOSE], ModalSize.LARGE),
+            new ModalOptions({ buttons: [ModalButton.OK, ModalButton.CLOSE], size: ModalSize.LARGE }),
             opt_callback);
     }
 }
