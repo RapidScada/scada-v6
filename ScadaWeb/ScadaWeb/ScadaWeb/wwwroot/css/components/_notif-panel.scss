@@ -45,12 +45,10 @@ $notif-btn-fore-color: $main-menu-fore-color-dark;
 /********** Toolbar **********/
 .notif-panel .notif-toolbar {
     height: $toolbar-height;
-    padding-left: 5px;
     position: absolute;
     top: 0;
 
-    .notif-tool-btn {
-        cursor: pointer;
+    .notif-tool-item {
         display: inline-block;
         font-size: $tool-btn-text-font-size;
         height: $toolbar-height;
@@ -58,6 +56,16 @@ $notif-btn-fore-color: $main-menu-fore-color-dark;
         margin: 0 5px 0 0;
         padding: 0 10px;
         white-space: nowrap;
+
+        i {
+            font-size: $tool-btn-icon-font-size;
+            margin-right: 5px;
+        }
+    }
+
+    .notif-tool-btn {
+        @extend .notif-tool-item;
+        cursor: pointer;
 
         &.disabled {
             color: $panel-fore-color-dark;
@@ -68,11 +76,6 @@ $notif-btn-fore-color: $main-menu-fore-color-dark;
             background-color: $panel-item-hover-back-color;
             color: $panel-item-hover-fore-color;
             text-decoration: none;
-        }
-
-        i {
-            font-size: $tool-btn-icon-font-size;
-            margin-right: 5px;
         }
     }
 }
@@ -94,7 +97,7 @@ body {
 .notif-panel .notif {
     color: $notif-fore-color;
     font-size: $notif-text-font-size;
-    margin: 0 5px 5px 15px;
+    margin: 0 5px 5px 10px;
 
     a,
     a:active,

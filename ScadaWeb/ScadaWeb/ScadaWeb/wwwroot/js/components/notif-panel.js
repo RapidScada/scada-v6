@@ -12,6 +12,8 @@ class NotifPanel {
     _muteBtn = $();
     // The jQuery object that represents the acknowledge all button.
     _ackAllBtn = $();
+    // The jQuery object that displays the waiting state.
+    _spinnerElem = $();
     // The jQuery object that represents an empty notification.
     _emptyNotifElem = $();
     // The jQuery object that contains notifications.
@@ -333,6 +335,10 @@ class NotifPanel {
         this._ackAllBtn.children("span:first").text(notifPhrases.AckAll);
         toolbarElem.append(this._ackAllBtn);
 
+        this._spinnerElem = $("<div class='notif-tool-item hidden'>" +
+            "<i class='fa-solid fa-spinner fa-spin-pulse'></i></div>");
+        toolbarElem.append(this._spinnerElem);
+
         this._emptyNotifElem = $("<div class='notif empty'></div>")
             .text(notifPhrases.NoNotif)
             .appendTo(this.panelElem);
@@ -363,11 +369,13 @@ class NotifPanel {
 
     // Deletes the existing notifications and adds the specified notifications.
     replaceNotifications(notifs) {
-        this._notifContainerElem.empty();
-        this._notifContainerElem.append(Array.from(notifs, n => this._createNotifElem(n)).reverse());
-        this._displayEmptyState(this._isEmpty);
-        this._calcNotifCounters(notifs);
-        this._alarmOnOff();
+        if (!this._isEmpty || notifs.length > 0) {
+            this._notifContainerElem.empty();
+            this._notifContainerElem.append(Array.from(notifs, n => this._createNotifElem(n)).reverse());
+            this._displayEmptyState(this._isEmpty);
+            this._calcNotifCounters(notifs);
+            this._alarmOnOff();
+        }
     }
 
     // Adds sample notifications.
@@ -402,15 +410,21 @@ class NotifPanel {
 
     // Removes all notifications from the notification panel.
     clearNotifications() {
-        this._notifContainerElem.empty();
-        this._displayEmptyState(true);
-        this._resetNotifCounters();
-        this._alarmOnOff();
+        if (!this._isEmpty) {
+            this._notifContainerElem.empty();
+            this._displayEmptyState(true);
+            this._resetNotifCounters();
+            this._alarmOnOff();
+        }
     }
 
     // Shows or hides the wait symbol.
     displayWaitingState(isWaiting) {
-
+        if (isWaiting) {
+            this._spinnerElem.removeClass("hidden");
+        } else {
+            this._spinnerElem.addClass("hidden");
+        }
     }
 }
 
