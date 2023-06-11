@@ -24,7 +24,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 		private List<string> _listOfKey = new List<string>();
 		private IAdminContext adminContext; // the Administrator context
 		private ScadaProject project;       // the project under development
-		private Controls.CtrlCnlImport3 CtrlCnlImport3;
+		private Controls.CtrlCnlCreate3 CtrlCnlImport3;
 		string selectedDeviceName;
         Dictionary<string, ElemType> elemTypeDico;
         private CheckBox _headerCheckBox1 = new CheckBox();
@@ -88,7 +88,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
         /// <param name="dictio"></param>
         /// <param name="CtrlCnlImport3"></param>
 
-		public FrmCnlMerge(ScadaProject project, Dictionary<string, object> deviceInfoDict, Dictionary<string, List<string>> dictio, Controls.CtrlCnlImport3 CtrlCnlImport3) : this()
+		public FrmCnlMerge(ScadaProject project, Dictionary<string, object> deviceInfoDict, Dictionary<string, List<string>> dictio, Controls.CtrlCnlCreate3 CtrlCnlImport3) : this()
 		{
 
 			this.project = project;

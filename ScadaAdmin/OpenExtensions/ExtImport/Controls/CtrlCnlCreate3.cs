@@ -29,6 +29,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 		public bool lastCheckState2 { get; internal set; }
 		public event EventHandler SelectedFileChanged;
 		public event EventHandler rdbCheckStateChanged;
+
 		public Dictionary<string, List<string>> _dictio = new Dictionary<string, List<string>>();
 		public bool FileSelected { get; internal set; }
 		private string _mnemonique;
@@ -51,7 +52,14 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 		{
 			rdbCheckStateChanged?.Invoke(this, EventArgs.Empty);
 		}
-
+		public List<string> prefixesAndSuffixes = new List<string>
+		{
+			" ",
+			"DeviceName" ,
+			"TagCode",
+			"TagNumber",
+			"Type"
+		};
 		/// <summary>
 		/// Gets or sets the selected device name.
 		/// </summary>
@@ -66,6 +74,46 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 				txtDevice.Text = value ?? "";
 			}
 		}
+
+		private Dictionary<string, string> _cnlNameFormat;
+
+		public Dictionary<string, string> CnlNameFormat
+		{
+			get
+			{
+				if (_cnlNameFormat == null)
+				{
+					_cnlNameFormat = new Dictionary<string, string>()
+			{
+				{"prefix", cbBoxPrefix.SelectedItem?.ToString() ?? "DeviceName" },
+				{"separator", txtSeparator.Text ?? "-" },
+				{"suffix", cbBoxSuffix.SelectedItem?.ToString() ?? "TagCode" }
+			};
+				}
+
+				return _cnlNameFormat;
+			}
+		}
+
+		//public Dictionary<string, string> _cnlNameFormat = new Dictionary<string, string>()
+		//{
+		//	{"prefix",(string)cbBoxPrefix.SelectedItem ?? "DeviceName" },
+		//	{"separator",(string)txtSeparator.Text ?? "-" },
+		//	{"suffix", (string)cbBoxSuffix.SelectedItem ?? "TagCode"},
+
+		//};
+
+
+		//public Dictionary<string, string> CnlNameFormat
+		//{
+		//	get { return _cnlNameFormat; }
+		//	internal set { _cnlNameFormat = value; }
+		//}
+		//public string prefix { get { return (string)cbBoxPrefix.SelectedItem; }  }
+		//public string separator { get { return (string)txtSeparator.Text; } }
+		//public string suffix { get { return (string)cbBoxSuffix.SelectedItem; } }
+
+
 
 		/// <summary>
 		/// Gets the start channel number.
@@ -113,6 +161,8 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			radioButton2.Checked = true;
 			OnSelectedFileChanged();
 			OnRdbCheckStateChanged();
+			cbBoxPrefix.Items.AddRange(prefixesAndSuffixes.ToArray());
+			cbBoxSuffix.Items.AddRange(prefixesAndSuffixes.ToArray());
 		}
 
 		/// <summary>
@@ -121,6 +171,9 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 		public void SetFocus()
 		{
 			numStartCnlNum.Select();
+			cbBoxSuffix.Select();
+			cbBoxPrefix.Select();
+			txtSeparator.Select();
 		}
 
 		/// <summary>
@@ -178,18 +231,11 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 		private void radioButton1_CheckedChanged(object sender, EventArgs e)
 		{
 			txtPathFile.Enabled = radioButton1.Checked;
-			txtPathFile.Visible = radioButton1.Checked;
 			btnSelectFile.Enabled = radioButton1.Checked;
-			btnSelectFile.Visible = radioButton1.Checked;
 			OnRdbCheckStateChanged();
 		}
 		private void rdoEnableImport_MouseClick(object sender, MouseEventArgs e)
 		{
-			//if (lastCheckState)
-			//{
-			//	radioButton1.Checked = false;
-			//}
-
 			lastCheckState = radioButton1.Checked;
 			OnRdbCheckStateChanged();
 		}
@@ -359,6 +405,37 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 				_dictio.Add(_adress, list);
 				Console.WriteLine(_dictio.Count);
 			}
+		}
+
+		private void txtSeparator_TextChanged_1(object sender, EventArgs e)
+		{
+			string separator = string.IsNullOrEmpty(txtSeparator.Text) ? string.Empty : txtSeparator.Text;
+			//if (_cnlNameFormat != null)
+				_cnlNameFormat["separator"] = separator;
+			//else
+			//	_cnlNameFormat.Add("separator", separator);
+		}
+		
+		private void cbBoxSuffix_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			string value = cbBoxSuffix.SelectedItem?.ToString() ?? string.Empty;
+			//if (_cnlNameFormat != null)
+				_cnlNameFormat["suffix"] = value;
+			//else
+			//	_cnlNameFormat.Add("suffix", value);
+			cbBoxSuffix.SelectedIndex = cbBoxSuffix.FindStringExact(value);
+		}
+
+		private void cbBoxPrefix_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			string value = cbBoxPrefix.SelectedItem?.ToString() ?? string.Empty;
+
+			//if (_cnlNameFormat != null)
+				_cnlNameFormat["prefix"] = value;
+			//else
+			//	_cnlNameFormat.Add("prefix", value);
+
+			cbBoxPrefix.SelectedIndex = cbBoxPrefix.FindStringExact(value);
 		}
 
 		

@@ -61,7 +61,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			ctrlCnlCreate1.Visible = false;
 			ctrlCnlCreate2.Visible = false;
 			ctrlCnlCreate3.Visible = false;
-			chkPreview.Visible = false;
+			//chkPreview.Visible = false;
 			btnBack.Visible = false;
 			btnNext.Visible = false;
 			btnCreate.Visible = false;
@@ -88,7 +88,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 				case 3:
 					lblStep.Text = ExtensionPhrases.CreateCnlsStep3;
 					ctrlCnlCreate3.Visible = true;
-					chkPreview.Visible = true;
+					//chkPreview.Visible = true;
 					btnBack.Visible = true;
 					btnCreate.Visible = true;
 					//if(ctrlCnlCreate3.lastCheckState)
@@ -98,10 +98,10 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 					if (ctrlCnlCreate1.StatusOK)
 					{
 						ctrlCnlCreate3.ResetCnlNums(ctrlCnlCreate1.CnlPrototypes.Count);
-						if(ctrlCnlCreate3.lastCheckState2)
+						if (ctrlCnlCreate3.lastCheckState2)
 							btnCreate.Enabled = true;
-						else if(ctrlCnlCreate3.lastCheckState)
-							if(!ctrlCnlCreate3.FileSelected) 
+						else if (ctrlCnlCreate3.lastCheckState)
+							if (!ctrlCnlCreate3.FileSelected)
 								btnCreate.Enabled = false;
 							else
 								btnCreate.Enabled = true;
@@ -109,7 +109,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 							btnCreate.Enabled = false;
 
 
-						
+
 					}
 					else
 					{
@@ -122,7 +122,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			}
 		}
 
-		
+
 		/// <summary>
 		/// Adds the specified channels into the configuration database.
 		/// </summary>
@@ -141,15 +141,15 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 		{
 			if (ctrlCnlCreate3.lastCheckState2)
 				btnCreate.Enabled = true;
-			else 
+			else
 				if (ctrlCnlCreate3.FileSelected)
-					btnCreate.Enabled = true;
-				else { btnCreate.Enabled = false; }
+				btnCreate.Enabled = true;
+			else { btnCreate.Enabled = false; }
 
 		}
 		private void CtrlCnlCnl3_rdbCheckStateChanged(object sender, EventArgs e)
 		{
-		
+
 			if (ctrlCnlCreate3.lastCheckState2)
 				btnCreate.Enabled = true;
 			else
@@ -193,30 +193,28 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			if (ctrlCnlCreate1.StatusOK)
 			{
 
-				int? objNum = ctrlCnlCreate2.ObjNum;
-				int deviceNum = ctrlCnlCreate1.SelectedDevice.DeviceNum;
-
 				Dictionary<string, object> deviceInfoDict = new Dictionary<string, object>();
-			
-
-
-				//remove cnls
-				if (new FrmCnlImportMerge(project, ctrlCnlCreate1,ctrlCnlCreate2 ,ctrlCnlCreate3).ShowDialog() == DialogResult.OK)
+				var cnlNamf = ctrlCnlCreate3.CnlNameFormat;
+				if (ctrlCnlCreate3.lastCheckState2)
 				{
-					DialogResult = DialogResult.OK;
-				}
-			}
-			//if (ctrlCnlCreate1.StatusOK)
-			//{
-			//	List<Cnl> cnls = CreateChannels();
 
-			//	if (!chkPreview.Checked ||
-			//		new FrmCnlPreview(cnls).ShowDialog() == DialogResult.OK)
-			//	{
-			//		AddChannels(cnls, chkPreview.Checked);
-			//		DialogResult = DialogResult.OK;
-			//	}
-			//}
+					//remove cnls
+					if (new FrmCnlImportMerge(project, ctrlCnlCreate1, ctrlCnlCreate2, ctrlCnlCreate3).ShowDialog() == DialogResult.OK)
+					{
+						DialogResult = DialogResult.OK;
+					}
+				}
+				else
+				{
+					if (new FrmCnlMerge(project, deviceInfoDict, ctrlCnlCreate3._dictio, ctrlCnlCreate3).ShowDialog() == DialogResult.OK)
+					{
+
+						DialogResult = DialogResult.OK;
+					}
+				}
+
+			}
+		
 		}
 	}
 }
