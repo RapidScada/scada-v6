@@ -207,16 +207,16 @@ function createCell(cssClass, content) {
 function getSeverityElem(severityValue, severityText) {
     switch (Severity.closest(severityValue)) {
         case Severity.CRITICAL:
-            return $("<i class='fas fa-exclamation-circle critical'></i>").attr("title", severityText);
+            return $("<i class='fa-solid fa-circle-exclamation critical'></i>").attr("title", severityText);
 
         case Severity.MAJOR:
-            return $("<i class='fas fa-exclamation-triangle major'></i>").attr("title", severityText);
+            return $("<i class='fa-solid fa-triangle-exclamation major'></i>").attr("title", severityText);
 
         case Severity.MINOR:
-            return $("<i class='fas fa-exclamation-triangle minor'></i>").attr("title", severityText);
+            return $("<i class='fa-solid fa-triangle-exclamation minor'></i>").attr("title", severityText);
 
         case Severity.INFO:
-            return $("<i class='fas fa-info info'></i>").attr("title", severityText);
+            return $("<i class='fa-solid fa-info info'></i>").attr("title", severityText);
 
         default:
             return null;
@@ -225,9 +225,9 @@ function getSeverityElem(severityValue, severityText) {
 
 function getAckElem(e, ef) {
     if (e.ack) {
-        return $("<i class='far fa-check-square ack-yes'></i>").attr("title", ef.ack);
+        return $("<i class='fa-regular fa-square-check ack-yes'></i>").attr("title", ef.ack);
     } else if (e.ackRequired) {
-        return $("<i class='far fa-square ack-no'></i>").attr("title", phrases.Ack);
+        return $("<i class='fa-regular fa-square ack-no'></i>").attr("title", phrases.Ack);
     } else {
         return null;
     }

@@ -291,7 +291,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                     {
                         sbHtml
                             .Append("<span class='item-cmd' title='").Append(PluginPhrases.SendCommandTip)
-                            .Append("'><i class='fas fa-rocket'></i></span>");
+                            .Append("'><i class='fa-solid fa-rocket'></i></span>");
                     }
                 }
                 else

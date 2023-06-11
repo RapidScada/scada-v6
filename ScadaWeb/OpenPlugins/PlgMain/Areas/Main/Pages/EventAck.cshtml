@@ -35,10 +35,10 @@
 
     var sevIcon = new HtmlString(Severity.Closest(Model.Event.Severity) switch
     {
-        KnownSeverity.Critical => "<i class='fas fa-exclamation-circle critical'></i>",
-        KnownSeverity.Major => "<i class='fas fa-exclamation-triangle major'></i>",
-        KnownSeverity.Minor => "<i class='fas fa-exclamation-triangle minor'></i>",
-        KnownSeverity.Info => "<i class='fas fa-info info'></i>",
+        KnownSeverity.Critical => "<i class='fa-solid fa-circle-exclamation critical'></i>",
+        KnownSeverity.Major => "<i class='fa-solid fa-triangle-exclamation major'></i>",
+        KnownSeverity.Minor => "<i class='fa-solid fa-triangle-exclamation minor'></i>",
+        KnownSeverity.Info => "<i class='fa-solid fa-info info'></i>",
         _ => ""
     });
 
