@@ -111,14 +111,19 @@ class NotifPanel {
 
         switch (this._highestSeverity) {
             case Severity.CRITICAL:
-                this.bellElem.addClass("error");
+                this.bellElem.addClass("critical");
                 bellIcon.addClass("fa-solid");
                 this._playErrorSound();
                 break;
 
             case Severity.MAJOR:
+                this.bellElem.addClass("major");
+                bellIcon.addClass("fa-solid");
+                this._playWarningSound();
+                break;
+
             case Severity.MINOR:
-                this.bellElem.addClass("warning");
+                this.bellElem.addClass("minor");
                 bellIcon.addClass("fa-solid");
                 this._playWarningSound();
                 break;
@@ -146,7 +151,7 @@ class NotifPanel {
     // Creates a jQuery element for the notification.
     _createNotifElem(notif) {
         let notifElem = $(`<div id='${this._getNotifElemID(notif.key)}' class='notif'></div>`).data("notif", notif);
-        $(`<div class='notif-icon'>${this._getNotifIconHtml(notif.knownSeverity)}</div>`).appendTo(notifElem);
+        this._getNotifIconElem(notif.knownSeverity).appendTo(notifElem);
 
         if (notif.timestamp) {
             let time = notif.timestamp instanceof Date ? notif.timestamp.toLocaleString() : notif.timestamp;
@@ -172,23 +177,23 @@ class NotifPanel {
         return "notif_" + key;
     }
 
-    // Gets a Font Awesome HTML code for the icon corresponding to the severity.
-    _getNotifIconHtml(knownSeverity) {
+    // Gets a notification icon jQuery element corresponding to the severity.
+    _getNotifIconElem(knownSeverity) {
         switch (knownSeverity) {
             case Severity.CRITICAL:
-                return "<i class='fa-solid fa-circle-exclamation critical'></i>";
+                return $("<div class='notif-icon critical'><i class='fa-solid fa-circle-exclamation'></i></div>");
 
             case Severity.MAJOR:
-                return "<i class='fa-solid fa-triangle-exclamation major'></i>";
+                return $("<div class='notif-icon major'><i class='fa-solid fa-triangle-exclamation'></i></div>");
 
             case Severity.MINOR:
-                return "<i class='fa-solid fa-triangle-exclamation minor'></i>";
+                return $("<div class='notif-icon minor'><i class='fa-solid fa-triangle-exclamation'></i></div>");
 
             case Severity.INFO:
-                return "<i class='fa-solid fa-info info'></i>";
+                return $("<div class='notif-icon info'><i class='fa-solid fa-info'></i></div>");
 
             default:
-                return "<i class='fa-regular fa-circle undef'></i>";
+                return $("<div class='notif-icon undef'><i class='fa-regular fa-circle'></i></div>");
         }
     }
 

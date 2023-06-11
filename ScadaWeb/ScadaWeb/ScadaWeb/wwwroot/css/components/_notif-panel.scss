@@ -124,26 +124,6 @@ body {
         font-size: $notif-icon-font-size;
         width: $notif-icon-font-size;
         text-align: center;
-
-        .critical {
-            color: $danger;
-        }
-
-        .major {
-            color: $orange;
-        }
-
-        .minor {
-            color: $yellow;
-        }
-
-        .info {
-            color: $info;
-        }
-
-        .undef {
-            color: $white;
-        }
     }
 
     .notif-time,
@@ -163,17 +143,26 @@ body {
     }
 }
 
-/********** Bell **********/
+/********** Notification Icon Colors **********/
+.notif-icon,
 .notif-bell {
-    &.error {
+    &.critical {
         color: $danger;
     }
 
-    &.warning {
-        color: $warning;
+    &.major {
+        color: $orange;
+    }
+
+    &.minor {
+        color: $yellow;
     }
 
     &.info {
         color: $info;
+    }
+
+    &.undef {
+        color: $gray-900;
     }
 }

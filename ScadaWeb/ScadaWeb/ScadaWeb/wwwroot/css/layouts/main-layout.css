@@ -30,7 +30,7 @@
   right: 0;
   top: 30px;
   width: 30%;
-  z-index: 2000;
+  z-index: 900;
 }
 .notif-panel.hidden {
   display: none;
@@ -107,21 +107,6 @@ body:not(.header-visible) .notif-panel .notif-toolbar {
   width: 14px;
   text-align: center;
 }
-.notif-panel .notif .notif-icon .critical {
-  color: #dc3545;
-}
-.notif-panel .notif .notif-icon .major {
-  color: #fd7e14;
-}
-.notif-panel .notif .notif-icon .minor {
-  color: #ffc107;
-}
-.notif-panel .notif .notif-icon .info {
-  color: #0dcaf0;
-}
-.notif-panel .notif .notif-icon .undef {
-  color: #fff;
-}
 .notif-panel .notif .notif-time,
 .notif-panel .notif .notif-msg {
   margin-left: 25px;
@@ -136,15 +121,26 @@ body:not(.header-visible) .notif-panel .notif-toolbar {
   text-decoration: underline;
 }
 
-/********** Bell **********/
-.notif-bell.error {
+/********** Notification Icon Colors **********/
+.notif-icon.critical,
+.notif-bell.critical {
   color: #dc3545;
 }
-.notif-bell.warning {
+.notif-icon.major,
+.notif-bell.major {
+  color: #fd7e14;
+}
+.notif-icon.minor,
+.notif-bell.minor {
   color: #ffc107;
 }
+.notif-icon.info,
 .notif-bell.info {
   color: #0dcaf0;
+}
+.notif-icon.undef,
+.notif-bell.undef {
+  color: #212529;
 }
 
 .tree-view .node {
@@ -254,7 +250,7 @@ body.left-panel-visible {
   right: 0;
   top: 0;
   background-color: white;
-  z-index: 2001;
+  z-index: 901;
 }
 #Main_divNoHeaderMenu:hover {
   opacity: 1;
