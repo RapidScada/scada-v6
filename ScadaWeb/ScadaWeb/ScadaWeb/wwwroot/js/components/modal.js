@@ -25,10 +25,13 @@ class ModalSize {
 
 // Represents modal dialog options.
 class ModalOptions {
-    constructor(opt_buttons, opt_size, opt_height) {
-        this.buttons = opt_buttons || [ModalButton.CLOSE];
-        this.size = opt_size || ModalSize.NORMAL;
-        this.height = opt_height || 0;
+    title = null;
+    buttons = [ModalButton.CLOSE];
+    size = ModalSize.NORMAL;
+    height = 0;
+
+    constructor(fields) {
+        Object.assign(this, fields);
     }
 }
 
@@ -274,7 +277,7 @@ class ModalManager {
                     thisObj._setupModalDoc(frameWnd);
                 } else {
                     // set the modal title
-                    modalElem.find(".modal-title").text(url);
+                    modalElem.find(".modal-title").text(ModalManager._truncateTitle(options.title || url));
                 }
             })
             .one("load", function () {
