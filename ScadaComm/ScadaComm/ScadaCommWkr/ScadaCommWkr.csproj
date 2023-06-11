@@ -51,8 +51,4 @@
     </Reference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Config\" />
-    <Folder Include="Lang\" />
-  </ItemGroup>
 </Project>
