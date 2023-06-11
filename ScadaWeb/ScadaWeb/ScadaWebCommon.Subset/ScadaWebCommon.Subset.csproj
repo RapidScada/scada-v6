@@ -12,7 +12,15 @@
     <AssemblyVersion>6.1.1.0</AssemblyVersion>
   </PropertyGroup>
 
-  <Import Project="..\ScadaWebCommon.Shared\ScadaWebCommon.Shared.projitems" Label="Shared" />
+  <ItemGroup>
+    <Compile Include="..\ScadaWebCommon\Config\DisplayOptions.cs" Link="Config\DisplayOptions.cs" />
+    <Compile Include="..\ScadaWebCommon\Config\GeneralOptions.cs" Link="Config\GeneralOptions.cs" />
+    <Compile Include="..\ScadaWebCommon\Config\LoginOptions.cs" Link="Config\LoginOptions.cs" />
+    <Compile Include="..\ScadaWebCommon\Config\PluginAssignment.cs" Link="Config\PluginAssignment.cs" />
+    <Compile Include="..\ScadaWebCommon\Config\WebConfig.cs" Link="Config\WebConfig.cs" />
+    <Compile Include="..\ScadaWebCommon\Plugins\PluginView.cs" Link="Plugins\PluginView.cs" />
+    <Compile Include="..\ScadaWebCommon\Plugins\PluginViewFactory.cs" Link="Plugins\PluginViewFactory.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="ScadaCommon">

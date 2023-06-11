@@ -25,6 +25,4 @@
     </Reference>
   </ItemGroup>
 
-  <Import Project="..\ScadaWebCommon.Shared\ScadaWebCommon.Shared.projitems" Label="Shared" />
-
 </Project>
