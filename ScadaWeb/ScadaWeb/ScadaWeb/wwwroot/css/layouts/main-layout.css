@@ -140,7 +140,7 @@ body:not(.header-visible) .notif-panel .notif-toolbar {
 }
 .notif-icon.undef,
 .notif-bell.undef {
-  color: #212529;
+  color: #ced4da;
 }
 
 .tree-view .node {
