@@ -1213,5 +1213,11 @@ namespace Scada.Admin.App.Forms.Tables
         {
             cmsChangeObject.Show(new Point(MousePosition.X, MousePosition.Y));
         }
+        public void RefreshData()
+        {
+
+            LoadTableData();
+        }
+
     }
 }

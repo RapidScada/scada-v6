@@ -120,7 +120,6 @@
             cmsCnlTable = new System.Windows.Forms.ContextMenuStrip(components);
             miCnlTableComm = new System.Windows.Forms.ToolStripMenuItem();
             miCnlTableRefresh = new System.Windows.Forms.ToolStripMenuItem();
-            addFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             msMain.SuspendLayout();
             tsMain.SuspendLayout();
             ssMain.SuspendLayout();
@@ -846,9 +845,9 @@
             // cmsCnlTable
             // 
             cmsCnlTable.ImageScalingSize = new System.Drawing.Size(20, 20);
-            cmsCnlTable.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { miCnlTableComm, miCnlTableRefresh, addFolderToolStripMenuItem });
+            cmsCnlTable.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { miCnlTableComm, miCnlTableRefresh });
             cmsCnlTable.Name = "cmsChannels";
-            cmsCnlTable.Size = new System.Drawing.Size(222, 110);
+            cmsCnlTable.Size = new System.Drawing.Size(222, 84);
             cmsCnlTable.Opening += cmsCnlTable_Opening;
             // 
             // miCnlTableComm
@@ -866,13 +865,6 @@
             miCnlTableRefresh.Size = new System.Drawing.Size(221, 26);
             miCnlTableRefresh.Text = "Refresh";
             miCnlTableRefresh.Click += miCnlTableRefresh_Click;
-            // 
-            // addFolderToolStripMenuItem
-            // 
-            addFolderToolStripMenuItem.Name = "addFolderToolStripMenuItem";
-            addFolderToolStripMenuItem.Size = new System.Drawing.Size(221, 26);
-            addFolderToolStripMenuItem.Text = "add folder";
-            addFolderToolStripMenuItem.Click += addFolderToolStripMenuItem_Click;
             // 
             // FrmMain
             // 
@@ -1006,7 +998,6 @@
         private System.Windows.Forms.ToolStripStatusLabel lblSelectedInstance;
         private System.Windows.Forms.ToolStripStatusLabel lblSelectedProfile;
         private System.Windows.Forms.ToolStripMenuItem miAppReloadConfig;
-        private System.Windows.Forms.ToolStripMenuItem addFolderToolStripMenuItem;
     }
 }
 

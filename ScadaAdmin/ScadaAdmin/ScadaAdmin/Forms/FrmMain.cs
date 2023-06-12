@@ -1146,9 +1146,19 @@ namespace Scada.Admin.App.Forms
 
         private void wctrlMain_ActiveFormChanged(object sender, EventArgs e)
         {
-            // enable or disable the Save menu item
+
+
+
+
+                // enable or disable the Save menu item
             miFileSave.Enabled = btnFileSave.Enabled =
                 wctrlMain.ActiveForm is IChildForm childForm && childForm.ChildFormTag.Modified;
+            if (sender is WinControl.WinControl ctrl)
+                if (ctrl.ActiveForm is FrmBaseTable table)
+                    if (table.ItemType.Name == "Cnl") 
+                        table.RefreshData();
+                        
+
         }
 
         private void wctrlMain_ChildFormClosed(object sender, ChildFormClosedEventArgs e)
