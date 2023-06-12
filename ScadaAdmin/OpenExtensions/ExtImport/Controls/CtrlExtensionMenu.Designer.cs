@@ -91,8 +91,8 @@
 			miImportChannel.Image = Properties.Resources.import;
 			miImportChannel.Name = "miImportChannel";
 			miImportChannel.Size = new Size(224, 26);
-			miImportChannel.Text = "Import Channel ";
-			miImportChannel.Click += miImportCnl_Click;
+			miImportChannel.Text = "Import";
+			miImportChannel.Click += btnImport_Click;
 			// 
 			// CtrlExtensionMenu
 			// 

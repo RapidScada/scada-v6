@@ -39,19 +39,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Controls\CtrlCnlCreate1.cs">
+    <Compile Update="Controls\CtrlCnlImport1.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Controls\CtrlCnlCreate2.cs">
+    <Compile Update="Controls\CtrlCnlImport2.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Controls\CtrlCnlCreate3.cs">
+    <Compile Update="Controls\CtrlCnlImport3.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Forms\FrmCnlCreate.cs">
+    <Compile Update="Forms\FrmCnlImport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Forms\FrmCnlImportMerge.cs">
+    <Compile Update="Forms\FrmCnlsMerge.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

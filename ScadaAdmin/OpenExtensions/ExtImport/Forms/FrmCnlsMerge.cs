@@ -6,15 +6,15 @@ using System.Xml.Linq;
 
 namespace Scada.Admin.Extensions.ExtImport.Forms
 {
-	public partial class FrmCnlImportMerge : Form
+	public partial class FrmCnlsMerge : Form
 	{
 
 		private Dictionary<string, List<string>> dictio;
 		private IAdminContext adminContext; // the Administrator context
 		private ScadaProject project;       // the project under development
-		private Controls.CtrlCnlCreate3 CtrlCnlCreate3;
-		private Controls.CtrlCnlCreate2 CtrlCnlCreate2;
-		private Controls.CtrlCnlCreate1 CtrlCnlCreate1;
+		private Controls.CtrlCnlImport3 CtrlCnlImport3;
+		private Controls.CtrlCnlImport2 CtrlCnlImport2;
+		private Controls.CtrlCnlImport1 CtrlCnlImport1;
 		private CheckBox _headerCheckBox1 = new CheckBox();
 		private CheckBox _headerCheckBox2 = new CheckBox();
 
@@ -33,7 +33,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 				{"UNDEFINED", 3 }, // or any other default value
                 {"WORD", 1 },
 			};
-	
+
 		private Dictionary<int, string> cnlDataTypeDictionary = new Dictionary<int, string>
 		{
 			{1, "BOOL"},
@@ -64,13 +64,13 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			{3, "Unicode string"}
 		};
 
-		private FrmCnlImportMerge()
+		private FrmCnlsMerge()
 		{
 			InitializeComponent();
 			dataGridView1.AutoGenerateColumns = false;
 		}
-	
-		
+
+
 		public void Init(IAdminContext adminContext, ScadaProject project)
 		{
 			this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
@@ -78,14 +78,14 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 
 		}
 
-	
-		public FrmCnlImportMerge(ScadaProject project, Controls.CtrlCnlCreate1 ctrlCnlCreate1, Controls.CtrlCnlCreate2 ctrlCnlCreate2, Controls.CtrlCnlCreate3 ctrlCnlCreate3) : this()
+
+		public FrmCnlsMerge(ScadaProject project, Controls.CtrlCnlImport1 ctrlCnlImport1, Controls.CtrlCnlImport2 ctrlCnlImport2, Controls.CtrlCnlImport3 ctrlCnlImport3) : this()
 		{
 			this.project = project;
-			this.CtrlCnlCreate1 = ctrlCnlCreate1; 
-			this.CtrlCnlCreate2 = ctrlCnlCreate2;
-			this.CtrlCnlCreate3 = ctrlCnlCreate3; 
-			setDictio(ctrlCnlCreate3._dictio);
+			this.CtrlCnlImport1 = ctrlCnlImport1;
+			this.CtrlCnlImport2 = ctrlCnlImport2;
+			this.CtrlCnlImport3 = ctrlCnlImport3;
+			setDictio(ctrlCnlImport3._dictio);
 			gridViewFiller();
 		}
 
@@ -197,20 +197,20 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			// Use the AddChannels function to add the selected channels
 			AddChannels(selectedChannels);
 		}
-		
+
 
 		private List<Cnl> CreateChannelsFromFille(Dictionary<string, List<string>> store)
 		{
 			List<Cnl> cnls = new List<Cnl>();
-			int cnlNum = CtrlCnlCreate3.StartCnlNum;
-			string namePrefix = CtrlCnlCreate1.SelectedDevice.Name;
-			int? objNum = CtrlCnlCreate2.ObjNum;
-			int deviceNum = CtrlCnlCreate1.SelectedDevice.DeviceNum;
+			int cnlNum = CtrlCnlImport3.StartCnlNum;
+			string namePrefix = CtrlCnlImport1.SelectedDevice.Name;
+			int? objNum = CtrlCnlImport2.ObjNum;
+			int deviceNum = CtrlCnlImport1.SelectedDevice.DeviceNum;
 
 			foreach (KeyValuePair<string, List<string>> element in store)
 			{
 				string tagCode = element.Key;
-				CnlPrototype cnlPrototype = CtrlCnlCreate1.CnlPrototypes.FirstOrDefault(); // or some other way to get the prototype
+				CnlPrototype cnlPrototype = CtrlCnlImport1.CnlPrototypes.FirstOrDefault(); // or some other way to get the prototype
 
 				if (cnlPrototype != null)
 				{
@@ -270,24 +270,24 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 		private List<Cnl> CreateChannels()
 		{
 			List<Cnl> cnls = new();
-			int cnlNum = CtrlCnlCreate3.StartCnlNum;
-			string name, separator,prefix, suffix;
-			CtrlCnlCreate3.CnlNameFormat.TryGetValue("separator", out separator);
-			CtrlCnlCreate3.CnlNameFormat.TryGetValue("prefix", out prefix);
-			CtrlCnlCreate3.CnlNameFormat.TryGetValue("suffix", out suffix);
-		
+			int cnlNum = CtrlCnlImport3.StartCnlNum;
+			string name, separator, prefix, suffix;
+			CtrlCnlImport3.CnlNameFormat.TryGetValue("separator", out separator);
+			CtrlCnlImport3.CnlNameFormat.TryGetValue("prefix", out prefix);
+			CtrlCnlImport3.CnlNameFormat.TryGetValue("suffix", out suffix);
 
 
-			int? objNum = CtrlCnlCreate2.ObjNum;
-			int deviceNum = CtrlCnlCreate1.SelectedDevice.DeviceNum;
 
-			foreach (CnlPrototype cnlPrototype in CtrlCnlCreate1.CnlPrototypes)
+			int? objNum = CtrlCnlImport2.ObjNum;
+			int deviceNum = CtrlCnlImport1.SelectedDevice.DeviceNum;
+
+			foreach (CnlPrototype cnlPrototype in CtrlCnlImport1.CnlPrototypes)
 			{
-				if(!string.IsNullOrWhiteSpace(prefix) || !string.IsNullOrWhiteSpace(suffix))
+				if (!string.IsNullOrWhiteSpace(prefix) || !string.IsNullOrWhiteSpace(suffix))
 				{
 					name = prefix switch
 					{
-						"DeviceName" => CtrlCnlCreate3.DeviceName,
+						"DeviceName" => CtrlCnlImport3.DeviceName,
 						"TagCode" => cnlPrototype.TagCode,
 						"TagNumber" => cnlPrototype.TagNum.ToString(),
 						"Type" => cnlPrototype.CnlTypeID.ToString(),
@@ -296,7 +296,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 					name += separator;
 					name += suffix switch
 					{
-						"DeviceName" => CtrlCnlCreate3.DeviceName,
+						"DeviceName" => CtrlCnlImport3.DeviceName,
 						"TagCode" => cnlPrototype.TagCode,
 						"TagNumber" => cnlPrototype.TagNum.ToString(),
 						"Type" => cnlPrototype.CnlTypeID.ToString(),
@@ -305,14 +305,14 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 				}
 				else
 				{
-					name = CtrlCnlCreate3.DeviceName + "-" + cnlPrototype.TagCode;
+					name = CtrlCnlImport3.DeviceName + "-" + cnlPrototype.TagCode;
 				}
-				
+
 				cnls.Add(new Cnl
 				{
 					CnlNum = cnlNum,
 					Active = cnlPrototype.Active,
-					Name =name,
+					Name = name,
 					DataTypeID = cnlPrototype.DataTypeID,
 					DataLen = cnlPrototype.DataLen,
 					CnlTypeID = cnlPrototype.CnlTypeID,
@@ -397,13 +397,13 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 						dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex == 1 ? 9 : 3].Style.BackColor = Color.PaleVioletRed;
 						dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex == 1 ? 10 : 4].Style.BackColor = Color.PaleVioletRed;
 						dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex == 1 ? 11 : 5].Style.BackColor = Color.PaleVioletRed;
-						
+
 						currentCheckbox.Style.BackColor = Color.LightGreen;
 						dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex + 1].Style.BackColor = Color.LightGreen;
 						dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex + 2].Style.BackColor = Color.LightGreen;
 						dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex + 3].Style.BackColor = Color.LightGreen;
 						dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex + 4].Style.BackColor = Color.LightGreen;
-						
+
 					}
 				}
 
@@ -587,7 +587,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			AddSelectedChannels();
 			DialogResult = DialogResult.OK;
 		}
-		
-	
+
+
 	}
 }

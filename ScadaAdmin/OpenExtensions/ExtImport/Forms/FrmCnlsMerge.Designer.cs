@@ -2,7 +2,7 @@
 
 namespace Scada.Admin.Extensions.ExtImport.Forms
 {
-	partial class FrmCnlImportMerge
+	partial class FrmCnlsMerge
 	{
 		//private DataGridView dataGridView;
 
@@ -70,7 +70,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			dataGridView1.Name = "dataGridView1";
 			dataGridView1.RowHeadersWidth = 180;
 			dataGridView1.RowTemplate.Height = 29;
-			dataGridView1.Size = new Size(1671, 612);
+			dataGridView1.Size = new Size(1671, 664);
 			dataGridView1.TabIndex = 21;
 			dataGridView1.CellContentClick += dataGridView1_CellContentClick;
 			// 
@@ -163,7 +163,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			// btnCancel
 			// 
 			btnCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			btnCancel.Location = new Point(1547, 663);
+			btnCancel.Location = new Point(1547, 715);
 			btnCancel.Name = "btnCancel";
 			btnCancel.Size = new Size(119, 35);
 			btnCancel.TabIndex = 23;
@@ -173,7 +173,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			// btnAdd
 			// 
 			btnAdd.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-			btnAdd.Location = new Point(1408, 662);
+			btnAdd.Location = new Point(1408, 714);
 			btnAdd.Name = "btnAdd";
 			btnAdd.Size = new Size(109, 35);
 			btnAdd.TabIndex = 22;
@@ -185,10 +185,10 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			// 
 			lblSource.BorderStyle = BorderStyle.FixedSingle;
 			lblSource.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point);
-			lblSource.Location = new Point(442, -2);
+			lblSource.Location = new Point(442, 9);
 			lblSource.Name = "lblSource";
 			lblSource.Padding = new Padding(2, 3, 2, 3);
-			lblSource.Size = new Size(143, 45);
+			lblSource.Size = new Size(143, 34);
 			lblSource.TabIndex = 24;
 			lblSource.Text = "From file";
 			// 
@@ -196,10 +196,10 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			// 
 			lblDestination.BorderStyle = BorderStyle.FixedSingle;
 			lblDestination.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point);
-			lblDestination.Location = new Point(1188, 1);
+			lblDestination.Location = new Point(1188, 9);
 			lblDestination.Name = "lblDestination";
 			lblDestination.Padding = new Padding(2, 3, 2, 3);
-			lblDestination.Size = new Size(177, 42);
+			lblDestination.Size = new Size(177, 34);
 			lblDestination.TabIndex = 25;
 			lblDestination.Text = " From equipment";
 			// 
@@ -208,12 +208,12 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			saveFileDialog1.Filter = "Fichiers XML (*.xml)|*.xml";
 			saveFileDialog1.RestoreDirectory = true;
 			// 
-			// FrmCnlImportMerge
+			// FrmCnlsMerge
 			// 
 			AutoScaleDimensions = new SizeF(8F, 20F);
 			AutoScaleMode = AutoScaleMode.Font;
 			CancelButton = btnCancel;
-			ClientSize = new Size(1694, 704);
+			ClientSize = new Size(1694, 756);
 			Controls.Add(lblDestination);
 			Controls.Add(lblSource);
 			Controls.Add(btnCancel);
@@ -222,7 +222,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			Controls.Add(label3);
 			Margin = new Padding(3, 4, 3, 4);
 			MinimumSize = new Size(1440, 706);
-			Name = "FrmCnlImportMerge";
+			Name = "FrmCnlsMerge";
 			Text = "Merge";
 			Load += FrmCnlMerge_Load;
 			((ISupportInitialize)dataGridView1).EndInit();

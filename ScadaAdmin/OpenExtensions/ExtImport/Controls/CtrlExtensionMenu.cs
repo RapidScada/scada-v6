@@ -152,17 +152,6 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 
 
 
-		private void miImportCnl_Click(object sender, EventArgs e)
-		{
-			if (adminContext.CurrentProject != null)
-			{
-				FrmCnlCreate frmCnlCreate = new(adminContext, adminContext.CurrentProject, recentSelection);
-				if (frmCnlCreate.ShowDialog() == DialogResult.OK)
-					adminContext.MainForm.RefreshBaseTables(typeof(Cnl), true);
-
-			}
-		}
-
 		private void btnImport_Click(object sender, EventArgs e)
 		{
 			if (adminContext.CurrentProject != null)
@@ -172,7 +161,8 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 					adminContext.MainForm.RefreshBaseTables(typeof(Cnl), true);
 
 			}
-
 		}
+
+		
 	}
 }
