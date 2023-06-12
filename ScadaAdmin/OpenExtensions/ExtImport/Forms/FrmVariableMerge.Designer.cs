@@ -47,24 +47,27 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             lblDestination = new Label();
             saveFileDialog1 = new SaveFileDialog();
             button1 = new Button();
+            label1 = new Label();
+            label2 = new Label();
             ((ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(6, 27);
+            label3.Location = new Point(5, 20);
             label3.Name = "label3";
-            label3.Size = new Size(0, 20);
+            label3.Size = new Size(0, 15);
             label3.TabIndex = 17;
             // 
             // checkBox3
             // 
             checkBox3.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             checkBox3.AutoSize = true;
-            checkBox3.Location = new Point(11, 621);
+            checkBox3.Location = new Point(10, 465);
+            checkBox3.Margin = new Padding(3, 2, 3, 2);
             checkBox3.Name = "checkBox3";
-            checkBox3.Size = new Size(254, 24);
+            checkBox3.Size = new Size(204, 19);
             checkBox3.TabIndex = 18;
             checkBox3.Text = " Preserve the existing descriptions";
             checkBox3.UseVisualStyleBackColor = true;
@@ -76,11 +79,12 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column1Txt, ColumnChk, Column2Txt, Column33, Column4, ColumnVide, Column2Chk, Column2, Column3, Column44 });
-            dataGridView1.Location = new Point(11, 57);
+            dataGridView1.Location = new Point(10, 43);
+            dataGridView1.Margin = new Padding(3, 2, 3, 2);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 180;
             dataGridView1.RowTemplate.Height = 29;
-            dataGridView1.Size = new Size(1398, 557);
+            dataGridView1.Size = new Size(1223, 418);
             dataGridView1.TabIndex = 21;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
@@ -159,9 +163,10 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             // btnCancel
             // 
             btnCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnCancel.Location = new Point(1328, 620);
+            btnCancel.Location = new Point(1162, 465);
+            btnCancel.Margin = new Padding(3, 2, 3, 2);
             btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(82, 35);
+            btnCancel.Size = new Size(72, 26);
             btnCancel.TabIndex = 23;
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = true;
@@ -169,22 +174,24 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             // lblSource
             // 
             lblSource.BorderStyle = BorderStyle.FixedSingle;
-            lblSource.Location = new Point(12, 20);
+            lblSource.Location = new Point(12, 9);
             lblSource.Name = "lblSource";
-            lblSource.Padding = new Padding(2, 3, 2, 3);
-            lblSource.Size = new Size(137, 27);
+            lblSource.Padding = new Padding(2);
+            lblSource.Size = new Size(120, 21);
             lblSource.TabIndex = 24;
             lblSource.Text = "Source";
+            lblSource.Visible = false;
             // 
             // lblDestination
             // 
             lblDestination.BorderStyle = BorderStyle.FixedSingle;
-            lblDestination.Location = new Point(697, 20);
+            lblDestination.Location = new Point(610, 15);
             lblDestination.Name = "lblDestination";
-            lblDestination.Padding = new Padding(2, 3, 2, 3);
-            lblDestination.Size = new Size(138, 27);
+            lblDestination.Padding = new Padding(2);
+            lblDestination.Size = new Size(121, 21);
             lblDestination.TabIndex = 25;
             lblDestination.Text = "Destination";
+            lblDestination.Visible = false;
             // 
             // saveFileDialog1
             // 
@@ -194,21 +201,43 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             // button1
             // 
             button1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            button1.Location = new Point(1221, 620);
-            button1.Margin = new Padding(3, 4, 3, 4);
+            button1.Location = new Point(1068, 465);
             button1.Name = "button1";
-            button1.Size = new Size(100, 35);
+            button1.Size = new Size(88, 26);
             button1.TabIndex = 26;
             button1.Text = "Save";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.BorderStyle = BorderStyle.FixedSingle;
+            label1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            label1.Location = new Point(397, 15);
+            label1.Name = "label1";
+            label1.Size = new Size(45, 17);
+            label1.TabIndex = 27;
+            label1.Text = "Source";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.BorderStyle = BorderStyle.FixedSingle;
+            label2.Location = new Point(920, 15);
+            label2.Name = "label2";
+            label2.Size = new Size(69, 17);
+            label2.TabIndex = 28;
+            label2.Text = "Destination";
+            // 
             // FrmVariableMerge
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = btnCancel;
-            ClientSize = new Size(1424, 669);
+            ClientSize = new Size(1246, 502);
+            Controls.Add(label2);
+            Controls.Add(label1);
             Controls.Add(button1);
             Controls.Add(lblDestination);
             Controls.Add(lblSource);
@@ -216,8 +245,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             Controls.Add(dataGridView1);
             Controls.Add(checkBox3);
             Controls.Add(label3);
-            Margin = new Padding(3, 4, 3, 4);
-            MinimumSize = new Size(1440, 706);
+            MinimumSize = new Size(1262, 539);
             Name = "FrmVariableMerge";
             Text = "Merge";
             Load += FrmCnlMerge_Load;
@@ -246,5 +274,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
         private SaveFileDialog saveFileDialog;
         private SaveFileDialog saveFileDialog1;
         private Button button1;
+        private Label label1;
+        private Label label2;
     }
 }
