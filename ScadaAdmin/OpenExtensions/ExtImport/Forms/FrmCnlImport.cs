@@ -107,9 +107,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 								btnCreate.Enabled = true;
 						else
 							btnCreate.Enabled = false;
-
-
-
 					}
 					else
 					{

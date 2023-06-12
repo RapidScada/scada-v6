@@ -348,15 +348,20 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 
 			bool isAVar = true;
 
-			foreach (string colum in colums)
-			{
-				if (String.IsNullOrEmpty(colum) && colums[4] != colum)
-				{
-					isAVar = false;
-				}
-			}
+            //foreach (string colum in colums)
+            //{
+            //	if (String.IsNullOrEmpty(colum) && colums[4] != colum)
+            //	{
+            //		isAVar = false;
+            //	}
+            //}
 
-			if (isAVar)
+            if (colums[1] == "")
+            {
+                isAVar = false;
+            }
+
+            if (isAVar)
 			{
 				_mnemonique = colums[0];
 				_adress = colums[1];
