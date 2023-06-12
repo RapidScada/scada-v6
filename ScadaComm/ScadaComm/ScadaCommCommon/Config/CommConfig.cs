@@ -212,35 +212,6 @@ namespace Scada.Comm.Config
         }
 
         /// <summary>
-        /// Gets a list of driver codes used by the communication line.
-        /// </summary>
-        public static List<string> GetDriverCodes(LineConfig lineConfig)
-        {
-            if (lineConfig == null)
-                throw new ArgumentNullException(nameof(lineConfig));
-
-            List<string> driverCodes = new List<string>();
-            HashSet<string> driverCodeSet = new HashSet<string>();
-
-            void AddDriverCode(string driverCode)
-            {
-                if (!string.IsNullOrEmpty(driverCode) && driverCodeSet.Add(driverCode.ToLowerInvariant()))
-                    driverCodes.Add(driverCode);
-            }
-
-            AddDriverCode(lineConfig.Channel.Driver);
-
-            foreach (DeviceConfig deviceConfig in lineConfig.DevicePolling)
-            {
-                if (deviceConfig.Active)
-                    AddDriverCode(deviceConfig.Driver);
-            }
-
-            driverCodes.Sort();
-            return driverCodes;
-        }
-
-        /// <summary>
         /// Loads the communication line configuration from the specified storage.
         /// </summary>
         public static bool LoadLineConfig(IStorage storage, string fileName, int commLineNum, 

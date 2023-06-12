@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using System;
@@ -109,7 +109,7 @@ namespace Scada.Comm.Config
         /// <summary>
         /// Gets the polling options.
         /// </summary>
-        public PollingOptions PollingOptions { get; private set; }
+        public PollingOptions PollingOptions { get; }
 
         /// <summary>
         /// Gets the parent communication line configuration.

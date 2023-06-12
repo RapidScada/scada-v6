@@ -23,9 +23,9 @@
  * Modified : 2023
  */
 
+using Scada.Comm.Channels;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
-using Scada.Comm.Drivers;
 using Scada.Lang;
 using System;
 
@@ -60,9 +60,19 @@ namespace Scada.Comm.Engine
                 {
                     commLine.Channel = new ChannelLogicStub(commLine, lineConfig.Channel);
                 }
-                else if (driverHolder.GetDriver(lineConfig.Channel.Driver, out DriverLogic driverLogic))
+                else if (driverHolder.GetDriver(lineConfig.Channel.Driver, out DriverWrapper driverWrapper))
                 {
-                    commLine.Channel = driverLogic.CreateChannel(commLine, lineConfig.Channel);
+                    if (driverWrapper.CreateChannel(commLine, lineConfig.Channel, out ChannelLogic channelLogic))
+                    {
+                        commLine.Channel = channelLogic;
+                    }
+                    else
+                    {
+                        errMsg = string.Format(Locale.IsRussian ?
+                            "Не удалось создать канал связи." :
+                            "Unable to create communication channel.");
+                        return false;
+                    }
                 }
                 else
                 {
@@ -77,19 +87,19 @@ namespace Scada.Comm.Engine
                 {
                     if (deviceConfig.Active && !coreLogic.DeviceExists(deviceConfig.DeviceNum))
                     {
-                        if (driverHolder.GetDriver(deviceConfig.Driver, out DriverLogic driverLogic))
+                        if (driverHolder.GetDriver(deviceConfig.Driver, out DriverWrapper driverWrapper))
                         {
-                            DeviceLogic deviceLogic = driverLogic.CreateDevice(commLine, deviceConfig);
-
-                            if (deviceLogic == null)
+                            if (driverWrapper.CreateDevice(commLine, deviceConfig, out DeviceLogic deviceLogic))
+                            {
+                                commLine.AddDevice(deviceLogic);
+                            }
+                            else
                             {
                                 errMsg = string.Format(Locale.IsRussian ?
                                     "Не удалось создать устройство {0}." :
                                     "Unable to create device {0}.", deviceConfig.Title);
                                 return false;
                             }
-
-                            commLine.AddDevice(deviceLogic);
                         }
                         else
                         {

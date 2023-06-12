@@ -24,7 +24,6 @@
  */
 
 using Scada.Comm.Drivers;
-using Scada.Comm.Lang;
 using Scada.Log;
 using System;
 using System.Collections.Generic;
@@ -37,9 +36,9 @@ namespace Scada.Comm.Engine
     /// </summary>
     internal class DriverHolder
     {
-        private readonly ILog log;                  // the application log
-        private readonly List<DriverLogic> drivers; // the drivers used
-        private readonly Dictionary<string, DriverLogic> driverMap; // the drivers accessed by code
+        private readonly ILog log;                    // the application log
+        private readonly List<DriverWrapper> drivers; // the drivers used
+        private readonly Dictionary<string, DriverWrapper> driverMap; // the drivers accessed by code
 
 
         /// <summary>
@@ -48,8 +47,8 @@ namespace Scada.Comm.Engine
         public DriverHolder(ILog log)
         {
             this.log = log ?? throw new ArgumentNullException(nameof(log));
-            drivers = new List<DriverLogic>();
-            driverMap = new Dictionary<string, DriverLogic>();
+            drivers = new List<DriverWrapper>();
+            driverMap = new Dictionary<string, DriverWrapper>();
         }
 
 
@@ -64,7 +63,7 @@ namespace Scada.Comm.Engine
         /// <summary>
         /// Adds the specified driver to the lists.
         /// </summary>
-        public void AddDriver(DriverLogic driverLogic)
+        public DriverWrapper AddDriver(DriverLogic driverLogic)
         {
             if (driverLogic == null)
                 throw new ArgumentNullException(nameof(driverLogic));
@@ -72,16 +71,18 @@ namespace Scada.Comm.Engine
             if (driverMap.ContainsKey(driverLogic.Code))
                 throw new ScadaException("Driver already exists.");
 
-            drivers.Add(driverLogic);
-            driverMap.Add(driverLogic.Code, driverLogic);
+            DriverWrapper driverWrapper = new DriverWrapper(driverLogic, log);
+            drivers.Add(driverWrapper);
+            driverMap.Add(driverLogic.Code, driverWrapper);
+            return driverWrapper;
         }
 
         /// <summary>
-        /// Gets the driver by code.
+        /// Gets the driver wrapper by code.
         /// </summary>
-        public bool GetDriver(string driverCode, out DriverLogic driverLogic)
+        public bool GetDriver(string driverCode, out DriverWrapper driverWrapper)
         {
-            return driverMap.TryGetValue(driverCode, out driverLogic);
+            return driverMap.TryGetValue(driverCode, out driverWrapper);
         }
 
         /// <summary>
@@ -89,17 +90,7 @@ namespace Scada.Comm.Engine
         /// </summary>
         public void OnServiceStart()
         {
-            foreach (DriverLogic driverLogic in drivers)
-            {
-                try
-                {
-                    driverLogic.OnServiceStart();
-                }
-                catch (Exception ex)
-                {
-                    log.WriteError(ex, CommPhrases.ErrorInDriver, nameof(OnServiceStart), driverLogic.Code);
-                }
-            }
+            drivers.ForEach(d => d.OnServiceStart());
         }
 
         /// <summary>
@@ -107,17 +98,7 @@ namespace Scada.Comm.Engine
         /// </summary>
         public void OnServiceStop()
         {
-            foreach (DriverLogic driverLogic in drivers)
-            {
-                try
-                {
-                    driverLogic.OnServiceStop();
-                }
-                catch (Exception ex)
-                {
-                    log.WriteError(ex, CommPhrases.ErrorInDriver, nameof(OnServiceStop), driverLogic.Code);
-                }
-            }
+            drivers.ForEach(d => d.OnServiceStop());
         }
     }
 }

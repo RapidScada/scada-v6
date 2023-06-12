@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2023
  */
 
 using Scada.Config;
@@ -60,7 +60,7 @@ namespace Scada.Comm.Config
         /// <summary>
         /// Gets the custom options.
         /// </summary>
-        public OptionList CustomOptions { get; private set; }
+        public OptionList CustomOptions { get; }
 
 
         /// <summary>
