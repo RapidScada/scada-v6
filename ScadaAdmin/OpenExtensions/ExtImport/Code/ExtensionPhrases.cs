@@ -120,7 +120,6 @@ namespace Scada.Admin.Extensions.ExtImport.Code
 			ImportCnlsStep3 = dict["ImportCnlsStep3"];
 			ImportCnlsCompleted = dict["ImportCnlsCompleted"];
 
-			//TODO  : ADD Specific in dictionnary
 			dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCnlCreate");
 			CreateCnlsStep1 = dict["CreateCnlsStep1"];
 			CreateCnlsStep2 = dict["CreateCnlsStep2"];

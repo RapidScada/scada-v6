@@ -174,7 +174,6 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
         {
             List<Obj> listPrefix = prefixesAndSuffixes.Select(item => new Obj { ObjNum = item.ObjNum, Name = item.Name }).ToList();
             cbBoxPrefix.Items.Clear();
-            //set display member and value member for combobox
             cbBoxPrefix.DataSource = listPrefix;
             cbBoxPrefix.ValueMember = "ObjNum";
             cbBoxPrefix.DisplayMember = "Name";
@@ -185,7 +184,6 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
             cbBoxSuffix.ValueMember = "ObjNum";
             cbBoxSuffix.DisplayMember = "Name";
 
-            //pré selection de name format
             cbBoxPrefix.SelectedIndex = 1;
             cbBoxSuffix.SelectedIndex = 2;
 
@@ -330,11 +328,10 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
             _mnemonique = columns[1];
             _adress = columns[0];
 
-            string prefix = Regex.Split(_adress, @"[0-9]").First(); //Regex.Replace(_adress, @"[^0-9]", "");
+            string prefix = Regex.Split(_adress, @"[0-9]").First();
 
             _adress = new string(_adress.SkipWhile(x => !char.IsDigit(x)).ToArray());
 
-            //setFormatType(columns[2]);
             _comment = columns[3].Replace("\"", "");
 
             //add in dictionary

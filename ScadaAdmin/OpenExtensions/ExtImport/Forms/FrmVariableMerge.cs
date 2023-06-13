@@ -465,7 +465,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             {
                 string address = Regex.Replace(kvp.Key, @"[^0-9]", "");
                 Dictionary<string, string> data = kvp.Value;
-                CnlPrototype cnlPrototype = ((List<CnlPrototype>)CtrlCnlImport1.CnlPrototypes)[0]; // Assuming there is at least one prototype
+                CnlPrototype cnlPrototype = ((List<CnlPrototype>)CtrlCnlImport1.CnlPrototypes)[0];
 
                 Cnl cnl;
 
@@ -495,13 +495,12 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                         break;
                     }
 
-                    cnlNum += dataLength; // Increment cnlNum for each new address by the length of data
+                    cnlNum += dataLength;
                 }
 
 
 
                 cnl.TagCode = address;
-                //cnl.DataTypeID = cnlDataType.TryGetValue(data["type"], out int dataTypeID);
                 cnl.DataTypeID = cnlDataType.GetValueOrDefault(data["type"]);
                 cnl.ObjNum = objNum;
 
@@ -644,13 +643,10 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
         /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
-            //Generate dictionnary
             var dico = generateDictionnary();
 
-            //Fill new DeviceTemplate with dictionnary
             DeviceTemplate template = this.generateDeviceTemplateFromDictionnary(dico);
 
-            //Fill XML with DeviceTemplate
             XmlDocument xmlDoc = new XmlDocument();
             XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
             xmlDoc.AppendChild(xmlDecl);
@@ -664,14 +660,12 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                 elemGroupConfig.SaveToXml(elemGroupsElem.AppendElem("ElemGroup"));
             }
 
-            //Define XML document name
             if (selectedDeviceName == null)
             {
                 selectedDeviceName = "New Template.xml";
             }
             saveFileDialog1.FileName = selectedDeviceName;
 
-            //Save file
             saveFileDialog1.InitialDirectory = string.Format("{0}\\Instances\\Default\\ScadaComm\\Config", this.project.ProjectDir);
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -682,7 +676,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                 }
             }
 
-            addChannelsAfterImport(); //création des channels après xml
+            addChannelsAfterImport();
         }
     }
 }
