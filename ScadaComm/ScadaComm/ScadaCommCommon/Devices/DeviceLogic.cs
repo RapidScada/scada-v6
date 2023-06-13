@@ -446,8 +446,10 @@ namespace Scada.Comm.Devices
 
             Log.WriteLine();
             Log.WriteAction(Locale.IsRussian ?
-                "Команда устройству {0}" :
-                "Command to the device {0}", Title);
+                "Команда {0} устройству {1}" :
+                "Command {0} to the device {1}",
+                string.IsNullOrEmpty(cmd.CmdCode) ? cmd.CmdNum.ToString() : cmd.CmdCode,
+                Title);
         }
 
         /// <summary>
