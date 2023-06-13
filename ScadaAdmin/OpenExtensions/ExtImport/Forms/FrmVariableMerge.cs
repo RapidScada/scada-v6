@@ -375,13 +375,14 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
         }
 
 
+        // Dictionnary generation with CheckBox values
 
         private Dictionary<string, List<string>> generateDictionnary()
         {
             var dico = new Dictionary<string, List<string>>();
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
-                if (Convert.ToBoolean(row.Cells[1].Value) == true) // Si la case de gauche est cochée
+                if (Convert.ToBoolean(row.Cells[1].Value) == true)
                 {
                     var key = row.Cells[0].Value.ToString();
                     var list = new List<string>
@@ -392,7 +393,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             };
                     dico[key] = list;
                 }
-                else if (Convert.ToBoolean(row.Cells[6].Value) == true) // Si la case de droite est cochée
+                else if (Convert.ToBoolean(row.Cells[6].Value) == true) 
                 {
                     var key = row.Cells[0].Value.ToString();
                     var list = new List<string>

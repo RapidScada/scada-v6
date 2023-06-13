@@ -150,7 +150,6 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 
         private void cbCommLine_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // filter devices by selected communication line
             int commLineNum = (int)cbCommLine.SelectedValue;
             IEnumerable<Device> devices = commLineNum > 0 
                 ? project.ConfigDatabase.DeviceTable.Select(new TableFilter("CommLineNum", commLineNum), true)
@@ -163,7 +162,6 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 
         private void cbDevice_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // create user interface of selected device
             CnlPrototypes = null;
 
             if (cbDevice.SelectedItem is Device device)

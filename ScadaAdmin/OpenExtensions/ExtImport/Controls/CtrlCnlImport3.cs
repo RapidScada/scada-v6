@@ -361,7 +361,6 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
                 _mnemonique = colums[0];
                 _adress = colums[1];
                 _adress = new string(_adress.SkipWhile(x => !char.IsDigit(x)).ToArray());
-                //setFormatType(colums[2]);
                 _comment = colums[3].Replace("\"", "");
                 string prefix = Regex.Split(_adress, @"[0-9]").First();
 

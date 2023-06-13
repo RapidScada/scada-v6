@@ -61,7 +61,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			ctrlCnlImport1.Visible = false;
 			ctrlCnlImport2.Visible = false;
 			ctrlCnlmport3.Visible = false;
-			//chkPreview.Visible = false;
 			btnBack.Visible = false;
 			btnNext.Visible = false;
 			btnCreate.Visible = false;
