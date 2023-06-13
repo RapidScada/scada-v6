@@ -43,7 +43,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
         {
             InitializeComponent();
 
-            
+
         }
 
         private void OnSelectedFileChanged()

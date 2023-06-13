@@ -158,10 +158,10 @@
             radioButton1.AutoSize = true;
             radioButton1.Location = new Point(6, 26);
             radioButton1.Name = "radioButton1";
-            radioButton1.Size = new Size(289, 24);
+            radioButton1.Size = new Size(295, 24);
             radioButton1.TabIndex = 9;
             radioButton1.TabStop = true;
-            radioButton1.Text = "Importer des variable depuis un fichier ";
+            radioButton1.Text = "Importer des variables depuis un fichier ";
             radioButton1.UseVisualStyleBackColor = true;
             radioButton1.CheckedChanged += radioButton1_CheckedChanged;
             radioButton1.MouseClick += rdoEnableImport_MouseClick;
@@ -198,10 +198,10 @@
             radioButton2.AutoSize = true;
             radioButton2.Location = new Point(6, 93);
             radioButton2.Name = "radioButton2";
-            radioButton2.Size = new Size(370, 24);
+            radioButton2.Size = new Size(374, 24);
             radioButton2.TabIndex = 10;
             radioButton2.TabStop = true;
-            radioButton2.Text = "Générer des Canaux avec les variable d'équipement";
+            radioButton2.Text = "Générer des canaux avec les variables d'équipement";
             radioButton2.UseVisualStyleBackColor = true;
             radioButton2.CheckedChanged += radioButton2_CheckedChanged;
             // 
