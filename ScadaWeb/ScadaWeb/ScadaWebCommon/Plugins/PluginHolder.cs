@@ -29,6 +29,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Scada.Data.Entities;
 using Scada.Lang;
 using Scada.Log;
+using Scada.Web.Audit;
 using Scada.Web.Config;
 using Scada.Web.Lang;
 using Scada.Web.TreeView;
@@ -45,6 +46,7 @@ namespace Scada.Web.Plugins
     public class PluginHolder
     {
         private readonly List<PluginLogic> plugins;                   // the plugins used
+        private readonly List<IAuditPlugin> auditPlugins;             // the plugins that write to the audit log
         private readonly Dictionary<string, PluginLogic> pluginMap;   // the plugins accessed by code
         private readonly Dictionary<string, PluginLogic> pluginByViewType; // the plugins accessed by view type name
         private readonly Dictionary<string, ViewSpec> viewSpecByCode; // the view specifications accessed by code
@@ -59,6 +61,7 @@ namespace Scada.Web.Plugins
         public PluginHolder()
         {
             plugins = new List<PluginLogic>();
+            auditPlugins = new List<IAuditPlugin>();
             pluginMap = new Dictionary<string, PluginLogic>();
             pluginByViewType = new Dictionary<string, PluginLogic>();
             viewSpecByCode = new Dictionary<string, ViewSpec>();
@@ -107,6 +110,9 @@ namespace Scada.Web.Plugins
 
             plugins.Add(pluginLogic);
             pluginMap.Add(pluginLogic.Code, pluginLogic);
+
+            if (pluginLogic is IAuditPlugin auditPlugin)
+                auditPlugins.Add(auditPlugin);
 
             if (pluginLogic.ViewSpecs != null)
             {
@@ -377,6 +383,8 @@ namespace Scada.Web.Plugins
         /// </summary>
         public void AddFilters(FilterCollection filters)
         {
+            ArgumentNullException.ThrowIfNull(filters, nameof(filters));
+
             lock (pluginLock)
             {
                 foreach (PluginLogic pluginLogic in plugins)
@@ -398,6 +406,8 @@ namespace Scada.Web.Plugins
         /// </summary>
         public void AddServices(IServiceCollection services)
         {
+            ArgumentNullException.ThrowIfNull(services, nameof(services));
+
             lock (pluginLock)
             {
                 foreach (PluginLogic pluginLogic in plugins)
@@ -440,6 +450,8 @@ namespace Scada.Web.Plugins
         /// </summary>
         public void OnUserLogin(UserLoginArgs userLoginArgs)
         {
+            ArgumentNullException.ThrowIfNull(userLoginArgs, nameof(userLoginArgs));
+
             lock (pluginLock)
             {
                 foreach (PluginLogic pluginLogic in plugins)
@@ -461,6 +473,8 @@ namespace Scada.Web.Plugins
         /// </summary>
         public void OnUserLogout(UserLoginArgs userLoginArgs)
         {
+            ArgumentNullException.ThrowIfNull(userLoginArgs, nameof(userLoginArgs));
+
             lock (pluginLock)
             {
                 foreach (PluginLogic pluginLogic in plugins)
@@ -504,6 +518,8 @@ namespace Scada.Web.Plugins
         public List<MenuItem> GetUserReports(PluginLogic pluginLogic, User user, UserRights userRights)
         {
             ArgumentNullException.ThrowIfNull(pluginLogic, nameof(pluginLogic));
+            ArgumentNullException.ThrowIfNull(user, nameof(user));
+            ArgumentNullException.ThrowIfNull(userRights, nameof(userRights));
 
             lock (pluginLock)
             {
@@ -515,6 +531,29 @@ namespace Scada.Web.Plugins
                 {
                     log.WriteError(ex, WebPhrases.ErrorInPlugin, nameof(GetUserReports), pluginLogic.Code);
                     return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Calls the WriteToAuditLog method of the audit plugins.
+        /// </summary>
+        public void WriteToAuditLog(AuditLogEntry entry)
+        {
+            ArgumentNullException.ThrowIfNull(entry, nameof(entry));
+
+            lock (pluginLock)
+            {
+                foreach (IAuditPlugin auditPlugin in auditPlugins)
+                {
+                    try
+                    {
+                        auditPlugin.WriteToAuditLog(entry);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteError(ex, WebPhrases.ErrorInPlugin, nameof(WriteToAuditLog), auditPlugin.Code);
+                    }
                 }
             }
         }

@@ -36,15 +36,13 @@ namespace Scada.Web.Code
     internal class AuditLog : IAuditLog
     {
         private readonly IWebContext webContext;
-        private readonly IUserContext userContext;
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public AuditLog(IWebContext webContext, IUserContext userContext)
+        public AuditLog(IWebContext webContext)
         {
             this.webContext = webContext ?? throw new ArgumentNullException(nameof(webContext));
-            this.userContext = userContext ?? throw new ArgumentNullException(nameof(userContext));
         }
 
         /// <summary>
@@ -52,7 +50,8 @@ namespace Scada.Web.Code
         /// </summary>
         public void Write(AuditLogEntry entry)
         {
-
+            ArgumentNullException.ThrowIfNull(entry, nameof(entry));
+            webContext.PluginHolder.WriteToAuditLog(entry);
         }
     }
 }

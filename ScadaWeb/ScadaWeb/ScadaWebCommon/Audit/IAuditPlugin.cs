@@ -23,15 +23,22 @@
  * Modified : 2023
  */
 
-using Scada.Web.Services;
-
 namespace Scada.Web.Audit
 {
     /// <summary>
     /// Defines functionality of a plugin that writes to the audit log.
     /// <para>Определяет функциональность плагина, который записывает в журнал аудита.</para>
     /// </summary>
-    public interface IAuditPlugin : IAuditLog
+    public interface IAuditPlugin
     {
+        /// <summary>
+        /// Gets the plugin code.
+        /// </summary>
+        string Code { get; }
+
+        /// <summary>
+        /// Writes the entry to the audit log.
+        /// </summary>
+        void WriteToAuditLog(AuditLogEntry entry);
     }
 }

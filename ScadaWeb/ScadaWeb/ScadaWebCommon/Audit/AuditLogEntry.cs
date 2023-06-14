@@ -23,6 +23,7 @@
  * Modified : 2023
  */
 
+using Scada.Data.Entities;
 using System;
 
 namespace Scada.Web.Audit
@@ -46,6 +47,15 @@ namespace Scada.Web.Audit
             Severity = null;
             Message = null;
         }
+        
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public AuditLogEntry(User userEntity)
+            : this()
+        {
+            Username = userEntity?.Name;
+        }
 
 
         /// <summary>
@@ -54,32 +64,32 @@ namespace Scada.Web.Audit
         public DateTime ActionTime { get; }
 
         /// <summary>
-        /// Gets or sets the username who performed the action.
+        /// Gets the username who performed the action.
         /// </summary>
         public string Username { get; init; }
 
         /// <summary>
-        /// Gets or sets the action type.
+        /// Gets the action type.
         /// </summary>
         public string ActionType { get; init; }
 
         /// <summary>
-        /// Gets or sets the action arguments.
+        /// Gets the action arguments.
         /// </summary>
         public string ActionArgs { get; init; }
 
         /// <summary>
-        /// Gets or sets the action result.
+        /// Gets the action result.
         /// </summary>
         public string ActionResult { get; init; }
 
         /// <summary>
-        /// Gets or sets the severity.
+        /// Gets the severity.
         /// </summary>
         public int? Severity { get; init; }
 
         /// <summary>
-        /// Gets or sets the auxiliary message.
+        /// Gets the auxiliary message.
         /// </summary>
         public string Message { get; init; }
     }
