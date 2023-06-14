@@ -26,7 +26,6 @@
 using Scada.Client;
 using Scada.Config;
 using Scada.Data.Entities;
-using Scada.Data.Models;
 using Scada.Log;
 using Scada.Storages;
 using Scada.Web.Config;
