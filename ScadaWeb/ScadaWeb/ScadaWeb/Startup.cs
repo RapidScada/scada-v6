@@ -165,9 +165,9 @@ namespace Scada.Web
                 .AddSingleton(WebContext)
                 .AddSingleton(WebContext.Log)
                 .AddScoped(UserContextFactory.GetUserContext)
+                .AddScoped<IAuditLog, AuditLog>()
                 .AddScoped<IClientAccessor, ClientAccessor>()
                 .AddScoped<IViewLoader, ViewLoader>()
-                .AddScoped<IAuditLog, AuditLog>()
                 .AddScoped<IAuthorizationHandler, ViewAllHandler>()
                 .AddScoped<IAuthorizationHandler, ObjRightHandler>()
                 .AddTransient<ILoginService, LoginService>();
