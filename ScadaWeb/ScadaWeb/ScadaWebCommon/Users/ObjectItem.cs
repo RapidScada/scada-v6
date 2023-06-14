@@ -20,12 +20,11 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Data.Entities;
 using Scada.Lang;
-using System;
 using System.Text;
 
 namespace Scada.Web.Users

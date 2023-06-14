@@ -20,12 +20,11 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Data.Entities;
 using Scada.Web.Users;
-using System;
 
 namespace Scada.Web.Services
 {

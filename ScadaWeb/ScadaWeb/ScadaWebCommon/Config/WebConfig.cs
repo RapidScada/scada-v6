@@ -20,13 +20,11 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Client;
 using Scada.Config;
-using System.Collections.Generic;
-using System.IO;
 using System.Xml;
 
 namespace Scada.Web.Config

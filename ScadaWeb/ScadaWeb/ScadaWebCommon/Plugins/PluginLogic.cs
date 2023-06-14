@@ -31,8 +31,6 @@ using Scada.Log;
 using Scada.Web.Services;
 using Scada.Web.TreeView;
 using Scada.Web.Users;
-using System;
-using System.Collections.Generic;
 
 namespace Scada.Web.Plugins
 {

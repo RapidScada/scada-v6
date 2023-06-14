@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Data.Entities;
@@ -28,8 +28,6 @@ using Scada.Lang;
 using Scada.Web.Plugins;
 using Scada.Web.Services;
 using Scada.Web.TreeView;
-using System;
-using System.Collections.Generic;
 
 namespace Scada.Web.Users
 {

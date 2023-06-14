@@ -20,14 +20,13 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Scada.Lang;
-using System.Collections.Generic;
 using System.Net;
 using System.Reflection;
 using System.Security.Claims;

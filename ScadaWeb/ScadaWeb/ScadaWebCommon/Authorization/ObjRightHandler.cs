@@ -20,16 +20,13 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Scada.Data.Entities;
 using Scada.Web.Services;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Scada.Web.Authorization
 {

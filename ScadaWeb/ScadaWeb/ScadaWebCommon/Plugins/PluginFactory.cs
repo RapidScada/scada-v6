@@ -20,13 +20,11 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Lang;
 using Scada.Web.Services;
-using System;
-using System.IO;
 using System.Reflection;
 
 namespace Scada.Web.Plugins

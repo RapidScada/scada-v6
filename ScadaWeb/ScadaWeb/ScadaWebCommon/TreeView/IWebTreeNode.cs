@@ -20,11 +20,10 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
- * Modified : 2021
+ * Modified : 2023
  */
 
 using System.Collections;
-using System.Collections.Generic;
 
 namespace Scada.Web.TreeView
 {

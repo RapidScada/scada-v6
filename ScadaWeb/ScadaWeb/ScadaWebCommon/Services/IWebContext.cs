@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Client;
@@ -30,7 +30,6 @@ using Scada.Log;
 using Scada.Storages;
 using Scada.Web.Config;
 using Scada.Web.Plugins;
-using System.Threading;
 
 namespace Scada.Web.Services
 {

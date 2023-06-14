@@ -20,10 +20,8 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2022
+ * Modified : 2023
  */
-
-using System.Threading.Tasks;
 
 namespace Scada.Web.Services
 {

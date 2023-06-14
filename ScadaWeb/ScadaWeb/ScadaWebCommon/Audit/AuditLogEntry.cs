@@ -24,7 +24,6 @@
  */
 
 using Scada.Data.Entities;
-using System;
 
 namespace Scada.Web.Audit
 {
