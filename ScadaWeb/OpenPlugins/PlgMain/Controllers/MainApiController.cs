@@ -3,10 +3,12 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Protocol;
 using Scada.Web.Api;
+using Scada.Web.Audit;
 using Scada.Web.Authorization;
 using Scada.Web.Lang;
 using Scada.Web.Plugins.PlgMain.Code;
@@ -32,6 +34,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
 
         private readonly IWebContext webContext;
         private readonly IUserContext userContext;
+        private readonly IAuditLog auditLog;
         private readonly IClientAccessor clientAccessor;
         private readonly IViewLoader viewLoader;
         private readonly IMemoryCache memoryCache;
@@ -41,11 +44,13 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public MainApiController(IWebContext webContext, IUserContext userContext, IClientAccessor clientAccessor,
-            IViewLoader viewLoader, IMemoryCache memoryCache, PluginContext pluginContext)
+        public MainApiController(IWebContext webContext, IUserContext userContext, IAuditLog auditLog,
+            IClientAccessor clientAccessor, IViewLoader viewLoader, IMemoryCache memoryCache, 
+            PluginContext pluginContext)
         {
             this.webContext = webContext;
             this.userContext = userContext;
+            this.auditLog = auditLog;
             this.clientAccessor = clientAccessor;
             this.viewLoader = viewLoader;
             this.memoryCache = memoryCache;
@@ -566,27 +571,29 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         [HttpPost]
         public Dto SendCommand([FromBody] CommandDTO commandDTO)
         {
+            bool success = false;
+            string message = "";
+
             try
             {
                 int cnlNum = commandDTO.CnlNum;
-                string errMsg;
 
                 if (!webContext.AppConfig.GeneralOptions.EnableCommands ||
                     !pluginContext.Options.AllowCommandApi)
                 {
-                    errMsg = WebPhrases.CommandsDisabled;
+                    message = WebPhrases.CommandsDisabled;
                 }
                 else if (webContext.ConfigDatabase.CnlTable.GetItem(cnlNum) is not Cnl cnl)
                 {
-                    errMsg = string.Format(WebPhrases.CnlNotFound, cnlNum);
+                    message = string.Format(WebPhrases.CnlNotFound, cnlNum);
                 }
                 else if (!cnl.IsOutput())
                 {
-                    errMsg = string.Format(WebPhrases.CnlNotOutput, cnlNum);
+                    message = string.Format(WebPhrases.CnlNotOutput, cnlNum);
                 }
                 else if (!userContext.Rights.GetRightByObj(cnl.ObjNum).Control)
                 {
-                    errMsg = WebPhrases.AccessDenied;
+                    message = WebPhrases.AccessDenied;
                 }
                 else
                 {
@@ -601,18 +608,29 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                             : TeleCommand.StringToCmdData(commandDTO.CmdData)
                     }, WriteCommandFlags.Default);
 
-                    if (result.IsSuccessful)
-                        return Dto.Success();
-                    else
-                        errMsg = result.ErrorMessage;
+                    success = result.IsSuccessful;
+                    message = result.ErrorMessage;
                 }
 
-                return Dto.Fail(errMsg);
+                return success ? Dto.Success() : Dto.Fail(message);
             }
             catch (Exception ex)
             {
+                message = ex.Message;
                 webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(SendCommand)));
-                return Dto.Fail(ex.Message);
+                return Dto.Fail(message);
+            }
+            finally
+            {
+                auditLog.Write(new AuditLogEntry(userContext.UserEntity)
+                {
+                    ActionType = AuditActionType.SendCommand,
+                    ActionArgs = AuditActionArgs.FromObject(
+                        new { commandDTO.CnlNum, commandDTO.CmdVal, commandDTO.CmdData }),
+                    ActionResult = AuditActionResult.FromBool(success),
+                    Severity = Severity.Minor,
+                    Message = message
+                });
             }
         }
     }

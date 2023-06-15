@@ -3,10 +3,12 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Protocol;
+using Scada.Web.Audit;
 using Scada.Web.Lang;
 using Scada.Web.Plugins.PlgMain.Code;
 using Scada.Web.Services;
@@ -24,16 +26,18 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
         private readonly IWebContext webContext;
         private readonly IUserContext userContext;
+        private readonly IAuditLog auditLog;
         private readonly IClientAccessor clientAccessor;
         private readonly PluginContext pluginContext;
         private readonly dynamic dict;
 
 
-        public CommandModel(IWebContext webContext, IUserContext userContext, IClientAccessor clientAccessor, 
-            PluginContext pluginContext)
+        public CommandModel(IWebContext webContext, IUserContext userContext, IAuditLog auditLog,
+            IClientAccessor clientAccessor, PluginContext pluginContext)
         {
             this.webContext = webContext;
             this.userContext = userContext;
+            this.auditLog = auditLog;
             this.clientAccessor = clientAccessor;
             this.pluginContext = pluginContext;
             dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command");
@@ -192,6 +196,17 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                 HasError = true;
                 Message = WebPhrases.ClientError;
                 webContext.Log.WriteError(ex, Message);
+            }
+            finally
+            {
+                auditLog.Write(new AuditLogEntry(userContext.UserEntity)
+                {
+                    ActionType = AuditActionType.SendCommand,
+                    ActionArgs = AuditActionArgs.FromObject(new { command.CnlNum, command.CmdVal, command.CmdData }),
+                    ActionResult = AuditActionResult.FromBool(!HasError),
+                    Severity = Severity.Minor,
+                    Message = Message
+                });
             }
         }
 
