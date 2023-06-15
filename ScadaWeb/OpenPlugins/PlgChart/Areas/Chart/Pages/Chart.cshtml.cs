@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Scada.Data.Const;
 using Scada.Lang;
 using Scada.Web.Api;
+using Scada.Web.Audit;
 using Scada.Web.Authorization;
 using Scada.Web.Plugins.PlgChart.Code;
 using Scada.Web.Services;
@@ -23,12 +24,15 @@ namespace Scada.Web.Plugins.PlgChart.Areas.Chart.Pages
     {
         private readonly IWebContext webContext;
         private readonly IUserContext userContext;
+        private readonly IAuditLog auditLog;
         private readonly IClientAccessor clientAccessor;
 
-        public ChartModel(IWebContext webContext, IUserContext userContext, IClientAccessor clientAccessor)
+        public ChartModel(IWebContext webContext, IUserContext userContext, 
+            IAuditLog auditLog, IClientAccessor clientAccessor)
         {
             this.webContext = webContext;
             this.userContext = userContext;
+            this.auditLog = auditLog;
             this.clientAccessor = clientAccessor;
         }
 
@@ -81,6 +85,15 @@ namespace Scada.Web.Plugins.PlgChart.Areas.Chart.Pages
                 .AppendLine();
 
             ChartDataHtml = new HtmlString(sbChartData.ToString());
+
+            // write to audit log
+            auditLog.Write(new AuditLogEntry(userContext.UserEntity)
+            {
+                ActionType = AuditActionType.OpenChart,
+                ActionArgs = AuditActionArgs.FromObject(new { CnlNum = cnlNum }),
+                ActionResult = AuditActionResult.Success,
+                Severity = Severity.Info
+            });
         }
     }
 }

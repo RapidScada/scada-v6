@@ -42,6 +42,7 @@ namespace Scada.Web.Audit
                 Login = "Вход в систему";
                 Logout = "Выход из системы";
                 OpenView = "Просмотр представления";
+                OpenChart = "Просмотр графика";
                 GenerateReport = "Формирование отчёта";
                 SendCommand = "Отправка команды";
             }
@@ -50,6 +51,7 @@ namespace Scada.Web.Audit
                 Login = "Login";
                 Logout = "Logout";
                 OpenView = "Open view";
+                OpenChart = "Open chart";
                 GenerateReport = "Generate report";
                 SendCommand = "Send command";
             }
@@ -58,6 +60,7 @@ namespace Scada.Web.Audit
         public static string Login { get; private set; }
         public static string Logout { get; private set; }
         public static string OpenView { get; private set; }
+        public static string OpenChart { get; private set; }
         public static string GenerateReport { get; private set; }
         public static string SendCommand { get; private set; }
     }
