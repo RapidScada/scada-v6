@@ -167,10 +167,10 @@ namespace Scada.Web
                 .AddScoped(UserContextFactory.GetUserContext)
                 .AddScoped<IAuditLog, AuditLog>()
                 .AddScoped<IClientAccessor, ClientAccessor>()
+                .AddScoped<ILoginService, LoginService>()
                 .AddScoped<IViewLoader, ViewLoader>()
                 .AddScoped<IAuthorizationHandler, ViewAllHandler>()
-                .AddScoped<IAuthorizationHandler, ObjRightHandler>()
-                .AddTransient<ILoginService, LoginService>();
+                .AddScoped<IAuthorizationHandler, ObjRightHandler>();
 
             WebContext.PluginHolder.AddServices(services);
         }

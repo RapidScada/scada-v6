@@ -51,5 +51,10 @@ namespace Scada.Web.Audit
 
         public static string Success { get; private set; }
         public static string Failure { get; private set; }
+
+        public static string FromBool(bool value)
+        {
+            return value ? Success : Failure;
+        }
     }
 }
