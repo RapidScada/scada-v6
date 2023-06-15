@@ -264,10 +264,9 @@ namespace Scada.Web.Code
         /// <summary>
         /// Gets a view from the server or cache.
         /// </summary>
-        public bool GetView<T>(int viewID, out T view, out string errMsg) where T : ViewBase
+        public bool GetView<T>(int viewID, bool enableAudit, out T view, out string errMsg) where T : ViewBase
         {
             bool success = false;
-            bool audit = false;
             string message = null;
 
             if (ValidateView(viewID, out View viewEntity, out string msg1))
@@ -277,7 +276,6 @@ namespace Scada.Web.Code
                     if (!GetView(viewEntity, typeof(T), out ViewBase createdView, out string msg2))
                         message = msg2;
 
-                    audit = true;
                     entry.SetSlidingExpiration(createdView == null 
                         ? WebUtils.ErrorCacheExpiration 
                         : WebUtils.ViewCacheExpiration);
@@ -296,7 +294,7 @@ namespace Scada.Web.Code
                 message = msg1;
             }
 
-            if (audit)
+            if (enableAudit)
                 WriteToAuditLog(viewID, success, message);
 
             errMsg = message;
