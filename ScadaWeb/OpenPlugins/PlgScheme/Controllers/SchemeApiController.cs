@@ -53,7 +53,7 @@ namespace Scada.Web.Plugins.PlgScheme.Controllers
         {
             try
             {
-                if (viewLoader.GetView(viewID, out SchemeView schemeView, out string errMsg))
+                if (viewLoader.GetView(viewID, true, out SchemeView schemeView, out string errMsg))
                 {
                     DocumentPacket documentPacket = new(schemeView);
                     documentPacket.FillCnlProps(webContext.ConfigDatabase);
