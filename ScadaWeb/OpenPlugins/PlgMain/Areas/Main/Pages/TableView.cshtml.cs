@@ -67,7 +67,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         {
             ViewID = id ?? userContext.Views.GetFirstViewID() ?? 0;
 
-            if (viewLoader.GetView(ViewID, out tableView, out string errMsg))
+            if (viewLoader.GetView(ViewID, true, out tableView, out string errMsg))
             {
                 TableOptions tableOptions = pluginContext.GetTableOptions(tableView);
                 ArchiveBit = webContext.ConfigDatabase.FindArchiveBit(
