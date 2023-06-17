@@ -19,7 +19,6 @@
     <Phrase key="ThreadFatalError">Неустранимая ошибка в потоке</Phrase>
     <Phrase key="WriteInfoError">Ошибка при записи в файл информации о работе приложения</Phrase>
     <Phrase key="ConnectionNotFound">Соединение &quot;{0}&quot; не найдено.</Phrase>
-    <Phrase key="ConnOptionsNotFound">Параметры соединения не найдены.</Phrase>
     <Phrase key="DatabaseNotSupported">База данных не поддерживается.</Phrase>
     <Phrase key="OperationNotSupported">Операция не поддерживается.</Phrase>
     <Phrase key="CommandSent">Команда отправлена.</Phrase>
