@@ -2,7 +2,7 @@
 <ModArcPostgreSqlDictionaries>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Controls.CtrlDatabaseOptions">
     <Phrase key="gbDbOptions">Database Options</Phrase>
-    <Phrase key="lblUseStorageConn">Use storage connection</Phrase>
+    <Phrase key="lblUseDefaultConn">Use default connection</Phrase>
     <Phrase key="lblConnection">Connection</Phrase>
     <Phrase key="lblPartitionSize">Partition size</Phrase>
     <Phrase key="cbPartitionSize.Items[0]">One month</Phrase>
@@ -21,7 +21,7 @@
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreCAO">
     <Phrase key="this">Current Archive Options</Phrase>
     <Phrase key="gbDbOptions">Database Options</Phrase>
-    <Phrase key="lblUseStorageConn">Use storage connection</Phrase>
+    <Phrase key="lblUseDefaultConn">Use default connection</Phrase>
     <Phrase key="lblConnection">Connection</Phrase>
     <Phrase key="lblMaxQueueSize">Maximum queue size</Phrase>
     <Phrase key="lblBatchSize">Items per transaction</Phrase>

@@ -60,7 +60,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Controls
             }
             else
             {
-                chkUseStorageConn.Checked = options.UseStorageConn;
+                chkUseDefaultConn.Checked = options.UseDefaultConn;
                 cbConnection.Text = options.Connection;
                 cbPartitionSize.SelectedIndex = (int)options.PartitionSize;
                 numMaxQueueSize.SetValue(options.MaxQueueSize);
@@ -75,7 +75,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Controls
         {
             if (options != null)
             {
-                options.UseStorageConn = chkUseStorageConn.Checked;
+                options.UseDefaultConn = chkUseDefaultConn.Checked;
                 options.Connection = cbConnection.Text;
                 options.PartitionSize = (PartitionSize)cbPartitionSize.SelectedIndex;
                 options.MaxQueueSize = Convert.ToInt32(numMaxQueueSize.Value);
@@ -84,9 +84,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Controls
         }
 
 
-        private void chkUseStorageConn_CheckedChanged(object sender, EventArgs e)
+        private void chkUseDefaultConn_CheckedChanged(object sender, EventArgs e)
         {
-            cbConnection.Enabled = !chkUseStorageConn.Checked;
+            cbConnection.Enabled = !chkUseDefaultConn.Checked;
         }
     }
 }

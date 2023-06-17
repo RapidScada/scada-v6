@@ -18,7 +18,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
         public PostgreEAO(OptionList options)
             : base(options)
         {
-            UseStorageConn = options.GetValueAsBool("UseStorageConn", true);
+            UseDefaultConn = options.GetValueAsBool("UseDefaultConn", true);
             Connection = options.GetValueAsString("Connection");
             PartitionSize = options.GetValueAsEnum("PartitionSize", PartitionSize.OneMonth);
             MaxQueueSize = options.GetValueAsInt("MaxQueueSize", ModuleUtils.DefaultQueueSize);
@@ -27,9 +27,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
 
 
         /// <summary>
-        /// Gets or sets a value indicating whether to use a connection specified in the storage configuration.
+        /// Gets or sets a value indicating whether to use a connection specified in the instance configuration.
         /// </summary>
-        public bool UseStorageConn { get; set; }
+        public bool UseDefaultConn { get; set; }
 
         /// <summary>
         /// Gets or sets the connection name.
@@ -58,7 +58,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
         public override void AddToOptionList(OptionList options)
         {
             base.AddToOptionList(options);
-            options["UseStorageConn"] = UseStorageConn.ToLowerString();
+            options["UseDefaultConn"] = UseDefaultConn.ToLowerString();
             options["Connection"] = Connection;
             
             if (!ReadOnly)

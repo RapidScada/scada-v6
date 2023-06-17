@@ -2,7 +2,7 @@
 <ModArcPostgreSqlDictionaries>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Controls.CtrlDatabaseOptions">
     <Phrase key="gbDbOptions">Параметры базы данных</Phrase>
-    <Phrase key="lblUseStorageConn">Соединение хранилища</Phrase>
+    <Phrase key="lblUseDefaultConn">Соединение по умолчанию</Phrase>
     <Phrase key="lblConnection">Соединение</Phrase>
     <Phrase key="lblPartitionSize">Размер секции</Phrase>
     <Phrase key="cbPartitionSize.Items[0]">Один месяц</Phrase>
@@ -21,7 +21,7 @@
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreCAO">
     <Phrase key="this">Параметры архива текущих данных</Phrase>
     <Phrase key="gbDbOptions">Параметры базы данных</Phrase>
-    <Phrase key="lblUseStorageConn">Соединение хранилища</Phrase>
+    <Phrase key="lblUseDefaultConn">Соединение по умолчанию</Phrase>
     <Phrase key="lblConnection">Соединение</Phrase>
     <Phrase key="lblMaxQueueSize">Макс. размер очереди</Phrase>
     <Phrase key="lblBatchSize">Элементов на транзакцию</Phrase>
