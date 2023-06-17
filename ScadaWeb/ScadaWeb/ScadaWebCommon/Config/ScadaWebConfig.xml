@@ -45,6 +45,9 @@
     <NotificationFeature></NotificationFeature>
   </PluginAssignment>
   <CustomOptions>
+    <OptionGroup name="Audit">
+      <Option name="Retension" value="365" />
+    </OptionGroup>
     <OptionGroup name="Chart">
       <Option name="ChartArchiveCode" value="Min" />
       <Option name="GapBetweenPoints" value="90" />
