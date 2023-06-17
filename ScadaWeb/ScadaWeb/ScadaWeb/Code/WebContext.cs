@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Client;
@@ -213,10 +213,11 @@ namespace Scada.Web.Code
         {
             storageWrapper = new StorageWrapper(new StorageContext
             {
+                InstanceConfig = InstanceConfig,
                 App = ServiceApp.Web,
                 AppDirs = AppDirs,
                 Log = Log
-            }, InstanceConfig);
+            });
 
             return storageWrapper.InitStorage();
         }
