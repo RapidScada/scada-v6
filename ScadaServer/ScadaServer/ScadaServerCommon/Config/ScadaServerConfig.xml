@@ -71,7 +71,7 @@
       <Option name="LogEnabled" value="false" />
       <Option name="MaxQueueSize" value="1000" />
       <Option name="ReadOnly" value="false" />
-      <Option name="UseStorageConn" value="true" />
+      <Option name="UseDefaultConn" value="true" />
     </Archive>
     <Archive active="false" code="MinCopy" name="Minute archive copy" kind="Historical" module="ModArcPostgreSql">
       <Option name="Connection" value="" />
@@ -82,7 +82,7 @@
       <Option name="PullToPeriod" value="0" />
       <Option name="ReadOnly" value="false" />
       <Option name="Retention" value="365" />
-      <Option name="UseStorageConn" value="true" />
+      <Option name="UseDefaultConn" value="true" />
       <Option name="WriteWithPeriod" value="true" />
       <Option name="WritingPeriod" value="1" />
       <Option name="WritingPeriodUnit" value="Minute" />
@@ -96,7 +96,7 @@
       <Option name="PullToPeriod" value="0" />
       <Option name="ReadOnly" value="false" />
       <Option name="Retention" value="365" />
-      <Option name="UseStorageConn" value="true" />
+      <Option name="UseDefaultConn" value="true" />
       <Option name="WriteWithPeriod" value="true" />
       <Option name="WritingPeriod" value="1" />
       <Option name="WritingPeriodUnit" value="Hour" />
@@ -110,7 +110,7 @@
       <Option name="PullToPeriod" value="0" />
       <Option name="ReadOnly" value="false" />
       <Option name="Retention" value="365" />
-      <Option name="UseStorageConn" value="true" />
+      <Option name="UseDefaultConn" value="true" />
       <Option name="WriteWithPeriod" value="true" />
       <Option name="WritingPeriod" value="24" />
       <Option name="WritingPeriodUnit" value="Hour" />
@@ -122,7 +122,7 @@
       <Option name="PartitionSize" value="OneMonth" />
       <Option name="ReadOnly" value="false" />
       <Option name="Retention" value="365" />
-      <Option name="UseStorageConn" value="true" />
+      <Option name="UseDefaultConn" value="true" />
     </Archive>
   </Archives>
 </ScadaServerConfig>
