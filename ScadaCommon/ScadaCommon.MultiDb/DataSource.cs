@@ -3,7 +3,6 @@
 
 using Scada.Dbms;
 using System.Data.Common;
-using System.Diagnostics;
 
 namespace Scada.MultiDb
 {

@@ -20,11 +20,10 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Lang;
-using System;
 
 namespace Scada.Dbms
 {
@@ -59,19 +58,28 @@ namespace Scada.Dbms
         }
 
         /// <summary>
-        /// Builds a connection string.
+        /// Builds a connection string according to the database connection options.
         /// </summary>
         public static string Build(DbConnectionOptions options, bool hidePassword)
+        {
+            return Build(options, KnownDBMS.Undefined, hidePassword);
+        }
+
+        /// <summary>
+        /// Builds a connection string according to the database connection options, overwriting the DBMS.
+        /// </summary>
+        public static string Build(DbConnectionOptions options, KnownDBMS forceDBMS, bool hidePassword)
         {
             if (options == null)
                 return "";
 
+            KnownDBMS knownDBMS = forceDBMS == KnownDBMS.Undefined ? options.KnownDBMS : forceDBMS;
             string password = hidePassword ? CommonPhrases.HiddenPassword : options.Password;
 
-            switch (options.KnownDBMS)
+            switch (knownDBMS)
             {
                 case KnownDBMS.PostgreSQL:
-                    ScadaUtils.RetrieveHostAndPort(options.Server, GetDefaultPort(options.KnownDBMS),
+                    ScadaUtils.RetrieveHostAndPort(options.Server, GetDefaultPort(knownDBMS),
                         out string host, out int port);
                     return string.Format("Server={0};Port={1};Database={2};User Id={3};Password={4}",
                         host, port, options.Database, options.Username, password);
@@ -91,6 +99,20 @@ namespace Scada.Dbms
                 default:
                     return "";
             }
+        }
+
+        /// <summary>
+        /// Builds a connection string according to the database connection options, overwriting the DBMS.
+        /// If a non-empty connection string is specified in the options, it is returned.
+        /// </summary>
+        public static string BuildConnectionString(this DbConnectionOptions options, KnownDBMS forceDBMS)
+        {
+            if (options == null)
+                return "";
+
+            return string.IsNullOrEmpty(options.ConnectionString)
+                ? Build(options, forceDBMS, false)
+                : options.ConnectionString;
         }
     }
 }

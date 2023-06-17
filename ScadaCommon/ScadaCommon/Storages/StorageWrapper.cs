@@ -20,10 +20,9 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2023
  */
 
-using Scada.Config;
 using Scada.Lang;
 using System;
 
@@ -36,17 +35,15 @@ namespace Scada.Storages
     public class StorageWrapper
     {
         private readonly StorageContext storageContext;
-        private readonly InstanceConfig instanceConfig;
         private StorageLogic storageLogic;
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public StorageWrapper(StorageContext storageContext, InstanceConfig instanceConfig)
+        public StorageWrapper(StorageContext storageContext)
         {
             this.storageContext = storageContext ?? throw new ArgumentNullException(nameof(storageContext));
-            this.instanceConfig = instanceConfig ?? throw new ArgumentNullException(nameof(instanceConfig));
             storageLogic = null;
         }
 
@@ -62,8 +59,8 @@ namespace Scada.Storages
         /// </summary>
         public bool InitStorage()
         {
-            if (StorageFactory.GetStorage(storageContext.AppDirs.ExeDir, instanceConfig.ActiveStorage, storageContext,
-                out storageLogic, out string message))
+            if (StorageFactory.GetStorage(storageContext.AppDirs.ExeDir, storageContext.InstanceConfig.ActiveStorage,
+                storageContext, out storageLogic, out string message))
             {
                 storageContext.Log.WriteAction(message);
             }
@@ -75,7 +72,7 @@ namespace Scada.Storages
 
             try
             {
-                storageLogic.LoadConfig(instanceConfig.GetActiveStorageXml());
+                storageLogic.LoadConfig(storageContext.InstanceConfig.GetActiveStorageXml());
                 storageLogic.MakeReady();
                 storageLogic.IsReady = true;
                 return true;
