@@ -2,7 +2,7 @@
 
 namespace Scada.Admin.Extensions.ExtImport.Forms
 {
-    partial class FrmVariableMerge
+    partial class FrmVariablesMerge
     {
         //private DataGridView dataGridView;
 

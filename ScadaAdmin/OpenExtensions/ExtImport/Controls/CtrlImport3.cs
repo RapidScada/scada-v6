@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Admin.Config;
+using Scada.Admin.Extensions.ExtImport.Code;
 using Scada.Admin.Project;
 using Scada.Data.Entities;
 using Scada.Forms;
@@ -16,7 +17,7 @@ using System.Xml.Linq;
 namespace Scada.Admin.Extensions.ExtImport.Controls
 {
 
-    public partial class CtrlCnlImport3 : UserControl
+    public partial class CtrlImport3 : UserControl
     {
         private IAdminContext adminContext; // the Administrator context
         private OpenFileDialog openFileDialog1;
@@ -30,7 +31,8 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
         public event EventHandler rdbCheckStateChanged;
 
         public Dictionary<string, List<string>> _dictio = new Dictionary<string, List<string>>();
-        public bool FileSelected { get; internal set; }
+		private readonly List<Obj> prefixesAndSuffixes = ConfigDictionaries.prefixesAndSuffixes;
+		public bool FileSelected { get; internal set; }
         private string _mnemonique;
         private string _adress;
         private string _type;
@@ -39,7 +41,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CtrlCnlImport3()
+        public CtrlImport3()
         {
             InitializeComponent();
 
@@ -55,14 +57,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
             rdbCheckStateChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        private readonly List<Obj> prefixesAndSuffixes = new List<Obj>
-        {
-            new Obj { ObjNum = 0, Name = " " },
-            new Obj { ObjNum = 1, Name = "DeviceName" },
-            new Obj { ObjNum = 2, Name = "TagCode" },
-            new Obj { ObjNum = 3, Name = "TagNumber" },
-            new Obj { ObjNum = 4, Name = "Type" }
-        };
+        
 
         /// <summary>
         /// Gets or sets the selected device name.
@@ -231,11 +226,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
                 numStartCnlNum.SetValue(lastStartCnlNum);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+       
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
             txtPathFile.Enabled = radioButton1.Checked;
@@ -334,7 +325,6 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 
             _comment = columns[3].Replace("\"", "");
 
-            //add in dictionary
 
             List<string> list = new List<string>();
             list.Add(_mnemonique);
@@ -363,8 +353,6 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
                 _adress = new string(_adress.SkipWhile(x => !char.IsDigit(x)).ToArray());
                 _comment = colums[3].Replace("\"", "");
                 string prefix = Regex.Split(_adress, @"[0-9]").First();
-
-                //add in dictionary
 
                 List<string> list = new List<string>();
                 list.Add(_mnemonique);
@@ -396,7 +384,6 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 
                 string prefix = Regex.Split(_adress, @"[0-9]").First();
 
-                //add in dictionary
                 List<string> list = new List<string>
                 {
                     _mnemonique,

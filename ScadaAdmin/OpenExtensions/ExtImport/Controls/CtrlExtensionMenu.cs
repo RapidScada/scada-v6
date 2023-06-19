@@ -30,10 +30,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 
 		public CtrlExtensionMenu(IAdminContext adminContext) : this()
 		{
-			//this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
-			//SetMenuItempsEnabled();
-			//adminContext.CurrentProjectChanged += AdminContext_CurrentProjectChanged;
-
+		
 
 			this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
 			recentSelection = new RecentSelection();
@@ -150,13 +147,11 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 			return null;
 		}
 
-
-
 		private void btnImport_Click(object sender, EventArgs e)
 		{
 			if (adminContext.CurrentProject != null)
 			{
-				FrmCnlImport frmCnlImport = new(adminContext, adminContext.CurrentProject, recentSelection);
+				FrmImport frmCnlImport = new(adminContext, adminContext.CurrentProject, recentSelection);
 				if (frmCnlImport.ShowDialog() == DialogResult.OK)
 					adminContext.MainForm.RefreshBaseTables(typeof(Cnl), true);
 

@@ -1,7 +1,9 @@
 ﻿using Scada.Admin.Project;
 using Scada.Data.Entities;
+using Scada.Admin.Extensions.ExtImport.Code;
 using Scada.Comm.Devices;
 using System.Xml.Linq;
+using Scada.Forms;
 
 
 namespace Scada.Admin.Extensions.ExtImport.Forms
@@ -18,58 +20,15 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
         private CheckBox _headerCheckBox1 = new CheckBox();
         private CheckBox _headerCheckBox2 = new CheckBox();
 
+        private readonly Dictionary<int, string> cnlTypeDictionary = ConfigDictionaries.CnlTypeDictionary;
+        private readonly Dictionary<int, string> dataTypeDictionary = ConfigDictionaries.DataTypeDictionary;
 
-        private Dictionary<string, int> cnlDataType = new Dictionary<string, int>
-            {
-                {"BOOL", 1 },
-                {"EBOOL", 1 },
-                {"REAL", 0 },
-                {"FLOAT", 0 },
-                {"INT", 1 },
-                {"LONG", 1 },
-                {"SHORT", 1 },
-                {"DWORD", 1 },
-                {"QWORD", 1 },
-                {"UNDEFINED", 3 }, // or any other default value
-                {"WORD", 1 },
-            };
 
-        private Dictionary<int, string> cnlDataTypeDictionary = new Dictionary<int, string>
-        {
-            {1, "BOOL"},
-            {2, "EBOOL"},
-            {3, "REAL"},
-            {4, "FLOAT"},
-            {5, "INT"},
-            {6, "LONG"},
-            {7, "SHORT"},
-            {8, "DWORD"},
-            {9, "QWORD"},
-            {10, "UNDEFINED"},
-            {11, "WORD"}
-        };
-        private Dictionary<int, string> cnlTypeDictionary = new Dictionary<int, string>
-        {
-            {1, "Input"},
-            {2, "Input/output"},
-            {3, "Calculated"},
-            {4, "Calculated/output"},
-            {5, "Output"}
-        };
-        private Dictionary<int, string> dataTypeDictionary = new Dictionary<int, string>
-        {
-            {0, "Double"},
-            {1, "Integer"},
-            {2, "ASCII string"},
-            {3, "Unicode string"}
-        };
-
-        private FrmCnlsMerge()
+		private FrmCnlsMerge()
         {
             InitializeComponent();
             dataGridView1.AutoGenerateColumns = false;
         }
-
 
         public void Init(IAdminContext adminContext, ScadaProject project)
         {
@@ -78,7 +37,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 
         }
 
-
         public FrmCnlsMerge(ScadaProject project, Controls.CtrlCnlImport1 ctrlCnlImport1, Controls.CtrlCnlImport2 ctrlCnlImport2, Controls.CtrlCnlImport3 ctrlCnlImport3) : this()
         {
             this.project = project;
@@ -86,37 +44,10 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             this.CtrlCnlImport2 = ctrlCnlImport2;
             this.CtrlCnlImport3 = ctrlCnlImport3;
             setDictio(ctrlCnlImport3._dictio);
+                
             gridViewFiller();
+          
         }
-
-        public static List<Cnl> GetMatchingChannels(IEnumerable<Cnl> cnlTable, Dictionary<string, List<string>> dictio)
-        {
-            List<Cnl> matchingCnls = new List<Cnl>();
-
-            foreach (Cnl cnl in cnlTable)
-            {
-                string tagCode = cnl.TagCode.ToString();
-
-                if (dictio.ContainsKey(tagCode))
-                {
-                    matchingCnls.Add(cnl);
-                }
-            }
-
-            return matchingCnls;
-        }
-        public static List<Cnl> GetAllChannels(IEnumerable<Cnl> cnlTable)
-        {
-            List<Cnl> channels = new List<Cnl>();
-
-            foreach (Cnl cnl in cnlTable)
-            {
-                channels.Add(cnl);
-            }
-
-            return channels;
-        }
-
 
         public void setDictio(Dictionary<string, List<string>> dictio)
         {
@@ -124,28 +55,16 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
         }
         public void gridViewFiller()
         {
-            // Clear all existing rows
             dataGridView1.Rows.Clear();
 
-            List<Cnl> channelPrototypes;
-
-            // Create channel prototypes
-            if (dictio.Count != 0)
-            {
-                channelPrototypes = this.CreateChannelsFromFille(StoreDictioData());
-            }
-            else
-            {
-                channelPrototypes = CreateChannels();
-            }
-
-            // Loop through each prototype and add a new row to the dataGridView
+			List<Cnl>  channelPrototypes = CreateChannels();
+            
             foreach (var prototype in channelPrototypes)
             {
-                int rowIndex = dataGridView1.Rows.Add(); // Add a new row and get its index
+                int rowIndex = dataGridView1.Rows.Add(); 
                 DataGridViewRow row = dataGridView1.Rows[rowIndex];
 
-                // Populate the row with the relevant data
+                
                 var cnlNum = prototype.CnlNum;
                 var projectItem = project.ConfigDatabase.CnlTable.GetItem(cnlNum);
 
@@ -156,111 +75,51 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                 string prototypeCnlType = cnlTypeDictionary[prototype.CnlTypeID];
                 string prototypeDataType = prototype.DataTypeID.HasValue ? dataTypeDictionary[prototype.DataTypeID.Value] : "";
 
-                row.Cells[0].Value = prototype.CnlNum;  // Number
-                row.Cells[1].Value = false;             // Checkbox
-                row.Cells[2].Value = prototype.Name;    // Name
-                row.Cells[3].Value = prototypeDataType; // Type
-                row.Cells[4].Value = prototypeCnlType;  // Channel Type
-                row.Cells[5].Value = prototype.TagCode; // Tag Code
-                row.Cells[6].Value = "";                // Empty column
-                row.Cells[7].Value = false;             // Checkbox
-                row.Cells[8].Value = projectCnlName;    // Name
-                row.Cells[9].Value = projectDataType;   // Type
-                row.Cells[10].Value = projectCnlType;   // Channel Type
-                row.Cells[11].Value = projectTagCode;   // Tag Code
+                row.Cells[0].Value = prototype.CnlNum;  
+                row.Cells[1].Value = false;             
+                row.Cells[2].Value = prototype.Name;    
+                row.Cells[3].Value = prototypeDataType; 
+                row.Cells[4].Value = prototypeCnlType;  
+                row.Cells[5].Value = prototype.TagCode; 
+                row.Cells[6].Value = "";                
+                row.Cells[7].Value = false;             
+                row.Cells[8].Value = projectCnlName;    
+                row.Cells[9].Value = projectDataType;  
+                row.Cells[10].Value = projectCnlType;   
+                row.Cells[11].Value = projectTagCode;
 
-                // Store the Cnl object in a hidden column
                 row.Cells[6].Value = prototype;
             }
 
-            // Hide the column containing the Cnl objects
             dataGridView1.Columns[6].Visible = false;
+            
         }
-        private void AddSelectedChannels()
+
+        
+        private bool AddSelectedChannels()
         {
             List<Cnl> selectedChannels = new List<Cnl>();
 
-            // Loop through all rows of the dataGridView
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
-                // Check if the checkbox in the first column (index 1) is checked
                 if (Convert.ToBoolean(row.Cells[1].Value) == true)
                 {
-                    // Retrieve the Cnl object from the hidden column
                     Cnl cnl = (Cnl)row.Cells[6].Value;
 
-                    // Add the Cnl object to the list
                     selectedChannels.Add(cnl);
                 }
             }
-
-            // Use the AddChannels function to add the selected channels
-            AddChannels(selectedChannels);
-        }
-
-
-        private List<Cnl> CreateChannelsFromFille(Dictionary<string, List<string>> store)
-        {
-            List<Cnl> cnls = new List<Cnl>();
-            int cnlNum = CtrlCnlImport3.StartCnlNum;
-            string namePrefix = CtrlCnlImport1.SelectedDevice.Name;
-            int? objNum = CtrlCnlImport2.ObjNum;
-            int deviceNum = CtrlCnlImport1.SelectedDevice.DeviceNum;
-
-            foreach (KeyValuePair<string, List<string>> element in store)
+            if(selectedChannels.Count > 0)
             {
-                string tagCode = element.Key;
-                CnlPrototype cnlPrototype = CtrlCnlImport1.CnlPrototypes.FirstOrDefault(); // or some other way to get the prototype
-
-                if (cnlPrototype != null)
-                {
-                    cnls.Add(new Cnl
-                    {
-                        CnlNum = cnlNum,
-                        Active = cnlPrototype.Active,
-                        Name = namePrefix + cnlPrototype.Name,
-                        DataTypeID = cnlPrototype.DataTypeID,
-                        DataLen = cnlPrototype.DataLen,
-                        CnlTypeID = cnlPrototype.CnlTypeID,
-                        ObjNum = objNum,
-                        DeviceNum = deviceNum,
-                        TagNum = cnlPrototype.TagNum,
-                        TagCode = tagCode,
-                        FormulaEnabled = cnlPrototype.FormulaEnabled,
-                        InFormula = cnlPrototype.InFormula,
-                        OutFormula = cnlPrototype.OutFormula,
-                        FormatID = project.ConfigDatabase.GetFormatByCode(cnlPrototype.FormatCode)?.FormatID,
-                        QuantityID = project.ConfigDatabase.GetQuantityByCode(cnlPrototype.QuantityCode)?.QuantityID,
-                        UnitID = project.ConfigDatabase.GetUnitByCode(cnlPrototype.UnitCode)?.UnitID,
-                        LimID = null,
-                        ArchiveMask = cnlPrototype.ArchiveMask,
-                        EventMask = cnlPrototype.EventMask
-                    });
-
-                    cnlNum++; // Increment cnlNum for each element in store
-                }
+                AddChannels(selectedChannels);
+                return true;
             }
-
-            return cnls;
-        }
-        public Dictionary<string, List<string>> StoreDictioData()
-        {
-            Dictionary<string, List<string>> resultDictionnary = new Dictionary<string, List<string>>();
-
-            // Parcourir dictio et ajouter des éléments à resultDictionnary
-            foreach (KeyValuePair<string, List<string>> kvp in dictio)
+            else
             {
-                var list = new List<string>
-        {
-            kvp.Value[0], // Mnemonique
-            kvp.Value[1], // Type
-            kvp.Value[2]  // Descr
-        };
-
-                resultDictionnary[kvp.Key] = list;
-            }
-
-            return resultDictionnary;
+                ScadaUiUtils.ShowWarning("Rien n'a été selectionné !");
+				return false;
+			}
+            
         }
 
 
@@ -275,8 +134,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             CtrlCnlImport3.CnlNameFormat.TryGetValue("separator", out separator);
             CtrlCnlImport3.CnlNameFormat.TryGetValue("prefix", out prefix);
             CtrlCnlImport3.CnlNameFormat.TryGetValue("suffix", out suffix);
-
-
 
             int? objNum = CtrlCnlImport2.ObjNum;
             int deviceNum = CtrlCnlImport1.SelectedDevice.DeviceNum;
@@ -341,8 +198,22 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             return cnls;
         }
 
+		/// <summary>
+		/// Add cnls 
+		/// </summary>
+		/// <param name="cnls"></param>
+		private void AddChannels(List<Cnl> cnls)
+		{
+			if (cnls == null || cnls.Count <= 0)
+			{
+				return;
+			}
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+			cnls.ForEach(cnl => project.ConfigDatabase.CnlTable.AddItem(cnl));
+			project.ConfigDatabase.CnlTable.Modified = true;
+		}
+
+		private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (dataGridView1.Columns[e.ColumnIndex] is DataGridViewCheckBoxColumn && e.RowIndex >= 0)
             {
@@ -353,7 +224,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                 {
                     currentCheckbox.Value = false;
 
-                    //color
                     otherCheckbox.Style.BackColor = Color.White;
                     dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex + 1].Style.BackColor = Color.White;
                     dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex + 2].Style.BackColor = Color.White;
@@ -373,7 +243,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                         otherCheckbox.Value = true;
                         currentCheckbox.Value = false;
 
-                        //color
                         otherCheckbox.Style.BackColor = Color.LightGreen;
                         dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex + 1].Style.BackColor = Color.LightGreen;
                         dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex + 2].Style.BackColor = Color.LightGreen;
@@ -391,7 +260,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                         otherCheckbox.Value = false;
                         currentCheckbox.Value = true;
 
-                        //color
                         otherCheckbox.Style.BackColor = Color.PaleVioletRed;
                         dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex == 1 ? 8 : 2].Style.BackColor = Color.PaleVioletRed;
                         dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex == 1 ? 9 : 3].Style.BackColor = Color.PaleVioletRed;
@@ -423,7 +291,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                     {
                         row.Cells[1].Value = true;
 
-                        //color
                         row.Cells[1].Style.BackColor = Color.LightGreen;
                         row.Cells[2].Style.BackColor = Color.LightGreen;
                         row.Cells[3].Style.BackColor = Color.LightGreen;
@@ -446,7 +313,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                     {
                         row.Cells[1].Value = false;
 
-                        //color
                         row.Cells[1].Style.BackColor = Color.White;
                         row.Cells[2].Style.BackColor = Color.White;
                         row.Cells[3].Style.BackColor = Color.White;
@@ -475,7 +341,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                     {
                         row.Cells[7].Value = true;
 
-                        //color
                         row.Cells[1].Style.BackColor = Color.PaleVioletRed;
                         row.Cells[2].Style.BackColor = Color.PaleVioletRed;
                         row.Cells[3].Style.BackColor = Color.PaleVioletRed;
@@ -498,7 +363,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                     {
                         row.Cells[7].Value = false;
 
-                        //color
                         row.Cells[1].Style.BackColor = Color.White;
                         row.Cells[2].Style.BackColor = Color.White;
                         row.Cells[3].Style.BackColor = Color.White;
@@ -559,35 +423,14 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             lbl.Size = new Size((headerCell2Rectangle.X + dataGridView1.Location.X + headerCell2Rectangle.Width) - headerCell1Rectangle.X, 21);
         }
 
-
-        /// <summary>
-        /// Add cnls 
-        /// </summary>
-        /// <param name="cnls"></param>
-        private void AddChannels(List<Cnl> cnls)
-        {
-            if (cnls == null || cnls.Count <= 0)
-            {
-                return;
-            }
-
-            cnls.ForEach(cnl => project.ConfigDatabase.CnlTable.AddItem(cnl));
-            project.ConfigDatabase.CnlTable.Modified = true;
-        }
-
-
         /// <summary>
         /// Create or update cnl from file
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// 
         private void btnAdd_Click_1(object sender, EventArgs e)
         {
-            AddSelectedChannels();
-            DialogResult = DialogResult.OK;
+            if(AddSelectedChannels())
+                DialogResult = DialogResult.OK;
         }
-
 
     }
 }

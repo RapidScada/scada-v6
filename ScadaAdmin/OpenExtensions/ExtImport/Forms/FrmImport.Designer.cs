@@ -2,7 +2,7 @@
 
 namespace Scada.Admin.Extensions.ExtImport.Forms
 {
-	partial class FrmCnlImport
+	partial class FrmImport
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -31,9 +31,9 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 		private void InitializeComponent()
 		{
 			lblStep = new Label();
-			ctrlCnlImport1 = new CtrlCnlImport1();
-			ctrlCnlImport2 = new CtrlCnlImport2();
-			ctrlCnlmport3 = new CtrlCnlImport3();
+			ctrlCnlImport1 = new CtrlImport1();
+			ctrlCnlImport2 = new CtrlImport2();
+			ctrlCnlmport3 = new CtrlImport3();
 			btnBack = new Button();
 			btnNext = new Button();
 			btnCreate = new Button();
@@ -153,9 +153,9 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 		#endregion
 
 		private System.Windows.Forms.Label lblStep;
-		private Controls.CtrlCnlImport1 ctrlCnlImport1;
-		private Controls.CtrlCnlImport2 ctrlCnlImport2;
-		private Controls.CtrlCnlImport3 ctrlCnlmport3;
+		private Controls.CtrlImport1 ctrlCnlImport1;
+		private Controls.CtrlImport2 ctrlCnlImport2;
+		private Controls.CtrlImport3 ctrlCnlmport3;
 		private System.Windows.Forms.Button btnBack;
 		private System.Windows.Forms.Button btnNext;
 		private System.Windows.Forms.Button btnCreate;

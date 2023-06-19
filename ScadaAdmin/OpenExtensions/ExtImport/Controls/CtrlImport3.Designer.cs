@@ -1,6 +1,6 @@
 ﻿namespace Scada.Admin.Extensions.ExtImport.Controls
 {
-    partial class CtrlCnlImport3
+    partial class CtrlImport3
     {
         /// <summary> 
         /// Required designer variable.
@@ -289,7 +289,7 @@
             cbBoxPrefix.TabIndex = 9;
             cbBoxPrefix.SelectionChangeCommitted += cbBoxPrefix_SelectionChangeCommitted;
             // 
-            // CtrlCnlImport3
+            // CtrlImport3
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -299,7 +299,7 @@
             Controls.Add(txtDevice);
             Controls.Add(lblDevice);
             Margin = new Padding(1);
-            Name = "CtrlCnlImport3";
+            Name = "CtrlImport3";
             Size = new Size(497, 462);
             gbCnlNums.ResumeLayout(false);
             gbCnlNums.PerformLayout();

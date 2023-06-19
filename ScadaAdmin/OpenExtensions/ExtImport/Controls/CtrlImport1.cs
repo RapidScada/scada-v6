@@ -19,7 +19,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
     /// Represents a control for selecting a device when creating channels.
     /// <para>Представляет элемент управления для выбора устройства при создании каналов.</para>
     /// </summary>
-    public partial class CtrlCnlImport1 : UserControl
+    public partial class CtrlImport1 : UserControl
     {
         /// <summary>
         /// Represents an item corresponding to a device.
@@ -43,7 +43,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CtrlCnlImport1()
+        public CtrlImport1()
         {
             InitializeComponent();
         }

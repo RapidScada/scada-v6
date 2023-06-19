@@ -22,7 +22,7 @@ namespace Scada.Admin.Extensions.ExtImport.Code
 		public static string UnableCreateDeviceView { get; private set; }
 		public static string NoDeviceProperties { get; private set; }
 
-		// Scada.Admin.Extensions.ExtImport.Controls.CtrlCnlImport1
+		// Scada.Admin.Extensions.ExtImport.Controls.CtrlImport1
 		public static string AllCommLines { get; private set; }
 		public static string DeviceInfo { get; private set; }
 		public static string DeviceNotFound { get; private set; }
@@ -98,7 +98,7 @@ namespace Scada.Admin.Extensions.ExtImport.Code
 			UnableCreateDeviceView = dict["UnableCreateDeviceView"];
 			NoDeviceProperties = dict["NoDeviceProperties"];
 
-			dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtImport.Controls.CtrlCnlImport1");
+			dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtImport.Controls.CtrlImport1");
 			AllCommLines = dict["AllCommLines"];
 			DeviceInfo = dict["DeviceInfo"];
 			DeviceNotFound = dict["DeviceNotFound"];

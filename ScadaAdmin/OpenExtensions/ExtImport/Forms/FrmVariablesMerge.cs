@@ -4,23 +4,21 @@ using System.Xml;
 using Scada.Comm.Drivers.DrvModbus.Config;
 using Scada.Comm.Drivers.DrvModbus.Protocol;
 using System.Text.RegularExpressions;
+using Scada.Admin.Extensions.ExtImport.Code;
 using Scada.Comm.Devices;
 using Scada.Data.Const;
 using System.Xml.Linq;
 using System;
+using Scada.Forms;
 
 namespace Scada.Admin.Extensions.ExtImport.Forms
 {
-    public partial class FrmVariableMerge : Form
+    public partial class FrmVariablesMerge : Form
     {
 
         private Dictionary<string, List<string>> dictio;
-        //private Dictionary<string, List<string>> _oldDictio = new Dictionary<string, List<string>>();
-        Dictionary<string, Dictionary<string, string>> _oldDictio = new Dictionary<string, Dictionary<string, string>>();
-
-        //private Dictionary<string, List<string>> _newDictio = new Dictionary<string, List<string>>();
+        private Dictionary<string, Dictionary<string, string>> _oldDictio = new Dictionary<string, Dictionary<string, string>>();
         private Dictionary<string, Dictionary<string, string>> _newDictio = new Dictionary<string, Dictionary<string, string>>();
-
 
         private List<string> _listOfKey = new List<string>();
         private IAdminContext adminContext; // the Administrator context
@@ -30,53 +28,20 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
         Dictionary<string, ElemType> elemTypeDico;
         private CheckBox _headerCheckBox1 = new CheckBox();
         private CheckBox _headerCheckBox2 = new CheckBox();
-        private Controls.CtrlCnlImport3 CtrlCnlImport3;
-        private Controls.CtrlCnlImport2 CtrlCnlImport2;
-        private Controls.CtrlCnlImport1 CtrlCnlImport1;
+        private Controls.CtrlImport3 CtrlImport3;
+        private Controls.CtrlImport2 CtrlImport2;
+        private Controls.CtrlImport1 CtrlImport1;
 
 
-        private Dictionary<string, int> cnlDataType = new Dictionary<string, int>
-            {
-                {"BOOL", 1 },
-                {"EBOOL", 1 },
-                {"REAL", 0 },
-                {"FLOAT", 0 },
-                {"INT", 1 },
-                {"LONG", 1 },
-                {"SHORT", 1 },
-                {"DWORD", 1 },
-                {"QWORD", 1 },
-                {"UNDEFINED", 3 }, // or any other default value
-                {"WORD", 1 },
-            };
+        private Dictionary<string, int> cnlDataType = ConfigDictionaries.CnlDataType;
 
-        private FrmVariableMerge()
+        private FrmVariablesMerge()
         {
             InitializeComponent();
             dataGridView1.AutoGenerateColumns = false;
-            this.elemTypeDico = new Dictionary<string, ElemType>
-            {
-                {"BOOL", ElemType.Bool },
-                {"EBOOL", ElemType.Bool },
-                {"REAL", ElemType.Double },
-                {"FLOAT", ElemType.Float },
-                {"INT", ElemType.Int },
-                {"LONG", ElemType.Long },
-                {"SHORT", ElemType.Short },
-                {"DWORD", ElemType.UInt },
-                {"QWORD", ElemType.ULong },
-                {"UNDEFINED", ElemType.Undefined },
-                {"WORD", ElemType.UShort },
-            };
-
-
+            this.elemTypeDico = ConfigDictionaries.ElemTypeDictionary;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="adminContext"></param>
-        /// <param name="project"></param>
-        /// <exception cref="ArgumentNullException"></exception>
+       
         public void Init(IAdminContext adminContext, ScadaProject project)
         {
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
@@ -84,25 +49,17 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="project"></param>
-        /// <param name="deviceInfoDict"></param>
-        /// <param name="dictio"></param>
-        /// <param name="CtrlCnlImport3"></param>
-
-        public FrmVariableMerge(ScadaProject project, Controls.CtrlCnlImport1 ctrlCnlImport1, Controls.CtrlCnlImport2 ctrlCnlImport2, Controls.CtrlCnlImport3 ctrlCnlImport3) : this()
+      
+        public FrmVariablesMerge(ScadaProject project, Controls.CtrlImport1 ctrlImport1, Controls.CtrlImport2 ctrlImport2, Controls.CtrlImport3 ctrlImport3) : this()
         {
 
             this.project = project;
-            this.selectedDeviceName = ctrlCnlImport3.DeviceName;
-            this.CtrlCnlImport1 = ctrlCnlImport1;
-            this.CtrlCnlImport2 = ctrlCnlImport2;
-            this.CtrlCnlImport3 = ctrlCnlImport3;
-            //this.CtrlCnlImport3 = ctrlCnlmport3;
-
-            setDictio(ctrlCnlImport3._dictio);
+            this.selectedDeviceName = ctrlImport3.DeviceName;
+            this.CtrlImport1 = ctrlImport1;
+            this.CtrlImport2 = ctrlImport2;
+            this.CtrlImport3 = ctrlImport3;
+          
+            setDictio(ctrlImport3._dictio);
 
             List<Cnl> listCnl = new List<Cnl>();
             Dictionary<int, string> dataTypes = new Dictionary<int, string>();
@@ -123,10 +80,11 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                     _oldDictio.Add(address, data);
                 }
 
-
             }
+            
 
-            gridViewFiller();
+				gridViewFiller();
+   
         }
 
 
@@ -137,7 +95,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 
         public void gridViewFiller()
         {
-            var store = StoreDictioData();
             Dictionary<string, Dictionary<string, string>> importDictio = new Dictionary<string, Dictionary<string, string>>();
 
             foreach (KeyValuePair<string, List<string>> kvp in dictio)
@@ -187,7 +144,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                 {
                     currentCheckbox.Value = false;
 
-                    //color
                     otherCheckbox.Style.BackColor = Color.White;
                     dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex + 1].Style.BackColor = Color.White;
                     dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex + 2].Style.BackColor = Color.White;
@@ -204,7 +160,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                         otherCheckbox.Value = true;
                         currentCheckbox.Value = false;
 
-                        //color
                         otherCheckbox.Style.BackColor = Color.LightGreen;
                         dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex + 1].Style.BackColor = Color.LightGreen;
                         dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex + 2].Style.BackColor = Color.LightGreen;
@@ -219,7 +174,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                         otherCheckbox.Value = false;
                         currentCheckbox.Value = true;
 
-                        //color
                         otherCheckbox.Style.BackColor = Color.PaleVioletRed;
                         dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex == 1 ? 7 : 2].Style.BackColor = Color.PaleVioletRed;
                         dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex == 1 ? 8 : 3].Style.BackColor = Color.PaleVioletRed;
@@ -246,7 +200,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                     {
                         row.Cells[1].Value = true;
 
-                        //color
                         row.Cells[1].Style.BackColor = Color.LightGreen;
                         row.Cells[2].Style.BackColor = Color.LightGreen;
                         row.Cells[3].Style.BackColor = Color.LightGreen;
@@ -267,7 +220,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                     {
                         row.Cells[1].Value = false;
 
-                        //color
                         row.Cells[1].Style.BackColor = Color.White;
                         row.Cells[2].Style.BackColor = Color.White;
                         row.Cells[3].Style.BackColor = Color.White;
@@ -294,7 +246,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                     {
                         row.Cells[6].Value = true;
 
-                        //color
                         row.Cells[1].Style.BackColor = Color.PaleVioletRed;
                         row.Cells[2].Style.BackColor = Color.PaleVioletRed;
                         row.Cells[3].Style.BackColor = Color.PaleVioletRed;
@@ -315,7 +266,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                     {
                         row.Cells[6].Value = false;
 
-                        //color
                         row.Cells[1].Style.BackColor = Color.White;
                         row.Cells[2].Style.BackColor = Color.White;
                         row.Cells[3].Style.BackColor = Color.White;
@@ -343,8 +293,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             dataGridView1.Controls.Add(_headerCheckBox2);
             _headerCheckBox2.CheckedChanged += _headerCheckBox2_CheckedChanged;
             dataGridView1.ColumnWidthChanged += DataGridView1_ColumnWidthChanged;
-
-
         }
 
         private void DataGridView1_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
@@ -356,7 +304,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             SetLabelLocation(lblDestination, 6, 9);
         }
 
-        private void SetCheckboxLocation(System.Windows.Forms.CheckBox ck, int columnIndex)
+        private void SetCheckboxLocation(CheckBox ck, int columnIndex)
         {
             Rectangle headerCellRectangle = this.dataGridView1.GetCellDisplayRectangle(columnIndex, -1, true);
 
@@ -365,7 +313,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             ck.Size = new Size(18, 18);
         }
 
-        private void SetLabelLocation(System.Windows.Forms.Label lbl, int columnStartIndex, int columnEndIndex)
+        private void SetLabelLocation(Label lbl, int columnStartIndex, int columnEndIndex)
         {
             Rectangle headerCell1Rectangle = this.dataGridView1.GetCellDisplayRectangle(columnStartIndex, -1, true);
             Rectangle headerCell2Rectangle = this.dataGridView1.GetCellDisplayRectangle(columnEndIndex, -1, true);
@@ -375,8 +323,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
         }
 
 
-        // Dictionnary generation with CheckBox values
-
+       
         private Dictionary<string, List<string>> generateDictionnary()
         {
             var dico = new Dictionary<string, List<string>>();
@@ -412,15 +359,14 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
         {
             Dictionary<string, List<string>> resultDictionnary = new Dictionary<string, List<string>>();
 
-            // Parcourir dictio et ajouter des éléments à resultDictionnary
             foreach (KeyValuePair<string, List<string>> kvp in dictio)
             {
                 var list = new List<string>
-        {
-            kvp.Value[0], // Mnemonique
-            kvp.Value[1], // Type
-            kvp.Value[2]  // Descr
-        };
+                {
+                    kvp.Value[0], 
+                    kvp.Value[1], 
+                    kvp.Value[2]  
+                };
 
                 resultDictionnary[kvp.Key] = list;
             }
@@ -451,22 +397,22 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
         private void addChannelsAfterImport()
         {
             _newDictio = ProcessDataGridView(dataGridView1);
-            CtrlCnlImport3.ResetCnlNums(_newDictio.Count());
-            string deviceName = CtrlCnlImport3.DeviceName;
-            int? objNum = CtrlCnlImport2.ObjNum;
-            int deviceNum = CtrlCnlImport1.SelectedDevice.DeviceNum;
-            int cnlNum = CtrlCnlImport3.StartCnlNum;
+            CtrlImport3.ResetCnlNums(_newDictio.Count());
+            string deviceName = CtrlImport3.DeviceName;
+            int? objNum = CtrlImport2.ObjNum;
+            int deviceNum = CtrlImport1.SelectedDevice.DeviceNum;
+            int cnlNum = CtrlImport3.StartCnlNum;
             string name;
-            CtrlCnlImport3.CnlNameFormat.TryGetValue("separator", out string separator);
-            CtrlCnlImport3.CnlNameFormat.TryGetValue("prefix", out string prefix);
-            CtrlCnlImport3.CnlNameFormat.TryGetValue("suffix", out string suffix);
+            CtrlImport3.CnlNameFormat.TryGetValue("separator", out string separator);
+            CtrlImport3.CnlNameFormat.TryGetValue("prefix", out string prefix);
+            CtrlImport3.CnlNameFormat.TryGetValue("suffix", out string suffix);
             List<Cnl> cnls = new();
 
             foreach (var kvp in _newDictio)
             {
                 string address = Regex.Replace(kvp.Key, @"[^0-9]", "");
                 Dictionary<string, string> data = kvp.Value;
-                CnlPrototype cnlPrototype = ((List<CnlPrototype>)CtrlCnlImport1.CnlPrototypes)[0];
+                CnlPrototype cnlPrototype = ((List<CnlPrototype>)CtrlImport1.CnlPrototypes)[0];
 
                 Cnl cnl;
 
@@ -500,7 +446,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                 }
 
 
-
                 cnl.TagCode = address;
                 cnl.DataTypeID = cnlDataType.GetValueOrDefault(data["type"]);
                 cnl.ObjNum = objNum;
@@ -509,7 +454,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                 {
                     name = prefix switch
                     {
-                        "DeviceName" => CtrlCnlImport3.DeviceName,
+                        "DeviceName" => CtrlImport3.DeviceName,
                         "TagCode" => address,
                         "TagNumber" => cnlPrototype.TagNum.ToString(),
                         "Type" => cnlPrototype.CnlTypeID.ToString(),
@@ -518,7 +463,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                     name += separator;
                     name += suffix switch
                     {
-                        "DeviceName" => CtrlCnlImport3.DeviceName,
+                        "DeviceName" => CtrlImport3.DeviceName,
                         "TagCode" => address,
                         "TagNumber" => cnlPrototype.TagNum.ToString(),
                         "Type" => cnlPrototype.CnlTypeID.ToString(),
@@ -527,7 +472,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                 }
                 else
                 {
-                    name = CtrlCnlImport3.DeviceName + "-" + address;
+                    name = CtrlImport3.DeviceName + "-" + address;
                 }
 
                 cnl.Name = name;
@@ -557,11 +502,11 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 
             foreach (DataGridViewRow row in dgv.Rows)
             {
-                if (Convert.ToBoolean(row.Cells[1].Value)) // Si la case de gauche est cochée
+                if (Convert.ToBoolean(row.Cells[1].Value)) 
                 {
                     AddRowToDict(row, resultDict, 2, 3, 4, true);
                 }
-                else if (Convert.ToBoolean(row.Cells[6].Value)) // Si la case de droite est cochée
+                else if (Convert.ToBoolean(row.Cells[6].Value)) 
                 {
                     AddRowToDict(row, resultDict, 7, 8, 9, false);
                 }
@@ -570,15 +515,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             return resultDict;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="dict"></param>
-        /// <param name="cell1"></param>
-        /// <param name="cell2"></param>
-        /// <param name="cell3"></param>
-        /// <param name="isLeft"></param>
         private void AddRowToDict(DataGridViewRow row, Dictionary<string, Dictionary<string, string>> dict, int cell1, int cell2, int cell3, bool isLeft)
         {
             var key = row.Cells[0].Value.ToString();
@@ -646,38 +582,47 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
         {
             var dico = generateDictionnary();
 
-            DeviceTemplate template = this.generateDeviceTemplateFromDictionnary(dico);
-
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
-            xmlDoc.AppendChild(xmlDecl);
-            XmlElement rootElem = xmlDoc.CreateElement("DeviceTemplate");
-            xmlDoc.AppendChild(rootElem);
-            DeviceTemplateOptions options = new DeviceTemplateOptions();
-            options.SaveToXml(rootElem.AppendElem("Options"));
-            XmlElement elemGroupsElem = rootElem.AppendElem("ElemGroups");
-            foreach (ElemGroupConfig elemGroupConfig in template.ElemGroups)
+            if ( dico.Count != 0)
             {
-                elemGroupConfig.SaveToXml(elemGroupsElem.AppendElem("ElemGroup"));
-            }
+                DeviceTemplate template = this.generateDeviceTemplateFromDictionnary(dico);
 
-            if (selectedDeviceName == null)
-            {
-                selectedDeviceName = "New Template.xml";
-            }
-            saveFileDialog1.FileName = selectedDeviceName;
-
-            saveFileDialog1.InitialDirectory = string.Format("{0}\\Instances\\Default\\ScadaComm\\Config", this.project.ProjectDir);
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                using (Stream s = File.Open(saveFileDialog1.FileName, FileMode.Create))
-                using (StreamWriter sw = new StreamWriter(s))
+                XmlDocument xmlDoc = new XmlDocument();
+                XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
+                xmlDoc.AppendChild(xmlDecl);
+                XmlElement rootElem = xmlDoc.CreateElement("DeviceTemplate");
+                xmlDoc.AppendChild(rootElem);
+                DeviceTemplateOptions options = new DeviceTemplateOptions();
+                options.SaveToXml(rootElem.AppendElem("Options"));
+                XmlElement elemGroupsElem = rootElem.AppendElem("ElemGroups");
+                foreach (ElemGroupConfig elemGroupConfig in template.ElemGroups)
                 {
-                    xmlDoc.Save(sw);
+                    elemGroupConfig.SaveToXml(elemGroupsElem.AppendElem("ElemGroup"));
                 }
-            }
 
-            addChannelsAfterImport();
+                if (selectedDeviceName == null)
+                {
+                    selectedDeviceName = "New Template.xml";
+                }
+                saveFileDialog1.FileName = selectedDeviceName;
+
+                saveFileDialog1.InitialDirectory = string.Format("{0}\\Instances\\Default\\ScadaComm\\Config", this.project.ProjectDir);
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    using (Stream s = File.Open(saveFileDialog1.FileName, FileMode.Create))
+                    using (StreamWriter sw = new StreamWriter(s))
+                    {
+                        xmlDoc.Save(sw);
+                    }
+                    addChannelsAfterImport();
+                }
+
+            }
+            else
+            {
+				ScadaUiUtils.ShowError("Rien n'a été sélectionné");
+			}
+
+           
         }
     }
 }

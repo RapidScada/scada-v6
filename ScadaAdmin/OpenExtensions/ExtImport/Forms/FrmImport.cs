@@ -87,13 +87,8 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 				case 3:
 					lblStep.Text = ExtensionPhrases.CreateCnlsStep3;
 					ctrlCnlmport3.Visible = true;
-					//chkPreview.Visible = true;
 					btnBack.Visible = true;
 					btnCreate.Visible = true;
-					//if(ctrlCnlmport3.lastCheckState)
-					//	btnCreate.Visible = ctrlCnlmport3.FileSelected;//true;
-					//else
-
 					if (ctrlCnlImport1.StatusOK)
 					{
 						ctrlCnlmport3.ResetCnlNums(ctrlCnlImport1.CnlPrototypes.Count);
@@ -118,21 +113,6 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			}
 		}
 
-
-		/// <summary>
-		/// Adds the specified channels into the configuration database.
-		/// </summary>
-		private void AddChannels(List<Cnl> cnls, bool silent)
-		{
-			if (cnls.Count > 0)
-			{
-				cnls.ForEach(cnl => project.ConfigDatabase.CnlTable.AddItem(cnl));
-				project.ConfigDatabase.CnlTable.Modified = true;
-			}
-
-			if (!silent)
-				ScadaUiUtils.ShowInfo(ExtensionPhrases.CreateCnlsCompleted, cnls.Count);
-		}
 		private void CtrlCnlImport3_SelectedDeviceChanged(object sender, EventArgs e)
 		{
 			if (ctrlCnlmport3.lastCheckState2)
@@ -189,12 +169,8 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			if (ctrlCnlImport1.StatusOK)
 			{
 
-
-				var cnlNamf = ctrlCnlmport3.CnlNameFormat;
 				if (ctrlCnlmport3.lastCheckState2)
 				{
-
-					//remove cnls
 					if (new FrmCnlsMerge(project, ctrlCnlImport1, ctrlCnlImport2, ctrlCnlmport3).ShowDialog() == DialogResult.OK)
 					{
 						DialogResult = DialogResult.OK;
@@ -202,12 +178,15 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 				}
 				else
 				{
-					if (new FrmVariableMerge(project, ctrlCnlImport1, ctrlCnlImport2, ctrlCnlmport3).ShowDialog() == DialogResult.OK)
+					if (ctrlCnlmport3._dictio.Count > 0 && new FrmVariableMerge(project, ctrlCnlImport1, ctrlCnlImport2, ctrlCnlmport3).ShowDialog() == DialogResult.OK)
 					{
-
 						DialogResult = DialogResult.OK;
 					}
-				}
+                    else
+                    {
+						ScadaUiUtils.ShowWarning("Le fichier selectioné est probablement vide");
+					}
+                }
 
 			}
 

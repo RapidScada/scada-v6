@@ -1,6 +1,6 @@
 ﻿namespace Scada.Admin.Extensions.ExtImport.Controls
 {
-    partial class CtrlCnlImport1
+    partial class CtrlImport1
     {
         /// <summary> 
         /// Required designer variable.
@@ -97,7 +97,7 @@
             this.pbStatus.TabIndex = 5;
             this.pbStatus.TabStop = false;
             // 
-            // CtrlCnlImport1
+            // CtrlImport1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -107,7 +107,7 @@
             this.Controls.Add(this.lblDevice);
             this.Controls.Add(this.cbCommLine);
             this.Controls.Add(this.lblCommLine);
-            this.Name = "CtrlCnlImport1";
+            this.Name = "CtrlImport1";
             this.Size = new System.Drawing.Size(360, 200);
             ((System.ComponentModel.ISupportInitialize)(this.pbStatus)).EndInit();
             this.ResumeLayout(false);

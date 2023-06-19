@@ -14,9 +14,8 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
 {
     /// <summary>
     /// Represents a control for selecting an object when creating channels.
-    /// <para>Представляет элемент управления для выбора объекта при создании каналов.</para>
     /// </summary>
-    public partial class CtrlCnlImport2 : UserControl
+    public partial class CtrlImport2 : UserControl
     {
         private ScadaProject project;            // the project under development
         private RecentSelection recentSelection; // the recently selected objects
@@ -25,7 +24,7 @@ namespace Scada.Admin.Extensions.ExtImport.Controls
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CtrlCnlImport2()
+        public CtrlImport2()
         {
             InitializeComponent();
         }

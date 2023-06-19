@@ -35,10 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Code\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Controls\CtrlCnlImport1.cs">
       <SubType>UserControl</SubType>
     </Compile>
