@@ -131,8 +131,9 @@ namespace Scada.Web.Code
             webContext.PluginHolder.OnUserLogin(userLoginArgs);
 
             // write to audit log
-            auditLog.Write(new AuditLogEntry()
+            auditLog.Write(new AuditLogEntry
             {
+                ActionTime = DateTime.UtcNow,
                 Username = username,
                 ActionType = AuditActionType.Login,
                 ActionResult = AuditActionResult.FromBool(userLoginArgs.UserIsValid),
@@ -191,8 +192,9 @@ namespace Scada.Web.Code
                 webContext.PluginHolder.OnUserLogout(userLoginArgs);
 
                 // write to audit log
-                auditLog.Write(new AuditLogEntry()
+                auditLog.Write(new AuditLogEntry
                 {
+                    ActionTime = DateTime.UtcNow,
                     Username = userLoginArgs.Username,
                     ActionType = AuditActionType.Logout,
                     ActionResult = AuditActionResult.Success,
