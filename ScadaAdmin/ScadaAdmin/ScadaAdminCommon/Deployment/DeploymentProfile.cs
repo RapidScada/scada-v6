@@ -93,13 +93,11 @@ namespace Scada.Admin.Deployment
         /// <summary>
         /// Gets the Agent connection options.
         /// </summary>
-        /// 
         public ConnectionOptions AgentConnectionOptions { get; private set; }
 
         /// <summary>
         /// Gets the database connection options.
         /// </summary>
-        /// 
         public DbConnectionOptions DbConnectionOptions { get; private set; }
 
         /// <summary>
