@@ -161,9 +161,9 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 {
                     StartTime = userContext.ConvertTimeToUtc(startTime),
                     EndTime = userContext.ConvertTimeToUtc(endTime),
+                    MaxPeriod = pluginContext.Options.MaxReportPeriod,
                     TableView = tableView,
-                    TableOptions = pluginContext.GetTableOptions(tableView),
-                    MaxPeriod = pluginContext.Options.MaxReportPeriod
+                    TableOptions = pluginContext.GetTableOptions(tableView)
                 }, stream);
 
                 fileName = ReportUtils.BuildFileName(TableViewReportPrefix,
@@ -256,10 +256,10 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             {
                 StartTime = userContext.ConvertTimeToUtc(startTime),
                 EndTime = userContext.ConvertTimeToUtc(endTime),
+                MaxPeriod = pluginContext.Options.MaxReportPeriod,
                 ArchiveCode = archive,
                 ObjNums = objNums,
-                Severities = severities,
-                MaxPeriod = pluginContext.Options.MaxReportPeriod
+                Severities = severities
             };
 
             return File(
@@ -285,9 +285,9 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 {
                     StartTime = userContext.ConvertTimeToUtc(startTime),
                     EndTime = userContext.ConvertTimeToUtc(endTime),
+                    MaxPeriod = pluginContext.Options.MaxReportPeriod,
                     ArchiveCode = archive,
-                    CnlNums = cnlNums,
-                    MaxPeriod = pluginContext.Options.MaxReportPeriod
+                    CnlNums = cnlNums
                 }, stream);
 
                 fileName = ReportUtils.BuildFileName(HistDataReportPrefix,
