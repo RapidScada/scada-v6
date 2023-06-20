@@ -1,4 +1,6 @@
-﻿namespace Scada.Admin.Extensions.ExtImport.Controls
+﻿using Scada.Admin.Extensions.ExtImport.Code;
+
+namespace Scada.Admin.Extensions.ExtImport.Controls
 {
     partial class CtrlImport3
     {
@@ -88,7 +90,7 @@
             gbCnlNums.Size = new Size(461, 129);
             gbCnlNums.TabIndex = 2;
             gbCnlNums.TabStop = false;
-            gbCnlNums.Text = "Channel Numbers";
+            gbCnlNums.Text = ExtensionPhrases.GbCnlNums;
             // 
             // btnReset
             // 
@@ -97,7 +99,7 @@
             btnReset.Name = "btnReset";
             btnReset.Size = new Size(86, 31);
             btnReset.TabIndex = 5;
-            btnReset.Text = "Reset";
+            btnReset.Text = ExtensionPhrases.BtnReset;
             btnReset.UseVisualStyleBackColor = true;
             btnReset.Click += btnReset_Click;
             // 
@@ -108,7 +110,7 @@
             btnMap.Name = "btnMap";
             btnMap.Size = new Size(86, 31);
             btnMap.TabIndex = 4;
-            btnMap.Text = "Map";
+            btnMap.Text = ExtensionPhrases.BtnMap;
             btnMap.UseVisualStyleBackColor = true;
             btnMap.Click += btnMap_Click;
             // 
@@ -130,7 +132,7 @@
             lblEndCnlNum.Name = "lblEndCnlNum";
             lblEndCnlNum.Size = new Size(34, 20);
             lblEndCnlNum.TabIndex = 2;
-            lblEndCnlNum.Text = "End";
+            lblEndCnlNum.Text = ExtensionPhrases.LblEndCnlNum;
             // 
             // numStartCnlNum
             // 
@@ -151,7 +153,7 @@
             lblStartCnlNum.Name = "lblStartCnlNum";
             lblStartCnlNum.Size = new Size(40, 20);
             lblStartCnlNum.TabIndex = 0;
-            lblStartCnlNum.Text = "Start";
+            lblStartCnlNum.Text = ExtensionPhrases.LblStartCnlNum;
             // 
             // radioButton1
             // 
@@ -161,7 +163,7 @@
             radioButton1.Size = new Size(295, 24);
             radioButton1.TabIndex = 9;
             radioButton1.TabStop = true;
-            radioButton1.Text = "Importer des variables depuis un fichier ";
+            radioButton1.Text = ExtensionPhrases.RdBtnImport1;
             radioButton1.UseVisualStyleBackColor = true;
             radioButton1.CheckedChanged += radioButton1_CheckedChanged;
             radioButton1.MouseClick += rdoEnableImport_MouseClick;
@@ -201,7 +203,7 @@
             radioButton2.Size = new Size(374, 24);
             radioButton2.TabIndex = 10;
             radioButton2.TabStop = true;
-            radioButton2.Text = "Générer des canaux avec les variables d'équipement";
+            radioButton2.Text = ExtensionPhrases.RdBtnImport2;
             radioButton2.UseVisualStyleBackColor = true;
             radioButton2.CheckedChanged += radioButton2_CheckedChanged;
             // 
@@ -216,7 +218,7 @@
             groupBox1.Size = new Size(465, 131);
             groupBox1.TabIndex = 11;
             groupBox1.TabStop = false;
-            groupBox1.Text = "Import Options";
+            groupBox1.Text = ExtensionPhrases.GrpImportLbl;
             // 
             // groupBox2
             // 
@@ -231,7 +233,7 @@
             groupBox2.Size = new Size(461, 97);
             groupBox2.TabIndex = 12;
             groupBox2.TabStop = false;
-            groupBox2.Text = "Name format";
+            groupBox2.Text = ExtensionPhrases.GrpFormatLbl;
             // 
             // label3
             // 

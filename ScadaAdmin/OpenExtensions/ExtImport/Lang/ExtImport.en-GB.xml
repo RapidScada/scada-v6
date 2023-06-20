@@ -14,7 +14,7 @@
     <Phrase key="UnableCreateDeviceView">Unable to create device user interface.</Phrase>
     <Phrase key="NoDeviceProperties">The device does not provide a properties window.</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtImport.Controls.CtrlCnlImport1">
+  <Dictionary key="Scada.Admin.Extensions.ExtImport.Controls.CtrlImport1">
     <Phrase key="lblCommLine">Communication line</Phrase>
     <Phrase key="lblDevice">Device</Phrase>
     <Phrase key="AllCommLines">&lt;All communication lines&gt;</Phrase>
@@ -22,149 +22,45 @@
     <Phrase key="DeviceNotFound">Device not found in Communicator.</Phrase>
     <Phrase key="NoDeviceSelected">No device selected.</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtImport.Controls.CtrlCnlImport2">
+  <Dictionary key="Scada.Admin.Extensions.ExtImport.Controls.CtrlImport2">
     <Phrase key="lblDevice">Device</Phrase>
     <Phrase key="lblObj">Object</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtImport.Controls.CtrlCnlImport3">
+  <Dictionary key="Scada.Admin.Extensions.ExtImport.Controls.CtrlImport3">
     <Phrase key="lblDevice">Device</Phrase>
     <Phrase key="gbCnlNums">Channel Numbers</Phrase>
     <Phrase key="lblStartCnlNum">Start</Phrase>
     <Phrase key="lblEndCnlNum">End</Phrase>
     <Phrase key="btnMap">Map</Phrase>
     <Phrase key="btnReset">Reset</Phrase>
+	<Phrase key="rdBtn1">Import variables from a file</Phrase>
+	<Phrase key="rdBtn2">Generate channels using equipment variables</Phrase>
+	<Phrase key="grpImportLbl">Import Options</Phrase>
+	<Phrase key="grpFormatLbl">Name format</Phrase>
   </Dictionary>
+	
   <Dictionary key="Scada.Admin.Extensions.ExtImport.Controls.CtrlExtensionMenu">
-    <Phrase key="miWizards">Wizards</Phrase>
-    <Phrase key="miAddLine">Add Line...</Phrase>
-    <Phrase key="miAddDevice">Add Device...</Phrase>
-    <Phrase key="miCreateChannels">Create Channels...</Phrase>
-    <Phrase key="btnAddLine.ToolTip">Add Line</Phrase>
-    <Phrase key="btnAddDevice.ToolTip">Add Device</Phrase>
-    <Phrase key="btnCreateChannels.ToolTip">Create Channels</Phrase>
-    <Phrase key="miLineSync">Synchronize...</Phrase>
-    <Phrase key="miLineAdd">Add Line</Phrase>
-    <Phrase key="miLineMoveUp">Move Line Up</Phrase>
-    <Phrase key="miLineMoveDown">Move Line Down</Phrase>
-    <Phrase key="miLineDelete">Delete Line</Phrase>
-    <Phrase key="miLineStart">Start Line</Phrase>
-    <Phrase key="miLineStop">Stop Line</Phrase>
-    <Phrase key="miLineRestart">Restart Line</Phrase>
-    <Phrase key="miDeviceChannels">Go to Channels</Phrase>
-    <Phrase key="miDeviceCommand">Send Command...</Phrase>
-    <Phrase key="miDevicePoll">Poll Device</Phrase>
-    <Phrase key="miDeviceProperties">Properies</Phrase>
+    <Phrase key="btnImport">Import Variable</Phrase>
+    <Phrase key="miImport">Import</Phrase>
     <Phrase key="ConfirmDeleteLine">Are you sure you want to delete the communication line?</Phrase>
     <Phrase key="CnlNodeNotFound">Channel node not found.</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtImport.Controls.CtrlLineMain">
-    <Phrase key="gbLine">Communication Line</Phrase>
-    <Phrase key="chkActive">Active</Phrase>
-    <Phrase key="chkIsBound">Bound to the configuration database</Phrase>
-    <Phrase key="lblCommLineNum">Number</Phrase>
-    <Phrase key="lblName">Name</Phrase>
-    <Phrase key="gbLineOptions">Line Options</Phrase>
-    <Phrase key="lblReqRetries">Number of request retries on error</Phrase>
-    <Phrase key="lblCycleDelay">Delay after polling cycle, ms</Phrase>
-    <Phrase key="lblCmdEnabled">Commands enabled</Phrase>
-    <Phrase key="lblPollAfterCmd">Poll device after command</Phrase>
-    <Phrase key="lblDetailedLog">Detailed log</Phrase>
-    <Phrase key="gbChannel">Communication Channel</Phrase>
-    <Phrase key="lblChannelType">Type</Phrase>
-    <Phrase key="btnChannelProperties">Properties</Phrase>
-    <Phrase key="lblChannelOptions">Options</Phrase>
-    <Phrase key="UndefinedChannelType">Undefined</Phrase>
-    <Phrase key="ChannelNotSupported">The driver does not support creating communication channels.</Phrase>
-    <Phrase key="UnableCreateChannelView">Unable to create communication channel user interface.</Phrase>
-    <Phrase key="NoChannelProperties">The communication channel does not provide a properties window.</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtImport.Controls.CtrlLineCustom">
-    <Phrase key="btnAddOption">Add</Phrase>
-    <Phrase key="btnDeleteOption">Delete</Phrase>
-    <Phrase key="colOptionName">Name</Phrase>
-    <Phrase key="colOptionValue">Value</Phrase>
-    <Phrase key="gbSelectedOption">Selected Option</Phrase>
-    <Phrase key="lblOptionName">Name</Phrase>
-    <Phrase key="lblOptionValue">Value</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtImport.Controls.CtrlLinePolling">
-    <Phrase key="btnAddDevice">Add</Phrase>
-    <Phrase key="btnMoveUpDevice">Move Up</Phrase>
-    <Phrase key="btnMoveDownDevice">Move Down</Phrase>
-    <Phrase key="btnDeleteDevice">Delete</Phrase>
-    <Phrase key="btnCutDevice">Cut</Phrase>
-    <Phrase key="btnCopyDevice">Copy</Phrase>
-    <Phrase key="btnPasteDevice">Paste</Phrase>
-    <Phrase key="colOrder">#</Phrase>
-    <Phrase key="colActive">Active</Phrase>
-    <Phrase key="colPollOnCmd">Poll on Command</Phrase>
-    <Phrase key="colIsBound">Bound</Phrase>
-    <Phrase key="colNumber">Number</Phrase>
-    <Phrase key="colName">Name</Phrase>
-    <Phrase key="colDriver">Driver</Phrase>
-    <Phrase key="colNumAddress">Numeric Address</Phrase>
-    <Phrase key="colStrAddress">String Address</Phrase>
-    <Phrase key="colTimeout">Timeout</Phrase>
-    <Phrase key="colDelay">Delay</Phrase>
-    <Phrase key="colTime">Time</Phrase>
-    <Phrase key="colPeriod">Period</Phrase>
-    <Phrase key="colCmdLine">Command Line</Phrase>
-    <Phrase key="gbSelectedDevice">Selected Device</Phrase>
-    <Phrase key="chkActive">Active</Phrase>
-    <Phrase key="chkPollOnCmd">Poll only on command</Phrase>
-    <Phrase key="chkIsBound">Bound to the configuration database</Phrase>
-    <Phrase key="lblDeviceNum">Number</Phrase>
-    <Phrase key="lblName">Name</Phrase>
-    <Phrase key="lblDriver">Driver</Phrase>
-    <Phrase key="lblNumAddress">Numeric address</Phrase>
-    <Phrase key="lblStrAddress">String address or host name</Phrase>
-    <Phrase key="lblTimeout">Timeout</Phrase>
-    <Phrase key="lblDelay">Delay</Phrase>
-    <Phrase key="lblTime">Time</Phrase>
-    <Phrase key="lblPeriod">Period</Phrase>
-    <Phrase key="lblCmdLine">Command line</Phrase>
-    <Phrase key="lblCustomOptions">Options</Phrase>
-    <Phrase key="btnDeviceProperties">Properties</Phrase>
-    <Phrase key="btnResetPollingOptions">Reset</Phrase>
-    <Phrase key="btnResetPollingOptions.ToolTip">Set the device polling options to default</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtImport.Controls.CtrlSync1">
-    <Phrase key="lblSyncDirection">Choose synchronization direction:</Phrase>
-    <Phrase key="rbBaseToComm">Configuration database to Communicator</Phrase>
-    <Phrase key="rbCommToBase">Communicator to configuration database</Phrase>
-    <Phrase key="lblInfo">Missing lines and devices will be created.&#13;&#10;Existing lines and devices will be updated.&#13;&#10;&#13;&#10;Affected properties:&#13;&#10;- Communication line name&#13;&#10;- Device name&#13;&#10;- Device driver&#13;&#10;- Device address</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtImport.Controls.CtrlSync2">
-    <Phrase key="lblSelect">Select lines and devices to synchronize:</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtImport.Forms.FrmCnlImport">
-    <Phrase key="this">Create Channels</Phrase>
-    <Phrase key="chkPreview">Preview</Phrase>
+  
+ 
+  <Dictionary key="Scada.Admin.Extensions.ExtImport.Forms.FrmImport">
+    <Phrase key="this">Import Channels</Phrase>
     <Phrase key="btnBack">&lt; Back</Phrase>
     <Phrase key="btnNext">Next &gt;</Phrase>
     <Phrase key="btnCreate">Create</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
-    <Phrase key="CreateCnlsStep1">Step 1 of 3: Select a device</Phrase>
-    <Phrase key="CreateCnlsStep2">Step 2 of 3: Select an object of newly created channels</Phrase>
-    <Phrase key="CreateCnlsStep3">Step 3 of 3: Assign channel numbers</Phrase>
-    <Phrase key="CreateCnlsCompleted">Channel creation completed successfully.&#13;&#10;{0} channel(s) added.</Phrase>
+    <Phrase key="ImportStep1">Step 1 of 3: Select a device</Phrase>
+    <Phrase key="ImportStep2">Step 2 of 3: Select an object of newly created channels</Phrase>
+    <Phrase key="ImportStep3">Step 3 of 3: Assign channel numbers</Phrase>
+    <Phrase key="ImportCompleted">Channel creation completed successfully.&#13;&#10;{0} channel(s) added.</Phrase>
+	<Phrase key="fileWarning">The selected file is likely empty.</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtImport.Forms.FrmCnlPreview">
-    <Phrase key="this">Preview Channels</Phrase>
-    <Phrase key="btnDelete">Delete</Phrase>
-    <Phrase key="colCnlNum">Number</Phrase>
-    <Phrase key="colActive">Active</Phrase>
-    <Phrase key="colName">Name</Phrase>
-    <Phrase key="colTagNum">Tag Number</Phrase>
-    <Phrase key="colTagCode">Tag Code</Phrase>
-    <Phrase key="btnAdd">Add</Phrase>
-    <Phrase key="btnCancel">Cancel</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtImport.Forms.FrmCommLogs">
-    <Phrase key="AppFilter">Application</Phrase>
-    <Phrase key="LinesFilter">Communication Lines</Phrase>
-    <Phrase key="DevicesFilter">Devices</Phrase>
-  </Dictionary>
+	
+ 
   <Dictionary key="Scada.Admin.Extensions.ExtImport.Forms.FrmDataSources">
     <Phrase key="this">Data Sources</Phrase>
     <Phrase key="btnAdd">Add</Phrase>
@@ -191,97 +87,41 @@
     <Phrase key="UnableCreateDataSourceView">Unable to create data source user interface.</Phrase>
     <Phrase key="NoDataSourceProperties">The data source does not provide a properties window.</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtImport.Forms.FrmDeviceAdd">
-    <Phrase key="this">Add Device</Phrase>
-    <Phrase key="gbDevice">Device</Phrase>
-    <Phrase key="lblDeviceNum">Number</Phrase>
-    <Phrase key="lblName">Name</Phrase>
-    <Phrase key="lblCode">Code</Phrase>
-    <Phrase key="lblDevType">Device type</Phrase>
-    <Phrase key="lblNumAddress">Numeric address</Phrase>
-    <Phrase key="lblStrAddress">String address or host name</Phrase>
-    <Phrase key="lblCommLine">Communication line</Phrase>
-    <Phrase key="lblDescr">Description</Phrase>
-    <Phrase key="gbComm">Communicator</Phrase>
-    <Phrase key="chkAddToComm">Add device to Communicator</Phrase>
-    <Phrase key="lblInstance">Instance</Phrase>
-    <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnCancel">Cancel</Phrase>
-    <Phrase key="DeviceExistsInConfigDatabase">A device with the same number already exists in the configuration database.</Phrase>
-    <Phrase key="DeviceExistsInLineConfig">A device with the same number already exists in the communication line configuration.</Phrase>
-    <Phrase key="LineNotFoundInCommConfig">The communication line not found in the Communicator configuration.</Phrase>
-    <Phrase key="ChooseLine">Please choose a communication line.</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtImport.Forms.FrmDeviceCommand">
-    <Phrase key="this">Command to {0}</Phrase>
-    <Phrase key="lblCmdNum">Command number</Phrase>
-    <Phrase key="lblCmdCode">Command code</Phrase>
-    <Phrase key="rbNumVal">Numeric</Phrase>
-    <Phrase key="rbStrData">String data</Phrase>
-    <Phrase key="rbHexData">Hexadecimal data</Phrase>
-    <Phrase key="btnOff">Off</Phrase>
-    <Phrase key="btnOn">On</Phrase>
-    <Phrase key="btnSend">Send</Phrase>
-    <Phrase key="btnClose">Close</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtImport.Forms.FrmDeviceData">
-    <Phrase key="this">Device {0}</Phrase>
-    <Phrase key="btnDeviceProperties">Properties</Phrase>
-    <Phrase key="btnSendCommand">Command</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtImport.Forms.FrmDrivers">
-    <Phrase key="this">Drivers</Phrase>
-    <Phrase key="lblDrivers">Available drivers:</Phrase>
-    <Phrase key="btnProperties">Properties</Phrase>
-    <Phrase key="btnRegister">Register</Phrase>
-    <Phrase key="lblDescr">Description</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtImport.Forms.FrmGeneralOptions">
-    <Phrase key="this">General Options</Phrase>
-    <Phrase key="gbGeneralOptions">General Options</Phrase>
-    <Phrase key="lblIsBound">Application is bound to the configuration database</Phrase>
-    <Phrase key="lblSendModifiedData">Send only modified data of device tags</Phrase>
-    <Phrase key="lblSendAllDataPeriod">Period of sending data of all device tags, sec</Phrase>
-    <Phrase key="lblEnableCommands">Enable telecontrol commands</Phrase>
-    <Phrase key="lblEnableFileCommands">Read telecontrol commands from files</Phrase>
-    <Phrase key="lblStartLinesOnCommand">Start communication lines on command</Phrase>
-    <Phrase key="lblStopWait">Wait for service stop, sec</Phrase>
-    <Phrase key="lblMaxLogSize">Maximum log file size, MB</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtImport.Forms.FrmLineAdd">
-    <Phrase key="this">Add Communication Line</Phrase>
-    <Phrase key="gbLine">Communication Line</Phrase>
-    <Phrase key="lblCommLineNum">Number</Phrase>
-    <Phrase key="lblName">Name</Phrase>
-    <Phrase key="lblDescr">Description</Phrase>
-    <Phrase key="gbComm">Communicator</Phrase>
-    <Phrase key="chkAddToComm">Add line to Communicator</Phrase>
-    <Phrase key="lblInstance">Instance</Phrase>
-    <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnCancel">Cancel</Phrase>
-    <Phrase key="LineExistsInConfigDatabase">A communication line with the same number already exists in the configuration database.</Phrase>
-    <Phrase key="LineExistsInCommConfig">A communication line with the same number already exists in the Communicator configuration.</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtImport.Forms.FrmLineConfig">
-    <Phrase key="lbTabs.Items[0]">Main Options</Phrase>
-    <Phrase key="lbTabs.Items[1]">Custom Options</Phrase>
-    <Phrase key="lbTabs.Items[2]">Device Polling</Phrase>
-    <Phrase key="LineConfigTitle">Line {0} Options</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtImport.Forms.FrmLineStats">
-    <Phrase key="lbTabs.Items[0]">Line State</Phrase>
-    <Phrase key="lbTabs.Items[1]">Line Log</Phrase>
-    <Phrase key="chkPause">Pause</Phrase>
-    <Phrase key="LineStatsTitle">Line {0} Stats</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtImport.Forms.FrmSync">
-    <Phrase key="this">Synchronize Lines and Devices</Phrase>
-    <Phrase key="btnNext">Next</Phrase>
-    <Phrase key="btnSync">Sync</Phrase>
-    <Phrase key="btnCancel">Cancel</Phrase>
-    <Phrase key="SyncCompleted">Synchronization completed successfully.</Phrase>
-    <Phrase key="SyncCompletedWithError">Synchronization completed with error:&#13;&#10;{0}</Phrase>
-    <Phrase key="NoDataToSync">No data selected for synchronization.</Phrase>
-  </Dictionary>
+  
+	<Dictionary key="Scada.Admin.Extensions.ExtImport.Forms.FrmCnlsMerge">
+		<Phrase key="frmName">Merge</Phrase>
+		<Phrase key="lblNewCnls">New Channels</Phrase>
+		<Phrase key="numCol">Number</Phrase>
+		<Phrase key="newCnlsNameCol">Name</Phrase>
+		<Phrase key="newTypeCol">Type</Phrase>
+		<Phrase key="newCnlsTypeCol">Channel Type</Phrase>
+		<Phrase key="newTagCodeCol">Tag Code</Phrase>
+
+		<Phrase key="lblEquipCnls">Cnls from equipment</Phrase>
+		<Phrase key="equiCnlsNameCol">Name</Phrase>
+		<Phrase key="equipTypeCol">Type</Phrase>
+		<Phrase key="equipCnlsTypeCol">Channel Type</Phrase>
+		<Phrase key="equipTagCodeCol">Tag Code</Phrase>
+
+		<Phrase key="btnAdd">Add</Phrase>
+		<Phrase key="btnCancel">Cancel</Phrase>
+	</Dictionary>
+
+	<Dictionary key="Scada.Admin.Extensions.ExtImport.Forms.FrmVariablesMerge">
+		<Phrase key="frmName">Merge</Phrase>
+		<Phrase key="checkBoxDesc">Preserve the existing descriptions</Phrase>
+		<Phrase key="srcLbl">Source</Phrase>
+		<Phrase key="address">Address</Phrase>
+		<Phrase key="srcMne">Mnemonic</Phrase>
+		<Phrase key="srcType">Type</Phrase>
+		<Phrase key="srcCment">Comments</Phrase>
+		<Phrase key="destLbl">Destination</Phrase>
+		<Phrase key="destMne">Mnemonic</Phrase>
+		<Phrase key="destType">Type</Phrase>
+		<Phrase key="destCment">Comments</Phrase>
+		<Phrase key="btnSave">Save</Phrase>
+		<Phrase key="btnCancel">Cancel</Phrase>
+		<Phrase key="selectWarning">No line was selected</Phrase>
+	</Dictionary>
 </ExtImportDictionaries>
 

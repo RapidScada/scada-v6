@@ -31,9 +31,9 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 		private void InitializeComponent()
 		{
 			lblStep = new Label();
-			ctrlCnlImport1 = new CtrlImport1();
-			ctrlCnlImport2 = new CtrlImport2();
-			ctrlCnlmport3 = new CtrlImport3();
+			ctrlImport1 = new CtrlImport1();
+			ctrlImport2 = new CtrlImport2();
+			ctrlImport3 = new CtrlImport3();
 			btnBack = new Button();
 			btnNext = new Button();
 			btnCreate = new Button();
@@ -51,34 +51,34 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			lblStep.Text = "Step 1 of 3: Step description";
 			lblStep.TextAlign = ContentAlignment.MiddleCenter;
 			// 
-			// ctrlCnlImport1
+			// ctrlImport1
 			// 
-			ctrlCnlImport1.Location = new Point(31, 56);
-			ctrlCnlImport1.Margin = new Padding(3, 5, 3, 5);
-			ctrlCnlImport1.Name = "ctrlCnlImport1";
-			ctrlCnlImport1.Size = new Size(513, 366);
-			ctrlCnlImport1.TabIndex = 1;
-			ctrlCnlImport1.SelectedDeviceChanged += ctrlCnlCreate1_SelectedDeviceChanged;
+			ctrlImport1.Location = new Point(31, 56);
+			ctrlImport1.Margin = new Padding(3, 5, 3, 5);
+			ctrlImport1.Name = "ctrlImport1";
+			ctrlImport1.Size = new Size(513, 366);
+			ctrlImport1.TabIndex = 1;
+			ctrlImport1.SelectedDeviceChanged += ctrlCnlCreate1_SelectedDeviceChanged;
 			// 
-			// ctrlCnlImport2
+			// ctrlImport2
 			// 
-			ctrlCnlImport2.DeviceName = "";
-			ctrlCnlImport2.Location = new Point(28, 61);
-			ctrlCnlImport2.Margin = new Padding(3, 5, 3, 5);
-			ctrlCnlImport2.Name = "ctrlCnlImport2";
-			ctrlCnlImport2.Size = new Size(512, 179);
-			ctrlCnlImport2.TabIndex = 2;
+			ctrlImport2.DeviceName = "";
+			ctrlImport2.Location = new Point(28, 61);
+			ctrlImport2.Margin = new Padding(3, 5, 3, 5);
+			ctrlImport2.Name = "ctrlImport2";
+			ctrlImport2.Size = new Size(512, 179);
+			ctrlImport2.TabIndex = 2;
 			// 
-			// ctrlCnlmport3
+			// ctrlImport3
 			// 
-			ctrlCnlmport3.DeviceName = "";
-			ctrlCnlmport3.Location = new Point(10, 43);
-			ctrlCnlmport3.Margin = new Padding(1);
-			ctrlCnlmport3.Name = "ctrlCnlmport3";
-			ctrlCnlmport3.Size = new Size(521, 438);
-			ctrlCnlmport3.TabIndex = 3;
-			ctrlCnlmport3.SelectedFileChanged += CtrlCnlImport3_SelectedDeviceChanged;
-			ctrlCnlmport3.rdbCheckStateChanged += CtrlCnlCnl3_rdbCheckStateChanged;
+			ctrlImport3.DeviceName = "";
+			ctrlImport3.Location = new Point(10, 43);
+			ctrlImport3.Margin = new Padding(1);
+			ctrlImport3.Name = "ctrlImport3";
+			ctrlImport3.Size = new Size(521, 438);
+			ctrlImport3.TabIndex = 3;
+			ctrlImport3.SelectedFileChanged += CtrlImport3_SelectedDeviceChanged;
+			ctrlImport3.rdbCheckStateChanged += CtrlCnlCnl3_rdbCheckStateChanged;
 			// 
 			// btnBack
 			// 
@@ -134,9 +134,9 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 			Controls.Add(btnCreate);
 			Controls.Add(btnNext);
 			Controls.Add(btnBack);
-			Controls.Add(ctrlCnlmport3);
-			Controls.Add(ctrlCnlImport2);
-			Controls.Add(ctrlCnlImport1);
+			Controls.Add(ctrlImport3);
+			Controls.Add(ctrlImport2);
+			Controls.Add(ctrlImport1);
 			Controls.Add(lblStep);
 			FormBorderStyle = FormBorderStyle.FixedDialog;
 			Margin = new Padding(3, 4, 3, 4);
@@ -153,9 +153,9 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 		#endregion
 
 		private System.Windows.Forms.Label lblStep;
-		private Controls.CtrlImport1 ctrlCnlImport1;
-		private Controls.CtrlImport2 ctrlCnlImport2;
-		private Controls.CtrlImport3 ctrlCnlmport3;
+		private Controls.CtrlImport1 ctrlImport1;
+		private Controls.CtrlImport2 ctrlImport2;
+		private Controls.CtrlImport3 ctrlImport3;
 		private System.Windows.Forms.Button btnBack;
 		private System.Windows.Forms.Button btnNext;
 		private System.Windows.Forms.Button btnCreate;

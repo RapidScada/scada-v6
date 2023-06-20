@@ -70,9 +70,9 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                 string address = cnl.TagNum.ToString();
                 Dictionary<string, string> data = new Dictionary<string, string>
                 {
-                    { "Mnemonique", cnl.TagCode },
-                    { "Type", dataTypes.ContainsKey(cnl.DataTypeID ?? 0) ? dataTypes[cnl.DataTypeID ?? 0] : "" },
-                    { "Descr", cnl.Name },
+                    { ExtensionPhrases.DestMneColName, cnl.TagCode },
+                    { ExtensionPhrases.DestTypeColName, dataTypes.ContainsKey(cnl.DataTypeID ?? 0) ? dataTypes[cnl.DataTypeID ?? 0] : "" },
+                    { ExtensionPhrases.DestCmentColName, cnl.Name },
                     { "NumCnl", cnl.CnlNum.ToString()}
                 };
                 if (!String.IsNullOrEmpty(address) && !_oldDictio.ContainsKey(address))
@@ -101,9 +101,9 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             {
                 var innerDict = new Dictionary<string, string>
                 {
-                    {"Mnemonique", kvp.Value[0]},
-                    {"Type", kvp.Value[1]},
-                    {"Descr", kvp.Value[2]}
+                    {ExtensionPhrases.SrcMneColName, kvp.Value[0]},
+                    {ExtensionPhrases.SrcTypeColName, kvp.Value[1]},
+                    {ExtensionPhrases.SrcCmentColName, kvp.Value[2]}
                 };
 
                 importDictio[kvp.Key] = innerDict;
@@ -117,7 +117,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                 {
                     if (kvp.Key == kvpOld.Key)
                     {
-                        dataGridView1.Rows.Add(kvp.Key, false, kvp.Value["Mnemonique"], kvp.Value["Type"], kvp.Value["Descr"], "", false, kvpOld.Value["Mnemonique"], kvpOld.Value["Type"], kvpOld.Value["Descr"]);
+                        dataGridView1.Rows.Add(kvp.Key, false, kvp.Value[ExtensionPhrases.SrcMneColName], kvp.Value[ExtensionPhrases.SrcTypeColName], kvp.Value[ExtensionPhrases.SrcCmentColName], "", false, kvpOld.Value[ExtensionPhrases.DestMneColName], kvpOld.Value[ExtensionPhrases.DestTypeColName], kvpOld.Value[ExtensionPhrases.DestCmentColName]);
                         _listOfKey.Add(kvp.Key);
                         rowAdded = true;
                     }
@@ -125,7 +125,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 
                 if (!rowAdded)
                 {
-                    dataGridView1.Rows.Add(kvp.Key, false, kvp.Value["Mnemonique"], kvp.Value["Type"], kvp.Value["Descr"], "", false, "", "", "");
+                    dataGridView1.Rows.Add(kvp.Key, false, kvp.Value[ExtensionPhrases.SrcMneColName], kvp.Value[ExtensionPhrases.SrcTypeColName], kvp.Value[ExtensionPhrases.SrcCmentColName], "", false, "", "", "");
                     _listOfKey.Add(kvp.Key);
                     dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells[6].ReadOnly = true;
                 }
@@ -619,7 +619,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             }
             else
             {
-				ScadaUiUtils.ShowError("Rien n'a été sélectionné");
+				ScadaUiUtils.ShowWarning(ExtensionPhrases.SelectWarning);
 			}
 
            

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using Scada.Admin.Extensions.ExtImport.Code;
 
 namespace Scada.Admin.Extensions.ExtImport.Forms
 {
@@ -69,7 +70,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             checkBox3.Name = "checkBox3";
             checkBox3.Size = new Size(204, 19);
             checkBox3.TabIndex = 18;
-            checkBox3.Text = " Preserve the existing descriptions";
+            checkBox3.Text = ExtensionPhrases.ChkBoxMrgDesc;
             checkBox3.UseVisualStyleBackColor = true;
             // 
             // dataGridView1
@@ -91,7 +92,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             // Column1Txt
             // 
             Column1Txt.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Column1Txt.HeaderText = "Adresse";
+            Column1Txt.HeaderText = ExtensionPhrases.AdressColName;
             Column1Txt.MinimumWidth = 6;
             Column1Txt.Name = "Column1Txt";
             // 
@@ -106,21 +107,21 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             // Column2Txt
             // 
             Column2Txt.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Column2Txt.HeaderText = "Mnémonique";
+            Column2Txt.HeaderText = ExtensionPhrases.SrcMneColName;
             Column2Txt.MinimumWidth = 6;
             Column2Txt.Name = "Column2Txt";
             // 
             // Column33
             // 
             Column33.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Column33.HeaderText = "Type";
+            Column33.HeaderText = ExtensionPhrases.SrcTypeColName;
             Column33.MinimumWidth = 6;
             Column33.Name = "Column33";
             // 
             // Column4
             // 
             Column4.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Column4.HeaderText = "Commentaire";
+            Column4.HeaderText = ExtensionPhrases.SrcCmentColName;
             Column4.MinimumWidth = 6;
             Column4.Name = "Column4";
             // 
@@ -143,20 +144,20 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             // Column2
             // 
             Column2.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Column2.HeaderText = "Mnémonique";
+            Column2.HeaderText = ExtensionPhrases.DestMneColName;
             Column2.MinimumWidth = 6;
             Column2.Name = "Column2";
             // 
             // Column3
             // 
             Column3.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Column3.HeaderText = "Type";
+            Column3.HeaderText = ExtensionPhrases.DestTypeColName;
             Column3.MinimumWidth = 6;
             Column3.Name = "Column3";
             // 
             // Column44
             // 
-            Column44.HeaderText = "Commentaire";
+            Column44.HeaderText = ExtensionPhrases.DestCmentColName;
             Column44.MinimumWidth = 6;
             Column44.Name = "Column44";
             // 
@@ -168,7 +169,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(72, 26);
             btnCancel.TabIndex = 23;
-            btnCancel.Text = "Cancel";
+            btnCancel.Text = ExtensionPhrases.BtnCancel;
             btnCancel.UseVisualStyleBackColor = true;
             // 
             // lblSource
@@ -179,7 +180,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             lblSource.Padding = new Padding(2);
             lblSource.Size = new Size(120, 21);
             lblSource.TabIndex = 24;
-            lblSource.Text = "Source";
+            lblSource.Text = ExtensionPhrases.SrcLblName;
             lblSource.Visible = false;
             // 
             // lblDestination
@@ -190,7 +191,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             lblDestination.Padding = new Padding(2);
             lblDestination.Size = new Size(121, 21);
             lblDestination.TabIndex = 25;
-            lblDestination.Text = "Destination";
+            lblDestination.Text = ExtensionPhrases.DestLblName;
             lblDestination.Visible = false;
             // 
             // saveFileDialog1
@@ -205,7 +206,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             button1.Name = "button1";
             button1.Size = new Size(88, 26);
             button1.TabIndex = 26;
-            button1.Text = "Save";
+            button1.Text = ExtensionPhrases.BtnSave;
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
@@ -218,7 +219,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             label1.Name = "label1";
             label1.Size = new Size(45, 17);
             label1.TabIndex = 27;
-            label1.Text = "Source";
+            label1.Text = ExtensionPhrases.SrcLblName;
             // 
             // label2
             // 
@@ -228,7 +229,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             label2.Name = "label2";
             label2.Size = new Size(69, 17);
             label2.TabIndex = 28;
-            label2.Text = "Destination";
+            label2.Text = ExtensionPhrases.DestLblName;
             // 
             // FrmVariableMerge
             // 
@@ -247,7 +248,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             Controls.Add(label3);
             MinimumSize = new Size(1262, 539);
             Name = "FrmVariableMerge";
-            Text = "Merge";
+            Text = ExtensionPhrases.FrmVariablesMergeName;
             Load += FrmCnlMerge_Load;
             ((ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);

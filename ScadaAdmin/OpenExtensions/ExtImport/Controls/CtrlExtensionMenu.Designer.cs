@@ -1,4 +1,6 @@
-﻿namespace Scada.Admin.Extensions.ExtImport.Controls
+﻿using Scada.Admin.Extensions.ExtImport.Code;
+
+namespace Scada.Admin.Extensions.ExtImport.Controls
 {
 	partial class CtrlExtensionMenu
 	{
@@ -57,7 +59,7 @@
 			btnImport.Name = "btnImport";
 			btnImport.Size = new Size(29, 24);
 			btnImport.Text = "toolStripButton1";
-			btnImport.ToolTipText = "Import Variable";
+			btnImport.ToolTipText = ExtensionPhrases.BtnImport;
 			btnImport.Click += btnImport_Click;
 			// 
 			// menuStrip
@@ -84,7 +86,7 @@
 			miImport.Enabled = false;
 			miImport.Name = "miImport";
 			miImport.Size = new Size(224, 26);
-			miImport.Text = "Import";
+			miImport.Text = ExtensionPhrases.MiImport;
 			// 
 			// miImportChannel
 			// 

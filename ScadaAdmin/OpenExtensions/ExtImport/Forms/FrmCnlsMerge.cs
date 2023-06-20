@@ -14,9 +14,9 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
         private Dictionary<string, List<string>> dictio;
         private IAdminContext adminContext; // the Administrator context
         private ScadaProject project;       // the project under development
-        private Controls.CtrlCnlImport3 CtrlCnlImport3;
-        private Controls.CtrlCnlImport2 CtrlCnlImport2;
-        private Controls.CtrlCnlImport1 CtrlCnlImport1;
+        private Controls.CtrlImport3 CtrlImport3;
+        private Controls.CtrlImport2 CtrlImport2;
+        private Controls.CtrlImport1 CtrlImport1;
         private CheckBox _headerCheckBox1 = new CheckBox();
         private CheckBox _headerCheckBox2 = new CheckBox();
 
@@ -37,13 +37,13 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
 
         }
 
-        public FrmCnlsMerge(ScadaProject project, Controls.CtrlCnlImport1 ctrlCnlImport1, Controls.CtrlCnlImport2 ctrlCnlImport2, Controls.CtrlCnlImport3 ctrlCnlImport3) : this()
+        public FrmCnlsMerge(ScadaProject project, Controls.CtrlImport1 ctrlImport1, Controls.CtrlImport2 ctrlImport2, Controls.CtrlImport3 ctrlImport3) : this()
         {
             this.project = project;
-            this.CtrlCnlImport1 = ctrlCnlImport1;
-            this.CtrlCnlImport2 = ctrlCnlImport2;
-            this.CtrlCnlImport3 = ctrlCnlImport3;
-            setDictio(ctrlCnlImport3._dictio);
+            this.CtrlImport1 = ctrlImport1;
+            this.CtrlImport2 = ctrlImport2;
+            this.CtrlImport3 = ctrlImport3;
+            setDictio(ctrlImport3._dictio);
                 
             gridViewFiller();
           
@@ -116,7 +116,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             }
             else
             {
-                ScadaUiUtils.ShowWarning("Rien n'a été selectionné !");
+                ScadaUiUtils.ShowWarning(ExtensionPhrases.SelectWarning);
 				return false;
 			}
             
@@ -129,22 +129,22 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
         private List<Cnl> CreateChannels()
         {
             List<Cnl> cnls = new();
-            int cnlNum = CtrlCnlImport3.StartCnlNum;
+            int cnlNum = CtrlImport3.StartCnlNum;
             string name, separator, prefix, suffix;
-            CtrlCnlImport3.CnlNameFormat.TryGetValue("separator", out separator);
-            CtrlCnlImport3.CnlNameFormat.TryGetValue("prefix", out prefix);
-            CtrlCnlImport3.CnlNameFormat.TryGetValue("suffix", out suffix);
+            CtrlImport3.CnlNameFormat.TryGetValue("separator", out separator);
+            CtrlImport3.CnlNameFormat.TryGetValue("prefix", out prefix);
+            CtrlImport3.CnlNameFormat.TryGetValue("suffix", out suffix);
 
-            int? objNum = CtrlCnlImport2.ObjNum;
-            int deviceNum = CtrlCnlImport1.SelectedDevice.DeviceNum;
+            int? objNum = CtrlImport2.ObjNum;
+            int deviceNum = CtrlImport1.SelectedDevice.DeviceNum;
 
-            foreach (CnlPrototype cnlPrototype in CtrlCnlImport1.CnlPrototypes)
+            foreach (CnlPrototype cnlPrototype in CtrlImport1.CnlPrototypes)
             {
                 if (!string.IsNullOrWhiteSpace(prefix) || !string.IsNullOrWhiteSpace(suffix))
                 {
                     name = prefix switch
                     {
-                        "DeviceName" => CtrlCnlImport3.DeviceName,
+                        "DeviceName" => CtrlImport3.DeviceName,
                         "TagCode" => cnlPrototype.TagCode,
                         "TagNumber" => cnlPrototype.TagNum.ToString(),
                         "Type" => cnlPrototype.CnlTypeID.ToString(),
@@ -153,7 +153,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                     name += separator;
                     name += suffix switch
                     {
-                        "DeviceName" => CtrlCnlImport3.DeviceName,
+                        "DeviceName" => CtrlImport3.DeviceName,
                         "TagCode" => cnlPrototype.TagCode,
                         "TagNumber" => cnlPrototype.TagNum.ToString(),
                         "Type" => cnlPrototype.CnlTypeID.ToString(),
@@ -162,7 +162,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
                 }
                 else
                 {
-                    name = CtrlCnlImport3.DeviceName + "-" + cnlPrototype.TagCode;
+                    name = CtrlImport3.DeviceName + "-" + cnlPrototype.TagCode;
                 }
 
                 cnls.Add(new Cnl

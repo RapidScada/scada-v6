@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Scada.Admin.Extensions.ExtImport.Code;
+using System.ComponentModel;
 
 namespace Scada.Admin.Extensions.ExtImport.Forms
 {
@@ -80,7 +81,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             // Column1Txt
             // 
             Column1Txt.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Column1Txt.HeaderText = "Number";
+            Column1Txt.HeaderText = ExtensionPhrases.NumCol;
             Column1Txt.MinimumWidth = 6;
             Column1Txt.Name = "Column1Txt";
             // 
@@ -95,28 +96,28 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             // fcnlName
             // 
             fcnlName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            fcnlName.HeaderText = "Name";
+            fcnlName.HeaderText = ExtensionPhrases.NewCnlsNameCol;
             fcnlName.MinimumWidth = 6;
             fcnlName.Name = "fcnlName";
             // 
             // fdataType
             // 
             fdataType.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            fdataType.HeaderText = "Type";
+            fdataType.HeaderText = ExtensionPhrases.NewTypeCol;
             fdataType.MinimumWidth = 6;
             fdataType.Name = "fdataType";
             // 
             // fcnlType
             // 
             fcnlType.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            fcnlType.HeaderText = "Channel Type";
+            fcnlType.HeaderText = ExtensionPhrases.NewCnlsTypeCol;
             fcnlType.MinimumWidth = 6;
             fcnlType.Name = "fcnlType";
             // 
             // fTagCode
             // 
             fTagCode.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            fTagCode.HeaderText = "Tag Code";
+            fTagCode.HeaderText = ExtensionPhrases.NewTagCodeCol;
             fTagCode.MinimumWidth = 6;
             fTagCode.Name = "fTagCode";
             // 
@@ -139,27 +140,27 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             // cnlName
             // 
             cnlName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            cnlName.HeaderText = "Name";
+            cnlName.HeaderText = ExtensionPhrases.EquipCnlsNameCol;
             cnlName.MinimumWidth = 6;
             cnlName.Name = "cnlName";
             // 
             // dataType
             // 
             dataType.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataType.HeaderText = "Type";
+            dataType.HeaderText = ExtensionPhrases.EquipTypeCol;
             dataType.MinimumWidth = 6;
             dataType.Name = "dataType";
             // 
             // cnlType
             // 
-            cnlType.HeaderText = "Channel Type";
+            cnlType.HeaderText = ExtensionPhrases.EquipCnlsTypeCol;
             cnlType.MinimumWidth = 6;
             cnlType.Name = "cnlType";
             // 
             // tagCode
             // 
             tagCode.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            tagCode.HeaderText = "Tag Code";
+            tagCode.HeaderText = ExtensionPhrases.EquipTagCodeCol;
             tagCode.MinimumWidth = 6;
             tagCode.Name = "tagCode";
             // 
@@ -195,7 +196,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             lblSource.Padding = new Padding(2);
             lblSource.Size = new Size(125, 26);
             lblSource.TabIndex = 24;
-            lblSource.Text = "From file";
+            lblSource.Text = ExtensionPhrases.LblNewCnls;
             lblSource.Visible = false;
             // 
             // lblDestination
@@ -207,7 +208,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             lblDestination.Padding = new Padding(2);
             lblDestination.Size = new Size(155, 26);
             lblDestination.TabIndex = 25;
-            lblDestination.Text = " From equipment";
+            lblDestination.Text = ExtensionPhrases.LblEquipCnls;
             lblDestination.Visible = false;
             // 
             // saveFileDialog1
@@ -224,22 +225,22 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             label1.Name = "label1";
             label1.Size = new Size(56, 17);
             label1.TabIndex = 28;
-            label1.Text = "From file";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
+            label1.Text = ExtensionPhrases.LblNewCnls;
+			// 
+			// label2
+			// 
+			label2.AutoSize = true;
             label2.BorderStyle = BorderStyle.FixedSingle;
             label2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             label2.Location = new Point(1020, 9);
             label2.Name = "label2";
             label2.Size = new Size(98, 17);
             label2.TabIndex = 29;
-            label2.Text = "From equipment";
-            // 
-            // FrmCnlsMerge
-            // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            label2.Text = ExtensionPhrases.LblEquipCnls;
+			// 
+			// FrmCnlsMerge
+			// 
+			AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = btnCancel;
             ClientSize = new Size(1482, 567);
@@ -253,7 +254,7 @@ namespace Scada.Admin.Extensions.ExtImport.Forms
             Controls.Add(label3);
             MinimumSize = new Size(1262, 539);
             Name = "FrmCnlsMerge";
-            Text = "Merge";
+            Text = ExtensionPhrases.FrmCnlsName;
             Load += FrmCnlMerge_Load;
             ((ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
