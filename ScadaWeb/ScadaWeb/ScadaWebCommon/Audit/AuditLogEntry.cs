@@ -38,7 +38,7 @@ namespace Scada.Web.Audit
         /// </summary>
         public AuditLogEntry()
         {
-            ActionTime = DateTime.UtcNow;
+            ActionTime = DateTime.MinValue;
             Username = null;
             ActionType = null;
             ActionArgs = null;
@@ -53,6 +53,7 @@ namespace Scada.Web.Audit
         public AuditLogEntry(User userEntity)
             : this()
         {
+            ActionTime = DateTime.UtcNow;
             Username = userEntity?.Name;
         }
 
@@ -60,7 +61,7 @@ namespace Scada.Web.Audit
         /// <summary>
         /// Gets the action timestamp (UTC).
         /// </summary>
-        public DateTime ActionTime { get; }
+        public DateTime ActionTime { get; init; }
 
         /// <summary>
         /// Gets the username who performed the action.
