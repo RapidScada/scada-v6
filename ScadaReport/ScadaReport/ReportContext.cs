@@ -24,6 +24,11 @@ namespace Scada.Report
         public ScadaClient ScadaClient { get; init; }
 
         /// <summary>
+        /// Gets the external database connection string.
+        /// </summary>
+        public string ConnectionString { get; init; }
+
+        /// <summary>
         /// Gets the culture.
         /// </summary>
         public CultureInfo Culture { get; init; }
