@@ -1,7 +1,4 @@
-﻿const BUTTON_LOCK_DURATION = 3000; // ms
-const MS_PER_DAY = 24 * 60 * 60 * 1000;
-
-// The variables below are set in HistDataReport.cshtml
+﻿// The variables below are set in HistDataReport.cshtml
 var phrases = {};
 var maxReportPeriod = 0;
 
@@ -18,7 +15,7 @@ function reportValidityExtra() {
 
     if (startTimeMs > endTimeMs) {
         errors.push(phrases.InvalidPeriod);
-    } else if (endTimeMs - startTimeMs > maxReportPeriod * MS_PER_DAY) {
+    } else if (endTimeMs - startTimeMs > maxReportPeriod * ScadaUtils.MS_PER_DAY) {
         errors.push(ScadaUtils.formatString(phrases.PeriodTooLong, maxReportPeriod));
     }
 
@@ -46,7 +43,7 @@ function lockGenerateButton() {
     setTimeout(function () {
         $("#btnGenerateReport").prop("disabled", false);
         $("#divWaitHint").addClass("hidden");
-    }, BUTTON_LOCK_DURATION);
+    }, ScadaUtils.BUTTON_LOCK_DURATION);
 }
 
 function getReportUrl() {
