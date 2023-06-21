@@ -61,6 +61,22 @@ namespace Scada.Report
         }
 
         /// <summary>
+        /// Converts a date and time (UTC) to a string representation in the report's time zone and culture.
+        /// </summary>
+        string DateTimeToString(DateTime dateTime)
+        {
+            return TimeZoneInfo.ConvertTimeFromUtc(dateTime, TimeZone).ToLocalizedString(Culture);
+        }
+
+        /// <summary>
+        /// Converts a date (UTC) to a string representation in the report's time zone and culture.
+        /// </summary>
+        string DateToString(DateTime dateTime)
+        {
+            return TimeZoneInfo.ConvertTimeFromUtc(dateTime, TimeZone).ToLocalizedDateString(Culture);
+        }
+
+        /// <summary>
         /// Finds an archive entity by the first non-empty archive code.
         /// Raises an exception if not found.
         /// </summary>
