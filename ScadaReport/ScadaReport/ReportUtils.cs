@@ -25,9 +25,9 @@ namespace Scada.Report
         }
 
         /// <summary>
-        /// Gets the report end time.
+        /// Gets the report end time, and possibly updates the start time.
         /// </summary>
-        public static DateTime GetEndTime(DateTime startTime, int period, PeriodUnit unit)
+        public static DateTime GetEndTime(ref DateTime startTime, int period, PeriodUnit unit)
         {
             NormalizeTimeRange(ref startTime, ref period, unit);
             return AddPeriod(startTime, period, unit);
