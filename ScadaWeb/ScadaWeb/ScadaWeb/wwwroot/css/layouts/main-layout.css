@@ -394,6 +394,9 @@ body.left-panel-visible #Main_divLeftPanel {
   overflow: auto;
   padding: 20px;
 }
+#Main_divContent form.report-args {
+  max-width: 500px;
+}
 
 /********** Stats **********/
 #Main_frameStats {
