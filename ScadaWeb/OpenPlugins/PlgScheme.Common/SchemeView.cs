@@ -130,7 +130,9 @@ namespace Scada.Web.Plugins.PlgScheme
                 SchemeDoc.LoadFromXml(schemeNode);
 
                 // update scheme title
-                if (string.IsNullOrEmpty(Title) && !string.IsNullOrEmpty(SchemeDoc.Title))
+                if (string.IsNullOrEmpty(SchemeDoc.Title))
+                    SchemeDoc.Title = Title;
+                else
                     Title = SchemeDoc.Title;
             }
 
