@@ -5,8 +5,6 @@ using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Tables;
 using Scada.Lang;
-using System;
-using System.Collections.Generic;
 
 namespace Scada.Forms
 {

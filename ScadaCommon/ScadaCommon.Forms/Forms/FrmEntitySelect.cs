@@ -4,12 +4,8 @@
 #pragma warning disable CA1806 // Do not ignore method results
 
 using Scada.Data.Tables;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Linq;
-using System.Windows.Forms;
 
 namespace Scada.Forms.Forms
 {
