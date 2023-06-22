@@ -3,6 +3,7 @@
 
 using Scada.Lang;
 using System.ComponentModel;
+using System.Xml.Linq;
 
 namespace Scada.Forms.Controls
 {
@@ -29,15 +30,6 @@ namespace Scada.Forms.Controls
 
 
         /// <summary>
-        /// Gets or sets the product name.
-        /// </summary>
-        public new string ProductName
-        {
-            get => txtProductName.Text;
-            set => txtProductName.Text = value;
-        }
-
-        /// <summary>
         /// Gets or sets the product code.
         /// </summary>
         public string ProductCode
@@ -47,12 +39,30 @@ namespace Scada.Forms.Controls
         }
 
         /// <summary>
+        /// Gets or sets the product name.
+        /// </summary>
+        public new string ProductName
+        {
+            get => txtProductName.Text;
+            set => txtProductName.Text = value;
+        }
+
+        /// <summary>
         /// Gets or sets the computer code.
         /// </summary>
-        public string ComputerName
+        public string ComputerCode
         {
             get => txtCompCode.Text;
             set => txtCompCode.Text = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the registration key.
+        /// </summary>
+        public string RegistrationKey
+        {
+            get => txtRegKey.Text;
+            set => txtRegKey.Text = value;
         }
 
         /// <summary>
@@ -85,6 +95,14 @@ namespace Scada.Forms.Controls
                 "https://rapidscada.net/trial/?prod={0}&ver=6&lang=ru" :
                 "https://rapidscada.net/trial/?prod={0}&ver=6",
                 productCode);
+        }
+
+        /// <summary>
+        /// Sets input focus.
+        /// </summary>
+        public void SetFocus()
+        {
+            txtRegKey.Select();
         }
 
 
