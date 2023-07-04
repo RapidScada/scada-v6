@@ -179,16 +179,27 @@ namespace Scada.Comm.Engine
                 commandReader = AppConfig.GeneralOptions.EnableFileCommands ? new CommandReader(this) : null;
             }
 
-            InitDrivers(AppConfig.GetDriverCodes());
+            InitDrivers();
             InitDataSources();
+        }
+        
+        /// <summary>
+        /// Initializes the drivers used in the application configuration.
+        /// </summary>
+        private void InitDrivers()
+        {
+            InitDrivers(AppConfig.GetDriverCodes(), out _);
         }
 
         /// <summary>
-        /// Initializes drivers.
+        /// Initializes the specified drivers.
         /// </summary>
-        private void InitDrivers(List<string> driverCodes)
+        private void InitDrivers(List<string> driverCodes, out List<DriverWrapper> addedDrivers)
         {
-            driverHolder = new DriverHolder(Log);
+            if (driverHolder == null)
+                driverHolder = new DriverHolder(Log);
+
+            addedDrivers = new List<DriverWrapper>();
 
             foreach (string driverCode in driverCodes)
             {
@@ -198,7 +209,7 @@ namespace Scada.Comm.Engine
                         out DriverLogic driverLogic, out string message))
                     {
                         Log.WriteAction(message);
-                        driverHolder.AddDriver(driverLogic);
+                        addedDrivers.Add(driverHolder.AddDriver(driverLogic));
                     }
                     else
                     {
@@ -213,41 +224,32 @@ namespace Scada.Comm.Engine
         /// </summary>
         private void InitDataSources()
         {
-            dataSourceHolder = new DataSourceHolder(Log);
+            if (dataSourceHolder == null)
+                dataSourceHolder = new DataSourceHolder(Log);
 
             foreach (DataSourceConfig dataSourceConfig in AppConfig.DataSources)
             {
                 if (dataSourceConfig.Active)
                 {
-                    try
+                    if (dataSourceHolder.DataSourceExists(dataSourceConfig.Code))
                     {
-                        if (dataSourceHolder.DataSourceExists(dataSourceConfig.Code))
-                        {
-                            Log.WriteError(Locale.IsRussian ?
-                                "Источник данных {0} дублируется" :
-                                "Data source {0} is duplicated", dataSourceConfig.Code);
-                        }
-                        else if (driverHolder.GetDriver(dataSourceConfig.Driver, out DriverLogic driverLogic) &&
-                            driverLogic.CreateDataSource(this, dataSourceConfig) is DataSourceLogic dataSourceLogic)
-                        {
-                            dataSourceHolder.AddDataSource(dataSourceLogic);
-                            Log.WriteAction(Locale.IsRussian ?
-                                "Источник данных {0} инициализирован успешно" :
-                                "Data source {0} initialized successfully", dataSourceLogic.Code);
-                        }
-                        else
-                        {
-                            Log.WriteError(Locale.IsRussian ?
-                                "Не удалось создать источник данных {0} с помощью драйвера {1}" :
-                                "Unable to create data source {0} with the driver {1}",
-                                dataSourceConfig.Code, dataSourceConfig.Driver);
-                        }
+                        Log.WriteError(Locale.IsRussian ?
+                            "Источник данных {0} дублируется" :
+                            "Data source {0} is duplicated", dataSourceConfig.Code);
                     }
-                    catch (Exception ex)
+                    else if (driverHolder.GetDriver(dataSourceConfig.Driver, out DriverWrapper driverWrapper) &&
+                        driverWrapper.CreateDataSource(this, dataSourceConfig, out DataSourceLogic dataSourceLogic))
                     {
-                        Log.WriteError(ex, Locale.IsRussian ?
-                            "Ошибка при создании источника данных {0} с помощью драйвера {1}" :
-                            "Error creating data source {0} with the driver {1}",
+                        dataSourceHolder.AddDataSource(dataSourceLogic);
+                        Log.WriteAction(Locale.IsRussian ?
+                            "Источник данных {0} инициализирован успешно" :
+                            "Data source {0} initialized successfully", dataSourceLogic.Code);
+                    }
+                    else
+                    {
+                        Log.WriteError(Locale.IsRussian ?
+                            "Не удалось создать источник данных {0} с помощью драйвера {1}" :
+                            "Unable to create data source {0} with the driver {1}",
                             dataSourceConfig.Code, dataSourceConfig.Driver);
                     }
                 }
@@ -598,7 +600,8 @@ namespace Scada.Comm.Engine
                 if (CommConfig.LoadLineConfig(Storage, CommConfig.DefaultFileName, commLineNum, 
                     out LineConfig lineConfig, out string errMsg))
                 {
-                    InitDrivers(CommConfig.GetDriverCodes(lineConfig));
+                    InitDrivers(lineConfig.GetDriverCodes(), out List<DriverWrapper> addedDrivers);
+                    addedDrivers.ForEach(d => d.OnServiceStart());
 
                     if (CreateLine(lineConfig, out CommLine commLine))
                     {

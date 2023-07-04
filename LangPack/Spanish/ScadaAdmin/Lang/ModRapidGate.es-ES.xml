@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModRapidGateDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlArcReplication">
+    <Phrase key="gbReplicationOptions">Opciones de replicación de archivo</Phrase>
+    <Phrase key="lblEnabled">Activado</Phrase>
+    <Phrase key="lblLocalHistArchiveBit">Bit de archivo histórico local</Phrase>
+    <Phrase key="lblLocalEventArchiveBit">Bit de archivo de eventos locales</Phrase>
+    <Phrase key="lblRemoteHistArchiveBit">Bit de archivo histórico remoto</Phrase>
+    <Phrase key="lblRemoteEventArchiveBit">Bit de archivo de eventos remotos</Phrase>
+    <Phrase key="lblAutoUpload">Cargar automáticamente</Phrase>
+    <Phrase key="lblAutoDowload">Descargar automáticamente</Phrase>
+    <Phrase key="lblDataAvailCnlNum">Canal que indica la disponibilidad de datos</Phrase>
+    <Phrase key="lblMinDepth">Profundidad mínima, seg.</Phrase>
+    <Phrase key="lblMaxDepth">Profundidad máxima, seg.</Phrase>
+    <Phrase key="lblReadingStep">Paso de lectura, seg.</Phrase>
+    <Phrase key="gbUploadOptions">Subir</Phrase>
+    <Phrase key="gbDowloadOptions">Descargar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlCurDataTransfer">
+    <Phrase key="gbOptions">Opciones actuales de transferencia de datos</Phrase>
+    <Phrase key="chkEnabled">Activado</Phrase>
+    <Phrase key="lblTrigger">Desencadenar</Phrase>
+    <Phrase key="cbTrigger.Items[0]">Al recibir</Phrase>
+    <Phrase key="cbTrigger.Items[1]">A tiempo</Phrase>
+    <Phrase key="lblTimePeriod">Período del temporizador, seg.</Phrase>
+    <Phrase key="lblAllDataPeriod">Período de transferencia de datos de todos los canales, seg.</Phrase>
+    <Phrase key="chkUseRawData">Usar datos sin procesar (transferir datos antes de procesarlos)</Phrase>
+    <Phrase key="chkApplyFormulas">Aplicar fórmulas en el servidor remoto</Phrase>
+    <Phrase key="chkEnableEvents">Generar eventos en servidor remoto</Phrase>
+    <Phrase key="chkSkipUnchanged">Omitir datos sin cambios</Phrase>
+    <Phrase key="chkIncludeCalculated">Incluir canales calculados</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlEventTransfer">
+    <Phrase key="gbOptions">Opciones de transferencia de eventos</Phrase>
+    <Phrase key="chkEnabled">Activado</Phrase>
+    <Phrase key="chkTransferAck">Transferir acuses de recibo</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlGeneral">
+    <Phrase key="gbOptions">Opciones generales</Phrase>
+    <Phrase key="chkActive">Activo</Phrase>
+    <Phrase key="lblGateID">Identificación de la puerta</Phrase>
+    <Phrase key="lblName">Nombre</Phrase>
+    <Phrase key="lblCmdCode">Código de comando</Phrase>
+    <Phrase key="lblLocalArchiveMask">Máscara de archivo para almacenar datos en el servidor local</Phrase>
+    <Phrase key="lblDefaultArchiveMaskLocal">Establezca -1 para seleccionar archivos predeterminados</Phrase>
+    <Phrase key="lblRemoteArchiveMask">Máscara de archivo para enviar datos al servidor remoto</Phrase>
+    <Phrase key="lblDefaultArchiveMaskRemote">Establezca -1 para seleccionar archivos predeterminados</Phrase>
+    <Phrase key="lblMaxQueueSize">Tamaño máximo de cola</Phrase>
+    <Phrase key="lblDataLifetime">Duración de los datos en cola, segundos</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlHistDataTransfer">
+    <Phrase key="gbOptions">Opciones de transferencia de datos históricos</Phrase>
+    <Phrase key="chkEnabled">Activado</Phrase>
+    <Phrase key="chkUseRawData">Usar datos sin procesar (transferir datos antes de procesarlos)</Phrase>
+    <Phrase key="chkApplyFormulas">Aplicar fórmulas en el servidor remoto</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlInCmdTransfer">
+    <Phrase key="gbOptions">Opciones de transferencia de comandos entrantes</Phrase>
+    <Phrase key="chkEnabled">Activado</Phrase>
+    <Phrase key="chkApplyFormulas">Aplicar fórmulas en el servidor local</Phrase>
+    <Phrase key="lblPollingRate">Tasa de sondeo de comandos, ms</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlMapping">
+    <Phrase key="gbOptions">Opciones de mapeo</Phrase>
+    <Phrase key="btnAddMapItem.ToolTip">Agregar asignación</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Ascender</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Mover hacia abajo</Phrase>
+    <Phrase key="btnDel.ToolTip">Borrar</Phrase>
+    <Phrase key="btnEdit.ToolTip">Editar</Phrase>
+    <Phrase key="colLocalIDs">identificaciones locales</Phrase>
+    <Phrase key="colRemoteIDs">Identificaciones remotas</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlOutCmdTransfer">
+    <Phrase key="gbOptions">Opciones de transferencia de comandos salientes</Phrase>
+    <Phrase key="chkEnabled">Activado</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Forms.FrmIdMapping">
+    <Phrase key="this">Mapeo de ID</Phrase>
+    <Phrase key="lblRange">Mapeo de ID</Phrase>
+    <Phrase key="lblParamLocal">identificaciones locales</Phrase>
+    <Phrase key="lblParamRemote">Identificaciones remotas</Phrase>
+    <Phrase key="lblExample">Por ejemplo: 1 - 5, 10</Phrase>
+    <Phrase key="btnOK">DE ACUERDO</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Forms.FrmModuleConfig">
+    <Phrase key="this">Puerta Rápida</Phrase>
+    <Phrase key="btnAdd.ToolTip">Agregar puerta</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Ascender</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Mover hacia abajo</Phrase>
+    <Phrase key="btnDelete.ToolTip">Borrar</Phrase>
+    <Phrase key="btnCut.ToolTip">Cortar</Phrase>
+    <Phrase key="btnCopy.ToolTip">Copiar</Phrase>
+    <Phrase key="btnPaste.ToolTip">Pegar</Phrase>
+    <Phrase key="gbGates">puertas</Phrase>
+    <Phrase key="lblHint">Agregar puerta</Phrase>
+    <Phrase key="btnSave">Ahorrar</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+    <Phrase key="btnClose">Cerca</Phrase>
+    <Phrase key="miCollapseAll">Desplegar todo</Phrase>
+    <Phrase key="CopySuffix">- Copiar</Phrase>
+    <Phrase key="GeneralOptionsNode">Opciones generales</Phrase>
+    <Phrase key="ConnectionOptionsNode">Opciones de conexión</Phrase>
+    <Phrase key="MappingOptionsNode">Opciones de mapeo</Phrase>
+    <Phrase key="ChannelMappingNode">Opciones de asignación de canales</Phrase>
+    <Phrase key="UserMappingNode">Opciones de asignación de usuarios</Phrase>
+    <Phrase key="TransferOptionsNode">Opciones de transferencia</Phrase>
+    <Phrase key="CurDataTransferOptionsNode">Datos actuales</Phrase>
+    <Phrase key="HistDataTransferOptionsNode">Información histórica</Phrase>
+    <Phrase key="EventTransferOptionsNode">Eventos</Phrase>
+    <Phrase key="InCmdTransferOptionsNode">Comandos entrantes</Phrase>
+    <Phrase key="OutCmdTransferOptionsNode">Comandos salientes</Phrase>
+    <Phrase key="ArcReplicationOptionsNode">Replicación de archivos</Phrase>
+    <Phrase key="GateName">Puerta {0}</Phrase>
+    <Phrase key="GateNameNotUnique">Los nombres de puerta deben ser únicos.</Phrase>
+    <Phrase key="GateNameEmpty">El nombre de la puerta no puede estar vacío.</Phrase>
+    <Phrase key="AddGates">Agregar puertas</Phrase>
+    <Phrase key="SelectChildNode">Seleccionar nodo secundario</Phrase>
+    <Phrase key="ArchiveText">Bit de archivo {0}</Phrase>
+  </Dictionary>
+</ModRapidGateDictionaries>

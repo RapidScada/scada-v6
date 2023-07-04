@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvMqttClientDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.BaseItemConfig">
+    <Phrase key="Topic.DisplayName">Тема</Phrase>
+    <Phrase key="Topic.Category">Главни параметри</Phrase>
+    <Phrase key="Topic.Description">MQTT тема.</Phrase>
+    <Phrase key="DisplayName.DisplayName">Показати име</Phrase>
+    <Phrase key="DisplayName.Category">Главни параметри</Phrase>
+    <Phrase key="DisplayName.Description">Име за приказ ознаке уређаја.</Phrase>
+    <Phrase key="QosLevel.DisplayName">QoS ниво</Phrase>
+    <Phrase key="QosLevel.Category">Протокол</Phrase>
+    <Phrase key="QosLevel.Description">Ниво квалитета услуге: 0 - највише једном, 1 - најмање једном, 2 - тачно једном.</Phrase>
+    <Phrase key="Retain.DisplayName">Задржати</Phrase>
+    <Phrase key="Retain.Category">Протокол</Phrase>
+    <Phrase key="Retain.Description">Вредност која показује да ли треба поставити задржану заставицу приликом објављивања.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.CommandConfig">
+    <Phrase key="CmdCode.DisplayName">Командни код</Phrase>
+    <Phrase key="CmdCode.Category">Главни параметри</Phrase>
+    <Phrase key="CmdCode.Description">Командни код повезан са темом.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.SubscriptionConfig">
+    <Phrase key="TagCode.DisplayName">Таг цоде</Phrase>
+    <Phrase key="TagCode.Category">Главни параметри</Phrase>
+    <Phrase key="TagCode.Description">Код ознаке повезан са темом.</Phrase>
+    <Phrase key="ReadOnly.DisplayName">Само за читање</Phrase>
+    <Phrase key="ReadOnly.Category">Главни параметри</Phrase>
+    <Phrase key="ReadOnly.Description">Вредност која показује да ли је тема само за читање.</Phrase>
+    <Phrase key="JsEnabled.DisplayName">ЈаваСцрипт је омогућен</Phrase>
+    <Phrase key="JsEnabled.Category">Напредни параметри</Phrase>
+    <Phrase key="JsEnabled.Description">Вредност која показује да ли да се изврши ЈаваСцрипт када се порука прими.</Phrase>
+    <Phrase key="JsFileName.DisplayName">Име ЈаваСцрипт датотеке</Phrase>
+    <Phrase key="JsFileName.Category">Напредни параметри</Phrase>
+    <Phrase key="JsFileName.Description">Име ЈаваСцрипт датотеке у односу на конфигурациони директоријум Цоммуницатор-а.</Phrase>
+    <Phrase key="SubItems.DisplayName">Подставке</Phrase>
+    <Phrase key="SubItems.Category">Напредни параметри</Phrase>
+    <Phrase key="SubItems.Description">Подставке које представљају више ознака уређаја за тему.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.DeviceOptions">
+    <Phrase key="RootTopic.DisplayName">Основна тема</Phrase>
+    <Phrase key="RootTopic.Category">Главни параметри</Phrase>
+    <Phrase key="RootTopic.Description">Основна тема која се користи као префикс за све теме уређаја.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.View.MqttClientConfigProvider">
+    <Phrase key="FormTitle">Својства уређаја {0} –MQTT клијент</Phrase>
+    <Phrase key="AddSubscriptionButton">Додај претплату</Phrase>
+    <Phrase key="AddCommandButton">Додај команду</Phrase>
+    <Phrase key="OptionsNode">Опције</Phrase>
+    <Phrase key="SubscriptionsNode">Претплате</Phrase>
+    <Phrase key="CommandsNode">Команде</Phrase>
+    <Phrase key="UnnamedSubscription">&lt;Неименована претплата&gt;</Phrase>
+    <Phrase key="UnnamedCommand">&lt;Неименована команда&gt;</Phrase>
+  </Dictionary>
+</DrvMqttClientDictionaries>

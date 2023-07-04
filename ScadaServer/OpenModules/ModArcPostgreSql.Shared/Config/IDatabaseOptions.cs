@@ -10,9 +10,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
     internal interface IDatabaseOptions
     {
         /// <summary>
-        /// Gets or sets a value indicating whether to use a connection specified in the storage configuration.
+        /// Gets or sets a value indicating whether to use a connection specified in the instance configuration.
         /// </summary>
-        bool UseStorageConn { get; set; }
+        bool UseDefaultConn { get; set; }
 
         /// <summary>
         /// Gets or sets the connection name.

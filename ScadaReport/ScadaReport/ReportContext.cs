@@ -24,14 +24,19 @@ namespace Scada.Report
         public ScadaClient ScadaClient { get; init; }
 
         /// <summary>
-        /// Gets the time zone.
+        /// Gets the external database connection string.
         /// </summary>
-        public TimeZoneInfo TimeZone { get; init; }
+        public string ConnectionString { get; init; }
 
         /// <summary>
         /// Gets the culture.
         /// </summary>
         public CultureInfo Culture { get; init; }
+
+        /// <summary>
+        /// Gets the time zone.
+        /// </summary>
+        public TimeZoneInfo TimeZone { get; init; }
 
         /// <summary>
         /// Gets the directory of templates.

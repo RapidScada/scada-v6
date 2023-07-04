@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvOpcUaDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlCommand">
+    <Phrase key="gbCommand">Komut Parametreleri</Phrase>
+    <Phrase key="lblDisplayName">Ekran adı</Phrase>
+    <Phrase key="lblCmdCode">komut kodu</Phrase>
+    <Phrase key="lblCmdNum">Komut numarası</Phrase>
+    <Phrase key="lblNodeID">düğüm kimliği</Phrase>
+    <Phrase key="lblParentNodeID">Üst düğüm kimliği</Phrase>
+    <Phrase key="lblDataType">Veri tipi</Phrase>
+    <Phrase key="chkIsMethod">yöntem</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEmptyItem">
+    <Phrase key="gbEmptyItem">Öğe Parametreleri</Phrase>
+    <Phrase key="lblNotSelected">Öğe seçilmedi</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlItem">
+    <Phrase key="gbItem">Öğe Parametreleri</Phrase>
+    <Phrase key="chkItemActive">Aktif</Phrase>
+    <Phrase key="lblDisplayName">Ekran adı</Phrase>
+    <Phrase key="lblTagCode">etiket kodu</Phrase>
+    <Phrase key="lblTagNum">Etiket numarası</Phrase>
+    <Phrase key="lblNodeID">düğüm kimliği</Phrase>
+    <Phrase key="lblDataType">Veri tipi</Phrase>
+    <Phrase key="chkIsString">dize mi</Phrase>
+    <Phrase key="chkIsArray">dizi mi</Phrase>
+    <Phrase key="lblDataLen">Dize veya dizi uzunluğu</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlSubscription">
+    <Phrase key="gbSubscription">Abonelik Parametreleri</Phrase>
+    <Phrase key="chkSubscrActive">Aktif</Phrase>
+    <Phrase key="lblDisplayName">Ekran adı</Phrase>
+    <Phrase key="lblPublishingInterval">Yayın aralığı</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Cihaz {0} Özellikleri - OPC UA</Phrase>
+    <Phrase key="gbConnectionOptions">Bağlantı Seçenekleri</Phrase>
+    <Phrase key="lblServerUrl">Sunucu URL'si</Phrase>
+    <Phrase key="btnSecurityOptions.ToolTip">Güvenlik seçenekleri</Phrase>
+    <Phrase key="lblConnectionInfo">Bağlantı seçenekleri, iletişim hattı için ortaktır.</Phrase>
+    <Phrase key="gbServerBrowse">Sunucu Gözatma</Phrase>
+    <Phrase key="btnConnect.ToolTip">Sunucuya bağlan</Phrase>
+    <Phrase key="btnDisconnect.ToolTip">Sunucu Bağlantısını Kes</Phrase>
+    <Phrase key="btnViewAttrs.ToolTip">Nitelikleri Görüntüle</Phrase>
+    <Phrase key="gbDevice">Cihaz konfigürasyonu</Phrase>
+    <Phrase key="btnAddItem.ToolTip">Seçili Öğeyi Ekle</Phrase>
+    <Phrase key="btnAddSubscription.ToolTip">Abonelik Ekle</Phrase>
+    <Phrase key="btnMoveUpItem.ToolTip">Yukarı Taşı</Phrase>
+    <Phrase key="btnMoveDownItem.ToolTip">Aşağı inmek</Phrase>
+    <Phrase key="btnDeleteItem.ToolTip">Silmek</Phrase>
+    <Phrase key="btnEditingOptions">Seçenekler</Phrase>
+    <Phrase key="btnSave">Kaydetmek</Phrase>
+    <Phrase key="btnClose">Kapalı</Phrase>
+    <Phrase key="ConnectServerError">OPC sunucusuna bağlanırken hata oluştu</Phrase>
+    <Phrase key="DisconnectServerError">OPC sunucusuyla bağlantı kesilirken hata oluştu</Phrase>
+    <Phrase key="BrowseServerError">OPC sunucusu öğesine göz atarken hata oluştu</Phrase>
+    <Phrase key="UnableToReadData">Veriler okunamıyor.</Phrase>
+    <Phrase key="GetDataTypeError">Veri türü alınırken hata oluştu</Phrase>
+    <Phrase key="ServerUrlRequired">Sunucu URL'si boş bırakılamaz.</Phrase>
+    <Phrase key="EmptyNode">Boş</Phrase>
+    <Phrase key="SubscriptionsNode">Abonelikler</Phrase>
+    <Phrase key="CommandsNode">komutlar</Phrase>
+    <Phrase key="UnnamedSubscription">&lt;Adsız Abonelik&gt;</Phrase>
+    <Phrase key="UnnamedItem">&lt;Adsız Öğe&gt;</Phrase>
+    <Phrase key="UnnamedCommand">&lt;Adsız Komut&gt;</Phrase>
+    <Phrase key="UnknownDataType">&quot;{0}&quot; veri türü bilinmiyor.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmEditingOptions">
+    <Phrase key="this">Düzenleme Seçenekleri</Phrase>
+    <Phrase key="lblDefaultTagCode">varsayılan etiket kodu</Phrase>
+    <Phrase key="cbDefaultTagCode.Items[0]">düğüm kimliği</Phrase>
+    <Phrase key="cbDefaultTagCode.Items[1]">Ekran adı</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmNodeAttr">
+    <Phrase key="this">Düğüm Nitelikleri</Phrase>
+    <Phrase key="colName">İsim</Phrase>
+    <Phrase key="colValue">Değer</Phrase>
+    <Phrase key="btnClose">Kapalı</Phrase>
+    <Phrase key="ReadAttrError">OPC sunucusundan özellikler okunurken hata oluştu</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmSecurityOptions">
+    <Phrase key="this">Güvenlik seçenekleri</Phrase>
+    <Phrase key="lblSecurityMode">Güvenlik Modu</Phrase>
+    <Phrase key="cbSecurityMode.Items[0]">Hiçbiri</Phrase>
+    <Phrase key="cbSecurityMode.Items[1]">İmza</Phrase>
+    <Phrase key="cbSecurityMode.Items[2]">İmzala ve şifrele</Phrase>
+    <Phrase key="lblSecurityPolicy">Güvenlik Politikası</Phrase>
+    <Phrase key="cbSecurityPolicy.Items[0]">Hiçbiri</Phrase>
+    <Phrase key="lblAuthenticationMode">Kimlik Doğrulama Modu</Phrase>
+    <Phrase key="cbAuthenticationMode.Items[0]">Anonim</Phrase>
+    <Phrase key="cbAuthenticationMode.Items[1]">Kullanıcı adı ve şifre</Phrase>
+    <Phrase key="lblUsername">Kullanıcı adı</Phrase>
+    <Phrase key="lblPassword">Şifre</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+</DrvOpcUaDictionaries>

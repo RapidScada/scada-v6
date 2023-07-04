@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtDepAgentDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepAgent.Downloader">
+    <Phrase key="ImportTable">Importer tabellen {0}</Phrase>
+    <Phrase key="ExtractArchive">Pakk ut arkiv</Phrase>
+    <Phrase key="MergeDirectory">Slå sammen katalog</Phrase>
+    <Phrase key="NothingToMerge">Ingen data å slå sammen</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepAgent.Uploader">
+    <Phrase key="TestAgentConn">Test agenttilkobling</Phrase>
+    <Phrase key="CompressConfig">Komprimer konfigurasjonen</Phrase>
+    <Phrase key="CompressBase">Komprimer konfigurasjonsdatabasen</Phrase>
+    <Phrase key="CompressViews">Komprimer visninger</Phrase>
+    <Phrase key="CompressAppConfig">Komprimer konfigurasjonen av {0}-applikasjonen</Phrase>
+    <Phrase key="AddProjectInfo">Legg til prosjektinformasjon</Phrase>
+    <Phrase key="AddTransferOptions">Legg til overføringsalternativer</Phrase>
+    <Phrase key="TransferConfig">Overfør konfigurasjon</Phrase>
+    <Phrase key="ArchiveSize">Arkivstørrelse: {0} byte</Phrase>
+  </Dictionary>
+</ExtDepAgentDictionaries>

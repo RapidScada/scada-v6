@@ -26,7 +26,7 @@ $(document).ready(function () {
     }
 
     // send enumeration command
-    $("#divEnum button").click(function () {
+    $("#divEnum button").on("click", function () {
         $("#hidCmdEnum").val($(this).data("cmdval"));
         $("form:first").submit();
     });

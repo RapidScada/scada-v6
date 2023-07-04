@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvSnmpDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvSnmp.Config.DeviceOptions">
+    <Phrase key="ReadCommunity.DisplayName">Les fellesskapet</Phrase>
+    <Phrase key="ReadCommunity.Category">Hovedparametere</Phrase>
+    <Phrase key="ReadCommunity.Description">Passordet for å lese data.</Phrase>
+    <Phrase key="WriteCommunity.DisplayName">Skriv fellesskap</Phrase>
+    <Phrase key="WriteCommunity.Category">Hovedparametere</Phrase>
+    <Phrase key="WriteCommunity.Description">Passordet for å skrive data.</Phrase>
+    <Phrase key="SnmpVersion.DisplayName">SNMP versjon</Phrase>
+    <Phrase key="SnmpVersion.Category">Hovedparametere</Phrase>
+    <Phrase key="SnmpVersion.Description">Protokollversjonen.  Støttede versjoner er 1 og 2.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvSnmp.Config.VarGroupConfig">
+    <Phrase key="Active.DisplayName">Aktiv</Phrase>
+    <Phrase key="Active.Category">Hovedparametere</Phrase>
+    <Phrase key="Active.Description">En verdi som indikerer om gruppen er aktiv.</Phrase>
+    <Phrase key="Name.DisplayName">Navn</Phrase>
+    <Phrase key="Name.Category">Hovedparametere</Phrase>
+    <Phrase key="Name.Description">Gruppenavnet.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvSnmp.Config.VariableConfig">
+    <Phrase key="Name.DisplayName">Navn</Phrase>
+    <Phrase key="Name.Category">Hovedparametere</Phrase>
+    <Phrase key="Name.Description">Variabelnavnet.</Phrase>
+    <Phrase key="TagCode.DisplayName">Tag kode</Phrase>
+    <Phrase key="TagCode.Category">Hovedparametere</Phrase>
+    <Phrase key="TagCode.Description">Tagkoden knyttet til variabelen.</Phrase>
+    <Phrase key="OID.DisplayName">OID</Phrase>
+    <Phrase key="OID.Category">Hovedparametere</Phrase>
+    <Phrase key="OID.Description">Objektidentifikatoren.  For eksempel .1.3.6.1.2.1.1.5.0</Phrase>
+    <Phrase key="DataType.DisplayName">Data-type</Phrase>
+    <Phrase key="DataType.Category">Hovedparametere</Phrase>
+    <Phrase key="DataType.Description">Datatypen til enhetstaggen knyttet til variabelen.</Phrase>
+    <Phrase key="DataLen.DisplayName">Datalengde</Phrase>
+    <Phrase key="DataLen.Category">Hovedparametere</Phrase>
+    <Phrase key="DataLen.Description">Datalengden hvis variabelen representerer en streng eller en matrise.  For strenger er dette antall tegn.  Ellers antall 8-byte blokker.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvSnmp.View.SnmpConfigProvider">
+    <Phrase key="FormTitle">Enhetsegenskaper {0} – SNMP</Phrase>
+    <Phrase key="AddVarGroupButton">Legg til gruppe</Phrase>
+    <Phrase key="AddVariableButton">Legg til variabel</Phrase>
+    <Phrase key="OptionsNode">Alternativer</Phrase>
+    <Phrase key="VarGroupsNode">Variable grupper</Phrase>
+    <Phrase key="UnnamedGroup">&lt;Unavngitt gruppe&gt;</Phrase>
+    <Phrase key="UnnamedVariable">&lt;Unavngitt variabel&gt;</Phrase>
+  </Dictionary>
+</DrvSnmpDictionaries>

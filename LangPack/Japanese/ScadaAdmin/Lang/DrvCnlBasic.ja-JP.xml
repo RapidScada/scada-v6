@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvCnlBasicDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.BasicChannelView">
+    <Phrase key="ChannelTypeNotFound">通信チャネルのタイプが見つかりません。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmSerialPortChannelOptions">
+    <Phrase key="this">シリアルポートのオプション</Phrase>
+    <Phrase key="gbPort">シリアルポート</Phrase>
+    <Phrase key="lblPortName">ポート名</Phrase>
+    <Phrase key="lblBaudRate">ボーレート</Phrase>
+    <Phrase key="lblDataBits">データビット</Phrase>
+    <Phrase key="lblParity">パリティ</Phrase>
+    <Phrase key="cbParity.Items[0]">なし</Phrase>
+    <Phrase key="cbParity.Items[1]">奇数</Phrase>
+    <Phrase key="cbParity.Items[2]">平</Phrase>
+    <Phrase key="cbParity.Items[3]">マーク</Phrase>
+    <Phrase key="cbParity.Items[4]">空</Phrase>
+    <Phrase key="lblStopBits">ストップビット</Phrase>
+    <Phrase key="lblDtrEnable">DTR</Phrase>
+    <Phrase key="lblRtsEnable">RTS</Phrase>
+    <Phrase key="gbMode">動作モード</Phrase>
+    <Phrase key="lblBehavior">行動</Phrase>
+    <Phrase key="cbBehavior.Items[0]">Master</Phrase>
+    <Phrase key="cbBehavior.Items[1]">Slave</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpClientChannelOptions">
+    <Phrase key="this">TCPクライアントオプション</Phrase>
+    <Phrase key="gbMode">動作モード</Phrase>
+    <Phrase key="lblBehavior">行動</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">マスター - コミュニケーターはデバイスにリクエストを送信し、応答を受け取ります。&#13;&#10;Slave - コミュニケーターはデバイスからのデータを受動的に待ちます。</Phrase>
+    <Phrase key="lblConnectionMode">接続モード</Phrase>
+    <Phrase key="cbConnectionMode.Items[0]">個人</Phrase>
+    <Phrase key="cbConnectionMode.Items[1]">共有</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">個別 - Communicator は、各デバイスとの個別の TCP 接続を確立します。&#13;&#10;共有 - Communicator は、指定されたリモート IP アドレスを使用して、通信回線のすべてのデバイスに対して単一の共有接続を確立します。&#13;&#10;共有接続が使用されます。 たとえば、デバイスがイーサネット シリアル ゲートウェイ経由で接続されている場合です。</Phrase>
+    <Phrase key="gbConnection">繋がり</Phrase>
+    <Phrase key="lblHost">リモートホスト</Phrase>
+    <Phrase key="pbHostHint.ToolTip">共有接続を使用する場合のリモート DNS 名または IP アドレス。</Phrase>
+    <Phrase key="lblTcpPort">リモート TCP ポート</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">個別接続モードでは、デバイスにポートが指定されていない場合、デフォルトの TCP ポートとして使用されます。&#13;&#10;共有接続モードでは、パラメータが必須です。&#13;&#10;502 ポートは、デフォルトの Modbus TCP ポートです。</Phrase>
+    <Phrase key="lblReconnectAfter">再接続してください（秒）</Phrase>
+    <Phrase key="pbReconnectAfterHint.ToolTip">試行が失敗した後に再接続するまでの時間間隔を指定します。</Phrase>
+    <Phrase key="lblStayConnected">つながりを保つ</Phrase>
+    <Phrase key="pbStayConnectedHint.ToolTip">設定されている場合、接続は通信セッション間でアクティブになります。&#13;&#10;それ以外の場合、接続は各セッションの後に終了します。</Phrase>
+    <Phrase key="lblDisconnectOnError">エラー時に切断する</Phrase>
+    <Phrase key="pbDisconnectOnError.ToolTip">セッションが失敗した場合に切断するかどうかを示します。</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+    <Phrase key="HostRequired">リモートホストが必要です。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpServerChannelOptions">
+    <Phrase key="this">TCPサーバーオプション</Phrase>
+    <Phrase key="gbMode">動作モード</Phrase>
+    <Phrase key="lblBehavior">行動</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">マスター - 接続を確立した後、コミュニケーターはデバイスにリクエストを送信し、応答を受け取ります。&#13;&#10;Slave - コミュニケーターはデバイスからのデータを受動的に待ちます。</Phrase>
+    <Phrase key="lblConnectionMode">接続モード</Phrase>
+    <Phrase key="cbConnectionMode.Items[0]">個人</Phrase>
+    <Phrase key="cbConnectionMode.Items[1]">共有</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">個別 - Communicator は、各デバイスとの個別の TCP 接続を確立します。&#13;&#10;共有 - Communicator は、通信回線のすべてのデバイスに対して単一の共有接続を確立します。&#13;&#10;共有接続は、たとえば、デバイスが経由で接続されている場合に使用されます。 イーサネットシリアルゲートウェイ。</Phrase>
+    <Phrase key="lblDeviceMapping">デバイスマッピング</Phrase>
+    <Phrase key="cbDeviceMapping.Items[0]">IPアドレス別</Phrase>
+    <Phrase key="cbDeviceMapping.Items[1]">ハローパケットによる</Phrase>
+    <Phrase key="cbDeviceMapping.Items[2]">ドライバーが決まりました</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">新しい受信接続をデバイスにバインドする方法:&#13;&#10;IP アドレスによる - リモート IP アドレスはデバイス文字列アドレスと等しい。&#13;&#10;Hello パケットによる - デバイスから受信した最初のパッケージには文字列アドレスが含まれている。&lt;  br/&gt;ドライバーが決定されました - アルゴリズムはデバイスドライバーに実装されています。</Phrase>
+    <Phrase key="gbConnection">繋がり</Phrase>
+    <Phrase key="lblTcpPort">ローカル TCP ポート</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">受信接続用のローカル TCP ポート。&#13;&#10;受信接続はファイアウォールによって許可される必要があります。</Phrase>
+    <Phrase key="lblClientLifetime">非アクティブな存続期間、秒</Phrase>
+    <Phrase key="pbClientLifetimeHint.ToolTip">非アクティブなクライアントが切断されるまでの時間。</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmUdpChannelOptions">
+    <Phrase key="this">UDP オプション</Phrase>
+    <Phrase key="gbMode">動作モード</Phrase>
+    <Phrase key="lblBehavior">行動</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">マスター - コミュニケーターはデバイスにリクエストを送信し、応答を受け取ります。&#13;&#10;スレーブ - コミュニケーターはデバイスからのデータを受動的に待ちます。</Phrase>
+    <Phrase key="lblDeviceMapping">デバイスマッピング</Phrase>
+    <Phrase key="cbDeviceMapping.Items[0]">IPアドレス別</Phrase>
+    <Phrase key="cbDeviceMapping.Items[1]">ドライバーが決まりました</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">新しい受信接続をデバイスにバインドする方法:&#13;&#10;IP アドレスによる - リモート IP アドレスはデバイス文字列アドレスと等しい。&#13;&#10;ドライバーの決定 - アルゴリズムはデバイス ドライバーに実装されます。</Phrase>
+    <Phrase key="gbConnection">繋がり</Phrase>
+    <Phrase key="lblLocalUdpPort">ローカル UDP ポート</Phrase>
+    <Phrase key="pbLocalUdpPortHint.ToolTip">受信接続用のローカル UDP ポート。&#13;&#10;受信接続はファイアウォールによって許可されている必要があります。</Phrase>
+    <Phrase key="lblRemoteUdpPort">リモート UDP ポート</Phrase>
+    <Phrase key="pbRemoteUdpPortHint.ToolTip">デフォルトのリモート UDP ポート。 通信回線のすべての機器についても同様です。</Phrase>
+    <Phrase key="lblRemoteIpAddress">リモートIPアドレス</Phrase>
+    <Phrase key="pbRemoteIpAddressHint.ToolTip">デフォルトのリモート IP アドレス。&#13;&#10;デバイスがイーサネット シリアル ゲートウェイ経由で接続されている場合などに使用できます。</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+</DrvCnlBasicDictionaries>

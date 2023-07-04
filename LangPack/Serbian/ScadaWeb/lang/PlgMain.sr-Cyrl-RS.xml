@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgMainDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command">
+    <Phrase key="PageTitle">Цомманд</Phrase>
+    <Phrase key="CommandSent">Команда послата.</Phrase>
+    <Phrase key="CmdParseError">Грешка при рашчлањивању команде</Phrase>
+    <Phrase key="CnlRow">канал:</Phrase>
+    <Phrase key="ObjRow">Објекат:</Phrase>
+    <Phrase key="DevRow">Уређај:</Phrase>
+    <Phrase key="lblPassword">Лозинка</Phrase>
+    <Phrase key="lblCmdDec">Вредност команде</Phrase>
+    <Phrase key="lblCmdHex">Вредност команде (һексадецимална)</Phrase>
+    <Phrase key="lblCmdEnum">Цомманд</Phrase>
+    <Phrase key="lblCmdDate">Вредност команде (датум/време)</Phrase>
+    <Phrase key="lblCmdData">Командни подаци</Phrase>
+    <Phrase key="lblStr">Низ</Phrase>
+    <Phrase key="lblHex">Һексадецимални</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventAck">
+    <Phrase key="PageTitle">Догађај</Phrase>
+    <Phrase key="EventNotFound">Догађај {0} није пронађен.</Phrase>
+    <Phrase key="EventAcknowledged">Догађај је признат.</Phrase>
+    <Phrase key="TimeRow">Датум и време:</Phrase>
+    <Phrase key="ObjRow">Објекат:</Phrase>
+    <Phrase key="DevRow">Уређај:</Phrase>
+    <Phrase key="CnlRow">канал:</Phrase>
+    <Phrase key="DescrRow">Опис:</Phrase>
+    <Phrase key="SevRow">озбиљност:</Phrase>
+    <Phrase key="AckRow">Ацк:</Phrase>
+    <Phrase key="AckYes">да</Phrase>
+    <Phrase key="AckNo">Не</Phrase>
+    <Phrase key="AckTip">Кликните на дугме ОК да бисте потврдили догађај.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventReport">
+    <Phrase key="PageTitle">Извештај о догађају</Phrase>
+    <Phrase key="AllObjItem">-- Сви објекти --</Phrase>
+    <Phrase key="AllAvailObjItem">-- Сви доступни објекти --</Phrase>
+    <Phrase key="NotSpecifiedItem">-- Није прецизирано --</Phrase>
+    <Phrase key="lblStartTime">Од</Phrase>
+    <Phrase key="lblEndTime">До</Phrase>
+    <Phrase key="lblArchive">Арһива</Phrase>
+    <Phrase key="lblObj">Објекат</Phrase>
+    <Phrase key="lblSeverity">Озбиљност</Phrase>
+    <Phrase key="btnGenerateReport">Преузмите извештај</Phrase>
+    <Phrase key="divWaitHint">Генерисање извештаја.  Сачекајте...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events">
+    <Phrase key="TimeCol">Датум и време</Phrase>
+    <Phrase key="ObjCol">Објекат</Phrase>
+    <Phrase key="DevCol">Уређај</Phrase>
+    <Phrase key="CnlCol">Канал</Phrase>
+    <Phrase key="DescrCol">Опис</Phrase>
+    <Phrase key="SevCol">Озбиљност</Phrase>
+    <Phrase key="AckCol">Ацк</Phrase>
+    <Phrase key="EventInfo">Последњиһ {0} догађаја за {1} сати</Phrase>
+    <Phrase key="spanAllEventsBtn">Сви догађаји</Phrase>
+    <Phrase key="spanEventsByViewBtn">Догађаји према приказу</Phrase>
+    <Phrase key="spanPrintBtn_ToolTip">Извоз догађаја</Phrase>
+    <Phrase key="spanErrorBadge">Грешка</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events.Js">
+    <Phrase key="Loading">Учитавање...</Phrase>
+    <Phrase key="NoEvents">Нема догађаја</Phrase>
+    <Phrase key="Ack">Кликните да бисте потврдили</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.HistDataReport">
+    <Phrase key="PageTitle">Извештај о историјским подацима</Phrase>
+    <Phrase key="lblStartTime">Од</Phrase>
+    <Phrase key="lblEndTime">До</Phrase>
+    <Phrase key="lblArchive">Арһива</Phrase>
+    <Phrase key="lblCnlNums">Канали</Phrase>
+    <Phrase key="btnSelectCnls">Изаберите...</Phrase>
+    <Phrase key="btnGenerateReport">Преузмите извештај</Phrase>
+    <Phrase key="divWaitHint">Генерисање извештаја.  Сачекајте...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView">
+    <Phrase key="TableViewTitle">Табела {0}</Phrase>
+    <Phrase key="PrevDate">Претһодни датум</Phrase>
+    <Phrase key="SelDate">Одабрани датум</Phrase>
+    <Phrase key="MinusOneDay">-1д</Phrase>
+    <Phrase key="ItemColumn">Ставка</Phrase>
+    <Phrase key="CurrentColumn">Тренутни</Phrase>
+    <Phrase key="CnlTip">Канал</Phrase>
+    <Phrase key="DeviceTip">Уређај</Phrase>
+    <Phrase key="ObjTip">Објекат</Phrase>
+    <Phrase key="QuantityTip">Количина</Phrase>
+    <Phrase key="UnitTip">Јединица</Phrase>
+    <Phrase key="SendCommandTip">Пошаљи команду</Phrase>
+    <Phrase key="spanPrintBtn_ToolTip">Извези приказ табеле</Phrase>
+    <Phrase key="spanLoadingBadge">Учитавање...</Phrase>
+    <Phrase key="spanErrorBadge">Грешка</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Code.EventWindowSpec">
+    <Phrase key="EventWindowTitle">Догађаји</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.PlgMainLogic">
+    <Phrase key="ReportGroup">Главни извештаји</Phrase>
+    <Phrase key="HistDataReport">Извештај о историјским подацима</Phrase>
+    <Phrase key="EventReport">Извештај о догађају</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report">
+    <Phrase key="GenCaption">Генерисан:</Phrase>
+    <Phrase key="TzCaption">Временска зона:</Phrase>
+    <Phrase key="ArcCaption">Арһива:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.Js">
+    <Phrase key="InvalidPeriod">Датум почетка мора бити мањи или једнак датуму завршетка.</Phrase>
+    <Phrase key="PeriodTooLong">Максимална дужина периода је {0} дана.</Phrase>
+    <Phrase key="InvalidChannels">Неважећи бројеви канала.</Phrase>
+    <Phrase key="NoSeverity">Није изабрана озбиљност.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.EventReportBuilder">
+    <Phrase key="GeneralTitleFormat">Догађаји, {0} - {1}</Phrase>
+    <Phrase key="TailTitleFormat">Последњиһ {0} догађаја за {1} сати</Phrase>
+    <Phrase key="ViewCaption">Поглед:</Phrase>
+    <Phrase key="ObjCaption">Објекти:</Phrase>
+    <Phrase key="SevCaption">озбиљност:</Phrase>
+    <Phrase key="TimeCol">Датум и време</Phrase>
+    <Phrase key="ObjCol">Објекат</Phrase>
+    <Phrase key="DevCol">Уређај</Phrase>
+    <Phrase key="CnlCol">Канал</Phrase>
+    <Phrase key="DescrCol">Опис</Phrase>
+    <Phrase key="SevCol">Озбиљност</Phrase>
+    <Phrase key="AckCol">Ацк</Phrase>
+    <Phrase key="WorksheetName">Догађаји</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.HistDataReportBuilder">
+    <Phrase key="TitleFormat">Историјски подаци, {0} - {1}</Phrase>
+    <Phrase key="CnlCaption">Канали:</Phrase>
+    <Phrase key="TimeCol">Датум и време</Phrase>
+    <Phrase key="DataCol">Канал {0}</Phrase>
+    <Phrase key="AvgCaption">Просек</Phrase>
+    <Phrase key="MinCaption">Минимум</Phrase>
+    <Phrase key="MaxCaption">Максимум</Phrase>
+    <Phrase key="WorksheetName">Историјски подаци</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.TableViewReportBuilder">
+    <Phrase key="TitleFormat">{0}, {1} - {2}</Phrase>
+    <Phrase key="ItemCol">Ставка</Phrase>
+    <Phrase key="WorksheetName">Табле Виев</Phrase>
+  </Dictionary>
+</PlgMainDictionaries>

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtTableEditorDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableEditor">
+    <Phrase key="btnRefreshBase.ToolTip">Actualizar base de datos de configuración</Phrase>
+    <Phrase key="btnAddItem.ToolTip">Añadir artículo</Phrase>
+    <Phrase key="btnAddEmptyItem.ToolTip">Agregar artículo vacío</Phrase>
+    <Phrase key="btnMoveUpItem.ToolTip">Mover elemento hacia arriba</Phrase>
+    <Phrase key="btnMoveDownItem.ToolTip">Mover elemento hacia abajo</Phrase>
+    <Phrase key="btnDeleteItem.ToolTip">Eliminar elementos seleccionados</Phrase>
+    <Phrase key="btnTableOptions.ToolTip">Opciones de vista de tabla</Phrase>
+    <Phrase key="lblHint">Presione Entrar o haga doble clic en un nodo para agregarlo a la tabla.  Haga clic con el botón derecho en un nodo de dispositivo para mostrar el menú contextual.</Phrase>
+    <Phrase key="colCnlNum">Canal</Phrase>
+    <Phrase key="colDeviceNum">Dispositivo</Phrase>
+    <Phrase key="colAutoText">Texto automático</Phrase>
+    <Phrase key="colText">Texto</Phrase>
+    <Phrase key="colHidden">Oculto</Phrase>
+    <Phrase key="miDeviceAddDevice">Añadir dispositivo</Phrase>
+    <Phrase key="miDeviceAddAllChannels">Agregar todos los canales</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableOptions">
+    <Phrase key="this">Opciones de vista de tabla</Phrase>
+    <Phrase key="chkUseDefault">Usar opciones predeterminadas</Phrase>
+    <Phrase key="lblArchiveCode">código de archivo</Phrase>
+    <Phrase key="btnSelectArchiveCode">Seleccionar...</Phrase>
+    <Phrase key="lblPeriod">Período de mesa, min</Phrase>
+    <Phrase key="lblChartArgs">Argumentos de gráfico</Phrase>
+    <Phrase key="btnOK">DE ACUERDO</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+</ExtTableEditorDictionaries>

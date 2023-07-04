@@ -74,7 +74,7 @@ namespace Scada.Web.Code
         /// <summary>
         /// Gets the user database entity.
         /// </summary>
-        public User UserEntity { get; set; }
+        public User UserEntity { get; init; }
 
         /// <summary>
         /// Gets the user access rights.

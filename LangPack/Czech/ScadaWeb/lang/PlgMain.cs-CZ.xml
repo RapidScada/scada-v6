@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgMainDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command">
+    <Phrase key="PageTitle">Příkaz</Phrase>
+    <Phrase key="CommandSent">Příkaz odeslán.</Phrase>
+    <Phrase key="CmdParseError">Chyba při analýze příkazu</Phrase>
+    <Phrase key="CnlRow">Kanál:</Phrase>
+    <Phrase key="ObjRow">Objekt:</Phrase>
+    <Phrase key="DevRow">Přístroj:</Phrase>
+    <Phrase key="lblPassword">Heslo</Phrase>
+    <Phrase key="lblCmdDec">Hodnota příkazu</Phrase>
+    <Phrase key="lblCmdHex">Hodnota příkazu (hexadecimální)</Phrase>
+    <Phrase key="lblCmdEnum">Příkaz</Phrase>
+    <Phrase key="lblCmdDate">Hodnota příkazu (datum/čas)</Phrase>
+    <Phrase key="lblCmdData">Data příkazů</Phrase>
+    <Phrase key="lblStr">Tětiva</Phrase>
+    <Phrase key="lblHex">Hexadecimální</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventAck">
+    <Phrase key="PageTitle">událost</Phrase>
+    <Phrase key="EventNotFound">Událost {0} nebyla nalezena.</Phrase>
+    <Phrase key="EventAcknowledged">Událost potvrzena.</Phrase>
+    <Phrase key="TimeRow">Datum a čas:</Phrase>
+    <Phrase key="ObjRow">Objekt:</Phrase>
+    <Phrase key="DevRow">Přístroj:</Phrase>
+    <Phrase key="CnlRow">Kanál:</Phrase>
+    <Phrase key="DescrRow">Popis:</Phrase>
+    <Phrase key="SevRow">Vážnost:</Phrase>
+    <Phrase key="AckRow">Ack:</Phrase>
+    <Phrase key="AckYes">Ano</Phrase>
+    <Phrase key="AckNo">Ne</Phrase>
+    <Phrase key="AckTip">Klepnutím na tlačítko OK potvrďte událost.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventReport">
+    <Phrase key="PageTitle">Zpráva o události</Phrase>
+    <Phrase key="AllObjItem">-- Všechny objekty --</Phrase>
+    <Phrase key="AllAvailObjItem">-- Všechny dostupné objekty --</Phrase>
+    <Phrase key="NotSpecifiedItem">-- Nespecifikováno --</Phrase>
+    <Phrase key="lblStartTime">Z</Phrase>
+    <Phrase key="lblEndTime">Na</Phrase>
+    <Phrase key="lblArchive">Archiv</Phrase>
+    <Phrase key="lblObj">Objekt</Phrase>
+    <Phrase key="lblSeverity">Vážnost</Phrase>
+    <Phrase key="btnGenerateReport">Stáhnout zprávu</Phrase>
+    <Phrase key="divWaitHint">Generování zprávy.  Prosím, čekejte...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events">
+    <Phrase key="TimeCol">Datum a čas</Phrase>
+    <Phrase key="ObjCol">Objekt</Phrase>
+    <Phrase key="DevCol">přístroj</Phrase>
+    <Phrase key="CnlCol">Kanál</Phrase>
+    <Phrase key="DescrCol">Popis</Phrase>
+    <Phrase key="SevCol">Vážnost</Phrase>
+    <Phrase key="AckCol">Ack</Phrase>
+    <Phrase key="EventInfo">Posledních {0} událostí za {1} hodin</Phrase>
+    <Phrase key="spanAllEventsBtn">Všechny události</Phrase>
+    <Phrase key="spanEventsByViewBtn">Události podle zobrazení</Phrase>
+    <Phrase key="spanPrintBtn_ToolTip">Export akcí</Phrase>
+    <Phrase key="spanErrorBadge">Chyba</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events.Js">
+    <Phrase key="Loading">Načítání...</Phrase>
+    <Phrase key="NoEvents">Žádné události</Phrase>
+    <Phrase key="Ack">Kliknutím potvrďte</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.HistDataReport">
+    <Phrase key="PageTitle">Zpráva o historických datech</Phrase>
+    <Phrase key="lblStartTime">Z</Phrase>
+    <Phrase key="lblEndTime">Na</Phrase>
+    <Phrase key="lblArchive">Archiv</Phrase>
+    <Phrase key="lblCnlNums">Kanály</Phrase>
+    <Phrase key="btnSelectCnls">Vybrat...</Phrase>
+    <Phrase key="btnGenerateReport">Stáhnout zprávu</Phrase>
+    <Phrase key="divWaitHint">Generování zprávy.  Prosím, čekejte...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView">
+    <Phrase key="TableViewTitle">Tabulka {0}</Phrase>
+    <Phrase key="PrevDate">Předchozí datum</Phrase>
+    <Phrase key="SelDate">Vybrané datum</Phrase>
+    <Phrase key="MinusOneDay">-1d</Phrase>
+    <Phrase key="ItemColumn">Položka</Phrase>
+    <Phrase key="CurrentColumn">Aktuální</Phrase>
+    <Phrase key="CnlTip">Kanál</Phrase>
+    <Phrase key="DeviceTip">přístroj</Phrase>
+    <Phrase key="ObjTip">Objekt</Phrase>
+    <Phrase key="QuantityTip">Množství</Phrase>
+    <Phrase key="UnitTip">Jednotka</Phrase>
+    <Phrase key="SendCommandTip">Odeslat příkaz</Phrase>
+    <Phrase key="spanPrintBtn_ToolTip">Export zobrazení tabulky</Phrase>
+    <Phrase key="spanLoadingBadge">Načítání...</Phrase>
+    <Phrase key="spanErrorBadge">Chyba</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Code.EventWindowSpec">
+    <Phrase key="EventWindowTitle">Události</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.PlgMainLogic">
+    <Phrase key="ReportGroup">Hlavní zprávy</Phrase>
+    <Phrase key="HistDataReport">Zpráva o historických datech</Phrase>
+    <Phrase key="EventReport">Zpráva o události</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report">
+    <Phrase key="GenCaption">Vygenerováno:</Phrase>
+    <Phrase key="TzCaption">Časové pásmo:</Phrase>
+    <Phrase key="ArcCaption">Archiv:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.Js">
+    <Phrase key="InvalidPeriod">Datum zahájení musí být menší nebo stejné než datum ukončení.</Phrase>
+    <Phrase key="PeriodTooLong">Maximální délka období je {0} dní.</Phrase>
+    <Phrase key="InvalidChannels">Neplatná čísla kanálů.</Phrase>
+    <Phrase key="NoSeverity">Nebyla vybrána žádná závažnost.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.EventReportBuilder">
+    <Phrase key="GeneralTitleFormat">Události, {0} – {1}</Phrase>
+    <Phrase key="TailTitleFormat">Posledních {0} událostí za {1} hodin</Phrase>
+    <Phrase key="ViewCaption">Pohled:</Phrase>
+    <Phrase key="ObjCaption">Objekty:</Phrase>
+    <Phrase key="SevCaption">Vážnost:</Phrase>
+    <Phrase key="TimeCol">Datum a čas</Phrase>
+    <Phrase key="ObjCol">Objekt</Phrase>
+    <Phrase key="DevCol">přístroj</Phrase>
+    <Phrase key="CnlCol">Kanál</Phrase>
+    <Phrase key="DescrCol">Popis</Phrase>
+    <Phrase key="SevCol">Vážnost</Phrase>
+    <Phrase key="AckCol">Ack</Phrase>
+    <Phrase key="WorksheetName">Události</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.HistDataReportBuilder">
+    <Phrase key="TitleFormat">Historická data, {0} – {1}</Phrase>
+    <Phrase key="CnlCaption">kanály:</Phrase>
+    <Phrase key="TimeCol">Datum a čas</Phrase>
+    <Phrase key="DataCol">Kanál {0}</Phrase>
+    <Phrase key="AvgCaption">Průměrný</Phrase>
+    <Phrase key="MinCaption">Minimální</Phrase>
+    <Phrase key="MaxCaption">Maximum</Phrase>
+    <Phrase key="WorksheetName">Historická data</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.TableViewReportBuilder">
+    <Phrase key="TitleFormat">{0}, {1} – {2}</Phrase>
+    <Phrase key="ItemCol">Položka</Phrase>
+    <Phrase key="WorksheetName">Pohled na tabulku</Phrase>
+  </Dictionary>
+</PlgMainDictionaries>

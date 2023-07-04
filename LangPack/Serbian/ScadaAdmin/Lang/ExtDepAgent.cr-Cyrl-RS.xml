@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtDepAgentDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepAgent.Downloader">
+    <Phrase key="ImportTable">Увезите табелу {0}</Phrase>
+    <Phrase key="ExtractArchive">Извуците арһиву</Phrase>
+    <Phrase key="MergeDirectory">Споји директоријум</Phrase>
+    <Phrase key="NothingToMerge">Нема података за спајање</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepAgent.Uploader">
+    <Phrase key="TestAgentConn">Веза са агентом за тестирање</Phrase>
+    <Phrase key="CompressConfig">Компресија конфигурације</Phrase>
+    <Phrase key="CompressBase">Компримујте конфигурациону базу података</Phrase>
+    <Phrase key="CompressViews">Сажимање приказа</Phrase>
+    <Phrase key="CompressAppConfig">Компримујте конфигурацију апликације {0}</Phrase>
+    <Phrase key="AddProjectInfo">Додајте информације о пројекту</Phrase>
+    <Phrase key="AddTransferOptions">Додајте опције преноса</Phrase>
+    <Phrase key="TransferConfig">Конфигурација преноса</Phrase>
+    <Phrase key="ArchiveSize">Величина арһиве: {0} бајтова</Phrase>
+  </Dictionary>
+</ExtDepAgentDictionaries>

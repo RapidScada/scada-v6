@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvEmailDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvEmail.View.Forms.FrmConfig">
+    <Phrase key="this">Propriedades do dispositivo {0} - E-mail</Phrase>
+    <Phrase key="gbServer">Servidor SMTP</Phrase>
+    <Phrase key="lblHost">Host do servidor</Phrase>
+    <Phrase key="lblPort">Porta</Phrase>
+    <Phrase key="lblUsername">Nome de usuário</Phrase>
+    <Phrase key="lblPassword">Senha</Phrase>
+    <Phrase key="chkEnableSsl">Usar SSL</Phrase>
+    <Phrase key="gbSender">De</Phrase>
+    <Phrase key="lblSenderAddress">Endereço do remetente</Phrase>
+    <Phrase key="lblSenderDisplayName">Nome de exibição</Phrase>
+    <Phrase key="btnAddressBook">Livro de endereços</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+</DrvEmailDictionaries>

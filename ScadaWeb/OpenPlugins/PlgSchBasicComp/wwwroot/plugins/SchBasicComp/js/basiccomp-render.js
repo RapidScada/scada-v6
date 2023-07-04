@@ -229,7 +229,7 @@ scada.scheme.LinkRenderer.prototype.createDom = function (component, renderConte
         spanComp.addClass("action");
 
         if (!renderContext.editMode) {
-            spanComp.click(function () {
+            spanComp.on("click", function () {
                 let url = "";
                 let viewHub = renderContext.schemeEnv.viewHub;
 
@@ -252,7 +252,7 @@ scada.scheme.LinkRenderer.prototype.createDom = function (component, renderConte
                             break;
                         case 2: // Popup
                             viewHub.modalManager.showModal(url,
-                                new ModalOptions(null, props.popupSize.width, props.popupSize.height));
+                                new ModalOptions({ size: props.popupSize.width, height: props.popupSize.height }));
                             break;
                         default: // Self
                             window.top.location = url;

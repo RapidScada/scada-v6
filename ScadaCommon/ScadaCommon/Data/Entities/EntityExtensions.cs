@@ -105,5 +105,13 @@ namespace Scada.Data.Entities
         {
             return cnl.DataLen.HasValue ? Math.Max(cnl.DataLen.Value, 1) : 1;
         }
+
+        /// <summary>
+        /// Gets the number of channels that should be joined to display the channel value.
+        /// </summary>
+        public static int GetJoinLength(this Cnl cnl)
+        {
+            return cnl.IsString() ? cnl.GetDataLength() : 1;
+        }
     }
 }

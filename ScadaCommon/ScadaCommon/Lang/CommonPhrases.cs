@@ -51,7 +51,6 @@ namespace Scada.Lang
         public static string ThreadFatalError { get; private set; }
         public static string WriteInfoError { get; private set; }
         public static string ConnectionNotFound { get; private set; }
-        public static string ConnOptionsNotFound { get; private set; }
         public static string DatabaseNotSupported { get; private set; }
         public static string OperationNotSupported { get; private set; }
         public static string CommandSent { get; private set; }
@@ -186,7 +185,6 @@ namespace Scada.Lang
             ThreadFatalError = dict[nameof(ThreadFatalError)];
             WriteInfoError = dict[nameof(WriteInfoError)];
             ConnectionNotFound = dict[nameof(ConnectionNotFound)];
-            ConnOptionsNotFound = dict[nameof(ConnOptionsNotFound)];
             DatabaseNotSupported = dict[nameof(DatabaseNotSupported)];
             OperationNotSupported = dict[nameof(OperationNotSupported)];
             CommandSent = dict[nameof(CommandSent)];

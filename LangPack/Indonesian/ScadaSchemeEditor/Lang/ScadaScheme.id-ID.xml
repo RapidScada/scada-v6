@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaSchemeDictionaries>
+  <Dictionary key="Scada.Scheme.Model.DataTypes.ImageCondition">
+    <Phrase key="DisplayName">Kondisi Gambar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid">
+    <Phrase key="StringConvertError">Tidak dapat mengonversi string</Phrase>
+    <Phrase key="StringUniqueError">Nilai properti harus unik</Phrase>
+    <Phrase key="TrueValue">Ya</Phrase>
+    <Phrase key="FalseValue">TIDAK</Phrase>
+    <Phrase key="EmptyValue">(Tidak ada)</Phrase>
+    <Phrase key="ObjectValue">(Obyek)</Phrase>
+    <Phrase key="CollectionValue">(Koleksi)</Phrase>
+    <Phrase key="ComponentNotFound">Komponen tidak ditemukan</Phrase>
+    <Phrase key="BoldSymbol">B</Phrase>
+    <Phrase key="ItalicSymbol">I</Phrase>
+    <Phrase key="UnderlineSymbol">U</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmCollectionDialog">
+    <Phrase key="this">{0} Koleksi</Phrase>
+    <Phrase key="lblItems">Item</Phrase>
+    <Phrase key="lblProps">Properti barang</Phrase>
+    <Phrase key="btnOK">OKE</Phrase>
+    <Phrase key="btnCancel">Membatalkan</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmFontDialog">
+    <Phrase key="this">Font</Phrase>
+    <Phrase key="lblFontName">Font</Phrase>
+    <Phrase key="lblFontSize">Size</Phrase>
+    <Phrase key="gbStyle">Style</Phrase>
+    <Phrase key="chkBold">Bold</Phrase>
+    <Phrase key="chkItalic">Italic</Phrase>
+    <Phrase key="chkUnderline">Underline</Phrase>
+    <Phrase key="btnOK">OKE</Phrase>
+    <Phrase key="btnCancel">Membatalkan</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmImageDialog">
+    <Phrase key="this">Gambar-gambar</Phrase>
+    <Phrase key="lblImages">Gambar-gambar</Phrase>
+    <Phrase key="lblImageProps">Properti gambar</Phrase>
+    <Phrase key="lblPreview">Pratinjau</Phrase>
+    <Phrase key="btnSelectEmpty">Kosong</Phrase>
+    <Phrase key="btnSelect">Pilih</Phrase>
+    <Phrase key="btnClose">Menutup</Phrase>
+    <Phrase key="ImageFileFilter">Images (*.jpg;*.png;*.gif;*.svg)|*.jpg;*.png;*.gif;*.svg|All Files (*.*)|*.*</Phrase>
+    <Phrase key="DisplayImageError">Kesalahan menampilkan gambar</Phrase>
+    <Phrase key="LoadImageError">Terjadi kesalahan saat memuat gambar</Phrase>
+    <Phrase key="SaveImageError">Kesalahan menyimpan gambar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmRangeDialog">
+    <Phrase key="this">Rentang Bilangan Bulat</Phrase>
+    <Phrase key="lblExample">Misalnya: 1 - 5, 10</Phrase>
+    <Phrase key="btnOK">OKE</Phrase>
+    <Phrase key="btnCancel">Membatalkan</Phrase>
+    <Phrase key="RangeNotValid">Rentang tidak valid</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Template.TemplateBindings">
+    <Phrase key="LoadTemplateBindingsError">Terjadi error saat memuat binding template skema dari file</Phrase>
+    <Phrase key="SaveTemplateBindingsError">Error saat menyimpan binding template skema ke file</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.CompManager">
+    <Phrase key="UnknownComponent">Komponen tidak diketahui {0}</Phrase>
+    <Phrase key="CompLibraryNotFound">Tidak ditemukan pustaka untuk komponen {0}</Phrase>
+    <Phrase key="UnableCreateComponent">Tidak dapat membuat komponen {0}</Phrase>
+    <Phrase key="ErrorCreatingComponent">Kesalahan saat membuat komponen {0}</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.SchemeView">
+    <Phrase key="LoadSchemeViewError">Kesalahan memuat skema dari file</Phrase>
+    <Phrase key="SaveSchemeViewError">Skema penyimpanan kesalahan ke file</Phrase>
+    <Phrase key="IncorrectFileFormat">Format file skema salah</Phrase>
+  </Dictionary>
+</ScadaSchemeDictionaries>

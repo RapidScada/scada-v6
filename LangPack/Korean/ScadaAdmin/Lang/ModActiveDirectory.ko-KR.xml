@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModActiveDirectoryDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModActiveDirectory.Config.ModuleConfig">
+    <Phrase key="LdapServer.DisplayName">LDAP 서버</Phrase>
+    <Phrase key="LdapServer.Category">주요 매개변수</Phrase>
+    <Phrase key="LdapServer.Description">도메인 컨트롤러 호스트 또는 IP 주소입니다.  예: 127.0.0.1</Phrase>
+    <Phrase key="EnableSearch.DisplayName">검색 사용</Phrase>
+    <Phrase key="EnableSearch.Category">주요 매개변수</Phrase>
+    <Phrase key="EnableSearch.Description">Active Directory에서 사용자 역할 검색을 활성화합니다.</Phrase>
+    <Phrase key="SearchRoot.DisplayName">검색 루트</Phrase>
+    <Phrase key="SearchRoot.Category">주요 매개변수</Phrase>
+    <Phrase key="SearchRoot.Description">검색 루트입니다.  예: DC=회사,DC=com</Phrase>
+  </Dictionary>
+</ModActiveDirectoryDictionaries>

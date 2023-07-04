@@ -27,14 +27,19 @@ namespace Scada.Report
         ScadaClient ScadaClient { get; }
 
         /// <summary>
-        /// Gets the time zone.
+        /// Gets the external database connection string.
         /// </summary>
-        TimeZoneInfo TimeZone { get; }
+        string ConnectionString { get; }
 
         /// <summary>
         /// Gets the culture.
         /// </summary>
         CultureInfo Culture { get; }
+
+        /// <summary>
+        /// Gets the time zone.
+        /// </summary>
+        TimeZoneInfo TimeZone { get; }
 
         /// <summary>
         /// Gets the directory of templates.
@@ -53,6 +58,22 @@ namespace Scada.Report
         DateTime ConvertTimeFromUtc(DateTime dateTime)
         {
             return TimeZoneInfo.ConvertTimeFromUtc(dateTime, TimeZone);
+        }
+
+        /// <summary>
+        /// Converts a date and time (UTC) to a string representation in the report's time zone and culture.
+        /// </summary>
+        string DateTimeToString(DateTime dateTime)
+        {
+            return TimeZoneInfo.ConvertTimeFromUtc(dateTime, TimeZone).ToLocalizedString(Culture);
+        }
+
+        /// <summary>
+        /// Converts a date (UTC) to a string representation in the report's time zone and culture.
+        /// </summary>
+        string DateToString(DateTime dateTime)
+        {
+            return TimeZoneInfo.ConvertTimeFromUtc(dateTime, TimeZone).ToLocalizedDateString(Culture);
         }
 
         /// <summary>

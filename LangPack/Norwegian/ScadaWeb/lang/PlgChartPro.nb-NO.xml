@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgChartProDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.ChartPro">
+    <Phrase key="PageTitle">{0} – Chart Pro</Phrase>
+    <Phrase key="aToday">I dag</Phrase>
+    <Phrase key="aYesterday">I går</Phrase>
+    <Phrase key="aPastWeek">Forrige uke</Phrase>
+    <Phrase key="aPastMonth">Siste måned</Phrase>
+    <Phrase key="aCustomPeriod">Egendefinert periode</Phrase>
+    <Phrase key="aSelectChannels">Velg Kanaler</Phrase>
+    <Phrase key="aSelectProfile">Velg Profil</Phrase>
+    <Phrase key="aShowData">Vis data</Phrase>
+    <Phrase key="aHideData">Skjul data</Phrase>
+    <Phrase key="aExport">Eksport</Phrase>
+    <Phrase key="ChartTitleFixed">{0}, {1}</Phrase>
+    <Phrase key="ChartTitleRolling">{0}, {1} minutter</Phrase>
+    <Phrase key="Generated">Generert</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.ChartPro.Js">
+    <Phrase key="DataLoading">Data lastes inn...</Phrase>
+    <Phrase key="LoadError">Feil ved innlasting av data</Phrase>
+    <Phrase key="Generated">Generert</Phrase>
+    <Phrase key="TimeCol">Tid</Phrase>
+    <Phrase key="ZoomIn">Zoom inn</Phrase>
+    <Phrase key="ZoomOut">Zoome ut</Phrase>
+    <Phrase key="ResetZoom">Tilbakestill zoom</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.ChartProView">
+    <Phrase key="PageTitle">Chart Pro</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.Export">
+    <Phrase key="PageTitle">Eksport av diagram</Phrase>
+    <Phrase key="btnExportPdf">Eksporter diagram til PDF</Phrase>
+    <Phrase key="btnExportPng">Eksporter diagram til PNG</Phrase>
+    <Phrase key="btnExportExcel">Eksporter data til Excel</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.Period">
+    <Phrase key="PageTitle">Diagramperiode</Phrase>
+    <Phrase key="lblFrom">Fra</Phrase>
+    <Phrase key="lblTo">Til</Phrase>
+    <Phrase key="InvalidPeriod">Startdatoen må være mindre eller lik sluttdatoen.</Phrase>
+    <Phrase key="PeriodTooLong">Maksimal periodelengde er {0} dager.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.PeriodRolling">
+    <Phrase key="PageTitle">Diagramperiode</Phrase>
+    <Phrase key="lblPeriod">Periode</Phrase>
+    <Phrase key="lblMin">min</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.Profile">
+    <Phrase key="PageTitle">Diagramprofil</Phrase>
+    <Phrase key="lblProfile">Profil</Phrase>
+    <Phrase key="ProfileListEmpty">Profillisten er tom.  Sjekk plugin-konfigurasjonen.</Phrase>
+  </Dictionary>
+</PlgChartProDictionaries>

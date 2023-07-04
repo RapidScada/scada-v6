@@ -37,19 +37,14 @@ namespace Scada.Comm.Drivers.DrvSnmp.Config
         /// Gets or sets the parent node.
         /// </summary>
         [NCM.Browsable(false)]
+        [field: NonSerialized]
         public ITreeNode Parent { get; set; }
 
         /// <summary>
         /// Get a list of child nodes.
         /// </summary>
         [NCM.Browsable(false)]
-        public IList Children
-        {
-            get
-            {
-                return Variables;
-            }
-        }
+        public IList Children => Variables;
 
 
         /// <summary>

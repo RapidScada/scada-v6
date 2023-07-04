@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvMqttClientDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.BaseItemConfig">
+    <Phrase key="Topic.DisplayName">トピック</Phrase>
+    <Phrase key="Topic.Category">主なパラメータ</Phrase>
+    <Phrase key="Topic.Description">MQTT トピック。</Phrase>
+    <Phrase key="DisplayName.DisplayName">表示名</Phrase>
+    <Phrase key="DisplayName.Category">主なパラメータ</Phrase>
+    <Phrase key="DisplayName.Description">デバイスタグの表示名。</Phrase>
+    <Phrase key="QosLevel.DisplayName">QoSレベル</Phrase>
+    <Phrase key="QosLevel.Category">プロトコル</Phrase>
+    <Phrase key="QosLevel.Description">サービス品質レベル: 0 - 最大 1 回、1 - 少なくとも 1 回、2 - 必ず 1 回。</Phrase>
+    <Phrase key="Retain.DisplayName">保持</Phrase>
+    <Phrase key="Retain.Category">プロトコル</Phrase>
+    <Phrase key="Retain.Description">公開時に保持フラグを設定するかどうかを示す値。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.CommandConfig">
+    <Phrase key="CmdCode.DisplayName">コマンドコード</Phrase>
+    <Phrase key="CmdCode.Category">主なパラメータ</Phrase>
+    <Phrase key="CmdCode.Description">トピックに関連付けられたコマンド コード。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.SubscriptionConfig">
+    <Phrase key="TagCode.DisplayName">タグコード</Phrase>
+    <Phrase key="TagCode.Category">主なパラメータ</Phrase>
+    <Phrase key="TagCode.Description">トピックに関連付けられたタグコード。</Phrase>
+    <Phrase key="ReadOnly.DisplayName">読み取り専用</Phrase>
+    <Phrase key="ReadOnly.Category">主なパラメータ</Phrase>
+    <Phrase key="ReadOnly.Description">トピックが読み取り専用かどうかを示す値。</Phrase>
+    <Phrase key="JsEnabled.DisplayName">JavaScriptが有効です</Phrase>
+    <Phrase key="JsEnabled.Category">高度なパラメータ</Phrase>
+    <Phrase key="JsEnabled.Description">メッセージ受信時にJavaScriptを実行するかどうかを示す値。</Phrase>
+    <Phrase key="JsFileName.DisplayName">JavaScriptファイル名</Phrase>
+    <Phrase key="JsFileName.Category">高度なパラメータ</Phrase>
+    <Phrase key="JsFileName.Description">Communicator 構成ディレクトリに相対的な JavaScript ファイル名。</Phrase>
+    <Phrase key="SubItems.DisplayName">サブアイテム</Phrase>
+    <Phrase key="SubItems.Category">高度なパラメータ</Phrase>
+    <Phrase key="SubItems.Description">トピックの複数のデバイスタグを表すサブアイテム。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.DeviceOptions">
+    <Phrase key="RootTopic.DisplayName">ルートトピック</Phrase>
+    <Phrase key="RootTopic.Category">主なパラメータ</Phrase>
+    <Phrase key="RootTopic.Description">すべてのデバイス トピックのプレフィックスとして使用されるルート トピック。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.View.MqttClientConfigProvider">
+    <Phrase key="FormTitle">デバイス {0} プロパティ - MQTT クライアント</Phrase>
+    <Phrase key="AddSubscriptionButton">サブスクリプションの追加</Phrase>
+    <Phrase key="AddCommandButton">コマンドの追加</Phrase>
+    <Phrase key="OptionsNode">オプション</Phrase>
+    <Phrase key="SubscriptionsNode">定期購入</Phrase>
+    <Phrase key="CommandsNode">コマンド</Phrase>
+    <Phrase key="UnnamedSubscription">&lt;名前のないサブスクリプション&gt;</Phrase>
+    <Phrase key="UnnamedCommand">&lt;名前のないコマンド&gt;</Phrase>
+  </Dictionary>
+</DrvMqttClientDictionaries>

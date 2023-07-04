@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgElasticReportDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgElasticReport.Areas.ElasticReport.Pages.ReportArgsModel">
+    <Phrase key="PageTitle">Rapport élastique</Phrase>
+    <Phrase key="ReportNotFound">Le rapport avec l'ID {0} n'a pas été trouvé dans la configuration du plug-in.</Phrase>
+    <Phrase key="LoadInputOptionsError">Erreur lors du chargement des options de saisie du rapport.</Phrase>
+    <Phrase key="lblSingleDate">Date</Phrase>
+    <Phrase key="lblSingleMonth">Mois</Phrase>
+    <Phrase key="lblStartTime">Depuis</Phrase>
+    <Phrase key="lblEndTime">Pour</Phrase>
+    <Phrase key="lblArchive">Archive</Phrase>
+    <Phrase key="lblCnlNums">Chaînes</Phrase>
+    <Phrase key="btnSelectCnls">Sélectionner...</Phrase>
+    <Phrase key="lblFormat">Format de sortie</Phrase>
+    <Phrase key="lblPdf">PDF</Phrase>
+    <Phrase key="lblXlsx">Excel</Phrase>
+    <Phrase key="lblHtml">HTML</Phrase>
+    <Phrase key="btnGenerateReport">Télécharger le rapport</Phrase>
+    <Phrase key="divWaitHint">Génération de rapport.  S'il vous plaît, attendez...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgElasticReport.Areas.ElasticReport.Pages.ReportArgsModel.Js">
+    <Phrase key="InvalidPeriod">La date de début doit être inférieure ou égale à la date de fin.</Phrase>
+    <Phrase key="PeriodTooLong">La durée maximale de la période est de {0} jours.</Phrase>
+    <Phrase key="InvalidChannels">Numéros de canal non valides.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgElasticReport.Builder">
+    <Phrase key="HeadingFormat1">{0}, {1}</Phrase>
+    <Phrase key="HeadingFormat2">{0}, {1} - {2}</Phrase>
+    <Phrase key="InfoFormat">Généré : {0}.  Fuseau horaire : {1}.  Archives : {2}</Phrase>
+    <Phrase key="CnlCaption">Chaînes :</Phrase>
+    <Phrase key="DateTimeCol">Date et l'heure</Phrase>
+    <Phrase key="DateCol">Date</Phrase>
+    <Phrase key="NotApplicable">N/A</Phrase>
+    <Phrase key="SumHeader">Total</Phrase>
+    <Phrase key="AvgHeader">Moyenne</Phrase>
+    <Phrase key="MinHeader">Le minimum</Phrase>
+    <Phrase key="MaxHeader">Maximum</Phrase>
+    <Phrase key="DayUnit">d</Phrase>
+    <Phrase key="WorksheetName">Feuille {0}</Phrase>
+    <Phrase key="CloseButton">Fermer</Phrase>
+  </Dictionary>
+</PlgElasticReportDictionaries>

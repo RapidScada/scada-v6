@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AddressBookDictionaries>
+  <Dictionary key="Scada.AB.Forms.FrmAddressBook">
+    <Phrase key="this">Adres defteri</Phrase>
+    <Phrase key="btnAddContactGroup.ToolTip">Kişi grubu ekle</Phrase>
+    <Phrase key="btnAddContact.ToolTip">Kişi ekle</Phrase>
+    <Phrase key="btnAddPhoneNumber.ToolTip">Telefon numarası ekle</Phrase>
+    <Phrase key="btnAddEmail.ToolTip">e-posta ekle</Phrase>
+    <Phrase key="btnEdit.ToolTip">Düzenlemek</Phrase>
+    <Phrase key="btnDelete.ToolTip">Silmek</Phrase>
+    <Phrase key="btnSave">Kaydetmek</Phrase>
+    <Phrase key="btnClose">Kapalı</Phrase>
+    <Phrase key="AddressBookNode">Adres defteri</Phrase>
+    <Phrase key="NewContactGroup">Yeni Grup</Phrase>
+    <Phrase key="NewContact">Yeni bağlantı</Phrase>
+    <Phrase key="NewPhoneNumber">yeni telefon numarası</Phrase>
+    <Phrase key="NewEmail">Yeni E-posta</Phrase>
+    <Phrase key="ContactGroupExists">Kişi grubu zaten var.</Phrase>
+    <Phrase key="ContactExists">Kişi zaten grupta var.</Phrase>
+    <Phrase key="PhoneNumberExists">Kişi, belirtilen telefon numarasını zaten içeriyor.</Phrase>
+    <Phrase key="EmailExists">Kişi zaten belirtilen e-postayı içeriyor.</Phrase>
+    <Phrase key="IncorrectEmail">E-posta yanlış.</Phrase>
+    <Phrase key="EmptyValueNotAllowed">Boş değere izin verilmez.</Phrase>
+    <Phrase key="SaveAddressBookConfirm">Adres defteri değiştirildi.  Değişiklikler kaydedilsin mi?</Phrase>
+  </Dictionary>
+</AddressBookDictionaries>

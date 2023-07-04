@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgElasticReportDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgElasticReport.Areas.ElasticReport.Pages.ReportArgsModel">
+    <Phrase key="PageTitle">Еластични извештај</Phrase>
+    <Phrase key="ReportNotFound">Извештај са ID-ом {0} није пронађен у конфигурацији додатка.</Phrase>
+    <Phrase key="LoadInputOptionsError">Грешка при учитавању опција уноса извештаја.</Phrase>
+    <Phrase key="lblSingleDate">Датум</Phrase>
+    <Phrase key="lblSingleMonth">Месец дана</Phrase>
+    <Phrase key="lblStartTime">Од</Phrase>
+    <Phrase key="lblEndTime">До</Phrase>
+    <Phrase key="lblArchive">Арһива</Phrase>
+    <Phrase key="lblCnlNums">Канали</Phrase>
+    <Phrase key="btnSelectCnls">Изаберите...</Phrase>
+    <Phrase key="lblFormat">Излазни формат</Phrase>
+    <Phrase key="lblPdf">PDF</Phrase>
+    <Phrase key="lblXlsx">Excel</Phrase>
+    <Phrase key="lblHtml">HTML</Phrase>
+    <Phrase key="btnGenerateReport">Преузмите извештај</Phrase>
+    <Phrase key="divWaitHint">Генерисање извештаја.  Сачекајте...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgElasticReport.Areas.ElasticReport.Pages.ReportArgsModel.Js">
+    <Phrase key="InvalidPeriod">Датум почетка мора бити мањи или једнак датуму завршетка.</Phrase>
+    <Phrase key="PeriodTooLong">Максимална дужина периода је {0} дана.</Phrase>
+    <Phrase key="InvalidChannels">Неважећи бројеви канала.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgElasticReport.Builder">
+    <Phrase key="HeadingFormat1">{0}, {1}</Phrase>
+    <Phrase key="HeadingFormat2">{0}, {1} - {2}</Phrase>
+    <Phrase key="InfoFormat">Генерисано: {0}.  Временска зона: {1}.  Архива: {2}</Phrase>
+    <Phrase key="CnlCaption">Канали:</Phrase>
+    <Phrase key="DateTimeCol">Датум и време</Phrase>
+    <Phrase key="DateCol">Датум</Phrase>
+    <Phrase key="NotApplicable">Н/а</Phrase>
+    <Phrase key="SumHeader">Укупно</Phrase>
+    <Phrase key="AvgHeader">Просек</Phrase>
+    <Phrase key="MinHeader">Минимум</Phrase>
+    <Phrase key="MaxHeader">Максимум</Phrase>
+    <Phrase key="DayUnit">d</Phrase>
+    <Phrase key="WorksheetName">лист {0}</Phrase>
+    <Phrase key="CloseButton">Близу</Phrase>
+  </Dictionary>
+</PlgElasticReportDictionaries>

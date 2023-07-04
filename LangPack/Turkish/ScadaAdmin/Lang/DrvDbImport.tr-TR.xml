@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDbImportDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlCommand">
+    <Phrase key="gbCommand">Komut Parametreleri</Phrase>
+    <Phrase key="lblName">İsim</Phrase>
+    <Phrase key="lblCmdCode">komut kodu</Phrase>
+    <Phrase key="lblCmdCodeWarn">kodu doldurun</Phrase>
+    <Phrase key="lblSql">SQL</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">Kullanılabilir parametreler: @cmdVal, @cmdData</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlQuery">
+    <Phrase key="gbQuery">Sorgu Parametreleri</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="lblName">İsim</Phrase>
+    <Phrase key="lblTag">Etiketler</Phrase>
+    <Phrase key="lblSQL">SQL</Phrase>
+    <Phrase key="chkSingleRow">Tek satır sonucu</Phrase>
+    <Phrase key="pbTagInfo.ToolTip">Her satır bir etiket kodu içerir.</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">ON - istek, her alanı bir etiket değeri içeren tek bir satır döndürür.&#13;&#10;OFF - istek, her satır bir etiket değeri içeren bir dizi satır döndürür.  Gerekli sütunlar: kod ve val.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Cihaz {0} Özellikleri - DB İçe Aktarma</Phrase>
+    <Phrase key="btnAddQuery.ToolTip">Sorgu Ekle</Phrase>
+    <Phrase key="btnAddCommand.ToolTip">Komut Ekle</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Yukarı Taşı</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Aşağı inmek</Phrase>
+    <Phrase key="btnDelete.ToolTip">Silmek</Phrase>
+    <Phrase key="gbDevice">Cihaz konfigürasyonu</Phrase>
+    <Phrase key="btnSave">Kaydetmek</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+    <Phrase key="btnClose">Kapalı</Phrase>
+    <Phrase key="miCollapseAll">Hepsini Daralt</Phrase>
+    <Phrase key="ConnectionNode">Bağlantı Seçenekleri</Phrase>
+    <Phrase key="CommandName">Komut {0}</Phrase>
+    <Phrase key="CommandsNode">komutlar</Phrase>
+    <Phrase key="QueryName">{0} sorgusu</Phrase>
+    <Phrase key="QueriesNode">Sorguları</Phrase>
+    <Phrase key="SelectChildNode">Alt düğümü seçin</Phrase>
+    <Phrase key="UnnamedCommand">&lt;Adsız Komut&gt;</Phrase>
+    <Phrase key="UnnamedQuery">&lt;Adsız Sorgu&gt;</Phrase>
+  </Dictionary>
+</DrvDbImportDictionaries>

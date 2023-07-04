@@ -47,7 +47,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             ctrlCurrentArchiveOptions.ArchiveOptions = options;
 
             // database options
-            chkUseStorageConn.Checked = options.UseStorageConn;
+            chkUseDefaultConn.Checked = options.UseDefaultConn;
             cbConnection.Text = options.Connection;
             numMaxQueueSize.SetValue(options.MaxQueueSize);
             numBatchSize.SetValue(options.BatchSize);
@@ -62,7 +62,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             ctrlCurrentArchiveOptions.ControlsToOptions();
 
             // database options
-            options.UseStorageConn = chkUseStorageConn.Checked;
+            options.UseDefaultConn = chkUseDefaultConn.Checked;
             options.Connection = cbConnection.Text;
             options.MaxQueueSize = Convert.ToInt32(numMaxQueueSize.Value);
             options.BatchSize = Convert.ToInt32(numBatchSize.Value);
@@ -80,9 +80,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             UiUtils.FillConnections(cbConnection, appDirs.ConfigDir);
         }
 
-        private void chkUseStorageConn_CheckedChanged(object sender, EventArgs e)
+        private void chkUseDefaultConn_CheckedChanged(object sender, EventArgs e)
         {
-            cbConnection.Enabled = !chkUseStorageConn.Checked;
+            cbConnection.Enabled = !chkUseDefaultConn.Checked;
         }
 
         private void btnManageConn_Click(object sender, EventArgs e)

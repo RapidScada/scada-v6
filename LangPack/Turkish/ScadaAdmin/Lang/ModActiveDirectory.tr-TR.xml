@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModActiveDirectoryDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModActiveDirectory.Config.ModuleConfig">
+    <Phrase key="LdapServer.DisplayName">LDAP sunucusu</Phrase>
+    <Phrase key="LdapServer.Category">Ana Parametreler</Phrase>
+    <Phrase key="LdapServer.Description">Etki alanı denetleyicisi ana bilgisayarı veya IP adresi.  Örneğin, 127.0.0.1</Phrase>
+    <Phrase key="EnableSearch.DisplayName">Aramayı etkinleştir</Phrase>
+    <Phrase key="EnableSearch.Category">Ana Parametreler</Phrase>
+    <Phrase key="EnableSearch.Description">Active Directory'de kullanıcı rollerini aramayı etkinleştirin.</Phrase>
+    <Phrase key="SearchRoot.DisplayName">Arama kökü</Phrase>
+    <Phrase key="SearchRoot.Category">Ana Parametreler</Phrase>
+    <Phrase key="SearchRoot.Description">Arama kökü.  Örneğin, DC=şirket,DC=com</Phrase>
+  </Dictionary>
+</ModActiveDirectoryDictionaries>

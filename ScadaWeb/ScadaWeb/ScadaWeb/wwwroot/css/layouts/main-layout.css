@@ -18,12 +18,9 @@
 
 .modal-footer .btn {
   min-width: 75px;
-}
-
-/********** Notification Panel **********/
+} /********** Notification Panel **********/
 .notif-panel {
   background-color: #111;
-  bottom: 0;
   color: #eee;
   opacity: 0.97;
   overflow-x: hidden;
@@ -31,8 +28,9 @@
   padding: 30px 0 0;
   position: fixed;
   right: 0;
+  top: 30px;
   width: 30%;
-  z-index: 2000;
+  z-index: 900;
 }
 .notif-panel.hidden {
   display: none;
@@ -44,12 +42,10 @@
 /********** Toolbar **********/
 .notif-panel .notif-toolbar {
   height: 30px;
-  padding-left: 5px;
   position: absolute;
   top: 0;
 }
-.notif-panel .notif-toolbar .notif-tool-btn {
-  cursor: pointer;
+.notif-panel .notif-toolbar .notif-tool-item, .notif-panel .notif-toolbar .notif-tool-btn {
   display: inline-block;
   font-size: 14px;
   height: 30px;
@@ -57,6 +53,13 @@
   margin: 0 5px 0 0;
   padding: 0 10px;
   white-space: nowrap;
+}
+.notif-panel .notif-toolbar .notif-tool-item i, .notif-panel .notif-toolbar .notif-tool-btn i {
+  font-size: 15px;
+  margin-right: 5px;
+}
+.notif-panel .notif-toolbar .notif-tool-btn {
+  cursor: pointer;
 }
 .notif-panel .notif-toolbar .notif-tool-btn.disabled {
   color: #9ca1a6;
@@ -67,13 +70,10 @@
   color: #00b9eb;
   text-decoration: none;
 }
-.notif-panel .notif-toolbar .notif-tool-btn i {
-  font-size: 15px;
-  margin-right: 5px;
-}
 
 body:not(.header-visible) .notif-panel {
   padding-top: 60px;
+  top: 0;
 }
 body:not(.header-visible) .notif-panel .notif-toolbar {
   top: 30px;
@@ -83,7 +83,7 @@ body:not(.header-visible) .notif-panel .notif-toolbar {
 .notif-panel .notif {
   color: #eee;
   font-size: 13px;
-  margin: 0 5px 5px 15px;
+  margin: 0 5px 5px 10px;
 }
 .notif-panel .notif a,
 .notif-panel .notif a:active,
@@ -104,15 +104,8 @@ body:not(.header-visible) .notif-panel .notif-toolbar {
 .notif-panel .notif .notif-icon {
   float: left;
   font-size: 14px;
-}
-.notif-panel .notif .notif-icon .info {
-  color: #0dcaf0;
-}
-.notif-panel .notif .notif-icon .warning {
-  color: #ffc107;
-}
-.notif-panel .notif .notif-icon .error {
-  color: #dc3545;
+  width: 14px;
+  text-align: center;
 }
 .notif-panel .notif .notif-time,
 .notif-panel .notif .notif-msg {
@@ -120,19 +113,34 @@ body:not(.header-visible) .notif-panel .notif-toolbar {
 }
 .notif-panel .notif .notif-btn {
   color: #9ca1a6;
+  cursor: pointer;
   margin: 0 10px 0 -10px;
   padding: 5px 10px;
 }
+.notif-panel .notif .notif-btn:hover {
+  text-decoration: underline;
+}
 
-/********** Bell **********/
+/********** Notification Icon Colors **********/
+.notif-icon.critical,
+.notif-bell.critical {
+  color: #dc3545;
+}
+.notif-icon.major,
+.notif-bell.major {
+  color: #fd7e14;
+}
+.notif-icon.minor,
+.notif-bell.minor {
+  color: #ffc107;
+}
+.notif-icon.info,
 .notif-bell.info {
   color: #0dcaf0;
 }
-.notif-bell.warning {
-  color: #ffc107;
-}
-.notif-bell.error {
-  color: #dc3545;
+.notif-icon.undef,
+.notif-bell.undef {
+  color: #ced4da;
 }
 
 .tree-view .node {
@@ -242,7 +250,7 @@ body.left-panel-visible {
   right: 0;
   top: 0;
   background-color: white;
-  z-index: 2001;
+  z-index: 901;
 }
 #Main_divNoHeaderMenu:hover {
   opacity: 1;
@@ -385,6 +393,9 @@ body.left-panel-visible #Main_divLeftPanel {
   color: #212529;
   overflow: auto;
   padding: 20px;
+}
+#Main_divContent form.report-args {
+  max-width: 500px;
 }
 
 /********** Stats **********/

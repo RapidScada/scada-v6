@@ -371,6 +371,7 @@ namespace Scada.Comm.Engine
                         else
                         {
                             deviceWrapper.InvalidateData();
+                            deviceWrapper.DeviceLogic.DeviceStatus = DeviceStatus.Error;
 
                             if (!skipUnableMsg)
                             {
@@ -423,7 +424,7 @@ namespace Scada.Comm.Engine
                     Log.WriteError(ex, Locale.IsRussian ?
                         "Ошибка в цикле работы линии связи" :
                         "Error in the communication line work cycle");
-                    Thread.Sleep(ScadaUtils.ThreadDelay);
+                    Thread.Sleep(ScadaUtils.ErrorDelay);
                 }
             }
 
@@ -827,7 +828,7 @@ namespace Scada.Comm.Engine
         /// </summary>
         public IEnumerable<DeviceLogic> SelectDevices()
         {
-            return devices.Select(dw => dw.DeviceLogic);
+            return devices.Select(d => d.DeviceLogic);
         }
 
         /// <summary>
@@ -835,7 +836,7 @@ namespace Scada.Comm.Engine
         /// </summary>
         IEnumerable<DeviceLogic> ILineContext.SelectDevices(Func<DeviceLogic, bool> predicate)
         {
-            return devices.Select(dw => dw.DeviceLogic).Where(predicate);
+            return devices.Select(d => d.DeviceLogic).Where(predicate);
         }
 
         /// <summary>

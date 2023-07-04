@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModArcPostgreSqlDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Controls.CtrlDatabaseOptions">
+    <Phrase key="gbDbOptions">Opções de banco de dados</Phrase>
+    <Phrase key="lblUseStorageConn">Usar conexão de armazenamento</Phrase>
+    <Phrase key="lblConnection">Conexão</Phrase>
+    <Phrase key="lblPartitionSize">Tamanho da partição</Phrase>
+    <Phrase key="cbPartitionSize.Items[0]">Um mês</Phrase>
+    <Phrase key="cbPartitionSize.Items[1]">Um ano</Phrase>
+    <Phrase key="lblMaxQueueSize">Tamanho máximo da fila</Phrase>
+    <Phrase key="lblBatchSize">Itens por transação</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmConnManager">
+    <Phrase key="this">Conexões PostgreSQL</Phrase>
+    <Phrase key="gbConnList">Conexões</Phrase>
+    <Phrase key="btnNewConn">Novo</Phrase>
+    <Phrase key="btnDeleteConn">Excluir</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreCAO">
+    <Phrase key="this">Opções atuais de arquivo</Phrase>
+    <Phrase key="gbDbOptions">Opções de banco de dados</Phrase>
+    <Phrase key="lblUseStorageConn">Usar conexão de armazenamento</Phrase>
+    <Phrase key="lblConnection">Conexão</Phrase>
+    <Phrase key="lblMaxQueueSize">Tamanho máximo da fila</Phrase>
+    <Phrase key="lblBatchSize">Itens por transação</Phrase>
+    <Phrase key="btnManageConn">Administrar conexões</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreEAO">
+    <Phrase key="this">Opções de arquivo de eventos</Phrase>
+    <Phrase key="btnManageConn">Administrar conexões</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreHAO">
+    <Phrase key="this">Opções de arquivo histórico</Phrase>
+    <Phrase key="btnManageConn">Administrar conexões</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+</ModArcPostgreSqlDictionaries>

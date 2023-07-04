@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvModbusSlaveDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls">
+    <Phrase key="ConfigDirRequired">Plik szablonu urządzenia musi znajdować się w {0}</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlChannelGateway">
+    <Phrase key="gbChannelGateway">Opcje bramy kanału</Phrase>
+    <Phrase key="btnEdit">Edytować</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlDeviceGateway">
+    <Phrase key="gbDeviceGateway">Opcje bramy urządzenia</Phrase>
+    <Phrase key="lblTemplateFileName">Szablon urządzenia</Phrase>
+    <Phrase key="btnEditTemplate">Edytować</Phrase>
+    <Phrase key="btnBrowseTemplate">Przeglądać...</Phrase>
+    <Phrase key="lblSourceDeviceNum">Urządzenie źródła danych</Phrase>
+    <Phrase key="btnSelect">Wybierać</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlElem">
+    <Phrase key="gbElem">Parametry elementu</Phrase>
+    <Phrase key="lblChannel">Kanał</Phrase>
+    <Phrase key="lblAddress">Adres</Phrase>
+    <Phrase key="lblAddressHint">DEC, począwszy od 0</Phrase>
+    <Phrase key="lblDataType">Typ danych</Phrase>
+    <Phrase key="cbType.Items[0]">Nieokreślony</Phrase>
+    <Phrase key="cbType.Items[1]">ushort (2 bytes)</Phrase>
+    <Phrase key="cbType.Items[2]">short (2 bytes)</Phrase>
+    <Phrase key="cbType.Items[3]">uint (4 bytes)</Phrase>
+    <Phrase key="cbType.Items[4]">int (4 bytes)</Phrase>
+    <Phrase key="cbType.Items[5]">ulong (8 bytes)</Phrase>
+    <Phrase key="cbType.Items[6]">long (8 bytes)</Phrase>
+    <Phrase key="cbType.Items[7]">float (4 bytes)</Phrase>
+    <Phrase key="cbType.Items[8]">double (8 bytes)</Phrase>
+    <Phrase key="cbType.Items[9]">bool (1 bit)</Phrase>
+    <Phrase key="lblRatio">Stosunek</Phrase>
+    <Phrase key="chkReadOnly">Tylko czytać</Phrase>
+    <Phrase key="ChannelNotSpecified">Nie określono kanału</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlIndependentDevice">
+    <Phrase key="gbIndependentDevice">Niezależne opcje urządzenia</Phrase>
+    <Phrase key="lblTemplateFileName">Szablon urządzenia</Phrase>
+    <Phrase key="btnEditTemplate">Edytować</Phrase>
+    <Phrase key="btnBrowseTemplate">Przeglądać...</Phrase>
+    <Phrase key="lblDataLifetime">Okres ważności danych, min</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Forms.FrmChannelGatewayOptions">
+    <Phrase key="this">Opcje bramy kanału</Phrase>
+    <Phrase key="btnAdd">Dodaj kanał</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Podnieść</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Padnij</Phrase>
+    <Phrase key="btnDelete.ToolTip">Usuwać</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Anulować</Phrase>
+    <Phrase key="miCollapseAll">Zwinąć wszystkie</Phrase>
+    <Phrase key="gbChannelGateway">Kanały</Phrase>
+    <Phrase key="SelectChildNode">Wybierz węzeł podrzędny</Phrase>
+    <Phrase key="ChannelItem">kanał {0}</Phrase>
+    <Phrase key="DiscreteInputs">Wejścia dyskretne</Phrase>
+    <Phrase key="Coils">Cewki</Phrase>
+    <Phrase key="InputRegisters">Rejestry wejściowe</Phrase>
+    <Phrase key="HoldingRegisters">Rejestry gospodarstw</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Właściwości urządzenia {0} — Modbus Slave</Phrase>
+    <Phrase key="gbGeneralOptions">Opcje ogólne</Phrase>
+    <Phrase key="lblMode">Tryb</Phrase>
+    <Phrase key="cbDevicesMode.Items[0]">Niezależne urządzenie</Phrase>
+    <Phrase key="cbDevicesMode.Items[1]">Brama urządzenia</Phrase>
+    <Phrase key="cbDevicesMode.Items[2]">Brama kanału</Phrase>
+    <Phrase key="lblUndefinedValue">Niezdefiniowana wartość</Phrase>
+    <Phrase key="btnSave">Ratować</Phrase>
+    <Phrase key="btnClose">Zamknąć</Phrase>
+    <Phrase key="IndependentDeviceDescription">Odbiera dane z Modbus Master.</Phrase>
+    <Phrase key="DeviceGatewayDescription">Dostarcza dane wybranego urządzenia do Modbus Master.</Phrase>
+    <Phrase key="ChannelGatewayDescription">Dostarcza dane wybranych kanałów do Modbus Master.</Phrase>
+  </Dictionary>
+</DrvModbusSlaveDictionaries>

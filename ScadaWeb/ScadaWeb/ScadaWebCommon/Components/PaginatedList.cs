@@ -20,12 +20,8 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2022
+ * Modified : 2023
  */
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Scada.Web.Components
 {

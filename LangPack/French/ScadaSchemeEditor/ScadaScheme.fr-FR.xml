@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaSchemeDictionaries>
+  <Dictionary key="Scada.Scheme.Model.DataTypes.ImageCondition">
+    <Phrase key="DisplayName">État de l'image</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid">
+    <Phrase key="StringConvertError">Impossible de convertir la chaîne</Phrase>
+    <Phrase key="StringUniqueError">La valeur de la propriété doit être unique</Phrase>
+    <Phrase key="TrueValue">Oui</Phrase>
+    <Phrase key="FalseValue">Non</Phrase>
+    <Phrase key="EmptyValue">(Aucun)</Phrase>
+    <Phrase key="ObjectValue">(Objet)</Phrase>
+    <Phrase key="CollectionValue">(Collection)</Phrase>
+    <Phrase key="ComponentNotFound">Composant introuvable</Phrase>
+    <Phrase key="BoldSymbol">B</Phrase>
+    <Phrase key="ItalicSymbol">je</Phrase>
+    <Phrase key="UnderlineSymbol">tu</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmCollectionDialog">
+    <Phrase key="this">{0} Collecte</Phrase>
+    <Phrase key="lblItems">Articles</Phrase>
+    <Phrase key="lblProps">Propriétés de l'élément</Phrase>
+    <Phrase key="btnOK">D'ACCORD</Phrase>
+    <Phrase key="btnCancel">Annuler</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmFontDialog">
+    <Phrase key="this">Police de caractère</Phrase>
+    <Phrase key="lblFontName">Police de caractère</Phrase>
+    <Phrase key="lblFontSize">Taille</Phrase>
+    <Phrase key="gbStyle">Style</Phrase>
+    <Phrase key="chkBold">Gras</Phrase>
+    <Phrase key="chkItalic">Italique</Phrase>
+    <Phrase key="chkUnderline">Souligner</Phrase>
+    <Phrase key="btnOK">D'ACCORD</Phrase>
+    <Phrase key="btnCancel">Annuler</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmImageDialog">
+    <Phrase key="this">Images</Phrase>
+    <Phrase key="lblImages">Images</Phrase>
+    <Phrase key="lblImageProps">Propriétés de l'image</Phrase>
+    <Phrase key="lblPreview">Aperçu</Phrase>
+    <Phrase key="btnSelectEmpty">Vide</Phrase>
+    <Phrase key="btnSelect">Sélectionner</Phrase>
+    <Phrase key="btnClose">Fermer</Phrase>
+    <Phrase key="ImageFileFilter">Images (*.jpg;*.png;*.gif;*.svg)|*.jpg;*.png;*.gif;*.svg|Tous les fichiers (*.*)|*.*</Phrase>
+    <Phrase key="DisplayImageError">Erreur d'affichage de l'image</Phrase>
+    <Phrase key="LoadImageError">Erreur lors du chargement de l'image</Phrase>
+    <Phrase key="SaveImageError">Erreur lors de l'enregistrement de l'image</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmRangeDialog">
+    <Phrase key="this">Plage d'entiers</Phrase>
+    <Phrase key="lblExample">Par exemple : 1 - 5, 10</Phrase>
+    <Phrase key="btnOK">D'ACCORD</Phrase>
+    <Phrase key="btnCancel">Annuler</Phrase>
+    <Phrase key="RangeNotValid">La plage n'est pas valide</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Template.TemplateBindings">
+    <Phrase key="LoadTemplateBindingsError">Erreur lors du chargement des liaisons de modèle de schéma à partir du fichier</Phrase>
+    <Phrase key="SaveTemplateBindingsError">Erreur lors de l'enregistrement des liaisons du modèle de schéma dans le fichier</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.CompManager">
+    <Phrase key="UnknownComponent">Composant inconnu {0}</Phrase>
+    <Phrase key="CompLibraryNotFound">Aucune bibliothèque trouvée pour le composant {0}</Phrase>
+    <Phrase key="UnableCreateComponent">Impossible de créer le composant {0}</Phrase>
+    <Phrase key="ErrorCreatingComponent">Erreur lors de la création du composant {0}</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.SchemeView">
+    <Phrase key="LoadSchemeViewError">Erreur lors du chargement du schéma à partir du fichier</Phrase>
+    <Phrase key="SaveSchemeViewError">Erreur lors de l'enregistrement du schéma dans un fichier</Phrase>
+    <Phrase key="IncorrectFileFormat">Format incorrect du fichier de schéma</Phrase>
+  </Dictionary>
+</ScadaSchemeDictionaries>

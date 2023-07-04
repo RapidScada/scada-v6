@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModRapidGateDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlArcReplication">
+    <Phrase key="gbReplicationOptions">Arkivreplikeringsalternativer</Phrase>
+    <Phrase key="lblEnabled">Aktivert</Phrase>
+    <Phrase key="lblLocalHistArchiveBit">Litt lokalhistorisk arkiv</Phrase>
+    <Phrase key="lblLocalEventArchiveBit">Litt av lokalt arrangementsarkiv</Phrase>
+    <Phrase key="lblRemoteHistArchiveBit">Litt fjernt historisk arkiv</Phrase>
+    <Phrase key="lblRemoteEventArchiveBit">Litt eksternt hendelsesarkiv</Phrase>
+    <Phrase key="lblAutoUpload">Last opp automatisk</Phrase>
+    <Phrase key="lblAutoDowload">Last ned automatisk</Phrase>
+    <Phrase key="lblDataAvailCnlNum">Kanal som indikerer datatilgjengelighet</Phrase>
+    <Phrase key="lblMinDepth">Minimum dybde, sek</Phrase>
+    <Phrase key="lblMaxDepth">Maksimal dybde, sek</Phrase>
+    <Phrase key="lblReadingStep">Lesetrinn, sek</Phrase>
+    <Phrase key="gbUploadOptions">Laste opp</Phrase>
+    <Phrase key="gbDowloadOptions">nedlasting</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlCurDataTransfer">
+    <Phrase key="gbOptions">Gjeldende dataoverføringsalternativer</Phrase>
+    <Phrase key="chkEnabled">Aktivert</Phrase>
+    <Phrase key="lblTrigger">Avtrekker</Phrase>
+    <Phrase key="cbTrigger.Items[0]">Ved mottak</Phrase>
+    <Phrase key="cbTrigger.Items[1]">På timer</Phrase>
+    <Phrase key="lblTimePeriod">Tidsurperiode, sek</Phrase>
+    <Phrase key="lblAllDataPeriod">Periode for overføring av data for alle kanaler, sek</Phrase>
+    <Phrase key="chkUseRawData">Bruk rådata (overfør data før behandling)</Phrase>
+    <Phrase key="chkApplyFormulas">Bruk formler på ekstern server</Phrase>
+    <Phrase key="chkEnableEvents">Generer hendelser på ekstern server</Phrase>
+    <Phrase key="chkSkipUnchanged">Hopp over uendrede data</Phrase>
+    <Phrase key="chkIncludeCalculated">Ta med beregnede kanaler</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlEventTransfer">
+    <Phrase key="gbOptions">Alternativer for overføring av hendelser</Phrase>
+    <Phrase key="chkEnabled">Aktivert</Phrase>
+    <Phrase key="chkTransferAck">Overføringsbekreftelser</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlGeneral">
+    <Phrase key="gbOptions">Generelle alternativer</Phrase>
+    <Phrase key="chkActive">Aktiv</Phrase>
+    <Phrase key="lblGateID">Gate-ID</Phrase>
+    <Phrase key="lblName">Navn</Phrase>
+    <Phrase key="lblCmdCode">Kommandokode</Phrase>
+    <Phrase key="lblLocalArchiveMask">Arkivmaske for lagring av data på lokal server</Phrase>
+    <Phrase key="lblDefaultArchiveMaskLocal">Sett -1 for å velge standardarkiver</Phrase>
+    <Phrase key="lblRemoteArchiveMask">Arkivmaske for å sende data til ekstern server</Phrase>
+    <Phrase key="lblDefaultArchiveMaskRemote">Sett -1 for å velge standardarkiver</Phrase>
+    <Phrase key="lblMaxQueueSize">Maksimal køstørrelse</Phrase>
+    <Phrase key="lblDataLifetime">Datalevetid i kø, sek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlHistDataTransfer">
+    <Phrase key="gbOptions">Alternativer for historiske dataoverføring</Phrase>
+    <Phrase key="chkEnabled">Aktivert</Phrase>
+    <Phrase key="chkUseRawData">Bruk rådata (overfør data før behandling)</Phrase>
+    <Phrase key="chkApplyFormulas">Bruk formler på ekstern server</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlInCmdTransfer">
+    <Phrase key="gbOptions">Alternativer for innkommende kommandooverføring</Phrase>
+    <Phrase key="chkEnabled">Aktivert</Phrase>
+    <Phrase key="chkApplyFormulas">Bruk formler på lokal server</Phrase>
+    <Phrase key="lblPollingRate">Kommandoavstemningsfrekvens, ms</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlMapping">
+    <Phrase key="gbOptions">Kartalternativer</Phrase>
+    <Phrase key="btnAddMapItem.ToolTip">Legg til kartlegging</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Flytte opp</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Flytt ned</Phrase>
+    <Phrase key="btnDel.ToolTip">Slett</Phrase>
+    <Phrase key="btnEdit.ToolTip">Redigere</Phrase>
+    <Phrase key="colLocalIDs">Lokale IDer</Phrase>
+    <Phrase key="colRemoteIDs">Eksterne IDer</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlOutCmdTransfer">
+    <Phrase key="gbOptions">Alternativer for utgående kommandooverføring</Phrase>
+    <Phrase key="chkEnabled">Aktivert</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Forms.FrmIdMapping">
+    <Phrase key="this">ID-kartlegging</Phrase>
+    <Phrase key="lblRange">ID-kartlegging</Phrase>
+    <Phrase key="lblParamLocal">Lokale IDer</Phrase>
+    <Phrase key="lblParamRemote">Eksterne IDer</Phrase>
+    <Phrase key="lblExample">For eksempel: 1 - 5, 10</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Forms.FrmModuleConfig">
+    <Phrase key="this">Rapid Gate</Phrase>
+    <Phrase key="btnAdd.ToolTip">Legg til Gate</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Flytte opp</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Flytt ned</Phrase>
+    <Phrase key="btnDelete.ToolTip">Slett</Phrase>
+    <Phrase key="btnCut.ToolTip">Kutte opp</Phrase>
+    <Phrase key="btnCopy.ToolTip">Kopiere</Phrase>
+    <Phrase key="btnPaste.ToolTip">Lim inn</Phrase>
+    <Phrase key="gbGates">Porter</Phrase>
+    <Phrase key="lblHint">Legg til Gate</Phrase>
+    <Phrase key="btnSave">Lagre</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+    <Phrase key="btnClose">Lukk</Phrase>
+    <Phrase key="miCollapseAll">Skjul alle</Phrase>
+    <Phrase key="CopySuffix">- Kopier</Phrase>
+    <Phrase key="GeneralOptionsNode">Generelle alternativer</Phrase>
+    <Phrase key="ConnectionOptionsNode">Tilkoblingsalternativer</Phrase>
+    <Phrase key="MappingOptionsNode">Kartalternativer</Phrase>
+    <Phrase key="ChannelMappingNode">Alternativer for kanalkartlegging</Phrase>
+    <Phrase key="UserMappingNode">Alternativer for brukerkartlegging</Phrase>
+    <Phrase key="TransferOptionsNode">Overføringsalternativer</Phrase>
+    <Phrase key="CurDataTransferOptionsNode">Aktuelle data</Phrase>
+    <Phrase key="HistDataTransferOptionsNode">Historisk data</Phrase>
+    <Phrase key="EventTransferOptionsNode">arrangementer</Phrase>
+    <Phrase key="InCmdTransferOptionsNode">Innkommende kommandoer</Phrase>
+    <Phrase key="OutCmdTransferOptionsNode">Utgående kommandoer</Phrase>
+    <Phrase key="ArcReplicationOptionsNode">Arkivreplikering</Phrase>
+    <Phrase key="GateName">Utgang {0}</Phrase>
+    <Phrase key="GateNameNotUnique">Portnavn må være unike.</Phrase>
+    <Phrase key="GateNameEmpty">Navnet på porten kan ikke være tomt.</Phrase>
+    <Phrase key="AddGates">Legg til porter</Phrase>
+    <Phrase key="SelectChildNode">Velg underordnet node</Phrase>
+    <Phrase key="ArchiveText">Arkivbit {0}</Phrase>
+  </Dictionary>
+</ModRapidGateDictionaries>

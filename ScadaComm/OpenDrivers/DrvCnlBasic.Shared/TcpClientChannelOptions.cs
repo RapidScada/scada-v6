@@ -21,6 +21,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic
             TcpPort = options.GetValueAsInt("TcpPort", 502); // Modbus port
             ReconnectAfter = options.GetValueAsInt("ReconnectAfter", 5);
             StayConnected = options.GetValueAsBool("StayConnected", true);
+            DisconnectOnError = options.GetValueAsBool("DisconnectOnError", false);
             Behavior = options.GetValueAsEnum("Behavior", ChannelBehavior.Master);
             ConnectionMode = options.GetValueAsEnum("ConnectionMode", ConnectionMode.Individual);
         }
@@ -47,6 +48,11 @@ namespace Scada.Comm.Drivers.DrvCnlBasic
         public bool StayConnected { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether to disconnect if a session fails.
+        /// </summary>
+        public bool DisconnectOnError { get; set; }
+
+        /// <summary>
         /// Gets or sets the channel behavior.
         /// </summary>
         public ChannelBehavior Behavior { get; set; }
@@ -67,6 +73,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic
             options["TcpPort"] = TcpPort.ToString();
             options["ReconnectAfter"] = ReconnectAfter.ToString();
             options["StayConnected"] = StayConnected.ToLowerString();
+            options["DisconnectOnError"] = DisconnectOnError.ToLowerString();
             options["Behavior"] = Behavior.ToString();
             options["ConnectionMode"] = ConnectionMode.ToString();
         }

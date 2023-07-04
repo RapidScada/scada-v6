@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -31,8 +31,6 @@ using Scada.Log;
 using Scada.Web.Services;
 using Scada.Web.TreeView;
 using Scada.Web.Users;
-using System;
-using System.Collections.Generic;
 
 namespace Scada.Web.Plugins
 {
@@ -97,6 +95,11 @@ namespace Scada.Web.Plugins
         /// Gets the URLs of the CSS stylesheets to add to the main page.
         /// </summary>
         public virtual ICollection<string> StyleUrls => null;
+
+        /// <summary>
+        /// Gets the client-side JavaScript to add to the main page.
+        /// </summary>
+        public virtual string ClientScript => null;
 
 
         /// <summary>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaCommDictionaries>
+  <Dictionary key="Scada.Comm.Devices">
+    <Phrase key="LoadDeviceConfigError">Při načítání konfigurace zařízení došlo k chybě</Phrase>
+    <Phrase key="SaveDeviceConfigError">Při ukládání konfigurace zařízení došlo k chybě</Phrase>
+    <Phrase key="SaveDeviceConfigConfirm">Konfigurace zařízení byla změněna.  Uložit změny?</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers">
+    <Phrase key="LoadDriverConfigError">Chyba při načítání konfigurace ovladače</Phrase>
+    <Phrase key="SaveDriverConfigError">Při ukládání konfigurace ovladače došlo k chybě</Phrase>
+    <Phrase key="SaveDriverConfigConfirm">Konfigurace ovladače byla změněna.  Uložit změny?</Phrase>
+  </Dictionary>
+</ScadaCommDictionaries>

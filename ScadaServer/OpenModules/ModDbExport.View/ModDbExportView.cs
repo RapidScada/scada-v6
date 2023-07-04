@@ -30,7 +30,7 @@ namespace Scada.Server.Modules.ModDbExport.View
             get
             {
                 return Locale.IsRussian ?
-                    "Экпорт в БД" :
+                    "Экспорт в БД" :
                     "Database Export";
             }
         }

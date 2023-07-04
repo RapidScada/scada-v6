@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvModbusSlaveDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls">
+    <Phrase key="ConfigDirRequired">设备模板文件必须位于 {0} 内</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlChannelGateway">
+    <Phrase key="gbChannelGateway">通道网关选项</Phrase>
+    <Phrase key="btnEdit">编辑</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlDeviceGateway">
+    <Phrase key="gbDeviceGateway">设备网关选项</Phrase>
+    <Phrase key="lblTemplateFileName">设备模板</Phrase>
+    <Phrase key="btnEditTemplate">编辑</Phrase>
+    <Phrase key="btnBrowseTemplate">浏览...</Phrase>
+    <Phrase key="lblSourceDeviceNum">数据源设备</Phrase>
+    <Phrase key="btnSelect">选择</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlElem">
+    <Phrase key="gbElem">元素参数</Phrase>
+    <Phrase key="lblChannel">渠道</Phrase>
+    <Phrase key="lblAddress">地址</Phrase>
+    <Phrase key="lblAddressHint">十月，从0开始</Phrase>
+    <Phrase key="lblDataType">数据类型</Phrase>
+    <Phrase key="cbType.Items[0]">不明确的</Phrase>
+    <Phrase key="cbType.Items[1]">ushort (2 bytes)</Phrase>
+    <Phrase key="cbType.Items[2]">short (2 bytes)</Phrase>
+    <Phrase key="cbType.Items[3]">uint (4 bytes)</Phrase>
+    <Phrase key="cbType.Items[4]">int (4 bytes)</Phrase>
+    <Phrase key="cbType.Items[5]">ulong (8 bytes)</Phrase>
+    <Phrase key="cbType.Items[6]">long (8 bytes)</Phrase>
+    <Phrase key="cbType.Items[7]">float (4 bytes)</Phrase>
+    <Phrase key="cbType.Items[8]">double (8 bytes)</Phrase>
+    <Phrase key="cbType.Items[9]">bool (1 bit)</Phrase>
+    <Phrase key="lblRatio">比率</Phrase>
+    <Phrase key="chkReadOnly">只读</Phrase>
+    <Phrase key="ChannelNotSpecified">未指定频道</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlIndependentDevice">
+    <Phrase key="gbIndependentDevice">独立的设备选项</Phrase>
+    <Phrase key="lblTemplateFileName">设备模板</Phrase>
+    <Phrase key="btnEditTemplate">编辑</Phrase>
+    <Phrase key="btnBrowseTemplate">浏览...</Phrase>
+    <Phrase key="lblDataLifetime">数据有效期，分钟</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Forms.FrmChannelGatewayOptions">
+    <Phrase key="this">通道网关选项</Phrase>
+    <Phrase key="btnAdd">添加频道</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">提升</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">下移</Phrase>
+    <Phrase key="btnDelete.ToolTip">删除</Phrase>
+    <Phrase key="btnOK">好的</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+    <Phrase key="miCollapseAll">全部收缩</Phrase>
+    <Phrase key="gbChannelGateway">频道</Phrase>
+    <Phrase key="SelectChildNode">选择子节点</Phrase>
+    <Phrase key="ChannelItem">频道{0}</Phrase>
+    <Phrase key="DiscreteInputs">离散输入</Phrase>
+    <Phrase key="Coils">线圈</Phrase>
+    <Phrase key="InputRegisters">输入寄存器</Phrase>
+    <Phrase key="HoldingRegisters">持有寄存器</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">设备 {0} 属性 - Modbus Slave</Phrase>
+    <Phrase key="gbGeneralOptions">常规选项</Phrase>
+    <Phrase key="lblMode">模式</Phrase>
+    <Phrase key="cbDevicesMode.Items[0]">独立装置</Phrase>
+    <Phrase key="cbDevicesMode.Items[1]">设备网关</Phrase>
+    <Phrase key="cbDevicesMode.Items[2]">通道网关</Phrase>
+    <Phrase key="lblUndefinedValue">未定义的值</Phrase>
+    <Phrase key="btnSave">节省</Phrase>
+    <Phrase key="btnClose">关闭</Phrase>
+    <Phrase key="IndependentDeviceDescription">从 Modbus Master 接收数据。</Phrase>
+    <Phrase key="DeviceGatewayDescription">将所选设备的数据提供给 Modbus Master。</Phrase>
+    <Phrase key="ChannelGatewayDescription">将所选通道的数据提供给 Modbus Master。</Phrase>
+  </Dictionary>
+</DrvModbusSlaveDictionaries>

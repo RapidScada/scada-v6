@@ -1,8 +1,17 @@
 ﻿// Depends on jquery, bootstrap, scada-common.js, modal.js, notif-panel.js, tree-view.js
 
+// Contains environment variables.
 var appEnv = appEnvStub;
+// Manages modal dialogs.
 var modalManager = new ModalManager();
+// Contains references to widely used objects.
+var mainObj = {
+    appEnv: appEnv,
+    modalManager: modalManager,
+    features: new PluginFeatures(appEnv)
+};
 
+// Manages the layout page.
 var mainLayout = {
     // The storage key for the left panel visibility.
     _LEFT_PANEL_VISIBLE_KEY: "MainLayout.LeftPanelVisible",
@@ -30,7 +39,7 @@ var mainLayout = {
 
         // view explorer
         this.viewExplorer = new TreeView("Main_divViewExplorer");
-        let thisObj = this;
+        const thisObj = this;
 
         if (this.viewExplorer.treeViewElem.length > 0) {
             this.viewExplorer.nodeClickCallbacks.add(function (node, result) {
@@ -61,7 +70,7 @@ var mainLayout = {
         if ($("#Main_divNotifPanel").length > 0) {
             this.notifPanel = new NotifPanel("Main_divNotifPanel", "Main_spanNotifBtn", "Main_spanNotifBtn2");
             this.notifPanel.prepare(appEnv.rootPath);
-            this.notifPanel.addSamples();
+            //this.notifPanel.addSamples();
         }
     },
 
@@ -99,24 +108,24 @@ var mainLayout = {
 
     // Binds events to the DOM elements.
     _bindEvents: function () {
-        let thisObj = this;
+        const thisObj = this;
 
         // update layout on window resize
-        $(window).resize(function () {
+        $(window).on("resize", function () {
             thisObj.updateLayout();
         });
 
         // activate a clicked tab
         $("#Main_divTabPanel .tab")
             .off()
-            .click(function () {
+            .on("click", function () {
                 thisObj._activateTab($(this));
             });
 
         // toggle the left panel
         $("#Main_spanMenuBtn, #Main_spanMenuBtn2")
             .off()
-            .click(function () {
+            .on("click", function () {
                 if ($("body").hasClass("left-panel-visible")) {
                     thisObj._hideLeftPanel(true);
                 } else {
@@ -127,14 +136,14 @@ var mainLayout = {
         // enter full screen
         $("#Main_spanFullscreenBtn, #Main_spanFullscreenBtn2")
             .off()
-            .click(function () {
+            .on("click", function () {
                 thisObj._enterFullscreen();
             });
 
         // exit full screen
         $("#Main_spanExitFullscreenBtn")
             .off()
-            .click(function () {
+            .on("click", function () {
                 thisObj._exitFullscreen();
             });
 

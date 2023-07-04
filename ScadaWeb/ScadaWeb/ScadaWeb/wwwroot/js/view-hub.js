@@ -3,17 +3,17 @@
 
 // Provides data exchange between view frame and data window frame.
 class ViewHub {
-    constructor(mainWindow, appEnv, modalManager) {
+    constructor(mainWindow, mainObj) {
         // The reference to the main window object.
         this.mainWindow = mainWindow;
-        // The application environment.
-        this.appEnv = appEnv;
+        // Contains environment variables.
+        this.appEnv = mainObj.appEnv;
         // Manages modal dialogs.
-        this.modalManager = modalManager;
+        this.modalManager = mainObj.modalManager;
+        // Provides access to plugin features.
+        this.features = mainObj.features;
         // The current view ID.
         this.viewID = 0;
-        // Provides access to plugin features.
-        this.features = new PluginFeatures(appEnv);
     }
 
     // Finds an existing view hub instance.
@@ -40,11 +40,17 @@ class ViewHub {
 
     // Pulls the trigger of the main window.
     notifyMainWindow(eventType, opt_extraParams) {
-        this.mainWindow.$(this.mainWindow).trigger(eventType, opt_extraParams);
+        this.mainWindow.dispatchEvent(new CustomEvent(eventType, opt_extraParams));
+        //this.mainWindow.$(this.mainWindow).trigger(eventType, opt_extraParams);
     }
 
     // Finds an existing or create a new view hub instance.
     static getInstance() {
-        return ViewHub._findInstance() || new ViewHub(appEnvStub);
+        return ViewHub._findInstance() ??
+            new ViewHub(window, {
+                appEnv: appEnvStub,
+                modalManager: new ModalManager(),
+                features: new PluginFeatures(appEnvStub)
+            });
     }
 }

@@ -23,7 +23,7 @@ class Dialogs {
     selectChannels(selectedCnlNums, callback) {
         this._getModalManager().showModal(
             this.rootPath + "CnlSelect?cnlNums=" + selectedCnlNums,
-            new ModalOptions(ModalButton.OK_CANCEL, ModalSize.LARGE),
+            new ModalOptions({ buttons: ModalButton.OK_CANCEL, size: ModalSize.LARGE }),
             callback);
     }
 }

@@ -19,7 +19,6 @@
     <Phrase key="ThreadFatalError">Fatal error in thread</Phrase>
     <Phrase key="WriteInfoError">Error writing application information to the file</Phrase>
     <Phrase key="ConnectionNotFound">Connection &quot;{0}&quot; not found.</Phrase>
-    <Phrase key="ConnOptionsNotFound">Connection options not found.</Phrase>
     <Phrase key="DatabaseNotSupported">Database not supported.</Phrase>
     <Phrase key="OperationNotSupported">Operation not supported.</Phrase>
     <Phrase key="CommandSent">Command has been sent.</Phrase>
@@ -134,6 +133,18 @@
     <Phrase key="lblUsername">Username</Phrase>
     <Phrase key="lblPassword">Password</Phrase>
     <Phrase key="chkConnectionString">Connection string</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlRegistration">
+    <Phrase key="lblProductName">Product name</Phrase>
+    <Phrase key="lblCompCode">Computer code</Phrase>
+    <Phrase key="btnCopyCompCode">Copy</Phrase>
+    <Phrase key="btnRefreshCompCode">Refresh</Phrase>
+    <Phrase key="lblCompCodeInfo">If the code is missing, upload the configuration and restart the service.</Phrase>
+    <Phrase key="lblRegKey">Registration key</Phrase>
+    <Phrase key="btnPasteRegKey">Paste</Phrase>
+    <Phrase key="lblRegKeyInfo">Key verification result is written in the application or module log.</Phrase>
+    <Phrase key="llblGetPermanentKey">Get permanent key</Phrase>
+    <Phrase key="llblGetTrialKey">Get trial key</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmBitmask">
     <Phrase key="this">Bit Mask</Phrase>

@@ -27,6 +27,7 @@ using Scada.Lang;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -416,7 +417,7 @@ namespace Scada
         /// <summary>
         /// Calculates a 32-bit CRC.
         /// </summary>
-        /// <remarks>CRC-32C algorithm with 0x1EDC6F41 polynom.</remarks>
+        /// <remarks>CRC-32C algorithm with 0x1EDC6F41 polynomial.</remarks>
         public static uint CRC32(byte[] buffer, int offset, int length)
         {
             uint crc = 0xFFFFFFFF;
@@ -444,6 +445,16 @@ namespace Scada
         {
             return new DateTime(dateTime.Year, dateTime.Month, 
                 DateTime.DaysInMonth(dateTime.Year, dateTime.Month), 0, 0, 0, dateTime.Kind);
+        }
+
+        /// <summary>
+        /// Gets the start date of the week for the specified timestamp.
+        /// </summary>
+        public static DateTime GetWeekStart(this DateTime dateTime, CultureInfo culture)
+        {
+            DateTime startDate = dateTime.AddDays(-(int)dateTime.DayOfWeek + 
+                (int)(culture ?? CultureInfo.InvariantCulture).DateTimeFormat.FirstDayOfWeek).Date;
+            return startDate <= dateTime ? startDate : startDate.AddDays(-7);
         }
 
         /// <summary>

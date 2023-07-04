@@ -43,6 +43,8 @@
     <Phrase key="pbReconnectAfterHint.ToolTip">Задаёт интервал времени для повторного подключения после неудачной попытки.</Phrase>
     <Phrase key="lblStayConnected">Оставаться на связи</Phrase>
     <Phrase key="pbStayConnectedHint.ToolTip">Если параметр установлен, то соединение между сеансами связи сохраняется.&#13;&#10;В противном случае соединение разрывается после каждого сеанса.</Phrase>
+    <Phrase key="lblDisconnectOnError">Отключаться при ошибке</Phrase>
+    <Phrase key="pbDisconnectOnError.ToolTip">Указывает, следует ли разрывать соединение в случае неудачного сеанса.</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
     <Phrase key="HostRequired">Требуется имя удалённого хоста.</Phrase>

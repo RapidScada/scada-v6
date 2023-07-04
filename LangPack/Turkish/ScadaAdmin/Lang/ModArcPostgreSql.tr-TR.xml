@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModArcPostgreSqlDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Controls.CtrlDatabaseOptions">
+    <Phrase key="gbDbOptions">Veritabanı Seçenekleri</Phrase>
+    <Phrase key="lblUseStorageConn">Depolama bağlantısını kullan</Phrase>
+    <Phrase key="lblConnection">Bağlantı</Phrase>
+    <Phrase key="lblPartitionSize">Bölüm boyutu</Phrase>
+    <Phrase key="cbPartitionSize.Items[0]">Bir ay</Phrase>
+    <Phrase key="cbPartitionSize.Items[1]">Bir yıl</Phrase>
+    <Phrase key="lblMaxQueueSize">Maksimum sıra boyutu</Phrase>
+    <Phrase key="lblBatchSize">İşlem başına ürün sayısı</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmConnManager">
+    <Phrase key="this">PostgreSQL Bağlantıları</Phrase>
+    <Phrase key="gbConnList">Bağlantılar</Phrase>
+    <Phrase key="btnNewConn">Yeni</Phrase>
+    <Phrase key="btnDeleteConn">Silmek</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreCAO">
+    <Phrase key="this">Mevcut Arşiv Seçenekleri</Phrase>
+    <Phrase key="gbDbOptions">Veritabanı Seçenekleri</Phrase>
+    <Phrase key="lblUseStorageConn">Depolama bağlantısını kullan</Phrase>
+    <Phrase key="lblConnection">Bağlantı</Phrase>
+    <Phrase key="lblMaxQueueSize">Maksimum sıra boyutu</Phrase>
+    <Phrase key="lblBatchSize">İşlem başına ürün sayısı</Phrase>
+    <Phrase key="btnManageConn">Bağlantıları yönet</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreEAO">
+    <Phrase key="this">Olay Arşivi Seçenekleri</Phrase>
+    <Phrase key="btnManageConn">Bağlantıları yönet</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreHAO">
+    <Phrase key="this">Tarihsel Arşiv Seçenekleri</Phrase>
+    <Phrase key="btnManageConn">Bağlantıları yönet</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+</ModArcPostgreSqlDictionaries>

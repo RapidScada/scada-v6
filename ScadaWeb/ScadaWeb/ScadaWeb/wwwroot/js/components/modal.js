@@ -25,10 +25,13 @@ class ModalSize {
 
 // Represents modal dialog options.
 class ModalOptions {
-    constructor(opt_buttons, opt_size, opt_height) {
-        this.buttons = opt_buttons || [ModalButton.CLOSE];
-        this.size = opt_size || ModalSize.NORMAL;
-        this.height = opt_height || 0;
+    title = null;
+    buttons = [ModalButton.CLOSE];
+    size = ModalSize.NORMAL;
+    height = 0;
+
+    constructor(fields) {
+        Object.assign(this, fields);
     }
 }
 
@@ -119,7 +122,7 @@ class ModalManager {
         let submitElem = modalWnd.$(".rs-modal-submit:first");
 
         if (submitElem.length > 0) {
-            submitElem.click();
+            submitElem.trigger("click");
         } else {
             let formElem = modalWnd.$("form:first");
 
@@ -249,15 +252,18 @@ class ModalManager {
                 $(this).remove();
             });
 
-        modalElem.find(".modal-footer button").click(function () {
-            // raise event
-            let buttonValue = $(this).data("rs-value");
+        modalElem.find(".modal-footer button").on("click", function () {
             let frameWnd = ModalManager._getModalWnd(modalElem);
-            frameWnd.$(frameWnd).trigger(ScadaEventType.MODAL_BTN_CLICK, buttonValue);
 
-            // submit the modal
-            if ($(this).hasClass("rs-btn-submit")) {
-                ModalManager._submitModal(frameWnd, buttonValue);
+            if (ScadaUtils.checkAccessToFrame(frameWnd, true)) {
+                // raise event
+                let buttonValue = $(this).data("rs-value");
+                frameWnd.$(frameWnd).trigger(ScadaEventType.MODAL_BTN_CLICK, buttonValue);
+
+                // submit the modal
+                if ($(this).hasClass("rs-btn-submit")) {
+                    ModalManager._submitModal(frameWnd, buttonValue);
+                }
             }
         });
 
@@ -271,7 +277,7 @@ class ModalManager {
                     thisObj._setupModalDoc(frameWnd);
                 } else {
                     // set the modal title
-                    modalElem.find(".modal-title").text(url);
+                    modalElem.find(".modal-title").text(ModalManager._truncateTitle(options.title || url));
                 }
             })
             .one("load", function () {

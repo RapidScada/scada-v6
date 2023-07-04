@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgMainDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command">
+    <Phrase key="PageTitle">명령</Phrase>
+    <Phrase key="CommandSent">명령을 보냈습니다.</Phrase>
+    <Phrase key="CmdParseError">구문 분석 명령 오류</Phrase>
+    <Phrase key="CnlRow">채널:</Phrase>
+    <Phrase key="ObjRow">물체:</Phrase>
+    <Phrase key="DevRow">장치:</Phrase>
+    <Phrase key="lblPassword">비밀번호</Phrase>
+    <Phrase key="lblCmdDec">명령 값</Phrase>
+    <Phrase key="lblCmdHex">명령 값(16진수)</Phrase>
+    <Phrase key="lblCmdEnum">명령</Phrase>
+    <Phrase key="lblCmdDate">명령 값(날짜/시간)</Phrase>
+    <Phrase key="lblCmdData">명령 데이터</Phrase>
+    <Phrase key="lblStr">끈</Phrase>
+    <Phrase key="lblHex">16진수</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventAck">
+    <Phrase key="PageTitle">이벤트</Phrase>
+    <Phrase key="EventNotFound">이벤트 {0}을(를) 찾을 수 없습니다.</Phrase>
+    <Phrase key="EventAcknowledged">이벤트가 확인되었습니다.</Phrase>
+    <Phrase key="TimeRow">날짜와 시간:</Phrase>
+    <Phrase key="ObjRow">물체:</Phrase>
+    <Phrase key="DevRow">장치:</Phrase>
+    <Phrase key="CnlRow">채널:</Phrase>
+    <Phrase key="DescrRow">설명:</Phrase>
+    <Phrase key="SevRow">심각성:</Phrase>
+    <Phrase key="AckRow">확인:</Phrase>
+    <Phrase key="AckYes">예</Phrase>
+    <Phrase key="AckNo">아니요</Phrase>
+    <Phrase key="AckTip">확인 버튼을 클릭하여 이벤트를 확인합니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventReport">
+    <Phrase key="PageTitle">이벤트 보고서</Phrase>
+    <Phrase key="AllObjItem">-- 모든 객체 --</Phrase>
+    <Phrase key="AllAvailObjItem">-- 사용 가능한 모든 개체 --</Phrase>
+    <Phrase key="NotSpecifiedItem">-- 명시되지 않은 --</Phrase>
+    <Phrase key="lblStartTime">에서</Phrase>
+    <Phrase key="lblEndTime">에게</Phrase>
+    <Phrase key="lblArchive">보관소</Phrase>
+    <Phrase key="lblObj">물체</Phrase>
+    <Phrase key="lblSeverity">심각성</Phrase>
+    <Phrase key="btnGenerateReport">보고서 다운로드</Phrase>
+    <Phrase key="divWaitHint">보고서 생성 중.  기다리세요...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events">
+    <Phrase key="TimeCol">날짜와 시간</Phrase>
+    <Phrase key="ObjCol">물체</Phrase>
+    <Phrase key="DevCol">장치</Phrase>
+    <Phrase key="CnlCol">채널</Phrase>
+    <Phrase key="DescrCol">설명</Phrase>
+    <Phrase key="SevCol">심각성</Phrase>
+    <Phrase key="AckCol">확인</Phrase>
+    <Phrase key="EventInfo">{1}시간 동안의 마지막 {0} 이벤트</Phrase>
+    <Phrase key="spanAllEventsBtn">모든 이벤트</Phrase>
+    <Phrase key="spanEventsByViewBtn">보기별 이벤트</Phrase>
+    <Phrase key="spanPrintBtn_ToolTip">내보내기 이벤트</Phrase>
+    <Phrase key="spanErrorBadge">오류</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events.Js">
+    <Phrase key="Loading">로드 중...</Phrase>
+    <Phrase key="NoEvents">일정 없음</Phrase>
+    <Phrase key="Ack">확인하려면 클릭하세요.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.HistDataReport">
+    <Phrase key="PageTitle">과거 데이터 보고서</Phrase>
+    <Phrase key="lblStartTime">에서</Phrase>
+    <Phrase key="lblEndTime">에게</Phrase>
+    <Phrase key="lblArchive">보관소</Phrase>
+    <Phrase key="lblCnlNums">채널</Phrase>
+    <Phrase key="btnSelectCnls">선택하다...</Phrase>
+    <Phrase key="btnGenerateReport">보고서 다운로드</Phrase>
+    <Phrase key="divWaitHint">보고서 생성 중.  기다리세요...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView">
+    <Phrase key="TableViewTitle">표 {0}</Phrase>
+    <Phrase key="PrevDate">이전 날짜</Phrase>
+    <Phrase key="SelDate">선택한 날짜</Phrase>
+    <Phrase key="MinusOneDay">-1d</Phrase>
+    <Phrase key="ItemColumn">안건</Phrase>
+    <Phrase key="CurrentColumn">현재의</Phrase>
+    <Phrase key="CnlTip">채널</Phrase>
+    <Phrase key="DeviceTip">장치</Phrase>
+    <Phrase key="ObjTip">물체</Phrase>
+    <Phrase key="QuantityTip">수량</Phrase>
+    <Phrase key="UnitTip">단위</Phrase>
+    <Phrase key="SendCommandTip">보내기 명령</Phrase>
+    <Phrase key="spanPrintBtn_ToolTip">테이블 보기 내보내기</Phrase>
+    <Phrase key="spanLoadingBadge">로드 중...</Phrase>
+    <Phrase key="spanErrorBadge">오류</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Code.EventWindowSpec">
+    <Phrase key="EventWindowTitle">이벤트</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.PlgMainLogic">
+    <Phrase key="ReportGroup">주요 보고</Phrase>
+    <Phrase key="HistDataReport">과거 데이터 보고서</Phrase>
+    <Phrase key="EventReport">이벤트 보고서</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report">
+    <Phrase key="GenCaption">생성:</Phrase>
+    <Phrase key="TzCaption">시간대:</Phrase>
+    <Phrase key="ArcCaption">보관소:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.Js">
+    <Phrase key="InvalidPeriod">시작 날짜는 종료 날짜보다 이전이거나 같아야 합니다.</Phrase>
+    <Phrase key="PeriodTooLong">최대 생리 기간은 {0}일입니다.</Phrase>
+    <Phrase key="InvalidChannels">잘못된 채널 번호입니다.</Phrase>
+    <Phrase key="NoSeverity">심각도를 선택하지 않았습니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.EventReportBuilder">
+    <Phrase key="GeneralTitleFormat">이벤트, {0} - {1}</Phrase>
+    <Phrase key="TailTitleFormat">{1}시간 동안의 마지막 {0} 이벤트</Phrase>
+    <Phrase key="ViewCaption">보다:</Phrase>
+    <Phrase key="ObjCaption">사물:</Phrase>
+    <Phrase key="SevCaption">심각성:</Phrase>
+    <Phrase key="TimeCol">날짜와 시간</Phrase>
+    <Phrase key="ObjCol">물체</Phrase>
+    <Phrase key="DevCol">장치</Phrase>
+    <Phrase key="CnlCol">채널</Phrase>
+    <Phrase key="DescrCol">설명</Phrase>
+    <Phrase key="SevCol">심각성</Phrase>
+    <Phrase key="AckCol">확인</Phrase>
+    <Phrase key="WorksheetName">이벤트</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.HistDataReportBuilder">
+    <Phrase key="TitleFormat">과거 데이터, {0} - {1}</Phrase>
+    <Phrase key="CnlCaption">채널:</Phrase>
+    <Phrase key="TimeCol">날짜와 시간</Phrase>
+    <Phrase key="DataCol">채널 {0}</Phrase>
+    <Phrase key="AvgCaption">평균</Phrase>
+    <Phrase key="MinCaption">최저한의</Phrase>
+    <Phrase key="MaxCaption">최고</Phrase>
+    <Phrase key="WorksheetName">과거 데이터</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.TableViewReportBuilder">
+    <Phrase key="TitleFormat">{0}, {1} - {2}</Phrase>
+    <Phrase key="ItemCol">안건</Phrase>
+    <Phrase key="WorksheetName">테이블 보기</Phrase>
+  </Dictionary>
+</PlgMainDictionaries>

@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModArcPostgreSqlDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Controls.CtrlDatabaseOptions">
+    <Phrase key="gbDbOptions">데이터베이스 옵션</Phrase>
+    <Phrase key="lblUseStorageConn">스토리지 연결 사용</Phrase>
+    <Phrase key="lblConnection">연결</Phrase>
+    <Phrase key="lblPartitionSize">파티션 크기</Phrase>
+    <Phrase key="cbPartitionSize.Items[0]">한달</Phrase>
+    <Phrase key="cbPartitionSize.Items[1]">1년</Phrase>
+    <Phrase key="lblMaxQueueSize">최대 대기열 크기</Phrase>
+    <Phrase key="lblBatchSize">거래당 항목</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmConnManager">
+    <Phrase key="this">PostgreSQL 연결</Phrase>
+    <Phrase key="gbConnList">사이</Phrase>
+    <Phrase key="btnNewConn">새로운</Phrase>
+    <Phrase key="btnDeleteConn">삭제</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreCAO">
+    <Phrase key="this">현재 아카이브 옵션</Phrase>
+    <Phrase key="gbDbOptions">데이터베이스 옵션</Phrase>
+    <Phrase key="lblUseStorageConn">스토리지 연결 사용</Phrase>
+    <Phrase key="lblConnection">연결</Phrase>
+    <Phrase key="lblMaxQueueSize">최대 대기열 크기</Phrase>
+    <Phrase key="lblBatchSize">거래당 항목</Phrase>
+    <Phrase key="btnManageConn">연결 관리</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreEAO">
+    <Phrase key="this">이벤트 아카이브 옵션</Phrase>
+    <Phrase key="btnManageConn">연결 관리</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreHAO">
+    <Phrase key="this">히스토리컬 아카이브 옵션</Phrase>
+    <Phrase key="btnManageConn">연결 관리</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+</ModArcPostgreSqlDictionaries>

@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgMainDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command">
+    <Phrase key="PageTitle">Befehl</Phrase>
+    <Phrase key="CommandSent">Befehl gesendet.</Phrase>
+    <Phrase key="CmdParseError">Fehler beim Parsen des Befehls</Phrase>
+    <Phrase key="CnlRow">Kanal:</Phrase>
+    <Phrase key="ObjRow">Objekt:</Phrase>
+    <Phrase key="DevRow">Gerät:</Phrase>
+    <Phrase key="lblPassword">Passwort</Phrase>
+    <Phrase key="lblCmdDec">Befehlswert</Phrase>
+    <Phrase key="lblCmdHex">Befehlswert (hexadezimal)</Phrase>
+    <Phrase key="lblCmdEnum">Befehl</Phrase>
+    <Phrase key="lblCmdDate">Befehlswert (Datum/Uhrzeit)</Phrase>
+    <Phrase key="lblCmdData">Befehlsdaten</Phrase>
+    <Phrase key="lblStr">Zeichenfolge</Phrase>
+    <Phrase key="lblHex">Hexadezimal</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventAck">
+    <Phrase key="PageTitle">Fall</Phrase>
+    <Phrase key="EventNotFound">Ereignis {0} nicht gefunden.</Phrase>
+    <Phrase key="EventAcknowledged">Ereignis bestätigt.</Phrase>
+    <Phrase key="TimeRow">Datum (und Uhrzeit:</Phrase>
+    <Phrase key="ObjRow">Objekt:</Phrase>
+    <Phrase key="DevRow">Gerät:</Phrase>
+    <Phrase key="CnlRow">Kanal:</Phrase>
+    <Phrase key="DescrRow">Beschreibung:</Phrase>
+    <Phrase key="SevRow">Schwere:</Phrase>
+    <Phrase key="AckRow">Bestätigung:</Phrase>
+    <Phrase key="AckYes">Ja</Phrase>
+    <Phrase key="AckNo">NEIN</Phrase>
+    <Phrase key="AckTip">Klicken Sie auf die Schaltfläche „OK“, um das Ereignis zu bestätigen.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventReport">
+    <Phrase key="PageTitle">Veranstaltungsbericht</Phrase>
+    <Phrase key="AllObjItem">-- Alle Objekte --</Phrase>
+    <Phrase key="AllAvailObjItem">-- Alle verfügbaren Objekte --</Phrase>
+    <Phrase key="NotSpecifiedItem">-- Nicht angegeben --</Phrase>
+    <Phrase key="lblStartTime">Aus</Phrase>
+    <Phrase key="lblEndTime">Zu</Phrase>
+    <Phrase key="lblArchive">Archiv</Phrase>
+    <Phrase key="lblObj">Objekt</Phrase>
+    <Phrase key="lblSeverity">Schwere</Phrase>
+    <Phrase key="btnGenerateReport">Bericht herunterladen</Phrase>
+    <Phrase key="divWaitHint">Bericht erstellen.  Warten Sie mal...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events">
+    <Phrase key="TimeCol">Datum (und Uhrzeit</Phrase>
+    <Phrase key="ObjCol">Objekt</Phrase>
+    <Phrase key="DevCol">Gerät</Phrase>
+    <Phrase key="CnlCol">Kanal</Phrase>
+    <Phrase key="DescrCol">Beschreibung</Phrase>
+    <Phrase key="SevCol">Schwere</Phrase>
+    <Phrase key="AckCol">Ack</Phrase>
+    <Phrase key="EventInfo">Letzte {0} Ereignisse in {1} Stunden</Phrase>
+    <Phrase key="spanAllEventsBtn">Alle Veranstaltungen</Phrase>
+    <Phrase key="spanEventsByViewBtn">Ereignisse nach Ansicht</Phrase>
+    <Phrase key="spanPrintBtn_ToolTip">Ereignisse exportieren</Phrase>
+    <Phrase key="spanErrorBadge">Fehler</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events.Js">
+    <Phrase key="Loading">Wird geladen...</Phrase>
+    <Phrase key="NoEvents">Keine Ereignisse</Phrase>
+    <Phrase key="Ack">Klicken Sie zum Bestätigen</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.HistDataReport">
+    <Phrase key="PageTitle">Historischer Datenbericht</Phrase>
+    <Phrase key="lblStartTime">Aus</Phrase>
+    <Phrase key="lblEndTime">Zu</Phrase>
+    <Phrase key="lblArchive">Archiv</Phrase>
+    <Phrase key="lblCnlNums">Kanäle</Phrase>
+    <Phrase key="btnSelectCnls">Wählen...</Phrase>
+    <Phrase key="btnGenerateReport">Bericht herunterladen</Phrase>
+    <Phrase key="divWaitHint">Bericht erstellen.  Warten Sie mal...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView">
+    <Phrase key="TableViewTitle">Tabelle {0}</Phrase>
+    <Phrase key="PrevDate">Vorheriges Datum</Phrase>
+    <Phrase key="SelDate">Ausgewähltes Datum</Phrase>
+    <Phrase key="MinusOneDay">-1d</Phrase>
+    <Phrase key="ItemColumn">Artikel</Phrase>
+    <Phrase key="CurrentColumn">Aktuell</Phrase>
+    <Phrase key="CnlTip">Kanal</Phrase>
+    <Phrase key="DeviceTip">Gerät</Phrase>
+    <Phrase key="ObjTip">Objekt</Phrase>
+    <Phrase key="QuantityTip">Menge</Phrase>
+    <Phrase key="UnitTip">Einheit</Phrase>
+    <Phrase key="SendCommandTip">Befehl senden</Phrase>
+    <Phrase key="spanPrintBtn_ToolTip">Tabellenansicht exportieren</Phrase>
+    <Phrase key="spanLoadingBadge">Wird geladen...</Phrase>
+    <Phrase key="spanErrorBadge">Fehler</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Code.EventWindowSpec">
+    <Phrase key="EventWindowTitle">Veranstaltungen</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.PlgMainLogic">
+    <Phrase key="ReportGroup">Hauptberichte</Phrase>
+    <Phrase key="HistDataReport">Historischer Datenbericht</Phrase>
+    <Phrase key="EventReport">Veranstaltungsbericht</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report">
+    <Phrase key="GenCaption">Erstellt:</Phrase>
+    <Phrase key="TzCaption">Zeitzone:</Phrase>
+    <Phrase key="ArcCaption">Archiv:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.Js">
+    <Phrase key="InvalidPeriod">Das Startdatum muss kleiner oder gleich dem Enddatum sein.</Phrase>
+    <Phrase key="PeriodTooLong">Die maximale Periodenlänge beträgt {0} Tage.</Phrase>
+    <Phrase key="InvalidChannels">Ungültige Kanalnummern.</Phrase>
+    <Phrase key="NoSeverity">Kein Schweregrad ausgewählt.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.EventReportBuilder">
+    <Phrase key="GeneralTitleFormat">Ereignisse, {0} - {1}</Phrase>
+    <Phrase key="TailTitleFormat">Letzte {0} Ereignisse in {1} Stunden</Phrase>
+    <Phrase key="ViewCaption">Sicht:</Phrase>
+    <Phrase key="ObjCaption">Objekte:</Phrase>
+    <Phrase key="SevCaption">Schwere:</Phrase>
+    <Phrase key="TimeCol">Datum (und Uhrzeit</Phrase>
+    <Phrase key="ObjCol">Objekt</Phrase>
+    <Phrase key="DevCol">Gerät</Phrase>
+    <Phrase key="CnlCol">Kanal</Phrase>
+    <Phrase key="DescrCol">Beschreibung</Phrase>
+    <Phrase key="SevCol">Schwere</Phrase>
+    <Phrase key="AckCol">Ack</Phrase>
+    <Phrase key="WorksheetName">Veranstaltungen</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.HistDataReportBuilder">
+    <Phrase key="TitleFormat">Historische Daten, {0} - {1}</Phrase>
+    <Phrase key="CnlCaption">Kanäle:</Phrase>
+    <Phrase key="TimeCol">Datum (und Uhrzeit</Phrase>
+    <Phrase key="DataCol">Kanal {0}</Phrase>
+    <Phrase key="AvgCaption">Durchschnitt</Phrase>
+    <Phrase key="MinCaption">Minimum</Phrase>
+    <Phrase key="MaxCaption">Maximal</Phrase>
+    <Phrase key="WorksheetName">Historische Daten</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.TableViewReportBuilder">
+    <Phrase key="TitleFormat">{0}, {1} - {2}</Phrase>
+    <Phrase key="ItemCol">Artikel</Phrase>
+    <Phrase key="WorksheetName">Tabellenansicht</Phrase>
+  </Dictionary>
+</PlgMainDictionaries>

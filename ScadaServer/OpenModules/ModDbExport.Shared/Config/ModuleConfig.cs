@@ -29,26 +29,14 @@ namespace Scada.Server.Modules.ModDbExport.Config
         /// </summary>
         ITreeNode ITreeNode.Parent
         {
-            get
-            {
-                return null;
-            }
-            set
-            {
-                throw new InvalidOperationException();
-            }
+            get => null;
+            set => throw new InvalidOperationException();
         }
 
         /// <summary>
         /// Get a list of child nodes.
         /// </summary>
-        IList ITreeNode.Children
-        {
-            get
-            {
-                return ExportTargets;
-            }
-        }
+        IList ITreeNode.Children => ExportTargets;
 
 
         /// <summary>
@@ -93,6 +81,16 @@ namespace Scada.Server.Modules.ModDbExport.Config
             }
 
             xmlDoc.Save(writer);
+        }
+
+        /// <summary>
+        /// Makes a full copy of the configuration.
+        /// </summary>
+        public ModuleConfig Clone()
+        {
+            ModuleConfig configCopy = this.DeepClone();
+            this.RestoreHierarchy();
+            return configCopy;
         }
     }
 }

@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtWebConfigDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.ExtWebConfigLogic">
+    <Phrase key="ApplicationOptionsNode">Opções de aplicativo</Phrase>
+    <Phrase key="PluginsNode">Plugins</Phrase>
+    <Phrase key="LogsNode">Histórico</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlDisplayOptions">
+    <Phrase key="gbDisplayOptions">Opções de exibição</Phrase>
+    <Phrase key="lblShowHeader">Mostrar cabeçalho da página</Phrase>
+    <Phrase key="lblShowMainMenu">Mostrar menu principal</Phrase>
+    <Phrase key="lblShowViewExplorer">Mostrar explorador de visualização</Phrase>
+    <Phrase key="lblRefreshRate">Taxa de atualização de dados, ms</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlGeneralOptions">
+    <Phrase key="gbGeneralOptions">Opções gerais</Phrase>
+    <Phrase key="lblDefaultCulture">Nome da cultura padrão</Phrase>
+    <Phrase key="lblDefaultTimeZone">Fuso horário padrão</Phrase>
+    <Phrase key="lblDefaultStartPage">Página inicial padrão após o login do usuário</Phrase>
+    <Phrase key="lblEnableCommands">Ativar comandos de telecontrole</Phrase>
+    <Phrase key="lblShareStats">Compartilhe estatísticas despersonalizadas com desenvolvedores</Phrase>
+    <Phrase key="lblMaxLogSize">Tamanho máximo do arquivo de log, MB</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlLoginOptions">
+    <Phrase key="gbLoginOptions">Opções de login</Phrase>
+    <Phrase key="lblRequireCaptcha">Exigir captcha no login</Phrase>
+    <Phrase key="lblAllowRememberMe">Permitir lembrar o login</Phrase>
+    <Phrase key="lblRememberMeExpires">O login expira, dias</Phrase>
+    <Phrase key="lblAutoLoginUsername">Nome de usuário para login automático</Phrase>
+    <Phrase key="lblAutoLoginPassword">Senha para login automático</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlPluginAssignment">
+    <Phrase key="gbPluginAssignment">Atribuição de plug-in</Phrase>
+    <Phrase key="lblChartFeature">Plugin para gráficos</Phrase>
+    <Phrase key="lblCommandFeature">Plugin para envio de comandos</Phrase>
+    <Phrase key="lblEventAckFeature">Plugin para reconhecimento de evento</Phrase>
+    <Phrase key="lblUserManagementFeature">Plug-in de gerenciamento de usuários</Phrase>
+    <Phrase key="lblNotificationFeature">Plug-in de gerenciamento de notificação</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Forms.FrmApplicationOptions">
+    <Phrase key="this">Opções de aplicativo</Phrase>
+    <Phrase key="lbTabs.Items[0]">Opções gerais</Phrase>
+    <Phrase key="lbTabs.Items[1]">Opções de conexão</Phrase>
+    <Phrase key="lbTabs.Items[2]">Opções de login</Phrase>
+    <Phrase key="lbTabs.Items[3]">Opções de exibição</Phrase>
+    <Phrase key="lbTabs.Items[4]">Atribuição de plug-in</Phrase>
+    <Phrase key="ApplicationConfigTitle">Opções de aplicativo</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Forms.FrmPlugins">
+    <Phrase key="this">Plugins</Phrase>
+    <Phrase key="lblUnusedPlugins">Plug-ins não utilizados:</Phrase>
+    <Phrase key="btnActivate">Ativar</Phrase>
+    <Phrase key="lblActivePlugins">Plug-ins ativos:</Phrase>
+    <Phrase key="btnDeactivate">Desativar</Phrase>
+    <Phrase key="btnMoveUp">Subir</Phrase>
+    <Phrase key="btnMoveDown">mover para baixo</Phrase>
+    <Phrase key="btnProperties">Propriedades</Phrase>
+    <Phrase key="btnRegister">Registro</Phrase>
+    <Phrase key="lblDescr">Descrição</Phrase>
+  </Dictionary>
+</ExtWebConfigDictionaries>

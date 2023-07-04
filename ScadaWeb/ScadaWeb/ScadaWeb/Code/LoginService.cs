@@ -26,8 +26,10 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using Scada.Data.Const;
 using Scada.Data.Models;
 using Scada.Lang;
+using Scada.Web.Audit;
 using Scada.Web.Config;
 using Scada.Web.Lang;
 using Scada.Web.Plugins;
@@ -46,6 +48,7 @@ namespace Scada.Web.Code
     internal class LoginService : ILoginService
     {
         private readonly IWebContext webContext;
+        private readonly IAuditLog auditLog;
         private readonly IClientAccessor clientAccessor;
         private readonly HttpContext httpContext;
 
@@ -53,11 +56,12 @@ namespace Scada.Web.Code
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public LoginService(IWebContext webContext, IClientAccessor clientAccessor, 
-            IHttpContextAccessor httpContextAccessor)
+        public LoginService(IWebContext webContext, IAuditLog auditLog,
+            IClientAccessor clientAccessor, IHttpContextAccessor httpContextAccessor)
         {
             this.webContext = webContext ?? throw new ArgumentNullException(nameof(webContext));
-            this.clientAccessor = clientAccessor;
+            this.auditLog = auditLog ?? throw new ArgumentNullException(nameof(auditLog));
+            this.clientAccessor = clientAccessor ?? throw new ArgumentNullException(nameof(clientAccessor));
             httpContext = httpContextAccessor?.HttpContext ?? 
                 throw new ArgumentException("HTTP context must not be null.", nameof(httpContextAccessor));
         }
@@ -126,6 +130,17 @@ namespace Scada.Web.Code
 
             webContext.PluginHolder.OnUserLogin(userLoginArgs);
 
+            // write to audit log
+            auditLog.Write(new AuditLogEntry
+            {
+                ActionTime = DateTime.UtcNow,
+                Username = username,
+                ActionType = AuditActionType.Login,
+                ActionResult = AuditActionResult.FromBool(userLoginArgs.UserIsValid),
+                Severity = userLoginArgs.UserIsValid ? Severity.Info : Severity.Major,
+                Message = userLoginArgs.FriendlyError
+            });
+
             // show login result
             if (userLoginArgs.UserIsValid)
             {
@@ -156,6 +171,7 @@ namespace Scada.Web.Code
         {
             if (httpContext.User.IsAuthenticated())
             {
+                // perform logout
                 UserLoginArgs userLoginArgs = new()
                 {
                     Username = httpContext.User.GetUsername(),
@@ -174,6 +190,16 @@ namespace Scada.Web.Code
                     "User {0} is logged out, IP {1}",
                     userLoginArgs.Username, userLoginArgs.RemoteIP);
                 webContext.PluginHolder.OnUserLogout(userLoginArgs);
+
+                // write to audit log
+                auditLog.Write(new AuditLogEntry
+                {
+                    ActionTime = DateTime.UtcNow,
+                    Username = userLoginArgs.Username,
+                    ActionType = AuditActionType.Logout,
+                    ActionResult = AuditActionResult.Success,
+                    Severity = Severity.Info
+                });
             }
         }
     }

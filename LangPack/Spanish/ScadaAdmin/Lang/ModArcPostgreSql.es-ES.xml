@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModArcPostgreSqlDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Controls.CtrlDatabaseOptions">
+    <Phrase key="gbDbOptions">Opciones de base de datos</Phrase>
+    <Phrase key="lblUseStorageConn">Usar conexión de almacenamiento</Phrase>
+    <Phrase key="lblConnection">Conexión</Phrase>
+    <Phrase key="lblPartitionSize">Tamaño de la partición</Phrase>
+    <Phrase key="cbPartitionSize.Items[0]">Un mes</Phrase>
+    <Phrase key="cbPartitionSize.Items[1]">Un año</Phrase>
+    <Phrase key="lblMaxQueueSize">Tamaño máximo de cola</Phrase>
+    <Phrase key="lblBatchSize">Artículos por transacción</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmConnManager">
+    <Phrase key="this">Conexiones PostgreSQL</Phrase>
+    <Phrase key="gbConnList">Conexiones</Phrase>
+    <Phrase key="btnNewConn">Nuevo</Phrase>
+    <Phrase key="btnDeleteConn">Borrar</Phrase>
+    <Phrase key="btnOK">DE ACUERDO</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreCAO">
+    <Phrase key="this">Opciones de archivo actual</Phrase>
+    <Phrase key="gbDbOptions">Opciones de base de datos</Phrase>
+    <Phrase key="lblUseStorageConn">Usar conexión de almacenamiento</Phrase>
+    <Phrase key="lblConnection">Conexión</Phrase>
+    <Phrase key="lblMaxQueueSize">Tamaño máximo de cola</Phrase>
+    <Phrase key="lblBatchSize">Artículos por transacción</Phrase>
+    <Phrase key="btnManageConn">Gestionar las conexiones</Phrase>
+    <Phrase key="btnOK">DE ACUERDO</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreEAO">
+    <Phrase key="this">Opciones de archivo de eventos</Phrase>
+    <Phrase key="btnManageConn">Gestionar las conexiones</Phrase>
+    <Phrase key="btnOK">DE ACUERDO</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreHAO">
+    <Phrase key="this">Opciones de archivo histórico</Phrase>
+    <Phrase key="btnManageConn">Gestionar las conexiones</Phrase>
+    <Phrase key="btnOK">DE ACUERDO</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+</ModArcPostgreSqlDictionaries>

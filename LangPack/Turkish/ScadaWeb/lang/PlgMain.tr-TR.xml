@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgMainDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command">
+    <Phrase key="PageTitle">Emretmek</Phrase>
+    <Phrase key="CommandSent">Komut gönderildi.</Phrase>
+    <Phrase key="CmdParseError">Komut ayrıştırma hatası</Phrase>
+    <Phrase key="CnlRow">Kanal:</Phrase>
+    <Phrase key="ObjRow">Nesne:</Phrase>
+    <Phrase key="DevRow">Cihaz:</Phrase>
+    <Phrase key="lblPassword">Şifre</Phrase>
+    <Phrase key="lblCmdDec">Komut değeri</Phrase>
+    <Phrase key="lblCmdHex">Komut değeri (onaltılık)</Phrase>
+    <Phrase key="lblCmdEnum">Emretmek</Phrase>
+    <Phrase key="lblCmdDate">Komut değeri (tarih/saat)</Phrase>
+    <Phrase key="lblCmdData">Komut verileri</Phrase>
+    <Phrase key="lblStr">Sicim</Phrase>
+    <Phrase key="lblHex">onaltılık</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventAck">
+    <Phrase key="PageTitle">Etkinlik</Phrase>
+    <Phrase key="EventNotFound">{0} etkinliği bulunamadı.</Phrase>
+    <Phrase key="EventAcknowledged">Olay kabul edildi.</Phrase>
+    <Phrase key="TimeRow">Tarih ve saat:</Phrase>
+    <Phrase key="ObjRow">Nesne:</Phrase>
+    <Phrase key="DevRow">Cihaz:</Phrase>
+    <Phrase key="CnlRow">Kanal:</Phrase>
+    <Phrase key="DescrRow">Tanım:</Phrase>
+    <Phrase key="SevRow">önem derecesi:</Phrase>
+    <Phrase key="AckRow">ak:</Phrase>
+    <Phrase key="AckYes">Evet</Phrase>
+    <Phrase key="AckNo">HAYIR</Phrase>
+    <Phrase key="AckTip">Olayı onaylamak için Tamam düğmesine tıklayın.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventReport">
+    <Phrase key="PageTitle">Etkinlik Raporu</Phrase>
+    <Phrase key="AllObjItem">-- Tüm nesneler --</Phrase>
+    <Phrase key="AllAvailObjItem">-- Mevcut tüm nesneler --</Phrase>
+    <Phrase key="NotSpecifiedItem">-- Belirtilmemiş --</Phrase>
+    <Phrase key="lblStartTime">İtibaren</Phrase>
+    <Phrase key="lblEndTime">İle</Phrase>
+    <Phrase key="lblArchive">Arşiv</Phrase>
+    <Phrase key="lblObj">Nesne</Phrase>
+    <Phrase key="lblSeverity">önem derecesi</Phrase>
+    <Phrase key="btnGenerateReport">Raporu İndir</Phrase>
+    <Phrase key="divWaitHint">Rapor oluşturuluyor.  Lütfen bekleyin...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events">
+    <Phrase key="TimeCol">Tarih ve saat</Phrase>
+    <Phrase key="ObjCol">Nesne</Phrase>
+    <Phrase key="DevCol">Cihaz</Phrase>
+    <Phrase key="CnlCol">Kanal</Phrase>
+    <Phrase key="DescrCol">Tanım</Phrase>
+    <Phrase key="SevCol">önem derecesi</Phrase>
+    <Phrase key="AckCol">ak</Phrase>
+    <Phrase key="EventInfo">{1} saat içinde son {0} etkinlik</Phrase>
+    <Phrase key="spanAllEventsBtn">Tüm Etkinlikler</Phrase>
+    <Phrase key="spanEventsByViewBtn">Görünüme Göre Etkinlikler</Phrase>
+    <Phrase key="spanPrintBtn_ToolTip">Etkinlikleri dışa aktar</Phrase>
+    <Phrase key="spanErrorBadge">Hata</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events.Js">
+    <Phrase key="Loading">Yükleniyor...</Phrase>
+    <Phrase key="NoEvents">Olay yok</Phrase>
+    <Phrase key="Ack">Onaylamak için tıklayın</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.HistDataReport">
+    <Phrase key="PageTitle">Geçmiş Veri Raporu</Phrase>
+    <Phrase key="lblStartTime">İtibaren</Phrase>
+    <Phrase key="lblEndTime">İle</Phrase>
+    <Phrase key="lblArchive">Arşiv</Phrase>
+    <Phrase key="lblCnlNums">Kanallar</Phrase>
+    <Phrase key="btnSelectCnls">Seçme...</Phrase>
+    <Phrase key="btnGenerateReport">Raporu İndir</Phrase>
+    <Phrase key="divWaitHint">Rapor oluşturuluyor.  Lütfen bekleyin...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView">
+    <Phrase key="TableViewTitle">Tablo {0}</Phrase>
+    <Phrase key="PrevDate">Önceki tarih</Phrase>
+    <Phrase key="SelDate">seçilen tarih</Phrase>
+    <Phrase key="MinusOneDay">-1 gün</Phrase>
+    <Phrase key="ItemColumn">Öğe</Phrase>
+    <Phrase key="CurrentColumn">Akım</Phrase>
+    <Phrase key="CnlTip">Kanal</Phrase>
+    <Phrase key="DeviceTip">Cihaz</Phrase>
+    <Phrase key="ObjTip">Nesne</Phrase>
+    <Phrase key="QuantityTip">Miktar</Phrase>
+    <Phrase key="UnitTip">Birim</Phrase>
+    <Phrase key="SendCommandTip">Komut Gönder</Phrase>
+    <Phrase key="spanPrintBtn_ToolTip">Tablo görünümünü dışa aktar</Phrase>
+    <Phrase key="spanLoadingBadge">Yükleniyor...</Phrase>
+    <Phrase key="spanErrorBadge">Hata</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Code.EventWindowSpec">
+    <Phrase key="EventWindowTitle">Olaylar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.PlgMainLogic">
+    <Phrase key="ReportGroup">Ana Raporlar</Phrase>
+    <Phrase key="HistDataReport">Geçmiş veri raporu</Phrase>
+    <Phrase key="EventReport">Olay raporu</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report">
+    <Phrase key="GenCaption">Oluşturulan:</Phrase>
+    <Phrase key="TzCaption">Saat dilimi:</Phrase>
+    <Phrase key="ArcCaption">Arşiv:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.Js">
+    <Phrase key="InvalidPeriod">Başlangıç ​​tarihi, bitiş tarihinden küçük veya ona eşit olmalıdır.</Phrase>
+    <Phrase key="PeriodTooLong">Maksimum süre uzunluğu {0} gündür.</Phrase>
+    <Phrase key="InvalidChannels">Geçersiz kanal numaraları.</Phrase>
+    <Phrase key="NoSeverity">Önem derecesi seçilmedi.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.EventReportBuilder">
+    <Phrase key="GeneralTitleFormat">Etkinlikler, {0} - {1}</Phrase>
+    <Phrase key="TailTitleFormat">{1} saat içinde son {0} etkinlik</Phrase>
+    <Phrase key="ViewCaption">Görüş:</Phrase>
+    <Phrase key="ObjCaption">nesneler:</Phrase>
+    <Phrase key="SevCaption">önem derecesi:</Phrase>
+    <Phrase key="TimeCol">Tarih ve saat</Phrase>
+    <Phrase key="ObjCol">Nesne</Phrase>
+    <Phrase key="DevCol">Cihaz</Phrase>
+    <Phrase key="CnlCol">Kanal</Phrase>
+    <Phrase key="DescrCol">Tanım</Phrase>
+    <Phrase key="SevCol">önem derecesi</Phrase>
+    <Phrase key="AckCol">ak</Phrase>
+    <Phrase key="WorksheetName">Olaylar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.HistDataReportBuilder">
+    <Phrase key="TitleFormat">Geçmiş Veriler, {0} - {1}</Phrase>
+    <Phrase key="CnlCaption">Kanallar:</Phrase>
+    <Phrase key="TimeCol">Tarih ve saat</Phrase>
+    <Phrase key="DataCol">Kanal {0}</Phrase>
+    <Phrase key="AvgCaption">Ortalama</Phrase>
+    <Phrase key="MinCaption">Asgari</Phrase>
+    <Phrase key="MaxCaption">Maksimum</Phrase>
+    <Phrase key="WorksheetName">Tarihsel veri</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.TableViewReportBuilder">
+    <Phrase key="TitleFormat">{0}, {1} - {2}</Phrase>
+    <Phrase key="ItemCol">Öğe</Phrase>
+    <Phrase key="WorksheetName">Tablo görünümü</Phrase>
+  </Dictionary>
+</PlgMainDictionaries>

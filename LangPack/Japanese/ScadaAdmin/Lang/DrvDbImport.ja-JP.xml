@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDbImportDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlCommand">
+    <Phrase key="gbCommand">コマンドパラメータ</Phrase>
+    <Phrase key="lblName">名前</Phrase>
+    <Phrase key="lblCmdCode">コマンドコード</Phrase>
+    <Phrase key="lblCmdCodeWarn">コードを入力してください</Phrase>
+    <Phrase key="lblSql">SQL</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">使用可能なパラメータ: @cmdVal、@cmdData</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlQuery">
+    <Phrase key="gbQuery">クエリパラメータ</Phrase>
+    <Phrase key="chkActive">アクティブ</Phrase>
+    <Phrase key="lblName">名前</Phrase>
+    <Phrase key="lblTag">タグ</Phrase>
+    <Phrase key="lblSQL">SQL</Phrase>
+    <Phrase key="chkSingleRow">単一行の結果</Phrase>
+    <Phrase key="pbTagInfo.ToolTip">各行にはタグコードが含まれます。</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">ON - リクエストは単一の行を返し、その各フィールドにはタグ値が含まれます。&#13;&#10;OFF - リクエストは行のセットを返し、各行にはタグ値が含まれます。 必須列: code と val。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">デバイス {0} プロパティ - DB インポート</Phrase>
+    <Phrase key="btnAddQuery.ToolTip">クエリの追加</Phrase>
+    <Phrase key="btnAddCommand.ToolTip">コマンドの追加</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">上に移動</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">下に移動</Phrase>
+    <Phrase key="btnDelete.ToolTip">消去</Phrase>
+    <Phrase key="gbDevice">デバイス構成</Phrase>
+    <Phrase key="btnSave">保存</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+    <Phrase key="btnClose">近い</Phrase>
+    <Phrase key="miCollapseAll">すべて折りたたむ</Phrase>
+    <Phrase key="ConnectionNode">接続オプション</Phrase>
+    <Phrase key="CommandName">コマンド{0}</Phrase>
+    <Phrase key="CommandsNode">コマンド</Phrase>
+    <Phrase key="QueryName">クエリ {0}</Phrase>
+    <Phrase key="QueriesNode">クエリ</Phrase>
+    <Phrase key="SelectChildNode">子ノードの選択</Phrase>
+    <Phrase key="UnnamedCommand">&lt;名前のないコマンド&gt;</Phrase>
+    <Phrase key="UnnamedQuery">&lt;名前のないクエリ&gt;</Phrase>
+  </Dictionary>
+</DrvDbImportDictionaries>

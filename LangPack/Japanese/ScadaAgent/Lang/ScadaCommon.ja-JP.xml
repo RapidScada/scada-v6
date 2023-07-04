@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaDictionaries>
+  <!-- ScadaCommon.dll -->
+  <Dictionary key="Scada.Application">
+    <Phrase key="ProductName">Rapid SCADA</Phrase>
+    <Phrase key="ServerAppName">サーバ</Phrase>
+    <Phrase key="CommAppName">コミュニケーター</Phrase>
+    <Phrase key="WebAppName">ウェブステーション</Phrase>
+    <Phrase key="WebsiteUrl">https://rapidscada.org</Phrase>
+    <Phrase key="UnhandledException">未処理の例外</Phrase>
+    <Phrase key="ExecutionImpossible">正常な実行は不可能です</Phrase>
+    <Phrase key="StartLogic">ロジック処理を開始する</Phrase>
+    <Phrase key="LogicAlreadyStarted">ロジック処理はすでに開始されています</Phrase>
+    <Phrase key="StartLogicError">ロジック処理の開始時にエラーが発生しました</Phrase>
+    <Phrase key="LogicStopped">ロジック処理を停止します</Phrase>
+    <Phrase key="UnableToStopLogic">指定した時間ロジック処理を停止できません</Phrase>
+    <Phrase key="StopLogicError">ロジック処理の停止中にエラーが発生しました</Phrase>
+    <Phrase key="LogicLoopError">論理ループ内のエラー</Phrase>
+    <Phrase key="ThreadFatalError">スレッド内の致命的なエラー</Phrase>
+    <Phrase key="WriteInfoError">アプリケーション情報をファイルに書き込むときにエラーが発生しました</Phrase>
+    <Phrase key="ConnectionNotFound">接続 &quot;{0}&quot ;が見つかりません。</Phrase>
+    <Phrase key="ConnOptionsNotFound">接続オプションが見つかりません。</Phrase>
+    <Phrase key="DatabaseNotSupported">データベースはサポートされていません。</Phrase>
+    <Phrase key="OperationNotSupported">操作はサポートされていません。</Phrase>
+    <Phrase key="CommandSent">コマンドが送信されました。</Phrase>
+    <Phrase key="SendCommandError">コマンド送信エラー</Phrase>
+    <Phrase key="AgentDisabled">エージェントは無効になっています。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.ConfigDatabase">
+    <Phrase key="UndefinedTable">未定義</Phrase>
+    <Phrase key="ArchiveTable">アーカイブ</Phrase>
+    <Phrase key="ArchiveKindTable">アーカイブの種類</Phrase>
+    <Phrase key="CnlTable">チャンネル</Phrase>
+    <Phrase key="CnlStatusTable">チャンネルステータス</Phrase>
+    <Phrase key="CnlTypeTable">チャンネルの種類</Phrase>
+    <Phrase key="CommLineTable">通信回線</Phrase>
+    <Phrase key="DataTypeTable">データ型</Phrase>
+    <Phrase key="DeviceTable">デバイス</Phrase>
+    <Phrase key="DevTypeTable">デバイスの種類</Phrase>
+    <Phrase key="FormatTable">フォーマット</Phrase>
+    <Phrase key="LimTable">限界</Phrase>
+    <Phrase key="ObjTable">オブジェクト</Phrase>
+    <Phrase key="ObjRightTable">オブジェクトの権利</Phrase>
+    <Phrase key="QuantityTable">量</Phrase>
+    <Phrase key="RoleTable">役割</Phrase>
+    <Phrase key="RoleRefTable">役割の継承</Phrase>
+    <Phrase key="ScriptTable">スクリプト</Phrase>
+    <Phrase key="UnitTable">単位</Phrase>
+    <Phrase key="UserTable">ユーザー</Phrase>
+    <Phrase key="ViewTable">ビュー</Phrase>
+    <Phrase key="ViewTypeTable">ビューの種類</Phrase>
+    <Phrase key="IndexNotFound">インデックスが見つかりません。</Phrase>
+    <Phrase key="EntityCaption">[{0}] {1}</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Files">
+    <Phrase key="FileNotFound">ファイルが見つかりません。</Phrase>
+    <Phrase key="NamedFileNotFound">ファイル {0} が見つかりません。</Phrase>
+    <Phrase key="DirectoryNotExists">ディレクトリが存在しません。</Phrase>
+    <Phrase key="PathNotSupported">パスはサポートされていません。</Phrase>
+    <Phrase key="InvalidFileFormat">無効なファイル形式です。</Phrase>
+    <Phrase key="LoadConfigError">構成のロード中にエラーが発生しました</Phrase>
+    <Phrase key="SaveConfigError">構成の保存中にエラーが発生しました</Phrase>
+    <Phrase key="SaveConfigConfirm">構成が変更されました。 変更を保存しますか?</Phrase>
+    <Phrase key="LoadViewError">ビューの読み込みエラー</Phrase>
+    <Phrase key="SaveViewError">ビューの保存中にエラーが発生しました</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Format">
+    <Phrase key="IntegerRequired">整数は必須です。</Phrase>
+    <Phrase key="IntegerInRangeRequired">{0} から {1} までの整数が必要です。</Phrase>
+    <Phrase key="RealRequired">実数が必要です。</Phrase>
+    <Phrase key="NonemptyRequired">空ではない値が必要です。</Phrase>
+    <Phrase key="ValidUrlRequired">有効な URL が必要です。</Phrase>
+    <Phrase key="ValidRangeRequired">有効な範囲の整数が必要です。</Phrase>
+    <Phrase key="DateTimeRequired">日付と時刻は必須です。</Phrase>
+    <Phrase key="NotNumber">文字列は数値ではありません。</Phrase>
+    <Phrase key="NotHexadecimal">文字列が 16 進数ではありません。</Phrase>
+    <Phrase key="InvalidParamVal">&quot;{0}&quot;パラメータの値が無効です。</Phrase>
+    <Phrase key="InvalidSecretKey">無効な秘密キーです。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms">
+    <Phrase key="InfoCaption">情報</Phrase>
+    <Phrase key="QuestionCaption">質問</Phrase>
+    <Phrase key="ErrorCaption">エラー</Phrase>
+    <Phrase key="WarningCaption">警告</Phrase>
+    <Phrase key="NoData">データなし</Phrase>
+    <Phrase key="EmptyData">空</Phrase>
+    <Phrase key="CorrectErrors">以下のエラーを修正してください：</Phrase>
+    <Phrase key="HiddenPassword">*****</Phrase>
+    <Phrase key="NewConnection">新しい接続</Phrase>
+    <Phrase key="UnnamedConnection">&lt;名前のない接続&gt;</Phrase>
+    <Phrase key="XmlFileFilter">XML ファイル (*.xml)|*.xml|すべてのファイル (*.*)|*.*</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.ComponentModel">
+    <Phrase key="TrueValue">はい</Phrase>
+    <Phrase key="FalseValue">いいえ</Phrase>
+    <Phrase key="EmptyValue">（なし）</Phrase>
+    <Phrase key="CollectionValue">（コレクション）</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.CnlDataFormatter">
+    <Phrase key="UndefinedSign">---</Phrase>
+    <Phrase key="CommandDescrPrefix">指図：</Phrase>
+    <Phrase key="StatusFormat">ステータス {0}</Phrase>
+    <Phrase key="CriticalSeverity">致命的</Phrase>
+    <Phrase key="MajorSeverity">選考科目</Phrase>
+    <Phrase key="MinorSeverity">マイナー</Phrase>
+    <Phrase key="InfoSeverity">情報</Phrase>
+    <Phrase key="UnknownUser">ユーザー {0}</Phrase>
+  </Dictionary>
+  <!-- ScadaCommon.Forms.dll -->
+  <Dictionary key="Scada.Forms.Controls.CtrlBitmask">
+    <Phrase key="lblMaskValue">10 進数値</Phrase>
+    <Phrase key="btnResetMask">リセット</Phrase>
+    <Phrase key="lblMaskBits">ビット</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlClientConnection">
+    <Phrase key="gbConnectionOptions">接続オプション</Phrase>
+    <Phrase key="lblName">名前</Phrase>
+    <Phrase key="lblHost">ホスト</Phrase>
+    <Phrase key="lblPort">ポート</Phrase>
+    <Phrase key="lblTimeout">タイムアウト</Phrase>
+    <Phrase key="lblUsername">ユーザー名</Phrase>
+    <Phrase key="lblPassword">パスワード</Phrase>
+    <Phrase key="lblInstance">実例</Phrase>
+    <Phrase key="lblSecretKey">秘密鍵</Phrase>
+    <Phrase key="btnPaste">ペースト</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlDbConnection">
+    <Phrase key="gbConnectionOptions">接続オプション</Phrase>
+    <Phrase key="lblName">名前</Phrase>
+    <Phrase key="lblDbms">DBMS</Phrase>
+    <Phrase key="cbDbms.Items[0]">未定義</Phrase>
+    <Phrase key="lblServer">サーバ</Phrase>
+    <Phrase key="lblDatabase">データベース</Phrase>
+    <Phrase key="lblUsername">ユーザー名</Phrase>
+    <Phrase key="lblPassword">パスワード</Phrase>
+    <Phrase key="chkConnectionString">接続文字列</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmBitmask">
+    <Phrase key="this">ビットマスク</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmBitSelect">
+    <Phrase key="this">セレクトビット</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmCnlSelect">
+    <Phrase key="this">チャンネルの選択</Phrase>
+    <Phrase key="lblFilter">フィルター</Phrase>
+    <Phrase key="btnApplyFilter">申し込み</Phrase>
+    <Phrase key="lblObj">物体</Phrase>
+    <Phrase key="lblDevice">デバイス</Phrase>
+    <Phrase key="chkOnlySelected">選択した行のみを表示</Phrase>
+    <Phrase key="colSelected">選択済み</Phrase>
+    <Phrase key="colCnlNum">番号</Phrase>
+    <Phrase key="colName">名前</Phrase>
+    <Phrase key="btnSelect">選択する</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmEntitySelect">
+    <Phrase key="this">{0}から選択してください</Phrase>
+    <Phrase key="lblFilter">フィルター</Phrase>
+    <Phrase key="btnApplyFilter">申し込み</Phrase>
+    <Phrase key="chkOnlySelected">選択した行のみを表示</Phrase>
+    <Phrase key="colSelected">選択済み</Phrase>
+    <Phrase key="colID">ID</Phrase>
+    <Phrase key="colName">名前</Phrase>
+    <Phrase key="colCode">コード</Phrase>
+    <Phrase key="colDescr">説明</Phrase>
+    <Phrase key="btnSelect">選択する</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmModuleConfig">
+    <Phrase key="this">モジュール構成</Phrase>
+    <Phrase key="btnAdd.ToolTip">追加</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">上に移動</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">下に移動</Phrase>
+    <Phrase key="btnDelete.ToolTip">消去</Phrase>
+    <Phrase key="btnSave">保存</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+    <Phrase key="btnClose">近い</Phrase>
+    <Phrase key="miCollapseAll">すべて折りたたむ</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmOptions">
+    <Phrase key="this">オプション</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmRangeEdit">
+    <Phrase key="this">範囲の編集</Phrase>
+    <Phrase key="lblRange">整数の範囲</Phrase>
+    <Phrase key="lblExample">例: 1 ～ 5、10</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.BitItemCollection">
+    <Phrase key="EventEnabled">イベントが有効になっています</Phrase>
+    <Phrase key="EventBeep">イベントビープ音</Phrase>
+    <Phrase key="DataChangeEvent">チャンネルデータが変更されました</Phrase>
+    <Phrase key="ValueChangeEvent">チャンネル値が変更されました</Phrase>
+    <Phrase key="StatusChangeEvent">チャンネルステータスが変更されました</Phrase>
+    <Phrase key="CnlUndefinedEvent">チャンネルは未定義です</Phrase>
+    <Phrase key="CommandEvent">コマンドが送信されました</Phrase>
+  </Dictionary>
+</ScadaDictionaries>

@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaSchemeDictionaries>
+  <Dictionary key="Scada.Scheme.Model.DataTypes.ImageCondition">
+    <Phrase key="DisplayName">画像の状態</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid">
+    <Phrase key="StringConvertError">文字列を変換できません</Phrase>
+    <Phrase key="StringUniqueError">プロパティ値は一意である必要があります</Phrase>
+    <Phrase key="TrueValue">はい</Phrase>
+    <Phrase key="FalseValue">いいえ</Phrase>
+    <Phrase key="EmptyValue">（なし）</Phrase>
+    <Phrase key="ObjectValue">（物体）</Phrase>
+    <Phrase key="CollectionValue">（コレクション）</Phrase>
+    <Phrase key="ComponentNotFound">コンポーネントが見つかりません</Phrase>
+    <Phrase key="BoldSymbol">B</Phrase>
+    <Phrase key="ItalicSymbol">I</Phrase>
+    <Phrase key="UnderlineSymbol">U</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmCollectionDialog">
+    <Phrase key="this">{0} コレクション</Phrase>
+    <Phrase key="lblItems">アイテム</Phrase>
+    <Phrase key="lblProps">アイテムのプロパティ</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmFontDialog">
+    <Phrase key="this">フォント</Phrase>
+    <Phrase key="lblFontName">フォント</Phrase>
+    <Phrase key="lblFontSize">サイズ</Phrase>
+    <Phrase key="gbStyle">スタイル</Phrase>
+    <Phrase key="chkBold">Bold</Phrase>
+    <Phrase key="chkItalic">Italic</Phrase>
+    <Phrase key="chkUnderline">Underline</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmImageDialog">
+    <Phrase key="this">画像</Phrase>
+    <Phrase key="lblImages">画像</Phrase>
+    <Phrase key="lblImageProps">画像のプロパティ</Phrase>
+    <Phrase key="lblPreview">プレビュー</Phrase>
+    <Phrase key="btnSelectEmpty">空</Phrase>
+    <Phrase key="btnSelect">選択する</Phrase>
+    <Phrase key="btnClose">近い</Phrase>
+    <Phrase key="ImageFileFilter">画像 (*.jpg;*.png;*.gif;*.svg)|*.jpg;*.png;*.gif;*.svg|すべてのファイル (*.*)|*.*</Phrase>
+    <Phrase key="DisplayImageError">画像表示エラー</Phrase>
+    <Phrase key="LoadImageError">画像の読み込みエラー</Phrase>
+    <Phrase key="SaveImageError">画像保存エラー</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmRangeDialog">
+    <Phrase key="this">整数の範囲</Phrase>
+    <Phrase key="lblExample">例: 1 ～ 5、10</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+    <Phrase key="RangeNotValid">範囲が無効です</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Template.TemplateBindings">
+    <Phrase key="LoadTemplateBindingsError">ファイルからスキーム テンプレート バインディングをロード中にエラーが発生しました</Phrase>
+    <Phrase key="SaveTemplateBindingsError">スキーム テンプレート バインディングをファイルに保存中にエラーが発生しました</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.CompManager">
+    <Phrase key="UnknownComponent">不明なコンポーネント {0}</Phrase>
+    <Phrase key="CompLibraryNotFound">コンポーネント {0} のライブラリが見つかりませんでした</Phrase>
+    <Phrase key="UnableCreateComponent">コンポーネント {0} を作成できません</Phrase>
+    <Phrase key="ErrorCreatingComponent">コンポーネント {0} の作成中にエラーが発生しました</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.SchemeView">
+    <Phrase key="LoadSchemeViewError">ファイルからスキームをロード中にエラーが発生しました</Phrase>
+    <Phrase key="SaveSchemeViewError">スキームをファイルに保存中にエラーが発生しました</Phrase>
+    <Phrase key="IncorrectFileFormat">スキームファイルの形式が正しくありません</Phrase>
+  </Dictionary>
+</ScadaSchemeDictionaries>

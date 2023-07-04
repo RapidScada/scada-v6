@@ -19,7 +19,6 @@
     <Phrase key="ThreadFatalError">Неустранимая ошибка в потоке</Phrase>
     <Phrase key="WriteInfoError">Ошибка при записи в файл информации о работе приложения</Phrase>
     <Phrase key="ConnectionNotFound">Соединение &quot;{0}&quot; не найдено.</Phrase>
-    <Phrase key="ConnOptionsNotFound">Параметры соединения не найдены.</Phrase>
     <Phrase key="DatabaseNotSupported">База данных не поддерживается.</Phrase>
     <Phrase key="OperationNotSupported">Операция не поддерживается.</Phrase>
     <Phrase key="CommandSent">Команда отправлена.</Phrase>
@@ -134,6 +133,18 @@
     <Phrase key="lblUsername">Имя пользователя</Phrase>
     <Phrase key="lblPassword">Пароль</Phrase>
     <Phrase key="chkConnectionString">Строка соединения</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlRegistration">
+    <Phrase key="lblProductName">Наименование продукта</Phrase>
+    <Phrase key="lblCompCode">Код компьютера</Phrase>
+    <Phrase key="btnCopyCompCode">Копировать</Phrase>
+    <Phrase key="btnRefreshCompCode">Обновить</Phrase>
+    <Phrase key="lblCompCodeInfo">Если код отсутствует, передайте конфигурацию и перезапустите службу.</Phrase>
+    <Phrase key="lblRegKey">Регистрационный ключ</Phrase>
+    <Phrase key="btnPasteRegKey">Вставить</Phrase>
+    <Phrase key="lblRegKeyInfo">Результат проверки ключа записывается в журнал приложения или модуля.</Phrase>
+    <Phrase key="llblGetPermanentKey">Получить постоянный ключ</Phrase>
+    <Phrase key="llblGetTrialKey">Получить пробный ключ</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmBitmask">
     <Phrase key="this">Битовая маска</Phrase>

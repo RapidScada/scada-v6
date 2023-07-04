@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgGuardDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages">
+    <Phrase key="NoData">Ingen data</Phrase>
+    <Phrase key="UsernameColumn">Brukernavn</Phrase>
+    <Phrase key="SessionIdColumn">Øktnummer</Phrase>
+    <Phrase key="RemoteIpColumn">IP adresse</Phrase>
+    <Phrase key="AccessTimeColumn">Tilgangstid</Phrase>
+    <Phrase key="FailCountColumn">Antall feil</Phrase>
+    <Phrase key="AccessColumn">Adgang</Phrase>
+    <Phrase key="AccessAllowed">Tillatt</Phrase>
+    <Phrase key="AccessBlocked">Blokkert</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.Addresses">
+    <Phrase key="PageTitle">IP-adresser</Phrase>
+    <Phrase key="UsernameColumn">Siste brukernavn</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.General">
+    <Phrase key="PageTitle">Generell</Phrase>
+    <Phrase key="CacheInfoFormat">{0} av {1}</Phrase>
+    <Phrase key="lblGlobalAccess">Global tilgang:</Phrase>
+    <Phrase key="lblBlockedUsers">Blokkerte brukere:</Phrase>
+    <Phrase key="lblBlockedAddresses">Blokkerte IP-adresser:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.Sessions">
+    <Phrase key="PageTitle">Økter</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.Users">
+    <Phrase key="PageTitle">Brukere</Phrase>
+    <Phrase key="RemoteIpColumn">Siste IP-adresse</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.PlgGuardLogic">
+    <Phrase key="GuardMenuItem">Vakt</Phrase>
+    <Phrase key="GeneralMenuItem">Generell</Phrase>
+    <Phrase key="UsersMenuItem">Brukere</Phrase>
+    <Phrase key="AddressesMenuItem">IP-adresser</Phrase>
+    <Phrase key="SessionsMenuItem">Økter</Phrase>
+  </Dictionary>
+</PlgGuardDictionaries>

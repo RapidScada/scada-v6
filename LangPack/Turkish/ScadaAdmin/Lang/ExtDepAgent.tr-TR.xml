@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtDepAgentDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepAgent.Downloader">
+    <Phrase key="ImportTable">{0} tablosunu içe aktarın</Phrase>
+    <Phrase key="ExtractArchive">Arşivi çıkar</Phrase>
+    <Phrase key="MergeDirectory">dizini birleştir</Phrase>
+    <Phrase key="NothingToMerge">Birleştirilecek veri yok</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepAgent.Uploader">
+    <Phrase key="TestAgentConn">Test Aracısı bağlantısı</Phrase>
+    <Phrase key="CompressConfig">Yapılandırmayı sıkıştır</Phrase>
+    <Phrase key="CompressBase">Yapılandırma veritabanını sıkıştırın</Phrase>
+    <Phrase key="CompressViews">Görünümleri sıkıştır</Phrase>
+    <Phrase key="CompressAppConfig">{0} uygulamasının sıkıştırma yapılandırması</Phrase>
+    <Phrase key="AddProjectInfo">proje bilgisi ekle</Phrase>
+    <Phrase key="AddTransferOptions">Aktarım seçenekleri ekleyin</Phrase>
+    <Phrase key="TransferConfig">Aktarım yapılandırması</Phrase>
+    <Phrase key="ArchiveSize">Arşiv boyutu: {0} bayt</Phrase>
+  </Dictionary>
+</ExtDepAgentDictionaries>

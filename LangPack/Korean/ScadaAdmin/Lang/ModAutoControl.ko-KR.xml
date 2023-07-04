@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModAutoControlDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlCmdTrigger">
+    <Phrase key="gbTrigger">트리거 매개변수</Phrase>
+    <Phrase key="chkActive">활동적인</Phrase>
+    <Phrase key="lblName">이름</Phrase>
+    <Phrase key="lblDescr">레이즈</Phrase>
+    <Phrase key="txtDescr">명령에 따라</Phrase>
+    <Phrase key="lblCnlNum">채널</Phrase>
+    <Phrase key="lblCmdVal">값</Phrase>
+    <Phrase key="btnOff">끄다</Phrase>
+    <Phrase key="btnOn">~에</Phrase>
+    <Phrase key="lblCmdData">데이터</Phrase>
+    <Phrase key="cbCmdDataCompareOper.Items[0]">확인하지 않음</Phrase>
+    <Phrase key="cbCmdDataCompareOper.Items[1]">같음</Phrase>
+    <Phrase key="cbCmdDataCompareOper.Items[2]">포함</Phrase>
+    <Phrase key="chkTransmitCmd">전송 명령</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlCnlDataChangeTrigger">
+    <Phrase key="gbTrigger">트리거 매개변수</Phrase>
+    <Phrase key="chkActive">활동적인</Phrase>
+    <Phrase key="lblName">이름</Phrase>
+    <Phrase key="lblDescr">레이즈</Phrase>
+    <Phrase key="txtDescr">채널 데이터 변경 시</Phrase>
+    <Phrase key="lblCnlNum">채널</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlCnlDataTrigger">
+    <Phrase key="gbTrigger">트리거 매개변수</Phrase>
+    <Phrase key="chkActive">활동적인</Phrase>
+    <Phrase key="lblName">이름</Phrase>
+    <Phrase key="lblDescr">레이즈</Phrase>
+    <Phrase key="txtDescr">채널 데이터</Phrase>
+    <Phrase key="lblCnlNum">채널</Phrase>
+    <Phrase key="lblCnlValCond">값</Phrase>
+    <Phrase key="lblDeadband">데드밴드</Phrase>
+    <Phrase key="lblCnlStat">상태</Phrase>
+    <Phrase key="lblDelay">지연, 초</Phrase>
+    <Phrase key="lblRepeat">반복 주기, 초</Phrase>
+    <Phrase key="lblRepeatCnt">반복 횟수</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlEvTrigger">
+    <Phrase key="gbTrigger">트리거 매개변수</Phrase>
+    <Phrase key="chkActive">활동적인</Phrase>
+    <Phrase key="lblName">이름</Phrase>
+    <Phrase key="lblDescr">레이즈</Phrase>
+    <Phrase key="txtDescr">이벤트 중</Phrase>
+    <Phrase key="lblObjNum">물체</Phrase>
+    <Phrase key="lblDeviceNum">장치</Phrase>
+    <Phrase key="lblCnlNum">채널</Phrase>
+    <Phrase key="lblSeverity">심각도(최소, 최대)</Phrase>
+    <Phrase key="lblNewCnlValCond">새로운 가치</Phrase>
+    <Phrase key="lblNewCnlStat">새로운 상태</Phrase>
+    <Phrase key="lblTextCompareOper">텍스트</Phrase>
+    <Phrase key="cbTextCompareOper.Items[0]">확인하지 않음</Phrase>
+    <Phrase key="cbTextCompareOper.Items[1]">같음</Phrase>
+    <Phrase key="cbTextCompareOper.Items[2]">포함</Phrase>
+    <Phrase key="lblDataCompareOper">데이터</Phrase>
+    <Phrase key="cbDataCompareOper.Items[0]">확인하지 않음</Phrase>
+    <Phrase key="cbDataCompareOper.Items[1]">같음</Phrase>
+    <Phrase key="cbDataCompareOper.Items[2]">포함</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlTiggerGroup">
+    <Phrase key="gbTriggerGroup">그룹 매개변수</Phrase>
+    <Phrase key="chkActive">활동적인</Phrase>
+    <Phrase key="lblName">이름</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlTimeTrigger">
+    <Phrase key="gbTrigger">트리거 매개변수</Phrase>
+    <Phrase key="chkActive">활동적인</Phrase>
+    <Phrase key="lblName">이름</Phrase>
+    <Phrase key="lblDescr">레이즈</Phrase>
+    <Phrase key="txtDescr">정시에</Phrase>
+    <Phrase key="rbEveryDay">매일</Phrase>
+    <Phrase key="rbDaysOfWeek">요일</Phrase>
+    <Phrase key="rbDaysOfMonth">일수</Phrase>
+    <Phrase key="rbDates">날짜</Phrase>
+    <Phrase key="chkSun">해</Phrase>
+    <Phrase key="chkMon">월</Phrase>
+    <Phrase key="chkTue">화</Phrase>
+    <Phrase key="chkWed">수</Phrase>
+    <Phrase key="chkThu">목</Phrase>
+    <Phrase key="chkFri">금</Phrase>
+    <Phrase key="chkSat">앉았다</Phrase>
+    <Phrase key="lblTimes">시간을 올리다</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Controls.CtrlTriggerCommand">
+    <Phrase key="gbCommand">명령 매개변수</Phrase>
+    <Phrase key="lblCnlNum">채널</Phrase>
+    <Phrase key="lblOr">또는</Phrase>
+    <Phrase key="lblDeviceNum">장치</Phrase>
+    <Phrase key="lblCmdNum">명령 번호</Phrase>
+    <Phrase key="lblCmdCode">명령 코드</Phrase>
+    <Phrase key="lblDelay">지연, 초</Phrase>
+    <Phrase key="chkSendOnFiring">발사 중</Phrase>
+    <Phrase key="chkSendOnNorm">정규화 시</Phrase>
+    <Phrase key="chkCopyCmdVal">값 및 데이터 복사</Phrase>
+    <Phrase key="rbNumVal">숫자</Phrase>
+    <Phrase key="rbStrData">문자열 데이터</Phrase>
+    <Phrase key="rbHexData">16진수 데이터</Phrase>
+    <Phrase key="btnOff">끄다</Phrase>
+    <Phrase key="btnOn">~에</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmConditionEdit">
+    <Phrase key="this">조건 편집</Phrase>
+    <Phrase key="lblCompareOper1">작동을 비교하십시오.  1</Phrase>
+    <Phrase key="lblCompareArg1">인수 1</Phrase>
+    <Phrase key="lblLogicalOper">논리 연산자</Phrase>
+    <Phrase key="cbLogicalOper.Items[0]">없음</Phrase>
+    <Phrase key="cbLogicalOper.Items[1]">그리고</Phrase>
+    <Phrase key="cbLogicalOper.Items[2]">또는</Phrase>
+    <Phrase key="lblCompareOper2">작동을 비교하십시오.  2</Phrase>
+    <Phrase key="lblCompareArg2">인수 2</Phrase>
+    <Phrase key="lblResult">결과</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmDateTimeAdd">
+    <Phrase key="title1">날짜 추가</Phrase>
+    <Phrase key="title2">시간 추가</Phrase>
+    <Phrase key="lblDate">날짜</Phrase>
+    <Phrase key="lblTime">시간</Phrase>
+    <Phrase key="btnAdd">추가하다</Phrase>
+    <Phrase key="btnClose">닫다</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmDayAdd">
+    <Phrase key="this">날짜 추가</Phrase>
+    <Phrase key="lblDay">낮</Phrase>
+    <Phrase key="btnAdd">추가하다</Phrase>
+    <Phrase key="btnClose">닫다</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmGeneralOptions">
+    <Phrase key="this">모듈 옵션</Phrase>
+    <Phrase key="lblUsername">사용자 이름</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModAutoControl.View.Forms.FrmModuleConfig">
+    <Phrase key="this">자동 제어</Phrase>
+    <Phrase key="btnAddTriggerGroup.ToolTip">트리거 그룹 추가</Phrase>
+    <Phrase key="btnAddCnlDataTrigger.ToolTip">채널 데이터 트리거 추가</Phrase>
+    <Phrase key="btnAddCnlDataChangeTrigger.ToolTip">채널 데이터 변경 트리거 추가</Phrase>
+    <Phrase key="btnAddEvTrigger.ToolTip">이벤트 트리거 추가</Phrase>
+    <Phrase key="btnAddTimeTrigger.ToolTip">시간 트리거 추가</Phrase>
+    <Phrase key="btnAddCmdTrigger.ToolTip">명령 트리거 추가</Phrase>
+    <Phrase key="btnAddCommand.ToolTip">명령 추가</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">이동</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">아래로 이동</Phrase>
+    <Phrase key="btnDelete.ToolTip">삭제</Phrase>
+    <Phrase key="btnCut.ToolTip">자르다</Phrase>
+    <Phrase key="btnCopy.ToolTip">복사</Phrase>
+    <Phrase key="btnPaste.ToolTip">반죽</Phrase>
+    <Phrase key="btnOptions.ToolTip">모듈 옵션</Phrase>
+    <Phrase key="gbTriggers">트리거</Phrase>
+    <Phrase key="lblHint">트리거 및 명령 추가</Phrase>
+    <Phrase key="btnSave">구하다</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+    <Phrase key="btnClose">닫다</Phrase>
+    <Phrase key="miCollapseAll">모든 축소</Phrase>
+    <Phrase key="UnnamedGroup">&lt;이름 없는 그룹&gt;</Phrase>
+    <Phrase key="UnnamedTrigger">&lt;이름 없는 트리거&gt;</Phrase>
+    <Phrase key="CommandDescr1">채널 {0}</Phrase>
+    <Phrase key="CommandDescr2">장치 {0}, 명령 {1}</Phrase>
+    <Phrase key="CopySuffix">- 복사</Phrase>
+  </Dictionary>
+</ModAutoControlDictionaries>

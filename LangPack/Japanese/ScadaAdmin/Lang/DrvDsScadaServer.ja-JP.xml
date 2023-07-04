@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDsScadaServerDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsScadaServer.View.Forms.FrmConnManager">
+    <Phrase key="this">クライアント接続</Phrase>
+    <Phrase key="gbConnList">接続</Phrase>
+    <Phrase key="btnNewConn">新しい</Phrase>
+    <Phrase key="btnDeleteConn">消去</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsScadaServer.View.Forms.FrmScadaServerDSO">
+    <Phrase key="this">データソースオプション</Phrase>
+    <Phrase key="lblReadConfigDb">構成データベースの読み取り</Phrase>
+    <Phrase key="lblUseDefaultConn">デフォルトの接続を使用する</Phrase>
+    <Phrase key="lblConnection">繋がり</Phrase>
+    <Phrase key="lblMaxQueueSize">最大キューサイズ</Phrase>
+    <Phrase key="lblDataLifetime">キュー内のデータの有効期間 (秒)</Phrase>
+    <Phrase key="lblClientLogEnabled">クライアントログが有効になっています</Phrase>
+    <Phrase key="lblDeviceFilter">デバイスフィルター</Phrase>
+    <Phrase key="btnSelectDevices">選択する...</Phrase>
+    <Phrase key="btnManageConn">接続の管理</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+</DrvDsScadaServerDictionaries>

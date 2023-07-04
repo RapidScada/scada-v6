@@ -3,9 +3,6 @@
 
 using Scada.Agent;
 using Scada.Protocol;
-using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace Scada.Forms
 {

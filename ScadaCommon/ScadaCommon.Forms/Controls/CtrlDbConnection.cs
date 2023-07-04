@@ -2,9 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Dbms;
-using System;
 using System.ComponentModel;
-using System.Windows.Forms;
 
 namespace Scada.Forms.Controls
 {
@@ -151,7 +149,7 @@ namespace Scada.Forms.Controls
             txtPassword.ReadOnly = useConnectionString;
             txtConnectionString.ReadOnly = !useConnectionString;
         }
-        
+
         /// <summary>
         /// Builds the connection string.
         /// </summary>
@@ -197,13 +195,23 @@ namespace Scada.Forms.Controls
             txtName.Select();
         }
 
+        /// <summary>
+        /// Hides the component border.
+        /// </summary>
+        public void HideBorder()
+        {
+            gbConnectionOptions.Hide();
+            pnlConnectionOptions.Parent = this;
+            pnlConnectionOptions.Dock = DockStyle.Fill;
+        }
+
 
         /// <summary>
         /// Occurs when the connection options change.
         /// </summary>
         [Category("Property Changed")]
         public event EventHandler ConnectionOptionsChanged;
-        
+
         /// <summary>
         /// Occurs when the connection name changes.
         /// </summary>

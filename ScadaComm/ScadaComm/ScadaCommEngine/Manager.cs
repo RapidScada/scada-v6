@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Comm.Config;
@@ -149,10 +149,11 @@ namespace Scada.Comm.Engine
 
             storageWrapper = new StorageWrapper(new StorageContext
             {
+                InstanceConfig = instanceConfig,
                 App = ServiceApp.Comm,
                 AppDirs = AppDirs,
                 Log = log
-            }, instanceConfig);
+            });
 
             assemblyResolver = new AssemblyResolver(AppDirs.GetProbingDirs());
             CommConfig appConfig = new CommConfig();

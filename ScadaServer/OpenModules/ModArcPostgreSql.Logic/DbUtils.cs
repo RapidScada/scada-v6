@@ -2,12 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Npgsql;
-using Scada.Config;
 using Scada.Dbms;
-using Scada.Lang;
 using Scada.Server.Modules.ModArcPostgreSql.Config;
 using System.Globalization;
-using System.Xml;
 
 namespace Scada.Server.Modules.ModArcPostgreSql.Logic
 {
@@ -17,10 +14,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
     /// </summary>
     internal static class DbUtils
     {
-        /// <summary>
-        /// The code of the storage that contains connection options.
-        /// </summary>
-        private const string StorageCode = "PostgreSqlStorage";
         /// <summary>
         /// The date format used for naming partitions.
         /// </summary>
@@ -38,37 +31,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         {
             return DateTime.TryParseExact(s, PartitionDateFormat,
                 CultureInfo.InvariantCulture, DateTimeStyles.None, out result);
-        }
-
-        /// <summary>
-        /// Gets the connection options from the module configuration.
-        /// </summary>
-        public static DbConnectionOptions GetConnectionOptions(ModuleConfig moduleConfig, string connName)
-        {
-            ArgumentNullException.ThrowIfNull(moduleConfig, nameof(moduleConfig));
-            ArgumentNullException.ThrowIfNull(connName, nameof(connName));
-
-            return moduleConfig.Connections.TryGetValue(connName, out DbConnectionOptions connOptions)
-                ? connOptions
-                : throw new ScadaException(CommonPhrases.ConnectionNotFound, connName);
-        }
-
-        /// <summary>
-        /// Gets the connection options from the instance configuration.
-        /// </summary>
-        public static DbConnectionOptions GetConnectionOptions(InstanceConfig instanceConfig)
-        {
-            ArgumentNullException.ThrowIfNull(instanceConfig, nameof(instanceConfig));
-
-            if (instanceConfig.Storages.TryGetValue(StorageCode, out XmlElement storageElem) &&
-                storageElem.SelectSingleNode("Connection") is XmlNode connectionNode)
-            {
-                DbConnectionOptions connOptions = new();
-                connOptions.LoadFromXml(connectionNode);
-                return connOptions;
-            }
-
-            throw new ScadaException(CommonPhrases.ConnOptionsNotFound);
         }
 
         /// <summary>

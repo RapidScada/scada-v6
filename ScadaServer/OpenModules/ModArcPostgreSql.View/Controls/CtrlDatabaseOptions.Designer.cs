@@ -37,8 +37,8 @@
             lblPartitionSize = new Label();
             cbConnection = new ComboBox();
             lblConnection = new Label();
-            chkUseStorageConn = new CheckBox();
-            lblUseStorageConn = new Label();
+            chkUseDefaultConn = new CheckBox();
+            lblUseDefaultConn = new Label();
             gbDbOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numBatchSize).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numMaxQueueSize).BeginInit();
@@ -54,8 +54,8 @@
             gbDbOptions.Controls.Add(lblPartitionSize);
             gbDbOptions.Controls.Add(cbConnection);
             gbDbOptions.Controls.Add(lblConnection);
-            gbDbOptions.Controls.Add(chkUseStorageConn);
-            gbDbOptions.Controls.Add(lblUseStorageConn);
+            gbDbOptions.Controls.Add(chkUseDefaultConn);
+            gbDbOptions.Controls.Add(lblUseDefaultConn);
             gbDbOptions.Location = new Point(0, 0);
             gbDbOptions.Name = "gbDbOptions";
             gbDbOptions.Padding = new Padding(10, 3, 10, 10);
@@ -134,24 +134,24 @@
             lblConnection.TabIndex = 2;
             lblConnection.Text = "Connection";
             // 
-            // chkUseStorageConn
+            // chkUseDefaultConn
             // 
-            chkUseStorageConn.AutoSize = true;
-            chkUseStorageConn.Location = new Point(332, 26);
-            chkUseStorageConn.Name = "chkUseStorageConn";
-            chkUseStorageConn.Size = new Size(15, 14);
-            chkUseStorageConn.TabIndex = 1;
-            chkUseStorageConn.UseVisualStyleBackColor = true;
-            chkUseStorageConn.CheckedChanged += chkUseStorageConn_CheckedChanged;
+            chkUseDefaultConn.AutoSize = true;
+            chkUseDefaultConn.Location = new Point(332, 26);
+            chkUseDefaultConn.Name = "chkUseDefaultConn";
+            chkUseDefaultConn.Size = new Size(15, 14);
+            chkUseDefaultConn.TabIndex = 1;
+            chkUseDefaultConn.UseVisualStyleBackColor = true;
+            chkUseDefaultConn.CheckedChanged += chkUseDefaultConn_CheckedChanged;
             // 
-            // lblUseStorageConn
+            // lblUseDefaultConn
             // 
-            lblUseStorageConn.AutoSize = true;
-            lblUseStorageConn.Location = new Point(13, 26);
-            lblUseStorageConn.Name = "lblUseStorageConn";
-            lblUseStorageConn.Size = new Size(131, 15);
-            lblUseStorageConn.TabIndex = 0;
-            lblUseStorageConn.Text = "Use storage connection";
+            lblUseDefaultConn.AutoSize = true;
+            lblUseDefaultConn.Location = new Point(13, 26);
+            lblUseDefaultConn.Name = "lblUseDefaultConn";
+            lblUseDefaultConn.Size = new Size(131, 15);
+            lblUseDefaultConn.TabIndex = 0;
+            lblUseDefaultConn.Text = "Use default connection";
             // 
             // CtrlDatabaseOptions
             // 
@@ -178,7 +178,7 @@
         private Label lblMaxQueueSize;
         private ComboBox cbConnection;
         private Label lblConnection;
-        private CheckBox chkUseStorageConn;
-        private Label lblUseStorageConn;
+        private CheckBox chkUseDefaultConn;
+        private Label lblUseDefaultConn;
     }
 }

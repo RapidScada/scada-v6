@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaSchemeEditorDictionaries>
+  <Dictionary key="Scada.Scheme.Editor.Editor">
+    <Phrase key="EditorTitle">체계 편집기</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FrmMain">
+    <Phrase key="miFile">&amp;파일</Phrase>
+    <Phrase key="miFileNew">새로운</Phrase>
+    <Phrase key="miFileOpen">열려 있는...</Phrase>
+    <Phrase key="miFileSave">구하다</Phrase>
+    <Phrase key="miFileSaveAs">다른 이름으로 저장...</Phrase>
+    <Phrase key="miFileOpenBrowser">브라우저 열기</Phrase>
+    <Phrase key="miFileImport">수입...</Phrase>
+    <Phrase key="miFileExit">출구</Phrase>
+    <Phrase key="miEdit">&amp;편집하다</Phrase>
+    <Phrase key="miEditCut">자르다</Phrase>
+    <Phrase key="miEditCopy">복사</Phrase>
+    <Phrase key="miEditPaste">반죽</Phrase>
+    <Phrase key="miEditPasteSpecial">특수 붙여넣기...</Phrase>
+    <Phrase key="miEditUndo">실행 취소</Phrase>
+    <Phrase key="miEditRedo">다시 하다</Phrase>
+    <Phrase key="miEditPointer">바늘</Phrase>
+    <Phrase key="miEditDelete">삭제</Phrase>
+    <Phrase key="miTools">도구(&amp;T)</Phrase>
+    <Phrase key="miToolsOptions">옵션...</Phrase>
+    <Phrase key="miHelp">&amp;돕다</Phrase>
+    <Phrase key="miHelpAbout">프로그램에 대해</Phrase>
+    <Phrase key="btnFileNew.ToolTip">새 체계(Ctrl+N)</Phrase>
+    <Phrase key="btnFileOpen.ToolTip">구성표 열기(Ctrl+O)</Phrase>
+    <Phrase key="btnFileSave.ToolTip">구성표 저장(Ctrl+S)</Phrase>
+    <Phrase key="miFileSaveAs2">다른 이름으로 저장...</Phrase>
+    <Phrase key="btnFileOpenBrowser.ToolTip">새 브라우저 탭 열기</Phrase>
+    <Phrase key="btnEditCut.ToolTip">구성 요소 잘라내기(Ctrl+X)</Phrase>
+    <Phrase key="btnEditCopy.ToolTip">구성 요소 복사(Ctrl+C)</Phrase>
+    <Phrase key="btnEditPaste.ToolTip">구성 요소 붙여넣기(Ctrl+V)</Phrase>
+    <Phrase key="btnEditUndo.ToolTip">실행 취소(Ctrl+Z)</Phrase>
+    <Phrase key="btnEditRedo.ToolTip">다시 실행(Ctrl+Y)</Phrase>
+    <Phrase key="btnSchemePointer.ToolTip">구성 요소 추가 취소(Esc)</Phrase>
+    <Phrase key="btnSchemeDelete.ToolTip">선택한 구성 요소 삭제(Del)</Phrase>
+    <Phrase key="pageComponents">구성품</Phrase>
+    <Phrase key="pageProperties">속성</Phrase>
+    <Phrase key="lvgStandard">기준</Phrase>
+    <Phrase key="lvCompTypes.Items[0]">바늘</Phrase>
+    <Phrase key="lvCompTypes.Items[1]">정적 텍스트</Phrase>
+    <Phrase key="lvCompTypes.Items[2]">동적 텍스트</Phrase>
+    <Phrase key="lvCompTypes.Items[3]">정적 사진</Phrase>
+    <Phrase key="lvCompTypes.Items[4]">다이내믹 픽처</Phrase>
+    <Phrase key="CloseSecondInstance">체계 편집기가 이미 시작되었습니다.&#13;&#10;두 번째 인스턴스가 닫힙니다.</Phrase>
+    <Phrase key="FailedToStartEditor">Scada Editor를 시작하지 못했습니다.&#13;&#10;자세한 내용은&#13;&#10;{0}에서 확인하세요.</Phrase>
+    <Phrase key="OpenBrowserError">브라우저를 여는 중에 오류가 발생했습니다.</Phrase>
+    <Phrase key="PointerItem">바늘</Phrase>
+    <Phrase key="SchemeFileFilter">스키마(*.sch)|*.sch|모든 파일(*.*)|*.*</Phrase>
+    <Phrase key="SaveSchemeConfirm">구성표가 수정되었습니다.  변경 사항을 저장하시겠습니까?</Phrase>
+    <Phrase key="RestartNeeded">애플리케이션을 다시 시작하면 설정 변경 사항이 적용됩니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FrmPasteSpecial">
+    <Phrase key="this">선택하여 붙여넣기</Phrase>
+    <Phrase key="lblInCnlOffset">다음과 같이 입력 채널 번호를 늘립니다.</Phrase>
+    <Phrase key="lblCtrlCnlOffset">다음과 같이 출력 채널 번호를 늘립니다.</Phrase>
+    <Phrase key="btnPaste">반죽</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FrmSettings">
+    <Phrase key="this">옵션</Phrase>
+    <Phrase key="lblWebDir">웹 애플리케이션 디렉토리</Phrase>
+    <Phrase key="gbBrowser">브라우저</Phrase>
+    <Phrase key="rbDefault">기본</Phrase>
+    <Phrase key="rbChrome">Chrome</Phrase>
+    <Phrase key="rbFirefox">Firefox</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+    <Phrase key="WebDirNotExists">웹 애플리케이션 디렉토리가 존재하지 않습니다.</Phrase>
+    <Phrase key="ChooseWebDir">웹 애플리케이션 디렉토리 선택</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FormState">
+    <Phrase key="LoadFormStateError">양식 상태를 로드하는 중에 오류가 발생했습니다.</Phrase>
+    <Phrase key="SaveFormStateError">양식 상태를 저장하는 중에 오류가 발생했습니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.Js">
+    <Phrase key="UnableLoadScheme">구성표를 웹 페이지에 업로드할 수 없습니다.</Phrase>
+    <Phrase key="PageNotValid">웹 페이지는 더 이상 실제가 아닙니다.  닫는 것이 좋습니다.</Phrase>
+    <Phrase key="DataError">데이터를 처리하는 동안 오류가 발생했습니다.</Phrase>
+    <Phrase key="EditorClosed">구성표 편집기가 닫혔을 수 있습니다.  웹 페이지를 닫는 것이 좋습니다.</Phrase>
+    <Phrase key="BrowserOutdated">브라우저가 오래되었습니다.  최신 브라우저로 업데이트해 주세요.</Phrase>
+  </Dictionary>
+</ScadaSchemeEditorDictionaries>

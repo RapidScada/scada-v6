@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtWirenBoardDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlDeviceTree">
+    <Phrase key="btnSelectAll">Vybrat vše</Phrase>
+    <Phrase key="btnSelectNone">Vyberte možnost Žádný</Phrase>
+    <Phrase key="SelectDevice">Vyberte prosím alespoň jedno zařízení.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlEntityID">
+    <Phrase key="lblStartDeviceNum">Počáteční číslo zařízení</Phrase>
+    <Phrase key="btnDeviceMap">Mapa</Phrase>
+    <Phrase key="lblStartCnlNum">Počáteční číslo kanálu</Phrase>
+    <Phrase key="btnCnlMap">Mapa</Phrase>
+    <Phrase key="lblObj">Objekt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlExtensionMenu">
+    <Phrase key="miWirenBoard">Wiren Board</Phrase>
+    <Phrase key="miCreateConfig">Vytvořit konfiguraci...</Phrase>
+    <Phrase key="btnCreateConfig.ToolTip">Vytvořte konfiguraci projektu pro Wiren Board</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlLineSelect">
+    <Phrase key="lblInstance">Instance</Phrase>
+    <Phrase key="lblLine">Komunikační linka</Phrase>
+    <Phrase key="lblWirenBoardIP">IP adresa Wiren Board</Phrase>
+    <Phrase key="CommLineRequired">Vyberte prosím komunikační linku.</Phrase>
+    <Phrase key="MqttLineRequired">Typ kanálu vybrané linky musí být klient MQTT.</Phrase>
+    <Phrase key="WirenBoardIpRequired">Je vyžadována IP adresa Wiren Board.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Forms.FrmWirenBoardWizard">
+    <Phrase key="this">Průvodce konfigurací projektu pro Wiren Board</Phrase>
+    <Phrase key="btnBack">&lt; Zpět</Phrase>
+    <Phrase key="btnNext">Další &gt;</Phrase>
+    <Phrase key="btnCreate">Vytvořit</Phrase>
+    <Phrase key="btnCancel">zrušení</Phrase>
+    <Phrase key="Step1Descr">Krok 1 z 5: Vyberte položku Komunikační linka</Phrase>
+    <Phrase key="Step2Descr">Krok 2 z 5: Přečtěte si témata z Wiren Board</Phrase>
+    <Phrase key="Step3Descr">Krok 3 z 5: Vyberte Zařízení a ovládací prvky pro import</Phrase>
+    <Phrase key="Step4Descr">Krok 4 z 5: Nastavte ID pro konfigurační databázi</Phrase>
+    <Phrase key="Step5Descr">Krok 5 z 5: Zkontrolujte, že se právě vytváří konfigurace</Phrase>
+    <Phrase key="CreateConfigCompleted">Konfigurace byla úspěšně vytvořena</Phrase>
+    <Phrase key="CreateConfigError">Při vytváření konfigurace došlo k chybě</Phrase>
+  </Dictionary>
+</ExtWirenBoardDictionaries>

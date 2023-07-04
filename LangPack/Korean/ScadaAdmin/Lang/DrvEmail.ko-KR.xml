@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvEmailDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvEmail.View.Forms.FrmConfig">
+    <Phrase key="this">장치 {0} 속성 - 이메일</Phrase>
+    <Phrase key="gbServer">SMTP 서버</Phrase>
+    <Phrase key="lblHost">서버 호스트</Phrase>
+    <Phrase key="lblPort">포트</Phrase>
+    <Phrase key="lblUsername">사용자 이름</Phrase>
+    <Phrase key="lblPassword">비밀번호</Phrase>
+    <Phrase key="chkEnableSsl">SSL 사용</Phrase>
+    <Phrase key="gbSender">에서</Phrase>
+    <Phrase key="lblSenderAddress">발신자 주소</Phrase>
+    <Phrase key="lblSenderDisplayName">이름 표시하기</Phrase>
+    <Phrase key="btnAddressBook">주소록</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+</DrvEmailDictionaries>

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModArcInfluxDblDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmConnManager">
+    <Phrase key="this">Connessioni InfluxDB</Phrase>
+    <Phrase key="gbConnList">Connessioni</Phrase>
+    <Phrase key="btnNewConn">Nuovo</Phrase>
+    <Phrase key="btnDeleteConn">Eliminare</Phrase>
+    <Phrase key="gbOptions">Opzioni di connessione</Phrase>
+    <Phrase key="lblName">Nome</Phrase>
+    <Phrase key="lblUrl">URL</Phrase>
+    <Phrase key="lblToken">Gettone</Phrase>
+    <Phrase key="lblUsername">Nome utente</Phrase>
+    <Phrase key="lblPassword">Parola d'ordine</Phrase>
+    <Phrase key="lblBucket">Secchio</Phrase>
+    <Phrase key="lblOrg">Organizzazione</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Annulla</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmInfluxHAO">
+    <Phrase key="this">Opzioni archivio storico</Phrase>
+    <Phrase key="gbDbOptions">Opzioni banca dati</Phrase>
+    <Phrase key="lblConnection">Connessione</Phrase>
+    <Phrase key="lblBatchSize">Dimensione del lotto</Phrase>
+    <Phrase key="lblFlushInterval">Intervallo di lavaggio</Phrase>
+    <Phrase key="txtFlushIntervalUnit">SM</Phrase>
+    <Phrase key="btnManageConn">Gestisci connessioni</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Annulla</Phrase>
+  </Dictionary>
+</ModArcInfluxDblDictionaries>

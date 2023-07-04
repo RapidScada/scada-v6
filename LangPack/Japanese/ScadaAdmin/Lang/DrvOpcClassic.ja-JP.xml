@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvOpcClassicDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlCommand">
+    <Phrase key="gbCommand">コマンドパラメータ</Phrase>
+    <Phrase key="lblPath">道</Phrase>
+    <Phrase key="lblName">名前</Phrase>
+    <Phrase key="lblCmdCode">コマンドコード</Phrase>
+    <Phrase key="lblCmdNum">コマンド番号</Phrase>
+    <Phrase key="lblDataType">データ・タイプ</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEmptyItem">
+    <Phrase key="gbEmptyItem">アイテムパラメータ</Phrase>
+    <Phrase key="lblNotSelected">項目が選択されていません</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEventCategory">
+    <Phrase key="gbEventCategory">カテゴリパラメータ</Phrase>
+    <Phrase key="lblName">名前</Phrase>
+    <Phrase key="lblID">ID</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEventSubscription">
+    <Phrase key="gbSubscription">サブスクリプションパラメータ</Phrase>
+    <Phrase key="chkActive">アクティブ</Phrase>
+    <Phrase key="lblDisplayName">表示名</Phrase>
+    <Phrase key="lblUpdateRate">更新速度、ミリ秒</Phrase>
+    <Phrase key="lblKeepAlive">生きてください、ミズさん</Phrase>
+    <Phrase key="lblMaxSize">最大サイズ</Phrase>
+    <Phrase key="chkSimpleEvents">単純なイベント</Phrase>
+    <Phrase key="chkTrackingEvents">イベントの追跡</Phrase>
+    <Phrase key="chkConditionEvents">条件イベント</Phrase>
+    <Phrase key="lblHighSeverity">重大度が高い</Phrase>
+    <Phrase key="lblLowSeverity">重大度が低い</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlItem">
+    <Phrase key="gbItem">アイテムパラメータ</Phrase>
+    <Phrase key="chkActive">アクティブ</Phrase>
+    <Phrase key="lblPath">道</Phrase>
+    <Phrase key="lblName">名前</Phrase>
+    <Phrase key="lblTagCode">タグコード</Phrase>
+    <Phrase key="lblTagNum">タグ番号</Phrase>
+    <Phrase key="lblDataType">データ・タイプ</Phrase>
+    <Phrase key="chkIsString">文字列です</Phrase>
+    <Phrase key="chkIsArray">配列です</Phrase>
+    <Phrase key="lblDataLen">文字列または配列の長さ</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlSubscription">
+    <Phrase key="gbSubscription">サブスクリプションパラメータ</Phrase>
+    <Phrase key="chkActive">アクティブ</Phrase>
+    <Phrase key="lblDisplayName">表示名</Phrase>
+    <Phrase key="lblUpdateRate">更新速度、ミリ秒</Phrase>
+    <Phrase key="lblKeepAlive">生きてください、ミズさん</Phrase>
+    <Phrase key="lblDeadband">不感帯、%</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">デバイス {0} プロパティ - OPC クラシック</Phrase>
+    <Phrase key="gbConnectionOptions">接続オプション</Phrase>
+    <Phrase key="lblHost">リモートホスト</Phrase>
+    <Phrase key="btnShowNetworkOptions">オプション</Phrase>
+    <Phrase key="lblServerPath">OPCサーバー</Phrase>
+    <Phrase key="lblDaSpec">DA仕様</Phrase>
+    <Phrase key="lblAeSpec">AE仕様</Phrase>
+    <Phrase key="btnSelectServer">選択する...</Phrase>
+    <Phrase key="lblConnectionInfo">接続オプションは通信回線共通です。</Phrase>
+    <Phrase key="gbServerBrowse">サーバーの参照</Phrase>
+    <Phrase key="btnConnect.ToolTip">接続</Phrase>
+    <Phrase key="btnDisconnect.ToolTip">切断する</Phrase>
+    <Phrase key="btnOpenFile.ToolTip">ファイルを開く</Phrase>
+    <Phrase key="gbDevice">デバイス構成</Phrase>
+    <Phrase key="btnAddSubscription.ToolTip">サブスクリプションの追加</Phrase>
+    <Phrase key="btnAddItem.ToolTip">選択した項目を追加</Phrase>
+    <Phrase key="btnMoveUpItem.ToolTip">上に移動</Phrase>
+    <Phrase key="btnMoveDownItem.ToolTip">下に移動</Phrase>
+    <Phrase key="btnDeleteItem.ToolTip">消去</Phrase>
+    <Phrase key="btnSave">保存</Phrase>
+    <Phrase key="btnClose">近い</Phrase>
+    <Phrase key="XmlFileFilter">XML ファイル (*.xml)|*.xml|すべてのファイル (*.*)|*.*</Phrase>
+    <Phrase key="ServerNotSelected">OPC サーバーが選択されていません。</Phrase>
+    <Phrase key="DaServerUnavailable">OPC DA サーバーが利用できないか、選択した仕様をサポートしていません。</Phrase>
+    <Phrase key="AeServerUnavailable">OPC AE サーバーが利用できないか、選択した仕様をサポートしていません。</Phrase>
+    <Phrase key="ConnectDaServerError">OPC DA サーバーの接続エラー</Phrase>
+    <Phrase key="ConnectAeServerError">OPC AE サーバーの接続エラー</Phrase>
+    <Phrase key="DisconnectDaServerError">OPC DA サーバーの切断中にエラーが発生しました</Phrase>
+    <Phrase key="DisconnectAeServerError">OPC AE サーバーの切断中にエラーが発生しました</Phrase>
+    <Phrase key="BrowseServerError">OPC サーバーの参照中にエラーが発生しました</Phrase>
+    <Phrase key="LoadServerContentError">OPC サーバー コンテンツのロード中にエラーが発生しました</Phrase>
+    <Phrase key="ServerNotConnected">OPCサーバーが接続されていません。</Phrase>
+    <Phrase key="UnableToReadData">データを読み取れません。</Phrase>
+    <Phrase key="GetDataTypeError">データ型の取得エラー</Phrase>
+    <Phrase key="DaServerNode">OPC DA</Phrase>
+    <Phrase key="AeServerNode">OPC AE</Phrase>
+    <Phrase key="EmptyNode">空</Phrase>
+    <Phrase key="SubscriptionsNode">定期購入</Phrase>
+    <Phrase key="CommandsNode">コマンド</Phrase>
+    <Phrase key="EventSubscriptionsNode">イベントのサブスクリプション</Phrase>
+    <Phrase key="UnnamedSubscription">&lt;名前のないサブスクリプション&gt;</Phrase>
+    <Phrase key="UnnamedItem">&lt;名前のないアイテム&gt;</Phrase>
+    <Phrase key="UnnamedCommand">&lt;名前のないコマンド&gt;</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Forms.FrmNetworkOptions">
+    <Phrase key="this">ネットワークオプション</Phrase>
+    <Phrase key="chkIsDefault">デフォルトのオプションを使用する</Phrase>
+    <Phrase key="gbCredentials">資格</Phrase>
+    <Phrase key="lblUsername">ユーザー名</Phrase>
+    <Phrase key="lblPassword">パスワード</Phrase>
+    <Phrase key="lblDomain">ドメイン</Phrase>
+    <Phrase key="gbProxy">ウェブプロキシ</Phrase>
+    <Phrase key="lblProxyAddress">住所</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Forms.FrmServerSelect">
+    <Phrase key="this">OPCサーバーの選択</Phrase>
+    <Phrase key="lblHost">ホスト</Phrase>
+    <Phrase key="lblServer">OPCサーバー</Phrase>
+    <Phrase key="gbDaSpec">DA仕様</Phrase>
+    <Phrase key="rbDaNone">なし</Phrase>
+    <Phrase key="rbDa10">データアクセス 1.0a</Phrase>
+    <Phrase key="rbDa20">データアクセス 2.XX</Phrase>
+    <Phrase key="rbDa30">データアクセス 3.00</Phrase>
+    <Phrase key="gbAeSpec">AE仕様</Phrase>
+    <Phrase key="rbAeNone">なし</Phrase>
+    <Phrase key="rbAe10">アラームとイベント 1.XX</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+    <Phrase key="FillServersError">サーバーリストの入力中にエラーが発生しました</Phrase>
+    <Phrase key="DisposeServersError">サーバーの破棄中にエラーが発生しました</Phrase>
+  </Dictionary>
+</DrvOpcClassicDictionaries>

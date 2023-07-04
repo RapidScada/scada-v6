@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtProjectToolsDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.ChannelMap">
+    <Phrase key="MapByDeviceTitle">기기별 채널</Phrase>
+    <Phrase key="MapByObjectTitle">객체별 채널</Phrase>
+    <Phrase key="ChannelsCaption">채널 :</Phrase>
+    <Phrase key="NoChannels">채널 없음</Phrase>
+    <Phrase key="GenerateChannelMapError">채널 맵 생성 오류</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.DeviceMap">
+    <Phrase key="DeviceMapTitle">통신 회선별 장치</Phrase>
+    <Phrase key="DevicesCaption">장치:</Phrase>
+    <Phrase key="NoDevices">기기 없음</Phrase>
+    <Phrase key="EmptyCommLine">빈 통신 회선</Phrase>
+    <Phrase key="GenerateDeviceMapError">장치 맵 생성 오류</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.IntegrityCheck">
+    <Phrase key="IntegrityCheckTitle">무결성 검사</Phrase>
+    <Phrase key="TableCorrect">좋아요</Phrase>
+    <Phrase key="TableHasErrors">오류</Phrase>
+    <Phrase key="LostPrimaryKeys">기본 키 분실:</Phrase>
+    <Phrase key="BaseCorrect">구성 데이터베이스가 정확합니다.</Phrase>
+    <Phrase key="BaseHasErrors">구성 데이터베이스에 오류가 있습니다.</Phrase>
+    <Phrase key="IntegrityCheckError">무결성 검사 오류</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Controls.CtrlMainMenu">
+    <Phrase key="miProjectTools">프로젝트 도구</Phrase>
+    <Phrase key="miCloneChannels">클론 채널...</Phrase>
+    <Phrase key="miChannelMapByDevice">장치별 채널 맵</Phrase>
+    <Phrase key="miChannelMapByObject">객체별 채널 맵</Phrase>
+    <Phrase key="miDeviceMap">장치 맵</Phrase>
+    <Phrase key="miCheckIntegrity">무결성 확인</Phrase>
+    <Phrase key="miEncryptPassword">암호 암호화...</Phrase>
+    <Phrase key="miImportTable">테이블 가져오기...</Phrase>
+    <Phrase key="miExportTable">테이블 내보내기...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmCnlClone">
+    <Phrase key="this">클론 채널</Phrase>
+    <Phrase key="gbSrcNums">소스 채널 번호</Phrase>
+    <Phrase key="lblSrcStartNum">시작</Phrase>
+    <Phrase key="lblSrcEndNum">끝</Phrase>
+    <Phrase key="gbDestNums">대상 채널 번호</Phrase>
+    <Phrase key="lblDestStartNum">시작</Phrase>
+    <Phrase key="lblDestEndNum">끝</Phrase>
+    <Phrase key="gbOptions">옵션</Phrase>
+    <Phrase key="lblReplaceObj">개체 바꾸기</Phrase>
+    <Phrase key="lblReplaceDevice">기기 교체</Phrase>
+    <Phrase key="chkUpdateFormulas">수식에서 채널 번호 업데이트</Phrase>
+    <Phrase key="btnClone">클론</Phrase>
+    <Phrase key="btnClose">닫다</Phrase>
+    <Phrase key="KeepUnchanged">&lt;변경하지 않고 유지&gt;</Phrase>
+    <Phrase key="CloneChannelsCompleted">복제가 성공적으로 완료되었습니다.&#13;&#10;{0}개의 채널이 추가되었습니다.</Phrase>
+    <Phrase key="CloneChannelsError">채널 복제 오류</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
+    <Phrase key="this">비밀번호 암호화</Phrase>
+    <Phrase key="lblPassword">비밀번호</Phrase>
+    <Phrase key="lblPasswordEncrypted">암호화된 비밀번호</Phrase>
+    <Phrase key="btnCopy">복사</Phrase>
+    <Phrase key="btnClose">닫다</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
+    <Phrase key="this">테이블 내보내기</Phrase>
+    <Phrase key="lblTable">테이블</Phrase>
+    <Phrase key="lblFormat">체재</Phrase>
+    <Phrase key="gbIDs">ID</Phrase>
+    <Phrase key="lblStartID">시작</Phrase>
+    <Phrase key="lblEndID">끝</Phrase>
+    <Phrase key="btnExport">내보내다</Phrase>
+    <Phrase key="btnClose">닫다</Phrase>
+    <Phrase key="ExportTableFilter">테이블(*.dat;*.xml;*.csv)|*.dat;*.xml;*.csv|모든 파일(*.*)|*.*</Phrase>
+    <Phrase key="ExportTableError">테이블을 내보내는 중에 오류가 발생했습니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableImport">
+    <Phrase key="this">가져오기 테이블</Phrase>
+    <Phrase key="lblTable">테이블</Phrase>
+    <Phrase key="lblSrcFile">소스 파일</Phrase>
+    <Phrase key="btnBrowse">검색...</Phrase>
+    <Phrase key="gbSrcIDs">소스 ID</Phrase>
+    <Phrase key="lblSrcStartID">시작</Phrase>
+    <Phrase key="lblSrcEndID">끝</Phrase>
+    <Phrase key="gbDestIDs">대상 ID</Phrase>
+    <Phrase key="lblDestStartID">시작</Phrase>
+    <Phrase key="lblDestEndID">끝</Phrase>
+    <Phrase key="btnImport">수입</Phrase>
+    <Phrase key="btnClose">닫다</Phrase>
+    <Phrase key="ImportTableFilter">테이블(*.dat;*.xml;*.csv)|*.dat;*.xml;*.csv|모든 파일(*.*)|*.*</Phrase>
+    <Phrase key="ImportTableCompleted">가져오기가 성공적으로 완료되었습니다.&#13;&#10;{0}개의 행이 영향을 받았습니다.</Phrase>
+    <Phrase key="ImportTableError">테이블 가져오기 오류</Phrase>
+  </Dictionary>
+</ExtProjectToolsDictionaries>

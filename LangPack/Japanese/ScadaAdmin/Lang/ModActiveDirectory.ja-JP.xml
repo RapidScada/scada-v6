@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModActiveDirectoryDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModActiveDirectory.Config.ModuleConfig">
+    <Phrase key="LdapServer.DisplayName">LDAPサーバー</Phrase>
+    <Phrase key="LdapServer.Category">主なパラメータ</Phrase>
+    <Phrase key="LdapServer.Description">ドメイン コントローラーのホストまたは IP アドレス。 たとえば、127.0.0.1</Phrase>
+    <Phrase key="EnableSearch.DisplayName">検索を有効にする</Phrase>
+    <Phrase key="EnableSearch.Category">主なパラメータ</Phrase>
+    <Phrase key="EnableSearch.Description">Active Directory でのユーザー ロールの検索を有効にします。</Phrase>
+    <Phrase key="SearchRoot.DisplayName">検索ルート</Phrase>
+    <Phrase key="SearchRoot.Category">主なパラメータ</Phrase>
+    <Phrase key="SearchRoot.Description">検索ルート。 たとえば、DC=会社、DC=com</Phrase>
+  </Dictionary>
+</ModActiveDirectoryDictionaries>

@@ -43,6 +43,8 @@
     <Phrase key="pbReconnectAfterHint.ToolTip">Specifies time interval to reconnect after an unsuccessful attempt.</Phrase>
     <Phrase key="lblStayConnected">Stay connected</Phrase>
     <Phrase key="pbStayConnectedHint.ToolTip">If set, the connection is active between communication sessions.&#13;&#10;Otherwise, the connection is terminated after each session.</Phrase>
+    <Phrase key="lblDisconnectOnError">Disconnect on error</Phrase>
+    <Phrase key="pbDisconnectOnError.ToolTip">Indicates whether to disconnect if a session fails.</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
     <Phrase key="HostRequired">Remote host is required.</Phrase>

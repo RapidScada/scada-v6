@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDsOpcUaServerDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms.FrmOpcUaServerDSO">
+    <Phrase key="this">Datenquellenoptionen</Phrase>
+    <Phrase key="chkAutoAccept">Zertifikate automatisch akzeptieren</Phrase>
+    <Phrase key="lblUsername">Nutzername</Phrase>
+    <Phrase key="lblPassword">Passwort</Phrase>
+    <Phrase key="lblConfigFileName">Konfigurationsdatei</Phrase>
+    <Phrase key="btnCreateConfigWin.ToolTip">Erstellen Sie eine Konfigurationsdatei für Windows</Phrase>
+    <Phrase key="btnCreateConfigLinux.ToolTip">Erstellen Sie eine Konfigurationsdatei für Linux</Phrase>
+    <Phrase key="btnBrowseConfig.ToolTip">Durchsuche</Phrase>
+    <Phrase key="lblDeviceFilter">Gerätefilter</Phrase>
+    <Phrase key="btnSelectDevices.ToolTip">Wählen Sie Geräte aus</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Stornieren</Phrase>
+    <Phrase key="ConfigDirRequired">Die Konfigurationsdatei muss sich in {0} befinden.</Phrase>
+  </Dictionary>
+</DrvDsOpcUaServerDictionaries>

@@ -664,16 +664,6 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.Forms.FrmRegistration">
     <Phrase key="this">Регистрация</Phrase>
-    <Phrase key="lblProductName">Наименование продукта</Phrase>
-    <Phrase key="lblCompCode">Код компьютера</Phrase>
-    <Phrase key="btnCopyCompCode">Копировать</Phrase>
-    <Phrase key="btnRefreshCompCode">Обновить</Phrase>
-    <Phrase key="lblCompCodeInfo">Если код отсутствует, передайте конфигурацию и перезапустите службы.</Phrase>
-    <Phrase key="lblRegKey">Регистрационный ключ</Phrase>
-    <Phrase key="btnPasteRegKey">Вставить</Phrase>
-    <Phrase key="lblRegKeyInfo">Результат проверки ключа записывается в журнал приложения или модуля.</Phrase>
-    <Phrase key="llblGetPermanentKey">Получить постоянный ключ</Phrase>
-    <Phrase key="llblGetTrialKey">Получить пробный ключ</Phrase>
     <Phrase key="btnSave">Сохранить</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
     <Phrase key="LoadRegKeyError">Ошибка при загрузке регистрационного ключа</Phrase>

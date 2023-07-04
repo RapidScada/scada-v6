@@ -72,10 +72,10 @@ class TreeView {
         this._expandSelectedNodes(allNodes);
 
         // do action or toggle on node click
-        let thisObj = this;
+        const thisObj = this;
         allNodes
             .off()
-            .click(function (event) {
+            .on("click", function (event) {
                 if (event.ctrlKey || event.button == 1 /*middle*/) {
                     return true; // allow the default link behavior
                 } else {

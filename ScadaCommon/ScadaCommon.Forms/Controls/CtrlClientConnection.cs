@@ -3,11 +3,7 @@
 
 using Scada.Client;
 using Scada.Lang;
-using System;
 using System.ComponentModel;
-using System.Drawing;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Scada.Forms.Controls
 {
@@ -143,6 +139,16 @@ namespace Scada.Forms.Controls
         public void SetFocus()
         {
             txtName.Select();
+        }
+
+        /// <summary>
+        /// Hides the component border.
+        /// </summary>
+        public void HideBorder()
+        {
+            gbConnectionOptions.Hide();
+            pnlConnectionOptions.Parent = this;
+            pnlConnectionOptions.Dock = DockStyle.Fill;
         }
 
 

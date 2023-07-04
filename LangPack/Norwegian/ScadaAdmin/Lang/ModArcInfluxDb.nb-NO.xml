@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModArcInfluxDblDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmConnManager">
+    <Phrase key="this">InfluxDB-tilkoblinger</Phrase>
+    <Phrase key="gbConnList">Tilkoblinger</Phrase>
+    <Phrase key="btnNewConn">Ny</Phrase>
+    <Phrase key="btnDeleteConn">Slett</Phrase>
+    <Phrase key="gbOptions">Tilkoblingsalternativer</Phrase>
+    <Phrase key="lblName">Navn</Phrase>
+    <Phrase key="lblUrl">URL</Phrase>
+    <Phrase key="lblToken">Token</Phrase>
+    <Phrase key="lblUsername">Brukernavn</Phrase>
+    <Phrase key="lblPassword">Passord</Phrase>
+    <Phrase key="lblBucket">Bøtte</Phrase>
+    <Phrase key="lblOrg">Organisasjon</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmInfluxHAO">
+    <Phrase key="this">Historiske arkivalternativer</Phrase>
+    <Phrase key="gbDbOptions">Databasealternativer</Phrase>
+    <Phrase key="lblConnection">Forbindelse</Phrase>
+    <Phrase key="lblBatchSize">Partistørrelse, Gruppestørrelse</Phrase>
+    <Phrase key="lblFlushInterval">Spyleintervall</Phrase>
+    <Phrase key="txtFlushIntervalUnit">ms</Phrase>
+    <Phrase key="btnManageConn">Administrer tilkoblinger</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+</ModArcInfluxDblDictionaries>

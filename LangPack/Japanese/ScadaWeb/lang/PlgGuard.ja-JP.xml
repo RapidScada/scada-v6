@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgGuardDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages">
+    <Phrase key="NoData">データなし</Phrase>
+    <Phrase key="UsernameColumn">ユーザー名</Phrase>
+    <Phrase key="SessionIdColumn">セッションID</Phrase>
+    <Phrase key="RemoteIpColumn">IPアドレス</Phrase>
+    <Phrase key="AccessTimeColumn">アクセス時間</Phrase>
+    <Phrase key="FailCountColumn">失敗数</Phrase>
+    <Phrase key="AccessColumn">アクセス</Phrase>
+    <Phrase key="AccessAllowed">許可された</Phrase>
+    <Phrase key="AccessBlocked">ブロックされました</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.Addresses">
+    <Phrase key="PageTitle">IPアドレス</Phrase>
+    <Phrase key="UsernameColumn">最後のユーザー名</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.General">
+    <Phrase key="PageTitle">全般的</Phrase>
+    <Phrase key="CacheInfoFormat">{0}/{1}</Phrase>
+    <Phrase key="lblGlobalAccess">グローバルアクセス:</Phrase>
+    <Phrase key="lblBlockedUsers">ブロックされたユーザー：</Phrase>
+    <Phrase key="lblBlockedAddresses">ブロックされた IP アドレス:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.Sessions">
+    <Phrase key="PageTitle">セッション</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.Users">
+    <Phrase key="PageTitle">ユーザー</Phrase>
+    <Phrase key="RemoteIpColumn">最後のIPアドレス</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.PlgGuardLogic">
+    <Phrase key="GuardMenuItem">ガード</Phrase>
+    <Phrase key="GeneralMenuItem">全般的</Phrase>
+    <Phrase key="UsersMenuItem">ユーザー</Phrase>
+    <Phrase key="AddressesMenuItem">IPアドレス</Phrase>
+    <Phrase key="SessionsMenuItem">セッション</Phrase>
+  </Dictionary>
+</PlgGuardDictionaries>

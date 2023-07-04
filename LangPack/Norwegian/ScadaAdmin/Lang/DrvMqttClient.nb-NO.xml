@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvMqttClientDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.BaseItemConfig">
+    <Phrase key="Topic.DisplayName">Emne</Phrase>
+    <Phrase key="Topic.Category">Hovedparametere</Phrase>
+    <Phrase key="Topic.Description">MQTT-emnet.</Phrase>
+    <Phrase key="DisplayName.DisplayName">Visningsnavn</Phrase>
+    <Phrase key="DisplayName.Category">Hovedparametere</Phrase>
+    <Phrase key="DisplayName.Description">Visningsnavnet til enhetsetiketten.</Phrase>
+    <Phrase key="QosLevel.DisplayName">QoS-nivå</Phrase>
+    <Phrase key="QosLevel.Category">Protokoll</Phrase>
+    <Phrase key="QosLevel.Description">Kvaliteten på tjenestenivået: 0 - høyst én gang, 1 - minst én gang, 2 - nøyaktig én gang.</Phrase>
+    <Phrase key="Retain.DisplayName">Beholde</Phrase>
+    <Phrase key="Retain.Category">Protokoll</Phrase>
+    <Phrase key="Retain.Description">En verdi som indikerer om det beholdte flagget skal angis ved publisering.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.CommandConfig">
+    <Phrase key="CmdCode.DisplayName">Kommandokode</Phrase>
+    <Phrase key="CmdCode.Category">Hovedparametere</Phrase>
+    <Phrase key="CmdCode.Description">Kommandokoden knyttet til emnet.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.SubscriptionConfig">
+    <Phrase key="TagCode.DisplayName">Tag kode</Phrase>
+    <Phrase key="TagCode.Category">Hovedparametere</Phrase>
+    <Phrase key="TagCode.Description">Tagkoden knyttet til emnet.</Phrase>
+    <Phrase key="ReadOnly.DisplayName">Lesebeskyttet</Phrase>
+    <Phrase key="ReadOnly.Category">Hovedparametere</Phrase>
+    <Phrase key="ReadOnly.Description">En verdi som indikerer om emnet er skrivebeskyttet.</Phrase>
+    <Phrase key="JsEnabled.DisplayName">JavaScript aktivert</Phrase>
+    <Phrase key="JsEnabled.Category">Avanserte parametere</Phrase>
+    <Phrase key="JsEnabled.Description">En verdi som indikerer om JavaScript skal kjøres når en melding mottas.</Phrase>
+    <Phrase key="JsFileName.DisplayName">JavaScript-filnavn</Phrase>
+    <Phrase key="JsFileName.Category">Avanserte parametere</Phrase>
+    <Phrase key="JsFileName.Description">JavaScript-filnavnet i forhold til Communicator-konfigurasjonskatalogen.</Phrase>
+    <Phrase key="SubItems.DisplayName">Underelementer</Phrase>
+    <Phrase key="SubItems.Category">Avanserte parametere</Phrase>
+    <Phrase key="SubItems.Description">Underelementene som representerer flere enhetstagger for emnet.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.DeviceOptions">
+    <Phrase key="RootTopic.DisplayName">Root-emne</Phrase>
+    <Phrase key="RootTopic.Category">Hovedparametere</Phrase>
+    <Phrase key="RootTopic.Description">Rotemnet som brukes som prefiks for alle enhetsemner.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.View.MqttClientConfigProvider">
+    <Phrase key="FormTitle">Enhetsegenskaper {0} – MQTT-klient</Phrase>
+    <Phrase key="AddSubscriptionButton">Legg til abonnement</Phrase>
+    <Phrase key="AddCommandButton">Legg til kommando</Phrase>
+    <Phrase key="OptionsNode">Alternativer</Phrase>
+    <Phrase key="SubscriptionsNode">Abonnementer</Phrase>
+    <Phrase key="CommandsNode">Kommandoer</Phrase>
+    <Phrase key="UnnamedSubscription">&lt;Unavngitt abonnement&gt;</Phrase>
+    <Phrase key="UnnamedCommand">&lt;Unavngitt kommando&gt;</Phrase>
+  </Dictionary>
+</DrvMqttClientDictionaries>

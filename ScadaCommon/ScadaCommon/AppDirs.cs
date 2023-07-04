@@ -44,6 +44,7 @@ namespace Scada
             Lowercase = false;
             InstanceDir = "";
             ExeDir = "";
+            CmdDir = "";
             ConfigDir = "";
             LangDir = "";
             LogDir = "";

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDsScadaServerDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsScadaServer.View.Forms.FrmConnManager">
+    <Phrase key="this">Klientská připojení</Phrase>
+    <Phrase key="gbConnList">Spojení</Phrase>
+    <Phrase key="btnNewConn">Nový</Phrase>
+    <Phrase key="btnDeleteConn">Vymazat</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">zrušení</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsScadaServer.View.Forms.FrmScadaServerDSO">
+    <Phrase key="this">Možnosti zdroje dat</Phrase>
+    <Phrase key="lblReadConfigDb">Přečtěte si konfigurační databázi</Phrase>
+    <Phrase key="lblUseDefaultConn">Použít výchozí připojení</Phrase>
+    <Phrase key="lblConnection">Spojení</Phrase>
+    <Phrase key="lblMaxQueueSize">Maximální velikost fronty</Phrase>
+    <Phrase key="lblDataLifetime">Životnost dat ve frontě, sec</Phrase>
+    <Phrase key="lblClientLogEnabled">Protokol klienta povolen</Phrase>
+    <Phrase key="lblDeviceFilter">Filtr zařízení</Phrase>
+    <Phrase key="btnSelectDevices">Vybrat...</Phrase>
+    <Phrase key="btnManageConn">Správa připojení</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">zrušení</Phrase>
+  </Dictionary>
+</DrvDsScadaServerDictionaries>

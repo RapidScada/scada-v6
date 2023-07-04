@@ -206,9 +206,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         public override void MakeReady()
         {
             // prepare database
-            connOptions = options.UseStorageConn
-                ? DbUtils.GetConnectionOptions(ArchiveContext.InstanceConfig)
-                : DbUtils.GetConnectionOptions(moduleConfig, options.Connection);
+            connOptions = options.UseDefaultConn
+                ? ArchiveContext.InstanceConfig.Connection
+                : moduleConfig.GetConnectionOptions(options.Connection);
             readingConn = DbUtils.CreateDbConnection(connOptions);
             writingConn = DbUtils.CreateDbConnection(connOptions);
 

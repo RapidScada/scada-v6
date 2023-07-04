@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2023
  */
 
 using Scada.Config;
@@ -96,22 +96,22 @@ namespace Scada.Comm.Config
         /// <summary>
         /// Gets the line options.
         /// </summary>
-        public LineOptions LineOptions { get; private set; }
+        public LineOptions LineOptions { get; }
 
         /// <summary>
         /// Gets the channel configuration.
         /// </summary>
-        public ChannelConfig Channel { get; private set; }
+        public ChannelConfig Channel { get; }
 
         /// <summary>
         /// Gets the custom options.
         /// </summary>
-        public OptionList CustomOptions { get; private set; }
+        public OptionList CustomOptions { get; }
 
         /// <summary>
         /// Gets the polling sequence of the devices.
         /// </summary>
-        public List<DeviceConfig> DevicePolling { get; private set; }
+        public List<DeviceConfig> DevicePolling { get; }
 
         /// <summary>
         /// Gets or sets the parent tree node.
@@ -194,6 +194,32 @@ namespace Scada.Comm.Config
             {
                 device.SaveToXml(devicePollingElem.AppendElem("Device"));
             }
+        }
+
+        /// <summary>
+        /// Gets a list of driver codes used by the communication line.
+        /// </summary>
+        public List<string> GetDriverCodes()
+        {
+            List<string> driverCodes = new List<string>();
+            HashSet<string> driverCodeSet = new HashSet<string>();
+
+            void AddDriverCode(string driverCode)
+            {
+                if (!string.IsNullOrEmpty(driverCode) && driverCodeSet.Add(driverCode.ToLowerInvariant()))
+                    driverCodes.Add(driverCode);
+            }
+
+            AddDriverCode(Channel.Driver);
+
+            foreach (DeviceConfig deviceConfig in DevicePolling)
+            {
+                if (deviceConfig.Active)
+                    AddDriverCode(deviceConfig.Driver);
+            }
+
+            driverCodes.Sort();
+            return driverCodes;
         }
     }
 }

@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvOpcClassicDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlCommand">
+    <Phrase key="gbCommand">Komut Parametreleri</Phrase>
+    <Phrase key="lblPath">Yol</Phrase>
+    <Phrase key="lblName">İsim</Phrase>
+    <Phrase key="lblCmdCode">komut kodu</Phrase>
+    <Phrase key="lblCmdNum">Komut numarası</Phrase>
+    <Phrase key="lblDataType">Veri tipi</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEmptyItem">
+    <Phrase key="gbEmptyItem">Öğe Parametreleri</Phrase>
+    <Phrase key="lblNotSelected">Öğe seçilmedi</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEventCategory">
+    <Phrase key="gbEventCategory">Kategori Parametreleri</Phrase>
+    <Phrase key="lblName">İsim</Phrase>
+    <Phrase key="lblID">İD</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEventSubscription">
+    <Phrase key="gbSubscription">Abonelik Parametreleri</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="lblDisplayName">Ekran adı</Phrase>
+    <Phrase key="lblUpdateRate">Güncelleme hızı, ms</Phrase>
+    <Phrase key="lblKeepAlive">Hayatta kalın hanımefendi</Phrase>
+    <Phrase key="lblMaxSize">En büyük boy</Phrase>
+    <Phrase key="chkSimpleEvents">Basit olaylar</Phrase>
+    <Phrase key="chkTrackingEvents">İzleme etkinlikleri</Phrase>
+    <Phrase key="chkConditionEvents">Durum olayları</Phrase>
+    <Phrase key="lblHighSeverity">Yüksek önem</Phrase>
+    <Phrase key="lblLowSeverity">Düşük önem</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlItem">
+    <Phrase key="gbItem">Öğe Parametreleri</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="lblPath">Yol</Phrase>
+    <Phrase key="lblName">İsim</Phrase>
+    <Phrase key="lblTagCode">etiket kodu</Phrase>
+    <Phrase key="lblTagNum">Etiket numarası</Phrase>
+    <Phrase key="lblDataType">Veri tipi</Phrase>
+    <Phrase key="chkIsString">dize mi</Phrase>
+    <Phrase key="chkIsArray">dizi mi</Phrase>
+    <Phrase key="lblDataLen">Dize veya dizi uzunluğu</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlSubscription">
+    <Phrase key="gbSubscription">Abonelik Parametreleri</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="lblDisplayName">Ekran adı</Phrase>
+    <Phrase key="lblUpdateRate">Güncelleme hızı, ms</Phrase>
+    <Phrase key="lblKeepAlive">Hayatta kalın hanımefendi</Phrase>
+    <Phrase key="lblDeadband">Ölü bant, %</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Cihaz {0} Özellikleri - OPC Classic</Phrase>
+    <Phrase key="gbConnectionOptions">Bağlantı Seçenekleri</Phrase>
+    <Phrase key="lblHost">Uzak ana bilgisayar</Phrase>
+    <Phrase key="btnShowNetworkOptions">Seçenekler</Phrase>
+    <Phrase key="lblServerPath">OPC sunucusu</Phrase>
+    <Phrase key="lblDaSpec">DA belirtimi</Phrase>
+    <Phrase key="lblAeSpec">AE spesifikasyonu</Phrase>
+    <Phrase key="btnSelectServer">Seçme...</Phrase>
+    <Phrase key="lblConnectionInfo">Bağlantı seçenekleri, iletişim hattı için ortaktır.</Phrase>
+    <Phrase key="gbServerBrowse">Sunucu Gözatma</Phrase>
+    <Phrase key="btnConnect.ToolTip">Bağlamak</Phrase>
+    <Phrase key="btnDisconnect.ToolTip">bağlantıyı kes</Phrase>
+    <Phrase key="btnOpenFile.ToolTip">Açık dosya</Phrase>
+    <Phrase key="gbDevice">Cihaz konfigürasyonu</Phrase>
+    <Phrase key="btnAddSubscription.ToolTip">Abonelik Ekle</Phrase>
+    <Phrase key="btnAddItem.ToolTip">Seçili Öğeyi Ekle</Phrase>
+    <Phrase key="btnMoveUpItem.ToolTip">Yukarı Taşı</Phrase>
+    <Phrase key="btnMoveDownItem.ToolTip">Aşağı inmek</Phrase>
+    <Phrase key="btnDeleteItem.ToolTip">Silmek</Phrase>
+    <Phrase key="btnSave">Kaydetmek</Phrase>
+    <Phrase key="btnClose">Kapalı</Phrase>
+    <Phrase key="XmlFileFilter">XML Dosyaları (*.xml)|*.xml|Tüm Dosyalar (*.*)|*.*</Phrase>
+    <Phrase key="ServerNotSelected">OPC sunucusu seçilmedi.</Phrase>
+    <Phrase key="DaServerUnavailable">OPC DA sunucusu kullanılamıyor veya seçilen özelliği desteklemiyor.</Phrase>
+    <Phrase key="AeServerUnavailable">OPC AE sunucusu kullanılamıyor veya seçilen özelliği desteklemiyor.</Phrase>
+    <Phrase key="ConnectDaServerError">OPC DA sunucusu bağlanırken hata oluştu</Phrase>
+    <Phrase key="ConnectAeServerError">OPC AE sunucusu bağlanırken hata oluştu</Phrase>
+    <Phrase key="DisconnectDaServerError">OPC DA sunucusunun bağlantısı kesilirken hata oluştu</Phrase>
+    <Phrase key="DisconnectAeServerError">OPC AE sunucusunun bağlantısı kesilirken hata oluştu</Phrase>
+    <Phrase key="BrowseServerError">OPC sunucusuna göz atarken hata oluştu</Phrase>
+    <Phrase key="LoadServerContentError">OPC sunucusu içeriği yüklenirken hata oluştu</Phrase>
+    <Phrase key="ServerNotConnected">OPC sunucusu bağlı değil.</Phrase>
+    <Phrase key="UnableToReadData">Veriler okunamıyor.</Phrase>
+    <Phrase key="GetDataTypeError">Veri türü alınırken hata oluştu</Phrase>
+    <Phrase key="DaServerNode">OPC DA</Phrase>
+    <Phrase key="AeServerNode">OPC AE</Phrase>
+    <Phrase key="EmptyNode">Boş</Phrase>
+    <Phrase key="SubscriptionsNode">Abonelikler</Phrase>
+    <Phrase key="CommandsNode">komutlar</Phrase>
+    <Phrase key="EventSubscriptionsNode">Etkinlik Abonelikleri</Phrase>
+    <Phrase key="UnnamedSubscription">&lt;Adsız Abonelik&gt;</Phrase>
+    <Phrase key="UnnamedItem">&lt;Adsız Öğe&gt;</Phrase>
+    <Phrase key="UnnamedCommand">&lt;Adsız Komut&gt;</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Forms.FrmNetworkOptions">
+    <Phrase key="this">Ağ Seçenekleri</Phrase>
+    <Phrase key="chkIsDefault">Varsayılan seçenekleri kullan</Phrase>
+    <Phrase key="gbCredentials">kimlik bilgileri</Phrase>
+    <Phrase key="lblUsername">Kullanıcı adı</Phrase>
+    <Phrase key="lblPassword">Şifre</Phrase>
+    <Phrase key="lblDomain">İhtisas</Phrase>
+    <Phrase key="gbProxy">Web Proxy'si</Phrase>
+    <Phrase key="lblProxyAddress">Adres</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Forms.FrmServerSelect">
+    <Phrase key="this">OPC Sunucusunu Seçin</Phrase>
+    <Phrase key="lblHost">Ev sahibi</Phrase>
+    <Phrase key="lblServer">OPC sunucusu</Phrase>
+    <Phrase key="gbDaSpec">DA Şartnamesi</Phrase>
+    <Phrase key="rbDaNone">Hiçbiri</Phrase>
+    <Phrase key="rbDa10">Veri Erişimi 1.0a</Phrase>
+    <Phrase key="rbDa20">Veri Erişimi 2.XX</Phrase>
+    <Phrase key="rbDa30">Veri Erişimi 3.00</Phrase>
+    <Phrase key="gbAeSpec">AE Spesifikasyonu</Phrase>
+    <Phrase key="rbAeNone">Hiçbiri</Phrase>
+    <Phrase key="rbAe10">Alarmlar ve Olaylar 1.XX</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+    <Phrase key="FillServersError">Sunucu listesi doldurulurken hata oluştu</Phrase>
+    <Phrase key="DisposeServersError">Sunucuları atarken hata oluştu</Phrase>
+  </Dictionary>
+</DrvOpcClassicDictionaries>

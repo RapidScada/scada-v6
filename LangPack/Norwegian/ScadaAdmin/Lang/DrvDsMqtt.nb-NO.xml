@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDsMqttDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsMqtt.View.Forms.FrmMqttDSO">
+    <Phrase key="this">Alternativer for datakilde</Phrase>
+    <Phrase key="pageConnectionOptions">Forbindelse</Phrase>
+    <Phrase key="lblServer">Server</Phrase>
+    <Phrase key="lblPort">TCP-port</Phrase>
+    <Phrase key="lblTimeout">Tidsavbrudd, ms</Phrase>
+    <Phrase key="lblUseTls">Bruk TLS</Phrase>
+    <Phrase key="lblClientID">klient-ID</Phrase>
+    <Phrase key="lblUsername">Brukernavn</Phrase>
+    <Phrase key="lblPassword">Passord</Phrase>
+    <Phrase key="lblProtocolVersion">Protokollversjon</Phrase>
+    <Phrase key="cbProtocolVersion.Items[0]">Misligholde</Phrase>
+    <Phrase key="cbProtocolVersion.Items[1]">3.1</Phrase>
+    <Phrase key="cbProtocolVersion.Items[2]">3.1.1</Phrase>
+    <Phrase key="cbProtocolVersion.Items[3]">5.0</Phrase>
+    <Phrase key="pagePublishOptions">Publisering</Phrase>
+    <Phrase key="lblRootTopic">Root-emne</Phrase>
+    <Phrase key="lblUndefinedValue">Udefinert verdi</Phrase>
+    <Phrase key="lblPublishFormat">Publiseringsformat</Phrase>
+    <Phrase key="lblQosLevel">Kvalitet på servicenivå</Phrase>
+    <Phrase key="cbQosLevel.Items[0]">Høyst én gang (0)</Phrase>
+    <Phrase key="cbQosLevel.Items[1]">Minst én gang (1)</Phrase>
+    <Phrase key="cbQosLevel.Items[2]">Nøyaktig én gang (2)</Phrase>
+    <Phrase key="lblRetain">Beholde</Phrase>
+    <Phrase key="lblMaxQueueSize">Maksimal køstørrelse</Phrase>
+    <Phrase key="lblDataLifetime">Datalevetid i kø, sek</Phrase>
+    <Phrase key="lblDetailedLog">Detaljert logg</Phrase>
+    <Phrase key="lblDeviceFilter">Enhetsfilter</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+</DrvDsMqttDictionaries>

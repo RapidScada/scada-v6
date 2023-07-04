@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvModbusSlaveDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls">
+    <Phrase key="ConfigDirRequired">Soubor šablony zařízení musí být umístěn uvnitř {0}</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlChannelGateway">
+    <Phrase key="gbChannelGateway">Možnosti brány kanálu</Phrase>
+    <Phrase key="btnEdit">Upravit</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlDeviceGateway">
+    <Phrase key="gbDeviceGateway">Možnosti brány zařízení</Phrase>
+    <Phrase key="lblTemplateFileName">Šablona zařízení</Phrase>
+    <Phrase key="btnEditTemplate">Upravit</Phrase>
+    <Phrase key="btnBrowseTemplate">Procházet...</Phrase>
+    <Phrase key="lblSourceDeviceNum">Zařízení zdroje dat</Phrase>
+    <Phrase key="btnSelect">Vybrat</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlElem">
+    <Phrase key="gbElem">Parametry prvku</Phrase>
+    <Phrase key="lblChannel">Kanál</Phrase>
+    <Phrase key="lblAddress">Adresa</Phrase>
+    <Phrase key="lblAddressHint">DEC, počínaje 0</Phrase>
+    <Phrase key="lblDataType">Datový typ</Phrase>
+    <Phrase key="cbType.Items[0]">Nedefinováno</Phrase>
+    <Phrase key="cbType.Items[1]">ushort (2 bytes)</Phrase>
+    <Phrase key="cbType.Items[2]">short (2 bytes)</Phrase>
+    <Phrase key="cbType.Items[3]">uint (4 bytes)</Phrase>
+    <Phrase key="cbType.Items[4]">int (4 bytes)</Phrase>
+    <Phrase key="cbType.Items[5]">ulong (8 bytes)</Phrase>
+    <Phrase key="cbType.Items[6]">long (8 bytes)</Phrase>
+    <Phrase key="cbType.Items[7]">float (4 bytes)</Phrase>
+    <Phrase key="cbType.Items[8]">double (8 bytes)</Phrase>
+    <Phrase key="cbType.Items[9]">bool (1 bit)</Phrase>
+    <Phrase key="lblRatio">Poměr</Phrase>
+    <Phrase key="chkReadOnly">Pouze ke čtení</Phrase>
+    <Phrase key="ChannelNotSpecified">Kanál není určen</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Controls.CtrlIndependentDevice">
+    <Phrase key="gbIndependentDevice">Možnosti nezávislých zařízení</Phrase>
+    <Phrase key="lblTemplateFileName">Šablona zařízení</Phrase>
+    <Phrase key="btnEditTemplate">Upravit</Phrase>
+    <Phrase key="btnBrowseTemplate">Procházet...</Phrase>
+    <Phrase key="lblDataLifetime">Doba platnosti dat, min</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Forms.FrmChannelGatewayOptions">
+    <Phrase key="this">Možnosti brány kanálu</Phrase>
+    <Phrase key="btnAdd">Přidat kanál</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Posunout nahoru</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Posunout dolů</Phrase>
+    <Phrase key="btnDelete.ToolTip">Vymazat</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">zrušení</Phrase>
+    <Phrase key="miCollapseAll">Sbalit vše</Phrase>
+    <Phrase key="gbChannelGateway">Kanály</Phrase>
+    <Phrase key="SelectChildNode">Vyberte podřízený uzel</Phrase>
+    <Phrase key="ChannelItem">Kanál {0}</Phrase>
+    <Phrase key="DiscreteInputs">Diskrétní vstupy</Phrase>
+    <Phrase key="Coils">Cívky</Phrase>
+    <Phrase key="InputRegisters">Vstupní registry</Phrase>
+    <Phrase key="HoldingRegisters">Vedení rejstříků</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbusSlave.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Vlastnosti zařízení {0} – Modbus Slave</Phrase>
+    <Phrase key="gbGeneralOptions">Obecné možnosti</Phrase>
+    <Phrase key="lblMode">Režim</Phrase>
+    <Phrase key="cbDevicesMode.Items[0]">Nezávislé zařízení</Phrase>
+    <Phrase key="cbDevicesMode.Items[1]">Brána zařízení</Phrase>
+    <Phrase key="cbDevicesMode.Items[2]">Brána kanálu</Phrase>
+    <Phrase key="lblUndefinedValue">Nedefinovaná hodnota</Phrase>
+    <Phrase key="btnSave">Uložit</Phrase>
+    <Phrase key="btnClose">Zavřít</Phrase>
+    <Phrase key="IndependentDeviceDescription">Přijímá data z Modbus Master.</Phrase>
+    <Phrase key="DeviceGatewayDescription">Poskytuje data vybraného zařízení do Modbus Master.</Phrase>
+    <Phrase key="ChannelGatewayDescription">Poskytuje data vybraných kanálů do Modbus Master.</Phrase>
+  </Dictionary>
+</DrvModbusSlaveDictionaries>

@@ -1,0 +1,286 @@
+﻿&#13;&#10;<?xml version="1.0" encoding="utf-8"?>
+<ExtCommConfigDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.ExtCommConfigLogic">
+    <Phrase key="GeneralOptionsNode">Genel seçenekler</Phrase>
+    <Phrase key="DriversNode">Sürücüler</Phrase>
+    <Phrase key="DataSourcesNode">Veri kaynakları</Phrase>
+    <Phrase key="LinesNode">İletişim Hatları</Phrase>
+    <Phrase key="LineOptionsNode">Hat Seçenekleri</Phrase>
+    <Phrase key="LineStatsNode">Hat İstatistikleri</Phrase>
+    <Phrase key="LogsNode">Kütükler</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Code.ExtensionUtils">
+    <Phrase key="DeviceNotSupported">Sürücü, aygıt oluşturmayı desteklemiyor.</Phrase>
+    <Phrase key="UnableCreateDeviceView">Cihaz kullanıcı arabirimi oluşturulamıyor.</Phrase>
+    <Phrase key="NoDeviceProperties">Cihaz bir özellikler penceresi sağlamaz.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate1">
+    <Phrase key="lblCommLine">iletişim hattı</Phrase>
+    <Phrase key="lblDevice">Cihaz</Phrase>
+    <Phrase key="AllCommLines">&lt;Tüm iletişim hatları&gt;</Phrase>
+    <Phrase key="DeviceInfo">Sürücü: {0}&#13;&#10;Örnek: {1}&#13;&#10;Kanallar: {2}</Phrase>
+    <Phrase key="DeviceNotFound">Aygıt, Communicator'da bulunamadı.</Phrase>
+    <Phrase key="NoDeviceSelected">Hiçbir cihaz seçilmedi.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate2">
+    <Phrase key="lblDevice">Cihaz</Phrase>
+    <Phrase key="lblObj">Nesne</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate3">
+    <Phrase key="lblDevice">Cihaz</Phrase>
+    <Phrase key="gbCnlNums">Kanal Numaraları</Phrase>
+    <Phrase key="lblStartCnlNum">Başlangıç</Phrase>
+    <Phrase key="lblEndCnlNum">Son</Phrase>
+    <Phrase key="btnMap">Harita</Phrase>
+    <Phrase key="btnReset">Sıfırla</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu">
+    <Phrase key="miWizards">Sihirbazlar</Phrase>
+    <Phrase key="miAddLine">Satır Ekle...</Phrase>
+    <Phrase key="miAddDevice">Cihaz ekle...</Phrase>
+    <Phrase key="miCreateChannels">Kanal Oluştur...</Phrase>
+    <Phrase key="btnAddLine.ToolTip">Satır Ekle</Phrase>
+    <Phrase key="btnAddDevice.ToolTip">Cihaz ekle</Phrase>
+    <Phrase key="btnCreateChannels.ToolTip">Kanal Oluştur</Phrase>
+    <Phrase key="miLineSync">Senkronize et...</Phrase>
+    <Phrase key="miLineAdd">Satır Ekle</Phrase>
+    <Phrase key="miLineMoveUp">Sırayı Yukarı Taşı</Phrase>
+    <Phrase key="miLineMoveDown">Satırı Aşağı Taşı</Phrase>
+    <Phrase key="miLineDelete">Satırı Sil</Phrase>
+    <Phrase key="miLineStart">Başlama çizgisi</Phrase>
+    <Phrase key="miLineStop">Durdurma Hattı</Phrase>
+    <Phrase key="miLineRestart">Hattı Yeniden Başlat</Phrase>
+    <Phrase key="miDeviceChannels">Kanallara Git</Phrase>
+    <Phrase key="miDeviceCommand">Komut Gönder...</Phrase>
+    <Phrase key="miDevicePoll">Anket Cihazı</Phrase>
+    <Phrase key="miDeviceProperties">özellikler</Phrase>
+    <Phrase key="ConfirmDeleteLine">İletişim hattını silmek istediğinizden emin misiniz?</Phrase>
+    <Phrase key="CnlNodeNotFound">Kanal düğümü bulunamadı.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineMain">
+    <Phrase key="gbLine">İletişim Hattı</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="chkIsBound">Yapılandırma veritabanına bağlı</Phrase>
+    <Phrase key="lblCommLineNum">Sayı</Phrase>
+    <Phrase key="lblName">İsim</Phrase>
+    <Phrase key="gbLineOptions">Hat Seçenekleri</Phrase>
+    <Phrase key="lblReqRetries">Hata durumunda istek yeniden deneme sayısı</Phrase>
+    <Phrase key="lblCycleDelay">Yoklama döngüsünden sonraki gecikme, ms</Phrase>
+    <Phrase key="lblCmdEnabled">Komutlar etkinleştirildi</Phrase>
+    <Phrase key="lblPollAfterCmd">Komuttan sonra cihazı yokla</Phrase>
+    <Phrase key="lblDetailedLog">Ayrıntılı günlük</Phrase>
+    <Phrase key="gbChannel">İletişim kanalı</Phrase>
+    <Phrase key="lblChannelType">Tip</Phrase>
+    <Phrase key="btnChannelProperties">Özellikler</Phrase>
+    <Phrase key="lblChannelOptions">Seçenekler</Phrase>
+    <Phrase key="UndefinedChannelType">Tanımsız</Phrase>
+    <Phrase key="ChannelNotSupported">Sürücü, iletişim kanalları oluşturmayı desteklemiyor.</Phrase>
+    <Phrase key="UnableCreateChannelView">İletişim kanalı kullanıcı arabirimi oluşturulamıyor.</Phrase>
+    <Phrase key="NoChannelProperties">İletişim kanalı bir özellikler penceresi sağlamaz.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineCustom">
+    <Phrase key="btnAddOption">Eklemek</Phrase>
+    <Phrase key="btnDeleteOption">Silmek</Phrase>
+    <Phrase key="colOptionName">İsim</Phrase>
+    <Phrase key="colOptionValue">Değer</Phrase>
+    <Phrase key="gbSelectedOption">Seçilen Seçenek</Phrase>
+    <Phrase key="lblOptionName">İsim</Phrase>
+    <Phrase key="lblOptionValue">Değer</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLinePolling">
+    <Phrase key="btnAddDevice">Eklemek</Phrase>
+    <Phrase key="btnMoveUpDevice">Yukarı Taşı</Phrase>
+    <Phrase key="btnMoveDownDevice">Aşağı inmek</Phrase>
+    <Phrase key="btnDeleteDevice">Silmek</Phrase>
+    <Phrase key="btnCutDevice">Kesmek</Phrase>
+    <Phrase key="btnCopyDevice">kopyala</Phrase>
+    <Phrase key="btnPasteDevice">Yapıştırmak</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">Aktif</Phrase>
+    <Phrase key="colPollOnCmd">Komut üzerine anket</Phrase>
+    <Phrase key="colIsBound">Ciltli</Phrase>
+    <Phrase key="colNumber">Sayı</Phrase>
+    <Phrase key="colName">İsim</Phrase>
+    <Phrase key="colDriver">sürücü</Phrase>
+    <Phrase key="colNumAddress">Sayısal Adres</Phrase>
+    <Phrase key="colStrAddress">Dize Adresi</Phrase>
+    <Phrase key="colTimeout">Zaman aşımı</Phrase>
+    <Phrase key="colDelay">Gecikme</Phrase>
+    <Phrase key="colTime">Zaman</Phrase>
+    <Phrase key="colPeriod">Dönem</Phrase>
+    <Phrase key="colCmdLine">Komut satırı</Phrase>
+    <Phrase key="gbSelectedDevice">Seçilen Cihaz</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="chkPollOnCmd">Yalnızca komutla yoklama</Phrase>
+    <Phrase key="chkIsBound">Yapılandırma veritabanına bağlı</Phrase>
+    <Phrase key="lblDeviceNum">Sayı</Phrase>
+    <Phrase key="lblName">İsim</Phrase>
+    <Phrase key="lblDriver">sürücü</Phrase>
+    <Phrase key="lblNumAddress">Sayısal adres</Phrase>
+    <Phrase key="lblStrAddress">Dize adresi veya ana bilgisayar adı</Phrase>
+    <Phrase key="lblTimeout">Zaman aşımı</Phrase>
+    <Phrase key="lblDelay">Gecikme</Phrase>
+    <Phrase key="lblTime">Zaman</Phrase>
+    <Phrase key="lblPeriod">Dönem</Phrase>
+    <Phrase key="lblCmdLine">Komut satırı</Phrase>
+    <Phrase key="lblCustomOptions">Seçenekler</Phrase>
+    <Phrase key="btnDeviceProperties">Özellikler</Phrase>
+    <Phrase key="btnResetPollingOptions">Sıfırla</Phrase>
+    <Phrase key="btnResetPollingOptions.ToolTip">Cihaz yoklama seçeneklerini varsayılan olarak ayarlayın</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlSync1">
+    <Phrase key="lblSyncDirection">Senkronizasyon yönünü seçin:</Phrase>
+    <Phrase key="rbBaseToComm">Communicator'a yapılandırma veritabanı</Phrase>
+    <Phrase key="rbCommToBase">Communicator'dan yapılandırma veritabanına</Phrase>
+    <Phrase key="lblInfo">Eksik hatlar ve cihazlar oluşturulacak.&#13;&#10;Mevcut hatlar ve cihazlar güncellenecektir.&#13;&#10;Etkilenen özellikler:&#13;&#10;- İletişim hattı adı&#13;&#10;- Cihaz adı&#13;&#10;- Aygıt sürücüsü&#13;&#10;- Aygıt adresi</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlSync2">
+    <Phrase key="lblSelect">Senkronize edilecek hatları ve cihazları seçin:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCnlCreate">
+    <Phrase key="this">Kanal Oluştur</Phrase>
+    <Phrase key="chkPreview">Ön izleme</Phrase>
+    <Phrase key="btnBack">&lt; Geri</Phrase>
+    <Phrase key="btnNext">Sonraki &gt;</Phrase>
+    <Phrase key="btnCreate">Yaratmak</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+    <Phrase key="CreateCnlsStep1">Adım 1/3: Bir cihaz seçin</Phrase>
+    <Phrase key="CreateCnlsStep2">Adım 2/3: Yeni oluşturulan kanallardan bir nesne seçin</Phrase>
+    <Phrase key="CreateCnlsStep3">Adım 3/3: Kanal numaralarını atayın</Phrase>
+    <Phrase key="CreateCnlsCompleted">Kanal oluşturma başarıyla tamamlandı.&#13;&#10;{0} kanal eklendi.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCnlPreview">
+    <Phrase key="this">Kanalları Önizle</Phrase>
+    <Phrase key="btnDelete">Silmek</Phrase>
+    <Phrase key="colCnlNum">Sayı</Phrase>
+    <Phrase key="colActive">Aktif</Phrase>
+    <Phrase key="colName">İsim</Phrase>
+    <Phrase key="colTagNum">Etiket numarası</Phrase>
+    <Phrase key="colTagCode">Etiket Kodu</Phrase>
+    <Phrase key="btnAdd">Eklemek</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCommLogs">
+    <Phrase key="AppFilter">Başvuru</Phrase>
+    <Phrase key="LinesFilter">İletişim Hatları</Phrase>
+    <Phrase key="DevicesFilter">Cihazlar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDataSources">
+    <Phrase key="this">Veri kaynakları</Phrase>
+    <Phrase key="btnAdd">Eklemek</Phrase>
+    <Phrase key="btnMoveUp">Yukarı Taşı</Phrase>
+    <Phrase key="btnMoveDown">Aşağı inmek</Phrase>
+    <Phrase key="btnDelete">Silmek</Phrase>
+    <Phrase key="btnCut">Kesmek</Phrase>
+    <Phrase key="btnCopy">kopyala</Phrase>
+    <Phrase key="btnPaste">Yapıştırmak</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">Aktif</Phrase>
+    <Phrase key="colCode">kod</Phrase>
+    <Phrase key="colName">İsim</Phrase>
+    <Phrase key="colDriver">sürücü</Phrase>
+    <Phrase key="gbDataSource">Seçili Veri Kaynağı</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="lblCode">kod</Phrase>
+    <Phrase key="lblName">İsim</Phrase>
+    <Phrase key="lblDriver">sürücü</Phrase>
+    <Phrase key="lblOptions">Seçenekler</Phrase>
+    <Phrase key="btnProperties">Özellikler</Phrase>
+    <Phrase key="DriverNotSpecified">Sürücü belirtilmemiş.</Phrase>
+    <Phrase key="DataSourceNotSupported">Sürücü, veri kaynakları oluşturmayı desteklemiyor.</Phrase>
+    <Phrase key="UnableCreateDataSourceView">Veri kaynağı kullanıcı arabirimi oluşturulamıyor.</Phrase>
+    <Phrase key="NoDataSourceProperties">Veri kaynağı bir özellikler penceresi sağlamıyor.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceAdd">
+    <Phrase key="this">Cihaz ekle</Phrase>
+    <Phrase key="gbDevice">Cihaz</Phrase>
+    <Phrase key="lblDeviceNum">Sayı</Phrase>
+    <Phrase key="lblName">İsim</Phrase>
+    <Phrase key="lblCode">kod</Phrase>
+    <Phrase key="lblDevType">Cihaz tipi</Phrase>
+    <Phrase key="lblNumAddress">Sayısal adres</Phrase>
+    <Phrase key="lblStrAddress">Dize adresi veya ana bilgisayar adı</Phrase>
+    <Phrase key="lblCommLine">iletişim hattı</Phrase>
+    <Phrase key="lblDescr">Tanım</Phrase>
+    <Phrase key="gbComm">iletişimci</Phrase>
+    <Phrase key="chkAddToComm">Communicator'a cihaz ekle</Phrase>
+    <Phrase key="lblInstance">Misal</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+    <Phrase key="DeviceExistsInConfigDatabase">Yapılandırma veritabanında aynı numaraya sahip bir cihaz zaten var.</Phrase>
+    <Phrase key="DeviceExistsInLineConfig">İletişim hattı yapılandırmasında aynı numaraya sahip bir cihaz zaten var.</Phrase>
+    <Phrase key="LineNotFoundInCommConfig">İletişim hattı, Communicator yapılandırmasında bulunamadı.</Phrase>
+    <Phrase key="ChooseLine">Lütfen bir iletişim hattı seçin.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceCommand">
+    <Phrase key="this">{0} komutu</Phrase>
+    <Phrase key="lblCmdNum">Komut numarası</Phrase>
+    <Phrase key="lblCmdCode">komut kodu</Phrase>
+    <Phrase key="rbNumVal">sayısal</Phrase>
+    <Phrase key="rbStrData">Dize verileri</Phrase>
+    <Phrase key="rbHexData">Onaltılık veri</Phrase>
+    <Phrase key="btnOff">Kapalı</Phrase>
+    <Phrase key="btnOn">Açık</Phrase>
+    <Phrase key="btnSend">Göndermek</Phrase>
+    <Phrase key="btnClose">Kapalı</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceData">
+    <Phrase key="this">Cihaz {0}</Phrase>
+    <Phrase key="btnDeviceProperties">Özellikler</Phrase>
+    <Phrase key="btnSendCommand">Emretmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDrivers">
+    <Phrase key="this">Sürücüler</Phrase>
+    <Phrase key="lblDrivers">Mevcut sürücüler:</Phrase>
+    <Phrase key="btnProperties">Özellikler</Phrase>
+    <Phrase key="btnRegister">Kayıt olmak</Phrase>
+    <Phrase key="lblDescr">Tanım</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmGeneralOptions">
+    <Phrase key="this">Genel seçenekler</Phrase>
+    <Phrase key="gbGeneralOptions">Genel seçenekler</Phrase>
+    <Phrase key="lblIsBound">Uygulama yapılandırma veritabanına bağlı</Phrase>
+    <Phrase key="lblSendModifiedData">Cihaz etiketlerinin yalnızca değiştirilmiş verilerini gönder</Phrase>
+    <Phrase key="lblSendAllDataPeriod">Tüm cihaz etiketlerinin verilerinin gönderilme süresi, saniye</Phrase>
+    <Phrase key="lblEnableCommands">Telekontrol komutlarını etkinleştir</Phrase>
+    <Phrase key="lblEnableFileCommands">Dosyalardan telekontrol komutlarını okuyun</Phrase>
+    <Phrase key="lblStartLinesOnCommand">İletişim hatlarını komutla başlat</Phrase>
+    <Phrase key="lblStopWait">Servisin durmasını bekleyin, saniye</Phrase>
+    <Phrase key="lblMaxLogSize">Maksimum günlük dosyası boyutu, MB</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineAdd">
+    <Phrase key="this">İletişim Hattı Ekle</Phrase>
+    <Phrase key="gbLine">İletişim Hattı</Phrase>
+    <Phrase key="lblCommLineNum">Sayı</Phrase>
+    <Phrase key="lblName">İsim</Phrase>
+    <Phrase key="lblDescr">Tanım</Phrase>
+    <Phrase key="gbComm">iletişimci</Phrase>
+    <Phrase key="chkAddToComm">Communicator'a satır ekle</Phrase>
+    <Phrase key="lblInstance">Misal</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+    <Phrase key="LineExistsInConfigDatabase">Konfigürasyon veri tabanında aynı numaraya sahip bir iletişim hattı zaten mevcut.</Phrase>
+    <Phrase key="LineExistsInCommConfig">Communicator yapılandırmasında aynı numaraya sahip bir iletişim hattı zaten var.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineConfig">
+    <Phrase key="lbTabs.Items[0]">Ana Seçenekler</Phrase>
+    <Phrase key="lbTabs.Items[1]">Özel Seçenekler</Phrase>
+    <Phrase key="lbTabs.Items[2]">Cihaz Yoklama</Phrase>
+    <Phrase key="LineConfigTitle">Satır {0} Seçenekleri</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineStats">
+    <Phrase key="lbTabs.Items[0]">Satır Durumu</Phrase>
+    <Phrase key="lbTabs.Items[1]">Satır Günlüğü</Phrase>
+    <Phrase key="chkPause">Duraklat</Phrase>
+    <Phrase key="LineStatsTitle">Satır {0} İstatistikleri</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmSync">
+    <Phrase key="this">Hatları ve Cihazları Senkronize Et</Phrase>
+    <Phrase key="btnNext">Sonraki</Phrase>
+    <Phrase key="btnSync">senkronize et</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+    <Phrase key="SyncCompleted">Senkronizasyon başarıyla tamamlandı.</Phrase>
+    <Phrase key="SyncCompletedWithError">Senkronizasyon şu hatayla tamamlandı:&#13;&#10;{0}</Phrase>
+    <Phrase key="NoDataToSync">Senkronizasyon için veri seçilmedi.</Phrase>
+  </Dictionary>
+</ExtCommConfigDictionaries>

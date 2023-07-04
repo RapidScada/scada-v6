@@ -3,12 +3,14 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Lang;
 using Scada.Report;
 using Scada.Web.Api;
+using Scada.Web.Audit;
 using Scada.Web.Authorization;
 using Scada.Web.Plugins.PlgMain.Code;
 using Scada.Web.Plugins.PlgMain.Report;
@@ -31,6 +33,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
 
         private readonly IWebContext webContext;
         private readonly IUserContext userContext;
+        private readonly IAuditLog auditLog;
         private readonly IClientAccessor clientAccessor;
         private readonly IViewLoader viewLoader;
         private readonly PluginContext pluginContext;
@@ -40,11 +43,12 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public PrintController(IWebContext webContext, IUserContext userContext, IClientAccessor clientAccessor,
-            IViewLoader viewLoader, PluginContext pluginContext)
+        public PrintController(IWebContext webContext, IUserContext userContext, IAuditLog auditLog,
+            IClientAccessor clientAccessor, IViewLoader viewLoader, PluginContext pluginContext)
         {
             this.webContext = webContext;
             this.userContext = userContext;
+            this.auditLog = auditLog;
             this.clientAccessor = clientAccessor;
             this.viewLoader = viewLoader;
             this.pluginContext = pluginContext;
@@ -61,8 +65,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             {
                 ConfigDatabase = webContext.ConfigDatabase,
                 ScadaClient = clientAccessor.ScadaClient,
-                TimeZone = userContext.TimeZone,
                 Culture = Locale.Culture,
+                TimeZone = userContext.TimeZone,
                 TemplateDir = templateDir
             };
         }
@@ -73,18 +77,25 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         private Stream GenerateEventReport(EventReportArgs args, out string fileName)
         {
             MemoryStream stream = new();
+            bool success = false;
 
             try
             {
                 EventReportBuilder builder = new(CreateReportContext());
                 builder.Generate(args, stream);
-                fileName = ReportUtils.BuildFileName(EventReportPrefix, builder.GenerateTime, OutputFormat.Xml2003);
+                fileName = ReportUtils.BuildFileName(EventReportPrefix, 
+                    userContext.ConvertTimeFromUtc(builder.GenerateTime), OutputFormat.Xml2003);
                 stream.Position = 0;
+                success = true;
             }
             catch
             {
                 stream.Dispose();
                 throw;
+            }
+            finally
+            {
+                WriteToAuditLog(typeof(EventReportBuilder), success);
             }
 
             return stream;
@@ -116,6 +127,20 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             return objNums;
         }
 
+        /// <summary>
+        /// Writes the entry to the audit log.
+        /// </summary>
+        private void WriteToAuditLog(Type reportType, bool success)
+        {
+            auditLog.Write(new AuditLogEntry(userContext.UserEntity)
+            {
+                ActionType = AuditActionType.GenerateReport,
+                ActionArgs = AuditActionArgs.FromObject(new { ReportType = reportType.Name }),
+                ActionResult = AuditActionResult.FromBool(success),
+                Severity = success ? Severity.Info : Severity.Minor
+            });
+        }
+
 
         /// <summary>
         /// Prints the specified table view to an Excel workbook.
@@ -127,6 +152,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
 
             MemoryStream stream = new();
             string fileName;
+            bool success = false;
 
             try
             {
@@ -135,19 +161,24 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 {
                     StartTime = userContext.ConvertTimeToUtc(startTime),
                     EndTime = userContext.ConvertTimeToUtc(endTime),
+                    MaxPeriod = pluginContext.Options.MaxReportPeriod,
                     TableView = tableView,
-                    TableOptions = pluginContext.GetTableOptions(tableView),
-                    MaxPeriod = pluginContext.Options.MaxReportPeriod
+                    TableOptions = pluginContext.GetTableOptions(tableView)
                 }, stream);
 
-                fileName = ReportUtils.BuildFileName(TableViewReportPrefix, 
-                    builder.GenerateTime, OutputFormat.Xml2003);
+                fileName = ReportUtils.BuildFileName(TableViewReportPrefix,
+                    userContext.ConvertTimeFromUtc(builder.GenerateTime), OutputFormat.Xml2003);
                 stream.Position = 0;
+                success = true;
             }
             catch
             {
                 stream.Dispose();
                 throw;
+            }
+            finally
+            {
+                WriteToAuditLog(typeof(TableViewReportBuilder), success);
             }
 
             return File(stream, MediaTypeNames.Application.Octet, fileName);
@@ -225,10 +256,10 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             {
                 StartTime = userContext.ConvertTimeToUtc(startTime),
                 EndTime = userContext.ConvertTimeToUtc(endTime),
+                MaxPeriod = pluginContext.Options.MaxReportPeriod,
                 ArchiveCode = archive,
                 ObjNums = objNums,
-                Severities = severities,
-                MaxPeriod = pluginContext.Options.MaxReportPeriod
+                Severities = severities
             };
 
             return File(
@@ -245,6 +276,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         {
             MemoryStream stream = new();
             string fileName;
+            bool success = false;
 
             try
             {
@@ -253,18 +285,24 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 {
                     StartTime = userContext.ConvertTimeToUtc(startTime),
                     EndTime = userContext.ConvertTimeToUtc(endTime),
+                    MaxPeriod = pluginContext.Options.MaxReportPeriod,
                     ArchiveCode = archive,
-                    CnlNums = cnlNums,
-                    MaxPeriod = pluginContext.Options.MaxReportPeriod
+                    CnlNums = cnlNums
                 }, stream);
 
-                fileName = ReportUtils.BuildFileName(HistDataReportPrefix, builder.GenerateTime, OutputFormat.Xml2003);
+                fileName = ReportUtils.BuildFileName(HistDataReportPrefix,
+                    userContext.ConvertTimeFromUtc(builder.GenerateTime), OutputFormat.Xml2003);
                 stream.Position = 0;
+                success = true;
             }
             catch
             {
                 stream.Dispose();
                 throw;
+            }
+            finally
+            {
+                WriteToAuditLog(typeof(HistDataReportBuilder), success);
             }
 
             return File(stream, MediaTypeNames.Application.Octet, fileName);

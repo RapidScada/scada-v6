@@ -18,9 +18,7 @@ namespace Scada.Web.Plugins.PlgMain.Report
         public HistDataReportArgs()
             : base()
         {
-            ArchiveCode = "";
             CnlNums = null;
-            MaxPeriod = 0;
         }
 
         /// <summary>
@@ -32,12 +30,12 @@ namespace Scada.Web.Plugins.PlgMain.Report
             ArgumentNullException.ThrowIfNull(reportArgs, nameof(reportArgs));
             StartTime = reportArgs.StartTime;
             EndTime = reportArgs.EndTime;
+            MaxPeriod = reportArgs.MaxPeriod;
             ArchiveCode = reportArgs.ArchiveCode;
             Format = reportArgs.Format;
             CustomArgs = reportArgs.CustomArgs;
 
             CnlNums = ScadaUtils.ParseRange(CustomArgs.GetValueAsString("CnlNums"), true, true);
-            MaxPeriod = 0;
         }
 
 
@@ -45,11 +43,6 @@ namespace Scada.Web.Plugins.PlgMain.Report
         /// Gets the channel numbers.
         /// </summary>
         public IList<int> CnlNums { get; init; }
-
-        /// <summary>
-        /// Gets the time maximum report period, in days.
-        /// </summary>
-        public int MaxPeriod { get; init; }
 
 
         /// <summary>
@@ -64,14 +57,6 @@ namespace Scada.Web.Plugins.PlgMain.Report
                 throw new ScadaException(Locale.IsRussian ?
                     "Номера каналов отсутствуют." :
                     "Channel numbers are missing.")
-                { MessageIsPublic = true };
-            }
-
-            if (MaxPeriod > 0 && (EndTime - StartTime).TotalDays > MaxPeriod)
-            {
-                throw new ScadaException(Locale.IsRussian ?
-                    "Превышен период отчёта." :
-                    "Report period exceeded.")
                 { MessageIsPublic = true };
             }
         }

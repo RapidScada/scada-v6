@@ -171,7 +171,7 @@ namespace Scada.Data.Models
         /// </summary>
         public IDictionary<string, string> GetCmdDataArgs()
         {
-            // command exmaple:
+            // command example:
             // argument1 = val1
             // argument2 = val2
             return ScadaUtils.ParseArgs(CmdDataToString(CmdData));

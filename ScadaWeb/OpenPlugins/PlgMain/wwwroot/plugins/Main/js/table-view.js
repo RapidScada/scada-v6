@@ -1,4 +1,4 @@
-﻿// Depends on jquery, scada-common.js, view-hub.js, main-api.js
+﻿// Depends on jquery, scada-common.js, view-hub.js, main-api.js, table-common.js
 
 // Represent metadata about a data cell.
 class CellMeta {
@@ -168,34 +168,34 @@ function initTooltips() {
 };
 
 function bindEvents() {
-    $(window).resize(function () {
+    $(window).on("resize", function () {
         updateLayout();
     });
 
-    $("#localDate").change(function () {
+    $("#localDate").on("change", function () {
         $("form:first").submit();
     });
 
-    $("#selStartTime, #selEndTime").change(function () {
+    $("#selStartTime, #selEndTime").on("change", function () {
         // update time range
         initTimeRange(true);
         setColVisibe();
     });
 
-    $("#spanPrintBtn").click(function () {
+    $("#spanPrintBtn").on("click", function () {
         // generate Excel workbook
         location = "../Print/PrintTableView?viewID=" + viewID +
             "&startTime=" + timeRange.startTime + "&endTime=" + timeRange.endTime;
     });
 
-    $(".item-link").click(function () {
+    $(".item-link").on("click", function () {
         // show chart
         let cnlNum = $(this).closest(".row-item").attr("data-cnlnum");
         let startDate = $("#localDate").val();
         viewHub.features.chart.show(cnlNum, startDate, chartArgs);
     });
 
-    $(".item-cmd").click(function () {
+    $(".item-cmd").on("click", function () {
         // show command dialog
         let cnlNum = $(this).closest(".row-item").attr("data-cnlnum");
         viewHub.features.command.show(cnlNum);
@@ -285,24 +285,24 @@ function checkNewDate(newServerTime) {
     if (localTime && localDate && localTime.startsWith(localDate) &&
         newLocalTime && !newLocalTime.startsWith(localDate)) {
         // switch table view to new date
-        let newLocalDate = newLocalTime.substr(0, 10); // yyyy-MM-dd
-        $("#localDate").val(newLocalDate).change();    // submit form
+        let newLocalDate = newLocalTime.substr(0, 10);       // yyyy-MM-dd
+        $("#localDate").val(newLocalDate).trigger("change"); // submit form
     }
 
     serverTime = newServerTime;
 }
 
 function showCurData(data) {
-    let map = mainApi.mapCurData(data);
+    let map = MainApi.mapCurData(data);
 
     for (let cellMeta of curCells) {
-        let record = MainApi.getCurData(map, cellMeta.cnlNum, cellMeta.joinLen);
+        let record = MainApi.getCurDataFromMap(map, cellMeta.cnlNum, cellMeta.joinLen);
         displayCell(cellMeta, record);
     }
 }
 
 function showHistData(data) {
-    let map = mainApi.mapCnlNums(data.cnlNums);
+    let map = MainApi.mapCnlNums(data.cnlNums);
     let startIdx = 0;
     let prevColMeta = null;
 
@@ -370,18 +370,11 @@ function displayCell(cellMeta, record, opt_subrecords) {
         }
 
         cellElem.text(cellText);
-        cellElem.css("color", getCellColor(record));
+        cellElem.css("color", MainApi.getColor(record, ColorIndex.MAIN_COLOR, DEFAULT_CELL_COLOR));
     } else {
         cellElem.text("");
         cellElem.css("color", "");
     }
-}
-
-function getCellColor(record) {
-    let colors = record.df.colors;
-    return Array.isArray(colors) && colors.length > 0 && colors[0]
-        ? colors[0]
-        : DEFAULT_CELL_COLOR;
 }
 
 $(document).ready(function () {

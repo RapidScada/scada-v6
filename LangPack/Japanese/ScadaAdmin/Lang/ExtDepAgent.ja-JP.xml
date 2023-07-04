@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtDepAgentDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepAgent.Downloader">
+    <Phrase key="ImportTable">{0} テーブルをインポートします</Phrase>
+    <Phrase key="ExtractArchive">アーカイブを抽出する</Phrase>
+    <Phrase key="MergeDirectory">ディレクトリを結合する</Phrase>
+    <Phrase key="NothingToMerge">マージするデータがありません</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepAgent.Uploader">
+    <Phrase key="TestAgentConn">エージェント接続のテスト</Phrase>
+    <Phrase key="CompressConfig">構成を圧縮する</Phrase>
+    <Phrase key="CompressBase">構成データベースを圧縮する</Phrase>
+    <Phrase key="CompressViews">ビューを圧縮する</Phrase>
+    <Phrase key="CompressAppConfig">{0} アプリケーションの構成を圧縮します</Phrase>
+    <Phrase key="AddProjectInfo">プロジェクト情報を追加する</Phrase>
+    <Phrase key="AddTransferOptions">転送オプションを追加する</Phrase>
+    <Phrase key="TransferConfig">転送設定</Phrase>
+    <Phrase key="ArchiveSize">アーカイブ サイズ: {0} バイト</Phrase>
+  </Dictionary>
+</ExtDepAgentDictionaries>

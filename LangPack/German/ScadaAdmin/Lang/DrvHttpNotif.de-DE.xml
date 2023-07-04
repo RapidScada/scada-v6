@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvHttpNotifDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvHttpNotif.View.Forms.FrmConfig">
+    <Phrase key="this">Geräteeigenschaften {0} – HTTP-Benachrichtigungen</Phrase>
+    <Phrase key="pageGeneral">Allgemein</Phrase>
+    <Phrase key="lblMethod">Methode</Phrase>
+    <Phrase key="lblUri">URI</Phrase>
+    <Phrase key="lblUriHint">Kann Parameter enthalten, zum Beispiel {phone}, {email} und {text}</Phrase>
+    <Phrase key="gbParam">Parameter</Phrase>
+    <Phrase key="chkParamEnabled">Parameter aktiviert</Phrase>
+    <Phrase key="lblParamBegin">Start</Phrase>
+    <Phrase key="lblParamEnd">Ende</Phrase>
+    <Phrase key="lblAddrSep">Separator</Phrase>
+    <Phrase key="pageHeaders">Überschriften</Phrase>
+    <Phrase key="colName">Name</Phrase>
+    <Phrase key="colValue">Wert</Phrase>
+    <Phrase key="pageContent">Inhalt</Phrase>
+    <Phrase key="lblContentType">Inhaltstyp</Phrase>
+    <Phrase key="lblContentEscaping">Flucht</Phrase>
+    <Phrase key="cbContentEscaping.Items[0]">Keiner</Phrase>
+    <Phrase key="cbContentEscaping.Items[1]">URL</Phrase>
+    <Phrase key="cbContentEscaping.Items[2]">JSON</Phrase>
+    <Phrase key="lblContent">Körper</Phrase>
+    <Phrase key="lblContentHint">Kann Parameter enthalten, zum Beispiel {phone}, {email} und {text}</Phrase>
+    <Phrase key="btnAddressBook">Adressbuch</Phrase>
+    <Phrase key="btnSave">Speichern</Phrase>
+    <Phrase key="btnClose">Schließen</Phrase>
+  </Dictionary>
+</DrvHttpNotifDictionaries>

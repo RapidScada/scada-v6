@@ -17,25 +17,13 @@ namespace Scada.Comm.Drivers.DrvSnmp.Config
         /// </summary>
         ITreeNode ITreeNode.Parent
         {
-            get
-            {
-                return null;
-            }
-            set
-            {
-                throw new InvalidOperationException();
-            }
+            get => null;
+            set => throw new InvalidOperationException();
         }
 
         /// <summary>
         /// Gets the child tree nodes.
         /// </summary>
-        IList ITreeNode.Children
-        {
-            get
-            {
-                return this;
-            }
-        }
+        IList ITreeNode.Children => this;
     }
 }

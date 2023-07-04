@@ -86,10 +86,11 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         /// </summary>
         public TreeNode CreateLineNode(CommApp commApp, LineConfig lineConfig)
         {
-            TreeNode lineNode = TreeViewExtensions.CreateNode(lineConfig.Title,
-                lineConfig.Active ? ImageKey.Line : ImageKey.LineInactive);
+            TreeNode lineNode = TreeViewExtensions.CreateNode(
+                lineConfig.Title,
+                lineConfig.Active ? ImageKey.Line : ImageKey.LineInactive,
+                new CommNodeTag(commApp, lineConfig, CommNodeType.Line));
             lineNode.ContextMenuStrip = menuControl.LineMenu;
-            lineNode.Tag = new CommNodeTag(commApp, lineConfig, CommNodeType.Line);
 
             lineNode.Nodes.AddRange(new TreeNode[]
             {
@@ -175,17 +176,17 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         /// </summary>
         public TreeNode CreateDeviceNode(CommApp commApp, DeviceConfig deviceConfig)
         {
-            return new TreeNode(deviceConfig.Title)
-            {
-                ImageKey = ImageKey.Device,
-                SelectedImageKey = ImageKey.Device,
-                ContextMenuStrip = menuControl.DeviceMenu,
-                Tag = new CommNodeTag(commApp, deviceConfig, CommNodeType.Device)
+            TreeNode deviceNode = TreeViewExtensions.CreateNode(
+                deviceConfig.Title,
+                deviceConfig.Active ? ImageKey.Device : ImageKey.DeviceInactive,
+                new CommNodeTag(commApp, deviceConfig, CommNodeType.Device)
                 {
                     FormType = typeof(FrmDeviceData),
                     FormArgs = new object[] { adminContext, commApp, deviceConfig }
-                }
-            };
+                });
+
+            deviceNode.ContextMenuStrip = menuControl.DeviceMenu;
+            return deviceNode;
         }
 
         /// <summary>

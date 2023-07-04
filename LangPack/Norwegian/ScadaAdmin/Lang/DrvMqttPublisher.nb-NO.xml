@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvMqttPublisherDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.Config.DeviceOptions">
+    <Phrase key="RootTopic.DisplayName">Root-emne</Phrase>
+    <Phrase key="RootTopic.Category">Hovedparametere</Phrase>
+    <Phrase key="RootTopic.Description">Rotemnet som brukes som prefiks for alle enhetsemner.</Phrase>
+    <Phrase key="UndefinedValue.DisplayName">Udefinert verdi</Phrase>
+    <Phrase key="UndefinedValue.Category">Hovedparametere</Phrase>
+    <Phrase key="UndefinedValue.Description">Nyttelasten som skal sendes hvis kanalverdien er udefinert.</Phrase>
+    <Phrase key="PublishFormat.DisplayName">Publiseringsformat</Phrase>
+    <Phrase key="PublishFormat.Category">Hovedparametere</Phrase>
+    <Phrase key="PublishFormat.Description">Formatet til publiserte kanaldata.&#13;&#10;Formateksempel: { "Val": @val, "Stat": @stat }&#13;&#10;Tømt format er lik @val</Phrase>
+    <Phrase key="PublishOnChange.DisplayName">Publiser ved endring</Phrase>
+    <Phrase key="PublishOnChange.Category">Hovedparametere</Phrase>
+    <Phrase key="PublishOnChange.Description">En verdi som indikerer om kanaldata skal sendes ved endring.</Phrase>
+    <Phrase key="PublishPeriod.DisplayName">Publiseringsperiode</Phrase>
+    <Phrase key="PublishPeriod.Category">Hovedparametere</Phrase>
+    <Phrase key="PublishPeriod.Description">Publiseringsperioden for alle enhetselementer, sek.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.Config.ItemConfig">
+    <Phrase key="CnlNum.DisplayName">Kanalnummer</Phrase>
+    <Phrase key="CnlNum.Category">Hovedparametere</Phrase>
+    <Phrase key="CnlNum.Description">Nummeret til den publiserte kanalen.</Phrase>
+    <Phrase key="Topic.DisplayName">Emne</Phrase>
+    <Phrase key="Topic.Category">Hovedparametere</Phrase>
+    <Phrase key="Topic.Description">MQTT-emnet.</Phrase>
+    <Phrase key="Publish.DisplayName">publisere</Phrase>
+    <Phrase key="Publish.Category">Hovedparametere</Phrase>
+    <Phrase key="Publish.Description">En verdi som indikerer om elementet brukes til å publisere kanalverdier.</Phrase>
+    <Phrase key="Subscribe.DisplayName">Abonnere</Phrase>
+    <Phrase key="Subscribe.Category">Hovedparametere</Phrase>
+    <Phrase key="Subscribe.Description">En verdi som indikerer om elementet brukes til å motta kommandoer.</Phrase>
+    <Phrase key="QosLevel.DisplayName">QoS-nivå</Phrase>
+    <Phrase key="QosLevel.Category">Protokoll</Phrase>
+    <Phrase key="QosLevel.Description">Kvaliteten på tjenestenivået: 0 - høyst én gang, 1 - minst én gang, 2 - nøyaktig én gang.</Phrase>
+    <Phrase key="Retain.DisplayName">Beholde</Phrase>
+    <Phrase key="Retain.Category">Protokoll</Phrase>
+    <Phrase key="Retain.Description">En verdi som indikerer om det beholdte flagget skal angis ved publisering.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.View.MqttPublisherConfigProvider">
+    <Phrase key="FormTitle">Enhetsegenskaper {0} – MQTT Publisher</Phrase>
+    <Phrase key="AddItemButton">Legg til element</Phrase>
+    <Phrase key="OptionsNode">Alternativer</Phrase>
+    <Phrase key="ItemsNode">Varer</Phrase>
+    <Phrase key="ItemNodeFormat">Kanal {0}</Phrase>
+  </Dictionary>
+</DrvMqttPublisherDictionaries>

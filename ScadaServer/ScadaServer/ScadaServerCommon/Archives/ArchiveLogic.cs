@@ -49,7 +49,7 @@ namespace Scada.Server.Archives
             ArchiveContext = archiveContext ?? throw new ArgumentNullException(nameof(archiveContext));
             ArchiveConfig = archiveConfig ?? throw new ArgumentNullException(nameof(archiveConfig));
             CnlNums = cnlNums ?? throw new ArgumentNullException(nameof(cnlNums));
-            LastWriteTime = DateTime.MinValue;
+            LastWriteTime = DateTime.UtcNow;
             Code = archiveConfig.Code;
             Title = ServerUtils.GetArchiveTitle(Code, archiveConfig.Name);
             IsReady = false;

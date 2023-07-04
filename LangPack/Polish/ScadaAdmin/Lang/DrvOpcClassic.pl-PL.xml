@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvOpcClassicDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlCommand">
+    <Phrase key="gbCommand">Parametry poleceń</Phrase>
+    <Phrase key="lblPath">Ścieżka</Phrase>
+    <Phrase key="lblName">Nazwa</Phrase>
+    <Phrase key="lblCmdCode">Kod polecenia</Phrase>
+    <Phrase key="lblCmdNum">Numer polecenia</Phrase>
+    <Phrase key="lblDataType">Typ danych</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEmptyItem">
+    <Phrase key="gbEmptyItem">Parametry pozycji</Phrase>
+    <Phrase key="lblNotSelected">Pozycja nie wybrana</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEventCategory">
+    <Phrase key="gbEventCategory">Parametry kategorii</Phrase>
+    <Phrase key="lblName">Nazwa</Phrase>
+    <Phrase key="lblID">ID</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEventSubscription">
+    <Phrase key="gbSubscription">Parametry subskrypcji</Phrase>
+    <Phrase key="chkActive">Aktywny</Phrase>
+    <Phrase key="lblDisplayName">Wyświetlana nazwa</Phrase>
+    <Phrase key="lblUpdateRate">Częstotliwość aktualizacji, ms</Phrase>
+    <Phrase key="lblKeepAlive">Żyj, pani</Phrase>
+    <Phrase key="lblMaxSize">Największy rozmiar</Phrase>
+    <Phrase key="chkSimpleEvents">Proste zdarzenia</Phrase>
+    <Phrase key="chkTrackingEvents">Śledzenie zdarzeń</Phrase>
+    <Phrase key="chkConditionEvents">Zdarzenia warunkowe</Phrase>
+    <Phrase key="lblHighSeverity">Wysoka dotkliwość</Phrase>
+    <Phrase key="lblLowSeverity">Niska dotkliwość</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlItem">
+    <Phrase key="gbItem">Parametry pozycji</Phrase>
+    <Phrase key="chkActive">Aktywny</Phrase>
+    <Phrase key="lblPath">Ścieżka</Phrase>
+    <Phrase key="lblName">Nazwa</Phrase>
+    <Phrase key="lblTagCode">Kod znacznika</Phrase>
+    <Phrase key="lblTagNum">Numer znacznika</Phrase>
+    <Phrase key="lblDataType">Typ danych</Phrase>
+    <Phrase key="chkIsString">Jest ciągiem</Phrase>
+    <Phrase key="chkIsArray">Jest tablicą</Phrase>
+    <Phrase key="lblDataLen">Długość łańcucha lub tablicy</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlSubscription">
+    <Phrase key="gbSubscription">Parametry subskrypcji</Phrase>
+    <Phrase key="chkActive">Aktywny</Phrase>
+    <Phrase key="lblDisplayName">Wyświetlana nazwa</Phrase>
+    <Phrase key="lblUpdateRate">Częstotliwość aktualizacji, ms</Phrase>
+    <Phrase key="lblKeepAlive">Żyj, pani</Phrase>
+    <Phrase key="lblDeadband">Strefa nieczułości, %</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Właściwości urządzenia {0} — OPC Classic</Phrase>
+    <Phrase key="gbConnectionOptions">Opcje połączenia</Phrase>
+    <Phrase key="lblHost">Zdalny host</Phrase>
+    <Phrase key="btnShowNetworkOptions">Opcje</Phrase>
+    <Phrase key="lblServerPath">Serwer OPC</Phrase>
+    <Phrase key="lblDaSpec">Specyfikacja DA</Phrase>
+    <Phrase key="lblAeSpec">Specyfikacja AE</Phrase>
+    <Phrase key="btnSelectServer">Wybierać...</Phrase>
+    <Phrase key="lblConnectionInfo">Opcje połączeń są wspólne dla linii komunikacyjnej.</Phrase>
+    <Phrase key="gbServerBrowse">Przeglądaj serwer</Phrase>
+    <Phrase key="btnConnect.ToolTip">Łączyć</Phrase>
+    <Phrase key="btnDisconnect.ToolTip">Rozłączyć się</Phrase>
+    <Phrase key="btnOpenFile.ToolTip">Otwórz plik</Phrase>
+    <Phrase key="gbDevice">Konfiguracja urzadzenia</Phrase>
+    <Phrase key="btnAddSubscription.ToolTip">Dodaj subskrypcję</Phrase>
+    <Phrase key="btnAddItem.ToolTip">Dodaj wybrany element</Phrase>
+    <Phrase key="btnMoveUpItem.ToolTip">Podnieść</Phrase>
+    <Phrase key="btnMoveDownItem.ToolTip">Padnij</Phrase>
+    <Phrase key="btnDeleteItem.ToolTip">Usuwać</Phrase>
+    <Phrase key="btnSave">Ratować</Phrase>
+    <Phrase key="btnClose">Zamknąć</Phrase>
+    <Phrase key="XmlFileFilter">Pliki XML (*.xml)|*.xml|Wszystkie pliki (*.*)|*.*</Phrase>
+    <Phrase key="ServerNotSelected">Nie wybrano serwera OPC.</Phrase>
+    <Phrase key="DaServerUnavailable">Serwer OPC DA jest niedostępny lub nie obsługuje wybranej specyfikacji.</Phrase>
+    <Phrase key="AeServerUnavailable">Serwer OPC AE jest niedostępny lub nie obsługuje wybranej specyfikacji.</Phrase>
+    <Phrase key="ConnectDaServerError">Błąd połączenia z serwerem OPC DA</Phrase>
+    <Phrase key="ConnectAeServerError">Błąd połączenia z serwerem OPC AE</Phrase>
+    <Phrase key="DisconnectDaServerError">Błąd podczas odłączania serwera OPC DA</Phrase>
+    <Phrase key="DisconnectAeServerError">Błąd podczas odłączania serwera OPC AE</Phrase>
+    <Phrase key="BrowseServerError">Błąd przeglądania serwera OPC</Phrase>
+    <Phrase key="LoadServerContentError">Błąd ładowania zawartości serwera OPC</Phrase>
+    <Phrase key="ServerNotConnected">Serwer OPC nie jest podłączony.</Phrase>
+    <Phrase key="UnableToReadData">Nie można odczytać danych.</Phrase>
+    <Phrase key="GetDataTypeError">Błąd pobierania typu danych</Phrase>
+    <Phrase key="DaServerNode">OPC DA</Phrase>
+    <Phrase key="AeServerNode">OPC AE</Phrase>
+    <Phrase key="EmptyNode">Pusty</Phrase>
+    <Phrase key="SubscriptionsNode">Abonamenty</Phrase>
+    <Phrase key="CommandsNode">Polecenia</Phrase>
+    <Phrase key="EventSubscriptionsNode">Subskrypcje wydarzeń</Phrase>
+    <Phrase key="UnnamedSubscription">&lt;Subskrypcja bez nazwy&gt;</Phrase>
+    <Phrase key="UnnamedItem">&lt;Element bez nazwy&gt;</Phrase>
+    <Phrase key="UnnamedCommand">&lt;polecenie bez nazwy&gt;</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Forms.FrmNetworkOptions">
+    <Phrase key="this">Opcje sieciowe</Phrase>
+    <Phrase key="chkIsDefault">Użyj opcji domyślnych</Phrase>
+    <Phrase key="gbCredentials">Referencje</Phrase>
+    <Phrase key="lblUsername">Nazwa użytkownika</Phrase>
+    <Phrase key="lblPassword">Hasło</Phrase>
+    <Phrase key="lblDomain">Domena</Phrase>
+    <Phrase key="gbProxy">Proxy</Phrase>
+    <Phrase key="lblProxyAddress">Adres</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Anulować</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Forms.FrmServerSelect">
+    <Phrase key="this">Wybierz Serwer OPC</Phrase>
+    <Phrase key="lblHost">Gospodarz</Phrase>
+    <Phrase key="lblServer">Serwer OPC</Phrase>
+    <Phrase key="gbDaSpec">Specyfikacja DA</Phrase>
+    <Phrase key="rbDaNone">Nic</Phrase>
+    <Phrase key="rbDa10">Dostęp do danych 1.0a</Phrase>
+    <Phrase key="rbDa20">Dostęp do danych 2.XX</Phrase>
+    <Phrase key="rbDa30">Dostęp do danych 3.00</Phrase>
+    <Phrase key="gbAeSpec">Specyfikacja AE</Phrase>
+    <Phrase key="rbAeNone">Nic</Phrase>
+    <Phrase key="rbAe10">Alarmy i zdarzenia 1.XX</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Anulować</Phrase>
+    <Phrase key="FillServersError">Błąd podczas wypełniania listy serwerów</Phrase>
+    <Phrase key="DisposeServersError">Błąd usuwania serwerów</Phrase>
+  </Dictionary>
+</DrvOpcClassicDictionaries>

@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvOpcUaDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlCommand">
+    <Phrase key="gbCommand">Kommandoparametere</Phrase>
+    <Phrase key="lblDisplayName">Visningsnavn</Phrase>
+    <Phrase key="lblCmdCode">Kommandokode</Phrase>
+    <Phrase key="lblCmdNum">Kommandonummer</Phrase>
+    <Phrase key="lblNodeID">Node-ID</Phrase>
+    <Phrase key="lblParentNodeID">ID for overordnet node</Phrase>
+    <Phrase key="lblDataType">Data-type</Phrase>
+    <Phrase key="chkIsMethod">Er metode</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEmptyItem">
+    <Phrase key="gbEmptyItem">Elementparametere</Phrase>
+    <Phrase key="lblNotSelected">Varen er ikke valgt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlItem">
+    <Phrase key="gbItem">Elementparametere</Phrase>
+    <Phrase key="chkItemActive">Aktiv</Phrase>
+    <Phrase key="lblDisplayName">Visningsnavn</Phrase>
+    <Phrase key="lblTagCode">Tag kode</Phrase>
+    <Phrase key="lblTagNum">Tag nummer</Phrase>
+    <Phrase key="lblNodeID">Node-ID</Phrase>
+    <Phrase key="lblDataType">Data-type</Phrase>
+    <Phrase key="chkIsString">Er streng</Phrase>
+    <Phrase key="chkIsArray">Er array</Phrase>
+    <Phrase key="lblDataLen">Lengde på streng eller array</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlSubscription">
+    <Phrase key="gbSubscription">Abonnementsparametre</Phrase>
+    <Phrase key="chkSubscrActive">Aktiv</Phrase>
+    <Phrase key="lblDisplayName">Visningsnavn</Phrase>
+    <Phrase key="lblPublishingInterval">Publiseringsintervall</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Enhets {0}-egenskaper – OPC UA</Phrase>
+    <Phrase key="gbConnectionOptions">Tilkoblingsalternativer</Phrase>
+    <Phrase key="lblServerUrl">Server URL</Phrase>
+    <Phrase key="btnSecurityOptions.ToolTip">Sikkerhetsinnstillinger</Phrase>
+    <Phrase key="lblConnectionInfo">Tilkoblingsmuligheter er felles for kommunikasjonslinjen.</Phrase>
+    <Phrase key="gbServerBrowse">Server Bla gjennom</Phrase>
+    <Phrase key="btnConnect.ToolTip">Koble til server</Phrase>
+    <Phrase key="btnDisconnect.ToolTip">Koble fra serveren</Phrase>
+    <Phrase key="btnViewAttrs.ToolTip">Se attributter</Phrase>
+    <Phrase key="gbDevice">Enhetskonfigurasjon</Phrase>
+    <Phrase key="btnAddItem.ToolTip">Legg til valgt element</Phrase>
+    <Phrase key="btnAddSubscription.ToolTip">Legg til abonnement</Phrase>
+    <Phrase key="btnMoveUpItem.ToolTip">Flytte opp</Phrase>
+    <Phrase key="btnMoveDownItem.ToolTip">Flytt ned</Phrase>
+    <Phrase key="btnDeleteItem.ToolTip">Slett</Phrase>
+    <Phrase key="btnEditingOptions">Alternativer</Phrase>
+    <Phrase key="btnSave">Lagre</Phrase>
+    <Phrase key="btnClose">Lukk</Phrase>
+    <Phrase key="ConnectServerError">Feil ved tilkobling til OPC-server</Phrase>
+    <Phrase key="DisconnectServerError">Feil ved frakobling fra OPC-server</Phrase>
+    <Phrase key="BrowseServerError">Feil ved bla gjennom OPC-serverelementet</Phrase>
+    <Phrase key="UnableToReadData">Kan ikke lese data.</Phrase>
+    <Phrase key="GetDataTypeError">Feil ved henting av datatype</Phrase>
+    <Phrase key="ServerUrlRequired">Server-URL må ikke være tom.</Phrase>
+    <Phrase key="EmptyNode">Tømme</Phrase>
+    <Phrase key="SubscriptionsNode">Abonnementer</Phrase>
+    <Phrase key="CommandsNode">Kommandoer</Phrase>
+    <Phrase key="UnnamedSubscription">&lt;Unavngitt abonnement&gt;</Phrase>
+    <Phrase key="UnnamedItem">&lt;Unavngitt element&gt;</Phrase>
+    <Phrase key="UnnamedCommand">&lt;Unavngitt kommando&gt;</Phrase>
+    <Phrase key="UnknownDataType">Datatypen &quot;{0}&quot; er ukjent.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmEditingOptions">
+    <Phrase key="this">Redigeringsalternativer</Phrase>
+    <Phrase key="lblDefaultTagCode">Standard tagkode</Phrase>
+    <Phrase key="cbDefaultTagCode.Items[0]">Node-ID</Phrase>
+    <Phrase key="cbDefaultTagCode.Items[1]">Visningsnavn</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmNodeAttr">
+    <Phrase key="this">Nodeattributter</Phrase>
+    <Phrase key="colName">Navn</Phrase>
+    <Phrase key="colValue">Verdi</Phrase>
+    <Phrase key="btnClose">Lukk</Phrase>
+    <Phrase key="ReadAttrError">Feil ved lesing av attributter fra OPC-server</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmSecurityOptions">
+    <Phrase key="this">Sikkerhetsinnstillinger</Phrase>
+    <Phrase key="lblSecurityMode">Sikkerhetsmodus</Phrase>
+    <Phrase key="cbSecurityMode.Items[0]">Ingen</Phrase>
+    <Phrase key="cbSecurityMode.Items[1]">Skilt</Phrase>
+    <Phrase key="cbSecurityMode.Items[2]">Signer og krypter</Phrase>
+    <Phrase key="lblSecurityPolicy">Sikkerhetspolitikk</Phrase>
+    <Phrase key="cbSecurityPolicy.Items[0]">Ingen</Phrase>
+    <Phrase key="lblAuthenticationMode">Autentiseringsmodus</Phrase>
+    <Phrase key="cbAuthenticationMode.Items[0]">Anonym</Phrase>
+    <Phrase key="cbAuthenticationMode.Items[1]">Brukernavn og passord</Phrase>
+    <Phrase key="lblUsername">Brukernavn</Phrase>
+    <Phrase key="lblPassword">Passord</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+</DrvOpcUaDictionaries>

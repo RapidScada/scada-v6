@@ -3,19 +3,19 @@
 .table-main {
     td.sev {
         .critical {
-            color: $danger;
+            color: $severity-critical-color;
         }
 
         .major {
-            color: $orange;
+            color: $severity-major-color;
         }
 
         .minor {
-            color: $yellow;
+            color: $severity-minor-color;
         }
 
         .info {
-            color: $info;
+            color: $severity-info-color;
         }
     }
 }

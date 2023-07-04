@@ -95,6 +95,7 @@
     <Phrase key="CommandsDisabled">命令已禁用。</Phrase>
     <Phrase key="SendCommand">{1} 发送命令至通道 {0}</Phrase>
     <Phrase key="ActionNotAllowed">操作不允许</Phrase>
+    <Phrase key="ViewTitle">查看{0}</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.TreeView.MenuItem">
     <Phrase key="ReportsMenuItem">报告</Phrase>

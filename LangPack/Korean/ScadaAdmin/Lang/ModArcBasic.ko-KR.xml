@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModArcBasicDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmArcDir">
+    <Phrase key="this">아카이브 디렉토리</Phrase>
+    <Phrase key="chkUseDefaultDir">기본 디렉토리 사용</Phrase>
+    <Phrase key="lblArcDir">DAT 형식으로 아카이브</Phrase>
+    <Phrase key="btnBrowseArcDir">검색...</Phrase>
+    <Phrase key="lblArcCopyDir">DAT 형식의 아카이브 사본</Phrase>
+    <Phrase key="btnBrowseArcCopyDir">검색...</Phrase>
+    <Phrase key="btnSetToDefaultWin">Windows용으로 설정</Phrase>
+    <Phrase key="btnSetToDefaultLinux">Linux용으로 설정</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicCAO">
+    <Phrase key="this">현재 아카이브 옵션</Phrase>
+    <Phrase key="gbGeneralOptions">일반 옵션</Phrase>
+    <Phrase key="lblLogEnabled">로그 활성화</Phrase>
+    <Phrase key="lblFlushPeriod">플러시 기간</Phrase>
+    <Phrase key="txtFlushPeriodUnit">비서</Phrase>
+    <Phrase key="gbWritingOptions">쓰기 옵션</Phrase>
+    <Phrase key="lblUseCopyDir">복사 디렉토리에 쓰기</Phrase>
+    <Phrase key="btnShowDir">디렉토리</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicEAO">
+    <Phrase key="this">이벤트 아카이브 옵션</Phrase>
+    <Phrase key="gbGeneralOptions">일반 옵션</Phrase>
+    <Phrase key="lblLogEnabled">로그 활성화</Phrase>
+    <Phrase key="lblRetention">보유 기간</Phrase>
+    <Phrase key="txtRetentionUnit">낮</Phrase>
+    <Phrase key="gbWritingOptions">쓰기 옵션</Phrase>
+    <Phrase key="lblUseCopyDir">복사 디렉토리에 쓰기</Phrase>
+    <Phrase key="lblMaxQueueSize">최대 대기열 크기</Phrase>
+    <Phrase key="btnShowDir">디렉토리</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicHAO">
+    <Phrase key="this">히스토리컬 아카이브 옵션</Phrase>
+    <Phrase key="gbGeneralOptions">일반 옵션</Phrase>
+    <Phrase key="lblLogEnabled">로그 활성화</Phrase>
+    <Phrase key="lblRetention">보유 기간</Phrase>
+    <Phrase key="txtRetentionUnit">낮</Phrase>
+    <Phrase key="lblWriteWithPeriod">마침표로 쓰기</Phrase>
+    <Phrase key="lblWritingPeriod">집필 기간</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[0]">비서</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[1]">분</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[2]">시간</Phrase>
+    <Phrase key="lblPullToPeriod">기간으로 가져오기</Phrase>
+    <Phrase key="txtPullToPeriodUnit">비서</Phrase>
+    <Phrase key="gbWritingOptions">쓰기 옵션</Phrase>
+    <Phrase key="lblUseCopyDir">복사 디렉토리에 쓰기</Phrase>
+    <Phrase key="lblMaxQueueSize">최대 대기열 크기</Phrase>
+    <Phrase key="btnShowDir">디렉토리</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+</ModArcBasicDictionaries>

@@ -234,6 +234,10 @@ body {
     color: $content-fore-color;
     overflow: auto;
     padding: 20px;
+
+    form.report-args {
+        max-width: 500px;
+    }
 }
 
 /********** Stats **********/

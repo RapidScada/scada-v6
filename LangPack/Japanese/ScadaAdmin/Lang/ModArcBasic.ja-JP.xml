@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModArcBasicDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmArcDir">
+    <Phrase key="this">アーカイブディレクトリ</Phrase>
+    <Phrase key="chkUseDefaultDir">デフォルトのディレクトリを使用する</Phrase>
+    <Phrase key="lblArcDir">DAT形式でアーカイブする</Phrase>
+    <Phrase key="btnBrowseArcDir">ブラウズ...</Phrase>
+    <Phrase key="lblArcCopyDir">DAT 形式のアーカイブ コピー</Phrase>
+    <Phrase key="btnBrowseArcCopyDir">ブラウズ...</Phrase>
+    <Phrase key="btnSetToDefaultWin">Windows用に設定</Phrase>
+    <Phrase key="btnSetToDefaultLinux">Linux用に設定</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicCAO">
+    <Phrase key="this">現在のアーカイブ オプション</Phrase>
+    <Phrase key="gbGeneralOptions">一般的なオプション</Phrase>
+    <Phrase key="lblLogEnabled">ログを有効にする</Phrase>
+    <Phrase key="lblFlushPeriod">フラッシュ期間</Phrase>
+    <Phrase key="txtFlushPeriodUnit">秒</Phrase>
+    <Phrase key="gbWritingOptions">書き込みオプション</Phrase>
+    <Phrase key="lblUseCopyDir">コピーディレクトリへの書き込み</Phrase>
+    <Phrase key="btnShowDir">ディレクトリ</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicEAO">
+    <Phrase key="this">イベントアーカイブオプション</Phrase>
+    <Phrase key="gbGeneralOptions">一般的なオプション</Phrase>
+    <Phrase key="lblLogEnabled">ログを有効にする</Phrase>
+    <Phrase key="lblRetention">保存期間</Phrase>
+    <Phrase key="txtRetentionUnit">日</Phrase>
+    <Phrase key="gbWritingOptions">書き込みオプション</Phrase>
+    <Phrase key="lblUseCopyDir">コピーディレクトリへの書き込み</Phrase>
+    <Phrase key="lblMaxQueueSize">最大キューサイズ</Phrase>
+    <Phrase key="btnShowDir">ディレクトリ</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicHAO">
+    <Phrase key="this">履歴アーカイブのオプション</Phrase>
+    <Phrase key="gbGeneralOptions">一般的なオプション</Phrase>
+    <Phrase key="lblLogEnabled">ログを有効にする</Phrase>
+    <Phrase key="lblRetention">保存期間</Phrase>
+    <Phrase key="txtRetentionUnit">日</Phrase>
+    <Phrase key="lblWriteWithPeriod">ピリオドを付けて書く</Phrase>
+    <Phrase key="lblWritingPeriod">執筆期間</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[0]">秒</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[1]">分</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[2]">時間</Phrase>
+    <Phrase key="lblPullToPeriod">ピリオドまでプル</Phrase>
+    <Phrase key="txtPullToPeriodUnit">秒</Phrase>
+    <Phrase key="gbWritingOptions">書き込みオプション</Phrase>
+    <Phrase key="lblUseCopyDir">コピーディレクトリへの書き込み</Phrase>
+    <Phrase key="lblMaxQueueSize">最大キューサイズ</Phrase>
+    <Phrase key="btnShowDir">ディレクトリ</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+</ModArcBasicDictionaries>

@@ -3,7 +3,6 @@
 
 using Npgsql;
 using Scada.Data.Tables;
-using Scada.Dbms;
 using Scada.Lang;
 using System;
 using System.Collections.Generic;
@@ -48,9 +47,8 @@ namespace Scada.Storages.PostgreSqlStorage
         /// </summary>
         private static readonly TimeSpan ConnectAttemptPeriod = TimeSpan.FromSeconds(10);
 
-        private TimeSpan waitTimeout;            // how long to wait for connection
-        private DbConnectionOptions connOptions; // the database connection options
-        private NpgsqlConnection conn;           // the database connection
+        private TimeSpan waitTimeout;  // how long to wait for connection
+        private NpgsqlConnection conn; // the database connection
 
 
         /// <summary>
@@ -60,7 +58,6 @@ namespace Scada.Storages.PostgreSqlStorage
             : base(storageContext)
         {
             waitTimeout = TimeSpan.Zero;
-            connOptions = null;
             conn = null;
         }
 
@@ -291,12 +288,6 @@ namespace Scada.Storages.PostgreSqlStorage
         {
             base.LoadConfig(xmlElement);
             waitTimeout = TimeSpan.FromSeconds(xmlElement.GetChildAsInt("WaitTimeout"));
-
-            if (xmlElement.SelectSingleNode("Connection") is XmlNode connectionNode)
-            {
-                connOptions = new DbConnectionOptions();
-                connOptions.LoadFromXml(connectionNode);
-            }
         }
 
         /// <summary>
@@ -304,10 +295,7 @@ namespace Scada.Storages.PostgreSqlStorage
         /// </summary>
         public override void MakeReady()
         {
-            if (connOptions == null)
-                throw new ScadaException(CommonPhrases.ConnOptionsNotFound);
-
-            conn = CreateDbConnection(connOptions);
+            conn = CreateDbConnection(StorageContext.InstanceConfig.Connection);
 
             // wait for connection
             DateTime utcNow = DateTime.UtcNow;

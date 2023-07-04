@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaWebDictionaries>
+  <Dictionary key="Scada.Web">
+    <Phrase key="CorrectErrors">Исправите следеће грешке:</Phrase>
+    <Phrase key="ClientError">Грешка у комуникацији са сервером</Phrase>
+    <Phrase key="UnknownUsername">Непознат</Phrase>
+    <Phrase key="AccessDenied">Приступ забрањен</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Code.ViewLoader">
+    <Phrase key="ViewNotSpecified">Тражени приказ није наведен.</Phrase>
+    <Phrase key="ViewNotExists">Тражени приказ не постоји.</Phrase>
+    <Phrase key="InsufficientViewRights">Недовољна права приступа за приказ.</Phrase>
+    <Phrase key="UnableResolveViewSpec">Није могуће решити спецификацију приказа.</Phrase>
+    <Phrase key="UnableLoadView">Није могуће учитати приказ.</Phrase>
+    <Phrase key="ViewMissingFromCache">Из кеша недостаје приказ.</Phrase>
+    <Phrase key="ViewUndefined">Поглед је недефинисан.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Shared._MainLayout">
+    <Phrase key="spanMenuBtn_ToolTip">Прикажи/сакриј мени</Phrase>
+    <Phrase key="spanNotifBtn_ToolTip">Прикажи/сакриј обавештења</Phrase>
+    <Phrase key="spanProfileBtn_ToolTip">Профил корисника</Phrase>
+    <Phrase key="spanLogoutBtn">Одјавити се</Phrase>
+    <Phrase key="spanLogoutBtn_ToolTip">Одјавити се</Phrase>
+    <Phrase key="spanFullscreenBtn_ToolTip">Цео екран</Phrase>
+    <Phrase key="spanExitFullscreenBtn_ToolTip">Нормал Виев</Phrase>
+    <Phrase key="divMainMenuTab">Главни мени</Phrase>
+    <Phrase key="divViewExplorerTab">Погледи</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Shared._MainLayout.Modal">
+    <Phrase key="Ok">У реду</Phrase>
+    <Phrase key="Yes">да</Phrase>
+    <Phrase key="No">Не</Phrase>
+    <Phrase key="Execute">Извршити</Phrase>
+    <Phrase key="Cancel">Поништити, отказати</Phrase>
+    <Phrase key="Close">Близу</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Shared._MainLayout.NotifPanel">
+    <Phrase key="NoNotif">Нема обавештења</Phrase>
+    <Phrase key="Mute">Муте</Phrase>
+    <Phrase key="Unmute">Укључи звук</Phrase>
+    <Phrase key="AckAll">Ацк Алл</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.About">
+    <Phrase key="PageTitle">О програму</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.AccessDenied">
+    <Phrase key="PageTitle">Приступ забрањен</Phrase>
+    <Phrase key="ErrorMessage">Немате довољно права за приступ траженом ресурсу.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.CnlSelect">
+    <Phrase key="PageTitle">Изаберите Канали</Phrase>
+    <Phrase key="lblObj">Објекат</Phrase>
+    <Phrase key="lblOnlySelected">Прикажи само изабране канале</Phrase>
+    <Phrase key="SelectObjectItem">-- Изаберите објекат --</Phrase>
+    <Phrase key="FilterRequired">Наведите филтер.</Phrase>
+    <Phrase key="NoChannels">Нема канала који одговарају филтеру.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Error">
+    <Phrase key="PageTitle">Грешка</Phrase>
+    <Phrase key="ErrorMessage">Дошло је до грешке при обради захтева.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Login">
+    <Phrase key="PageTitle">Пријавите се</Phrase>
+    <Phrase key="NotReady">Апликација није спремна.  Покушајте поново касније.</Phrase>
+    <Phrase key="InvalidCaptcha">Неважећи заштитни код.</Phrase>
+    <Phrase key="lblUsername">Корисничко име</Phrase>
+    <Phrase key="lblPassword">Лозинка</Phrase>
+    <Phrase key="lblCaptcha">Заштитни код</Phrase>
+    <Phrase key="lblRememberMe">Сети ме се</Phrase>
+    <Phrase key="btnLogin">Пријавите се</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Reports">
+    <Phrase key="PageTitle">Извештаји</Phrase>
+    <Phrase key="NoReports">Нема доступниһ извештаја.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.UserProfile">
+    <Phrase key="PageTitle">Профил корисника</Phrase>
+    <Phrase key="lblUserID">ID корисник:</Phrase>
+    <Phrase key="lblUsername">Корисничко име:</Phrase>
+    <Phrase key="lblRole">Улога:</Phrase>
+    <Phrase key="lblTimeZone">Временска зона:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.View">
+    <Phrase key="PageTitle">Поглед</Phrase>
+    <Phrase key="divHideDataWindowBtn_ToolTip">Сакриј прозор са подацима</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.ViewFrame">
+    <Phrase key="PageTitle">Поглед</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins">
+    <Phrase key="LoadPluginConfigError">Грешка при учитавању конфигурације додатка</Phrase>
+    <Phrase key="SavePluginConfigError">Грешка при чувању конфигурације додатка</Phrase>
+    <Phrase key="CnlNotFound">Канал {0} није пронађен.</Phrase>
+    <Phrase key="CnlNotOutput">Канал {0} није излаз.</Phrase>
+    <Phrase key="CommandsDisabled">Команде су онемогућене.</Phrase>
+    <Phrase key="SendCommand">Пошаљи команду каналу {0} од {1}</Phrase>
+    <Phrase key="ActionNotAllowed">Радња није дозвољена.</Phrase>
+    <Phrase key="ViewTitle">Прикажи {0}</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.TreeView.MenuItem">
+    <Phrase key="ReportsMenuItem">Извештаји</Phrase>
+    <Phrase key="AdministrationMenuItem">Администрација</Phrase>
+    <Phrase key="ConfigurationMenuItem">Конфигурација</Phrase>
+    <Phrase key="RegistrationMenuItem">Регистрација</Phrase>
+    <Phrase key="PluginsMenuItem">Плугинс</Phrase>
+    <Phrase key="AboutMenuItem">О томе</Phrase>
+  </Dictionary>
+</ScadaWebDictionaries>

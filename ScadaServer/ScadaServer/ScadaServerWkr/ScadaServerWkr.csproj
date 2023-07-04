@@ -8,8 +8,8 @@
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
     <Copyright>Copyright © 2023</Copyright>
-    <Version>6.1.0</Version>
-    <AssemblyVersion>6.1.0.2</AssemblyVersion>
+    <Version>6.1.1</Version>
+    <AssemblyVersion>6.1.1.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -50,8 +50,4 @@
     </Reference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Config\" />
-    <Folder Include="Lang\" />
-  </ItemGroup>
 </Project>

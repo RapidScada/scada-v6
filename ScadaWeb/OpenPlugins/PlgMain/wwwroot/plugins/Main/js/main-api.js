@@ -1,20 +1,5 @@
 ﻿// The plugin's web API.
-// No dependencies.
-
-// Represents a data transfer object that carries data from the server side to a client.
-class Dto {
-    constructor() {
-        this.ok = false;
-        this.msg = "";
-        this.data = null;
-    }
-
-    static fail(msg) {
-        let dto = new Dto();
-        dto.msg = msg;
-        return dto;
-    }
-}
+// Depends on scada-common.js
 
 // Represents a time range.
 class TimeRange {
@@ -27,6 +12,13 @@ class TimeRange {
     param() {
         return `startTime=${this.startTime}&endTime=${this.endTime}&endInclusive=${this.endInclusive}`;
     }
+}
+
+// Specifies the color indexes in a formatted channel data.
+class ColorIndex {
+    static MAIN_COLOR = 0;
+    static SECOND_COLOR = 1;
+    static BACK_COLOR = 2;
 }
 
 // Represents a JavaScript wrapper for the plugin's web API.
@@ -143,7 +135,7 @@ class MainApi {
     }
 
     // Gets the last events by view.
-    // The specified view must already be loaded into the cache.
+    // Loads the specified view if it is not in the cache.
     // URL example: http://localhost/Api/Main/GetLastEventsByView?archiveBit=1&period=2&limit=100&viewID=1&filterID=1
     getLastEventsByView(archiveBit, period, limit, viewID, filterID, callback) {
         fetch(this.rootPath + "Api/Main/GetLastEventsByView?archiveBit=" + archiveBit +
@@ -175,15 +167,15 @@ class MainApi {
     sendCommand(cnlNum, cmdVal, isHex, cmdData, callback) {
         fetch(this.rootPath + "Api/Main/SendCommand", {
             method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify({
                 cnlNum: cnlNum,
                 cmdVal: cmdVal,
                 isHex: isHex,
                 cmdData: cmdData
-            }),
-            headers: {
-                "Content-Type": "application/json"
-            }
+            })
         })
             .then(response => response.ok ? response.json() : Dto.fail(response.statusText))
             .then(data => this._doCallback(callback, data, "sendCommand"))
@@ -191,10 +183,10 @@ class MainApi {
     }
 
     // Creates a map of current data records accessed by channel number.
-    mapCurData(curData) {
+    static mapCurData(curData) {
         let map = new Map();
 
-        if (curData) {
+        if (Array.isArray(curData?.records)) {
             for (let record of curData.records) {
                 map.set(record.d.cnlNum, record);
             }
@@ -204,10 +196,10 @@ class MainApi {
     }
 
     // Creates a map of channel indexes accessed by channel number.
-    mapCnlNums(cnlNums) {
+    static mapCnlNums(cnlNums) {
         let map = new Map();
 
-        if (cnlNums) {
+        if (Array.isArray(cnlNums)) {
             let idx = 0;
 
             for (let cnlNum of cnlNums) {
@@ -220,15 +212,11 @@ class MainApi {
     }
 
     // Gets a non-null current data record from the map by the channel number.
-    static getCurData(curDataMap, cnlNum, opt_joinLen) {
-        let record = curDataMap ? curDataMap.get(cnlNum) : null;
-
-        if (!record) {
-            record = {
-                d: { cnlNum: 0, val: 0.0, stat: 0 },
-                df: { dispVal: "", colors: [] }
-            };
-        }
+    static getCurDataFromMap(curDataMap, cnlNum, opt_joinLen) {
+        let record = curDataMap?.get(cnlNum) ?? {
+            d: { cnlNum: 0, val: 0.0, stat: 0 },
+            df: { dispVal: "", colors: [] }
+        };
 
         if (opt_joinLen > 1 && curDataMap && record.d.stat > 0) {
             record = JSON.parse(JSON.stringify(record)); // clone record
@@ -242,5 +230,18 @@ class MainApi {
         }
 
         return record;
+    }
+
+    // Gets the display value of the channel from the record.
+    static getDisplayValue(record, opt_unit) {
+        return record.df.dispVal + (opt_unit && record.d.stat > 0 ? " " + opt_unit : "");
+    }
+
+    // Gets the specified color from the record.
+    static getColor(record, colorIndex, opt_defaultColor) {
+        let colors = record.df.colors;
+        return Array.isArray(colors) && colors.length > colorIndex && colors[colorIndex]
+            ? colors[colorIndex]
+            : opt_defaultColor ?? "";
     }
 }

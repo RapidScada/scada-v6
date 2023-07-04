@@ -90,7 +90,7 @@
             chart.draw();
             chart.bindHintEvents();
 
-            $(window).resize(function () {
+            $(window).on("resize", function () {
                 chart.draw();
             });
         });

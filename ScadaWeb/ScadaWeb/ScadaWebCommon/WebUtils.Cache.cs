@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Primitives;
 using Scada.Web.Services;
-using System;
 using System.Text;
 
 namespace Scada.Web

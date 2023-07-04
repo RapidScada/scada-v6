@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgChartProDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.ChartPro">
+    <Phrase key="PageTitle">{0} — Profesjonalny wykres</Phrase>
+    <Phrase key="aToday">Dzisiaj</Phrase>
+    <Phrase key="aYesterday">Wczoraj</Phrase>
+    <Phrase key="aPastWeek">Miniony tydzień</Phrase>
+    <Phrase key="aPastMonth">Miniony miesiąc</Phrase>
+    <Phrase key="aCustomPeriod">Okres niestandardowy</Phrase>
+    <Phrase key="aSelectChannels">Wybierz kanały</Phrase>
+    <Phrase key="aSelectProfile">Wybierz profil</Phrase>
+    <Phrase key="aShowData">Pokaż dane</Phrase>
+    <Phrase key="aHideData">Ukryj dane</Phrase>
+    <Phrase key="aExport">Eksport</Phrase>
+    <Phrase key="ChartTitleFixed">{0}, {1}</Phrase>
+    <Phrase key="ChartTitleRolling">{0}, {1} minut</Phrase>
+    <Phrase key="Generated">Wygenerowane</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.ChartPro.Js">
+    <Phrase key="DataLoading">Ładowanie danych...</Phrase>
+    <Phrase key="LoadError">Błąd ładowania danych</Phrase>
+    <Phrase key="Generated">Wygenerowane</Phrase>
+    <Phrase key="TimeCol">Czas</Phrase>
+    <Phrase key="ZoomIn">Zbliżenie</Phrase>
+    <Phrase key="ZoomOut">Pomniejsz</Phrase>
+    <Phrase key="ResetZoom">Zresetuj powiększenie</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.ChartProView">
+    <Phrase key="PageTitle">Wykres Pro</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.Export">
+    <Phrase key="PageTitle">Eksport wykresu</Phrase>
+    <Phrase key="btnExportPdf">Eksportuj wykres do PDF</Phrase>
+    <Phrase key="btnExportPng">Eksportuj wykres do PNG</Phrase>
+    <Phrase key="btnExportExcel">Eksportuj dane do Excel</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.Period">
+    <Phrase key="PageTitle">Okres wykresu</Phrase>
+    <Phrase key="lblFrom">Z</Phrase>
+    <Phrase key="lblTo">Do</Phrase>
+    <Phrase key="InvalidPeriod">Data rozpoczęcia musi być mniejsza lub równa dacie zakończenia.</Phrase>
+    <Phrase key="PeriodTooLong">Maksymalna długość okresu wynosi {0} dni.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.PeriodRolling">
+    <Phrase key="PageTitle">Okres wykresu</Phrase>
+    <Phrase key="lblPeriod">Okres</Phrase>
+    <Phrase key="lblMin">min</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.Profile">
+    <Phrase key="PageTitle">Profil wykresu</Phrase>
+    <Phrase key="lblProfile">Profil</Phrase>
+    <Phrase key="ProfileListEmpty">Lista profili jest pusta.  Sprawdź konfigurację wtyczki.</Phrase>
+  </Dictionary>
+</PlgChartProDictionaries>

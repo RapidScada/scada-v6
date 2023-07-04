@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtTableEditorDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableEditor">
+    <Phrase key="btnRefreshBase.ToolTip">구성 데이터베이스 새로 고침</Phrase>
+    <Phrase key="btnAddItem.ToolTip">아이템 추가</Phrase>
+    <Phrase key="btnAddEmptyItem.ToolTip">빈 항목 추가</Phrase>
+    <Phrase key="btnMoveUpItem.ToolTip">항목을 위로 이동</Phrase>
+    <Phrase key="btnMoveDownItem.ToolTip">항목을 아래로 이동</Phrase>
+    <Phrase key="btnDeleteItem.ToolTip">선택한 항목 삭제</Phrase>
+    <Phrase key="btnTableOptions.ToolTip">테이블 보기 옵션</Phrase>
+    <Phrase key="lblHint">Enter 키를 누르거나 노드를 두 번 클릭하여 테이블에 추가합니다.  장치 노드를 마우스 오른쪽 버튼으로 클릭하여 상황에 맞는 메뉴를 표시합니다.</Phrase>
+    <Phrase key="colCnlNum">채널</Phrase>
+    <Phrase key="colDeviceNum">장치</Phrase>
+    <Phrase key="colAutoText">자동 텍스트</Phrase>
+    <Phrase key="colText">텍스트</Phrase>
+    <Phrase key="colHidden">숨겨진</Phrase>
+    <Phrase key="miDeviceAddDevice">기기 추가</Phrase>
+    <Phrase key="miDeviceAddAllChannels">모든 채널 추가</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableOptions">
+    <Phrase key="this">테이블 보기 옵션</Phrase>
+    <Phrase key="chkUseDefault">기본 옵션 사용</Phrase>
+    <Phrase key="lblArchiveCode">아카이브 코드</Phrase>
+    <Phrase key="btnSelectArchiveCode">선택하다...</Phrase>
+    <Phrase key="lblPeriod">테이블 기간, 분</Phrase>
+    <Phrase key="lblChartArgs">차트 인수</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+</ExtTableEditorDictionaries>

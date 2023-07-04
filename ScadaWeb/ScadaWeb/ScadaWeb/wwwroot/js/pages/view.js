@@ -1,6 +1,6 @@
 ﻿// Depends on jquery, scada-common.js, view-hub.js, main-layout.js
 
-var viewHub = new ViewHub(window, appEnv, modalManager);
+var viewHub = new ViewHub(window, mainObj);
 
 var viewPage = {
     _DATA_WINDOW_VISIBLE_KEY: "View.DataWindowVisible",
@@ -14,17 +14,17 @@ var viewPage = {
     initialViewFrameUrl: "",
 
     _bindEvents: function () {
-        let thisObj = this;
+        const thisObj = this;
 
         $("#divBottomPanel .bottom-pnl-tab")
             .off()
-            .click(function () {
+            .on("click", function () {
                 thisObj._showDataWindow($(this), true);
             });
 
         $("#divHideDataWindowBtn")
             .off()
-            .click(function () {
+            .on("click", function () {
                 thisObj._hideDataWindow(true);
             });
 
@@ -88,8 +88,8 @@ var viewPage = {
         }
     },
 
-    _showDataWindowByUrl(url) {
-        let thisObj = this;
+    _showDataWindowByUrl: function(url) {
+        const thisObj = this;
         let found = false;
 
         if (url) {
@@ -109,7 +109,7 @@ var viewPage = {
         }
     },
 
-    _reloadDataWindow() {
+    _reloadDataWindow: function () {
         if (!$("#divDataWindow").hasClass("hidden")) {
             ScadaUtils.replaceFrame($("#frameDataWindow"));
         }
@@ -118,7 +118,7 @@ var viewPage = {
     prepare: function () {
         if ($("#divBottomPanel .bottom-pnl-tab").length > 0) {
             // create splitter
-            let thisObj = this;
+            const thisObj = this;
             let splitter = new Splitter("divViewSplitter");
 
             splitter.exitResizeModeCallbacks.add(function () {
