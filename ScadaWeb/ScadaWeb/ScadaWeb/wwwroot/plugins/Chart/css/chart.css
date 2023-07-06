@@ -1,0 +1,73 @@
+﻿.chart {
+  position: relative;
+}
+
+.chart-title {
+  overflow: hidden;
+}
+
+.chart-menu-holder {
+  position: absolute;
+}
+
+.chart-title-text {
+  display: inline-block;
+  font-size: 100%;
+}
+
+.chart-status {
+  display: inline-block;
+  float: right;
+  font-size: 66%;
+  opacity: 0.8;
+}
+.chart-status.error {
+  color: red;
+}
+
+.chart-canvas {
+  display: block;
+}
+
+.chart-time-marker {
+  opacity: 0.25;
+  position: absolute;
+  width: 1px;
+  z-index: 1;
+}
+.chart-time-marker.hidden {
+  display: none;
+}
+
+.chart-trend-hint {
+  background-color: white;
+  border: 1px solid #888;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px #aaa;
+  color: #212529;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  opacity: 0.9;
+  padding: 5px 10px;
+  position: absolute;
+  z-index: 2;
+}
+.chart-trend-hint.hidden {
+  display: none;
+}
+.chart-trend-hint table {
+  border-collapse: collapse;
+}
+.chart-trend-hint td {
+  padding: 2px 5px 0 0;
+  white-space: nowrap;
+}
+.chart-trend-hint td:last-child {
+  padding-right: 0;
+}
+.chart-trend-hint td.color span {
+  border: 1px solid black;
+  display: block;
+  height: 12px;
+  width: 12px;
+}

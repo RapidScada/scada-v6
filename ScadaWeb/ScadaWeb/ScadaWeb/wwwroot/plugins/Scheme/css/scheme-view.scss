@@ -1,0 +1,102 @@
+﻿@import '../../../css/_variables.scss';
+@import '_scheme';
+
+$notifier-back-color: white;
+$notifier-border-color: $gray-400;
+$notifier-msg-fore-color: #0073aa;
+$notifier-err-fore-color: red;
+
+$toolbar-fore-color: $main-menu-fore-color-dark;
+$tool-btn-back-color: white;
+$tool-btn-hover-fore-color: $main-menu-item-hover-fore-color;
+$toolbar-height: 30px;
+$toolbar-font-size: 14px;
+$data-font-size: 12px;
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: $scheme-back-color;
+    overflow: hidden;
+}
+
+/* Notification Panel */
+
+#divNotif {
+    position: fixed;
+    top: 0;
+    left: 0;
+    max-height: 100px;
+    padding: 10px;
+    background-color: $notifier-back-color;
+    border-bottom: 1px solid $notifier-border-color;
+    font-size: $data-font-size;
+    overflow: auto;
+    white-space: nowrap;
+
+    .message {
+        color: $notifier-msg-fore-color;
+    }
+
+    .message.error {
+        color: $notifier-err-fore-color;
+    }
+}
+
+/* Toolbar (above the scheme) */
+@mixin tool-button {
+    height: $toolbar-height;
+    margin: 0 5px 0 0;
+    padding: 0 10px;
+    cursor: pointer;
+    background-color: $tool-btn-back-color;
+    display: inline-block;
+    line-height: $toolbar-height;
+    vertical-align: top;
+    opacity: 0.5;
+}
+
+#divToolbar {
+    position: fixed;
+    height: $toolbar-height;
+    line-height: $toolbar-height;
+    font-size: $toolbar-font-size;
+    left: 0;
+    top: 0;
+    color: $toolbar-fore-color;
+    display: inline-block;
+    font-size: 14px;
+    white-space: nowrap;
+
+    &:hover span {
+        opacity: 1;
+    }
+
+    .tool-btn {
+        @include tool-button;
+
+        &:hover {
+            color: $tool-btn-hover-fore-color;
+        }
+    }
+}
+
+#spanCurScale {
+    @include tool-button;
+    cursor: default;
+    font-size: 12px;
+}
+
+/* Debug tools */
+#divDebugTools {
+    padding: 0 10px;
+    display: none; /*inline-block*/
+    font-size: 12px;
+    vertical-align: top;
+}
+
+/* Scheme */
+#divSchWrapper {
+    font-family: $scheme-font-family;
+    font-size: $data-font-size;
+}

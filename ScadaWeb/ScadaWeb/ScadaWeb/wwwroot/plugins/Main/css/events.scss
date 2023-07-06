@@ -1,0 +1,32 @@
+﻿@import '_table-common';
+@import '_event-common';
+
+$ack-no-color: $orange;
+$ack-yes-color: $green;
+
+.table-main {
+    width: 100%;
+
+    td.obj, td.dev, td.cnl, td.descr {
+        text-align: left;
+    }
+
+    td.sev i {
+        padding: 0 20px;
+    }
+
+    td.ack {
+        i {
+            cursor: pointer;
+            padding: 0 20px;
+        }
+
+        .ack-no {
+            color: $ack-no-color;
+        }
+
+        .ack-yes {
+            color: $ack-yes-color;
+        }
+    }
+}

@@ -1,0 +1,119 @@
+﻿@import '../../../css/_variables.scss';
+
+$back-color: $gray-100;
+$fore-color: $gray-900;
+
+$toolbar-height: 30px;
+$toolbar-font-size: 14px;
+$toolbar-control-height: 24px;
+$tool-btn-back-color: white;
+$tool-btn-fore-color: $gray-700;
+$tool-btn-selected-fore-color: $main-menu-item-selected-fore-color;
+$tool-btn-selected-back-color: $main-menu-item-selected-back-color;
+$tool-btn-hover-fore-color: $main-menu-item-hover-fore-color;
+
+$header-back-color: #ccc;
+$row-even-back-color: $back-color;
+$row-odd-back-color: white;
+$row-hover-back-color: $gray-300;
+$cell-font-size: 0.8rem;
+$cell-border-color: $gray-600;
+$cell-border: 1px solid $cell-border-color;
+
+body {
+    background-color: $back-color;
+    color: $fore-color;
+}
+
+.toolbar {
+    height: $toolbar-height;
+    line-height: $toolbar-height;
+    font-size: $toolbar-font-size;
+    padding: 0 10px;
+    white-space: nowrap;
+
+    input,
+    select {
+        height: $toolbar-control-height;
+        line-height: normal;
+        border: $cell-border; /*required for correct height*/
+        border-radius: 3px;
+    }
+
+    .toolbar-group {
+        margin-right: 10px;
+    }
+
+    .tool-btn {
+        background-color: $tool-btn-back-color;
+        color: $tool-btn-fore-color;
+        cursor: pointer;
+        display: inline-block;
+        margin-right: 5px;
+        padding: 0 10px;
+        white-space: nowrap;
+
+        &.selected {
+            background-color: $tool-btn-selected-back-color;
+            color: $tool-btn-selected-fore-color;
+
+            &:hover {
+                color: $tool-btn-selected-fore-color;
+            }
+        }
+
+        &:hover {
+            color: $tool-btn-hover-fore-color;
+        }
+    }
+
+    .badge {
+        margin-right: 5px;
+    }
+}
+
+.table-wrapper {
+    padding: 0 10px;
+    overflow: auto;
+}
+
+.table-main {
+    border-collapse: separate; /*required for header stickiness*/
+    border-spacing: 0;
+    border-left: $cell-border;
+    border-top: $cell-border;
+
+    tr {
+        &:nth-child(even) {
+            background-color: $row-even-back-color;
+        }
+
+        &:nth-child(odd) {
+            background-color: $row-odd-back-color;
+        }
+
+        &:hover {
+            background-color: $row-hover-back-color;
+        }
+    }
+
+    th,
+    td {
+        border-bottom: $cell-border;
+        border-right: $cell-border;
+        font-size: $cell-font-size;
+        padding: 2px 3px;
+        text-align: center;
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+
+    th {
+        background-color: $header-back-color;
+        font-weight: 600;
+        padding: 2px 5px;
+        position: sticky;
+        top: 0; /*required for header stickiness*/
+        z-index: 1;
+    }
+}
