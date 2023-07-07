@@ -362,6 +362,7 @@ namespace Scada.Admin.App.Forms.Tools
             if (lbUnusedExt.SelectedItem is ExtentionItem extentionItem)
             {
                 if (extentionItem.ExtentionCode == "ExtSubFolder") config.EnableSubFolder(true);
+                if (extentionItem.ExtentionCode == "ExtBitReader") config.EnableBitReader(true);
                 lbUnusedExt.Items.RemoveAt(lbUnusedExt.SelectedIndex);
                 lbActiveExt.SelectedIndex = lbActiveExt.Items.Add(extentionItem);
                 lbActiveExt.Focus();
@@ -374,6 +375,7 @@ namespace Scada.Admin.App.Forms.Tools
             if (lbActiveExt.SelectedItem is ExtentionItem extentionItem)
             {
                 if (extentionItem.ExtentionCode == "ExtSubFolder") config.EnableSubFolder(true);
+                if (extentionItem.ExtentionCode == "ExtBitReader") config.EnableBitReader(true);
                 lbActiveExt.Items.RemoveAt(lbActiveExt.SelectedIndex);
                 lbUnusedExt.SelectedIndex = lbUnusedExt.Items.Add(extentionItem);
                 lbUnusedExt.Focus();

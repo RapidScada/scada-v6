@@ -319,11 +319,13 @@
             // btnBitReader
             // 
             btnBitReader.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            btnBitReader.Enabled = false;
             btnBitReader.Image = Properties.Resources.instances;
             btnBitReader.ImageTransparentColor = System.Drawing.Color.Magenta;
             btnBitReader.Name = "btnBitReader";
             btnBitReader.Size = new System.Drawing.Size(29, 24);
-            btnBitReader.Text = "bit reader";
+            btnBitReader.Text = "Bit reader";
+            btnBitReader.Visible = false;
             // 
             // dataGridView
             // 

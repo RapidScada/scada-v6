@@ -131,6 +131,7 @@ namespace Scada.Admin.Config
                     {
                         string moduleCode = ScadaUtils.RemoveFileNameSuffixes(moduleElem.GetAttribute("code"));
                         if (moduleCode == "ExtSubFolder") EnableSubFolder(true);
+                        if (moduleCode == "ExtBitReader") EnableBitReader(true);
                         if (extensionCodes.Add(moduleCode.ToLowerInvariant())) // check uniqueness
                             ExtensionCodes.Add(moduleCode);
                     }
@@ -239,6 +240,14 @@ namespace Scada.Admin.Config
         {
             subFolderEnabled = activate;
 
+            return activate;
+        }
+
+        public bool bitReaderEnabled { get; private set; } = false;
+
+        public bool EnableBitReader(bool activate)
+        {
+            bitReaderEnabled = activate;
             return activate;
         }
     }

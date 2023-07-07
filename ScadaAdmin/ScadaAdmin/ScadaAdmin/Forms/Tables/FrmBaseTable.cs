@@ -824,6 +824,12 @@ namespace Scada.Admin.App.Forms.Tables
             ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
             btnProperties.Visible = ProperiesAvailable;
             btnAddNew.Visible = false;
+
+            //ajout
+            if (appData.AppConfig.bitReaderEnabled && baseTable.Name == "Cnl")
+            {
+                btnBitReader.Visible = btnBitReader.Enabled = true;
+            }
         }
 
         private void FrmBaseTable_Shown(object sender, EventArgs e)
