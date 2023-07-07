@@ -839,7 +839,7 @@ scada.scheme.StaticPolygonRenderer.prototype.generatePolygonPath = function (
     // Check that numPoints is a valid value
     var validPoints = [3, 4, 5, 6, 8, 10];
     if (!validPoints.includes(numPoints)) {
-        return ""; // Return an empty string if numPoints is not a valid value
+        return ""; 
     }
 
     // Generate the points of the polygon
@@ -866,13 +866,11 @@ scada.scheme.StaticPolygonRenderer.prototype.createDom = function (
     var divComp = $("<div id='comp" + component.id + "'></div>");
     this.prepareComponent(divComp, component);
 
-    var polygonPath = this.generatePolygonPath(props.NumberOfSides);
-
     divComp.css({
         width: "200px",
         height: "200px",
         background: props.BackColor,
-        "clip-path": this.generatePolygonPath(props.NumberOfSides),
+        "clip-path": this.generatePolygonPath(props.numberOfSides),//props.NumberOfSides
         "border-width": props.BorderWidth + "px",
         "border-color": props.BorderColor,
         "border-radius": props.RoundedCorners ? props.CornerRadius + "%" : "0%",

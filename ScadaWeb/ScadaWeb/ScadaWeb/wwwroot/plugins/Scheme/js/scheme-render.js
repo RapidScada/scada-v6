@@ -864,14 +864,12 @@ scada.scheme.StaticPolygonRenderer.prototype.createDom = function (
 
     var divComp = $("<div id='comp" + component.id + "'></div>");
     this.prepareComponent(divComp, component);
-
-    var polygonPath = this.generatePolygonPath(props.NumberOfSides);
-
+   
     divComp.css({
         width: "200px",
         height: "200px",
         background: props.BackColor,
-        "clip-path": this.generatePolygonPath(props.NumberOfSides),
+        "clip-path": this.generatePolygonPath(props.numberOfSides),
         "border-width": props.BorderWidth + "px",
         "border-color": props.BorderColor,
         "border-radius": props.RoundedCorners ? props.CornerRadius + "%" : "0%",
@@ -907,7 +905,7 @@ scada.scheme.DynamicPolygonRenderer.prototype.createDom = function (
     var divComp = component.dom;
 
     this.bindAction(divComp, component, renderContext);
-
+   
     // apply properties on hover
     var thisRenderer = this;
     var cnlNum = props.InCnlNum;
