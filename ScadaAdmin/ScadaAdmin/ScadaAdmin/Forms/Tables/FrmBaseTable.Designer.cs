@@ -326,6 +326,7 @@
             btnBitReader.Size = new System.Drawing.Size(29, 24);
             btnBitReader.Text = "Bit reader";
             btnBitReader.Visible = false;
+            btnBitReader.Click += btnBitReader_Click;
             // 
             // dataGridView
             // 
