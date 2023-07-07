@@ -57,6 +57,7 @@
             btnProperties = new System.Windows.Forms.ToolStripButton();
             sep6 = new System.Windows.Forms.ToolStripSeparator();
             btnChangeObject = new System.Windows.Forms.ToolStripButton();
+            btnBitReader = new System.Windows.Forms.ToolStripButton();
             dataGridView = new System.Windows.Forms.DataGridView();
             pnlError = new System.Windows.Forms.Panel();
             btnCloseError = new System.Windows.Forms.Button();
@@ -83,7 +84,7 @@
             bindingNavigator.CountItem = lblCount;
             bindingNavigator.DeleteItem = null;
             bindingNavigator.ImageScalingSize = new System.Drawing.Size(20, 20);
-            bindingNavigator.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { btnMoveFirst, btnMovePrevious, sep1, txtPosition, lblCount, sep2, btnMoveNext, btnMoveLast, sep3, btnApplyEdit, btnCancelEdit, btnRefresh, btnAddNew, btnDelete, btnClear, sep4, btnCut, btnCopy, btnPaste, sep5, btnFind, btnFilter, btnAutoSizeColumns, btnProperties, sep6, btnChangeObject });
+            bindingNavigator.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { btnMoveFirst, btnMovePrevious, sep1, txtPosition, lblCount, sep2, btnMoveNext, btnMoveLast, sep3, btnApplyEdit, btnCancelEdit, btnRefresh, btnAddNew, btnDelete, btnClear, sep4, btnCut, btnCopy, btnPaste, sep5, btnFind, btnFilter, btnAutoSizeColumns, btnProperties, sep6, btnChangeObject, btnBitReader });
             bindingNavigator.Location = new System.Drawing.Point(0, 53);
             bindingNavigator.MoveFirstItem = btnMoveFirst;
             bindingNavigator.MoveLastItem = btnMoveLast;
@@ -106,8 +107,8 @@
             // lblCount
             // 
             lblCount.Name = "lblCount";
-            lblCount.Size = new System.Drawing.Size(45, 24);
-            lblCount.Text = "of {0}";
+            lblCount.Size = new System.Drawing.Size(50, 24);
+            lblCount.Text = "sur {0}";
             lblCount.ToolTipText = "Total Number of Items";
             // 
             // btnMoveFirst
@@ -315,6 +316,15 @@
             btnChangeObject.Text = "Change the object of the selected item";
             btnChangeObject.Click += btnChangeObject_Click;
             // 
+            // btnBitReader
+            // 
+            btnBitReader.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            btnBitReader.Image = Properties.Resources.instances;
+            btnBitReader.ImageTransparentColor = System.Drawing.Color.Magenta;
+            btnBitReader.Name = "btnBitReader";
+            btnBitReader.Size = new System.Drawing.Size(29, 24);
+            btnBitReader.Text = "bit reader";
+            // 
             // dataGridView
             // 
             dataGridView.AllowUserToOrderColumns = true;
@@ -396,7 +406,7 @@
             cmsChangeObject.ImageScalingSize = new System.Drawing.Size(20, 20);
             cmsChangeObject.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { miComboBoxObject });
             cmsChangeObject.Name = "cmsChangeObject";
-            cmsChangeObject.Size = new System.Drawing.Size(211, 64);
+            cmsChangeObject.Size = new System.Drawing.Size(182, 36);
             // 
             // miComboBoxObject
             // 
@@ -471,5 +481,6 @@
         private System.Windows.Forms.ToolStripButton btnFilter;
         private System.Windows.Forms.ContextMenuStrip cmsChangeObject;
         private System.Windows.Forms.ToolStripComboBox miComboBoxObject;
+        private System.Windows.Forms.ToolStripButton btnBitReader;
     }
 }

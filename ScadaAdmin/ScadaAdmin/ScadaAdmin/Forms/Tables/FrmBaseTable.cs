@@ -131,10 +131,10 @@ namespace Scada.Admin.App.Forms.Tables
                 void Button_Click(object sender, EventArgs e)
                 {
                     _ = dataGridView.SelectedRows;
-                    while(dataGridView.SelectedCells.Count!=0)
+                    while (dataGridView.SelectedCells.Count != 0)
                     {
                         DataGridViewCell cell = dataGridView.SelectedCells[0];
-                        DataGridViewRow row= dataGridView.Rows[cell.RowIndex];
+                        DataGridViewRow row = dataGridView.Rows[cell.RowIndex];
                         DataGridViewCell objCell = row.Cells["ObjNum"];
                         objCell.Value = objnum;
                         cell.Selected = false;
@@ -147,7 +147,7 @@ namespace Scada.Admin.App.Forms.Tables
                     btnRefresh.PerformClick();
                 }
                 button.Click += Button_Click;
-                cmsChangeObject.Items.Add(button);            
+                cmsChangeObject.Items.Add(button);
             }
 
 
@@ -1187,16 +1187,16 @@ namespace Scada.Admin.App.Forms.Tables
                 btnFilter.Image = frmFilter.FilterIsEmpty ?
                     Properties.Resources.filter :
                     Properties.Resources.filter_set;
-                if (isObjectBased) 
-                { 
-                    if(!(dataTable.DefaultView.RowFilter == null || dataTable.DefaultView.RowFilter == "")) 
+                if (isObjectBased)
+                {
+                    if (!(dataTable.DefaultView.RowFilter == null || dataTable.DefaultView.RowFilter == ""))
                     {
-                        string currentFilter = "("+dataTable.DefaultView.RowFilter+ " AND ";
-                         dataTable.DefaultView.RowFilter = currentFilter + filter + ")";
+                        string currentFilter = "(" + dataTable.DefaultView.RowFilter + " AND ";
+                        dataTable.DefaultView.RowFilter = currentFilter + filter + ")";
                         return;
                     }
                     dataTable.DefaultView.RowFilter += filter;
-                } 
+                }
             }
         }
 
