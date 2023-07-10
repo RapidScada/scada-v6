@@ -827,7 +827,7 @@ namespace Scada.Admin.App.Forms.Tables
 
             //ajout
             if (appData.AppConfig.bitReaderEnabled && baseTable.Name == "Cnl")
-                btnBitReader.Visible  = true;
+                btnBitReader.Visible = true;
         }
 
         private void FrmBaseTable_Shown(object sender, EventArgs e)
@@ -942,11 +942,11 @@ namespace Scada.Admin.App.Forms.Tables
             int colInd = e.ColumnIndex;
             int rowInd = e.RowIndex;
 
-            //ajout
-            if (baseTable.Name == "Cnl" && (dataGridView.Rows[rowInd].Cells[4].Value.ToString() == "1" || dataGridView.Rows[rowInd].Cells[4].Value.ToString() == "2"))
-                btnBitReader.Enabled = true;
-            else if(baseTable.Name == "Cnl" && !(dataGridView.Rows[rowInd].Cells[4].Value.ToString() == "1" || dataGridView.Rows[rowInd].Cells[4].Value.ToString() == "2"))
-                btnBitReader.Enabled = false;
+            ////ajout
+            //if (baseTable.Name == "Cnl" && (dataGridView.Rows[rowInd].Cells[4].Value.ToString() == "1" || dataGridView.Rows[rowInd].Cells[4].Value.ToString() == "2"))
+            //    btnBitReader.Enabled = true;
+            //else if (baseTable.Name == "Cnl" && !(dataGridView.Rows[rowInd].Cells[4].Value.ToString() == "1" || dataGridView.Rows[rowInd].Cells[4].Value.ToString() == "2"))
+            //    btnBitReader.Enabled = false;
 
             if (0 <= rowInd && rowInd < dataGridView.RowCount &&
                 0 <= colInd && colInd < dataGridView.ColumnCount &&
@@ -1231,8 +1231,33 @@ namespace Scada.Admin.App.Forms.Tables
 
         private void btnBitReader_Click(object sender, EventArgs e)
         {
-            new FrmBitReader().ShowDialog();
+            List<DataRow> selectedLines = new List<DataRow>();
+            foreach (DataGridViewRow row in dataGridView.SelectedRows)
+            {
+                DataRowView rowView = row.DataBoundItem as DataRowView;
+                if (rowView != null)
+                {
+                    DataRow line = rowView.Row;
+                    selectedLines.Add(line);
+                }
+            }
+            FrmBitReader frm = new FrmBitReader();
+            frm.setSelectedRows(selectedLines);
+            frm.ShowDialog();
         }
 
+        private void dataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            btnBitReader.Enabled = false;
+
+            if (dataGridView.SelectedRows.Count > 0)
+            {
+                foreach(DataGridViewRow row in dataGridView.SelectedRows)
+                {
+                    if (baseTable.Name == "Cnl" && (row.Cells[3].Value.ToString() == "1" || row.Cells[3].Value.ToString() == "0"))
+                        btnBitReader.Enabled = true;
+                }
+            }
+        }
     }
 }

@@ -350,6 +350,7 @@
             dataGridView.DataError += dataGridView_DataError;
             dataGridView.EditingControlShowing += dataGridView_EditingControlShowing;
             dataGridView.RowValidating += dataGridView_RowValidating;
+            dataGridView.SelectionChanged += dataGridView_SelectionChanged;
             // 
             // pnlError
             // 

@@ -40,13 +40,6 @@
             label2 = new System.Windows.Forms.Label();
             label1 = new System.Windows.Forms.Label();
             dataGridView1 = new System.Windows.Forms.DataGridView();
-            col_num = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            col_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            col_dt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            col_ct = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            col_obj = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            col_device = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            col_tc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             tabControl1.SuspendLayout();
             tabPageSplit.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -169,71 +162,25 @@
             // 
             // dataGridView1
             // 
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { col_num, col_name, col_dt, col_ct, col_obj, col_device, col_tc });
-            dataGridView1.Enabled = false;
             dataGridView1.Location = new System.Drawing.Point(6, 57);
+            dataGridView1.MultiSelect = false;
             dataGridView1.Name = "dataGridView1";
+            dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.RowTemplate.Height = 29;
             dataGridView1.Size = new System.Drawing.Size(756, 192);
             dataGridView1.TabIndex = 0;
             // 
-            // col_num
-            // 
-            col_num.HeaderText = "Number";
-            col_num.MinimumWidth = 6;
-            col_num.Name = "col_num";
-            col_num.Width = 125;
-            // 
-            // col_name
-            // 
-            col_name.HeaderText = "Name";
-            col_name.MinimumWidth = 6;
-            col_name.Name = "col_name";
-            col_name.Width = 125;
-            // 
-            // col_dt
-            // 
-            col_dt.HeaderText = "Data Type";
-            col_dt.MinimumWidth = 6;
-            col_dt.Name = "col_dt";
-            col_dt.Width = 125;
-            // 
-            // col_ct
-            // 
-            col_ct.HeaderText = "Channel Type";
-            col_ct.MinimumWidth = 6;
-            col_ct.Name = "col_ct";
-            col_ct.Width = 125;
-            // 
-            // col_obj
-            // 
-            col_obj.HeaderText = "Object";
-            col_obj.MinimumWidth = 6;
-            col_obj.Name = "col_obj";
-            col_obj.Width = 125;
-            // 
-            // col_device
-            // 
-            col_device.HeaderText = "Device";
-            col_device.MinimumWidth = 6;
-            col_device.Name = "col_device";
-            col_device.Width = 125;
-            // 
-            // col_tc
-            // 
-            col_tc.HeaderText = "Tag Code";
-            col_tc.MinimumWidth = 6;
-            col_tc.Name = "col_tc";
-            col_tc.Width = 125;
-            // 
             // FrmBitReader
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(790, 442);
+            ClientSize = new System.Drawing.Size(797, 442);
             Controls.Add(tabControl1);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             Name = "FrmBitReader";
             Text = "Bit Reader";
             tabControl1.ResumeLayout(false);
@@ -250,13 +197,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_num;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_dt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_ct;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_obj;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_device;
-        private System.Windows.Forms.DataGridViewTextBoxColumn col_tc;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.TextBox textBox3;
@@ -264,5 +204,9 @@
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_num;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_dt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn col_tc;
     }
 }
