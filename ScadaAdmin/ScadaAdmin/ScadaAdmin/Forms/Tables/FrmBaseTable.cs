@@ -942,12 +942,6 @@ namespace Scada.Admin.App.Forms.Tables
             int colInd = e.ColumnIndex;
             int rowInd = e.RowIndex;
 
-            ////ajout
-            //if (baseTable.Name == "Cnl" && (dataGridView.Rows[rowInd].Cells[4].Value.ToString() == "1" || dataGridView.Rows[rowInd].Cells[4].Value.ToString() == "2"))
-            //    btnBitReader.Enabled = true;
-            //else if (baseTable.Name == "Cnl" && !(dataGridView.Rows[rowInd].Cells[4].Value.ToString() == "1" || dataGridView.Rows[rowInd].Cells[4].Value.ToString() == "2"))
-            //    btnBitReader.Enabled = false;
-
             if (0 <= rowInd && rowInd < dataGridView.RowCount &&
                 0 <= colInd && colInd < dataGridView.ColumnCount &&
                 dataGridView.Columns[colInd] is DataGridViewButtonColumn buttonColumn)
@@ -1243,7 +1237,18 @@ namespace Scada.Admin.App.Forms.Tables
             }
             FrmBitReader frm = new FrmBitReader();
             frm.setSelectedRows(selectedLines);
+            frm.newDt = dataTable;
+            frm.numberOfLastChannel = int.Parse(dataTable.Rows[dataTable.Rows.Count - 1][0].ToString());
             frm.ShowDialog();
+
+            if(frm.newRows.Count > 0)
+            {
+                foreach(DataRow row in frm.newRows)
+                {
+                    dataTable.Rows.Add(row.ItemArray.Clone() as object[]);
+                }
+                LoadTableData();
+            }
         }
 
         private void dataGridView_SelectionChanged(object sender, EventArgs e)

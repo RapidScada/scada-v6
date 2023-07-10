@@ -76,12 +76,14 @@
             // 
             // button1
             // 
+            button1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             button1.Location = new System.Drawing.Point(658, 350);
             button1.Name = "button1";
             button1.Size = new System.Drawing.Size(94, 29);
             button1.TabIndex = 9;
             button1.Text = "Apply";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // textBox3
             // 
