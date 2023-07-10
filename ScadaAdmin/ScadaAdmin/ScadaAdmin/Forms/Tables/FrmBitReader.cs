@@ -32,8 +32,8 @@ namespace Scada.Admin.App.Forms.Tables
         {
             if (radioButton2.Checked)
             {
-                comboBox1.Visible = textBox2.Visible = textBox3.Visible = true;
-                textBox1.Visible = false;
+                comboBox1.Enabled = textBox2.Enabled = textBox3.Enabled = true ;
+                textBox1.Enabled = false;
             }
         }
 
@@ -41,8 +41,8 @@ namespace Scada.Admin.App.Forms.Tables
         {
             if (radioButton1.Checked)
             {
-                comboBox1.Visible = textBox2.Visible = textBox3.Visible = false;
-                textBox1.Visible = true;
+                comboBox1.Enabled = textBox2.Enabled = textBox3.Enabled = false;
+                textBox1.Enabled = true;
             }
         }
 
@@ -118,7 +118,7 @@ namespace Scada.Admin.App.Forms.Tables
                         }
                     }
                     //integer
-                    else if(line[3].ToString() == "1")
+                    else if (line[3].ToString() == "1")
                     {
                         for (int i = 0; i < 16; i++)
                         {
@@ -200,7 +200,7 @@ namespace Scada.Admin.App.Forms.Tables
                             newRow[0] = $"{numberOfLastChannel + count}";
                             //name
                             string val = "";
-                            if (comboBox1.SelectedItem!=null)
+                            if (comboBox1.SelectedItem != null)
                                 val = comboBox1.SelectedItem.ToString() == "Name" ? line[2].ToString() : line[9].ToString();
                             newRow[2] = $"{val}{textBox2.Text}{i}";
                             //type
