@@ -99,7 +99,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// </summary>
         private CurData RequestCurData(IList<int> cnlNums, long cnlListID, bool useCache)
         {
-            int cnlCnt = cnlNums == null ? 0 : cnlNums.Count;
+            cnlNums ??= Array.Empty<int>();
+            int cnlCnt = cnlNums.Count;
             CurDataRecord[] records = new CurDataRecord[cnlCnt];
             CurData curData = new() 
             { 
@@ -108,7 +109,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 CnlListID = "0"
             };
 
-            if (cnlCnt > 0)
+            if (cnlCnt > 0 || useCache)
             {
                 CnlData[] cnlDataArr = Array.Empty<CnlData>();
 
