@@ -131,10 +131,10 @@ namespace Scada.Admin.App.Forms.Tables
                 void Button_Click(object sender, EventArgs e)
                 {
                     _ = dataGridView.SelectedRows;
-                    while(dataGridView.SelectedCells.Count!=0)
+                    while (dataGridView.SelectedCells.Count != 0)
                     {
                         DataGridViewCell cell = dataGridView.SelectedCells[0];
-                        DataGridViewRow row= dataGridView.Rows[cell.RowIndex];
+                        DataGridViewRow row = dataGridView.Rows[cell.RowIndex];
                         DataGridViewCell objCell = row.Cells["ObjNum"];
                         objCell.Value = objnum;
                         cell.Selected = false;
@@ -147,7 +147,7 @@ namespace Scada.Admin.App.Forms.Tables
                     btnRefresh.PerformClick();
                 }
                 button.Click += Button_Click;
-                cmsChangeObject.Items.Add(button);            
+                cmsChangeObject.Items.Add(button);
             }
 
 
@@ -824,6 +824,9 @@ namespace Scada.Admin.App.Forms.Tables
             ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
             btnProperties.Visible = ProperiesAvailable;
             btnAddNew.Visible = false;
+
+            if (appData.AppConfig.bitReaderEnabled && baseTable.Name == "Cnl")
+                btnBitReader.Visible = true;
         }
 
         private void FrmBaseTable_Shown(object sender, EventArgs e)
@@ -1187,16 +1190,16 @@ namespace Scada.Admin.App.Forms.Tables
                 btnFilter.Image = frmFilter.FilterIsEmpty ?
                     Properties.Resources.filter :
                     Properties.Resources.filter_set;
-                if (isObjectBased) 
-                { 
-                    if(!(dataTable.DefaultView.RowFilter == null || dataTable.DefaultView.RowFilter == "")) 
+                if (isObjectBased)
+                {
+                    if (!(dataTable.DefaultView.RowFilter == null || dataTable.DefaultView.RowFilter == ""))
                     {
-                        string currentFilter = "("+dataTable.DefaultView.RowFilter+ " AND ";
-                         dataTable.DefaultView.RowFilter = currentFilter + filter + ")";
+                        string currentFilter = "(" + dataTable.DefaultView.RowFilter + " AND ";
+                        dataTable.DefaultView.RowFilter = currentFilter + filter + ")";
                         return;
                     }
                     dataTable.DefaultView.RowFilter += filter;
-                } 
+                }
             }
         }
 
@@ -1219,5 +1222,46 @@ namespace Scada.Admin.App.Forms.Tables
             LoadTableData();
         }
 
+        private void btnBitReader_Click(object sender, EventArgs e)
+        {
+            List<DataRow> selectedLines = new List<DataRow>();
+            foreach (DataGridViewRow row in dataGridView.SelectedRows)
+            {
+                DataRowView rowView = row.DataBoundItem as DataRowView;
+                if (rowView != null)
+                {
+                    DataRow line = rowView.Row;
+                    selectedLines.Add(line);
+                }
+            }
+            FrmBitReader frm = new FrmBitReader();
+            frm.setSelectedRows(selectedLines);
+            frm.newDt = dataTable;
+            frm.numberOfLastChannel = int.Parse(dataTable.Rows[dataTable.Rows.Count - 1][0].ToString());
+            frm.ShowDialog();
+
+            if(frm.newRows.Count > 0)
+            {
+                foreach(DataRow row in frm.newRows)
+                {
+                    dataTable.Rows.Add(row.ItemArray.Clone() as object[]);
+                }
+                LoadTableData();
+            }
+        }
+
+        private void dataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            btnBitReader.Enabled = false;
+
+            if (dataGridView.SelectedRows.Count > 0)
+            {
+                foreach(DataGridViewRow row in dataGridView.SelectedRows)
+                {
+                    if (baseTable.Name == "Cnl" && (row.Cells[3].Value.ToString() == "1" || row.Cells[3].Value.ToString() == "0"))
+                        btnBitReader.Enabled = true;
+                }
+            }
+        }
     }
 }

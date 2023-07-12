@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <RootNamespace>Scada.Admin.Extensions.ExtBitReader</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ScadaAdminCommon">
+      <HintPath>..\..\ScadaAdmin\ScadaAdminCommon\bin\Release\net6.0-windows\ScadaAdminCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommCommon">
+      <HintPath>..\..\..\ScadaComm\ScadaComm\ScadaCommCommon\bin\Release\netstandard2.0\ScadaCommCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon">
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon\bin\Release\netstandard2.0\ScadaCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon.Forms">
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon.Forms\bin\Release\net6.0-windows\ScadaCommon.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon.Log">
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon.Log\bin\Release\netstandard2.0\ScadaCommon.Log.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

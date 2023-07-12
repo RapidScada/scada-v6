@@ -26,7 +26,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtWirenBoard", "ExtWirenBo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtImport", "ExtImport\ExtImport.csproj", "{B7E2DF6A-742E-49D2-BBF5-C20302EE8A6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtSubFolder", "ExtSubFolder\ExtSubFolder.csproj", "{5381C77E-A673-4D56-9EDF-F59953235E1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtSubFolder", "ExtSubFolder\ExtSubFolder.csproj", "{5381C77E-A673-4D56-9EDF-F59953235E1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtBitReader", "ExtBitReader\ExtBitReader.csproj", "{20F208C2-2DA8-4E53-B925-D28490C9A6E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,6 +76,10 @@ Global
 		{5381C77E-A673-4D56-9EDF-F59953235E1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5381C77E-A673-4D56-9EDF-F59953235E1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5381C77E-A673-4D56-9EDF-F59953235E1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20F208C2-2DA8-4E53-B925-D28490C9A6E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20F208C2-2DA8-4E53-B925-D28490C9A6E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20F208C2-2DA8-4E53-B925-D28490C9A6E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20F208C2-2DA8-4E53-B925-D28490C9A6E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
