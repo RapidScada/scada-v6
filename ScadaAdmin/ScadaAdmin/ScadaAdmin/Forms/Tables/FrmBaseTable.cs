@@ -825,7 +825,6 @@ namespace Scada.Admin.App.Forms.Tables
             btnProperties.Visible = ProperiesAvailable;
             btnAddNew.Visible = false;
 
-            //ajout
             if (appData.AppConfig.bitReaderEnabled && baseTable.Name == "Cnl")
                 btnBitReader.Visible = true;
         }
