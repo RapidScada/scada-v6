@@ -46,10 +46,10 @@
             // tabControl1
             // 
             tabControl1.Controls.Add(tabPageSplit);
-            tabControl1.Location = new System.Drawing.Point(12, 12);
+            tabControl1.Location = new System.Drawing.Point(11, 12);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new System.Drawing.Size(776, 426);
+            tabControl1.Size = new System.Drawing.Size(776, 427);
             tabControl1.TabIndex = 0;
             // 
             // tabPageSplit
@@ -64,8 +64,8 @@
             tabPageSplit.Controls.Add(dataGridView1);
             tabPageSplit.Location = new System.Drawing.Point(4, 29);
             tabPageSplit.Name = "tabPageSplit";
-            tabPageSplit.Padding = new System.Windows.Forms.Padding(3);
-            tabPageSplit.Size = new System.Drawing.Size(768, 393);
+            tabPageSplit.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            tabPageSplit.Size = new System.Drawing.Size(768, 394);
             tabPageSplit.TabIndex = 0;
             tabPageSplit.Text = "Separation in bits";
             tabPageSplit.UseVisualStyleBackColor = true;
@@ -73,7 +73,7 @@
             // button1
             // 
             button1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            button1.Location = new System.Drawing.Point(658, 350);
+            button1.Location = new System.Drawing.Point(658, 349);
             button1.Name = "button1";
             button1.Size = new System.Drawing.Size(94, 29);
             button1.TabIndex = 9;
@@ -122,7 +122,7 @@
             // textBox1
             // 
             textBox1.Enabled = false;
-            textBox1.Location = new System.Drawing.Point(214, 270);
+            textBox1.Location = new System.Drawing.Point(214, 269);
             textBox1.Name = "textBox1";
             textBox1.Size = new System.Drawing.Size(125, 27);
             textBox1.TabIndex = 4;
@@ -145,22 +145,22 @@
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new System.Drawing.Point(6, 6);
+            dataGridView1.Location = new System.Drawing.Point(6, 5);
             dataGridView1.MultiSelect = false;
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.RowTemplate.Height = 29;
-            dataGridView1.Size = new System.Drawing.Size(756, 232);
+            dataGridView1.Size = new System.Drawing.Size(757, 232);
             dataGridView1.TabIndex = 0;
             // 
             // FrmBitReader
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(797, 442);
+            ClientSize = new System.Drawing.Size(797, 443);
             Controls.Add(tabControl1);
-            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             Name = "FrmBitReader";
             Text = "Channel operations";
             tabControl1.ResumeLayout(false);

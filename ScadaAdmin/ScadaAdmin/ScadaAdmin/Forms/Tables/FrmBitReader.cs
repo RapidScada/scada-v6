@@ -32,8 +32,8 @@ namespace Scada.Admin.App.Forms.Tables
         {
             if (radioButton2.Checked)
             {
-                comboBox1.Enabled = textBox2.Enabled = textBox3.Enabled = true ;
-                textBox1.Enabled = false;
+                comboBox1.Enabled = textBox2.Enabled = true;
+                textBox1.Enabled = textBox3.Enabled = false;
             }
         }
 
@@ -42,7 +42,7 @@ namespace Scada.Admin.App.Forms.Tables
             if (radioButton1.Checked)
             {
                 comboBox1.Enabled = textBox2.Enabled = textBox3.Enabled = false;
-                textBox1.Enabled = true;
+                textBox1.Enabled = false;
             }
         }
 
