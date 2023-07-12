@@ -4,7 +4,7 @@
     }
 
     getUrl(cnlNums, startDate, args) {
-        return appEnv.rootPath + `Chart/Chart?cnlNums=${cnlNums}&startDate=${startDate}` +
+        return appEnv.rootPath + `Chart/Chart?cnlNums=${cnlNums}&startDate=${startDate ?? ""}` +
             (args ? "&" + new URLSearchParams(args).toString() : "");
     }
 }
