@@ -188,11 +188,7 @@ namespace Scada.Web
         /// </summary>
         public static string ToCamelCase(this string s)
         {
-            if (string.IsNullOrEmpty(s) || !char.IsUpper(s[0]))
-                return s;
-
-            string lower = string.Concat(s.TakeWhile(c => char.IsUpper(c)).Select(c => char.ToLowerInvariant(c)));
-            return lower + s[lower.Length..];
+            return JsonNamingPolicy.CamelCase.ConvertName(s);
         }
 
         /// <summary>
