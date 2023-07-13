@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2023
  */
 
 using Scada.Data.Const;
@@ -107,7 +107,7 @@ namespace Scada.Data.Entities
         }
 
         /// <summary>
-        /// Gets the number of channels that should be joined to display the channel value.
+        /// Gets the number of channels that should be joined to display a string.
         /// </summary>
         public static int GetJoinLength(this Cnl cnl)
         {
