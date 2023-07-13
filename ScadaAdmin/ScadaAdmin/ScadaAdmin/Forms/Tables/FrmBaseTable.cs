@@ -1252,14 +1252,17 @@ namespace Scada.Admin.App.Forms.Tables
 
         private void dataGridView_SelectionChanged(object sender, EventArgs e)
         {
-            btnBitReader.Enabled = false;
-
-            if (dataGridView.SelectedRows.Count > 0)
+            if (appData.AppConfig.bitReaderEnabled && baseTable.Name == "Cnl")
             {
-                foreach(DataGridViewRow row in dataGridView.SelectedRows)
+                btnBitReader.Enabled = false;
+
+                if (dataGridView.SelectedRows.Count > 0)
                 {
-                    if (baseTable.Name == "Cnl" && (row.Cells[3].Value.ToString() == "1" || row.Cells[3].Value.ToString() == "0"))
-                        btnBitReader.Enabled = true;
+                    foreach (DataGridViewRow row in dataGridView.SelectedRows)
+                    {
+                        if (baseTable.Name == "Cnl" && (row.Cells[3].Value.ToString() == "1" || row.Cells[3].Value.ToString() == "0"))
+                            btnBitReader.Enabled = true;
+                    }
                 }
             }
         }
