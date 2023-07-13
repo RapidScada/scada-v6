@@ -40,9 +40,7 @@ var curCells = []; // array of CellMeta
 var histCols = []; // array of HistColMeta
 
 function prepare() {
-    mainApi.rootPath = viewHub.appEnv.rootPath;
     localDate = $("#localDate").val();
-
     restoreTimeRange();
     initTimeRange(false);
     initCurCells();

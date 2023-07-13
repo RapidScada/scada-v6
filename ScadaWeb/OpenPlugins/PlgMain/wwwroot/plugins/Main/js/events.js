@@ -268,7 +268,6 @@ function scrollDownEvents(animate) {
 }
 
 $(document).ready(function () {
-    mainApi.rootPath = viewHub.appEnv.rootPath;
     restoreFilter();
     initTooltips();
     bindEvents();

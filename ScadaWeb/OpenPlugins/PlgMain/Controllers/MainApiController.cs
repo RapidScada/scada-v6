@@ -97,7 +97,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Requests the current data from the server.
         /// </summary>
-        private CurData RequestCurData(IList<int> cnlNums, long cnlListID, bool useCache)
+        private CurData RequestCurData(IList<int> cnlNums, long cnlListID, bool useCache, bool appendUnit)
         {
             cnlNums ??= Array.Empty<int>();
             int cnlCnt = cnlNums.Count;
@@ -130,7 +130,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                     records[i] = new CurDataRecord
                     {
                         D = new CurDataPoint(cnlNum, cnlData),
-                        Df = formatter.FormatCnlData(cnlData, cnlNum, false)
+                        Df = formatter.FormatCnlData(cnlData, cnlNum, appendUnit)
                     };
                 }
             }
@@ -274,13 +274,13 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Gets the current data of the specified channels.
         /// </summary>
-        public Dto<CurData> GetCurDataStep1(IntRange cnlNums, bool useCache)
+        public Dto<CurData> GetCurDataStep1(IntRange cnlNums, bool useCache, bool appendUnit)
         {
             try
             {
                 // request data
                 CheckAccessRights(cnlNums);
-                CurData curData = RequestCurData(cnlNums, 0, useCache);
+                CurData curData = RequestCurData(cnlNums, 0, useCache, appendUnit);
 
                 // write channel list to the cache
                 if (useCache && curData.CnlListID != "0")
@@ -307,12 +307,12 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Gets the current data by the channel list ID returned in step 1.
         /// </summary>
-        public Dto<CurData> GetCurDataStep2(long cnlListID)
+        public Dto<CurData> GetCurDataStep2(long cnlListID, bool appendUnit)
         {
             try
             {
                 IntRange cnlNums = memoryCache.Get<IntRange>(PluginUtils.GetCacheKey("CnlList", cnlListID));
-                CurData curData = RequestCurData(cnlNums, cnlListID, true);
+                CurData curData = RequestCurData(cnlNums, cnlListID, true, appendUnit);
                 return Dto<CurData>.Success(curData);
             }
             catch (Exception ex)
@@ -326,7 +326,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// Gets the current data by view.
         /// </summary>
         /// <remarks>Loads the specified view if it is not in the cache.</remarks>
-        public Dto<CurData> GetCurDataByView(int viewID, long cnlListID)
+        public Dto<CurData> GetCurDataByView(int viewID, long cnlListID, bool appendUnit)
         {
             try
             {
@@ -335,7 +335,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                     CurData curData = memoryCache.GetOrCreate(PluginUtils.GetCacheKey("CurData", viewID), entry =>
                     {
                         entry.SetAbsoluteExpiration(DataCacheExpiration);
-                        return RequestCurData(view.CnlNumList, cnlListID, true);
+                        return RequestCurData(view.CnlNumList, cnlListID, true, appendUnit);
                     });
 
                     return Dto<CurData>.Success(curData);
