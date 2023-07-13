@@ -146,15 +146,7 @@ namespace Scada.Web
         /// </summary>
         public static HtmlString DictionaryToJs(string dictKey)
         {
-            return DictionaryToJs(Locale.GetDictionary(dictKey), false);
-        }
-
-        /// <summary>
-        /// Converts the phrases dictionary to a JavaScript object.
-        /// </summary>
-        public static HtmlString DictionaryToJs(string dictKey, bool camelCase)
-        {
-            return DictionaryToJs(Locale.GetDictionary(dictKey), camelCase);
+            return DictionaryToJs(Locale.GetDictionary(dictKey), true);
         }
 
         /// <summary>
