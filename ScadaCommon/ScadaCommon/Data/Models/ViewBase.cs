@@ -165,7 +165,23 @@ namespace Scada.Data.Models
                 }
             }
 
-            cnlNumsToAdd.ForEach(cnl => AddCnlNum(cnl));
+            AddCnlNums(cnlNumsToAdd);
+        }
+
+        /// <summary>
+        /// Adds the channel to the view.
+        /// </summary>
+        protected void AddCnl(Cnl cnl)
+        {
+            if (cnl != null)
+            {
+                AddCnlNum(cnl.CnlNum);
+
+                for (int i = 1, len = cnl.GetDataLength(); i < len; i++)
+                {
+                    AddCnlNum(cnl.CnlNum + i);
+                }
+            }
         }
 
 
