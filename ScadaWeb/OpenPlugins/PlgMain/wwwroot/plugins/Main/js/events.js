@@ -181,7 +181,7 @@ function showEvents(data, enableEffects) {
         }
     } else {
         $("#divTableWrapper tbody").remove();
-        showMessage(phrases.NoEvents);
+        showMessage(phrases.noEvents);
     }
 }
 
@@ -222,14 +222,14 @@ function getAckElem(e, ef) {
     if (e.ack) {
         return $("<i class='fa-regular fa-square-check ack-yes'></i>").attr("title", ef.ack);
     } else if (e.ackRequired) {
-        return $("<i class='fa-regular fa-square ack-no'></i>").attr("title", phrases.Ack);
+        return $("<i class='fa-regular fa-square ack-no'></i>").attr("title", phrases.ack);
     } else {
         return null;
     }
 }
 
 function resetEvents() {
-    showMessage(phrases.Loading);
+    showMessage(phrases.loading);
     $("#divTableWrapper tbody").remove();
 
     filterID = 0;
@@ -272,6 +272,6 @@ $(document).ready(function () {
     initTooltips();
     bindEvents();
     updateLayout();
-    showMessage(phrases.Loading);
+    showMessage(phrases.loading);
     setTimeout(startUpdatingEvents, START_DELAY); // wait for loading view in cache
 });
