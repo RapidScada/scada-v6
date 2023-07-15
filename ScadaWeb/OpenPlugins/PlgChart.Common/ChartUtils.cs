@@ -1,11 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Data.Const;
-using Scada.Data.Entities;
 using Scada.Data.Models;
-using Scada.Data.Tables;
-using System;
 
 namespace Scada.Web.Plugins.PlgChart
 {
