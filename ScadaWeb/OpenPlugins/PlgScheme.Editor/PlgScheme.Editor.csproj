@@ -24,4 +24,24 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Forms\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PlgScheme.Common\PlgScheme.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Config\ScadaSchemeEditorConfig.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Lang\ScadaSchemeEditor.en-GB.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Lang\ScadaSchemeEditor.ru-RU.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
