@@ -37,7 +37,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlgWebPage", "PlgWebPage", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgWebPage.View", "PlgWebPage.View\PlgWebPage.View.csproj", "{AC8CA944-D55F-4AEA-92ED-34379AAE0445}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlgSchBasicComp.View", "PlgSchBasicComp.View\PlgSchBasicComp.View.csproj", "{DECEF963-2048-4C8D-ADF1-5F8C90D9B4A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgSchBasicComp.View", "PlgSchBasicComp.View\PlgSchBasicComp.View.csproj", "{DECEF963-2048-4C8D-ADF1-5F8C90D9B4A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlgScheme.Editor", "PlgScheme.Editor\PlgScheme.Editor.csproj", "{3455CC99-004A-41EC-8B25-75EE80C5F3EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,6 +103,10 @@ Global
 		{DECEF963-2048-4C8D-ADF1-5F8C90D9B4A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DECEF963-2048-4C8D-ADF1-5F8C90D9B4A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DECEF963-2048-4C8D-ADF1-5F8C90D9B4A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3455CC99-004A-41EC-8B25-75EE80C5F3EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3455CC99-004A-41EC-8B25-75EE80C5F3EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3455CC99-004A-41EC-8B25-75EE80C5F3EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3455CC99-004A-41EC-8B25-75EE80C5F3EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -120,6 +126,7 @@ Global
 		{95AE4F73-AC1A-43AF-9101-DA97109E8CD3} = {1C746D2E-749E-408B-A180-63AD78EFFAFC}
 		{AC8CA944-D55F-4AEA-92ED-34379AAE0445} = {71F74BFA-D912-41E6-9982-9CAC6C61B324}
 		{DECEF963-2048-4C8D-ADF1-5F8C90D9B4A8} = {1C746D2E-749E-408B-A180-63AD78EFFAFC}
+		{3455CC99-004A-41EC-8B25-75EE80C5F3EB} = {1C746D2E-749E-408B-A180-63AD78EFFAFC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {19C6959B-66D1-4335-AA8A-0E2F23894099}
