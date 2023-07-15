@@ -3,7 +3,6 @@
 
 using Scada.Data.Entities;
 using Scada.Data.Models;
-using System;
 
 namespace Scada.Web.Plugins.PlgScheme.Models
 {

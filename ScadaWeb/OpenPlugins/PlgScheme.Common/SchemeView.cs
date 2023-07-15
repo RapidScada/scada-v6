@@ -6,9 +6,6 @@ using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Web.Plugins.PlgScheme.Model;
 using Scada.Web.Plugins.PlgScheme.Template;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Xml;
 
 namespace Scada.Web.Plugins.PlgScheme

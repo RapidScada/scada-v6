@@ -6,8 +6,6 @@ using Scada.Lang;
 using Scada.Log;
 using Scada.Web.Config;
 using Scada.Web.Lang;
-using System;
-using System.Collections.Generic;
 
 namespace Scada.Web.Plugins.PlgScheme.Code
 {

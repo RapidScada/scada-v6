@@ -13,7 +13,6 @@ using Scada.Web.Plugins.PlgScheme.Model;
 using Scada.Web.Plugins.PlgScheme.Model.DataTypes;
 using Scada.Web.Plugins.PlgScheme.Models;
 using Scada.Web.Services;
-using System;
 
 namespace Scada.Web.Plugins.PlgScheme.Controllers
 {

@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <RootNamespace>Scada.Web.Plugins.PlgScheme</RootNamespace>
     <Authors>Mikhail Shiryaev</Authors>

@@ -1,10 +1,9 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
-using System.Xml;
-using System.ComponentModel;
 using Scada.Web.Plugins.PlgScheme.Model.PropertyGrid;
+using System.ComponentModel;
+using System.Xml;
 
 namespace Scada.Web.Plugins.PlgScheme.Model.DataTypes
 {
