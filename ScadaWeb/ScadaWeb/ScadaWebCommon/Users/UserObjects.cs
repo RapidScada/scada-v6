@@ -24,6 +24,7 @@
  */
 
 using Scada.Data.Entities;
+using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Lang;
 
@@ -46,9 +47,11 @@ namespace Scada.Web.Users
         {
             foreach (Obj childObj in parentObjIndex.SelectItems(parentObjNum))
             {
-                if (userRights.GetRightByObj(childObj.ObjNum).List)
+                Right right = userRights.GetRightByObj(childObj.ObjNum);
+
+                if (right.List)
                 {
-                    Add(new ObjectItem(childObj, parentLevel + 1));
+                    Add(new ObjectItem(childObj, right, parentLevel + 1));
                     AddChildObjects(parentObjIndex, childObj.ObjNum, parentLevel + 1, userRights);
                 }
             }
