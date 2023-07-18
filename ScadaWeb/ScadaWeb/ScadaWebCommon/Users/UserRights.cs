@@ -180,12 +180,13 @@ namespace Scada.Web.Users
         }
 
         /// <summary>
-        /// Gets the numbers of the available objects.
+        /// Gets the sorted numbers of the available objects.
         /// </summary>
         public IEnumerable<int> GetAvailableObjs()
         {
             return from pair in RightByObj
                    where pair.Value.View
+                   orderby pair.Key
                    select pair.Key;
         }
     }
