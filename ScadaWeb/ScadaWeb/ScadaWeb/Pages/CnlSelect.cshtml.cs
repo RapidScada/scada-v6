@@ -69,8 +69,10 @@ namespace Scada.Web.Pages
             foreach (ObjectItem objectItem in userContext.Objects)
             {
                 ObjList.Add(new SelectListItem(
-                    objectItem.Text, 
-                    objectItem.ObjNum.ToString()));
+                    objectItem.Text,
+                    objectItem.ObjNum.ToString(),
+                    false,
+                    !objectItem.Right.View));
             }
         }
 
