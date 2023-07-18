@@ -39,55 +39,20 @@ namespace Scada.Web.Users
     public class UserObjects : List<ObjectItem>
     {
         /// <summary>
-        /// Recursively adds the child objects of the specified object without checking rights.
+        /// Adds the child objects of the specified object recursively.
         /// </summary>
-        private void AddChildObjects(ITableIndex parentObjIndex, int parentObjNum, int parentLevel)
+        private void AddChildObjects(ITableIndex parentObjIndex, int parentObjNum, int parentLevel,
+            UserRights userRights)
         {
             foreach (Obj childObj in parentObjIndex.SelectItems(parentObjNum))
             {
-                Add(new ObjectItem(childObj, parentLevel + 1));
-                AddChildObjects(parentObjIndex, childObj.ObjNum, parentLevel + 1);
-            }
-        }
-
-        /// <summary>
-        /// Recursively adds the child objects of the specified object with rights check.
-        /// </summary>
-        private void AddChildObjects(ITableIndex parentObjIndex, int parentObjNum, int parentLevel, 
-            HashSet<int> availableObjNums)
-        {
-            foreach (Obj childObj in parentObjIndex.SelectItems(parentObjNum))
-            {
-                if (availableObjNums.Contains(childObj.ObjNum))
+                if (userRights.GetRightByObj(childObj.ObjNum).List)
                 {
                     Add(new ObjectItem(childObj, parentLevel + 1));
-                    AddChildObjects(parentObjIndex, childObj.ObjNum, parentLevel + 1, availableObjNums);
+                    AddChildObjects(parentObjIndex, childObj.ObjNum, parentLevel + 1, userRights);
                 }
             }
         }
-
-        /// <summary>
-        /// Gets a set of object numbers available to the user, including parent object numbers.
-        /// </summary>
-        private static HashSet<int> GetAvailableObjNums(BaseTable<Obj> objTable, UserRights userRights)
-        {
-            HashSet<int> availableObjNums = new();
-
-            foreach (int objNum in userRights.GetAvailableObjs())
-            {
-                int childObjNum = objNum;
-                availableObjNums.Add(childObjNum);
-
-                while (objTable.GetItem(childObjNum) is Obj childObj && childObj.ParentObjNum != null)
-                {
-                    childObjNum = childObj.ParentObjNum.Value;
-                    availableObjNums.Add(childObjNum);
-                }
-            }
-
-            return availableObjNums;
-        }
-
 
         /// <summary>
         /// Initializes the list of objects according to the user rights.
@@ -99,34 +64,10 @@ namespace Scada.Web.Users
 
             try
             {
-                IEnumerable<Obj> topLevelObjects = objTable.Where(o => o.ParentObjNum == null);
-
                 if (!objTable.TryGetIndex("ParentObjNum", out ITableIndex parentObjIndex))
                     throw new ScadaException(CommonPhrases.IndexNotFound);
 
-                if (userRights.ViewAll)
-                {
-                    // all objects
-                    foreach (Obj obj in topLevelObjects)
-                    {
-                        Add(new ObjectItem(obj, 0));
-                        AddChildObjects(parentObjIndex, obj.ObjNum, 0);
-                    }
-                }
-                else
-                {
-                    // available objects and their parents
-                    HashSet<int> availableObjNums = GetAvailableObjNums(objTable, userRights);
-
-                    foreach (Obj obj in topLevelObjects)
-                    {
-                        if (availableObjNums.Contains(obj.ObjNum))
-                        {
-                            Add(new ObjectItem(obj, 0));
-                            AddChildObjects(parentObjIndex, obj.ObjNum, 0, availableObjNums);
-                        }
-                    }
-                }
+                AddChildObjects(parentObjIndex, 0, -1, userRights);
             }
             catch (Exception ex)
             {

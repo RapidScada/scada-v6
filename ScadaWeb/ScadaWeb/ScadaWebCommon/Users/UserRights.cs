@@ -180,7 +180,7 @@ namespace Scada.Web.Users
         }
 
         /// <summary>
-        /// Gets the sorted numbers of the available objects.
+        /// Gets the sorted numbers of objects available for viewing.
         /// </summary>
         public IEnumerable<int> GetAvailableObjs()
         {
