@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Microsoft.Win32;
@@ -317,7 +317,7 @@ namespace Scada.Admin.App.Forms.Tools
         {
             string title = string.Format("{0} {1}",
                 extensionLogic.Name,
-                extensionLogic.GetType().Assembly.GetName().Version);
+                extensionLogic.Version);
 
             return new StringBuilder()
                 .AppendLine(title)

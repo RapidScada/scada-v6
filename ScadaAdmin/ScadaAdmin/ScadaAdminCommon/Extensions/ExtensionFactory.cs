@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Lang;
@@ -56,7 +56,7 @@ namespace Scada.Admin.Extensions
                     message = string.Format(Locale.IsRussian ?
                         "Расширение {0} {1} загружено из файла {2}" :
                         "Extension {0} {1} loaded from file {2}",
-                        extensionCode, assembly.GetName().Version, fileName);
+                        extensionCode, extensionLogic.Version, fileName);
                     return true;
                 }
                 else

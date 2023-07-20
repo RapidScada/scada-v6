@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Admin.Config;
@@ -71,6 +71,17 @@ namespace Scada.Admin.Extensions
         /// Gets the extension description.
         /// </summary>
         public abstract string Descr { get; }
+
+        /// <summary>
+        /// Gets the extension version.
+        /// </summary>
+        public virtual string Version
+        {
+            get
+            {
+                return GetType().Assembly.GetName().Version.ToString();
+            }
+        }
 
         /// <summary>
         /// Gets the file extensions for which the extension provides an editor.
