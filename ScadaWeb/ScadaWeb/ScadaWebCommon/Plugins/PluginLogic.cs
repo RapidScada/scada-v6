@@ -72,6 +72,27 @@ namespace Scada.Web.Plugins
         public abstract string Code { get; }
 
         /// <summary>
+        /// Gets the plugin name.
+        /// </summary>
+        public virtual string Name => Code;
+
+        /// <summary>
+        /// Gets the plugin description.
+        /// </summary>
+        public virtual string Descr => "";
+
+        /// <summary>
+        /// Gets the plugin version.
+        /// </summary>
+        public virtual string Version
+        {
+            get
+            {
+                return GetType().Assembly.GetName().Version.ToString();
+            }
+        }
+
+        /// <summary>
         /// Gets the plugin features.
         /// </summary>
         public virtual PluginFeatures Features => null;

@@ -12,7 +12,7 @@ namespace Scada.Web.Plugins.PlgWebPage.View
     public class PlgWebPageView : PluginView
     {
         /// <summary>
-        /// Gets the module name.
+        /// Gets the plugin name.
         /// </summary>
         public override string Name
         {
@@ -25,7 +25,7 @@ namespace Scada.Web.Plugins.PlgWebPage.View
         }
 
         /// <summary>
-        /// Gets the module description.
+        /// Gets the plugin description.
         /// </summary>
         public override string Descr
         {
