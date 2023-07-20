@@ -48,6 +48,7 @@ namespace Scada.Web.Plugins
             WebContext = webContext ?? throw new ArgumentNullException(nameof(webContext));
             AppDirs = webContext.AppDirs;
             Log = webContext.Log;
+            PluginInfo = null;
         }
 
 
@@ -67,19 +68,22 @@ namespace Scada.Web.Plugins
         protected ILog Log { get; set; }
 
         /// <summary>
+        /// Gets information about the plugin.
+        /// </summary>
+        public PluginInfo PluginInfo { get; protected set; }
+
+        /// <summary>
         /// Gets the plugin code.
         /// </summary>
-        public abstract string Code { get; }
-
-        /// <summary>
-        /// Gets the plugin name.
-        /// </summary>
-        public virtual string Name => Code;
-
-        /// <summary>
-        /// Gets the plugin description.
-        /// </summary>
-        public virtual string Descr => "";
+        public virtual string Code
+        {
+            get
+            {
+                return PluginInfo == null 
+                    ? GetType().Name
+                    : PluginInfo.Code;
+            }
+        }
 
         /// <summary>
         /// Gets the plugin version.
@@ -88,7 +92,9 @@ namespace Scada.Web.Plugins
         {
             get
             {
-                return GetType().Assembly.GetName().Version.ToString();
+                return PluginInfo == null
+                    ? GetType().Assembly.GetName().Version.ToString()
+                    : PluginInfo.Version;
             }
         }
 

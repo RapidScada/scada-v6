@@ -40,6 +40,7 @@ namespace Scada.Web.Plugins
             : base()
         {
             AppConfig = null;
+            PluginInfo = null;
         }
 
 
@@ -50,13 +51,34 @@ namespace Scada.Web.Plugins
         public WebConfig AppConfig { get; set; }
 
         /// <summary>
+        /// Gets information about the plugin.
+        /// </summary>
+        public PluginInfo PluginInfo { get; protected set; }
+
+        /// <summary>
         /// Gets the plugin name.
         /// </summary>
-        public abstract string Name { get; }
+        public virtual string Name
+        {
+            get
+            {
+                return PluginInfo == null 
+                    ? GetType().Name 
+                    : PluginInfo.Name;
+            }
+        }
 
         /// <summary>
         /// Gets the plugin description.
         /// </summary>
-        public abstract string Descr { get; }
+        public virtual string Descr
+        {
+            get
+            {
+                return PluginInfo == null 
+                    ? "" 
+                    : PluginInfo.Descr;
+            }
+        }
     }
 }

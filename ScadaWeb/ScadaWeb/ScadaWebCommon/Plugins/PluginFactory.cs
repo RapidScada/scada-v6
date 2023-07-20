@@ -55,7 +55,7 @@ namespace Scada.Web.Plugins
                     message = string.Format(Locale.IsRussian ?
                         "Плагин {0} {1} загружен из файла {2}" :
                         "Plugin {0} {1} loaded from file {2}",
-                        pluginCode, assembly.GetName().Version, fileName);
+                        pluginCode, pluginLogic.Version, fileName);
                     return true;
                 }
                 else

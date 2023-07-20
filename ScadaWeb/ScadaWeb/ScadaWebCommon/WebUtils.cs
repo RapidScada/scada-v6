@@ -196,7 +196,7 @@ namespace Scada.Web
         /// </summary>
         public static HtmlString HtmlEncodeWithBreak(this string s)
         {
-            return new HtmlString(HttpUtility.HtmlEncode(s).Replace("\n", "<br />"));
+            return new HtmlString(HttpUtility.HtmlEncode(s).ReplaceLineEndings("<br />"));
         }
 
         /// <summary>
