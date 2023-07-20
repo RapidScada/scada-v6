@@ -11,8 +11,8 @@ using Scada.Web.Services;
 namespace Scada.Web.Plugins.PlgScheme
 {
     /// <summary>
-    /// Represents a plugin logic.
-    /// <para>Представляет логику плагина.</para>
+    /// Implements the plugin logic.
+    /// <para>Реализует логику плагина.</para>
     /// </summary>
     public class PlgSchemeLogic : PluginLogic
     {

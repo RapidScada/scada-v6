@@ -9,8 +9,8 @@ using Scada.Web.Services;
 namespace Scada.Web.Plugins.PlgWebPage
 {
     /// <summary>
-    /// Represents a plugin logic.
-    /// <para>Представляет логику плагина.</para>
+    /// Implements the plugin logic.
+    /// <para>Реализует логику плагина.</para>
     /// </summary>
     public class PlgWebPageLogic : PluginLogic
     {

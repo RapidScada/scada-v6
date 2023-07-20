@@ -13,8 +13,8 @@ using Scada.Web.Users;
 namespace Scada.Web.Plugins.PlgMain
 {
     /// <summary>
-    /// Represents a plugin logic.
-    /// <para>Представляет логику плагина.</para>
+    /// Implements the plugin logic.
+    /// <para>Реализует логику плагина.</para>
     /// </summary>
     public class PlgMainLogic : PluginLogic
     {
