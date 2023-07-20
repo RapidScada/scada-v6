@@ -19,7 +19,6 @@
     <Compile Include="..\ScadaWebCommon\Config\LoginOptions.cs" Link="Config\LoginOptions.cs" />
     <Compile Include="..\ScadaWebCommon\Config\PluginAssignment.cs" Link="Config\PluginAssignment.cs" />
     <Compile Include="..\ScadaWebCommon\Config\WebConfig.cs" Link="Config\WebConfig.cs" />
-    <Compile Include="..\ScadaWebCommon\Plugins\PluginInfo.cs" Link="Plugins\PluginInfo.cs" />
     <Compile Include="..\ScadaWebCommon\Plugins\PluginView.cs" Link="Plugins\PluginView.cs" />
     <Compile Include="..\ScadaWebCommon\Plugins\PluginViewFactory.cs" Link="Plugins\PluginViewFactory.cs" />
   </ItemGroup>
