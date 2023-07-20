@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Lang;
@@ -56,7 +56,7 @@ namespace Scada.Comm.Drivers
                     message = string.Format(Locale.IsRussian ?
                         "Драйвер {0} {1} загружен из файла {2}" :
                         "Driver {0} {1} loaded from file {2}",
-                        driverCode, assembly.GetName().Version, fileName);
+                        driverCode, driverLogic.Version, fileName);
                     return true;
                 }
                 else
@@ -99,7 +99,7 @@ namespace Scada.Comm.Drivers
                     message = string.Format(Locale.IsRussian ?
                         "Загружен интерфейс драйвера {0} {1} из файла {2}" :
                         "Loaded driver interface {0} {1} from file {2}",
-                        driverCode, assembly.GetName().Version, fileName);
+                        driverCode, driverView.Version, fileName);
                     return true;
                 }
                 else
