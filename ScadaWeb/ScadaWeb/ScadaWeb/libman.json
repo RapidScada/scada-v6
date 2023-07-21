@@ -83,7 +83,7 @@
       ]
     },
     {
-      "library": "pdfmake@0.2.5",
+      "library": "pdfmake@0.2.7",
       "destination": "wwwroot/lib/pdfmake/",
       "files": [
         "LICENSE",
