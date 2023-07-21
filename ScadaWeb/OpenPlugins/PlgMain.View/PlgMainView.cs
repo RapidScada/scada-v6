@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Lang;
-
 namespace Scada.Web.Plugins.PlgMain.View
 {
     /// <summary>
@@ -12,31 +10,11 @@ namespace Scada.Web.Plugins.PlgMain.View
     public class PlgMainView : PluginView
     {
         /// <summary>
-        /// Gets the plugin name.
+        /// Initializes a new instance of the class.
         /// </summary>
-        public override string Name
+        public PlgMainView()
         {
-            get
-            {
-                return Locale.IsRussian ?
-                    "Основной плагин" :
-                    "Main Plugin";
-            }
-        }
-
-        /// <summary>
-        /// Gets the plugin description.
-        /// </summary>
-        public override string Descr
-        {
-            get
-            {
-                return Locale.IsRussian ?
-                    "Плагин реализует табличное представление, отправку команд, отображение и квитирование событий, " +
-                    "отчёты по историческим данным и событиям." :
-                    "The plugin implements a table view, sending commands, displaying and acknowledging events, " + 
-                    "reports on historical data and events.";
-            }
+            Info = new PluginInfo();
         }
     }
 }

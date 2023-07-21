@@ -28,13 +28,9 @@ namespace Scada.Web.Plugins.PlgMain
             : base(webContext)
         {
             pluginContext = new PluginContext();
+            Info = new PluginInfo();
         }
 
-
-        /// <summary>
-        /// Gets the plugin code.
-        /// </summary>
-        public override string Code => PluginUtils.PluginCode;
 
         /// <summary>
         /// Gets the plugin features.
