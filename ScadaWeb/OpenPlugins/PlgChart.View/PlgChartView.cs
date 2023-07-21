@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Lang;
-
 namespace Scada.Web.Plugins.PlgChart.View
 {
     /// <summary>
@@ -12,29 +10,11 @@ namespace Scada.Web.Plugins.PlgChart.View
     public class PlgChartView : PluginView
     {
         /// <summary>
-        /// Gets the plugin name.
+        /// Initializes a new instance of the class.
         /// </summary>
-        public override string Name
+        public PlgChartView()
         {
-            get
-            {
-                return Locale.IsRussian ?
-                    "Графики" :
-                    "Chart";
-            }
-        }
-
-        /// <summary>
-        /// Gets the plugin description.
-        /// </summary>
-        public override string Descr
-        {
-            get
-            {
-                return Locale.IsRussian ?
-                    "Плагин обеспечивает отображение графиков." :
-                    "The plugin provides displaying charts.";
-            }
+            Info = new ChartPluginInfo();
         }
     }
 }

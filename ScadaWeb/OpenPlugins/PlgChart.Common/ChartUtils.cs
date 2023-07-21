@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Data.Models;
+using System.Web;
 
 namespace Scada.Web.Plugins.PlgChart
 {
@@ -20,6 +21,14 @@ namespace Scada.Web.Plugins.PlgChart
         /// </summary>
         public const string LocalDateFormat = "yyyy'-'MM'-'dd";
 
+
+        /// <summary>
+        /// Encodes a string to be inserted in JavaScript.
+        /// </summary>
+        public static string JsEncode(this string s)
+        {
+            return HttpUtility.JavaScriptStringEncode(s);
+        }
 
         /// <summary>
         /// Gets the chart start date as UTC.

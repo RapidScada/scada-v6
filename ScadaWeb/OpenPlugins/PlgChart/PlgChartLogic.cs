@@ -19,13 +19,8 @@ namespace Scada.Web.Plugins.PlgChart
         public PlgChartLogic(IWebContext webContext)
             : base(webContext)
         {
+            Info = new ChartPluginInfo();
         }
-
-
-        /// <summary>
-        /// Gets the plugin code.
-        /// </summary>
-        public override string Code => "PlgChart";
 
         /// <summary>
         /// Gets the plugin features.
@@ -34,7 +29,6 @@ namespace Scada.Web.Plugins.PlgChart
         {
             ChartScriptUrl = "~/plugins/Chart/js/chart-feature.js",
         };
-
 
         /// <summary>
         /// Loads language dictionaries.
