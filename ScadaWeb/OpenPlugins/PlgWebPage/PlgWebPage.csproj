@@ -10,8 +10,8 @@
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
     <Copyright>Copyright © 2023</Copyright>
-    <Version>6.0.1</Version>
-    <AssemblyVersion>6.0.1.0</AssemblyVersion>
+    <Version>6.0.2</Version>
+    <AssemblyVersion>6.0.2.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,5 +29,7 @@
       <HintPath>..\..\ScadaWeb\ScadaWebCommon\bin\Release\net6.0\ScadaWebCommon.dll</HintPath>
     </Reference>
   </ItemGroup>
+
+  <Import Project="..\PlgWebPage.Shared\PlgWebPage.Shared.projitems" Label="Shared" />
 
 </Project>

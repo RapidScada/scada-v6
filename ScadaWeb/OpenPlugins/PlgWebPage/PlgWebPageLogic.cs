@@ -20,19 +20,13 @@ namespace Scada.Web.Plugins.PlgWebPage
         public PlgWebPageLogic(IWebContext webContext)
             : base(webContext)
         {
+            Info = new PluginInfo();
         }
-
-
-        /// <summary>
-        /// Gets the plugin code.
-        /// </summary>
-        public override string Code => "PlgWebPage";
 
         /// <summary>
         /// Gets the view specifications.
         /// </summary>
         public override ICollection<ViewSpec> ViewSpecs => new ViewSpec[] { new WebPageViewSpec() };
-
 
         /// <summary>
         /// Loads language dictionaries.

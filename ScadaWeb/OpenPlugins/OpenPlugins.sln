@@ -39,7 +39,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgWebPage.View", "PlgWebPa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgSchBasicComp.View", "PlgSchBasicComp.View\PlgSchBasicComp.View.csproj", "{DECEF963-2048-4C8D-ADF1-5F8C90D9B4A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlgScheme.Editor", "PlgScheme.Editor\PlgScheme.Editor.csproj", "{3455CC99-004A-41EC-8B25-75EE80C5F3EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgScheme.Editor", "PlgScheme.Editor\PlgScheme.Editor.csproj", "{3455CC99-004A-41EC-8B25-75EE80C5F3EB}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "PlgWebPage.Shared", "PlgWebPage.Shared\PlgWebPage.Shared.shproj", "{48540890-21B4-4400-8290-071112B30D53}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -127,8 +129,14 @@ Global
 		{AC8CA944-D55F-4AEA-92ED-34379AAE0445} = {71F74BFA-D912-41E6-9982-9CAC6C61B324}
 		{DECEF963-2048-4C8D-ADF1-5F8C90D9B4A8} = {1C746D2E-749E-408B-A180-63AD78EFFAFC}
 		{3455CC99-004A-41EC-8B25-75EE80C5F3EB} = {1C746D2E-749E-408B-A180-63AD78EFFAFC}
+		{48540890-21B4-4400-8290-071112B30D53} = {71F74BFA-D912-41E6-9982-9CAC6C61B324}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {19C6959B-66D1-4335-AA8A-0E2F23894099}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		PlgWebPage.Shared\PlgWebPage.Shared.projitems*{48540890-21b4-4400-8290-071112b30d53}*SharedItemsImports = 13
+		PlgWebPage.Shared\PlgWebPage.Shared.projitems*{ac8ca944-d55f-4aea-92ed-34379aae0445}*SharedItemsImports = 5
+		PlgWebPage.Shared\PlgWebPage.Shared.projitems*{c85cd47d-4492-4229-8d28-8579b063365a}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal
