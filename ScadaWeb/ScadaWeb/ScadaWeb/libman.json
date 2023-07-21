@@ -66,26 +66,6 @@
       ]
     },
     {
-      "library": "jquery-validation@1.19.3",
-      "destination": "wwwroot/lib/jquery-validation/",
-      "files": [
-        "LICENSE.md",
-        "dist/additional-methods.js",
-        "dist/additional-methods.min.js",
-        "dist/jquery.validate.js",
-        "dist/jquery.validate.min.js"
-      ]
-    },
-    {
-      "library": "jquery-validation-unobtrusive@3.2.12",
-      "destination": "wwwroot/lib/jquery-validation-unobtrusive/",
-      "files": [
-        "LICENSE.txt",
-        "dist/jquery.validate.unobtrusive.js",
-        "dist/jquery.validate.unobtrusive.min.js"
-      ]
-    },
-    {
       "provider": "cdnjs",
       "library": "font-awesome@6.4.0",
       "destination": "wwwroot/lib/font-awesome/",
