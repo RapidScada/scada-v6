@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Lang;
-
 namespace Scada.Web.Plugins.PlgSchBasicComp.View
 {
     /// <summary>
@@ -12,29 +10,11 @@ namespace Scada.Web.Plugins.PlgSchBasicComp.View
     public class PlgSchBasicCompView : PluginView
     {
         /// <summary>
-        /// Gets the plugin name.
+        /// Initializes a new instance of the class.
         /// </summary>
-        public override string Name
+        public PlgSchBasicCompView()
         {
-            get
-            {
-                return Locale.IsRussian ?
-                    "Основные компоненты схем" :
-                    "Basic Scheme Components";
-            }
-        }
-
-        /// <summary>
-        /// Gets the plugin description.
-        /// </summary>
-        public override string Descr
-        {
-            get
-            {
-                return Locale.IsRussian ?
-                    "Набор основных компонентов для отображения на мнемосхемах." :
-                    "A set of basic components for display on schemes.";
-            }
+            Info = new PluginInfo();
         }
     }
 }

@@ -19,13 +19,8 @@ namespace Scada.Web.Plugins.PlgSchBasicComp
         public PlgSchBasicCompLogic(IWebContext webContext)
             : base(webContext)
         {
+            Info = new PluginInfo();
         }
-
-
-        /// <summary>
-        /// Gets the plugin code.
-        /// </summary>
-        public override string Code => "PlgSchBasicComp";
 
         /// <summary>
         /// Gets the specification of the component library.
