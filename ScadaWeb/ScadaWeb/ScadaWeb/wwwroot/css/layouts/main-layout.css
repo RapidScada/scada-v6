@@ -394,8 +394,8 @@ body.left-panel-visible #Main_divLeftPanel {
   overflow: auto;
   padding: 20px;
 }
-#Main_divContent form.report-args,
-#Main_divContent form.search-args {
+#Main_divContent .report-args,
+#Main_divContent .search-args {
   max-width: 500px;
 }
 

@@ -184,7 +184,7 @@ namespace Scada.Web.TagHelpers
                     .AppendHtml("<li class=\"page-item disabled\"><span class=\"page-link\">&laquo;</span></li>");
             }
 
-            // pages numbers
+            // page numbers
             for (int i = 0; i < pageNumbers.Length; i++)
             {
                 int pageNumber = pageNumbers[i];

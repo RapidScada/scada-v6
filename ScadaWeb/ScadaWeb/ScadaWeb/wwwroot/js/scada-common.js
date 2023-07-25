@@ -338,6 +338,14 @@ class Dto {
         this.data = null;
     }
 
+    // Creates a data transfer object containing a successfull result.
+    static success(data) {
+        let dto = new Dto();
+        dto.ok = true;
+        dto.data = data;
+        return dto;
+    }
+
     // Creates a data transfer object containing a failed result.
     static fail(msg) {
         let dto = new Dto();
