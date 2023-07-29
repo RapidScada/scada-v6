@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+	  <RootNamespace>Scada.Web.Plugins.PlgSchShapeComp</RootNamespace>
+	  <Authors>Messie MOUKIMOU</Authors>
+	  <Product>Plugin Rapid Scada</Product>
+	  <Copyright>Copyright © 2023</Copyright>
+	  <Version>1.0.0</Version>
+	  <AssemblyVersion>1.0.0.1</AssemblyVersion>
+	  <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PlgScheme.Common\PlgScheme.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ScadaCommon">
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon\bin\Release\netstandard2.0\ScadaCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon.Log">
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon.Log\bin\Release\netstandard2.0\ScadaCommon.Log.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaWebCommon">
+      <HintPath>..\..\ScadaWeb\ScadaWebCommon\bin\Release\net6.0\ScadaWebCommon.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
