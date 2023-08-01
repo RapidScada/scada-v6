@@ -35,6 +35,7 @@
     <Plugin code="PlgMain" />
     <Plugin code="PlgScheme" />
     <Plugin code="PlgSchBasicComp" />
+    <Plugin code="PlgStore" />
     <Plugin code="PlgWebPage" />
   </Plugins>
   <PluginAssignment>
