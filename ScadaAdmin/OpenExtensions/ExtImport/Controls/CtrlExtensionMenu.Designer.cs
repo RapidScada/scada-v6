@@ -1,4 +1,6 @@
-﻿namespace Scada.Admin.Extensions.ExtImport.Controls
+﻿using Scada.Admin.Extensions.ExtImport.Code;
+
+namespace Scada.Admin.Extensions.ExtImport.Controls
 {
 	partial class CtrlExtensionMenu
 	{
@@ -42,9 +44,9 @@
 			// 
 			toolStrip.ImageScalingSize = new Size(20, 20);
 			toolStrip.Items.AddRange(new ToolStripItem[] { btnImport });
-			toolStrip.Location = new Point(0, 24);
+			toolStrip.Location = new Point(0, 30);
 			toolStrip.Name = "toolStrip";
-			toolStrip.Size = new Size(161, 27);
+			toolStrip.Size = new Size(184, 27);
 			toolStrip.TabIndex = 0;
 			toolStrip.Text = "toolStrip1";
 			// 
@@ -55,10 +57,10 @@
 			btnImport.Image = Properties.Resources.import;
 			btnImport.ImageTransparentColor = Color.Magenta;
 			btnImport.Name = "btnImport";
-			btnImport.Size = new Size(24, 24);
+			btnImport.Size = new Size(29, 24);
 			btnImport.Text = "toolStripButton1";
-			btnImport.ToolTipText = "Import Channel";
-			btnImport.Click += miImportCnl_Click;
+			btnImport.ToolTipText = ExtensionPhrases.BtnImport;
+			btnImport.Click += btnImport_Click;
 			// 
 			// menuStrip
 			// 
@@ -66,8 +68,8 @@
 			menuStrip.Items.AddRange(new ToolStripItem[] { miTools });
 			menuStrip.Location = new Point(0, 0);
 			menuStrip.Name = "menuStrip";
-			menuStrip.Padding = new Padding(5, 2, 0, 2);
-			menuStrip.Size = new Size(161, 24);
+			menuStrip.Padding = new Padding(6, 3, 0, 3);
+			menuStrip.Size = new Size(184, 30);
 			menuStrip.TabIndex = 1;
 			menuStrip.Text = "menuStrip1";
 			// 
@@ -75,7 +77,7 @@
 			// 
 			miTools.DropDownItems.AddRange(new ToolStripItem[] { miImport });
 			miTools.Name = "miTools";
-			miTools.Size = new Size(46, 20);
+			miTools.Size = new Size(58, 24);
 			miTools.Text = "Tools";
 			// 
 			// miImport
@@ -83,26 +85,25 @@
 			miImport.DropDownItems.AddRange(new ToolStripItem[] { miImportChannel });
 			miImport.Enabled = false;
 			miImport.Name = "miImport";
-			miImport.Size = new Size(110, 22);
-			miImport.Text = "Import";
+			miImport.Size = new Size(224, 26);
+			miImport.Text = ExtensionPhrases.MiImport;
 			// 
 			// miImportChannel
 			// 
 			miImportChannel.Image = Properties.Resources.import;
 			miImportChannel.Name = "miImportChannel";
-			miImportChannel.Size = new Size(160, 22);
-			miImportChannel.Text = "Import Channel ";
-			miImportChannel.Click += miImportCnl_Click;
+			miImportChannel.Size = new Size(224, 26);
+			miImportChannel.Text = "Import";
+			miImportChannel.Click += btnImport_Click;
 			// 
 			// CtrlExtensionMenu
 			// 
-			AutoScaleDimensions = new SizeF(7F, 15F);
+			AutoScaleDimensions = new SizeF(8F, 20F);
 			AutoScaleMode = AutoScaleMode.Font;
 			Controls.Add(toolStrip);
 			Controls.Add(menuStrip);
-			Margin = new Padding(3, 2, 3, 2);
 			Name = "CtrlExtensionMenu";
-			Size = new Size(161, 112);
+			Size = new Size(184, 149);
 			toolStrip.ResumeLayout(false);
 			toolStrip.PerformLayout();
 			menuStrip.ResumeLayout(false);

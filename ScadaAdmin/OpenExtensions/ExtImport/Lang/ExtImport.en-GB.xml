@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ExtImportDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtImport.ExtImportLogic">
+    <Phrase key="GeneralOptionsNode">General Options</Phrase>
+    <Phrase key="DriversNode">Drivers</Phrase>
+    <Phrase key="DataSourcesNode">Data Sources</Phrase>
+    <Phrase key="LinesNode">Communication Lines</Phrase>
+    <Phrase key="LineOptionsNode">Line Options</Phrase>
+    <Phrase key="LineStatsNode">Line Stats</Phrase>
+    <Phrase key="LogsNode">Logs</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Code.ExtensionUtils">
+    <Phrase key="DeviceNotSupported">The driver does not support creating devices.</Phrase>
+    <Phrase key="UnableCreateDeviceView">Unable to create device user interface.</Phrase>
+    <Phrase key="NoDeviceProperties">The device does not provide a properties window.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtImport.Controls.CtrlImport1">
+    <Phrase key="lblCommLine">Communication line</Phrase>
+    <Phrase key="lblDevice">Device</Phrase>
+    <Phrase key="AllCommLines">&lt;All communication lines&gt;</Phrase>
+    <Phrase key="DeviceInfo">Driver: {0}&#13;&#10;Instance: {1}&#13;&#10;Channels: {2}</Phrase>
+    <Phrase key="DeviceNotFound">Device not found in Communicator.</Phrase>
+    <Phrase key="NoDeviceSelected">No device selected.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtImport.Controls.CtrlImport2">
+    <Phrase key="lblDevice">Device</Phrase>
+    <Phrase key="lblObj">Object</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtImport.Controls.CtrlImport3">
+    <Phrase key="lblDevice">Device</Phrase>
+    <Phrase key="gbCnlNums">Channel Numbers</Phrase>
+    <Phrase key="lblStartCnlNum">Start</Phrase>
+    <Phrase key="lblEndCnlNum">End</Phrase>
+    <Phrase key="btnMap">Map</Phrase>
+    <Phrase key="btnReset">Reset</Phrase>
+	<Phrase key="rdBtn1">Import variables from a file</Phrase>
+	<Phrase key="rdBtn2">Generate channels using equipment variables</Phrase>
+	<Phrase key="grpImportLbl">Import Options</Phrase>
+	<Phrase key="grpFormatLbl">Name format</Phrase>
+  </Dictionary>
+	
+  <Dictionary key="Scada.Admin.Extensions.ExtImport.Controls.CtrlExtensionMenu">
+    <Phrase key="btnImport">Import Variable</Phrase>
+    <Phrase key="miImport">Import</Phrase>
+    <Phrase key="ConfirmDeleteLine">Are you sure you want to delete the communication line?</Phrase>
+    <Phrase key="CnlNodeNotFound">Channel node not found.</Phrase>
+  </Dictionary>
+  
+ 
+  <Dictionary key="Scada.Admin.Extensions.ExtImport.Forms.FrmImport">
+    <Phrase key="this">Import Channels</Phrase>
+    <Phrase key="btnBack">&lt; Back</Phrase>
+    <Phrase key="btnNext">Next &gt;</Phrase>
+    <Phrase key="btnCreate">Create</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+    <Phrase key="ImportStep1">Step 1 of 3: Select a device</Phrase>
+    <Phrase key="ImportStep2">Step 2 of 3: Select an object of newly created channels</Phrase>
+    <Phrase key="ImportStep3">Step 3 of 3: Assign channel numbers</Phrase>
+    <Phrase key="ImportCompleted">Channel creation completed successfully.&#13;&#10;{0} channel(s) added.</Phrase>
+	<Phrase key="fileWarning">The selected file is likely empty.</Phrase>
+  </Dictionary>
+	
+ 
+  <Dictionary key="Scada.Admin.Extensions.ExtImport.Forms.FrmDataSources">
+    <Phrase key="this">Data Sources</Phrase>
+    <Phrase key="btnAdd">Add</Phrase>
+    <Phrase key="btnMoveUp">Move Up</Phrase>
+    <Phrase key="btnMoveDown">Move Down</Phrase>
+    <Phrase key="btnDelete">Delete</Phrase>
+    <Phrase key="btnCut">Cut</Phrase>
+    <Phrase key="btnCopy">Copy</Phrase>
+    <Phrase key="btnPaste">Paste</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">Active</Phrase>
+    <Phrase key="colCode">Code</Phrase>
+    <Phrase key="colName">Name</Phrase>
+    <Phrase key="colDriver">Driver</Phrase>
+    <Phrase key="gbDataSource">Selected Data Source</Phrase>
+    <Phrase key="chkActive">Active</Phrase>
+    <Phrase key="lblCode">Code</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblDriver">Driver</Phrase>
+    <Phrase key="lblOptions">Options</Phrase>
+    <Phrase key="btnProperties">Properties</Phrase>
+    <Phrase key="DriverNotSpecified">Driver is not specified.</Phrase>
+    <Phrase key="DataSourceNotSupported">The driver does not support creating data sources.</Phrase>
+    <Phrase key="UnableCreateDataSourceView">Unable to create data source user interface.</Phrase>
+    <Phrase key="NoDataSourceProperties">The data source does not provide a properties window.</Phrase>
+  </Dictionary>
+  
+	<Dictionary key="Scada.Admin.Extensions.ExtImport.Forms.FrmCnlsMerge">
+		<Phrase key="frmName">Merge</Phrase>
+		<Phrase key="lblNewCnls">New Channels</Phrase>
+		<Phrase key="numCol">Number</Phrase>
+		<Phrase key="newCnlsNameCol">Name</Phrase>
+		<Phrase key="newTypeCol">Type</Phrase>
+		<Phrase key="newCnlsTypeCol">Channel Type</Phrase>
+		<Phrase key="newTagCodeCol">Tag Code</Phrase>
+
+		<Phrase key="lblEquipCnls">Cnls from equipment</Phrase>
+		<Phrase key="equiCnlsNameCol">Name</Phrase>
+		<Phrase key="equipTypeCol">Type</Phrase>
+		<Phrase key="equipCnlsTypeCol">Channel Type</Phrase>
+		<Phrase key="equipTagCodeCol">Tag Code</Phrase>
+
+		<Phrase key="btnAdd">Add</Phrase>
+		<Phrase key="btnCancel">Cancel</Phrase>
+	</Dictionary>
+
+	<Dictionary key="Scada.Admin.Extensions.ExtImport.Forms.FrmVariablesMerge">
+		<Phrase key="frmName">Merge</Phrase>
+		<Phrase key="checkBoxDesc">Preserve the existing descriptions</Phrase>
+		<Phrase key="srcLbl">Source</Phrase>
+		<Phrase key="address">Address</Phrase>
+		<Phrase key="srcMne">Mnemonic</Phrase>
+		<Phrase key="srcType">Type</Phrase>
+		<Phrase key="srcCment">Comments</Phrase>
+		<Phrase key="destLbl">Destination</Phrase>
+		<Phrase key="destMne">Mnemonic</Phrase>
+		<Phrase key="destType">Type</Phrase>
+		<Phrase key="destCment">Comments</Phrase>
+		<Phrase key="btnSave">Save</Phrase>
+		<Phrase key="btnCancel">Cancel</Phrase>
+		<Phrase key="selectWarning">No line was selected</Phrase>
+	</Dictionary>
+</ExtImportDictionaries>
+
