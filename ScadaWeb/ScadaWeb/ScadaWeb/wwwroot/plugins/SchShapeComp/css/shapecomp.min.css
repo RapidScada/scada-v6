@@ -1,0 +1,16 @@
+.basic-polygon {
+	position: relative;
+	overflow: hidden;
+}
+.basic-polygon.active {
+	background-color: green;
+}
+.basic-polygon.inactive {
+	background-color: red;
+}
+.basic-polygon {
+	border-style: solid;
+}
+.basic-polygon.rounded {
+	border-radius: 50%;
+}

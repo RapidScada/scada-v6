@@ -1,0 +1,38 @@
+﻿@import '../../../css/_variables.scss';
+
+#tblCommand {
+    margin-bottom: 5px;
+
+    th {
+        font-weight: normal;
+        padding: 0 10px 5px 0;
+        text-align: right;
+        vertical-align: top;
+    }
+
+    td {
+        color: $danger;
+        padding: 0 0 5px 0;
+        vertical-align: top;
+    }
+}
+
+#divEnum {
+    display: flex;
+    flex-wrap: wrap;
+
+    button {
+        background-color: $primary;
+        color: $light;
+        flex-grow: 1;
+        margin: 0 5px 5px 0;
+    }
+}
+
+form {
+    padding-bottom: 10px;
+}
+
+textarea {
+    resize: none;
+}

@@ -1,0 +1,24 @@
+﻿/* Style de base pour tous les polygones */
+.basic-polygon {
+    position: relative;
+    overflow: hidden;
+}
+
+    /* Exemple de style conditionnel pour les polygones */
+    .basic-polygon.active {
+        background-color: green;
+    }
+
+    .basic-polygon.inactive {
+        background-color: red;
+    }
+
+/* Exemple de style pour les bords des polygones */
+.basic-polygon {
+    border-style: solid;
+}
+
+    /* Exemple de style pour les coins arrondis des polygones */
+    .basic-polygon.rounded {
+        border-radius: 50%;
+    }

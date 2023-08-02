@@ -1,0 +1,75 @@
+﻿@import '_table-common';
+
+$item-hdr-color: $gray-700;
+$cmd-btn-color: #a00;
+$cmd-btn-hover-color: red;
+
+.table-main {
+    &.hide-date span.hdr-date {
+        display: none;
+    }
+
+    td {
+        &:first-child {
+            padding: 2px 5px;
+            text-align: left;
+        }
+    }
+
+    th.hid, td.hid {
+        display: none;
+    }
+
+    .item {
+        display: table;
+        width: 100%;
+
+        & > span {
+            display: table-cell;
+        }
+    }
+
+    .item-hdr {
+        color: $item-hdr-color;
+        font-weight: 600;
+    }
+
+    .item-icon {
+        width: 16px;
+        min-width: 16px;
+
+        img {
+            width: 16px;
+            height: 16px;
+            position: relative;
+            top: -2px;
+        }
+    }
+
+    .item-text {
+        color: $link-fore-color;
+        padding: 0 5px;
+    }
+
+    .item-link {
+        cursor: pointer;
+    }
+
+    .item-cmd {
+        color: $cmd-btn-color;
+        cursor: pointer;
+        width: 20px;
+        min-width: 20px;
+        text-align: right;
+
+        &:hover {
+            color: $cmd-btn-hover-color;
+        }
+    }
+}
+
+.tooltip-inner {
+    max-width: 500px;
+    text-align: left;
+    white-space: nowrap;
+}

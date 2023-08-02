@@ -44,7 +44,8 @@ namespace Scada.Web.Plugins.PlgScheme
                 { typeof(StaticText).FullName, typeof(StaticText) },
                 { typeof(DynamicText).FullName, typeof(DynamicText) },
                 { typeof(StaticPicture).FullName, typeof(StaticPicture) },
-                { typeof(DynamicPicture).FullName, typeof(DynamicPicture) }
+                { typeof(DynamicPicture).FullName, typeof(DynamicPicture) },
+              
             };
         }
 
@@ -73,7 +74,7 @@ namespace Scada.Web.Plugins.PlgScheme
         /// </summary>
         private static bool TypeIsStrandard(Type compType)
         {
-            return compType == typeof(StaticText) || compType == typeof(DynamicText) || 
+            return compType == typeof(StaticText) || compType == typeof(DynamicText) ||
                 compType == typeof(StaticPicture) || compType == typeof(DynamicPicture);
         }
 
@@ -213,7 +214,7 @@ namespace Scada.Web.Plugins.PlgScheme
                             return new StaticPicture();
                         else if (localName == "dynamicpicture")
                             return new DynamicPicture();
-                        else
+						else
                             errMsg = string.Format(SchemePhrases.UnknownComponent, nodeName);
                     }
                     else if (factsByPrefix.TryGetValue(xmlPrefix, out CompFactory compFactory))

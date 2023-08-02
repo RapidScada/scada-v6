@@ -1,0 +1,23 @@
+﻿.table-main td.sev .critical {
+  color: #dc3545;
+}
+.table-main td.sev .major {
+  color: #fd7e14;
+}
+.table-main td.sev .minor {
+  color: #ffc107;
+}
+.table-main td.sev .info {
+  color: #0dcaf0;
+}
+
+#tblEvent th {
+  font-weight: normal;
+  padding: 0 10px 5px 0;
+  text-align: right;
+  vertical-align: top;
+}
+#tblEvent td {
+  padding: 0 0 5px 0;
+  vertical-align: top;
+}

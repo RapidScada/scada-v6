@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+	  <RootNamespace>Scada.Web.Plugins.PlgSchShapeComp.View</RootNamespace>
+	  <Authors>Messie MOUKIMOU</Authors>
+	  <Product>Plugin Rapid SCADA</Product>
+	  <Copyright>Copyright © 2023</Copyright>
+	  <Version>1.0.0</Version>
+	  <AssemblyVersion>1.0.0.1</AssemblyVersion> 
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="ScadaCommon">
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon\bin\Release\netstandard2.0\ScadaCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaWebCommon.Subset">
+      <HintPath>..\..\ScadaWeb\ScadaWebCommon.Subset\bin\Release\net6.0\ScadaWebCommon.Subset.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

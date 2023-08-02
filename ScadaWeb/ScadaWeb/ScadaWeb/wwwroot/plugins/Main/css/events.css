@@ -1,0 +1,116 @@
+﻿body {
+  background-color: #f8f9fa;
+  color: #212529;
+}
+
+.toolbar {
+  height: 30px;
+  line-height: 30px;
+  font-size: 14px;
+  padding: 0 10px;
+  white-space: nowrap;
+}
+.toolbar input,
+.toolbar select {
+  height: 24px;
+  line-height: normal;
+  border: 1px solid #6c757d; /*required for correct height*/
+  border-radius: 3px;
+}
+.toolbar .toolbar-group {
+  margin-right: 10px;
+}
+.toolbar .tool-btn {
+  background-color: white;
+  color: #495057;
+  cursor: pointer;
+  display: inline-block;
+  margin-right: 5px;
+  padding: 0 10px;
+  white-space: nowrap;
+}
+.toolbar .tool-btn.selected {
+  background-color: #0073aa;
+  color: white;
+}
+.toolbar .tool-btn.selected:hover {
+  color: white;
+}
+.toolbar .tool-btn:hover {
+  color: #00b9eb;
+}
+.toolbar .badge {
+  margin-right: 5px;
+}
+
+.table-wrapper {
+  padding: 0 10px;
+  overflow: auto;
+}
+
+.table-main {
+  border-collapse: separate; /*required for header stickiness*/
+  border-spacing: 0;
+  border-left: 1px solid #6c757d;
+  border-top: 1px solid #6c757d;
+}
+.table-main tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+.table-main tr:nth-child(odd) {
+  background-color: white;
+}
+.table-main tr:hover {
+  background-color: #dee2e6;
+}
+.table-main th,
+.table-main td {
+  border-bottom: 1px solid #6c757d;
+  border-right: 1px solid #6c757d;
+  font-size: 0.8rem;
+  padding: 2px 3px;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.table-main th {
+  background-color: #ccc;
+  font-weight: 600;
+  padding: 2px 5px;
+  position: sticky;
+  top: 0; /*required for header stickiness*/
+  z-index: 1;
+}
+
+.table-main td.sev .critical {
+  color: #dc3545;
+}
+.table-main td.sev .major {
+  color: #fd7e14;
+}
+.table-main td.sev .minor {
+  color: #ffc107;
+}
+.table-main td.sev .info {
+  color: #0dcaf0;
+}
+
+.table-main {
+  width: 100%;
+}
+.table-main td.obj, .table-main td.dev, .table-main td.cnl, .table-main td.descr {
+  text-align: left;
+}
+.table-main td.sev i {
+  padding: 0 20px;
+}
+.table-main td.ack i {
+  cursor: pointer;
+  padding: 0 20px;
+}
+.table-main td.ack .ack-no {
+  color: #fd7e14;
+}
+.table-main td.ack .ack-yes {
+  color: #198754;
+}

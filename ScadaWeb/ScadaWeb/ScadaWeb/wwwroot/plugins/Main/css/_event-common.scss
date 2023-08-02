@@ -1,0 +1,21 @@
+﻿@import '../../../css/_variables.scss';
+
+.table-main {
+    td.sev {
+        .critical {
+            color: $severity-critical-color;
+        }
+
+        .major {
+            color: $severity-major-color;
+        }
+
+        .minor {
+            color: $severity-minor-color;
+        }
+
+        .info {
+            color: $severity-info-color;
+        }
+    }
+}
