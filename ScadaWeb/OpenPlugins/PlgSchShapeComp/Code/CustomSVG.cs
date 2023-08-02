@@ -2,21 +2,22 @@
 using System.ComponentModel;
 using Scada.Web.Plugins.PlgScheme.Model;
 using Scada.Web.Plugins.PlgScheme.Model.DataTypes;
+using Scada.Log;
+
 
 using Scada.Web.Plugins.PlgScheme.Model.PropertyGrid;
-
+using Scada.Web.Plugins.PlgSchShapeComp.Code.PropertyGrid;
 
 namespace Scada.Web.Plugins.PlgSchShapeComp.Code
 {
 	[Serializable]
 	public class CustomSVG : ComponentBase, IDynamicComponent
 	{
-		public CustomSVG()
+		public CustomSVG() : base() 
 		{
 
-			//serBinder = PlgUtils.SerializationBinder;
 			Action = Actions.None;
-			Conditions = new List<PolygonCondition>();
+			Conditions = new List<AdvancedCondition>();
 
 			InCnlNum = 0;
 			CtrlCnlNum = 0;
@@ -31,11 +32,9 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code
 			Height = 100;
 			SvgCode = "";
 		}
-
+	
 		private string _svgCode;
 
-
-		//[DisplayName("SVG Code"), Category(Categories.Design), CM.ReadOnly(true)]
 		[DisplayName("SVG Code"), Category(Categories.Design)]
 		[Description("SVG code .")]
 		[DefaultValue("")]
@@ -56,7 +55,7 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code
 		[DisplayName("Conditions"), Category(Categories.Behavior)]
 		[Description("The conditions for polygon output depending on the value of the input channel.")]
 		[DefaultValue(null), TypeConverter(typeof(CollectionConverter))]
-		public List<PolygonCondition> Conditions { get; protected set; }
+		public List<AdvancedCondition> Conditions { get; protected set; }
 
 
 		/// <summary>
@@ -164,13 +163,28 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code
 			if (viewBoxAttribute != null)
 			{
 				var viewBoxValues = viewBoxAttribute.Value.Split(' ');
-				if (viewBoxValues.Length == 4)
+
+				try
 				{
-					ViewBoxX = int.Parse(viewBoxValues[0]);
-					ViewBoxY = int.Parse(viewBoxValues[1]);
-					ViewBoxWidth = int.Parse(viewBoxValues[2]);
-					ViewBoxHeight = int.Parse(viewBoxValues[3]);
+					if (viewBoxValues.Length == 4)
+					{
+						ViewBoxX = int.Parse(viewBoxValues[0]);
+						ViewBoxY = int.Parse(viewBoxValues[1]);
+						ViewBoxWidth = int.Parse(viewBoxValues[2]);
+						ViewBoxHeight = int.Parse(viewBoxValues[3]);
+					}
 				}
+				catch (FormatException ex)
+				{
+					Console.WriteLine("Une erreur s'est produite lors de la conversion des valeurs de viewBox en entiers. Vérifiez que les valeurs de viewBox sont bien des entiers. Exception :"+ ex);
+
+					
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine("Une erreur inattendue s'est produite. Veuillez réessayer plus tard. Exception :" + ex);
+				}
+
 			}
 			foreach (XmlNode childNode in svgElement.ChildNodes)
 			{
@@ -205,11 +219,11 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code
 
 			if (conditionsNode != null)
 			{
-				Conditions = new List<PolygonCondition>();
+				Conditions = new List<AdvancedCondition>();
 				XmlNodeList conditionNodes = conditionsNode.SelectNodes("Condition");
 				foreach (XmlNode conditionNode in conditionNodes)
 				{
-					PolygonCondition condition = new PolygonCondition { SchemeView = SchemeView };
+					AdvancedCondition condition = new AdvancedCondition { SchemeView = SchemeView };
 					condition.LoadFromXml(conditionNode);
 					Conditions.Add(condition);
 				}
@@ -235,7 +249,7 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code
 
 
 			XmlElement conditionsElem = xmlElem.AppendElem("Conditions");
-			foreach (PolygonCondition condition in Conditions)
+			foreach (AdvancedCondition condition in Conditions)
 			{
 				XmlElement conditionElem = conditionsElem.AppendElem("Condition");
 				condition.SaveToXml(conditionElem);
@@ -262,7 +276,7 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code
 		{
 			CustomSVG cloneComponent = (CustomSVG)base.Clone();
 
-			foreach (PolygonCondition condition in cloneComponent.Conditions)
+			foreach (AdvancedCondition condition in cloneComponent.Conditions)
 			{
 				condition.SchemeView = schemeView;
 			}

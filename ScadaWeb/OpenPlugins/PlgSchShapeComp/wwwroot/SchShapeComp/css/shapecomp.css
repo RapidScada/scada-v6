@@ -1,24 +1,68 @@
-﻿/* Style de base pour tous les polygones */
-.basic-polygon {
-    position: relative;
-    overflow: hidden;
+﻿.basic-polygon {
+	position: relative;
+	overflow: hidden;
 }
 
-    /* Exemple de style conditionnel pour les polygones */
-    .basic-polygon.active {
-        background-color: green;
-    }
-
-    .basic-polygon.inactive {
-        background-color: red;
-    }
-
-/* Exemple de style pour les bords des polygones */
-.basic-polygon {
-    border-style: solid;
+.basic-polygon.active {
+	background-color: green;
 }
 
-    /* Exemple de style pour les coins arrondis des polygones */
-    .basic-polygon.rounded {
-        border-radius: 50%;
-    }
+.basic-polygon.inactive {
+	background-color: red;
+}
+
+.basic-polygon {
+	border-style: solid;
+}
+
+.basic-polygon.rounded {
+	border-radius: 50%;
+}
+
+@keyframes slowBlink {
+	0% {
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes fastBlink {
+	0% {
+		opacity: 1;
+	}
+
+	25% {
+		opacity: 0;
+	}
+
+	50% {
+		opacity: 1;
+	}
+
+	75% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+.no-blink {
+	animation: none;
+}
+
+.slow-blink {
+	animation: slowBlink 2s linear infinite;
+}
+
+.fast-blink {
+	animation: fastBlink 1s linear infinite;
+}

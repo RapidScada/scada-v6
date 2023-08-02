@@ -11,8 +11,16 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code.PropertyGrid
 	/// additional properties specific to polygons.
 	/// </summary>
 	[Serializable]
-	public class PolygonCondition : Condition
+	public class PolygonCondition : AdvancedCondition
 	{
+
+
+		public PolygonCondition() : base()
+		{
+			Sides = 3;
+			Color = "";
+		}
+
 		/// <summary>
 		/// Property to get or set the number of sides in the polygon. 
 		/// This value is user-defined.
@@ -50,6 +58,13 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code.PropertyGrid
 			xmlElem.AppendElem("Sides", Sides);
 			xmlElem.AppendElem("Color", Color);
 
+		}
+
+		public override object Clone()
+		{
+			Condition clonedCondition = this.DeepClone();
+			clonedCondition.SchemeView = SchemeView;
+			return clonedCondition;
 		}
 	}
 }
