@@ -3,12 +3,12 @@
 
 // Specifies the modal dialog buttons.
 class ModalButton {
-    static OK = "Ok";
-    static YES = "Yes";
-    static NO = "No";
-    static EXEC = "Execute";
-    static CANCEL = "Cancel";
-    static CLOSE = "Close";
+    static OK = "ok";
+    static YES = "yes";
+    static NO = "no";
+    static EXEC = "execute";
+    static CANCEL = "cancel";
+    static CLOSE = "close";
 
     static OK_CANCEL = [ModalButton.OK, ModalButton.CANCEL];
     static YES_NO_CANCEL = [ModalButton.YES, ModalButton.NO, ModalButton.CANCEL];

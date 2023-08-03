@@ -7,7 +7,7 @@ var pluginOptions = {
 };
 
 var viewHub = ViewHub.getInstance();
-var mainApi = new MainApi();
+var mainApi = new MainApi({ rootPath: viewHub.appEnv.rootPath });
 var errorTimeoutID = 0;
 
 function showErrorBadge() {

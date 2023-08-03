@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2023
  */
 
 using Scada.Server.Archives;
@@ -49,16 +49,6 @@ namespace Scada.Server.Modules
         /// </summary>
         /// <remarks>Do not modify the configuration.</remarks>
         public ServerConfig AppConfig { get; set; }
-
-        /// <summary>
-        /// Gets the module name.
-        /// </summary>
-        public abstract string Name { get; }
-
-        /// <summary>
-        /// Gets the module description.
-        /// </summary>
-        public abstract string Descr { get; }
 
 
         /// <summary>

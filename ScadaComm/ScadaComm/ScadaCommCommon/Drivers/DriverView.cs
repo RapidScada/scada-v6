@@ -72,16 +72,6 @@ namespace Scada.Comm.Drivers
         public bool CanCreateDevice { get; protected set; }
 
         /// <summary>
-        /// Gets the driver name.
-        /// </summary>
-        public abstract string Name { get; }
-
-        /// <summary>
-        /// Gets the driver description.
-        /// </summary>
-        public abstract string Descr { get; }
-
-        /// <summary>
         /// Gets the communication channel types provided by the driver.
         /// </summary>
         public virtual ICollection<ChannelTypeName> ChannelTypes => null;

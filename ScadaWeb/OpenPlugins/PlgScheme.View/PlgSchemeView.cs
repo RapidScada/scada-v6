@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Lang;
-
 namespace Scada.Web.Plugins.PlgScheme.View
 {
     /// <summary>
@@ -12,29 +10,11 @@ namespace Scada.Web.Plugins.PlgScheme.View
     public class PlgSchemeView : PluginView
     {
         /// <summary>
-        /// Gets the module name.
+        /// Initializes a new instance of the class.
         /// </summary>
-        public override string Name
+        public PlgSchemeView()
         {
-            get
-            {
-                return Locale.IsRussian ?
-                    "Схемы" :
-                    "Schemes";
-            }
-        }
-
-        /// <summary>
-        /// Gets the module description.
-        /// </summary>
-        public override string Descr
-        {
-            get
-            {
-                return Locale.IsRussian ?
-                    "Плагин обеспечивает отображение мнемосхем." :
-                    "The plugin provides displaying schemes.";
-            }
+            Info = new SchemePluginInfo();
         }
     }
 }

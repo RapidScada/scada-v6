@@ -24,6 +24,7 @@
  */
 
 using Scada.Data.Entities;
+using Scada.Data.Models;
 using Scada.Lang;
 using System.Text;
 
@@ -38,10 +39,11 @@ namespace Scada.Web.Users
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ObjectItem(Obj obj, int level)
+        public ObjectItem(Obj obj, Right right, int level)
         {
             ArgumentNullException.ThrowIfNull(obj, nameof(obj));
             ObjNum = obj.ObjNum;
+            Right = right;
             Level = level;
 
             if (level > 0)
@@ -68,6 +70,11 @@ namespace Scada.Web.Users
         /// Gets the item text.
         /// </summary>
         public string Text { get; }
+
+        /// <summary>
+        /// Gets the user rights to access the object.
+        /// </summary>
+        public Right Right { get; }
 
         /// <summary>
         /// Gets the nesting level.

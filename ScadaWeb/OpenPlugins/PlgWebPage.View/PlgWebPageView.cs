@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Lang;
-
 namespace Scada.Web.Plugins.PlgWebPage.View
 {
     /// <summary>
@@ -12,29 +10,11 @@ namespace Scada.Web.Plugins.PlgWebPage.View
     public class PlgWebPageView : PluginView
     {
         /// <summary>
-        /// Gets the module name.
+        /// Initializes a new instance of the class.
         /// </summary>
-        public override string Name
+        public PlgWebPageView()
         {
-            get
-            {
-                return Locale.IsRussian ?
-                    "Веб-страницы" :
-                    "Web Pages";
-            }
-        }
-
-        /// <summary>
-        /// Gets the module description.
-        /// </summary>
-        public override string Descr
-        {
-            get
-            {
-                return Locale.IsRussian ?
-                    "Плагин обеспечивает отображение произвольных веб-страниц." :
-                    "The plugin provides displaying arbitrary web pages.";
-            }
+            Info = new PluginInfo();
         }
     }
 }

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2019
- * Modified : 2022
+ * Modified : 2023
  */
 
 using System;
@@ -96,9 +96,7 @@ namespace Scada.Data.Tables
         private PropertyDescriptor GetIndexProp(string columnName)
         {
             PropertyDescriptorCollection itemProps = TypeDescriptor.GetProperties(typeof(TItem));
-            PropertyDescriptor prop = itemProps[columnName];
-
-            if (prop == null)
+            PropertyDescriptor prop = itemProps[columnName] ?? 
                 throw new ScadaException("The item type doesn't contain the required property.");
 
             AllowNull = prop.PropertyType.IsNullable();

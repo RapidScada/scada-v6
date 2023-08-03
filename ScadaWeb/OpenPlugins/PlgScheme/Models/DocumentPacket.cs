@@ -4,8 +4,6 @@
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Web.Plugins.PlgScheme.Model;
-using System;
-using System.Collections.Generic;
 
 namespace Scada.Web.Plugins.PlgScheme.Models
 {

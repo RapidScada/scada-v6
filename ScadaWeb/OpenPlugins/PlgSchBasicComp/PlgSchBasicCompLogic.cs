@@ -8,8 +8,8 @@ using Scada.Web.Services;
 namespace Scada.Web.Plugins.PlgSchBasicComp
 {
     /// <summary>
-    /// Represents a plugin logic.
-    /// <para>Представляет логику плагина.</para>
+    /// Implements the plugin logic.
+    /// <para>Реализует логику плагина.</para>
     /// </summary>
     public class PlgSchBasicCompLogic : PluginLogic, ISchemeComp
     {
@@ -19,13 +19,8 @@ namespace Scada.Web.Plugins.PlgSchBasicComp
         public PlgSchBasicCompLogic(IWebContext webContext)
             : base(webContext)
         {
+            Info = new PluginInfo();
         }
-
-
-        /// <summary>
-        /// Gets the plugin code.
-        /// </summary>
-        public override string Code => "PlgSchBasicComp";
 
         /// <summary>
         /// Gets the specification of the component library.

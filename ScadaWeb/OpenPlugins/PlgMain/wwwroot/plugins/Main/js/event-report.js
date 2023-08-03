@@ -14,14 +14,14 @@ function reportValidityExtra() {
     let endTimeMs = Date.parse($("#txtEndTime").val());
 
     if (startTimeMs > endTimeMs) {
-        errors.push(phrases.InvalidPeriod);
+        errors.push(phrases.invalidPeriod);
     } else if (endTimeMs - startTimeMs > maxReportPeriod * ScadaUtils.MS_PER_DAY) {
-        errors.push(ScadaUtils.formatString(phrases.PeriodTooLong, maxReportPeriod));
+        errors.push(ScadaUtils.formatString(phrases.periodTooLong, maxReportPeriod));
     }
 
     // severity
     if (!isSeveritySelected()) {
-        errors.push(phrases.NoSeverity);
+        errors.push(phrases.noSeverity);
     }
 
     if (errors.length > 0) {

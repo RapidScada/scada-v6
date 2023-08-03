@@ -2,14 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
     <RootNamespace>Scada.Web.Plugins.PlgScheme</RootNamespace>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
     <Copyright>Copyright © 2023</Copyright>
-    <Version>6.0.1</Version>
-    <AssemblyVersion>6.0.1.0</AssemblyVersion>
+    <Version>6.0.2</Version>
+    <AssemblyVersion>6.0.2.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

@@ -3,8 +3,6 @@
 
 using Scada.Web.Plugins.PlgScheme.Model.DataTypes;
 using Scada.Web.Plugins.PlgScheme.Model.PropertyGrid;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 using System.Xml;

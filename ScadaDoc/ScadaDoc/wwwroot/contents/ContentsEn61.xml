@@ -33,6 +33,17 @@
       </Item>
     </Subitems>
   </Item>
+  
+  <!-- Developers -->
+  <Item>
+    <Text>Developers</Text>
+    <Subitems>
+      <Item>
+        <Text>Module Store</Text>
+        <Url>/en/latest/developers/store</Url>
+      </Item>
+    </Subitems>
+  </Item>
 
   <!-- Version History -->
   <Item>

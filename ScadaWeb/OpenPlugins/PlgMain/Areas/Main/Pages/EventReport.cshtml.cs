@@ -55,7 +55,9 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             {
                 ObjList.Add(new SelectListItem(
                     objectItem.Text,
-                    objectItem.ObjNum.ToString()));
+                    objectItem.ObjNum.ToString(),
+                    false,
+                    !objectItem.Right.View));
             }
         }
 

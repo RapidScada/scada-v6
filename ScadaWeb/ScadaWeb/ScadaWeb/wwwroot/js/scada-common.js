@@ -12,7 +12,7 @@ class ScadaUtils {
     // The number of milliseconds in a day.
     static MS_PER_DAY = 24 * 60 * 60 * 1000;
     // Specifies how long an error badge is displayed, ms.
-    static ERROR_DISPLAY_DURATION = 5000;
+    static ERROR_DISPLAY_DURATION = 7000;
     // Specifies how long a button is locked after click, ms.
     static BUTTON_LOCK_DURATION = 3000;
 
@@ -336,6 +336,14 @@ class Dto {
         this.ok = false;
         this.msg = "";
         this.data = null;
+    }
+
+    // Creates a data transfer object containing a successfull result.
+    static success(data) {
+        let dto = new Dto();
+        dto.ok = true;
+        dto.data = data;
+        return dto;
     }
 
     // Creates a data transfer object containing a failed result.

@@ -9,8 +9,8 @@ using Scada.Web.Services;
 namespace Scada.Web.Plugins.PlgWebPage
 {
     /// <summary>
-    /// Represents a plugin logic.
-    /// <para>Представляет логику плагина.</para>
+    /// Implements the plugin logic.
+    /// <para>Реализует логику плагина.</para>
     /// </summary>
     public class PlgWebPageLogic : PluginLogic
     {
@@ -20,26 +20,20 @@ namespace Scada.Web.Plugins.PlgWebPage
         public PlgWebPageLogic(IWebContext webContext)
             : base(webContext)
         {
+            Info = new PluginInfo();
         }
-
-
-        /// <summary>
-        /// Gets the plugin code.
-        /// </summary>
-        public override string Code => "PlgWebPage";
 
         /// <summary>
         /// Gets the view specifications.
         /// </summary>
         public override ICollection<ViewSpec> ViewSpecs => new ViewSpec[] { new WebPageViewSpec() };
 
-
         /// <summary>
         /// Loads language dictionaries.
         /// </summary>
         public override void LoadDictionaries()
         {
-            if (!Locale.LoadDictionaries(AppDirs.LangDir, "PlgWebPage", out string errMsg))
+            if (!Locale.LoadDictionaries(AppDirs.LangDir, Code, out string errMsg))
                 Log.WriteError(WebPhrases.PluginMessage, Code, errMsg);
         }
     }

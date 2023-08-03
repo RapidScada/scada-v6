@@ -235,7 +235,8 @@ body {
     overflow: auto;
     padding: 20px;
 
-    form.report-args {
+    .report-args,
+    .search-args {
         max-width: 500px;
     }
 }

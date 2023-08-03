@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Web.Config;
@@ -42,21 +42,10 @@ namespace Scada.Web.Plugins
             AppConfig = null;
         }
 
-
         /// <summary>
         /// Gets or sets the application configuration.
         /// </summary>
         /// <remarks>Do not modify the configuration.</remarks>
         public WebConfig AppConfig { get; set; }
-
-        /// <summary>
-        /// Gets the plugin name.
-        /// </summary>
-        public abstract string Name { get; }
-
-        /// <summary>
-        /// Gets the plugin description.
-        /// </summary>
-        public abstract string Descr { get; }
     }
 }

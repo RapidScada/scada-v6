@@ -14,16 +14,16 @@ function reportValidityExtra() {
     let endTimeMs = Date.parse($("#txtEndTime").val());
 
     if (startTimeMs > endTimeMs) {
-        errors.push(phrases.InvalidPeriod);
+        errors.push(phrases.invalidPeriod);
     } else if (endTimeMs - startTimeMs > maxReportPeriod * ScadaUtils.MS_PER_DAY) {
-        errors.push(ScadaUtils.formatString(phrases.PeriodTooLong, maxReportPeriod));
+        errors.push(ScadaUtils.formatString(phrases.periodTooLong, maxReportPeriod));
     }
 
     // channel numbers
     let cnlNums = ScadaUtils.parseRange($("#txtCnlNums").val());
 
     if (!(cnlNums && cnlNums.length > 0)) {
-        errors.push(phrases.InvalidChannels);
+        errors.push(phrases.invalidChannels);
     }
 
     if (errors.length > 0) {

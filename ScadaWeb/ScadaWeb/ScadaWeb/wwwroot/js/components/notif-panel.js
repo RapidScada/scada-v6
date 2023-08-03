@@ -261,10 +261,10 @@ class NotifPanel {
     _displayMuteState(isMuted) {
         if (isMuted) {
             this._muteBtn.children("i").removeClass("fa-toggle-on").addClass("fa-toggle-off");
-            this._muteBtn.children("span").text(notifPhrases.Unmute);
+            this._muteBtn.children("span").text(notifPhrases.unmute);
         } else {
             this._muteBtn.children("i").removeClass("fa-toggle-off").addClass("fa-toggle-on");
-            this._muteBtn.children("span").text(notifPhrases.Mute);
+            this._muteBtn.children("span").text(notifPhrases.mute);
         }
     }
 
@@ -339,7 +339,7 @@ class NotifPanel {
 
         this._ackAllBtn = $("<div class='notif-tool-btn disabled'>" +
             "<i class='fa-solid fa-check-double'></i><span></span></div>");
-        this._ackAllBtn.children("span:first").text(notifPhrases.AckAll);
+        this._ackAllBtn.children("span:first").text(notifPhrases.ackAll);
         toolbarElem.append(this._ackAllBtn);
 
         this._spinnerElem = $("<div class='notif-tool-item hidden'>" +
@@ -347,7 +347,7 @@ class NotifPanel {
         toolbarElem.append(this._spinnerElem);
 
         this._emptyNotifElem = $("<div class='notif empty'></div>")
-            .text(notifPhrases.NoNotif)
+            .text(notifPhrases.noNotif)
             .appendTo(this.panelElem);
 
         this._notifContainerElem = $("<div class='notif-container'></div>")
@@ -439,10 +439,10 @@ class NotifPanel {
 // Can be changed by a page script.
 // C# naming style. 
 var notifPhrases = {
-    NoNotif: "No notifications",
-    Mute: "Mute",
-    Unmute: "Unmute",
-    AckAll: "Ack All"
+    noNotif: "No notifications",
+    mute: "Mute",
+    unmute: "Unmute",
+    ackAll: "Ack All"
 };
 
 // Represents a notification.

@@ -33,6 +33,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using System.Web;
+using System.Xml.Linq;
 
 namespace Scada.Web
 {
@@ -120,7 +121,7 @@ namespace Scada.Web
         /// <summary>
         /// Converts the phrases dictionary to a JavaScript object.
         /// </summary>
-        public static HtmlString DictionaryToJs(LocaleDict dict)
+        public static HtmlString DictionaryToJs(LocaleDict dict, bool camelCase)
         {
             StringBuilder sbJs = new();
             sbJs.AppendLine("{");
@@ -129,7 +130,7 @@ namespace Scada.Web
             {
                 foreach (KeyValuePair<string, string> pair in dict.Phrases)
                 {
-                    sbJs.Append(pair.Key)
+                    sbJs.Append(camelCase ? pair.Key.ToCamelCase() : pair.Key)
                         .Append(": '")
                         .Append(pair.Value.JsEncode())
                         .AppendLine("',");
@@ -145,7 +146,7 @@ namespace Scada.Web
         /// </summary>
         public static HtmlString DictionaryToJs(string dictKey)
         {
-            return DictionaryToJs(Locale.GetDictionary(dictKey));
+            return DictionaryToJs(Locale.GetDictionary(dictKey), true);
         }
 
         /// <summary>
@@ -175,11 +176,11 @@ namespace Scada.Web
         }
 
         /// <summary>
-        /// Encodes a string to be inserted in HTML and replaces newlines.
+        /// Convers the string-based name a camel-casing format.
         /// </summary>
-        public static HtmlString HtmlEncodeWithBreak(this string s)
+        public static string ToCamelCase(this string s)
         {
-            return new HtmlString(HttpUtility.HtmlEncode(s).Replace("\n", "<br />"));
+            return JsonNamingPolicy.CamelCase.ConvertName(s);
         }
 
         /// <summary>
@@ -188,6 +189,14 @@ namespace Scada.Web
         public static string JsEncode(this string s)
         {
             return HttpUtility.JavaScriptStringEncode(s);
+        }
+
+        /// <summary>
+        /// Encodes a string to be inserted in HTML and replaces newlines.
+        /// </summary>
+        public static HtmlString HtmlEncodeWithBreak(this string s)
+        {
+            return new HtmlString(HttpUtility.HtmlEncode(s).ReplaceLineEndings("<br />"));
         }
 
         /// <summary>

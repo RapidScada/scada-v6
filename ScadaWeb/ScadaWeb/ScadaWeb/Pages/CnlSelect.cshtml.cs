@@ -48,8 +48,8 @@ namespace Scada.Web.Pages
 
 
         public ModalPostbackArgs PostbackArgs { get; private set; } = null;
-        public List<SelectListItem> ObjList { get; private set; } = new();
-        public PaginatedList<ChannelItem> ChannelItems { get; private set; } = new();
+        public List<SelectListItem> ObjList { get; } = new();
+        public PaginatedList<ChannelItem> ChannelItems { get; } = new();
         public bool FilterIsEmpty => !(ObjNum > 0 || OnlySelected);
 
         [BindProperty]
@@ -69,8 +69,10 @@ namespace Scada.Web.Pages
             foreach (ObjectItem objectItem in userContext.Objects)
             {
                 ObjList.Add(new SelectListItem(
-                    objectItem.Text, 
-                    objectItem.ObjNum.ToString()));
+                    objectItem.Text,
+                    objectItem.ObjNum.ToString(),
+                    false,
+                    !objectItem.Right.View));
             }
         }
 

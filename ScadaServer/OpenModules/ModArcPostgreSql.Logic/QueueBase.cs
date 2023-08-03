@@ -33,7 +33,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         public QueueBase(int maxQueueSize, int batchSize)
         {
             MaxQueueSize = Math.Max(maxQueueSize, MinQueueSize);
-            BatchSize = Math.Min(batchSize, MinBatchSize);
+            BatchSize = Math.Max(batchSize, MinBatchSize);
             RemoveExceeded = false;
             ArchiveCode = "";
             AppLog = null;

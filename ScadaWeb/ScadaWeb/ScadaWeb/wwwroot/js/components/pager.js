@@ -4,7 +4,7 @@ class Pager {
     // The jQuery object that represents the pager.
     pagerElem;
 
-    constructor(pagerElemID) {        
+    constructor(pagerElemID) {
         this.pagerElem = $("#" + pagerElemID);
 
         this.pagerElem.find("a.page-link").on("click", function () {

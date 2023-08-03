@@ -5,7 +5,6 @@ using Scada.Client;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Lang;
-using System;
 using System.Text;
 
 namespace Scada.Web.Plugins.PlgChart
