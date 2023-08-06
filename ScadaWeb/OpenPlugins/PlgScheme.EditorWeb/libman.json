@@ -8,15 +8,19 @@
       "destination": "wwwroot/lib/bootstrap/",
       "files": [
         "js/bootstrap.bundle.min.js",
-        "css/bootstrap.min.css"
+        "js/bootstrap.bundle.min.js.map",
+        "css/bootstrap.min.css",
+        "css/bootstrap.min.css.map"
       ]
     },
     {
       "provider": "cdnjs",
-      "library": "jquery@3.7.0",
-      "destination": "wwwroot/lib/jquery/",
+      "library": "bootstrap-icons@1.10.5",
+      "destination": "wwwroot/lib/bootstrap-icons/",
       "files": [
-        "jquery.min.js"
+        "font/fonts/bootstrap-icons.woff",
+        "font/fonts/bootstrap-icons.woff2",
+        "font/bootstrap-icons.min.css"
       ]
     },
     {
@@ -33,6 +37,14 @@
         "webfonts/fa-solid-900.woff2",
         "webfonts/fa-v4compatibility.ttf",
         "webfonts/fa-v4compatibility.woff2"
+      ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "jquery@3.7.0",
+      "destination": "wwwroot/lib/jquery/",
+      "files": [
+        "jquery.min.js"
       ]
     }
   ]
