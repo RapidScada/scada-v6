@@ -47,6 +47,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlgSchBasicComp", "PlgSchBa
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "PlgSchBasicComp.Shared", "PlgSchBasicComp.Shared\PlgSchBasicComp.Shared.shproj", "{A9CC759A-54F9-44FB-AD77-DD8F306668F7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlgScheme.EditorWeb", "PlgScheme.EditorWeb\PlgScheme.EditorWeb.csproj", "{2418118A-C3C1-4BA0-A4D2-B3C9F76C4006}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,10 @@ Global
 		{3455CC99-004A-41EC-8B25-75EE80C5F3EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3455CC99-004A-41EC-8B25-75EE80C5F3EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3455CC99-004A-41EC-8B25-75EE80C5F3EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2418118A-C3C1-4BA0-A4D2-B3C9F76C4006}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2418118A-C3C1-4BA0-A4D2-B3C9F76C4006}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2418118A-C3C1-4BA0-A4D2-B3C9F76C4006}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2418118A-C3C1-4BA0-A4D2-B3C9F76C4006}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -135,6 +141,7 @@ Global
 		{3455CC99-004A-41EC-8B25-75EE80C5F3EB} = {1C746D2E-749E-408B-A180-63AD78EFFAFC}
 		{48540890-21B4-4400-8290-071112B30D53} = {71F74BFA-D912-41E6-9982-9CAC6C61B324}
 		{A9CC759A-54F9-44FB-AD77-DD8F306668F7} = {AD970186-50D1-4A54-B711-CEFD8CC0471F}
+		{2418118A-C3C1-4BA0-A4D2-B3C9F76C4006} = {1C746D2E-749E-408B-A180-63AD78EFFAFC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {19C6959B-66D1-4335-AA8A-0E2F23894099}
