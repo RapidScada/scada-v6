@@ -11,9 +11,8 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code
 	[Serializable]
 	public class Polygon : ComponentBase, IDynamicComponent
 	{
-		public Polygon()
+		public Polygon() : base() 
 		{
-			//serBinder = PlgUtils.SerializationBinder;
 			BackColorOnHover = "";
 			BorderColorOnHover = "";
 			Action = Actions.None;
@@ -137,9 +136,7 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code
 			Action = xmlNode.GetChildAsEnum<Actions>("Action");
 
 			XmlNode conditionsNode = xmlNode.SelectSingleNode("Conditions");
-			//  PolyName = xmlNode.GetChildAsString("PolyName");
 			NumberOfSides = xmlNode.GetChildAsInt("NumberOfSides");
-			//BackgroundColor = xmlNode.GetChildAsString("BackgroundColor");
 			RoundedCorners = xmlNode.GetChildAsBool("RoundedCorners");
 			CornerRadius = xmlNode.GetChildAsInt("CornerRadius");
 			if (conditionsNode != null)
