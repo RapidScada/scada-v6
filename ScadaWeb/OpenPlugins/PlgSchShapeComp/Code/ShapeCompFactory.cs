@@ -13,6 +13,8 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code
 				return new Polygon();
 			else if(NameEquals("CustomSVG", typeof(CustomSVG).FullName,typeName,nameIsShort)) 
 				return new CustomSVG();
+			else if (NameEquals("BarGraph", typeof(BarGraph).FullName, typeName, nameIsShort))
+				return new BarGraph();
 			else
 				return null;
         }

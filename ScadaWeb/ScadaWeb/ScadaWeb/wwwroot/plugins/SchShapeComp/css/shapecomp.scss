@@ -68,3 +68,12 @@
 .fast-blink {
 	animation: fastBlink 1s linear infinite;
 }
+
+.bar {
+	width: 100%;
+	transition: background-color 0.3s ease 0s;
+}
+
+.svgcomp {
+	margin: 10px;
+}

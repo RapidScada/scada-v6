@@ -67,6 +67,11 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code
 		[DefaultValue(0)]
 		public int InCnlNum { get; set; }
 
+		[DisplayName("Rotation"), Category(Categories.Appearance)]
+		[Description("The rotation angle of the SVG shape in degrees.")]
+		[DefaultValue(0)]
+		public int Rotation { get; set; }
+
 		/// <summary>
 		/// Get or set the input channel number 
 		/// </summary>
@@ -239,6 +244,7 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code
 			ViewBoxWidth = xmlNode.GetChildAsInt("ViewBoxWidth");
 			ViewBoxHeight = xmlNode.GetChildAsInt("ViewBoxHeight");
 			SvgCode = xmlNode.GetChildAsString("SVGCode");
+			Rotation = xmlNode.GetChildAsInt("Rotation");
 
 		}
 
@@ -267,6 +273,7 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code
 			xmlElem.AppendElem("Width", Width);
 			xmlElem.AppendElem("Height", Height);
 			xmlElem.AppendElem("SVGCode", SvgCode);
+			xmlElem.AppendElem("Rotation", Rotation);
 
 		}
 		/// <summary>
