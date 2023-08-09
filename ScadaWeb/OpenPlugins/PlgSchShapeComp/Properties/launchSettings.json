@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "PlgSchShapeComp": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:51544;http://localhost:51545"
+    }
+  }
+}

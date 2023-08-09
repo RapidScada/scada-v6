@@ -14,10 +14,9 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code.PropertyGrid
 	public class PolygonCondition : AdvancedCondition
 	{
 
-
 		public PolygonCondition() : base()
 		{
-			Sides = 3;
+			
 			Color = "";
 		}
 
@@ -28,7 +27,6 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code.PropertyGrid
 		[DisplayName("Sides"), Category(Categories.Appearance)]
 		[Description("The number of sides in the polygon.")]
 		//[CM.Editor(typeof(NumberSelectEditor), typeof(UITypeEditor))]
-		[DefaultValue(3)]
 		public int Sides { get; set; }
 
 		/// <summary>
