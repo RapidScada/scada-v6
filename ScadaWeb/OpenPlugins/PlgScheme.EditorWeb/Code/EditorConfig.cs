@@ -44,7 +44,8 @@ namespace Scada.Web.Plugins.PlgScheme.Editor.Code
                 xmlDoc.Load(fileName);
                 XmlElement rootElem = xmlDoc.DocumentElement;
 
-                ResourceDir = rootElem.GetChildAsString("ResourceDir",
+                ResourceDir = ScadaUtils.FirstNonEmpty(
+                    rootElem.GetChildAsString("ResourceDir"),
                     Path.Combine(appDirs.ExeDir, "Resources"));
 
                 errMsg = "";

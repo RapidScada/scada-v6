@@ -131,5 +131,14 @@ namespace Scada.Web.Plugins.PlgScheme.Editor.Code
                 "Scheme Editor is stopped");
             Log.WriteBreak();
         }
+
+        /// <summary>
+        /// Opens a scheme from the specified file.
+        /// </summary>
+        public bool OpenScheme(string fileName, out string errMsg)
+        {
+            errMsg = "";
+            return true;
+        }
     }
 }
