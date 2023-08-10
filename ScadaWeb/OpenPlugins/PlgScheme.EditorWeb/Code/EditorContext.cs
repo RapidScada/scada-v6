@@ -67,6 +67,7 @@ namespace Scada.Web.Plugins.PlgScheme.Editor.Code
             {
                 Console.WriteLine(errMsg);
                 Locale.SetCultureToDefault();
+                AppDirs.CreateLogDir();
             }
         }
 
