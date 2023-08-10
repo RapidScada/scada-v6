@@ -21,6 +21,7 @@ namespace Scada.Web.Plugins.PlgScheme.Editor.Code
         {
             InstanceConfig = new InstanceConfig();
             AppDirs = new AppDirs { Lowercase = true };
+            AppConfig = new EditorConfig(AppDirs);
             Log = LogStub.Instance;
 
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
@@ -31,6 +32,11 @@ namespace Scada.Web.Plugins.PlgScheme.Editor.Code
         /// Gets the instance configuration.
         /// </summary>
         public InstanceConfig InstanceConfig { get; }
+
+        /// <summary>
+        /// Gets the application configuration.
+        /// </summary>
+        public EditorConfig AppConfig { get; }
 
         /// <summary>
         /// Gets the application directories.
@@ -71,6 +77,26 @@ namespace Scada.Web.Plugins.PlgScheme.Editor.Code
             }
         }
 
+        /// <summary>
+        /// Loads the application configuration.
+        /// </summary>
+        private void LoadAppConfig()
+        {
+            if (!AppConfig.Load(Path.Combine(AppDirs.ConfigDir, EditorConfig.DefaultFileName), out string errMsg))
+                Log.WriteError(errMsg);
+        }
+
+        /// <summary>
+        /// Localizes the application.
+        /// </summary>
+        private void LocalizeApp()
+        {
+            if (!Locale.LoadDictionaries(AppDirs.LangDir, "ScadaCommon", out string errMsg))
+                Log.WriteError(errMsg);
+
+            CommonPhrases.Init();
+        }
+
 
         /// <summary>
         /// Initializes the context.
@@ -90,6 +116,9 @@ namespace Scada.Web.Plugins.PlgScheme.Editor.Code
             Log.WriteAction(Locale.IsRussian ?
                 "Редактор схем {0} запущен" :
                 "Scheme Editor {0} started", EditorUtils.AppVersion);
+
+            LocalizeApp();
+            LoadAppConfig();
         }
 
         /// <summary>
