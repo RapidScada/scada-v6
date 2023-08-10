@@ -28,100 +28,100 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblPassword = new System.Windows.Forms.Label();
-            this.txtPassword = new System.Windows.Forms.TextBox();
-            this.lblPasswordEncrypted = new System.Windows.Forms.Label();
-            this.txtPasswordEncrypted = new System.Windows.Forms.TextBox();
-            this.btnClose = new System.Windows.Forms.Button();
-            this.btnCopy = new System.Windows.Forms.Button();
-            this.SuspendLayout();
+            lblPassword = new Label();
+            txtPassword = new TextBox();
+            lblPasswordEncrypted = new Label();
+            txtPasswordEncrypted = new TextBox();
+            btnClose = new Button();
+            btnCopy = new Button();
+            SuspendLayout();
             // 
             // lblPassword
             // 
-            this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(9, 9);
-            this.lblPassword.Name = "lblPassword";
-            this.lblPassword.Size = new System.Drawing.Size(57, 15);
-            this.lblPassword.TabIndex = 0;
-            this.lblPassword.Text = "Password";
+            lblPassword.AutoSize = true;
+            lblPassword.Location = new Point(9, 9);
+            lblPassword.Name = "lblPassword";
+            lblPassword.Size = new Size(57, 15);
+            lblPassword.TabIndex = 0;
+            lblPassword.Text = "Password";
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(12, 27);
-            this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(310, 23);
-            this.txtPassword.TabIndex = 1;
-            this.txtPassword.TextChanged += new System.EventHandler(this.txtPassword_TextChanged);
+            txtPassword.Location = new Point(12, 27);
+            txtPassword.Name = "txtPassword";
+            txtPassword.Size = new Size(310, 23);
+            txtPassword.TabIndex = 1;
+            txtPassword.UseSystemPasswordChar = true;
+            txtPassword.TextChanged += txtPassword_TextChanged;
             // 
             // lblPasswordEncrypted
             // 
-            this.lblPasswordEncrypted.AutoSize = true;
-            this.lblPasswordEncrypted.Location = new System.Drawing.Point(9, 53);
-            this.lblPasswordEncrypted.Name = "lblPasswordEncrypted";
-            this.lblPasswordEncrypted.Size = new System.Drawing.Size(113, 15);
-            this.lblPasswordEncrypted.TabIndex = 2;
-            this.lblPasswordEncrypted.Text = "Encrypted password";
+            lblPasswordEncrypted.AutoSize = true;
+            lblPasswordEncrypted.Location = new Point(9, 53);
+            lblPasswordEncrypted.Name = "lblPasswordEncrypted";
+            lblPasswordEncrypted.Size = new Size(113, 15);
+            lblPasswordEncrypted.TabIndex = 2;
+            lblPasswordEncrypted.Text = "Encrypted password";
             // 
             // txtPasswordEncrypted
             // 
-            this.txtPasswordEncrypted.Location = new System.Drawing.Point(12, 71);
-            this.txtPasswordEncrypted.Multiline = true;
-            this.txtPasswordEncrypted.Name = "txtPasswordEncrypted";
-            this.txtPasswordEncrypted.ReadOnly = true;
-            this.txtPasswordEncrypted.Size = new System.Drawing.Size(310, 50);
-            this.txtPasswordEncrypted.TabIndex = 3;
+            txtPasswordEncrypted.Location = new Point(12, 71);
+            txtPasswordEncrypted.Multiline = true;
+            txtPasswordEncrypted.Name = "txtPasswordEncrypted";
+            txtPasswordEncrypted.ReadOnly = true;
+            txtPasswordEncrypted.Size = new Size(310, 50);
+            txtPasswordEncrypted.TabIndex = 3;
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(247, 137);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(75, 23);
-            this.btnClose.TabIndex = 5;
-            this.btnClose.Text = "Close";
-            this.btnClose.UseVisualStyleBackColor = true;
+            btnClose.Location = new Point(247, 137);
+            btnClose.Name = "btnClose";
+            btnClose.Size = new Size(75, 23);
+            btnClose.TabIndex = 5;
+            btnClose.Text = "Close";
+            btnClose.UseVisualStyleBackColor = true;
             // 
             // btnCopy
             // 
-            this.btnCopy.Location = new System.Drawing.Point(151, 137);
-            this.btnCopy.Name = "btnCopy";
-            this.btnCopy.Size = new System.Drawing.Size(90, 23);
-            this.btnCopy.TabIndex = 4;
-            this.btnCopy.Text = "Copy";
-            this.btnCopy.UseVisualStyleBackColor = true;
-            this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
+            btnCopy.Location = new Point(151, 137);
+            btnCopy.Name = "btnCopy";
+            btnCopy.Size = new Size(90, 23);
+            btnCopy.TabIndex = 4;
+            btnCopy.Text = "Copy";
+            btnCopy.UseVisualStyleBackColor = true;
+            btnCopy.Click += btnCopy_Click;
             // 
             // FrmPasswordEncrypt
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(334, 172);
-            this.Controls.Add(this.btnClose);
-            this.Controls.Add(this.btnCopy);
-            this.Controls.Add(this.txtPasswordEncrypted);
-            this.Controls.Add(this.lblPasswordEncrypted);
-            this.Controls.Add(this.txtPassword);
-            this.Controls.Add(this.lblPassword);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FrmPasswordEncrypt";
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Encrypt Password";
-            this.Load += new System.EventHandler(this.FrmPasswordEncrypt_Load);
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            CancelButton = btnClose;
+            ClientSize = new Size(334, 172);
+            Controls.Add(btnClose);
+            Controls.Add(btnCopy);
+            Controls.Add(txtPasswordEncrypted);
+            Controls.Add(lblPasswordEncrypted);
+            Controls.Add(txtPassword);
+            Controls.Add(lblPassword);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "FrmPasswordEncrypt";
+            ShowInTaskbar = false;
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Encrypt Password";
+            Load += FrmPasswordEncrypt_Load;
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        private System.Windows.Forms.Label lblPassword;
-        private System.Windows.Forms.TextBox txtPassword;
-        private System.Windows.Forms.Label lblPasswordEncrypted;
-        private System.Windows.Forms.TextBox txtPasswordEncrypted;
-        private System.Windows.Forms.Button btnClose;
-        private System.Windows.Forms.Button btnCopy;
+        private Label lblPassword;
+        private TextBox txtPassword;
+        private Label lblPasswordEncrypted;
+        private TextBox txtPasswordEncrypted;
+        private Button btnClose;
+        private Button btnCopy;
     }
 }
