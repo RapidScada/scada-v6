@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2015
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Lang;
@@ -56,7 +56,7 @@ namespace Scada
         /// <summary>
         /// Gets or sets a value indicating whether application directories should be lowercase.
         /// </summary>
-        protected bool Lowercase { get; set; }
+        public bool Lowercase { get; set; }
 
         /// <summary>
         /// Gets the directory of the current instance.
