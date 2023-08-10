@@ -204,6 +204,23 @@ namespace Scada
                 return false;
             }
 
+            return CreateLogDir(out errMsg);
+        }
+
+        /// <summary>
+        /// Updates the log directory, logging possible errors to the console.
+        /// </summary>
+        public virtual void UpdateLogDir(string instanceLogDir)
+        {
+            if (!UpdateLogDir(instanceLogDir, out string errMsg))
+                Console.WriteLine(errMsg);
+        }
+
+        /// <summary>
+        /// Creates the log directory if necessary.
+        /// </summary>
+        public virtual bool CreateLogDir(out string errMsg)
+        {
             try
             {
                 Directory.CreateDirectory(LogDir);
@@ -220,11 +237,11 @@ namespace Scada
         }
 
         /// <summary>
-        /// Updates the log directory, logging possible errors to the console.
+        /// Creates the log directory, logging possible errors to the console.
         /// </summary>
-        public virtual void UpdateLogDir(string instanceLogDir)
+        public virtual void CreateLogDir()
         {
-            if (!UpdateLogDir(instanceLogDir, out string errMsg))
+            if (!CreateLogDir(out string errMsg))
                 Console.WriteLine(errMsg);
         }
 
