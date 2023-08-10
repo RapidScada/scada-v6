@@ -87,7 +87,8 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
 
             if (CommContext.Storage.GetFileInfo(DataCategory.Config, path).Exists)
             {
-                byte[] bytes = CommContext.Storage.ReadBytes(DataCategory.Config, path);
+                string contents = CommContext.Storage.ReadText(DataCategory.Config, path);
+                byte[] bytes = Encoding.UTF8.GetBytes(contents);
                 return new MemoryStream(bytes);
             }
             else
@@ -106,7 +107,8 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         {
             BinaryReader reader = new(stream); // do not close reader
             byte[] bytes = reader.ReadBytes((int)stream.Length);
-            CommContext.Storage.WriteBytes(DataCategory.Config, path, bytes);
+            string contents = Encoding.UTF8.GetString(bytes);
+            CommContext.Storage.WriteText(DataCategory.Config, path, contents);
         }
 
         /// <summary>
