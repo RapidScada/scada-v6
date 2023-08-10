@@ -32,6 +32,8 @@ namespace PlgScheme.EditorWeb
             app.MapRazorPages();
             app.MapControllers();
             app.Run();
+
+            editorContext.FinalizeContext();
         }
     }
 }

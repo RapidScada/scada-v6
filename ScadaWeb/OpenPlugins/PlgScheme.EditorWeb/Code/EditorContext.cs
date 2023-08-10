@@ -1,7 +1,10 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Config;
+using Scada.Lang;
 using Scada.Log;
+using System.Reflection;
 
 namespace Scada.Web.Plugins.PlgScheme.Editor.Code
 {
@@ -16,10 +19,18 @@ namespace Scada.Web.Plugins.PlgScheme.Editor.Code
         /// </summary>
         public EditorContext()
         {
-            AppDirs = new AppDirs();
+            InstanceConfig = new InstanceConfig();
+            AppDirs = new AppDirs { Lowercase = true };
             Log = LogStub.Instance;
+
+            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
         }
 
+
+        /// <summary>
+        /// Gets the instance configuration.
+        /// </summary>
+        public InstanceConfig InstanceConfig { get; }
 
         /// <summary>
         /// Gets the application directories.
@@ -33,11 +44,62 @@ namespace Scada.Web.Plugins.PlgScheme.Editor.Code
 
 
         /// <summary>
+        /// Writes information about the unhandled exception to the log.
+        /// </summary>
+        private void OnUnhandledException(object sender, UnhandledExceptionEventArgs args)
+        {
+            Log.WriteError(args.ExceptionObject as Exception, CommonPhrases.UnhandledException);
+        }
+
+        /// <summary>
+        /// Loads the instance configuration.
+        /// </summary>
+        private void LoadInstanceConfig()
+        {
+            Locale.SetCultureToEnglish();
+
+            if (InstanceConfig.Load(InstanceConfig.GetConfigFileName(AppDirs.InstanceDir), out string errMsg))
+            {
+                Locale.SetCulture(InstanceConfig.Culture);
+                AppDirs.UpdateLogDir(InstanceConfig.LogDir);
+            }
+            else
+            {
+                Console.WriteLine(errMsg);
+                Locale.SetCultureToDefault();
+            }
+        }
+
+
+        /// <summary>
         /// Initializes the context.
         /// </summary>
         public void Init()
         {
+            AppDirs.Init(Assembly.GetExecutingAssembly());
+            LoadInstanceConfig();
 
+            Log = new LogFile(LogFormat.Full)
+            {
+                FileName = Path.Combine(AppDirs.LogDir, EditorUtils.LogFileName),
+                Capacity = int.MaxValue
+            };
+
+            Log.WriteBreak();
+            Log.WriteAction(Locale.IsRussian ?
+                "Редактор схем {0} запущен" :
+                "Scheme Editor {0} started", EditorUtils.AppVersion);
+        }
+
+        /// <summary>
+        /// Finalizes the context.
+        /// </summary>
+        public void FinalizeContext()
+        {
+            Log.WriteAction(Locale.IsRussian ?
+                "Редактор схем остановлен" :
+                "Scheme Editor is stopped");
+            Log.WriteBreak();
         }
     }
 }
