@@ -47,4 +47,13 @@
     <None Include="libman.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="lang\ScadaSchemeEditor.en-GB.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="lang\ScadaSchemeEditor.ru-RU.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

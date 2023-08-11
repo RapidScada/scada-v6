@@ -104,6 +104,9 @@ namespace Scada.Web.Plugins.PlgScheme.Editor.Code
             if (!Locale.LoadDictionaries(AppDirs.LangDir, "ScadaCommon", out string errMsg))
                 Log.WriteError(errMsg);
 
+            if (!Locale.LoadDictionaries(AppDirs.LangDir, "ScadaSchemeEditor", out errMsg))
+                Log.WriteError(errMsg);
+
             CommonPhrases.Init();
         }
 

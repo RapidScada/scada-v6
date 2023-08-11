@@ -28,10 +28,13 @@ namespace Scada.Web.Plugins.PlgScheme.Editor.Code
         /// <summary>
         /// Opens a scheme from the specified file.
         /// </summary>
-        public bool OpenScheme(string fileName, out string errMsg)
+        public OpenResult OpenScheme(string fileName)
         {
-            errMsg = "";
-            return true;
+            return new OpenResult
+            {
+                IsSuccessful = false,
+                ErrorMessage = "Not implemented"
+            };
         }
     }
 }

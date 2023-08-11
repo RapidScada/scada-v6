@@ -1,27 +1,37 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewBag.Title = "Scheme Editor";
+    dynamic dict = Locale.GetDictionary(Model.GetType().FullName);
+    ViewBag.Title = dict.PageTitle;
 }
 
 <nav class="navbar sticky-top navbar-expand-lg bg-dark" data-bs-theme="dark">
     <div class="container-xxl">
-        <a class="navbar-brand mb-0 h1" asp-page="/Index">Scheme Editor</a>
+        <a class="navbar-brand mb-0 h1" asp-page="/Index">@dict.PageTitle</a>
     </div>
 </nav>
 
 <div class="container-xxl mt-3">
-    <div class="card mb-3">
-        <h5 class="card-header">Open scheme</h5>
-        <div class="card-body">
-            <div class="input-group">
-                <input id="scheme-filename" type="text" class="form-control" placeholder="Scheme file path (*.sch)">
-                <button id="open-scheme" class="btn btn-primary" type="button">Open</button>
+    <form method="post">
+        @if (Model.HasError)
+        {
+            <div id="divAlert" class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <div>@Model.ErrorMessage</div>
+            </div>
+        }
+        <div class="card mb-3">
+            <h5 class="card-header">@dict.OpenSchemeHeader</h5>
+            <div class="card-body">
+                <div class="input-group">
+                    <input type="text" id="txtFileName" class="form-control" placeholder="@dict.txtFileName_Placeholder" required asp-for="FileName">
+                    <button type="submit" id="btnOpenScheme" class="btn btn-primary">@dict.btnOpenScheme</button>
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 
-    <h4>Active Schemes</h4>
+    <h4>@dict.ActiveSchemesHeader</h4>
 
     <div class="card mb-3">
         <h5 class="card-header">C:\SCADA\Projects\HelloWorld\HelloWorld.rsproj</h5>
