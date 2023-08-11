@@ -4,6 +4,39 @@
     ViewBag.Title = "Scheme Editor";
 }
 
-<h1>Scheme Editor</h1>
+<nav class="navbar sticky-top navbar-expand-lg bg-dark" data-bs-theme="dark">
+    <div class="container-xxl">
+        <a class="navbar-brand mb-0 h1" asp-page="/Index">Scheme Editor</a>
+    </div>
+</nav>
 
-<i class="bi bi-arrow-up-square"></i>
+<div class="container-xxl mt-3">
+    <div class="card mb-3">
+        <h5 class="card-header">Open scheme</h5>
+        <div class="card-body">
+            <div class="input-group">
+                <input id="scheme-filename" type="text" class="form-control" placeholder="Scheme file path (*.sch)">
+                <button id="open-scheme" class="btn btn-primary" type="button">Open</button>
+            </div>
+        </div>
+    </div>
+
+    <h4>Active Schemes</h4>
+
+    <div class="card mb-3">
+        <h5 class="card-header">C:\SCADA\Projects\HelloWorld\HelloWorld.rsproj</h5>
+        <div class="list-group list-group-flush">
+            <a href="#" class="list-group-item list-group-item-action">C:\SCADA\Projects\HelloWorldTest\Views\HelloWorld\PopupScheme.sch</a>
+            <a href="#" class="list-group-item list-group-item-action">C:\SCADA\Projects\HelloWorldTest\Views\HelloWorld\TestScheme.sch</a>
+            <a href="#" class="list-group-item list-group-item-action">C:\SCADA\Projects\HelloWorldTest\Views\HelloWorld\SomeScheme.sch</a>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <h5 class="card-header">C:\SCADA\Projects\RapidGateTest\RapidGateTest.rsproj</h5>
+        <div class="list-group list-group-flush">
+            <a href="#" class="list-group-item list-group-item-action">C:\SCADA\Projects\RapidGateTest\Views\HelloWorld\Replication.sch</a>
+            <a href="#" class="list-group-item list-group-item-action">C:\SCADA\Projects\RapidGateTest\Views\HelloWorld\Simulator.sch</a>
+        </div>
+    </div>
+</div>

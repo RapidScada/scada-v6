@@ -14,15 +14,20 @@ namespace Scada.Web.Plugins.PlgScheme.Editor.Code
     /// </summary>
     public class EditorContext
     {
+        private readonly LogFile logFile; // the application log
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public EditorContext()
         {
+            logFile = new LogFile(LogFormat.Full);
+
             InstanceConfig = new InstanceConfig();
             AppDirs = new AppDirs { Lowercase = true };
             AppConfig = new EditorConfig(AppDirs);
-            Log = LogStub.Instance;
+            Manager = new EditorManager(AppConfig, Log);
 
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
         }
@@ -46,7 +51,12 @@ namespace Scada.Web.Plugins.PlgScheme.Editor.Code
         /// <summary>
         /// Gets the application log.
         /// </summary>
-        public ILog Log { get; private set; }
+        public ILog Log => logFile;
+
+        /// <summary>
+        /// Gets the editor manager.
+        /// </summary>
+        public EditorManager Manager { get; }
 
 
         /// <summary>
@@ -106,12 +116,7 @@ namespace Scada.Web.Plugins.PlgScheme.Editor.Code
             AppDirs.Init(Assembly.GetExecutingAssembly());
             LoadInstanceConfig();
 
-            Log = new LogFile(LogFormat.Full)
-            {
-                FileName = Path.Combine(AppDirs.LogDir, EditorUtils.LogFileName),
-                Capacity = int.MaxValue
-            };
-
+            logFile.FileName = Path.Combine(AppDirs.LogDir, EditorUtils.LogFileName);
             Log.WriteBreak();
             Log.WriteAction(Locale.IsRussian ?
                 "Редактор схем {0} запущен" :
@@ -130,15 +135,6 @@ namespace Scada.Web.Plugins.PlgScheme.Editor.Code
                 "Редактор схем остановлен" :
                 "Scheme Editor is stopped");
             Log.WriteBreak();
-        }
-
-        /// <summary>
-        /// Opens a scheme from the specified file.
-        /// </summary>
-        public bool OpenScheme(string fileName, out string errMsg)
-        {
-            errMsg = "";
-            return true;
         }
     }
 }
