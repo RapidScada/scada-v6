@@ -8,34 +8,28 @@ using Scada.Web.Plugins.PlgScheme.Editor.Code;
 namespace Scada.Web.Plugins.PlgScheme.Editor.Pages
 {
     /// <summary>
-    /// Represents a main page.
-    /// <para>Представляет главную страницу.</para>
+    /// Represents a page for opening a scheme.
+    /// <para>Представляет страницу для открытия схемы.</para>
     /// </summary>
-    public class IndexModel : PageModel
+    public class SchemeOpenModel : PageModel
     {
         private readonly EditorContext _editorContext;
 
 
-        public IndexModel(EditorContext editorContext)
+        public SchemeOpenModel(EditorContext editorContext)
         {
             _editorContext = editorContext;
         }
 
 
-        public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
         public string ErrorMessage { get; private set; } = "";
-
-        [BindProperty]
-        public string FileName { get; set; }
+        public string FileName { get; private set; } = "";
 
 
-        public void OnGet()
+        public IActionResult OnGet(string fileName)
         {
-        }
-
-        public IActionResult OnPost()
-        {
-            OpenResult result = _editorContext.Manager.OpenScheme(FileName);
+            FileName = fileName;
+            OpenResult result = _editorContext.Manager.OpenScheme(fileName);
 
             if (result.IsSuccessful)
             {

@@ -47,7 +47,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlgSchBasicComp", "PlgSchBa
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "PlgSchBasicComp.Shared", "PlgSchBasicComp.Shared\PlgSchBasicComp.Shared.shproj", "{A9CC759A-54F9-44FB-AD77-DD8F306668F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlgScheme.EditorWeb", "PlgScheme.EditorWeb\PlgScheme.EditorWeb.csproj", "{2418118A-C3C1-4BA0-A4D2-B3C9F76C4006}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgScheme.EditorWeb", "PlgScheme.EditorWeb\PlgScheme.EditorWeb.csproj", "{2418118A-C3C1-4BA0-A4D2-B3C9F76C4006}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

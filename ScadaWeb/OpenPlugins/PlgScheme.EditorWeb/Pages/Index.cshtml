@@ -15,7 +15,7 @@
     <form method="post">
         @if (Model.HasError)
         {
-            <div id="divAlert" class="alert alert-danger alert-dismissible" role="alert">
+            <div class="alert alert-danger alert-dismissible" role="alert">
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 <div>@Model.ErrorMessage</div>
             </div>

@@ -9,8 +9,19 @@ namespace Scada.Web.Plugins.PlgScheme.Editor.Code
     /// </summary>
     public class OpenResult
     {
-        public bool IsSuccessful { get; set; }
+        /// <summary>
+        /// Gets a value indicating whether the scheme has been opened successfully.
+        /// </summary>
+        public bool IsSuccessful { get; init; }
 
-        public string ErrorMessage { get; set; }
+        /// <summary>
+        /// Gets the error occurred while opening the schema.
+        /// </summary>
+        public string ErrorMessage { get; init; }
+
+        /// <summary>
+        /// Gets the ID of the editor instance that works on the scheme.
+        /// </summary>
+        public long EditorID { get; init; }
     }
 }
