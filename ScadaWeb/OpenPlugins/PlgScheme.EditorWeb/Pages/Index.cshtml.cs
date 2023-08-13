@@ -1,4 +1,4 @@
-// Copyright (c) Rapid Software LLC. All rights reserved.
+п»ї// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +9,7 @@ namespace Scada.Web.Plugins.PlgScheme.Editor.Pages
 {
     /// <summary>
     /// Represents a main page.
-    /// <para>Представляет главную страницу.</para>
+    /// <para>РџСЂРµРґСЃС‚Р°РІР»СЏРµС‚ РіР»Р°РІРЅСѓСЋ СЃС‚СЂР°РЅРёС†Сѓ.</para>
     /// </summary>
     public class IndexModel : PageModel
     {

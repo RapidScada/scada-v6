@@ -1,4 +1,4 @@
-// Copyright (c) Rapid Software LLC. All rights reserved.
+п»ї// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +9,7 @@ namespace Scada.Web.Plugins.PlgScheme.Editor.Pages
 {
     /// <summary>
     /// Represents a page for opening a scheme.
-    /// <para>Представляет страницу для открытия схемы.</para>
+    /// <para>РџСЂРµРґСЃС‚Р°РІР»СЏРµС‚ СЃС‚СЂР°РЅРёС†Сѓ РґР»СЏ РѕС‚РєСЂС‹С‚РёСЏ СЃС…РµРјС‹.</para>
     /// </summary>
     public class SchemeOpenModel : PageModel
     {
