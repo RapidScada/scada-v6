@@ -19,7 +19,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         /// <summary>
         /// The known functions that contain a channel number argument.
         /// </summary>
-        private static readonly string[] KnownFunctions = { "N(", "Val(", "Stat(", "Data(", "Time(", "Deriv(", 
+        private static readonly string[] KnownFunctions = { "N(", "Val(", "Stat(", "Data(", "Time(", "Deriv(",
             "PrevVal(", "PrevStat(", "PrevData(", "PrevTime(", "SetVal(", "SetStat(", "SetData(" };
         /// <summary>
         /// The possible end symbols of an argument.
@@ -99,7 +99,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         /// <summary>
         /// Clones channels with the specified parameters.
         /// </summary>
-        private bool CloneChannels(int srcStartNum, int srcEndNum, int destStartNum, 
+        private bool CloneChannels(int srcStartNum, int srcEndNum, int destStartNum,
             int replaceObjNum, int replaceDeviceNum, bool updateFormulas)
         {
             try
@@ -110,7 +110,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 if (srcStartNum <= srcEndNum)
                 {
                     // create new channels
-                    ExtensionUtils.NormalizeIdRange(ConfigDatabase.MinID, ConfigDatabase.MaxID, 
+                    ExtensionUtils.NormalizeIdRange(ConfigDatabase.MinID, ConfigDatabase.MaxID,
                         ref srcStartNum, ref srcEndNum, destStartNum, out int numOffset);
                     List<Cnl> cnlsToAdd = new(srcEndNum - srcStartNum + 1);
 
@@ -226,7 +226,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 Convert.ToInt32(numSrcStartNum.Value),
                 Convert.ToInt32(numSrcEndNum.Value),
                 Convert.ToInt32(numDestStartNum.Value),
-                (int)cbReplaceObj.SelectedValue, 
+                (int)cbReplaceObj.SelectedValue,
                 (int)cbReplaceDevice.SelectedValue,
                 chkUpdateFormulas.Checked))
             {
