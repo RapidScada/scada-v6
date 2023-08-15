@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2021
+ * Modified : 2023
  */
 
 using Scada.Admin.Config;
@@ -261,7 +261,7 @@ namespace Scada.Admin.App.Code
         /// </summary>
         public string GetInstanceConfigFileName()
         {
-            return Path.Combine(AppDirs.ExeDir, "..", "Config", InstanceConfig.DefaultFileName);
+            return Path.Combine(AppDirs.InstanceDir, "Config", InstanceConfig.DefaultFileName);
         }
 
         /// <summary>
