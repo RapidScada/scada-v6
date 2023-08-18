@@ -270,7 +270,7 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmProfileEdit">
     <Phrase key="this">Редактирование профиля</Phrase>
-    <Phrase key="tabGeneral">Основные параметры</Phrase>
+    <Phrase key="pageGeneral">Основные параметры</Phrase>
     <Phrase key="lblName">Наименование профиля</Phrase>
     <Phrase key="lblExtension">Расширение</Phrase>
     <Phrase key="lblWebUrl">Адрес Вебстанции</Phrase>
