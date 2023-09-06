@@ -143,7 +143,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Controls
         {
             if (queryConfig != null)
             {
-                queryConfig.SingleRow = chkActive.Checked;
+                queryConfig.SingleRow = chkSingleRow.Checked;
                 OnObjectChanged(TreeUpdateTypes.None);
             }
         }
