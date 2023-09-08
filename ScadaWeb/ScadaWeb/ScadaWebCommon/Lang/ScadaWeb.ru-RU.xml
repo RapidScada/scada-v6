@@ -51,6 +51,9 @@
     <Phrase key="PageTitle">Выбор каналов</Phrase>
     <Phrase key="lblObj">Объект</Phrase>
     <Phrase key="lblOnlySelected">Показывать только выбранные каналы</Phrase>
+    <Phrase key="SelectedColumn">Выбран</Phrase>
+    <Phrase key="NumberColumn">Номер</Phrase>
+    <Phrase key="NameColumn">Наименование</Phrase>
     <Phrase key="SelectObjectItem">-- Выберите объект --</Phrase>
     <Phrase key="FilterRequired">Укажите фильтр, пожалуйста.</Phrase>
     <Phrase key="NoChannels">Каналы, удовлетворяющие фильтру, отсутствуют.</Phrase>

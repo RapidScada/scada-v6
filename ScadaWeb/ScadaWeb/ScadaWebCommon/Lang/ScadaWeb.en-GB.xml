@@ -51,6 +51,9 @@
     <Phrase key="PageTitle">Select Channels</Phrase>
     <Phrase key="lblObj">Object</Phrase>
     <Phrase key="lblOnlySelected">Show only selected channels</Phrase>
+    <Phrase key="SelectedColumn">Selected</Phrase>
+    <Phrase key="NumberColumn">Number</Phrase>
+    <Phrase key="NameColumn">Name</Phrase>
     <Phrase key="SelectObjectItem">-- Select an object --</Phrase>
     <Phrase key="FilterRequired">Please specify a filter.</Phrase>
     <Phrase key="NoChannels">No channels matching the filter.</Phrase>
