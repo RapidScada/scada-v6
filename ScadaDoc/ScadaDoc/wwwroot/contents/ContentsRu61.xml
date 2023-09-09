@@ -31,6 +31,10 @@
         <Text>Установка на Linux</Text>
         <Url>/ru/latest/installation/install-linux</Url>
       </Item>
+      <Item>
+        <Text>Установка модулей</Text>
+        <Url>/ru/latest/installation/install-modules</Url>
+      </Item>
     </Subitems>
   </Item>
 
