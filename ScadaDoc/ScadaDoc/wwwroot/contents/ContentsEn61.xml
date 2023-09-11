@@ -31,6 +31,10 @@
         <Text>Install on Linux</Text>
         <Url>/en/latest/installation/install-linux</Url>
       </Item>
+      <Item>
+        <Text>Install Modules</Text>
+        <Url>/en/latest/installation/install-modules</Url>
+      </Item>
     </Subitems>
   </Item>
   
