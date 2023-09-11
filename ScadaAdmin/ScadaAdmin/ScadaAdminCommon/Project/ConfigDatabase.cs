@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Admin.Lang;
@@ -177,20 +177,7 @@ namespace Scada.Admin.Project
                 {
                     foreach (IBaseTable baseTable in AllTables)
                     {
-                        string fileName = Path.Combine(BaseDir, baseTable.FileName);
-
-                        if (File.Exists(fileName))
-                        {
-                            try
-                            {
-                                baseTable.Load(fileName);
-                            }
-                            catch (Exception ex)
-                            {
-                                throw new ScadaException(string.Format(
-                                    AdminPhrases.LoadBaseTableError, baseTable.Title), ex);
-                            }
-                        }
+                        LoadTable(baseTable);
                     }
 
                     Loaded = true;
@@ -218,18 +205,7 @@ namespace Scada.Admin.Project
                 foreach (IBaseTable baseTable in AllTables)
                 {
                     if (baseTable.Modified)
-                    {
-                        try
-                        {
-                            string fileName = Path.Combine(BaseDir, baseTable.FileName);
-                            baseTable.Save(fileName);
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new ScadaException(string.Format(
-                                AdminPhrases.SaveBaseTableError, baseTable.Title), ex);
-                        }
-                    }
+                        SaveTable(baseTable);
                 }
 
                 errMsg = "";
@@ -243,10 +219,51 @@ namespace Scada.Admin.Project
         }
 
         /// <summary>
-        /// Saves the specified table of the configuration database.
+        /// Loads the specified table, raising an exception on error.
+        /// </summary>
+        public void LoadTable(IBaseTable baseTable)
+        {
+            ArgumentNullException.ThrowIfNull(baseTable, nameof(baseTable));
+            string fileName = Path.Combine(BaseDir, baseTable.FileName);
+
+            if (!File.Exists(fileName))
+                return;
+
+            try
+            {
+                baseTable.Load(fileName);
+            }
+            catch (Exception ex)
+            {
+                throw new ScadaException(string.Format(AdminPhrases.LoadBaseTableError, baseTable.Title), ex);
+            }
+        }
+
+        /// <summary>
+        /// Saves the specified table, raising an exception on error.
+        /// </summary>
+        public void SaveTable(IBaseTable baseTable)
+        {
+            ArgumentNullException.ThrowIfNull(baseTable, nameof(baseTable));
+
+            try
+            {
+                string fileName = Path.Combine(BaseDir, baseTable.FileName);
+                baseTable.Save(fileName);
+            }
+            catch (Exception ex)
+            {
+                throw new ScadaException(string.Format(AdminPhrases.SaveBaseTableError, baseTable.Title), ex);
+            }
+        }
+
+        /// <summary>
+        /// Saves the specified table.
         /// </summary>
         public bool SaveTable(IBaseTable baseTable, out string errMsg)
         {
+            ArgumentNullException.ThrowIfNull(baseTable, nameof(baseTable));
+
             try
             {
                 Directory.CreateDirectory(BaseDir);
