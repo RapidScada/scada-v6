@@ -628,7 +628,7 @@
     <Phrase key="btnOpenProject">Open Project</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmTextEditor">
-    <Phrase key="btnReload.ToolTip">Reload file</Phrase>
+    <Phrase key="btnReload.ToolTip">Reload File</Phrase>
     <Phrase key="OpenTextFileError">Error opening file</Phrase>
     <Phrase key="SaveTextFileError">Error saving file</Phrase>
   </Dictionary>
