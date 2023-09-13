@@ -54,15 +54,6 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
         }
 
         /// <summary>
-        /// Gets menu items to add to the main menu.
-        /// </summary>
-        public ToolStripItem[] GetMainMenuItems()
-        {
-            return new ToolStripItem[] { miProjectTools };
-        }
-
-
-        /// <summary>
         /// Generates a channel map.
         /// </summary>
         private void GenerateChannelMap(bool groupByDevices)
@@ -88,6 +79,27 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
                     .Generate(Path.Combine(adminContext.AppDirs.LogDir, DeviceMap.MapFileName));
             }
         }
+
+        /// <summary>
+        /// Generates an object map.
+        /// </summary>
+        private void GenerateObjectMap()
+        {
+            if (adminContext.CurrentProject != null)
+            {
+                new ObjectMap(adminContext.ErrLog, adminContext.CurrentProject.ConfigDatabase)
+                    .Generate(Path.Combine(adminContext.AppDirs.LogDir, ObjectMap.MapFileName));
+            }
+        }
+
+        /// <summary>
+        /// Gets menu items to add to the main menu.
+        /// </summary>
+        public ToolStripItem[] GetMainMenuItems()
+        {
+            return new ToolStripItem[] { miProjectTools };
+        }
+
 
         private void AdminContext_CurrentProjectChanged(object sender, EventArgs e)
         {
@@ -123,6 +135,11 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
         private void miDeviceMap_Click(object sender, EventArgs e)
         {
             GenerateDeviceMap();
+        }
+
+        private void miObjectMap_Click(object sender, EventArgs e)
+        {
+            GenerateObjectMap();
         }
 
         private void miCheckIntegrity_Click(object sender, EventArgs e)

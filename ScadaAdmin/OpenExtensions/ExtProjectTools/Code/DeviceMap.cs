@@ -37,7 +37,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
 
 
         /// <summary>
-        /// Writes channels having the specified index key.
+        /// Writes devices having the specified index key.
         /// </summary>
         private static void WriteDevices(StreamWriter writer, ITableIndex index, int indexKey)
         {
