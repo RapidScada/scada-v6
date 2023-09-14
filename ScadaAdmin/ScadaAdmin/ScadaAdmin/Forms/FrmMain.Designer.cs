@@ -864,8 +864,9 @@
             // 
             miBaseOpenInExplorer.Image = Properties.Resources.open_explorer;
             miBaseOpenInExplorer.Name = "miBaseOpenInExplorer";
-            miBaseOpenInExplorer.Size = new System.Drawing.Size(219, 22);
+            miBaseOpenInExplorer.Size = new System.Drawing.Size(238, 22);
             miBaseOpenInExplorer.Text = "Open Folder in File Explorer";
+            miBaseOpenInExplorer.Click += miDirectoryOpenInExplorer_Click;
             // 
             // miBaseReload
             // 
@@ -873,6 +874,7 @@
             miBaseReload.Name = "miBaseReload";
             miBaseReload.Size = new System.Drawing.Size(238, 22);
             miBaseReload.Text = "Reload Configuration Database";
+            miBaseReload.Click += miBaseReload_Click;
             // 
             // FrmMain
             // 

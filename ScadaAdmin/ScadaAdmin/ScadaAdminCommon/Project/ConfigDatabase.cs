@@ -76,9 +76,9 @@ namespace Scada.Admin.Project
         public string BaseDir { get; set; }
 
         /// <summary>
-        /// Gets a value indicating whether the tables are loaded.
+        /// Gets or sets a value indicating whether the tables are loaded.
         /// </summary>
-        public bool Loaded { get; private set; }
+        public bool Loaded { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether at least one table was modified.
