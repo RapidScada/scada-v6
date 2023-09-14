@@ -143,7 +143,7 @@ namespace Scada.Admin.App.Forms
             FormTranslator.Translate(this, GetType().FullName, new FormTranslatorOptions
             {
                 ContextMenus = new ContextMenuStrip[] {
-                    cmsProject, cmsCnlTable, cmsDirectory, cmsFileItem, cmsInstance, cmsApp }
+                    cmsProject, cmsBase, cmsCnlTable, cmsDirectory, cmsFileItem, cmsInstance, cmsApp }
             });
             Text = AppPhrases.EmptyTitle;
             wctrlMain.MessageText = AppPhrases.WelcomeMessage;
@@ -1441,7 +1441,6 @@ namespace Scada.Admin.App.Forms
             }
         }
 
-
         private void miBaseReload_Click(object sender, EventArgs e)
         {
             if (Project != null)
@@ -1453,7 +1452,6 @@ namespace Scada.Admin.App.Forms
                     Log.HandleError(errMsg);
             }
         }
-
 
         private void cmsCnlTable_Opening(object sender, CancelEventArgs e)
         {
@@ -1504,7 +1502,6 @@ namespace Scada.Admin.App.Forms
                 explorerBuilder.FillCnlTableNode(cnlTableNode, Project.ConfigDatabase);
             }
         }
-
 
         private void cmsDirectory_Opening(object sender, CancelEventArgs e)
         {
@@ -1667,7 +1664,6 @@ namespace Scada.Admin.App.Forms
             }
         }
 
-
         private void cmsFileItem_Opening(object sender, CancelEventArgs e)
         {
             // enable or disable the Open menu item
@@ -1766,7 +1762,6 @@ namespace Scada.Admin.App.Forms
                 }
             }
         }
-
 
         private void cmsInstance_Opening(object sender, CancelEventArgs e)
         {
@@ -1993,7 +1988,6 @@ namespace Scada.Admin.App.Forms
                 }
             }
         }
-
 
         private void miAppReloadConfig_Click(object sender, EventArgs e)
         {

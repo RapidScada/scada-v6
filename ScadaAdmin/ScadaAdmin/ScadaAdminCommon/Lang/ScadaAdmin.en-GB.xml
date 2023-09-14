@@ -557,6 +557,8 @@
     <Phrase key="miProjectOpenInExplorer">Open Folder in File Explorer</Phrase>
     <Phrase key="miProjectRename">Rename Project</Phrase>
     <Phrase key="miProjectProperties">Properties</Phrase>
+    <Phrase key="miBaseOpenInExplorer">Open Folder in File Explorer</Phrase>
+    <Phrase key="miBaseReload">Reload Configuration Database</Phrase>
     <Phrase key="miCnlTableComm">Go to Communicator</Phrase>
     <Phrase key="miCnlTableRefresh">Refresh</Phrase>
     <Phrase key="miDirectoryNewFile">New File...</Phrase>

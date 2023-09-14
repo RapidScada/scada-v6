@@ -11,8 +11,8 @@
     <Product>Rapid SCADA</Product>
     <Copyright>Copyright © 2023</Copyright>
     <ApplicationIcon>lamp.ico</ApplicationIcon>
-    <Version>6.1.0</Version>
-    <AssemblyVersion>6.1.0.4</AssemblyVersion>
+    <Version>6.1.1</Version>
+    <AssemblyVersion>6.1.1.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

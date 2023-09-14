@@ -557,6 +557,8 @@
     <Phrase key="miProjectOpenInExplorer">Открыть папку в проводнике</Phrase>
     <Phrase key="miProjectRename">Переименовать проект</Phrase>
     <Phrase key="miProjectProperties">Свойства</Phrase>
+    <Phrase key="miBaseOpenInExplorer">Открыть папку в проводнике</Phrase>
+    <Phrase key="miBaseReload">Перезагрузить базу конфигурации</Phrase>
     <Phrase key="miCnlTableComm">Перейти в Коммуникатор</Phrase>
     <Phrase key="miCnlTableRefresh">Обновить</Phrase>
     <Phrase key="miDirectoryNewFile">Создать файл...</Phrase>
