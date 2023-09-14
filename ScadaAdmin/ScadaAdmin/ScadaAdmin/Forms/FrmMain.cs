@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Admin.App.Code;
@@ -79,9 +79,16 @@ namespace Scada.Admin.App.Forms
         {
             this.appData = appData ?? throw new ArgumentNullException(nameof(appData));
             appData.MainForm = this;
-            explorerBuilder = new ExplorerBuilder(appData, tvExplorer, new ContextMenus {
-                ProjectMenu = cmsProject, CnlTableMenu = cmsCnlTable, DirectoryMenu = cmsDirectory,
-                FileItemMenu = cmsFileItem, InstanceMenu = cmsInstance, AppMenu = cmsApp });
+            explorerBuilder = new ExplorerBuilder(appData, tvExplorer, new ContextMenus
+            {
+                ProjectMenu = cmsProject,
+                BaseMenu = cmsBase,
+                CnlTableMenu = cmsCnlTable,
+                DirectoryMenu = cmsDirectory,
+                FileItemMenu = cmsFileItem,
+                InstanceMenu = cmsInstance,
+                AppMenu = cmsApp
+            });
             frmStartPage = null;
             preventNodeExpand = false;
         }
