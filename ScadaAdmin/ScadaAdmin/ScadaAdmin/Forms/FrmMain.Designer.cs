@@ -534,7 +534,6 @@
             // 
             // wctrlMain
             // 
-            wctrlMain.ButtonsVisible = false;
             wctrlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             wctrlMain.Image = null;
             wctrlMain.Location = new System.Drawing.Point(0, 0);
