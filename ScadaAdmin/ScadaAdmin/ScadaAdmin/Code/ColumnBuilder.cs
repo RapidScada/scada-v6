@@ -353,7 +353,7 @@ namespace Scada.Admin.App.Code
                 NewCheckBoxColumn("IsEnum"),
                 NewCheckBoxColumn("IsDate"),
                 NewCheckBoxColumn("IsString"),
-                NewTextBoxColumn("Frmt", new ColumnOptions(ColumnKind.MultilineText, ColumnLength.Enumeration)),
+                NewTextBoxColumn("Frmt", new ColumnOptions(ColumnKind.MultilineText, ColumnLength.Long)),
                 NewButtonColumn("Frmt"),
                 NewTextBoxColumn("Descr", new ColumnOptions(ColumnLength.Description))
             });
@@ -510,7 +510,7 @@ namespace Scada.Admin.App.Code
                 NewButtonColumn("Path", new ColumnOptions(ColumnKind.SelectFileButton)),
                 NewComboBoxColumn("ViewTypeID", "Name", configDatabase.ViewTypeTable, true),
                 NewComboBoxColumn("ObjNum","Name", configDatabase.ObjTable, true),
-                NewTextBoxColumn("Args", new ColumnOptions(ColumnLength.Default)),
+                NewTextBoxColumn("Args", new ColumnOptions(ColumnLength.Long)),
                 NewTextBoxColumn("Title", new ColumnOptions(ColumnLength.Long)),
                 NewTextBoxColumn("Ord"),
                 NewCheckBoxColumn("Hidden"),
