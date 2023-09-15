@@ -229,6 +229,7 @@ namespace Scada.Admin.Project
             if (!File.Exists(fileName))
             {
                 baseTable.ClearItems();
+                baseTable.Modified = false;
                 return;
             }
 
