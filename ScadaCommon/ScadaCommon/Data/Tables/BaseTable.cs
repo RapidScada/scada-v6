@@ -469,7 +469,7 @@ namespace Scada.Data.Tables
         /// </summary>
         public void Load(string fileName)
         {
-            Items.Clear();
+            ClearItems();
             Modified = false;
 
             List<T> list;
