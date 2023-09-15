@@ -1450,6 +1450,10 @@ namespace Scada.Admin.App.Forms
 
                 if (!Project.ConfigDatabase.Load(out string errMsg))
                     Log.HandleError(errMsg);
+
+                // refresh channel table subnodes
+                TreeNode cnlTableNode = explorerBuilder.BaseTableNodes[Project.ConfigDatabase.CnlTable.Name];
+                explorerBuilder.FillCnlTableNode(cnlTableNode, Project.ConfigDatabase);
             }
         }
 
