@@ -227,7 +227,10 @@ namespace Scada.Admin.Project
             string fileName = Path.Combine(BaseDir, baseTable.FileName);
 
             if (!File.Exists(fileName))
+            {
+                baseTable.ClearItems();
                 return;
+            }
 
             try
             {
