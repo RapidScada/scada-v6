@@ -1,0 +1,45 @@
+﻿@page "/ru/latest/modules/plg-chart-pro"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Плагин Графики Про";
+}
+
+<nav class="doc-toc">
+    <div class="h6">На этой странице</div>
+    <hr>
+    <ul>
+        <li><a href="#overview">Обзор</a></li>
+        <li><a href="#installation">Установка</a></li>
+        <li><a href="#configuring">Конфигурирование</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Плагин Графики Про</h1>
+    <h2 id="overview">Обзор</h2>
+    <p>Плагин Графики Про — это дополнительный плагин для приложения Вебстанция, расширяющий возможности работы с графиками входных каналов: масштабирование, одновременное отображение нескольких графиков, экспорт в форматы PNG и PDF. Скачать плагин можно по <a href="https://rapidscada.net/store/Module/ru/PlgChartPro" target="_blank">ссылке</a>.</p>
+
+    <h2 id="installation">Установка</h2>
+    <p>Установка плагина Графики Про выполняется по <a href="../installation/install-modules#plugins">инструкции</a>. В ходе установки выполните дополнительные действия:</p>
+    <ul>
+        <li>
+            <p>В проект скопируйте файлы PlgChartPro.xml и PlgChartPro_Config.xml. Файл PlgChartPro_Reg.xml будет создан при вводе регистрационного ключа.</p>
+            <figure class="figure">
+                <img src="plg-chart-pro-files/chart-pro-files-ru.png" class="figure-img img-fluid" alt="Файлы плагина" />
+            </figure>
+        </li>
+        <li>
+            <p>В параметрах приложения Вебстанция в разделе <strong>Назначение плагинов</strong> выберите плагин <strong>PlgChartPro</strong>.</p>
+            <figure class="figure">
+                <img src="plg-chart-pro-files/chart-pro-assign-ru.png" class="figure-img img-fluid" alt="Назначение плагина графиков" />
+            </figure>
+        </li>
+    </ul>
+
+    <h2 id="configuring">Конфигурирование</h2>
+
+    <p>Следующий рисунок показывает компоновку графика, понимание которой необходимо для настройки плагина.</p>
+    <figure class="figure">
+        <img src="plg-chart-pro-files/chart-parts.svg" class="figure-img img-fluid" alt="Компоновка графика" />
+    </figure>
+</div>

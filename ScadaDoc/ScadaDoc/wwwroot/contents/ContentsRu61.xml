@@ -38,6 +38,17 @@
     </Subitems>
   </Item>
 
+  <!-- Модули -->
+  <Item>
+    <Text>Модули</Text>
+    <Subitems>
+      <Item>
+        <Text>Плагин Графики Про</Text>
+        <Url>/ru/latest/modules/plg-chart-pro</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
   <!-- Разработчикам -->
   <Item>
     <Text>Разработчикам</Text>
