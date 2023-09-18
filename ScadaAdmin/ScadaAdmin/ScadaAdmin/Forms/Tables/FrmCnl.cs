@@ -135,7 +135,7 @@ namespace Scada.Admin.App.Forms.Tables
             if (!(int.TryParse(txtCnlNum.Text, out int cnlNum) &&
                 ConfigDatabase.MinID <= cnlNum && cnlNum <= ConfigDatabase.MaxID))
             {
-                sbError.AppendError(lblCnlNum, CommonPhrases.IntegerInRangeRequired, 
+                sbError.AppendError(lblCnlNum, CommonPhrases.IntegerInRangeRequired,
                     ConfigDatabase.MinID, ConfigDatabase.MaxID);
             }
 
@@ -237,7 +237,7 @@ namespace Scada.Admin.App.Forms.Tables
         private void cbLim_SelectedIndexChanged(object sender, EventArgs e)
         {
             // show details of the selected limit
-            if (cbLim.SelectedItem is DataRowView rowView && 
+            if (cbLim.SelectedItem is DataRowView rowView &&
                 rowView["LimID"] is int limID && limID > 0)
             {
                 bool isBoundToCnl = (bool)rowView["IsBoundToCnl"];

@@ -29,689 +29,688 @@ namespace Scada.Admin.App.Forms.Tables
         /// </summary>
         private void InitializeComponent()
         {
-            this.tabControl = new System.Windows.Forms.TabControl();
-            this.pageGeneral = new System.Windows.Forms.TabPage();
-            this.txtOutFormula = new System.Windows.Forms.TextBox();
-            this.lblOutFormula = new System.Windows.Forms.Label();
-            this.txtInFormula = new System.Windows.Forms.TextBox();
-            this.lblInFormula = new System.Windows.Forms.Label();
-            this.chkFormulaEnabled = new System.Windows.Forms.CheckBox();
-            this.txtTagCode = new System.Windows.Forms.TextBox();
-            this.lblTagCode = new System.Windows.Forms.Label();
-            this.txtTagNum = new System.Windows.Forms.TextBox();
-            this.lblTagNum = new System.Windows.Forms.Label();
-            this.cbDevice = new System.Windows.Forms.ComboBox();
-            this.txtDeviceNum = new System.Windows.Forms.TextBox();
-            this.lblDevice = new System.Windows.Forms.Label();
-            this.cbObj = new System.Windows.Forms.ComboBox();
-            this.txtObjNum = new System.Windows.Forms.TextBox();
-            this.lblObj = new System.Windows.Forms.Label();
-            this.cbCnlType = new System.Windows.Forms.ComboBox();
-            this.lblCnlType = new System.Windows.Forms.Label();
-            this.txtDataLen = new System.Windows.Forms.TextBox();
-            this.lblDataLen = new System.Windows.Forms.Label();
-            this.cbDataType = new System.Windows.Forms.ComboBox();
-            this.lblDataType = new System.Windows.Forms.Label();
-            this.txtName = new System.Windows.Forms.TextBox();
-            this.lblName = new System.Windows.Forms.Label();
-            this.txtCnlNum = new System.Windows.Forms.TextBox();
-            this.lblCnlNum = new System.Windows.Forms.Label();
-            this.chkActive = new System.Windows.Forms.CheckBox();
-            this.pageDisplay = new System.Windows.Forms.TabPage();
-            this.cbUnit = new System.Windows.Forms.ComboBox();
-            this.lblUnit = new System.Windows.Forms.Label();
-            this.cbQuantity = new System.Windows.Forms.ComboBox();
-            this.lblQuantity = new System.Windows.Forms.Label();
-            this.cbOutFormat = new System.Windows.Forms.ComboBox();
-            this.lblOutFormat = new System.Windows.Forms.Label();
-            this.cbFormat = new System.Windows.Forms.ComboBox();
-            this.lblFormat = new System.Windows.Forms.Label();
-            this.pageLim = new System.Windows.Forms.TabPage();
-            this.txtDeadband = new System.Windows.Forms.TextBox();
-            this.lblDeadband = new System.Windows.Forms.Label();
-            this.txtHiHi = new System.Windows.Forms.TextBox();
-            this.lblHiHi = new System.Windows.Forms.Label();
-            this.txtHigh = new System.Windows.Forms.TextBox();
-            this.lblHigh = new System.Windows.Forms.Label();
-            this.txtLow = new System.Windows.Forms.TextBox();
-            this.lblLow = new System.Windows.Forms.Label();
-            this.txtLoLo = new System.Windows.Forms.TextBox();
-            this.lblLoLo = new System.Windows.Forms.Label();
-            this.chkShared = new System.Windows.Forms.CheckBox();
-            this.btnCreateLim = new System.Windows.Forms.Button();
-            this.cbLim = new System.Windows.Forms.ComboBox();
-            this.lblLim = new System.Windows.Forms.Label();
-            this.pageArchives = new System.Windows.Forms.TabPage();
-            this.bmArchive = new Scada.Forms.Controls.CtrlBitmask();
-            this.pageEvents = new System.Windows.Forms.TabPage();
-            this.bmEvent = new Scada.Forms.Controls.CtrlBitmask();
-            this.pnlBottom = new System.Windows.Forms.Panel();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.btnOK = new System.Windows.Forms.Button();
-            this.tabControl.SuspendLayout();
-            this.pageGeneral.SuspendLayout();
-            this.pageDisplay.SuspendLayout();
-            this.pageLim.SuspendLayout();
-            this.pageArchives.SuspendLayout();
-            this.pageEvents.SuspendLayout();
-            this.pnlBottom.SuspendLayout();
-            this.SuspendLayout();
+            tabControl = new System.Windows.Forms.TabControl();
+            pageGeneral = new System.Windows.Forms.TabPage();
+            txtOutFormula = new System.Windows.Forms.TextBox();
+            lblOutFormula = new System.Windows.Forms.Label();
+            txtInFormula = new System.Windows.Forms.TextBox();
+            lblInFormula = new System.Windows.Forms.Label();
+            chkFormulaEnabled = new System.Windows.Forms.CheckBox();
+            txtTagCode = new System.Windows.Forms.TextBox();
+            lblTagCode = new System.Windows.Forms.Label();
+            txtTagNum = new System.Windows.Forms.TextBox();
+            lblTagNum = new System.Windows.Forms.Label();
+            cbDevice = new System.Windows.Forms.ComboBox();
+            txtDeviceNum = new System.Windows.Forms.TextBox();
+            lblDevice = new System.Windows.Forms.Label();
+            cbObj = new System.Windows.Forms.ComboBox();
+            txtObjNum = new System.Windows.Forms.TextBox();
+            lblObj = new System.Windows.Forms.Label();
+            cbCnlType = new System.Windows.Forms.ComboBox();
+            lblCnlType = new System.Windows.Forms.Label();
+            txtDataLen = new System.Windows.Forms.TextBox();
+            lblDataLen = new System.Windows.Forms.Label();
+            cbDataType = new System.Windows.Forms.ComboBox();
+            lblDataType = new System.Windows.Forms.Label();
+            txtName = new System.Windows.Forms.TextBox();
+            lblName = new System.Windows.Forms.Label();
+            txtCnlNum = new System.Windows.Forms.TextBox();
+            lblCnlNum = new System.Windows.Forms.Label();
+            chkActive = new System.Windows.Forms.CheckBox();
+            pageDisplay = new System.Windows.Forms.TabPage();
+            cbUnit = new System.Windows.Forms.ComboBox();
+            lblUnit = new System.Windows.Forms.Label();
+            cbQuantity = new System.Windows.Forms.ComboBox();
+            lblQuantity = new System.Windows.Forms.Label();
+            cbOutFormat = new System.Windows.Forms.ComboBox();
+            lblOutFormat = new System.Windows.Forms.Label();
+            cbFormat = new System.Windows.Forms.ComboBox();
+            lblFormat = new System.Windows.Forms.Label();
+            pageLim = new System.Windows.Forms.TabPage();
+            txtDeadband = new System.Windows.Forms.TextBox();
+            lblDeadband = new System.Windows.Forms.Label();
+            txtHiHi = new System.Windows.Forms.TextBox();
+            lblHiHi = new System.Windows.Forms.Label();
+            txtHigh = new System.Windows.Forms.TextBox();
+            lblHigh = new System.Windows.Forms.Label();
+            txtLow = new System.Windows.Forms.TextBox();
+            lblLow = new System.Windows.Forms.Label();
+            txtLoLo = new System.Windows.Forms.TextBox();
+            lblLoLo = new System.Windows.Forms.Label();
+            chkShared = new System.Windows.Forms.CheckBox();
+            btnCreateLim = new System.Windows.Forms.Button();
+            cbLim = new System.Windows.Forms.ComboBox();
+            lblLim = new System.Windows.Forms.Label();
+            pageArchives = new System.Windows.Forms.TabPage();
+            bmArchive = new Scada.Forms.Controls.CtrlBitmask();
+            pageEvents = new System.Windows.Forms.TabPage();
+            bmEvent = new Scada.Forms.Controls.CtrlBitmask();
+            pnlBottom = new System.Windows.Forms.Panel();
+            btnCancel = new System.Windows.Forms.Button();
+            btnOK = new System.Windows.Forms.Button();
+            tabControl.SuspendLayout();
+            pageGeneral.SuspendLayout();
+            pageDisplay.SuspendLayout();
+            pageLim.SuspendLayout();
+            pageArchives.SuspendLayout();
+            pageEvents.SuspendLayout();
+            pnlBottom.SuspendLayout();
+            SuspendLayout();
             // 
             // tabControl
             // 
-            this.tabControl.Controls.Add(this.pageGeneral);
-            this.tabControl.Controls.Add(this.pageDisplay);
-            this.tabControl.Controls.Add(this.pageLim);
-            this.tabControl.Controls.Add(this.pageArchives);
-            this.tabControl.Controls.Add(this.pageEvents);
-            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl.Location = new System.Drawing.Point(0, 0);
-            this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(484, 410);
-            this.tabControl.TabIndex = 0;
+            tabControl.Controls.Add(pageGeneral);
+            tabControl.Controls.Add(pageDisplay);
+            tabControl.Controls.Add(pageLim);
+            tabControl.Controls.Add(pageArchives);
+            tabControl.Controls.Add(pageEvents);
+            tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            tabControl.Location = new System.Drawing.Point(0, 0);
+            tabControl.Name = "tabControl";
+            tabControl.SelectedIndex = 0;
+            tabControl.Size = new System.Drawing.Size(484, 410);
+            tabControl.TabIndex = 0;
             // 
             // pageGeneral
             // 
-            this.pageGeneral.Controls.Add(this.txtOutFormula);
-            this.pageGeneral.Controls.Add(this.lblOutFormula);
-            this.pageGeneral.Controls.Add(this.txtInFormula);
-            this.pageGeneral.Controls.Add(this.lblInFormula);
-            this.pageGeneral.Controls.Add(this.chkFormulaEnabled);
-            this.pageGeneral.Controls.Add(this.txtTagCode);
-            this.pageGeneral.Controls.Add(this.lblTagCode);
-            this.pageGeneral.Controls.Add(this.txtTagNum);
-            this.pageGeneral.Controls.Add(this.lblTagNum);
-            this.pageGeneral.Controls.Add(this.cbDevice);
-            this.pageGeneral.Controls.Add(this.txtDeviceNum);
-            this.pageGeneral.Controls.Add(this.lblDevice);
-            this.pageGeneral.Controls.Add(this.cbObj);
-            this.pageGeneral.Controls.Add(this.txtObjNum);
-            this.pageGeneral.Controls.Add(this.lblObj);
-            this.pageGeneral.Controls.Add(this.cbCnlType);
-            this.pageGeneral.Controls.Add(this.lblCnlType);
-            this.pageGeneral.Controls.Add(this.txtDataLen);
-            this.pageGeneral.Controls.Add(this.lblDataLen);
-            this.pageGeneral.Controls.Add(this.cbDataType);
-            this.pageGeneral.Controls.Add(this.lblDataType);
-            this.pageGeneral.Controls.Add(this.txtName);
-            this.pageGeneral.Controls.Add(this.lblName);
-            this.pageGeneral.Controls.Add(this.txtCnlNum);
-            this.pageGeneral.Controls.Add(this.lblCnlNum);
-            this.pageGeneral.Controls.Add(this.chkActive);
-            this.pageGeneral.Location = new System.Drawing.Point(4, 24);
-            this.pageGeneral.Name = "pageGeneral";
-            this.pageGeneral.Padding = new System.Windows.Forms.Padding(5);
-            this.pageGeneral.Size = new System.Drawing.Size(476, 382);
-            this.pageGeneral.TabIndex = 0;
-            this.pageGeneral.Text = "General";
-            this.pageGeneral.UseVisualStyleBackColor = true;
+            pageGeneral.Controls.Add(txtOutFormula);
+            pageGeneral.Controls.Add(lblOutFormula);
+            pageGeneral.Controls.Add(txtInFormula);
+            pageGeneral.Controls.Add(lblInFormula);
+            pageGeneral.Controls.Add(chkFormulaEnabled);
+            pageGeneral.Controls.Add(txtTagCode);
+            pageGeneral.Controls.Add(lblTagCode);
+            pageGeneral.Controls.Add(txtTagNum);
+            pageGeneral.Controls.Add(lblTagNum);
+            pageGeneral.Controls.Add(cbDevice);
+            pageGeneral.Controls.Add(txtDeviceNum);
+            pageGeneral.Controls.Add(lblDevice);
+            pageGeneral.Controls.Add(cbObj);
+            pageGeneral.Controls.Add(txtObjNum);
+            pageGeneral.Controls.Add(lblObj);
+            pageGeneral.Controls.Add(cbCnlType);
+            pageGeneral.Controls.Add(lblCnlType);
+            pageGeneral.Controls.Add(txtDataLen);
+            pageGeneral.Controls.Add(lblDataLen);
+            pageGeneral.Controls.Add(cbDataType);
+            pageGeneral.Controls.Add(lblDataType);
+            pageGeneral.Controls.Add(txtName);
+            pageGeneral.Controls.Add(lblName);
+            pageGeneral.Controls.Add(txtCnlNum);
+            pageGeneral.Controls.Add(lblCnlNum);
+            pageGeneral.Controls.Add(chkActive);
+            pageGeneral.Location = new System.Drawing.Point(4, 24);
+            pageGeneral.Name = "pageGeneral";
+            pageGeneral.Padding = new System.Windows.Forms.Padding(5);
+            pageGeneral.Size = new System.Drawing.Size(476, 382);
+            pageGeneral.TabIndex = 0;
+            pageGeneral.Text = "General";
+            pageGeneral.UseVisualStyleBackColor = true;
             // 
             // txtOutFormula
             // 
-            this.txtOutFormula.Location = new System.Drawing.Point(38, 351);
-            this.txtOutFormula.Name = "txtOutFormula";
-            this.txtOutFormula.Size = new System.Drawing.Size(430, 23);
-            this.txtOutFormula.TabIndex = 25;
+            txtOutFormula.Location = new System.Drawing.Point(38, 351);
+            txtOutFormula.Name = "txtOutFormula";
+            txtOutFormula.Size = new System.Drawing.Size(430, 23);
+            txtOutFormula.TabIndex = 25;
             // 
             // lblOutFormula
             // 
-            this.lblOutFormula.AutoSize = true;
-            this.lblOutFormula.Location = new System.Drawing.Point(5, 355);
-            this.lblOutFormula.Name = "lblOutFormula";
-            this.lblOutFormula.Size = new System.Drawing.Size(27, 15);
-            this.lblOutFormula.TabIndex = 24;
-            this.lblOutFormula.Text = "Out";
+            lblOutFormula.AutoSize = true;
+            lblOutFormula.Location = new System.Drawing.Point(5, 355);
+            lblOutFormula.Name = "lblOutFormula";
+            lblOutFormula.Size = new System.Drawing.Size(27, 15);
+            lblOutFormula.TabIndex = 24;
+            lblOutFormula.Text = "Out";
             // 
             // txtInFormula
             // 
-            this.txtInFormula.Location = new System.Drawing.Point(38, 322);
-            this.txtInFormula.Name = "txtInFormula";
-            this.txtInFormula.Size = new System.Drawing.Size(430, 23);
-            this.txtInFormula.TabIndex = 23;
+            txtInFormula.Location = new System.Drawing.Point(38, 322);
+            txtInFormula.Name = "txtInFormula";
+            txtInFormula.Size = new System.Drawing.Size(430, 23);
+            txtInFormula.TabIndex = 23;
             // 
             // lblInFormula
             // 
-            this.lblInFormula.AutoSize = true;
-            this.lblInFormula.Location = new System.Drawing.Point(5, 326);
-            this.lblInFormula.Name = "lblInFormula";
-            this.lblInFormula.Size = new System.Drawing.Size(17, 15);
-            this.lblInFormula.TabIndex = 22;
-            this.lblInFormula.Text = "In";
+            lblInFormula.AutoSize = true;
+            lblInFormula.Location = new System.Drawing.Point(5, 326);
+            lblInFormula.Name = "lblInFormula";
+            lblInFormula.Size = new System.Drawing.Size(17, 15);
+            lblInFormula.TabIndex = 22;
+            lblInFormula.Text = "In";
             // 
             // chkFormulaEnabled
             // 
-            this.chkFormulaEnabled.AutoSize = true;
-            this.chkFormulaEnabled.Location = new System.Drawing.Point(8, 297);
-            this.chkFormulaEnabled.Name = "chkFormulaEnabled";
-            this.chkFormulaEnabled.Size = new System.Drawing.Size(70, 19);
-            this.chkFormulaEnabled.TabIndex = 21;
-            this.chkFormulaEnabled.Text = "Formula";
-            this.chkFormulaEnabled.UseVisualStyleBackColor = true;
-            this.chkFormulaEnabled.CheckedChanged += new System.EventHandler(this.chkFormulaEnabled_CheckedChanged);
+            chkFormulaEnabled.AutoSize = true;
+            chkFormulaEnabled.Location = new System.Drawing.Point(8, 297);
+            chkFormulaEnabled.Name = "chkFormulaEnabled";
+            chkFormulaEnabled.Size = new System.Drawing.Size(70, 19);
+            chkFormulaEnabled.TabIndex = 21;
+            chkFormulaEnabled.Text = "Formula";
+            chkFormulaEnabled.UseVisualStyleBackColor = true;
+            chkFormulaEnabled.CheckedChanged += chkFormulaEnabled_CheckedChanged;
             // 
             // txtTagCode
             // 
-            this.txtTagCode.Location = new System.Drawing.Point(114, 268);
-            this.txtTagCode.Name = "txtTagCode";
-            this.txtTagCode.Size = new System.Drawing.Size(354, 23);
-            this.txtTagCode.TabIndex = 20;
+            txtTagCode.Location = new System.Drawing.Point(114, 268);
+            txtTagCode.Name = "txtTagCode";
+            txtTagCode.Size = new System.Drawing.Size(354, 23);
+            txtTagCode.TabIndex = 20;
             // 
             // lblTagCode
             // 
-            this.lblTagCode.AutoSize = true;
-            this.lblTagCode.Location = new System.Drawing.Point(111, 250);
-            this.lblTagCode.Name = "lblTagCode";
-            this.lblTagCode.Size = new System.Drawing.Size(54, 15);
-            this.lblTagCode.TabIndex = 19;
-            this.lblTagCode.Text = "Tag code";
+            lblTagCode.AutoSize = true;
+            lblTagCode.Location = new System.Drawing.Point(111, 250);
+            lblTagCode.Name = "lblTagCode";
+            lblTagCode.Size = new System.Drawing.Size(54, 15);
+            lblTagCode.TabIndex = 19;
+            lblTagCode.Text = "Tag code";
             // 
             // txtTagNum
             // 
-            this.txtTagNum.Location = new System.Drawing.Point(8, 268);
-            this.txtTagNum.Name = "txtTagNum";
-            this.txtTagNum.Size = new System.Drawing.Size(100, 23);
-            this.txtTagNum.TabIndex = 18;
+            txtTagNum.Location = new System.Drawing.Point(8, 268);
+            txtTagNum.Name = "txtTagNum";
+            txtTagNum.Size = new System.Drawing.Size(100, 23);
+            txtTagNum.TabIndex = 18;
             // 
             // lblTagNum
             // 
-            this.lblTagNum.AutoSize = true;
-            this.lblTagNum.Location = new System.Drawing.Point(5, 250);
-            this.lblTagNum.Name = "lblTagNum";
-            this.lblTagNum.Size = new System.Drawing.Size(70, 15);
-            this.lblTagNum.TabIndex = 17;
-            this.lblTagNum.Text = "Tag number";
+            lblTagNum.AutoSize = true;
+            lblTagNum.Location = new System.Drawing.Point(5, 250);
+            lblTagNum.Name = "lblTagNum";
+            lblTagNum.Size = new System.Drawing.Size(70, 15);
+            lblTagNum.TabIndex = 17;
+            lblTagNum.Text = "Tag number";
             // 
             // cbDevice
             // 
-            this.cbDevice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbDevice.FormattingEnabled = true;
-            this.cbDevice.Location = new System.Drawing.Point(114, 224);
-            this.cbDevice.Name = "cbDevice";
-            this.cbDevice.Size = new System.Drawing.Size(354, 23);
-            this.cbDevice.TabIndex = 16;
-            this.cbDevice.SelectedIndexChanged += new System.EventHandler(this.cbDevice_SelectedIndexChanged);
+            cbDevice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cbDevice.FormattingEnabled = true;
+            cbDevice.Location = new System.Drawing.Point(114, 224);
+            cbDevice.Name = "cbDevice";
+            cbDevice.Size = new System.Drawing.Size(354, 23);
+            cbDevice.TabIndex = 16;
+            cbDevice.SelectedIndexChanged += cbDevice_SelectedIndexChanged;
             // 
             // txtDeviceNum
             // 
-            this.txtDeviceNum.Location = new System.Drawing.Point(8, 224);
-            this.txtDeviceNum.Name = "txtDeviceNum";
-            this.txtDeviceNum.ReadOnly = true;
-            this.txtDeviceNum.Size = new System.Drawing.Size(100, 23);
-            this.txtDeviceNum.TabIndex = 15;
+            txtDeviceNum.Location = new System.Drawing.Point(8, 224);
+            txtDeviceNum.Name = "txtDeviceNum";
+            txtDeviceNum.ReadOnly = true;
+            txtDeviceNum.Size = new System.Drawing.Size(100, 23);
+            txtDeviceNum.TabIndex = 15;
             // 
             // lblDevice
             // 
-            this.lblDevice.AutoSize = true;
-            this.lblDevice.Location = new System.Drawing.Point(5, 206);
-            this.lblDevice.Name = "lblDevice";
-            this.lblDevice.Size = new System.Drawing.Size(42, 15);
-            this.lblDevice.TabIndex = 14;
-            this.lblDevice.Text = "Device";
+            lblDevice.AutoSize = true;
+            lblDevice.Location = new System.Drawing.Point(5, 206);
+            lblDevice.Name = "lblDevice";
+            lblDevice.Size = new System.Drawing.Size(42, 15);
+            lblDevice.TabIndex = 14;
+            lblDevice.Text = "Device";
             // 
             // cbObj
             // 
-            this.cbObj.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbObj.FormattingEnabled = true;
-            this.cbObj.Location = new System.Drawing.Point(114, 180);
-            this.cbObj.Name = "cbObj";
-            this.cbObj.Size = new System.Drawing.Size(354, 23);
-            this.cbObj.TabIndex = 13;
-            this.cbObj.SelectedIndexChanged += new System.EventHandler(this.cbObj_SelectedIndexChanged);
+            cbObj.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cbObj.FormattingEnabled = true;
+            cbObj.Location = new System.Drawing.Point(114, 180);
+            cbObj.Name = "cbObj";
+            cbObj.Size = new System.Drawing.Size(354, 23);
+            cbObj.TabIndex = 13;
+            cbObj.SelectedIndexChanged += cbObj_SelectedIndexChanged;
             // 
             // txtObjNum
             // 
-            this.txtObjNum.Location = new System.Drawing.Point(8, 180);
-            this.txtObjNum.Name = "txtObjNum";
-            this.txtObjNum.ReadOnly = true;
-            this.txtObjNum.Size = new System.Drawing.Size(100, 23);
-            this.txtObjNum.TabIndex = 12;
+            txtObjNum.Location = new System.Drawing.Point(8, 180);
+            txtObjNum.Name = "txtObjNum";
+            txtObjNum.ReadOnly = true;
+            txtObjNum.Size = new System.Drawing.Size(100, 23);
+            txtObjNum.TabIndex = 12;
             // 
             // lblObj
             // 
-            this.lblObj.AutoSize = true;
-            this.lblObj.Location = new System.Drawing.Point(5, 162);
-            this.lblObj.Name = "lblObj";
-            this.lblObj.Size = new System.Drawing.Size(42, 15);
-            this.lblObj.TabIndex = 11;
-            this.lblObj.Text = "Object";
+            lblObj.AutoSize = true;
+            lblObj.Location = new System.Drawing.Point(5, 162);
+            lblObj.Name = "lblObj";
+            lblObj.Size = new System.Drawing.Size(42, 15);
+            lblObj.TabIndex = 11;
+            lblObj.Text = "Object";
             // 
             // cbCnlType
             // 
-            this.cbCnlType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbCnlType.FormattingEnabled = true;
-            this.cbCnlType.Location = new System.Drawing.Point(8, 136);
-            this.cbCnlType.Name = "cbCnlType";
-            this.cbCnlType.Size = new System.Drawing.Size(460, 23);
-            this.cbCnlType.TabIndex = 10;
+            cbCnlType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cbCnlType.FormattingEnabled = true;
+            cbCnlType.Location = new System.Drawing.Point(8, 136);
+            cbCnlType.Name = "cbCnlType";
+            cbCnlType.Size = new System.Drawing.Size(460, 23);
+            cbCnlType.TabIndex = 10;
             // 
             // lblCnlType
             // 
-            this.lblCnlType.AutoSize = true;
-            this.lblCnlType.Location = new System.Drawing.Point(5, 118);
-            this.lblCnlType.Name = "lblCnlType";
-            this.lblCnlType.Size = new System.Drawing.Size(77, 15);
-            this.lblCnlType.TabIndex = 9;
-            this.lblCnlType.Text = "Channel type";
+            lblCnlType.AutoSize = true;
+            lblCnlType.Location = new System.Drawing.Point(5, 118);
+            lblCnlType.Name = "lblCnlType";
+            lblCnlType.Size = new System.Drawing.Size(77, 15);
+            lblCnlType.TabIndex = 9;
+            lblCnlType.Text = "Channel type";
             // 
             // txtDataLen
             // 
-            this.txtDataLen.Location = new System.Drawing.Point(368, 92);
-            this.txtDataLen.Name = "txtDataLen";
-            this.txtDataLen.Size = new System.Drawing.Size(100, 23);
-            this.txtDataLen.TabIndex = 8;
+            txtDataLen.Location = new System.Drawing.Point(368, 92);
+            txtDataLen.Name = "txtDataLen";
+            txtDataLen.Size = new System.Drawing.Size(100, 23);
+            txtDataLen.TabIndex = 8;
             // 
             // lblDataLen
             // 
-            this.lblDataLen.AutoSize = true;
-            this.lblDataLen.Location = new System.Drawing.Point(365, 74);
-            this.lblDataLen.Name = "lblDataLen";
-            this.lblDataLen.Size = new System.Drawing.Size(68, 15);
-            this.lblDataLen.TabIndex = 7;
-            this.lblDataLen.Text = "Data length";
+            lblDataLen.AutoSize = true;
+            lblDataLen.Location = new System.Drawing.Point(365, 74);
+            lblDataLen.Name = "lblDataLen";
+            lblDataLen.Size = new System.Drawing.Size(68, 15);
+            lblDataLen.TabIndex = 7;
+            lblDataLen.Text = "Data length";
             // 
             // cbDataType
             // 
-            this.cbDataType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbDataType.FormattingEnabled = true;
-            this.cbDataType.Location = new System.Drawing.Point(8, 92);
-            this.cbDataType.Name = "cbDataType";
-            this.cbDataType.Size = new System.Drawing.Size(354, 23);
-            this.cbDataType.TabIndex = 6;
+            cbDataType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cbDataType.FormattingEnabled = true;
+            cbDataType.Location = new System.Drawing.Point(8, 92);
+            cbDataType.Name = "cbDataType";
+            cbDataType.Size = new System.Drawing.Size(354, 23);
+            cbDataType.TabIndex = 6;
             // 
             // lblDataType
             // 
-            this.lblDataType.AutoSize = true;
-            this.lblDataType.Location = new System.Drawing.Point(5, 74);
-            this.lblDataType.Name = "lblDataType";
-            this.lblDataType.Size = new System.Drawing.Size(57, 15);
-            this.lblDataType.TabIndex = 5;
-            this.lblDataType.Text = "Data type";
+            lblDataType.AutoSize = true;
+            lblDataType.Location = new System.Drawing.Point(5, 74);
+            lblDataType.Name = "lblDataType";
+            lblDataType.Size = new System.Drawing.Size(57, 15);
+            lblDataType.TabIndex = 5;
+            lblDataType.Text = "Data type";
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(114, 48);
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(354, 23);
-            this.txtName.TabIndex = 4;
+            txtName.Location = new System.Drawing.Point(114, 48);
+            txtName.Name = "txtName";
+            txtName.Size = new System.Drawing.Size(354, 23);
+            txtName.TabIndex = 4;
             // 
             // lblName
             // 
-            this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(113, 30);
-            this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(39, 15);
-            this.lblName.TabIndex = 3;
-            this.lblName.Text = "Name";
+            lblName.AutoSize = true;
+            lblName.Location = new System.Drawing.Point(113, 30);
+            lblName.Name = "lblName";
+            lblName.Size = new System.Drawing.Size(39, 15);
+            lblName.TabIndex = 3;
+            lblName.Text = "Name";
             // 
             // txtCnlNum
             // 
-            this.txtCnlNum.Location = new System.Drawing.Point(8, 48);
-            this.txtCnlNum.Name = "txtCnlNum";
-            this.txtCnlNum.Size = new System.Drawing.Size(100, 23);
-            this.txtCnlNum.TabIndex = 2;
+            txtCnlNum.Location = new System.Drawing.Point(8, 48);
+            txtCnlNum.Name = "txtCnlNum";
+            txtCnlNum.Size = new System.Drawing.Size(100, 23);
+            txtCnlNum.TabIndex = 2;
             // 
             // lblCnlNum
             // 
-            this.lblCnlNum.AutoSize = true;
-            this.lblCnlNum.Location = new System.Drawing.Point(5, 30);
-            this.lblCnlNum.Name = "lblCnlNum";
-            this.lblCnlNum.Size = new System.Drawing.Size(51, 15);
-            this.lblCnlNum.TabIndex = 1;
-            this.lblCnlNum.Text = "Number";
+            lblCnlNum.AutoSize = true;
+            lblCnlNum.Location = new System.Drawing.Point(5, 30);
+            lblCnlNum.Name = "lblCnlNum";
+            lblCnlNum.Size = new System.Drawing.Size(51, 15);
+            lblCnlNum.TabIndex = 1;
+            lblCnlNum.Text = "Number";
             // 
             // chkActive
             // 
-            this.chkActive.AutoSize = true;
-            this.chkActive.Location = new System.Drawing.Point(8, 8);
-            this.chkActive.Name = "chkActive";
-            this.chkActive.Size = new System.Drawing.Size(59, 19);
-            this.chkActive.TabIndex = 0;
-            this.chkActive.Text = "Active";
-            this.chkActive.UseVisualStyleBackColor = true;
+            chkActive.AutoSize = true;
+            chkActive.Location = new System.Drawing.Point(8, 8);
+            chkActive.Name = "chkActive";
+            chkActive.Size = new System.Drawing.Size(59, 19);
+            chkActive.TabIndex = 0;
+            chkActive.Text = "Active";
+            chkActive.UseVisualStyleBackColor = true;
             // 
             // pageDisplay
             // 
-            this.pageDisplay.Controls.Add(this.cbUnit);
-            this.pageDisplay.Controls.Add(this.lblUnit);
-            this.pageDisplay.Controls.Add(this.cbQuantity);
-            this.pageDisplay.Controls.Add(this.lblQuantity);
-            this.pageDisplay.Controls.Add(this.cbOutFormat);
-            this.pageDisplay.Controls.Add(this.lblOutFormat);
-            this.pageDisplay.Controls.Add(this.cbFormat);
-            this.pageDisplay.Controls.Add(this.lblFormat);
-            this.pageDisplay.Location = new System.Drawing.Point(4, 24);
-            this.pageDisplay.Name = "pageDisplay";
-            this.pageDisplay.Padding = new System.Windows.Forms.Padding(5);
-            this.pageDisplay.Size = new System.Drawing.Size(476, 382);
-            this.pageDisplay.TabIndex = 4;
-            this.pageDisplay.Text = "Display";
-            this.pageDisplay.UseVisualStyleBackColor = true;
+            pageDisplay.Controls.Add(cbUnit);
+            pageDisplay.Controls.Add(lblUnit);
+            pageDisplay.Controls.Add(cbQuantity);
+            pageDisplay.Controls.Add(lblQuantity);
+            pageDisplay.Controls.Add(cbOutFormat);
+            pageDisplay.Controls.Add(lblOutFormat);
+            pageDisplay.Controls.Add(cbFormat);
+            pageDisplay.Controls.Add(lblFormat);
+            pageDisplay.Location = new System.Drawing.Point(4, 24);
+            pageDisplay.Name = "pageDisplay";
+            pageDisplay.Padding = new System.Windows.Forms.Padding(5);
+            pageDisplay.Size = new System.Drawing.Size(476, 382);
+            pageDisplay.TabIndex = 4;
+            pageDisplay.Text = "Display";
+            pageDisplay.UseVisualStyleBackColor = true;
             // 
             // cbUnit
             // 
-            this.cbUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbUnit.FormattingEnabled = true;
-            this.cbUnit.Location = new System.Drawing.Point(8, 111);
-            this.cbUnit.Name = "cbUnit";
-            this.cbUnit.Size = new System.Drawing.Size(460, 23);
-            this.cbUnit.TabIndex = 7;
+            cbUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cbUnit.FormattingEnabled = true;
+            cbUnit.Location = new System.Drawing.Point(8, 111);
+            cbUnit.Name = "cbUnit";
+            cbUnit.Size = new System.Drawing.Size(460, 23);
+            cbUnit.TabIndex = 7;
             // 
             // lblUnit
             // 
-            this.lblUnit.AutoSize = true;
-            this.lblUnit.Location = new System.Drawing.Point(5, 93);
-            this.lblUnit.Name = "lblUnit";
-            this.lblUnit.Size = new System.Drawing.Size(29, 15);
-            this.lblUnit.TabIndex = 6;
-            this.lblUnit.Text = "Unit";
+            lblUnit.AutoSize = true;
+            lblUnit.Location = new System.Drawing.Point(5, 93);
+            lblUnit.Name = "lblUnit";
+            lblUnit.Size = new System.Drawing.Size(29, 15);
+            lblUnit.TabIndex = 6;
+            lblUnit.Text = "Unit";
             // 
             // cbQuantity
             // 
-            this.cbQuantity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbQuantity.FormattingEnabled = true;
-            this.cbQuantity.Location = new System.Drawing.Point(8, 67);
-            this.cbQuantity.Name = "cbQuantity";
-            this.cbQuantity.Size = new System.Drawing.Size(460, 23);
-            this.cbQuantity.TabIndex = 5;
+            cbQuantity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cbQuantity.FormattingEnabled = true;
+            cbQuantity.Location = new System.Drawing.Point(8, 67);
+            cbQuantity.Name = "cbQuantity";
+            cbQuantity.Size = new System.Drawing.Size(460, 23);
+            cbQuantity.TabIndex = 5;
             // 
             // lblQuantity
             // 
-            this.lblQuantity.AutoSize = true;
-            this.lblQuantity.Location = new System.Drawing.Point(5, 49);
-            this.lblQuantity.Name = "lblQuantity";
-            this.lblQuantity.Size = new System.Drawing.Size(53, 15);
-            this.lblQuantity.TabIndex = 4;
-            this.lblQuantity.Text = "Quantity";
+            lblQuantity.AutoSize = true;
+            lblQuantity.Location = new System.Drawing.Point(5, 49);
+            lblQuantity.Name = "lblQuantity";
+            lblQuantity.Size = new System.Drawing.Size(53, 15);
+            lblQuantity.TabIndex = 4;
+            lblQuantity.Text = "Quantity";
             // 
             // cbOutFormat
             // 
-            this.cbOutFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbOutFormat.FormattingEnabled = true;
-            this.cbOutFormat.Location = new System.Drawing.Point(241, 23);
-            this.cbOutFormat.Name = "cbOutFormat";
-            this.cbOutFormat.Size = new System.Drawing.Size(227, 23);
-            this.cbOutFormat.TabIndex = 3;
+            cbOutFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cbOutFormat.FormattingEnabled = true;
+            cbOutFormat.Location = new System.Drawing.Point(241, 23);
+            cbOutFormat.Name = "cbOutFormat";
+            cbOutFormat.Size = new System.Drawing.Size(227, 23);
+            cbOutFormat.TabIndex = 3;
             // 
             // lblOutFormat
             // 
-            this.lblOutFormat.AutoSize = true;
-            this.lblOutFormat.Location = new System.Drawing.Point(238, 5);
-            this.lblOutFormat.Name = "lblOutFormat";
-            this.lblOutFormat.Size = new System.Drawing.Size(103, 15);
-            this.lblOutFormat.TabIndex = 2;
-            this.lblOutFormat.Text = "Command format";
+            lblOutFormat.AutoSize = true;
+            lblOutFormat.Location = new System.Drawing.Point(238, 5);
+            lblOutFormat.Name = "lblOutFormat";
+            lblOutFormat.Size = new System.Drawing.Size(103, 15);
+            lblOutFormat.TabIndex = 2;
+            lblOutFormat.Text = "Command format";
             // 
             // cbFormat
             // 
-            this.cbFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbFormat.FormattingEnabled = true;
-            this.cbFormat.Location = new System.Drawing.Point(8, 23);
-            this.cbFormat.Name = "cbFormat";
-            this.cbFormat.Size = new System.Drawing.Size(227, 23);
-            this.cbFormat.TabIndex = 1;
+            cbFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cbFormat.FormattingEnabled = true;
+            cbFormat.Location = new System.Drawing.Point(8, 23);
+            cbFormat.Name = "cbFormat";
+            cbFormat.Size = new System.Drawing.Size(227, 23);
+            cbFormat.TabIndex = 1;
             // 
             // lblFormat
             // 
-            this.lblFormat.AutoSize = true;
-            this.lblFormat.Location = new System.Drawing.Point(5, 5);
-            this.lblFormat.Name = "lblFormat";
-            this.lblFormat.Size = new System.Drawing.Size(45, 15);
-            this.lblFormat.TabIndex = 0;
-            this.lblFormat.Text = "Format";
+            lblFormat.AutoSize = true;
+            lblFormat.Location = new System.Drawing.Point(5, 5);
+            lblFormat.Name = "lblFormat";
+            lblFormat.Size = new System.Drawing.Size(45, 15);
+            lblFormat.TabIndex = 0;
+            lblFormat.Text = "Format";
             // 
             // pageLim
             // 
-            this.pageLim.Controls.Add(this.txtDeadband);
-            this.pageLim.Controls.Add(this.lblDeadband);
-            this.pageLim.Controls.Add(this.txtHiHi);
-            this.pageLim.Controls.Add(this.lblHiHi);
-            this.pageLim.Controls.Add(this.txtHigh);
-            this.pageLim.Controls.Add(this.lblHigh);
-            this.pageLim.Controls.Add(this.txtLow);
-            this.pageLim.Controls.Add(this.lblLow);
-            this.pageLim.Controls.Add(this.txtLoLo);
-            this.pageLim.Controls.Add(this.lblLoLo);
-            this.pageLim.Controls.Add(this.chkShared);
-            this.pageLim.Controls.Add(this.btnCreateLim);
-            this.pageLim.Controls.Add(this.cbLim);
-            this.pageLim.Controls.Add(this.lblLim);
-            this.pageLim.Location = new System.Drawing.Point(4, 24);
-            this.pageLim.Name = "pageLim";
-            this.pageLim.Padding = new System.Windows.Forms.Padding(5);
-            this.pageLim.Size = new System.Drawing.Size(476, 382);
-            this.pageLim.TabIndex = 3;
-            this.pageLim.Text = "Limits";
-            this.pageLim.UseVisualStyleBackColor = true;
+            pageLim.Controls.Add(txtDeadband);
+            pageLim.Controls.Add(lblDeadband);
+            pageLim.Controls.Add(txtHiHi);
+            pageLim.Controls.Add(lblHiHi);
+            pageLim.Controls.Add(txtHigh);
+            pageLim.Controls.Add(lblHigh);
+            pageLim.Controls.Add(txtLow);
+            pageLim.Controls.Add(lblLow);
+            pageLim.Controls.Add(txtLoLo);
+            pageLim.Controls.Add(lblLoLo);
+            pageLim.Controls.Add(chkShared);
+            pageLim.Controls.Add(btnCreateLim);
+            pageLim.Controls.Add(cbLim);
+            pageLim.Controls.Add(lblLim);
+            pageLim.Location = new System.Drawing.Point(4, 24);
+            pageLim.Name = "pageLim";
+            pageLim.Padding = new System.Windows.Forms.Padding(5);
+            pageLim.Size = new System.Drawing.Size(476, 382);
+            pageLim.TabIndex = 3;
+            pageLim.Text = "Limits";
+            pageLim.UseVisualStyleBackColor = true;
             // 
             // txtDeadband
             // 
-            this.txtDeadband.Location = new System.Drawing.Point(8, 136);
-            this.txtDeadband.Name = "txtDeadband";
-            this.txtDeadband.ReadOnly = true;
-            this.txtDeadband.Size = new System.Drawing.Size(110, 23);
-            this.txtDeadband.TabIndex = 13;
+            txtDeadband.Location = new System.Drawing.Point(8, 136);
+            txtDeadband.Name = "txtDeadband";
+            txtDeadband.ReadOnly = true;
+            txtDeadband.Size = new System.Drawing.Size(110, 23);
+            txtDeadband.TabIndex = 13;
             // 
             // lblDeadband
             // 
-            this.lblDeadband.AutoSize = true;
-            this.lblDeadband.Location = new System.Drawing.Point(5, 118);
-            this.lblDeadband.Name = "lblDeadband";
-            this.lblDeadband.Size = new System.Drawing.Size(61, 15);
-            this.lblDeadband.TabIndex = 12;
-            this.lblDeadband.Text = "Deadband";
+            lblDeadband.AutoSize = true;
+            lblDeadband.Location = new System.Drawing.Point(5, 118);
+            lblDeadband.Name = "lblDeadband";
+            lblDeadband.Size = new System.Drawing.Size(61, 15);
+            lblDeadband.TabIndex = 12;
+            lblDeadband.Text = "Deadband";
             // 
             // txtHiHi
             // 
-            this.txtHiHi.Location = new System.Drawing.Point(356, 92);
-            this.txtHiHi.Name = "txtHiHi";
-            this.txtHiHi.ReadOnly = true;
-            this.txtHiHi.Size = new System.Drawing.Size(112, 23);
-            this.txtHiHi.TabIndex = 11;
+            txtHiHi.Location = new System.Drawing.Point(356, 92);
+            txtHiHi.Name = "txtHiHi";
+            txtHiHi.ReadOnly = true;
+            txtHiHi.Size = new System.Drawing.Size(112, 23);
+            txtHiHi.TabIndex = 11;
             // 
             // lblHiHi
             // 
-            this.lblHiHi.AutoSize = true;
-            this.lblHiHi.Location = new System.Drawing.Point(353, 74);
-            this.lblHiHi.Name = "lblHiHi";
-            this.lblHiHi.Size = new System.Drawing.Size(86, 15);
-            this.lblHiHi.TabIndex = 10;
-            this.lblHiHi.Text = "Extremely high";
+            lblHiHi.AutoSize = true;
+            lblHiHi.Location = new System.Drawing.Point(353, 74);
+            lblHiHi.Name = "lblHiHi";
+            lblHiHi.Size = new System.Drawing.Size(86, 15);
+            lblHiHi.TabIndex = 10;
+            lblHiHi.Text = "Extremely high";
             // 
             // txtHigh
             // 
-            this.txtHigh.Location = new System.Drawing.Point(240, 92);
-            this.txtHigh.Name = "txtHigh";
-            this.txtHigh.ReadOnly = true;
-            this.txtHigh.Size = new System.Drawing.Size(110, 23);
-            this.txtHigh.TabIndex = 9;
+            txtHigh.Location = new System.Drawing.Point(240, 92);
+            txtHigh.Name = "txtHigh";
+            txtHigh.ReadOnly = true;
+            txtHigh.Size = new System.Drawing.Size(110, 23);
+            txtHigh.TabIndex = 9;
             // 
             // lblHigh
             // 
-            this.lblHigh.AutoSize = true;
-            this.lblHigh.Location = new System.Drawing.Point(237, 74);
-            this.lblHigh.Name = "lblHigh";
-            this.lblHigh.Size = new System.Drawing.Size(33, 15);
-            this.lblHigh.TabIndex = 8;
-            this.lblHigh.Text = "High";
+            lblHigh.AutoSize = true;
+            lblHigh.Location = new System.Drawing.Point(237, 74);
+            lblHigh.Name = "lblHigh";
+            lblHigh.Size = new System.Drawing.Size(33, 15);
+            lblHigh.TabIndex = 8;
+            lblHigh.Text = "High";
             // 
             // txtLow
             // 
-            this.txtLow.Location = new System.Drawing.Point(124, 92);
-            this.txtLow.Name = "txtLow";
-            this.txtLow.ReadOnly = true;
-            this.txtLow.Size = new System.Drawing.Size(110, 23);
-            this.txtLow.TabIndex = 7;
+            txtLow.Location = new System.Drawing.Point(124, 92);
+            txtLow.Name = "txtLow";
+            txtLow.ReadOnly = true;
+            txtLow.Size = new System.Drawing.Size(110, 23);
+            txtLow.TabIndex = 7;
             // 
             // lblLow
             // 
-            this.lblLow.AutoSize = true;
-            this.lblLow.Location = new System.Drawing.Point(121, 74);
-            this.lblLow.Name = "lblLow";
-            this.lblLow.Size = new System.Drawing.Size(29, 15);
-            this.lblLow.TabIndex = 6;
-            this.lblLow.Text = "Low";
+            lblLow.AutoSize = true;
+            lblLow.Location = new System.Drawing.Point(121, 74);
+            lblLow.Name = "lblLow";
+            lblLow.Size = new System.Drawing.Size(29, 15);
+            lblLow.TabIndex = 6;
+            lblLow.Text = "Low";
             // 
             // txtLoLo
             // 
-            this.txtLoLo.Location = new System.Drawing.Point(8, 92);
-            this.txtLoLo.Name = "txtLoLo";
-            this.txtLoLo.ReadOnly = true;
-            this.txtLoLo.Size = new System.Drawing.Size(110, 23);
-            this.txtLoLo.TabIndex = 5;
+            txtLoLo.Location = new System.Drawing.Point(8, 92);
+            txtLoLo.Name = "txtLoLo";
+            txtLoLo.ReadOnly = true;
+            txtLoLo.Size = new System.Drawing.Size(110, 23);
+            txtLoLo.TabIndex = 5;
             // 
             // lblLoLo
             // 
-            this.lblLoLo.AutoSize = true;
-            this.lblLoLo.Location = new System.Drawing.Point(5, 74);
-            this.lblLoLo.Name = "lblLoLo";
-            this.lblLoLo.Size = new System.Drawing.Size(81, 15);
-            this.lblLoLo.TabIndex = 4;
-            this.lblLoLo.Text = "Extremely low";
+            lblLoLo.AutoSize = true;
+            lblLoLo.Location = new System.Drawing.Point(5, 74);
+            lblLoLo.Name = "lblLoLo";
+            lblLoLo.Size = new System.Drawing.Size(81, 15);
+            lblLoLo.TabIndex = 4;
+            lblLoLo.Text = "Extremely low";
             // 
             // chkShared
             // 
-            this.chkShared.AutoSize = true;
-            this.chkShared.Location = new System.Drawing.Point(8, 52);
-            this.chkShared.Name = "chkShared";
-            this.chkShared.Size = new System.Drawing.Size(151, 19);
-            this.chkShared.TabIndex = 3;
-            this.chkShared.Text = "Show only shared limits";
-            this.chkShared.UseVisualStyleBackColor = true;
-            this.chkShared.CheckedChanged += new System.EventHandler(this.chkShared_CheckedChanged);
+            chkShared.AutoSize = true;
+            chkShared.Location = new System.Drawing.Point(8, 52);
+            chkShared.Name = "chkShared";
+            chkShared.Size = new System.Drawing.Size(151, 19);
+            chkShared.TabIndex = 3;
+            chkShared.Text = "Show only shared limits";
+            chkShared.UseVisualStyleBackColor = true;
+            chkShared.CheckedChanged += chkShared_CheckedChanged;
             // 
             // btnCreateLim
             // 
-            this.btnCreateLim.Location = new System.Drawing.Point(393, 23);
-            this.btnCreateLim.Name = "btnCreateLim";
-            this.btnCreateLim.Size = new System.Drawing.Size(75, 23);
-            this.btnCreateLim.TabIndex = 2;
-            this.btnCreateLim.Text = "Create";
-            this.btnCreateLim.UseVisualStyleBackColor = true;
-            this.btnCreateLim.Click += new System.EventHandler(this.btnCreateLim_Click);
+            btnCreateLim.Location = new System.Drawing.Point(393, 23);
+            btnCreateLim.Name = "btnCreateLim";
+            btnCreateLim.Size = new System.Drawing.Size(75, 23);
+            btnCreateLim.TabIndex = 2;
+            btnCreateLim.Text = "Create";
+            btnCreateLim.UseVisualStyleBackColor = true;
+            btnCreateLim.Click += btnCreateLim_Click;
             // 
             // cbLim
             // 
-            this.cbLim.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbLim.FormattingEnabled = true;
-            this.cbLim.Location = new System.Drawing.Point(8, 23);
-            this.cbLim.Name = "cbLim";
-            this.cbLim.Size = new System.Drawing.Size(379, 23);
-            this.cbLim.TabIndex = 1;
-            this.cbLim.SelectedIndexChanged += new System.EventHandler(this.cbLim_SelectedIndexChanged);
+            cbLim.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            cbLim.FormattingEnabled = true;
+            cbLim.Location = new System.Drawing.Point(8, 23);
+            cbLim.Name = "cbLim";
+            cbLim.Size = new System.Drawing.Size(379, 23);
+            cbLim.TabIndex = 1;
+            cbLim.SelectedIndexChanged += cbLim_SelectedIndexChanged;
             // 
             // lblLim
             // 
-            this.lblLim.AutoSize = true;
-            this.lblLim.Location = new System.Drawing.Point(5, 5);
-            this.lblLim.Name = "lblLim";
-            this.lblLim.Size = new System.Drawing.Size(34, 15);
-            this.lblLim.TabIndex = 0;
-            this.lblLim.Text = "Limit";
+            lblLim.AutoSize = true;
+            lblLim.Location = new System.Drawing.Point(5, 5);
+            lblLim.Name = "lblLim";
+            lblLim.Size = new System.Drawing.Size(34, 15);
+            lblLim.TabIndex = 0;
+            lblLim.Text = "Limit";
             // 
             // pageArchives
             // 
-            this.pageArchives.Controls.Add(this.bmArchive);
-            this.pageArchives.Location = new System.Drawing.Point(4, 24);
-            this.pageArchives.Name = "pageArchives";
-            this.pageArchives.Padding = new System.Windows.Forms.Padding(5);
-            this.pageArchives.Size = new System.Drawing.Size(476, 382);
-            this.pageArchives.TabIndex = 1;
-            this.pageArchives.Text = "Archives";
-            this.pageArchives.UseVisualStyleBackColor = true;
+            pageArchives.Controls.Add(bmArchive);
+            pageArchives.Location = new System.Drawing.Point(4, 24);
+            pageArchives.Name = "pageArchives";
+            pageArchives.Padding = new System.Windows.Forms.Padding(5);
+            pageArchives.Size = new System.Drawing.Size(476, 382);
+            pageArchives.TabIndex = 1;
+            pageArchives.Text = "Archives";
+            pageArchives.UseVisualStyleBackColor = true;
             // 
             // bmArchive
             // 
-            this.bmArchive.Location = new System.Drawing.Point(8, 5);
-            this.bmArchive.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
-            this.bmArchive.MaskBits = null;
-            this.bmArchive.MaskValue = 0;
-            this.bmArchive.Name = "bmArchive";
-            this.bmArchive.Size = new System.Drawing.Size(460, 369);
-            this.bmArchive.TabIndex = 0;
+            bmArchive.Location = new System.Drawing.Point(8, 5);
+            bmArchive.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
+            bmArchive.MaskBits = null;
+            bmArchive.MaskValue = 0;
+            bmArchive.Name = "bmArchive";
+            bmArchive.Size = new System.Drawing.Size(460, 369);
+            bmArchive.TabIndex = 0;
             // 
             // pageEvents
             // 
-            this.pageEvents.Controls.Add(this.bmEvent);
-            this.pageEvents.Location = new System.Drawing.Point(4, 24);
-            this.pageEvents.Name = "pageEvents";
-            this.pageEvents.Padding = new System.Windows.Forms.Padding(5);
-            this.pageEvents.Size = new System.Drawing.Size(476, 382);
-            this.pageEvents.TabIndex = 2;
-            this.pageEvents.Text = "Events";
-            this.pageEvents.UseVisualStyleBackColor = true;
+            pageEvents.Controls.Add(bmEvent);
+            pageEvents.Location = new System.Drawing.Point(4, 24);
+            pageEvents.Name = "pageEvents";
+            pageEvents.Padding = new System.Windows.Forms.Padding(5);
+            pageEvents.Size = new System.Drawing.Size(476, 382);
+            pageEvents.TabIndex = 2;
+            pageEvents.Text = "Events";
+            pageEvents.UseVisualStyleBackColor = true;
             // 
             // bmEvent
             // 
-            this.bmEvent.Location = new System.Drawing.Point(8, 5);
-            this.bmEvent.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
-            this.bmEvent.MaskBits = null;
-            this.bmEvent.MaskValue = 0;
-            this.bmEvent.Name = "bmEvent";
-            this.bmEvent.Size = new System.Drawing.Size(460, 369);
-            this.bmEvent.TabIndex = 0;
+            bmEvent.Location = new System.Drawing.Point(8, 5);
+            bmEvent.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
+            bmEvent.MaskBits = null;
+            bmEvent.MaskValue = 0;
+            bmEvent.Name = "bmEvent";
+            bmEvent.Size = new System.Drawing.Size(460, 369);
+            bmEvent.TabIndex = 0;
             // 
             // pnlBottom
             // 
-            this.pnlBottom.Controls.Add(this.btnCancel);
-            this.pnlBottom.Controls.Add(this.btnOK);
-            this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlBottom.Location = new System.Drawing.Point(0, 410);
-            this.pnlBottom.Name = "pnlBottom";
-            this.pnlBottom.Size = new System.Drawing.Size(484, 41);
-            this.pnlBottom.TabIndex = 1;
+            pnlBottom.Controls.Add(btnCancel);
+            pnlBottom.Controls.Add(btnOK);
+            pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
+            pnlBottom.Location = new System.Drawing.Point(0, 410);
+            pnlBottom.Name = "pnlBottom";
+            pnlBottom.Size = new System.Drawing.Size(484, 41);
+            pnlBottom.TabIndex = 1;
             // 
             // btnCancel
             // 
-            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancel.Location = new System.Drawing.Point(397, 6);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 1;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            btnCancel.Location = new System.Drawing.Point(397, 6);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new System.Drawing.Size(75, 23);
+            btnCancel.TabIndex = 1;
+            btnCancel.Text = "Cancel";
+            btnCancel.UseVisualStyleBackColor = true;
             // 
             // btnOK
             // 
-            this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.Location = new System.Drawing.Point(316, 6);
-            this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 0;
-            this.btnOK.Text = "OK";
-            this.btnOK.UseVisualStyleBackColor = true;
-            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            btnOK.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            btnOK.Location = new System.Drawing.Point(316, 6);
+            btnOK.Name = "btnOK";
+            btnOK.Size = new System.Drawing.Size(75, 23);
+            btnOK.TabIndex = 0;
+            btnOK.Text = "OK";
+            btnOK.UseVisualStyleBackColor = true;
+            btnOK.Click += btnOK_Click;
             // 
             // FrmCnl
             // 
-            this.AcceptButton = this.btnOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(484, 451);
-            this.Controls.Add(this.tabControl);
-            this.Controls.Add(this.pnlBottom);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FrmCnl";
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Channel Properties";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmInCnl_FormClosed);
-            this.Load += new System.EventHandler(this.FrmInCnl_Load);
-            this.tabControl.ResumeLayout(false);
-            this.pageGeneral.ResumeLayout(false);
-            this.pageGeneral.PerformLayout();
-            this.pageDisplay.ResumeLayout(false);
-            this.pageDisplay.PerformLayout();
-            this.pageLim.ResumeLayout(false);
-            this.pageLim.PerformLayout();
-            this.pageArchives.ResumeLayout(false);
-            this.pageEvents.ResumeLayout(false);
-            this.pnlBottom.ResumeLayout(false);
-            this.ResumeLayout(false);
-
+            AcceptButton = btnOK;
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            CancelButton = btnCancel;
+            ClientSize = new System.Drawing.Size(484, 451);
+            Controls.Add(tabControl);
+            Controls.Add(pnlBottom);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "FrmCnl";
+            ShowInTaskbar = false;
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Channel Properties";
+            FormClosed += FrmInCnl_FormClosed;
+            Load += FrmInCnl_Load;
+            tabControl.ResumeLayout(false);
+            pageGeneral.ResumeLayout(false);
+            pageGeneral.PerformLayout();
+            pageDisplay.ResumeLayout(false);
+            pageDisplay.PerformLayout();
+            pageLim.ResumeLayout(false);
+            pageLim.PerformLayout();
+            pageArchives.ResumeLayout(false);
+            pageEvents.ResumeLayout(false);
+            pnlBottom.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
         #endregion
