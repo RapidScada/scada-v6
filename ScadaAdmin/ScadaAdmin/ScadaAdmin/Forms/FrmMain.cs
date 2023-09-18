@@ -1379,7 +1379,7 @@ namespace Scada.Admin.App.Forms
         private void miHelpDoc_Click(object sender, EventArgs e)
         {
             // open the documentation
-            ScadaUiUtils.StartProcess(Locale.IsRussian ? AppUtils.DocRuUrl : AppUtils.DocEnUrl);
+            ScadaUiUtils.StartProcess(AppUtils.DocUrl);
         }
 
         private void miHelpSupport_Click(object sender, EventArgs e)

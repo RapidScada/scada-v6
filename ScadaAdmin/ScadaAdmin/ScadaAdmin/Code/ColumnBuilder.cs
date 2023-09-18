@@ -222,6 +222,7 @@ namespace Scada.Admin.App.Code
                 NewTextBoxColumn("CnlNum", new ColumnOptions(ColumnKind.PrimaryKey)),
                 NewCheckBoxColumn("Active", new ColumnOptions { DefaultValue = true }),
                 NewTextBoxColumn("Name", new ColumnOptions(ColumnLength.Name)),
+                NewTextBoxColumn("Code", new ColumnOptions(ColumnLength.Code)),
                 NewComboBoxColumn("DataTypeID", "Name", configDatabase.DataTypeTable, true),
                 NewTextBoxColumn("DataLen"),
                 NewComboBoxColumn("CnlTypeID", "Name", configDatabase.CnlTypeTable, false, false,

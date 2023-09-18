@@ -81,6 +81,7 @@ namespace Scada.Admin.App.Forms.Tables
                 chkActive.SetChecked(cells["Active"]);
                 txtCnlNum.SetText(cells["CnlNum"]);
                 txtName.SetText(cells["Name"]);
+                txtCode.SetText(cells["Code"]);
                 cbDataType.SetValue(cells["DataTypeID"]);
                 txtDataLen.SetText(cells["DataLen"]);
                 cbCnlType.SetValue(cells["CnlTypeID"]);
@@ -166,6 +167,7 @@ namespace Scada.Admin.App.Forms.Tables
                 cells["Active"].Value = chkActive.Checked;
                 cells["CnlNum"].Value = cnlNum;
                 cells["Name"].Value = txtName.Text;
+                cells["Code"].Value = txtCode.Text;
                 cells["DataTypeID"].Value = cbDataType.SelectedValue ?? DBNull.Value;
                 cells["DataLen"].Value = dataLen > 0 ? dataLen : DBNull.Value;
                 cells["CnlTypeID"].Value = cbCnlType.SelectedValue ?? DBNull.Value;

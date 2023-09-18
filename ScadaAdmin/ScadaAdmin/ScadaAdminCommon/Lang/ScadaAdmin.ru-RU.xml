@@ -22,6 +22,7 @@
     <Phrase key="CnlNum">Номер</Phrase>
     <Phrase key="Active">Активный</Phrase>
     <Phrase key="Name">Наименование</Phrase>
+    <Phrase key="Code">Код</Phrase>
     <Phrase key="DataTypeID">Тип данных</Phrase>
     <Phrase key="DataLen">Длина данных</Phrase>
     <Phrase key="CnlTypeID">Тип канала</Phrase>

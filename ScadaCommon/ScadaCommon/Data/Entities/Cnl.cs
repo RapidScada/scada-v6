@@ -42,6 +42,8 @@ namespace Scada.Data.Entities
 
         public string Name { get; set; }
 
+        public string Code { get; set; }
+
         public int? DataTypeID { get; set; }
 
         public int? DataLen { get; set; }

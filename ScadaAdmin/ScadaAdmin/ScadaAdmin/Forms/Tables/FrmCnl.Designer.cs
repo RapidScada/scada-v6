@@ -52,6 +52,8 @@ namespace Scada.Admin.App.Forms.Tables
             lblDataLen = new System.Windows.Forms.Label();
             cbDataType = new System.Windows.Forms.ComboBox();
             lblDataType = new System.Windows.Forms.Label();
+            txtCode = new System.Windows.Forms.TextBox();
+            lblCode = new System.Windows.Forms.Label();
             txtName = new System.Windows.Forms.TextBox();
             lblName = new System.Windows.Forms.Label();
             txtCnlNum = new System.Windows.Forms.TextBox();
@@ -108,7 +110,7 @@ namespace Scada.Admin.App.Forms.Tables
             tabControl.Location = new System.Drawing.Point(0, 0);
             tabControl.Name = "tabControl";
             tabControl.SelectedIndex = 0;
-            tabControl.Size = new System.Drawing.Size(484, 410);
+            tabControl.Size = new System.Drawing.Size(484, 454);
             tabControl.TabIndex = 0;
             // 
             // pageGeneral
@@ -134,6 +136,8 @@ namespace Scada.Admin.App.Forms.Tables
             pageGeneral.Controls.Add(lblDataLen);
             pageGeneral.Controls.Add(cbDataType);
             pageGeneral.Controls.Add(lblDataType);
+            pageGeneral.Controls.Add(txtCode);
+            pageGeneral.Controls.Add(lblCode);
             pageGeneral.Controls.Add(txtName);
             pageGeneral.Controls.Add(lblName);
             pageGeneral.Controls.Add(txtCnlNum);
@@ -142,191 +146,207 @@ namespace Scada.Admin.App.Forms.Tables
             pageGeneral.Location = new System.Drawing.Point(4, 24);
             pageGeneral.Name = "pageGeneral";
             pageGeneral.Padding = new System.Windows.Forms.Padding(5);
-            pageGeneral.Size = new System.Drawing.Size(476, 382);
+            pageGeneral.Size = new System.Drawing.Size(476, 426);
             pageGeneral.TabIndex = 0;
             pageGeneral.Text = "General";
             pageGeneral.UseVisualStyleBackColor = true;
             // 
             // txtOutFormula
             // 
-            txtOutFormula.Location = new System.Drawing.Point(38, 351);
+            txtOutFormula.Location = new System.Drawing.Point(38, 395);
             txtOutFormula.Name = "txtOutFormula";
             txtOutFormula.Size = new System.Drawing.Size(430, 23);
-            txtOutFormula.TabIndex = 25;
+            txtOutFormula.TabIndex = 27;
             // 
             // lblOutFormula
             // 
             lblOutFormula.AutoSize = true;
-            lblOutFormula.Location = new System.Drawing.Point(5, 355);
+            lblOutFormula.Location = new System.Drawing.Point(5, 399);
             lblOutFormula.Name = "lblOutFormula";
             lblOutFormula.Size = new System.Drawing.Size(27, 15);
-            lblOutFormula.TabIndex = 24;
+            lblOutFormula.TabIndex = 26;
             lblOutFormula.Text = "Out";
             // 
             // txtInFormula
             // 
-            txtInFormula.Location = new System.Drawing.Point(38, 322);
+            txtInFormula.Location = new System.Drawing.Point(38, 366);
             txtInFormula.Name = "txtInFormula";
             txtInFormula.Size = new System.Drawing.Size(430, 23);
-            txtInFormula.TabIndex = 23;
+            txtInFormula.TabIndex = 25;
             // 
             // lblInFormula
             // 
             lblInFormula.AutoSize = true;
-            lblInFormula.Location = new System.Drawing.Point(5, 326);
+            lblInFormula.Location = new System.Drawing.Point(5, 370);
             lblInFormula.Name = "lblInFormula";
             lblInFormula.Size = new System.Drawing.Size(17, 15);
-            lblInFormula.TabIndex = 22;
+            lblInFormula.TabIndex = 24;
             lblInFormula.Text = "In";
             // 
             // chkFormulaEnabled
             // 
             chkFormulaEnabled.AutoSize = true;
-            chkFormulaEnabled.Location = new System.Drawing.Point(8, 297);
+            chkFormulaEnabled.Location = new System.Drawing.Point(8, 341);
             chkFormulaEnabled.Name = "chkFormulaEnabled";
             chkFormulaEnabled.Size = new System.Drawing.Size(70, 19);
-            chkFormulaEnabled.TabIndex = 21;
+            chkFormulaEnabled.TabIndex = 23;
             chkFormulaEnabled.Text = "Formula";
             chkFormulaEnabled.UseVisualStyleBackColor = true;
             chkFormulaEnabled.CheckedChanged += chkFormulaEnabled_CheckedChanged;
             // 
             // txtTagCode
             // 
-            txtTagCode.Location = new System.Drawing.Point(114, 268);
+            txtTagCode.Location = new System.Drawing.Point(114, 312);
             txtTagCode.Name = "txtTagCode";
             txtTagCode.Size = new System.Drawing.Size(354, 23);
-            txtTagCode.TabIndex = 20;
+            txtTagCode.TabIndex = 22;
             // 
             // lblTagCode
             // 
             lblTagCode.AutoSize = true;
-            lblTagCode.Location = new System.Drawing.Point(111, 250);
+            lblTagCode.Location = new System.Drawing.Point(111, 294);
             lblTagCode.Name = "lblTagCode";
             lblTagCode.Size = new System.Drawing.Size(54, 15);
-            lblTagCode.TabIndex = 19;
+            lblTagCode.TabIndex = 21;
             lblTagCode.Text = "Tag code";
             // 
             // txtTagNum
             // 
-            txtTagNum.Location = new System.Drawing.Point(8, 268);
+            txtTagNum.Location = new System.Drawing.Point(8, 312);
             txtTagNum.Name = "txtTagNum";
             txtTagNum.Size = new System.Drawing.Size(100, 23);
-            txtTagNum.TabIndex = 18;
+            txtTagNum.TabIndex = 20;
             // 
             // lblTagNum
             // 
             lblTagNum.AutoSize = true;
-            lblTagNum.Location = new System.Drawing.Point(5, 250);
+            lblTagNum.Location = new System.Drawing.Point(5, 294);
             lblTagNum.Name = "lblTagNum";
             lblTagNum.Size = new System.Drawing.Size(70, 15);
-            lblTagNum.TabIndex = 17;
+            lblTagNum.TabIndex = 19;
             lblTagNum.Text = "Tag number";
             // 
             // cbDevice
             // 
             cbDevice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             cbDevice.FormattingEnabled = true;
-            cbDevice.Location = new System.Drawing.Point(114, 224);
+            cbDevice.Location = new System.Drawing.Point(114, 268);
             cbDevice.Name = "cbDevice";
             cbDevice.Size = new System.Drawing.Size(354, 23);
-            cbDevice.TabIndex = 16;
+            cbDevice.TabIndex = 18;
             cbDevice.SelectedIndexChanged += cbDevice_SelectedIndexChanged;
             // 
             // txtDeviceNum
             // 
-            txtDeviceNum.Location = new System.Drawing.Point(8, 224);
+            txtDeviceNum.Location = new System.Drawing.Point(8, 268);
             txtDeviceNum.Name = "txtDeviceNum";
             txtDeviceNum.ReadOnly = true;
             txtDeviceNum.Size = new System.Drawing.Size(100, 23);
-            txtDeviceNum.TabIndex = 15;
+            txtDeviceNum.TabIndex = 17;
             // 
             // lblDevice
             // 
             lblDevice.AutoSize = true;
-            lblDevice.Location = new System.Drawing.Point(5, 206);
+            lblDevice.Location = new System.Drawing.Point(5, 250);
             lblDevice.Name = "lblDevice";
             lblDevice.Size = new System.Drawing.Size(42, 15);
-            lblDevice.TabIndex = 14;
+            lblDevice.TabIndex = 16;
             lblDevice.Text = "Device";
             // 
             // cbObj
             // 
             cbObj.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             cbObj.FormattingEnabled = true;
-            cbObj.Location = new System.Drawing.Point(114, 180);
+            cbObj.Location = new System.Drawing.Point(114, 224);
             cbObj.Name = "cbObj";
             cbObj.Size = new System.Drawing.Size(354, 23);
-            cbObj.TabIndex = 13;
+            cbObj.TabIndex = 15;
             cbObj.SelectedIndexChanged += cbObj_SelectedIndexChanged;
             // 
             // txtObjNum
             // 
-            txtObjNum.Location = new System.Drawing.Point(8, 180);
+            txtObjNum.Location = new System.Drawing.Point(8, 224);
             txtObjNum.Name = "txtObjNum";
             txtObjNum.ReadOnly = true;
             txtObjNum.Size = new System.Drawing.Size(100, 23);
-            txtObjNum.TabIndex = 12;
+            txtObjNum.TabIndex = 14;
             // 
             // lblObj
             // 
             lblObj.AutoSize = true;
-            lblObj.Location = new System.Drawing.Point(5, 162);
+            lblObj.Location = new System.Drawing.Point(5, 206);
             lblObj.Name = "lblObj";
             lblObj.Size = new System.Drawing.Size(42, 15);
-            lblObj.TabIndex = 11;
+            lblObj.TabIndex = 13;
             lblObj.Text = "Object";
             // 
             // cbCnlType
             // 
             cbCnlType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             cbCnlType.FormattingEnabled = true;
-            cbCnlType.Location = new System.Drawing.Point(8, 136);
+            cbCnlType.Location = new System.Drawing.Point(8, 180);
             cbCnlType.Name = "cbCnlType";
             cbCnlType.Size = new System.Drawing.Size(460, 23);
-            cbCnlType.TabIndex = 10;
+            cbCnlType.TabIndex = 12;
             // 
             // lblCnlType
             // 
             lblCnlType.AutoSize = true;
-            lblCnlType.Location = new System.Drawing.Point(5, 118);
+            lblCnlType.Location = new System.Drawing.Point(5, 162);
             lblCnlType.Name = "lblCnlType";
             lblCnlType.Size = new System.Drawing.Size(77, 15);
-            lblCnlType.TabIndex = 9;
+            lblCnlType.TabIndex = 11;
             lblCnlType.Text = "Channel type";
             // 
             // txtDataLen
             // 
-            txtDataLen.Location = new System.Drawing.Point(368, 92);
+            txtDataLen.Location = new System.Drawing.Point(368, 136);
             txtDataLen.Name = "txtDataLen";
             txtDataLen.Size = new System.Drawing.Size(100, 23);
-            txtDataLen.TabIndex = 8;
+            txtDataLen.TabIndex = 10;
             // 
             // lblDataLen
             // 
             lblDataLen.AutoSize = true;
-            lblDataLen.Location = new System.Drawing.Point(365, 74);
+            lblDataLen.Location = new System.Drawing.Point(365, 118);
             lblDataLen.Name = "lblDataLen";
             lblDataLen.Size = new System.Drawing.Size(68, 15);
-            lblDataLen.TabIndex = 7;
+            lblDataLen.TabIndex = 9;
             lblDataLen.Text = "Data length";
             // 
             // cbDataType
             // 
             cbDataType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             cbDataType.FormattingEnabled = true;
-            cbDataType.Location = new System.Drawing.Point(8, 92);
+            cbDataType.Location = new System.Drawing.Point(8, 136);
             cbDataType.Name = "cbDataType";
             cbDataType.Size = new System.Drawing.Size(354, 23);
-            cbDataType.TabIndex = 6;
+            cbDataType.TabIndex = 8;
             // 
             // lblDataType
             // 
             lblDataType.AutoSize = true;
-            lblDataType.Location = new System.Drawing.Point(5, 74);
+            lblDataType.Location = new System.Drawing.Point(5, 118);
             lblDataType.Name = "lblDataType";
             lblDataType.Size = new System.Drawing.Size(57, 15);
-            lblDataType.TabIndex = 5;
+            lblDataType.TabIndex = 7;
             lblDataType.Text = "Data type";
+            // 
+            // txtCode
+            // 
+            txtCode.Location = new System.Drawing.Point(8, 92);
+            txtCode.Name = "txtCode";
+            txtCode.Size = new System.Drawing.Size(460, 23);
+            txtCode.TabIndex = 6;
+            // 
+            // lblCode
+            // 
+            lblCode.AutoSize = true;
+            lblCode.Location = new System.Drawing.Point(5, 74);
+            lblCode.Name = "lblCode";
+            lblCode.Size = new System.Drawing.Size(35, 15);
+            lblCode.TabIndex = 5;
+            lblCode.Text = "Code";
             // 
             // txtName
             // 
@@ -383,7 +403,7 @@ namespace Scada.Admin.App.Forms.Tables
             pageDisplay.Location = new System.Drawing.Point(4, 24);
             pageDisplay.Name = "pageDisplay";
             pageDisplay.Padding = new System.Windows.Forms.Padding(5);
-            pageDisplay.Size = new System.Drawing.Size(476, 382);
+            pageDisplay.Size = new System.Drawing.Size(476, 432);
             pageDisplay.TabIndex = 4;
             pageDisplay.Text = "Display";
             pageDisplay.UseVisualStyleBackColor = true;
@@ -479,7 +499,7 @@ namespace Scada.Admin.App.Forms.Tables
             pageLim.Location = new System.Drawing.Point(4, 24);
             pageLim.Name = "pageLim";
             pageLim.Padding = new System.Windows.Forms.Padding(5);
-            pageLim.Size = new System.Drawing.Size(476, 382);
+            pageLim.Size = new System.Drawing.Size(476, 432);
             pageLim.TabIndex = 3;
             pageLim.Text = "Limits";
             pageLim.UseVisualStyleBackColor = true;
@@ -615,7 +635,7 @@ namespace Scada.Admin.App.Forms.Tables
             pageArchives.Location = new System.Drawing.Point(4, 24);
             pageArchives.Name = "pageArchives";
             pageArchives.Padding = new System.Windows.Forms.Padding(5);
-            pageArchives.Size = new System.Drawing.Size(476, 382);
+            pageArchives.Size = new System.Drawing.Size(476, 426);
             pageArchives.TabIndex = 1;
             pageArchives.Text = "Archives";
             pageArchives.UseVisualStyleBackColor = true;
@@ -627,7 +647,7 @@ namespace Scada.Admin.App.Forms.Tables
             bmArchive.MaskBits = null;
             bmArchive.MaskValue = 0;
             bmArchive.Name = "bmArchive";
-            bmArchive.Size = new System.Drawing.Size(460, 369);
+            bmArchive.Size = new System.Drawing.Size(460, 413);
             bmArchive.TabIndex = 0;
             // 
             // pageEvents
@@ -636,7 +656,7 @@ namespace Scada.Admin.App.Forms.Tables
             pageEvents.Location = new System.Drawing.Point(4, 24);
             pageEvents.Name = "pageEvents";
             pageEvents.Padding = new System.Windows.Forms.Padding(5);
-            pageEvents.Size = new System.Drawing.Size(476, 382);
+            pageEvents.Size = new System.Drawing.Size(476, 426);
             pageEvents.TabIndex = 2;
             pageEvents.Text = "Events";
             pageEvents.UseVisualStyleBackColor = true;
@@ -648,7 +668,7 @@ namespace Scada.Admin.App.Forms.Tables
             bmEvent.MaskBits = null;
             bmEvent.MaskValue = 0;
             bmEvent.Name = "bmEvent";
-            bmEvent.Size = new System.Drawing.Size(460, 369);
+            bmEvent.Size = new System.Drawing.Size(460, 413);
             bmEvent.TabIndex = 0;
             // 
             // pnlBottom
@@ -656,7 +676,7 @@ namespace Scada.Admin.App.Forms.Tables
             pnlBottom.Controls.Add(btnCancel);
             pnlBottom.Controls.Add(btnOK);
             pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            pnlBottom.Location = new System.Drawing.Point(0, 410);
+            pnlBottom.Location = new System.Drawing.Point(0, 454);
             pnlBottom.Name = "pnlBottom";
             pnlBottom.Size = new System.Drawing.Size(484, 41);
             pnlBottom.TabIndex = 1;
@@ -688,7 +708,7 @@ namespace Scada.Admin.App.Forms.Tables
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             CancelButton = btnCancel;
-            ClientSize = new System.Drawing.Size(484, 451);
+            ClientSize = new System.Drawing.Size(484, 495);
             Controls.Add(tabControl);
             Controls.Add(pnlBottom);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -774,5 +794,7 @@ namespace Scada.Admin.App.Forms.Tables
         private System.Windows.Forms.Label lblFormat;
         private System.Windows.Forms.ComboBox cbOutFormat;
         private System.Windows.Forms.Label lblOutFormat;
+        private System.Windows.Forms.TextBox txtCode;
+        private System.Windows.Forms.Label lblCode;
     }
 }
