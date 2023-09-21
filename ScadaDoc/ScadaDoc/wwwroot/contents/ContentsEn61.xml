@@ -37,7 +37,18 @@
       </Item>
     </Subitems>
   </Item>
-  
+
+  <!-- Modules -->
+  <Item>
+    <Text>Modules</Text>
+    <Subitems>
+      <Item>
+        <Text>Chart Pro Plugin</Text>
+        <Url>/en/latest/modules/plg-chart-pro</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
   <!-- Developers -->
   <Item>
     <Text>Developers</Text>
