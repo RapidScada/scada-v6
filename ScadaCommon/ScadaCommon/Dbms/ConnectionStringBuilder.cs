@@ -29,7 +29,7 @@ namespace Scada.Dbms
 {
     /// <summary>
     /// Builds database connection strings.
-    /// <para>Формирует строки подключения к базам данных.</para>
+    /// <para>Формирует строки соединения с базами данных.</para>
     /// </summary>
     public static class ConnectionStringBuilder
     {
