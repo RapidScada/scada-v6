@@ -35,6 +35,10 @@
         <Text>Install Modules</Text>
         <Url>/en/latest/installation/install-modules</Url>
       </Item>
+      <Item>
+        <Text>Safety</Text>
+        <Url>/en/latest/installation/safety</Url>
+      </Item>
     </Subitems>
   </Item>
 

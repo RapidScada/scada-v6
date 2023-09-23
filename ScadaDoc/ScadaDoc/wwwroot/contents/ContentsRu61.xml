@@ -35,6 +35,10 @@
         <Text>Установка модулей</Text>
         <Url>/ru/latest/installation/install-modules</Url>
       </Item>
+      <Item>
+        <Text>Безопасность</Text>
+        <Url>/ru/latest/installation/safety</Url>
+      </Item>
     </Subitems>
   </Item>
 

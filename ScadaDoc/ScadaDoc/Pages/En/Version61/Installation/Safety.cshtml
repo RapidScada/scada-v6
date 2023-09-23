@@ -1,0 +1,26 @@
+﻿@page "/en/latest/installation/safety"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Safety Recommendations";
+}
+
+<h1>Safety Recommendations</h1>
+
+<h2>File Protection</h2>
+<p>If Rapid SCADA is used in a corporate environment, ensure that other users do not have access to the Rapid SCADA <abbr title="C:\Program Files\SCADA, /opt/scada">installation directory</abbr>. On Windows, open the properties of the directory containing  Rapid SCADA applications, choose the <strong>Security</strong> tab, check and and configure access rights.</p>
+
+<h2>HTTPS</h2>
+<p>Configure a web server to enable HTTPS protocol for the Webstation application. Using HTTPS, all traffic between a browser and the web server, including passwords, is encrypted.</p>
+
+<h2>VPN</h2>
+<p>Use VPN to provide access for external users. If possible, avoid open access to Webstation from outside.</p>
+
+<h2>Passwords</h2>
+<p>Change the default passwords. To create strong passwords, use a password generator, for example, available <a href="https://passwordsgenerator.net/" target="_blank">here</a>. If a company uses Active Directory, setting up Rapid SCADA user authentication based on Active Directory enhances system security.</p>
+<p>Passwords to be set:</p>
+<ul>
+    <li>User passwords in the <strong>Users</strong> table of the project.</li>
+    <li>Password for connecting to the Server application in the Communicator and Webstation settings.</li>
+    <li>Agent password, located in the <code>ScadaAgentConfig.xml</code> file.</li>
+    <li>Password for connecting to the Agent application in the deployment profile.</li>
+</ul>
