@@ -50,6 +50,10 @@
         <Text>Плагин Графики Про</Text>
         <Url>/ru/latest/modules/plg-chart-pro</Url>
       </Item>
+      <Item>
+        <Text>Плагин Дэшборды</Text>
+        <Url>/ru/latest/modules/plg-dashboard</Url>
+      </Item>
     </Subitems>
   </Item>
 
