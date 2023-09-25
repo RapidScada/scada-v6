@@ -87,8 +87,8 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
 
             if (CommContext.Storage.GetFileInfo(DataCategory.Config, path).Exists)
             {
-                byte[] bytes = CommContext.Storage.ReadBytes(DataCategory.Config, path);
-                return new MemoryStream(bytes);
+                string contents = CommContext.Storage.ReadText(DataCategory.Config, path);
+                return new MemoryStream(Encoding.UTF8.GetBytes(contents));
             }
             else
             {
@@ -104,9 +104,9 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// </summary>
         private void WriteOpcConfig(string path, Stream stream)
         {
-            BinaryReader reader = new(stream); // do not close reader
-            byte[] bytes = reader.ReadBytes((int)stream.Length);
-            CommContext.Storage.WriteBytes(DataCategory.Config, path, bytes);
+            StreamReader reader = new(stream);
+            string contents = reader.ReadToEnd();
+            CommContext.Storage.WriteText(DataCategory.Config, path, contents);
         }
 
         /// <summary>

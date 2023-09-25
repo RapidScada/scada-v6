@@ -20,10 +20,9 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2022
+ * Modified : 2023
  */
 
-using System;
 using System.Xml;
 
 namespace Scada.Admin.Config
@@ -32,34 +31,17 @@ namespace Scada.Admin.Config
     /// Represents channel numbering options.
     /// <para>Представляет параметры нумерации каналов.</para>
     /// </summary>
-    public class ChannelNumberingOptions
+    public class ChannelNumberingOptions : NumberingOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public ChannelNumberingOptions()
+            : base()
         {
-            Multiplicity = 100;
-            Shift = 1;
-            Gap = 10;
             PrependDeviceName = true;
         }
 
-
-        /// <summary>
-        /// Gets or sets the multiplicity of the first channel of a device.
-        /// </summary>
-        public int Multiplicity { get; set; }
-
-        /// <summary>
-        /// Gets or sets the shift of the first channel of a device.
-        /// </summary>
-        public int Shift { get; set; }
-
-        /// <summary>
-        /// Gets or sets the gap between channel numbers of different devices.
-        /// </summary>
-        public int Gap { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to prepend a device name in channel names.
@@ -70,24 +52,18 @@ namespace Scada.Admin.Config
         /// <summary>
         /// Loads the options from the XML node.
         /// </summary>
-        public void LoadFromXml(XmlNode xmlNode)
+        public override void LoadFromXml(XmlNode xmlNode)
         {
-            ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
-            Multiplicity = xmlNode.GetChildAsInt("Multiplicity", Multiplicity);
-            Shift = xmlNode.GetChildAsInt("Shift", Shift);
-            Gap = xmlNode.GetChildAsInt("Gap", Gap);
+            base.LoadFromXml(xmlNode);
             PrependDeviceName = xmlNode.GetChildAsBool("PrependDeviceName", PrependDeviceName);
         }
 
         /// <summary>
         /// Saves the options into the XML node.
         /// </summary>
-        public void SaveToXml(XmlElement xmlElem)
+        public override void SaveToXml(XmlElement xmlElem)
         {
-            ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
-            xmlElem.AppendElem("Multiplicity", Multiplicity);
-            xmlElem.AppendElem("Shift", Shift);
-            xmlElem.AppendElem("Gap", Gap);
+            base.SaveToXml(xmlElem);
             xmlElem.AppendElem("PrependDeviceName", PrependDeviceName);
         }
     }

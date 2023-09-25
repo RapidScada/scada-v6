@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2019
- * Modified : 2019
+ * Modified : 2023
  */
 
 namespace Scada.Admin.App.Code
@@ -37,7 +37,6 @@ namespace Scada.Admin.App.Code
         public const int Code = 100;
         public const int Password = 100;
         public const int Description = 1000;
-        public const int Enumeration = 1000;
         public const int SourceCode = 10000;
     }
 }

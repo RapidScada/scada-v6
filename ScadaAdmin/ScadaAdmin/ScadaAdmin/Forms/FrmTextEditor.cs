@@ -124,7 +124,7 @@ namespace Scada.Admin.App.Forms
         private void ChildFormTag_MessageToChildForm(object sender, FormMessageEventArgs e)
         {
             // update file name in case of renaming a file or its parent directory
-            if (e.Message == AdminMessage.UpdateFileName && 
+            if (e.Message == AdminMessage.UpdateFileName &&
                 e.GetArgument("FileName") is string newFileName && newFileName != "")
             {
                 fileName = newFileName;

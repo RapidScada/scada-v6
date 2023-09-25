@@ -222,6 +222,7 @@ namespace Scada.Admin.App.Code
                 NewTextBoxColumn("CnlNum", new ColumnOptions(ColumnKind.PrimaryKey)),
                 NewCheckBoxColumn("Active", new ColumnOptions { DefaultValue = true }),
                 NewTextBoxColumn("Name", new ColumnOptions(ColumnLength.Name)),
+                NewTextBoxColumn("Code", new ColumnOptions(ColumnLength.Code)),
                 NewComboBoxColumn("DataTypeID", "Name", configDatabase.DataTypeTable, true),
                 NewTextBoxColumn("DataLen"),
                 NewComboBoxColumn("CnlTypeID", "Name", configDatabase.CnlTypeTable, false, false,
@@ -353,7 +354,7 @@ namespace Scada.Admin.App.Code
                 NewCheckBoxColumn("IsEnum"),
                 NewCheckBoxColumn("IsDate"),
                 NewCheckBoxColumn("IsString"),
-                NewTextBoxColumn("Frmt", new ColumnOptions(ColumnKind.MultilineText, ColumnLength.Enumeration)),
+                NewTextBoxColumn("Frmt", new ColumnOptions(ColumnKind.MultilineText, ColumnLength.Long)),
                 NewButtonColumn("Frmt"),
                 NewTextBoxColumn("Descr", new ColumnOptions(ColumnLength.Description))
             });
@@ -510,7 +511,7 @@ namespace Scada.Admin.App.Code
                 NewButtonColumn("Path", new ColumnOptions(ColumnKind.SelectFileButton)),
                 NewComboBoxColumn("ViewTypeID", "Name", configDatabase.ViewTypeTable, true),
                 NewComboBoxColumn("ObjNum","Name", configDatabase.ObjTable, true),
-                NewTextBoxColumn("Args", new ColumnOptions(ColumnLength.Default)),
+                NewTextBoxColumn("Args", new ColumnOptions(ColumnLength.Long)),
                 NewTextBoxColumn("Title", new ColumnOptions(ColumnLength.Long)),
                 NewTextBoxColumn("Ord"),
                 NewCheckBoxColumn("Hidden"),

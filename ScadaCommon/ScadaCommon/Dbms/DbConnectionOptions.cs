@@ -30,7 +30,7 @@ namespace Scada.Dbms
 {
     /// <summary>
     /// Represents database connection options.
-    /// <para>Представляет параметры подключения к базе данных.</para>
+    /// <para>Представляет параметры соединения с базой данных.</para>
     /// </summary>
     [Serializable]
     public class DbConnectionOptions

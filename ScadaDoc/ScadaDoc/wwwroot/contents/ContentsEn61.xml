@@ -31,9 +31,28 @@
         <Text>Install on Linux</Text>
         <Url>/en/latest/installation/install-linux</Url>
       </Item>
+      <Item>
+        <Text>Install Modules</Text>
+        <Url>/en/latest/installation/install-modules</Url>
+      </Item>
+      <Item>
+        <Text>Safety</Text>
+        <Url>/en/latest/installation/safety</Url>
+      </Item>
     </Subitems>
   </Item>
-  
+
+  <!-- Modules -->
+  <Item>
+    <Text>Modules</Text>
+    <Subitems>
+      <Item>
+        <Text>Chart Pro Plugin</Text>
+        <Url>/en/latest/modules/plg-chart-pro</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
   <!-- Developers -->
   <Item>
     <Text>Developers</Text>

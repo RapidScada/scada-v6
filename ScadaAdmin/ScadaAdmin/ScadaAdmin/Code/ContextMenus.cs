@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2021
+ * Modified : 2023
  */
 
 using System.Windows.Forms;
@@ -34,6 +34,8 @@ namespace Scada.Admin.App.Code
     internal class ContextMenus
     {
         public ContextMenuStrip ProjectMenu { get; set; }
+
+        public ContextMenuStrip BaseMenu { get; set; }
 
         public ContextMenuStrip CnlTableMenu { get; set; }
 

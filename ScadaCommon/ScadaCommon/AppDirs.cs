@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2015
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Lang;
@@ -56,7 +56,7 @@ namespace Scada
         /// <summary>
         /// Gets or sets a value indicating whether application directories should be lowercase.
         /// </summary>
-        protected bool Lowercase { get; set; }
+        public bool Lowercase { get; set; }
 
         /// <summary>
         /// Gets the directory of the current instance.
@@ -204,6 +204,23 @@ namespace Scada
                 return false;
             }
 
+            return CreateLogDir(out errMsg);
+        }
+
+        /// <summary>
+        /// Updates the log directory, logging possible errors to the console.
+        /// </summary>
+        public virtual void UpdateLogDir(string instanceLogDir)
+        {
+            if (!UpdateLogDir(instanceLogDir, out string errMsg))
+                Console.WriteLine(errMsg);
+        }
+
+        /// <summary>
+        /// Creates the log directory if necessary.
+        /// </summary>
+        public virtual bool CreateLogDir(out string errMsg)
+        {
             try
             {
                 Directory.CreateDirectory(LogDir);
@@ -220,11 +237,11 @@ namespace Scada
         }
 
         /// <summary>
-        /// Updates the log directory, logging possible errors to the console.
+        /// Creates the log directory, logging possible errors to the console.
         /// </summary>
-        public virtual void UpdateLogDir(string instanceLogDir)
+        public virtual void CreateLogDir()
         {
-            if (!UpdateLogDir(instanceLogDir, out string errMsg))
+            if (!CreateLogDir(out string errMsg))
                 Console.WriteLine(errMsg);
         }
 

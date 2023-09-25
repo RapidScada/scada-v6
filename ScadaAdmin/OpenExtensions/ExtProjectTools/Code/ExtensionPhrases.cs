@@ -48,6 +48,11 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
         public static string ImportTableCompleted { get; private set; }
         public static string ImportTableError { get; private set; }
 
+        // Scada.Admin.Extensions.ExtProjectTools.Code.ObjectMap
+        public static string ObjectMapTitle { get; private set; }
+        public static string NoObjects { get; private set; }
+        public static string GenerateObjectMapError { get; private set; }
+
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Code.ChannelMap");
@@ -85,6 +90,11 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
             ImportTableFilter = dict["ImportTableFilter"];
             ImportTableCompleted = dict["ImportTableCompleted"];
             ImportTableError = dict["ImportTableError"];
+            
+            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Code.ObjectMap");
+            ObjectMapTitle = dict["ObjectMapTitle"];
+            NoObjects = dict["NoObjects"];
+            GenerateObjectMapError = dict["GenerateObjectMapError"];
         }
     }
 }

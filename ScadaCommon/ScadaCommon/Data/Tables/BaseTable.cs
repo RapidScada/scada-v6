@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2022
+ * Modified : 2023
  */
 
 using System;
@@ -469,7 +469,7 @@ namespace Scada.Data.Tables
         /// </summary>
         public void Load(string fileName)
         {
-            Items.Clear();
+            ClearItems();
             Modified = false;
 
             List<T> list;

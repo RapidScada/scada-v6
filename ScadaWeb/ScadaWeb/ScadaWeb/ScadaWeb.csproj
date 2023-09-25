@@ -9,18 +9,16 @@
     <Product>Rapid SCADA</Product>
     <Copyright>Copyright © 2023</Copyright>
     <Version>6.1.2</Version>
-    <AssemblyVersion>6.1.2.0</AssemblyVersion>
+    <AssemblyVersion>6.1.2.1</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Remove="compilerconfig.json" />
     <Content Remove="libman.json" />
-    <Content Remove="wwwroot\css\pages\reports.scss" />
   </ItemGroup>
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="compilerconfig.json" />
-    <_ContentIncludedByDefault Remove="wwwroot\css\pages\reports.scss" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,7 +42,6 @@
   <ItemGroup>
     <None Include="compilerconfig.json" />
     <None Include="libman.json" />
-    <None Include="wwwroot\css\pages\reports.scss" />
   </ItemGroup>
 
   <ItemGroup>
@@ -61,13 +58,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="lang\" />
-    <Folder Include="config\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="SkiaSharp" Version="2.80.3" />
-    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.80.3" />
+    <PackageReference Include="SkiaSharp" Version="2.88.6" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.6" />
   </ItemGroup>
 
 </Project>

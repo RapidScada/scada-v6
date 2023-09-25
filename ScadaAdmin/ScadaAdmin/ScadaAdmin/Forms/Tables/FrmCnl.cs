@@ -81,6 +81,7 @@ namespace Scada.Admin.App.Forms.Tables
                 chkActive.SetChecked(cells["Active"]);
                 txtCnlNum.SetText(cells["CnlNum"]);
                 txtName.SetText(cells["Name"]);
+                txtCode.SetText(cells["Code"]);
                 cbDataType.SetValue(cells["DataTypeID"]);
                 txtDataLen.SetText(cells["DataLen"]);
                 cbCnlType.SetValue(cells["CnlTypeID"]);
@@ -135,7 +136,7 @@ namespace Scada.Admin.App.Forms.Tables
             if (!(int.TryParse(txtCnlNum.Text, out int cnlNum) &&
                 ConfigDatabase.MinID <= cnlNum && cnlNum <= ConfigDatabase.MaxID))
             {
-                sbError.AppendError(lblCnlNum, CommonPhrases.IntegerInRangeRequired, 
+                sbError.AppendError(lblCnlNum, CommonPhrases.IntegerInRangeRequired,
                     ConfigDatabase.MinID, ConfigDatabase.MaxID);
             }
 
@@ -166,6 +167,7 @@ namespace Scada.Admin.App.Forms.Tables
                 cells["Active"].Value = chkActive.Checked;
                 cells["CnlNum"].Value = cnlNum;
                 cells["Name"].Value = txtName.Text;
+                cells["Code"].Value = txtCode.Text;
                 cells["DataTypeID"].Value = cbDataType.SelectedValue ?? DBNull.Value;
                 cells["DataLen"].Value = dataLen > 0 ? dataLen : DBNull.Value;
                 cells["CnlTypeID"].Value = cbCnlType.SelectedValue ?? DBNull.Value;
@@ -237,7 +239,7 @@ namespace Scada.Admin.App.Forms.Tables
         private void cbLim_SelectedIndexChanged(object sender, EventArgs e)
         {
             // show details of the selected limit
-            if (cbLim.SelectedItem is DataRowView rowView && 
+            if (cbLim.SelectedItem is DataRowView rowView &&
                 rowView["LimID"] is int limID && limID > 0)
             {
                 bool isBoundToCnl = (bool)rowView["IsBoundToCnl"];

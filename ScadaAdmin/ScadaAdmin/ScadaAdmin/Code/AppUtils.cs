@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2019
- * Modified : 2022
+ * Modified : 2023
  */
 
 using System;
@@ -36,13 +36,9 @@ namespace Scada.Admin.App.Code
     internal static class AppUtils
     {
         /// <summary>
-        /// The hyperlink to the documentation in English.
+        /// The hyperlink to the documentation.
         /// </summary>
-        public const string DocEnUrl = "https://rapidscada.net/doc/content/latest/en/";
-        /// <summary>
-        /// The hyperlink to the documentation in Russian.
-        /// </summary>
-        public const string DocRuUrl = "https://rapidscada.net/doc/content/latest/ru/";
+        public const string DocUrl = "https://rapidscada.net/docs";
         /// <summary>
         /// The hyperlink to the support in English.
         /// </summary>

@@ -23,12 +23,18 @@
     <Phrase key="BaseHasErrors">The configuration database has errors.</Phrase>
     <Phrase key="IntegrityCheckError">Error checking integrity</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.ObjectMap">
+    <Phrase key="ObjectMapTitle">Object Hierarchy</Phrase>
+    <Phrase key="NoObjects">No objects</Phrase>
+    <Phrase key="GenerateObjectMapError">Error generating object map</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Controls.CtrlMainMenu">
     <Phrase key="miProjectTools">Project Tools</Phrase>
     <Phrase key="miCloneChannels">Clone Channels...</Phrase>
     <Phrase key="miChannelMapByDevice">Channel Map by Device</Phrase>
     <Phrase key="miChannelMapByObject">Channel Map by Object</Phrase>
     <Phrase key="miDeviceMap">Device Map</Phrase>
+    <Phrase key="miObjectMap">Object Map</Phrase>
     <Phrase key="miCheckIntegrity">Check Integrity</Phrase>
     <Phrase key="miEncryptPassword">Encrypt Password...</Phrase>
     <Phrase key="miImportTable">Import Table...</Phrase>

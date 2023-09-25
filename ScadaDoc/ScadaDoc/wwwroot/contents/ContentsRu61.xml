@@ -31,6 +31,29 @@
         <Text>Установка на Linux</Text>
         <Url>/ru/latest/installation/install-linux</Url>
       </Item>
+      <Item>
+        <Text>Установка модулей</Text>
+        <Url>/ru/latest/installation/install-modules</Url>
+      </Item>
+      <Item>
+        <Text>Безопасность</Text>
+        <Url>/ru/latest/installation/safety</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
+  <!-- Модули -->
+  <Item>
+    <Text>Модули</Text>
+    <Subitems>
+      <Item>
+        <Text>Плагин Графики Про</Text>
+        <Url>/ru/latest/modules/plg-chart-pro</Url>
+      </Item>
+      <Item>
+        <Text>Плагин Дэшборды</Text>
+        <Url>/ru/latest/modules/plg-dashboard</Url>
+      </Item>
     </Subitems>
   </Item>
 
