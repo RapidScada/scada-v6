@@ -116,10 +116,7 @@ namespace Scada.Dbms
         /// </summary>
         public static string BuildConnectionString(this DbConnectionOptions options, bool hidePassword)
         {
-            if (options == null)
-                return "";
-
-            return string.IsNullOrEmpty(options.ConnectionString)
+            return string.IsNullOrEmpty(options?.ConnectionString)
                 ? Build(options, hidePassword)
                 : options.ConnectionString;
         }
@@ -130,10 +127,7 @@ namespace Scada.Dbms
         /// </summary>
         public static string BuildConnectionString(this DbConnectionOptions options, KnownDBMS forceDBMS)
         {
-            if (options == null)
-                return "";
-
-            return string.IsNullOrEmpty(options.ConnectionString)
+            return string.IsNullOrEmpty(options?.ConnectionString)
                 ? Build(options, forceDBMS, false)
                 : options.ConnectionString;
         }
