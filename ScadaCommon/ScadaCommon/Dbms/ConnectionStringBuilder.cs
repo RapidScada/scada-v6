@@ -102,16 +102,25 @@ namespace Scada.Dbms
         }
 
         /// <summary>
-        /// Builds a connection string according to the database connection options, overwriting the DBMS.
+        /// Builds a connection string according to the database connection options.
         /// If a non-empty connection string is specified in the options, it is returned.
         /// </summary>
         public static string BuildConnectionString(this DbConnectionOptions options)
+        {
+            return BuildConnectionString(options, false);
+        }
+
+        /// <summary>
+        /// Builds a connection string according to the database connection options.
+        /// If a non-empty connection string is specified in the options, it is returned.
+        /// </summary>
+        public static string BuildConnectionString(this DbConnectionOptions options, bool hidePassword)
         {
             if (options == null)
                 return "";
 
             return string.IsNullOrEmpty(options.ConnectionString)
-                ? Build(options, false)
+                ? Build(options, hidePassword)
                 : options.ConnectionString;
         }
 
