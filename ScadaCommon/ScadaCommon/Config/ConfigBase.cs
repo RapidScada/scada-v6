@@ -20,13 +20,14 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Lang;
 using Scada.Storages;
 using System;
 using System.IO;
+using System.Text;
 
 namespace Scada.Config
 {
@@ -134,7 +135,37 @@ namespace Scada.Config
                 return false;
             }
         }
-        
+
+        /// <summary>
+        /// Saves the configuration to the specified storage.
+        /// </summary>
+        public bool Save(IStorage storage, string fileName, out string errMsg)
+        {
+            if (storage == null)
+                throw new ArgumentNullException(nameof(storage));
+
+            try
+            {
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    using (StreamWriter writer = new StreamWriter(stream))
+                    {
+                        Save(writer);
+                        string contents = Encoding.UTF8.GetString(stream.ToArray());
+                        storage.WriteText(DataCategory.Config, fileName, contents);
+                    }
+                }
+
+                errMsg = "";
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errMsg = BuildSaveErrorMessage(ex);
+                return false;
+            }
+        }
+
         /// <summary>
         /// Saves the configuration to the specified file.
         /// </summary>
