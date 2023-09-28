@@ -98,7 +98,7 @@ namespace Scada.Web
             services
                 .AddControllers(options =>
                 {
-                    options.Filters.Add(new AuthorizeFilter());
+                    // set controller options here
                 })
                 .AddJsonOptions(options =>
                 {
@@ -150,6 +150,9 @@ namespace Scada.Web
                         policy.Requirements.Add(new ViewAllRequirement()));
                     options.AddPolicy(PolicyName.Restricted, policy =>
                         policy.Requirements.Add(new ObjRightRequirement()));
+                    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                        .Build();
                 });
 
             services
