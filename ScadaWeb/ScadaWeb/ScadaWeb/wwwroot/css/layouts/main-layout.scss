@@ -238,7 +238,7 @@ body {
     .report-args,
     .search-args,
     .main-form {
-        max-width: 500px;
+        max-width: $form-width-default;
     }
 }
 
