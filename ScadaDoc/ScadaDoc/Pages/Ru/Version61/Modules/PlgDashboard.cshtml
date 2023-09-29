@@ -33,17 +33,54 @@
 
     <h2 id="overview">Обзор</h2>
     <p>Плагин Дэшборды отображает полезные виджеты на дэшбордах: графики, текущие данные и произвольные фреймы, например, изображение с камеры видео-наблюдения. Настройки каждого дэшборда позволяют задать количество столбцов и соотношение сторон виджетов. Скачать плагин можно по <a href="https://rapidscada.net/store/Module/ru/PlgDashboard" target="_blank">ссылке</a>. Внешний вид плагина Дэшборды показан на следующем рисунке.</p>
+    <figure class="figure">
+        <img src="plg-dashboard-files/dashboard-ru.png" class="figure-img img-fluid" alt="Плагин Дэшборды" />
+    </figure>
 
     <h2 id="installation">Установка</h2>
-
+    <p>Установка плагина Дэшборды выполняется по <a href="../installation/install-modules#plugins">инструкции</a>. В ходе установки каких-либо нестандартных действий не требуется.</p>
 
     <h2 id="configuring">Конфигурирование</h2>
-
-
     <h3 id="specifying-dashboards">Подключение дэшбордов</h3>
-
+    <p>Конфигурация каждого дэшборда сохраняется в отдельном файле формата XML. Пример файла дэшборда Dashboard1.xml содержится в установочном пакете плагина. Файлы дэшбордов должны располагаться в директории представлений.</p>
+    <p>Чтобы дэшборды появились в дереве представлений Вебстанции, в проекте необходимо выполнить следующие настройки:</p>
+    <ol>
+        <li>Создать и отредактировать файл дэшборда в директории представлений.</li>
+        <li>Прописать путь к дэшборду в таблице <strong>Представления</strong> базы конфигурации.</li>
+    </ol>
+    <figure class="figure">
+        <img src="plg-dashboard-files/dashboard-view-file-ru.png" class="figure-img img-fluid" alt="Файл дэшборда" />
+    </figure>
+    <figure class="figure">
+        <img src="plg-dashboard-files/dashboard-view-table-ru.png" class="figure-img img-fluid" alt="Таблица Представления" />
+    </figure>
+    <p>Необходимо явно указать тип представления, потому что приложение Вебстанция не может автоматически определить тип по расширению файлов xml.</p>
 
     <h3 id="file-structure">Структура файла дэшборда</h3>
+    <p>Рассмотрим содержимое файла дэшборда:</p>
+
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;DashboardView&gt;
+  &lt;DashboardOptions&gt;
+    &lt;!-- Widget AspectRatio = Width / Height --&gt;
+    &lt;AspectRatio&gt;1.33&lt;/AspectRatio&gt;
+    &lt;!-- Breakpoint: ExtraSmall | Small | Medium | Large | ExtraLarge | ExtraExtraLarge --&gt;
+    &lt;Breakpoint&gt;Small&lt;/Breakpoint&gt;
+  &lt;/DashboardOptions&gt;
+  &lt;Widgets&gt;
+    &lt;!-- The total width of the columns in a line is 12 --&gt;
+    &lt;Row&gt;
+      &lt;Widget type=&quot;Chart&quot; columnWidth=&quot;5&quot; cnlNums=&quot;101,102&quot; /&gt;
+      &lt;Widget type=&quot;Chart&quot; columnWidth=&quot;4&quot; cnlNums=&quot;101,103&quot; mode=&quot;fixed&quot; period=&quot;-2&quot; title=&quot;Sample Chart&quot; profile=&quot;PlgChartPro.xml&quot; /&gt;
+      &lt;Widget type=&quot;CurData&quot; columnWidth=&quot;3&quot; cnlNums=&quot;101-105&quot; title=&quot;Sample Data&quot; /&gt;
+    &lt;/Row&gt;
+    &lt;Row columnCount=&quot;2&quot;&gt;
+      &lt;Widget type=&quot;View&quot; viewID=&quot;2&quot; /&gt;
+      &lt;Widget type=&quot;CustomUrl&quot; url=&quot;https://www.youtube.com/embed/xAieE-QtOeM&quot; /&gt;
+    &lt;/Row&gt;
+  &lt;/Widgets&gt;
+&lt;/DashboardView&gt;</code></pre>
+
 
 
 </div>
