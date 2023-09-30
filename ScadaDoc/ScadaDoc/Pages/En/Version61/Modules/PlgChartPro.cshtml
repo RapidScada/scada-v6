@@ -10,7 +10,12 @@
     <ul>
         <li><a href="#overview">Overview</a></li>
         <li><a href="#installation">Installation</a></li>
-        <li><a href="#configuring">Configuring</a></li>
+        <li>
+            <a href="#configuring">Configuring</a>
+            <ul>
+                <li><a href="#view-mode">View Mode</a></li>
+            </ul>
+        </li>
     </ul>
 </nav>
 
@@ -98,6 +103,13 @@
 
     <p>The following figure helps to understand the layout of the chart in order to change the plugin configuration.</p>
     <figure class="figure">
-        <img src="plg-chart-pro-files/chart-parts.svg" class="figure-img img-fluid" alt="Компоновка графика" />
+        <img src="plg-chart-pro-files/chart-parts.svg" class="figure-img img-fluid" alt="Chart parts" />
     </figure>
+
+    <h3 id="view-mode">View Mode</h3>
+    <p>Chart Pro Plugin supports the view mode, in which a chart node is added to the view tree of Webstation. To display the chart as a view, add the following row to the Views table:</p>
+    <figure class="figure">
+        <img src="plg-chart-pro-files/chart-pro-view-en.png" class="figure-img img-fluid" alt="Views table" />
+    </figure>
+    <p>The Path field contains the path in the view tree. The View Type field should be set to Chart Pro. The view arguments correspond to the query string parameters described above.</p>
 </div>
