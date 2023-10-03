@@ -74,24 +74,17 @@ namespace Scada.Admin.Config
         /// </summary>
         public int AdjustID(int nextID, bool keepGap)
         {
-            if (!keepGap && (Multiplicity <= 1 || ((nextID - Shift) % Multiplicity) == 0))
-                return nextID;
-
             int adjustedID = keepGap && Gap > 0 ? nextID + Gap : nextID;
 
             if (Multiplicity > 1)
             {
-                int remainder = adjustedID % Multiplicity;
+                int remainder = (adjustedID - Shift) % Multiplicity;
 
                 if (remainder > 0)
                     adjustedID = adjustedID - remainder + Multiplicity;
+            }
 
-                return adjustedID + Shift;
-            }
-            else
-            {
-                return adjustedID;
-            }
+            return adjustedID;
         }
 
         /// <summary>
