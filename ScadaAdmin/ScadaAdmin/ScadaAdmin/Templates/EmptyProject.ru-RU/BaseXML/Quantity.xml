@@ -51,7 +51,7 @@
     <Name>Состояние</Name>
     <Code>State</Code>
     <Icon>lamp.png</Icon>
-    <Descr>States</Descr>
+    <Descr>Состояния</Descr>
   </Quantity>
   <Quantity>
     <QuantityID>12</QuantityID>
