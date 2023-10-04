@@ -47,8 +47,9 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             miChannelMapByDevice.Enabled = projectIsOpen;
             miChannelMapByObject.Enabled = projectIsOpen;
             miDeviceMap.Enabled = projectIsOpen;
+            miObjectMap.Enabled = projectIsOpen;
             miCheckIntegrity.Enabled = projectIsOpen;
-            miEncryptPassword.Enabled = projectIsOpen;
+            miEncryptPassword.Enabled = true;
             miImportTable.Enabled = projectIsOpen;
             miExportTable.Enabled = projectIsOpen;
         }
