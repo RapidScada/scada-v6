@@ -54,6 +54,10 @@
         <Text>Плагин Дэшборды</Text>
         <Url>/ru/latest/modules/plg-dashboard</Url>
       </Item>
+      <Item>
+        <Text>Плагин Гибкий отчёт</Text>
+        <Url>/ru/latest/modules/plg-elastic-report</Url>
+      </Item>
     </Subitems>
   </Item>
 
