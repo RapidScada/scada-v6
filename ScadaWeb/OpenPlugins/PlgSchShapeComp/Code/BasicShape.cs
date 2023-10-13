@@ -8,9 +8,9 @@ using Scada.Web.Plugins.PlgSchShapeComp.Code.PropertyGrid;
 namespace Scada.Web.Plugins.PlgSchShapeComp.Code
 {
 	[Serializable]
-	public class SvgShape : ComponentBase, IDynamicComponent
+	public class BasicShape : ComponentBase, IDynamicComponent
 	{
-		public SvgShape()
+		public BasicShape()
 		{
 			ShapeType = "Circle";
 			BackColor = "black";
@@ -140,7 +140,7 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code
 
 		public override ComponentBase Clone()
 		{
-			SvgShape clonedComponent = (SvgShape)base.Clone();
+			BasicShape clonedComponent = (BasicShape)base.Clone();
 
 			foreach (Condition condition in clonedComponent.Conditions)
 			{
