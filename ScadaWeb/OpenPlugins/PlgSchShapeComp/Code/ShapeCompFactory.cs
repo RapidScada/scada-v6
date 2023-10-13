@@ -7,7 +7,7 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code
 	{
 		public override ComponentBase CreateComponent(string typeName, bool nameIsShort)
 		{
-			if (NameEquals("SvgShape", typeof(BasicShape).FullName, typeName, nameIsShort))
+			if (NameEquals("BasicShape", typeof(BasicShape).FullName, typeName, nameIsShort))
 				return new BasicShape();
 			else if(NameEquals("CustomSVG", typeof(CustomSVG).FullName,typeName,nameIsShort)) 
 				return new CustomSVG();
