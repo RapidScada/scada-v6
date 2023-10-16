@@ -1,0 +1,98 @@
+﻿@page "/fr/latest/installation/install-windows"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Installation sur Windows";
+}
+
+<nav class="doc-toc">
+    <div class="h6">Sur cette page</div>
+    <hr>
+    <ul>
+        <li><a href="#preparing">Préparation à l'installation</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#update">Mise à jour</a></li>
+        <li><a href="#uninstallation">Désinstallation</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Installation sur Windows</h1>
+    <h2 id="preparing">Préparation à l’installation</h2>
+    <p>Rapid SCADA requiert Internet Information Services (IIS) et .NET Runtime pour être installé. Selon la version de Windows, la procédure d’installation de certains composants pourrait varier.</p>
+    
+    <p>Ouvrez <strong>Panneau de configuration > Programmes > Activer ou désactiver des fonctionnalités Windows</strong> et sélectionnez <strong>Internet Information Services</strong>. La sélection des fonctionnalités enfant à IIS peuvent être couchées par défaut.</p>
+    <figure class="figure">
+        <img src="install-windows-files/win10-features-iis-en.png" class="figure-img img-fluid" alt="IIS components">
+    </figure>
+
+    <p>Téléchargez depuis ce <a href="https://dotnet.microsoft.com/en-us/download/dotnet/6.0" target="_blank">lien</a> et installez ASP.NET Core Runtime 6.0.x (Hosting Bundle) et .NET Desktop Runtime.</p>
+    <figure class="figure">
+        <img src="install-windows-files/dotnet-download.png" class="figure-img img-fluid" alt="Download .NET">
+    </figure>
+
+    <p>Après que l’installation des composants soit terminée, ouvrez <strong>Panneau de configuration > Système et sécurité > Outils d’administration > Gestionnaire des services Internet (IIS)</strong>, naviguez dans <strong>Modules</strong>, assurer vous qu’<code>AspNetCoreModuleV2</code> est installé. Si le module est manquant, réinstallez Hosting Bundle.</p>
+    <figure class="figure">
+        <img src="install-windows-files/iis-modules-en.png" class="figure-img img-fluid" alt="IIS modules">
+    </figure>
+
+    <h2 id="installation">Installation</h2>
+    <p><a href="https://rapidscada.org/download-all-files/" target="_blank">Télécharger</a> et décompressez le package de distribution Rapid SCADA. Lancez le fichier <code>ScadaSetup.exe</code> pour ouvrir l’installeur comme vu sur les captures ci-dessous. L’installation doit être réalisée avec le compte administrateur. Cliquez sur le bouton <strong>Install</strong> pour ouvrir les options d’installation.</p>
+    <p><strong>Note:</strong> Si l’installateur ne démarre pas, ouvrez les fichiers de <code>*.dll</code>, <code>*.exe</code> et débloquez les fichiers.</p>
+    <figure class="figure">
+        <img src="install-windows-files/installer-en.png" class="figure-img img-fluid" alt="Rapid SCADA installer">
+    </figure>
+    <figure class="figure">
+        <img src="install-windows-files/installer-apps-en.png" class="figure-img img-fluid" alt="Rapid SCADA installer. Choose applications">
+    </figure>
+    <figure class="figure">
+        <img src="install-windows-files/installer-dir-en.png" class="figure-img img-fluid" alt="Rapid SCADA installer. Choose directory">
+    </figure>
+    <figure class="figure">
+        <img src="install-windows-files/installer-web-en.png" class="figure-img img-fluid" alt="Rapid SCADA installer. Web application options">
+    </figure>
+
+    <p>Le port http 80 est utilisé par le site web par défaut. Par conséquent, le programme d’installation suggère un port différent, tel que 10008. Pour utiliser le port 80 pour Rapid SCADA, le site Web par défaut doit être arrêté.</p>
+    <p>Après que l’installation soit terminée correctement, ouvrez un navigateur web et parcourez <a href="http://localhost:10008" target="_blank">http://localhost:10008</a><br />
+        Nom d'utilisateur : <em>admin</em><br />
+        Mot de passe : <em>scada</em></p>
+    <p>La première fois que l’application web se lance, cela peut prendre du temps dû au chargement des données, vous aurez besoin d’attendre environ 10 secondes et ensuite de rafraîchir la page de connexion. Par défaut, Rapid SCADA fonctionne avec le projet Hello Word. Si une erreur est rencontrée pendant la procédure d’installation, analysez-les en utilisant les logs d’installation. Utilisez le <a href="https://forum.rapidscada.org/" target="_blank">forum de support</a> pour trouver une solution.</p>
+
+    <p>TLes services Rapid SCADA écrivent activement des fichiers de log. Pour prolonger la durée de vie du disque dur et augmenter les performances du système, il est recommandé de configurer la journalisation sur le lecteur RAM. Voici la marche à suivre :</p>
+    <ol>
+        <li>Installer le logiciel de création de lecteurs RAM, <a href="http://www.radeonramdisk.com/software_downloads.php" target="_blank">AMD Radeon RAMDisk</a> ou <a href="http://memory.dataram.com/products-and-services/software/ramdisk" target="_blank">Dataram RAMDisk</a>.</li>
+        <li>Spécifier le dossier où les logs de <code>ScadaInstanceConfig.xml</code> seront enregistrés, par exemple, <code><LogDir>R:\SCADA\</LogDir></code></li>
+        <li>Redémarrez les services Rapid SACDA et relancez votre ordinateur.</li>
+    </ol>
+
+    <p>Si l’application web n’est pas utilisée, il s’arrête. Sur un serveur de production, il est préférable que l’application web fonctionne continuellement. Pour s’en assurer, démarrez <strong>Gestionnaire de Services Internet (IIS)</strong>, sélectionnez l’application <code>ScadaAppPool</code>,ouvrez les <strong>Réglages avancés</strong> de l’application, et définissez les options suivantes :</p>
+    <ul>
+        <li>Général – Mode de départ :<em>AlwaysRunning</em></li>
+        <li>Model de procédure – Délais Idle : <em>0</em></li>
+        <li>Recyclage – Intervalle de temps régulier : <em>0</em></li>
+    </ul>
+
+    <h2 id="update">UpMise à jourdate</h2>
+    <p>L’installateur permet de mettre à jour la version précédemment installée de Rapid SCADA version&nbsp;6.</p>
+
+    <div class="alert alert-warning">
+        <p><strong>Important</strong></p>
+        <ul>
+            <li>Il est impossible d’utiliser l’installateur pour mettre à jour des versions de Rapid SCADA version 5 vers Rapid SCADA version 6. </li>
+            <li>La fonctionnalité de mise à jour ne vérifie pas la compatibilité du projet en cours d’exécution avec la nouvelle version du logiciel.</li>
+            <li>La mise à jour doit être avant tout testée sur un serveur de test et seulement après cette vérification être lancée sur le serveur de production./li>
+        </ul>
+    </div>
+
+    <p>La mise à jour fonctionne à la suite de ces instructions :</p>
+    <ol>
+        <li>Vérifiez si le dossier d’installation spécifié existe.</li>
+        <li>Arrêtez les services de mise à jour.</li>
+        <li>Créez une copie de l’application mise à jour.</li>
+        <li>Mettez à jour l’application sélectionnée. Quand l’application a été mise à jour, les fichiers existant sur écrasés par les nouveaux. Les dossiers de configuration et de stockage de l’application ne sont pas affectés. Les modules du logiciel qui ont été installés de manière additionnelle restent inchangés.</li>
+        <li>Démarrez les services.</li>
+    </ol>
+
+    <h2 id="uninstallation">Désinstallation</h2>
+    <p>Désinstaller Rapid SCADA est aussi possible via l’installeur. Par conséquent, il est recommandé de ne pas supprimer la distribution Rapid SCADA de votre ordinateur après l’installation.</p>
+    <p>Les projets Rapid SCADA créés par les utilisateurs sont localisés dans le dossier <strong>Documents</strong> folder. Par conséquent, après la suppression de Rapid SCADA, les projets restent. Il n’est vraiment pas recommandé de sauvegarder les projets à l’intérieur du dossier d’installation, car ils pourraient être accidentellement supprimés par l’installateur.</p>
+</div>

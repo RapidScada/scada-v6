@@ -1,0 +1,26 @@
+﻿@page "/fr/latest/installation/safety"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Recommandations de sécurité";
+}
+
+<h1>Recommandations de sécurité</h1>
+
+<h2>Protection des fichiers</h2>
+<p>Si Rapid SCADA est utilisé dans un environnement d’entreprise, assurez-vous que les autres utilisateurs n’ont pas accès au <abbr title="C:\Program Files\SCADA, /opt/scada">répertoire d'installation</abbr> de Rapid SCADA. Windows, ouvrez les propriétés du répertoire contenant les applications Rapid SCADA, choisissez l’onglet <strong>Security</strong>, vérifiez et configurez les droits d’accès.</p>
+
+<h2>HTTPS</h2>
+<p>Configurez un serveur Web pour activer le protocole HTTPS pour l’application Webstation. Grâce à HTTPS, tout le trafic entre un navigateur et le serveur Web, y compris les mots de passe, est crypté.</p>
+
+<h2>VPN</h2>
+<p>Utilisez un VPN pour fournir un accès aux utilisateurs externes. Si possible, évitez l’accès ouvert à Webstation depuis l’extérieur.</p>
+
+<h2>Mots de passe</h2>
+<p>Changez le mot de passe par défaut. Pour créer un mot de passe fort, utilisez un générateur de mot de passe, par exemple <a href="https://passwordsgenerator.net/" target="_blank">celui-ci</a>. Si une entreprise utilise Active Directory, le paramétrage de l’authentification utilisateur Rapid SCADA basé sur Active Directory améliore la sécurité du système.</p>
+<p>Mots de passe devant être configurés :</p>
+<ul>
+    <li>Mots de passe utilisateur dans l’onglet <strong>Users</strong> du projet.</li>
+    <li>Mot de passe pour la connexion à l’application Server dans les paramètres de Communicator et Webstation </li>
+    <li>Mot de passe agent, localisé dans le fichier <code>ScadaAgentConfig.xml</code>.</li>
+    <li>Mot de passe pour la connexion à l’application Agent dans le profil de déploiement.</li>
+</ul>

@@ -13,6 +13,7 @@ namespace Scada.Doc.Code
         En,
         Ru,
         Es,
-        Zh
+        Zh,
+        Fr
     }
 }
