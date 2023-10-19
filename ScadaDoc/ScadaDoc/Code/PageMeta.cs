@@ -33,10 +33,10 @@ namespace Scada.Doc.Code
             pageMeta.Lang = langStr switch
             {
                 "en" => KnownLang.En,
-                "ru" => KnownLang.Ru,
                 "es" => KnownLang.Es,
-                "zh" => KnownLang.Zh,
                 "fr" => KnownLang.Fr,
+                "ru" => KnownLang.Ru,
+                "zh" => KnownLang.Zh,
                 _ => KnownLang.None
             };
 
