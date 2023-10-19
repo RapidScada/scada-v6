@@ -1,22 +1,18 @@
-﻿.basic-polygon {
-	position: relative;
-	overflow: hidden;
-}
-
-.basic-polygon.active {
-	background-color: green;
-}
-
-.basic-polygon.inactive {
-	background-color: red;
-}
-
-.basic-polygon {
-	border-style: solid;
-}
-
-.basic-polygon.rounded {
+﻿.circle {
+	width: 100px;
+	height: 100px;
 	border-radius: 50%;
+}
+
+.line {
+	width: 100%;
+	height: 1%;
+	border-top: 2px solid red;
+}
+
+.rectangle {
+	width: 200px;
+	height: 100px;
 }
 
 @keyframes slowBlink {

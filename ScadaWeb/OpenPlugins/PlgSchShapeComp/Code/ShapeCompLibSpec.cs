@@ -34,8 +34,7 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code
 		{
 			return new List<CompItem>()
 			{
-				new CompItem(null,typeof(SvgShape)),
-				new CompItem(null, typeof(Polygon)),
+				new CompItem(null,typeof(BasicShape)),
 				new CompItem(null,	typeof(CustomSVG)),
 				new CompItem(null, typeof(BarGraph)),
 			};
