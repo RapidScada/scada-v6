@@ -1,0 +1,77 @@
+﻿@page "/fr/latest/installation/install-windows-manual"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Installation sur Windows manuellement";
+}
+
+<nav class="doc-toc">
+    <div class="h6">Sur cette page</div>
+    <hr>
+    <ul>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#uninstallation">Désinstallation</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Installation sur Windows manuellement</h1>
+    <p>Installer Rapid SCADA manuellement fournit le contrôle total de l’installation du logiciel, sa mise à jour et sa suppression</p>
+
+    <h2 id="installation">Installation</h2>
+    <ol>
+        <li>Installez Internet Information Service (IIS) via la sélection des composants Windows correspondant.</li>
+        <li>
+            <p>Installez ASP.NET Core Runtime 6.0.x (Hosting Bundle) et .NET Desktop Runtime depuis <a href="https://dotnet.microsoft.com/en-us/download/dotnet/6.0" target="_blank">ce lien</a>.</p>
+            <p><strong>Note:</strong> Si l’application web n’est pas requise sur Windows, passez le premier item et n’installez que .NET Desktop Runtime.</p>
+        </li>
+        <li>Copiez les fichiers de l’application dans le répertoire d’installation de Rapid SCADA <code>C:\Program Files\SCADA</code></li>
+        <li>
+            Enregistrez les services en exécutant les fichiers suivants en tant qu’administrateur :<br />
+            <code>ScadaAgent\svc_install.bat</code><br />
+            <code>ScadaComm\svc_install.bat</code><br />
+            <code>ScadaServer\svc_install.bat</code>
+        </li>
+        <li>
+            Enregistrez l’application web :
+            <ol type="a">
+                <li>Ouvrez le manager IIS.</li>
+                <li>Ouvrez la liste de modules et vérifiez que le module <code>AspNetCoreModuleV2</code> est présent.</li>
+                <li>Créez un pool d’application nommé <code>ScadaAppPool</code>, définissez la version .NET CLR sur <code>No Managed Code</code>.</li>
+                <li>Ouvrez les paramètres avancés du pool d’application créé, et définissez le paramètre <code>Identité</code> de <code>LocalSystem</code>.</li>
+                <li>Ajoutez un nouveau site web nommé <code>ScadaWeb</code>, spécifiez le pool d’application créé, rendez disponible le port TCP et le chemin <br /><code>C:\Program Files\SCADA\ScadaWeb</code></li>
+            </ol>
+            <p><strong>Note:</strong> Le port http 80 est utilisé par le <code>site web par defaut</code>. Utilisez un autre port comme 10008 ou arrêtez <code>le site web par défaut</code>.</p>
+        </li>
+        <li>
+            Créez un lecteur RAM pour écrire des journaux :
+            <ol type="a">
+                <li>Installez un logiciel de création de lecteur RAM, par exemple, <a href="http://www.radeonramdisk.com/software_downloads.php" target="_blank">AMD Radeon RAMDisk</a> ou <a href="http://memory.dataram.com/products-and-services/software/ramdisk" target="_blank">Dataram RAMDisk</a>.</li>
+                <li>Spécifiez le dossier de log dans <code>ScadaInstanceConfig.xml</code>, par exemple, <code><LogDir>R:\SCADA\</LogDir></code></li>
+            </ol>
+        </li>
+        <li>Créez un raccourci vers l’application Administrateur (<code>ScadaAdmin.exe</code>) sur le bureau.</li>
+        <li>Redémarrez l’ordinateur pour lancer les services automatiquement.</li>
+        <li>
+            Après le redémarrage, ouvrez http://localhost:PORT ou http://SERVER_IP:PORT dans un navigateur web.<br />
+            Nom d'utilisateur : <em>admin</em><br />
+            Mot de passe : <em>scada</em>
+        </li>
+    </ol>
+
+    <h2 id="uninstallation">Désinstallation</h2>
+    <ol>
+        <li>
+            Arrêtez et désenregistrez les services en exécutant les fichiers suivants en tant qu’administrateur :<br />
+            <code>ScadaAgent\svc_stop.bat</code><br />
+            <code>ScadaAgent\svc_uninstall.bat</code><br />
+            <code>ScadaComm\svc_stop.bat</code><br />
+            <code>ScadaComm\svc_uninstall.bat</code><br />
+            <code>ScadaServer\svc_stop.bat</code><br />
+            <code>ScadaServer\svc_uninstall.bat</code>
+        </li>
+        <li>Désactivez le lecteur RAM.</li>
+        <li>Ouvrez le manager IIS et supprimez l’application web et le pool d’application précédemment créés.</li>
+        <li>Supprimez le dossier d’installation Rapid SCADA avec tous son contenu.</li>
+        <li>Supprimez le lien vers l’application Administrator sur votre bureau.</li>
+    </ol>
+</div>

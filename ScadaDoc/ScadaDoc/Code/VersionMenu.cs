@@ -94,6 +94,19 @@ namespace Scada.Doc.Code
         };
 
         /// <summary>
+        /// French versions of the documentation.
+        /// </summary>
+        public static readonly VersionMenu Fr = new(KnownLang.Fr)
+        {
+            new VersionItem
+            {
+                Version = KnownVersion.V61,
+                Text = KnownVersion.V61.ConvertToString(),
+                Url = "/fr/6.1/"
+            }
+        };
+
+        /// <summary>
         /// The empty menu.
         /// </summary>
         public static readonly VersionMenu Empty = new(KnownLang.None);
@@ -106,7 +119,8 @@ namespace Scada.Doc.Code
             En, 
             Ru, 
             Es, 
-            Zh  
+            Zh,
+            Fr  
         };
 
 
@@ -121,6 +135,7 @@ namespace Scada.Doc.Code
                 KnownLang.Ru => Ru,
                 KnownLang.Es => Es,
                 KnownLang.Zh => Zh,
+                KnownLang.Fr => Fr,
                 _ => Empty
             };
         }

@@ -1,0 +1,149 @@
+﻿@page "/fr/latest/installation/install-modules"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Installation des modules";
+}
+
+<nav class="doc-toc">
+    <div class="h6">Sur cette page</div>
+    <hr>
+    <ul>
+        <li><a href="#modules">Modules Serveur</a></li>
+        <li><a href="#drivers">Pilotes du Communicateur</a></li>
+        <li><a href="#plugins">Plugins de la WebStation</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Installation des modules</h1>
+    <p>Rapid SCADA supporte des modules additionnels qui permettent d’étendre les fonctionnalités de l’application. Vous pouvez trouver les modules disponibles dans la section <a href="https://rapidscada.org/download-all-files/" target="_blank">Téléchargement</a> du site web officiel et dans le <a href="https://rapidscada.net/store/" target="_blank">Module Store</a>. La version du module installé doit être compatible avec la version installée de Rapid SCADA. Les informations de compatibilité est fournit sur la page sur les modules dans le Module Store. Les modules publiés dans la section Téléchargement sont compatibles avec la version courante de Rapid SCADA.</p>
+    
+    <h2 id="modules">Installation des modules serveur</h2>
+    <p>La séquence d’installation d’un nouveau module ou pour le mettre à jour pour l’application Server est la suivante :</p>
+    <ol>
+        <li>Fermez l’application Administrator si elle est ouverte.</li>
+        <li>Dézippez le package d’installation du module.</li>
+        <li>Copiez tous les fichiers du dossier SCADA du package du module installation vers le <abbr title="C:\Program Files\SCADA, /opt/scada">dossier d'installation</abbr> Rapid SCADA en conservant la hiérarchie des répertoires.</li>
+        <li>Sous Windows, recherchez les fichiers de bibliothèque *.dll copiés, ouvrez leurs propriétés une par une et déverrouillez les fichiers.</li>
+        <li>Lancez Administrator, ouvrez le projet trouvez et ouvrez la page <strong>Server &gt; Modules</strong> dans l’explorateur du projet.</li>
+        <li>Sélectionnez le module installé dans la liste des modules qui ne sont pas utilisés et cliquez sur le bouton <strong>Activate</strong>.</li>
+        <li>Si la distribution du module contient des fichiers de configuration situés dans le répertoire SCADA\ScadaServer\Config, copiez-les dans votre projet.</li>
+        <li>Effectuez la configuration du module spécifié dans la documentation du module.</li>
+        <li>Enregistrez le projet et téléchargez la configuration sur le serveur.</li>
+        <li>
+            Si le module nécessite une inscription :
+            <ol type="a">
+                <li>Au démarrage, le module écrit le code informatique dans un fichier.</li>
+                <li>Dans l’application Administrator, sélectionnez le module et cliquez sur le bouton <strong>Register</strong>.</li>
+                <li>Obtenez une clé d’enregistrement, saisissez-la dans le champ approprié et réenregistrez.</li>
+                <li>Téléchargez à nouveau la configuration sur le serveur.</li>
+            </ol>
+        </li>
+    </ol>
+
+    <h3>Structure des fichiers du module</h3>
+    <table class="table table-hover">
+        <tr>
+            <td>ScadaAdmin\Lang\*.xml</td>
+            <td>Fichiers de langue de l’UI pour l’application Administrator</td>
+        </tr>
+        <tr>
+            <td>ScadaAdmin\Lib\*.View.dll</td>
+            <td>Bibliothèque d’UI pour l’application Administrator</td>
+        </tr>
+        <tr>
+            <td>ScadaServer\Config\*.xml</td>
+            <td>Configuration du module à copier dans le projet</td>
+        </tr>
+        <tr>
+            <td>ScadaServer\Mod\*.Logic.dll</td>
+            <td>Bibliothèque logique de modules pour l’application Server</td>
+        </tr>
+    </table>
+
+    <h2 id="drivers">Installer les pilotes du communicateur</h2>
+    <p>Voici la séquence d’installation d’un nouveau pilote ou de mise à jour d’un pilote existant de l’application Communicator :</p>
+    <ol>
+        <li>Fermez l’application Aministrator si elle est en cours d’exécution.</li>
+        <li>Décompressez-le package d’installation du pilote.</li>
+        <li>Copiez tous les fichiers du dossier SCADA du package d’installation du pilote vers le <abbr title="C:\Program Files\SCADA, /opt/scada">répertoire d’installation</abbr> Rapid SCADA en conservant la hiérarchie des répertoires.</li>
+        <li>Sous Windows, recherchez les fichiers de bibliothèque *.dll copiés, ouvrez leurs propriétés une par un et déverrouillez les fichiers.</li>
+        <li>Démarrez l’Administrator, ouvrez le projet, recherchez et ouvrez la page <strong>Communicator &gt; Drivers</strong> dans l’explorateur de projet.</li>
+        <li>Assurez-vous que le pilote installé figure dans la liste des pilotes disponibles. Et si le pilote est sélectionné, sa description s’affiche.</li>
+        <li>Effectuez la configuration de la ligne de communication et du périphérique spécifiés dans la documentation du pilote.</li>
+        <li>Enregistrez le projet et téléchargez la configuration sur le serveur.</li>
+        <li>
+            Si le pilote nécessite une inscription : 
+            <ol type="a">
+                <li>Une fois démarré, le pilote écrit le code informatique dans un fichier..</li>
+                <li>Dans l’application Administrator, sélectionnez le pilote et cliquez sur le bouton <strong>Register</strong>.</li>
+                <li>Obtenez une clef d’enregistrement, saisissez-la dans le champ approprié et enregistrez.</li>
+                <li>Téléchargez à nouveau la configuration sur le serveur.</li>
+            </ol>
+        </li>
+    </ol>
+
+    <h3>Structure des fichiers du pilote</h3>
+    <table class="table table-hover">
+        <tr>
+            <td>ScadaAdmin\Lang\*.xml</td>
+            <td>Fichiers de langue de l’UI pour l’application Administrator</td>
+        </tr>
+        <tr>
+            <td>ScadaAdmin\Lib\*.View.dll</td>
+            <td>UBibliothèque d’UI pour l’application Administrator.</td>
+        </tr>
+        <tr>
+            <td>ScadaComm\Drv\*.Logic.dll</td>
+            <td>Bibliothèque logique de pilote pour l’application Communicator.</td>
+        </tr>
+    </table>
+
+    <h2 id="plugins">Installation des plugins de la WebStation</h2>
+    <p>Les modules supplémentaires pour l’application Webstation sont appelés plugins. La séquence d’installation d’un nouveau plugin ou de mise à jour d’un plugin existant est la suivante :</p>
+    <ol>
+        <li>Fermez l’application Administrator si elle est en cours d’exécution.</li>
+        <li>Décompressez le package d’installation du plugin.</li>
+        <li>Copiez tous les fichiers du dossier SCADA du package d’installation du plugin vers le  <abbr title="C:\Program Files\SCADA, /opt/scada">répertoire d'installation</abbr> Rapid SCADA en conservant la hiérarchie des répertoires.</li>
+        <li>Sous Windows, recherchez les fichiers de bibliothèque *.dll copiés, ouvrer leurs propriétés un par un et déverrouillez les fichiers.</li>
+        <li>Démarrez l’Administrator, ouvrez le projet, recherchez et ouvrez la page <strong>Webstation &gt; Plugins</strong> dans l’explorateur de projet.</li>
+        <li>Sélectionnez le plugin installé dans la liste des plugins inutilisés et cliquez sur le bouton <strong>Activate</strong>.</li>
+        <li>Si la distribution du plugin contient des fichiers de configuration situés dans le répertoire SCADA\ScadaWeb\Config directory, copiez-les dans votre projet.</li>
+        <li>Si la distribution du plugin contient des vues situées dans le répertoire SCADA\Views, il est recommandé de les copier dans votre projet à titre d’exemple.</li>
+        <li>Effectuez la configuration du plugin spécifié dans la documentation du plugin. </li>
+        <li>Enregistrez le projet et téléchargez la configuration sur le serveur.</li>
+        <li>
+            Si le plugin nécessite une inscription :
+            <ol type="a">
+                <li>Une fois démarré, le plugin écrit le code informatique dans un fichier.</li>
+                <li>Dans l’application Administrator, sectionnez le plugin et cliquez sur le bouton <strong>Register</strong>.</li>
+                <li>Obtenez une clé d’enregistrement, saisissez-la dans le champ approprié et enregistrez.</li>
+                <li>Téléchargez à nouveau la configuration sur le serveur.</li>
+            </ol>
+        </li>
+    </ol>
+
+    <h3>Structure des fichiers du plugin</h3>
+    <table class="table table-hover">
+        <tr>
+            <td>ScadaAdmin\Lib\*.View.dll</td>
+            <td>Bibliothèque d’interface utilisateur pour l’application Administrator.</td>
+        </tr>
+        <tr>
+            <td>ScadaWeb\config\*.xml</td>
+            <td>Configuration du plugin à copier dans le projet.</td>
+        </tr>
+        <tr>
+            <td>ScadaWeb\lang\*.xml</td>
+            <td>Fichiers de langue du plugin pour l’application Webstation</td>
+        </tr>
+        <tr>
+            <td>ScadaWeb\wwwroot\*.*</td>
+            <td>Fichiers de plugin statiques pour l’application Webstation.</td>
+        </tr>
+        <tr>
+            <td>ScadaWeb\*.dll</td>
+            <td>Bibliothèques de plugins pour l’application Webstation.</td>
+        </tr>
+    </table>
+</div>
