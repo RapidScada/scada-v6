@@ -64,7 +64,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
                 numEventArchiveBit.Value = numEventArchiveBit.Minimum;                
                 numMinDepth.Value = numMinDepth.Minimum;
                 numMaxDepth.Value = numMaxDepth.Minimum;
-                numReadingStep.Value = numReadingStep.Maximum;
+                numReadingStep.Value = numReadingStep.Minimum;
             }
             else
             {
