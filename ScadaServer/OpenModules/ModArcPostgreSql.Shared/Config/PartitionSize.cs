@@ -5,12 +5,12 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
 {
     /// <summary>
     /// Specifies the partition sizes.
-    /// <para>Задает размеры секций.</para>
+    /// <para>Задаёт размеры секций.</para>
     /// </summary>
     internal enum PartitionSize
     {
+        OneDay,
         OneMonth,
-        OneYear,
-        OneDay
+        OneYear
     }
 }

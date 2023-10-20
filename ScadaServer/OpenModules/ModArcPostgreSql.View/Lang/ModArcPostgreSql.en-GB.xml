@@ -5,8 +5,9 @@
     <Phrase key="lblUseDefaultConn">Use default connection</Phrase>
     <Phrase key="lblConnection">Connection</Phrase>
     <Phrase key="lblPartitionSize">Partition size</Phrase>
-    <Phrase key="cbPartitionSize.Items[0]">One month</Phrase>
-    <Phrase key="cbPartitionSize.Items[1]">One year</Phrase>
+    <Phrase key="cbPartitionSize.Items[0]">One day</Phrase>
+    <Phrase key="cbPartitionSize.Items[1]">One month</Phrase>
+    <Phrase key="cbPartitionSize.Items[2]">One year</Phrase>
     <Phrase key="lblMaxQueueSize">Maximum queue size</Phrase>
     <Phrase key="lblBatchSize">Items per transaction</Phrase>
   </Dictionary>

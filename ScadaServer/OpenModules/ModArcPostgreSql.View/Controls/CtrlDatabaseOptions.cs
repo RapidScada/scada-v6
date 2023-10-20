@@ -56,7 +56,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Controls
         {
             if (options == null)
             {
-
+                chkUseDefaultConn.Checked = false;
+                cbConnection.Text = "";
+                cbPartitionSize.SelectedIndex = 0;
+                numMaxQueueSize.Value = numMaxQueueSize.Minimum;
+                numBatchSize.Value = numBatchSize.Minimum;
             }
             else
             {
