@@ -10,6 +10,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
     internal enum PartitionSize
     {
         OneMonth,
-        OneYear
+        OneYear,
+        OneDay
     }
 }

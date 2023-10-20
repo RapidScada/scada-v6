@@ -102,7 +102,7 @@
             // 
             cbPartitionSize.DropDownStyle = ComboBoxStyle.DropDownList;
             cbPartitionSize.FormattingEnabled = true;
-            cbPartitionSize.Items.AddRange(new object[] { "One month", "One year" });
+            cbPartitionSize.Items.AddRange(new object[] { "One month", "One year", "One day" });
             cbPartitionSize.Location = new Point(196, 81);
             cbPartitionSize.Name = "cbPartitionSize";
             cbPartitionSize.Size = new Size(151, 23);
