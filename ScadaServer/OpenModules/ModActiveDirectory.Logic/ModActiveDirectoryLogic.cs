@@ -265,7 +265,7 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
         /// <summary>
         /// Updates user information in the database and sets the user ID in the validation result.
         /// </summary>
-        private void UpdateUserInDB(string username, ref UserValidationResult userValidationResult)
+        private void UpdateUserInDB(string usernameLower, ref UserValidationResult userValidationResult)
         {
             try
             {
@@ -273,13 +273,13 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
                 conn.Open();
 
                 NpgsqlCommand cmd1 = new(SqlScript.UpdateUser, conn);
-                cmd1.Parameters.AddWithValue("username", username);
+                cmd1.Parameters.AddWithValue("username", usernameLower);
                 cmd1.Parameters.AddWithValue("roleID", userValidationResult.RoleID);
                 cmd1.Parameters.AddWithValue("updateTime", DateTime.UtcNow);
                 cmd1.ExecuteNonQuery();
 
                 NpgsqlCommand cmd2 = new(SqlScript.SelectUserID, conn);
-                cmd2.Parameters.AddWithValue("username", username);
+                cmd2.Parameters.AddWithValue("username", usernameLower);
                 userValidationResult.UserID = (int)cmd2.ExecuteScalar();
             }
             catch (Exception ex)
@@ -362,14 +362,16 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
 
                 if (ValidateCredentials(connection))
                 {
-                    if (users.TryGetValue(username.ToLowerInvariant(), out User user))
+                    string usernameLower = username.ToLowerInvariant();
+
+                    if (users.TryGetValue(usernameLower, out User user))
                     {
                         return ValidateByConfigDatabase(user);
                     }
                     else if (moduleConfig.EnableSearch)
                     {
                         UserValidationResult result = ValidateByActiveDirectory(connection, username);
-                        UpdateUserInDB(username, ref result);
+                        UpdateUserInDB(usernameLower, ref result);
                         return result;
                     }
                     else
