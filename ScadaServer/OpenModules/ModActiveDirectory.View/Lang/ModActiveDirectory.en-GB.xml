@@ -6,9 +6,9 @@
     <Phrase key="LdapServer.Description">The domain controller host or IP address. For example, 127.0.0.1</Phrase>
     <Phrase key="EnableSearch.DisplayName">Enable search</Phrase>
     <Phrase key="EnableSearch.Category">Main Parameters</Phrase>
-    <Phrase key="EnableSearch.Description">Enable searching for user roles in Active Directory.</Phrase>
+    <Phrase key="EnableSearch.Description">Enable user search in Active Directory and PostgreSQL.</Phrase>
     <Phrase key="SearchRoot.DisplayName">Search root</Phrase>
     <Phrase key="SearchRoot.Category">Main Parameters</Phrase>
-    <Phrase key="SearchRoot.Description">The search root. For example, DC=company,DC=com</Phrase>
+    <Phrase key="SearchRoot.Description">The search root in Active Directory. For example, DC=company,DC=com</Phrase>
   </Dictionary>
 </ModActiveDirectoryDictionaries>
