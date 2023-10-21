@@ -21,11 +21,6 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
     /// </summary>
     public class ModActiveDirectoryLogic : ModuleLogic
     {
-        /// <summary>
-        /// The identifier shared between Active Directory users as a temporary solution.
-        /// </summary>
-        private const int AdUserID = 1001;
-
         private readonly ModuleConfig moduleConfig;      // the module configuration
         private readonly Dictionary<string, User> users; // the users accessed by username
 
@@ -112,16 +107,13 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
                 {
                     if (GroupsContain(userGroups, role.Code))
                     {
-                        UserValidationResult result = new()
-                        {
-                            UserID = AdUserID,
-                            RoleID = role.RoleID
-                        };
-
                         if (role.RoleID > RoleID.Disabled)
                         {
-                            result.IsValid = true;
-                            return result;
+                            return new UserValidationResult
+                            {
+                                IsValid = true,
+                                RoleID = role.RoleID
+                            };
                         }
                         else
                         {
@@ -271,6 +263,36 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
         }
 
         /// <summary>
+        /// Updates user information in the database and sets the user ID in the validation result.
+        /// </summary>
+        private void UpdateUserInDB(string username, ref UserValidationResult userValidationResult)
+        {
+            try
+            {
+                using NpgsqlConnection conn = CreateConnection();
+                conn.Open();
+
+                NpgsqlCommand cmd1 = new(SqlScript.UpdateUser, conn);
+                cmd1.Parameters.AddWithValue("username", username);
+                cmd1.Parameters.AddWithValue("roleID", userValidationResult.RoleID);
+                cmd1.Parameters.AddWithValue("updateTime", DateTime.UtcNow);
+                cmd1.ExecuteNonQuery();
+
+                NpgsqlCommand cmd2 = new(SqlScript.SelectUserID, conn);
+                cmd2.Parameters.AddWithValue("username", username);
+                userValidationResult.UserID = (int)cmd2.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                string message = Locale.IsRussian ?
+                    "Ошибка при обновлении информации о пользователе в БД" :
+                    "Error updating user information in database";
+                userValidationResult = UserValidationResult.Fail(message);
+                Log.WriteError(ServerPhrases.ModuleMessage, Code, ex.BuildErrorMessage(message));
+            }
+        }
+
+        /// <summary>
         /// Finds a user in the database.
         /// </summary>
         private User FindUserInDB(int userID)
@@ -304,31 +326,6 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
             }
 
             return null;
-        }
-
-        /// <summary>
-        /// Updates user information in the database according to the validation result.
-        /// </summary>
-        private void UpdateUserInDB(string username, UserValidationResult userValidationResult)
-        {
-            try
-            {
-                using NpgsqlConnection conn = CreateConnection();
-                conn.Open();
-
-                NpgsqlCommand cmd = new(SqlScript.UpdateUser, conn);
-                cmd.Parameters.AddWithValue("username", username);
-                cmd.Parameters.AddWithValue("roleID", userValidationResult.RoleID);
-                cmd.Parameters.AddWithValue("updateTime", DateTime.UtcNow);
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                Log.WriteError(ServerPhrases.ModuleMessage, Code,
-                    ex.BuildErrorMessage(Locale.IsRussian ?
-                    "Ошибка при обновлении информации о пользователе в БД" :
-                    "Error updating user information in database"));
-            }
         }
 
 
@@ -372,7 +369,7 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
                     else if (moduleConfig.EnableSearch)
                     {
                         UserValidationResult result = ValidateByActiveDirectory(connection, username);
-                        UpdateUserInDB(username, result);
+                        UpdateUserInDB(username, ref result);
                         return result;
                     }
                     else
