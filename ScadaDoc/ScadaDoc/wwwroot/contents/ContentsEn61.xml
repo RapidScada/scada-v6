@@ -54,6 +54,10 @@
         <Text>Dashboard Plugin</Text>
         <Url>/en/latest/modules/plg-dashboard</Url>
       </Item>
+      <Item>
+        <Text>Elastic Report Plugin</Text>
+        <Url>/en/latest/modules/plg-elastic-report</Url>
+      </Item>
     </Subitems>
   </Item>
 
