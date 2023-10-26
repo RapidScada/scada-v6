@@ -1,4 +1,5 @@
-﻿// Contains classes: ModalButton, ModalSize, ModalOptions, ModalManager
+﻿// Contains classes: ModalButton, ModalSize, ModalOptions, ModalManager, 
+//     ModalBoxOptions, ModalBoxAlerts, ModalBox
 // Depends on jquery, bootstrap, scada-common.js
 
 // Specifies the modal dialog buttons.
@@ -350,5 +351,57 @@ class ModalManager {
     // Finds an existing or create a new manager instance.
     static getInstance() {
         return ModalManager._findInstance() || new ModalManager();
+    }
+}
+
+// Represents modal box options. 
+class ModalBoxOptions {
+    title = null;
+    alert = null;
+
+    constructor(fields) {
+        Object.assign(this, fields);
+    }
+}
+
+// Specifies the alerts for modal messages.
+class ModalBoxAlerts {
+    static DANGER = "danger";
+    static WARNING = "warning";
+}
+
+// Represents a modal box.
+// Modal box is a modal that does not contain another web page.
+class ModalBox {
+    // Shows a modal containing the specified message.
+    static showMessage(message, opt_options) {
+        let options = opt_options ?? new ModalBoxOptions();
+        let sizeClass = "";
+        let modalElem = $(
+            "<div class='modal fade' tabindex='-1'>" +
+            "<div class='modal-dialog" + sizeClass + "'>" +
+            "<div class='modal-content'>" +
+            "<div class='modal-header'><h5 class='modal-title'></h5>" +
+            "<button type='button' class='btn-close' data-bs-dismiss='modal'></button></div>" +
+            "<div class='modal-body'></div>" +
+            "<div class='modal-footer'>" +
+            "<button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>" + modalPhrases[ModalButton.CLOSE] + "</button>" +
+            "</div></div></div></div>");
+
+        modalElem.find(".modal-title").text(options.title ?? document.title);
+
+        if (options.alert) {
+            let alertElem = $(`<div class='alert alert-${options.alert}'></div>`).text(message);
+            modalElem.find(".modal-body").append(alertElem);
+        } else {
+            modalElem.find(".modal-body").text(message);
+        }
+
+        modalElem.on('hidden.bs.modal', function () {
+            $(this).remove();
+        });
+
+        let modal = new bootstrap.Modal(modalElem[0], {});
+        modal.show();
     }
 }
