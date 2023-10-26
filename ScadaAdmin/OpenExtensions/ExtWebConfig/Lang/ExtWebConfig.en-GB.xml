@@ -11,6 +11,7 @@
     <Phrase key="lblShowMainMenu">Show main menu</Phrase>
     <Phrase key="lblShowViewExplorer">Show view explorer</Phrase>
     <Phrase key="lblRefreshRate">Data refresh rate, ms</Phrase>
+	  <Phrase key="lblShowEventView">Show event view</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlGeneralOptions">
     <Phrase key="gbGeneralOptions">General Options</Phrase>

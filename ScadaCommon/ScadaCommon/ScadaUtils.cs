@@ -496,6 +496,14 @@ namespace Scada
         }
 
         /// <summary>
+        /// Formats the specified text with the specified arguments.
+        /// </summary>
+        public static string NormalText(this string text)
+        {
+            return string.IsNullOrEmpty(text) ? "" : text;
+        }
+
+        /// <summary>
         /// Builds an error message combining the exception message, the specified text and arguments.
         /// </summary>
         public static string BuildErrorMessage(this Exception ex, string text = "", params object[] args)
@@ -556,5 +564,6 @@ namespace Scada
                 }
             }
         }
+
     }
 }

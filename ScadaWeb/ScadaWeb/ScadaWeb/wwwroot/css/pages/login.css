@@ -1,5 +1,5 @@
 ﻿body {
-  background-color: #f8f9fa;
+  height: 100vh;
 }
 
 #divAlert {
@@ -18,7 +18,6 @@
 }
 
 #imgCaptcha {
-  width: 100%;
-  height: auto;
+  height: 30px;
   margin-bottom: 0.5rem;
 }

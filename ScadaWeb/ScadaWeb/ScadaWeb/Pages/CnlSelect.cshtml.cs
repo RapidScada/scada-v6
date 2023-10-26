@@ -15,6 +15,7 @@ using Scada.Web.Services;
 using Scada.Web.Users;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Scada.Web.Pages
 {
@@ -55,6 +56,8 @@ namespace Scada.Web.Pages
         [BindProperty]
         public int ObjNum { get; set; }
         [BindProperty]
+        public string CnlName { get; set; }
+        [BindProperty]
         public bool OnlySelected { get; set; }
         [BindProperty]
         public string SelectedCnlNums { get; set; }
@@ -86,8 +89,9 @@ namespace Scada.Web.Pages
                 {
                     // select channels by object number
                     HashSet<int> selectedCnlNums = ScadaUtils.ParseIntSet(SelectedCnlNums);
-
-                    foreach (Cnl cnl in webContext.ConfigDatabase.CnlTable.Select(new TableFilter("ObjNum", ObjNum), true))
+                    var cnlList = webContext.ConfigDatabase.CnlTable.Select(new TableFilter("ObjNum", ObjNum), true);
+                    if (!string.IsNullOrEmpty(CnlName)) cnlList = cnlList.Where(x => x.Name.Contains(CnlName));
+                    foreach (Cnl cnl in cnlList)
                     {
                         allChannelItems.Add(new ChannelItem
                         {

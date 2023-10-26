@@ -172,6 +172,20 @@ namespace Scada.Web.TreeView
                     SortOrder = (int)KnownMenuItem.Plugins * OrderCoef
                 },
 
+                KnownMenuItem.UserManager => new MenuItem
+                {
+                    Text = WebPhrases.UserManagerMenuItem,
+                    Url = WebPath.UserManagerPage.PrependTilde(),
+                    SortOrder = (int)KnownMenuItem.UserManager * OrderCoef
+                },
+
+                KnownMenuItem.UserLoginLog => new MenuItem
+                {
+                    Text = WebPhrases.UserLoginLogMenuItem,
+                    Url = WebPath.UserLoginPage.PrependTilde(),
+                    SortOrder = (int)KnownMenuItem.UserLoginLog * OrderCoef
+                },
+
                 KnownMenuItem.About => new MenuItem
                 {
                     Text = WebPhrases.AboutMenuItem,

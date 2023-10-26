@@ -23,6 +23,7 @@
  * Modified : 2023
  */
 
+using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Lang;
 using Scada.Web.Plugins;
@@ -130,11 +131,17 @@ namespace Scada.Web.Users
                 }
 
                 // add default menu items
-                MergeMenuItems(MenuItems, new List<MenuItem>
+                var mergeMenus = new List<MenuItem>
                 {
                     MenuItem.FromKnownMenuItem(KnownMenuItem.Reports),
                     MenuItem.FromKnownMenuItem(KnownMenuItem.About)
-                }, 0);
+                };
+                if (user.RoleID == RoleID.Administrator)
+                {
+                    mergeMenus.Add(MenuItem.FromKnownMenuItem(KnownMenuItem.UserManager));//用户管理
+                    mergeMenus.Add(MenuItem.FromKnownMenuItem(KnownMenuItem.UserLoginLog));//用户登录日志
+                }
+                MergeMenuItems(MenuItems, mergeMenus, 0);
             }
             catch (Exception ex)
             {

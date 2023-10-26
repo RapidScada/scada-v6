@@ -37,4 +37,111 @@
             <input id="txtTimeZone" type="text" class="form-control-plaintext" readonly value="@Model.TimeZone">
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <button type="button" class="btn btn-primary" id="btnModifyPassword">@dict.btnPwdModify</button>
+        </div>
+    </div>
+    @if (Model.IsFirstLogin)
+    {
+        <h2 style="color:red;">First time login should modify password</h2>
+    }
+    <div class="mt-3 border-top" id="pwdDiv" style="display:none;">
+        <div class="row mt-3">
+            <label id="lblOldPwd" for="txtRole" class="col-sm-3 col-form-label">@dict.lblOldPwd</label>
+            <div class="col-sm-9">
+                <input id="txtOldPwd" type="password" class="form-control" autocomplete="off" value="@Model.OldPwd">
+            </div>
+        </div>
+        <div class="row mt-3">
+            <label id="lblNewPwd" for="txtRole" class="col-sm-3 col-form-label">@dict.lblNewPwd</label>
+            <div class="col-sm-9">
+                <div class="input-group">
+                    <input id="txtNewPwd" type="password" class="form-control" autocomplete="off" value="@Model.NewPwd">
+                    <span class="input-group-text" id="basic-addon2" data-bs-toggle="tooltip" data-bs-placement="right" title="@Model.PwdComplicatedFormatTips">
+                        <i class="fas fa-question-circle"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <label id="lblNewRePwd" for="txtRole" class="col-sm-3 col-form-label">@dict.lblNewRePwd</label>
+            <div class="col-sm-9">
+                <div class="input-group">
+                    <input type="password" id="txtNewRePwd" class="form-control" autocomplete="off" value="@Model.NewRePwd">
+                    <span class="input-group-text" id="basic-addon2" data-bs-toggle="tooltip" data-bs-placement="right" title="@Model.PwdComplicatedFormatTips">
+                        <i class="fas fa-question-circle"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-sm-9">
+                <button type="button" class="btn btn-primary" id="btnConfirm">@dict.btnPwdConfirm</button>
+                <button type="button" class="btn btn-secondary" id="btnCancel">@dict.btnPwdCancel</button>
+            </div>
+        </div>
+    </div>
 </div>
+@section Scripts{
+    <script src="~/lib/jquery.md5.min.js"></script>
+    <script>
+        $(function () {
+            $('#btnModifyPassword').click(function () {
+                $(this).hide();
+                $('#txtOldPwd').val('');
+                $('#txtNewPwd').val('');
+                $('#txtNewRePwd').val('');
+                $('#pwdDiv').show();
+            });
+            var pwdLenLimit = @Model.PwdLenLimit;
+            var pwdComplicatedFormat = '@Model.PwdComplicatedFormat';
+
+            var regNum = new RegExp(/^.*[0-9]+.*$/);
+            var regLetter = new RegExp(/(?=.*[a-z])(?=.*[A-Z])/);
+            var regSymbol = new RegExp(/[\s~`!@@#$%^&*()\-_=+[\]{}|;:'",<.>/?]/);
+            $('#btnConfirm').click(function () {
+                var oldPwd = $('#txtOldPwd').val();
+                var newPwd = $('#txtNewPwd').val();
+                var newRePwd = $('#txtNewRePwd').val();
+                if (newPwd != newRePwd) return layer.alert('New password and re-entered password do not match.');
+                if (newPwd.length < pwdLenLimit) return layer.alert('Password length must be greater than ' + pwdLenLimit + ' characters.');
+                if (pwdComplicatedFormat) {
+                    if (pwdComplicatedFormat.indexOf('num') > -1 && !regNum.test(newPwd)) return layer.alert('Password should contains number.');
+                    if (pwdComplicatedFormat.indexOf('letter') > -1 && !regLetter.test(newPwd)) return layer.alert('Password should contains letter(lower and upper).');
+                    if (pwdComplicatedFormat.indexOf('symbol') > -1 && !regSymbol.test(newPwd)) return layer.alert('Password should contains symbol.');
+                }
+                oldPwd = $.md5(oldPwd);
+                newPwd = $.md5(newPwd);
+                $.ajax({
+                    url: '@Url.Content("/account/modifypassword")',
+                    type: 'POST',
+                    contentType: "application/json",
+                    dataType: 'json',
+                    data: JSON.stringify({ oldPwd: oldPwd, newPwd: newPwd }),
+                    success: function (data) {
+                        if (data.ok) {
+                            layer.alert('@dict.MsgPwdModified', { title: 'tips' });
+                            $('#btnModifyPassword').show();
+                            $('#pwdDiv').hide();
+                            //修改成功退出登录
+                            setTimeout(function () {
+                                window.location.href = '@Url.Content("~/logout")';
+                            }, 200);
+                        }
+                        else {
+                            layer.alert(data.msg, { title: 'tips' });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        layer.alert('error', { title: 'tips' });
+                    }
+                });
+            });
+            $('#btnCancel').click(function () {
+                $('#btnModifyPassword').show();
+                $('#pwdDiv').hide();
+            });
+        })
+    </script>
+}

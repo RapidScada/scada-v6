@@ -515,7 +515,12 @@ namespace Scada.Web.Code
         /// </summary>
         public bool Init()
         {
+#if DEBUG
+            AppDirs.Init("C:\\SCADAV6_Vol\\ScadaWeb");
+#else
+
             AppDirs.Init(Assembly.GetExecutingAssembly());
+#endif
             LoadInstanceConfig();
 
             Log = new LogFile(LogFormat.Full)
@@ -525,9 +530,7 @@ namespace Scada.Web.Code
             };
 
             Log.WriteBreak();
-            Log.WriteAction(Locale.IsRussian ?
-                "Вебстанция {0} запущена" :
-                "Webstation {0} started", WebUtils.AppVersion);
+            Log.WriteAction("Webstation {0} started", WebUtils.AppVersion);
             LocalizeApp();
 
             if (InitStorage())

@@ -25,6 +25,7 @@
 
 using Scada.Data.Entities;
 using Scada.Data.Models;
+using Scada.Data.TwoFactorAuth;
 using Scada.Lang;
 using Scada.Log;
 using Scada.Protocol;
@@ -507,6 +508,17 @@ namespace Scada.Server
                             UploadFile(client, request, out response);
                             break;
 
+
+                        case FunctionID.WebLogin:
+                            WebLogin(client, request, out response);
+                            break;
+                        case FunctionID.GetTwoFactorAuthKey:
+                            GetTwoFactorAuthKey(client, request, out response);
+                            break;
+                        case FunctionID.VerifyTwoFactorAuthKey:
+                            VerifyTwoFactorAuthKey(client, request, out response);
+                            break;
+
                         default:
                             handled = false;
                             break;
@@ -577,10 +589,55 @@ namespace Scada.Server
             index = ArgumentIndex;
 
             UserValidationResult result =
-                protector.IsBlocked(out string errMsg) || 
-                !DecryptPassword(encryptedPassword, client, out string password, out errMsg)
+                protector.IsBlocked(out string errMsg) ||
+                !DecryptPassword(encryptedPassword, client, "", out string password, out errMsg)
                 ? UserValidationResult.Fail(errMsg)
                 : ValidateUser(client, username, password, instance);
+
+            if (result.IsValid)
+            {
+                UpdateClientMode(client, clientMode);
+            }
+            else
+            {
+                protector.RegisterFailedLogin();
+                Thread.Sleep(WrongPasswordDelay);
+            }
+
+
+
+            CopyBool(result.IsValid, buffer, ref index);
+            CopyInt32(result.UserID, buffer, ref index);
+            CopyInt32(result.RoleID, buffer, ref index);
+            CopyString(result.ErrorMessage, buffer, ref index);
+            response.BufferLength = index;
+        }
+
+
+        /// <summary>
+        /// 网页登录认证.
+        /// </summary>
+        protected void WebLogin(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            byte[] buffer = client.InBuf;
+            int index = ArgumentIndex;
+            string username = GetString(buffer, ref index);
+            string encryptedPassword = GetString(buffer, ref index);
+            string loginType = GetString(buffer, ref index);
+            string browserIdentity = GetString(buffer, ref index);
+            string clientIpAddr = GetString(buffer, ref index);
+            string instance = GetString(buffer, ref index);
+            int clientMode = GetInt32(buffer, ref index);
+
+            buffer = client.OutBuf;
+            response = new ResponsePacket(request, buffer);
+            index = ArgumentIndex;
+
+            WebUserValidationResult result =
+                protector.IsBlocked(out string errMsg) ||
+                !DecryptPassword(encryptedPassword, client, loginType, out string password, out errMsg)
+                ? WebUserValidationResult.Fail(errMsg)
+                : ValidateWebUser(client, username, password, loginType, browserIdentity, clientIpAddr, instance);
 
             if (result.IsValid)
             {
@@ -595,20 +652,101 @@ namespace Scada.Server
             CopyBool(result.IsValid, buffer, ref index);
             CopyInt32(result.UserID, buffer, ref index);
             CopyInt32(result.RoleID, buffer, ref index);
+            CopyBool(result.NeedFactorAuth, buffer, ref index);
+            CopyBool(result.NeedModifyPwd, buffer, ref index);
             CopyString(result.ErrorMessage, buffer, ref index);
             response.BufferLength = index;
         }
 
         /// <summary>
+        /// 获取多重认证KEY
+        /// </summary>
+        protected void GetTwoFactorAuthKey(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            byte[] buffer = client.InBuf;
+            int index = ArgumentIndex;
+            int userID = GetInt32(buffer, ref index);
+
+            buffer = client.OutBuf;
+            response = new ResponsePacket(request, buffer);
+            index = ArgumentIndex;
+
+            TwoFactorAuthInfoResult result = GetTwoFAKey(userID);
+
+            CopyBool(result.HasVerified, buffer, ref index);
+            CopyString(result.FaSecret, buffer, ref index);
+            CopyString(result.FaQrCodeUrl, buffer, ref index);
+            CopyString(result.ErrorMessage, buffer, ref index);
+            response.BufferLength = index;
+        }
+
+        /// <summary>
+        /// 校验多重认证信息
+        /// </summary>
+        protected void VerifyTwoFactorAuthKey(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            byte[] buffer = client.InBuf;
+            int index = ArgumentIndex;
+            int userID = GetInt32(buffer, ref index);
+            int code = GetInt32(buffer, ref index);
+            bool trustDevice = GetBool(buffer, ref index);
+            string browserId = GetString(buffer, ref index);
+
+            buffer = client.OutBuf;
+            response = new ResponsePacket(request, buffer);
+            index = ArgumentIndex;
+
+            TwoFactorAuthValidateResult result = VerifyTwoFAKey(userID, code, trustDevice, browserId);
+
+            CopyBool(result.IsValid, buffer, ref index);
+            CopyString(result.ErrorMessage, buffer, ref index);
+            response.BufferLength = index;
+        }
+
+        /// <summary>
+        /// 认证网页用户
+        /// </summary>
+        protected virtual WebUserValidationResult ValidateWebUser(ConnectedClient client,
+            string username, string password, string loginType, string browserIdentity, string clientIpAddr, string instance)
+        {
+            client.IsLoggedIn = false;
+            client.Username = username;
+
+            return new WebUserValidationResult
+            {
+                IsValid = false
+            };
+        }
+
+        /// <summary>
+        /// 获取多重密钥
+        /// </summary>
+        protected virtual TwoFactorAuthInfoResult GetTwoFAKey(int userID)
+        {
+            return new TwoFactorAuthInfoResult { HasVerified = false };
+        }
+
+        /// <summary>
+        /// 校验多重认证随机码
+        /// </summary>
+        protected virtual TwoFactorAuthValidateResult VerifyTwoFAKey(int userID, int code,bool trustDevice, string browserId)
+        {
+            return new TwoFactorAuthValidateResult { IsValid = false };
+        }
+
+        /// <summary>
         /// Decrypts the password.
         /// </summary>
-        protected bool DecryptPassword(string encryptedPassword, ConnectedClient client, 
+        protected bool DecryptPassword(string encryptedPassword, ConnectedClient client, string loginType,
             out string password, out string errMsg)
         {
+            password = "";
+            errMsg = "";
+            //非账号密码登录直接返回
+            if (!string.IsNullOrEmpty(loginType) && loginType != WebLoginType.UserName) return true;
             try
             {
                 password = ProtocolUtils.DecryptPassword(encryptedPassword, client.SessionID, listenerOptions.SecretKey);
-                errMsg = "";
                 return true;
             }
             catch
@@ -669,10 +807,7 @@ namespace Scada.Server
             else
             {
                 CopyBool(true, buffer, ref index);
-                CopyInt32(user.UserID, buffer, ref index);
-                CopyInt32(user.RoleID, buffer, ref index);
-                CopyBool(user.Enabled, buffer, ref index);
-                CopyString(user.Name, buffer, ref index);
+                CopyUser(user, buffer, ref index);
             }
 
             response.BufferLength = index;

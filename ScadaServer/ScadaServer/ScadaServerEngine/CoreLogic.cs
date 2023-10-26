@@ -28,6 +28,7 @@ using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
+using Scada.Data.TwoFactorAuth;
 using Scada.Lang;
 using Scada.Log;
 using Scada.Protocol;
@@ -35,12 +36,17 @@ using Scada.Server.Archives;
 using Scada.Server.Config;
 using Scada.Server.Lang;
 using Scada.Server.Modules;
+using Scada.Server.TotpLib;
+using Scada.Server.TotpLib.Helper;
 using Scada.Storages;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace Scada.Server.Engine
@@ -81,6 +87,7 @@ namespace Scada.Server.Engine
         private readonly string infoFileName;    // the full file name to write application information
 
         private Thread thread;                   // the working thread of the logic
+        private Thread loginLogThread;                   // the working thread of the logic
         private volatile bool terminated;        // necessary to stop the thread
         private DateTime utcStartDT;             // the UTC start time
         private DateTime startDT;                // the local start time
@@ -102,6 +109,7 @@ namespace Scada.Server.Engine
         private Queue<EventItem> eventQueue;     // the just created events
         private Queue<CommandItem> commandQueue; // the preprocessed commands that have not yet been sent
 
+        private Queue<UserLoginLog> userLoginLogQueue; // the preprocessed commands that have not yet been sent
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -141,6 +149,7 @@ namespace Scada.Server.Engine
             curData = null;
             eventQueue = null;
             commandQueue = null;
+            userLoginLogQueue = null;
         }
 
 
@@ -225,6 +234,7 @@ namespace Scada.Server.Engine
             curData = new CurrentData(cnlTags, HandleCurDataChanging);
             eventQueue = new Queue<EventItem>();
             commandQueue = new Queue<CommandItem>();
+            userLoginLogQueue = new Queue<UserLoginLog>();
 
             InitModules();
             InitArchives();
@@ -1056,6 +1066,8 @@ namespace Scada.Server.Engine
                     {
                         thread = new Thread(Execute);
                         thread.Start();
+                        loginLogThread = new Thread(ProcessLoginLog); 
+                        loginLogThread.Start();
                     }
                 }
                 else
@@ -1110,7 +1122,9 @@ namespace Scada.Server.Engine
                     else
                         Log.WriteAction(CommonPhrases.UnableToStopLogic);
 
+                    loginLogThread.Join(TimeSpan.FromSeconds(AppConfig.GeneralOptions.StopWait));
                     thread = null;
+                    loginLogThread = null;
                 }
             }
             catch (Exception ex)
@@ -1177,6 +1191,330 @@ namespace Scada.Server.Engine
                 return UserValidationResult.Fail(errMsg);
             }
         }
+
+
+        /// <summary>
+        /// 验证网页用户
+        /// </summary>
+        public WebUserValidationResult ValidateWebUser(string username, string password, string loginType, string browserIdentity)
+        {
+            try
+            {
+                // ignore leading and trailing white-space when searching for a user
+                username = username?.Trim();
+                // prohibit empty username or password
+                if (string.IsNullOrEmpty(username) || (loginType == WebLoginType.UserName && string.IsNullOrEmpty(password)))
+                    return WebUserValidationResult.Fail(ServerPhrases.EmptyCredentials);
+
+                // validate by the configuration database
+                var user = users.Values.FirstOrDefault(x => x.Name == username || x.Email == username);
+                if (user == null)
+                {
+                    if (loginType == WebLoginType.GoogleOAuth)
+                        return WebUserValidationResult.Fail(string.Format(ServerPhrases.InvalidGoogleAccount, username));
+                    else
+                        return WebUserValidationResult.Fail(ServerPhrases.InvalidCredentials);
+                }
+                //禁用
+                if(!user.Enabled) return WebUserValidationResult.Fail(ServerPhrases.AccountDisabled);
+                
+                if (loginType == WebLoginType.UserName)
+                {
+                    if (user.RoleID != 1 && !user.UserPwdEnabled)//非管理员   不选账号密码不允许登录
+                    {
+                        return WebUserValidationResult.Fail(ServerPhrases.PwdLoginIsNotAllow);
+                    }
+                    if (!string.IsNullOrEmpty(user.Password) && user.Password == ScadaUtils.GetPasswordHash(user.UserID, password))
+                    {
+                        WebUserValidationResult result = new WebUserValidationResult
+                        {
+                            UserID = user.UserID,
+                            RoleID = user.RoleID,
+                        };
+
+                        // 密码过期验证
+                        if (user.PwdPeriodModify && user.PwdUpdateTime.Year > 2022 && user.PwdUpdateTime.AddDays(user.PwdPeriodLimit).Subtract(DateTime.Now) < TimeSpan.FromDays(-1))
+                        {
+                            result.ErrorMessage = $"password expired at {user.PwdUpdateTime.AddDays(user.PwdPeriodLimit).ToString("yyyy-MM-dd")}";
+                            result.IsValid = false;
+                            return result;
+                        }
+                        // 校验是否需要2FA
+                        if (user.FaEnabled)
+                        {
+                            result.NeedFactorAuth = true;
+                            if (!string.IsNullOrEmpty(user.FaSecret) && user.FaVerifySuccess)
+                            {
+                                var machineCodeList = this.ConfigDatabase.UserMachineCodeTable.SelectItems(new TableFilter()
+                                {
+                                    ColumnName = "UserID",
+                                    Argument = user.UserID
+                                }).Cast<UserMachineCode>().ToList();
+                                //校验机器码
+                                result.NeedFactorAuth = !machineCodeList.Any(x => x.MachineCode == browserIdentity);
+                            }
+                        }
+                        //判断是否需要修改密码
+                        if (user.PwdUpdateTime == DateTime.MinValue)
+                        {
+                            result.NeedModifyPwd = true;
+                        }
+                        if (user.Enabled && user.RoleID > RoleID.Disabled)
+                            result.IsValid = true;
+                        else
+                            result.ErrorMessage = ServerPhrases.AccountDisabled;
+
+                        return result;
+                    }
+                    else
+                    {
+                        return WebUserValidationResult.Fail(ServerPhrases.InvalidCredentials);
+                    }
+                }
+                else if (loginType == WebLoginType.GoogleOAuth)
+                {
+                    if (user.GoogleEnabled)
+                    {
+                        WebUserValidationResult result = new WebUserValidationResult
+                        {
+                            UserID = user.UserID,
+                            RoleID = user.RoleID,
+                        };
+                        if (user.Enabled && user.RoleID > RoleID.Disabled)
+                            result.IsValid = true;
+                        else
+                            result.ErrorMessage = ServerPhrases.AccountDisabled;
+
+                        return result;
+                    }
+                    else
+                    {
+                        return WebUserValidationResult.Fail(string.Format(ServerPhrases.GoogleIsNotAllow,user.Name));
+                    }
+                }
+                else
+                {
+                    return WebUserValidationResult.Fail($"{ServerPhrases.InvalidCredentials}--{loginType}");
+                }
+            }
+            catch (Exception ex)
+            {
+                string errMsg = "Error validating web user";
+                Log.WriteError(ex, errMsg);
+                return WebUserValidationResult.Fail(errMsg);
+            }
+        }
+
+
+        /// <summary>
+        /// 获取多重密钥
+        /// </summary>
+        public TwoFactorAuthInfoResult GetTwoFAKey(int userID)
+        {
+            try
+            {
+                var user = users.Values.FirstOrDefault(x => x.UserID == userID);
+                if (user == null) return TwoFactorAuthInfoResult.Fail("user not exist");
+                var result = new TwoFactorAuthInfoResult();
+                var generator = new TotpSetupGenerator();
+                var userName = string.IsNullOrEmpty(user.Email) ? user.Name : user.Email;
+                var issur = "ScadaSSO";
+                if (string.IsNullOrEmpty(user.FaSecret))
+                {
+                    byte[] bytes = new byte[20];
+                    RandomNumberGenerator.Create().GetBytes(bytes);
+                    user.FaSecret = Base32.ToBase32(bytes);
+                    var totpSetup = generator.GenerateUrl(issur, userName, user.FaSecret);
+                    result.HasVerified = false;
+                    result.FaSecret = user.FaSecret;
+                    result.FaQrCodeUrl = totpSetup.QrCodeImageContent;
+                    UpdateUserInfo(user);
+                    return result;
+                }
+
+                if (!user.FaVerifySuccess)
+                {
+                    var totpSetup = generator.GenerateUrl(issur, userName, user.FaSecret);
+                    result.HasVerified = false;
+                    result.FaSecret = user.FaSecret;
+                    result.FaQrCodeUrl = totpSetup.QrCodeImageContent;
+                    return result;
+                }
+                result.HasVerified = true;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                string errMsg = "Error get twoFAKey";
+                Log.WriteError(ex, errMsg);
+                return TwoFactorAuthInfoResult.Fail(errMsg);
+            }
+        }
+
+        /// <summary>
+        /// 更新用户信息
+        /// </summary>
+        private void UpdateUserInfo(User user)
+        {
+            var userTable = this.ConfigDatabase.UserTable;
+            var existUser = userTable.GetItem(user.UserID);
+            if (existUser != null)
+            {
+                existUser = user;
+                Storage.SaveUser(userTable, existUser);
+
+                InitUsers();
+            }
+        }
+
+        /// <summary>
+        /// 删除用户信息
+        /// </summary>
+        private void DeleteUserInfo(User user)
+        {
+            var userTable = this.ConfigDatabase.UserTable;
+            var existUser = userTable.GetItem(user.UserID);
+            if (existUser != null)
+            {
+                userTable.RemoveItem(user.UserID);
+                Storage.DeleteUser(userTable, existUser);
+                InitUsers();
+            }
+        }
+        /// <summary>
+        /// 校验多重认证随机码
+        /// </summary>
+        public TwoFactorAuthValidateResult VerifyTwoFAKey(int userID, int code,bool trustDevice, string browserId)
+        {
+            try
+            {
+                var user = users.Values.FirstOrDefault(x => x.UserID == userID);
+                if (user == null) return TwoFactorAuthValidateResult.Fail("user not exist");
+                var validResult = new TwoFactorAuthValidateResult();
+                TotpGenerator totpGenerator = new TotpGenerator();
+                var isValid = totpGenerator.GetValidTotps(user.FaSecret, TimeSpan.FromSeconds(60)).Any(x => x == code);
+                if (isValid)
+                {
+                    validResult.IsValid = true;
+                    user.FaVerifySuccess = true;
+                    this.UpdateUserInfo(user);
+                    //插入machinecode表
+                    if(trustDevice) this.AddToUserMachineCode(userID, browserId);
+                }
+                else
+                {
+                    validResult.ErrorMessage = "verify failed,please try again";
+                }
+                return validResult;
+            }
+            catch (Exception ex)
+            {
+                string errMsg = "Error verify twoFAKey";
+                Log.WriteError(ex, errMsg);
+                return TwoFactorAuthValidateResult.Fail(errMsg);
+            }
+        }
+
+        /// <summary>
+        /// 记录设备认证信息
+        /// </summary>
+        private void AddToUserMachineCode(int userID, string browserId)
+        {
+            var machineCodeTable = ConfigDatabase.UserMachineCodeTable;
+            var userMachineCodeList = machineCodeTable.SelectItems(new TableFilter()
+            {
+                ColumnName = "UserID",
+                Argument = userID
+            }).Cast<UserMachineCode>();
+            //处理过期
+            if (userMachineCodeList.Count() > 8)
+            {
+                userMachineCodeList = userMachineCodeList.OrderBy(x => x.LastLoginTime);
+                var expiredCodeLen = userMachineCodeList.Count() - 8;
+                for (int i = 0; i < expiredCodeLen; i++)
+                {
+                    userMachineCodeList.ElementAt(i).IsExpired = true;
+                }
+            }
+            //查找未过期的
+            var userMachineCode = userMachineCodeList.FirstOrDefault(x => x.MachineCode == browserId);
+            if (userMachineCode == null)
+            {
+                userMachineCode = new UserMachineCode
+                {
+                    Id = machineCodeTable.GetNextPk(),
+                    UserID = userID,
+                    MachineCode = browserId,
+                    CreateTime = DateTime.Now,
+                    IsExpired = false,
+                    LastLoginTime = DateTime.Now,
+                };
+                machineCodeTable.AddItem(userMachineCode);
+            }
+            else
+            {
+                userMachineCode.IsExpired = false;
+                userMachineCode.LastLoginTime = DateTime.Now;
+            }
+            Storage.SaveUserMachineCode(machineCodeTable, userMachineCode);
+        }
+
+        /// <summary>
+        /// 记录登录日志
+        /// </summary>
+        public void EnqueueLoginLog(ConnectedClient client, WebUserValidationResult result)
+        {
+            lock (userLoginLogQueue)
+            {
+                userLoginLogQueue.Enqueue(new UserLoginLog
+                {
+                    LoginIP = result.ClientIpAddress,
+                    LoginStatus = (result.IsValid && client.IsLoggedIn) ? 1 : 0,
+                    LoginTime = DateTime.Now,
+                    UserID = result.UserID,
+                    UserName = result.UserName,
+                    LoginDesc = result.ErrorMessage
+                });
+            }
+        }
+
+
+        private void ProcessLoginLog()
+        {
+            while (!terminated)
+            {
+                var needUpdate = false;
+                UserLoginLog loginLog = null;
+                try
+                {
+                    for (int i = 0; i < 1000; i++)
+                    {
+                        lock (userLoginLogQueue)
+                        {
+                            if (userLoginLogQueue == null || userLoginLogQueue.Count == 0)
+                            {
+                                break;
+                            }
+                            needUpdate = true;
+                            loginLog = userLoginLogQueue.Dequeue();
+                        }
+
+                        var loginLogTable = ConfigDatabase.UserLoginLogTable;
+                        loginLog.Id = loginLogTable.GetNextPk();
+                        loginLogTable.AddItem(loginLog);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    needUpdate = false;
+                    string errMsg = "Error process login log";
+                    Log.WriteError(ex, errMsg);
+                }
+                if (needUpdate) Storage.AddUserLoginLog(ConfigDatabase.UserLoginLogTable, loginLog);
+                else Thread.Sleep(500);
+            }
+        }
+
 
         /// <summary>
         /// Finds a user by ID.
@@ -1634,6 +1972,271 @@ namespace Scada.Server.Engine
             }
 
             return result;
+        }
+
+
+        /// <summary>
+        /// 启用、禁用用户
+        /// </summary>
+        internal bool EnabledUser(int userID, bool enable, out string errMsg)
+        {
+            errMsg = string.Empty;
+            User user = ConfigDatabase.UserTable.GetItem(userID);
+            if (user == null)
+            {
+                errMsg = "User not exist";
+                return false;
+            }
+            if (user.Enabled == enable)
+            {
+                errMsg = $"User is {(enable ? "enabled" : "disabled")}";
+                return false;
+            }
+            user.Enabled = enable;
+            this.UpdateUserInfo(user);
+            return true;
+        }
+
+
+        internal bool DeleteUser(int userID, out string errMsg)
+        {
+            errMsg = string.Empty;
+            User user = ConfigDatabase.UserTable.GetItem(userID);
+            if (user == null)
+            {
+                errMsg = "User not exist";
+                return false;
+            }
+            this.DeleteUserInfo(user);
+            return true;
+        }
+
+        /// <summary>
+        /// 添加或更新用户
+        /// </summary>
+        internal bool AddOrUpdateUser(User user, out string errMsg)
+        {
+            errMsg = string.Empty;
+            //校验密码
+            if (string.IsNullOrEmpty(user.Password))
+            {
+                errMsg = "Password is empty";
+                return false;
+            }
+            if (user.UserID == 0)
+            {
+                //校验用户名、邮箱
+                var userList = ConfigDatabase.UserTable.ToList();
+                if (userList.Any(x=>x.Name == user.Name))
+                {
+                    errMsg = $"User name {user.Name} already exist";
+                    return false;
+                }
+                if (userList.Any(x => x.Email == user.Email))
+                {
+                    errMsg = $"Email {user.Email} already exist";
+                    return false;
+                }
+                user.UserID = ConfigDatabase.UserTable.GetNextPk();
+                user.Password = ScadaUtils.GetPasswordHash(user.UserID, user.Password);
+                user.Enabled = true;
+                ConfigDatabase.UserTable.AddItem(user);
+                Storage.SaveUser(ConfigDatabase.UserTable, user);
+            }
+            else
+            {
+                var userList = ConfigDatabase.UserTable.ToList();
+                if (userList.Any(x => x.Name == user.Name && x.UserID != user.UserID))
+                {
+                    errMsg = $"User name {user.Name} already exist";
+                    return false;
+                }
+                if (userList.Any(x => x.Email == user.Email && x.UserID != user.UserID))
+                {
+                    errMsg = $"Email {user.Email} already exist";
+                    return false;
+                }
+
+                var dbUser = ConfigDatabase.UserTable.GetItem(user.UserID);
+                if (dbUser.Password != user.Password)
+                    user.Password = ScadaUtils.GetPasswordHash(user.UserID, user.Password);
+                //更新信息
+                dbUser.Name = user.Name;
+                dbUser.RoleID = user.RoleID;
+                dbUser.Password = user.Password;
+                dbUser.UserRealName = user.UserRealName;
+                dbUser.Gender = user.Gender;
+                dbUser.Phone = user.Phone;
+                dbUser.Email = user.Email;
+                dbUser.Descr = user.Descr;
+                dbUser.UserPwdEnabled = user.UserPwdEnabled;
+                dbUser.FaEnabled = user.FaEnabled;
+                dbUser.GoogleEnabled = user.GoogleEnabled;
+                dbUser.PwdPeriodModify = user.PwdPeriodModify;
+                dbUser.PwdPeriodLimit = user.PwdPeriodLimit;
+                dbUser.PwdLenLimit = user.PwdLenLimit;
+                dbUser.PwdComplicatedRequire = user.PwdComplicatedRequire;
+                dbUser.PwdComplicatedFormat = user.PwdComplicatedFormat;
+                dbUser.PwdUsedDifferent = user.PwdUsedDifferent;
+                dbUser.PwdUsedTimes = user.PwdUsedTimes;
+                this.UpdateUserInfo(dbUser);
+            }
+            InitUsers();
+            return true;
+        }
+
+        /// <summary>
+        /// 重置用户多重认证
+        /// </summary>
+        internal bool ResetUserTwoFA(int userID, out string errMsg)
+        {
+            errMsg = string.Empty;
+            User user = ConfigDatabase.UserTable.GetItem(userID);
+            if (user == null)
+            {
+                errMsg = "User not exist";
+                return false;
+            }
+            user.FaSecret = string.Empty;
+            user.FaVerifySuccess = false;
+            this.UpdateUserInfo(user);
+
+            return true;
+        }
+
+        /// <summary>
+        /// 重置用户密码
+        /// </summary>
+        internal bool ResetUserPwd(int userID, string newPwd, out string errMsg)
+        {
+            errMsg = string.Empty;
+            User user = ConfigDatabase.UserTable.GetItem(userID);
+            if (user == null)
+            {
+                errMsg = "User not exist";
+                return false;
+            }
+            var newHashPwd = ScadaUtils.GetPasswordHash(user.UserID, newPwd);
+            user.Password = newHashPwd;
+            user.PwdUpdateTime = DateTime.MinValue;
+            this.UpdateUserInfo(user);
+
+            return true;
+        }
+
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        internal bool ModifyPwdWeb(int userID, string oldPwd, string newPwd, out string errMsg)
+        {
+            errMsg = string.Empty;
+            User user = ConfigDatabase.UserTable.GetItem(userID);
+            if (user == null)
+            {
+                errMsg = "User not exist";
+                return false;
+            }
+            //
+            if (user.Password != ScadaUtils.GetPasswordHash(user.UserID, oldPwd))
+            {
+                errMsg = "Old password incorrect";
+                return false;
+            }
+
+            //校验密码策略-复杂度、长度 前端需加密处理，逻辑放在前端
+            /*if (!CheckPwdStrategy(user, newPwd, out errMsg))
+            {
+                return false;
+            }
+            */
+            var usedPwdTable = ConfigDatabase.UserUsedPwdTable;
+            var newHashPwd = ScadaUtils.GetPasswordHash(user.UserID, newPwd);
+            //判断是否跟历史密码重复
+            if (user.PwdUsedDifferent)
+            {
+                var usedPwdList = usedPwdTable.SelectItems(new TableFilter { ColumnName = "UserID", Argument = userID }).Cast<UserUsedPwd>();
+                if (usedPwdList.OrderByDescending(x => x.CreateTime).Take(user.PwdUsedTimes).Any(x => x.Password == newHashPwd))
+                {
+                    errMsg = "New password is same as history password";
+                    return false;
+                }
+            }
+
+            //修改密码和时间
+            user.Password = newHashPwd;
+            user.PwdUpdateTime = DateTime.Now;
+
+            this.UpdateUserInfo(user);
+            //插入历史密码表
+            var newPwdInfo = new UserUsedPwd { Id = usedPwdTable.GetNextPk(), UserID = userID, Password = newHashPwd, CreateTime = DateTime.Now };
+            usedPwdTable.AddItem(newPwdInfo);
+            Storage.AddUserUsedPwd(ConfigDatabase.UserUsedPwdTable, newPwdInfo);
+            return true;
+        }
+
+        /// <summary>
+        /// 检验密码期限
+        /// </summary>
+        internal bool WebCheckPwd(int userID, out string errMsg)
+        {
+            errMsg = string.Empty;
+            User user = ConfigDatabase.UserTable.GetItem(userID);
+            if (user == null) return false;
+            //15天提醒
+            if (user.PwdPeriodModify)
+            {
+                if (user.PwdUpdateTime.Year < 2023) return true;
+                if (user.PwdUpdateTime.AddDays(user.PwdPeriodLimit).Subtract(DateTime.Now) < TimeSpan.FromDays(15))
+                {
+                    errMsg = $"Password expired at {user.PwdUpdateTime.AddDays(user.PwdPeriodLimit).ToString("yyyy-MM-dd")}";
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private bool CheckPwdStrategy(User user, string newPwd, out string errMsg)
+        {
+            errMsg = string.Empty;
+            //1 长度
+            if (newPwd.Length < user.PwdLenLimit)
+            {
+                errMsg = "Password length does not match";
+                return false;
+            }
+            //2 复杂度
+            if (user.PwdComplicatedRequire)
+            {
+                var compFormatArr = user.PwdComplicatedFormat.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                if (compFormatArr.Contains("num"))
+                {
+                    var regexNum = new Regex(@"(?=.*[0-9])", RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace);
+                    if (!regexNum.IsMatch(newPwd))
+                    {
+                        errMsg = "Password should contains number";
+                        return false;
+                    }
+                }
+                if (compFormatArr.Contains("letter"))
+                {
+                    var regexLetter = new Regex(@"(?=.*[a-z])(?=.*[A-Z])", RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace);
+                    if (!regexLetter.IsMatch(newPwd))
+                    {
+                        errMsg = "Password should contains letter(lower and upper)";
+                        return false;
+                    }
+                }
+                if (compFormatArr.Contains("symbol"))
+                {
+                    var regexSymbol = new Regex(@"(?=([\x21-\x7e]+)[^a-zA-Z0-9])", RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace);
+                    if (!regexSymbol.IsMatch(newPwd))
+                    {
+                        errMsg = "Password should contains symbol";
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
     }
 }

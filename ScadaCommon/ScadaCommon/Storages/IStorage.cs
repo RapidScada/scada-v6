@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using Scada.Data.Entities;
 using Scada.Data.Tables;
 using System.Collections.Generic;
 using System.IO;
@@ -80,6 +81,37 @@ namespace Scada.Storages
         /// that provides the configuration database to the other services.
         /// </remarks>
         void ReadBaseTable(IBaseTable baseTable);
+
+        /// <summary>
+        /// 更新基础表
+        /// </summary>
+        void UpdateBaseTable(IBaseTable baseTable);
+
+        /// <summary>
+        /// 插入或更新用户
+        /// </summary>
+        void SaveUser(IBaseTable baseTable, User user);
+
+        /// <summary>
+        /// 删除用户
+        /// </summary>
+        int DeleteUser(IBaseTable baseTable, User user);
+
+        /// <summary>
+        /// 插入用户登录日志
+        /// </summary>
+        void AddUserLoginLog(IBaseTable baseTable, UserLoginLog userLoginLog);
+
+        /// <summary>
+        /// 保存机器认证码
+        /// </summary>
+        void SaveUserMachineCode(IBaseTable baseTable, UserMachineCode userMachineCode);
+
+        /// <summary>
+        /// 保存历史密码
+        /// </summary>
+        void AddUserUsedPwd(IBaseTable baseTable, UserUsedPwd userUsedPwd);
+
 
         /// <summary>
         /// Writes the text to the file.

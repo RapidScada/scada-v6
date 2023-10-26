@@ -36,7 +36,6 @@ namespace Scada
         /// <summary>
         /// Gets or sets the parent tree node.
         /// </summary>
-        /// <remarks>If a class is serializable, do not serialize the parent.</remarks>
         ITreeNode Parent { get; set; }
 
         /// <summary>

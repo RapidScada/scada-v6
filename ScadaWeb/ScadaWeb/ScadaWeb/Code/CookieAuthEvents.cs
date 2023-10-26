@@ -26,6 +26,10 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
+using Scada.Web.Authorization;
+using System;
 using System.Threading.Tasks;
 
 namespace Scada.Web.Code
@@ -40,6 +44,39 @@ namespace Scada.Web.Code
     /// </remarks>
     public class CookieAuthEvents : CookieAuthenticationEvents
     {
+        private const string AuthCookieKey = ".AspNetCore.Cookies";
+
+        IMemoryCache memoryCache;
+        public CookieAuthEvents(IServiceProvider serviceProvider)
+        {
+            memoryCache = serviceProvider.GetRequiredService<IMemoryCache>();
+        }
+
+        public override Task SignedIn(CookieSignedInContext context)
+        {
+            if (context.Scheme.Name == CookieAuthenticationDefaults.AuthenticationScheme)
+            {
+                var setCookieArr = context.Response.Headers.SetCookie;
+                if(setCookieArr.Count == 1 && setCookieArr[0] != null)
+                {
+                    var authCookie = setCookieArr[0].GetMidStr("Cookies=", ";");
+                    memoryCache.Set(ScadaUtils.ComputeHash(authCookie), authCookie);
+                }
+            }
+            return base.SignedIn(context);
+        }
+
+        public override Task SigningOut(CookieSigningOutContext context)
+        {
+            if (context.Scheme.Name == CookieAuthenticationDefaults.AuthenticationScheme &&
+                context.Request.Cookies.TryGetValue(AuthCookieKey, out string authCookie))
+            {
+                memoryCache.Remove(ScadaUtils.ComputeHash(authCookie));
+            }
+
+            return base.SigningOut(context);
+        }
+
         public override Task RedirectToLogin(RedirectContext<CookieAuthenticationOptions> context)
         {
             if (context.Request.Path.StartsWithSegments("/api") &&
@@ -69,5 +106,32 @@ namespace Scada.Web.Code
                 return base.RedirectToAccessDenied(context);
             }
         }
+
+        public override Task ValidatePrincipal(CookieValidatePrincipalContext context)
+        {
+            //首次登录强制修改密码
+            if (context.Request.Path.Value.ToLower().IndexOf("userprofile") > -1 ||
+                context.Request.Path.Value.ToLower().IndexOf("login") > -1 ||
+                context.Request.Path.Value.ToLower().IndexOf("loginphone") > -1 ||
+                context.Request.Path.Value.ToLower().IndexOf("modifypassword") > -1
+                ) return base.ValidatePrincipal(context);
+
+            var principal = context.Principal;
+            var firstWebLogin = principal.FindFirst(ClaimExtTypes.FirstWebLogin)?.Value;
+            if (!string.IsNullOrEmpty(firstWebLogin) && bool.Parse(firstWebLogin))
+                context.Response.Redirect("/UserProfile");
+            else if (principal.Identity.IsAuthenticated && context.Request.Cookies.TryGetValue(AuthCookieKey, out string authCookie))
+            {
+                //校验是否登出
+                if (!memoryCache.TryGetValue(ScadaUtils.ComputeHash(authCookie),out _))
+                    context.Response.Redirect(WebPath.UserLoginPage);
+                else
+                    return base.ValidatePrincipal(context);
+            }
+            else
+                return base.ValidatePrincipal(context);
+            return Task.CompletedTask;
+        }
+
     }
 }

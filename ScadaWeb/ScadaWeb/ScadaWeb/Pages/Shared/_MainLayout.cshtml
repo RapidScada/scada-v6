@@ -18,13 +18,14 @@
 
     @RenderSection("Styles", required: false)
 
-    @foreach (var url in webContext.PluginHolder.AllStyleUrls())
+    @foreach (string url in webContext.PluginHolder.AllStyleUrls())
     {
         <link href="@url" rel="stylesheet" asp-append-version="true" />
     }
 }
 
-@section Scripts {
+    @section Scripts {
+    <script src="~/lib/layer/layer.js"></script>
     <script src="~/js/components/modal.js" asp-append-version="true"></script>
     <script src="~/js/components/notif-panel.js" asp-append-version="true"></script>
     <script src="~/js/components/tree-view.js" asp-append-version="true"></script>
@@ -33,6 +34,29 @@
         appEnv = @WebUtils.GetEnvironmentJs(Url);
         modalPhrases = @WebUtils.DictionaryToJs("Scada.Web.Pages.Shared._MainLayout.Modal");
         notifPhrases = @WebUtils.DictionaryToJs("Scada.Web.Pages.Shared._MainLayout.NotifPanel");
+    </script>
+    <script>
+        $(function () {
+            if (!sessionStorage.getItem("checkdPwd_@userID")) {
+                $.ajax({
+                    url: '@Url.Content("/account/checkpassword")',
+                    type: 'GET',
+                    contentType: "application/json",
+                    dataType: 'json',
+                    success: function (data) {
+                        if (!data.ok) {
+                            layer.confirm(data.msg + ',modify now?', { icon: 3, title: 'tips' }, function (index) {
+                                window.location.href = '@Url.Content("/UserProfile")'
+                            });
+                            sessionStorage.setItem("checkdPwd_@userID", true)
+                        }
+                    },
+                    error: function (xhr, status, error) {
+
+                    }
+                });
+            }
+        })
     </script>
 
     @RenderSection("Scripts", required: false)
@@ -83,8 +107,9 @@
             <div id="Main_divMainMenuTab" class="tab" data-tool-window="Main_divMainMenu">@dict.divMainMenuTab</div>
             <div id="Main_divViewExplorerTab" class="tab" data-tool-window="Main_divViewExplorer">@dict.divViewExplorerTab</div>
         </div>
-        @if (displayOptions.ShowMainMenu)
+        @if (displayOptions.ShowMainMenu && userContext.UserEntity.RoleID == 1)
         {
+            //仅管理员显示此部分区域
             var menuRenderer = new TreeViewRenderer(Url) { SelectedObject = ViewContext.HttpContext.Request.Path };
             var mainMenu = userContext.Menu.MenuItems;
             //var mainMenu = TreeViewExample.GetMainMenu();
@@ -123,5 +148,5 @@
 
 @if (webContext.AppConfig.GeneralOptions.ShareStats)
 {
-    <iframe id="Main_frameStats" src="https://rapidscada.net/stats/?serverID=@webContext.StatsID"></iframe>
+    //<iframe id="Main_frameStats" src="https://rapidscada.net/stats/?serverID=@webContext.StatsID"></iframe>
 }

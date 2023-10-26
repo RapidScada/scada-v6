@@ -2,10 +2,12 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Data.Adapters;
+using Scada.Data.Entities;
 using Scada.Data.Tables;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Scada.Storages.FileStorage
@@ -18,6 +20,7 @@ namespace Scada.Storages.FileStorage
     public class FileStorageLogic : StorageLogic
     {
         private readonly string baseDir; // the directory of the configuration database in DAT format
+        private readonly string baseUserExtDir; // the directory of the configuration database in DAT format
         private readonly string viewDir; // the directory of views
 
 
@@ -29,6 +32,7 @@ namespace Scada.Storages.FileStorage
         {
             string instanceDir = storageContext.AppDirs.InstanceDir;
             baseDir = Path.Combine(instanceDir, "BaseDAT");
+            baseUserExtDir = Path.Combine(instanceDir, "BaseUserExtDAT");
             viewDir = Path.Combine(instanceDir, "Views");
             IsFileStorage = true;
         }
@@ -83,16 +87,88 @@ namespace Scada.Storages.FileStorage
             return File.ReadAllBytes(fileName);
         }
 
+
+        private string[] createIfNotExistArr = new string[] { "userloginlog", "usermachinecode", "userusedpwd" };
+
         /// <summary>
         /// Reads the table of the configuration database.
         /// </summary>
         public override void ReadBaseTable(IBaseTable baseTable)
         {
+            var fileName = Path.Combine(baseDir, baseTable.FileNameDat);
+
             BaseTableAdapter adapter = new BaseTableAdapter
             {
-                FileName = Path.Combine(baseDir, baseTable.FileNameDat)
+                FileName = fileName
             };
+            if (createIfNotExistArr.Contains(baseTable.Name.ToLower()))
+            {
+                fileName = Path.Combine(baseUserExtDir, baseTable.FileNameDat);
+                adapter.FileName = fileName;
+                if (!File.Exists(fileName)) adapter.Update(baseTable);
+            }
             adapter.Fill(baseTable);
+        }
+
+
+        /// <summary>
+        /// 更新基础表
+        /// </summary>
+        public override void UpdateBaseTable(IBaseTable baseTable)
+        {
+            var fileName = Path.Combine(baseDir, baseTable.FileNameDat);
+            BaseTableAdapter adapter = new BaseTableAdapter
+            {
+                FileName = fileName
+            };
+            //不存在dat的需创建
+            if (createIfNotExistArr.Contains(baseTable.Name.ToLower()))
+            {
+                fileName = Path.Combine(baseUserExtDir, baseTable.FileNameDat);
+                adapter.FileName = fileName;
+            }
+            adapter.Update(baseTable);
+        }
+
+        /// <summary>
+        /// 插入或更新用户
+        /// </summary>
+        public override void SaveUser(IBaseTable baseTable, User user)
+        {
+            this.UpdateBaseTable(baseTable);
+        }
+
+        /// <summary>
+        /// 删除用户
+        /// </summary>
+        public override int DeleteUser(IBaseTable baseTable, User user)
+        {
+            this.UpdateBaseTable(baseTable);
+            return 1;
+        }
+
+        /// <summary>
+        /// 插入用户登录日志
+        /// </summary>
+        public override void AddUserLoginLog(IBaseTable baseTable, UserLoginLog userLoginLog)
+        {
+            this.UpdateBaseTable(baseTable);
+        }
+
+        /// <summary>
+        /// 保存机器认证码
+        /// </summary>
+        public override void SaveUserMachineCode(IBaseTable baseTable, UserMachineCode userMachineCode)
+        {
+            this.UpdateBaseTable(baseTable);
+        }
+
+        /// <summary>
+        /// 保存历史密码
+        /// </summary>
+        public override void AddUserUsedPwd(IBaseTable baseTable, UserUsedPwd userUsedPwd)
+        {
+            this.UpdateBaseTable(baseTable);
         }
 
         /// <summary>

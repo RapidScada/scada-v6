@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Scada.Data.Models;
 using Scada.Lang;
+using Scada.Protocol;
 using Scada.Web.Code;
 using Scada.Web.Config;
 using Scada.Web.Services;
@@ -35,6 +37,7 @@ namespace Scada.Web.Pages
             this.webContext = webContext;
             this.loginService = loginService;
             dict = Locale.GetDictionary("Scada.Web.Pages.Login");
+            Version = $"Version {@WebUtils.Version}";
         }
 
 
@@ -43,6 +46,13 @@ namespace Scada.Web.Pages
         public string Password { get; set; }
 
         public string CaptchaCode { get; set; }
+
+        public string Version { get; set; }
+
+        /// <summary>
+        /// 设备标识码
+        /// </summary>
+        public string BrowserIdentity { get; set; }
 
         public bool RememberMe { get; set; }
 
@@ -84,10 +94,12 @@ namespace Scada.Web.Pages
 
         private async Task<IActionResult> LoginAsync(string returnUrl)
         {
-            SimpleResult result = await loginService.LoginAsync(Username, Password, RememberMe);
+            SimpleResult result = await loginService.LoginAsync(Username, Password, WebLoginType.UserName, BrowserIdentity, RememberMe);
 
             if (result.Ok)
             {
+                if (result.Data is WebUserValidationResult validationResult && validationResult.NeedFactorAuth)
+                    return RedirectToPage("./User/TwoFactorAuthentication", new { ReturnUrl = returnUrl, RememberMe = RememberMe });
                 return RedirectToStartPage(returnUrl);
             }
             else
@@ -135,7 +147,12 @@ namespace Scada.Web.Pages
                 if (isReady && !JustLogout)
                     return await LoginAsync(returnUrl);
             }
-
+            //HttpContext.Response.Cookies.Append("loginErr", HttpUtility.HtmlEncode("Google Credential is empty"));
+            if(HttpContext.Request.Cookies.TryGetValue("loginErr",out string errMsg))
+            {
+                ModelState.AddModelError(string.Empty, errMsg);
+                HttpContext.Response.Cookies.Delete("loginErr");
+            }
             // normal login
             return Page();
         }

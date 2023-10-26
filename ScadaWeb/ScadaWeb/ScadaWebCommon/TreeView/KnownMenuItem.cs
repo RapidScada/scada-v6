@@ -39,6 +39,8 @@ namespace Scada.Web.TreeView
         Configuration = 3,
         Registration = 4,
         Plugins = 5,
-        About = 6
+        About = 6,
+        UserManager = 7,
+        UserLoginLog = 8,
     }
 }

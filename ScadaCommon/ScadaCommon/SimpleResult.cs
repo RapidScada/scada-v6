@@ -51,6 +51,7 @@ namespace Scada
         /// </summary>
         public string Msg { get; set; }
 
+        public object Data { get; set; }
 
         /// <summary>
         /// Creates a successfull result.
@@ -61,6 +62,20 @@ namespace Scada
             {
                 Ok = true,
                 Msg = ""
+            };
+        }
+
+
+        /// <summary>
+        /// 创建一个带结果的结果
+        /// </summary>
+        public static SimpleResult Success(object data)
+        {
+            return new SimpleResult
+            {
+                Ok = true,
+                Msg = "",
+                Data = data
             };
         }
 

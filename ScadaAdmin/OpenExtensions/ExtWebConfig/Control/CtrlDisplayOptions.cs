@@ -32,7 +32,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         {
             OptionsChanged?.Invoke(this, EventArgs.Empty);
         }
-                       
+
 
         /// <summary>
         /// Sets the controls according to the options.
@@ -45,8 +45,9 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
             chkShowHeader.Checked = displayOptions.ShowHeader;
             chkShowMainMenu.Checked = displayOptions.ShowMainMenu;
             chkShowViewExplorer.Checked = displayOptions.ShowViewExplorer;
-            numRefreshRate.SetValue(displayOptions.RefreshRate);            
-            
+            chkShowEventView.Checked = displayOptions.ShowEventView;
+            numRefreshRate.SetValue(displayOptions.RefreshRate);
+
             changing = false;
         }
 
@@ -61,6 +62,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
             displayOptions.ShowMainMenu = chkShowMainMenu.Checked;
             displayOptions.ShowViewExplorer = chkShowViewExplorer.Checked;
             displayOptions.RefreshRate = Convert.ToInt32(numRefreshRate.Value);
+            displayOptions.ShowEventView = chkShowEventView.Checked;
         }
 
 

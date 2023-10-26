@@ -24,11 +24,13 @@
  */
 
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
@@ -114,6 +116,7 @@ namespace Scada.Web
                         .AllowAnonymousToPage(WebPath.ErrorPage)
                         .AllowAnonymousToPage(WebPath.IndexPage)
                         .AllowAnonymousToPage(WebPath.LoginPage)
+                        .AllowAnonymousToPage(WebPath.LoginPhonePage)
                         .AllowAnonymousToPage(WebPath.LogoutPage);
                 })
                 .AddMvcOptions(options =>
@@ -132,13 +135,26 @@ namespace Scada.Web
                 });
 
             services
-                .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddAuthentication(options =>
+                {
+                    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+                })
                 .AddCookie(options =>
                 {
                     options.AccessDeniedPath = WebPath.AccessDeniedPage;
                     options.LoginPath = WebPath.LoginPage;
                     options.LogoutPath = WebPath.LogoutPage;
-                    options.Events = new CookieAuthEvents();
+                    options.Cookie.Name = "CloudScada.Cookies";
+                    options.Events = new CookieAuthEvents(services.BuildServiceProvider());
+                })
+                .AddCookie(IdentityConstants.TwoFactorUserIdScheme)
+                .AddGoogle(options =>
+                {
+                    options.ClientId = "49158794855-1f7r4a4vu3p34trsoei0kbe80k0l6ptp.apps.googleusercontent.com";
+                    options.ClientSecret = "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";
+                    options.CallbackPath = "/External";
+                    options.ForwardDefault = CookieAuthenticationDefaults.AuthenticationScheme;
                 });
 
             services
@@ -170,7 +186,9 @@ namespace Scada.Web
                 .AddScoped<ILoginService, LoginService>()
                 .AddScoped<IViewLoader, ViewLoader>()
                 .AddScoped<IAuthorizationHandler, ViewAllHandler>()
-                .AddScoped<IAuthorizationHandler, ObjRightHandler>();
+                .AddScoped<IAuthorizationHandler, ObjRightHandler>()
+                .AddTransient<ILoginService, LoginService>()
+                .AddTransient<IUserManagerService, UserManagerService>();
 
             WebContext.PluginHolder.AddServices(services);
         }

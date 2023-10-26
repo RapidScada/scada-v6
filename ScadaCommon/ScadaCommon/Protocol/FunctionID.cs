@@ -66,6 +66,26 @@ namespace Scada.Protocol
         public const ushort ControlService = 0x0503;
         public const ushort WriteCommandFile = 0x0504;
 
+
+        public const ushort WebLogin = 0x1000; // Web 登录
+        public const ushort WebModifyPwd = 0x1001; //修改密码
+        public const ushort WebCheckPwd = 0x1002; //检验是否超期
+
+        public const ushort ResetUserTwoFA = 0x1003; //重置用户多重认证
+        public const ushort ResetUserPwd = 0x1004; //重置用户密码
+        public const ushort GetUserList = 0x1005; //获取用户列表
+        public const ushort GetUserInfo = 0x1006; //获取用户信息
+        public const ushort UserAddOrUpdate = 0x1007; //添加/修改用户
+        public const ushort UserEnabled = 0x1008; //启用/禁用用户
+        public const ushort DeleteUser = 0x1009; //删除用户
+
+        // Google登录信息
+        public const ushort GetTwoFactorAuthKey = 0x1010;
+        public const ushort VerifyTwoFactorAuthKey = 0x1011;
+
+        public const ushort GetUserLoginLogList = 0x1012; //获取用户登录日志
+        public const ushort DownloadUserLoginLog = 0x1013; //下载用户登录日志
+
         private static readonly Dictionary<ushort, string> FunctionNames = new Dictionary<ushort, string>
         {
             { GetSessionInfo, nameof(GetSessionInfo) },
@@ -92,7 +112,8 @@ namespace Scada.Protocol
             { AgentHeartbeat, nameof(AgentHeartbeat) },
             { GetServiceStatus, nameof(GetServiceStatus) },
             { ControlService, nameof(ControlService) },
-            { WriteCommandFile, nameof(WriteCommandFile) }
+            { WriteCommandFile, nameof(WriteCommandFile) },
+            { DownloadUserLoginLog, nameof(DownloadUserLoginLog) },
         };
 
         /// <summary>

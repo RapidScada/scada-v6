@@ -69,6 +69,17 @@ function loadScheme(viewID) {
                 displayScale();
                 alignHorizontally();
                 startUpdatingScheme();
+
+                // 修改tooltip
+                $.each($('div[id^="comp"][title],button[id^="comp"][title],span[id^="comp"][title]'),function(idx,e){
+                    var curEl = $(e);
+                    curEl.attr("data-bs-toggle","tooltip");
+                    curEl.attr("data-bs-custom-class","custom-tooltip");
+                    curEl.attr("data-bs-title",curEl.attr("title"));
+                    curEl.removeAttr("title");
+                })
+                const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+                [...tooltipTriggerList].map(el => new bootstrap.Tooltip(el));
             }
         } else {
             console.error("Scheme loading failed");

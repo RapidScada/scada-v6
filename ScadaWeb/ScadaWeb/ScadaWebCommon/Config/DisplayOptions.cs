@@ -42,6 +42,7 @@ namespace Scada.Web.Config
             ShowMainMenu = true;
             ShowViewExplorer = true;
             RefreshRate = 1000;
+            ShowEventView = true;
         }
 
 
@@ -65,6 +66,10 @@ namespace Scada.Web.Config
         /// </summary>
         public int RefreshRate { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to show the event view.
+        /// </summary>
+        public bool ShowEventView { get; set; }
 
         /// <summary>
         /// Loads the options from the XML node.
@@ -76,6 +81,7 @@ namespace Scada.Web.Config
             ShowMainMenu = xmlNode.GetChildAsBool("ShowMainMenu", ShowMainMenu);
             ShowViewExplorer = xmlNode.GetChildAsBool("ShowViewExplorer", ShowViewExplorer);
             RefreshRate = xmlNode.GetChildAsInt("RefreshRate", RefreshRate);
+            ShowEventView = xmlNode.GetChildAsBool("ShowEventView", ShowEventView);
         }
 
         /// <summary>
@@ -88,6 +94,7 @@ namespace Scada.Web.Config
             xmlElem.AppendElem("ShowMainMenu", ShowMainMenu);
             xmlElem.AppendElem("ShowViewExplorer", ShowViewExplorer);
             xmlElem.AppendElem("RefreshRate", RefreshRate);
+            xmlElem.AppendElem("ShowEventView", ShowEventView);
         }
     }
 }

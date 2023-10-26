@@ -20,6 +20,10 @@
         <label id="lblObj" for="selObj" class="form-label">@dict.lblObj</label>
         <select id="selObj" class="form-select" asp-for="ObjNum" asp-items="Model.ObjList"></select>
     </div>
+    <div class="mb-3">
+        <label id="lblCnlName" for="txtCnlName" class="form-label">@dict.lblCnlName</label>
+        <input type="text" id="txtCnlName" class="form-control" autocomplete="off" asp-for="CnlName" />
+    </div>
     <div class="mb-3 form-check">
         <input type="checkbox" id="chkOnlySelected" class="form-check-input" asp-for="OnlySelected" />
         <label id="lblOnlySelected" class="form-check-label" for="chkOnlySelected">@dict.lblOnlySelected</label>

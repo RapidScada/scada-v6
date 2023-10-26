@@ -95,7 +95,10 @@ namespace Scada.Server.Lang
         public static string CommandSentBy { get; private set; }
         public static string EmptyCredentials { get; private set; }
         public static string InvalidCredentials { get; private set; }
+        public static string InvalidGoogleAccount { get; private set; }
         public static string AccountDisabled { get; private set; }
+        public static string GoogleIsNotAllow { get; private set; }
+        public static string PwdLoginIsNotAllow { get; private set; }
 
         public static void Init()
         {
@@ -187,6 +190,9 @@ namespace Scada.Server.Lang
                 WriteDbError = "Error writing to database";
                 ReadFileError = "Error reading from file";
                 WriteFileError = "Error writing to file";
+                GoogleIsNotAllow = "Google login is not allow for {0}";
+                PwdLoginIsNotAllow = "User & Password login is not allow for you";
+                InvalidGoogleAccount = "Google account {0} is not exist";
             }
 
             // load phrases that are used in the multilingual user interface from dictionaries
@@ -205,6 +211,7 @@ namespace Scada.Server.Lang
             CommandSentBy = dict[nameof(CommandSentBy)];
             EmptyCredentials = dict[nameof(EmptyCredentials)];
             InvalidCredentials = dict[nameof(InvalidCredentials)];
+            InvalidGoogleAccount = dict[nameof(InvalidGoogleAccount)];
             AccountDisabled = dict[nameof(AccountDisabled)];
         }
     }

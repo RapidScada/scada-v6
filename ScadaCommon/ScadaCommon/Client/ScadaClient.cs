@@ -24,10 +24,13 @@
  */
 
 using Scada.Data.Adapters;
+using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
+using Scada.Data.TwoFactorAuth;
 using Scada.Lang;
 using Scada.Protocol;
+using Scada.Response;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -141,6 +144,291 @@ namespace Scada.Client
                 : UserValidationResult.Fail(Locale.IsRussian ?
                     "Сервер недоступен" :
                     "Server unavailable");
+        }
+
+        /// <summary>
+        /// 网页用户登录
+        /// </summary>
+        public WebUserValidationResult ValidateWebUser(string username, string password, string loginType, string browserIdentity,string clientIpAddr)
+        {
+            RestoreConnection();
+            return ClientState == ClientState.LoggedIn
+                ? WebLogin(username, password, loginType, browserIdentity, clientIpAddr)
+                : WebUserValidationResult.Fail("Server unavailable");
+        }
+
+        /// <summary>
+        /// 获取多重认证KEY
+        /// </summary>
+        public TwoFactorAuthInfoResult GetTwoFAKey(int userID)
+        {
+            RestoreConnection();
+            return GetTwoFactorAuthKey(userID);
+        }
+
+        /// <summary>
+        /// 认证多重认证KEY
+        /// </summary>
+        public TwoFactorAuthValidateResult VerifyTwoFAKey(int userID, int code,bool trustDevice, string browserId)
+        {
+            RestoreConnection();
+            return VerifyTwoFactorAuthKey(userID, code, trustDevice, browserId);
+        }
+
+        /// <summary>
+        /// 获取用户列表
+        /// </summary>
+        public SimpleResult GetUserList(int offset, int limit, string username)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.GetUserList);
+            int index = ArgumentIndex;
+            CopyInt32(offset, outBuf, ref index);
+            CopyInt32(limit, outBuf, ref index);
+            CopyString(username, outBuf, ref index);
+            var pageResult = PaginationResult.Empty(offset, limit);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            return ReceiveUserList(request, pageResult);
+        }
+
+        /// <summary>
+        /// 添加或更新用户
+        /// </summary>
+        public SimpleResult AddOrUpdateUser(User user)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.UserAddOrUpdate);
+            int index = ArgumentIndex;
+            CopyUser(user, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            ReceiveResponse(request);
+            index = ArgumentIndex;
+            var res = GetBool(inBuf, ref index);
+            var userID = GetInt32(inBuf, ref index);
+            var err = GetString(inBuf, ref index);
+            return res ? SimpleResult.Success(userID) : SimpleResult.Fail(err);
+        }
+
+        /// <summary>
+        /// 启用或禁用用户
+        /// </summary>
+        public SimpleResult EnableUser(int userID, bool enable)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.UserEnabled);
+            int index = ArgumentIndex;
+            CopyInt32(userID, outBuf, ref index);
+            CopyBool(enable, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            ReceiveResponse(request);
+            index = ArgumentIndex;
+
+            var res = GetBool(inBuf, ref index);
+            var err = GetString(inBuf, ref index);
+            return res ? SimpleResult.Success(res) : SimpleResult.Fail(err);
+        }
+
+
+        /// <summary>
+        /// 删除用户
+        /// </summary>
+        public SimpleResult DeleteUser(int userID)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.DeleteUser);
+            int index = ArgumentIndex;
+            CopyInt32(userID, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            ReceiveResponse(request);
+            index = ArgumentIndex;
+
+            var res = GetBool(inBuf, ref index);
+            var err = GetString(inBuf, ref index);
+            return res ? SimpleResult.Success(res) : SimpleResult.Fail(err);
+        }
+
+        /// <summary>
+        /// 重置用户多重认证
+        /// </summary>
+        public SimpleResult ResetUserTwoFA(int userID)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.ResetUserTwoFA);
+            int index = ArgumentIndex;
+            CopyInt32(userID, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            ReceiveResponse(request);
+            index = ArgumentIndex;
+
+            var res = GetBool(inBuf, ref index);
+            var err = GetString(inBuf, ref index);
+            return res ? SimpleResult.Success(res) : SimpleResult.Fail(err);
+        }
+
+        /// <summary>
+        /// 重置用户密码
+        /// </summary>
+        public SimpleResult ResetUserPwd(int userID, string newPwd)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.ResetUserPwd);
+            int index = ArgumentIndex;
+            CopyInt32(userID, outBuf, ref index);
+            CopyString(newPwd, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            ReceiveResponse(request);
+            index = ArgumentIndex;
+
+            var res = GetBool(inBuf, ref index);
+            var err = GetString(inBuf, ref index);
+            return res ? SimpleResult.Success(res) : SimpleResult.Fail(err);
+        }
+
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        public SimpleResult ModifyPassword(int userID, string oldPwd, string newPwd)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.WebModifyPwd);
+            int index = ArgumentIndex;
+            CopyInt32(userID, outBuf, ref index);
+            CopyString(oldPwd, outBuf, ref index);
+            CopyString(newPwd, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            ReceiveResponse(request);
+            index = ArgumentIndex;
+
+            var res = GetBool(inBuf, ref index);
+            var err = GetString(inBuf, ref index);
+            return res ? SimpleResult.Success(err) : SimpleResult.Fail(err);
+        }
+
+        /// <summary>
+        /// 检验密码
+        /// </summary>
+        public SimpleResult CheckPassword(int userID)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.WebCheckPwd);
+            int index = ArgumentIndex;
+            CopyInt32(userID, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            ReceiveResponse(request);
+            index = ArgumentIndex;
+
+            var res = GetBool(inBuf, ref index);
+            var err = GetString(inBuf, ref index);
+            return res ? SimpleResult.Success(err) : SimpleResult.Fail(err);
+        }
+
+
+        /// <summary>
+        /// 获取用户登录日志列表
+        /// </summary>
+        public SimpleResult GetLoginLogList(int offset, int limit, string username)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.GetUserLoginLogList);
+            int index = ArgumentIndex;
+            CopyInt32(offset, outBuf, ref index);
+            CopyInt32(limit, outBuf, ref index);
+            CopyString(username, outBuf, ref index);
+            var pageResult = PaginationResult.Empty(offset, limit);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            return ReceiveUserLoginLogList(request, pageResult);
+        }
+
+        private SimpleResult ReceiveUserLoginLogList(DataPacket request, PaginationResult pagination)
+        {
+            List<UserLoginLog> userList = null;
+
+            ReceiveResponse(request);
+            int index = ArgumentIndex;
+            int totalCount = GetInt32(inBuf, ref index);
+            int pageCount = GetInt32(inBuf, ref index);
+
+            if (userList == null)
+                userList = new List<UserLoginLog>(pageCount);
+
+            for (int i = 0; i < pageCount; i++)
+            {
+                userList.Add(GetUserLoginLog(inBuf, ref index));
+            }
+            pagination.Count = totalCount;
+            pagination.Data = userList;
+            return SimpleResult.Success(pagination);
+        }
+
+
+        /// <summary>
+        /// 下载用户登录日志列表，返回下载成功标识
+        /// </summary>
+        public SimpleResult DownloadLoginLog(string username)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.DownloadUserLoginLog);
+            int index = ArgumentIndex;
+            CopyString(username, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            ReceiveResponse(request);
+            index = ArgumentIndex;
+
+            var res = GetBool(inBuf, ref index);
+            var resStr = GetString(inBuf, ref index);
+            return res ? SimpleResult.Success(resStr) : SimpleResult.Fail(resStr);
+        }
+
+        private SimpleResult ReceiveUserList(DataPacket request, PaginationResult pagination)
+        {
+            List<User> userList = null;
+
+            ReceiveResponse(request);
+            int index = ArgumentIndex;
+            int totalCount = GetInt32(inBuf, ref index);
+            int pageCount = GetInt32(inBuf, ref index);
+
+
+            if (userList == null)
+                userList = new List<User>(pageCount);
+
+            for (int i = 0; i < pageCount; i++)
+            {
+                userList.Add(GetUser(inBuf, ref index));
+            }
+            pagination.Count = totalCount;
+            pagination.Data = userList;
+            return SimpleResult.Success(pagination);
         }
 
         /// <summary>

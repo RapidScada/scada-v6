@@ -23,6 +23,7 @@
  * Modified : 2023
  */
 
+using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
 using System;
@@ -357,6 +358,103 @@ namespace Scada
                 CopyString(ev.Text, buffer, ref index);
                 CopyByteArray(ev.Data, buffer, ref index);
             }
+        }
+
+        /// <summary>
+        /// 从数据流获取用户.
+        /// </summary>
+        public static User GetUser(byte[] buffer, ref int index)
+        {
+            return new User
+            {
+                UserID = GetInt32(buffer, ref index),
+                Enabled = GetBool(buffer, ref index),
+                Name = GetString(buffer, ref index),
+                RoleID = GetInt32(buffer, ref index),
+                Password = GetString(buffer, ref index),
+                UserRealName = GetString(buffer, ref index),
+                Gender = GetString(buffer, ref index),
+                Phone = GetString(buffer, ref index),
+                Email = GetString(buffer, ref index),
+                Descr = GetString(buffer, ref index),
+                UserPwdEnabled = GetBool(buffer, ref index),
+                FaEnabled = GetBool(buffer, ref index),
+                GoogleEnabled = GetBool(buffer, ref index),
+                PwdPeriodModify = GetBool(buffer, ref index),
+                PwdPeriodLimit = GetInt32(buffer, ref index),
+                PwdLenLimit = GetInt32(buffer, ref index),
+                PwdComplicatedRequire = GetBool(buffer, ref index),
+                PwdComplicatedFormat = GetString(buffer, ref index),
+                PwdUsedDifferent = GetBool(buffer, ref index),
+                PwdUsedTimes = GetInt32(buffer, ref index),
+                PwdUpdateTime = GetTime(buffer, ref index),
+            };
+        }
+        
+
+        /// <summary>
+        /// 用户信息推到流.
+        /// </summary>
+        public static void CopyUser(User user, byte[] buffer, ref int index)
+        {
+            if (user != null)
+            {
+                CopyInt32(user.UserID, buffer, ref index);
+                CopyBool(user.Enabled, buffer, ref index);
+                CopyString(user.Name, buffer, ref index);
+                CopyInt32(user.RoleID, buffer, ref index);
+                CopyString(user.Password, buffer, ref index);
+                CopyString(user.UserRealName, buffer, ref index);
+                CopyString(user.Gender, buffer, ref index);
+                CopyString(user.Phone, buffer, ref index);
+                CopyString(user.Email, buffer, ref index);
+                CopyString(user.Descr, buffer, ref index);
+                CopyBool(user.UserPwdEnabled, buffer, ref index);
+                CopyBool(user.FaEnabled, buffer, ref index);
+                CopyBool(user.GoogleEnabled, buffer, ref index);
+                CopyBool(user.PwdPeriodModify, buffer, ref index);
+                CopyInt32(user.PwdPeriodLimit, buffer, ref index);
+                CopyInt32(user.PwdLenLimit, buffer, ref index);
+                CopyBool(user.PwdComplicatedRequire, buffer, ref index);
+                CopyString(user.PwdComplicatedFormat, buffer, ref index);
+                CopyBool(user.PwdUsedDifferent, buffer, ref index);
+                CopyInt32(user.PwdUsedTimes, buffer, ref index);
+                CopyTime(user.PwdUpdateTime, buffer, ref index);
+            }
+        }
+
+        /// <summary>
+        /// 用户登录日志信息推到流.
+        /// </summary>
+        public static void CopyUserLoginLog(UserLoginLog user, byte[] buffer, ref int index)
+        {
+            if (user != null)
+            {
+                CopyInt32(user.Id, buffer, ref index);
+                CopyInt32(user.UserID, buffer, ref index);
+                CopyString(user.UserName, buffer, ref index);
+                CopyString(user.LoginIP, buffer, ref index);
+                CopyTime(user.LoginTime, buffer, ref index);
+                CopyInt32(user.LoginStatus, buffer, ref index);
+                CopyString(user.LoginDesc, buffer, ref index);
+            }
+        }
+
+        /// <summary>
+        /// 从数据流获取用户登录日志.
+        /// </summary>
+        public static UserLoginLog GetUserLoginLog(byte[] buffer, ref int index)
+        {
+            return new UserLoginLog
+            {
+                Id = GetInt32(buffer, ref index),
+                UserID = GetInt32(buffer, ref index),
+                UserName = GetString(buffer, ref index),
+                LoginIP = GetString(buffer, ref index),
+                LoginTime = GetTime(buffer, ref index),
+                LoginStatus = GetInt32(buffer, ref index),
+                LoginDesc = GetString(buffer, ref index)
+            };
         }
 
         /// <summary>

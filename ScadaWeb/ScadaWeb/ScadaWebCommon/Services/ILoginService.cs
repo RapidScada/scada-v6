@@ -23,6 +23,9 @@
  * Modified : 2023
  */
 
+using Scada.Data.TwoFactorAuth;
+using System.Threading.Tasks;
+
 namespace Scada.Web.Services
 {
     /// <summary>
@@ -34,11 +37,31 @@ namespace Scada.Web.Services
         /// <summary>
         /// Validates the username and password, and logs in.
         /// </summary>
-        Task<SimpleResult> LoginAsync(string username, string password, bool rememberMe);
+        Task<SimpleResult> LoginAsync(string username, string password, string loginType, string browserIdentity, bool rememberMe);
 
         /// <summary>
         /// Logs out the current user.
         /// </summary>
         Task LogoutAsync();
+
+        /// <summary>
+        /// 获取2FA密钥
+        /// </summary>
+        Task<TwoFactorAuthInfoResult> GetTwoFactorAuthenticatorKeyAsync(int userId);
+
+        /// <summary>
+        /// 验证2FA密钥
+        /// </summary>
+        Task<TwoFactorAuthValidateResult> VerifyTwoFactorAuthenticatorKeyAsync(int userId, int code, bool trustDevice, string browserIdentity);
+
+        /// <summary>
+        /// 重置2FA密钥
+        /// </summary>
+        Task<SimpleResult> ResetTwoFactorAuthenticatorKeyAsync(int userId);
+
+        /// <summary>
+        /// 重置用户
+        /// </summary>
+        Task<SimpleResult> ResetUserAsync(int userId);
     }
 }

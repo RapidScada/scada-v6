@@ -115,10 +115,12 @@ namespace Scada.Server.Engine
         {
 #if DEBUG
             System.Diagnostics.Debugger.Launch();
-#endif
-
             // load instance configuration
+            AppDirs.Init("C:\\SCADAV6_Vol\\ScadaServer");
+#else
+
             AppDirs.Init(Assembly.GetExecutingAssembly());
+#endif
             InstanceConfig instanceConfig = new InstanceConfig();
             Locale.SetCultureToEnglish();
 
@@ -143,9 +145,7 @@ namespace Scada.Server.Engine
             log.WriteBreak();
 
             // prepare to start service
-            log.WriteAction(Locale.IsRussian ?
-                "Сервер {0} запущен" :
-                "Server {0} started", EngineUtils.AppVersion);
+            log.WriteAction("Custom Server {0} started", EngineUtils.AppVersion);
 
             storageWrapper = new StorageWrapper(new StorageContext
             {

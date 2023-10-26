@@ -1,0 +1,712 @@
+﻿@page
+@model UserManagerModel
+@{
+    Layout = "_MainLayout";
+    dynamic dict = Locale.GetDictionary("Scada.Web.Pages.UserManager");
+    ViewBag.Title = dict.PageTitle;
+    var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+}
+
+@section Styles {
+    <link href="~/lib/layui/css/layui.css" rel="stylesheet" asp-append-version="true">
+    <style>
+        .lbl_font{
+            font: 14px Helvetica Neue,Helvetica,PingFang SC,Tahoma,Arial,sans-serif
+        }
+        .divider {
+            display: block;
+            height: 1px;
+            width: 100%;
+            margin: 24px 0;
+            background-color: #dcdfe6;
+            position: relative;
+        }
+
+        .divider-text {
+            left: 20px;
+            transform: translateY(-50%);
+            position: absolute;
+            background-color: #fff;
+            padding: 0 20px;
+            font-weight: 500;
+            color: #303133;
+            font-size: 14px;
+        }
+
+        .pt7 {
+            padding-top: 7px;
+        }
+
+        .field-required:before { content: '* '; color: red; }
+    </style>
+}
+@section Scripts{
+    <script src="~/lib/vue.min.js"></script>
+    <script src="~/lib/layui/layui.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery.md5.min.js"></script>
+    <script type="text/html" id="roleFunc">
+        {{#  if(d.roleID == 1){ }}
+            <span style="color:#1E9FFF;"><b> {{ roleMapper[d.roleID] }} </b></span>
+        {{#  } else { }}
+            <span > {{ roleMapper[d.roleID] }} </span>
+        {{#  } }}
+    </script>
+    <script type="text/html" id="userPwdEnableFunc">
+        {{#  if(d.userPwdEnabled){ }}
+            <span class="layui-badge layui-bg-green"> @dict.lblEnable </span>
+        {{#  } else { }}
+            <span class="layui-badge layui-bg-gray"> @dict.lblDisable </span>
+        {{#  } }}
+    </script>
+    <script type="text/html" id="faEnabledFunc">
+        {{#  if(d.faEnabled){ }}
+            <span class="layui-badge layui-bg-green"> @dict.lblEnable </span>
+        {{#  } else { }}
+            <span class="layui-badge layui-bg-gray"> @dict.lblDisable </span>
+        {{#  } }}
+    </script>
+    <script type="text/html" id="googleEnabledFunc">
+        {{#  if(d.googleEnabled){ }}
+            <span class="layui-badge layui-bg-green"> @dict.lblEnable </span>
+        {{#  } else { }}
+            <span class="layui-badge layui-bg-gray"> @dict.lblDisable </span>
+        {{#  } }}
+    </script>
+    <script type="text/html" id="actionFormatter">
+        <button type="button" class="layui-btn layui-btn-xs" lay-event="tool-edit">@dict.btnEdit</button>
+        <button type="button" class="layui-btn layui-btn-xs" lay-event="tool-resetPwd">@dict.btnResetPwd</button>
+        
+        {{#  if(d.faEnabled){ }}
+            <button type="button" class="layui-btn layui-btn-xs" lay-event="tool-reset2FA">@dict.btnReset2FA</button>
+        {{#  } }}
+        {{#  if(d.enabled){ }}
+              <button type="button" class="layui-btn layui-btn-danger layui-btn-xs" lay-event="tool-disable">@dict.lblDisable</button>
+        {{#  } else { }}
+              <button type="button" class="layui-btn layui-btn-normal layui-btn-xs" lay-event="tool-enable">@dict.lblEnable</button>
+        {{#  } }}
+        {{#  if(d.name != 'admin'){ }}
+            <button type="button" class="layui-btn layui-btn-danger layui-btn-xs" lay-event="tool-delete">@dict.lblDelete</button>
+        {{#  } }}
+    </script>
+
+    <script>
+        var roleMapper = JSON.parse('@Model.RoleMapper'.replaceAll('&quot;', '"'));
+        //var roleMapper = { 1: "Admin", 3: "Guest" };
+        var $table = null, appForm = null;
+        var userModal = null,resetPwdModal = null;
+        //验证邮箱
+        function checkEmail(value) {
+            return /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/.test(value)
+        }
+       
+        function getTableCols(){
+            return [[{
+                    field: 'userID',
+                    title: 'User ID',
+                    fixed: 'left',
+                    align: 'center',
+                    width: 80,
+                }, {
+                    field: 'name',
+                    title: 'Name',
+                    width: 110
+                },  {
+                    field: 'userRealName',
+                    title: 'RealName',
+                    width: 110
+                }, {
+                    field: 'roleID',
+                    title: 'Role',
+                    width: 85,
+                    templet: '#roleFunc'
+                }, {
+                    field: 'email',
+                    title: 'Email',
+                    width: 240,
+                }, {
+                    field: 'phone',
+                    title: 'Phone',
+                    width: 120
+                }, {
+                    field: 'userPwdEnabled',
+                    title: 'UserPwd',
+                templet: '#userPwdEnableFunc',
+                align: 'center',
+                    width: 100
+                }, {
+                    field: 'faEnabled',
+                    title: '2FA',
+                    templet: '#faEnabledFunc',
+                    align: 'center',
+                    width: 100
+                },  {
+                    field: 'googleEnabled',
+                    title: 'Google SSO',
+                    templet: '#googleEnabledFunc',
+                    align: 'center',
+                    width: 130
+                }, {
+                    title: 'Options',
+                    fixed: 'right',
+                    templet: '#actionFormatter',
+                    width: 380,
+                }]]
+        }
+        layui.use('table', function () {
+            var table = layui.table;
+
+            //第一个实例
+            //修改翻页为英文：https://blog.csdn.net/zoro_zp/article/details/117455475
+            table.render({
+                elem: '#usertable'
+                , height: 512
+                , url: '@Url.Content("/user/list")' //数据接口
+                , page: true //开启分页
+                , cols: getTableCols()
+            });
+            //操作栏
+            table.on('tool(usertable)', function (obj) {
+                if (obj.event === 'tool-edit') {
+                    showUserForm(obj.data.userID);
+                } else if (obj.event === 'tool-resetPwd') {
+                    resetUserPwd(obj.data);
+                } else if (obj.event === 'tool-reset2FA') {
+                    resetUser2FA(obj.data);
+                } else if (obj.event === 'tool-disable') {
+                    enableUser(obj.data, false);
+                } else if (obj.event === 'tool-enable') {
+                    enableUser(obj.data, true);
+                }else if (obj.event === 'tool-delete') {
+                    deleteUser(obj.data);
+                }
+            });
+
+            $('#search').click(function () {
+                table.reload('usertable', {where: { userName: $('#txtSearchUsername').val() }});
+            })
+
+        });
+
+        
+            function showUserForm(userId) {
+                userModal = new bootstrap.Modal('#appForm');
+                appForm.$data.userid = userId;
+                appForm.getUser();
+                userModal.show();
+            }
+            function enableUser(user, enable) {
+                var optStr = enable ? 'enable' : 'disable';
+                layer.confirm(optStr + ' ' + user.name + '?', { icon: 3, title: 'tips' }, function (index) {
+                    var index = layer.load(0, { time: 5 * 1000 });
+                    $.ajax({
+                        url: '@Url.Content("/user/enableUser")',
+                        type: 'post',
+                        data: JSON.stringify({ userID: user.userID, enabled: enable }),
+                        contentType: "application/json",
+                        dataType: 'json',
+                        success: function (data) {
+                            layer.closeAll('loading');
+                            if (data.ok) {
+                                $('#search').click();
+                                layer.msg(optStr + ' success');
+                            } else {
+                                layer.msg(data.msg);
+                            }
+                        },
+                        error: function (data) {
+                            layer.closeAll('loading');
+                            layer.msg(data.msg);
+                        }
+                    });
+
+                    layer.close(index);
+                });
+            }
+            function deleteUser(user) {
+                var optStr = 'delete';
+                layer.confirm(optStr + ' ' + user.name + '? It cannot be recovered after delete', { icon: 3, title: 'tips' }, function (index) {
+                    var index = layer.load(0, { time: 5 * 1000 });
+                    $.ajax({
+                        url: '@Url.Content("/user/deleteUser")',
+                        type: 'post',
+                        data: JSON.stringify({ userID: user.userID }),
+                        contentType: "application/json",
+                        dataType: 'json',
+                        success: function (data) {
+                            layer.closeAll('loading');
+                            if (data.ok) {
+                                $('#search').click();
+                                layer.msg(optStr + ' success');
+                            } else {
+                                layer.msg(data.msg);
+                            }
+                        },
+                        error: function (data) {
+                            layer.closeAll('loading');
+                            layer.msg(data.msg);
+                        }
+                    });
+
+                    layer.close(index);
+                });
+            }
+            function resetUser2FA(user) {
+                var optStr = 'reset two fa';
+                layer.confirm(optStr + ' ' + user.name + '?', { icon: 3, title: 'tips' }, function (index) {
+                    var index = layer.load(0, { time: 5 * 1000 });
+                    $.ajax({
+                        url: '@Url.Content("/user/resetuser2fa")',
+                        type: 'post',
+                        data: JSON.stringify({ userID: user.userID }),
+                        contentType: "application/json",
+                        dataType: 'json',
+                        success: function (data) {
+                            layer.closeAll('loading');
+                            if (data.ok) {
+                                $('#search').click();
+                                layer.msg(optStr + ' success');
+                            } else {
+                                layer.msg(data.msg);
+                            }
+                        },
+                        error: function (data) {
+                            layer.closeAll('loading');
+                            layer.msg(data.msg);
+                        }
+                    });
+
+                    layer.close(index);
+                });
+            }
+            function resetUserPwd(user) {
+                resetPwdModal = new bootstrap.Modal('#resetPwdModal');
+                var resetPwdDiv = document.getElementById('resetPwdModal');
+                resetPwdDiv.querySelector('.modal-body #resetUserID').value = user.userID;
+                resetPwdDiv.querySelector('.modal-body #resetUserName').value = user.name;
+                resetPwdModal.show();
+            }
+
+        $(function () {
+            $table = $('#table');
+            $('#addInfo').click(function () {
+                showUserForm(0)
+            })
+            $("#btnResetPwd").click(function () {
+                var optStr = 'reset password';
+                var resetPwdDiv = document.getElementById('resetPwdModal');
+                var newPwd = resetPwdDiv.querySelector('.modal-body #resetNewPwd').value;
+                if(!newPwd)return layer.msg('new password is empty');
+                var userID = resetPwdDiv.querySelector('.modal-body #resetUserID').value;
+                var name = resetPwdDiv.querySelector('.modal-body #resetUserName').value;
+                layer.confirm(optStr + ' ' + name + '?', { icon: 3, title: 'tips' }, function (index) {
+                    var index = layer.load(0, { time: 5 * 1000 });
+                    newPwd = $.md5(newPwd);
+                    $.ajax({
+                        url: '@Url.Content("/user/resetuserpwd")',
+                        type: 'post',
+                        data: JSON.stringify({ userID: +userID, password: newPwd }),
+                        contentType: "application/json",
+                        dataType: 'json',
+                        success: function (data) {
+                            layer.closeAll('loading');
+                            if (data.ok) {
+                                layer.msg(optStr + ' success');
+                            } else {
+                                layer.msg(data.msg);
+                            }
+                            resetPwdModal && resetPwdModal.hide();
+                        },
+                        error: function (data) {
+                            layer.closeAll('loading');
+                            layer.msg(data.msg);
+                        }
+                    });
+
+                    layer.close(index);
+                });
+            })
+            InitPage();
+        });
+
+        function InitPage() {
+            appForm = new Vue({
+                el: '#app',
+                data: function () {
+                    return {
+                        loading: false,
+                        userid: 0,
+                        form: {},
+                        complicatedFormat: {
+                            Num: false,
+                            Letter: false,
+                            Symbol: false,
+                        },
+                        roleList: []
+                    }
+                },
+                created: function () {
+
+                },
+                mounted: function () {
+                    this.getRoleList()
+                },
+                methods: {
+                    getUser: function () {
+                        var that = this;
+                        $.ajax({
+                            url: '@Url.Content("/user/getuserbyid")' + "?userid=" + this.userid,
+                            type: 'get',
+                            dataType: 'json',
+                            success: function (data) {
+                                that.form = data;
+                                let compReq = that.form.pwdComplicatedFormat;
+                                that.complicatedFormat.Num = compReq.indexOf('num') > -1 ? true : false;
+                                that.complicatedFormat.Letter = compReq.indexOf('letter') > -1 ? true : false;
+                                that.complicatedFormat.Symbol = compReq.indexOf('symbol') > -1 ? true : false;
+                            },
+                            error: function (data) {
+                                console.error(data);
+                                if(that.userid!=0) layer.msg("Some error occured");
+                            }
+                        });
+                    },
+                    getRoleList: function () {
+                        var that = this;
+                        $.ajax({
+                            url: '@Url.Content("/user/role")',
+                            type: 'get',
+                            dataType: 'json',
+                            success: function (data) {
+                                that.roleList = data;
+                            },
+                            error: function (data) {
+                                layer.msg(data.msg);
+                            }
+                        });
+                    },
+                    userPwdLoginChange:function(e){
+
+                    },
+                    faLoginChange: function (e) {
+                        if (this.form.faEnabled){
+                            this.form.userPwdEnabled=true;
+                        }
+                    },
+                    pwdComplicatedRequireChanged:function(e){
+                        console.log(this.form.pwdComplicatedRequire)
+                        if(!this.form.pwdComplicatedRequire){
+                            this.complicatedFormat.Num = false;
+                            this.complicatedFormat.Letter = false;
+                            this.complicatedFormat.Symbol = false;
+                        }
+                    },
+                    btnSave: function () {
+                        var that = this;
+                        if (!that.form.name) return layer.msg('user name is empty');
+                        if (!that.form.password) return layer.msg('password is empty');
+                        if (!that.form.email || !checkEmail(that.form.email)) return layer.msg('email is empty or invaild format');
+                        if (that.form.pwdPeriodModify && that.form.pwdPeriodLimit <= -2) return layer.msg('password period limit is empty or less than 0');
+                        if (this.form.faEnabled && !this.form.userPwdEnabled) {
+                            this.form.userPwdEnabled = true;
+                        }
+                        if (!that.form.userPwdEnabled && !that.form.googleEnabled) return layer.msg('login type is required');
+                        var index = layer.load(0, { time: 5 * 1000 });
+                        that.form.pwdComplicatedFormat = '';
+                        if (that.form.pwdComplicatedRequire){
+                            let compReq = that.form.pwdComplicatedFormat;
+                            var res = [];
+                            if(that.complicatedFormat.Num)res.push('num');
+                            if (that.complicatedFormat.Letter) res.push('letter');
+                            if (that.complicatedFormat.Symbol) res.push('symbol');
+                            that.form.pwdComplicatedFormat = res.join('|')
+                        }
+                        that.form.pwdUsedDifferent = !!that.form.pwdUsedDifferent;
+                        that.form.pwdPeriodModify = !!that.form.pwdPeriodModify;
+                        that.form.pwdPeriodLimit = +that.form.pwdPeriodLimit;
+                        var saveForm = JSON.parse(JSON.stringify(that.form));
+                        if(that.form.password.length !=32){
+                            saveForm.password = $.md5(that.form.password);
+                        }
+                        
+                        $.ajax({
+                            url: '@Url.Content("/user/save")',
+                            type: 'post',
+                            data: JSON.stringify(saveForm),
+                            contentType: "application/json",
+                            dataType: 'json',
+                            success: function (data) {
+                                layer.closeAll('loading');
+                                if (data.ok) {
+                                    $('#search').click();
+                                    layer.msg('save success');
+                                    userModal.hide();
+                                } else {
+                                    layer.msg(data.msg);
+                                }
+                            },
+                            error: function (data) {
+                                layer.closeAll('loading');
+                                layer.msg(data.msg);
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    </script>
+}
+<h1>@dict.PageTitle</h1>
+
+<div class="container-fluid mt-2">
+    <div>
+        <div class="row">
+            <div class="col-auto">
+                <div class="layui-form-item">
+                    <label class="layui-form-label lbl_font" style="width:110px;">@dict.lblUsername</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="txtSearchUsername" name="title" lay-verify="title" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto">
+                <button type="button" class="layui-btn" id="search">@dict.btnSearch</button>
+                <button type="button" class="layui-btn" id="addInfo">@dict.btnAddInfo</button>
+            </div>
+            <div id="role"></div>
+        </div>
+    </div>
+    <div>
+        <table id="usertable" lay-filter="usertable" class="layui-table"></table>
+    </div>
+</div>
+<!-- 创建页面 -->
+<div class="modal fade" id="appForm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" id="app">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">@dict.lblUserForm</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row mb-3">
+                                <label for="txtUserName" class="col-sm-4 col-form-label text-end field-required">@dict.lblUsername</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="txtUserName" v-model="form.name" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row mb-3">
+                                <label for="txtPassword" class="col-sm-4 col-form-label text-end field-required">@dict.lblPassword</label>
+                                <div class="col-sm-8">
+                                    <input type="password" class="form-control" id="txtPassword" v-model="form.password" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row mb-3">
+                                <label for="txtUserRealName" class="col-sm-4 col-form-label text-end">@dict.lblRealName</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="txtUserRealName" v-model="form.userRealName" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row mb-3">
+                                <label for="txtG" class="col-sm-4 col-form-label text-end">@dict.lblGender</label>
+                                <div class="col-sm-8 pt7">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="genderOptions" id="genderOptions1" value="1" v-model="form.gender">
+                                        <label class="form-check-label" for="genderOptions1">@dict.lblMale</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="genderOptions" id="genderOptions2" value="0" v-model="form.gender">
+                                        <label class="form-check-label" for="genderOptions2">@dict.lblFemale</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row mb-3">
+                                <label for="txtEmail" class="col-sm-4 col-form-label text-end field-required">@dict.lblEmail</label>
+                                <div class="col-sm-8">
+                                    <input type="email" class="form-control" id="txtEmail" v-model="form.email" autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row mb-3">
+                                <label for="txtPhone" class="col-sm-4 col-form-label text-end">@dict.lblPhone</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" id="txtPhone" v-model="form.phone" autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row mb-3">
+                                <label for="inputEmail3" class="col-sm-4 col-form-label text-end field-required">@dict.lblRole</label>
+                                <div class="col-sm-8">
+                                    <select class="form-select" aria-label="select role" v-model="form.roleID">
+                                        <option v-for="(item,index) in roleList" :value="item.roleID">{{item.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label for="inputEmail3" class="col-sm-2 col-form-label text-end field-required">@dict.lblLogin</label>
+                        <div class="col-sm-10 pt7">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" v-model="form.userPwdEnabled" @@change="userPwdLoginChange">
+                                <label class="form-check-label">@dict.lblUserPwdLogin</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" v-model="form.faEnabled" @@change="faLoginChange">
+                                <label class="form-check-label">@dict.lbl2FaLogin</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" v-model="form.googleEnabled">
+                                <label class="form-check-label">@dict.lblGoogleLogin</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label for="txtDescr" class="col-sm-2 col-form-label text-end">@dict.lblDesc</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="txtDescr" rows="2" v-model="form.descr"></textarea>
+                        </div>
+                    </div>
+                    <div class="divider">
+                        <div class="divider-text">@dict.lblPasswordStrategy</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row mb-3">
+                                <label for="txtG" class="col-sm-4 col-form-label text-end field-required">@dict.lblPeriodRequire</label>
+                                <div class="col-sm-8 pt7">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="pwdPeriodModifyOptions" id="pwdPeriodModify1" :value="true" v-model="form.pwdPeriodModify">
+                                        <label class="form-check-label" for="pwdPeriodModify1">@dict.lblYes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="pwdPeriodModifyOptions" id="pwdPeriodModify2" :value="false" v-model="form.pwdPeriodModify">
+                                        <label class="form-check-label" for="pwdPeriodModify2">@dict.lblNo</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row mb-3">
+                                <label for="txtPwdPeriodLimit" class="col-sm-4 col-form-label text-end field-required">@dict.lblPeriodModify</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" id="txtPwdPeriodLimit" v-model="form.pwdPeriodLimit" autocomplete="off" />
+                                        <span class="input-group-text" id="basic-addon2">@dict.lblDay</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="row mb-3">
+                                <label for="inputEmail3" class="col-sm-4 col-form-label text-end field-required">@dict.lblPwdLimit</label>
+                                <div class="col-sm-8">
+                                    <select class="form-select" aria-label="select role" v-model="form.pwdLenLimit">
+                                        <option v-for="(item,index) in [8,9,10,11,12,13,14,15,16]" :value="+item">{{item}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-7 pt7">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" v-model="form.pwdComplicatedRequire" @@change="pwdComplicatedRequireChanged">
+                                <label class="form-check-label">@dict.lblComplicated</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" v-model="complicatedFormat.Num">
+                                <label class="form-check-label">@dict.lblNum</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" v-model="complicatedFormat.Letter">
+                                <label class="form-check-label">@dict.lblLetter</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" v-model="complicatedFormat.Symbol">
+                                <label class="form-check-label">@dict.lblSymbol</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row mb-3">
+                                <label for="txtG" class="col-sm-4 col-form-label text-end field-required">@dict.lblUsedDifferent</label>
+                                <div class="col-sm-8 pt7">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="pwdUsedDifferentOptions" id="pwdUsedDifferent1" :value="true" v-model="form.pwdUsedDifferent">
+                                        <label class="form-check-label" for="pwdUsedDifferent1">@dict.lblYes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="pwdUsedDifferentOptions" id="pwdUsedDifferent2" :value="false" v-model="form.pwdUsedDifferent">
+                                        <label class="form-check-label" for="pwdUsedDifferent2">@dict.lblNo</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row mb-3">
+                                <label for="inputEmail3" class="col-sm-4 col-form-label text-end field-required">@dict.lblUsedTimes</label>
+                                <div class="col-sm-8">
+                                    <select class="form-select" aria-label="select role" v-model="form.pwdUsedTimes">
+                                        <option v-for="(item,index) in [1,2,3,4,5,6]" :value="+item">{{item}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@dict.btnCancel</button>
+                <button type="button" class="btn btn-primary" v-on:click="btnSave">@dict.btnSave</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 初始化密码 -->
+<div class="modal fade" id="resetPwdModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">@dict.lblResetPassword</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div style="display:none;">
+                    <input type="text" class="form-control" id="resetUserID">
+                    <input type="text" class="form-control" id="resetUserName">
+                </div>
+                <form>
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">@dict.lblNewPassword</label>
+                        <input type="text" class="form-control" id="resetNewPwd" autocomplete="off">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@dict.btnCancel</button>
+                <button type="button" class="btn btn-primary" id="btnResetPwd">@dict.btnSave</button>
+            </div>
+        </div>
+    </div>
+</div>

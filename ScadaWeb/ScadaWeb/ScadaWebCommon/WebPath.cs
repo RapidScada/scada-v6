@@ -41,9 +41,12 @@ namespace Scada.Web
         public const string ErrorPage = "/Error";
         public const string IndexPage = "/Index";
         public const string LoginPage = "/Login";
+        public const string LoginPhonePage = "/LoginPhone";
         public const string LogoutPage = "/Logout";
         public const string ReportsPage = "/Reports";
         public const string DefaultStartPage = "/View";
+        public const string UserManagerPage = "/User/Manager";
+        public const string UserLoginPage = "/User/LoginLog";
 
         public static string GetViewPath(int viewID)
         {

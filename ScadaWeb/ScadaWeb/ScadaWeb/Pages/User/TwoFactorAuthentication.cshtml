@@ -1,0 +1,102 @@
+﻿@page
+@model Scada.Web.Pages.TwoFactorAuthenticationModel
+@{
+    Layout = "_BasicLayout";
+    dynamic dict = Locale.GetDictionary("Scada.Web.Pages.TwoFactorAuthentication");
+    ViewBag.Title = dict.PageTitle;
+}
+
+@section Scripts{
+    <script type="text/javascript" src="~/lib/jquery-qrcode/jquery.qrcode.min.js"></script>
+    <script>
+        $(function () {
+            $('#qrcode').qrcode({ width: 225, height: 225, text: unescape('@(Model.QrCodeUrl)') });
+        })
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}
+@section Styles{
+    <style>
+        #divAlert {
+            max-width: $loginbox-width;
+            &.validation-summary-valid
+
+        {
+            display: none;
+        }
+
+        ul {
+            margin-bottom: 0;
+        }
+
+        }
+        .two-factor-container{
+            width: 800px;
+            margin-top: 60px;
+            padding:40px 20px;
+            border:2px solid #666;
+            border-radius: 8px;
+        }
+    </style>
+}
+<form method="post">
+<div class="container text-center two-factor-container">
+        <div id="divAlert" class="alert alert-danger alert-dismissible mx-auto" role="alert" asp-validation-summary="All">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <div>@WebPhrases.CorrectErrors</div>
+        </div>
+        @if (!Model.HasVerified)
+        {
+            <h1>@dict.PageTitleUnbind</h1>
+            <h2 style="margin-top:25px">
+                Download an authenticator
+            </h2>
+            <h3>
+                Google Authenticator
+            </h3>
+            <h3>
+                Microsoft Authenticator
+            </h3>
+        }
+        else
+        {
+            <h1>@dict.PageTitleBind</h1>
+        }
+        
+    <div class="mb-3">
+            @if (!Model.HasVerified)
+        {
+            <div>
+                    <p><b>@dict.verifyCodeUnbindTips</b></p>
+            </div>
+                <div id="qrcode" class="mx-auto" style="width:225px;height:225px" title="@dict.verifyCodeUnbindTips"></div>
+        }
+        else
+        {
+            <div>
+                    <p><b>@dict.verifyCodeTips</b></p>
+            </div>
+        }
+    </div>
+        <div class="mb-2">
+            <input type="text" style="width:400px;margin:0 auto;" id="txtVerifyCode" class="form-control" placeholder="@dict.txtVerifyCodeTip" autocomplete="off" asp-for="VerifyCode">
+            
+        </div>
+        @if (Model.HasVerified)
+        {
+            <div class="form-check" style="width:150px;margin-left:180px;">
+                <input class="form-check-input" type="checkbox" id="cbTrustDevice" asp-for="TrustDevice">
+                <label class="form-check-label" for="cbTrustDevice">
+                    Trust this device
+                </label>
+            </div>
+        }
+        <div class="col-auto">
+            <button type="submit" id="btnVerify" class="btn btn-primary" style="width:400px;">@dict.btnVerify</button>
+        </div>
+        <div style="display:none;">
+            <input type="text" asp-for="HasVerified">
+            <input type="text" asp-for="QrCodeUrl">
+    </div>
+</div>
+</form>

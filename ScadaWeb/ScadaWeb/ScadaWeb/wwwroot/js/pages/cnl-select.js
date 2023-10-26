@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     let pager = new Pager("pgrCnl");
 
-    $("#selObj").on("change", function () {
+    $("#selObj,#txtCnlName").on("change", function () {
         pager.reset();
         $("#chkOnlySelected").prop("checked", false);
         $("form:first").submit();

@@ -2,11 +2,11 @@
 <ScadaDictionaries>
   <!-- ScadaCommon.dll -->
   <Dictionary key="Scada.Application">
-    <Phrase key="ProductName">Rapid SCADA</Phrase>
+    <Phrase key="ProductName">Cloud SCADA</Phrase>
     <Phrase key="ServerAppName">Server</Phrase>
     <Phrase key="CommAppName">Communicator</Phrase>
-    <Phrase key="WebAppName">Webstation</Phrase>
-    <Phrase key="WebsiteUrl">https://rapidscada.org</Phrase>
+    <Phrase key="WebAppName">Cloud SCADA</Phrase>
+    <Phrase key="WebsiteUrl"></Phrase>
     <Phrase key="UnhandledException">Unhandled exception</Phrase>
     <Phrase key="ExecutionImpossible">Normal execution is impossible</Phrase>
     <Phrase key="StartLogic">Start logic processing</Phrase>

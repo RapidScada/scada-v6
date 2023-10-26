@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Scada.Lang;
 using Scada.Web.Lang;
 using Scada.Web.Services;
+using System;
+using System.Linq;
 
 namespace Scada.Web.Pages
 {
@@ -30,6 +32,18 @@ namespace Scada.Web.Pages
         public string Username { get; set; }
         public string RoleName { get; set; }
         public string TimeZone { get; set; }
+
+        public string OldPwd { get; set; }
+        public string NewPwd { get; set; }
+        public string NewRePwd { get; set; }
+
+        public string PwdComplicatedFormatTips { get; set; } = "password should contains num";
+
+        public bool IsFirstLogin { get; set; } = false;
+
+        public int PwdLenLimit { get; set; }
+
+        public string PwdComplicatedFormat { get; set; }
 
         public IActionResult OnGet(int? id)
         {
@@ -66,6 +80,16 @@ namespace Scada.Web.Pages
                 Data.Entities.Role roleEntity = webContext.ConfigDatabase.RoleTable.GetItem(userEntity.RoleID);
                 RoleName = roleEntity == null ? "" : roleEntity.Name;
                 TimeZone = UserID == currentUserID ? userContext.TimeZone.DisplayName : CommonPhrases.UndefinedSign;
+                if (!string.IsNullOrEmpty(userEntity.PwdComplicatedFormat))
+                {
+                    PwdComplicatedFormatTips = $"password should contains: {string.Join(",", userEntity.PwdComplicatedFormat.Split('|'))}";
+                }
+                if (userContext.UserEntity.PwdUpdateTime == DateTime.MinValue)
+                {
+                    IsFirstLogin = true;
+                }
+                PwdLenLimit = userContext.UserEntity.PwdLenLimit;
+                PwdComplicatedFormat = userContext.UserEntity.PwdComplicatedRequire ? userContext.UserEntity.PwdComplicatedFormat : "";
             }
 
             return Page();

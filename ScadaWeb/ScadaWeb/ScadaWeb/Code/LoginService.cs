@@ -25,17 +25,23 @@
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Scada.Data.Const;
 using Scada.Data.Models;
+using Scada.Data.TwoFactorAuth;
 using Scada.Lang;
 using Scada.Web.Audit;
+using Scada.Web.Authorization;
 using Scada.Web.Config;
 using Scada.Web.Lang;
 using Scada.Web.Plugins;
 using Scada.Web.Services;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -70,14 +76,15 @@ namespace Scada.Web.Code
         /// <summary>
         /// Logs in.
         /// </summary>
-        private async Task DoLoginAsync(string username, int userID, int roleID, 
-            bool rememberMe, int rememberMeExpires)
+        private async Task DoLoginAsync(string username, WebUserValidationResult validResult, bool rememberMe, int rememberMeExpires, string browserIdentity)
         {
             List<Claim> claims = new()
             {
                 new Claim(ClaimTypes.Name, username),
-                new Claim(ClaimTypes.NameIdentifier, userID.ToString(), ClaimValueTypes.Integer),
-                new Claim(ClaimTypes.Role, roleID.ToString(), ClaimValueTypes.Integer)
+                new Claim(ClaimTypes.NameIdentifier, validResult.UserID.ToString(), ClaimValueTypes.Integer),
+                new Claim(ClaimTypes.Role, validResult.RoleID.ToString(), ClaimValueTypes.Integer),
+                new Claim(ClaimExtTypes.BrowserIdentity, browserIdentity.ToString(), ClaimValueTypes.String),
+                new Claim(ClaimExtTypes.FirstWebLogin, validResult.NeedModifyPwd.ToString(), ClaimValueTypes.Boolean),
             };
 
             ClaimsIdentity claimsIdentity = new(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -88,30 +95,41 @@ namespace Scada.Web.Code
                 authProperties.IsPersistent = true;
                 authProperties.ExpiresUtc = DateTime.UtcNow.AddDays(rememberMeExpires);
             }
+            if (validResult.NeedFactorAuth)
+            {
+                await httpContext.SignInAsync(IdentityConstants.TwoFactorUserIdScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+            }
+            else
+            {
+                await httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+            }
 
-            await httpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity),
-                authProperties);
+            if (httpContext.Request.Cookies.TryGetValue("loginErr", out string errMsg))
+            {
+                
+            }
         }
 
         /// <summary>
         /// Validates the username and password, and logs in.
         /// </summary>
-        public async Task<SimpleResult> LoginAsync(string username, string password, bool rememberMe)
+        public async Task<SimpleResult> LoginAsync(string username, string password, string loginType, string browserIdentity, bool rememberMe)
         {
-            UserValidationResult result;
+            WebUserValidationResult result;
             string friendlyError;
 
             // check user by server
             try
             {
-                result = clientAccessor.ScadaClient.ValidateUser(username, password);
+                //获取客户端IP地址
+                var clientIpAddr = httpContext.Connection.RemoteIpAddress.MapToIPv4()?.ToString();
+                result = clientAccessor.ScadaClient.ValidateWebUser(username, password, loginType, browserIdentity, clientIpAddr);
+
                 friendlyError = result.ErrorMessage;
             }
             catch (Exception ex)
             {
-                result = UserValidationResult.Fail(ex.Message);
+                result = WebUserValidationResult.Fail(ex.Message);
                 friendlyError = WebPhrases.ClientError;
             }
 
@@ -145,14 +163,11 @@ namespace Scada.Web.Code
             if (userLoginArgs.UserIsValid)
             {
                 LoginOptions loginOptions = webContext.AppConfig.LoginOptions;
-                await DoLoginAsync(username, result.UserID, result.RoleID, 
-                    loginOptions.AllowRememberMe && rememberMe, loginOptions.RememberMeExpires);
+                await DoLoginAsync(username, result,
+                    loginOptions.AllowRememberMe && rememberMe, loginOptions.RememberMeExpires, browserIdentity);
 
-                webContext.Log.WriteAction(Locale.IsRussian ?
-                    "Пользователь {0} вошёл в систему {0}, IP {1}" :
-                    "User {0} is logged in, IP {1}",
-                    username, userLoginArgs.RemoteIP);
-                return SimpleResult.Success();
+                webContext.Log.WriteAction("User {0} is logged in, IP {1}", username, userLoginArgs.RemoteIP);
+                return SimpleResult.Success(result);
             }
             else
             {
@@ -185,22 +200,47 @@ namespace Scada.Web.Code
                 };
 
                 await httpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                webContext.Log.WriteAction(Locale.IsRussian ?
-                    "Пользователь {0} вышел из системы, IP {1}" :
-                    "User {0} is logged out, IP {1}",
-                    userLoginArgs.Username, userLoginArgs.RemoteIP);
+                await httpContext.SignOutAsync(IdentityConstants.TwoFactorUserIdScheme);
+                webContext.Log.WriteAction("User {0} is logged out, IP {1}", userLoginArgs.Username, userLoginArgs.RemoteIP);
                 webContext.PluginHolder.OnUserLogout(userLoginArgs);
-
-                // write to audit log
-                auditLog.Write(new AuditLogEntry
-                {
-                    ActionTime = DateTime.UtcNow,
-                    Username = userLoginArgs.Username,
-                    ActionType = AuditActionType.Logout,
-                    ActionResult = AuditActionResult.Success,
-                    Severity = Severity.Info
-                });
             }
+        }
+
+        /// <summary>
+        /// 获取2FA密钥
+        /// </summary>
+        public async Task<TwoFactorAuthInfoResult> GetTwoFactorAuthenticatorKeyAsync(int userId)
+        {
+            var result = clientAccessor.ScadaClient.GetTwoFAKey(userId);
+            return result;
+        }
+
+
+        /// <summary>
+        /// 验证2FA密钥
+        /// </summary>
+        public async Task<TwoFactorAuthValidateResult> VerifyTwoFactorAuthenticatorKeyAsync(int userId, int code, bool trustDevice, string browserId)
+        {
+            var result = clientAccessor.ScadaClient.VerifyTwoFAKey(userId, code, trustDevice, browserId);
+            return result;
+        }
+
+        /// <summary>
+        /// 重置2FA密钥
+        /// </summary>
+        public async Task<SimpleResult> ResetTwoFactorAuthenticatorKeyAsync(int userId)
+        {
+            //return Task.FromResult(clientAccessor.ScadaClient.ResetTwoFactorAuthenticatorKey(username));
+            return SimpleResult.Success();
+        }
+
+        /// <summary>
+        /// 重置用户
+        /// </summary>
+        public async Task<SimpleResult> ResetUserAsync(int userId)
+        {
+            // return Task.FromResult(clientAccessor.ScadaClient.ResetUser(username));
+            return SimpleResult.Success();
         }
     }
 }

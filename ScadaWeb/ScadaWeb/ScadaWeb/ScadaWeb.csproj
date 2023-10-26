@@ -42,6 +42,11 @@
   <ItemGroup>
     <None Include="compilerconfig.json" />
     <None Include="libman.json" />
+    <None Include="wwwroot\css\pages\reports.scss" />
+    <None Include="wwwroot\lib\fingerprint\FingerprintJS-v3.4.1.js" />
+    <None Include="wwwroot\lib\jquery-qrcode\jquery.qrcode.min.js" />
+    <None Include="wwwroot\lib\layer\layer.js" />
+    <None Include="wwwroot\lib\layer\mobile\layer.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -60,6 +65,8 @@
   <ItemGroup>
     <PackageReference Include="SkiaSharp" Version="2.88.6" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.16" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.30.1" />
   </ItemGroup>
 
 </Project>

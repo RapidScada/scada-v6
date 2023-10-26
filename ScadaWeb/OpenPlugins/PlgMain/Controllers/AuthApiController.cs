@@ -47,7 +47,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 if (pluginContext.Options.AllowAuthApi)
                 {
                     SimpleResult result = await loginService.LoginAsync(
-                        credentialsDTO.Username, credentialsDTO.Password, false);
+                        credentialsDTO.Username, credentialsDTO.Password,"AuthApi","", false);
                     return new Dto(result);
                 }
                 else

@@ -2,6 +2,8 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Npgsql;
+using NpgsqlTypes;
+using Scada.Data.Entities;
 using Scada.Data.Tables;
 using Scada.Lang;
 using System;
@@ -382,6 +384,111 @@ namespace Scada.Storages.PostgreSqlStorage
         }
 
         /// <summary>
+        /// 更新基础表
+        /// </summary>
+
+        public override void UpdateBaseTable(IBaseTable baseTable)
+        {
+
+        }
+
+        /// <summary>
+        /// 插入或更新用户
+        /// </summary>
+        public override void SaveUser(IBaseTable baseTable, User user)
+        {
+            try
+            {
+                Monitor.Enter(conn);
+                conn.Open();
+                SaveUser(baseTable, conn, user);
+            }
+            finally
+            {
+                conn.Close();
+                Monitor.Exit(conn);
+            }
+        }
+
+        /// <summary>
+        /// 删除用户
+        /// </summary>
+        public override int DeleteUser(IBaseTable baseTable, User user)
+        {
+            try
+            {
+                Monitor.Enter(conn);
+                conn.Open();
+                DeleteUser(baseTable, conn, user);
+                return 1;
+            }
+            catch
+            {
+                return 0;
+            }
+            finally
+            {
+                conn.Close();
+                Monitor.Exit(conn);
+            }
+        }
+
+
+        /// <summary>
+        /// 插入用户登录日志
+        /// </summary>
+        public override void AddUserLoginLog(IBaseTable baseTable, UserLoginLog userLoginLog)
+        {
+            try
+            {
+                Monitor.Enter(conn);
+                conn.Open();
+                AddUserLoginLog(baseTable, conn, userLoginLog);
+            }
+            finally
+            {
+                conn.Close();
+                Monitor.Exit(conn);
+            }
+        }
+
+        /// <summary>
+        /// 保存机器认证码
+        /// </summary>
+        public override void SaveUserMachineCode(IBaseTable baseTable, UserMachineCode userMachineCode)
+        {
+            try
+            {
+                Monitor.Enter(conn);
+                conn.Open();
+                SaveUserMachineCode(baseTable, conn, userMachineCode);
+            }
+            finally
+            {
+                conn.Close();
+                Monitor.Exit(conn);
+            }
+        }
+
+        /// <summary>
+        /// 保存历史密码
+        /// </summary>
+        public override void AddUserUsedPwd(IBaseTable baseTable, UserUsedPwd userUsedPwd)
+        {
+            try
+            {
+                Monitor.Enter(conn);
+                conn.Open();
+                AddUserUsedPwd(baseTable, conn, userUsedPwd);
+            }
+            finally
+            {
+                conn.Close();
+                Monitor.Exit(conn);
+            }
+        }
+
+        /// <summary>
         /// Writes the text to the file.
         /// </summary>
         public override void WriteText(DataCategory category, string path, string contents)
@@ -525,6 +632,101 @@ namespace Scada.Storages.PostgreSqlStorage
             }
 
             return fileList;
+        }
+
+        /// <summary>
+        /// 插入或更新用户
+        /// </summary>
+        private void SaveUser(IBaseTable baseTable, NpgsqlConnection conn, User user)
+        {
+            PostgreUserExt postgreUserExt = new PostgreUserExt();
+            NpgsqlCommand cmd = new NpgsqlCommand(postgreUserExt.InsertUserTableQuery, conn);
+            cmd.Parameters.AddWithValue("userid", NpgsqlDbType.Integer, user.UserID);
+            cmd.Parameters.AddWithValue("enabled", NpgsqlDbType.Boolean, user.Enabled);
+            cmd.Parameters.AddWithValue("name", NpgsqlDbType.Varchar, user.Name);
+            cmd.Parameters.AddWithValue("password", NpgsqlDbType.Varchar, user.Password);
+            cmd.Parameters.AddWithValue("roleid", NpgsqlDbType.Integer, user.RoleID);
+            cmd.Parameters.AddWithValue("descr", NpgsqlDbType.Varchar, user.Descr.NormalText());
+            cmd.Parameters.AddWithValue("userrealname", NpgsqlDbType.Varchar, user.UserRealName.NormalText());
+            cmd.Parameters.AddWithValue("gender", NpgsqlDbType.Varchar, user.Gender.NormalText());
+            cmd.Parameters.AddWithValue("phone", NpgsqlDbType.Varchar, user.Phone.NormalText());
+            cmd.Parameters.AddWithValue("email", NpgsqlDbType.Varchar, user.Email.NormalText());
+            cmd.Parameters.AddWithValue("userpwdenabled", NpgsqlDbType.Boolean, user.UserPwdEnabled);
+            cmd.Parameters.AddWithValue("faenabled", NpgsqlDbType.Boolean, user.FaEnabled);
+            cmd.Parameters.AddWithValue("googleenabled", NpgsqlDbType.Boolean, user.GoogleEnabled);
+            cmd.Parameters.AddWithValue("fasecret", NpgsqlDbType.Varchar, user.FaSecret.NormalText());
+            cmd.Parameters.AddWithValue("faverifysuccess", NpgsqlDbType.Boolean, user.FaVerifySuccess);
+            cmd.Parameters.AddWithValue("pwdperiodmodify", NpgsqlDbType.Boolean, user.PwdPeriodModify);
+            cmd.Parameters.AddWithValue("pwdperiodlimit", NpgsqlDbType.Integer, user.PwdPeriodLimit);
+            cmd.Parameters.AddWithValue("pwdlenlimit", NpgsqlDbType.Integer, user.PwdLenLimit);
+            cmd.Parameters.AddWithValue("pwdcomplicatedrequire", NpgsqlDbType.Boolean, user.PwdComplicatedRequire);
+            cmd.Parameters.AddWithValue("pwdcomplicatedformat", NpgsqlDbType.Varchar, user.PwdComplicatedFormat.NormalText());
+            cmd.Parameters.AddWithValue("pwduseddifferent", NpgsqlDbType.Boolean, user.PwdUsedDifferent);
+            cmd.Parameters.AddWithValue("pwdusedtimes", NpgsqlDbType.Integer, user.PwdUsedTimes);
+            cmd.Parameters.AddWithValue("pwdupdatetime", NpgsqlDbType.TimestampTz, user.PwdUpdateTime.ToUniversalTime());
+
+            cmd.ExecuteNonQuery();
+        }
+
+
+        /// <summary>
+        /// 插入或更新用户
+        /// </summary>
+        private void DeleteUser(IBaseTable baseTable, NpgsqlConnection conn, User user)
+        {
+            PostgreUserExt postgreUserExt = new PostgreUserExt();
+            NpgsqlCommand cmd = new NpgsqlCommand(postgreUserExt.InsertUserTableQuery, conn);
+            cmd.Parameters.AddWithValue("userid", NpgsqlDbType.Integer, user.UserID);
+            cmd.ExecuteNonQuery();
+        }
+
+        /// <summary>
+        /// 插入用户登录日志
+        /// </summary>
+        private void AddUserLoginLog(IBaseTable baseTable, NpgsqlConnection conn, UserLoginLog userLoginLog)
+        {
+            PostgreUserExt postgreUserExt = new PostgreUserExt();
+            NpgsqlCommand cmd = new NpgsqlCommand(postgreUserExt.InsertUserLoginLogQuery, conn);
+            cmd.Parameters.AddWithValue("id", NpgsqlDbType.Integer, userLoginLog.Id);
+            cmd.Parameters.AddWithValue("userid", NpgsqlDbType.Integer, userLoginLog.UserID);
+            cmd.Parameters.AddWithValue("loginip", NpgsqlDbType.Varchar, userLoginLog.LoginIP.NormalText());
+            cmd.Parameters.AddWithValue("logintime", NpgsqlDbType.TimestampTz, userLoginLog.LoginTime.ToUniversalTime());
+            cmd.Parameters.AddWithValue("loginstatus", NpgsqlDbType.Integer, userLoginLog.LoginStatus);
+            cmd.Parameters.AddWithValue("logindesc", NpgsqlDbType.Varchar, userLoginLog.LoginDesc.NormalText());
+
+            cmd.ExecuteNonQuery();
+        }
+
+        /// <summary>
+        /// 保存机器认证码
+        /// </summary>
+        private void SaveUserMachineCode(IBaseTable baseTable, NpgsqlConnection conn, UserMachineCode userMachineCode)
+        {
+            PostgreUserExt postgreUserExt = new PostgreUserExt();
+            NpgsqlCommand cmd = new NpgsqlCommand(postgreUserExt.InsertUserMachineCodeTableQuery, conn);
+            cmd.Parameters.AddWithValue("id", userMachineCode.Id);
+            cmd.Parameters.AddWithValue("userid", userMachineCode.UserID);
+            cmd.Parameters.AddWithValue("machinecode", NpgsqlDbType.Varchar, userMachineCode.MachineCode);
+            cmd.Parameters.AddWithValue("isexpired", userMachineCode.IsExpired);
+            cmd.Parameters.AddWithValue("createtime", NpgsqlDbType.TimestampTz, userMachineCode.CreateTime.ToUniversalTime());
+            cmd.Parameters.AddWithValue("lastlogintime", NpgsqlDbType.TimestampTz, userMachineCode.LastLoginTime.ToUniversalTime());
+            //id, userid, machinecode, isexpired, createtime, lastlogintime
+            cmd.ExecuteNonQuery();
+        }
+
+        /// <summary>
+        /// 保存历史密码
+        /// </summary>
+        private void AddUserUsedPwd(IBaseTable baseTable, NpgsqlConnection conn, UserUsedPwd userUsedPwd)
+        {
+            PostgreUserExt postgreUserExt = new PostgreUserExt();
+            NpgsqlCommand cmd = new NpgsqlCommand(postgreUserExt.InsertUserUsedPwdTableTableQuery, conn);
+            cmd.Parameters.AddWithValue("id", userUsedPwd.Id);
+            cmd.Parameters.AddWithValue("userid", userUsedPwd.UserID);
+            cmd.Parameters.AddWithValue("password", NpgsqlDbType.Varchar, userUsedPwd.Password);
+            cmd.Parameters.AddWithValue("createtime", NpgsqlDbType.TimestampTz, userUsedPwd.CreateTime.ToUniversalTime());
+            //id, userid, password, createtime
+            cmd.ExecuteNonQuery();
         }
     }
 }

@@ -446,9 +446,19 @@ namespace Scada.Agent.Engine
                             uploadOptions.Load(optionsStream);
                         }
 
+                        //新增,不上传用户表
+                        var basedatPath = ScadaUtils.NormalDir(PathBuilder.GetAbsolutePath(new RelativePath(TopFolder.Base)));
+                        var baseUserExtPath = basedatPath.Replace("BaseDAT", "BaseUserExtDAT");
+                        if (!Directory.Exists(baseUserExtPath)) Directory.CreateDirectory(baseUserExtPath);
+                        var baseDATUserTable = Path.Combine(basedatPath, "user.dat");
+                        var baseUserExtUserTable = Path.Combine(baseUserExtPath, "user.dat");
+                        if (uploadOptions.IncludeBase)
+                            File.Copy(baseDATUserTable, baseUserExtUserTable, true);
+
                         // delete existing configuration
                         List<string> affectedDirs = GetAffectedDirectories(uploadOptions);
                         affectedDirs.ForEach(dir => ClearDirectory(dir, uploadOptions.IgnoreRegKeys));
+
                         File.Delete(Path.Combine(instanceOptions.Directory, AgentConst.ProjectInfoEntry));
 
                         // unpack configuration
@@ -464,6 +474,9 @@ namespace Scada.Agent.Engine
                                 entry.ExtractToFile(destFileName, true);
                             }
                         }
+                        
+                        if (uploadOptions.IncludeBase)
+                            File.Copy(baseUserExtUserTable, baseDATUserTable, true);
 
                         return true;
                     }

@@ -47,5 +47,81 @@ namespace Scada.Data.Entities
         public int RoleID { get; set; }
 
         public string Descr { get; set; }
+
+
+        /* 新增字段 */
+
+        /// <summary>
+        /// 用户姓名
+        /// </summary>
+        public string UserRealName { get; set; }
+        /// <summary>
+        /// 性别 0女 1男
+        /// </summary>
+        public string Gender { get; set; }
+        /// <summary>
+        /// 手机号
+        /// </summary>
+        public string Phone { get; set; }
+        /// <summary>
+        /// 邮箱
+        /// </summary>
+        public string Email { get; set; }
+
+        /// <summary>
+        /// 是否启用用户密码
+        /// </summary>
+        public bool UserPwdEnabled { get; set; }
+        /// <summary>
+        /// 是否启用2fa
+        /// </summary>
+        public bool FaEnabled { get; set; }
+        /// <summary>
+        /// 是否启用GoogleOauth
+        /// </summary>
+        public bool GoogleEnabled { get; set; }
+
+        /// <summary>
+        /// 2faSecret
+        /// </summary>
+        public string FaSecret { get; set; }
+        /// <summary>
+        /// 2fa认证标识成功
+        /// </summary>
+        public bool FaVerifySuccess { get; set; }
+
+        // -----密码策略-------
+        /// <summary>
+        /// 密码定期修改
+        /// </summary>
+        public bool PwdPeriodModify { get; set; }
+        /// <summary>
+        /// 密码更新周期限制
+        /// </summary>
+        public int PwdPeriodLimit { get; set; }
+        /// <summary>
+        /// 密码长度限值
+        /// </summary>
+        public int PwdLenLimit { get; set; }
+        /// <summary>
+        /// 密码复杂度要求
+        /// </summary>
+        public bool PwdComplicatedRequire { get; set; }
+        /// <summary>
+        /// 密码复杂度设置 数字num 字母letter 特殊符号symbol
+        /// </summary>
+        public string PwdComplicatedFormat { get; set; }
+        /// <summary>
+        /// 密码要求与过去不同
+        /// </summary>
+        public bool PwdUsedDifferent { get; set; }
+        /// <summary>
+        /// 旧密码次数
+        /// </summary>
+        public int PwdUsedTimes { get; set; }
+        /// <summary>
+        /// 密码更新时间
+        /// </summary>
+        public DateTime PwdUpdateTime { get; set; }
     }
 }

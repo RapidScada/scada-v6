@@ -146,6 +146,11 @@ namespace Scada.Lang
         public static string CnlUndefinedEvent { get; private set; }
         public static string CommandEvent { get; private set; }
 
+        //新增表
+        public static string UserUsedPwdTable { get; private set; }
+        public static string UserMachineCodeTable { get; private set; }
+        public static string UserLoginLogTable { get; private set; }
+
         static CommonPhrases()
         {
             // the phrases below may be required before loading dictionaries
@@ -216,6 +221,9 @@ namespace Scada.Lang
             ViewTypeTable = dict[nameof(ViewTypeTable)];
             IndexNotFound = dict[nameof(IndexNotFound)];
             EntityCaption = dict[nameof(EntityCaption)];
+            UserUsedPwdTable = dict[nameof(UserUsedPwdTable)];
+            UserMachineCodeTable = dict[nameof(UserMachineCodeTable)];
+            UserLoginLogTable = dict[nameof(UserLoginLogTable)];
 
             dict = Locale.GetDictionary("Scada.Files");
             FileNotFound = dict[nameof(FileNotFound)];

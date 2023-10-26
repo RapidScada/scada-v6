@@ -27,6 +27,7 @@ using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Scada.Lang;
+using System.Collections.Generic;
 using System.Net;
 using System.Reflection;
 using System.Security.Claims;
@@ -43,6 +44,10 @@ namespace Scada.Web
     /// </summary>
     public static partial class WebUtils
     {
+        /// <summary>
+        /// 界面版本号
+        /// </summary>
+        public const string Version = "1.0";
         /// <summary>
         /// The application log file name.
         /// </summary>
@@ -212,6 +217,31 @@ namespace Scada.Web
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// 从 startIndex 位置开始搜索, 取出中间子文本
+        /// </summary>
+        public static string GetMidStr(this string str, string front, string rear)
+        {
+            int srcLength = str.Length;
+            int frontLength = front.Length;
+
+            int start = str.IndexOf(front, 0);
+
+            if (start == -1 || start + frontLength > srcLength)// 没找到或尾部越界
+            {
+                return string.Empty;
+            }
+
+            var outEnd = str.IndexOf(rear, start + frontLength);
+
+            if (outEnd == -1)
+            {
+                return string.Empty;
+            }
+
+            return str.Substring(start + frontLength, outEnd - frontLength - start);
         }
     }
 }

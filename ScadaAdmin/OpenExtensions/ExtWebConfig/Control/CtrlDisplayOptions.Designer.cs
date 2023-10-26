@@ -28,59 +28,51 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.gbDisplayOptions = new System.Windows.Forms.GroupBox();
-            this.numRefreshRate = new System.Windows.Forms.NumericUpDown();
-            this.lblRefreshRate = new System.Windows.Forms.Label();
-            this.chkShowViewExplorer = new System.Windows.Forms.CheckBox();
-            this.lblShowViewExplorer = new System.Windows.Forms.Label();
-            this.chkShowMainMenu = new System.Windows.Forms.CheckBox();
-            this.lblShowMainMenu = new System.Windows.Forms.Label();
-            this.chkShowHeader = new System.Windows.Forms.CheckBox();
-            this.lblShowHeader = new System.Windows.Forms.Label();
-            this.gbDisplayOptions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numRefreshRate)).BeginInit();
-            this.SuspendLayout();
+            gbDisplayOptions = new GroupBox();
+            numRefreshRate = new NumericUpDown();
+            lblRefreshRate = new Label();
+            chkShowViewExplorer = new CheckBox();
+            lblShowViewExplorer = new Label();
+            chkShowMainMenu = new CheckBox();
+            lblShowMainMenu = new Label();
+            chkShowHeader = new CheckBox();
+            lblShowHeader = new Label();
+            lblShowEventView = new Label();
+            chkShowEventView = new CheckBox();
+            gbDisplayOptions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numRefreshRate).BeginInit();
+            SuspendLayout();
             // 
             // gbDisplayOptions
             // 
-            this.gbDisplayOptions.Controls.Add(this.numRefreshRate);
-            this.gbDisplayOptions.Controls.Add(this.lblRefreshRate);
-            this.gbDisplayOptions.Controls.Add(this.chkShowViewExplorer);
-            this.gbDisplayOptions.Controls.Add(this.lblShowViewExplorer);
-            this.gbDisplayOptions.Controls.Add(this.chkShowMainMenu);
-            this.gbDisplayOptions.Controls.Add(this.lblShowMainMenu);
-            this.gbDisplayOptions.Controls.Add(this.chkShowHeader);
-            this.gbDisplayOptions.Controls.Add(this.lblShowHeader);
-            this.gbDisplayOptions.Location = new System.Drawing.Point(0, 0);
-            this.gbDisplayOptions.Name = "gbDisplayOptions";
-            this.gbDisplayOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbDisplayOptions.Size = new System.Drawing.Size(500, 145);
-            this.gbDisplayOptions.TabIndex = 0;
-            this.gbDisplayOptions.TabStop = false;
-            this.gbDisplayOptions.Text = "Display Options";
+            gbDisplayOptions.Controls.Add(numRefreshRate);
+            gbDisplayOptions.Controls.Add(lblRefreshRate);
+            gbDisplayOptions.Controls.Add(chkShowEventView);
+            gbDisplayOptions.Controls.Add(chkShowViewExplorer);
+            gbDisplayOptions.Controls.Add(lblShowEventView);
+            gbDisplayOptions.Controls.Add(lblShowViewExplorer);
+            gbDisplayOptions.Controls.Add(chkShowMainMenu);
+            gbDisplayOptions.Controls.Add(lblShowMainMenu);
+            gbDisplayOptions.Controls.Add(chkShowHeader);
+            gbDisplayOptions.Controls.Add(lblShowHeader);
+            gbDisplayOptions.Location = new Point(0, 0);
+            gbDisplayOptions.Name = "gbDisplayOptions";
+            gbDisplayOptions.Padding = new Padding(10, 3, 10, 11);
+            gbDisplayOptions.Size = new Size(500, 209);
+            gbDisplayOptions.TabIndex = 0;
+            gbDisplayOptions.TabStop = false;
+            gbDisplayOptions.Text = "Display Options";
             // 
             // numRefreshRate
             // 
-            this.numRefreshRate.Location = new System.Drawing.Point(387, 109);
-            this.numRefreshRate.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.numRefreshRate.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numRefreshRate.Name = "numRefreshRate";
-            this.numRefreshRate.Size = new System.Drawing.Size(100, 23);
-            this.numRefreshRate.TabIndex = 7;
-            this.numRefreshRate.Value = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.numRefreshRate.ValueChanged += new System.EventHandler(this.control_Changed);
+            numRefreshRate.Location = new Point(387, 124);
+            numRefreshRate.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
+            numRefreshRate.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numRefreshRate.Name = "numRefreshRate";
+            numRefreshRate.Size = new Size(100, 23);
+            numRefreshRate.TabIndex = 7;
+            numRefreshRate.Value = new decimal(new int[] { 1000, 0, 0, 0 });
+            numRefreshRate.ValueChanged += control_Changed;
             // 
             // lblRefreshRate
             // 
@@ -141,12 +133,31 @@
             // 
             // lblShowHeader
             // 
-            this.lblShowHeader.AutoSize = true;
-            this.lblShowHeader.Location = new System.Drawing.Point(10, 26);
-            this.lblShowHeader.Name = "lblShowHeader";
-            this.lblShowHeader.Size = new System.Drawing.Size(104, 15);
-            this.lblShowHeader.TabIndex = 0;
-            this.lblShowHeader.Text = "Show page header";
+            lblShowHeader.AutoSize = true;
+            lblShowHeader.Location = new Point(10, 29);
+            lblShowHeader.Name = "lblShowHeader";
+            lblShowHeader.Size = new Size(118, 17);
+            lblShowHeader.TabIndex = 0;
+            lblShowHeader.Text = "Show page header";
+            // 
+            // lblShowEventView
+            // 
+            lblShowEventView.AutoSize = true;
+            lblShowEventView.Location = new Point(10, 162);
+            lblShowEventView.Name = "lblShowEventView";
+            lblShowEventView.Size = new Size(103, 17);
+            lblShowEventView.TabIndex = 4;
+            lblShowEventView.Text = "Show event view";
+            // 
+            // chkShowEventView
+            // 
+            chkShowEventView.AutoSize = true;
+            chkShowEventView.Location = new Point(472, 162);
+            chkShowEventView.Name = "chkShowEventView";
+            chkShowEventView.Size = new Size(15, 14);
+            chkShowEventView.TabIndex = 5;
+            chkShowEventView.UseVisualStyleBackColor = true;
+            chkShowEventView.CheckedChanged += control_Changed;
             // 
             // CtrlDisplayOptions
             // 
@@ -174,5 +185,7 @@
         private Label lblShowViewExplorer;
         private Label lblRefreshRate;
         private NumericUpDown numRefreshRate;
+        private CheckBox chkShowEventView;
+        private Label lblShowEventView;
     }
 }

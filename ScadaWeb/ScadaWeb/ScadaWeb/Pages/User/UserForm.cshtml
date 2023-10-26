@@ -1,0 +1,45 @@
+﻿@page
+@model UserFormModel
+@{
+    Layout = "_MainLayout";
+    dynamic dict = Locale.GetDictionary("Scada.Web.Pages.About");
+    ViewBag.Title = dict.PageTitle;
+    var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+}
+
+@section Styles {
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="~/lib/bootstrap-table/bootstrap-table.min.css">
+}
+@section Scripts{
+    <script src="~/lib/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="~/lib/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <script>
+        var $table = null;
+        $(function(){
+            $('#search').click(function(){
+                $table.bootstrapTable('refresh')
+            })
+        });
+    </script>
+}
+
+<div class="container-fluid">
+    <div>
+        <div class="row g-3">
+            <div class="col-auto">
+                <label for="txtUsername" class="col-form-label">用户名</label>
+            </div>
+            <div class="col-auto">
+                <input type="text" class="form-control" id="txtUsername" autocomplete="off" placeholder="">
+            </div>
+            <div class="col-auto">
+                <button type="button" class="btn btn-primary mb-3" id="search">查询</button>
+                <button type="button" class="btn btn-primary mb-3" id="addInfo">新增</button>
+            </div>
+        </div>
+    </div>
+    <div>
+        <table id="table" class="table"></table>
+    </div>
+</div>

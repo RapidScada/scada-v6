@@ -72,6 +72,8 @@ namespace Scada.Web.Lang
         public static string RegistrationMenuItem { get; private set; }
         public static string PluginsMenuItem { get; private set; }
         public static string AboutMenuItem { get; private set; }
+        public static string UserManagerMenuItem { get; private set; }
+        public static string UserLoginLogMenuItem { get; private set; }
 
         public static void Init()
         {
@@ -122,6 +124,8 @@ namespace Scada.Web.Lang
             RegistrationMenuItem = dict[nameof(RegistrationMenuItem)];
             PluginsMenuItem = dict[nameof(PluginsMenuItem)];
             AboutMenuItem = dict[nameof(AboutMenuItem)];
+            UserManagerMenuItem = dict[nameof(UserManagerMenuItem)];
+            UserLoginLogMenuItem = dict[nameof(UserLoginLogMenuItem)];
         }
     }
 }

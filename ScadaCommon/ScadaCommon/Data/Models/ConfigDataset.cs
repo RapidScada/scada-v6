@@ -142,6 +142,19 @@ namespace Scada.Data.Models
         public BaseTable<User> UserTable { get; private set; }
 
         /// <summary>
+        /// 旧密码
+        /// </summary>
+        public BaseTable<UserUsedPwd> UserUsedPwdTable { get; private set; }
+        /// <summary>
+        /// 机器认证
+        /// </summary>
+        public BaseTable<UserMachineCode> UserMachineCodeTable { get; private set; }
+        /// <summary>
+        /// 登录日志
+        /// </summary>
+        public BaseTable<UserLoginLog> UserLoginLogTable { get; private set; }
+
+        /// <summary>
         /// Gets the view table.
         /// </summary>
         public BaseTable<View> ViewTable { get; private set; }
@@ -189,7 +202,11 @@ namespace Scada.Data.Models
                 UnitTable = new BaseTable<Unit>("UnitID", CommonPhrases.UnitTable),
                 UserTable = new BaseTable<User>("UserID", CommonPhrases.UserTable),
                 ViewTable = new BaseTable<View>("ViewID", CommonPhrases.ViewTable),
-                ViewTypeTable = new BaseTable<ViewType>("ViewTypeID", CommonPhrases.ViewTypeTable)
+                ViewTypeTable = new BaseTable<ViewType>("ViewTypeID", CommonPhrases.ViewTypeTable),
+
+                UserUsedPwdTable = new BaseTable<UserUsedPwd>("Id", CommonPhrases.UserUsedPwdTable),
+                UserMachineCodeTable = new BaseTable<UserMachineCode>("Id", CommonPhrases.UserMachineCodeTable),
+                UserLoginLogTable = new BaseTable<UserLoginLog>("Id", CommonPhrases.UserLoginLogTable),
             };
         }
 

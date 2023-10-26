@@ -25,6 +25,7 @@
 
 using Scada.Data.Entities;
 using Scada.Data.Models;
+using Scada.Data.TwoFactorAuth;
 using Scada.Lang;
 using Scada.Log;
 using Scada.Protocol;
@@ -559,6 +560,87 @@ namespace Scada.Client
             };
         }
 
+
+        /// <summary>
+        /// 网页用户登录
+        /// </summary>
+        protected WebUserValidationResult WebLogin(string username, string password, string loginType, string browserIdentity, string clientIpAddr)
+        {
+            DataPacket request = CreateRequest(FunctionID.WebLogin);
+            int index = ArgumentIndex;
+            CopyString(username, outBuf, ref index);
+            CopyString(EncryptPassword(password, SessionID, ConnectionOptions.SecretKey), outBuf, ref index);
+            CopyString(loginType, outBuf, ref index);
+            CopyString(browserIdentity, outBuf, ref index);
+            CopyString(clientIpAddr, outBuf, ref index);
+            CopyString(ConnectionOptions.Instance, outBuf, ref index);
+            CopyInt32(ClientMode, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            ReceiveResponse(request);
+            index = ArgumentIndex;
+
+            return new WebUserValidationResult
+            {
+                IsValid = GetBool(inBuf, ref index),
+                UserID = GetInt32(inBuf, ref index),
+                RoleID = GetInt32(inBuf, ref index),
+                NeedFactorAuth = GetBool(inBuf, ref index),
+                NeedModifyPwd = GetBool(inBuf, ref index),
+                ErrorMessage = GetString(inBuf, index),
+                ClientIpAddress = clientIpAddr
+            };
+        }
+
+        /// <summary>
+        /// 获取多重认证KEY
+        /// </summary>
+        protected TwoFactorAuthInfoResult GetTwoFactorAuthKey(int userID)
+        {
+            DataPacket request = CreateRequest(FunctionID.GetTwoFactorAuthKey);
+            int index = ArgumentIndex;
+            CopyInt32(userID, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            ReceiveResponse(request);
+            index = ArgumentIndex;
+
+            return new TwoFactorAuthInfoResult
+            {
+                HasVerified = GetBool(inBuf, ref index),
+                FaSecret = GetString(inBuf, ref index),
+                FaQrCodeUrl = GetString(inBuf, ref index),
+                ErrorMessage = GetString(inBuf, index)
+            };
+        }
+
+        /// <summary>
+        /// 认证多重认证KEY
+        /// </summary>
+        protected TwoFactorAuthValidateResult VerifyTwoFactorAuthKey(int userID, int code, bool trustDevice, string browserId)
+        {
+            DataPacket request = CreateRequest(FunctionID.VerifyTwoFactorAuthKey);
+            int index = ArgumentIndex;
+            CopyInt32(userID, outBuf, ref index);
+            CopyInt32(code, outBuf, ref index);
+            CopyBool(trustDevice, outBuf, ref index);
+            CopyString(browserId, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            ReceiveResponse(request);
+            index = ArgumentIndex;
+
+            return new TwoFactorAuthValidateResult
+            {
+                IsValid = GetBool(inBuf, ref index),
+                ErrorMessage = GetString(inBuf, index)
+            };
+        }
+
+
         /// <summary>
         /// Gets a list of short names of files or directories in the specified path.
         /// </summary>
@@ -657,13 +739,7 @@ namespace Scada.Client
 
             if (GetBool(inBuf, ref index))
             {
-                User user = new User
-                {
-                    UserID = GetInt32(inBuf, ref index),
-                    RoleID = GetInt32(inBuf, ref index),
-                    Enabled = GetBool(inBuf, ref index),
-                    Name = GetString(inBuf, ref index)
-                };
+                User user = GetUser(inBuf, ref index);
 
                 if (user.UserID != userID)
                 {

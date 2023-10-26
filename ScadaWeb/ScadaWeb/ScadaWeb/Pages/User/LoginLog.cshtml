@@ -1,0 +1,431 @@
+﻿@page
+@model UserLoginLogModel
+@{
+    Layout = "_MainLayout";
+    dynamic dict = Locale.GetDictionary("Scada.Web.Pages.LoginLog");
+    ViewBag.Title = dict.PageTitle;
+    var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+}
+
+@section Styles {
+    <link href="~/lib/layui/css/layui.css" rel="stylesheet" asp-append-version="true">
+    <style>
+        .lbl_font {
+            font: 14px Helvetica Neue,Helvetica,PingFang SC,Tahoma,Arial,sans-serif
+        }
+        .divider {
+            display: block;
+            height: 1px;
+            width: 100%;
+            margin: 24px 0;
+            background-color: #dcdfe6;
+            position: relative;
+        }
+
+        .divider-text {
+            left: 20px;
+            transform: translateY(-50%);
+            position: absolute;
+            background-color: #fff;
+            padding: 0 20px;
+            font-weight: 500;
+            color: #303133;
+            font-size: 14px;
+        }
+
+        .pt7 {
+            padding-top: 7px;
+        }
+
+        .field-required:before { content: '* '; color: red; }
+    </style>
+}
+@section Scripts{
+    <script src="~/lib/vue.min.js"></script>
+    <script src="~/lib/layui/layui.js" asp-append-version="true"></script>
+    <script type="text/html" id="statusFunc">
+        {{#  if(d.loginStatus == 1){ }}
+            <span class="layui-badge layui-bg-green"><b> Success </b></span>
+        {{#  } else { }}
+            <span class="layui-badge layui-bg-gray"> Fail </span>
+        {{#  } }}
+    </script>
+    <script type="text/html" id="nameFunc">
+        <span > {{ d.userName || userMapper[d.userID] }} </span>
+    </script>
+    <script type="text/html" id="loginTimeFunc">
+        <span> {{ layui.util.toDateString(d.loginTime.substr(0,19), 'yyyy-MM-dd HH:mm:ss') }} </span>
+    </script>
+    <script type="text/html" id="actionFormatter">
+        
+    </script>
+
+    <script>
+        //var roleMapper = { 1: "Admin", 3: "Guest" };
+        var userMapper = JSON.parse('@Model.UserMapper'.replaceAll('&quot;', '"'));
+        var $table = null, appForm = null;
+        var userModal = null,resetPwdModal = null;
+        //验证邮箱
+        function checkEmail(value) {
+            return /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/.test(value)
+        }
+       
+        function getTableCols(){
+            return [[
+                {
+                    field: 'id',
+                    title: 'ID',
+                    fixed: 'left',
+                    align: 'center',
+                    width: 80,
+                }, {
+                    field: 'userID',
+                    title: 'User Name',
+                    fixed: 'left',
+                    templet: '#nameFunc',
+                    width: 260,
+                }, {
+                    field: 'loginIP',
+                    title: 'Login IP',
+                    width: 150
+                },  {
+                    field: 'loginTime',
+                    title: 'Login Time',
+                    width: 200,
+                    templet: '#loginTimeFunc'
+                }, {
+                    field: 'loginStatus',
+                    title: 'Login Status',
+                    width: 120,
+                    align: 'center',
+                    templet: '#statusFunc'
+                }, {
+                    field: 'loginDesc',
+                    title: 'Login Desc',
+                }]]
+        }
+        layui.use('table', function () {
+            var table = layui.table;
+
+            //第一个实例
+            //修改翻页为英文：https://blog.csdn.net/zoro_zp/article/details/117455475
+            table.render({
+                elem: '#userLogTable'
+                , height: 512
+                , url: '@Url.Content("/user/loginLogList")' //数据接口
+                , page: true //开启分页
+                , cols: getTableCols()
+            });
+            //操作栏
+            table.on('tool(userLogTable)', function (obj) {
+                if (obj.event === 'tool-edit') {
+                    showUserForm(obj.data.userID);
+                } else if (obj.event === 'tool-resetPwd') {
+                    resetUserPwd(obj.data);
+                } else if (obj.event === 'tool-reset2FA') {
+                    resetUser2FA(obj.data);
+                } else if (obj.event === 'tool-disable') {
+                    enableUser(obj.data, false);
+                } else if (obj.event === 'tool-enable') {
+                    enableUser(obj.data, true);
+                }else if (obj.event === 'tool-delete') {
+                    deleteUser(obj.data);
+                }
+            });
+
+            $('#search').click(function () {
+                table.reload('userLogTable', {where: { userName: $('#txtSearchUsername').val() }});
+            })
+            $('#download').click(function () {
+                var downUrl = '@Url.Content("/user/downloadloginLog")' + "?userName=" + $('#txtSearchUsername').val()
+                window.open(downUrl,'_blank')
+            })
+
+        });
+
+        
+            function showUserForm(userId) {
+                userModal = new bootstrap.Modal('#appForm');
+                appForm.$data.userid = userId;
+                appForm.getUser();
+                userModal.show();
+            }
+            function enableUser(user, enable) {
+                var optStr = enable ? 'enable' : 'disable';
+                layer.confirm(optStr + ' ' + user.name + '?', { icon: 3, title: 'tips' }, function (index) {
+                    var index = layer.load(0, { time: 5 * 1000 });
+                    $.ajax({
+                        url: '@Url.Content("/user/enableUser")',
+                        type: 'post',
+                        data: JSON.stringify({ userID: user.userID, enabled: enable }),
+                        contentType: "application/json",
+                        dataType: 'json',
+                        success: function (data) {
+                            layer.closeAll('loading');
+                            if (data.ok) {
+                                $('#search').click();
+                                layer.msg(optStr + ' success');
+                            } else {
+                                layer.msg(data.msg);
+                            }
+                        },
+                        error: function (data) {
+                            layer.closeAll('loading');
+                            layer.msg(data.msg);
+                        }
+                    });
+
+                    layer.close(index);
+                });
+            }
+            function deleteUser(user) {
+                var optStr = 'delete';
+                layer.confirm(optStr + ' ' + user.name + '? It cannot be recovered after delete', { icon: 3, title: 'tips' }, function (index) {
+                    var index = layer.load(0, { time: 5 * 1000 });
+                    $.ajax({
+                        url: '@Url.Content("/user/deleteUser")',
+                        type: 'post',
+                        data: JSON.stringify({ userID: user.userID }),
+                        contentType: "application/json",
+                        dataType: 'json',
+                        success: function (data) {
+                            layer.closeAll('loading');
+                            if (data.ok) {
+                                $('#search').click();
+                                layer.msg(optStr + ' success');
+                            } else {
+                                layer.msg(data.msg);
+                            }
+                        },
+                        error: function (data) {
+                            layer.closeAll('loading');
+                            layer.msg(data.msg);
+                        }
+                    });
+
+                    layer.close(index);
+                });
+            }
+            function resetUser2FA(user) {
+                var optStr = 'reset two fa';
+                layer.confirm(optStr + ' ' + user.name + '?', { icon: 3, title: 'tips' }, function (index) {
+                    var index = layer.load(0, { time: 5 * 1000 });
+                    $.ajax({
+                        url: '@Url.Content("/user/resetuser2fa")',
+                        type: 'post',
+                        data: JSON.stringify({ userID: user.userID }),
+                        contentType: "application/json",
+                        dataType: 'json',
+                        success: function (data) {
+                            layer.closeAll('loading');
+                            if (data.ok) {
+                                $('#search').click();
+                                layer.msg(optStr + ' success');
+                            } else {
+                                layer.msg(data.msg);
+                            }
+                        },
+                        error: function (data) {
+                            layer.closeAll('loading');
+                            layer.msg(data.msg);
+                        }
+                    });
+
+                    layer.close(index);
+                });
+            }
+            function resetUserPwd(user) {
+                resetPwdModal = new bootstrap.Modal('#resetPwdModal');
+                var resetPwdDiv = document.getElementById('resetPwdModal');
+                resetPwdDiv.querySelector('.modal-body #resetUserID').value = user.userID;
+                resetPwdDiv.querySelector('.modal-body #resetUserName').value = user.name;
+                resetPwdModal.show();
+            }
+
+        $(function () {
+            $table = $('#table');
+            $('#addInfo').click(function () {
+                showUserForm(0)
+            })
+            $("#btnResetPwd").click(function () {
+                var optStr = 'reset password';
+                var resetPwdDiv = document.getElementById('resetPwdModal');
+                var newPwd = resetPwdDiv.querySelector('.modal-body #resetNewPwd').value;
+                if(!newPwd)return layer.msg('new password is empty');
+                var userID = resetPwdDiv.querySelector('.modal-body #resetUserID').value;
+                var name = resetPwdDiv.querySelector('.modal-body #resetUserName').value;
+                layer.confirm(optStr + ' ' + name + '?', { icon: 3, title: 'tips' }, function (index) {
+                    var index = layer.load(0, { time: 5 * 1000 });
+                    $.ajax({
+                        url: '@Url.Content("/user/resetuserpwd")',
+                        type: 'post',
+                        data: JSON.stringify({ userID: +userID, password: newPwd }),
+                        contentType: "application/json",
+                        dataType: 'json',
+                        success: function (data) {
+                            layer.closeAll('loading');
+                            if (data.ok) {
+                                layer.msg(optStr + ' success');
+                            } else {
+                                layer.msg(data.msg);
+                            }
+                            resetPwdModal && resetPwdModal.hide();
+                        },
+                        error: function (data) {
+                            layer.closeAll('loading');
+                            layer.msg(data.msg);
+                        }
+                    });
+
+                    layer.close(index);
+                });
+            })
+            InitPage();
+        });
+
+        function InitPage() {
+            appForm = new Vue({
+                el: '#app',
+                data: function () {
+                    return {
+                        loading: false,
+                        userid: 0,
+                        form: {},
+                        complicatedFormat: {
+                            Num: false,
+                            Letter: false,
+                            Symbol: false,
+                        },
+                        roleList: []
+                    }
+                },
+                created: function () {
+
+                },
+                mounted: function () {
+                    this.getRoleList()
+                },
+                methods: {
+                    getUser: function () {
+                        var that = this;
+                        $.ajax({
+                            url: '@Url.Content("/user/getuserbyid")' + "?userid=" + this.userid,
+                            type: 'get',
+                            dataType: 'json',
+                            success: function (data) {
+                                that.form = data;
+                                let compReq = that.form.pwdComplicatedFormat;
+                                that.complicatedFormat.Num = compReq.indexOf('num') > -1 ? true : false;
+                                that.complicatedFormat.Letter = compReq.indexOf('letter') > -1 ? true : false;
+                                that.complicatedFormat.Symbol = compReq.indexOf('symbol') > -1 ? true : false;
+                            },
+                            error: function (data) {
+                                console.error(data);
+                                if(that.userid!=0) layer.msg("Some error occured");
+                            }
+                        });
+                    },
+                    getRoleList: function () {
+                        var that = this;
+                        $.ajax({
+                            url: '@Url.Content("/user/role")',
+                            type: 'get',
+                            dataType: 'json',
+                            success: function (data) {
+                                that.roleList = data;
+                            },
+                            error: function (data) {
+                                layer.msg(data.msg);
+                            }
+                        });
+                    },
+                    userPwdLoginChange:function(e){
+
+                    },
+                    faLoginChange: function (e) {
+                        if (this.form.faEnabled){
+                            this.form.userPwdEnabled=true;
+                        }
+                    },
+                    pwdComplicatedRequireChanged:function(e){
+                        console.log(this.form.pwdComplicatedRequire)
+                        if(!this.form.pwdComplicatedRequire){
+                            this.complicatedFormat.Num = false;
+                            this.complicatedFormat.Letter = false;
+                            this.complicatedFormat.Symbol = false;
+                        }
+                    },
+                    btnSave: function () {
+                        var that = this;
+                        if (!that.form.name) return layer.msg('user name is empty');
+                        if (!that.form.password) return layer.msg('password is empty');
+                        if (!that.form.email || !checkEmail(that.form.email)) return layer.msg('email is empty or invaild format');
+                        if (that.form.pwdPeriodModify && that.form.pwdPeriodLimit <= 0) return layer.msg('password period limit is empty or less than 0');
+                        if (this.form.faEnabled && !this.form.userPwdEnabled) {
+                            this.form.userPwdEnabled = true;
+                        }
+                        if (!that.form.userPwdEnabled && !that.form.googleEnabled) return layer.msg('login type is required');
+                        var index = layer.load(0, { time: 5 * 1000 });
+                        that.form.pwdComplicatedFormat = '';
+                        if (that.form.pwdComplicatedRequire){
+                            let compReq = that.form.pwdComplicatedFormat;
+                            var res = [];
+                            if(that.complicatedFormat.Num)res.push('num');
+                            if (that.complicatedFormat.Letter) res.push('letter');
+                            if (that.complicatedFormat.Symbol) res.push('symbol');
+                            that.form.pwdComplicatedFormat = res.join('|')
+                        }
+                        that.form.pwdUsedDifferent = !!that.form.pwdUsedDifferent;
+                        that.form.pwdPeriodModify = !!that.form.pwdPeriodModify;
+                        that.form.pwdPeriodLimit = +that.form.pwdPeriodLimit;
+                        $.ajax({
+                            url: '@Url.Content("/user/save")',
+                            type: 'post',
+                            data: JSON.stringify(that.form),
+                            contentType: "application/json",
+                            dataType: 'json',
+                            success: function (data) {
+                                layer.closeAll('loading');
+                                if (data.ok) {
+                                    $('#search').click();
+                                    layer.msg('save success');
+                                    userModal.hide();
+                                } else {
+                                    layer.msg(data.msg);
+                                }
+                            },
+                            error: function (data) {
+                                layer.closeAll('loading');
+                                layer.msg(data.msg);
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    </script>
+}
+<h1>@dict.PageTitle</h1>
+
+<div class="container-fluid mt-2">
+    <div>
+        <div class="row">
+            <div class="col-auto">
+                <div class="layui-form-item">
+                    <label class="layui-form-label lbl_font" style="width:110px;">@dict.lblUsername</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="txtSearchUsername" name="title" lay-verify="title" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto">
+                <button type="button" class="layui-btn" id="search">@dict.btnSearch</button>
+                <button type="button" class="layui-btn" id="download">@dict.btnDownload</button>
+            </div>
+            <div id="role"></div>
+        </div>
+    </div>
+    <div>
+        <table id="userLogTable" lay-filter="userLogTable" class="layui-table"></table>
+    </div>
+</div>
