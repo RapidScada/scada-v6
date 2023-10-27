@@ -37,7 +37,7 @@ namespace Scada.Web.Api
     public class IntRange : Collection<int>
     {
         /// <summary>
-        /// Implements a converter for the IdList type.
+        /// Implements a converter for the IntRange type.
         /// </summary>
         public class IntRangeConverter : TypeConverter
         {
