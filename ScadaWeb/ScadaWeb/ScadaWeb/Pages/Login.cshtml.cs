@@ -36,6 +36,7 @@ namespace Scada.Web.Pages
         {
             this.webContext = webContext;
             this.loginService = loginService;
+            LoginOptions = this.webContext.AppConfig.LoginOptions;
             dict = Locale.GetDictionary("Scada.Web.Pages.Login");
             Version = $"Version {@WebUtils.Version}";
         }
@@ -49,6 +50,7 @@ namespace Scada.Web.Pages
 
         public string Version { get; set; }
 
+        public LoginOptions LoginOptions { get; set; }
         /// <summary>
         /// 设备标识码
         /// </summary>

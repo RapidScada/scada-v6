@@ -100,16 +100,19 @@
             var regNum = new RegExp(/^.*[0-9]+.*$/);
             var regLetter = new RegExp(/(?=.*[a-z])(?=.*[A-Z])/);
             var regSymbol = new RegExp(/[\s~`!@@#$%^&*()\-_=+[\]{}|;:'",<.>/?]/);
+            function layeralert(msg) {
+                layer.alert(msg, { title: 'tips', btn: ['@dict.btnLayerConfirm'] });
+            }
             $('#btnConfirm').click(function () {
                 var oldPwd = $('#txtOldPwd').val();
                 var newPwd = $('#txtNewPwd').val();
                 var newRePwd = $('#txtNewRePwd').val();
-                if (newPwd != newRePwd) return layer.alert('New password and re-entered password do not match.');
-                if (newPwd.length < pwdLenLimit) return layer.alert('Password length must be greater than ' + pwdLenLimit + ' characters.');
+                if (newPwd != newRePwd) return layeralert('@dict.tipsReenterdPwdNotMatch');
+                if (newPwd.length < pwdLenLimit) return layeralert('@dict.tipsPwdLenRule'.replace('{0}', pwdLenLimit))
                 if (pwdComplicatedFormat) {
-                    if (pwdComplicatedFormat.indexOf('num') > -1 && !regNum.test(newPwd)) return layer.alert('Password should contains number.');
-                    if (pwdComplicatedFormat.indexOf('letter') > -1 && !regLetter.test(newPwd)) return layer.alert('Password should contains letter(lower and upper).');
-                    if (pwdComplicatedFormat.indexOf('symbol') > -1 && !regSymbol.test(newPwd)) return layer.alert('Password should contains symbol.');
+                    if (pwdComplicatedFormat.indexOf('num') > -1 && !regNum.test(newPwd)) return layeralert('@dict.tipsPwdContNum');
+                    if (pwdComplicatedFormat.indexOf('letter') > -1 && !regLetter.test(newPwd)) return layeralert('@dict.tipsPwdContLetter');
+                    if (pwdComplicatedFormat.indexOf('symbol') > -1 && !regSymbol.test(newPwd)) return layeralert('@dict.tipsPwdContSymbol');
                 }
                 oldPwd = $.md5(oldPwd);
                 newPwd = $.md5(newPwd);
@@ -121,7 +124,7 @@
                     data: JSON.stringify({ oldPwd: oldPwd, newPwd: newPwd }),
                     success: function (data) {
                         if (data.ok) {
-                            layer.alert('@dict.MsgPwdModified', { title: 'tips' });
+                            layeralert('@dict.MsgPwdModified');
                             $('#btnModifyPassword').show();
                             $('#pwdDiv').hide();
                             //修改成功退出登录
@@ -130,11 +133,11 @@
                             }, 200);
                         }
                         else {
-                            layer.alert(data.msg, { title: 'tips' });
+                            layeralert(data.msg);
                         }
                     },
                     error: function (xhr, status, error) {
-                        layer.alert('error', { title: 'tips' });
+                        layeralert('error');
                     }
                 });
             });

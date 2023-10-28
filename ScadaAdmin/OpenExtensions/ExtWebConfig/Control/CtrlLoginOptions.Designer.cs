@@ -28,160 +28,228 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.gbLoginOptions = new System.Windows.Forms.GroupBox();
-            this.txtAutoLoginPassword = new System.Windows.Forms.TextBox();
-            this.lblAutoLoginPassword = new System.Windows.Forms.Label();
-            this.txtAutoLoginUsername = new System.Windows.Forms.TextBox();
-            this.lblAutoLoginUsername = new System.Windows.Forms.Label();
-            this.numRememberMeExpires = new System.Windows.Forms.NumericUpDown();
-            this.lblRememberMeExpires = new System.Windows.Forms.Label();
-            this.chkAllowRememberMe = new System.Windows.Forms.CheckBox();
-            this.lblAllowRememberMe = new System.Windows.Forms.Label();
-            this.chkRequireCaptcha = new System.Windows.Forms.CheckBox();
-            this.lblRequireCaptcha = new System.Windows.Forms.Label();
-            this.gbLoginOptions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numRememberMeExpires)).BeginInit();
-            this.SuspendLayout();
+            gbLoginOptions = new GroupBox();
+            txtAutoLoginPassword = new TextBox();
+            lblAutoLoginPassword = new Label();
+            txtAutoLoginUsername = new TextBox();
+            lblAutoLoginUsername = new Label();
+            numRememberMeExpires = new NumericUpDown();
+            lblRememberMeExpires = new Label();
+            chkAllowRememberMe = new CheckBox();
+            lblAllowRememberMe = new Label();
+            chkRequireCaptcha = new CheckBox();
+            lblRequireCaptcha = new Label();
+            gbGoogleSSO = new GroupBox();
+            txtGoogleClientSecret = new TextBox();
+            lblGoogleClientSecret = new Label();
+            txtGoogleClientId = new TextBox();
+            lblGoogleClientId = new Label();
+            txtGoogleLoginUri = new TextBox();
+            lblGoogleLoginUri = new Label();
+            gbLoginOptions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numRememberMeExpires).BeginInit();
+            gbGoogleSSO.SuspendLayout();
+            SuspendLayout();
             // 
             // gbLoginOptions
             // 
-            this.gbLoginOptions.Controls.Add(this.txtAutoLoginPassword);
-            this.gbLoginOptions.Controls.Add(this.lblAutoLoginPassword);
-            this.gbLoginOptions.Controls.Add(this.txtAutoLoginUsername);
-            this.gbLoginOptions.Controls.Add(this.lblAutoLoginUsername);
-            this.gbLoginOptions.Controls.Add(this.numRememberMeExpires);
-            this.gbLoginOptions.Controls.Add(this.lblRememberMeExpires);
-            this.gbLoginOptions.Controls.Add(this.chkAllowRememberMe);
-            this.gbLoginOptions.Controls.Add(this.lblAllowRememberMe);
-            this.gbLoginOptions.Controls.Add(this.chkRequireCaptcha);
-            this.gbLoginOptions.Controls.Add(this.lblRequireCaptcha);
-            this.gbLoginOptions.Location = new System.Drawing.Point(0, 0);
-            this.gbLoginOptions.Margin = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbLoginOptions.Name = "gbLoginOptions";
-            this.gbLoginOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbLoginOptions.Size = new System.Drawing.Size(500, 180);
-            this.gbLoginOptions.TabIndex = 0;
-            this.gbLoginOptions.TabStop = false;
-            this.gbLoginOptions.Text = "Login Options";
+            gbLoginOptions.Controls.Add(txtAutoLoginPassword);
+            gbLoginOptions.Controls.Add(lblAutoLoginPassword);
+            gbLoginOptions.Controls.Add(txtAutoLoginUsername);
+            gbLoginOptions.Controls.Add(lblAutoLoginUsername);
+            gbLoginOptions.Controls.Add(numRememberMeExpires);
+            gbLoginOptions.Controls.Add(lblRememberMeExpires);
+            gbLoginOptions.Controls.Add(chkAllowRememberMe);
+            gbLoginOptions.Controls.Add(lblAllowRememberMe);
+            gbLoginOptions.Controls.Add(chkRequireCaptcha);
+            gbLoginOptions.Controls.Add(lblRequireCaptcha);
+            gbLoginOptions.Location = new Point(0, 0);
+            gbLoginOptions.Margin = new Padding(10, 3, 10, 11);
+            gbLoginOptions.Name = "gbLoginOptions";
+            gbLoginOptions.Padding = new Padding(10, 3, 10, 11);
+            gbLoginOptions.Size = new Size(500, 195);
+            gbLoginOptions.TabIndex = 0;
+            gbLoginOptions.TabStop = false;
+            gbLoginOptions.Text = "Login Options";
             // 
             // txtAutoLoginPassword
             // 
-            this.txtAutoLoginPassword.Location = new System.Drawing.Point(287, 144);
-            this.txtAutoLoginPassword.Name = "txtAutoLoginPassword";
-            this.txtAutoLoginPassword.Size = new System.Drawing.Size(200, 23);
-            this.txtAutoLoginPassword.TabIndex = 9;
-            this.txtAutoLoginPassword.UseSystemPasswordChar = true;
-            this.txtAutoLoginPassword.TextChanged += new System.EventHandler(this.control_Changed);
+            txtAutoLoginPassword.Location = new Point(287, 163);
+            txtAutoLoginPassword.Name = "txtAutoLoginPassword";
+            txtAutoLoginPassword.Size = new Size(200, 23);
+            txtAutoLoginPassword.TabIndex = 9;
+            txtAutoLoginPassword.UseSystemPasswordChar = true;
+            txtAutoLoginPassword.TextChanged += control_Changed;
             // 
             // lblAutoLoginPassword
             // 
-            this.lblAutoLoginPassword.AutoSize = true;
-            this.lblAutoLoginPassword.Location = new System.Drawing.Point(10, 148);
-            this.lblAutoLoginPassword.Name = "lblAutoLoginPassword";
-            this.lblAutoLoginPassword.Size = new System.Drawing.Size(162, 15);
-            this.lblAutoLoginPassword.TabIndex = 9;
-            this.lblAutoLoginPassword.Text = "Password for automatic login";
+            lblAutoLoginPassword.AutoSize = true;
+            lblAutoLoginPassword.Location = new Point(10, 168);
+            lblAutoLoginPassword.Name = "lblAutoLoginPassword";
+            lblAutoLoginPassword.Size = new Size(179, 17);
+            lblAutoLoginPassword.TabIndex = 9;
+            lblAutoLoginPassword.Text = "Password for automatic login";
             // 
             // txtAutoLoginUsername
             // 
-            this.txtAutoLoginUsername.Location = new System.Drawing.Point(287, 115);
-            this.txtAutoLoginUsername.Name = "txtAutoLoginUsername";
-            this.txtAutoLoginUsername.Size = new System.Drawing.Size(200, 23);
-            this.txtAutoLoginUsername.TabIndex = 8;
-            this.txtAutoLoginUsername.TextChanged += new System.EventHandler(this.control_Changed);
+            txtAutoLoginUsername.Location = new Point(287, 130);
+            txtAutoLoginUsername.Name = "txtAutoLoginUsername";
+            txtAutoLoginUsername.Size = new Size(200, 23);
+            txtAutoLoginUsername.TabIndex = 8;
+            txtAutoLoginUsername.TextChanged += control_Changed;
             // 
             // lblAutoLoginUsername
             // 
-            this.lblAutoLoginUsername.AutoSize = true;
-            this.lblAutoLoginUsername.Location = new System.Drawing.Point(10, 119);
-            this.lblAutoLoginUsername.Name = "lblAutoLoginUsername";
-            this.lblAutoLoginUsername.Size = new System.Drawing.Size(165, 15);
-            this.lblAutoLoginUsername.TabIndex = 7;
-            this.lblAutoLoginUsername.Text = "Username for automatic login";
+            lblAutoLoginUsername.AutoSize = true;
+            lblAutoLoginUsername.Location = new Point(10, 135);
+            lblAutoLoginUsername.Name = "lblAutoLoginUsername";
+            lblAutoLoginUsername.Size = new Size(182, 17);
+            lblAutoLoginUsername.TabIndex = 7;
+            lblAutoLoginUsername.Text = "Username for automatic login";
             // 
             // numRememberMeExpires
             // 
-            this.numRememberMeExpires.Location = new System.Drawing.Point(387, 82);
-            this.numRememberMeExpires.Maximum = new decimal(new int[] {
-            365,
-            0,
-            0,
-            0});
-            this.numRememberMeExpires.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numRememberMeExpires.Name = "numRememberMeExpires";
-            this.numRememberMeExpires.Size = new System.Drawing.Size(100, 23);
-            this.numRememberMeExpires.TabIndex = 6;
-            this.numRememberMeExpires.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.numRememberMeExpires.ValueChanged += new System.EventHandler(this.control_Changed);
+            numRememberMeExpires.Location = new Point(387, 93);
+            numRememberMeExpires.Maximum = new decimal(new int[] { 365, 0, 0, 0 });
+            numRememberMeExpires.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numRememberMeExpires.Name = "numRememberMeExpires";
+            numRememberMeExpires.Size = new Size(100, 23);
+            numRememberMeExpires.TabIndex = 6;
+            numRememberMeExpires.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            numRememberMeExpires.ValueChanged += control_Changed;
             // 
             // lblRememberMeExpires
             // 
-            this.lblRememberMeExpires.AutoSize = true;
-            this.lblRememberMeExpires.Location = new System.Drawing.Point(10, 86);
-            this.lblRememberMeExpires.Name = "lblRememberMeExpires";
-            this.lblRememberMeExpires.Size = new System.Drawing.Size(107, 15);
-            this.lblRememberMeExpires.TabIndex = 5;
-            this.lblRememberMeExpires.Text = "Login expires, days";
+            lblRememberMeExpires.AutoSize = true;
+            lblRememberMeExpires.Location = new Point(10, 97);
+            lblRememberMeExpires.Name = "lblRememberMeExpires";
+            lblRememberMeExpires.Size = new Size(120, 17);
+            lblRememberMeExpires.TabIndex = 5;
+            lblRememberMeExpires.Text = "Login expires, days";
             // 
             // chkAllowRememberMe
             // 
-            this.chkAllowRememberMe.AutoSize = true;
-            this.chkAllowRememberMe.Location = new System.Drawing.Point(472, 55);
-            this.chkAllowRememberMe.Name = "chkAllowRememberMe";
-            this.chkAllowRememberMe.Size = new System.Drawing.Size(15, 14);
-            this.chkAllowRememberMe.TabIndex = 4;
-            this.chkAllowRememberMe.UseVisualStyleBackColor = true;
-            this.chkAllowRememberMe.CheckedChanged += new System.EventHandler(this.chkAllowRememberMe_CheckedChanged);
+            chkAllowRememberMe.AutoSize = true;
+            chkAllowRememberMe.Location = new Point(472, 62);
+            chkAllowRememberMe.Name = "chkAllowRememberMe";
+            chkAllowRememberMe.Size = new Size(15, 14);
+            chkAllowRememberMe.TabIndex = 4;
+            chkAllowRememberMe.UseVisualStyleBackColor = true;
+            chkAllowRememberMe.CheckedChanged += chkAllowRememberMe_CheckedChanged;
             // 
             // lblAllowRememberMe
             // 
-            this.lblAllowRememberMe.AutoSize = true;
-            this.lblAllowRememberMe.Location = new System.Drawing.Point(10, 55);
-            this.lblAllowRememberMe.Name = "lblAllowRememberMe";
-            this.lblAllowRememberMe.Size = new System.Drawing.Size(139, 15);
-            this.lblAllowRememberMe.TabIndex = 3;
-            this.lblAllowRememberMe.Text = "Allow to remember login";
+            lblAllowRememberMe.AutoSize = true;
+            lblAllowRememberMe.Location = new Point(10, 62);
+            lblAllowRememberMe.Name = "lblAllowRememberMe";
+            lblAllowRememberMe.Size = new Size(153, 17);
+            lblAllowRememberMe.TabIndex = 3;
+            lblAllowRememberMe.Text = "Allow to remember login";
             // 
             // chkRequireCaptcha
             // 
-            this.chkRequireCaptcha.AutoSize = true;
-            this.chkRequireCaptcha.Location = new System.Drawing.Point(472, 26);
-            this.chkRequireCaptcha.Name = "chkRequireCaptcha";
-            this.chkRequireCaptcha.Size = new System.Drawing.Size(15, 14);
-            this.chkRequireCaptcha.TabIndex = 2;
-            this.chkRequireCaptcha.UseVisualStyleBackColor = true;
-            this.chkRequireCaptcha.CheckedChanged += new System.EventHandler(this.control_Changed);
+            chkRequireCaptcha.AutoSize = true;
+            chkRequireCaptcha.Location = new Point(472, 29);
+            chkRequireCaptcha.Name = "chkRequireCaptcha";
+            chkRequireCaptcha.Size = new Size(15, 14);
+            chkRequireCaptcha.TabIndex = 2;
+            chkRequireCaptcha.UseVisualStyleBackColor = true;
+            chkRequireCaptcha.CheckedChanged += control_Changed;
             // 
             // lblRequireCaptcha
             // 
-            this.lblRequireCaptcha.AutoSize = true;
-            this.lblRequireCaptcha.Location = new System.Drawing.Point(10, 26);
-            this.lblRequireCaptcha.Name = "lblRequireCaptcha";
-            this.lblRequireCaptcha.Size = new System.Drawing.Size(135, 15);
-            this.lblRequireCaptcha.TabIndex = 1;
-            this.lblRequireCaptcha.Text = "Require captcha at login";
+            lblRequireCaptcha.AutoSize = true;
+            lblRequireCaptcha.Location = new Point(10, 29);
+            lblRequireCaptcha.Name = "lblRequireCaptcha";
+            lblRequireCaptcha.Size = new Size(150, 17);
+            lblRequireCaptcha.TabIndex = 1;
+            lblRequireCaptcha.Text = "Require captcha at login";
+            // 
+            // gbGoogleSSO
+            // 
+            gbGoogleSSO.Controls.Add(txtGoogleClientSecret);
+            gbGoogleSSO.Controls.Add(lblGoogleClientSecret);
+            gbGoogleSSO.Controls.Add(txtGoogleClientId);
+            gbGoogleSSO.Controls.Add(lblGoogleClientId);
+            gbGoogleSSO.Controls.Add(txtGoogleLoginUri);
+            gbGoogleSSO.Controls.Add(lblGoogleLoginUri);
+            gbGoogleSSO.Location = new Point(0, 209);
+            gbGoogleSSO.Margin = new Padding(10, 3, 10, 11);
+            gbGoogleSSO.Name = "gbGoogleSSO";
+            gbGoogleSSO.Padding = new Padding(10, 3, 10, 11);
+            gbGoogleSSO.Size = new Size(500, 135);
+            gbGoogleSSO.TabIndex = 10;
+            gbGoogleSSO.TabStop = false;
+            gbGoogleSSO.Text = "GoogleSSO";
+            // 
+            // txtGoogleClientSecret
+            // 
+            txtGoogleClientSecret.Location = new Point(283, 88);
+            txtGoogleClientSecret.Name = "txtGoogleClientSecret";
+            txtGoogleClientSecret.Size = new Size(200, 23);
+            txtGoogleClientSecret.TabIndex = 10;
+            txtGoogleClientSecret.UseSystemPasswordChar = true;
+            txtGoogleClientSecret.TextChanged += control_Changed;
+            // 
+            // lblGoogleClientSecret
+            // 
+            lblGoogleClientSecret.AutoSize = true;
+            lblGoogleClientSecret.Location = new Point(13, 93);
+            lblGoogleClientSecret.Name = "lblGoogleClientSecret";
+            lblGoogleClientSecret.Size = new Size(124, 17);
+            lblGoogleClientSecret.TabIndex = 11;
+            lblGoogleClientSecret.Text = "Google client secret";
+            // 
+            // txtGoogleClientId
+            // 
+            txtGoogleClientId.Location = new Point(283, 57);
+            txtGoogleClientId.Name = "txtGoogleClientId";
+            txtGoogleClientId.Size = new Size(200, 23);
+            txtGoogleClientId.TabIndex = 9;
+            txtGoogleClientId.UseSystemPasswordChar = true;
+            txtGoogleClientId.TextChanged += control_Changed;
+            // 
+            // lblGoogleClientId
+            // 
+            lblGoogleClientId.AutoSize = true;
+            lblGoogleClientId.Location = new Point(13, 62);
+            lblGoogleClientId.Name = "lblGoogleClientId";
+            lblGoogleClientId.Size = new Size(100, 17);
+            lblGoogleClientId.TabIndex = 9;
+            lblGoogleClientId.Text = "Google client id";
+            // 
+            // txtGoogleLoginUri
+            // 
+            txtGoogleLoginUri.Location = new Point(283, 24);
+            txtGoogleLoginUri.Name = "txtGoogleLoginUri";
+            txtGoogleLoginUri.Size = new Size(200, 23);
+            txtGoogleLoginUri.TabIndex = 8;
+            txtGoogleLoginUri.TextChanged += control_Changed;
+            // 
+            // lblGoogleLoginUri
+            // 
+            lblGoogleLoginUri.AutoSize = true;
+            lblGoogleLoginUri.Location = new Point(13, 29);
+            lblGoogleLoginUri.Name = "lblGoogleLoginUri";
+            lblGoogleLoginUri.Size = new Size(59, 17);
+            lblGoogleLoginUri.TabIndex = 7;
+            lblGoogleLoginUri.Text = "Login uri";
             // 
             // CtrlLoginOptions
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.gbLoginOptions);
-            this.Name = "CtrlLoginOptions";
-            this.Size = new System.Drawing.Size(550, 200);
-            this.Load += new System.EventHandler(this.CtrlLoginOptions_Load);
-            this.gbLoginOptions.ResumeLayout(false);
-            this.gbLoginOptions.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numRememberMeExpires)).EndInit();
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 17F);
+            AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(gbGoogleSSO);
+            Controls.Add(gbLoginOptions);
+            Name = "CtrlLoginOptions";
+            Size = new Size(521, 389);
+            Load += CtrlLoginOptions_Load;
+            gbLoginOptions.ResumeLayout(false);
+            gbLoginOptions.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numRememberMeExpires).EndInit();
+            gbGoogleSSO.ResumeLayout(false);
+            gbGoogleSSO.PerformLayout();
+            ResumeLayout(false);
         }
 
         #endregion
@@ -197,5 +265,12 @@
         private Label lblAllowRememberMe;
         private CheckBox chkRequireCaptcha;
         private Label lblRequireCaptcha;
+        private GroupBox gbGoogleSSO;
+        private TextBox txtGoogleClientSecret;
+        private Label lblGoogleClientSecret;
+        private TextBox txtGoogleClientId;
+        private Label lblGoogleClientId;
+        private TextBox txtGoogleLoginUri;
+        private Label lblGoogleLoginUri;
     }
 }

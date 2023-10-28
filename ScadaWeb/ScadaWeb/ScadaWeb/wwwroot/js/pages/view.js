@@ -54,6 +54,7 @@ var viewPage = {
 
     _getOuterHeight: function (elemID) {
         let jqObj = $("#" + elemID);
+        if (!jqObj || jqObj.length == 0) return 0;
         return jqObj.hasClass("hidden") || jqObj.css("display") === "none"
             ? 0
             : jqObj.outerHeight();

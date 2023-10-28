@@ -34,11 +34,14 @@ namespace Scada.Web.Pages
         public int ViewID { get; set; }
         public string ViewFrameUrl { get; set; }
 
+        public bool ShowBottomArea { get; set; } //显示底部区域
 
         public void OnGet(int? id)
         {
             ViewID = id ?? userContext.Views.GetFirstViewID() ?? 0;
             ViewData["SelectedViewID"] = ViewID; // used by _MainLayout
+
+            ShowBottomArea = webContext.AppConfig.DisplayOptions.ShowEventView;
 
             if (viewLoader.GetViewSpec(ViewID, out ViewSpec viewSpec, out string errMsg))
             {

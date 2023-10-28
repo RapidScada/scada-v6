@@ -25,6 +25,8 @@
     <Phrase key="spanExitFullscreenBtn_ToolTip">Normal View</Phrase>
     <Phrase key="divMainMenuTab">Main Menu</Phrase>
     <Phrase key="divViewExplorerTab">Views</Phrase>
+	 <Phrase key="btnLayerConfirm">Confirm</Phrase>
+	 <Phrase key="btnLayerCancel">Cancel</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Shared._MainLayout.Modal">
     <Phrase key="Ok">OK</Phrase>
@@ -92,6 +94,13 @@
 	<Phrase key="btnPwdConfirm">Confirm</Phrase>
 	<Phrase key="btnPwdCancel">Cancel</Phrase>
 	<Phrase key="MsgPwdModified">Modified Success</Phrase>
+	<Phrase key="btnLayerConfirm">Confirm</Phrase>
+	<Phrase key="btnLayerCancel">Cancel</Phrase>
+	<Phrase key="tipsReenterdPwdNotMatch">New password and re-entered password do not match.</Phrase>
+	<Phrase key="tipsPwdLenRule">Password length must be greater than {0} characters.</Phrase>
+	<Phrase key="tipsPwdContNum">Password should contains number.</Phrase>
+	<Phrase key="tipsPwdContLetter">Password should contains letter(lower and upper).</Phrase>
+	<Phrase key="tipsPwdContSymbol">Password should contains symbol.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.UserManager">
     <Phrase key="PageTitle">User Manager</Phrase>

@@ -45,7 +45,7 @@
                     dataType: 'json',
                     success: function (data) {
                         if (!data.ok) {
-                            layer.confirm(data.msg + ',modify now?', { icon: 3, title: 'tips' }, function (index) {
+                            layer.confirm(data.msg + ',modify now?', { icon: 3, title: 'tips', btn: ['@dict.btnLayerConfirm', '@dict.btnLayerCancel'] }, function (index) {
                                 window.location.href = '@Url.Content("/UserProfile")'
                             });
                             sessionStorage.setItem("checkdPwd_@userID", true)

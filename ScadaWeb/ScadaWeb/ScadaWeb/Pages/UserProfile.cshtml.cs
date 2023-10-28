@@ -37,7 +37,7 @@ namespace Scada.Web.Pages
         public string NewPwd { get; set; }
         public string NewRePwd { get; set; }
 
-        public string PwdComplicatedFormatTips { get; set; } = "password should contains num";
+        public string PwdComplicatedFormatTips { get; set; } = "password has no rules";
 
         public bool IsFirstLogin { get; set; } = false;
 

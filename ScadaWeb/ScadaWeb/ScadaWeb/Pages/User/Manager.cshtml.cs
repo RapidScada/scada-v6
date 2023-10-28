@@ -21,6 +21,7 @@ namespace Scada.Web.Pages
         private readonly IUserContext userContext;
         public Dictionary<int, string> RoleMapperDic = new Dictionary<int, string>();
         public string RoleMapper = string.Empty;
+        public string CurUserName = string.Empty;
         public UserManagerModel(IWebContext webContext,IUserContext userContext)
         {
             this.userContext = userContext;
@@ -29,7 +30,8 @@ namespace Scada.Web.Pages
 
         public IActionResult OnGet()
         {
-            if(userContext.UserEntity.RoleID != RoleID.Administrator)
+            CurUserName = userContext.UserEntity.Name;
+            if (userContext.UserEntity.RoleID != RoleID.Administrator)
             {
                 return RedirectToPage(WebPath.AccessDeniedPage);
             }

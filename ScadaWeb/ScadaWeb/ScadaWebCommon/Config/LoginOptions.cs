@@ -43,6 +43,10 @@ namespace Scada.Web.Config
             RememberMeExpires = 30;
             AutoLoginUsername = "";
             AutoLoginPassword = "";
+            GoogleEnable = true;
+            GoogleLoginUri = "";
+            GoogleClientId = "";
+            GoogleClientSecret = "";
         }
 
 
@@ -72,6 +76,22 @@ namespace Scada.Web.Config
         public string AutoLoginPassword { get; set; }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool GoogleEnable { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string GoogleLoginUri { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string GoogleClientId { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string GoogleClientSecret { get; set; }
 
         /// <summary>
         /// Loads the options from the XML node.
@@ -84,6 +104,12 @@ namespace Scada.Web.Config
             RememberMeExpires = xmlNode.GetChildAsInt("RememberMeExpires", RememberMeExpires);
             AutoLoginUsername = xmlNode.GetChildAsString("AutoLoginUsername");
             AutoLoginPassword = ScadaUtils.Decrypt(xmlNode.GetChildAsString("AutoLoginPassword"));
+
+
+            GoogleEnable = xmlNode.GetChildAsBool("GoogleEnable", true);
+            GoogleLoginUri = xmlNode.GetChildAsString("GoogleLoginUri");
+            GoogleClientId = xmlNode.GetChildAsString("GoogleClientId");
+            GoogleClientSecret = xmlNode.GetChildAsString("GoogleClientSecret");
         }
 
         /// <summary>
@@ -97,6 +123,11 @@ namespace Scada.Web.Config
             xmlElem.AppendElem("RememberMeExpires", RememberMeExpires);
             xmlElem.AppendElem("AutoLoginUsername", AutoLoginUsername);
             xmlElem.AppendElem("AutoLoginPassword", ScadaUtils.Encrypt(AutoLoginPassword));
+
+            xmlElem.AppendElem("GoogleEnable", GoogleEnable);
+            xmlElem.AppendElem("GoogleLoginUri", GoogleLoginUri);
+            xmlElem.AppendElem("GoogleClientId", GoogleClientId);
+            xmlElem.AppendElem("GoogleClientSecret", GoogleClientSecret);
         }
     }
 }

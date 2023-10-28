@@ -134,28 +134,29 @@ namespace Scada.Web
                     options.XmlEncryptor = new XmlEncryptor(WebContext.Log);
                 });
 
+            var loginOpts = WebContext.AppConfig.LoginOptions;
             services
-                .AddAuthentication(options =>
-                {
-                    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
-                })
-                .AddCookie(options =>
-                {
-                    options.AccessDeniedPath = WebPath.AccessDeniedPage;
-                    options.LoginPath = WebPath.LoginPage;
-                    options.LogoutPath = WebPath.LogoutPage;
-                    options.Cookie.Name = "CloudScada.Cookies";
-                    options.Events = new CookieAuthEvents(services.BuildServiceProvider());
-                })
-                .AddCookie(IdentityConstants.TwoFactorUserIdScheme)
-                .AddGoogle(options =>
-                {
-                    options.ClientId = "49158794855-1f7r4a4vu3p34trsoei0kbe80k0l6ptp.apps.googleusercontent.com";
-                    options.ClientSecret = "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";
-                    options.CallbackPath = "/External";
-                    options.ForwardDefault = CookieAuthenticationDefaults.AuthenticationScheme;
-                });
+                    .AddAuthentication(options =>
+                    {
+                        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                        options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+                    })
+                    .AddCookie(options =>
+                    {
+                        options.AccessDeniedPath = WebPath.AccessDeniedPage;
+                        options.LoginPath = WebPath.LoginPage;
+                        options.LogoutPath = WebPath.LogoutPage;
+                        options.Cookie.Name = "CloudScada.Cookies";
+                        options.Events = new CookieAuthEvents(services.BuildServiceProvider());
+                    })
+                    .AddCookie(IdentityConstants.TwoFactorUserIdScheme)
+                    .AddGoogle(options =>
+                    {
+                        options.ClientId = loginOpts.GoogleClientId;
+                        options.ClientSecret = loginOpts.GoogleClientSecret;
+                        options.CallbackPath = "/External";
+                        options.ForwardDefault = CookieAuthenticationDefaults.AuthenticationScheme;
+                    });
 
             services
                 .AddAuthorization(options =>
@@ -198,6 +199,7 @@ namespace Scada.Web
         /// </summary>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseMiddleware<RealIpMiddleware>();
             app.UseForwardedHeaders();
             app.UsePathBase(Configuration["pathBase"]);
 

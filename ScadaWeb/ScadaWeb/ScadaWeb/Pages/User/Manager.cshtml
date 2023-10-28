@@ -84,7 +84,7 @@
         {{#  } else { }}
               <button type="button" class="layui-btn layui-btn-normal layui-btn-xs" lay-event="tool-enable">@dict.lblEnable</button>
         {{#  } }}
-        {{#  if(d.name != 'admin'){ }}
+        {{#  if(d.name != 'admin' && d.name != '@Model.CurUserName'){ }}
             <button type="button" class="layui-btn layui-btn-danger layui-btn-xs" lay-event="tool-delete">@dict.lblDelete</button>
         {{#  } }}
     </script>

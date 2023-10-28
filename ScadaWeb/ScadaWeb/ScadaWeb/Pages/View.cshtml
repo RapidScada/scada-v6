@@ -32,5 +32,10 @@ else
     <div id="divView"><iframe id="frameView"></iframe></div>
     <div id="divViewSplitter" class="splitter hor"></div>
     <div id="divDataWindow"><iframe id="frameDataWindow"></iframe></div>
-    <div id="divBottomPanel">@Model.RenderBottomTabs()<div id="divHideDataWindowBtn" class="bottom-pnl-btn" title="@dict.divHideDataWindowBtn_ToolTip"><i class="fa-solid fa-circle-chevron-down"></i></div></div>
+
+    <!-- DoVol勾选不显示事件后整个底部都隐藏掉 -->
+    @if (@Model.ShowBottomArea)
+    {
+        <div id="divBottomPanel">@Model.RenderBottomTabs()<div id="divHideDataWindowBtn" class="bottom-pnl-btn" title="@dict.divHideDataWindowBtn_ToolTip"><i class="fa-solid fa-circle-chevron-down"></i></div></div>
+    }
 }
