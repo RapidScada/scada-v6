@@ -52,7 +52,7 @@
   </CnlStatus>
   <CnlStatus>
     <CnlStatusID>11</CnlStatusID>
-    <Name>Extremely low</Name>
+    <Name>Low low</Name>
     <MainColor>Blue</MainColor>
     <SecondColor>Blue</SecondColor>
     <BackColor>DodgerBlue</BackColor>
@@ -92,7 +92,7 @@
   </CnlStatus>
   <CnlStatus>
     <CnlStatusID>15</CnlStatusID>
-    <Name>Extremely high</Name>
+    <Name>High high</Name>
     <MainColor>Red</MainColor>
     <SecondColor>Red</SecondColor>
     <BackColor>LightCoral</BackColor>
