@@ -104,10 +104,10 @@
     <Phrase key="Name">Name</Phrase>
     <Phrase key="IsBoundToCnl">Is Bound to Channels</Phrase>
     <Phrase key="IsShared">Is Shared</Phrase>
-    <Phrase key="LoLo">Extremely Low</Phrase>
+    <Phrase key="LoLo">Low Low</Phrase>
     <Phrase key="Low">Low</Phrase>
     <Phrase key="High">High</Phrase>
-    <Phrase key="HiHi">Extremely High</Phrase>
+    <Phrase key="HiHi">High High</Phrase>
     <Phrase key="Deadband">Deadband</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.ObjTable">
@@ -362,10 +362,10 @@
     <Phrase key="lblLim">Limit</Phrase>
     <Phrase key="btnCreateLim">Create</Phrase>
     <Phrase key="chkShared">Show only shared limits</Phrase>
-    <Phrase key="lblLoLo">Extremely low</Phrase>
+    <Phrase key="lblLoLo">Low low</Phrase>
     <Phrase key="lblLow">Low</Phrase>
     <Phrase key="lblHigh">High</Phrase>
-    <Phrase key="lblHiHi">Extremely high</Phrase>
+    <Phrase key="lblHiHi">High high</Phrase>
     <Phrase key="lblDeadband">Deadband</Phrase>
     <Phrase key="pageArchives">Archives</Phrase>
     <Phrase key="pageEvents">Events</Phrase>
@@ -415,10 +415,10 @@
     <Phrase key="lblName">Name</Phrase>
     <Phrase key="chkIsBoundToCnl">Bound to channels</Phrase>
     <Phrase key="chkIsShared">Shared</Phrase>
-    <Phrase key="lblLoLo">Extremely low</Phrase>
+    <Phrase key="lblLoLo">Low low</Phrase>
     <Phrase key="lblLow">Low</Phrase>
     <Phrase key="lblHigh">High</Phrase>
-    <Phrase key="lblHiHi">Extremely high</Phrase>
+    <Phrase key="lblHiHi">High high</Phrase>
     <Phrase key="lblDeadband">Deadband</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>

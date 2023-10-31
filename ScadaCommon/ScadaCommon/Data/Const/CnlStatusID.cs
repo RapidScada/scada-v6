@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2023
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -38,11 +38,11 @@ namespace Scada.Data.Const
         public const int Archival = 2;
         public const int FormulaError = 3;
         public const int Unreliable = 4;
-        public const int ExtremelyLow = 11;
+        public const int LoLo = 11;
         public const int Low = 12;
         public const int Normal = 13;
         public const int High = 14;
-        public const int ExtremelyHigh = 15;
+        public const int HiHi = 15;
         public const int Good = 21;
         public const int Warning = 22;
         public const int Error = 23;
