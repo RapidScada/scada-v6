@@ -130,6 +130,7 @@
     <Phrase key="CnlStat">Статус канала</Phrase>
     <Phrase key="Severity">Серьёзность</Phrase>
     <Phrase key="AckRequired">Требуется квитирование</Phrase>
+    <Phrase key="Ack">Событие квитировано</Phrase>
     <Phrase key="AckTimestamp">Время квитирования</Phrase>
     <Phrase key="AckUserID">Идентификатор квитировавшего пользователя</Phrase>
     <Phrase key="TextFormat">Формат текста</Phrase>

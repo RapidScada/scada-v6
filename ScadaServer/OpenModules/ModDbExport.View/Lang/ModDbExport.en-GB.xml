@@ -130,6 +130,7 @@
     <Phrase key="CnlStat">Channel status</Phrase>
     <Phrase key="Severity">Severity</Phrase>
     <Phrase key="AckRequired">Acknowledgement is required</Phrase>
+    <Phrase key="Ack">Event is acknowledged</Phrase>
     <Phrase key="AckTimestamp">Acknowledgement timestamp</Phrase>
     <Phrase key="AckUserID">Acknowledgement user ID</Phrase>
     <Phrase key="TextFormat">Text format</Phrase>

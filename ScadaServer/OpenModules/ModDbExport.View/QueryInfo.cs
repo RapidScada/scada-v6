@@ -97,6 +97,7 @@ namespace Scada.Server.Modules.ModDbExport.View
                 new QueryParam("@cnlStat", dict.CnlStat),
                 new QueryParam("@severity", dict.Severity),
                 new QueryParam("@ackRequired", dict.AckRequired),
+                new QueryParam("@ack", dict.Ack),
                 new QueryParam("@ackTimestamp", dict.AckTimestamp),
                 new QueryParam("@ackUserID", dict.AckUserID),
                 new QueryParam("@textFormat", dict.TextFormat),
