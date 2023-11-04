@@ -10,5 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)CsvReaderOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DemoPeriod.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ReadMode.cs" />
   </ItemGroup>
 </Project>
