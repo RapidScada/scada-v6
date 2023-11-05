@@ -3,6 +3,7 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
+using Scada.Comm.Drivers.DrvSms;
 using Scada.Forms.Forms;
 
 namespace Scada.Comm.Drivers.DrvCsvReader.View
@@ -62,7 +63,7 @@ namespace Scada.Comm.Drivers.DrvCsvReader.View
 
             for (int tagNum = 1; tagNum <= options.TagCount; tagNum++)
             {
-                string tagCode = DriverUtils.GetTagCode(tagNum);
+                string tagCode = TagCode.GetMainTagCode(tagNum);
                 cnlPrototypes.Add(new CnlPrototype
                 {
                     Name = tagCode,

@@ -13,13 +13,5 @@ namespace Scada.Comm.Drivers.DrvCsvReader
         /// The driver code.
         /// </summary>
         public const string DriverCode = "DrvCsvReader";
-
-        /// <summary>
-        /// Gets a tag code corresponding to the tag number.
-        /// </summary>
-        public static string GetTagCode(int tagNum)
-        {
-            return "Tag" + tagNum;
-        }
     }
 }

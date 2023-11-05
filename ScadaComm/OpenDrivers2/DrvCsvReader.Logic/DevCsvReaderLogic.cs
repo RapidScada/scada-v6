@@ -3,7 +3,11 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
+using Scada.Comm.Drivers.DrvSms;
+using Scada.Data.Const;
 using Scada.Lang;
+using System.Globalization;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace Scada.Comm.Drivers.DrvCsvReader.Logic
 {
@@ -13,7 +17,27 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
     /// </summary>
     internal class DevCsvReaderLogic : DeviceLogic
     {
+        /// <summary>
+        /// Represents a data row.
+        /// </summary>
+        private class DataRow
+        {
+            public DataRow(int tagCount)
+            {
+                Timestamp = DateTime.MinValue;
+                Values = new double[tagCount];
+            }
+            public DateTime Timestamp { get; set; }
+            public double[] Values { get; }
+        }
+
+        /// <summary>
+        /// The string that identifies a header row.
+        /// </summary>
+        private const string HeaderText = "Timestamp";
+
         private readonly CsvReaderOptions options; // the CSV reader options
+        private readonly NumberFormatInfo nfi;     // the value format
         private FileStream fileStream;             // the stream of the data file
         private TextReader textReader;             // reads the data file
 
@@ -25,6 +49,7 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
             : base(commContext, lineContext, deviceConfig)
         {
             options = new CsvReaderOptions(deviceConfig.PollingOptions.CustomOptions);
+            nfi = new NumberFormatInfo { NumberDecimalSeparator = options.DecimalSeparator };
             fileStream = null;
             textReader = null;
 
@@ -71,6 +96,86 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
             }
         }
 
+        /// <summary>
+        /// Reads data from the file.
+        /// </summary>
+        private void ReadData()
+        {
+            try
+            {
+                if (textReader != null)
+                {
+                    if (options.ReadMode == ReadMode.RealTime)
+                        ReadDataRealTime();
+                    else
+                        ReadDataDemo();
+                }
+            }
+            catch (Exception ex)
+            {
+                DeviceData.Invalidate(0, options.TagCount);
+                LastRequestOK = false;
+                Log.WriteLine(Locale.IsRussian ?
+                    "Ошибка при чтении из файла: {0}" :
+                    "Error reading from file: {0}", ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Reads data in RealTime mode.
+        /// </summary>
+        private void ReadDataRealTime()
+        {
+            string line = textReader.ReadLine();
+
+            if (line == null)
+            {
+
+            }
+            else
+            {
+                string[] parts = line.Split(options.FieldDelimiter);
+
+                if (parts[0] == HeaderText)
+                {
+                    // get tag names from header
+                }
+                else
+                {
+                    DateTime utcNow = DateTime.UtcNow;
+
+                    if (DateTime.TryParse(parts[0], out DateTime timestamp))
+                    {
+                        timestamp = DateTime.SpecifyKind(timestamp, DateTimeKind.Utc);
+                        DeviceData.SetDateTime(TagCode.Timestamp, timestamp, CnlStatusID.Defined);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Reads data in Demo mode.
+        /// </summary>
+        private void ReadDataDemo()
+        {
+
+        }
+
+        /// <summary>
+        /// Retrieves data values from the line parts.
+        /// </summary>
+        private void RetrieveValues(string[] lineParts, DataRow dataRow)
+        {
+            for (int valIdx = 0; valIdx < dataRow.Values.Length; valIdx++)
+            {
+                int partIdx = valIdx + 1;
+                dataRow.Values[valIdx] = partIdx <= lineParts.Length && 
+                    double.TryParse(lineParts[partIdx], NumberStyles.Float, nfi, out double value)
+                    ? value 
+                    : double.NaN;
+            }
+        }
+
 
         /// <summary>
         /// Performs actions when starting a communication line.
@@ -94,16 +199,21 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
         /// </summary>
         public override void InitDeviceTags()
         {
-            TagGroup tagGroup = new();
+            // Main Data group
+            TagGroup tagGroup = new("Main Data");
 
             for (int tagNum = 1; tagNum <= options.TagCount; tagNum++)
             {
-                string tagCode = DriverUtils.GetTagCode(tagNum);
+                string tagCode = TagCode.GetMainTagCode(tagNum);
                 tagGroup.AddTag(tagCode, tagCode);
             }
 
             DeviceTags.AddGroup(tagGroup);
-            DeviceTags.FlattenGroups = true;
+
+            // Reading Status group
+            tagGroup = new("Reading Status");
+            tagGroup.AddTag(TagCode.Timestamp, TagCode.Timestamp).SetFormat(TagFormat.DateTime);
+            DeviceTags.AddGroup(tagGroup);
         }
 
         /// <summary>
@@ -112,12 +222,7 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
         public override void Session()
         {
             base.Session();
-
-            if (textReader != null)
-            {
-
-            }
-
+            ReadData();
             FinishRequest();
             FinishSession();
         }

@@ -13,5 +13,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)DemoPeriod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DriverUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ReadMode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TagCode.cs" />
   </ItemGroup>
 </Project>
