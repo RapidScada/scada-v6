@@ -62,7 +62,7 @@ namespace Scada.Comm.Drivers.DrvCsvReader.View
 
             for (int tagNum = 1; tagNum <= options.TagCount; tagNum++)
             {
-                string tagCode = "Tag" + tagNum;
+                string tagCode = DriverUtils.GetTagCode(tagNum);
                 cnlPrototypes.Add(new CnlPrototype
                 {
                     Name = tagCode,
