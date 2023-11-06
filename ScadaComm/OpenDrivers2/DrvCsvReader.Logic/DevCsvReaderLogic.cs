@@ -152,8 +152,7 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
                 }
                 else
                 {
-                    DeviceData.Invalidate(TagCode.Timestamp);
-                    DeviceData.Invalidate(TagCode.Position);
+                    InvalidateData();
                 }
             }
             catch (Exception ex)
