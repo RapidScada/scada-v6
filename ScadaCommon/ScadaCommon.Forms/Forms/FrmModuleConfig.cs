@@ -281,12 +281,12 @@ namespace Scada.Forms.Forms
 
         private void propertyGrid_SelectedGridItemChanged(object sender, SelectedGridItemChangedEventArgs e)
         {
-            if (e.OldSelection.Value is INotifyPropertyChanged notifyPropertyChanged1)
+            if (e.OldSelection?.Value is INotifyPropertyChanged notifyPropertyChanged1)
             {
                 notifyPropertyChanged1.PropertyChanged -= selectedGridItem_PropertyChanged;
             }
 
-            if (e.NewSelection.Value is INotifyPropertyChanged notifyPropertyChanged2)
+            if (e.NewSelection?.Value is INotifyPropertyChanged notifyPropertyChanged2)
             {
                 notifyPropertyChanged2.PropertyChanged -= selectedGridItem_PropertyChanged;
                 notifyPropertyChanged2.PropertyChanged += selectedGridItem_PropertyChanged;
