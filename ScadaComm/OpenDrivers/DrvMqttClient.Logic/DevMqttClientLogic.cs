@@ -162,8 +162,12 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
         {
             // initialize engine
             jsEngine ??= new Engine()
-                .SetValue("log", new Action<string>(s => Log.WriteLine(s)))
-                .SetValue("setValue", new Action<int, double>((i, x) => { subscriptionTag.JsValues[i] = x; }));
+                .SetValue("log", new Action<string>(s => Log.WriteLine(s)));
+
+            // set script methods and variables that depend on current call
+            jsEngine.SetValue("setValue", new Action<int, double>((i, x) => { subscriptionTag.JsValues[i] = x; }));
+            jsEngine.SetValue("topic", message.Topic);
+            jsEngine.SetValue("payload", message.Payload);
 
             // load source code
             subscriptionTag.JsSource ??= 
@@ -177,10 +181,6 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
             {
                 subscriptionTag.JsValues[i] = double.NaN;
             }
-
-            // set script variables
-            jsEngine.SetValue("topic", message.Topic);
-            jsEngine.SetValue("payload", message.Payload);
 
             try
             {
