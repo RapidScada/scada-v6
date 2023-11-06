@@ -28,240 +28,234 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.toolStrip = new System.Windows.Forms.ToolStrip();
-            this.btnAdd = new System.Windows.Forms.ToolStripButton();
-            this.btnAddWithChoice = new System.Windows.Forms.ToolStripDropDownButton();
-            this.btnMoveUp = new System.Windows.Forms.ToolStripButton();
-            this.btnMoveDown = new System.Windows.Forms.ToolStripButton();
-            this.btnDelete = new System.Windows.Forms.ToolStripButton();
-            this.pnlBottom = new System.Windows.Forms.Panel();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.btnClose = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.treeView = new System.Windows.Forms.TreeView();
-            this.cmsTree = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.miCollapseAll = new System.Windows.Forms.ToolStripMenuItem();
-            this.ilTree = new System.Windows.Forms.ImageList(this.components);
-            this.propertyGrid = new System.Windows.Forms.PropertyGrid();
-            this.toolStrip.SuspendLayout();
-            this.pnlBottom.SuspendLayout();
-            this.tableLayoutPanel.SuspendLayout();
-            this.cmsTree.SuspendLayout();
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            toolStrip = new ToolStrip();
+            btnAdd = new ToolStripButton();
+            btnAddWithChoice = new ToolStripDropDownButton();
+            btnMoveUp = new ToolStripButton();
+            btnMoveDown = new ToolStripButton();
+            btnDelete = new ToolStripButton();
+            pnlBottom = new Panel();
+            btnSave = new Button();
+            btnClose = new Button();
+            btnCancel = new Button();
+            tableLayoutPanel = new TableLayoutPanel();
+            treeView = new TreeView();
+            cmsTree = new ContextMenuStrip(components);
+            miCollapseAll = new ToolStripMenuItem();
+            ilTree = new ImageList(components);
+            propertyGrid = new PropertyGrid();
+            toolStrip.SuspendLayout();
+            pnlBottom.SuspendLayout();
+            tableLayoutPanel.SuspendLayout();
+            cmsTree.SuspendLayout();
+            SuspendLayout();
             // 
             // toolStrip
             // 
-            this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnAdd,
-            this.btnAddWithChoice,
-            this.btnMoveUp,
-            this.btnMoveDown,
-            this.btnDelete});
-            this.toolStrip.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(734, 25);
-            this.toolStrip.TabIndex = 0;
-            this.toolStrip.Text = "toolStrip1";
+            toolStrip.Items.AddRange(new ToolStripItem[] { btnAdd, btnAddWithChoice, btnMoveUp, btnMoveDown, btnDelete });
+            toolStrip.Location = new Point(0, 0);
+            toolStrip.Name = "toolStrip";
+            toolStrip.Size = new Size(734, 25);
+            toolStrip.TabIndex = 0;
+            toolStrip.Text = "toolStrip1";
             // 
             // btnAdd
             // 
-            this.btnAdd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnAdd.Image = global::Scada.Forms.Properties.Resources.add;
-            this.btnAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(23, 22);
-            this.btnAdd.ToolTipText = "Add";
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            btnAdd.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            btnAdd.Image = Properties.Resources.add;
+            btnAdd.ImageTransparentColor = Color.Magenta;
+            btnAdd.Name = "btnAdd";
+            btnAdd.Size = new Size(23, 22);
+            btnAdd.ToolTipText = "Add";
+            btnAdd.Click += btnAdd_Click;
             // 
             // btnAddWithChoice
             // 
-            this.btnAddWithChoice.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnAddWithChoice.Image = global::Scada.Forms.Properties.Resources.add;
-            this.btnAddWithChoice.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnAddWithChoice.Name = "btnAddWithChoice";
-            this.btnAddWithChoice.Size = new System.Drawing.Size(29, 22);
+            btnAddWithChoice.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            btnAddWithChoice.Image = Properties.Resources.add;
+            btnAddWithChoice.ImageTransparentColor = Color.Magenta;
+            btnAddWithChoice.Name = "btnAddWithChoice";
+            btnAddWithChoice.Size = new Size(29, 22);
             // 
             // btnMoveUp
             // 
-            this.btnMoveUp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnMoveUp.Image = global::Scada.Forms.Properties.Resources.move_up;
-            this.btnMoveUp.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnMoveUp.Name = "btnMoveUp";
-            this.btnMoveUp.Size = new System.Drawing.Size(23, 22);
-            this.btnMoveUp.ToolTipText = "Move Up";
-            this.btnMoveUp.Click += new System.EventHandler(this.btnMoveUp_Click);
+            btnMoveUp.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            btnMoveUp.Image = Properties.Resources.move_up;
+            btnMoveUp.ImageTransparentColor = Color.Magenta;
+            btnMoveUp.Name = "btnMoveUp";
+            btnMoveUp.Size = new Size(23, 22);
+            btnMoveUp.ToolTipText = "Move Up";
+            btnMoveUp.Click += btnMoveUp_Click;
             // 
             // btnMoveDown
             // 
-            this.btnMoveDown.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnMoveDown.Image = global::Scada.Forms.Properties.Resources.move_down;
-            this.btnMoveDown.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnMoveDown.Name = "btnMoveDown";
-            this.btnMoveDown.Size = new System.Drawing.Size(23, 22);
-            this.btnMoveDown.ToolTipText = "Move Down";
-            this.btnMoveDown.Click += new System.EventHandler(this.btnMoveDown_Click);
+            btnMoveDown.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            btnMoveDown.Image = Properties.Resources.move_down;
+            btnMoveDown.ImageTransparentColor = Color.Magenta;
+            btnMoveDown.Name = "btnMoveDown";
+            btnMoveDown.Size = new Size(23, 22);
+            btnMoveDown.ToolTipText = "Move Down";
+            btnMoveDown.Click += btnMoveDown_Click;
             // 
             // btnDelete
             // 
-            this.btnDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnDelete.Image = global::Scada.Forms.Properties.Resources.delete;
-            this.btnDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(23, 22);
-            this.btnDelete.ToolTipText = "Delete";
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            btnDelete.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            btnDelete.Image = Properties.Resources.delete;
+            btnDelete.ImageTransparentColor = Color.Magenta;
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(23, 22);
+            btnDelete.ToolTipText = "Delete";
+            btnDelete.Click += btnDelete_Click;
             // 
             // pnlBottom
             // 
-            this.pnlBottom.Controls.Add(this.btnSave);
-            this.pnlBottom.Controls.Add(this.btnClose);
-            this.pnlBottom.Controls.Add(this.btnCancel);
-            this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlBottom.Location = new System.Drawing.Point(0, 496);
-            this.pnlBottom.Name = "pnlBottom";
-            this.pnlBottom.Size = new System.Drawing.Size(734, 45);
-            this.pnlBottom.TabIndex = 2;
+            pnlBottom.Controls.Add(btnSave);
+            pnlBottom.Controls.Add(btnClose);
+            pnlBottom.Controls.Add(btnCancel);
+            pnlBottom.Dock = DockStyle.Bottom;
+            pnlBottom.Location = new Point(0, 496);
+            pnlBottom.Name = "pnlBottom";
+            pnlBottom.Size = new Size(734, 45);
+            pnlBottom.TabIndex = 2;
             // 
             // btnSave
             // 
-            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(485, 10);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 0;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            btnSave.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnSave.Location = new Point(485, 10);
+            btnSave.Name = "btnSave";
+            btnSave.Size = new Size(75, 23);
+            btnSave.TabIndex = 0;
+            btnSave.Text = "Save";
+            btnSave.UseVisualStyleBackColor = true;
+            btnSave.Click += btnSave_Click;
             // 
             // btnClose
             // 
-            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClose.Location = new System.Drawing.Point(647, 10);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(75, 23);
-            this.btnClose.TabIndex = 2;
-            this.btnClose.Text = "Close";
-            this.btnClose.UseVisualStyleBackColor = true;
+            btnClose.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnClose.Location = new Point(647, 10);
+            btnClose.Name = "btnClose";
+            btnClose.Size = new Size(75, 23);
+            btnClose.TabIndex = 2;
+            btnClose.Text = "Close";
+            btnClose.UseVisualStyleBackColor = true;
             // 
             // btnCancel
             // 
-            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancel.Location = new System.Drawing.Point(566, 10);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 1;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            btnCancel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnCancel.Location = new Point(566, 10);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(75, 23);
+            btnCancel.TabIndex = 1;
+            btnCancel.Text = "Cancel";
+            btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Click += btnCancel_Click;
             // 
             // tableLayoutPanel
             // 
-            this.tableLayoutPanel.ColumnCount = 2;
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
-            this.tableLayoutPanel.Controls.Add(this.treeView, 0, 0);
-            this.tableLayoutPanel.Controls.Add(this.propertyGrid, 1, 0);
-            this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel.Location = new System.Drawing.Point(0, 25);
-            this.tableLayoutPanel.Name = "tableLayoutPanel";
-            this.tableLayoutPanel.RowCount = 1;
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(734, 471);
-            this.tableLayoutPanel.TabIndex = 1;
+            tableLayoutPanel.ColumnCount = 2;
+            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
+            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F));
+            tableLayoutPanel.Controls.Add(treeView, 0, 0);
+            tableLayoutPanel.Controls.Add(propertyGrid, 1, 0);
+            tableLayoutPanel.Dock = DockStyle.Fill;
+            tableLayoutPanel.Location = new Point(0, 25);
+            tableLayoutPanel.Name = "tableLayoutPanel";
+            tableLayoutPanel.RowCount = 1;
+            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel.Size = new Size(734, 471);
+            tableLayoutPanel.TabIndex = 1;
             // 
             // treeView
             // 
-            this.treeView.ContextMenuStrip = this.cmsTree;
-            this.treeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView.HideSelection = false;
-            this.treeView.ImageIndex = 0;
-            this.treeView.ImageList = this.ilTree;
-            this.treeView.Location = new System.Drawing.Point(3, 3);
-            this.treeView.Name = "treeView";
-            this.treeView.SelectedImageIndex = 0;
-            this.treeView.Size = new System.Drawing.Size(287, 465);
-            this.treeView.TabIndex = 0;
-            this.treeView.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterCollapseExpand);
-            this.treeView.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterCollapseExpand);
-            this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
+            treeView.ContextMenuStrip = cmsTree;
+            treeView.Dock = DockStyle.Fill;
+            treeView.HideSelection = false;
+            treeView.ImageIndex = 0;
+            treeView.ImageList = ilTree;
+            treeView.Location = new Point(3, 3);
+            treeView.Name = "treeView";
+            treeView.SelectedImageIndex = 0;
+            treeView.Size = new Size(287, 465);
+            treeView.TabIndex = 0;
+            treeView.AfterCollapse += treeView_AfterCollapseExpand;
+            treeView.AfterExpand += treeView_AfterCollapseExpand;
+            treeView.AfterSelect += treeView_AfterSelect;
             // 
             // cmsTree
             // 
-            this.cmsTree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miCollapseAll});
-            this.cmsTree.Name = "cmsTree";
-            this.cmsTree.Size = new System.Drawing.Size(137, 26);
+            cmsTree.Items.AddRange(new ToolStripItem[] { miCollapseAll });
+            cmsTree.Name = "cmsTree";
+            cmsTree.Size = new Size(137, 26);
             // 
             // miCollapseAll
             // 
-            this.miCollapseAll.Image = global::Scada.Forms.Properties.Resources.collapse_all;
-            this.miCollapseAll.Name = "miCollapseAll";
-            this.miCollapseAll.Size = new System.Drawing.Size(136, 22);
-            this.miCollapseAll.Text = "Collapse All";
-            this.miCollapseAll.Click += new System.EventHandler(this.miCollapseAll_Click);
+            miCollapseAll.Image = Properties.Resources.collapse_all;
+            miCollapseAll.Name = "miCollapseAll";
+            miCollapseAll.Size = new Size(136, 22);
+            miCollapseAll.Text = "Collapse All";
+            miCollapseAll.Click += miCollapseAll_Click;
             // 
             // ilTree
             // 
-            this.ilTree.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-            this.ilTree.ImageSize = new System.Drawing.Size(16, 16);
-            this.ilTree.TransparentColor = System.Drawing.Color.Transparent;
+            ilTree.ColorDepth = ColorDepth.Depth32Bit;
+            ilTree.ImageSize = new Size(16, 16);
+            ilTree.TransparentColor = Color.Transparent;
             // 
             // propertyGrid
             // 
-            this.propertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGrid.Location = new System.Drawing.Point(296, 3);
-            this.propertyGrid.Name = "propertyGrid";
-            this.propertyGrid.Size = new System.Drawing.Size(435, 465);
-            this.propertyGrid.TabIndex = 1;
-            this.propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid_PropertyValueChanged);
+            propertyGrid.Dock = DockStyle.Fill;
+            propertyGrid.Location = new Point(296, 3);
+            propertyGrid.Name = "propertyGrid";
+            propertyGrid.Size = new Size(435, 465);
+            propertyGrid.TabIndex = 1;
+            propertyGrid.PropertyValueChanged += propertyGrid_PropertyValueChanged;
+            propertyGrid.SelectedGridItemChanged += propertyGrid_SelectedGridItemChanged;
             // 
             // FrmModuleConfig
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(734, 541);
-            this.Controls.Add(this.tableLayoutPanel);
-            this.Controls.Add(this.pnlBottom);
-            this.Controls.Add(this.toolStrip);
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FrmModuleConfig";
-            this.ShowIcon = false;
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Module Configuration";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmModuleConfig_FormClosing);
-            this.Load += new System.EventHandler(this.FrmModuleConfig_Load);
-            this.toolStrip.ResumeLayout(false);
-            this.toolStrip.PerformLayout();
-            this.pnlBottom.ResumeLayout(false);
-            this.tableLayoutPanel.ResumeLayout(false);
-            this.cmsTree.ResumeLayout(false);
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            CancelButton = btnClose;
+            ClientSize = new Size(734, 541);
+            Controls.Add(tableLayoutPanel);
+            Controls.Add(pnlBottom);
+            Controls.Add(toolStrip);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "FrmModuleConfig";
+            ShowIcon = false;
+            ShowInTaskbar = false;
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Module Configuration";
+            FormClosing += FrmModuleConfig_FormClosing;
+            Load += FrmModuleConfig_Load;
+            toolStrip.ResumeLayout(false);
+            toolStrip.PerformLayout();
+            pnlBottom.ResumeLayout(false);
+            tableLayoutPanel.ResumeLayout(false);
+            cmsTree.ResumeLayout(false);
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        private System.Windows.Forms.ToolStrip toolStrip;
-        private System.Windows.Forms.Panel pnlBottom;
-        private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.Button btnClose;
-        private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
-        private System.Windows.Forms.TreeView treeView;
-        private System.Windows.Forms.PropertyGrid propertyGrid;
-        private System.Windows.Forms.ToolStripButton btnAdd;
-        private System.Windows.Forms.ToolStripButton btnMoveUp;
-        private System.Windows.Forms.ToolStripDropDownButton btnAddWithChoice;
-        private System.Windows.Forms.ToolStripButton btnMoveDown;
-        private System.Windows.Forms.ToolStripButton btnDelete;
-        private System.Windows.Forms.ImageList ilTree;
-        private System.Windows.Forms.ContextMenuStrip cmsTree;
-        private System.Windows.Forms.ToolStripMenuItem miCollapseAll;
+        private ToolStrip toolStrip;
+        private Panel pnlBottom;
+        private Button btnSave;
+        private Button btnClose;
+        private Button btnCancel;
+        private TableLayoutPanel tableLayoutPanel;
+        private TreeView treeView;
+        private PropertyGrid propertyGrid;
+        private ToolStripButton btnAdd;
+        private ToolStripButton btnMoveUp;
+        private ToolStripDropDownButton btnAddWithChoice;
+        private ToolStripButton btnMoveDown;
+        private ToolStripButton btnDelete;
+        private ImageList ilTree;
+        private ContextMenuStrip cmsTree;
+        private ToolStripMenuItem miCollapseAll;
     }
 }
