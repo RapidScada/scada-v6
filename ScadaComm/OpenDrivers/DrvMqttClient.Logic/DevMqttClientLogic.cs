@@ -307,14 +307,15 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
             {
                 if (subscriptionConfig.JsEnabled && subscriptionConfig.SubItems.Count > 0)
                 {
-                    for (int i = 0, cnt = subscriptionConfig.SubItems.Count; i < cnt; i++)
-                    {
-                        string suffix = "." + subscriptionConfig.SubItems[i];
-                        DeviceTag deviceTag = tagGroup.AddTag(
-                            subscriptionConfig.TagCode + suffix, 
-                            subscriptionConfig.DisplayName + suffix);
+                    int idx = 0;
 
-                        if (i == 0)
+                    foreach (string subItem in subscriptionConfig.SubItems)
+                    {
+                        DeviceTag deviceTag = tagGroup.AddTag(
+                            subscriptionConfig.TagCode + "." + subItem,
+                            subscriptionConfig.DisplayName + "." + subItem);
+
+                        if (idx++ == 0)
                             Subscribe(subscriptionConfig, deviceTag);
                     }
                 }

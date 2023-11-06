@@ -65,14 +65,13 @@ namespace Scada.Comm.Drivers.DrvMqttClient.View
             {
                 if (subscriptionConfig.JsEnabled && subscriptionConfig.SubItems.Count > 0)
                 {
-                    for (int i = 0, cnt = subscriptionConfig.SubItems.Count; i < cnt; i++)
+                    foreach (string subItem in subscriptionConfig.SubItems)
                     {
-                        string suffix = "." + subscriptionConfig.SubItems[i];
                         cnlPrototypes.Add(new CnlPrototype
                         {
-                            Name = subscriptionConfig.DisplayName + suffix,
+                            Name = subscriptionConfig.DisplayName + "." + subItem,
                             CnlTypeID = CnlTypeID.Input,
-                            TagCode = subscriptionConfig.TagCode + suffix,
+                            TagCode = subscriptionConfig.TagCode + "." + subItem,
                             EventMask = eventMask
                         });
                     }
