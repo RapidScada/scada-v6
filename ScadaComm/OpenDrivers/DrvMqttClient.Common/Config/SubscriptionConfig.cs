@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.ComponentModel;
+using System.Collections.ObjectModel;
 using System.Xml;
 using NCM = System.ComponentModel;
 
@@ -23,7 +24,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
             ReadOnly = false;
             JsEnabled = false;
             JsFileName = "";
-            SubItems = new List<string>();
+            SubItems = new ObservableCollection<string>();
             Parent = null;
         }
 
@@ -56,7 +57,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
         /// Gets the subitems that represent multiple device tags for the topic.
         /// </summary>
         [DisplayName, Category, Description, NCM.TypeConverter(typeof(CollectionConverter))]
-        public List<string> SubItems { get; private set; }
+        public ObservableCollection<string> SubItems { get; }
 
 
         /// <summary>
