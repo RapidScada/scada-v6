@@ -7,7 +7,6 @@ using Scada.Comm.Drivers.DrvSms;
 using Scada.Data.Const;
 using Scada.Lang;
 using System.Globalization;
-using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace Scada.Comm.Drivers.DrvCsvReader.Logic
 {
@@ -32,14 +31,31 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
         }
 
         /// <summary>
+        /// The maximum line length in bytes.
+        /// </summary>
+        private const int MaxLineLength = 1024;
+        /// <summary>
         /// The string that identifies a header row.
         /// </summary>
         private const string HeaderText = "Timestamp";
+        /// <summary>
+        /// Specifies the time interval when data is considered outdated.
+        /// </summary>
+        private static readonly TimeSpan DataLifetime = TimeSpan.FromMinutes(1);
 
         private readonly CsvReaderOptions options; // the CSV reader options
         private readonly NumberFormatInfo nfi;     // the value format
         private FileStream fileStream;             // the stream of the data file
         private TextReader textReader;             // reads the data file
+        private bool justOpened;                   // indicates that the data file is just opened
+        private long lastFileSize;                 // the file size measured after iteration
+        private DateTime lastTimestamp;            // the last timestamp parsed
+
+
+        /// <summary>
+        /// Gets a value indicating whether the data file is open.
+        /// </summary>
+        private bool FileIsOpen => textReader != null;
 
 
         /// <summary>
@@ -52,6 +68,9 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
             nfi = new NumberFormatInfo { NumberDecimalSeparator = options.DecimalSeparator };
             fileStream = null;
             textReader = null;
+            justOpened = false;
+            lastFileSize = 0;
+            lastTimestamp = DateTime.MinValue;
 
             ConnectionRequired = false;
         }
@@ -76,24 +95,37 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
                 {
                     fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                     textReader = new StreamReader(fileStream);
+                    justOpened = true;
 
-                    Log.WriteAction(Locale.IsRussian ?
-                        "{0}: Открыт файл данных {1}" :
-                        "{0}: Data file {1} opened", Title, filePath);
+                    Log.WriteLine(Locale.IsRussian ?
+                        "Открыт файл данных {1}" :
+                        "Data file {1} opened", filePath);
                 }
                 catch (Exception ex)
                 {
                     Log.WriteLine(Locale.IsRussian ?
-                        "Ошибка {0}: Не удалось открыть файл данных: {1}" :
-                        "Error {0}: Unable to open data file: {1}", Title, ex.Message);
+                        "Ошибка: Не удалось открыть файл данных: {1}" :
+                        "Error: Unable to open data file: {1}", ex.Message);
                 }
             }
             else
             {
                 Log.WriteLine(Locale.IsRussian ?
-                    "Ошибка {0}: Не найден файл данных {1}" :
-                    "Error {0}: Data file {0} not found", Title, filePath);
+                    "Ошибка: Не найден файл данных {1}" :
+                    "Error: Data file {0} not found", filePath);
             }
+        }
+
+        /// <summary>
+        /// Closes the data file if it is open.
+        /// </summary>
+        private void CloseDataFile()
+        {
+            fileStream?.Dispose();
+            textReader?.Dispose();
+            justOpened = false;
+            lastFileSize = 0;
+            lastTimestamp = DateTime.MinValue;
         }
 
         /// <summary>
@@ -101,14 +133,27 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
         /// </summary>
         private void ReadData()
         {
+            if (!FileIsOpen)
+                OpenDataFile();
+
             try
             {
-                if (textReader != null)
+                if (FileIsOpen)
                 {
                     if (options.ReadMode == ReadMode.RealTime)
                         ReadDataRealTime();
                     else
                         ReadDataDemo();
+
+                    DeviceData.SetDateTime(TagCode.Timestamp, lastTimestamp, 
+                        lastTimestamp > DateTime.MinValue ? CnlStatusID.Defined : CnlStatusID.Undefined);
+                    DeviceData.Set(TagCode.Position, fileStream.Position);
+                    lastFileSize = fileStream.Length;
+                }
+                else
+                {
+                    DeviceData.Invalidate(TagCode.Timestamp);
+                    DeviceData.Invalidate(TagCode.Position);
                 }
             }
             catch (Exception ex)
@@ -126,29 +171,36 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
         /// </summary>
         private void ReadDataRealTime()
         {
-            string line = textReader.ReadLine();
+            if (justOpened)
+                ParseHeader(textReader.ReadLine());
+            else if (fileStream.Length < lastFileSize)
+                justOpened = true; // file was overwritten
+
+            string line = justOpened
+                ? ReadLastLine()
+                : textReader.ReadLine();
 
             if (line == null)
             {
-
+                Log.WriteLine(Locale.IsRussian ?
+                    "Новых данных нет" :
+                    "No new data available");
             }
             else
             {
-                string[] parts = line.Split(options.FieldDelimiter);
-
-                if (parts[0] == HeaderText)
-                {
-                    // get tag names from header
-                }
-                else
+                while (line != null)
                 {
                     DateTime utcNow = DateTime.UtcNow;
+                    string[] lineParts = line.Split(options.FieldDelimiter);
 
-                    if (DateTime.TryParse(parts[0], out DateTime timestamp))
+                    if (ParseDataRow(lineParts, out DataRow dataRow) &&
+                        utcNow - DataLifetime <= dataRow.Timestamp && dataRow.Timestamp <= utcNow + DataLifetime)
                     {
-                        timestamp = DateTime.SpecifyKind(timestamp, DateTimeKind.Utc);
-                        DeviceData.SetDateTime(TagCode.Timestamp, timestamp, CnlStatusID.Defined);
+                        lastTimestamp = dataRow.Timestamp;
+                        CopyValues(dataRow);
                     }
+
+                    line = textReader.ReadLine();
                 }
             }
         }
@@ -159,6 +211,81 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
         private void ReadDataDemo()
         {
 
+        }
+
+        /// <summary>
+        /// Parses the header to obtain tag names.
+        /// </summary>
+        private void ParseHeader(string header)
+        {
+            if (header != null)
+            {
+                string[] lineParts = header.Split(options.FieldDelimiter);
+                
+                if (lineParts[0] == HeaderText)
+                {
+                    RetrieveTagNames(lineParts);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the tag names from the line parts.
+        /// </summary>
+        private void RetrieveTagNames(string[] lineParts)
+        {
+            for (int i = 0, len = Math.Min(lineParts.Length - 1, options.TagCount); i < len; i++)
+            {
+                DeviceTags[i].Name = lineParts[i + 1];
+            }
+        }
+
+        /// <summary>
+        /// Reads the last line in the data file.
+        /// </summary>
+        private string ReadLastLine()
+        {
+            if (fileStream.Length <= MaxLineLength)
+                fileStream.Seek(0, SeekOrigin.Begin);
+            else
+                fileStream.Seek(-MaxLineLength, SeekOrigin.End);
+
+            // skip first line
+            if (textReader.ReadLine() == null)
+                return null;
+
+            // search for last line
+            string currentLine;
+            string lastLine = null;
+
+            do
+            {
+                currentLine = textReader.ReadLine();
+
+                if (currentLine != null)
+                    lastLine = currentLine;
+            } while (currentLine != null);
+
+            return lastLine;
+        }
+
+        /// <summary>
+        /// Converts the line parts to a data row.
+        /// </summary>
+        private bool ParseDataRow(string[] lineParts, out DataRow dataRow)
+        {
+            if (DateTime.TryParse(lineParts[0], out DateTime timestamp))
+            {
+                timestamp = DateTime.SpecifyKind(timestamp, DateTimeKind.Utc);
+                dataRow = new DataRow(options.TagCount) { Timestamp = timestamp };
+                RetrieveValues(lineParts, dataRow);
+                return true;
+            }
+            else
+            {
+                dataRow = null;
+                return false;
+            }
         }
 
         /// <summary>
@@ -176,13 +303,23 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
             }
         }
 
+        /// <summary>
+        /// Copies the values of the data row to the device data.
+        /// </summary>
+        private void CopyValues(DataRow dataRow)
+        {
+            for (int i = 0; i < dataRow.Values.Length; i++)
+            {
+                DeviceData.Set(i, dataRow.Values[i]);
+            }
+        }
+
 
         /// <summary>
         /// Performs actions when starting a communication line.
         /// </summary>
         public override void OnCommLineStart()
         {
-            OpenDataFile();
         }
 
         /// <summary>
@@ -190,8 +327,7 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
         /// </summary>
         public override void OnCommLineTerminate()
         {
-            fileStream?.Dispose();
-            textReader?.Dispose();
+            CloseDataFile();
         }
 
         /// <summary>
@@ -213,6 +349,7 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
             // Reading Status group
             tagGroup = new("Reading Status");
             tagGroup.AddTag(TagCode.Timestamp, TagCode.Timestamp).SetFormat(TagFormat.DateTime);
+            tagGroup.AddTag(TagCode.Position, TagCode.Position).SetFormat(TagFormat.IntNumber);
             DeviceTags.AddGroup(tagGroup);
         }
 

@@ -10,6 +10,7 @@ namespace Scada.Comm.Drivers.DrvSms
     internal static class TagCode
     {
         public const string Timestamp = nameof(Timestamp);
+        public const string Position = nameof(Position);
 
         public static string GetMainTagCode(int tagNum)
         {
