@@ -38,8 +38,14 @@
 
 <div id="divNotif" class="hidden"></div>
 <div id="divSchWrapper" class="scheme-wrapper"></div>
-<div id="divToolbar"><span 
-    id="spanFitScreenBtn" class="tool-btn" title="@dict.spanFitScreenBtn_ToolTip"><i class="fa-solid fa-up-down-left-right"></i></span><span
+<!-- 修改位置
+    左上：默认
+        右上：position-absolute top-0 end-2
+    左下：position-absolute top-95 start-0
+        右下：position-absolute top-95 end-2
+-->
+<div id="divToolbar" class="position-absolute top-0 end-2">
+    <span id="spanFitScreenBtn" class="tool-btn" title="@dict.spanFitScreenBtn_ToolTip"><i class="fa-solid fa-up-down-left-right"></i></span><span
     id="spanFitWidthBtn" class="tool-btn" title="@dict.spanFitWidthBtn_ToolTip"><i class="fa-solid fa-solid fa-left-right"></i></span><span
     id="spanZoomOutBtn" class="tool-btn" title="@dict.spanZoomOutBtn_ToolTip"><i class="fa-solid fa-search-minus"></i></span><span
     id="spanZoomInBtn" class="tool-btn" title="@dict.spanZoomInBtn_ToolTip"><i class="fa-solid fa-search-plus"></i></span><span 

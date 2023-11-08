@@ -627,6 +627,7 @@ namespace Scada.Server.Engine
             var userTable = coreLogic.ConfigDatabase.UserTable;
             var allUsers = userTable.EnumerateItems().Cast<User>();
             allUsers = allUsers.Where(x => x.UserID > 10);//系统用户默认不显示
+            allUsers = allUsers.OrderByDescending(x => x.Enabled); //根据是否禁用进行排序
             if (!string.IsNullOrEmpty(username))
             {
                 allUsers = allUsers.Where(u => u.Name.IndexOf(username, StringComparison.OrdinalIgnoreCase) >= 0);

@@ -44,6 +44,13 @@
     <script src="~/lib/vue.min.js"></script>
     <script src="~/lib/layui/layui.js" asp-append-version="true"></script>
     <script src="~/lib/jquery.md5.min.js"></script>
+    <script type="text/html" id="userNameFunc">
+        {{#  if(!d.enabled){ }}
+            <span style="text-decoration:line-through;"><b> {{ d.name }} </b></span>
+        {{#  } else { }}
+            <span > {{ d.name }} </span>
+        {{#  } }}
+    </script>
     <script type="text/html" id="roleFunc">
         {{#  if(d.roleID == 1){ }}
             <span style="color:#1E9FFF;"><b> {{ roleMapper[d.roleID] }} </b></span>
@@ -109,6 +116,7 @@
                 }, {
                     field: 'name',
                     title: 'Name',
+                    templet: '#userNameFunc',
                     width: 110
                 },  {
                     field: 'userRealName',

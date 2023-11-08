@@ -2195,6 +2195,7 @@ namespace Scada.Server.Engine
             return true;
         }
 
+        [Obsolete("改为前端验证")]
         private bool CheckPwdStrategy(User user, string newPwd, out string errMsg)
         {
             errMsg = string.Empty;
