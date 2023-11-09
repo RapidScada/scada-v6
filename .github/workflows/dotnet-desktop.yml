@@ -13,6 +13,9 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
+    - name: List directory structure
+      run: tree /f /a
+      shell: cmd
 
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
