@@ -70,8 +70,8 @@ jobs:
     - name: Build OpenPlugins
       run: dotnet build --no-restore --configuration Release ScadaWeb/OpenPlugins/OpenPlugins.sln
 
-    - name: Build OpenExtensions
-      run: dotnet build --no-restore --configuration Release ScadaAdmin/OpenExtensions/OpenExtensions.sln
+   # - name: Build OpenExtensions
+    #  run: dotnet build --no-restore --configuration Release ScadaAdmin/OpenExtensions/OpenExtensions.sln
 
     # Ajoutez des étapes similaires pour les autres projets ici, en respectant l'ordre
 
