@@ -108,8 +108,8 @@ jobs:
     - name: Publish OpenPlugins
       run: dotnet publish ScadaWeb/OpenPlugins/OpenPlugins.sln --no-restore --configuration Release --output ./publish/OpenPlugins
 
-    - name: Publish OpenExtensions
-      run: dotnet publish ScadaAdmin/OpenExtensions/OpenExtensions.sln --no-restore --configuration Release --output ./publish/OpenExtensions
+   # - name: Publish OpenExtensions
+    #  run: dotnet publish ScadaAdmin/OpenExtensions/OpenExtensions.sln --no-restore --configuration Release --output ./publish/OpenExtensions
 
         
 
