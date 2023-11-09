@@ -13,52 +13,58 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
-    - name: List directory structure
-      run: tree /f /a
-      shell: cmd
 
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '6.0' 
+        dotnet-version: '6.0'
 
-    - name: Restore NuGet packages
+    - name: Restore NuGet packages for ScadaWeb
       run: dotnet restore
-      working-directory: scada-v6/ScadaWeb/ScadaWeb
+      working-directory: ./ScadaWeb/ScadaWeb
 
-    - name: Build the project - Release
+    - name: Build ScadaWeb - Release
       run: dotnet build --no-restore --configuration Release
+      working-directory: ./ScadaWeb/ScadaWeb
 
     - name: Restore NuGet packages for OpenPlugins
       run: dotnet restore
-      working-directory: scada-v6/ScadaWeb/OpenPlugins
+      working-directory: ./ScadaWeb/OpenPlugins
 
-    - name: Publish the project
+    - name: Build OpenPlugins - Release
+      run: dotnet build --no-restore --configuration Release
+      working-directory: ./ScadaWeb/OpenPlugins
+
+    - name: Publish ScadaWeb
       run: dotnet publish --no-restore --configuration Release --output ./publish
+      working-directory: ./ScadaWeb/ScadaWeb
+
+    # Upload the build outputs
+    - name: Upload ScadaWeb Artefacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: scadaweb-release-artifacts
+        path: |
+          ./ScadaWeb/ScadaWeb/ScadaWeb/bin/Release/net6.0/ScadaWeb.exe
+          ./ScadaWeb/ScadaWeb/ScadaWeb/bin/Release/net6.0/ScadaWeb.dll
+          ./ScadaWeb/ScadaWeb/ScadaWeb/bin/Release/net6.0/ScadaWebCommon.dll
+          ./ScadaWeb/ScadaWeb/ScadaWeb/bin/Release/net6.0/ScadaCommon.dll
+
+    - name: Upload PlgSchShapeComp JavaScript Files
+      uses: actions/upload-artifact@v2
+      with:
+        name: plgschshapecomp-js-files
+        path: ./ScadaWeb/OpenPlugins/PlgSchShapeComp/wwwroot/SchShapeComp/js/*.js
+
 
     # Les outputs de build ou répertoires
     - name: Upload PlgSchShapeComp Debug Artefact
       uses: actions/upload-artifact@v2
       with:
         name: plg-sch-shape-comp-debug
-        path: scada-v6/ScadaWeb/OpenPlugins/PlgSchShapeComp/bin/Release/net6.0/**
+        path:  ./ScadaWeb/OpenPlugins/PlgSchShapeComp/bin/Release/net6.0/**
 
-    - name: Upload JavaScript files
-      uses: actions/upload-artifact@v2
-      with:
-        name: javascript-files
-        path: scada-v6/ScadaWeb/OpenPlugins/PlgSchShapeComp/wwwroot/SchShapeComp/js/*.js
-
-    # Répétez pour les autres outputs de build si nécessaire
-    - name: Upload Specific Build Files
-      uses: actions/upload-artifact@v2
-      with:
-        name: scadaweb-build-files
-        path: |
-          scada-v6/ScadaWeb/ScadaWeb/ScadaWeb/bin/Release/net6.0/ScadaWeb.exe
-          scada-v6/ScadaWeb/ScadaWeb/ScadaWeb/bin/Release/net6.0/ScadaWeb.dll
-          scada-v6/ScadaWeb/ScadaWeb/ScadaWeb/bin/Release/net6.0/ScadaWebCommon.dll
-          scada-v6/ScadaWeb/ScadaWeb/ScadaWeb/bin/Release/net6.0/ScadaCommon.dll
+   
  # Répétez pour les autres outputs de build si nécessaire
   #  - name: Upload Build Output 3
    #   uses: actions/upload-artifact@v2
