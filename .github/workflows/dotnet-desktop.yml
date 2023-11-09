@@ -1,0 +1,59 @@
+name: Build .NET Application and Capture Artifacts
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  build-and-upload-artifacts:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0' 
+
+    - name: Restore NuGet packages
+      run: dotnet restore
+
+    - name: Build the project - Release
+      run: dotnet build --no-restore --configuration Release
+
+    - name: Publish the project
+      run: dotnet publish --no-restore --configuration Release --output ./publish
+
+    # Les outputs de build ou répertoires
+    - name: Upload PlgSchShapeComp Debug Artefact
+      uses: actions/upload-artifact@v2
+      with:
+        name: plg-sch-shape-comp-debug
+        path: scada-v6/ScadaWeb/OpenPlugins/PlgSchShapeComp/bin/Release/net6.0/**
+
+    - name: Upload JavaScript files
+      uses: actions/upload-artifact@v2
+      with:
+        name: javascript-files
+        path: scada-v6/ScadaWeb/OpenPlugins/PlgSchShapeComp/wwwroot/SchShapeComp/js/*.js
+
+    # Répétez pour les autres outputs de build si nécessaire
+    - name: Upload Specific Build Files
+      uses: actions/upload-artifact@v2
+      with:
+        name: scadaweb-build-files
+        path: |
+          scada-v6/ScadaWeb/ScadaWeb/ScadaWeb/bin/Release/net6.0/ScadaWeb.exe
+          scada-v6/ScadaWeb/ScadaWeb/ScadaWeb/bin/Release/net6.0/ScadaWeb.dll
+          scada-v6/ScadaWeb/ScadaWeb/ScadaWeb/bin/Release/net6.0/ScadaWebCommon.dll
+          scada-v6/ScadaWeb/ScadaWeb/ScadaWeb/bin/Release/net6.0/ScadaCommon.dll
+ # Répétez pour les autres outputs de build si nécessaire
+  #  - name: Upload Build Output 3
+   #   uses: actions/upload-artifact@v2
+   #   with:
+    #    name: build-output-3
+    #    path: ./path/to/your/third/build/output/
