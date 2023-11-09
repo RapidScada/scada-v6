@@ -21,9 +21,14 @@ jobs:
 
     - name: Restore NuGet packages
       run: dotnet restore
+      working-directory: scada-v6/ScadaWeb/ScadaWeb
 
     - name: Build the project - Release
       run: dotnet build --no-restore --configuration Release
+
+    - name: Restore NuGet packages for OpenPlugins
+      run: dotnet restore
+      working-directory: scada-v6/ScadaWeb/OpenPlugins
 
     - name: Publish the project
       run: dotnet publish --no-restore --configuration Release --output ./publish
