@@ -27,12 +27,12 @@
     <script src="~/js/components/modal.js" asp-append-version="true"></script>
     <script src="~/js/components/notif-panel.js" asp-append-version="true"></script>
     <script src="~/js/components/tree-view.js" asp-append-version="true"></script>
-    <script src="~/js/layouts/main-layout.js" asp-append-version="true"></script>
     <script>
-        appEnv = @WebUtils.GetEnvironmentJs(Url);
+        var appEnv = @WebUtils.GetEnvironmentJs(Url);
         modalPhrases = @WebUtils.DictionaryToJs("Scada.Web.Pages.Shared._MainLayout.Modal");
         notifPhrases = @WebUtils.DictionaryToJs("Scada.Web.Pages.Shared._MainLayout.NotifPanel");
     </script>
+    <script src="~/js/layouts/main-layout.js" asp-append-version="true"></script>
 
     @RenderSection("Scripts", required: false)
 
