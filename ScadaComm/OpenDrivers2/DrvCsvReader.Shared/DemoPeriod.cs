@@ -11,7 +11,6 @@ namespace Scada.Comm.Drivers.DrvCsvReader
     {
         OneHour,
         OneDay,
-        OneMonth,
-        OneYear
+        OneMonth
     }
 }

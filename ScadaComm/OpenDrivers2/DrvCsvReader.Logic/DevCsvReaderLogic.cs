@@ -4,8 +4,10 @@
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvSms;
+using Scada.Comm.Lang;
 using Scada.Data.Const;
 using Scada.Lang;
+using System.Data;
 using System.Globalization;
 
 namespace Scada.Comm.Drivers.DrvCsvReader.Logic
@@ -51,6 +53,8 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
         private bool justOpened;                   // indicates that the data file is just opened
         private long lastFileSize;                 // the file size measured after iteration
         private DateTime lastTimestamp;            // the last timestamp parsed
+        private DateTime prevVirtualTime;          // the previous time in Demo mode
+        private DataRow prevDataRow;               // the previously read data row
 
 
         /// <summary>
@@ -73,6 +77,8 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
             justOpened = false;
             lastFileSize = 0;
             lastTimestamp = DateTime.MinValue;
+            prevVirtualTime = DateTime.MinValue;
+            prevDataRow = null;
 
             ConnectionRequired = false;
         }
@@ -145,11 +151,18 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
 
             if (OpenDataFile())
             {
-                string header = textReader.ReadLine();
-                string[] lineParts = header.Split(options.FieldDelimiter);
+                try
+                {
+                    string header = textReader.ReadLine();
+                    string[] lineParts = header.Split(options.FieldDelimiter);
 
-                if (lineParts[0] == HeaderText && lineParts.Length > 1)
-                    tagNames = lineParts.AsSpan(1).ToArray();
+                    if (lineParts[0] == HeaderText && lineParts.Length > 1)
+                        tagNames = lineParts.AsSpan(1).ToArray();
+                }
+                catch (Exception ex)
+                {
+                    Log.WriteLine(CommPhrases.ErrorPrefix + ex.Message);
+                }
             }
         }
 
@@ -219,10 +232,8 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
             while (line != null)
             {
                 DateTime utcNow = DateTime.UtcNow;
-                string[] lineParts = line.Split(options.FieldDelimiter);
 
-                if (ParseDataRow(lineParts, out DataRow dataRow) &&
-                    utcNow - DataLifetime <= dataRow.Timestamp && dataRow.Timestamp <= utcNow + DataLifetime)
+                if (ParseDataRow(line, out DataRow dataRow) && DataRowIsCurrent(dataRow, utcNow))
                 {
                     newDataFound = true;
                     lastTimestamp = dataRow.Timestamp;
@@ -232,18 +243,7 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
                 line = textReader.ReadLine();
             }
 
-            if (newDataFound)
-            {
-                Log.WriteLine(Locale.IsRussian ?
-                    "Считаны новые данные" :
-                    "New data has been read");
-            }
-            else
-            {
-                Log.WriteLine(Locale.IsRussian ?
-                    "Новых данных нет" :
-                    "No new data available");
-            }
+            LogNewData(newDataFound);
         }
 
         /// <summary>
@@ -251,7 +251,35 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
         /// </summary>
         private void ReadDataDemo()
         {
+            DateTime virtualTime = GetVirtualTime();
+            bool newDataFound = false;
+            DataRow dataRow;
 
+            // start over
+            if (prevVirtualTime > virtualTime)
+                fileStream.Seek(0, SeekOrigin.Begin);
+
+            // read data
+            string line = "";
+            dataRow = prevDataRow;
+
+            while (line != null && (dataRow == null || dataRow.Timestamp < virtualTime - DataLifetime))
+            {
+                line = textReader.ReadLine();
+                dataRow = ParseDataRow(line);
+            }
+
+            // get tag values
+            if (DataRowIsCurrent(dataRow, virtualTime))
+            {
+                newDataFound = true;
+                lastTimestamp = dataRow.Timestamp;
+                CopyValues(prevDataRow);
+            }
+
+            prevVirtualTime = virtualTime;
+            prevDataRow = dataRow;
+            LogNewData(newDataFound);
         }
 
         /// <summary>
@@ -286,20 +314,32 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
         /// <summary>
         /// Converts the line parts to a data row.
         /// </summary>
-        private bool ParseDataRow(string[] lineParts, out DataRow dataRow)
+        private bool ParseDataRow(string line, out DataRow dataRow)
         {
-            if (DateTime.TryParse(lineParts[0], out DateTime timestamp))
+            if (!string.IsNullOrEmpty(line))
             {
-                timestamp = DateTime.SpecifyKind(timestamp, DateTimeKind.Utc);
-                dataRow = new DataRow(options.TagCount) { Timestamp = timestamp };
-                RetrieveValues(lineParts, dataRow);
-                return true;
+                string[] lineParts = line.Split(options.FieldDelimiter);
+
+                if (DateTime.TryParse(lineParts[0], out DateTime timestamp))
+                {
+                    timestamp = DateTime.SpecifyKind(timestamp, DateTimeKind.Utc);
+                    dataRow = new DataRow(options.TagCount) { Timestamp = timestamp };
+                    RetrieveValues(lineParts, dataRow);
+                    return true;
+                }
             }
-            else
-            {
-                dataRow = null;
-                return false;
-            }
+
+            dataRow = null;
+            return false;
+        }
+
+        /// <summary>
+        /// Converts the line parts to a data row.
+        /// </summary>
+        private DataRow ParseDataRow(string line)
+        {
+            ParseDataRow(line, out DataRow dataRow);
+            return dataRow;
         }
 
         /// <summary>
@@ -326,6 +366,51 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
             {
                 DeviceData.Set(i, dataRow.Values[i]);
             }
+        }
+
+        /// <summary>
+        /// Checks whether the timestamp of the data row is close to the current time.
+        /// </summary>
+        private static bool DataRowIsCurrent(DataRow dataRow, DateTime currentTime)
+        {
+            return dataRow != null && 
+                currentTime - DataLifetime <= dataRow.Timestamp && dataRow.Timestamp <= currentTime + DataLifetime;
+        }
+
+        /// <summary>
+        /// Logs a message indicating whether new data was found or not.
+        /// </summary>
+        private void LogNewData(bool newDataFound)
+        {
+            if (newDataFound)
+            {
+                Log.WriteLine(Locale.IsRussian ?
+                    "Считаны новые данные" :
+                    "New data has been read");
+            }
+            else
+            {
+                Log.WriteLine(Locale.IsRussian ?
+                    "Новых данных нет" :
+                    "No new data available");
+            }
+        }
+
+        /// <summary>
+        /// Получить виртуальное время на основе текущего времени и установленного периода.
+        /// </summary>
+        private DateTime GetVirtualTime()
+        {
+            DateTime utcNow = DateTime.UtcNow;
+            DateTime minDate = DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc);
+
+            return options.DemoPeriod switch
+            {
+                DemoPeriod.OneHour => minDate.Add(utcNow.TimeOfDay).AddHours(-utcNow.Hour),
+                DemoPeriod.OneDay => minDate.Add(utcNow.TimeOfDay),
+                DemoPeriod.OneMonth => minDate.Add(utcNow.TimeOfDay).AddDays(utcNow.Day - 1),
+                _ => throw new ScadaException("Uknonwn demo period.")
+            }; ;
         }
 
 
