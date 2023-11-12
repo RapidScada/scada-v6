@@ -47,6 +47,7 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
         private readonly NumberFormatInfo nfi;     // the value format
         private FileStream fileStream;             // the stream of the data file
         private TextReader textReader;             // reads the data file
+        private string[] tagNames;                 // the tag names from file
         private bool justOpened;                   // indicates that the data file is just opened
         private long lastFileSize;                 // the file size measured after iteration
         private DateTime lastTimestamp;            // the last timestamp parsed
@@ -68,6 +69,7 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
             nfi = new NumberFormatInfo { NumberDecimalSeparator = options.DecimalSeparator };
             fileStream = null;
             textReader = null;
+            tagNames = Array.Empty<string>();
             justOpened = false;
             lastFileSize = 0;
             lastTimestamp = DateTime.MinValue;
@@ -79,7 +81,7 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
         /// <summary>
         /// Defines a full path and opens a data file.
         /// </summary>
-        private void OpenDataFile()
+        private bool OpenDataFile()
         {
             string fileName = string.IsNullOrEmpty(options.FileName)
                 ? $"{DriverUtils.DriverCode}_{DeviceNum:D3}.csv"
@@ -87,7 +89,7 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
 
             string filePath = Path.IsPathRooted(fileName)
                 ? fileName
-                : Path.Combine(AppDirs.ConfigDir, fileName);
+                : Path.Combine(AppDirs.StorageDir, fileName);
 
             if (File.Exists(filePath))
             {
@@ -98,21 +100,24 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
                     justOpened = true;
 
                     Log.WriteLine(Locale.IsRussian ?
-                        "Открыт файл данных {1}" :
-                        "Data file {1} opened", filePath);
+                        "Открыт файл данных {0}" :
+                        "Data file {0} opened", filePath);
+                    return true;
                 }
                 catch (Exception ex)
                 {
                     Log.WriteLine(Locale.IsRussian ?
-                        "Ошибка: Не удалось открыть файл данных: {1}" :
-                        "Error: Unable to open data file: {1}", ex.Message);
+                        "Ошибка: Не удалось открыть файл данных: {0}" :
+                        "Error: Unable to open data file: {0}", ex.Message);
+                    return false;
                 }
             }
             else
             {
                 Log.WriteLine(Locale.IsRussian ?
-                    "Ошибка: Не найден файл данных {1}" :
+                    "Ошибка: Не найден файл данных {0}" :
                     "Error: Data file {0} not found", filePath);
+                return false;
             }
         }
 
@@ -126,6 +131,26 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
             justOpened = false;
             lastFileSize = 0;
             lastTimestamp = DateTime.MinValue;
+        }
+
+        /// <summary>
+        /// Reads tag names from the file.
+        /// </summary>
+        private void ReadTagNames()
+        {
+            Log.WriteLine();
+            Log.WriteAction(Locale.IsRussian ?
+                "Чтение наименований тегов для устройства {0}" :
+                "Read tag names for the device {0}", Title);
+
+            if (OpenDataFile())
+            {
+                string header = textReader.ReadLine();
+                string[] lineParts = header.Split(options.FieldDelimiter);
+
+                if (lineParts[0] == HeaderText && lineParts.Length > 1)
+                    tagNames = lineParts.AsSpan(1).ToArray();
+            }
         }
 
         /// <summary>
@@ -170,37 +195,54 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
         /// </summary>
         private void ReadDataRealTime()
         {
+            bool newDataFound = false;
+            string line;
+
+            if (fileStream.Length < lastFileSize)
+            {
+                Log.WriteLine(Locale.IsRussian ?
+                    "Файл был перезаписан" :
+                    "File was overwritten");
+                justOpened = true;
+            }
+
             if (justOpened)
-                ParseHeader(textReader.ReadLine());
-            else if (fileStream.Length < lastFileSize)
-                justOpened = true; // file was overwritten
+            {
+                line = ReadLastLine();
+                justOpened = false;
+            }
+            else
+            {
+                line = textReader.ReadLine();
+            }
 
-            string line = justOpened
-                ? ReadLastLine()
-                : textReader.ReadLine();
+            while (line != null)
+            {
+                DateTime utcNow = DateTime.UtcNow;
+                string[] lineParts = line.Split(options.FieldDelimiter);
 
-            if (line == null)
+                if (ParseDataRow(lineParts, out DataRow dataRow) &&
+                    utcNow - DataLifetime <= dataRow.Timestamp && dataRow.Timestamp <= utcNow + DataLifetime)
+                {
+                    newDataFound = true;
+                    lastTimestamp = dataRow.Timestamp;
+                    CopyValues(dataRow);
+                }
+
+                line = textReader.ReadLine();
+            }
+
+            if (newDataFound)
+            {
+                Log.WriteLine(Locale.IsRussian ?
+                    "Считаны новые данные" :
+                    "New data has been read");
+            }
+            else
             {
                 Log.WriteLine(Locale.IsRussian ?
                     "Новых данных нет" :
                     "No new data available");
-            }
-            else
-            {
-                while (line != null)
-                {
-                    DateTime utcNow = DateTime.UtcNow;
-                    string[] lineParts = line.Split(options.FieldDelimiter);
-
-                    if (ParseDataRow(lineParts, out DataRow dataRow) &&
-                        utcNow - DataLifetime <= dataRow.Timestamp && dataRow.Timestamp <= utcNow + DataLifetime)
-                    {
-                        lastTimestamp = dataRow.Timestamp;
-                        CopyValues(dataRow);
-                    }
-
-                    line = textReader.ReadLine();
-                }
             }
         }
 
@@ -210,33 +252,6 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
         private void ReadDataDemo()
         {
 
-        }
-
-        /// <summary>
-        /// Parses the header to obtain tag names.
-        /// </summary>
-        private void ParseHeader(string header)
-        {
-            if (header != null)
-            {
-                string[] lineParts = header.Split(options.FieldDelimiter);
-                
-                if (lineParts[0] == HeaderText)
-                {
-                    RetrieveTagNames(lineParts);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Retrieves the tag names from the line parts.
-        /// </summary>
-        private void RetrieveTagNames(string[] lineParts)
-        {
-            for (int i = 0, len = Math.Min(lineParts.Length - 1, options.TagCount); i < len; i++)
-            {
-                DeviceTags[i].Name = lineParts[i + 1];
-            }
         }
 
         /// <summary>
@@ -319,6 +334,7 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
         /// </summary>
         public override void OnCommLineStart()
         {
+            ReadTagNames();
         }
 
         /// <summary>
@@ -340,7 +356,9 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
             for (int tagNum = 1; tagNum <= options.TagCount; tagNum++)
             {
                 string tagCode = TagCode.GetMainTagCode(tagNum);
-                tagGroup.AddTag(tagCode, tagCode);
+                tagGroup.AddTag(
+                    tagCode, 
+                    tagNum <= tagNames.Length ? tagNames[tagNum - 1] : tagCode);
             }
 
             DeviceTags.AddGroup(tagGroup);
