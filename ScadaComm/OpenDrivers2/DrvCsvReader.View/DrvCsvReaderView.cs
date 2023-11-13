@@ -43,9 +43,13 @@ namespace Scada.Comm.Drivers.DrvCsvReader.View
         {
             get
             {
-                return Locale.IsRussian ?
-                    "Считывает данные из CSV-файла." :
-                    "Reads data from a CSV file.";
+                return (Locale.IsRussian ?
+                    "Считывает данные из CSV-файла.\n\n" +
+                    "Пример файла данных:\n":
+                    "Reads data from a CSV file.\n\n" +
+                    "Data file example:\n") +
+                    "Timestamp,TagA,TagB,TagC\n" +
+                    "2001-01-01 00:00:00,1.23,1,0";
             }
         }
 
