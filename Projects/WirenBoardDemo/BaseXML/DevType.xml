@@ -45,7 +45,7 @@
   <DevType>
     <DevTypeID>208</DevTypeID>
     <Name>CE6850</Name>
-    <Driver>DrvCE6850</Driver>
+    <Driver>DrvCe6850</Driver>
     <Descr>Electricity meter CE6850 (6822, 6823, 6827, 6828, 6850М) manufactured by Energomera</Descr>
   </DevType>
   <DevType>
@@ -86,8 +86,8 @@
   </DevType>
   <DevType>
     <DevTypeID>215</DevTypeID>
-    <Name>OPC</Name>
-    <Driver>DrvOpc</Driver>
+    <Name>OPC Classic</Name>
+    <Driver>DrvOpcClassic</Driver>
     <Descr>Interacts with controllers according to the OPC DA and OPC AE specifications</Descr>
   </DevType>
   <DevType>
@@ -128,9 +128,9 @@
   </DevType>
   <DevType>
     <DevTypeID>222</DevTypeID>
-    <Name>Wiren Board ST</Name>
-    <Driver>DrvWirenBoardST</Driver>
-    <Descr>Wiren Board controller with the custom Sensor-Tools firmware</Descr>
+    <Name>Anemon</Name>
+    <Driver>DrvAnemon</Driver>
+    <Descr>Receives data from Anemon controllers manufactured by Disystec</Descr>
   </DevType>
   <DevType>
     <DevTypeID>223</DevTypeID>
@@ -153,7 +153,7 @@
   <DevType>
     <DevTypeID>226</DevTypeID>
     <Name>CE30X</Name>
-    <Driver>DrvCE301</Driver>
+    <Driver>DrvCe301</Driver>
     <Descr>Electricity meters CE30X, which use IEC 61107-2011, manufactured by Energomera</Descr>
   </DevType>
   <DevType>
@@ -184,7 +184,7 @@
     <DevTypeID>231</DevTypeID>
     <Name>MQTT</Name>
     <Driver>DrvMqtt</Driver>
-    <Descr>Interacts with controllers via MQTT protocol</Descr>
+    <Descr>Interacts with controllers via MQTT protocol. Deprecated</Descr>
   </DevType>
   <DevType>
     <DevTypeID>232</DevTypeID>
@@ -215,6 +215,12 @@
     <Name>MQTT Publisher</Name>
     <Driver>DrvMqttPublisher</Driver>
     <Descr>Transmits channel data to MQTT broker and receives commands</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>237</DevTypeID>
+    <Name>CSV Reader</Name>
+    <Driver>DrvCsvReader</Driver>
+    <Descr>Reads data from a CSV file</Descr>
   </DevType>
   <DevType>
     <DevTypeID>1001</DevTypeID>
