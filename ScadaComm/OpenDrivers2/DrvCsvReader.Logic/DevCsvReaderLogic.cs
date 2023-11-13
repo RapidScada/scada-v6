@@ -41,6 +41,10 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
         /// </summary>
         private const string HeaderText = "Timestamp";
         /// <summary>
+        /// The initial year in Demo mode.
+        /// </summary>
+        private const int InitialYearDemo = 2001;
+        /// <summary>
         /// Specifies the time interval when data is considered outdated.
         /// </summary>
         private static readonly TimeSpan DataLifetime = TimeSpan.FromMinutes(1);
@@ -257,13 +261,16 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
 
             // start over
             if (prevVirtualTime > virtualTime)
+            {
+                prevDataRow = null;
                 fileStream.Seek(0, SeekOrigin.Begin);
+            }
 
             // read data
             string line = "";
             dataRow = prevDataRow;
 
-            while (line != null && (dataRow == null || dataRow.Timestamp < virtualTime - DataLifetime))
+            while (line != null && (dataRow == null || dataRow.Timestamp < virtualTime))
             {
                 line = textReader.ReadLine();
                 dataRow = ParseDataRow(line);
@@ -272,14 +279,14 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
             // get tag values
             if (DataRowIsCurrent(dataRow, virtualTime))
             {
-                newDataFound = true;
+                newDataFound = prevDataRow != dataRow;
                 lastTimestamp = dataRow.Timestamp;
-                CopyValues(prevDataRow);
+                CopyValues(dataRow);
             }
 
+            LogNewData(newDataFound);
             prevVirtualTime = virtualTime;
             prevDataRow = dataRow;
-            LogNewData(newDataFound);
         }
 
         /// <summary>
@@ -373,7 +380,7 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
         /// </summary>
         private static bool DataRowIsCurrent(DataRow dataRow, DateTime currentTime)
         {
-            return dataRow != null && 
+            return dataRow != null &&
                 currentTime - DataLifetime <= dataRow.Timestamp && dataRow.Timestamp <= currentTime + DataLifetime;
         }
 
@@ -402,13 +409,13 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
         private DateTime GetVirtualTime()
         {
             DateTime utcNow = DateTime.UtcNow;
-            DateTime minDate = DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc);
+            DateTime startDate = new(InitialYearDemo, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
             return options.DemoPeriod switch
             {
-                DemoPeriod.OneHour => minDate.Add(utcNow.TimeOfDay).AddHours(-utcNow.Hour),
-                DemoPeriod.OneDay => minDate.Add(utcNow.TimeOfDay),
-                DemoPeriod.OneMonth => minDate.Add(utcNow.TimeOfDay).AddDays(utcNow.Day - 1),
+                DemoPeriod.OneHour => startDate.Add(utcNow.TimeOfDay).AddHours(-utcNow.Hour),
+                DemoPeriod.OneDay => startDate.Add(utcNow.TimeOfDay),
+                DemoPeriod.OneMonth => startDate.Add(utcNow.TimeOfDay).AddDays(utcNow.Day - 1),
                 _ => throw new ScadaException("Uknonwn demo period.")
             }; ;
         }
