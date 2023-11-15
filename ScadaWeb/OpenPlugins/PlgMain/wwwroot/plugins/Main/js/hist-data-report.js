@@ -67,7 +67,7 @@ $(document).ready(function () {
     });
 
     $("#btnSelectCnls").on("click", function () {
-        let dialogs = new Dialogs("../../");
+        let dialogs = new Dialogs("../");
         let txtCnlNums = $("#txtCnlNums");
 
         dialogs.selectChannels(txtCnlNums.val(), function (result) {
