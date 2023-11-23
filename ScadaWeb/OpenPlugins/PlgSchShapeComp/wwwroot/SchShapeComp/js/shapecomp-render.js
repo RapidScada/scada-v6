@@ -139,6 +139,7 @@ scada.scheme.CustomSVGRenderer.prototype.createDom = function (
 
 	var divComp = $("<div id='comp" + component.id + "'></div>");
 	this.prepareComponent(divComp, component, false, true);
+	this.setBackColor(divComp, props.backColor);
 	scada.scheme.applyRotation(divComp, props);
 
 	if (props.svgCode && props.svgCode.includes("width") || props.svgCode.includes("height")) {
