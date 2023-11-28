@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DrvCnlMqttDictionaries>
+	<Dictionary key="Scada.Comm.Drivers.DrvCnlGoogle.View.Forms.FrmGoogleCloudChannelOptions">
+		<Phrase key="this">Google Cloud Options</Phrase>
+		<Phrase key="lblCredentialType">Credential type</Phrase>
+		<Phrase key="cbCredentialType.Items[0]">ApplicationDefault(ADC)</Phrase>
+		<Phrase key="cbCredentialType.Items[1]">SelfSignAccessToken</Phrase>
+		<Phrase key="gbSelfSignAccessToken">Access token options</Phrase>
+		<Phrase key="lblServer">Server</Phrase>
+		<Phrase key="lblTimeout">Timeout, ms</Phrase>
+		<Phrase key="lblServerKey">Server key</Phrase>
+		<Phrase key="lblClientID">Client ID</Phrase>
+		<Phrase key="lblClientSecret">Client secret</Phrase>
+		<Phrase key="gbAdcOptions">Adc options</Phrase>
+		<Phrase key="lblUseAdcFile">Use adc file</Phrase>
+		<Phrase key="lblAdcFilePath">Adc file path</Phrase>
+		<Phrase key="btnOK">OK</Phrase>
+		<Phrase key="btnCancel">Cancel</Phrase>
+	</Dictionary>
+</DrvCnlMqttDictionaries>
