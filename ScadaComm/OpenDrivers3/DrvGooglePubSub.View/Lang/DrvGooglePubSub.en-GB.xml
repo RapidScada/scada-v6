@@ -4,15 +4,9 @@
     <Phrase key="SubscriptionId.DisplayName">SubscriptionId</Phrase>
     <Phrase key="SubscriptionId.Category">Main Parameters</Phrase>
     <Phrase key="SubscriptionId.Description">The Subscription Id.</Phrase>
-    <Phrase key="MaximumTimeLimit.DisplayName">Maximum time limit</Phrase>
-    <Phrase key="MaximumTimeLimit.Category">Main Options</Phrase>
-    <Phrase key="MaximumTimeLimit.Description">The maximum time limit for message to deal with</Phrase>
 	<Phrase key="DisplayName.DisplayName">Display name</Phrase>
 	<Phrase key="DisplayName.Category">Main Parameters</Phrase>
 	<Phrase key="DisplayName.Description">The display name of the device tag.</Phrase>
-    <Phrase key="Retain.DisplayName">Retain</Phrase>
-    <Phrase key="Retain.Category">Protocol</Phrase>
-    <Phrase key="Retain.Description">A value indicating whether to set the retained flag when publishing.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvGooglePubSub.Config.CommandConfig">
     <Phrase key="CmdCode.DisplayName">Command code</Phrase>
@@ -23,9 +17,6 @@
     <Phrase key="TagCode.DisplayName">Tag code</Phrase>
     <Phrase key="TagCode.Category">Main Parameters</Phrase>
     <Phrase key="TagCode.Description">The tag code associated with the topic.</Phrase>
-    <Phrase key="ReadOnly.DisplayName">Read only</Phrase>
-    <Phrase key="ReadOnly.Category">Main Parameters</Phrase>
-    <Phrase key="ReadOnly.Description">A value indicating whether the topic is read only.</Phrase>
     <Phrase key="JsEnabled.DisplayName">JavaScript enabled</Phrase>
     <Phrase key="JsEnabled.Category">Advanced Parameters</Phrase>
     <Phrase key="JsEnabled.Description">A value indicating whether to execute JavaScript when a message is received.</Phrase>
@@ -35,14 +26,20 @@
     <Phrase key="SubItems.DisplayName">Sub items</Phrase>
     <Phrase key="SubItems.Category">Advanced Parameters</Phrase>
     <Phrase key="SubItems.Description">The subitems that represent multiple device tags for the topic.</Phrase>
+	  <Phrase key="ReadOnly.DisplayName">Read only</Phrase>
+	  <Phrase key="ReadOnly.Category">Main Parameters</Phrase>
+	  <Phrase key="ReadOnly.Description">A value indicating whether the topic is read only.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvGooglePubSub.Config.DeviceOptions">
     <Phrase key="ProjectId.DisplayName">Project Id</Phrase>
     <Phrase key="ProjectId.Category">Main Parameters</Phrase>
     <Phrase key="ProjectId.Description">The project id used as a prefix for all device topics.</Phrase>
+	<Phrase key="MaximumTimeLimit.DisplayName">Maximum time limit</Phrase>
+	<Phrase key="MaximumTimeLimit.Category">Main Options</Phrase>
+	<Phrase key="MaximumTimeLimit.Description">The maximum time limit (day) for message to deal with</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvGooglePubSub.View.GooglePubSubConfigProvider">
-    <Phrase key="FormTitle">Device {0} Properties - MQTT Client</Phrase>
+    <Phrase key="FormTitle">Device {0} Properties - Google Pub/Sub Client</Phrase>
     <Phrase key="AddSubscriptionButton">Add Subscription</Phrase>
     <Phrase key="AddCommandButton">Add Command</Phrase>
     <Phrase key="OptionsNode">Options</Phrase>

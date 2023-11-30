@@ -19,6 +19,7 @@ using System.Net;
 using System.Text;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.CompilerServices.RuntimeHelpers;
+using Jint;
 
 namespace Scada.Comm.Drivers.DrvGooglePubSub.Logic
 {
@@ -39,8 +40,8 @@ namespace Scada.Comm.Drivers.DrvGooglePubSub.Logic
         private DateTime[] updateTimestamps;          // the update timestamps by device tag
         private IGoogleCloudChannel googleCloudChannel; //
         private readonly object sessionLock;                     // synchronizes sessions and incoming messages
-
-        private int MaxTimeLimit = 5;//最大数据时限
+        private Engine jsEngine;                      // executes JavaScript
+        private int MaxTimeLimitDay = 5;//最大数据时限
         private ConcurrentDictionary<string, DateTime> DataTimeCache = null;
         /// <summary>
         /// Initializes a new instance of the class.
@@ -136,7 +137,7 @@ namespace Scada.Comm.Drivers.DrvGooglePubSub.Logic
         public override void InitDeviceTags()
         {
             TagGroup tagGroup = new();
-            MaxTimeLimit = config.DeviceOptions.MaximumTimeLimit;
+            MaxTimeLimitDay = config.DeviceOptions.MaximumTimeLimit;
             foreach (SubscriptionConfig subscriptionConfig in config.Subscriptions)
             {
                 if (subscriptionConfig.SubItems.Count > 0)
@@ -229,7 +230,7 @@ namespace Scada.Comm.Drivers.DrvGooglePubSub.Logic
         private Task<SubscriberClient.Reply> ReceivePullMessageHandler(PubsubMessage message, CancellationToken cancel)
         {
             string text = System.Text.Encoding.UTF8.GetString(message.Data.ToArray());
-            Log.WriteLine($"Message {message.MessageId}: {text}");
+            //Log.WriteLine($"Message {message.MessageId}: {text}");
             if (base.IsTerminated) return Task.FromResult(SubscriberClient.Reply.Nack);
             try
             {
@@ -237,8 +238,9 @@ namespace Scada.Comm.Drivers.DrvGooglePubSub.Logic
                 var dataInfo = JsonConvert.DeserializeObject<SubDataContent>(dataBody);
                 if (DeviceTags.ContainsTag(dataInfo.timeserie_name))
                 {
+                    Log.WriteLine($"Message {message.MessageId}: {text}");
                     //未超过最长设定时限，默认5天
-                    if(dataInfo.timestamp.AddDays(MaxTimeLimit) < DateTime.UtcNow)
+                    if (DateTime.UtcNow.Subtract(dataInfo.timestamp).Days <= MaxTimeLimitDay)
                         HandlerReceivedMessage(message, dataInfo);
                     return Task.FromResult(SubscriberClient.Reply.Ack);
                 }
@@ -248,7 +250,7 @@ namespace Scada.Comm.Drivers.DrvGooglePubSub.Logic
                 Log.WriteError($"HandlerReceivedMessage error: {ex.Message}.");
             }
             // Interlocked.Increment(ref messageCount);
-            return Task.FromResult(SubscriberClient.Reply.Nack);
+            return Task.FromResult(SubscriberClient.Reply.Ack);
         }
 
         private void HandlerReceivedMessage(PubsubMessage message, SubDataContent dataInfo)

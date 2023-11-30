@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="Google.Cloud.PubSub.V1" Version="3.8.0" />
+    <PackageReference Include="Jint" Version="2.11.58" />
   </ItemGroup>
 
   <ItemGroup>
