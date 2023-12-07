@@ -47,6 +47,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
             chkShowViewExplorer.Checked = displayOptions.ShowViewExplorer;
             chkShowEventView.Checked = displayOptions.ShowEventView;
             numRefreshRate.SetValue(displayOptions.RefreshRate);
+            txtInternalVersion.Text = displayOptions.InternalVersion;
 
             changing = false;
         }
@@ -63,6 +64,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
             displayOptions.ShowViewExplorer = chkShowViewExplorer.Checked;
             displayOptions.RefreshRate = Convert.ToInt32(numRefreshRate.Value);
             displayOptions.ShowEventView = chkShowEventView.Checked;
+            displayOptions.InternalVersion = txtInternalVersion.Text;
         }
 
 

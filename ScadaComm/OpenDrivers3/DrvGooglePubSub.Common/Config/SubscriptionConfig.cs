@@ -36,7 +36,7 @@ namespace Scada.Comm.Drivers.DrvGooglePubSub.Config
         /// </summary>
         [DisplayName, Category, Description, NCM.TypeConverter(typeof(BooleanConverter))]
         public bool ReadOnly { get; set; }
-        */
+        
         /// <summary>
         /// Gets or sets a value indicating whether to execute JavaScript when a message is received.
         /// </summary>
@@ -48,7 +48,7 @@ namespace Scada.Comm.Drivers.DrvGooglePubSub.Config
         /// </summary>
         [DisplayName, Category, Description]
         public string JsFileName { get; set; }
-        
+        */
         /// <summary>
         /// Gets the subitems that represent multiple device tags for the topic.
         /// </summary>
@@ -64,8 +64,8 @@ namespace Scada.Comm.Drivers.DrvGooglePubSub.Config
             base.LoadFromXml(xmlElem);
             TagCode = xmlElem.GetAttrAsString("tagCode");
             //ReadOnly = xmlElem.GetAttrAsBool("readOnly");
-            JsEnabled = xmlElem.GetAttrAsBool("jsEnabled");
-            JsFileName = xmlElem.GetAttrAsString("jsFileName");
+            //JsEnabled = xmlElem.GetAttrAsBool("jsEnabled");
+            //JsFileName = xmlElem.GetAttrAsString("jsFileName");
 
             foreach (XmlNode subItemNode in xmlElem.SelectNodes("SubItem"))
             {
@@ -81,8 +81,8 @@ namespace Scada.Comm.Drivers.DrvGooglePubSub.Config
             base.SaveToXml(xmlElem);
             xmlElem.SetAttribute("tagCode", TagCode);
             //xmlElem.SetAttribute("readOnly", ReadOnly);
-            xmlElem.SetAttribute("jsEnabled", JsEnabled);
-            xmlElem.SetAttribute("jsFileName", JsFileName);
+            //xmlElem.SetAttribute("jsEnabled", JsEnabled);
+            //xmlElem.SetAttribute("jsFileName", JsFileName);
 
             foreach (string subItem in SubItems)
             {

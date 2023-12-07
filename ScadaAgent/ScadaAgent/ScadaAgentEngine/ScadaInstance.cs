@@ -474,10 +474,19 @@ namespace Scada.Agent.Engine
                                 entry.ExtractToFile(destFileName, true);
                             }
                         }
-                        
-                        if (uploadOptions.IncludeBase)
-                            File.Copy(baseUserExtUserTable, baseDATUserTable, true);
 
+                        if (uploadOptions.IncludeBase)
+                        {
+                            File.Copy(baseUserExtUserTable, baseDATUserTable, true);
+                        }
+                        try
+                        {
+                            //删除无用的dat
+                            File.Delete(Path.Combine(basedatPath, "userloginlog.dat"));
+                            File.Delete(Path.Combine(basedatPath, "usermachinecode.dat"));
+                            File.Delete(Path.Combine(basedatPath, "userusedpwd.dat"));
+                        }
+                        catch { }
                         return true;
                     }
                 }

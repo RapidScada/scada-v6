@@ -1,0 +1,10 @@
+
+
+2023.12.7:
+
+1、添加内部版本号修改入口：
+在admin-web-options-displayoptions添加Internal version
+
+2、修改上传时基础表冗余问题：
+上传时剔除BaseDat文件夹中的userloginlog.dat、usermachinecode.dat、userusedpwd.dat
+

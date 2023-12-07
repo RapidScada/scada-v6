@@ -9,11 +9,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvGooglePubSub.View", "Drv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvGooglePubSub.Common", "DrvGooglePubSub.Common\DrvGooglePubSub.Common.csproj", "{5E981581-F0FB-484F-995A-590EB88A5FB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvCnlGoogle.View", "DrvCnlGoogle.View\DrvCnlGoogle.View.csproj", "{E52A8E69-ED24-4DF6-AE63-A7D22C83B49A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvCnlGoogle.View", "DrvCnlGoogle.View\DrvCnlGoogle.View.csproj", "{E52A8E69-ED24-4DF6-AE63-A7D22C83B49A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvGoogle.Common", "DrvGoogle.Common\DrvGoogle.Common.csproj", "{726E0926-D8CD-450A-957F-A531D84E62F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvGoogle.Common", "DrvGoogle.Common\DrvGoogle.Common.csproj", "{726E0926-D8CD-450A-957F-A531D84E62F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvCnlGoogle.Logic", "DrvCnlGoogle.Logic\DrvCnlGoogle.Logic.csproj", "{7A4F6CFC-413E-46EC-B5DB-530CBABBA133}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvCnlGoogle.Logic", "DrvCnlGoogle.Logic\DrvCnlGoogle.Logic.csproj", "{7A4F6CFC-413E-46EC-B5DB-530CBABBA133}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvGoogleBigQueue.Common", "DrvGoogleBigQueue.Common\DrvGoogleBigQueue.Common.csproj", "{937A91C1-9D80-4A4A-AD53-41F77DBD9E83}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvGoogleBigQueue.Logic", "DrvGoogleBigQueue.Logic\DrvGoogleBigQueue.Logic.csproj", "{09F713D9-6A6D-49DF-A5E5-A9C9DE18F0CC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvGoogleBigQueue.View", "DrvGoogleBigQueue.View\DrvGoogleBigQueue.View.csproj", "{5996AAC4-A321-4FEB-99A2-D2A07151D43F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +51,18 @@ Global
 		{7A4F6CFC-413E-46EC-B5DB-530CBABBA133}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A4F6CFC-413E-46EC-B5DB-530CBABBA133}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A4F6CFC-413E-46EC-B5DB-530CBABBA133}.Release|Any CPU.Build.0 = Release|Any CPU
+		{937A91C1-9D80-4A4A-AD53-41F77DBD9E83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{937A91C1-9D80-4A4A-AD53-41F77DBD9E83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{937A91C1-9D80-4A4A-AD53-41F77DBD9E83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{937A91C1-9D80-4A4A-AD53-41F77DBD9E83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09F713D9-6A6D-49DF-A5E5-A9C9DE18F0CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09F713D9-6A6D-49DF-A5E5-A9C9DE18F0CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09F713D9-6A6D-49DF-A5E5-A9C9DE18F0CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09F713D9-6A6D-49DF-A5E5-A9C9DE18F0CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5996AAC4-A321-4FEB-99A2-D2A07151D43F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5996AAC4-A321-4FEB-99A2-D2A07151D43F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5996AAC4-A321-4FEB-99A2-D2A07151D43F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5996AAC4-A321-4FEB-99A2-D2A07151D43F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

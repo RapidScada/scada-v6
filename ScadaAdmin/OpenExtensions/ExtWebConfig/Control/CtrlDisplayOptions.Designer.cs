@@ -39,12 +39,16 @@
             lblShowMainMenu = new Label();
             chkShowHeader = new CheckBox();
             lblShowHeader = new Label();
+            txtInternalVersion = new TextBox();
+            lblInternalVersion = new Label();
             gbDisplayOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numRefreshRate).BeginInit();
             SuspendLayout();
             // 
             // gbDisplayOptions
             // 
+            gbDisplayOptions.Controls.Add(txtInternalVersion);
+            gbDisplayOptions.Controls.Add(lblInternalVersion);
             gbDisplayOptions.Controls.Add(numRefreshRate);
             gbDisplayOptions.Controls.Add(lblRefreshRate);
             gbDisplayOptions.Controls.Add(chkShowEventView);
@@ -58,7 +62,7 @@
             gbDisplayOptions.Location = new Point(0, 0);
             gbDisplayOptions.Name = "gbDisplayOptions";
             gbDisplayOptions.Padding = new Padding(10, 3, 10, 12);
-            gbDisplayOptions.Size = new Size(500, 213);
+            gbDisplayOptions.Size = new Size(500, 231);
             gbDisplayOptions.TabIndex = 0;
             gbDisplayOptions.TabStop = false;
             gbDisplayOptions.Text = "Display Options";
@@ -159,13 +163,31 @@
             lblShowHeader.TabIndex = 0;
             lblShowHeader.Text = "Show page header";
             // 
+            // txtInternalVersion
+            // 
+            txtInternalVersion.Location = new Point(348, 188);
+            txtInternalVersion.Name = "txtInternalVersion";
+            txtInternalVersion.Size = new Size(135, 23);
+            txtInternalVersion.TabIndex = 12;
+            txtInternalVersion.Text = "1.0";
+            txtInternalVersion.TextChanged += control_Changed;
+            // 
+            // lblInternalVersion
+            // 
+            lblInternalVersion.AutoSize = true;
+            lblInternalVersion.Location = new Point(9, 193);
+            lblInternalVersion.Name = "lblInternalVersion";
+            lblInternalVersion.Size = new Size(98, 17);
+            lblInternalVersion.TabIndex = 13;
+            lblInternalVersion.Text = "Internal version";
+            // 
             // CtrlDisplayOptions
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(gbDisplayOptions);
             Name = "CtrlDisplayOptions";
-            Size = new Size(550, 227);
+            Size = new Size(550, 245);
             Load += CtrlDisplayOptions_Load;
             gbDisplayOptions.ResumeLayout(false);
             gbDisplayOptions.PerformLayout();
@@ -186,5 +208,7 @@
         private NumericUpDown numRefreshRate;
         private CheckBox chkShowEventView;
         private Label lblShowEventView;
+        private TextBox txtInternalVersion;
+        private Label lblInternalVersion;
     }
 }

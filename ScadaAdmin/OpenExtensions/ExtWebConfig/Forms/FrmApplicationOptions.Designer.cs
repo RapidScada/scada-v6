@@ -57,7 +57,7 @@
             // 
             ctrlDisplayOptions.Location = new Point(159, 14);
             ctrlDisplayOptions.Name = "ctrlDisplayOptions";
-            ctrlDisplayOptions.Size = new Size(550, 227);
+            ctrlDisplayOptions.Size = new Size(550, 241);
             ctrlDisplayOptions.TabIndex = 2;
             ctrlDisplayOptions.OptionsChanged += control_Changed;
             // 

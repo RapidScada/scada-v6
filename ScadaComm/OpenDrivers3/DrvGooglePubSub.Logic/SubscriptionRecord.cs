@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Scada.Comm.Drivers.DrvGooglePubSub
+namespace Scada.Comm.Drivers.DrvGooglePubSub.Logic
 {
     public class SubscriptionRecord
     {
-        public string ProjectId { get; set; } 
-        public string SubscriptionId { get; set; } 
+        public string ProjectId { get; set; }
+        public string SubscriptionId { get; set; }
 
         public Task SubscribeTask { get; set; }
 

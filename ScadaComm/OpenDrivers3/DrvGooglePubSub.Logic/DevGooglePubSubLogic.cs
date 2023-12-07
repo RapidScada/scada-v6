@@ -7,7 +7,6 @@ using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvGoogle.Config;
 using Scada.Comm.Drivers.DrvGooglePubSub.Config;
-using Scada.Comm.Drivers.DrvGooglePubSub.Logic.CloudScada;
 using Scada.Comm.Drivers.DrvGooglePubSub.Models;
 using Scada.Comm.Lang;
 using Scada.Data.Entities;
@@ -20,6 +19,7 @@ using System.Text;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.CompilerServices.RuntimeHelpers;
 using Jint;
+using Scada.Comm.Drivers.DrvGooglePubSub.Logic.GoogleAuth;
 
 namespace Scada.Comm.Drivers.DrvGooglePubSub.Logic
 {
@@ -206,7 +206,7 @@ namespace Scada.Comm.Drivers.DrvGooglePubSub.Logic
             switch (googleCloudOptions.CredentialType)
             {
                 case DrvGoogle.Common.GoogleCredentialType.CloudScadaAccessToken:
-                    credential = CloudScadaCredential.Init(new CloudScadaAccessMethod());
+                    credential = new CloudScadaCredential(this.googleCloudChannel);
                     break;
                 case DrvGoogle.Common.GoogleCredentialType.ApplicationDefaultCredential:
                     if (googleCloudOptions.UseAdcFile)

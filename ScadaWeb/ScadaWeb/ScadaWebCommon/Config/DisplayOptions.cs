@@ -43,6 +43,7 @@ namespace Scada.Web.Config
             ShowViewExplorer = true;
             RefreshRate = 1000;
             ShowEventView = true;
+            InternalVersion = "1.0";
         }
 
 
@@ -72,6 +73,11 @@ namespace Scada.Web.Config
         public bool ShowEventView { get; set; }
 
         /// <summary>
+        /// 内部版本号
+        /// </summary>
+        public string InternalVersion { get; set; }
+
+        /// <summary>
         /// Loads the options from the XML node.
         /// </summary>
         public void LoadFromXml(XmlNode xmlNode)
@@ -82,6 +88,7 @@ namespace Scada.Web.Config
             ShowViewExplorer = xmlNode.GetChildAsBool("ShowViewExplorer", ShowViewExplorer);
             RefreshRate = xmlNode.GetChildAsInt("RefreshRate", RefreshRate);
             ShowEventView = xmlNode.GetChildAsBool("ShowEventView", ShowEventView);
+            InternalVersion = xmlNode.GetChildAsString("InternalVersion", InternalVersion);
         }
 
         /// <summary>
@@ -95,6 +102,7 @@ namespace Scada.Web.Config
             xmlElem.AppendElem("ShowViewExplorer", ShowViewExplorer);
             xmlElem.AppendElem("RefreshRate", RefreshRate);
             xmlElem.AppendElem("ShowEventView", ShowEventView);
+            xmlElem.AppendElem("InternalVersion", InternalVersion);
         }
     }
 }

@@ -45,10 +45,6 @@ namespace Scada.Web
     public static partial class WebUtils
     {
         /// <summary>
-        /// 界面版本号
-        /// </summary>
-        public const string Version = "1.0";
-        /// <summary>
         /// The application log file name.
         /// </summary>
         public const string LogFileName = "ScadaWeb.log";
