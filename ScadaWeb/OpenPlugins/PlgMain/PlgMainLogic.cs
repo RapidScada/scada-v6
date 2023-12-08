@@ -44,12 +44,14 @@ namespace Scada.Web.Plugins.PlgMain
         /// <summary>
         /// Gets the view specifications.
         /// </summary>
-        public override ICollection<ViewSpec> ViewSpecs => new ViewSpec[] { new TableViewSpec() };
+        public override ICollection<ViewSpec> ViewSpecs =>
+            new ViewSpec[] { new TableViewSpec() };
 
         /// <summary>
         /// Gets the data window specifications.
         /// </summary>
-        public override ICollection<DataWindowSpec> DataWindowSpecs => new DataWindowSpec[] { new EventWindowSpec() };
+        public override ICollection<DataWindowSpec> DataWindowSpecs => 
+            pluginContext.Options.EventCount > 0 ? new DataWindowSpec[] { new EventWindowSpec() } : null;
 
 
         /// <summary>
