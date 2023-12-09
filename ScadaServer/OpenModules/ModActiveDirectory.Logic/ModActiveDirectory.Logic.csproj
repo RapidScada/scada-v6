@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.DirectoryServices.Protocols" Version="7.0.0" />
-    <PackageReference Include="Npgsql" Version="6.0.6" />
+    <PackageReference Include="Npgsql" Version="6.0.10" />
   </ItemGroup>
 
   <ItemGroup>
