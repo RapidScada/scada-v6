@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Admin.App.Code;
@@ -54,23 +54,20 @@ namespace Scada.Admin.App.Forms.Tables
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmLimCreate(ConfigDatabase configDatabase)
+        public FrmLimCreate(ConfigDatabase configDatabase, int cnlNum)
             : this()
         {
             this.configDatabase = configDatabase ?? throw new ArgumentNullException(nameof(configDatabase));
 
-            CnlNum = 0;
+            CnlNum = cnlNum;
             LimEntity = null;
-
-            numLimID.Value = configDatabase.LimTable.GetNextPk();
-            numLimID.Maximum = ConfigDatabase.MaxID;
         }
 
 
         /// <summary>
-        /// Gets or sets the channel number for which a limit is created.
+        /// Gets the channel number for which a limit is created.
         /// </summary>
-        public int CnlNum { get; set; }
+        public int CnlNum { get; }
 
         /// <summary>
         /// Gets the limit.
@@ -152,8 +149,11 @@ namespace Scada.Admin.App.Forms.Tables
         {
             FormTranslator.Translate(this, GetType().FullName);
 
-            if (CnlNum > 0)
-                txtName.Text = string.Format(AppPhrases.DefaultLimName, CnlNum);
+            numLimID.Maximum = ConfigDatabase.MaxID;
+            numLimID.Value = configDatabase.LimTable.PkExists(CnlNum)
+                ? configDatabase.LimTable.GetNextPk() // get available limit ID
+                : CnlNum;                             // limit ID equals channel number
+            txtName.Text = string.Format(AppPhrases.DefaultLimName, CnlNum);
         }
 
         private void btnOK_Click(object sender, EventArgs e)

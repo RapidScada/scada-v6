@@ -19,10 +19,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
     /// </summary>
     public partial class CtrlQuery : UserControl
     {
-        private const int DefaultCnlNum = 1;
-
         private QueryOptions queryOptions;
-        private bool cnlNumChanged;
+        private bool filterChanged;
 
 
         /// <summary>
@@ -33,7 +31,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
             InitializeComponent();
 
             queryOptions = null;
-            cnlNumChanged = false;
+            filterChanged = false;
             ConfigDataset = null;
         }
 
@@ -123,8 +121,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
             FrmRangeEdit frmRangeEdit = new()
             {
                 Range = numsList,
-                AllowEmpty = false,
-                DefaultValue = DefaultCnlNum
+                AllowEmpty = true
             };
 
             if (frmRangeEdit.ShowDialog() == DialogResult.OK)
@@ -156,21 +153,19 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
         }
 
         /// <summary>
-        /// Validates the textbox of the filter.
+        /// Validates the filter textbox.
         /// </summary>       
         private void ValidateFilterTextBox(List<int> numList, TextBox textBox)
         {
-            if (cnlNumChanged)
+            if (filterChanged)
             {
                 if (ScadaUtils.ParseRange(textBox.Text, true, true, out IList<int> newRange))
                 {
-                    // update channel list
+                    // update list
                     numList.Clear();
 
                     if (newRange.Count > 0)
                         numList.AddRange(newRange);
-                    else
-                        numList.Add(DefaultCnlNum);
 
                     textBox.ForeColor = Color.FromKnownColor(KnownColor.WindowText);
 
@@ -311,12 +306,12 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
 
         private void txtCnlNum_Enter(object sender, EventArgs e)
         {
-            cnlNumChanged = false;
+            filterChanged = false;
         }
 
         private void txtCnlNum_TextChanged(object sender, EventArgs e)
         {
-            cnlNumChanged = true;
+            filterChanged = true;
         }
 
         private void txtCnlNum_Validating(object sender, CancelEventArgs e)
@@ -333,12 +328,12 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
 
         private void txtObjNum_Enter(object sender, EventArgs e)
         {
-            cnlNumChanged = false;
+            filterChanged = false;
         }
         
         private void txtObjNum_TextChanged(object sender, EventArgs e)
         {
-            cnlNumChanged = true;
+            filterChanged = true;
         }     
 
         private void txtObjNum_Validating(object sender, CancelEventArgs e)
@@ -355,12 +350,12 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
 
         private void txtDeviceNum_Enter(object sender, EventArgs e)
         {
-            cnlNumChanged = false;
+            filterChanged = false;
         }
 
         private void txtDeviceNum_TextChanged(object sender, EventArgs e)
         {
-            cnlNumChanged = true;
+            filterChanged = true;
         }
 
         private void txtDeviceNum_Validating(object sender, CancelEventArgs e)

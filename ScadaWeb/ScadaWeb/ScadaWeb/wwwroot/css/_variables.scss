@@ -49,6 +49,11 @@ $severity-minor-color: $yellow;
 $severity-info-color: $info;
 $severity-undef-color: $gray-400;
 
+// Similar to Bootstrap modal sizes https://getbootstrap.com/docs/5.3/components/modal/#optional-sizes
+$form-width-small: 300px;
+$form-width-default: 500px;
+$form-width-large: 800px;
+
 // Z-indexes
-// The values below take into account Bootstrap z-indexes https://getbootstrap.com/docs/5.1/layout/z-index/
+// The values below take into account Bootstrap z-indexes https://getbootstrap.com/docs/5.3/layout/z-index/
 $zindex-notif: 900; // used by the notification panel

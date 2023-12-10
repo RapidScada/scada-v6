@@ -49,6 +49,32 @@ namespace Scada.Doc.Code
         };
 
         /// <summary>
+        /// Spanish versions of the documentation.
+        /// </summary>
+        public static readonly VersionMenu Es = new(KnownLang.Es)
+        {
+            new VersionItem
+            {
+                Version = KnownVersion.V58,
+                Text = KnownVersion.V58.ConvertToString(),
+                Url = "/es/5.8/"
+            }
+        };
+
+        /// <summary>
+        /// French versions of the documentation.
+        /// </summary>
+        public static readonly VersionMenu Fr = new(KnownLang.Fr)
+        {
+            new VersionItem
+            {
+                Version = KnownVersion.V61,
+                Text = KnownVersion.V61.ConvertToString(),
+                Url = "/fr/latest/"
+            }
+        };
+
+        /// <summary>
         /// Russian versions of the documentation.
         /// </summary>
         public static readonly VersionMenu Ru = new(KnownLang.Ru)
@@ -64,19 +90,6 @@ namespace Scada.Doc.Code
                 Version = KnownVersion.V58,
                 Text = KnownVersion.V58.ConvertToString(),
                 Url = "/ru/5.8/"
-            }
-        };
-
-        /// <summary>
-        /// Spanish versions of the documentation.
-        /// </summary>
-        public static readonly VersionMenu Es = new(KnownLang.Es)
-        {
-            new VersionItem
-            {
-                Version = KnownVersion.V58,
-                Text = KnownVersion.V58.ConvertToString(),
-                Url = "/es/5.8/"
             }
         };
 
@@ -102,11 +115,13 @@ namespace Scada.Doc.Code
         /// The menus for all languages.
         /// </summary>
         public static readonly List<VersionMenu> All = new() 
-        { 
-            En, 
-            Ru, 
-            Es, 
-            Zh  
+        {
+            // In alphabet order
+            En, // English 
+            Fr, // French
+            Ru, // Russian
+            Es, // English
+            Zh  // 简体中文
         };
 
 
@@ -118,8 +133,9 @@ namespace Scada.Doc.Code
             return lang switch
             {
                 KnownLang.En => En,
-                KnownLang.Ru => Ru,
                 KnownLang.Es => Es,
+                KnownLang.Fr => Fr,
+                KnownLang.Ru => Ru,
                 KnownLang.Zh => Zh,
                 _ => Empty
             };

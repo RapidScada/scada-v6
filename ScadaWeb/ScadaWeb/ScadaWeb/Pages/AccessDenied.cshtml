@@ -7,5 +7,10 @@
 
 <div class="container text-center">
     <h1 class="text-danger">@dict.PageTitle</h1>
-    <p>@WebUtils.HtmlEncodeWithBreak(Model.ErrorMessage ?? dict.ErrorMessage)</p>        
+    <p>@WebUtils.HtmlEncodeWithBreak(Model.ErrorMessage ?? dict.ErrorMessage)</p>
+
+    @if (!string.IsNullOrEmpty(Model.ReturnUrl))
+    {
+        <a href="@Model.ReturnUrl" class="btn btn-primary link-light">@dict.btnReturn</a>
+    }
 </div>

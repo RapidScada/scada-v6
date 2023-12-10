@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Lang;
+using System.ComponentModel;
 
 namespace Scada.Forms.Forms
 {
@@ -31,6 +32,8 @@ namespace Scada.Forms.Forms
         {
             this.configProvider = configProvider ?? throw new ArgumentNullException(nameof(configProvider));
             modified = false;
+            btnSave.Enabled = false;
+            btnCancel.Enabled = false;
         }
 
 
@@ -45,9 +48,12 @@ namespace Scada.Forms.Forms
             }
             set
             {
-                modified = value;
-                btnSave.Enabled = modified;
-                btnCancel.Enabled = modified;
+                if (modified != value)
+                {
+                    modified = value;
+                    btnSave.Enabled = modified;
+                    btnCancel.Enabled = modified;
+                }
             }
         }
 
@@ -157,7 +163,7 @@ namespace Scada.Forms.Forms
 
         private void FrmModuleConfig_Load(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this, GetType().FullName, 
+            FormTranslator.Translate(this, GetType().FullName,
                 new FormTranslatorOptions { ContextMenus = new ContextMenuStrip[] { cmsTree } });
 
             if (!string.IsNullOrEmpty(configProvider.FormTitle))
@@ -270,6 +276,26 @@ namespace Scada.Forms.Forms
                     selectedNode.Text = nodeText;
             }
 
+            Modified = true;
+        }
+
+        private void propertyGrid_SelectedGridItemChanged(object sender, SelectedGridItemChangedEventArgs e)
+        {
+            if (e.OldSelection?.Value is INotifyPropertyChanged notifyPropertyChanged1)
+            {
+                notifyPropertyChanged1.PropertyChanged -= selectedGridItem_PropertyChanged;
+            }
+
+            if (e.NewSelection?.Value is INotifyPropertyChanged notifyPropertyChanged2)
+            {
+                notifyPropertyChanged2.PropertyChanged -= selectedGridItem_PropertyChanged;
+                notifyPropertyChanged2.PropertyChanged += selectedGridItem_PropertyChanged;
+            }
+        }
+
+        private void selectedGridItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            // usually called many times
             Modified = true;
         }
 

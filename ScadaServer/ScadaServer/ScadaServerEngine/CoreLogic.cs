@@ -819,8 +819,8 @@ namespace Scada.Server.Engine
                 // take deadband into account
                 if (deadband != 0.0 && (
                     prevStat != CnlStatusID.Normal && newStat == CnlStatusID.Normal ||
-                    prevStat == CnlStatusID.ExtremelyHigh && newStat == CnlStatusID.High ||
-                    prevStat == CnlStatusID.ExtremelyLow && newStat == CnlStatusID.Low))
+                    prevStat == CnlStatusID.HiHi && newStat == CnlStatusID.High ||
+                    prevStat == CnlStatusID.LoLo && newStat == CnlStatusID.Low))
                 {
                     newStat = GetCnlStatus(cnlData.Val,
                         lolo + deadband, low + deadband,
@@ -922,11 +922,11 @@ namespace Scada.Server.Engine
         private int GetCnlStatus(double cnlVal, double lolo, double low, double high, double hihi)
         {
             if (cnlVal < lolo)
-                return CnlStatusID.ExtremelyLow;
+                return CnlStatusID.LoLo;
             else if (cnlVal < low)
                 return CnlStatusID.Low;
             else if (cnlVal > hihi)
-                return CnlStatusID.ExtremelyHigh;
+                return CnlStatusID.HiHi;
             else if (cnlVal > high)
                 return CnlStatusID.High;
             else

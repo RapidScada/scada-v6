@@ -6,9 +6,9 @@
     <Phrase key="LdapServer.Description">Хост или IP-адрес контроллера домена. Например, 127.0.0.1</Phrase>
     <Phrase key="EnableSearch.DisplayName">Включить поиск</Phrase>
     <Phrase key="EnableSearch.Category">Основные параметры</Phrase>
-    <Phrase key="EnableSearch.Description">Включите поиск ролей пользователей в Active Directory.</Phrase>
+    <Phrase key="EnableSearch.Description">Включить поиск пользователей в Active Directory и PostgreSQL.</Phrase>
     <Phrase key="SearchRoot.DisplayName">Корень поиска</Phrase>
     <Phrase key="SearchRoot.Category">Основные параметры</Phrase>
-    <Phrase key="SearchRoot.Description">Корень поиска. Например, DC=company,DC=com</Phrase>
+    <Phrase key="SearchRoot.Description">Корень поиска в Active Directory. Например, DC=company,DC=com</Phrase>
   </Dictionary>
 </ModActiveDirectoryDictionaries>

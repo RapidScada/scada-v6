@@ -217,6 +217,12 @@
     <Descr>Транслирует данные каналов на MQTT-брокер и принимает команды</Descr>
   </DevType>
   <DevType>
+    <DevTypeID>237</DevTypeID>
+    <Name>CSV-считыватель</Name>
+    <Driver>DrvCsvReader</Driver>
+    <Descr>Считывает данные из CSV-файла</Descr>
+  </DevType>
+  <DevType>
     <DevTypeID>1001</DevTypeID>
     <Name>Пользовательский драйвер</Name>
     <Descr>Добавляйте пользовательские элементы, начиная с этой строки</Descr>

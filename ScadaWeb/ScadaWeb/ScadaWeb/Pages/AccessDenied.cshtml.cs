@@ -15,6 +15,9 @@ namespace Scada.Web.Pages
         [TempData]
         public string ErrorMessage { get; set; }
 
+        [BindProperty(SupportsGet = true)]
+        public string ReturnUrl { get; set; }
+
         public void OnGet()
         {
         }

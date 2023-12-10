@@ -149,9 +149,9 @@ namespace Scada.Web.Code
                     loginOptions.AllowRememberMe && rememberMe, loginOptions.RememberMeExpires);
 
                 webContext.Log.WriteAction(Locale.IsRussian ?
-                    "Пользователь {0} вошёл в систему {0}, IP {1}" :
-                    "User {0} is logged in, IP {1}",
-                    username, userLoginArgs.RemoteIP);
+                    "Пользователь {0} вошёл в систему, роль {1}, IP {2}" :
+                    "User {0} is logged in, role {1}, IP {2}",
+                    username, userLoginArgs.RoleID, userLoginArgs.RemoteIP);
                 return SimpleResult.Success();
             }
             else

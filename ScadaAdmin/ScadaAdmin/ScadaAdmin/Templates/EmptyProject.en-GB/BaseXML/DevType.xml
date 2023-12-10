@@ -217,6 +217,12 @@
     <Descr>Transmits channel data to MQTT broker and receives commands</Descr>
   </DevType>
   <DevType>
+    <DevTypeID>237</DevTypeID>
+    <Name>CSV Reader</Name>
+    <Driver>DrvCsvReader</Driver>
+    <Descr>Reads data from a CSV file</Descr>
+  </DevType>
+  <DevType>
     <DevTypeID>1001</DevTypeID>
     <Name>Custom driver</Name>
     <Descr>Add custom items starting from this row</Descr>

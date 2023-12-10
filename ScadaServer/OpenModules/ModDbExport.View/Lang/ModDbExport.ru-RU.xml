@@ -34,11 +34,11 @@
     <Phrase key="gbGeneral">Основное</Phrase>
     <Phrase key="chkActive">Активен</Phrase>
     <Phrase key="lblName">Наименование</Phrase>
-    <Phrase key="lblDataKind">Тип данных</Phrase>
+    <Phrase key="lblDataKind">Разновидность данных</Phrase>
     <Phrase key="cbDataKind.Items[0]">Текущие данные</Phrase>
     <Phrase key="cbDataKind.Items[1]">Исторические данные</Phrase>
     <Phrase key="cbDataKind.Items[2]">Событие</Phrase>
-    <Phrase key="cbDataKind.Items[3]">Подтверждение</Phrase>
+    <Phrase key="cbDataKind.Items[3]">Квитирование</Phrase>
     <Phrase key="cbDataKind.Items[4]">Команда</Phrase>
     <Phrase key="gbFilter">Фильтр</Phrase>
     <Phrase key="lblCnlNum">Номера каналов</Phrase>
@@ -58,7 +58,7 @@
     <Phrase key="btnAddCurrentDataQuery.ToolTip">Добавить запрос на текущие данные</Phrase>
     <Phrase key="btnAddHistoricalDataQuery.ToolTip">Добавить запрос на исторические данные</Phrase>
     <Phrase key="btnAddEventQuery.ToolTip">Добавить запрос на событие</Phrase>
-    <Phrase key="btnAddEventAckQuery.ToolTip">Добавить запрос на подтверждение события</Phrase>
+    <Phrase key="btnAddEventAckQuery.ToolTip">Добавить запрос на квитирование события</Phrase>
     <Phrase key="btnAddCommandQuery.ToolTip">Добавить запрос на команду</Phrase>
     <Phrase key="btnMoveUp.ToolTip">Переместить вверх</Phrase>
     <Phrase key="btnMoveDown.ToolTip">Переместить вниз</Phrase>
@@ -130,6 +130,7 @@
     <Phrase key="CnlStat">Статус канала</Phrase>
     <Phrase key="Severity">Серьёзность</Phrase>
     <Phrase key="AckRequired">Требуется квитирование</Phrase>
+    <Phrase key="Ack">Событие квитировано</Phrase>
     <Phrase key="AckTimestamp">Время квитирования</Phrase>
     <Phrase key="AckUserID">Идентификатор квитировавшего пользователя</Phrase>
     <Phrase key="TextFormat">Формат текста</Phrase>

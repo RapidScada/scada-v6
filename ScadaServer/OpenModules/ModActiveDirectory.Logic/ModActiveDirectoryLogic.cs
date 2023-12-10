@@ -1,12 +1,15 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Npgsql;
 using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
+using Scada.Dbms;
 using Scada.Lang;
 using Scada.Server.Lang;
 using Scada.Server.Modules.ModActiveDirectory.Config;
+using System.Data;
 using System.DirectoryServices.Protocols;
 using System.Net;
 
@@ -18,11 +21,6 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
     /// </summary>
     public class ModActiveDirectoryLogic : ModuleLogic
     {
-        /// <summary>
-        /// The identifier shared between Active Directory users as a temporary solution.
-        /// </summary>
-        private const int AdUserID = 1001;
-
         private readonly ModuleConfig moduleConfig;      // the module configuration
         private readonly Dictionary<string, User> users; // the users accessed by username
 
@@ -109,16 +107,13 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
                 {
                     if (GroupsContain(userGroups, role.Code))
                     {
-                        UserValidationResult result = new()
-                        {
-                            UserID = AdUserID,
-                            RoleID = role.RoleID
-                        };
-
                         if (role.RoleID > RoleID.Disabled)
                         {
-                            result.IsValid = true;
-                            return result;
+                            return new UserValidationResult
+                            {
+                                IsValid = true,
+                                RoleID = role.RoleID
+                            };
                         }
                         else
                         {
@@ -233,6 +228,106 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
             }
         }
 
+        /// <summary>
+        /// Creates a database connection.
+        /// </summary>
+        private NpgsqlConnection CreateConnection()
+        {
+            return new NpgsqlConnection(ServerContext.InstanceConfig.Connection
+                .BuildConnectionString(KnownDBMS.PostgreSQL));
+        }
+
+        /// <summary>
+        /// Creates database entities if they do not exist.
+        /// </summary>
+        private void CreateDbEntities()
+        {
+            try
+            {
+                using NpgsqlConnection conn = CreateConnection();
+                conn.Open();
+
+                NpgsqlCommand cmd1 = new(SqlScript.CreateSchema, conn);
+                cmd1.ExecuteNonQuery();
+
+                NpgsqlCommand cmd2 = new(SqlScript.CreateUserTable, conn);
+                cmd2.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Log.WriteError(ServerPhrases.ModuleMessage, Code,
+                    ex.BuildErrorMessage(Locale.IsRussian ?
+                    "Ошибка при создании объектов БД" :
+                    "Error creating database entities"));
+            }
+        }
+
+        /// <summary>
+        /// Updates user information in the database and sets the user ID in the validation result.
+        /// </summary>
+        private void UpdateUserInDB(string usernameLower, ref UserValidationResult userValidationResult)
+        {
+            try
+            {
+                using NpgsqlConnection conn = CreateConnection();
+                conn.Open();
+
+                NpgsqlCommand cmd1 = new(SqlScript.UpdateUser, conn);
+                cmd1.Parameters.AddWithValue("username", usernameLower);
+                cmd1.Parameters.AddWithValue("roleID", userValidationResult.RoleID);
+                cmd1.Parameters.AddWithValue("updateTime", DateTime.UtcNow);
+                cmd1.ExecuteNonQuery();
+
+                NpgsqlCommand cmd2 = new(SqlScript.SelectUserID, conn);
+                cmd2.Parameters.AddWithValue("username", usernameLower);
+                userValidationResult.UserID = (int)cmd2.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                string message = Locale.IsRussian ?
+                    "Ошибка при обновлении информации о пользователе в БД" :
+                    "Error updating user information in database";
+                userValidationResult = UserValidationResult.Fail(message);
+                Log.WriteError(ServerPhrases.ModuleMessage, Code, ex.BuildErrorMessage(message));
+            }
+        }
+
+        /// <summary>
+        /// Finds a user in the database.
+        /// </summary>
+        private User FindUserInDB(int userID)
+        {
+            try
+            {
+                using NpgsqlConnection conn = CreateConnection();
+                conn.Open();
+
+                NpgsqlCommand cmd = new(SqlScript.SelectUserByID, conn);
+                cmd.Parameters.AddWithValue("adUserID", userID);
+                using NpgsqlDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow);
+
+                if (reader.Read())
+                {
+                    return new User
+                    {
+                        UserID = userID,
+                        Enabled = true,
+                        Name = reader.GetString("username"),
+                        RoleID = reader.GetInt32("role_id")
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.WriteError(ServerPhrases.ModuleMessage, Code,
+                    ex.BuildErrorMessage(Locale.IsRussian ?
+                    "Ошибка при поиске пользователя в БД" :
+                    "Error searching for user in database"));
+            }
+
+            return null;
+        }
+
 
         /// <summary>
         /// Performs actions when starting the service.
@@ -243,12 +338,15 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
             if (!moduleConfig.Load(ServerContext.Storage, ModuleConfig.DefaultFileName, out string errMsg))
                 Log.WriteError(ServerPhrases.ModuleMessage, Code, errMsg);
 
-            // get users
+            // get users from the configuration database
             foreach (User user in ServerContext.ConfigDatabase.UserTable)
             {
                 if (!string.IsNullOrEmpty(user.Name))
                     users[user.Name.ToLowerInvariant()] = user;
             }
+
+            // create entities in the module database
+            CreateDbEntities();
         }
 
         /// <summary>
@@ -264,13 +362,17 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
 
                 if (ValidateCredentials(connection))
                 {
-                    if (users.TryGetValue(username.ToLowerInvariant(), out User user))
+                    string usernameLower = username.ToLowerInvariant();
+
+                    if (users.TryGetValue(usernameLower, out User user))
                     {
                         return ValidateByConfigDatabase(user);
                     }
                     else if (moduleConfig.EnableSearch)
                     {
-                        return ValidateByActiveDirectory(connection, username);
+                        UserValidationResult result = ValidateByActiveDirectory(connection, username);
+                        UpdateUserInDB(usernameLower, ref result);
+                        return result;
                     }
                     else
                     {
@@ -298,15 +400,7 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
         /// </summary>
         public override User FindUser(int userID)
         {
-            return moduleConfig.EnableSearch && userID == AdUserID
-                ? new User
-                {
-                    UserID = userID,
-                    Enabled = false,
-                    Name = "Active Directory user",
-                    RoleID = RoleID.Disabled
-                }
-                : null;
+            return moduleConfig.EnableSearch ? FindUserInDB(userID) : null;
         }
     }
 }

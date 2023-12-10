@@ -53,7 +53,7 @@ namespace Scada.Data.Models
             StoredOnServer = true;
             Args = ParseArgs();
             Title = GetTitle();
-            Resources = null;
+            Resources = new List<ViewResource>();
             CnlNumList = new List<int>();
             CnlNumSet = new HashSet<int>();
         }

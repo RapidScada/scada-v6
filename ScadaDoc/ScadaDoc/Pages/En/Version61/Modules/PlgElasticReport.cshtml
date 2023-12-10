@@ -1,0 +1,133 @@
+﻿@page "/en/latest/modules/plg-elastic-report"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Elastic Report Plugin";
+}
+
+@section Styles {
+    <link href="~/lib/prismjs/prism.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="~/lib/prismjs/prism.js"></script>
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li>
+            <a href="#configuring">Configuring</a>
+            <ul>
+                <li><a href="#report-form">Report Form</a></li>
+                <li><a href="#report-list">Report List</a></li>
+                <li><a href="#report-styling">Styling</a></li>
+                <li><a href="#report-fonts">Fonts</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Elastic Report Plugin</h1>
+    <h2 id="overview">Overview</h2>
+    <p>Elastic Report Plugin allows to generate reports according to a custom configuration. Using this plugin, you can build almost any desired report. A user simply selects the period and clicks the generate report button. Report configurations are created by an administrator. Download the plugin using the <a href="https://rapidscada.net/store/Module/en/PlgElasticReport" target="_blank">link</a>.</p>
+
+    <h2 id="installation">Installation</h2>
+    <p>Elastic Report Plugin is installed according to the <a href="../installation/install-modules#plugins">instructions</a>. During installation, complete the following additional step: copy the <code>PlgElasticReport.xml</code> file from the plugin distribution into your project. The file should be displayed in the project explorer under the <strong>Webstation &gt; Configuration Files</strong> node.</p>
+
+    <h2 id="configuring">Configuring</h2>
+    <p>A report consists of a set of sections, which are listed in the output document, one by one. Each section has its own type, parameters, and data binding. In addition, the report has the general parameters that affect all sections. The same report can be generated in a variety of formats. Currently supported PDF, Excel and HTML formats. The appearance of the same report, generated in different formats may slightly differ.</p>
+
+    <h3 id="report-form">Report Form</h3>
+    <p>Each report form requires the creation of a separate configuration file in XML format. The configuration file specifies the report formatting and determines the binding of report data to channels. This file should be saved in the views directory or a subdirectory within the project.</p>
+    <figure class="figure">
+        <img src="plg-elastic-report/report-file-en.png" class="figure-img img-fluid" alt="Report file" />
+    </figure>
+    <p>Configuration files may be edited using any text editor. For example, the free editor <a href="https://notepad-plus-plus.org/" target="_blank">Notepad++</a> is convenient for working with XML files.</p>
+    <p>An example report file <code>ElasticReport1.xml</code> is contained in the plugin installation package. This example includes a detailed description of the options and demonstrates the generation of report sections of all possible types.</p>
+    <p>The main elements of the report configuration file:</p>
+    <ul>
+        <li>The <code>InputOptions</code> element contains options for the input report form, with which a user enters the report parameters and starts generating the document.</li>
+        <li>The <code>OutputOptions</code> element contains formatting options for the generated document.</li>
+        <li>
+            The <code>Document</code> element defines the content of the report.
+            <ul>
+                <li>The <code>DocumentOptions</code> element specifies basic options that apply to the entire document.</li>
+                <li>The <code>Section</code> element describes a report section containing data. A report includes one or more sections of various types.</li>
+            </ul>
+        </li>
+    </ul>
+    <p>The supported section types:</p>
+    <ul>
+        <li>The <code>TimeData</code> section displays channel data for the selected time period. Channels are displayed horizontally, timestamps are displayed vertically.</li>
+        <li>The <code>TimeTime</code> section displays data of one channel in a compact form. Timestamps are displayed in the horizontal and vertical section headers.</li>
+        <li>The <code>DataData</code> section displays data in a table form. Each cell can be linked to its own channel.</li>
+    </ul>
+    <p>The plugin provides the generation of reports based on historical data. Reports on current data and events are not supported. When choosing a historical archive for a report, it is recommended to give preference to an archive with a data writing period that matches or is close to the step of the report sections. This will avoid fetching unnecessary data.</p>
+
+    <h3 id="report-list">Report List</h3>
+    <p>The <code>PlgElasticReport.xml</code> configuration file contains a list of reports divided into groups, which are displayed on the <strong>Main Menu &gt; Reports</strong> page. Example of file contents:</p>
+    <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;PlgElasticReport&gt;
+  &lt;ReportGroup name=&quot;Elastic Reports&quot; isPublic=&quot;false&quot; objNum=&quot;0&quot;&gt;
+    &lt;ReportItem reportID=&quot;1&quot; isPublic=&quot;false&quot; objNum=&quot;0&quot; config=&quot;Reports\ElasticReport1.xml&quot; prefix=&quot;MyRep&quot; cnlNums=&quot;&quot;&gt;My report&lt;/ReportItem&gt;
+  &lt;/ReportGroup&gt;
+&lt;/PlgElasticReport&gt;</code></pre>
+    
+    <p>
+        The <code>ReportGroup</code> element attributes:<br />
+        <code>name</code> - the display name of the report group;<br />
+        <code>isPublic</code> - a value indicating whether the group is public, that is, available to all users;<br />
+        <code>objNum</code> - the number of the object to which reports of the group belong. Restricts the group visibility according to a user's access rights to the object.
+    </p>
+    <p>
+        The <code>ReportItem</code> element attributes:<br />
+        <code>reportID</code> - the report identifier, unique within the configuration file;<br />
+        <code>isPublic</code> - a value indicating whether the report is public, that is, available to all users;<br />
+        <code>objNum</code> - the number of the object to the report belong. Restricts the report visibility according to a user's access rights to the object;<br />
+        <code>config</code> - the path of the report form configuration file relative to the views directory,<br />
+        <code>prefix</code> - the file name prefix used when downloading the report,<br />
+        <code>cnlNums</code> - the predefined channel numbers for which the report is generated.
+    </p>
+
+    <h3 id="report-styling">Styling</h3>
+    <p>You can customize your own report styles, including fonts, colors, cell sizes, etc. For each report format, styles are configured separately.</p>
+
+    <h4>PDF Styles</h4>
+    <p>The <code>PdfStyleDefault.xml</code> and <code>PdfStyleCustom.xml</code> files specify the formatting of reports in PDF format. These files are located in the web application directory <code>ScadaWeb\wwwroot\plugins\ElasticReport\templates</code>. The <code>PdfStyleDefault.xml</code> file contains the default styles and should remain unchanged. Custom styles are added to the <code>PdfStyleCustom.xml</code> file. When creating custom styles, you can inherit new styles from existing ones or override existing styles.</p>
+
+    <h4>Excel Styles</h4>
+    <p>Similarly, the <code>ExcelStyleDefault.xml</code> and <code>ExcelStyleCustom.xml</code> files, located in the same directory, specify the formatting of reports in Excel format. The <code>ExcelStyleDefault.xml</code> file contains default styles and should remain unchanged. Custom styles are added to the <code>ExcelStyleCustom.xml</code> file. Please note that PDF and Excel style file formats are different.</p>
+
+    <h4>HTML Styles</h4>
+    <p>The <code>html-style-default.scss</code> and <code>html-style-custom.css</code> files define the display of reports in HTML format. The files are located in the <code>ScadaWeb\wwwroot\plugins\ElasticReport\css</code> directory. Custom styles are added to the <code>html-style-custom.css</code> file using Cascading Style Sheets (CSS) rules.</p>
+
+    <h3 id="report-fonts">Fonts</h3>
+    <h4>Fonts in PDF Format</h4>
+    <p>When generating reports in PDF format, the Arial font is used by default. If the required font is not available in the operating system, it is replaced with the built-in Segoe WP font. To change the report font, edit the styles file.</p>
+    <p>The font search is performed using the following algorithm:</p>
+    <ol>
+        <li>The search directory is selected. On Windows, the search is performed in the <code>C:\Windows\Fonts</code> directory, on Linux in the <code>/usr/share/fonts/truetype directory</code></li>
+        <li>
+            Based on the font name (FontFamily), the required font file names are determined.
+            <ol type="a">
+                <li>Regular font: <code>FontFamily.ttf</code>, <code>FontFamily-Regular.ttf</code></li>
+                <li>Bold font: <code>FontFamilyb.ttf</code>, <code>FontFamilybd.ttf</code>, <code>FontFamily-Bold.ttf</code></li>
+                <li>Italic font: <code>FontFamilyi.ttf</code>, <code>FontFamily-Italic.ttf</code>, <code>FontFamily-Oblique.ttf</code></li>
+                <li>Bold italic font: <code>FontFamilybi.ttf</code>, <code>FontFamily-BoldItalic.ttf</code>, <code>FontFamily-BoldOblique.ttf</code></li>
+            </ol>
+        </li>
+        <li>Fallback font file names (candidates) are determined. For bold or italic fonts, regular font files are used as candidates. There are no fallback options for a regular font.</li>
+        <li>If a desired or fallback font is found in the search directory, the font file is loaded and provided for report generation. The search is not case sensitive.</li>
+    </ol>
+    <p>The default fonts usually do not contain characters for languages such as Chinese and Korean. To generate reports in such languages, it is recommended to install the <a href="https://learn.microsoft.com/en-us/typography/font-list/arial-unicode-ms" target="_blank">Arial Unicode MS</a> font. On Windows, the font installation is required for all users so that the font file is placed in the <code>C:\Windows\Fonts</code> directory.</p>
+    <figure class="figure">
+        <img src="plg-elastic-report/install-font-en.png" class="figure-img img-fluid" alt="Install font" />
+    </figure>
+
+    <h4>Fonts in Excel Format</h4>
+    <p>In generated reports in Excel format, only the font name is specified; the font itself is not included in the report file. The default font is Arial. When a file is opened in Microsoft Excel or Libre Office Calc, the application loads the font from the system. If the font is missing, automatic replacement is used. You can change the font using the styles file.</p>
+</div>

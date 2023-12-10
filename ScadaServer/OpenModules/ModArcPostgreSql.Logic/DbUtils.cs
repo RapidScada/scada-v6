@@ -72,15 +72,20 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             DateTime startDate;
             DateTime endDate;
 
-            if (partitionSize == PartitionSize.OneMonth)
+            switch (partitionSize)
             {
-                startDate = new DateTime(today.Year, today.Month, 1, 0, 0, 0, DateTimeKind.Utc);
-                endDate = startDate.AddMonths(1);
-            }
-            else // PartitionSize.OneYear
-            {
-                startDate = new DateTime(today.Year, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-                endDate = startDate.AddYears(1);
+                case PartitionSize.OneDay:
+                    startDate = new DateTime(today.Year, today.Month, today.Day, 0, 0, 0, DateTimeKind.Utc);
+                    endDate = startDate.AddDays(1);
+                    break;
+                case PartitionSize.OneMonth:
+                    startDate = new DateTime(today.Year, today.Month, 1, 0, 0, 0, DateTimeKind.Utc);
+                    endDate = startDate.AddMonths(1);
+                    break;
+                default: // PartitionSize.OneYear
+                    startDate = new DateTime(today.Year, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+                    endDate = startDate.AddYears(1);
+                    break;
             }
 
             partitionName = tableName +

@@ -33,7 +33,6 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using System.Web;
-using System.Xml.Linq;
 
 namespace Scada.Web
 {
@@ -119,6 +118,22 @@ namespace Scada.Web
         }
 
         /// <summary>
+        /// Converts the specified string to an HTML string.
+        /// </summary>
+        public static HtmlString ToHtmlString(this string s)
+        {
+            return new HtmlString(s);
+        }
+
+        /// <summary>
+        /// Converts the specified string builder to an HTML string.
+        /// </summary>
+        public static HtmlString ToHtmlString(this StringBuilder sb)
+        {
+            return new HtmlString(sb.ToString());
+        }
+
+        /// <summary>
         /// Converts the phrases dictionary to a JavaScript object.
         /// </summary>
         public static HtmlString DictionaryToJs(LocaleDict dict, bool camelCase)
@@ -138,7 +153,7 @@ namespace Scada.Web
             }
 
             sbJs.Append('}');
-            return new HtmlString(sbJs.ToString());
+            return sbJs.ToHtmlString();
         }
 
         /// <summary>
@@ -154,14 +169,14 @@ namespace Scada.Web
         /// </summary>
         public static HtmlString GetEnvironmentJs(IUrlHelper urlHelper)
         {
-            return new HtmlString(new StringBuilder()
+            return new StringBuilder()
                 .AppendLine("{")
                 .AppendLine("isStub: false,")
                 .AppendLine($"rootPath: '{urlHelper.Content("~/")}',")
                 .AppendLine($"locale: '{Locale.Culture.Name.JsEncode()}',")
                 .AppendLine($"productName: '{CommonPhrases.ProductName.JsEncode()}'")
                 .Append('}')
-                .ToString());
+                .ToHtmlString();
         }
 
         /// <summary>
@@ -169,10 +184,10 @@ namespace Scada.Web
         /// </summary>
         public static HtmlString ToJs(this object obj)
         {
-            return obj == null
-                ? new HtmlString("null")
-                : new HtmlString(string.Format("JSON.parse('{0}')", 
-                    JsonSerializer.Serialize(obj, JsonOptions).JsEncode()));
+            return (obj == null
+                ? "null"
+                : string.Format("JSON.parse('{0}')", JsonSerializer.Serialize(obj, JsonOptions).JsEncode()))
+                .ToHtmlString();
         }
 
         /// <summary>
@@ -196,7 +211,7 @@ namespace Scada.Web
         /// </summary>
         public static HtmlString HtmlEncodeWithBreak(this string s)
         {
-            return new HtmlString(HttpUtility.HtmlEncode(s).ReplaceLineEndings("<br />"));
+            return HttpUtility.HtmlEncode(s).ReplaceLineEndings("<br />").ToHtmlString();
         }
 
         /// <summary>

@@ -102,7 +102,7 @@
             // 
             cbPartitionSize.DropDownStyle = ComboBoxStyle.DropDownList;
             cbPartitionSize.FormattingEnabled = true;
-            cbPartitionSize.Items.AddRange(new object[] { "One month", "One year" });
+            cbPartitionSize.Items.AddRange(new object[] { "One day", "One month", "One year" });
             cbPartitionSize.Location = new Point(196, 81);
             cbPartitionSize.Name = "cbPartitionSize";
             cbPartitionSize.Size = new Size(151, 23);
@@ -149,7 +149,7 @@
             lblUseDefaultConn.AutoSize = true;
             lblUseDefaultConn.Location = new Point(13, 26);
             lblUseDefaultConn.Name = "lblUseDefaultConn";
-            lblUseDefaultConn.Size = new Size(131, 15);
+            lblUseDefaultConn.Size = new Size(129, 15);
             lblUseDefaultConn.TabIndex = 0;
             lblUseDefaultConn.Text = "Use default connection";
             // 

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2023
  */
 
 using Scada.Protocol;
@@ -38,7 +38,7 @@ namespace Scada.Agent.Engine
     {
         private readonly string instanceDir;    // the instance directory
         private readonly string instanceLogDir; // the instance log directory
-        private readonly string agentShortDir;  // the short name of the Agent directory
+        private readonly string agentDir;       // the full name of the Agent directory
 
 
         /// <summary>
@@ -48,9 +48,7 @@ namespace Scada.Agent.Engine
         {
             this.instanceDir = instanceDir ?? throw new ArgumentNullException(nameof(instanceDir));
             this.instanceLogDir = instanceLogDir ?? throw new ArgumentNullException(nameof(instanceLogDir));
-
-            DirectoryInfo agentDirInfo = new DirectoryInfo(agentDir);
-            agentShortDir = agentDirInfo.Name;
+            this.agentDir = agentDir ?? throw new ArgumentNullException(nameof(agentDir));
         }
 
 
@@ -86,7 +84,7 @@ namespace Scada.Agent.Engine
                     return true;
 
                 case TopFolder.Agent:
-                    path = agentShortDir;
+                    path = "ScadaAgent";
                     return true;
 
                 default:
@@ -159,16 +157,23 @@ namespace Scada.Agent.Engine
         {
             List<string> paths = new List<string>();
 
-            if (relativePath.AppFolder == AppFolder.Log && !string.IsNullOrEmpty(instanceLogDir))
-                paths.Add(instanceLogDir);
+            if (relativePath.TopFolder == TopFolder.Agent)
+            {
+                paths.Add(agentDir); // this Agent application
+            }
             else
-                paths.Add(instanceDir);
+            {
+                if (relativePath.AppFolder == AppFolder.Log && !string.IsNullOrEmpty(instanceLogDir))
+                    paths.Add(instanceLogDir);
+                else
+                    paths.Add(instanceDir);
 
-            if (FolderToString(relativePath.TopFolder, out string path))
-                paths.Add(path);
+                if (FolderToString(relativePath.TopFolder, out string topPath))
+                    paths.Add(topPath);
+            }
 
-            if (FolderToString(relativePath.AppFolder, relativePath.TopFolder == TopFolder.Web, out path))
-                paths.Add(path);
+            if (FolderToString(relativePath.AppFolder, relativePath.TopFolder == TopFolder.Web, out string appPath))
+                paths.Add(appPath);
 
             if (!string.IsNullOrEmpty(relativePath.Path))
                 paths.Add(relativePath.Path);

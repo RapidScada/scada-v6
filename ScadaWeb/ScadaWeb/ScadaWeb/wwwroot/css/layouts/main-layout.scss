@@ -236,8 +236,9 @@ body {
     padding: 20px;
 
     .report-args,
-    .search-args {
-        max-width: 500px;
+    .search-args,
+    .main-form {
+        max-width: $form-width-default;
     }
 }
 

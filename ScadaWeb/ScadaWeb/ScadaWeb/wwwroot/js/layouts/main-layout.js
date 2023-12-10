@@ -1,7 +1,7 @@
 ﻿// Depends on jquery, bootstrap, scada-common.js, modal.js, notif-panel.js, tree-view.js
 
 // Contains environment variables.
-var appEnv = appEnvStub;
+var appEnv = appEnv ?? appEnvStub;
 // Manages modal dialogs.
 var modalManager = new ModalManager();
 // Contains references to widely used objects.

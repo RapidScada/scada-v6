@@ -1,5 +1,5 @@
 ﻿// Contains classes: ScadaUtils, ScadaEventType, PluginFeatures,
-//     ChartFeatureBase, CommandFeatureBase, EventAckFeatureBase, Dto, KnownSeverity
+//     ChartFeatureBase, CommandFeatureBase, EventAckFeatureBase, Dto, Severity
 // Contains objects: appEnvStub
 // No dependencies.
 

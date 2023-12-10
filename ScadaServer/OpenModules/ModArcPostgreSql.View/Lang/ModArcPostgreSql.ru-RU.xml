@@ -5,8 +5,9 @@
     <Phrase key="lblUseDefaultConn">Соединение по умолчанию</Phrase>
     <Phrase key="lblConnection">Соединение</Phrase>
     <Phrase key="lblPartitionSize">Размер секции</Phrase>
-    <Phrase key="cbPartitionSize.Items[0]">Один месяц</Phrase>
-    <Phrase key="cbPartitionSize.Items[1]">Один год</Phrase>
+    <Phrase key="cbPartitionSize.Items[0]">Один день</Phrase>
+    <Phrase key="cbPartitionSize.Items[1]">Один месяц</Phrase>
+    <Phrase key="cbPartitionSize.Items[2]">Один год</Phrase>
     <Phrase key="lblMaxQueueSize">Макс. размер очереди</Phrase>
     <Phrase key="lblBatchSize">Элементов на транзакцию</Phrase>
   </Dictionary>

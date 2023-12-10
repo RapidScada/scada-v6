@@ -278,7 +278,7 @@ namespace Scada.Admin.App.Forms.Tables
         {
             // create new limit
             int.TryParse(txtCnlNum.Text, out int cnlNum);
-            FrmLimCreate frmLimCreate = new(configDatabase) { CnlNum = cnlNum };
+            FrmLimCreate frmLimCreate = new(configDatabase, cnlNum);
 
             if (frmLimCreate.ShowDialog() == DialogResult.OK)
             {

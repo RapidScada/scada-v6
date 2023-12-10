@@ -28,8 +28,9 @@ namespace Scada.Doc.Code
             return lang switch
             {
                 KnownLang.En => "English",
-                KnownLang.Ru => "Russian",
                 KnownLang.Es => "Spanish",
+                KnownLang.Fr => "French",
+                KnownLang.Ru => "Russian",
                 KnownLang.Zh => "简体中文",
                 _ => lang.ToString()
             };

@@ -67,7 +67,7 @@ sudo systemctl enable scadaweb6.service</code></pre>
             Создать RAM-диск для записи журналов:
             <ol type="a">
                 <li>Создать директорию журналов, выполнив команду
-                    <pre><code class="language-sh">sudo mkdir /var/log/scadasudo mkdir /var/log/scada</code></pre>
+                    <pre><code class="language-sh">sudo mkdir /var/log/scada</code></pre>
                 </li>
                 <li>Добавить в файл <code>/etc/fstab</code> указанную нижу строку, предварительно сохранив резервную копию существующего файла.
                     <pre><code>tmpfs           /var/log/scada  tmpfs   defaults,noatime,size=100m    0    0</code></pre>

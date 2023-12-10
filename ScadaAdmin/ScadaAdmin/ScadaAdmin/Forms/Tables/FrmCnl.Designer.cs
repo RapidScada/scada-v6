@@ -536,7 +536,7 @@ namespace Scada.Admin.App.Forms.Tables
             lblHiHi.Name = "lblHiHi";
             lblHiHi.Size = new System.Drawing.Size(86, 15);
             lblHiHi.TabIndex = 10;
-            lblHiHi.Text = "Extremely high";
+            lblHiHi.Text = "High high";
             // 
             // txtHigh
             // 
@@ -587,7 +587,7 @@ namespace Scada.Admin.App.Forms.Tables
             lblLoLo.Name = "lblLoLo";
             lblLoLo.Size = new System.Drawing.Size(81, 15);
             lblLoLo.TabIndex = 4;
-            lblLoLo.Text = "Extremely low";
+            lblLoLo.Text = "Low low";
             // 
             // chkShared
             // 

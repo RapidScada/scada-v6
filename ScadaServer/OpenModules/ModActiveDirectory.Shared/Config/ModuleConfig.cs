@@ -25,13 +25,13 @@ namespace Scada.Server.Modules.ModActiveDirectory.Config
         public string LdapServer { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to enable searching for user roles in Active Directory.
+        /// Gets or sets a value indicating whether to enable user search in Active Directory and PostgreSQL.
         /// </summary>
         [DisplayName, Category, Description]
         public bool EnableSearch { get; set; }
 
         /// <summary>
-        /// Gets or sets the search root.
+        /// Gets or sets the search root in Active Directory.
         /// </summary>
         [DisplayName, Category, Description]
         public string SearchRoot { get; set; }
