@@ -89,8 +89,7 @@
     <Phrase key="this">Available Parameters</Phrase>
     <Phrase key="colParamsName">Name</Phrase>
     <Phrase key="colParams">Description</Phrase>
-    <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnCancel">Cancel</Phrase>
+    <Phrase key="btnClose">Close</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.Command">
     <Phrase key="CommandID">Command ID</Phrase>
