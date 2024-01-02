@@ -7,9 +7,9 @@
 	  <Product>Rapid SCADA</Product>
 	  <Company>Rapid Software LLC</Company>
 	  <Authors>Mikhail Shiryaev</Authors>
-	  <Copyright>Copyright © 2023</Copyright>
-    <Version>6.1.0</Version>
-    <AssemblyVersion>6.1.0.1</AssemblyVersion>
+	  <Copyright>Copyright © 2024</Copyright>
+    <Version>6.2.0</Version>
+    <AssemblyVersion>6.2.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
