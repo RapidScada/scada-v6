@@ -1,18 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFrameworks>net6.0-windows;net8.0-windows</TargetFrameworks>
     <Nullable>disable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <ImplicitUsings>enable</ImplicitUsings>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <RootNamespace>Scada.Server.Forms</RootNamespace>
-    <Version>6.1.1</Version>
+    <Version>6.2.0</Version>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
-    <Copyright>Copyright © 2023</Copyright>
+    <Copyright>Copyright © 2024</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
