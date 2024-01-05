@@ -23,9 +23,6 @@
  * Modified : 2024
  */
 
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-
 namespace Scada.Server.Wkr
 {
     /// <summary>
