@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-ScadaCommWkr-B7C039F8-EA05-4A38-85F6-5131D6B0B966</UserSecretsId>
     <RootNamespace>Scada.Comm.Wkr</RootNamespace>
     <Authors>Mikhail Shiryaev</Authors>

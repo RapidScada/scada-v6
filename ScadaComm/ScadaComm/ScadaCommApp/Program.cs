@@ -20,13 +20,10 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2024
  */
 
 using Scada.Comm.Engine;
-using System;
-using System.IO;
-using System.Threading;
 
 namespace Scada.Comm.App
 {

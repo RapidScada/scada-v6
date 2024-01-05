@@ -23,11 +23,7 @@
  * Modified : 2024
  */
 
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Scada.Comm.Engine;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Scada.Comm.Wkr
 {
