@@ -24,9 +24,6 @@
  */
 
 using Scada.Server.Engine;
-using System;
-using System.IO;
-using System.Threading;
 
 namespace Scada.Server.App
 {
