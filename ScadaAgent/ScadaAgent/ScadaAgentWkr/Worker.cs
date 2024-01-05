@@ -1,4 +1,4 @@
-/*
+п»ї/*
  * Copyright 2023 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2024
  */
 
 using Scada.Agent.Engine;
@@ -29,22 +29,16 @@ namespace Scada.Agent.Wkr
 {
     /// <summary>
     /// Implements the Agent service.
-    /// <para>Реализует службу Агента.</para>
+    /// <para>Р РµР°Р»РёР·СѓРµС‚ СЃР»СѓР¶Р±Сѓ РђРіРµРЅС‚Р°.</para>
     /// </summary>
-    public class Worker : BackgroundService
+    public class Worker(ILogger<Worker> logger) : BackgroundService
     {
         private const int TaskDelay = 1000;
-        private readonly ILogger<Worker> logger;
-        private readonly Manager manager;
-
-        public Worker(ILogger<Worker> logger)
-        {
-            this.logger = logger;
-            manager = new Manager();
-        }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            Manager manager = new();
+
             stoppingToken.Register(() =>
             {
                 manager.StopService();

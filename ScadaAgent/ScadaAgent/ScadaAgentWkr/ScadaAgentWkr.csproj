@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-ScadaAgentWkr-F53983DD-5CCC-49A5-926A-07A711B87C72</UserSecretsId>
     <RootNamespace>Scada.Agent.Wkr</RootNamespace>

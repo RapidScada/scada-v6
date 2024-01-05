@@ -20,18 +20,16 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2024
  */
 
 using Scada.Agent.Wkr;
 
-IHost host = Host.CreateDefaultBuilder(args)
-    .UseWindowsService()
-    .UseSystemd()
-    .ConfigureServices(services =>
-    {
-        services.AddHostedService<Worker>();
-    })
-    .Build();
+var builder = Host.CreateApplicationBuilder(args);
+builder.Services
+    .AddWindowsService()
+    .AddSystemd()
+    .AddHostedService<Worker>();
 
-await host.RunAsync();
+var host = builder.Build();
+host.Run();

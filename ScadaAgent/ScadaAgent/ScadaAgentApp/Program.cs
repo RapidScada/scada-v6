@@ -20,13 +20,10 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2024
  */
 
 using Scada.Agent.Engine;
-using System;
-using System.IO;
-using System.Threading;
 
 namespace Scada.Agent.App
 {
