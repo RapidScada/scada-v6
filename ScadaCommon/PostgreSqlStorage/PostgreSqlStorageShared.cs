@@ -79,52 +79,50 @@ namespace Scada.Storages.PostgreSqlStorage
         public static void ReadBaseTable(IBaseTable baseTable, NpgsqlConnection conn)
         {
             string sql = "SELECT * from " + GetBaseTableName(baseTable);
-            NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
+            NpgsqlCommand cmd = new(sql, conn);
+            using NpgsqlDataReader reader = cmd.ExecuteReader();
 
-            using (NpgsqlDataReader reader = cmd.ExecuteReader())
+            if (reader.HasRows)
             {
-                if (reader.HasRows)
+                // check primary key column
+                try
                 {
-                    // check primary key column
-                    try
-                    {
-                        reader.GetOrdinal(GetBaseColumnName(baseTable.PrimaryKey, false));
-                    }
-                    catch
-                    {
-                        throw new ScadaException(Locale.IsRussian ?
-                            "Первичный ключ \"{0}\" не найден" :
-                            "Primary key \"{0}\" not found", baseTable.PrimaryKey);
-                    }
+                    reader.GetOrdinal(GetBaseColumnName(baseTable.PrimaryKey, false));
+                }
+                catch
+                {
+                    throw new ScadaException(Locale.IsRussian ?
+                        "Первичный ключ \"{0}\" не найден" :
+                        "Primary key \"{0}\" not found", baseTable.PrimaryKey);
+                }
 
-                    // find column indexes
-                    PropertyDescriptorCollection props = TypeDescriptor.GetProperties(baseTable.ItemType);
-                    int propCnt = props.Count;
-                    int[] colIdxs = new int[propCnt];
+                // find column indexes
+                PropertyDescriptorCollection props = TypeDescriptor.GetProperties(baseTable.ItemType);
+                int propCnt = props.Count;
+                int[] colIdxs = new int[propCnt];
+
+                for (int i = 0; i < propCnt; i++)
+                {
+                    try { colIdxs[i] = reader.GetOrdinal(GetBaseColumnName(props[i], false)); }
+                    catch { colIdxs[i] = -1; }
+                }
+
+                // read rows
+                baseTable.Modified = true;
+
+                while (reader.Read())
+                {
+                    object item = baseTable.NewItem();
 
                     for (int i = 0; i < propCnt; i++)
                     {
-                        try { colIdxs[i] = reader.GetOrdinal(GetBaseColumnName(props[i], false)); }
-                        catch { colIdxs[i] = -1; }
+                        int colIdx = colIdxs[i];
+
+                        if (colIdx >= 0 && !reader.IsDBNull(colIdx))
+                            props[i].SetValue(item, reader[colIdx]);
                     }
 
-                    // read rows
-                    baseTable.Modified = true;
-
-                    while (reader.Read())
-                    {
-                        object item = baseTable.NewItem();
-
-                        for (int i = 0; i < propCnt; i++)
-                        {
-                            int colIdx = colIdxs[i];
-
-                            if (colIdx >= 0 && !reader.IsDBNull(colIdx))
-                                props[i].SetValue(item, reader[colIdx]);
-                        }
-
-                        baseTable.AddObject(item);
-                    }
+                    baseTable.AddObject(item);
                 }
             }
         }
