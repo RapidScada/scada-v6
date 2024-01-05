@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2022
+ * Modified : 2024
  */
 
 using Microsoft.Extensions.Hosting;
@@ -35,20 +35,14 @@ namespace Scada.Comm.Wkr
     /// Implements the Communicator service.
     /// <para>Реализует службу Коммуникатора.</para>
     /// </summary>
-    public class Worker : BackgroundService
+    public class Worker(ILogger<Worker> logger) : BackgroundService
     {
         private const int TaskDelay = 1000;
-        private readonly ILogger<Worker> logger;
-        private readonly Manager manager;
-
-        public Worker(ILogger<Worker> logger)
-        {
-            this.logger = logger;
-            manager = new Manager();
-        }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            Manager manager = new();
+
             stoppingToken.Register(() =>
             {
                 manager.StopService();
