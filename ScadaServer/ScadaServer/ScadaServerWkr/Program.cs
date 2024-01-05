@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2024
  */
 
 using Microsoft.Extensions.DependencyInjection;
@@ -36,16 +36,14 @@ namespace Scada.Server.Wkr
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
-        }
+            var builder = Host.CreateApplicationBuilder(args);
+            builder.Services
+                .AddWindowsService()
+                .AddSystemd()
+                .AddHostedService<Worker>();
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .UseWindowsService()
-                .UseSystemd()
-                .ConfigureServices((hostContext, services) =>
-                {
-                    services.AddHostedService<Worker>();
-                });
+            var host = builder.Build();
+            host.Run();
+        }
     }
 }
