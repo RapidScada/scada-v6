@@ -1,0 +1,143 @@
+name: Build .NET Application and Capture Artifacts
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  build-and-upload-artifacts:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0'
+
+    # Restaurez les packages NuGet pour tous les projets nécessaires ici
+    - name: Restore NuGet packages for all projects
+      run: |
+        dotnet restore ScadaCommon/ScadaCommon.sln
+        dotnet restore ScadaAgent/ScadaAgent/ScadaAgent.sln
+        dotnet restore ScadaComm/ScadaComm/ScadaComm.sln
+        dotnet restore ScadaServer/ScadaServer/ScadaServer.sln
+        dotnet restore ScadaWeb/ScadaWeb/ScadaWeb.sln
+        dotnet restore ScadaAdmin/ScadaAdmin/ScadaAdmin.sln
+        dotnet restore ScadaReport/ScadaReport.sln
+        dotnet restore ScadaComm/OpenDrivers/OpenDrivers.sln
+        dotnet restore ScadaComm/OpenDrivers2/OpenDrivers2.sln
+        dotnet restore ScadaServer/OpenModules/OpenModules.sln
+        dotnet restore ScadaWeb/OpenPlugins/OpenPlugins.sln
+        dotnet restore ScadaAdmin/OpenExtensions/OpenExtensions.sln
+        
+
+    # Construisez chaque projet dans l'ordre spécifié
+    - name: Build ScadaCommon
+      run: dotnet build --no-restore --configuration Release ScadaCommon/ScadaCommon.sln
+      
+    - name: Build ScadaAgent
+      run: dotnet build --no-restore --configuration Release ScadaAgent/ScadaAgent/ScadaAgent.sln
+      
+    - name: Build ScadaComm
+      run: dotnet build --no-restore --configuration Release ScadaComm/ScadaComm/ScadaComm.sln
+
+    - name: Build ScadaServer
+      run: dotnet build --no-restore --configuration Release ScadaServer/ScadaServer/ScadaServer.sln
+
+    - name: Build ScadaWeb
+      run: dotnet build --no-restore --configuration Release ScadaWeb/ScadaWeb/ScadaWeb.sln
+
+    - name: Build ScadaAdmin
+      run: dotnet build --no-restore --configuration Release ScadaAdmin/ScadaAdmin/ScadaAdmin.sln
+
+    - name: Build ScadaReport
+      run: dotnet build --no-restore --configuration Release ScadaReport/ScadaReport.sln
+
+    - name: Build OpenDrivers
+      run: dotnet build --no-restore --configuration Release ScadaComm/OpenDrivers/OpenDrivers.sln
+
+    - name: Build OpenDrivers2
+      run: dotnet build --no-restore --configuration Release ScadaComm/OpenDrivers2/OpenDrivers2.sln
+
+    - name: Build OpenModules
+      run: dotnet build --no-restore --configuration Release ScadaServer/OpenModules/OpenModules.sln
+
+    - name: Build OpenPlugins
+      run: dotnet build --no-restore --configuration Release ScadaWeb/OpenPlugins/OpenPlugins.sln
+
+   # - name: Build OpenExtensions
+    #  run: dotnet build --no-restore --configuration Release ScadaAdmin/OpenExtensions/OpenExtensions.sln
+
+    # Ajoutez des étapes similaires pour les autres projets ici, en respectant l'ordre
+
+    - name: Publish ScadaCommon
+      run: dotnet publish ScadaCommon/ScadaCommon.sln --no-restore --configuration Release --output ./publish/ScadaCommon
+
+    - name: Publish ScadaAgent
+      run: dotnet publish ScadaAgent/ScadaAgent/ScadaAgent.sln --no-restore --configuration Release --output ./publish/ScadaAgent
+
+    - name: Publish ScadaComm
+      run: dotnet publish ScadaComm/ScadaComm/ScadaComm.sln --no-restore --configuration Release --output ./publish/ScadaComm
+
+    - name: Publish ScadaServer
+      run: dotnet publish ScadaServer/ScadaServer/ScadaServer.sln --no-restore --configuration Release --output ./publish/ScadaServer
+
+    - name: Publish ScadaWeb
+      run: dotnet publish ScadaWeb/ScadaWeb/ScadaWeb.sln --no-restore --configuration Release --output ./publish/ScadaWeb
+
+    - name: Publish ScadaAdmin
+      run: dotnet publish ScadaAdmin/ScadaAdmin/ScadaAdmin.sln --no-restore --configuration Release --output ./publish/ScadaAdmin
+
+    - name: Publish ScadaReport
+      run: dotnet publish ScadaReport/ScadaReport.sln --no-restore --configuration Release --output ./publish/ScadaReport
+
+    - name: Publish OpenDrivers
+      run: dotnet publish ScadaComm/OpenDrivers/OpenDrivers.sln --no-restore --configuration Release --output ./publish/OpenDrivers
+
+    - name: Publish OpenDrivers2
+      run: dotnet publish ScadaComm/OpenDrivers2/OpenDrivers2.sln --no-restore --configuration Release --output ./publish/OpenDrivers2
+
+    - name: Publish OpenModules
+      run: dotnet publish ScadaServer/OpenModules/OpenModules.sln --no-restore --configuration Release --output ./publish/OpenModules
+
+    - name: Publish OpenPlugins
+      run: dotnet publish ScadaWeb/OpenPlugins/OpenPlugins.sln --no-restore --configuration Release --output ./publish/OpenPlugins
+
+   # - name: Publish OpenExtensions
+    #  run: dotnet publish ScadaAdmin/OpenExtensions/OpenExtensions.sln --no-restore --configuration Release --output ./publish/OpenExtensions
+
+        
+
+
+    # Téléchargez les artefacts pour tous les projets nécessaires ici
+    - name: Upload ScadaWeb Artefact
+      uses: actions/upload-artifact@v2
+      with:
+        name: scadaweb-artifact
+        path: ./publish/**/*
+
+    - name: Upload JavaScript files
+      uses: actions/upload-artifact@v2
+      with:
+        name: javascript-files
+        path: ./publish/ScadaWeb/OpenPlugins/PlgSchShapeComp/wwwroot/SchShapeComp/js/*.js
+    - name: Upload PlgSchShapeComp Release Artefact
+      uses: actions/upload-artifact@v2
+      with:
+        name: plg-sch-shape-comp-release
+        path: ./publish/ScadaWeb/OpenPlugins/PlgSchShapeComp/bin/Release/net6.0/**
+
+    - name: Upload ScadaWeb Artefacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: scadaweb-release-artifacts
+        path: |
+          ./publish/ScadaWeb/ScadaWeb/bin/Release/net6.0/ScadaWeb.exe
+          ./publish/ScadaWeb/ScadaWeb/bin/Release/net6.0/ScadaWeb.dll
+          ./publish/ScadaWeb/ScadaWeb/bin/Release/net6.0/ScadaWebCommon.dll
+          ./publish/ScadaWeb/ScadaWeb/bin/Release/net6.0/ScadaCommon.dll

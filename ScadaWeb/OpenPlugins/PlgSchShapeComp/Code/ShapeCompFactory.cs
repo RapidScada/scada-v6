@@ -13,6 +13,10 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code
 				return new CustomSVG();
 			else if (NameEquals("BarGraph", typeof(BarGraph).FullName, typeName, nameIsShort))
 				return new BarGraph();
+			else if (NameEquals("DynamicPicture", typeof(DynamicPicture).FullName, typeName, nameIsShort))
+				return new DynamicPicture();
+			else if (NameEquals("DynamicText", typeof(DynamicText).FullName, typeName, nameIsShort))
+				return new DynamicText();
 			else
 				return null;
         }
