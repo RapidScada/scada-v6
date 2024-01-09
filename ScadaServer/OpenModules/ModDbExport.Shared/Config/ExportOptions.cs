@@ -18,6 +18,7 @@ namespace Scada.Server.Modules.ModDbExport.Config
         public ExportOptions()
         {
             CurDataExportOptions = new CurDataExportOptions();
+            HistDataExportOptions = new HistDataExportOptions();
             ArcReplicationOptions = new ArcReplicationOptions();
         }
 
@@ -26,6 +27,11 @@ namespace Scada.Server.Modules.ModDbExport.Config
         /// Gets the current data export options.
         /// </summary>
         public CurDataExportOptions CurDataExportOptions { get; }
+
+        /// <summary>
+        /// Gets the historical data export options.
+        /// </summary>
+        public HistDataExportOptions HistDataExportOptions { get; }
 
         /// <summary>
         /// Gets the archive replication options.
@@ -43,8 +49,11 @@ namespace Scada.Server.Modules.ModDbExport.Config
             if (xmlNode.SelectSingleNode("CurDataExportOptions") is XmlElement xmlElem1)
                 CurDataExportOptions.LoadFromXml(xmlElem1);
 
-            if (xmlNode.SelectSingleNode("ArcReplicationOptions") is XmlElement xmlElem2)
-                ArcReplicationOptions.LoadFromXml(xmlElem2);
+            if (xmlNode.SelectSingleNode("HistDataExportOptions") is XmlElement xmlElem2)
+                HistDataExportOptions.LoadFromXml(xmlElem2);
+
+            if (xmlNode.SelectSingleNode("ArcReplicationOptions") is XmlElement xmlElem3)
+                ArcReplicationOptions.LoadFromXml(xmlElem3);
         }
 
         /// <summary>
@@ -54,6 +63,7 @@ namespace Scada.Server.Modules.ModDbExport.Config
         {
             ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
             CurDataExportOptions.SaveToXml(xmlElem.AppendElem("CurDataExportOptions"));
+            HistDataExportOptions.SaveToXml(xmlElem.AppendElem("HistDataExportOptions"));
             ArcReplicationOptions.SaveToXml(xmlElem.AppendElem("ArcReplicationOptions"));
         }
     }

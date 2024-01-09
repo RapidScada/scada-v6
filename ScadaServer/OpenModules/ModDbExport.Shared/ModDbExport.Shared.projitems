@@ -16,6 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Config\GeneralOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\ExportTrigger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\ExportOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\HistDataExportOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\ModuleConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\QueryFilter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\QueryOptions.cs" />

@@ -46,7 +46,7 @@ namespace Scada.Server.Modules.ModDbExport.Config
         public bool SkipUnchanged { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to transfer data of calculated channels.
+        /// Gets or sets a value indicating whether to export data of calculated channels.
         /// </summary>
         public bool IncludeCalculated { get; set; }
 
