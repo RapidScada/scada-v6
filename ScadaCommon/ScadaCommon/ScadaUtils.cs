@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2007
- * Modified : 2023
+ * Modified : 2024
  */
 
 using Scada.Lang;
@@ -287,7 +287,7 @@ namespace Scada
         /// This method is only allowed in WinForms applications.
         /// BinaryFormatter is not recommended, see https://aka.ms/binaryformatter
         /// </remarks>
-        public static object DeepClone(this object obj, SerializationBinder binder = null)
+        public static T DeepClone<T>(this T obj, SerializationBinder binder = null)
         {
             using (MemoryStream stream = new MemoryStream())
             {
@@ -298,16 +298,8 @@ namespace Scada
 
                 formatter.Serialize(stream, obj);
                 stream.Position = 0;
-                return formatter.Deserialize(stream);
+                return (T)formatter.Deserialize(stream);
             }
-        }
-
-        /// <summary>
-        /// Makes a full copy of the specified object using BinaryFormatter.
-        /// </summary>
-        public static T DeepClone<T>(this T obj, SerializationBinder binder = null)
-        {
-            return (T)DeepClone((object)obj, binder);
         }
 
         /// <summary>
