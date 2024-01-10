@@ -280,7 +280,7 @@ namespace Scada
         }
 
         /// <summary>
-        /// Makes a full copy of the specified object.
+        /// Makes a full copy of the specified object using BinaryFormatter.
         /// </summary>
         /// <remarks>
         /// A cloned object and its children must have the Serializable attribute.
@@ -303,7 +303,7 @@ namespace Scada
         }
 
         /// <summary>
-        /// Creates a full copy of the specified object.
+        /// Makes a full copy of the specified object using BinaryFormatter.
         /// </summary>
         public static T DeepClone<T>(this T obj, SerializationBinder binder = null)
         {
