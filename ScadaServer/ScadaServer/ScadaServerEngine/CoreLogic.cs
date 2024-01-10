@@ -1365,7 +1365,8 @@ namespace Scada.Server.Engine
 
                 // write to archives
                 bool applyFormulas = flags.HasFlag(WriteDataFlags.ApplyFormulas);
-                CnlData[] cnlDataCopy = slice.CnlData.DeepClone();
+                CnlData[] cnlDataCopy = new CnlData[cnlCnt];
+                slice.CnlData.CopyTo(cnlDataCopy, 0);
 
                 for (int archiveBit = 0; archiveBit < ServerUtils.MaxArchiveCount; archiveBit++)
                 {

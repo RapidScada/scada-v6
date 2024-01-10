@@ -284,6 +284,7 @@ namespace Scada
         /// </summary>
         /// <remarks>
         /// A cloned object and its children must have the Serializable attribute.
+        /// This method is only allowed in WinForms applications.
         /// BinaryFormatter is not recommended, see https://aka.ms/binaryformatter
         /// </remarks>
         public static object DeepClone(this object obj, SerializationBinder binder = null)
