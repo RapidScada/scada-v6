@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2023 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2022
+ * Modified : 2024
  */
 
 namespace Scada.Admin
@@ -75,6 +75,14 @@ namespace Scada.Admin
         public override string[] GetDataDirs()
         {
             return new string[] { ConfigDir, LogDir, TempDir };
+        }
+
+        /// <summary>
+        /// Gets the directories to search for assemblies.
+        /// </summary>
+        public override string[] GetProbingDirs()
+        {
+            return new string[] { ExeDir, LibDir };
         }
 
         /// <summary>

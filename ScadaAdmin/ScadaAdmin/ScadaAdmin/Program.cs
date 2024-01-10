@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2021
+ * Modified : 2024
  */
 
 using Scada.Admin.App.Code;
@@ -29,6 +29,7 @@ using Scada.Forms;
 using Scada.Lang;
 using System;
 using System.IO;
+using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -36,7 +37,8 @@ namespace Scada.Admin.App
 {
     static class Program
     {
-        private static AppData appData; // common data of the application
+        private static AppData appData;                   // common data of the application
+        private static AssemblyResolver assemblyResolver; // searches for assemblies
 
         /// <summary>
         ///  The main entry point for the application.
@@ -47,11 +49,25 @@ namespace Scada.Admin.App
             appData = new AppData();
             appData.Init(Path.GetDirectoryName(Application.ExecutablePath));
 
+            assemblyResolver = new AssemblyResolver(appData.AppDirs.GetProbingDirs());
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.ThreadException += Application_ThreadException;
             Application.Run(new FrmMain(appData));
+        }
+
+        private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            string errMsg = "";
+            Assembly assembly = assemblyResolver?.Resolve(args.Name, args.RequestingAssembly, out errMsg);
+
+            if (!string.IsNullOrEmpty(errMsg))
+                appData.ErrLog.WriteError(errMsg);
+
+            return assembly;
         }
 
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
