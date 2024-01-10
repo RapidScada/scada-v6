@@ -949,7 +949,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                 Slice slice = serverContext.GetSlice(
                     histDataExportOptions.HistArchiveBit, timestamp, sliceCnlNums.ToArray());
                 sliceItems ??= new List<SliceItem>();
-                sliceItems.Add(new SliceItem(slice));
+                sliceItems.Add(new SliceItem(slice) { SingleQuery = false });
                 sliceCnlNums = null;
             }
 
