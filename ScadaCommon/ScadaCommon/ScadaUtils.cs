@@ -280,7 +280,7 @@ namespace Scada
         }
 
         /// <summary>
-        /// Makes a full copy of the specified object using BinaryFormatter.
+        /// Creates a full copy of the specified object using BinaryFormatter.
         /// </summary>
         /// <remarks>
         /// A cloned object and its children must have the Serializable attribute.
@@ -326,7 +326,7 @@ namespace Scada
         }
 
         /// <summary>
-        /// Creates a shallow copy of the specified object.
+        /// Creates a shallow copy of the properties of the specified object.
         /// </summary>
         public static T ShallowCopy<T>(this T obj)
         {
