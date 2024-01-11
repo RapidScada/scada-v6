@@ -6,7 +6,7 @@ using System.Xml;
 namespace Scada.Web.Plugins.PlgSchShapeComp.Code.PropertyGrid
 {
 	[Serializable]
-	public class BarGraphCondition : AdvancedCondition
+	public class BarGraphConditions : AdvancedConditions
 	{
 		public enum BarLevel
 		{
@@ -18,7 +18,7 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code.PropertyGrid
 			Max
 		}
 
-		public BarGraphCondition() : base()
+		public BarGraphConditions() : base()
 		{
 			FillColor = "";
 			Level = BarLevel.None;

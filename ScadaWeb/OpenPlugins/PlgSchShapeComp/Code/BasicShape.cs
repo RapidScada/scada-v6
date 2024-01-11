@@ -15,7 +15,7 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code
 			ShapeType = "Circle";
 			BackColor = "black";
 			Action = Actions.None;
-			Conditions = new List<AdvancedCondition>();
+			Conditions = new List<BasicShapeConditions>();
 			InCnlNum = 0;
 			CtrlCnlNum = 0;
 			InCnlNumCustom = "NA (0)";
@@ -26,7 +26,8 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code
 
 		[DisplayName("Conditions"), Category(Categories.Behavior)]
 		[Description("The conditions for SVG Shape output depending on the value of the input channel.")]
-		public List<AdvancedCondition> Conditions { get; protected set; }
+		[DefaultValue(null), TypeConverter(typeof(CollectionConverter))]
+		public List<BasicShapeConditions> Conditions { get; protected set; }
 
 
 		[DisplayName("Shape Type"), Category(Categories.Appearance)]
@@ -105,11 +106,11 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code
 
 			if (conditionsNode != null)
 			{
-				Conditions = new List<AdvancedCondition>();
+				Conditions = new List<BasicShapeConditions>();
 				XmlNodeList conditionNodes = conditionsNode.SelectNodes("Condition");
 				foreach (XmlNode conditionNode in conditionNodes)
 				{
-					AdvancedCondition condition = new AdvancedCondition { SchemeView = SchemeView };
+					BasicShapeConditions condition = new BasicShapeConditions { SchemeView = SchemeView };
 					condition.LoadFromXml(conditionNode);
 					Conditions.Add(condition);
 				}
@@ -121,7 +122,7 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code
 		{
 			base.SaveToXml(xmlElem);
 			XmlElement conditionsElem = xmlElem.AppendElem("Conditions");
-			foreach (AdvancedCondition condition in Conditions)
+			foreach (BasicShapeConditions condition in Conditions)
 			{
 				XmlElement conditionElem = conditionsElem.AppendElem("Condition");
 				condition.SaveToXml(conditionElem);

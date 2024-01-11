@@ -57,14 +57,15 @@ scada.scheme.updateStyles = function (divComp, cond) {
     if (cond.color) divComp.css("color", cond.color);
     if (cond.backgroundColor)
         divComp.css("background-color", cond.backgroundColor);
-    if (cond.textContent)
-        scada.scheme.addInfoTooltipToDiv(divComp[0], cond.textContent);
     if (cond.rotation)
         divComp.css("transform", "rotate(" + cond.rotation + "deg)");
     if (cond.isVisible !== undefined)
         divComp.css("visibility", cond.isVisible ? "visible" : "hidden");
-    if (cond.width) divComp.css("width", cond.width);
-    if (cond.height) divComp.css("height", cond.height);
+    if (cond.width)
+        divComp.css("width", cond.width);
+    if (cond.height)
+        divComp.css("height", cond.height);
+
 };
 
 scada.scheme.applyRotation = function (divComp, props) {
@@ -112,6 +113,14 @@ scada.scheme.updateComponentData = function (component, renderContext) {
 
                 if (cond.rotation !== -1 && cond.rotation !== props.rotation) {
                     scada.scheme.applyRotation(divComp, cond);
+                }
+                //check if condition textContent is not empty and not undefined or null and set span text
+                if (cond.textContent) {
+                    divComp.text(cond.textContent);
+                }
+                //check if condition fontSizes is not empty and not undefined or null and set font size
+                if (cond.fontSize) {
+                    divComp.css("font-size", cond.fontSize + "px");
                 }
                 break;
             }
@@ -364,6 +373,10 @@ scada.scheme.DynamicTextRenderer.prototype._restoreUnderline = function (jqObj, 
     jqObj.css("text-decoration", font && font.Underline ? "underline" : "none");
 };
 
+scada.scheme.DynamicTextRenderer.prototype.setFontSize = function (jqObj, fontSize) {
+    jqObj.css("font-size", fontSize + "px");
+};
+
 scada.scheme.DynamicTextRenderer.prototype.createDom = function (component, renderContext) {
     scada.scheme.StaticTextRenderer.prototype.createDom.call(this, component, renderContext);
 
@@ -433,7 +446,10 @@ scada.scheme.DynamicTextRenderer.prototype.updateData = function (component, ren
         this.setBorderColor(spanComp, borderColor, true, statusColor);
         this.setForeColor(spanComp, foreColor, true, statusColor);
 
-        //update component data
+        //update font size
+        this.setFontSize(spanComp, props.fontSize);
+
+        //update component data conditions
         scada.scheme.updateComponentData(component, renderContext);
 
         //apply rotation

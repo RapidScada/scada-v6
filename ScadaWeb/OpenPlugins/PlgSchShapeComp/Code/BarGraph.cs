@@ -17,7 +17,7 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code
 		{
 			BarColor = "blue";
 			Value = 10;
-			Conditions = new List<BarGraphCondition>();
+			Conditions = new List<BarGraphConditions>();
 			InCnlNum = 0;
 			CtrlCnlNum = 0;
 			InCnlNumCustom = "NA (0)";
@@ -30,7 +30,7 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code
 		[Description("The conditions for Bar Graph output depending on the value of the input channel.")]
 		[DefaultValue(null), TypeConverter(typeof(CollectionConverter))]
 		
-		public List<BarGraphCondition> Conditions { get; protected set; }
+		public List<BarGraphConditions> Conditions { get; protected set; }
 
 		[DisplayName("Bar Color"), Category(Categories.Appearance)]
 		[Description("The color of the Bar Graph.")]
@@ -95,11 +95,11 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code
 
 			if (conditionsNode != null)
 			{
-				Conditions = new List<BarGraphCondition>();
+				Conditions = new List<BarGraphConditions>();
 				XmlNodeList conditionNodes = conditionsNode.SelectNodes("Condition");
 				foreach (XmlNode conditionNode in conditionNodes)
 				{
-					BarGraphCondition condition = new BarGraphCondition { SchemeView = SchemeView };
+					BarGraphConditions condition = new BarGraphConditions { SchemeView = SchemeView };
 					condition.LoadFromXml(conditionNode);
 					Conditions.Add(condition);
 				}
@@ -112,7 +112,7 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code
 
 			xmlElem.AppendElem("Value", Value);
 			XmlElement conditionsElem = xmlElem.AppendElem("Conditions");
-			foreach (BarGraphCondition condition in Conditions)
+			foreach (BarGraphConditions condition in Conditions)
 			{
 				XmlElement conditionElem = conditionsElem.AppendElem("Condition");
 				condition.SaveToXml(conditionElem);
@@ -129,7 +129,7 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code
 		{
 			BarGraph cloneComponent = (BarGraph)base.Clone();
 
-			foreach (BarGraphCondition condition in cloneComponent.Conditions)
+			foreach (BarGraphConditions condition in cloneComponent.Conditions)
 			{
 				condition.SchemeView = schemeView;
 			}
