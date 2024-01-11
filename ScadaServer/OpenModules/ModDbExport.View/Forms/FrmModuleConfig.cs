@@ -344,7 +344,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             if (File.Exists(configFileName) && !config.Load(configFileName, out string errMsg))
                 ScadaUiUtils.ShowError(errMsg);
 
-            configCopy = config.Clone();
+            configCopy = config.DeepClone();
             Modified = false;
 
             // display configuration
@@ -580,7 +580,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         {
             // cancel configuration changes
             config = configCopy;
-            configCopy = config.Clone();
+            configCopy = config.DeepClone();
+            config.RestoreHierarchy();
             FillTreeView();
             Modified = false;
         }

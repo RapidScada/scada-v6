@@ -82,15 +82,5 @@ namespace Scada.Server.Modules.ModDbExport.Config
 
             xmlDoc.Save(writer);
         }
-
-        /// <summary>
-        /// Makes a full copy of the configuration.
-        /// </summary>
-        public ModuleConfig Clone()
-        {
-            ModuleConfig configCopy = this.DeepClone();
-            this.RestoreHierarchy();
-            return configCopy;
-        }
     }
 }
