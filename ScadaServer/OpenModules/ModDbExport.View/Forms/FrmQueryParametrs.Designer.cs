@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            ListViewItem listViewItem2 = new ListViewItem("");
+            ListViewItem listViewItem1 = new ListViewItem("");
             btnClose = new Button();
             lvParameters = new ListView();
             colParamsName = new ColumnHeader();
@@ -53,7 +53,7 @@
             lvParameters.Columns.AddRange(new ColumnHeader[] { colParamsName, colParams });
             lvParameters.FullRowSelect = true;
             lvParameters.GridLines = true;
-            lvParameters.Items.AddRange(new ListViewItem[] { listViewItem2 });
+            lvParameters.Items.AddRange(new ListViewItem[] { listViewItem1 });
             lvParameters.Location = new Point(12, 12);
             lvParameters.Name = "lvParameters";
             lvParameters.Size = new Size(493, 325);

@@ -11,7 +11,7 @@
     <Phrase key="lblEventArchiveBit">Bit of event archive</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlCurDataExport">
-    <Phrase key="gbOptions">Current Data Transfer Options</Phrase>
+    <Phrase key="gbOptions">Current Data Export Options</Phrase>
     <Phrase key="lblTrigger">Trigger</Phrase>
     <Phrase key="cbTrigger.Items[0]">On Receive</Phrase>
     <Phrase key="cbTrigger.Items[1]">On Timer</Phrase>
