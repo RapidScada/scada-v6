@@ -54,12 +54,13 @@
             btnPaste = new ToolStripButton();
             pnlMain = new Panel();
             pnlInfo = new Panel();
+            lblHint = new Label();
             ctrlGeneral = new Controls.CtrlGeneral();
             ctrlDbConnection = new Scada.Forms.Controls.CtrlDbConnection();
             ctrlCurDataExport = new Controls.CtrlCurDataExport();
-            lblHint = new Label();
-            ctrlQuery = new Controls.CtrlQuery();
+            ctrlHistDataExport = new Controls.CtrlHistDataExport();
             ctrlArcReplication = new Controls.CtrlArcReplication();
+            ctrlQuery = new Controls.CtrlQuery();
             gbTarget = new GroupBox();
             tvTargets = new TreeView();
             cmsTree = new ContextMenuStrip(components);
@@ -307,17 +308,31 @@
             // pnlInfo
             // 
             pnlInfo.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            pnlInfo.Controls.Add(lblHint);
             pnlInfo.Controls.Add(ctrlGeneral);
             pnlInfo.Controls.Add(ctrlDbConnection);
             pnlInfo.Controls.Add(ctrlCurDataExport);
-            pnlInfo.Controls.Add(lblHint);
-            pnlInfo.Controls.Add(ctrlQuery);
+            pnlInfo.Controls.Add(ctrlHistDataExport);
             pnlInfo.Controls.Add(ctrlArcReplication);
+            pnlInfo.Controls.Add(ctrlQuery);
             pnlInfo.Location = new Point(318, 3);
             pnlInfo.Margin = new Padding(0);
             pnlInfo.Name = "pnlInfo";
             pnlInfo.Size = new Size(404, 462);
             pnlInfo.TabIndex = 1;
+            // 
+            // lblHint
+            // 
+            lblHint.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lblHint.BackColor = SystemColors.Control;
+            lblHint.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            lblHint.ForeColor = SystemColors.GrayText;
+            lblHint.Location = new Point(0, 0);
+            lblHint.Name = "lblHint";
+            lblHint.Size = new Size(404, 74);
+            lblHint.TabIndex = 6;
+            lblHint.Text = "Add tagret";
+            lblHint.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // ctrlGeneral
             // 
@@ -327,7 +342,7 @@
             ctrlGeneral.Margin = new Padding(3, 3, 3, 10);
             ctrlGeneral.Name = "ctrlGeneral";
             ctrlGeneral.Size = new Size(404, 462);
-            ctrlGeneral.TabIndex = 2;
+            ctrlGeneral.TabIndex = 5;
             ctrlGeneral.ObjectChanged += ctrlGeneral_ObjectChanged;
             // 
             // ctrlDbConnection
@@ -341,7 +356,7 @@
             ctrlDbConnection.Name = "ctrlDbConnection";
             ctrlDbConnection.NameEnabled = true;
             ctrlDbConnection.Size = new Size(404, 462);
-            ctrlDbConnection.TabIndex = 7;
+            ctrlDbConnection.TabIndex = 4;
             ctrlDbConnection.ConnectionOptionsChanged += ctrlDbConnection_ConnectionOptionsChanged;
             // 
             // ctrlCurDataExport
@@ -354,28 +369,16 @@
             ctrlCurDataExport.TabIndex = 3;
             ctrlCurDataExport.ObjectChanged += ctrl_ObjectChanged;
             // 
-            // lblHint
+            // ctrlHistDataExport
             // 
-            lblHint.BackColor = SystemColors.Control;
-            lblHint.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
-            lblHint.ForeColor = SystemColors.GrayText;
-            lblHint.Location = new Point(0, 0);
-            lblHint.Name = "lblHint";
-            lblHint.Size = new Size(434, 74);
-            lblHint.TabIndex = 0;
-            lblHint.Text = "Add tagret";
-            lblHint.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // ctrlQuery
-            // 
-            ctrlQuery.ConfigDataset = null;
-            ctrlQuery.Dock = DockStyle.Fill;
-            ctrlQuery.Location = new Point(0, 0);
-            ctrlQuery.Margin = new Padding(3, 3, 3, 10);
-            ctrlQuery.Name = "ctrlQuery";
-            ctrlQuery.Size = new Size(404, 462);
-            ctrlQuery.TabIndex = 1;
-            ctrlQuery.ObjectChanged += ctrlQuery_ObjectChanged;
+            ctrlHistDataExport.ConfigDataset = null;
+            ctrlHistDataExport.Dock = DockStyle.Fill;
+            ctrlHistDataExport.Location = new Point(0, 0);
+            ctrlHistDataExport.Margin = new Padding(3, 3, 3, 10);
+            ctrlHistDataExport.Name = "ctrlHistDataExport";
+            ctrlHistDataExport.Size = new Size(404, 462);
+            ctrlHistDataExport.TabIndex = 2;
+            ctrlHistDataExport.ObjectChanged += ctrl_ObjectChanged;
             // 
             // ctrlArcReplication
             // 
@@ -385,8 +388,19 @@
             ctrlArcReplication.Margin = new Padding(3, 3, 3, 10);
             ctrlArcReplication.Name = "ctrlArcReplication";
             ctrlArcReplication.Size = new Size(404, 462);
-            ctrlArcReplication.TabIndex = 4;
+            ctrlArcReplication.TabIndex = 1;
             ctrlArcReplication.ObjectChanged += ctrl_ObjectChanged;
+            // 
+            // ctrlQuery
+            // 
+            ctrlQuery.ConfigDataset = null;
+            ctrlQuery.Dock = DockStyle.Fill;
+            ctrlQuery.Location = new Point(0, 0);
+            ctrlQuery.Margin = new Padding(3, 3, 3, 10);
+            ctrlQuery.Name = "ctrlQuery";
+            ctrlQuery.Size = new Size(404, 462);
+            ctrlQuery.TabIndex = 0;
+            ctrlQuery.ObjectChanged += ctrlQuery_ObjectChanged;
             // 
             // gbTarget
             // 
@@ -502,5 +516,6 @@
         private Scada.Forms.Controls.CtrlDbConnection ctrlDbConnection;
         private GroupBox gbTarget;
         private TreeView tvTargets;
+        private Controls.CtrlHistDataExport ctrlHistDataExport;
     }
 }

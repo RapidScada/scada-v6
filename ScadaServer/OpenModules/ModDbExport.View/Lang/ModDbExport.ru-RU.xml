@@ -30,6 +30,11 @@
     <Phrase key="lblMaxQueueSize">Максимальный размер очереди</Phrase>
     <Phrase key="lblDataLifetime">Время жизни данных в очереди, с</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlHistDataExport">
+    <Phrase key="gbOptions">Параметры экспорта исторических данных</Phrase>
+    <Phrase key="chkIncludeCalculated">Передавать расчётные каналы</Phrase>
+    <Phrase key="lblHistArchiveBit">Бит исторического архива</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlQuery">
     <Phrase key="gbGeneral">Основное</Phrase>
     <Phrase key="chkActive">Активен</Phrase>
@@ -72,17 +77,18 @@
     <Phrase key="btnClose">Закрыть</Phrase>
     <Phrase key="miCollapseAll">Свернуть все</Phrase>
     <Phrase key="CopySuffix"> - Копия</Phrase>
+    <Phrase key="AddTargets">Добавьте цель</Phrase>
     <Phrase key="ArchiveExportOptionsNode">Репликация архивов</Phrase>
     <Phrase key="ConnectionOptionsNode">Параметры соединения</Phrase>
     <Phrase key="CurrentExportOptionsNode">Текущие данные</Phrase>
     <Phrase key="ExportOptionsNode">Параметры экспорта</Phrase>
     <Phrase key="GeneralOptionsNode">Основные параметры</Phrase>
-    <Phrase key="QueriesNode">Запросы</Phrase>
-    <Phrase key="AddTargets">Добавьте цель</Phrase>
+    <Phrase key="HistoricalExportOptionsNode">Исторические данные</Phrase>
     <Phrase key="SelectChildNode">Выберите дочерний узел</Phrase>
     <Phrase key="TargetName">Цель {0}</Phrase>
-    <Phrase key="QueryName">Запрос {0}</Phrase>
     <Phrase key="TargetNameNotUnique">Имя цели должны быть уникальным.</Phrase>
+    <Phrase key="QueriesNode">Запросы</Phrase>
+    <Phrase key="QueryName">Запрос {0}</Phrase>
     <Phrase key="UnnamedQuery">&lt;Безымянный запрос&gt;</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmQueryParametrs">

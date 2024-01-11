@@ -29,7 +29,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
         /// <summary>
         /// Gets or sets the current data transfer options for editing.
         /// </summary>
-        internal CurDataExportOptions CurDataTransferOptions
+        internal CurDataExportOptions CurDataExportOptions
         {
             get
             {
