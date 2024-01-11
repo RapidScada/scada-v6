@@ -8,7 +8,6 @@ using Scada.Lang;
 using Scada.Server.Lang;
 using Scada.Server.Modules.ModDbExport.Config;
 using Scada.Server.Modules.ModDbExport.View.Properties;
-using System.Windows.Forms;
 
 namespace Scada.Server.Modules.ModDbExport.View.Forms
 {
