@@ -40,8 +40,10 @@ scada.scheme.addInfoTooltipToDiv = function (targetDiv, text) {
     targetDiv.appendChild(tooltip);
 };
 
-scada.scheme.handleBlinking = function (divComp, blinking) {
-    divComp.removeClass("no-blink slow-blink fast-blink");
+scada.scheme.handleBlinking = function (divComp, blinking,bool) {
+    if(bool)
+    {
+        divComp.removeClass("no-blink slow-blink fast-blink");
     switch (blinking) {
         case 0:
             break;
@@ -52,20 +54,49 @@ scada.scheme.handleBlinking = function (divComp, blinking) {
             divComp.addClass("fast-blink");
             break;
     }
+}else{
+    divComp.removeClass("no-blink slow-blink fast-blink");
+}
 };
-scada.scheme.updateStyles = function (divComp, cond) {
-    if (cond.color) divComp.css("color", cond.color);
-    if (cond.backgroundColor)
+scada.scheme.updateStyles = function (divComp, cond, bool) {
+    if (cond.color && bool ){
+        divComp.css("color", cond.color);
+    }else if (cond.color && !bool ){
+        divComp.css("color",cond.color)
+    }
+    if (cond.backgroundColor && bool ){
         divComp.css("background-color", cond.backgroundColor);
-    if (cond.rotation)
+    }else {
+        
+        divComp.css("background-color", String(cond.backColor));
+    }
+        
+    if (cond.rotation && bool ){
         divComp.css("transform", "rotate(" + cond.rotation + "deg)");
-    if (cond.isVisible !== undefined)
-        divComp.css("visibility", cond.isVisible ? "visible" : "hidden");
-    if (cond.width)
-        divComp.css("width", cond.width);
-    if (cond.height)
-        divComp.css("height", cond.height);
+    }else{
+        divComp.css("transform", "rotate(" + cond.rotation + "deg)");
+    }
 
+    if (cond.isVisible !== undefined && bool)
+    {
+        divComp.css("visibility", cond.isVisible ? "visible" : "hidden");
+    }else{
+        divComp.css("visibility",  "visible");
+    }
+
+    if (cond.width && bool )
+    {
+      divComp.css("width", cond.width);
+    }else{
+      divComp.css("width", "100px");
+    }
+        
+    if (cond.height && bool){
+        divComp.css("height", cond.height);
+    }else {
+        divComp.css("height", "100px");
+    }
+        
 };
 
 scada.scheme.applyRotation = function (divComp, props) {
@@ -95,11 +126,9 @@ scada.scheme.updateColors = function (divComp, cnlDataExt, isHovered, props) {
 
 scada.scheme.updateComponentData = function (component, renderContext) {
     var props = component.props;
-
     if (props.inCnlNum <= 0) {
         return;
     }
-
     var divComp = component.dom;
     var cnlDataExt = renderContext.getCnlDataExt(props.inCnlNum);
 
@@ -108,21 +137,13 @@ scada.scheme.updateComponentData = function (component, renderContext) {
 
         for (var cond of props.conditions) {
             if (scada.scheme.calc.conditionSatisfied(cond, cnlVal)) {
-                scada.scheme.updateStyles(divComp, cond);
-                scada.scheme.handleBlinking(divComp, cond.blinking);
-
-                if (cond.rotation !== -1 && cond.rotation !== props.rotation) {
-                    scada.scheme.applyRotation(divComp, cond);
-                }
-                //check if condition textContent is not empty and not undefined or null and set span text
-                if (cond.textContent) {
-                    divComp.text(cond.textContent);
-                }
-                //check if condition fontSizes is not empty and not undefined or null and set font size
-                if (cond.fontSize) {
-                    divComp.css("font-size", cond.fontSize + "px");
-                }
+                scada.scheme.updateStyles(divComp, cond,true);
+                scada.scheme.handleBlinking(divComp, cond.blinking, true);
                 break;
+            }else{
+                scada.scheme.updateStyles(divComp,props,false);
+                scada.scheme.handleBlinking(divComp, cond.blinking, false);
+
             }
         }
     }
@@ -172,7 +193,7 @@ scada.scheme.CustomSVGRenderer.prototype.updateData = function (
     component,
     renderContext,
 ) {
-    scada.scheme.applyRotation(component.dom, component.props);
+   // scada.scheme.applyRotation(component.dom, component.props);
     scada.scheme.updateComponentData(component, renderContext);
 };
 
@@ -235,7 +256,7 @@ scada.scheme.BasicShapeRenderer.prototype.updateData = function (
     component,
     renderContext,
 ) {
-    scada.scheme.applyRotation(component.dom, component.props);
+   // scada.scheme.applyRotation(component.dom, component.props);
     scada.scheme.updateComponentData(component, renderContext);
 };
 
@@ -434,6 +455,23 @@ scada.scheme.DynamicTextRenderer.prototype.updateData = function (component, ren
                 spanText.text(cnlDataExt.df.dispVal);
                 break;
         }
+         //add condition textContente to set spanText
+         if (props.conditions && cnlDataExt.d.stat > 0) {
+            var cnlVal = cnlDataExt.d.val;
+            for (var cond of props.conditions) {
+                if (scada.scheme.calc.conditionSatisfied(cond, cnlVal)) {
+                    if (cond.textContent) {
+                        spanText.text(cond.textContent);
+                    }
+                    
+                }
+                //update font size
+                if (scada.scheme.calc.conditionSatisfied(cond, cnlVal)) {
+                    this.setFontSize(spanComp, cond.fontSize);
+                }
+                break;
+            }
+        }
 
         // choose and set colors of the component
         var isHovered = spanComp.is(":hover");
@@ -446,14 +484,13 @@ scada.scheme.DynamicTextRenderer.prototype.updateData = function (component, ren
         this.setBorderColor(spanComp, borderColor, true, statusColor);
         this.setForeColor(spanComp, foreColor, true, statusColor);
 
-        //update font size
-        this.setFontSize(spanComp, props.fontSize);
+        
 
         //update component data conditions
         scada.scheme.updateComponentData(component, renderContext);
 
         //apply rotation
-        scada.scheme.applyRotation(spanComp, props);
+      //  scada.scheme.applyRotation(spanComp, props);
     }
 };
 
@@ -516,7 +553,6 @@ scada.scheme.DynamicPictureRenderer.prototype.updateData = function (component, 
         // choose an image depending on the conditions
         if (cnlDataExt.d.stat > 0 && props.conditions) {
             var cnlVal = cnlDataExt.d.val;
-
             for (var cond of props.conditions) {
                 if (scada.scheme.calc.conditionSatisfied(cond, cnlVal)) {
                     imageName = cond.imageName;
@@ -524,6 +560,7 @@ scada.scheme.DynamicPictureRenderer.prototype.updateData = function (component, 
                 }
             }
         }
+        scada.scheme.updateComponentData(component, renderContext);
 
         // set the image
         var image = renderContext.imageMap.get(imageName);
@@ -537,12 +574,6 @@ scada.scheme.DynamicPictureRenderer.prototype.updateData = function (component, 
 
         this.setBackColor(divComp, backColor, true, statusColor);
         this.setBorderColor(divComp, borderColor, true, statusColor);
-
-        //udpate component data
-        scada.scheme.updateComponentData(component, renderContext);
-
-        //apply rotation
-        scada.scheme.applyRotation(divComp, props);
     }
 };
 
