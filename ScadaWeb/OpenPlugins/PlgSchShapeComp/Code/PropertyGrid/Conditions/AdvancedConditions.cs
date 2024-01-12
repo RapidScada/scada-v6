@@ -31,7 +31,7 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code.PropertyGrid
 		public bool IsVisible { get; set; }
 
 		[DisplayName("Rotation"), Category(Categories.Appearance)]
-		public string Rotation { get; set; }
+		public int? Rotation { get; set; }
 
 		[DisplayName("Blinking Speed"), Category(Categories.Appearance)]
 		public BlinkingSpeed Blinking { get; set; }
@@ -41,7 +41,7 @@ namespace Scada.Web.Plugins.PlgSchShapeComp.Code.PropertyGrid
 			base.LoadFromXml(xmlNode);
 			BackgroundColor = xmlNode.GetChildAsString("BackgroundColor");
 			IsVisible = xmlNode.GetChildAsBool("IsVisible");
-			Rotation = xmlNode.GetChildAsString("Rotation");
+			Rotation = xmlNode.GetChildAsInt("Rotation");
 			Blinking = xmlNode.GetChildAsEnum<BlinkingSpeed>("Blinking");
 		}
 
