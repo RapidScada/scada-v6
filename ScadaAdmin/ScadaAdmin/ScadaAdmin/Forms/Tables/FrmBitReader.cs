@@ -106,6 +106,8 @@ namespace Scada.Admin.App.Forms.Tables
                             newRow[3] = DBNull.Value;
                             //data lenght
                             newRow[4] = DBNull.Value;
+                            //channel Type
+                            newRow[5] = 4;
                             //tag_code
                             newRow[9] = $"{line[9]}_{i}";
                             //formula_enabled
@@ -135,6 +137,8 @@ namespace Scada.Admin.App.Forms.Tables
                             newRow[3] = DBNull.Value;
                             //data lenght
                             newRow[4] = DBNull.Value;
+                            //channel Type
+                            newRow[5] = 4;
                             //tag_code
                             newRow[9] = $"{line[9]}_{i}";
                             //formula_enabled
@@ -175,6 +179,8 @@ namespace Scada.Admin.App.Forms.Tables
                             newRow[3] = DBNull.Value;
                             //data lenght
                             newRow[4] = DBNull.Value;
+                            //channel Type
+                            newRow[5] = 4;
                             //tag_code
                             newRow[9] = $"{line[9]}{textBox2.Text}{i}";
                             //formula_enabled
@@ -207,6 +213,8 @@ namespace Scada.Admin.App.Forms.Tables
                             newRow[3] = DBNull.Value;
                             //data lenght
                             newRow[4] = DBNull.Value;
+                            //channel Type
+                            newRow[5] = 4;
                             //tag_code
                             newRow[9] = $"{line[9]}{textBox2.Text}{i}";
                             //formula_enabled
