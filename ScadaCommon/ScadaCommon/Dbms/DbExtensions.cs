@@ -36,7 +36,7 @@ namespace Scada.Dbms
     public static class DbExtensions
     {
         /// <summary>
-        /// Rollbacks the transaction silently.
+        /// Closes the connection silently.
         /// </summary>
         public static void SilentClose(this DbConnection conn)
         {
@@ -54,7 +54,7 @@ namespace Scada.Dbms
         }
 
         /// <summary>
-        /// Rollbacks the transaction silently.
+        /// Rolls back the transaction silently.
         /// </summary>
         public static void SilentRollback(this DbTransaction trans)
         {
