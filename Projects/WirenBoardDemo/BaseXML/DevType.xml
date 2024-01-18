@@ -146,9 +146,9 @@
   </DevType>
   <DevType>
     <DevTypeID>225</DevTypeID>
-    <Name>Rateos Azimuth</Name>
-    <Driver>DrvAzimuth</Driver>
-    <Descr>Azimuth controllers manufactured by Rateos</Descr>
+    <Name>Azimuth 5.1 Pro</Name>
+    <Driver>DrvAzimuth51Pro</Driver>
+    <Descr>Receives data from Azimuth 5.1 Pro controllers manufactured by Rateos</Descr>
   </DevType>
   <DevType>
     <DevTypeID>226</DevTypeID>
