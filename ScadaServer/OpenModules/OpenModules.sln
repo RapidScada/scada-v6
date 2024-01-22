@@ -42,11 +42,19 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ModActiveDirectory.Shared",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ModDbExport", "ModDbExport", "{ADDF01AE-6F28-497C-9C92-EA88E152F65C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModDbExport.Logic", "ModDbExport.Logic\ModDbExport.Logic.csproj", "{630579F7-F44F-4F08-8122-C89BBD2E62B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModDbExport.Logic", "ModDbExport.Logic\ModDbExport.Logic.csproj", "{630579F7-F44F-4F08-8122-C89BBD2E62B2}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ModDbExport.Shared", "ModDbExport.Shared\ModDbExport.Shared.shproj", "{5A9BCBAE-DC53-42DC-8B65-22B82474DE37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModDbExport.View", "ModDbExport.View\ModDbExport.View.csproj", "{1F791E01-803A-4F29-AE99-1F3A21307FE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModDbExport.View", "ModDbExport.View\ModDbExport.View.csproj", "{1F791E01-803A-4F29-AE99-1F3A21307FE5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ModConsumptionCalculator", "ModConsumptionCalculator", "{EFFC5DEF-DE41-4CA7-BB07-549962F5A97B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModConsumptionCalculator.Logic", "ModConsumptionCalculator.Logic\ModConsumptionCalculator.Logic.csproj", "{140F35AC-1597-49D8-B3A2-52C7DE04D756}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModConsumptionCalculator.View", "ModConsumptionCalculator.View\ModConsumptionCalculator.View.csproj", "{28F9D71F-126C-4033-AE24-1B9A87004786}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ModConsumptionCalculator.Shared", "ModConsumptionCalculator.Shared\ModConsumptionCalculator.Shared.shproj", "{B6E955EA-6A3E-4046-9A3A-38062910BAF4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -94,6 +102,14 @@ Global
 		{1F791E01-803A-4F29-AE99-1F3A21307FE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F791E01-803A-4F29-AE99-1F3A21307FE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F791E01-803A-4F29-AE99-1F3A21307FE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{140F35AC-1597-49D8-B3A2-52C7DE04D756}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{140F35AC-1597-49D8-B3A2-52C7DE04D756}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{140F35AC-1597-49D8-B3A2-52C7DE04D756}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{140F35AC-1597-49D8-B3A2-52C7DE04D756}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28F9D71F-126C-4033-AE24-1B9A87004786}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28F9D71F-126C-4033-AE24-1B9A87004786}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28F9D71F-126C-4033-AE24-1B9A87004786}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28F9D71F-126C-4033-AE24-1B9A87004786}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -114,14 +130,19 @@ Global
 		{630579F7-F44F-4F08-8122-C89BBD2E62B2} = {ADDF01AE-6F28-497C-9C92-EA88E152F65C}
 		{5A9BCBAE-DC53-42DC-8B65-22B82474DE37} = {ADDF01AE-6F28-497C-9C92-EA88E152F65C}
 		{1F791E01-803A-4F29-AE99-1F3A21307FE5} = {ADDF01AE-6F28-497C-9C92-EA88E152F65C}
+		{140F35AC-1597-49D8-B3A2-52C7DE04D756} = {EFFC5DEF-DE41-4CA7-BB07-549962F5A97B}
+		{28F9D71F-126C-4033-AE24-1B9A87004786} = {EFFC5DEF-DE41-4CA7-BB07-549962F5A97B}
+		{B6E955EA-6A3E-4046-9A3A-38062910BAF4} = {EFFC5DEF-DE41-4CA7-BB07-549962F5A97B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {445C5594-E01F-4CCB-A364-EDAA6E5C2B15}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		ModArcBasic.Shared\ModArcBasic.Shared.projitems*{0178284c-e0a2-4940-a388-aa38616464b7}*SharedItemsImports = 5
+		ModConsumptionCalculator.Shared\ModConsumptionCalculator.Shared.projitems*{140f35ac-1597-49d8-b3a2-52c7de04d756}*SharedItemsImports = 5
 		ModArcInfluxDb.Shared\ModArcInfluxDb.Shared.projitems*{1be54f9e-a904-4b5d-913a-1f54d1650ec1}*SharedItemsImports = 5
 		ModDbExport.Shared\ModDbExport.Shared.projitems*{1f791e01-803a-4f29-ae99-1f3a21307fe5}*SharedItemsImports = 5
+		ModConsumptionCalculator.Shared\ModConsumptionCalculator.Shared.projitems*{28f9d71f-126c-4033-ae24-1b9a87004786}*SharedItemsImports = 5
 		ModArcInfluxDb.Shared\ModArcInfluxDb.Shared.projitems*{3cadf547-5954-4762-8c75-7307209f0918}*SharedItemsImports = 5
 		ModActiveDirectory.Shared\ModActiveDirectory.Shared.projitems*{3e78954f-06ed-436b-b664-3558c497565f}*SharedItemsImports = 13
 		ModArcPostgreSql.Shared\ModArcPostgreSql.Shared.projitems*{521fa33e-475b-4146-ae34-bc21451c87cd}*SharedItemsImports = 5
@@ -129,6 +150,7 @@ Global
 		ModDbExport.Shared\ModDbExport.Shared.projitems*{630579f7-f44f-4f08-8122-c89bbd2e62b2}*SharedItemsImports = 5
 		ModArcPostgreSql.Shared\ModArcPostgreSql.Shared.projitems*{7507228f-fa68-4b0c-b19f-4fdaef8c610f}*SharedItemsImports = 5
 		ModActiveDirectory.Shared\ModActiveDirectory.Shared.projitems*{7b72bdd3-c551-4863-bafd-7fbbee4ece52}*SharedItemsImports = 5
+		ModConsumptionCalculator.Shared\ModConsumptionCalculator.Shared.projitems*{b6e955ea-6a3e-4046-9a3a-38062910baf4}*SharedItemsImports = 13
 		ModArcInfluxDb.Shared\ModArcInfluxDb.Shared.projitems*{d8446593-c47e-4efc-a5d0-163f407ae4fc}*SharedItemsImports = 13
 		ModArcPostgreSql.Shared\ModArcPostgreSql.Shared.projitems*{eb00b3fe-bab3-4b5b-9598-e246b1b13d0e}*SharedItemsImports = 13
 		ModArcBasic.Shared\ModArcBasic.Shared.projitems*{f38c6c8a-8213-45b9-8bc8-130338134310}*SharedItemsImports = 13
