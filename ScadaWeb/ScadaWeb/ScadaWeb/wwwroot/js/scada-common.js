@@ -114,6 +114,38 @@ class ScadaUtils {
         }
     }
 
+    // Gets a cookie by name.
+    static getCookie(name) {
+        let cookie = " " + document.cookie;
+        let search = " " + name + "=";
+        let offset = cookie.indexOf(search);
+
+        if (offset >= 0) {
+            offset += search.length;
+            let end = cookie.indexOf(";", offset);
+
+            if (end < 0)
+                end = cookie.length;
+
+            return decodeURIComponent(cookie.substring(offset, end));
+        } else {
+            return null;
+        }
+    }
+
+    // Sets the cookie.
+    static setCookie(name, value, opt_expireDays) {
+        let expires = "";
+
+        if (opt_expireDays) {
+            let expireDate = new Date();
+            expireDate.setDate(expireDate.getDate() + opt_expireDays);
+            expires = "; expires=" + expiresDate.toUTCString();
+        }
+
+        document.cookie = name + "=" + encodeURIComponent(value) + expires + "; samesite=lax";
+    }
+
     // Replaces the existing frame by a new one to prevent writing frame history. Returns the created frame.
     static replaceFrame(jqFrame, opt_url) {
         let frameParent = jqFrame.parent();
