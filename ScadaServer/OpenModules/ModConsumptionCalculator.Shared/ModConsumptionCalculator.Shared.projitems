@@ -9,6 +9,13 @@
     <Import_RootNamespace>Scada.Server.Modules.ModConsumptionCalculator</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Config\CalcGroupConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\GeneralOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\ItemConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\ModuleConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModuleUtils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Config\ModConsumptionCalculator.xml" />
   </ItemGroup>
 </Project>

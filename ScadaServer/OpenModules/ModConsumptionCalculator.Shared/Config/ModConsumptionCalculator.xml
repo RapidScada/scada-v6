@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ModConsumptionCalculator>
+  <GeneralOptions>
+    <CmdCode>ConsCalc</CmdCode>
+  </GeneralOptions>
+  <CalcGroups>
+    <CalcGroup active="true" name="Minute consumption" period="0:01:00" offset="0:00:00" delay="10">
+      <Item scrCnlNum="101" destCnlNum="201" />
+    </CalcGroup>
+  </CalcGroups>
+</ModConsumptionCalculator>
