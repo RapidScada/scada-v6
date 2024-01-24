@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Collections;
 using System.Xml;
 
 namespace Scada.Server.Modules.ModConsumptionCalculator.Config
@@ -10,7 +11,7 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.Config
     /// <para>Представляет конфигурацию группы вычисляемых элементов.</para>
     /// </summary>
     [Serializable]
-    internal class CalcGroupConfig
+    internal class CalcGroupConfig : ITreeNode
     {
         /// <summary>
         /// Gets or sets a value indicating whether the group is active.
@@ -23,9 +24,14 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.Config
         public string Name { get; set; } = "";
 
         /// <summary>
-        /// Gets or sets the calculation period.
+        /// Gets or sets the calculation period type.
         /// </summary>
-        public TimeSpan Period { get; set; } = TimeSpan.Zero;
+        public PeriodType PeriodType { get; set; } = PeriodType.Custom;
+
+        /// <summary>
+        /// Gets or sets the custom calculation period.
+        /// </summary>
+        public TimeSpan CustomPeriod { get; set; } = TimeSpan.Zero;
 
         /// <summary>
         /// Gets or sets the calculation offset.
@@ -42,6 +48,17 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.Config
         /// </summary>
         public List<ItemConfig> Items { get; } = [];
 
+        /// <summary>
+        /// Gets or sets the parent node.
+        /// </summary>
+        [field: NonSerialized]
+        public ITreeNode Parent { get; set; }
+
+        /// <summary>
+        /// Get a list of child nodes.
+        /// </summary>
+        public IList Children => Items;
+
 
         /// <summary>
         /// Loads the options from the XML node.
@@ -51,13 +68,14 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.Config
             ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
             Active = xmlElem.GetAttrAsBool("active");
             Name = xmlElem.GetAttrAsString("name");
-            Period = xmlElem.GetAttrAsTimeSpan("period");
+            PeriodType = xmlElem.GetChildAsEnum("periodType", PeriodType);
+            CustomPeriod = xmlElem.GetAttrAsTimeSpan("customPeriod");
             Offset = xmlElem.GetAttrAsTimeSpan("offset");
             Delay = xmlElem.GetAttrAsInt("delay", Delay);
 
             foreach (XmlElement itemElem in xmlElem.SelectNodes("Item"))
             {
-                ItemConfig itemConfig = new();
+                ItemConfig itemConfig = new() { Parent = this };
                 itemConfig.LoadFromXml(itemElem);
                 Items.Add(itemConfig);
             }
@@ -71,7 +89,11 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.Config
             ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
             xmlElem.SetAttribute("active", Active);
             xmlElem.SetAttribute("name", Name);
-            xmlElem.SetAttribute("period", Period);
+            xmlElem.SetAttribute("periodType", PeriodType);
+
+            if (PeriodType == PeriodType.Custom)
+                xmlElem.SetAttribute("customPeriod", CustomPeriod);
+
             xmlElem.SetAttribute("offset", Offset);
             xmlElem.SetAttribute("delay", Delay);
 

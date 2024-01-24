@@ -4,7 +4,11 @@
     <CmdCode>ConsCalc</CmdCode>
   </GeneralOptions>
   <CalcGroups>
-    <CalcGroup active="true" name="Minute consumption" period="0:01:00" offset="0:00:00" delay="10">
+    <!-- periodType: Custom | Minute | Hour | Day | Month -->
+    <CalcGroup active="true" name="Minute consumption" periodType="Minute" offset="0:00:00" delay="10">
+      <Item scrCnlNum="101" destCnlNum="201" />
+    </CalcGroup>
+    <CalcGroup active="true" name="Custom consumption" periodType="Custom" customPeriod="0:02:00" offset="0:00:00" delay="10">
       <Item scrCnlNum="101" destCnlNum="201" />
     </CalcGroup>
   </CalcGroups>

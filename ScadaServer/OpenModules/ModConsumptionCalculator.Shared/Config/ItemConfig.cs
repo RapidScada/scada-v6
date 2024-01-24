@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Collections;
 using System.Xml;
 
 namespace Scada.Server.Modules.ModConsumptionCalculator.Config
@@ -10,7 +11,7 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.Config
     /// <para>Представляет конфигурацию вычисляемого элемента.</para>
     /// </summary>
     [Serializable]
-    internal class ItemConfig
+    internal class ItemConfig : ITreeNode
     {
         /// <summary>
         /// Gets or sets the source channel number.
@@ -21,6 +22,17 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.Config
         /// Gets or sets the destination channel number.
         /// </summary>
         public int DestCnlNum { get; set; } = 0;
+
+        /// <summary>
+        /// Gets or sets the parent node.
+        /// </summary>
+        [field: NonSerialized]
+        public ITreeNode Parent { get; set; }
+
+        /// <summary>
+        /// Get a list of child nodes.
+        /// </summary>
+        public IList Children => null;
 
 
         /// <summary>

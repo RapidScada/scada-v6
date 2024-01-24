@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Config\GeneralOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\ItemConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\ModuleConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\PeriodType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModuleUtils.cs" />
   </ItemGroup>
   <ItemGroup>
