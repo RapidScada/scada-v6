@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.ComponentModel;
 using System.Xml;
 
 namespace Scada.Server.Modules.ModConsumptionCalculator.Config
@@ -15,6 +16,7 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.Config
         /// <summary>
         /// Gets or sets the command code to control the module.
         /// </summary>
+        [DisplayName, Category, Description]
         public string CmdCode { get; set; } = "";
         
         

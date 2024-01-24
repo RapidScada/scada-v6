@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.ComponentModel;
 using System.Collections;
 using System.Xml;
+using NCM = System.ComponentModel;
 
 namespace Scada.Server.Modules.ModConsumptionCalculator.Config
 {
@@ -16,22 +18,26 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.Config
         /// <summary>
         /// Gets or sets the source channel number.
         /// </summary>
+        [DisplayName, Category, Description]
         public int SrcCnlNum { get; set; } = 0;
 
         /// <summary>
         /// Gets or sets the destination channel number.
         /// </summary>
+        [DisplayName, Category, Description]
         public int DestCnlNum { get; set; } = 0;
 
         /// <summary>
         /// Gets or sets the parent node.
         /// </summary>
+        [NCM.Browsable(false)]
         [field: NonSerialized]
         public ITreeNode Parent { get; set; }
 
         /// <summary>
         /// Get a list of child nodes.
         /// </summary>
+        [NCM.Browsable(false)]
         public IList Children => null;
 
 
