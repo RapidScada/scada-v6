@@ -27,6 +27,7 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.View
 
         private ToolStripMenuItem btnAddGroup;
         private ToolStripMenuItem btnAddItem;
+        private TreeNode optionsNode;
         private TreeNode groupsNode;
 
 
@@ -38,6 +39,7 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.View
         {
             btnAddGroup = null;
             btnAddItem = null;
+            optionsNode = null;
             groupsNode = null;
 
             ConfigFileName = Path.Combine(configDir, ModuleConfig.DefaultFileName);
@@ -146,9 +148,9 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.View
             if (!base.AllowAction(action, button, selectedNode))
                 return false;
 
-            return action != ConfigAction.Add || 
-                button == btnAddGroup || 
-                button == btnAddItem && GetGroupNode(selectedNode, out _);
+            return action == ConfigAction.Add
+                ? button == btnAddGroup || button == btnAddItem && GetGroupNode(selectedNode, out _)
+                : selectedNode != optionsNode && selectedNode != groupsNode;
         }
 
         /// <summary>
@@ -170,14 +172,19 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.View
         /// </summary>
         public override TreeNode[] GetTreeNodes()
         {
-            TreeNode optionsNode = TreeViewExtensions.CreateNode(
+            optionsNode = TreeViewExtensions.CreateNode(
                 ModulePhrases.GeneralOptionsNode, ImageKey.Options, ModuleConfig.GeneralOptions);
             groupsNode = TreeViewExtensions.CreateNode(
                 ModulePhrases.GroupsNode, ImageKey.FolderClosed, ModuleConfig.CalcGroups);
 
-            foreach (CalcGroupConfig calcGroupConfig in ModuleConfig.CalcGroups)
+            if (ModuleConfig.CalcGroups.Count > 0)
             {
-                groupsNode.Nodes.Add(CreateGroupNode(calcGroupConfig));
+                foreach (CalcGroupConfig calcGroupConfig in ModuleConfig.CalcGroups)
+                {
+                    groupsNode.Nodes.Add(CreateGroupNode(calcGroupConfig));
+                }
+
+                groupsNode.Expand();
             }
 
             return [optionsNode, groupsNode];
@@ -188,7 +195,7 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.View
         /// </summary>
         public override string GetNodeImage(TreeNode treeNode)
         {
-            return treeNode?.Tag is IList
+            return treeNode == groupsNode || treeNode?.Tag is CalcGroupConfig
                 ? (treeNode.IsExpanded ? ImageKey.FolderOpen : ImageKey.FolderClosed)
                 : "";
         }
@@ -213,8 +220,7 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.View
         /// </summary>
         public override object GetSelectedObject(TreeNode selectedNode)
         {
-            object tag = selectedNode?.Tag;
-            return tag is IList ? null : tag;
+            return selectedNode == groupsNode ? null : selectedNode?.Tag;
         }
     }
 }

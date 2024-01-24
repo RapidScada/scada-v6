@@ -5,7 +5,7 @@
     <Phrase key="AddItemButton">Add Item</Phrase>
     <Phrase key="GeneralOptionsNode">General Options</Phrase>
     <Phrase key="GroupsNode">Groups</Phrase>
-    <Phrase key="ItemNode">{0} &gt; {1}</Phrase>
+    <Phrase key="ItemNode">Channels {0}, {1}</Phrase>
     <Phrase key="UnnamedGroup">&lt;Unnamed Group&gt;</Phrase>
   </Dictionary>
 </ModConsumptionCalculatorDictionaries>

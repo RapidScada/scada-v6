@@ -55,6 +55,7 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.Config
         /// Gets the configuration of the calculated items.
         /// </summary>
         [DisplayName, Category, Description]
+        [NCM.Browsable(false)]
         public List<ItemConfig> Items { get; } = [];
 
         /// <summary>
