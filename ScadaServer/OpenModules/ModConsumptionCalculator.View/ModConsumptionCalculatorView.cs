@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Forms;
+using Scada.Forms.Forms;
 using Scada.Lang;
 
 namespace Scada.Server.Modules.ModConsumptionCalculator.View
@@ -11,6 +13,15 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.View
     /// </summary>
     public class ModConsumptionCalculatorView : ModuleView
     {
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public ModConsumptionCalculatorView()
+        {
+            CanShowProperties = true;
+        }
+
+
         /// <summary>
         /// Gets the module name.
         /// </summary>
@@ -35,6 +46,27 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.View
                     "Модуль рассчитывает изменения значений каналов с заданной периодичностью." :
                     "The module calculates changes of channel values with a specified period.";
             }
+        }
+
+
+        /// <summary>
+        /// Loads language dictionaries.
+        /// </summary>
+        public override void LoadDictionaries()
+        {
+            if (!Locale.LoadDictionaries(AppDirs.LangDir, ModuleUtils.ModuleCode, out string errMsg))
+                ScadaUiUtils.ShowError(errMsg);
+
+            ModulePhrases.Init();
+        }
+
+        /// <summary>
+        /// Shows a modal dialog box for editing module properties.
+        /// </summary>
+        public override bool ShowProperties()
+        {
+            return new FrmModuleConfig(new ModuleConfigProvider(AppDirs.ConfigDir))
+                .ShowDialog() == DialogResult.OK;
         }
     }
 }

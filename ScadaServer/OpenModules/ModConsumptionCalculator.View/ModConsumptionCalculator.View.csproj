@@ -29,6 +29,15 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Lang\ModConsumptionCalculator.en-GB.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Lang\ModConsumptionCalculator.ru-RU.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
   <Import Project="..\ModConsumptionCalculator.Shared\ModConsumptionCalculator.Shared.projitems" Label="Shared" />
 
 </Project>

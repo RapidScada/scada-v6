@@ -11,7 +11,7 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.Config
     /// <para>Представляет конфигурацию модуля.</para>
     /// </summary>
     [Serializable]
-    internal class ModuleConfig : ModuleConfigBase, ITreeNode
+    internal class ModuleConfig : ModuleConfigBase
     {
         /// <summary>
         /// The default configuration file name.
@@ -27,21 +27,7 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.Config
         /// <summary>
         /// Gets the configuration of the groups.
         /// </summary>
-        public List<CalcGroupConfig> CalcGroups { get; private set; }
-
-        /// <summary>
-        /// Gets or sets the parent node.
-        /// </summary>
-        ITreeNode ITreeNode.Parent
-        {
-            get => null;
-            set => throw new InvalidOperationException();
-        }
-
-        /// <summary>
-        /// Get a list of child nodes.
-        /// </summary>
-        IList ITreeNode.Children => CalcGroups;
+        public CalcGroupList CalcGroups { get; private set; }
 
 
         /// <summary>
@@ -69,7 +55,7 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.Config
             {
                 foreach (XmlElement calcGroupElem in calcGroupsNode.SelectNodes("CalcGroup"))
                 {
-                    CalcGroupConfig calcGroupConfig = new() { Parent = this };
+                    CalcGroupConfig calcGroupConfig = new() { Parent = CalcGroups };
                     calcGroupConfig.LoadFromXml(calcGroupElem);
                     CalcGroups.Add(calcGroupConfig);
                 }

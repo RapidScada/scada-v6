@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Config\CalcGroupConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\CalcGroupList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\GeneralOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\ItemConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\ModuleConfig.cs" />
