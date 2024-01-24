@@ -17,7 +17,7 @@ namespace Scada.Server.Modules.ModDbExport.Config
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ExportTargetConfig() 
+        public ExportTargetConfig()
         {
             GeneralOptions = new GeneralOptions();
             ConnectionOptions = new DbConnectionOptions();
