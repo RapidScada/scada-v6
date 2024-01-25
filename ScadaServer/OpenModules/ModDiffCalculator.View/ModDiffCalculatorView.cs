@@ -1,9 +1,11 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.ComponentModel;
 using Scada.Forms;
 using Scada.Forms.Forms;
 using Scada.Lang;
+using Scada.Server.Modules.ModDiffCalculator.Config;
 
 namespace Scada.Server.Modules.ModDiffCalculator.View
 {
@@ -58,6 +60,10 @@ namespace Scada.Server.Modules.ModDiffCalculator.View
                 ScadaUiUtils.ShowError(errMsg);
 
             ModulePhrases.Init();
+            AttrTranslator.Translate(typeof(GeneralOptions));
+            AttrTranslator.Translate(typeof(GroupConfig));
+            AttrTranslator.Translate(typeof(ItemConfig));
+            AttrTranslator.Translate(typeof(PeriodType));
         }
 
         /// <summary>

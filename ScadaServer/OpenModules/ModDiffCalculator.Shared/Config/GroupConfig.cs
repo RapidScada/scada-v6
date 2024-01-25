@@ -40,7 +40,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
         public TimeSpan CustomPeriod { get; set; } = TimeSpan.Zero;
 
         /// <summary>
-        /// Gets or sets the calculation offset.
+        /// Gets or sets the calculation time offset.
         /// </summary>
         [DisplayName, Category, Description]
         public TimeSpan Offset { get; set; } = TimeSpan.Zero;
@@ -80,7 +80,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
             ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
             Active = xmlElem.GetAttrAsBool("active");
             Name = xmlElem.GetAttrAsString("name");
-            PeriodType = xmlElem.GetChildAsEnum("periodType", PeriodType);
+            PeriodType = xmlElem.GetAttrAsEnum("periodType", PeriodType);
             CustomPeriod = xmlElem.GetAttrAsTimeSpan("customPeriod");
             Offset = xmlElem.GetAttrAsTimeSpan("offset");
             Delay = xmlElem.GetAttrAsInt("delay", Delay);

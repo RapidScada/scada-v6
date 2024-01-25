@@ -16,13 +16,13 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
     internal class ItemConfig : ITreeNode
     {
         /// <summary>
-        /// Gets or sets the source channel number.
+        /// Gets or sets the source channel number from which data for calculation is taken.
         /// </summary>
         [DisplayName, Category, Description]
         public int SrcCnlNum { get; set; } = 0;
 
         /// <summary>
-        /// Gets or sets the destination channel number.
+        /// Gets or sets the destination channel number into which a calculation result is written.
         /// </summary>
         [DisplayName, Category, Description]
         public int DestCnlNum { get; set; } = 0;
