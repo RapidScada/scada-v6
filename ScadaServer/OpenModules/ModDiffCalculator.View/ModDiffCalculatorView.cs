@@ -32,8 +32,8 @@ namespace Scada.Server.Modules.ModDiffCalculator.View
             get
             {
                 return Locale.IsRussian ?
-                    "Калькулятор потребления" :
-                    "Consumption Calculator";
+                    "Калькулятор разности" :
+                    "Difference Calculator";
             }
         }
 

@@ -41,6 +41,7 @@
     <Phrase key="Month">Месяц</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDiffCalculator.View.ModuleConfigProvider">
+    <Phrase key="FormTitle">Калькулятор разности</Phrase>
     <Phrase key="AddGroupButton">Добавить группу</Phrase>
     <Phrase key="AddItemButton">Добавить элемент</Phrase>
     <Phrase key="GeneralOptionsNode">Основные параметры</Phrase>

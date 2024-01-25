@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada;
 using Scada.Forms;
 using Scada.Server.Modules.ModDiffCalculator.Config;
 using Scada.Server.Modules.ModDiffCalculator.View.Properties;
@@ -44,6 +43,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.View
 
             ConfigFileName = Path.Combine(configDir, ModuleConfig.DefaultFileName);
             Config = new ModuleConfig();
+            FormTitle = ModulePhrases.FormTitle;
         }
 
 

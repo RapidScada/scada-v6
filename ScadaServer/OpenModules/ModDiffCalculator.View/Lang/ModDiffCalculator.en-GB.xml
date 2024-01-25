@@ -41,6 +41,7 @@
     <Phrase key="Month">Month</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDiffCalculator.View.ModuleConfigProvider">
+    <Phrase key="FormTitle">Difference Calculator</Phrase>
     <Phrase key="AddGroupButton">Add Group</Phrase>
     <Phrase key="AddItemButton">Add Item</Phrase>
     <Phrase key="GeneralOptionsNode">General Options</Phrase>

@@ -1,10 +1,6 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-
-// Copyright (c) Rapid Software LLC. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
-
 using Scada.Lang;
 
 namespace Scada.Server.Modules.ModDiffCalculator.View
@@ -16,6 +12,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.View
     internal class ModulePhrases
     {
         // Scada.Server.Modules.ModDiffCalculator.View.ModuleConfigProvider
+        public static string FormTitle { get; private set; }
         public static string AddGroupButton { get; private set; }
         public static string AddItemButton { get; private set; }
         public static string GeneralOptionsNode { get; private set; }
@@ -26,6 +23,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.View
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Server.Modules.ModDiffCalculator.View.ModuleConfigProvider");
+            FormTitle = dict[nameof(FormTitle)];
             AddGroupButton = dict[nameof(AddGroupButton)];
             AddItemButton = dict[nameof(AddItemButton)];
             GeneralOptionsNode = dict[nameof(GeneralOptionsNode)];
