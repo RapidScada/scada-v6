@@ -5,7 +5,7 @@ using Scada.Forms;
 using Scada.Forms.Forms;
 using Scada.Lang;
 
-namespace Scada.Server.Modules.ModDifCalculator.View
+namespace Scada.Server.Modules.ModDiffCalculator.View
 {
     /// <summary>
     /// Implements the server module user interface.

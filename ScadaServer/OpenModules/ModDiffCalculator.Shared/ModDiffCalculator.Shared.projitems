@@ -6,7 +6,7 @@
     <SharedGUID>b6e955ea-6a3e-4046-9a3a-38062910baf4</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Scada.Server.Modules.ModDifCalculator</Import_RootNamespace>
+    <Import_RootNamespace>Scada.Server.Modules.ModDiffCalculator</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Config\GroupConfig.cs" />
@@ -18,6 +18,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ModuleUtils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)Config\ModDifCalculator.xml" />
+    <Content Include="$(MSBuildThisFileDirectory)Config\ModDiffCalculator.xml" />
   </ItemGroup>
 </Project>

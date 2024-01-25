@@ -4,7 +4,7 @@
 using Scada.ComponentModel;
 using System.Xml;
 
-namespace Scada.Server.Modules.ModDifCalculator.Config
+namespace Scada.Server.Modules.ModDiffCalculator.Config
 {
     /// <summary>
     /// Represents general options of the module.

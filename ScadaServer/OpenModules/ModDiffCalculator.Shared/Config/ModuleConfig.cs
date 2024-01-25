@@ -3,7 +3,7 @@
 
 using System.Xml;
 
-namespace Scada.Server.Modules.ModDifCalculator.Config
+namespace Scada.Server.Modules.ModDiffCalculator.Config
 {
     /// <summary>
     /// Represents a module configuration.

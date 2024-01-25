@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ModDifCalculatorDictionaries>
-  <Dictionary key="Scada.Server.Modules.ModDifCalculator.View.ModuleConfigProvider">
+<ModDiffCalculatorDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModDiffCalculator.View.ModuleConfigProvider">
     <Phrase key="AddGroupButton">Добавить группу</Phrase>
     <Phrase key="AddItemButton">Добавить элемент</Phrase>
     <Phrase key="GeneralOptionsNode">Основные параметры</Phrase>
@@ -8,4 +8,4 @@
     <Phrase key="ItemNode">Каналы {0}, {1}</Phrase>
     <Phrase key="UnnamedGroup">&lt;Безымянная группа&gt;</Phrase>
   </Dictionary>
-</ModDifCalculatorDictionaries>
+</ModDiffCalculatorDictionaries>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ModDifCalculator>
+<ModDiffCalculator>
   <GeneralOptions>
     <CmdCode>CalcDiff</CmdCode>
   </GeneralOptions>
@@ -12,4 +12,4 @@
       <Item srcCnlNum="101" destCnlNum="201" />
     </Group>
   </Groups>
-</ModDifCalculator>
+</ModDiffCalculator>

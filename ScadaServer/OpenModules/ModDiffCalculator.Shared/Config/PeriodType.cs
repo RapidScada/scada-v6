@@ -4,7 +4,7 @@
 using Scada.ComponentModel;
 using NCM = System.ComponentModel;
 
-namespace Scada.Server.Modules.ModDifCalculator.Config
+namespace Scada.Server.Modules.ModDiffCalculator.Config
 {
     /// <summary>
     /// Specifies the calculation period types.

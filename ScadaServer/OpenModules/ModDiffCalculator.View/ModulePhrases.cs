@@ -1,9 +1,13 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+
+// Copyright (c) Rapid Software LLC. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
 using Scada.Lang;
 
-namespace Scada.Server.Modules.ModDifCalculator.View
+namespace Scada.Server.Modules.ModDiffCalculator.View
 {
     /// <summary>
     /// The phrases used by the module.
@@ -11,7 +15,7 @@ namespace Scada.Server.Modules.ModDifCalculator.View
     /// </summary>
     internal class ModulePhrases
     {
-        // Scada.Server.Modules.ModDifCalculator.View.ModuleConfigProvider
+        // Scada.Server.Modules.ModDiffCalculator.View.ModuleConfigProvider
         public static string AddGroupButton { get; private set; }
         public static string AddItemButton { get; private set; }
         public static string GeneralOptionsNode { get; private set; }
@@ -21,7 +25,7 @@ namespace Scada.Server.Modules.ModDifCalculator.View
 
         public static void Init()
         {
-            LocaleDict dict = Locale.GetDictionary("Scada.Server.Modules.ModDifCalculator.View.ModuleConfigProvider");
+            LocaleDict dict = Locale.GetDictionary("Scada.Server.Modules.ModDiffCalculator.View.ModuleConfigProvider");
             AddGroupButton = dict[nameof(AddGroupButton)];
             AddItemButton = dict[nameof(AddItemButton)];
             GeneralOptionsNode = dict[nameof(GeneralOptionsNode)];

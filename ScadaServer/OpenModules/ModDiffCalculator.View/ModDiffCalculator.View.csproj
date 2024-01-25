@@ -5,7 +5,7 @@
     <Nullable>disable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>Scada.Server.Modules.ModDifCalculator.View</RootNamespace>
+    <RootNamespace>Scada.Server.Modules.ModDiffCalculator.View</RootNamespace>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
@@ -45,14 +45,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Lang\ModDifCalculator.en-GB.xml">
+    <None Update="Lang\ModDiffCalculator.en-GB.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Lang\ModDifCalculator.ru-RU.xml">
+    <None Update="Lang\ModDiffCalculator.ru-RU.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
-  <Import Project="..\ModDifCalculator.Shared\ModDifCalculator.Shared.projitems" Label="Shared" />
+  <Import Project="..\ModDiffCalculator.Shared\ModDiffCalculator.Shared.projitems" Label="Shared" />
 
 </Project>
