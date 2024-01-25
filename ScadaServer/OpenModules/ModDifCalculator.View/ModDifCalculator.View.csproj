@@ -5,7 +5,7 @@
     <Nullable>disable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>Scada.Server.Modules.ModConsumptionCalculator.View</RootNamespace>
+    <RootNamespace>Scada.Server.Modules.ModDifCalculator.View</RootNamespace>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
@@ -45,14 +45,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Lang\ModConsumptionCalculator.en-GB.xml">
+    <None Update="Lang\ModDifCalculator.en-GB.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Lang\ModConsumptionCalculator.ru-RU.xml">
+    <None Update="Lang\ModDifCalculator.ru-RU.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
-  <Import Project="..\ModConsumptionCalculator.Shared\ModConsumptionCalculator.Shared.projitems" Label="Shared" />
+  <Import Project="..\ModDifCalculator.Shared\ModDifCalculator.Shared.projitems" Label="Shared" />
 
 </Project>

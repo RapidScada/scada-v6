@@ -5,18 +5,18 @@ using Scada.Forms;
 using Scada.Forms.Forms;
 using Scada.Lang;
 
-namespace Scada.Server.Modules.ModConsumptionCalculator.View
+namespace Scada.Server.Modules.ModDifCalculator.View
 {
     /// <summary>
     /// Implements the server module user interface.
     /// <para>Реализует пользовательский интерфейс серверного модуля.</para>
     /// </summary>
-    public class ModConsumptionCalculatorView : ModuleView
+    public class ModDifCalculatorView : ModuleView
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ModConsumptionCalculatorView()
+        public ModDifCalculatorView()
         {
             CanShowProperties = true;
         }

@@ -6,7 +6,7 @@ using System.Collections;
 using System.Xml;
 using NCM = System.ComponentModel;
 
-namespace Scada.Server.Modules.ModConsumptionCalculator.Config
+namespace Scada.Server.Modules.ModDifCalculator.Config
 {
     /// <summary>
     /// Represents a configuration of a calculated item.

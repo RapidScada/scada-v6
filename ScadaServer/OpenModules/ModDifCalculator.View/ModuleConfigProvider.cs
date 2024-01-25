@@ -2,11 +2,10 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Forms;
-using Scada.Server.Modules.ModConsumptionCalculator.Config;
-using Scada.Server.Modules.ModConsumptionCalculator.View.Properties;
-using System.Collections;
+using Scada.Server.Modules.ModDifCalculator.Config;
+using Scada.Server.Modules.ModDifCalculator.View.Properties;
 
-namespace Scada.Server.Modules.ModConsumptionCalculator.View
+namespace Scada.Server.Modules.ModDifCalculator.View
 {
     /// <summary>
     /// Represents an intermediary between a module configuration and a configuration form.
@@ -133,7 +132,7 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.View
             {
                 treeView.Insert(groupsNode, CreateGroupNode(new CalcGroupConfig()));
             }
-            else if (button == btnAddItem && 
+            else if (button == btnAddItem &&
                 GetGroupNode(treeView.SelectedNode, out TreeNode groupNode))
             {
                 treeView.Insert(groupNode, CreateItemNode(new ItemConfig()));
@@ -196,7 +195,7 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.View
         public override string GetNodeImage(TreeNode treeNode)
         {
             return treeNode == groupsNode || treeNode?.Tag is CalcGroupConfig
-                ? (treeNode.IsExpanded ? ImageKey.FolderOpen : ImageKey.FolderClosed)
+                ? treeNode.IsExpanded ? ImageKey.FolderOpen : ImageKey.FolderClosed
                 : "";
         }
 

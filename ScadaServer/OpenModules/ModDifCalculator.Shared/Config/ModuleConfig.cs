@@ -1,10 +1,9 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System.Collections;
 using System.Xml;
 
-namespace Scada.Server.Modules.ModConsumptionCalculator.Config
+namespace Scada.Server.Modules.ModDifCalculator.Config
 {
     /// <summary>
     /// Represents a module configuration.
@@ -16,7 +15,7 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.Config
         /// <summary>
         /// The default configuration file name.
         /// </summary>
-        public const string DefaultFileName = "ModConsumptionCalculator.xml";
+        public const string DefaultFileName = ModuleUtils.ModuleCode + ".xml";
 
 
         /// <summary>
@@ -71,7 +70,7 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.Config
             XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
             xmlDoc.AppendChild(xmlDecl);
 
-            XmlElement rootElem = xmlDoc.CreateElement("ModConsumptionCalculator");
+            XmlElement rootElem = xmlDoc.CreateElement(ModuleUtils.ModuleCode);
             xmlDoc.AppendChild(rootElem);
 
             GeneralOptions.SaveToXml(rootElem.AppendElem("GeneralOptions"));

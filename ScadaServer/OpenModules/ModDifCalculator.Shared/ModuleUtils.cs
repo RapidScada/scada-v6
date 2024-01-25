@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Scada.Server.Modules.ModConsumptionCalculator
+namespace Scada.Server.Modules.ModDifCalculator
 {
     /// <summary>
     /// The class provides helper methods for the module.
@@ -12,6 +12,6 @@ namespace Scada.Server.Modules.ModConsumptionCalculator
         /// <summary>
         /// The module code.
         /// </summary>
-        public const string ModuleCode = "ModConsumptionCalculator";
+        public const string ModuleCode = "ModDifCalculator";
     }
 }

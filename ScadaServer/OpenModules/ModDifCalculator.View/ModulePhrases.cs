@@ -3,7 +3,7 @@
 
 using Scada.Lang;
 
-namespace Scada.Server.Modules.ModConsumptionCalculator.View
+namespace Scada.Server.Modules.ModDifCalculator.View
 {
     /// <summary>
     /// The phrases used by the module.
@@ -11,7 +11,7 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.View
     /// </summary>
     internal class ModulePhrases
     {
-        // Scada.Server.Modules.ModConsumptionCalculator.View.ModuleConfigProvider
+        // Scada.Server.Modules.ModDifCalculator.View.ModuleConfigProvider
         public static string AddGroupButton { get; private set; }
         public static string AddItemButton { get; private set; }
         public static string GeneralOptionsNode { get; private set; }
@@ -21,7 +21,7 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.View
 
         public static void Init()
         {
-            LocaleDict dict = Locale.GetDictionary("Scada.Server.Modules.ModConsumptionCalculator.View.ModuleConfigProvider");
+            LocaleDict dict = Locale.GetDictionary("Scada.Server.Modules.ModDifCalculator.View.ModuleConfigProvider");
             AddGroupButton = dict[nameof(AddGroupButton)];
             AddItemButton = dict[nameof(AddItemButton)];
             GeneralOptionsNode = dict[nameof(GeneralOptionsNode)];

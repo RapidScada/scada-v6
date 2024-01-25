@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Scada.Server.Modules.ModConsumptionCalculator.View.Properties {
+namespace Scada.Server.Modules.ModDifCalculator.View.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Scada.Server.Modules.ModConsumptionCalculator.View.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Scada.Server.Modules.ModConsumptionCalculator.View.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Scada.Server.Modules.ModDifCalculator.View.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

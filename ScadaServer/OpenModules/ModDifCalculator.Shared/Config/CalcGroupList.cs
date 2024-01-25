@@ -3,7 +3,7 @@
 
 using System.Collections;
 
-namespace Scada.Server.Modules.ModConsumptionCalculator.Config
+namespace Scada.Server.Modules.ModDifCalculator.Config
 {
     /// <summary>
     /// Represents a list of group configurations.

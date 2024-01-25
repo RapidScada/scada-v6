@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
-    <RootNamespace>Scada.Server.Modules.ModConsumptionCalculator.Logic</RootNamespace>
+    <RootNamespace>Scada.Server.Modules.ModDifCalculator.Logic</RootNamespace>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
@@ -25,6 +25,6 @@
     </Reference>
   </ItemGroup>
 
-  <Import Project="..\ModConsumptionCalculator.Shared\ModConsumptionCalculator.Shared.projitems" Label="Shared" />
+  <Import Project="..\ModDifCalculator.Shared\ModDifCalculator.Shared.projitems" Label="Shared" />
 
 </Project>
