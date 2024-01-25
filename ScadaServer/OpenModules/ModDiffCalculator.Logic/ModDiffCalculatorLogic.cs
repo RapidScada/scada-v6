@@ -7,12 +7,12 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
     /// Implements the server module logic.
     /// <para>Реализует логику серверного модуля.</para>
     /// </summary>
-    public class ModDifCalculatorLogic : ModuleLogic
+    public class ModDiffCalculatorLogic : ModuleLogic
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ModDifCalculatorLogic(IServerContext serverContext)
+        public ModDiffCalculatorLogic(IServerContext serverContext)
             : base(serverContext)
         {
 

@@ -11,12 +11,12 @@ namespace Scada.Server.Modules.ModDiffCalculator.View
     /// Implements the server module user interface.
     /// <para>Реализует пользовательский интерфейс серверного модуля.</para>
     /// </summary>
-    public class ModDifCalculatorView : ModuleView
+    public class ModDiffCalculatorView : ModuleView
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ModDifCalculatorView()
+        public ModDiffCalculatorView()
         {
             CanShowProperties = true;
         }
