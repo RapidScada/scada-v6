@@ -10,19 +10,19 @@
     <Phrase key="Active.Category">Основные параметры</Phrase>
     <Phrase key="Active.Description">Значение, указывающее, активна ли группа.</Phrase>
     <Phrase key="CustomPeriod.DisplayName">Пользовательский период</Phrase>
-    <Phrase key="CustomPeriod.Category">Основные параметры</Phrase>
+    <Phrase key="CustomPeriod.Category">Поведение</Phrase>
     <Phrase key="CustomPeriod.Description">Пользовательский расчётный период.</Phrase>
     <Phrase key="Delay.DisplayName">Задержка</Phrase>
-    <Phrase key="Delay.Category">Основные параметры</Phrase>
+    <Phrase key="Delay.Category">Поведение</Phrase>
     <Phrase key="Delay.Description">Задержка перед расчётом после наступления времени расчёта, в секундах.</Phrase>
     <Phrase key="Name.DisplayName">Наименование</Phrase>
     <Phrase key="Name.Category">Основные параметры</Phrase>
     <Phrase key="Name.Description">Наименование группы.</Phrase>
     <Phrase key="Offset.DisplayName">Смещение</Phrase>
-    <Phrase key="Offset.Category">Основные параметры</Phrase>
+    <Phrase key="Offset.Category">Поведение</Phrase>
     <Phrase key="Offset.Description">Смещение времени расчёта.</Phrase>
     <Phrase key="PeriodType.DisplayName">Тип периода</Phrase>
-    <Phrase key="PeriodType.Category">Основные параметры</Phrase>
+    <Phrase key="PeriodType.Category">Поведение</Phrase>
     <Phrase key="PeriodType.Description">Тип периода расчёта.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDiffCalculator.Config.ItemConfig">

@@ -10,19 +10,19 @@
     <Phrase key="Active.Category">Main Parameters</Phrase>
     <Phrase key="Active.Description">A value indicating whether the group is active.</Phrase>
     <Phrase key="CustomPeriod.DisplayName">Custom period</Phrase>
-    <Phrase key="CustomPeriod.Category">Main Parameters</Phrase>
+    <Phrase key="CustomPeriod.Category">Behavior</Phrase>
     <Phrase key="CustomPeriod.Description">The custom calculation period.</Phrase>
     <Phrase key="Delay.DisplayName">Delay</Phrase>
-    <Phrase key="Delay.Category">Main Parameters</Phrase>
+    <Phrase key="Delay.Category">Behavior</Phrase>
     <Phrase key="Delay.Description">The delay before calculation when it is time to calculate, seconds.</Phrase>
     <Phrase key="Name.DisplayName">Name</Phrase>
     <Phrase key="Name.Category">Main Parameters</Phrase>
     <Phrase key="Name.Description">The group name.</Phrase>
     <Phrase key="Offset.DisplayName">Offset</Phrase>
-    <Phrase key="Offset.Category">Main Parameters</Phrase>
+    <Phrase key="Offset.Category">Behavior</Phrase>
     <Phrase key="Offset.Description">The calculation time offset.</Phrase>
     <Phrase key="PeriodType.DisplayName">Period type</Phrase>
-    <Phrase key="PeriodType.Category">Main Parameters</Phrase>
+    <Phrase key="PeriodType.Category">Behavior</Phrase>
     <Phrase key="PeriodType.Description">The calculation period type.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDiffCalculator.Config.ItemConfig">
