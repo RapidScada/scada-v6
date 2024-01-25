@@ -26,7 +26,7 @@ namespace Scada.Server.Modules.ModDifCalculator.Config
         /// <summary>
         /// Gets the configuration of the groups.
         /// </summary>
-        public CalcGroupList CalcGroups { get; private set; }
+        public GroupConfigList Groups { get; private set; }
 
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Scada.Server.Modules.ModDifCalculator.Config
         protected override void SetToDefault()
         {
             GeneralOptions = new GeneralOptions();
-            CalcGroups = [];
+            Groups = [];
         }
 
         /// <summary>
@@ -50,13 +50,13 @@ namespace Scada.Server.Modules.ModDifCalculator.Config
             if (rootElem.SelectSingleNode("GeneralOptions") is XmlNode generalOptionsNode)
                 GeneralOptions.LoadFromXml(generalOptionsNode);
 
-            if (rootElem.SelectSingleNode("CalcGroups") is XmlNode calcGroupsNode)
+            if (rootElem.SelectSingleNode("Groups") is XmlNode groupsNode)
             {
-                foreach (XmlElement calcGroupElem in calcGroupsNode.SelectNodes("CalcGroup"))
+                foreach (XmlElement calcGroupElem in groupsNode.SelectNodes("Group"))
                 {
-                    CalcGroupConfig calcGroupConfig = new() { Parent = CalcGroups };
-                    calcGroupConfig.LoadFromXml(calcGroupElem);
-                    CalcGroups.Add(calcGroupConfig);
+                    GroupConfig groupConfig = new() { Parent = Groups };
+                    groupConfig.LoadFromXml(calcGroupElem);
+                    Groups.Add(groupConfig);
                 }
             }
         }
@@ -75,10 +75,10 @@ namespace Scada.Server.Modules.ModDifCalculator.Config
 
             GeneralOptions.SaveToXml(rootElem.AppendElem("GeneralOptions"));
 
-            XmlElement calcGroupsElem = rootElem.AppendElem("CalcGroups");
-            foreach (CalcGroupConfig calcGroupConfig in CalcGroups)
+            XmlElement groupsElem = rootElem.AppendElem("Groups");
+            foreach (GroupConfig groupConfig in Groups)
             {
-                calcGroupConfig.SaveToXml(calcGroupsElem.AppendElem("CalcGroup"));
+                groupConfig.SaveToXml(groupsElem.AppendElem("Group"));
             }
 
             xmlDoc.Save(writer);

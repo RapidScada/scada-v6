@@ -13,7 +13,7 @@ namespace Scada.Server.Modules.ModDifCalculator.Config
     /// <para>Представляет конфигурацию группы вычисляемых элементов.</para>
     /// </summary>
     [Serializable]
-    internal class CalcGroupConfig : ITreeNode
+    internal class GroupConfig : ITreeNode
     {
         /// <summary>
         /// Gets or sets a value indicating whether the group is active.

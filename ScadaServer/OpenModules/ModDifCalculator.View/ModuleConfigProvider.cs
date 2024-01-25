@@ -55,12 +55,12 @@ namespace Scada.Server.Modules.ModDifCalculator.View
         /// <summary>
         /// Creates a tree node according to the group configuration.
         /// </summary>
-        private static TreeNode CreateGroupNode(CalcGroupConfig calcGroupConfig)
+        private static TreeNode CreateGroupNode(GroupConfig groupConfig)
         {
-            TreeNode groupNode = TreeViewExtensions.CreateNode(GetGroupNodeText(calcGroupConfig),
-                ImageKey.FolderClosed, calcGroupConfig);
+            TreeNode groupNode = TreeViewExtensions.CreateNode(GetGroupNodeText(groupConfig),
+                ImageKey.FolderClosed, groupConfig);
 
-            foreach (ItemConfig itemConfig in calcGroupConfig.Items)
+            foreach (ItemConfig itemConfig in groupConfig.Items)
             {
                 groupNode.Nodes.Add(CreateItemNode(itemConfig));
             }
@@ -79,11 +79,11 @@ namespace Scada.Server.Modules.ModDifCalculator.View
         /// <summary>
         /// Gets a text for a group tree node.
         /// </summary>
-        private static string GetGroupNodeText(CalcGroupConfig calcGroupConfig)
+        private static string GetGroupNodeText(GroupConfig groupConfig)
         {
-            return string.IsNullOrEmpty(calcGroupConfig.Name)
+            return string.IsNullOrEmpty(groupConfig.Name)
                 ? ModulePhrases.UnnamedGroup
-                : calcGroupConfig.Name;
+                : groupConfig.Name;
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Scada.Server.Modules.ModDifCalculator.View
         /// </summary>
         private static bool GetGroupNode(TreeNode selectedNode, out TreeNode groupNode)
         {
-            groupNode = selectedNode?.FindClosest(typeof(CalcGroupConfig));
+            groupNode = selectedNode?.FindClosest(typeof(GroupConfig));
             return groupNode != null;
         }
 
@@ -110,7 +110,7 @@ namespace Scada.Server.Modules.ModDifCalculator.View
         public override void RestoreConfig()
         {
             base.RestoreConfig();
-            ModuleConfig.CalcGroups.RestoreHierarchy();
+            ModuleConfig.Groups.RestoreHierarchy();
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace Scada.Server.Modules.ModDifCalculator.View
         {
             if (button == btnAddGroup)
             {
-                treeView.Insert(groupsNode, CreateGroupNode(new CalcGroupConfig()));
+                treeView.Insert(groupsNode, CreateGroupNode(new GroupConfig()));
             }
             else if (button == btnAddItem &&
                 GetGroupNode(treeView.SelectedNode, out TreeNode groupNode))
@@ -174,13 +174,13 @@ namespace Scada.Server.Modules.ModDifCalculator.View
             optionsNode = TreeViewExtensions.CreateNode(
                 ModulePhrases.GeneralOptionsNode, ImageKey.Options, ModuleConfig.GeneralOptions);
             groupsNode = TreeViewExtensions.CreateNode(
-                ModulePhrases.GroupsNode, ImageKey.FolderClosed, ModuleConfig.CalcGroups);
+                ModulePhrases.GroupsNode, ImageKey.FolderClosed, ModuleConfig.Groups);
 
-            if (ModuleConfig.CalcGroups.Count > 0)
+            if (ModuleConfig.Groups.Count > 0)
             {
-                foreach (CalcGroupConfig calcGroupConfig in ModuleConfig.CalcGroups)
+                foreach (GroupConfig groupConfig in ModuleConfig.Groups)
                 {
-                    groupsNode.Nodes.Add(CreateGroupNode(calcGroupConfig));
+                    groupsNode.Nodes.Add(CreateGroupNode(groupConfig));
                 }
 
                 groupsNode.Expand();
@@ -194,7 +194,7 @@ namespace Scada.Server.Modules.ModDifCalculator.View
         /// </summary>
         public override string GetNodeImage(TreeNode treeNode)
         {
-            return treeNode == groupsNode || treeNode?.Tag is CalcGroupConfig
+            return treeNode == groupsNode || treeNode?.Tag is GroupConfig
                 ? treeNode.IsExpanded ? ImageKey.FolderOpen : ImageKey.FolderClosed
                 : "";
         }
@@ -206,8 +206,8 @@ namespace Scada.Server.Modules.ModDifCalculator.View
         {
             if (obj is GeneralOptions)
                 return ModulePhrases.GeneralOptionsNode;
-            else if (obj is CalcGroupConfig calcGroupConfig)
-                return GetGroupNodeText(calcGroupConfig);
+            else if (obj is GroupConfig groupConfig)
+                return GetGroupNodeText(groupConfig);
             else if (obj is ItemConfig itemConfig)
                 return GetItemNodeText(itemConfig);
             else

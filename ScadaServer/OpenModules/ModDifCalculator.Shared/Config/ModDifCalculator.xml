@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ModDifCalculator>
   <GeneralOptions>
-    <CmdCode>ConsCalc</CmdCode>
+    <CmdCode>CalcDiff</CmdCode>
   </GeneralOptions>
-  <CalcGroups>
+  <Groups>
     <!-- periodType: Custom | Minute | Hour | Day | Month -->
-    <CalcGroup active="true" name="Minute consumption" periodType="Minute" offset="0:00:00" delay="10">
+    <Group active="true" name="Minute consumption" periodType="Minute" offset="0:00:00" delay="10">
       <Item srcCnlNum="101" destCnlNum="201" />
-    </CalcGroup>
-    <CalcGroup active="true" name="Custom consumption" periodType="Custom" customPeriod="0:02:00" offset="0:00:00" delay="10">
+    </Group>
+    <Group active="true" name="Custom consumption" periodType="Custom" customPeriod="0:02:00" offset="0:00:00" delay="10">
       <Item srcCnlNum="101" destCnlNum="201" />
-    </CalcGroup>
-  </CalcGroups>
+    </Group>
+  </Groups>
 </ModDifCalculator>

@@ -10,7 +10,7 @@ namespace Scada.Server.Modules.ModDifCalculator.Config
     /// <para>Представляет список конфигураций групп.</para>
     /// </summary>
     [Serializable]
-    internal class CalcGroupList : List<CalcGroupConfig>, ITreeNode
+    internal class GroupConfigList : List<GroupConfig>, ITreeNode
     {
         /// <summary>
         /// Gets or sets the parent tree node.
