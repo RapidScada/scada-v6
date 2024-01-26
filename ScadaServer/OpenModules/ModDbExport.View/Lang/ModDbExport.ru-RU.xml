@@ -47,7 +47,7 @@
     <Phrase key="cbDataKind.Items[4]">Команда</Phrase>
     <Phrase key="gbFilter">Фильтр</Phrase>
     <Phrase key="lblCnlNum">Номера каналов</Phrase>
-    <Phrase key="lblObjNum">Номер объектов</Phrase>
+    <Phrase key="lblObjNum">Номера объектов</Phrase>
     <Phrase key="lblDeviceNum">Номера устройств</Phrase>
     <Phrase key="gbQuery">SQL</Phrase>
     <Phrase key="chkSingleQuery">Одним запросом (требуются входные каналы)</Phrase>
