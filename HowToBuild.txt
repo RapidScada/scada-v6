@@ -25,7 +25,7 @@ Build with Visual Studio
 
 Build from Command Line
 -----------------------
-1. Download and install .NET SDK 6.0 for your operating system.
+1. Download and install .NET SDK 8.0 for your operating system.
 
 2. Download the source code of Rapid SCADA from the repository:
    https://github.com/RapidScada/scada-v6
