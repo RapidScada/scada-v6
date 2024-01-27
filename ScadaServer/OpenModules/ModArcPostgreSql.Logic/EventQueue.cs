@@ -118,8 +118,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     try
                     {
                         // write the event
-                        SetCommandParams(ev);
-                        command.ExecuteNonQuery();
+                        if (ev != null)
+                        {
+                            SetCommandParams(ev);
+                            command.ExecuteNonQuery();
+                        }
                     }
                     catch
                     {
@@ -139,7 +142,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             }
             catch (Exception ex)
             {
-                trans?.SilentRollback();
+                SilentCommitOrRollback(trans);
                 Stats.HasError = true;
                 AppLog?.WriteError(ex, ServerPhrases.ArchiveMessage, ArchiveCode, ServerPhrases.WriteDbError);
                 ArcLog?.WriteError(ex, ServerPhrases.WriteDbError);

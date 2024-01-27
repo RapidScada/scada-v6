@@ -1,0 +1,98 @@
+﻿@page "/ru/latest/installation/install-windows"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Установка на Windows";
+}
+
+<nav class="doc-toc">
+    <div class="h6">На этой странице</div>
+    <hr>
+    <ul>
+        <li><a href="#preparing">Подготовка к установке</a></li>
+        <li><a href="#installation">Установка</a></li>
+        <li><a href="#update">Обновление</a></li>
+        <li><a href="#uninstallation">Удаление</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Установка на Windows</h1>
+    <h2 id="preparing">Подготовка к установке</h2>
+    <p>Для работы Rapid SCADA на операционной системе Windows необходимо установить веб-сервер IIS и среду выполнения .NET Runtime. В зависимости от версии Windows процесс установки данных компонентов может различаться.</p>
+    
+    <p>Перейдите в <strong>Панель управления > Программы > Включение или отключение компонентов Windows</strong> и включите компонент <strong>Службы IIS</strong>. Выбор дочерних компонентов IIS можно оставить по умолчанию.</p>
+    <figure class="figure">
+        <img src="install-windows-files/win11-features-iis-ru.png" class="figure-img img-fluid" alt="Компоненты IIS">
+    </figure>
+
+    <p>Скачайте по <a href="https://dotnet.microsoft.com/en-us/download/dotnet/8.0" target="_blank">ссылке</a> и установите ASP.NET Core Runtime 8.0.x (Hosting Bundle) и .NET Desktop Runtime.</p>
+    <figure class="figure">
+        <img src="install-windows-files/dotnet8-download.png" class="figure-img img-fluid" alt="Скачать .NET">
+    </figure>
+
+    <p>После завершения установки компонентов, необходимо открыть <strong>Панель управления > Система и безопасность > Инструменты Windows > Диспетчер служб IIS</strong>, перейти в раздел <strong>Модули</strong> и проверить, что модуль <code>AspNetCoreModuleV2</code> установлен. Если модуль отсутствует, переустановите Hosting Bundle.</p>
+    <figure class="figure">
+        <img src="install-windows-files/iis-modules-ru.png" class="figure-img img-fluid" alt="Модули IIS">
+    </figure>
+
+    <h2 id="installation">Установка</h2>
+    <p><a href="https://rapidscada.ru/download-all-files/" target="_blank">Скачайте</a> и разархивируйте дистрибутив Rapid SCADA. Запустите файл <code>ScadaSetup.exe</code>, чтобы открыть программу-установщик, которая показана на рисунках ниже. Установку необходимо выполнять под учётной записью, обладающей правами администратора. Для перехода к параметрам установки нажмите кнопку <strong>Установить</strong>.</p>
+    <p><strong>Примечание:</strong> Если программа-установщик не запустилась, то откройте свойства файлов <code>*.dll</code>, <code>*.exe</code> и разблокируйте эти файлы.</p>
+    <figure class="figure">
+        <img src="install-windows-files/installer-ru.png" class="figure-img img-fluid" alt="Установщик Rapid SCADA">
+    </figure>
+    <figure class="figure">
+        <img src="install-windows-files/installer-apps-ru.png" class="figure-img img-fluid" alt="Установщик Rapid SCADA. Выбор приложений">
+    </figure>
+    <figure class="figure">
+        <img src="install-windows-files/installer-dir-ru.png" class="figure-img img-fluid" alt="Установщик Rapid SCADA. Выбор директории">
+    </figure>
+    <figure class="figure">
+        <img src="install-windows-files/installer-web-ru.png" class="figure-img img-fluid" alt="Установщик Rapid SCADA. Параметры веб-приложения">
+    </figure>
+
+    <p>HTTP-порт 80 используется веб-сайтом по умолчанию Default Web Site. Поэтому установщик предлагает другой порт, например, 10008. Чтобы использовать порт 80 для Rapid SCADA, необходимо остановить Default Web Site.</p>
+    <p>После успешного завершения установки запустите браузер и откройте <a href="http://localhost:10008" target="_blank">http://localhost:10008</a><br />
+        Имя пользователя: <em>admin</em><br />
+        Пароль: <em>scada</em></p>
+    <p>При первом запуске веб-приложению необходимо время для загрузки данных, поэтому может потребоваться подождать около 10 секунд и затем обновить страницу входа в систему. По умолчанию Rapid SCADA выполняет проект Hello World. Если в процессе установки возникли ошибки, проанализируйте их причины, используя журнал установки. Воспользуйтесь <a href="https://forum.rapidscada.ru/" target="_blank">форумом технической поддержки</a> для поиска решения.</p>
+    
+    <p>Службы Rapid SCADA активно ведут запись в журналы работы. Чтобы сохранить ресурс жёсткого диска и повысить скорость работы системы, рекомендуется настроить запись журналов на RAM-диск. Последовательность действий:</p>
+    <ol>
+        <li>Установите ПО для создания RAM-дисков, например, <a href="http://www.radeonramdisk.com/software_downloads.php" target="_blank">AMD Radeon RAMDisk</a> или <a href="http://memory.dataram.com/products-and-services/software/ramdisk" target="_blank">Dataram RAMDisk</a>.</li>
+        <li>В файле <code>ScadaInstanceConfig.xml</code> укажите директорию журналов, например, <code>&lt;LogDir&gt;R:\SCADA\&lt;/LogDir&gt;</code></li>
+        <li>Перезапустите службы Rapid SCADA или перезагрузите компьютер.</li>
+    </ol>
+
+    <p>Если веб-приложение не используется, его работа останавливается. На производственном сервере предпочтительно, чтобы веб-приложение было постоянно готово к работе. Для этого запустите <strong>Диспетчер служб IIS</strong>, выберите пул приложений <code>ScadaAppPool</code>, откройте <strong>Дополнительные параметры</strong> пула приложений и установите следующие параметры:</p>
+    <ul>
+        <li>Общие - Режим запуска: <em>AlwaysRunning</em></li>
+        <li>Модель процесса - Тайм-аут простоя: <em>0</em></li>
+        <li>Перезапуск - Постоянный временной интервал: <em>0</em></li>
+    </ul>
+
+    <h2 id="update">Обновление</h2>
+    <p>Программа-инсталлятор позволяет обновить ранее установленный программный комплекс Rapid SCADA версии&nbsp;6.</p>
+
+    <div class="alert alert-warning">
+        <p><strong>Важно</strong></p>
+        <ul>
+            <li>Функция обновления не может применяться для обновления Rapid SCADA с версии 5 на версию 6.</li>
+            <li>При обновлении не проверяется совместимость выполняемого проекта с новой версией ПО.</li>
+            <li>Обновление сначала нужно проверить на тестовом сервере и только после проверки запускать на производственном сервере.</li>
+        </ul>
+    </div>
+
+    <p>Обновление выполняется по следующему алгоритму:</p>
+    <ol>
+        <li>Проверить, что указанная директория установки существует.</li>
+        <li>Остановить обновляемые службы.</li>
+        <li>Создать резервную копию обновляемых приложений.</li>
+        <li>Обновить выбранные приложения. При обновлении приложения новые файлы перезаписываются поверх существующих. Директории конфигурации и хранилища приложения не затрагиваются. Программные модули, которые были установлены дополнительно, остаются без изменений.</li>
+        <li>Запустить службы.</li>
+    </ol>
+
+    <h2 id="uninstallation">Удаление</h2>
+    <p>Удаление Rapid SCADA также выполняется с помощью программы-установщика. Поэтому рекомендуется не удалять дистрибутив Rapid SCADA со своего жёсткого диска после установки.</p>
+    <p>Создаваемые проекты Rapid SCADA по умолчанию располагаются внутри папки <strong>Документы</strong>, соответственно, после удаления Rapid SCADA проекты сохранятся. Настоятельно не рекомендуется сохранять проекты внутри директории установки, т.к. они могут быть случайно удалены программой-установщиком.</p>
+</div>

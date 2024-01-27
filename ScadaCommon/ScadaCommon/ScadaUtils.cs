@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2023 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2007
- * Modified : 2023
+ * Modified : 2024
  */
 
 using Scada.Lang;
@@ -280,13 +280,14 @@ namespace Scada
         }
 
         /// <summary>
-        /// Makes a full copy of the specified object.
+        /// Creates a full copy of the specified object using BinaryFormatter.
         /// </summary>
         /// <remarks>
         /// A cloned object and its children must have the Serializable attribute.
+        /// This method is only allowed in WinForms applications.
         /// BinaryFormatter is not recommended, see https://aka.ms/binaryformatter
         /// </remarks>
-        public static object DeepClone(this object obj, SerializationBinder binder = null)
+        public static T DeepClone<T>(this T obj, SerializationBinder binder = null)
         {
             using (MemoryStream stream = new MemoryStream())
             {
@@ -297,16 +298,8 @@ namespace Scada
 
                 formatter.Serialize(stream, obj);
                 stream.Position = 0;
-                return formatter.Deserialize(stream);
+                return (T)formatter.Deserialize(stream);
             }
-        }
-
-        /// <summary>
-        /// Creates a full copy of the specified object.
-        /// </summary>
-        public static T DeepClone<T>(this T obj, SerializationBinder binder = null)
-        {
-            return (T)DeepClone((object)obj, binder);
         }
 
         /// <summary>
@@ -333,7 +326,7 @@ namespace Scada
         }
 
         /// <summary>
-        /// Creates a shallow copy of the specified object.
+        /// Creates a shallow copy of the properties of the specified object.
         /// </summary>
         public static T ShallowCopy<T>(this T obj)
         {

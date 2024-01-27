@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2023 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ namespace Scada.Dbms
     public static class DbExtensions
     {
         /// <summary>
-        /// Rollbacks the transaction silently.
+        /// Closes the connection silently.
         /// </summary>
         public static void SilentClose(this DbConnection conn)
         {
@@ -54,7 +54,7 @@ namespace Scada.Dbms
         }
 
         /// <summary>
-        /// Rollbacks the transaction silently.
+        /// Rolls back the transaction silently.
         /// </summary>
         public static void SilentRollback(this DbTransaction trans)
         {

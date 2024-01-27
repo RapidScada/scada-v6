@@ -1,0 +1,115 @@
+﻿@page "/en/latest/modules/plg-chart-pro"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Chart Pro Plugin";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li>
+            <a href="#configuring">Configuring</a>
+            <ul>
+                <li><a href="#view-mode">View Mode</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Chart Pro Plugin</h1>
+    <h2 id="overview">Overview</h2>
+    <p>Chart Pro Plugin is the additional plugin for the Webstation application extends the capabilities of Rapid SCADA charts: adds scaling, displaying of multiple charts, export to PNG and PDF. Download the plugin using the <a href="https://rapidscada.net/store/Module/en/PlgChartPro" target="_blank">link</a>. The appearance of Chart Pro Plugin is shown in the following figure.</p>
+    <figure class="figure">
+        <img src="plg-chart-pro-files/chart-pro-en.png" class="figure-img img-fluid" alt="Chart Pro Plugin" />
+    </figure>
+
+    <h2 id="installation">Installation</h2>
+    <p>Chart Pro Plugin is installed according to the <a href="../installation/install-modules#plugins">instructions</a>. Follow additional steps during installation:</p>
+    <ul>
+        <li>
+            <p>Copy the <code>PlgChartPro.xml</code> and <code>PlgChartPro_Config.xml</code> files into your project. The <code>PlgChartPro_Reg.xml</code> file will be created when the registration key is saved.</p>
+            <figure class="figure">
+                <img src="plg-chart-pro-files/chart-pro-files-en.png" class="figure-img img-fluid" alt="Plugin files" />
+            </figure>
+        </li>
+        <li>
+            <p>In the Webstation application options, in the <strong>Plugin Assignment</strong> section, select the <strong>PlgChartPro</strong> plugin.</p>
+            <figure class="figure">
+                <img src="plg-chart-pro-files/chart-pro-assign-en.png" class="figure-img img-fluid" alt="Assign chart plugin" />
+            </figure>
+        </li>
+    </ul>
+
+    <h2 id="configuring">Configuring</h2>
+    <p>Chart Pro Plugin is configured by default. Plugin settings are saved in the <code>PlgChartPro.xml</code> and <code>PlgChartPro_Config.xml</code> files, which can be edited manually if necessary.</p>
+    <p>The <code>PlgChartPro_Config.xml</code> file contains a list of profiles. A profile is a set of plugin settings that can be selected by a user on the chart web page. The <code>PlgChartPro.xml</code> file contains a chart profile, which includes display options and data options.</p>
+    <p>To create a new profile, copy the <code>PlgChartPro.xml</code> file with a new name and edit it. Then specify the created profile in the <code>PlgChartPro_Config.xml</code> file.</p>
+
+    <p>In addition to the configuration files, the chart display is determined by a query string, which parameters are given in the table below. The query string has the following form: <code>http://localhost:10008/ChartPro/ChartPro?cnlNums=101-103&startDate=2023-09-16&mode=fixed&period=2&periodMin=60&title=Demo&profile=PlgChartPro.xml</code></p>
+    
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Parameter</th>
+                <th>Data Type</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>cnlNums</td>
+                <td>Range of integers separated by hyphens and commas</td>
+                <td>Channel numbers displayed on the chart</td>
+            </tr>
+            <tr>
+                <td>startDate</td>
+                <td>Date in YYYY-MM-DD format</td>
+                <td>Start date of the displayed data. If not specified, the current date is used</td>
+            </tr>
+            <tr>
+                <td>mode</td>
+                <td>fixed | rolling</td>
+                <td>Chart mode: fixed or rolling. If not specified, fixed mode is used</td>
+            </tr>
+            <tr>
+                <td>period</td>
+                <td>Integer</td>
+                <td>Chart period in days relative to the start date. Can be either positive or negative. Used in fixed mode</td>
+            </tr>
+            <tr>
+                <td>periodMin</td>
+                <td>Integer</td>
+                <td>Chart period in minutes in rolling mode</td>
+            </tr>
+            <tr>
+                <td>title</td>
+                <td>String</td>
+                <td>Chart title. If not specified, it is generated automatically</td>
+            </tr>
+            <tr>
+                <td>profile</td>
+                <td>String</td>
+                <td>Chart profile file name. If not specified, the first profile from the list is used</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>In the fixed mode, the plugin displays a chart for a selected period of time. The chart data is automatically updated by adding new values to the right side of the chart.</p>
+    <p>In the rolling mode, the plugin displays a graph from the current moment to the specified depth. The chart data is automatically updated, while the chart shifts from right to left.</p>
+
+    <p>The following figure helps to understand the layout of the chart in order to change the plugin configuration.</p>
+    <figure class="figure">
+        <img src="plg-chart-pro-files/chart-parts.svg" class="figure-img img-fluid" alt="Chart parts" />
+    </figure>
+
+    <h3 id="view-mode">View Mode</h3>
+    <p>Chart Pro Plugin supports the view mode, in which a chart node is added to the view tree of Webstation. To display the chart as a view, add the following row to the Views table:</p>
+    <figure class="figure">
+        <img src="plg-chart-pro-files/chart-pro-view-en.png" class="figure-img img-fluid" alt="Views table" />
+    </figure>
+    <p>The Path field contains the path in the view tree. The View Type field should be set to Chart Pro. The view arguments correspond to the query string parameters described above.</p>
+</div>

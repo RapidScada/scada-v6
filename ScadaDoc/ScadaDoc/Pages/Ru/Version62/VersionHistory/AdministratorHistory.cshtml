@@ -1,0 +1,175 @@
+﻿@page "/ru/latest/version-history/administrator-history"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "История Администратора";
+}
+
+<nav class="doc-toc">
+    <div class="h6">На этой странице</div>
+    <hr>
+    <ul>
+        <li><a href="#administrator-app">Приложение Администратор</a></li>
+        <li><a href="#ext-comm-config">Конфигуратор Коммуникатора</a></li>
+        <li><a href="#ext-dep-agent">Развёртывание с Агентом</a></li>
+        <li><a href="#ext-dep-postgre-sql">Развёртывание в Postgre SQL</a></li>
+        <li><a href="#ext-project-tools">Инструменты проекта</a></li>
+        <li><a href="#ext-server-config">Конфигуратор Сервера</a></li>
+        <li><a href="#ext-table-editor">Редактор Таблиц</a></li>
+        <li><a href="#ext-web-config">Конфигуратор Вебстанции</a></li>
+        <li><a href="#ext-wiren-board">Wiren Board</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>История Администратора</h1>
+    <h2 id="administrator-app">Приложение Администратор</h2>
+    <div>ScadaAdmin 6.2.0.0 (27.01.2024)</div>
+    <ul>
+        <li>Переход на .NET 8.0</li>
+    </ul>
+
+    <div>ScadaAdmin 6.1.1.1 (10.12.2023)</div>
+    <ul>
+        <li>Исправлено создание границ канала</li>
+    </ul>
+
+    <div>ScadaAdmin 6.1.1.0 (25.09.2023)</div>
+    <ul>
+        <li>В таблицу Каналы добавлен столбец Код</li>
+        <li>Возможность перезагрузить базу конфигурации</li>
+        <li>Увеличена длина столбца Аргументы в таблице Представления</li>
+        <li>Изменения в общих классах</li>
+    </ul>
+
+    <div>ScadaAdmin 6.1.0.3 (03.08.2023)</div>
+    <ul>
+        <li>Рефакторинг кода</li>
+    </ul>
+
+    <div>ScadaAdmin 6.1.0.2 (15.05.2023)</div>
+    <ul>
+        <li>Форма статуса экземпляра сохраняет отзывчивость, если Агент не доступен</li>
+    </ul>
+
+    <div>ScadaAdmin 6.1.0.1 (02.04.2023)</div>
+    <ul>
+        <li>Исправления в пользовательском интерфейсе</li>
+    </ul>
+
+    <div>ScadaAdmin 6.1.0.0 (21.03.2023)</div>
+    <ul>
+        <li>Использует новую базу конфигурации и протокол приложений</li>
+    </ul>
+
+    <div>ScadaAdmin 6.0.0.1 (17.01.2023)</div>
+    <ul>
+        <li>Обновлён элемент управления для редактирования настроек подключения к БД</li>
+    </ul>
+
+    <div>ScadaAdmin 6.0.0.0 (03.12.2022)</div>
+    <ul>
+        <li>Поддержка библиотек расширений</li>
+        <li>Индикация процесса передачи конфигурации на сервер</li>
+        <li>Импорт таблиц базы конфигурации из файлов формата CSV</li>
+    </ul>
+
+    <h2 id="ext-comm-config">Конфигуратор Коммуникатора</h2>
+    <div>ExtCommConfig 6.0.1.2 (04.07.2023)</div>
+    <ul>
+        <li>Добавлен значок неактивного устройства</li>
+    </ul>
+
+    <div>ExtCommConfig 6.0.1.1 (02.04.2023)</div>
+    <ul>
+        <li>Исправлено расположение элементов управления</li>
+    </ul>
+
+    <div>ExtCommConfig 6.0.1.0 (21.03.2023)</div>
+    <ul>
+        <li>Добавлены новые параметры приложения</li>
+    </ul>
+
+    <div>ExtCommConfig 6.0.0.0 (03.12.2022)</div>
+    <ul>
+        <li>Первоначальная разработка расширения</li>
+    </ul>
+
+    <h2 id="ext-dep-agent">Развёртывание с Агентом</h2>
+    <div>ExtDepAgent 6.0.0.0 (03.12.2022)</div>
+    <ul>
+        <li>Первоначальная разработка расширения</li>
+    </ul>
+
+    <h2 id="ext-dep-postgre-sql">Развёртывание в Postgre SQL</h2>
+    <div>ExtDepPostgreSql 6.0.0.0 (03.12.2022)</div>
+    <ul>
+        <li>Первоначальная разработка расширения</li>
+    </ul>
+
+    <h2 id="ext-project-tools">Инструменты проекта</h2>
+    <div>ExtProjectTools 6.0.1.0 (25.09.2023)</div>
+    <ul>
+        <li>Карта объектов</li>
+        <li>Форма клонирования каналов обновлена</li>
+        <li>Шифруемый пароль скрыт</li>
+    </ul>
+
+    <div>ExtProjectTools 6.0.0.2 (21.03.2023)</div>
+    <ul>
+        <li>При экспорте таблицы в формат CSV записывается BOM-сигнатура</li>
+    </ul>
+
+    <div>ExtProjectTools 6.0.0.1 (17.01.2023)</div>
+    <ul>
+        <li>Добавлена форма шифрования паролей</li>
+    </ul>
+
+    <div>ExtProjectTools 6.0.0.0 (03.12.2022)</div>
+    <ul>
+        <li>Первоначальная разработка расширения</li>
+    </ul>
+
+    <h2 id="ext-server-config">Конфигуратор Сервера</h2>
+    <div>ExtServerConfig 6.0.1.1 (15.05.2023)</div>
+    <ul>
+        <li>Исправлена инициализация интерфейса модуля</li>
+    </ul>
+
+    <div>ExtServerConfig 6.0.1.0 (21.03.2023)</div>
+    <ul>
+        <li>Добавлены новые параметры приложения</li>
+    </ul>
+
+    <div>ExtServerConfig 6.0.0.1 (17.01.2023)</div>
+    <ul>
+        <li>Добавлен параметр использования архивного статуса каналов</li>
+    </ul>
+
+    <div>ExtServerConfig 6.0.0.0 (03.12.2022)</div>
+    <ul>
+        <li>Первоначальная разработка расширения</li>
+    </ul>
+
+    <h2 id="ext-table-editor">Редактор Таблиц</h2>
+    <div>ExtTableEditor 6.0.0.0 (03.12.2022)</div>
+    <ul>
+        <li>Первоначальная разработка расширения</li>
+    </ul>
+
+    <h2 id="ext-web-config">Конфигуратор Вебстанции</h2>
+    <div>ExtWebConfig 6.0.0.0 (03.12.2022)</div>
+    <ul>
+        <li>Первоначальная разработка расширения</li>
+    </ul>
+
+    <h2 id="ext-wiren-board">Wiren Board</h2>
+    <div>ExtWirenBoard 6.0.0.1 (25.09.2023)</div>
+    <ul>
+        <li>Рефакторинг кода</li>
+    </ul>
+
+    <div>ExtWirenBoard 6.0.0.0 (03.12.2022)</div>
+    <ul>
+        <li>Первоначальная разработка расширения</li>
+    </ul>
+</div>

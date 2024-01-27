@@ -3,7 +3,7 @@
 
 using Npgsql;
 using Scada.Data.Queues;
-using Scada.Lang;
+using Scada.Dbms;
 using Scada.Log;
 using System.Diagnostics;
 
@@ -125,6 +125,27 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
 
             return lostCount > 0;
         }
+
+        /// <summary>
+        /// Tries to commits the transaction. If it fails, the transaction is rolled back.
+        /// </summary>
+        protected void SilentCommitOrRollback(NpgsqlTransaction trans)
+        {
+            if (trans != null)
+            {
+                try
+                {
+                    trans.Commit();
+                    LastCommitTime = DateTime.UtcNow;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                    trans.SilentRollback();
+                }
+            }
+        }
+
 
         /// <summary>
         /// Enqueues the item to the queue.

@@ -25,11 +25,11 @@ namespace Scada.Forms.Forms
         {
             get
             {
-                return ctrlBitMask.MaskValue;
+                return ctrlBitmask.MaskValue;
             }
             set
             {
-                ctrlBitMask.MaskValue = value;
+                ctrlBitmask.MaskValue = value;
             }
         }
 
@@ -41,11 +41,11 @@ namespace Scada.Forms.Forms
         {
             get
             {
-                return ctrlBitMask.MaskBits;
+                return ctrlBitmask.MaskBits;
             }
             set
             {
-                ctrlBitMask.MaskBits = value;
+                ctrlBitmask.MaskBits = value;
             }
         }
 
@@ -53,10 +53,10 @@ namespace Scada.Forms.Forms
         private void FrmBitMask_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
-            FormTranslator.Translate(ctrlBitMask, ctrlBitMask.GetType().FullName);
+            FormTranslator.Translate(ctrlBitmask, ctrlBitmask.GetType().FullName);
 
-            ctrlBitMask.ShowMask();
-            ctrlBitMask.SetFocus();
+            ctrlBitmask.ShowMask();
+            ctrlBitmask.SetFocus();
         }
 
         private void btnOK_Click(object sender, EventArgs e)

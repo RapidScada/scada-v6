@@ -9,7 +9,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
 {
     /// <summary>
     /// Represents a control for editing current data export options.
-    /// <para>Представляет элемент управления для редактирования параметров экспортирования текущих данных.</para>
+    /// <para>Представляет элемент управления для редактирования параметров экспорта текущих данных.</para>
     /// </summary>
     public partial class CtrlCurDataExport : UserControl
     {
@@ -29,7 +29,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
         /// <summary>
         /// Gets or sets the current data transfer options for editing.
         /// </summary>
-        internal CurDataExportOptions CurDataTransferOptions
+        internal CurDataExportOptions CurDataExportOptions
         {
             get
             {

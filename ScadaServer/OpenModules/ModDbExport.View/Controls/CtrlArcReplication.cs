@@ -24,7 +24,9 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
         public CtrlArcReplication()
         {
             InitializeComponent();
+
             arcReplicationOptions = null;
+            ConfigDataset = null;
         }
 
 

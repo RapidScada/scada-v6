@@ -8,7 +8,6 @@ using Scada.Lang;
 using Scada.Server.Lang;
 using Scada.Server.Modules.ModDbExport.Config;
 using Scada.Server.Modules.ModDbExport.View.Properties;
-using System.Windows.Forms;
 
 namespace Scada.Server.Modules.ModDbExport.View.Forms
 {
@@ -78,8 +77,9 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             clipboard = null;
 
             btnPaste.Enabled = false;
-            ctrlArcReplication.ConfigDataset = configDataset;
             ctrlGeneral.ConfigDataset = configDataset;
+            ctrlHistDataExport.ConfigDataset = configDataset;
+            ctrlArcReplication.ConfigDataset = configDataset;
             ctrlQuery.ConfigDataset = configDataset;
         }
 
@@ -107,7 +107,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         /// </summary>
         private void HideControls()
         {
-            ctrlGeneral.Visible = ctrlDbConnection.Visible = ctrlCurDataExport.Visible = 
+            ctrlGeneral.Visible = ctrlDbConnection.Visible = ctrlCurDataExport.Visible = ctrlHistDataExport.Visible =
                 ctrlArcReplication.Visible = ctrlQuery.Visible = lblHint.Visible = false;
         }
 
@@ -153,7 +153,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
 
                 foreach (ExportTargetConfig exportTargetConfig in config.ExportTargets)
                 {
-                    tvTargets.Nodes.Add(CreateGroupNode(exportTargetConfig));
+                    tvTargets.Nodes.Add(CreateExportTargetNode(exportTargetConfig));
                 }
 
                 if (tvTargets.Nodes.Count > 0)
@@ -184,26 +184,30 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         }
 
         /// <summary>
-        /// Creates a tree node according to the gates configuration.
+        /// Creates a tree node according to the export target configuration.
         /// </summary>
-        private static TreeNode CreateGroupNode(ExportTargetConfig exportTargetConfig)
+        private static TreeNode CreateExportTargetNode(ExportTargetConfig exportTargetConfig)
         {
-            TreeNode groupNode = TreeViewExtensions.CreateNode(exportTargetConfig, ChooseNodeImage(exportTargetConfig));
-            groupNode.Text = exportTargetConfig.GeneralOptions.Title;
+            TreeNode targetNode = TreeViewExtensions.CreateNode(exportTargetConfig, ChooseNodeImage(exportTargetConfig));
+            targetNode.Text = exportTargetConfig.GeneralOptions.Title;
 
-            groupNode.Nodes.Add(TreeViewExtensions.CreateNode(ModulePhrases.GeneralOptionsNode,
+            targetNode.Nodes.Add(TreeViewExtensions.CreateNode(ModulePhrases.GeneralOptionsNode,
                 ChooseNodeImage(exportTargetConfig.GeneralOptions), exportTargetConfig.GeneralOptions));
 
-            groupNode.Nodes.Add(TreeViewExtensions.CreateNode(ModulePhrases.ConnectionOptionsNode,
+            targetNode.Nodes.Add(TreeViewExtensions.CreateNode(ModulePhrases.ConnectionOptionsNode,
                 ChooseNodeImage(exportTargetConfig.ConnectionOptions), exportTargetConfig.ConnectionOptions));
 
             TreeNode exportOptionsNode = TreeViewExtensions.CreateNode(ModulePhrases.ExportOptionsNode,
                 ChooseNodeImage(exportTargetConfig.ExportOptions), exportTargetConfig.ExportOptions);
-            groupNode.Nodes.Add(exportOptionsNode);
+            targetNode.Nodes.Add(exportOptionsNode);
 
             exportOptionsNode.Nodes.Add(TreeViewExtensions.CreateNode(ModulePhrases.CurrentExportOptionsNode,
                 ChooseNodeImage(exportTargetConfig.ExportOptions.CurDataExportOptions),
                 exportTargetConfig.ExportOptions.CurDataExportOptions));
+
+            exportOptionsNode.Nodes.Add(TreeViewExtensions.CreateNode(ModulePhrases.HistoricalExportOptionsNode,
+                ChooseNodeImage(exportTargetConfig.ExportOptions.HistDataExportOptions),
+                exportTargetConfig.ExportOptions.HistDataExportOptions));
 
             exportOptionsNode.Nodes.Add(TreeViewExtensions.CreateNode(ModulePhrases.ArchiveExportOptionsNode,
                 ChooseNodeImage(exportTargetConfig.ExportOptions.ArcReplicationOptions),
@@ -211,7 +215,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
 
             TreeNode queriesNode = TreeViewExtensions.CreateNode(ModulePhrases.QueriesNode,
                 ChooseNodeImage(exportTargetConfig.Queries), exportTargetConfig.Queries);
-            groupNode.Nodes.Add(queriesNode);
+            targetNode.Nodes.Add(queriesNode);
 
             foreach (QueryOptions queryOptions in exportTargetConfig.Queries)
             {
@@ -220,7 +224,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                     ChooseNodeImage(queryOptions), queryOptions));
             }
 
-            return groupNode;
+            return targetNode;
         }
 
         /// <summary>
@@ -252,11 +256,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             {
                 return ImageKey.ExportOption;
             }
-            else if (obj is CurDataExportOptions)
-            {
-                return ImageKey.Option;
-            }
-            else if (obj is ArcReplicationOptions)
+            else if (obj is CurDataExportOptions || obj is HistDataExportOptions || obj is ArcReplicationOptions)
             {
                 return ImageKey.Option;
             }
@@ -336,6 +336,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             FormTranslator.Translate(ctrlGeneral, ctrlGeneral.GetType().FullName);
             FormTranslator.Translate(ctrlDbConnection, ctrlDbConnection.GetType().FullName);
             FormTranslator.Translate(ctrlCurDataExport, ctrlCurDataExport.GetType().FullName);
+            FormTranslator.Translate(ctrlHistDataExport, ctrlHistDataExport.GetType().FullName);
             FormTranslator.Translate(ctrlArcReplication, ctrlArcReplication.GetType().FullName);           
             FormTranslator.Translate(ctrlQuery, ctrlQuery.GetType().FullName,
                 new FormTranslatorOptions { ToolTip = ctrlQuery.ToolTip, SkipUserControls = false });
@@ -344,7 +345,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             if (File.Exists(configFileName) && !config.Load(configFileName, out string errMsg))
                 ScadaUiUtils.ShowError(errMsg);
 
-            configCopy = config.Clone();
+            configCopy = config.DeepClone();
             Modified = false;
 
             // display configuration
@@ -399,7 +400,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             else
                 throw new ScadaException("Unknown DBMS.");
 
-            TreeNode targetNode = CreateGroupNode(target);
+            TreeNode targetNode = CreateExportTargetNode(target);
             tvTargets.Insert(null, targetNode, config.ExportTargets, target);
             tvTargets.SelectedNode = targetNode.FirstNode;            
             Modified = true;
@@ -539,7 +540,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                 exportTargetConfigCopy.GeneralOptions.ID = GetNextTargetID();
                 exportTargetConfigCopy.Parent = config;
                 exportTargetConfigCopy.RestoreHierarchy();
-                TreeNode targetNode = CreateGroupNode(exportTargetConfigCopy);
+                TreeNode targetNode = CreateExportTargetNode(exportTargetConfigCopy);
                 tvTargets.Insert(null, targetNode, config.ExportTargets, exportTargetConfigCopy);
                 tvTargets.SelectedNode = targetNode.FirstNode;
 
@@ -580,7 +581,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         {
             // cancel configuration changes
             config = configCopy;
-            configCopy = config.Clone();
+            configCopy = config.DeepClone();
+            config.RestoreHierarchy();
             FillTreeView();
             Modified = false;
         }
@@ -613,8 +615,13 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             }
             else if (selectedObject is CurDataExportOptions curDataExportOptions)
             {
-                ctrlCurDataExport.CurDataTransferOptions = curDataExportOptions;
+                ctrlCurDataExport.CurDataExportOptions = curDataExportOptions;
                 ctrlCurDataExport.Visible = true;
+            }
+            else if (selectedObject is HistDataExportOptions histDataExportOptions)
+            {
+                ctrlHistDataExport.HistDataExportOptions = histDataExportOptions;
+                ctrlHistDataExport.Visible = true;
             }
             else if (selectedObject is ArcReplicationOptions arcReplicationOptions)
             {

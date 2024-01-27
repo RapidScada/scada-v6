@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2023 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * All rights reserved
  * 
  * Product  : Rapid SCADA

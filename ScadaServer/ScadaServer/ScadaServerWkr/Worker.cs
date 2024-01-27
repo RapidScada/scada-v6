@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2023 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,14 +20,10 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2024
  */
 
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Scada.Server.Engine;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Scada.Server.Wkr
 {
@@ -35,20 +31,14 @@ namespace Scada.Server.Wkr
     /// Implements the Server service.
     /// <para>Реализует службу Сервера.</para>
     /// </summary>
-    public class Worker : BackgroundService
+    public class Worker(ILogger<Worker> logger) : BackgroundService
     {
         private const int TaskDelay = 1000;
-        private readonly ILogger<Worker> logger;
-        private readonly Manager manager;
-
-        public Worker(ILogger<Worker> logger)
-        {
-            this.logger = logger;
-            manager = new Manager();
-        }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            Manager manager = new();
+
             stoppingToken.Register(() =>
             {
                 manager.StopService();

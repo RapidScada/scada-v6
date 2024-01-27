@@ -6,7 +6,7 @@
     <Subitems>
       <Item>
         <Text>Введение</Text>
-        <Url>/ru/latest/software-overview/introduction</Url>
+        <Url>/ru/6.1/software-overview/introduction</Url>
       </Item>
     </Subitems>
   </Item>
@@ -17,27 +17,27 @@
     <Subitems>
       <Item>
         <Text>Системные требования</Text>
-        <Url>/ru/latest/installation/system-requirements</Url>
+        <Url>/ru/6.1/installation/system-requirements</Url>
       </Item>
       <Item>
         <Text>Установка на Windows</Text>
-        <Url>/ru/latest/installation/install-windows</Url>
+        <Url>/ru/6.1/installation/install-windows</Url>
       </Item>
       <Item>
         <Text>Установка на Windows вручную</Text>
-        <Url>/ru/latest/installation/install-windows-manual</Url>
+        <Url>/ru/6.1/installation/install-windows-manual</Url>
       </Item>
       <Item>
         <Text>Установка на Linux</Text>
-        <Url>/ru/latest/installation/install-linux</Url>
+        <Url>/ru/6.1/installation/install-linux</Url>
       </Item>
       <Item>
         <Text>Установка модулей</Text>
-        <Url>/ru/latest/installation/install-modules</Url>
+        <Url>/ru/6.1/installation/install-modules</Url>
       </Item>
       <Item>
         <Text>Безопасность</Text>
-        <Url>/ru/latest/installation/safety</Url>
+        <Url>/ru/6.1/installation/safety</Url>
       </Item>
     </Subitems>
   </Item>
@@ -48,15 +48,15 @@
     <Subitems>
       <Item>
         <Text>Плагин Графики Про</Text>
-        <Url>/ru/latest/modules/plg-chart-pro</Url>
+        <Url>/ru/6.1/modules/plg-chart-pro</Url>
       </Item>
       <Item>
         <Text>Плагин Дэшборды</Text>
-        <Url>/ru/latest/modules/plg-dashboard</Url>
+        <Url>/ru/6.1/modules/plg-dashboard</Url>
       </Item>
       <Item>
         <Text>Плагин Гибкий отчёт</Text>
-        <Url>/ru/latest/modules/plg-elastic-report</Url>
+        <Url>/ru/6.1/modules/plg-elastic-report</Url>
       </Item>
     </Subitems>
   </Item>
@@ -67,7 +67,7 @@
     <Subitems>
       <Item>
         <Text>Магазин модулей</Text>
-        <Url>/ru/latest/developers/store</Url>
+        <Url>/ru/6.1/developers/store</Url>
       </Item>
     </Subitems>
   </Item>
@@ -78,31 +78,31 @@
     <Subitems>
       <Item>
         <Text>История Rapid SCADA</Text>
-        <Url>/ru/latest/version-history/scada-history</Url>
+        <Url>/ru/6.1/version-history/scada-history</Url>
       </Item>
       <Item>
         <Text>История Сервера</Text>
-        <Url>/ru/latest/version-history/server-history</Url>
+        <Url>/ru/6.1/version-history/server-history</Url>
       </Item>
       <Item>
         <Text>История Коммуникатора</Text>
-        <Url>/ru/latest/version-history/communicator-history</Url>
+        <Url>/ru/6.1/version-history/communicator-history</Url>
       </Item>
       <Item>
         <Text>История Вебстанции</Text>
-        <Url>/ru/latest/version-history/webstation-history</Url>
+        <Url>/ru/6.1/version-history/webstation-history</Url>
       </Item>
       <Item>
         <Text>История Агента</Text>
-        <Url>/ru/latest/version-history/agent-history</Url>
+        <Url>/ru/6.1/version-history/agent-history</Url>
       </Item>
       <Item>
         <Text>История Администратора</Text>
-        <Url>/ru/latest/version-history/administrator-history</Url>
+        <Url>/ru/6.1/version-history/administrator-history</Url>
       </Item>
       <Item>
         <Text>История дополнительных приложений</Text>
-        <Url>/ru/latest/version-history/applications-history</Url>
+        <Url>/ru/6.1/version-history/applications-history</Url>
       </Item>
     </Subitems>
   </Item>

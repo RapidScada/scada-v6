@@ -3,7 +3,7 @@
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlArcReplication">
     <Phrase key="gbOptions">Параметры репликации архивов</Phrase>
     <Phrase key="chkEnabled">Включено</Phrase>
-    <Phrase key="chkAutoExport">Автоматический экпорт событий</Phrase>
+    <Phrase key="chkAutoExport">Автоматический экспорт событий</Phrase>
     <Phrase key="lblMinDepth">Минимальная глубина, с</Phrase>
     <Phrase key="lblMaxDepth">Максимальная глубина, с</Phrase>
     <Phrase key="lblReadingStep">Шаг чтения, c</Phrase>
@@ -30,6 +30,11 @@
     <Phrase key="lblMaxQueueSize">Максимальный размер очереди</Phrase>
     <Phrase key="lblDataLifetime">Время жизни данных в очереди, с</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlHistDataExport">
+    <Phrase key="gbOptions">Параметры экспорта исторических данных</Phrase>
+    <Phrase key="chkIncludeCalculated">Передавать расчётные каналы</Phrase>
+    <Phrase key="lblHistArchiveBit">Бит исторического архива</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlQuery">
     <Phrase key="gbGeneral">Основное</Phrase>
     <Phrase key="chkActive">Активен</Phrase>
@@ -42,7 +47,7 @@
     <Phrase key="cbDataKind.Items[4]">Команда</Phrase>
     <Phrase key="gbFilter">Фильтр</Phrase>
     <Phrase key="lblCnlNum">Номера каналов</Phrase>
-    <Phrase key="lblObjNum">Номер объектов</Phrase>
+    <Phrase key="lblObjNum">Номера объектов</Phrase>
     <Phrase key="lblDeviceNum">Номера устройств</Phrase>
     <Phrase key="gbQuery">SQL</Phrase>
     <Phrase key="chkSingleQuery">Одним запросом (требуются входные каналы)</Phrase>
@@ -72,25 +77,25 @@
     <Phrase key="btnClose">Закрыть</Phrase>
     <Phrase key="miCollapseAll">Свернуть все</Phrase>
     <Phrase key="CopySuffix"> - Копия</Phrase>
+    <Phrase key="AddTargets">Добавьте цель</Phrase>
     <Phrase key="ArchiveExportOptionsNode">Репликация архивов</Phrase>
     <Phrase key="ConnectionOptionsNode">Параметры соединения</Phrase>
     <Phrase key="CurrentExportOptionsNode">Текущие данные</Phrase>
     <Phrase key="ExportOptionsNode">Параметры экспорта</Phrase>
     <Phrase key="GeneralOptionsNode">Основные параметры</Phrase>
-    <Phrase key="QueriesNode">Запросы</Phrase>
-    <Phrase key="AddTargets">Добавьте цель</Phrase>
+    <Phrase key="HistoricalExportOptionsNode">Исторические данные</Phrase>
     <Phrase key="SelectChildNode">Выберите дочерний узел</Phrase>
     <Phrase key="TargetName">Цель {0}</Phrase>
-    <Phrase key="QueryName">Запрос {0}</Phrase>
     <Phrase key="TargetNameNotUnique">Имя цели должны быть уникальным.</Phrase>
+    <Phrase key="QueriesNode">Запросы</Phrase>
+    <Phrase key="QueryName">Запрос {0}</Phrase>
     <Phrase key="UnnamedQuery">&lt;Безымянный запрос&gt;</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmQueryParametrs">
     <Phrase key="this">Доступные параметры</Phrase>
     <Phrase key="colParamsName">Наименование</Phrase>
     <Phrase key="colParams">Описание</Phrase>
-    <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnCancel">Отмена</Phrase>
+    <Phrase key="btnClose">Закрыть</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.Command">
     <Phrase key="CommandID">Идентификатор команды</Phrase>

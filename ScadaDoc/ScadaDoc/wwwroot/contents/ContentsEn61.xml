@@ -6,7 +6,7 @@
     <Subitems>
       <Item>
         <Text>Introduction</Text>
-        <Url>/en/latest/software-overview/introduction</Url>
+        <Url>/en/6.1/software-overview/introduction</Url>
       </Item>
     </Subitems>
   </Item>
@@ -17,27 +17,27 @@
     <Subitems>
       <Item>
         <Text>System Requirements</Text>
-        <Url>/en/latest/installation/system-requirements</Url>
+        <Url>/en/6.1/installation/system-requirements</Url>
       </Item>
       <Item>
         <Text>Install on Windows</Text>
-        <Url>/en/latest/installation/install-windows</Url>
+        <Url>/en/6.1/installation/install-windows</Url>
       </Item>
       <Item>
         <Text>Install on Windows Manually</Text>
-        <Url>/en/latest/installation/install-windows-manual</Url>
+        <Url>/en/6.1/installation/install-windows-manual</Url>
       </Item>
       <Item>
         <Text>Install on Linux</Text>
-        <Url>/en/latest/installation/install-linux</Url>
+        <Url>/en/6.1/installation/install-linux</Url>
       </Item>
       <Item>
         <Text>Install Modules</Text>
-        <Url>/en/latest/installation/install-modules</Url>
+        <Url>/en/6.1/installation/install-modules</Url>
       </Item>
       <Item>
         <Text>Safety</Text>
-        <Url>/en/latest/installation/safety</Url>
+        <Url>/en/6.1/installation/safety</Url>
       </Item>
     </Subitems>
   </Item>
@@ -48,15 +48,15 @@
     <Subitems>
       <Item>
         <Text>Chart Pro Plugin</Text>
-        <Url>/en/latest/modules/plg-chart-pro</Url>
+        <Url>/en/6.1/modules/plg-chart-pro</Url>
       </Item>
       <Item>
         <Text>Dashboard Plugin</Text>
-        <Url>/en/latest/modules/plg-dashboard</Url>
+        <Url>/en/6.1/modules/plg-dashboard</Url>
       </Item>
       <Item>
         <Text>Elastic Report Plugin</Text>
-        <Url>/en/latest/modules/plg-elastic-report</Url>
+        <Url>/en/6.1/modules/plg-elastic-report</Url>
       </Item>
     </Subitems>
   </Item>
@@ -67,7 +67,7 @@
     <Subitems>
       <Item>
         <Text>Module Store</Text>
-        <Url>/en/latest/developers/store</Url>
+        <Url>/en/6.1/developers/store</Url>
       </Item>
     </Subitems>
   </Item>
@@ -78,31 +78,31 @@
     <Subitems>
       <Item>
         <Text>History of Rapid SCADA</Text>
-        <Url>/en/latest/version-history/scada-history</Url>
+        <Url>/en/6.1/version-history/scada-history</Url>
       </Item>
       <Item>
         <Text>Server History</Text>
-        <Url>/en/latest/version-history/server-history</Url>
+        <Url>/en/6.1/version-history/server-history</Url>
       </Item>
       <Item>
         <Text>Communicator History</Text>
-        <Url>/en/latest/version-history/communicator-history</Url>
+        <Url>/en/6.1/version-history/communicator-history</Url>
       </Item>
       <Item>
         <Text>Webstation History</Text>
-        <Url>/en/latest/version-history/webstation-history</Url>
+        <Url>/en/6.1/version-history/webstation-history</Url>
       </Item>
       <Item>
         <Text>Agent History</Text>
-        <Url>/en/latest/version-history/agent-history</Url>
+        <Url>/en/6.1/version-history/agent-history</Url>
       </Item>
       <Item>
         <Text>Administrator History</Text>
-        <Url>/en/latest/version-history/administrator-history</Url>
+        <Url>/en/6.1/version-history/administrator-history</Url>
       </Item>
       <Item>
         <Text>History of Additional Applications</Text>
-        <Url>/en/latest/version-history/applications-history</Url>
+        <Url>/en/6.1/version-history/applications-history</Url>
       </Item>
     </Subitems>
   </Item>

@@ -1,0 +1,278 @@
+﻿@page "/en/latest/version-history/server-history"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Server History";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#server-app">Server Application</a></li>
+        <li><a href="#mod-active-directory">Active Directory Module</a></li>
+        <li><a href="#mod-arc-basic">Basic Archive</a></li>
+        <li><a href="#mod-arc-influx-db">InfluxDB Archive</a></li>
+        <li><a href="#mod-arc-postgre-sql">PostgreSQL Archive</a></li>
+        <li><a href="#mod-auto-control">Automatic Control Module</a></li>
+        <li><a href="#mod-db-export">DB Export</a></li>
+        <li><a href="#mod-performance-monitor">Performance Monitor</a></li>
+        <li><a href="#mod-rapid-gate">Rapid Gate</a></li>
+        <li><a href="#mod-replication-helper">Replication Helper</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Server History</h1>
+    <h2 id="server-app">Server Application</h2>
+    <div>ScadaServer 6.2.0.0 (January 27, 2024)</div>
+    <ul>
+        <li>Upgrade to .NET 8.0</li>
+    </ul>
+
+    <div>ScadaServer 6.1.1.1 (August 03, 2023)</div>
+    <ul>
+        <li>Code refactoring</li>
+    </ul>
+
+    <div>ScadaServer 6.1.1.0 (July 04, 2023)</div>
+    <ul>
+        <li>Works with new instance configuration</li>
+        <li>Time of writing to archives is set as current when Server starts.</li>
+    </ul>
+
+    <div>ScadaServer 6.1.0.2 (May 15, 2023)</div>
+    <ul>
+        <li>Fixed waiting for service stop</li>
+    </ul>
+
+    <div>ScadaServer 6.1.0.1 (April 02, 2023)</div>
+    <ul>
+        <li>Fixed reading configuration database</li>
+    </ul>
+
+    <div>ScadaServer 6.1.0.0 (March 21, 2023)</div>
+    <ul>
+        <li>Added the Command format column to the Channels table</li>
+        <li>New faster application protocol</li>
+        <li>Output formula can return a CnlData instance</li>
+        <li>Third-party applications can be started from scripts</li>
+        <li>Changes in the module API</li>
+    </ul>
+
+    <div>ScadaServer 6.0.0.2 (February 20, 2023)</div>
+    <ul>
+        <li>Non-numeric event channel values are replaced with zero</li>
+        <li>Limit deadband can be bound to channel</li>
+    </ul>
+
+    <div>ScadaServer 6.0.0.1 (January 17, 2023)</div>
+    <ul>
+        <li>Fixed hang on stop if some modules are in use</li>
+        <li>Added an option whether to use archival channel status</li>
+    </ul>
+
+    <div>ScadaServer 6.0.0.0 (December 03, 2022)</div>
+    <ul>
+        <li>New configuration database</li>
+        <li>Configuration database can be stored in files and PostgreSQL database</li>
+        <li>Secure and fast application communication protocol</li>
+        <li>Channel formulas became more powerful</li>
+        <li>No limit on the number of channels and devices</li>
+        <li>Flexible archives</li>
+    </ul>
+
+    @**** ModActiveDirectory ****@
+    <h2 id="mod-active-directory">Active Directory Module</h2>
+    <div>ModActiveDirectory 6.0.2.0 (December 10, 2023)</div>
+    <ul>
+        <li>User information is stored in PostgreSQL database</li>
+    </ul>
+
+    <div>ModActiveDirectory 6.0.1.0 (March 21, 2023)</div>
+    <ul>
+        <li>Added an option to enable or disable search in Active Directory</li>
+    </ul>
+
+    <div>ModActiveDirectory 6.0.0.0 (January 17, 2023)</div>
+    <ul>
+        <li>Security groups can be used to assign custom roles</li>
+    </ul>
+
+    @**** ModArcBasic ****@
+    <h2 id="mod-arc-basic">Basic Archive</h2>
+    <div>ModArcBasic 6.1.0.0 (March 21, 2023)</div>
+    <ul>
+        <li>Refactoring and optimization</li>
+    </ul>
+
+    <div>ModArcBasic 6.0.0.0 (December 03, 2022)</div>
+    <ul>
+        <li>Initial development of the module</li>
+    </ul>
+
+    @**** ModArcInfluxDb ****@
+    <h2 id="mod-arc-influx-db">InfluxDB Archive</h2>
+    <div>ModArcInfluxDb 6.1.0.0 (March 21, 2023)</div>
+    <ul>
+        <li>Refactoring and optimization</li>
+    </ul>
+
+    <div>ModArcInfluxDb 6.0.0.1 (January 17, 2023)</div>
+    <ul>
+        <li>Fixed loading of module configuration</li>
+    </ul>
+
+    <div>ModArcInfluxDb 6.0.0.0 (December 03, 2022)</div>
+    <ul>
+        <li>Initial development of the module</li>
+    </ul>
+
+    @**** ModArcPostgreSql ****@
+    <h2 id="mod-arc-postgre-sql">PostgreSQL Archive</h2>
+    <div>ModArcPostgreSql 6.1.2.1 (January 27, 2024)</div>
+    <ul>
+        <li>Fixed a bug when writing events</li>
+    </ul>
+
+    <div>ModArcPostgreSql 6.1.2.0 (December 10, 2023)</div>
+    <ul>
+        <li>Added a partition size of one day</li>
+    </ul>
+
+    <div>ModArcPostgreSql 6.1.1.1 (August 03, 2023)</div>
+    <ul>
+        <li>Fixed batch size</li>
+    </ul>
+
+    <div>ModArcPostgreSql 6.1.1.0 (July 04, 2023)</div>
+    <ul>
+        <li>Changes in archive options</li>
+    </ul>
+
+    <div>ModArcPostgreSql 6.1.0.0 (March 21, 2023)</div>
+    <ul>
+        <li>Refactoring and optimization</li>
+    </ul>
+
+    <div>ModArcPostgreSql 6.0.0.0 (December 03, 2022)</div>
+    <ul>
+        <li>Initial development of the module</li>
+    </ul>
+
+    @**** ModAutoControl ****@
+    <h2 id="mod-auto-control">Automatic Control Module</h2>
+    <div>ModAutoControl 6.0.0.4 (January 27, 2024)</div>
+    <ul>
+        <li>Does not use BinaryFormatter</li>
+    </ul>
+
+    <div>ModAutoControl 6.0.0.3 (December 10, 2023)</div>
+    <ul>
+        <li>Fixed copying a command value in data change trigger</li>
+        <li>Fixed trigger copying on the configuration form</li>
+    </ul>
+
+    <div>ModAutoControl 6.0.0.2 (September 25, 2023)</div>
+    <ul>
+        <li>Fixes on module configuration form</li>
+    </ul>
+
+    <div>ModAutoControl 6.0.0.1 (May 15, 2023)</div>
+    <ul>
+        <li>Fixed formatting of variable values in commands</li>
+    </ul>
+
+    <div>ModAutoControl 6.0.0.0 (December 03, 2022)</div>
+    <ul>
+        <li>Added new variables available in command text</li>
+        <li>Channels, devices and other entities can be selected from dictionaries</li>
+        <li>Implemented copying and pasting of triggers</li>
+    </ul>
+
+    @**** ModDbExport ****@
+    <h2 id="mod-db-export">DB Export</h2>
+    <div>ModDbExport 6.0.1.0 (January 27, 2024)</div>
+    <ul>
+        <li>Export of calculated historical data</li>
+    </ul>
+
+    <div>ModDbExport 6.0.0.2 (December 10, 2023)</div>
+    <ul>
+        <li>Fixed query filter editing</li>
+        <li>Added available query parameters</li>
+    </ul>
+
+    <div>ModDbExport 6.0.0.1 (July 04, 2023)</div>
+    <ul>
+        <li>Optimized module configuration source code</li>
+    </ul>
+
+    <div>ModDbExport 6.0.0.0 (January 17, 2023)</div>
+    <ul>
+        <li>Export status can be bound to a channel</li>
+        <li>Added a feature to export current data on timer</li>
+        <li>Added a feature to export event acknowledgments and commands</li>
+        <li>Object filter added to query options</li>
+        <li>Module task queue</li>
+    </ul>
+
+    @**** ModPerformanceMonitor ****@
+    <h2 id="mod-performance-monitor">Performance Monitor</h2>
+    <div>ModPerformanceMonitor 6.0.0.0 (March 21, 2023)</div>
+    <ul>
+        <li>Initial development of the module</li>
+    </ul>
+
+    @**** ModRapidGate ****@
+    <h2 id="mod-rapid-gate">Rapid Gate</h2>
+    <div>ModRapidGate 6.0.1.4 (January 27, 2024)</div>
+    <ul>
+        <li>Does not use BinaryFormatter</li>
+    </ul>
+
+    <div>ModRapidGate 6.0.1.3 (December 10, 2023)</div>
+    <ul>
+        <li>Fixed a bug when sending acknowledgments</li>
+    </ul>
+
+    <div>ModRapidGate 6.0.1.2 (July 04, 2023)</div>
+    <ul>
+        <li>Optimized module configuration source code</li>
+    </ul>
+
+    <div>ModRapidGate 6.0.1.1 (April 02, 2023)</div>
+    <ul>
+        <li>Command handling changed</li>
+        <li>Fixed statistics calculation for current data</li>
+    </ul>
+
+    <div>ModRapidGate 6.0.1.0 (March 21, 2023)</div>
+    <ul>
+        <li>Batch transfer of current data</li>
+    </ul>
+
+    <div>ModRapidGate 6.0.0.1 (January 17, 2023)</div>
+    <ul>
+        <li>Code refactoring</li>
+    </ul>
+
+    <div>ModRapidGate 6.0.0.0 (December 03, 2022)</div>
+    <ul>
+        <li>Implemented the mode of automatic download of an archive from a backup server</li>
+        <li>Events are transferred when replicating archives</li>
+        <li>Event acknowledgments are transferred</li>
+        <li>Added an option to replicate only by command</li>
+        <li>Archive mask for receiving and transmitting</li>
+        <li>Option whether to apply formulas and generate events on data transfer</li>
+        <li>Server address is checked to prevent loops</li>
+        <li>Gateways are controlled by command code without using channel number</li>
+        <li>Module task queue</li>
+    </ul>
+
+    @**** ModReplicationHelper ****@
+    <h2 id="mod-replication-helper">Replication Helper</h2>
+    <div>ModReplicationHelper 6.0.0.0 (December 03, 2022)</div>
+    <ul>
+        <li>Initial development of the module</li>
+    </ul>
+</div>

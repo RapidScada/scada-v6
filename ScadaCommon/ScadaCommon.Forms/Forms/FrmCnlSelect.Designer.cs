@@ -28,195 +28,187 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.chkOnlySelected = new System.Windows.Forms.CheckBox();
-            this.btnApplyFilter = new System.Windows.Forms.Button();
-            this.txtFilter = new System.Windows.Forms.TextBox();
-            this.lblFilter = new System.Windows.Forms.Label();
-            this.lblObj = new System.Windows.Forms.Label();
-            this.cbObj = new System.Windows.Forms.ComboBox();
-            this.lblDevice = new System.Windows.Forms.Label();
-            this.cbDevice = new System.Windows.Forms.ComboBox();
-            this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.colSelected = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colCnlNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.btnSelect = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
-            this.SuspendLayout();
+            chkOnlySelected = new CheckBox();
+            btnApplyFilter = new Button();
+            txtFilter = new TextBox();
+            lblFilter = new Label();
+            lblObj = new Label();
+            cbObj = new ComboBox();
+            lblDevice = new Label();
+            cbDevice = new ComboBox();
+            dataGridView = new DataGridView();
+            colSelected = new DataGridViewCheckBoxColumn();
+            colCnlNum = new DataGridViewTextBoxColumn();
+            colName = new DataGridViewTextBoxColumn();
+            btnCancel = new Button();
+            btnSelect = new Button();
+            ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
+            SuspendLayout();
             // 
             // chkOnlySelected
             // 
-            this.chkOnlySelected.AutoSize = true;
-            this.chkOnlySelected.Location = new System.Drawing.Point(12, 100);
-            this.chkOnlySelected.Name = "chkOnlySelected";
-            this.chkOnlySelected.Size = new System.Drawing.Size(155, 19);
-            this.chkOnlySelected.TabIndex = 7;
-            this.chkOnlySelected.Text = "Show only selected rows";
-            this.chkOnlySelected.UseVisualStyleBackColor = true;
-            this.chkOnlySelected.CheckedChanged += new System.EventHandler(this.btnApplyFilter_Click);
+            chkOnlySelected.AutoSize = true;
+            chkOnlySelected.Location = new Point(12, 100);
+            chkOnlySelected.Name = "chkOnlySelected";
+            chkOnlySelected.Size = new Size(155, 19);
+            chkOnlySelected.TabIndex = 7;
+            chkOnlySelected.Text = "Show only selected rows";
+            chkOnlySelected.UseVisualStyleBackColor = true;
+            chkOnlySelected.CheckedChanged += btnApplyFilter_Click;
             // 
             // btnApplyFilter
             // 
-            this.btnApplyFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnApplyFilter.Location = new System.Drawing.Point(392, 27);
-            this.btnApplyFilter.Name = "btnApplyFilter";
-            this.btnApplyFilter.Size = new System.Drawing.Size(80, 23);
-            this.btnApplyFilter.TabIndex = 2;
-            this.btnApplyFilter.Text = "Apply";
-            this.btnApplyFilter.UseVisualStyleBackColor = true;
-            this.btnApplyFilter.Click += new System.EventHandler(this.btnApplyFilter_Click);
+            btnApplyFilter.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnApplyFilter.Location = new Point(392, 27);
+            btnApplyFilter.Name = "btnApplyFilter";
+            btnApplyFilter.Size = new Size(80, 23);
+            btnApplyFilter.TabIndex = 2;
+            btnApplyFilter.Text = "Apply";
+            btnApplyFilter.UseVisualStyleBackColor = true;
+            btnApplyFilter.Click += btnApplyFilter_Click;
             // 
             // txtFilter
             // 
-            this.txtFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFilter.Location = new System.Drawing.Point(12, 27);
-            this.txtFilter.Name = "txtFilter";
-            this.txtFilter.Size = new System.Drawing.Size(374, 23);
-            this.txtFilter.TabIndex = 1;
-            this.txtFilter.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtFilter_KeyDown);
+            txtFilter.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtFilter.Location = new Point(12, 27);
+            txtFilter.Name = "txtFilter";
+            txtFilter.Size = new Size(374, 23);
+            txtFilter.TabIndex = 1;
+            txtFilter.KeyDown += txtFilter_KeyDown;
             // 
             // lblFilter
             // 
-            this.lblFilter.AutoSize = true;
-            this.lblFilter.Location = new System.Drawing.Point(9, 9);
-            this.lblFilter.Name = "lblFilter";
-            this.lblFilter.Size = new System.Drawing.Size(33, 15);
-            this.lblFilter.TabIndex = 0;
-            this.lblFilter.Text = "Filter";
+            lblFilter.AutoSize = true;
+            lblFilter.Location = new Point(9, 9);
+            lblFilter.Name = "lblFilter";
+            lblFilter.Size = new Size(33, 15);
+            lblFilter.TabIndex = 0;
+            lblFilter.Text = "Filter";
             // 
             // lblObj
             // 
-            this.lblObj.AutoSize = true;
-            this.lblObj.Location = new System.Drawing.Point(9, 53);
-            this.lblObj.Name = "lblObj";
-            this.lblObj.Size = new System.Drawing.Size(42, 15);
-            this.lblObj.TabIndex = 3;
-            this.lblObj.Text = "Object";
+            lblObj.AutoSize = true;
+            lblObj.Location = new Point(9, 53);
+            lblObj.Name = "lblObj";
+            lblObj.Size = new Size(42, 15);
+            lblObj.TabIndex = 3;
+            lblObj.Text = "Object";
             // 
             // cbObj
             // 
-            this.cbObj.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbObj.FormattingEnabled = true;
-            this.cbObj.Location = new System.Drawing.Point(12, 71);
-            this.cbObj.Name = "cbObj";
-            this.cbObj.Size = new System.Drawing.Size(184, 23);
-            this.cbObj.TabIndex = 4;
+            cbObj.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbObj.FormattingEnabled = true;
+            cbObj.Location = new Point(12, 71);
+            cbObj.Name = "cbObj";
+            cbObj.Size = new Size(184, 23);
+            cbObj.TabIndex = 4;
             // 
             // lblDevice
             // 
-            this.lblDevice.AutoSize = true;
-            this.lblDevice.Location = new System.Drawing.Point(199, 53);
-            this.lblDevice.Name = "lblDevice";
-            this.lblDevice.Size = new System.Drawing.Size(42, 15);
-            this.lblDevice.TabIndex = 5;
-            this.lblDevice.Text = "Device";
+            lblDevice.AutoSize = true;
+            lblDevice.Location = new Point(199, 53);
+            lblDevice.Name = "lblDevice";
+            lblDevice.Size = new Size(42, 15);
+            lblDevice.TabIndex = 5;
+            lblDevice.Text = "Device";
             // 
             // cbDevice
             // 
-            this.cbDevice.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbDevice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbDevice.FormattingEnabled = true;
-            this.cbDevice.Location = new System.Drawing.Point(202, 71);
-            this.cbDevice.Name = "cbDevice";
-            this.cbDevice.Size = new System.Drawing.Size(184, 23);
-            this.cbDevice.TabIndex = 6;
+            cbDevice.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            cbDevice.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbDevice.FormattingEnabled = true;
+            cbDevice.Location = new Point(202, 71);
+            cbDevice.Name = "cbDevice";
+            cbDevice.Size = new Size(184, 23);
+            cbDevice.TabIndex = 6;
             // 
             // dataGridView
             // 
-            this.dataGridView.AllowUserToAddRows = false;
-            this.dataGridView.AllowUserToDeleteRows = false;
-            this.dataGridView.AllowUserToResizeRows = false;
-            this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colSelected,
-            this.colCnlNum,
-            this.colName});
-            this.dataGridView.Location = new System.Drawing.Point(12, 125);
-            this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(460, 385);
-            this.dataGridView.StandardTab = true;
-            this.dataGridView.TabIndex = 8;
-            this.dataGridView.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseUp);
+            dataGridView.AllowUserToAddRows = false;
+            dataGridView.AllowUserToDeleteRows = false;
+            dataGridView.AllowUserToResizeRows = false;
+            dataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView.Columns.AddRange(new DataGridViewColumn[] { colSelected, colCnlNum, colName });
+            dataGridView.Location = new Point(12, 125);
+            dataGridView.Name = "dataGridView";
+            dataGridView.Size = new Size(460, 385);
+            dataGridView.StandardTab = true;
+            dataGridView.TabIndex = 8;
+            dataGridView.CellMouseUp += dataGridView_CellMouseUp;
             // 
             // colSelected
             // 
-            this.colSelected.DataPropertyName = "Selected";
-            this.colSelected.HeaderText = "Selected";
-            this.colSelected.Name = "colSelected";
-            this.colSelected.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.colSelected.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            colSelected.DataPropertyName = "Selected";
+            colSelected.HeaderText = "Selected";
+            colSelected.Name = "colSelected";
+            colSelected.Resizable = DataGridViewTriState.True;
+            colSelected.SortMode = DataGridViewColumnSortMode.Automatic;
             // 
             // colCnlNum
             // 
-            this.colCnlNum.DataPropertyName = "CnlNum";
-            this.colCnlNum.HeaderText = "Number";
-            this.colCnlNum.Name = "colCnlNum";
-            this.colCnlNum.ReadOnly = true;
+            colCnlNum.DataPropertyName = "CnlNum";
+            colCnlNum.HeaderText = "Number";
+            colCnlNum.Name = "colCnlNum";
+            colCnlNum.ReadOnly = true;
             // 
             // colName
             // 
-            this.colName.DataPropertyName = "Name";
-            this.colName.HeaderText = "Name";
-            this.colName.Name = "colName";
-            this.colName.ReadOnly = true;
-            this.colName.Width = 180;
+            colName.DataPropertyName = "Name";
+            colName.HeaderText = "Name";
+            colName.Name = "colName";
+            colName.ReadOnly = true;
+            colName.Width = 180;
             // 
             // btnCancel
             // 
-            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancel.Location = new System.Drawing.Point(397, 526);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 10;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnCancel.Location = new Point(397, 526);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(75, 23);
+            btnCancel.TabIndex = 10;
+            btnCancel.Text = "Cancel";
+            btnCancel.UseVisualStyleBackColor = true;
             // 
             // btnSelect
             // 
-            this.btnSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSelect.Location = new System.Drawing.Point(316, 526);
-            this.btnSelect.Name = "btnSelect";
-            this.btnSelect.Size = new System.Drawing.Size(75, 23);
-            this.btnSelect.TabIndex = 9;
-            this.btnSelect.Text = "Select";
-            this.btnSelect.UseVisualStyleBackColor = true;
-            this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
+            btnSelect.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnSelect.Location = new Point(316, 526);
+            btnSelect.Name = "btnSelect";
+            btnSelect.Size = new Size(75, 23);
+            btnSelect.TabIndex = 9;
+            btnSelect.Text = "Select";
+            btnSelect.UseVisualStyleBackColor = true;
+            btnSelect.Click += btnSelect_Click;
             // 
             // FrmCnlSelect
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(484, 561);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnSelect);
-            this.Controls.Add(this.dataGridView);
-            this.Controls.Add(this.chkOnlySelected);
-            this.Controls.Add(this.cbDevice);
-            this.Controls.Add(this.lblDevice);
-            this.Controls.Add(this.cbObj);
-            this.Controls.Add(this.lblObj);
-            this.Controls.Add(this.btnApplyFilter);
-            this.Controls.Add(this.txtFilter);
-            this.Controls.Add(this.lblFilter);
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FrmCnlSelect";
-            this.ShowIcon = false;
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Select Channels";
-            this.Load += new System.EventHandler(this.FrmCnlSelect_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            CancelButton = btnCancel;
+            ClientSize = new Size(484, 561);
+            Controls.Add(btnCancel);
+            Controls.Add(btnSelect);
+            Controls.Add(dataGridView);
+            Controls.Add(chkOnlySelected);
+            Controls.Add(cbDevice);
+            Controls.Add(lblDevice);
+            Controls.Add(cbObj);
+            Controls.Add(lblObj);
+            Controls.Add(btnApplyFilter);
+            Controls.Add(txtFilter);
+            Controls.Add(lblFilter);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "FrmCnlSelect";
+            ShowIcon = false;
+            ShowInTaskbar = false;
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Select Channels";
+            Load += FrmCnlSelect_Load;
+            ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

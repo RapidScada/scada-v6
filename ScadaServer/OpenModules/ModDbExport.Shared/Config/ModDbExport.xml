@@ -28,6 +28,10 @@
         <SkipUnchanged>false</SkipUnchanged>
         <IncludeCalculated>false</IncludeCalculated>
       </CurDataExportOptions>
+      <HistDataExportOptions>
+        <IncludeCalculated>false</IncludeCalculated>
+        <HistArchiveBit>1</HistArchiveBit>
+      </HistDataExportOptions>
       <ArcReplicationOptions>
         <Enabled>true</Enabled>
         <AutoExport>false</AutoExport>

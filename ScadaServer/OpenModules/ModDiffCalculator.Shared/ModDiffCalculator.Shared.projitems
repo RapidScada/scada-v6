@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>b6e955ea-6a3e-4046-9a3a-38062910baf4</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Scada.Server.Modules.ModDiffCalculator</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Config\GroupConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\GroupConfigList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\GeneralOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\ItemConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\ModuleConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\PeriodType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModuleUtils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Config\ModDiffCalculator.xml" />
+  </ItemGroup>
+</Project>

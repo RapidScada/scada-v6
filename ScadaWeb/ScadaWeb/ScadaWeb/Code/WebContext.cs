@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2023 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2023
+ * Modified : 2024
  */
 
 using Scada.Client;
@@ -60,6 +60,7 @@ namespace Scada.Web.Code
         private static readonly TimeSpan ReadBasePeriod = TimeSpan.FromSeconds(10);
 
         private StorageWrapper storageWrapper;     // contains the application storage
+        private AssemblyResolver assemblyResolver; // searches for assemblies
         private Thread configThread;               // the configuration update thread
         private volatile bool terminated;          // necessary to stop the thread
         private volatile bool pluginsReady;        // plugins are loaded
@@ -74,6 +75,7 @@ namespace Scada.Web.Code
         public WebContext()
         {
             storageWrapper = null;
+            assemblyResolver = null;
             configThread = null;
             terminated = false;
             pluginsReady = false;
@@ -93,6 +95,7 @@ namespace Scada.Web.Code
             CacheExpirationTokenSource = new CancellationTokenSource();
 
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+            AppDomain.CurrentDomain.AssemblyResolve += AssemblyResolve;
         }
 
 
@@ -170,6 +173,20 @@ namespace Scada.Web.Code
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs args)
         {
             Log.WriteError(args.ExceptionObject as Exception, CommonPhrases.UnhandledException);
+        }
+
+        /// <summary>
+        /// Handles an AssemblyResolve event of the current application domain.
+        /// </summary>
+        private Assembly AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            string errMsg = "";
+            Assembly assembly = assemblyResolver?.Resolve(args.Name, args.RequestingAssembly, out errMsg);
+
+            if (!string.IsNullOrEmpty(errMsg))
+                Log.WriteError(errMsg);
+
+            return assembly;
         }
 
         /// <summary>
@@ -528,6 +545,8 @@ namespace Scada.Web.Code
             Log.WriteAction(Locale.IsRussian ?
                 "Вебстанция {0} запущена" :
                 "Webstation {0} started", WebUtils.AppVersion);
+
+            assemblyResolver = new AssemblyResolver(AppDirs.GetProbingDirs());
             LocalizeApp();
 
             if (InitStorage())

@@ -12,24 +12,15 @@ namespace Scada.Doc.Code
     public class Toc
     {
         /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public Toc()
-        {
-            Items = new List<MenuItem>();
-        }
-
-
-        /// <summary>
         /// Gets the items.
         /// </summary>
-        public List<MenuItem> Items { get; }
+        public List<MenuItem> Items { get; } = new();
 
 
         /// <summary>
         /// Loads the item and subitems recursively.
         /// </summary>
-        private void LoadItem(MenuItem item, XmlNode itemNode)
+        private static void LoadItem(MenuItem item, XmlNode itemNode)
         {
             item.Text = itemNode.GetChildAsString("Text");
             item.Url = itemNode.GetChildAsString("Url");

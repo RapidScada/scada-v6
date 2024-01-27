@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2023 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -122,7 +122,10 @@ namespace Scada.Data.Models
         {
             if (objTable.GetItem(childObjNum) is Obj childObj)
             {
-                while (childObj.ParentObjNum != null &&
+                HashSet<int> protectionSet = new HashSet<int> { childObjNum };
+
+                while (childObj.ParentObjNum != null && 
+                    protectionSet.Add(childObj.ParentObjNum.Value) &&
                     objTable.GetItem(childObj.ParentObjNum.Value) is Obj parentObj)
                 {
                     yield return parentObj;

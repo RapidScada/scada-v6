@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2023 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2023
+ * Modified : 2024
  */
 
 using Scada.Config;
@@ -1365,7 +1365,8 @@ namespace Scada.Server.Engine
 
                 // write to archives
                 bool applyFormulas = flags.HasFlag(WriteDataFlags.ApplyFormulas);
-                CnlData[] cnlDataCopy = slice.CnlData.DeepClone();
+                CnlData[] cnlDataCopy = new CnlData[cnlCnt];
+                slice.CnlData.CopyTo(cnlDataCopy, 0);
 
                 for (int archiveBit = 0; archiveBit < ServerUtils.MaxArchiveCount; archiveBit++)
                 {

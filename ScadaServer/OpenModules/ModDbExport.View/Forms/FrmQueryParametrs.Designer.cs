@@ -28,92 +28,72 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("");
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.btnOK = new System.Windows.Forms.Button();
-            this.lvParameters = new System.Windows.Forms.ListView();
-            this.colParamsName = new System.Windows.Forms.ColumnHeader();
-            this.colParams = new System.Windows.Forms.ColumnHeader();
-            this.SuspendLayout();
+            ListViewItem listViewItem1 = new ListViewItem("");
+            btnClose = new Button();
+            lvParameters = new ListView();
+            colParamsName = new ColumnHeader();
+            colParams = new ColumnHeader();
+            SuspendLayout();
             // 
-            // btnCancel
+            // btnClose
             // 
-            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(430, 353);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 2;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            // 
-            // btnOK
-            // 
-            this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.Location = new System.Drawing.Point(349, 353);
-            this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 1;
-            this.btnOK.Text = "OK";
-            this.btnOK.UseVisualStyleBackColor = true;
+            btnClose.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnClose.DialogResult = DialogResult.Cancel;
+            btnClose.Location = new Point(430, 353);
+            btnClose.Name = "btnClose";
+            btnClose.Size = new Size(75, 23);
+            btnClose.TabIndex = 1;
+            btnClose.Text = "Close";
+            btnClose.UseVisualStyleBackColor = true;
             // 
             // lvParameters
             // 
-            this.lvParameters.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lvParameters.BackColor = System.Drawing.SystemColors.Window;
-            this.lvParameters.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colParamsName,
-            this.colParams});
-            this.lvParameters.FullRowSelect = true;
-            this.lvParameters.GridLines = true;
-            this.lvParameters.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem2});
-            this.lvParameters.Location = new System.Drawing.Point(12, 12);
-            this.lvParameters.Name = "lvParameters";
-            this.lvParameters.Size = new System.Drawing.Size(493, 325);
-            this.lvParameters.TabIndex = 0;
-            this.lvParameters.UseCompatibleStateImageBehavior = false;
-            this.lvParameters.View = System.Windows.Forms.View.Details;
+            lvParameters.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            lvParameters.BackColor = SystemColors.Window;
+            lvParameters.Columns.AddRange(new ColumnHeader[] { colParamsName, colParams });
+            lvParameters.FullRowSelect = true;
+            lvParameters.GridLines = true;
+            lvParameters.Items.AddRange(new ListViewItem[] { listViewItem1 });
+            lvParameters.Location = new Point(12, 12);
+            lvParameters.Name = "lvParameters";
+            lvParameters.Size = new Size(493, 325);
+            lvParameters.TabIndex = 0;
+            lvParameters.UseCompatibleStateImageBehavior = false;
+            lvParameters.View = System.Windows.Forms.View.Details;
             // 
             // colParamsName
             // 
-            this.colParamsName.Text = "Name";
-            this.colParamsName.Width = 160;
+            colParamsName.Text = "Name";
+            colParamsName.Width = 160;
             // 
             // colParams
             // 
-            this.colParams.Text = "Description";
-            this.colParams.Width = 310;
+            colParams.Text = "Description";
+            colParams.Width = 310;
             // 
             // FrmQueryParametrs
             // 
-            this.AcceptButton = this.btnOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(517, 388);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.lvParameters);
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(300, 200);
-            this.Name = "FrmQueryParametrs";
-            this.ShowIcon = false;
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Available Parameters";
-            this.Load += new System.EventHandler(this.FrmQueryParametrs_Load);
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            CancelButton = btnClose;
+            ClientSize = new Size(517, 388);
+            Controls.Add(btnClose);
+            Controls.Add(lvParameters);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            MinimumSize = new Size(300, 200);
+            Name = "FrmQueryParametrs";
+            ShowIcon = false;
+            ShowInTaskbar = false;
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Available Parameters";
+            Load += FrmQueryParametrs_Load;
+            ResumeLayout(false);
         }
 
         #endregion
 
-        private Button btnCancel;
-        private Button btnOK;
+        private Button btnClose;
         private ListView lvParameters;
         private ColumnHeader colParamsName;
         private ColumnHeader colParams;

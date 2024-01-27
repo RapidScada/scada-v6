@@ -29,65 +29,64 @@ namespace Scada.Forms.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnOK = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.ctrlBitMask = new Scada.Forms.Controls.CtrlBitmask();
-            this.SuspendLayout();
+            btnOK = new Button();
+            btnCancel = new Button();
+            ctrlBitmask = new Controls.CtrlBitmask();
+            SuspendLayout();
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(216, 437);
-            this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 1;
-            this.btnOK.Text = "OK";
-            this.btnOK.UseVisualStyleBackColor = true;
-            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            btnOK.Location = new Point(216, 437);
+            btnOK.Name = "btnOK";
+            btnOK.Size = new Size(75, 23);
+            btnOK.TabIndex = 1;
+            btnOK.Text = "OK";
+            btnOK.UseVisualStyleBackColor = true;
+            btnOK.Click += btnOK_Click;
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(297, 437);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 2;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Location = new Point(297, 437);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(75, 23);
+            btnCancel.TabIndex = 2;
+            btnCancel.Text = "Cancel";
+            btnCancel.UseVisualStyleBackColor = true;
             // 
-            // ctrlBitMask
+            // ctrlBitmask
             // 
-            this.ctrlBitMask.Location = new System.Drawing.Point(12, 9);
-            this.ctrlBitMask.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
-            this.ctrlBitMask.MaskBits = null;
-            this.ctrlBitMask.MaskValue = 0;
-            this.ctrlBitMask.Name = "ctrlBitMask";
-            this.ctrlBitMask.Size = new System.Drawing.Size(360, 412);
-            this.ctrlBitMask.TabIndex = 0;
+            ctrlBitmask.Location = new Point(12, 9);
+            ctrlBitmask.Margin = new Padding(3, 0, 3, 3);
+            ctrlBitmask.MaskBits = null;
+            ctrlBitmask.MaskValue = 0;
+            ctrlBitmask.Name = "ctrlBitmask";
+            ctrlBitmask.Size = new Size(360, 412);
+            ctrlBitmask.TabIndex = 0;
             // 
-            // FrmBitMask
+            // FrmBitmask
             // 
-            this.AcceptButton = this.btnOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(384, 472);
-            this.Controls.Add(this.ctrlBitMask);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnOK);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FrmBitMask";
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Bit Mask";
-            this.Load += new System.EventHandler(this.FrmBitMask_Load);
-            this.ResumeLayout(false);
-
+            AcceptButton = btnOK;
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            CancelButton = btnCancel;
+            ClientSize = new Size(384, 472);
+            Controls.Add(ctrlBitmask);
+            Controls.Add(btnCancel);
+            Controls.Add(btnOK);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "FrmBitmask";
+            ShowInTaskbar = false;
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Bit Mask";
+            Load += FrmBitMask_Load;
+            ResumeLayout(false);
         }
 
         #endregion
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;
-        private Scada.Forms.Controls.CtrlBitmask ctrlBitMask;
+        private Scada.Forms.Controls.CtrlBitmask ctrlBitmask;
     }
 }

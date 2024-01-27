@@ -146,9 +146,9 @@
   </DevType>
   <DevType>
     <DevTypeID>225</DevTypeID>
-    <Name>Ратеос Азимут</Name>
-    <Driver>DrvAzimuth</Driver>
-    <Descr>Контроллеры Азимут производства ООО "Ратеос"</Descr>
+    <Name>Азимут 5.1 Pro</Name>
+    <Driver>DrvAzimuth51Pro</Driver>
+    <Descr>Принимает данные от контроллеров Азимут 5.1 Pro производства ООО "Ратеос"</Descr>
   </DevType>
   <DevType>
     <DevTypeID>226</DevTypeID>
