@@ -1,0 +1,111 @@
+﻿@page "/en/latest/modules/plg-dashboard"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Dashboard Plugin";
+}
+
+@section Styles {
+    <link href="~/lib/prismjs/prism.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="~/lib/prismjs/prism.js"></script>
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li>
+            <a href="#configuring">Configuring</a>
+            <ul>
+                <li><a href="#adding-dashboards">Adding Dashboards</a></li>
+                <li><a href="#file-structure">Dashboard File Structure</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Dashboard Plugin</h1>
+
+    <h2 id="overview">Overview</h2>
+    <p>Dashboard Plugin displays useful widgets on dashboards: charts, current data and arbitrary frames, for example, CCTV camera stream. Settings of each dashboard allow to specify column count and widget aspect ratio. Download the plugin using the <a href="https://rapidscada.net/store/Module/en/PlgDashboard" target="_blank">link</a>. The appearance of Dashboard Plugin is shown in the following figure.</p>
+    <figure class="figure">
+        <img src="plg-dashboard-files/dashboard-en.png" class="figure-img img-fluid" alt="Dashboard Plugin" />
+    </figure>
+
+    <h2 id="installation">Installation</h2>
+    <p>Dashboard Plugin is installed according to the <a href="../installation/install-modules#plugins">instructions</a>. No unusual actions are required during installation.</p>
+
+    <h2 id="configuring">Configuring</h2>
+    <h3 id="adding-dashboards">Adding Dashboards</h3>
+    <p>Configuration of each dashboard is stored in a separate XML file. The dashboard example, Dashboard1.xml, is included in the plugin installation package. Dashboard files should be located in the views directory.</p>
+    <p>In order to display dashboard nodes in the explorer tree of Webstation, perform the following settings in the project:</p>
+    <ol>
+        <li>Create and edit a dashboard file in the views directory.</li>
+        <li>Specify the dashboard path in the <strong>Views</strong> table of the configuration database.</li>
+    </ol>
+    <figure class="figure">
+        <img src="plg-dashboard-files/dashboard-view-file-en.png" class="figure-img img-fluid" alt="Dashboard file" />
+    </figure>
+    <figure class="figure">
+        <img src="plg-dashboard-files/dashboard-view-table-en.png" class="figure-img img-fluid" alt="Views table" />
+    </figure>
+    <p>It is required to explicitly specify the view type because the Webstation application cannot automatically determine the type based on the xml file extension.</p>
+
+    <h3 id="file-structure">Dashboard File Structure</h3>
+    <p>A dashboard consists of widgets. The layout of widgets on the dashboard is controlled by the <a href="https://getbootstrap.com/docs/5.3/layout/grid/" target="_blank">Bootstrap grid system</a>. Widgets are arranged in rows, each of which can contain up to 12 widgets. For a widget, you can set the width from 1 to 12, so that the total width of the widgets in the row is equal to 12. If the widget width is not specified, it is calculated automatically. The breakpoint specifies the web page width, which determines how the widgets are positioned. If the page is wider than the breakpoint, the widgets are displayed in a row; otherwise, the widgets are displayed one below the other.</p>
+    <p>Consider the contents of a dashboard configuration file:</p>
+
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;DashboardView&gt;
+  &lt;DashboardOptions&gt;
+    &lt;!-- Widget AspectRatio = Width / Height --&gt;
+    &lt;AspectRatio&gt;1.33&lt;/AspectRatio&gt;
+    &lt;!-- Breakpoint: ExtraSmall | Small | Medium | Large | ExtraLarge | ExtraExtraLarge --&gt;
+    &lt;Breakpoint&gt;Small&lt;/Breakpoint&gt;
+  &lt;/DashboardOptions&gt;
+  &lt;Widgets&gt;
+    &lt;!-- The total width of the columns in a line is 12 --&gt;
+    &lt;Row&gt;
+      &lt;Widget type=&quot;Chart&quot; columnWidth=&quot;5&quot; cnlNums=&quot;101,102&quot; /&gt;
+      &lt;Widget type=&quot;Chart&quot; columnWidth=&quot;4&quot; cnlNums=&quot;101,103&quot; mode=&quot;fixed&quot; period=&quot;-2&quot; title=&quot;Sample Chart&quot; profile=&quot;PlgChartPro.xml&quot; /&gt;
+      &lt;Widget type=&quot;CurData&quot; columnWidth=&quot;3&quot; cnlNums=&quot;101-105&quot; title=&quot;Sample Data&quot; /&gt;
+    &lt;/Row&gt;
+    &lt;Row columnCount=&quot;2&quot;&gt;
+      &lt;Widget type=&quot;View&quot; viewID=&quot;2&quot; /&gt;
+      &lt;Widget type=&quot;CustomUrl&quot; url=&quot;https://www.youtube.com/embed/xAieE-QtOeM&quot; /&gt;
+    &lt;/Row&gt;
+  &lt;/Widgets&gt;
+&lt;/DashboardView&gt;</code></pre>
+
+    <p>
+        The <code>DashboardOptions</code> section contains common dashboard parameters:<br />
+        <code>AspectRatio</code> - ratio of widget width to its height,<br />
+        <code>Breakpoint</code> determines the web page width to switch widget layout.
+    </p>
+    <p>The <code>Widgets</code> section contains a list of widgets that are displayed on a dashboard. The dashboard can contain an arbitrary number of widgets, but no more than 12 in one row. Please note that too many widgets on one dashboard can slow down the performance of the web application.</p>
+    <p>
+        The attribute of the <code>Row</code> element:<br />
+        <code>columnCount</code> - number of columns to display widgets of a given row. If the <code>columnCount</code> attribute is specified for the row, then the <code>columnWidth</code> attribute is not required for widgets in that row.
+    </p>
+    <p>
+        The main attributes of the <code>Widget</code> element:<br />
+        <code>type</code> - widget type,<br />
+        <code>columnWidth</code> - widget width from 1 to 12,<br />
+        <code>cnlNums</code> - channel numbers.
+    </p>
+
+    <p>
+        Widgets of the following types are supported:<br />
+        <code>Chart</code> - a chart of the specified channels,<br />
+        <code>CurData</code> - a table contains current data of the specified channels,<br />
+        <code>View</code> - a view having the specified ID,<br />
+        <code>CustomUrl</code> - custom web page.
+    </p>
+
+    <p>Widgets of the <code>Chart</code> type support attributes that match the query string parameters described in the <a href="plg-chart-pro#configuring">Chart Pro Plugin</a> documentation. When events are filtered by view, the filter uses the channel numbers specified in the <code>cnlNums</code> attributes of the widgets.</p>
+</div>

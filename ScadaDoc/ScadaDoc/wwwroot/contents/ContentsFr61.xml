@@ -6,7 +6,7 @@
     <Subitems>
       <Item>
         <Text>Introduction</Text>
-        <Url>/fr/latest/software-overview/introduction</Url>
+        <Url>/fr/6.1/software-overview/introduction</Url>
       </Item>
     </Subitems>
   </Item>
@@ -17,27 +17,27 @@
     <Subitems>
       <Item>
         <Text>Configurations requises</Text>
-        <Url>/fr/latest/installation/system-requirements</Url>
+        <Url>/fr/6.1/installation/system-requirements</Url>
       </Item>
       <Item>
         <Text>Installation sur Windows</Text>
-        <Url>/fr/latest/installation/install-windows</Url>
+        <Url>/fr/6.1/installation/install-windows</Url>
       </Item>
       <Item>
         <Text>Installation sur Windows manuellement</Text>
-        <Url>/fr/latest/installation/install-windows-manual</Url>
+        <Url>/fr/6.1/installation/install-windows-manual</Url>
       </Item>
       <Item>
         <Text>Installation sur Linux</Text>
-        <Url>/fr/latest/installation/install-linux</Url>
+        <Url>/fr/6.1/installation/install-linux</Url>
       </Item>
       <Item>
         <Text>Installation des modules</Text>
-        <Url>/fr/latest/installation/install-modules</Url>
+        <Url>/fr/6.1/installation/install-modules</Url>
       </Item>
       <Item>
         <Text>Recommandations de sécurité</Text>
-        <Url>/fr/latest/installation/safety</Url>
+        <Url>/fr/6.1/installation/safety</Url>
       </Item>
     </Subitems>
   </Item>

@@ -36,9 +36,15 @@ namespace Scada.Doc.Code
         {
             new VersionItem
             {
+                Version = KnownVersion.V62,
+                Text = KnownVersion.V62.ConvertToString(),
+                Url = "/en/latest/"
+            },
+            new VersionItem
+            {
                 Version = KnownVersion.V61,
                 Text = KnownVersion.V61.ConvertToString(),
-                Url = "/en/latest/"
+                Url = "/en/6.1/"
             },
             new VersionItem
             {
@@ -68,9 +74,15 @@ namespace Scada.Doc.Code
         {
             new VersionItem
             {
+                Version = KnownVersion.V62,
+                Text = KnownVersion.V62.ConvertToString(),
+                Url = "/fr/latest/"
+            },
+            new VersionItem
+            {
                 Version = KnownVersion.V61,
                 Text = KnownVersion.V61.ConvertToString(),
-                Url = "/fr/latest/"
+                Url = "/fr/6.1/"
             }
         };
 
@@ -81,9 +93,15 @@ namespace Scada.Doc.Code
         {
             new VersionItem
             {
+                Version = KnownVersion.V62,
+                Text = KnownVersion.V62.ConvertToString(),
+                Url = "/ru/latest/"
+            },
+            new VersionItem
+            {
                 Version = KnownVersion.V61,
                 Text = KnownVersion.V61.ConvertToString(),
-                Url = "/ru/latest/"
+                Url = "/ru/6.1/"
             },
             new VersionItem
             {

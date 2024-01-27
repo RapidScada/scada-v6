@@ -1,0 +1,72 @@
+﻿@page "/ru/latest/developers/store"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Магазин модулей";
+}
+
+<nav class="doc-toc">
+    <div class="h6">На этой странице</div>
+    <hr>
+    <ul>
+        <li><a href="#about-store">О магазине</a></li>
+        <li><a href="#module-requirements">Требования к модулям</a></li>
+        <li><a href="#module-naming">Выбор наименования модуля</a></li>
+        <li><a href="#add-module">Добавление своего модуля</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Магазин модулей</h1>
+    <h2 id="about-store">О магазине</h2>
+    <p>Магазин модулей Rapid SCADA помогает пользователям находить и скачивать дополнительные модули, разработанные различными авторами. Для разработчиков Магазин модулей является площадкой, на которой автор может представить свои модули потенциальным пользователям или покупателям.</p>
+    <p>Магазин модулей расположен по адресу <a href="https://rapidscada.net/store/ru/" target="_blank">https://rapidscada.net/store/ru/</a></p>
+
+    <h2 id="module-requirements">Требования к модулям</h2>
+    <p>Разработчики сообщества могут разрабатывать любые модули для Rapid SCADA. Для публикации в магазине, разработанный модуль должен удовлетворять следующим требованиям:</p>
+    <ol>
+        <li>На веб-странице модуля должна быть возможность связаться с автором и получить техническую поддержку. Не обязательно создавать отдельный веб-сайт модуля. Это может быть общий ресурс, такой как форум, социальная сеть или GitHub.</li>
+        <li>Модуль должен быть документирован. Рекомендуется в дополнение к текстовой инструкции разработать видео-инструкцию, которая положительно воспринимается пользователями.</li>
+        <li>Если модуль дублирует функциональность платных модулей, разработанных командой Rapid SCADA, то цена Вашего модуля должна быть не ниже цены аналогичного модуля.</li>
+    </ol>
+    <p>Конечное решение о публикации модуля принимается модератором.</p>
+
+    <h2 id="module-naming">Выбор наименования модуля</h2>
+    <p>Наименование модуля должно отражать назначение модуля, а также может содержать полное или сокращённое имя автора. Предположим, что автор с именем <em>Lion King</em> разработал драйвер, реализующий протокол <em>MQTT</em>. Тогда подходящим наименованием модуля будет <em>Драйвер Lion MQTT</em>.</p>
+    <p>Имя файла модуля взаимосвязано с отображаемым наименованием модуля. В имене файла модуля для обозначения типа модуля используется префикс. Например:</p>
+    <ul>
+        <li><b>Plg</b>ChartPro.dll - плагин Вебстанции,</li>
+        <li><b>Mod</b>AutoControl.Logic.dll - модуль Сервера,</li>
+        <li><b>Drv</b>Telegram.Logic.dll - драйвер Коммуникатора,</li>
+        <li><b>Ext</b>TableEditor.dll - расширение для приложения Администратор.</li>
+    </ul>
+    <p>Для обозначения авторства модулей рекомендуется использовать суффикс файла. Продолжая пример, файл драйвера может называться <em>DrvMqttLion</em>.Logic.dll.</p>
+
+    <h2 id="add-module">Добавление своего модуля</h2>
+    <p>Чтобы добавить свой модуль в магазин, заполните <a href="https://rapidscada.ru/community/add-module/" target="_blank">форму</a>. Ниже приведены рекомендации по заполнению некоторых полей формы.</p>
+    <table class="table table-hover">
+        <tbody>
+            <tr>
+                <th scope="row">Ссылка на домашнюю страницу</th>
+                <td class="text-break">
+                    Укажите веб-страницу, которая содержит общую информацию о модуле. Пример:<br />
+                    <a href="https://forum.rapidscada.ru/?topic=драйвер-gpio-для-scada-v6-1" target="_blank">https://forum.rapidscada.ru/?topic=драйвер-gpio-для-scada-v6-1</a>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Ссылка на документацию</th>
+                <td class="text-break">
+                    Укажите веб-страницу, которая содержит инструкцию по настройке модуля. Пример:<br />
+                    <a href="https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers" target="_blank">https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers</a>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Ссылка на скачивание</th>
+                <td class="text-break">
+                    Укажите ссылку на облачное хранилище, на которое автор легко сможет выкладывать новые версии. Примеры:<br />
+                    <a href="https://github.com/Manjey73/OpenDrivers/releases?q=DrvGpiod" target="_blank">https://github.com/Manjey73/OpenDrivers/releases?q=DrvGpiod</a><br />
+                    <a href="https://drive.google.com/drive/folders/18bApJzEzJ_ipM8m89N7YZNH-M8BcYQuE" target="_blank">https://drive.google.com/drive/folders/18bApJzEzJ_ipM8m89N7YZNH-M8BcYQuE</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
