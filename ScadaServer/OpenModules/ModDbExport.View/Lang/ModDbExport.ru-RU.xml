@@ -3,7 +3,7 @@
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlArcReplication">
     <Phrase key="gbOptions">Параметры репликации архивов</Phrase>
     <Phrase key="chkEnabled">Включено</Phrase>
-    <Phrase key="chkAutoExport">Автоматический экспорт событий</Phrase>
+    <Phrase key="chkAutoExport">Автоматический экспорт архивов</Phrase>
     <Phrase key="lblMinDepth">Минимальная глубина, с</Phrase>
     <Phrase key="lblMaxDepth">Максимальная глубина, с</Phrase>
     <Phrase key="lblReadingStep">Шаг чтения, c</Phrase>
