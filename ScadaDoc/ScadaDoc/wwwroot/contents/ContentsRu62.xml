@@ -41,6 +41,17 @@
       </Item>
     </Subitems>
   </Item>
+  
+  <!-- Настройка -->
+  <Item>
+    <Text>Настройка</Text>
+    <Subitems>
+      <Item>
+        <Text>Скрипты и формулы</Text>
+        <Url>/ru/latest/configuration/scripts</Url>
+      </Item>
+    </Subitems>
+  </Item>
 
   <!-- Модули -->
   <Item>
