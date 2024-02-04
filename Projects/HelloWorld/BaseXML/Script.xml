@@ -296,7 +296,7 @@ public CnlData EveryHour(Func&lt;double&gt; getValFunc)
 protected Dictionary&lt;int, CnlData&gt; CounterPrevData = new Dictionary&lt;int, CnlData&gt;();
 
 // Counts a pulse of the specified channel.
-// Подсчитывает импульсы заданного канала.
+// Считает импульс указанного канала.
 public double CountPulse(int cnlNum)
 {
     int cntrCnlNum = CnlNum; // channel of the formula
