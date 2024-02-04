@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2023
+ * Modified : 2024
  */
 
 using Scada.Data.Const;
@@ -509,6 +509,14 @@ namespace Scada.Server.Engine
         public int PrevStat(int n)
         {
             return PrevData(n).Stat;
+        }
+
+        /// <summary>
+        /// Gets the previous data of the formula channel.
+        /// </summary>
+        public CnlData PrevData()
+        {
+            return PrevData(cnlNum);
         }
 
         /// <summary>
