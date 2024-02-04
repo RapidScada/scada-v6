@@ -63,9 +63,9 @@ double GetByte(double val, int n)
     <Name>Channel data</Name>
     <Source>// Returns channel data relative to the current channel.
 // Возвращает данные канала относительно текущего канала.
-public CnlData DataRel(int cnlNumOffset)
+public CnlData DataRel(int offset)
 {
-  return Data(CnlNum + cnlNumOffset);
+  return Data(CnlNum + offset);
 }
 
 // Sets the current channel data according to the command value.
