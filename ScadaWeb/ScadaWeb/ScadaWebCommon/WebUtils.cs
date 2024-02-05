@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,15 +20,15 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
- * Modified : 2021
+ * Modified : 2023
  */
 
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Scada.Lang;
-using System.Collections.Generic;
 using System.Net;
+using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
@@ -43,10 +43,6 @@ namespace Scada.Web
     public static partial class WebUtils
     {
         /// <summary>
-        /// The application version.
-        /// </summary>
-        public const string AppVersion = "6.0.0.0";
-        /// <summary>
         /// The application log file name.
         /// </summary>
         public const string LogFileName = "ScadaWeb.log";
@@ -58,6 +54,10 @@ namespace Scada.Web
         /// Formats date and time to use in JavaScript.
         /// </summary>
         public const string JsDateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffK";
+        /// <summary>
+        /// The application version.
+        /// </summary>
+        public static readonly string AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         /// <summary>
         /// Specifies how objects are converted to JSON.
         /// </summary>
@@ -118,9 +118,25 @@ namespace Scada.Web
         }
 
         /// <summary>
+        /// Converts the specified string to an HTML string.
+        /// </summary>
+        public static HtmlString ToHtmlString(this string s)
+        {
+            return new HtmlString(s);
+        }
+
+        /// <summary>
+        /// Converts the specified string builder to an HTML string.
+        /// </summary>
+        public static HtmlString ToHtmlString(this StringBuilder sb)
+        {
+            return new HtmlString(sb.ToString());
+        }
+
+        /// <summary>
         /// Converts the phrases dictionary to a JavaScript object.
         /// </summary>
-        public static HtmlString DictionaryToJs(LocaleDict dict)
+        public static HtmlString DictionaryToJs(LocaleDict dict, bool camelCase)
         {
             StringBuilder sbJs = new();
             sbJs.AppendLine("{");
@@ -129,7 +145,7 @@ namespace Scada.Web
             {
                 foreach (KeyValuePair<string, string> pair in dict.Phrases)
                 {
-                    sbJs.Append(pair.Key)
+                    sbJs.Append(camelCase ? pair.Key.ToCamelCase() : pair.Key)
                         .Append(": '")
                         .Append(pair.Value.JsEncode())
                         .AppendLine("',");
@@ -137,7 +153,7 @@ namespace Scada.Web
             }
 
             sbJs.Append('}');
-            return new HtmlString(sbJs.ToString());
+            return sbJs.ToHtmlString();
         }
 
         /// <summary>
@@ -145,7 +161,7 @@ namespace Scada.Web
         /// </summary>
         public static HtmlString DictionaryToJs(string dictKey)
         {
-            return DictionaryToJs(Locale.GetDictionary(dictKey));
+            return DictionaryToJs(Locale.GetDictionary(dictKey), true);
         }
 
         /// <summary>
@@ -153,14 +169,14 @@ namespace Scada.Web
         /// </summary>
         public static HtmlString GetEnvironmentJs(IUrlHelper urlHelper)
         {
-            return new HtmlString(new StringBuilder()
+            return new StringBuilder()
                 .AppendLine("{")
                 .AppendLine("isStub: false,")
                 .AppendLine($"rootPath: '{urlHelper.Content("~/")}',")
                 .AppendLine($"locale: '{Locale.Culture.Name.JsEncode()}',")
                 .AppendLine($"productName: '{CommonPhrases.ProductName.JsEncode()}'")
                 .Append('}')
-                .ToString());
+                .ToHtmlString();
         }
 
         /// <summary>
@@ -168,18 +184,18 @@ namespace Scada.Web
         /// </summary>
         public static HtmlString ToJs(this object obj)
         {
-            return obj == null
-                ? new HtmlString("null")
-                : new HtmlString(string.Format("JSON.parse('{0}')", 
-                    JsonSerializer.Serialize(obj, JsonOptions).JsEncode()));
+            return (obj == null
+                ? "null"
+                : string.Format("JSON.parse('{0}')", JsonSerializer.Serialize(obj, JsonOptions).JsEncode()))
+                .ToHtmlString();
         }
 
         /// <summary>
-        /// Encodes a string to be inserted in HTML and replaces newlines.
+        /// Convers the string-based name a camel-casing format.
         /// </summary>
-        public static HtmlString HtmlEncodeWithBreak(this string s)
+        public static string ToCamelCase(this string s)
         {
-            return new HtmlString(HttpUtility.HtmlEncode(s).Replace("\n", "<br />"));
+            return JsonNamingPolicy.CamelCase.ConvertName(s);
         }
 
         /// <summary>
@@ -188,6 +204,14 @@ namespace Scada.Web
         public static string JsEncode(this string s)
         {
             return HttpUtility.JavaScriptStringEncode(s);
+        }
+
+        /// <summary>
+        /// Encodes a string to be inserted in HTML and replaces newlines.
+        /// </summary>
+        public static HtmlString HtmlEncodeWithBreak(this string s)
+        {
+            return HttpUtility.HtmlEncode(s).ReplaceLineEndings("<br />").ToHtmlString();
         }
 
         /// <summary>

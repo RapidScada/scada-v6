@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +20,9 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2023
  */
 
-using Scada.Data.Entities;
 using Scada.Web.Users;
 
 namespace Scada.Web.Plugins
@@ -72,15 +71,6 @@ namespace Scada.Web.Plugins
         /// </summary>
         public string UserProfileUrl { get; init; }
 
-
-        /// <summary>
-        /// Finds a user in an external source.
-        /// </summary>
-        /// <remarks>The returned used is passed to the PluginLogic.GetUserMenuItems method.</remarks>
-        public virtual User FindUser(int userID)
-        {
-            return null;
-        }
 
         /// <summary>
         /// Gets the configuration for the specified user.

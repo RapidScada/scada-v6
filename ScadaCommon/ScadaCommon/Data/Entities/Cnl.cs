@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2021
+ * Modified : 2023
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -41,6 +41,8 @@ namespace Scada.Data.Entities
         public bool Active { get; set; }
 
         public string Name { get; set; }
+
+        public string Code { get; set; }
 
         public int? DataTypeID { get; set; }
 
@@ -63,6 +65,8 @@ namespace Scada.Data.Entities
         public string OutFormula { get; set; }
 
         public int? FormatID { get; set; }
+
+        public int? OutFormatID { get; set; }
 
         public int? QuantityID { get; set; }
 

@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtProjectToolsDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.ChannelMap">
+    <Phrase key="MapByDeviceTitle">Canales por dispositivo</Phrase>
+    <Phrase key="MapByObjectTitle">Canales por objeto</Phrase>
+    <Phrase key="ChannelsCaption">Canales:</Phrase>
+    <Phrase key="NoChannels">Sin canales</Phrase>
+    <Phrase key="GenerateChannelMapError">Error al generar el mapa de canales</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.DeviceMap">
+    <Phrase key="DeviceMapTitle">Dispositivos por línea de comunicación</Phrase>
+    <Phrase key="DevicesCaption">Dispositivos :</Phrase>
+    <Phrase key="NoDevices">Sin dispositivos</Phrase>
+    <Phrase key="EmptyCommLine">Línea de comunicación vacía</Phrase>
+    <Phrase key="GenerateDeviceMapError">Error al generar el mapa del dispositivo</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.IntegrityCheck">
+    <Phrase key="IntegrityCheckTitle">Verificación de integridad</Phrase>
+    <Phrase key="TableCorrect">DE ACUERDO</Phrase>
+    <Phrase key="TableHasErrors">Error</Phrase>
+    <Phrase key="LostPrimaryKeys">Claves primarias perdidas:</Phrase>
+    <Phrase key="BaseCorrect">La base de datos de configuración es correcta.</Phrase>
+    <Phrase key="BaseHasErrors">La base de datos de configuración tiene errores.</Phrase>
+    <Phrase key="IntegrityCheckError">Error al comprobar la integridad</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Controls.CtrlMainMenu">
+    <Phrase key="miProjectTools">Herramientas de proyecto</Phrase>
+    <Phrase key="miCloneChannels">Clonar canales...</Phrase>
+    <Phrase key="miChannelMapByDevice">Mapa de canales por dispositivo</Phrase>
+    <Phrase key="miChannelMapByObject">Mapa de canales por objeto</Phrase>
+    <Phrase key="miDeviceMap">Mapa de dispositivos</Phrase>
+    <Phrase key="miCheckIntegrity">Comprobar la integridad</Phrase>
+    <Phrase key="miEncryptPassword">Cifrar contraseña...</Phrase>
+    <Phrase key="miImportTable">Importar tabla...</Phrase>
+    <Phrase key="miExportTable">Exportar tabla...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmCnlClone">
+    <Phrase key="this">Clonar canales</Phrase>
+    <Phrase key="gbSrcNums">Números de canales de origen</Phrase>
+    <Phrase key="lblSrcStartNum">Comenzar</Phrase>
+    <Phrase key="lblSrcEndNum">Fin</Phrase>
+    <Phrase key="gbDestNums">Números de canales de destino</Phrase>
+    <Phrase key="lblDestStartNum">Comenzar</Phrase>
+    <Phrase key="lblDestEndNum">Fin</Phrase>
+    <Phrase key="gbOptions">Opciones</Phrase>
+    <Phrase key="lblReplaceObj">Reemplazar objeto</Phrase>
+    <Phrase key="lblReplaceDevice">Reemplazar dispositivo</Phrase>
+    <Phrase key="chkUpdateFormulas">Actualizar números de canal en fórmulas</Phrase>
+    <Phrase key="btnClone">Clon</Phrase>
+    <Phrase key="btnClose">Cerca</Phrase>
+    <Phrase key="KeepUnchanged">&lt;Mantener sin cambios&gt;</Phrase>
+    <Phrase key="CloneChannelsCompleted">La clonación se completó con éxito.&#13;&#10;Se agregaron {0} canales.</Phrase>
+    <Phrase key="CloneChannelsError">Error al clonar canales</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
+    <Phrase key="this">Cifrar contraseña</Phrase>
+    <Phrase key="lblPassword">Contraseña</Phrase>
+    <Phrase key="lblPasswordEncrypted">Contraseña encriptada</Phrase>
+    <Phrase key="btnCopy">Copiar</Phrase>
+    <Phrase key="btnClose">Cerca</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
+    <Phrase key="this">Tabla de exportación</Phrase>
+    <Phrase key="lblTable">Mesa</Phrase>
+    <Phrase key="lblFormat">Formato</Phrase>
+    <Phrase key="gbIDs">identificaciones</Phrase>
+    <Phrase key="lblStartID">Comenzar</Phrase>
+    <Phrase key="lblEndID">Fin</Phrase>
+    <Phrase key="btnExport">Exportar</Phrase>
+    <Phrase key="btnClose">Cerca</Phrase>
+    <Phrase key="ExportTableFilter">Tablas (*.dat;*.xml;*.csv)|*.dat;*.xml;*.csv|Todos los archivos (*.*)|*.*</Phrase>
+    <Phrase key="ExportTableError">Error al exportar tabla</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableImport">
+    <Phrase key="this">Importar tabla</Phrase>
+    <Phrase key="lblTable">Mesa</Phrase>
+    <Phrase key="lblSrcFile">Archivo fuente</Phrase>
+    <Phrase key="btnBrowse">Navegar...</Phrase>
+    <Phrase key="gbSrcIDs">ID de origen</Phrase>
+    <Phrase key="lblSrcStartID">Comenzar</Phrase>
+    <Phrase key="lblSrcEndID">Fin</Phrase>
+    <Phrase key="gbDestIDs">ID de destino</Phrase>
+    <Phrase key="lblDestStartID">Comenzar</Phrase>
+    <Phrase key="lblDestEndID">Fin</Phrase>
+    <Phrase key="btnImport">Importar</Phrase>
+    <Phrase key="btnClose">Cerca</Phrase>
+    <Phrase key="ImportTableFilter">Tablas (*.dat;*.xml;*.csv)|*.dat;*.xml;*.csv|Todos los archivos (*.*)|*.*</Phrase>
+    <Phrase key="ImportTableCompleted">Importación completada con éxito.&#13;&#10;{0} fila(s) afectadas.</Phrase>
+    <Phrase key="ImportTableError">Error al importar tabla</Phrase>
+  </Dictionary>
+</ExtProjectToolsDictionaries>

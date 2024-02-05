@@ -1,4 +1,5 @@
-﻿// Contains classes: ScadaUtils, ScadaEventType, PluginFeatures, BaseChartFeature, BaseCommandFeature, BaseEventAckFeature
+﻿// Contains classes: ScadaUtils, ScadaEventType, PluginFeatures,
+//     ChartFeatureBase, CommandFeatureBase, EventAckFeatureBase, Dto, Severity
 // Contains objects: appEnvStub
 // No dependencies.
 
@@ -8,10 +9,16 @@ class ScadaUtils {
     static SMALL_WND_WIDTH = 800;
     // The z-index that moves an element to the front.
     static FRONT_ZINDEX = 10000;
+    // The number of milliseconds in a day.
+    static MS_PER_DAY = 24 * 60 * 60 * 1000;
+    // Specifies how long an error badge is displayed, ms.
+    static ERROR_DISPLAY_DURATION = 7000;
+    // Specifies how long a button is locked after click, ms.
+    static BUTTON_LOCK_DURATION = 3000;
 
     // Checks if a browser window is small sized, such as a mobile device.
     static get isSmallScreen() {
-        return top.innerWidth <= this.SMALL_WND_WIDTH;
+        return top.innerWidth <= ScadaUtils.SMALL_WND_WIDTH;
     }
 
     // Checks if browser is in full screen mode switched on programmatically.
@@ -105,6 +112,38 @@ class ScadaUtils {
         } catch (ex) {
             console.error(ex);
         }
+    }
+
+    // Gets a cookie by name.
+    static getCookie(name) {
+        let cookie = " " + document.cookie;
+        let search = " " + name + "=";
+        let offset = cookie.indexOf(search);
+
+        if (offset >= 0) {
+            offset += search.length;
+            let end = cookie.indexOf(";", offset);
+
+            if (end < 0)
+                end = cookie.length;
+
+            return decodeURIComponent(cookie.substring(offset, end));
+        } else {
+            return null;
+        }
+    }
+
+    // Sets the cookie.
+    static setCookie(name, value, opt_expireDays) {
+        let expires = "";
+
+        if (opt_expireDays) {
+            let expireDate = new Date();
+            expireDate.setDate(expireDate.getDate() + opt_expireDays);
+            expires = "; expires=" + expiresDate.toUTCString();
+        }
+
+        document.cookie = name + "=" + encodeURIComponent(value) + expires + "; samesite=lax";
     }
 
     // Replaces the existing frame by a new one to prevent writing frame history. Returns the created frame.
@@ -224,9 +263,9 @@ class PluginFeatures {
     get chart() {
         if (this._chart === null) {
             this._chart = typeof ChartFeature === "function" &&
-                ChartFeature.prototype instanceof BaseChartFeature
+                ChartFeature.prototype instanceof ChartFeatureBase
                 ? new ChartFeature(this.appEnv)
-                : new BaseChartFeature(this.appEnv);
+                : new ChartFeatureBase(this.appEnv);
         }
 
         return this._chart;
@@ -236,9 +275,9 @@ class PluginFeatures {
     get command() {
         if (this._command === null) {
             this._command = typeof CommandFeature === "function" &&
-                CommandFeature.prototype instanceof BaseCommandFeature
+                CommandFeature.prototype instanceof CommandFeatureBase
                 ? new CommandFeature(this.appEnv)
-                : new BaseCommandFeature(this.appEnv);
+                : new CommandFeatureBase(this.appEnv);
         }
 
         return this._command;
@@ -248,9 +287,9 @@ class PluginFeatures {
     get eventAck() {
         if (this._eventAck === null) {
             this._eventAck = typeof EventAckFeature === "function" &&
-                EventAckFeature.prototype instanceof BaseEventAckFeature
+                EventAckFeature.prototype instanceof EventAckFeatureBase
                 ? new EventAckFeature(this.appEnv)
-                : new BaseEventAckFeature(this.appEnv);
+                : new EventAckFeatureBase(this.appEnv);
         }
 
         return this._eventAck;
@@ -258,49 +297,118 @@ class PluginFeatures {
 }
 
 // Represents a default charting feature.
-class BaseChartFeature {
+class ChartFeatureBase {
     constructor(appEnv) {
         this.appEnv = appEnv;
+        this._NO_PLUGIN = ScadaUtils.isRussian(appEnv.locale) ?
+            "Ни один плагин не реализует функцию графиков." :
+            "No plugin implements the charting feature.";
+    }
+
+    // Gets a chart URL.
+    // cnlNums is a string containing a range of integers,
+    // startDate is a string in the YYYY-MM-DD format,
+    // args is a string or an object containing arbitrary arguments.
+    getUrl(cnlNums, startDate, args) {
+        console.warn(this._NO_PLUGIN);
+        return "";
     }
 
     // Shows a chart.
-    // cnlNums is a string containing a range of integers,
-    // startDate is a string in the YYYY-MM-DD format,
-    // args is a string containing arbitrary arguments.
     show(cnlNums, startDate, args) {
-        alert(ScadaUtils.isRussian(appEnv.locale) ?
-            "Ни один плагин не реализует функцию графиков." :
-            "No plugin implements the charting feature.");
+        let url = this.getUrl(cnlNums, startDate, args);
+
+        if (url) {
+            window.open(url);
+        } else {
+            alert(this.NO_PLUGIN);
+        }
     }
 }
 
 // Represents a default command feature.
-class BaseCommandFeature {
+class CommandFeatureBase {
     constructor(appEnv) {
         this.appEnv = appEnv;
     }
 
     // Shows a command dialog.
+    // cnlNum is the channel number that defines a command,
+    // args is a string or an object containing arbitrary arguments,
     // opt_callback is a function (result), where result can be true or false.
-    show(cnlNum, opt_callback) {
+    show(cnlNum, args, opt_callback) {
         alert(ScadaUtils.isRussian(appEnv.locale) ?
             "Ни один плагин не реализует функцию команд." :
             "No plugin implements the command feature.");
+        opt_callback?.(false);
     }
 }
 
 // Represents a default event acknowledgement feature.
-class BaseEventAckFeature {
+class EventAckFeatureBase {
     constructor(appEnv) {
         this.appEnv = appEnv;
     }
 
     // Shows an event acknowledgement dialog.
+    // eventID specifies the event to display and acknowledge,
+    // args is a string or an object containing arbitrary arguments,
     // opt_callback is a function (result), where result can be true or false.
-    show(archiveBit, eventID, opt_callback) {
+    show(eventID, args, opt_callback) {
         alert(ScadaUtils.isRussian(appEnv.locale) ?
             "Ни один плагин не реализует функцию квитирования." :
             "No plugin implements the acknowledgement feature.");
+        opt_callback?.(false);
+    }
+}
+
+// Represents a data transfer object that carries data from the server side to a client.
+class Dto {
+    constructor() {
+        this.ok = false;
+        this.msg = "";
+        this.data = null;
+    }
+
+    // Creates a data transfer object containing a successfull result.
+    static success(data) {
+        let dto = new Dto();
+        dto.ok = true;
+        dto.data = data;
+        return dto;
+    }
+
+    // Creates a data transfer object containing a failed result.
+    static fail(msg) {
+        let dto = new Dto();
+        dto.msg = msg;
+        return dto;
+    }
+}
+
+// Specifies the severity levels.
+class Severity {
+    static MIN = 1;
+    static MAX = 999;
+    static UNDEFINED = 0;
+    static CRITICAL = 1;
+    static MAJOR = 250;
+    static MINOR = 500;
+    static INFO = 750;
+
+    // Gets the closest known severity.
+    static closest(value) {
+        if (Severity.CRITICAL <= value && value < Severity.MAJOR) {
+            return Severity.CRITICAL;
+        } else if (Severity.MAJOR <= value && value < Severity.MINOR) {
+            return Severity.MAJOR;
+        } else if (Severity.MINOR <= value && value < Severity.INFO) {
+            return Severity.MINOR;
+        } else if (Severity.INFO <= value && value < Severity.MAX) {
+            return Severity.INFO;
+        } else {
+            return Severity.UNDEFINED;
+        }
     }
 }
 

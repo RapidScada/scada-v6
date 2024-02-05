@@ -1,0 +1,72 @@
+﻿@page "/en/latest/developers/store"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Module Store";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#about-store">About Store</a></li>
+        <li><a href="#module-requirements">Module Requirements</a></li>
+        <li><a href="#module-naming">Module Naming</a></li>
+        <li><a href="#add-module">Add Your Module</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Module Store</h1>
+    <h2 id="about-store">About Store</h2>
+    <p>Rapid SCADA Module Store helps users find and download additional modules developed by various authors. For developers, Module Store is a platform where an author can present his modules to potential users or buyers.</p>
+    <p>Module Store is located at <a href="https://rapidscada.net/store/" target="_blank">https://rapidscada.net/store/</a></p>
+
+    <h2 id="module-requirements">Module Requirements</h2>
+    <p>Community developers can develop any modules for Rapid SCADA. To publish in the store, a developed module must meet the following requirements:</p>
+    <ol>
+        <li>The module web page should contain the contacts of the author and technical support. There is no need to create a dedicated module website. This can be a shared site such as a forum, social network, or GitHub.</li>
+        <li>The module must be documented. It is recommended, in addition to the text manual, to develop a video instruction that is desired by users.</li>
+        <li>If a module duplicates the functionality of paid modules developed by the Rapid SCADA team, then the price of your module should not be lower than the price of a similar existing module.</li>
+    </ol>
+    <p>The final decision to publish a module is made by the moderator.</p>
+
+    <h2 id="module-naming">Module Naming</h2>
+    <p>Module name should reflect the purpose of the module, and may also contain the full or abbreviated name of the author. Suppose an author named <em>Lion King</em> has developed a driver that implements the <em>MQTT</em> protocol. Then the appropriate module name would be <em>Lion MQTT Driver</em>.</p>
+    <p>Module file name is related to the module display name. Module file names use prefixes to indicate the type of module. For example:</p>
+    <ul>
+        <li><b>Plg</b>ChartPro.dll - Webstation plugin,</li>
+        <li><b>Mod</b>AutoControl.Logic.dll - Server module,</li>
+        <li><b>Drv</b>Telegram.Logic.dll - Communicator driver,</li>
+        <li><b>Ext</b>TableEditor.dll - extension for the Administrator application.</li>
+    </ul>
+    <p>It is recommended to use a file suffix to indicate authorship of a module. Continuing with the example, the driver file might be named <em>DrvMqttLion</em>.Logic.dll.</p>
+
+    <h2 id="add-module">Add Your Module</h2>
+    <p>To add your module to the store, fill out the <a href="https://rapidscada.org/community/add-module/" target="_blank">form</a>. Below are guidelines for completing some of the form fields.</p>
+    <table class="table table-hover">
+        <tbody>
+            <tr>
+                <th scope="row">Module home URL</th>
+                <td class="text-break">
+                    Specify a web page that contains general information about the module. Example:<br />
+                    <a href="https://forum.rapidscada.org/?topic=driver-gpio-for-scada-v6-1" target="_blank">https://forum.rapidscada.org/?topic=driver-gpio-for-scada-v6-1</a>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Module documentation URL</th>
+                <td class="text-break">
+                    Specify a web page that contains instructions for setting up the module. Example:<br />
+                    <a href="https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers" target="_blank">https://github.com/JurasskPark/RapidScada_v6/tree/master/OpenDrivers</a>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">Download URL</th>
+                <td class="text-break">
+                    Specify a link to a cloud storage where the author can easily upload new versions. Examples:<br />
+                    <a href="https://github.com/Manjey73/OpenDrivers/releases?q=DrvGpiod" target="_blank">https://github.com/Manjey73/OpenDrivers/releases?q=DrvGpiod</a><br />
+                    <a href="https://drive.google.com/drive/folders/18bApJzEzJ_ipM8m89N7YZNH-M8BcYQuE" target="_blank">https://drive.google.com/drive/folders/18bApJzEzJ_ipM8m89N7YZNH-M8BcYQuE</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

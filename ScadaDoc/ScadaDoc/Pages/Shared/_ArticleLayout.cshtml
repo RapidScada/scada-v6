@@ -1,0 +1,37 @@
+﻿@inject TocManager tocManager
+@{
+    Layout = "_BasicLayout";
+
+    var pagePath = Context.Request.Path;
+    var pageMeta = PageMeta.Parse(pagePath);
+    var toc = tocManager.GetToc(pageMeta);
+    var tocRenderer = new TocRenderer(Url) { ActivePagePath = pagePath };
+}
+
+<!-- @pagePath -->
+
+@section Styles {
+    <link href="~/css/article.min.css" rel="stylesheet" asp-append-version="true" />
+    @RenderSection("Styles", required: false)
+}
+
+@section Scripts {
+    <script src="~/js/article.js"></script>
+    @RenderSection("Scripts", required: false)
+}
+
+<div id="divTocWrapper">
+    <div id="divToc" class="offcanvas-lg offcanvas-start" tabindex="-1">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title">Table of contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#divToc"></button>
+        </div>
+        <div class="offcanvas-body">
+            @tocRenderer.RenderHtml(toc)
+        </div>
+    </div>
+</div>
+
+<main class="doc-article">
+    @RenderBody()
+</main>

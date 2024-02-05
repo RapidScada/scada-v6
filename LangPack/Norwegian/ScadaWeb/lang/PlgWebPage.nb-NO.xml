@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgWebPageDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgWebPage.Areas.Main.Pages.Landing">
+    <Phrase key="PageTitle">Side {0}</Phrase>
+    <Phrase key="UrlIsEmpty">Kan ikke omdirigere fordi nettadressen er tom</Phrase>
+  </Dictionary>
+</PlgWebPageDictionaries>

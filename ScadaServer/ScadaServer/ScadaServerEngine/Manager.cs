@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2015
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Config;
@@ -149,10 +149,11 @@ namespace Scada.Server.Engine
 
             storageWrapper = new StorageWrapper(new StorageContext
             {
+                InstanceConfig = instanceConfig,
                 App = ServiceApp.Server,
                 AppDirs = AppDirs,
                 Log = log
-            }, instanceConfig);
+            });
             
             assemblyResolver = new AssemblyResolver(AppDirs.GetProbingDirs());
             ServerConfig appConfig = new ServerConfig();

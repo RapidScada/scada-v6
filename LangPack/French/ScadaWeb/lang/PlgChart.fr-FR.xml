@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgMainDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgChart.Areas.Chart.Pages.Chart">
+    <Phrase key="Title">{0} - Graphique</Phrase>
+    <Phrase key="Generated">Généré</Phrase>
+  </Dictionary>
+</PlgMainDictionaries>

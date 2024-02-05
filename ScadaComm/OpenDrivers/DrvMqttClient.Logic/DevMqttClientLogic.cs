@@ -3,7 +3,8 @@
 
 using Jint;
 using MQTTnet;
-using MQTTnet.Client.Publishing;
+using MQTTnet.Client;
+using MQTTnet.Packets;
 using MQTTnet.Protocol;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
@@ -161,8 +162,12 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
         {
             // initialize engine
             jsEngine ??= new Engine()
-                .SetValue("log", new Action<string>(s => Log.WriteLine(s)))
-                .SetValue("setValue", new Action<int, double>((i, x) => { subscriptionTag.JsValues[i] = x; }));
+                .SetValue("log", new Action<string>(s => Log.WriteLine(s)));
+
+            // set script methods and variables that depend on current call
+            jsEngine.SetValue("setValue", new Action<int, double>((i, x) => { subscriptionTag.JsValues[i] = x; }));
+            jsEngine.SetValue("topic", message.Topic);
+            jsEngine.SetValue("payload", message.Payload);
 
             // load source code
             subscriptionTag.JsSource ??= 
@@ -177,10 +182,6 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
                 subscriptionTag.JsValues[i] = double.NaN;
             }
 
-            // set script variables
-            jsEngine.SetValue("topic", message.Topic);
-            jsEngine.SetValue("payload", message.Payload);
-
             try
             {
                 // execute script
@@ -191,12 +192,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
                 {
                     int tagIndex = subscriptionTag.TagIndex + i;
                     double tagValue = subscriptionTag.JsValues[i];
-
-                    if (double.IsNaN(tagValue))
-                        DeviceData.Invalidate(tagIndex);
-                    else
-                        DeviceData.Set(tagIndex, tagValue);
-
+                    DeviceData.Set(tagIndex, tagValue);
                     updateTimestamps[tagIndex] = LastSessionTime;
                 }
             }
@@ -311,14 +307,15 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
             {
                 if (subscriptionConfig.JsEnabled && subscriptionConfig.SubItems.Count > 0)
                 {
-                    for (int i = 0, cnt = subscriptionConfig.SubItems.Count; i < cnt; i++)
-                    {
-                        string suffix = "." + subscriptionConfig.SubItems[i];
-                        DeviceTag deviceTag = tagGroup.AddTag(
-                            subscriptionConfig.TagCode + suffix, 
-                            subscriptionConfig.DisplayName + suffix);
+                    int idx = 0;
 
-                        if (i == 0)
+                    foreach (string subItem in subscriptionConfig.SubItems)
+                    {
+                        DeviceTag deviceTag = tagGroup.AddTag(
+                            subscriptionConfig.TagCode + "." + subItem,
+                            subscriptionConfig.DisplayName + "." + subItem);
+
+                        if (idx++ == 0)
                             Subscribe(subscriptionConfig, deviceTag);
                     }
                 }

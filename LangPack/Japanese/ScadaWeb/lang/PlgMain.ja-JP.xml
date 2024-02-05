@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgMainDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command">
+    <Phrase key="PageTitle">指図</Phrase>
+    <Phrase key="CommandSent">コマンドが送信されました。</Phrase>
+    <Phrase key="CmdParseError">コマンド解析エラー</Phrase>
+    <Phrase key="CnlRow">チャネル：</Phrase>
+    <Phrase key="ObjRow">物体：</Phrase>
+    <Phrase key="DevRow">デバイス：</Phrase>
+    <Phrase key="lblPassword">パスワード</Phrase>
+    <Phrase key="lblCmdDec">指令値</Phrase>
+    <Phrase key="lblCmdHex">指令値（16進数）</Phrase>
+    <Phrase key="lblCmdEnum">指図</Phrase>
+    <Phrase key="lblCmdDate">指令値(日付/時刻)</Phrase>
+    <Phrase key="lblCmdData">コマンドデータ</Phrase>
+    <Phrase key="lblStr">弦</Phrase>
+    <Phrase key="lblHex">16進数</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventAck">
+    <Phrase key="PageTitle">イベント</Phrase>
+    <Phrase key="EventNotFound">イベント {0} が見つかりません。</Phrase>
+    <Phrase key="EventAcknowledged">イベントが承認されました。</Phrase>
+    <Phrase key="TimeRow">日時：</Phrase>
+    <Phrase key="ObjRow">物体：</Phrase>
+    <Phrase key="DevRow">デバイス：</Phrase>
+    <Phrase key="CnlRow">チャネル：</Phrase>
+    <Phrase key="DescrRow">説明：</Phrase>
+    <Phrase key="SevRow">重大度：</Phrase>
+    <Phrase key="AckRow">アック:</Phrase>
+    <Phrase key="AckYes">はい</Phrase>
+    <Phrase key="AckNo">いいえ</Phrase>
+    <Phrase key="AckTip">「OK」ボタンをクリックしてイベントを承認します。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventReport">
+    <Phrase key="PageTitle">イベントレポート</Phrase>
+    <Phrase key="AllObjItem">-- すべてのオブジェクト --</Phrase>
+    <Phrase key="AllAvailObjItem">-- 利用可能なすべてのオブジェクト --</Phrase>
+    <Phrase key="NotSpecifiedItem">-  指定されていない  -</Phrase>
+    <Phrase key="lblStartTime">から</Phrase>
+    <Phrase key="lblEndTime">に</Phrase>
+    <Phrase key="lblArchive">アーカイブ</Phrase>
+    <Phrase key="lblObj">物体</Phrase>
+    <Phrase key="lblSeverity">重大度</Phrase>
+    <Phrase key="btnGenerateReport">レポートのダウンロード</Phrase>
+    <Phrase key="divWaitHint">レポートを生成しています。 お待ちください...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events">
+    <Phrase key="TimeCol">日時</Phrase>
+    <Phrase key="ObjCol">物体</Phrase>
+    <Phrase key="DevCol">デバイス</Phrase>
+    <Phrase key="CnlCol">チャネル</Phrase>
+    <Phrase key="DescrCol">説明</Phrase>
+    <Phrase key="SevCol">重大度</Phrase>
+    <Phrase key="AckCol">アック</Phrase>
+    <Phrase key="EventInfo">{1} 時間以内の最後の {0} 件のイベント</Phrase>
+    <Phrase key="spanAllEventsBtn">すべてのイベント</Phrase>
+    <Phrase key="spanEventsByViewBtn">ビュー別のイベント</Phrase>
+    <Phrase key="spanPrintBtn_ToolTip">イベントのエクスポート</Phrase>
+    <Phrase key="spanErrorBadge">エラー</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events.Js">
+    <Phrase key="Loading">読み込み中...</Phrase>
+    <Phrase key="NoEvents">イベントはありません</Phrase>
+    <Phrase key="Ack">クリックして承認します</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.HistDataReport">
+    <Phrase key="PageTitle">履歴データレポート</Phrase>
+    <Phrase key="lblStartTime">から</Phrase>
+    <Phrase key="lblEndTime">に</Phrase>
+    <Phrase key="lblArchive">アーカイブ</Phrase>
+    <Phrase key="lblCnlNums">チャンネル</Phrase>
+    <Phrase key="btnSelectCnls">選択する...</Phrase>
+    <Phrase key="btnGenerateReport">レポートのダウンロード</Phrase>
+    <Phrase key="divWaitHint">レポートを生成しています。 お待ちください...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView">
+    <Phrase key="TableViewTitle">テーブル {0}</Phrase>
+    <Phrase key="PrevDate">前回の日付</Phrase>
+    <Phrase key="SelDate">選択した日付</Phrase>
+    <Phrase key="MinusOneDay">-1d</Phrase>
+    <Phrase key="ItemColumn">アイテム</Phrase>
+    <Phrase key="CurrentColumn">現在</Phrase>
+    <Phrase key="CnlTip">チャネル</Phrase>
+    <Phrase key="DeviceTip">デバイス</Phrase>
+    <Phrase key="ObjTip">物体</Phrase>
+    <Phrase key="QuantityTip">量</Phrase>
+    <Phrase key="UnitTip">ユニット</Phrase>
+    <Phrase key="SendCommandTip">送信コマンド</Phrase>
+    <Phrase key="spanPrintBtn_ToolTip">テーブルビューのエクスポート</Phrase>
+    <Phrase key="spanLoadingBadge">読み込み中...</Phrase>
+    <Phrase key="spanErrorBadge">エラー</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Code.EventWindowSpec">
+    <Phrase key="EventWindowTitle">イベント</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.PlgMainLogic">
+    <Phrase key="ReportGroup">主な報告書</Phrase>
+    <Phrase key="HistDataReport">履歴データレポート</Phrase>
+    <Phrase key="EventReport">イベントレポート</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report">
+    <Phrase key="GenCaption">生成されるもの:</Phrase>
+    <Phrase key="TzCaption">タイムゾーン:</Phrase>
+    <Phrase key="ArcCaption">アーカイブ：</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.Js">
+    <Phrase key="InvalidPeriod">開始日は終了日以下である必要があります。</Phrase>
+    <Phrase key="PeriodTooLong">期間の最大長は {0} 日です。</Phrase>
+    <Phrase key="InvalidChannels">無効なチャンネル番号です。</Phrase>
+    <Phrase key="NoSeverity">重大度が選択されていません。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.EventReportBuilder">
+    <Phrase key="GeneralTitleFormat">イベント、{0} - {1}</Phrase>
+    <Phrase key="TailTitleFormat">{1} 時間以内の最後の {0} 件のイベント</Phrase>
+    <Phrase key="ViewCaption">意見：</Phrase>
+    <Phrase key="ObjCaption">オブジェクト:</Phrase>
+    <Phrase key="SevCaption">重大度：</Phrase>
+    <Phrase key="TimeCol">日時</Phrase>
+    <Phrase key="ObjCol">物体</Phrase>
+    <Phrase key="DevCol">デバイス</Phrase>
+    <Phrase key="CnlCol">チャネル</Phrase>
+    <Phrase key="DescrCol">説明</Phrase>
+    <Phrase key="SevCol">重大度</Phrase>
+    <Phrase key="AckCol">アック</Phrase>
+    <Phrase key="WorksheetName">イベント</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.HistDataReportBuilder">
+    <Phrase key="TitleFormat">履歴データ、{0} - {1}</Phrase>
+    <Phrase key="CnlCaption">チャンネル:</Phrase>
+    <Phrase key="TimeCol">日時</Phrase>
+    <Phrase key="DataCol">チャンネル {0}</Phrase>
+    <Phrase key="AvgCaption">平均</Phrase>
+    <Phrase key="MinCaption">最小</Phrase>
+    <Phrase key="MaxCaption">最大</Phrase>
+    <Phrase key="WorksheetName">歴史的なデータ</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Report.TableViewReportBuilder">
+    <Phrase key="TitleFormat">{0}、{1} - {2}</Phrase>
+    <Phrase key="ItemCol">アイテム</Phrase>
+    <Phrase key="WorksheetName">テーブルビュー</Phrase>
+  </Dictionary>
+</PlgMainDictionaries>

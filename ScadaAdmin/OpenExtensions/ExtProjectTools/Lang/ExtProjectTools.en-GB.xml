@@ -23,13 +23,20 @@
     <Phrase key="BaseHasErrors">The configuration database has errors.</Phrase>
     <Phrase key="IntegrityCheckError">Error checking integrity</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.ObjectMap">
+    <Phrase key="ObjectMapTitle">Object Hierarchy</Phrase>
+    <Phrase key="NoObjects">No objects</Phrase>
+    <Phrase key="GenerateObjectMapError">Error generating object map</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Controls.CtrlMainMenu">
     <Phrase key="miProjectTools">Project Tools</Phrase>
     <Phrase key="miCloneChannels">Clone Channels...</Phrase>
     <Phrase key="miChannelMapByDevice">Channel Map by Device</Phrase>
     <Phrase key="miChannelMapByObject">Channel Map by Object</Phrase>
     <Phrase key="miDeviceMap">Device Map</Phrase>
+    <Phrase key="miObjectMap">Object Map</Phrase>
     <Phrase key="miCheckIntegrity">Check Integrity</Phrase>
+    <Phrase key="miEncryptPassword">Encrypt Password...</Phrase>
     <Phrase key="miImportTable">Import Table...</Phrase>
     <Phrase key="miExportTable">Export Table...</Phrase>
   </Dictionary>
@@ -50,6 +57,13 @@
     <Phrase key="KeepUnchanged">&lt;Keep unchanged&gt;</Phrase>
     <Phrase key="CloneChannelsCompleted">Cloning completed successfully.&#13;&#10;{0} channel(s) added.</Phrase>
     <Phrase key="CloneChannelsError">Error cloning channels</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
+    <Phrase key="this">Encrypt Password</Phrase>
+    <Phrase key="lblPassword">Password</Phrase>
+    <Phrase key="lblPasswordEncrypted">Encrypted password</Phrase>
+    <Phrase key="btnCopy">Copy</Phrase>
+    <Phrase key="btnClose">Close</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
     <Phrase key="this">Export Table</Phrase>

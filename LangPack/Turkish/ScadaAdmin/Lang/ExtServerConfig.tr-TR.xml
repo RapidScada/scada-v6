@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtServerConfigDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.ExtServerConfigLogic">
+    <Phrase key="GeneralOptionsNode">Genel seçenekler</Phrase>
+    <Phrase key="ModulesNode">Modüller</Phrase>
+    <Phrase key="ArchivesNode">Arşivler</Phrase>
+    <Phrase key="LogsNode">Kütükler</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchiveAdd">
+    <Phrase key="this">Arşiv Ekle</Phrase>
+    <Phrase key="lblSourceArchive">Kaynak arşivi</Phrase>
+    <Phrase key="lblModule">Modül</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchives">
+    <Phrase key="this">Arşivler</Phrase>
+    <Phrase key="btnAdd">Eklemek</Phrase>
+    <Phrase key="btnMoveUp">Yukarı Taşı</Phrase>
+    <Phrase key="btnMoveDown">Aşağı inmek</Phrase>
+    <Phrase key="btnDelete">Silmek</Phrase>
+    <Phrase key="btnCut">Kesmek</Phrase>
+    <Phrase key="btnCopy">kopyala</Phrase>
+    <Phrase key="btnPaste">Yapıştırmak</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">Aktif</Phrase>
+    <Phrase key="colCode">kod</Phrase>
+    <Phrase key="colName">İsim</Phrase>
+    <Phrase key="colKind">Tür</Phrase>
+    <Phrase key="colModule">Modül</Phrase>
+    <Phrase key="gbArchive">Seçilmiş Arşiv</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="lblCode">kod</Phrase>
+    <Phrase key="lblName">İsim</Phrase>
+    <Phrase key="lblKind">Tür</Phrase>
+    <Phrase key="lblModule">Modül</Phrase>
+    <Phrase key="lblOptions">Seçenekler</Phrase>
+    <Phrase key="btnProperties">Özellikler</Phrase>
+    <Phrase key="ModuleNotSpecified">Modül belirtilmemiş.</Phrase>
+    <Phrase key="ArchiveNotSupported">Modül, {0} türünde arşiv oluşturmayı desteklemez.</Phrase>
+    <Phrase key="UnableCreateArchiveView">Arşiv kullanıcı arabirimi oluşturulamıyor.</Phrase>
+    <Phrase key="NoArchiveProperties">Arşiv bir özellikler penceresi sağlamaz.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions">
+    <Phrase key="this">Genel seçenekler</Phrase>
+    <Phrase key="gbGeneralOptions">Genel seçenekler</Phrase>
+    <Phrase key="lblUnrelIfInactive">Etkin değilse, kanalı güvenilmez olarak işaretle, saniye</Phrase>
+    <Phrase key="lblMaxCurDataAge">Mevcut verileri eskiyse geçmiş olarak yaz, saniye</Phrase>
+    <Phrase key="lblUseArchivalStatus">Gelen geçmiş verileri arşiv olarak işaretle</Phrase>
+    <Phrase key="lblGenerateAckCmd">Olay onaylandığında komut oluştur</Phrase>
+    <Phrase key="lblStopWait">Servisin durmasını bekleyin, saniye</Phrase>
+    <Phrase key="lblMaxLogSize">Maksimum günlük dosyası boyutu, MB</Phrase>
+    <Phrase key="lblDisableFormulas">Nesneler dışındaki kanal formüllerini devre dışı bırak</Phrase>
+    <Phrase key="btnSelectObjects">Seçme...</Phrase>
+    <Phrase key="gbListenerOptions">Dinleyici Seçenekleri</Phrase>
+    <Phrase key="lblPort">TCP bağlantı noktası</Phrase>
+    <Phrase key="lblTimeout">Zaman aşımı, ms</Phrase>
+    <Phrase key="lblSecretKey">Gizli anahtar</Phrase>
+    <Phrase key="btnGenerateKey">oluştur</Phrase>
+    <Phrase key="btnCopyKey">kopyala</Phrase>
+    <Phrase key="InvalidObjectRange">Geçersiz nesne aralığı.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmModules">
+    <Phrase key="this">Modüller</Phrase>
+    <Phrase key="lblUnusedModules">Kullanılmayan modüller:</Phrase>
+    <Phrase key="btnActivate">Etkinleştir</Phrase>
+    <Phrase key="lblActiveModules">Aktif modüller:</Phrase>
+    <Phrase key="btnDeactivate">Devre dışı bırakmak</Phrase>
+    <Phrase key="btnMoveUp">Yukarı Taşı</Phrase>
+    <Phrase key="btnMoveDown">Aşağı inmek</Phrase>
+    <Phrase key="btnProperties">Özellikler</Phrase>
+    <Phrase key="btnRegister">Kayıt olmak</Phrase>
+    <Phrase key="lblDescr">Tanım</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmServerLogs">
+    <Phrase key="AppFilter">Başvuru</Phrase>
+    <Phrase key="ModulesFilter">Modüller</Phrase>
+  </Dictionary>
+</ExtServerConfigDictionaries>

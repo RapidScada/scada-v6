@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDsScadaServerDictionaries culture="zh-Hans" lang="ChineseSimplified">
+  <Dictionary key="Scada.Comm.Drivers.DrvDsScadaServer.View.Forms.FrmConnManager">
+    <Phrase key="this">客户端连接</Phrase>
+    <Phrase key="gbConnList">连接</Phrase>
+    <Phrase key="btnNewConn">新建</Phrase>
+    <Phrase key="btnDeleteConn">删除</Phrase>
+    <Phrase key="btnOK">确定</Phrase>
+    <Phrase key="btnCancel">删除</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsScadaServer.View.Forms.FrmScadaServerDSO">
+    <Phrase key="this">数据源属性</Phrase>
+    <Phrase key="lblUseDefaultConn">使用默认连接</Phrase>
+    <Phrase key="lblConnection">连接</Phrase>
+    <Phrase key="lblMaxQueueSize">最大队列大小</Phrase>
+    <Phrase key="lblMaxCurDataAge">当前数据变为历史数据，秒</Phrase>
+    <Phrase key="lblDataLifetime">队列中的数据生存期，秒</Phrase>
+    <Phrase key="lblClientLogEnabled">启用客户端日志</Phrase>
+    <Phrase key="lblDeviceFilter">设备筛选器</Phrase>
+    <Phrase key="btnSelectDevices">选择...</Phrase>
+    <Phrase key="btnManageConn">管理连接</Phrase>
+    <Phrase key="btnOK">确定</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+  </Dictionary>
+</DrvDsScadaServerDictionaries>

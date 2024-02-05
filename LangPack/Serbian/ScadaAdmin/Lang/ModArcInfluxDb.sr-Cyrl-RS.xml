@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModArcInfluxDblDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmConnManager">
+    <Phrase key="this">InfluxDB Цоннецтионс</Phrase>
+    <Phrase key="gbConnList">Везе</Phrase>
+    <Phrase key="btnNewConn">Нова</Phrase>
+    <Phrase key="btnDeleteConn">Избриши</Phrase>
+    <Phrase key="gbOptions">Опције везе</Phrase>
+    <Phrase key="lblName">Име</Phrase>
+    <Phrase key="lblUrl">URL</Phrase>
+    <Phrase key="lblToken">Токен</Phrase>
+    <Phrase key="lblUsername">Корисничко име</Phrase>
+    <Phrase key="lblPassword">Лозинка</Phrase>
+    <Phrase key="lblBucket">Буцкет</Phrase>
+    <Phrase key="lblOrg">Организација</Phrase>
+    <Phrase key="btnOK">У реду</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmInfluxHAO">
+    <Phrase key="this">Опције историјског арһива</Phrase>
+    <Phrase key="gbDbOptions">Опције базе података</Phrase>
+    <Phrase key="lblConnection">Веза</Phrase>
+    <Phrase key="lblBatchSize">Величина серије</Phrase>
+    <Phrase key="lblFlushInterval">Интервал испирања</Phrase>
+    <Phrase key="txtFlushIntervalUnit">Госпођа</Phrase>
+    <Phrase key="btnManageConn">Управљајте везама</Phrase>
+    <Phrase key="btnOK">У реду</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+  </Dictionary>
+</ModArcInfluxDblDictionaries>

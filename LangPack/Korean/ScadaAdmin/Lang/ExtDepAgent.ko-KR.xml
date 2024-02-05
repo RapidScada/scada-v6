@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtDepAgentDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepAgent.Downloader">
+    <Phrase key="ImportTable">{0} 테이블 가져오기</Phrase>
+    <Phrase key="ExtractArchive">아카이브 추출</Phrase>
+    <Phrase key="MergeDirectory">디렉터리 병합</Phrase>
+    <Phrase key="NothingToMerge">병합할 데이터 없음</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepAgent.Uploader">
+    <Phrase key="TestAgentConn">테스트 에이전트 연결</Phrase>
+    <Phrase key="CompressConfig">압축 구성</Phrase>
+    <Phrase key="CompressBase">구성 데이터베이스 압축</Phrase>
+    <Phrase key="CompressViews">보기 압축</Phrase>
+    <Phrase key="CompressAppConfig">{0} 애플리케이션의 압축 구성</Phrase>
+    <Phrase key="AddProjectInfo">프로젝트 정보 추가</Phrase>
+    <Phrase key="AddTransferOptions">전송 옵션 추가</Phrase>
+    <Phrase key="TransferConfig">전송 구성</Phrase>
+    <Phrase key="ArchiveSize">아카이브 크기: {0}바이트</Phrase>
+  </Dictionary>
+</ExtDepAgentDictionaries>

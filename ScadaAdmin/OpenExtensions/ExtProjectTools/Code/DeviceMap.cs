@@ -7,12 +7,7 @@ using Scada.Data.Tables;
 using Scada.Forms;
 using Scada.Lang;
 using Scada.Log;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Scada.Admin.Extensions.ExtProjectTools.Code
 {
@@ -42,7 +37,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
 
 
         /// <summary>
-        /// Writes channels having the specified index key.
+        /// Writes devices having the specified index key.
         /// </summary>
         private static void WriteDevices(StreamWriter writer, ITableIndex index, int indexKey)
         {

@@ -29,93 +29,89 @@ namespace Scada.Forms.Controls
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnResetMask = new System.Windows.Forms.Button();
-            this.lbMaskBits = new System.Windows.Forms.CheckedListBox();
-            this.lblMaskBits = new System.Windows.Forms.Label();
-            this.txtMaskValue = new System.Windows.Forms.TextBox();
-            this.lblMaskValue = new System.Windows.Forms.Label();
-            this.pnlBitMask = new System.Windows.Forms.Panel();
-            this.pnlBitMask.SuspendLayout();
-            this.SuspendLayout();
+            btnResetMask = new Button();
+            lbMaskBits = new CheckedListBox();
+            lblMaskBits = new Label();
+            txtMaskValue = new TextBox();
+            lblMaskValue = new Label();
+            pnlBitMask = new Panel();
+            pnlBitMask.SuspendLayout();
+            SuspendLayout();
             // 
             // btnResetMask
             // 
-            this.btnResetMask.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnResetMask.Location = new System.Drawing.Point(285, 18);
-            this.btnResetMask.Name = "btnResetMask";
-            this.btnResetMask.Size = new System.Drawing.Size(75, 23);
-            this.btnResetMask.TabIndex = 7;
-            this.btnResetMask.Text = "Reset";
-            this.btnResetMask.UseVisualStyleBackColor = true;
-            this.btnResetMask.Click += new System.EventHandler(this.btnResetMask_Click);
+            btnResetMask.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnResetMask.Location = new Point(285, 18);
+            btnResetMask.Name = "btnResetMask";
+            btnResetMask.Size = new Size(75, 23);
+            btnResetMask.TabIndex = 7;
+            btnResetMask.Text = "Reset";
+            btnResetMask.UseVisualStyleBackColor = true;
+            btnResetMask.Click += btnResetMask_Click;
             // 
             // lbMaskBits
             // 
-            this.lbMaskBits.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbMaskBits.CheckOnClick = true;
-            this.lbMaskBits.FormattingEnabled = true;
-            this.lbMaskBits.IntegralHeight = false;
-            this.lbMaskBits.Location = new System.Drawing.Point(0, 62);
-            this.lbMaskBits.Name = "lbMaskBits";
-            this.lbMaskBits.Size = new System.Drawing.Size(360, 350);
-            this.lbMaskBits.TabIndex = 9;
-            this.lbMaskBits.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lbMaskBits_ItemCheck);
+            lbMaskBits.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            lbMaskBits.CheckOnClick = true;
+            lbMaskBits.FormattingEnabled = true;
+            lbMaskBits.IntegralHeight = false;
+            lbMaskBits.Location = new Point(0, 62);
+            lbMaskBits.Name = "lbMaskBits";
+            lbMaskBits.Size = new Size(360, 350);
+            lbMaskBits.TabIndex = 9;
+            lbMaskBits.ItemCheck += lbMaskBits_ItemCheck;
             // 
             // lblMaskBits
             // 
-            this.lblMaskBits.AutoSize = true;
-            this.lblMaskBits.Location = new System.Drawing.Point(-3, 44);
-            this.lblMaskBits.Name = "lblMaskBits";
-            this.lblMaskBits.Size = new System.Drawing.Size(26, 15);
-            this.lblMaskBits.TabIndex = 8;
-            this.lblMaskBits.Text = "Bits";
+            lblMaskBits.AutoSize = true;
+            lblMaskBits.Location = new Point(-3, 44);
+            lblMaskBits.Name = "lblMaskBits";
+            lblMaskBits.Size = new Size(26, 15);
+            lblMaskBits.TabIndex = 8;
+            lblMaskBits.Text = "Bits";
             // 
             // txtMaskValue
             // 
-            this.txtMaskValue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtMaskValue.Location = new System.Drawing.Point(0, 18);
-            this.txtMaskValue.Name = "txtMaskValue";
-            this.txtMaskValue.ReadOnly = true;
-            this.txtMaskValue.Size = new System.Drawing.Size(279, 23);
-            this.txtMaskValue.TabIndex = 6;
+            txtMaskValue.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtMaskValue.Location = new Point(0, 18);
+            txtMaskValue.Name = "txtMaskValue";
+            txtMaskValue.ReadOnly = true;
+            txtMaskValue.Size = new Size(279, 23);
+            txtMaskValue.TabIndex = 6;
             // 
             // lblMaskValue
             // 
-            this.lblMaskValue.AutoSize = true;
-            this.lblMaskValue.Location = new System.Drawing.Point(-3, 0);
-            this.lblMaskValue.Name = "lblMaskValue";
-            this.lblMaskValue.Size = new System.Drawing.Size(81, 15);
-            this.lblMaskValue.TabIndex = 5;
-            this.lblMaskValue.Text = "Decimal value";
+            lblMaskValue.AutoSize = true;
+            lblMaskValue.Location = new Point(-3, 0);
+            lblMaskValue.Name = "lblMaskValue";
+            lblMaskValue.Size = new Size(81, 15);
+            lblMaskValue.TabIndex = 5;
+            lblMaskValue.Text = "Decimal value";
             // 
             // pnlBitMask
             // 
-            this.pnlBitMask.Controls.Add(this.lbMaskBits);
-            this.pnlBitMask.Controls.Add(this.lblMaskBits);
-            this.pnlBitMask.Controls.Add(this.btnResetMask);
-            this.pnlBitMask.Controls.Add(this.txtMaskValue);
-            this.pnlBitMask.Controls.Add(this.lblMaskValue);
-            this.pnlBitMask.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlBitMask.Location = new System.Drawing.Point(0, 0);
-            this.pnlBitMask.Name = "pnlBitMask";
-            this.pnlBitMask.Size = new System.Drawing.Size(360, 412);
-            this.pnlBitMask.TabIndex = 10;
+            pnlBitMask.Controls.Add(lbMaskBits);
+            pnlBitMask.Controls.Add(lblMaskBits);
+            pnlBitMask.Controls.Add(btnResetMask);
+            pnlBitMask.Controls.Add(txtMaskValue);
+            pnlBitMask.Controls.Add(lblMaskValue);
+            pnlBitMask.Dock = DockStyle.Fill;
+            pnlBitMask.Location = new Point(0, 0);
+            pnlBitMask.Name = "pnlBitMask";
+            pnlBitMask.Size = new Size(360, 412);
+            pnlBitMask.TabIndex = 10;
             // 
-            // CtrlBitMask
+            // CtrlBitmask
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.pnlBitMask);
-            this.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
-            this.Name = "CtrlBitMask";
-            this.Size = new System.Drawing.Size(360, 412);
-            this.pnlBitMask.ResumeLayout(false);
-            this.pnlBitMask.PerformLayout();
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(pnlBitMask);
+            Margin = new Padding(3, 0, 3, 3);
+            Name = "CtrlBitmask";
+            Size = new Size(360, 412);
+            pnlBitMask.ResumeLayout(false);
+            pnlBitMask.PerformLayout();
+            ResumeLayout(false);
         }
 
         #endregion

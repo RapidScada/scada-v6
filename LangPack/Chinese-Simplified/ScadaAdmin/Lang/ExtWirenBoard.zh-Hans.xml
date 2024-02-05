@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtWirenBoardDictionaries culture="zh-Hans" lang="ChineseSimplified">
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlDeviceTree">
+    <Phrase key="btnSelectAll">选择所有</Phrase>
+    <Phrase key="btnSelectNone">清除选择？</Phrase>
+    <Phrase key="SelectDevice">请选择至少一个设备。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlEntityID">
+    <Phrase key="lblStartDeviceNum">启动设备编号</Phrase>
+    <Phrase key="btnDeviceMap">映射</Phrase>
+    <Phrase key="lblStartCnlNum">启动通道编号</Phrase>
+    <Phrase key="btnCnlMap">映射</Phrase>
+    <Phrase key="lblObj">对象</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlExtensionMenu">
+    <Phrase key="miWirenBoard">有线线路板？</Phrase>
+    <Phrase key="miCreateConfig">创建配置……</Phrase>
+    <Phrase key="btnCreateConfig.ToolTip">为有线线路板创建项目配置？</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlLineSelect">
+    <Phrase key="lblInstance">实例</Phrase>
+    <Phrase key="lblLine">通信线路</Phrase>
+    <Phrase key="lblWirenBoardIP">有线线路板IP地址</Phrase>
+    <Phrase key="CommLineRequired">请选择一个通信线路。</Phrase>
+    <Phrase key="MqttLineRequired">所选择的通道类型必须是MQTT客户端。</Phrase>
+    <Phrase key="WirenBoardIpRequired">需要有线线路板IP地址。？</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Forms.FrmWirenBoardWizard">
+    <Phrase key="this">有线线路板的项目配置向导</Phrase>
+    <Phrase key="btnBack">&lt; 后退</Phrase>
+    <Phrase key="btnNext">下一个 &gt;？</Phrase>
+    <Phrase key="btnCreate">创建</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+    <Phrase key="Step1Descr">步骤 1/5：选择通信线路</Phrase>
+    <Phrase key="Step2Descr">步骤 2/5：从有线线路板读取主题</Phrase>
+    <Phrase key="Step3Descr">步骤 3/5：选择要导入的设备和控制器？</Phrase>
+    <Phrase key="Step4Descr">步骤 4/5：设置配置数据库的ID</Phrase>
+    <Phrase key="Step5Descr">步骤 5/5：检查正在创建的配置</Phrase>
+    <Phrase key="CreateConfigCompleted">创建配置成功</Phrase>
+    <Phrase key="CreateConfigError">创建配置时发生错误</Phrase>
+  </Dictionary>
+</ExtWirenBoardDictionaries>

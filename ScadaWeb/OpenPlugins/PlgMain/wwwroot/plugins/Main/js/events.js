@@ -3,32 +3,8 @@
 // The variables below are set in Events.cshtml
 var phrases = {};
 
-// Specifies the severity levels.
-class Severity {
-    static MIN = 1;
-    static MAX = 999;
-    static UNDEFINED = 0;
-    static CRITICAL = 1;
-    static MAJOR = 250;
-    static MINOR = 500;
-    static INFO = 750;
-
-    static closest(value) {
-        if (Severity.CRITICAL <= value && value < Severity.MAJOR) {
-            return Severity.CRITICAL;
-        } else if (Severity.MAJOR <= value && value < Severity.MINOR) {
-            return Severity.MAJOR;
-        } else if (Severity.MINOR <= value && value < Severity.INFO) {
-            return Severity.MINOR;
-        } else if (Severity.INFO <= value && value < Severity.MAX) {
-            return Severity.INFO;
-        } else {
-            return Severity.UNDEFINED;
-        }
-    }
-}
-
 const ALL_EVENTS_KEY = "Events.AllEvents";
+const START_DELAY = 550; // ms
 const POSTPONE_SCROLL_PERIOD = 10000; // ms
 
 var allEvents = false;
@@ -53,11 +29,11 @@ function initTooltips() {
 };
 
 function bindEvents() {
-    $(window).resize(function () {
+    $(window).on("resize", function () {
         updateLayout();
     });
 
-    $("#spanAllEventsBtn").click(function () {
+    $("#spanAllEventsBtn").on("click", function () {
         // load all events
         $(this).addClass("selected");
         $("#spanEventsByViewBtn").removeClass("selected");
@@ -67,7 +43,7 @@ function bindEvents() {
         resetEvents();
     });
 
-    $("#spanEventsByViewBtn").click(function () {
+    $("#spanEventsByViewBtn").on("click", function () {
         // load events by view
         $(this).addClass("selected");
         $("#spanAllEventsBtn").removeClass("selected");
@@ -77,19 +53,19 @@ function bindEvents() {
         resetEvents();
     });
 
-    $("#spanPrintBtn").click(function () {
+    $("#spanPrintBtn").on("click", function () {
         // generate Excel workbook
         location = allEvents
             ? "Print/PrintAllEvents"
             : "Print/PrintEventsByView?viewID=" + viewHub.viewID;
     });
 
-    $("#tblEvents").click(function (event) {
+    $("#tblEvents").on("click", function (event) {
         let target = $(event.target);
         if (target.is("td.ack i")) {
             // show event acknowledgement dialog
             let eventID = target.closest(".row-event").attr("data-id");
-            viewHub.features.eventAck.show(archiveBit, eventID);
+            viewHub.features.eventAck.show(eventID);
         }
     });
 
@@ -122,13 +98,8 @@ function updateEvents(callback) {
                         if (dto.ok) {
                             let oldFilterID = filterID;
                             filterID = dto.data.filterID;
-
-                            if (filterID > 0) {
-                                arcWriteTime = newArcWriteTime;
-                                showEvents(dto.data, oldFilterID > 0);
-                            } else {
-                                showErrorBadge();
-                            }
+                            arcWriteTime = newArcWriteTime;
+                            showEvents(dto.data, oldFilterID > 0);
                         } else {
                             showErrorBadge();
                         }
@@ -210,7 +181,7 @@ function showEvents(data, enableEffects) {
         }
     } else {
         $("#divTableWrapper tbody").remove();
-        showMessage(phrases.NoEvents);
+        showMessage(phrases.noEvents);
     }
 }
 
@@ -231,16 +202,16 @@ function createCell(cssClass, content) {
 function getSeverityElem(severityValue, severityText) {
     switch (Severity.closest(severityValue)) {
         case Severity.CRITICAL:
-            return $("<i class='fas fa-exclamation-circle critical'></i>").attr("title", severityText);
+            return $("<i class='fa-solid fa-circle-exclamation critical'></i>").attr("title", severityText);
 
         case Severity.MAJOR:
-            return $("<i class='fas fa-exclamation-triangle major'></i>").attr("title", severityText);
+            return $("<i class='fa-solid fa-triangle-exclamation major'></i>").attr("title", severityText);
 
         case Severity.MINOR:
-            return $("<i class='fas fa-exclamation-triangle minor'></i>").attr("title", severityText);
+            return $("<i class='fa-solid fa-triangle-exclamation minor'></i>").attr("title", severityText);
 
         case Severity.INFO:
-            return $("<i class='fas fa-info info'></i>").attr("title", severityText);
+            return $("<i class='fa-solid fa-info info'></i>").attr("title", severityText);
 
         default:
             return null;
@@ -249,16 +220,16 @@ function getSeverityElem(severityValue, severityText) {
 
 function getAckElem(e, ef) {
     if (e.ack) {
-        return $("<i class='far fa-check-square ack-yes'></i>").attr("title", ef.ack);
+        return $("<i class='fa-regular fa-square-check ack-yes'></i>").attr("title", ef.ack);
     } else if (e.ackRequired) {
-        return $("<i class='far fa-square ack-no'></i>").attr("title", phrases.Ack);
+        return $("<i class='fa-regular fa-square ack-no'></i>").attr("title", phrases.ack);
     } else {
         return null;
     }
 }
 
 function resetEvents() {
-    showMessage(phrases.Loading);
+    showMessage(phrases.loading);
     $("#divTableWrapper tbody").remove();
 
     filterID = 0;
@@ -297,11 +268,10 @@ function scrollDownEvents(animate) {
 }
 
 $(document).ready(function () {
-    mainApi.rootPath = viewHub.appEnv.rootPath;
     restoreFilter();
     initTooltips();
     bindEvents();
     updateLayout();
-    showMessage(phrases.Loading);
-    startUpdatingEvents();
+    showMessage(phrases.loading);
+    setTimeout(startUpdatingEvents, START_DELAY); // wait for loading view in cache
 });

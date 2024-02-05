@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +20,10 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
+using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Log;
 using Scada.Server.Lang;
@@ -40,9 +41,11 @@ namespace Scada.Server.Engine
     {
         private readonly ILog log;                       // the application log
         private readonly List<ModuleLogic> modules;      // all the modules
-        private readonly List<ModuleLogic> logicModules; // the modules that have only a logical purpose
+        private readonly List<ModuleLogic> logicModules; // the modules that have a logical purpose
+        private readonly List<ModuleLogic> authModules;  // the modules that have an authorization purpose
         private readonly Dictionary<string, ModuleLogic> moduleMap; // the modules accessed by code
         private readonly object moduleLock;              // synchronizes access to the modules
+        private volatile bool serviceStopped;            // ignore method calls after the service is stopped
 
 
         /// <summary>
@@ -53,8 +56,10 @@ namespace Scada.Server.Engine
             this.log = log ?? throw new ArgumentNullException(nameof(log));
             modules = new List<ModuleLogic>();
             logicModules = new List<ModuleLogic>();
+            authModules = new List<ModuleLogic>();
             moduleMap = new Dictionary<string, ModuleLogic>();
             moduleLock = new object();
+            serviceStopped = false;
         }
 
 
@@ -74,6 +79,9 @@ namespace Scada.Server.Engine
 
             if (moduleLogic.ModulePurposes.HasFlag(ModulePurposes.Logic))
                 logicModules.Add(moduleLogic);
+
+            if (moduleLogic.ModulePurposes.HasFlag(ModulePurposes.Auth))
+                authModules.Add(moduleLogic);
         }
 
         /// <summary>
@@ -110,6 +118,8 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnServiceStop()
         {
+            serviceStopped = true;
+
             lock (moduleLock)
             {
                 foreach (ModuleLogic moduleLogic in modules)
@@ -150,15 +160,18 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Calls the OnCurrentDataProcessing method of the modules.
         /// </summary>
-        public void OnCurrentDataProcessing(Slice slice, int deviceNum)
+        public void OnCurrentDataProcessing(Slice slice)
         {
+            if (serviceStopped) 
+                return;
+
             lock (moduleLock)
             {
                 foreach (ModuleLogic moduleLogic in logicModules)
                 {
                     try
                     {
-                        moduleLogic.OnCurrentDataProcessing(slice, deviceNum);
+                        moduleLogic.OnCurrentDataProcessing(slice);
                     }
                     catch (Exception ex)
                     {
@@ -172,15 +185,18 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Calls the OnCurrentDataProcessed method of the modules.
         /// </summary>
-        public void OnCurrentDataProcessed(Slice slice, int deviceNum)
+        public void OnCurrentDataProcessed(Slice slice)
         {
+            if (serviceStopped)
+                return;
+
             lock (moduleLock)
             {
                 foreach (ModuleLogic moduleLogic in logicModules)
                 {
                     try
                     {
-                        moduleLogic.OnCurrentDataProcessed(slice, deviceNum);
+                        moduleLogic.OnCurrentDataProcessed(slice);
                     }
                     catch (Exception ex)
                     {
@@ -194,15 +210,18 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Calls the OnHistoricalDataProcessing method of the modules.
         /// </summary>
-        public void OnHistoricalDataProcessing(Slice slice, int deviceNum)
+        public void OnHistoricalDataProcessing(Slice slice)
         {
+            if (serviceStopped)
+                return;
+
             lock (moduleLock)
             {
                 foreach (ModuleLogic moduleLogic in logicModules)
                 {
                     try
                     {
-                        moduleLogic.OnHistoricalDataProcessing(slice, deviceNum);
+                        moduleLogic.OnHistoricalDataProcessing(slice);
                     }
                     catch (Exception ex)
                     {
@@ -216,15 +235,18 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Calls the OnHistoricalDataProcessed method of the modules.
         /// </summary>
-        public void OnHistoricalDataProcessed(Slice slice, int deviceNum)
+        public void OnHistoricalDataProcessed(Slice slice)
         {
+            if (serviceStopped)
+                return;
+
             lock (moduleLock)
             {
                 foreach (ModuleLogic moduleLogic in logicModules)
                 {
                     try
                     {
-                        moduleLogic.OnHistoricalDataProcessed(slice, deviceNum);
+                        moduleLogic.OnHistoricalDataProcessed(slice);
                     }
                     catch (Exception ex)
                     {
@@ -240,6 +262,9 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnEvent(Event ev)
         {
+            if (serviceStopped)
+                return;
+
             lock (moduleLock)
             {
                 foreach (ModuleLogic moduleLogic in logicModules)
@@ -261,6 +286,9 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnEventAck(EventAck eventAck)
         {
+            if (serviceStopped)
+                return;
+
             lock (moduleLock)
             {
                 foreach (ModuleLogic moduleLogic in logicModules)
@@ -282,6 +310,9 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnCommand(TeleCommand command, CommandResult commandResult)
         {
+            if (serviceStopped)
+                return;
+
             lock (moduleLock)
             {
                 foreach (ModuleLogic moduleLogic in logicModules)
@@ -301,25 +332,18 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Calls the ValidateUser method of the modules until a user is handled.
         /// </summary>
-        public bool ValidateUser(string username, string password, 
-            out int userID, out int roleID, out string errMsg, out bool handled)
+        public UserValidationResult ValidateUser(string username, string password)
         {
-            userID = 0;
-            roleID = 0;
-            errMsg = "";
-            handled = false;
-
             lock (moduleLock)
             {
-                foreach (ModuleLogic moduleLogic in logicModules)
+                foreach (ModuleLogic moduleLogic in authModules)
                 {
                     try
                     {
-                        bool userIsValid = moduleLogic.ValidateUser(username, password, 
-                            out userID, out roleID, out errMsg, out handled);
+                        UserValidationResult result = moduleLogic.ValidateUser(username, password);
 
-                        if (handled)
-                            return userIsValid;
+                        if (result.Handled)
+                            return result;
                     }
                     catch (Exception ex)
                     {
@@ -328,7 +352,33 @@ namespace Scada.Server.Engine
                 }
             }
 
-            return false;
+            return UserValidationResult.Empty;
+        }
+
+        /// <summary>
+        /// Calls the FindUser method of the modules until a user is found.
+        /// </summary>
+        public User FindUser(int userID)
+        {
+            lock (moduleLock)
+            {
+                foreach (ModuleLogic moduleLogic in authModules)
+                {
+                    try
+                    {
+                        User user = moduleLogic.FindUser(userID);
+
+                        if (user != null)
+                            return user;
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteError(ex, ServerPhrases.ErrorInModule, nameof(FindUser), moduleLogic.Code);
+                    }
+                }
+            }
+
+            return null;
         }
     }
 }

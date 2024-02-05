@@ -17,11 +17,13 @@ namespace Scada.Web.Pages
     {
         private readonly IWebContext webContext;
         private readonly IUserContext userContext;
+        private readonly IClientAccessor clientAccessor;
 
-        public UserProfileModel(IWebContext webContext, IUserContext userContext)
+        public UserProfileModel(IWebContext webContext, IUserContext userContext, IClientAccessor clientAccessor)
         {
             this.webContext = webContext;
             this.userContext = userContext;
+            this.clientAccessor = clientAccessor;
         }
 
         public int UserID { get; set; }
@@ -38,11 +40,18 @@ namespace Scada.Web.Pages
 
             // find user
             if (UserID == currentUserID)
+            {
                 userEntity = userContext.UserEntity;
+            }
             else if (!userContext.Rights.Full)
+            {
                 return Forbid();
+            }
             else
-                userEntity = webContext.ConfigDatabase.UserTable.GetItem(UserID);
+            {
+                userEntity = webContext.ConfigDatabase.UserTable.GetItem(UserID) ??
+                    clientAccessor.ScadaClient.GetUserByID(UserID);
+            }
 
             // get user properties
             if (userEntity == null)

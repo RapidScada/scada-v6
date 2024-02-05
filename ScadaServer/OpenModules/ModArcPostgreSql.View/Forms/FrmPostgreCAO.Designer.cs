@@ -29,170 +29,190 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.ctrlCurrentArchiveOptions = new Scada.Server.Forms.Controls.CtrlCurrentArchiveOptions();
-            this.chkUseStorageConn = new System.Windows.Forms.CheckBox();
-            this.cbConnection = new System.Windows.Forms.ComboBox();
-            this.btnManageConn = new System.Windows.Forms.Button();
-            this.lblMaxQueueSize = new System.Windows.Forms.Label();
-            this.numMaxQueueSize = new System.Windows.Forms.NumericUpDown();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.btnOK = new System.Windows.Forms.Button();
-            this.lblUseStorageConn = new System.Windows.Forms.Label();
-            this.lblConnection = new System.Windows.Forms.Label();
-            this.gbDbOptions = new System.Windows.Forms.GroupBox();
-            ((System.ComponentModel.ISupportInitialize)(this.numMaxQueueSize)).BeginInit();
-            this.gbDbOptions.SuspendLayout();
-            this.SuspendLayout();
+            ctrlCurrentArchiveOptions = new Server.Forms.Controls.CtrlCurrentArchiveOptions();
+            chkUseDefaultConn = new CheckBox();
+            cbConnection = new ComboBox();
+            btnManageConn = new Button();
+            lblMaxQueueSize = new Label();
+            numMaxQueueSize = new NumericUpDown();
+            btnCancel = new Button();
+            btnOK = new Button();
+            lblUseDefaultConn = new Label();
+            lblConnection = new Label();
+            gbDbOptions = new GroupBox();
+            numBatchSize = new NumericUpDown();
+            lblBatchSize = new Label();
+            ((System.ComponentModel.ISupportInitialize)numMaxQueueSize).BeginInit();
+            gbDbOptions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numBatchSize).BeginInit();
+            SuspendLayout();
             // 
             // ctrlCurrentArchiveOptions
             // 
-            this.ctrlCurrentArchiveOptions.ArchiveOptions = null;
-            this.ctrlCurrentArchiveOptions.Location = new System.Drawing.Point(12, 12);
-            this.ctrlCurrentArchiveOptions.Name = "ctrlCurrentArchiveOptions";
-            this.ctrlCurrentArchiveOptions.Size = new System.Drawing.Size(360, 116);
-            this.ctrlCurrentArchiveOptions.TabIndex = 0;
+            ctrlCurrentArchiveOptions.ArchiveOptions = null;
+            ctrlCurrentArchiveOptions.Location = new Point(12, 12);
+            ctrlCurrentArchiveOptions.Name = "ctrlCurrentArchiveOptions";
+            ctrlCurrentArchiveOptions.Size = new Size(360, 116);
+            ctrlCurrentArchiveOptions.TabIndex = 0;
             // 
-            // chkUseStorageConn
+            // chkUseDefaultConn
             // 
-            this.chkUseStorageConn.AutoSize = true;
-            this.chkUseStorageConn.Location = new System.Drawing.Point(332, 26);
-            this.chkUseStorageConn.Name = "chkUseStorageConn";
-            this.chkUseStorageConn.Size = new System.Drawing.Size(15, 14);
-            this.chkUseStorageConn.TabIndex = 1;
-            this.chkUseStorageConn.UseVisualStyleBackColor = true;
-            this.chkUseStorageConn.CheckedChanged += new System.EventHandler(this.chkUseStorageConn_CheckedChanged);
+            chkUseDefaultConn.AutoSize = true;
+            chkUseDefaultConn.Location = new Point(332, 26);
+            chkUseDefaultConn.Name = "chkUseDefaultConn";
+            chkUseDefaultConn.Size = new Size(15, 14);
+            chkUseDefaultConn.TabIndex = 1;
+            chkUseDefaultConn.UseVisualStyleBackColor = true;
+            chkUseDefaultConn.CheckedChanged += chkUseDefaultConn_CheckedChanged;
             // 
             // cbConnection
             // 
-            this.cbConnection.FormattingEnabled = true;
-            this.cbConnection.Location = new System.Drawing.Point(196, 51);
-            this.cbConnection.Name = "cbConnection";
-            this.cbConnection.Size = new System.Drawing.Size(151, 23);
-            this.cbConnection.TabIndex = 3;
+            cbConnection.FormattingEnabled = true;
+            cbConnection.Location = new Point(196, 51);
+            cbConnection.Name = "cbConnection";
+            cbConnection.Size = new Size(151, 23);
+            cbConnection.TabIndex = 3;
             // 
             // btnManageConn
             // 
-            this.btnManageConn.Location = new System.Drawing.Point(12, 266);
-            this.btnManageConn.Name = "btnManageConn";
-            this.btnManageConn.Size = new System.Drawing.Size(140, 23);
-            this.btnManageConn.TabIndex = 2;
-            this.btnManageConn.Text = "Manage Connections";
-            this.btnManageConn.UseVisualStyleBackColor = true;
-            this.btnManageConn.Click += new System.EventHandler(this.btnManageConn_Click);
+            btnManageConn.Location = new Point(12, 295);
+            btnManageConn.Name = "btnManageConn";
+            btnManageConn.Size = new Size(140, 23);
+            btnManageConn.TabIndex = 2;
+            btnManageConn.Text = "Manage Connections";
+            btnManageConn.UseVisualStyleBackColor = true;
+            btnManageConn.Click += btnManageConn_Click;
             // 
             // lblMaxQueueSize
             // 
-            this.lblMaxQueueSize.AutoSize = true;
-            this.lblMaxQueueSize.Location = new System.Drawing.Point(13, 87);
-            this.lblMaxQueueSize.Name = "lblMaxQueueSize";
-            this.lblMaxQueueSize.Size = new System.Drawing.Size(120, 15);
-            this.lblMaxQueueSize.TabIndex = 4;
-            this.lblMaxQueueSize.Text = "Maximum queue size";
+            lblMaxQueueSize.AutoSize = true;
+            lblMaxQueueSize.Location = new Point(13, 87);
+            lblMaxQueueSize.Name = "lblMaxQueueSize";
+            lblMaxQueueSize.Size = new Size(120, 15);
+            lblMaxQueueSize.TabIndex = 4;
+            lblMaxQueueSize.Text = "Maximum queue size";
             // 
             // numMaxQueueSize
             // 
-            this.numMaxQueueSize.Location = new System.Drawing.Point(196, 80);
-            this.numMaxQueueSize.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.numMaxQueueSize.Name = "numMaxQueueSize";
-            this.numMaxQueueSize.Size = new System.Drawing.Size(151, 23);
-            this.numMaxQueueSize.TabIndex = 5;
+            numMaxQueueSize.Location = new Point(196, 80);
+            numMaxQueueSize.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
+            numMaxQueueSize.Name = "numMaxQueueSize";
+            numMaxQueueSize.Size = new Size(151, 23);
+            numMaxQueueSize.TabIndex = 5;
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(297, 266);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 4;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Location = new Point(297, 295);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(75, 23);
+            btnCancel.TabIndex = 4;
+            btnCancel.Text = "Cancel";
+            btnCancel.UseVisualStyleBackColor = true;
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(216, 266);
-            this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 3;
-            this.btnOK.Text = "OK";
-            this.btnOK.UseVisualStyleBackColor = true;
-            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            btnOK.Location = new Point(216, 295);
+            btnOK.Name = "btnOK";
+            btnOK.Size = new Size(75, 23);
+            btnOK.TabIndex = 3;
+            btnOK.Text = "OK";
+            btnOK.UseVisualStyleBackColor = true;
+            btnOK.Click += btnOK_Click;
             // 
-            // lblUseStorageConn
+            // lblUseDefaultConn
             // 
-            this.lblUseStorageConn.AutoSize = true;
-            this.lblUseStorageConn.Location = new System.Drawing.Point(13, 26);
-            this.lblUseStorageConn.Name = "lblUseStorageConn";
-            this.lblUseStorageConn.Size = new System.Drawing.Size(131, 15);
-            this.lblUseStorageConn.TabIndex = 0;
-            this.lblUseStorageConn.Text = "Use storage connection";
+            lblUseDefaultConn.AutoSize = true;
+            lblUseDefaultConn.Location = new Point(13, 26);
+            lblUseDefaultConn.Name = "lblUseDefaultConn";
+            lblUseDefaultConn.Size = new Size(131, 15);
+            lblUseDefaultConn.TabIndex = 0;
+            lblUseDefaultConn.Text = "Use default connection";
             // 
             // lblConnection
             // 
-            this.lblConnection.AutoSize = true;
-            this.lblConnection.Location = new System.Drawing.Point(13, 55);
-            this.lblConnection.Name = "lblConnection";
-            this.lblConnection.Size = new System.Drawing.Size(69, 15);
-            this.lblConnection.TabIndex = 2;
-            this.lblConnection.Text = "Connection";
+            lblConnection.AutoSize = true;
+            lblConnection.Location = new Point(13, 55);
+            lblConnection.Name = "lblConnection";
+            lblConnection.Size = new Size(69, 15);
+            lblConnection.TabIndex = 2;
+            lblConnection.Text = "Connection";
             // 
             // gbDbOptions
             // 
-            this.gbDbOptions.Controls.Add(this.numMaxQueueSize);
-            this.gbDbOptions.Controls.Add(this.lblMaxQueueSize);
-            this.gbDbOptions.Controls.Add(this.cbConnection);
-            this.gbDbOptions.Controls.Add(this.lblConnection);
-            this.gbDbOptions.Controls.Add(this.chkUseStorageConn);
-            this.gbDbOptions.Controls.Add(this.lblUseStorageConn);
-            this.gbDbOptions.Location = new System.Drawing.Point(12, 134);
-            this.gbDbOptions.Name = "gbDbOptions";
-            this.gbDbOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbDbOptions.Size = new System.Drawing.Size(360, 116);
-            this.gbDbOptions.TabIndex = 1;
-            this.gbDbOptions.TabStop = false;
-            this.gbDbOptions.Text = "Database Options";
+            gbDbOptions.Controls.Add(numBatchSize);
+            gbDbOptions.Controls.Add(lblBatchSize);
+            gbDbOptions.Controls.Add(numMaxQueueSize);
+            gbDbOptions.Controls.Add(lblMaxQueueSize);
+            gbDbOptions.Controls.Add(cbConnection);
+            gbDbOptions.Controls.Add(lblConnection);
+            gbDbOptions.Controls.Add(chkUseDefaultConn);
+            gbDbOptions.Controls.Add(lblUseDefaultConn);
+            gbDbOptions.Location = new Point(12, 134);
+            gbDbOptions.Name = "gbDbOptions";
+            gbDbOptions.Padding = new Padding(10, 3, 10, 10);
+            gbDbOptions.Size = new Size(360, 145);
+            gbDbOptions.TabIndex = 1;
+            gbDbOptions.TabStop = false;
+            gbDbOptions.Text = "Database Options";
+            // 
+            // numBatchSize
+            // 
+            numBatchSize.Location = new Point(196, 109);
+            numBatchSize.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+            numBatchSize.Name = "numBatchSize";
+            numBatchSize.Size = new Size(151, 23);
+            numBatchSize.TabIndex = 7;
+            // 
+            // lblBatchSize
+            // 
+            lblBatchSize.AutoSize = true;
+            lblBatchSize.Location = new Point(13, 113);
+            lblBatchSize.Name = "lblBatchSize";
+            lblBatchSize.Size = new Size(118, 15);
+            lblBatchSize.TabIndex = 6;
+            lblBatchSize.Text = "Items per transaction";
             // 
             // FrmPostgreCAO
             // 
-            this.AcceptButton = this.btnOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(384, 301);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.btnManageConn);
-            this.Controls.Add(this.gbDbOptions);
-            this.Controls.Add(this.ctrlCurrentArchiveOptions);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FrmPostgreCAO";
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Current Archive Options";
-            this.Load += new System.EventHandler(this.FrmPostgreHAO_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.numMaxQueueSize)).EndInit();
-            this.gbDbOptions.ResumeLayout(false);
-            this.gbDbOptions.PerformLayout();
-            this.ResumeLayout(false);
-
+            AcceptButton = btnOK;
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            CancelButton = btnCancel;
+            ClientSize = new Size(384, 330);
+            Controls.Add(btnCancel);
+            Controls.Add(btnOK);
+            Controls.Add(btnManageConn);
+            Controls.Add(gbDbOptions);
+            Controls.Add(ctrlCurrentArchiveOptions);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "FrmPostgreCAO";
+            ShowInTaskbar = false;
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Current Archive Options";
+            Load += FrmPostgreHAO_Load;
+            ((System.ComponentModel.ISupportInitialize)numMaxQueueSize).EndInit();
+            gbDbOptions.ResumeLayout(false);
+            gbDbOptions.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numBatchSize).EndInit();
+            ResumeLayout(false);
         }
 
         #endregion
 
-        private System.Windows.Forms.CheckBox chkUseStorageConn;
+        private System.Windows.Forms.CheckBox chkUseDefaultConn;
         private System.Windows.Forms.ComboBox cbConnection;
         private System.Windows.Forms.Button btnManageConn;
         private System.Windows.Forms.Label lblMaxQueueSize;
         private System.Windows.Forms.NumericUpDown numMaxQueueSize;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOK;
-        private System.Windows.Forms.Label lblUseStorageConn;
+        private System.Windows.Forms.Label lblUseDefaultConn;
         private System.Windows.Forms.Label lblConnection;
         private System.Windows.Forms.GroupBox gbDbOptions;
         private Server.Forms.Controls.CtrlCurrentArchiveOptions ctrlCurrentArchiveOptions;
+        private NumericUpDown numBatchSize;
+        private Label lblBatchSize;
     }
 }

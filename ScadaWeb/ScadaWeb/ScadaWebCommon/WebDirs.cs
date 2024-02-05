@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +20,8 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
- * Modified : 2021
+ * Modified : 2024
  */
-
-using System.IO;
 
 namespace Scada.Web
 {
@@ -43,10 +41,12 @@ namespace Scada.Web
             PluginDir = "";
         }
 
+
         /// <summary>
         /// Gets the directory of plugins.
         /// </summary>
         public string PluginDir { get; protected set; }
+
 
         /// <summary>
         /// Initializes the directories based on the directory of the executable file.
@@ -55,6 +55,14 @@ namespace Scada.Web
         {
             base.Init(exeDir);
             PluginDir = ScadaUtils.NormalDir(Path.Combine(ExeDir, "wwwroot", "plugins"));
+        }
+
+        /// <summary>
+        /// Gets the directories to search for assemblies.
+        /// </summary>
+        public override string[] GetProbingDirs()
+        {
+            return new string[] { ExeDir, PluginDir };
         }
     }
 }

@@ -234,6 +234,12 @@ body {
     color: $content-fore-color;
     overflow: auto;
     padding: 20px;
+
+    .report-args,
+    .search-args,
+    .main-form {
+        max-width: $form-width-default;
+    }
 }
 
 /********** Stats **********/

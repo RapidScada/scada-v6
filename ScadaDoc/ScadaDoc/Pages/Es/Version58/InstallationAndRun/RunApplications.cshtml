@@ -1,0 +1,60 @@
+﻿@page "/es/5.8/installation-and-run/run-applications"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Ejecución de aplicaciones";
+}
+
+<nav class="doc-toc">
+    <div class="h6">En esta página</div>
+    <hr>
+    <ul>
+        <li><a href="#first-run">Primera ejecución</a></li>
+        <li><a href="#run-administrator">Ejecutar Administrator</a></li>
+        <li><a href="#services">Servicios</a></li>
+        <li><a href="#web-application">Aplicación Web</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Ejecución de aplicaciones</h1>
+
+    <h2 id="first-run">Primera ejecución</h2>
+
+    <p>Después de instalar Rapid SCADA, se recomienda reiniciar la computadora para que los servicios de Server, Communicator y Agent se inicien automáticamente. Una vez completado el reinicio, ejecute uno de los siguientes navegadores: Google Chrome, Mozilla Firefox o Microsoft Edge. En la barra de direcciones, escriba <a href="http://localhost/scada/" target="_blank">http://localhost/scada/</a>. Debe abrirse la página de inicio de sesión (vea la Figura 1). Ingrese <em>admin</em> and <em>12345</em> en los campos de inicio de sesión y contraseña y haga clic en el botón <em>Login</em>.</p>
+
+    <figure class="figure">
+        <img src="run-applications-files/scada_web_login_en.png" class="figure-img img-fluid" alt="Formulario para iniciar sesión web" />
+        <figcaption class="figure-caption">Figura 1. Formulario para iniciar sesión web</figcaption>
+    </figure>
+
+    <h2 id="run-administrator">Ejecutar Administrator</h2>
+
+    <p>Para iniciar la aplicación Administrator, utilice el acceso directo ubicado en el menú <em>Start &gt; Programs &gt; SCADA </em> (Inicio> Programas> SCADA). Si por algún motivo faltase el acceso directo, el Administrador se puede ejecutar desde el archivo ejecutable C:\SCADA\ScadaAdmin\ScadaAdmin.exe</p>
+
+    <p>La aplicación Administrator incluye las herramientas para gestionar las otras aplicaciones de Rapid SCADA.</p>
+
+    <h2 id="services">Servicios</h2>
+
+    <p>Las aplicaciones Server, Communicator y Agent funcionan como servicios. En Windows, utilice services.msc snap-in para administrar los servicios. Se puede ejecutar desde la línea de comandos o desde <em>Control Panel &gt; System and Security &gt; Administrative Tools &gt; Services</em> (Panel de control > Sistema y seguridad > Herramientas administrativas > Servicios). Los nombres de los servicios son: ScadaServerService, ScadaCommService y ScadaAgentService.</p>
+
+    <p>Además, existen los archivos svc_start.bat  y svc_stop.bat en los directorios de las aplicaciones correspondientes, que permiten iniciar y detener los servicios. Estos archivos por lote deben ejecutarse como administrador.</p>
+
+    <p>La aplicación Administrator también permite iniciar y detener el Server y el Communicator. Para administrar los servicios en Administrator, abra un proyecto y luego abra el formulario de estado de la instancia (vea la Figura 2) mediante el botón <img src="../common-images/status.png" />.</p>
+
+    <figure class="figure">
+        <img src="run-applications-files/instance_status_en.png" class="figure-img img-fluid" alt="Estado de la instancia en Administrator" />
+        <figcaption class="figure-caption">Figura. 2. Estado de la instancia en Administrator</figcaption>
+    </figure>
+
+    <p>El tipo de inicio predeterminado de los servicios Server, Communicator y Agent es Automático, es decir que los servicios se inician cuando se inicia el sistema operativo y los servicios se detienen cuando se detiene el sistema operativo. Si el inicio automático no es necesario, se puede establecer el tipo de inicio Manual (vea la Figura 3).</p>
+
+    <figure class="figure">
+        <img src="run-applications-files/service_props_en.png" class="figure-img img-fluid" alt="Estableciendo el tipo de inicio de los servicios de Windows" />
+        <figcaption class="figure-caption">Figure 3. Estableciendo el tipo de inicio de los servicios de Windows</figcaption>
+    </figure>
+
+    <h2 id="web-application">Aplicación Web</h2>
+
+    <p>Para abrir la aplicación web llamada Webstation, ingrese http://compname/scada/ en la barra de direcciones del navegador, donde compname es el nombre del host o la dirección IP de la computadora con la aplicación web instalada y scada es el directorio virtual especificado durante la instalación. Si Webstation se abre en la misma computadora en la que está instalado, es posible usar <a href="http://localhost/scada/" target="_blank">http://localhost/scada/</a> o <a href="http://127.0.0.1/scada/" target="_blank">http://127.0.0.1/scada/</a></p>
+    <p>El nombre de usuario predeterminado es: <em>admin</em><br />La contraseña predeterminada es: <em>12345</em></p>
+</div>

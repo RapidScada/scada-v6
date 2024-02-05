@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDsOpcUaServerDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms.FrmOpcUaServerDSO">
+    <Phrase key="this">データソースオプション</Phrase>
+    <Phrase key="chkAutoAccept">証明書を自動的に受け入れる</Phrase>
+    <Phrase key="lblUsername">ユーザー名</Phrase>
+    <Phrase key="lblPassword">パスワード</Phrase>
+    <Phrase key="lblConfigFileName">設定ファイル</Phrase>
+    <Phrase key="btnCreateConfigWin.ToolTip">Windows用の設定ファイルを作成する</Phrase>
+    <Phrase key="btnCreateConfigLinux.ToolTip">Linux用の設定ファイルを作成する</Phrase>
+    <Phrase key="btnBrowseConfig.ToolTip">ブラウズ</Phrase>
+    <Phrase key="lblDeviceFilter">デバイスフィルター</Phrase>
+    <Phrase key="btnSelectDevices.ToolTip">デバイスの選択</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+    <Phrase key="ConfigDirRequired">構成ファイルは {0} 内に配置する必要があります</Phrase>
+  </Dictionary>
+</DrvDsOpcUaServerDictionaries>

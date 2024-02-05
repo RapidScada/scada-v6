@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2023
  */
 
 using Scada.Lang;
@@ -44,23 +44,26 @@ namespace Scada.Comm.Engine
         /// <summary>
         /// Appends information about the shared data to the string builder.
         /// </summary>
-        public static void AppendSharedData(StringBuilder sb, IDictionary<string, object> sharedData)
+        public static void AppendInfo(this IDictionary<string, object> sharedData, StringBuilder sb)
         {
-            string header = Locale.IsRussian ?
-                $"Общие данные ({sharedData.Count})" :
-                $"Shared Data ({sharedData.Count})";
-
-            sb
-                .AppendLine()
-                .AppendLine(header)
-                .Append('-', header.Length).AppendLine();
-
-            foreach (KeyValuePair<string, object> pair in sharedData)
+            if (sharedData != null && sharedData.Count > 0)
             {
+                string header = Locale.IsRussian ?
+                    $"Общие данные ({sharedData.Count})" :
+                    $"Shared Data ({sharedData.Count})";
+
                 sb
-                    .Append(pair.Key)
-                    .Append(" = ")
-                    .AppendLine(pair.Value?.ToString() ?? "null");
+                    .AppendLine()
+                    .AppendLine(header)
+                    .Append('-', header.Length).AppendLine();
+
+                foreach (KeyValuePair<string, object> pair in sharedData)
+                {
+                    sb
+                        .Append(pair.Key)
+                        .Append(" = ")
+                        .AppendLine(pair.Value?.ToString() ?? "null");
+                }
             }
         }
     }

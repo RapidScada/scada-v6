@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvTelegramDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvTelegram.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">デバイス {0} のプロパティ - Telergam</Phrase>
+    <Phrase key="lblBotToken">ボットトークン</Phrase>
+    <Phrase key="btnPasteBotToken.ToolTip">ボットトークンを貼り付け</Phrase>
+    <Phrase key="lblSubscr">定期購入</Phrase>
+    <Phrase key="btnAddSubscr.ToolTip">サブスクリプションの追加</Phrase>
+    <Phrase key="btnEditSubscr.ToolTip">選択したサブスクリプションを編集</Phrase>
+    <Phrase key="btnDeleteSubscr.ToolTip">選択したサブスクリプションを削除</Phrase>
+    <Phrase key="btnCopySubscrName.ToolTip">サブスクリプション名をコピー</Phrase>
+    <Phrase key="colSubscrID">ID</Phrase>
+    <Phrase key="colSubscrName">名前</Phrase>
+    <Phrase key="btnSave">保存</Phrase>
+    <Phrase key="btnClose">近い</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvTelegram.View.Forms.FrmSubscriptionOptions">
+    <Phrase key="lblChatID">チャットID</Phrase>
+    <Phrase key="lblName">名前</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+    <Phrase key="NewSubscriptionTitle">新規購読</Phrase>
+    <Phrase key="EditSubscriptionTitle">サブスクリプションの編集</Phrase>
+  </Dictionary>
+</DrvTelegramDictionaries>

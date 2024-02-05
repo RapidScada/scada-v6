@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvSnmpDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvSnmp.Config.DeviceOptions">
+    <Phrase key="ReadCommunity.DisplayName">Topluluğu oku</Phrase>
+    <Phrase key="ReadCommunity.Category">Ana Parametreler</Phrase>
+    <Phrase key="ReadCommunity.Description">Verileri okumak için şifre.</Phrase>
+    <Phrase key="WriteCommunity.DisplayName">Topluluk yaz</Phrase>
+    <Phrase key="WriteCommunity.Category">Ana Parametreler</Phrase>
+    <Phrase key="WriteCommunity.Description">Veri yazmak için parola.</Phrase>
+    <Phrase key="SnmpVersion.DisplayName">SNMP sürümü</Phrase>
+    <Phrase key="SnmpVersion.Category">Ana Parametreler</Phrase>
+    <Phrase key="SnmpVersion.Description">Protokol versiyonu.  Desteklenen sürümler 1 ve 2'dir.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvSnmp.Config.VarGroupConfig">
+    <Phrase key="Active.DisplayName">Aktif</Phrase>
+    <Phrase key="Active.Category">Ana Parametreler</Phrase>
+    <Phrase key="Active.Description">Grubun etkin olup olmadığını gösteren bir değer.</Phrase>
+    <Phrase key="Name.DisplayName">İsim</Phrase>
+    <Phrase key="Name.Category">Ana Parametreler</Phrase>
+    <Phrase key="Name.Description">Grup adı.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvSnmp.Config.VariableConfig">
+    <Phrase key="Name.DisplayName">İsim</Phrase>
+    <Phrase key="Name.Category">Ana Parametreler</Phrase>
+    <Phrase key="Name.Description">Değişken adı.</Phrase>
+    <Phrase key="TagCode.DisplayName">etiket kodu</Phrase>
+    <Phrase key="TagCode.Category">Ana Parametreler</Phrase>
+    <Phrase key="TagCode.Description">Değişkenle ilişkili etiket kodu.</Phrase>
+    <Phrase key="OID.DisplayName">OID</Phrase>
+    <Phrase key="OID.Category">Ana Parametreler</Phrase>
+    <Phrase key="OID.Description">Nesne tanımlayıcısı.  Örneğin, .1.3.6.1.2.1.1.5.0</Phrase>
+    <Phrase key="DataType.DisplayName">Veri tipi</Phrase>
+    <Phrase key="DataType.Category">Ana Parametreler</Phrase>
+    <Phrase key="DataType.Description">Değişkenle ilişkili cihaz etiketinin veri türü.</Phrase>
+    <Phrase key="DataLen.DisplayName">veri uzunluğu</Phrase>
+    <Phrase key="DataLen.Category">Ana Parametreler</Phrase>
+    <Phrase key="DataLen.Description">Değişken bir dizeyi veya bir diziyi temsil ediyorsa veri uzunluğu.  Dizeler için bu, karakter sayısıdır.  Aksi takdirde, 8 baytlık blok sayısı.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvSnmp.View.SnmpConfigProvider">
+    <Phrase key="FormTitle">Cihaz {0} Özellikleri - SNMP</Phrase>
+    <Phrase key="AddVarGroupButton">Grup ekle</Phrase>
+    <Phrase key="AddVariableButton">Değişken Ekle</Phrase>
+    <Phrase key="OptionsNode">Seçenekler</Phrase>
+    <Phrase key="VarGroupsNode">Değişken Grupları</Phrase>
+    <Phrase key="UnnamedGroup">&lt;Adsız Grup&gt;</Phrase>
+    <Phrase key="UnnamedVariable">&lt;Adsız Değişken&gt;</Phrase>
+  </Dictionary>
+</DrvSnmpDictionaries>

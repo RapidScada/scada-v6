@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtCommConfigDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.ExtCommConfigLogic">
+    <Phrase key="GeneralOptionsNode">一般的なオプション</Phrase>
+    <Phrase key="DriversNode">運転手</Phrase>
+    <Phrase key="DataSourcesNode">データソース</Phrase>
+    <Phrase key="LinesNode">通信回線</Phrase>
+    <Phrase key="LineOptionsNode">回線オプション</Phrase>
+    <Phrase key="LineStatsNode">回線統計</Phrase>
+    <Phrase key="LogsNode">ログ</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Code.ExtensionUtils">
+    <Phrase key="DeviceNotSupported">ドライバーはデバイスの作成をサポートしていません。</Phrase>
+    <Phrase key="UnableCreateDeviceView">デバイスのユーザー インターフェイスを作成できません。</Phrase>
+    <Phrase key="NoDeviceProperties">デバイスにはプロパティ ウィンドウがありません。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate1">
+    <Phrase key="lblCommLine">通信回線</Phrase>
+    <Phrase key="lblDevice">デバイス</Phrase>
+    <Phrase key="AllCommLines">&lt;全ての通信回線&gt;</Phrase>
+    <Phrase key="DeviceInfo">ドライバー: {0}&#13;&#10;インスタンス: {1}&#13;&#10;チャネル: {2}</Phrase>
+    <Phrase key="DeviceNotFound">Communicator でデバイスが見つかりません。</Phrase>
+    <Phrase key="NoDeviceSelected">デバイスが選択されていません。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate2">
+    <Phrase key="lblDevice">デバイス</Phrase>
+    <Phrase key="lblObj">物体</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate3">
+    <Phrase key="lblDevice">デバイス</Phrase>
+    <Phrase key="gbCnlNums">チャンネル番号</Phrase>
+    <Phrase key="lblStartCnlNum">始める</Phrase>
+    <Phrase key="lblEndCnlNum">終わり</Phrase>
+    <Phrase key="btnMap">地図</Phrase>
+    <Phrase key="btnReset">リセット</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu">
+    <Phrase key="miWizards">魔法使い</Phrase>
+    <Phrase key="miAddLine">行を追加...</Phrase>
+    <Phrase key="miAddDevice">デバイスを追加...</Phrase>
+    <Phrase key="miCreateChannels">チャンネルを作成...</Phrase>
+    <Phrase key="btnAddLine.ToolTip">行を追加</Phrase>
+    <Phrase key="btnAddDevice.ToolTip">デバイスを追加</Phrase>
+    <Phrase key="btnCreateChannels.ToolTip">チャンネルの作成</Phrase>
+    <Phrase key="miLineSync">同期...</Phrase>
+    <Phrase key="miLineAdd">行を追加</Phrase>
+    <Phrase key="miLineMoveUp">ラインを上に移動</Phrase>
+    <Phrase key="miLineMoveDown">行を下に移動</Phrase>
+    <Phrase key="miLineDelete">行の削除</Phrase>
+    <Phrase key="miLineStart">スタートライン</Phrase>
+    <Phrase key="miLineStop">停止線</Phrase>
+    <Phrase key="miLineRestart">リスタートライン</Phrase>
+    <Phrase key="miDeviceChannels">チャンネルに移動</Phrase>
+    <Phrase key="miDeviceCommand">コマンドを送信...</Phrase>
+    <Phrase key="miDevicePoll">ポーリングデバイス</Phrase>
+    <Phrase key="miDeviceProperties">プロパティ</Phrase>
+    <Phrase key="ConfirmDeleteLine">通信回線を削除してもよろしいですか？</Phrase>
+    <Phrase key="CnlNodeNotFound">チャネルノードが見つかりません。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineMain">
+    <Phrase key="gbLine">通信回線</Phrase>
+    <Phrase key="chkActive">アクティブ</Phrase>
+    <Phrase key="chkIsBound">構成データベースにバインドされている</Phrase>
+    <Phrase key="lblCommLineNum">番号</Phrase>
+    <Phrase key="lblName">名前</Phrase>
+    <Phrase key="gbLineOptions">回線オプション</Phrase>
+    <Phrase key="lblReqRetries">エラー時のリクエストの再試行回数</Phrase>
+    <Phrase key="lblCycleDelay">ポーリング サイクル後の遅延 (ミリ秒)</Phrase>
+    <Phrase key="lblCmdEnabled">有効なコマンド</Phrase>
+    <Phrase key="lblPollAfterCmd">コマンド後にデバイスをポーリングする</Phrase>
+    <Phrase key="lblDetailedLog">詳細ログ</Phrase>
+    <Phrase key="gbChannel">コミュニケーションチャネル</Phrase>
+    <Phrase key="lblChannelType">タイプ</Phrase>
+    <Phrase key="btnChannelProperties">プロパティ</Phrase>
+    <Phrase key="lblChannelOptions">オプション</Phrase>
+    <Phrase key="UndefinedChannelType">未定義</Phrase>
+    <Phrase key="ChannelNotSupported">ドライバーは通信チャネルの作成をサポートしていません。</Phrase>
+    <Phrase key="UnableCreateChannelView">通信チャネルのユーザー インターフェイスを作成できません。</Phrase>
+    <Phrase key="NoChannelProperties">通信チャネルにはプロパティ ウィンドウがありません。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineCustom">
+    <Phrase key="btnAddOption">追加</Phrase>
+    <Phrase key="btnDeleteOption">消去</Phrase>
+    <Phrase key="colOptionName">名前</Phrase>
+    <Phrase key="colOptionValue">価値</Phrase>
+    <Phrase key="gbSelectedOption">選択したオプション</Phrase>
+    <Phrase key="lblOptionName">名前</Phrase>
+    <Phrase key="lblOptionValue">価値</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLinePolling">
+    <Phrase key="btnAddDevice">追加</Phrase>
+    <Phrase key="btnMoveUpDevice">上に移動</Phrase>
+    <Phrase key="btnMoveDownDevice">下に移動</Phrase>
+    <Phrase key="btnDeleteDevice">消去</Phrase>
+    <Phrase key="btnCutDevice">切る</Phrase>
+    <Phrase key="btnCopyDevice">コピー</Phrase>
+    <Phrase key="btnPasteDevice">ペースト</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">アクティブ</Phrase>
+    <Phrase key="colPollOnCmd">コマンドでポーリング</Phrase>
+    <Phrase key="colIsBound">バウンド</Phrase>
+    <Phrase key="colNumber">番号</Phrase>
+    <Phrase key="colName">名前</Phrase>
+    <Phrase key="colDriver">運転者</Phrase>
+    <Phrase key="colNumAddress">数値アドレス</Phrase>
+    <Phrase key="colStrAddress">文字列アドレス</Phrase>
+    <Phrase key="colTimeout">タイムアウト</Phrase>
+    <Phrase key="colDelay">遅れ</Phrase>
+    <Phrase key="colTime">時間</Phrase>
+    <Phrase key="colPeriod">期間</Phrase>
+    <Phrase key="colCmdLine">コマンドライン</Phrase>
+    <Phrase key="gbSelectedDevice">選択したデバイス</Phrase>
+    <Phrase key="chkActive">アクティブ</Phrase>
+    <Phrase key="chkPollOnCmd">コマンドのみでポーリング</Phrase>
+    <Phrase key="chkIsBound">構成データベースにバインドされている</Phrase>
+    <Phrase key="lblDeviceNum">番号</Phrase>
+    <Phrase key="lblName">名前</Phrase>
+    <Phrase key="lblDriver">運転者</Phrase>
+    <Phrase key="lblNumAddress">数値アドレス</Phrase>
+    <Phrase key="lblStrAddress">文字列アドレスまたはホスト名</Phrase>
+    <Phrase key="lblTimeout">タイムアウト</Phrase>
+    <Phrase key="lblDelay">遅れ</Phrase>
+    <Phrase key="lblTime">時間</Phrase>
+    <Phrase key="lblPeriod">期間</Phrase>
+    <Phrase key="lblCmdLine">コマンドライン</Phrase>
+    <Phrase key="lblCustomOptions">オプション</Phrase>
+    <Phrase key="btnDeviceProperties">プロパティ</Phrase>
+    <Phrase key="btnResetPollingOptions">リセット</Phrase>
+    <Phrase key="btnResetPollingOptions.ToolTip">デバイスのポーリング オプションをデフォルトに設定する</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlSync1">
+    <Phrase key="lblSyncDirection">同期の方向を選択します。</Phrase>
+    <Phrase key="rbBaseToComm">構成データベースから Communicator へ</Phrase>
+    <Phrase key="rbCommToBase">構成データベースへのコミュニケータ</Phrase>
+    <Phrase key="lblInfo">不足している回線とデバイスが作成されます。&#13;&#10;既存の回線とデバイスが更新されます。&#13;&#10;影響を受けるプロパティ:&#13;&#10;- 通信回線名&#13;&#10;- デバイス名&#13;&#10;・デバイスドライバー&#13;&#10;・デバイスアドレス</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlSync2">
+    <Phrase key="lblSelect">同期する回線とデバイスを選択してください:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCnlCreate">
+    <Phrase key="this">チャンネルの作成</Phrase>
+    <Phrase key="chkPreview">プレビュー</Phrase>
+    <Phrase key="btnBack">&lt; 戻る</Phrase>
+    <Phrase key="btnNext">次へ &gt;</Phrase>
+    <Phrase key="btnCreate">作成</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+    <Phrase key="CreateCnlsStep1">ステップ 1/3: デバイスを選択する</Phrase>
+    <Phrase key="CreateCnlsStep2">ステップ 2/3: 新しく作成したチャネルのオブジェクトを選択します</Phrase>
+    <Phrase key="CreateCnlsStep3">ステップ 3/3: チャンネル番号を割り当てる</Phrase>
+    <Phrase key="CreateCnlsCompleted">チャンネルの作成が正常に完了しました。&#13;&#10;{0} 個のチャンネルが追加されました。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCnlPreview">
+    <Phrase key="this">チャンネルのプレビュー</Phrase>
+    <Phrase key="btnDelete">消去</Phrase>
+    <Phrase key="colCnlNum">番号</Phrase>
+    <Phrase key="colActive">アクティブ</Phrase>
+    <Phrase key="colName">名前</Phrase>
+    <Phrase key="colTagNum">タグ番号</Phrase>
+    <Phrase key="colTagCode">タグコード</Phrase>
+    <Phrase key="btnAdd">追加</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCommLogs">
+    <Phrase key="AppFilter">応用</Phrase>
+    <Phrase key="LinesFilter">通信回線</Phrase>
+    <Phrase key="DevicesFilter">デバイス</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDataSources">
+    <Phrase key="this">データソース</Phrase>
+    <Phrase key="btnAdd">追加</Phrase>
+    <Phrase key="btnMoveUp">上に移動</Phrase>
+    <Phrase key="btnMoveDown">下に移動</Phrase>
+    <Phrase key="btnDelete">消去</Phrase>
+    <Phrase key="btnCut">切る</Phrase>
+    <Phrase key="btnCopy">コピー</Phrase>
+    <Phrase key="btnPaste">ペースト</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">アクティブ</Phrase>
+    <Phrase key="colCode">コード</Phrase>
+    <Phrase key="colName">名前</Phrase>
+    <Phrase key="colDriver">運転者</Phrase>
+    <Phrase key="gbDataSource">選択したデータソース</Phrase>
+    <Phrase key="chkActive">アクティブ</Phrase>
+    <Phrase key="lblCode">コード</Phrase>
+    <Phrase key="lblName">名前</Phrase>
+    <Phrase key="lblDriver">運転者</Phrase>
+    <Phrase key="lblOptions">オプション</Phrase>
+    <Phrase key="btnProperties">プロパティ</Phrase>
+    <Phrase key="DriverNotSpecified">ドライバーは指定されていません。</Phrase>
+    <Phrase key="DataSourceNotSupported">ドライバーはデータ ソースの作成をサポートしていません。</Phrase>
+    <Phrase key="UnableCreateDataSourceView">データ ソース ユーザー インターフェイスを作成できません。</Phrase>
+    <Phrase key="NoDataSourceProperties">データ ソースにはプロパティ ウィンドウが提供されません。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceAdd">
+    <Phrase key="this">デバイスを追加</Phrase>
+    <Phrase key="gbDevice">デバイス</Phrase>
+    <Phrase key="lblDeviceNum">番号</Phrase>
+    <Phrase key="lblName">名前</Phrase>
+    <Phrase key="lblCode">コード</Phrase>
+    <Phrase key="lblDevType">デバイスタイプ</Phrase>
+    <Phrase key="lblNumAddress">数値アドレス</Phrase>
+    <Phrase key="lblStrAddress">文字列アドレスまたはホスト名</Phrase>
+    <Phrase key="lblCommLine">通信回線</Phrase>
+    <Phrase key="lblDescr">説明</Phrase>
+    <Phrase key="gbComm">コミュニケーター</Phrase>
+    <Phrase key="chkAddToComm">Communicator にデバイスを追加する</Phrase>
+    <Phrase key="lblInstance">実例</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+    <Phrase key="DeviceExistsInConfigDatabase">同じ番号のデバイスが構成データベースにすでに存在します。</Phrase>
+    <Phrase key="DeviceExistsInLineConfig">通信回線構成に同じ番号の機器が既に存在します。</Phrase>
+    <Phrase key="LineNotFoundInCommConfig">Communicator 構成内に通信回線が見つかりません。</Phrase>
+    <Phrase key="ChooseLine">通信回線を選択してください。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceCommand">
+    <Phrase key="this">{0} へのコマンド</Phrase>
+    <Phrase key="lblCmdNum">コマンド番号</Phrase>
+    <Phrase key="lblCmdCode">コマンドコード</Phrase>
+    <Phrase key="rbNumVal">数値</Phrase>
+    <Phrase key="rbStrData">文字列データ</Phrase>
+    <Phrase key="rbHexData">16進数データ</Phrase>
+    <Phrase key="btnOff">オフ</Phrase>
+    <Phrase key="btnOn">の上</Phrase>
+    <Phrase key="btnSend">送信</Phrase>
+    <Phrase key="btnClose">近い</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceData">
+    <Phrase key="this">デバイス {0}</Phrase>
+    <Phrase key="btnDeviceProperties">プロパティ</Phrase>
+    <Phrase key="btnSendCommand">指図</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDrivers">
+    <Phrase key="this">運転手</Phrase>
+    <Phrase key="lblDrivers">利用可能なドライバー:</Phrase>
+    <Phrase key="btnProperties">プロパティ</Phrase>
+    <Phrase key="btnRegister">登録</Phrase>
+    <Phrase key="lblDescr">説明</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmGeneralOptions">
+    <Phrase key="this">一般的なオプション</Phrase>
+    <Phrase key="gbGeneralOptions">一般的なオプション</Phrase>
+    <Phrase key="lblIsBound">アプリケーションは構成データベースにバインドされています</Phrase>
+    <Phrase key="lblSendModifiedData">デバイスタグの変更されたデータのみを送信する</Phrase>
+    <Phrase key="lblSendAllDataPeriod">全デバイスタグのデータ送信周期、秒</Phrase>
+    <Phrase key="lblEnableCommands">遠隔制御コマンドを有効にする</Phrase>
+    <Phrase key="lblEnableFileCommands">ファイルから遠隔制御コマンドを読み取る</Phrase>
+    <Phrase key="lblStartLinesOnCommand">コマンドで通信回線を開始する</Phrase>
+    <Phrase key="lblStopWait">サービスが停止するまで待機します (秒)</Phrase>
+    <Phrase key="lblMaxLogSize">最大ログ ファイル サイズ、MB</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineAdd">
+    <Phrase key="this">通信回線の追加</Phrase>
+    <Phrase key="gbLine">通信回線</Phrase>
+    <Phrase key="lblCommLineNum">番号</Phrase>
+    <Phrase key="lblName">名前</Phrase>
+    <Phrase key="lblDescr">説明</Phrase>
+    <Phrase key="gbComm">コミュニケーター</Phrase>
+    <Phrase key="chkAddToComm">Communicator に行を追加</Phrase>
+    <Phrase key="lblInstance">実例</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+    <Phrase key="LineExistsInConfigDatabase">同じ番号の通信回線が構成データベースにすでに存在します。</Phrase>
+    <Phrase key="LineExistsInCommConfig">同じ番号の通信回線が Communicator 構成にすでに存在します。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineConfig">
+    <Phrase key="lbTabs.Items[0]">主なオプション</Phrase>
+    <Phrase key="lbTabs.Items[1]">カスタムオプション</Phrase>
+    <Phrase key="lbTabs.Items[2]">デバイスポーリング</Phrase>
+    <Phrase key="LineConfigTitle">行 {0} のオプション</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineStats">
+    <Phrase key="lbTabs.Items[0]">回線状態</Phrase>
+    <Phrase key="lbTabs.Items[1]">ラインログ</Phrase>
+    <Phrase key="chkPause">一時停止</Phrase>
+    <Phrase key="LineStatsTitle">行 {0} の統計</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmSync">
+    <Phrase key="this">回線とデバイスを同期する</Phrase>
+    <Phrase key="btnNext">次</Phrase>
+    <Phrase key="btnSync">同期</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+    <Phrase key="SyncCompleted">同期は正常に完了しました。</Phrase>
+    <Phrase key="SyncCompletedWithError">同期はエラーで完了しました:&#13;&#10;{0}</Phrase>
+    <Phrase key="NoDataToSync">同期するデータが選択されていません。</Phrase>
+  </Dictionary>
+</ExtCommConfigDictionaries>

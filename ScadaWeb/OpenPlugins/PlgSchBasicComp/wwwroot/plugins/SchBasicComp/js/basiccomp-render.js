@@ -3,7 +3,7 @@
  *
  * Author   : Mikhail Shiryaev
  * Created  : 2017
- * Modified : 2021
+ * Modified : 2022
  *
  * Requires:
  * - jquery
@@ -168,13 +168,23 @@ scada.scheme.LedRenderer.prototype.updateData = function (component, renderConte
 
 /********** Link Renderer **********/
 
-scada.scheme.LinkRenderer = function () {
+scada.scheme.LinkState = function () {
     this.cnlVals = [];
+};
+
+scada.scheme.LinkRenderer = function () {
     scada.scheme.StaticTextRenderer.call(this);
 };
 
 scada.scheme.LinkRenderer.prototype = Object.create(scada.scheme.StaticTextRenderer.prototype);
 scada.scheme.LinkRenderer.constructor = scada.scheme.LinkRenderer;
+
+scada.scheme.LinkRenderer.prototype._getLinkState = function (component) {
+    if (!component.state) {
+        component.state = new scada.scheme.LinkState();
+    }
+    return component.state;
+};
 
 scada.scheme.LinkRenderer.prototype._setUnderline = function (jqObj, underline) {
     // this method was copied from DynamicTextRenderer
@@ -196,6 +206,7 @@ scada.scheme.LinkRenderer.prototype.createDom = function (component, renderConte
 
     // apply properties on hover
     var props = component.props;
+    var state = this._getLinkState(component);
     var thisRenderer = this;
 
     spanComp.hover(
@@ -218,7 +229,7 @@ scada.scheme.LinkRenderer.prototype.createDom = function (component, renderConte
         spanComp.addClass("action");
 
         if (!renderContext.editMode) {
-            spanComp.click(function () {
+            spanComp.on("click", function () {
                 let url = "";
                 let viewHub = renderContext.schemeEnv.viewHub;
 
@@ -229,7 +240,7 @@ scada.scheme.LinkRenderer.prototype.createDom = function (component, renderConte
 
                     // insert input channel values into the URL
                     for (let i = 0, cnlCnt = props.cnlNums.length; i < cnlCnt; i++) {
-                        let cnlVal = thisRenderer.cnlVals[i];
+                        let cnlVal = state.cnlVals[i];
                         url = url.replace("{" + i + "}", isNaN(cnlVal) ? "" : cnlVal);
                     }
                 }
@@ -241,7 +252,7 @@ scada.scheme.LinkRenderer.prototype.createDom = function (component, renderConte
                             break;
                         case 2: // Popup
                             viewHub.modalManager.showModal(url,
-                                new ModalOptions(null, props.popupSize.width, props.popupSize.height));
+                                new ModalOptions({ size: props.popupSize.width, height: props.popupSize.height }));
                             break;
                         default: // Self
                             window.top.location = url;
@@ -257,13 +268,14 @@ scada.scheme.LinkRenderer.prototype.createDom = function (component, renderConte
 
 scada.scheme.LinkRenderer.prototype.updateData = function (component, renderContext) {
     var props = component.props;
+    var state = this._getLinkState(component);
     var cnlCnt = props.cnlNums.length;
 
     // get the current values of the input channels specified for the link
     if (cnlCnt > 0) {
         for (let i = 0; i < cnlCnt; i++) {
             var cnlDataExt = renderContext.getCnlDataExt(props.cnlNums[i]);
-            this.cnlVals[i] = cnlDataExt.d.stat > 0 ? cnlDataExt.d.val : NaN;
+            state.cnlVals[i] = cnlDataExt.d.stat > 0 ? cnlDataExt.d.val : NaN;
         }
     }
 };

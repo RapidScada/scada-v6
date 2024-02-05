@@ -140,15 +140,15 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
 
             if (readCnt != FirstCount)
             {
-                log.WriteLine(ModbusPhrases.CommErrorWithExclamation);
+                log.WriteLine(ModbusPhrases.CommError);
             }
             else if (InBuf[0] != dataUnit.ReqADU[0]) // validate device address
             {
-                log.WriteLine(ModbusPhrases.IncorrectDevAddr);
+                log.WriteLine(ModbusPhrases.InvalidDevAddr);
             }
             else if (!(InBuf[1] == dataUnit.FuncCode || InBuf[1] == dataUnit.ExcFuncCode)) // validate function code
             {
-                log.WriteLine(ModbusPhrases.IncorrectPduFuncCode);
+                log.WriteLine(ModbusPhrases.InvalidPduFuncCode);
             }
             else
             {
@@ -172,7 +172,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
 
                 if (readCnt != count)
                 {
-                    log.WriteLine(ModbusPhrases.CommErrorWithExclamation);
+                    log.WriteLine(ModbusPhrases.CommError);
                 }
                 else if (InBuf[pduLen + 1] + InBuf[pduLen + 2] * 256 != ModbusUtils.CRC16(InBuf, 0, pduLen + 1))
                 {
@@ -185,7 +185,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
                 }
                 else
                 {
-                    log.WriteLine(errMsg + "!");
+                    log.WriteLine(errMsg);
                 }
             }
 
@@ -227,7 +227,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
                         }
                         catch
                         {
-                            log.WriteLine(ModbusPhrases.IncorrectSymbol);
+                            log.WriteLine(ModbusPhrases.InvalidSymbol);
                             parseOK = false;
                         }
                     }
@@ -244,7 +244,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
                             }
                             else
                             {
-                                log.WriteLine(errMsg + "!");
+                                log.WriteLine(errMsg);
                             }
                         }
                         else
@@ -255,12 +255,12 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
                 }
                 else
                 {
-                    log.WriteLine(ModbusPhrases.IncorrectAduLength);
+                    log.WriteLine(ModbusPhrases.InvalidAduLength);
                 }
             }
             else
             {
-                log.WriteLine(ModbusPhrases.CommErrorWithExclamation);
+                log.WriteLine(ModbusPhrases.CommError);
             }
 
             return result;
@@ -312,22 +312,22 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
                         }
                         else
                         {
-                            log.WriteLine(errMsg + "!");
+                            log.WriteLine(errMsg);
                         }
                     }
                     else
                     {
-                        log.WriteLine(ModbusPhrases.CommErrorWithExclamation);
+                        log.WriteLine(ModbusPhrases.CommError);
                     }
                 }
                 else
                 {
-                    log.WriteLine(ModbusPhrases.IncorrectMbap);
+                    log.WriteLine(ModbusPhrases.InvalidMbap);
                 }
             }
             else
             {
-                log.WriteLine(ModbusPhrases.CommErrorWithExclamation);
+                log.WriteLine(ModbusPhrases.CommError);
             }
 
             return result;

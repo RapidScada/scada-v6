@@ -1,0 +1,46 @@
+﻿@page "/en/5.8/version-history/administrator-history"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Administrator History";
+}
+
+@section Styles {
+    <link href="~/css/history.min.css" rel="stylesheet" />
+}
+
+<h1>Administrator History</h1>
+
+<pre>5.5.2.2 (May 17, 2021)
+- Fixed application hang when replacing cell text
+- Fixed table import, in case the destination ID is less than the source ID
+
+5.5.2.1 (June 23, 2020)
+- The Rights table displays view identifiers
+- Fixed bugs when renaming a project and instance
+
+5.5.2.0 (January 28, 2020)
+- The Interface table changed
+- The Role Inheritance table added
+- Selection of objects uploaded to server
+- The channel creation wizard considers input channel format
+- File associations
+
+5.5.1.0 (August 29, 2019)
+- Possible to remove a project from the list on the start page
+- An icon for inactive communication line
+- Added a context menu of the configuration database tables
+- When importing a communication line, device polling parameters are set by default
+- An option to prepend a device name in channel names
+- Binding deployment profiles to instances
+- Filter of the configuration database tables
+- Fixed position recovery when using two monitors
+
+5.5.0.0 (June 03, 2019)
+- The application is completely redesigned
+
+5.1.1.0 (December 26, 2018)
+- Works with the relevant version of Agent
+- Changes due to updates of the WinControl control
+
+5.1.0.0 (May 23, 2018)
+- Interaction with Agent for downloading and uploading configurations</pre>

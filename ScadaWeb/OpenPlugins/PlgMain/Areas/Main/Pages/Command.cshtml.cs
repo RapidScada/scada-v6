@@ -3,10 +3,12 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Protocol;
+using Scada.Web.Audit;
 using Scada.Web.Lang;
 using Scada.Web.Plugins.PlgMain.Code;
 using Scada.Web.Services;
@@ -24,16 +26,18 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
         private readonly IWebContext webContext;
         private readonly IUserContext userContext;
+        private readonly IAuditLog auditLog;
         private readonly IClientAccessor clientAccessor;
         private readonly PluginContext pluginContext;
         private readonly dynamic dict;
 
 
-        public CommandModel(IWebContext webContext, IUserContext userContext, IClientAccessor clientAccessor, 
-            PluginContext pluginContext)
+        public CommandModel(IWebContext webContext, IUserContext userContext, IAuditLog auditLog,
+            IClientAccessor clientAccessor, PluginContext pluginContext)
         {
             this.webContext = webContext;
             this.userContext = userContext;
+            this.auditLog = auditLog;
             this.clientAccessor = clientAccessor;
             this.pluginContext = pluginContext;
             dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command");
@@ -95,19 +99,24 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
         private bool CheckPassword()
         {
+            if (!pluginContext.Options.CommandPassword)
+                return true;
+
             try
             {
-                if (pluginContext.Options.CommandPassword &&
-                    !clientAccessor.ScadaClient.ValidateUser(User.GetUsername(), Password,
-                        out _, out _, out string errMsg))
+                UserValidationResult result = clientAccessor.ScadaClient.ValidateUser(User.GetUsername(), Password);
+
+                if (result.IsValid)
+                {
+                    return true;
+                }
+                else
                 {
                     HasError = true;
-                    Message = errMsg;
+                    Message = result.ErrorMessage;
                     PwdIsInvalid = true;
                     return false;
                 }
-
-                return true;
             }
             catch (Exception ex)
             {
@@ -168,7 +177,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             try
             {
                 webContext.Log.WriteAction(WebPhrases.SendCommand, command.CnlNum, User.GetUsername());
-                clientAccessor.ScadaClient.SendCommand(command, WriteFlags.EnableAll, out CommandResult result);
+                CommandResult result = clientAccessor.ScadaClient.SendCommand(command, WriteCommandFlags.Default);
 
                 if (result.IsSuccessful)
                 {
@@ -188,6 +197,17 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                 Message = WebPhrases.ClientError;
                 webContext.Log.WriteError(ex, Message);
             }
+            finally
+            {
+                auditLog.Write(new AuditLogEntry(userContext.UserEntity)
+                {
+                    ActionType = AuditActionType.SendCommand,
+                    ActionArgs = AuditActionArgs.FromObject(new { command.CnlNum, command.CmdVal, command.CmdData }),
+                    ActionResult = AuditActionResult.FromBool(!HasError),
+                    Severity = Severity.Minor,
+                    Message = Message
+                });
+            }
         }
 
         private IActionResult OnLoad(int cnlNum, bool isPostback)
@@ -206,9 +226,11 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             if (Cnl.DeviceNum != null)
                 Device = webContext.ConfigDatabase.DeviceTable.GetItem(Cnl.DeviceNum.Value);
 
-            if (Cnl.FormatID != null)
+            int? formatID = Cnl.OutFormatID ?? Cnl.FormatID;
+
+            if (formatID != null)
             {
-                Format = webContext.ConfigDatabase.FormatTable.GetItem(Cnl.FormatID.Value);
+                Format = webContext.ConfigDatabase.FormatTable.GetItem(formatID.Value);
 
                 if (Format != null)
                 {

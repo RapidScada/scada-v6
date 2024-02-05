@@ -4,10 +4,10 @@ class Pager {
     // The jQuery object that represents the pager.
     pagerElem;
 
-    constructor(pagerElemID) {        
+    constructor(pagerElemID) {
         this.pagerElem = $("#" + pagerElemID);
 
-        this.pagerElem.find("a.page-link").click(function () {
+        this.pagerElem.find("a.page-link").on("click", function () {
             Pager._handlePageClick($(this));
             return false;
         });
@@ -30,7 +30,7 @@ class Pager {
 
     // Binds events to all pagers of the document.
     static bindEvents() {
-        $(".rs-pager a.page-link").click(function () {
+        $(".rs-pager a.page-link").on("click", function () {
             Pager._handlePageClick($(this));
             return false;
         });

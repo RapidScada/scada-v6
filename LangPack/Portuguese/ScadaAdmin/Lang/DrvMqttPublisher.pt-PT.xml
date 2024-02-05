@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvMqttPublisherDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.Config.DeviceOptions">
+    <Phrase key="RootTopic.DisplayName">tópico raiz</Phrase>
+    <Phrase key="RootTopic.Category">Parâmetros principais</Phrase>
+    <Phrase key="RootTopic.Description">O tópico raiz usado como um prefixo para todos os tópicos do dispositivo.</Phrase>
+    <Phrase key="UndefinedValue.DisplayName">valor indefinido</Phrase>
+    <Phrase key="UndefinedValue.Category">Parâmetros principais</Phrase>
+    <Phrase key="UndefinedValue.Description">A carga a ser enviada se o valor do canal for indefinido.</Phrase>
+    <Phrase key="PublishFormat.DisplayName">Publicar formato</Phrase>
+    <Phrase key="PublishFormat.Category">Parâmetros principais</Phrase>
+    <Phrase key="PublishFormat.Description">O formato dos dados do canal publicado.&#13;&#10;Exemplo de formato: { "Val": @val, "Stat": @stat }&#13;&#10;Formato vazio é igual a @val</Phrase>
+    <Phrase key="PublishOnChange.DisplayName">Publicar na mudança</Phrase>
+    <Phrase key="PublishOnChange.Category">Parâmetros principais</Phrase>
+    <Phrase key="PublishOnChange.Description">Um valor que indica se deve enviar dados de canal quando alterado.</Phrase>
+    <Phrase key="PublishPeriod.DisplayName">período de publicação</Phrase>
+    <Phrase key="PublishPeriod.Category">Parâmetros principais</Phrase>
+    <Phrase key="PublishPeriod.Description">O período de publicação para todos os itens do dispositivo, seg.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.Config.ItemConfig">
+    <Phrase key="CnlNum.DisplayName">Número do canal</Phrase>
+    <Phrase key="CnlNum.Category">Parâmetros principais</Phrase>
+    <Phrase key="CnlNum.Description">O número do canal publicado.</Phrase>
+    <Phrase key="Topic.DisplayName">Tema</Phrase>
+    <Phrase key="Topic.Category">Parâmetros principais</Phrase>
+    <Phrase key="Topic.Description">O tópico MQTT.</Phrase>
+    <Phrase key="Publish.DisplayName">Publicar</Phrase>
+    <Phrase key="Publish.Category">Parâmetros principais</Phrase>
+    <Phrase key="Publish.Description">Um valor que indica se o item é usado para publicar valores de canal.</Phrase>
+    <Phrase key="Subscribe.DisplayName">Se inscrever</Phrase>
+    <Phrase key="Subscribe.Category">Parâmetros principais</Phrase>
+    <Phrase key="Subscribe.Description">Um valor que indica se o item é usado para receber comandos.</Phrase>
+    <Phrase key="QosLevel.DisplayName">nível de QoS</Phrase>
+    <Phrase key="QosLevel.Category">Protocolo</Phrase>
+    <Phrase key="QosLevel.Description">O nível de qualidade do serviço: 0 - no máximo uma vez, 1 - pelo menos uma vez, 2 - exatamente uma vez.</Phrase>
+    <Phrase key="Retain.DisplayName">reter</Phrase>
+    <Phrase key="Retain.Category">Protocolo</Phrase>
+    <Phrase key="Retain.Description">Um valor que indica se o sinalizador retido deve ser definido ao publicar.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.View.MqttPublisherConfigProvider">
+    <Phrase key="FormTitle">Propriedades do dispositivo {0} - Publicador MQTT</Phrase>
+    <Phrase key="AddItemButton">Adicionar Item</Phrase>
+    <Phrase key="OptionsNode">Opções</Phrase>
+    <Phrase key="ItemsNode">Unid</Phrase>
+    <Phrase key="ItemNodeFormat">Canal {0}</Phrase>
+  </Dictionary>
+</DrvMqttPublisherDictionaries>

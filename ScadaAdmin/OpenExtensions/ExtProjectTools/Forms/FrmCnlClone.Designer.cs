@@ -28,312 +28,271 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.gbSrcNums = new System.Windows.Forms.GroupBox();
-            this.numSrcEndNum = new System.Windows.Forms.NumericUpDown();
-            this.lblSrcEndNum = new System.Windows.Forms.Label();
-            this.numSrcStartNum = new System.Windows.Forms.NumericUpDown();
-            this.lblSrcStartNum = new System.Windows.Forms.Label();
-            this.gbDestNums = new System.Windows.Forms.GroupBox();
-            this.numDestEndNum = new System.Windows.Forms.NumericUpDown();
-            this.lblDestEndNum = new System.Windows.Forms.Label();
-            this.numDestStartNum = new System.Windows.Forms.NumericUpDown();
-            this.lblDestStartNum = new System.Windows.Forms.Label();
-            this.gbOptions = new System.Windows.Forms.GroupBox();
-            this.chkUpdateFormulas = new System.Windows.Forms.CheckBox();
-            this.cbReplaceDevice = new System.Windows.Forms.ComboBox();
-            this.lblReplaceDevice = new System.Windows.Forms.Label();
-            this.cbReplaceObj = new System.Windows.Forms.ComboBox();
-            this.lblReplaceObj = new System.Windows.Forms.Label();
-            this.btnClose = new System.Windows.Forms.Button();
-            this.btnClone = new System.Windows.Forms.Button();
-            this.gbSrcNums.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numSrcEndNum)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numSrcStartNum)).BeginInit();
-            this.gbDestNums.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numDestEndNum)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numDestStartNum)).BeginInit();
-            this.gbOptions.SuspendLayout();
-            this.SuspendLayout();
+            gbSrcNums = new GroupBox();
+            numSrcEndNum = new NumericUpDown();
+            lblSrcEndNum = new Label();
+            numSrcStartNum = new NumericUpDown();
+            lblSrcStartNum = new Label();
+            gbDestNums = new GroupBox();
+            numDestEndNum = new NumericUpDown();
+            lblDestEndNum = new Label();
+            numDestStartNum = new NumericUpDown();
+            lblDestStartNum = new Label();
+            gbOptions = new GroupBox();
+            chkUpdateFormulas = new CheckBox();
+            cbReplaceDevice = new ComboBox();
+            lblReplaceDevice = new Label();
+            cbReplaceObj = new ComboBox();
+            lblReplaceObj = new Label();
+            btnClose = new Button();
+            btnClone = new Button();
+            gbSrcNums.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numSrcEndNum).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numSrcStartNum).BeginInit();
+            gbDestNums.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numDestEndNum).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numDestStartNum).BeginInit();
+            gbOptions.SuspendLayout();
+            SuspendLayout();
             // 
             // gbSrcNums
             // 
-            this.gbSrcNums.Controls.Add(this.numSrcEndNum);
-            this.gbSrcNums.Controls.Add(this.lblSrcEndNum);
-            this.gbSrcNums.Controls.Add(this.numSrcStartNum);
-            this.gbSrcNums.Controls.Add(this.lblSrcStartNum);
-            this.gbSrcNums.Location = new System.Drawing.Point(12, 12);
-            this.gbSrcNums.Name = "gbSrcNums";
-            this.gbSrcNums.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbSrcNums.Size = new System.Drawing.Size(310, 73);
-            this.gbSrcNums.TabIndex = 0;
-            this.gbSrcNums.TabStop = false;
-            this.gbSrcNums.Text = "Source Channel Numbers";
+            gbSrcNums.Controls.Add(numSrcEndNum);
+            gbSrcNums.Controls.Add(lblSrcEndNum);
+            gbSrcNums.Controls.Add(numSrcStartNum);
+            gbSrcNums.Controls.Add(lblSrcStartNum);
+            gbSrcNums.Location = new Point(12, 12);
+            gbSrcNums.Name = "gbSrcNums";
+            gbSrcNums.Padding = new Padding(10, 3, 10, 10);
+            gbSrcNums.Size = new Size(310, 73);
+            gbSrcNums.TabIndex = 0;
+            gbSrcNums.TabStop = false;
+            gbSrcNums.Text = "Source Channel Numbers";
             // 
             // numSrcEndNum
             // 
-            this.numSrcEndNum.Location = new System.Drawing.Point(158, 37);
-            this.numSrcEndNum.Maximum = new decimal(new int[] {
-            2147483647,
-            0,
-            0,
-            0});
-            this.numSrcEndNum.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numSrcEndNum.Name = "numSrcEndNum";
-            this.numSrcEndNum.Size = new System.Drawing.Size(139, 23);
-            this.numSrcEndNum.TabIndex = 3;
-            this.numSrcEndNum.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numSrcEndNum.ValueChanged += new System.EventHandler(this.num_ValueChanged);
+            numSrcEndNum.Location = new Point(158, 37);
+            numSrcEndNum.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
+            numSrcEndNum.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numSrcEndNum.Name = "numSrcEndNum";
+            numSrcEndNum.Size = new Size(139, 23);
+            numSrcEndNum.TabIndex = 3;
+            numSrcEndNum.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            numSrcEndNum.ValueChanged += num_ValueChanged;
             // 
             // lblSrcEndNum
             // 
-            this.lblSrcEndNum.AutoSize = true;
-            this.lblSrcEndNum.Location = new System.Drawing.Point(155, 19);
-            this.lblSrcEndNum.Name = "lblSrcEndNum";
-            this.lblSrcEndNum.Size = new System.Drawing.Size(27, 15);
-            this.lblSrcEndNum.TabIndex = 2;
-            this.lblSrcEndNum.Text = "End";
+            lblSrcEndNum.AutoSize = true;
+            lblSrcEndNum.Location = new Point(155, 19);
+            lblSrcEndNum.Name = "lblSrcEndNum";
+            lblSrcEndNum.Size = new Size(27, 15);
+            lblSrcEndNum.TabIndex = 2;
+            lblSrcEndNum.Text = "End";
             // 
             // numSrcStartNum
             // 
-            this.numSrcStartNum.Location = new System.Drawing.Point(13, 37);
-            this.numSrcStartNum.Maximum = new decimal(new int[] {
-            2147483647,
-            0,
-            0,
-            0});
-            this.numSrcStartNum.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numSrcStartNum.Name = "numSrcStartNum";
-            this.numSrcStartNum.Size = new System.Drawing.Size(139, 23);
-            this.numSrcStartNum.TabIndex = 1;
-            this.numSrcStartNum.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numSrcStartNum.ValueChanged += new System.EventHandler(this.num_ValueChanged);
+            numSrcStartNum.Location = new Point(13, 37);
+            numSrcStartNum.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
+            numSrcStartNum.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numSrcStartNum.Name = "numSrcStartNum";
+            numSrcStartNum.Size = new Size(139, 23);
+            numSrcStartNum.TabIndex = 1;
+            numSrcStartNum.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            numSrcStartNum.ValueChanged += num_ValueChanged;
             // 
             // lblSrcStartNum
             // 
-            this.lblSrcStartNum.AutoSize = true;
-            this.lblSrcStartNum.Location = new System.Drawing.Point(10, 19);
-            this.lblSrcStartNum.Name = "lblSrcStartNum";
-            this.lblSrcStartNum.Size = new System.Drawing.Size(31, 15);
-            this.lblSrcStartNum.TabIndex = 0;
-            this.lblSrcStartNum.Text = "Start";
+            lblSrcStartNum.AutoSize = true;
+            lblSrcStartNum.Location = new Point(10, 19);
+            lblSrcStartNum.Name = "lblSrcStartNum";
+            lblSrcStartNum.Size = new Size(31, 15);
+            lblSrcStartNum.TabIndex = 0;
+            lblSrcStartNum.Text = "Start";
             // 
             // gbDestNums
             // 
-            this.gbDestNums.Controls.Add(this.numDestEndNum);
-            this.gbDestNums.Controls.Add(this.lblDestEndNum);
-            this.gbDestNums.Controls.Add(this.numDestStartNum);
-            this.gbDestNums.Controls.Add(this.lblDestStartNum);
-            this.gbDestNums.Location = new System.Drawing.Point(12, 91);
-            this.gbDestNums.Name = "gbDestNums";
-            this.gbDestNums.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbDestNums.Size = new System.Drawing.Size(310, 73);
-            this.gbDestNums.TabIndex = 1;
-            this.gbDestNums.TabStop = false;
-            this.gbDestNums.Text = "Destination Channel Numbers";
+            gbDestNums.Controls.Add(numDestEndNum);
+            gbDestNums.Controls.Add(lblDestEndNum);
+            gbDestNums.Controls.Add(numDestStartNum);
+            gbDestNums.Controls.Add(lblDestStartNum);
+            gbDestNums.Location = new Point(12, 91);
+            gbDestNums.Name = "gbDestNums";
+            gbDestNums.Padding = new Padding(10, 3, 10, 10);
+            gbDestNums.Size = new Size(310, 73);
+            gbDestNums.TabIndex = 1;
+            gbDestNums.TabStop = false;
+            gbDestNums.Text = "Destination Channel Numbers";
             // 
             // numDestEndNum
             // 
-            this.numDestEndNum.Location = new System.Drawing.Point(158, 37);
-            this.numDestEndNum.Maximum = new decimal(new int[] {
-            2147483647,
-            0,
-            0,
-            0});
-            this.numDestEndNum.Name = "numDestEndNum";
-            this.numDestEndNum.ReadOnly = true;
-            this.numDestEndNum.Size = new System.Drawing.Size(139, 23);
-            this.numDestEndNum.TabIndex = 3;
+            numDestEndNum.Location = new Point(158, 37);
+            numDestEndNum.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
+            numDestEndNum.Name = "numDestEndNum";
+            numDestEndNum.ReadOnly = true;
+            numDestEndNum.Size = new Size(139, 23);
+            numDestEndNum.TabIndex = 3;
             // 
             // lblDestEndNum
             // 
-            this.lblDestEndNum.AutoSize = true;
-            this.lblDestEndNum.Location = new System.Drawing.Point(155, 19);
-            this.lblDestEndNum.Name = "lblDestEndNum";
-            this.lblDestEndNum.Size = new System.Drawing.Size(27, 15);
-            this.lblDestEndNum.TabIndex = 2;
-            this.lblDestEndNum.Text = "End";
+            lblDestEndNum.AutoSize = true;
+            lblDestEndNum.Location = new Point(155, 19);
+            lblDestEndNum.Name = "lblDestEndNum";
+            lblDestEndNum.Size = new Size(27, 15);
+            lblDestEndNum.TabIndex = 2;
+            lblDestEndNum.Text = "End";
             // 
             // numDestStartNum
             // 
-            this.numDestStartNum.Location = new System.Drawing.Point(13, 37);
-            this.numDestStartNum.Maximum = new decimal(new int[] {
-            2147483647,
-            0,
-            0,
-            0});
-            this.numDestStartNum.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numDestStartNum.Name = "numDestStartNum";
-            this.numDestStartNum.Size = new System.Drawing.Size(139, 23);
-            this.numDestStartNum.TabIndex = 1;
-            this.numDestStartNum.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numDestStartNum.ValueChanged += new System.EventHandler(this.num_ValueChanged);
+            numDestStartNum.Location = new Point(13, 37);
+            numDestStartNum.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
+            numDestStartNum.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numDestStartNum.Name = "numDestStartNum";
+            numDestStartNum.Size = new Size(139, 23);
+            numDestStartNum.TabIndex = 1;
+            numDestStartNum.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            numDestStartNum.ValueChanged += num_ValueChanged;
             // 
             // lblDestStartNum
             // 
-            this.lblDestStartNum.AutoSize = true;
-            this.lblDestStartNum.Location = new System.Drawing.Point(10, 19);
-            this.lblDestStartNum.Name = "lblDestStartNum";
-            this.lblDestStartNum.Size = new System.Drawing.Size(31, 15);
-            this.lblDestStartNum.TabIndex = 0;
-            this.lblDestStartNum.Text = "Start";
+            lblDestStartNum.AutoSize = true;
+            lblDestStartNum.Location = new Point(10, 19);
+            lblDestStartNum.Name = "lblDestStartNum";
+            lblDestStartNum.Size = new Size(31, 15);
+            lblDestStartNum.TabIndex = 0;
+            lblDestStartNum.Text = "Start";
             // 
             // gbOptions
             // 
-            this.gbOptions.Controls.Add(this.chkUpdateFormulas);
-            this.gbOptions.Controls.Add(this.cbReplaceDevice);
-            this.gbOptions.Controls.Add(this.lblReplaceDevice);
-            this.gbOptions.Controls.Add(this.cbReplaceObj);
-            this.gbOptions.Controls.Add(this.lblReplaceObj);
-            this.gbOptions.Location = new System.Drawing.Point(12, 170);
-            this.gbOptions.Name = "gbOptions";
-            this.gbOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbOptions.Size = new System.Drawing.Size(310, 98);
-            this.gbOptions.TabIndex = 2;
-            this.gbOptions.TabStop = false;
-            this.gbOptions.Text = "Options";
+            gbOptions.Controls.Add(chkUpdateFormulas);
+            gbOptions.Controls.Add(cbReplaceDevice);
+            gbOptions.Controls.Add(lblReplaceDevice);
+            gbOptions.Controls.Add(cbReplaceObj);
+            gbOptions.Controls.Add(lblReplaceObj);
+            gbOptions.Location = new Point(12, 170);
+            gbOptions.Name = "gbOptions";
+            gbOptions.Padding = new Padding(10, 3, 10, 10);
+            gbOptions.Size = new Size(310, 142);
+            gbOptions.TabIndex = 2;
+            gbOptions.TabStop = false;
+            gbOptions.Text = "Options";
             // 
             // chkUpdateFormulas
             // 
-            this.chkUpdateFormulas.AutoSize = true;
-            this.chkUpdateFormulas.Location = new System.Drawing.Point(13, 66);
-            this.chkUpdateFormulas.Name = "chkUpdateFormulas";
-            this.chkUpdateFormulas.Size = new System.Drawing.Size(222, 19);
-            this.chkUpdateFormulas.TabIndex = 4;
-            this.chkUpdateFormulas.Text = "Update channel numbers in formulas";
-            this.chkUpdateFormulas.UseVisualStyleBackColor = true;
+            chkUpdateFormulas.AutoSize = true;
+            chkUpdateFormulas.Location = new Point(13, 110);
+            chkUpdateFormulas.Name = "chkUpdateFormulas";
+            chkUpdateFormulas.Size = new Size(222, 19);
+            chkUpdateFormulas.TabIndex = 4;
+            chkUpdateFormulas.Text = "Update channel numbers in formulas";
+            chkUpdateFormulas.UseVisualStyleBackColor = true;
             // 
             // cbReplaceDevice
             // 
-            this.cbReplaceDevice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbReplaceDevice.FormattingEnabled = true;
-            this.cbReplaceDevice.Location = new System.Drawing.Point(158, 37);
-            this.cbReplaceDevice.Name = "cbReplaceDevice";
-            this.cbReplaceDevice.Size = new System.Drawing.Size(139, 23);
-            this.cbReplaceDevice.TabIndex = 3;
+            cbReplaceDevice.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbReplaceDevice.FormattingEnabled = true;
+            cbReplaceDevice.Location = new Point(13, 81);
+            cbReplaceDevice.Name = "cbReplaceDevice";
+            cbReplaceDevice.Size = new Size(284, 23);
+            cbReplaceDevice.TabIndex = 3;
             // 
             // lblReplaceDevice
             // 
-            this.lblReplaceDevice.AutoSize = true;
-            this.lblReplaceDevice.Location = new System.Drawing.Point(155, 19);
-            this.lblReplaceDevice.Name = "lblReplaceDevice";
-            this.lblReplaceDevice.Size = new System.Drawing.Size(85, 15);
-            this.lblReplaceDevice.TabIndex = 2;
-            this.lblReplaceDevice.Text = "Replace device";
+            lblReplaceDevice.AutoSize = true;
+            lblReplaceDevice.Location = new Point(10, 63);
+            lblReplaceDevice.Name = "lblReplaceDevice";
+            lblReplaceDevice.Size = new Size(85, 15);
+            lblReplaceDevice.TabIndex = 2;
+            lblReplaceDevice.Text = "Replace device";
             // 
             // cbReplaceObj
             // 
-            this.cbReplaceObj.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbReplaceObj.FormattingEnabled = true;
-            this.cbReplaceObj.Location = new System.Drawing.Point(13, 37);
-            this.cbReplaceObj.Name = "cbReplaceObj";
-            this.cbReplaceObj.Size = new System.Drawing.Size(139, 23);
-            this.cbReplaceObj.TabIndex = 1;
+            cbReplaceObj.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbReplaceObj.FormattingEnabled = true;
+            cbReplaceObj.Location = new Point(13, 37);
+            cbReplaceObj.Name = "cbReplaceObj";
+            cbReplaceObj.Size = new Size(284, 23);
+            cbReplaceObj.TabIndex = 1;
             // 
             // lblReplaceObj
             // 
-            this.lblReplaceObj.AutoSize = true;
-            this.lblReplaceObj.Location = new System.Drawing.Point(10, 19);
-            this.lblReplaceObj.Name = "lblReplaceObj";
-            this.lblReplaceObj.Size = new System.Drawing.Size(84, 15);
-            this.lblReplaceObj.TabIndex = 0;
-            this.lblReplaceObj.Text = "Replace object";
+            lblReplaceObj.AutoSize = true;
+            lblReplaceObj.Location = new Point(10, 19);
+            lblReplaceObj.Name = "lblReplaceObj";
+            lblReplaceObj.Size = new Size(84, 15);
+            lblReplaceObj.TabIndex = 0;
+            lblReplaceObj.Text = "Replace object";
             // 
             // btnClose
             // 
-            this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(247, 284);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(75, 23);
-            this.btnClose.TabIndex = 4;
-            this.btnClose.Text = "Close";
-            this.btnClose.UseVisualStyleBackColor = true;
+            btnClose.DialogResult = DialogResult.Cancel;
+            btnClose.Location = new Point(247, 328);
+            btnClose.Name = "btnClose";
+            btnClose.Size = new Size(75, 23);
+            btnClose.TabIndex = 4;
+            btnClose.Text = "Close";
+            btnClose.UseVisualStyleBackColor = true;
             // 
             // btnClone
             // 
-            this.btnClone.Location = new System.Drawing.Point(151, 284);
-            this.btnClone.Name = "btnClone";
-            this.btnClone.Size = new System.Drawing.Size(90, 23);
-            this.btnClone.TabIndex = 3;
-            this.btnClone.Text = "Clone";
-            this.btnClone.UseVisualStyleBackColor = true;
-            this.btnClone.Click += new System.EventHandler(this.btnClone_Click);
+            btnClone.Location = new Point(151, 328);
+            btnClone.Name = "btnClone";
+            btnClone.Size = new Size(90, 23);
+            btnClone.TabIndex = 3;
+            btnClone.Text = "Clone";
+            btnClone.UseVisualStyleBackColor = true;
+            btnClone.Click += btnClone_Click;
             // 
             // FrmCnlClone
             // 
-            this.AcceptButton = this.btnClone;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(334, 319);
-            this.Controls.Add(this.btnClose);
-            this.Controls.Add(this.btnClone);
-            this.Controls.Add(this.gbOptions);
-            this.Controls.Add(this.gbDestNums);
-            this.Controls.Add(this.gbSrcNums);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FrmCnlClone";
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Clone Channels";
-            this.Load += new System.EventHandler(this.FrmCnlClone_Load);
-            this.gbSrcNums.ResumeLayout(false);
-            this.gbSrcNums.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numSrcEndNum)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numSrcStartNum)).EndInit();
-            this.gbDestNums.ResumeLayout(false);
-            this.gbDestNums.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numDestEndNum)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numDestStartNum)).EndInit();
-            this.gbOptions.ResumeLayout(false);
-            this.gbOptions.PerformLayout();
-            this.ResumeLayout(false);
-
+            AcceptButton = btnClone;
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            CancelButton = btnClose;
+            ClientSize = new Size(334, 363);
+            Controls.Add(btnClose);
+            Controls.Add(btnClone);
+            Controls.Add(gbOptions);
+            Controls.Add(gbDestNums);
+            Controls.Add(gbSrcNums);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "FrmCnlClone";
+            ShowInTaskbar = false;
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Clone Channels";
+            Load += FrmCnlClone_Load;
+            gbSrcNums.ResumeLayout(false);
+            gbSrcNums.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numSrcEndNum).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numSrcStartNum).EndInit();
+            gbDestNums.ResumeLayout(false);
+            gbDestNums.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numDestEndNum).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numDestStartNum).EndInit();
+            gbOptions.ResumeLayout(false);
+            gbOptions.PerformLayout();
+            ResumeLayout(false);
         }
 
         #endregion
-        private System.Windows.Forms.GroupBox gbSrcNums;
-        private System.Windows.Forms.NumericUpDown numSrcEndNum;
-        private System.Windows.Forms.Label lblSrcEndNum;
-        private System.Windows.Forms.NumericUpDown numSrcStartNum;
-        private System.Windows.Forms.Label lblSrcStartNum;
-        private System.Windows.Forms.GroupBox gbDestNums;
-        private System.Windows.Forms.NumericUpDown numDestEndNum;
-        private System.Windows.Forms.Label lblDestEndNum;
-        private System.Windows.Forms.NumericUpDown numDestStartNum;
-        private System.Windows.Forms.Label lblDestStartNum;
-        private System.Windows.Forms.GroupBox gbOptions;
-        private System.Windows.Forms.Button btnClose;
-        private System.Windows.Forms.Button btnClone;
-        private System.Windows.Forms.ComboBox cbReplaceDevice;
-        private System.Windows.Forms.Label lblReplaceDevice;
-        private System.Windows.Forms.ComboBox cbReplaceObj;
-        private System.Windows.Forms.Label lblReplaceObj;
-        private System.Windows.Forms.CheckBox chkUpdateFormulas;
+        private GroupBox gbSrcNums;
+        private NumericUpDown numSrcEndNum;
+        private Label lblSrcEndNum;
+        private NumericUpDown numSrcStartNum;
+        private Label lblSrcStartNum;
+        private GroupBox gbDestNums;
+        private NumericUpDown numDestEndNum;
+        private Label lblDestEndNum;
+        private NumericUpDown numDestStartNum;
+        private Label lblDestStartNum;
+        private GroupBox gbOptions;
+        private Button btnClose;
+        private Button btnClone;
+        private ComboBox cbReplaceDevice;
+        private Label lblReplaceDevice;
+        private ComboBox cbReplaceObj;
+        private Label lblReplaceObj;
+        private CheckBox chkUpdateFormulas;
     }
 }

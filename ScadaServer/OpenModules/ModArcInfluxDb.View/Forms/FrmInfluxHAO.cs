@@ -43,7 +43,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
         /// </summary>
         private static void FillConnections(ComboBox comboBox, string configDir)
         {
-            string configFileName = Path.Combine(configDir, ModuleConfig.ConfigFileName);
+            string configFileName = Path.Combine(configDir, ModuleConfig.DefaultFileName);
 
             if (File.Exists(configFileName))
             {
@@ -71,6 +71,8 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
 
             // database options
             cbConnection.Text = options.Connection;
+            numBatchSize.SetValue(options.BatchSize);
+            numFlushInterval.SetValue(options.FlushInterval);
         }
 
         /// <summary>
@@ -83,6 +85,8 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
 
             // database options
             options.Connection = cbConnection.Text;
+            options.BatchSize = Convert.ToInt32(options.BatchSize);
+            options.FlushInterval = Convert.ToInt32(options.FlushInterval);
             options.AddToOptionList(archiveConfig.CustomOptions);
         }
 

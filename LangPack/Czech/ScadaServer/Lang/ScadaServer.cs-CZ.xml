@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaServerDictionaries>
+  <!-- ScadaServerCommon.dll -->
+  <Dictionary key="Scada.Server.Archives">
+    <Phrase key="UnspecifiedArchiveKind">Nespecifikováno</Phrase>
+    <Phrase key="CurrentArchiveKind">Aktuální</Phrase>
+    <Phrase key="HistoricalArchiveKind">Historický</Phrase>
+    <Phrase key="EventsArchiveKind">Události</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules">
+    <Phrase key="LoadModuleConfigError">Chyba při načítání konfigurace modulu</Phrase>
+    <Phrase key="SaveModuleConfigError">Chyba při ukládání konfigurace modulu</Phrase>
+    <Phrase key="SaveModuleConfigConfirm">Konfigurace modulu byla změněna.  Uložit změny?</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Engine.CoreLogic">
+    <Phrase key="CommandSentBy">Odesláno uživatelem {0}</Phrase>
+    <Phrase key="EmptyCredentials">Uživatelské jméno nebo heslo nesmí být prázdné</Phrase>
+    <Phrase key="InvalidCredentials">Neplatné uživatelské jméno či heslo</Phrase>
+    <Phrase key="AccountDisabled">Účet je deaktivován</Phrase>
+  </Dictionary>
+  <!-- ScadaServerCommon.Forms.dll -->
+  <Dictionary key="Scada.Server.Forms.Controls.CtrlCurrentArchiveOptions">
+    <Phrase key="gbOptions">Obecné možnosti</Phrase>
+    <Phrase key="lblReadOnly">Pouze ke čtení</Phrase>
+    <Phrase key="lblLogEnabled">Protokol povolen</Phrase>
+    <Phrase key="lblFlushPeriod">Splachovací období</Phrase>
+    <Phrase key="txtFlushPeriodUnit">Sek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Forms.Controls.CtrlEventArchiveOptions">
+    <Phrase key="gbOptions">Obecné možnosti</Phrase>
+    <Phrase key="lblReadOnly">Pouze ke čtení</Phrase>
+    <Phrase key="lblLogEnabled">Protokol povolen</Phrase>
+    <Phrase key="lblRetention">Doba uchování</Phrase>
+    <Phrase key="txtRetentionUnit">Den</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Forms.Controls.CtrlHistoricalArchiveOptions">
+    <Phrase key="gbOptions">Obecné možnosti</Phrase>
+    <Phrase key="lblReadOnly">Pouze ke čtení</Phrase>
+    <Phrase key="lblLogEnabled">Protokol povolen</Phrase>
+    <Phrase key="lblRetention">Doba uchování</Phrase>
+    <Phrase key="txtRetentionUnit">Den</Phrase>
+    <Phrase key="lblIsPeriodic">Pouze periodické údaje</Phrase>
+    <Phrase key="lblWriteWithPeriod">Pište s tečkou</Phrase>
+    <Phrase key="lblWritingPeriod">Období psaní</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[0]">Sek</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[1]">Min</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[2]">Hodina</Phrase>
+    <Phrase key="lblPullToPeriod">Vytáhněte na tečku</Phrase>
+    <Phrase key="txtPullToPeriodUnit">Sek</Phrase>
+    <Phrase key="lblWriteOnChange">Napište o změně</Phrase>
+    <Phrase key="lblDeadband">Mrtvý pás</Phrase>
+    <Phrase key="cbDeadbandUnit.Items[0]">Břišní svaly.</Phrase>
+    <Phrase key="cbDeadbandUnit.Items[1]">%</Phrase>
+  </Dictionary>
+</ScadaServerDictionaries>

@@ -36,6 +36,14 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
         }
 
         /// <summary>
+        /// Gets the default polling options for the device.
+        /// </summary>
+        public override PollingOptions GetPollingOptions()
+        {
+            return PollingOptions.CreateWithDefaultDelay();
+        }
+
+        /// <summary>
         /// Gets the channel prototypes for the device.
         /// </summary>
         public override ICollection<CnlPrototype> GetCnlPrototypes()
@@ -71,7 +79,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
                     if (itemConfig.IsString)
                     {
                         cnl.DataTypeID = DataTypeID.Unicode;
-                        cnl.DataLen = DeviceTag.CalcDataLength(itemConfig.DataLength);
+                        cnl.DataLen = DeviceTag.CalcDataLength(itemConfig.DataLength, TagDataType.Unicode);
                         cnl.FormatCode = FormatCode.String;
                     }
                     else if (itemConfig.IsArray)

@@ -1,0 +1,42 @@
+﻿@page "/es/5.8/modules/mod-rapid-gate"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Modulo Rapid Gate";
+}
+
+<nav class="doc-toc">
+    <div class="h6">En esta página</div>
+    <hr>
+    <ul>
+        <li><a href="#overview">Introducción</a></li>
+        <li><a href="#installation">Instalación</a></li>
+        <li><a href="#configuring">Configuración</a></li>
+        <li><a href="#archive-uploading">Carga de archivo</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Modulo Rapid Gate</h1>
+    <h2 id="overview">Introducción</h2>
+    <p>El Módulo Rapid Gate está diseñado para sincronizar datos entre varias instancias de Rapid SCADA. El módulo permite configurar un servidor de respaldo, así como posibilita transferir datos desde SCADAs instalados en ubicaciones remotas al SCADA primario.</p>
+
+    <h2 id="installation">Instalación</h2>
+    <p>El módulo Rapid Gate se instala de acuerdo con <a href="../installation-and-run/module-installation#modules">la secuencia general de instalación de los módulos del Server</a>. El archivo en la librería del módulo, es ModRapidGate.dll. Después de agregar el módulo debe realizar varias acciones adicionales:</p>
+    <ol>
+        <li>Copie los archivos de configuración del módulo ModRapidGate.xml y ModRapidGate_Reg.xml en el proyecto editado. Dentro del proyecto, estos archivos se encuentran en ScadaServer\Config\</li>
+        <li>Tras activar el módulo, suba el proyecto al Server para determinar el código de su computadora, necesario para la registración del módulo. El código de la computadora está escrito en C:\SCADA\ScadaServer\Log\ModRapidGate.log</li>
+        <li>Registre el módulo poniéndose en contacto con los desarrolladores o utilizando el <a href="https://rapidscada.net/trial/?prod=ModRapidGate" target="_blank">the trial key generator</a> (generador de claves de prueba). La clave de registro debe estar almacenada en el archivo de proyecto ScadaServer\Config\ModRapidGate_Reg..xml entre las etiquetas RegKey.</li>
+        <li>Configure el módulo y suba el proyecto al Server.</li>
+    </ol>
+
+    <h2 id="configuring">Configuración</h2>
+    <p>Para configurar el Módulo de Rapid Gate, edite C:\SCADA\ScadaServer\Config\ModRapidGate.xml utilizando un editor de texto. La configuración contiene los parámetros de conexión para el Server SCADA (servidor de destino) al que se transfieren los datos y desde el que se reciben los comandos.</p>
+    <p>Tenga en cuenta que normalmente se necesita configurar el firewall en el servidor de destino para permitir conexiones entrantes al puerto TCP 10000.</p>
+
+    <h2 id="archive-uploading">Carga de archivo</h2>
+    <p>El estado de carga de los archivos se guarda durante la operación del módulo y se restaura cuando se reinicia el servicio del servidor. El archivo de estado se escribe en el directorio de almacenamiento. La carga de archivos se realiza automáticamente. Sin embargo, un operador puede enviar manualmente un comando para cargar archivos durante un período determinado. El comando de tipo binario debe enviarse utilizando el canal de salida especificado en la configuración del módulo.</p>
+    <p>Ejemplo de comando:</p>
+    <pre><code>cmd=ArcUpload
+minDT=2020-02-18 10:00:00
+maxDT=2020-02-18 10:15:00</code></pre>
+</div>

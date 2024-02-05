@@ -21,7 +21,7 @@ namespace Scada.Comm.Drivers.DrvSimulator
         /// <summary>
         /// Gets the grouped channel prototypes.
         /// </summary>
-        public static List<CnlPrototypeGroup> GetCnlPrototypeGroups()
+        public static List<CnlPrototypeGroup> GetGroups()
         {
             List<CnlPrototypeGroup> groups = new List<CnlPrototypeGroup>();
 

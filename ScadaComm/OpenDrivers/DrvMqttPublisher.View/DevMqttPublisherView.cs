@@ -37,15 +37,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.View
         /// </summary>
         public override PollingOptions GetPollingOptions()
         {
-            return new PollingOptions(0, PollingOptions.DefaultDelay);
-        }
-
-        /// <summary>
-        /// Gets the channel prototypes for the device.
-        /// </summary>
-        public override ICollection<CnlPrototype> GetCnlPrototypes()
-        {
-            return null;
+            return PollingOptions.CreateWithDefaultDelay();
         }
     }
 }

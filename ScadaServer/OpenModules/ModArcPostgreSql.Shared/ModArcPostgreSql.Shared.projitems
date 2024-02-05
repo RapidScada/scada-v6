@@ -9,6 +9,7 @@
     <Import_RootNamespace>Scada.Server.Modules.ModArcPostgreSql</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Config\IDatabaseOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\ModuleConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\PartitionSize.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\PostgreCAO.cs" />

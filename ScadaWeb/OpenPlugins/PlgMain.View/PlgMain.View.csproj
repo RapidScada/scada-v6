@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <RootNamespace>Scada.Web.Plugins.PlgMain.View</RootNamespace>
+    <Authors>Mikhail Shiryaev</Authors>
+    <Company>Rapid Software LLC</Company>
+    <Product>Rapid SCADA</Product>
+    <Copyright>Copyright © 2024</Copyright>
+    <Version>6.0.3</Version>
+    <AssemblyVersion>6.0.3.1</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PlgMain.Common\PlgMain.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ScadaCommon">
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon\bin\Release\netstandard2.0\ScadaCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaWebCommon.Subset">
+      <HintPath>..\..\ScadaWeb\ScadaWebCommon.Subset\bin\Release\net6.0\ScadaWebCommon.Subset.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

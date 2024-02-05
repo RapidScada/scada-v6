@@ -9,6 +9,7 @@
     <MaxLogSize>1</MaxLogSize>
   </GeneralOptions>
   <ConnectionOptions>
+    <Name>Default Connection</Name>
     <Host>localhost</Host>
     <Port>10000</Port>
     <Username>ScadaWeb</Username>
@@ -34,6 +35,7 @@
     <Plugin code="PlgMain" />
     <Plugin code="PlgScheme" />
     <Plugin code="PlgSchBasicComp" />
+    <Plugin code="PlgStore" />
     <Plugin code="PlgWebPage" />
   </Plugins>
   <PluginAssignment>
@@ -44,6 +46,9 @@
     <NotificationFeature></NotificationFeature>
   </PluginAssignment>
   <CustomOptions>
+    <OptionGroup name="Audit">
+      <Option name="Retension" value="365" />
+    </OptionGroup>
     <OptionGroup name="Chart">
       <Option name="ChartArchiveCode" value="Min" />
       <Option name="GapBetweenPoints" value="90" />
@@ -54,6 +59,7 @@
       <Option name="EventArchiveCode" value="Events" />
       <Option name="EventCount" value="100" />
       <Option name="EventDepth" value="2" />
+      <Option name="MaxReportPeriod" value="31" />
       <Option name="CommandPassword" value="false" />
       <Option name="AllowCommandApi" value="false" />
       <Option name="AllowAuthApi" value="false" />

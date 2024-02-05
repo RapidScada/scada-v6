@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -31,8 +31,6 @@ using Scada.Log;
 using Scada.Web.Services;
 using Scada.Web.TreeView;
 using Scada.Web.Users;
-using System;
-using System.Collections.Generic;
 
 namespace Scada.Web.Plugins
 {
@@ -50,6 +48,7 @@ namespace Scada.Web.Plugins
             WebContext = webContext ?? throw new ArgumentNullException(nameof(webContext));
             AppDirs = webContext.AppDirs;
             Log = webContext.Log;
+            Info = null;
         }
 
 
@@ -69,9 +68,35 @@ namespace Scada.Web.Plugins
         protected ILog Log { get; set; }
 
         /// <summary>
+        /// Gets information about the plugin.
+        /// </summary>
+        public LibraryInfo Info { get; protected set; }
+
+        /// <summary>
         /// Gets the plugin code.
         /// </summary>
-        public abstract string Code { get; }
+        public virtual string Code
+        {
+            get
+            {
+                return Info == null 
+                    ? GetType().Name
+                    : Info.Code;
+            }
+        }
+
+        /// <summary>
+        /// Gets the plugin version.
+        /// </summary>
+        public virtual string Version
+        {
+            get
+            {
+                return Info == null
+                    ? GetType().Assembly.GetName().Version.ToString()
+                    : Info.Version;
+            }
+        }
 
         /// <summary>
         /// Gets the plugin features.
@@ -97,6 +122,11 @@ namespace Scada.Web.Plugins
         /// Gets the URLs of the CSS stylesheets to add to the main page.
         /// </summary>
         public virtual ICollection<string> StyleUrls => null;
+
+        /// <summary>
+        /// Gets the client-side JavaScript to add to the main page.
+        /// </summary>
+        public virtual string ClientScript => null;
 
 
         /// <summary>

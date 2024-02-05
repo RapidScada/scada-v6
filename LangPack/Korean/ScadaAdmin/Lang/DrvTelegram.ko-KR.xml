@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvTelegramDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvTelegram.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">기기 {0} 속성 - Telergam</Phrase>
+    <Phrase key="lblBotToken">봇 토큰</Phrase>
+    <Phrase key="btnPasteBotToken.ToolTip">봇 토큰 붙여넣기</Phrase>
+    <Phrase key="lblSubscr">구독</Phrase>
+    <Phrase key="btnAddSubscr.ToolTip">구독 추가</Phrase>
+    <Phrase key="btnEditSubscr.ToolTip">선택한 구독 편집</Phrase>
+    <Phrase key="btnDeleteSubscr.ToolTip">선택한 구독 삭제</Phrase>
+    <Phrase key="btnCopySubscrName.ToolTip">구독 이름 복사</Phrase>
+    <Phrase key="colSubscrID">ID</Phrase>
+    <Phrase key="colSubscrName">이름</Phrase>
+    <Phrase key="btnSave">구하다</Phrase>
+    <Phrase key="btnClose">닫다</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvTelegram.View.Forms.FrmSubscriptionOptions">
+    <Phrase key="lblChatID">채팅 ID</Phrase>
+    <Phrase key="lblName">이름</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+    <Phrase key="NewSubscriptionTitle">신규 구독</Phrase>
+    <Phrase key="EditSubscriptionTitle">구독 편집</Phrase>
+  </Dictionary>
+</DrvTelegramDictionaries>

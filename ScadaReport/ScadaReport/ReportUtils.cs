@@ -10,92 +10,84 @@ namespace Scada.Report
     public static class ReportUtils
     {
         /// <summary>
-        /// Gets the actual report start date.
+        /// Gets the report start time as UTC.
         /// </summary>
-        public static DateTime GetStartDate(RelativeDate startDate, DateTime currentDate)
+        public static DateTime GetUtcStartTime(DateTime utcNow, TimeZoneInfo timeZone, PeriodUnit unit)
         {
-            return startDate switch
-            {
-                RelativeDate.Yesterday => currentDate.AddDays(-1.0).Date,
-                _ => currentDate.Date,
-            };
+            ArgumentNullException.ThrowIfNull(timeZone, nameof(timeZone));
+            DateTime localStartTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, timeZone);
+
+            localStartTime = unit == PeriodUnit.Month
+                ? new DateTime(localStartTime.Year, localStartTime.Month, 1, 0, 0, 0, DateTimeKind.Local)
+                : localStartTime.Date;
+
+            return TimeZoneInfo.ConvertTimeToUtc(localStartTime, timeZone);
         }
 
         /// <summary>
-        /// Normalizes the time range.
+        /// Gets the report end time, and possibly updates the start time.
+        /// </summary>
+        public static DateTime GetEndTime(ref DateTime startTime, int period, PeriodUnit unit)
+        {
+            NormalizeTimeRange(ref startTime, ref period, unit);
+            return AddPeriod(startTime, period, unit);
+        }
+
+        /// <summary>
+        /// Normalizes the report time range.
         /// </summary>
         /// <remarks>
-        /// Makes the startDate a left point of the time range, and makes the period positive.
+        /// Makes startTime the left point of the time range, and makes the period non-negative.
         /// </remarks>
-        public static void NormalizeTimeRange(ref DateTime startDate, ref int period, 
-            PeriodUnit unit = PeriodUnit.Day)
+        public static void NormalizeTimeRange(ref DateTime startTime, ref int period, PeriodUnit unit)
         {
-            startDate = startDate > DateTime.MinValue ? startDate.Date : DateTime.Today;
+            if (startTime == DateTime.MinValue)
+                throw new ArgumentException("Start time is not specified.", nameof(startTime));
 
-            if (unit == PeriodUnit.Month)
+            if (period < 0)
             {
-                if (period < 0)
-                {
-                    startDate = startDate.AddMonths(period).Date;
-                    period = -period;
-                }
-            }
-            else
-            {
-                // Examples:
-                // If the period is -1, 0 or 1, it means the single day, the startDate.
-                // If the period is 2, it means 2 days starting from the startDate.
-                // If the period is -2, it means 2 days ending with the startDate and including it.
-                if (period <= -2)
-                {
-                    startDate = startDate.AddDays(period + 1).Date;
-                    period = -period;
-                }
-                else if (period < 1)
-                {
-                    period = 1;
-                }
+                startTime = AddPeriod(startTime, period, unit);
+                period = -period;
             }
         }
 
         /// <summary>
-        /// Normalizes the time range.
+        /// Normalizes the report time range.
         /// </summary>
-        public static void NormalizeTimeRange(ref DateTime startDate, ref DateTime endDate, ref int period,
-            PeriodUnit unit = PeriodUnit.Day)
+        /// <remarks>
+        /// Makes startTime less than or equal to endTime.
+        /// </remarks>
+        public static void NormalizeTimeRange(ref DateTime startTime, ref DateTime endTime, int period, 
+            PeriodUnit unit)
         {
-            bool periodInMonths = unit == PeriodUnit.Month;
-
-            if (startDate > DateTime.MinValue && endDate > DateTime.MinValue)
+            if (startTime > DateTime.MinValue && endTime > DateTime.MinValue)
             {
-                if (endDate < startDate)
-                    endDate = startDate;
-                period = periodInMonths ?
-                    ((endDate.Year - startDate.Year) * 12) + endDate.Month - startDate.Month :
-                    (int)(endDate - startDate).TotalDays + 1;
+                if (startTime > endTime)
+                    (startTime, endTime) = (endTime, startTime); // swap values
             }
-            else if (startDate > DateTime.MinValue)
+            else if (startTime > DateTime.MinValue)
             {
-                NormalizeTimeRange(ref startDate, ref period, unit);
-                endDate = periodInMonths ?
-                    startDate.AddMonths(period) :
-                    startDate.AddDays(period - 1);
+                NormalizeTimeRange(ref startTime, ref period, unit);
+                endTime = AddPeriod(startTime, period, unit);
             }
-            else if (endDate > DateTime.MinValue)
+            else if (endTime > DateTime.MinValue)
             {
-                period = Math.Abs(period);
-                NormalizeTimeRange(ref endDate, ref period, unit);
-                startDate = periodInMonths ?
-                    endDate.AddMonths(-period) :
-                    endDate.AddDays(-period + 1);
+                startTime = AddPeriod(endTime, -Math.Abs(period), unit);
             }
             else
             {
-                NormalizeTimeRange(ref startDate, ref period, unit);
-                endDate = periodInMonths ?
-                    startDate.AddMonths(period) :
-                    startDate.AddDays(period - 1);
+                throw new ArgumentException("Neither start time nor end time is not specified.");
             }
+        }
+
+        /// <summary>
+        /// Adds the specified period to the date and time value.
+        /// </summary>
+        public static DateTime AddPeriod(DateTime dateTime, int period, PeriodUnit unit)
+        {
+            return unit == PeriodUnit.Month
+                ? dateTime.AddMonths(period)
+                : dateTime.AddDays(period);
         }
 
         /// <summary>
@@ -104,7 +96,7 @@ namespace Scada.Report
         public static string BuildFileName(string prefix, DateTime generateTime, OutputFormat format)
         {
             return prefix + "_" +
-                generateTime.ToLocalTime().ToString("yyyy-MM-dd_HH-mm-ss") + 
+                generateTime.ToString("yyyy-MM-dd_HH-mm-ss") + 
                 format.GetExtension();
         }
 
@@ -117,7 +109,8 @@ namespace Scada.Report
             {
                 OutputFormat.Pdf => ".pdf",
                 OutputFormat.Xml2003 => ".xml",
-                OutputFormat.OpenXml => ".xlsx",
+                OutputFormat.Xlsx => ".xlsx",
+                OutputFormat.Html => ".html",
                 _ => ""
             };
         }

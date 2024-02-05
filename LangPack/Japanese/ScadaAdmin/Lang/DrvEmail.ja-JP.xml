@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvEmailDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvEmail.View.Forms.FrmConfig">
+    <Phrase key="this">デバイス {0} のプロパティ - 電子メール</Phrase>
+    <Phrase key="gbServer">SMTPサーバー</Phrase>
+    <Phrase key="lblHost">サーバーホスト</Phrase>
+    <Phrase key="lblPort">ポート</Phrase>
+    <Phrase key="lblUsername">ユーザー名</Phrase>
+    <Phrase key="lblPassword">パスワード</Phrase>
+    <Phrase key="chkEnableSsl">SSLを使用する</Phrase>
+    <Phrase key="gbSender">から</Phrase>
+    <Phrase key="lblSenderAddress">送信者のアドレス</Phrase>
+    <Phrase key="lblSenderDisplayName">表示名</Phrase>
+    <Phrase key="btnAddressBook">住所録</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">キャンセル</Phrase>
+  </Dictionary>
+</DrvEmailDictionaries>

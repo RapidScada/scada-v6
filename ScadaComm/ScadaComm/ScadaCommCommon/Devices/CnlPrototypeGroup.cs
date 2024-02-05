@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +20,10 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2023
  */
 
+using Scada.Data.Const;
 using System.Collections.Generic;
 
 namespace Scada.Comm.Devices
@@ -90,7 +91,13 @@ namespace Scada.Comm.Devices
         public TagGroup ToTagGroup()
         {
             TagGroup tagGroup = new TagGroup(Name) { Hidden = Hidden };
-            CnlPrototypes.ForEach(c => tagGroup.DeviceTags.Add(c.ToDeviceTag()));
+
+            foreach (CnlPrototype cnlPrototype in CnlPrototypes)
+            {
+                if (CnlTypeID.IsInput(cnlPrototype.CnlTypeID))
+                    tagGroup.DeviceTags.Add(cnlPrototype.ToDeviceTag());
+            }
+
             return tagGroup;
         }
     }

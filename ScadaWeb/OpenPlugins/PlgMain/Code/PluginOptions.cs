@@ -61,7 +61,7 @@ namespace Scada.Web.Plugins.PlgMain.Code
         public int EventDepth { get; set; }
 
         /// <summary>
-        /// Gets or sets the time maximum report period, in days.
+        /// Gets or sets the maximum report period, in days.
         /// </summary>
         public int MaxReportPeriod { get; set; }
 

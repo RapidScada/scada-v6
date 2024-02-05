@@ -9,7 +9,7 @@
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
-    <Copyright>Copyright © 2022</Copyright>
+    <Copyright>Copyright © 2024</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,8 +23,8 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Configuration" Version="1.4.370.12" />
-    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Client" Version="1.4.370.12" />
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Configuration" Version="1.4.371.86" />
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Client" Version="1.4.371.86" />
   </ItemGroup>
 
   <ItemGroup>

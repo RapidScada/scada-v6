@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvTelegramDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvTelegram.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Właściwości urządzenia {0} — Telegram</Phrase>
+    <Phrase key="lblBotToken">Token bota</Phrase>
+    <Phrase key="btnPasteBotToken.ToolTip">Wklej token bota</Phrase>
+    <Phrase key="lblSubscr">Abonamenty</Phrase>
+    <Phrase key="btnAddSubscr.ToolTip">Dodaj subskrypcję</Phrase>
+    <Phrase key="btnEditSubscr.ToolTip">Edytuj wybraną subskrypcję</Phrase>
+    <Phrase key="btnDeleteSubscr.ToolTip">Usuń wybraną subskrypcję</Phrase>
+    <Phrase key="btnCopySubscrName.ToolTip">Skopiuj nazwę subskrypcji</Phrase>
+    <Phrase key="colSubscrID">ID</Phrase>
+    <Phrase key="colSubscrName">Nazwa</Phrase>
+    <Phrase key="btnSave">Ratować</Phrase>
+    <Phrase key="btnClose">Zamknąć</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvTelegram.View.Forms.FrmSubscriptionOptions">
+    <Phrase key="lblChatID">Identyfikator czatu</Phrase>
+    <Phrase key="lblName">Nazwa</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Anulować</Phrase>
+    <Phrase key="NewSubscriptionTitle">Nowa subskrypcja</Phrase>
+    <Phrase key="EditSubscriptionTitle">Edytuj subskrypcję</Phrase>
+  </Dictionary>
+</DrvTelegramDictionaries>

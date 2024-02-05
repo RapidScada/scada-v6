@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +20,13 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Admin.Config;
 using Scada.Admin.Deployment;
 using Scada.Admin.Project;
-using Scada.Config;
+using Scada.Dbms;
 using Scada.Lang;
 using System;
 using System.Collections.Generic;
@@ -71,6 +71,17 @@ namespace Scada.Admin.Extensions
         /// Gets the extension description.
         /// </summary>
         public abstract string Descr { get; }
+
+        /// <summary>
+        /// Gets the extension version.
+        /// </summary>
+        public virtual string Version
+        {
+            get
+            {
+                return GetType().Assembly.GetName().Version.ToString();
+            }
+        }
 
         /// <summary>
         /// Gets the file extensions for which the extension provides an editor.

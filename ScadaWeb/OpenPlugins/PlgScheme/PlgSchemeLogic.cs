@@ -7,14 +7,12 @@ using Scada.Lang;
 using Scada.Web.Lang;
 using Scada.Web.Plugins.PlgScheme.Code;
 using Scada.Web.Services;
-using System;
-using System.Collections.Generic;
 
 namespace Scada.Web.Plugins.PlgScheme
 {
     /// <summary>
-    /// Represents a plugin logic.
-    /// <para>Представляет логику плагина.</para>
+    /// Implements the plugin logic.
+    /// <para>Реализует логику плагина.</para>
     /// </summary>
     public class PlgSchemeLogic : PluginLogic
     {
@@ -28,13 +26,9 @@ namespace Scada.Web.Plugins.PlgScheme
             : base(webContext)
         {
             pluginContext = new PluginContext(Log);
+            Info = new SchemePluginInfo();
         }
 
-
-        /// <summary>
-        /// Gets the plugin code.
-        /// </summary>
-        public override string Code => PluginUtils.PluginCode;
 
         /// <summary>
         /// Gets the view specifications.

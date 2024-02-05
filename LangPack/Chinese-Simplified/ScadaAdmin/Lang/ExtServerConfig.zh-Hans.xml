@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtServerConfigDictionaries culture="zh-Hans" lang="ChineseSimplified">
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.ExtServerConfigLogic">
+    <Phrase key="GeneralOptionsNode">常规选项</Phrase>
+    <Phrase key="ModulesNode">模块</Phrase>
+    <Phrase key="ArchivesNode">存档</Phrase>
+    <Phrase key="LogsNode">日志</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchiveAdd">
+    <Phrase key="this">添加存档</Phrase>
+    <Phrase key="lblSourceArchive">源存档</Phrase>
+    <Phrase key="lblModule">模块</Phrase>
+    <Phrase key="btnOK">确定</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchives">
+    <Phrase key="this">存档</Phrase>
+    <Phrase key="btnAdd">添加</Phrase>
+    <Phrase key="btnMoveUp">向上移动</Phrase>
+    <Phrase key="btnMoveDown">向下移动</Phrase>
+    <Phrase key="btnDelete">删除</Phrase>
+    <Phrase key="btnCut">剪切</Phrase>
+    <Phrase key="btnCopy">拷贝</Phrase>
+    <Phrase key="btnPaste">粘贴</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">活动</Phrase>
+    <Phrase key="colCode">代码</Phrase>
+    <Phrase key="colName">名称</Phrase>
+    <Phrase key="colKind">类别</Phrase>
+    <Phrase key="colModule">模块</Phrase>
+    <Phrase key="gbArchive">所选存档</Phrase>
+    <Phrase key="chkActive">活动</Phrase>
+    <Phrase key="lblCode">代码</Phrase>
+    <Phrase key="lblName">名称</Phrase>
+    <Phrase key="lblKind">类别</Phrase>
+    <Phrase key="lblModule">模块</Phrase>
+    <Phrase key="lblOptions">选项</Phrase>
+    <Phrase key="btnProperties">属性</Phrase>
+    <Phrase key="ModuleNotSpecified">未指定模块。</Phrase>
+    <Phrase key="ArchiveNotSupported">该模块不支持创建 {0} 类别的存档。</Phrase>
+    <Phrase key="UnableCreateArchiveView">无法创建存档用户界面。</Phrase>
+    <Phrase key="NoArchiveProperties">这个存档没有提供属性窗口。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions">
+    <Phrase key="this">常规选项</Phrase>
+    <Phrase key="gbGeneralOptions">常规选项</Phrase>
+    <Phrase key="lblUnrelIfInactive">如果通道处于非活动状态，则标记为不可靠, 秒</Phrase>
+    <Phrase key="lblGenerateAckCmd">事件确认时生成命令</Phrase>
+    <Phrase key="lblMaxLogSize">最大日志文件大小, MB</Phrase>
+    <Phrase key="lblDisableFormulas">属于对象的通道除外 禁用通道公式</Phrase>
+    <Phrase key="btnSelectObjects">选择...</Phrase>
+    <Phrase key="gbListenerOptions">侦听器选项</Phrase>
+    <Phrase key="lblPort">TCP 端口</Phrase>
+    <Phrase key="lblTimeout">超时, ms</Phrase>
+    <Phrase key="lblSecretKey">Secret key</Phrase>
+    <Phrase key="btnGenerateKey">生成</Phrase>
+    <Phrase key="btnCopyKey">拷贝</Phrase>
+    <Phrase key="InvalidObjectRange">无效的对象范围。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmModules">
+    <Phrase key="this">模块</Phrase>
+    <Phrase key="lblUnusedModules">未使用的模块:</Phrase>
+    <Phrase key="btnActivate">激活</Phrase>
+    <Phrase key="lblActiveModules">活动的模块:</Phrase>
+    <Phrase key="btnDeactivate">关闭</Phrase>
+    <Phrase key="btnMoveUp">向上移动</Phrase>
+    <Phrase key="btnMoveDown">向下移动</Phrase>
+    <Phrase key="btnProperties">属性</Phrase>
+    <Phrase key="btnRegister">注册</Phrase>
+    <Phrase key="lblDescr">说明</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmServerLogs">
+    <Phrase key="AppFilter">应用程序</Phrase>
+    <Phrase key="ModulesFilter">模块</Phrase>
+  </Dictionary>
+</ExtServerConfigDictionaries>

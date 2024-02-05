@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtTableEditorDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableEditor">
+    <Phrase key="btnRefreshBase.ToolTip">Odśwież bazę danych konfiguracji</Phrase>
+    <Phrase key="btnAddItem.ToolTip">Dodaj Przedmiot</Phrase>
+    <Phrase key="btnAddEmptyItem.ToolTip">Dodaj pusty element</Phrase>
+    <Phrase key="btnMoveUpItem.ToolTip">Przenieś element w górę</Phrase>
+    <Phrase key="btnMoveDownItem.ToolTip">Przenieś element w dół</Phrase>
+    <Phrase key="btnDeleteItem.ToolTip">Usuń wybrane elementy</Phrase>
+    <Phrase key="btnTableOptions.ToolTip">Opcje widoku tabeli</Phrase>
+    <Phrase key="lblHint">Naciśnij klawisz Enter lub kliknij dwukrotnie węzeł, aby dodać go do tabeli.  Kliknij prawym przyciskiem myszy węzeł urządzenia, aby wyświetlić menu kontekstowe.</Phrase>
+    <Phrase key="colCnlNum">Kanał</Phrase>
+    <Phrase key="colDeviceNum">Urządzenie</Phrase>
+    <Phrase key="colAutoText">Automatyczny tekst</Phrase>
+    <Phrase key="colText">Tekst</Phrase>
+    <Phrase key="colHidden">Ukryty</Phrase>
+    <Phrase key="miDeviceAddDevice">Dodaj urządzenie</Phrase>
+    <Phrase key="miDeviceAddAllChannels">Dodaj wszystkie kanały</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableOptions">
+    <Phrase key="this">Opcje widoku tabeli</Phrase>
+    <Phrase key="chkUseDefault">Użyj opcji domyślnych</Phrase>
+    <Phrase key="lblArchiveCode">Zarchiwizuj kod</Phrase>
+    <Phrase key="btnSelectArchiveCode">Wybierać...</Phrase>
+    <Phrase key="lblPeriod">Okres stołu, min</Phrase>
+    <Phrase key="lblChartArgs">Argumenty wykresu</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Anulować</Phrase>
+  </Dictionary>
+</ExtTableEditorDictionaries>

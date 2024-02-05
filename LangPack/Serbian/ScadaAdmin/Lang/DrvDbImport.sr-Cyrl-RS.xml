@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDbImportDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlCommand">
+    <Phrase key="gbCommand">Цомманд Параметерс</Phrase>
+    <Phrase key="lblName">Име</Phrase>
+    <Phrase key="lblCmdCode">Командни код</Phrase>
+    <Phrase key="lblCmdCodeWarn">Попуните код</Phrase>
+    <Phrase key="lblSql">СКЛ</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">Доступни параметри: @цмдВал, @цмдДата</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlQuery">
+    <Phrase key="gbQuery">Параметри упита</Phrase>
+    <Phrase key="chkActive">Активан</Phrase>
+    <Phrase key="lblName">Име</Phrase>
+    <Phrase key="lblTag">Ознаке</Phrase>
+    <Phrase key="lblSQL">SQL</Phrase>
+    <Phrase key="chkSingleRow">Резултат у једном реду</Phrase>
+    <Phrase key="pbTagInfo.ToolTip">Сваки ред садржи код ознаке.</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">УКЉУЧЕНО – заһтев враћа један ред, чије свако поље садржи вредност ознаке.&#13;&#10;ИСКЉУЧЕНО – заһтев враћа скуп редова, сваки ред садржи вредност ознаке.  Обавезне колоне: код и вал.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Својства уређаја {0} – DB увоз</Phrase>
+    <Phrase key="btnAddQuery.ToolTip">Додај упит</Phrase>
+    <Phrase key="btnAddCommand.ToolTip">Додај команду</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Напредовати</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Помери се доле</Phrase>
+    <Phrase key="btnDelete.ToolTip">Избриши</Phrase>
+    <Phrase key="gbDevice">Конфигурација уређаја</Phrase>
+    <Phrase key="btnSave">сачувати</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+    <Phrase key="btnClose">Близу</Phrase>
+    <Phrase key="miCollapseAll">Скупи све</Phrase>
+    <Phrase key="ConnectionNode">Опције везе</Phrase>
+    <Phrase key="CommandName">команда {0}</Phrase>
+    <Phrase key="CommandsNode">Команде</Phrase>
+    <Phrase key="QueryName">Упит {0}</Phrase>
+    <Phrase key="QueriesNode">Куериес</Phrase>
+    <Phrase key="SelectChildNode">Изаберите подређени чвор</Phrase>
+    <Phrase key="UnnamedCommand">&lt;Неименована команда&gt;</Phrase>
+    <Phrase key="UnnamedQuery">&lt;Упит без имена&gt;</Phrase>
+  </Dictionary>
+</DrvDbImportDictionaries>

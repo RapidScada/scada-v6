@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <RootNamespace>Scada.Server.Modules.ModActiveDirectory.Logic</RootNamespace>
+    <Authors>Mikhail Shiryaev</Authors>
+    <Company>Rapid Software LLC</Company>
+    <Product>Rapid SCADA</Product>
+    <Copyright>Copyright © 2024</Copyright>
+    <Version>6.0.2</Version>
+    <AssemblyVersion>6.0.2.0</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.DirectoryServices.Protocols" Version="8.0.0" />
+    <PackageReference Include="Npgsql" Version="6.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ScadaCommon">
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon\bin\Release\netstandard2.0\ScadaCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon.Log">
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon.Log\bin\Release\netstandard2.0\ScadaCommon.Log.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaServerCommon">
+      <HintPath>..\..\ScadaServer\ScadaServerCommon\bin\Release\netstandard2.0\ScadaServerCommon.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <Import Project="..\ModActiveDirectory.Shared\ModActiveDirectory.Shared.projitems" Label="Shared" />
+
+</Project>

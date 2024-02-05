@@ -17,6 +17,7 @@ namespace Scada.Comm.Drivers.DrvTester.View
         /// Initializes a new instance of the class.
         /// </summary>
         public DrvTesterView()
+            : base()
         {
             CanCreateDevice = true;
         }

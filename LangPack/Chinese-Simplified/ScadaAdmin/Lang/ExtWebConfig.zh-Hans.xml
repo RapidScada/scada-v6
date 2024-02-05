@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtWebConfigDictionaries culture="zh-Hans" lang="ChineseSimplified">
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.ExtWebConfigLogic">
+    <Phrase key="LogsNode">日志</Phrase>
+  </Dictionary>
+</ExtWebConfigDictionaries>

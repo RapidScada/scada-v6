@@ -17,16 +17,21 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Config
         /// </summary>
         public ScadaServerDSO(OptionList options)
         {
+            ReadConfigDb = options.GetValueAsBool("ReadConfigDb", true);
             UseDefaultConn = options.GetValueAsBool("UseDefaultConn", true);
             Connection = options.GetValueAsString("Connection");
             MaxQueueSize = options.GetValueAsInt("MaxQueueSize", 1000);
-            MaxCurDataAge = options.GetValueAsInt("MaxCurDataAge", 60);
             DataLifetime = options.GetValueAsInt("DataLifetime", 3600);
             ClientLogEnabled = options.GetValueAsBool("ClientLogEnabled", false);
             DeviceFilter = new List<int>();
             DeviceFilter.AddRange(ScadaUtils.ParseRange(options.GetValueAsString("DeviceFilter"), true, true));
         }
 
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the data source can read the configuration database.
+        /// </summary>
+        public bool ReadConfigDb { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to use a connection specified in the application configuration.
@@ -42,11 +47,6 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Config
         /// Gets or sets the maximum queue size.
         /// </summary>
         public int MaxQueueSize { get; set; }
-
-        /// <summary>
-        /// Gets or sets the maximum time after which the current data is sent as historical, in seconds.
-        /// </summary>
-        public int MaxCurDataAge { get; set; }
 
         /// <summary>
         /// Gets or sets the data lifetime in the queue, in seconds.
@@ -70,10 +70,10 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Config
         public void AddToOptionList(OptionList options)
         {
             options.Clear();
+            options["ReadConfigDb"] = ReadConfigDb.ToLowerString();
             options["UseDefaultConn"] = UseDefaultConn.ToLowerString();
             options["Connection"] = Connection;
             options["MaxQueueSize"] = MaxQueueSize.ToString();
-            options["MaxCurDataAge"] = MaxCurDataAge.ToString();
             options["DataLifetime"] = DataLifetime.ToString();
             options["ClientLogEnabled"] = ClientLogEnabled.ToLowerString();
             options["DeviceFilter"] = DeviceFilter.ToRangeString();

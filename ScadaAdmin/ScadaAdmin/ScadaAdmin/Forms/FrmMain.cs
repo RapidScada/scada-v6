@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,11 @@
  * 
  * Product  : Rapid SCADA
  * Module   : Administrator
- * Summary  : Main form of the application
+ * Summary  : Represents a main form of the application
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Admin.App.Code;
@@ -52,8 +52,8 @@ using WinControl;
 namespace Scada.Admin.App.Forms
 {
     /// <summary>
-    /// Main form of the application.
-    /// <para>Главная форма приложения.</para>
+    /// Represents a main form of the application.
+    /// <para>Представляет главную форма приложения.</para>
     /// </summary>
     public partial class FrmMain : Form, IMainForm
     {
@@ -79,9 +79,16 @@ namespace Scada.Admin.App.Forms
         {
             this.appData = appData ?? throw new ArgumentNullException(nameof(appData));
             appData.MainForm = this;
-            explorerBuilder = new ExplorerBuilder(appData, tvExplorer, new ContextMenus {
-                ProjectMenu = cmsProject, CnlTableMenu = cmsCnlTable, DirectoryMenu = cmsDirectory,
-                FileItemMenu = cmsFileItem, InstanceMenu = cmsInstance, AppMenu = cmsApp });
+            explorerBuilder = new ExplorerBuilder(appData, tvExplorer, new ContextMenus
+            {
+                ProjectMenu = cmsProject,
+                BaseMenu = cmsBase,
+                CnlTableMenu = cmsCnlTable,
+                DirectoryMenu = cmsDirectory,
+                FileItemMenu = cmsFileItem,
+                InstanceMenu = cmsInstance,
+                AppMenu = cmsApp
+            });
             frmStartPage = null;
             preventNodeExpand = false;
         }
@@ -135,8 +142,8 @@ namespace Scada.Admin.App.Forms
         {
             FormTranslator.Translate(this, GetType().FullName, new FormTranslatorOptions
             {
-                ContextMenus = new ContextMenuStrip[] { 
-                    cmsProject, cmsCnlTable, cmsDirectory, cmsFileItem, cmsInstance, cmsApp }
+                ContextMenus = new ContextMenuStrip[] {
+                    cmsProject, cmsBase, cmsCnlTable, cmsDirectory, cmsFileItem, cmsInstance, cmsApp }
             });
             Text = AppPhrases.EmptyTitle;
             wctrlMain.MessageText = AppPhrases.WelcomeMessage;
@@ -215,7 +222,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void LoadAppState()
         {
-            if (appData.State.Load(Path.Combine(appData.AppDirs.ConfigDir, AppState.DefaultFileName), 
+            if (appData.State.Load(Path.Combine(appData.AppDirs.ConfigDir, AppState.DefaultFileName),
                 out string errMsg))
             {
                 appData.State.MainFormState.Apply(this);
@@ -325,7 +332,7 @@ namespace Scada.Admin.App.Forms
                     else
                     {
                         // create editor form by extension or use default text editor
-                        Form form = appData.ExtensionHolder.GetEditorForm(fileItem.Path) ?? 
+                        Form form = appData.ExtensionHolder.GetEditorForm(fileItem.Path) ??
                             new FrmTextEditor(appData, fileItem.Path);
                         tag.ExistingForm = form;
                         wctrlMain.AddForm(form, treeNode.FullPath, ilExplorer.Images[treeNode.ImageKey], treeNode);
@@ -425,6 +432,11 @@ namespace Scada.Admin.App.Forms
                 if (tag.NodeType == ExplorerNodeType.Project)
                 {
                     path = Project.ProjectDir;
+                    return true;
+                }
+                else if (tag.NodeType == ExplorerNodeType.ConfigDatabase)
+                {
+                    path = Project.ConfigDatabase.BaseDir;
                     return true;
                 }
                 else if (tag.NodeType == ExplorerNodeType.Directory || tag.NodeType == ExplorerNodeType.File)
@@ -549,7 +561,7 @@ namespace Scada.Admin.App.Forms
         private void RefreshInstanceNode(TreeNode instanceNode, LiveInstance liveInstance)
         {
             if (!liveInstance.IsReady)
-                PrepareInstanceNode(instanceNode, liveInstance); 
+                PrepareInstanceNode(instanceNode, liveInstance);
             else if (liveInstance.ProjectInstance.ConfigLoaded)
                 explorerBuilder.FillInstanceNode(instanceNode);
             else if (liveInstance.ProjectInstance.LoadAppConfig(out string errMsg))
@@ -631,7 +643,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void LoadDeploymentConfig()
         {
-            if (!Project.DeploymentConfig.Loaded && File.Exists(Project.DeploymentConfig.FileName) && 
+            if (!Project.DeploymentConfig.Loaded && File.Exists(Project.DeploymentConfig.FileName) &&
                 !Project.DeploymentConfig.Load(out string errMsg))
             {
                 Log.HandleError(errMsg);
@@ -919,7 +931,7 @@ namespace Scada.Admin.App.Forms
             // save table
             bool tableSaved = false;
 
-            if (saveChanges && Project != null && 
+            if (saveChanges && Project != null &&
                 Project.ConfigDatabase.GetTable(itemType) is IBaseTable baseTable && baseTable.Modified)
             {
                 if (Project.ConfigDatabase.SaveTable(baseTable, out string errMsg))
@@ -956,7 +968,7 @@ namespace Scada.Admin.App.Forms
                 {
                     foreach (TreeNode childNode in treeNode.Nodes)
                     {
-                        if (childNode.GetRelatedObject() is BaseTableItem baseTableItem && 
+                        if (childNode.GetRelatedObject() is BaseTableItem baseTableItem &&
                             baseTableItem.DeviceNum == deviceNum)
                         {
                             return childNode;
@@ -978,7 +990,7 @@ namespace Scada.Admin.App.Forms
                 foreach (TreeNode treeNode in explorerBuilder.InstancesNode.Nodes)
                 {
                     if (treeNode.GetRelatedObject() is LiveInstance liveInstance &&
-                        string.Equals(liveInstance.ProjectInstance.Name, instanceName, 
+                        string.Equals(liveInstance.ProjectInstance.Name, instanceName,
                         StringComparison.OrdinalIgnoreCase))
                     {
                         justPrepared = PrepareInstanceNode(treeNode, liveInstance);
@@ -997,8 +1009,8 @@ namespace Scada.Admin.App.Forms
         public IAgentClient GetAgentClient(TreeNode treeNode, bool createNew)
         {
             return FindInstanceForDeploy(treeNode, out _, out LiveInstance liveInstance)
-                ? createNew 
-                    ? CreateAgentClient(liveInstance) 
+                ? createNew
+                    ? CreateAgentClient(liveInstance)
                     : liveInstance.AgentClient
                 : null;
         }
@@ -1062,7 +1074,7 @@ namespace Scada.Admin.App.Forms
             if (e.Button == MouseButtons.Left && e.Clicks == 2)
             {
                 TreeNode node = tvExplorer.GetNodeAt(e.Location);
-                preventNodeExpand = node != null && node.Nodes.Count > 0 && 
+                preventNodeExpand = node != null && node.Nodes.Count > 0 &&
                     node.Tag is TreeNodeTag tag && tag.FormType != null;
             }
         }
@@ -1141,7 +1153,7 @@ namespace Scada.Admin.App.Forms
         private void wctrlMain_ActiveFormChanged(object sender, EventArgs e)
         {
             // enable or disable the Save menu item
-            miFileSave.Enabled = btnFileSave.Enabled = 
+            miFileSave.Enabled = btnFileSave.Enabled =
                 wctrlMain.ActiveForm is IChildForm childForm && childForm.ChildFormTag.Modified;
         }
 
@@ -1254,7 +1266,7 @@ namespace Scada.Admin.App.Forms
         private void miDeployDownloadConfig_Click(object sender, EventArgs e)
         {
             // download configuration
-            if (FindInstanceForDeploy(tvExplorer.SelectedNode, 
+            if (FindInstanceForDeploy(tvExplorer.SelectedNode,
                 out TreeNode instanceNode, out LiveInstance liveInstance))
             {
                 // save all changes and load deployment configuration
@@ -1274,7 +1286,7 @@ namespace Scada.Admin.App.Forms
                     SaveConfigDatabase();
                 }
 
-                if (frmDownloadConfig.ViewModified && 
+                if (frmDownloadConfig.ViewModified &&
                     TryGetFilePath(explorerBuilder.ViewsNode, out string path))
                 {
                     CloseChildForms(explorerBuilder.ViewsNode, false);
@@ -1367,7 +1379,7 @@ namespace Scada.Admin.App.Forms
         private void miHelpDoc_Click(object sender, EventArgs e)
         {
             // open the documentation
-            ScadaUiUtils.StartProcess(Locale.IsRussian ? AppUtils.DocRuUrl : AppUtils.DocEnUrl);
+            ScadaUiUtils.StartProcess(AppUtils.DocUrl);
         }
 
         private void miHelpSupport_Click(object sender, EventArgs e)
@@ -1429,18 +1441,33 @@ namespace Scada.Admin.App.Forms
             }
         }
 
+        private void miBaseReload_Click(object sender, EventArgs e)
+        {
+            if (Project != null)
+            {
+                CloseChildForms(explorerBuilder.ConfigDatabaseNode, false);
+                Project.ConfigDatabase.Loaded = false;
+
+                if (!Project.ConfigDatabase.Load(out string errMsg))
+                    Log.HandleError(errMsg);
+
+                // refresh channel table subnodes
+                TreeNode cnlTableNode = explorerBuilder.BaseTableNodes[Project.ConfigDatabase.CnlTable.Name];
+                explorerBuilder.FillCnlTableNode(cnlTableNode, Project.ConfigDatabase);
+            }
+        }
 
         private void cmsCnlTable_Opening(object sender, CancelEventArgs e)
         {
             // enable or disable the menu item
-            miCnlTableComm.Enabled = tvExplorer.SelectedNode?.GetRelatedObject() is BaseTableItem baseTableItem && 
+            miCnlTableComm.Enabled = tvExplorer.SelectedNode?.GetRelatedObject() is BaseTableItem baseTableItem &&
                 baseTableItem.DeviceNum > 0;
         }
 
         private void miCnlTableComm_Click(object sender, EventArgs e)
         {
             // find a device tree node of Communicator
-            if (tvExplorer.SelectedNode?.GetRelatedObject() is BaseTableItem baseTableItem && 
+            if (tvExplorer.SelectedNode?.GetRelatedObject() is BaseTableItem baseTableItem &&
                 baseTableItem.DeviceNum > 0)
             {
                 int deviceNum = baseTableItem.DeviceNum;
@@ -1454,7 +1481,7 @@ namespace Scada.Admin.App.Forms
                         {
                             PrepareInstanceNode(treeNode);
                         }
-                        else if (tag.RelatedObject is DeviceConfig deviceConfig && 
+                        else if (tag.RelatedObject is DeviceConfig deviceConfig &&
                             deviceConfig.DeviceNum == deviceNum)
                         {
                             tvExplorer.SelectedNode = treeNode;
@@ -1479,7 +1506,6 @@ namespace Scada.Admin.App.Forms
                 explorerBuilder.FillCnlTableNode(cnlTableNode, Project.ConfigDatabase);
             }
         }
-
 
         private void cmsDirectory_Opening(object sender, CancelEventArgs e)
         {
@@ -1642,7 +1668,6 @@ namespace Scada.Admin.App.Forms
             }
         }
 
-
         private void cmsFileItem_Opening(object sender, CancelEventArgs e)
         {
             // enable or disable the Open menu item
@@ -1741,7 +1766,6 @@ namespace Scada.Admin.App.Forms
                 }
             }
         }
-
 
         private void cmsInstance_Opening(object sender, CancelEventArgs e)
         {
@@ -1968,7 +1992,6 @@ namespace Scada.Admin.App.Forms
                 }
             }
         }
-
 
         private void miAppReloadConfig_Click(object sender, EventArgs e)
         {

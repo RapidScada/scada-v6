@@ -1,6 +1,61 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ExtWebConfigDictionaries culture="id-ID" lang="Indonesian">
   <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.ExtWebConfigLogic">
+    <Phrase key="ApplicationOptionsNode">Pilihan Aplikasi</Phrase>
+    <Phrase key="PluginsNode">Plugin</Phrase>
     <Phrase key="LogsNode">Catatan</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlDisplayOptions">
+    <Phrase key="gbDisplayOptions">Pilihan tampilan</Phrase>
+    <Phrase key="lblShowHeader">Tampilkan tajuk halaman</Phrase>
+    <Phrase key="lblShowMainMenu">Tampilkan menu utama</Phrase>
+    <Phrase key="lblShowViewExplorer">Tampilkan penjelajah tampilan</Phrase>
+    <Phrase key="lblRefreshRate">Kecepatan penyegaran data, ms</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlGeneralOptions">
+    <Phrase key="gbGeneralOptions">Pilihan Umum</Phrase>
+    <Phrase key="lblDefaultCulture">Nama bahasa default</Phrase>
+    <Phrase key="lblDefaultTimeZone">Zona waktu default</Phrase>
+    <Phrase key="lblDefaultStartPage">Halaman awal default setelah pengguna masuk</Phrase>
+    <Phrase key="lblEnableCommands">Aktifkan perintah telekontrol</Phrase>
+    <Phrase key="lblShareStats">Bagikan statistik personalisasi dengan pengembang</Phrase>
+    <Phrase key="lblMaxLogSize">Ukuran file catatan maksimum, MB</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlLoginOptions">
+    <Phrase key="gbLoginOptions">Opsi Masuk</Phrase>
+    <Phrase key="lblRequireCaptcha">Memerlukan captcha saat masuk</Phrase>
+    <Phrase key="lblAllowRememberMe">Izinkan untuk mengingat login</Phrase>
+    <Phrase key="lblRememberMeExpires">Login kedaluwarsa, hari</Phrase>
+    <Phrase key="lblAutoLoginUsername">Nama pengguna untuk login otomatis</Phrase>
+    <Phrase key="lblAutoLoginPassword">Kata sandi untuk login otomatis</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlPluginAssignment">
+    <Phrase key="gbPluginAssignment">Tugas Plugin</Phrase>
+    <Phrase key="lblChartFeature">Plugin untuk charting</Phrase>
+    <Phrase key="lblCommandFeature">Plugin untuk mengirim perintah</Phrase>
+    <Phrase key="lblEventAckFeature">Plugin untuk pengakuan kejadian</Phrase>
+    <Phrase key="lblUserManagementFeature">Plugin manajemen pengguna</Phrase>
+    <Phrase key="lblNotificationFeature">Plugin manajemen notifikasi</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Forms.FrmApplicationOptions">
+    <Phrase key="this">Pilihan Aplikasi</Phrase>
+    <Phrase key="lbTabs.Items[0]">Pilihan Umum</Phrase>
+    <Phrase key="lbTabs.Items[1]">Pilihan Koneksi</Phrase>
+    <Phrase key="lbTabs.Items[2]">Pilihan Masuk</Phrase>
+    <Phrase key="lbTabs.Items[3]">Pilihan Tampilan</Phrase>
+    <Phrase key="lbTabs.Items[4]">Tugas Plugin</Phrase>
+    <Phrase key="ApplicationConfigTitle">Pilihan Aplikasi</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Forms.FrmPlugins">
+    <Phrase key="this">Plugin</Phrase>
+    <Phrase key="lblUnusedPlugins">Plugin tidak digunakan:</Phrase>
+    <Phrase key="btnActivate">Aktifkan</Phrase>
+    <Phrase key="lblActivePlugins">Plugin aktif:</Phrase>
+    <Phrase key="btnDeactivate">Nonaktifkan</Phrase>
+    <Phrase key="btnMoveUp">Naikkan</Phrase>
+    <Phrase key="btnMoveDown">Turunkan</Phrase>
+    <Phrase key="btnProperties">Properti</Phrase>
+    <Phrase key="btnRegister">Daftar</Phrase>
+    <Phrase key="lblDescr">Keterangan</Phrase>
   </Dictionary>
 </ExtWebConfigDictionaries>

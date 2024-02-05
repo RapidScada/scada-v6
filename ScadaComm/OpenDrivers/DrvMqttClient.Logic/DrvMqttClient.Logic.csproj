@@ -6,16 +6,17 @@
     <Nullable>disable</Nullable>
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>Scada.Comm.Drivers.DrvMqttClient.Logic</RootNamespace>
-    <Version>6.0.0</Version>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
-    <Copyright>Copyright © 2022</Copyright>
+    <Copyright>Copyright © 2024</Copyright>
+    <Version>6.0.0</Version>
+    <AssemblyVersion>6.0.0.4</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Jint" Version="2.11.58" />
-    <PackageReference Include="MQTTnet" Version="3.1.2" />
+    <PackageReference Include="MQTTnet" Version="4.1.4.563" />
   </ItemGroup>
 
   <ItemGroup>

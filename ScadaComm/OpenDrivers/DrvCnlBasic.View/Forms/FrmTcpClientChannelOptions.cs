@@ -46,6 +46,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.View.Forms
             numTcpPort.SetValue(options.TcpPort);
             numReconnectAfter.SetValue(options.ReconnectAfter);
             chkStayConnected.Checked = options.StayConnected;
+            chkDisconnectOnError.Checked = options.DisconnectOnError;
         }
 
         /// <summary>
@@ -59,6 +60,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.View.Forms
             options.TcpPort = Convert.ToInt32(numTcpPort.Value);
             options.ReconnectAfter = Convert.ToInt32(numReconnectAfter.Value);
             options.StayConnected = chkStayConnected.Checked;
+            options.DisconnectOnError = chkDisconnectOnError.Checked;
 
             options.AddToOptionList(channelConfig.CustomOptions);
         }
@@ -88,6 +90,11 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.View.Forms
         private void cbConnectionMode_SelectedIndexChanged(object sender, EventArgs e)
         {
             txtHost.Enabled = cbConnectionMode.SelectedIndex == (int)ConnectionMode.Shared;
+        }
+
+        private void chkStayConnected_CheckedChanged(object sender, EventArgs e)
+        {
+            chkDisconnectOnError.Enabled = chkStayConnected.Checked;
         }
 
         private void btnOK_Click(object sender, EventArgs e)

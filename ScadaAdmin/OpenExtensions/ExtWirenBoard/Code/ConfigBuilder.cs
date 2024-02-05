@@ -277,6 +277,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
                         deviceConfig.DeviceNum = deviceNum;
                         deviceConfig.Name = deviceModel.Meta.Name;
                         deviceConfig.Driver = MqttDriverName;
+                        deviceConfig.PollingOptions.Delay = PollingOptions.DefaultDelay;
 
                         // channels and subscriptions
                         BuildCnls(entry, deviceModel, objNum, deviceNum, ref cnlNum);
@@ -313,7 +314,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
                     }
 
                     logHelper.WriteLine();
-                    cnlNum = AdjustCnlNum(options, cnlNum);
+                    cnlNum = options.AdjustID(cnlNum);
                 }
 
                 BuildResult = DeviceConfigs.Count > 0;
@@ -321,29 +322,6 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
             catch (Exception ex)
             {
                 logHelper.WriteError(ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// Gets a starting channel number for a next device.
-        /// </summary>
-        public static int AdjustCnlNum(ChannelNumberingOptions options, int nextCnlNum)
-        {
-            ArgumentNullException.ThrowIfNull(options, nameof(options));
-            int cnlNum = options.Gap > 0 ? nextCnlNum + options.Gap : nextCnlNum;
-
-            if (options.Multiplicity > 1)
-            {
-                int remainder = cnlNum % options.Multiplicity;
-
-                if (remainder > 0)
-                    cnlNum = cnlNum - remainder + options.Multiplicity;
-
-                return cnlNum + options.Shift;
-            }
-            else
-            {
-                return cnlNum;
             }
         }
     }

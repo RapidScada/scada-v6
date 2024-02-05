@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModArcBasicDictionaries culture="zh-Hans" lang="ChineseSimplified">
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmArcDir">
+    <Phrase key="this">存档目录</Phrase>
+    <Phrase key="chkUseDefaultDir">使用默认陌路</Phrase>
+    <Phrase key="lblArcDir">以DAT格式存档</Phrase>
+    <Phrase key="btnBrowseArcDir">浏览……</Phrase>
+    <Phrase key="lblArcCopyDir">以DAT格式存档副本</Phrase>
+    <Phrase key="btnBrowseArcCopyDir">浏览……</Phrase>
+    <Phrase key="btnSetToDefaultWin">Windows平台设置</Phrase>
+    <Phrase key="btnSetToDefaultLinux">Linux平台设置</Phrase>
+    <Phrase key="btnOK">确定</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicCAO">
+    <Phrase key="this">当前存档选项</Phrase>
+    <Phrase key="gbGeneralOptions">常规选项</Phrase>
+    <Phrase key="lblLogEnabled">启用日志</Phrase>
+    <Phrase key="lblFlushPeriod">冲刷周期</Phrase>
+    <Phrase key="txtFlushPeriodUnit">秒</Phrase>
+    <Phrase key="gbPathOptions">路径选项</Phrase>
+    <Phrase key="lblUseCopyDir">写入副本目录</Phrase>
+    <Phrase key="btnShowDir">目录</Phrase>
+    <Phrase key="btnOK">确定</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicEAO">
+    <Phrase key="this">事件存档选项</Phrase>
+    <Phrase key="gbGeneralOptions">常规选项</Phrase>
+    <Phrase key="lblLogEnabled">启用日志</Phrase>
+    <Phrase key="lblRetention">渲染周期</Phrase>
+    <Phrase key="txtRetentionUnit">天</Phrase>
+    <Phrase key="gbPathOptions">路径选项</Phrase>
+    <Phrase key="lblUseCopyDir">写入副本目录</Phrase>
+    <Phrase key="btnShowDir">目录</Phrase>
+    <Phrase key="btnOK">确定</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicHAO">
+    <Phrase key="this">历史存档选项</Phrase>
+    <Phrase key="gbGeneralOptions">常规选项</Phrase>
+    <Phrase key="lblLogEnabled">启用日志</Phrase>
+    <Phrase key="lblRetention">渲染周期</Phrase>
+    <Phrase key="txtRetentionUnit">天</Phrase>
+    <Phrase key="lblWriteWithPeriod">周期性写入？</Phrase>
+    <Phrase key="lblWritingPeriod">写入时间段</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[0]">秒</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[1]">分</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[2]">时</Phrase>
+    <Phrase key="lblPullToPeriod">拉至时段？</Phrase>
+    <Phrase key="txtPullToPeriodUnit">秒</Phrase>
+    <Phrase key="gbPathOptions">路径选项</Phrase>
+    <Phrase key="lblUseCopyDir">写入副本目录</Phrase>
+    <Phrase key="btnShowDir">目录</Phrase>
+    <Phrase key="btnOK">确定</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+  </Dictionary>
+</ModArcBasicDictionaries>

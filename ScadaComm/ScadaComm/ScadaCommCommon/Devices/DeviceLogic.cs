@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2006
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Comm.Channels;
@@ -201,7 +201,7 @@ namespace Scada.Comm.Devices
         }
 
         /// <summary>
-        /// Gets the current device status.
+        /// Gets or sets the current device status.
         /// </summary>
         public DeviceStatus DeviceStatus
         {
@@ -446,8 +446,10 @@ namespace Scada.Comm.Devices
 
             Log.WriteLine();
             Log.WriteAction(Locale.IsRussian ?
-                "Команда устройству {0}" :
-                "Command to the device {0}", Title);
+                "Команда {0} устройству {1}" :
+                "Command {0} to the device {1}",
+                string.IsNullOrEmpty(cmd.CmdCode) ? cmd.CmdNum.ToString() : cmd.CmdCode,
+                Title);
         }
 
         /// <summary>
@@ -455,6 +457,20 @@ namespace Scada.Comm.Devices
         /// </summary>
         public virtual void ReceiveIncomingRequest(Connection conn, IncomingRequestArgs requestArgs)
         {
+            Log.WriteLine();
+
+            if (string.IsNullOrEmpty(conn.RemoteAddress))
+            {
+                Log.WriteAction(Locale.IsRussian ?
+                    "Приём входящего запроса" :
+                    "Receive incoming request");
+            }
+            else
+            {
+                Log.WriteAction(Locale.IsRussian ?
+                    "Приём входящего запроса от {0}" :
+                    "Receive incoming request from {0}", conn.RemoteAddress);
+            }
         }
 
         /// <summary>
@@ -463,6 +479,22 @@ namespace Scada.Comm.Devices
         public virtual void ProcessIncomingRequest(byte[] buffer, int offset, int count, 
             IncomingRequestArgs requestArgs)
         {
+            Log.WriteLine();
+
+            if (string.IsNullOrEmpty(Connection.RemoteAddress))
+            {
+                Log.WriteAction(Locale.IsRussian ?
+                    "Обработка входящего запроса" :
+                    "Process incoming request");
+            }
+            else
+            {
+                Log.WriteAction(Locale.IsRussian ?
+                    "Обработка входящего запроса от {0}" :
+                    "Process incoming request from {0}", Connection.RemoteAddress);
+            }
+
+            Log.WriteLine(Connection.BuildReadLogText(buffer, offset, count, Connection.ProtocolFormat));
         }
 
         /// <summary>

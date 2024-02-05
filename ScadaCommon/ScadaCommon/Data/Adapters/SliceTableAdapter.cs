@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -276,7 +276,7 @@ namespace Scada.Data.Adapters
                 writer.Write(ReserveBuffer, 0, 14);
 
                 // write slice
-                int cnlCnt = slice.CnlNums.Length;
+                int cnlCnt = slice.Length;
                 int sliceSize = cnlCnt > 0 ? cnlCnt * 14 + 18 : 14;
                 ResizeBuffer(ref sliceBuffer, sliceSize);
                 byte[] buffer = sliceBuffer;

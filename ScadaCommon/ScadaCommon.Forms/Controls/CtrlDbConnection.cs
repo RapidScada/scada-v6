@@ -1,10 +1,8 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Config;
-using System;
+using Scada.Dbms;
 using System.ComponentModel;
-using System.Windows.Forms;
 
 namespace Scada.Forms.Controls
 {
@@ -25,6 +23,7 @@ namespace Scada.Forms.Controls
         public CtrlDbConnection()
         {
             InitializeComponent();
+            FillDbms();
 
             connectionOptions = null;
             nameEnabled = txtName.Enabled;
@@ -125,6 +124,21 @@ namespace Scada.Forms.Controls
 
 
         /// <summary>
+        /// Fills the DBMS combo box.
+        /// </summary>
+        private void FillDbms()
+        {
+            cbDbms.BeginUpdate();
+
+            foreach (string name in Enum.GetNames(typeof(KnownDBMS)))
+            {
+                cbDbms.Items.Add(name);
+            }
+
+            cbDbms.EndUpdate();
+        }
+
+        /// <summary>
         /// Sets the ReadOnly property of the textboxes depending on connection string usage.
         /// </summary>
         private void SetFieldsReadOnly(bool useConnectionString)
@@ -135,15 +149,18 @@ namespace Scada.Forms.Controls
             txtPassword.ReadOnly = useConnectionString;
             txtConnectionString.ReadOnly = !useConnectionString;
         }
-        
+
         /// <summary>
         /// Builds the connection string.
         /// </summary>
         private string BuildConnectionString(DbConnectionOptions options)
         {
-            return options == null || BuildConnectionStringFunc == null
-                ? ""
-                : BuildConnectionStringFunc(options);
+            if (options == null)
+                return "";
+            else if (BuildConnectionStringFunc == null)
+                return ConnectionStringBuilder.Build(options, true);
+            else
+                return BuildConnectionStringFunc(options);
         }
 
         /// <summary>
@@ -178,13 +195,23 @@ namespace Scada.Forms.Controls
             txtName.Select();
         }
 
+        /// <summary>
+        /// Hides the component border.
+        /// </summary>
+        public void HideBorder()
+        {
+            gbConnectionOptions.Hide();
+            pnlConnectionOptions.Parent = this;
+            pnlConnectionOptions.Dock = DockStyle.Fill;
+        }
+
 
         /// <summary>
         /// Occurs when the connection options change.
         /// </summary>
         [Category("Property Changed")]
         public event EventHandler ConnectionOptionsChanged;
-        
+
         /// <summary>
         /// Occurs when the connection name changes.
         /// </summary>

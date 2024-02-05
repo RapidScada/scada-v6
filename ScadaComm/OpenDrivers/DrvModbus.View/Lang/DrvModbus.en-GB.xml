@@ -1,9 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DrvModbusDictionaries>
-  <Dictionary key="Scada.Comm.Drivers.DrvModbus.Config.DeviceTemplate">
-    <Phrase key="LoadTemplateError">Error loading device template</Phrase>
-    <Phrase key="SaveTemplateError">Error saving device template</Phrase>
-  </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls">
     <Phrase key="AddressHint">{0}, starting from {1}</Phrase>
     <Phrase key="ElemRemoveWarning">The data block allows a maximum of {0} elements.&#13;&#10;Extra elements will be removed. Continue?</Phrase>
@@ -64,10 +60,10 @@
     <Phrase key="chkGrActive">Active</Phrase>
     <Phrase key="lblGrName">Name</Phrase>
     <Phrase key="lblGrDataBlock">Data block</Phrase>
-    <Phrase key="cbGrTableType.Items[0]">Discrete Inputs (1X)</Phrase>
-    <Phrase key="cbGrTableType.Items[1]">Coils (0X)</Phrase>
-    <Phrase key="cbGrTableType.Items[2]">Input Registers (3X)</Phrase>
-    <Phrase key="cbGrTableType.Items[3]">Holding Registers (4X)</Phrase>
+    <Phrase key="cbGrDataBlock.Items[0]">Discrete Inputs (1X)</Phrase>
+    <Phrase key="cbGrDataBlock.Items[1]">Coils (0X)</Phrase>
+    <Phrase key="cbGrDataBlock.Items[2]">Input Registers (3X)</Phrase>
+    <Phrase key="cbGrDataBlock.Items[3]">Holding Registers (4X)</Phrase>
     <Phrase key="lblGrFuncCode">Function code</Phrase>
     <Phrase key="lblGrAddress">Start element address</Phrase>
     <Phrase key="lblGrElemCnt">Element count</Phrase>
@@ -78,9 +74,8 @@
     <Phrase key="lblTransMode">Protocol</Phrase>
     <Phrase key="gbDevice">Device</Phrase>
     <Phrase key="lblTemplateFileName">Device template</Phrase>
-    <Phrase key="btnBrowseTemplate">Browse...</Phrase>
-    <Phrase key="btnCreateTemplate">Create</Phrase>
     <Phrase key="btnEditTemplate">Edit</Phrase>
+    <Phrase key="btnBrowseTemplate">Browse...</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
     <Phrase key="ConfigDirRequired">The device template file must be located inside {0}</Phrase>

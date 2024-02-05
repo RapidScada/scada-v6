@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -39,6 +39,7 @@ namespace Scada.Data.Const
         public const string Temperature = "T";
         public const string Velocity = "v";
         public const string Acceleration = "a";
+        public const string RotationalVelocity = "rv";
         public const string State = "State";
         public const string RelayState = "RelayState";
         public const string SecurityAlarmState = "SecState";
@@ -62,5 +63,6 @@ namespace Scada.Data.Const
         public const string VolumetricFlowRate = "FlowRate";
         public const string Heat = "Heat";
         public const string Humidity = "Hum";
+        public const string Concentration = "C";
     }
 }

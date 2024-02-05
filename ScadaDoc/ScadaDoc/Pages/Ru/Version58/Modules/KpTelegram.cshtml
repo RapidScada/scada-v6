@@ -1,0 +1,91 @@
+﻿@page "/ru/5.8/modules/kp-telegram"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Драйвер Telegram";
+}
+
+<nav class="doc-toc">
+    <div class="h6">На этой странице</div>
+    <hr>
+    <ul>
+        <li><a href="#overview">Обзор</a></li>
+        <li><a href="#installation">Установка</a></li>
+        <li>
+            <a href="#configuring">Конфигурирование</a>
+            <ul>
+                <li><a href="#creating-bot">Создание бота Telegram</a></li>
+                <li><a href="#driver-settings">Настройка драйвера</a></li>
+                <li><a href="#manage-subscriptions">Управление подписками</a></li>
+            </ul>
+        </li>
+        <li><a href="#sending-messages">Отправка сообщений</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Драйвер Telegram</h1>
+    <h2 id="overview">Обзор</h2>
+    <p>Драйвер Telegram предназначен для рассылки уведомлений пользователям с помощью популярного мессенджера Telegram. Преимуществами использования Telegram является оперативность получения уведомлений, отсутствие платы за использование сервиса и удобство управления группами рассылки.</p>
+
+    <h2 id="installation">Установка</h2>
+    <p>Драйвер Telegram устанавливается в соответствии с <a href="../installation-and-run/module-installation#drivers">общей последовательностью установки драйверов Коммуникатора</a>. Файл библиотеки драйвера - KpTelegram.dll.</p>
+
+    <h2 id="configuring">Конфигурирование</h2>
+    <h3 id="creating-bot">Создание бота Telegram</h3>
+    <p>Предварительно необходимо создать бота с системе Telegram. Для этого:</p>
+    <ol>
+        <li>Установите приложение и зарегистрируйтесь в <a href="https://telegram.org/" target="_blank">Telegram</a>.</li>
+        <li>
+            Добавьте в список контактов бота <a href="https://telegram.me/botfather" target="_blank">BotFather</a>.
+            <figure class="figure text-start">
+                <img src="kp-telegram-files/bot_father.png" class="figure-img img-fluid border" alt="Telegram BotFather" />
+            </figure>
+        </li>
+        <li>В режиме диалога с BotFather выполните команду <em>/newbot</em> и следуйте инструкциям от BotFather.</li>
+        <li>
+            Щёлкните по значку меню и создайте новую группу для получения рассылки.
+            <figure class="figure text-start">
+                <img src="kp-telegram-files/new_group.png" class="figure-img img-fluid border" alt="Новая группа Telegram" />
+            </figure>
+        </li>
+        <li>Добавьте созданного Вами бота в новую группу.</li>
+        <li>Добавьте контакты в новую группу. Эти контакты будут получать рассылку.</li>
+    </ol>
+
+    <h3 id="driver-settings">Настройка драйвера</h3>
+    <p>Настройка рассылки уведомлений выполняется с помощью программы Администратор как часть проекта. Последовательность настройки:</p>
+    <ol>
+        <li>Открыть таблицу <em>Типы КП</em> и проверить, что тип &quot;КП 224 Telegram&quot; существует. Если указанная запись в таблице отсутствует, то ввести её вручную.</li>
+        <li>Создать отдельную линию связи и единственный КП типа Telegram на данной линии связи, используя мастеры, которые вызываются с помощью кнопок <img src="../common-images/add_line.png" /> и <img src="../common-images/add_device.png" />.</li>
+        <li>
+            В настройках Коммуникатора открыть свойства КП, ввести токен бота, полученный при создании бота, и сгенерировать пароль бота, который используется для управления подписками.
+            <figure class="figure text-start">
+                <img src="kp-telegram-files/kp_telegram_config_ru.png" class="figure-img img-fluid" alt="Конфигурация КП Telegram" />
+            </figure>
+        </li>
+        <li>Сохранить изменения конфигурации драйвера.</li>
+        <li>Передать проект на сервер с помощью кнопки <img src="../common-images/upload.png" />.</li>
+        <li>
+            Перейти на страницу <em>Регистрация</em> и зарегистрировать драйвер, используя гиперссылки, размещённые на форме.
+            <figure class="figure text-start">
+                <img src="kp-telegram-files/kp_telegram_reg_ru.png" class="figure-img img-fluid" alt="Регистрация КП Telegram" />
+            </figure>
+        </li>
+        <li>Снова сохранить изменения и передать проект на сервер.</li>
+    </ol>
+
+    <h3 id="manage-subscriptions">Управление подписками</h3>
+    <p>Если настройка выполнена правильно, то Ваш бот будет отвечать на команды, отправленные из мессенджера, например, команду <em>/help</em>. Необходимо в настройках драйвера указать подписки (чаты), с которыми взаимодействует Коммуникатор.</p>
+    <p class="sd-article-image border">
+        <img src="kp-telegram-files/group_chat_ru.png" alt="Группа уведомлений Telegram" /><br />
+    </p>
+    <p>Чтобы получить идентификатор и наименование подписки, следует отправить команду <em>/info</em> с помощью мессенджера. Затем добавить полученные данные на форме конфигурации КП.</p>
+    <p>Устаревший способ: добавление или удаление подписки выполняется с помощью команд <em>/start</em> и <em>/stop</em> с указанием ранее сгенерированного пароля. Однако, по умолчанию изменение подписки заблокировано. Чтобы его разблокировать, в Коммуникаторе нужно отправить для КП стандартную команду номер 2 со значением 1. После этого можно добавлять или удалять подписки.</p>
+
+    <h2 id="sending-messages">Отправка сообщений</h2>
+    <p>Чтобы из Rapid SCADA отправить сообщение в группу Telegram, необходимо отправить бинарную команду номер 1, содержащую имя (или идентификатор) группы и текст сообщения. Например:<br />RapidScadaDemo; Тестовое сообщение.</p>
+    <p class="sd-article-image">
+        <img src="kp-telegram-files/send_cmd_ru.png" alt="Отправка сообщения Telegram" /><br />
+    </p>
+    <p>Автоматическая рассылка уведомлений при выполнении определённых условий и возникновении событий осуществляется с помощью <a href="mod-auto-control">Модуля автоматического управления.</a></p>
+</div>

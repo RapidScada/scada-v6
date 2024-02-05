@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtTableEditorDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableEditor">
+    <Phrase key="btnRefreshBase.ToolTip">Obnovit konfigurační databázi</Phrase>
+    <Phrase key="btnAddItem.ToolTip">Přidat položku</Phrase>
+    <Phrase key="btnAddEmptyItem.ToolTip">Přidat prázdnou položku</Phrase>
+    <Phrase key="btnMoveUpItem.ToolTip">Přesunout položku nahoru</Phrase>
+    <Phrase key="btnMoveDownItem.ToolTip">Přesunout položku dolů</Phrase>
+    <Phrase key="btnDeleteItem.ToolTip">Smazat vybrané položky</Phrase>
+    <Phrase key="btnTableOptions.ToolTip">Možnosti zobrazení tabulky</Phrase>
+    <Phrase key="lblHint">Stiskněte Enter nebo poklepejte na uzel a přidejte jej do tabulky.  Kliknutím pravým tlačítkem na uzel zařízení zobrazíte kontextovou nabídku.</Phrase>
+    <Phrase key="colCnlNum">Kanál</Phrase>
+    <Phrase key="colDeviceNum">přístroj</Phrase>
+    <Phrase key="colAutoText">Automatický text</Phrase>
+    <Phrase key="colText">Text</Phrase>
+    <Phrase key="colHidden">Skrytý</Phrase>
+    <Phrase key="miDeviceAddDevice">Přidat zařízení</Phrase>
+    <Phrase key="miDeviceAddAllChannels">Přidat všechny kanály</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableOptions">
+    <Phrase key="this">Možnosti zobrazení tabulky</Phrase>
+    <Phrase key="chkUseDefault">Použít výchozí možnosti</Phrase>
+    <Phrase key="lblArchiveCode">Archivní kód</Phrase>
+    <Phrase key="btnSelectArchiveCode">Vybrat...</Phrase>
+    <Phrase key="lblPeriod">Období tabulky, min</Phrase>
+    <Phrase key="lblChartArgs">Argumenty grafu</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">zrušení</Phrase>
+  </Dictionary>
+</ExtTableEditorDictionaries>

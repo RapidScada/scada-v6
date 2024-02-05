@@ -3,6 +3,7 @@
 
 using Scada.Data.Adapters;
 using Scada.Data.Models;
+using Scada.Lang;
 using Scada.Log;
 using Scada.Server.Archives;
 using Scada.Server.Config;
@@ -11,6 +12,7 @@ using Scada.Server.Modules.ModArcBasic.Config;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Scada.Server.Modules.ModArcBasic.Logic
 {
@@ -28,12 +30,13 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         private readonly ModuleConfig moduleConfig; // the module configuration
         private readonly BasicCAO options;          // the archive options
         private readonly ILog arcLog;               // the archive log
-        private readonly Stopwatch stopwatch;       // measures the time of operations
         private readonly SliceTableAdapter adapter; // reads and writes current data
         private readonly Slice slice;               // the slice for writing
+        private readonly object archiveLock;        // synchronizes access to the archive
 
         private DateTime nextWriteTime; // the next time to write the current data
         private int[] cnlIndexes;       // the channel mapping indexes
+        private Task writingTask;       // the data writing task
 
 
         /// <summary>
@@ -45,12 +48,13 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             this.moduleConfig = moduleConfig ?? throw new ArgumentNullException(nameof(moduleConfig));
             options = new BasicCAO(archiveConfig.CustomOptions);
             arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
-            stopwatch = new Stopwatch();
             adapter = new SliceTableAdapter();
             slice = new Slice(DateTime.MinValue, cnlNums);
+            archiveLock = new object();
 
             nextWriteTime = DateTime.MinValue;
             cnlIndexes = null;
+            writingTask = null;
         }
 
 
@@ -71,25 +75,28 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         {
             if (File.Exists(adapter.FileName))
             {
-                stopwatch.Restart();
-                Slice slice = adapter.ReadSingleSlice();
-
-                for (int i = 0, cnlCnt = slice.CnlNums.Length; i < cnlCnt; i++)
+                lock (archiveLock)
                 {
-                    int cnlNum = slice.CnlNums[i];
-                    int cnlIndex = curData.GetCnlIndex(cnlNum);
+                    Stopwatch stopwatch = Stopwatch.StartNew();
+                    Slice slice = adapter.ReadSingleSlice();
 
-                    if (cnlIndex >= 0)
+                    for (int i = 0, len = slice.Length; i < len; i++)
                     {
-                        curData.Timestamps[cnlIndex] = slice.Timestamp;
-                        curData.CnlData[cnlIndex] = slice.CnlData[i];
-                    }
-                }
+                        int cnlNum = slice.CnlNums[i];
+                        int cnlIndex = curData.GetCnlIndex(cnlNum);
 
-                completed = true;
-                stopwatch.Stop();
-                arcLog?.WriteAction(ServerPhrases.ReadingSliceCompleted, 
-                    slice.CnlNums.Length, stopwatch.ElapsedMilliseconds);
+                        if (cnlIndex >= 0)
+                        {
+                            curData.Timestamps[cnlIndex] = slice.Timestamp;
+                            curData.CnlData[cnlIndex] = slice.CnlData[i];
+                        }
+                    }
+
+                    completed = true;
+                    stopwatch.Stop();
+                    arcLog?.WriteAction(ServerPhrases.ReadingSliceCompleted,
+                        slice.Length, stopwatch.ElapsedMilliseconds);
+                }
             }
             else
             {
@@ -102,15 +109,31 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void WriteData(ICurrentData curData)
         {
-            stopwatch.Restart();
-            InitCnlIndexes(curData, ref cnlIndexes);
-            CopyCnlData(curData, slice, cnlIndexes);
-            adapter.WriteSingleSlice(slice);
-            LastWriteTime = curData.Timestamp;
+            if (writingTask == null || writingTask.IsCompleted)
+            {
+                writingTask = Task.Run(() =>
+                {
+                    lock (archiveLock)
+                    {
+                        Stopwatch stopwatch = Stopwatch.StartNew();
+                        InitCnlIndexes(curData, ref cnlIndexes);
+                        CopyCnlData(curData, slice, cnlIndexes);
+                        slice.Timestamp = curData.Timestamp;
+                        adapter.WriteSingleSlice(slice);
+                        LastWriteTime = curData.Timestamp;
 
-            stopwatch.Stop();
-            arcLog?.WriteAction(ServerPhrases.WritingSliceCompleted,
-                slice.CnlNums.Length, stopwatch.ElapsedMilliseconds);
+                        stopwatch.Stop();
+                        arcLog?.WriteAction(ServerPhrases.WritingSliceCompleted,
+                            slice.Length, stopwatch.ElapsedMilliseconds);
+                    }
+                });
+            }
+            else
+            {
+                arcLog?.WriteWarning(Locale.IsRussian ?
+                    "Операция записи ещё не завершена" :
+                    "Write operation not completed yet");
+            }
         }
 
         /// <summary>

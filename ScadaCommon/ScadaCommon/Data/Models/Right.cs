@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
- * Modified : 2021
+ * Modified : 2023
  */
 
 using Scada.Data.Entities;
@@ -46,10 +46,11 @@ namespace Scada.Data.Models
         /// <summary>
         /// Initializes a new instance of the structure.
         /// </summary>
-        public Right(bool viewRight, bool ctrlRight)
+        public Right(bool viewRight, bool controlRight)
         {
+            List = viewRight;
             View = viewRight;
-            Control = ctrlRight;
+            Control = controlRight;
         }
 
         /// <summary>
@@ -57,10 +58,16 @@ namespace Scada.Data.Models
         /// </summary>
         public Right(ObjRight objRight)
         {
+            List = objRight.View;
             View = objRight.View;
             Control = objRight.Control;
         }
 
+
+        /// <summary>
+        /// Gets or sets the right to display in a list.
+        /// </summary>
+        public bool List { get; set; }
 
         /// <summary>
         /// Gets or sets the right to view.

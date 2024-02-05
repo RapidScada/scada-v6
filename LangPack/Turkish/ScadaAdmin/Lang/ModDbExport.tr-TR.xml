@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModDbExportDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlArcReplication">
+    <Phrase key="gbOptions">Arşiv Çoğaltma Seçenekleri</Phrase>
+    <Phrase key="chkEnabled">Etkinleştirilmiş</Phrase>
+    <Phrase key="chkAutoExport">Arşivleri otomatik olarak dışa aktar</Phrase>
+    <Phrase key="lblMinDepth">Minimum derinlik, saniye</Phrase>
+    <Phrase key="lblMaxDepth">Maksimum derinlik, saniye</Phrase>
+    <Phrase key="lblReadingStep">Okuma adımı, saniye</Phrase>
+    <Phrase key="lblHistArchiveBit">Biraz tarihsel arşiv</Phrase>
+    <Phrase key="lblEventArchiveBit">Biraz olay arşivi</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlCurDataExport">
+    <Phrase key="gbOptions">Geçerli Veri Aktarım Seçenekleri</Phrase>
+    <Phrase key="lblTrigger">Tetiklemek</Phrase>
+    <Phrase key="cbTrigger.Items[0]">Alındığında</Phrase>
+    <Phrase key="cbTrigger.Items[1]">Zamanlayıcıda</Phrase>
+    <Phrase key="lblTimePeriod">Zamanlayıcı periyodu, saniye</Phrase>
+    <Phrase key="lblAllDataPeriod">Tüm kanalların verilerini dışa aktarma süresi, saniye</Phrase>
+    <Phrase key="chkSkipUnchanged">Değiştirilmemiş verileri atla</Phrase>
+    <Phrase key="chkIncludeCalculated">Hesaplanan kanalları dahil et</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlGeneral">
+    <Phrase key="gbGeneral">Genel seçenekler</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="lblTargetID">Hedef Kimliği</Phrase>
+    <Phrase key="lblName">İsim</Phrase>
+    <Phrase key="lblCmdCode">komut kodu</Phrase>
+    <Phrase key="lblStatusCnlNum">Durum kanal numarası</Phrase>
+    <Phrase key="lblMaxQueueSize">Maksimum sıra boyutu</Phrase>
+    <Phrase key="lblDataLifetime">Sıradaki veri ömrü, saniye</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlQuery">
+    <Phrase key="gbGeneral">Genel</Phrase>
+    <Phrase key="chkActive">Aktif</Phrase>
+    <Phrase key="lblName">İsim</Phrase>
+    <Phrase key="lblDataKind">veri türü</Phrase>
+    <Phrase key="cbDataKind.Items[0]">Güncel veri</Phrase>
+    <Phrase key="cbDataKind.Items[1]">Tarihsel veri</Phrase>
+    <Phrase key="cbDataKind.Items[2]">Etkinlik</Phrase>
+    <Phrase key="cbDataKind.Items[3]">Olay onayı</Phrase>
+    <Phrase key="cbDataKind.Items[4]">Emretmek</Phrase>
+    <Phrase key="gbFilter">filtre</Phrase>
+    <Phrase key="lblCnlNum">kanal numaraları</Phrase>
+    <Phrase key="lblObjNum">nesne numaraları</Phrase>
+    <Phrase key="lblDeviceNum">Cihaz numaraları</Phrase>
+    <Phrase key="gbQuery">Sorgu</Phrase>
+    <Phrase key="chkSingleQuery">Tek sorgu (giriş sayıları gereklidir)</Phrase>
+    <Phrase key="btnViewParameters.ToolTip">Mevcut parametreler</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmModuleConfig">
+    <Phrase key="this">DB'ye Aktar</Phrase>
+    <Phrase key="ddbAdd.ToolTip">İhracat Hedefi Ekle</Phrase>
+    <Phrase key="btnSqlServer">Microsoft SQL Server</Phrase>
+    <Phrase key="btnMySql">MySQL</Phrase>
+    <Phrase key="btnOracle">Oracle</Phrase>
+    <Phrase key="btnPostgreSql">PostgreSql</Phrase>
+    <Phrase key="btnAddCurrentDataQuery.ToolTip">Geçerli Veri Sorgusu Ekle</Phrase>
+    <Phrase key="btnAddHistoricalDataQuery.ToolTip">Geçmiş Veri Sorgusu Ekle</Phrase>
+    <Phrase key="btnAddEventQuery.ToolTip">Etkinlik Sorgusu Ekle</Phrase>
+    <Phrase key="btnAddEventAckQuery.ToolTip">Etkinlik Onay Sorgusu Ekle</Phrase>
+    <Phrase key="btnAddCommandQuery.ToolTip">Komut Sorgusu Ekle</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Yukarı Taşı</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Aşağı inmek</Phrase>
+    <Phrase key="btnDelete.ToolTip">Silmek</Phrase>
+    <Phrase key="btnCut.ToolTip">Kesmek</Phrase>
+    <Phrase key="btnCopy.ToolTip">kopyala</Phrase>
+    <Phrase key="btnPaste.ToolTip">Yapıştırmak</Phrase>
+    <Phrase key="gbTarget">İhracat Hedefleri</Phrase>
+    <Phrase key="btnSave">Kaydetmek</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+    <Phrase key="btnClose">Kapalı</Phrase>
+    <Phrase key="miCollapseAll">Hepsini Daralt</Phrase>
+    <Phrase key="CopySuffix">- Kopyala</Phrase>
+    <Phrase key="ArchiveExportOptionsNode">Arşiv Çoğaltma</Phrase>
+    <Phrase key="ConnectionOptionsNode">Bağlantı Seçenekleri</Phrase>
+    <Phrase key="CurrentExportOptionsNode">Güncel veri</Phrase>
+    <Phrase key="ExportOptionsNode">Dışa Aktarma Seçenekleri</Phrase>
+    <Phrase key="GeneralOptionsNode">Genel seçenekler</Phrase>
+    <Phrase key="QueriesNode">Sorguları</Phrase>
+    <Phrase key="AddTargets">hedef ekle</Phrase>
+    <Phrase key="SelectChildNode">Alt düğümü seçin</Phrase>
+    <Phrase key="TargetName">{0} hedefleyin</Phrase>
+    <Phrase key="QueryName">{0} sorgusu</Phrase>
+    <Phrase key="TargetNameNotUnique">Hedef adları benzersiz olmalıdır.</Phrase>
+    <Phrase key="UnnamedQuery">&lt;Adsız Sorgu&gt;</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.Forms.FrmQueryParametrs">
+    <Phrase key="this">Mevcut Parametreler</Phrase>
+    <Phrase key="colParamsName">İsim</Phrase>
+    <Phrase key="colParams">Tanım</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.Command">
+    <Phrase key="CommandID">Komut Kimliği</Phrase>
+    <Phrase key="CreationTime">Komut oluşturma zamanı</Phrase>
+    <Phrase key="ClientName">Komutu gönderen müşteri</Phrase>
+    <Phrase key="UserID">Kullanıcı kimliği</Phrase>
+    <Phrase key="CnlNum">Kanal numarası</Phrase>
+    <Phrase key="ObjNum">nesne numarası</Phrase>
+    <Phrase key="DeviceNum">Cihaz numarası</Phrase>
+    <Phrase key="CmdNum">Komut numarası</Phrase>
+    <Phrase key="CmdCode">komut kodu</Phrase>
+    <Phrase key="CmdVal">Komut değeri</Phrase>
+    <Phrase key="CmdData">Komut verileri</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.Data">
+    <Phrase key="Timestamp">Zaman Damgası</Phrase>
+    <Phrase key="ChannelValue">Kanal {0} değeri</Phrase>
+    <Phrase key="ChannelStatus">Kanal {0} durumu</Phrase>
+    <Phrase key="FirstObject">1. kanalın nesne numarası</Phrase>
+    <Phrase key="FirstDevice">1. kanalın cihaz numarası</Phrase>
+    <Phrase key="CnlNum">Kanal numarası</Phrase>
+    <Phrase key="Val">kanal değeri</Phrase>
+    <Phrase key="Stat">kanal durumu</Phrase>
+    <Phrase key="ObjNum">nesne numarası</Phrase>
+    <Phrase key="DeviceNum">Cihaz numarası</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.Event">
+    <Phrase key="EventID">Etkinlik Kimliği</Phrase>
+    <Phrase key="Timestamp">Etkinlik zaman damgası</Phrase>
+    <Phrase key="Hidden">Etkinlik gizlendi</Phrase>
+    <Phrase key="CnlNum">Kanal numarası</Phrase>
+    <Phrase key="ObjNum">nesne numarası</Phrase>
+    <Phrase key="DeviceNum">Cihaz numarası</Phrase>
+    <Phrase key="PrevCnlVal">Önceki kanal değeri</Phrase>
+    <Phrase key="PrevCnlStat">Önceki kanal durumu</Phrase>
+    <Phrase key="CnlVal">kanal değeri</Phrase>
+    <Phrase key="CnlStat">kanal durumu</Phrase>
+    <Phrase key="Severity">önem derecesi</Phrase>
+    <Phrase key="AckRequired">Onay gerekli</Phrase>
+    <Phrase key="AckTimestamp">Onay zaman damgası</Phrase>
+    <Phrase key="AckUserID">Onay kullanıcı kimliği</Phrase>
+    <Phrase key="TextFormat">Metin formatı</Phrase>
+    <Phrase key="EventText">olay metni</Phrase>
+    <Phrase key="EventData">Olay verileri</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDbExport.View.QueryInfo.EventAck">
+    <Phrase key="EventID">Etkinlik Kimliği</Phrase>
+    <Phrase key="AckTimestamp">Onay zaman damgası</Phrase>
+    <Phrase key="AckUserID">Kullanıcı kimliği</Phrase>
+  </Dictionary>
+</ModDbExportDictionaries>

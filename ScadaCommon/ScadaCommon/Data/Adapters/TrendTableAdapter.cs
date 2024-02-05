@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Data.Models;
@@ -878,7 +878,7 @@ namespace Scada.Data.Adapters
 
                     if (slice.CnlNums == page.CnlNumList.CnlNums)
                     {
-                        for (int i = 0, cnlCnt = slice.CnlNums.Length; i < cnlCnt; i++)
+                        for (int i = 0, cnlCnt = slice.Length; i < cnlCnt; i++)
                         {
                             stream.Position = GetDataPosition(pageCnlCnt, pageCapacity, i, indexInPage);
                             WriteCnlData(writer, slice.CnlData[i]);
@@ -886,7 +886,7 @@ namespace Scada.Data.Adapters
                     }
                     else
                     {
-                        for (int i = 0, cnlCnt = slice.CnlNums.Length; i < cnlCnt; i++)
+                        for (int i = 0, cnlCnt = slice.Length; i < cnlCnt; i++)
                         {
                             if (page.GetCnlIndex(slice.CnlNums[i], out int cnlIndex))
                             {
@@ -1253,8 +1253,14 @@ namespace Scada.Data.Adapters
             if (page == null)
                 throw new ArgumentNullException(nameof(page));
 
-            return Path.Combine(GetTablePath(page.TrendTable),
-                GetPageFileName(ArchiveCode, page.TrendTable.TableDate, page.PageNumber));
+            if (string.IsNullOrEmpty(page.Path))
+            {
+                page.Path = Path.Combine(
+                    GetTablePath(page.TrendTable),
+                    GetPageFileName(ArchiveCode, page.TrendTable.TableDate, page.PageNumber));
+            }
+
+            return page.Path;
         }
 
         /// <summary>

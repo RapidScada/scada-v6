@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgWebPageDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgWebPage.Areas.Main.Pages.Landing">
+    <Phrase key="PageTitle">페이지 {0}</Phrase>
+    <Phrase key="UrlIsEmpty">URL이 비어 있기 때문에 리디렉션할 수 없습니다.</Phrase>
+  </Dictionary>
+</PlgWebPageDictionaries>

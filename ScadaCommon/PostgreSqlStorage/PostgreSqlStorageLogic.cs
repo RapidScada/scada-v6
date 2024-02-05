@@ -2,15 +2,10 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Npgsql;
-using Scada.Config;
 using Scada.Data.Tables;
 using Scada.Lang;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Text;
-using System.Threading;
 using System.Xml;
 using static Scada.Storages.PostgreSqlStorage.PostgreSqlStorageShared;
 
@@ -20,6 +15,7 @@ namespace Scada.Storages.PostgreSqlStorage
     /// Represents a storage logic.
     /// <para>Представляет логику хранилища.</para>
     /// </summary>
+    /// <remarks>The class is thread-safe.</remarks>
     public class PostgreSqlStorageLogic : StorageLogic
     {
         /// <summary>
@@ -47,9 +43,8 @@ namespace Scada.Storages.PostgreSqlStorage
         /// </summary>
         private static readonly TimeSpan ConnectAttemptPeriod = TimeSpan.FromSeconds(10);
 
-        private TimeSpan waitTimeout;            // how long to wait for connection
-        private DbConnectionOptions connOptions; // the database connection options
-        private NpgsqlConnection conn;           // the database connection
+        private TimeSpan waitTimeout;  // how long to wait for connection
+        private NpgsqlConnection conn; // the database connection
 
 
         /// <summary>
@@ -59,7 +54,6 @@ namespace Scada.Storages.PostgreSqlStorage
             : base(storageContext)
         {
             waitTimeout = TimeSpan.Zero;
-            connOptions = null;
             conn = null;
         }
 
@@ -94,7 +88,7 @@ namespace Scada.Storages.PostgreSqlStorage
         private string ReadVarcharContents(string tableName, ServiceApp app, string path)
         {
             string sql = $"SELECT contents FROM {tableName} WHERE app_id = @appID AND path = @path LIMIT 1";
-            NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
+            NpgsqlCommand cmd = new(sql, conn);
             cmd.Parameters.AddWithValue("appID", (int)app);
             cmd.Parameters.AddWithValue("path", NormalizePath(path));
 
@@ -124,19 +118,17 @@ namespace Scada.Storages.PostgreSqlStorage
         private byte[] ReadByteaContents(string tableName, string path)
         {
             string sql = $"SELECT contents FROM {tableName} WHERE path = @path LIMIT 1";
-            NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
+            NpgsqlCommand cmd = new(sql, conn);
             cmd.Parameters.AddWithValue("path", NormalizePath(path));
 
             try
             {
                 Monitor.Enter(conn);
                 conn.Open();
+                using NpgsqlDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow);
 
-                using (NpgsqlDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow))
-                {
-                    if (reader.Read())
-                        return reader.IsDBNull(0) ? Array.Empty<byte>() : (byte[])reader[0];
-                }
+                if (reader.Read())
+                    return reader.IsDBNull(0) ? [] : (byte[])reader[0];
             }
             finally
             {
@@ -157,12 +149,12 @@ namespace Scada.Storages.PostgreSqlStorage
                 "VALUES (@appID, @path, @contents, @writeTime) " +
                 "ON CONFLICT (app_id, path) DO UPDATE SET contents = @contents, write_time = @writeTime";
 
-            NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
+            NpgsqlCommand cmd = new(sql, conn);
             cmd.Parameters.AddWithValue("appID", (int)app);
             cmd.Parameters.AddWithValue("path", NormalizePath(path));
             cmd.Parameters.AddWithValue("writeTime", DateTime.UtcNow);
             cmd.Parameters.AddWithValue("contents", 
-                string.IsNullOrEmpty(contents) ? (object)DBNull.Value : contents);
+                string.IsNullOrEmpty(contents) ? DBNull.Value : contents);
 
             try
             {
@@ -187,11 +179,11 @@ namespace Scada.Storages.PostgreSqlStorage
                 "VALUES (@path, @contents, @writeTime) " +
                 "ON CONFLICT (path) DO UPDATE SET contents = @contents, write_time = @writeTime";
 
-            NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
+            NpgsqlCommand cmd = new(sql, conn);
             cmd.Parameters.AddWithValue("path", NormalizePath(path));
             cmd.Parameters.AddWithValue("writeTime", DateTime.UtcNow);
             cmd.Parameters.AddWithValue("contents", 
-                bytes == null || bytes.Length == 0 ? (object)DBNull.Value : bytes);
+                bytes == null || bytes.Length == 0 ? DBNull.Value : bytes);
 
             try
             {
@@ -212,7 +204,7 @@ namespace Scada.Storages.PostgreSqlStorage
         private BinaryReader GetViewReader(string path)
         {
             string sql = $"SELECT contents FROM {GetTableName(DataCategory.View)} WHERE path = @path LIMIT 1";
-            NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
+            NpgsqlCommand cmd = new(sql, conn);
             cmd.Parameters.AddWithValue("path", NormalizePath(path));
             
             NpgsqlDataReader reader = null;
@@ -258,20 +250,13 @@ namespace Scada.Storages.PostgreSqlStorage
         /// </summary>
         private static string GetTableName(DataCategory category)
         {
-            switch (category)
+            return category switch
             {
-                case DataCategory.Config:
-                    return Schema + ".app_config";
-
-                case DataCategory.Storage:
-                    return Schema + ".app_storage";
-
-                case DataCategory.View:
-                    return Schema + ".view_file";
-
-                default:
-                    throw new ScadaException("Data category not supported.");
-            }
+                DataCategory.Config => Schema + ".app_config",
+                DataCategory.Storage => Schema + ".app_storage",
+                DataCategory.View => Schema + ".view_file",
+                _ => throw new ScadaException("Data category not supported."),
+            };
         }
 
         /// <summary>
@@ -290,12 +275,6 @@ namespace Scada.Storages.PostgreSqlStorage
         {
             base.LoadConfig(xmlElement);
             waitTimeout = TimeSpan.FromSeconds(xmlElement.GetChildAsInt("WaitTimeout"));
-
-            if (xmlElement.SelectSingleNode("Connection") is XmlNode connectionNode)
-            {
-                connOptions = new DbConnectionOptions();
-                connOptions.LoadFromXml(connectionNode);
-            }
         }
 
         /// <summary>
@@ -303,10 +282,7 @@ namespace Scada.Storages.PostgreSqlStorage
         /// </summary>
         public override void MakeReady()
         {
-            if (connOptions == null)
-                throw new ScadaException(CommonPhrases.ConnOptionsNotFound);
-
-            conn = CreateDbConnection(connOptions);
+            conn = CreateDbConnection(StorageContext.InstanceConfig.Connection);
 
             // wait for connection
             DateTime utcNow = DateTime.UtcNow;
@@ -459,7 +435,7 @@ namespace Scada.Storages.PostgreSqlStorage
                 "WHERE " + (category == DataCategory.View ? "" : "app_id = @appID AND ") +
                 "path = @path LIMIT 1";
 
-            NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
+            NpgsqlCommand cmd = new(sql, conn);
             cmd.Parameters.AddWithValue("path", NormalizePath(path));
 
             if (category != DataCategory.View)
@@ -469,20 +445,18 @@ namespace Scada.Storages.PostgreSqlStorage
             {
                 Monitor.Enter(conn);
                 conn.Open();
+                using NpgsqlDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow);
 
-                using (NpgsqlDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow))
+                if (reader.Read())
                 {
-                    if (reader.Read())
+                    return new ShortFileInfo
                     {
-                        return new ShortFileInfo
-                        {
-                            Exists = true,
-                            LastWriteTime = reader.IsDBNull(1)
-                                ? DateTime.MinValue
-                                : reader.GetDateTime(1).ToUniversalTime(),
-                            Length = reader.GetInt32(0)
-                        };
-                    }
+                        Exists = true,
+                        LastWriteTime = reader.IsDBNull(1)
+                            ? DateTime.MinValue
+                            : reader.GetDateTime(1).ToUniversalTime(),
+                        Length = reader.GetInt32(0)
+                    };
                 }
             }
             finally
@@ -499,14 +473,14 @@ namespace Scada.Storages.PostgreSqlStorage
         /// </summary>
         public override ICollection<string> GetFileList(DataCategory category, string path, string searchPattern)
         {
-            List<string> fileList = new List<string>();
+            List<string> fileList = [];
             string sql =
                 $"SELECT path FROM {GetTableName(category)} " +
                 "WHERE " + (category == DataCategory.View ? "" : "app_id = @appID AND ") +
                 "starts_with(path, @path) AND substring(path from @pathLen) LIKE @searchPattern";
             // TODO: split_part(path, '\', -1) LIKE @searchPattern after porting on PostgreSQL 14
 
-            NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
+            NpgsqlCommand cmd = new(sql, conn);
             cmd.Parameters.AddWithValue("path", NormalizePath(path));
             cmd.Parameters.AddWithValue("pathLen", (path ?? "").Length + 1);
             cmd.Parameters.AddWithValue("searchPattern", string.IsNullOrEmpty(searchPattern) 
@@ -520,13 +494,11 @@ namespace Scada.Storages.PostgreSqlStorage
             {
                 Monitor.Enter(conn);
                 conn.Open();
+                using NpgsqlDataReader reader = cmd.ExecuteReader();
 
-                using (NpgsqlDataReader reader = cmd.ExecuteReader())
+                while (reader.Read())
                 {
-                    while (reader.Read())
-                    {
-                        fileList.Add(reader.GetString(0));
-                    }
+                    fileList.Add(reader.GetString(0));
                 }
             }
             finally

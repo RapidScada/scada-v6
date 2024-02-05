@@ -1,0 +1,15 @@
+[Unit]
+Description=Rapid SCADA Docs
+
+[Service]
+WorkingDirectory=/opt/scada/ScadaDoc
+ExecStart=/usr/bin/dotnet /opt/scada/ScadaDoc/ScadaDoc.dll --pathBase=/docs --urls=http://0.0.0.0:10009
+Restart=always
+RestartSec=10
+KillSignal=SIGINT
+SyslogIdentifier=scadadoc
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
+
+[Install]
+WantedBy=multi-user.target

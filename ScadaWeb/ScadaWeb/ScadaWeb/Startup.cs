@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -30,7 +30,6 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -98,7 +97,7 @@ namespace Scada.Web
             services
                 .AddControllers(options =>
                 {
-                    options.Filters.Add(new AuthorizeFilter());
+                    // set controller options here
                 })
                 .AddJsonOptions(options =>
                 {
@@ -108,12 +107,13 @@ namespace Scada.Web
             services
                 .AddRazorPages(options =>
                 {
-                    options.Conventions.AuthorizeFolder(WebPath.Root);
-                    options.Conventions.AllowAnonymousToPage(WebPath.ConfigReloadPage);
-                    options.Conventions.AllowAnonymousToPage(WebPath.ErrorPage);
-                    options.Conventions.AllowAnonymousToPage(WebPath.IndexPage);
-                    options.Conventions.AllowAnonymousToPage(WebPath.LoginPage);
-                    options.Conventions.AllowAnonymousToPage(WebPath.LogoutPage);
+                    options.Conventions
+                        .AuthorizeFolder(WebPath.Root)
+                        .AllowAnonymousToPage(WebPath.ConfigReloadPage)
+                        .AllowAnonymousToPage(WebPath.ErrorPage)
+                        .AllowAnonymousToPage(WebPath.IndexPage)
+                        .AllowAnonymousToPage(WebPath.LoginPage)
+                        .AllowAnonymousToPage(WebPath.LogoutPage);
                 })
                 .AddMvcOptions(options =>
                 {
@@ -149,6 +149,9 @@ namespace Scada.Web
                         policy.Requirements.Add(new ViewAllRequirement()));
                     options.AddPolicy(PolicyName.Restricted, policy =>
                         policy.Requirements.Add(new ObjRightRequirement()));
+                    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                        .Build();
                 });
 
             services
@@ -164,11 +167,12 @@ namespace Scada.Web
                 .AddSingleton(WebContext)
                 .AddSingleton(WebContext.Log)
                 .AddScoped(UserContextFactory.GetUserContext)
+                .AddScoped<IAuditLog, AuditLog>()
                 .AddScoped<IClientAccessor, ClientAccessor>()
+                .AddScoped<ILoginService, LoginService>()
                 .AddScoped<IViewLoader, ViewLoader>()
                 .AddScoped<IAuthorizationHandler, ViewAllHandler>()
-                .AddScoped<IAuthorizationHandler, ObjRightHandler>()
-                .AddTransient<ILoginService, LoginService>();
+                .AddScoped<IAuthorizationHandler, ObjRightHandler>();
 
             WebContext.PluginHolder.AddServices(services);
         }

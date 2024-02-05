@@ -2,16 +2,17 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <RootNamespace>Scada.Admin.App</RootNamespace>
-    <Version>6.0.0</Version>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
-    <Copyright>Copyright © 2022</Copyright>
+    <Copyright>Copyright © 2024</Copyright>
     <ApplicationIcon>lamp.ico</ApplicationIcon>
+    <Version>6.2.0</Version>
+    <AssemblyVersion>6.2.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -39,7 +40,7 @@
     <Content Include="..\..\..\ScadaServer\ScadaServer\ScadaServerCommon\Lang\ScadaServer.ru-RU.xml" Link="Lang\ScadaServer.ru-RU.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\ScadaWeb\ScadaWeb\ScadaWebCommon.Shared\Config\ScadaWebConfig.xml" Link="Templates\EmptyProject.en-GB\Instances\Default\ScadaWeb\config\ScadaWebConfig.xml">
+    <Content Include="..\..\..\ScadaWeb\ScadaWeb\ScadaWebCommon\Config\ScadaWebConfig.xml" Link="Templates\EmptyProject.en-GB\Instances\Default\ScadaWeb\config\ScadaWebConfig.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\ScadaAdminCommon\Config\ScadaAdminConfig.xml" Link="Config\ScadaAdminConfig.xml">
@@ -68,7 +69,7 @@
       <HintPath>..\..\..\ScadaCommon\ScadaCommon\bin\Release\netstandard2.0\ScadaCommon.dll</HintPath>
     </Reference>
     <Reference Include="ScadaCommon.Forms">
-      <HintPath>..\..\..\ScadaCommon\ScadaCommon.Forms\bin\Release\net6.0-windows\ScadaCommon.Forms.dll</HintPath>
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon.Forms\bin\Release\net8.0-windows\ScadaCommon.Forms.dll</HintPath>
     </Reference>
     <Reference Include="ScadaCommon.Log">
       <HintPath>..\..\..\ScadaCommon\ScadaCommon.Log\bin\Release\netstandard2.0\ScadaCommon.Log.dll</HintPath>
@@ -98,12 +99,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Lang\" />
-    <Folder Include="Config\" />
-    <Folder Include="Templates\EmptyProject.en-GB\Instances\Default\ScadaWeb\config\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="Templates\EmptyProject.en-GB\EmptyProject.en-GB.rsproj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -114,6 +109,9 @@
 
   <ItemGroup>
     <None Update="Templates\EmptyProject.en-GB\BaseXML\Archive.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Templates\EmptyProject.en-GB\BaseXML\ArchiveKind.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Templates\EmptyProject.en-GB\BaseXML\CnlStatus.xml">
@@ -156,6 +154,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Templates\EmptyProject.ru-RU\BaseXML\Archive.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Templates\EmptyProject.ru-RU\BaseXML\ArchiveKind.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Templates\EmptyProject.ru-RU\BaseXML\CnlStatus.xml">

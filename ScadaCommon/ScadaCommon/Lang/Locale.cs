@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2014
- * Modified : 2020
+ * Modified : 2023
  */
 
 using Scada.Config;
@@ -67,7 +67,7 @@ namespace Scada.Lang
         /// <summary>
         /// Gets the default culture.
         /// </summary>
-        public static CultureInfo DefaultCulture { get; private set; }
+        public static CultureInfo DefaultCulture { get; }
 
         /// <summary>
         /// Gets the culture of the software package.
@@ -93,62 +93,9 @@ namespace Scada.Lang
         /// <summary>
         /// Gets the dictionary file name depending on the selected culture.
         /// </summary>
-        private static string GetDictFileName(string directory, string fileNamePrefix)
+        private static string GetDictFileName(string directory, string fileNamePrefix, string cultureName)
         {
-            return Path.Combine(directory, fileNamePrefix + "." + Culture.Name + ".xml");
-        }
-
-        /// <summary>
-        /// Loads dictionaries from the specified file.
-        /// </summary>
-        /// <remarks>
-        /// If several dictionaries have the same key, they are merged.
-        /// If several phrases within a dictionary have the same key, the last value is taken.
-        /// </remarks>
-        private static bool LoadDictionaries(string fileName, out string errMsg)
-        {
-            if (File.Exists(fileName))
-            {
-                try
-                {
-                    XmlDocument xmlDoc = new XmlDocument();
-                    xmlDoc.Load(fileName);
-
-                    foreach (XmlElement dictElem in xmlDoc.DocumentElement.SelectNodes("Dictionary"))
-                    {
-                        string dictKey = dictElem.GetAttribute("key");
-
-                        if (!Dictionaries.TryGetValue(dictKey, out LocaleDict dict))
-                        {
-                            dict = new LocaleDict(dictKey);
-                            Dictionaries.Add(dictKey, dict);
-                        }
-
-                        foreach (XmlElement phraseElem in dictElem.SelectNodes("Phrase"))
-                        {
-                            string phraseKey = phraseElem.GetAttribute("key");
-                            dict.Phrases[phraseKey] = phraseElem.InnerText;
-                        }
-                    }
-
-                    errMsg = "";
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    errMsg = string.Format(IsRussian ?
-                        "Ошибка при загрузке словарей из файла {0}: {1}" :
-                        "Error loading dictionaries from file {0}: {1}", fileName, ex.Message);
-                    return false;
-                }
-            }
-            else
-            {
-                errMsg = string.Format(IsRussian ?
-                    "Не найден файл словарей: {0}" :
-                    "Dictionary file not found: {0}", fileName);
-                return false;
-            }
+            return Path.Combine(directory, fileNamePrefix + "." + cultureName + ".xml");
         }
 
 
@@ -221,11 +168,78 @@ namespace Scada.Lang
         }
 
         /// <summary>
+        /// Loads dictionaries from the specified file.
+        /// </summary>
+        /// <remarks>
+        /// If several dictionaries have the same key, they are merged.
+        /// If several phrases within a dictionary have the same key, the last value is taken.
+        /// </remarks>
+        public static bool LoadDictionaries(string fileName, out string errMsg)
+        {
+            try
+            {
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load(fileName);
+
+                foreach (XmlElement dictElem in xmlDoc.DocumentElement.SelectNodes("Dictionary"))
+                {
+                    string dictKey = dictElem.GetAttribute("key");
+
+                    if (!Dictionaries.TryGetValue(dictKey, out LocaleDict dict))
+                    {
+                        dict = new LocaleDict(dictKey);
+                        Dictionaries.Add(dictKey, dict);
+                    }
+
+                    foreach (XmlElement phraseElem in dictElem.SelectNodes("Phrase"))
+                    {
+                        string phraseKey = phraseElem.GetAttribute("key");
+                        dict.Phrases[phraseKey] = phraseElem.InnerText;
+                    }
+                }
+
+                errMsg = "";
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errMsg = string.Format(IsRussian ?
+                    "Ошибка при загрузке словарей из файла {0}: {1}" :
+                    "Error loading dictionaries from file {0}: {1}", fileName, ex.Message);
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Loads dictionaries of the selected culture.
         /// </summary>
         public static bool LoadDictionaries(string directory, string fileNamePrefix, out string errMsg)
         {
-            return LoadDictionaries(GetDictFileName(directory, fileNamePrefix), out errMsg);
+            string fileName = GetDictFileName(directory, fileNamePrefix, Culture.Name);
+            string fallbackFileName = GetDictFileName(directory, fileNamePrefix, DefaultCulture.Name);
+
+            if (File.Exists(fileName))
+            {
+                return LoadDictionaries(fileName, out errMsg);
+            }
+            else if (File.Exists(fallbackFileName))
+            {
+                if (LoadDictionaries(fallbackFileName, out errMsg))
+                {
+                    errMsg = string.Format(IsRussian ?
+                        "Файл словарей не найден и заменён файлом по умолчанию: {0}" :
+                        "Dictionary file not found and replaced with default file: {0}", fileName);
+                }
+
+                return false;
+            }
+            else
+            {
+                errMsg = string.Format(IsRussian ?
+                    "Не найден файл словарей: {0}" :
+                    "Dictionary file not found: {0}", fileName);
+                return false;
+            }
         }
 
         /// <summary>

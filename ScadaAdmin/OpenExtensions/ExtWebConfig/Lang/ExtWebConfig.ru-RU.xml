@@ -1,6 +1,61 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ExtWebConfigDictionaries>
   <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.ExtWebConfigLogic">
+    <Phrase key="ApplicationOptionsNode">Параметры приложения</Phrase>
+    <Phrase key="PluginsNode">Плагины</Phrase>
     <Phrase key="LogsNode">Журналы</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlDisplayOptions">
+    <Phrase key="gbDisplayOptions">Параметры отображения</Phrase>
+    <Phrase key="lblShowHeader">Показывать заголовок страницы</Phrase>
+    <Phrase key="lblShowMainMenu">Показывать главное меню</Phrase>
+    <Phrase key="lblShowViewExplorer">Показывать проводник представлений</Phrase>
+    <Phrase key="lblRefreshRate">Частота обновления данных, мс</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlGeneralOptions">
+    <Phrase key="gbGeneralOptions">Основные параметры</Phrase>
+    <Phrase key="lblDefaultCulture">Культура по умолчанию</Phrase>
+    <Phrase key="lblDefaultTimeZone">Часовой пояс по умолчанию</Phrase>
+    <Phrase key="lblDefaultStartPage">Стартовая страница после входа пользователя</Phrase>
+    <Phrase key="lblEnableCommands">Разрешить команды телеуправления</Phrase>
+    <Phrase key="lblShareStats">Предоставлять обезличенную статистику разработчикам</Phrase>
+    <Phrase key="lblMaxLogSize">Максимальный размер файла журнала, МБ</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlLoginOptions">
+    <Phrase key="gbLoginOptions">Параметры входа</Phrase>
+    <Phrase key="lblRequireCaptcha">Требовать капчу при входе</Phrase>
+    <Phrase key="lblAllowRememberMe">Разрешить запоминать вход пользователя</Phrase>
+    <Phrase key="lblRememberMeExpires">Срок действия входа пользователя, дн.</Phrase>
+    <Phrase key="lblAutoLoginUsername">Имя пользователя для автовхода</Phrase>
+    <Phrase key="lblAutoLoginPassword">Пароль для автовхода</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlPluginAssignment">
+    <Phrase key="gbPluginAssignment">Назначение плагинов</Phrase>
+    <Phrase key="lblChartFeature">Плагин графиков</Phrase>
+    <Phrase key="lblCommandFeature">Плагин отправки команд</Phrase>
+    <Phrase key="lblEventAckFeature">Плагин квитирования событий</Phrase>
+    <Phrase key="lblUserManagementFeature">Плагин управления пользователями</Phrase>
+    <Phrase key="lblNotificationFeature">Плагин управления уведомлениями</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Forms.FrmApplicationOptions">
+    <Phrase key="this">Параметры приложения</Phrase>
+    <Phrase key="lbTabs.Items[0]">Основные</Phrase>
+    <Phrase key="lbTabs.Items[1]">Соединение</Phrase>
+    <Phrase key="lbTabs.Items[2]">Вход в систему</Phrase>
+    <Phrase key="lbTabs.Items[3]">Отображение</Phrase>
+    <Phrase key="lbTabs.Items[4]">Назначение плагинов</Phrase>
+    <Phrase key="ApplicationConfigTitle">Параметры приложения</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Forms.FrmPlugins">
+    <Phrase key="this">Плагины</Phrase>
+    <Phrase key="lblUnusedPlugins">Неиспользуемые плагины:</Phrase>
+    <Phrase key="btnActivate">Включить</Phrase>
+    <Phrase key="lblActivePlugins">Активные плагины:</Phrase>
+    <Phrase key="btnDeactivate">Отключить</Phrase>
+    <Phrase key="btnMoveUp">Вверх</Phrase>
+    <Phrase key="btnMoveDown">Вниз</Phrase>
+    <Phrase key="btnProperties">Свойства</Phrase>
+    <Phrase key="btnRegister">Регистрация</Phrase>
+    <Phrase key="lblDescr">Описание</Phrase>
   </Dictionary>
 </ExtWebConfigDictionaries>

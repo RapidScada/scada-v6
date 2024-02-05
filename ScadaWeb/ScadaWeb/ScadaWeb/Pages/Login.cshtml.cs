@@ -97,14 +97,14 @@ namespace Scada.Web.Pages
             }
         }
 
-        private IActionResult RedirectToStartPage(string returnUrl)
+        private LocalRedirectResult RedirectToStartPage(string returnUrl)
         {
             UserConfig userConfig = webContext.PluginHolder.GetUserConfig(User.GetUserID());
             string url = Url.Content(ScadaUtils.FirstNonEmpty(
                 returnUrl,
                 userConfig?.StartPage,
                 webContext.AppConfig.GeneralOptions.DefaultStartPage,
-                WebPath.DefaultStartPage.PrependTilda()));
+                WebPath.DefaultStartPage.PrependTilde()));
             return LocalRedirect(url);
         }
 

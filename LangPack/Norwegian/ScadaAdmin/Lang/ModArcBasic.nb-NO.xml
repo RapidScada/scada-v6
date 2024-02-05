@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModArcBasicDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmArcDir">
+    <Phrase key="this">Arkivkataloger</Phrase>
+    <Phrase key="chkUseDefaultDir">Bruk standardkataloger</Phrase>
+    <Phrase key="lblArcDir">Arkiv i DAT-format</Phrase>
+    <Phrase key="btnBrowseArcDir">Bla gjennom...</Phrase>
+    <Phrase key="lblArcCopyDir">Arkivkopi i DAT-format</Phrase>
+    <Phrase key="btnBrowseArcCopyDir">Bla gjennom...</Phrase>
+    <Phrase key="btnSetToDefaultWin">Sett for Windows</Phrase>
+    <Phrase key="btnSetToDefaultLinux">Sett for Linux</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicCAO">
+    <Phrase key="this">Gjeldende arkivalternativer</Phrase>
+    <Phrase key="gbGeneralOptions">Generelle alternativer</Phrase>
+    <Phrase key="lblLogEnabled">Logg aktivert</Phrase>
+    <Phrase key="lblFlushPeriod">Skylleperiode</Phrase>
+    <Phrase key="txtFlushPeriodUnit">Sec</Phrase>
+    <Phrase key="gbWritingOptions">Skrivealternativer</Phrase>
+    <Phrase key="lblUseCopyDir">Skriv til kopieringskatalog</Phrase>
+    <Phrase key="btnShowDir">Kataloger</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicEAO">
+    <Phrase key="this">Alternativer for hendelsesarkiv</Phrase>
+    <Phrase key="gbGeneralOptions">Generelle alternativer</Phrase>
+    <Phrase key="lblLogEnabled">Logg aktivert</Phrase>
+    <Phrase key="lblRetention">Oppbevaringsperiode</Phrase>
+    <Phrase key="txtRetentionUnit">Dag</Phrase>
+    <Phrase key="gbWritingOptions">Skrivealternativer</Phrase>
+    <Phrase key="lblUseCopyDir">Skriv til kopieringskatalog</Phrase>
+    <Phrase key="lblMaxQueueSize">Maksimal køstørrelse</Phrase>
+    <Phrase key="btnShowDir">Kataloger</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicHAO">
+    <Phrase key="this">Historiske arkivalternativer</Phrase>
+    <Phrase key="gbGeneralOptions">Generelle alternativer</Phrase>
+    <Phrase key="lblLogEnabled">Logg aktivert</Phrase>
+    <Phrase key="lblRetention">Oppbevaringsperiode</Phrase>
+    <Phrase key="txtRetentionUnit">Dag</Phrase>
+    <Phrase key="lblWriteWithPeriod">Skriv med punktum</Phrase>
+    <Phrase key="lblWritingPeriod">Skriveperiode</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[0]">Sec</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[1]">Min</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[2]">Time</Phrase>
+    <Phrase key="lblPullToPeriod">Trekk til punktum</Phrase>
+    <Phrase key="txtPullToPeriodUnit">Sec</Phrase>
+    <Phrase key="gbWritingOptions">Skrivealternativer</Phrase>
+    <Phrase key="lblUseCopyDir">Skriv til kopieringskatalog</Phrase>
+    <Phrase key="lblMaxQueueSize">Maksimal køstørrelse</Phrase>
+    <Phrase key="btnShowDir">Kataloger</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+</ModArcBasicDictionaries>

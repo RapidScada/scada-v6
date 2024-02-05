@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgElasticReportDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgElasticReport.Areas.ElasticReport.Pages.ReportArgsModel">
+    <Phrase key="PageTitle">エラスティックレポート</Phrase>
+    <Phrase key="ReportNotFound">ID {0} のレポートがプラグイン設定に見つかりません。</Phrase>
+    <Phrase key="LoadInputOptionsError">レポート入力オプションのロード中にエラーが発生しました。</Phrase>
+    <Phrase key="lblSingleDate">日にち</Phrase>
+    <Phrase key="lblSingleMonth">月</Phrase>
+    <Phrase key="lblStartTime">から</Phrase>
+    <Phrase key="lblEndTime">に</Phrase>
+    <Phrase key="lblArchive">アーカイブ</Phrase>
+    <Phrase key="lblCnlNums">チャンネル</Phrase>
+    <Phrase key="btnSelectCnls">選択する...</Phrase>
+    <Phrase key="lblFormat">出力フォーマット</Phrase>
+    <Phrase key="lblPdf">PDF</Phrase>
+    <Phrase key="lblXlsx">Excel</Phrase>
+    <Phrase key="lblHtml">HTML</Phrase>
+    <Phrase key="btnGenerateReport">レポートのダウンロード</Phrase>
+    <Phrase key="divWaitHint">レポートを生成しています。 お待ちください...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgElasticReport.Areas.ElasticReport.Pages.ReportArgsModel.Js">
+    <Phrase key="InvalidPeriod">開始日は終了日以降である必要があります。</Phrase>
+    <Phrase key="PeriodTooLong">期間の最大長は {0} 日です。</Phrase>
+    <Phrase key="InvalidChannels">無効なチャンネル番号です。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgElasticReport.Builder">
+    <Phrase key="HeadingFormat1">{0}、{1}</Phrase>
+    <Phrase key="HeadingFormat2">{0}、{1} - {2}</Phrase>
+    <Phrase key="InfoFormat">生成されました: {0}。 タイムゾーン: {1}。 アーカイブ: {2}</Phrase>
+    <Phrase key="CnlCaption">チャンネル:</Phrase>
+    <Phrase key="DateTimeCol">日時</Phrase>
+    <Phrase key="DateCol">日にち</Phrase>
+    <Phrase key="NotApplicable">該当なし</Phrase>
+    <Phrase key="SumHeader">合計</Phrase>
+    <Phrase key="AvgHeader">平均</Phrase>
+    <Phrase key="MinHeader">最小</Phrase>
+    <Phrase key="MaxHeader">最大</Phrase>
+    <Phrase key="DayUnit">d</Phrase>
+    <Phrase key="WorksheetName">シート {0}</Phrase>
+    <Phrase key="CloseButton">近い</Phrase>
+  </Dictionary>
+</PlgElasticReportDictionaries>

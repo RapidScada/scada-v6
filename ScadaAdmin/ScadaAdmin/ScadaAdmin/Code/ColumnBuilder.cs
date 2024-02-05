@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Admin.Project;
@@ -222,6 +222,7 @@ namespace Scada.Admin.App.Code
                 NewTextBoxColumn("CnlNum", new ColumnOptions(ColumnKind.PrimaryKey)),
                 NewCheckBoxColumn("Active", new ColumnOptions { DefaultValue = true }),
                 NewTextBoxColumn("Name", new ColumnOptions(ColumnLength.Name)),
+                NewTextBoxColumn("Code", new ColumnOptions(ColumnLength.Code)),
                 NewComboBoxColumn("DataTypeID", "Name", configDatabase.DataTypeTable, true),
                 NewTextBoxColumn("DataLen"),
                 NewComboBoxColumn("CnlTypeID", "Name", configDatabase.CnlTypeTable, false, false,
@@ -234,6 +235,7 @@ namespace Scada.Admin.App.Code
                 NewTextBoxColumn("InFormula", new ColumnOptions(ColumnLength.Default)),
                 NewTextBoxColumn("OutFormula", new ColumnOptions(ColumnLength.Default)),
                 NewComboBoxColumn("FormatID", "Name", configDatabase.FormatTable, true),
+                NewComboBoxColumn("OutFormatID", "FormatID", "Name", configDatabase.FormatTable, true),
                 NewComboBoxColumn("QuantityID", "Name", configDatabase.QuantityTable, true),
                 NewComboBoxColumn("UnitID", "Name", configDatabase.UnitTable, true),
                 NewComboBoxColumn("LimID", "Name", configDatabase.LimTable, true),
@@ -352,7 +354,7 @@ namespace Scada.Admin.App.Code
                 NewCheckBoxColumn("IsEnum"),
                 NewCheckBoxColumn("IsDate"),
                 NewCheckBoxColumn("IsString"),
-                NewTextBoxColumn("Frmt", new ColumnOptions(ColumnKind.MultilineText, ColumnLength.Enumeration)),
+                NewTextBoxColumn("Frmt", new ColumnOptions(ColumnKind.MultilineText, ColumnLength.Long)),
                 NewButtonColumn("Frmt"),
                 NewTextBoxColumn("Descr", new ColumnOptions(ColumnLength.Description))
             });
@@ -509,7 +511,7 @@ namespace Scada.Admin.App.Code
                 NewButtonColumn("Path", new ColumnOptions(ColumnKind.SelectFileButton)),
                 NewComboBoxColumn("ViewTypeID", "Name", configDatabase.ViewTypeTable, true),
                 NewComboBoxColumn("ObjNum","Name", configDatabase.ObjTable, true),
-                NewTextBoxColumn("Args", new ColumnOptions(ColumnLength.Default)),
+                NewTextBoxColumn("Args", new ColumnOptions(ColumnLength.Long)),
                 NewTextBoxColumn("Title", new ColumnOptions(ColumnLength.Long)),
                 NewTextBoxColumn("Ord"),
                 NewCheckBoxColumn("Hidden"),

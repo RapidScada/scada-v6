@@ -1,0 +1,65 @@
+﻿@inject IWebHostEnvironment environment
+@{
+    var pageMeta = PageMeta.Parse(Context.Request.Path);
+    var versionMenu = VersionMenu.GetMenu(pageMeta.Lang);
+    var activeVersion = pageMeta.Version.ConvertToString();    
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title - Rapid SCADA</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    @RenderSection("Styles", required: false)
+    @RenderSection("Scripts", required: false)
+</head>
+<body>
+    @if (!environment.IsDevelopment())
+    {
+        <partial name="_Counter" />
+    }
+    <nav class="navbar sticky-top navbar-expand-lg bg-dark" data-bs-theme="dark">
+        <div class="container-xxl">
+            <a class="navbar-brand mb-0 h1" asp-page="/Index">Rapid SCADA Docs</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#divNavbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div id="divNavbarContent" class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    @if (versionMenu.Count > 0)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">@activeVersion</a>
+                            <ul class="dropdown-menu">
+                                @foreach (var item in versionMenu)
+                                {
+                                    var itemClass = item.Text == activeVersion ? "active" : "";
+                                    <li><a class="dropdown-item @itemClass" href="@Url.Content(item.Url.PrependTilde())">@item.Text</a></li>
+                                }
+                            </ul>
+                        </li>
+                        <li class="nav-item d-lg-none">
+                            <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#divToc">Table of contents</a>
+                        </li>
+                    }
+                </ul>
+                <partial name="_Search" />
+                @*<form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search">
+                    <button class="btn btn-outline-light" type="submit">Search</button>
+                </form>*@
+            </div>
+        </div>
+    </nav>
+
+    <div id="divLayout" class="container-xxl mt-3">
+        @RenderBody()
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</body>
+</html>

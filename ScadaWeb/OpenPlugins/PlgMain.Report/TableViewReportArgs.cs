@@ -20,7 +20,6 @@ namespace Scada.Web.Plugins.PlgMain.Report
         {
             TableView = null;
             TableOptions = null;
-            MaxPeriod = 0;
         }
 
 
@@ -33,11 +32,6 @@ namespace Scada.Web.Plugins.PlgMain.Report
         /// Gets the table view options.
         /// </summary>
         public TableOptions TableOptions { get; init; }
-
-        /// <summary>
-        /// Gets the time maximum report period, in days.
-        /// </summary>
-        public int MaxPeriod { get; init; }
 
 
         /// <summary>
@@ -60,14 +54,6 @@ namespace Scada.Web.Plugins.PlgMain.Report
                 throw new ScadaException(Locale.IsRussian ?
                     "Параметры табличного представления не могут быть null." :
                     "Table view options must not be null.")
-                { MessageIsPublic = true };
-            }
-
-            if (MaxPeriod > 0 && (EndTime - StartTime).TotalDays > MaxPeriod)
-            {
-                throw new ScadaException(Locale.IsRussian ?
-                    "Превышен период отчёта." :
-                    "Report period exceeded.")
                 { MessageIsPublic = true };
             }
         }

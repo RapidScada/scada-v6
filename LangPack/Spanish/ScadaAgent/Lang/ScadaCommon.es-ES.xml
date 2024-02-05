@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaDictionaries>
+  <!-- ScadaCommon.dll -->
+  <Dictionary key="Scada.Application">
+    <Phrase key="ProductName">Rapid SCADA</Phrase>
+    <Phrase key="ServerAppName">Servidor</Phrase>
+    <Phrase key="CommAppName">Comunicador</Phrase>
+    <Phrase key="WebAppName">estación web</Phrase>
+    <Phrase key="WebsiteUrl">https://rapidscada.org</Phrase>
+    <Phrase key="UnhandledException">Excepción no controlada</Phrase>
+    <Phrase key="ExecutionImpossible">La ejecución normal es imposible</Phrase>
+    <Phrase key="StartLogic">Iniciar procesamiento lógico</Phrase>
+    <Phrase key="LogicAlreadyStarted">El procesamiento lógico ya ha comenzado</Phrase>
+    <Phrase key="StartLogicError">Error al iniciar el procesamiento lógico</Phrase>
+    <Phrase key="LogicStopped">Se detiene el procesamiento lógico.</Phrase>
+    <Phrase key="UnableToStopLogic">No se puede detener el procesamiento lógico durante un tiempo específico</Phrase>
+    <Phrase key="StopLogicError">Error al detener el procesamiento lógico</Phrase>
+    <Phrase key="LogicLoopError">Error en el bucle lógico</Phrase>
+    <Phrase key="ThreadFatalError">Error fatal en hilo</Phrase>
+    <Phrase key="WriteInfoError">Error al escribir la información de la aplicación en el archivo</Phrase>
+    <Phrase key="ConnectionNotFound">Conexión &quot;{0}&quot; no encontrada.</Phrase>
+    <Phrase key="ConnOptionsNotFound">Opciones de conexión no encontradas.</Phrase>
+    <Phrase key="DatabaseNotSupported">Base de datos no compatible.</Phrase>
+    <Phrase key="OperationNotSupported">Operación no admitida.</Phrase>
+    <Phrase key="CommandSent">El comando ha sido enviado.</Phrase>
+    <Phrase key="SendCommandError">Error al enviar comando</Phrase>
+    <Phrase key="AgentDisabled">El agente está deshabilitado.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.ConfigDatabase">
+    <Phrase key="UndefinedTable">Indefinido</Phrase>
+    <Phrase key="ArchiveTable">Archivo</Phrase>
+    <Phrase key="ArchiveKindTable">Tipos de archivo</Phrase>
+    <Phrase key="CnlTable">Canales</Phrase>
+    <Phrase key="CnlStatusTable">Estados del canal</Phrase>
+    <Phrase key="CnlTypeTable">Tipos de canales</Phrase>
+    <Phrase key="CommLineTable">Líneas de comunicación</Phrase>
+    <Phrase key="DataTypeTable">Tipos de datos</Phrase>
+    <Phrase key="DeviceTable">Dispositivos</Phrase>
+    <Phrase key="DevTypeTable">Tipos de dispositivos</Phrase>
+    <Phrase key="FormatTable">Formatos</Phrase>
+    <Phrase key="LimTable">Límites</Phrase>
+    <Phrase key="ObjTable">Objetos</Phrase>
+    <Phrase key="ObjRightTable">Derechos de objeto</Phrase>
+    <Phrase key="QuantityTable">Cantidades</Phrase>
+    <Phrase key="RoleTable">roles</Phrase>
+    <Phrase key="RoleRefTable">herencia de roles</Phrase>
+    <Phrase key="ScriptTable">Guiones</Phrase>
+    <Phrase key="UnitTable">Unidades</Phrase>
+    <Phrase key="UserTable">Usuarios</Phrase>
+    <Phrase key="ViewTable">Puntos de vista</Phrase>
+    <Phrase key="ViewTypeTable">Ver tipos</Phrase>
+    <Phrase key="IndexNotFound">Índice no encontrado.</Phrase>
+    <Phrase key="EntityCaption">[{0}] {1}</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Files">
+    <Phrase key="FileNotFound">Archivo no encontrado.</Phrase>
+    <Phrase key="NamedFileNotFound">Archivo {0} no encontrado.</Phrase>
+    <Phrase key="DirectoryNotExists">El directorio no existe.</Phrase>
+    <Phrase key="PathNotSupported">Ruta no admitida.</Phrase>
+    <Phrase key="InvalidFileFormat">Formato de archivo inválido.</Phrase>
+    <Phrase key="LoadConfigError">Error al cargar la configuración</Phrase>
+    <Phrase key="SaveConfigError">Error al guardar la configuración</Phrase>
+    <Phrase key="SaveConfigConfirm">Se ha modificado la configuración.  ¿Guardar los cambios?</Phrase>
+    <Phrase key="LoadViewError">Error al cargar la vista</Phrase>
+    <Phrase key="SaveViewError">Error al guardar la vista</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Format">
+    <Phrase key="IntegerRequired">Se requiere un número entero.</Phrase>
+    <Phrase key="IntegerInRangeRequired">Se requiere un número entero de {0} a {1}.</Phrase>
+    <Phrase key="RealRequired">Se requiere un número real.</Phrase>
+    <Phrase key="NonemptyRequired">Se requiere un valor no vacío.</Phrase>
+    <Phrase key="ValidUrlRequired">Se requiere una URL válida.</Phrase>
+    <Phrase key="ValidRangeRequired">Se requiere un rango válido de enteros.</Phrase>
+    <Phrase key="DateTimeRequired">La fecha y la hora son obligatorias.</Phrase>
+    <Phrase key="NotNumber">La cadena no es un número.</Phrase>
+    <Phrase key="NotHexadecimal">La cadena no es hexadecimal.</Phrase>
+    <Phrase key="InvalidParamVal">Valor no válido del parámetro &quot;{0}&quot;.</Phrase>
+    <Phrase key="InvalidSecretKey">Clave secreta no válida.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms">
+    <Phrase key="InfoCaption">Información</Phrase>
+    <Phrase key="QuestionCaption">Pregunta</Phrase>
+    <Phrase key="ErrorCaption">Error</Phrase>
+    <Phrase key="WarningCaption">Advertencia</Phrase>
+    <Phrase key="NoData">Sin datos</Phrase>
+    <Phrase key="EmptyData">Vacío</Phrase>
+    <Phrase key="CorrectErrors">Por favor corrige los siguientes errores:</Phrase>
+    <Phrase key="HiddenPassword">*****</Phrase>
+    <Phrase key="NewConnection">Nueva conexión</Phrase>
+    <Phrase key="UnnamedConnection">&lt;Conexión sin nombre&gt;</Phrase>
+    <Phrase key="XmlFileFilter">Archivos XML (*.xml)|*.xml|Todos los archivos (*.*)|*.*</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.ComponentModel">
+    <Phrase key="TrueValue">Sí</Phrase>
+    <Phrase key="FalseValue">No</Phrase>
+    <Phrase key="EmptyValue">(Ninguno)</Phrase>
+    <Phrase key="CollectionValue">(Recopilación)</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.CnlDataFormatter">
+    <Phrase key="UndefinedSign">---</Phrase>
+    <Phrase key="CommandDescrPrefix">Dominio:</Phrase>
+    <Phrase key="StatusFormat">Estado {0}</Phrase>
+    <Phrase key="CriticalSeverity">Crítico</Phrase>
+    <Phrase key="MajorSeverity">Importante</Phrase>
+    <Phrase key="MinorSeverity">Menor</Phrase>
+    <Phrase key="InfoSeverity">Información</Phrase>
+    <Phrase key="UnknownUser">Usuario {0}</Phrase>
+  </Dictionary>
+  <!-- ScadaCommon.Forms.dll -->
+  <Dictionary key="Scada.Forms.Controls.CtrlBitmask">
+    <Phrase key="lblMaskValue">valor decimal</Phrase>
+    <Phrase key="btnResetMask">Reiniciar</Phrase>
+    <Phrase key="lblMaskBits">bits</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlClientConnection">
+    <Phrase key="gbConnectionOptions">Opciones de conexión</Phrase>
+    <Phrase key="lblName">Nombre</Phrase>
+    <Phrase key="lblHost">Anfitrión</Phrase>
+    <Phrase key="lblPort">Puerto</Phrase>
+    <Phrase key="lblTimeout">Se acabó el tiempo</Phrase>
+    <Phrase key="lblUsername">Nombre de usuario</Phrase>
+    <Phrase key="lblPassword">Contraseña</Phrase>
+    <Phrase key="lblInstance">Instancia</Phrase>
+    <Phrase key="lblSecretKey">Llave secreta</Phrase>
+    <Phrase key="btnPaste">Pegar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlDbConnection">
+    <Phrase key="gbConnectionOptions">Opciones de conexión</Phrase>
+    <Phrase key="lblName">Nombre</Phrase>
+    <Phrase key="lblDbms">DBMS</Phrase>
+    <Phrase key="cbDbms.Items[0]">Indefinido</Phrase>
+    <Phrase key="lblServer">Servidor</Phrase>
+    <Phrase key="lblDatabase">Base de datos</Phrase>
+    <Phrase key="lblUsername">Nombre de usuario</Phrase>
+    <Phrase key="lblPassword">Contraseña</Phrase>
+    <Phrase key="chkConnectionString">Cadena de conexión</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmBitmask">
+    <Phrase key="this">Máscara de bits</Phrase>
+    <Phrase key="btnOK">DE ACUERDO</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmBitSelect">
+    <Phrase key="this">Seleccionar bit</Phrase>
+    <Phrase key="btnOK">DE ACUERDO</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmCnlSelect">
+    <Phrase key="this">Seleccionar canales</Phrase>
+    <Phrase key="lblFilter">Filtrar</Phrase>
+    <Phrase key="btnApplyFilter">Aplicar</Phrase>
+    <Phrase key="lblObj">Objeto</Phrase>
+    <Phrase key="lblDevice">Dispositivo</Phrase>
+    <Phrase key="chkOnlySelected">Mostrar solo las filas seleccionadas</Phrase>
+    <Phrase key="colSelected">Seleccionado</Phrase>
+    <Phrase key="colCnlNum">Número</Phrase>
+    <Phrase key="colName">Nombre</Phrase>
+    <Phrase key="btnSelect">Seleccionar</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmEntitySelect">
+    <Phrase key="this">Seleccionar de {0}</Phrase>
+    <Phrase key="lblFilter">Filtrar</Phrase>
+    <Phrase key="btnApplyFilter">Aplicar</Phrase>
+    <Phrase key="chkOnlySelected">Mostrar solo las filas seleccionadas</Phrase>
+    <Phrase key="colSelected">Seleccionado</Phrase>
+    <Phrase key="colID">IDENTIFICACIÓN</Phrase>
+    <Phrase key="colName">Nombre</Phrase>
+    <Phrase key="colCode">Código</Phrase>
+    <Phrase key="colDescr">Descripción</Phrase>
+    <Phrase key="btnSelect">Seleccionar</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmModuleConfig">
+    <Phrase key="this">Configuración del módulo</Phrase>
+    <Phrase key="btnAdd.ToolTip">Agregar</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Ascender</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Mover hacia abajo</Phrase>
+    <Phrase key="btnDelete.ToolTip">Borrar</Phrase>
+    <Phrase key="btnSave">Ahorrar</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+    <Phrase key="btnClose">Cerca</Phrase>
+    <Phrase key="miCollapseAll">Desplegar todo</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmOptions">
+    <Phrase key="this">Opciones</Phrase>
+    <Phrase key="btnOK">DE ACUERDO</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmRangeEdit">
+    <Phrase key="this">Editar rango</Phrase>
+    <Phrase key="lblRange">Rango de números enteros</Phrase>
+    <Phrase key="lblExample">Por ejemplo: 1 - 5, 10</Phrase>
+    <Phrase key="btnOK">DE ACUERDO</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.BitItemCollection">
+    <Phrase key="EventEnabled">Evento habilitado</Phrase>
+    <Phrase key="EventBeep">pitido de evento</Phrase>
+    <Phrase key="DataChangeEvent">Los datos del canal han cambiado</Phrase>
+    <Phrase key="ValueChangeEvent">El valor del canal ha cambiado</Phrase>
+    <Phrase key="StatusChangeEvent">El estado del canal ha cambiado</Phrase>
+    <Phrase key="CnlUndefinedEvent">El canal no está definido</Phrase>
+    <Phrase key="CommandEvent">El comando ha sido enviado</Phrase>
+  </Dictionary>
+</ScadaDictionaries>

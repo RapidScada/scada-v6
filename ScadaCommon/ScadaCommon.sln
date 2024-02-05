@@ -15,6 +15,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileStorage", "FileStorage\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostgreSqlStorage", "PostgreSqlStorage\PostgreSqlStorage.csproj", "{A17F4CFF-901E-44A1-A1C6-62902B41FD9E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScadaCommon.MultiDb", "ScadaCommon.MultiDb\ScadaCommon.MultiDb.csproj", "{2DE6AEA5-CCAE-4139-8B8E-3D6546ACB4EC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C30B5B4B-980E-4A95-BA64-D3ED3E201CCB}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +48,10 @@ Global
 		{A17F4CFF-901E-44A1-A1C6-62902B41FD9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A17F4CFF-901E-44A1-A1C6-62902B41FD9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A17F4CFF-901E-44A1-A1C6-62902B41FD9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DE6AEA5-CCAE-4139-8B8E-3D6546ACB4EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DE6AEA5-CCAE-4139-8B8E-3D6546ACB4EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DE6AEA5-CCAE-4139-8B8E-3D6546ACB4EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DE6AEA5-CCAE-4139-8B8E-3D6546ACB4EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

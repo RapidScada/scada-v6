@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Lang;
@@ -56,7 +56,7 @@ namespace Scada.Server.Modules
                     message = string.Format(Locale.IsRussian ?
                         "Модуль {0} {1} загружен из файла {2}" :
                         "Module {0} {1} loaded from file {2}",
-                        moduleCode, assembly.GetName().Version, fileName);
+                        moduleCode, moduleLogic.Version, fileName);
                     return true;
                 }
                 else
@@ -99,7 +99,7 @@ namespace Scada.Server.Modules
                     message = string.Format(Locale.IsRussian ?
                         "Загружен интерфейс модуля {0} {1} из файла {2}" :
                         "Loaded module interface {0} {1} from file {2}",
-                        moduleCode, assembly.GetName().Version, fileName);
+                        moduleCode, moduleView.Version, fileName);
                     return true;
                 }
                 else

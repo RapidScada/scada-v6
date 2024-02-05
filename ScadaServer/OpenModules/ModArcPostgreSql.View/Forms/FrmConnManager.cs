@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Npgsql;
-using Scada.Config;
+using Scada.Dbms;
 using Scada.Forms;
 using Scada.Lang;
 using Scada.Server.Modules.ModArcPostgreSql.Config;

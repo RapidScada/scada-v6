@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,14 +20,13 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Data.Entities;
+using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Lang;
-using System;
-using System.Collections.Generic;
 
 namespace Scada.Web.Users
 {
@@ -35,20 +34,25 @@ namespace Scada.Web.Users
     /// Represents a list of objects available to a user.
     /// <para>Представляет список объектов, доступных пользователю.</para>
     /// </summary>
+    /// <remarks>
+    /// Includes objects to which a user has rights and their parent objects.
+    /// </remarks>
     public class UserObjects : List<ObjectItem>
     {
         /// <summary>
         /// Adds the child objects of the specified object recursively.
         /// </summary>
-        private void AddChildObjects(ITableIndex parentObjIndex, UserRights userRights,
-            int parentObjNum, int parentLevel)
+        private void AddChildObjects(ITableIndex parentObjIndex, int parentObjNum, int parentLevel,
+            UserRights userRights)
         {
             foreach (Obj childObj in parentObjIndex.SelectItems(parentObjNum))
             {
-                if (userRights.GetRightByObj(childObj.ObjNum).View)
+                Right right = userRights.GetRightByObj(childObj.ObjNum);
+
+                if (right.List)
                 {
-                    Add(new ObjectItem(childObj, parentLevel + 1));
-                    AddChildObjects(parentObjIndex, userRights, childObj.ObjNum, parentLevel + 1);
+                    Add(new ObjectItem(childObj, right, parentLevel + 1));
+                    AddChildObjects(parentObjIndex, childObj.ObjNum, parentLevel + 1, userRights);
                 }
             }
         }
@@ -66,14 +70,7 @@ namespace Scada.Web.Users
                 if (!objTable.TryGetIndex("ParentObjNum", out ITableIndex parentObjIndex))
                     throw new ScadaException(CommonPhrases.IndexNotFound);
 
-                foreach (Obj obj in objTable.Enumerate())
-                {
-                    if (obj.ParentObjNum == null && userRights.GetRightByObj(obj.ObjNum).View)
-                    {
-                        Add(new ObjectItem(obj, 0));
-                        AddChildObjects(parentObjIndex, userRights, obj.ObjNum, 0);
-                    }
-                }
+                AddChildObjects(parentObjIndex, 0, -1, userRights);
             }
             catch (Exception ex)
             {

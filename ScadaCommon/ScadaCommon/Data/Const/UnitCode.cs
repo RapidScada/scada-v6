@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2022
+ * Modified : 2023
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -47,9 +47,11 @@ namespace Scada.Data.Const
         public const string Kelvin = "Kelvin";
         public const string Celsius = "Celsius";
         public const string Fahrenheit = "Fahrenheit";
-        public const string MetersPerSecond = "m/s";
-        public const string KilometersPerHour = "km/h";
+        public const string MeterPerSecond = "m/s";
+        public const string KilometerPerHour = "km/h";
         public const string MeterPerSecondSquared = "m/s2";
+        public const string RadianPerSecond = "rad/s";
+        public const string RevolutionPerMinute = "rpm";
         public const string Volt = "V";
         public const string Kilovolt = "kV";
         public const string Ampere = "A";
@@ -73,10 +75,11 @@ namespace Scada.Data.Const
         public const string Megapascal = "MPa";
         public const string TechnicalAtmosphere = "at";
         public const string StandardAtmosphere = "atm";
+        public const string MillimetreOfMercury = "mmHg";
         public const string CubicMeter = "m3";
         public const string KilogramPerCubicMeter = "kg/m3";
-        public const string CubicMetersPerSecond = "m3/s";
-        public const string CubicMetersPerHour = "m3/h";
+        public const string CubicMeterPerSecond = "m3/s";
+        public const string CubicMeterPerHour = "m3/h";
         public const string Joule = "J";
         public const string Kilojoule = "kJ";
         public const string Megajoule = "MJ";
@@ -84,6 +87,17 @@ namespace Scada.Data.Const
         public const string Kilocalorie = "kcal";
         public const string Gigacalorie = "Gcal";
         public const string Percent = "%";
+        public const string Permille = "permille";
+        public const string PartsPerMillion = "ppm";
+        public const string PartsPerBillion = "ppb";
+        public const string PartsPerTrillion = "ppt";
+        public const string PartsPerQuadrillion = "ppq";
         public const string Pieces = "pcs";
+        public const string Liter = "L";
+        public const string LiterPerSecond = "L/s";
+        public const string LiterPerMinute = "L/min";
+        public const string LiterPerHour = "L/h";
+        public const string GramPerLiter = "g/L";
+        public const string KilogramPerLiter = "kg/L";
     }
 }

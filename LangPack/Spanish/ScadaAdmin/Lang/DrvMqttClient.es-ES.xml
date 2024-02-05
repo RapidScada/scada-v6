@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvMqttClientDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.BaseItemConfig">
+    <Phrase key="Topic.DisplayName">Tema</Phrase>
+    <Phrase key="Topic.Category">Parámetros principales</Phrase>
+    <Phrase key="Topic.Description">El tema MQTT.</Phrase>
+    <Phrase key="DisplayName.DisplayName">Nombre para mostrar</Phrase>
+    <Phrase key="DisplayName.Category">Parámetros principales</Phrase>
+    <Phrase key="DisplayName.Description">El nombre para mostrar de la etiqueta del dispositivo.</Phrase>
+    <Phrase key="QosLevel.DisplayName">nivel de QoS</Phrase>
+    <Phrase key="QosLevel.Category">Protocolo</Phrase>
+    <Phrase key="QosLevel.Description">El nivel de calidad del servicio: 0 - como máximo una vez, 1 - al menos una vez, 2 - exactamente una vez.</Phrase>
+    <Phrase key="Retain.DisplayName">Retener</Phrase>
+    <Phrase key="Retain.Category">Protocolo</Phrase>
+    <Phrase key="Retain.Description">Un valor que indica si establecer el indicador retenido al publicar.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.CommandConfig">
+    <Phrase key="CmdCode.DisplayName">Código de comando</Phrase>
+    <Phrase key="CmdCode.Category">Parámetros principales</Phrase>
+    <Phrase key="CmdCode.Description">El código de comando asociado con el tema.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.SubscriptionConfig">
+    <Phrase key="TagCode.DisplayName">código de etiqueta</Phrase>
+    <Phrase key="TagCode.Category">Parámetros principales</Phrase>
+    <Phrase key="TagCode.Description">El código de etiqueta asociado con el tema.</Phrase>
+    <Phrase key="ReadOnly.DisplayName">Solo lectura</Phrase>
+    <Phrase key="ReadOnly.Category">Parámetros principales</Phrase>
+    <Phrase key="ReadOnly.Description">Un valor que indica si el tema es de solo lectura.</Phrase>
+    <Phrase key="JsEnabled.DisplayName">JavaScript habilitado</Phrase>
+    <Phrase key="JsEnabled.Category">Parámetros avanzados</Phrase>
+    <Phrase key="JsEnabled.Description">Un valor que indica si ejecutar JavaScript cuando se recibe un mensaje.</Phrase>
+    <Phrase key="JsFileName.DisplayName">Nombre de archivo JavaScript</Phrase>
+    <Phrase key="JsFileName.Category">Parámetros avanzados</Phrase>
+    <Phrase key="JsFileName.Description">El nombre del archivo JavaScript relativo al directorio de configuración de Communicator.</Phrase>
+    <Phrase key="SubItems.DisplayName">subelementos</Phrase>
+    <Phrase key="SubItems.Category">Parámetros avanzados</Phrase>
+    <Phrase key="SubItems.Description">Los subelementos que representan varias etiquetas de dispositivos para el tema.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.DeviceOptions">
+    <Phrase key="RootTopic.DisplayName">tema raíz</Phrase>
+    <Phrase key="RootTopic.Category">Parámetros principales</Phrase>
+    <Phrase key="RootTopic.Description">El tema raíz utilizado como prefijo para todos los temas de dispositivos.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.View.MqttClientConfigProvider">
+    <Phrase key="FormTitle">Propiedades del dispositivo {0}: cliente MQTT</Phrase>
+    <Phrase key="AddSubscriptionButton">Agregar suscripción</Phrase>
+    <Phrase key="AddCommandButton">Añadir comando</Phrase>
+    <Phrase key="OptionsNode">Opciones</Phrase>
+    <Phrase key="SubscriptionsNode">Suscripciones</Phrase>
+    <Phrase key="CommandsNode">Comandos</Phrase>
+    <Phrase key="UnnamedSubscription">&lt;Suscripción sin nombre&gt;</Phrase>
+    <Phrase key="UnnamedCommand">&lt;Comando sin nombre&gt;</Phrase>
+  </Dictionary>
+</DrvMqttClientDictionaries>

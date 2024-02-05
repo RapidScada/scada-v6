@@ -8,10 +8,6 @@ using Scada.Admin.Lang;
 using Scada.Admin.Project;
 using Scada.Forms;
 using Scada.Lang;
-using Scada.Server.Config;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions.ExtServerConfig
 {

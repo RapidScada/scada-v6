@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtTableEditorDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableEditor">
+    <Phrase key="btnRefreshBase.ToolTip">Konfigurationsdatenbank aktualisieren</Phrase>
+    <Phrase key="btnAddItem.ToolTip">Artikel hinzufügen</Phrase>
+    <Phrase key="btnAddEmptyItem.ToolTip">Leeres Element hinzufügen</Phrase>
+    <Phrase key="btnMoveUpItem.ToolTip">Element nach oben verschieben</Phrase>
+    <Phrase key="btnMoveDownItem.ToolTip">Element nach unten verschieben</Phrase>
+    <Phrase key="btnDeleteItem.ToolTip">Ausgewählte Elemente löschen</Phrase>
+    <Phrase key="btnTableOptions.ToolTip">Optionen für die Tabellenansicht</Phrase>
+    <Phrase key="lblHint">Drücken Sie die Eingabetaste oder doppelklicken Sie auf einen Knoten, um ihn der Tabelle hinzuzufügen.  Klicken Sie mit der rechten Maustaste auf einen Geräteknoten, um das Kontextmenü anzuzeigen.</Phrase>
+    <Phrase key="colCnlNum">Kanal</Phrase>
+    <Phrase key="colDeviceNum">Gerät</Phrase>
+    <Phrase key="colAutoText">Autotext</Phrase>
+    <Phrase key="colText">Text</Phrase>
+    <Phrase key="colHidden">Versteckt</Phrase>
+    <Phrase key="miDeviceAddDevice">Gerät hinzufügen</Phrase>
+    <Phrase key="miDeviceAddAllChannels">Alle Kanäle hinzufügen</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableOptions">
+    <Phrase key="this">Optionen für die Tabellenansicht</Phrase>
+    <Phrase key="chkUseDefault">Verwenden Sie Standardoptionen</Phrase>
+    <Phrase key="lblArchiveCode">Archivcode</Phrase>
+    <Phrase key="btnSelectArchiveCode">Wählen...</Phrase>
+    <Phrase key="lblPeriod">Tischzeitraum, min</Phrase>
+    <Phrase key="lblChartArgs">Diagrammargumente</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Stornieren</Phrase>
+  </Dictionary>
+</ExtTableEditorDictionaries>

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvEmailDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvEmail.View.Forms.FrmConfig">
+    <Phrase key="this">Vlastnosti zařízení {0} – E-mail</Phrase>
+    <Phrase key="gbServer">Server SMTP</Phrase>
+    <Phrase key="lblHost">Hostitel serveru</Phrase>
+    <Phrase key="lblPort">Přístav</Phrase>
+    <Phrase key="lblUsername">Uživatelské jméno</Phrase>
+    <Phrase key="lblPassword">Heslo</Phrase>
+    <Phrase key="chkEnableSsl">Použijte SSL</Phrase>
+    <Phrase key="gbSender">Z</Phrase>
+    <Phrase key="lblSenderAddress">Adresa odesílatele</Phrase>
+    <Phrase key="lblSenderDisplayName">Zobrazovaný název</Phrase>
+    <Phrase key="btnAddressBook">Adresář</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">zrušení</Phrase>
+  </Dictionary>
+</DrvEmailDictionaries>

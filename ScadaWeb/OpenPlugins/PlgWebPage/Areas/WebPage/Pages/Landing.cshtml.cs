@@ -33,7 +33,7 @@ namespace Scada.Web.Plugins.PlgWebPage.Areas.WebPage.Pages
         {
             int viewID = id ?? userContext.Views.GetFirstViewID() ?? 0;
 
-            if (viewLoader.GetView(viewID, out WebPageView webPageView, out string errMsg))
+            if (viewLoader.GetView(viewID, true, out WebPageView webPageView, out string errMsg))
             {
                 ViewData["Title"] = webPageView.Title;
 

@@ -6,16 +6,17 @@
     <Nullable>disable</Nullable>
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>Scada.Comm.Drivers.DrvDsOpcUaServer.Logic</RootNamespace>
-    <Version>6.0.0</Version>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
-    <Copyright>Copyright © 2022</Copyright>
+    <Copyright>Copyright © 2024</Copyright>
+    <Version>6.0.0</Version>
+    <AssemblyVersion>6.0.0.1</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Configuration" Version="1.4.370.12" />
-    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Server" Version="1.4.370.12" />
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Configuration" Version="1.4.371.86" />
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Server" Version="1.4.371.86" />
   </ItemGroup>
 
   <ItemGroup>

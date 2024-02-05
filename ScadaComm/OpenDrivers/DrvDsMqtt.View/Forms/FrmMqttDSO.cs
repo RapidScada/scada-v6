@@ -52,10 +52,11 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.View.Forms
             MqttConnectionOptions connectionOptions = options.ConnectionOptions;
             txtServer.Text = connectionOptions.Server;
             numPort.SetValue(connectionOptions.Port);
+            numTimeout.SetValue(connectionOptions.Timeout);
+            chkUseTls.Checked = connectionOptions.UseTls;
             txtClientID.Text = connectionOptions.ClientID;
             txtUsername.Text = connectionOptions.Username;
             txtPassword.Text = connectionOptions.Password;
-            numTimeout.SetValue(connectionOptions.Timeout);
             cbProtocolVersion.SelectedIndex = (int)connectionOptions.ProtocolVersion;
 
             // publishing
@@ -80,10 +81,11 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.View.Forms
             MqttConnectionOptions connectionOptions = options.ConnectionOptions;
             connectionOptions.Server = txtServer.Text;
             connectionOptions.Port = Convert.ToInt32(numPort.Value);
+            connectionOptions.Timeout = Convert.ToInt32(numTimeout.Value);
+            connectionOptions.UseTls = chkUseTls.Checked;
             connectionOptions.ClientID = txtClientID.Text;
             connectionOptions.Username = txtUsername.Text;
             connectionOptions.Password = txtPassword.Text;
-            connectionOptions.Timeout = Convert.ToInt32(numTimeout.Value);
             connectionOptions.ProtocolVersion = (MqttProtocolVersion)cbProtocolVersion.SelectedIndex;
 
             // publishing

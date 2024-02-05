@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaSchemeDictionaries>
+  <Dictionary key="Scada.Scheme.Model.DataTypes.ImageCondition">
+    <Phrase key="DisplayName">이미지 상태</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid">
+    <Phrase key="StringConvertError">문자열을 변환할 수 없습니다.</Phrase>
+    <Phrase key="StringUniqueError">속성 값은 고유해야 합니다.</Phrase>
+    <Phrase key="TrueValue">예</Phrase>
+    <Phrase key="FalseValue">아니요</Phrase>
+    <Phrase key="EmptyValue">(없음)</Phrase>
+    <Phrase key="ObjectValue">(물체)</Phrase>
+    <Phrase key="CollectionValue">(수집)</Phrase>
+    <Phrase key="ComponentNotFound">구성요소를 찾을 수 없음</Phrase>
+    <Phrase key="BoldSymbol">B</Phrase>
+    <Phrase key="ItalicSymbol">I</Phrase>
+    <Phrase key="UnderlineSymbol">U</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmCollectionDialog">
+    <Phrase key="this">{0} 컬렉션</Phrase>
+    <Phrase key="lblItems">항목</Phrase>
+    <Phrase key="lblProps">항목 속성</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmFontDialog">
+    <Phrase key="this">폰트</Phrase>
+    <Phrase key="lblFontName">폰트</Phrase>
+    <Phrase key="lblFontSize">크기</Phrase>
+    <Phrase key="gbStyle">스타일</Phrase>
+    <Phrase key="chkBold">Bold
+</Phrase>
+    <Phrase key="chkItalic">Italic</Phrase>
+    <Phrase key="chkUnderline">Underline</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmImageDialog">
+    <Phrase key="this">이미지</Phrase>
+    <Phrase key="lblImages">이미지</Phrase>
+    <Phrase key="lblImageProps">이미지 속성</Phrase>
+    <Phrase key="lblPreview">시사</Phrase>
+    <Phrase key="btnSelectEmpty">비어 있는</Phrase>
+    <Phrase key="btnSelect">선택하다</Phrase>
+    <Phrase key="btnClose">닫다</Phrase>
+    <Phrase key="ImageFileFilter">이미지(*.jpg;*.png;*.gif;*.svg)|*.jpg;*.png;*.gif;*.svg|모든 파일(*.*)|*.*</Phrase>
+    <Phrase key="DisplayImageError">이미지 표시 오류</Phrase>
+    <Phrase key="LoadImageError">이미지를 로드하는 중에 오류가 발생했습니다.</Phrase>
+    <Phrase key="SaveImageError">이미지 저장 오류</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmRangeDialog">
+    <Phrase key="this">정수 범위</Phrase>
+    <Phrase key="lblExample">예: 1 - 5, 10</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+    <Phrase key="RangeNotValid">범위가 유효하지 않습니다</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Template.TemplateBindings">
+    <Phrase key="LoadTemplateBindingsError">파일에서 구성표 템플릿 바인딩을 로드하는 중 오류가 발생했습니다.</Phrase>
+    <Phrase key="SaveTemplateBindingsError">구성표 템플릿 바인딩을 파일에 저장하는 중 오류가 발생했습니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.CompManager">
+    <Phrase key="UnknownComponent">알 수 없는 구성 요소 {0}</Phrase>
+    <Phrase key="CompLibraryNotFound">구성 요소 {0}에 대한 라이브러리를 찾을 수 없습니다.</Phrase>
+    <Phrase key="UnableCreateComponent">{0} 구성요소를 생성할 수 없습니다.</Phrase>
+    <Phrase key="ErrorCreatingComponent">구성 요소 {0} 생성 오류</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.SchemeView">
+    <Phrase key="LoadSchemeViewError">파일에서 구성표를 로드하는 중에 오류가 발생했습니다.</Phrase>
+    <Phrase key="SaveSchemeViewError">구성표를 파일에 저장하는 중 오류가 발생했습니다.</Phrase>
+    <Phrase key="IncorrectFileFormat">체계 파일의 잘못된 형식</Phrase>
+  </Dictionary>
+</ScadaSchemeDictionaries>

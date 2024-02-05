@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2023
  */
 
 using Scada.Data.Models;
@@ -42,7 +42,15 @@ namespace Scada.Web.Services
         /// <summary>
         /// Gets a view from the server or cache.
         /// </summary>
-        bool GetView<T>(int viewID, out T view, out string errMsg) where T : ViewBase;
+        bool GetView<T>(int viewID, bool enableAudit, out T view, out string errMsg) where T : ViewBase;
+
+        /// <summary>
+        /// Gets a view from the server or cache.
+        /// </summary>
+        bool GetView<T>(int viewID, out T view, out string errMsg) where T : ViewBase
+        {
+            return GetView(viewID, false, out view, out errMsg);
+        }
 
         /// <summary>
         /// Gets a view from the cache.

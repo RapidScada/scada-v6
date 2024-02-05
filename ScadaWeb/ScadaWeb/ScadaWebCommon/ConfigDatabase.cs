@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,14 +20,13 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
-using System.Collections.Generic;
 
 namespace Scada.Web
 {

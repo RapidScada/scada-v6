@@ -1,7 +1,6 @@
 ﻿.scheme-wrapper {
   overflow: auto;
-  position: relative;
-  /*affects scrolling and scaling*/
+  position: relative; /*affects scrolling and scaling*/
 }
 
 .scheme-wrapper.loading {
@@ -12,13 +11,12 @@
 }
 
 .scheme {
-  position: absolute;
-  /*affects scaling*/
-  transform-origin: left top;
-  /*affects scaling*/
+  position: absolute; /*affects scaling*/
+  transform-origin: left top; /*affects scaling*/
 }
 .scheme .comp {
   box-sizing: border-box;
+  line-height: normal;
   position: absolute;
 }
 .scheme .comp.action {
@@ -115,8 +113,7 @@ body {
 /* Debug tools */
 #divDebugTools {
   padding: 0 10px;
-  display: none;
-  /*inline-block*/
+  display: none; /*inline-block*/
   font-size: 12px;
   vertical-align: top;
 }

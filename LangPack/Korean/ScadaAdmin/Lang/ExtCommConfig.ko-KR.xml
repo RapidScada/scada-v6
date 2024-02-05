@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtCommConfigDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.ExtCommConfigLogic">
+    <Phrase key="GeneralOptionsNode">일반 옵션</Phrase>
+    <Phrase key="DriversNode">드라이버</Phrase>
+    <Phrase key="DataSourcesNode">데이터 소스</Phrase>
+    <Phrase key="LinesNode">통신선</Phrase>
+    <Phrase key="LineOptionsNode">라인 옵션</Phrase>
+    <Phrase key="LineStatsNode">라인 통계</Phrase>
+    <Phrase key="LogsNode">로그</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Code.ExtensionUtils">
+    <Phrase key="DeviceNotSupported">드라이버는 디바이스 생성을 지원하지 않습니다.</Phrase>
+    <Phrase key="UnableCreateDeviceView">디바이스 사용자 인터페이스를 생성할 수 없습니다.</Phrase>
+    <Phrase key="NoDeviceProperties">장치는 속성 창을 제공하지 않습니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate1">
+    <Phrase key="lblCommLine">통신선</Phrase>
+    <Phrase key="lblDevice">장치</Phrase>
+    <Phrase key="AllCommLines">&lt;모든 통신 회선&gt;</Phrase>
+    <Phrase key="DeviceInfo">드라이버: {0}&#13;&#10;인스턴스: {1}&#13;&#10;채널: {2}</Phrase>
+    <Phrase key="DeviceNotFound">Communicator에서 장치를 찾을 수 없습니다.</Phrase>
+    <Phrase key="NoDeviceSelected">선택한 기기가 없습니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate2">
+    <Phrase key="lblDevice">장치</Phrase>
+    <Phrase key="lblObj">물체</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate3">
+    <Phrase key="lblDevice">장치</Phrase>
+    <Phrase key="gbCnlNums">채널 번호</Phrase>
+    <Phrase key="lblStartCnlNum">시작</Phrase>
+    <Phrase key="lblEndCnlNum">끝</Phrase>
+    <Phrase key="btnMap">지도</Phrase>
+    <Phrase key="btnReset">초기화</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu">
+    <Phrase key="miWizards">마법사</Phrase>
+    <Phrase key="miAddLine">라인 추가...</Phrase>
+    <Phrase key="miAddDevice">기기 추가...</Phrase>
+    <Phrase key="miCreateChannels">채널 만들기...</Phrase>
+    <Phrase key="btnAddLine.ToolTip">라인 추가</Phrase>
+    <Phrase key="btnAddDevice.ToolTip">기기 추가</Phrase>
+    <Phrase key="btnCreateChannels.ToolTip">채널 만들기</Phrase>
+    <Phrase key="miLineSync">동기화...</Phrase>
+    <Phrase key="miLineAdd">라인 추가</Phrase>
+    <Phrase key="miLineMoveUp">라인업 위로 이동</Phrase>
+    <Phrase key="miLineMoveDown">줄을 아래로 이동</Phrase>
+    <Phrase key="miLineDelete">라인 삭제</Phrase>
+    <Phrase key="miLineStart">출발선</Phrase>
+    <Phrase key="miLineStop">정지선</Phrase>
+    <Phrase key="miLineRestart">라인 재시작</Phrase>
+    <Phrase key="miDeviceChannels">채널로 이동</Phrase>
+    <Phrase key="miDeviceCommand">명령 보내기...</Phrase>
+    <Phrase key="miDevicePoll">투표 장치</Phrase>
+    <Phrase key="miDeviceProperties">재산</Phrase>
+    <Phrase key="ConfirmDeleteLine">정말로 통신 회선을 삭제하시겠습니까?</Phrase>
+    <Phrase key="CnlNodeNotFound">채널 노드를 찾을 수 없습니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineMain">
+    <Phrase key="gbLine">통신선</Phrase>
+    <Phrase key="chkActive">활동적인</Phrase>
+    <Phrase key="chkIsBound">구성 데이터베이스에 바인딩됨</Phrase>
+    <Phrase key="lblCommLineNum">숫자</Phrase>
+    <Phrase key="lblName">이름</Phrase>
+    <Phrase key="gbLineOptions">라인 옵션</Phrase>
+    <Phrase key="lblReqRetries">오류 시 요청 재시도 횟수</Phrase>
+    <Phrase key="lblCycleDelay">폴링 주기 후 지연, ms</Phrase>
+    <Phrase key="lblCmdEnabled">활성화된 명령</Phrase>
+    <Phrase key="lblPollAfterCmd">명령 후 장치 폴링</Phrase>
+    <Phrase key="lblDetailedLog">상세 로그</Phrase>
+    <Phrase key="gbChannel">커뮤니케이션 채널</Phrase>
+    <Phrase key="lblChannelType">유형</Phrase>
+    <Phrase key="btnChannelProperties">속성</Phrase>
+    <Phrase key="lblChannelOptions">옵션</Phrase>
+    <Phrase key="UndefinedChannelType">한정되지 않은</Phrase>
+    <Phrase key="ChannelNotSupported">드라이버는 통신 채널 생성을 지원하지 않습니다.</Phrase>
+    <Phrase key="UnableCreateChannelView">통신 채널 사용자 인터페이스를 생성할 수 없습니다.</Phrase>
+    <Phrase key="NoChannelProperties">통신 채널은 속성 창을 제공하지 않습니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineCustom">
+    <Phrase key="btnAddOption">추가하다</Phrase>
+    <Phrase key="btnDeleteOption">삭제</Phrase>
+    <Phrase key="colOptionName">이름</Phrase>
+    <Phrase key="colOptionValue">값</Phrase>
+    <Phrase key="gbSelectedOption">선택한 옵션</Phrase>
+    <Phrase key="lblOptionName">이름</Phrase>
+    <Phrase key="lblOptionValue">값</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLinePolling">
+    <Phrase key="btnAddDevice">추가하다</Phrase>
+    <Phrase key="btnMoveUpDevice">이동</Phrase>
+    <Phrase key="btnMoveDownDevice">아래로 이동</Phrase>
+    <Phrase key="btnDeleteDevice">삭제</Phrase>
+    <Phrase key="btnCutDevice">자르다</Phrase>
+    <Phrase key="btnCopyDevice">복사</Phrase>
+    <Phrase key="btnPasteDevice">반죽</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">활동적인</Phrase>
+    <Phrase key="colPollOnCmd">명령에 대한 폴링</Phrase>
+    <Phrase key="colIsBound">경계</Phrase>
+    <Phrase key="colNumber">숫자</Phrase>
+    <Phrase key="colName">이름</Phrase>
+    <Phrase key="colDriver">운전사</Phrase>
+    <Phrase key="colNumAddress">숫자 주소</Phrase>
+    <Phrase key="colStrAddress">문자열 주소</Phrase>
+    <Phrase key="colTimeout">타임아웃</Phrase>
+    <Phrase key="colDelay">지연</Phrase>
+    <Phrase key="colTime">시간</Phrase>
+    <Phrase key="colPeriod">기간</Phrase>
+    <Phrase key="colCmdLine">명령줄</Phrase>
+    <Phrase key="gbSelectedDevice">선택한 장치</Phrase>
+    <Phrase key="chkActive">활동적인</Phrase>
+    <Phrase key="chkPollOnCmd">명령 시에만 폴링</Phrase>
+    <Phrase key="chkIsBound">구성 데이터베이스에 바인딩됨</Phrase>
+    <Phrase key="lblDeviceNum">숫자</Phrase>
+    <Phrase key="lblName">이름</Phrase>
+    <Phrase key="lblDriver">운전사</Phrase>
+    <Phrase key="lblNumAddress">숫자 주소</Phrase>
+    <Phrase key="lblStrAddress">문자열 주소 또는 호스트 이름</Phrase>
+    <Phrase key="lblTimeout">타임아웃</Phrase>
+    <Phrase key="lblDelay">지연</Phrase>
+    <Phrase key="lblTime">시간</Phrase>
+    <Phrase key="lblPeriod">기간</Phrase>
+    <Phrase key="lblCmdLine">명령줄</Phrase>
+    <Phrase key="lblCustomOptions">옵션</Phrase>
+    <Phrase key="btnDeviceProperties">속성</Phrase>
+    <Phrase key="btnResetPollingOptions">초기화</Phrase>
+    <Phrase key="btnResetPollingOptions.ToolTip">장치 폴링 옵션을 기본값으로 설정</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlSync1">
+    <Phrase key="lblSyncDirection">동기화 방향 선택:</Phrase>
+    <Phrase key="rbBaseToComm">Communicator에 대한 구성 데이터베이스</Phrase>
+    <Phrase key="rbCommToBase">구성 데이터베이스에 대한 커뮤니케이터</Phrase>
+    <Phrase key="lblInfo">누락된 회선 및 장치가 생성됩니다.&#13;&#10;기존 회선 및 장치가 업데이트됩니다.&#13;&#10;영향을 받는 속성:&#13;&#10;- 통신 회선 이름&#13;&#10;- 장치 이름&#13;&#10;- 장치 드라이버&#13;&#10;- 장치 주소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlSync2">
+    <Phrase key="lblSelect">동기화할 회선 및 장치 선택:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCnlCreate">
+    <Phrase key="this">채널 만들기</Phrase>
+    <Phrase key="chkPreview">시사</Phrase>
+    <Phrase key="btnBack">&lt; 뒤로</Phrase>
+    <Phrase key="btnNext">다음 &gt;</Phrase>
+    <Phrase key="btnCreate">만들다</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+    <Phrase key="CreateCnlsStep1">3단계 중 1단계: 기기 선택</Phrase>
+    <Phrase key="CreateCnlsStep2">3단계 중 2단계: 새로 만든 채널의 개체 선택</Phrase>
+    <Phrase key="CreateCnlsStep3">3/3단계: 채널 번호 할당</Phrase>
+    <Phrase key="CreateCnlsCompleted">채널 생성이 성공적으로 완료되었습니다.&#13;&#10;{0}개의 채널이 추가되었습니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCnlPreview">
+    <Phrase key="this">미리보기 채널</Phrase>
+    <Phrase key="btnDelete">삭제</Phrase>
+    <Phrase key="colCnlNum">숫자</Phrase>
+    <Phrase key="colActive">활동적인</Phrase>
+    <Phrase key="colName">이름</Phrase>
+    <Phrase key="colTagNum">태그 번호</Phrase>
+    <Phrase key="colTagCode">태그 코드</Phrase>
+    <Phrase key="btnAdd">추가하다</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCommLogs">
+    <Phrase key="AppFilter">애플리케이션</Phrase>
+    <Phrase key="LinesFilter">통신선</Phrase>
+    <Phrase key="DevicesFilter">장치</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDataSources">
+    <Phrase key="this">데이터 소스</Phrase>
+    <Phrase key="btnAdd">추가하다</Phrase>
+    <Phrase key="btnMoveUp">이동</Phrase>
+    <Phrase key="btnMoveDown">아래로 이동</Phrase>
+    <Phrase key="btnDelete">삭제</Phrase>
+    <Phrase key="btnCut">자르다</Phrase>
+    <Phrase key="btnCopy">복사</Phrase>
+    <Phrase key="btnPaste">반죽</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">활동적인</Phrase>
+    <Phrase key="colCode">암호</Phrase>
+    <Phrase key="colName">이름</Phrase>
+    <Phrase key="colDriver">운전사</Phrase>
+    <Phrase key="gbDataSource">선택한 데이터 소스</Phrase>
+    <Phrase key="chkActive">활동적인</Phrase>
+    <Phrase key="lblCode">암호</Phrase>
+    <Phrase key="lblName">이름</Phrase>
+    <Phrase key="lblDriver">운전사</Phrase>
+    <Phrase key="lblOptions">옵션</Phrase>
+    <Phrase key="btnProperties">속성</Phrase>
+    <Phrase key="DriverNotSpecified">드라이버가 지정되지 않았습니다.</Phrase>
+    <Phrase key="DataSourceNotSupported">드라이버는 데이터 소스 생성을 지원하지 않습니다.</Phrase>
+    <Phrase key="UnableCreateDataSourceView">데이터 소스 사용자 인터페이스를 생성할 수 없습니다.</Phrase>
+    <Phrase key="NoDataSourceProperties">데이터 소스는 속성 창을 제공하지 않습니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceAdd">
+    <Phrase key="this">기기 추가</Phrase>
+    <Phrase key="gbDevice">장치</Phrase>
+    <Phrase key="lblDeviceNum">숫자</Phrase>
+    <Phrase key="lblName">이름</Phrase>
+    <Phrase key="lblCode">암호</Phrase>
+    <Phrase key="lblDevType">기기 종류</Phrase>
+    <Phrase key="lblNumAddress">숫자 주소</Phrase>
+    <Phrase key="lblStrAddress">문자열 주소 또는 호스트 이름</Phrase>
+    <Phrase key="lblCommLine">통신선</Phrase>
+    <Phrase key="lblDescr">설명</Phrase>
+    <Phrase key="gbComm">전달자</Phrase>
+    <Phrase key="chkAddToComm">Communicator에 장치 추가</Phrase>
+    <Phrase key="lblInstance">사례</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+    <Phrase key="DeviceExistsInConfigDatabase">같은 번호의 장치가 이미 구성 데이터베이스에 있습니다.</Phrase>
+    <Phrase key="DeviceExistsInLineConfig">동일한 번호의 장치가 통신 회선 구성에 이미 존재합니다.</Phrase>
+    <Phrase key="LineNotFoundInCommConfig">Communicator 구성에서 통신 회선을 찾을 수 없습니다.</Phrase>
+    <Phrase key="ChooseLine">통신 회선을 선택하십시오.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceCommand">
+    <Phrase key="this">{0}에 명령</Phrase>
+    <Phrase key="lblCmdNum">명령 번호</Phrase>
+    <Phrase key="lblCmdCode">명령 코드</Phrase>
+    <Phrase key="rbNumVal">숫자</Phrase>
+    <Phrase key="rbStrData">문자열 데이터</Phrase>
+    <Phrase key="rbHexData">16진수 데이터</Phrase>
+    <Phrase key="btnOff">끄다</Phrase>
+    <Phrase key="btnOn">~에</Phrase>
+    <Phrase key="btnSend">보내다</Phrase>
+    <Phrase key="btnClose">닫다</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceData">
+    <Phrase key="this">기기 {0}</Phrase>
+    <Phrase key="btnDeviceProperties">속성</Phrase>
+    <Phrase key="btnSendCommand">명령</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDrivers">
+    <Phrase key="this">드라이버</Phrase>
+    <Phrase key="lblDrivers">사용 가능한 드라이버:</Phrase>
+    <Phrase key="btnProperties">속성</Phrase>
+    <Phrase key="btnRegister">등록하다</Phrase>
+    <Phrase key="lblDescr">설명</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmGeneralOptions">
+    <Phrase key="this">일반 옵션</Phrase>
+    <Phrase key="gbGeneralOptions">일반 옵션</Phrase>
+    <Phrase key="lblIsBound">애플리케이션이 구성 데이터베이스에 바인딩됨</Phrase>
+    <Phrase key="lblSendModifiedData">장치 태그의 수정된 데이터만 전송</Phrase>
+    <Phrase key="lblSendAllDataPeriod">모든 디바이스 태그의 데이터 전송 주기, 초</Phrase>
+    <Phrase key="lblEnableCommands">원격 제어 명령 활성화</Phrase>
+    <Phrase key="lblEnableFileCommands">파일에서 원격 제어 명령 읽기</Phrase>
+    <Phrase key="lblStartLinesOnCommand">명령에 따라 통신 회선 시작</Phrase>
+    <Phrase key="lblStopWait">서비스 중지 대기, 초</Phrase>
+    <Phrase key="lblMaxLogSize">최대 로그 파일 크기, MB</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineAdd">
+    <Phrase key="this">통신 회선 추가</Phrase>
+    <Phrase key="gbLine">통신선</Phrase>
+    <Phrase key="lblCommLineNum">숫자</Phrase>
+    <Phrase key="lblName">이름</Phrase>
+    <Phrase key="lblDescr">설명</Phrase>
+    <Phrase key="gbComm">전달자</Phrase>
+    <Phrase key="chkAddToComm">Communicator에 라인 추가</Phrase>
+    <Phrase key="lblInstance">사례</Phrase>
+    <Phrase key="btnOK">좋아요</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+    <Phrase key="LineExistsInConfigDatabase">구성 데이터베이스에 동일한 번호의 통신 회선이 이미 존재합니다.</Phrase>
+    <Phrase key="LineExistsInCommConfig">동일한 번호의 통신 회선이 Communicator 구성에 이미 존재합니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineConfig">
+    <Phrase key="lbTabs.Items[0]">주요 옵션</Phrase>
+    <Phrase key="lbTabs.Items[1]">사용자 지정 옵션</Phrase>
+    <Phrase key="lbTabs.Items[2]">장치 폴링</Phrase>
+    <Phrase key="LineConfigTitle">라인 {0} 옵션</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineStats">
+    <Phrase key="lbTabs.Items[0]">회선 상태</Phrase>
+    <Phrase key="lbTabs.Items[1]">라인 로그</Phrase>
+    <Phrase key="chkPause">정지시키다</Phrase>
+    <Phrase key="LineStatsTitle">라인 {0} 통계</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmSync">
+    <Phrase key="this">회선 및 장치 동기화</Phrase>
+    <Phrase key="btnNext">다음</Phrase>
+    <Phrase key="btnSync">동조</Phrase>
+    <Phrase key="btnCancel">취소</Phrase>
+    <Phrase key="SyncCompleted">동기화가 성공적으로 완료되었습니다.</Phrase>
+    <Phrase key="SyncCompletedWithError">다음 오류와 함께 동기화 완료:&#13;&#10;{0}</Phrase>
+    <Phrase key="NoDataToSync">동기화를 위해 선택된 데이터가 없습니다.</Phrase>
+  </Dictionary>
+</ExtCommConfigDictionaries>

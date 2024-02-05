@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaServerDictionaries>
+  <!-- ScadaServerCommon.dll -->
+  <Dictionary key="Scada.Server.Archives">
+    <Phrase key="UnspecifiedArchiveKind">Belirtilmemiş</Phrase>
+    <Phrase key="CurrentArchiveKind">Akım</Phrase>
+    <Phrase key="HistoricalArchiveKind">Tarihi</Phrase>
+    <Phrase key="EventsArchiveKind">Olaylar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules">
+    <Phrase key="LoadModuleConfigError">Modül yapılandırması yüklenirken hata oluştu</Phrase>
+    <Phrase key="SaveModuleConfigError">Modül yapılandırması kaydedilirken hata oluştu</Phrase>
+    <Phrase key="SaveModuleConfigConfirm">Modül yapılandırması değiştirildi.  Değişiklikler kaydedilsin mi?</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Engine.CoreLogic">
+    <Phrase key="CommandSentBy">{0} tarafından gönderildi</Phrase>
+    <Phrase key="EmptyCredentials">Kullanıcı adı veya şifre boş olamaz</Phrase>
+    <Phrase key="InvalidCredentials">Geçersiz kullanıcı adı veya şifre</Phrase>
+    <Phrase key="AccountDisabled">Hesap devredışı</Phrase>
+  </Dictionary>
+  <!-- ScadaServerCommon.Forms.dll -->
+  <Dictionary key="Scada.Server.Forms.Controls.CtrlCurrentArchiveOptions">
+    <Phrase key="gbOptions">Genel seçenekler</Phrase>
+    <Phrase key="lblReadOnly">Sadece oku</Phrase>
+    <Phrase key="lblLogEnabled">Günlük etkinleştirildi</Phrase>
+    <Phrase key="lblFlushPeriod">Yıkama dönemi</Phrase>
+    <Phrase key="txtFlushPeriodUnit">saniye</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Forms.Controls.CtrlEventArchiveOptions">
+    <Phrase key="gbOptions">Genel seçenekler</Phrase>
+    <Phrase key="lblReadOnly">Sadece oku</Phrase>
+    <Phrase key="lblLogEnabled">Günlük etkinleştirildi</Phrase>
+    <Phrase key="lblRetention">Saklama süresi</Phrase>
+    <Phrase key="txtRetentionUnit">Gün</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Forms.Controls.CtrlHistoricalArchiveOptions">
+    <Phrase key="gbOptions">Genel seçenekler</Phrase>
+    <Phrase key="lblReadOnly">Sadece oku</Phrase>
+    <Phrase key="lblLogEnabled">Günlük etkinleştirildi</Phrase>
+    <Phrase key="lblRetention">Saklama süresi</Phrase>
+    <Phrase key="txtRetentionUnit">Gün</Phrase>
+    <Phrase key="lblIsPeriodic">Sadece periyodik veriler</Phrase>
+    <Phrase key="lblWriteWithPeriod">Nokta ile yaz</Phrase>
+    <Phrase key="lblWritingPeriod">Yazma dönemi</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[0]">saniye</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[1]">dak.</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[2]">Saat</Phrase>
+    <Phrase key="lblPullToPeriod">Döneme çek</Phrase>
+    <Phrase key="txtPullToPeriodUnit">saniye</Phrase>
+    <Phrase key="lblWriteOnChange">Değişiklik üzerine yaz</Phrase>
+    <Phrase key="lblDeadband">ölü bant</Phrase>
+    <Phrase key="cbDeadbandUnit.Items[0]">karın</Phrase>
+    <Phrase key="cbDeadbandUnit.Items[1]">%</Phrase>
+  </Dictionary>
+</ScadaServerDictionaries>

@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,14 +20,12 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using System;
-using System.Collections.Generic;
 using System.Text.Encodings.Web;
 
 namespace Scada.Web.TagHelpers
@@ -186,7 +184,7 @@ namespace Scada.Web.TagHelpers
                     .AppendHtml("<li class=\"page-item disabled\"><span class=\"page-link\">&laquo;</span></li>");
             }
 
-            // pages numbers
+            // page numbers
             for (int i = 0; i < pageNumbers.Length; i++)
             {
                 int pageNumber = pageNumbers[i];

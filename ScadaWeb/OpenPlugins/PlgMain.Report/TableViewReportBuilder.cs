@@ -3,7 +3,6 @@
 
 using Scada.Data.Entities;
 using Scada.Data.Models;
-using Scada.Data.Tables;
 using Scada.Lang;
 using Scada.Report;
 using Scada.Report.Xml2003;
@@ -78,12 +77,10 @@ namespace Scada.Web.Plugins.PlgMain.Report
         /// </summary>
         private string GetTitle()
         {
-            DateTime localStartTime = ReportContext.ConvertTimeFromUtc(reportArgs.StartTime);
-            DateTime localEndTime = ReportContext.ConvertTimeFromUtc(reportArgs.EndTime);
             return string.Format(dict.TitleFormat,
                 reportArgs.TableView.Title,
-                localStartTime.ToLocalizedString(),
-                localEndTime.ToLocalizedString());
+                ReportContext.DateTimeToString(reportArgs.StartTime),
+                ReportContext.DateTimeToString(reportArgs.EndTime));
         }
 
         /// <summary>
@@ -170,12 +167,7 @@ namespace Scada.Web.Plugins.PlgMain.Report
             reportArgs.Validate();
             ArgumentNullException.ThrowIfNull(outStream, nameof(outStream));
 
-            // find archive
-            archiveEntity = ReportContext.ConfigDatabase.ArchiveTable
-                .SelectFirst(new TableFilter("Code", args.TableOptions.ArchiveCode)) ??
-                throw new ScadaException(reportDict.ArchiveNotFound);
-
-            // render report
+            archiveEntity = ReportContext.FindArchive(args.TableOptions.ArchiveCode);
             renderer.Render(templateFilePath, outStream);
         }
 
@@ -290,7 +282,7 @@ namespace Scada.Web.Plugins.PlgMain.Report
                 else if (e.DirectiveValue == "GenCaption")
                     cellText = reportDict.GenCaption;
                 else if (e.DirectiveValue == "Gen")
-                    cellText = ReportContext.ConvertTimeFromUtc(GenerateTime).ToLocalizedString(ReportContext.Culture);
+                    cellText = ReportContext.DateTimeToString(GenerateTime);
                 else if (e.DirectiveValue == "ArcCaption")
                     cellText = reportDict.ArcCaption;
                 else if (e.DirectiveValue == "Arc")

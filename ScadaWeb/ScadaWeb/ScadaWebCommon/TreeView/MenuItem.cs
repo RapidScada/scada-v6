@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,16 +20,11 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
- * Modified : 2021
+ * Modified : 2023
  */
 
 using Scada.Web.Lang;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Scada.Web.TreeView
 {
@@ -149,7 +144,7 @@ namespace Scada.Web.TreeView
                 KnownMenuItem.Reports => new MenuItem
                 {
                     Text = WebPhrases.ReportsMenuItem,
-                    Url = WebPath.ReportsPage.PrependTilda(),
+                    Url = WebPath.ReportsPage.PrependTilde(),
                     SortOrder = (int)KnownMenuItem.Reports * OrderCoef
                 },
 
@@ -180,7 +175,7 @@ namespace Scada.Web.TreeView
                 KnownMenuItem.About => new MenuItem
                 {
                     Text = WebPhrases.AboutMenuItem,
-                    Url = WebPath.AboutPage.PrependTilda(),
+                    Url = WebPath.AboutPage.PrependTilde(),
                     SortOrder = MenuItemSortOrder.Last
                 },
 

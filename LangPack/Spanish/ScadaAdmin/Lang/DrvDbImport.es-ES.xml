@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDbImportDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlCommand">
+    <Phrase key="gbCommand">Parámetros de comando</Phrase>
+    <Phrase key="lblName">Nombre</Phrase>
+    <Phrase key="lblCmdCode">Código de comando</Phrase>
+    <Phrase key="lblCmdCodeWarn">Rellene el código</Phrase>
+    <Phrase key="lblSql">SQL</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">Parámetros disponibles: @cmdVal, @cmdData</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlQuery">
+    <Phrase key="gbQuery">Parámetros de consulta</Phrase>
+    <Phrase key="chkActive">Activo</Phrase>
+    <Phrase key="lblName">Nombre</Phrase>
+    <Phrase key="lblTag">Etiquetas</Phrase>
+    <Phrase key="lblSQL">SQL</Phrase>
+    <Phrase key="chkSingleRow">resultado de una sola fila</Phrase>
+    <Phrase key="pbTagInfo.ToolTip">Cada línea contiene un código de etiqueta.</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">ACTIVADO: la solicitud devuelve una sola fila, cada campo contiene un valor de etiqueta.&#13;&#10;DESACTIVADO: la solicitud devuelve un conjunto de filas, cada fila contiene un valor de etiqueta.  Columnas requeridas: código y val.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Propiedades del dispositivo {0} - DB Import</Phrase>
+    <Phrase key="btnAddQuery.ToolTip">Agregar consulta</Phrase>
+    <Phrase key="btnAddCommand.ToolTip">Añadir comando</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Ascender</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Mover hacia abajo</Phrase>
+    <Phrase key="btnDelete.ToolTip">Borrar</Phrase>
+    <Phrase key="gbDevice">Configuración del dispositivo</Phrase>
+    <Phrase key="btnSave">Ahorrar</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+    <Phrase key="btnClose">Cerca</Phrase>
+    <Phrase key="miCollapseAll">Desplegar todo</Phrase>
+    <Phrase key="ConnectionNode">Opciones de conexión</Phrase>
+    <Phrase key="CommandName">Comando {0}</Phrase>
+    <Phrase key="CommandsNode">Comandos</Phrase>
+    <Phrase key="QueryName">Consulta {0}</Phrase>
+    <Phrase key="QueriesNode">Consultas</Phrase>
+    <Phrase key="SelectChildNode">Seleccionar nodo secundario</Phrase>
+    <Phrase key="UnnamedCommand">&lt;Comando sin nombre&gt;</Phrase>
+    <Phrase key="UnnamedQuery">&lt;Consulta sin nombre&gt;</Phrase>
+  </Dictionary>
+</DrvDbImportDictionaries>

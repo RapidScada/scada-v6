@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtServerConfigDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.ExtServerConfigLogic">
+    <Phrase key="GeneralOptionsNode">Generelle alternativer</Phrase>
+    <Phrase key="ModulesNode">Moduler</Phrase>
+    <Phrase key="ArchivesNode">Arkiv</Phrase>
+    <Phrase key="LogsNode">Tømmerstokker</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchiveAdd">
+    <Phrase key="this">Legg til arkiv</Phrase>
+    <Phrase key="lblSourceArchive">Kildearkiv</Phrase>
+    <Phrase key="lblModule">Modul</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchives">
+    <Phrase key="this">Arkiv</Phrase>
+    <Phrase key="btnAdd">Legg til</Phrase>
+    <Phrase key="btnMoveUp">Flytte opp</Phrase>
+    <Phrase key="btnMoveDown">Flytt ned</Phrase>
+    <Phrase key="btnDelete">Slett</Phrase>
+    <Phrase key="btnCut">Kutte opp</Phrase>
+    <Phrase key="btnCopy">Kopiere</Phrase>
+    <Phrase key="btnPaste">Lim inn</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">Aktiv</Phrase>
+    <Phrase key="colCode">Kode</Phrase>
+    <Phrase key="colName">Navn</Phrase>
+    <Phrase key="colKind">Snill</Phrase>
+    <Phrase key="colModule">Modul</Phrase>
+    <Phrase key="gbArchive">Valgt arkiv</Phrase>
+    <Phrase key="chkActive">Aktiv</Phrase>
+    <Phrase key="lblCode">Kode</Phrase>
+    <Phrase key="lblName">Navn</Phrase>
+    <Phrase key="lblKind">Snill</Phrase>
+    <Phrase key="lblModule">Modul</Phrase>
+    <Phrase key="lblOptions">Alternativer</Phrase>
+    <Phrase key="btnProperties">Egenskaper</Phrase>
+    <Phrase key="ModuleNotSpecified">Modul er ikke spesifisert.</Phrase>
+    <Phrase key="ArchiveNotSupported">Modulen støtter ikke oppretting av arkiver av typen {0}.</Phrase>
+    <Phrase key="UnableCreateArchiveView">Kan ikke opprette arkivbrukergrensesnitt.</Phrase>
+    <Phrase key="NoArchiveProperties">Arkivet gir ikke et egenskapsvindu.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions">
+    <Phrase key="this">Generelle alternativer</Phrase>
+    <Phrase key="gbGeneralOptions">Generelle alternativer</Phrase>
+    <Phrase key="lblUnrelIfInactive">Merk kanalen som upålitelig hvis inaktiv, sek</Phrase>
+    <Phrase key="lblMaxCurDataAge">Skriv gjeldende data som historiske hvis eldre, sek</Phrase>
+    <Phrase key="lblUseArchivalStatus">Merk innkommende historiske data som arkiv</Phrase>
+    <Phrase key="lblGenerateAckCmd">Generer kommando når hendelsen er bekreftet</Phrase>
+    <Phrase key="lblStopWait">Vent på servicestopp, sek</Phrase>
+    <Phrase key="lblMaxLogSize">Maksimal loggfilstørrelse, MB</Phrase>
+    <Phrase key="lblDisableFormulas">Deaktiver kanalformler unntatt objekter</Phrase>
+    <Phrase key="btnSelectObjects">Plukke ut...</Phrase>
+    <Phrase key="gbListenerOptions">Lytteralternativer</Phrase>
+    <Phrase key="lblPort">TCP-port</Phrase>
+    <Phrase key="lblTimeout">Tidsavbrudd, ms</Phrase>
+    <Phrase key="lblSecretKey">Hemmelig nøkkel</Phrase>
+    <Phrase key="btnGenerateKey">generere</Phrase>
+    <Phrase key="btnCopyKey">Kopiere</Phrase>
+    <Phrase key="InvalidObjectRange">Ugyldig objektområde.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmModules">
+    <Phrase key="this">Moduler</Phrase>
+    <Phrase key="lblUnusedModules">Ubrukte moduler:</Phrase>
+    <Phrase key="btnActivate">Aktiver</Phrase>
+    <Phrase key="lblActiveModules">Aktive moduler:</Phrase>
+    <Phrase key="btnDeactivate">Deaktiver</Phrase>
+    <Phrase key="btnMoveUp">Flytte opp</Phrase>
+    <Phrase key="btnMoveDown">Flytt ned</Phrase>
+    <Phrase key="btnProperties">Egenskaper</Phrase>
+    <Phrase key="btnRegister">Registrere</Phrase>
+    <Phrase key="lblDescr">Beskrivelse</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmServerLogs">
+    <Phrase key="AppFilter">applikasjon</Phrase>
+    <Phrase key="ModulesFilter">Moduler</Phrase>
+  </Dictionary>
+</ExtServerConfigDictionaries>

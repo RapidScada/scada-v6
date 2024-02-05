@@ -31,7 +31,6 @@ namespace Scada.Admin.Forms
 
         private readonly IAdminContext adminContext; // the Administrator context
         private readonly ProjectApp projectApp;      // the application containing the registered module
-        private readonly string productCode;         // the registered product code
         private readonly string regKeyFileName;      // the registration key file name
 
 
@@ -46,15 +45,15 @@ namespace Scada.Admin.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmRegistration(IAdminContext adminContext, ProjectApp projectApp, 
+        public FrmRegistration(IAdminContext adminContext, ProjectApp projectApp,
             string productCode, string productName) : this()
         {
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
-            this.productCode = productCode ?? throw new ArgumentNullException(nameof(productCode));
             this.projectApp = projectApp ?? throw new ArgumentNullException(nameof(projectApp));
             regKeyFileName = Path.Combine(projectApp.ConfigDir, productCode + "_Reg.xml");
 
-            txtProductName.Text = productName;
+            ctrlRegistration.ProductCode = productCode;
+            ctrlRegistration.ProductName = productName;
         }
 
 
@@ -67,7 +66,7 @@ namespace Scada.Admin.Forms
             {
                 if (adminContext.MainForm.GetAgentClient(false) is IAgentClient agentClient)
                 {
-                    txtCompCode.Text = AdminPhrases.FileLoading;
+                    ctrlRegistration.ComputerCode = AdminPhrases.FileLoading;
                     DateTime newerThan = DateTime.MinValue;
                     ICollection<string> lines;
 
@@ -78,18 +77,18 @@ namespace Scada.Admin.Forms
                             ref newerThan, out lines);
                     }
 
-                    txtCompCode.Text = lines != null && lines.Count > 0 
-                        ? lines.First() 
+                    ctrlRegistration.ComputerCode = lines != null && lines.Count > 0
+                        ? lines.First()
                         : CommonPhrases.NoData;
                 }
                 else
                 {
-                    txtCompCode.Text = AdminPhrases.AgentNotEnabled;
+                    ctrlRegistration.ComputerCode = AdminPhrases.AgentNotEnabled;
                 }
             }
             catch (Exception ex)
             {
-                txtCompCode.Text = ex.Message;
+                ctrlRegistration.ComputerCode = ex.Message;
             }
         }
 
@@ -104,7 +103,7 @@ namespace Scada.Admin.Forms
                 {
                     XmlDocument xmlDoc = new();
                     xmlDoc.Load(regKeyFileName);
-                    txtRegKey.Text = xmlDoc.DocumentElement.Name == "RegKey" ? 
+                    ctrlRegistration.RegistrationKey = xmlDoc.DocumentElement.Name == "RegKey" ?
                         xmlDoc.DocumentElement.InnerText.Trim() : "";
                 }
             }
@@ -121,13 +120,13 @@ namespace Scada.Admin.Forms
         {
             try
             {
-                XmlDocument xmlDoc = new XmlDocument();
+                XmlDocument xmlDoc = new();
                 XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
                 xmlDoc.AppendChild(xmlDecl);
 
                 XmlElement xmlElem = xmlDoc.CreateElement("RegKey");
                 xmlDoc.AppendChild(xmlElem);
-                xmlElem.InnerText = txtRegKey.Text.Trim();
+                xmlElem.InnerText = ctrlRegistration.RegistrationKey.Trim();
 
                 xmlDoc.Save(regKeyFileName);
                 return true;
@@ -139,60 +138,19 @@ namespace Scada.Admin.Forms
             }
         }
 
-        /// <summary>
-        /// Gets the URL to get a permanent key.
-        /// </summary>
-        private static string GetPermanentKeyUrl()
-        {
-            return Locale.IsRussian ?
-                "https://rapidscada.ru/download-all-files/purchase-module/" :
-                "https://rapidscada.org/download-all-files/purchase-module/";
-        }
-
-        /// <summary>
-        /// Gets the URL to get a trial key.
-        /// </summary>
-        private string GetTrialKeyUrl()
-        {
-            return string.Format(Locale.IsRussian ?
-                "https://rapidscada.net/trial/?prod={0}&lang=ru" :
-                "https://rapidscada.net/trial/?prod={0}",
-                productCode);
-        }
-
 
         private async void FrmRegistration_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
+            FormTranslator.Translate(ctrlRegistration, ctrlRegistration.GetType().FullName);
             LoadRegKey();
-            txtRegKey.Select();
+            ctrlRegistration.SetFocus();
             await Task.Run(() => RequestCompCode());
         }
 
-        private void btnCopyCompCode_Click(object sender, EventArgs e)
-        {
-            if (txtCompCode.Text != "")
-                Clipboard.SetText(txtCompCode.Text);
-        }
-
-        private void btnPasteRegKey_Click(object sender, EventArgs e)
-        {
-            txtRegKey.Text = Clipboard.GetText();
-        }
-
-        private async void btnRefreshCompCode_Click(object sender, EventArgs e)
+        private async void ctrlRegistration_RefreshCompCode(object sender, EventArgs e)
         {
             await Task.Run(() => RequestCompCode());
-        }
-
-        private void llblGetPermanentKey_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            ScadaUiUtils.StartProcess(GetPermanentKeyUrl());
-        }
-
-        private void llblGetTrialKey_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            ScadaUiUtils.StartProcess(GetTrialKeyUrl());
         }
 
         private void btnSave_Click(object sender, EventArgs e)

@@ -69,7 +69,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         /// </summary>
         public virtual ElemConfig CreateElemConfig()
         {
-            return new ElemConfig();
+            return new ElemConfig { ElemType = DefaultElemType };
         }
 
         /// <summary>
@@ -135,10 +135,10 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
                     elemElem.SetAttribute("byteOrder", elemConfig.ByteOrder);
 
                 if (readOnlyEnabled)
-                    elemElem.SetAttribute("readOnly", elemConfig.ReadOnly.ToLowerString());
+                    elemElem.SetAttribute("readOnly", elemConfig.ReadOnly);
 
                 if (bitMaskEnabled)
-                    elemElem.SetAttribute("isBitMask", elemConfig.IsBitMask.ToLowerString());
+                    elemElem.SetAttribute("isBitMask", elemConfig.IsBitMask);
 
                 elemElem.SetAttribute("tagCode", elemConfig.TagCode);
                 elemElem.SetAttribute("name", elemConfig.Name);

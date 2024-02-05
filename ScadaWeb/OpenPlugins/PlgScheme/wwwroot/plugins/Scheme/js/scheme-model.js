@@ -18,6 +18,8 @@ scada.scheme.BaseComponent = function (type) {
     this.dom = null;
     // Renderer of the component
     this.renderer = null;
+    // Component state written by renderer
+    this.state = null;
 };
 
 /********** Scheme Loading States **********/
@@ -624,7 +626,7 @@ scada.scheme.Scheme.prototype.updateData = function (mainApi, callback) {
             thisScheme._cnlFilter.cnlListID = dto.data.cnlListID;
         }
 
-        thisScheme.renderContext.curCnlDataMap = mainApi.mapCurData(dto.data);
+        thisScheme.renderContext.curCnlDataMap = MainApi.mapCurData(dto.data);
 
         for (let component of thisScheme.componentMap.values()) {
             thisScheme._updateComponentData(component);

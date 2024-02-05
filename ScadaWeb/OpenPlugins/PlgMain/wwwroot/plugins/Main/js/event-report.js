@@ -1,7 +1,4 @@
-﻿const BUTTON_LOCK_DURATION = 3000; // ms
-const MS_PER_DAY = 24 * 60 * 60 * 1000;
-
-// The variables below are set in EventReport.cshtml
+﻿// The variables below are set in EventReport.cshtml
 var phrases = {};
 var maxReportPeriod = 0;
 
@@ -17,14 +14,14 @@ function reportValidityExtra() {
     let endTimeMs = Date.parse($("#txtEndTime").val());
 
     if (startTimeMs > endTimeMs) {
-        errors.push(phrases.InvalidPeriod);
-    } else if (endTimeMs - startTimeMs > maxReportPeriod * MS_PER_DAY) {
-        errors.push(ScadaUtils.formatString(phrases.PeriodTooLong, maxReportPeriod));
+        errors.push(phrases.invalidPeriod);
+    } else if (endTimeMs - startTimeMs > maxReportPeriod * ScadaUtils.MS_PER_DAY) {
+        errors.push(ScadaUtils.formatString(phrases.periodTooLong, maxReportPeriod));
     }
 
     // severity
     if (!isSeveritySelected()) {
-        errors.push(phrases.NoSeverity);
+        errors.push(phrases.noSeverity);
     }
 
     if (errors.length > 0) {
@@ -44,7 +41,7 @@ function lockGenerateButton() {
     setTimeout(function () {
         $("#btnGenerateReport").prop("disabled", false);
         $("#divWaitHint").addClass("hidden");
-    }, BUTTON_LOCK_DURATION);
+    }, ScadaUtils.BUTTON_LOCK_DURATION);
 }
 
 function isSeveritySelected() {
@@ -96,7 +93,7 @@ function getReportUrl() {
 }
 
 $(document).ready(function () {
-    $("#btnGenerateReport").click(function () {
+    $("#btnGenerateReport").on("click", function () {
         hideErrorMessage();
 
         if ($("#frmReportArgs")[0].reportValidity() && reportValidityExtra()) {

@@ -18,5 +18,10 @@ namespace Scada.Server.Modules.ModArcPostgreSql
         /// The default queue size.
         /// </summary>
         public const int DefaultQueueSize = 1000;
+
+        /// <summary>
+        /// The default queue size.
+        /// </summary>
+        public const int DefaultBatchSize = 1000;
     }
 }

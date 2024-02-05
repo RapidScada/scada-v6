@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvMqttPublisherDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.Config.DeviceOptions">
+    <Phrase key="RootTopic.DisplayName">루트 주제</Phrase>
+    <Phrase key="RootTopic.Category">주요 매개변수</Phrase>
+    <Phrase key="RootTopic.Description">모든 장치 항목의 접두사로 사용되는 루트 항목입니다.</Phrase>
+    <Phrase key="UndefinedValue.DisplayName">정의되지 않은 값</Phrase>
+    <Phrase key="UndefinedValue.Category">주요 매개변수</Phrase>
+    <Phrase key="UndefinedValue.Description">채널 값이 정의되지 않은 경우 보낼 페이로드입니다.</Phrase>
+    <Phrase key="PublishFormat.DisplayName">게시 형식</Phrase>
+    <Phrase key="PublishFormat.Category">주요 매개변수</Phrase>
+    <Phrase key="PublishFormat.Description">게시된 채널 데이터의 형식입니다.&#13;&#10;형식 예: { "Val": @val, "Stat": @stat }&#13;&#10;빈 형식은 @val과 같습니다.</Phrase>
+    <Phrase key="PublishOnChange.DisplayName">변경 시 게시</Phrase>
+    <Phrase key="PublishOnChange.Category">주요 매개변수</Phrase>
+    <Phrase key="PublishOnChange.Description">변경 시 채널 데이터를 보낼지 여부를 나타내는 값.</Phrase>
+    <Phrase key="PublishPeriod.DisplayName">게시 기간</Phrase>
+    <Phrase key="PublishPeriod.Category">주요 매개변수</Phrase>
+    <Phrase key="PublishPeriod.Description">모든 장치 항목의 게시 기간, 초.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.Config.ItemConfig">
+    <Phrase key="CnlNum.DisplayName">채널 번호</Phrase>
+    <Phrase key="CnlNum.Category">주요 매개변수</Phrase>
+    <Phrase key="CnlNum.Description">게시된 채널의 번호입니다.</Phrase>
+    <Phrase key="Topic.DisplayName">주제</Phrase>
+    <Phrase key="Topic.Category">주요 매개변수</Phrase>
+    <Phrase key="Topic.Description">MQTT 주제.</Phrase>
+    <Phrase key="Publish.DisplayName">게시</Phrase>
+    <Phrase key="Publish.Category">주요 매개변수</Phrase>
+    <Phrase key="Publish.Description">항목이 채널 값을 게시하는 데 사용되는지 여부를 나타내는 값입니다.</Phrase>
+    <Phrase key="Subscribe.DisplayName">구독하다</Phrase>
+    <Phrase key="Subscribe.Category">주요 매개변수</Phrase>
+    <Phrase key="Subscribe.Description">항목이 명령을 받는 데 사용되는지 여부를 나타내는 값입니다.</Phrase>
+    <Phrase key="QosLevel.DisplayName">QoS 수준</Phrase>
+    <Phrase key="QosLevel.Category">규약</Phrase>
+    <Phrase key="QosLevel.Description">서비스 품질 수준: 0 - 최대 한 번, 1 - 최소 한 번, 2 - 정확히 한 번.</Phrase>
+    <Phrase key="Retain.DisplayName">유지하다</Phrase>
+    <Phrase key="Retain.Category">규약</Phrase>
+    <Phrase key="Retain.Description">게시할 때 유지 플래그를 설정할지 여부를 나타내는 값입니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.View.MqttPublisherConfigProvider">
+    <Phrase key="FormTitle">기기 {0} 속성 - MQTT 게시자</Phrase>
+    <Phrase key="AddItemButton">아이템 추가</Phrase>
+    <Phrase key="OptionsNode">옵션</Phrase>
+    <Phrase key="ItemsNode">항목</Phrase>
+    <Phrase key="ItemNodeFormat">채널 {0}</Phrase>
+  </Dictionary>
+</DrvMqttPublisherDictionaries>

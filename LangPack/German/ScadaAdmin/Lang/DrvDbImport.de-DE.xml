@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDbImportDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlCommand">
+    <Phrase key="gbCommand">Befehlsparameter</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblCmdCode">Befehlscode</Phrase>
+    <Phrase key="lblCmdCodeWarn">Code ausfüllen</Phrase>
+    <Phrase key="lblSql">SQL</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">Verfügbare Parameter: @cmdVal, @cmdData</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlQuery">
+    <Phrase key="gbQuery">Abfrageparameter</Phrase>
+    <Phrase key="chkActive">Aktiv</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblTag">Stichworte</Phrase>
+    <Phrase key="lblSQL">SQL</Phrase>
+    <Phrase key="chkSingleRow">Einzeiliges Ergebnis</Phrase>
+    <Phrase key="pbTagInfo.ToolTip">Jede Zeile enthält einen Tag-Code.</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">ON – die Anfrage gibt eine einzelne Zeile zurück, von der jedes Feld einen Tag-Wert enthält.&#13;&#10;OFF – die Anfrage gibt eine Reihe von Zeilen zurück, jede Zeile enthält einen Tag-Wert.  Erforderliche Spalten: Code und Wert.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Geräteeigenschaften {0} – DB-Import</Phrase>
+    <Phrase key="btnAddQuery.ToolTip">Abfrage hinzufügen</Phrase>
+    <Phrase key="btnAddCommand.ToolTip">Befehl hinzufügen</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Nach oben bewegen</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Sich abwärts bewegen</Phrase>
+    <Phrase key="btnDelete.ToolTip">Löschen</Phrase>
+    <Phrase key="gbDevice">Gerätekonfiguration</Phrase>
+    <Phrase key="btnSave">Speichern</Phrase>
+    <Phrase key="btnCancel">Stornieren</Phrase>
+    <Phrase key="btnClose">Schließen</Phrase>
+    <Phrase key="miCollapseAll">Alles reduzieren</Phrase>
+    <Phrase key="ConnectionNode">Verbindungsoptionen</Phrase>
+    <Phrase key="CommandName">Befehl {0}</Phrase>
+    <Phrase key="CommandsNode">Befehle</Phrase>
+    <Phrase key="QueryName">Abfrage {0}</Phrase>
+    <Phrase key="QueriesNode">Abfragen</Phrase>
+    <Phrase key="SelectChildNode">Untergeordneten Knoten auswählen</Phrase>
+    <Phrase key="UnnamedCommand">&lt;Unbenannter Befehl&gt;</Phrase>
+    <Phrase key="UnnamedQuery">&lt;Unbenannte Abfrage&gt;</Phrase>
+  </Dictionary>
+</DrvDbImportDictionaries>

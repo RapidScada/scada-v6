@@ -30,6 +30,7 @@
     <Phrase key="miChannelMapByObject">Peta Saluran berdasarkan Objek</Phrase>
     <Phrase key="miDeviceMap">Peta Perangkat</Phrase>
     <Phrase key="miCheckIntegrity">Periksa Integritas</Phrase>
+    <Phrase key="miEncryptPassword">Enkripsi Kata Sandi</Phrase>
     <Phrase key="miImportTable">Impor Tabel...</Phrase>
     <Phrase key="miExportTable">Ekspor Tabel...</Phrase>
   </Dictionary>
@@ -48,9 +49,15 @@
     <Phrase key="btnClone">Kloning</Phrase>
     <Phrase key="btnClose">Tutup</Phrase>
     <Phrase key="KeepUnchanged">&lt;Biarkan tidak berubah&gt;</Phrase>
-    <Phrase key="CloneChannelsCompleted">Kloning diselesaikan dengan sukses.
-{0} saluran ditambahkan.</Phrase>
+    <Phrase key="CloneChannelsCompleted">Kloning diselesaikan dengan sukses.&#13;&#10;{0} saluran ditambahkan.</Phrase>
     <Phrase key="CloneChannelsError">Kesalahan saat mengkloning saluran</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
+    <Phrase key="this">Enkripsi Kata Sandi</Phrase>
+    <Phrase key="lblPassword">Kata Sandi</Phrase>
+    <Phrase key="lblPasswordEncrypted">Kata Sandi Terenkripsi</Phrase>
+    <Phrase key="btnCopy">Salin</Phrase>
+    <Phrase key="btnClose">Tutup</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
     <Phrase key="this">Ekspor Tabel</Phrase>
@@ -78,8 +85,7 @@
     <Phrase key="btnImport">Impor</Phrase>
     <Phrase key="btnClose">Tutup</Phrase>
     <Phrase key="ImportTableFilter">Tabel (*.dat;*.xml;*.csv)|*.dat;*.xml;*.csv|Semua Berkas (*.*)|*.*</Phrase>
-    <Phrase key="ImportTableCompleted">Import diselesaikan dengan sukses.
-{0} baris terpengaruh.</Phrase>
+    <Phrase key="ImportTableCompleted">Import diselesaikan dengan sukses.&#13;&#10;{0} baris terpengaruh.</Phrase>
     <Phrase key="ImportTableError">Kesalahan mengimpor tabel</Phrase>
   </Dictionary>
 </ExtProjectToolsDictionaries>

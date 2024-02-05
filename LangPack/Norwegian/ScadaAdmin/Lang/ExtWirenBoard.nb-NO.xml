@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtWirenBoardDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlDeviceTree">
+    <Phrase key="btnSelectAll">Velg alle</Phrase>
+    <Phrase key="btnSelectNone">Velg ingen</Phrase>
+    <Phrase key="SelectDevice">Velg minst én enhet.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlEntityID">
+    <Phrase key="lblStartDeviceNum">Startenhetsnummer</Phrase>
+    <Phrase key="btnDeviceMap">Kart</Phrase>
+    <Phrase key="lblStartCnlNum">Startkanalnummer</Phrase>
+    <Phrase key="btnCnlMap">Kart</Phrase>
+    <Phrase key="lblObj">Gjenstand</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlExtensionMenu">
+    <Phrase key="miWirenBoard">Wiren Board</Phrase>
+    <Phrase key="miCreateConfig">Opprett konfigurasjon...</Phrase>
+    <Phrase key="btnCreateConfig.ToolTip">Lag prosjektkonfigurasjon for Wiren Board</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlLineSelect">
+    <Phrase key="lblInstance">Forekomst</Phrase>
+    <Phrase key="lblLine">Kommunikasjonslinje</Phrase>
+    <Phrase key="lblWirenBoardIP">Wiren Board IP-adresse</Phrase>
+    <Phrase key="CommLineRequired">Velg en kommunikasjonslinje.</Phrase>
+    <Phrase key="MqttLineRequired">Kanaltypen til den valgte linjen må være MQTT-klient.</Phrase>
+    <Phrase key="WirenBoardIpRequired">Wiren Board IP-adresse er nødvendig.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Forms.FrmWirenBoardWizard">
+    <Phrase key="this">Prosjektkonfigurasjonsveiviser for Wiren Board</Phrase>
+    <Phrase key="btnBack">&lt; Tilbake</Phrase>
+    <Phrase key="btnNext">Neste &gt;</Phrase>
+    <Phrase key="btnCreate">Skape</Phrase>
+    <Phrase key="btnCancel">Avbryt</Phrase>
+    <Phrase key="Step1Descr">Trinn 1 av 5: Velg kommunikasjonslinje</Phrase>
+    <Phrase key="Step2Descr">Trinn 2 av 5: Les emner fra Wiren Board</Phrase>
+    <Phrase key="Step3Descr">Trinn 3 av 5: Velg enheter og kontroller for import</Phrase>
+    <Phrase key="Step4Descr">Trinn 4 av 5: Angi IDer for konfigurasjonsdatabase</Phrase>
+    <Phrase key="Step5Descr">Trinn 5 av 5: Kontroller at konfigurasjonen blir opprettet</Phrase>
+    <Phrase key="CreateConfigCompleted">Konfigurasjonen er opprettet</Phrase>
+    <Phrase key="CreateConfigError">Feil ved opprettelse av konfigurasjon</Phrase>
+  </Dictionary>
+</ExtWirenBoardDictionaries>

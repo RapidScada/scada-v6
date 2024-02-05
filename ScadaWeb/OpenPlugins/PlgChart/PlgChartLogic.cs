@@ -8,8 +8,8 @@ using Scada.Web.Services;
 namespace Scada.Web.Plugins.PlgChart
 {
     /// <summary>
-    /// Represents a plugin logic.
-    /// <para>Представляет логику плагина.</para>
+    /// Implements the plugin logic.
+    /// <para>Реализует логику плагина.</para>
     /// </summary>
     public class PlgChartLogic : PluginLogic
     {
@@ -19,13 +19,8 @@ namespace Scada.Web.Plugins.PlgChart
         public PlgChartLogic(IWebContext webContext)
             : base(webContext)
         {
+            Info = new ChartPluginInfo();
         }
-
-
-        /// <summary>
-        /// Gets the plugin code.
-        /// </summary>
-        public override string Code => "PlgChart";
 
         /// <summary>
         /// Gets the plugin features.
@@ -35,13 +30,12 @@ namespace Scada.Web.Plugins.PlgChart
             ChartScriptUrl = "~/plugins/Chart/js/chart-feature.js",
         };
 
-
         /// <summary>
         /// Loads language dictionaries.
         /// </summary>
         public override void LoadDictionaries()
         {
-            if (!Locale.LoadDictionaries(AppDirs.LangDir, "PlgChart", out string errMsg))
+            if (!Locale.LoadDictionaries(AppDirs.LangDir, Code, out string errMsg))
                 Log.WriteError(WebPhrases.PluginMessage, Code, errMsg);
         }
     }

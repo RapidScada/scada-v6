@@ -1,0 +1,31 @@
+﻿@page "/es/5.8/installation-and-run/system-requirements"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Requerimientos del sistema";
+}
+
+<h1>Requerimientos del sistema</h1>
+<h2>Requisitos de software del servidor</h2>
+<p>Windows:</p>
+<ul>
+    <li>Sistema operativo: Microsoft Windows Server 2008 R2 SP1 o posterior, Microsoft Windows 7 SP1 o posterior.</li>
+    <li>Microsoft .NET Framework 4.7.2.</li>
+    <li>Se requiere Microsoft IIS para implementar la aplicación Webstation.</li>
+</ul>
+
+<p>Linux:</p>
+<ul>
+    <li>Sistema operativo: Ubuntu, Debian y derivados.</li>
+    <li>Mono .NET Framework 5.20.1 o superior.</li>
+    <li>Servidor web Apache.</li>
+</ul>
+
+<h2>Requisitos de hardware del servidor</h2>
+<p>La configuración de hardware de un servidor depende de la escala del sistema automatizado. La configuración mínima está determinada por los requisitos del sistema operativo. Para estimar el espacio requerido en el disco duro, primero configure Rapid SCADA, luego mida el incremento diario del tamaño de los archivos de datos y multiplíquelo por el período de almacenamiento de los datos a archivar.</p>
+<p>Rapid SCADA contiene su propio DBMS incorporado, por lo que no se necesita ningún cargo adicional por DBMS de terceros. El software puede funcionar en entornos físicos o virtuales.</p>
+
+<h2>Requisitos de una Estación de trabajo (Workstation) o una Tableta</h2>
+<ul>
+    <li>Navegador moderno: Chrome, Firefox, Safari o Edge.</li>
+    <li>Para ver los informes se requiere Microsoft Office 2003 o posterior.</li>
+</ul>

@@ -1,14 +1,15 @@
-﻿// Contains classes: ModalButton, ModalSize, ModalOptions, ModalManager
+﻿// Contains classes: ModalButton, ModalSize, ModalOptions, ModalBase, ModalManager,
+//     ModalBoxOptions, ModalBoxAlerts, ModalBox
 // Depends on jquery, bootstrap, scada-common.js
 
 // Specifies the modal dialog buttons.
 class ModalButton {
-    static OK = "Ok";
-    static YES = "Yes";
-    static NO = "No";
-    static EXEC = "Execute";
-    static CANCEL = "Cancel";
-    static CLOSE = "Close";
+    static OK = "ok";
+    static YES = "yes";
+    static NO = "no";
+    static EXEC = "execute";
+    static CANCEL = "cancel";
+    static CLOSE = "close";
 
     static OK_CANCEL = [ModalButton.OK, ModalButton.CANCEL];
     static YES_NO_CANCEL = [ModalButton.YES, ModalButton.NO, ModalButton.CANCEL];
@@ -25,10 +26,13 @@ class ModalSize {
 
 // Represents modal dialog options.
 class ModalOptions {
-    constructor(opt_buttons, opt_size, opt_height) {
-        this.buttons = opt_buttons || [ModalButton.CLOSE];
-        this.size = opt_size || ModalSize.NORMAL;
-        this.height = opt_height || 0;
+    title = null;
+    buttons = [ModalButton.CLOSE];
+    size = ModalSize.NORMAL;
+    height = 0;
+
+    constructor(fields) {
+        Object.assign(this, fields);
     }
 }
 
@@ -45,10 +49,94 @@ class ModalPostbackArgs {
 // Can be changed by a page script.
 var modalPhrases = {};
 
-// Manages modal dialogs.
-class ModalManager {
-    static MAX_TITLE_LEN = 50;
+// Contains common functions for creating modals.
+class ModalBase {
+    // Creates a jQuery element for a modal.
+    static createModalElem() {
+        // footer not included
+        return $(
+            "<div class='modal fade' tabindex='-1'>" +
+            "<div class='modal-dialog'>" +
+            "<div class='modal-content'>" +
+            "<div class='modal-header'><h5 class='modal-title text-truncate'></h5>" +
+            "<button type='button' class='btn-close' data-bs-dismiss='modal'></button></div>" +
+            "<div class='modal-body'></div>" +
+            "</div></div></div>");
+    }
 
+    // Sets the modal width.
+    static setModalSize(modalElem, size) {
+        let sizeClass = "";
+
+        switch (size) {
+            case ModalSize.SMALL:
+                sizeClass = "modal-sm";
+                break;
+
+            case ModalSize.LARGE:
+                sizeClass = "modal-lg";
+                break;
+
+            case ModalSize.EXTRA_LARGE:
+                sizeClass = "modal-xl";
+                break;
+
+            default:
+                sizeClass = "";
+                break;
+        }
+
+        if (sizeClass) {
+            modalElem.children(".modal-dialog:first").addClass(sizeClass);
+        }
+    }
+
+    // Adds a footer with the buttons to the modal.
+    static addModalFooter(modalElem, buttons) {
+        let footerElem = modalElem.find(".modal-footer:first");
+
+        if (footerElem.length === 0) {
+            footerElem = $("<div class='modal-footer'></div>")
+            modalElem.find(".modal-content:first").append(footerElem);
+        }
+
+        for (let btn of buttons) {
+            let subclass = btn === ModalButton.OK || btn === ModalButton.YES
+                ? "btn-primary"
+                : (btn === ModalButton.EXEC ? "btn-danger" : "btn-secondary");
+            let dismiss = "";
+
+            if (btn === ModalButton.CANCEL || btn === ModalButton.CLOSE) {
+                dismiss = "data-bs-dismiss='modal'";
+            } else {
+                subclass += " rs-btn-submit";
+            }
+
+            let caption = modalPhrases[btn] || btn;
+            footerElem.append(`<button type='button' class='btn ${subclass}' data-rs-value='${btn}' ${dismiss}>${caption}</button>`);
+        }
+    }
+
+    // Sets the modal title.
+    static setModalTitle(modalElem, title) {
+        modalElem.find(".modal-title:first").text(title)
+    }
+
+    // Sets the contents of the modal body. The contents is a jQuery object or a string.
+    static setModalBody(modalElem, contents) {
+        let modalBodyElem = modalElem.find(".modal-body:first");
+        modalBodyElem.empty();
+
+        if (contents instanceof jQuery) {
+            modalBodyElem.append(contents);
+        } else {
+            modalBodyElem.text(contents);
+        }
+    }
+}
+
+// Manages modal dialogs.
+class ModalManager extends ModalBase {
     // Sets up the modal document.
     _setupModalDoc(modalWnd) {
         const thisObj = this;
@@ -119,7 +207,7 @@ class ModalManager {
         let submitElem = modalWnd.$(".rs-modal-submit:first");
 
         if (submitElem.length > 0) {
-            submitElem.click();
+            submitElem.trigger("click");
         } else {
             let formElem = modalWnd.$("form:first");
 
@@ -129,38 +217,10 @@ class ModalManager {
         }
     }
 
-    // Builds an HTML markup of a modal dialog footer buttons.
-    static _buildButtonsHtml(buttons) {
-        let html = "";
-
-        for (let btn of buttons) {
-            let subclass = btn === ModalButton.OK || btn === ModalButton.YES
-                ? "btn-primary"
-                : (btn === ModalButton.EXEC ? "btn-danger" : "btn-secondary");
-            let dismiss = "";
-
-            if (btn === ModalButton.CANCEL || btn === ModalButton.CLOSE) {
-                dismiss = "data-bs-dismiss='modal'";
-            } else {
-                subclass += " rs-btn-submit";
-            }
-
-            let caption = modalPhrases[btn] || btn;
-            html += `<button type='button' class='btn ${subclass}' data-rs-value='${btn}' ${dismiss}>${caption}</button>`;
-        }
-
-        return html;
-    }
-
     // Finds a modal button by its value.
     static _findButton(modalWnd, buttonValue) {
         return ModalManager._getModalElem(modalWnd)
             .find(".modal-footer button[data-rs-value='" + buttonValue + "']");
-    }
-
-    // Truncates the title if it is too long.
-    static _truncateTitle(s) {
-        return s.length <= ModalManager.MAX_TITLE_LEN ? s : s.substr(0, ModalManager.MAX_TITLE_LEN) + "…";
     }
 
     // Determines if the specified window is a modal dialog.
@@ -179,28 +239,9 @@ class ModalManager {
 
         // create a modal
         let options = opt_options || new ModalOptions();
-        let footerHtml = Array.isArray(options.buttons) ?
-            "<div class='modal-footer'>" + ModalManager._buildButtonsHtml(options.buttons) + "</div>" : "";
-        let sizeClass = "";
-
-        if (options.size === ModalSize.SMALL) {
-            sizeClass = " modal-sm";
-        } else if (options.size === ModalSize.LARGE) {
-            sizeClass = " modal-lg";
-        } else if (options.size === ModalSize.EXTRA_LARGE) {
-            sizeClass = " modal-xl";
-        }
-
-        let modalElem = $(
-            "<div class='modal fade' tabindex='-1'>" +
-            "<div class='modal-dialog" + sizeClass + "'>" +
-            "<div class='modal-content'>" +
-            "<div class='modal-header'>" +
-            "<h5 class='modal-title'></h5>" +
-            "<button type='button' class='btn-close' data-bs-dismiss='modal'></button></div>" +
-            "<div class='modal-body'></div>" +
-            footerHtml +
-            "</div></div></div>");
+        let modalElem = ModalBase.createModalElem();
+        ModalBase.setModalSize(modalElem, options.size);
+        ModalBase.addModalFooter(modalElem, options.buttons);
 
         if (opt_callback) {
             modalElem
@@ -214,22 +255,29 @@ class ModalManager {
             "opacity": 0.0 // hide the frame while it's loading
         });
 
-        let modalBody = modalElem.find(".modal-body");
-        modalBody.append(modalFrame);
+        ModalBase.setModalBody(modalElem, modalFrame);
         $("body").append(modalElem);
 
         // bind events to the modal
         modalElem
             .on('shown.bs.modal', function () {
-                // update the modal height
                 let frameWnd = ModalManager._getModalWnd(modalElem);
-                if (ScadaUtils.checkAccessToFrame(frameWnd, true) && !options.height) {
+                let frameAccessible = ScadaUtils.checkAccessToFrame(frameWnd, true);
+
+                // update the modal height
+                if (frameAccessible && !options.height) {
                     // html height can be greater than body height because of element margins
                     modalFrame.css("height", frameWnd.$("html").height());
                 }
 
+                // set input focus
+                let autofocusElem = frameAccessible
+                    ? frameWnd.$(frameWnd.document).find("[autofocus]").add(modalFrame).first()
+                    : modalFrame;
+                autofocusElem.trigger("focus");
+
+                // remove overlay to allow user activity
                 tempOverlay.remove();
-                modalFrame.focus();
             })
             .on('hidden.bs.modal', function () {
                 let callback = $(this).data("rs-callback");
@@ -241,15 +289,18 @@ class ModalManager {
                 $(this).remove();
             });
 
-        modalElem.find(".modal-footer button").click(function () {
-            // raise event
-            let buttonValue = $(this).data("rs-value");
+        modalElem.find(".modal-footer button").on("click", function () {
             let frameWnd = ModalManager._getModalWnd(modalElem);
-            frameWnd.$(frameWnd).trigger(ScadaEventType.MODAL_BTN_CLICK, buttonValue);
 
-            // submit the modal
-            if ($(this).hasClass("rs-btn-submit")) {
-                ModalManager._submitModal(frameWnd, buttonValue);
+            if (ScadaUtils.checkAccessToFrame(frameWnd, true)) {
+                // raise event
+                let buttonValue = $(this).data("rs-value");
+                frameWnd.$(frameWnd).trigger(ScadaEventType.MODAL_BTN_CLICK, buttonValue);
+
+                // submit the modal
+                if ($(this).hasClass("rs-btn-submit")) {
+                    ModalManager._submitModal(frameWnd, buttonValue);
+                }
             }
         });
 
@@ -263,7 +314,7 @@ class ModalManager {
                     thisObj._setupModalDoc(frameWnd);
                 } else {
                     // set the modal title
-                    modalElem.find(".modal-title").text(url);
+                    ModalBase.setModalTitle(modalElem, options.title || url);
                 }
             })
             .one("load", function () {
@@ -299,9 +350,8 @@ class ModalManager {
 
     // Sets the title of the modal dialog.
     setTitle(modalWnd, title) {
-        ModalManager._getModalElem(modalWnd)
-            .find(".modal-title")
-            .text(ModalManager._truncateTitle(title));
+        let modalElem = ModalManager._getModalElem(modalWnd);
+        ModalBase.setModalTitle(modalElem, title);
     }
 
     // Shows or hides the button of the modal dialog.
@@ -336,5 +386,47 @@ class ModalManager {
     // Finds an existing or create a new manager instance.
     static getInstance() {
         return ModalManager._findInstance() || new ModalManager();
+    }
+}
+
+// Represents modal box options. 
+class ModalBoxOptions {
+    title = null;
+    alert = null;
+
+    constructor(fields) {
+        Object.assign(this, fields);
+    }
+}
+
+// Specifies the alerts for modal messages.
+class ModalBoxAlerts {
+    static DANGER = "danger";
+    static WARNING = "warning";
+}
+
+// Represents a modal box.
+// Modal box is a modal that does not contain another web page.
+class ModalBox extends ModalBase {
+    // Shows a modal containing the specified message.
+    static showMessage(message, opt_options) {
+        let options = opt_options ?? new ModalBoxOptions();
+        let modalElem = this.createModalElem();
+        this.addModalFooter(modalElem, [ModalButton.CLOSE]);
+        this.setModalTitle(modalElem, options.title ?? document.title);
+
+        if (options.alert) {
+            let alertElem = $(`<div class='alert alert-${options.alert}'></div>`).text(message);
+            this.setModalBody(modalElem, alertElem);
+        } else {
+            this.setModalBody(modalElem, message);
+        }
+
+        modalElem.on('hidden.bs.modal', function () {
+            $(this).remove();
+        });
+
+        let modal = new bootstrap.Modal(modalElem[0], {});
+        modal.show();
     }
 }

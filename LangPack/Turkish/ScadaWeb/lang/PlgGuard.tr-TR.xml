@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgGuardDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages">
+    <Phrase key="NoData">Veri yok</Phrase>
+    <Phrase key="UsernameColumn">Kullanıcı adı</Phrase>
+    <Phrase key="SessionIdColumn">Oturum kimliği</Phrase>
+    <Phrase key="RemoteIpColumn">IP adresi</Phrase>
+    <Phrase key="AccessTimeColumn">Erişim süresi</Phrase>
+    <Phrase key="FailCountColumn">Başarısız Sayısı</Phrase>
+    <Phrase key="AccessColumn">Erişim</Phrase>
+    <Phrase key="AccessAllowed">İzin verilmiş</Phrase>
+    <Phrase key="AccessBlocked">Engellendi</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.Addresses">
+    <Phrase key="PageTitle">IP Adresleri</Phrase>
+    <Phrase key="UsernameColumn">Son Kullanıcı Adı</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.General">
+    <Phrase key="PageTitle">Genel</Phrase>
+    <Phrase key="CacheInfoFormat">{0}/{1}</Phrase>
+    <Phrase key="lblGlobalAccess">Küresel erişim:</Phrase>
+    <Phrase key="lblBlockedUsers">Engellenmiş kullanıcılar:</Phrase>
+    <Phrase key="lblBlockedAddresses">Engellenen IP adresleri:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.Sessions">
+    <Phrase key="PageTitle">oturumlar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.Areas.Guard.Pages.Users">
+    <Phrase key="PageTitle">Kullanıcılar</Phrase>
+    <Phrase key="RemoteIpColumn">Son IP Adresi</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgGuard.PlgGuardLogic">
+    <Phrase key="GuardMenuItem">Koruma</Phrase>
+    <Phrase key="GeneralMenuItem">Genel</Phrase>
+    <Phrase key="UsersMenuItem">Kullanıcılar</Phrase>
+    <Phrase key="AddressesMenuItem">IP Adresleri</Phrase>
+    <Phrase key="SessionsMenuItem">oturumlar</Phrase>
+  </Dictionary>
+</PlgGuardDictionaries>

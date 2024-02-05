@@ -28,225 +28,216 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtName = new System.Windows.Forms.TextBox();
-            this.lblName = new System.Windows.Forms.Label();
-            this.numLimID = new System.Windows.Forms.NumericUpDown();
-            this.lblLimID = new System.Windows.Forms.Label();
-            this.chkIsBoundToCnl = new System.Windows.Forms.CheckBox();
-            this.chkIsShared = new System.Windows.Forms.CheckBox();
-            this.txtHiHi = new System.Windows.Forms.TextBox();
-            this.lblHiHi = new System.Windows.Forms.Label();
-            this.txtHigh = new System.Windows.Forms.TextBox();
-            this.lblHigh = new System.Windows.Forms.Label();
-            this.txtLow = new System.Windows.Forms.TextBox();
-            this.lblLow = new System.Windows.Forms.Label();
-            this.txtLoLo = new System.Windows.Forms.TextBox();
-            this.lblLoLo = new System.Windows.Forms.Label();
-            this.txtDeadband = new System.Windows.Forms.TextBox();
-            this.lblDeadband = new System.Windows.Forms.Label();
-            this.btnOK = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.numLimID)).BeginInit();
-            this.SuspendLayout();
+            txtName = new System.Windows.Forms.TextBox();
+            lblName = new System.Windows.Forms.Label();
+            numLimID = new System.Windows.Forms.NumericUpDown();
+            lblLimID = new System.Windows.Forms.Label();
+            chkIsBoundToCnl = new System.Windows.Forms.CheckBox();
+            chkIsShared = new System.Windows.Forms.CheckBox();
+            txtHiHi = new System.Windows.Forms.TextBox();
+            lblHiHi = new System.Windows.Forms.Label();
+            txtHigh = new System.Windows.Forms.TextBox();
+            lblHigh = new System.Windows.Forms.Label();
+            txtLow = new System.Windows.Forms.TextBox();
+            lblLow = new System.Windows.Forms.Label();
+            txtLoLo = new System.Windows.Forms.TextBox();
+            lblLoLo = new System.Windows.Forms.Label();
+            txtDeadband = new System.Windows.Forms.TextBox();
+            lblDeadband = new System.Windows.Forms.Label();
+            btnOK = new System.Windows.Forms.Button();
+            btnCancel = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)numLimID).BeginInit();
+            SuspendLayout();
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(121, 27);
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(312, 23);
-            this.txtName.TabIndex = 3;
+            txtName.Location = new System.Drawing.Point(121, 27);
+            txtName.Name = "txtName";
+            txtName.Size = new System.Drawing.Size(312, 23);
+            txtName.TabIndex = 3;
             // 
             // lblName
             // 
-            this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(118, 9);
-            this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(39, 15);
-            this.lblName.TabIndex = 2;
-            this.lblName.Text = "Name";
+            lblName.AutoSize = true;
+            lblName.Location = new System.Drawing.Point(118, 9);
+            lblName.Name = "lblName";
+            lblName.Size = new System.Drawing.Size(39, 15);
+            lblName.TabIndex = 2;
+            lblName.Text = "Name";
             // 
             // numLimID
             // 
-            this.numLimID.Location = new System.Drawing.Point(15, 27);
-            this.numLimID.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numLimID.Name = "numLimID";
-            this.numLimID.Size = new System.Drawing.Size(100, 23);
-            this.numLimID.TabIndex = 1;
-            this.numLimID.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            numLimID.Location = new System.Drawing.Point(15, 27);
+            numLimID.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numLimID.Name = "numLimID";
+            numLimID.Size = new System.Drawing.Size(100, 23);
+            numLimID.TabIndex = 1;
+            numLimID.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // lblLimID
             // 
-            this.lblLimID.AutoSize = true;
-            this.lblLimID.Location = new System.Drawing.Point(12, 9);
-            this.lblLimID.Name = "lblLimID";
-            this.lblLimID.Size = new System.Drawing.Size(18, 15);
-            this.lblLimID.TabIndex = 0;
-            this.lblLimID.Text = "ID";
+            lblLimID.AutoSize = true;
+            lblLimID.Location = new System.Drawing.Point(12, 9);
+            lblLimID.Name = "lblLimID";
+            lblLimID.Size = new System.Drawing.Size(18, 15);
+            lblLimID.TabIndex = 0;
+            lblLimID.Text = "ID";
             // 
             // chkIsBoundToCnl
             // 
-            this.chkIsBoundToCnl.AutoSize = true;
-            this.chkIsBoundToCnl.Location = new System.Drawing.Point(15, 56);
-            this.chkIsBoundToCnl.Name = "chkIsBoundToCnl";
-            this.chkIsBoundToCnl.Size = new System.Drawing.Size(125, 19);
-            this.chkIsBoundToCnl.TabIndex = 4;
-            this.chkIsBoundToCnl.Text = "Bound to channels";
-            this.chkIsBoundToCnl.UseVisualStyleBackColor = true;
+            chkIsBoundToCnl.AutoSize = true;
+            chkIsBoundToCnl.Location = new System.Drawing.Point(15, 56);
+            chkIsBoundToCnl.Name = "chkIsBoundToCnl";
+            chkIsBoundToCnl.Size = new System.Drawing.Size(125, 19);
+            chkIsBoundToCnl.TabIndex = 4;
+            chkIsBoundToCnl.Text = "Bound to channels";
+            chkIsBoundToCnl.UseVisualStyleBackColor = true;
             // 
             // chkIsShared
             // 
-            this.chkIsShared.AutoSize = true;
-            this.chkIsShared.Location = new System.Drawing.Point(15, 81);
-            this.chkIsShared.Name = "chkIsShared";
-            this.chkIsShared.Size = new System.Drawing.Size(62, 19);
-            this.chkIsShared.TabIndex = 5;
-            this.chkIsShared.Text = "Shared";
-            this.chkIsShared.UseVisualStyleBackColor = true;
+            chkIsShared.AutoSize = true;
+            chkIsShared.Location = new System.Drawing.Point(15, 81);
+            chkIsShared.Name = "chkIsShared";
+            chkIsShared.Size = new System.Drawing.Size(62, 19);
+            chkIsShared.TabIndex = 5;
+            chkIsShared.Text = "Shared";
+            chkIsShared.UseVisualStyleBackColor = true;
             // 
             // txtHiHi
             // 
-            this.txtHiHi.Location = new System.Drawing.Point(333, 121);
-            this.txtHiHi.Name = "txtHiHi";
-            this.txtHiHi.Size = new System.Drawing.Size(100, 23);
-            this.txtHiHi.TabIndex = 13;
+            txtHiHi.Location = new System.Drawing.Point(333, 121);
+            txtHiHi.Name = "txtHiHi";
+            txtHiHi.Size = new System.Drawing.Size(100, 23);
+            txtHiHi.TabIndex = 13;
             // 
             // lblHiHi
             // 
-            this.lblHiHi.AutoSize = true;
-            this.lblHiHi.Location = new System.Drawing.Point(330, 103);
-            this.lblHiHi.Name = "lblHiHi";
-            this.lblHiHi.Size = new System.Drawing.Size(86, 15);
-            this.lblHiHi.TabIndex = 12;
-            this.lblHiHi.Text = "Extremely high";
+            lblHiHi.AutoSize = true;
+            lblHiHi.Location = new System.Drawing.Point(330, 103);
+            lblHiHi.Name = "lblHiHi";
+            lblHiHi.Size = new System.Drawing.Size(60, 15);
+            lblHiHi.TabIndex = 12;
+            lblHiHi.Text = "High high";
             // 
             // txtHigh
             // 
-            this.txtHigh.Location = new System.Drawing.Point(227, 121);
-            this.txtHigh.Name = "txtHigh";
-            this.txtHigh.Size = new System.Drawing.Size(100, 23);
-            this.txtHigh.TabIndex = 11;
+            txtHigh.Location = new System.Drawing.Point(227, 121);
+            txtHigh.Name = "txtHigh";
+            txtHigh.Size = new System.Drawing.Size(100, 23);
+            txtHigh.TabIndex = 11;
             // 
             // lblHigh
             // 
-            this.lblHigh.AutoSize = true;
-            this.lblHigh.Location = new System.Drawing.Point(224, 103);
-            this.lblHigh.Name = "lblHigh";
-            this.lblHigh.Size = new System.Drawing.Size(33, 15);
-            this.lblHigh.TabIndex = 10;
-            this.lblHigh.Text = "High";
+            lblHigh.AutoSize = true;
+            lblHigh.Location = new System.Drawing.Point(224, 103);
+            lblHigh.Name = "lblHigh";
+            lblHigh.Size = new System.Drawing.Size(33, 15);
+            lblHigh.TabIndex = 10;
+            lblHigh.Text = "High";
             // 
             // txtLow
             // 
-            this.txtLow.Location = new System.Drawing.Point(121, 121);
-            this.txtLow.Name = "txtLow";
-            this.txtLow.Size = new System.Drawing.Size(100, 23);
-            this.txtLow.TabIndex = 9;
+            txtLow.Location = new System.Drawing.Point(121, 121);
+            txtLow.Name = "txtLow";
+            txtLow.Size = new System.Drawing.Size(100, 23);
+            txtLow.TabIndex = 9;
             // 
             // lblLow
             // 
-            this.lblLow.AutoSize = true;
-            this.lblLow.Location = new System.Drawing.Point(118, 103);
-            this.lblLow.Name = "lblLow";
-            this.lblLow.Size = new System.Drawing.Size(29, 15);
-            this.lblLow.TabIndex = 8;
-            this.lblLow.Text = "Low";
+            lblLow.AutoSize = true;
+            lblLow.Location = new System.Drawing.Point(118, 103);
+            lblLow.Name = "lblLow";
+            lblLow.Size = new System.Drawing.Size(29, 15);
+            lblLow.TabIndex = 8;
+            lblLow.Text = "Low";
             // 
             // txtLoLo
             // 
-            this.txtLoLo.Location = new System.Drawing.Point(15, 121);
-            this.txtLoLo.Name = "txtLoLo";
-            this.txtLoLo.Size = new System.Drawing.Size(100, 23);
-            this.txtLoLo.TabIndex = 7;
+            txtLoLo.Location = new System.Drawing.Point(15, 121);
+            txtLoLo.Name = "txtLoLo";
+            txtLoLo.Size = new System.Drawing.Size(100, 23);
+            txtLoLo.TabIndex = 7;
             // 
             // lblLoLo
             // 
-            this.lblLoLo.AutoSize = true;
-            this.lblLoLo.Location = new System.Drawing.Point(12, 103);
-            this.lblLoLo.Name = "lblLoLo";
-            this.lblLoLo.Size = new System.Drawing.Size(81, 15);
-            this.lblLoLo.TabIndex = 6;
-            this.lblLoLo.Text = "Extremely low";
+            lblLoLo.AutoSize = true;
+            lblLoLo.Location = new System.Drawing.Point(12, 103);
+            lblLoLo.Name = "lblLoLo";
+            lblLoLo.Size = new System.Drawing.Size(51, 15);
+            lblLoLo.TabIndex = 6;
+            lblLoLo.Text = "Low low";
             // 
             // txtDeadband
             // 
-            this.txtDeadband.Location = new System.Drawing.Point(15, 165);
-            this.txtDeadband.Name = "txtDeadband";
-            this.txtDeadband.Size = new System.Drawing.Size(100, 23);
-            this.txtDeadband.TabIndex = 15;
+            txtDeadband.Location = new System.Drawing.Point(15, 165);
+            txtDeadband.Name = "txtDeadband";
+            txtDeadband.Size = new System.Drawing.Size(100, 23);
+            txtDeadband.TabIndex = 15;
             // 
             // lblDeadband
             // 
-            this.lblDeadband.AutoSize = true;
-            this.lblDeadband.Location = new System.Drawing.Point(12, 147);
-            this.lblDeadband.Name = "lblDeadband";
-            this.lblDeadband.Size = new System.Drawing.Size(61, 15);
-            this.lblDeadband.TabIndex = 14;
-            this.lblDeadband.Text = "Deadband";
+            lblDeadband.AutoSize = true;
+            lblDeadband.Location = new System.Drawing.Point(12, 147);
+            lblDeadband.Name = "lblDeadband";
+            lblDeadband.Size = new System.Drawing.Size(61, 15);
+            lblDeadband.TabIndex = 14;
+            lblDeadband.Text = "Deadband";
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(277, 204);
-            this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 22;
-            this.btnOK.Text = "OK";
-            this.btnOK.UseVisualStyleBackColor = true;
-            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            btnOK.Location = new System.Drawing.Point(277, 204);
+            btnOK.Name = "btnOK";
+            btnOK.Size = new System.Drawing.Size(75, 23);
+            btnOK.TabIndex = 22;
+            btnOK.Text = "OK";
+            btnOK.UseVisualStyleBackColor = true;
+            btnOK.Click += btnOK_Click;
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(358, 204);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 23;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Location = new System.Drawing.Point(358, 204);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new System.Drawing.Size(75, 23);
+            btnCancel.TabIndex = 23;
+            btnCancel.Text = "Cancel";
+            btnCancel.UseVisualStyleBackColor = true;
             // 
             // FrmLimCreate
             // 
-            this.AcceptButton = this.btnOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(445, 239);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.txtDeadband);
-            this.Controls.Add(this.lblDeadband);
-            this.Controls.Add(this.txtHiHi);
-            this.Controls.Add(this.lblHiHi);
-            this.Controls.Add(this.txtHigh);
-            this.Controls.Add(this.lblHigh);
-            this.Controls.Add(this.txtLow);
-            this.Controls.Add(this.lblLow);
-            this.Controls.Add(this.txtLoLo);
-            this.Controls.Add(this.lblLoLo);
-            this.Controls.Add(this.chkIsShared);
-            this.Controls.Add(this.chkIsBoundToCnl);
-            this.Controls.Add(this.txtName);
-            this.Controls.Add(this.lblName);
-            this.Controls.Add(this.numLimID);
-            this.Controls.Add(this.lblLimID);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FrmLimCreate";
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Create Limit";
-            this.Load += new System.EventHandler(this.FrmLimCreate_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.numLimID)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AcceptButton = btnOK;
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            CancelButton = btnCancel;
+            ClientSize = new System.Drawing.Size(445, 239);
+            Controls.Add(btnCancel);
+            Controls.Add(btnOK);
+            Controls.Add(txtDeadband);
+            Controls.Add(lblDeadband);
+            Controls.Add(txtHiHi);
+            Controls.Add(lblHiHi);
+            Controls.Add(txtHigh);
+            Controls.Add(lblHigh);
+            Controls.Add(txtLow);
+            Controls.Add(lblLow);
+            Controls.Add(txtLoLo);
+            Controls.Add(lblLoLo);
+            Controls.Add(chkIsShared);
+            Controls.Add(chkIsBoundToCnl);
+            Controls.Add(txtName);
+            Controls.Add(lblName);
+            Controls.Add(numLimID);
+            Controls.Add(lblLimID);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "FrmLimCreate";
+            ShowInTaskbar = false;
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Create Limit";
+            Load += FrmLimCreate_Load;
+            ((System.ComponentModel.ISupportInitialize)numLimID).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

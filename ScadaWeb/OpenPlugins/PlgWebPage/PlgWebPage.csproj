@@ -6,11 +6,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <RootNamespace>Scada.Web.Plugins.PlgWebPage</RootNamespace>
-    <Version>6.0.0</Version>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
-    <Copyright>Copyright © 2022</Copyright>
+    <Copyright>Copyright © 2024</Copyright>
+    <Version>6.0.2</Version>
+    <AssemblyVersion>6.0.2.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,5 +29,7 @@
       <HintPath>..\..\ScadaWeb\ScadaWebCommon\bin\Release\net6.0\ScadaWebCommon.dll</HintPath>
     </Reference>
   </ItemGroup>
+
+  <Import Project="..\PlgWebPage.Shared\PlgWebPage.Shared.projitems" Label="Shared" />
 
 </Project>

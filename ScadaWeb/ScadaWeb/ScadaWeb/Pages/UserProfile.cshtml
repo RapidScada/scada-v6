@@ -12,29 +12,25 @@
 
 <h1>@dict.PageTitle</h1>
 
-<div id="divUserInfo">
-    <div class="row">
-        <label id="lblUserID" for="txtUserID" class="col-sm-3 col-form-label">@dict.lblUserID</label>
-        <div class="col-sm-9">
-            <input id="txtUserID" type="text" class="form-control-plaintext" readonly value="@Model.UserID">
-        </div>
-    </div>
-    <div class="row">
-        <label id="lblUsername" for="txtUsername" class="col-sm-3 col-form-label">@dict.lblUsername</label>
-        <div class="col-sm-9">
-            <input id="txtUsername" type="text" class="form-control-plaintext" readonly value="@Model.Username">
-        </div>
-    </div>
-    <div class="row">
-        <label id="lblRole" for="txtRole" class="col-sm-3 col-form-label">@dict.lblRole</label>
-        <div class="col-sm-9">
-            <input id="txtRole" type="text" class="form-control-plaintext" readonly value="@Model.RoleName">
-        </div>
-    </div>
-    <div class="row">
-        <label id="lblTimeZone" for="txtRole" class="col-sm-3 col-form-label">@dict.lblTimeZone</label>
-        <div class="col-sm-9">
-            <input id="txtTimeZone" type="text" class="form-control-plaintext" readonly value="@Model.TimeZone">
-        </div>
-    </div>
+<div class="user-info">
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>@dict.lblUserID</td>
+                <td>@Model.UserID</td>
+            </tr>
+            <tr>
+                <td>@dict.lblUsername</td>
+                <td>@Model.Username</td>
+            </tr>
+            <tr>
+                <td>@dict.lblRole</td>
+                <td>@Model.RoleName</td>
+            </tr>
+            <tr>
+                <td>@dict.lblTimeZone</td>
+                <td>@Model.TimeZone</td>
+            </tr>
+        </tbody>
+    </table>
 </div>

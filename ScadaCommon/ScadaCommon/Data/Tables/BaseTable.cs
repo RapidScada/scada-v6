@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2022
+ * Modified : 2023
  */
 
 using System;
@@ -37,7 +37,7 @@ namespace Scada.Data.Tables
     /// Represents a table of the configuration database.
     /// <para>Представляет таблицу базы конфигурации.</para>
     /// </summary>
-    /// <remarks>Reading is thread safe, writing requires synchronization.</remarks>
+    /// <remarks>Reading is thread-safe, writing requires synchronization.</remarks>
     public class BaseTable<T> : IBaseTable, IEnumerable<T>
     {
         /// <summary>
@@ -469,7 +469,7 @@ namespace Scada.Data.Tables
         /// </summary>
         public void Load(string fileName)
         {
-            Items.Clear();
+            ClearItems();
             Modified = false;
 
             List<T> list;

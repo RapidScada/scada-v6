@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvOpcClassicDictionaries culture="zh-Hans" lang="ChineseSimplified">
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlCommand">
+      <Phrase key="gbCommand">命令参数</Phrase>
+      <Phrase key="lblDisplayName">显示名称</Phrase>
+      <Phrase key="lblCmdCode">命令代码</Phrase>
+      <Phrase key="lblCmdNum">命令编号</Phrase>
+      <Phrase key="lblNodeID">节点 ID</Phrase>
+      <Phrase key="lblParentNodeID">父节点ID</Phrase>
+      <Phrase key="lblDataType">数据类型</Phrase>
+      <Phrase key="chkIsMethod">是否方法</Phrase>
+    </Dictionary>
+    <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEmptyItem">
+      <Phrase key="gbEmptyItem">项参数</Phrase>
+      <Phrase key="lblNotSelected">未选择项</Phrase>
+    </Dictionary>
+    <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlItem">
+      <Phrase key="gbItem">项参数</Phrase>
+      <Phrase key="chkItemActive">活动</Phrase>
+      <Phrase key="lblDisplayName">显示名称</Phrase>
+      <Phrase key="lblTagCode">标签代码</Phrase>
+      <Phrase key="lblTagNum">标签号</Phrase>
+      <Phrase key="lblNodeID">节点 ID</Phrase>
+      <Phrase key="lblDataType">数据类型</Phrase>
+      <Phrase key="chkIsString">是否 字符串</Phrase>
+      <Phrase key="chkIsArray">是否数组</Phrase>
+      <Phrase key="lblDataLen">字符串或者数据长度</Phrase>
+    </Dictionary>
+    <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlSubscription">
+      <Phrase key="gbSubscription">订阅参数</Phrase>
+      <Phrase key="chkSubscrActive">活动</Phrase>
+      <Phrase key="lblDisplayName">显示名称</Phrase>
+      <Phrase key="lblPublishingInterval">发布间隔</Phrase>
+    </Dictionary>
+    <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmDeviceConfig">
+      <Phrase key="this">设备 {0} 属性 - OPC UA</Phrase>
+      <Phrase key="gbConnectionOptions">连接选项</Phrase>
+      <Phrase key="lblServerUrl">服务器URL</Phrase>
+      <Phrase key="btnSecurityOptions.ToolTip">安全选项</Phrase>
+      <Phrase key="lblConnectionInfo">连接选项是通信线路通用的。</Phrase>
+      <Phrase key="gbServerBrowse">浏览服务器</Phrase>
+      <Phrase key="btnConnect.ToolTip">连接到服务器</Phrase>
+      <Phrase key="btnDisconnect.ToolTip">断开服务器连接</Phrase>
+      <Phrase key="btnViewAttrs.ToolTip">查看属性</Phrase>
+      <Phrase key="gbDevice">配置设备</Phrase>
+      <Phrase key="btnAddItem.ToolTip">添加选定项</Phrase>
+      <Phrase key="btnAddSubscription.ToolTip">添加订阅</Phrase>
+      <Phrase key="btnMoveUpItem.ToolTip">向上移动</Phrase>
+      <Phrase key="btnMoveDownItem.ToolTip">向下移动</Phrase>
+      <Phrase key="btnDeleteItem.ToolTip">删除</Phrase>
+      <Phrase key="btnEditingOptions">选项</Phrase>
+      <Phrase key="btnSave">保存</Phrase>
+      <Phrase key="btnClose">关闭</Phrase>
+      <Phrase key="ConnectServerError">连接到 OPC 服务器发生错误</Phrase>
+      <Phrase key="DisconnectServerError">断开OPC服务器连接发生错误</Phrase>
+      <Phrase key="BrowseServerError">浏览 OPC 服务器项发生错误</Phrase>
+      <Phrase key="UnableToReadData">无法读取数据。</Phrase>
+      <Phrase key="GetDataTypeError">获取数据类型发生错误</Phrase>
+      <Phrase key="ServerUrlRequired">服务器 URL 不能为空。</Phrase>
+      <Phrase key="EmptyNode">空</Phrase>
+      <Phrase key="SubscriptionsNode">订阅</Phrase>
+      <Phrase key="CommandsNode">命令</Phrase>
+      <Phrase key="UnnamedSubscription">&lt; 未命名的订阅&gt;</Phrase>
+      <Phrase key="UnnamedItem">&lt;未命名项 &gt;</Phrase>
+      <Phrase key="UnnamedCommand">&lt;未命名的命令&gt;</Phrase>
+      <Phrase key="UnknownDataType">数据类型 &quot;{0}&quot; 是未知的。</Phrase>
+    </Dictionary>
+    <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmEditingOptions">
+      <Phrase key="this">编辑选项</Phrase>
+      <Phrase key="lblDefaultTagCode">默认标签代码</Phrase>
+      <Phrase key="cbDefaultTagCode.Items[0]">节点 ID</Phrase>
+      <Phrase key="cbDefaultTagCode.Items[1]">显示名称</Phrase>
+      <Phrase key="btnOK">确定</Phrase>
+      <Phrase key="btnCancel">取消</Phrase>
+    </Dictionary>
+    <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmNodeAttr">
+      <Phrase key="this">节点属性</Phrase>
+      <Phrase key="colName">名称</Phrase>
+      <Phrase key="colValue">值</Phrase>
+      <Phrase key="btnClose">关闭</Phrase>
+      <Phrase key="ReadAttrError">从 OPC 服务器读取属性发生错误</Phrase>
+    </Dictionary>
+    <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmSecurityOptions">
+      <Phrase key="this">安全选项</Phrase>
+      <Phrase key="lblSecurityMode">安全模式</Phrase>
+      <Phrase key="cbSecurityMode.Items[0]">None</Phrase>
+      <Phrase key="cbSecurityMode.Items[1]">Sign</Phrase>
+      <Phrase key="cbSecurityMode.Items[2]">Sign 和 encrypt</Phrase>
+      <Phrase key="lblSecurityPolicy">安全策略</Phrase>
+      <Phrase key="cbSecurityPolicy.Items[0]">None</Phrase>
+      <Phrase key="lblAuthenticationMode">认证模式</Phrase>
+      <Phrase key="cbAuthenticationMode.Items[0]">匿名</Phrase>
+      <Phrase key="cbAuthenticationMode.Items[1]">用户名和密码</Phrase>
+      <Phrase key="lblUsername">用户名</Phrase>
+      <Phrase key="lblPassword">密码</Phrase>
+      <Phrase key="btnOK">确定</Phrase>
+      <Phrase key="btnCancel">取消</Phrase>
+    </Dictionary>
+</DrvOpcClassicDictionaries>

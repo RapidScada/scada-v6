@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TableOfContents>
+  <!-- Overview -->
+  <Item>
+    <Text>Overview</Text>
+    <Subitems>
+      <Item>
+        <Text>Introduction</Text>
+        <Url>/fr/6.1/software-overview/introduction</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
+  <!-- Installation -->
+  <Item>
+    <Text>Installation</Text>
+    <Subitems>
+      <Item>
+        <Text>Configurations requises</Text>
+        <Url>/fr/6.1/installation/system-requirements</Url>
+      </Item>
+      <Item>
+        <Text>Installation sur Windows</Text>
+        <Url>/fr/6.1/installation/install-windows</Url>
+      </Item>
+      <Item>
+        <Text>Installation sur Windows manuellement</Text>
+        <Url>/fr/6.1/installation/install-windows-manual</Url>
+      </Item>
+      <Item>
+        <Text>Installation sur Linux</Text>
+        <Url>/fr/6.1/installation/install-linux</Url>
+      </Item>
+      <Item>
+        <Text>Installation des modules</Text>
+        <Url>/fr/6.1/installation/install-modules</Url>
+      </Item>
+      <Item>
+        <Text>Recommandations de sécurité</Text>
+        <Url>/fr/6.1/installation/safety</Url>
+      </Item>
+    </Subitems>
+  </Item>
+</TableOfContents>

@@ -1,0 +1,45 @@
+﻿@page "/en/5.8/modules/kp-db-import"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Database Import Driver";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#configuring">Configuring</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Database Import Driver</h1>
+
+    <h2 id="overview">Overview</h2>
+    <p>The database import driver is designed to receive current data from a third-party database, as well as write information to a third-party database using telecontrol commands. This driver is included in the Rapid SCADA installation package and does not require separate installation. The driver library file is KpDbImport.dll.</p>
+
+    <h2 id="configuring">Configuring</h2>
+    <p>Each device that uses the database import driver contains one request for receiving data and a set of commands for changing data. There can be one or more devices importing data on a one communication line.</p>
+    <p>Configuring the database import driver is performed using the device properties form. To open this form, find the corresponding device in the Communicator settings, right-click on the device node and choose the <em>Properties</em> menu item.</p>
+
+    <figure class="figure">
+        <img src="kp-db-import-files/db_import_conn_en.png" class="figure-img img-fluid" alt="Setting up a database connection">
+    </figure>
+
+    <p>The <em>Database</em> page allows to specify the database type and the parameters of the database connection. If non-standard connection parameters are needed, it is possbile to edit the connection string directly.</p>
+
+
+    <figure class="figure">
+        <img src="kp-db-import-files/db_import_query_en.png" class="figure-img img-fluid" alt="Setting up data retrieval">
+    </figure>
+
+    <p>The <em>Data Retrieval</em> page specifies the SQL query to retrieve current data from the database. The driver automatically creates device tags based on the list of requested table columns. If a request has a complex syntax, enter the number of tags manually.</p>
+
+    <figure class="figure">
+        <img src="kp-db-import-files/db_import_cmd_en.png" class="figure-img img-fluid" alt="Setting up telecontrol commands">
+    </figure>
+
+    <p>The telecontrol commands supported by the device are defined on the <em>Commands</em> page. Commands provide information transfer from Rapid SCADA to the database. SQL query of a command may include the variables cmdVal and cmdNum which contain the value and number of the command. For most DBMS variables in the query need the prefix <strong>@@</strong>, whereas <strong>:</strong> (colon) is usually used for Oracle.</p>
+    <p>A command having the number 0 is a default command. If the number of the command sent is not found in the list of the device commands, the default command is executed.</p>
+</div>

@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Config;
@@ -187,23 +187,23 @@ namespace Scada.Server.Engine
         {
             coreLogic.WriteCurrentData(
                 new Slice(DateTime.MinValue, new int[] { cnlNum }, new CnlData[] { cnlData }),
-                0, WriteFlags.EnableAll);
+                WriteDataFlags.Default);
         }
 
         /// <summary>
         /// Writes the current data of the specified channels.
         /// </summary>
-        public void WriteCurrentData(Slice slice, int deviceNum, WriteFlags writeFlags)
+        public void WriteCurrentData(Slice slice, WriteDataFlags flags)
         {
-            coreLogic.WriteCurrentData(slice, deviceNum, writeFlags);
+            coreLogic.WriteCurrentData(slice, flags);
         }
 
         /// <summary>
         /// Writes the historical data.
         /// </summary>
-        public void WriteHistoricalData(int archiveMask, Slice slice, int deviceNum, WriteFlags writeFlags)
+        public void WriteHistoricalData(int archiveMask, Slice slice, WriteDataFlags flags)
         {
-            coreLogic.WriteHistoricalData(archiveMask, slice, deviceNum, writeFlags);
+            coreLogic.WriteHistoricalData(archiveMask, slice, flags);
         }
 
         /// <summary>
@@ -219,18 +219,21 @@ namespace Scada.Server.Engine
         /// </summary>
         public void SendCommand(TeleCommand command)
         {
-            SendCommand(command, WriteFlags.EnableAll, out _);
+            SendCommand(command, WriteCommandFlags.Default);
         }
 
         /// <summary>
         /// Sends the telecontrol command.
         /// </summary>
-        public void SendCommand(TeleCommand command, WriteFlags writeFlags, out CommandResult commandResult)
+        public CommandResult SendCommand(TeleCommand command, WriteCommandFlags flags)
         {
+            if (command == null)
+                throw new ArgumentNullException(nameof(command));
+
             if (command.CnlNum > 0)
             {
                 // validate and send command
-                coreLogic.SendCommand(command, writeFlags, out commandResult);
+                return coreLogic.SendCommand(command, flags);
             }
             else
             {
@@ -254,8 +257,8 @@ namespace Scada.Server.Engine
                 }
 
                 // pass command directly to clients
-                listener.EnqueueCommand(command);
-                commandResult = new CommandResult(true);
+                listener.EnqueueCommand(command, flags.HasFlag(WriteCommandFlags.ReturnToSender));
+                return new CommandResult(true);
             }
         }
     }

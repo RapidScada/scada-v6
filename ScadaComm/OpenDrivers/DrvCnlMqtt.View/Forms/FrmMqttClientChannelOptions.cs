@@ -45,10 +45,11 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.View.Forms
         {
             txtServer.Text = options.Server;
             numPort.SetValue(options.Port);
+            numTimeout.SetValue(options.Timeout);
+            chkUseTls.Checked = options.UseTls;
             txtClientID.Text = options.ClientID;
             txtUsername.Text = options.Username;
             txtPassword.Text = options.Password;
-            numTimeout.SetValue(options.Timeout);
             cbProtocolVersion.SelectedIndex = (int)options.ProtocolVersion;
         }
 
@@ -59,10 +60,11 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.View.Forms
         {
             options.Server = txtServer.Text;
             options.Port = Convert.ToInt32(numPort.Value);
+            options.Timeout = Convert.ToInt32(numTimeout.Value);
+            options.UseTls = chkUseTls.Checked;
             options.ClientID = txtClientID.Text;
             options.Username = txtUsername.Text;
             options.Password = txtPassword.Text;
-            options.Timeout = Convert.ToInt32(numTimeout.Value);
             options.ProtocolVersion = (MqttProtocolVersion)cbProtocolVersion.SelectedIndex;
 
             options.AddToOptionList(channelConfig.CustomOptions);

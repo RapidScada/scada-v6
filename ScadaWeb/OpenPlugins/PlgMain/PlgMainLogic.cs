@@ -13,8 +13,8 @@ using Scada.Web.Users;
 namespace Scada.Web.Plugins.PlgMain
 {
     /// <summary>
-    /// Represents a plugin logic.
-    /// <para>Представляет логику плагина.</para>
+    /// Implements the plugin logic.
+    /// <para>Реализует логику плагина.</para>
     /// </summary>
     public class PlgMainLogic : PluginLogic
     {
@@ -28,13 +28,9 @@ namespace Scada.Web.Plugins.PlgMain
             : base(webContext)
         {
             pluginContext = new PluginContext();
+            Info = new PluginInfo();
         }
 
-
-        /// <summary>
-        /// Gets the plugin code.
-        /// </summary>
-        public override string Code => PluginUtils.PluginCode;
 
         /// <summary>
         /// Gets the plugin features.
@@ -48,12 +44,14 @@ namespace Scada.Web.Plugins.PlgMain
         /// <summary>
         /// Gets the view specifications.
         /// </summary>
-        public override ICollection<ViewSpec> ViewSpecs => new ViewSpec[] { new TableViewSpec() };
+        public override ICollection<ViewSpec> ViewSpecs =>
+            new ViewSpec[] { new TableViewSpec() };
 
         /// <summary>
         /// Gets the data window specifications.
         /// </summary>
-        public override ICollection<DataWindowSpec> DataWindowSpecs => new DataWindowSpec[] { new EventWindowSpec() };
+        public override ICollection<DataWindowSpec> DataWindowSpecs => 
+            pluginContext.Options.EventCount > 0 ? new DataWindowSpec[] { new EventWindowSpec() } : null;
 
 
         /// <summary>

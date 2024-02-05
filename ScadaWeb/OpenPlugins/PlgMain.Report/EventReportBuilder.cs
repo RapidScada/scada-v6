@@ -72,15 +72,15 @@ namespace Scada.Web.Plugins.PlgMain.Report
         {
             if (reportArgs.TailMode)
             {
-                return string.Format(dict.TailTitleFormat, reportArgs.EventCount, reportArgs.EventDepth * 24);
+                return string.Format(dict.TailTitleFormat, 
+                    reportArgs.EventCount, 
+                    reportArgs.EventDepth * 24);
             }
             else
             {
-                DateTime localStartTime = ReportContext.ConvertTimeFromUtc(reportArgs.StartTime);
-                DateTime localEndTime = ReportContext.ConvertTimeFromUtc(reportArgs.EndTime);
                 return string.Format(dict.GeneralTitleFormat,
-                    localStartTime.ToLocalizedString(),
-                    localEndTime.ToLocalizedString());
+                    ReportContext.DateTimeToString(reportArgs.StartTime),
+                    ReportContext.DateTimeToString(reportArgs.EndTime));
             }
         }
 
@@ -137,13 +137,7 @@ namespace Scada.Web.Plugins.PlgMain.Report
             reportArgs.Validate();
             ArgumentNullException.ThrowIfNull(outStream, nameof(outStream));
 
-            // find archive
-            string archiveCode = ScadaUtils.FirstNonEmpty(args.ArchiveCode, DefaultArchiveCode);
-            archiveEntity = ReportContext.ConfigDatabase.ArchiveTable
-                .SelectFirst(new TableFilter("Code", archiveCode)) ??
-                throw new ScadaException(reportDict.ArchiveNotFound);
-
-            // render report
+            archiveEntity = ReportContext.FindArchive(args.ArchiveCode, DefaultArchiveCode);
             renderer.Render(templateFilePath, outStream);
         }
 
@@ -203,7 +197,7 @@ namespace Scada.Web.Plugins.PlgMain.Report
                 else if (e.DirectiveValue == "GenCaption")
                     cellText = reportDict.GenCaption;
                 else if (e.DirectiveValue == "Gen")
-                    cellText = ReportContext.ConvertTimeFromUtc(GenerateTime).ToLocalizedString(ReportContext.Culture);
+                    cellText = ReportContext.DateTimeToString(GenerateTime);
                 else if (e.DirectiveValue == "TzCaption")
                     cellText = reportDict.TzCaption;
                 else if (e.DirectiveValue == "Tz")

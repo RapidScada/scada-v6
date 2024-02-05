@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2023
  */
 
 using Scada.Data.Models;
@@ -36,22 +36,23 @@ namespace Scada.Server.Engine
     internal class ArchiveCalcContext : ICalcContext
     {
         private readonly HistoricalArchiveLogic archiveLogic; // the historical archive logic
+        private readonly UpdateContext updateContext;         // the context of the current update operation
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ArchiveCalcContext(HistoricalArchiveLogic archiveLogic, DateTime timestamp)
+        public ArchiveCalcContext(HistoricalArchiveLogic archiveLogic, UpdateContext updateContext)
         {
             this.archiveLogic = archiveLogic ?? throw new ArgumentNullException(nameof(archiveLogic));
-            Timestamp = timestamp;
+            this.updateContext = updateContext ?? throw new ArgumentNullException(nameof(updateContext));
         }
 
 
         /// <summary>
         /// Gets the timestamp of the processed data (UTC).
         /// </summary>
-        public DateTime Timestamp { get; }
+        public DateTime Timestamp => updateContext.Timestamp;
 
         /// <summary>
         /// Gets a value indicating whether the processed data is current data.
@@ -96,7 +97,7 @@ namespace Scada.Server.Engine
         /// </summary>
         public void SetCnlData(int cnlNum, CnlData cnlData)
         {
-            archiveLogic.WriteCnlData(Timestamp, cnlNum, cnlData);
+            archiveLogic.UpdateData(updateContext, cnlNum, cnlData);
         }
     }
 }

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtDepAgentDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepAgent.Downloader">
+    <Phrase key="ImportTable">Importieren Sie die Tabelle {0}</Phrase>
+    <Phrase key="ExtractArchive">Archiv extrahieren</Phrase>
+    <Phrase key="MergeDirectory">Verzeichnis zusammenführen</Phrase>
+    <Phrase key="NothingToMerge">Keine Daten zum Zusammenführen</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepAgent.Uploader">
+    <Phrase key="TestAgentConn">Testen Sie die Agent-Verbindung</Phrase>
+    <Phrase key="CompressConfig">Konfiguration komprimieren</Phrase>
+    <Phrase key="CompressBase">Komprimieren Sie die Konfigurationsdatenbank</Phrase>
+    <Phrase key="CompressViews">Ansichten komprimieren</Phrase>
+    <Phrase key="CompressAppConfig">Komprimieren Sie die Konfiguration der Anwendung {0}</Phrase>
+    <Phrase key="AddProjectInfo">Projektinformationen hinzufügen</Phrase>
+    <Phrase key="AddTransferOptions">Übertragungsoptionen hinzufügen</Phrase>
+    <Phrase key="TransferConfig">Konfiguration übertragen</Phrase>
+    <Phrase key="ArchiveSize">Archivgröße: {0} Bytes</Phrase>
+  </Dictionary>
+</ExtDepAgentDictionaries>

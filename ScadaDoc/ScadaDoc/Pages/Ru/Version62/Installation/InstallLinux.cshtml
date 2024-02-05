@@ -1,0 +1,128 @@
+﻿@page "/ru/latest/installation/install-linux"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Установка на Linux";
+}
+
+@section Styles {
+    <link href="~/lib/prismjs/prism.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="~/lib/prismjs/prism.js"></script>
+}
+
+<nav class="doc-toc">
+    <div class="h6">На этой странице</div>
+    <hr>
+    <ul>
+        <li><a href="#installation">Установка</a></li>
+        <li><a href="#uninstallation">Удаление</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Установка на Linux</h1>
+    <p>В данной статье приведены команды для операционных систем Ubuntu и Debian. При установке Rapid SCADA на другие ОС семейства Linux, используйте соответствующие команды.</p>
+
+    <h2 id="installation">Установка</h2>
+    <ol>
+        <li>
+            <p>Установить ASP.NET Core Runtime 8.0.x согласно <a href="https://docs.microsoft.com/ru-ru/dotnet/core/install/linux" target="_blank">инструкции</a>.</p>
+            <p>Если установка .NET из репозитория по какой-либо причине невозможна, то последовательность установки вручную следующая:</p>
+            <ol type="a">
+                <li>Скачать бинарные файлы .NET, соответствующие операционной системе, по <a href="https://dotnet.microsoft.com/en-us/download/dotnet/8.0" target="_blank">ссылке</a>.</li>
+                <li>Разархивировать и скопировать скачанные файлы в директорию <code>/usr/share/dotnet/</code></li>
+                <li>Установить атрибут исполняемого файла, выполнив команду
+                    <pre><code class="language-sh">sudo chmod +x /usr/share/dotnet/dotnet</code></pre>
+                </li>
+                <li>
+                    Создать ссылку на файл <code>dotnet</code>, выполнив команду
+                    <pre><code class="language-sh">sudo ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet</code></pre>
+                </li>
+            </ol>
+        </li>
+        <li>
+            Установить Rapid SCADA из пакета (вариант 1)
+            <pre><code class="language-shell">sudo dpkg -i rapidscada_VERSION_all.deb</code></pre>
+        </li>
+        <li>
+            Или установить Rapid SCADA вручную (вариант 2)
+            <ol type="a">
+                <li>Скопировать файлы из директории <code>scada</code> дистрибутива в директорию <code>/opt/scada</code></li>
+                <li>Установить атрибуты исполняемых файлов, выполнив команды
+                    <pre><code class="language-sh">sudo chmod +x /opt/scada/make_executable.sh
+sudo /opt/scada/make_executable.sh</code></pre>
+                </li>
+                <li>Скопировать файлы из директории <code>daemons</code> дистрибутива в директорию <code>/etc/systemd/system</code></li>
+                <li>Включить &quot;демоны&quot;, выполнив команды
+                    <pre><code class="language-sh">sudo systemctl enable scadaagent6.service
+sudo systemctl enable scadaserver6.service
+sudo systemctl enable scadacomm6.service
+sudo systemctl enable scadaweb6.service</code></pre>
+                </li>
+            </ol>
+        </li>
+        <li>
+            Создать RAM-диск для записи журналов:
+            <ol type="a">
+                <li>Создать директорию журналов, выполнив команду
+                    <pre><code class="language-sh">sudo mkdir /var/log/scada</code></pre>
+                </li>
+                <li>Добавить в файл <code>/etc/fstab</code> указанную нижу строку, предварительно сохранив резервную копию существующего файла.
+                    <pre><code>tmpfs           /var/log/scada  tmpfs   defaults,noatime,size=100m    0    0</code></pre>
+                </li>
+            </ol>
+        </li>
+        <li>
+            Установить и настроить Nginx:
+            <ol type="a">
+                <li>Установить Nginx, используя инструкции:
+                    <a href="https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-20-04" target="_blank">ссылка 1</a>,
+                    <a href="https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-18-04" target="_blank">ссылка 2</a>,
+                    <a href="https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-20-04" target="_blank">ссылка 3</a>.
+                    Команды установки:
+                    <pre><code class="language-sh">sudo apt update
+sudo apt install nginx</code></pre>
+                </li>
+                <li>Создать самоподписанный сертификат, выполнив команду
+                    <pre><code class="language-sh">sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt</code></pre>
+                </li>
+                <li>Скопировать файл <code>nginx/default</code> из директории дистрибутива в директорию <code>/etc/nginx/sites-available</code>, предварительно сохранив резервную копию существующего файла.</li>
+            </ol>
+        </li>
+        <li>
+            Перезагрузить компьютер для автоматического запуска служб:
+            <pre><code class="language-sh">sudo reboot</code></pre>
+        </li>
+        <li>
+            После перезагрузки откройте <a href="http://localhost" target="_blank">http://localhost</a> или http://SERVER_IP в браузере.<br />
+            Имя пользователя: <em>admin</em><br />
+            Пароль: <em>scada</em>
+        </li>
+    </ol>
+
+    <h2 id="uninstallation">Удаление</h2>
+    <ol>
+        <li>Вернуть первоначальный файл <code>/etc/fstab</code></li>
+        <li>
+            При установке из пакета:
+            <pre><code class="language-sh">sudo dpkg -r rapidscada</code></pre>
+        </li>
+        <li>
+            При установке вручную:
+            <ol type="a">
+                <li>
+                    Отключить &quot;демоны&quot;, выполнив команды
+                    <pre><code class="language-sh">sudo systemctl disable scadaagent6.service
+sudo systemctl disable scadaserver6.service
+sudo systemctl disable scadacomm6.service
+sudo systemctl disable scadaweb6.service</code></pre>
+                </li>
+                <li>Удалить ранее добавленные файлы &quot;демонов&quot; из директории <code>/etc/systemd/system</code></li>
+                <li>Удалить директорию <code>/opt/scada</code> со всем содержимым.</li>
+            </ol>
+        </li>
+        <li>При необходимости удалить Nginx и .NET.</li>
+    </ol>
+</div>

@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2023
  */
 
 using Scada.Config;
@@ -101,7 +101,7 @@ namespace Scada.Comm.Config
         /// <summary>
         /// Gets the custom options.
         /// </summary>
-        public OptionList CustomOptions { get; private set; }
+        public OptionList CustomOptions { get; }
 
 
         /// <summary>
@@ -157,11 +157,19 @@ namespace Scada.Comm.Config
         }
 
         /// <summary>
-        /// Creates default polling options.
+        /// Creates polling options with a default timeout and delay.
         /// </summary>
         public static PollingOptions CreateDefault()
         {
             return new PollingOptions(DefaultTimeout, DefaultDelay);
+        }
+
+        /// <summary>
+        /// Creates polling options with zero timeout and default delay.
+        /// </summary>
+        public static PollingOptions CreateWithDefaultDelay()
+        {
+            return new PollingOptions(0, DefaultDelay);
         }
     }
 }

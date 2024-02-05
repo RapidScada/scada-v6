@@ -1,19 +1,19 @@
 ﻿$(document).ready(function () {
     let pager = new Pager("pgrCnl");
 
-    $("#selObj").change(function () {
+    $("#selObj").on("change", function () {
         pager.reset();
         $("#chkOnlySelected").prop("checked", false);
         $("form:first").submit();
     });
 
-    $("#chkOnlySelected").change(function () {
+    $("#chkOnlySelected").on("change", function () {
         pager.reset();
         $("#selObj").val("0");
         $("form:first").submit();
     });
 
-    $("#tblCnl .chk-sel").change(function () {
+    $("#tblCnl .chk-sel").on("change", function () {
         // add or remove selected channel number
         let cnlNumsElem = $("#hidSelectedCnlNums");
         let cnlNums = ScadaUtils.parseIntSet(cnlNumsElem.val());

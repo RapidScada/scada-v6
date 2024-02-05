@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtWirenBoardDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlDeviceTree">
+    <Phrase key="btnSelectAll">Seleccionar todo</Phrase>
+    <Phrase key="btnSelectNone">Seleccionar ninguno</Phrase>
+    <Phrase key="SelectDevice">Seleccione al menos un dispositivo.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlEntityID">
+    <Phrase key="lblStartDeviceNum">Número de dispositivo inicial</Phrase>
+    <Phrase key="btnDeviceMap">Mapa</Phrase>
+    <Phrase key="lblStartCnlNum">Número de canal inicial</Phrase>
+    <Phrase key="btnCnlMap">Mapa</Phrase>
+    <Phrase key="lblObj">Objeto</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlExtensionMenu">
+    <Phrase key="miWirenBoard">Wiren Board</Phrase>
+    <Phrase key="miCreateConfig">Crear configuración...</Phrase>
+    <Phrase key="btnCreateConfig.ToolTip">Crear configuración de proyecto para Wiren Board</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlLineSelect">
+    <Phrase key="lblInstance">Instancia</Phrase>
+    <Phrase key="lblLine">línea de comunicación</Phrase>
+    <Phrase key="lblWirenBoardIP">Wiren Board IP address</Phrase>
+    <Phrase key="CommLineRequired">Elija una línea de comunicación.</Phrase>
+    <Phrase key="MqttLineRequired">El tipo de canal de la línea seleccionada debe ser cliente MQTT.</Phrase>
+    <Phrase key="WirenBoardIpRequired">Se requiere la dirección IP Wiren Board.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Forms.FrmWirenBoardWizard">
+    <Phrase key="this">Asistente de configuración de proyectos para Wiren Board</Phrase>
+    <Phrase key="btnBack">&lt; Volver</Phrase>
+    <Phrase key="btnNext">Siguiente &gt;</Phrase>
+    <Phrase key="btnCreate">Crear</Phrase>
+    <Phrase key="btnCancel">Cancelar</Phrase>
+    <Phrase key="Step1Descr">Paso 1 de 5: seleccione la línea de comunicación</Phrase>
+    <Phrase key="Step2Descr">Paso 2 de 5: Leer temas de Wiren Board</Phrase>
+    <Phrase key="Step3Descr">Paso 3 de 5: Seleccionar dispositivos y controles para importar</Phrase>
+    <Phrase key="Step4Descr">Paso 4 de 5: Establecer ID para la base de datos de configuración</Phrase>
+    <Phrase key="Step5Descr">Paso 5 de 5: comprobar la configuración que se está creando</Phrase>
+    <Phrase key="CreateConfigCompleted">Configuración creada con éxito</Phrase>
+    <Phrase key="CreateConfigError">Error al crear la configuración</Phrase>
+  </Dictionary>
+</ExtWirenBoardDictionaries>

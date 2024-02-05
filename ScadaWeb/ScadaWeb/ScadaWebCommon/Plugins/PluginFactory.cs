@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +20,11 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Lang;
 using Scada.Web.Services;
-using System;
-using System.IO;
 using System.Reflection;
 
 namespace Scada.Web.Plugins
@@ -57,7 +55,7 @@ namespace Scada.Web.Plugins
                     message = string.Format(Locale.IsRussian ?
                         "Плагин {0} {1} загружен из файла {2}" :
                         "Plugin {0} {1} loaded from file {2}",
-                        pluginCode, assembly.GetName().Version, fileName);
+                        pluginCode, pluginLogic.Version, fileName);
                     return true;
                 }
                 else

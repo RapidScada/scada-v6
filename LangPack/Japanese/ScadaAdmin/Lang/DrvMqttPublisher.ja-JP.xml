@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvMqttPublisherDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.Config.DeviceOptions">
+    <Phrase key="RootTopic.DisplayName">ルートトピック</Phrase>
+    <Phrase key="RootTopic.Category">主なパラメータ</Phrase>
+    <Phrase key="RootTopic.Description">すべてのデバイス トピックのプレフィックスとして使用されるルート トピック。</Phrase>
+    <Phrase key="UndefinedValue.DisplayName">未定義の値</Phrase>
+    <Phrase key="UndefinedValue.Category">主なパラメータ</Phrase>
+    <Phrase key="UndefinedValue.Description">チャネル値が未定義の場合に送信するペイロード。</Phrase>
+    <Phrase key="PublishFormat.DisplayName">発行形式</Phrase>
+    <Phrase key="PublishFormat.Category">主なパラメータ</Phrase>
+    <Phrase key="PublishFormat.Description">パブリッシュされたチャネル データの形式。&#13;&#10;形式の例: { "Val": @val, "Stat": @stat }&#13;&#10;空の形式は @val と等しい</Phrase>
+    <Phrase key="PublishOnChange.DisplayName">変更時に公開</Phrase>
+    <Phrase key="PublishOnChange.Category">主なパラメータ</Phrase>
+    <Phrase key="PublishOnChange.Description">変更時にチャネルデータを送信するかどうかを示す値。</Phrase>
+    <Phrase key="PublishPeriod.DisplayName">発行期間</Phrase>
+    <Phrase key="PublishPeriod.Category">主なパラメータ</Phrase>
+    <Phrase key="PublishPeriod.Description">すべてのデバイス アイテムの公開期間 (秒)。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.Config.ItemConfig">
+    <Phrase key="CnlNum.DisplayName">チャンネル番号</Phrase>
+    <Phrase key="CnlNum.Category">主なパラメータ</Phrase>
+    <Phrase key="CnlNum.Description">公開されたチャンネルの番号。</Phrase>
+    <Phrase key="Topic.DisplayName">トピック</Phrase>
+    <Phrase key="Topic.Category">主なパラメータ</Phrase>
+    <Phrase key="Topic.Description">MQTT トピック。</Phrase>
+    <Phrase key="Publish.DisplayName">公開</Phrase>
+    <Phrase key="Publish.Category">主なパラメータ</Phrase>
+    <Phrase key="Publish.Description">アイテムがチャネル値の公開に使用されるかどうかを示す値。</Phrase>
+    <Phrase key="Subscribe.DisplayName">購読</Phrase>
+    <Phrase key="Subscribe.Category">主なパラメータ</Phrase>
+    <Phrase key="Subscribe.Description">アイテムがコマンドの受信に使用されるかどうかを示す値。</Phrase>
+    <Phrase key="QosLevel.DisplayName">QoSレベル</Phrase>
+    <Phrase key="QosLevel.Category">プロトコル</Phrase>
+    <Phrase key="QosLevel.Description">サービス品質レベル: 0 - 最大 1 回、1 - 少なくとも 1 回、2 - 必ず 1 回。</Phrase>
+    <Phrase key="Retain.DisplayName">保持</Phrase>
+    <Phrase key="Retain.Category">プロトコル</Phrase>
+    <Phrase key="Retain.Description">公開時に保持フラグを設定するかどうかを示す値。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.View.MqttPublisherConfigProvider">
+    <Phrase key="FormTitle">デバイス {0} プロパティ - MQTT パブリッシャー</Phrase>
+    <Phrase key="AddItemButton">アイテムの追加</Phrase>
+    <Phrase key="OptionsNode">オプション</Phrase>
+    <Phrase key="ItemsNode">アイテム</Phrase>
+    <Phrase key="ItemNodeFormat">チャンネル {0}</Phrase>
+  </Dictionary>
+</DrvMqttPublisherDictionaries>

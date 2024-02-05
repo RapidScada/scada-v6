@@ -22,6 +22,7 @@
     <Phrase key="CnlNum">Number</Phrase>
     <Phrase key="Active">Active</Phrase>
     <Phrase key="Name">Name</Phrase>
+    <Phrase key="Code">Code</Phrase>
     <Phrase key="DataTypeID">Data Type</Phrase>
     <Phrase key="DataLen">Data Length</Phrase>
     <Phrase key="CnlTypeID">Channel Type</Phrase>
@@ -33,6 +34,7 @@
     <Phrase key="InFormula">Input Formula</Phrase>
     <Phrase key="OutFormula">Output Formula</Phrase>
     <Phrase key="FormatID">Format</Phrase>
+    <Phrase key="OutFormatID">Command Format</Phrase>
     <Phrase key="QuantityID">Quantity</Phrase>
     <Phrase key="UnitID">Unit</Phrase>
     <Phrase key="LimID">Limits</Phrase>
@@ -102,10 +104,10 @@
     <Phrase key="Name">Name</Phrase>
     <Phrase key="IsBoundToCnl">Is Bound to Channels</Phrase>
     <Phrase key="IsShared">Is Shared</Phrase>
-    <Phrase key="LoLo">Extremely Low</Phrase>
+    <Phrase key="LoLo">Low Low</Phrase>
     <Phrase key="Low">Low</Phrase>
     <Phrase key="High">High</Phrase>
-    <Phrase key="HiHi">Extremely High</Phrase>
+    <Phrase key="HiHi">High High</Phrase>
     <Phrase key="Deadband">Deadband</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.ObjTable">
@@ -257,13 +259,12 @@
     <Phrase key="btnStopComm">Stop</Phrase>
     <Phrase key="btnRestartComm">Restart</Phrase>
     <Phrase key="lblWebStatus">Webstation</Phrase>
-    <Phrase key="txtWebStatus">Not available</Phrase>
+    <Phrase key="txtWebStatus">Status not supported</Phrase>
     <Phrase key="btnStartWeb">Start</Phrase>
     <Phrase key="btnStopWeb">Stop</Phrase>
     <Phrase key="btnRestartWeb">Restart</Phrase>
     <Phrase key="lblUpdateTime">Update time</Phrase>
     <Phrase key="btnClose">Close</Phrase>
-    <Phrase key="ControlServiceSuccessful">Service control command completed successfully.</Phrase>
     <Phrase key="UnableControlService">Unable to execute service control command.</Phrase>
     <Phrase key="ControlServiceError">Error sending service control command</Phrase>
     <Phrase key="AgentDisabled">Agent disabled</Phrase>
@@ -335,6 +336,42 @@
     <Phrase key="DataNotExist">No data exist for the &quot;{0}&quot; column.</Phrase>
     <Phrase key="DataChangeError">Error changing table data</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Tables.FrmCnl">
+    <Phrase key="this">Channel Properties</Phrase>
+    <Phrase key="pageGeneral">General</Phrase>
+    <Phrase key="chkActive">Active</Phrase>
+    <Phrase key="lblCnlNum">Number</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblCode">Code</Phrase>
+    <Phrase key="lblDataType">Data type</Phrase>
+    <Phrase key="lblDataLen">Data length</Phrase>
+    <Phrase key="lblCnlType">Channel type</Phrase>
+    <Phrase key="lblObj">Object</Phrase>
+    <Phrase key="lblDevice">Device</Phrase>
+    <Phrase key="lblTagNum">Tag number</Phrase>
+    <Phrase key="lblTagCode">Tag code</Phrase>
+    <Phrase key="chkFormulaEnabled">Formula</Phrase>
+    <Phrase key="lblInFormula">In</Phrase>
+    <Phrase key="lblOutFormula">Out</Phrase>
+    <Phrase key="pageDisplay">Display</Phrase>
+    <Phrase key="lblFormat">Format</Phrase>
+    <Phrase key="lblOutFormat">Command format</Phrase>
+    <Phrase key="lblQuantity">Quantity</Phrase>
+    <Phrase key="lblUnit">Unit</Phrase>
+    <Phrase key="pageLim">Limits</Phrase>
+    <Phrase key="lblLim">Limit</Phrase>
+    <Phrase key="btnCreateLim">Create</Phrase>
+    <Phrase key="chkShared">Show only shared limits</Phrase>
+    <Phrase key="lblLoLo">Low low</Phrase>
+    <Phrase key="lblLow">Low</Phrase>
+    <Phrase key="lblHigh">High</Phrase>
+    <Phrase key="lblHiHi">High high</Phrase>
+    <Phrase key="lblDeadband">Deadband</Phrase>
+    <Phrase key="pageArchives">Archives</Phrase>
+    <Phrase key="pageEvents">Events</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmColorDialog">
     <Phrase key="this">Select Color</Phrase>
     <Phrase key="lblSort">Sort:</Phrase>
@@ -378,47 +415,15 @@
     <Phrase key="lblName">Name</Phrase>
     <Phrase key="chkIsBoundToCnl">Bound to channels</Phrase>
     <Phrase key="chkIsShared">Shared</Phrase>
-    <Phrase key="lblLoLo">Extremely low</Phrase>
+    <Phrase key="lblLoLo">Low low</Phrase>
     <Phrase key="lblLow">Low</Phrase>
     <Phrase key="lblHigh">High</Phrase>
-    <Phrase key="lblHiHi">Extremely high</Phrase>
+    <Phrase key="lblHiHi">High high</Phrase>
     <Phrase key="lblDeadband">Deadband</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
     <Phrase key="LimExistsInConfigDatabase">A limit with the same ID already exists in the configuration database.</Phrase>
     <Phrase key="DefaultLimName">Limit for channel {0}</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Admin.App.Forms.Tables.FrmCnl">
-    <Phrase key="this">Channel Properties</Phrase>
-    <Phrase key="pageGeneral">General</Phrase>
-    <Phrase key="chkActive">Active</Phrase>
-    <Phrase key="lblCnlNum">Number</Phrase>
-    <Phrase key="lblDataType">Data type</Phrase>
-    <Phrase key="lblDataLen">Data length</Phrase>
-    <Phrase key="lblCnlType">Channel type</Phrase>
-    <Phrase key="lblObj">Object</Phrase>
-    <Phrase key="lblDevice">Device</Phrase>
-    <Phrase key="lblTagNum">Tag number</Phrase>
-    <Phrase key="lblTagCode">Tag code</Phrase>
-    <Phrase key="chkFormulaEnabled">Formula</Phrase>
-    <Phrase key="lblInFormula">In</Phrase>
-    <Phrase key="lblOutFormula">Out</Phrase>
-    <Phrase key="lblFormat">Format</Phrase>
-    <Phrase key="lblQuantity">Quantity</Phrase>
-    <Phrase key="lblUnit">Unit</Phrase>
-    <Phrase key="pageLim">Limits</Phrase>
-    <Phrase key="lblLim">Limit</Phrase>
-    <Phrase key="btnCreateLim">Create</Phrase>
-    <Phrase key="chkShared">Show only shared limits</Phrase>
-    <Phrase key="lblLoLo">Extremely low</Phrase>
-    <Phrase key="lblLow">Low</Phrase>
-    <Phrase key="lblHigh">High</Phrase>
-    <Phrase key="lblHiHi">Extremely high</Phrase>
-    <Phrase key="lblDeadband">Deadband</Phrase>
-    <Phrase key="pageArchives">Archives</Phrase>
-    <Phrase key="pageEvents">Events</Phrase>
-    <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmPassword">
     <Phrase key="this">Set Password</Phrase>
@@ -555,6 +560,8 @@
     <Phrase key="miProjectOpenInExplorer">Open Folder in File Explorer</Phrase>
     <Phrase key="miProjectRename">Rename Project</Phrase>
     <Phrase key="miProjectProperties">Properties</Phrase>
+    <Phrase key="miBaseOpenInExplorer">Open Folder in File Explorer</Phrase>
+    <Phrase key="miBaseReload">Reload Configuration Database</Phrase>
     <Phrase key="miCnlTableComm">Go to Communicator</Phrase>
     <Phrase key="miCnlTableRefresh">Refresh</Phrase>
     <Phrase key="miDirectoryNewFile">New File...</Phrase>
@@ -626,7 +633,7 @@
     <Phrase key="btnOpenProject">Open Project</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmTextEditor">
-    <Phrase key="btnReload.ToolTip">Reload file</Phrase>
+    <Phrase key="btnReload.ToolTip">Reload File</Phrase>
     <Phrase key="OpenTextFileError">Error opening file</Phrase>
     <Phrase key="SaveTextFileError">Error saving file</Phrase>
   </Dictionary>
@@ -662,16 +669,6 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.Forms.FrmRegistration">
     <Phrase key="this">Registration</Phrase>
-    <Phrase key="lblProductName">Product name</Phrase>
-    <Phrase key="lblCompCode">Computer code</Phrase>
-    <Phrase key="btnCopyCompCode">Copy</Phrase>
-    <Phrase key="btnRefreshCompCode">Refresh</Phrase>
-    <Phrase key="lblCompCodeInfo">If the code is missing, upload the configuration and restart the services.</Phrase>
-    <Phrase key="lblRegKey">Registration key</Phrase>
-    <Phrase key="btnPasteRegKey">Paste</Phrase>
-    <Phrase key="lblRegKeyInfo">Key verification result is written in the application or module log.</Phrase>
-    <Phrase key="llblGetPermanentKey">Get permanent key</Phrase>
-    <Phrase key="llblGetTrialKey">Get trial key</Phrase>
     <Phrase key="btnSave">Save</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
     <Phrase key="LoadRegKeyError">Error loading registration key</Phrase>

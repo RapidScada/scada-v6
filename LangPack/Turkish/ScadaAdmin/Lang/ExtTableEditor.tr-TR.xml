@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtTableEditorDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableEditor">
+    <Phrase key="btnRefreshBase.ToolTip">Yapılandırma Veritabanını Yenile</Phrase>
+    <Phrase key="btnAddItem.ToolTip">Öğe eklemek</Phrase>
+    <Phrase key="btnAddEmptyItem.ToolTip">Boş Öğe Ekle</Phrase>
+    <Phrase key="btnMoveUpItem.ToolTip">Öğeyi Yukarı Taşı</Phrase>
+    <Phrase key="btnMoveDownItem.ToolTip">Öğeyi Aşağı Taşı</Phrase>
+    <Phrase key="btnDeleteItem.ToolTip">Seçilen Öğeleri Sil</Phrase>
+    <Phrase key="btnTableOptions.ToolTip">Tablo Görünümü Seçenekleri</Phrase>
+    <Phrase key="lblHint">Tabloya eklemek için Enter tuşuna basın veya bir düğümü çift tıklayın.  Bağlam menüsünü görüntülemek için bir aygıt düğümüne sağ tıklayın.</Phrase>
+    <Phrase key="colCnlNum">Kanal</Phrase>
+    <Phrase key="colDeviceNum">Cihaz</Phrase>
+    <Phrase key="colAutoText">Otomatik metin</Phrase>
+    <Phrase key="colText">Metin</Phrase>
+    <Phrase key="colHidden">Gizlenmiş</Phrase>
+    <Phrase key="miDeviceAddDevice">Cihaz ekle</Phrase>
+    <Phrase key="miDeviceAddAllChannels">Tüm Kanalları Ekle</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableOptions">
+    <Phrase key="this">Tablo Görünümü Seçenekleri</Phrase>
+    <Phrase key="chkUseDefault">Varsayılan seçenekleri kullan</Phrase>
+    <Phrase key="lblArchiveCode">Arşiv kodu</Phrase>
+    <Phrase key="btnSelectArchiveCode">Seçme...</Phrase>
+    <Phrase key="lblPeriod">Masa periyodu, dk</Phrase>
+    <Phrase key="lblChartArgs">Grafik bağımsız değişkenleri</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+</ExtTableEditorDictionaries>

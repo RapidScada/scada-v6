@@ -36,7 +36,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             this.archiveConfig = archiveConfig ?? throw new ArgumentNullException(nameof(archiveConfig));
             options = new BasicCAO(archiveConfig.CustomOptions);
         }
-        
+
 
         /// <summary>
         /// Sets the controls according to the options.

@@ -4,13 +4,11 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Scada.Log</RootNamespace>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <AssemblyVersion>6.0.0.0</AssemblyVersion>
-    <FileVersion>6.0.0.0</FileVersion>
+    <Version>6.0.0</Version>
     <Product>Rapid SCADA</Product>
     <Company>Rapid Software LLC</Company>
     <Authors>Mikhail Shiryaev</Authors>
-    <Copyright>Copyright © 2022</Copyright>
-    <Version>6.0.0</Version>
+    <Copyright>Copyright © 2024</Copyright>
   </PropertyGroup>
 
 </Project>

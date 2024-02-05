@@ -68,6 +68,8 @@
             this.pnlBottom = new System.Windows.Forms.Panel();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
+            this.lblUseTls = new System.Windows.Forms.Label();
+            this.chkUseTls = new System.Windows.Forms.CheckBox();
             this.tabControl.SuspendLayout();
             this.pageConnectionOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTimeout)).BeginInit();
@@ -93,14 +95,16 @@
             // 
             this.pageConnectionOptions.Controls.Add(this.cbProtocolVersion);
             this.pageConnectionOptions.Controls.Add(this.lblProtocolVersion);
-            this.pageConnectionOptions.Controls.Add(this.numTimeout);
-            this.pageConnectionOptions.Controls.Add(this.lblTimeout);
             this.pageConnectionOptions.Controls.Add(this.txtPassword);
             this.pageConnectionOptions.Controls.Add(this.lblPassword);
             this.pageConnectionOptions.Controls.Add(this.txtUsername);
             this.pageConnectionOptions.Controls.Add(this.lblUsername);
             this.pageConnectionOptions.Controls.Add(this.txtClientID);
             this.pageConnectionOptions.Controls.Add(this.lblClientID);
+            this.pageConnectionOptions.Controls.Add(this.chkUseTls);
+            this.pageConnectionOptions.Controls.Add(this.lblUseTls);
+            this.pageConnectionOptions.Controls.Add(this.numTimeout);
+            this.pageConnectionOptions.Controls.Add(this.lblTimeout);
             this.pageConnectionOptions.Controls.Add(this.numPort);
             this.pageConnectionOptions.Controls.Add(this.lblPort);
             this.pageConnectionOptions.Controls.Add(this.txtServer);
@@ -122,23 +126,23 @@
             "3.1",
             "3.1.1",
             "5.0"});
-            this.cbProtocolVersion.Location = new System.Drawing.Point(168, 182);
+            this.cbProtocolVersion.Location = new System.Drawing.Point(168, 211);
             this.cbProtocolVersion.Name = "cbProtocolVersion";
             this.cbProtocolVersion.Size = new System.Drawing.Size(200, 23);
-            this.cbProtocolVersion.TabIndex = 13;
+            this.cbProtocolVersion.TabIndex = 15;
             // 
             // lblProtocolVersion
             // 
             this.lblProtocolVersion.AutoSize = true;
-            this.lblProtocolVersion.Location = new System.Drawing.Point(8, 186);
+            this.lblProtocolVersion.Location = new System.Drawing.Point(8, 215);
             this.lblProtocolVersion.Name = "lblProtocolVersion";
             this.lblProtocolVersion.Size = new System.Drawing.Size(93, 15);
-            this.lblProtocolVersion.TabIndex = 12;
+            this.lblProtocolVersion.TabIndex = 14;
             this.lblProtocolVersion.Text = "Protocol version";
             // 
             // numTimeout
             // 
-            this.numTimeout.Location = new System.Drawing.Point(268, 153);
+            this.numTimeout.Location = new System.Drawing.Point(268, 66);
             this.numTimeout.Maximum = new decimal(new int[] {
             600000,
             0,
@@ -146,7 +150,7 @@
             0});
             this.numTimeout.Name = "numTimeout";
             this.numTimeout.Size = new System.Drawing.Size(100, 23);
-            this.numTimeout.TabIndex = 11;
+            this.numTimeout.TabIndex = 5;
             this.numTimeout.Value = new decimal(new int[] {
             10000,
             0,
@@ -156,59 +160,59 @@
             // lblTimeout
             // 
             this.lblTimeout.AutoSize = true;
-            this.lblTimeout.Location = new System.Drawing.Point(8, 157);
+            this.lblTimeout.Location = new System.Drawing.Point(8, 70);
             this.lblTimeout.Name = "lblTimeout";
             this.lblTimeout.Size = new System.Drawing.Size(73, 15);
-            this.lblTimeout.TabIndex = 10;
+            this.lblTimeout.TabIndex = 4;
             this.lblTimeout.Text = "Timeout, ms";
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(168, 124);
+            this.txtPassword.Location = new System.Drawing.Point(168, 182);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(200, 23);
-            this.txtPassword.TabIndex = 9;
+            this.txtPassword.TabIndex = 13;
             this.txtPassword.UseSystemPasswordChar = true;
             // 
             // lblPassword
             // 
             this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(8, 128);
+            this.lblPassword.Location = new System.Drawing.Point(8, 186);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(57, 15);
-            this.lblPassword.TabIndex = 8;
+            this.lblPassword.TabIndex = 12;
             this.lblPassword.Text = "Password";
             // 
             // txtUsername
             // 
-            this.txtUsername.Location = new System.Drawing.Point(168, 95);
+            this.txtUsername.Location = new System.Drawing.Point(168, 153);
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(200, 23);
-            this.txtUsername.TabIndex = 7;
+            this.txtUsername.TabIndex = 11;
             // 
             // lblUsername
             // 
             this.lblUsername.AutoSize = true;
-            this.lblUsername.Location = new System.Drawing.Point(8, 99);
+            this.lblUsername.Location = new System.Drawing.Point(8, 157);
             this.lblUsername.Name = "lblUsername";
             this.lblUsername.Size = new System.Drawing.Size(60, 15);
-            this.lblUsername.TabIndex = 6;
+            this.lblUsername.TabIndex = 10;
             this.lblUsername.Text = "Username";
             // 
             // txtClientID
             // 
-            this.txtClientID.Location = new System.Drawing.Point(168, 66);
+            this.txtClientID.Location = new System.Drawing.Point(168, 124);
             this.txtClientID.Name = "txtClientID";
             this.txtClientID.Size = new System.Drawing.Size(200, 23);
-            this.txtClientID.TabIndex = 5;
+            this.txtClientID.TabIndex = 9;
             // 
             // lblClientID
             // 
             this.lblClientID.AutoSize = true;
-            this.lblClientID.Location = new System.Drawing.Point(8, 70);
+            this.lblClientID.Location = new System.Drawing.Point(8, 128);
             this.lblClientID.Name = "lblClientID";
             this.lblClientID.Size = new System.Drawing.Size(52, 15);
-            this.lblClientID.TabIndex = 4;
+            this.lblClientID.TabIndex = 8;
             this.lblClientID.Text = "Client ID";
             // 
             // numPort
@@ -504,6 +508,24 @@
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
+            // lblUseTls
+            // 
+            this.lblUseTls.AutoSize = true;
+            this.lblUseTls.Location = new System.Drawing.Point(8, 99);
+            this.lblUseTls.Name = "lblUseTls";
+            this.lblUseTls.Size = new System.Drawing.Size(47, 15);
+            this.lblUseTls.TabIndex = 6;
+            this.lblUseTls.Text = "Use TLS";
+            // 
+            // chkUseTls
+            // 
+            this.chkUseTls.AutoSize = true;
+            this.chkUseTls.Location = new System.Drawing.Point(353, 99);
+            this.chkUseTls.Name = "chkUseTls";
+            this.chkUseTls.Size = new System.Drawing.Size(15, 14);
+            this.chkUseTls.TabIndex = 7;
+            this.chkUseTls.UseVisualStyleBackColor = true;
+            // 
             // FrmMqttDSO
             // 
             this.AcceptButton = this.btnOK;
@@ -577,5 +599,7 @@
         private TextBox txtDeviceFilter;
         private Label lblDeviceFilter;
         private Button btnSelectDevices;
+        private CheckBox chkUseTls;
+        private Label lblUseTls;
     }
 }

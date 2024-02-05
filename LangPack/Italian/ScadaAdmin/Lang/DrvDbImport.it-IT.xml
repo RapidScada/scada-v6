@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDbImportDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlCommand">
+    <Phrase key="gbCommand">Parametri di comando</Phrase>
+    <Phrase key="lblName">Nome</Phrase>
+    <Phrase key="lblCmdCode">Codice di comando</Phrase>
+    <Phrase key="lblCmdCodeWarn">Compila il codice</Phrase>
+    <Phrase key="lblSql">SQL</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">Parametri disponibili: @cmdVal, @cmdData</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlQuery">
+    <Phrase key="gbQuery">Parametri di interrogazione</Phrase>
+    <Phrase key="chkActive">Attivo</Phrase>
+    <Phrase key="lblName">Nome</Phrase>
+    <Phrase key="lblTag">Tag</Phrase>
+    <Phrase key="lblSQL">SQL</Phrase>
+    <Phrase key="chkSingleRow">Risultato riga singola</Phrase>
+    <Phrase key="pbTagInfo.ToolTip">Ogni riga contiene un codice tag.</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">ON - la richiesta restituisce una singola riga, ogni campo contiene un valore di tag.&#13;&#10;OFF - la richiesta restituisce un set di righe, ogni riga contiene un valore di tag.  Colonne obbligatorie: codice e val.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Proprietà dispositivo {0} - Importazione DB</Phrase>
+    <Phrase key="btnAddQuery.ToolTip">Aggiungi domanda</Phrase>
+    <Phrase key="btnAddCommand.ToolTip">Aggiungi comando</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Andare avanti</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Abbassati</Phrase>
+    <Phrase key="btnDelete.ToolTip">Eliminare</Phrase>
+    <Phrase key="gbDevice">Configurazione del dispositivo</Phrase>
+    <Phrase key="btnSave">Salva</Phrase>
+    <Phrase key="btnCancel">Annulla</Phrase>
+    <Phrase key="btnClose">Vicino</Phrase>
+    <Phrase key="miCollapseAll">Comprimi tutto</Phrase>
+    <Phrase key="ConnectionNode">Opzioni di connessione</Phrase>
+    <Phrase key="CommandName">Comando {0}</Phrase>
+    <Phrase key="CommandsNode">Comandi</Phrase>
+    <Phrase key="QueryName">Domanda {0}</Phrase>
+    <Phrase key="QueriesNode">Interrogazioni</Phrase>
+    <Phrase key="SelectChildNode">Seleziona nodo figlio</Phrase>
+    <Phrase key="UnnamedCommand">&lt;Comando senza nome&gt;</Phrase>
+    <Phrase key="UnnamedQuery">&lt;Query senza nome&gt;</Phrase>
+  </Dictionary>
+</DrvDbImportDictionaries>

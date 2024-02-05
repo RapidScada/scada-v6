@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvCnlBasicDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.BasicChannelView">
+    <Phrase key="ChannelTypeNotFound">Kommunikationskanaltyp nicht gefunden.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmSerialPortChannelOptions">
+    <Phrase key="this">Optionen für die serielle Schnittstelle</Phrase>
+    <Phrase key="gbPort">Serielle Schnittstelle</Phrase>
+    <Phrase key="lblPortName">Portname</Phrase>
+    <Phrase key="lblBaudRate">Baudrate</Phrase>
+    <Phrase key="lblDataBits">Daten Bits</Phrase>
+    <Phrase key="lblParity">Parität</Phrase>
+    <Phrase key="cbParity.Items[0]">Keiner</Phrase>
+    <Phrase key="cbParity.Items[1]">Seltsam</Phrase>
+    <Phrase key="cbParity.Items[2]">Selbst</Phrase>
+    <Phrase key="cbParity.Items[3]">Markieren</Phrase>
+    <Phrase key="cbParity.Items[4]">Raum</Phrase>
+    <Phrase key="lblStopBits">Stopp-Bits</Phrase>
+    <Phrase key="lblDtrEnable">DTR</Phrase>
+    <Phrase key="lblRtsEnable">RTS</Phrase>
+    <Phrase key="gbMode">Betriebsart</Phrase>
+    <Phrase key="lblBehavior">Verhalten</Phrase>
+    <Phrase key="cbBehavior.Items[0]">Meister</Phrase>
+    <Phrase key="cbBehavior.Items[1]">Sklave</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Stornieren</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpClientChannelOptions">
+    <Phrase key="this">TCP-Client-Optionen</Phrase>
+    <Phrase key="gbMode">Betriebsart</Phrase>
+    <Phrase key="lblBehavior">Verhalten</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master – Communicator sendet eine Anfrage an ein Gerät und empfängt eine Antwort.&#13;&#10;Slave – Communicator wartet passiv auf Daten von einem Gerät.</Phrase>
+    <Phrase key="lblConnectionMode">Verbindungsmodus</Phrase>
+    <Phrase key="cbConnectionMode.Items[0]">Individuell</Phrase>
+    <Phrase key="cbConnectionMode.Items[1]">Geteilt</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">Einzeln – Communicator stellt mit jedem Gerät eine individuelle TCP-Verbindung her.&#13;&#10;Geteilt – Communicator stellt eine einzelne gemeinsame Verbindung für alle Geräte der Kommunikationslinie her&#13;&#10;unter Verwendung der angegebenen Remote-IP-Adresse.&#13;&#10;Es wird eine gemeinsame Verbindung verwendet.  zum Beispiel, wenn die Geräte über ein Ethernet-Seriell-Gateway verbunden sind.</Phrase>
+    <Phrase key="gbConnection">Verbindung</Phrase>
+    <Phrase key="lblHost">Remote-Host</Phrase>
+    <Phrase key="pbHostHint.ToolTip">Remote-DNS-Name oder IP-Adresse bei Verwendung einer gemeinsam genutzten Verbindung.</Phrase>
+    <Phrase key="lblTcpPort">Remote-TCP-Port</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">Im Einzelverbindungsmodus wird er als Standard-TCP-Port verwendet, wenn für ein Gerät kein Port angegeben ist.&#13;&#10;Im gemeinsam genutzten Verbindungsmodus ist der Parameter erforderlich.&#13;&#10;Der 502-Port ist der Standard-Modbus-TCP-Port.</Phrase>
+    <Phrase key="lblReconnectAfter">Wieder verbinden, Sek</Phrase>
+    <Phrase key="pbReconnectAfterHint.ToolTip">Gibt das Zeitintervall für die Wiederherstellung der Verbindung nach einem erfolglosen Versuch an.</Phrase>
+    <Phrase key="lblStayConnected">In Verbindung bleiben</Phrase>
+    <Phrase key="pbStayConnectedHint.ToolTip">Wenn gesetzt, ist die Verbindung zwischen Kommunikationssitzungen aktiv.&#13;&#10;Andernfalls wird die Verbindung nach jeder Sitzung beendet.</Phrase>
+    <Phrase key="lblDisconnectOnError">Bei Fehler trennen</Phrase>
+    <Phrase key="pbDisconnectOnError.ToolTip">Gibt an, ob die Verbindung getrennt werden soll, wenn eine Sitzung fehlschlägt.</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Stornieren</Phrase>
+    <Phrase key="HostRequired">Remote-Host ist erforderlich.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpServerChannelOptions">
+    <Phrase key="this">TCP-Serveroptionen</Phrase>
+    <Phrase key="gbMode">Betriebsart</Phrase>
+    <Phrase key="lblBehavior">Verhalten</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master – nach dem Herstellen der Verbindung sendet der Communicator eine Anfrage an ein Gerät und empfängt eine Antwort.&#13;&#10;Slave – Communicator wartet passiv auf Daten von einem Gerät.</Phrase>
+    <Phrase key="lblConnectionMode">Verbindungsmodus</Phrase>
+    <Phrase key="cbConnectionMode.Items[0]">Individuell</Phrase>
+    <Phrase key="cbConnectionMode.Items[1]">Geteilt</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">Einzeln – Communicator stellt mit jedem Gerät eine individuelle TCP-Verbindung her.&#13;&#10;Geteilt – Communicator stellt eine einzelne gemeinsame Verbindung für alle Geräte der Kommunikationslinie her.&#13;&#10;Eine gemeinsame Verbindung wird beispielsweise verwendet, wenn die Geräte über verbunden sind  ein Ethernet-Seriell-Gateway.</Phrase>
+    <Phrase key="lblDeviceMapping">Gerätezuordnung</Phrase>
+    <Phrase key="cbDeviceMapping.Items[0]">Nach IP-Adresse</Phrase>
+    <Phrase key="cbDeviceMapping.Items[1]">Per Hallo-Paket</Phrase>
+    <Phrase key="cbDeviceMapping.Items[2]">Fahrer bestimmt</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">Die Methode zum Binden einer neuen eingehenden Verbindung an ein Gerät:&#13;&#10;Nach IP-Adresse – Remote-IP-Adresse entspricht einer Geräte-String-Adresse.&#13;&#10;Nach Hallo-Paket – ein erstes von einem Gerät empfangenes Paket enthält die String-Adresse.&lt;  br/&gt;Treiber ermittelt – Algorithmus ist im Gerätetreiber implementiert.</Phrase>
+    <Phrase key="gbConnection">Verbindung</Phrase>
+    <Phrase key="lblTcpPort">Lokaler TCP-Port</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">Lokaler TCP-Port für eingehende Verbindungen.&#13;&#10;Eingehende Verbindungen müssen von einer Firewall zugelassen werden.</Phrase>
+    <Phrase key="lblClientLifetime">Inaktive Lebensdauer, Sek</Phrase>
+    <Phrase key="pbClientLifetimeHint.ToolTip">Die Zeit, nach der ein inaktiver Client getrennt wird.</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Stornieren</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmUdpChannelOptions">
+    <Phrase key="this">UDP-Optionen</Phrase>
+    <Phrase key="gbMode">Betriebsart</Phrase>
+    <Phrase key="lblBehavior">Verhalten</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master – Communicator sendet eine Anfrage an ein Gerät und empfängt eine Antwort.&#13;&#10;Slave – Communicator wartet passiv auf Daten von einem Gerät.</Phrase>
+    <Phrase key="lblDeviceMapping">Gerätezuordnung</Phrase>
+    <Phrase key="cbDeviceMapping.Items[0]">Nach IP-Adresse</Phrase>
+    <Phrase key="cbDeviceMapping.Items[1]">Fahrer bestimmt</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">Die Methode zum Binden einer neuen eingehenden Verbindung an ein Gerät:&#13;&#10;Nach IP-Adresse – Remote-IP-Adresse entspricht einer Geräte-String-Adresse.&#13;&#10;Treiber bestimmt – Algorithmus ist im Gerätetreiber implementiert.</Phrase>
+    <Phrase key="gbConnection">Verbindung</Phrase>
+    <Phrase key="lblLocalUdpPort">Lokaler UDP-Port</Phrase>
+    <Phrase key="pbLocalUdpPortHint.ToolTip">Lokaler UDP-Port für eingehende Verbindungen.&#13;&#10;Eingehende Verbindungen müssen von einer Firewall zugelassen werden.</Phrase>
+    <Phrase key="lblRemoteUdpPort">Remote-UDP-Port</Phrase>
+    <Phrase key="pbRemoteUdpPortHint.ToolTip">Der standardmäßige Remote-UDP-Port.  Gleiches gilt für alle Geräte der Kommunikationslinie.</Phrase>
+    <Phrase key="lblRemoteIpAddress">Remote-IP-Adresse</Phrase>
+    <Phrase key="pbRemoteIpAddressHint.ToolTip">Die standardmäßige Remote-IP-Adresse.&#13;&#10;Sie kann beispielsweise verwendet werden, wenn die Geräte über ein Ethernet-Seriell-Gateway verbunden sind.</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Stornieren</Phrase>
+  </Dictionary>
+</DrvCnlBasicDictionaries>

@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2024
  */
 
 using Scada.Config;
@@ -40,7 +40,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading;
 
@@ -66,9 +65,10 @@ namespace Scada.Server.Engine
         /// </summary>
         private class CommandItem
         {
+            public User User { get; set; }
             public OutCnlTag OutCnlTag { get; set; }
             public TeleCommand Command { get; set; }
-            public WriteFlags WriteFlags { get; set; }
+            public WriteCommandFlags Flags { get; set; }
             public CommandResult Result { get; set; }
         }
 
@@ -248,6 +248,9 @@ namespace Scada.Server.Engine
                     Storage.ReadBaseTable(baseTable);
                 }
 
+                tableTitle = CommonPhrases.UndefinedTable;
+                ConfigDatabase.Init();
+
                 Log.WriteAction(Locale.IsRussian ?
                     "База конфигурации считана успешно" :
                     "The configuration database has been read successfully");
@@ -315,7 +318,7 @@ namespace Scada.Server.Engine
                 }
             }
 
-            foreach (Cnl cnl in ConfigDatabase.CnlTable.EnumerateItems())
+            foreach (Cnl cnl in ConfigDatabase.CnlTable)
             {
                 if (cnl.Active && cnl.CnlNum >= cnlNum)
                 {
@@ -338,8 +341,7 @@ namespace Scada.Server.Engine
             // find channel indexes for limits
             int FindIndex(double? n)
             {
-                return n.HasValue && !double.IsNaN(n.Value) && cnlTags.TryGetValue((int)n, out CnlTag t) ?
-                    t.Index : -1;
+                return n.HasValue && cnlTags.TryGetValue((int)n, out CnlTag t) ? t.Index : -1;
             }
 
             foreach (CnlTag cnlTag in limTags)
@@ -350,6 +352,7 @@ namespace Scada.Server.Engine
                     Low = FindIndex(cnlTag.Lim.Low),
                     High = FindIndex(cnlTag.Lim.High),
                     HiHi = FindIndex(cnlTag.Lim.HiHi),
+                    Deadband = FindIndex(cnlTag.Lim.Deadband)
                 };
             }
 
@@ -368,9 +371,10 @@ namespace Scada.Server.Engine
         {
             users = new Dictionary<string, User>(ConfigDatabase.UserTable.ItemCount);
 
-            foreach (User user in ConfigDatabase.UserTable.EnumerateItems())
+            foreach (User user in ConfigDatabase.UserTable)
             {
-                users[user.Name.ToLowerInvariant()] = user;
+                if (!string.IsNullOrEmpty(user.Name))
+                    users[user.Name.ToLowerInvariant()] = user;
             }
         }
 
@@ -424,7 +428,7 @@ namespace Scada.Server.Engine
             // create map of archives accessed by code
             Dictionary<string, Archive> arcByCode = new Dictionary<string, Archive>();
 
-            foreach (Archive archive in ConfigDatabase.ArchiveTable.EnumerateItems())
+            foreach (Archive archive in ConfigDatabase.ArchiveTable)
             {
                 if (!string.IsNullOrEmpty(archive.Code))
                 {
@@ -508,7 +512,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Operating cycle running in a separate thread.
+        /// Operating loop running in a separate thread.
         /// </summary>
         private void Execute()
         {
@@ -561,10 +565,11 @@ namespace Scada.Server.Engine
                     }
                     catch (ThreadAbortException)
                     {
+                        // do nothing
                     }
                     catch (Exception ex)
                     {
-                        Log.WriteError(ex, CommonPhrases.LogicCycleError);
+                        Log.WriteError(ex, CommonPhrases.LogicLoopError);
                     }
                     finally
                     {
@@ -624,22 +629,13 @@ namespace Scada.Server.Engine
         /// </summary>
         private void CalcCnlData(DateTime nowDT)
         {
-            try
+            foreach (CnlTag cnlTag in calcCnlTags)
             {
-                calc.BeginCalculation(curData);
-
-                foreach (CnlTag cnlTag in calcCnlTags)
+                if (cnlTag.InFormulaEnabled)
                 {
-                    if (cnlTag.InFormulaEnabled)
-                    {
-                        CnlData newCnlData = calc.CalcCnlData(cnlTag, CnlData.Zero);
-                        curData.SetCurrentData(cnlTag, ref newCnlData, nowDT);
-                    }
+                    CnlData newCnlData = calc.CalcCnlData(curData, cnlTag, CnlData.Zero);
+                    curData.SetCurrentData(cnlTag, ref newCnlData, nowDT);
                 }
-            }
-            finally
-            {
-                calc.EndCalculation();
             }
         }
 
@@ -697,12 +693,13 @@ namespace Scada.Server.Engine
 
                 if (commandItem.Result.IsSuccessful)
                 {
-                    if (commandItem.WriteFlags.HasFlag(WriteFlags.EnableEvents))
-                        GenerateEvent(commandItem.OutCnlTag, commandItem.Command);
+                    if (commandItem.Flags.HasFlag(WriteCommandFlags.EnableEvents))
+                        GenerateEvent(commandItem);
 
                     if (commandItem.Result.TransmitToClients)
                     {
-                        listener.EnqueueCommand(commandItem.Command);
+                        listener.EnqueueCommand(commandItem.Command, 
+                            commandItem.Flags.HasFlag(WriteCommandFlags.ReturnToSender));
                         Log.WriteAction(Locale.IsRussian ?
                             "Команда поставлена в очередь на отправку клиентам" :
                             "Command is queued to be sent to clients");
@@ -814,16 +811,17 @@ namespace Scada.Server.Engine
             else if (cnlData.Stat == CnlStatusID.Defined && cnlTag.Lim != null)
             {
                 // set status depending on channel limits
-                GetCnlLimits(cnlTag, out double lolo, out double low, out double high, out double hihi);
+                GetCnlLimits(cnlTag, out double lolo, out double low, 
+                    out double high, out double hihi, out double deadband);
                 int newStat = GetCnlStatus(cnlData.Val, lolo, low, high, hihi);
                 int prevStat = prevCnlData.Stat;
 
-                if (prevStat != CnlStatusID.Normal && newStat == CnlStatusID.Normal ||
-                    prevStat == CnlStatusID.ExtremelyHigh && newStat == CnlStatusID.High ||
-                    prevStat == CnlStatusID.ExtremelyLow && newStat == CnlStatusID.Low)
+                // take deadband into account
+                if (deadband != 0.0 && (
+                    prevStat != CnlStatusID.Normal && newStat == CnlStatusID.Normal ||
+                    prevStat == CnlStatusID.HiHi && newStat == CnlStatusID.High ||
+                    prevStat == CnlStatusID.LoLo && newStat == CnlStatusID.Low))
                 {
-                    // take deadband into account
-                    double deadband = cnlTag.Lim.Deadband ?? 0;
                     newStat = GetCnlStatus(cnlData.Val,
                         lolo + deadband, low + deadband,
                         high - deadband, hihi - deadband);
@@ -847,7 +845,8 @@ namespace Scada.Server.Engine
             {
                 if (cnlTag.Lim == null)
                 {
-                    cnlData.Stat = CnlStatusID.Archival;
+                    if (AppConfig.GeneralOptions.UseArchivalStatus)
+                        cnlData.Stat = CnlStatusID.Archival;
                 }
                 else
                 {
@@ -861,21 +860,23 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Get the channel limits for the current data.
         /// </summary>
-        private void GetCnlLimits(CnlTag cnlTag, out double lolo, out double low, out double high, out double hihi)
+        private void GetCnlLimits(CnlTag cnlTag, out double lolo, out double low, 
+            out double high, out double hihi, out double deadband)
         {
-            double GetLimit(int cnlIndex)
+            double GetLimit(int cnlIndex, double defaultVal)
             {
                 CnlData limData = cnlIndex >= 0 ? curData.CnlData[cnlIndex] : CnlData.Empty;
-                return limData.Stat > 0 ? limData.Val : double.NaN;
+                return limData.Stat > 0 ? limData.Val : defaultVal;
             }
 
             if (cnlTag.Lim.IsBoundToCnl)
             {
                 LimCnlIndex limCnlIndex = cnlTag.LimCnlIndex;
-                lolo = GetLimit(limCnlIndex.LoLo);
-                low = GetLimit(limCnlIndex.Low);
-                high = GetLimit(limCnlIndex.High);
-                hihi = GetLimit(limCnlIndex.HiHi);
+                lolo = GetLimit(limCnlIndex.LoLo, double.NaN);
+                low = GetLimit(limCnlIndex.Low, double.NaN);
+                high = GetLimit(limCnlIndex.High, double.NaN);
+                hihi = GetLimit(limCnlIndex.HiHi, double.NaN);
+                deadband = GetLimit(limCnlIndex.Deadband, 0);
             }
             else
             {
@@ -884,6 +885,7 @@ namespace Scada.Server.Engine
                 low = lim.Low ?? double.NaN;
                 high = lim.High ?? double.NaN;
                 hihi = lim.HiHi ?? double.NaN;
+                deadband = lim.Deadband ?? 0.0;
             }
         }
 
@@ -920,11 +922,11 @@ namespace Scada.Server.Engine
         private int GetCnlStatus(double cnlVal, double lolo, double low, double high, double hihi)
         {
             if (cnlVal < lolo)
-                return CnlStatusID.ExtremelyLow;
+                return CnlStatusID.LoLo;
             else if (cnlVal < low)
                 return CnlStatusID.Low;
             else if (cnlVal > hihi)
-                return CnlStatusID.ExtremelyHigh;
+                return CnlStatusID.HiHi;
             else if (cnlVal > high)
                 return CnlStatusID.High;
             else
@@ -979,14 +981,14 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Generates an event based on the command.
         /// </summary>
-        private void GenerateEvent(OutCnlTag outCnlTag, TeleCommand command)
+        private void GenerateEvent(CommandItem commandItem)
         {
-            EventMask eventMask = new EventMask(outCnlTag.Cnl.EventMask);
+            EventMask eventMask = new EventMask(commandItem.OutCnlTag.Cnl.EventMask);
 
             if (eventMask.Enabled && eventMask.Command)
             {
                 DateTime utcNow = DateTime.UtcNow;
-                string userName = ConfigDatabase.UserTable.GetItem(command.UserID)?.Name;
+                TeleCommand command = commandItem.Command;
 
                 EnqueueEvent(ArchiveMask.Default, new Event
                 {
@@ -998,7 +1000,7 @@ namespace Scada.Server.Engine
                     CnlVal = double.IsNaN(command.CmdVal) ? 0.0 : command.CmdVal,
                     CnlStat = double.IsNaN(command.CmdVal) ? CnlStatusID.Undefined : CnlStatusID.Defined,
                     TextFormat = EventTextFormat.Command,
-                    Text = string.Format(ServerPhrases.CommandSentBy, userName),
+                    Text = string.Format(ServerPhrases.CommandSentBy, commandItem.User.Name),
                     Data = command.CmdData
                 });
             }
@@ -1007,17 +1009,18 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Adds the command to the queue.
         /// </summary>
-        private void EnqueueCommand(OutCnlTag outCnlTag, TeleCommand command, WriteFlags writeFlags, 
-            CommandResult commandResult)
+        private void EnqueueCommand(User user, OutCnlTag outCnlTag, 
+            TeleCommand command, WriteCommandFlags flags, CommandResult result)
         {
             lock (commandQueue)
             {
                 commandQueue.Enqueue(new CommandItem
                 {
+                    User = user,
                     OutCnlTag = outCnlTag,
                     Command = command,
-                    WriteFlags = writeFlags,
-                    Result = commandResult
+                    Flags = flags,
+                    Result = result
                 });
             }
         }
@@ -1102,21 +1105,10 @@ namespace Scada.Server.Engine
                     terminated = true;
                     serviceStatus = ServiceStatus.Terminating;
 
-                    if (thread.Join(ScadaUtils.ThreadWait))
-                    {
+                    if (thread.Join(TimeSpan.FromSeconds(AppConfig.GeneralOptions.StopWait)))
                         Log.WriteAction(CommonPhrases.LogicStopped);
-                    }
-                    else if (ScadaUtils.IsRunningOnCore)
-                    {
-                        Log.WriteAction(CommonPhrases.UnableToStopLogic);
-                    }
                     else
-                    {
-                        thread.Abort(); // not supported on .NET Core
-                        Log.WriteAction(Locale.IsRussian ?
-                            "Обработка логики прервана" :
-                            "Logic processing is aborted");
-                    }
+                        Log.WriteAction(CommonPhrases.UnableToStopLogic);
 
                     thread = null;
                 }
@@ -1132,65 +1124,66 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Validates the username and password.
         /// </summary>
-        public bool ValidateUser(string username, string password, out int userID, out int roleID, out string errMsg)
+        public UserValidationResult ValidateUser(string username, string password)
         {
-            userID = 0;
-            roleID = RoleID.Disabled;
-
             try
             {
+                // ignore leading and trailing white-space when searching for a user
+                username = username?.Trim();
+
+                // prohibit empty username or password
                 if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-                {
-                    errMsg = Locale.IsRussian ?
-                        "Имя пользователя или пароль не может быть пустым" :
-                        "Username or password can not be empty";
-                    return false;
-                }
-
-                // validate by modules
-                bool userIsValid = moduleHolder.ValidateUser(username, password, 
-                    out userID, out roleID, out errMsg, out bool handled);
-
-                if (handled)
-                    return userIsValid;
+                    return UserValidationResult.Fail(ServerPhrases.EmptyCredentials);
 
                 // validate by the configuration database
                 if (users.TryGetValue(username.ToLowerInvariant(), out User user) &&
-                    user.Password == ScadaUtils.GetPasswordHash(user.UserID, password))
+                    !string.IsNullOrEmpty(user.Password))
                 {
-                    userID = user.UserID;
-                    roleID = user.RoleID;
-
-                    if (user.Enabled && roleID > RoleID.Disabled)
+                    if (user.Password == ScadaUtils.GetPasswordHash(user.UserID, password))
                     {
-                        errMsg = "";
-                        return true;
+                        UserValidationResult result = new UserValidationResult
+                        {
+                            UserID = user.UserID,
+                            RoleID = user.RoleID,
+                        };
+
+                        if (user.Enabled && user.RoleID > RoleID.Disabled)
+                            result.IsValid = true;
+                        else
+                            result.ErrorMessage = ServerPhrases.AccountDisabled;
+
+                        return result;
                     }
                     else
                     {
-                        errMsg = Locale.IsRussian ?
-                            "Пользователь отключен" :
-                            "Account is disabled";
-                        return false;
+                        return UserValidationResult.Fail(ServerPhrases.InvalidCredentials);
                     }
                 }
+
+                // validate by modules
+                UserValidationResult moduleResult = moduleHolder.ValidateUser(username, password);
+
+                if (moduleResult.Handled)
+                    return moduleResult;
                 else
-                {
-                    errMsg = Locale.IsRussian ?
-                        "Неверное имя пользователя или пароль" :
-                        "Invalid username or password";
-                    return false;
-                }
+                    return UserValidationResult.Fail(ServerPhrases.InvalidCredentials);
             }
             catch (Exception ex)
             {
-                errMsg = Locale.IsRussian ?
+                string errMsg = Locale.IsRussian ?
                     "Ошибка при проверке пользователя" :
                     "Error validating user";
-
                 Log.WriteError(ex, errMsg);
-                return false;
+                return UserValidationResult.Fail(errMsg);
             }
+        }
+
+        /// <summary>
+        /// Finds a user by ID.
+        /// </summary>
+        public User FindUser(int userID)
+        {
+            return ConfigDatabase.UserTable.GetItem(userID) ?? moduleHolder.FindUser(userID);
         }
 
         /// <summary>
@@ -1302,30 +1295,29 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Writes the current data.
         /// </summary>
-        public void WriteCurrentData(Slice slice, int deviceNum, WriteFlags writeFlags)
+        public void WriteCurrentData(Slice slice, WriteDataFlags flags)
         {
             if (slice == null)
                 throw new ArgumentNullException(nameof(slice));
 
             try
             {
-                moduleHolder.OnCurrentDataProcessing(slice, deviceNum);
+                moduleHolder.OnCurrentDataProcessing(slice);
                 Monitor.Enter(curData);
-                calc.BeginCalculation(curData);
 
                 if (slice.Timestamp == DateTime.MinValue)
                     slice.Timestamp = DateTime.UtcNow;
 
                 curData.Timestamp = slice.Timestamp;
-                bool applyFormulas = writeFlags.HasFlag(WriteFlags.ApplyFormulas);
-                bool enableEvents = writeFlags.HasFlag(WriteFlags.EnableEvents);
+                bool applyFormulas = flags.HasFlag(WriteDataFlags.ApplyFormulas);
+                bool enableEvents = flags.HasFlag(WriteDataFlags.EnableEvents);
 
-                for (int i = 0, cnlCnt = slice.CnlNums.Length; i < cnlCnt; i++)
+                for (int i = 0, cnlCnt = slice.Length; i < cnlCnt; i++)
                 {
                     if (cnlTags.TryGetValue(slice.CnlNums[i], out CnlTag cnlTag))
                     {
                         CnlData cnlData = applyFormulas && cnlTag.InFormulaEnabled && cnlTag.Cnl.IsInput()
-                            ? calc.CalcCnlData(cnlTag, slice.CnlData[i])
+                            ? calc.CalcCnlData(curData, cnlTag, slice.CnlData[i])
                             : slice.CnlData[i];
                         curData.SetCurrentData(cnlTag, ref cnlData, slice.Timestamp, enableEvents);
                         slice.CnlData[i] = cnlData;
@@ -1340,30 +1332,29 @@ namespace Scada.Server.Engine
             }
             finally
             {
-                calc.EndCalculation();
                 Monitor.Exit(curData);
-                moduleHolder.OnCurrentDataProcessed(slice, deviceNum);
+                moduleHolder.OnCurrentDataProcessed(slice);
             }
         }
 
         /// <summary>
         /// Writes the historical data.
         /// </summary>
-        public void WriteHistoricalData(int archiveMask, Slice slice, int deviceNum, WriteFlags writeFlags)
+        public void WriteHistoricalData(int archiveMask, Slice slice, WriteDataFlags flags)
         {
             if (slice == null)
                 throw new ArgumentNullException(nameof(slice));
 
             try
             {
-                moduleHolder.OnHistoricalDataProcessing(slice, deviceNum);
+                moduleHolder.OnHistoricalDataProcessing(slice);
                 DateTime timestamp = slice.Timestamp;
 
                 if (archiveMask == ArchiveMask.Default)
                     archiveMask = archiveHolder.DefaultArchiveMask;
 
                 // find channel tags of the slice
-                int cnlCnt = slice.CnlNums.Length;
+                int cnlCnt = slice.Length;
                 CnlTag[] sliceCnlTags = new CnlTag[cnlCnt];
 
                 for (int i = 0; i < cnlCnt; i++)
@@ -1373,8 +1364,9 @@ namespace Scada.Server.Engine
                 }
 
                 // write to archives
-                bool applyFormulas = writeFlags.HasFlag(WriteFlags.ApplyFormulas);
-                CnlData[] cnlDataCopy = slice.CnlData.DeepClone();
+                bool applyFormulas = flags.HasFlag(WriteDataFlags.ApplyFormulas);
+                CnlData[] cnlDataCopy = new CnlData[cnlCnt];
+                slice.CnlData.CopyTo(cnlDataCopy, 0);
 
                 for (int archiveBit = 0; archiveBit < ServerUtils.MaxArchiveCount; archiveBit++)
                 {
@@ -1382,11 +1374,13 @@ namespace Scada.Server.Engine
                         archiveHolder.GetArchive(archiveBit, out HistoricalArchiveLogic archiveLogic) &&
                         archiveLogic.AcceptData(ref timestamp))
                     {
+                        UpdateContext updateContext = new UpdateContext(timestamp, slice.DeviceNum);
+
                         try
                         {
-                            archiveLogic.Lock();
-                            archiveLogic.BeginUpdate(timestamp, deviceNum);
-                            calc.BeginCalculation(new ArchiveCalcContext(archiveLogic, timestamp));
+                            archiveLogic.BeginUpdate(updateContext);
+                            archiveLogic.CurrentUpdateContext = updateContext;
+                            ICalcContext calcContext = new ArchiveCalcContext(archiveLogic, updateContext);
 
                             // calculate written channels
                             for (int i = 0; i < cnlCnt; i++)
@@ -1394,11 +1388,11 @@ namespace Scada.Server.Engine
                                 if (sliceCnlTags[i] is CnlTag cnlTag)
                                 {
                                     CnlData cnlData = applyFormulas && cnlTag.InFormulaEnabled && cnlTag.Cnl.IsInput()
-                                        ? calc.CalcCnlData(cnlTag, cnlDataCopy[i])
+                                        ? calc.CalcCnlData(calcContext, cnlTag, cnlDataCopy[i])
                                         : cnlDataCopy[i];
                                     UpdateCnlStatus(archiveLogic, timestamp, cnlTag, ref cnlData);
                                     slice.CnlData[i] = cnlData;
-                                    archiveLogic.WriteCnlData(timestamp, cnlTag.CnlNum, cnlData);
+                                    archiveLogic.UpdateData(updateContext, cnlTag.CnlNum, cnlData);
                                 }
                             }
 
@@ -1408,11 +1402,11 @@ namespace Scada.Server.Engine
                                 if (cnlTag.InFormulaEnabled)
                                 {
                                     CnlData arcCnlData = archiveLogic.GetCnlData(timestamp, cnlTag.CnlNum);
-                                    CnlData newCnlData = calc.CalcCnlData(cnlTag, arcCnlData);
+                                    CnlData newCnlData = calc.CalcCnlData(calcContext, cnlTag, arcCnlData);
                                     UpdateCnlStatus(archiveLogic, timestamp, cnlTag, ref newCnlData);
 
                                     if (arcCnlData != newCnlData)
-                                        archiveLogic.WriteCnlData(timestamp, cnlTag.CnlNum, newCnlData);
+                                        archiveLogic.UpdateData(updateContext, cnlTag.CnlNum, newCnlData);
                                 }
                             }
                         }
@@ -1424,9 +1418,7 @@ namespace Scada.Server.Engine
                         }
                         finally
                         {
-                            calc.EndCalculation();
-                            archiveHolder.EndUpdate(archiveLogic, timestamp, deviceNum);
-                            archiveHolder.Unlock(archiveLogic);
+                            archiveHolder.EndUpdate(archiveLogic, updateContext);
                         }
                     }
                 }
@@ -1440,7 +1432,7 @@ namespace Scada.Server.Engine
             finally
             {
                 // in case of archive error, slice data may be inconsistent
-                moduleHolder.OnHistoricalDataProcessed(slice, deviceNum);
+                moduleHolder.OnHistoricalDataProcessed(slice);
             }
         }
 
@@ -1484,6 +1476,19 @@ namespace Scada.Server.Engine
                         if (!ev.AckRequired)
                             ev.AckRequired = cnlStatus.AckRequired;
                     }
+                }
+
+                // fix channel values
+                if (double.IsNaN(ev.PrevCnlVal) || double.IsInfinity(ev.PrevCnlVal))
+                {
+                    ev.PrevCnlVal = 0.0;
+                    ev.PrevCnlStat = 0;
+                }
+
+                if (double.IsNaN(ev.CnlVal) || double.IsInfinity(ev.CnlVal))
+                {
+                    ev.CnlVal = 0.0;
+                    ev.CnlStat = 0;
                 }
 
                 EnqueueEvent(archiveMask, ev);
@@ -1530,19 +1535,19 @@ namespace Scada.Server.Engine
                     UserID = eventAck.UserID,
                     CmdCode = ServerCmdCode.AckEvent,
                     CmdVal = BitConverter.Int64BitsToDouble(eventAck.EventID)
-                });
+                }, true);
             }
         }
 
         /// <summary>
         /// Sends the telecontrol command.
         /// </summary>
-        public void SendCommand(TeleCommand command, WriteFlags writeFlags, out CommandResult commandResult)
+        public CommandResult SendCommand(TeleCommand command, WriteCommandFlags flags)
         {
             if (command == null)
                 throw new ArgumentNullException(nameof(command));
 
-            commandResult = new CommandResult(false);
+            CommandResult result = new CommandResult(false);
 
             try
             {
@@ -1551,20 +1556,28 @@ namespace Scada.Server.Engine
                 Log.WriteAction(Locale.IsRussian ?
                     "Команда на канал {0} от пользователя с ид. {1}" :
                     "Command to channel {0} from user with ID {1}", cnlNum, userID);
+                User user = FindUser(userID);
 
-                if (!ConfigDatabase.UserTable.Items.TryGetValue(userID, out User user))
+                if (user == null)
                 {
-                    commandResult.ErrorMessage = string.Format(Locale.IsRussian ?
+                    result.ErrorMessage = string.Format(Locale.IsRussian ?
                         "Пользователь {0} не найден" :
                         "User {0} not found", userID);
-                    Log.WriteError(commandResult.ErrorMessage);
+                    Log.WriteError(result.ErrorMessage);
+                }
+                else if (!user.Enabled)
+                {
+                    result.ErrorMessage = string.Format(Locale.IsRussian ?
+                        "Пользователь {0} отключен" :
+                        "User {0} is disabled", userID);
+                    Log.WriteError(result.ErrorMessage);
                 }
                 else if (!outCnlTags.TryGetValue(cnlNum, out OutCnlTag outCnlTag))
                 {
-                    commandResult.ErrorMessage = string.Format(Locale.IsRussian ?
+                    result.ErrorMessage = string.Format(Locale.IsRussian ?
                         "Канал {0} не найден среди выходных каналов" :
                         "Channel {0} not found among output channels", cnlNum);
-                    Log.WriteError(commandResult.ErrorMessage);
+                    Log.WriteError(result.ErrorMessage);
                 }
                 else
                 {
@@ -1573,10 +1586,10 @@ namespace Scada.Server.Engine
 
                     if (!rightMatrix.GetRight(user.RoleID, objNum).Control)
                     {
-                        commandResult.ErrorMessage = string.Format(Locale.IsRussian ?
+                        result.ErrorMessage = string.Format(Locale.IsRussian ?
                             "Недостаточно прав пользователя с ролью {0} на управление объектом {1}" :
                             "Insufficient rights of user with role {0} to control object {1}", user.RoleID, objNum);
-                        Log.WriteError(commandResult.ErrorMessage);
+                        Log.WriteError(result.ErrorMessage);
                     }
                     else
                     {
@@ -1588,45 +1601,40 @@ namespace Scada.Server.Engine
                         command.CmdNum = outCnl.TagNum ?? 0;
                         command.CmdCode = outCnl.TagCode;
 
-                        try
+                        lock (curData)
                         {
-                            Monitor.Enter(curData);
-                            calc.BeginCalculation(curData);
                             curData.Timestamp = command.CreationTime;
 
-                            if (!writeFlags.HasFlag(WriteFlags.ApplyFormulas))
+                            if (!flags.HasFlag(WriteCommandFlags.ApplyFormulas))
                             {
-                                commandResult.IsSuccessful = true;
+                                result.IsSuccessful = true;
                             }
-                            else if (calc.CalcCmdData(outCnlTag, command.CmdVal, command.CmdData, 
+                            else if (calc.CalcCmdData(curData, outCnlTag, command.CmdVal, command.CmdData,
                                 out double cmdVal, out byte[] cmdData, out string errMsg))
                             {
-                                commandResult.IsSuccessful = true;
+                                result.IsSuccessful = true;
                                 command.CmdVal = cmdVal;
                                 command.CmdData = cmdData;
                             }
                             else
                             {
-                                commandResult.ErrorMessage = errMsg;
+                                result.ErrorMessage = errMsg;
                             }
                         }
-                        finally
-                        {
-                            calc.EndCalculation();
-                            Monitor.Exit(curData);
-                        }
 
-                        EnqueueCommand(outCnlTag, command, writeFlags, commandResult);
+                        EnqueueCommand(user, outCnlTag, command, flags, result);
                     }
                 }
             }
             catch (Exception ex)
             {
-                commandResult.ErrorMessage = ex.Message;
+                result.ErrorMessage = ex.Message;
                 Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при отправке команды" :
                     "Error sending command");
             }
+
+            return result;
         }
     }
 }

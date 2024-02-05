@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -39,6 +39,7 @@ namespace Scada.Protocol
         public const ushort Login = 0x0002;
         public const ushort GetStatus = 0x0003;
         public const ushort TerminateSession = 0x0004;
+        public const ushort GetUserByID = 0x0005;
 
         public const ushort GetFileList = 0x0101;
         public const ushort GetFileInfo = 0x0102;
@@ -50,8 +51,7 @@ namespace Scada.Protocol
         public const ushort GetTimestamps = 0x0203;
         public const ushort GetSlice = 0x0204;
         public const ushort GetLastWriteTime = 0x0205;
-        public const ushort WriteCurrentData = 0x0206;
-        public const ushort WriteHistoricalData = 0x0207;
+        public const ushort WriteChannelData = 0x0208;
 
         public const ushort GetEventByID = 0x0301;
         public const ushort GetEvents = 0x0302;
@@ -72,6 +72,7 @@ namespace Scada.Protocol
             { Login, nameof(Login) },
             { GetStatus, nameof(GetStatus) },
             { TerminateSession, nameof(TerminateSession) },
+            { GetUserByID, nameof(GetUserByID) },
             { GetFileList, nameof(GetFileList) },
             { GetFileInfo, nameof(GetFileInfo) },
             { DownloadFile, nameof(DownloadFile) },
@@ -81,8 +82,7 @@ namespace Scada.Protocol
             { GetTimestamps, nameof(GetTimestamps) },
             { GetSlice, nameof(GetSlice) },
             { GetLastWriteTime, nameof(GetLastWriteTime) },
-            { WriteCurrentData, nameof(WriteCurrentData) },
-            { WriteHistoricalData, nameof(WriteHistoricalData) },
+            { WriteChannelData, nameof(WriteChannelData) },
             { GetEventByID, nameof(GetEventByID) },
             { GetEvents, nameof(GetEvents) },
             { WriteEvent, nameof(WriteEvent) },

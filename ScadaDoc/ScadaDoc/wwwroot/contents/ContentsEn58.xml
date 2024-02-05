@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TableOfContents>
+  <!-- Software Overview -->
+  <Item>
+    <Text>Software Overview</Text>
+    <Subitems>
+      <Item>
+        <Text>Software Purpose and Characteristics</Text>
+        <Url>/en/5.8/software-overview/software-purpose</Url>
+      </Item>
+      <Item>
+        <Text>Software Architecture</Text>
+        <Url>/en/5.8/software-overview/software-architecture</Url>
+      </Item>
+      <Item>
+        <Text>Description of Applications</Text>
+        <Url>/en/5.8/software-overview/applications</Url>
+      </Item>
+    </Subitems>
+  </Item>
+  
+  <!-- Installation and Run -->
+  <Item>
+    <Text>Installation and Run</Text>
+    <Subitems>
+      <Item>
+        <Text>System Requirements</Text>
+        <Url>/en/5.8/installation-and-run/system-requirements</Url>
+      </Item>
+      <Item>
+        <Text>Software Installation</Text>
+        <Url>/en/5.8/installation-and-run/software-installation</Url>
+      </Item>
+      <Item>
+        <Text>Manual Installation</Text>
+        <Url>/en/5.8/installation-and-run/manual-installation</Url>
+      </Item>
+      <Item>
+        <Text>Installation of Additional Modules</Text>
+        <Url>/en/5.8/installation-and-run/module-installation</Url>
+      </Item>
+      <Item>
+        <Text>Run Applications</Text>
+        <Url>/en/5.8/installation-and-run/run-applications</Url>
+      </Item>
+      <Item>
+        <Text>Migrate Configuration to New Server</Text>
+        <Url>/en/5.8/installation-and-run/migrate-configuration</Url>
+      </Item>
+      <Item>
+        <Text>Software Update</Text>
+        <Url>/en/5.8/installation-and-run/software-update</Url>
+      </Item>
+      <Item>
+        <Text>Safety Recommendations</Text>
+        <Url>/en/5.8/installation-and-run/safety-recommendations</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
+  <!-- Software Configuration -->
+  <Item>
+    <Text>Software Configuration</Text>
+    <Subitems>
+      <Item>
+        <Text>Configuration Basics</Text>
+        <Url>/en/5.8/software-configuration/configuration-basics</Url>
+      </Item>
+      <Item>
+        <Text>Tune Up Configuration Database</Text>
+        <Url>/en/5.8/software-configuration/tune-database</Url>
+      </Item>
+      <Item>
+        <Text>Using Formulas</Text>
+        <Url>/en/5.8/software-configuration/using-formulas</Url>
+      </Item>
+      <Item>
+        <Text>User Authentication Configuration</Text>
+        <Url>/en/5.8/software-configuration/user-authentication</Url>
+      </Item>
+      <Item>
+        <Text>Communication with Devices Configuration</Text>
+        <Url>/en/5.8/software-configuration/communication-with-devices</Url>
+      </Item>
+      <Item>
+        <Text>Creating Views</Text>
+        <Url>/en/5.8/software-configuration/creating-views</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
+  <!-- Modules -->
+  <Item>
+    <Text>Modules</Text>
+    <Subitems>
+      <Item>
+        <Text>Database Import Driver</Text>
+        <Url>/en/5.8/modules/kp-db-import</Url>
+      </Item>
+      <Item>
+        <Text>Modbus Slave Driver</Text>
+        <Url>/en/5.8/modules/kp-modbus-slave</Url>
+      </Item>
+      <Item>
+        <Text>Telegram Driver</Text>
+        <Url>/en/5.8/modules/kp-telegram</Url>
+      </Item>
+      <Item>
+        <Text>Automatic Control Module</Text>
+        <Url>/en/5.8/modules/mod-auto-control</Url>
+      </Item>
+      <Item>
+        <Text>Export to Database Module</Text>
+        <Url>/en/5.8/modules/mod-db-export</Url>
+      </Item>
+      <Item>
+        <Text>Rapid Gate Module</Text>
+        <Url>/en/5.8/modules/mod-rapid-gate</Url>
+      </Item>
+      <Item>
+        <Text>Chart Pro Plugin</Text>
+        <Url>/en/5.8/modules/plg-chart-pro</Url>
+      </Item>
+      <Item>
+        <Text>Dashboard Plugin</Text>
+        <Url>/en/5.8/modules/plg-dashboard</Url>
+      </Item>
+      <Item>
+        <Text>Elastic Report Plugin</Text>
+        <Url>/en/5.8/modules/plg-elastic-report</Url>
+      </Item>
+      <Item>
+        <Text>Map Plugin</Text>
+        <Url>/en/5.8/modules/plg-map</Url>
+      </Item>
+      <Item>
+        <Text>Notification Plugin</Text>
+        <Url>/en/5.8/modules/plg-notification</Url>
+      </Item>
+    </Subitems>
+  </Item>
+  
+  <!-- Additional Applications -->
+  <Item>
+    <Text>Additional Applications</Text>
+    <Subitems>
+      <Item>
+        <Text>Auto Report Application</Text>
+        <Url>/en/5.8/additional-applications/app-auto-report</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
+  <!-- Use Cases -->
+  <Item>
+    <Text>Use Cases</Text>
+    <Subitems>
+      <Item>
+        <Text>Connecting Devices Using Modbus Protocol</Text>
+        <Url>/en/5.8/use-cases/modbus-protocol</Url>
+      </Item>
+      <Item>
+        <Text>Connecting Devices Using OPC Standard</Text>
+        <Url>/en/5.8/use-cases/opc-standard</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
+  <!-- Version History -->
+  <Item>
+    <Text>Version History</Text>
+    <Subitems>
+      <Item>
+        <Text>History of Rapid SCADA</Text>
+        <Url>/en/5.8/version-history/scada-history</Url>
+      </Item>
+      <Item>
+        <Text>Server History</Text>
+        <Url>/en/5.8/version-history/server-history</Url>
+      </Item>
+      <Item>
+        <Text>History of Server Modules</Text>
+        <Url>/en/5.8/version-history/server-modules-history</Url>
+      </Item>
+      <Item>
+        <Text>Communicator History</Text>
+        <Url>/en/5.8/version-history/communicator-history</Url>
+      </Item>
+      <Item>
+        <Text>History of Communicator Drivers</Text>
+        <Url>/en/5.8/version-history/communicator-drivers-history</Url>
+      </Item>
+      <Item>
+        <Text>Webstation History</Text>
+        <Url>/en/5.8/version-history/webstation-history</Url>
+      </Item>
+      <Item>
+        <Text>History of Webstation Plugins</Text>
+        <Url>/en/5.8/version-history/webstation-plugins-history</Url>
+      </Item>
+      <Item>
+        <Text>Agent History</Text>
+        <Url>/en/5.8/version-history/agent-history</Url>
+      </Item>
+      <Item>
+        <Text>Administrator History</Text>
+        <Url>/en/5.8/version-history/administrator-history</Url>
+      </Item>
+      <Item>
+        <Text>Table Editor History</Text>
+        <Url>/en/5.8/version-history/table-editor-history</Url>
+      </Item>
+      <Item>
+        <Text>Scheme Editor History</Text>
+        <Url>/en/5.8/version-history/scheme-editor-history</Url>
+      </Item>
+    </Subitems>
+  </Item>
+</TableOfContents>

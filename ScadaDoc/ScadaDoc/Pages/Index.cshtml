@@ -1,0 +1,20 @@
+﻿@page
+@{
+    Layout = "_BasicLayout";
+    ViewBag.Title = "Documentation";
+}
+
+<div class="row mt-5">
+    @foreach (var menu in VersionMenu.All)
+    {
+        <div class="col-md mb-4">
+            <h2>@menu.Title</h2>
+            <div class="list-group">
+                @foreach (var item in menu)
+                {
+                    <a class="list-group-item list-group-item-action text-primary" href="@Url.Content(item.Url.PrependTilde())">@item.Text</a>
+                }
+            </div>    
+        </div>
+    }
+</div>

@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ namespace Scada.Server.Archives
 {
     /// <summary>
     /// Specifies the time units.
-    /// <para>Задает единицы измерения времени.</para>
+    /// <para>Задаёт единицы измерения времени.</para>
     /// </summary>
     public enum TimeUnit
     {

@@ -1,0 +1,5 @@
+Language                 : Chinese-Simplified
+Culture name:            : zh-Hans
+Rapid SCADA version      : 6.1.2
+Rapid SCADA applications : All
+Author                   : geffzhang

@@ -1,0 +1,54 @@
+﻿@page "/en/5.8/installation-and-run/software-installation"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Software Installation";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#before-installation">Before Installation</a></li>
+        <li><a href="#installation">Installation</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Software Installation</h1>
+    <h2 id="before-installation">Before Installation</h2>
+    <p>Rapid SCADA requires certain Windows components to be installed. Go to <em>Control Panel &gt; Programs &gt; Turn Windows features on or off</em>. The required compontns of Microsoft .NET Framework are shown in Figures 1 and 3. Pay attention that Windows Communication Foundation child components of Microsoft .NET Framework <strong>3.5</strong> must be turned off.</p>
+    <p>The Webstation application requires Internet Information Services (IIS) that is a one of Windows features. Webstation would be inoperable unless the set of certain IIS features were turned on. Figures 2 and 4 show what features have to be installed. During the web application setup the availability of these features is checked by the installer.</p>
+    <figure class="figure">
+        <img src="software-installation-files/win7_features_dotnet_en.png" class="figure-img img-fluid" alt="Windows 7 .NET components">
+        <figcaption class="figure-caption">Figure 1. Windows 7 .NET components</figcaption>
+    </figure>
+    <figure class="figure">
+        <img src="software-installation-files/win7_features_iis_en.png" class="figure-img img-fluid" alt="Windows 7 IIS components">
+        <figcaption class="figure-caption">Figure 2. Windows 7 IIS components</figcaption>
+    </figure>
+    <figure class="figure">
+        <img src="software-installation-files/win10_features_dotnet_en.png" class="figure-img img-fluid" alt="Windows 10 .NET components">
+        <figcaption class="figure-caption">Figure 3. Windows 10 .NET components</figcaption>
+    </figure>
+    <figure class="figure">
+        <img src="software-installation-files/win10_features_iis_en.png" class="figure-img img-fluid" alt="Windows 10 IIS components">
+        <figcaption class="figure-caption">Figure 4. Windows 10 IIS components</figcaption>
+    </figure>
+
+    <h2 id="installation">Installation</h2>
+    <p>Run <em>ScadaSetup.exe</em> from the installation package to start Rapid SCADA installation. The installer is shown in Figure 5. Installation must be performed using an administrator account. Rapid SCADA requires the up to date version of Microsoft .NET Framework installed. The installer checks if the framework is presented, and suggests to download and install it if necessary.</p>
+    <figure class="figure">
+        <img src="software-installation-files/scada_setup_en.png" class="figure-img img-fluid" alt="Rapid SCADA installer">
+        <figcaption class="figure-caption">Figure 5. Rapid SCADA installer</figcaption>
+    </figure>
+    <p>Before the installation starts, user is asked for choosing the applications and the installation directory (see Figures 5 and 6). This directory specifies the location of the entire software. The installer creates subdirectories required for the chosen applications. The default directory <em>C:\SCADA</em> is recommended due to simplifying configuring the applications.</p>
+    <figure class="figure">
+        <img src="software-installation-files/install_dir_en.png" class="figure-img img-fluid" alt="Choosing the installation directory">
+        <figcaption class="figure-caption">Figure 6. Choosing the installation directory</figcaption>
+    </figure>
+    <figure class="figure">
+        <img src="software-installation-files/web_params_en.png" class="figure-img img-fluid" alt="Web application installation options">
+        <figcaption class="figure-caption">Figure 7. Web application installation options</figcaption>
+    </figure>
+    <p>When installation is completed, it is recommended to check that the <em>Scada</em> web application uses an application pool having .NET 4.0 runtime version and integrated pipeline mode. IIS management console path is <em>Control Panel &gt; System and Security &gt; Administrative Tools &gt; Internet Information Services (IIS) Manager</em>.</p>
+</div>

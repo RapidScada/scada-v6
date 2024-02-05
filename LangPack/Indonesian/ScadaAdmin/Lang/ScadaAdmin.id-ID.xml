@@ -467,8 +467,7 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tools.FrmCulture">
     <Phrase key="this">Bahasa</Phrase>
-    <Phrase key="lblInfo">Ijin administrator diperlukan.
-Perubahan akan berlaku setelah memulai ulang aplikasi.</Phrase>
+    <Phrase key="lblInfo">Ijin administrator diperlukan.&#13;&#10;Perubahan akan berlaku setelah memulai ulang aplikasi.</Phrase>
     <Phrase key="btnOK">Oke</Phrase>
     <Phrase key="btnCancel">Batal</Phrase>
     <Phrase key="LoadCulturesError">Terjadi kesalahan saat memuat kultur</Phrase>
@@ -584,8 +583,7 @@ Perubahan akan berlaku setelah memulai ulang aplikasi.</Phrase>
     <Phrase key="miAppReloadConfig">Muat Ulang Konfigurasi</Phrase>
     <Phrase key="EmptyTitle">Administrator</Phrase>
     <Phrase key="ProjectTitle">{0} - Administrator</Phrase>
-    <Phrase key="WelcomeMessage">Buat proyek baru atau buka
-proyek yang sudah ada.</Phrase>
+    <Phrase key="WelcomeMessage">Buat proyek baru atau buka&#13;&#10;proyek yang sudah ada.</Phrase>
     <Phrase key="SelectItemMessage">Pilih isi di penjelajah proyek.</Phrase>
     <Phrase key="ProjectFileFilter">Proyek (*.rsproj)|*.rsproj|Semua Berkas (*.*)|*.*</Phrase>
     <Phrase key="ConfirmDeleteDirectory">Anda yakin ingin menghapus direktori?</Phrase>

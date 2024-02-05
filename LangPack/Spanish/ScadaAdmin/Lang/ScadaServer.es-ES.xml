@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaServerDictionaries>
+  <!-- ScadaServerCommon.dll -->
+  <Dictionary key="Scada.Server.Archives">
+    <Phrase key="UnspecifiedArchiveKind">sin especificar</Phrase>
+    <Phrase key="CurrentArchiveKind">Actual</Phrase>
+    <Phrase key="HistoricalArchiveKind">Histórico</Phrase>
+    <Phrase key="EventsArchiveKind">Eventos</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules">
+    <Phrase key="LoadModuleConfigError">Error al cargar la configuración del módulo</Phrase>
+    <Phrase key="SaveModuleConfigError">Error al guardar la configuración del módulo</Phrase>
+    <Phrase key="SaveModuleConfigConfirm">Se ha modificado la configuración del módulo.  ¿Guardar los cambios?</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Engine.CoreLogic">
+    <Phrase key="CommandSentBy">Enviado por {0}</Phrase>
+    <Phrase key="EmptyCredentials">El nombre de usuario o la contraseña no pueden estar vacíos</Phrase>
+    <Phrase key="InvalidCredentials">usuario o contraseña invalido</Phrase>
+    <Phrase key="AccountDisabled">Cuenta deshabilitada</Phrase>
+  </Dictionary>
+  <!-- ScadaServerCommon.Forms.dll -->
+  <Dictionary key="Scada.Server.Forms.Controls.CtrlCurrentArchiveOptions">
+    <Phrase key="gbOptions">Opciones generales</Phrase>
+    <Phrase key="lblReadOnly">Solo lectura</Phrase>
+    <Phrase key="lblLogEnabled">Registro habilitado</Phrase>
+    <Phrase key="lblFlushPeriod">Período de descarga</Phrase>
+    <Phrase key="txtFlushPeriodUnit">Segundo</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Forms.Controls.CtrlEventArchiveOptions">
+    <Phrase key="gbOptions">Opciones generales</Phrase>
+    <Phrase key="lblReadOnly">Solo lectura</Phrase>
+    <Phrase key="lblLogEnabled">Registro habilitado</Phrase>
+    <Phrase key="lblRetention">Periodo de retención</Phrase>
+    <Phrase key="txtRetentionUnit">Día</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Forms.Controls.CtrlHistoricalArchiveOptions">
+    <Phrase key="gbOptions">Opciones generales</Phrase>
+    <Phrase key="lblReadOnly">Solo lectura</Phrase>
+    <Phrase key="lblLogEnabled">Registro habilitado</Phrase>
+    <Phrase key="lblRetention">Periodo de retención</Phrase>
+    <Phrase key="txtRetentionUnit">Día</Phrase>
+    <Phrase key="lblIsPeriodic">Solo datos periódicos</Phrase>
+    <Phrase key="lblWriteWithPeriod">escribir con punto</Phrase>
+    <Phrase key="lblWritingPeriod">Período de escritura</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[0]">Segundo</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[1]">mínimo</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[2]">Hora</Phrase>
+    <Phrase key="lblPullToPeriod">Tirar al período</Phrase>
+    <Phrase key="txtPullToPeriodUnit">Segundo</Phrase>
+    <Phrase key="lblWriteOnChange">escribir sobre el cambio</Phrase>
+    <Phrase key="lblDeadband">banda muerta</Phrase>
+    <Phrase key="cbDeadbandUnit.Items[0]">Abdominales.</Phrase>
+    <Phrase key="cbDeadbandUnit.Items[1]">%</Phrase>
+  </Dictionary>
+</ScadaServerDictionaries>

@@ -1,12 +1,12 @@
-﻿class CommandFeature extends BaseCommandFeature {
+﻿class CommandFeature extends CommandFeatureBase {
     constructor(appEnv) {
         super(appEnv);
     }
 
-    show(cnlNum, opt_callback) {
+    show(cnlNum, args, opt_callback) {
         ModalManager.getInstance().showModal(
             appEnv.rootPath + "Main/Command?cnlNum=" + cnlNum,
-            new ModalOptions([ModalButton.EXEC, ModalButton.CLOSE], ModalSize.LARGE),
+            new ModalOptions({ buttons: [ModalButton.EXEC, ModalButton.CLOSE], size: ModalSize.LARGE }),
             opt_callback);
     }
 }

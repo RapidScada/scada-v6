@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -124,7 +124,7 @@ namespace Scada.Admin.App.Forms
         private void ChildFormTag_MessageToChildForm(object sender, FormMessageEventArgs e)
         {
             // update file name in case of renaming a file or its parent directory
-            if (e.Message == AdminMessage.UpdateFileName && 
+            if (e.Message == AdminMessage.UpdateFileName &&
                 e.GetArgument("FileName") is string newFileName && newFileName != "")
             {
                 fileName = newFileName;

@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaDictionaries>
+  <!-- ScadaCommon.dll -->
+  <Dictionary key="Scada.Application">
+    <Phrase key="ProductName">Rapid SCADA</Phrase>
+    <Phrase key="ServerAppName">sunucu</Phrase>
+    <Phrase key="CommAppName">iletişimci</Phrase>
+    <Phrase key="WebAppName">Web istasyonu</Phrase>
+    <Phrase key="WebsiteUrl">https://rapidscada.org</Phrase>
+    <Phrase key="UnhandledException">İşlenmeyen özel durum</Phrase>
+    <Phrase key="ExecutionImpossible">Normal uygulama imkansız</Phrase>
+    <Phrase key="StartLogic">Mantık işlemeyi başlat</Phrase>
+    <Phrase key="LogicAlreadyStarted">Mantıksal işleme zaten başlatıldı</Phrase>
+    <Phrase key="StartLogicError">Mantık işleme başlatılırken hata oluştu</Phrase>
+    <Phrase key="LogicStopped">Mantık işleme durdurulur</Phrase>
+    <Phrase key="UnableToStopLogic">Belirli bir süre için mantık işleme durdurulamıyor</Phrase>
+    <Phrase key="StopLogicError">Mantık işlemeyi durdurma hatası</Phrase>
+    <Phrase key="LogicLoopError">Mantık döngüsünde hata</Phrase>
+    <Phrase key="ThreadFatalError">İş parçacığında önemli hata</Phrase>
+    <Phrase key="WriteInfoError">Uygulama bilgileri dosyaya yazılırken hata oluştu</Phrase>
+    <Phrase key="ConnectionNotFound">"{0}" bağlantısı bulunamadı.</Phrase>
+    <Phrase key="ConnOptionsNotFound">Bağlantı seçenekleri bulunamadı.</Phrase>
+    <Phrase key="DatabaseNotSupported">Veritabanı desteklenmiyor.</Phrase>
+    <Phrase key="OperationNotSupported">İşlem desteklenmiyor.</Phrase>
+    <Phrase key="CommandSent">Komut gönderildi.</Phrase>
+    <Phrase key="SendCommandError">Komut gönderilirken hata oluştu</Phrase>
+    <Phrase key="AgentDisabled">Temsilci devre dışı bırakıldı.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.ConfigDatabase">
+    <Phrase key="UndefinedTable">Tanımsız</Phrase>
+    <Phrase key="ArchiveTable">Arşivler</Phrase>
+    <Phrase key="ArchiveKindTable">Arşiv türleri</Phrase>
+    <Phrase key="CnlTable">Kanallar</Phrase>
+    <Phrase key="CnlStatusTable">Kanal durumları</Phrase>
+    <Phrase key="CnlTypeTable">Kanal türleri</Phrase>
+    <Phrase key="CommLineTable">İletişim hatları</Phrase>
+    <Phrase key="DataTypeTable">Veri tipleri</Phrase>
+    <Phrase key="DeviceTable">Cihazlar</Phrase>
+    <Phrase key="DevTypeTable">Cihaz türleri</Phrase>
+    <Phrase key="FormatTable">formatlar</Phrase>
+    <Phrase key="LimTable">Limitler</Phrase>
+    <Phrase key="ObjTable">nesneler</Phrase>
+    <Phrase key="ObjRightTable">nesne hakları</Phrase>
+    <Phrase key="QuantityTable">Miktarları</Phrase>
+    <Phrase key="RoleTable">Roller</Phrase>
+    <Phrase key="RoleRefTable">Rol devralma</Phrase>
+    <Phrase key="ScriptTable">Kodlar</Phrase>
+    <Phrase key="UnitTable">Birimler</Phrase>
+    <Phrase key="UserTable">Kullanıcılar</Phrase>
+    <Phrase key="ViewTable">Görüntüleme</Phrase>
+    <Phrase key="ViewTypeTable">Türleri görüntüle</Phrase>
+    <Phrase key="IndexNotFound">Dizin bulunamadı.</Phrase>
+    <Phrase key="EntityCaption">[{0}] {1}</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Files">
+    <Phrase key="FileNotFound">Dosya bulunamadı.</Phrase>
+    <Phrase key="NamedFileNotFound">{0} dosyası bulunamadı.</Phrase>
+    <Phrase key="DirectoryNotExists">Dizin mevcut değil.</Phrase>
+    <Phrase key="PathNotSupported">Yol desteklenmiyor.</Phrase>
+    <Phrase key="InvalidFileFormat">Geçersiz dosya formatı.</Phrase>
+    <Phrase key="LoadConfigError">Yapılandırma yüklenirken hata oluştu</Phrase>
+    <Phrase key="SaveConfigError">Yapılandırma kaydedilirken hata oluştu</Phrase>
+    <Phrase key="SaveConfigConfirm">Yapılandırma değiştirildi.  Değişiklikler kaydedilsin mi?</Phrase>
+    <Phrase key="LoadViewError">Görünüm yüklenirken hata oluştu</Phrase>
+    <Phrase key="SaveViewError">Görünüm kaydedilirken hata oluştu</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Format">
+    <Phrase key="IntegerRequired">Bir tamsayı gerekli.</Phrase>
+    <Phrase key="IntegerInRangeRequired">{0} ile {1} arasında bir tamsayı gerekli.</Phrase>
+    <Phrase key="RealRequired">Gerçek bir sayı gereklidir.</Phrase>
+    <Phrase key="NonemptyRequired">Boş olmayan bir değer gerekli.</Phrase>
+    <Phrase key="ValidUrlRequired">Geçerli bir URL gerekli.</Phrase>
+    <Phrase key="ValidRangeRequired">Geçerli bir tamsayı aralığı gerekli.</Phrase>
+    <Phrase key="DateTimeRequired">Tarih ve saat gereklidir.</Phrase>
+    <Phrase key="NotNumber">Dize bir sayı değildir.</Phrase>
+    <Phrase key="NotHexadecimal">Dize onaltılık değil.</Phrase>
+    <Phrase key="InvalidParamVal">"{0}" parametresinin geçersiz değeri.</Phrase>
+    <Phrase key="InvalidSecretKey">Geçersiz gizli anahtar.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms">
+    <Phrase key="InfoCaption">Bilgi</Phrase>
+    <Phrase key="QuestionCaption">Soru</Phrase>
+    <Phrase key="ErrorCaption">Hata</Phrase>
+    <Phrase key="WarningCaption">Uyarı</Phrase>
+    <Phrase key="NoData">Veri yok</Phrase>
+    <Phrase key="EmptyData">Boş</Phrase>
+    <Phrase key="CorrectErrors">Lütfen aşağıdaki hataları düzeltin:</Phrase>
+    <Phrase key="HiddenPassword">*****</Phrase>
+    <Phrase key="NewConnection">Yeni bağlantı</Phrase>
+    <Phrase key="UnnamedConnection">&lt;Adsız Bağlantı&gt;</Phrase>
+    <Phrase key="XmlFileFilter">XML Dosyaları (*.xml)|*.xml|Tüm Dosyalar (*.*)|*.*</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.ComponentModel">
+    <Phrase key="TrueValue">Evet</Phrase>
+    <Phrase key="FalseValue">HAYIR</Phrase>
+    <Phrase key="EmptyValue">(Hiçbiri)</Phrase>
+    <Phrase key="CollectionValue">(Toplamak)</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.CnlDataFormatter">
+    <Phrase key="UndefinedSign">---</Phrase>
+    <Phrase key="CommandDescrPrefix">Emretmek:</Phrase>
+    <Phrase key="StatusFormat">Durum {0}</Phrase>
+    <Phrase key="CriticalSeverity">kritik</Phrase>
+    <Phrase key="MajorSeverity">Ana</Phrase>
+    <Phrase key="MinorSeverity">Küçük</Phrase>
+    <Phrase key="InfoSeverity">Bilgi</Phrase>
+    <Phrase key="UnknownUser">kullanıcı {0}</Phrase>
+  </Dictionary>
+  <!-- ScadaCommon.Forms.dll -->
+  <Dictionary key="Scada.Forms.Controls.CtrlBitmask">
+    <Phrase key="lblMaskValue">ondalık değer</Phrase>
+    <Phrase key="btnResetMask">Sıfırla</Phrase>
+    <Phrase key="lblMaskBits">bit</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlClientConnection">
+    <Phrase key="gbConnectionOptions">Bağlantı Seçenekleri</Phrase>
+    <Phrase key="lblName">İsim</Phrase>
+    <Phrase key="lblHost">Ev sahibi</Phrase>
+    <Phrase key="lblPort">Liman</Phrase>
+    <Phrase key="lblTimeout">Zaman aşımı</Phrase>
+    <Phrase key="lblUsername">Kullanıcı adı</Phrase>
+    <Phrase key="lblPassword">Şifre</Phrase>
+    <Phrase key="lblInstance">Misal</Phrase>
+    <Phrase key="lblSecretKey">Gizli anahtar</Phrase>
+    <Phrase key="btnPaste">Yapıştırmak</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlDbConnection">
+    <Phrase key="gbConnectionOptions">Bağlantı Seçenekleri</Phrase>
+    <Phrase key="lblName">İsim</Phrase>
+    <Phrase key="lblDbms">VTYS</Phrase>
+    <Phrase key="cbDbms.Items[0]">Tanımsız</Phrase>
+    <Phrase key="lblServer">sunucu</Phrase>
+    <Phrase key="lblDatabase">Veri tabanı</Phrase>
+    <Phrase key="lblUsername">Kullanıcı adı</Phrase>
+    <Phrase key="lblPassword">Şifre</Phrase>
+    <Phrase key="chkConnectionString">Bağlantı dizisi</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmBitmask">
+    <Phrase key="this">Bit Maskesi</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmBitSelect">
+    <Phrase key="this">Bit Seç</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmCnlSelect">
+    <Phrase key="this">Kanal Seç</Phrase>
+    <Phrase key="lblFilter">filtre</Phrase>
+    <Phrase key="btnApplyFilter">Uygula</Phrase>
+    <Phrase key="lblObj">Nesne</Phrase>
+    <Phrase key="lblDevice">Cihaz</Phrase>
+    <Phrase key="chkOnlySelected">Yalnızca seçili satırları göster</Phrase>
+    <Phrase key="colSelected">Seçildi</Phrase>
+    <Phrase key="colCnlNum">Sayı</Phrase>
+    <Phrase key="colName">İsim</Phrase>
+    <Phrase key="btnSelect">Seçme</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmEntitySelect">
+    <Phrase key="this">{0} arasından seçim yapın</Phrase>
+    <Phrase key="lblFilter">filtre</Phrase>
+    <Phrase key="btnApplyFilter">Uygula</Phrase>
+    <Phrase key="chkOnlySelected">Yalnızca seçili satırları göster</Phrase>
+    <Phrase key="colSelected">Seçildi</Phrase>
+    <Phrase key="colID">İD</Phrase>
+    <Phrase key="colName">İsim</Phrase>
+    <Phrase key="colCode">kod</Phrase>
+    <Phrase key="colDescr">Tanım</Phrase>
+    <Phrase key="btnSelect">Seçme</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmModuleConfig">
+    <Phrase key="this">Modül Konfigürasyonu</Phrase>
+    <Phrase key="btnAdd.ToolTip">Eklemek</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Yukarı Taşı</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Aşağı inmek</Phrase>
+    <Phrase key="btnDelete.ToolTip">Silmek</Phrase>
+    <Phrase key="btnSave">Kaydetmek</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+    <Phrase key="btnClose">Kapalı</Phrase>
+    <Phrase key="miCollapseAll">Hepsini Daralt</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmOptions">
+    <Phrase key="this">Seçenekler</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmRangeEdit">
+    <Phrase key="this">Aralığı Düzenle</Phrase>
+    <Phrase key="lblRange">tam sayı aralığı</Phrase>
+    <Phrase key="lblExample">Örneğin: 1 - 5, 10</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.BitItemCollection">
+    <Phrase key="EventEnabled">Etkinlik etkinleştirildi</Phrase>
+    <Phrase key="EventBeep">Olay bip sesi</Phrase>
+    <Phrase key="DataChangeEvent">Kanal verileri değişti</Phrase>
+    <Phrase key="ValueChangeEvent">Kanal değeri değişti</Phrase>
+    <Phrase key="StatusChangeEvent">Kanal durumu değişti</Phrase>
+    <Phrase key="CnlUndefinedEvent">Kanal tanımsız</Phrase>
+    <Phrase key="CommandEvent">komut gönderildi</Phrase>
+  </Dictionary>
+</ScadaDictionaries>

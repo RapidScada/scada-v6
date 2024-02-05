@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2023
  */
 
 using Scada.Data.Const;
@@ -104,6 +104,14 @@ namespace Scada.Data.Entities
         public static int GetDataLength(this Cnl cnl)
         {
             return cnl.DataLen.HasValue ? Math.Max(cnl.DataLen.Value, 1) : 1;
+        }
+
+        /// <summary>
+        /// Gets the number of channels that should be joined to display a string.
+        /// </summary>
+        public static int GetJoinLength(this Cnl cnl)
+        {
+            return cnl.IsString() ? cnl.GetDataLength() : 1;
         }
     }
 }

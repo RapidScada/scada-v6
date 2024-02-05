@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Data.Entities;
@@ -28,6 +28,7 @@ using Scada.Data.Tables;
 using Scada.Lang;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Scada.Data.Models
 {
@@ -69,20 +70,20 @@ namespace Scada.Data.Models
         /// <summary>
         /// Enumerates parent role IDs recursively.
         /// </summary>
-        protected IEnumerable<int> EnumerateParentRoleIDs(ITableIndex roleRef_childRoleIndex, int childRoleID,
+        protected static IEnumerable<int> EnumerateParentRoleIDs(ITableIndex roleRef_childRoleIndex, int childRoleID,
             HashSet<int> protectionSet = null)
         {
             if (protectionSet == null)
                 protectionSet = new HashSet<int> { childRoleID };
 
-            foreach (int parentRoleID in roleRef_childRoleIndex.SelectItems(childRoleID))
+            foreach (RoleRef roleRef in roleRef_childRoleIndex.SelectItems(childRoleID))
             {
-                if (protectionSet.Add(parentRoleID))
+                if (protectionSet.Add(roleRef.ParentRoleID))
                 {
-                    yield return parentRoleID;
+                    yield return roleRef.ParentRoleID;
 
                     foreach (int grandparentRoleID in
-                        EnumerateParentRoleIDs(roleRef_childRoleIndex, parentRoleID, protectionSet))
+                        EnumerateParentRoleIDs(roleRef_childRoleIndex, roleRef.ParentRoleID, protectionSet))
                     {
                         yield return grandparentRoleID;
                     }
@@ -93,7 +94,7 @@ namespace Scada.Data.Models
         /// <summary>
         /// Enumerates child objects recursively.
         /// </summary>
-        protected IEnumerable<Obj> EnumerateChildObjects(ITableIndex obj_parentObjIndex, int parentObjNum,
+        protected static IEnumerable<Obj> EnumerateChildObjects(ITableIndex obj_parentObjIndex, int parentObjNum,
             HashSet<int> protectionSet = null)
         {
             if (protectionSet == null)
@@ -105,7 +106,8 @@ namespace Scada.Data.Models
                 {
                     yield return childObj;
 
-                    foreach (Obj grandchildObj in EnumerateChildObjects(obj_parentObjIndex, childObj.ObjNum))
+                    foreach (Obj grandchildObj in 
+                        EnumerateChildObjects(obj_parentObjIndex, childObj.ObjNum, protectionSet))
                     {
                         yield return grandchildObj;
                     }
@@ -114,19 +116,40 @@ namespace Scada.Data.Models
         }
 
         /// <summary>
+        /// Enumerates parent objects.
+        /// </summary>
+        protected static IEnumerable<Obj> EnumerateParentObjects(BaseTable<Obj> objTable, int childObjNum)
+        {
+            if (objTable.GetItem(childObjNum) is Obj childObj)
+            {
+                HashSet<int> protectionSet = new HashSet<int> { childObjNum };
+
+                while (childObj.ParentObjNum != null && 
+                    protectionSet.Add(childObj.ParentObjNum.Value) &&
+                    objTable.GetItem(childObj.ParentObjNum.Value) is Obj parentObj)
+                {
+                    yield return parentObj;
+                    childObj = parentObj;
+                }
+            }
+        }
+
+        /// <summary>
         /// Add rights for the specified role.
         /// </summary>
-        protected void AddRoleRight(ITableIndex objRight_roleIndex, ITableIndex obj_parentObjIndex,
-            RightByObj rightByObj, int roleID)
+        protected static void AddRoleRight(BaseTable<Obj> objTable, ITableIndex objRight_roleIndex,
+            ITableIndex obj_parentObjIndex, RightByObj rightByObj, int roleID)
         {
+            ObjRight[] objRightArr = objRight_roleIndex.SelectItems(roleID).Cast<ObjRight>().ToArray();
+
             // explicitly defined rights have higher priority
-            foreach (ObjRight objRight in objRight_roleIndex.SelectItems(roleID))
+            foreach (ObjRight objRight in objRightArr)
             {
                 AddObjRight(rightByObj, objRight.ObjNum, new Right(objRight));
             }
 
             // add rights on child objects
-            foreach (ObjRight objRight in objRight_roleIndex.SelectItems(roleID))
+            foreach (ObjRight objRight in objRightArr)
             {
                 Right right = new Right(objRight);
 
@@ -135,12 +158,23 @@ namespace Scada.Data.Models
                     AddObjRight(rightByObj, childObj.ObjNum, right);
                 }
             }
+
+            // add list rights on parent objects
+            foreach (ObjRight objRight in objRightArr)
+            {
+                Right right = new Right { List = true };
+
+                foreach (Obj parentObj in EnumerateParentObjects(objTable, objRight.ObjNum))
+                {
+                    AddObjRight(rightByObj, parentObj.ObjNum, right);
+                }
+            }
         }
 
         /// <summary>
-        /// Add rights for the specified object.
+        /// Adds rights for the specified object if they are not set.
         /// </summary>
-        protected void AddObjRight(RightByObj rightByObj, int objNum, Right right)
+        protected static void AddObjRight(RightByObj rightByObj, int objNum, Right right)
         {
             if (!rightByObj.ContainsKey(objNum))
                 rightByObj.Add(objNum, right);
@@ -174,11 +208,12 @@ namespace Scada.Data.Models
                 int roleID = role.RoleID;
                 RightByObj rightByObj = new RightByObj();
                 Matrix.Add(roleID, rightByObj);
-                AddRoleRight(objRight_roleIndex, obj_parentObjIndex, rightByObj, roleID);
+                AddRoleRight(configDataset.ObjTable, objRight_roleIndex, obj_parentObjIndex, rightByObj, roleID);
 
                 foreach (int parentRoleID in EnumerateParentRoleIDs(roleRef_childRoleIndex, roleID))
                 {
-                    AddRoleRight(objRight_roleIndex, obj_parentObjIndex, rightByObj, parentRoleID);
+                    AddRoleRight(configDataset.ObjTable, objRight_roleIndex,
+                        obj_parentObjIndex, rightByObj, parentRoleID);
                 }
             }
         }

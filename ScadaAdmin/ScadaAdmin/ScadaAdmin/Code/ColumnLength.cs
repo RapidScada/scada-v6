@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2019
- * Modified : 2019
+ * Modified : 2023
  */
 
 namespace Scada.Admin.App.Code
@@ -37,7 +37,6 @@ namespace Scada.Admin.App.Code
         public const int Code = 100;
         public const int Password = 100;
         public const int Description = 1000;
-        public const int Enumeration = 1000;
         public const int SourceCode = 10000;
     }
 }

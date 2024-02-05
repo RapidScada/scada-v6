@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using System;
@@ -109,7 +109,7 @@ namespace Scada.Comm.Config
         /// <summary>
         /// Gets the polling options.
         /// </summary>
-        public PollingOptions PollingOptions { get; private set; }
+        public PollingOptions PollingOptions { get; }
 
         /// <summary>
         /// Gets the parent communication line configuration.

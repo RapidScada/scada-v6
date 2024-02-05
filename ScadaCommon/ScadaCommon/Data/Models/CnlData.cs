@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Data.Const;
@@ -44,6 +44,23 @@ namespace Scada.Data.Models
         /// </summary>
         public static readonly CnlData Zero = new CnlData(0.0, 1);
 
+
+        /// <summary>
+        /// Initializes a new instance of the structure.
+        /// </summary>
+        public CnlData(double val)
+        {
+            if (double.IsNaN(val))
+            {
+                Val = 0.0;
+                Stat = CnlStatusID.Undefined;
+            }
+            else
+            {
+                Val = val;
+                Stat = CnlStatusID.Defined;
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the structure.
@@ -87,6 +104,15 @@ namespace Scada.Data.Models
             }
         }
 
+
+        /// <summary>
+        /// Converts the channel data to a double-precision floating-point number.
+        /// Returns the channel value if the channel data is defined, otherwise returns NaN.
+        /// </summary>
+        public double ToDouble()
+        {
+            return IsDefined ? Val : double.NaN;
+        }
 
         /// <summary>
         /// Determines whether the specified object is equal to the current object.

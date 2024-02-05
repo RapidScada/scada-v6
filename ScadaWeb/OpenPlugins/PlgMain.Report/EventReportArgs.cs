@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Data.Models;
-using Scada.Lang;
 using Scada.Report;
 
 namespace Scada.Web.Plugins.PlgMain.Report
@@ -19,14 +18,12 @@ namespace Scada.Web.Plugins.PlgMain.Report
         public EventReportArgs()
             : base()
         {
-            ArchiveCode = "";
             TailMode = false;
             EventCount = 0;
             EventDepth = 0;
             View = null;
             ObjNums = null;
             Severities = null;
-            MaxPeriod = 0;
         }
 
         /// <summary>
@@ -38,10 +35,11 @@ namespace Scada.Web.Plugins.PlgMain.Report
             ArgumentNullException.ThrowIfNull(reportArgs, nameof(reportArgs));
             StartTime = reportArgs.StartTime;
             EndTime = reportArgs.EndTime;
+            MaxPeriod = reportArgs.MaxPeriod;
+            ArchiveCode = reportArgs.ArchiveCode;
             Format = reportArgs.Format;
             CustomArgs = reportArgs.CustomArgs;
 
-            ArchiveCode = CustomArgs.GetValueAsString("ArchiveCode");
             TailMode = CustomArgs.GetValueAsBool("TailMode");
             EventCount = CustomArgs.GetValueAsInt("EventCount");
             EventDepth = CustomArgs.GetValueAsInt("EventDepth");
@@ -50,14 +48,8 @@ namespace Scada.Web.Plugins.PlgMain.Report
             string severitiesStr = CustomArgs.GetValueAsString("Severities");
             ObjNums = string.IsNullOrEmpty(objNumsStr) ? null : ScadaUtils.ParseRange(objNumsStr, true, true);
             Severities = string.IsNullOrEmpty(severitiesStr) ? null : ScadaUtils.ParseRange(severitiesStr, true, true);
-            MaxPeriod = 0;
         }
 
-
-        /// <summary>
-        /// Gets the archive code.
-        /// </summary>
-        public string ArchiveCode { get; init; }
 
         /// <summary>
         /// Gets a value indicating whether to retrieve only the specified number of recent events.
@@ -104,27 +96,5 @@ namespace Scada.Web.Plugins.PlgMain.Report
         /// Gets a value indicating whether to filter events by severity.
         /// </summary>
         public bool FilterBySeverity => Severities != null;
-
-        /// <summary>
-        /// Gets the time maximum report period, in days.
-        /// </summary>
-        public int MaxPeriod { get; init; }
-
-
-        /// <summary>
-        /// Validates the arguments, raises an exception on failure.
-        /// </summary>
-        public override void Validate()
-        {
-            base.Validate();
-
-            if (MaxPeriod > 0 && (EndTime - StartTime).TotalDays > MaxPeriod)
-            {
-                throw new ScadaException(Locale.IsRussian ?
-                    "Превышен период отчёта." :
-                    "Report period exceeded.")
-                { MessageIsPublic = true };
-            }
-        }
     }
 }

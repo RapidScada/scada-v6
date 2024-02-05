@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaCommDictionaries>
+  <Dictionary key="Scada.Comm.Devices">
+    <Phrase key="LoadDeviceConfigError">Cihaz yapılandırması yüklenirken hata oluştu</Phrase>
+    <Phrase key="SaveDeviceConfigError">Cihaz yapılandırması kaydedilirken hata oluştu</Phrase>
+    <Phrase key="SaveDeviceConfigConfirm">Cihaz yapılandırması değiştirildi.  Değişiklikler kaydedilsin mi?</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers">
+    <Phrase key="LoadDriverConfigError">Sürücü yapılandırması yüklenirken hata oluştu</Phrase>
+    <Phrase key="SaveDriverConfigError">Sürücü yapılandırması kaydedilirken hata oluştu</Phrase>
+    <Phrase key="SaveDriverConfigConfirm">Sürücü yapılandırması değiştirildi.  Değişiklikler kaydedilsin mi?</Phrase>
+  </Dictionary>
+</ScadaCommDictionaries>

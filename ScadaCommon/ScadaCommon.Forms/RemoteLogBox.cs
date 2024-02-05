@@ -3,9 +3,6 @@
 
 using Scada.Agent;
 using Scada.Protocol;
-using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace Scada.Forms
 {
@@ -74,7 +71,7 @@ namespace Scada.Forms
         /// </summary>
         public override void SetFirstLine(string s)
         {
-            if (AgentClient != null && !listBox.IsDisposed)
+            if (!listBox.IsDisposed)
                 base.SetFirstLine(s);
         }
 

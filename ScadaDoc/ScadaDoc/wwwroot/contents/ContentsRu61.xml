@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TableOfContents>
+  <!-- Обзор -->
+  <Item>
+    <Text>Обзор</Text>
+    <Subitems>
+      <Item>
+        <Text>Введение</Text>
+        <Url>/ru/6.1/software-overview/introduction</Url>
+      </Item>
+    </Subitems>
+  </Item>
+  
+  <!-- Установка -->
+  <Item>
+    <Text>Установка</Text>
+    <Subitems>
+      <Item>
+        <Text>Системные требования</Text>
+        <Url>/ru/6.1/installation/system-requirements</Url>
+      </Item>
+      <Item>
+        <Text>Установка на Windows</Text>
+        <Url>/ru/6.1/installation/install-windows</Url>
+      </Item>
+      <Item>
+        <Text>Установка на Windows вручную</Text>
+        <Url>/ru/6.1/installation/install-windows-manual</Url>
+      </Item>
+      <Item>
+        <Text>Установка на Linux</Text>
+        <Url>/ru/6.1/installation/install-linux</Url>
+      </Item>
+      <Item>
+        <Text>Установка модулей</Text>
+        <Url>/ru/6.1/installation/install-modules</Url>
+      </Item>
+      <Item>
+        <Text>Безопасность</Text>
+        <Url>/ru/6.1/installation/safety</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
+  <!-- Модули -->
+  <Item>
+    <Text>Модули</Text>
+    <Subitems>
+      <Item>
+        <Text>Плагин Графики Про</Text>
+        <Url>/ru/6.1/modules/plg-chart-pro</Url>
+      </Item>
+      <Item>
+        <Text>Плагин Дэшборды</Text>
+        <Url>/ru/6.1/modules/plg-dashboard</Url>
+      </Item>
+      <Item>
+        <Text>Плагин Гибкий отчёт</Text>
+        <Url>/ru/6.1/modules/plg-elastic-report</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
+  <!-- Разработчикам -->
+  <Item>
+    <Text>Разработчикам</Text>
+    <Subitems>
+      <Item>
+        <Text>Магазин модулей</Text>
+        <Url>/ru/6.1/developers/store</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
+  <!-- История версий -->
+  <Item>
+    <Text>История версий</Text>
+    <Subitems>
+      <Item>
+        <Text>История Rapid SCADA</Text>
+        <Url>/ru/6.1/version-history/scada-history</Url>
+      </Item>
+      <Item>
+        <Text>История Сервера</Text>
+        <Url>/ru/6.1/version-history/server-history</Url>
+      </Item>
+      <Item>
+        <Text>История Коммуникатора</Text>
+        <Url>/ru/6.1/version-history/communicator-history</Url>
+      </Item>
+      <Item>
+        <Text>История Вебстанции</Text>
+        <Url>/ru/6.1/version-history/webstation-history</Url>
+      </Item>
+      <Item>
+        <Text>История Агента</Text>
+        <Url>/ru/6.1/version-history/agent-history</Url>
+      </Item>
+      <Item>
+        <Text>История Администратора</Text>
+        <Url>/ru/6.1/version-history/administrator-history</Url>
+      </Item>
+      <Item>
+        <Text>История дополнительных приложений</Text>
+        <Url>/ru/6.1/version-history/applications-history</Url>
+      </Item>
+    </Subitems>
+  </Item>
+</TableOfContents>

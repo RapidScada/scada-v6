@@ -24,10 +24,9 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            let mainApi = new MainApi();
-            mainApi.rootPath = "../";
+            let mainApi = new MainApi({ rootPath: "../" });
 
-            $("#btnSend").click(function () {
+            $("#btnSend").on("click", function () {
                 const CNL_NUM = 104;
                 let cmdVal = $("#txtCmdVal").val();
                 let cmdData = $("#txtCmdData").val();

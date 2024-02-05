@@ -19,6 +19,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
     public class TcpClientChannelLogic : ChannelLogic
     {
         protected readonly TcpClientChannelOptions options; // the channel options
+        protected readonly byte[] inBuf;                    // the input data buffer
 
         protected List<TcpConnection> indivConnList; // the individual connections
         protected TcpConnection sharedConn;          // the shared connection
@@ -34,6 +35,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             : base(lineContext, channelConfig)
         {
             options = new TcpClientChannelOptions(channelConfig.CustomOptions);
+            inBuf = new byte[InBufferLenght];
 
             indivConnList = null;
             sharedConn = null;
@@ -284,15 +286,21 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         {
             if (currentConn != null)
             {
-                // disconnect according to the options, or in case of error
-                if ((!options.StayConnected || deviceLogic.DeviceStatus == DeviceStatus.Error) && 
-                    currentConn.Connected)
+                if (currentConn.Connected)
                 {
-                    Log.WriteLine();
-                    Log.WriteAction(Locale.IsRussian ?
-                        "Отключение от {0}" :
-                        "Disconnect from {0}", currentConn.RemoteAddress);
-                    currentConn.Disconnect();
+                    if (!options.StayConnected || options.DisconnectOnError && 
+                        deviceLogic.DeviceStatus == DeviceStatus.Error)
+                    {
+                        Log.WriteLine();
+                        Log.WriteAction(Locale.IsRussian ?
+                            "Отключение от {0}" :
+                            "Disconnect from {0}", currentConn.RemoteAddress);
+                        currentConn.Disconnect();
+                    }
+                    else if (deviceLogic.DeviceStatus == DeviceStatus.Error)
+                    {
+                        currentConn.ClearNetStream(inBuf);
+                    }
                 }
 
                 if (Behavior == ChannelBehavior.Slave)

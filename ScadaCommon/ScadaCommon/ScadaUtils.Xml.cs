@@ -107,7 +107,6 @@ namespace Scada
         /// <summary>
         /// Gets the child XML node value as a string.
         /// </summary>
-        /// <remarks>If the XML node doesn't exist, an InvalidOperationException exception is thrown.</remarks>
         public static string GetChildAsString(this XmlNode parentXmlNode, string childNodeName, string defaultVal = "")
         {
             XmlNode node = parentXmlNode.SelectSingleNode(childNodeName);

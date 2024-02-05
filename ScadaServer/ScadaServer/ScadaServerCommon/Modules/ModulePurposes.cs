@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2023
  */
 
 using System;
@@ -29,19 +29,24 @@ namespace Scada.Server.Modules
 {
     /// <summary>
     /// Specifies the module purposes.
-    /// <para>Задает предназначения модулей.</para>
+    /// <para>Задаёт предназначения модулей.</para>
     /// </summary>
     [Flags]
     public enum ModulePurposes
     {
         /// <summary>
-        /// Indicates that a module implement data processing logic.
+        /// Indicates that a module implements data processing logic.
         /// </summary>
-        Logic,
+        Logic = 1,
 
         /// <summary>
-        /// Indicates that a module implement data archive.
+        /// Indicates that a module implements data archive.
         /// </summary>
-        Archive
+        Archive = 2,
+
+        /// <summary>
+        /// Indicates that a module implements user authorization and authentication.
+        /// </summary>
+        Auth = 4
     }
 }

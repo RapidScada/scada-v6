@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2011
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Data.Entities;
@@ -53,7 +53,7 @@ namespace Scada.Data.Models
             StoredOnServer = true;
             Args = ParseArgs();
             Title = GetTitle();
-            Resources = null;
+            Resources = new List<ViewResource>();
             CnlNumList = new List<int>();
             CnlNumSet = new HashSet<int>();
         }
@@ -118,7 +118,7 @@ namespace Scada.Data.Models
         }
 
         /// <summary>
-        /// Adds the channel number to the list and set.
+        /// Adds the channel number to the view.
         /// </summary>
         protected void AddCnlNum(int cnlNum)
         {
@@ -127,6 +127,20 @@ namespace Scada.Data.Models
                 int index = CnlNumList.BinarySearch(cnlNum);
                 if (index < 0)
                     CnlNumList.Insert(~index, cnlNum);
+            }
+        }
+
+        /// <summary>
+        /// Adds the channel numbers to the view.
+        /// </summary>
+        protected void AddCnlNums(IEnumerable<int> cnlNums)
+        {
+            if (cnlNums != null)
+            {
+                foreach (int cnlNum in cnlNums)
+                {
+                    AddCnlNum(cnlNum);
+                }
             }
         }
 
@@ -151,7 +165,23 @@ namespace Scada.Data.Models
                 }
             }
 
-            cnlNumsToAdd.ForEach(cnl => AddCnlNum(cnl));
+            AddCnlNums(cnlNumsToAdd);
+        }
+
+        /// <summary>
+        /// Adds the channel to the view.
+        /// </summary>
+        protected void AddCnl(Cnl cnl)
+        {
+            if (cnl != null)
+            {
+                AddCnlNum(cnl.CnlNum);
+
+                for (int i = 1, len = cnl.GetDataLength(); i < len; i++)
+                {
+                    AddCnlNum(cnl.CnlNum + i);
+                }
+            }
         }
 
 

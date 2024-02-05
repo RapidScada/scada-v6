@@ -1,0 +1,90 @@
+﻿@page "/zh/6.0/version-history/server-history"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "服务器版本历史";
+}
+
+<nav class="doc-toc">
+    <div class="h6">在这个页面上</div>
+    <hr>
+    <ul>
+        <li><a href="#server-app">服务器应用程序</a></li>
+        <li><a href="#mod-arc-basic">基础存档</a></li>
+        <li><a href="#mod-arc-influx-db">InfluxDB 存档</a></li>
+        <li><a href="#mod-arc-postgre-sql">PostgreSQL 存档</a></li>
+        <li><a href="#mod-auto-control">自动控制模块</a></li>
+        <li><a href="#mod-rapid-gate">Rapid 网关</a></li>
+        <li><a href="#mod-replication-helper">复制助手</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>服务器历史记录</h1>
+    <h2 id="server-app">服务器应用程序</h2>
+    <div>ScadaServer 6.0.0.0 (2022年12月 03 )</div>
+    <ul>
+        <li>你的配置数据库</li>
+        <li>配置数据库可以存储在文件和PostgreSQL数据库中</li>
+        <li>安全和快速的应用之间通信协议</li>
+        <li>通道 公式变得更加强大</li>
+        <li>通道 和 设备的数量没有限制</li>
+        <li>灵活的存档</li>
+    </ul>
+
+    @**** ModArcBasic ****@
+    <h2 id="mod-arc-basic">基础存档</h2>
+    <div>ModArcBasic 6.0.0.0 (2022年12月 03 )</div>
+    <ul>
+        <li>模块完成初步开发</li>
+    </ul>
+
+    @**** ModArcInfluxDb ****@
+    <h2 id="mod-arc-influx-db">InfluxDB 存档</h2>
+    <div>ModArcInfluxDb 6.0.0.1 (正在开发)</div>
+    <ul>
+        <li>固定的加载模块配置</li>
+    </ul>
+
+    <div>ModArcInfluxDb 6.0.0.0 (2022年12月 03 )</div>
+    <ul>
+        <li>模块完成初步开发</li>
+    </ul>
+
+    @**** ModArcPostgreSql ****@
+    <h2 id="mod-arc-postgre-sql">PostgreSQL 存档</h2>
+    <div>ModArcPostgreSql 6.0.0.0  (2022年12月 03 )</div>
+    <ul>
+        <li>Initial development of the module</li>
+    </ul>
+
+    @**** ModAutoControl ****@
+    <h2 id="mod-auto-control">自动控制模块</h2>
+    <div>ModAutoControl 6.0.0.0  (2022年12月 03 )</div>
+    <ul>
+        <li>在命令文本中添加了可用的新变量</li>
+        <li>可以从字典中选择通道、设备和其他实体</li>
+        <li>实现了触发器的复制和粘贴</li>
+    </ul>
+
+    @**** ModRapidGate ****@
+    <h2 id="mod-rapid-gate">Rapid 网关</h2>
+    <div>ModRapidGate 6.0.0.0  (2022年12月 03 )</div>
+    <ul>
+        <li>实现了从备份服务器自动下载存档的模式</li>
+        <li>复制存档时传输事件</li>
+        <li>传输事件确认</li>
+        <li>添加了仅通过命令复制的选项</li>
+        <li>用于接收和传输的存档掩码</li>
+        <li>是否应用公式并在数据传输时生成事件的选项</li>
+        <li>检查服务器地址以防止循环</li>
+        <li>网关由命令代码控制，不使用通道号</li>
+        <li>模块任务队列</li>
+    </ul>
+
+    @**** ModReplicationHelper ****@
+    <h2 id="mod-replication-helper">复制助手</h2>
+    <div>ModReplicationHelper 6.0.0.0  (2022年12月 03 )</div>
+    <ul>
+        <li>模块完成初步开发</li>
+    </ul>
+</div>

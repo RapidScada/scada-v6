@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2020
+ * Modified : 2023
  */
 
 using Scada.Data.Models;
@@ -51,7 +51,12 @@ namespace Scada.Agent
         /// <summary>
         /// Gets the current status of the specified service.
         /// </summary>
-        bool GetServiceStatus(ServiceApp serviceApp, out ServiceStatus serviceStatus);
+        ServiceStatus GetServiceStatus(ServiceApp serviceApp);
+
+        /// <summary>
+        /// Gets the current statuses of the specified services.
+        /// </summary>
+        ServiceStatus[] GetServiceStatus(ServiceApp[] serviceApps);
 
         /// <summary>
         /// Sends the command to the service.

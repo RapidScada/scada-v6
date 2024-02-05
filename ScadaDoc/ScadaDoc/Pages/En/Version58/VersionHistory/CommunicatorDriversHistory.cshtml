@@ -1,0 +1,141 @@
+﻿@page "/en/5.8/version-history/communicator-drivers-history"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "History of Communicator Drivers";
+}
+
+@section Styles {
+    <link href="~/css/history.min.css" rel="stylesheet" />
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#kp-db-import">DB Import</a></li>
+        <li><a href="#kp-email">Email</a></li>
+        <li><a href="#kp-http-notif">HTTP Notifications</a></li>
+        <li><a href="#kp-modbus">Modbus</a></li>
+        <li><a href="#kp-modbus-slave">Modbus Slave</a></li>
+        <li><a href="#kp-opc">OPC</a></li>
+        <li><a href="#kp-opc-ua">OPC UA</a></li>
+        <li><a href="#kp-snmp">SNMP</a></li>
+        <li><a href="#kp-telegram">Telegram</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>History of Communicator Drivers</h1>
+
+    <h2 id="kp-db-import">DB Import</h2>
+    <pre>KpDbImport 5.0.3.0 (May 17, 2021)
+- Updated DB connectors
+
+KpDbImport 5.0.2.0 (June 23, 2020)
+- The password in the configuration file is encrypted
+
+KpDbImport 5.0.1.0 (August 29, 2019)
+- Supports commands for changing data in the database
+
+KpDbImport 5.0.0.0 (December 26, 2018)
+- Initial development of the driver
+</pre>
+
+    <h2 id="kp-email">Email</h2>
+    <pre>KpEmail 5.0.4.0 (May 17, 2021)
+- Separated username and sender address
+
+KpEmail 5.0.3.0 (December 14, 2020)
+- Update due to changes in the base libraries
+
+KpEmail 5.0.2.0 (June 23, 2020)
+- The password in the configuration file is encrypted
+
+KpEmail 5.0.1.1 (January 28, 2020)
+- Supports default network credentials without a password
+
+KpEmail 5.0.1.0 (August 29, 2019)
+- Sending emails with attachments
+</pre>
+
+    <h2 id="kp-http-notif">HTTP Notifications</h2>
+    <pre>KpHttpNotif 5.0.1.1 (On hold)
+- Added address separator option
+
+KpHttpNotif 5.0.1.0 (December 14, 2020)
+- POST method support
+</pre>
+
+    <h2 id="kp-modbus">Modbus</h2>
+    <pre>KpModbus 5.1.3.1 (November 15, 2021)
+- Fixed data packet format for multiple commands
+  Warning: no backward compatibility for multiple commands having elements of 4 bytes or more
+
+KpModbus 5.1.3.0 (May 17, 2021)
+- Improved the flexibility of classes that implement the communication protocol
+
+KpModbus 5.1.2.0 (January 28, 2020)
+- Transaction IDs are increased in the Modbus TCP mode
+
+KpModbus 5.1.1.1 (June 03, 2019)
+- Fixed bug of sending commands if there are several devices on communication line
+
+KpModbus 5.1.1.0 (December 26, 2018)
+- Refactoring to simplify development of derived drivers
+
+KpModbus 5.1.0.3 (July 30, 2018)
+- Absolute template path support
+
+KpModbus 5.1.0.2 (March 16, 2018)
+- Localization of the file filters is fixed
+</pre>
+
+    <h2 id="kp-modbus-slave">Modbus Slave</h2>
+    <pre>KpModbusSlave 5.0.0.1 (November 15, 2021)
+- Update due to changes in KpModbus
+
+KpModbusSlave 5.0.0.0 (June 23, 2020)
+- Initial development of the driver
+</pre>
+
+    <h2 id="kp-opc">OPC</h2>
+    <pre>KpOpc 5.0.3.0 (December 14, 2020)
+- Update due to changes in the base libraries
+
+KpOpc 5.0.2.0 (March 16, 2018)
+- Date and time tags are supported
+- The array checkbox is made inactive for clarity
+</pre>
+
+    <h2 id="kp-opc-ua">OPC UA</h2>
+    <pre>KpOpcUa 5.0.0.2 (November 15, 2021)
+- Fixed saving security options
+
+KpOpcUa 5.0.0.1 (May 17, 2021)
+- Fixed a bug when browsing OPC server nodes
+
+KpOpcUa 5.0.0.0 (January 28, 2020)
+- Initial development of the driver
+</pre>
+
+    <h2 id="kp-snmp">SNMP</h2>
+    <pre>KpSnmp 5.0.2.0 (December 14, 2020)
+- Update due to changes in the base libraries
+
+KpSnmp 5.0.1.0 (January 28, 2020)
+- Possible to specify the configuration file name in the device command line
+</pre>
+
+    <h2 id="kp-telegram">Telegram</h2>
+    <pre>KpTelegram 5.0.2.0 (December 14, 2020)
+- Update due to changes in the base libraries
+
+KpTelegram 5.0.1.1 (June 23, 2020)
+- Fixed working with TLS on Windows 7
+- Computer code is saved in the storage directory
+
+KpTelegram 5.0.1.0 (June 28, 2019)
+- Adding subscriptions using the form
+- The Registration tab works in new Administrator
+</pre>
+</div>

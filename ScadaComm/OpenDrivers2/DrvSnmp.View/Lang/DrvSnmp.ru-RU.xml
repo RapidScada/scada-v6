@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DrvSnmpDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvSnmp.Config.DeviceOptions">
+    <Phrase key="ReadCommunity.DisplayName">Пароль на чтение</Phrase>
+    <Phrase key="ReadCommunity.Category">Основные параметры</Phrase>
+    <Phrase key="ReadCommunity.Description">Пароль для чтения данных.</Phrase>
+    <Phrase key="WriteCommunity.DisplayName">Пароль на запись</Phrase>
+    <Phrase key="WriteCommunity.Category">Основные параметры</Phrase>
+    <Phrase key="WriteCommunity.Description">Пароль для записи данных.</Phrase>
+    <Phrase key="SnmpVersion.DisplayName">Версия SNMP</Phrase>
+    <Phrase key="SnmpVersion.Category">Основные параметры</Phrase>
+    <Phrase key="SnmpVersion.Description">Версия протокола. Поддерживаемые версии: 1 и 2.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvSnmp.Config.VarGroupConfig">
+    <Phrase key="Active.DisplayName">Активна</Phrase>
+    <Phrase key="Active.Category">Основные параметры</Phrase>
+    <Phrase key="Active.Description">Значение, указывающее, активна ли группа.</Phrase>
+    <Phrase key="Name.DisplayName">Наименование</Phrase>
+    <Phrase key="Name.Category">Основные параметры</Phrase>
+    <Phrase key="Name.Description">Наименование группы.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvSnmp.Config.VariableConfig">
+    <Phrase key="Name.DisplayName">Наименование</Phrase>
+    <Phrase key="Name.Category">Основные параметры</Phrase>
+    <Phrase key="Name.Description">Наименование переменной.</Phrase>
+    <Phrase key="TagCode.DisplayName">Код тега</Phrase>
+    <Phrase key="TagCode.Category">Основные параметры</Phrase>
+    <Phrase key="TagCode.Description">Код тега, связанного с переменной.</Phrase>
+    <Phrase key="OID.DisplayName">OID</Phrase>
+    <Phrase key="OID.Category">Основные параметры</Phrase>
+    <Phrase key="OID.Description">Идентификатор объекта. Например, .1.3.6.1.2.1.1.5.0</Phrase>
+    <Phrase key="DataType.DisplayName">Тип данных</Phrase>
+    <Phrase key="DataType.Category">Основные параметры</Phrase>
+    <Phrase key="DataType.Description">Тип данных тега устройства, связанного с переменной.</Phrase>
+    <Phrase key="DataLen.DisplayName">Длина данных</Phrase>
+    <Phrase key="DataLen.Category">Основные параметры</Phrase>
+    <Phrase key="DataLen.Description">Длина данных, если переменная представляет собой строку или массив. Для строк это количество символов. В противном случае количество 8-байтовых блоков.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvSnmp.View.SnmpConfigProvider">
+    <Phrase key="FormTitle">Свойства устройства {0} - SNMP</Phrase>
+    <Phrase key="AddVarGroupButton">Добавить группу</Phrase>
+    <Phrase key="AddVariableButton">Добавить переменную</Phrase>
+    <Phrase key="OptionsNode">Параметры</Phrase>
+    <Phrase key="VarGroupsNode">Группы переменных</Phrase>
+    <Phrase key="UnnamedGroup">&lt;Безымянная группа&gt;</Phrase>
+    <Phrase key="UnnamedVariable">&lt;Безымянная переменная&gt;</Phrase>
+  </Dictionary>
+</DrvSnmpDictionaries>

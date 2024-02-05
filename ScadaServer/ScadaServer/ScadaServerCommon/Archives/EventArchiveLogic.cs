@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@
 using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Server.Config;
+using System;
 using System.Collections.Generic;
 
 namespace Scada.Server.Archives
@@ -34,6 +35,7 @@ namespace Scada.Server.Archives
     /// Represents the base class for event archive logic.
     /// <para>Представляет базовый класс логики архива событий.</para>
     /// </summary>
+    /// <remarks>Descendants of this class must be thread-safe.</remarks>
     public abstract class EventArchiveLogic : ArchiveLogic
     {
         /// <summary>
@@ -44,7 +46,21 @@ namespace Scada.Server.Archives
         {
         }
 
-        
+
+        /// <summary>
+        /// Gets the archive options.
+        /// </summary>
+        protected virtual EventArchiveOptions ArchiveOptions => null;
+
+
+        /// <summary>
+        /// Checks that the timestamp is inside the retention period.
+        /// </summary>
+        protected bool TimeInsideRetention(DateTime timestamp, DateTime now)
+        {
+            return ArchiveOptions != null && now.AddDays(-ArchiveOptions.Retention) <= timestamp;
+        }
+
         /// <summary>
         /// Gets the event by ID.
         /// </summary>

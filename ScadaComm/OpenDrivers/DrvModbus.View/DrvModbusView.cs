@@ -19,6 +19,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View
         /// Initializes a new instance of the class.
         /// </summary>
         public DrvModbusView()
+             : base()
         {
             CanShowProperties = true;
             CanCreateDevice = true;
@@ -78,10 +79,10 @@ namespace Scada.Comm.Drivers.DrvModbus.View
         /// </summary>
         public override void LoadDictionaries()
         {
-            if (!Locale.LoadDictionaries(AppDirs.LangDir, ModbusDriverUtils.DriverCode, out string errMsg))
+            if (!Locale.LoadDictionaries(AppDirs.LangDir, "DrvModbus", out string errMsg))
                 ScadaUiUtils.ShowError(errMsg);
 
-            ModbusDriverPhrases.Init();
+            DriverPhrases.Init();
         }
 
         /// <summary>

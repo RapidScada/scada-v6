@@ -1,0 +1,59 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>disable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Scada.Comm.Drivers.DrvDbImport.View</RootNamespace>
+    <Authors>Mikhail Shiryaev</Authors>
+    <Company>Rapid Software LLC</Company>
+    <Product>Rapid SCADA</Product>
+    <Copyright>Copyright © 2024</Copyright>
+    <Version>6.0.0</Version>
+    <AssemblyVersion>6.0.0.1</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="ScadaCommCommon">
+      <HintPath>..\..\ScadaComm\ScadaCommCommon\bin\Release\netstandard2.0\ScadaCommCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon">
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon\bin\Release\netstandard2.0\ScadaCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon.Forms">
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon.Forms\bin\Release\net6.0-windows\ScadaCommon.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon.Log">
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon.Log\bin\Release\netstandard2.0\ScadaCommon.Log.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Lang\DrvDbImport.en-GB.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Lang\DrvDbImport.ru-RU.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Import Project="..\DrvDbImport.Shared\DrvDbImport.Shared.projitems" Label="Shared" />
+
+</Project>

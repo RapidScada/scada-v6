@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgChartProDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.ChartPro">
+    <Phrase key="PageTitle">{0} – Цхарт Про</Phrase>
+    <Phrase key="aToday">Данас</Phrase>
+    <Phrase key="aYesterday">Јучер</Phrase>
+    <Phrase key="aPastWeek">Прошле недеље</Phrase>
+    <Phrase key="aPastMonth">Прошли месец</Phrase>
+    <Phrase key="aCustomPeriod">Прилагођени период</Phrase>
+    <Phrase key="aSelectChannels">Изаберите Канали</Phrase>
+    <Phrase key="aSelectProfile">Изаберите Профил</Phrase>
+    <Phrase key="aShowData">Прикажи податке</Phrase>
+    <Phrase key="aHideData">Сакриј податке</Phrase>
+    <Phrase key="aExport">Извоз</Phrase>
+    <Phrase key="ChartTitleFixed">{0}, {1}</Phrase>
+    <Phrase key="ChartTitleRolling">{0}, {1} минута</Phrase>
+    <Phrase key="Generated">Генерисан</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.ChartPro.Js">
+    <Phrase key="DataLoading">Подаци се учитавају...</Phrase>
+    <Phrase key="LoadError">Грешка при учитавању података</Phrase>
+    <Phrase key="Generated">Генерисан</Phrase>
+    <Phrase key="TimeCol">време</Phrase>
+    <Phrase key="ZoomIn">Увеличати</Phrase>
+    <Phrase key="ZoomOut">Зоом Оут</Phrase>
+    <Phrase key="ResetZoom">Ресетуј зум</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.ChartProView">
+    <Phrase key="PageTitle">Цхарт Про</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.Export">
+    <Phrase key="PageTitle">Извоз графикона</Phrase>
+    <Phrase key="btnExportPdf">Извезите графикон у PDF</Phrase>
+    <Phrase key="btnExportPng">Извезите графикон у PNG</Phrase>
+    <Phrase key="btnExportExcel">Извезите податке у Excel</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.Period">
+    <Phrase key="PageTitle">Цхарт Период</Phrase>
+    <Phrase key="lblFrom">Од</Phrase>
+    <Phrase key="lblTo">До</Phrase>
+    <Phrase key="InvalidPeriod">Датум почетка мора бити мањи или једнак датуму завршетка.</Phrase>
+    <Phrase key="PeriodTooLong">Максимална дужина периода је {0} дана.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.PeriodRolling">
+    <Phrase key="PageTitle">Цхарт Период</Phrase>
+    <Phrase key="lblPeriod">Раздобље</Phrase>
+    <Phrase key="lblMin">мин</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgChartPro.Areas.ChartPro.Pages.Profile">
+    <Phrase key="PageTitle">Цхарт Профиле</Phrase>
+    <Phrase key="lblProfile">Профил</Phrase>
+    <Phrase key="ProfileListEmpty">Листа профила је празна.  Проверите конфигурацију додатка.</Phrase>
+  </Dictionary>
+</PlgChartProDictionaries>

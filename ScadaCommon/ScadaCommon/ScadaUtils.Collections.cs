@@ -35,7 +35,7 @@ namespace Scada
         /// </summary>
         public static IDictionary<string, string> ParseArgs(string s, char separator = '\n')
         {
-            // string exmaple:
+            // string example:
             // argument1 = val1
             // argument2 = val2
             Dictionary<string, string> args = new Dictionary<string, string>();
@@ -315,7 +315,7 @@ namespace Scada
         public static string ToRangeString(this IEnumerable<int> collection)
         {
             if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
+                return "";
 
             List<int> list = new List<int>(collection);
             list.Sort();
@@ -375,6 +375,34 @@ namespace Scada
                 return false;
             else
                 return Enumerable.SequenceEqual(a, b);
+        }
+
+        /// <summary>
+        /// Adds elements to the current dictionary from the other dictionary.
+        /// </summary>
+        public static void MergeWith<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, 
+            IDictionary<TKey, TValue> otherDictionary, bool overwriteExisting)
+        {
+            if (dictionary == null)
+                throw new ArgumentNullException(nameof(dictionary));
+            if (otherDictionary == null)
+                return;
+
+            if (overwriteExisting)
+            {
+                foreach (KeyValuePair<TKey, TValue> pair in otherDictionary)
+                {
+                    dictionary[pair.Key] = pair.Value;
+                }
+            }
+            else
+            {
+                foreach (KeyValuePair<TKey, TValue> pair in otherDictionary)
+                {
+                    if (!dictionary.ContainsKey(pair.Key))
+                        dictionary.Add(pair.Key, pair.Value);
+                }
+            }
         }
     }
 }

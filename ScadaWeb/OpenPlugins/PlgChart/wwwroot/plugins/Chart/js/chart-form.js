@@ -28,7 +28,7 @@ $(document).ready(function () {
     chart.draw();
     chart.bindHintEvents();
 
-    $(window).resize(function () {
+    $(window).on("resize", function () {
         updateLayout();
         chart.draw();
     });

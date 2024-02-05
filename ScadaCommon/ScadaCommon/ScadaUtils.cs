@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +20,14 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2007
- * Modified : 2022
+ * Modified : 2024
  */
 
 using Scada.Lang;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -48,7 +49,7 @@ namespace Scada
         /// </summary>
         public const int ThreadDelay = 100;
         /// <summary>
-        /// The waiting time to stop the thread, ms.
+        /// The time to wait for the thread to stop, ms.
         /// </summary>
         public const int ThreadWait = 10000;
         /// <summary>
@@ -75,10 +76,6 @@ namespace Scada
         /// Determines that the application is running on Windows.
         /// </summary>
         public static readonly bool IsRunningOnWin = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-        /// <summary>
-        /// Determines that the application is running on .NET Core.
-        /// </summary>
-        public static readonly bool IsRunningOnCore = RuntimeInformation.FrameworkDescription.StartsWith(".NET Core");
 
         #region Tables for calculating CRC-16.
         /* Table of CRC values for high–order byte */
@@ -283,13 +280,14 @@ namespace Scada
         }
 
         /// <summary>
-        /// Makes a full copy of the specified object.
+        /// Creates a full copy of the specified object using BinaryFormatter.
         /// </summary>
         /// <remarks>
         /// A cloned object and its children must have the Serializable attribute.
+        /// This method is only allowed in WinForms applications.
         /// BinaryFormatter is not recommended, see https://aka.ms/binaryformatter
         /// </remarks>
-        public static object DeepClone(this object obj, SerializationBinder binder = null)
+        public static T DeepClone<T>(this T obj, SerializationBinder binder = null)
         {
             using (MemoryStream stream = new MemoryStream())
             {
@@ -300,16 +298,8 @@ namespace Scada
 
                 formatter.Serialize(stream, obj);
                 stream.Position = 0;
-                return formatter.Deserialize(stream);
+                return (T)formatter.Deserialize(stream);
             }
-        }
-
-        /// <summary>
-        /// Creates a full copy of the specified object.
-        /// </summary>
-        public static T DeepClone<T>(this T obj, SerializationBinder binder = null)
-        {
-            return (T)DeepClone((object)obj, binder);
         }
 
         /// <summary>
@@ -336,7 +326,7 @@ namespace Scada
         }
 
         /// <summary>
-        /// Creates a shallow copy of the specified object.
+        /// Creates a shallow copy of the properties of the specified object.
         /// </summary>
         public static T ShallowCopy<T>(this T obj)
         {
@@ -420,7 +410,7 @@ namespace Scada
         /// <summary>
         /// Calculates a 32-bit CRC.
         /// </summary>
-        /// <remarks>CRC-32C algorithm with 0x1EDC6F41 polynom.</remarks>
+        /// <remarks>CRC-32C algorithm with 0x1EDC6F41 polynomial.</remarks>
         public static uint CRC32(byte[] buffer, int offset, int length)
         {
             uint crc = 0xFFFFFFFF;
@@ -431,6 +421,33 @@ namespace Scada
             }
 
             return crc ^ 0xFFFFFFFF;
+        }
+
+        /// <summary>
+        /// Gets the start date of the month for the specified timestamp.
+        /// </summary>
+        public static DateTime GetMonthStart(this DateTime dateTime)
+        {
+            return new DateTime(dateTime.Year, dateTime.Month, 1, 0, 0, 0, dateTime.Kind);
+        }
+
+        /// <summary>
+        /// Gets the end date of the month for the specified timestamp.
+        /// </summary>
+        public static DateTime GetMonthEnd(this DateTime dateTime)
+        {
+            return new DateTime(dateTime.Year, dateTime.Month, 
+                DateTime.DaysInMonth(dateTime.Year, dateTime.Month), 0, 0, 0, dateTime.Kind);
+        }
+
+        /// <summary>
+        /// Gets the start date of the week for the specified timestamp.
+        /// </summary>
+        public static DateTime GetWeekStart(this DateTime dateTime, CultureInfo culture)
+        {
+            DateTime startDate = dateTime.AddDays(-(int)dateTime.DayOfWeek + 
+                (int)(culture ?? CultureInfo.InvariantCulture).DateTimeFormat.FirstDayOfWeek).Date;
+            return startDate <= dateTime ? startDate : startDate.AddDays(-7);
         }
 
         /// <summary>
@@ -491,7 +508,15 @@ namespace Scada
         /// </summary>
         public static string FirstNonEmpty(params string[] args)
         {
-            return args.FirstOrDefault(s => !string.IsNullOrEmpty(s));
+            return args?.FirstOrDefault(s => !string.IsNullOrEmpty(s));
+        }
+
+        /// <summary>
+        /// Returns the first non-empty string result returned by the specified functions.
+        /// </summary>
+        public static string FirstNonEmpty(params Func<string>[] args)
+        {
+            return args?.Select(f => f()).FirstOrDefault(s => !string.IsNullOrEmpty(s));
         }
 
         /// <summary>
@@ -512,7 +537,7 @@ namespace Scada
         /// </summary>
         public static void RestoreHierarchy(this ITreeNode treeNode)
         {
-            if (treeNode.Children != null)
+            if (treeNode?.Children != null)
             {
                 foreach (object child in treeNode.Children)
                 {

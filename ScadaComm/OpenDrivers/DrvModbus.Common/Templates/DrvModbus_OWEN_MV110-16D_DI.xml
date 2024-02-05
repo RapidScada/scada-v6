@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DeviceTemplate>
+  <Options>
+    <ZeroAddr>false</ZeroAddr>
+    <DecAddr>true</DecAddr>
+    <DefByteOrder2 />
+    <DefByteOrder4 />
+    <DefByteOrder8 />
+  </Options>
+  <ElemGroups>
+    <ElemGroup active="true" dataBlock="InputRegisters" address="51" name="Дискретные входы">
+      <Elem type="ushort" isBitMask="true" tagCode="DI" name="Входы 1-16" />
+    </ElemGroup>
+  </ElemGroups>
+  <Cmds />
+</DeviceTemplate>

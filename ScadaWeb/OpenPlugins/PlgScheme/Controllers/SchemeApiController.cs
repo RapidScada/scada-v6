@@ -2,16 +2,17 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Mvc;
+using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Protocol;
 using Scada.Web.Api;
+using Scada.Web.Audit;
 using Scada.Web.Lang;
 using Scada.Web.Plugins.PlgScheme.Model;
 using Scada.Web.Plugins.PlgScheme.Model.DataTypes;
 using Scada.Web.Plugins.PlgScheme.Models;
 using Scada.Web.Services;
-using System;
 
 namespace Scada.Web.Plugins.PlgScheme.Controllers
 {
@@ -25,6 +26,7 @@ namespace Scada.Web.Plugins.PlgScheme.Controllers
     {
         private readonly IWebContext webContext;
         private readonly IUserContext userContext;
+        private readonly IAuditLog auditLog;
         private readonly IClientAccessor clientAccessor;
         private readonly IViewLoader viewLoader;
 
@@ -32,11 +34,12 @@ namespace Scada.Web.Plugins.PlgScheme.Controllers
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public SchemeApiController(IWebContext webContext, IUserContext userContext,
+        public SchemeApiController(IWebContext webContext, IUserContext userContext, IAuditLog auditLog,
             IClientAccessor clientAccessor, IViewLoader viewLoader)
         {
             this.webContext = webContext;
             this.userContext = userContext;
+            this.auditLog = auditLog;
             this.clientAccessor = clientAccessor;
             this.viewLoader = viewLoader;
         }
@@ -49,7 +52,7 @@ namespace Scada.Web.Plugins.PlgScheme.Controllers
         {
             try
             {
-                if (viewLoader.GetView(viewID, out SchemeView schemeView, out string errMsg))
+                if (viewLoader.GetView(viewID, true, out SchemeView schemeView, out string errMsg))
                 {
                     DocumentPacket documentPacket = new(schemeView);
                     documentPacket.FillCnlProps(webContext.ConfigDatabase);
@@ -122,21 +125,24 @@ namespace Scada.Web.Plugins.PlgScheme.Controllers
         /// </summary>
         public Dto<bool> SendCommand(int ctrlCnlNum, double cmdVal, int viewID, int componentID)
         {
+            bool success = false;
+            string message = "";
+
             try
             {
-                if (viewLoader.GetView(viewID, out SchemeView schemeView, out string errMsg))
+                if (viewLoader.GetView(viewID, out SchemeView schemeView, out message))
                 {
                     if (!webContext.AppConfig.GeneralOptions.EnableCommands)
                     {
-                        errMsg = WebPhrases.CommandsDisabled;
+                        message = WebPhrases.CommandsDisabled;
                     }
                     else if (webContext.ConfigDatabase.CnlTable.GetItem(ctrlCnlNum) is not Cnl cnl)
                     {
-                        errMsg = string.Format(WebPhrases.CnlNotFound, ctrlCnlNum);
+                        message = string.Format(WebPhrases.CnlNotFound, ctrlCnlNum);
                     }
                     else if (!cnl.IsOutput())
                     {
-                        errMsg = string.Format(WebPhrases.CnlNotOutput, ctrlCnlNum);
+                        message = string.Format(WebPhrases.CnlNotOutput, ctrlCnlNum);
                     }
                     else if (!(userContext.Rights.GetRightByObj(cnl.ObjNum).Control &&
                         userContext.Rights.GetRightByView(schemeView.ViewEntity).Control &&
@@ -145,31 +151,41 @@ namespace Scada.Web.Plugins.PlgScheme.Controllers
                         dynamicComponent.Action == Actions.SendCommandNow &&
                         dynamicComponent.CtrlCnlNum == ctrlCnlNum))
                     {
-                        errMsg = WebPhrases.AccessDenied;
+                        message = WebPhrases.AccessDenied;
                     }
                     else
                     {
                         webContext.Log.WriteAction(WebPhrases.SendCommand, ctrlCnlNum, User.GetUsername());
-                        clientAccessor.ScadaClient.SendCommand(new TeleCommand
+                        CommandResult result = clientAccessor.ScadaClient.SendCommand(new TeleCommand
                         {
                             UserID = User.GetUserID(),
                             CnlNum = ctrlCnlNum,
                             CmdVal = cmdVal
-                        }, WriteFlags.EnableAll, out CommandResult commandResult);
+                        }, WriteCommandFlags.Default);
 
-                        if (commandResult.IsSuccessful)
-                            return Dto<bool>.Success(true);
-                        else
-                            errMsg = commandResult.ErrorMessage;
+                        success = result.IsSuccessful;
+                        message = result.ErrorMessage;
                     }
                 }
 
-                return Dto<bool>.Fail(errMsg);
+                return success ? Dto<bool>.Success(true) : Dto<bool>.Fail(message);
             }
             catch (Exception ex)
             {
+                message = ex.Message;
                 webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(SendCommand)));
-                return Dto<bool>.Fail(ex.Message);
+                return Dto<bool>.Fail(message);
+            }
+            finally
+            {
+                auditLog.Write(new AuditLogEntry(userContext.UserEntity)
+                {
+                    ActionType = AuditActionType.SendCommand,
+                    ActionArgs = AuditActionArgs.FromObject(new { CnlNum = ctrlCnlNum, CmdVal = cmdVal }),
+                    ActionResult = AuditActionResult.FromBool(success),
+                    Severity = Severity.Minor,
+                    Message = message
+                });
             }
         }
     }

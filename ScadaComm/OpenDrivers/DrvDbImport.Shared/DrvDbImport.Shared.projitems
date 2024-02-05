@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>bc00f25a-b6e7-47ef-86c6-739c89c67312</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Scada.Comm.Drivers.DrvDbImport</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Config\DrvDbImport_line001.xml" />
+    <Content Include="$(MSBuildThisFileDirectory)Config\DrvDbImport_001.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Config\CommandConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\DbDeviceConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\DbLineConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\QueryConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DriverUtils.cs" />
+  </ItemGroup>
+</Project>

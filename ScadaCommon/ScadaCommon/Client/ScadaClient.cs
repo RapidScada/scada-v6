@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Data.Adapters;
@@ -40,6 +40,7 @@ namespace Scada.Client
     /// Represents a TCP client which interacts with the Server service.
     /// <para>Представляет TCP-клиента, который взаимодействует со службой Сервера.</para>
     /// </summary>
+    /// <remarks>The class is not thread-safe.</remarks>
     public class ScadaClient : ClientBase
     {
         /// <summary>
@@ -57,6 +58,32 @@ namespace Scada.Client
             lastCommandID = 0;
         }
 
+
+        /// <summary>
+        /// Writes the channel data.
+        /// </summary>
+        protected void WriteChannelData(int archiveMask, ICollection<Slice> slices, WriteDataFlags flags)
+        {
+            if (slices == null)
+                throw new ArgumentNullException(nameof(slices));
+
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.WriteChannelData);
+            int index = ArgumentIndex;
+            CopyByte((byte)flags, outBuf, ref index);
+            CopyInt32(archiveMask, outBuf, ref index);
+            CopyInt32(slices.Count, outBuf, ref index);
+
+            foreach (Slice slice in slices)
+            {
+                CopySlice(slice, outBuf, ref index);
+            }
+
+            request.BufferLength = index;
+            SendRequest(request);
+            ReceiveResponse(request);
+        }
 
         /// <summary>
         /// Receives requested events.
@@ -102,27 +129,18 @@ namespace Scada.Client
             return events;
         }
 
+
         /// <summary>
         /// Validates the username and password.
         /// </summary>
-        public bool ValidateUser(string username, string password, out int userID, out int roleID, out string errMsg)
+        public UserValidationResult ValidateUser(string username, string password)
         {
             RestoreConnection();
-
-            if (ClientState == ClientState.LoggedIn)
-            {
-                Login(username, password, out bool loggedIn, out userID, out roleID, out errMsg);
-                return loggedIn;
-            }
-            else
-            {
-                userID = 0;
-                roleID = 0;
-                errMsg = Locale.IsRussian ?
+            return ClientState == ClientState.LoggedIn
+                ? Login(username, password)
+                : UserValidationResult.Fail(Locale.IsRussian ?
                     "Сервер недоступен" :
-                    "Server unavailable";
-                return false;
-            }
+                    "Server unavailable");
         }
 
         /// <summary>
@@ -390,66 +408,39 @@ namespace Scada.Client
         }
 
         /// <summary>
-        /// Writes the current data.
+        /// Writes the slice of the current data.
         /// </summary>
-        public void WriteCurrentData(Slice slice, int deviceNum, WriteFlags writeFlags)
+        public void WriteCurrentData(Slice slice, WriteDataFlags flags)
         {
-            if (slice == null)
-                throw new ArgumentNullException(nameof(slice));
-
-            RestoreConnection();
-
-            DataPacket request = CreateRequest(FunctionID.WriteCurrentData);
-            int index = ArgumentIndex;
-            CopyTime(slice.Timestamp, outBuf, ref index);
-            int cnlCnt = slice.CnlNums.Length;
-            CopyInt32(cnlCnt, outBuf, ref index);
-
-            for (int i = 0, idx1 = index, idx2 = index + cnlCnt * 4; i < cnlCnt; i++)
-            {
-                CnlData cnlDataElem = slice.CnlData[i];
-                CopyInt32(slice.CnlNums[i], outBuf, ref idx1);
-                CopyCnlData(cnlDataElem, outBuf, ref idx2);
-            }
-
-            index += cnlCnt * 14;
-            CopyInt32(deviceNum, outBuf, ref index);
-            CopyByte((byte)writeFlags, outBuf, ref index);
-            request.BufferLength = index;
-            SendRequest(request);
-            ReceiveResponse(request);
+            flags |= WriteDataFlags.IsCurrent;
+            WriteChannelData(ArchiveMask.Default, new Slice[] { slice }, flags);
         }
 
         /// <summary>
-        /// Writes the historical data.
+        /// Writes the multiple slices of the current data.
         /// </summary>
-        public void WriteHistoricalData(int archiveMask, Slice slice, int deviceNum, WriteFlags writeFlags)
+        public void WriteCurrentData(ICollection<Slice> slices, WriteDataFlags flags)
         {
-            if (slice == null)
-                throw new ArgumentNullException(nameof(slice));
+            flags |= WriteDataFlags.IsCurrent;
+            WriteChannelData(ArchiveMask.Default, slices, flags);
+        }
 
-            RestoreConnection();
+        /// <summary>
+        /// Writes the slice of historical data.
+        /// </summary>
+        public void WriteHistoricalData(int archiveMask, Slice slice, WriteDataFlags flags)
+        {
+            flags &= ~WriteDataFlags.IsCurrent;
+            WriteChannelData(archiveMask, new Slice[] { slice }, flags);
+        }
 
-            DataPacket request = CreateRequest(FunctionID.WriteHistoricalData);
-            int index = ArgumentIndex;
-            CopyInt32(archiveMask, outBuf, ref index);
-            CopyTime(slice.Timestamp, outBuf, ref index);
-            int cnlCnt = slice.CnlNums.Length;
-            CopyInt32(cnlCnt, outBuf, ref index);
-
-            for (int i = 0, idx1 = index, idx2 = index + cnlCnt * 4; i < cnlCnt; i++)
-            {
-                CnlData cnlDataElem = slice.CnlData[i];
-                CopyInt32(slice.CnlNums[i], outBuf, ref idx1);
-                CopyCnlData(cnlDataElem, outBuf, ref idx2);
-            }
-
-            index += cnlCnt * 14;
-            CopyInt32(deviceNum, outBuf, ref index);
-            CopyByte((byte)writeFlags, outBuf, ref index);
-            request.BufferLength = index;
-            SendRequest(request);
-            ReceiveResponse(request);
+        /// <summary>
+        /// Writes the multiple slices of historical data.
+        /// </summary>
+        public void WriteHistoricalData(int archiveMask, ICollection<Slice> slices, WriteDataFlags flags)
+        {
+            flags &= ~WriteDataFlags.IsCurrent;
+            WriteChannelData(archiveMask, slices, flags);
         }
 
         /// <summary>
@@ -558,7 +549,7 @@ namespace Scada.Client
         /// <summary>
         /// Sends the telecontrol command.
         /// </summary>
-        public void SendCommand(TeleCommand command, WriteFlags writeFlags, out CommandResult commandResult)
+        public CommandResult SendCommand(TeleCommand command, WriteCommandFlags flags)
         {
             RestoreConnection();
 
@@ -568,7 +559,7 @@ namespace Scada.Client
             CopyInt32(command.CnlNum, outBuf, ref index);
             CopyDouble(command.CmdVal, outBuf, ref index);
             CopyByteArray(command.CmdData, outBuf, ref index);
-            CopyByte((byte)writeFlags, outBuf, ref index);
+            CopyByte((byte)flags, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
 
@@ -576,15 +567,17 @@ namespace Scada.Client
             index = ArgumentIndex;
             long commandID = GetInt64(inBuf, ref index);
 
-            commandResult = new CommandResult
+            CommandResult result = new CommandResult
             {
                 IsSuccessful = GetBool(inBuf, ref index),
                 TransmitToClients = GetBool(inBuf, ref index),
                 ErrorMessage = GetString(inBuf, ref index)
             };
 
-            if (commandID > 0 && commandResult.IsSuccessful)
+            if (commandID > 0 && result.IsSuccessful)
                 command.CommandID = commandID;
+
+            return result;
         }
 
         /// <summary>

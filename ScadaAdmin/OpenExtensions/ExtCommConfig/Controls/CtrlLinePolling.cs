@@ -333,7 +333,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 
         private void CtrlLineReqSequence_Load(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this, GetType().FullName, 
+            FormTranslator.Translate(this, GetType().FullName,
                 new FormTranslatorOptions { ToolTip = toolTip, SkipUserControls = false });
             SetControlsEnabled();
             btnPasteDevice.Enabled = false;
@@ -515,7 +515,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         {
             if (!changing && GetSelectedItem(out ListViewItem item, out DeviceConfig deviceConfig))
             {
-                deviceConfig.PollingOptions.Time = 
+                deviceConfig.PollingOptions.Time =
                     new TimeSpan(dtpTime.Value.Hour, dtpTime.Value.Minute, dtpTime.Value.Second);
                 item.SubItems[11].Text = deviceConfig.PollingOptions.Time.ToString();
                 OnConfigChanged();
@@ -526,7 +526,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         {
             if (!changing && GetSelectedItem(out ListViewItem item, out DeviceConfig deviceConfig))
             {
-                deviceConfig.PollingOptions.Period = 
+                deviceConfig.PollingOptions.Period =
                     new TimeSpan(dtpPeriod.Value.Hour, dtpPeriod.Value.Minute, dtpPeriod.Value.Second);
                 item.SubItems[12].Text = deviceConfig.PollingOptions.Period.ToString();
                 OnConfigChanged();

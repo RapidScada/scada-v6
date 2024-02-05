@@ -10,7 +10,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
     /// Represents options of an event archive.
     /// <para>Представляет параметры архива событий.</para>
     /// </summary>
-    internal class PostgreEAO : EventArchiveOptions
+    internal class PostgreEAO : EventArchiveOptions, IDatabaseOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.
@@ -18,17 +18,18 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
         public PostgreEAO(OptionList options)
             : base(options)
         {
-            UseStorageConn = options.GetValueAsBool("UseStorageConn", true);
+            UseDefaultConn = options.GetValueAsBool("UseDefaultConn", true);
             Connection = options.GetValueAsString("Connection");
-            MaxQueueSize = options.GetValueAsInt("MaxQueueSize", ModuleUtils.DefaultQueueSize);
             PartitionSize = options.GetValueAsEnum("PartitionSize", PartitionSize.OneMonth);
+            MaxQueueSize = options.GetValueAsInt("MaxQueueSize", ModuleUtils.DefaultQueueSize);
+            BatchSize = options.GetValueAsInt("BatchSize", ModuleUtils.DefaultBatchSize);
         }
 
 
         /// <summary>
-        /// Gets or sets a value indicating whether to use a connection specified in the storage configuration.
+        /// Gets or sets a value indicating whether to use a connection specified in the instance configuration.
         /// </summary>
-        public bool UseStorageConn { get; set; }
+        public bool UseDefaultConn { get; set; }
 
         /// <summary>
         /// Gets or sets the connection name.
@@ -36,14 +37,19 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
         public string Connection { get; set; }
 
         /// <summary>
+        /// Gets or sets the partition size.
+        /// </summary>
+        public PartitionSize PartitionSize { get; set; }
+
+        /// <summary>
         /// Gets or sets the maximum queue size.
         /// </summary>
         public int MaxQueueSize { get; set; }
 
         /// <summary>
-        /// Gets or sets the partition size.
+        /// Gets or sets the number of events transferred in one transaction.
         /// </summary>
-        public PartitionSize PartitionSize { get; set; }
+        public int BatchSize { get; set; }
 
 
         /// <summary>
@@ -52,13 +58,14 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
         public override void AddToOptionList(OptionList options)
         {
             base.AddToOptionList(options);
-            options["UseStorageConn"] = UseStorageConn.ToLowerString();
+            options["UseDefaultConn"] = UseDefaultConn.ToLowerString();
             options["Connection"] = Connection;
             
             if (!ReadOnly)
             {
-                options["MaxQueueSize"] = MaxQueueSize.ToString();
                 options["PartitionSize"] = PartitionSize.ToString();
+                options["MaxQueueSize"] = MaxQueueSize.ToString();
+                options["BatchSize"] = BatchSize.ToString();
             }
         }
     }

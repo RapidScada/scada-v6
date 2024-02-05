@@ -29,285 +29,267 @@ namespace Scada.Forms.Controls
         /// </summary>
         private void InitializeComponent()
         {
-            this.gbConnectionOptions = new System.Windows.Forms.GroupBox();
-            this.btnPaste = new System.Windows.Forms.Button();
-            this.txtSecretKey = new System.Windows.Forms.TextBox();
-            this.lblSecretKey = new System.Windows.Forms.Label();
-            this.txtInstance = new System.Windows.Forms.TextBox();
-            this.lblInstance = new System.Windows.Forms.Label();
-            this.txtPassword = new System.Windows.Forms.TextBox();
-            this.lblPassword = new System.Windows.Forms.Label();
-            this.txtUsername = new System.Windows.Forms.TextBox();
-            this.lblUsername = new System.Windows.Forms.Label();
-            this.numTimeout = new System.Windows.Forms.NumericUpDown();
-            this.lblTimeout = new System.Windows.Forms.Label();
-            this.numPort = new System.Windows.Forms.NumericUpDown();
-            this.lblPort = new System.Windows.Forms.Label();
-            this.txtHost = new System.Windows.Forms.TextBox();
-            this.lblHost = new System.Windows.Forms.Label();
-            this.txtName = new System.Windows.Forms.TextBox();
-            this.lblName = new System.Windows.Forms.Label();
-            this.gbConnectionOptions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numTimeout)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numPort)).BeginInit();
-            this.SuspendLayout();
+            gbConnectionOptions = new GroupBox();
+            pnlConnectionOptions = new Panel();
+            btnPaste = new Button();
+            lblName = new Label();
+            txtSecretKey = new TextBox();
+            txtName = new TextBox();
+            lblSecretKey = new Label();
+            txtHost = new TextBox();
+            lblHost = new Label();
+            txtInstance = new TextBox();
+            lblPort = new Label();
+            lblInstance = new Label();
+            numPort = new NumericUpDown();
+            txtPassword = new TextBox();
+            lblTimeout = new Label();
+            lblPassword = new Label();
+            numTimeout = new NumericUpDown();
+            txtUsername = new TextBox();
+            lblUsername = new Label();
+            gbConnectionOptions.SuspendLayout();
+            pnlConnectionOptions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numPort).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numTimeout).BeginInit();
+            SuspendLayout();
             // 
             // gbConnectionOptions
             // 
-            this.gbConnectionOptions.Controls.Add(this.btnPaste);
-            this.gbConnectionOptions.Controls.Add(this.txtSecretKey);
-            this.gbConnectionOptions.Controls.Add(this.lblSecretKey);
-            this.gbConnectionOptions.Controls.Add(this.txtInstance);
-            this.gbConnectionOptions.Controls.Add(this.lblInstance);
-            this.gbConnectionOptions.Controls.Add(this.txtPassword);
-            this.gbConnectionOptions.Controls.Add(this.lblPassword);
-            this.gbConnectionOptions.Controls.Add(this.txtUsername);
-            this.gbConnectionOptions.Controls.Add(this.lblUsername);
-            this.gbConnectionOptions.Controls.Add(this.numTimeout);
-            this.gbConnectionOptions.Controls.Add(this.lblTimeout);
-            this.gbConnectionOptions.Controls.Add(this.numPort);
-            this.gbConnectionOptions.Controls.Add(this.lblPort);
-            this.gbConnectionOptions.Controls.Add(this.txtHost);
-            this.gbConnectionOptions.Controls.Add(this.lblHost);
-            this.gbConnectionOptions.Controls.Add(this.txtName);
-            this.gbConnectionOptions.Controls.Add(this.lblName);
-            this.gbConnectionOptions.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbConnectionOptions.Location = new System.Drawing.Point(0, 0);
-            this.gbConnectionOptions.Name = "gbConnectionOptions";
-            this.gbConnectionOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbConnectionOptions.Size = new System.Drawing.Size(300, 366);
-            this.gbConnectionOptions.TabIndex = 0;
-            this.gbConnectionOptions.TabStop = false;
-            this.gbConnectionOptions.Text = "Connection Options";
+            gbConnectionOptions.Controls.Add(pnlConnectionOptions);
+            gbConnectionOptions.Dock = DockStyle.Fill;
+            gbConnectionOptions.Location = new Point(0, 0);
+            gbConnectionOptions.Name = "gbConnectionOptions";
+            gbConnectionOptions.Padding = new Padding(10, 3, 10, 10);
+            gbConnectionOptions.Size = new Size(300, 366);
+            gbConnectionOptions.TabIndex = 0;
+            gbConnectionOptions.TabStop = false;
+            gbConnectionOptions.Text = "Connection Options";
+            // 
+            // pnlConnectionOptions
+            // 
+            pnlConnectionOptions.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            pnlConnectionOptions.Controls.Add(btnPaste);
+            pnlConnectionOptions.Controls.Add(lblName);
+            pnlConnectionOptions.Controls.Add(txtSecretKey);
+            pnlConnectionOptions.Controls.Add(txtName);
+            pnlConnectionOptions.Controls.Add(lblSecretKey);
+            pnlConnectionOptions.Controls.Add(txtHost);
+            pnlConnectionOptions.Controls.Add(lblHost);
+            pnlConnectionOptions.Controls.Add(txtInstance);
+            pnlConnectionOptions.Controls.Add(lblPort);
+            pnlConnectionOptions.Controls.Add(lblInstance);
+            pnlConnectionOptions.Controls.Add(numPort);
+            pnlConnectionOptions.Controls.Add(txtPassword);
+            pnlConnectionOptions.Controls.Add(lblTimeout);
+            pnlConnectionOptions.Controls.Add(lblPassword);
+            pnlConnectionOptions.Controls.Add(numTimeout);
+            pnlConnectionOptions.Controls.Add(txtUsername);
+            pnlConnectionOptions.Controls.Add(lblUsername);
+            pnlConnectionOptions.Location = new Point(13, 22);
+            pnlConnectionOptions.Name = "pnlConnectionOptions";
+            pnlConnectionOptions.Size = new Size(274, 331);
+            pnlConnectionOptions.TabIndex = 1;
             // 
             // btnPaste
             // 
-            this.btnPaste.Location = new System.Drawing.Point(13, 330);
-            this.btnPaste.Name = "btnPaste";
-            this.btnPaste.Size = new System.Drawing.Size(75, 23);
-            this.btnPaste.TabIndex = 16;
-            this.btnPaste.Text = "Paste";
-            this.btnPaste.UseVisualStyleBackColor = true;
-            this.btnPaste.Click += new System.EventHandler(this.btnPaste_Click);
-            // 
-            // txtSecretKey
-            // 
-            this.txtSecretKey.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSecretKey.Location = new System.Drawing.Point(13, 301);
-            this.txtSecretKey.Name = "txtSecretKey";
-            this.txtSecretKey.Size = new System.Drawing.Size(274, 23);
-            this.txtSecretKey.TabIndex = 15;
-            this.txtSecretKey.UseSystemPasswordChar = true;
-            this.txtSecretKey.TextChanged += new System.EventHandler(this.txtSecretKey_TextChanged);
-            this.txtSecretKey.Enter += new System.EventHandler(this.txtSecretKey_Enter);
-            this.txtSecretKey.Leave += new System.EventHandler(this.txtSecretKey_Leave);
-            this.txtSecretKey.Validating += new System.ComponentModel.CancelEventHandler(this.txtSecretKey_Validating);
-            // 
-            // lblSecretKey
-            // 
-            this.lblSecretKey.AutoSize = true;
-            this.lblSecretKey.Location = new System.Drawing.Point(10, 283);
-            this.lblSecretKey.Name = "lblSecretKey";
-            this.lblSecretKey.Size = new System.Drawing.Size(60, 15);
-            this.lblSecretKey.TabIndex = 14;
-            this.lblSecretKey.Text = "Secret key";
-            // 
-            // txtInstance
-            // 
-            this.txtInstance.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtInstance.Location = new System.Drawing.Point(13, 257);
-            this.txtInstance.Name = "txtInstance";
-            this.txtInstance.Size = new System.Drawing.Size(274, 23);
-            this.txtInstance.TabIndex = 13;
-            this.txtInstance.TextChanged += new System.EventHandler(this.txtInstance_TextChanged);
-            // 
-            // lblInstance
-            // 
-            this.lblInstance.AutoSize = true;
-            this.lblInstance.Location = new System.Drawing.Point(10, 239);
-            this.lblInstance.Name = "lblInstance";
-            this.lblInstance.Size = new System.Drawing.Size(51, 15);
-            this.lblInstance.TabIndex = 12;
-            this.lblInstance.Text = "Instance";
-            // 
-            // txtPassword
-            // 
-            this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPassword.Location = new System.Drawing.Point(13, 213);
-            this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(274, 23);
-            this.txtPassword.TabIndex = 11;
-            this.txtPassword.UseSystemPasswordChar = true;
-            this.txtPassword.TextChanged += new System.EventHandler(this.txtPassword_TextChanged);
-            // 
-            // lblPassword
-            // 
-            this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(10, 195);
-            this.lblPassword.Name = "lblPassword";
-            this.lblPassword.Size = new System.Drawing.Size(57, 15);
-            this.lblPassword.TabIndex = 10;
-            this.lblPassword.Text = "Password";
-            // 
-            // txtUsername
-            // 
-            this.txtUsername.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtUsername.Location = new System.Drawing.Point(13, 169);
-            this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(274, 23);
-            this.txtUsername.TabIndex = 9;
-            this.txtUsername.TextChanged += new System.EventHandler(this.txtUsername_TextChanged);
-            // 
-            // lblUsername
-            // 
-            this.lblUsername.AutoSize = true;
-            this.lblUsername.Location = new System.Drawing.Point(10, 151);
-            this.lblUsername.Name = "lblUsername";
-            this.lblUsername.Size = new System.Drawing.Size(60, 15);
-            this.lblUsername.TabIndex = 8;
-            this.lblUsername.Text = "Username";
-            // 
-            // numTimeout
-            // 
-            this.numTimeout.Location = new System.Drawing.Point(139, 125);
-            this.numTimeout.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.numTimeout.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numTimeout.Name = "numTimeout";
-            this.numTimeout.Size = new System.Drawing.Size(120, 23);
-            this.numTimeout.TabIndex = 7;
-            this.numTimeout.Value = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.numTimeout.ValueChanged += new System.EventHandler(this.numTimeout_ValueChanged);
-            // 
-            // lblTimeout
-            // 
-            this.lblTimeout.AutoSize = true;
-            this.lblTimeout.Location = new System.Drawing.Point(136, 107);
-            this.lblTimeout.Name = "lblTimeout";
-            this.lblTimeout.Size = new System.Drawing.Size(51, 15);
-            this.lblTimeout.TabIndex = 6;
-            this.lblTimeout.Text = "Timeout";
-            // 
-            // numPort
-            // 
-            this.numPort.Location = new System.Drawing.Point(13, 125);
-            this.numPort.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.numPort.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numPort.Name = "numPort";
-            this.numPort.Size = new System.Drawing.Size(120, 23);
-            this.numPort.TabIndex = 5;
-            this.numPort.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numPort.ValueChanged += new System.EventHandler(this.numPort_ValueChanged);
-            // 
-            // lblPort
-            // 
-            this.lblPort.AutoSize = true;
-            this.lblPort.Location = new System.Drawing.Point(10, 107);
-            this.lblPort.Name = "lblPort";
-            this.lblPort.Size = new System.Drawing.Size(29, 15);
-            this.lblPort.TabIndex = 4;
-            this.lblPort.Text = "Port";
-            // 
-            // txtHost
-            // 
-            this.txtHost.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtHost.Location = new System.Drawing.Point(13, 81);
-            this.txtHost.Name = "txtHost";
-            this.txtHost.Size = new System.Drawing.Size(274, 23);
-            this.txtHost.TabIndex = 3;
-            this.txtHost.TextChanged += new System.EventHandler(this.txtHost_TextChanged);
-            // 
-            // lblHost
-            // 
-            this.lblHost.AutoSize = true;
-            this.lblHost.Location = new System.Drawing.Point(10, 63);
-            this.lblHost.Name = "lblHost";
-            this.lblHost.Size = new System.Drawing.Size(32, 15);
-            this.lblHost.TabIndex = 2;
-            this.lblHost.Text = "Host";
-            // 
-            // txtName
-            // 
-            this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtName.Location = new System.Drawing.Point(13, 37);
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(274, 23);
-            this.txtName.TabIndex = 1;
-            this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
-            this.txtName.Validated += new System.EventHandler(this.txtName_Validated);
+            btnPaste.Location = new Point(0, 308);
+            btnPaste.Name = "btnPaste";
+            btnPaste.Size = new Size(75, 23);
+            btnPaste.TabIndex = 16;
+            btnPaste.Text = "Paste";
+            btnPaste.UseVisualStyleBackColor = true;
+            btnPaste.Click += btnPaste_Click;
             // 
             // lblName
             // 
-            this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(10, 19);
-            this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(39, 15);
-            this.lblName.TabIndex = 0;
-            this.lblName.Text = "Name";
+            lblName.AutoSize = true;
+            lblName.Location = new Point(-3, -3);
+            lblName.Name = "lblName";
+            lblName.Size = new Size(39, 15);
+            lblName.TabIndex = 0;
+            lblName.Text = "Name";
+            // 
+            // txtSecretKey
+            // 
+            txtSecretKey.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtSecretKey.Location = new Point(0, 279);
+            txtSecretKey.Name = "txtSecretKey";
+            txtSecretKey.Size = new Size(274, 23);
+            txtSecretKey.TabIndex = 15;
+            txtSecretKey.UseSystemPasswordChar = true;
+            txtSecretKey.TextChanged += txtSecretKey_TextChanged;
+            txtSecretKey.Enter += txtSecretKey_Enter;
+            txtSecretKey.Leave += txtSecretKey_Leave;
+            txtSecretKey.Validating += txtSecretKey_Validating;
+            // 
+            // txtName
+            // 
+            txtName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtName.Location = new Point(0, 15);
+            txtName.Name = "txtName";
+            txtName.Size = new Size(274, 23);
+            txtName.TabIndex = 1;
+            txtName.TextChanged += txtName_TextChanged;
+            txtName.Validated += txtName_Validated;
+            // 
+            // lblSecretKey
+            // 
+            lblSecretKey.AutoSize = true;
+            lblSecretKey.Location = new Point(-3, 261);
+            lblSecretKey.Name = "lblSecretKey";
+            lblSecretKey.Size = new Size(60, 15);
+            lblSecretKey.TabIndex = 14;
+            lblSecretKey.Text = "Secret key";
+            // 
+            // txtHost
+            // 
+            txtHost.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtHost.Location = new Point(0, 59);
+            txtHost.Name = "txtHost";
+            txtHost.Size = new Size(274, 23);
+            txtHost.TabIndex = 3;
+            txtHost.TextChanged += txtHost_TextChanged;
+            // 
+            // lblHost
+            // 
+            lblHost.AutoSize = true;
+            lblHost.Location = new Point(-3, 41);
+            lblHost.Name = "lblHost";
+            lblHost.Size = new Size(32, 15);
+            lblHost.TabIndex = 2;
+            lblHost.Text = "Host";
+            // 
+            // txtInstance
+            // 
+            txtInstance.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtInstance.Location = new Point(0, 235);
+            txtInstance.Name = "txtInstance";
+            txtInstance.Size = new Size(274, 23);
+            txtInstance.TabIndex = 13;
+            txtInstance.TextChanged += txtInstance_TextChanged;
+            // 
+            // lblPort
+            // 
+            lblPort.AutoSize = true;
+            lblPort.Location = new Point(-3, 85);
+            lblPort.Name = "lblPort";
+            lblPort.Size = new Size(29, 15);
+            lblPort.TabIndex = 4;
+            lblPort.Text = "Port";
+            // 
+            // lblInstance
+            // 
+            lblInstance.AutoSize = true;
+            lblInstance.Location = new Point(-3, 217);
+            lblInstance.Name = "lblInstance";
+            lblInstance.Size = new Size(51, 15);
+            lblInstance.TabIndex = 12;
+            lblInstance.Text = "Instance";
+            // 
+            // numPort
+            // 
+            numPort.Location = new Point(0, 103);
+            numPort.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
+            numPort.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numPort.Name = "numPort";
+            numPort.Size = new Size(120, 23);
+            numPort.TabIndex = 5;
+            numPort.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            numPort.ValueChanged += numPort_ValueChanged;
+            // 
+            // txtPassword
+            // 
+            txtPassword.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtPassword.Location = new Point(0, 191);
+            txtPassword.Name = "txtPassword";
+            txtPassword.Size = new Size(274, 23);
+            txtPassword.TabIndex = 11;
+            txtPassword.UseSystemPasswordChar = true;
+            txtPassword.TextChanged += txtPassword_TextChanged;
+            // 
+            // lblTimeout
+            // 
+            lblTimeout.AutoSize = true;
+            lblTimeout.Location = new Point(123, 85);
+            lblTimeout.Name = "lblTimeout";
+            lblTimeout.Size = new Size(51, 15);
+            lblTimeout.TabIndex = 6;
+            lblTimeout.Text = "Timeout";
+            // 
+            // lblPassword
+            // 
+            lblPassword.AutoSize = true;
+            lblPassword.Location = new Point(-3, 173);
+            lblPassword.Name = "lblPassword";
+            lblPassword.Size = new Size(57, 15);
+            lblPassword.TabIndex = 10;
+            lblPassword.Text = "Password";
+            // 
+            // numTimeout
+            // 
+            numTimeout.Location = new Point(126, 103);
+            numTimeout.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
+            numTimeout.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numTimeout.Name = "numTimeout";
+            numTimeout.Size = new Size(120, 23);
+            numTimeout.TabIndex = 7;
+            numTimeout.Value = new decimal(new int[] { 10000, 0, 0, 0 });
+            numTimeout.ValueChanged += numTimeout_ValueChanged;
+            // 
+            // txtUsername
+            // 
+            txtUsername.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtUsername.Location = new Point(0, 147);
+            txtUsername.Name = "txtUsername";
+            txtUsername.Size = new Size(274, 23);
+            txtUsername.TabIndex = 9;
+            txtUsername.TextChanged += txtUsername_TextChanged;
+            // 
+            // lblUsername
+            // 
+            lblUsername.AutoSize = true;
+            lblUsername.Location = new Point(-3, 129);
+            lblUsername.Name = "lblUsername";
+            lblUsername.Size = new Size(60, 15);
+            lblUsername.TabIndex = 8;
+            lblUsername.Text = "Username";
             // 
             // CtrlClientConnection
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.gbConnectionOptions);
-            this.Name = "CtrlClientConnection";
-            this.Size = new System.Drawing.Size(300, 366);
-            this.gbConnectionOptions.ResumeLayout(false);
-            this.gbConnectionOptions.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numTimeout)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numPort)).EndInit();
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(gbConnectionOptions);
+            Name = "CtrlClientConnection";
+            Size = new Size(300, 366);
+            gbConnectionOptions.ResumeLayout(false);
+            pnlConnectionOptions.ResumeLayout(false);
+            pnlConnectionOptions.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numPort).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numTimeout).EndInit();
+            ResumeLayout(false);
         }
 
         #endregion
 
-        private System.Windows.Forms.GroupBox gbConnectionOptions;
-        private System.Windows.Forms.TextBox txtName;
-        private System.Windows.Forms.Label lblName;
-        private System.Windows.Forms.TextBox txtHost;
-        private System.Windows.Forms.Label lblHost;
-        private System.Windows.Forms.NumericUpDown numPort;
-        private System.Windows.Forms.Label lblPort;
-        private System.Windows.Forms.TextBox txtPassword;
-        private System.Windows.Forms.Label lblPassword;
-        private System.Windows.Forms.TextBox txtUsername;
-        private System.Windows.Forms.Label lblUsername;
-        private System.Windows.Forms.TextBox txtInstance;
-        private System.Windows.Forms.Label lblInstance;
-        private System.Windows.Forms.Label lblTimeout;
-        private System.Windows.Forms.NumericUpDown numTimeout;
-        private System.Windows.Forms.Label lblSecretKey;
-        private System.Windows.Forms.TextBox txtSecretKey;
-        private System.Windows.Forms.Button btnPaste;
+        private GroupBox gbConnectionOptions;
+        private TextBox txtName;
+        private Label lblName;
+        private TextBox txtHost;
+        private Label lblHost;
+        private NumericUpDown numPort;
+        private Label lblPort;
+        private TextBox txtPassword;
+        private Label lblPassword;
+        private TextBox txtUsername;
+        private Label lblUsername;
+        private TextBox txtInstance;
+        private Label lblInstance;
+        private Label lblTimeout;
+        private NumericUpDown numTimeout;
+        private Label lblSecretKey;
+        private TextBox txtSecretKey;
+        private Button btnPaste;
+        private Panel pnlConnectionOptions;
     }
 }

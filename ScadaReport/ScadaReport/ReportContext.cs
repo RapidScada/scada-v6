@@ -24,9 +24,9 @@ namespace Scada.Report
         public ScadaClient ScadaClient { get; init; }
 
         /// <summary>
-        /// Gets the time zone.
+        /// Gets the external database connection string.
         /// </summary>
-        public TimeZoneInfo TimeZone { get; init; }
+        public string ConnectionString { get; init; }
 
         /// <summary>
         /// Gets the culture.
@@ -34,8 +34,18 @@ namespace Scada.Report
         public CultureInfo Culture { get; init; }
 
         /// <summary>
+        /// Gets the time zone.
+        /// </summary>
+        public TimeZoneInfo TimeZone { get; init; }
+
+        /// <summary>
         /// Gets the directory of templates.
         /// </summary>
         public string TemplateDir { get; init; }
+
+        /// <summary>
+        /// Get the path to CSS files for HTML reports.
+        /// </summary>
+        public string CssPath { get; init; }
     }
 }

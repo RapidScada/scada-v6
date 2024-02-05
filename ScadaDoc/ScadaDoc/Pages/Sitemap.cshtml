@@ -1,0 +1,27 @@
+﻿@page "/sitemap.xml"
+@inject TocManager tocManager
+@{
+    Response.ContentType = "application/xml";
+    var baseUrl = "https://" + Request.Host + Request.PathBase;
+}
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    @foreach (var menu in VersionMenu.All)
+    {
+        foreach (var versionItem in menu)
+        {
+            var pageMeta = new PageMeta { Lang = menu.Lang, Version = versionItem.Version };
+            var toc = tocManager.GetToc(pageMeta);
+
+            if (toc != null)
+            {
+                foreach (var tocItem in toc.EnumerateAllItems().Where(i => !string.IsNullOrEmpty(i.Url)))
+                {
+    <url>
+        <loc>@(baseUrl + tocItem.Url)</loc>
+    </url>
+                }
+            }
+        }
+    }
+</urlset>

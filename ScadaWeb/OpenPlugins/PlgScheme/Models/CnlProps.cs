@@ -3,7 +3,6 @@
 
 using Scada.Data.Entities;
 using Scada.Data.Models;
-using System;
 
 namespace Scada.Web.Plugins.PlgScheme.Models
 {
@@ -19,7 +18,7 @@ namespace Scada.Web.Plugins.PlgScheme.Models
             ArgumentNullException.ThrowIfNull(configDataset, nameof(configDataset));
 
             CnlNum = cnl.CnlNum;
-            JoinLen = cnl.IsString() ? cnl.GetDataLength() : 1;
+            JoinLen = cnl.GetJoinLength();
             Unit = cnl.UnitID.HasValue ? configDataset.UnitTable.GetItem(cnl.UnitID.Value)?.Name : null;
         }
 

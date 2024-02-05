@@ -7,10 +7,9 @@
     var displayOptions = webContext.AppConfig.DisplayOptions;
     var userID = userContext.UserEntity.UserID;
     var username = userContext.UserEntity.Name;
-    var userProfileUrl = webContext.PluginHolder.FeaturedPlugins.UserManagementPlugin?.Features?.UserProfileUrl;
-
-    if (string.IsNullOrEmpty(userProfileUrl))
-        userProfileUrl = "/UserProfile";
+    var userProfileUrl = Url.Content(ScadaUtils.FirstNonEmpty(
+        webContext.PluginHolder.FeaturedPlugins.UserManagementPlugin?.Features?.UserProfileUrl,
+        "~/UserProfile") + "/" + userID);
 }
 
 @section Styles {
@@ -18,7 +17,7 @@
 
     @RenderSection("Styles", required: false)
 
-    @foreach (string url in webContext.PluginHolder.AllStyleUrls())
+    @foreach (var url in webContext.PluginHolder.AllStyleUrls())
     {
         <link href="@url" rel="stylesheet" asp-append-version="true" />
     }
@@ -28,18 +27,25 @@
     <script src="~/js/components/modal.js" asp-append-version="true"></script>
     <script src="~/js/components/notif-panel.js" asp-append-version="true"></script>
     <script src="~/js/components/tree-view.js" asp-append-version="true"></script>
-    <script src="~/js/layouts/main-layout.js" asp-append-version="true"></script>
     <script>
-        appEnv = @WebUtils.GetEnvironmentJs(Url);
+        var appEnv = @WebUtils.GetEnvironmentJs(Url);
         modalPhrases = @WebUtils.DictionaryToJs("Scada.Web.Pages.Shared._MainLayout.Modal");
         notifPhrases = @WebUtils.DictionaryToJs("Scada.Web.Pages.Shared._MainLayout.NotifPanel");
     </script>
+    <script src="~/js/layouts/main-layout.js" asp-append-version="true"></script>
 
     @RenderSection("Scripts", required: false)
 
-    @foreach (string url in webContext.PluginHolder.AllScriptUrls())
+    @foreach (var url in webContext.PluginHolder.AllScriptUrls())
     {
         <script src="@url" asp-append-version="true"></script>
+    }
+
+    @foreach (var script in webContext.PluginHolder.AllClientScripts())
+    {
+        <script>
+            @script
+        </script>
     }
 }
 
@@ -47,26 +53,26 @@
 {
     <div id="Main_divHeader">
         <div class="main-hdr-block left">@*
-            *@<span id="Main_spanMenuBtn" class="main-hdr-btn" title="@dict.spanMenuBtn_ToolTip"><i class="fas fa-bars"></i></span>@*
+            *@<span id="Main_spanMenuBtn" class="main-hdr-btn" title="@dict.spanMenuBtn_ToolTip"><i class="fa-solid fa-bars"></i></span>@*
             *@<span id="Main_spanAppTitle">@CommonPhrases.ProductName</span>
         </div>
 
         <div class="main-hdr-block right">@*
-            *@<span id="Main_spanNotifBtn" class="main-hdr-btn notif-bell" title="@dict.spanNotifBtn_ToolTip"><i class="far fa-bell"></i></span>@*
-            *@<a asp-page="@userProfileUrl" asp-route-id="@userID"><span id="Main_spanProfileBtn" class="main-hdr-btn">@username</span></a>@*
+            *@<span id="Main_spanNotifBtn" class="main-hdr-btn notif-bell" title="@dict.spanNotifBtn_ToolTip"><i class="fa-regular fa-bell"></i></span>@*
+            *@<a href="@userProfileUrl"><span id="Main_spanProfileBtn" class="main-hdr-btn">@username</span></a>@*
             *@<a asp-page="/Logout"><span id="Main_spanLogoutBtn" class="main-hdr-btn">@dict.spanLogoutBtn</span></a>@*
-            *@<span id="Main_spanFullscreenBtn" class="main-hdr-btn" title="@dict.spanFullscreenBtn_ToolTip"><i class="fas fa-expand"></i></span>
+            *@<span id="Main_spanFullscreenBtn" class="main-hdr-btn" title="@dict.spanFullscreenBtn_ToolTip"><i class="fa-solid fa-expand"></i></span>
         </div>
     </div>
 }
 
 <div id="Main_divNoHeaderMenu">@*
-    *@<span id="Main_spanMenuBtn2" class="main-hdr-btn" title="@dict.spanMenuBtn_ToolTip"><i class="fas fa-bars"></i></span>@*
-    *@<span id="Main_spanNotifBtn2" class="main-hdr-btn notif-bell" title="@dict.spanNotifBtn_ToolTip"><i class="far fa-bell"></i></span>@*
-    *@<a asp-page="@userProfileUrl" asp-route-id="@userID"><span id="Main_spanProfileBtn2" class="main-hdr-btn" title="@dict.spanProfileBtn_ToolTip"><i class="fas fa-user"></i></span></a>@*
-    *@<a asp-page="/Logout"><span id="Main_spanLogoutBtn2" class="main-hdr-btn" title="@dict.spanLogoutBtn_ToolTip"><i class="fas fa-sign-out-alt"></i></span></a>@*
-    *@<span id="Main_spanFullscreenBtn2" class="main-hdr-btn" title="@dict.spanFullscreenBtn_ToolTip"><i class="fas fa-expand"></i></span>@*
-    *@<span id="Main_spanExitFullscreenBtn" class="main-hdr-btn" title="@dict.spanExitFullscreenBtn_ToolTip"><i class="fas fa-compress"></i></span>
+    *@<span id="Main_spanMenuBtn2" class="main-hdr-btn" title="@dict.spanMenuBtn_ToolTip"><i class="fa-solid fa-bars"></i></span>@*
+    *@<span id="Main_spanNotifBtn2" class="main-hdr-btn notif-bell" title="@dict.spanNotifBtn_ToolTip"><i class="fa-regular fa-bell"></i></span>@*
+    *@<a href="@userProfileUrl"><span id="Main_spanProfileBtn2" class="main-hdr-btn" title="@dict.spanProfileBtn_ToolTip"><i class="fa-solid fa-user"></i></span></a>@*
+    *@<a asp-page="/Logout"><span id="Main_spanLogoutBtn2" class="main-hdr-btn" title="@dict.spanLogoutBtn_ToolTip"><i class="fa-solid fa-sign-out-alt"></i></span></a>@*
+    *@<span id="Main_spanFullscreenBtn2" class="main-hdr-btn" title="@dict.spanFullscreenBtn_ToolTip"><i class="fa-solid fa-expand"></i></span>@*
+    *@<span id="Main_spanExitFullscreenBtn" class="main-hdr-btn" title="@dict.spanExitFullscreenBtn_ToolTip"><i class="fa-solid fa-compress"></i></span>
 </div>
 
 @if (displayOptions.ShowMainMenu || displayOptions.ShowViewExplorer)

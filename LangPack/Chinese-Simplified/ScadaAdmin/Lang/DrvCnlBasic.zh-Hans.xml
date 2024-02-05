@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvCnlBasicDictionaries culture="zh-Hans" lang="ChineseSimplified">
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.BasicChannelView">
+    <Phrase key="ChannelTypeNotFound">找不到通信信道类型。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmSerialPortChannelOptions">
+    <Phrase key="this">串口属性</Phrase>
+    <Phrase key="gbPort">串口</Phrase>
+    <Phrase key="lblPortName">端口名称</Phrase>
+    <Phrase key="lblBaudRate">波特率</Phrase>
+    <Phrase key="lblDataBits">数据位</Phrase>
+    <Phrase key="lblParity">校验</Phrase>
+    <Phrase key="cbParity.Items[0]">无</Phrase>
+    <Phrase key="cbParity.Items[1]">奇校验</Phrase>
+    <Phrase key="cbParity.Items[2]">偶校验</Phrase>
+    <Phrase key="cbParity.Items[3]">保持1</Phrase>
+    <Phrase key="cbParity.Items[4]">保持0</Phrase>
+    <Phrase key="lblStopBits">停止位</Phrase>
+    <Phrase key="lblDtrEnable">DTR</Phrase>
+    <Phrase key="lblRtsEnable">RTS</Phrase>
+    <Phrase key="gbMode">工作模式</Phrase>
+    <Phrase key="lblBehavior">行为</Phrase>
+    <Phrase key="cbBehavior.Items[0]">Master</Phrase>
+    <Phrase key="cbBehavior.Items[1]">Slave</Phrase>
+    <Phrase key="btnOK">确定</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpClientChannelOptions">
+    <Phrase key="this">TCP客户端属性</Phrase>
+    <Phrase key="gbMode">工作模式</Phrase>
+    <Phrase key="lblBehavior">行为</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master - 通讯服务向设备发送请求，并接受应答。&#13;&#10;Slave - 通讯服务被动等待设备发送数据。</Phrase>
+    <Phrase key="lblConnectionMode">连接模式</Phrase>
+    <Phrase key="cbConnectionMode.Items[0]">独立</Phrase>
+    <Phrase key="cbConnectionMode.Items[1]">共享</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">独立 - 通讯服务与每个设备建立独立TCP连接。&#13;&#10;共享 - 通讯服务使用指定远程IP为同一通讯线路的所有设备建立一个共享连接。&#13;&#10;共享连接一般用于设备通过以太网网关（例如串口网关）连接的形式。</Phrase>
+    <Phrase key="gbConnection">连接</Phrase>
+    <Phrase key="lblHost">远程主机</Phrase>
+    <Phrase key="pbHostHint.ToolTip">远程DNS名称或者IP地址（仅共享连接）</Phrase>
+    <Phrase key="lblTcpPort">远程TCP 端口</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">独立连接模式，如果设备没有指定端口，则使用此默认TCP端口。&#13;&#10;共享连接模式，此参数是必须的。&#13;&#10;Modbus TCP的默认端口为502。</Phrase>
+    <Phrase key="lblReconnectAfter">重连间隔(s)</Phrase>
+    <Phrase key="pbReconnectAfterHint.ToolTip">指定连接失败后，重新连接的间隔时间。</Phrase>
+    <Phrase key="lblStayConnected">保持连接</Phrase>
+    <Phrase key="pbStayConnectedHint.ToolTip">如果设置此项，在会话结束后将保持连接。&#13;&#10;否则连接将在每次会话后断开。</Phrase>
+    <Phrase key="lblDisconnectOnError">错误断开连接</Phrase>
+    <Phrase key="pbDisconnectOnError.ToolTip">指示是否在会话失败时断开连接。</Phrase>
+    <Phrase key="btnOK">确定</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+    <Phrase key="HostRequired">远程服务器是必需的。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpServerChannelOptions">
+    <Phrase key="this">TCP服务端属性</Phrase>
+    <Phrase key="gbMode">工作模式</Phrase>
+    <Phrase key="lblBehavior">行为</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master - 建立连接后，通讯服务向设备发送请求并接受应答。&#13;&#10;Slave - 通讯服务被动等待设备发送数据。</Phrase>
+    <Phrase key="lblConnectionMode">连接</Phrase>
+    <Phrase key="cbConnectionMode.Items[0]">独立</Phrase>
+    <Phrase key="cbConnectionMode.Items[1]">共享</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">独立 - 通讯服务与每个设备建立独立TCP连接。&#13;&#10;共享 - 通讯服务使用指定远程IP为同一通讯线路的所有设备建立一个共享连接。&#13;&#10;共享连接一般用于设备通过以太网网关（例如串口网关）连接的形式。</Phrase>
+    <Phrase key="lblDeviceMapping">设备选择</Phrase>
+    <Phrase key="cbDeviceMapping.Items[0]">按IP地址</Phrase>
+    <Phrase key="cbDeviceMapping.Items[1]">按第一个数据包</Phrase>
+    <Phrase key="cbDeviceMapping.Items[2]">驱动程序决定 </Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">绑定传入连接与设备的方式：&#13;&#10;按IP地址 - 远程IP地址即为调用编号。&#13;&#10;按第一个数据包 - 接收设备的第一个数据包包含调用编号。&#13;&#10;DLL决定 - 设备驱动中实现相应算法。</Phrase>
+    <Phrase key="gbConnection">连接模式</Phrase>
+    <Phrase key="lblTcpPort">本地TCP端口</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">本地监听TCP端口。&#13;&#10;必须为传入连接开放防火墙权限。</Phrase>
+    <Phrase key="lblClientLifetime">无活动断开时间(s)</Phrase>
+    <Phrase key="pbClientLifetimeHint.ToolTip">没有活动时，间隔指定时长后断开连接。</Phrase>
+    <Phrase key="btnOK">确定</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmUdpChannelOptions">
+    <Phrase key="this">UDP属性</Phrase>
+    <Phrase key="gbMode">工作模式</Phrase>
+    <Phrase key="lblBehavior">行为</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master - 建立连接后，通讯服务向设备发送请求并接受应答。&#13;&#10;Slave - 通讯服务被动等待设备发送数据。</Phrase>
+    <Phrase key="lblDeviceMapping">设备选择</Phrase>
+    <Phrase key="cbDeviceMapping.Items[0]">按IP地址</Phrase>
+    <Phrase key="cbDeviceMapping.Items[1]">驱动程序决定</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">Slave模式下绑定数据与设备的方式：&#13;&#10;按IP地址 - 远程IP地址即为调用编号。&#13;&#10;驱动程序决定 - 设备驱动中实现相应算法。</Phrase>
+    <Phrase key="gbConnection">连接</Phrase>
+    <Phrase key="lblLocalUdpPort">本地UDP端口</Phrase>
+    <Phrase key="pbLocalUdpPortHint.ToolTip">本地监听UDP端口。&#13;&#10;必须为传入连接开放防火墙权限。</Phrase>
+    <Phrase key="lblRemoteUdpPort">远程UDP端口</Phrase>
+    <Phrase key="pbRemoteUdpPortHint.ToolTip">同一通讯线路的设备，远程UDP端口是相同的。</Phrase>
+    <Phrase key="lblRemoteIpAddress">远程IP地址</Phrase>
+    <Phrase key="pbRemoteIpAddressHint.ToolTip">默认远程IP地址。&#13;&#10;一般用于设备通过以太网网关（例如串口网关）连接的形式。</Phrase>
+    <Phrase key="btnOK">确定</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+  </Dictionary>
+</DrvCnlBasicDictionaries>

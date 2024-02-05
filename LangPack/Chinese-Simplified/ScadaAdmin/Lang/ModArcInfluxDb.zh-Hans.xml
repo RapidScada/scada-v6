@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModArcInfluxDblDictionaries culture="zh-Hans" lang="ChineseSimplified">
+  <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmConnManager">
+    <Phrase key="this">InfluxDB连接</Phrase>
+    <Phrase key="gbConnList">连接</Phrase>
+    <Phrase key="btnNewConn">新建</Phrase>
+    <Phrase key="btnDeleteConn">删除</Phrase>
+    <Phrase key="gbOptions">连接选项</Phrase>
+    <Phrase key="lblName">名称</Phrase>
+    <Phrase key="lblUrl">URL</Phrase>
+    <Phrase key="lblToken">票据</Phrase>
+    <Phrase key="lblUsername">用户名</Phrase>
+    <Phrase key="lblPassword">密码</Phrase>
+    <Phrase key="lblBucket">组？</Phrase>
+    <Phrase key="lblOrg">组织</Phrase>
+    <Phrase key="btnOK">确定</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+  </Dictionary>  
+  <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmInfluxHAO">
+    <Phrase key="this">历史存档选项</Phrase>
+    <Phrase key="gbDbOptions">数据库选项</Phrase>  
+    <Phrase key="lblConnection">连接</Phrase>
+    <Phrase key="btnManageConn">管理连接</Phrase>
+    <Phrase key="btnOK">确定</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+  </Dictionary>
+</ModArcInfluxDblDictionaries> 

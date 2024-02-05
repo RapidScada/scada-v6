@@ -2,40 +2,40 @@
 <ArrayOfViewType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ViewType>
     <ViewTypeID>1</ViewTypeID>
-    <Name>Table view</Name>
+    <Name>Table</Name>
     <Code>TableView</Code>
     <FileExt>tbl</FileExt>
     <Descr>Requires Main Plugin</Descr>
   </ViewType>
   <ViewType>
     <ViewTypeID>2</ViewTypeID>
-    <Name>Scheme view</Name>
+    <Name>Scheme</Name>
     <Code>SchemeView</Code>
     <FileExt>sch</FileExt>
     <Descr>Requires Scheme Plugin</Descr>
   </ViewType>
   <ViewType>
     <ViewTypeID>3</ViewTypeID>
-    <Name>Web page view</Name>
+    <Name>Web page</Name>
     <Code>WebPageView</Code>
     <Descr>Requires Web Page Plugin</Descr>
   </ViewType>
   <ViewType>
     <ViewTypeID>4</ViewTypeID>
-    <Name>Chart Pro view</Name>
+    <Name>Chart Pro</Name>
     <Code>ChartProView</Code>
     <Descr>Requires Chart Pro Plugin</Descr>
   </ViewType>
   <ViewType>
     <ViewTypeID>5</ViewTypeID>
-    <Name>Dashboard view</Name>
+    <Name>Dashboard</Name>
     <Code>DashboardView</Code>
     <FileExt>dash</FileExt>
     <Descr>Requires Dashboard Plugin</Descr>
   </ViewType>
   <ViewType>
     <ViewTypeID>6</ViewTypeID>
-    <Name>Map view</Name>
+    <Name>Map</Name>
     <Code>MapView</Code>
     <FileExt>map</FileExt>
     <Descr>Requires Map Plugin</Descr>

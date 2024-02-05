@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvMqttPublisherDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.Config.DeviceOptions">
+    <Phrase key="RootTopic.DisplayName">Kök konu</Phrase>
+    <Phrase key="RootTopic.Category">Ana Parametreler</Phrase>
+    <Phrase key="RootTopic.Description">Tüm cihaz konuları için önek olarak kullanılan kök konu.</Phrase>
+    <Phrase key="UndefinedValue.DisplayName">tanımsız değer</Phrase>
+    <Phrase key="UndefinedValue.Category">Ana Parametreler</Phrase>
+    <Phrase key="UndefinedValue.Description">Kanal değeri tanımsızsa gönderilecek yük.</Phrase>
+    <Phrase key="PublishFormat.DisplayName">Yayın biçimi</Phrase>
+    <Phrase key="PublishFormat.Category">Ana Parametreler</Phrase>
+    <Phrase key="PublishFormat.Description">Yayınlanan kanal verilerinin biçimi.&#13;&#10;Biçim örneği: { "Val": @val, "Stat": @stat }&#13;&#10;Boş biçim şuna eşittir: @val</Phrase>
+    <Phrase key="PublishOnChange.DisplayName">Değişiklikte yayınla</Phrase>
+    <Phrase key="PublishOnChange.Category">Ana Parametreler</Phrase>
+    <Phrase key="PublishOnChange.Description">Değiştirildiğinde kanal verilerinin gönderilip gönderilmeyeceğini gösteren bir değer.</Phrase>
+    <Phrase key="PublishPeriod.DisplayName">Yayın dönemi</Phrase>
+    <Phrase key="PublishPeriod.Category">Ana Parametreler</Phrase>
+    <Phrase key="PublishPeriod.Description">Tüm cihaz öğeleri için yayınlama süresi, sn.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.Config.ItemConfig">
+    <Phrase key="CnlNum.DisplayName">Kanal numarası</Phrase>
+    <Phrase key="CnlNum.Category">Ana Parametreler</Phrase>
+    <Phrase key="CnlNum.Description">Yayınlanan kanalın numarası.</Phrase>
+    <Phrase key="Topic.DisplayName">Başlık</Phrase>
+    <Phrase key="Topic.Category">Ana Parametreler</Phrase>
+    <Phrase key="Topic.Description">MQTT konusu.</Phrase>
+    <Phrase key="Publish.DisplayName">Yayınla</Phrase>
+    <Phrase key="Publish.Category">Ana Parametreler</Phrase>
+    <Phrase key="Publish.Description">Öğenin kanal değerlerini yayınlamak için kullanılıp kullanılmadığını gösteren bir değer.</Phrase>
+    <Phrase key="Subscribe.DisplayName">Abone</Phrase>
+    <Phrase key="Subscribe.Category">Ana Parametreler</Phrase>
+    <Phrase key="Subscribe.Description">Öğenin komutları almak için kullanılıp kullanılmadığını gösteren bir değer.</Phrase>
+    <Phrase key="QosLevel.DisplayName">QoS seviyesi</Phrase>
+    <Phrase key="QosLevel.Category">Protokol</Phrase>
+    <Phrase key="QosLevel.Description">Hizmet düzeyi kalitesi: 0 - en fazla bir kez, 1 - en az bir kez, 2 - tam olarak bir kez.</Phrase>
+    <Phrase key="Retain.DisplayName">Sürdürmek</Phrase>
+    <Phrase key="Retain.Category">Protokol</Phrase>
+    <Phrase key="Retain.Description">Yayınlama sırasında tutulan bayrağın ayarlanıp ayarlanmadığını gösteren bir değer.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.View.MqttPublisherConfigProvider">
+    <Phrase key="FormTitle">Cihaz {0} Özellikleri - MQTT Yayıncısı</Phrase>
+    <Phrase key="AddItemButton">Öğe eklemek</Phrase>
+    <Phrase key="OptionsNode">Seçenekler</Phrase>
+    <Phrase key="ItemsNode">Öğeler</Phrase>
+    <Phrase key="ItemNodeFormat">Kanal {0}</Phrase>
+  </Dictionary>
+</DrvMqttPublisherDictionaries>

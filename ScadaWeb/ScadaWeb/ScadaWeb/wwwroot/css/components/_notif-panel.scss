@@ -19,14 +19,9 @@ $panel-opacity: 0.97;
 $notif-fore-color: $main-menu-fore-color;
 $notif-btn-fore-color: $main-menu-fore-color-dark;
 
-$info-color: $info;
-$warning-color: $warning;
-$error-color: $danger;
-
 /********** Notification Panel **********/
 .notif-panel {
     background-color: $panel-back-color;
-    bottom: 0;
     color: $panel-fore-color;
     opacity: $panel-opacity;
     overflow-x: hidden;
@@ -34,6 +29,7 @@ $error-color: $danger;
     padding: $toolbar-height 0 0;
     position: fixed;
     right: 0;
+    top: $header-height;
     width: $panel-width;
     z-index: $zindex-notif;
 
@@ -49,12 +45,10 @@ $error-color: $danger;
 /********** Toolbar **********/
 .notif-panel .notif-toolbar {
     height: $toolbar-height;
-    padding-left: 5px;
     position: absolute;
     top: 0;
 
-    .notif-tool-btn {
-        cursor: pointer;
+    .notif-tool-item {
         display: inline-block;
         font-size: $tool-btn-text-font-size;
         height: $toolbar-height;
@@ -62,6 +56,16 @@ $error-color: $danger;
         margin: 0 5px 0 0;
         padding: 0 10px;
         white-space: nowrap;
+
+        i {
+            font-size: $tool-btn-icon-font-size;
+            margin-right: 5px;
+        }
+    }
+
+    .notif-tool-btn {
+        @extend .notif-tool-item;
+        cursor: pointer;
 
         &.disabled {
             color: $panel-fore-color-dark;
@@ -73,11 +77,6 @@ $error-color: $danger;
             color: $panel-item-hover-fore-color;
             text-decoration: none;
         }
-
-        i {
-            font-size: $tool-btn-icon-font-size;
-            margin-right: 5px;
-        }
     }
 }
 
@@ -85,6 +84,7 @@ body {
     &:not(.header-visible) {
         .notif-panel {
             padding-top: $header-height + $toolbar-height;
+            top: 0;
 
             .notif-toolbar {
                 top: $header-height;
@@ -97,7 +97,7 @@ body {
 .notif-panel .notif {
     color: $notif-fore-color;
     font-size: $notif-text-font-size;
-    margin: 0 5px 5px 15px;
+    margin: 0 5px 5px 10px;
 
     a,
     a:active,
@@ -122,18 +122,8 @@ body {
     .notif-icon {
         float: left;
         font-size: $notif-icon-font-size;
-
-        .info {
-            color: $info-color;
-        }
-
-        .warning {
-            color: $warning-color;
-        }
-
-        .error {
-            color: $error-color;
-        }
+        width: $notif-icon-font-size;
+        text-align: center;
     }
 
     .notif-time,
@@ -143,22 +133,36 @@ body {
 
     .notif-btn {
         color: $notif-btn-fore-color;
+        cursor: pointer;
         margin: 0 10px 0 -10px;
         padding: 5px 10px;
+
+        &:hover {
+            text-decoration: underline;
+        }
     }
 }
 
-/********** Bell **********/
+/********** Notification Icon Colors **********/
+.notif-icon,
 .notif-bell {
+    &.critical {
+        color: $severity-critical-color;
+    }
+
+    &.major {
+        color: $severity-major-color;
+    }
+
+    &.minor {
+        color: $severity-minor-color;
+    }
+
     &.info {
-        color: $info-color;
+        color: $severity-info-color;
     }
 
-    &.warning {
-        color: $warning-color;
-    }
-
-    &.error {
-        color: $error-color;
+    &.undef {
+        color: $severity-undef-color;
     }
 }

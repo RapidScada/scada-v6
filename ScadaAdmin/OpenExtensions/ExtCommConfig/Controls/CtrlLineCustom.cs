@@ -38,7 +38,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             colOptionName.Name = nameof(colOptionName);
             colOptionValue.Name = nameof(colOptionValue);
         }
-        
+
         /// <summary>
         /// Enables or disables the controls.
         /// </summary>

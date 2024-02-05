@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Admin.App.Forms.Tables;
@@ -100,6 +100,7 @@ namespace Scada.Admin.App.Code
         private TreeNode CreateConfigDatabaseNode(ConfigDatabase configDatabase)
         {
             TreeNode configDatabaseNode = TreeViewExtensions.CreateNode(AppPhrases.ConfigDatabaseNode, "database.png");
+            configDatabaseNode.ContextMenuStrip = contextMenus.BaseMenu;
             configDatabaseNode.Tag = new TreeNodeTag(project.ConfigDatabase, ExplorerNodeType.ConfigDatabase);
 
             // primary tables sorted in the order they are configured

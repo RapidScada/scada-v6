@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -186,6 +186,25 @@ namespace Scada.Comm.Engine
                 catch (Exception ex)
                 {
                     log.WriteError(ex, CommPhrases.ErrorInDataSource, nameof(Close), dataSourceLogic.Code);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Calls the Refresh method of the data sources.
+        /// </summary>
+        public void Refresh()
+        {
+            foreach (DataSourceLogic dataSourceLogic in dataSources)
+            {
+                try
+                {
+                    if (dataSourceLogic.IsReady)
+                        dataSourceLogic.Refresh();
+                }
+                catch (Exception ex)
+                {
+                    log.WriteError(ex, CommPhrases.ErrorInDataSource, nameof(Refresh), dataSourceLogic.Code);
                 }
             }
         }

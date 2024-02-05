@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtDepAgentDictionaries culture="zh-Hans" lang="ChineseSimplified">
+  <Dictionary key="Scada.Admin.Extensions.ExtDepAgent.Downloader">
+    <Phrase key="ImportTable">导入 {0} 表</Phrase>
+    <Phrase key="ExtractArchive">提取存档</Phrase>
+    <Phrase key="MergeDirectory">合并目录</Phrase>
+    <Phrase key="NothingToMerge">没有合并的数据</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepAgent.Uploader">
+    <Phrase key="TestAgentConn">测试代理连接</Phrase>
+    <Phrase key="CompressConfig">压缩配置</Phrase>
+    <Phrase key="CompressBase">压缩配置数据库</Phrase>
+    <Phrase key="CompressViews">压缩视图</Phrase>
+    <Phrase key="CompressAppConfig">压缩应用程序的配置 {0} </Phrase>
+    <Phrase key="AddProjectInfo">添加项目信息</Phrase>
+    <Phrase key="AddTransferOptions">添加传输选项</Phrase>
+    <Phrase key="TransferConfig">传输配置</Phrase>
+    <Phrase key="ArchiveSize">存档大小: {0} 字节</Phrase>
+  </Dictionary>
+</ExtDepAgentDictionaries>

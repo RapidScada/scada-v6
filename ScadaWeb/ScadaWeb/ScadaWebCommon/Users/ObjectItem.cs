@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,12 +20,12 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Data.Entities;
+using Scada.Data.Models;
 using Scada.Lang;
-using System;
 using System.Text;
 
 namespace Scada.Web.Users
@@ -39,10 +39,11 @@ namespace Scada.Web.Users
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ObjectItem(Obj obj, int level)
+        public ObjectItem(Obj obj, Right right, int level)
         {
             ArgumentNullException.ThrowIfNull(obj, nameof(obj));
             ObjNum = obj.ObjNum;
+            Right = right;
             Level = level;
 
             if (level > 0)
@@ -69,6 +70,11 @@ namespace Scada.Web.Users
         /// Gets the item text.
         /// </summary>
         public string Text { get; }
+
+        /// <summary>
+        /// Gets the user rights to access the object.
+        /// </summary>
+        public Right Right { get; }
 
         /// <summary>
         /// Gets the nesting level.

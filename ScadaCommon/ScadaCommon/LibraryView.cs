@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,11 +20,10 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Agent;
-using Scada.Client;
 using Scada.Data.Models;
 using System;
 
@@ -45,6 +44,7 @@ namespace Scada
             AppDirs = null;
             AgentClient = null;
             CanShowProperties = false;
+            Info = null;
             RequireRegistration = false;
             ProductCode = "";
         }
@@ -81,6 +81,50 @@ namespace Scada
         public IAgentClient AgentClient { get; set; }
 
         /// <summary>
+        /// Gets information about the library.
+        /// </summary>
+        public LibraryInfo Info { get; protected set; }
+
+        /// <summary>
+        /// Gets the library name.
+        /// </summary>
+        public virtual string Name
+        {
+            get
+            {
+                return Info == null
+                    ? GetType().Name
+                    : Info.Name;
+            }
+        }
+
+        /// <summary>
+        /// Gets the library description.
+        /// </summary>
+        public virtual string Descr
+        {
+            get
+            {
+                return Info == null
+                    ? ""
+                    : Info.Descr;
+            }
+        }
+
+        /// <summary>
+        /// Gets the library version.
+        /// </summary>
+        public virtual string Version
+        {
+            get
+            {
+                return Info == null
+                    ? GetType().Assembly.GetName().Version.ToString()
+                    : Info.Version;
+            }
+        }
+
+        /// <summary>
         /// Gets a value indicating whether the module can show a properties dialog box.
         /// </summary>
         public bool CanShowProperties { get; protected set; }
@@ -94,17 +138,6 @@ namespace Scada
         /// Gets the product code for registration.
         /// </summary>
         public string ProductCode { get; protected set; }
-
-        /// <summary>
-        /// Gets the library version.
-        /// </summary>
-        public virtual string Version
-        {
-            get
-            {
-                return GetType().Assembly.GetName().Version.ToString();
-            }
-        }
 
 
         /// <summary>

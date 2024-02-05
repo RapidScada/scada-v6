@@ -1,9 +1,6 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
-using System.Windows.Forms;
-
 namespace Scada.Forms
 {
     /// <summary>
@@ -48,6 +45,14 @@ namespace Scada.Forms
         public static ListViewItem GetSelectedItem(this ListView listView)
         {
             return listView.SelectedItems.Count > 0 ? listView.SelectedItems[0] : null;
+        }
+
+        /// <summary>
+        /// Gets an object associated with the first selected list item.
+        /// </summary>
+        public static object GetSelectedObject(this ListView listView)
+        {
+            return listView.GetSelectedItem()?.Tag;
         }
 
         /// <summary>

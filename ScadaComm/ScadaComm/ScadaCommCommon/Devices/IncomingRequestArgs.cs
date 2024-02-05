@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,8 @@ namespace Scada.Comm.Devices
 
 
         /// <summary>
-        /// Gets or sets a value that indicates whether an error occurred while receiving and processing the request.
+        /// Gets or sets a value that indicates whether an error occurred while receiving the request, 
+        /// and the incoming data stream should be cleared.
         /// </summary>
         public bool HasError { get; set; }
 

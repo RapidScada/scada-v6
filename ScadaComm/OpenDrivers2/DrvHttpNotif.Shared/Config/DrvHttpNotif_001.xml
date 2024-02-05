@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<DrvHttpNotif>
+<NotifDeviceConfig>
   <Uri>http://rapidscada.net/minicrm/api/v1/StoreSvc.svc/GetModules?locale=en-GB</Uri>
   <Method>Get</Method>
   <Headers>
@@ -12,4 +12,4 @@
   <ParamBegin>{</ParamBegin>
   <ParamEnd>}</ParamEnd>
   <AddrSep>;</AddrSep>
-</DrvHttpNotif>
+</NotifDeviceConfig>

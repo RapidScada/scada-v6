@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2010
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Admin.App.Code;
@@ -81,6 +81,7 @@ namespace Scada.Admin.App.Forms.Tables
                 chkActive.SetChecked(cells["Active"]);
                 txtCnlNum.SetText(cells["CnlNum"]);
                 txtName.SetText(cells["Name"]);
+                txtCode.SetText(cells["Code"]);
                 cbDataType.SetValue(cells["DataTypeID"]);
                 txtDataLen.SetText(cells["DataLen"]);
                 cbCnlType.SetValue(cells["CnlTypeID"]);
@@ -92,6 +93,7 @@ namespace Scada.Admin.App.Forms.Tables
                 txtInFormula.SetText(cells["InFormula"]);
                 txtOutFormula.SetText(cells["OutFormula"]);
                 cbFormat.SetValue(cells["FormatID"]);
+                cbOutFormat.SetValue(cells["OutFormatID"]);
                 cbQuantity.SetValue(cells["QuantityID"]);
                 cbUnit.SetValue(cells["UnitID"]);
                 cbLim.SetValue(cells["LimID"]);
@@ -134,7 +136,8 @@ namespace Scada.Admin.App.Forms.Tables
             if (!(int.TryParse(txtCnlNum.Text, out int cnlNum) &&
                 ConfigDatabase.MinID <= cnlNum && cnlNum <= ConfigDatabase.MaxID))
             {
-                sbError.AppendError(lblCnlNum, CommonPhrases.IntegerInRangeRequired, ConfigDatabase.MinID, ConfigDatabase.MaxID);
+                sbError.AppendError(lblCnlNum, CommonPhrases.IntegerInRangeRequired,
+                    ConfigDatabase.MinID, ConfigDatabase.MaxID);
             }
 
             int dataLen = -1;
@@ -164,6 +167,7 @@ namespace Scada.Admin.App.Forms.Tables
                 cells["Active"].Value = chkActive.Checked;
                 cells["CnlNum"].Value = cnlNum;
                 cells["Name"].Value = txtName.Text;
+                cells["Code"].Value = txtCode.Text;
                 cells["DataTypeID"].Value = cbDataType.SelectedValue ?? DBNull.Value;
                 cells["DataLen"].Value = dataLen > 0 ? dataLen : DBNull.Value;
                 cells["CnlTypeID"].Value = cbCnlType.SelectedValue ?? DBNull.Value;
@@ -175,6 +179,7 @@ namespace Scada.Admin.App.Forms.Tables
                 cells["InFormula"].Value = txtInFormula.Text;
                 cells["OutFormula"].Value = txtOutFormula.Text;
                 cells["FormatID"].Value = cbFormat.SelectedValue ?? DBNull.Value;
+                cells["OutFormatID"].Value = cbOutFormat.SelectedValue ?? DBNull.Value;
                 cells["QuantityID"].Value = cbQuantity.SelectedValue ?? DBNull.Value;
                 cells["UnitID"].Value = cbUnit.SelectedValue ?? DBNull.Value;
                 cells["LimID"].Value = cbLim.SelectedValue ?? DBNull.Value;
@@ -234,7 +239,7 @@ namespace Scada.Admin.App.Forms.Tables
         private void cbLim_SelectedIndexChanged(object sender, EventArgs e)
         {
             // show details of the selected limit
-            if (cbLim.SelectedItem is DataRowView rowView && 
+            if (cbLim.SelectedItem is DataRowView rowView &&
                 rowView["LimID"] is int limID && limID > 0)
             {
                 bool isBoundToCnl = (bool)rowView["IsBoundToCnl"];
@@ -257,7 +262,7 @@ namespace Scada.Admin.App.Forms.Tables
                 txtLow.Text = LimToStr("Low");
                 txtHigh.Text = LimToStr("High");
                 txtHiHi.Text = LimToStr("HiHi");
-                txtDeadband.Text = Convert.ToString(rowView["Deadband"]);
+                txtDeadband.Text = LimToStr("Deadband");
             }
             else
             {
@@ -273,7 +278,7 @@ namespace Scada.Admin.App.Forms.Tables
         {
             // create new limit
             int.TryParse(txtCnlNum.Text, out int cnlNum);
-            FrmLimCreate frmLimCreate = new(configDatabase) { CnlNum = cnlNum };
+            FrmLimCreate frmLimCreate = new(configDatabase, cnlNum);
 
             if (frmLimCreate.ShowDialog() == DialogResult.OK)
             {

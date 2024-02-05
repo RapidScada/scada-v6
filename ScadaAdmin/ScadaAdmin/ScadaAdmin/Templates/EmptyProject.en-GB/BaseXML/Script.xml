@@ -42,6 +42,13 @@ public double SetBit(double val, int n, double isOn)
     return isOn &gt; 0 ? ulVal | (1ul &lt;&lt; n) : ulVal &amp; ~(1ul &lt;&lt; n);
 }
 
+// Sets the n-th bit of the channel value, keeping the channel status unchanged.
+// Устанавливает бит n значения канала, сохраняя статус канала неизменным.
+public CnlData SetBit(CnlData cnlData, int n, double isOn)
+{
+    return NewData(SetBit(cnlData.Val, n, isOn), cnlData.Stat);
+}
+
 // Returns the n-th byte of the specified value.
 // Возвращает байт n значения val.
 double GetByte(double val, int n)
@@ -284,14 +291,26 @@ public CnlData EveryHour(Func&lt;double&gt; getValFunc)
   <Script>
     <ScriptID>7</ScriptID>
     <Name>Counters</Name>
-    <Source>// Counts a pulse of the specified channel.
+    <Source>// The previous channel data used by the counters.
+// Предыдущие данные каналов, используемые счётчиками.
+protected Dictionary&lt;int, CnlData&gt; CounterPrevData = new Dictionary&lt;int, CnlData&gt;();
+
+// Counts a pulse of the specified channel.
 // Подсчитывает импульс заданного канала.
 public double CountPulse(int cnlNum)
 {
+    int cntrCnlNum = CnlNum; // channel of the formula
+    double cntrVal = Val();
     CnlData cnlData = Data(cnlNum);
-    CnlData prevCnlData = PrevData(cnlNum);
-    return cnlData.IsDefined &amp;&amp; prevCnlData.IsDefined &amp;&amp; cnlData.Val &gt; 0 &amp;&amp; prevCnlData.Val &lt;= 0 ? 
-        Val() + 1 : Val();
+
+    if (CounterPrevData.TryGetValue(cntrCnlNum, out CnlData prevCnlData) &amp;&amp;
+        cnlData.IsDefined &amp;&amp; prevCnlData.IsDefined &amp;&amp; cnlData.Val &gt; 0 &amp;&amp; prevCnlData.Val &lt;= 0)
+    {
+        cntrVal++;
+    }
+
+    CounterPrevData[cntrCnlNum] = cnlData;
+    return cntrVal;
 }
 </Source>
   </Script>

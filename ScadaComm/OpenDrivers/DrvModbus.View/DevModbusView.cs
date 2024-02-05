@@ -122,6 +122,8 @@ namespace Scada.Comm.Drivers.DrvModbus.View
                                 Active = elemGroupConfig.Active,
                                 Name = elemConfig.Name + "[" + bit + "]",
                                 CnlTypeID = elemConfig.ReadOnly ? CnlTypeID.Calculated : CnlTypeID.CalculatedOutput,
+                                TagNum = string.IsNullOrEmpty(elemConfig.TagCode) ? tagNum : null,
+                                TagCode = elemConfig.TagCode,
                                 FormatCode = FormatCode.OffOn,
                                 FormulaEnabled = true,
                                 InFormula = $"GetBit(DataRel({-bit - 1}), {bit})",

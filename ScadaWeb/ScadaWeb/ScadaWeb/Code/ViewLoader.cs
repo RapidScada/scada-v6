@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,20 +20,21 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2023
  */
 
 using Microsoft.Extensions.Caching.Memory;
+using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Protocol;
 using Scada.Storages;
+using Scada.Web.Audit;
 using Scada.Web.Lang;
 using Scada.Web.Plugins;
 using Scada.Web.Services;
 using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace Scada.Web.Code
@@ -46,17 +47,20 @@ namespace Scada.Web.Code
     {
         private readonly IWebContext webContext;
         private readonly IUserContext userContext;
+        private readonly IAuditLog auditLog;
         private readonly IClientAccessor clientAccessor;
         private readonly IMemoryCache memoryCache;
+
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ViewLoader(IWebContext webContext, IUserContext userContext, 
+        public ViewLoader(IWebContext webContext, IUserContext userContext, IAuditLog auditLog,
             IClientAccessor clientAccessor, IMemoryCache memoryCache)
         {
             this.webContext = webContext ?? throw new ArgumentNullException(nameof(webContext));
             this.userContext = userContext ?? throw new ArgumentNullException(nameof(userContext));
+            this.auditLog = auditLog ?? throw new ArgumentNullException(nameof(auditLog));
             this.clientAccessor = clientAccessor ?? throw new ArgumentNullException(nameof(clientAccessor));
             this.memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
         }
@@ -120,15 +124,31 @@ namespace Scada.Web.Code
         /// <summary>
         /// Creates and loads the specified view.
         /// </summary>
-        private ViewBase GetView(View viewEntity, Type viewType)
+        private bool GetView(View viewEntity, Type viewType, out ViewBase view, out string errMsg)
         {
             try
             {
-                ViewBase view = (ViewBase)Activator.CreateInstance(viewType, viewEntity);
+                // get exact view type if needed
+                if (viewType == typeof(ViewBase))
+                {
+                    if (GetViewSpec(viewEntity, out ViewSpec viewSpec, out errMsg))
+                    {
+                        viewType = viewSpec.ViewType;
+                    }
+                    else
+                    {
+                        view = null;
+                        return false;
+                    }
+                }
+
+                // create view
+                view = (ViewBase)Activator.CreateInstance(viewType, viewEntity);
 
                 if (webContext.PluginHolder.GetPluginByViewType(viewType, out PluginLogic pluginLogic))
                     pluginLogic.PrepareView(view);
 
+                // load view
                 if (view.StoredOnServer)
                 {
                     if (webContext.Storage.ViewAvailable)
@@ -139,7 +159,8 @@ namespace Scada.Web.Code
 
                 view.Build();
                 view.Bind(webContext.ConfigDatabase);
-                return view;
+                errMsg = "";
+                return true;
             }
             catch (Exception ex)
             {
@@ -147,7 +168,10 @@ namespace Scada.Web.Code
                     "Ошибка при загрузке представления с ид. {0} по пути {1}" :
                     "Error loading view with ID {0} by the path {1}", 
                     viewEntity.ViewID, viewEntity.Path);
-                return null;
+
+                view = null;
+                errMsg = WebPhrases.UnableLoadView;
+                return false;
             }
         }
 
@@ -207,6 +231,21 @@ namespace Scada.Web.Code
             }
         }
 
+        /// <summary>
+        /// Writes the entry to the audit log.
+        /// </summary>
+        private void WriteToAuditLog(int viewID, bool success, string message)
+        {
+            auditLog.Write(new AuditLogEntry(userContext.UserEntity)
+            {
+                ActionType = AuditActionType.OpenView,
+                ActionArgs = AuditActionArgs.FromObject(new { ViewID = viewID }),
+                ActionResult = AuditActionResult.FromBool(success),
+                Severity = success ? Severity.Info : Severity.Minor,
+                Message = message
+            });
+        }
+
 
         /// <summary>
         /// Gets a specification of the specified view.
@@ -225,47 +264,46 @@ namespace Scada.Web.Code
         /// <summary>
         /// Gets a view from the server or cache.
         /// </summary>
-        public bool GetView<T>(int viewID, out T view, out string errMsg) where T : ViewBase
+        public bool GetView<T>(int viewID, bool enableAudit, out T view, out string errMsg) where T : ViewBase
         {
-            if (!ValidateView(viewID, out View viewEntity, out errMsg))
-            {
-                view = null;
-                return false;
-            }
+            bool success = false;
+            string message = null;
 
-            Type viewType = typeof(T);
-
-            if (viewType == typeof(ViewBase))
+            if (ValidateView(viewID, out View viewEntity, out string msg1))
             {
-                if (GetViewSpec(viewEntity, out ViewSpec viewSpec, out errMsg))
+                view = (T)memoryCache.GetOrCreate(WebUtils.GetViewCacheKey(viewID), entry =>
                 {
-                    viewType = viewSpec.ViewType;
-                }
+                    entry.AddExpirationToken(webContext);
+
+                    if (GetView(viewEntity, typeof(T), out ViewBase createdView, out string msg2))
+                    {
+                        entry.SetSlidingExpiration(WebUtils.ViewCacheExpiration);
+                        return createdView;
+                    }
+                    else
+                    {
+                        entry.SetSlidingExpiration(WebUtils.ErrorCacheExpiration);
+                        message = msg2;
+                        return null;
+                    }
+                });
+
+                if (view == null)
+                    message ??= WebPhrases.UnableLoadView;
                 else
-                {
-                    view = null;
-                    return false;
-                }
-            }
-
-            view = (T)memoryCache.GetOrCreate(WebUtils.GetViewCacheKey(viewID), entry =>
-            {
-                ViewBase viewBase = GetView(viewEntity, viewType);
-                entry.SetSlidingExpiration(viewBase == null ? 
-                    WebUtils.ErrorCacheExpiration : WebUtils.ViewCacheExpiration);
-                entry.AddExpirationToken(webContext);
-                return viewBase;
-            });
-
-            if (view == null)
-            {
-                errMsg = WebPhrases.UnableLoadView;
-                return false;
+                    success = true;
             }
             else
             {
-                return true;
+                view = null;
+                message = msg1;
             }
+
+            if (enableAudit)
+                WriteToAuditLog(viewID, success, message);
+
+            errMsg = message;
+            return success;
         }
 
         /// <summary>

@@ -139,7 +139,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Config
             XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
             xmlDoc.AppendChild(xmlDecl);
 
-            XmlElement rootElem = xmlDoc.CreateElement("DrvHttpNotif");
+            XmlElement rootElem = xmlDoc.CreateElement("NotifDeviceConfig");
             xmlDoc.AppendChild(rootElem);
 
             rootElem.AppendElem("Uri", Uri);

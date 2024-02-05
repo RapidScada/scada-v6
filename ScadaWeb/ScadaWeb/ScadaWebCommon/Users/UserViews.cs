@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Data.Entities;
@@ -29,9 +29,6 @@ using Scada.Lang;
 using Scada.Web.Plugins;
 using Scada.Web.Services;
 using Scada.Web.TreeView;
-using System;
-using System.Collections.Generic;
-using System.IO;
 
 namespace Scada.Web.Users
 {
@@ -115,7 +112,7 @@ namespace Scada.Web.Users
                 WebContext.GetViewSpec(viewEntity) is ViewSpec viewSpec)
             {
                 viewNode.IconUrl = viewSpec.IconUrl;
-                viewNode.Url = WebPath.GetViewPath(viewID).PrependTilda();
+                viewNode.Url = WebPath.GetViewPath(viewID).PrependTilde();
                 viewNode.ViewFrameUrl = viewSpec.GetFrameUrl(viewID);
                 viewNode.DataAttrs.Add("viewFrameUrl", viewNode.ViewFrameUrl);
             }

@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDbImportDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlCommand">
+    <Phrase key="gbCommand">Parametry poleceń</Phrase>
+    <Phrase key="lblName">Nazwa</Phrase>
+    <Phrase key="lblCmdCode">Kod polecenia</Phrase>
+    <Phrase key="lblCmdCodeWarn">Wypełnij kod</Phrase>
+    <Phrase key="lblSql">SQL</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">Dostępne parametry: @cmdVal, @cmdData</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlQuery">
+    <Phrase key="gbQuery">Parametry zapytania</Phrase>
+    <Phrase key="chkActive">Aktywny</Phrase>
+    <Phrase key="lblName">Nazwa</Phrase>
+    <Phrase key="lblTag">Tagi</Phrase>
+    <Phrase key="lblSQL">SQL</Phrase>
+    <Phrase key="chkSingleRow">Wynik w jednym rzędzie</Phrase>
+    <Phrase key="pbTagInfo.ToolTip">Każda linia zawiera kod znacznika.</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">ON — żądanie zwraca pojedynczy wiersz, z którego każde pole zawiera wartość znacznika.&#13;&#10;OFF — żądanie zwraca zestaw wierszy, z których każdy zawiera wartość znacznika.  Kolumny wymagane: code i val.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Właściwości urządzenia {0} — import bazy danych</Phrase>
+    <Phrase key="btnAddQuery.ToolTip">Dodaj zapytanie</Phrase>
+    <Phrase key="btnAddCommand.ToolTip">Dodaj polecenie</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Podnieść</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Padnij</Phrase>
+    <Phrase key="btnDelete.ToolTip">Usuwać</Phrase>
+    <Phrase key="gbDevice">Konfiguracja urzadzenia</Phrase>
+    <Phrase key="btnSave">Ratować</Phrase>
+    <Phrase key="btnCancel">Anulować</Phrase>
+    <Phrase key="btnClose">Zamknąć</Phrase>
+    <Phrase key="miCollapseAll">Zwinąć wszystkie</Phrase>
+    <Phrase key="ConnectionNode">Opcje połączenia</Phrase>
+    <Phrase key="CommandName">polecenie {0}</Phrase>
+    <Phrase key="CommandsNode">Polecenia</Phrase>
+    <Phrase key="QueryName">zapytanie {0}</Phrase>
+    <Phrase key="QueriesNode">Zapytania</Phrase>
+    <Phrase key="SelectChildNode">Wybierz węzeł podrzędny</Phrase>
+    <Phrase key="UnnamedCommand">&lt;polecenie bez nazwy&gt;</Phrase>
+    <Phrase key="UnnamedQuery">&lt;Zapytanie bez nazwy&gt;</Phrase>
+  </Dictionary>
+</DrvDbImportDictionaries>

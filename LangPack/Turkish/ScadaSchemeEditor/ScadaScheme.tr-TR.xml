@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaSchemeDictionaries>
+  <Dictionary key="Scada.Scheme.Model.DataTypes.ImageCondition">
+    <Phrase key="DisplayName">Görüntü Durumu</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid">
+    <Phrase key="StringConvertError">Dize dönüştürülemiyor</Phrase>
+    <Phrase key="StringUniqueError">Özellik değeri benzersiz olmalıdır</Phrase>
+    <Phrase key="TrueValue">Evet</Phrase>
+    <Phrase key="FalseValue">HAYIR</Phrase>
+    <Phrase key="EmptyValue">(Hiçbiri)</Phrase>
+    <Phrase key="ObjectValue">(Nesne)</Phrase>
+    <Phrase key="CollectionValue">(Toplamak)</Phrase>
+    <Phrase key="ComponentNotFound">bileşen bulunamadı</Phrase>
+    <Phrase key="BoldSymbol">B</Phrase>
+    <Phrase key="ItalicSymbol">BEN</Phrase>
+    <Phrase key="UnderlineSymbol">sen</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmCollectionDialog">
+    <Phrase key="this">{0} Koleksiyon</Phrase>
+    <Phrase key="lblItems">Öğeler</Phrase>
+    <Phrase key="lblProps">Öğe özellikleri</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmFontDialog">
+    <Phrase key="this">Yazı tipi</Phrase>
+    <Phrase key="lblFontName">Yazı tipi</Phrase>
+    <Phrase key="lblFontSize">Boyut</Phrase>
+    <Phrase key="gbStyle">stil</Phrase>
+    <Phrase key="chkBold">Bold</Phrase>
+    <Phrase key="chkItalic">Italic</Phrase>
+    <Phrase key="chkUnderline">Altını çizmek</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmImageDialog">
+    <Phrase key="this">Görüntüler</Phrase>
+    <Phrase key="lblImages">Görüntüler</Phrase>
+    <Phrase key="lblImageProps">Görüntü özellikleri</Phrase>
+    <Phrase key="lblPreview">Ön izleme</Phrase>
+    <Phrase key="btnSelectEmpty">Boş</Phrase>
+    <Phrase key="btnSelect">Seçme</Phrase>
+    <Phrase key="btnClose">Kapalı</Phrase>
+    <Phrase key="ImageFileFilter">Görseller (*.jpg;*.png;*.gif;*.svg)|*.jpg;*.png;*.gif;*.svg|Tüm Dosyalar (*.*)|*.*</Phrase>
+    <Phrase key="DisplayImageError">Resim gösterilirken hata oluştu</Phrase>
+    <Phrase key="LoadImageError">Resim yüklenirken hata oluştu</Phrase>
+    <Phrase key="SaveImageError">Resim kaydedilirken hata oluştu</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Model.PropertyGrid.FrmRangeDialog">
+    <Phrase key="this">Tam Sayı Aralığı</Phrase>
+    <Phrase key="lblExample">Örneğin: 1 - 5, 10</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+    <Phrase key="RangeNotValid">Aralık geçerli değil</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Template.TemplateBindings">
+    <Phrase key="LoadTemplateBindingsError">Dosyadan şema şablonu bağlamaları yüklenirken hata oluştu</Phrase>
+    <Phrase key="SaveTemplateBindingsError">Şema şablonu bağlamalarını dosyaya kaydederken hata oluştu</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.CompManager">
+    <Phrase key="UnknownComponent">Bilinmeyen bileşen {0}</Phrase>
+    <Phrase key="CompLibraryNotFound">{0} bileşeni için kitaplık bulunamadı</Phrase>
+    <Phrase key="UnableCreateComponent">{0} bileşeni oluşturulamıyor</Phrase>
+    <Phrase key="ErrorCreatingComponent">{0} bileşeni oluşturulurken hata oluştu</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.SchemeView">
+    <Phrase key="LoadSchemeViewError">Dosyadan şema yüklenirken hata oluştu</Phrase>
+    <Phrase key="SaveSchemeViewError">Şema dosyaya kaydedilirken hata oluştu</Phrase>
+    <Phrase key="IncorrectFileFormat">Şema dosyasının yanlış formatı</Phrase>
+  </Dictionary>
+</ScadaSchemeDictionaries>

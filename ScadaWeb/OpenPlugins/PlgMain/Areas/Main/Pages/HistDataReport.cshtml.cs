@@ -27,7 +27,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
         public DateTime StartTime { get; private set; }
         public DateTime EndTime { get; private set; }
-        public List<SelectListItem> ArchiveList { get; private set; } = new();
+        public List<SelectListItem> ArchiveList { get; } = new();
 
 
         private void FillArchiveList()

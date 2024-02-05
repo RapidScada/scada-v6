@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TableOfContents>
+  <!-- Software Overview -->
+  <Item>
+    <Text>Visión general del software</Text>
+    <Subitems>
+      <Item>
+        <Text>Propósito y características del software</Text>
+        <Url>/es/5.8/software-overview/software-purpose</Url>
+      </Item>
+      <Item>
+        <Text>Arquitectura del software</Text>
+        <Url>/es/5.8/software-overview/software-architecture</Url>
+      </Item>
+      <Item>
+        <Text>Descripción de las aplicaciones</Text>
+        <Url>/es/5.8/software-overview/applications</Url>
+      </Item>
+    </Subitems>
+  </Item>
+  
+  <!-- Installation and Run -->
+  <Item>
+    <Text>Instalación y lanzamiento</Text>
+    <Subitems>
+      <Item>
+        <Text>Requerimientos del sistema</Text>
+        <Url>/es/5.8/installation-and-run/system-requirements</Url>
+      </Item>
+      <Item>
+        <Text>Instalación del software</Text>
+        <Url>/es/5.8/installation-and-run/software-installation</Url>
+      </Item>
+      <Item>
+        <Text>Instalación manual</Text>
+        <Url>/es/5.8/installation-and-run/manual-installation</Url>
+      </Item>
+      <Item>
+        <Text>Instalación de módulos adicionales</Text>
+        <Url>/es/5.8/installation-and-run/module-installation</Url>
+      </Item>
+      <Item>
+        <Text>Ejecución de aplicaciones</Text>
+        <Url>/es/5.8/installation-and-run/run-applications</Url>
+      </Item>
+      <Item>
+        <Text>Migrar la configuración a un nuevo servidor</Text>
+        <Url>/es/5.8/installation-and-run/migrate-configuration</Url>
+      </Item>
+      <Item>
+        <Text>Actualización del software</Text>
+        <Url>/es/5.8/installation-and-run/software-update</Url>
+      </Item>
+      <Item>
+        <Text>Recomendaciones de seguridad</Text>
+        <Url>/es/5.8/installation-and-run/safety-recommendations</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
+  <!-- Software Configuration -->
+  <Item>
+    <Text>Configuración de software</Text>
+    <Subitems>
+      <Item>
+        <Text>Conceptos básicos de la configuración</Text>
+        <Url>/es/5.8/software-configuration/configuration-basics</Url>
+      </Item>
+      <Item>
+        <Text>Afinación de la base de datos de configuración</Text>
+        <Url>/es/5.8/software-configuration/tune-database</Url>
+      </Item>
+      <Item>
+        <Text>Uso de fórmulas</Text>
+        <Url>/es/5.8/software-configuration/using-formulas</Url>
+      </Item>
+      <Item>
+        <Text>Configuración de autenticación del usuario</Text>
+        <Url>/es/5.8/software-configuration/user-authentication</Url>
+      </Item>
+      <Item>
+        <Text>Configuración de la comunicación con los dispositivos</Text>
+        <Url>/es/5.8/software-configuration/communication-with-devices</Url>
+      </Item>
+      <Item>
+        <Text>Creación de vistas</Text>
+        <Url>/es/5.8/software-configuration/creating-views</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
+  <!-- Modules -->
+  <Item>
+    <Text>Módulos</Text>
+    <Subitems>
+      <Item>
+        <Text>Controlador de Modbus esclavo</Text>
+        <Url>/es/5.8/modules/kp-modbus-slave</Url>
+      </Item>
+      <Item>
+        <Text>Controlador de Telegram</Text>
+        <Url>/es/5.8/modules/kp-telegram</Url>
+      </Item>
+      <Item>
+        <Text>Módulo de Control Automático</Text>
+        <Url>/es/5.8/modules/mod-auto-control</Url>
+      </Item>
+      <Item>
+        <Text>Módulo de Exportación a Base de Datos</Text>
+        <Url>/es/5.8/modules/mod-db-export</Url>
+      </Item>
+      <Item>
+        <Text>Modulo Rapid Gate</Text>
+        <Url>/es/5.8/modules/mod-rapid-gate</Url>
+      </Item>
+      <Item>
+        <Text>Chart Pro Plugin</Text>
+        <Url>/es/5.8/modules/plg-chart-pro</Url>
+      </Item>
+      <Item>
+        <Text>Dashboard Plugin</Text>
+        <Url>/es/5.8/modules/plg-dashboard</Url>
+      </Item>
+      <Item>
+        <Text>Elastic Report Plugin</Text>
+        <Url>/es/5.8/modules/plg-elastic-report</Url>
+      </Item>
+      <Item>
+        <Text>Map Plugin</Text>
+        <Url>/es/5.8/modules/plg-map</Url>
+      </Item>
+      <Item>
+        <Text>Notification Plugin</Text>
+        <Url>/es/5.8/modules/plg-notification</Url>
+      </Item>
+    </Subitems>
+  </Item>
+  
+  <!-- Additional Applications -->
+  <Item>
+    <Text>Additional Applications</Text>
+    <Subitems>
+      <Item>
+        <Text>Aplicación de Informe Automático</Text>
+        <Url>/es/5.8/additional-applications/app-auto-report</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
+  <!-- Use Cases -->
+  <Item>
+    <Text>Use Cases</Text>
+    <Subitems>
+      <Item>
+        <Text>Conexión de dispositivos mediante protocolo Modbus</Text>
+        <Url>/es/5.8/use-cases/modbus-protocol</Url>
+      </Item>
+      <Item>
+        <Text>Conexión de dispositivos utilizando el estándar OPC</Text>
+        <Url>/es/5.8/use-cases/opc-standard</Url>
+      </Item>
+    </Subitems>
+  </Item>
+</TableOfContents>

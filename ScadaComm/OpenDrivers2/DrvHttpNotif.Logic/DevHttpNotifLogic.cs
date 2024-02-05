@@ -83,8 +83,8 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
             if (string.IsNullOrEmpty(config.Uri))
             {
                 errMsg = string.Format(Locale.IsRussian ?
-                    "Ошибка: {0}: URI не может быть пустым." :
-                    "Error: {0}: URI must not be empty.", Title);
+                    "Ошибка: {0}: URI не может быть пустым" :
+                    "Error: {0}: URI must not be empty", Title);
                 return false;
             }
             else
@@ -97,7 +97,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
                 {
                     errMsg = string.Format(Locale.IsRussian ?
                         "Ошибка: {0}: некорректный URI" :
-                        "Error: {0}: invalid URI.", Title);
+                        "Error: {0}: invalid URI", Title);
                     return false;
                 }
             }
@@ -388,7 +388,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
         /// </summary>
         public override void InitDeviceTags()
         {
-            DeviceTags.AddGroup(CnlPrototypeFactory.GetCnlPrototypeGroup().ToTagGroup());
+            DeviceTags.AddGroup(CnlPrototypeFactory.GetGroup().ToTagGroup());
             DeviceTags.FlattenGroups = true;
         }
 
@@ -405,10 +405,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
 
             // set device status
             if (isReady)
-            {
                 DeviceStatus = DeviceStatus.Normal;
-                DeviceData.SetStatusTag(DeviceStatus);
-            }
         }
 
         /// <summary>
@@ -450,21 +447,18 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
                     args = GetRequestArgs(cmd);
                 }
 
-                if (cmdCode != "" && args != null)
+                if (cmdCode != "" && args != null && CreateRequest(args, out HttpRequestMessage request))
                 {
-                    if (CreateRequest(args, out HttpRequestMessage request))
+                    int tryNum = 0;
+
+                    while (RequestNeeded(ref tryNum))
                     {
-                        int tryNum = 0;
-
-                        while (RequestNeeded(ref tryNum))
-                        {
-                            LastRequestOK = SendNotification(request, cmdCode);
-                            FinishRequest();
-                            tryNum++;
-                        }
-
-                        request.Dispose();
+                        LastRequestOK = SendNotification(request, cmdCode);
+                        FinishRequest();
+                        tryNum++;
                     }
+
+                    request.Dispose();
                 }
                 else
                 {

@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Globalization;
+
 namespace Scada.Comm.Drivers.DrvModbus.Protocol
 {
     /// <summary>
@@ -133,31 +135,31 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
 
             switch (excCode)
             {
-                case 0x01:
+                case ExceptionCode.IllegalFunction:
                     descr += "ILLEGAL FUNCTION";
                     break;
-                case 0x02:
+                case ExceptionCode.IllegalDataAddress:
                     descr += "ILLEGAL DATA ADDRESS";
                     break;
-                case 0x03:
+                case ExceptionCode.IllegalDataValue:
                     descr += "ILLEGAL DATA VALUE";
                     break;
-                case 0x04:
+                case ExceptionCode.SlaveDeviceFailure:
                     descr += "SLAVE DEVICE FAILURE";
                     break;
-                case 0x05:
+                case ExceptionCode.Acknowledge:
                     descr += "ACKNOWLEDGE";
                     break;
-                case 0x06:
+                case ExceptionCode.SlaveDeviceBusy:
                     descr += "SLAVE DEVICE BUSY";
                     break;
-                case 0x08:
+                case ExceptionCode.MemoryParityError:
                     descr += "MEMORY PARITY ERROR";
                     break;
-                case 0x0A:
+                case ExceptionCode.GatewayPathUnavailable:
                     descr += "GATEWAY PATH UNAVAILABLE";
                     break;
-                case 0x0B:
+                case ExceptionCode.GatewayTargetFailed:
                     descr += "GATEWAY TARGET DEVICE FAILED TO RESPOND";
                     break;
                 default:
@@ -183,7 +185,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         }
 
         /// <summary>
-        /// Parses a byte order array from the string notation like '01234567'.
+        /// Parses a byte order array from the string notation like '0123456789ABCDEF'.
         /// </summary>
         public static int[] ParseByteOrder(string byteOrderStr)
         {
@@ -198,7 +200,8 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
 
                 for (int i = 0; i < len; i++)
                 {
-                    byteOrder[i] = int.TryParse(byteOrderStr[i].ToString(), out int n) ? n : 0;
+                    byteOrder[i] = int.TryParse(byteOrderStr[i].ToString(),
+                        NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int n) ? n : 0;
                 }
 
                 return byteOrder;
@@ -279,16 +282,16 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             switch (dataBlock)
             {
                 case DataBlock.DiscreteInputs:
-                    return FuncCodes.ReadDiscreteInputs;
+                    return FunctionCode.ReadDiscreteInputs;
 
                 case DataBlock.Coils:
-                    return FuncCodes.ReadCoils;
+                    return FunctionCode.ReadCoils;
 
                 case DataBlock.InputRegisters:
-                    return FuncCodes.ReadInputRegisters;
+                    return FunctionCode.ReadInputRegisters;
 
                 case DataBlock.HoldingRegisters:
-                    return FuncCodes.ReadHoldingRegisters;
+                    return FunctionCode.ReadHoldingRegisters;
 
                 default:
                     return 0;
@@ -303,10 +306,10 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             switch (dataBlock)
             {
                 case DataBlock.Coils:
-                    return multiple ? FuncCodes.WriteMultipleCoils : FuncCodes.WriteSingleCoil;
+                    return multiple ? FunctionCode.WriteMultipleCoils : FunctionCode.WriteSingleCoil;
 
                 case DataBlock.HoldingRegisters:
-                    return multiple ? FuncCodes.WriteMultipleRegisters : FuncCodes.WriteSingleRegister;
+                    return multiple ? FunctionCode.WriteMultipleRegisters : FunctionCode.WriteSingleRegister;
 
                 default:
                     return 0;
@@ -318,7 +321,19 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         /// </summary>
         public static bool IsReadFunction(byte funcCode)
         {
-            return funcCode <= 0x04;
+            return 0x01 <= funcCode && funcCode <= 0x04;
+        }
+
+        /// <summary>
+        /// Determines whether the specified function is a write function.
+        /// </summary>
+        public static bool IsWriteFunction(byte funcCode)
+        {
+            return
+                funcCode == FunctionCode.WriteSingleCoil ||
+                funcCode == FunctionCode.WriteSingleRegister ||
+                funcCode == FunctionCode.WriteMultipleCoils ||
+                funcCode == FunctionCode.WriteMultipleRegisters;
         }
     }
 }

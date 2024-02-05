@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ namespace Scada.Server.Archives
     /// Represents the base class for current data archive logic.
     /// <para>Представляет базовый класс логики архива текщих данных.</para>
     /// </summary>
+    /// <remarks>Descendants of this class must be thread-safe.</remarks>
     public abstract class CurrentArchiveLogic : ArchiveLogic
     {
         /// <summary>

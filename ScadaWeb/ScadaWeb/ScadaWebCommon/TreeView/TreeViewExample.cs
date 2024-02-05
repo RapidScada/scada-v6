@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +20,8 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2023
  */
-
-using System.Collections.Generic;
 
 namespace Scada.Web.TreeView
 {
@@ -94,7 +92,7 @@ namespace Scada.Web.TreeView
                 return new ViewNode(++viewID)
                 {
                     Text = "View " + viewID,
-                    Url = WebPath.GetViewPath(viewID).PrependTilda(),
+                    Url = WebPath.GetViewPath(viewID).PrependTilde(),
                     ViewFrameUrl = "~/Main/TableView/" + viewID,
                     Level = level
                 };

@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaSchemeEditorDictionaries>
+  <Dictionary key="Scada.Scheme.Editor.Editor">
+    <Phrase key="EditorTitle">Éditeur de schéma</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FrmMain">
+    <Phrase key="miFile">&amp;Déposer</Phrase>
+    <Phrase key="miFileNew">Nouveau</Phrase>
+    <Phrase key="miFileOpen">Ouvrir...</Phrase>
+    <Phrase key="miFileSave">Sauvegarder</Phrase>
+    <Phrase key="miFileSaveAs">Enregistrer sous...</Phrase>
+    <Phrase key="miFileOpenBrowser">Navigateur ouvert</Phrase>
+    <Phrase key="miFileImport">Importer...</Phrase>
+    <Phrase key="miFileExit">Sortie</Phrase>
+    <Phrase key="miEdit">&amp;Modifier</Phrase>
+    <Phrase key="miEditCut">Couper</Phrase>
+    <Phrase key="miEditCopy">Copie</Phrase>
+    <Phrase key="miEditPaste">Pâte</Phrase>
+    <Phrase key="miEditPasteSpecial">Collage spécial...</Phrase>
+    <Phrase key="miEditUndo">annuler</Phrase>
+    <Phrase key="miEditRedo">Refaire</Phrase>
+    <Phrase key="miEditPointer">Aiguille</Phrase>
+    <Phrase key="miEditDelete">Supprimer</Phrase>
+    <Phrase key="miTools">&amp;Outils</Phrase>
+    <Phrase key="miToolsOptions">Choix...</Phrase>
+    <Phrase key="miHelp">&amp;Aider</Phrase>
+    <Phrase key="miHelpAbout">À propos du programme</Phrase>
+    <Phrase key="btnFileNew.ToolTip">Nouveau schéma (Ctrl+N)</Phrase>
+    <Phrase key="btnFileOpen.ToolTip">Ouvrir le schéma (Ctrl+O)</Phrase>
+    <Phrase key="btnFileSave.ToolTip">Enregistrer le schéma (Ctrl+S)</Phrase>
+    <Phrase key="miFileSaveAs2">Enregistrer sous...</Phrase>
+    <Phrase key="btnFileOpenBrowser.ToolTip">Ouvrir un nouvel onglet de navigateur</Phrase>
+    <Phrase key="btnEditCut.ToolTip">Couper les composants du schéma (Ctrl+X)</Phrase>
+    <Phrase key="btnEditCopy.ToolTip">Copier les composants du schéma (Ctrl+C)</Phrase>
+    <Phrase key="btnEditPaste.ToolTip">Coller les composants du schéma (Ctrl+V)</Phrase>
+    <Phrase key="btnEditUndo.ToolTip">Annuler (Ctrl+Z)</Phrase>
+    <Phrase key="btnEditRedo.ToolTip">Rétablir (Ctrl+Y)</Phrase>
+    <Phrase key="btnSchemePointer.ToolTip">Annuler l'ajout de composant (Échap)</Phrase>
+    <Phrase key="btnSchemeDelete.ToolTip">Supprimer les composants sélectionnés (Suppr)</Phrase>
+    <Phrase key="pageComponents">Composants</Phrase>
+    <Phrase key="pageProperties">Propriétés</Phrase>
+    <Phrase key="lvgStandard">Standard</Phrase>
+    <Phrase key="lvCompTypes.Items[0]">Aiguille</Phrase>
+    <Phrase key="lvCompTypes.Items[1]">Texte statique</Phrase>
+    <Phrase key="lvCompTypes.Items[2]">Texte dynamique</Phrase>
+    <Phrase key="lvCompTypes.Items[3]">Image statique</Phrase>
+    <Phrase key="lvCompTypes.Items[4]">Image dynamique</Phrase>
+    <Phrase key="CloseSecondInstance">Scheme Editor a déjà démarré.&#13;&#10;La deuxième instance sera fermée.</Phrase>
+    <Phrase key="FailedToStartEditor">Échec du démarrage de Scada Editor.&#13;&#10;Voir les détails dans&#13;&#10;{0}</Phrase>
+    <Phrase key="OpenBrowserError">Erreur lors de l'ouverture du navigateur</Phrase>
+    <Phrase key="PointerItem">Aiguille</Phrase>
+    <Phrase key="SchemeFileFilter">Schémas (*.sch)|*.sch|Tous les fichiers (*.*)|*.*</Phrase>
+    <Phrase key="SaveSchemeConfirm">Le schéma a été modifié.  Enregistrer les modifications ?</Phrase>
+    <Phrase key="RestartNeeded">Les changements de paramètres prendront effet après le redémarrage de l'application.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FrmPasteSpecial">
+    <Phrase key="this">Collage spécial</Phrase>
+    <Phrase key="lblInCnlOffset">Augmentez le nombre de canaux d'entrée de</Phrase>
+    <Phrase key="lblCtrlCnlOffset">Augmentez le nombre de canaux de sortie de</Phrase>
+    <Phrase key="btnPaste">Pâte</Phrase>
+    <Phrase key="btnCancel">Annuler</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FrmSettings">
+    <Phrase key="this">Choix</Phrase>
+    <Phrase key="lblWebDir">Annuaire des applications Web</Phrase>
+    <Phrase key="gbBrowser">Navigateur</Phrase>
+    <Phrase key="rbDefault">Défaut</Phrase>
+    <Phrase key="rbChrome">Chrome</Phrase>
+    <Phrase key="rbFirefox">Firefox</Phrase>
+    <Phrase key="btnOK">D'ACCORD</Phrase>
+    <Phrase key="btnCancel">Annuler</Phrase>
+    <Phrase key="WebDirNotExists">Le répertoire de l'application Web n'existe pas.</Phrase>
+    <Phrase key="ChooseWebDir">Choisissez le répertoire de l'application Web</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FormState">
+    <Phrase key="LoadFormStateError">Erreur lors du chargement de l'état du formulaire</Phrase>
+    <Phrase key="SaveFormStateError">Erreur lors de l'enregistrement de l'état du formulaire</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.Js">
+    <Phrase key="UnableLoadScheme">Impossible de télécharger le schéma sur la page Web.</Phrase>
+    <Phrase key="PageNotValid">La page Web n'est plus actuelle.  Il est recommandé de le fermer.</Phrase>
+    <Phrase key="DataError">Erreur lors du traitement des données.</Phrase>
+    <Phrase key="EditorClosed">Scheme Editor était probablement fermé.  Il est recommandé de fermer la page Web.</Phrase>
+    <Phrase key="BrowserOutdated">Votre navigateur est expiré.  Veuillez mettre à jour vers un navigateur moderne.</Phrase>
+  </Dictionary>
+</ScadaSchemeEditorDictionaries>

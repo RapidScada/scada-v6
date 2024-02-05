@@ -1,0 +1,77 @@
+﻿@page "/zh/6.0/installation/install-windows-manual"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "在 Windows 上手动安装";
+}
+
+<nav class="doc-toc">
+    <div class="h6">在这个页面上</div>
+    <hr>
+    <ul>
+        <li><a href="#installation">安装</a></li>
+        <li><a href="#uninstallation">卸载</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>在 Windows 上手动安装</h1>
+    <p> 手动安装 Rapid SCADA  提供对软件安装、更新和卸载过程的完全控制。</p>
+
+    <h2 id="installation">安装</h2>
+    <ol>
+        <li>通过选择相应的 Windows 组件来安装 Internet 信息服务 （IIS）。</li>
+        <li>
+            <p> 从 <a href="https://dotnet.microsoft.com/zh-cn/download/dotnet/6.0" target="_blank">链接</a>安装 ASP.NET Core 运行时 6.0.x (Hosting Bundle) 和 .NET 桌面 运行时.</p>
+            <p><strong>注意:</strong> 如果 Windows 上不需要 Web 应用程序，请跳过第 1 项并仅安装 .NET 桌面运行时。</p>
+        </li>
+        <li>将应用程序文件复制到Rapid SCADA 安装目录 <code>C:\Program Files\SCADA</code></li>
+        <li>
+            通过以管理员身份执行以下文件来注册服务:<br />
+            <code>ScadaAgent\svc_install.bat</code><br />
+            <code>ScadaComm\svc_install.bat</code><br />
+            <code>ScadaServer\svc_install.bat</code>
+        </li>
+        <li>
+            <p>注册 Web 应用程序:</p>
+            <ol type="a">
+                <li>打开 IIS 管理器.</li>
+                <li>打开模块列表并确保模块<code>AspNetCoreModuleV2</code> 存在 。</li>
+                <li>创建一个名为 <code>ScadaAppPool</code>的应用程序池，将 .NET CLR 版本设置为<code>No Managed Code</code> .</li>
+                <li>打开已创建的应用程序池的高级设置，并将 <code>Identity parameter</code>  设置为<code>LocalSystem</code> 。</li>
+                <li>添加一个名为  <code>ScadaWeb</code>的新网站，指定创建的应用程序池、可用的 TCP 端口和路径<br /><code>C:\Program Files\SCADA\ScadaWeb</code></li>
+            </ol>
+            <p><strong>注意:</strong> HTTP 端口 80 已经被 <code>Default Web Site</code>使用。 使用 另外的端口，比如 10008, 或者停止 <code>Default Web Site</code>.</p>
+        </li>
+        <li>
+            创建用于写入日志的 RAM 驱动器:
+            <ol type="a">
+                <li>安装用于创建RAM驱动器的软件, 例如, <a href="http://www.radeonramdisk.com/software_downloads.php" target="_blank">AMD Radeon RAMDisk</a> 或者 <a href="http://memory.dataram.com/products-and-services/software/ramdisk" target="">Dataram RAMDisk</a>.</li>
+                <li>在 <code>ScadaInstanceConfig.xml</code> 中指定日志目录,例如，  <code><LogDir>R:\SCADA\</LogDir></code></li>
+            </ol>
+        </li>
+        <li>在桌面上创建管理员应用程序(<code>ScadaAdmin.exe</code>) 的快捷方式 .</li>
+        <li>重新启动计算机以自动启动服务。</li>
+        <li>
+            重新启动后，在 Web 浏览器中打开 http://localhost:PORT 或者 http://SERVER_IP:PORT <br />
+            用户名: <em>admin</em><br />
+            密码: <em>scada</em>
+        </li>
+    </ol>
+
+    <h2 id="uninstallation">卸载</h2>
+    <ol>
+        <li>
+            通过以管理员身份执行以下文件来停止和注销服务:<br />
+            <code>ScadaAgent\svc_stop.bat</code><br />
+            <code>ScadaAgent\svc_uninstall.bat</code><br />
+            <code>ScadaComm\svc_stop.bat</code><br />
+            <code>ScadaComm\svc_uninstall.bat</code><br />
+            <code>ScadaServer\svc_stop.bat</code><br />
+            <code>ScadaServer\svc_uninstall.bat</code>
+        </li>
+        <li>禁用 RAM 驱动器.</li>
+        <li>打开 IIS 管理器并删除以前创建的 Web 应用程序和应用程序池.</li>
+        <li>删除包含所有内容的快速 SCADA 安装目录。</li>
+        <li>从桌面上删除管理员应用程序快捷方式。</li>
+    </ol>
+</div>

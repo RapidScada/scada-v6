@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,6 +36,7 @@ namespace Scada
         /// <summary>
         /// Gets or sets the parent tree node.
         /// </summary>
+        /// <remarks>If a class is serializable, do not serialize the parent.</remarks>
         ITreeNode Parent { get; set; }
 
         /// <summary>

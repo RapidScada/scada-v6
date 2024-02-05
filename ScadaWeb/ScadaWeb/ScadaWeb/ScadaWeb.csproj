@@ -1,25 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>Scada.Web</RootNamespace>
-    <Version>6.0.0</Version>
+    <UserSecretsId>3a1819be-265c-432d-a52b-86f3a2f19cc4</UserSecretsId>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
-    <Copyright>Copyright © 2022</Copyright>
-    <UserSecretsId>3a1819be-265c-432d-a52b-86f3a2f19cc4</UserSecretsId>
+    <Copyright>Copyright © 2024</Copyright>
+    <Version>6.2.0</Version>
+    <AssemblyVersion>6.2.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Remove="compilerconfig.json" />
     <Content Remove="libman.json" />
-    <Content Remove="wwwroot\css\pages\reports.scss" />
   </ItemGroup>
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="compilerconfig.json" />
-    <_ContentIncludedByDefault Remove="wwwroot\css\pages\reports.scss" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,7 +28,7 @@
     <Content Include="..\..\..\ScadaCommon\ScadaCommon\Lang\ScadaCommon.ru-RU.xml" Link="lang\ScadaCommon.ru-RU.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\ScadaWebCommon.Shared\Config\ScadaWebConfig.xml" Link="config\ScadaWebConfig.xml">
+    <Content Include="..\ScadaWebCommon\Config\ScadaWebConfig.xml" Link="config\ScadaWebConfig.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\ScadaWebCommon\Lang\ScadaWeb.en-GB.xml" Link="lang\ScadaWeb.en-GB.xml">
@@ -43,7 +42,6 @@
   <ItemGroup>
     <None Include="compilerconfig.json" />
     <None Include="libman.json" />
-    <None Include="wwwroot\css\pages\reports.scss" />
   </ItemGroup>
 
   <ItemGroup>
@@ -60,13 +58,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="lang\" />
-    <Folder Include="config\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="SkiaSharp" Version="2.80.3" />
-    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.80.3" />
+    <PackageReference Include="SkiaSharp" Version="2.88.6" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.6" />
   </ItemGroup>
 
 </Project>

@@ -6,13 +6,6 @@ using Scada.Comm.Config;
 using Scada.Forms;
 using Scada.Log;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using WinControl;
 
@@ -69,6 +62,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             chkEnableCommands.Checked = generalOptions.EnableCommands;
             chkEnableFileCommands.Checked = generalOptions.EnableFileCommands;
             chkStartLinesOnCommand.Checked = generalOptions.StartLinesOnCommand;
+            numStopWait.SetValue(generalOptions.StopWait);
             numMaxLogSize.SetValue(generalOptions.MaxLogSize);
 
             ctrlClientConnection.ConnectionOptions = commConfig.ConnectionOptions.DeepClone();
@@ -87,6 +81,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             generalOptions.EnableCommands = chkEnableCommands.Checked;
             generalOptions.EnableFileCommands = chkEnableFileCommands.Checked;
             generalOptions.StartLinesOnCommand = chkStartLinesOnCommand.Checked;
+            generalOptions.StopWait = decimal.ToInt32(numStopWait.Value);
             generalOptions.MaxLogSize = decimal.ToInt32(numMaxLogSize.Value);
 
             ctrlClientConnection.ConnectionOptions.CopyTo(commConfig.ConnectionOptions);
@@ -112,7 +107,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             FormTranslator.Translate(ctrlClientConnection, ctrlClientConnection.GetType().FullName);
             ConfigToControls();
         }
-        
+
         private void control_Changed(object sender, EventArgs e)
         {
             if (!changing)

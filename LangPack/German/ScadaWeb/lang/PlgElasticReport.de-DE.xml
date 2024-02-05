@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgElasticReportDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgElasticReport.Areas.ElasticReport.Pages.ReportArgsModel">
+    <Phrase key="PageTitle">Elastischer Bericht</Phrase>
+    <Phrase key="ReportNotFound">Bericht mit der ID {0} wurde in der Plugin-Konfiguration nicht gefunden.</Phrase>
+    <Phrase key="LoadInputOptionsError">Fehler beim Laden der Berichtseingabeoptionen.</Phrase>
+    <Phrase key="lblSingleDate">Datum</Phrase>
+    <Phrase key="lblSingleMonth">Monat</Phrase>
+    <Phrase key="lblStartTime">Aus</Phrase>
+    <Phrase key="lblEndTime">Zu</Phrase>
+    <Phrase key="lblArchive">Archiv</Phrase>
+    <Phrase key="lblCnlNums">Kanäle</Phrase>
+    <Phrase key="btnSelectCnls">Wählen...</Phrase>
+    <Phrase key="lblFormat">Ausgabeformat</Phrase>
+    <Phrase key="lblPdf">PDF</Phrase>
+    <Phrase key="lblXlsx">Excel</Phrase>
+    <Phrase key="lblHtml">HTML</Phrase>
+    <Phrase key="btnGenerateReport">Bericht herunterladen</Phrase>
+    <Phrase key="divWaitHint">Bericht erstellen.  Warten Sie mal...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgElasticReport.Areas.ElasticReport.Pages.ReportArgsModel.Js">
+    <Phrase key="InvalidPeriod">Das Startdatum muss kleiner oder gleich dem Enddatum sein.</Phrase>
+    <Phrase key="PeriodTooLong">Die maximale Periodenlänge beträgt {0} Tage.</Phrase>
+    <Phrase key="InvalidChannels">Ungültige Kanalnummern.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgElasticReport.Builder">
+    <Phrase key="HeadingFormat1">{0}, {1}</Phrase>
+    <Phrase key="HeadingFormat2">{0}, {1} - {2}</Phrase>
+    <Phrase key="InfoFormat">Generiert: {0}.  Zeitzone: {1}.  Archiv: {2}</Phrase>
+    <Phrase key="CnlCaption">Kanäle:</Phrase>
+    <Phrase key="DateTimeCol">Datum (und Uhrzeit</Phrase>
+    <Phrase key="DateCol">Datum</Phrase>
+    <Phrase key="NotApplicable">N/A</Phrase>
+    <Phrase key="SumHeader">Gesamt</Phrase>
+    <Phrase key="AvgHeader">Durchschnitt</Phrase>
+    <Phrase key="MinHeader">Minimum</Phrase>
+    <Phrase key="MaxHeader">Maximal</Phrase>
+    <Phrase key="DayUnit">D</Phrase>
+    <Phrase key="WorksheetName">Blatt {0}</Phrase>
+    <Phrase key="CloseButton">Schließen</Phrase>
+  </Dictionary>
+</PlgElasticReportDictionaries>

@@ -67,7 +67,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         {
             ViewID = id ?? userContext.Views.GetFirstViewID() ?? 0;
 
-            if (viewLoader.GetView(ViewID, out tableView, out string errMsg))
+            if (viewLoader.GetView(ViewID, true, out tableView, out string errMsg))
             {
                 TableOptions tableOptions = pluginContext.GetTableOptions(tableView);
                 ArchiveBit = webContext.ConfigDatabase.FindArchiveBit(
@@ -258,7 +258,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             sbHtml.AppendLine("</tr></thead>");
 
             // rows
-            bool enableCommands = webContext.AppConfig.GeneralOptions.EnableCommands && 
+            bool enableCommands = webContext.AppConfig.GeneralOptions.EnableCommands &&
                 userContext.Rights.GetRightByView(tableView.ViewEntity).Control;
             sbHtml.AppendLine("<tbody>");
 
@@ -266,7 +266,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             {
                 Cnl itemCnl = tableItem.Cnl;
                 bool showVal = itemCnl != null && itemCnl.IsArchivable();
-                int joinLen = itemCnl != null && itemCnl.IsString() ? itemCnl.GetDataLength() : 1;
+                int joinLen = itemCnl == null ? 1 : itemCnl.GetJoinLength();
                 string itemText = string.IsNullOrWhiteSpace(tableItem.Text) ?
                     "&nbsp;" : HttpUtility.HtmlEncode(tableItem.Text);
 
@@ -283,19 +283,20 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                     AddTooltipHtml(sbHtml, tableItem.CnlNum, itemCnl);
 
                     sbHtml
-                        .Append("' /></span>")
-                        .Append("<span class='item-text item-link'>").Append(itemText).Append("</span>");
+                        .Append("' /></span><span class='item-text")
+                        .Append(showVal ? " item-link" : "").Append("'>")
+                        .Append(itemText).Append("</span>");
 
                     if (enableCommands && itemCnl != null && itemCnl.IsOutput())
                     {
                         sbHtml
                             .Append("<span class='item-cmd' title='").Append(PluginPhrases.SendCommandTip)
-                            .Append("'><i class='fas fa-rocket'></i></span>");
+                            .Append("'><i class='fa-solid fa-rocket'></i></span>");
                     }
                 }
                 else
                 {
-                    sbHtml.Append("<span class='item-text'>").Append(itemText).Append("</span>");
+                    sbHtml.Append("<span class='item-hdr'>").Append(itemText).Append("</span>");
                 }
 
                 sbHtml.AppendLine("</div></td>"); // close first cell

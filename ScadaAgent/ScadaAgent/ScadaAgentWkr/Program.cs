@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2023 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,18 +20,16 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2024
  */
 
 using Scada.Agent.Wkr;
 
-IHost host = Host.CreateDefaultBuilder(args)
-    .UseWindowsService()
-    .UseSystemd()
-    .ConfigureServices(services =>
-    {
-        services.AddHostedService<Worker>();
-    })
-    .Build();
+var builder = Host.CreateApplicationBuilder(args);
+builder.Services
+    .AddWindowsService()
+    .AddSystemd()
+    .AddHostedService<Worker>();
 
-await host.RunAsync();
+var host = builder.Build();
+host.Run();

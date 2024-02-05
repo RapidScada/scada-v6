@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -123,6 +123,14 @@ namespace Scada.Comm.DataSources
         /// Closes the data source.
         /// </summary>
         public virtual void Close()
+        {
+        }
+
+        /// <summary>
+        /// Refreshes the data source.
+        /// </summary>
+        /// <remarks>This method is called after a communication line is started or stopped.</remarks>
+        public virtual void Refresh()
         {
         }
 

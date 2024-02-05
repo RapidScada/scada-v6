@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModArcBasicDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmArcDir">
+    <Phrase key="this">Arşiv Dizinleri</Phrase>
+    <Phrase key="chkUseDefaultDir">Varsayılan dizinleri kullan</Phrase>
+    <Phrase key="lblArcDir">DAT formatında arşivle</Phrase>
+    <Phrase key="btnBrowseArcDir">Araştır...</Phrase>
+    <Phrase key="lblArcCopyDir">DAT formatında arşiv kopyası</Phrase>
+    <Phrase key="btnBrowseArcCopyDir">Araştır...</Phrase>
+    <Phrase key="btnSetToDefaultWin">Windows için ayarla</Phrase>
+    <Phrase key="btnSetToDefaultLinux">Linux için ayarla</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicCAO">
+    <Phrase key="this">Mevcut Arşiv Seçenekleri</Phrase>
+    <Phrase key="gbGeneralOptions">Genel seçenekler</Phrase>
+    <Phrase key="lblLogEnabled">Günlük etkinleştirildi</Phrase>
+    <Phrase key="lblFlushPeriod">Yıkama dönemi</Phrase>
+    <Phrase key="txtFlushPeriodUnit">saniye</Phrase>
+    <Phrase key="gbWritingOptions">Yazma Seçenekleri</Phrase>
+    <Phrase key="lblUseCopyDir">Dizini kopyalamak için yaz</Phrase>
+    <Phrase key="btnShowDir">dizinler</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicEAO">
+    <Phrase key="this">Olay Arşivi Seçenekleri</Phrase>
+    <Phrase key="gbGeneralOptions">Genel seçenekler</Phrase>
+    <Phrase key="lblLogEnabled">Günlük etkinleştirildi</Phrase>
+    <Phrase key="lblRetention">Saklama süresi</Phrase>
+    <Phrase key="txtRetentionUnit">Gün</Phrase>
+    <Phrase key="gbWritingOptions">Yazma Seçenekleri</Phrase>
+    <Phrase key="lblUseCopyDir">Dizini kopyalamak için yaz</Phrase>
+    <Phrase key="lblMaxQueueSize">Maksimum sıra boyutu</Phrase>
+    <Phrase key="btnShowDir">dizinler</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicHAO">
+    <Phrase key="this">Tarihsel Arşiv Seçenekleri</Phrase>
+    <Phrase key="gbGeneralOptions">Genel seçenekler</Phrase>
+    <Phrase key="lblLogEnabled">Günlük etkinleştirildi</Phrase>
+    <Phrase key="lblRetention">Saklama süresi</Phrase>
+    <Phrase key="txtRetentionUnit">Gün</Phrase>
+    <Phrase key="lblWriteWithPeriod">Nokta ile yaz</Phrase>
+    <Phrase key="lblWritingPeriod">Yazma dönemi</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[0]">saniye</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[1]">dak.</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[2]">Saat</Phrase>
+    <Phrase key="lblPullToPeriod">Döneme çek</Phrase>
+    <Phrase key="txtPullToPeriodUnit">saniye</Phrase>
+    <Phrase key="gbWritingOptions">Yazma Seçenekleri</Phrase>
+    <Phrase key="lblUseCopyDir">Dizini kopyalamak için yaz</Phrase>
+    <Phrase key="lblMaxQueueSize">Maksimum sıra boyutu</Phrase>
+    <Phrase key="btnShowDir">dizinler</Phrase>
+    <Phrase key="btnOK">TAMAM</Phrase>
+    <Phrase key="btnCancel">İptal etmek</Phrase>
+  </Dictionary>
+</ModArcBasicDictionaries>

@@ -43,6 +43,8 @@
     <Phrase key="pbReconnectAfterHint.ToolTip">Задаёт интервал времени для повторного подключения после неудачной попытки.</Phrase>
     <Phrase key="lblStayConnected">Оставаться на связи</Phrase>
     <Phrase key="pbStayConnectedHint.ToolTip">Если параметр установлен, то соединение между сеансами связи сохраняется.&#13;&#10;В противном случае соединение разрывается после каждого сеанса.</Phrase>
+    <Phrase key="lblDisconnectOnError">Отключаться при ошибке</Phrase>
+    <Phrase key="pbDisconnectOnError.ToolTip">Указывает, следует ли разрывать соединение в случае неудачного сеанса.</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
     <Phrase key="HostRequired">Требуется имя удалённого хоста.</Phrase>
@@ -82,7 +84,7 @@
     <Phrase key="lblLocalUdpPort">Локальный UDP-порт</Phrase>
     <Phrase key="pbLocalUdpPortHint.ToolTip">Локальный UDP-порт для входящих соединений.&#13;&#10;Входящие соединения должны быть разрешены брандмауэром.</Phrase>
     <Phrase key="lblRemoteUdpPort">Удалённый UDP-порт</Phrase>
-    <Phrase key="pbRemoteUdpPortHint.ToolTip">Удалённый UDP-порт одинаковый для всех устройств на линии связи.</Phrase>
+    <Phrase key="pbRemoteUdpPortHint.ToolTip">Удалённый UDP-порт по умолчанию. Одинаковый для всех устройств на линии связи.</Phrase>
     <Phrase key="lblRemoteIpAddress">Удалённый IP-адрес</Phrase>
     <Phrase key="pbRemoteIpAddressHint.ToolTip">Удалённый IP-адрес по умолчанию.&#13;&#10;Может использоваться, например, если устройства подключены через шлюз Ethernet - Serial.</Phrase>
     <Phrase key="btnOK">OK</Phrase>

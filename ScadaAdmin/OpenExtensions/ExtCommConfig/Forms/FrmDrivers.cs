@@ -139,7 +139,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         }
 
         /// <summary>
-        /// Build the driver description.
+        /// Builds the driver description.
         /// </summary>
         private static string BuildDriverDescr(DriverView driverView)
         {

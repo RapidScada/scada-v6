@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ScadaSchemeEditorDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgScheme.Editor.Pages.IndexModel">
+    <Phrase key="PageTitle">Редактор схем</Phrase>
+    <Phrase key="OpenSchemeHeader">Открыть схему</Phrase>
+    <Phrase key="ActiveSchemesHeader">Активные схемы</Phrase>
+    <Phrase key="txtFileName_Placeholder">Путь к файлу схемы (*.sch)</Phrase>
+    <Phrase key="btnOpenScheme">Открыть</Phrase>
+  </Dictionary>
+</ScadaSchemeEditorDictionaries>

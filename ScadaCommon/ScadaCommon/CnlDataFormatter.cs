@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Data.Const;
@@ -78,15 +78,15 @@ namespace Scada
         /// <summary>
         /// The configuration database.
         /// </summary>
-        protected readonly ConfigDataset configDataset;
+        private readonly ConfigDataset configDataset;
         /// <summary>
         /// The user's time zone.
         /// </summary>
-        protected readonly TimeZoneInfo timeZone;
+        private readonly TimeZoneInfo timeZone;
         /// <summary>
         /// The culture for formatting values.
         /// </summary>
-        protected CultureInfo culture;
+        private CultureInfo culture;
 
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace Scada
         /// <summary>
         /// Formats the channel value depending on the data type.
         /// </summary>
-        protected string FormatByDataType(double cnlVal, int dataTypeID)
+        private string FormatByDataType(double cnlVal, int dataTypeID)
         {
             switch (dataTypeID)
             {
@@ -168,7 +168,7 @@ namespace Scada
         /// <summary>
         /// Formats the channel value, which is a number.
         /// </summary>
-        protected string FormatNumber(double cnlVal, int dataTypeID, string format)
+        private string FormatNumber(double cnlVal, int dataTypeID, string format)
         {
             switch (dataTypeID)
             {
@@ -206,7 +206,7 @@ namespace Scada
         /// <summary>
         /// Formats the channel value, which is an enumeration.
         /// </summary>
-        protected string FormatEnum(double cnlVal, int dataTypeID, EnumFormat format)
+        private string FormatEnum(double cnlVal, int dataTypeID, EnumFormat format)
         {
             string GetEnumValue(int intVal)
             {
@@ -231,7 +231,7 @@ namespace Scada
         /// <summary>
         /// Formats the channel value, which is a date and time.
         /// </summary>
-        protected string FormatDate(double cnlVal, int dataTypeID, string format)
+        private string FormatDate(double cnlVal, int dataTypeID, string format)
         {
             string DateToString(DateTime dt)
             {
@@ -249,6 +249,17 @@ namespace Scada
                 default:
                     return FormatError;
             }
+        }
+
+        /// <summary>
+        /// Gets the display name of the user, even if the user is not found in the database.
+        /// </summary>
+        private string GetUserDisplayName(int userID)
+        {
+            User user = configDataset.UserTable.GetItem(userID);
+            return user == null || string.IsNullOrEmpty(user.Name)
+                ? string.Format(CommonPhrases.UnknownUser, userID)
+                : user.Name;
         }
 
 
@@ -436,9 +447,8 @@ namespace Scada
             // acknowledgement
             if (ev.Ack)
             {
-                eventFormatted.Ack = string.Join(", ",
-                    configDataset.UserTable.GetItem(ev.AckUserID)?.Name,
-                    TimeZoneInfo.ConvertTimeFromUtc(ev.AckTimestamp, timeZone).ToLocalizedString());
+                eventFormatted.Ack = GetUserDisplayName(ev.AckUserID) + ", " +
+                    TimeZoneInfo.ConvertTimeFromUtc(ev.AckTimestamp, timeZone).ToLocalizedString();
             }
 
             // color

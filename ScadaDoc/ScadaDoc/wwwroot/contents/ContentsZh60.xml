@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TableOfContents>
+  <Item>
+    <Text>概述</Text>
+    <Subitems>
+      <Item>
+        <Text>介绍</Text>
+        <Url>/zh/6.0/software-overview/introduction</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
+   <!-- Installation -->
+   <Item>
+    <Text>安装</Text>
+    <Subitems>
+      <Item>
+        <Text>系统要求</Text>
+        <Url>/zh/6.0/installation/system-requirements</Url>
+      </Item>
+      <Item>
+        <Text>在Windows上安装</Text>
+        <Url>/zh/6.0/installation/install-windows</Url>
+      </Item>
+      <Item>
+        <Text>在 Windows 上手动安装</Text>
+        <Url>/zh/6.0/installation/install-windows-manual</Url>
+      </Item>
+      <Item>
+        <Text>在Linux上安装</Text>
+        <Url>/zh/6.0/installation/install-linux</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
+  <!-- Version History -->
+  <Item>
+    <Text>版本历史</Text>
+    <Subitems>
+      <Item>
+        <Text> Rapid SCADA的历史</Text>
+        <Url>/zh/6.0/version-history/scada-history</Url>
+      </Item>
+      <Item>
+        <Text>服务器历史</Text>
+        <Url>/zh/6.0/version-history/server-history</Url>
+      </Item>
+      <Item>
+        <Text>通讯器历史</Text>
+        <Url>/zh/6.0/version-history/communicator-history</Url>
+      </Item>
+      <Item>
+        <Text>网站历史</Text>
+        <Url>/zh/6.0/version-history/webstation-history</Url>
+      </Item>
+      <Item>
+        <Text>代理历史</Text>
+        <Url>/zh/6.0/version-history/agent-history</Url>
+      </Item>
+      <Item>
+        <Text>管理员应用历史</Text>
+        <Url>/zh/6.0/version-history/administrator-history</Url>
+      </Item>
+      <!--<Item>
+        <Text>History of Additional Applications</Text>
+        <Url>/en/6.0/version-history/applications-history</Url>
+      </Item>-->
+    </Subitems>
+  </Item>
+</TableOfContents>

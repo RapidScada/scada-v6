@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaServerDictionaries culture="zh-Hans" lang="ChineseSimplified">
+    <!-- ScadaServerCommon.dll -->
+    <Dictionary key="Scada.Server.Archives">
+      <Phrase key="UnspecifiedArchiveKind">未指定</Phrase>
+      <Phrase key="CurrentArchiveKind">当前</Phrase>
+      <Phrase key="HistoricalArchiveKind">历史</Phrase>
+      <Phrase key="EventsArchiveKind">事件</Phrase>
+    </Dictionary>
+    <Dictionary key="Scada.Server.Modules">
+      <Phrase key="LoadModuleConfigError">加载模块配置时发生错误</Phrase>
+      <Phrase key="SaveModuleConfigError">保存模块配置时发生错误</Phrase>
+      <Phrase key="SaveModuleConfigConfirm">模块配置已修改，是否保存？</Phrase>
+    </Dictionary>
+    <Dictionary key="Scada.Server.Engine.CoreLogic">
+      <Phrase key="CommandSentBy">发送者：{0}</Phrase>
+    </Dictionary>
+    <!-- ScadaServerCommon.Forms.dll -->
+    <Dictionary key="Scada.Server.Forms.Controls.CtrlCurrentArchiveOptions">
+      <Phrase key="gbOptions">常规选项</Phrase>
+      <Phrase key="lblReadOnly">只读</Phrase>
+      <Phrase key="lblLogEnabled">启用日志</Phrase>
+      <Phrase key="lblFlushPeriod">冲刷周期</Phrase>
+      <Phrase key="txtFlushPeriodUnit">秒</Phrase>
+    </Dictionary>
+    <Dictionary key="Scada.Server.Forms.Controls.CtrlEventArchiveOptions">
+      <Phrase key="gbOptions">常规选项</Phrase>
+      <Phrase key="lblReadOnly">只读</Phrase>
+      <Phrase key="lblLogEnabled">启用日志</Phrase>
+      <Phrase key="lblRetention">渲染周期</Phrase>
+      <Phrase key="txtRetentionUnit">天</Phrase>
+    </Dictionary>
+    <Dictionary key="Scada.Server.Forms.Controls.CtrlHistoricalArchiveOptions">
+      <Phrase key="gbOptions">常规选项</Phrase>
+      <Phrase key="lblReadOnly">只读</Phrase>
+      <Phrase key="lblLogEnabled">启用日志</Phrase>
+      <Phrase key="lblRetention">渲染周期</Phrase>
+      <Phrase key="txtRetentionUnit">天</Phrase>
+      <Phrase key="lblIsPeriodic">仅定期数据</Phrase>
+      <Phrase key="lblWriteWithPeriod">？周期性写入？</Phrase>
+      <Phrase key="lblWritingPeriod">写入时间段</Phrase>
+      <Phrase key="cbWritingPeriodUnit.Items[0]">秒</Phrase>
+      <Phrase key="cbWritingPeriodUnit.Items[1]">分</Phrase>
+      <Phrase key="cbWritingPeriodUnit.Items[2]">时</Phrase>
+      <Phrase key="lblPullToPeriod">拉至时段？</Phrase>
+      <Phrase key="txtPullToPeriodUnit">秒</Phrase>
+      <Phrase key="lblWriteOnChange">修改时写入</Phrase>
+      <Phrase key="lblDeadband">死区</Phrase>
+      <Phrase key="cbDeadbandUnit.Items[0]">？绝对压力？</Phrase>
+      <Phrase key="cbDeadbandUnit.Items[1]">%</Phrase>
+    </Dictionary>
+  </ScadaServerDictionaries>

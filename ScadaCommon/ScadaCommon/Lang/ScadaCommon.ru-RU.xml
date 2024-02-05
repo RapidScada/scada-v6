@@ -15,11 +15,10 @@
     <Phrase key="LogicStopped">Обработка логики остановлена</Phrase>
     <Phrase key="UnableToStopLogic">Не удалось остановить обработку логики за установленное время</Phrase>
     <Phrase key="StopLogicError">Ошибка при остановке обработки логики</Phrase>
-    <Phrase key="LogicCycleError">Ошибка в цикле работы логики</Phrase>
+    <Phrase key="LogicLoopError">Ошибка в цикле работы логики</Phrase>
     <Phrase key="ThreadFatalError">Неустранимая ошибка в потоке</Phrase>
     <Phrase key="WriteInfoError">Ошибка при записи в файл информации о работе приложения</Phrase>
     <Phrase key="ConnectionNotFound">Соединение &quot;{0}&quot; не найдено.</Phrase>
-    <Phrase key="ConnOptionsNotFound">Параметры соединения не найдены.</Phrase>
     <Phrase key="DatabaseNotSupported">База данных не поддерживается.</Phrase>
     <Phrase key="OperationNotSupported">Операция не поддерживается.</Phrase>
     <Phrase key="CommandSent">Команда отправлена.</Phrase>
@@ -104,6 +103,7 @@
     <Phrase key="MajorSeverity">Значительная</Phrase>
     <Phrase key="MinorSeverity">Незначительная</Phrase>
     <Phrase key="InfoSeverity">Информационная</Phrase>
+    <Phrase key="UnknownUser">Пользователь {0}</Phrase>
   </Dictionary>
   <!-- ScadaCommon.Forms.dll -->
   <Dictionary key="Scada.Forms.Controls.CtrlBitmask">
@@ -127,11 +127,24 @@
     <Phrase key="gbConnectionOptions">Параметры соединения</Phrase>
     <Phrase key="lblName">Наименование</Phrase>
     <Phrase key="lblDbms">СУБД</Phrase>
+    <Phrase key="cbDbms.Items[0]">Не определена</Phrase>
     <Phrase key="lblServer">Сервер</Phrase>
     <Phrase key="lblDatabase">База данных</Phrase>
     <Phrase key="lblUsername">Имя пользователя</Phrase>
     <Phrase key="lblPassword">Пароль</Phrase>
     <Phrase key="chkConnectionString">Строка соединения</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlRegistration">
+    <Phrase key="lblProductName">Наименование продукта</Phrase>
+    <Phrase key="lblCompCode">Код компьютера</Phrase>
+    <Phrase key="btnCopyCompCode">Копировать</Phrase>
+    <Phrase key="btnRefreshCompCode">Обновить</Phrase>
+    <Phrase key="lblCompCodeInfo">Если код отсутствует, передайте конфигурацию и перезапустите службу.</Phrase>
+    <Phrase key="lblRegKey">Регистрационный ключ</Phrase>
+    <Phrase key="btnPasteRegKey">Вставить</Phrase>
+    <Phrase key="lblRegKeyInfo">Результат проверки ключа записывается в журнал приложения или модуля.</Phrase>
+    <Phrase key="llblGetPermanentKey">Получить постоянный ключ</Phrase>
+    <Phrase key="llblGetTrialKey">Получить пробный ключ</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmBitmask">
     <Phrase key="this">Битовая маска</Phrase>
@@ -182,6 +195,13 @@
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmOptions">
     <Phrase key="this">Параметры</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmRangeEdit">
+    <Phrase key="this">Редактирование диапазона</Phrase>
+    <Phrase key="lblRange">Диапазон целых чисел</Phrase>
+    <Phrase key="lblExample">Например: 1 - 5, 10</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>

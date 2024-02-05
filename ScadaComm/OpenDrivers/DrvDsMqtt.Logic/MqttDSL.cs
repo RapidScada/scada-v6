@@ -3,7 +3,7 @@
 
 using MQTTnet;
 using MQTTnet.Client;
-using MQTTnet.Client.Publishing;
+using MQTTnet.Packets;
 using MQTTnet.Protocol;
 using Scada.Comm.Config;
 using Scada.Comm.DataSources;
@@ -12,6 +12,7 @@ using Scada.Comm.Drivers.DrvMqtt;
 using Scada.Comm.Lang;
 using Scada.Data.Const;
 using Scada.Data.Models;
+using Scada.Data.Queues;
 using Scada.Lang;
 using Scada.Log;
 using System.Globalization;
@@ -27,49 +28,25 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
     internal class MqttDSL : DataSourceLogic
     {
         /// <summary>
-        /// Represents a dictionary that stores device topics accessed by tag code.
+        /// The number of device slices to publish in one iteration.
         /// </summary>
-        private class DeviceTopics : Dictionary<string, string>
-        {
-        }
-
-        /// <summary>
-        /// Represents a command received from an MQTT broker.
-        /// </summary>
-        private class ReceivedCommand
-        {
-            public int DeviceNum { get; set; }
-            public string CmdCode { get; set; }
-            public double CmdVal { get; set; }
-            public string CmdData { get; set; }
-        }
-
-        /// <summary>
-        /// The minimum queue size.
-        /// </summary>
-        private const int MinQueueSize = 100;
-        /// <summary>
-        /// The number of queue items to publish in one iteration.
-        /// </summary>
-        private const int BundleSize = 10;
+        private const int SlicesPerIteration = 10;
         /// <summary>
         /// The topic to receive commands.
         /// </summary>
         private const string CommandTopic = "command";
 
-        private readonly MqttDSO dsOptions;                           // the data source options
-        private readonly ILog dsLog;                                  // the data source log
-        private readonly MqttClientHelper mqttClientHelper;           // encapsulates an MQTT client
-        private readonly string commandTopic;                         // the full command topic name
-        private readonly TimeSpan dataLifetime;                       // the data lifetime in the queue
-        private readonly HashSet<int> deviceFilter;                   // the device IDs to filter data
-        private readonly int maxQueueSize;                            // the maximum queue size
-        private readonly Queue<QueueItem<DeviceSlice>> curDataQueue;  // the current data queue
-        private readonly Dictionary<int, DeviceTopics> topicByDevice; // the topics accessed by device number
+        private readonly MqttDSO dsOptions;                   // the data source options
+        private readonly ILog dsLog;                          // the data source log
+        private readonly MqttClientHelper mqttClientHelper;   // encapsulates an MQTT client
+        private readonly string commandTopic;                 // the full command topic name
+        private readonly TimeSpan dataLifetime;               // the data lifetime in the queue
+        private readonly HashSet<int> deviceFilter;           // the device IDs to filter data
+        private readonly DataQueue<DeviceSlice> curDataQueue; // the current data queue
 
-        private Thread thread;            // the thread for communication with the server
-        private volatile bool terminated; // necessary to stop the thread
-        private int curDataSkipped;       // the number of skipped slices of current data 
+        private Dictionary<int, DeviceTopics> topicByDevice;  // the topics accessed by device number
+        private Thread thread;                                // the thread for communication with the server
+        private volatile bool terminated;                     // necessary to stop the thread
 
 
         /// <summary>
@@ -85,23 +62,24 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
             dataLifetime = TimeSpan.FromSeconds(dsOptions.PublishOptions.DataLifetime);
             deviceFilter = dsOptions.PublishOptions.DeviceFilter.Count > 0 ? 
                 new HashSet<int>(dsOptions.PublishOptions.DeviceFilter) : null;
-            maxQueueSize = Math.Max(dsOptions.PublishOptions.MaxQueueSize, MinQueueSize);
-            curDataQueue = new Queue<QueueItem<DeviceSlice>>(maxQueueSize);
-            topicByDevice = new Dictionary<int, DeviceTopics>();
+            curDataQueue = new DataQueue<DeviceSlice>(true, dsOptions.PublishOptions.MaxQueueSize,
+                Locale.IsRussian ? "Очередь текущих данных" : "Current data queue") { RemoveExceeded = true };
 
+            topicByDevice = null;
             thread = null;
             terminated = false;
-            curDataSkipped = 0;
         }
 
 
         /// <summary>
-        /// Fills the device topic dictionary.
+        /// Creates a device topic dictionary.
         /// </summary>
-        private void FillDeviceTopics()
+        private Dictionary<int, DeviceTopics> CreateTopicDictionary()
         {
             // topic example:
             // Communicator/line001/device001/Sin
+            Dictionary<int, DeviceTopics> topics = new();
+
             foreach (ILineContext lineContext in CommContext.GetCommLines())
             {
                 string lineTopic = dsOptions.PublishOptions.RootTopic + 
@@ -113,19 +91,11 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
 
                 foreach (DeviceLogic deviceLogic in devices)
                 {
-                    string deviceTopic = lineTopic + CommUtils.GetDeviceLogFileName(deviceLogic.DeviceNum, "") + "/";
-                    DeviceTopics deviceTopics = new();
-
-                    foreach (DeviceTag deviceTag in deviceLogic.DeviceTags)
-                    {
-                        if (!string.IsNullOrEmpty(deviceTag.Code))
-                            deviceTopics[deviceTag.Code] = deviceTopic + deviceTag.Code;
-                    }
-
-                    if (deviceTopics.Count > 0)
-                        topicByDevice[deviceLogic.DeviceNum] = deviceTopics;
+                    topics[deviceLogic.DeviceNum] = new DeviceTopics(deviceLogic, lineTopic);
                 }
             }
+
+            return topics;
         }
 
         /// <summary>
@@ -179,39 +149,29 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
         /// </summary>
         private void PublishCurrentData()
         {
-            for (int i = 0; i < BundleSize; i++)
+            for (int i = 0; i < SlicesPerIteration; i++)
             {
-                // get a slice from the queue without removing it
-                QueueItem<DeviceSlice> queueItem;
-                DeviceSlice deviceSlice;
+                // get an item from the queue without removing it
+                if (!curDataQueue.TryPeek(out QueueItem<DeviceSlice> queueItem))
+                    break;
 
-                lock (curDataQueue)
-                {
-                    if (curDataQueue.TryPeek(out queueItem))
-                        deviceSlice = queueItem.Value;
-                    else
-                        break;
-                }
-
-                // publish the slice
                 if (DateTime.UtcNow - queueItem.CreationTime > dataLifetime)
                 {
                     dsLog.WriteError(Locale.IsRussian ?
                         "Устаревшие текущие данные удалены из очереди" :
                         "Outdated current data removed from the queue");
-                    curDataSkipped++;
+
+                    curDataQueue.Stats.SkippedItems++;
                 }
-                else if (!PublishDeviceSlice(deviceSlice))
+                else if (!PublishDeviceSlice(queueItem.Value))
                 {
-                    break; // the slice is not removed from the queue
+                    curDataQueue.Stats.HasError = true;
+                    Thread.Sleep(ScadaUtils.ErrorDelay);
+                    break; // the item is not removed from the queue
                 }
 
-                // remove the slice from the queue
-                lock (curDataQueue)
-                {
-                    if (curDataQueue.Count > 0 && curDataQueue.Peek() == queueItem)
-                        curDataQueue.Dequeue();
-                }
+                // remove the item from the queue
+                curDataQueue.RemoveItem(queueItem);
             }
         }
 
@@ -222,8 +182,10 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
         {
             try
             {
-                if (topicByDevice.TryGetValue(deviceSlice.DeviceNum, out DeviceTopics deviceTopics))
+                if (topicByDevice != null &&
+                    topicByDevice.TryGetValue(deviceSlice.DeviceNum, out DeviceTopics deviceTopics))
                 {
+                    deviceTopics.Initialize();
                     int dataIndex = 0;
 
                     foreach (DeviceTag deviceTag in deviceSlice.DeviceTags)
@@ -396,7 +358,8 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
         public override void MakeReady()
         {
             dsLog.WriteBreak();
-            mqttClientHelper.Client.UseApplicationMessageReceivedHandler(MqttClient_ApplicationMessageReceived);
+            mqttClientHelper.Client.ApplicationMessageReceivedAsync += 
+                async e => await Task.Run(() => MqttClient_ApplicationMessageReceived(e));
         }
 
         /// <summary>
@@ -416,7 +379,7 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
             }
 
             // get information about devices
-            FillDeviceTopics();
+            topicByDevice = CreateTopicDictionary();
 
             // start thread
             terminated = false;
@@ -448,25 +411,20 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
         }
 
         /// <summary>
+        /// Refreshes the data source.
+        /// </summary>
+        public override void Refresh()
+        {
+            topicByDevice = CreateTopicDictionary();
+        }
+
+        /// <summary>
         /// Writes the slice of the current data.
         /// </summary>
         public override void WriteCurrentData(DeviceSlice deviceSlice)
         {
             if (CheckDeviceFilter(deviceSlice.DeviceNum))
-            {
-                lock (curDataQueue)
-                {
-                    // remove data if capacity is not enough
-                    while (curDataQueue.Count >= maxQueueSize)
-                    {
-                        curDataQueue.Dequeue();
-                        curDataSkipped++;
-                    }
-
-                    // append current data
-                    curDataQueue.Enqueue(new QueueItem<DeviceSlice>(deviceSlice.Timestamp, deviceSlice));
-                }
-            }
+                curDataQueue.Enqueue(deviceSlice.Timestamp, deviceSlice, out _);
         }
         
         /// <summary>
@@ -481,19 +439,13 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
 
             if (Locale.IsRussian)
             {
-                sb
-                    .Append("Соединение             : ").AppendLine(mqttClientHelper.GetConnectionState(true))
-                    .Append("Очередь текущих данных : ")
-                    .Append(curDataQueue.Count).Append(" из ").Append(maxQueueSize)
-                    .Append(", пропущено ").Append(curDataSkipped).AppendLine();
+                sb.Append("Соединение             : ").AppendLine(mqttClientHelper.GetConnectionState(true));
+                curDataQueue.AppendShortInfo(sb, 23);
             }
             else
             {
-                sb
-                    .Append("Connection         : ").AppendLine(mqttClientHelper.GetConnectionState(false))
-                    .Append("Current data queue : ")
-                    .Append(curDataQueue.Count).Append(" of ").Append(maxQueueSize)
-                    .Append(", skipped ").Append(curDataSkipped).AppendLine();
+                sb.Append("Connection         : ").AppendLine(mqttClientHelper.GetConnectionState(false));
+                curDataQueue.AppendShortInfo(sb, 19);
             }
         }
     }

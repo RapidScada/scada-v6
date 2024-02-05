@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +33,7 @@ namespace Scada.Storages
     /// Defines functionality of an application data storage.
     /// <para>Определяет функциональность хранилища данных приложения.</para>
     /// </summary>
+    /// <remarks>Storage implementations must be thread-safe.</remarks>
     public interface IStorage
     {
         /// <summary>

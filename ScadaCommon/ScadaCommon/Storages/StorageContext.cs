@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +20,10 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2023
  */
 
+using Scada.Config;
 using Scada.Log;
 
 namespace Scada.Storages
@@ -31,8 +32,14 @@ namespace Scada.Storages
     /// Represents an application storage environment.
     /// <para>Представляет окружение хранилища приложения.</para>
     /// </summary>
+    /// <remarks>Use the required and init keywords in C# 11.</remarks>
     public class StorageContext
     {
+        /// <summary>
+        /// Gets or sets the instance configuration.
+        /// </summary>
+        public InstanceConfig InstanceConfig { get; set; }
+
         /// <summary>
         /// Gets or sets the current application.
         /// </summary>

@@ -3,32 +3,34 @@
 
 // Represents a panel that contains notifications.
 class NotifPanel {
+    // The storage key for muting.
+    static _MUTE_KEY = "NotifPanel.Mute";
+    // An event that occurs when the Ack All button is clicked.
+    static ACK_ALL_EVENT = "rs:ackAll";
+
+    // The jQuery object that represents the mute button.
+    _muteBtn = $();
+    // The jQuery object that represents the acknowledge all button.
+    _ackAllBtn = $();
+    // The jQuery object that displays the waiting state.
+    _spinnerElem = $();
+    // The jQuery object that represents an empty notification.
+    _emptyNotifElem = $();
+    // The jQuery object that contains notifications.
+    _notifContainerElem = $();
+    // The jQuery objects that represent elements to play sounds.
+    _audio = { info: null, warning: null, error: null };
+    // The highest severity of the existing notifications.
+    _highestSeverity = Severity.UNDEFINED;
+    // The notification counters accessed by known severity.
+    _notifCounters = [];
+    // The jQuery object that represents the notification panel.
+    panelElem;
+    // The jQuery object that represents the notification bells.
+    bellElem;
+
     constructor(panelID, ...bellIDs) {
-        // The storage key for muting.
-        this._MUTE_KEY = "NotifPanel.Mute";
-
-        // The jQuery object that represents the mute button.
-        this._muteBtn = $();
-        // The jQuery object that represents the acknowledge all button.
-        this._ackAllBtn = $();
-        // The jQuery object that represents an empty notification.
-        this._emptyNotifElem = $();
-        // The jQuery objects that represent elements to play sounds.
-        this._audio = {
-            info: null,
-            warning: null,
-            error: null
-        };
-        // The notification ID counter.
-        this._lastNotifID = 0;
-        // The highest notification type of the existing notifications.
-        this._notifType = null;
-        // The notification counters accessed by notification type.
-        this._notifCounters = [];
-
-        // The jQuery object that represents the notification panel.
         this.panelElem = $("#" + panelID);
-        // The jQuery object that represents the notification bells.
         this.bellElem = bellIDs ? $("#" + bellIDs.join(", #")) : $();
     }
 
@@ -39,26 +41,21 @@ class NotifPanel {
 
     // Determines whether the notification panel contains any notifications.
     get _isEmpty() {
-        return this.panelElem.children(".notif:not(.empty):first").length === 0;
-    };
+        return this._notifContainerElem.children(".notif:first").length === 0;
+    }
 
     // Determines whether sound is muted.
     get _isMuted() {
-        return ScadaUtils.getStorageItem(sessionStorage, this._MUTE_KEY, "false") === "true";
-    }
-
-    // Gets the jQuery object that represents the acknowledge all button.
-    get ackAllBtn() {
-        return this._ackAllBtn;
+        return ScadaUtils.getStorageItem(sessionStorage, NotifPanel._MUTE_KEY, "false") === "true";
     }
 
     // Binds events to the DOM elements.
     _bindEvents() {
-        let thisObj = this;
+        const thisObj = this;
 
         this._muteBtn
             .off()
-            .click(function () {
+            .on("click", function () {
                 if (thisObj._isMuted) {
                     thisObj._unmute();
                 } else {
@@ -66,9 +63,17 @@ class NotifPanel {
                 }
             });
 
+        this._ackAllBtn
+            .off()
+            .on("click", function () {
+                if (!thisObj._ackAllBtn.hasClass("disabled")) {
+                    thisObj.panelElem.trigger(NotifPanel.ACK_ALL_EVENT);
+                }
+            });
+
         this.bellElem
             .off()
-            .click(function () {
+            .on("click", function () {
                 thisObj._toggle();
             });
     }
@@ -101,32 +106,38 @@ class NotifPanel {
 
     // Sets the bell style, plays or stops a sound, and shows or hides the notification panel.
     _alarmOnOff() {
-        this.bellElem.removeClass("info warning error");
+        this.bellElem.removeClass("critical major minor info");
         let bellIcon = this.bellElem.find("i:first");
-        bellIcon.removeClass("far fas");
+        bellIcon.removeClass("fa-regular fa-solid");
         let showPanel = true;
 
-        switch (this._notifType) {
-            case NotifType.INFO:
-                this.bellElem.addClass("info");
-                bellIcon.addClass("fas");
-                this._playInfoSound();
-                break;
-
-            case NotifType.WARNING:
-                this.bellElem.addClass("warning");
-                bellIcon.addClass("fas");
-                this._playWarningSound();
-                break;
-
-            case NotifType.ERROR:
-                this.bellElem.addClass("error");
-                bellIcon.addClass("fas");
+        switch (this._highestSeverity) {
+            case Severity.CRITICAL:
+                this.bellElem.addClass("critical");
+                bellIcon.addClass("fa-solid");
                 this._playErrorSound();
                 break;
 
+            case Severity.MAJOR:
+                this.bellElem.addClass("major");
+                bellIcon.addClass("fa-solid");
+                this._playWarningSound();
+                break;
+
+            case Severity.MINOR:
+                this.bellElem.addClass("minor");
+                bellIcon.addClass("fa-solid");
+                this._playWarningSound();
+                break;
+
+            case Severity.INFO:
+                this.bellElem.addClass("info");
+                bellIcon.addClass("fa-solid");
+                this._playInfoSound();
+                break;
+
             default:
-                bellIcon.addClass("far");
+                bellIcon.addClass("fa-regular");
                 this._stopSounds();
                 showPanel = false;
                 break;
@@ -137,43 +148,67 @@ class NotifPanel {
         } else {
             this._hide();
         }
-    };
+    }
 
     // Creates a jQuery element for the notification.
     _createNotifElem(notif) {
-        let time = notif.timestamp instanceof Date ? notif.timestamp.toLocaleString() : notif.timestamp;
-        let notifElem = $("<div id='notif_" + notif.id + "' class='notif'>" +
-            "<div class='notif-icon'>" + this._getNotifTypeIcon(notif.notifType) + "</div>" +
-            "<div class='notif-time'>" + time + "</div>" +
-            "<div class='notif-msg'>" + notif.messageHtml + "</div></div>");
+        let notifElem = $(`<div id='${this._getNotifElemID(notif.key)}' class='notif'></div>`).data("notif", notif);
+        this._getNotifIconElem(notif.knownSeverity).appendTo(notifElem);
+
+        if (notif.timestamp) {
+            let time = notif.timestamp instanceof Date ? notif.timestamp.toLocaleString() : notif.timestamp;
+            $(`<div class='notif-time'>${time}</div>`).appendTo(notifElem);
+        }
+
+        let messageElem = $("<div class='notif-msg'></div>").appendTo(notifElem);
+
+        if (notif.message instanceof jQuery) {
+            messageElem.append(notif.message);
+        } else if (notif.isHtml) {
+            messageElem.html(notif.message);
+        } else {
+            messageElem.text(notif.message);
+        }
+
         notifElem.data("notif", notif);
         return notifElem;
     }
 
-    // Gets a Font Awesome HTML code for the icon corresponding to the notification type.
-    _getNotifTypeIcon(notifType) {
-        switch (notifType) {
-            case NotifType.INFO:
-                return "<i class='fas fa-info info'></i>";
-            case NotifType.WARNING:
-                return "<i class='fas fa-exclamation-triangle warning'></i>";
-            case NotifType.ERROR:
-                return "<i class='fas fa-exclamation-circle error'></i>";
+    // Gets the element ID corresponding to the notification key.
+    _getNotifElemID(key) {
+        return "notif_" + key;
+    }
+
+    // Gets a notification icon jQuery element corresponding to the severity.
+    _getNotifIconElem(knownSeverity) {
+        switch (knownSeverity) {
+            case Severity.CRITICAL:
+                return $("<div class='notif-icon critical'><i class='fa-solid fa-circle-exclamation'></i></div>");
+
+            case Severity.MAJOR:
+                return $("<div class='notif-icon major'><i class='fa-solid fa-triangle-exclamation'></i></div>");
+
+            case Severity.MINOR:
+                return $("<div class='notif-icon minor'><i class='fa-solid fa-triangle-exclamation'></i></div>");
+
+            case Severity.INFO:
+                return $("<div class='notif-icon info'><i class='fa-solid fa-info'></i></div>");
+
             default:
-                return "";
+                return $("<div class='notif-icon undef'><i class='fa-regular fa-circle'></i></div>");
         }
     }
 
     // Mutes notification sound.
     _mute() {
-        ScadaUtils.setStorageItem(sessionStorage, this._MUTE_KEY, "true");
+        ScadaUtils.setStorageItem(sessionStorage, NotifPanel._MUTE_KEY, "true");
         this._stopSounds();
         this._displayMuteState(true);
     }
 
     // Unmutes notification sound.
     _unmute() {
-        ScadaUtils.setStorageItem(sessionStorage, this._MUTE_KEY, "false");
+        ScadaUtils.setStorageItem(sessionStorage, NotifPanel._MUTE_KEY, "false");
         this._continueSounds();
         this._displayMuteState(false);
     }
@@ -186,9 +221,10 @@ class NotifPanel {
 
     // Continues to play sounds if needed.
     _continueSounds() {
-        if (this._notifType === NotifType.WARNING) {
+        if (this._highestSeverity === Severity.MINOR ||
+            this._highestSeverity === Severity.MAJOR) {
             this._playWarningSound();
-        } else if (this._notifType === NotifType.ERROR) {
+        } else if (this._highestSeverity === Severity.CRITICAL) {
             this._playErrorSound();
         }
     }
@@ -225,78 +261,96 @@ class NotifPanel {
     _displayMuteState(isMuted) {
         if (isMuted) {
             this._muteBtn.children("i").removeClass("fa-toggle-on").addClass("fa-toggle-off");
-            this._muteBtn.children("span").text(notifPhrases.Unmute);
+            this._muteBtn.children("span").text(notifPhrases.unmute);
         } else {
             this._muteBtn.children("i").removeClass("fa-toggle-off").addClass("fa-toggle-on");
-            this._muteBtn.children("span").text(notifPhrases.Mute);
+            this._muteBtn.children("span").text(notifPhrases.mute);
         }
-    };
+    }
 
     // Updates the elements depending on whether notifications exist or not.
     _displayEmptyState(isEmpty) {
         if (isEmpty) {
             this._ackAllBtn.addClass("disabled");
-            this._emptyNotif.prependTo(this.panelElem);
+            this._emptyNotifElem.prependTo(this.panelElem);
         } else {
             this._ackAllBtn.removeClass("disabled");
             this._emptyNotifElem.detach();
         }
     }
 
-    // Increases a notification counter corresponding to the specified type.
-    _incNotifCounter(notifType) {
-        this._notifCounters[notifType]++;
+    // Increases a notification counter corresponding to the notification severity.
+    _incNotifCounter(notif) {
+        let knownSeverity = notif.knownSeverity;
+        this._notifCounters[knownSeverity]++;
 
-        if (this._notifType === null || this._notifType < notifType) {
-            this._notifType = notifType;
+        if (knownSeverity !== Severity.UNDEFINED &&
+            (this._highestSeverity === Severity.UNDEFINED || this._highestSeverity > knownSeverity)) {
+            this._highestSeverity = knownSeverity;
         }
-    };
+    }
 
-    // Decreases a notification counter corresponding to the specified type.
-    _decNotifCounter(notifType) {
-        if (this._notifCounters[notifType] > 0) {
-            this._notifCounters[notifType]--;
+    // Decreases a notification counter corresponding to the notification severity.
+    _decNotifCounter(notif) {
+        let knownSeverity = notif.knownSeverity;
+
+        if (this._notifCounters[knownSeverity] > 0) {
+            this._notifCounters[knownSeverity]--;
         }
 
-        if (this._notifCounters[NotifType.ERROR] > 0) {
-            this._notifType = NotifType.ERROR;
-        } else if (this._notifCounters[NotifType.WARNING] > 0) {
-            this._notifType = NotifType.WARNING;
-        } else if (this._notifCounters[NotifType.INFO] > 0) {
-            this._notifType = NotifType.INFO;
+        if (this._notifCounters[Severity.CRITICAL] > 0) {
+            this._highestSeverity = Severity.CRITICAL;
+        } else if (this._notifCounters[Severity.MAJOR] > 0) {
+            this._highestSeverity = Severity.MAJOR;
+        } else if (this._notifCounters[Severity.MINOR] > 0) {
+            this._highestSeverity = Severity.MINOR;
+        } else if (this._notifCounters[Severity.INFO] > 0) {
+            this._highestSeverity = Severity.INFO;
         } else {
-            this._notifType = null;
+            this._highestSeverity = Severity.UNDEFINED;
         }
-    };
+    }
 
     // Resets the notification counters.
     _resetNotifCounters() {
-        this._notifCounters[NotifType.INFO] = 0;
-        this._notifCounters[NotifType.WARNING] = 0;
-        this._notifCounters[NotifType.ERROR] = 0;
-        this._notifType = null;
-    };
+        this._notifCounters[Severity.CRITICAL] = 0;
+        this._notifCounters[Severity.MAJOR] = 0;
+        this._notifCounters[Severity.MINOR] = 0;
+        this._notifCounters[Severity.INFO] = 0;
+        this._highestSeverity = Severity.UNDEFINED;
+    }
 
-    // Gets the key of the last notification.
-    _getLastNotifKey() {
-        let lastNotifElem = this.panelElem.children(".notif:first");
-        return lastNotifElem.length > 0 ? lastNotifElem.data("notif").key : null;
-    };
+    // Calculates the notification counters.
+    _calcNotifCounters(notifs) {
+        this._resetNotifCounters();
+
+        for (let notif of notifs) {
+            this._incNotifCounter(notif);
+        }
+    }
 
     // Prepares the notification panel for work.
     prepare(rootPath) {
         let toolbarElem = $("<div class='notif-toolbar'></div>").appendTo(this.panelElem);
 
-        this._muteBtn = $("<div class='notif-tool-btn'><i class='fas fa-toggle-on'></i><span></span></div>");
+        this._muteBtn = $("<div class='notif-tool-btn'><i class='fa-solid fa-toggle-on'></i><span></span></div>");
         this._displayMuteState(this._isMuted);
         toolbarElem.append(this._muteBtn);
 
-        this._ackAllBtn = $("<div class='notif-tool-btn disabled'><i class='fas fa-check-double'></i><span></span></div>");
-        this._ackAllBtn.children("span:first").text(notifPhrases.AckAll);
+        this._ackAllBtn = $("<div class='notif-tool-btn disabled'>" +
+            "<i class='fa-solid fa-check-double'></i><span></span></div>");
+        this._ackAllBtn.children("span:first").text(notifPhrases.ackAll);
         toolbarElem.append(this._ackAllBtn);
 
+        this._spinnerElem = $("<div class='notif-tool-item hidden'>" +
+            "<i class='fa-solid fa-spinner fa-spin-pulse'></i></div>");
+        toolbarElem.append(this._spinnerElem);
+
         this._emptyNotifElem = $("<div class='notif empty'></div>")
-            .text(notifPhrases.NoNotif)
+            .text(notifPhrases.noNotif)
+            .appendTo(this.panelElem);
+
+        this._notifContainerElem = $("<div class='notif-container'></div>")
             .appendTo(this.panelElem);
 
         if (ScadaUtils.isSmallScreen) {
@@ -309,95 +363,96 @@ class NotifPanel {
         this._audio.error = $(`<audio preload loop src="${soundPath}notif-error.mp3" />`).appendTo(this.panelElem);
 
         this._bindEvents();
+        this._resetNotifCounters();
     }
 
-    // Adds the notification to the notification panel. Returns the notification ID.
+    // Adds the notification to the notification panel.
     addNotification(notif) {
-        notif.id = ++this._lastNotifID;
         this._displayEmptyState(false);
-        this.panelElem.prepend(this._createNotifElem(notif));
-        this._incNotifCounter(notif.notifType);
+        this._notifContainerElem.prepend(this._createNotifElem(notif));
+        this._incNotifCounter(notif);
         this._alarmOnOff();
-        return notif.id;
     }
 
-    // Adds the collection of notifications to the notification panel.
-    addNotifications = function (notifs) {
-        if (notifs.length > 0) {
-            this._displayEmptyState(false);
-            let lastNotifKey = this._getLastNotifKey();
-
-            for (let notif of notifs) {
-                if (lastNotifKey === null || notif.key > lastNotifKey) {
-                    notif.id = ++this._lastNotifID;
-                    this.panelElem.prepend(this._createNotifElem(notif));
-                    this._incNotifCounter(notif.notifType);
-                }
-            }
-
+    // Deletes the existing notifications and adds the specified notifications.
+    replaceNotifications(notifs) {
+        if (!this._isEmpty || notifs.length > 0) {
+            this._notifContainerElem.empty();
+            this._notifContainerElem.append(Array.from(notifs, n => this._createNotifElem(n)).reverse());
+            this._displayEmptyState(this._isEmpty);
+            this._calcNotifCounters(notifs);
             this._alarmOnOff();
         }
-    };
+    }
 
     // Adds sample notifications.
     addSamples() {
-        const messageHtml =
+        const message =
             "<div>Notification text</div>" +
-            "<div><a href='#' class='notif-btn'>Info</a><a href='#' class='notif-btn'>Ack</a></div>";
+            "<div><span class='notif-btn'>Info</span><span class='notif-btn'>Ack</span></div>";
 
-        this.addNotifications([
-            new Notif("a", NotifType.INFO, new Date(), messageHtml),
-            new Notif("b", NotifType.WARNING, new Date(), messageHtml),
-            new Notif("c", NotifType.ERROR, new Date(), messageHtml)
+        this.replaceNotifications([
+            new Notif("a", Severity.INFO, new Date(), message, true),
+            new Notif("b", Severity.MINOR, new Date(), message, true),
+            new Notif("c", Severity.MAJOR, new Date(), message, true),
+            new Notif("d", Severity.CRITICAL, new Date(), message, true)
         ]);
     }
 
-    // Removes the notification with the specified ID from the notification panel.
-    removeNotification = function (notifID) {
-        let notifElem = this.panelElem.children("#notif_" + notifID);
-        let notif = notifElem.data("notif");
-        notifElem.remove();
-        this._displayEmptyState(this._isEmpty);
+    // Removes the notification with the specified key from the notification panel.
+    removeNotification(notifKey) {
+        let notifElem = this._notifContainerElem.children("#" + this._getNotifElemID(notifKey));
 
-        if (notif) {
-            this._decNotifCounter(notif.notifType);
-            this._alarmOnOff();
+        if (notifElem.length > 0) {
+            let notif = notifElem.data("notif");
+            notifElem.remove();
+            this._displayEmptyState(this._isEmpty);
+
+            if (notif) {
+                this._decNotifCounter(notif);
+                this._alarmOnOff();
+            }
         }
-    };
+    }
 
     // Removes all notifications from the notification panel.
     clearNotifications() {
-        this.panelElem.children(".notif:not(.empty)").remove();
-        this._displayEmptyState(true);
-        this._resetNotifCounters();
-        this._alarmOnOff();
-    };
+        if (!this._isEmpty) {
+            this._notifContainerElem.empty();
+            this._displayEmptyState(true);
+            this._resetNotifCounters();
+            this._alarmOnOff();
+        }
+    }
+
+    // Shows or hides the wait symbol.
+    displayWaitingState(isWaiting) {
+        if (isWaiting) {
+            this._spinnerElem.removeClass("hidden");
+        } else {
+            this._spinnerElem.addClass("hidden");
+        }
+    }
 }
 
 // Specifies the notification phrases.
 // Can be changed by a page script.
 // C# naming style. 
 var notifPhrases = {
-    NoNotif: "No notifications",
-    Mute: "Mute",
-    Unmute: "Unmute",
-    AckAll: "Ack All"
+    noNotif: "No notifications",
+    mute: "Mute",
+    unmute: "Unmute",
+    ackAll: "Ack All"
 };
-
-// Specifies the notification types.
-class NotifType {
-    static INFO = 0;
-    static WARNING = 1;
-    static ERROR = 2
-}
 
 // Represents a notification.
 class Notif {
-    constructor(key, notifType, timestamp, messageHtml) {
-        this.id = 0;                // assigned by a panel
-        this.key = key;             // assigned by a plugin
-        this.notifType = notifType;
-        this.timestamp = timestamp; // can be Date or String
-        this.messageHtml = messageHtml;
+    constructor(key, severity, timestamp, message, opt_isHtml) {
+        this.key = key;                    // unique notification key assigned by a plugin
+        this.severity = severity;          // severity as a number
+        this.timestamp = timestamp;        // can be Date, String or empty value
+        this.message = message;            // can be plain string, HTML string or jQuery object
+        this.isHtml = opt_isHtml ?? false; // message is HTML
+        this.knownSeverity = Severity.closest(severity);
     }
 }

@@ -1,7 +1,8 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Config;
+using Scada.Dbms;
+using Scada.Lang;
 using System.Xml;
 
 namespace Scada.Server.Modules.ModArcPostgreSql.Config
@@ -70,6 +71,17 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
             }
 
             xmlDoc.Save(writer);
+        }
+
+
+        /// <summary>
+        /// Gets the connection options by name, or raises an exception.
+        /// </summary>
+        public DbConnectionOptions GetConnectionOptions(string connectionName)
+        {
+            return Connections.TryGetValue(connectionName, out DbConnectionOptions options)
+                ? options
+                : throw new ScadaException(CommonPhrases.ConnectionNotFound, connectionName);
         }
     }
 }

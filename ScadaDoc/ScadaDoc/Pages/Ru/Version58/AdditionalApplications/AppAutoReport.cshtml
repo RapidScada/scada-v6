@@ -1,0 +1,112 @@
+﻿@page "/ru/5.8/additional-applications/app-auto-report"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Приложение Автоотчёт";
+}
+
+<nav class="doc-toc">
+    <div class="h6">На этой странице</div>
+    <hr>
+    <ul>
+        <li><a href="#overview">Обзор</a></li>
+        <li><a href="#algorithm">Принцип работы</a></li>
+        <li><a href="#installation">Установка</a></li>
+        <li><a href="#configuring">Конфигурирование</a></li>
+        <li><a href="#operation">Работа</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Приложение Автоотчёт</h1>
+
+    <h2 id="overview">Обзор</h2>
+
+    <p>Приложение Автоотчёт предназначено для автоматического формирования различных отчётов, их сохранения на диск, а также рассылки по электронной почте. Расписание для генерации отчётов устанавливается с помощью <a href="../modules/mod-auto-control">Модуля автоматического управления</a>. Отправка отчётов по электронной почте обеспечивается соответствующим драйвером KpEmail.dll, который входит в стандартную установку Rapid SCADA.</p>
+
+    <p>Поддерживаются следующие виды отчётов:</p>
+
+    <ul>
+        <li>Отчёт по часовым данным;</li>
+        <li>Отчёт по событиям;</li>
+        <li>Отчёт по минутным данным;</li>
+        <li>Гибкий отчёт.</li>
+    </ul>
+
+    <h2 id="algorithm">Принцип работы</h2>
+
+    <p>Автоотчёт работает как служба. Он подключается к <a href="../software-overview/applications#server-application">Серверу</a> и постоянно готов к приёму команд. Модуль автоматического управления, который работает в составе Сервера, в заданное время отправляет команду на выполнение задачи по формированию отчётов. По команде формируется набор отчётов и сохраняется на диск в виде файлов или архива. Если установлена соответствующая опция, приложение Автоотчёт передаёт команду Серверу на отправку сгенерированных отчётов по электронной почте.</p>
+
+    <h2 id="installation">Установка</h2>
+
+    <ol>
+        <li>Распаковать архив дистрибутива приложения.</li>
+        <li>Скопировать все файлы из папки SCADA дистрибутива в директорию установки Rapid SCADA, по умолчанию C:\SCADA, с сохранением иерархии директорий.</li>
+        <li>Выполнить файл ScadaAutoReport\svc_install.bat от имени администратора для регистрации службы.</li>
+        <li>Выполнить файл ScadaAutoReport\svc_start.bat от имени администратора для запуска службы.</li>
+        <li>Открыть приложение ScadaAutoReport\ScadaAutoReportConfig.exe, перейти на вкладку <em>Регистрация</em> и зарегистрировать приложение.</li>
+    </ol>
+
+    <h2 id="configuring">Конфигурирование</h2>
+
+    <p>Конфигурация Автоотчёта хранится в файле C:\SCADA\ScadaAutoReport\Config\ScadaAutoReportConfig.xml. Для редактирования конфигурации предназначено приложение ScadaAutoReportConfig.exe. Его внешний вид показан на следующих рисунках:</p>
+
+    <figure class="figure">
+        <img src="app-auto-report-files/auto_report_general_ru.png" class="figure-img img-fluid" alt="Основные настройки Автоотчёта" />
+    </figure>
+
+    <figure class="figure">
+        <img src="app-auto-report-files/auto_report_tasks_ru.png" class="figure-img img-fluid" alt="Настройки задач Автоотчёта" />
+    </figure>
+
+    <p>Для работы приложения Автоотчёт необходимо в проекте выполнить определённые настройки:</p>
+
+    <ol>
+        <li>Создать линию связи, КП и канал управления для работы электронной почты, если отчёты необходимо отправлять по заданным адресам.</li>
+        <li>Создать КП и канал управления для отправки и приёма команд на формирование отчётов.</li>
+        <li>Добавить нового пользователя, который используется для соединения приложения с Сервером.</li>
+        <li>Настроить Модуль автоматического управления для отправки команд по расписанию.</li>
+        <li>Настроить отправку электронной почты в Коммуникаторе.</li>
+    </ol>
+
+    <p>Действия 1, 2 и 3 показаны на следующих рисунках:</p>
+
+    <figure class="figure">
+        <img src="app-auto-report-files/auto_report_lines_ru.png" class="figure-img img-fluid" alt="Линии связи" />
+    </figure>
+    
+    <figure class="figure">
+        <img src="app-auto-report-files/auto_report_devices_ru.png" class="figure-img img-fluid" alt="КП" />
+    </figure>
+
+    <figure class="figure">
+        <img src="app-auto-report-files/auto_report_out_cnls_ru.png" class="figure-img img-fluid" alt="Каналы управления" />
+    </figure>
+
+    <figure class="figure">
+        <img src="app-auto-report-files/auto_report_users_ru.png" class="figure-img img-fluid" alt="Пользователи" />
+    </figure>
+
+    <p>Настройки Модуля автоматического управления (пункт 4) показаны ниже:</p>
+
+    <figure class="figure">
+        <img src="app-auto-report-files/auto_report_module_ru.png" class="figure-img img-fluid" alt="Модуль автоматического управления" />
+    </figure>
+
+    <p>Пример настройки Коммуникатора для работы отправки электронной почты (пункт 5) содержится в проекте DemoProject.ru-RU.rsproj. На следующем рисунке показаны свойства КП:</p>
+
+    <figure class="figure">
+        <img src="app-auto-report-files/auto_report_email_ru.png" class="figure-img img-fluid" alt="Настройки электронной почты" />
+    </figure>
+
+    <h2 id="operation">Работа</h2>
+
+    <p>После завершения конфигурирования или изменения существующей конфигурации необходимо перезапустить службу Автоотчётов. Для этого запустите файл ScadaAutoReport\svc_restart.bat от имени администратора или воспользуйтесь консолью управления Windows, имя службы - ScadaAutoReportService.</p>
+
+    <p>Для проверки работоспособности можно запустить задачи на формирование отчётов через <a href="../software-overview/applications#administrator-application">приложение Администратор</a>. Для запуска задачи необходимо с помощью функции <em>Генератор</em> отправить стандартную команду ТУ на тот канал управления, который отвенчает за генерацию отчётов. В данном примере - канал номер 201. В качестве значения команды - идентификатор задачи. Корректность работы следует проверить по файлам журналов, которые расположены в директории C:\SCADA\ScadaAutoReport\Log\</p>
+
+    <figure class="figure">
+        <img src="app-auto-report-files/auto_report_cmd_ru.png" class="figure-img img-fluid" alt="Команда ТУ" />
+    </figure>
+
+    <p>Если приложение работает нормально, сформированные отчёты сохраняются в директории, указанной в основных параметрах приложения, по умолчанию C:\SCADA\Reports\</p>
+</div>

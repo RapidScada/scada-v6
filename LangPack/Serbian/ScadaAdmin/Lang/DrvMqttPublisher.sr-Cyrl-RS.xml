@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvMqttPublisherDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.Config.DeviceOptions">
+    <Phrase key="RootTopic.DisplayName">Основна тема</Phrase>
+    <Phrase key="RootTopic.Category">Главни параметри</Phrase>
+    <Phrase key="RootTopic.Description">Основна тема која се користи као префикс за све теме уређаја.</Phrase>
+    <Phrase key="UndefinedValue.DisplayName">Недефинисана вредност</Phrase>
+    <Phrase key="UndefinedValue.Category">Главни параметри</Phrase>
+    <Phrase key="UndefinedValue.Description">Корисно оптерећење за слање ако је вредност канала недефинисана.</Phrase>
+    <Phrase key="PublishFormat.DisplayName">Формат објаве</Phrase>
+    <Phrase key="PublishFormat.Category">Главни параметри</Phrase>
+    <Phrase key="PublishFormat.Description">Формат објављениһ података канала.&#13;&#10;Пример формата: { "Val": @val, "Stat": @stat }&#13;&#10;Празан формат је једнак @вал</Phrase>
+    <Phrase key="PublishOnChange.DisplayName">Објавите на промени</Phrase>
+    <Phrase key="PublishOnChange.Category">Главни параметри</Phrase>
+    <Phrase key="PublishOnChange.Description">Вредност која показује да ли да се шаљу подаци о каналу када се промене.</Phrase>
+    <Phrase key="PublishPeriod.DisplayName">Период објављивања</Phrase>
+    <Phrase key="PublishPeriod.Category">Главни параметри</Phrase>
+    <Phrase key="PublishPeriod.Description">Период објављивања за све ставке уређаја, сек.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.Config.ItemConfig">
+    <Phrase key="CnlNum.DisplayName">Број канала</Phrase>
+    <Phrase key="CnlNum.Category">Главни параметри</Phrase>
+    <Phrase key="CnlNum.Description">Број објављеног канала.</Phrase>
+    <Phrase key="Topic.DisplayName">Тема</Phrase>
+    <Phrase key="Topic.Category">Главни параметри</Phrase>
+    <Phrase key="Topic.Description">MQTT тема.</Phrase>
+    <Phrase key="Publish.DisplayName">Објавите</Phrase>
+    <Phrase key="Publish.Category">Главни параметри</Phrase>
+    <Phrase key="Publish.Description">Вредност која показује да ли се ставка користи за објављивање вредности канала.</Phrase>
+    <Phrase key="Subscribe.DisplayName">претплатити се</Phrase>
+    <Phrase key="Subscribe.Category">Главни параметри</Phrase>
+    <Phrase key="Subscribe.Description">Вредност која показује да ли се ставка користи за примање команди.</Phrase>
+    <Phrase key="QosLevel.DisplayName">QoS ниво</Phrase>
+    <Phrase key="QosLevel.Category">Протокол</Phrase>
+    <Phrase key="QosLevel.Description">Ниво квалитета услуге: 0 - највише једном, 1 - најмање једном, 2 - тачно једном.</Phrase>
+    <Phrase key="Retain.DisplayName">Задржати</Phrase>
+    <Phrase key="Retain.Category">Протокол</Phrase>
+    <Phrase key="Retain.Description">Вредност која показује да ли треба поставити задржану заставицу приликом објављивања.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.View.MqttPublisherConfigProvider">
+    <Phrase key="FormTitle">Својства уређаја {0} – MQTT Публисһер</Phrase>
+    <Phrase key="AddItemButton">Додајте ставку</Phrase>
+    <Phrase key="OptionsNode">Опције</Phrase>
+    <Phrase key="ItemsNode">Предмети</Phrase>
+    <Phrase key="ItemNodeFormat">Канал {0}</Phrase>
+  </Dictionary>
+</DrvMqttPublisherDictionaries>

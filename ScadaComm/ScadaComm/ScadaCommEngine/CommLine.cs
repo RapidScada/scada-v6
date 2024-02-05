@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,14 +20,13 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2006
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Comm.Channels;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers;
-using Scada.Data.Const;
 using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Log;
@@ -80,7 +79,7 @@ namespace Scada.Comm.Engine
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        private CommLine(LineConfig lineConfig, CoreLogic coreLogic)
+        public CommLine(LineConfig lineConfig, CoreLogic coreLogic)
         {
             LineConfig = lineConfig ?? throw new ArgumentNullException(nameof(lineConfig));
             this.coreLogic = coreLogic ?? throw new ArgumentNullException(nameof(coreLogic));
@@ -149,6 +148,13 @@ namespace Scada.Comm.Engine
             {
                 return channel?.ChannelLogic;
             }
+            set
+            {
+                if (LineStatus != ServiceStatus.Undefined)
+                    throw new ScadaException("Unable to set channel after communication line initialization.");
+
+                channel = new ChannelWrapper(value, Log);
+            }
         }
 
         /// <summary>
@@ -185,34 +191,6 @@ namespace Scada.Comm.Engine
 
 
         /// <summary>
-        /// Adds the device to the communication line, eliminating duplication of devices.
-        /// </summary>
-        private void AddDevice(DeviceLogic deviceLogic)
-        {
-            if (!deviceMap.ContainsKey(deviceLogic.DeviceNum))
-            {
-                DeviceWrapper deviceWrapper = new DeviceWrapper(deviceLogic, Log)
-                {
-                    DeviceIndex = devices.Count,
-                    InfoFileName = Path.Combine(coreLogic.AppDirs.LogDir,
-                        CommUtils.GetDeviceLogFileName(deviceLogic.DeviceNum, ".txt"))
-                };
-
-                devices.Add(deviceWrapper);
-                deviceMap.Add(deviceLogic.DeviceNum, deviceWrapper);
-
-                if (deviceLogic.NumAddress > 0)
-                    deviceByNumAddr[deviceLogic.NumAddress] = deviceLogic;
-
-                if (!string.IsNullOrEmpty(deviceLogic.StrAddress))
-                    deviceByStrAddr[deviceLogic.StrAddress] = deviceLogic;
-
-                if (maxDeviceTitleLength < deviceLogic.Title.Length)
-                    maxDeviceTitleLength = deviceLogic.Title.Length;
-            }
-        }
-
-        /// <summary>
         /// Prepares the communication line for start.
         /// </summary>
         private bool Prepare(out string errMsg)
@@ -221,7 +199,11 @@ namespace Scada.Comm.Engine
             LineStatus = ServiceStatus.Starting;
             SharedData = new ConcurrentDictionary<string, object>();
             WriteInfo();
-            WriteDeviceInfo();
+
+            if (LineConfig.LineOptions.DetailedLog)
+                WriteDeviceInfo();
+            else
+                WriteDeviceInfoStubs();
 
             if (devices.Count > 0)
             {
@@ -238,7 +220,7 @@ namespace Scada.Comm.Engine
         }
 
         /// <summary>
-        /// Operating cycle running in a separate thread.
+        /// Operating loop running in a separate thread.
         /// </summary>
         private void Execute()
         {
@@ -389,6 +371,7 @@ namespace Scada.Comm.Engine
                         else
                         {
                             deviceWrapper.InvalidateData();
+                            deviceWrapper.DeviceLogic.DeviceStatus = DeviceStatus.Error;
 
                             if (!skipUnableMsg)
                             {
@@ -441,7 +424,7 @@ namespace Scada.Comm.Engine
                     Log.WriteError(ex, Locale.IsRussian ?
                         "Ошибка в цикле работы линии связи" :
                         "Error in the communication line work cycle");
-                    Thread.Sleep(ScadaUtils.ThreadDelay);
+                    Thread.Sleep(ScadaUtils.ErrorDelay);
                 }
             }
 
@@ -644,9 +627,7 @@ namespace Scada.Comm.Engine
                 }
 
                 channel.ChannelLogic.AppendInfo(sb);
-
-                if (SharedData != null && SharedData.Count > 0)
-                    EngineUtils.AppendSharedData(sb, SharedData);
+                SharedData.AppendInfo(sb);
 
                 sb
                     .AppendLine()
@@ -691,9 +672,49 @@ namespace Scada.Comm.Engine
         /// </summary>
         private void WriteDeviceInfo()
         {
-            devices.ForEach(d => d.WriteInfo());
+            if (LineConfig.LineOptions.DetailedLog)
+                devices.ForEach(d => d.WriteInfo());
         }
 
+        /// <summary>
+        /// Writes stubs to device information files.
+        /// </summary>
+        private void WriteDeviceInfoStubs()
+        {
+            devices.ForEach(d => d.WriteInfoStub());
+        }
+
+
+        /// <summary>
+        /// Adds the device to the communication line, eliminating duplication of devices.
+        /// </summary>
+        public void AddDevice(DeviceLogic deviceLogic)
+        {
+            if (LineStatus != ServiceStatus.Undefined)
+                throw new ScadaException("Unable to add device after communication line initialization.");
+
+            if (!deviceMap.ContainsKey(deviceLogic.DeviceNum))
+            {
+                DeviceWrapper deviceWrapper = new DeviceWrapper(deviceLogic, Log)
+                {
+                    DeviceIndex = devices.Count,
+                    InfoFileName = Path.Combine(coreLogic.AppDirs.LogDir,
+                        CommUtils.GetDeviceLogFileName(deviceLogic.DeviceNum, ".txt"))
+                };
+
+                devices.Add(deviceWrapper);
+                deviceMap.Add(deviceLogic.DeviceNum, deviceWrapper);
+
+                if (deviceLogic.NumAddress > 0)
+                    deviceByNumAddr[deviceLogic.NumAddress] = deviceLogic;
+
+                if (!string.IsNullOrEmpty(deviceLogic.StrAddress))
+                    deviceByStrAddr[deviceLogic.StrAddress] = deviceLogic;
+
+                if (maxDeviceTitleLength < deviceLogic.Title.Length)
+                    maxDeviceTitleLength = deviceLogic.Title.Length;
+            }
+        }
 
         /// <summary>
         /// Starts the communication line.
@@ -807,7 +828,7 @@ namespace Scada.Comm.Engine
         /// </summary>
         public IEnumerable<DeviceLogic> SelectDevices()
         {
-            return devices.Select(dw => dw.DeviceLogic);
+            return devices.Select(d => d.DeviceLogic);
         }
 
         /// <summary>
@@ -815,7 +836,7 @@ namespace Scada.Comm.Engine
         /// </summary>
         IEnumerable<DeviceLogic> ILineContext.SelectDevices(Func<DeviceLogic, bool> predicate)
         {
-            return devices.Select(dw => dw.DeviceLogic).Where(predicate);
+            return devices.Select(d => d.DeviceLogic).Where(predicate);
         }
 
         /// <summary>
@@ -849,66 +870,6 @@ namespace Scada.Comm.Engine
         bool ILineContext.GetDeviceByAddress(string strAddress, out DeviceLogic deviceLogic)
         {
             return deviceByStrAddr.TryGetValue(strAddress, out deviceLogic);
-        }
-
-        /// <summary>
-        /// Creates a communication line, communication channel and devices.
-        /// </summary>
-        public static CommLine Create(LineConfig lineConfig, CoreLogic coreLogic, DriverHolder driverHolder)
-        {
-            // create communication line
-            CommLine commLine = new CommLine(lineConfig, coreLogic);
-
-            // create communication channel
-            if (string.IsNullOrEmpty(lineConfig.Channel.Driver))
-            {
-                ChannelLogic channelLogic = new ChannelLogic(commLine, lineConfig.Channel); // stub
-                commLine.channel = new ChannelWrapper(channelLogic, commLine.Log);
-            }
-            else if (driverHolder.GetDriver(lineConfig.Channel.Driver, out DriverLogic driverLogic))
-            {
-                ChannelLogic channelLogic = driverLogic.CreateChannel(commLine, lineConfig.Channel);
-                commLine.channel = new ChannelWrapper(channelLogic, commLine.Log);
-            }
-            else
-            {
-                throw new ScadaException(Locale.IsRussian ?
-                    "Драйвер канала связи {0} не найден." :
-                    "Communication channel driver {0} not found.", lineConfig.Channel.Driver);
-            }
-
-            // create devices
-            foreach (DeviceConfig deviceConfig in lineConfig.DevicePolling)
-            {
-                if (deviceConfig.Active && !coreLogic.DeviceExists(deviceConfig.DeviceNum))
-                {
-                    if (driverHolder.GetDriver(deviceConfig.Driver, out DriverLogic driverLogic))
-                    {
-                        DeviceLogic deviceLogic = driverLogic.CreateDevice(commLine, deviceConfig);
-
-                        if (deviceLogic == null)
-                        {
-                            throw new ScadaException(Locale.IsRussian ?
-                                "Не удалось создать устройство {0}." :
-                                "Unable to create device {0}.", deviceConfig.Title);
-                        }
-
-                        commLine.AddDevice(deviceLogic);
-                    }
-                    else
-                    {
-                        throw new ScadaException(Locale.IsRussian ?
-                            "Драйвер {0} для устройства {1} не найден." :
-                            "Driver {0} for device {1} not found.",
-                            deviceConfig.Driver, deviceConfig.Title);
-                    }
-                }
-            }
-
-            // prepare channel after adding devices
-            commLine.channel.ChannelLogic.MakeReady();
-
-            return commLine;
         }
 
 

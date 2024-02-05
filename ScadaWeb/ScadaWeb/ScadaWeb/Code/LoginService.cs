@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +20,16 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using Scada.Data.Const;
+using Scada.Data.Models;
 using Scada.Lang;
+using Scada.Web.Audit;
 using Scada.Web.Config;
 using Scada.Web.Lang;
 using Scada.Web.Plugins;
@@ -45,6 +48,7 @@ namespace Scada.Web.Code
     internal class LoginService : ILoginService
     {
         private readonly IWebContext webContext;
+        private readonly IAuditLog auditLog;
         private readonly IClientAccessor clientAccessor;
         private readonly HttpContext httpContext;
 
@@ -52,11 +56,12 @@ namespace Scada.Web.Code
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public LoginService(IWebContext webContext, IClientAccessor clientAccessor, 
-            IHttpContextAccessor httpContextAccessor)
+        public LoginService(IWebContext webContext, IAuditLog auditLog,
+            IClientAccessor clientAccessor, IHttpContextAccessor httpContextAccessor)
         {
             this.webContext = webContext ?? throw new ArgumentNullException(nameof(webContext));
-            this.clientAccessor = clientAccessor;
+            this.auditLog = auditLog ?? throw new ArgumentNullException(nameof(auditLog));
+            this.clientAccessor = clientAccessor ?? throw new ArgumentNullException(nameof(clientAccessor));
             httpContext = httpContextAccessor?.HttpContext ?? 
                 throw new ArgumentException("HTTP context must not be null.", nameof(httpContextAccessor));
         }
@@ -95,22 +100,18 @@ namespace Scada.Web.Code
         /// </summary>
         public async Task<SimpleResult> LoginAsync(string username, string password, bool rememberMe)
         {
-            bool userIsValid = false;
-            int userID = 0;
-            int roleID = 0;
-            string errMsg;
+            UserValidationResult result;
             string friendlyError;
 
             // check user by server
             try
             {
-                userIsValid = clientAccessor.ScadaClient
-                    .ValidateUser(username, password, out userID, out roleID, out errMsg);
-                friendlyError = errMsg;
+                result = clientAccessor.ScadaClient.ValidateUser(username, password);
+                friendlyError = result.ErrorMessage;
             }
             catch (Exception ex)
             {
-                errMsg = ex.Message;
+                result = UserValidationResult.Fail(ex.Message);
                 friendlyError = WebPhrases.ClientError;
             }
 
@@ -118,28 +119,39 @@ namespace Scada.Web.Code
             UserLoginArgs userLoginArgs = new()
             {
                 Username = username,
-                UserID = userID,
-                RoleID = roleID,
+                UserID = result.UserID,
+                RoleID = result.RoleID,
                 SessionID = httpContext.Session.Id,
                 RemoteIP = httpContext.Connection.RemoteIpAddress?.ToString(),
-                UserIsValid = userIsValid,
-                ErrorMessage = errMsg,
+                UserIsValid = result.IsValid,
+                ErrorMessage = result.ErrorMessage,
                 FriendlyError = friendlyError
             };
 
             webContext.PluginHolder.OnUserLogin(userLoginArgs);
 
+            // write to audit log
+            auditLog.Write(new AuditLogEntry
+            {
+                ActionTime = DateTime.UtcNow,
+                Username = username,
+                ActionType = AuditActionType.Login,
+                ActionResult = AuditActionResult.FromBool(userLoginArgs.UserIsValid),
+                Severity = userLoginArgs.UserIsValid ? Severity.Info : Severity.Major,
+                Message = userLoginArgs.FriendlyError
+            });
+
             // show login result
             if (userLoginArgs.UserIsValid)
             {
                 LoginOptions loginOptions = webContext.AppConfig.LoginOptions;
-                await DoLoginAsync(username, userID, roleID, 
+                await DoLoginAsync(username, result.UserID, result.RoleID, 
                     loginOptions.AllowRememberMe && rememberMe, loginOptions.RememberMeExpires);
 
                 webContext.Log.WriteAction(Locale.IsRussian ?
-                    "Пользователь {0} вошёл в систему {0}, IP {1}" :
-                    "User {0} is logged in, IP {1}",
-                    username, userLoginArgs.RemoteIP);
+                    "Пользователь {0} вошёл в систему, роль {1}, IP {2}" :
+                    "User {0} is logged in, role {1}, IP {2}",
+                    username, userLoginArgs.RoleID, userLoginArgs.RemoteIP);
                 return SimpleResult.Success();
             }
             else
@@ -159,6 +171,7 @@ namespace Scada.Web.Code
         {
             if (httpContext.User.IsAuthenticated())
             {
+                // perform logout
                 UserLoginArgs userLoginArgs = new()
                 {
                     Username = httpContext.User.GetUsername(),
@@ -177,6 +190,16 @@ namespace Scada.Web.Code
                     "User {0} is logged out, IP {1}",
                     userLoginArgs.Username, userLoginArgs.RemoteIP);
                 webContext.PluginHolder.OnUserLogout(userLoginArgs);
+
+                // write to audit log
+                auditLog.Write(new AuditLogEntry
+                {
+                    ActionTime = DateTime.UtcNow,
+                    Username = userLoginArgs.Username,
+                    ActionType = AuditActionType.Logout,
+                    ActionResult = AuditActionResult.Success,
+                    Severity = Severity.Info
+                });
             }
         }
     }

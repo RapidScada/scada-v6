@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +20,10 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2023
  */
 
+using Scada.Dbms;
 using Scada.Lang;
 using System;
 using System.Collections.Generic;
@@ -73,6 +74,11 @@ namespace Scada.Config
         public string ActiveStorage { get; set; }
 
         /// <summary>
+        /// Gets the default database connection options.
+        /// </summary>
+        public DbConnectionOptions Connection { get; private set; }
+
+        /// <summary>
         /// Gets the storage configurations accessed by storage code.
         /// </summary>
         public SortedList<string, XmlElement> Storages { get; private set; }
@@ -86,6 +92,7 @@ namespace Scada.Config
             Culture = Locale.DefaultCulture.Name;
             LogDir = "";
             ActiveStorage = DefaultStorageCode;
+            Connection = new DbConnectionOptions();
             Storages = new SortedList<string, XmlElement>();
         }
 
@@ -105,6 +112,9 @@ namespace Scada.Config
                 Culture = rootElem.GetChildAsString("Culture");
                 LogDir = rootElem.GetChildAsString("LogDir");
                 ActiveStorage = rootElem.GetChildAsString("ActiveStorage");
+
+                if (rootElem.SelectSingleNode("Connection") is XmlNode connectionNode)
+                    Connection.LoadFromXml(connectionNode);
 
                 if (rootElem.SelectSingleNode("Storages") is XmlNode storagesNode)
                 {
@@ -144,6 +154,7 @@ namespace Scada.Config
                 rootElem.AppendElem("Culture", Culture);
                 rootElem.AppendElem("LogDir", LogDir);
                 rootElem.AppendElem("ActiveStorage", ActiveStorage);
+                Connection.SaveToXml(rootElem.AppendElem("Connection"));
 
                 XmlElement storagesElem = rootElem.AppendElem("Storages");
                 foreach (XmlElement storageElem in Storages.Values)

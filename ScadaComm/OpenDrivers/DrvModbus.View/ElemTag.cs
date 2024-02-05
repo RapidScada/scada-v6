@@ -69,7 +69,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View
         {
             get
             {
-                return $"{(string.IsNullOrEmpty(Elem.Name) ? ModbusDriverPhrases.UnnamedElem : Elem.Name)} ({AddressRange})";
+                return $"{(string.IsNullOrEmpty(Elem.Name) ? DriverPhrases.UnnamedElem : Elem.Name)} ({AddressRange})";
             }
         }
 

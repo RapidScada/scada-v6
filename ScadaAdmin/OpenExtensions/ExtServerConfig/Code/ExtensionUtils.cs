@@ -3,7 +3,6 @@
 
 using Scada.Admin.Project;
 using Scada.Server.Modules;
-using System;
 
 namespace Scada.Admin.Extensions.ExtServerConfig.Code
 {
@@ -26,6 +25,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Code
             {
                 moduleView.ConfigDataset = adminContext.CurrentProject.ConfigDatabase;
                 moduleView.AppDirs = adminContext.AppDirs.CreateDirsForView(serverApp.ConfigDir);
+                moduleView.AgentClient = adminContext.MainForm.GetAgentClient(false);
                 moduleView.AppConfig = serverApp.AppConfig;
                 moduleView.LoadDictionaries();
                 return true;

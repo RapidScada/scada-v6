@@ -1,5 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ModArcPostgreSqlDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Controls.CtrlDatabaseOptions">
+    <Phrase key="gbDbOptions">Database Options</Phrase>
+    <Phrase key="lblUseDefaultConn">Use default connection</Phrase>
+    <Phrase key="lblConnection">Connection</Phrase>
+    <Phrase key="lblPartitionSize">Partition size</Phrase>
+    <Phrase key="cbPartitionSize.Items[0]">One day</Phrase>
+    <Phrase key="cbPartitionSize.Items[1]">One month</Phrase>
+    <Phrase key="cbPartitionSize.Items[2]">One year</Phrase>
+    <Phrase key="lblMaxQueueSize">Maximum queue size</Phrase>
+    <Phrase key="lblBatchSize">Items per transaction</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmConnManager">
     <Phrase key="this">PostgreSQL Connections</Phrase>
     <Phrase key="gbConnList">Connections</Phrase>
@@ -11,35 +22,22 @@
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreCAO">
     <Phrase key="this">Current Archive Options</Phrase>
     <Phrase key="gbDbOptions">Database Options</Phrase>
-    <Phrase key="lblUseStorageConn">Use storage connection</Phrase>
+    <Phrase key="lblUseDefaultConn">Use default connection</Phrase>
     <Phrase key="lblConnection">Connection</Phrase>
     <Phrase key="lblMaxQueueSize">Maximum queue size</Phrase>
+    <Phrase key="lblBatchSize">Items per transaction</Phrase>
     <Phrase key="btnManageConn">Manage Connections</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreEAO">
     <Phrase key="this">Event Archive Options</Phrase>
-    <Phrase key="gbDbOptions">Database Options</Phrase>
-    <Phrase key="lblUseStorageConn">Use storage connection</Phrase>
-    <Phrase key="lblConnection">Connection</Phrase>
-    <Phrase key="lblMaxQueueSize">Maximum queue size</Phrase>
-    <Phrase key="lblPartitionSize">Partition size</Phrase>
-    <Phrase key="cbPartitionSize.Items[0]">One month</Phrase>
-    <Phrase key="cbPartitionSize.Items[1]">One year</Phrase>
     <Phrase key="btnManageConn">Manage Connections</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreHAO">
     <Phrase key="this">Historical Archive Options</Phrase>
-    <Phrase key="gbDbOptions">Database Options</Phrase>
-    <Phrase key="lblUseStorageConn">Use storage connection</Phrase>
-    <Phrase key="lblConnection">Connection</Phrase>
-    <Phrase key="lblMaxQueueSize">Maximum queue size</Phrase>
-    <Phrase key="lblPartitionSize">Partition size</Phrase>
-    <Phrase key="cbPartitionSize.Items[0]">One month</Phrase>
-    <Phrase key="cbPartitionSize.Items[1]">One year</Phrase>
     <Phrase key="btnManageConn">Manage Connections</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>

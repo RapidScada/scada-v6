@@ -7,10 +7,7 @@ using Scada.Admin.Project;
 using Scada.Forms;
 using Scada.Server.Config;
 using Scada.Server.Modules;
-using System;
-using System.IO;
 using System.Text;
-using System.Windows.Forms;
 using WinControl;
 
 namespace Scada.Admin.Extensions.ExtServerConfig.Forms
@@ -209,7 +206,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         }
 
         /// <summary>
-        /// Build the module description.
+        /// Builds the module description.
         /// </summary>
         private static string BuildModuleDescr(ModuleView moduleView)
         {

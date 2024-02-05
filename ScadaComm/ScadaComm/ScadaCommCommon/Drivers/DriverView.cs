@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2023
  */
 
 using Scada.Comm.Channels;
@@ -41,6 +41,7 @@ namespace Scada.Comm.Drivers
         /// Initializes a new instance of the class.
         /// </summary>
         public DriverView()
+            : base()
         {
             AppConfig = null;
             CanCreateDataSource = false;
@@ -69,16 +70,6 @@ namespace Scada.Comm.Drivers
         /// Gets a value indicating whether the driver can create a device.
         /// </summary>
         public bool CanCreateDevice { get; protected set; }
-
-        /// <summary>
-        /// Gets the driver name.
-        /// </summary>
-        public abstract string Name { get; }
-
-        /// <summary>
-        /// Gets the driver description.
-        /// </summary>
-        public abstract string Descr { get; }
 
         /// <summary>
         /// Gets the communication channel types provided by the driver.

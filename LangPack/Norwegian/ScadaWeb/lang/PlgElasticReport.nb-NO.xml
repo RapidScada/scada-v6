@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgElasticReportDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgElasticReport.Areas.ElasticReport.Pages.ReportArgsModel">
+    <Phrase key="PageTitle">Elastisk rapport</Phrase>
+    <Phrase key="ReportNotFound">Rapport med ID {0} ble ikke funnet i plugin-konfigurasjonen.</Phrase>
+    <Phrase key="LoadInputOptionsError">Feil ved innlasting av rapportinndataalternativer.</Phrase>
+    <Phrase key="lblSingleDate">Dato</Phrase>
+    <Phrase key="lblSingleMonth">Måned</Phrase>
+    <Phrase key="lblStartTime">Fra</Phrase>
+    <Phrase key="lblEndTime">Til</Phrase>
+    <Phrase key="lblArchive">Arkiv</Phrase>
+    <Phrase key="lblCnlNums">Kanaler</Phrase>
+    <Phrase key="btnSelectCnls">Plukke ut...</Phrase>
+    <Phrase key="lblFormat">Utgående format</Phrase>
+    <Phrase key="lblPdf">PDF</Phrase>
+    <Phrase key="lblXlsx">Excel</Phrase>
+    <Phrase key="lblHtml">HTML</Phrase>
+    <Phrase key="btnGenerateReport">Last ned rapport</Phrase>
+    <Phrase key="divWaitHint">Genererer rapport.  Vennligst vent...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgElasticReport.Areas.ElasticReport.Pages.ReportArgsModel.Js">
+    <Phrase key="InvalidPeriod">Startdatoen må være mindre eller lik sluttdatoen.</Phrase>
+    <Phrase key="PeriodTooLong">Maksimal periodelengde er {0} dager.</Phrase>
+    <Phrase key="InvalidChannels">Ugyldige kanalnumre.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgElasticReport.Builder">
+    <Phrase key="HeadingFormat1">{0}, {1}</Phrase>
+    <Phrase key="HeadingFormat2">{0}, {1} - {2}</Phrase>
+    <Phrase key="InfoFormat">Generert: {0}.  Tidssone: {1}.  Arkiv: {2}</Phrase>
+    <Phrase key="CnlCaption">Kanaler:</Phrase>
+    <Phrase key="DateTimeCol">Dato og tid</Phrase>
+    <Phrase key="DateCol">Dato</Phrase>
+    <Phrase key="NotApplicable">N/a</Phrase>
+    <Phrase key="SumHeader">Total</Phrase>
+    <Phrase key="AvgHeader">Gjennomsnitt</Phrase>
+    <Phrase key="MinHeader">Minimum</Phrase>
+    <Phrase key="MaxHeader">Maksimum</Phrase>
+    <Phrase key="DayUnit">d</Phrase>
+    <Phrase key="WorksheetName">Ark {0}</Phrase>
+    <Phrase key="CloseButton">Lukk</Phrase>
+  </Dictionary>
+</PlgElasticReportDictionaries>

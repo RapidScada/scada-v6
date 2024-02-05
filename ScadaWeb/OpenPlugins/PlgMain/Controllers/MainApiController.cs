@@ -3,10 +3,12 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Protocol;
 using Scada.Web.Api;
+using Scada.Web.Audit;
 using Scada.Web.Authorization;
 using Scada.Web.Lang;
 using Scada.Web.Plugins.PlgMain.Code;
@@ -32,6 +34,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
 
         private readonly IWebContext webContext;
         private readonly IUserContext userContext;
+        private readonly IAuditLog auditLog;
         private readonly IClientAccessor clientAccessor;
         private readonly IViewLoader viewLoader;
         private readonly IMemoryCache memoryCache;
@@ -41,11 +44,13 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public MainApiController(IWebContext webContext, IUserContext userContext, IClientAccessor clientAccessor,
-            IViewLoader viewLoader, IMemoryCache memoryCache, PluginContext pluginContext)
+        public MainApiController(IWebContext webContext, IUserContext userContext, IAuditLog auditLog,
+            IClientAccessor clientAccessor, IViewLoader viewLoader, IMemoryCache memoryCache, 
+            PluginContext pluginContext)
         {
             this.webContext = webContext;
             this.userContext = userContext;
+            this.auditLog = auditLog;
             this.clientAccessor = clientAccessor;
             this.viewLoader = viewLoader;
             this.memoryCache = memoryCache;
@@ -63,9 +68,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
 
             foreach (int cnlNum in cnlNums)
             {
-                Cnl cnl = webContext.ConfigDatabase.CnlTable.GetItem(cnlNum);
-
-                if (cnl == null)
+                Cnl cnl = webContext.ConfigDatabase.CnlTable.GetItem(cnlNum) ??
                     throw new AccessDeniedException(); // no rights on undefined channel
 
                 if (!userContext.Rights.GetRightByObj(cnl.ObjNum).View)
@@ -94,9 +97,10 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Requests the current data from the server.
         /// </summary>
-        private CurData RequestCurData(IList<int> cnlNums, long cnlListID, bool useCache)
+        private CurData RequestCurData(IList<int> cnlNums, long cnlListID, bool useCache, bool appendUnit)
         {
-            int cnlCnt = cnlNums == null ? 0 : cnlNums.Count;
+            cnlNums ??= Array.Empty<int>();
+            int cnlCnt = cnlNums.Count;
             CurDataRecord[] records = new CurDataRecord[cnlCnt];
             CurData curData = new() 
             { 
@@ -105,11 +109,16 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 CnlListID = "0"
             };
 
-            if (cnlCnt > 0)
+            if (cnlCnt > 0 || useCache)
             {
-                CnlData[] cnlDataArr = cnlListID > 0
-                    ? clientAccessor.ScadaClient.GetCurrentData(ref cnlListID)
-                    : clientAccessor.ScadaClient.GetCurrentData(cnlNums.ToArray(), useCache, out cnlListID);
+                CnlData[] cnlDataArr = Array.Empty<CnlData>();
+
+                if (cnlListID > 0)
+                    cnlDataArr = clientAccessor.ScadaClient.GetCurrentData(ref cnlListID);
+
+                if (cnlListID <= 0)
+                    cnlDataArr = clientAccessor.ScadaClient.GetCurrentData(cnlNums.ToArray(), useCache, out cnlListID);
+
                 curData.CnlListID = cnlListID.ToString();
                 CnlDataFormatter formatter = new(webContext.ConfigDatabase, userContext.TimeZone);
 
@@ -121,7 +130,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                     records[i] = new CurDataRecord
                     {
                         D = new CurDataPoint(cnlNum, cnlData),
-                        Df = formatter.FormatCnlData(cnlData, cnlNum, false)
+                        Df = formatter.FormatCnlData(cnlData, cnlNum, appendUnit)
                     };
                 }
             }
@@ -190,25 +199,34 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// Requests events from the server.
         /// </summary>
         private EventPacket RequestEvents(int archiveBit, TimeRange timeRange, 
-            EventFilter filter, long filterID, bool useCache)
+            long filterID, bool useCache, Func<EventFilter> createFilterFunc)
         {
-            List<Event> events = filterID > 0
-                ? clientAccessor.ScadaClient.GetEvents(archiveBit, timeRange, ref filterID)
-                : clientAccessor.ScadaClient.GetEvents(archiveBit, timeRange, filter, useCache, out filterID);
+            ICollection<Event> events = Array.Empty<Event>();
+            ICollection<EventRecord> records = Array.Empty<EventRecord>();
 
-            int eventCnt = events.Count;
-            EventRecord[] records = new EventRecord[eventCnt];
-            CnlDataFormatter formatter = new(webContext.ConfigDatabase, userContext.TimeZone);
+            if (filterID > 0)
+                events = clientAccessor.ScadaClient.GetEvents(archiveBit, timeRange, ref filterID);
 
-            for (int i = 0; i < eventCnt; i++)
+            if (filterID <= 0)
             {
-                Event ev = events[i];
-                records[i] = new EventRecord
+                events = clientAccessor.ScadaClient.GetEvents(archiveBit, timeRange, 
+                    createFilterFunc(), useCache, out filterID);
+            }
+
+            if (events.Count > 0)
+            {
+                records = new List<EventRecord>(events.Count);
+                CnlDataFormatter formatter = new(webContext.ConfigDatabase, userContext.TimeZone);
+
+                foreach (Event ev in events)
                 {
-                    Id = ev.EventID.ToString(),
-                    E = ev,
-                    Ef = formatter.FormatEvent(ev)
-                };
+                    records.Add(new EventRecord
+                    {
+                        Id = ev.EventID.ToString(),
+                        E = ev,
+                        Ef = formatter.FormatEvent(ev)
+                    });
+                }
             }
 
             return new EventPacket
@@ -256,13 +274,13 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Gets the current data of the specified channels.
         /// </summary>
-        public Dto<CurData> GetCurDataStep1(IntRange cnlNums, bool useCache)
+        public Dto<CurData> GetCurDataStep1(IntRange cnlNums, bool useCache, bool appendUnit)
         {
             try
             {
                 // request data
                 CheckAccessRights(cnlNums);
-                CurData curData = RequestCurData(cnlNums, 0, useCache);
+                CurData curData = RequestCurData(cnlNums, 0, useCache, appendUnit);
 
                 // write channel list to the cache
                 if (useCache && curData.CnlListID != "0")
@@ -289,12 +307,12 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Gets the current data by the channel list ID returned in step 1.
         /// </summary>
-        public Dto<CurData> GetCurDataStep2(long cnlListID)
+        public Dto<CurData> GetCurDataStep2(long cnlListID, bool appendUnit)
         {
             try
             {
                 IntRange cnlNums = memoryCache.Get<IntRange>(PluginUtils.GetCacheKey("CnlList", cnlListID));
-                CurData curData = RequestCurData(cnlNums, cnlListID, true);
+                CurData curData = RequestCurData(cnlNums, cnlListID, true, appendUnit);
                 return Dto<CurData>.Success(curData);
             }
             catch (Exception ex)
@@ -308,7 +326,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// Gets the current data by view.
         /// </summary>
         /// <remarks>Loads the specified view if it is not in the cache.</remarks>
-        public Dto<CurData> GetCurDataByView(int viewID, long cnlListID)
+        public Dto<CurData> GetCurDataByView(int viewID, long cnlListID, bool appendUnit)
         {
             try
             {
@@ -317,7 +335,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                     CurData curData = memoryCache.GetOrCreate(PluginUtils.GetCacheKey("CurData", viewID), entry =>
                     {
                         entry.SetAbsoluteExpiration(DataCacheExpiration);
-                        return RequestCurData(view.CnlNumList, cnlListID, true);
+                        return RequestCurData(view.CnlNumList, cnlListID, true, appendUnit);
                     });
 
                     return Dto<CurData>.Success(curData);
@@ -408,7 +426,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                     entry =>
                     {
                         entry.SetAbsoluteExpiration(DataCacheExpiration);
-                        return RequestEvents(archiveBit, timeRange, null, 0, false);
+                        return RequestEvents(archiveBit, timeRange, 0, false, () => null);
                     });
 
                 return Dto<EventPacket>.Success(eventPacket);
@@ -437,7 +455,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                     entry =>
                     {
                         entry.SetAbsoluteExpiration(DataCacheExpiration);
-                        return RequestEvents(archiveBit, CreateTimeRange(period), new EventFilter(limit), 0, false);
+                        return RequestEvents(archiveBit, CreateTimeRange(period), 
+                            0, false, () => new EventFilter(limit));
                     });
 
                 return Dto<EventPacket>.Success(eventPacket);
@@ -448,7 +467,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             }
             catch (Exception ex)
             {
-                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetEvents)));
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetLastEvents)));
                 return Dto<EventPacket>.Fail(ex.Message);
             }
         }
@@ -468,8 +487,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 EventPacket eventPacket = memoryCache.GetOrCreate(cacheKey, entry =>
                 {
                     entry.SetAbsoluteExpiration(DataCacheExpiration);
-                    EventFilter filter = filterID > 0 ? null : new EventFilter(limit, rights);
-                    return RequestEvents(archiveBit, CreateTimeRange(period), filter, filterID, true);
+                    return RequestEvents(archiveBit, CreateTimeRange(period), 
+                        filterID, true, () => new EventFilter(limit, rights));
                 });
 
                 return Dto<EventPacket>.Success(eventPacket);
@@ -490,15 +509,15 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         {
             try
             {
-                if (viewLoader.GetViewFromCache(viewID, out ViewBase view, out string errMsg))
+                if (viewLoader.GetView(viewID, out ViewBase view, out string errMsg))
                 {
                     EventPacket eventPacket = memoryCache.GetOrCreate(
                         PluginUtils.GetCacheKey("LastEventsByView", archiveBit, period, limit, viewID),
                         entry =>
                         {
                             entry.SetAbsoluteExpiration(DataCacheExpiration);
-                            EventFilter filter = filterID > 0 ? null : new EventFilter(limit, view);
-                            return RequestEvents(archiveBit, CreateTimeRange(period), filter, filterID, true);
+                            return RequestEvents(archiveBit, CreateTimeRange(period), 
+                                filterID, true, () => new EventFilter(limit, view));
                         });
 
                     return Dto<EventPacket>.Success(eventPacket);
@@ -553,32 +572,34 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         [HttpPost]
         public Dto SendCommand([FromBody] CommandDTO commandDTO)
         {
+            bool success = false;
+            string message = "";
+
             try
             {
                 int cnlNum = commandDTO.CnlNum;
-                string errMsg;
 
                 if (!webContext.AppConfig.GeneralOptions.EnableCommands ||
                     !pluginContext.Options.AllowCommandApi)
                 {
-                    errMsg = WebPhrases.CommandsDisabled;
+                    message = WebPhrases.CommandsDisabled;
                 }
                 else if (webContext.ConfigDatabase.CnlTable.GetItem(cnlNum) is not Cnl cnl)
                 {
-                    errMsg = string.Format(WebPhrases.CnlNotFound, cnlNum);
+                    message = string.Format(WebPhrases.CnlNotFound, cnlNum);
                 }
                 else if (!cnl.IsOutput())
                 {
-                    errMsg = string.Format(WebPhrases.CnlNotOutput, cnlNum);
+                    message = string.Format(WebPhrases.CnlNotOutput, cnlNum);
                 }
                 else if (!userContext.Rights.GetRightByObj(cnl.ObjNum).Control)
                 {
-                    errMsg = WebPhrases.AccessDenied;
+                    message = WebPhrases.AccessDenied;
                 }
                 else
                 {
                     webContext.Log.WriteAction(WebPhrases.SendCommand, cnlNum, User.GetUsername());
-                    clientAccessor.ScadaClient.SendCommand(new TeleCommand
+                    CommandResult result = clientAccessor.ScadaClient.SendCommand(new TeleCommand
                     {
                         UserID = User.GetUserID(),
                         CnlNum = cnlNum,
@@ -586,20 +607,31 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                         CmdData = commandDTO.IsHex
                             ? ScadaUtils.HexToBytes(commandDTO.CmdData, true, true)
                             : TeleCommand.StringToCmdData(commandDTO.CmdData)
-                    }, WriteFlags.EnableAll, out CommandResult commandResult);
+                    }, WriteCommandFlags.Default);
 
-                    if (commandResult.IsSuccessful)
-                        return Dto.Success();
-                    else
-                        errMsg = commandResult.ErrorMessage;
+                    success = result.IsSuccessful;
+                    message = result.ErrorMessage;
                 }
 
-                return Dto.Fail(errMsg);
+                return success ? Dto.Success() : Dto.Fail(message);
             }
             catch (Exception ex)
             {
+                message = ex.Message;
                 webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(SendCommand)));
-                return Dto.Fail(ex.Message);
+                return Dto.Fail(message);
+            }
+            finally
+            {
+                auditLog.Write(new AuditLogEntry(userContext.UserEntity)
+                {
+                    ActionType = AuditActionType.SendCommand,
+                    ActionArgs = AuditActionArgs.FromObject(
+                        new { commandDTO.CnlNum, commandDTO.CmdVal, commandDTO.CmdData }),
+                    ActionResult = AuditActionResult.FromBool(success),
+                    Severity = Severity.Minor,
+                    Message = message
+                });
             }
         }
     }

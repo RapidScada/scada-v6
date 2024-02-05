@@ -1,0 +1,51 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "provider": "cdnjs",
+      "library": "bootstrap@5.3.1",
+      "destination": "wwwroot/lib/bootstrap/",
+      "files": [
+        "js/bootstrap.bundle.min.js",
+        "js/bootstrap.bundle.min.js.map",
+        "css/bootstrap.min.css",
+        "css/bootstrap.min.css.map"
+      ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "bootstrap-icons@1.10.5",
+      "destination": "wwwroot/lib/bootstrap-icons/",
+      "files": [
+        "font/fonts/bootstrap-icons.woff",
+        "font/fonts/bootstrap-icons.woff2",
+        "font/bootstrap-icons.min.css"
+      ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "font-awesome@6.4.2",
+      "destination": "wwwroot/lib/font-awesome/",
+      "files": [
+        "css/all.min.css",
+        "webfonts/fa-brands-400.ttf",
+        "webfonts/fa-brands-400.woff2",
+        "webfonts/fa-regular-400.ttf",
+        "webfonts/fa-regular-400.woff2",
+        "webfonts/fa-solid-900.ttf",
+        "webfonts/fa-solid-900.woff2",
+        "webfonts/fa-v4compatibility.ttf",
+        "webfonts/fa-v4compatibility.woff2"
+      ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "jquery@3.7.0",
+      "destination": "wwwroot/lib/jquery/",
+      "files": [
+        "jquery.min.js"
+      ]
+    }
+  ]
+}

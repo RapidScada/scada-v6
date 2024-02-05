@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModRapidGateDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlArcReplication">
+    <Phrase key="gbReplicationOptions">Опције репликације архиве</Phrase>
+    <Phrase key="lblEnabled">Омогућено</Phrase>
+    <Phrase key="lblLocalHistArchiveBit">Мало локалног историјског архива</Phrase>
+    <Phrase key="lblLocalEventArchiveBit">Мало локалне архиве догађаја</Phrase>
+    <Phrase key="lblRemoteHistArchiveBit">Мало удаљене историјске архиве</Phrase>
+    <Phrase key="lblRemoteEventArchiveBit">Мало удаљене архиве догађаја</Phrase>
+    <Phrase key="lblAutoUpload">Аутоматски отпреми</Phrase>
+    <Phrase key="lblAutoDowload">Аутоматски преузми</Phrase>
+    <Phrase key="lblDataAvailCnlNum">Канал који показује доступност података</Phrase>
+    <Phrase key="lblMinDepth">Минимална дубина, сец</Phrase>
+    <Phrase key="lblMaxDepth">Максимална дубина, сец</Phrase>
+    <Phrase key="lblReadingStep">Корак читања, сек</Phrase>
+    <Phrase key="gbUploadOptions">Отпремити</Phrase>
+    <Phrase key="gbDowloadOptions">Преузимање</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlCurDataTransfer">
+    <Phrase key="gbOptions">Тренутне опције преноса података</Phrase>
+    <Phrase key="chkEnabled">Омогућено</Phrase>
+    <Phrase key="lblTrigger">Окидач</Phrase>
+    <Phrase key="cbTrigger.Items[0]">Он Рецеиве</Phrase>
+    <Phrase key="cbTrigger.Items[1]">На штоперицу</Phrase>
+    <Phrase key="lblTimePeriod">Период тајмера, сек</Phrase>
+    <Phrase key="lblAllDataPeriod">Период преноса података свих канала, сек</Phrase>
+    <Phrase key="chkUseRawData">Користите необрађене податке (пренесите податке пре обраде)</Phrase>
+    <Phrase key="chkApplyFormulas">Примените формуле на удаљеном серверу</Phrase>
+    <Phrase key="chkEnableEvents">Генеришите догађаје на удаљеном серверу</Phrase>
+    <Phrase key="chkSkipUnchanged">Прескочите непромењене податке</Phrase>
+    <Phrase key="chkIncludeCalculated">Укључите израчунате канале</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlEventTransfer">
+    <Phrase key="gbOptions">Опције преноса догађаја</Phrase>
+    <Phrase key="chkEnabled">Омогућено</Phrase>
+    <Phrase key="chkTransferAck">Пренесите потврде</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlGeneral">
+    <Phrase key="gbOptions">Генералне опције</Phrase>
+    <Phrase key="chkActive">Активан</Phrase>
+    <Phrase key="lblGateID">ID капије</Phrase>
+    <Phrase key="lblName">Име</Phrase>
+    <Phrase key="lblCmdCode">Командни код</Phrase>
+    <Phrase key="lblLocalArchiveMask">Архивска маска за чување података на локалном серверу</Phrase>
+    <Phrase key="lblDefaultArchiveMaskLocal">Подесите -1 да изаберете подразумеване архиве</Phrase>
+    <Phrase key="lblRemoteArchiveMask">Архивска маска за слање података на удаљени сервер</Phrase>
+    <Phrase key="lblDefaultArchiveMaskRemote">Подесите -1 да изаберете подразумеване архиве</Phrase>
+    <Phrase key="lblMaxQueueSize">Максимална величина реда</Phrase>
+    <Phrase key="lblDataLifetime">Животни век података у реду, сек</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlHistDataTransfer">
+    <Phrase key="gbOptions">Опције преноса историјских података</Phrase>
+    <Phrase key="chkEnabled">Омогућено</Phrase>
+    <Phrase key="chkUseRawData">Користите необрађене податке (пренесите податке пре обраде)</Phrase>
+    <Phrase key="chkApplyFormulas">Примените формуле на удаљеном серверу</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlInCmdTransfer">
+    <Phrase key="gbOptions">Опције преноса долазних команди</Phrase>
+    <Phrase key="chkEnabled">Омогућено</Phrase>
+    <Phrase key="chkApplyFormulas">Примените формуле на локалном серверу</Phrase>
+    <Phrase key="lblPollingRate">Стопа бирања команди, мс</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlMapping">
+    <Phrase key="gbOptions">Опције мапирања</Phrase>
+    <Phrase key="btnAddMapItem.ToolTip">Додај мапирање</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Напредовати</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Помери се доле</Phrase>
+    <Phrase key="btnDel.ToolTip">Избриши</Phrase>
+    <Phrase key="btnEdit.ToolTip">Уредити</Phrase>
+    <Phrase key="colLocalIDs">Локални ИД-ови</Phrase>
+    <Phrase key="colRemoteIDs">Ремоте ИДс</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Controls.CtrlOutCmdTransfer">
+    <Phrase key="gbOptions">Опције преноса излазних команди</Phrase>
+    <Phrase key="chkEnabled">Омогућено</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Forms.FrmIdMapping">
+    <Phrase key="this">ID мапирање</Phrase>
+    <Phrase key="lblRange">ID мапирање</Phrase>
+    <Phrase key="lblParamLocal">Локални ID-ови</Phrase>
+    <Phrase key="lblParamRemote">Ремоте IDс</Phrase>
+    <Phrase key="lblExample">На пример: 1 - 5, 10</Phrase>
+    <Phrase key="btnOK">У реду</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModRapidGate.View.Forms.FrmModuleConfig">
+    <Phrase key="this">Рапид Гате</Phrase>
+    <Phrase key="btnAdd.ToolTip">Додај капију</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Напредовати</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Помери се доле</Phrase>
+    <Phrase key="btnDelete.ToolTip">Избриши</Phrase>
+    <Phrase key="btnCut.ToolTip">Цут</Phrase>
+    <Phrase key="btnCopy.ToolTip">Копирај</Phrase>
+    <Phrase key="btnPaste.ToolTip">Залепите</Phrase>
+    <Phrase key="gbGates">Гатес</Phrase>
+    <Phrase key="lblHint">Додај капију</Phrase>
+    <Phrase key="btnSave">сачувати</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+    <Phrase key="btnClose">Близу</Phrase>
+    <Phrase key="miCollapseAll">Скупи све</Phrase>
+    <Phrase key="CopySuffix">- Примљено</Phrase>
+    <Phrase key="GeneralOptionsNode">Генералне опције</Phrase>
+    <Phrase key="ConnectionOptionsNode">Опције везе</Phrase>
+    <Phrase key="MappingOptionsNode">Опције мапирања</Phrase>
+    <Phrase key="ChannelMappingNode">Опције мапирања канала</Phrase>
+    <Phrase key="UserMappingNode">Опције мапирања корисника</Phrase>
+    <Phrase key="TransferOptionsNode">Опције преноса</Phrase>
+    <Phrase key="CurDataTransferOptionsNode">Тренутни подаци</Phrase>
+    <Phrase key="HistDataTransferOptionsNode">Историјски подаци</Phrase>
+    <Phrase key="EventTransferOptionsNode">Догађаји</Phrase>
+    <Phrase key="InCmdTransferOptionsNode">Долазне команде</Phrase>
+    <Phrase key="OutCmdTransferOptionsNode">Оутцоминг Цоммандс</Phrase>
+    <Phrase key="ArcReplicationOptionsNode">Репликација архиве</Phrase>
+    <Phrase key="GateName">Капија {0}</Phrase>
+    <Phrase key="GateNameNotUnique">Имена капија морају бити јединствена.</Phrase>
+    <Phrase key="GateNameEmpty">Назив капије не може бити празан.</Phrase>
+    <Phrase key="AddGates">Додајте капије</Phrase>
+    <Phrase key="SelectChildNode">Изаберите подређени чвор</Phrase>
+    <Phrase key="ArchiveText">Архивски бит {0}</Phrase>
+  </Dictionary>
+</ModRapidGateDictionaries>

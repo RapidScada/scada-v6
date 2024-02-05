@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtProjectToolsDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.ChannelMap">
+    <Phrase key="MapByDeviceTitle">Kanaler etter enhet</Phrase>
+    <Phrase key="MapByObjectTitle">Kanaler etter objekt</Phrase>
+    <Phrase key="ChannelsCaption">Kanaler:</Phrase>
+    <Phrase key="NoChannels">Ingen kanaler</Phrase>
+    <Phrase key="GenerateChannelMapError">Feil under generering av kanalkart</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.DeviceMap">
+    <Phrase key="DeviceMapTitle">Enheter etter kommunikasjonslinje</Phrase>
+    <Phrase key="DevicesCaption">Enheter:</Phrase>
+    <Phrase key="NoDevices">Ingen enheter</Phrase>
+    <Phrase key="EmptyCommLine">Tom kommunikasjonslinje</Phrase>
+    <Phrase key="GenerateDeviceMapError">Feil under generering av enhetskart</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.IntegrityCheck">
+    <Phrase key="IntegrityCheckTitle">Integritetssjekk</Phrase>
+    <Phrase key="TableCorrect">OK</Phrase>
+    <Phrase key="TableHasErrors">Feil</Phrase>
+    <Phrase key="LostPrimaryKeys">Tapte primærnøkler:</Phrase>
+    <Phrase key="BaseCorrect">Konfigurasjonsdatabasen er riktig.</Phrase>
+    <Phrase key="BaseHasErrors">Konfigurasjonsdatabasen har feil.</Phrase>
+    <Phrase key="IntegrityCheckError">Feil under kontroll av integritet</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Controls.CtrlMainMenu">
+    <Phrase key="miProjectTools">Prosjektverktøy</Phrase>
+    <Phrase key="miCloneChannels">Klone kanaler...</Phrase>
+    <Phrase key="miChannelMapByDevice">Kanalkart etter enhet</Phrase>
+    <Phrase key="miChannelMapByObject">Kanalkart etter objekt</Phrase>
+    <Phrase key="miDeviceMap">Enhetskart</Phrase>
+    <Phrase key="miCheckIntegrity">Sjekk integritet</Phrase>
+    <Phrase key="miEncryptPassword">Krypter passord...</Phrase>
+    <Phrase key="miImportTable">Importer tabell...</Phrase>
+    <Phrase key="miExportTable">Eksporter tabell...</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmCnlClone">
+    <Phrase key="this">Klone kanaler</Phrase>
+    <Phrase key="gbSrcNums">Kildekanalnumre</Phrase>
+    <Phrase key="lblSrcStartNum">Start</Phrase>
+    <Phrase key="lblSrcEndNum">Slutt</Phrase>
+    <Phrase key="gbDestNums">Destinasjonskanalnumre</Phrase>
+    <Phrase key="lblDestStartNum">Start</Phrase>
+    <Phrase key="lblDestEndNum">Slutt</Phrase>
+    <Phrase key="gbOptions">Alternativer</Phrase>
+    <Phrase key="lblReplaceObj">Bytt ut objektet</Phrase>
+    <Phrase key="lblReplaceDevice">Bytt ut enheten</Phrase>
+    <Phrase key="chkUpdateFormulas">Oppdater kanalnumre i formler</Phrase>
+    <Phrase key="btnClone">Klone</Phrase>
+    <Phrase key="btnClose">Lukk</Phrase>
+    <Phrase key="KeepUnchanged">&lt;Behold uendret&gt;</Phrase>
+    <Phrase key="CloneChannelsCompleted">Kloning fullført.&#13;&#10;{0} kanal(er) er lagt til.</Phrase>
+    <Phrase key="CloneChannelsError">Feil ved kloning av kanaler</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
+    <Phrase key="this">Krypter passord</Phrase>
+    <Phrase key="lblPassword">Passord</Phrase>
+    <Phrase key="lblPasswordEncrypted">Kryptert passord</Phrase>
+    <Phrase key="btnCopy">Kopiere</Phrase>
+    <Phrase key="btnClose">Lukk</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
+    <Phrase key="this">Eksporter tabell</Phrase>
+    <Phrase key="lblTable">Bord</Phrase>
+    <Phrase key="lblFormat">Format</Phrase>
+    <Phrase key="gbIDs">ID-er</Phrase>
+    <Phrase key="lblStartID">Start</Phrase>
+    <Phrase key="lblEndID">Slutt</Phrase>
+    <Phrase key="btnExport">Eksport</Phrase>
+    <Phrase key="btnClose">Lukk</Phrase>
+    <Phrase key="ExportTableFilter">Tabeller (*.dat;*.xml;*.csv)|*.dat;*.xml;*.csv|Alle filer (*.*)|*.*</Phrase>
+    <Phrase key="ExportTableError">Feil ved eksport av tabell</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableImport">
+    <Phrase key="this">Importtabell</Phrase>
+    <Phrase key="lblTable">Bord</Phrase>
+    <Phrase key="lblSrcFile">Kildefil</Phrase>
+    <Phrase key="btnBrowse">Bla gjennom...</Phrase>
+    <Phrase key="gbSrcIDs">Kilde-ID-er</Phrase>
+    <Phrase key="lblSrcStartID">Start</Phrase>
+    <Phrase key="lblSrcEndID">Slutt</Phrase>
+    <Phrase key="gbDestIDs">Destinasjons-IDer</Phrase>
+    <Phrase key="lblDestStartID">Start</Phrase>
+    <Phrase key="lblDestEndID">Slutt</Phrase>
+    <Phrase key="btnImport">Import</Phrase>
+    <Phrase key="btnClose">Lukk</Phrase>
+    <Phrase key="ImportTableFilter">Tabeller (*.dat;*.xml;*.csv)|*.dat;*.xml;*.csv|Alle filer (*.*)|*.*</Phrase>
+    <Phrase key="ImportTableCompleted">Importen er fullført.&#13;&#10;{0} rad(er) er berørt.</Phrase>
+    <Phrase key="ImportTableError">Feil ved import av tabell</Phrase>
+  </Dictionary>
+</ExtProjectToolsDictionaries>

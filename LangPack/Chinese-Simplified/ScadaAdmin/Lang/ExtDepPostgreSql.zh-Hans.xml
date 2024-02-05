@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtDepPostgreSqlDictionaries culture="zh-Hans" lang="ChineseSimplified">
+  <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Downloader">
+    <Phrase key="DownloadTable">下载表 {0} </Phrase>
+    <Phrase key="DownloadView">"下载视图 &quot;{0}&quot;</Phrase>
+    <Phrase key="DownloadConfigFile">下载配置文件 &quot;{0}&quot;</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Uploader">
+    <Phrase key="CreateSchema">创建数据库结构</Phrase>
+    <Phrase key="CreateAppDict">创建应用程序字典</Phrase>
+    <Phrase key="ClearBase">清除配置数据库</Phrase>
+    <Phrase key="CreateBase">创建配置数据库</Phrase>
+    <Phrase key="DeleteTable">删除表 {0} </Phrase>
+    <Phrase key="CreateTable">创建表 {0} </Phrase>
+    <Phrase key="CreateFKs">创建外键</Phrase>
+    <Phrase key="CreateTableFKs">为表 {0} 创建外键</Phrase>
+    <Phrase key="ClearViews">清除视图</Phrase>
+    <Phrase key="CreateViews">创建视图</Phrase>
+    <Phrase key="CreateView">创建视图&quot;{0}&quot;</Phrase>
+    <Phrase key="ClearAllAppConfig">清除所有应用程序的配置</Phrase>
+    <Phrase key="ClearAppConfig">清除应用程序 {0} 的配置</Phrase>
+    <Phrase key="CreateAppConfig">创建应用程序 {0} 的配置</Phrase>
+    <Phrase key="CreateConfigFile">创建 &quot;{0}&quot; 的配置</Phrase>
+    <Phrase key="UnableRestartServices">由于代理已禁用，无法重启服务</Phrase>
+  </Dictionary>
+</ExtDepPostgreSqlDictionaries>

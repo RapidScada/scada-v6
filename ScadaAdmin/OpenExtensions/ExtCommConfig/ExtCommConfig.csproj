@@ -5,11 +5,12 @@
     <UseWindowsForms>true</UseWindowsForms>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <RootNamespace>Scada.Admin.Extensions.ExtCommConfig</RootNamespace>
-    <Version>6.0.0</Version>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
-    <Copyright>Copyright © 2022</Copyright>
+    <Copyright>Copyright © 2024</Copyright>
+    <Version>6.0.1</Version>
+    <AssemblyVersion>6.0.1.2</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ namespace Scada.Comm.Devices
     /// Represents device data.
     /// <para>Представляет данные устройства.</para>
     /// </summary>
-    /// <remarks>The class is thread safe.</remarks>
+    /// <remarks>The class is thread-safe.</remarks>
     public class DeviceData
     {
         private readonly int deviceNum;             // the device number
@@ -642,7 +642,11 @@ namespace Scada.Comm.Devices
         public void SetStatusTag(DeviceStatus status)
         {
             if (deviceTags.ContainsTag(CommUtils.StatusTagCode))
-                Set(CommUtils.StatusTagCode, (double)status);
+            {
+                this[CommUtils.StatusTagCode] = status == DeviceStatus.Undefined 
+                    ? CnlData.Empty
+                    : new CnlData((double)status - 1, CnlStatusID.Defined);
+            }
         }
 
         /// <summary>

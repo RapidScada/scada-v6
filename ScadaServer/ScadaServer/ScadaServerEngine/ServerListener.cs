@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Client;
@@ -213,52 +213,43 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Writes the current data.
+        /// Writes the channel data.
         /// </summary>
-        private void WriteCurrentData(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        private void WriteChannelData(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
-            DateTime timestamp = GetTime(buffer, ref index);
-            int cnlCnt = GetInt32(buffer, ref index);
-            Slice slice = new Slice(timestamp, cnlCnt);
-
-            for (int i = 0, idx1 = index, idx2 = idx1 + cnlCnt * 4; i < cnlCnt; i++)
-            {
-                slice.CnlNums[i] = GetInt32(buffer, ref idx1);
-                slice.CnlData[i] = GetCnlData(buffer, ref idx2);
-            }
-
-            index += cnlCnt * 14;
-            int deviceNum = GetInt32(buffer, ref index);
-            WriteFlags writeFlags = (WriteFlags)buffer[index];
-            coreLogic.WriteCurrentData(slice, deviceNum, writeFlags);
-
-            response = new ResponsePacket(request, client.OutBuf);
-        }
-
-        /// <summary>
-        /// Writes the historical data.
-        /// </summary>
-        private void WriteHistoricalData(ConnectedClient client, DataPacket request, out ResponsePacket response)
-        {
-            byte[] buffer = request.Buffer;
-            int index = ArgumentIndex;
+            WriteDataFlags flags = (WriteDataFlags)GetByte(buffer, ref index);
             int archiveMask = GetInt32(buffer, ref index);
-            DateTime timestamp = GetTime(buffer, ref index);
-            int cnlCnt = GetInt32(buffer, ref index);
-            Slice slice = new Slice(timestamp, cnlCnt);
+            int sliceCnt = GetInt32(buffer, ref index);
+            bool isCurrent = flags.HasFlag(WriteDataFlags.IsCurrent);
+            int maxCurDataAge = coreLogic.AppConfig.GeneralOptions.MaxCurDataAge;
+            DateTime utcNow = isCurrent && maxCurDataAge > 0 ? DateTime.UtcNow : DateTime.MinValue;
 
-            for (int i = 0, idx1 = index, idx2 = idx1 + cnlCnt * 4; i < cnlCnt; i++)
+            for (int i = 0; i < sliceCnt; i++)
             {
-                slice.CnlNums[i] = GetInt32(buffer, ref idx1);
-                slice.CnlData[i] = GetCnlData(buffer, ref idx2);
-            }
+                Slice slice = BinaryConverter.GetSlice(buffer, ref index);
 
-            index += cnlCnt * 14;
-            int deviceNum = GetInt32(buffer, ref index);
-            WriteFlags writeFlags = (WriteFlags)buffer[index];
-            coreLogic.WriteHistoricalData(archiveMask, slice, deviceNum, writeFlags);
+                if (isCurrent)
+                {
+                    if (maxCurDataAge > 0 && slice.Timestamp > DateTime.MinValue &&
+                        (utcNow - slice.Timestamp).TotalSeconds > maxCurDataAge)
+                    {
+                        // write current data as historical
+                        coreLogic.WriteHistoricalData(ArchiveMask.Default, slice, flags);
+                    }
+                    else
+                    {
+                        // write current data
+                        coreLogic.WriteCurrentData(slice, flags);
+                    }
+                }
+                else
+                {
+                    // write historical data
+                    coreLogic.WriteHistoricalData(archiveMask, slice, flags);
+                }
+            }
 
             response = new ResponsePacket(request, client.OutBuf);
         }
@@ -411,8 +402,8 @@ namespace Scada.Server.Engine
             if (command.UserID <= 0)
                 command.UserID = client.UserID;
 
-            WriteFlags writeFlags = (WriteFlags)buffer[index];
-            coreLogic.SendCommand(command, writeFlags, out CommandResult commandResult);
+            WriteCommandFlags flags = (WriteCommandFlags)buffer[index];
+            CommandResult commandResult = coreLogic.SendCommand(command, flags);
 
             buffer = client.OutBuf;
             response = new ResponsePacket(request, buffer);
@@ -488,19 +479,20 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Validates the username and password.
         /// </summary>
-        protected override bool ValidateUser(ConnectedClient client, string username, string password, string instance,
-            out int userID, out int roleID, out string errMsg)
+        protected override UserValidationResult ValidateUser(ConnectedClient client,
+            string username, string password, string instance)
         {
-            if (coreLogic.ValidateUser(username, password, out userID, out roleID, out errMsg))
+            UserValidationResult result = coreLogic.ValidateUser(username, password);
+
+            if (result.IsValid)
             {
                 if (client.IsLoggedIn)
                 {
                     log.WriteAction(Locale.IsRussian ?
                         "Проверка имени и пароля пользователя {0} успешна" :
                         "Checking username and password for user {0} is successful", username);
-                    return true;
                 }
-                else if (roleID == RoleID.Application)
+                else if (result.RoleID == RoleID.Application)
                 {
                     log.WriteAction(Locale.IsRussian ?
                         "Пользователь {0} успешно аутентифицирован" :
@@ -508,19 +500,18 @@ namespace Scada.Server.Engine
 
                     client.IsLoggedIn = true;
                     client.Username = username;
-                    client.UserID = userID;
-                    client.RoleID = roleID;
-                    return true;
+                    client.UserID = result.UserID;
+                    client.RoleID = result.RoleID;
                 }
                 else
                 {
-                    errMsg = Locale.IsRussian ?
+                    result.IsValid = false;
+                    result.ErrorMessage = Locale.IsRussian ?
                         "Недостаточно прав" :
                         "Insufficient rights";
                     log.WriteError(Locale.IsRussian ?
                         "Пользователь {0} имеет недостаточно прав. Требуется роль Приложение" :
                         "User {0} has insufficient rights. The Application role required", username);
-                    return false;
                 }
             }
             else
@@ -529,17 +520,27 @@ namespace Scada.Server.Engine
                 {
                     log.WriteError(Locale.IsRussian ?
                         "Результат проверки имени и пароля пользователя {0} отрицательный: {1}" :
-                        "Checking username and password for user {0} is not successful: {1}", username, errMsg);
-                    return false;
+                        "Checking username and password for user {0} is not successful: {1}", 
+                        username, result.ErrorMessage);
                 }
                 else
                 {
                     log.WriteError(Locale.IsRussian ?
                         "Ошибка аутентификации пользователя {0}: {1}" :
-                        "Authentication failed for user {0}: {1}", username, errMsg);
-                    return false;
+                        "Authentication failed for user {0}: {1}", 
+                        username, result.ErrorMessage);
                 }
             }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Finds a user by ID.
+        /// </summary>
+        protected override User FindUser(int userID)
+        {
+            return coreLogic.FindUser(userID);
         }
 
         /// <summary>
@@ -590,12 +591,8 @@ namespace Scada.Server.Engine
                     GetLastWriteTime(client, request, out response);
                     break;
 
-                case FunctionID.WriteCurrentData:
-                    WriteCurrentData(client, request, out response);
-                    break;
-
-                case FunctionID.WriteHistoricalData:
-                    WriteHistoricalData(client, request, out response);
+                case FunctionID.WriteChannelData:
+                    WriteChannelData(client, request, out response);
                     break;
 
                 case FunctionID.GetEventByID:
@@ -685,14 +682,14 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Enqueues the command to be transferred to the connected cliens.
         /// </summary>
-        public void EnqueueCommand(TeleCommand command)
+        public void EnqueueCommand(TeleCommand command, bool returnToSender)
         {
             foreach (KeyValuePair<long, ConnectedClient> pair in clients)
             {
                 ConnectedClient client = pair.Value;
 
-                // add a command to send if it was not delivered by the same client
-                if (string.IsNullOrEmpty(command.ClientName) ||
+                if (returnToSender ||
+                    string.IsNullOrEmpty(command.ClientName) ||
                     !string.Equals(command.ClientName, client.Username, StringComparison.OrdinalIgnoreCase))
                 {
                     GetClientTag(client).AddCommand(command);

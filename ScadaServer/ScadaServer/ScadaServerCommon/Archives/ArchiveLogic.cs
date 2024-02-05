@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2022 Rapid Software LLC
+ * Copyright 2024 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,17 +20,17 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2023
  */
 
 using Scada.Data.Models;
+using Scada.Data.Queues;
 using Scada.Lang;
 using Scada.Log;
 using Scada.Server.Config;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
 
 namespace Scada.Server.Archives
 {
@@ -38,6 +38,7 @@ namespace Scada.Server.Archives
     /// Represents the base class for archive logic.
     /// <para>Представляет базовый класс логики архива.</para>
     /// </summary>
+    /// <remarks>Descendants of this class must be thread-safe.</remarks>
     public abstract class ArchiveLogic
     {
         /// <summary>
@@ -48,7 +49,7 @@ namespace Scada.Server.Archives
             ArchiveContext = archiveContext ?? throw new ArgumentNullException(nameof(archiveContext));
             ArchiveConfig = archiveConfig ?? throw new ArgumentNullException(nameof(archiveConfig));
             CnlNums = cnlNums ?? throw new ArgumentNullException(nameof(cnlNums));
-            LastWriteTime = DateTime.MinValue;
+            LastWriteTime = DateTime.UtcNow;
             Code = archiveConfig.Code;
             Title = ServerUtils.GetArchiveTitle(Code, archiveConfig.Name);
             IsReady = false;
@@ -77,6 +78,7 @@ namespace Scada.Server.Archives
         /// Gets or sets the time (UTC) when the archive was last written to.
         /// </summary>
         protected DateTime LastWriteTime { get; set; }
+
 
         /// <summary>
         /// Gets the archive code.
@@ -111,7 +113,7 @@ namespace Scada.Server.Archives
             get
             {
                 return Locale.IsRussian ?
-                    (IsReady ? "готовность" : "не готов") :
+                    (IsReady ? "готов" : "не готов") :
                     (IsReady ? "Ready" : "Not Ready");
             }
         }
@@ -127,42 +129,6 @@ namespace Scada.Server.Archives
                 FileName = Path.Combine(ArchiveContext.AppDirs.LogDir, moduleCode + "_" + Code + ".log"),
                 CapacityMB = ArchiveContext.AppConfig.GeneralOptions.MaxLogSize
             };
-        }
-
-        /// <summary>
-        /// Gets the closest time to write data to the archive, less than or equal to the specified timestamp.
-        /// </summary>
-        protected DateTime GetClosestWriteTime(DateTime timestamp, int period)
-        {
-            return period > 0 ?
-                timestamp.Date.AddSeconds((int)timestamp.TimeOfDay.TotalSeconds / period * period) :
-                timestamp;
-        }
-
-        /// <summary>
-        /// Gets the next time to write data to the archive, greater than or equal to the specified timestamp.
-        /// </summary>
-        protected DateTime GetNextWriteTime(DateTime timestamp, int period)
-        {
-            return period > 0 ?
-                timestamp.Date.AddSeconds(((int)timestamp.TimeOfDay.TotalSeconds / period + 1) * period) :
-                timestamp;
-        }
-
-        /// <summary>
-        /// Gets the channel indexes in the specified array.
-        /// </summary>
-        protected Dictionary<int, int> GetCnlIndexes(int[] cnlNums)
-        {
-            int cnlCnt = cnlNums.Length;
-            Dictionary<int, int> indexes = new Dictionary<int, int>(cnlCnt);
-
-            for (int i = 0; i < cnlCnt; i++)
-            {
-                indexes[cnlNums[i]] = i;
-            }
-
-            return indexes;
         }
 
         /// <summary>
@@ -189,8 +155,6 @@ namespace Scada.Server.Archives
         {
             if (slice.CnlNums == CnlNums)
             {
-                slice.Timestamp = curData.Timestamp;
-
                 for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
                 {
                     slice.CnlData[i] = curData.CnlData[cnlIndexes[i]];
@@ -203,9 +167,74 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
+        /// Gets the archive status, including queue statistics.
+        /// </summary>
+        protected string GetStatusText(QueueStats queueStats, int? queueSize)
+        {
+            if (!IsReady)
+            {
+                return Locale.IsRussian ?
+                    "не готов" :
+                    "Not Ready";
+            }
+            else if (queueStats == null)
+            {
+                return Locale.IsRussian ?
+                    "готов" :
+                    "Ready";
+            }
+            else if (Locale.IsRussian)
+            {
+                return (queueStats.HasError ? "ошибка" : "готов") +
+                    $", очередь {queueSize} из {queueStats.MaxQueueSize}, потеряно {queueStats.SkippedItems}";
+            }
+            else
+            {
+                return (queueStats.HasError ? "Error" : "Ready") +
+                    $", queue {queueSize} of {queueStats.MaxQueueSize}, lost {queueStats.SkippedItems}";
+            }
+        }
+
+        /// <summary>
+        /// Gets the channel indexes in the specified array.
+        /// </summary>
+        protected static Dictionary<int, int> GetCnlIndexes(int[] cnlNums)
+        {
+            int cnlCnt = cnlNums.Length;
+            Dictionary<int, int> indexes = new Dictionary<int, int>(cnlCnt);
+
+            for (int i = 0; i < cnlCnt; i++)
+            {
+                indexes[cnlNums[i]] = i;
+            }
+
+            return indexes;
+        }
+
+        /// <summary>
+        /// Gets the closest time to write data to the archive, less than or equal to the specified timestamp.
+        /// </summary>
+        protected static DateTime GetClosestWriteTime(DateTime timestamp, int period)
+        {
+            return period > 0 ?
+                timestamp.Date.AddSeconds((int)timestamp.TimeOfDay.TotalSeconds / period * period) :
+                timestamp;
+        }
+
+        /// <summary>
+        /// Gets the next time to write data to the archive, greater than or equal to the specified timestamp.
+        /// </summary>
+        protected static DateTime GetNextWriteTime(DateTime timestamp, int period)
+        {
+            return period > 0 ?
+                timestamp.Date.AddSeconds(((int)timestamp.TimeOfDay.TotalSeconds / period + 1) * period) :
+                timestamp;
+        }
+
+        /// <summary>
         /// Returns an enumerable collection of dates in the specified time interval.
         /// </summary>
-        protected IEnumerable<DateTime> EnumerateDates(TimeRange timeRange)
+        protected static IEnumerable<DateTime> EnumerateDates(TimeRange timeRange)
         {
             if (timeRange.EndInclusive)
             {
@@ -223,21 +252,6 @@ namespace Scada.Server.Archives
             }
         }
 
-        /// <summary>
-        /// Acquires an exclusive lock on the archive.
-        /// </summary>
-        public virtual void Lock()
-        {
-            Monitor.Enter(this);
-        }
-
-        /// <summary>
-        /// Releases an exclusive lock on the archive.
-        /// </summary>
-        public virtual void Unlock()
-        {
-            Monitor.Exit(this);
-        }
 
         /// <summary>
         /// Makes the archive ready for operating.

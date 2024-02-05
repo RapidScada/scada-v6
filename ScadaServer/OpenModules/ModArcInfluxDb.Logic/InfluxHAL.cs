@@ -47,11 +47,12 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
 
         private readonly ModuleConfig moduleConfig; // the module configuration
         private readonly InfluxHAO options;         // the archive options
+        private readonly int writingPeriod;         // the writing period in seconds
         private readonly ILog appLog;               // the application log
         private readonly ILog arcLog;               // the archive log
-        private readonly Stopwatch stopwatch;       // measures the time of operations
-        private readonly int writingPeriod;         // the writing period in seconds
         private readonly CnlDataEqualsDelegate cnlDataEqualsFunc; // the function for comparing channel data
+        private readonly object readingLock;        // synchronizes reading from the archive
+        private readonly object writingLock;        // synchronizes writing to the archive
 
         private ConnectionOptions connOptions;      // the database connection options
         private InfluxDBClient client;              // the InfluxDB client
@@ -60,8 +61,6 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         private DateTime nextWriteTime;             // the next time to write data to the archive
         private int[] cnlIndexes;                   // the channel mapping indexes
         private CnlData[] prevCnlData;              // the previous channel data
-        private DateTime updateTime;                // the timestamp of the current update operation
-        private Dictionary<int, CnlData> updatedCnlData; // holds recently updated channel data
 
 
         /// <summary>
@@ -72,11 +71,12 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         {
             this.moduleConfig = moduleConfig ?? throw new ArgumentNullException(nameof(moduleConfig));
             options = new InfluxHAO(archiveConfig.CustomOptions);
+            writingPeriod = GetPeriodInSec(options.WritingPeriod, options.WritingPeriodUnit);
             appLog = archiveContext.Log;
             arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
-            stopwatch = new Stopwatch();
-            writingPeriod = GetPeriodInSec(options.WritingPeriod, options.WritingPeriodUnit);
             cnlDataEqualsFunc = SelectCnlDataEquals();
+            readingLock = new object();
+            writingLock = new object();
 
             connOptions = null;
             client = null;
@@ -85,8 +85,6 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
             nextWriteTime = DateTime.MinValue;
             cnlIndexes = null;
             prevCnlData = null;
-            updateTime = DateTime.MinValue;
-            updatedCnlData = null;
         }
 
 
@@ -109,6 +107,9 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
                 .Field(ValField, cnlData.Val)
                 .Field(StatField, cnlData.Stat);
 
+            // InfluxDB client supports batch writing, so no queue implementation is required
+            // https://github.com/influxdata/influxdb-client-csharp/tree/master/Client#writes
+            // https://docs.influxdata.com/influxdb/v2.6/write-data/best-practices/optimize-writes/
             writeApi.WritePoint(point, connOptions.Bucket, connOptions.Org);
         }
 
@@ -143,8 +144,10 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
 
                 if (e is WriteErrorEvent e1)
                     ex = e1.Exception;
-                else if (e is WriteErrorEvent e2)
+                else if (e is WriteRetriableErrorEvent e2)
                     ex = e2.Exception;
+                else if (e is WriteRuntimeExceptionEvent e3)
+                    ex = e3.Exception;
 
                 if (ex != null)
                 {
@@ -249,34 +252,110 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// </summary>
         private TrendBundle GetFirstTrend(TimeRange timeRange, int[] cnlNums)
         {
-            stopwatch.Restart();
-            TrendBundle trendBundle;
-            string flux = GetCnlDataFlux(timeRange.StartTime, timeRange.EndTime, cnlNums[0]);
-            List<FluxTable> tables = queryApi.QueryAsync(flux, connOptions.Org).Result;
-
-            if (tables.Count > 0)
+            lock (readingLock)
             {
-                List<FluxRecord> records = tables[0].Records;
-                trendBundle = new TrendBundle(cnlNums, records.Count);
-                TrendBundle.CnlDataList trend = trendBundle.Trends[0];
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                TrendBundle trendBundle;
+                string flux = GetCnlDataFlux(timeRange.StartTime, timeRange.EndTime, cnlNums[0]);
+                List<FluxTable> tables = queryApi.QueryAsync(flux, connOptions.Org).Result;
 
-                ProcessRecords(records, timeRange, (timestamp, record) =>
+                if (tables.Count > 0)
                 {
-                    trendBundle.Timestamps.Add(timestamp);
-                    trend.Add(new CnlData(
-                        Convert.ToDouble(record.GetValueByKey(ValField)),
-                        Convert.ToInt32(record.GetValueByKey(StatField))));
-                });
-            }
-            else
-            {
-                trendBundle = new TrendBundle(cnlNums, 0);
-            }
+                    List<FluxRecord> records = tables[0].Records;
+                    trendBundle = new TrendBundle(cnlNums, records.Count);
+                    TrendBundle.CnlDataList trend = trendBundle.Trends[0];
 
-            stopwatch.Stop();
-            arcLog?.WriteAction(ServerPhrases.ReadingTrendCompleted,
-                trendBundle.Timestamps.Count, stopwatch.ElapsedMilliseconds);
-            return trendBundle;
+                    ProcessRecords(records, timeRange, (timestamp, record) =>
+                    {
+                        trendBundle.Timestamps.Add(timestamp);
+                        trend.Add(new CnlData(
+                            Convert.ToDouble(record.GetValueByKey(ValField)),
+                            Convert.ToInt32(record.GetValueByKey(StatField))));
+                    });
+                }
+                else
+                {
+                    trendBundle = new TrendBundle(cnlNums, 0);
+                }
+
+                stopwatch.Stop();
+                arcLog?.WriteAction(ServerPhrases.ReadingTrendCompleted,
+                    trendBundle.Timestamps.Count, stopwatch.ElapsedMilliseconds);
+                return trendBundle;
+            }
+        }
+
+        /// <summary>
+        /// Writes the current data after the writing period has elapsed.
+        /// </summary>
+        private void WriteWithPeriod(ICurrentData curData)
+        {
+            lock (writingLock)
+            {
+                DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod);
+                nextWriteTime = writeTime.AddSeconds(writingPeriod);
+
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                InitCnlIndexes(curData, ref cnlIndexes);
+                InitPrevCnlData(curData, cnlIndexes, ref prevCnlData);
+                WriteFlag(writeTime);
+                int cnlCnt = CnlNums.Length;
+
+                for (int i = 0; i < cnlCnt; i++)
+                {
+                    CnlData cnlData = curData.CnlData[cnlIndexes[i]];
+
+                    if (prevCnlData != null)
+                        prevCnlData[i] = cnlData;
+
+                    WritePoint(writeTime, CnlNums[i], cnlData);
+                }
+
+                stopwatch.Stop();
+                arcLog?.WriteAction(ServerPhrases.WritingPointsCompleted, cnlCnt, stopwatch.ElapsedMilliseconds);
+            }
+        }
+
+        /// <summary>
+        /// Writes the current data on change.
+        /// </summary>
+        private void WriteOnChange(ICurrentData curData)
+        {
+            lock (writingLock)
+            {
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                int changesCnt = 0;
+                bool justInited = prevCnlData == null;
+                InitCnlIndexes(curData, ref cnlIndexes);
+                InitPrevCnlData(curData, cnlIndexes, ref prevCnlData);
+
+                if (!justInited)
+                {
+                    for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
+                    {
+                        CnlData cnlData = curData.CnlData[cnlIndexes[i]];
+
+                        if (!cnlDataEqualsFunc(prevCnlData[i], cnlData))
+                        {
+                            prevCnlData[i] = cnlData;
+                            WritePoint(curData.Timestamp, CnlNums[i], cnlData);
+                            changesCnt++;
+                        }
+                    }
+                }
+
+                if (changesCnt > 0)
+                {
+                    WriteFlag(curData.Timestamp);
+                    stopwatch.Stop();
+                    arcLog?.WriteAction(ServerPhrases.WritingPointsCompleted, 
+                        changesCnt, stopwatch.ElapsedMilliseconds);
+                }
+                else
+                {
+                    stopwatch.Stop();
+                }
+            }
         }
 
         /// <summary>
@@ -346,11 +425,15 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
             if (!moduleConfig.Connections.TryGetValue(options.Connection, out connOptions))
                 throw new ScadaException(CommonPhrases.ConnectionNotFound, options.Connection);
 
-            client = string.IsNullOrEmpty(connOptions.Token) ?
-                InfluxDBClientFactory.Create(connOptions.Url, connOptions.Username, connOptions.Password.ToCharArray()) :
-                InfluxDBClientFactory.Create(connOptions.Url, connOptions.Token.ToCharArray());
+            client = string.IsNullOrEmpty(connOptions.Token) 
+                ? new InfluxDBClient(connOptions.Url, connOptions.Username, connOptions.Password) 
+                : new InfluxDBClient(connOptions.Url, connOptions.Token);
             client.EnableGzip();
-            writeApi = client.GetWriteApi();
+            writeApi = client.GetWriteApi(new WriteOptions
+            {
+                BatchSize = options.BatchSize,
+                FlushInterval = options.FlushInterval
+            });
             writeApi.EventHandler += WriteApi_EventHandler;
             queryApi = client.GetQueryApi();
 
@@ -381,22 +464,25 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
             if (!options.ReadOnly)
                 return LastWriteTime;
 
-            stopwatch.Restart();
-            string flux = GetLastTimeFlux();
-            List<FluxTable> tables = queryApi.QueryAsync(flux, connOptions.Org).Result;
-            DateTime timestamp = DateTime.MinValue;
-
-            if (tables.Count > 0)
+            lock (readingLock)
             {
-                List<FluxRecord> records = tables[0].Records;
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                string flux = GetLastTimeFlux();
+                List<FluxTable> tables = queryApi.QueryAsync(flux, connOptions.Org).Result;
+                DateTime timestamp = DateTime.MinValue;
 
-                if (records.Count > 0 && records[0].GetTime() is Instant instant)
-                    timestamp = instant.ToDateTimeUtc();
+                if (tables.Count > 0)
+                {
+                    List<FluxRecord> records = tables[0].Records;
+
+                    if (records.Count > 0 && records[0].GetTime() is Instant instant)
+                        timestamp = instant.ToDateTimeUtc();
+                }
+
+                stopwatch.Stop();
+                arcLog?.WriteAction(ServerPhrases.ReadingWriteTimeCompleted, stopwatch.ElapsedMilliseconds);
+                return timestamp;
             }
-
-            stopwatch.Stop();
-            arcLog?.WriteAction(ServerPhrases.ReadingWriteTimeCompleted, stopwatch.ElapsedMilliseconds);
-            return timestamp;
         }
 
         /// <summary>
@@ -404,9 +490,9 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// </summary>
         public override TrendBundle GetTrends(TimeRange timeRange, int[] cnlNums)
         {
-            return cnlNums.Length == 1 ? 
-                GetFirstTrend(timeRange, cnlNums) : 
-                MergeTrends(timeRange, cnlNums);
+            return cnlNums.Length == 1 
+                ? GetFirstTrend(timeRange, cnlNums) 
+                : MergeTrends(timeRange, cnlNums);
         }
 
         /// <summary>
@@ -414,34 +500,37 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// </summary>
         public override Trend GetTrend(TimeRange timeRange, int cnlNum)
         {
-            stopwatch.Restart();
-            Trend trend;
-            string flux = GetCnlDataFlux(timeRange.StartTime, timeRange.EndTime, cnlNum);
-            List<FluxTable> tables = queryApi.QueryAsync(flux, connOptions.Org).Result;
-
-            if (tables.Count > 0)
+            lock (readingLock)
             {
-                List<FluxRecord> records = tables[0].Records;
-                trend = new Trend(cnlNum, records.Count);
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                Trend trend;
+                string flux = GetCnlDataFlux(timeRange.StartTime, timeRange.EndTime, cnlNum);
+                List<FluxTable> tables = queryApi.QueryAsync(flux, connOptions.Org).Result;
 
-                ProcessRecords(records, timeRange, (timestamp, record) =>
+                if (tables.Count > 0)
                 {
-                    trend.Points.Add(new TrendPoint(timestamp)
-                    {
-                        Val = Convert.ToDouble(record.GetValueByKey(ValField)),
-                        Stat = Convert.ToInt32(record.GetValueByKey(StatField))
-                    });
-                });
-            }
-            else
-            {
-                trend = new Trend(cnlNum, 0);
-            }
+                    List<FluxRecord> records = tables[0].Records;
+                    trend = new Trend(cnlNum, records.Count);
 
-            stopwatch.Stop();
-            arcLog?.WriteAction(ServerPhrases.ReadingTrendCompleted,
-                trend.Points.Count, stopwatch.ElapsedMilliseconds);
-            return trend;
+                    ProcessRecords(records, timeRange, (timestamp, record) =>
+                    {
+                        trend.Points.Add(new TrendPoint(timestamp)
+                        {
+                            Val = Convert.ToDouble(record.GetValueByKey(ValField)),
+                            Stat = Convert.ToInt32(record.GetValueByKey(StatField))
+                        });
+                    });
+                }
+                else
+                {
+                    trend = new Trend(cnlNum, 0);
+                }
+
+                stopwatch.Stop();
+                arcLog?.WriteAction(ServerPhrases.ReadingTrendCompleted,
+                    trend.Points.Count, stopwatch.ElapsedMilliseconds);
+                return trend;
+            }
         }
 
         /// <summary>
@@ -449,26 +538,29 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// </summary>
         public override List<DateTime> GetTimestamps(TimeRange timeRange)
         {
-            stopwatch.Restart();
-            List<DateTime> timestamps;
-            string flux = GetFlagFlux(timeRange.StartTime, timeRange.EndTime);
-            List<FluxTable> tables = queryApi.QueryAsync(flux, connOptions.Org).Result;
-
-            if (tables.Count > 0)
+            lock (readingLock)
             {
-                List<FluxRecord> records = tables[0].Records;
-                timestamps = new List<DateTime>(records.Count);
-                ProcessRecords(records, timeRange, (timestamp, record) => timestamps.Add(timestamp));
-            }
-            else
-            {
-                timestamps = new List<DateTime>();
-            }
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                List<DateTime> timestamps;
+                string flux = GetFlagFlux(timeRange.StartTime, timeRange.EndTime);
+                List<FluxTable> tables = queryApi.QueryAsync(flux, connOptions.Org).Result;
 
-            stopwatch.Stop();
-            arcLog?.WriteAction(ServerPhrases.ReadingTimestampsCompleted,
-                timestamps.Count, stopwatch.ElapsedMilliseconds);
-            return timestamps;
+                if (tables.Count > 0)
+                {
+                    List<FluxRecord> records = tables[0].Records;
+                    timestamps = new List<DateTime>(records.Count);
+                    ProcessRecords(records, timeRange, (timestamp, record) => timestamps.Add(timestamp));
+                }
+                else
+                {
+                    timestamps = new List<DateTime>();
+                }
+
+                stopwatch.Stop();
+                arcLog?.WriteAction(ServerPhrases.ReadingTimestampsCompleted,
+                    timestamps.Count, stopwatch.ElapsedMilliseconds);
+                return timestamps;
+            }
         }
 
         /// <summary>
@@ -476,25 +568,29 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// </summary>
         public override Slice GetSlice(DateTime timestamp, int[] cnlNums)
         {
-            stopwatch.Restart();
-            string flux = GetCnlDataFlux(timestamp, timestamp, cnlNums);
-            List<FluxTable> tables = queryApi.QueryAsync(flux, connOptions.Org).Result;
-
-            Slice slice = new(timestamp, cnlNums);
-            long timeMs = new DateTimeOffset(timestamp).ToUnixTimeMilliseconds();
-            Dictionary<int, int> cnlIndexes = GetCnlIndexes(cnlNums);
-
-            foreach (FluxTable table in tables)
+            lock (readingLock)
             {
-                if (GetCnlData(table, timeMs, out int cnlNum, out CnlData cnlData))
-                {
-                    slice.CnlData[cnlIndexes[cnlNum]] = cnlData;
-                }
-            }
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                string flux = GetCnlDataFlux(timestamp, timestamp, cnlNums);
+                List<FluxTable> tables = queryApi.QueryAsync(flux, connOptions.Org).Result;
 
-            stopwatch.Stop();
-            arcLog?.WriteAction(ServerPhrases.ReadingSliceCompleted, cnlNums.Length, stopwatch.ElapsedMilliseconds);
-            return slice;
+                Slice slice = new(timestamp, cnlNums);
+                long timeMs = new DateTimeOffset(timestamp).ToUnixTimeMilliseconds();
+                Dictionary<int, int> cnlIndexes = GetCnlIndexes(cnlNums);
+
+                foreach (FluxTable table in tables)
+                {
+                    if (GetCnlData(table, timeMs, out int cnlNum, out CnlData cnlData))
+                    {
+                        slice.CnlData[cnlIndexes[cnlNum]] = cnlData;
+                    }
+                }
+
+                stopwatch.Stop();
+                arcLog?.WriteAction(ServerPhrases.ReadingSliceCompleted, 
+                    cnlNums.Length, stopwatch.ElapsedMilliseconds);
+                return slice;
+            }
         }
 
         /// <summary>
@@ -502,17 +598,17 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// </summary>
         public override CnlData GetCnlData(DateTime timestamp, int cnlNum)
         {
-            if (updatedCnlData != null && timestamp == updateTime &&
-                updatedCnlData.TryGetValue(cnlNum, out CnlData cnlData))
-            {
+            if (GetRecentCnlData(writingLock, timestamp, cnlNum, out CnlData cnlData))
                 return cnlData;
-            }
 
-            string flux = GetCnlDataFlux(timestamp, timestamp, cnlNum);
-            List<FluxTable> tables = queryApi.QueryAsync(flux, connOptions.Org).Result;
-            long timeMs = new DateTimeOffset(timestamp).ToUnixTimeMilliseconds();
-            return tables.Count > 0 && GetCnlData(tables[0], timeMs, out int n, out cnlData) && cnlNum == n ?
-                cnlData : CnlData.Empty;
+            lock (readingLock)
+            {
+                string flux = GetCnlDataFlux(timestamp, timestamp, cnlNum);
+                List<FluxTable> tables = queryApi.QueryAsync(flux, connOptions.Org).Result;
+                long timeMs = new DateTimeOffset(timestamp).ToUnixTimeMilliseconds();
+                return tables.Count > 0 && GetCnlData(tables[0], timeMs, out int n, out cnlData) && cnlNum == n ?
+                    cnlData : CnlData.Empty;
+            }
         }
 
         /// <summary>
@@ -520,71 +616,12 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// </summary>
         public override void ProcessData(ICurrentData curData)
         {
-            // InfluxDB client supports batch writing, so no queue implementation is required
-            // https://github.com/influxdata/influxdb-client-csharp/tree/master/Client#writes
-            // https://docs.influxdata.com/influxdb/v2.3/write-data/best-practices/optimize-writes/
-
-            if (options.ReadOnly)
+            if (!options.ReadOnly)
             {
-                // do nothing
-            }
-            else if (options.WriteWithPeriod && nextWriteTime <= curData.Timestamp)
-            {
-                DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod);
-                nextWriteTime = writeTime.AddSeconds(writingPeriod);
-
-                stopwatch.Restart();
-                InitCnlIndexes(curData, ref cnlIndexes);
-                InitPrevCnlData(curData, cnlIndexes, ref prevCnlData);
-                WriteFlag(writeTime);
-                int cnlCnt = CnlNums.Length;
-
-                for (int i = 0; i < cnlCnt; i++)
-                {
-                    CnlData cnlData = curData.CnlData[cnlIndexes[i]];
-
-                    if (prevCnlData != null)
-                        prevCnlData[i] = cnlData;
-
-                    WritePoint(writeTime, CnlNums[i], cnlData);
-                }
-
-                stopwatch.Stop();
-                arcLog?.WriteAction(ServerPhrases.WritingPointsCompleted, cnlCnt, stopwatch.ElapsedMilliseconds);
-            }
-            else if (options.WriteOnChange)
-            {
-                stopwatch.Restart();
-                int changesCnt = 0;
-                bool justInited = prevCnlData == null;
-                InitCnlIndexes(curData, ref cnlIndexes);
-                InitPrevCnlData(curData, cnlIndexes, ref prevCnlData);
-
-                if (!justInited)
-                {
-                    for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
-                    {
-                        CnlData cnlData = curData.CnlData[cnlIndexes[i]];
-
-                        if (!cnlDataEqualsFunc(prevCnlData[i], cnlData))
-                        {
-                            prevCnlData[i] = cnlData;
-                            WritePoint(curData.Timestamp, CnlNums[i], cnlData);
-                            changesCnt++;
-                        }
-                    }
-                }
-
-                if (changesCnt > 0)
-                {
-                    WriteFlag(curData.Timestamp);
-                    stopwatch.Stop();
-                    arcLog?.WriteAction(ServerPhrases.WritingPointsCompleted, changesCnt, stopwatch.ElapsedMilliseconds);
-                }
-                else
-                {
-                    stopwatch.Stop();
-                }
+                if (options.WriteWithPeriod && nextWriteTime <= curData.Timestamp)
+                    WriteWithPeriod(curData);
+                else if (options.WriteOnChange)
+                    WriteOnChange(curData);
             }
         }
 
@@ -612,37 +649,33 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// <summary>
         /// Maintains performance when data is written one at a time.
         /// </summary>
-        public override void BeginUpdate(DateTime timestamp, int deviceNum)
+        public override void BeginUpdate(UpdateContext updateContext)
         {
-            stopwatch.Restart();
-            WriteFlag(timestamp);
-            updateTime = timestamp;
-            updatedCnlData = new Dictionary<int, CnlData>();
+            Monitor.Enter(writingLock);
+            WriteFlag(updateContext.Timestamp);
+        }
+
+        /// <summary>
+        /// Updates the channel data.
+        /// </summary>
+        public override void UpdateData(UpdateContext updateContext, int cnlNum, CnlData cnlData)
+        {
+            if (!options.ReadOnly)
+            {
+                WritePoint(updateContext.Timestamp, cnlNum, cnlData);
+                updateContext.UpdatedData[cnlNum] = cnlData;
+                updateContext.UpdatedCount++;
+            }
         }
 
         /// <summary>
         /// Completes the update operation.
         /// </summary>
-        public override void EndUpdate(DateTime timestamp, int deviceNum)
+        public override void EndUpdate(UpdateContext updateContext)
         {
-            updateTime = DateTime.MinValue;
-            updatedCnlData = null;
-            stopwatch.Stop();
-            arcLog?.WriteAction(ServerPhrases.UpdateCompleted, stopwatch.ElapsedMilliseconds);
-        }
-
-        /// <summary>
-        /// Writes the channel data.
-        /// </summary>
-        public override void WriteCnlData(DateTime timestamp, int cnlNum, CnlData cnlData)
-        {
-            if (!options.ReadOnly)
-            {
-                WritePoint(timestamp, cnlNum, cnlData);
-
-                if (updatedCnlData != null)
-                    updatedCnlData[cnlNum] = cnlData;
-            }
+            arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted,
+                updateContext.UpdatedCount, updateContext.Stopwatch.ElapsedMilliseconds);
+            Monitor.Exit(writingLock);
         }
     }
 }

@@ -71,10 +71,10 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View.Forms
         /// </summary>
         private void OptionsToControls()
         {
+            chkReadConfigDb.Checked = options.ReadConfigDb;
             chkUseDefaultConn.Checked = options.UseDefaultConn;
             cbConnection.Text = options.Connection;
             numMaxQueueSize.SetValue(options.MaxQueueSize);
-            numMaxCurDataAge.SetValue(options.MaxCurDataAge);
             numDataLifetime.SetValue(options.DataLifetime);
             chkClientLogEnabled.Checked = options.ClientLogEnabled;
             txtDeviceFilter.Text = options.DeviceFilter.ToRangeString();
@@ -85,10 +85,10 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View.Forms
         /// </summary>
         private void ControlsToOptions()
         {
+            options.ReadConfigDb = chkReadConfigDb.Checked;
             options.UseDefaultConn = chkUseDefaultConn.Checked;
             options.Connection = cbConnection.Text;
             options.MaxQueueSize = Convert.ToInt32(numMaxQueueSize.Value);
-            options.MaxCurDataAge = Convert.ToInt32(numMaxCurDataAge.Value);
             options.DataLifetime = Convert.ToInt32(numDataLifetime.Value);
             options.ClientLogEnabled = chkClientLogEnabled.Checked;
             options.DeviceFilter.Clear();
