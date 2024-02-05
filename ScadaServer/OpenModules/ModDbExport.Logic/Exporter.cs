@@ -53,6 +53,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         private readonly string filePrefix;                    // the prefix of the exporter files
         private readonly string infoFileName;                  // the information file name
         private readonly Dictionary<int, CnlData> prevCnlData; // the previous channel data
+        private readonly HashSet<DateTime> histTimestamps;     // the timestamps of the historical data to export
         private readonly ArcReplicator arcReplicator;          // replicates archives
 
         private HashSet<int> cnlNumFilter;        // the incoming current data filter
@@ -107,8 +108,12 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                 CapacityMB = serverContext.AppConfig.GeneralOptions.MaxLogSize
             };
             infoFileName = Path.Combine(serverContext.AppDirs.LogDir, filePrefix + ".txt");
-            prevCnlData = curDataQueue.Enabled ? new Dictionary<int, CnlData>() : null;
-            arcReplicator = arcReplicationOptions.Enabled ? new ArcReplicator(serverContext, this) : null;
+            prevCnlData = curDataQueue.Enabled ?
+                new Dictionary<int, CnlData>() : null;
+            histTimestamps = histDataQueue.Enabled && histDataExportOptions.IncludeCalculated ?
+                new HashSet<DateTime>() : null;
+            arcReplicator = arcReplicationOptions.Enabled ?
+                new ArcReplicator(serverContext, this) : null;
 
             cnlNumFilter = null;
             curCalcCnlNums = null;
@@ -214,7 +219,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                     Disconnect();
                 }
 
-                // make slices on timer
+                // make slices of current data on timer
                 if (timerMode)
                 {
                     utcNow = DateTime.UtcNow;
@@ -224,6 +229,9 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                         EnqueueCurrentDataOnTimer(utcNow);
                     }
                 }
+
+                // make slices of historical data
+                EnqueueCalculatedHistoricalData();
 
                 // export archives
                 if (arcReplicationOptions.Enabled && ConnStatus == ConnectionStatus.Normal)
@@ -886,6 +894,112 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         }
 
         /// <summary>
+        /// Checks if the channel data has changed and saves the previous data.
+        /// </summary>
+        private bool ChannelDataChanged(int cnlNum, CnlData cnlData)
+        {
+            if (prevCnlData == null)
+            {
+                return false;
+            }
+            else if (prevCnlData.TryGetValue(cnlNum, out CnlData prevCnlDataItem) && prevCnlDataItem == cnlData)
+            {
+                return false;
+            }
+            else
+            {
+                prevCnlData[cnlNum] = cnlData;
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Enqueues the current data on timer.
+        /// </summary>
+        private void EnqueueCurrentDataOnTimer(DateTime nowDT)
+        {
+            try
+            {
+                if (curDataQueue.Enabled)
+                {
+                    // enqueue slices for timer channels
+                    bool skipUnchanged = curDataExportOptions.SkipUnchanged;
+
+                    if (skipUnchanged && curDataExportOptions.AllDataPeriod > 0 && allDataDT <= nowDT)
+                    {
+                        allDataDT = LogicUtils.CalcNextTimer(nowDT, curDataExportOptions.AllDataPeriod);
+                        skipUnchanged = false;
+                    }
+
+                    if (SliceCurrentData(timerCnlNums, skipUnchanged) is List<SliceItem> sliceItems)
+                        curDataQueue.Enqueue(DateTime.UtcNow, sliceItems, out _);
+
+                    // enqueue slices for single queries
+                    foreach (DataQuery dataQuery in classifiedQueries.CurDataQueries
+                        .Where(q => q.Options.SingleQuery && q.Options.Filter.CnlNums.Count > 0))
+                    {
+                        int cnlCnt = dataQuery.Options.Filter.CnlNums.Count;
+                        Slice slice = new(nowDT, cnlCnt);
+
+                        for (int i = 0; i < cnlCnt; i++)
+                        {
+                            int cnlNum = dataQuery.Options.Filter.CnlNums[i];
+                            slice.CnlNums[i] = cnlNum;
+                            slice.CnlData[i] = serverContext.GetCurrentData(cnlNum);
+                        }
+
+                        curDataQueue.Enqueue(DateTime.UtcNow, 
+                            new SliceItem(slice) { QueryID = dataQuery.QueryID }, out _);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                exporterLog.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при получении текущих данных по таймеру" :
+                    "Error getting current data on timer");
+            }
+        }
+
+        /// <summary>
+        /// Enqueues the historical data of the calculated channels.
+        /// </summary>
+        private void EnqueueCalculatedHistoricalData()
+        {
+            if (histTimestamps == null || histCalcCnlNums == null)
+                return;
+
+            try
+            {
+                lock (histTimestamps)
+                {
+                    DateTime utcNow = DateTime.UtcNow;
+
+                    foreach (DateTime timestamp in histTimestamps.ToArray())
+                    {
+                        if ((utcNow - timestamp).TotalSeconds >= histDataExportOptions.ExportCalculatedDelay)
+                        {
+                            histTimestamps.Remove(timestamp);
+                            List<SliceItem> sliceItems = SliceHistoricalData(timestamp, histCalcCnlNums);
+
+                            if (sliceItems != null && 
+                                !histDataQueue.Enqueue(utcNow, sliceItems, out string errMsg))
+                            {
+                                exporterLog.WriteError(errMsg);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                exporterLog.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при получении расчётных исторических данных" :
+                    "Error getting calculated historical data");
+            }
+        }
+
+        /// <summary>
         /// Gets the slices of the current data of the specified channels.
         /// </summary>
         private List<SliceItem> SliceCurrentData(ICollection<int> cnlNums, bool skipUnchanged)
@@ -966,74 +1080,6 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                 AddSlice();
 
             return sliceItems;
-        }
-
-        /// <summary>
-        /// Checks if the channel data has changed and saves the previous data.
-        /// </summary>
-        private bool ChannelDataChanged(int cnlNum, CnlData cnlData)
-        {
-            if (prevCnlData == null)
-            {
-                return false;
-            }
-            else if (prevCnlData.TryGetValue(cnlNum, out CnlData prevCnlDataItem) && prevCnlDataItem == cnlData)
-            {
-                return false;
-            }
-            else
-            {
-                prevCnlData[cnlNum] = cnlData;
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// Enqueues the current data on timer.
-        /// </summary>
-        private void EnqueueCurrentDataOnTimer(DateTime nowDT)
-        {
-            try
-            {
-                if (curDataQueue.Enabled)
-                {
-                    // enqueue slices for timer channels
-                    bool skipUnchanged = curDataExportOptions.SkipUnchanged;
-
-                    if (skipUnchanged && curDataExportOptions.AllDataPeriod > 0 && allDataDT <= nowDT)
-                    {
-                        allDataDT = LogicUtils.CalcNextTimer(nowDT, curDataExportOptions.AllDataPeriod);
-                        skipUnchanged = false;
-                    }
-
-                    if (SliceCurrentData(timerCnlNums, skipUnchanged) is List<SliceItem> sliceItems)
-                        curDataQueue.Enqueue(DateTime.UtcNow, sliceItems, out _);
-
-                    // enqueue slices for single queries
-                    foreach (DataQuery dataQuery in classifiedQueries.CurDataQueries
-                        .Where(q => q.Options.SingleQuery && q.Options.Filter.CnlNums.Count > 0))
-                    {
-                        int cnlCnt = dataQuery.Options.Filter.CnlNums.Count;
-                        Slice slice = new(nowDT, cnlCnt);
-
-                        for (int i = 0; i < cnlCnt; i++)
-                        {
-                            int cnlNum = dataQuery.Options.Filter.CnlNums[i];
-                            slice.CnlNums[i] = cnlNum;
-                            slice.CnlData[i] = serverContext.GetCurrentData(cnlNum);
-                        }
-
-                        curDataQueue.Enqueue(DateTime.UtcNow, 
-                            new SliceItem(slice) { QueryID = dataQuery.QueryID }, out _);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                exporterLog.WriteError(ex, Locale.IsRussian ?
-                    "Ошибка при получении текущих данных по таймеру" :
-                    "Error getting current data on timer");
-            }
         }
 
         /// <summary>
@@ -1192,11 +1238,12 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                 {
                     exporterLog.WriteError(errMsg);
                 }
-                else if (histDataExportOptions.IncludeCalculated &&
-                    SliceHistoricalData(slice.Timestamp, histCalcCnlNums) is List<SliceItem> sliceItems)
+                else if (histDataExportOptions.IncludeCalculated)
                 {
-                    if (!histDataQueue.Enqueue(DateTime.UtcNow, sliceItems, out errMsg))
-                        exporterLog.WriteError(errMsg);
+                    lock (histTimestamps)
+                    {
+                        histTimestamps.Add(slice.Timestamp);
+                    }
                 }
             }
         }

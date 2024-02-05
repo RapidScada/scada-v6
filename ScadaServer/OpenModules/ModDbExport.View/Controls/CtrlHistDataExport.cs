@@ -61,12 +61,14 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
             if (options == null)
             {
                 chkIncludeCalculated.Checked = false;
+                numExportCalculatedDelay.Value = numExportCalculatedDelay.Minimum;
                 numHistArchiveBit.Value = numHistArchiveBit.Minimum;
             }
             else
             {
                 chkIncludeCalculated.Checked = options.IncludeCalculated;
-                numHistArchiveBit.Value = options.HistArchiveBit;
+                numExportCalculatedDelay.SetValue(options.ExportCalculatedDelay);
+                numHistArchiveBit.SetValue(options.HistArchiveBit);
             }
         }
 
@@ -92,7 +94,17 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
             {
                 histDataExportOptions.IncludeCalculated = chkIncludeCalculated.Checked;
                 OnObjectChanged(TreeUpdateTypes.None);
-                numHistArchiveBit.Enabled = btnSelectHistArchiveBit.Enabled = chkIncludeCalculated.Checked;
+                numExportCalculatedDelay.Enabled = numHistArchiveBit.Enabled = btnSelectHistArchiveBit.Enabled =
+                    chkIncludeCalculated.Checked;
+            }
+        }
+
+        private void numExportCalculatedDelay_ValueChanged(object sender, EventArgs e)
+        {
+            if (histDataExportOptions != null)
+            {
+                histDataExportOptions.ExportCalculatedDelay = Convert.ToInt32(numExportCalculatedDelay.Value);
+                OnObjectChanged(TreeUpdateTypes.None);
             }
         }
 

@@ -64,10 +64,9 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
                 cbTrigger.SelectedIndex = (int)options.Trigger;
                 chkSkipUnchanged.Checked = options.SkipUnchanged;
                 chkIncludeCalculated.Checked = options.IncludeCalculated;
-                numTimePeriod.Value = options.TimerPeriod;
-                numAllDataPeriod.Value = options.AllDataPeriod;
-                numTimePeriod.Enabled = numAllDataPeriod.Enabled =
-                    cbTrigger.SelectedIndex > 0;
+                numTimePeriod.SetValue(options.TimerPeriod);
+                numAllDataPeriod.SetValue(options.AllDataPeriod);
+                numTimePeriod.Enabled = numAllDataPeriod.Enabled = cbTrigger.SelectedIndex > 0;
             }
         }
 
