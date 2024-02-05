@@ -53,7 +53,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         private readonly string filePrefix;                    // the prefix of the exporter files
         private readonly string infoFileName;                  // the information file name
         private readonly Dictionary<int, CnlData> prevCnlData; // the previous channel data
-        private readonly HashSet<DateTime> histTimestamps;     // the timestamps of the historical data to export
+        private readonly Dictionary<DateTime, DateTime> histTimestamps; // the timestamps of the historical data
         private readonly ArcReplicator arcReplicator;          // replicates archives
 
         private HashSet<int> cnlNumFilter;        // the incoming current data filter
@@ -111,7 +111,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             prevCnlData = curDataQueue.Enabled ?
                 new Dictionary<int, CnlData>() : null;
             histTimestamps = histDataQueue.Enabled && histDataExportOptions.IncludeCalculated ?
-                new HashSet<DateTime>() : null;
+                new Dictionary<DateTime, DateTime>() : null;
             arcReplicator = arcReplicationOptions.Enabled ?
                 new ArcReplicator(serverContext, this) : null;
 
@@ -975,18 +975,15 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                 {
                     DateTime utcNow = DateTime.UtcNow;
 
-                    foreach (DateTime timestamp in histTimestamps.ToArray())
+                    foreach (var (sliceTime, receiveTime) in histTimestamps.ToArray())
                     {
-                        if ((utcNow - timestamp).TotalSeconds >= histDataExportOptions.ExportCalculatedDelay)
+                        if ((utcNow - receiveTime).TotalSeconds >= histDataExportOptions.ExportCalculatedDelay)
                         {
-                            histTimestamps.Remove(timestamp);
-                            List<SliceItem> sliceItems = SliceHistoricalData(timestamp, histCalcCnlNums);
+                            histTimestamps.Remove(sliceTime);
+                            List<SliceItem> sliceItems = SliceHistoricalData(sliceTime, histCalcCnlNums);
 
-                            if (sliceItems != null && 
-                                !histDataQueue.Enqueue(utcNow, sliceItems, out string errMsg))
-                            {
+                            if (sliceItems != null && !histDataQueue.Enqueue(utcNow, sliceItems, out string errMsg))
                                 exporterLog.WriteError(errMsg);
-                            }
                         }
                     }
                 }
@@ -1234,15 +1231,16 @@ namespace Scada.Server.Modules.ModDbExport.Logic
 
             if (histDataQueue.Enabled && !(arcReplicationOptions.Enabled && arcReplicationOptions.AutoExport))
             {
-                if (!histDataQueue.Enqueue(DateTime.UtcNow, new SliceItem(slice), out string errMsg))
-                {
+                DateTime utcNow = DateTime.UtcNow;
+
+                if (!histDataQueue.Enqueue(utcNow, new SliceItem(slice), out string errMsg))
                     exporterLog.WriteError(errMsg);
-                }
-                else if (histDataExportOptions.IncludeCalculated)
+
+                if (histDataExportOptions.IncludeCalculated)
                 {
                     lock (histTimestamps)
                     {
-                        histTimestamps.Add(slice.Timestamp);
+                        histTimestamps[slice.Timestamp] = utcNow;
                     }
                 }
             }
