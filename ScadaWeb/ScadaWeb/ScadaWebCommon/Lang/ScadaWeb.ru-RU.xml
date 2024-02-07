@@ -46,7 +46,6 @@
   <Dictionary key="Scada.Web.Pages.AccessDenied">
     <Phrase key="PageTitle">Доступ запрещен</Phrase>
     <Phrase key="ErrorMessage">У вас недостаточно прав для доступа к запрошенному ресурсу.</Phrase>
-    <Phrase key="btnReturn">Вернуться</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.CnlSelect">
     <Phrase key="PageTitle">Выбор каналов</Phrase>
