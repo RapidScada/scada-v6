@@ -390,7 +390,7 @@ namespace Scada.Web.Code
         private static void PostprocessConfigDatabase(ConfigDatabase configDatabase)
         {
             // duplicate channels for arrays and strings
-            List<Cnl> duplicatedCnls = new();
+            List<Cnl> duplicatedCnls = [];
 
             foreach (Cnl cnl in configDatabase.CnlTable.Enumerate())
             {
