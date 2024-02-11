@@ -148,6 +148,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
                 numsList.AddRange(frmEntitySelect.SelectedIDs);
 
                 textBox.Text = numsList.ToRangeString();
+                textBox.ForeColor = Color.FromKnownColor(KnownColor.WindowText);
                 OnObjectChanged(TreeUpdateTypes.None);
             }
         }
@@ -269,6 +270,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
                     queryOptions.Filter.CnlNums.AddRange(frmCnlSelect.SelectedCnlNums);
 
                     txtCnlNum.Text = queryOptions.Filter.CnlNums.ToRangeString();
+                    txtCnlNum.ForeColor = Color.FromKnownColor(KnownColor.WindowText);
                     OnObjectChanged(TreeUpdateTypes.None);
                 }
             }
