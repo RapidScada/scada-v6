@@ -16,6 +16,7 @@ namespace Scada.Server.Modules.ModDbExport.Config
         /// <summary>
         /// Gets or sets the parent node.
         /// </summary>
+        [field: NonSerialized]
         public ITreeNode Parent { get; set; }
 
         /// <summary>
