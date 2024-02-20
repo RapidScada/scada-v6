@@ -1,28 +1,28 @@
-﻿@page "/ru/latest/configuration/scripts"
+﻿@page "/en/latest/configuration/scripts"
 @{
     Layout = "_ArticleLayout";
-    ViewBag.Title = "Скрипты и формулы";
+    ViewBag.Title = "Scripts and Formulas";
 }
 
 <nav class="doc-toc">
-    <div class="h6">На этой странице</div>
+    <div class="h6">On this page</div>
     <hr>
     <ul>
-        <li><a href="#script-rules">Правила создания скриптов</a></li>
-        <li><a href="#available-variables">Доступные переменные</a></li>
-        <li><a href="#available-functions">Доступные функции</a></li>
-        <li><a href="#template-functions">Функции из шаблона проекта</a></li>
-        <li><a href="#debugging">Отладка скриптов</a></li>
-        <li><a href="#examples">Примеры формул</a></li>
+        <li><a href="#script-rules">Script Creation Rules</a></li>
+        <li><a href="#available-variables">Available Variables</a></li>
+        <li><a href="#available-functions">Available Functions</a></li>
+        <li><a href="#template-functions">Functions from Project Template</a></li>
+        <li><a href="#debugging">Debugging Scripts</a></li>
+        <li><a href="#examples">Examples of Formulas</a></li>
     </ul>
 </nav>
 
 <div class="doc-content">
-    <h1>Скрипты и формулы</h1>
+    <h1>Scripts and Formulas</h1>
     <p>В приложение Сервер встроен механизм исполнения пользовательских скриптов. Скрипты применяются для расчёта значений и статусов каналов, а также для расчёта значений команд управления.</p>
     <p>Скрипты записываются в таблицу <strong>Скрипты</strong> базы конфигурации. Созданный по шаблону проект уже содержит начальный набор скриптов, который удобно использовать в качестве примеров для разработки собственных скриптов. Переменные и функции, реализованные в таблице <strong>Скрипты</strong>, затем вызываются в столбцах <strong>Входная формула</strong> и <strong>Выходная формула</strong> таблицы <strong>Каналы</strong> . Чтобы расчёт по формуле для какого-либо канала выполнялся, необходимо установить для него галочку в столбце <strong>Формула вкл</strong>.</p>
 
-    <h2 id="script-rules">Правила создания скриптов</h2>
+    <h2 id="script-rules">Script Creation Rules</h2>
     <p>Общие правила написания и использования скриптов:</p>
     <ol>
         <li>Скрипты записываются согласно <a href="https://learn.microsoft.com/ru-ru/dotnet/csharp/language-reference/" target="_blank">синтаксису языка C#</a>. Доступны различные классы фреймворка .NET, например, Math, DateTime, File.</li>
@@ -46,8 +46,8 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>Тип данных</th>
-                <th>Описание</th>
+                <th>Data Type</th>
+                <th>Description</th>
             </tr>
         </thead>
         <tbody>
@@ -75,8 +75,8 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>Тип данных</th>
-                <th>Описание</th>
+                <th>Data Type</th>
+                <th>Description</th>
             </tr>
         </thead>
         <tbody>
@@ -99,363 +99,363 @@
         </tbody>
     </table>
 
-    <h2 id="available-variables">Доступные переменные</h2>
-    <p>Механизм скриптов предоставляет следующие встроенные переменные:</p>
+    <h2 id="available-variables">Available Variables</h2>
+    <p>The scripting engine provides the following built-in variables:</p>
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>Переменная</th>
-                <th>Тип данных</th>
-                <th>Описание</th>
+                <th>Variable</th>
+                <th>Data Type</th>
+                <th>Description</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>Timestamp</td>
                 <td>DateTime</td>
-                <td>Метка времени обрабатываемых данных (UTC)</td>
+                <td>Timestamp of the processed data (UTC)</td>
             </tr>
             <tr>
                 <td>IsCurrent</td>
                 <td>bool</td>
-                <td>Обрабатываемые данные являются текущими данными</td>
+                <td>Processed data is current data</td>
             </tr>
             <tr>
                 <td>CnlNum</td>
                 <td>int</td>
-                <td>Номер канала, формула которого вычисляется</td>
+                <td>Channel number for which the formula is calculated</td>
             </tr>
             <tr>
                 <td>Channel</td>
                 <td>Cnl</td>
-                <td>Свойства канала, формула которого вычисляется</td>
+                <td>Properties of the channel for which the formula is calculated</td>
             </tr>
             <tr>
                 <td>ArrIdx</td>
                 <td>int</td>
-                <td>Индекс обрабатываемого элемента массива</td>
+                <td>Index of the processed array element</td>
             </tr>
             <tr>
                 <td>Cnl, CnlVal</td>
                 <td>double</td>
-                <td>Переданное Серверу значение канала до расчёта</td>
+                <td>Channel value transmitted to Server before the calculation</td>
             </tr>
             <tr>
                 <td>CnlStat</td>
                 <td>int</td>
-                <td>Переданный Серверу статус канала до расчёта</td>
+                <td>Channel status transmitted to Server before the calculation</td>
             </tr>
             <tr>
                 <td>CnlData</td>
                 <td>CnlData</td>
-                <td>Переданные Серверу данные канала до расчёта</td>
+                <td>Channel data transmitted to Server before the calculation</td>
             </tr>
             <tr>
                 <td>Cmd, CmdVal</td>
                 <td>double</td>
-                <td>Переданное Серверу значение команды управления</td>
+                <td>Command value transmitted to Server before the calculation</td>
             </tr>
             <tr>
                 <td>CmdData</td>
                 <td>byte[]</td>
-                <td>Переданные Серверу данные команды управления</td>
+                <td>Command data transmitted to Server</td>
             </tr>
             <tr>
                 <td>CmdDataStr</td>
                 <td>string</td>
-                <td>Данные команды управления в строковом виде</td>
+                <td>Command data as a string</td>
             </tr>
         </tbody>
     </table>
 
-    <h2 id="available-functions">Доступные функции</h2>
-    <p>Механизм скриптов предоставляет следующие встроенные функции:</p>
+    <h2 id="available-functions">Available Functions</h2>
+    <p>The scripting engine provides the following built-in functions:</p>
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>Функция</th>
-                <th>Тип данных</th>
-                <th>Описание</th>
+                <th>Function</th>
+                <th>Data Type</th>
+                <th>Description</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>N(n)</td>
                 <td>int</td>
-                <td>Возвращает номер канала n. Используется при клонировании каналов</td>
+                <td>Returns the channel number n. Used in channel cloning</td>
             </tr>
             <tr>
                 <td>Val()</td>
                 <td>double</td>
-                <td>Текущее значение канала вычисляемой формулы</td>
+                <td>Actual value of the formula channel</td>
             </tr>
             <tr>
                 <td>Val(n)</td>
                 <td>double</td>
-                <td>Текущее значение канала n</td>
+                <td>Actual value of the channel n</td>
             </tr>
             <tr>
                 <td>SetVal(n, val)</td>
                 <td>double</td>
-                <td>Устанавливает текущее значение канала n</td>
+                <td>Sets the current value of the channel n</td>
             </tr>
             <tr>
                 <td>Stat()</td>
                 <td>int</td>
-                <td>Текущий статус канала вычисляемой формулы</td>
+                <td>Actual status of the formula channel</td>
             </tr>
             <tr>
                 <td>Stat(n)</td>
                 <td>int</td>
-                <td>Текущий статус канала n</td>
+                <td>Actual status of the channel n</td>
             </tr>
             <tr>
                 <td>SetStat(n, stat)</td>
                 <td>int</td>
-                <td>Устанавливает текущий статус канала n</td>
+                <td>Sets the current status of the channel n</td>
             </tr>
             <tr>
                 <td>Data()</td>
                 <td>CnlData</td>
-                <td>Текущие данные канала вычисляемой формулы</td>
+                <td>Actual data of the formula channel</td>
             </tr>
             <tr>
                 <td>Data(n)</td>
                 <td>CnlData</td>
-                <td>Текущие данные канала n</td>
+                <td>Actual data of the channel n</td>
             </tr>
             <tr>
                 <td>SetData(n, val, stat)</td>
                 <td>double</td>
-                <td>Устанавливает текущее значение и статус канала n</td>
+                <td>Sets the current value and status of the channel n</td>
             </tr>
             <tr>
                 <td>SetData(n, cnlData)</td>
                 <td>double</td>
-                <td>Устанавливает текущие данные канала n</td>
+                <td>Sets the current data of the channel n</td>
             </tr>
             <tr>
                 <td>NewData(val, stat)</td>
                 <td>CnlData</td>
-                <td>Создает новый экземпляр данных канала</td>
+                <td>Creates a new channel data instance</td>
             </tr>
             <tr>
                 <td>PrevVal()</td>
                 <td>double</td>
-                <td>Предыдущее значение канала вычисляемой формулы</td>
+                <td>Previous value of the formula channel</td>
             </tr>
             <tr>
                 <td>PrevVal(n)</td>
                 <td>double</td>
-                <td>Предыдущее значение канала n</td>
+                <td>Previous value of the channel n</td>
             </tr>
             <tr>
                 <td>PrevStat()</td>
                 <td>int</td>
-                <td>Предыдущий статус канала вычисляемой формулы</td>
+                <td>Previous status of the formula channel</td>
             </tr>
             <tr>
                 <td>PrevStat(n)</td>
                 <td>int</td>
-                <td>Предыдущий статус канала n</td>
+                <td>Previous status of the channel n</td>
             </tr>
             <tr>
                 <td>PrevData()</td>
                 <td>CnlData</td>
-                <td>Предыдущие данные канала вычисляемой формулы</td>
+                <td>Previous data of the formula channel</td>
             </tr>
             <tr>
                 <td>PrevData(n)</td>
                 <td>CnlData</td>
-                <td>Предыдущие данные канала n</td>
+                <td>Previous data of the channel n</td>
             </tr>
             <tr>
                 <td>Time()</td>
                 <td>DateTime</td>
-                <td>Метка времени канала вычисляемой формулы</td>
+                <td>Actual timestamp of the formula channel</td>
             </tr>
             <tr>
                 <td>Time(n)</td>
                 <td>DateTime</td>
-                <td>Метка времени канала n</td>
+                <td>Actual timestamp of the channel n</td>
             </tr>
             <tr>
                 <td>PrevTime()</td>
                 <td>DateTime</td>
-                <td>Предыдущая метка времени канала вычисляемой формулы</td>
+                <td>Previous timestamp of the formula channel</td>
             </tr>
             <tr>
                 <td>PrevTime(n)</td>
                 <td>DateTime</td>
-                <td>Предыдущая метка времени канала n</td>
+                <td>Previous timestamp of the channel n</td>
             </tr>
             <tr>
                 <td>Deriv(n)</td>
                 <td>double</td>
-                <td>Производная значения канала n по времени</td>
+                <td>Time derivative of the channel n</td>
             </tr>
         </tbody>
     </table>
 
-    <h2 id="template-functions">Функции из шаблона проекта</h2>
-    <p>В проекте, который был создан на основе стандартного шаблона, таблица <strong>Скрипты</strong> содержит следующие функции:</p>
+    <h2 id="template-functions">Functions from Project Template</h2>
+    <p>In a project that was created based on a standard template, the <strong>Scripts</strong> table contains the following functions:</p>
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>Функция</th>
-                <th>Тип данных</th>
-                <th>Описание</th>
+                <th>Function</th>
+                <th>Data Type</th>
+                <th>Description</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>GetBit(val, n)</td>
                 <td>double</td>
-                <td>Бит n значения val</td>
+                <td>Returns the n-th bit of the specified value</td>
             </tr>
             <tr>
                 <td>GetBit(cnlData, val)</td>
                 <td>CnlData</td>
-                <td>Данные канала, состоящие из бита n значения и статуса канала</td>
+                <td>Returns a channel data consists of the n-th bit of the value and the channel status</td>
             </tr>
             <tr>
                 <td>SetBit(val, n, isOn)</td>
                 <td>double</td>
-                <td>Устанавливает бит n значения val</td>
+                <td>Sets the n-th bit of the specified value</td>
             </tr>
             <tr>
                 <td>SetBit(cnlData, n, isOn)</td>
                 <td>CnlData</td>
-                <td>Устанавливает бит n значения канала, сохраняя статус канала неизменным</td>
+                <td>Sets the n-th bit of the channel value, keeping the channel status unchanged</td>
             </tr>
             <tr>
                 <td>GetByte(val, n)</td>
                 <td>double</td>
-                <td>Байт n значения val</td>
+                <td>Returns the n-th byte of the specified value</td>
             </tr>
             <tr>
                 <td>DataRel(offset)</td>
                 <td>CnlData</td>
-                <td>Данные канала относительно текущего канала</td>
+                <td>Channel data relative to the current channel</td>
             </tr>
             <tr>
                 <td>SetData()</td>
                 <td>double</td>
-                <td>Устанавливает текущие данные канала в соответствии со значением команды</td>
+                <td>Sets the current channel data according to the command value</td>
             </tr>
             <tr>
                 <td>Now()</td>
                 <td>double</td>
-                <td>Текущая дата и время в виде числа с плавающей точкой. Часовой пояс сервера</td>
+                <td>The current date and time as a floating-point number. Uses the server time zone</td>
             </tr>
             <tr>
                 <td>UtcNow()</td>
                 <td>double</td>
-                <td>Текущая дата и время в виде числа с плавающей точкой. Универсальный часовой пояс (UTC)</td>
+                <td>The current date and time as a floating-point number. Uses universal time zone (UTC)</td>
             </tr>
             <tr>
                 <td>UnixTime()</td>
                 <td>long</td>
-                <td>Текущее время Unix в секундах</td>
+                <td>The current Unix time in seconds</td>
             </tr>
             <tr>
                 <td>EncodeDate(<wbr />dateTime)</td>
                 <td>double</td>
-                <td>Преобразует указанные дату и время в значение канала типа double</td>
+                <td>Converts the specified date and time to a channel value of Double type</td>
             </tr>
             <tr>
                 <td>DecodeDate(val)</td>
                 <td>DateTime</td>
-                <td>Преобразует значение канала в дату и время</td>
+                <td>Converts the channel value to a date and time</td>
             </tr>
             <tr>
                 <td>EncodeAscii(s)</td>
                 <td>double</td>
-                <td>Преобразует строку в кодировке ASCII, длиной до 8 символов, в число с плавающей точкой</td>
+                <td>Converts an ASCII string, up to 8 characters long, to a floating point number</td>
             </tr>
             <tr>
                 <td>EncodeUnicode(s)</td>
                 <td>double</td>
-                <td>Преобразует строку в кодировке Unicode, длиной до 4 символов, в число с плавающей точкой</td>
+                <td>Converts a Unicode string, up to 4 characters long, to a floating point number</td>
             </tr>
             <tr>
                 <td>DecodeAscii(val)</td>
                 <td>string</td>
-                <td>Преобразует заданное значение в строку ASCII длиной до 8 символов</td>
+                <td>Converts the specified value to an ASCII string up to 8 characters long</td>
             </tr>
             <tr>
                 <td>DecodeUnicode(<wbr />val)</td>
                 <td>string</td>
-                <td>Преобразует заданное значение в строку Unicode длиной до 4 символов</td>
+                <td>Converts the specified value to an Unicode string up to 4 characters long</td>
             </tr>
             <tr>
                 <td>Substring(s, startIndex, length)</td>
                 <td>string</td>
-                <td>Извлекает подстроку из строки с проверкой границ</td>
+                <td>Extracts a substring from the string with bounds checking</td>
             </tr>
             <tr>
                 <td>SplitAscii(<wbr />getStringFunc)</td>
                 <td>string</td>
-                <td>Разделяет строку ASCII для хранения несколькими каналами</td>
+                <td>Splits an ASCII string to store by several channels</td>
             </tr>
             <tr>
                 <td>SplitUnicode(<wbr />getStringFunc)</td>
                 <td>string</td>
-                <td>Разделяет строку Unicode для хранения несколькими каналами</td>
+                <td>Splits an Unicode string to store by several channels</td>
             </tr>
             <tr>
                 <td>EverySec(<wbr />getDataFunc)</td>
                 <td>CnlData</td>
-                <td>Выполняет указанную функцию каждую секунду</td>
+                <td>Executes the specified function every second</td>
             </tr>
             <tr>
                 <td>EveryMin(<wbr />getDataFunc)</td>
                 <td>CnlData</td>
-                <td>Выполняет указанную функцию каждую минуту</td>
+                <td>Executes the specified function every minute</td>
             </tr>
             <tr>
                 <td>EveryHour(<wbr />getDataFunc)</td>
                 <td>CnlData</td>
-                <td>Выполняет указанную функцию каждый час</td>
+                <td>Executes the specified function every hour</td>
             </tr>
             <tr>
                 <td>CountPulse(<wbr />cnlNum)</td>
                 <td>double</td>
-                <td>Считает импульс указанного канала</td>
+                <td>Counts a pulse of the specified channel</td>
             </tr>
             <tr>
                 <td>HourStarted()</td>
                 <td>bool</td>
-                <td>Указывает, что начался новый час. Результат равен true один раз для каждого канала</td>
+                <td>Indicates that a new hour has started. The result is true once for each channel</td>
             </tr>
             <tr>
                 <td>DayStarted()</td>
                 <td>bool</td>
-                <td>Указывает, что начался новый день. Результат равен true один раз для каждого канала</td>
+                <td>Indicates that a new day has started. The result is true once for each channel</td>
             </tr>
             <tr>
                 <td>MonthStarted()</td>
                 <td>bool</td>
-                <td>Указывает, что начался новый месяц. Результат равен true один раз для каждого канала</td>
+                <td>Indicates that a new month has started. The result is true once for each channel</td>
             </tr>
         </tbody>
     </table>
 
-    <p>Дополнительные скрипты, в том числе для вычисления средних значений, доступны на <a href="https://github.com/RapidScada/scada-community/tree/master/Formulas" target="_blank">GitHub</a>.</p>
+    <p>Additional scripts, including those for calculating averages, are available on <a href="https://github.com/RapidScada/scada-community/tree/master/Formulas" target="_blank">GitHub</a>.</p>
 
-    <h2 id="debugging">Отладка скриптов</h2>
-    <p>При разработке собственных скриптов необходимо соблюдать правила синтаксиса и проверять правильность работы скриптов. Если службе Сервера при запуске не удалось скомпилировать скрипты, информация об ошибке выводится в журнал работы Сервера <code>ScadaServer.log</code>, а компилируемый исходный код доступен в файле <code>CalcEngine.cs</code>, который расположен в директории журналов Сервера. Для разработки сложных формул рекомендуется использовать Microsoft Visual Studio или Visual Studio Code.</p>
+    <h2 id="debugging">Debugging Scripts</h2>
+    <p>When developing your own scripts, follow the syntax rules and check that the scripts work correctly. If the Server service failed to compile scripts at startup, error information is displayed in the Server operation log <code>ScadaServer.log</code>, and the compiled source code is available in the <code>CalcEngine.cs</code> file, which is located in the Server log directory. To develop complex formulas, we recommend using Microsoft Visual Studio or Visual Studio Code.</p>
 
-    <h2 id="examples">Примеры формул</h2>
-    <p>Пример 1. Линейное преобразование значения канала, получаемого от устройства. Формула используется для канала типа <em>Входной</em>.</p>
+    <h2 id="examples">Examples of Formulas</h2>
+    <p>Example 1: Linear transformation of a channel value received from a device. The formula is used for a channel of the <em>Input</em> type.</p>
     <pre><code>10 * Cnl + 1</code></pre>
 
-    <p>Пример 2. Сумма значений каналов 101 и 102. Статус извлекается из канала 101. Формула используется для канала типа <em>Расчётный</em>.</p>
+    <p>Example 2: The sum of the values of channels 101 and 102. The status is extracted from channel 101. The formula is used for a channel of the <em>Calculated</em> type.</p>
     <pre><code>Val(101) + Val(102); Stat(101)</code></pre>
 
-    <p>Пример 3. Формула, используемая для канала расчётного типа, извлекает 0-й бит из данных канала 105.</p>
+    <p>Example 3: The formula that is used for a channel of calculation type extracts the 0<sup>th</sup> bit from the data of channel 105.</p>
     <pre><code>GetBit(Data(105), 0)</code></pre>
 
-    <p>Пример 4. Формула увеличивает счётчик на единицу каждую минуту, обнуляя счётчик в начале часа.</p>
+    <p>Example 4: The formula increments the counter by one every minute, resetting the counter at the beginning of each hour.</p>
     <pre><code>EveryMin(() => HourStarted() ? 0 : Val() + 1)</code></pre>
 </div>
