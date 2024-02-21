@@ -43,7 +43,7 @@
   </Item>
 
   <!-- Configuration -->
-  <!--<Item>
+  <Item>
     <Text>Configuration</Text>
     <Subitems>
       <Item>
@@ -51,7 +51,7 @@
         <Url>/en/latest/configuration/scripts</Url>
       </Item>
     </Subitems>
-  </Item>-->
+  </Item>
 
   <!-- Modules -->
   <Item>

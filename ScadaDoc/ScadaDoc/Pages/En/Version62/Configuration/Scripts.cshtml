@@ -19,30 +19,30 @@
 
 <div class="doc-content">
     <h1>Scripts and Formulas</h1>
-    <p>В приложение Сервер встроен механизм исполнения пользовательских скриптов. Скрипты применяются для расчёта значений и статусов каналов, а также для расчёта значений команд управления.</p>
-    <p>Скрипты записываются в таблицу <strong>Скрипты</strong> базы конфигурации. Созданный по шаблону проект уже содержит начальный набор скриптов, который удобно использовать в качестве примеров для разработки собственных скриптов. Переменные и функции, реализованные в таблице <strong>Скрипты</strong>, затем вызываются в столбцах <strong>Входная формула</strong> и <strong>Выходная формула</strong> таблицы <strong>Каналы</strong> . Чтобы расчёт по формуле для какого-либо канала выполнялся, необходимо установить для него галочку в столбце <strong>Формула вкл</strong>.</p>
+    <p>The Server application has a built-in engine for executing user scripts. Scripts are used to calculate channel values and statuses, as well as to calculate command values.</p>
+    <p>Scripts are written to the <strong>Scripts</strong> table of the configuration database. A project created using a template already contains an initial set of scripts, which can be used as examples for developing your own scripts. Variables and functions implemented in the <strong>Scripts</strong> table are then called in the <strong>Input Formula</strong> and <strong>Output Formula</strong> columns of the <strong>Channels</strong> table. To perform formula calculations for a channel, select the checkbox in the <strong>Formula Enabled</strong> column.</p>
 
     <h2 id="script-rules">Script Creation Rules</h2>
-    <p>Общие правила написания и использования скриптов:</p>
+    <p>General rules for writing and using scripts:</p>
     <ol>
-        <li>Скрипты записываются согласно <a href="https://learn.microsoft.com/ru-ru/dotnet/csharp/language-reference/" target="_blank">синтаксису языка C#</a>. Доступны различные классы фреймворка .NET, например, Math, DateTime, File.</li>
-        <li>В таблицу <strong>Скрипты</strong> добавляются новые константы, поля, свойства и методы, которые становятся доступны в формулах каналов.</li>
-        <li>Если хотя бы один скрипт или формула содержит ошибку, работа Сервера невозможна. Информация об ошибках в скриптах выводится в журнал приложения.</li>
+        <li>Scripts are written according to the <a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/" target="_blank">syntax of C# language</a>. Various .NET framework classes are available, such as Math, DateTime, and File.</li>
+        <li>New constants, fields, properties, and methods are added to the <stromg>Scripts</stromg> table and become available in channel formulas.</li>
+        <li>If at least one script or formula contains an error, Server operation is impossible. Information about errors in scripts is written in the Server application log.</li>
     </ol>
 
-    <p>Правила вычисления формул каналов:</p>
+    <p>Rules for calculating channel formulas:</p>
     <ol>
-        <li>Расчёт входной формулы для каналов типа <em>Входной</em> и <em>Входной/выходной</em> выполняется только при получении Сервером новых данных по этим каналам. Используйте эти типы каналов, если данные приходят от устройств.</li>
-        <li>Расчёт входной формулы для каналов типа <em>Расчётный</em> и <em>Расчётный/выходной</em> выполняется постоянно на каждом шаге основного цикла Сервера. Последовательность расчёта – от меньших номеров каналов к большим. Расчётные типы каналов используются, если значение и статус канала вычисляются на основе данных других каналов.</li>
-        <li>Расчёт выходной формулы для каналов типа <em>Входной/выходной</em>, <em>Расчётный/выходной</em> и <em>Выходной</em> выполняется при отправке команды управления на соответствующий канал.</li>
-        <li>Статус канала после вычисления входной формулы для каналов типа <em>Входной</em> и <em>Входной/выходной</em> равен статусу переданных Серверу данных, если расчёт статуса не задан в формуле явно.</li>
-        <li>Для каналов типа <em>Расчётный</em> и <em>Расчётный/выходной</em> устанавливается статус <em>Определён</em>, если расчёт статуса не задан в формуле явно.</li>
-        <li>Если входная формула канала содержит символ &quot;;&quot;, то она разбивается на две части: первая часть рассчитывает значение канала, вторая часть – статус канала.</li>
-        <li>Если для канала заданы границы, то статус канала пересчитывается с учётом границ после вычисления входной формулы канала.</li>
-        <li>Формулы должны возвращать значения опередённых типов данных, которые описаны ниже.</li>
+        <li>An input formula for channels of the <em>Input</em> and <em>Input/Output</em> types is calculated only when Server receives new data for that channels. Use the mentioned types of channels if the data comes from devices.</li>
+        <li>An input formula for channels of the <em>Calculated</em> and <em>Calculated/Output</em> types is calculated continuously at each iteration of the main Server loop. The calculation sequence is from smaller to larger channel numbers. Calculated channel types are used if the value and status of a channel are calculated based on data of other channels.</li>
+        <li>An output formula for channels of the <em>Input/Output</em>, <em>Calculated/Output</em> and <em>Output</em> types is calculated when a command is sent to the corresponding channel.</li>
+        <li>A channel status after calculating an input formula for channels of the <em>Input</em> and <em>Input/Output</em> types is equal to the status of the data transferred to Server, if the status calculation is not explicitly specified in the formula.</li>
+        <li>For channels of the <em>Calculated</em> and <em>Calculated/Output</em> types, the status is set to <em>Defined</em> if the status calculation is not explicitly specified in the formula.</li>
+        <li>If an input formula contains the &quot;;&quot; symbol, it is split into two parts: the first part calculates the channel value, and the second part calculates the channel status.</li>
+        <li>If a channel has specified limits, the channel status is recalculated taking the limits into account after calculating the channel's input formula.</li>
+        <li>Formulas must return values of certain data types, described below.</li>
     </ol>
 
-    <p>Входные формулы каналов возвращают данные следующих типов:</p>
+    <p>Channel input formulas return data of the following types:</p>
     <table class="table table-hover">
         <thead>
             <tr>
@@ -53,25 +53,25 @@
         <tbody>
             <tr>
                 <td>double</td>
-                <td>Значение канала</td>
+                <td>Channel value</td>
             </tr>
             <tr>
                 <td>CnlData</td>
-                <td>Значение и статус канала</td>
+                <td>Channel value and status</td>
             </tr>
             <tr>
                 <td>long</td>
-                <td>64-битное целое значение канала, для которого в таблице <strong>Каналы</strong> установлен тип данных <em>Integer</em></td>
+                <td>64-bit integer value of a channel whose data type is set to <em>Integer</em> in the <strong>Channels</strong> table</td>
             </tr>
             <tr>
                 <td>string</td>
-                <td>Строковое значение канала, для которого в таблице <strong>Каналы</strong> установлен тип данных <em>ASCII string</em> или <em>Unicode string</em></td>
+                <td>String value of a channel whose data type is set to <em>ASCII string</em> or <em>Unicode string</em> in the <strong>Channels</strong> table</td>
             </tr>
         </tbody>
     </table>
-    <p>Если входная формула канала возвращает другой тип данных, не указанный таблице, возвращаемое формулой значение приводится к соответствующему типу в зависимости от типа данных канала. Часть входной формулы канала, которая рассчитвает статус канала, должна возвращать целое число типа <em>int</em>.</p>
+    <p>If a channel's input formula returns a data type other than those listed in the table above, the value returned by the formula is cast to the appropriate type based on the data type of the channel. The part of the channel input formula that calculates the channel status must return an integer value of type <code>int</code>.</p>
 
-    <p>Выходные формулы каналов возвращают данные следующих типов:</p>
+    <p>Channel output formulas return data of the following types:</p>
     <table class="table table-hover">
         <thead>
             <tr>
@@ -82,19 +82,19 @@
         <tbody>
             <tr>
                 <td>double</td>
-                <td>Значение команды. Чтобы отменить команду, формула должна вернуть <code>double.NaN</code></td>
+                <td>Command value. To cancel a command, formula must return <code>double.NaN</code></td>
             </tr>
             <tr>
                 <td>CnlData</td>
-                <td>Значение команды. Чтобы отменить команду, формула должна вернуть <code>CnlData.Empty</code></td>
+                <td>Command value. To cancel a command, formula must return <code>CnlData.Empty</code></td>
             </tr>
             <tr>
                 <td>byte[]</td>
-                <td>Бинарные данные команды. Чтобы отменить команду, формула должна вернуть <code>null</code></td>
+                <td>Binary command data. To cancel a command, formula must return <code>null</code></td>
             </tr>
             <tr>
                 <td>string</td>
-                <td>Строковые данные команды. Преобразуются Сервером в массив байт</td>
+                <td>String command data. Converted by Server into a byte array</td>
             </tr>
         </tbody>
     </table>
