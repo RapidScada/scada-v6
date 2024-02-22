@@ -544,7 +544,7 @@ namespace Scada.Web.Code
             Log.WriteBreak();
             Log.WriteAction(Locale.IsRussian ?
                 "Вебстанция {0} запущена" :
-                "Webstation {0} started", WebUtils.AppVersion);
+                "Webstation {0} started", AppUtils.AppVersion);
 
             assemblyResolver = new AssemblyResolver(AppDirs.GetProbingDirs());
             LocalizeApp();
