@@ -34,7 +34,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Scada.Data.Const;
 using Scada.Lang;
-using Scada.Log;
 using Scada.Web.Authorization;
 using Scada.Web.Code;
 using Scada.Web.Services;
@@ -142,18 +141,16 @@ namespace Scada.Web
                 });
 
             services
-                .AddAuthorization(options =>
-                {
-                    options.AddPolicy(PolicyName.Administrators, policy =>
-                        policy.RequireClaim(ClaimTypes.Role, RoleID.Administrator.ToString()));
-                    options.AddPolicy(PolicyName.RequireViewAll, policy =>
-                        policy.Requirements.Add(new ViewAllRequirement()));
-                    options.AddPolicy(PolicyName.Restricted, policy =>
-                        policy.Requirements.Add(new ObjRightRequirement()));
-                    options.FallbackPolicy = new AuthorizationPolicyBuilder()
-                        .RequireAuthenticatedUser()
-                        .Build();
-                });
+                .AddAuthorizationBuilder()
+                .AddPolicy(PolicyName.Administrators, policy =>
+                    policy.RequireClaim(ClaimTypes.Role, RoleID.Administrator.ToString()))
+                .AddPolicy(PolicyName.RequireViewAll, policy =>
+                    policy.Requirements.Add(new ViewAllRequirement()))
+                .AddPolicy(PolicyName.Restricted, policy =>
+                    policy.Requirements.Add(new ObjRightRequirement()))
+                .SetFallbackPolicy(new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build());
 
             services
                 .Configure<ForwardedHeadersOptions>(options =>
