@@ -20,14 +20,28 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2024
  */
 
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Scada.Data.Const;
 using Scada.Lang;
+using Scada.Log;
+using Scada.Web.Authorization;
 using Scada.Web.Code;
+using Scada.Web.Services;
 using System;
+using System.IO;
+using System.Reflection;
+using System.Security.Claims;
 
 namespace Scada.Web
 {
@@ -61,7 +75,12 @@ namespace Scada.Web
         {
             try
             {
-                CreateHostBuilder(args).Build().Run();
+                WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+                ConfigureServices(builder.Services);
+
+                WebApplication app = builder.Build();
+                ConfigureApplication(app);
+                app.Run();
             }
             catch (Exception ex)
             {
@@ -72,14 +91,146 @@ namespace Scada.Web
         }
 
         /// <summary>
-        /// Initializes a new instance of the host builder.
+        /// Adds and configures the services.
         /// </summary>
-        private static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
+        private static void ConfigureServices(IServiceCollection services)
+        {
+            services
+                .AddControllers(options =>
                 {
-                    webBuilder.UseStartup(context => new Startup(context.Configuration, webContext));
+                    // set controller options here
+                })
+                .AddJsonOptions(options =>
+                {
+                    // set JSON options here
                 });
+
+            services
+                .AddRazorPages(options =>
+                {
+                    options.Conventions
+                        .AuthorizeFolder(WebPath.Root)
+                        .AllowAnonymousToPage(WebPath.ConfigReloadPage)
+                        .AllowAnonymousToPage(WebPath.ErrorPage)
+                        .AllowAnonymousToPage(WebPath.IndexPage)
+                        .AllowAnonymousToPage(WebPath.LoginPage)
+                        .AllowAnonymousToPage(WebPath.LogoutPage);
+                })
+                .AddMvcOptions(options =>
+                {
+                    options.Filters.Add(typeof(ReadyResourceFilter));
+                    webContext.PluginHolder.AddFilters(options.Filters);
+                })
+                .ConfigureApplicationPartManager(ConfigureApplicationParts);
+
+            services
+                .AddDataProtection()
+                .AddKeyManagementOptions(options =>
+                {
+                    options.XmlRepository = new XmlRepository(webContext.Storage, webContext.Log);
+                    options.XmlEncryptor = new XmlEncryptor(webContext.Log);
+                });
+
+            services
+                .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.AccessDeniedPath = WebPath.AccessDeniedPage;
+                    options.LoginPath = WebPath.LoginPage;
+                    options.LogoutPath = WebPath.LogoutPage;
+                    options.Events = new CookieAuthEvents();
+                });
+
+            services
+                .AddAuthorization(options =>
+                {
+                    options.AddPolicy(PolicyName.Administrators, policy =>
+                        policy.RequireClaim(ClaimTypes.Role, RoleID.Administrator.ToString()));
+                    options.AddPolicy(PolicyName.RequireViewAll, policy =>
+                        policy.Requirements.Add(new ViewAllRequirement()));
+                    options.AddPolicy(PolicyName.Restricted, policy =>
+                        policy.Requirements.Add(new ObjRightRequirement()));
+                    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                        .Build();
+                });
+
+            services
+                .Configure<ForwardedHeadersOptions>(options =>
+                {
+                    // required to use reverse proxy
+                    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+                });
+
+            services
+                .AddHttpContextAccessor()
+                .AddSession()
+                .AddSingleton<IWebContext>(webContext)
+                .AddSingleton(webContext.Log)
+                .AddScoped(UserContextFactory.GetUserContext)
+                .AddScoped<IAuditLog, AuditLog>()
+                .AddScoped<IClientAccessor, ClientAccessor>()
+                .AddScoped<ILoginService, LoginService>()
+                .AddScoped<IViewLoader, ViewLoader>()
+                .AddScoped<IAuthorizationHandler, ViewAllHandler>()
+                .AddScoped<IAuthorizationHandler, ObjRightHandler>();
+
+            webContext.PluginHolder.AddServices(services);
+        }
+
+        /// <summary>
+        /// Loads plugins to integrate their pages and controllers into the web application.
+        /// </summary>
+        private static void ConfigureApplicationParts(ApplicationPartManager apm)
+        {
+            foreach (string fileName in
+                Directory.EnumerateFiles(webContext.AppDirs.ExeDir, "Plg*.dll", SearchOption.TopDirectoryOnly))
+            {
+                if (webContext.PluginHolder.ContainsPlugin(
+                    ScadaUtils.RemoveFileNameSuffixes(Path.GetFileName(fileName))))
+                {
+                    try
+                    {
+                        Assembly assembly = Assembly.LoadFrom(fileName);
+                        apm.ApplicationParts.Add(new CompiledRazorAssemblyPart(assembly));
+                        apm.ApplicationParts.Add(new AssemblyPart(assembly));
+                    }
+                    catch (Exception ex)
+                    {
+                        webContext.Log.WriteError(ex, Locale.IsRussian ?
+                            "Ошибка при загрузке части приложения из файла {0}" :
+                            "Error loading application part from file {0}", fileName);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Configures the HTTP request pipeline of the web application.
+        /// </summary>
+        private static void ConfigureApplication(WebApplication app)
+        {
+            app.UseForwardedHeaders();
+            app.UsePathBase(app.Configuration["pathBase"]);
+
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler(WebPath.ErrorPage);
+                app.UseHsts();
+            }
+
+            app.UseStaticFiles();
+            app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseSession();
+            app.MapRazorPages();
+            app.MapControllers();
+        }
 
 
         /// <summary>
