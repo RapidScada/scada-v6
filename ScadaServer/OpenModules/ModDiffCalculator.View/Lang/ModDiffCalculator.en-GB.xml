@@ -24,6 +24,9 @@
     <Phrase key="PeriodType.DisplayName">Period type</Phrase>
     <Phrase key="PeriodType.Category">Behavior</Phrase>
     <Phrase key="PeriodType.Description">The calculation period type.</Phrase>
+    <Phrase key="ArchiveBit.DisplayName">Archive bit</Phrase>
+    <Phrase key="ArchiveBit.Category">Data</Phrase>
+    <Phrase key="ArchiveBit.Description">The bit number of the archive for reading and writing data.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDiffCalculator.Config.ItemConfig">
     <Phrase key="DestCnlNum.DisplayName">Destination channel</Phrase>

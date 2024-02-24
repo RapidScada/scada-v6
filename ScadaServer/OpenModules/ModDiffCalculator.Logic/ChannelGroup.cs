@@ -12,11 +12,27 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
     /// </summary>
     internal class ChannelGroup
     {
+        private readonly double period; // period in seconds
+        private readonly double offset; // offset in seconds
+        private readonly double delay;  // delay in seconds
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public ChannelGroup(GroupConfig groupConfig)
         {
+            period = groupConfig.PeriodType switch
+            {
+                PeriodType.Minute => 60,
+                PeriodType.Hour => 3600,
+                PeriodType.Day => TimeSpan.FromDays(1).TotalSeconds,
+                PeriodType.Month => TimeSpan.FromDays(30).TotalSeconds, // !!!
+                _ => groupConfig.CustomPeriod.TotalSeconds // PeriodType.Custom
+            };
+            offset = groupConfig.Offset.TotalSeconds;
+            delay = groupConfig.Delay;
+
             GroupConfig = groupConfig ?? throw new ArgumentNullException(nameof(groupConfig));
             SrcCnlNums = groupConfig.Items.Select(i => i.SrcCnlNum).ToArray();
             DestCnlNums = groupConfig.Items.Select(i => i.DestCnlNum).ToArray();
@@ -27,19 +43,6 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
         /// Gets the group configuration.
         /// </summary>
         public GroupConfig GroupConfig { get; }
-
-        /// <summary>
-        /// Gets the group name.
-        /// </summary>
-        public string Name
-        {
-            get
-            {
-                return string.IsNullOrEmpty(GroupConfig.Name)
-                    ? (Locale.IsRussian ? "Безымянная" : "Unnamed")
-                    : GroupConfig.Name;
-            }
-        }
 
         /// <summary>
         /// Gets the source channel numbers.

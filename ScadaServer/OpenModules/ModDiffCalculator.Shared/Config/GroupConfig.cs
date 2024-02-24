@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.ComponentModel;
+using Scada.Lang;
 using System.Collections;
 using System.Xml;
 using NCM = System.ComponentModel;
@@ -28,6 +29,14 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
         public string Name { get; set; } = "";
 
         /// <summary>
+        /// Gets the display name.
+        /// </summary>
+        [NCM.Browsable(false)]
+        public string DisplayName => string.IsNullOrEmpty(Name)
+            ? (Locale.IsRussian ? "Безымянная" : "Unnamed")
+            : Name;
+
+        /// <summary>
         /// Gets or sets the calculation period type.
         /// </summary>
         [DisplayName, Category, Description]
@@ -50,6 +59,12 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
         /// </summary>
         [DisplayName, Category, Description]
         public int Delay { get; set; } = 10;
+
+        /// <summary>
+        /// Gets or sets the bit number of the archive for reading and writing data.
+        /// </summary>
+        [DisplayName, Category, Description]
+        public int ArchiveBit { get; set; } = 0;
 
         /// <summary>
         /// Gets the configuration of the calculated items.
@@ -84,6 +99,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
             CustomPeriod = xmlElem.GetAttrAsTimeSpan("customPeriod");
             Offset = xmlElem.GetAttrAsTimeSpan("offset");
             Delay = xmlElem.GetAttrAsInt("delay", Delay);
+            ArchiveBit = xmlElem.GetAttrAsInt("archiveBit");
 
             foreach (XmlElement itemElem in xmlElem.SelectNodes("Item"))
             {
@@ -108,6 +124,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
 
             xmlElem.SetAttribute("offset", Offset);
             xmlElem.SetAttribute("delay", Delay);
+            xmlElem.SetAttribute("archiveBit", ArchiveBit);
 
             foreach (ItemConfig itemConfig in Items)
             {

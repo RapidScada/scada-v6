@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Data.Const;
+using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Log;
@@ -64,8 +65,47 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
             {
                 if (groupConfig.Active)
                 {
-                    ChannelGroup channelGroup = new(groupConfig);
-                    channelGroups.Add(channelGroup);
+                    if (groupConfig.Items.Count == 0)
+                    {
+                        moduleLog.WriteWarning(Locale.IsRussian ?
+                            "Отсутствуют элементы в группе \"{0}\"" :
+                            "Missing items in \"{0}\" group",
+                            groupConfig.DisplayName);
+                    }
+                    else if (groupConfig.PeriodType == PeriodType.Custom && groupConfig.CustomPeriod <= TimeSpan.Zero)
+                    {
+                        moduleLog.WriteError(Locale.IsRussian ?
+                            "Не задан пользовательский период для группы \"{0}\"" :
+                            "Custom period is not specified for \"{0}\" group",
+                            groupConfig.DisplayName);
+                    }
+                    else
+                    {
+                        // check archive of the group
+                        Archive archiveEntity = ServerContext.ConfigDatabase.ArchiveTable
+                            .Where(a => a.Bit == groupConfig.ArchiveBit).FirstOrDefault();
+
+                        if (archiveEntity == null)
+                        {
+                            moduleLog.WriteError(Locale.IsRussian ?
+                                "Не найден архив для группы \"{0}\"" :
+                                "Archive not found for \"{0}\" group",
+                                groupConfig.DisplayName);
+                        }
+                        else if (archiveEntity.ArchiveKindID != ArchiveKindID.Historical)
+                        {
+                            moduleLog.WriteError(Locale.IsRussian ?
+                                "Недопустимый вид архива в группе \"{0}\"" :
+                                "Invalid archive kind in \"{0}\" group",
+                                groupConfig.DisplayName);
+                        }
+                        else
+                        {
+                            // create a channel group
+                            ChannelGroup channelGroup = new(groupConfig);
+                            channelGroups.Add(channelGroup);
+                        }
+                    }
                 }
             }
 
@@ -105,7 +145,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
             {
                 if (group.IsTimeToCalculate(utcNow, out DateTime timestamp1, out DateTime timestamp2))
                 {
-                    int archiveBit = 0;
+                    int archiveBit = group.GroupConfig.ArchiveBit;
                     Slice srcSlice1 = ServerContext.GetSlice(archiveBit, timestamp1, group.SrcCnlNums);
                     Slice srcSlice2 = ServerContext.GetSlice(archiveBit, timestamp2, group.SrcCnlNums);
                     Slice destSlice = new(timestamp2, group.DestCnlNums);
@@ -123,7 +163,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
                         }
                     }
 
-                    int archiveMask = 0;
+                    int archiveMask = ScadaUtils.SetBit(0, archiveBit, true);
                     ServerContext.WriteHistoricalData(archiveMask, destSlice, WriteDataFlags.Default);
                 }
             }
@@ -131,7 +171,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
             {
                 Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при обработке группы \"{0}\"" :
-                    "Error processing \"{0}\" group", group.Name);
+                    "Error processing \"{0}\" group", group.GroupConfig.DisplayName);
             }
         }
 
