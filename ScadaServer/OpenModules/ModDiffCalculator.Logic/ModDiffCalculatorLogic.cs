@@ -61,6 +61,8 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
         /// </summary>
         private bool InitChannelGroups(out string errMsg)
         {
+            DateTime utcNow = DateTime.UtcNow;
+
             foreach (GroupConfig groupConfig in moduleConfig.Groups)
             {
                 if (groupConfig.Active)
@@ -103,6 +105,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
                         {
                             // create a channel group
                             ChannelGroup channelGroup = new(groupConfig);
+                            channelGroup.InitTime(utcNow);
                             channelGroups.Add(channelGroup);
                         }
                     }
