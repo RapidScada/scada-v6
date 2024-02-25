@@ -11,11 +11,6 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
     /// </summary>
     internal class ChannelGroup
     {
-        /// <summary>
-        /// Permissible deviation from the moment of calculation.
-        /// </summary>
-        private static readonly TimeSpan CalculationSpan = TimeSpan.FromMinutes(1);
-
         private readonly bool periodIsMonth; // indicates that a monthly period is used
         private readonly double period;      // period in seconds, except month
         private readonly double offset;      // offset in seconds
@@ -84,7 +79,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
         /// </summary>
         public bool IsTimeToCalculate(DateTime utcNow, out DateTime timestamp1, out DateTime timestamp2)
         {
-            if (delayedCalcTime <= utcNow && utcNow < delayedCalcTime.Add(CalculationSpan))
+            if (delayedCalcTime <= utcNow)
             {
                 timestamp1 = time1;
                 timestamp2 = time2;
@@ -108,14 +103,16 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
         {
             if (periodIsMonth)
             {
-                return new DateTime(startTime.Year, startTime.Month, 1, 0, 0, 0, startTime.Kind)
+                DateTime calcTime = new DateTime(startTime.Year, startTime.Month, 1, 0, 0, 0, startTime.Kind)
                     .AddSeconds(offset);
+                return calcTime < startTime ? calcTime : calcTime.AddMonths(-1);
             }
             else
             {
-                DateTime startYear = new(startTime.Year, 1, 1, 0, 0, 0, startTime.Kind);
-                double secondOfYear = (startTime - startYear).TotalSeconds;
-                return startYear.AddSeconds(Math.Truncate(secondOfYear / period) * period + offset);
+                DateTime yearStart = new(startTime.Year, 1, 1, 0, 0, 0, startTime.Kind);
+                double interval = (startTime - yearStart).TotalSeconds + offset;
+                DateTime calcTime = yearStart.AddSeconds(Math.Truncate(interval / period) * period + offset);
+                return calcTime < startTime ? calcTime : calcTime.AddSeconds(-period);
             }
         }
 

@@ -148,6 +148,11 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
             {
                 if (group.IsTimeToCalculate(utcNow, out DateTime timestamp1, out DateTime timestamp2))
                 {
+                    Log.WriteAction(Locale.IsRussian ?
+                        "Расчёт разностей для группы \"{0}\" на моменты времени {1} and {2}" :
+                        "Calculate differences for \"{0}\" group at times {1} and {2}",
+                        group.GroupConfig.DisplayName, timestamp1.ToLocalizedString(), timestamp2.ToLocalizedString());
+
                     int archiveBit = group.GroupConfig.ArchiveBit;
                     Slice srcSlice1 = ServerContext.GetSlice(archiveBit, timestamp1, group.SrcCnlNums);
                     Slice srcSlice2 = ServerContext.GetSlice(archiveBit, timestamp2, group.SrcCnlNums);
@@ -174,7 +179,8 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
             {
                 Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при обработке группы \"{0}\"" :
-                    "Error processing \"{0}\" group", group.GroupConfig.DisplayName);
+                    "Error processing \"{0}\" group",
+                    group.GroupConfig.DisplayName);
             }
         }
 
