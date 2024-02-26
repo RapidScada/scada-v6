@@ -134,7 +134,12 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
             while (!terminated)
             {
                 DateTime utcNow = DateTime.UtcNow;
-                channelGroups.ForEach(group => ProcessChannelGroup(group, utcNow));
+
+                foreach (ChannelGroup group in channelGroups)
+                {
+                    ProcessChannelGroup(group, utcNow);
+                }
+
                 Thread.Sleep(ScadaUtils.ThreadDelay);
             }
         }
@@ -148,8 +153,8 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
             {
                 if (group.IsTimeToCalculate(utcNow, out DateTime timestamp1, out DateTime timestamp2))
                 {
-                    Log.WriteAction(Locale.IsRussian ?
-                        "Расчёт разностей для группы \"{0}\" на моменты времени {1} and {2}" :
+                    moduleLog.WriteAction(Locale.IsRussian ?
+                        "Расчёт разностей для группы \"{0}\" на моменты времени {1} и {2}" :
                         "Calculate differences for \"{0}\" group at times {1} and {2}",
                         group.GroupConfig.DisplayName, timestamp1.ToLocalizedString(), timestamp2.ToLocalizedString());
 
@@ -177,7 +182,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
             }
             catch (Exception ex)
             {
-                Log.WriteError(ex, Locale.IsRussian ?
+                moduleLog.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при обработке группы \"{0}\"" :
                     "Error processing \"{0}\" group",
                     group.GroupConfig.DisplayName);
