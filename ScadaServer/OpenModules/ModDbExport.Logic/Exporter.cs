@@ -1283,7 +1283,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             ArgumentNullException.ThrowIfNull(commandResult, nameof(commandResult));
 
             // handle exporter command
-            if (command.CmdCode == exporterConfig.GeneralOptions.CmdCode)
+            if (!string.IsNullOrEmpty(command.CmdCode) &&
+                command.CmdCode == exporterConfig.GeneralOptions.CmdCode)
             {
                 commandResult.TransmitToClients = false;
                 IDictionary<string, string> cmdArgs = command.GetCmdDataArgs();

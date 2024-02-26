@@ -29,6 +29,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
 
         private Thread moduleThread;      // the working thread of the module
         private volatile bool terminated; // necessary to stop the thread
+        private CalculationTask calcTask; // the user task to calculate differences
 
 
         /// <summary>
@@ -47,6 +48,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
 
             moduleThread = null;
             terminated = false;
+            calcTask = null;
         }
 
 
@@ -59,7 +61,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
         /// <summary>
         /// Initializes channel groups according to the module configuration.
         /// </summary>
-        private bool InitChannelGroups(out string errMsg)
+        private bool InitGroups(out string errMsg)
         {
             DateTime utcNow = DateTime.UtcNow;
 
@@ -133,11 +135,19 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
         {
             while (!terminated)
             {
+                // regular calculation
                 DateTime utcNow = DateTime.UtcNow;
 
                 foreach (ChannelGroup group in channelGroups)
                 {
-                    ProcessChannelGroup(group, utcNow);
+                    ProcessGroup(group, utcNow);
+                }
+
+                // calculation by task
+                if (calcTask != null)
+                {
+                    ExecuteTask(calcTask);
+                    calcTask = null;
                 }
 
                 Thread.Sleep(ScadaUtils.ThreadDelay);
@@ -147,38 +157,12 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
         /// <summary>
         /// Performs calculations for the specified channel group, if necessary.
         /// </summary>
-        private void ProcessChannelGroup(ChannelGroup group, DateTime utcNow)
+        private void ProcessGroup(ChannelGroup group, DateTime utcNow)
         {
             try
             {
                 if (group.IsTimeToCalculate(utcNow, out DateTime timestamp1, out DateTime timestamp2))
-                {
-                    moduleLog.WriteAction(Locale.IsRussian ?
-                        "Расчёт разностей для группы \"{0}\" на моменты времени {1} и {2}" :
-                        "Calculate differences for \"{0}\" group at times {1} and {2}",
-                        group.GroupConfig.DisplayName, timestamp1.ToLocalizedString(), timestamp2.ToLocalizedString());
-
-                    int archiveBit = group.GroupConfig.ArchiveBit;
-                    Slice srcSlice1 = ServerContext.GetSlice(archiveBit, timestamp1, group.SrcCnlNums);
-                    Slice srcSlice2 = ServerContext.GetSlice(archiveBit, timestamp2, group.SrcCnlNums);
-                    Slice destSlice = new(timestamp2, group.DestCnlNums);
-
-                    for (int i = 0; i < srcSlice1.Length; i++)
-                    {
-                        CnlData cnlData1 = srcSlice1.CnlData[i];
-                        CnlData cnlData2 = srcSlice2.CnlData[i];
-
-                        if (cnlData1.IsDefined && cnlData2.IsDefined)
-                        {
-                            destSlice.CnlData[i] = new CnlData(
-                                cnlData2.Val - cnlData1.Val,
-                                CnlStatusID.Defined);
-                        }
-                    }
-
-                    int archiveMask = ScadaUtils.SetBit(0, archiveBit, true);
-                    ServerContext.WriteHistoricalData(archiveMask, destSlice, WriteDataFlags.Default);
-                }
+                    CalculateDiffs(group, timestamp1, timestamp2);
             }
             catch (Exception ex)
             {
@@ -187,6 +171,75 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
                     "Error processing \"{0}\" group",
                     group.GroupConfig.DisplayName);
             }
+        }
+
+        /// <summary>
+        /// Executes the calculation task.
+        /// </summary>
+        private void ExecuteTask(CalculationTask task)
+        {
+            try
+            {
+                moduleLog.WriteAction(Locale.IsRussian ?
+                    "Выполнение расчётной задачи за период с {0} по {1}" :
+                    "Execute calculation task from {0} to {1}",
+                    task.StartDT, task.EndDT);
+
+                foreach (ChannelGroup group in channelGroups)
+                {
+                    DateTime timestamp1 = group.GetCalculationTime(task.StartDT);
+                    DateTime timestamp2 = group.GetNextCalculationTime(timestamp1);
+
+                    while (timestamp2 < task.EndDT)
+                    {
+                        CalculateDiffs(group, timestamp1, timestamp2);
+                        timestamp1 = timestamp2;
+                        timestamp2 = group.GetNextCalculationTime(timestamp2);
+                    }
+                }
+
+                moduleLog.WriteAction(Locale.IsRussian ?
+                    "Выполнение расчётной задачи завершено успешно" :
+                    "Calculation task completed successfully");
+            }
+            catch (Exception ex)
+            {
+                moduleLog.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при выполнении расчётной задачи" :
+                    "Error executing calculation task");
+            }
+        }
+
+        /// <summary>
+        /// Calculates differences for the specified channel group.
+        /// </summary>
+        private void CalculateDiffs(ChannelGroup group, DateTime timestamp1, DateTime timestamp2)
+        {
+            moduleLog.WriteAction(Locale.IsRussian ?
+                "Расчёт разностей для группы \"{0}\" на моменты времени {1} и {2}" :
+                "Calculate differences for \"{0}\" group at times {1} and {2}",
+                group.GroupConfig.DisplayName, timestamp1.ToLocalizedString(), timestamp2.ToLocalizedString());
+
+            int archiveBit = group.GroupConfig.ArchiveBit;
+            Slice srcSlice1 = ServerContext.GetSlice(archiveBit, timestamp1, group.SrcCnlNums);
+            Slice srcSlice2 = ServerContext.GetSlice(archiveBit, timestamp2, group.SrcCnlNums);
+            Slice destSlice = new(timestamp2, group.DestCnlNums);
+
+            for (int i = 0; i < srcSlice1.Length; i++)
+            {
+                CnlData cnlData1 = srcSlice1.CnlData[i];
+                CnlData cnlData2 = srcSlice2.CnlData[i];
+
+                if (cnlData1.IsDefined && cnlData2.IsDefined)
+                {
+                    destSlice.CnlData[i] = new CnlData(
+                        cnlData2.Val - cnlData1.Val,
+                        CnlStatusID.Defined);
+                }
+            }
+
+            int archiveMask = ScadaUtils.SetBit(0, archiveBit, true);
+            ServerContext.WriteHistoricalData(archiveMask, destSlice, WriteDataFlags.Default);
         }
 
 
@@ -201,7 +254,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
 
             // load configuration
             if (moduleConfig.Load(Storage, ModuleConfig.DefaultFileName, out string errMsg) &&
-                InitChannelGroups(out errMsg))
+                InitGroups(out errMsg))
             {
                 // start module thread
                 moduleThread = new Thread(Execute);
@@ -231,6 +284,45 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
             // write to log
             moduleLog.WriteAction(ServerPhrases.StopModule, Code);
             moduleLog.WriteBreak();
+        }
+
+        /// <summary>
+        /// Performs actions after receiving and before enqueuing a telecontrol command.
+        /// </summary>
+        public override void OnCommand(TeleCommand command, CommandResult commandResult)
+        {
+            // handle module command
+            if (!string.IsNullOrEmpty(command.CmdCode) &&
+                command.CmdCode == moduleConfig.GeneralOptions.CmdCode)
+            {
+                commandResult.TransmitToClients = false;
+                IDictionary<string, string> cmdArgs = command.GetCmdDataArgs();
+                string cmd = cmdArgs.GetValueAsString("cmd");
+
+                if (cmd == CalculationTask.CommandName)
+                {
+                    if (calcTask == null)
+                    {
+                        calcTask = new CalculationTask
+                        {
+                            StartDT = cmdArgs.GetValueAsDateTime("startDT", DateTimeKind.Utc),
+                            EndDT = cmdArgs.GetValueAsDateTime("endDT", DateTimeKind.Utc)
+                        };
+                    }
+                    else
+                    {
+                        moduleLog.WriteError(Locale.IsRussian ?
+                            "Расчётная задача уже в процессе выполнения" :
+                            "Calculation task is already in progress");
+                    }
+                }
+                else
+                {
+                    moduleLog.WriteError(Locale.IsRussian ?
+                        "Неизвестная команда модуля" :
+                        "Unknown module command");
+                }
+            }
         }
     }
 }
