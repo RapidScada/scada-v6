@@ -19,6 +19,9 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
     /// Represents a configuration of a calculated item.
     /// <para>Представляет конфигурацию вычисляемого элемента.</para>
     /// </summary>
+    /// <remarks>
+    /// An implementation of INotifyPropertyChanged is required to update a tree node text when an item changes.
+    /// </remarks>
     [Serializable]
     internal class ItemConfig : ITreeNode, IConfigDatasetAccessor, NCM.INotifyPropertyChanged
     {
