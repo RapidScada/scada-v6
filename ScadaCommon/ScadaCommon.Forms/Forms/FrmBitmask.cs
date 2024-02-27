@@ -50,7 +50,7 @@ namespace Scada.Forms.Forms
         }
 
 
-        private void FrmBitMask_Load(object sender, EventArgs e)
+        private void FrmBitmask_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
             FormTranslator.Translate(ctrlBitmask, ctrlBitmask.GetType().FullName);

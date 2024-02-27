@@ -5,6 +5,7 @@
 
 using Scada.ComponentModel;
 using Scada.Data.Models;
+using Scada.Data.Tables;
 using Scada.Forms.Forms;
 using System.ComponentModel;
 using System.Drawing.Design;
@@ -13,26 +14,27 @@ using System.Windows.Forms.Design;
 namespace Scada.Forms.ComponentModel
 {
     /// <summary>
-    /// Represents a channel number editor for PropertyGrid.
-    /// <para>Представляет редактор номера канала для PropertyGrid.</para>
+    /// Represents an entity ID editor for PropertyGrid.
+    /// <para>Представляет редактор идентификатора сущности для PropertyGrid.</para>
     /// </summary>
-    public class CnlNumEditor : UITypeEditor
+    public class EntityIdEditor<T> : UITypeEditor
     {
         public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
         {
             if (context?.Instance is IConfigDatasetAccessor configDatasetAccessor &&
                 configDatasetAccessor.ConfigDataset is ConfigDataset configDataset &&
+                configDataset.AllTables.FirstOrDefault(t => t.ItemType == typeof(T)) is IBaseTable baseTable &&
                 provider?.GetService(typeof(IWindowsFormsEditorService)) is IWindowsFormsEditorService editorService &&
-                value is int cnlNum)
+                value is int id)
             {
-                FrmCnlSelect form = new(configDataset)
+                FrmEntitySelect form = new(baseTable)
                 {
                     MultiSelect = false,
-                    SelectedCnlNum = cnlNum
+                    SelectedID = id
                 };
 
                 if (editorService.ShowDialog(form) == DialogResult.OK)
-                    return form.SelectedCnlNum;
+                    return form.SelectedID;
             }
 
             return value;

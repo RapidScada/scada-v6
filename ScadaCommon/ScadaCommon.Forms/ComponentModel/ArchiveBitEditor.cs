@@ -13,26 +13,26 @@ using System.Windows.Forms.Design;
 namespace Scada.Forms.ComponentModel
 {
     /// <summary>
-    /// Represents a channel number editor for PropertyGrid.
-    /// <para>Представляет редактор номера канала для PropertyGrid.</para>
+    /// Represents an archive bit editor for PropertyGrid.
+    /// <para>Представляет редактор бита архива для PropertyGrid.</para>
     /// </summary>
-    public class CnlNumEditor : UITypeEditor
+    public class ArchiveBitEditor : UITypeEditor
     {
         public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
         {
             if (context?.Instance is IConfigDatasetAccessor configDatasetAccessor &&
                 configDatasetAccessor.ConfigDataset is ConfigDataset configDataset &&
                 provider?.GetService(typeof(IWindowsFormsEditorService)) is IWindowsFormsEditorService editorService &&
-                value is int cnlNum)
+                value is int bit)
             {
-                FrmCnlSelect form = new(configDataset)
+                FrmBitSelect form = new()
                 {
-                    MultiSelect = false,
-                    SelectedCnlNum = cnlNum
+                    SelectedBit = bit,
+                    Bits = BitItemCollection.Create(configDataset.ArchiveTable)
                 };
 
                 if (editorService.ShowDialog(form) == DialogResult.OK)
-                    return form.SelectedCnlNum;
+                    return form.SelectedBit;
             }
 
             return value;

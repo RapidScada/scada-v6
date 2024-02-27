@@ -80,7 +80,7 @@ namespace Scada.Forms.Forms
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;
             Text = "Bit Mask";
-            Load += FrmBitMask_Load;
+            Load += FrmBitmask_Load;
             ResumeLayout(false);
         }
 
