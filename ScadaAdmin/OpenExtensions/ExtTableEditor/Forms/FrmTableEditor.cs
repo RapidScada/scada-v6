@@ -347,8 +347,8 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
 
         private void FrmTableEditor_Load(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this, GetType().FullName, 
-                new FormTranslatorOptions { ContextMenus = new ContextMenuStrip[] { cmsDevice } });
+            FormTranslator.Translate(this, GetType().FullName,
+                new FormTranslatorOptions { ContextMenus = [cmsDevice] });
             ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
             Text = Path.GetFileName(fileName);
 
