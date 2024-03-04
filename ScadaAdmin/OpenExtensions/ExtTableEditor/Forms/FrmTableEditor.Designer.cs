@@ -28,299 +28,288 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.pnlLeft = new System.Windows.Forms.Panel();
-            this.treeView = new System.Windows.Forms.TreeView();
-            this.ilTree = new System.Windows.Forms.ImageList(this.components);
-            this.lblHint = new System.Windows.Forms.Label();
-            this.splVert = new System.Windows.Forms.Splitter();
-            this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.colCnlNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDeviceNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colAutoText = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.colText = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colHidden = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.bindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.toolStrip = new System.Windows.Forms.ToolStrip();
-            this.btnRefreshBase = new System.Windows.Forms.ToolStripButton();
-            this.btnAddItem = new System.Windows.Forms.ToolStripButton();
-            this.btnAddEmptyItem = new System.Windows.Forms.ToolStripButton();
-            this.btnMoveUpItem = new System.Windows.Forms.ToolStripButton();
-            this.btnMoveDownItem = new System.Windows.Forms.ToolStripButton();
-            this.btnDeleteItem = new System.Windows.Forms.ToolStripButton();
-            this.cmsDevice = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.miDeviceAddDevice = new System.Windows.Forms.ToolStripMenuItem();
-            this.miDeviceAddAllChannels = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnTableOptions = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.pnlLeft.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource)).BeginInit();
-            this.toolStrip.SuspendLayout();
-            this.cmsDevice.SuspendLayout();
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            pnlLeft = new Panel();
+            treeView = new TreeView();
+            ilTree = new ImageList(components);
+            lblHint = new Label();
+            splVert = new Splitter();
+            dataGridView = new DataGridView();
+            colCnlNum = new DataGridViewTextBoxColumn();
+            colDeviceNum = new DataGridViewTextBoxColumn();
+            colAutoText = new DataGridViewCheckBoxColumn();
+            colText = new DataGridViewTextBoxColumn();
+            colHidden = new DataGridViewCheckBoxColumn();
+            bindingSource = new BindingSource(components);
+            toolStrip = new ToolStrip();
+            btnRefreshBase = new ToolStripButton();
+            btnAddItem = new ToolStripButton();
+            btnAddEmptyItem = new ToolStripButton();
+            btnMoveUpItem = new ToolStripButton();
+            btnMoveDownItem = new ToolStripButton();
+            btnDeleteItem = new ToolStripButton();
+            toolStripSeparator1 = new ToolStripSeparator();
+            btnTableOptions = new ToolStripButton();
+            cmsDevice = new ContextMenuStrip(components);
+            miDeviceAddDevice = new ToolStripMenuItem();
+            miDeviceAddAllChannels = new ToolStripMenuItem();
+            pnlLeft.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)bindingSource).BeginInit();
+            toolStrip.SuspendLayout();
+            cmsDevice.SuspendLayout();
+            SuspendLayout();
             // 
             // pnlLeft
             // 
-            this.pnlLeft.Controls.Add(this.treeView);
-            this.pnlLeft.Controls.Add(this.lblHint);
-            this.pnlLeft.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pnlLeft.Location = new System.Drawing.Point(0, 25);
-            this.pnlLeft.Name = "pnlLeft";
-            this.pnlLeft.Size = new System.Drawing.Size(300, 436);
-            this.pnlLeft.TabIndex = 1;
+            pnlLeft.Controls.Add(treeView);
+            pnlLeft.Controls.Add(lblHint);
+            pnlLeft.Dock = DockStyle.Left;
+            pnlLeft.Location = new Point(0, 25);
+            pnlLeft.Name = "pnlLeft";
+            pnlLeft.Size = new Size(300, 436);
+            pnlLeft.TabIndex = 1;
             // 
             // treeView
             // 
-            this.treeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView.ImageIndex = 0;
-            this.treeView.ImageList = this.ilTree;
-            this.treeView.Location = new System.Drawing.Point(0, 0);
-            this.treeView.Name = "treeView";
-            this.treeView.SelectedImageIndex = 0;
-            this.treeView.Size = new System.Drawing.Size(300, 376);
-            this.treeView.TabIndex = 0;
-            this.treeView.BeforeCollapse += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeView_BeforeCollapse);
-            this.treeView.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeView_BeforeExpand);
-            this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
-            this.treeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_NodeMouseClick);
-            this.treeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_NodeMouseDoubleClick);
-            this.treeView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeView_KeyDown);
-            this.treeView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeView_MouseDown);
+            treeView.Dock = DockStyle.Fill;
+            treeView.ImageIndex = 0;
+            treeView.ImageList = ilTree;
+            treeView.Location = new Point(0, 0);
+            treeView.Name = "treeView";
+            treeView.SelectedImageIndex = 0;
+            treeView.Size = new Size(300, 376);
+            treeView.TabIndex = 0;
+            treeView.BeforeCollapse += treeView_BeforeCollapse;
+            treeView.BeforeExpand += treeView_BeforeExpand;
+            treeView.AfterSelect += treeView_AfterSelect;
+            treeView.NodeMouseClick += treeView_NodeMouseClick;
+            treeView.NodeMouseDoubleClick += treeView_NodeMouseDoubleClick;
+            treeView.KeyDown += treeView_KeyDown;
+            treeView.MouseDown += treeView_MouseDown;
             // 
             // ilTree
             // 
-            this.ilTree.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-            this.ilTree.ImageSize = new System.Drawing.Size(16, 16);
-            this.ilTree.TransparentColor = System.Drawing.Color.Transparent;
+            ilTree.ColorDepth = ColorDepth.Depth32Bit;
+            ilTree.ImageSize = new Size(16, 16);
+            ilTree.TransparentColor = Color.Transparent;
             // 
             // lblHint
             // 
-            this.lblHint.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblHint.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lblHint.Location = new System.Drawing.Point(0, 376);
-            this.lblHint.Name = "lblHint";
-            this.lblHint.Padding = new System.Windows.Forms.Padding(3);
-            this.lblHint.Size = new System.Drawing.Size(300, 60);
-            this.lblHint.TabIndex = 1;
-            this.lblHint.Text = "Press Enter or double-click a node to add it to the table. Right-click a device n" +
-    "ode to display the context menu.";
+            lblHint.BorderStyle = BorderStyle.FixedSingle;
+            lblHint.Dock = DockStyle.Bottom;
+            lblHint.Location = new Point(0, 376);
+            lblHint.Name = "lblHint";
+            lblHint.Padding = new Padding(3);
+            lblHint.Size = new Size(300, 60);
+            lblHint.TabIndex = 1;
+            lblHint.Text = "Press Enter or double-click a node to add it to the table. Right-click a device node to display the context menu.";
             // 
             // splVert
             // 
-            this.splVert.Location = new System.Drawing.Point(300, 25);
-            this.splVert.MinExtra = 100;
-            this.splVert.MinSize = 100;
-            this.splVert.Name = "splVert";
-            this.splVert.Size = new System.Drawing.Size(3, 436);
-            this.splVert.TabIndex = 2;
-            this.splVert.TabStop = false;
+            splVert.Location = new Point(300, 25);
+            splVert.MinExtra = 100;
+            splVert.MinSize = 100;
+            splVert.Name = "splVert";
+            splVert.Size = new Size(3, 436);
+            splVert.TabIndex = 2;
+            splVert.TabStop = false;
             // 
             // dataGridView
             // 
-            this.dataGridView.AutoGenerateColumns = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colCnlNum,
-            this.colDeviceNum,
-            this.colAutoText,
-            this.colText,
-            this.colHidden});
-            this.dataGridView.DataSource = this.bindingSource;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridView.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView.Location = new System.Drawing.Point(303, 25);
-            this.dataGridView.Name = "dataGridView";
-            this.dataGridView.ShowCellToolTips = false;
-            this.dataGridView.Size = new System.Drawing.Size(431, 436);
-            this.dataGridView.TabIndex = 3;
-            this.dataGridView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView_CellFormatting);
-            this.dataGridView.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dataGridView_CellValidating);
-            this.dataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellValueChanged);
-            this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
-            this.dataGridView.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dataGridView_UserDeletedRow);
+            dataGridView.AutoGenerateColumns = false;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView.Columns.AddRange(new DataGridViewColumn[] { colCnlNum, colDeviceNum, colAutoText, colText, colHidden });
+            dataGridView.DataSource = bindingSource;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = SystemColors.Window;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            dataGridView.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridView.Dock = DockStyle.Fill;
+            dataGridView.Location = new Point(303, 25);
+            dataGridView.Name = "dataGridView";
+            dataGridView.ShowCellToolTips = false;
+            dataGridView.Size = new Size(431, 436);
+            dataGridView.TabIndex = 3;
+            dataGridView.CellFormatting += dataGridView_CellFormatting;
+            dataGridView.CellValidating += dataGridView_CellValidating;
+            dataGridView.CellValueChanged += dataGridView_CellValueChanged;
+            dataGridView.SelectionChanged += dataGridView_SelectionChanged;
+            dataGridView.UserDeletedRow += dataGridView_UserDeletedRow;
             // 
             // colCnlNum
             // 
-            this.colCnlNum.DataPropertyName = "CnlNum";
-            this.colCnlNum.HeaderText = "Channel";
-            this.colCnlNum.Name = "colCnlNum";
-            this.colCnlNum.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            colCnlNum.DataPropertyName = "CnlNum";
+            colCnlNum.HeaderText = "Channel";
+            colCnlNum.Name = "colCnlNum";
+            colCnlNum.SortMode = DataGridViewColumnSortMode.NotSortable;
             // 
             // colDeviceNum
             // 
-            this.colDeviceNum.DataPropertyName = "DeviceNum";
-            this.colDeviceNum.HeaderText = "Device";
-            this.colDeviceNum.Name = "colDeviceNum";
-            this.colDeviceNum.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            colDeviceNum.DataPropertyName = "DeviceNum";
+            colDeviceNum.HeaderText = "Device";
+            colDeviceNum.Name = "colDeviceNum";
+            colDeviceNum.SortMode = DataGridViewColumnSortMode.NotSortable;
             // 
             // colAutoText
             // 
-            this.colAutoText.DataPropertyName = "AutoText";
-            this.colAutoText.HeaderText = "Auto Text";
-            this.colAutoText.Name = "colAutoText";
+            colAutoText.DataPropertyName = "AutoText";
+            colAutoText.HeaderText = "Auto Text";
+            colAutoText.Name = "colAutoText";
             // 
             // colText
             // 
-            this.colText.DataPropertyName = "Text";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.colText.DefaultCellStyle = dataGridViewCellStyle3;
-            this.colText.HeaderText = "Text";
-            this.colText.Name = "colText";
-            this.colText.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.colText.Width = 300;
+            colText.DataPropertyName = "Text";
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            colText.DefaultCellStyle = dataGridViewCellStyle2;
+            colText.HeaderText = "Text";
+            colText.Name = "colText";
+            colText.SortMode = DataGridViewColumnSortMode.NotSortable;
+            colText.Width = 300;
             // 
             // colHidden
             // 
-            this.colHidden.DataPropertyName = "Hidden";
-            this.colHidden.HeaderText = "Hidden";
-            this.colHidden.Name = "colHidden";
+            colHidden.DataPropertyName = "Hidden";
+            colHidden.HeaderText = "Hidden";
+            colHidden.Name = "colHidden";
             // 
             // bindingSource
             // 
-            this.bindingSource.AllowNew = false;
+            bindingSource.AllowNew = false;
             // 
             // toolStrip
             // 
-            this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnRefreshBase,
-            this.btnAddItem,
-            this.btnAddEmptyItem,
-            this.btnMoveUpItem,
-            this.btnMoveDownItem,
-            this.btnDeleteItem,
-            this.toolStripSeparator1,
-            this.btnTableOptions});
-            this.toolStrip.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(734, 25);
-            this.toolStrip.TabIndex = 0;
+            toolStrip.Items.AddRange(new ToolStripItem[] { btnRefreshBase, btnAddItem, btnAddEmptyItem, btnMoveUpItem, btnMoveDownItem, btnDeleteItem, toolStripSeparator1, btnTableOptions });
+            toolStrip.Location = new Point(0, 0);
+            toolStrip.Name = "toolStrip";
+            toolStrip.Size = new Size(734, 25);
+            toolStrip.TabIndex = 0;
             // 
             // btnRefreshBase
             // 
-            this.btnRefreshBase.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnRefreshBase.Image = global::Scada.Admin.Extensions.ExtTableEditor.Properties.Resources.refresh;
-            this.btnRefreshBase.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnRefreshBase.Name = "btnRefreshBase";
-            this.btnRefreshBase.Size = new System.Drawing.Size(23, 22);
-            this.btnRefreshBase.ToolTipText = "Refresh Configuration Database";
-            this.btnRefreshBase.Click += new System.EventHandler(this.btnRefreshBase_Click);
+            btnRefreshBase.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            btnRefreshBase.Image = Properties.Resources.refresh;
+            btnRefreshBase.ImageTransparentColor = Color.Magenta;
+            btnRefreshBase.Name = "btnRefreshBase";
+            btnRefreshBase.Size = new Size(23, 22);
+            btnRefreshBase.ToolTipText = "Refresh Configuration Database";
+            btnRefreshBase.Click += btnRefreshBase_Click;
             // 
             // btnAddItem
             // 
-            this.btnAddItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnAddItem.Image = global::Scada.Admin.Extensions.ExtTableEditor.Properties.Resources.add;
-            this.btnAddItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnAddItem.Name = "btnAddItem";
-            this.btnAddItem.Size = new System.Drawing.Size(23, 22);
-            this.btnAddItem.ToolTipText = "Add Item";
-            this.btnAddItem.Click += new System.EventHandler(this.btnAddItem_Click);
+            btnAddItem.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            btnAddItem.Image = Properties.Resources.add;
+            btnAddItem.ImageTransparentColor = Color.Magenta;
+            btnAddItem.Name = "btnAddItem";
+            btnAddItem.Size = new Size(23, 22);
+            btnAddItem.ToolTipText = "Add Item";
+            btnAddItem.Click += btnAddItem_Click;
             // 
             // btnAddEmptyItem
             // 
-            this.btnAddEmptyItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnAddEmptyItem.Image = global::Scada.Admin.Extensions.ExtTableEditor.Properties.Resources.add_empty;
-            this.btnAddEmptyItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnAddEmptyItem.Name = "btnAddEmptyItem";
-            this.btnAddEmptyItem.Size = new System.Drawing.Size(23, 22);
-            this.btnAddEmptyItem.ToolTipText = "Add Empty Item";
-            this.btnAddEmptyItem.Click += new System.EventHandler(this.btnAddEmptyItem_Click);
+            btnAddEmptyItem.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            btnAddEmptyItem.Image = Properties.Resources.add_empty;
+            btnAddEmptyItem.ImageTransparentColor = Color.Magenta;
+            btnAddEmptyItem.Name = "btnAddEmptyItem";
+            btnAddEmptyItem.Size = new Size(23, 22);
+            btnAddEmptyItem.ToolTipText = "Add Empty Item";
+            btnAddEmptyItem.Click += btnAddEmptyItem_Click;
             // 
             // btnMoveUpItem
             // 
-            this.btnMoveUpItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnMoveUpItem.Image = global::Scada.Admin.Extensions.ExtTableEditor.Properties.Resources.move_up;
-            this.btnMoveUpItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnMoveUpItem.Name = "btnMoveUpItem";
-            this.btnMoveUpItem.Size = new System.Drawing.Size(23, 22);
-            this.btnMoveUpItem.ToolTipText = "Move Item Up";
-            this.btnMoveUpItem.Click += new System.EventHandler(this.btnMoveUpDownItem_Click);
+            btnMoveUpItem.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            btnMoveUpItem.Image = Properties.Resources.move_up;
+            btnMoveUpItem.ImageTransparentColor = Color.Magenta;
+            btnMoveUpItem.Name = "btnMoveUpItem";
+            btnMoveUpItem.Size = new Size(23, 22);
+            btnMoveUpItem.ToolTipText = "Move Item Up";
+            btnMoveUpItem.Click += btnMoveUpDownItem_Click;
             // 
             // btnMoveDownItem
             // 
-            this.btnMoveDownItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnMoveDownItem.Image = global::Scada.Admin.Extensions.ExtTableEditor.Properties.Resources.move_down;
-            this.btnMoveDownItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnMoveDownItem.Name = "btnMoveDownItem";
-            this.btnMoveDownItem.Size = new System.Drawing.Size(23, 22);
-            this.btnMoveDownItem.ToolTipText = "Move Item Down";
-            this.btnMoveDownItem.Click += new System.EventHandler(this.btnMoveUpDownItem_Click);
+            btnMoveDownItem.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            btnMoveDownItem.Image = Properties.Resources.move_down;
+            btnMoveDownItem.ImageTransparentColor = Color.Magenta;
+            btnMoveDownItem.Name = "btnMoveDownItem";
+            btnMoveDownItem.Size = new Size(23, 22);
+            btnMoveDownItem.ToolTipText = "Move Item Down";
+            btnMoveDownItem.Click += btnMoveUpDownItem_Click;
             // 
             // btnDeleteItem
             // 
-            this.btnDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnDeleteItem.Image = global::Scada.Admin.Extensions.ExtTableEditor.Properties.Resources.delete;
-            this.btnDeleteItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnDeleteItem.Name = "btnDeleteItem";
-            this.btnDeleteItem.Size = new System.Drawing.Size(23, 22);
-            this.btnDeleteItem.ToolTipText = "Delete Selected Items";
-            this.btnDeleteItem.Click += new System.EventHandler(this.btnDeleteItem_Click);
-            // 
-            // cmsDevice
-            // 
-            this.cmsDevice.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miDeviceAddDevice,
-            this.miDeviceAddAllChannels});
-            this.cmsDevice.Name = "cmsDevice";
-            this.cmsDevice.Size = new System.Drawing.Size(166, 48);
-            this.cmsDevice.Opening += new System.ComponentModel.CancelEventHandler(this.cmsDevice_Opening);
-            // 
-            // miDeviceAddDevice
-            // 
-            this.miDeviceAddDevice.Name = "miDeviceAddDevice";
-            this.miDeviceAddDevice.Size = new System.Drawing.Size(165, 22);
-            this.miDeviceAddDevice.Text = "Add Device";
-            this.miDeviceAddDevice.Click += new System.EventHandler(this.miDeviceAddDevice_Click);
-            // 
-            // miDeviceAddAllChannels
-            // 
-            this.miDeviceAddAllChannels.Name = "miDeviceAddAllChannels";
-            this.miDeviceAddAllChannels.Size = new System.Drawing.Size(165, 22);
-            this.miDeviceAddAllChannels.Text = "Add All Channels";
-            this.miDeviceAddAllChannels.Click += new System.EventHandler(this.miDeviceAddAllChannels_Click);
-            // 
-            // btnTableOptions
-            // 
-            this.btnTableOptions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnTableOptions.Image = global::Scada.Admin.Extensions.ExtTableEditor.Properties.Resources.options;
-            this.btnTableOptions.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnTableOptions.Name = "btnTableOptions";
-            this.btnTableOptions.Size = new System.Drawing.Size(23, 22);
-            this.btnTableOptions.ToolTipText = "Table View Options";
-            this.btnTableOptions.Click += new System.EventHandler(this.btnTableOptions_Click);
+            btnDeleteItem.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            btnDeleteItem.Image = Properties.Resources.delete;
+            btnDeleteItem.ImageTransparentColor = Color.Magenta;
+            btnDeleteItem.Name = "btnDeleteItem";
+            btnDeleteItem.Size = new Size(23, 22);
+            btnDeleteItem.ToolTipText = "Delete Selected Items";
+            btnDeleteItem.Click += btnDeleteItem_Click;
             // 
             // toolStripSeparator1
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new Size(6, 25);
+            // 
+            // btnTableOptions
+            // 
+            btnTableOptions.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            btnTableOptions.Image = Properties.Resources.options;
+            btnTableOptions.ImageTransparentColor = Color.Magenta;
+            btnTableOptions.Name = "btnTableOptions";
+            btnTableOptions.Size = new Size(23, 22);
+            btnTableOptions.ToolTipText = "Table View Options";
+            btnTableOptions.Click += btnTableOptions_Click;
+            // 
+            // cmsDevice
+            // 
+            cmsDevice.Items.AddRange(new ToolStripItem[] { miDeviceAddDevice, miDeviceAddAllChannels });
+            cmsDevice.Name = "cmsDevice";
+            cmsDevice.Size = new Size(166, 48);
+            cmsDevice.Opening += cmsDevice_Opening;
+            // 
+            // miDeviceAddDevice
+            // 
+            miDeviceAddDevice.Name = "miDeviceAddDevice";
+            miDeviceAddDevice.Size = new Size(165, 22);
+            miDeviceAddDevice.Text = "Add Device";
+            miDeviceAddDevice.Click += miDeviceAddDevice_Click;
+            // 
+            // miDeviceAddAllChannels
+            // 
+            miDeviceAddAllChannels.Name = "miDeviceAddAllChannels";
+            miDeviceAddAllChannels.Size = new Size(165, 22);
+            miDeviceAddAllChannels.Text = "Add All Channels";
+            miDeviceAddAllChannels.Click += miDeviceAddAllChannels_Click;
             // 
             // FrmTableEditor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(734, 461);
-            this.Controls.Add(this.dataGridView);
-            this.Controls.Add(this.splVert);
-            this.Controls.Add(this.pnlLeft);
-            this.Controls.Add(this.toolStrip);
-            this.Name = "FrmTableEditor";
-            this.Text = "Table Editor";
-            this.Load += new System.EventHandler(this.FrmTableEditor_Load);
-            this.pnlLeft.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource)).EndInit();
-            this.toolStrip.ResumeLayout(false);
-            this.toolStrip.PerformLayout();
-            this.cmsDevice.ResumeLayout(false);
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(734, 461);
+            Controls.Add(dataGridView);
+            Controls.Add(splVert);
+            Controls.Add(pnlLeft);
+            Controls.Add(toolStrip);
+            Name = "FrmTableEditor";
+            Text = "Table Editor";
+            Load += FrmTableEditor_Load;
+            pnlLeft.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
+            ((System.ComponentModel.ISupportInitialize)bindingSource).EndInit();
+            toolStrip.ResumeLayout(false);
+            toolStrip.PerformLayout();
+            cmsDevice.ResumeLayout(false);
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
