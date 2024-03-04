@@ -214,7 +214,7 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
                 {
                     textBox.Text = "0"; // replace empty value to 0
                 }
-                else if (!(int.TryParse(cellVal, out int intVal) && 0 <= intVal && intVal <= ushort.MaxValue))
+                else if (!(int.TryParse(cellVal, out int intVal) && 0 <= intVal && intVal <= ConfigDatabase.MaxID))
                 {
                     errMsg = string.Format(CommonPhrases.IntegerInRangeRequired, 0, ConfigDatabase.MaxID);
                 }
