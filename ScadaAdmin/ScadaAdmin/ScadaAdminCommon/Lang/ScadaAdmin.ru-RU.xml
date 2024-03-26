@@ -53,7 +53,7 @@
     <Phrase key="BackColor">Цвет фона</Phrase>
     <Phrase key="BackColorButton">Выбрать цвет</Phrase>
     <Phrase key="Severity">Серьезность</Phrase>
-    <Phrase key="AckRequired">Подтверждение</Phrase>
+    <Phrase key="AckRequired">Квитирование</Phrase>
     <Phrase key="Descr">Описание</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.CnlTypeTable">

@@ -33,6 +33,7 @@
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlHistDataExport">
     <Phrase key="gbOptions">Historical Data Export Options</Phrase>
     <Phrase key="chkIncludeCalculated">Include calculated channels</Phrase>
+    <Phrase key="lblExportCalculatedDelay">Delay before export, sec</Phrase>
     <Phrase key="lblHistArchiveBit">Bit of historical archive</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDbExport.View.Controls.CtrlQuery">

@@ -63,9 +63,9 @@ double GetByte(double val, int n)
     <Name>Channel data</Name>
     <Source>// Returns channel data relative to the current channel.
 // Возвращает данные канала относительно текущего канала.
-public CnlData DataRel(int cnlNumOffset)
+public CnlData DataRel(int offset)
 {
-  return Data(CnlNum + cnlNumOffset);
+  return Data(CnlNum + offset);
 }
 
 // Sets the current channel data according to the command value.
@@ -154,8 +154,8 @@ public string DecodeUnicode(double val)
     return Encoding.Unicode.GetString(buf).TrimEnd((char)0);
 }
 
-// Extracts a substring with bounds checking.
-// Извлекает подстроку с проверкой границ.
+// Extracts a substring from the string with bounds checking.
+// Извлекает подстроку из строки с проверкой границ.
 public string Substring(string s, int startIndex, int length)
 {
     if (string.IsNullOrEmpty(s))
@@ -291,14 +291,26 @@ public CnlData EveryHour(Func&lt;double&gt; getValFunc)
   <Script>
     <ScriptID>7</ScriptID>
     <Name>Counters</Name>
-    <Source>// Counts a pulse of the specified channel.
-// Подсчитывает импульс заданного канала.
+    <Source>// The previous channel data used by the counters.
+// Предыдущие данные каналов, используемые счётчиками.
+protected Dictionary&lt;int, CnlData&gt; CounterPrevData = new Dictionary&lt;int, CnlData&gt;();
+
+// Counts a pulse of the specified channel.
+// Считает импульс указанного канала.
 public double CountPulse(int cnlNum)
 {
+    int cntrCnlNum = CnlNum; // channel of the formula
+    double cntrVal = Val();
     CnlData cnlData = Data(cnlNum);
-    CnlData prevCnlData = PrevData(cnlNum);
-    return cnlData.IsDefined &amp;&amp; prevCnlData.IsDefined &amp;&amp; cnlData.Val &gt; 0 &amp;&amp; prevCnlData.Val &lt;= 0 ? 
-        Val() + 1 : Val();
+
+    if (CounterPrevData.TryGetValue(cntrCnlNum, out CnlData prevCnlData) &amp;&amp;
+        cnlData.IsDefined &amp;&amp; prevCnlData.IsDefined &amp;&amp; cnlData.Val &gt; 0 &amp;&amp; prevCnlData.Val &lt;= 0)
+    {
+        cntrVal++;
+    }
+
+    CounterPrevData[cntrCnlNum] = cnlData;
+    return cntrVal;
 }
 </Source>
   </Script>

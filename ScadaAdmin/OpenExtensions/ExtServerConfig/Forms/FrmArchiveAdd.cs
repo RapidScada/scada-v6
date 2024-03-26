@@ -98,7 +98,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             {
                 ArchiveConfig.Code = archive.Code;
                 ArchiveConfig.Name = archive.Name;
-                ArchiveConfig.Kind = (Server.Archives.ArchiveKind)archive.ArchiveKindID;
+                ArchiveConfig.Kind = (Server.Archives.ArchiveKind)(archive.ArchiveKindID ?? 0);
             }
 
             DialogResult = DialogResult.OK;

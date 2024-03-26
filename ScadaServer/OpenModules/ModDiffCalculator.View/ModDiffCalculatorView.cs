@@ -71,6 +71,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.View
         /// </summary>
         public override bool ShowProperties()
         {
+            ModuleUtils.ConfigDataset = ConfigDataset;
             return new FrmModuleConfig(new ModuleConfigProvider(AppDirs.ConfigDir))
                 .ShowDialog() == DialogResult.OK;
         }

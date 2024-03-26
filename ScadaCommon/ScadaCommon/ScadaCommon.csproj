@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Scada</RootNamespace>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <Version>6.1.0</Version>
+    <Version>6.2.0</Version>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>

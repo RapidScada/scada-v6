@@ -24,6 +24,9 @@
     <Phrase key="PeriodType.DisplayName">Тип периода</Phrase>
     <Phrase key="PeriodType.Category">Поведение</Phrase>
     <Phrase key="PeriodType.Description">Тип периода расчёта.</Phrase>
+    <Phrase key="ArchiveBit.DisplayName">Бит архива</Phrase>
+    <Phrase key="ArchiveBit.Category">Данные</Phrase>
+    <Phrase key="ArchiveBit.Description">Номер бита архива для чтения и записи данных.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDiffCalculator.Config.ItemConfig">
     <Phrase key="DestCnlNum.DisplayName">Канал-назначение</Phrase>

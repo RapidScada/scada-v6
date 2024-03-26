@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
- * Modified : 2023
+ * Modified : 2024
  */
 
 using Microsoft.AspNetCore.Html;
@@ -54,10 +54,6 @@ namespace Scada.Web
         /// Formats date and time to use in JavaScript.
         /// </summary>
         public const string JsDateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffK";
-        /// <summary>
-        /// The application version.
-        /// </summary>
-        public static readonly string AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         /// <summary>
         /// Specifies how objects are converted to JSON.
         /// </summary>

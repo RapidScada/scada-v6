@@ -390,7 +390,7 @@ namespace Scada.Web.Code
         private static void PostprocessConfigDatabase(ConfigDatabase configDatabase)
         {
             // duplicate channels for arrays and strings
-            List<Cnl> duplicatedCnls = new();
+            List<Cnl> duplicatedCnls = [];
 
             foreach (Cnl cnl in configDatabase.CnlTable.Enumerate())
             {
@@ -544,7 +544,7 @@ namespace Scada.Web.Code
             Log.WriteBreak();
             Log.WriteAction(Locale.IsRussian ?
                 "Вебстанция {0} запущена" :
-                "Webstation {0} started", WebUtils.AppVersion);
+                "Webstation {0} started", AppUtils.AppVersion);
 
             assemblyResolver = new AssemblyResolver(AppDirs.GetProbingDirs());
             LocalizeApp();

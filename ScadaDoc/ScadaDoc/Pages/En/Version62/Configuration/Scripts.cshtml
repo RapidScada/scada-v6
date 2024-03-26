@@ -1,0 +1,461 @@
+﻿@page "/en/latest/configuration/scripts"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Scripts and Formulas";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#script-rules">Script Creation Rules</a></li>
+        <li><a href="#available-variables">Available Variables</a></li>
+        <li><a href="#available-functions">Available Functions</a></li>
+        <li><a href="#template-functions">Functions from Project Template</a></li>
+        <li><a href="#debugging">Debugging Scripts</a></li>
+        <li><a href="#examples">Examples of Formulas</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Scripts and Formulas</h1>
+    <p>The Server application has a built-in engine for executing user scripts. Scripts are used to calculate channel values and statuses, as well as to calculate command values.</p>
+    <p>Scripts are written to the <strong>Scripts</strong> table of the configuration database. A project created using a template already contains an initial set of scripts, which can be used as examples for developing your own scripts. Variables and functions implemented in the <strong>Scripts</strong> table are then called in the <strong>Input Formula</strong> and <strong>Output Formula</strong> columns of the <strong>Channels</strong> table. To perform formula calculations for a channel, select the checkbox in the <strong>Formula Enabled</strong> column.</p>
+
+    <h2 id="script-rules">Script Creation Rules</h2>
+    <p>General rules for writing and using scripts:</p>
+    <ol>
+        <li>Scripts are written according to the <a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/" target="_blank">syntax of C# language</a>. Various .NET framework classes are available, such as Math, DateTime, and File.</li>
+        <li>New constants, fields, properties, and methods are added to the <stromg>Scripts</stromg> table and become available in channel formulas.</li>
+        <li>If at least one script or formula contains an error, Server operation is impossible. Information about errors in scripts is written in the Server application log.</li>
+    </ol>
+
+    <p>Rules for calculating channel formulas:</p>
+    <ol>
+        <li>An input formula for channels of the <em>Input</em> and <em>Input/Output</em> types is calculated only when Server receives new data for that channels. Use the mentioned types of channels if the data comes from devices.</li>
+        <li>An input formula for channels of the <em>Calculated</em> and <em>Calculated/Output</em> types is calculated continuously at each iteration of the main Server loop. The calculation sequence is from smaller to larger channel numbers. Calculated channel types are used if the value and status of a channel are calculated based on data of other channels.</li>
+        <li>An output formula for channels of the <em>Input/Output</em>, <em>Calculated/Output</em> and <em>Output</em> types is calculated when a command is sent to the corresponding channel.</li>
+        <li>A channel status after calculating an input formula for channels of the <em>Input</em> and <em>Input/Output</em> types is equal to the status of the data transferred to Server, if the status calculation is not explicitly specified in the formula.</li>
+        <li>For channels of the <em>Calculated</em> and <em>Calculated/Output</em> types, the status is set to <em>Defined</em> if the status calculation is not explicitly specified in the formula.</li>
+        <li>If an input formula contains the &quot;;&quot; symbol, it is split into two parts: the first part calculates the channel value, and the second part calculates the channel status.</li>
+        <li>If a channel has specified limits, the channel status is recalculated taking the limits into account after calculating the channel's input formula.</li>
+        <li>Formulas must return values of certain data types, described below.</li>
+    </ol>
+
+    <p>Channel input formulas return data of the following types:</p>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Data Type</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>double</td>
+                <td>Channel value</td>
+            </tr>
+            <tr>
+                <td>CnlData</td>
+                <td>Channel value and status</td>
+            </tr>
+            <tr>
+                <td>long</td>
+                <td>64-bit integer value of a channel whose data type is set to <em>Integer</em> in the <strong>Channels</strong> table</td>
+            </tr>
+            <tr>
+                <td>string</td>
+                <td>String value of a channel whose data type is set to <em>ASCII string</em> or <em>Unicode string</em> in the <strong>Channels</strong> table</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>If a channel's input formula returns a data type other than those listed in the table above, the value returned by the formula is cast to the appropriate type based on the data type of the channel. The part of the channel input formula that calculates the channel status must return an integer value of type <code>int</code>.</p>
+
+    <p>Channel output formulas return data of the following types:</p>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Data Type</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>double</td>
+                <td>Command value. To cancel a command, formula must return <code>double.NaN</code></td>
+            </tr>
+            <tr>
+                <td>CnlData</td>
+                <td>Command value. To cancel a command, formula must return <code>CnlData.Empty</code></td>
+            </tr>
+            <tr>
+                <td>byte[]</td>
+                <td>Binary command data. To cancel a command, formula must return <code>null</code></td>
+            </tr>
+            <tr>
+                <td>string</td>
+                <td>String command data. Converted by Server into a byte array</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2 id="available-variables">Available Variables</h2>
+    <p>The scripting engine provides the following built-in variables:</p>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Variable</th>
+                <th>Data Type</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Timestamp</td>
+                <td>DateTime</td>
+                <td>Timestamp of the processed data (UTC)</td>
+            </tr>
+            <tr>
+                <td>IsCurrent</td>
+                <td>bool</td>
+                <td>Processed data is current data</td>
+            </tr>
+            <tr>
+                <td>CnlNum</td>
+                <td>int</td>
+                <td>Channel number for which the formula is calculated</td>
+            </tr>
+            <tr>
+                <td>Channel</td>
+                <td>Cnl</td>
+                <td>Properties of the channel for which the formula is calculated</td>
+            </tr>
+            <tr>
+                <td>ArrIdx</td>
+                <td>int</td>
+                <td>Index of the processed array element</td>
+            </tr>
+            <tr>
+                <td>Cnl, CnlVal</td>
+                <td>double</td>
+                <td>Channel value transmitted to Server before the calculation</td>
+            </tr>
+            <tr>
+                <td>CnlStat</td>
+                <td>int</td>
+                <td>Channel status transmitted to Server before the calculation</td>
+            </tr>
+            <tr>
+                <td>CnlData</td>
+                <td>CnlData</td>
+                <td>Channel data transmitted to Server before the calculation</td>
+            </tr>
+            <tr>
+                <td>Cmd, CmdVal</td>
+                <td>double</td>
+                <td>Command value transmitted to Server before the calculation</td>
+            </tr>
+            <tr>
+                <td>CmdData</td>
+                <td>byte[]</td>
+                <td>Command data transmitted to Server</td>
+            </tr>
+            <tr>
+                <td>CmdDataStr</td>
+                <td>string</td>
+                <td>Command data as a string</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2 id="available-functions">Available Functions</h2>
+    <p>The scripting engine provides the following built-in functions:</p>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Function</th>
+                <th>Data Type</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>N(n)</td>
+                <td>int</td>
+                <td>Returns the channel number n. Used in channel cloning</td>
+            </tr>
+            <tr>
+                <td>Val()</td>
+                <td>double</td>
+                <td>Actual value of the formula channel</td>
+            </tr>
+            <tr>
+                <td>Val(n)</td>
+                <td>double</td>
+                <td>Actual value of the channel n</td>
+            </tr>
+            <tr>
+                <td>SetVal(n, val)</td>
+                <td>double</td>
+                <td>Sets the current value of the channel n</td>
+            </tr>
+            <tr>
+                <td>Stat()</td>
+                <td>int</td>
+                <td>Actual status of the formula channel</td>
+            </tr>
+            <tr>
+                <td>Stat(n)</td>
+                <td>int</td>
+                <td>Actual status of the channel n</td>
+            </tr>
+            <tr>
+                <td>SetStat(n, stat)</td>
+                <td>int</td>
+                <td>Sets the current status of the channel n</td>
+            </tr>
+            <tr>
+                <td>Data()</td>
+                <td>CnlData</td>
+                <td>Actual data of the formula channel</td>
+            </tr>
+            <tr>
+                <td>Data(n)</td>
+                <td>CnlData</td>
+                <td>Actual data of the channel n</td>
+            </tr>
+            <tr>
+                <td>SetData(n, val, stat)</td>
+                <td>double</td>
+                <td>Sets the current value and status of the channel n</td>
+            </tr>
+            <tr>
+                <td>SetData(n, cnlData)</td>
+                <td>double</td>
+                <td>Sets the current data of the channel n</td>
+            </tr>
+            <tr>
+                <td>NewData(val, stat)</td>
+                <td>CnlData</td>
+                <td>Creates a new channel data instance</td>
+            </tr>
+            <tr>
+                <td>PrevVal()</td>
+                <td>double</td>
+                <td>Previous value of the formula channel</td>
+            </tr>
+            <tr>
+                <td>PrevVal(n)</td>
+                <td>double</td>
+                <td>Previous value of the channel n</td>
+            </tr>
+            <tr>
+                <td>PrevStat()</td>
+                <td>int</td>
+                <td>Previous status of the formula channel</td>
+            </tr>
+            <tr>
+                <td>PrevStat(n)</td>
+                <td>int</td>
+                <td>Previous status of the channel n</td>
+            </tr>
+            <tr>
+                <td>PrevData()</td>
+                <td>CnlData</td>
+                <td>Previous data of the formula channel</td>
+            </tr>
+            <tr>
+                <td>PrevData(n)</td>
+                <td>CnlData</td>
+                <td>Previous data of the channel n</td>
+            </tr>
+            <tr>
+                <td>Time()</td>
+                <td>DateTime</td>
+                <td>Actual timestamp of the formula channel</td>
+            </tr>
+            <tr>
+                <td>Time(n)</td>
+                <td>DateTime</td>
+                <td>Actual timestamp of the channel n</td>
+            </tr>
+            <tr>
+                <td>PrevTime()</td>
+                <td>DateTime</td>
+                <td>Previous timestamp of the formula channel</td>
+            </tr>
+            <tr>
+                <td>PrevTime(n)</td>
+                <td>DateTime</td>
+                <td>Previous timestamp of the channel n</td>
+            </tr>
+            <tr>
+                <td>Deriv(n)</td>
+                <td>double</td>
+                <td>Time derivative of the channel n</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2 id="template-functions">Functions from Project Template</h2>
+    <p>In a project that was created based on a standard template, the <strong>Scripts</strong> table contains the following functions:</p>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Function</th>
+                <th>Data Type</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>GetBit(val, n)</td>
+                <td>double</td>
+                <td>Returns the n-th bit of the specified value</td>
+            </tr>
+            <tr>
+                <td>GetBit(cnlData, val)</td>
+                <td>CnlData</td>
+                <td>Returns a channel data consists of the n-th bit of the value and the channel status</td>
+            </tr>
+            <tr>
+                <td>SetBit(val, n, isOn)</td>
+                <td>double</td>
+                <td>Sets the n-th bit of the specified value</td>
+            </tr>
+            <tr>
+                <td>SetBit(cnlData, n, isOn)</td>
+                <td>CnlData</td>
+                <td>Sets the n-th bit of the channel value, keeping the channel status unchanged</td>
+            </tr>
+            <tr>
+                <td>GetByte(val, n)</td>
+                <td>double</td>
+                <td>Returns the n-th byte of the specified value</td>
+            </tr>
+            <tr>
+                <td>DataRel(offset)</td>
+                <td>CnlData</td>
+                <td>Channel data relative to the current channel</td>
+            </tr>
+            <tr>
+                <td>SetData()</td>
+                <td>double</td>
+                <td>Sets the current channel data according to the command value</td>
+            </tr>
+            <tr>
+                <td>Now()</td>
+                <td>double</td>
+                <td>The current date and time as a floating-point number. Uses the server time zone</td>
+            </tr>
+            <tr>
+                <td>UtcNow()</td>
+                <td>double</td>
+                <td>The current date and time as a floating-point number. Uses universal time zone (UTC)</td>
+            </tr>
+            <tr>
+                <td>UnixTime()</td>
+                <td>long</td>
+                <td>The current Unix time in seconds</td>
+            </tr>
+            <tr>
+                <td>EncodeDate(<wbr />dateTime)</td>
+                <td>double</td>
+                <td>Converts the specified date and time to a channel value of Double type</td>
+            </tr>
+            <tr>
+                <td>DecodeDate(val)</td>
+                <td>DateTime</td>
+                <td>Converts the channel value to a date and time</td>
+            </tr>
+            <tr>
+                <td>EncodeAscii(s)</td>
+                <td>double</td>
+                <td>Converts an ASCII string, up to 8 characters long, to a floating point number</td>
+            </tr>
+            <tr>
+                <td>EncodeUnicode(s)</td>
+                <td>double</td>
+                <td>Converts a Unicode string, up to 4 characters long, to a floating point number</td>
+            </tr>
+            <tr>
+                <td>DecodeAscii(val)</td>
+                <td>string</td>
+                <td>Converts the specified value to an ASCII string up to 8 characters long</td>
+            </tr>
+            <tr>
+                <td>DecodeUnicode(<wbr />val)</td>
+                <td>string</td>
+                <td>Converts the specified value to an Unicode string up to 4 characters long</td>
+            </tr>
+            <tr>
+                <td>Substring(s, startIndex, length)</td>
+                <td>string</td>
+                <td>Extracts a substring from the string with bounds checking</td>
+            </tr>
+            <tr>
+                <td>SplitAscii(<wbr />getStringFunc)</td>
+                <td>string</td>
+                <td>Splits an ASCII string to store by several channels</td>
+            </tr>
+            <tr>
+                <td>SplitUnicode(<wbr />getStringFunc)</td>
+                <td>string</td>
+                <td>Splits an Unicode string to store by several channels</td>
+            </tr>
+            <tr>
+                <td>EverySec(<wbr />getDataFunc)</td>
+                <td>CnlData</td>
+                <td>Executes the specified function every second</td>
+            </tr>
+            <tr>
+                <td>EveryMin(<wbr />getDataFunc)</td>
+                <td>CnlData</td>
+                <td>Executes the specified function every minute</td>
+            </tr>
+            <tr>
+                <td>EveryHour(<wbr />getDataFunc)</td>
+                <td>CnlData</td>
+                <td>Executes the specified function every hour</td>
+            </tr>
+            <tr>
+                <td>CountPulse(<wbr />cnlNum)</td>
+                <td>double</td>
+                <td>Counts a pulse of the specified channel</td>
+            </tr>
+            <tr>
+                <td>HourStarted()</td>
+                <td>bool</td>
+                <td>Indicates that a new hour has started. The result is true once for each channel</td>
+            </tr>
+            <tr>
+                <td>DayStarted()</td>
+                <td>bool</td>
+                <td>Indicates that a new day has started. The result is true once for each channel</td>
+            </tr>
+            <tr>
+                <td>MonthStarted()</td>
+                <td>bool</td>
+                <td>Indicates that a new month has started. The result is true once for each channel</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Additional scripts, including those for calculating averages, are available on <a href="https://github.com/RapidScada/scada-community/tree/master/Formulas" target="_blank">GitHub</a>.</p>
+
+    <h2 id="debugging">Debugging Scripts</h2>
+    <p>When developing your own scripts, follow the syntax rules and check that the scripts work correctly. If the Server service failed to compile scripts at startup, error information is displayed in the Server operation log <code>ScadaServer.log</code>, and the compiled source code is available in the <code>CalcEngine.cs</code> file, which is located in the Server log directory. To develop complex formulas, we recommend using Microsoft Visual Studio or Visual Studio Code.</p>
+
+    <h2 id="examples">Examples of Formulas</h2>
+    <p>Example 1: Linear transformation of a channel value received from a device. The formula is used for a channel of the <em>Input</em> type.</p>
+    <pre><code>10 * Cnl + 1</code></pre>
+
+    <p>Example 2: The sum of the values of channels 101 and 102. The status is extracted from channel 101. The formula is used for a channel of the <em>Calculated</em> type.</p>
+    <pre><code>Val(101) + Val(102); Stat(101)</code></pre>
+
+    <p>Example 3: The formula that is used for a channel of calculation type extracts the 0<sup>th</sup> bit from the data of channel 105.</p>
+    <pre><code>GetBit(Data(105), 0)</code></pre>
+
+    <p>Example 4: The formula increments the counter by one every minute, resetting the counter at the beginning of each hour.</p>
+    <pre><code>EveryMin(() => HourStarted() ? 0 : Val() + 1)</code></pre>
+</div>

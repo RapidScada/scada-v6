@@ -42,6 +42,17 @@
     </Subitems>
   </Item>
 
+  <!-- Configuration -->
+  <Item>
+    <Text>Configuration</Text>
+    <Subitems>
+      <Item>
+        <Text>Scripts and Formulas</Text>
+        <Url>/en/latest/configuration/scripts</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
   <!-- Modules -->
   <Item>
     <Text>Modules</Text>

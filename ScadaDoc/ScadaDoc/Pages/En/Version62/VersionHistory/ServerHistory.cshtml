@@ -15,6 +15,7 @@
         <li><a href="#mod-arc-postgre-sql">PostgreSQL Archive</a></li>
         <li><a href="#mod-auto-control">Automatic Control Module</a></li>
         <li><a href="#mod-db-export">DB Export</a></li>
+        <li><a href="#mod-diff-calculator">Difference Calculator</a></li>
         <li><a href="#mod-performance-monitor">Performance Monitor</a></li>
         <li><a href="#mod-rapid-gate">Rapid Gate</a></li>
         <li><a href="#mod-replication-helper">Replication Helper</a></li>
@@ -161,6 +162,17 @@
 
     @**** ModAutoControl ****@
     <h2 id="mod-auto-control">Automatic Control Module</h2>
+    <div>ModAutoControl 6.1.0.0 (February 26, 2024)</div>
+    <ul>
+        <li>Upgrade to .NET 8.0</li>
+        <li>Implemented multi-channel data trigger</li>
+        <li>Supports event generation on triggers</li>
+        <li>Added a firing rate option in data change trigger</li>
+        <li>Added variables to output channel limits</li>
+        <li>Improved channel filters in data and event triggers</li>
+        <li>Fixed a bug when generating command text</li>
+    </ul>
+
     <div>ModAutoControl 6.0.0.4 (January 27, 2024)</div>
     <ul>
         <li>Does not use BinaryFormatter</li>
@@ -191,6 +203,11 @@
 
     @**** ModDbExport ****@
     <h2 id="mod-db-export">DB Export</h2>
+    <div>ModDbExport 6.0.1.1 (March 26, 2024)</div>
+    <ul>
+        <li>Added delay option when exporting calculated historical data</li>
+    </ul>
+
     <div>ModDbExport 6.0.1.0 (January 27, 2024)</div>
     <ul>
         <li>Export of calculated historical data</li>
@@ -214,6 +231,13 @@
         <li>Added a feature to export event acknowledgments and commands</li>
         <li>Object filter added to query options</li>
         <li>Module task queue</li>
+    </ul>
+
+    @**** ModDiffCalculator ****@
+    <h2 id="mod-diff-calculator">Difference Calculator</h2>
+    <div>ModDiffCalculator 6.0.0.0 (March 26, 2024)</div>
+    <ul>
+        <li>Initial development of the module</li>
     </ul>
 
     @**** ModPerformanceMonitor ****@

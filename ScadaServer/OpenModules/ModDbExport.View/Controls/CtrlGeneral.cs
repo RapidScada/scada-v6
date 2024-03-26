@@ -74,9 +74,9 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
                 txtTargetID.Text = options.ID.ToString();
                 txtName.Text = options.Name;
                 txtCmdCode.Text = options.CmdCode;
-                numStatusCnlNum.Value = options.StatusCnlNum;
-                numMaxQueueSize.Value = options.MaxQueueSize;
-                numDataLifetime.Value = options.DataLifetime;
+                numStatusCnlNum.SetValue(options.StatusCnlNum);
+                numMaxQueueSize.SetValue(options.MaxQueueSize);
+                numDataLifetime.SetValue(options.DataLifetime);
             }
         }
 

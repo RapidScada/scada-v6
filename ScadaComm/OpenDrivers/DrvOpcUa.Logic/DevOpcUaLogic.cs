@@ -570,6 +570,13 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                                 "Error: tag not found");
                         }
                     }
+                    else
+                    {
+                        Log.WriteLine(Locale.IsRussian ?
+                            "{0} Неизвестный элемент {1} = {2} ({3})" :
+                            "{0} Unknown item {1} = {2} ({3})", 
+                            CommPhrases.ReceiveNotation, change.ClientHandle, change.Value, change.Value.StatusCode);
+                    }
                 }
 
                 // events are not really implemented

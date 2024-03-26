@@ -72,11 +72,11 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
             {
                 chkEnabled.Checked = options.Enabled;
                 chkAutoExport.Checked = options.AutoExport;
-                numHistArchiveBit.Value = options.HistArchiveBit;
-                numEventArchiveBit.Value = options.EventArchiveBit;                
-                numMinDepth.Value = options.MinDepth;
-                numMaxDepth.Value = options.MaxDepth;
-                numReadingStep.Value = options.ReadingStep;
+                numHistArchiveBit.SetValue(options.HistArchiveBit);
+                numEventArchiveBit.SetValue(options.EventArchiveBit);
+                numMinDepth.SetValue(options.MinDepth);
+                numMaxDepth.SetValue(options.MaxDepth);
+                numReadingStep.SetValue(options.ReadingStep);
             }
         }
 

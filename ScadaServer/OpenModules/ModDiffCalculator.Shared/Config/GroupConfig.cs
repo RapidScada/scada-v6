@@ -2,9 +2,16 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.ComponentModel;
+using Scada.Data.Models;
+using Scada.Lang;
 using System.Collections;
 using System.Xml;
 using NCM = System.ComponentModel;
+
+#if WINFORMS
+using Scada.Forms.ComponentModel;
+using System.Drawing.Design;
+#endif
 
 namespace Scada.Server.Modules.ModDiffCalculator.Config
 {
@@ -13,7 +20,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
     /// <para>Представляет конфигурацию группы вычисляемых элементов.</para>
     /// </summary>
     [Serializable]
-    internal class GroupConfig : ITreeNode
+    internal class GroupConfig : ITreeNode, IConfigDatasetAccessor
     {
         /// <summary>
         /// Gets or sets a value indicating whether the group is active.
@@ -26,6 +33,14 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
         /// </summary>
         [DisplayName, Category, Description]
         public string Name { get; set; } = "";
+
+        /// <summary>
+        /// Gets the display name.
+        /// </summary>
+        [NCM.Browsable(false)]
+        public string DisplayName => string.IsNullOrEmpty(Name)
+            ? (Locale.IsRussian ? "Безымянная" : "Unnamed")
+            : Name;
 
         /// <summary>
         /// Gets or sets the calculation period type.
@@ -52,6 +67,17 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
         public int Delay { get; set; } = 10;
 
         /// <summary>
+        /// Gets or sets the bit number of the archive for reading and writing data.
+        /// </summary>
+        #region Attributes
+        [DisplayName, Category, Description]
+#if WINFORMS
+        [NCM.Editor(typeof(ArchiveBitEditor), typeof(UITypeEditor))]
+#endif
+        #endregion
+        public int ArchiveBit { get; set; } = 0;
+
+        /// <summary>
         /// Gets the configuration of the calculated items.
         /// </summary>
         [DisplayName, Category, Description]
@@ -71,6 +97,12 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
         [NCM.Browsable(false)]
         public IList Children => Items;
 
+        /// <summary>
+        /// Gets the configuration database.
+        /// </summary>
+        [NCM.Browsable(false)]
+        public ConfigDataset ConfigDataset => ModuleUtils.ConfigDataset;
+
 
         /// <summary>
         /// Loads the options from the XML node.
@@ -84,6 +116,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
             CustomPeriod = xmlElem.GetAttrAsTimeSpan("customPeriod");
             Offset = xmlElem.GetAttrAsTimeSpan("offset");
             Delay = xmlElem.GetAttrAsInt("delay", Delay);
+            ArchiveBit = xmlElem.GetAttrAsInt("archiveBit");
 
             foreach (XmlElement itemElem in xmlElem.SelectNodes("Item"))
             {
@@ -108,6 +141,7 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
 
             xmlElem.SetAttribute("offset", Offset);
             xmlElem.SetAttribute("delay", Delay);
+            xmlElem.SetAttribute("archiveBit", ArchiveBit);
 
             foreach (ItemConfig itemConfig in Items)
             {

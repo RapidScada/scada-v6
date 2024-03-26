@@ -19,6 +19,7 @@ namespace Scada.Server.Modules.ModDbExport.Config
         public HistDataExportOptions()
         {
             IncludeCalculated = false;
+            ExportCalculatedDelay = 10;
             HistArchiveBit = ArchiveBit.Minute;
         }
 
@@ -27,6 +28,11 @@ namespace Scada.Server.Modules.ModDbExport.Config
         /// Gets or sets a value indicating whether to export data of calculated channels.
         /// </summary>
         public bool IncludeCalculated { get; set; }
+
+        /// <summary>
+        /// Gets the delay before exporting calculated historical data, seconds.
+        /// </summary>
+        public int ExportCalculatedDelay { get; set; }
 
         /// <summary>
         /// Gets the bit number of the historical archive used for export the calculated data.
@@ -41,6 +47,7 @@ namespace Scada.Server.Modules.ModDbExport.Config
         {
             ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
             IncludeCalculated = xmlElem.GetChildAsBool("IncludeCalculated", IncludeCalculated);
+            ExportCalculatedDelay = xmlElem.GetChildAsInt("ExportCalculatedDelay", ExportCalculatedDelay);
             HistArchiveBit = xmlElem.GetChildAsInt("HistArchiveBit", HistArchiveBit);
         }
 
@@ -51,6 +58,7 @@ namespace Scada.Server.Modules.ModDbExport.Config
         {
             ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
             xmlElem.AppendElem("IncludeCalculated", IncludeCalculated);
+            xmlElem.AppendElem("ExportCalculatedDelay", ExportCalculatedDelay);
             xmlElem.AppendElem("HistArchiveBit", HistArchiveBit);
         }
     }

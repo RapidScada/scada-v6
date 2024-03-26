@@ -46,7 +46,6 @@
   <Dictionary key="Scada.Web.Pages.AccessDenied">
     <Phrase key="PageTitle">Access Denied</Phrase>
     <Phrase key="ErrorMessage">You have insufficient rights to access the requested resource.</Phrase>
-    <Phrase key="btnReturn">Return</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.CnlSelect">
     <Phrase key="PageTitle">Select Channels</Phrase>
