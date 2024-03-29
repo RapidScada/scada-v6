@@ -18,9 +18,8 @@
     <UserID>11</UserID>
     <Enabled>true</Enabled>
     <Name>admin</Name>
-    <Password>5E7D34A827453F3AE3A420F112A29E96</Password>
+    <Password>1BE2E31C3FAC53701DC7BE55D1891B52</Password>
     <RoleID>1</RoleID>
-    <Descr>Password: scada125</Descr>
   </User>
   <User>
     <UserID>12</UserID>
