@@ -26,7 +26,7 @@
     <Phrase key="lblTargetID">Идент.</Phrase>
     <Phrase key="lblName">Наименование</Phrase>
     <Phrase key="lblCmdCode">Код команды</Phrase>
-    <Phrase key="lblStatusCnlNum">Статус канала</Phrase>
+    <Phrase key="lblStatusCnlNum">Номер канала статуса</Phrase>
     <Phrase key="lblMaxQueueSize">Максимальный размер очереди</Phrase>
     <Phrase key="lblDataLifetime">Время жизни данных в очереди, с</Phrase>
   </Dictionary>
