@@ -2,7 +2,7 @@
 The examples are compatible with the HelloWorld project.
 
 How to deploy:
-1. Copy the *.html files into the SCADA\ScadaWeb\wwwroot\custom\ directory.
+1. Copy the *.html files into the SCADA\ScadaWeb\wwwroot\custom directory.
 2. Open the project in Administrator and add new records in the Views table:
 +----------------------------+---------------+-----------------------------+
 | Path                       | View Type     | Arguments                   |
