@@ -392,7 +392,7 @@ namespace Scada.Web.Code
             // duplicate channels for arrays and strings
             List<Cnl> duplicatedCnls = [];
 
-            foreach (Cnl cnl in configDatabase.CnlTable.Enumerate())
+            foreach (Cnl cnl in configDatabase.CnlTable)
             {
                 if (cnl.IsArray() && cnl.IsArchivable())
                 {
@@ -418,7 +418,7 @@ namespace Scada.Web.Code
                 }
             }
 
-            duplicatedCnls.ForEach(cnl => configDatabase.CnlTable.AddItem(cnl));
+            duplicatedCnls.ForEach(configDatabase.CnlTable.AddItem);
 
             // initialize data objects
             configDatabase.Init();

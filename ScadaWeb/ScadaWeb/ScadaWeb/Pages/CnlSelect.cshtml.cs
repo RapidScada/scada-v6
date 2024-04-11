@@ -48,8 +48,8 @@ namespace Scada.Web.Pages
 
 
         public ModalPostbackArgs PostbackArgs { get; private set; } = null;
-        public List<SelectListItem> ObjList { get; } = new();
-        public PaginatedList<ChannelItem> ChannelItems { get; } = new();
+        public List<SelectListItem> ObjList { get; } = [];
+        public PaginatedList<ChannelItem> ChannelItems { get; } = [];
         public bool FilterIsEmpty => !(ObjNum > 0 || OnlySelected);
 
         [BindProperty]
@@ -78,7 +78,7 @@ namespace Scada.Web.Pages
 
         private void FillChannelItems()
         {
-            List<ChannelItem> allChannelItems = new();
+            List<ChannelItem> allChannelItems = [];
 
             if (ObjNum > 0)
             {
@@ -87,13 +87,17 @@ namespace Scada.Web.Pages
                     // select channels by object number
                     HashSet<int> selectedCnlNums = ScadaUtils.ParseIntSet(SelectedCnlNums);
 
-                    foreach (Cnl cnl in webContext.ConfigDatabase.CnlTable.Select(new TableFilter("ObjNum", ObjNum), true))
+                    foreach (Cnl cnl in webContext.ConfigDatabase.CnlTable
+                        .Select(new TableFilter("ObjNum", ObjNum), true))
                     {
-                        allChannelItems.Add(new ChannelItem
+                        if (cnl.Active)
                         {
-                            Selected = selectedCnlNums.Contains(cnl.CnlNum),
-                            Cnl = cnl
-                        });
+                            allChannelItems.Add(new ChannelItem
+                            {
+                                Selected = selectedCnlNums.Contains(cnl.CnlNum),
+                                Cnl = cnl
+                            });
+                        }
                     }
                 }
             }
@@ -141,7 +145,7 @@ namespace Scada.Web.Pages
         public void OnPostSelect()
         {
             // validate selected channel numbers
-            SortedSet<int> selectedCnlNums = new();
+            SortedSet<int> selectedCnlNums = [];
 
             foreach (int cnlNum in ScadaUtils.ParseIntArray(SelectedCnlNums))
             {
