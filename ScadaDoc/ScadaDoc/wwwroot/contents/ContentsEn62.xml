@@ -12,6 +12,10 @@
         <Text>Applications</Text>
         <Url>/en/latest/software-overview/applications</Url>
       </Item>
+      <Item>
+        <Text>Software Architecture</Text>
+        <Url>/en/latest/software-overview/architecture</Url>
+      </Item>
     </Subitems>
   </Item>
 

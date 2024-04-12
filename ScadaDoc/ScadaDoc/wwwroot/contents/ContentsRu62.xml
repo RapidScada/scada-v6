@@ -12,6 +12,10 @@
         <Text>Приложения</Text>
         <Url>/ru/latest/software-overview/applications</Url>
       </Item>
+      <Item>
+        <Text>Архитектура ПО</Text>
+        <Url>/ru/latest/software-overview/architecture</Url>
+      </Item>
     </Subitems>
   </Item>
   
