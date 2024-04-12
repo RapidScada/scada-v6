@@ -29,16 +29,16 @@
     <p>Additional server modules allow extending the functionality of Server according to customer requirements.</p>
 
     <h2 id="communicator">Communicator</h2>
-    <p>Communicator interacts with controllers and transmits data to the Server application. Communication with controllers connected to a system is executed in parallel across multiple lines. Communicator receives current data, archive data, events from controllers and sends commands to controllers. The application helps troubleshooting issues with communication lines and devices.</p>
+    <p>Communicator interacts with controllers and transmits data to the Server application. Communication with controllers connected to a system is executed in parallel across multiple lines. Communicator receives current data, archive data, and events from controllers and sends commands to controllers. The application helps troubleshooting issues with communication lines and devices.</p>
     <figure class="figure">
         <img src="applications-files/scada-comm-en.png" class="figure-img img-fluid" alt="Graphical shell for Communicator configuring">
         <figcaption class="figure-caption">Figure 2. Graphical shell for Communicator configuring</figcaption>
     </figure>
-    <p>Communicator works as a service. The graphical shell for Communicator configuring is built into the Administrator application (see Figure 2). Information about the application, communication lines and each connected device is stored in log files. Communicator is designed for non-stop running.</p>
+    <p>Communicator works as a service, and does not have a user interface. The graphical shell for Communicator configuring is built into the Administrator application (see Figure 2). Information about the application, communication lines and each connected device is written in log files. Communicator is designed for non-stop running.</p>
     <p>Developers are able to implement their own device drivers to interact with a variety of controllers.</p>
 
     <h2 id="webstation">Webstation</h2>
-    <p>Webstation is a web application that displays information to a dispatcher via browser in different forms (tabular, schematic, diagrams, reports, etc.) and provides sending commands. Reports are generated in commonly used HTML and Microsoft Excel formats.</p>
+    <p>Webstation is a web application that displays information to a dispatcher via browser and implements the function of sending commands. Data can be represented in various forms as tables, mimic diagrams, reports, etc. Reports are generated in commonly used Excel, PDF and HTML formats.</p>
     <figure class="figure">
         <img src="applications-files/scada-web-scheme-en.png" class="figure-img img-fluid" alt="Webstation application. Scheme view">
         <figcaption class="figure-caption">Figure 3. Webstation application. Scheme view</figcaption>
@@ -47,26 +47,27 @@
         <img src="applications-files/scada-web-table-en.png" class="figure-img img-fluid" alt="Webstation application. Table view">
         <figcaption class="figure-caption">Figure 4. Webstation application. Table view</figcaption>
     </figure>
-    <p>User is able to choose a view (table or scheme) and a date to access archive data. To show a diagram of an input channel, click an item icon in a table or an appropriate element in a scheme.</p>
-    <p>Webstation is available from any computer or tablet connected to an organization network without any software installation. Access is managed by a system administrator who defines user rights.</p>
-    <p>The functionality of Webstation can be extended by additional plugins. For example, <a href="../modules/plg-chart-pro">Chart Pro Plugin</a> extends the capabilities of Rapid SCADA charts: adds scaling, displaying of multiple charts, export to PNG and PDF. <a href="../modules/plg-elastic-report.html">Elastic Report Plugin</a> allows to generate reports according to a custom configuration. Using this plugin, you can build almost any desired report. Developers can download Rapid SCADA source code and the documentation to learn how to implement plugins.</p>
+    <p>User is able to choose a view (table or scheme) and a date to access archive data. To show a trend, click an item icon in a table or an appropriate element in a scheme.</p>
+    <p>Webstation is available from any computer or tablet connected to an organization network, no software installation is required. Access is managed by a system administrator who defines user rights.</p>
+    <p>The functionality of Webstation can be extended by additional plugins. For example, <a href="../modules/plg-chart-pro">Chart Pro Plugin</a> extends the capabilities of Rapid SCADA charts: adds scaling, displaying of multiple charts, export to PNG and PDF. <a href="../modules/plg-elastic-report">Elastic Report Plugin</a> allows to generate reports according to a custom configuration. Using this plugin, you can build almost any desired report. Developers can create their own plugins for the web application, displaying information to an operator in any form.</p>
 
     <h2 id="agent">Agent</h2>
     <p>Agent transfers configuration between Rapid SCADA instance and the Administrator application. In addition, Agent provides log files for displaying in Administrator. Agent runs as a service on a server where Rapid SCADA instance, controlled by Agent, is installed. An instance of Rapid SCADA includes the Server, Communicator and Webstation applications, all or some of these applications.</p>
     <p>Agent communicates with Administrator via TCP. Therefore, Administrator can be installed on the same computer as Agent, or on another computer that is accessible over the network. By default, Agent uses TPC port 10002. In case of remote access, incoming connections on this port must be allowed by the server firewall.</p>
-    <p>Agent has no user interface. To check its operation, use the log files which default location is C:\SCADA\ScadaAgent\Log</p>
+    <p>Agent does not have a user interface. To check its operation, log files are used.</p>
 
     <h2 id="administrator">Administrator</h2>
-    <p>The Administrator application (see Figure 5) is intended for developing Rapid SCADA projects and monitoring the state of the automated system. The Administrator is an integrated development environment provides editing the configuration database, configuring the main Rapid SCADA applications, Server modules and device drivers.</p>
+    <p>The Administrator application (see Figure 5) is intended for developing Rapid SCADA projects and monitoring the state of the automated system. Administrator is an integrated development environment provides editing the configuration database, configuring the main Rapid SCADA applications, Server modules and device drivers.</p>
     <figure class="figure">
         <img src="applications-files/scada-admin-en.png" class="figure-img img-fluid" alt="Administrator application">
         <figcaption class="figure-caption">Figure 5. Administrator application</figcaption>
     </figure>
-    <p>The Administrator tools to speed up the configuration process:</p>
+    <p>Tools and features of the Administrator application that speed up the configuration process are as follows:</p>
     <ul>
-        <li>Import and export of configuration database tables for the exchange of works between projects.</li>
-        <li>Wizard to automatically create input and output channels.</li>
-        <li>Channel cloning feature that minimizes manual input.</li>
+        <li>Wizards for creating communication lines, devices and channels.</li>
+        <li>Import and export of the configuration database tables for exchanging works between projects.</li>
+        <li>Channel cloning to minimize manual input.</li>
+        <li>Searching, sorting and filtering the configuration database tables.</li>
     </ul>
     <p>A project contains a set of configuration files, mainly using the XML format. This approach makes it easy to copy projects from one computer to another. To control project versions and collaboration, Git is the best choice.</p>
 </div>
