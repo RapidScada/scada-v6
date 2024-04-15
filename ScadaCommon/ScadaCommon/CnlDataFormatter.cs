@@ -176,7 +176,7 @@ namespace Scada
                     if (FormatIsHex(format))
                     {
                         LastResultInfo.IsHex = true;
-                        return ((int)cnlVal).ToString(format, culture) + 'h';
+                        return ((long)cnlVal).ToString(format, culture) + 'h';
                     }
                     else
                     {
