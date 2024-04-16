@@ -44,6 +44,14 @@
         <Url>/ru/latest/installation/install-modules</Url>
       </Item>
       <Item>
+        <Text>Управление службами</Text>
+        <Url>/ru/latest/installation/services</Url>
+      </Item>
+      <Item>
+        <Text>Перенос на новый сервер</Text>
+        <Url>/ru/latest/installation/transfer</Url>
+      </Item>
+      <Item>
         <Text>Безопасность</Text>
         <Url>/ru/latest/installation/safety</Url>
       </Item>

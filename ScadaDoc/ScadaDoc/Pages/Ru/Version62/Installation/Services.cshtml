@@ -1,0 +1,72 @@
+﻿@page "/ru/latest/installation/services"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Управление службами";
+}
+
+@section Styles {
+    <link href="~/lib/prismjs/prism.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="~/lib/prismjs/prism.js"></script>
+}
+
+<h1>Управление службами</h1>
+<p>Приложения Сервер, Коммуникатор и Агент работают как службы. На Linux приложение Вебстанция тоже работает как отдельная служба. Для управления службами Rapid SCADA используется приложение Администратор или инструменты операционной системы.</p>
+<p>Управление службами с помощью приложения Администратор выполняется на форме статуса экземпляра, которая открывается с помощью кнопки <img src="../common-images/status.png" />, расположенной на панели инструментов приложения.</p>
+
+<figure class="figure">
+    <img src="services-files/instance-status-ru.png" class="figure-img img-fluid" alt="Статус экземпляра в Администраторе" />
+</figure>
+
+<p>Следующая таблица содержит наименования служб Windows и демонов Linux, которые входят в состав Rapid SCADA.</p>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Приложение</th>
+            <th>Служба Windows</th>
+            <th>Демон Linux</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Сервер</td>
+            <td>ScadaServer6</td>
+            <td>scadaserver6</td>
+        </tr>
+        <tr>
+            <td>Коммуникатор</td>
+            <td>ScadaComm6</td>
+            <td>scadacomm6</td>
+        </tr>
+        <tr>
+            <td>Вебстанция</td>
+            <td>-</td>
+            <td>scadaweb6</td>
+        </tr>
+        <tr>
+            <td>Агент</td>
+            <td>ScadaAgent6</td>
+            <td>scadaagent6</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>При использовании Windows для управления службами можно использовать оснастку services.msc. Тип запуска служб Сервера, Коммуникатора и Агента по умолчанию устанавливается автоматический, т.е. службы запускаются при старте операционной системы и останавливаются при завершении её работы. Если автозапуск не требуется, то в свойствах соответствующих служб нужно установить запуск вручную.</p>
+
+<figure class="figure">
+    <img src="services-files/services-ru.png" class="figure-img img-fluid" alt="Службы Windows" />
+</figure>
+
+<p>Команды для запуска демонов на Linux:</p>
+<pre><code class="language-sh">sudo systemctl start scadaagent6
+sudo systemctl start scadaserver6
+sudo systemctl start scadacomm6
+sudo systemctl start scadaweb6</code></pre>
+
+<p>Команды для остановки демонов на Linux:</p>
+<pre><code class="language-sh">sudo systemctl stop scadaweb6
+sudo systemctl stop scadacomm6
+sudo systemctl stop scadaserver6
+sudo systemctl stop scadaagent6</code></pre>
