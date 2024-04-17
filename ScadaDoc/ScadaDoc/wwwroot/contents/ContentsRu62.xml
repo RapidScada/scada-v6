@@ -93,6 +93,10 @@
     <Text>Разработчикам</Text>
     <Subitems>
       <Item>
+        <Text>Основы разработки</Text>
+        <Url>/ru/latest/developers/development-basics</Url>
+      </Item>
+      <Item>
         <Text>Магазин модулей</Text>
         <Url>/ru/latest/developers/store</Url>
       </Item>
