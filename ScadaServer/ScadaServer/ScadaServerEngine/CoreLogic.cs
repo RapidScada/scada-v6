@@ -1348,7 +1348,6 @@ namespace Scada.Server.Engine
             try
             {
                 moduleHolder.OnHistoricalDataProcessing(slice);
-                DateTime timestamp = slice.Timestamp;
 
                 if (archiveMask == ArchiveMask.Default)
                     archiveMask = archiveHolder.DefaultArchiveMask;
@@ -1372,7 +1371,7 @@ namespace Scada.Server.Engine
                 {
                     if (archiveMask.BitIsSet(archiveBit) && 
                         archiveHolder.GetArchive(archiveBit, out HistoricalArchiveLogic archiveLogic) &&
-                        archiveLogic.AcceptData(ref timestamp))
+                        archiveLogic.AcceptData(slice.Timestamp, out DateTime timestamp))
                     {
                         UpdateContext updateContext = new UpdateContext(timestamp, slice.DeviceNum);
 

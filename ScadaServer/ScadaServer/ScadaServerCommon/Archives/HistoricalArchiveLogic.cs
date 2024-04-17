@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2023
+ * Modified : 2024
  */
 
 using Scada.Data.Models;
@@ -258,6 +258,16 @@ namespace Scada.Server.Archives
         /// </summary>
         /// <remarks>The timestamp can be adjusted by the archive.</remarks>
         public abstract bool AcceptData(ref DateTime timestamp);
+
+        /// <summary>
+        /// Accepts or rejects data with the specified timestamp.
+        /// </summary>
+        public bool AcceptData(DateTime timestamp, out DateTime adjustedTimestamp)
+        {
+            bool accepted = AcceptData(ref timestamp);
+            adjustedTimestamp = timestamp;
+            return accepted;
+        }
 
         /// <summary>
         /// Maintains performance when data is written one at a time.
