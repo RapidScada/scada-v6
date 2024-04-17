@@ -44,6 +44,14 @@
         <Url>/en/latest/installation/install-modules</Url>
       </Item>
       <Item>
+        <Text>Service Management</Text>
+        <Url>/en/latest/installation/services</Url>
+      </Item>
+      <Item>
+        <Text>Transfer to New Server</Text>
+        <Url>/en/latest/installation/transfer</Url>
+      </Item>
+      <Item>
         <Text>Safety</Text>
         <Url>/en/latest/installation/safety</Url>
       </Item>

@@ -1,0 +1,72 @@
+﻿@page "/en/latest/installation/services"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Service Management";
+}
+
+@section Styles {
+    <link href="~/lib/prismjs/prism.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="~/lib/prismjs/prism.js"></script>
+}
+
+<h1>Service Management</h1>
+<p>The Server, Communicator and Agent applications run as services. On Linux, the Webstation application also runs as a separate service. To manage Rapid SCADA services, use the Administrator application or operating system tools.</p>
+<p>Services are managed by the Administrator application using the Instance Status form, which is opened by the <img src="../common-images/status.png" /> button located on the application toolbar.</p>
+
+<figure class="figure">
+    <img src="services-files/instance-status-en.png" class="figure-img img-fluid" alt="Instance status in Administrator" />
+</figure>
+
+<p>The following table contains the names of the Windows services and Linux daemons that are included in Rapid SCADA.</p>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Application</th>
+            <th>Windows Serice</th>
+            <th>Linux Daemon</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Server</td>
+            <td>ScadaServer6</td>
+            <td>scadaserver6</td>
+        </tr>
+        <tr>
+            <td>Communicator</td>
+            <td>ScadaComm6</td>
+            <td>scadacomm6</td>
+        </tr>
+        <tr>
+            <td>Webstation</td>
+            <td>-</td>
+            <td>scadaweb6</td>
+        </tr>
+        <tr>
+            <td>Agent</td>
+            <td>ScadaAgent6</td>
+            <td>scadaagent6</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>On Windows, the <code>services.msc</code> snap-in is available to manage services. The startup type of the Server, Communicator and Agent services is set to Automatic by default, so the services start when the operating system starts and stop when it shuts down. If autostart is not required, set the Manual startup type in the properties of the corresponding services.</p>
+
+<figure class="figure">
+    <img src="services-files/services-en.png" class="figure-img img-fluid" alt="Windows services" />
+</figure>
+
+<p>Commands to start daemons on Linux:</p>
+<pre><code class="language-sh">sudo systemctl start scadaagent6
+sudo systemctl start scadaserver6
+sudo systemctl start scadacomm6
+sudo systemctl start scadaweb6</code></pre>
+
+<p>Commands to stop daemons on Linux:</p>
+<pre><code class="language-sh">sudo systemctl stop scadaweb6
+sudo systemctl stop scadacomm6
+sudo systemctl stop scadaserver6
+sudo systemctl stop scadaagent6</code></pre>
