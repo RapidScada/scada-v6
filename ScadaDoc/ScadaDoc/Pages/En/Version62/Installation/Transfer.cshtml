@@ -1,0 +1,28 @@
+﻿@page "/en/latest/installation/transfer"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Transfer to New Server";
+}
+
+<h1>Transfer to New Server</h1>
+<p>This article describes how to migrate a running Rapid SCADA instance from one server to another. The sequence of actions is as follows:</p>
+
+<ol>
+    <li>
+        Check that connections with polled devices are configured on the new server:
+        <ul>
+            <li>there are serial ports whose numbers match the port numbers on the old server,</li>
+            <li>controllers polled over the network are available,</li>
+            <li>OPC servers installed and configured.</li>
+        </ul>
+    </li>
+    <li>Install Rapid SCADA on the new server and check its functionality with the default configuration.</li>
+    <li>Stop the Server and Communicator services on the new server.</li>
+    <li>Stop the Server and Communicator services on the obsolete server and disable automatic startup of these services.</li>
+    <li>Copy data archives from the obsolete server to the new one. The method for copying archives depends on whether the archives are file-based or DBMS-based.</li>
+    <li>Open the project in the Administrator application and upload the configuration to the new server with the <img src="../common-images/upload.png" /> button.</li>
+    <li>If additional modules are used, obtain and enter registration keys for the new server, then re-upload the project for execution.</li>
+    <li>Check whether the new server operates well.</li>
+</ol>
+
+<p>If the new server does not work on the first try, stop the Server and Communicator services on it and start these services on the obsolete server. Information that will help resolve technical issues is contained in the application and module operation logs.</p>
