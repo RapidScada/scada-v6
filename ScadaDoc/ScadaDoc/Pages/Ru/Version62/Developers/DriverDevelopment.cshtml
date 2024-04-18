@@ -54,7 +54,7 @@ using Scada.Data.Models;
 
 namespace Scada.Comm.Drivers.DrvAbc.Logic
 {
-    public class DevAbcLogic : DeviceLogic
+    internal class DevAbcLogic : DeviceLogic
     {
         public DevAbcLogic(ICommContext commContext, ILineContext lineContext, DeviceConfig deviceConfig)
             : base(commContext, lineContext, deviceConfig)
@@ -93,7 +93,7 @@ namespace Scada.Comm.Drivers.DrvAbc.Logic
         {
         }
 
-        public override string Code => "DrvAbc";
+        public override string Code =&gt; "DrvAbc";
 
         public override DeviceLogic CreateDevice(ILineContext lineContext, DeviceConfig deviceConfig)
         {
@@ -122,7 +122,7 @@ using Scada.Comm.Devices;
 
 namespace Scada.Comm.Drivers.DrvAbc.View
 {
-    public class DevAbcView : DeviceView
+    internal class DevAbcView : DeviceView
     {
         public DevAbcView(DriverView parentView, LineConfig lineConfig, DeviceConfig deviceConfig)
             : base(parentView, lineConfig, deviceConfig)
@@ -145,9 +145,9 @@ namespace Scada.Comm.Drivers.DrvAbc.View
             CanCreateDevice = true;
         }
 
-        public override string Name => "Драйвер ABC";
+        public override string Name =&gt; "Драйвер ABC";
 
-        public override string Descr => "Простой пример драйвера";
+        public override string Descr =&gt; "Простой пример драйвера";
 
         public override DeviceView CreateDeviceView(LineConfig lineConfig, DeviceConfig deviceConfig)
         {

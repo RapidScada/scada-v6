@@ -1,0 +1,147 @@
+﻿@page "/ru/latest/developers/module-development"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Разработка логических модулей";
+}
+
+@section Styles {
+    <link href="~/lib/prismjs/prism.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="~/lib/prismjs/prism.js"></script>
+}
+
+<nav class="doc-toc">
+    <div class="h6">На этой странице</div>
+    <hr>
+    <ul>
+        <li><a href="#logic">Реализация логики</a></li>
+        <li><a href="#view">Реализация интерфейса</a></li>
+        <li><a href="#run">Запуск модуля</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Разработка логических модулей</h1>
+    <p>Логические модули обладают следующими возможностями:</p>
+    <ul>
+        <li>Получать текущие, исторические данные и события с максимально возможной скоростью для последующей обработки.</li>
+        <li>Записывать данные и события в архивы.</li>
+        <li>Перехватывать поступающие на Сервер команды.</li>
+        <li>Отправлять команды.</li>
+    </ul>
+
+    <p>Рассмотрим разработку логической части и пользовательского интерфейса модуля, который будет иметь кодовое обозначение <em>ModAbc</em>.</p>
+
+    <h2 id="logic">Реализация логики</h2>
+    <p>Создайте новый проект на основе шаблона <strong>Class Library</strong>. Введите наименование проекта <code>ModAbc.Logic</code>, выберите фреймворк .NET 8.0.</p>
+    <p>Добавьте зависимости на библиотеки <code>ScadaCommon.dll</code>, <code>ScadaCommon.Log.dll</code> и <code>ScadaServerCommon.dll</code>. Актуальные бинарные файлы этих библиотек можно найти в директории установки Rapid SCADA, либо собрать самостоятельно из исходного кода.</p>
+    <p>По двойному щелчку в <strong>Solution Explorer</strong> откройте файл проекта <code>ModAbc.Logic.csproj</code> и отредактируйте его свойства, как показано ниже.</p>
+    <pre><code class="language-xml">&lt;PropertyGroup&gt;
+  &lt;TargetFramework&gt;net8.0&lt;/TargetFramework&gt;
+  &lt;ImplicitUsings&gt;enable&lt;/ImplicitUsings&gt;
+  &lt;Nullable&gt;disable&lt;/Nullable&gt;
+  &lt;RootNamespace&gt;Scada.Server.Modules.ModAbc.Logic&lt;/RootNamespace&gt;
+&lt;/PropertyGroup&gt;</code></pre>
+
+    <p>Создайте класс <code>ModAbcLogic</code> и скопируйте код, который приведён ниже. Этот класс реализует логику работы модуля. Обратите внимание, что пространство имён и имя класса должны содержать код модуля <code>ModAbc</code>. Изучите исходный код базового класса <a href="https://github.com/RapidScada/scada-v6/blob/master/ScadaServer/ScadaServer/ScadaServerCommon/Modules/ModuleLogic.cs" target="_blank">ModuleLogic</a> и интерфейс <a href="https://github.com/RapidScada/scada-v6/blob/master/ScadaServer/ScadaServer/ScadaServerCommon/Modules/IServerContext.cs" target="_blank">IServerContext</a>, чтобы узнать о возможностях, доступных при реализации логики модуля.</p>
+    <pre><code class="language-csharp">using Scada.Data.Models;
+
+namespace Scada.Server.Modules.ModAbc.Logic
+{
+    public class ModAbcLogic : ModuleLogic
+    {
+        private const int InputChannel = 105;
+        private const int OutputChannel = 104;
+        private const int UserID = 11;
+        private const double Threshold = 10.0;
+
+        private bool high = false;
+        private bool low = false;
+
+        public ModAbcLogic(IServerContext serverContext)
+            : base(serverContext)
+        {
+        }
+
+        public override string Code =&gt; "ModAbc";
+
+        public override void OnServiceStart()
+        {
+            Log.WriteAction("Модуль ModAbc запущен");
+        }
+
+        public override void OnServiceStop()
+        {
+            Log.WriteAction("Модуль ModAbc остановлен");
+        }
+
+        public override void OnIteration()
+        {
+            CnlData curData = ServerContext.GetCurrentData(InputChannel);
+
+            if (curData.IsDefined)
+            {
+                if (curData.Val &gt;= Threshold)
+                {
+                    if (!high)
+                    {
+                        ServerContext.SendCommand(new TeleCommand(OutputChannel, 1, UserID));
+                        high = true;
+                    }
+                }
+                else
+                {
+                    high = false;
+                }
+
+                if (curData.Val &lt; Threshold)
+                {
+                    if (!low)
+                    {
+                        ServerContext.SendCommand(new TeleCommand(OutputChannel, 0, UserID));
+                        low = true;
+                    }
+                }
+                else
+                {
+                    low = false;
+                }
+            }
+        }
+    }
+}</code></pre>
+
+    <p>Выполните сборку проекта и скопируйте <code>ModAbc.Logic.dll</code> в директорию модулей Сервера <code>ScadaServer\Mod</code></p>
+
+    <h2 id="view">Реализация интерфейса</h2>
+    <p>Создайте новый проект на основе шаблона <strong>Windows Forms Class Library</strong>. Введите наименование проекта <code>ModAbc.View</code>, выберите фреймворк .NET 8.0.</p>
+    <p>Добавьте зависимости на библиотеки <code>ScadaCommon.dll</code>, <code>ScadaCommon.Forms.dll</code>, <code>ScadaCommon.Log.dll</code> и <code>ScadaServerCommon.dll</code>.</p>
+    <p>По двойному щелчку в <strong>Solution Explorer</strong> откройте файл проекта <code>ModAbc.View.csproj</code> и отредактируйте его свойства, как показано ниже.</p>
+    <pre><code class="language-xml">&lt;PropertyGroup&gt;
+  &lt;TargetFramework&gt;net8.0-windows&lt;/TargetFramework&gt;
+  &lt;Nullable&gt;disable&lt;/Nullable&gt;
+  &lt;UseWindowsForms&gt;true&lt;/UseWindowsForms&gt;
+  &lt;ImplicitUsings&gt;enable&lt;/ImplicitUsings&gt;
+  &lt;RootNamespace&gt;Scada.Server.Modules.ModAbc.View&lt;/RootNamespace&gt;
+&lt;/PropertyGroup&gt;</code></pre>
+
+    <p>Создайте класс <code>ModAbcView</code> и скопируйте код, который приведён ниже. Этот класс реализует пользовательский интерфейс модуля. Обратите внимание, что пространство имён и имя класса должны содержать код модуля <code>ModAbc</code>. В нашем примере пользовательский интерфейс модуля фактически отсутствует, тем не менее необходима минимальная реализация интерфейса, чтобы модуль можно было использовать в приложении Администратор. Изучите исходный код базового класса <a href="https://github.com/RapidScada/scada-v6/blob/master/ScadaServer/ScadaServer/ScadaServerCommon/Modules/ModuleView.cs" target="_blank">ModuleView</a>, чтобы узнать о доступных возможностях.</p>
+    <pre><code class="language-csharp">namespace Scada.Server.Modules.ModAbc.View
+{
+    public class ModAbcView : ModuleView
+    {
+        public override string Name =&gt; "Модуль ABC";
+        public override string Descr =&gt; "Простой пример модуля";
+    }
+}
+</code></pre>
+
+    <p>Выполните сборку проекта и скопируйте <code>ModAbc.View.dll</code> в директорию библиотек Администратора <code>ScadaAdmin\Lib</code></p>
+
+    <h2 id="run">Запуск модуля</h2>
+    <p>Запустите приложение Администратор или перезапустите его, если оно было открыто. Создайте и откройте копию проекта <code>HelloWorld</code>, затем в разделе <strong>Сервер &gt; Модули</strong> найдите разработанный модуль. Убедитесь, что при выборе модуля его описание корректно отображается. Если при отображении описания модуля возникла ошибка, скорее всего, допущена неточность в пространстве имён или имени класса интерфейса модуля.</p>
+
+    <p>Включите модуль <em>ModAbc</em> и передайте проект на выполнение. В журнал Сервера будет выводиться информация о запуске и остановке модуля. При переходе значения канала 105 через заданный константой порог 10, будут отправляться команды 0 или 1 на канал 104.</p>
+</div>
