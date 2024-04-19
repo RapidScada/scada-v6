@@ -1,0 +1,151 @@
+﻿@page "/ru/latest/developers/plugin-development"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Разработка веб-плагинов";
+}
+
+@section Styles {
+    <link href="~/lib/prismjs/prism.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="~/lib/prismjs/prism.js"></script>
+}
+
+<nav class="doc-toc">
+    <div class="h6">На этой странице</div>
+    <hr>
+    <ul>
+        <li><a href="#web">Реализация веб-интерфейса</a></li>
+        <li><a href="#view">Реализация интерфейса для настройки</a></li>
+        <li><a href="#run">Запуск плагина</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Разработка веб-плагинов</h1>
+    <p>С помощью веб-плагинов создаются:</p>
+    <ul>
+        <li>Новые типы представлений.</li>
+        <li>Компоненты мнемосхем.</li>
+        <li>Отчётные формы.</li>
+        <li>Веб-страницы для работы с данными.</li>
+    </ul>
+
+    <p>Рассмотрим разработку веб-интерфейса и интерфейса для настройки простого плагина, который будет иметь кодовое обозначение <em>PlgAbc</em>. Для разработки сложных плагинов изучите и используйте в качестве примеров <a href="https://github.com/RapidScada/scada-v6/tree/master/ScadaWeb/OpenPlugins" target="_blank">исходный код</a> существующих плагинов на GitHub.</p>
+
+    <h2 id="web">Реализация веб-интерфейса</h2>
+    <p>Создайте новый проект на основе шаблона <strong>Razor Class Library</strong>. Введите наименование проекта <code>PlgAbc</code>, выберите фреймворк .NET 8.0 и поставьте галочку <strong>Support pages and views</strong>.</p>
+    <p>Добавьте зависимости на библиотеки <code>ScadaCommon.dll</code>, <code>ScadaCommon.Log.dll</code> и <code>ScadaWebCommon.dll</code>. Актуальные бинарные файлы этих библиотек можно найти в директории установки Rapid SCADA, либо собрать самостоятельно из исходного кода.</p>
+    <p>По двойному щелчку в <strong>Solution Explorer</strong> откройте файл проекта <code>PlgAbc.csproj</code> и отредактируйте его свойства, как показано ниже.</p>
+    <pre><code class="language-xml">&lt;PropertyGroup&gt;
+  &lt;TargetFramework&gt;net8.0&lt;/TargetFramework&gt;
+  &lt;Nullable&gt;disable&lt;/Nullable&gt;
+  &lt;ImplicitUsings&gt;enable&lt;/ImplicitUsings&gt;
+  &lt;AddRazorSupportForMvc&gt;true&lt;/AddRazorSupportForMvc&gt;
+  &lt;RootNamespace&gt;Scada.Web.Plugins.PlgAbc&lt;/RootNamespace&gt;
+&lt;/PropertyGroup&gt;</code></pre>
+
+    <p>Создайте класс <code>PluginInfo</code> и скопируйте код, который приведён ниже. Этот класс содержит информацию, описывающую плагин.</p>
+    <pre><code class="language-csharp">namespace Scada.Web.Plugins.PlgAbc
+{
+    internal class PluginInfo : LibraryInfo
+    {
+        public override string Code => "PlgAbc";
+
+        public override string Name => "Плагин ABC";
+
+        public override string Descr => "Простой пример плагина";
+    }
+}</code></pre>
+
+    <p>Создайте класс <code>PlgAbcLogic</code>, код которого показан ниже. Этот класс реализует базовую логику работы плагина. Обратите внимание, что пространство имён и имя класса должны содержать код плагина <code>PlgAbc</code>. Изучите исходный код базового класса <a href="https://github.com/RapidScada/scada-v6/blob/master/ScadaWeb/ScadaWeb/ScadaWebCommon/Plugins/PluginLogic.cs" target="_blank">PluginLogic</a>, чтобы узнать о возможностях, доступных при реализации логики плагина.</p>
+    <pre><code class="language-csharp">using Scada.Data.Entities;
+using Scada.Web.Services;
+using Scada.Web.TreeView;
+using Scada.Web.Users;
+
+namespace Scada.Web.Plugins.PlgAbc
+{
+    public class PlgAbcLogic : PluginLogic
+    {
+        public PlgAbcLogic(IWebContext webContext)
+            : base(webContext)
+        {
+            Info = new PluginInfo();
+        }
+
+        public override List<MenuItem> GetUserMenuItems(User user, UserRights userRights)
+        {
+            return
+            [
+                new() { Text = "ABC", Url = "~/Abc/MyPage", SortOrder = MenuItemSortOrder.First }
+            ];
+        }
+    }
+}</code></pre>
+
+    <p>Создайте пустую страницу Razor Page с именем <code>MyPage.cshtml</code>, расположенную в области Abc. Структура проекта показана на следующем рисунке.</p>
+    <figure class="figure">
+        <img src="plugin-development-files/plg-abc.png" class="figure-img img-fluid" alt="Структура проекта PlgAbc" />
+    </figure>
+
+    <p>Содержимое модели страницы <code>MyPage.cshtml.cs</code> показано ниже. Рекомендуется изучить интерфейсы <a href="https://github.com/RapidScada/scada-v6/tree/master/ScadaWeb/ScadaWeb/ScadaWebCommon/Services" target="_blank">сервисов</a>, которые доступны в веб-приложении через механизм dependency injection.</p>
+    <pre><code class="language-csharp">using Microsoft.AspNetCore.Mvc.RazorPages;
+using Scada.Web.Services;
+
+namespace Scada.Web.Plugins.PlgAbc.Areas.Abc.Pages
+{
+    public class MyPageModel(IWebContext webContext, IUserContext userContext) : PageModel
+    {
+        public int ChannelCount =&gt; webContext.ConfigDatabase.CnlTable.ItemCount;
+        public string UserName =&gt; userContext.UserEntity.Name;
+    }
+}</code></pre>
+
+    <p>Файл вёрстки страницы <code>MyPage.cshtml</code> имеет следующее содержимое:</p>
+    <pre><code class="language-markup">@@page
+@@model Scada.Web.Plugins.PlgAbc.Areas.Abc.Pages.MyPageModel
+@@{
+    Layout = &quot;_MainLayout&quot;;
+    ViewBag.Title = &quot;Моя страница&quot;;
+}
+
+&lt;h1&gt;Моя страница&lt;/h1&gt;
+&lt;p&gt;Количество каналов: @@Model.ChannelCount&lt;/p&gt;
+&lt;p&gt;Текущий пользователь: @@Model.UserName&lt;/p&gt;</code></pre>
+
+    <p>Пример веб-интерфейса плагина готов. Выполните сборку проекта и скопируйте <code>PlgAbc.dll</code> в корневую директорию приложения Вебстанция.</p>
+
+    <h2 id="view">Реализация интерфейса для настройки</h2>
+    <p>Создайте новый проект на основе шаблона <strong>Class Library</strong>. Введите наименование проекта <code>PlgAbc.View</code>, выберите фреймворк .NET 8.0.</p>
+    <p>Добавьте зависимости на библиотеки <code>ScadaCommon.dll</code> и <code>ScadaWebCommon.Subset.dll</code>.</p>
+    <p>По двойному щелчку в <strong>Solution Explorer</strong> откройте файл проекта <code>PlgAbc.View.csproj</code> и отредактируйте его свойства, как показано ниже.</p>
+    <pre><code class="language-xml">&lt;PropertyGroup&gt;
+  &lt;TargetFramework&gt;net8.0&lt;/TargetFramework&gt;
+  &lt;ImplicitUsings&gt;enable&lt;/ImplicitUsings&gt;
+  &lt;Nullable&gt;disable&lt;/Nullable&gt;
+  &lt;RootNamespace&gt;Scada.Web.Plugins.PlgAbc.View&lt;/RootNamespace&gt;
+&lt;/PropertyGroup&gt;</code></pre>
+
+    <p>Добавьте ранее созданный файл <code>PluginInfo.cs</code> в проект как ссылку. Обратите внимание, что значок файла изображает ссылку.</p>
+    <figure class="figure">
+        <img src="plugin-development-files/plg-abc-view.png" class="figure-img img-fluid" alt="Структура проекта PlgAbc.View" />
+    </figure>
+
+    <p>Создайте класс <code>PlgAbcView</code> и скопируйте код, который приведён ниже. Этот класс реализует пользовательский интерфейс плагина для приложения Администратор. Обратите внимание, что пространство имён и имя класса должны содержать код плагина <code>PlgAbc</code>. В нашем примере пользовательский интерфейс плагина фактически отсутствует, тем не менее необходима минимальная реализация интерфейса, чтобы плагин можно было использовать в приложении Администратор. Изучите исходный код базового класса <a href="https://github.com/RapidScada/scada-v6/blob/master/ScadaWeb/ScadaWeb/ScadaWebCommon/Plugins/PluginView.cs" target="_blank">PluginView</a>, чтобы узнать о доступных возможностях.</p>
+    <pre><code class="language-csharp">namespace Scada.Web.Plugins.PlgAbc.View
+{
+    public class PlgAbcView : PluginView
+    {
+        public PlgAbcView()
+        {
+            Info = new PluginInfo();
+        }
+    }
+}</code></pre>
+
+    <p>Выполните сборку проекта и скопируйте <code>PlgAbc.View.dll</code> в директорию библиотек Администратора <code>ScadaAdmin\Lib</code></p>
+
+    <h2 id="run">Запуск плагина</h2>
+</div>

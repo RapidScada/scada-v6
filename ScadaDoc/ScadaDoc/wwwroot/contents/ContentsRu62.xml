@@ -105,6 +105,10 @@
         <Url>/ru/latest/developers/driver-development</Url>
       </Item>
       <Item>
+        <Text>Разработка веб-плагинов</Text>
+        <Url>/ru/latest/developers/plugin-development</Url>
+      </Item>
+      <Item>
         <Text>Магазин модулей</Text>
         <Url>/ru/latest/developers/store</Url>
       </Item>
