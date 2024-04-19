@@ -85,7 +85,7 @@ namespace Scada.Web.Plugins.PlgAbc
 
     <p>Создайте пустую страницу Razor Page с именем <code>MyPage.cshtml</code>, расположенную в области Abc. Структура проекта показана на следующем рисунке.</p>
     <figure class="figure">
-        <img src="plugin-development-files/plg-abc.png" class="figure-img img-fluid" alt="Структура проекта PlgAbc" />
+        <img src="plugin-development-files/plg-abc.png" class="figure-img img-fluid border" alt="Структура проекта PlgAbc" />
     </figure>
 
     <p>Содержимое модели страницы <code>MyPage.cshtml.cs</code> показано ниже. Чтобы лучше понять исходный код страницы, рекомендуется изучить интерфейсы <a href="https://github.com/RapidScada/scada-v6/tree/master/ScadaWeb/ScadaWeb/ScadaWebCommon/Services" target="_blank">сервисов</a>, которые доступны в веб-приложении через механизм dependency injection.</p>
@@ -128,7 +128,7 @@ namespace Scada.Web.Plugins.PlgAbc.Areas.Abc.Pages
 
     <p>Добавьте ранее созданный файл <code>PluginInfo.cs</code> в проект как ссылку. Обратите внимание, что значок файла изображает ссылку.</p>
     <figure class="figure">
-        <img src="plugin-development-files/plg-abc-view.png" class="figure-img img-fluid" alt="Структура проекта PlgAbc.View" />
+        <img src="plugin-development-files/plg-abc-view.png" class="figure-img img-fluid border" alt="Структура проекта PlgAbc.View" />
     </figure>
 
     <p>Создайте класс <code>PlgAbcView</code> и скопируйте код, который приведён ниже. Этот класс реализует пользовательский интерфейс плагина для приложения Администратор. Обратите внимание, что пространство имён и имя класса должны содержать код плагина <code>PlgAbc</code>. В нашем примере пользовательский интерфейс плагина фактически отсутствует, тем не менее необходима минимальная реализация интерфейса, чтобы плагин можно было использовать в приложении Администратор. Изучите исходный код базового класса <a href="https://github.com/RapidScada/scada-v6/blob/master/ScadaWeb/ScadaWeb/ScadaWebCommon/Plugins/PluginView.cs" target="_blank">PluginView</a>, чтобы узнать о доступных возможностях.</p>

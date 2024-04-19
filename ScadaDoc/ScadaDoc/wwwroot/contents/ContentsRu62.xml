@@ -63,6 +63,10 @@
     <Text>Настройка</Text>
     <Subitems>
       <Item>
+        <Text>Основы настройки</Text>
+        <Url>/ru/latest/configuration/configuration-basics</Url>
+      </Item>
+      <Item>
         <Text>Скрипты и формулы</Text>
         <Url>/ru/latest/configuration/scripts</Url>
       </Item>
