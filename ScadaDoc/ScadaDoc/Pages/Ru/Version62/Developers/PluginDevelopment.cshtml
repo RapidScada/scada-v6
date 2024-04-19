@@ -52,9 +52,7 @@
     internal class PluginInfo : LibraryInfo
     {
         public override string Code => "PlgAbc";
-
         public override string Name => "Плагин ABC";
-
         public override string Descr => "Простой пример плагина";
     }
 }</code></pre>
@@ -90,7 +88,7 @@ namespace Scada.Web.Plugins.PlgAbc
         <img src="plugin-development-files/plg-abc.png" class="figure-img img-fluid" alt="Структура проекта PlgAbc" />
     </figure>
 
-    <p>Содержимое модели страницы <code>MyPage.cshtml.cs</code> показано ниже. Рекомендуется изучить интерфейсы <a href="https://github.com/RapidScada/scada-v6/tree/master/ScadaWeb/ScadaWeb/ScadaWebCommon/Services" target="_blank">сервисов</a>, которые доступны в веб-приложении через механизм dependency injection.</p>
+    <p>Содержимое модели страницы <code>MyPage.cshtml.cs</code> показано ниже. Чтобы лучше понять исходный код страницы, рекомендуется изучить интерфейсы <a href="https://github.com/RapidScada/scada-v6/tree/master/ScadaWeb/ScadaWeb/ScadaWebCommon/Services" target="_blank">сервисов</a>, которые доступны в веб-приложении через механизм dependency injection.</p>
     <pre><code class="language-csharp">using Microsoft.AspNetCore.Mvc.RazorPages;
 using Scada.Web.Services;
 
@@ -148,4 +146,6 @@ namespace Scada.Web.Plugins.PlgAbc.Areas.Abc.Pages
     <p>Выполните сборку проекта и скопируйте <code>PlgAbc.View.dll</code> в директорию библиотек Администратора <code>ScadaAdmin\Lib</code></p>
 
     <h2 id="run">Запуск плагина</h2>
+    <p>Запустите приложение Администратор или перезапустите его, если оно было открыто. Создайте и откройте копию проекта <code>HelloWorld</code>, затем в разделе <strong>Вебстанция &gt; Плагины</strong> найдите разработанный плагин. Убедитесь, что при выборе плагина его описание корректно отображается. Если при отображении описания плагина возникла ошибка, скорее всего, допущена неточность в пространстве имён или имени класса интерфейса для настройки плагина.</p>
+    <p>Включите плагин <em>PlgAbc</em> и передайте проект на выполнение. В приложении Вебстанция перейдите на <strong>Главное меню &gt; ABC</strong>, чтобы открыть веб-страницу, которую предоставляет разработанный плагин.</p>
 </div>
