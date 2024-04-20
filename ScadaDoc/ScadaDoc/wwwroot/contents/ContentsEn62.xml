@@ -63,6 +63,10 @@
     <Text>Configuration</Text>
     <Subitems>
       <Item>
+        <Text>Configuration Basics</Text>
+        <Url>/en/latest/configuration/configuration-basics</Url>
+      </Item>
+      <Item>
         <Text>Scripts and Formulas</Text>
         <Url>/en/latest/configuration/scripts</Url>
       </Item>
