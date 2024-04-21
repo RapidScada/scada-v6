@@ -97,6 +97,22 @@
     <Text>Developers</Text>
     <Subitems>
       <Item>
+        <Text>Development Basics</Text>
+        <Url>/en/latest/developers/development-basics</Url>
+      </Item>
+      <!--<Item>
+        <Text>Logic Module Development</Text>
+        <Url>/en/latest/developers/module-development</Url>
+      </Item>
+      <Item>
+        <Text>Driver Development</Text>
+        <Url>/en/latest/developers/driver-development</Url>
+      </Item>
+      <Item>
+        <Text>Web Plugin Development</Text>
+        <Url>/en/latest/developers/plugin-development</Url>
+      </Item>-->
+      <Item>
         <Text>Module Store</Text>
         <Url>/en/latest/developers/store</Url>
       </Item>

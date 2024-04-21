@@ -1,0 +1,58 @@
+﻿@page "/en/latest/developers/development-basics"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Development Basics";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#module-development">Module Development</a></li>
+        <li><a href="#integration">Integration</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Development Basics</h1>
+    <p>Rapid SCADA is an <a href="https://github.com/RapidScada/scada-v6" target="_blank">open source</a> project. Therefore, engineers and programmers can join the Rapid SCADA community to develop software that communicates with or integrates with Rapid SCADA. According to practice, an engineer with basic programming knowledge can begin to develop modules for Rapid SCADA, improving his skills bit by bit.</p>
+
+    <h2 id="module-development">Module Development</h2>
+    <p>The term <em>module</em> refers to a software module that includes a DLL library and a set of additional files, which is built into one of the Rapid SCADA applications, expanding its functionality. Main module types:</p>
+
+    <ul>
+        <li><em>Logic module</em> is a library that operates as part of the Server service, which adds data processing logic and mathematical calculations.</li>
+        <li><em>Communication driver</em> is a library managed by Communicator, which implements an industrial communication protocol. For example, Modbus, OPC or MQTT.</li>
+        <li><em>Web plugin</em> consists of a set of DLLs and scripts that are built into the Webstation application, expanding the capabilities of the Rapid SCADA web interface.</li>
+        <li><em>Extension</em> of the Administrator application adds new features to the application's user interface.</li>
+    </ul>
+
+    <p>For development, use the free <a href="https://visualstudio.microsoft.com/" target="_blank">Microsoft Visual Studio Community</a> and <a href="https://code.visualstudio.com/" target="_blank">Visual Studio Code</a> environments. The primary development language is C#.</p>
+
+    <h2 id="integration">Integration</h2>
+    <p>Rapid SCADA provides a wide range of integration methods:</p>
+    <table class="table table-hover">
+        <tbody>
+            <tr>
+                <th scope="row">Database</th>
+                <td>Rapid SCADA has built-in mechanisms for reading and writing real-time data into various popular DBMSs. Import and export can be flexibly configured in accordance with the existing data model.</td>
+            </tr>
+            <tr>
+                <th scope="row">Industrial protocols</th>
+                <td>SCADA systems made by different manufacturers can exchange data with each other using protocols such as Modbus, OPC or MQTT. One system is a data source, and the other is a data consumer.</td>
+            </tr>
+            <tr>
+                <th scope="row">Application protocol</th>
+                <td>Rapid SCADA supports its own application protocol, implemented on top of TCP, which is used to exchange data between the Server application and client applications. The protocol is documented, and a .NET client library is available. The application protocol can be used by a third party client to read data from SCADA archives and send commands.</td>
+            </tr>
+            <tr>
+                <th scope="row">Web API</th>
+                <td>The Webstation application provides access to the Web API, which can be used from both client and server code. An example of using the Web API is available <a href="https://github.com/RapidScada/scada-v6/tree/master/ScadaWeb/OpenPlugins/PlgMain/wwwroot/custom" target="_blank">here</a>.</td>
+            </tr>
+            <tr>
+                <th scope="row">Direct reading of archives</th>
+                <td>Rapid SCADA supports various types of archives based on files, relational DBMSs and time series databases. Integration can be carried out by directly reading data from the archive by the relevant clients.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
