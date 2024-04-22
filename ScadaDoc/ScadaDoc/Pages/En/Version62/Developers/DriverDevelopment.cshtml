@@ -79,7 +79,7 @@ namespace Scada.Comm.Drivers.DrvAbc.Logic
     }
 }</code></pre>
 
-    <p>Создайте класс <code>DrvAbcLogic</code>, код которого показан ниже. Этот класс реализует общую логику драйвера, не связанную с конкретным устройством. Изучите исходный код базового класса <a href="https://github.com/RapidScada/scada-v6/blob/master/ScadaComm/ScadaComm/ScadaCommCommon/Drivers/DriverLogic.cs" target="_blank">DriverLogic</a>, чтобы узнать о доступных возможностях.</p>
+    <p>Create a <code>DrvAbcLogic</code> class whose code is shown below. This class implements general, non-device specific driver logic. View the source code of the <a href="https://github.com/RapidScada/scada-v6/blob/master/ScadaComm/ScadaComm/ScadaCommCommon/Drivers/DriverLogic.cs" target="_blank">DriverLogic</a> base class to learn about the available features.</p>
     <pre><code class="language-csharp">using Scada.Comm.Config;
 using Scada.Comm.Devices;
 
@@ -101,12 +101,12 @@ namespace Scada.Comm.Drivers.DrvAbc.Logic
     }
 }</code></pre>
 
-    <p>Пример логической части драйвера готов. Выполните сборку проекта и скопируйте <code>DrvAbc.Logic.dll</code> в директорию драйверов Коммуникатора <code>ScadaComm\Drv</code></p>
+    <p>An example of the logical part of the driver is ready. Build the project and copy <code>DrvAbc.Logic.dll</code> to the Communicator drivers directory <code>ScadaComm\Drv</code></p>
 
     <h2 id="view">Interface Implementation</h2>
-    <p>Создайте новый проект на основе шаблона <strong>Windows Forms Class Library</strong>. Введите наименование проекта <code>DrvAbc.View</code>, выберите фреймворк .NET 8.0.</p>
-    <p>Добавьте зависимости на библиотеки <code>ScadaCommon.dll</code>, <code>ScadaCommon.Forms.dll</code>, <code>ScadaCommon.Log.dll</code> и <code>ScadaCommCommon.dll</code>.</p>
-    <p>По двойному щелчку в <strong>Solution Explorer</strong> откройте файл проекта <code>DrvAbc.View.csproj</code> и отредактируйте его свойства, как показано ниже.</p>
+    <p>Create a new project based on the <strong>Windows Forms Class Library</strong> template. Enter the project name <code>DrvAbc.View</code>, and select the .NET 8.0 framework.</p>
+    <p>Add dependencies to the <code>ScadaCommon.dll</code>, <code>ScadaCommon.Forms.dll</code>, <code>ScadaCommon.Log.dll</code> and <code>ScadaCommCommon.dll</code> libraries.</p>
+    <p>Double click a project node in <strong>Solution Explorer</strong> to open the project file <code>DrvAbc.View.csproj</code> and edit its properties as shown below.</p>
     <pre><code class="language-xml">&lt;PropertyGroup&gt;
   &lt;TargetFramework&gt;net8.0-windows&lt;/TargetFramework&gt;
   &lt;Nullable&gt;disable&lt;/Nullable&gt;
@@ -115,7 +115,7 @@ namespace Scada.Comm.Drivers.DrvAbc.Logic
   &lt;RootNamespace&gt;Scada.Comm.Drivers.DrvAbc.View&lt;/RootNamespace&gt;
 &lt;/PropertyGroup&gt;</code></pre>
 
-    <p>Создайте класс <code>DevAbcView</code> и скопируйте код, который приведён ниже. Этот класс реализует пользовательский интерфейс для настройки параметров взаимодействия с устройством. Обратите внимание, что пространство имён и имя класса должны содержать код драйвера <code>DrvAbc</code>. В нашем примере пользовательский интерфейс драйвера фактически отсутствует, тем не менее необходима минимальная реализация интерфейса, чтобы драйвер можно было использовать в приложении Администратор. Изучите исходный код базового класса <a href="https://github.com/RapidScada/scada-v6/blob/master/ScadaComm/ScadaComm/ScadaCommCommon/Devices/DeviceView.cs" target="_blank">DeviceView</a>, чтобы узнать о доступных возможностях.</p>
+    <p>Create a <code>DevAbcView</code> class and copy the code below. This class implements the user interface for configuring parameters for interacting with a device. Note that the namespace and class name must contain the <code>DrvAbc</code> driver code. In the example, there is actually no user interface for the driver, however, a minimal implementation of the interface is required so that the driver can be used in the Administrator application. View the source code of the <a href="https://github.com/RapidScada/scada-v6/blob/master/ScadaComm/ScadaComm/ScadaCommCommon/Devices/DeviceView.cs" target="_blank">DeviceView</a> base class to learn about the available features.</p>
     <pre><code class="language-csharp">using Scada.Comm.Config;
 using Scada.Comm.Devices;
 
@@ -130,7 +130,7 @@ namespace Scada.Comm.Drivers.DrvAbc.View
     }
 }</code></pre>
 
-    <p>Создайте класс <code>DrvAbcView</code>, код которого показан ниже. Этот класс реализует общий пользовательский интерфейс драйвера, не связанный с конкретным устройством. Изучите исходный код базового класса <a href="https://github.com/RapidScada/scada-v6/blob/master/ScadaComm/ScadaComm/ScadaCommCommon/Drivers/DriverView.cs" target="_blank">DriverView</a>, чтобы узнать о доступных возможностях.</p>
+    <p>Create a <code>DrvAbcView</code> class whose code is shown below. This class implements a general, non-device specific driver user interface. View the source code of the <a href="https://github.com/RapidScada/scada-v6/blob/master/ScadaComm/ScadaComm/ScadaCommCommon/Drivers/DriverView.cs" target="_blank">DriverView</a> base class to learn about the available features.</p>
     <pre><code class="language-csharp">using Scada.Comm.Config;
 using Scada.Comm.Devices;
 
@@ -155,11 +155,12 @@ namespace Scada.Comm.Drivers.DrvAbc.View
     }
 }</code></pre>
 
-    <p>Пример части драйвера, отвечающей за пользовательский интерфейс, готов. Выполните сборку проекта и скопируйте <code>DrvAbc.View.dll</code> в директорию библиотек Администратора <code>ScadaAdmin\Lib</code></p>
+    <p>An example of the driver part responsible for the user interface is ready. Build the project and copy <code>DrvAbc.View.dll</code> to the Administrator libraries directory <code>ScadaAdmin\Lib</code></p>
 
     <h2 id="run">Run Driver</h2>
-    <p>Запустите приложение Администратор или перезапустите его, если оно было открыто. Создайте новый проект и в разделе <strong>Коммуникатор &gt; Драйверы</strong> найдите разработанный драйвер. Убедитесь, что при выборе драйвера его описание корректно отображается. Если при отображении описания драйвера возникла ошибка, скорее всего, допущена неточность в пространстве имён или именах классов интерфейса драйвера.</p>
-    <p>Создайте линию связи и добавьте устройство, использующее драйвер <em>DrvAbc</em>, на линию. Запустите проект. В журнале линии связи можно наблюдать информацию о работе созданного драйвера:</p>
+    <p>Start the Administrator application or restart it if it is open. Create a new project and find the developed driver in the <strong>Communicator &gt; Drivers</strong> section. Select the driver and make sure its description is displayed correctly. If an error occurs when displaying a driver description, there is most likely an inaccuracy in the namespace or class names of the driver user interface.</p>
+
+    <p>Create a communication line and add a device using the <em>DrvAbc</em> driver to the line. Run the project. In the communication line log you can see information about the operation of the created driver:</p>
     <pre><code>2024-04-18 13:15:41 Session with the device [3] ABC
 DrvAbc driver polling session</code></pre>
 </div>
