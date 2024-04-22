@@ -24,21 +24,21 @@
 
 <div class="doc-content">
     <h1>Driver Development</h1>
-    <p>Преимущества Rapid SCADA как платформы при создании драйверов:</p>
+    <p>Advantages of Rapid SCADA as a platform for driver creation:</p>
     <ul>
-        <li>За соединение (Serial, TCP, UDP) отвечает Коммуникатор. Разработчик реализует кодирование и декодирование пакетов данных.</li>
-        <li>Поддерживается сбор текущих, исторических данных и событий, отправка команд.</li>
-        <li>Встроенный OPC UA-сервер позволяет предоставить данные, полученные от разработанного драйвера, сторонним OPC-клиентам.</li>
-        <li>Готовая система логирования.</li>
-        <li>Унифицированный пользовательский интерфейс для настройки.</li>
+        <li>Communicator is responsible for the connection (Serial, TCP, UDP). The developer implements encoding and decoding of data packets.</li>
+        <li>A driver can collect current, historical data and events, and send commands.</li>
+        <li>The built-in OPC UA server provides data received from the developed driver to third-party OPC clients.</li>
+        <li>A ready-made logging system.</li>
+        <li>Unified user interface for configuration.</li>
     </ul>
 
-    <p>Далее рассмотрим разработку логической части и пользовательского интерфейса простого драйвера, который будет иметь кодовое обозначение <em>DrvAbc</em>. Чтобы разработать сложный драйвер, реализующий какой-либо промышленный протокол, изучите и используйте в качестве примеров исходный код существующих драйверов на GitHub (<a href="https://github.com/RapidScada/scada-v6/tree/master/ScadaComm/OpenDrivers" target="_blank">ссылка 1</a>, <a href="https://github.com/RapidScada/scada-v6/tree/master/ScadaComm/OpenDrivers2" target="_blank">ссылка 2</a>).</p>
+    <p>Next, let's look at the development of the logical part and user interface of a simple driver, which will be named <em>DrvAbc</em>. To develop a complex driver that implements an industrial protocol, learn and use the source code of existing drivers on GitHub as examples (<a href="https://github.com/RapidScada/scada-v6/tree/master/ScadaComm/OpenDrivers" target="_blank">link 1</a>, <a href="https://github.com/RapidScada/scada-v6/tree/master/ScadaComm/OpenDrivers2" target="_blank">link 2</a>).</p>
 
     <h2 id="logic">Logic Implementation</h2>
-    <p>Создайте новый проект на основе шаблона <strong>Class Library</strong>. Введите наименование проекта <code>DrvAbc.Logic</code>, выберите фреймворк .NET 8.0.</p>
-    <p>Добавьте зависимости на библиотеки <code>ScadaCommon.dll</code>, <code>ScadaCommon.Log.dll</code> и <code>ScadaCommCommon.dll</code>. Актуальные бинарные файлы этих библиотек можно найти в директории установки Rapid SCADA, либо собрать самостоятельно из исходного кода.</p>
-    <p>По двойному щелчку в <strong>Solution Explorer</strong> откройте файл проекта <code>DrvAbc.Logic.csproj</code> и отредактируйте его свойства, как показано ниже.</p>
+    <p>Create a new project based on the <strong>Class Library</strong> template. Enter the project name <code>DrvAbc.Logic</code>, and select the .NET 8.0 framework.</p>
+    <p>Add dependencies to the <code>ScadaCommon.dll</code>, <code>ScadaCommon.Log.dll</code> and <code>ScadaCommCommon.dll</code> libraries. Binary files of the libraries can be found in the Rapid SCADA installation directory, or compiled from source code.</p>
+    <p>Double click a project node in <strong>Solution Explorer</strong> to open the project file <code>DrvAbc.Logic.csproj</code> and edit its properties as shown below.</p>
     <pre><code class="language-xml">&lt;PropertyGroup&gt;
   &lt;TargetFramework&gt;net8.0&lt;/TargetFramework&gt;
   &lt;ImplicitUsings&gt;enable&lt;/ImplicitUsings&gt;
@@ -46,7 +46,7 @@
   &lt;RootNamespace&gt;Scada.Comm.Drivers.DrvAbc.Logic&lt;/RootNamespace&gt;
 &lt;/PropertyGroup&gt;</code></pre>
 
-    <p>Создайте класс <code>DevAbcLogic</code> и скопируйте код, который приведён ниже. Этот класс реализует логику взаимодействия с устройством. Обратите внимание, что пространство имён и имя класса должны содержать код драйвера <code>DrvAbc</code>. Изучите исходный код базового класса <a href="https://github.com/RapidScada/scada-v6/blob/master/ScadaComm/ScadaComm/ScadaCommCommon/Devices/DeviceLogic.cs" target="_blank">DeviceLogic</a>, чтобы узнать о возможностях, доступных при реализации логики взаимодействия с устройством.</p>
+    <p>Create a <code>DevAbcLogic</code> class and copy the code below. This class implements the logic for interacting with a device. Note that the namespace and class name must contain the <code>DrvAbc</code> driver code. Explore the source code of the <a href="https://github.com/RapidScada/scada-v6/blob/master/ScadaComm/ScadaComm/ScadaCommCommon/Devices/DeviceLogic.cs" target="_blank">DeviceLogic</a> base class to learn about the capabilities available when implementing device interaction logic.</p>
     <pre><code class="language-csharp">using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Data.Models;
