@@ -108,10 +108,10 @@
         <Text>Driver Development</Text>
         <Url>/en/latest/developers/driver-development</Url>
       </Item>
-      <!--<Item>
+      <Item>
         <Text>Web Plugin Development</Text>
         <Url>/en/latest/developers/plugin-development</Url>
-      </Item>-->
+      </Item>
       <Item>
         <Text>Module Store</Text>
         <Url>/en/latest/developers/store</Url>
