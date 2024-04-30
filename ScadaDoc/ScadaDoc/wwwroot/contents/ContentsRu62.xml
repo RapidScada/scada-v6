@@ -95,6 +95,7 @@
   <!-- Разработчикам -->
   <Item>
     <Text>Разработчикам</Text>
+    <Url>/ru/latest/developers/</Url>
     <Subitems>
       <Item>
         <Text>Основы разработки</Text>
