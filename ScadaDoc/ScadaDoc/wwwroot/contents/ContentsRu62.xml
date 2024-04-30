@@ -3,6 +3,7 @@
   <!-- Обзор -->
   <Item>
     <Text>Обзор</Text>
+    <Url>/ru/latest/software-overview/</Url>
     <Subitems>
       <Item>
         <Text>Введение</Text>
@@ -22,6 +23,7 @@
   <!-- Установка -->
   <Item>
     <Text>Установка</Text>
+    <Url>/ru/latest/installation/</Url>
     <Subitems>
       <Item>
         <Text>Системные требования</Text>
@@ -61,6 +63,7 @@
   <!-- Настройка -->
   <Item>
     <Text>Настройка</Text>
+    <Url>/ru/latest/configuration/</Url>
     <Subitems>
       <Item>
         <Text>Основы настройки</Text>
@@ -76,6 +79,7 @@
   <!-- Модули -->
   <Item>
     <Text>Модули</Text>
+    <Url>/ru/latest/modules/</Url>
     <Subitems>
       <Item>
         <Text>Плагин Графики Про</Text>
@@ -123,6 +127,7 @@
   <!-- История версий -->
   <Item>
     <Text>История версий</Text>
+    <Url>/ru/latest/version-history/</Url>
     <Subitems>
       <Item>
         <Text>История Rapid SCADA</Text>
