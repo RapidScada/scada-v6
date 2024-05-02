@@ -4,12 +4,12 @@
 using Npgsql;
 using NpgsqlTypes;
 using Scada.Admin.Deployment;
+using Scada.Admin.Extensions.ExtDepPostgreSql.Config;
 using Scada.Admin.Lang;
 using Scada.Admin.Project;
 using Scada.Agent.Client;
 using Scada.Data.Entities;
 using Scada.Data.Tables;
-using Scada.Lang;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -35,6 +35,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         private readonly ProjectInstance instance;
         private readonly DeploymentProfile profile;
         private readonly ITransferControl transferControl;
+        private readonly ExtensionConfig extensionConfig;
         private readonly UploadOptions uploadOptions;
         private readonly ProgressTracker progressTracker;
         private NpgsqlConnection conn;
@@ -44,12 +45,13 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         /// Initializes a new instance of the class.
         /// </summary>
         public Uploader(ScadaProject project, ProjectInstance instance, DeploymentProfile profile, 
-            ITransferControl transferControl)
+            ITransferControl transferControl, ExtensionConfig extensionConfig)
         {
             this.project = project ?? throw new ArgumentNullException(nameof(project));
             this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
             this.profile = profile ?? throw new ArgumentNullException(nameof(profile));
             this.transferControl = transferControl ?? throw new ArgumentNullException(nameof(transferControl));
+            this.extensionConfig = extensionConfig ?? throw new ArgumentNullException(nameof(extensionConfig));
             uploadOptions = profile.UploadOptions;
             progressTracker = new ProgressTracker(transferControl) { TaskCount = TaskCount };
             conn = null;
@@ -350,8 +352,8 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         {
             if (uploadOptions.ObjectFilter.Count > 0)
             {
-                List<FileInfo> fileInfoList = new();
-                HashSet<string> pathSet = new(); // ensures uniqueness
+                List<FileInfo> fileInfoList = [];
+                HashSet<string> pathSet = []; // ensures uniqueness
 
                 foreach (View view in SelectItems(project.ConfigDatabase.ViewTable, uploadOptions.ObjectFilter))
                 {
@@ -370,9 +372,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
             else
             {
                 DirectoryInfo viewDirInfo = new(project.Views.ViewDir);
-                return viewDirInfo.Exists 
-                    ? viewDirInfo.GetFiles("*", SearchOption.AllDirectories) 
-                    : Array.Empty<FileInfo>();
+                return viewDirInfo.Exists ? viewDirInfo.GetFiles("*", SearchOption.AllDirectories) : [];
             }
         }
 
@@ -470,7 +470,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
             {
                 if (uploadOptions.IgnoreRegKeys)
                 {
-                    List<FileInfo> fileInfoList = new();
+                    List<FileInfo> fileInfoList = [];
 
                     foreach (FileInfo fileInfo in configDirInfo.EnumerateFiles("*", SearchOption.AllDirectories))
                     {
@@ -487,7 +487,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
             }
             else
             {
-                return Array.Empty<FileInfo>();
+                return [];
             }
         }
 

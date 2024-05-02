@@ -22,6 +22,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         public static string ClearBase { get; private set; }
         public static string CreateBase { get; private set; }
         public static string DeleteTable { get; private set; }
+        public static string TruncateTable { get; private set; }
         public static string CreateTable { get; private set; }
         public static string CreateFKs { get; private set; }
         public static string CreateTableFKs { get; private set; }
@@ -37,27 +38,28 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtDepPostgreSql.Downloader");
-            DownloadTable = dict["DownloadTable"];
-            DownloadView = dict["DownloadView"];
-            DownloadConfigFile = dict["DownloadConfigFile"];
+            DownloadTable = dict[nameof(DownloadTable)];
+            DownloadView = dict[nameof(DownloadView)];
+            DownloadConfigFile = dict[nameof(DownloadConfigFile)];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtDepPostgreSql.Uploader");
-            CreateSchema = dict["CreateSchema"];
-            CreateAppDict = dict["CreateAppDict"];
-            ClearBase = dict["ClearBase"];
-            CreateBase = dict["CreateBase"];
-            DeleteTable = dict["DeleteTable"];
-            CreateTable = dict["CreateTable"];
-            CreateFKs = dict["CreateFKs"];
-            CreateTableFKs = dict["CreateTableFKs"];
-            ClearViews = dict["ClearViews"];
-            CreateViews = dict["CreateViews"];
-            CreateView = dict["CreateView"];
-            ClearAllAppConfig = dict["ClearAllAppConfig"];
-            ClearAppConfig = dict["ClearAppConfig"];
-            CreateAppConfig = dict["CreateAppConfig"];
-            CreateConfigFile = dict["CreateConfigFile"];
-            UnableRestartServices = dict["UnableRestartServices"];
+            CreateSchema = dict[nameof(CreateSchema)];
+            CreateAppDict = dict[nameof(CreateAppDict)];
+            ClearBase = dict[nameof(ClearBase)];
+            CreateBase = dict[nameof(CreateBase)];
+            DeleteTable = dict[nameof(DeleteTable)];
+            TruncateTable = dict[nameof(TruncateTable)];
+            CreateTable = dict[nameof(CreateTable)];
+            CreateFKs = dict[nameof(CreateFKs)];
+            CreateTableFKs = dict[nameof(CreateTableFKs)];
+            ClearViews = dict[nameof(ClearViews)];
+            CreateViews = dict[nameof(CreateViews)];
+            CreateView = dict[nameof(CreateView)];
+            ClearAllAppConfig = dict[nameof(ClearAllAppConfig)];
+            ClearAppConfig = dict[nameof(ClearAppConfig)];
+            CreateAppConfig = dict[nameof(CreateAppConfig)];
+            CreateConfigFile = dict[nameof(CreateConfigFile)];
+            UnableRestartServices = dict[nameof(UnableRestartServices)];
         }
     }
 }
