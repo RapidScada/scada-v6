@@ -11,8 +11,9 @@
     <Phrase key="ClearBase">Очистка базы конфигурации</Phrase>
     <Phrase key="CreateBase">Создание базы конфигурации</Phrase>
     <Phrase key="DeleteTable">Удаление таблицы {0}</Phrase>
-    <Phrase key="TruncateTable">Очистка таблицы {0}</Phrase>
+    <Phrase key="TruncateTable">Обрезка таблицы {0}</Phrase>
     <Phrase key="CreateTable">Создание таблицы {0}</Phrase>
+    <Phrase key="FillTable">Заполнение таблицы {0}</Phrase>
     <Phrase key="CreateFKs">Создание внешних ключей</Phrase>
     <Phrase key="CreateTableFKs">Создание внешних ключей таблицы {0}</Phrase>
     <Phrase key="ClearViews">Очистка представлений</Phrase>
@@ -26,11 +27,11 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ClearBaseMethod">
     <Phrase key="DropTables">Удалить таблицы</Phrase>
-    <Phrase key="TruncateTables">Очистить таблицы</Phrase>
+    <Phrase key="TruncateTables">Обрезать таблицы</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ExtensionConfig">
     <Phrase key="ClearBaseMethod.DisplayName">Метод очистки</Phrase>
     <Phrase key="ClearBaseMethod.Category">Основные параметры</Phrase>
-    <Phrase key="ClearBaseMethod.Description">Метод очистки базы конфигурации.</Phrase>
+    <Phrase key="ClearBaseMethod.Description">Метод очистки базы конфигурации. Метод обрезки возможен, если таблицы уже созданы.</Phrase>
   </Dictionary>
 </ExtDepPostgreSqlDictionaries>

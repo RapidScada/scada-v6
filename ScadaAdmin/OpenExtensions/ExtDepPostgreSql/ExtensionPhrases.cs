@@ -24,6 +24,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         public static string DeleteTable { get; private set; }
         public static string TruncateTable { get; private set; }
         public static string CreateTable { get; private set; }
+        public static string FillTable { get; private set; }
         public static string CreateFKs { get; private set; }
         public static string CreateTableFKs { get; private set; }
         public static string ClearViews { get; private set; }
@@ -50,6 +51,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
             DeleteTable = dict[nameof(DeleteTable)];
             TruncateTable = dict[nameof(TruncateTable)];
             CreateTable = dict[nameof(CreateTable)];
+            FillTable = dict[nameof(FillTable)];
             CreateFKs = dict[nameof(CreateFKs)];
             CreateTableFKs = dict[nameof(CreateTableFKs)];
             ClearViews = dict[nameof(ClearViews)];

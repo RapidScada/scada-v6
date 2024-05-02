@@ -147,6 +147,41 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         }
 
         /// <summary>
+        /// Truncates all tables in the configuration database.
+        /// </summary>
+        private void TruncateBase()
+        {
+            transferControl.ThrowIfCancellationRequested();
+            transferControl.WriteLine();
+            transferControl.WriteMessage(ExtensionPhrases.ClearBase);
+            NpgsqlTransaction trans = null;
+
+            try
+            {
+                trans = conn.BeginTransaction();
+                progressTracker.SubtaskCount = project.ConfigDatabase.AllTables.Length;
+
+                foreach (IBaseTable baseTable in project.ConfigDatabase.AllTables)
+                {
+                    transferControl.ThrowIfCancellationRequested();
+                    transferControl.WriteMessage(string.Format(ExtensionPhrases.TruncateTable, baseTable.Name));
+
+                    string sql = $"TRUNCATE {GetBaseTableName(baseTable)} CASCADE";
+                    new NpgsqlCommand(sql, conn, trans).ExecuteNonQuery();
+                    progressTracker.SubtaskIndex++;
+                }
+
+                trans.Commit();
+                progressTracker.TaskIndex++;
+            }
+            catch
+            {
+                trans?.Rollback();
+                throw;
+            }
+        }
+
+        /// <summary>
         /// Creates and fills the configuration database tables.
         /// </summary>
         private void CreateBase()
@@ -171,6 +206,48 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                     InsertRows(baseTable, trans);
                     progressTracker.SubtaskIndex++;
                 }
+
+                trans.Commit();
+                progressTracker.TaskIndex++;
+            }
+            catch
+            {
+                trans?.Rollback();
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Fills the configuration database tables.
+        /// </summary>
+        private void FillBase()
+        {
+            transferControl.ThrowIfCancellationRequested();
+            transferControl.WriteLine();
+            transferControl.WriteMessage(ExtensionPhrases.CreateBase);
+            NpgsqlTransaction trans = null;
+
+            try
+            {
+                trans = conn.BeginTransaction();
+
+                // disable triggers and constraints
+                new NpgsqlCommand("SET session_replication_role TO replica", conn, trans).ExecuteNonQuery();
+
+                // fill tables
+                progressTracker.SubtaskCount = project.ConfigDatabase.AllTables.Length;
+
+                foreach (IBaseTable baseTable in project.ConfigDatabase.AllTables)
+                {
+                    transferControl.ThrowIfCancellationRequested();
+                    transferControl.WriteMessage(string.Format(ExtensionPhrases.FillTable, baseTable.Name));
+
+                    InsertRows(baseTable, trans);
+                    progressTracker.SubtaskIndex++;
+                }
+
+                // enable triggers and constraints
+                new NpgsqlCommand("SET session_replication_role TO origin", conn, trans).ExecuteNonQuery();
 
                 trans.Commit();
                 progressTracker.TaskIndex++;
@@ -659,9 +736,18 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
 
                 if (uploadOptions.IncludeBase)
                 {
-                    ClearBase();
-                    CreateBase();
-                    CreateForeignKeys();
+                    if (extensionConfig.ClearBaseMethod == ClearBaseMethod.DropTables)
+                    {
+                        ClearBase();
+                        CreateBase();
+                        CreateForeignKeys();
+                    }
+                    else
+                    {
+                        TruncateBase();
+                        FillBase();
+                        progressTracker.SkipTask(1);
+                    }
                 }
                 else
                 {
