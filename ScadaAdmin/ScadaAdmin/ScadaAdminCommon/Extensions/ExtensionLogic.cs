@@ -108,7 +108,7 @@ namespace Scada.Admin.Extensions
         }
 
         /// <summary>
-        /// Loads configuration.
+        /// Loads the extension configuration.
         /// </summary>
         public virtual void LoadConfig()
         {
@@ -171,7 +171,7 @@ namespace Scada.Admin.Extensions
         }
 
         /// <summary>
-        /// Downloads the configuration.
+        /// Downloads the project configuration.
         /// </summary>
         public virtual void DownloadConfig(ScadaProject project, ProjectInstance instance, DeploymentProfile profile,
             ITransferControl transferControl)
@@ -180,7 +180,7 @@ namespace Scada.Admin.Extensions
         }
 
         /// <summary>
-        /// Uploads the configuration.
+        /// Uploads the project configuration.
         /// </summary>
         public virtual void UploadConfig(ScadaProject project, ProjectInstance instance, DeploymentProfile profile,
             ITransferControl transferControl)

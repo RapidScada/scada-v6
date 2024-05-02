@@ -72,7 +72,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         }
 
         /// <summary>
-        /// Downloads the configuration.
+        /// Downloads the project configuration.
         /// </summary>
         public override void DownloadConfig(ScadaProject project, ProjectInstance instance, DeploymentProfile profile,
             ITransferControl transferControl)
@@ -81,7 +81,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         }
 
         /// <summary>
-        /// Uploads the configuration.
+        /// Uploads the project configuration.
         /// </summary>
         public override void UploadConfig(ScadaProject project, ProjectInstance instance, DeploymentProfile profile,
             ITransferControl transferControl)
