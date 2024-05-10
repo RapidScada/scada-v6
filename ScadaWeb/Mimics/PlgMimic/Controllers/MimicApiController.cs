@@ -3,6 +3,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Scada.Web.Plugins.PlgMimic.MimicModel;
+using System.Dynamic;
 
 namespace Scada.Web.Plugins.PlgMimic.Controllers
 {
@@ -16,11 +17,22 @@ namespace Scada.Web.Plugins.PlgMimic.Controllers
     {
         public Component GetComponent()
         {
+            dynamic dto = new ExpandoObject();
+            dto.Prop1 = "aaa";
+
+            dynamic obj2 = new ExpandoObject();
+            obj2.Field1 = 123.45;
+            dto.Prop2 = obj2;
+
             Component component = new()
             {
                 ID = 1,
-                Name = "Test"
+                Name = "Test",
+                Properties = dto
             };
+
+            dynamic dtoLink = component.Properties;
+            dtoLink.Prop3 = DateTime.UtcNow;
 
             return component;
         }
