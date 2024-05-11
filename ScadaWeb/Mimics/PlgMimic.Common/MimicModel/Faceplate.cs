@@ -18,10 +18,5 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// Gets the images used by the components.
         /// </summary>
         public Dictionary<string, Image> Images { get; } = [];
-
-        /// <summary>
-        /// Gets the fonts.
-        /// </summary>
-        public Dictionary<string, Font> Fonts { get; } = [];
     }
 }
