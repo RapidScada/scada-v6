@@ -18,5 +18,22 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// Gets the images used by the components.
         /// </summary>
         public Dictionary<string, Image> Images { get; } = [];
+
+
+        /// <summary>
+        /// Loads the mimic diagram.
+        /// </summary>
+        public void Load(Stream stream)
+        {
+
+        }
+
+        /// <summary>
+        /// Saves the mimic diagram.
+        /// </summary>
+        public void Save(Stream stream)
+        {
+
+        }
     }
 }
