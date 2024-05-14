@@ -20,8 +20,8 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         public string Channel { get; set; }
 
         /// <summary>
-        /// 
+        /// Gets or sets the data member provinding the property value.
         /// </summary>
-        public int DataMember { get; set; }
+        public string DataMember { get; set; }
     }
 }
