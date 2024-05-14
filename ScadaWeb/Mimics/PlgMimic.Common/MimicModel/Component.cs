@@ -27,8 +27,18 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         public string TypeName { get; set; } = "";
 
         /// <summary>
-        /// Gets or sets the components properties.
+        /// Gets the components properties.
         /// </summary>
-        public ExpandoObject Properties { get; set; } = null;
+        public ExpandoObject Properties { get; } = new();
+
+        /// <summary>
+        /// Gets the component bindings.
+        /// </summary>
+        public ComponentBindings Bindings { get; } = new();
+
+        /// <summary>
+        /// Gets the component access options.
+        /// </summary>
+        public ComponentAccess Access { get; } = new();
     }
 }

@@ -7,7 +7,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
     /// Represents a binding of a component property to a channel.
     /// <para>Представляет привязку свойства компонента к каналу.</para>
     /// </summary>
-    public class Binding
+    public class PropertyBinding
     {
         /// <summary>
         /// Gets or sets the name of the component property to which the channel is bound.
@@ -20,7 +20,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         public string Channel { get; set; }
 
         /// <summary>
-        /// Gets or sets the data member provinding the property value.
+        /// Gets or sets the data member that provindes the property value.
         /// </summary>
         public string DataMember { get; set; }
     }
