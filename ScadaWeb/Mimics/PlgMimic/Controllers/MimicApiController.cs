@@ -17,7 +17,7 @@ namespace Scada.Web.Plugins.PlgMimic.Controllers
     {
         public Component GetComponent()
         {
-            dynamic dto = new ExpandoObject();
+            /*dynamic dto = new ExpandoObject();
             dto.Prop1 = "aaa";
 
             dynamic obj2 = new ExpandoObject();
@@ -34,7 +34,8 @@ namespace Scada.Web.Plugins.PlgMimic.Controllers
             dynamic dtoLink = component.Properties;
             dtoLink.Prop3 = DateTime.UtcNow;
 
-            return component;
+            return component;*/
+            return new Component();
         }
     }
 }
