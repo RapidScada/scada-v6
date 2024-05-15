@@ -1,0 +1,11 @@
+﻿@page
+@model MimicOpenModel
+@{
+    ViewBag.Title = System.IO.Path.GetFileName(Model.FileName);
+}
+
+<div class="container-xxl mt-3">
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        @Model.ErrorMessage
+    </div>
+</div>

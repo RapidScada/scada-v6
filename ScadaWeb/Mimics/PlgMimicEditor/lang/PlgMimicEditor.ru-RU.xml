@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PlgMimicEditorDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.PlgMimicEditorLogic">
+    <Phrase key="EditorMenuItem">Редактор мнемосхем</Phrase>
+    <Phrase key="MimicsMenuItem">Активные мнемосхемы</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicListModel">
+    <Phrase key="PageTitle">Редактор мнемосхем</Phrase>
+    <Phrase key="OpenMimicHeader">Открыть мнемосхему</Phrase>
+    <Phrase key="ActiveMimicsHeader">Активные мнемосхемы</Phrase>
+    <Phrase key="txtFileName_Placeholder">Путь к файлу мнемосхемы (*.mim)</Phrase>
+    <Phrase key="btnOpenMimic">Открыть</Phrase>
+  </Dictionary>
+</PlgMimicEditorDictionaries>

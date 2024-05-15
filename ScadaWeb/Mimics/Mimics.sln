@@ -9,13 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgMimic.Common", "PlgMimic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgMimic.View", "PlgMimic.View\PlgMimic.View.csproj", "{A8C669E5-CB91-4EF0-BB2C-8A4AD77FB0E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlgMimicEditor", "PlgMimicEditor\PlgMimicEditor.csproj", "{569EB001-F5D2-4C9E-B1D5-65B6CA9D67C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgMimicEditor", "PlgMimicEditor\PlgMimicEditor.csproj", "{569EB001-F5D2-4C9E-B1D5-65B6CA9D67C8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlgMimic", "PlgMimic", "{DC98F470-EC7E-466B-A828-A3AC72BC1AAD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlgMimicEditor", "PlgMimicEditor", "{B222C848-3353-4DAC-A4DE-05D2868A6BDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlgMimicEditor.View", "PlgMimicEditor.View\PlgMimicEditor.View.csproj", "{B0D9FFC8-EC3C-4A8C-8D60-31354F744DF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgMimicEditor.View", "PlgMimicEditor.View\PlgMimicEditor.View.csproj", "{B0D9FFC8-EC3C-4A8C-8D60-31354F744DF4}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "PlgMimicEditor.Shared", "PlgMimicEditor.Shared\PlgMimicEditor.Shared.shproj", "{5C9D4988-2F33-4EB8-A045-9343C158C8D3}"
 EndProject

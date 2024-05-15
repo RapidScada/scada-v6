@@ -1,0 +1,47 @@
+﻿@page
+@model MimicListModel
+@{
+    Layout = "_MainLayout";
+    dynamic dict = Locale.GetDictionary(Model.GetType().FullName);
+    ViewBag.Title = dict.PageTitle;
+}
+
+<h1>@dict.PageTitle</h1>
+
+<form method="post">
+    @if (Model.HasError)
+    {
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <div>@Model.ErrorMessage</div>
+        </div>
+    }
+    <div class="card mb-3">
+        <h5 class="card-header">@dict.OpenMimicHeader</h5>
+        <div class="card-body">
+            <div class="input-group">
+                <input type="text" id="txtFileName" class="form-control" placeholder="@dict.txtFileName_Placeholder" required asp-for="FileName">
+                <button type="submit" id="btnOpenScheme" class="btn btn-primary">@dict.btnOpenMimic</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<h2>@dict.ActiveMimicsHeader</h2>
+
+<div class="card mb-3">
+    <h5 class="card-header">C:\SCADA\Projects\HelloWorld\HelloWorld.rsproj</h5>
+    <div class="list-group list-group-flush">
+        <a href="#" class="list-group-item list-group-item-action">C:\SCADA\Projects\HelloWorldTest\Views\HelloWorld\PopupScheme.sch</a>
+        <a href="#" class="list-group-item list-group-item-action">C:\SCADA\Projects\HelloWorldTest\Views\HelloWorld\TestScheme.sch</a>
+        <a href="#" class="list-group-item list-group-item-action">C:\SCADA\Projects\HelloWorldTest\Views\HelloWorld\SomeScheme.sch</a>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <h5 class="card-header">C:\SCADA\Projects\RapidGateTest\RapidGateTest.rsproj</h5>
+    <div class="list-group list-group-flush">
+        <a href="#" class="list-group-item list-group-item-action">C:\SCADA\Projects\RapidGateTest\Views\HelloWorld\Replication.sch</a>
+        <a href="#" class="list-group-item list-group-item-action">C:\SCADA\Projects\RapidGateTest\Views\HelloWorld\Simulator.sch</a>
+    </div>
+</div>
