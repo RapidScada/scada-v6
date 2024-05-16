@@ -9,12 +9,17 @@ namespace Scada.Web.Plugins.PlgMimicEditor
     /// Represents information about a plugin.
     /// <para>Представляет информацию о плагине.</para>
     /// </summary>
-    internal class PluginInfo : LibraryInfo
+    internal class EditorPluginInfo : LibraryInfo
     {
+        /// <summary>
+        /// The plugin code.
+        /// </summary>
+        public const string PluginCode = "PlgMimicEditor";
+
         /// <summary>
         /// Gets the plugin code.
         /// </summary>
-        public override string Code => "PlgMimicEditor";
+        public override string Code => PluginCode;
 
         /// <summary>
         /// Gets the plugin name.

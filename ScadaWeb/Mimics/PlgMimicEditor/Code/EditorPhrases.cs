@@ -6,10 +6,10 @@ using Scada.Lang;
 namespace Scada.Web.Plugins.PlgMimicEditor.Code
 {
     /// <summary>
-    /// The phrases used by the plugin.
-    /// <para>Фразы, используемые плагином.</para>
+    /// The phrases used by the editor.
+    /// <para>Фразы, используемые редактором.</para>
     /// </summary>
-    internal static class PluginPhrases
+    internal static class EditorPhrases
     {
         public static string EditorMenuItem { get; private set; }
         public static string MimicsMenuItem { get; private set; }

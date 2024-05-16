@@ -14,7 +14,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.View
         /// </summary>
         public PlgMimicEditorView()
         {
-            Info = new PluginInfo();
+            Info = new EditorPluginInfo();
         }
     }
 }

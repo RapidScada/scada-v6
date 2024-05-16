@@ -9,6 +9,6 @@
     <Import_RootNamespace>Scada.Web.Plugins.PlgMimicEditor</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)PluginInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EditorPluginInfo.cs" />
   </ItemGroup>
 </Project>

@@ -11,7 +11,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages
     /// Represents a page for opening a mimic diagram.
     /// <para>Представляет страницу для открытия мнемосхемы.</para>
     /// </summary>
-    public class MimicOpenModel : PageModel
+    public class MimicOpenModel(EditorManager editorManager) : PageModel
     {
         public string ErrorMessage { get; private set; } = "";
         public string FileName { get; private set; } = "";
@@ -20,11 +20,11 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages
         public IActionResult OnGet(string fileName)
         {
             FileName = fileName;
-            OpenResult result = new(); //_editorContext.Manager.OpenScheme(fileName);
+            OpenResult result = editorManager.OpenMimic(fileName);
 
             if (result.IsSuccessful)
             {
-                return LocalRedirect("~/MimicEdit/" + result.EditorID);
+                return LocalRedirect("~/MimicEdit/" + result.EditorKey);
             }
             else
             {
