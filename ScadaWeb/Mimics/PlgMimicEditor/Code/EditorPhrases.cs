@@ -11,12 +11,21 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
     /// </summary>
     internal static class EditorPhrases
     {
+        // Scada.Web.Plugins.PlgMimicEditor.Code.EditorManager
+        public static string ProjectNotFound { get; private set; }
+        public static string LoadMimicError { get; private set; }
+
+        // Scada.Web.Plugins.PlgMimicEditor.PlgMimicEditorLogic
         public static string EditorMenuItem { get; private set; }
         public static string MimicsMenuItem { get; private set; }
 
         public static void Init()
         {
-            LocaleDict dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMimicEditor.PlgMimicEditorLogic");
+            LocaleDict dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMimicEditor.Code.EditorManager");
+            ProjectNotFound = dict[nameof(ProjectNotFound)];
+            LoadMimicError = dict[nameof(LoadMimicError)];
+
+            dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMimicEditor.PlgMimicEditorLogic");
             EditorMenuItem = dict[nameof(EditorMenuItem)];
             MimicsMenuItem = dict[nameof(MimicsMenuItem)];
         }

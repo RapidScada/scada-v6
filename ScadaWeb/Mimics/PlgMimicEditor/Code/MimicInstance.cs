@@ -9,21 +9,21 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
     /// Represents an instance of a mimic diagram being edited.
     /// <para>Представляет экземпляр реактируемой мнемосхемы.</para>
     /// </summary>
-    internal class MimicInstance
+    public class MimicInstance
     {
         /// <summary>
-        /// Gets or sets the mimic file name.
+        /// Gets the mimic file name.
         /// </summary>
-        public string FileName { get; set; }
+        public string FileName { get; init; }
 
         /// <summary>
-        /// Gets or sets the editor key.
+        /// Gets the mimic model.
         /// </summary>
-        public long EditorKey { get; set; }
+        public Mimic Mimic { get; init; }
 
         /// <summary>
-        /// Gets or sets the mimic model.
+        /// Gets the editor key.
         /// </summary>
-        public Mimic Mimic { get; set; }
+        public long EditorKey { get; init; }
     }
 }

@@ -10,14 +10,24 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
     public class Mimic
     {
         /// <summary>
+        /// Gets the dependencies on the faceplates.
+        /// </summary>
+        public List<FaceplateMeta> Dependencies { get; } = [];
+
+        /// <summary>
         /// Gets the components contained within the mimic.
         /// </summary>
         public List<Component> Components { get; } = [];
 
         /// <summary>
-        /// Gets the images used by the components.
+        /// Gets the images accessed by name.
         /// </summary>
         public Dictionary<string, Image> Images { get; } = [];
+
+        /// <summary>
+        /// Gets the faceplates accessed by type name.
+        /// </summary>
+        public Dictionary<string, Faceplate> Faceplates { get; } = [];
 
 
         /// <summary>

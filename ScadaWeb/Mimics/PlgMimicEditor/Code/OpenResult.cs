@@ -12,16 +12,16 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// <summary>
         /// Gets a value indicating whether the mimic has been opened successfully.
         /// </summary>
-        public bool IsSuccessful { get; init; }
+        public bool IsSuccessful { get; init; } = false;
 
         /// <summary>
         /// Gets the error occurred while opening the mimic.
         /// </summary>
-        public string ErrorMessage { get; init; }
+        public string ErrorMessage { get; init; } = "";
 
         /// <summary>
         /// Gets the key provided by the editor to access the mimic.
         /// </summary>
-        public long EditorKey { get; init; }
+        public long EditorKey { get; init; } = 0;
     }
 }

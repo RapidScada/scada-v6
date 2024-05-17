@@ -7,9 +7,9 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
     /// Represents a group of mimic diagrams belonging to the same project.
     /// <para>Представляет группу мнемосхем, принадлежащих одному проекту.</para>
     /// </summary>
-    internal class MimicGroup
+    public class MimicGroup
     {
-        private readonly Dictionary<string, MimicInstance> mimics;
+        private readonly Dictionary<string, MimicInstance> mimicInstances;
 
 
         /// <summary>
@@ -17,24 +17,35 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         public MimicGroup()
         {
-            mimics = [];
+            mimicInstances = [];
         }
 
 
         /// <summary>
         /// Gets the group name.
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; init; }
 
+
+        /// <summary>
+        /// Adds the mimic to the group.
+        /// </summary>
+        public void AddMimic(MimicInstance mimicInstance)
+        {
+            lock (mimicInstances)
+            {
+                mimicInstances.Add(mimicInstance.FileName, mimicInstance);
+            }
+        }
 
         /// <summary>
         /// Gets a snapshot containing the mimics of the group.
         /// </summary>
         public MimicInstance[] GetMimics()
         {
-            lock (mimics)
+            lock (mimicInstances)
             {
-                return [.. mimics.Values.OrderBy(m => m.FileName)];
+                return [.. mimicInstances.Values.OrderBy(m => m.FileName)];
             }
         }
     }

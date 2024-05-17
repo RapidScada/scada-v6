@@ -13,5 +13,28 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// The plugin log file name.
         /// </summary>
         public const string LogFileName = EditorPluginInfo.PluginCode + ".log";
+
+        /// <summary>
+        /// Finds the project file name traversing up from the specified file.
+        /// </summary>
+        public static bool FindProject(string startFileName, out string projectFileName)
+        {
+            FileInfo startFileInfo = new(startFileName);
+            DirectoryInfo dirInfo = startFileInfo.Directory;
+
+            while (dirInfo != null)
+            {
+                foreach (FileInfo fileInfo in dirInfo.EnumerateFiles("*.rsproj", SearchOption.TopDirectoryOnly))
+                {
+                    projectFileName = fileInfo.FullName;
+                    return true;
+                }
+
+                dirInfo = dirInfo.Parent;
+            }
+
+            projectFileName = "";
+            return false;
+        }
     }
 }
