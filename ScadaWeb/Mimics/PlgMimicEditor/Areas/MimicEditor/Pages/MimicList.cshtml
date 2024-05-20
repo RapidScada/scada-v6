@@ -1,5 +1,6 @@
 ﻿@page
 @model MimicListModel
+@inject EditorManager editorManager
 @{
     Layout = "_MainLayout";
     dynamic dict = Locale.GetDictionary(Model.GetType().FullName);
@@ -27,21 +28,21 @@
     </div>
 </form>
 
-<h2>@dict.ActiveMimicsHeader</h2>
+@{ var mimicGroups = editorManager.GetMimicGroups(); }
+@if (mimicGroups.Length > 0)
+{
+    <h2>@dict.ActiveMimicsHeader</h2>
 
-<div class="card mb-3">
-    <h5 class="card-header">C:\SCADA\Projects\HelloWorld\HelloWorld.rsproj</h5>
-    <div class="list-group list-group-flush">
-        <a href="#" class="list-group-item list-group-item-action">C:\SCADA\Projects\HelloWorldTest\Views\HelloWorld\PopupScheme.sch</a>
-        <a href="#" class="list-group-item list-group-item-action">C:\SCADA\Projects\HelloWorldTest\Views\HelloWorld\TestScheme.sch</a>
-        <a href="#" class="list-group-item list-group-item-action">C:\SCADA\Projects\HelloWorldTest\Views\HelloWorld\SomeScheme.sch</a>
-    </div>
-</div>
-
-<div class="card mb-3">
-    <h5 class="card-header">C:\SCADA\Projects\RapidGateTest\RapidGateTest.rsproj</h5>
-    <div class="list-group list-group-flush">
-        <a href="#" class="list-group-item list-group-item-action">C:\SCADA\Projects\RapidGateTest\Views\HelloWorld\Replication.sch</a>
-        <a href="#" class="list-group-item list-group-item-action">C:\SCADA\Projects\RapidGateTest\Views\HelloWorld\Simulator.sch</a>
-    </div>
-</div>
+    foreach (var mimicGroup in mimicGroups)
+    {
+        <div class="card mb-3">
+            <h5 class="card-header">@mimicGroup.Name</h5>
+            <div class="list-group list-group-flush">
+                @foreach (var mimic in mimicGroup.GetMimics())
+                {
+                    <a asp-page="/MimicEdit" asp-route-key="@mimic.EditorKey" target="_blank" class="list-group-item list-group-item-action">@mimic.FileName</a>
+                }
+            </div>
+        </div>
+    }
+}

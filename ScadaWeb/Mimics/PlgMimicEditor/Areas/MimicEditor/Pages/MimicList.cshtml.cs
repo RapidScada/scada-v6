@@ -28,15 +28,10 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages
         {
             OpenResult result = editorManager.OpenMimic(FileName);
 
-            if (result.IsSuccessful)
-            {
-                return LocalRedirect("~/MimicEdit/" + result.EditorKey);
-            }
-            else
-            {
+            if (!result.IsSuccessful)
                 ErrorMessage = result.ErrorMessage;
-                return Page();
-            }
+
+            return Page();
         }
     }
 }

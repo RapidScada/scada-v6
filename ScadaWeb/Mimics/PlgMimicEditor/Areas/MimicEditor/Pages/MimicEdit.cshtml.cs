@@ -11,7 +11,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages
     /// </summary>
     public class MimicEditModel : PageModel
     {
-        public void OnGet(long editorKey)
+        public void OnGet(long key)
         {
         }
     }

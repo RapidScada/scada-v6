@@ -24,7 +24,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages
 
             if (result.IsSuccessful)
             {
-                return LocalRedirect("~/MimicEdit/" + result.EditorKey);
+                return LocalRedirect("~/MimicEditor/MimicEdit/" + result.EditorKey);
             }
             else
             {
