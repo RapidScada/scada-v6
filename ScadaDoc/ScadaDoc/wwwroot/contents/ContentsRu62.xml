@@ -70,6 +70,10 @@
         <Url>/ru/latest/configuration/configuration-basics</Url>
       </Item>
       <Item>
+        <Text>База конфигурации</Text>
+        <Url>/ru/latest/configuration/database</Url>
+      </Item>
+      <Item>
         <Text>Скрипты и формулы</Text>
         <Url>/ru/latest/configuration/scripts</Url>
       </Item>
