@@ -1,0 +1,136 @@
+﻿@page "/en/latest/configuration/database"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Configuration Database";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#model">Database Model</a></li>
+        <li><a href="#editing">Editing Database</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Configuration Database</h1>
+
+    <h2 id="model">Database Model</h2>
+    <p>The configuration database is a part of the project, consisting of tables and common to all project instances. The applications included in Rapid SCADA use the information from the configuration database in conjunction with their settings.</p>
+    <p>The configuration database is edited using the Administrator application. The edited copy of the configuration database is in XML file format. When a project is uploaded to a server for execution, the configuration database is converted into a special DAT format.</p>
+    <p>The configuration database consists of tables, which in turn are composed of columns and rows. Each table belongs to one of the following groups:</p>
+    <ol>
+        <li>Primary tables. This group contains the tables that define the operating of a particular project.</li>
+        <li>Secondary tables. During the development of the project, minor additions are made to the tables in this group.</li>
+    </ol>
+    <p>The following is a list of configuration database tables with a brief description.</p>
+
+    <table class="table table-hover">
+        <tr class="table-secondary">
+            <td colspan="2"><strong>Primary Tables</strong></td>
+        </tr>
+        <tr>
+            <td>Objects</td>
+            <td>Contains logical objects that are used to structure information in the system and manage access rights. Objects can be hierarchical</td>
+        </tr>
+        <tr>
+            <td>Communication lines</td>
+            <td>Describes communication lines that group devices and determine the polling order</td>
+        </tr>
+        <tr>
+            <td>Devices</td>
+            <td>Contains a list of physical or virtual devices</td>
+        </tr>
+        <tr>
+            <td>Channels</td>
+            <td>Channels are necessary for storing measured data, mathematical calculations and sending commands</td>
+        </tr>
+        <tr>
+            <td>Limits</td>
+            <td>Contains a list of limits for channel values</td>
+        </tr>
+        <tr>
+            <td>Views</td>
+            <td>Contains view attributes and specifies the structure of the view tree</td>
+        </tr>
+        <tr>
+            <td>Roles</td>
+            <td>Contains a list of user roles. A role is a set of access rights. Do not change or delete the built-in roles</td>
+        </tr>
+        <tr>
+            <td>Role inheritance</td>
+            <td>Allows to configure a parent role based on the rights of child roles</td>
+        </tr>
+        <tr>
+            <td>Object rights</td>
+            <td>Defines rights of custom roles on objects</td>
+        </tr>
+        <tr>
+            <td>Users</td>
+            <td>Contains a list of users with their roles</td>
+        </tr>
+        <tr class="table-secondary">
+            <td colspan="2"><strong>Secondary Tables</strong></td>
+        </tr>
+        <tr>
+            <td>Archive kinds</td>
+            <td>Dictionary of archive kinds</td>
+        </tr>
+        <tr>
+            <td>Archives</td>
+            <td>Dictionary of archives. The archives in the table correspond to the archives in the Server settings</td>
+        </tr>
+        <tr>
+            <td>Channel statuses</td>
+            <td>Dictionary of channel statuses. Among other things, it sets the match between a channel status and some event parameters</td>
+        </tr>
+        <tr>
+            <td>Channel types</td>
+            <td>Dictionary of channel types</td>
+        </tr>
+        <tr>
+            <td>Data types</td>
+            <td>Dictionary of data types</td>
+        </tr>
+        <tr>
+            <td>Device types</td>
+            <td>Dictionary of device types (drivers)</td>
+        </tr>
+        <tr>
+            <td>Formats</td>
+            <td>Dictionary of formats used when displaying channel and command values</td>
+        </tr>
+        <tr>
+            <td>Quantities</td>
+            <td>Dictionary of quantities</td>
+        </tr>
+        <tr>
+            <td>Scripts</td>
+            <td>Dictionary of scripts and formulas used in calculating channel and command values</td>
+        </tr>
+        <tr>
+            <td>Units</td>
+            <td>Dictionary of units</td>
+        </tr>
+        <tr>
+            <td>View types</td>
+            <td>Dictionary of view types</td>
+        </tr>
+    </table>
+
+    <h2 id="editing">Editing Database</h2>
+    <p>Таблицы базы конфигурации связаны между собой, то есть значение одной таблицы может ссылаться на запись из другой таблицы. Например, устройство ссылается на линию связи, к которой оно относится. Поэтому редактирование таблиц удобно выполнять в определённой последовательности. Для таблиц из группы <strong>Основные таблицы</strong> ввод данных обычно выполняется по порядку, начиная с таблицы <strong>Объекты</strong>, заканчивая таблицей <strong>Пользователи</strong>.</p>
+    <p>Приложение Администратор предоставляет инструменты, которые ускоряют и упрощают редактирование базы конфигурации:</p>
+    <ul>
+        <li>Окно поиска и замены в таблице вызывается кнопкой <img src="../common-images/find.png" />, которая расположена на панели инструментов таблицы, или сочетанием клавиш <kbd>Ctrl</kbd> + <kbd>F</kbd>.</li>
+        <li>Фильтрация таблицы позволяет скрыть лишние записи. Если таблица отфильтрована, то поиск и замена выполняется только для отображаемых записей таблицы. Окно фильтра вызывается кнопкой <img src="../common-images/filter.png" />.</li>
+        <li>Для ячеек таблицы доступны функции вырезать <kbd>Ctrl</kbd> + <kbd>X</kbd>, копировать <kbd>Ctrl</kbd> + <kbd>C</kbd> и вставить <kbd>Ctrl</kbd> + <kbd>V</kbd>. Эти функции работают в том числе для ячеек, значения которых выбираются из выпадающего списка.</li>
+        <li>Если щёлкнуть по заголовку столбца, строки таблицы отсортируются по значениям данного столбца.</li>
+        <li>Если на панели инструментов таблицы отображается кнопка свойств <img src="../common-images/properties.png" />, значит для данной таблицы доступно редактирование записей с помощью диалоговой формы. Кнопка свойств поддерживается для таблицы <strong>Каналы</strong>.</li>
+        <li>Мастеры, которые вызываются с помощью кнопок <img src="../common-images/add-line.png" />, <img src="../common-images/add-device.png" /> и <img src="../common-images/create-cnls.png" />, расположенных на основной панели инструментов, позволяют быстро заполнить таблицы <strong>Линии связи</strong>, <strong>Устройства</strong> и <strong>Каналы</strong>.</li>
+        <li>Инструмент клонирования каналов ускоряет заполнение таблицы <strong>Каналы</strong>, если система содержит много одинаковых устройств. Инструмент доступен через главное меню <strong>Инструменты &gt; Инструменты проекта &gt; Клонировать каналы</strong>.</li>
+        <li>С помощью функций импорта и экспорта таблиц можно переносить сделанные ранее наработки между проектами. Поддерживаются форматы данных XML, CSV и DAT. Функции доступны в разделе главного меню <strong>Инструменты &gt; Инструменты проекта</strong>.</li>
+        <li>Инструмент проверки целостности базы конфигурации позволяет убедиться, что связи между таблицами корректны, и внешние ключи таблиц указывают на существующие записи.</li>
+    </ul>
+</div>

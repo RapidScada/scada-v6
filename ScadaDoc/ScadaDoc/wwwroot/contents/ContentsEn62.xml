@@ -69,10 +69,10 @@
         <Text>Configuration Basics</Text>
         <Url>/en/latest/configuration/configuration-basics</Url>
       </Item>
-      <!--<Item>
+      <Item>
         <Text>Configuration Database</Text>
-        <Url>/ru/latest/configuration/database</Url>
-      </Item>-->
+        <Url>/en/latest/configuration/database</Url>
+      </Item>
       <Item>
         <Text>Scripts and Formulas</Text>
         <Url>/en/latest/configuration/scripts</Url>
