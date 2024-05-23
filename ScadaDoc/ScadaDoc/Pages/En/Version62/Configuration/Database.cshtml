@@ -120,17 +120,18 @@
     </table>
 
     <h2 id="editing">Editing Database</h2>
-    <p>Таблицы базы конфигурации связаны между собой, то есть значение одной таблицы может ссылаться на запись из другой таблицы. Например, устройство ссылается на линию связи, к которой оно относится. Поэтому редактирование таблиц удобно выполнять в определённой последовательности. Для таблиц из группы <strong>Основные таблицы</strong> ввод данных обычно выполняется по порядку, начиная с таблицы <strong>Объекты</strong>, заканчивая таблицей <strong>Пользователи</strong>.</p>
-    <p>Приложение Администратор предоставляет инструменты, которые ускоряют и упрощают редактирование базы конфигурации:</p>
+    <p>The configuration database tables are related to each other, that is, a cell of one table can refer to a record of another table. For example, a device refers to a communication line to which it is connected. Therefore, it is efficient to edit tables in a certain sequence. For tables from the <strong>Primary tables</strong> group, enter data in order starting with the <strong>Objects</strong> table and ending by the <strong>Users</strong> table.</p>
+    <p>The Administrator application provides tools that make editing the configuration database faster and handy:</p>
+
     <ul>
-        <li>Окно поиска и замены в таблице вызывается кнопкой <img src="../common-images/find.png" />, которая расположена на панели инструментов таблицы, или сочетанием клавиш <kbd>Ctrl</kbd> + <kbd>F</kbd>.</li>
-        <li>Фильтрация таблицы позволяет скрыть лишние записи. Если таблица отфильтрована, то поиск и замена выполняется только для отображаемых записей таблицы. Окно фильтра вызывается кнопкой <img src="../common-images/filter.png" />.</li>
-        <li>Для ячеек таблицы доступны функции вырезать <kbd>Ctrl</kbd> + <kbd>X</kbd>, копировать <kbd>Ctrl</kbd> + <kbd>C</kbd> и вставить <kbd>Ctrl</kbd> + <kbd>V</kbd>. Эти функции работают в том числе для ячеек, значения которых выбираются из выпадающего списка.</li>
-        <li>Если щёлкнуть по заголовку столбца, строки таблицы отсортируются по значениям данного столбца.</li>
-        <li>Если на панели инструментов таблицы отображается кнопка свойств <img src="../common-images/properties.png" />, значит для данной таблицы доступно редактирование записей с помощью диалоговой формы. Кнопка свойств поддерживается для таблицы <strong>Каналы</strong>.</li>
-        <li>Мастеры, которые вызываются с помощью кнопок <img src="../common-images/add-line.png" />, <img src="../common-images/add-device.png" /> и <img src="../common-images/create-cnls.png" />, расположенных на основной панели инструментов, позволяют быстро заполнить таблицы <strong>Линии связи</strong>, <strong>Устройства</strong> и <strong>Каналы</strong>.</li>
-        <li>Инструмент клонирования каналов ускоряет заполнение таблицы <strong>Каналы</strong>, если система содержит много одинаковых устройств. Инструмент доступен через главное меню <strong>Инструменты &gt; Инструменты проекта &gt; Клонировать каналы</strong>.</li>
-        <li>С помощью функций импорта и экспорта таблиц можно переносить сделанные ранее наработки между проектами. Поддерживаются форматы данных XML, CSV и DAT. Функции доступны в разделе главного меню <strong>Инструменты &gt; Инструменты проекта</strong>.</li>
-        <li>Инструмент проверки целостности базы конфигурации позволяет убедиться, что связи между таблицами корректны, и внешние ключи таблиц указывают на существующие записи.</li>
+        <li>The search and replace dialog is called by the <img src="../common-images/find.png" /> button, which is located on the table toolbar, or by the keyboard shortcut <kbd>Ctrl</kbd> + <kbd>F</kbd>.</li>
+        <li>Filtering a table hides unnecessary rows. If the table is filtered, search and replace is performed only on the table rows that are displayed. The filter window is called by the <img src="../common-images/filter.png" /> button.</li>
+        <li>When editing table cells, use the functions cut <kbd>Ctrl</kbd> + <kbd>X</kbd>, copy <kbd>Ctrl</kbd> + <kbd>C</kbd> and paste <kbd>Ctrl</kbd> + <kbd>V</kbd>. That functions can also be applied for cells whose values ​​are selected from a drop-down list.</li>
+        <li>Clicking a column header sorts the rows in the table by the values in that column.</li>
+        <li>If the properties button is displayed on the table toolbar, then the rows for that table can be edited using a dialog form.</li>
+        <li>The wizards, which are called up with the <img src="../common-images/add-line.png" />, <img src="../common-images/add-device.png" /> and <img src="../common-images/create-cnls.png" /> buttons located on the main toolbar, help to quickly fill out the <strong>Communication Lines</strong>, <strong>Devices</strong> and <strong>Channels</strong> tables.</li>
+        <li>The channel cloning tool is useful for populating the <strong>Channels</strong> table if the system contains many similar devices. The tool is available through the main menu <strong>Tools &gt; Project Tools &gt; Clone Channels</strong>.</li>
+        <li>Using the table import and export functions, you can transfer previously completed work between projects. XML, CSV and DAT data formats are supported. The functions are available in the main menu section <strong>Tools &gt; Project Tools</strong>.</li>
+        <li>The integrity check tool helps ensure that the relations between the tables are valid and that table foreign keys point to existing records.</li>
     </ul>
 </div>
