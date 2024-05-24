@@ -17,7 +17,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code.Models
         /// <summary>
         /// Specifies how to parse JSON.
         /// </summary>
-        private static readonly JsonSerializerOptions JsonSerializerOptions = 
+        private static readonly JsonSerializerOptions JsonSerializerOptions =
             new() { PropertyNameCaseInsensitive = true };
 
         private readonly Dictionary<string, DeviceModel> deviceByCode; // the device models accessed by code

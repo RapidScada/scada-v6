@@ -132,7 +132,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             ScanCommSettings();
             FillCommLineList();
         }
-        
+
         /// <summary>
         /// Sets the input focus.
         /// </summary>
@@ -152,7 +152,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         {
             // filter devices by selected communication line
             int commLineNum = (int)cbCommLine.SelectedValue;
-            IEnumerable<Device> devices = commLineNum > 0 
+            IEnumerable<Device> devices = commLineNum > 0
                 ? project.ConfigDatabase.DeviceTable.Select(new TableFilter("CommLineNum", commLineNum), true)
                 : project.ConfigDatabase.DeviceTable.Enumerate();
             cbDevice.DataSource = devices.OrderBy(device => device.Name).ToList();
@@ -168,14 +168,14 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 
             if (cbDevice.SelectedItem is Device device)
             {
-                if (deviceItems.TryGetValue(device.DeviceNum, out DeviceItem deviceItem) && 
+                if (deviceItems.TryGetValue(device.DeviceNum, out DeviceItem deviceItem) &&
                     deviceItem.Instance != null)
                 {
                     try
                     {
                         if (deviceItem.DeviceView == null)
                         {
-                            if (ExtensionUtils.GetDeviceView(adminContext, deviceItem.Instance.CommApp, 
+                            if (ExtensionUtils.GetDeviceView(adminContext, deviceItem.Instance.CommApp,
                                     deviceItem.DeviceConfig, out DeviceView deviceView, out string errMsg))
                             {
                                 deviceItem.DeviceView = deviceView;
@@ -189,7 +189,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
                         deviceItem.CnlPrototypes = deviceItem.DeviceView.GetCnlPrototypes();
                         int cnlCnt = deviceItem.CnlPrototypes?.Count ?? 0;
 
-                        txtInfo.Text = string.Format(ExtensionPhrases.DeviceInfo, 
+                        txtInfo.Text = string.Format(ExtensionPhrases.DeviceInfo,
                             deviceItem.DeviceConfig.Driver, deviceItem.Instance.Name, cnlCnt);
                         pbStatus.Image = cnlCnt > 0 ? Properties.Resources.success : Properties.Resources.warning;
                     }

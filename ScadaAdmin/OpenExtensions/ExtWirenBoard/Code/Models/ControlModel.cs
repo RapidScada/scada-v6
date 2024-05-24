@@ -36,8 +36,8 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code.Models
         /// Gets the information associated with the control.
         /// </summary>
         public ControlMeta Meta { get; private set; }
-        
-        
+
+
         /// <summary>
         /// Updates the control information.
         /// </summary>

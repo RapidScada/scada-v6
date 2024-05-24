@@ -20,8 +20,8 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql.Config
         /// </summary>
         [DisplayName, Category, Description]
         public ClearBaseMethod ClearBaseMethod { get; set; }
-        
-        
+
+
         /// <summary>
         /// Sets the default values.
         /// </summary>

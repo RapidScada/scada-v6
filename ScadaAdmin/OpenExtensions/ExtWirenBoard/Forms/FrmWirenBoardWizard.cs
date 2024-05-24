@@ -219,7 +219,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
                         entry.Cnls.ForEach(cnl => project.ConfigDatabase.CnlTable.AddItem(cnl));
                         ctrlLineSelect.Line.DevicePolling.Add(entry.DeviceConfig);
                         entry.DeviceConfig.Parent = ctrlLineSelect.Line;
-                        string fileName = Path.Combine(commConfigDir, 
+                        string fileName = Path.Combine(commConfigDir,
                             MqttClientDeviceConfig.GetFileName(entry.DeviceConfig.DeviceNum));
 
                         if (!entry.MqttDeviceConfig.Save(fileName, out string errMsg))

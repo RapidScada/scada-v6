@@ -27,7 +27,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
             public string PluginCode { get; set; }
             public string FileName { get; set; }
             public string Descr { get; set; }
-            public PluginView PluginView { get; set; }          
+            public PluginView PluginView { get; set; }
             public override string ToString() => PluginCode;
         }
 
@@ -82,7 +82,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
                         dirInfo.EnumerateFiles("Plg*.View.dll", SearchOption.TopDirectoryOnly))
                     {
                         string pluginCode = ScadaUtils.RemoveFileNameSuffixes(fileInfo.Name);
-                        
+
                         if (!webConfig.PluginCodes.Contains(pluginCode))
                         {
                             lbUnusedPlugins.Items.Add(new PluginItem

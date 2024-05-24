@@ -78,11 +78,11 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
 
                 if (dirInfo.Exists)
                 {
-                    foreach (FileInfo fileInfo in 
+                    foreach (FileInfo fileInfo in
                         dirInfo.EnumerateFiles("Mod*.View.dll", SearchOption.TopDirectoryOnly))
                     {
                         string moduleCode = ScadaUtils.RemoveFileNameSuffixes(fileInfo.Name);
-                        
+
                         if (!serverConfig.ModuleCodes.Contains(moduleCode))
                         {
                             lbUnusedModules.Items.Add(new ModuleItem
@@ -323,7 +323,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
                 moduleItem.ModuleView != null && moduleItem.ModuleView.RequireRegistration)
             {
                 lbActiveModules.Focus();
-                new FrmRegistration(adminContext, serverApp, 
+                new FrmRegistration(adminContext, serverApp,
                     moduleItem.ModuleView.ProductCode, moduleItem.ModuleView.Name).ShowDialog();
             }
         }

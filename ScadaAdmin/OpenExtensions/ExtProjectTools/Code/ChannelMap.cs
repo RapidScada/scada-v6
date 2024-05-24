@@ -51,7 +51,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
         {
             List<int> keys = new(index.SelectItemKeys(indexKey));
             writer.WriteLine(keys.Count > 0
-                ? ExtensionPhrases.ChannelsCaption + keys.ToRangeString() 
+                ? ExtensionPhrases.ChannelsCaption + keys.ToRangeString()
                 : ExtensionPhrases.NoChannels);
         }
 
@@ -65,7 +65,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
                 using (StreamWriter writer = new(mapFileName, false, Encoding.UTF8))
                 {
                     string indexedColumn = GroupByDevices ? "DeviceNum" : "ObjNum";
-                    string title = GroupByDevices ? 
+                    string title = GroupByDevices ?
                         ExtensionPhrases.MapByDeviceTitle : ExtensionPhrases.MapByObjectTitle;
                     writer.WriteLine(title);
                     writer.WriteLine(new string('-', title.Length));
@@ -76,7 +76,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
                         {
                             foreach (Device device in configDatabase.DeviceTable.EnumerateItems())
                             {
-                                writer.WriteLine(string.Format(CommonPhrases.EntityCaption, 
+                                writer.WriteLine(string.Format(CommonPhrases.EntityCaption,
                                     device.DeviceNum, device.Name));
                                 WriteCnls(writer, tableIndex, device.DeviceNum);
                                 writer.WriteLine();

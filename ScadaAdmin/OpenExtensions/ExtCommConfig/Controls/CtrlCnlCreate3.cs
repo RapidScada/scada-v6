@@ -95,7 +95,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         {
             numStartCnlNum.Select();
         }
-        
+
         /// <summary>
         /// Sets the channel numbers by default.
         /// </summary>

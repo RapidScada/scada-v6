@@ -5,7 +5,6 @@ using Scada.Admin.Deployment;
 using Scada.Admin.Lang;
 using Scada.Admin.Project;
 using Scada.Agent;
-using Scada.Lang;
 using System;
 
 namespace Scada.Admin.Extensions
@@ -27,7 +26,7 @@ namespace Scada.Admin.Extensions
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ServiceStarter(IAgentClient agentClient, 
+        public ServiceStarter(IAgentClient agentClient,
             ProjectInstance instance, UploadOptions uploadOptions,
             ITransferControl transferControl, ProgressTracker progressTracker)
         {
@@ -84,9 +83,9 @@ namespace Scada.Admin.Extensions
         {
             bool restartServer = instance.ServerApp.Enabled && uploadOptions.RestartServer &&
                 (uploadOptions.IncludeBase || uploadOptions.IncludeServer);
-            bool restartComm = instance.CommApp.Enabled && uploadOptions.RestartComm && 
+            bool restartComm = instance.CommApp.Enabled && uploadOptions.RestartComm &&
                 (uploadOptions.IncludeBase || uploadOptions.IncludeComm);
-            bool smoothRestartWeb = instance.WebApp.Enabled && uploadOptions.RestartWeb && 
+            bool smoothRestartWeb = instance.WebApp.Enabled && uploadOptions.RestartWeb &&
                 !uploadOptions.IncludeWeb && (uploadOptions.IncludeBase || uploadOptions.IncludeView);
             bool fullRestartWeb = instance.WebApp.Enabled && uploadOptions.RestartWeb && uploadOptions.IncludeWeb;
 

@@ -58,7 +58,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
             {
                 cbDefaultTimeZone.BeginUpdate();
                 cbDefaultTimeZone.Items.Clear();
-                
+
                 foreach (TimeZoneInfo timeZone in TimeZoneInfo.GetSystemTimeZones())
                 {
                     cbDefaultTimeZone.Items.Add(timeZone);
@@ -79,7 +79,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
             {
                 cbDefaultCulture.BeginUpdate();
                 cbDefaultCulture.Items.Clear();
-                
+
                 foreach (CultureInfo cultureInfo in CultureInfo.GetCultures(CultureTypes.SpecificCultures))
                 {
                     cbDefaultCulture.Items.Add(new CultureItem { CultureInfo = cultureInfo });
@@ -108,14 +108,14 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         {
             ArgumentNullException.ThrowIfNull(generalOptions, nameof(generalOptions));
             changing = true;
-                       
+
             bool cultureFound = false;
 
             foreach (CultureInfo cultureInfo in CultureInfo.GetCultures(CultureTypes.SpecificCultures))
             {
                 if (cultureInfo.Name == generalOptions.DefaultCulture)
                 {
-                    cbDefaultCulture.Text = new CultureItem { CultureInfo = cultureInfo }.ToString() ;
+                    cbDefaultCulture.Text = new CultureItem { CultureInfo = cultureInfo }.ToString();
                     cultureFound = true;
                     break;
                 }
@@ -125,7 +125,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
                 cbDefaultCulture.Text = generalOptions.DefaultCulture;
 
             bool timeFound = false;
-            
+
             foreach (TimeZoneInfo timeZone in TimeZoneInfo.GetSystemTimeZones())
             {
                 if (timeZone.Id == generalOptions.DefaultTimeZone)
@@ -159,7 +159,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
 
             generalOptions.DefaultTimeZone = cbDefaultTimeZone.SelectedItem is TimeZoneInfo timeZoneInfo ?
                  timeZoneInfo.Id : cbDefaultTimeZone.Text;
-            
+
             generalOptions.DefaultStartPage = txtDefaultStartPage.Text;
             generalOptions.EnableCommands = chkEnableCommands.Checked;
             generalOptions.ShareStats = chkShareStats.Checked;

@@ -79,8 +79,8 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
                              where a.Code == txtArchiveCode.Text
                              select a.ArchiveID).FirstOrDefault();
 
-            FrmEntitySelect frmEntitySelect = new(configDatabase.ArchiveTable) 
-            { 
+            FrmEntitySelect frmEntitySelect = new(configDatabase.ArchiveTable)
+            {
                 MultiSelect = false,
                 SelectedID = archiveID
             };

@@ -28,14 +28,14 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
         /// <summary>
         /// The event mask for the channels being created.
         /// </summary>
-        private static readonly int ControlEventMask = 
+        private static readonly int ControlEventMask =
             new EventMask { Enabled = true, StatusChange = true, Command = true }.Value;
 
         private readonly IAdminContext adminContext;  // the Administrator context
         private readonly ScadaProject project;        // the project under development
         private readonly RichTextBoxHelper logHelper; // provides access to log
-        
-        
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
@@ -44,7 +44,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.project = project ?? throw new ArgumentNullException(nameof(project));
             this.logHelper = logHelper ?? throw new ArgumentNullException(nameof(logHelper));
-            
+
             BuildResult = false;
             DeviceConfigs = new List<DeviceConfigEntry>();
         }
@@ -83,7 +83,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
         /// <summary>
         /// Builds the channels.
         /// </summary>
-        private void BuildCnls(DeviceConfigEntry entry, ControlModel controlModel, 
+        private void BuildCnls(DeviceConfigEntry entry, ControlModel controlModel,
             ChannelNumberingOptions options, int? objNum, int deviceNum, ref int cnlNum)
         {
             string namePrefix = options.PrependDeviceName ? entry.DeviceEntity.Name + " - " : "";
@@ -235,7 +235,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
         /// <summary>
         /// Builds a project configuration.
         /// </summary>
-        public void Build(List<DeviceModel> selectedDevices, int commLineNum, 
+        public void Build(List<DeviceModel> selectedDevices, int commLineNum,
             int startDeviceNum, int startCnlNum, int? objNum)
         {
             ArgumentNullException.ThrowIfNull(selectedDevices, nameof(selectedDevices));

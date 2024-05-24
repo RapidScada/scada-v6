@@ -94,7 +94,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
                 errMsg = ExtensionPhrases.DriverNotSpecified;
                 return false;
             }
-            else if (!GetDriverView(adminContext, commApp, deviceConfig.Driver, 
+            else if (!GetDriverView(adminContext, commApp, deviceConfig.Driver,
                 out DriverView driverView, out errMsg))
             {
                 return false;

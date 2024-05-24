@@ -40,7 +40,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             btnNext.Left = btnSync.Left;
             btnSync.Visible = false;
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
@@ -107,7 +107,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         /// <summary>
         /// Finds the device within the communication line, or returns an insertion index.
         /// </summary>
-        private static bool FindDevice(int deviceNum, LineConfig lineConfig, out DeviceConfig deviceConfig, 
+        private static bool FindDevice(int deviceNum, LineConfig lineConfig, out DeviceConfig deviceConfig,
             out int insertIndex)
         {
             int index = 0;
@@ -192,13 +192,13 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                             if (FindDevice(device.DeviceNum, lineConfig, out DeviceConfig deviceConfig, out insertIndex))
                             {
                                 // update existing device
-                                CommConfigConverter.CopyDeviceProps(device, deviceConfig, 
+                                CommConfigConverter.CopyDeviceProps(device, deviceConfig,
                                     project.ConfigDatabase.DevTypeTable);
                             }
                             else
                             {
                                 // add new device
-                                deviceConfig = CommConfigConverter.CreateDeviceConfig(device, 
+                                deviceConfig = CommConfigConverter.CreateDeviceConfig(device,
                                     project.ConfigDatabase.DevTypeTable);
                                 deviceConfig.Parent = lineConfig;
                                 SetPollingOptions(deviceConfig);

@@ -35,7 +35,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         private readonly ITransferControl transferControl;
         private readonly DownloadOptions downloadOptions;
         private readonly ProgressTracker progressTracker;
-        
+
         private AgentClient agentClient;
         private List<string> tempFileNames;
         private List<string> extractDirs;
@@ -44,7 +44,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public Downloader(AdminDirs appDirs, ScadaProject project, ProjectInstance instance, 
+        public Downloader(AdminDirs appDirs, ScadaProject project, ProjectInstance instance,
             DeploymentProfile profile, ITransferControl transferControl)
         {
             this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
@@ -72,7 +72,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
             tempFileNames.Add(tempFileName);
             extractDirs.Add(extractDir);
         }
-        
+
         /// <summary>
         /// Downloads the configuration database.
         /// </summary>
@@ -210,7 +210,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
                 }
             }
         }
-        
+
         /// <summary>
         /// Recursively moves the files overwriting the existing files.
         /// </summary>

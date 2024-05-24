@@ -41,7 +41,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmDeviceData(IAdminContext adminContext, CommApp commApp, DeviceConfig deviceConfig) : 
+        public FrmDeviceData(IAdminContext adminContext, CommApp commApp, DeviceConfig deviceConfig) :
             this()
         {
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));

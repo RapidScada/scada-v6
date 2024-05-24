@@ -44,7 +44,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public Uploader(ScadaProject project, ProjectInstance instance, DeploymentProfile profile, 
+        public Uploader(ScadaProject project, ProjectInstance instance, DeploymentProfile profile,
             ITransferControl transferControl, ExtensionConfig extensionConfig)
         {
             this.project = project ?? throw new ArgumentNullException(nameof(project));
@@ -85,7 +85,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                 trans = conn.BeginTransaction();
                 new NpgsqlCommand(GetAppTableDDL(), conn, trans).ExecuteNonQuery();
 
-                string sql = $"INSERT INTO {Schema}.app (app_id, name) VALUES (@appID, @name) " + 
+                string sql = $"INSERT INTO {Schema}.app (app_id, name) VALUES (@appID, @name) " +
                     "ON CONFLICT (app_id) DO NOTHING";
                 NpgsqlCommand insertCmd = new(sql, conn, trans);
                 NpgsqlParameter appIdParam = insertCmd.Parameters.Add("appID", NpgsqlDbType.Integer);

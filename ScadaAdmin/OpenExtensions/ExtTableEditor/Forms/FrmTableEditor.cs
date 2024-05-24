@@ -43,7 +43,7 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
             : this()
         {
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
-            configDatabase = adminContext.CurrentProject?.ConfigDatabase ?? 
+            configDatabase = adminContext.CurrentProject?.ConfigDatabase ??
                 throw new ScadaException("Configuration database must not be null.");
             tableView = new TableView(new Data.Entities.View());
             this.fileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
@@ -324,11 +324,11 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
             }
             else if (node.Tag is Cnl cnl)
             {
-                InsertTableItem(new TableItem 
-                { 
-                    CnlNum = cnl.CnlNum, 
-                    Text = cnl.Name, 
-                    AutoText = true 
+                InsertTableItem(new TableItem
+                {
+                    CnlNum = cnl.CnlNum,
+                    Text = cnl.Name,
+                    AutoText = true
                 });
             }
         }

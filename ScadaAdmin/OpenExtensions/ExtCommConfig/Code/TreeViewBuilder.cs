@@ -123,7 +123,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
 
             return lineNode;
         }
-        
+
         /// <summary>
         /// Updates the tree node that represents a communication line and its child nodes.
         /// </summary>

@@ -23,8 +23,8 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
             InitializeComponent();
             changing = false;
         }
-        
-        
+
+
         /// <summary>
         /// Raises an OptionsChanged event.
         /// </summary>

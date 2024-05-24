@@ -115,7 +115,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                 lvDataSource.EndUpdate();
             }
         }
-        
+
         /// <summary>
         /// Sets the configuration according to the controls.
         /// </summary>

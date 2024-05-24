@@ -90,7 +90,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
             ImportTableFilter = dict["ImportTableFilter"];
             ImportTableCompleted = dict["ImportTableCompleted"];
             ImportTableError = dict["ImportTableError"];
-            
+
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Code.ObjectMap");
             ObjectMapTitle = dict["ObjectMapTitle"];
             NoObjects = dict["NoObjects"];

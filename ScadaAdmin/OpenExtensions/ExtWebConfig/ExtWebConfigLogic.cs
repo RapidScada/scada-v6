@@ -95,7 +95,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig
                 return null;
 
             return new TreeNode[]
-            {                
+            {
                 new TreeNode(ExtensionPhrases.ApplicationOptionsNode)
                 {
                     ImageKey = ImageKey.ApplcationOptions,

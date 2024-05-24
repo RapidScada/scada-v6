@@ -86,10 +86,10 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         /// </summary>
         private void CalcDestEndID()
         {
-            numDestEndID.SetValue(chkSrcEndID.Checked 
-                ? chkDestStartID.Checked 
-                    ? numSrcEndID.Value - numSrcStartID.Value + numDestStartID.Value 
-                    : numSrcEndID.Value 
+            numDestEndID.SetValue(chkSrcEndID.Checked
+                ? chkDestStartID.Checked
+                    ? numSrcEndID.Value - numSrcStartID.Value + numDestStartID.Value
+                    : numSrcEndID.Value
                 : 0);
         }
 

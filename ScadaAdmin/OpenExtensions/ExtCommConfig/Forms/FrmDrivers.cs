@@ -4,7 +4,6 @@
 using Scada.Admin.Extensions.ExtCommConfig.Code;
 using Scada.Admin.Forms;
 using Scada.Admin.Project;
-using Scada.Comm.Config;
 using Scada.Comm.Drivers;
 using Scada.Forms;
 using System;
@@ -173,7 +172,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         private void btnProperties_Click(object sender, EventArgs e)
         {
             // show properties of the selected driver
-            if (lbDrivers.SelectedItem is DriverItem driverItem && 
+            if (lbDrivers.SelectedItem is DriverItem driverItem &&
                 driverItem.DriverView != null && driverItem.DriverView.CanShowProperties)
             {
                 lbDrivers.Focus();

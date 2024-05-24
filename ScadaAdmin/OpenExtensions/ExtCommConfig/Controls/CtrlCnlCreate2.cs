@@ -45,7 +45,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
                 txtDevice.Text = value ?? "";
             }
         }
-        
+
         /// <summary>
         /// Gets the selected object number.
         /// </summary>

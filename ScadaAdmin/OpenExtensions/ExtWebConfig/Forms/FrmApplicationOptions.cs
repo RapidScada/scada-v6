@@ -64,18 +64,18 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
         private void ControlsToConfig()
         {
             if (generalOptionsReady)
-                ctrlGeneralOptions.ControlsToOptions(webConfig.GeneralOptions);          
+                ctrlGeneralOptions.ControlsToOptions(webConfig.GeneralOptions);
 
             if (loginOptionsReady)
                 ctrlLoginOptions.ControlsToOptions(webConfig.LoginOptions);
 
             if (displayOptionsReady)
                 ctrlDisplayOptions.ControlsToOptions(webConfig.DisplayOptions);
-            
+
             if (pluginAssigmentReady)
                 ctrlPluginAssignment.ControlsToOptions(webConfig.PluginAssignment);
         }
-        
+
 
         /// <summary>
         /// Saves the file.
@@ -85,7 +85,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
             ControlsToConfig();
 
             if (webApp.SaveConfig(out string errMsg))
-            { 
+            {
                 Text = ExtensionPhrases.ApplicationConfigTitle;
                 ChildFormTag.Modified = false;
             }
@@ -114,7 +114,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
             {
                 if (generalOptionsReady)
                     ctrlGeneralOptions.OptionsToControls(webConfig.GeneralOptions);
-                
+
                 if (connectionOptionsReady)
                     ctrlConnectionOptions.OptionsToControls(webConfig.ConnectionOptions);
 
@@ -168,7 +168,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
                 ctrlLoginOptions.OptionsToControls(webConfig.LoginOptions);
                 loginOptionsReady = true;
             }
-            
+
             if (ctrlDisplayOptions.Visible && !displayOptionsReady)
             {
                 ctrlDisplayOptions.OptionsToControls(webConfig.DisplayOptions);

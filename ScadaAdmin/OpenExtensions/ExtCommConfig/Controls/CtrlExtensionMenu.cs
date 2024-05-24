@@ -404,8 +404,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             {
                 if (adminContext.MainForm.GetAgentClient(SelectedNode, false) is IAgentClient agentClient)
                 {
-                    TeleCommand cmd = new() 
-                    { 
+                    TeleCommand cmd = new()
+                    {
                         CmdVal = lineConfig.CommLineNum
                     };
 
