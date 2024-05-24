@@ -132,7 +132,7 @@ namespace Scada.Doc.Code
         /// <summary>
         /// The menus for all languages.
         /// </summary>
-        public static readonly List<VersionMenu> All = new() 
+        public static readonly List<VersionMenu> All = new()
         {
             // In alphabet order
             En, // English 
