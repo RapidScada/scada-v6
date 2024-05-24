@@ -33,8 +33,8 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.View
         {
             get
             {
-                return Locale.IsRussian ? 
-                    "HTTP уведомления" : 
+                return Locale.IsRussian ?
+                    "HTTP уведомления" :
                     "HTTP Notifications";
             }
         }

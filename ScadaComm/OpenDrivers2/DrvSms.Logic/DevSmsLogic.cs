@@ -292,8 +292,8 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
 
                 while (RequestNeeded(ref tryNum))
                 {
-                    Log.WriteLine(Locale.IsRussian ? 
-                        "Отключение эхо" : 
+                    Log.WriteLine(Locale.IsRussian ?
+                        "Отключение эхо" :
                         "Set echo off");
                     Connection.WriteLine("ATE0");
                     Connection.ReadLines(PollingOptions.Timeout, OkStopCond, out bool stopReceived);
@@ -312,7 +312,7 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
                 while (RequestNeeded(ref tryNum))
                 {
                     Log.WriteLine(Locale.IsRussian ?
-                        "Сброс вызова" : 
+                        "Сброс вызова" :
                         "Drop call");
                     Connection.WriteLine("ATH"); // alternatively, AT+CHUP
                     Connection.ReadLines(PollingOptions.Timeout, OkStopCond, out bool stopReceived);
@@ -332,7 +332,7 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
                 while (RequestNeeded(ref tryNum))
                 {
                     Log.WriteLine(Locale.IsRussian ?
-                        "Запрос списка сообщений" : 
+                        "Запрос списка сообщений" :
                         "Request message list");
                     Connection.WriteLine("AT+CMGL=4");
                     response = Connection.ReadLines(PollingOptions.Timeout, OkStopCond, out bool stopReceived);
@@ -367,7 +367,7 @@ namespace Scada.Comm.Drivers.DrvSms.Logic
                     while (RequestNeeded(ref tryNum))
                     {
                         Log.WriteLine(Locale.IsRussian ?
-                            "Удаление сообщения {0}" : 
+                            "Удаление сообщения {0}" :
                             "Delete message {0}", message.Index);
                         Connection.WriteLine("AT+CMGD=" + message.Index);
                         Connection.ReadLines(PollingOptions.Timeout, OkStopCond, out bool stopReceived);

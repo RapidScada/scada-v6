@@ -7,7 +7,6 @@ using Scada.Comm.Drivers.DrvSms;
 using Scada.Comm.Lang;
 using Scada.Data.Const;
 using Scada.Lang;
-using System.Data;
 using System.Globalization;
 
 namespace Scada.Comm.Drivers.DrvCsvReader.Logic
@@ -187,7 +186,7 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
                     else
                         ReadDataDemo();
 
-                    DeviceData.SetDateTime(TagCode.Timestamp, lastTimestamp, 
+                    DeviceData.SetDateTime(TagCode.Timestamp, lastTimestamp,
                         lastTimestamp > DateTime.MinValue ? CnlStatusID.Defined : CnlStatusID.Undefined);
                     DeviceData.Set(TagCode.Position, fileStream.Position);
                     lastFileSize = fileStream.Length;
@@ -357,9 +356,9 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
             for (int valIdx = 0; valIdx < dataRow.Values.Length; valIdx++)
             {
                 int partIdx = valIdx + 1;
-                dataRow.Values[valIdx] = partIdx <= lineParts.Length && 
+                dataRow.Values[valIdx] = partIdx <= lineParts.Length &&
                     double.TryParse(lineParts[partIdx], NumberStyles.Float, nfi, out double value)
-                    ? value 
+                    ? value
                     : double.NaN;
             }
         }
@@ -449,7 +448,7 @@ namespace Scada.Comm.Drivers.DrvCsvReader.Logic
             {
                 string tagCode = TagCode.GetMainTagCode(tagNum);
                 tagGroup.AddTag(
-                    tagCode, 
+                    tagCode,
                     tagNum <= tagNames.Length ? tagNames[tagNum - 1] : tagCode);
             }
 

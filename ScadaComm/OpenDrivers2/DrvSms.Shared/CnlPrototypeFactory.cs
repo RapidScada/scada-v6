@@ -19,7 +19,7 @@ namespace Scada.Comm.Drivers.DrvSms
         public static CnlPrototypeGroup GetGroup()
         {
             CnlPrototypeGroup group = new CnlPrototypeGroup();
-            
+
             group.CnlPrototypes.Add(new CnlPrototype
             {
                 Name = Locale.IsRussian ? "Сообщения" : "Messages",

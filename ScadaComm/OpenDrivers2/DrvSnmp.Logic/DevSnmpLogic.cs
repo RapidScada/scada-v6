@@ -135,7 +135,7 @@ namespace Scada.Comm.Drivers.DrvSnmp.Logic
                     "Запрос группы переменных \"{0}\"" :
                     "Request variable group \"{0}\"", varGroupConfig.Name);
 
-                IList<Variable> receivedVars = 
+                IList<Variable> receivedVars =
                     Messenger.Get(snmpVersion, endPoint, readCommunity, varGroup.Variables, PollingOptions.Timeout);
 
                 if (receivedVars == null || receivedVars.Count != varCnt)
@@ -159,7 +159,7 @@ namespace Scada.Comm.Drivers.DrvSnmp.Logic
                     }
 
                     VariableConfig variableConfig = varGroupConfig.Variables[i];
-                    Log.WriteLine("{0} {1} = {2}", CommPhrases.ReceiveNotation, variableConfig.Name, 
+                    Log.WriteLine("{0} {1} = {2}", CommPhrases.ReceiveNotation, variableConfig.Name,
                         SnmpDataToString(receivedVar.Data, variableConfig));
                     SetTagData(varGroup.StartTagIndex + i, receivedVar.Data, variableConfig);
                 }
@@ -254,7 +254,7 @@ namespace Scada.Comm.Drivers.DrvSnmp.Logic
                 Log.WriteLine("{0} {1} = {2}", CommPhrases.SendNotation, variableConfig.Name,
                     SnmpDataToString(variable.Data, variableConfig));
 
-                IList<Variable> sentVars = Messenger.Set(snmpVersion, endPoint, writeCommunity, 
+                IList<Variable> sentVars = Messenger.Set(snmpVersion, endPoint, writeCommunity,
                     new List<Variable>() { variable }, PollingOptions.Timeout);
 
                 if (sentVars == null || sentVars.Count != 1 || sentVars[0].Id != variable.Id)

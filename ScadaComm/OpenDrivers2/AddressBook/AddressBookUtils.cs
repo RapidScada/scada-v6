@@ -32,7 +32,7 @@ namespace Scada.AB
             if (log == null)
                 throw new ArgumentNullException(nameof(log));
 
-            AddressBook addressBook = sharedData.ContainsKey(AddressBookKey) ? 
+            AddressBook addressBook = sharedData.ContainsKey(AddressBookKey) ?
                 sharedData[AddressBookKey] as AddressBook : null;
 
             if (addressBook == null)

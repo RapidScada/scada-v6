@@ -71,8 +71,8 @@ namespace Scada.Comm.Drivers.DrvEmail.Logic
         {
             smtpClient.Host = config.Host;
             smtpClient.Port = config.Port;
-            smtpClient.Credentials = string.IsNullOrEmpty(config.Password) 
-                ? CredentialCache.DefaultNetworkCredentials 
+            smtpClient.Credentials = string.IsNullOrEmpty(config.Password)
+                ? CredentialCache.DefaultNetworkCredentials
                 : new NetworkCredential(config.Username, config.Password);
             smtpClient.Timeout = PollingOptions.Timeout;
             smtpClient.EnableSsl = config.EnableSsl;
