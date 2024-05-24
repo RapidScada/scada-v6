@@ -50,7 +50,7 @@ namespace Scada.Web.Plugins.PlgMain
         /// <summary>
         /// Gets the data window specifications.
         /// </summary>
-        public override ICollection<DataWindowSpec> DataWindowSpecs => 
+        public override ICollection<DataWindowSpec> DataWindowSpecs =>
             pluginContext.Options.EventCount > 0 ? new DataWindowSpec[] { new EventWindowSpec() } : null;
 
 
@@ -87,10 +87,21 @@ namespace Scada.Web.Plugins.PlgMain
         public override List<MenuItem> GetUserReports(User user, UserRights userRights)
         {
             MenuItem headerItem = new() { Text = PluginPhrases.ReportGroup };
-            headerItem.Subitems.Add(new MenuItem { Text = PluginPhrases.HistDataReport, 
-                Url = "~/Main/HistDataReport", SortOrder = 0 });
-            headerItem.Subitems.Add(new MenuItem { Text = PluginPhrases.EventReport, 
-                Url = "~/Main/EventReport", SortOrder = 1 });
+
+            headerItem.Subitems.Add(new MenuItem
+            {
+                Text = PluginPhrases.HistDataReport,
+                Url = "~/Main/HistDataReport",
+                SortOrder = 0
+            });
+
+            headerItem.Subitems.Add(new MenuItem
+            {
+                Text = PluginPhrases.EventReport,
+                Url = "~/Main/EventReport",
+                SortOrder = 1
+            });
+
             return new List<MenuItem> { headerItem };
         }
     }

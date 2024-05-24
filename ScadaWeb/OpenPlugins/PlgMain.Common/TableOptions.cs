@@ -48,8 +48,8 @@ namespace Scada.Web.Plugins.PlgMain
         /// Gets or sets the arguments for displaying charts.
         /// </summary>
         public string ChartArgs { get; set; }
-        
-        
+
+
         /// <summary>
         /// Loads the options from the XML node.
         /// </summary>

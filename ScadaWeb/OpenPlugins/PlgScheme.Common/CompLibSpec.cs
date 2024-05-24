@@ -109,8 +109,8 @@ namespace Scada.Web.Plugins.PlgScheme
         public virtual bool Validate(out string errMsg)
         {
             errMsg = "";
-            return 
-                !string.IsNullOrEmpty(XmlPrefix) && 
+            return
+                !string.IsNullOrEmpty(XmlPrefix) &&
                 !string.IsNullOrEmpty(XmlNs) &&
                 !string.IsNullOrEmpty(GroupHeader) &&
                 CompItems != null && CompItems.Count > 0 &&

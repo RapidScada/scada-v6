@@ -24,7 +24,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         private readonly PluginContext pluginContext;
         private readonly dynamic dict;
 
-        public EventAckModel(IWebContext webContext, IUserContext userContext, 
+        public EventAckModel(IWebContext webContext, IUserContext userContext,
             IClientAccessor clientAccessor, PluginContext pluginContext)
         {
             this.webContext = webContext;
@@ -114,7 +114,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                 clientAccessor.ScadaClient.AckEvent(new EventAck
                 {
                     EventID = eventID,
-                    Timestamp = DateTime.UtcNow, 
+                    Timestamp = DateTime.UtcNow,
                     UserID = User.GetUserID()
                 });
                 Message = dict.EventAcknowledged;

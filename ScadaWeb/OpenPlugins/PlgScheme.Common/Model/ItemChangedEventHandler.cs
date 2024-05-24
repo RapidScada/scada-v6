@@ -8,7 +8,7 @@ namespace Scada.Web.Plugins.PlgScheme.Model
     /// <para>Представляет метод для обработки события, возникающего при изменении элемента схемы</para>
     /// </summary>
     public delegate void ItemChangedEventHandler(
-        object sender, 
+        object sender,
         SchemeChangeTypes changeType,
         object changedObject,
         object oldKey);

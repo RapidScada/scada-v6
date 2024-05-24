@@ -72,8 +72,8 @@ namespace Scada.Web.Plugins.PlgMain.Report
         {
             if (reportArgs.TailMode)
             {
-                return string.Format(dict.TailTitleFormat, 
-                    reportArgs.EventCount, 
+                return string.Format(dict.TailTitleFormat,
+                    reportArgs.EventCount,
                     reportArgs.EventDepth * 24);
             }
             else

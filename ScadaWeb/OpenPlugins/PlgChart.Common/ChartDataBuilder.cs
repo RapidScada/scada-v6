@@ -283,7 +283,7 @@ namespace Scada.Web.Plugins.PlgChart
                     .Append(trendName).AppendFormat(".cnlNum = {0};", cnl.CnlNum).AppendLine()
                     .Append(trendName).AppendFormat(".cnlName = '{0}';", cnl.Name.JsEncode()).AppendLine()
                     .Append(trendName).AppendFormat(".quantityID = {0};", cnl.QuantityID ?? 0).AppendLine()
-                    .Append(trendName).AppendFormat(".quantityName = '{0}';", 
+                    .Append(trendName).AppendFormat(".quantityName = '{0}';",
                         GetQuantityName(cnl).JsEncode()).AppendLine()
                     .Append(trendName).AppendFormat(".unitName = '{0}';", GetUnitName(cnl).JsEncode()).AppendLine()
                     .Append(trendName).Append(".points = ");

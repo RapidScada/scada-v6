@@ -70,7 +70,7 @@ namespace Scada.Web.Plugins.PlgScheme
         /// </summary>
         private static bool TypeIsStrandard(Type compType)
         {
-            return compType == typeof(StaticText) || compType == typeof(DynamicText) || 
+            return compType == typeof(StaticText) || compType == typeof(DynamicText) ||
                 compType == typeof(StaticPicture) || compType == typeof(DynamicPicture);
         }
 
@@ -176,7 +176,7 @@ namespace Scada.Web.Plugins.PlgScheme
             }
             catch (Exception ex)
             {
-                log.WriteError(ex, Locale.IsRussian?
+                log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при загрузке компонентов из файлов" :
                     "Error loading components from files");
             }
@@ -279,7 +279,7 @@ namespace Scada.Web.Plugins.PlgScheme
 
                 if (ex is ScadaException)
                     log.WriteError(errMsg + ": " + ex.Message);
-                else 
+                else
                     log.WriteError(ex, errMsg);
 
                 return null;

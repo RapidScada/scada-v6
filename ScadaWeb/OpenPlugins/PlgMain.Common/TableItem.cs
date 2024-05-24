@@ -76,7 +76,7 @@ namespace Scada.Web.Plugins.PlgMain
         public void SaveToXml(XmlElement xmlElem)
         {
             ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
-            
+
             if (CnlNum > 0)
                 xmlElem.SetAttribute("cnlNum", CnlNum);
 

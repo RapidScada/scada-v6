@@ -44,7 +44,7 @@ namespace Scada.Web.Plugins.PlgScheme
             templateArgs = new TemplateArgs(Args);
             templateBindings = null;
 
-            SchemeDoc = new SchemeDocument { SchemeView = this } ;
+            SchemeDoc = new SchemeDocument { SchemeView = this };
             Components = new SortedList<int, ComponentBase>();
             LoadErrors = new List<string>();
         }
@@ -105,10 +105,10 @@ namespace Scada.Web.Plugins.PlgScheme
             // add template bindings as resource
             if (!string.IsNullOrEmpty(templateArgs.BindingFileName))
             {
-                Resources.Add(new ViewResource 
-                { 
-                    Name = nameof(TemplateBindings), 
-                    Path = templateArgs.BindingFileName 
+                Resources.Add(new ViewResource
+                {
+                    Name = nameof(TemplateBindings),
+                    Path = templateArgs.BindingFileName
                 });
             }
 
@@ -231,8 +231,8 @@ namespace Scada.Web.Plugins.PlgScheme
             }
 
             // set title component text
-            int titleCompID = templateBindings == null 
-                ? templateArgs.TitleCompID 
+            int titleCompID = templateBindings == null
+                ? templateArgs.TitleCompID
                 : templateBindings.TitleCompID;
 
             if (titleCompID > 0 &&

@@ -48,7 +48,7 @@ namespace Scada.Web.Plugins.PlgScheme.Model
         #endregion
         public ImageStretches ImageStretch { get; set; }
 
-        
+
         /// <summary>
         /// Загрузить конфигурацию компонента из XML-узла
         /// </summary>

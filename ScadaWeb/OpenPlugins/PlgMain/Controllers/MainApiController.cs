@@ -45,7 +45,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// Initializes a new instance of the class.
         /// </summary>
         public MainApiController(IWebContext webContext, IUserContext userContext, IAuditLog auditLog,
-            IClientAccessor clientAccessor, IViewLoader viewLoader, IMemoryCache memoryCache, 
+            IClientAccessor clientAccessor, IViewLoader viewLoader, IMemoryCache memoryCache,
             PluginContext pluginContext)
         {
             this.webContext = webContext;
@@ -102,10 +102,10 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             cnlNums ??= Array.Empty<int>();
             int cnlCnt = cnlNums.Count;
             CurDataRecord[] records = new CurDataRecord[cnlCnt];
-            CurData curData = new() 
-            { 
+            CurData curData = new()
+            {
                 ServerTime = TimeRecord.Create(DateTime.UtcNow, userContext.TimeZone),
-                Records = records, 
+                Records = records,
                 CnlListID = "0"
             };
 
@@ -198,7 +198,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Requests events from the server.
         /// </summary>
-        private EventPacket RequestEvents(int archiveBit, TimeRange timeRange, 
+        private EventPacket RequestEvents(int archiveBit, TimeRange timeRange,
             long filterID, bool useCache, Func<EventFilter> createFilterFunc)
         {
             ICollection<Event> events = Array.Empty<Event>();
@@ -209,7 +209,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
 
             if (filterID <= 0)
             {
-                events = clientAccessor.ScadaClient.GetEvents(archiveBit, timeRange, 
+                events = clientAccessor.ScadaClient.GetEvents(archiveBit, timeRange,
                     createFilterFunc(), useCache, out filterID);
             }
 
@@ -362,8 +362,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             {
                 CheckAccessRights(cnlNums);
                 HistData histData = RequestHistData(
-                    archiveBit, 
-                    userContext.CreateTimeRangeUtc(startTime, endTime, endInclusive), 
+                    archiveBit,
+                    userContext.CreateTimeRangeUtc(startTime, endTime, endInclusive),
                     cnlNums);
                 return Dto<HistData>.Success(histData);
             }
@@ -455,7 +455,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                     entry =>
                     {
                         entry.SetAbsoluteExpiration(DataCacheExpiration);
-                        return RequestEvents(archiveBit, CreateTimeRange(period), 
+                        return RequestEvents(archiveBit, CreateTimeRange(period),
                             0, false, () => new EventFilter(limit));
                     });
 
@@ -487,7 +487,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 EventPacket eventPacket = memoryCache.GetOrCreate(cacheKey, entry =>
                 {
                     entry.SetAbsoluteExpiration(DataCacheExpiration);
-                    return RequestEvents(archiveBit, CreateTimeRange(period), 
+                    return RequestEvents(archiveBit, CreateTimeRange(period),
                         filterID, true, () => new EventFilter(limit, rights));
                 });
 
@@ -495,7 +495,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             }
             catch (Exception ex)
             {
-                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, 
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi,
                     nameof(GetLastAvailableEvents)));
                 return Dto<EventPacket>.Fail(ex.Message);
             }
@@ -516,7 +516,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                         entry =>
                         {
                             entry.SetAbsoluteExpiration(DataCacheExpiration);
-                            return RequestEvents(archiveBit, CreateTimeRange(period), 
+                            return RequestEvents(archiveBit, CreateTimeRange(period),
                                 filterID, true, () => new EventFilter(limit, view));
                         });
 

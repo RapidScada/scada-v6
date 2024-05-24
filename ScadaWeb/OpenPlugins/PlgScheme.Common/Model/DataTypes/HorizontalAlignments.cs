@@ -23,7 +23,7 @@ namespace Scada.Web.Plugins.PlgScheme.Model.DataTypes
         /// </summary>
         [Description("Center")]
         Center,
-        
+
         /// <summary>
         /// Справа
         /// </summary>
