@@ -12,11 +12,11 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         /// <summary>
         /// The connection status names in English.
         /// </summary>
-        private static readonly string[] ConnStatusNamesEn = { "Undefined", "Normal", "Error" };
+        private static readonly string[] ConnStatusNamesEn = ["Undefined", "Normal", "Error"];
         /// <summary>
         /// The connection status names in Russian.
         /// </summary>
-        private static readonly string[] ConnStatusNamesRu = { "не определено", "норма", "ошибка" };
+        private static readonly string[] ConnStatusNamesRu = ["не определено", "норма", "ошибка"];
 
 
         /// <summary>

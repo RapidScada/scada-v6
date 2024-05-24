@@ -217,7 +217,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
 
                 string sql = "SELECT cnl_num, time_stamp, val, stat FROM " + queryBuilder.CurrentTable;
                 NpgsqlCommand cmd = new(sql, readingConn, trans);
-                List<int> cnlsToDelete = new();
+                List<int> cnlsToDelete = [];
                 int pointCnt = 0;
 
                 using (NpgsqlDataReader reader = cmd.ExecuteReader())

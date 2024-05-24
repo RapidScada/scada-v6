@@ -499,7 +499,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 Monitor.Enter(readingLock);
                 Stopwatch stopwatch = Stopwatch.StartNew();
                 readingConn.Open();
-                List<DateTime> timestamps = new();
+                List<DateTime> timestamps = [];
 
                 string endOper = timeRange.EndInclusive ? "<=" : "<";
                 string sql =

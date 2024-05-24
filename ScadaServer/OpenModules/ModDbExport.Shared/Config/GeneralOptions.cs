@@ -79,9 +79,7 @@ namespace Scada.Server.Modules.ModDbExport.Config
         /// </summary>
         public void LoadFromXml(XmlNode xmlNode)
         {
-            if (xmlNode == null)
-                throw new ArgumentNullException(nameof(xmlNode));
-
+            ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
             Active = xmlNode.GetChildAsBool("Active");
             ID = xmlNode.GetChildAsInt("ID");
             Name = xmlNode.GetChildAsString("Name");
@@ -96,9 +94,7 @@ namespace Scada.Server.Modules.ModDbExport.Config
         /// </summary>
         public void SaveToXml(XmlElement xmlElem)
         {
-            if (xmlElem == null)
-                throw new ArgumentNullException(nameof(xmlElem));
-
+            ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
             xmlElem.AppendElem("Active", Active);
             xmlElem.AppendElem("ID", ID);
             xmlElem.AppendElem("Name", Name);

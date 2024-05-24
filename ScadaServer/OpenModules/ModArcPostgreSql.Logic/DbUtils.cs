@@ -109,7 +109,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             string sql = "SELECT inhrelid::regclass::varchar AS child FROM pg_catalog.pg_inherits " +
                 $"WHERE inhparent = '{tableName}'::regclass";
             NpgsqlCommand cmd = new(sql, conn);
-            List<string> partitionsToDelete = new();
+            List<string> partitionsToDelete = [];
 
             using (NpgsqlDataReader reader = cmd.ExecuteReader())
             {

@@ -43,7 +43,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         /// <summary>
         /// Gets the connection names.
         /// </summary>
-        public string[] ConnectionNames => moduleConfig.Connections.Keys.ToArray();
+        public string[] ConnectionNames => [.. moduleConfig.Connections.Keys];
 
 
         /// <summary>

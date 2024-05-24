@@ -55,7 +55,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Config
         /// </summary>
         protected override void Save(TextWriter writer)
         {
-            XmlDocument xmlDoc = new XmlDocument();
+            XmlDocument xmlDoc = new();
             XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
             xmlDoc.AppendChild(xmlDecl);
 

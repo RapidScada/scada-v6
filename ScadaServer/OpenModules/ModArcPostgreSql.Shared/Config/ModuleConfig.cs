@@ -30,7 +30,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
         /// </summary>
         protected override void SetToDefault()
         {
-            Connections = new SortedList<string, DbConnectionOptions>();
+            Connections = [];
         }
 
         /// <summary>

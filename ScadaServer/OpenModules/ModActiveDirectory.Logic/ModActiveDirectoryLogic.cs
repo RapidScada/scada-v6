@@ -32,7 +32,7 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
             : base(serverContext)
         {
             moduleConfig = new ModuleConfig();
-            users = new Dictionary<string, User>();
+            users = [];
         }
 
 
@@ -161,7 +161,7 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
         /// </summary>
         private List<string> FindUserGroups(LdapConnection connection, SearchResultEntry userEntry)
         {
-            List<string> groups = new();
+            List<string> groups = [];
 
             if (userEntry.Attributes.Contains("memberOf"))
             {
