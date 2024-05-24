@@ -166,7 +166,7 @@ namespace Scada.Web.Code
             {
                 webContext.Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при загрузке представления с ид. {0} по пути {1}" :
-                    "Error loading view with ID {0} by the path {1}", 
+                    "Error loading view with ID {0} by the path {1}",
                     viewEntity.ViewID, viewEntity.Path);
 
                 view = null;

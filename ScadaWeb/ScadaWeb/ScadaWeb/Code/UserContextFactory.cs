@@ -44,7 +44,7 @@ namespace Scada.Web.Code
         /// <summary>
         /// Creates a new user context.
         /// </summary>
-        private static UserContext CreateUserContext(int userID, 
+        private static UserContext CreateUserContext(int userID,
             IWebContext webContext, IClientAccessor clientAccessor)
         {
             User userEntity = webContext.ConfigDatabase.UserTable.GetItem(userID) ??
@@ -68,7 +68,7 @@ namespace Scada.Web.Code
 
                 UserConfig userConfig = webContext.PluginHolder.GetUserConfig(userID);
                 userContext.SetTimeZone(
-                    userConfig?.TimeZone ?? 
+                    userConfig?.TimeZone ??
                     webContext.AppConfig.GeneralOptions.DefaultTimeZone);
 
                 return userContext;

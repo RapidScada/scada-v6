@@ -296,7 +296,7 @@ namespace Scada.Web.Code
 
                 foreach (string pluginCode in AppConfig.PluginCodes)
                 {
-                    if (PluginFactory.GetPluginLogic(AppDirs.ExeDir, pluginCode, this, 
+                    if (PluginFactory.GetPluginLogic(AppDirs.ExeDir, pluginCode, this,
                         out PluginLogic pluginLogic, out string message))
                     {
                         Log.WriteAction(message);

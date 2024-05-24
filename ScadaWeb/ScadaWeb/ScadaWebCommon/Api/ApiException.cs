@@ -34,7 +34,7 @@ namespace Scada.Web.Authorization
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ApiException(string message) 
+        public ApiException(string message)
             : base(message)
         {
         }

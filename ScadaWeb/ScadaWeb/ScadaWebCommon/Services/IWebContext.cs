@@ -109,7 +109,7 @@ namespace Scada.Web.Services
         /// Reloads the application configuration and resets the memory cache.
         /// </summary>
         bool ReloadConfig();
-        
+
         /// <summary>
         /// Resets the memory cache.
         /// </summary>

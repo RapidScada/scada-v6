@@ -157,8 +157,8 @@ namespace Scada.Web.Pages
             }
 
             // create modal dialog result
-            PostbackArgs = new ModalPostbackArgs 
-            { 
+            PostbackArgs = new ModalPostbackArgs
+            {
                 CloseModal = true,
                 ModalResult = new { CnlNums = selectedCnlNums.ToLongString() }
             };

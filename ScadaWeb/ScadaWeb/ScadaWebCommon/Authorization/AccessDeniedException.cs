@@ -36,7 +36,7 @@ namespace Scada.Web.Authorization
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public AccessDeniedException() 
+        public AccessDeniedException()
             : base(WebPhrases.AccessDenied)
         {
         }

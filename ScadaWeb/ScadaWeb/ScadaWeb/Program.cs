@@ -59,7 +59,7 @@ namespace Scada.Web
         private static void InitContext()
         {
             webContext = new WebContext();
-            
+
             if (webContext.Init())
             {
                 webContext.StartProcessing();
