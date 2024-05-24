@@ -57,7 +57,7 @@ namespace Scada.Report
         /// <remarks>
         /// Makes startTime less than or equal to endTime.
         /// </remarks>
-        public static void NormalizeTimeRange(ref DateTime startTime, ref DateTime endTime, int period, 
+        public static void NormalizeTimeRange(ref DateTime startTime, ref DateTime endTime, int period,
             PeriodUnit unit)
         {
             if (startTime > DateTime.MinValue && endTime > DateTime.MinValue)
@@ -96,7 +96,7 @@ namespace Scada.Report
         public static string BuildFileName(string prefix, DateTime generateTime, OutputFormat format)
         {
             return prefix + "_" +
-                generateTime.ToString("yyyy-MM-dd_HH-mm-ss") + 
+                generateTime.ToString("yyyy-MM-dd_HH-mm-ss") +
                 format.GetExtension();
         }
 

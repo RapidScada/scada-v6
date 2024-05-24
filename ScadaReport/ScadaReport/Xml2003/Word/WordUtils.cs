@@ -59,8 +59,8 @@ namespace Scada.Report.Xml2003.Word
                     parentNode.AppendChild(xmlNode.OwnerDocument.CreateElement(BreakPrefix, BreakElem, uri));
 
                 // remove processed text
-                textStr = breakFound && breakIdx + lineBreak.Length < textStr.Length 
-                    ? textStr[(breakIdx + lineBreak.Length)..] 
+                textStr = breakFound && breakIdx + lineBreak.Length < textStr.Length
+                    ? textStr[(breakIdx + lineBreak.Length)..]
                     : "";
             } while (textStr != "");
         }
