@@ -40,7 +40,7 @@ namespace Scada.Admin.App.Code
         public BaseTableItem(IBaseTable baseTable, TableFilter tableFilter)
         {
             BaseTable = baseTable ?? throw new ArgumentNullException(nameof(baseTable));
-            DeviceNum = tableFilter != null && tableFilter.ColumnName == "DeviceNum" && 
+            DeviceNum = tableFilter != null && tableFilter.ColumnName == "DeviceNum" &&
                 tableFilter.Argument is int val ? val : 0;
         }
 

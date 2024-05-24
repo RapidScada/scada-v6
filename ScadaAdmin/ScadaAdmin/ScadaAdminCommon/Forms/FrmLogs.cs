@@ -270,9 +270,9 @@ namespace Scada.Admin.Forms
         private void FrmLogs_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, typeof(FrmLogs).FullName);
-            
+
             ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
-            
+
             FillFilter();
             InitLogBox();
             tmrRefresh.Start();

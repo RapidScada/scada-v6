@@ -23,11 +23,11 @@
  * Modified : 2021
  */
 
+using Scada.Admin.App.Code;
+using Scada.Forms;
 using System;
 using System.Text;
 using System.Windows.Forms;
-using Scada.Admin.App.Code;
-using Scada.Forms;
 
 namespace Scada.Admin.App.Forms.Tables
 {
@@ -142,7 +142,7 @@ namespace Scada.Admin.App.Forms.Tables
                 cbReplaceWith.Visible = false;
                 chkCaseSensitive.Enabled = true;
                 chkWholeCellOnly.Enabled = true;
-                btnFindNext.Enabled = btnReplace.Enabled = btnReplaceAll.Enabled = 
+                btnFindNext.Enabled = btnReplace.Enabled = btnReplaceAll.Enabled =
                     txtFind.Text != "";
             }
             else
@@ -159,7 +159,7 @@ namespace Scada.Admin.App.Forms.Tables
                 cbFind.DisplayMember = cbReplaceWith.DisplayMember = columnInfo.DisplayMember;
                 cbFind.ValueMember = cbReplaceWith.ValueMember = columnInfo.ValueMember;
 
-                btnFindNext.Enabled = btnReplace.Enabled = btnReplaceAll.Enabled = 
+                btnFindNext.Enabled = btnReplace.Enabled = btnReplaceAll.Enabled =
                     cbFind.Items.Count > 0;
             }
         }

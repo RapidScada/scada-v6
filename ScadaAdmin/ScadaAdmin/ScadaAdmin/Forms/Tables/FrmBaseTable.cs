@@ -749,7 +749,7 @@ namespace Scada.Admin.App.Forms.Tables
 
         private void FrmBaseTable_Load(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this, GetType().FullName, 
+            FormTranslator.Translate(this, GetType().FullName,
                 new FormTranslatorOptions { ContextMenus = new ContextMenuStrip[] { cmsTable } });
 
             if (lblCount.Text.Contains("{0}"))
@@ -812,7 +812,7 @@ namespace Scada.Admin.App.Forms.Tables
         {
             int colInd = e.ColumnIndex;
 
-            if (0 <= colInd && colInd < dataGridView.ColumnCount && 
+            if (0 <= colInd && colInd < dataGridView.ColumnCount &&
                 dataGridView.Columns[colInd].Tag is ColumnOptions options)
             {
                 if (e.Value is string valStr && valStr != "")
@@ -1062,7 +1062,7 @@ namespace Scada.Admin.App.Forms.Tables
         {
             if (MessageBox.Show(
                     dataGridView.SelectedRows.Count > 1 ? AppPhrases.DeleteRowsConfirm : AppPhrases.DeleteRowConfirm,
-                    CommonPhrases.QuestionCaption, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) == 
+                    CommonPhrases.QuestionCaption, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) ==
                     DialogResult.Yes)
             {
                 DeleteSelectedRows();
@@ -1116,8 +1116,8 @@ namespace Scada.Admin.App.Forms.Tables
 
             if (frmFilter.ShowDialog() == DialogResult.OK)
             {
-                btnFilter.Image = frmFilter.FilterIsEmpty ? 
-                    Properties.Resources.filter : 
+                btnFilter.Image = frmFilter.FilterIsEmpty ?
+                    Properties.Resources.filter :
                     Properties.Resources.filter_set;
             }
         }

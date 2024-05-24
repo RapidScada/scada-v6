@@ -68,7 +68,7 @@ namespace Scada.Admin.App.Forms
             get
             {
                 return new ProjectVersion(
-                    Convert.ToInt32(numMajorVersion.Value), 
+                    Convert.ToInt32(numMajorVersion.Value),
                     Convert.ToInt32(numMinorVersion.Value));
             }
             set

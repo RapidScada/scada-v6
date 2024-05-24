@@ -149,7 +149,7 @@ namespace Scada.Admin.App.Forms.Tools
             }
 
             // apply the selected culture
-            string cultureName = cbCulture.SelectedItem is CultureItem cultureItem ? 
+            string cultureName = cbCulture.SelectedItem is CultureItem cultureItem ?
                 cultureItem.CultureName : cbCulture.Text;
 
             try

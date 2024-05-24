@@ -86,7 +86,7 @@ namespace Scada.Admin.Deployment
             if (objNums != null)
                 ObjectFilter.AddRange(objNums);
         }
-                
+
         /// <summary>
         /// Loads the settings from the XML node.
         /// </summary>

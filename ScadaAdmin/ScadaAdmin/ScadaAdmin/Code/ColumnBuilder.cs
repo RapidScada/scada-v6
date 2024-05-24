@@ -94,7 +94,7 @@ namespace Scada.Admin.App.Code
         /// <summary>
         /// Creates a new column that hosts cells which values are selected from a combo box.
         /// </summary>
-        private static DataGridViewColumn NewComboBoxColumn(string dataPropertyName, string valueMember, 
+        private static DataGridViewColumn NewComboBoxColumn(string dataPropertyName, string valueMember,
             string displayMember, object dataSource, bool addEmptyRow = false, bool prependID = false,
             ColumnOptions options = null)
         {
@@ -118,11 +118,11 @@ namespace Scada.Admin.App.Code
         /// <summary>
         /// Creates a new column that hosts cells which values are selected from a combo box.
         /// </summary>
-        private static DataGridViewColumn NewComboBoxColumn(string dataPropertyName, 
-            string displayMember, IBaseTable dataSource, bool addEmptyRow = false, bool prependID = false, 
+        private static DataGridViewColumn NewComboBoxColumn(string dataPropertyName,
+            string displayMember, IBaseTable dataSource, bool addEmptyRow = false, bool prependID = false,
             ColumnOptions options = null)
         {
-            return NewComboBoxColumn(dataPropertyName, dataPropertyName, 
+            return NewComboBoxColumn(dataPropertyName, dataPropertyName,
                 displayMember, dataSource, addEmptyRow, prependID, options);
         }
 
@@ -138,7 +138,7 @@ namespace Scada.Admin.App.Code
             {
                 // display ID and name
                 string columnName = valueMember + "_" + displayMember;
-                dataTable.Columns.Add(columnName, typeof(string), 
+                dataTable.Columns.Add(columnName, typeof(string),
                     string.Format("'[' + {0} + '] ' + {1}", valueMember, displayMember));
                 displayMember = columnName;
                 dataTable.DefaultView.Sort = valueMember;
@@ -164,7 +164,7 @@ namespace Scada.Admin.App.Code
         /// </summary>
         private static DataGridViewColumn[] TranslateHeaders(string tableName, DataGridViewColumn[] columns)
         {
-            if (Locale.Dictionaries.TryGetValue(typeof(ColumnBuilder).FullName + "." + tableName, 
+            if (Locale.Dictionaries.TryGetValue(typeof(ColumnBuilder).FullName + "." + tableName,
                 out LocaleDict localeDict))
             {
                 foreach (DataGridViewColumn col in columns)
@@ -492,7 +492,7 @@ namespace Scada.Admin.App.Code
                 NewTextBoxColumn("Name", new ColumnOptions(ColumnLength.Name)),
                 NewTextBoxColumn("Password", new ColumnOptions(ColumnKind.Password, ColumnLength.Password)),
                 NewButtonColumn("Password"),
-                NewComboBoxColumn("RoleID", "Name", configDatabase.RoleTable, false, false, 
+                NewComboBoxColumn("RoleID", "Name", configDatabase.RoleTable, false, false,
                     new ColumnOptions { DefaultValue = RoleID.Disabled }),
                 NewTextBoxColumn("Descr", new ColumnOptions(ColumnLength.Description))
             });

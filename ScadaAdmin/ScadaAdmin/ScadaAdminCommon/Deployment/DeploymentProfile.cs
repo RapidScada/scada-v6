@@ -109,8 +109,8 @@ namespace Scada.Admin.Deployment
         /// Gets the upload options.
         /// </summary>
         public UploadOptions UploadOptions { get; private set; }
-        
-        
+
+
         /// <summary>
         /// Loads the settings from the XML node.
         /// </summary>

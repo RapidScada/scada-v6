@@ -221,7 +221,7 @@ namespace Scada.Admin.App.Forms.Deployment
                 else
                 {
                     pbError.Visible = true;
-                    lblStatus.Text = CancellationToken.IsCancellationRequested ? 
+                    lblStatus.Text = CancellationToken.IsCancellationRequested ?
                         AppPhrases.OperationCanceled : AppPhrases.OperationError;
                 }
             }

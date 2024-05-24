@@ -101,7 +101,7 @@ namespace Scada.Admin.App.Code
             Maximized = true;
             ExplorerWidth = 250;
         }
-        
+
         /// <summary>
         /// Loads the state from the XML node.
         /// </summary>

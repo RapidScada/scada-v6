@@ -88,7 +88,7 @@ namespace Scada.Admin.App.Code
         /// Gets the extension holder.
         /// </summary>
         public ExtensionHolder ExtensionHolder { get; private set; }
-        
+
         /// <summary>
         /// Gets or sets the project currently open.
         /// </summary>

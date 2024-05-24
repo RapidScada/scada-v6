@@ -29,10 +29,8 @@ using Scada.Admin.Deployment;
 using Scada.Admin.Project;
 using Scada.Forms;
 using Scada.Lang;
-using Scada.Log;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace Scada.Admin.App.Controls.Deployment
@@ -202,9 +200,9 @@ namespace Scada.Admin.App.Controls.Deployment
 
             profile.AgentConnectionOptions.Instance = projectInstance.Name;
 
-            FrmProfileEdit frmProfileEdit = new(appData, profile) 
-            { 
-                ExistingProfileNames = existingNames 
+            FrmProfileEdit frmProfileEdit = new(appData, profile)
+            {
+                ExistingProfileNames = existingNames
             };
 
             if (frmProfileEdit.ShowDialog() == DialogResult.OK)

@@ -69,7 +69,7 @@ namespace Scada.Admin.App.Forms.Tools
         {
             InitializeComponent();
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
@@ -261,7 +261,7 @@ namespace Scada.Admin.App.Forms.Tools
                 btnDeactivateExt.Enabled = true;
                 btnMoveUpExt.Enabled = lbActiveExt.SelectedIndex > 0;
                 btnMoveDownExt.Enabled = lbActiveExt.SelectedIndex < lbActiveExt.Items.Count - 1;
-                btnExtProperties.Enabled = extensionItem.ExtensionLogic != null && 
+                btnExtProperties.Enabled = extensionItem.ExtensionLogic != null &&
                     extensionItem.ExtensionLogic.CanShowProperties;
             }
             else

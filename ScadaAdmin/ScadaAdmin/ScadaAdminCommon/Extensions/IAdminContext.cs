@@ -72,7 +72,7 @@ namespace Scada.Admin.Extensions
         /// Occurs when the current project changes.
         /// </summary>
         event EventHandler CurrentProjectChanged;
-        
+
         /// <summary>
         /// Occurs when some extension sends a message to other extensions.
         /// </summary>

@@ -172,7 +172,7 @@ namespace Scada.Admin.App.Forms
 
         private void FrmStartPage_Load(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this, GetType().FullName, 
+            FormTranslator.Translate(this, GetType().FullName,
                 new FormTranslatorOptions { ContextMenus = new ContextMenuStrip[] { cmsProjectList } });
             FillRecentProjectList();
         }

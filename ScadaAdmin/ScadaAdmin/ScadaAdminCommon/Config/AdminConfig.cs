@@ -91,7 +91,7 @@ namespace Scada.Admin.Config
         /// </summary>
         public void SetToDefault(string instanceDir)
         {
-            ExtensionCodes = new List<string> 
+            ExtensionCodes = new List<string>
             {
                 "ExtDepAgent",
                 "ExtDepPostgreSql",

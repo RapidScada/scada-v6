@@ -81,7 +81,7 @@ namespace Scada.Admin.App.Forms
                 return txtName.Text.Trim();
             }
         }
-        
+
         /// <summary>
         /// Gets the project location.
         /// </summary>
@@ -224,7 +224,7 @@ namespace Scada.Admin.App.Forms
             // validate template
             if (template == "")
             {
-                if (MessageBox.Show(AppPhrases.ProjectTemplateEmpty, CommonPhrases.QuestionCaption, 
+                if (MessageBox.Show(AppPhrases.ProjectTemplateEmpty, CommonPhrases.QuestionCaption,
                     MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) != DialogResult.Yes)
                 {
                     return false;

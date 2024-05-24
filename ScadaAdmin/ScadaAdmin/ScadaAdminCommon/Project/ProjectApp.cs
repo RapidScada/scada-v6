@@ -85,8 +85,8 @@ namespace Scada.Admin.Project
         {
             get
             {
-                return string.IsNullOrEmpty(AppDir) 
-                    ? "" 
+                return string.IsNullOrEmpty(AppDir)
+                    ? ""
                     : ScadaUtils.NormalDir(Path.Combine(AppDir, "Config"));
             }
         }
