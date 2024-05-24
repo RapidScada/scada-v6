@@ -137,7 +137,7 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
         /// </summary>
         private bool FindUserEntry(LdapConnection connection, string username, out SearchResultEntry userEntry)
         {
-            SearchRequest request = new(moduleConfig.SearchRoot, "(sAMAccountName=" + username + ")", 
+            SearchRequest request = new(moduleConfig.SearchRoot, "(sAMAccountName=" + username + ")",
                 SearchScope.Subtree, "memberOf")
             {
                 SizeLimit = 1
@@ -185,7 +185,7 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
         /// </summary>
         private void FindOwnerGroups(LdapConnection connection, string group, List<string> groups)
         {
-            SearchRequest request = new(moduleConfig.SearchRoot, "(distinguishedName=" + group + ")", 
+            SearchRequest request = new(moduleConfig.SearchRoot, "(distinguishedName=" + group + ")",
                 SearchScope.Subtree, "memberOf")
             {
                 SizeLimit = 1

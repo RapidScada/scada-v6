@@ -64,7 +64,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// Gets the current queue size.
         /// </summary>
         public int Count => queue.Count;
-        
+
         /// <summary>
         /// Gets or sets a value indicating whether to remove items from the beginning of the queue 
         /// if the size is exceeded.

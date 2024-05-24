@@ -60,7 +60,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
             base.AddToOptionList(options);
             options["UseDefaultConn"] = UseDefaultConn.ToLowerString();
             options["Connection"] = Connection;
-            
+
             if (!ReadOnly)
             {
                 options["PartitionSize"] = PartitionSize.ToString();

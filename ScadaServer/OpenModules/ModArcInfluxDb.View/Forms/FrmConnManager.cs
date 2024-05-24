@@ -123,7 +123,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
                 txtOrg.Text = connectionOptions.Org;
             }
         }
-        
+
         /// <summary>
         /// Retrieves the connections from the connection list to the module configuration.
         /// </summary>
@@ -169,10 +169,10 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
             };
         }
 
-         
+
         private void FrmConnManager_Load(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this, GetType().FullName);            
+            FormTranslator.Translate(this, GetType().FullName);
             ActiveControl = lvConn;
             LoadConfig();
             FillConnList();
@@ -187,7 +187,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
                     Name = CommonPhrases.NewConnection
                 }))
                 .Selected = true;
-            
+
             txtName.Focus();
         }
 
@@ -204,7 +204,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
             GetSelectedItem(out _, out ConnectionOptions connectionOptions);
             ShowConnOptions(connectionOptions);
             changing = false;
-            
+
             // enable or disable button
             btnDeleteConn.Enabled = connectionOptions != null;
         }
@@ -223,7 +223,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
         }
 
         private void txtUrl_TextChanged(object sender, EventArgs e)
-        {           
+        {
             if (!changing && GetSelectedItem(out _, out ConnectionOptions connectionOptions))
                 connectionOptions.Url = txtUrl.Text;
         }

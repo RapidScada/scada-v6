@@ -65,7 +65,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
                 txtName.Text = "";
                 txtCmdCode.Text = "";
                 numStatusCnlNum.Value = numStatusCnlNum.Minimum;
-                numMaxQueueSize.Value = numMaxQueueSize.Minimum;                
+                numMaxQueueSize.Value = numMaxQueueSize.Minimum;
                 numDataLifetime.Value = numDataLifetime.Minimum;
             }
             else

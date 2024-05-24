@@ -219,11 +219,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     "@ackRequired, @ack, @ackTimestamp, @ackUserID, @textFormat, @eventText, @eventData) " +
                     "ON CONFLICT (event_id, time_stamp) DO UPDATE " +
                     "SET hidden = EXCLUDED.hidden, cnl_num = EXCLUDED.cnl_num, " +
-                    "obj_num = EXCLUDED.obj_num, device_num = EXCLUDED.device_num, " + 
+                    "obj_num = EXCLUDED.obj_num, device_num = EXCLUDED.device_num, " +
                     "prev_cnl_val = EXCLUDED.prev_cnl_val, prev_cnl_stat = EXCLUDED.prev_cnl_stat, " +
                     "cnl_val = EXCLUDED.cnl_val, cnl_stat = EXCLUDED.cnl_stat, severity = EXCLUDED.severity, " +
                     "ack_required = EXCLUDED.ack_required, ack = EXCLUDED.ack, ack_timestamp = EXCLUDED.ack_timestamp, " +
-                    "ack_user_id = EXCLUDED.ack_user_id, text_format = EXCLUDED.text_format, " + 
+                    "ack_user_id = EXCLUDED.ack_user_id, text_format = EXCLUDED.text_format, " +
                     "event_text = EXCLUDED.event_text, event_data = EXCLUDED.event_data";
             }
         }

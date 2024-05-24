@@ -72,8 +72,8 @@ namespace Scada.Server.Modules.ModDbExport.Config
         /// Gets or sets the data lifetime in the queue, in seconds.
         /// </summary>
         public int DataLifetime { get; set; }
-        
-        
+
+
         /// <summary>
         /// Loads the options from the XML node.
         /// </summary>

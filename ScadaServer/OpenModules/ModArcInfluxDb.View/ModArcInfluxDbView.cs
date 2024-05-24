@@ -49,8 +49,8 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View
                     "The module provides archiving of historical data into InfluxDB time series database.";
             }
         }
-        
-        
+
+
         /// <summary>
         /// Loads language dictionaries.
         /// </summary>

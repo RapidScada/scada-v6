@@ -20,7 +20,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         /// </summary>
         private const string LogFileName = "ModDbExport.log";
 
-        private readonly ILog moduleLog;            // the module log
+        private readonly LogFile moduleLog;         // the module log
         private readonly ModuleConfig moduleConfig; // the module configuration
         private readonly List<Exporter> exporters;  // the active exporters
 
@@ -36,7 +36,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                 CapacityMB = serverContext.AppConfig.GeneralOptions.MaxLogSize
             };
             moduleConfig = new ModuleConfig();
-            exporters = new List<Exporter>();
+            exporters = [];
         }
 
 
@@ -57,7 +57,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         /// </summary>
         private bool InitExporters(out string errMsg)
         {
-            HashSet<int> exporterIDs = new();
+            HashSet<int> exporterIDs = [];
 
             foreach (ExportTargetConfig exporterConfig in moduleConfig.ExportTargets)
             {

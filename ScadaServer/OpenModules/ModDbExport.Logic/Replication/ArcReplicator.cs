@@ -248,10 +248,10 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Replication
                 int cnlCnt = cnlNumGroup.CnlNums.Length;
                 CnlData[] cnlData = new CnlData[cnlCnt];
                 Slice slice = new(trendBundle.Timestamps[tmIdx], cnlNumGroup.CnlNums, cnlData);
-                SliceItem sliceItem = new(slice) 
-                { 
-                    QueryID = cnlNumGroup.QueryID, 
-                    SingleQuery = cnlNumGroup.SingleQuery 
+                SliceItem sliceItem = new(slice)
+                {
+                    QueryID = cnlNumGroup.QueryID,
+                    SingleQuery = cnlNumGroup.SingleQuery
                 };
 
                 for (int cnlIdx = 0; cnlIdx < cnlCnt; cnlIdx++)
@@ -392,7 +392,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Replication
                     }
                     else if (taskState.ArchiveIndex == 0)
                     {
-                        if (!histDataEnabled || 
+                        if (!histDataEnabled ||
                             ExportHistoricalData(taskState.StepTimeRange, cnlNumGroups[taskState.GroupIndex]))
                         {
                             transferOK = true;
@@ -404,7 +404,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Replication
                             }
                         }
                     }
-                    else if (!eventsEnabled || 
+                    else if (!eventsEnabled ||
                         ExportEvents(taskState.StepTimeRange))
                     {
                         transferOK = true;

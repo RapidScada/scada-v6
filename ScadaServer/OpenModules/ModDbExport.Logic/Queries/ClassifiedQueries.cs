@@ -17,11 +17,11 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         /// </summary>
         public ClassifiedQueries()
         {
-            CurDataQueries = new List<DataQuery>();
-            HistDataQueries = new List<DataQuery>();
-            EventQueries = new List<EventQuery>();
-            EventAckQueries = new List<EventAckQuery>();
-            CmdQueries = new List<CmdQuery>();
+            CurDataQueries = [];
+            HistDataQueries = [];
+            EventQueries = [];
+            EventAckQueries = [];
+            CmdQueries = [];
         }
 
 
@@ -53,11 +53,11 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         /// <summary>
         /// Gets a value indicating whether there are no active requests.
         /// </summary>
-        public bool IsEmpty => 
-            CurDataQueries.Count == 0 && 
-            HistDataQueries.Count == 0 && 
-            EventQueries.Count == 0 && 
-            EventAckQueries.Count == 0 && 
+        public bool IsEmpty =>
+            CurDataQueries.Count == 0 &&
+            HistDataQueries.Count == 0 &&
+            EventQueries.Count == 0 &&
+            EventAckQueries.Count == 0 &&
             CmdQueries.Count == 0;
 
 
@@ -67,7 +67,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         public void CreateQueries(QueryOptionList queryOptionList, DataSource dataSource)
         {
             ArgumentNullException.ThrowIfNull(queryOptionList, nameof(queryOptionList));
-            ArgumentNullException.ThrowIfNull(dataSource, nameof(dataSource));            
+            ArgumentNullException.ThrowIfNull(dataSource, nameof(dataSource));
             int queryID = 1;
 
             foreach (QueryOptions queryOptions in queryOptionList)

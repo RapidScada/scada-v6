@@ -138,7 +138,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 conn = DbUtils.CreateDbConnection(connOptions);
                 conn.Open();
 
-                DbUtils.CreatePartition(conn, queryBuilder.HistoricalTable, 
+                DbUtils.CreatePartition(conn, queryBuilder.HistoricalTable,
                     today, options.PartitionSize, out string partitionName);
                 stopwatch.Stop();
 
@@ -449,8 +449,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public override TrendBundle GetTrends(TimeRange timeRange, int[] cnlNums)
         {
-            return cnlNums.Length == 1 
-                ? GetFirstTrend(timeRange, cnlNums) 
+            return cnlNums.Length == 1
+                ? GetFirstTrend(timeRange, cnlNums)
                 : MergeTrends(timeRange, cnlNums);
         }
 
@@ -502,7 +502,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 List<DateTime> timestamps = new();
 
                 string endOper = timeRange.EndInclusive ? "<=" : "<";
-                string sql = 
+                string sql =
                     $"SELECT DISTINCT time_stamp FROM {queryBuilder.HistoricalTable} " +
                     $"WHERE @startTime <= time_stamp AND time_stamp {endOper} @endTime " +
                     $"ORDER BY time_stamp";
@@ -542,7 +542,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 Slice slice = new(timestamp, cnlNums);
                 Dictionary<int, int> cnlIndexes = GetCnlIndexes(cnlNums);
 
-                string sql = 
+                string sql =
                     $"SELECT cnl_num, val, stat FROM {queryBuilder.HistoricalTable} " +
                     $"WHERE cnl_num IN ({string.Join(",", cnlNums)}) AND time_stamp = @timestamp ";
                 NpgsqlCommand cmd = new(sql, readingConn);
@@ -564,7 +564,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 }
 
                 stopwatch.Stop();
-                arcLog?.WriteAction(ServerPhrases.ReadingSliceCompleted, 
+                arcLog?.WriteAction(ServerPhrases.ReadingSliceCompleted,
                     cnlNums.Length, stopwatch.ElapsedMilliseconds);
                 return slice;
             }
@@ -588,7 +588,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 Monitor.Enter(readingLock);
                 readingConn.Open();
 
-                string sql = $"SELECT val, stat FROM {queryBuilder.HistoricalTable} " + 
+                string sql = $"SELECT val, stat FROM {queryBuilder.HistoricalTable} " +
                     "WHERE cnl_num = @cnlNum AND time_stamp = @timestamp";
                 NpgsqlCommand cmd = new(sql, readingConn);
                 cmd.Parameters.AddWithValue("cnlNum", cnlNum);

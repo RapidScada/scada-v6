@@ -18,8 +18,8 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
         /// </summary>
         [DisplayName, Category, Description]
         public string CmdCode { get; set; } = "";
-        
-        
+
+
         /// <summary>
         /// Loads the options from the XML node.
         /// </summary>

@@ -92,7 +92,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
             {
                 curDataExportOptions.Trigger = (ExportTrigger)cbTrigger.SelectedIndex;
                 OnObjectChanged(TreeUpdateTypes.None);
-                numTimePeriod.Enabled = numAllDataPeriod.Enabled = 
+                numTimePeriod.Enabled = numAllDataPeriod.Enabled =
                     cbTrigger.SelectedIndex > 0;
             }
         }

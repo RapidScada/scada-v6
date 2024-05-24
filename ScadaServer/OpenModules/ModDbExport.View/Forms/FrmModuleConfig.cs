@@ -299,7 +299,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                 (selectedNode.Parent == null || selectedNode.Tag is QueryOptions);
 
             btnDelete.Enabled = btnCut.Enabled = btnCopy.Enabled = selectedNode != null &&
-                (selectedNode.Parent == null || selectedNode.Tag is QueryOptions);            
+                (selectedNode.Parent == null || selectedNode.Tag is QueryOptions);
         }
 
         /// <summary>
@@ -307,9 +307,9 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         /// </summary>
         private bool CheckTargetNamesUnique()
         {
-            return config.ExportTargets.Count == 
+            return config.ExportTargets.Count ==
                 config.ExportTargets.DistinctBy(g => g.GeneralOptions.Name.ToLowerInvariant()).Count();
-        }      
+        }
 
         /// <summary>
         /// Checks the correctness of the gate.
@@ -332,12 +332,12 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         {
             // translate form
             FormTranslator.Translate(this, GetType().FullName,
-                new FormTranslatorOptions {ContextMenus = new ContextMenuStrip[] { cmsTree }}); 
+                new FormTranslatorOptions { ContextMenus = new ContextMenuStrip[] { cmsTree } });
             FormTranslator.Translate(ctrlGeneral, ctrlGeneral.GetType().FullName);
             FormTranslator.Translate(ctrlDbConnection, ctrlDbConnection.GetType().FullName);
             FormTranslator.Translate(ctrlCurDataExport, ctrlCurDataExport.GetType().FullName);
             FormTranslator.Translate(ctrlHistDataExport, ctrlHistDataExport.GetType().FullName);
-            FormTranslator.Translate(ctrlArcReplication, ctrlArcReplication.GetType().FullName);           
+            FormTranslator.Translate(ctrlArcReplication, ctrlArcReplication.GetType().FullName);
             FormTranslator.Translate(ctrlQuery, ctrlQuery.GetType().FullName,
                 new FormTranslatorOptions { ToolTip = ctrlQuery.ToolTip, SkipUserControls = false });
 
@@ -402,7 +402,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
 
             TreeNode targetNode = CreateExportTargetNode(target);
             tvTargets.Insert(null, targetNode, config.ExportTargets, target);
-            tvTargets.SelectedNode = targetNode.FirstNode;            
+            tvTargets.SelectedNode = targetNode.FirstNode;
             Modified = true;
             ctrlGeneral.SetFocus();
         }
@@ -411,8 +411,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
         {
             if (tvTargets.SelectedNode is not TreeNode selectedNode)
                 return;
-   
-            TreeNode queriesNode = 
+
+            TreeNode queriesNode =
                 selectedNode.FindClosest(typeof(QueryOptionList)) ??
                 selectedNode.GetTopParentNode().FindFirst(typeof(QueryOptionList));
 
@@ -451,8 +451,8 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
 
         private void ctrlGeneral_ObjectChanged(object sender, ObjectChangedEventArgs e)
         {
-            if (tvTargets.SelectedNode != null && 
-                (e.ChangeArgument is not TreeUpdateTypes treeUpdateTypes || 
+            if (tvTargets.SelectedNode != null &&
+                (e.ChangeArgument is not TreeUpdateTypes treeUpdateTypes ||
                 treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode)) &&
                 e.ChangedObject is GeneralOptions generalOptions)
             {
@@ -471,12 +471,12 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
 
         private void ctrlQuery_ObjectChanged(object sender, ObjectChangedEventArgs e)
         {
-            if (tvTargets.SelectedNode != null && 
+            if (tvTargets.SelectedNode != null &&
                 (e.ChangeArgument is not TreeUpdateTypes treeUpdateTypes ||
                 treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode)) &&
                 e.ChangedObject is QueryOptions queryOptions)
             {
-                tvTargets.SelectedNode.Text = 
+                tvTargets.SelectedNode.Text =
                     string.IsNullOrEmpty(queryOptions.Name) ? ModulePhrases.UnnamedQuery : queryOptions.Name;
                 tvTargets.SelectedNode.SetImageKey(ChooseNodeImage(tvTargets.SelectedNode.Tag));
             }
@@ -635,7 +635,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
                     DbConnectionOptions options ? options.KnownDBMS : KnownDBMS.Undefined;
                 ctrlQuery.Visible = true;
             }
-            else if (selectedObject is QueryOptionList || selectedObject is ExportOptions || 
+            else if (selectedObject is QueryOptionList || selectedObject is ExportOptions ||
                 selectedObject is ExportTargetConfig)
             {
                 lblHint.Visible = true;

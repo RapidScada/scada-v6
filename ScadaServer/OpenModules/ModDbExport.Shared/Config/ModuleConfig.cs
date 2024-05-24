@@ -17,8 +17,8 @@ namespace Scada.Server.Modules.ModDbExport.Config
         /// The default configuration file name.
         /// </summary>
         public const string DefaultFileName = "ModDbExport.xml";
-        
-        
+
+
         /// <summary>
         /// Gets the configuration of the export targets.
         /// </summary>

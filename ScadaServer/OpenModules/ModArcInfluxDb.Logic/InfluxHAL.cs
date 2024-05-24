@@ -66,7 +66,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public InfluxHAL(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums, 
+        public InfluxHAL(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums,
             ModuleConfig moduleConfig) : base(archiveContext, archiveConfig, cnlNums)
         {
             this.moduleConfig = moduleConfig ?? throw new ArgumentNullException(nameof(moduleConfig));
@@ -348,7 +348,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
                 {
                     WriteFlag(curData.Timestamp);
                     stopwatch.Stop();
-                    arcLog?.WriteAction(ServerPhrases.WritingPointsCompleted, 
+                    arcLog?.WriteAction(ServerPhrases.WritingPointsCompleted,
                         changesCnt, stopwatch.ElapsedMilliseconds);
                 }
                 else
@@ -385,7 +385,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// <summary>
         /// Processes the records.
         /// </summary>
-        private static void ProcessRecords(List<FluxRecord> records, TimeRange timeRange, 
+        private static void ProcessRecords(List<FluxRecord> records, TimeRange timeRange,
             Action<DateTime, FluxRecord> processFunc)
         {
             // by default records are sorted by time (except using groups)
@@ -425,8 +425,8 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
             if (!moduleConfig.Connections.TryGetValue(options.Connection, out connOptions))
                 throw new ScadaException(CommonPhrases.ConnectionNotFound, options.Connection);
 
-            client = string.IsNullOrEmpty(connOptions.Token) 
-                ? new InfluxDBClient(connOptions.Url, connOptions.Username, connOptions.Password) 
+            client = string.IsNullOrEmpty(connOptions.Token)
+                ? new InfluxDBClient(connOptions.Url, connOptions.Username, connOptions.Password)
                 : new InfluxDBClient(connOptions.Url, connOptions.Token);
             client.EnableGzip();
             writeApi = client.GetWriteApi(new WriteOptions
@@ -490,8 +490,8 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// </summary>
         public override TrendBundle GetTrends(TimeRange timeRange, int[] cnlNums)
         {
-            return cnlNums.Length == 1 
-                ? GetFirstTrend(timeRange, cnlNums) 
+            return cnlNums.Length == 1
+                ? GetFirstTrend(timeRange, cnlNums)
                 : MergeTrends(timeRange, cnlNums);
         }
 
@@ -587,7 +587,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
                 }
 
                 stopwatch.Stop();
-                arcLog?.WriteAction(ServerPhrases.ReadingSliceCompleted, 
+                arcLog?.WriteAction(ServerPhrases.ReadingSliceCompleted,
                     cnlNums.Length, stopwatch.ElapsedMilliseconds);
                 return slice;
             }

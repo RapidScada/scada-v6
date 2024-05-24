@@ -34,7 +34,7 @@ namespace Scada.Server.Modules.ModActiveDirectory.Logic
             $"SELECT ad_user_id FROM {Schema}.ad_user WHERE username = @username";
 
         public const string UpdateUser =
-            $"INSERT INTO {Schema}.ad_user (username, role_id, update_time) " + 
+            $"INSERT INTO {Schema}.ad_user (username, role_id, update_time) " +
             "VALUES (@username, @roleID, @updateTime) " +
             "ON CONFLICT (username) DO UPDATE " +
             "SET role_id = EXCLUDED.role_id, update_time = EXCLUDED.update_time";

@@ -59,7 +59,7 @@ namespace Scada.Server.Modules.ModActiveDirectory.Config
             EnableSearch = rootElem.GetChildAsBool("EnableSearch");
             SearchRoot = rootElem.GetChildAsString("SearchRoot");
         }
-        
+
         /// <summary>
         /// Saves the configuration to the specified writer.
         /// </summary>

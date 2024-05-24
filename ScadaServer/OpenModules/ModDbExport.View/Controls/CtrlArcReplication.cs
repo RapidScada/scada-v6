@@ -63,7 +63,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
                 chkEnabled.Checked = false;
                 chkAutoExport.Checked = false;
                 numHistArchiveBit.Value = numHistArchiveBit.Minimum;
-                numEventArchiveBit.Value = numEventArchiveBit.Minimum;                
+                numEventArchiveBit.Value = numEventArchiveBit.Minimum;
                 numMinDepth.Value = numMinDepth.Minimum;
                 numMaxDepth.Value = numMaxDepth.Minimum;
                 numReadingStep.Value = numReadingStep.Minimum;

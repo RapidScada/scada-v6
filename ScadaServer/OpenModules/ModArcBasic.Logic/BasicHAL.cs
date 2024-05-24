@@ -48,7 +48,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public BasicHAL(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums, 
+        public BasicHAL(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums,
             ModuleConfig moduleConfig) : base(archiveContext, archiveConfig, cnlNums)
         {
             this.moduleConfig = moduleConfig ?? throw new ArgumentNullException(nameof(moduleConfig));
@@ -75,7 +75,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// Gets the archive options.
         /// </summary>
         protected override HistoricalArchiveOptions ArchiveOptions => options;
-        
+
         /// <summary>
         /// Gets the current archive status as text.
         /// </summary>
@@ -216,7 +216,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                     {
                         Stopwatch stopwatch = Stopwatch.StartNew();
                         TrendTable trendTable = GetTrendTable(slice.Timestamp);
-                        
+
                         lock (trendTable)
                         {
                             writingAdapter.WriteSlice(trendTable, slice);
