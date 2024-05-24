@@ -67,21 +67,18 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.View
             get
             {
                 return Locale.IsRussian ?
-                    new ChannelTypeName[]
-                    {
+                    [
                         new ChannelTypeName(ChannelTypeCode.SerialPort, "Последовательный порт"),
                         new ChannelTypeName(ChannelTypeCode.TcpClient, "TCP-клиент"),
                         new ChannelTypeName(ChannelTypeCode.TcpServer, "TCP-сервер"),
                         new ChannelTypeName(ChannelTypeCode.Udp, "UDP")
-                    } :
-
-                    new ChannelTypeName[]
-                    {
+                    ] :
+                    [
                         new ChannelTypeName(ChannelTypeCode.SerialPort, "Serial port"),
                         new ChannelTypeName(ChannelTypeCode.TcpClient, "TCP client"),
                         new ChannelTypeName(ChannelTypeCode.TcpServer, "TCP server"),
                         new ChannelTypeName(ChannelTypeCode.Udp, "UDP")
-                    };
+                    ];
             }
         }
 

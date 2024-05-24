@@ -267,7 +267,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
         {
             // translate form
             FormTranslator.Translate(this, GetType().FullName,
-                new FormTranslatorOptions { ContextMenus = new ContextMenuStrip[] { cmsTree } });
+                new FormTranslatorOptions { ContextMenus = [cmsTree] });
             FormTranslator.Translate(ctrlCommand, ctrlCommand.GetType().FullName,
                 new FormTranslatorOptions { ToolTip = ctrlQuery.ToolTip, SkipUserControls = false });
             FormTranslator.Translate(ctrlDbConnection, ctrlDbConnection.GetType().FullName);

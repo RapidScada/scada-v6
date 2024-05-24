@@ -58,7 +58,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View
             }
 
             // create channel prototypes
-            List<CnlPrototype> cnlPrototypes = new();
+            List<CnlPrototype> cnlPrototypes = [];
             int eventMask = new EventMask { Enabled = true, StatusChange = true }.Value;
             int cmdEventMask = new EventMask { Enabled = true, Command = true }.Value;
 
