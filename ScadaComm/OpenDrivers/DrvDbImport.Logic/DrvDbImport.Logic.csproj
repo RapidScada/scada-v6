@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <EnableDynamicLoading>true</EnableDynamicLoading>
@@ -10,12 +10,12 @@
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
     <Copyright>Copyright © 2024</Copyright>
-    <Version>6.0.0</Version>
-    <AssemblyVersion>6.0.0.1</AssemblyVersion>
+    <Version>6.1.0</Version>
+    <AssemblyVersion>6.1.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MySql.Data" Version="8.3.0" />
+    <PackageReference Include="MySql.Data" Version="8.4.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
   </ItemGroup>
 
@@ -30,7 +30,7 @@
       <HintPath>..\..\..\ScadaCommon\ScadaCommon.Log\bin\Release\netstandard2.0\ScadaCommon.Log.dll</HintPath>
     </Reference>
     <Reference Include="ScadaCommon.MultiDb">
-      <HintPath>..\..\..\ScadaCommon\ScadaCommon.MultiDb\bin\Release\net6.0\ScadaCommon.MultiDb.dll</HintPath>
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon.MultiDb\bin\Release\net8.0\ScadaCommon.MultiDb.dll</HintPath>
     </Reference>
   </ItemGroup>
 
