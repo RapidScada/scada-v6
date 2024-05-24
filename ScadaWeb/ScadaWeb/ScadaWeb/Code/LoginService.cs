@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2023
+ * Modified : 2024
  */
 
 using Microsoft.AspNetCore.Authentication;
@@ -73,12 +73,12 @@ namespace Scada.Web.Code
         private async Task DoLoginAsync(string username, int userID, int roleID,
             bool rememberMe, int rememberMeExpires)
         {
-            List<Claim> claims = new()
-            {
+            List<Claim> claims =
+            [
                 new Claim(ClaimTypes.Name, username),
                 new Claim(ClaimTypes.NameIdentifier, userID.ToString(), ClaimValueTypes.Integer),
                 new Claim(ClaimTypes.Role, roleID.ToString(), ClaimValueTypes.Integer)
-            };
+            ];
 
             ClaimsIdentity claimsIdentity = new(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             AuthenticationProperties authProperties = new();
