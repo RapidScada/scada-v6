@@ -292,7 +292,7 @@ namespace Scada
             using (MemoryStream stream = new MemoryStream())
             {
                 BinaryFormatter formatter = new BinaryFormatter();
-                
+
                 if (binder != null)
                     formatter.Binder = binder;
 
@@ -436,7 +436,7 @@ namespace Scada
         /// </summary>
         public static DateTime GetMonthEnd(this DateTime dateTime)
         {
-            return new DateTime(dateTime.Year, dateTime.Month, 
+            return new DateTime(dateTime.Year, dateTime.Month,
                 DateTime.DaysInMonth(dateTime.Year, dateTime.Month), 0, 0, 0, dateTime.Kind);
         }
 
@@ -445,7 +445,7 @@ namespace Scada
         /// </summary>
         public static DateTime GetWeekStart(this DateTime dateTime, CultureInfo culture)
         {
-            DateTime startDate = dateTime.AddDays(-(int)dateTime.DayOfWeek + 
+            DateTime startDate = dateTime.AddDays(-(int)dateTime.DayOfWeek +
                 (int)(culture ?? CultureInfo.InvariantCulture).DateTimeFormat.FirstDayOfWeek).Date;
             return startDate <= dateTime ? startDate : startDate.AddDays(-7);
         }

@@ -108,7 +108,7 @@ namespace Scada.Config
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.Load(fileName);
                 XmlElement rootElem = xmlDoc.DocumentElement;
-                
+
                 Culture = rootElem.GetChildAsString("Culture");
                 LogDir = rootElem.GetChildAsString("LogDir");
                 ActiveStorage = rootElem.GetChildAsString("ActiveStorage");
@@ -181,8 +181,8 @@ namespace Scada.Config
         /// </summary>
         public XmlElement GetActiveStorageXml()
         {
-            return Storages.TryGetValue(ActiveStorage, out XmlElement xmlElement) 
-                ? xmlElement 
+            return Storages.TryGetValue(ActiveStorage, out XmlElement xmlElement)
+                ? xmlElement
                 : new XmlDocument().CreateElement("Storage");
         }
 

@@ -329,9 +329,9 @@ namespace Scada
         /// </summary>
         public CnlDataFormatted FormatCnlData(CnlData cnlData, Cnl cnl, bool appendUnit)
         {
-            return FormatCnlData(cnlData, 
-                cnl?.DataTypeID ?? DataTypeID.Double, 
-                cnl?.FormatID ?? 0, 
+            return FormatCnlData(cnlData,
+                cnl?.DataTypeID ?? DataTypeID.Double,
+                cnl?.FormatID ?? 0,
                 appendUnit ? cnl?.UnitID ?? 0 : 0);
         }
 

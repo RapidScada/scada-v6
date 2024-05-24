@@ -35,8 +35,8 @@ namespace Scada.MultiDb
         /// </summary>
         protected override DbParameter AddParamWithValue(DbCommand cmd, string paramName, object value)
         {
-            return cmd is OracleCommand oracleCommand 
-                ? oracleCommand.Parameters.Add(paramName, value) 
+            return cmd is OracleCommand oracleCommand
+                ? oracleCommand.Parameters.Add(paramName, value)
                 : throw new ArgumentException("OracleCommand is required.", nameof(cmd));
         }
 

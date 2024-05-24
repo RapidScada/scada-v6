@@ -142,7 +142,7 @@ namespace Scada
         /// <summary>
         /// Gets the value associated with the specified key as a date and time.
         /// </summary>
-        public static DateTime GetValueAsDateTime(this IDictionary<string, string> dictionary, 
+        public static DateTime GetValueAsDateTime(this IDictionary<string, string> dictionary,
             string key, DateTimeKind kind)
         {
             return DateTime.SpecifyKind(dictionary.GetValueAsDateTime(key, DateTime.MinValue), kind);
@@ -168,7 +168,7 @@ namespace Scada
         /// <summary>
         /// Gets the value associated with the specified key as an instance of the particular type.
         /// </summary>
-        public static bool TryGetValueOfType<T>(this IDictionary<string, object> dictionary, 
+        public static bool TryGetValueOfType<T>(this IDictionary<string, object> dictionary,
             string key, out T value)
         {
             if (dictionary.TryGetValue(key, out object obj) && obj is T val)
@@ -380,7 +380,7 @@ namespace Scada
         /// <summary>
         /// Adds elements to the current dictionary from the other dictionary.
         /// </summary>
-        public static void MergeWith<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, 
+        public static void MergeWith<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
             IDictionary<TKey, TValue> otherDictionary, bool overwriteExisting)
         {
             if (dictionary == null)

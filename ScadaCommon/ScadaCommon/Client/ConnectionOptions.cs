@@ -107,7 +107,7 @@ namespace Scada.Client
         {
             get
             {
-                return 
+                return
                     string.Equals(Host, "localhost", StringComparison.OrdinalIgnoreCase) ||
                     string.Equals(Host, "127.0.0.1", StringComparison.Ordinal);
             }
@@ -158,7 +158,7 @@ namespace Scada.Client
             xmlElem.AppendElem("Port", Port);
             xmlElem.AppendElem("Username", Username);
             xmlElem.AppendElem("Password", ScadaUtils.Encrypt(Password));
-            
+
             if (!string.IsNullOrEmpty(Instance))
                 xmlElem.AppendElem("Instance", Instance);
 

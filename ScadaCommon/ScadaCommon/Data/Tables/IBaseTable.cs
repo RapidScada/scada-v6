@@ -130,7 +130,7 @@ namespace Scada.Data.Tables
         /// Checks if there is an item with the specified primary key.
         /// </summary>
         bool PkExists(int key);
-        
+
         /// <summary>
         /// Gets the next primary key value to add a new item.
         /// </summary>

@@ -67,7 +67,7 @@ namespace Scada.Config
         protected virtual void Save(TextWriter writer)
         {
         }
-        
+
         /// <summary>
         /// Builds an error message for the load operation.
         /// </summary>

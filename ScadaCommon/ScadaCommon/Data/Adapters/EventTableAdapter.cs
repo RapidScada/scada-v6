@@ -262,7 +262,7 @@ namespace Scada.Data.Adapters
         /// <summary>
         /// Copies the event to the buffer and calculates block count.
         /// </summary>
-        protected void CopyEvent(Event ev, byte[] buffer, out int textBlockCnt, out int dataBlockCnt, 
+        protected void CopyEvent(Event ev, byte[] buffer, out int textBlockCnt, out int dataBlockCnt,
             out int textSize, out int dataSize)
         {
             int GetBlockCount(int fullSize, int blockCapacity, int maxBlockCount)

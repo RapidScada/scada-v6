@@ -41,8 +41,8 @@ namespace Scada.MultiDb
         /// </summary>
         protected override DbParameter AddParamWithValue(DbCommand cmd, string paramName, object value)
         {
-            return cmd is MySqlCommand mySqlCommand 
-                ? mySqlCommand.Parameters.AddWithValue(paramName, value) 
+            return cmd is MySqlCommand mySqlCommand
+                ? mySqlCommand.Parameters.AddWithValue(paramName, value)
                 : throw new ArgumentException("MySqlCommand is required.", nameof(cmd));
         }
 

@@ -106,7 +106,7 @@ namespace Scada.Data.Models
                 {
                     yield return childObj;
 
-                    foreach (Obj grandchildObj in 
+                    foreach (Obj grandchildObj in
                         EnumerateChildObjects(obj_parentObjIndex, childObj.ObjNum, protectionSet))
                     {
                         yield return grandchildObj;
@@ -124,7 +124,7 @@ namespace Scada.Data.Models
             {
                 HashSet<int> protectionSet = new HashSet<int> { childObjNum };
 
-                while (childObj.ParentObjNum != null && 
+                while (childObj.ParentObjNum != null &&
                     protectionSet.Add(childObj.ParentObjNum.Value) &&
                     objTable.GetItem(childObj.ParentObjNum.Value) is Obj parentObj)
                 {
@@ -223,10 +223,10 @@ namespace Scada.Data.Models
         /// </summary>
         public virtual Right GetRight(int roleID, int objID)
         {
-            return Matrix != null && 
-                Matrix.TryGetValue(roleID, out RightByObj rightByObj) && 
+            return Matrix != null &&
+                Matrix.TryGetValue(roleID, out RightByObj rightByObj) &&
                 rightByObj.TryGetValue(objID, out Right right)
-                ? right 
+                ? right
                 : Right.Empty;
         }
 

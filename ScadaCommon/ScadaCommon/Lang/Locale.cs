@@ -106,8 +106,8 @@ namespace Scada.Lang
         {
             try
             {
-                Culture = string.IsNullOrEmpty(cultureName) 
-                    ? DefaultCulture 
+                Culture = string.IsNullOrEmpty(cultureName)
+                    ? DefaultCulture
                     : CultureInfo.GetCultureInfo(cultureName);
             }
             catch

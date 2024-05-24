@@ -243,7 +243,7 @@ namespace Scada.Client
         /// Gets the maximum number of clients, having the same connection options, that can be stored in the pool.
         /// </summary>
         public int Capacity { get; }
-        
+
         /// <summary>
         /// Gets or sets the client mode for all clients in the pool.
         /// </summary>

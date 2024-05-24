@@ -577,7 +577,7 @@ namespace Scada.Server
             index = ArgumentIndex;
 
             UserValidationResult result =
-                protector.IsBlocked(out string errMsg) || 
+                protector.IsBlocked(out string errMsg) ||
                 !DecryptPassword(encryptedPassword, client, out string password, out errMsg)
                 ? UserValidationResult.Fail(errMsg)
                 : ValidateUser(client, username, password, instance);
@@ -602,7 +602,7 @@ namespace Scada.Server
         /// <summary>
         /// Decrypts the password.
         /// </summary>
-        protected bool DecryptPassword(string encryptedPassword, ConnectedClient client, 
+        protected bool DecryptPassword(string encryptedPassword, ConnectedClient client,
             out string password, out string errMsg)
         {
             try
@@ -785,7 +785,7 @@ namespace Scada.Server
                     // prepare for reading
                     const int FileDataIndex = ArgumentIndex + 21;
                     const int BlockCapacity = BufferLenght - FileDataIndex;
-                    long bytesToReadTotal = stream.CanSeek 
+                    long bytesToReadTotal = stream.CanSeek
                         ? count > 0 ? Math.Min(count, stream.Length - stream.Position) : stream.Length
                         : count;
                     long bytesReadTotal = 0;
@@ -804,11 +804,11 @@ namespace Scada.Server
 
                         // read from file
                         int bytesToRead = bytesToReadTotal > 0
-                            ? (int)Math.Min(bytesToReadTotal - bytesReadTotal, BlockCapacity) 
+                            ? (int)Math.Min(bytesToReadTotal - bytesReadTotal, BlockCapacity)
                             : BlockCapacity;
                         int bytesRead = stream.Read(client.OutBuf, FileDataIndex, bytesToRead);
                         bytesReadTotal += bytesRead;
-                        endOfFile = bytesRead < bytesToRead || 
+                        endOfFile = bytesRead < bytesToRead ||
                             bytesToReadTotal > 0 && bytesReadTotal == bytesToReadTotal;
 
                         // send response
@@ -844,7 +844,7 @@ namespace Scada.Server
         /// </summary>
         protected void UploadFile(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
-            DecodeUploadPacket(request, out int blockNumber, out _, 
+            DecodeUploadPacket(request, out int blockNumber, out _,
                 out RelativePath filePath, out FileUploadState uploadState, out _, out _);
 
             if (blockNumber != 0)
@@ -881,7 +881,7 @@ namespace Scada.Server
                             // receive next data packet
                             if (ReceiveDataPacket(client, out DataPacket dataPacket))
                             {
-                                DecodeUploadPacket(dataPacket, out int newBlockNumber, out int blockCount, 
+                                DecodeUploadPacket(dataPacket, out int newBlockNumber, out int blockCount,
                                     out RelativePath path, out uploadState, out int bytesToWrite, out int fileDataIndex);
 
                                 if (dataPacket.TransactionID != request.TransactionID)
@@ -1017,7 +1017,7 @@ namespace Scada.Server
         /// <summary>
         /// Validates the username and password.
         /// </summary>
-        protected virtual UserValidationResult ValidateUser(ConnectedClient client, 
+        protected virtual UserValidationResult ValidateUser(ConnectedClient client,
             string username, string password, string instance)
         {
             client.IsLoggedIn = true;
@@ -1065,7 +1065,7 @@ namespace Scada.Server
         /// <summary>
         /// Gets a list of short names of files or directories in the specified path.
         /// </summary>
-        protected virtual ICollection<string> GetFileList(ConnectedClient client, 
+        protected virtual ICollection<string> GetFileList(ConnectedClient client,
             bool searchForFiles, RelativePath path, string searchPattern)
         {
             return Array.Empty<string>();
@@ -1228,8 +1228,8 @@ namespace Scada.Server
             }
             else
             {
-                sb.AppendLine(Locale.IsRussian ? 
-                    "Клиентов нет" : 
+                sb.AppendLine(Locale.IsRussian ?
+                    "Клиентов нет" :
                     "No clients");
             }
         }

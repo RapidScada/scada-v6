@@ -155,7 +155,7 @@ namespace Scada.Data.Queues
                 return true;
             }
         }
-        
+
         /// <summary>
         /// Enqueues the specified values.
         /// </summary>

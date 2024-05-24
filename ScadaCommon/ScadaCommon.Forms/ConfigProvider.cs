@@ -136,10 +136,10 @@ namespace Scada.Forms
         {
             return action switch
             {
-                ConfigAction.MoveUp => 
+                ConfigAction.MoveUp =>
                     TreeViewExtensions.MoveUpIsEnabled(selectedNode, TreeNodeBehavior.WithinParent),
 
-                ConfigAction.MoveDown => 
+                ConfigAction.MoveDown =>
                     TreeViewExtensions.MoveDownIsEnabled(selectedNode, TreeNodeBehavior.WithinParent),
 
                 ConfigAction.Delete => selectedNode != null,

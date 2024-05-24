@@ -143,8 +143,8 @@ namespace Scada.Client
         /// <summary>
         /// Gets the client communication state.
         /// </summary>
-        public ClientState ClientState 
-        { 
+        public ClientState ClientState
+        {
             get
             {
                 return clientState;
@@ -200,7 +200,7 @@ namespace Scada.Client
         /// Get the user role ID.
         /// </summary>
         public int RoleID { get; protected set; }
-        
+
         /// <summary>
         /// Gets an object that can be used to synchronize access to the client.
         /// </summary>
@@ -392,15 +392,15 @@ namespace Scada.Client
             int bytesToRead = HeaderLength + 2;
             int bytesRead;
 
-            try 
-            { 
+            try
+            {
                 bytesRead = netStream.Read(inBuf, 0, bytesToRead);
                 CommLog?.WriteAction(BuildReadingText(inBuf, 0, bytesToRead, bytesRead));
             }
             catch (IOException)
-            { 
-                ClientState = ClientState.Error; 
-                throw; 
+            {
+                ClientState = ClientState.Error;
+                throw;
             }
 
             if (bytesRead == bytesToRead)
@@ -795,7 +795,7 @@ namespace Scada.Client
         /// Downloads the file.
         /// </summary>
         public void DownloadFile(RelativePath path, long offset, int count, bool readFromEnd,
-            DateTime newerThan, bool throwOnFail, string destFileName, 
+            DateTime newerThan, bool throwOnFail, string destFileName,
             out DateTime lastWriteTime, out FileReadingResult readingResult)
         {
             DownloadFile(path, offset, count, readFromEnd, newerThan, throwOnFail,
@@ -812,7 +812,7 @@ namespace Scada.Client
             if (stream == null)
                 throw new ArgumentNullException(nameof(stream));
 
-            DownloadFile(path, 0, 0, false, DateTime.MinValue, throwOnFail, () => stream, 
+            DownloadFile(path, 0, 0, false, DateTime.MinValue, throwOnFail, () => stream,
                 out _, out FileReadingResult readingResult, out _);
             return readingResult == FileReadingResult.Completed;
         }
@@ -910,7 +910,7 @@ namespace Scada.Client
             if (!File.Exists(srcFileName))
                 throw new ScadaException(CommonPhrases.FileNotFound);
 
-            using (FileStream stream = 
+            using (FileStream stream =
                 new FileStream(srcFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
                 UploadFile(stream, destPath, out fileAccepted, cancellationToken);

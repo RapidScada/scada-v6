@@ -70,7 +70,7 @@ namespace Scada.Data.Const
         /// </summary>
         public static bool IsOutput(int? cnlTypeID)
         {
-            return cnlTypeID.HasValue && 
+            return cnlTypeID.HasValue &&
                 (cnlTypeID == InputOutput || cnlTypeID == CalculatedOutput || cnlTypeID == Output);
         }
 
@@ -87,7 +87,7 @@ namespace Scada.Data.Const
         /// </summary>
         public static bool IsArchivable(int? cnlTypeID)
         {
-            return cnlTypeID.HasValue && (cnlTypeID == Input || cnlTypeID == InputOutput || 
+            return cnlTypeID.HasValue && (cnlTypeID == Input || cnlTypeID == InputOutput ||
                 cnlTypeID == Calculated || cnlTypeID == CalculatedOutput);
         }
 

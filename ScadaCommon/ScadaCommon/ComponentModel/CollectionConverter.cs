@@ -43,8 +43,8 @@ namespace Scada.ComponentModel
         {
             if (destinationType == typeof(string))
             {
-                return value is ICollection collection && collection.Count > 0 
-                    ? CommonPhrases.CollectionValue 
+                return value is ICollection collection && collection.Count > 0
+                    ? CommonPhrases.CollectionValue
                     : CommonPhrases.EmptyValue;
             }
             else
