@@ -63,15 +63,15 @@ namespace Scada.Agent.Engine
         /// </summary>
         public static string GetRoleName(int roleID, bool isRussian)
         {
-            try 
-            { 
-                return isRussian 
-                    ? AgentRoleNamesRu[roleID] 
-                    : AgentRoleNamesEn[roleID]; 
+            try
+            {
+                return isRussian
+                    ? AgentRoleNamesRu[roleID]
+                    : AgentRoleNamesEn[roleID];
             }
-            catch 
-            { 
-                return roleID.ToString(); 
+            catch
+            {
+                return roleID.ToString();
             }
         }
     }

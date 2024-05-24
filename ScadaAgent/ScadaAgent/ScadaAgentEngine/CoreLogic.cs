@@ -24,15 +24,15 @@
  */
 
 using Scada.Agent.Config;
+using Scada.Config;
 using Scada.Lang;
 using Scada.Log;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Linq;
-using Scada.Config;
 
 namespace Scada.Agent.Engine
 {
@@ -127,7 +127,7 @@ namespace Scada.Agent.Engine
             // create instances
             foreach (InstanceOptions instanceOptions in appConfig.Instances)
             {
-                if (!instanceOptions.Active || string.IsNullOrEmpty(instanceOptions.Name) || 
+                if (!instanceOptions.Active || string.IsNullOrEmpty(instanceOptions.Name) ||
                     instances.ContainsKey(instanceOptions.Name))
                 {
                     // ignore instance silently
@@ -138,7 +138,7 @@ namespace Scada.Agent.Engine
                 {
                     Log.WriteError(Locale.IsRussian ?
                         "Экземпляр {0} игнорируется, потому что директория не задана" :
-                        "The {0} instance is ignored because the directory is not specified", 
+                        "The {0} instance is ignored because the directory is not specified",
                         instanceOptions.Name);
                     continue;
                 }
@@ -146,7 +146,7 @@ namespace Scada.Agent.Engine
                 InstanceConfig instanceConfig = new InstanceConfig();
 
                 if (!instanceOptions.ProxyMode &&
-                    !instanceConfig.Load(InstanceConfig.GetConfigFileName(instanceOptions.Directory), 
+                    !instanceConfig.Load(InstanceConfig.GetConfigFileName(instanceOptions.Directory),
                     out string errMsg))
                 {
                     Log.WriteError(Locale.IsRussian ?

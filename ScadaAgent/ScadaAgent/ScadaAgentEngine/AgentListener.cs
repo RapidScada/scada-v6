@@ -72,7 +72,7 @@ namespace Scada.Agent.Engine
         private readonly CoreLogic coreLogic;                               // the Agent logic instance
         private readonly ReverseConnectionOptions reverseConnectionOptions; // the reverse connection options
         private readonly Dictionary<string, ClientBundle> clientBundles;    // the clients of proxy instances
-        
+
         private ReverseClient reverseClient;           // the client that connects to the main Agent
         private Thread reverseClientThread;            // the reverse client thread
         private volatile bool reverseClientTerminated; // requires to stop the reverse client thread
@@ -82,12 +82,12 @@ namespace Scada.Agent.Engine
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public AgentListener(CoreLogic coreLogic, ListenerOptions listenerOptions, 
+        public AgentListener(CoreLogic coreLogic, ListenerOptions listenerOptions,
             ReverseConnectionOptions reverseConnectionOptions)
             : base(listenerOptions, coreLogic.Log)
         {
             this.coreLogic = coreLogic ?? throw new ArgumentNullException(nameof(coreLogic));
-            this.reverseConnectionOptions = reverseConnectionOptions ?? 
+            this.reverseConnectionOptions = reverseConnectionOptions ??
                 throw new ArgumentNullException(nameof(reverseConnectionOptions));
             clientBundles = new Dictionary<string, ClientBundle>();
 
@@ -96,10 +96,10 @@ namespace Scada.Agent.Engine
             reverseClientTerminated = false;
             heartbeatDT = DateTime.MinValue;
 
-            CustomFunctions = new HashSet<int> 
-            { 
-                FunctionID.DownloadFile, 
-                FunctionID.UploadFile 
+            CustomFunctions = new HashSet<int>
+            {
+                FunctionID.DownloadFile,
+                FunctionID.UploadFile
             };
         }
 
@@ -198,7 +198,7 @@ namespace Scada.Agent.Engine
         /// </summary>
         private ClientTag GetClientTag(ConnectedClient client)
         {
-            return client.Tag as ClientTag ?? 
+            return client.Tag as ClientTag ??
                 throw new InvalidOperationException("Client tag must not be null.");
         }
 
@@ -242,7 +242,7 @@ namespace Scada.Agent.Engine
         /// </summary>
         private void UnregisterClient(ConnectedClient client, ScadaInstance instance)
         {
-            if (instance != null && instance.ProxyMode && 
+            if (instance != null && instance.ProxyMode &&
                 clientBundles.TryGetValue(instance.Name, out ClientBundle clientBundle))
             {
                 lock (clientBundle)
@@ -387,11 +387,11 @@ namespace Scada.Agent.Engine
             CopyByteArray(statuses, buffer, ref index);
             response.BufferLength = index;
         }
-        
+
         /// <summary>
         /// Sends the command to the service.
         /// </summary>
-        private void ControlService(ConnectedClient client, ScadaInstance instance, DataPacket request, 
+        private void ControlService(ConnectedClient client, ScadaInstance instance, DataPacket request,
             out ResponsePacket response)
         {
             byte[] buffer = client.InBuf;
@@ -539,7 +539,7 @@ namespace Scada.Agent.Engine
         /// <summary>
         /// Validates the username and password.
         /// </summary>
-        protected override UserValidationResult ValidateUser(ConnectedClient client, 
+        protected override UserValidationResult ValidateUser(ConnectedClient client,
             string username, string password, string instance)
         {
             UserValidationResult result;
