@@ -67,7 +67,7 @@ namespace Scada.Comm.Config
         /// Gets the configuration of the lines.
         /// </summary>
         public List<LineConfig> Lines { get; private set; }
-        
+
         /// <summary>
         /// Gets or sets the parent tree node.
         /// </summary>
@@ -214,7 +214,7 @@ namespace Scada.Comm.Config
         /// <summary>
         /// Loads the communication line configuration from the specified storage.
         /// </summary>
-        public static bool LoadLineConfig(IStorage storage, string fileName, int commLineNum, 
+        public static bool LoadLineConfig(IStorage storage, string fileName, int commLineNum,
             out LineConfig lineConfig, out string errMsg)
         {
             if (storage == null)

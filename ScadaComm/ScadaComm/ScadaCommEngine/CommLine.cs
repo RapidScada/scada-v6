@@ -465,7 +465,7 @@ namespace Scada.Comm.Engine
                         Log.WriteError(Locale.IsRussian ?
                             "Команда с недопустимым устройством {0}, отклонена" :
                             "Command with invalid device {0} is rejected", cmd.DeviceNum);
-                    } 
+                    }
                     else if (!deviceWrapper.DeviceLogic.CanSendCommands)
                     {
                         Log.WriteLine();
@@ -726,7 +726,7 @@ namespace Scada.Comm.Engine
                 if (thread == null)
                 {
                     Log.WriteBreak();
-                    Log.WriteAction(Locale.IsRussian ? 
+                    Log.WriteAction(Locale.IsRussian ?
                         "Запуск линии связи {0}" :
                         "Start communication line {0}", Title);
 

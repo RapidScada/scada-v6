@@ -79,7 +79,7 @@ namespace Scada.Comm.Engine
                     {
                         DateTime utcNow = DateTime.UtcNow;
 
-                        foreach (FileInfo fileInfo in 
+                        foreach (FileInfo fileInfo in
                             cmdDirInfo.EnumerateFiles("*.dat", SearchOption.TopDirectoryOnly))
                         {
                             // skip potentially incomplete file
@@ -134,7 +134,7 @@ namespace Scada.Comm.Engine
             {
                 if (thread == null)
                 {
-                    log.WriteAction(Locale.IsRussian ? 
+                    log.WriteAction(Locale.IsRussian ?
                         "Запуск чтения команд из файлов" :
                         "Start reading commands from files");
                     terminated = false;

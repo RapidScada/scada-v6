@@ -416,8 +416,8 @@ namespace Scada.Comm.Devices
         /// </summary>
         public virtual DeviceSlice GetCurrentData(bool allData)
         {
-            return allData 
-                ? DeviceData.GetCurrentData() 
+            return allData
+                ? DeviceData.GetCurrentData()
                 : DeviceData.GetModifiedData();
         }
 
@@ -476,7 +476,7 @@ namespace Scada.Comm.Devices
         /// <summary>
         /// Processes the incoming request that has already been read in slave mode.
         /// </summary>
-        public virtual void ProcessIncomingRequest(byte[] buffer, int offset, int count, 
+        public virtual void ProcessIncomingRequest(byte[] buffer, int offset, int count,
             IncomingRequestArgs requestArgs)
         {
             Log.WriteLine();

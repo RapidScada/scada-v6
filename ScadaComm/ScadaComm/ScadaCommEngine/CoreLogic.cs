@@ -182,7 +182,7 @@ namespace Scada.Comm.Engine
             InitDrivers();
             InitDataSources();
         }
-        
+
         /// <summary>
         /// Initializes the drivers used in the application configuration.
         /// </summary>
@@ -499,8 +499,8 @@ namespace Scada.Comm.Engine
 
                 foreach (LineConfig lineConfig in AppConfig.Lines)
                 {
-                    if (lineConfig.Active && 
-                        CreateLine(lineConfig, out CommLine commLine) && 
+                    if (lineConfig.Active &&
+                        CreateLine(lineConfig, out CommLine commLine) &&
                         !commLine.Start())
                     {
                         Log.WriteError(Locale.IsRussian ?
@@ -597,7 +597,7 @@ namespace Scada.Comm.Engine
                     }
                 }
 
-                if (CommConfig.LoadLineConfig(Storage, CommConfig.DefaultFileName, commLineNum, 
+                if (CommConfig.LoadLineConfig(Storage, CommConfig.DefaultFileName, commLineNum,
                     out LineConfig lineConfig, out string errMsg))
                 {
                     InitDrivers(lineConfig.GetDriverCodes(), out List<DriverWrapper> addedDrivers);

@@ -26,7 +26,6 @@
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers;
-using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Log;
 using System;

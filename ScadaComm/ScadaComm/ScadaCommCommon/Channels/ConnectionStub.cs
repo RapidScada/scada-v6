@@ -63,7 +63,7 @@ namespace Scada.Comm.Channels
         /// <summary>
         /// Reads data.
         /// </summary>
-        public override int Read(byte[] buffer, int offset, int count, int timeout, 
+        public override int Read(byte[] buffer, int offset, int count, int timeout,
             ProtocolFormat format, out string logText)
         {
             logText = "";

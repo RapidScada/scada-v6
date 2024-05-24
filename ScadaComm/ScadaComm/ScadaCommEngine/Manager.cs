@@ -158,7 +158,7 @@ namespace Scada.Comm.Engine
             assemblyResolver = new AssemblyResolver(AppDirs.GetProbingDirs());
             CommConfig appConfig = new CommConfig();
 
-            if (AppDirs.CheckExistence(out errMsg) && 
+            if (AppDirs.CheckExistence(out errMsg) &&
                 LocalizeApp() &&
                 storageWrapper.InitStorage() &&
                 appConfig.Load(storageWrapper.Storage, CommConfig.DefaultFileName, out errMsg))

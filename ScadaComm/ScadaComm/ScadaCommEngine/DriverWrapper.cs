@@ -62,7 +62,7 @@ namespace Scada.Comm.Engine
         /// <summary>
         /// Calls the CreateDataSource method of the driver.
         /// </summary>
-        public bool CreateDataSource(ICommContext commContext, DataSourceConfig dataSourceConfig, 
+        public bool CreateDataSource(ICommContext commContext, DataSourceConfig dataSourceConfig,
             out DataSourceLogic dataSourceLogic)
         {
             try
@@ -128,7 +128,7 @@ namespace Scada.Comm.Engine
                 log.WriteError(ex, CommPhrases.ErrorInDriver, nameof(OnServiceStart), DriverLogic.Code);
             }
         }
-        
+
         /// <summary>
         /// Calls the OnServiceStop method of the driver.
         /// </summary>

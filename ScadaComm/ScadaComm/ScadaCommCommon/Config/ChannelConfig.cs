@@ -46,7 +46,7 @@ namespace Scada.Comm.Config
             CustomOptions = new OptionList();
         }
 
-        
+
         /// <summary>
         /// Gets or sets the channel type code.
         /// </summary>

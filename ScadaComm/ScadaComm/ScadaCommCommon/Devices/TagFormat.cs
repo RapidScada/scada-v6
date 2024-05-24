@@ -57,7 +57,7 @@ namespace Scada.Comm.Devices
         /// <summary>
         /// The discrete value format.
         /// </summary>
-        public static readonly TagFormat OffOn = new TagFormat(TagFormatType.Enum, 
+        public static readonly TagFormat OffOn = new TagFormat(TagFormatType.Enum,
             new string[] { CommPhrases.Off, CommPhrases.On });
 
 
@@ -70,7 +70,7 @@ namespace Scada.Comm.Devices
             Format = "";
             EnumValues = null;
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>

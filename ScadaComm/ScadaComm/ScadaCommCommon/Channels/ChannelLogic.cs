@@ -150,7 +150,7 @@ namespace Scada.Comm.Channels
         /// <summary>
         /// Receives an unread incoming request for the specified device.
         /// </summary>
-        protected bool ReceiveIncomingRequest(DeviceLogic deviceLogic, Connection conn, 
+        protected bool ReceiveIncomingRequest(DeviceLogic deviceLogic, Connection conn,
             IncomingRequestArgs requestArgs)
         {
             try
@@ -170,7 +170,7 @@ namespace Scada.Comm.Channels
         /// <summary>
         /// Receives an unread incoming request for specified devices.
         /// </summary>
-        protected bool ReceiveIncomingRequest(IEnumerable<DeviceLogic> devices, Connection conn, 
+        protected bool ReceiveIncomingRequest(IEnumerable<DeviceLogic> devices, Connection conn,
             IncomingRequestArgs requestArgs)
         {
             requestArgs.SetToDefault();
