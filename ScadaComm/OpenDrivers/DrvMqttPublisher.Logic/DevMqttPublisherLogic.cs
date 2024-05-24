@@ -220,7 +220,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
 
             return sendOK;
         }
-        
+
         /// <summary>
         /// Subscribes to the device tag.
         /// </summary>

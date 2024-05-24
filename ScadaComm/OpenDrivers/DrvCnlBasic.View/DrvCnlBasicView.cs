@@ -31,8 +31,8 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.View
         {
             get
             {
-                return Locale.IsRussian ? 
-                    "Основные каналы связи" : 
+                return Locale.IsRussian ?
+                    "Основные каналы связи" :
                     "Basic Communication Channels";
             }
         }

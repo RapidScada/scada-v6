@@ -57,7 +57,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View
         {
             get
             {
-                return ModbusUtils.GetAddressRange(Address, Elem.Quantity, 
+                return ModbusUtils.GetAddressRange(Address, Elem.Quantity,
                     TemplateOptions.ZeroAddr, TemplateOptions.DecAddr);
             }
         }

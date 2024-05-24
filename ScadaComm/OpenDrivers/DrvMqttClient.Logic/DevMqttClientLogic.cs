@@ -170,7 +170,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
             jsEngine.SetValue("payload", message.Payload);
 
             // load source code
-            subscriptionTag.JsSource ??= 
+            subscriptionTag.JsSource ??=
                 Storage.ReadText(Storages.DataCategory.Config, subscriptionTag.SubscriptionConfig.JsFileName);
 
             // initialize tag data
@@ -359,7 +359,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
                     "Ошибка: соединение с MQTT-брокером не установлено" :
                     "Error: connection with the MQTT broker is not established");
             }
-            else if (string.IsNullOrEmpty(cmd.CmdCode) || 
+            else if (string.IsNullOrEmpty(cmd.CmdCode) ||
                 !cmdByCode.TryGetValue(cmd.CmdCode, out CommandConfig commandConfig))
             {
                 Log.WriteLine(CommPhrases.InvalidCommand);

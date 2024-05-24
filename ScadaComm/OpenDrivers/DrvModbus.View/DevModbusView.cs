@@ -22,7 +22,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public DevModbusView(DriverView parentView, LineConfig lineConfig, DeviceConfig deviceConfig, 
+        public DevModbusView(DriverView parentView, LineConfig lineConfig, DeviceConfig deviceConfig,
             CustomUi customUi) : base(parentView, lineConfig, deviceConfig)
         {
             this.customUi = customUi ?? throw new ArgumentNullException(nameof(customUi));
@@ -83,12 +83,12 @@ namespace Scada.Comm.Drivers.DrvModbus.View
                 {
                     // create channel for element
                     bool isBool = elemConfig.ElemType == ElemType.Bool;
-                    int eventMask = new EventMask 
-                    { 
-                        Enabled = true, 
-                        DataChange = isBool, 
-                        StatusChange = !isBool, 
-                        Command = !elemConfig.ReadOnly 
+                    int eventMask = new EventMask
+                    {
+                        Enabled = true,
+                        DataChange = isBool,
+                        StatusChange = !isBool,
+                        Command = !elemConfig.ReadOnly
                     }.Value;
 
                     cnlPrototypes.Add(new CnlPrototype
@@ -98,8 +98,8 @@ namespace Scada.Comm.Drivers.DrvModbus.View
                         CnlTypeID = elemConfig.ReadOnly ? CnlTypeID.Input : CnlTypeID.InputOutput,
                         TagNum = string.IsNullOrEmpty(elemConfig.TagCode) ? tagNum : null,
                         TagCode = elemConfig.TagCode,
-                        FormatCode = isBool 
-                            ? FormatCode.OffOn 
+                        FormatCode = isBool
+                            ? FormatCode.OffOn
                             : elemConfig.IsBitMask ? FormatCode.X : null,
                         EventMask = eventMask
                     });
@@ -114,7 +114,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View
                             Command = !elemConfig.ReadOnly
                         }.Value;
 
-                        for (int bit = 0, bitCnt = ModbusUtils.GetDataLength(elemConfig.ElemType) * 8; 
+                        for (int bit = 0, bitCnt = ModbusUtils.GetDataLength(elemConfig.ElemType) * 8;
                             bit < bitCnt; bit++)
                         {
                             cnlPrototypes.Add(new CnlPrototype
@@ -148,7 +148,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View
                     CnlTypeID = CnlTypeID.Output,
                     TagNum = string.IsNullOrEmpty(cmdConfig.CmdCode) ? cmdConfig.CmdNum : null,
                     TagCode = cmdConfig.CmdCode,
-                    FormatCode = cmdConfig.DataBlock == DataBlock.Coils && !cmdConfig.Multiple ? 
+                    FormatCode = cmdConfig.DataBlock == DataBlock.Coils && !cmdConfig.Multiple ?
                         FormatCode.OffOn : null,
                     EventMask = cmdEventMask
                 });

@@ -21,7 +21,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvCnlBasic.View.BasicChannelView");
             ChannelTypeNotFound = dict["ChannelTypeNotFound"];
-            
+
             dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpClientChannelOptions");
             HostRequired = dict["HostRequired"];
         }

@@ -57,7 +57,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
         /// <summary>
         /// Creates a new Modbus command based on the element configuration.
         /// </summary>
-        private ModbusCmd CreateModbusCmd(DeviceTemplateOptions options, 
+        private ModbusCmd CreateModbusCmd(DeviceTemplateOptions options,
             ElemGroupConfig elemGroupConfig, ElemConfig elemConfig, int elemAddrOffset)
         {
             ModbusCmd modbusCmd = deviceModel.CreateModbusCmd(elemGroupConfig.DataBlock, elemConfig.Quantity > 1);
@@ -135,7 +135,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
         /// </summary>
         private void SetTagData(ElemGroup elemGroup)
         {
-            for (int elemIdx = 0, tagIdx = elemGroup.StartTagIdx + elemIdx, cnt = elemGroup.Elems.Count; 
+            for (int elemIdx = 0, tagIdx = elemGroup.StartTagIdx + elemIdx, cnt = elemGroup.Elems.Count;
                 elemIdx < cnt; elemIdx++, tagIdx++)
             {
                 DeviceData.Set(tagIdx, elemGroup.GetElemVal(elemIdx));
@@ -421,7 +421,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
                 }
                 else
                 {
-                    modbusCmd.Value = modbusCmd.DataBlock == DataBlock.HoldingRegisters 
+                    modbusCmd.Value = modbusCmd.DataBlock == DataBlock.HoldingRegisters
                         ? (ushort)cmd.CmdVal
                         : (ushort)(cmd.CmdVal > 0 ? 1 : 0);
                     modbusCmd.SetCmdData(cmd.CmdVal);

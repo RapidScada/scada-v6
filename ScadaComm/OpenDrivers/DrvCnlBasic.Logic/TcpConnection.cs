@@ -59,7 +59,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// Gets the data stream of the TCP client.
         /// </summary>
         public NetworkStream NetStream { get; protected set; }
-        
+
         /// <summary>
         /// Gets the remote TCP port.
         /// </summary>
@@ -147,14 +147,14 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// </summary>
         protected void DefineRemoteAddress()
         {
-            try 
+            try
             {
                 IPEndPoint endPoint = (IPEndPoint)TcpClient.Client.RemoteEndPoint;
                 RemoteAddress = endPoint.Address.ToString();
                 RemotePort = endPoint.Port;
             }
-            catch 
-            { 
+            catch
+            {
                 RemoteAddress = "";
                 RemotePort = 0;
             }
@@ -288,7 +288,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                     "Error clearing data stream: ") + ex.Message, ex);
             }
         }
-        
+
         /// <summary>
         /// Binds the device to the connection.
         /// </summary>

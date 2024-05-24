@@ -180,7 +180,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
 
             string format = decAddr ? "G" : "X";
             string suffix = decAddr ? "" : "H";
-            return address.ToString(format) + suffix + 
+            return address.ToString(format) + suffix +
                 (count <= 1 ? "" : " - " + (address + count - 1).ToString(format) + suffix);
         }
 
@@ -211,7 +211,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         /// <summary>
         /// Copies the array elements in the specified byte order.
         /// </summary>
-        public static void ApplyByteOrder(byte[] src, int srcOffset, byte[] dest, int destOffset, int count, 
+        public static void ApplyByteOrder(byte[] src, int srcOffset, byte[] dest, int destOffset, int count,
             int[] byteOrder, bool reverse)
         {
             int srcLen = src == null ? 0 : src.Length;

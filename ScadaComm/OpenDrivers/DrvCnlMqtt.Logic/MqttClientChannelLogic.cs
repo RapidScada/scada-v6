@@ -69,8 +69,8 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
             {
                 if (Locale.IsRussian)
                 {
-                    return mqttClientHelper.IsConnected ? 
-                        "MQTT-клиент, подключен" : 
+                    return mqttClientHelper.IsConnected ?
+                        "MQTT-клиент, подключен" :
                         "MQTT-клиент, не подключен";
                 }
                 else
@@ -238,11 +238,11 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
         /// </summary>
         public override void MakeReady()
         {
-            mqttClientHelper.Client.ConnectedAsync += 
+            mqttClientHelper.Client.ConnectedAsync +=
                 async e => await Task.Run(() => MqttClient_Connected(e));
-            mqttClientHelper.Client.DisconnectedAsync += 
+            mqttClientHelper.Client.DisconnectedAsync +=
                 async e => await Task.Run(() => MqttClient_Disconnected(e));
-            mqttClientHelper.Client.ApplicationMessageReceivedAsync += 
+            mqttClientHelper.Client.ApplicationMessageReceivedAsync +=
                 async e => await Task.Run(() => MqttClient_ApplicationMessageReceived(e));
         }
 

@@ -174,7 +174,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                 {
                     int totalCnlCnt = 0;
 
-                    while (totalCnlCnt < ChannelBatchSize && 
+                    while (totalCnlCnt < ChannelBatchSize &&
                         curDataQueue.TryDequeue(out QueueItem<DeviceSlice> queueItem))
                     {
                         if (utcNow - queueItem.CreationTime > dataLifetime)
@@ -354,9 +354,9 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                 }
                 else if (destDataLength == srcDataLength)
                 {
-                    destSlice = new Slice(srcSlice.Timestamp, cnlNums.ToArray(), srcSlice.CnlData) 
+                    destSlice = new Slice(srcSlice.Timestamp, cnlNums.ToArray(), srcSlice.CnlData)
                     {
-                        DeviceNum = srcSlice.DeviceNum 
+                        DeviceNum = srcSlice.DeviceNum
                     };
                     return true;
                 }

@@ -106,7 +106,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms
                 return false;
             }
         }
-        
+
         /// <summary>
         /// Writes the configuration file.
         /// </summary>
@@ -148,7 +148,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms
             openFileDialog.InitialDirectory = appDirs.ConfigDir;
             openFileDialog.FileName = "";
 
-            if (openFileDialog.ShowDialog() == DialogResult.OK && 
+            if (openFileDialog.ShowDialog() == DialogResult.OK &&
                 ValidateConfigPath(openFileDialog.FileName))
             {
                 txtConfigFileName.Text = openFileDialog.FileName[appDirs.ConfigDir.Length..];

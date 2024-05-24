@@ -58,7 +58,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
                 txtParentNodeID.Text = commandConfig.ParentNodeID;
                 cbDataType.Text = commandConfig.DataTypeName;
                 cbDataType.Enabled = !commandConfig.IsMethod;
-                pbDataTypeWarning.Visible = string.IsNullOrWhiteSpace(commandConfig.DataTypeName) && 
+                pbDataTypeWarning.Visible = string.IsNullOrWhiteSpace(commandConfig.DataTypeName) &&
                     !commandConfig.IsMethod;
                 chkIsMethod.Checked = commandConfig.IsMethod;
             }
@@ -120,7 +120,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
             if (commandConfig != null)
             {
                 commandConfig.DataTypeName = cbDataType.Text;
-                pbDataTypeWarning.Visible = string.IsNullOrWhiteSpace(commandConfig.DataTypeName) && 
+                pbDataTypeWarning.Visible = string.IsNullOrWhiteSpace(commandConfig.DataTypeName) &&
                     !commandConfig.IsMethod;
                 OnObjectChanged(TreeUpdateTypes.None);
             }

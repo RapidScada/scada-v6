@@ -69,7 +69,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             cmdByCode = new Dictionary<string, ModbusCmd>();
 
             foreach (ModbusCmd cmd in Cmds)
-            { 
+            {
                 if (cmd.CmdNum > 0 && !cmdByNum.ContainsKey(cmd.CmdNum))
                     cmdByNum.Add(cmd.CmdNum, cmd);
 
@@ -91,7 +91,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         /// </summary>
         public ModbusCmd GetCmd(string cmdCode)
         {
-            return cmdByCode != null && !string.IsNullOrEmpty(cmdCode) && 
+            return cmdByCode != null && !string.IsNullOrEmpty(cmdCode) &&
                 cmdByCode.TryGetValue(cmdCode, out ModbusCmd cmd) ? cmd : null;
         }
     }

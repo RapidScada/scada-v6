@@ -288,7 +288,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             {
                 if (currentConn.Connected)
                 {
-                    if (!options.StayConnected || options.DisconnectOnError && 
+                    if (!options.StayConnected || options.DisconnectOnError &&
                         deviceLogic.DeviceStatus == DeviceStatus.Error)
                     {
                         Log.WriteLine();

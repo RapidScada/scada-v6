@@ -61,7 +61,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
             }
 
             // check the application certificate
-            bool haveAppCertificate = await opcApp.CheckApplicationInstanceCertificate(false, 
+            bool haveAppCertificate = await opcApp.CheckApplicationInstanceCertificate(false,
                 CertificateFactory.DefaultKeySize, CertificateFactory.DefaultLifeTime);
 
             if (!haveAppCertificate)
@@ -116,7 +116,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         {
             await opcApp.Start(opcServer);
 
-            StringBuilder sbStartInfo = new(Locale.IsRussian ? 
+            StringBuilder sbStartInfo = new(Locale.IsRussian ?
                 "Сервер OPC UA запущен" :
                 "OPC UA server started");
             EndpointDescriptionCollection endpoints = opcServer.GetEndpoints();
@@ -164,7 +164,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// <summary>
         /// Validates the certificate.
         /// </summary>
-        private void CertificateValidator_CertificateValidation(CertificateValidator sender, 
+        private void CertificateValidator_CertificateValidation(CertificateValidator sender,
             CertificateValidationEventArgs e)
         {
             if (e.Error.StatusCode == StatusCodes.BadCertificateUntrusted)

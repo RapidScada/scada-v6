@@ -166,7 +166,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
                 "Неверное имя пользователя или пароль для '{0}'" :
                 "Invalid username or password for '{0}'", username);
             log.WriteError(msg);
-            throw new ServiceResultException(new ServiceResult(StatusCodes.BadUserAccessDenied, "InvalidPassword", 
+            throw new ServiceResultException(new ServiceResult(StatusCodes.BadUserAccessDenied, "InvalidPassword",
                 LoadServerProperties().ProductUri, new LocalizedText(msg)));
         }
 
@@ -207,7 +207,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
                 }
 
                 log.WriteError(msg);
-                throw new ServiceResultException(new ServiceResult(statusCode, symbolicId, 
+                throw new ServiceResultException(new ServiceResult(statusCode, symbolicId,
                     LoadServerProperties().ProductUri, new LocalizedText(msg)));
             }
         }

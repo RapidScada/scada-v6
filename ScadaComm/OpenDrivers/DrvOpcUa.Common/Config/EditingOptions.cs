@@ -15,7 +15,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         /// Gets or sets the rule to set tag codes by default.
         /// </summary>
         public DefaultTagCode DefaultTagCode { get; set; } = DefaultTagCode.NodeID;
-        
+
 
         /// <summary>
         /// Loads the options from the XML node.

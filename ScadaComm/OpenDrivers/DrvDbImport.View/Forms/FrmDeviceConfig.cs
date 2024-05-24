@@ -33,7 +33,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
         private readonly AppDirs appDirs;                // the application directories
         private readonly int lineNum;                    // the communication line number
         private readonly int deviceNum;                  // the device number
-        
+
         private DbLineConfig lineConfig;                  // the communication line configuration
         private DbDeviceConfig deviceConfig;              // the device configuration       
         private string lineConfigFileName;                // the line configuration file name
@@ -55,7 +55,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
         {
             InitializeComponent();
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
@@ -118,7 +118,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
         /// </summary>
         private bool Modified => LineConfigModified || DeviceConfigModified;
 
-        
+
         /// <summary>
         /// Takes the tree view images and loads them into an image list.
         /// </summary>
@@ -165,7 +165,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
             bool nodeMovable = selectedNode != null &&
                 (selectedNode.Tag is QueryConfig || selectedNode.Tag is CommandConfig);
 
-            btnAddQuery.Enabled = btnAddCommand.Enabled = selectedNode != null;     
+            btnAddQuery.Enabled = btnAddCommand.Enabled = selectedNode != null;
             btnMoveUp.Enabled = tvDevice.MoveUpSelectedNodeIsEnabled(TreeNodeBehavior.WithinParent) && nodeMovable;
             btnMoveDown.Enabled = tvDevice.MoveDownSelectedNodeIsEnabled(TreeNodeBehavior.WithinParent) && nodeMovable;
             btnDelete.Enabled = nodeMovable;
@@ -181,14 +181,14 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
                 tvDevice.BeginUpdate();
                 tvDevice.Nodes.Clear();
 
-                connectionNode = TreeViewExtensions.CreateNode(DriverPhrases.ConnectionNode, 
+                connectionNode = TreeViewExtensions.CreateNode(DriverPhrases.ConnectionNode,
                     ChooseNodeImage(lineConfig.ConnectionOptions), lineConfig);
                 queriesNode = TreeViewExtensions.CreateNode(DriverPhrases.QueriesNode, ImageKey.Queries);
                 commandsNode = TreeViewExtensions.CreateNode(DriverPhrases.CommandsNode, ImageKey.Commands);
 
                 tvDevice.Nodes.Add(connectionNode);
                 tvDevice.Nodes.Add(queriesNode);
-                
+
                 foreach (QueryConfig queryConfig in deviceConfig.Queries)
                 {
                     queriesNode.Nodes.Add(TreeViewExtensions.CreateNode(
@@ -266,7 +266,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
         private void FrmDeviceConfig_Load(object sender, EventArgs e)
         {
             // translate form
-            FormTranslator.Translate(this, GetType().FullName, 
+            FormTranslator.Translate(this, GetType().FullName,
                 new FormTranslatorOptions { ContextMenus = new ContextMenuStrip[] { cmsTree } });
             FormTranslator.Translate(ctrlCommand, ctrlCommand.GetType().FullName,
                 new FormTranslatorOptions { ToolTip = ctrlQuery.ToolTip, SkipUserControls = false });
@@ -340,12 +340,12 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
                 ctrlCommand.CommandConfig = commandConfig;
                 ctrlCommand.Visible = true;
             }
-            else 
+            else
             {
                 lblHint.Visible = true;
                 lblHint.Text = DriverPhrases.SelectChildNode;
             }
-            
+
             SetButtonsEnabled();
         }
 
@@ -363,7 +363,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
 
                 tvDevice.Insert(queriesNode, TreeViewExtensions.CreateNode(queryConfig.Name,
                     ChooseNodeImage(queryConfig), queryConfig), deviceConfig.Queries, queryConfig);
-                
+
                 DeviceConfigModified = true;
                 ctrlQuery.SetFocus();
             }
@@ -398,7 +398,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
                 tvDevice.MoveUpSelectedNode(deviceConfig.Queries);
             else if (deviceNodeTag is CommandConfig)
                 tvDevice.MoveUpSelectedNode(deviceConfig.Commands);
-            
+
             DeviceConfigModified = true;
         }
 
@@ -425,7 +425,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
                 tvDevice.RemoveNode(selectedNode, deviceConfig.Queries);
             else if (deviceNodeTag is CommandConfig)
                 tvDevice.RemoveNode(selectedNode, deviceConfig.Commands);
-            
+
             DeviceConfigModified = true;
 
             if (tvDevice.Nodes.Count == 0)
@@ -484,7 +484,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
               treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode)) &&
               e.ChangedObject is CommandConfig commandConfig)
             {
-                tvDevice.SelectedNode.Text = string.IsNullOrEmpty(commandConfig.Name) ? 
+                tvDevice.SelectedNode.Text = string.IsNullOrEmpty(commandConfig.Name) ?
                     DriverPhrases.UnnamedCommand : commandConfig.Name;
                 tvDevice.SelectedNode.SetImageKey(ChooseNodeImage(tvDevice.SelectedNode.Tag));
             }

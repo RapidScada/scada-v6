@@ -255,7 +255,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         {
             if (Behavior == ChannelBehavior.Master)
             {
-                if (options.ConnectionMode == ConnectionMode.Individual && 
+                if (options.ConnectionMode == ConnectionMode.Individual &&
                     conn.BoundDevices.Count == 0)
                 {
                     BindByRequest(conn);
@@ -449,7 +449,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                     else
                     {
                         sb.Append(Locale.IsRussian ?
-                            "Привязанные устройства отсутствуют" : 
+                            "Привязанные устройства отсутствуют" :
                             "No bound devices");
                     }
 
@@ -458,8 +458,8 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             }
             else
             {
-                sb.AppendLine(Locale.IsRussian ? 
-                    "Клиентов нет" : 
+                sb.AppendLine(Locale.IsRussian ?
+                    "Клиентов нет" :
                     "No clients");
             }
         }

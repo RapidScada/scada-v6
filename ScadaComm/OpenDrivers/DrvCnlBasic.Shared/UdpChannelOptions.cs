@@ -3,9 +3,6 @@
 
 using Scada.Comm.Channels;
 using Scada.Config;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Scada.Comm.Drivers.DrvCnlBasic
 {
