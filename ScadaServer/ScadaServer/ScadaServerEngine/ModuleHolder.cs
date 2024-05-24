@@ -162,7 +162,7 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnCurrentDataProcessing(Slice slice)
         {
-            if (serviceStopped) 
+            if (serviceStopped)
                 return;
 
             lock (moduleLock)
@@ -175,7 +175,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteError(ex, ServerPhrases.ErrorInModule, 
+                        log.WriteError(ex, ServerPhrases.ErrorInModule,
                             nameof(OnCurrentDataProcessing), moduleLogic.Code);
                     }
                 }
@@ -200,7 +200,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteError(ex, ServerPhrases.ErrorInModule, 
+                        log.WriteError(ex, ServerPhrases.ErrorInModule,
                             nameof(OnCurrentDataProcessed), moduleLogic.Code);
                     }
                 }
@@ -225,7 +225,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteError(ex, ServerPhrases.ErrorInModule, 
+                        log.WriteError(ex, ServerPhrases.ErrorInModule,
                             nameof(OnHistoricalDataProcessing), moduleLogic.Code);
                     }
                 }
@@ -250,7 +250,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteError(ex, ServerPhrases.ErrorInModule, 
+                        log.WriteError(ex, ServerPhrases.ErrorInModule,
                             nameof(OnHistoricalDataProcessed), moduleLogic.Code);
                     }
                 }

@@ -213,7 +213,7 @@ namespace Scada.Server.Engine
         {
             coreLogic.WriteEvent(archiveMask, ev);
         }
-        
+
         /// <summary>
         /// Sends the telecontrol command.
         /// </summary>

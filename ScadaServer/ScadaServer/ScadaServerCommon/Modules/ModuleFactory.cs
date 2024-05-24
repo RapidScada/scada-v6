@@ -78,11 +78,11 @@ namespace Scada.Server.Modules
                 return false;
             }
         }
-        
+
         /// <summary>
         /// Gets a new instance of the module user interface.
         /// </summary>
-        public static bool GetModuleView(string directory, string moduleCode, 
+        public static bool GetModuleView(string directory, string moduleCode,
             out ModuleView moduleView, out string message)
         {
             string fileName = Path.Combine(directory, moduleCode + ".View.dll");

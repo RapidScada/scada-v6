@@ -112,7 +112,7 @@ namespace Scada.Server.Archives
         /// </summary>
         protected void InitPrevCnlData(ICurrentData curData, int[] cnlIndexes, ref CnlData[] prevCnlData)
         {
-            if (ArchiveOptions != null && ArchiveOptions.WriteOnChange && 
+            if (ArchiveOptions != null && ArchiveOptions.WriteOnChange &&
                 cnlIndexes != null && prevCnlData == null)
             {
                 int cnlCnt = CnlNums.Length;
@@ -140,7 +140,7 @@ namespace Scada.Server.Archives
         protected bool CnlDataEquals2(CnlData x, CnlData y)
         {
             return ArchiveOptions != null && x.Stat == y.Stat && (
-                x.Val.Equals(y.Val) || 
+                x.Val.Equals(y.Val) ||
                 Math.Abs(x.Val - y.Val) <= ArchiveOptions.Deadband);
         }
 

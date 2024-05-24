@@ -85,7 +85,7 @@ namespace Scada.Server.Engine
             if (timeRange.EndTime == DateTime.MinValue)
                 timeRange.EndTime = DateTime.UtcNow;
         }
-        
+
         /// <summary>
         /// Checks if an archive with the specified code exists.
         /// </summary>
@@ -398,7 +398,7 @@ namespace Scada.Server.Engine
                 try
                 {
                     DefineEndTime(ref timeRange);
-                    return archiveLogic.GetTrends(timeRange, cnlNums) ?? 
+                    return archiveLogic.GetTrends(timeRange, cnlNums) ??
                         throw new ScadaException(ServerPhrases.NullResultNotAllowed);
                 }
                 catch (Exception ex)
@@ -420,7 +420,7 @@ namespace Scada.Server.Engine
                 try
                 {
                     DefineEndTime(ref timeRange);
-                    return archiveLogic.GetTrend(timeRange, cnlNum) ?? 
+                    return archiveLogic.GetTrend(timeRange, cnlNum) ??
                         throw new ScadaException(ServerPhrases.NullResultNotAllowed);
                 }
                 catch (Exception ex)
@@ -442,7 +442,7 @@ namespace Scada.Server.Engine
                 try
                 {
                     DefineEndTime(ref timeRange);
-                    return archiveLogic.GetTimestamps(timeRange) ?? 
+                    return archiveLogic.GetTimestamps(timeRange) ??
                         throw new ScadaException(ServerPhrases.NullResultNotAllowed);
                 }
                 catch (Exception ex)
@@ -511,7 +511,7 @@ namespace Scada.Server.Engine
                 try
                 {
                     DefineEndTime(ref timeRange);
-                    return archiveLogic.GetEvents(timeRange, filter) ?? 
+                    return archiveLogic.GetEvents(timeRange, filter) ??
                         throw new ScadaException(ServerPhrases.NullResultNotAllowed);
                 }
                 catch (Exception ex)

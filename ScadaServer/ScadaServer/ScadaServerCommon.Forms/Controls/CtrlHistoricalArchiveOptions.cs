@@ -46,8 +46,8 @@ namespace Scada.Server.Forms.Controls
                 SetEnabled();
             }
         }
-        
-        
+
+
         /// <summary>
         /// Sets the Enabled property of the controls.
         /// </summary>
@@ -65,11 +65,11 @@ namespace Scada.Server.Forms.Controls
             }
             else
             {
-                lblRetention.Enabled = numRetention.Enabled = txtRetentionUnit.Enabled = 
+                lblRetention.Enabled = numRetention.Enabled = txtRetentionUnit.Enabled =
                     lblIsPeriodic.Enabled = chkIsPeriodic.Enabled =
                     lblWriteWithPeriod.Enabled = chkWriteWithPeriod.Enabled = true;
 
-                lblWritingPeriod.Enabled = numWritingPeriod.Enabled = cbWritingPeriodUnit.Enabled = 
+                lblWritingPeriod.Enabled = numWritingPeriod.Enabled = cbWritingPeriodUnit.Enabled =
                     chkIsPeriodic.Checked || chkWriteWithPeriod.Checked;
 
                 lblPullToPeriod.Enabled = numPullToPeriod.Enabled = txtPullToPeriodUnit.Enabled =

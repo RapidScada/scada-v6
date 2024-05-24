@@ -154,7 +154,7 @@ namespace Scada.Server.Engine
                 AppDirs = AppDirs,
                 Log = log
             });
-            
+
             assemblyResolver = new AssemblyResolver(AppDirs.GetProbingDirs());
             ServerConfig appConfig = new ServerConfig();
 

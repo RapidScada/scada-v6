@@ -39,7 +39,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Represents a method that executes when the current data is changing.
         /// </summary>
-        public delegate void DataChangingDelegate(CnlTag cnlTag, ref CnlData cnlData, 
+        public delegate void DataChangingDelegate(CnlTag cnlTag, ref CnlData cnlData,
             CnlData prevCnlData, CnlData prevCnlDataDef, bool enableEvents);
 
         private readonly Dictionary<int, CnlTag> cnlTags;          // the channel tags for archiving
@@ -150,8 +150,8 @@ namespace Scada.Server.Engine
         /// </summary>
         int ICurrentData.GetCnlIndex(int cnlNum)
         {
-            return cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag) 
-                ? cnlTag.Index 
+            return cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag)
+                ? cnlTag.Index
                 : -1;
         }
 
@@ -160,8 +160,8 @@ namespace Scada.Server.Engine
         /// </summary>
         CnlData ICalcContext.GetCnlData(int cnlNum)
         {
-            return cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag) 
-                ? CnlData[cnlTag.Index] 
+            return cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag)
+                ? CnlData[cnlTag.Index]
                 : Data.Models.CnlData.Empty;
         }
 
@@ -170,8 +170,8 @@ namespace Scada.Server.Engine
         /// </summary>
         CnlData ICalcContext.GetPrevCnlData(int cnlNum)
         {
-            return cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag) 
-                ? PrevCnlData[cnlTag.Index] 
+            return cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag)
+                ? PrevCnlData[cnlTag.Index]
                 : Data.Models.CnlData.Empty;
         }
 
@@ -180,8 +180,8 @@ namespace Scada.Server.Engine
         /// </summary>
         DateTime ICalcContext.GetCnlTime(int cnlNum)
         {
-            return cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag) 
-                ? Timestamps[cnlTag.Index] 
+            return cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag)
+                ? Timestamps[cnlTag.Index]
                 : DateTime.MinValue;
         }
 
@@ -190,8 +190,8 @@ namespace Scada.Server.Engine
         /// </summary>
         DateTime ICalcContext.GetPrevCnlTime(int cnlNum)
         {
-            return cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag) 
-                ? PrevTimestamps[cnlTag.Index] 
+            return cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag)
+                ? PrevTimestamps[cnlTag.Index]
                 : DateTime.MinValue;
         }
 
