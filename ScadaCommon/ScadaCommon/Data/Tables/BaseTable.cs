@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2023
+ * Modified : 2024
  */
 
 using System;
@@ -93,9 +93,7 @@ namespace Scada.Data.Tables
                 if (string.IsNullOrEmpty(value))
                     throw new ArgumentException("Primary key must not be empty.");
 
-                PropertyDescriptor pkProp = itemProps[value];
-
-                if (pkProp == null)
+                PropertyDescriptor pkProp = itemProps[value] ??
                     throw new ArgumentException("Primary key property not found.");
 
                 if (pkProp.PropertyType != typeof(int))
@@ -320,9 +318,7 @@ namespace Scada.Data.Tables
         /// </summary>
         public ITableIndex AddIndex(string columnName)
         {
-            PropertyDescriptor colProp = itemProps[columnName];
-
-            if (colProp == null)
+            PropertyDescriptor colProp = itemProps[columnName] ??
                 throw new ArgumentException("Column property not found.");
 
             Type indexType = typeof(TableIndex<,>);
@@ -396,8 +392,7 @@ namespace Scada.Data.Tables
                 throw new ArgumentNullException(nameof(filter));
 
             // find the property used by the filter
-            PropertyDescriptor filterProp = itemProps[filter.ColumnName];
-            if (filterProp == null)
+            PropertyDescriptor filterProp = itemProps[filter.ColumnName] ??
                 throw new ArgumentException("The filter property not found.");
 
             // get the matched items

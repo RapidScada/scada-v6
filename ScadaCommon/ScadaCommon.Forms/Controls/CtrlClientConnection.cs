@@ -255,8 +255,8 @@ namespace Scada.Forms.Controls
         private void txtSecretKey_Leave(object sender, EventArgs e)
         {
             // otherwise the Tab key does not work
-            Action action = () => { txtSecretKey.UseSystemPasswordChar = true; };
-            Task.Run(() => { Invoke(action); });
+            void SetPasswordChar() { txtSecretKey.UseSystemPasswordChar = true; }
+            Task.Run(() => { Invoke(SetPasswordChar); });
         }
 
         private void txtSecretKey_Validating(object sender, CancelEventArgs e)

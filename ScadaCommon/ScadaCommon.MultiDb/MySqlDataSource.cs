@@ -14,12 +14,6 @@ namespace Scada.MultiDb
     public class MySqlDataSource : DataSource
     {
         /// <summary>
-        /// The default port of the database server.
-        /// </summary>
-        private const int DefaultPort = 3306;
-
-
-        /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public MySqlDataSource(DbConnectionOptions connectionOptions)

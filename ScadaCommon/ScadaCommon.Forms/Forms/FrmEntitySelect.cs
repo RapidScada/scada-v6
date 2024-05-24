@@ -48,7 +48,7 @@ namespace Scada.Forms.Forms
         /// Contains item property descriptors.
         /// <para>Содержит дескрипторы свойств элемента.</para>
         /// </summary>
-        private struct ItemProps
+        private readonly struct ItemProps
         {
             public ItemProps(Type itemType)
             {

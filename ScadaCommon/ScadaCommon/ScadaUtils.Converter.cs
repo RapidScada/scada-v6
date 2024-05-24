@@ -320,7 +320,7 @@ namespace Scada
         /// </summary>
         public static string ToLocalizedTimeString(this DateTime dateTime, CultureInfo culture)
         {
-            return dateTime.ToString("T", Locale.Culture);
+            return dateTime.ToString("T", culture);
         }
 
         /// <summary>

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2024
  */
 
 using Scada.Data.Tables;
@@ -403,9 +403,7 @@ namespace Scada.Data.Adapters
                         FieldDef fieldDef = fieldDefs[i];
                         PropertyDescriptor prop = props[i];
                         object value = GetFieldValueIfExists(fieldDef, buffer, ref index);
-
-                        if (prop != null)
-                            prop.SetValue(item, value ?? (fieldDef.AllowNull ? null : fieldDef.DefaultValue));
+                        prop?.SetValue(item, value ?? (fieldDef.AllowNull ? null : fieldDef.DefaultValue));
                     }
 
                     baseTable.AddObject(item);

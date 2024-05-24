@@ -97,11 +97,10 @@ namespace Scada.Storages.PostgreSqlStorage
                 Monitor.Enter(conn);
                 conn.Open();
 
-                using (NpgsqlDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow))
-                {
-                    if (reader.Read())
-                        return reader.IsDBNull(0) ? "" : reader.GetString(0);
-                }
+                using NpgsqlDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow);
+
+                if (reader.Read())
+                    return reader.IsDBNull(0) ? "" : reader.GetString(0);
             }
             finally
             {
