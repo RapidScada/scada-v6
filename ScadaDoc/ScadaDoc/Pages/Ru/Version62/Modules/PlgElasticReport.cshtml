@@ -27,6 +27,7 @@
                 <li><a href="#report-fonts">Шрифты</a></li>
             </ul>
         </li>
+        <li><a href="#generating">Генерация отчёта</a></li>
     </ul>
 </nav>
 
@@ -130,4 +131,58 @@
 
     <h4>Шрифты в формате Excel</h4>
     <p>В генерируемых отчётах в формате Excel указывается только наименование шрифта, сам шрифт не включается в файл отчёта. По умолчанию используется шрифт Arial. При открытии файла с помощью Microsoft Excel или Libre Office Calc шрифт загружается приложением из системы. Если шрифт отсутствует, используется автоматическая замена. Изменить шрифт можно с помощью файла стилей.</p>
+
+    <h3 id="generating">Генерация отчёта</h3>
+    <p>Список отчётов отображается на странице <strong>Главное меню &gt; Отчёты</strong> согласно конфигурационному файлу <code>PlgElasticReport.xml</code>. По щелчку мыши на элементе списка отчётов пользователь переходит на страницу ввода параметров отчёта. Набор полей этой формы зависит от настроек отчёта. После ввода параметров отчёта нажмите кнопку <strong>Скачать отчёт</strong>, чтобы запустить генерацию и скачивание отчёта.</p>
+
+    <p>Генерацию отчёта можно запустить по прямой ссылке. При этом вход пользователя в систему должен быть выполнен. Примеры ссылок приведены ниже. Обратите внимание, что набор параметров запроса для страниц <code>PrintReport1</code> и <code>PrintReport2</code> различается.</p>
+    <p>Пример 1:<br /><code>http://localhost:10008/ElasticReport/Print/PrintReport1?reportID=1&startTime=2024-05-28&endTime=2024-05-29&archive=Hour&format=Html</code></p>
+    <p>Пример 2:<br /><code>http://localhost:10008/ElasticReport/Print/PrintReport2?reportID=1&period=1&unit=Day&archive=Hour&format=Html</code></p>
+    
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Параметр</th>
+                <th>Тип данных</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>reportID</td>
+                <td>Целое число</td>
+                <td>Идентификатор отчёта из файла <code>PlgElasticReport.xml</code></td>
+            </tr>
+            <tr>
+                <td>startTime</td>
+                <td>Дата в формате YYYY-MM-DD или время в формате YYYY-MM-DD'T'HH:MM</td>
+                <td>Начальная дата и время отчёта</td>
+            </tr>
+            <tr>
+                <td>endTime</td>
+                <td>Дата и время</td>
+                <td>Конечная дата и время отчёта</td>
+            </tr>
+            <tr>
+                <td>period</td>
+                <td>Целое число</td>
+                <td>Период отчёта относительно текущей даты</td>
+            </tr>
+            <tr>
+                <td>unit</td>
+                <td>Day | Month</td>
+                <td>Единица измерения периода отчёта</td>
+            </tr>
+            <tr>
+                <td>archive</td>
+                <td>Строка</td>
+                <td>Код архива, из которого извлекаются данные для отчёта</td>
+            </tr>
+            <tr>
+                <td>format</td>
+                <td>Pdf | Xlsx | Html</td>
+                <td>Формат выходного документа</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
