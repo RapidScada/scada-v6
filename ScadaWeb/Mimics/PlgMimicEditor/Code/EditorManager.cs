@@ -108,7 +108,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         }
 
         /// <summary>
-        /// Opens a mimic diagram from the specified file.
+        /// Opens a mimic from the specified file.
         /// </summary>
         public OpenResult OpenMimic(string fileName)
         {
@@ -173,6 +173,14 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             {
                 Monitor.Exit(editorLock);
             }
+        }
+
+        /// <summary>
+        /// Finds an open mimic by the editor key.
+        /// </summary>
+        public MimicInstance FindMimic(long editorKey)
+        {
+            return null;
         }
 
         /// <summary>

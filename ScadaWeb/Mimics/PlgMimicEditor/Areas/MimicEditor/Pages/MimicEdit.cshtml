@@ -8,5 +8,21 @@
 }
 
 @section Scripts {
+    <script src="~/plugins/Mimic/js/mimic-common.js" asp-append-version="true"></script>
+    <script src="~/plugins/Mimic/js/mimic-model.js" asp-append-version="true"></script>
+    <script src="~/plugins/Mimic/js/mimic-render.js" asp-append-version="true"></script>
     <script src="~/plugins/MimicEditor/js/mimic-edit.js" asp-append-version="true"></script>
+    <script>
+        editorKey = "@Model.EditorKey";
+    </script>
 }
+
+@if (Model.HasError)
+{
+    <div class="box-center fs-2 text-danger">
+        @Model.ErrorMessage
+    </div>
+    return;
+}
+
+<div id="divMimicWrapper"></div>
