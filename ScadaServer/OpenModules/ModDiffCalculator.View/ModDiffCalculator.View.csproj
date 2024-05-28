@@ -12,6 +12,8 @@
     <Copyright>Copyright © 2024</Copyright>
     <Version>6.0.0</Version>
     <AssemblyVersion>6.0.0.0</AssemblyVersion>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
   <PropertyGroup>
