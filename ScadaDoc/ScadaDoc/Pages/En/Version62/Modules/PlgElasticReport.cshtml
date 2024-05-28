@@ -27,6 +27,7 @@
                 <li><a href="#report-fonts">Fonts</a></li>
             </ul>
         </li>
+        <li><a href="#generating">Generating Report</a></li>
     </ul>
 </nav>
 
@@ -130,4 +131,58 @@
 
     <h4>Fonts in Excel Format</h4>
     <p>In generated reports in Excel format, only the font name is specified; the font itself is not included in the report file. The default font is Arial. When a file is opened in Microsoft Excel or Libre Office Calc, the application loads the font from the system. If the font is missing, automatic replacement is used. You can change the font using the styles file.</p>
+    
+    <h3 id="generating">Generating Report</h3>
+    <p>The list of reports is displayed on the <strong>Main Menu &gt; Reports</strong> page according to the <code>PlgElasticReport.xml</code> configuration file. By clicking on a report item, a user navigates to the report parameters page. The set of fields in that form depends on the report settings. After entering the report parameters, click the <strong>Download Report</strong> button to start generating and downloading the report.</p>
+
+    <p>Report generation can be started using a direct link. In this case, a user must be logged in. Link examples are shown below. Please note that the sets of request parameters for <code>PrintReport1</code> and <code>PrintReport2</code> addresses are different.</p>
+    <p>Example 1:<br /><code>http://localhost:10008/ElasticReport/Print/PrintReport1?reportID=1&startTime=2024-05-28&endTime=2024-05-29&archive=Hour&format=Html</code></p>
+    <p>Example 2:<br /><code>http://localhost:10008/ElasticReport/Print/PrintReport2?reportID=1&period=1&unit=Day&archive=Hour&format=Html</code></p>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Parameter</th>
+                <th>Data Type</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>reportID</td>
+                <td>Integer</td>
+                <td>Report ID from the <code>PlgElasticReport.xml</code> file</td>
+            </tr>
+            <tr>
+                <td>startTime</td>
+                <td>Date and time in YYYY-MM-DD or YYYY-MM-DD'T'HH:MM format</td>
+                <td>Report start date and time</td>
+            </tr>
+            <tr>
+                <td>endTime</td>
+                <td>Date and time</td>
+                <td>Report end date and time</td>
+            </tr>
+            <tr>
+                <td>period</td>
+                <td>Integer</td>
+                <td>Reporting period relative to the current date</td>
+            </tr>
+            <tr>
+                <td>unit</td>
+                <td>Day | Month</td>
+                <td>Reporting period unit</td>
+            </tr>
+            <tr>
+                <td>archive</td>
+                <td>String</td>
+                <td>Archive code from which the report data is taken</td>
+            </tr>
+            <tr>
+                <td>format</td>
+                <td>Pdf | Xlsx | Html</td>
+                <td>Output format</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
