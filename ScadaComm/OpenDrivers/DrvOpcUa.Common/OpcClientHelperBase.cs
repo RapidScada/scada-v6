@@ -165,27 +165,30 @@ namespace Scada.Comm.Drivers.DrvOpcUa
             {
                 config = await application.LoadApplicationConfiguration(stream, false);
             }
-
-            // check application certificate
-            bool haveAppCertificate = await application.CheckApplicationInstanceCertificate(false, 0);
-
-            if (!haveAppCertificate)
-            {
-                throw new ScadaException(Locale.IsRussian ?
-                    "Сертификат экземпляра приложения недействителен." :
-                    "Application instance certificate is invalid.");
-            }
-
-            config.ApplicationUri = X509Utils.GetApplicationUriFromCertificate(
-                config.SecurityConfiguration.ApplicationCertificate.Certificate);
-
-            if (config.SecurityConfiguration.AutoAcceptUntrustedCertificates)
-                AutoAccept = true;
-
-            config.CertificateValidator.CertificateValidation += CertificateValidator_CertificateValidation;
-
-            // create session
+            
             EndpointDescription selectedEndpoint = SelectEndpoint();
+            if(selectedEndpoint.SecurityMode != MessageSecurityMode.None)
+            {
+                // check application certificate
+                bool haveAppCertificate = await application.CheckApplicationInstanceCertificate(false, 0);
+    
+                if (!haveAppCertificate)
+                {
+                    throw new ScadaException(Locale.IsRussian ?
+                        "Сертификат экземпляра приложения недействителен." :
+                        "Application instance certificate is invalid.");
+                }
+    
+                config.ApplicationUri = X509Utils.GetApplicationUriFromCertificate(
+                    config.SecurityConfiguration.ApplicationCertificate.Certificate);
+    
+                if (config.SecurityConfiguration.AutoAcceptUntrustedCertificates)
+                    AutoAccept = true;
+    
+                config.CertificateValidator.CertificateValidation += CertificateValidator_CertificateValidation;
+            }
+            
+            // create session
             EndpointConfiguration endpointConfiguration = EndpointConfiguration.Create(config);
             ConfiguredEndpoint endpoint = new(null, selectedEndpoint, endpointConfiguration);
             UserIdentity userIdentity = connectionOptions.AuthenticationMode == AuthenticationMode.Username ?
