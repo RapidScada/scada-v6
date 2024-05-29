@@ -9,6 +9,7 @@
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Code.EditorManager">
     <Phrase key="ProjectNotFound">Не найден проект для мнемосхемы.</Phrase>
+    <Phrase key="MimicNotFound">Мнемосхема не найдена.</Phrase>
     <Phrase key="LoadMimicError">Ошибка при загрузке мнемосхемы</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.PlgMimicEditorLogic">

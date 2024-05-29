@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Scada.Lang;
 using Scada.Web.Plugins.PlgMimicEditor.Code;
 
 namespace Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages
@@ -19,12 +20,16 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages
         public void OnGet(long key)
         {
             EditorKey = key;
-            //MimicInstance mimicInstance = editorManager.FindMimic(key);
 
-            //if (mimicInstance == null)
-            //{
-            //    ErrorMessage = "Mimic diagram not found.";
-            //}
+            if (editorManager.FindMimic(key, out MimicInstance mimicInstance, out string errMsg))
+            {
+                ViewData["Title"] = Path.GetFileName(mimicInstance.FileName);
+            }
+            else
+            {
+                ViewData["Title"] = key.ToString();
+                ErrorMessage = errMsg;
+            }
         }
     }
 }

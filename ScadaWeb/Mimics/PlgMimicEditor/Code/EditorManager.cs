@@ -16,9 +16,10 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
     public class EditorManager
     {
         private readonly IWebContext webContext; // the web application context
-        private readonly Dictionary<string, MimicGroup> mimicGroups; // the mimic groups accessed by group name
-        private readonly Dictionary<string, MimicInstance> mimics;   // the mimics accessed by file name
         private readonly object editorLock;      // synchronizes access to the open mimics
+        private readonly Dictionary<string, MimicGroup> mimicGroups;        // the mimic groups accessed by group name
+        private readonly Dictionary<string, MimicInstance> mimicByFileName; // the mimics accessed by file name
+        private readonly Dictionary<long, MimicInstance> mimicByKey;        // the mimics accessed by editor key
 
 
         /// <summary>
@@ -27,9 +28,10 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         public EditorManager(IWebContext webContext)
         {
             this.webContext = webContext ?? throw new ArgumentNullException(nameof(webContext));
-            mimicGroups = [];
-            mimics = [];
             editorLock = new object();
+            mimicGroups = [];
+            mimicByFileName = [];
+            mimicByKey = [];
 
             EditorConfig = new EditorConfig();
             MimicPluginConfig = new MimicPluginConfig();
@@ -84,7 +86,8 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 EditorKey = ScadaUtils.GenerateUniqueID()
             };
 
-            mimics.Add(fileName, mimicInstance);
+            mimicByFileName.Add(fileName, mimicInstance);
+            mimicByKey.Add(mimicInstance.EditorKey, mimicInstance);
             mimicGroup.AddMimic(mimicInstance);
             return mimicInstance;
         }
@@ -117,7 +120,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 Monitor.Enter(editorLock);
 
                 // find already open mimic
-                if (mimics.TryGetValue(fileName, out MimicInstance openMimicInstance))
+                if (mimicByFileName.TryGetValue(fileName, out MimicInstance openMimicInstance))
                 {
                     return new OpenResult
                     {
@@ -178,9 +181,22 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// <summary>
         /// Finds an open mimic by the editor key.
         /// </summary>
-        public MimicInstance FindMimic(long editorKey)
+        public bool FindMimic(long editorKey, out MimicInstance mimicInstance, out string errMsg)
         {
-            return null;
+            lock (editorLock)
+            {
+                if (mimicByKey.TryGetValue(editorKey, out mimicInstance))
+                {
+                    errMsg = "";
+                    return true;
+                }
+                else
+                {
+                    mimicInstance = null;
+                    errMsg = EditorPhrases.MimicNotFound;
+                    return false;
+                }
+            }
         }
 
         /// <summary>
