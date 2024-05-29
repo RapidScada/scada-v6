@@ -1,1 +1,21 @@
-﻿
+﻿$left-panel-width: 300px;
+
+#divToolbar {
+    height: 30px;
+}
+
+#divMain {
+}
+
+#divLeftPanel {
+    width: $left-panel-width;
+    background-color: lightcyan;
+}
+
+#divSplitter {
+
+}
+
+#divMimicWrapper {
+    background-color: lightgoldenrodyellow;
+}

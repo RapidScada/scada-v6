@@ -1,1 +1,12 @@
-﻿
+﻿#divToolbar {
+  height: 30px;
+}
+
+#divLeftPanel {
+  width: 300px;
+  background-color: lightcyan;
+}
+
+#divMimicWrapper {
+  background-color: lightgoldenrodyellow;
+}

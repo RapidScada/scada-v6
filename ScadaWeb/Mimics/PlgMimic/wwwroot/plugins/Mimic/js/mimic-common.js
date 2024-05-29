@@ -1,5 +1,5 @@
 ﻿// Contains classes: ...
 
 // Namespaces
-const rs = rs || {};
+const rs = {};
 rs.mimic = rs.mimic || {};
