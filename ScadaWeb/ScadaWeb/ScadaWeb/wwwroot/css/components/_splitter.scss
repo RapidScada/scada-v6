@@ -1,7 +1,5 @@
-﻿@import '../_variables';
-
-$splitter-color: $gray-400;
-$splitter-active-color: $gray-500;
+﻿$splitter-color: var(--bs-gray-400);
+$splitter-active-color: var(--bs-gray-500);
 $splitter-width: 10px;
 
 .splitter {
