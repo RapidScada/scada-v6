@@ -5,22 +5,35 @@ const rendererSet = new rs.mimic.RendererSet();
 const renderContext = new rs.mimic.RenderContext();
 
 var editorKey = "0";
+var splitter = null;
+
+function bindEvents() {
+    $(window).on("resize", function () {
+        updateLayout();
+    });
+}
 
 function updateLayout() {
-    let toolbarHeight = $("#divToolbar").height();
     let windowHeight = $(window).height();
+    let toolbarHeight = $("#divToolbar").outerHeight();
     let mainHeight = windowHeight - toolbarHeight;
+
+    let windowWidth = $(window).width();
+    let leftPanelWidth = $("#divLeftPanel").width();
+    let splitterWidth = $("#divSplitter").width();
+
     $("#divMain").outerHeight(mainHeight);
-    $("#divLeftPanel").outerHeight(mainHeight);
-    $("#divSplitter").outerHeight(mainHeight);
-    $("#divMimicWrapper").outerHeight(mainHeight);
+    //$("#divLeftPanel").outerHeight(mainHeight);
+    //$("#divSplitter").outerHeight(mainHeight);
+    $("#divMimicWrapper")
+        //.outerHeight(mainHeight)
+        .outerWidth(windowWidth - leftPanelWidth - splitterWidth);
 }
 
 $(function () {
     renderContext.editMode = true;
-    updateLayout();
+    splitter = new Splitter("divSplitter");
 
-    $(window).on("resize", function () {
-        updateLayout();
-    });
+    bindEvents();
+    updateLayout();
 });

@@ -1,21 +1,30 @@
-﻿$left-panel-width: 300px;
+﻿@import '../../../css/components/_splitter';
+
+$left-panel-width: 300px;
 
 #divToolbar {
+    border: 1px solid black;
     height: 30px;
 }
 
 #divMain {
+    display: flex;
+    flex-direction: row;
 }
 
 #divLeftPanel {
-    width: $left-panel-width;
     background-color: lightcyan;
+    border: 1px solid blue;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: $left-panel-width;
 }
 
 #divSplitter {
-
 }
 
 #divMimicWrapper {
     background-color: lightgoldenrodyellow;
+    border: 1px solid green;
+    overflow: auto;
 }
