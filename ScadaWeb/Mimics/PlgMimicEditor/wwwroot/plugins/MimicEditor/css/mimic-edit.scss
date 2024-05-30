@@ -23,7 +23,7 @@ $border-color: var(--bs-gray-500);
 }
 
 #divLeftPanel {
-    background-color: lightcyan;
+    background-color: var(--bs-gray-100);
     overflow-x: hidden;
     overflow-y: auto;
     width: $left-panel-width;
@@ -35,6 +35,6 @@ $border-color: var(--bs-gray-500);
 }
 
 #divMimicWrapper {
-    background-color: lightgoldenrodyellow;
+    background-color: var(--bs-gray-100);
     overflow: auto;
 }

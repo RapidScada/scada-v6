@@ -16,18 +16,17 @@ function bindEvents() {
 function updateLayout() {
     let windowHeight = $(window).height();
     let toolbarHeight = $("#divToolbar").outerHeight();
-    let mainHeight = windowHeight - toolbarHeight;
 
     let windowWidth = $(window).width();
     let leftPanelWidth = $("#divLeftPanel").width();
     let splitterWidth = $("#divSplitter").width();
 
-    $("#divMain").outerHeight(mainHeight);
-    //$("#divLeftPanel").outerHeight(mainHeight);
-    //$("#divSplitter").outerHeight(mainHeight);
-    $("#divMimicWrapper")
-        //.outerHeight(mainHeight)
-        .outerWidth(windowWidth - leftPanelWidth - splitterWidth);
+    $("#divMain").outerHeight(windowHeight - toolbarHeight);
+    $("#divMimicWrapper").outerWidth(windowWidth - leftPanelWidth - splitterWidth);
+}
+
+function loadMimic() {
+
 }
 
 $(function () {
@@ -36,4 +35,5 @@ $(function () {
 
     bindEvents();
     updateLayout();
+    loadMimic();
 });
