@@ -149,9 +149,16 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         {
             try
             {
-                IPEndPoint endPoint = (IPEndPoint)TcpClient.Client.RemoteEndPoint;
-                RemoteAddress = endPoint.Address.ToString();
-                RemotePort = endPoint.Port;
+                if (TcpClient.Client.RemoteEndPoint is IPEndPoint endPoint)
+                {
+                    RemoteAddress = endPoint.Address.ToString();
+                    RemotePort = endPoint.Port;
+                }
+                else
+                {
+                    RemoteAddress = "";
+                    RemotePort = 0;
+                }
             }
             catch
             {

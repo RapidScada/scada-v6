@@ -174,7 +174,6 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                     foreach (DeviceLogic deviceLogic in deviceGroup)
                     {
                         conn.BindDevice(deviceLogic);
-                        deviceLogic.Connection = conn;
                     }
                 }
             }
