@@ -1,10 +1,20 @@
 ﻿@import '../../../css/components/_splitter';
 
 $left-panel-width: 300px;
+$border-color: var(--bs-gray-500);
 
 #divToolbar {
-    border: 1px solid black;
-    height: 30px;
+    border-bottom: 1px solid $border-color;
+    padding: 5px;
+
+    .btn {
+        margin-right: 5px;
+    }
+
+    .splitter {
+        display: inline-block;
+        width: 10px;
+    }
 }
 
 #divMain {
@@ -14,17 +24,17 @@ $left-panel-width: 300px;
 
 #divLeftPanel {
     background-color: lightcyan;
-    border: 1px solid blue;
     overflow-x: hidden;
     overflow-y: auto;
     width: $left-panel-width;
 }
 
 #divSplitter {
+    border-left: 1px solid $border-color;
+    border-right: 1px solid $border-color;
 }
 
 #divMimicWrapper {
     background-color: lightgoldenrodyellow;
-    border: 1px solid green;
     overflow: auto;
 }

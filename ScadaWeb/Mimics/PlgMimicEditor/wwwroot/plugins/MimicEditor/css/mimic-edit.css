@@ -26,8 +26,15 @@
 }
 
 #divToolbar {
-  border: 1px solid black;
-  height: 30px;
+  border-bottom: 1px solid var(--bs-gray-500);
+  padding: 5px;
+}
+#divToolbar .btn {
+  margin-right: 5px;
+}
+#divToolbar .splitter {
+  display: inline-block;
+  width: 10px;
 }
 
 #divMain {
@@ -37,14 +44,17 @@
 
 #divLeftPanel {
   background-color: lightcyan;
-  border: 1px solid blue;
   overflow-x: hidden;
   overflow-y: auto;
   width: 300px;
 }
 
+#divSplitter {
+  border-left: 1px solid var(--bs-gray-500);
+  border-right: 1px solid var(--bs-gray-500);
+}
+
 #divMimicWrapper {
   background-color: lightgoldenrodyellow;
-  border: 1px solid green;
   overflow: auto;
 }
