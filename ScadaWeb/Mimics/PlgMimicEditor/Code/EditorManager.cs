@@ -145,7 +145,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                     if (!string.IsNullOrEmpty(faceplateMeta.TypeName) &&
                         !mimic.Faceplates.ContainsKey(faceplateMeta.TypeName))
                     {
-                        string faceplateFileName = Path.Combine(mimicDir, faceplateMeta.RelativePath);
+                        string faceplateFileName = Path.Combine(mimicDir, faceplateMeta.Path);
                         using FileStream faceplateStream =
                             new(faceplateFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 

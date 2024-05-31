@@ -1,6 +1,9 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Dynamic;
+using System.Xml;
+
 namespace Scada.Web.Plugins.PlgMimic.MimicModel
 {
     /// <summary>
@@ -13,6 +16,11 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// Gets the dependencies on the faceplates.
         /// </summary>
         public List<FaceplateMeta> Dependencies { get; } = [];
+
+        /// <summary>
+        /// Gets the mimic document that groups its properties.
+        /// </summary>
+        public ExpandoObject Document { get; } = new();
 
         /// <summary>
         /// Gets the components contained within the mimic.
@@ -35,6 +43,9 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// </summary>
         public void Load(Stream stream)
         {
+            XmlDocument xmlDoc = new();
+            xmlDoc.Load(stream);
+            XmlElement rootElem = xmlDoc.DocumentElement;
 
         }
 

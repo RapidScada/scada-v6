@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Dynamic;
+
 namespace Scada.Web.Plugins.PlgMimic.MimicModel
 {
     /// <summary>
@@ -10,9 +12,14 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
     public class Faceplate
     {
         /// <summary>
-        /// Gets the main panel, which is the root component of the faceplate.
+        /// Gets the faceplate document that groups its properties.
         /// </summary>
-        public Panel MainPanel { get; } = new();
+        public ExpandoObject Document { get; } = new();
+
+        /// <summary>
+        /// Gets the components contained within the faceplate.
+        /// </summary>
+        public List<Component> Components { get; } = [];
 
         /// <summary>
         /// Gets the images used by the components.

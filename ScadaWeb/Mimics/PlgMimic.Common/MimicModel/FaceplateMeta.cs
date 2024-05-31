@@ -17,6 +17,6 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// <summary>
         /// Gets or sets the file path relative to the mimic file.
         /// </summary>
-        public string RelativePath { get; set; }
+        public string Path { get; set; }
     }
 }
