@@ -42,7 +42,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
         public DevModbusLogic(ICommContext commContext, ILineContext lineContext, DeviceConfig deviceConfig)
             : base(commContext, lineContext, deviceConfig)
         {
-            transMode = TransMode.RTU;
+            transMode = lineContext.LineConfig.CustomOptions.GetValueAsEnum("TransMode", TransMode.RTU);
             deviceModel = null;
             modbusPoll = null;
         }
@@ -232,14 +232,6 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
             return new DeviceModel();
         }
 
-
-        /// <summary>
-        /// Performs actions when starting a communication line.
-        /// </summary>
-        public override void OnCommLineStart()
-        {
-            transMode = LineContext.LineConfig.CustomOptions.GetValueAsEnum("TransMode", TransMode.RTU);
-        }
 
         /// <summary>
         /// Performs actions after setting the connection.
