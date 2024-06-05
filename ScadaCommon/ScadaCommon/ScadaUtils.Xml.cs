@@ -71,36 +71,36 @@ namespace Scada
         /// <summary>
         /// Creates a new XML element and appends it to the parent.
         /// </summary>
-        public static XmlElement AppendElem(this XmlElement parentXmlElem, string elemName, object innerText = null)
+        public static XmlElement AppendElem(this XmlNode parentXmlNode, string elemName, object innerText = null)
         {
-            XmlElement xmlElem = parentXmlElem.OwnerDocument.CreateElement(elemName);
+            XmlElement xmlElem = parentXmlNode.OwnerDocument.CreateElement(elemName);
             string val = XmlValToStr(innerText);
             if (!string.IsNullOrEmpty(val))
                 xmlElem.InnerText = val;
-            return (XmlElement)parentXmlElem.AppendChild(xmlElem);
+            return (XmlElement)parentXmlNode.AppendChild(xmlElem);
         }
 
         /// <summary>
         /// Creates and appends to the parent a new XML element of the option 
         /// with the specified name, value and description.
         /// </summary>
-        public static XmlElement AppendOptionElem(this XmlElement parentXmlElem, string optionName, object value,
+        public static XmlElement AppendOptionElem(this XmlNode parentXmlNode, string optionName, object value,
             string descr = "")
         {
-            XmlElement paramElem = parentXmlElem.OwnerDocument.CreateElement("Option");
+            XmlElement paramElem = parentXmlNode.OwnerDocument.CreateElement("Option");
             paramElem.SetAttribute("name", optionName);
             paramElem.SetAttribute("value", XmlValToStr(value));
             if (!string.IsNullOrEmpty(descr))
                 paramElem.SetAttribute("descr", descr);
-            return (XmlElement)parentXmlElem.AppendChild(paramElem);
+            return (XmlElement)parentXmlNode.AppendChild(paramElem);
         }
 
         /// <summary>
         /// Finds an XML element of the option having the specified name.
         /// </summary>
-        public static XmlElement GetOptionElem(this XmlElement parentXmlElem, string optionName)
+        public static XmlElement GetOptionElem(this XmlNode parentXmlNode, string optionName)
         {
-            XmlNodeList xmlNodes = parentXmlElem.SelectNodes(string.Format("Option[@name='{0}'][1]", optionName));
+            XmlNodeList xmlNodes = parentXmlNode.SelectNodes(string.Format("Option[@name='{0}'][1]", optionName));
             return xmlNodes.Count > 0 ? xmlNodes[0] as XmlElement : null;
         }
 
