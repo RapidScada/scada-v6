@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Mimic xmlns:basic="urn:rapidscada:mimic:basic">
   <Dependencies>
-    <Faceplate typeName="MyFaceplate" path="FaceplateExample.xml" />
+    <Faceplate typeName="MyFaceplate" path="FaceplateExample.fp" />
   </Dependencies>
 
   <Document>

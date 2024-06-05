@@ -12,9 +12,14 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
     public class Panel : Component
     {
         /// <summary>
+        /// The XML node name for panels.
+        /// </summary>
+        public const string NodeName = "Panel";
+
+        /// <summary>
         /// The names of panel nodes that are loaded explicitly.
         /// </summary>
-        private static readonly HashSet<string> PanelKnownNodes = [.. ComponentKnownNodes, "components"];
+        private static readonly HashSet<string> PanelKnownNodes = [.. ComponentKnownNodes, "Components"];
 
         /// <summary>
         /// Gets the names of nodes that are loaded explicitly.
@@ -28,19 +33,38 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
 
 
         /// <summary>
-        /// Loads the component from the XML node.
+        /// Loads the panel from the XML node.
         /// </summary>
-        public override void LoadFromXml(XmlNode xmlNode)
+        public override void LoadFromXml(XmlNode xmlNode, HashSet<int> componentIDs)
         {
-            base.LoadFromXml(xmlNode);
+            ArgumentNullException.ThrowIfNull(componentIDs, nameof(componentIDs));
+            base.LoadFromXml(xmlNode, componentIDs);
+
+            if (xmlNode.SelectSingleNode("Components") is XmlNode componentsNode)
+            {
+                foreach (XmlNode childNode in componentsNode.ChildNodes)
+                {
+                    Component component = childNode.Name == NodeName ? new Panel() : new Component();
+                    component.LoadFromXml(childNode, componentIDs);
+
+                    if (component.ID > 0 && !componentIDs.Contains(component.ID))
+                        Components.Add(component);
+                }
+            }
         }
 
         /// <summary>
-        /// Saves the component into the XML node.
+        /// Saves the panel into the XML node.
         /// </summary>
         public override void SaveToXml(XmlNode xmlNode)
         {
             base.SaveToXml(xmlNode);
+            XmlElement componentsElem = xmlNode.AppendElem("Components");
+
+            foreach (Component component in Components)
+            {
+                component.SaveToXml(componentsElem.AppendElem(component.TypeName));
+            }
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// <summary>
         /// The names of component nodes that are loaded explicitly.
         /// </summary>
-        protected static readonly HashSet<string> ComponentKnownNodes = ["id", "name"];
+        protected static readonly HashSet<string> ComponentKnownNodes = ["ID", "Name"];
 
         /// <summary>
         /// Gets the names of nodes that are loaded explicitly.
@@ -57,7 +57,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// <summary>
         /// Loads the component from the XML node.
         /// </summary>
-        public virtual void LoadFromXml(XmlNode xmlNode)
+        public virtual void LoadFromXml(XmlNode xmlNode, HashSet<int> componentIDs)
         {
             ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
             ID = xmlNode.GetChildAsInt("ID");
@@ -66,7 +66,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
 
             foreach (XmlNode childNode in xmlNode.ChildNodes)
             {
-                if (!KnownNodes.Contains(childNode.Name.ToLowerInvariant()))
+                if (!KnownNodes.Contains(childNode.Name))
                     Properties.LoadProperty(childNode);
             }
         }
