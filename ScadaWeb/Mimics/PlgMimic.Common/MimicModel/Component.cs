@@ -13,9 +13,14 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
     public class Component
     {
         /// <summary>
-        /// The set of node names that are loaded explicitly.
+        /// The names of component nodes that are loaded explicitly.
         /// </summary>
-        private static readonly HashSet<string> KnownNodes = ["id", "name"];
+        protected static readonly HashSet<string> ComponentKnownNodes = ["id", "name"];
+
+        /// <summary>
+        /// Gets the names of nodes that are loaded explicitly.
+        /// </summary>
+        protected virtual HashSet<string> KnownNodes => ComponentKnownNodes;
 
 
         /// <summary>
@@ -52,14 +57,14 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// <summary>
         /// Loads the component from the XML node.
         /// </summary>
-        public void LoadFromXml(XmlElement xmlElem)
+        public virtual void LoadFromXml(XmlNode xmlNode)
         {
-            ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
-            ID = xmlElem.GetChildAsInt("ID");
-            Name = xmlElem.GetChildAsString("Name");
-            TypeName = xmlElem.Name;
+            ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
+            ID = xmlNode.GetChildAsInt("ID");
+            Name = xmlNode.GetChildAsString("Name");
+            TypeName = xmlNode.Name;
 
-            foreach (XmlNode childNode in xmlElem.ChildNodes)
+            foreach (XmlNode childNode in xmlNode.ChildNodes)
             {
                 if (!KnownNodes.Contains(childNode.Name.ToLowerInvariant()))
                     Properties.LoadProperty(childNode);
@@ -69,15 +74,15 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// <summary>
         /// Saves the component into the XML node.
         /// </summary>
-        public void SaveToXml(XmlElement xmlElem)
+        public virtual void SaveToXml(XmlNode xmlNode)
         {
-            ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
-            xmlElem.AppendElem("ID", ID);
-            xmlElem.AppendElem("Name", Name);
+            ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
+            xmlNode.AppendElem("ID", ID);
+            xmlNode.AppendElem("Name", Name);
 
             foreach (KeyValuePair<string, object> kvp in Properties)
             {
-                ExpandoExtensions.SaveProperty(xmlElem, kvp.Key, kvp.Value);
+                ExpandoExtensions.SaveProperty(xmlNode, kvp.Key, kvp.Value);
             }
         }
     }

@@ -1,46 +1,31 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System.Dynamic;
+using System.Xml;
 
 namespace Scada.Web.Plugins.PlgMimic.MimicModel
 {
     /// <summary>
-    /// Represents a faceplate, user component.
-    /// <para>Представляет фейсплейт, пользовательский компонент.</para>
+    /// Represents a faceplate, i.e. a user component.
+    /// <para>Представляет фейсплейт, то есть пользовательский компонент.</para>
     /// </summary>
-    public class Faceplate
+    public class Faceplate : MimicBase
     {
-        /// <summary>
-        /// Gets the faceplate document that groups its properties.
-        /// </summary>
-        public ExpandoObject Document { get; } = new();
-
-        /// <summary>
-        /// Gets the components contained within the faceplate.
-        /// </summary>
-        public List<Component> Components { get; } = [];
-
-        /// <summary>
-        /// Gets the images used by the components.
-        /// </summary>
-        public Dictionary<string, Image> Images { get; } = [];
-
-
-        /// <summary>
-        /// Loads the faceplate.
-        /// </summary>
-        public void Load(Stream stream)
-        {
-
-        }
-
         /// <summary>
         /// Saves the faceplate.
         /// </summary>
-        public void Save(Stream stream)
+        public override void Save(Stream stream)
         {
+            ArgumentNullException.ThrowIfNull(stream, nameof(stream));
 
+            using StreamWriter writer = new(stream);
+            XmlDocument xmlDoc = new();
+            XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
+            xmlDoc.AppendChild(xmlDecl);
+
+            XmlElement rootElem = xmlDoc.CreateElement("Faceplate");
+            xmlDoc.AppendChild(rootElem);
+            SaveToXml(rootElem);
         }
     }
 }
