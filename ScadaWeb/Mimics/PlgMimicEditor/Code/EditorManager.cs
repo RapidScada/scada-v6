@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Lang;
 using Scada.Log;
 using Scada.Web.Lang;
 using Scada.Web.Plugins.PlgMimic.Config;
@@ -157,6 +158,9 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
 
                 // add mimic to the editor
                 MimicInstance mimicInstance = AddMimic(fileName, mimic);
+                PluginLog.WriteAction(Locale.IsRussian ?
+                    "Загружена мнемосхема {0}" :
+                    "{0} mimic loaded", fileName);
 
                 return new OpenResult
                 {
@@ -166,10 +170,13 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             }
             catch (Exception ex)
             {
+                string errMsg = ex.BuildErrorMessage(EditorPhrases.LoadMimicError);
+                PluginLog.WriteError(errMsg);
+
                 return new OpenResult
                 {
                     IsSuccessful = false,
-                    ErrorMessage = ex.BuildErrorMessage(EditorPhrases.LoadMimicError)
+                    ErrorMessage = errMsg
                 };
             }
             finally
