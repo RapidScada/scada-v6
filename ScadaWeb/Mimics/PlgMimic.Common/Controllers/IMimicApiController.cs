@@ -15,21 +15,21 @@ namespace Scada.Web.Plugins.PlgMimic.Controllers
         /// <summary>
         /// Gets the mimic properties.
         /// </summary>
-        Dto<MimicPacket> GetMimicProperties(long editorKey);
+        Dto<MimicPacket> GetMimicProperties(long key);
 
         /// <summary>
         /// Gets a range of components.
         /// </summary>
-        Dto<ComponentPacket> GetComponents(long editorKey, int index, int count);
+        Dto<ComponentPacket> GetComponents(long key, int index, int count);
 
         /// <summary>
         /// Gets a range of images.
         /// </summary>
-        Dto<ComponentPacket> GetImages(long editorKey, int index, int count);
+        Dto<ComponentPacket> GetImages(long key, int index, int count);
 
         /// <summary>
         /// Gets the faceplate.
         /// </summary>
-        Dto<FaceplatePacket> GetFaceplate(long editorKey, string typeName);
+        Dto<FaceplatePacket> GetFaceplate(long key, string typeName);
     }
 }
