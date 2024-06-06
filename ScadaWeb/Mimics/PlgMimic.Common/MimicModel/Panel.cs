@@ -48,6 +48,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
                 {
                     Component component = childNode.Name == NodeName ? new Panel() : new Component();
                     component.LoadFromXml(childNode, componentIDs);
+                    component.ParentID = ID;
 
                     if (component.ID > 0 && !componentIDs.Contains(component.ID))
                         Components.Add(component);
