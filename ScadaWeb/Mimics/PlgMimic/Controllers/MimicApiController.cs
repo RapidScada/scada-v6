@@ -13,7 +13,7 @@ namespace Scada.Web.Plugins.PlgMimic.Controllers
     /// </summary>
     [ApiController]
     [Route("Api/Mimic/[action]")]
-    public class MimicApiController : ControllerBase
+    public class MimicApiController : ControllerBase //, IMimicApiController
     {
         public Component GetComponent()
         {

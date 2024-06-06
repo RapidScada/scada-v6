@@ -7,8 +7,8 @@ using System.Xml;
 namespace Scada.Web.Plugins.PlgMimic.MimicModel
 {
     /// <summary>
-    /// Represents the base class for mimic diagrams and faceplates.
-    /// <para>Представляет базовый класс для мнемосхем и фейсплейтов.</para>
+    /// A base class for mimic diagrams and faceplates.
+    /// <para>Базовый класс для мнемосхем и фейсплейтов.</para>
     /// </summary>
     public abstract class MimicBase
     {

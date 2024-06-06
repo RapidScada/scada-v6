@@ -39,6 +39,11 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         public string TypeName { get; set; } = "";
 
         /// <summary>
+        /// Gets or sets the ID of the parent component.
+        /// </summary>
+        public int ParentID { get; set; } = 0;
+
+        /// <summary>
         /// Gets the component properties.
         /// </summary>
         public ExpandoObject Properties { get; } = new();

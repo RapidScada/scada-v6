@@ -17,6 +17,9 @@
     <Reference Include="ScadaCommon">
       <HintPath>..\..\..\ScadaCommon\ScadaCommon\bin\Release\netstandard2.0\ScadaCommon.dll</HintPath>
     </Reference>
+    <Reference Include="ScadaWebCommon">
+      <HintPath>..\..\ScadaWeb\ScadaWebCommon\bin\Release\net8.0\ScadaWebCommon.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
