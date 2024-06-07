@@ -20,9 +20,10 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2022
+ * Modified : 2024
  */
 
+using Scada.Web.Api;
 using Scada.Web.Lang;
 
 namespace Scada.Web.Authorization
