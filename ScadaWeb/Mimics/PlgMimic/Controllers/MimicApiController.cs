@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Mvc;
+using Scada.Web.Api;
 using Scada.Web.Plugins.PlgMimic.MimicModel;
 using System.Dynamic;
 
@@ -15,27 +16,26 @@ namespace Scada.Web.Plugins.PlgMimic.Controllers
     [Route("Api/Mimic/[action]")]
     public class MimicApiController : ControllerBase //, IMimicApiController
     {
-        public Component GetComponent()
+        public Dto<Component> GetComponent()
         {
-            /*dynamic dto = new ExpandoObject();
-            dto.Prop1 = "aaa";
-
-            dynamic obj2 = new ExpandoObject();
-            obj2.Field1 = 123.45;
-            dto.Prop2 = obj2;
-
             Component component = new()
             {
                 ID = 1,
-                Name = "Test",
-                Properties = dto
+                Name = "Test"
             };
 
-            dynamic dtoLink = component.Properties;
-            dtoLink.Prop3 = DateTime.UtcNow;
+            dynamic props = component.Properties;
+            props.Prop1 = "aaa";
+            props.Prop2 = DateTime.UtcNow;
 
-            return component;*/
-            return new Component();
+            dynamic myObj = new ExpandoObject();
+            myObj.Field1 = 123.45;
+            props.Prop3 = myObj;
+
+            IDictionary<string, object> dict = component.Properties;
+            dict.Add("Prop4", "abc");
+
+            return Dto<Component>.Success(component);
         }
     }
 }

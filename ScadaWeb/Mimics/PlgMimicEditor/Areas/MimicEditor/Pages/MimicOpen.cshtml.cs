@@ -1,8 +1,10 @@
 // Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Scada.Web.Authorization;
 using Scada.Web.Plugins.PlgMimicEditor.Code;
 
 namespace Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages
@@ -11,6 +13,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages
     /// Represents a page for opening a mimic diagram.
     /// <para>Представляет страницу для открытия мнемосхемы.</para>
     /// </summary>
+    [Authorize(Policy = PolicyName.Administrators)]
     public class MimicOpenModel(EditorManager editorManager) : PageModel
     {
         public string ErrorMessage { get; private set; } = "";

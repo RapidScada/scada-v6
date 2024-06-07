@@ -19,21 +19,26 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         {
             ArgumentNullException.ThrowIfNull(obj, nameof(obj));
             ArgumentNullException.ThrowIfNull(propertyNode, nameof(propertyNode));
-            IDictionary<string, object> dict = obj;
 
-            if (propertyNode.ChildNodes.Count > 0)
+            if (propertyNode.NodeType == XmlNodeType.Element)
             {
-                ExpandoObject childObj = new();
-                dict.Add(propertyNode.Name, childObj);
+                IDictionary<string, object> dict = obj;
+                List<XmlElement> childElements = propertyNode.ChildNodes.OfType<XmlElement>().ToList();
 
-                foreach (XmlNode childNode in propertyNode.ChildNodes)
+                if (childElements.Count > 0)
                 {
-                    LoadProperty(childObj, childNode);
+                    ExpandoObject childObj = new();
+                    dict.Add(propertyNode.Name, childObj);
+
+                    foreach (XmlElement childElement in childElements)
+                    {
+                        LoadProperty(childObj, childElement);
+                    }
                 }
-            }
-            else
-            {
-                dict.Add(propertyNode.Name, propertyNode.Value);
+                else
+                {
+                    dict.Add(propertyNode.Name, propertyNode.InnerText);
+                }
             }
         }
 
