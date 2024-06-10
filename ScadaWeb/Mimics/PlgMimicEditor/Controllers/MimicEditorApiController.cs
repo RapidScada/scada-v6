@@ -7,6 +7,7 @@ using Scada.Web.Api;
 using Scada.Web.Authorization;
 using Scada.Web.Lang;
 using Scada.Web.Plugins.PlgMimic.Controllers;
+using Scada.Web.Plugins.PlgMimic.MimicModel;
 using Scada.Web.Plugins.PlgMimic.Models;
 using Scada.Web.Plugins.PlgMimicEditor.Code;
 using Scada.Web.Services;
@@ -64,9 +65,50 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
         /// <summary>
         /// Gets a range of images.
         /// </summary>
-        public Dto<ComponentPacket> GetImages(long key, int index, int count, int size)
+        public Dto<ImagePacket> GetImages(long key, int index, int count, int size)
         {
-            return null;
+            try
+            {
+                if (editorManager.FindMimic(key, out MimicInstance mimicInstance, out string errMsg))
+                {
+                    List<Image> images = [];
+                    int currentIndex = 0;
+                    int totalSize = 0;
+
+                    foreach (Image image in mimicInstance.Mimic.EnumerateImages())
+                    {
+                        // TODO
+                        /*if (currentIndex++ >= index)
+                        {
+                            if (images.Count >= count ||
+                                images.Count > 0 && totalSize + image.DataSize <= size)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                images.Add(image);
+                                totalSize += image.DataSize;
+                            }
+                        }*/
+                    }
+
+                    return Dto<ImagePacket>.Success(new ImagePacket
+                    {
+                        EndOfImages = images.Count <= count,
+                        Images = images
+                    });
+                }
+                else
+                {
+                    return Dto<ImagePacket>.Fail(errMsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetImages)));
+                return Dto<ImagePacket>.Fail(ex.Message);
+            }
         }
 
         /// <summary>

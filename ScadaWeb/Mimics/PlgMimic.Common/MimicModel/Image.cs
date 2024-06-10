@@ -21,6 +21,11 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// </summary>
         public byte[] Data { get; set; } = null;
 
+        /// <summary>
+        /// Gets the data size.
+        /// </summary>
+        public int DataSize => Data == null ? 0 : Data.Length;
+
 
         /// <summary>
         /// Loads the image from the XML node.
