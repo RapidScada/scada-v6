@@ -140,12 +140,12 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
             if (!double.IsNaN(cmd.CmdVal))
             {
                 valStr = cmd.CmdVal.ToString(NumberFormatInfo.InvariantInfo);
-                message.Payload = Encoding.UTF8.GetBytes(valStr);
+                message.PayloadSegment = Encoding.UTF8.GetBytes(valStr);
             }
             else if (cmd.CmdData != null)
             {
                 valStr = Locale.IsRussian ? "<данные>" : "<data>";
-                message.Payload = cmd.CmdData;
+                message.PayloadSegment = cmd.CmdData;
             }
             else
             {
@@ -166,13 +166,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
 
             // set script methods and variables that depend on current call
             jsEngine.SetValue("setValue", new Action<int, double>((i, x) => { subscriptionTag.JsValues[i] = x; }));
-            jsEngine.SetValue("getValue", new Func<int, double>(i =>
-            {
-                int tagIndex = subscriptionTag.TagIndex + i;
-                return updateTimestamps[tagIndex] == DateTime.MinValue
-                    ? double.NaN
-                    : DeviceData.Get(tagIndex);
-            }));
+            jsEngine.SetValue("getValue", new Func<int, double>(i => DeviceData.Get(subscriptionTag.TagIndex + i)));
             jsEngine.SetValue("topic", message.Topic);
             jsEngine.SetValue("payload", message.Payload);
 

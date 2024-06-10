@@ -115,7 +115,7 @@ namespace Scada.Comm.Drivers.DrvMqtt
                 builder.WithTimeout(TimeSpan.FromMilliseconds(Timeout));
 
             if (UseTls)
-                builder.WithTls();
+                builder.WithTlsOptions(o => o.UseTls());
 
             if (!string.IsNullOrEmpty(ClientID))
                 builder.WithClientId(ClientID);

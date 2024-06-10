@@ -197,7 +197,7 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
                             MqttApplicationMessage message = new()
                             {
                                 Topic = topic,
-                                Payload = Encoding.UTF8.GetBytes(payloadStr),
+                                PayloadSegment = Encoding.UTF8.GetBytes(payloadStr),
                                 QualityOfServiceLevel = (MqttQualityOfServiceLevel)dsOptions.PublishOptions.QosLevel,
                                 Retain = dsOptions.PublishOptions.Retain
                             };

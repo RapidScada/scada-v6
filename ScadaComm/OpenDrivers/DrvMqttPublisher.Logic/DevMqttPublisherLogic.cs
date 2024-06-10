@@ -262,7 +262,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
                 payloadStr = MqttUtils.FormatPayload(config.DeviceOptions.PublishFormat, valStr, cnlData.Stat);
             }
 
-            message.Payload = Encoding.UTF8.GetBytes(payloadStr);
+            message.PayloadSegment = Encoding.UTF8.GetBytes(payloadStr);
             return message;
         }
 
