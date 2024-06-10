@@ -62,9 +62,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
             ICommContext commContext, OpcUaServerDSO options, ILog log)
             : base(server, configuration, NamespaceUri)
         {
-            if (options == null)
-                throw new ArgumentNullException(nameof(options));
-
+            ArgumentNullException.ThrowIfNull(options, nameof(options));
             this.commContext = commContext ?? throw new ArgumentNullException(nameof(commContext));
             deviceFilter = options.DeviceFilter.Count > 0 ? new HashSet<int>(options.DeviceFilter) : null;
             this.log = log ?? throw new ArgumentNullException(nameof(log));
@@ -158,7 +156,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
             };
 
             if (isArray)
-                variable.ArrayDimensions = new ReadOnlyList<uint>(new List<uint> { 0 });
+                variable.ArrayDimensions = new ReadOnlyList<uint>([0]);
 
             parent?.AddChild(variable);
             return variable;
@@ -171,10 +169,12 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         {
             foreach (ILineContext lineContext in commContext.GetCommLines())
             {
-                List<DeviceLogic> devices = new();
-                devices.AddRange(deviceFilter == null ?
-                    lineContext.SelectDevices() :
-                    lineContext.SelectDevices(d => deviceFilter.Contains(d.DeviceNum)));
+                List<DeviceLogic> devices =
+                [
+                    .. deviceFilter == null
+                        ? lineContext.SelectDevices()
+                        : lineContext.SelectDevices(d => deviceFilter.Contains(d.DeviceNum)),
+                ];
 
                 if (devices.Count > 0)
                 {
@@ -404,8 +404,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// </summary>
         public void WriteCurrentData(DeviceSlice deviceSlice)
         {
-            if (deviceSlice == null)
-                throw new ArgumentNullException(nameof(deviceSlice));
+            ArgumentNullException.ThrowIfNull(deviceSlice);
 
             if (varByDevice != null && varByDevice.TryGetValue(deviceSlice.DeviceNum, out DeviceVars deviceVars))
             {
@@ -450,14 +449,14 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
 
                 if (externalReferences == null)
                 {
-                    nodeReferences = new List<IReference>();
+                    nodeReferences = [];
                     log.WriteWarning(Locale.IsRussian ?
                         "Ссылки OPC-узлов не определены" :
                         "OPC node references undefined");
                 }
                 else if (!externalReferences.TryGetValue(ObjectIds.ObjectsFolder, out nodeReferences))
                 {
-                    nodeReferences = new List<IReference>();
+                    nodeReferences = [];
                     externalReferences[ObjectIds.ObjectsFolder] = nodeReferences;
                 }
 
@@ -469,8 +468,8 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
                 AddRootNotifier(rootFolder);
 
                 // create child nodes
-                varByDevice = new Dictionary<int, DeviceVars>();
-                varByPath = new Dictionary<string, VarItem>();
+                varByDevice = [];
+                varByPath = [];
                 CreateChildNodes(rootFolder);
 
                 // recursively index the node

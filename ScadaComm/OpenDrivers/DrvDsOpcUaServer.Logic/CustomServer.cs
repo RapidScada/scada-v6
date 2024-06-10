@@ -125,7 +125,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// <summary>
         /// Validates the password for a username token.
         /// </summary>
-        private IUserIdentity VerifyPassword(UserNameIdentityToken userNameToken)
+        private UserIdentity VerifyPassword(UserNameIdentityToken userNameToken)
         {
             string username = userNameToken.UserName;
             string password = userNameToken.DecryptedPassword;
@@ -219,7 +219,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         protected override MasterNodeManager CreateMasterNodeManager(IServerInternal server, ApplicationConfiguration configuration)
         {
             NodeManager = new NodeManager(server, configuration, commContext, options, log);
-            return new MasterNodeManager(server, configuration, null, new INodeManager[] { NodeManager });
+            return new MasterNodeManager(server, configuration, null, [NodeManager]);
         }
 
         /// <summary>

@@ -165,11 +165,10 @@ namespace Scada.Comm.Drivers.DrvOpcUa
             {
                 config = await application.LoadApplicationConfiguration(stream, false);
             }
-            
-            EndpointDescription selectedEndpoint = SelectEndpoint();
-            if(selectedEndpoint.SecurityMode != MessageSecurityMode.None)
+
+            // check application certificate
+            if (connectionOptions.SecurityMode != MessageSecurityMode.None)
             {
-                // check application certificate
                 bool haveAppCertificate = await application.CheckApplicationInstanceCertificate(false, 0);
     
                 if (!haveAppCertificate)
@@ -187,8 +186,9 @@ namespace Scada.Comm.Drivers.DrvOpcUa
     
                 config.CertificateValidator.CertificateValidation += CertificateValidator_CertificateValidation;
             }
-            
+
             // create session
+            EndpointDescription selectedEndpoint = SelectEndpoint();
             EndpointConfiguration endpointConfiguration = EndpointConfiguration.Create(config);
             ConfiguredEndpoint endpoint = new(null, selectedEndpoint, endpointConfiguration);
             UserIdentity userIdentity = connectionOptions.AuthenticationMode == AuthenticationMode.Username ?
