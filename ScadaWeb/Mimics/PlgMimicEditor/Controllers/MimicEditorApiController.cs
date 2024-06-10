@@ -77,20 +77,18 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
 
                     foreach (Image image in mimicInstance.Mimic.EnumerateImages())
                     {
-                        // TODO
-                        /*if (currentIndex++ >= index)
+                        if (currentIndex++ >= index)
                         {
-                            if (images.Count >= count ||
-                                images.Count > 0 && totalSize + image.DataSize <= size)
-                            {
-                                break;
-                            }
-                            else
+                            if (images.Count < count && (images.Count == 0 || totalSize + image.DataSize <= size))
                             {
                                 images.Add(image);
                                 totalSize += image.DataSize;
                             }
-                        }*/
+                            else
+                            {
+                                break;
+                            }
+                        }
                     }
 
                     return Dto<ImagePacket>.Success(new ImagePacket

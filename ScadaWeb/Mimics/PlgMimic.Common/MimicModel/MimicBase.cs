@@ -25,6 +25,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// <summary>
         /// Gets the images accessed by name.
         /// </summary>
+        // TODO: SortedList or List?
         public Dictionary<string, Image> Images { get; } = [];
 
 
