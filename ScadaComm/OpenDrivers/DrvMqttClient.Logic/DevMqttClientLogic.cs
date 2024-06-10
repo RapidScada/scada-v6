@@ -58,7 +58,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
             : base(commContext, lineContext, deviceConfig)
         {
             config = new MqttClientDeviceConfig();
-            cmdByCode = new Dictionary<string, CommandConfig>();
+            cmdByCode = [];
 
             mqttClientChannel = null;
             jsEngine = null;

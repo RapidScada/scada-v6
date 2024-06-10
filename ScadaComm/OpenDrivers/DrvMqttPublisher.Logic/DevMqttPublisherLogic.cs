@@ -57,7 +57,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
             : base(commContext, lineContext, deviceConfig)
         {
             config = new MqttPublisherDeviceConfig();
-            tagByCnlNum = new Dictionary<int, DeviceTag>();
+            tagByCnlNum = [];
 
             fatalError = false;
             mqttClientChannel = null;
@@ -369,7 +369,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
             DeviceTags.AddGroup(tagGroup);
             DeviceTags.FlattenGroups = true;
             DeviceTags.UseStatusTag = false;
-            publishCnlNums = cnlNumList.ToArray();
+            publishCnlNums = [.. cnlNumList];
         }
 
         /// <summary>

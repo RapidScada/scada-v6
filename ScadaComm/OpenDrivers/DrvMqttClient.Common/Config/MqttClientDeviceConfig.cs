@@ -35,8 +35,8 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
         protected override void SetToDefault()
         {
             DeviceOptions = new DeviceOptions();
-            Subscriptions = new SubscriptionList();
-            Commands = new CommandList();
+            Subscriptions = [];
+            Commands = [];
         }
 
         /// <summary>

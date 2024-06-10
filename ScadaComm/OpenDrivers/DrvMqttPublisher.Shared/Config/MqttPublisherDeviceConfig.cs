@@ -30,7 +30,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Config
         protected override void SetToDefault()
         {
             DeviceOptions = new DeviceOptions();
-            Items = new ItemList();
+            Items = [];
         }
 
         /// <summary>

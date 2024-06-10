@@ -24,8 +24,7 @@ namespace Scada.Comm.Drivers.DrvDsMqtt
             MaxQueueSize = options.GetValueAsInt("MaxQueueSize", 1000);
             DataLifetime = options.GetValueAsInt("DataLifetime", 60);
             DetailedLog = options.GetValueAsBool("DetailedLog");
-            DeviceFilter = new List<int>();
-            DeviceFilter.AddRange(ScadaUtils.ParseRange(options.GetValueAsString("DeviceFilter"), true, true));
+            DeviceFilter = [.. ScadaUtils.ParseRange(options.GetValueAsString("DeviceFilter"), true, true)];
         }
 
 

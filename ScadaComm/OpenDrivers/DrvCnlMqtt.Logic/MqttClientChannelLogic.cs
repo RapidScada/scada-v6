@@ -28,7 +28,7 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
 
             public string Topic { get; init; }
             public MqttTopicFilter TopicFilter { get; init; }
-            public List<SubscriptionRecord> Subscriptions { get; } = new List<SubscriptionRecord>();
+            public List<SubscriptionRecord> Subscriptions { get; } = [];
             public string SubscribedDevices
             {
                 get
@@ -55,7 +55,7 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
             : base(lineContext, channelConfig)
         {
             mqttClientHelper = new MqttClientHelper(new MqttConnectionOptions(channelConfig.CustomOptions), Log);
-            topicTags = new Dictionary<string, TopicTag>();
+            topicTags = [];
             sessionLock = new object();
         }
 
@@ -106,8 +106,8 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
 
                 if (topicTags.Count > 0)
                 {
-                    MqttTopicFilter[] topicFilters = topicTags.Select(kvp => kvp.Value.TopicFilter)
-                        .OrderBy(filter => filter.Topic).ToArray();
+                    MqttTopicFilter[] topicFilters = 
+                        [.. topicTags.Select(kvp => kvp.Value.TopicFilter).OrderBy(filter => filter.Topic)];
                     mqttClientHelper.Subscribe(topicFilters);
 
                     Log.WriteLine(Locale.IsRussian ?
@@ -158,7 +158,7 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
                 {
                     Topic = e.ApplicationMessage.Topic,
                     Payload = e.ApplicationMessage.ConvertPayloadToString() ?? "",
-                    PayloadData = e.ApplicationMessage.PayloadSegment.ToArray()
+                    PayloadData = [.. e.ApplicationMessage.PayloadSegment]
                 };
 
                 Log.WriteLine();

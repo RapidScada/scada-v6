@@ -24,7 +24,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
             ReadOnly = false;
             JsEnabled = false;
             JsFileName = "";
-            SubItems = new ObservableCollection<string>();
+            SubItems = [];
             Parent = null;
         }
 

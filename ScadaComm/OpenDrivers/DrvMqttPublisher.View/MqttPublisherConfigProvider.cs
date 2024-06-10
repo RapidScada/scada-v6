@@ -80,10 +80,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.View
         /// </summary>
         public override ToolStripItem[] GetAddButtons()
         {
-            return new ToolStripItem[]
-            {
-                new ToolStripMenuItem(DriverPhrases.AddItemButton, Resources.elem)
-            };
+            return [new ToolStripMenuItem(DriverPhrases.AddItemButton, Resources.elem)];
         }
 
         /// <summary>
@@ -132,7 +129,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.View
                 itemsNode.Nodes.Add(CreateItemNode(item));
             }
 
-            return new TreeNode[] { optionsNode, itemsNode };
+            return [optionsNode, itemsNode];
         }
 
         /// <summary>

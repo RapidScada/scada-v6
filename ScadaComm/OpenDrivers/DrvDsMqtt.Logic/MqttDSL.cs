@@ -78,7 +78,7 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
         {
             // topic example:
             // Communicator/line001/device001/Sin
-            Dictionary<int, DeviceTopics> topics = new();
+            Dictionary<int, DeviceTopics> topics = [];
 
             foreach (ILineContext lineContext in CommContext.GetCommLines())
             {
