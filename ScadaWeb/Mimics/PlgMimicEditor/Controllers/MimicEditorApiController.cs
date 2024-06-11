@@ -63,7 +63,30 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
             {
                 if (editorManager.FindMimic(key, out MimicInstance mimicInstance, out string errMsg))
                 {
+                    List<Component> components = [];
+                    int currentIndex = 0;
+                    bool endReached = true;
+                    
+                    foreach (Component component in mimicInstance.Mimic.EnumerateComponents())
+                    {
+                        if (currentIndex++ >= index)
+                        {
+                            if (components.Count < count)
+                                components.Add(component);
 
+                            if (components.Count >= count)
+                            {
+                                endReached = false;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    return Dto<ComponentPacket>.Success(new ComponentPacket
+                    {
+                        EndOfComponents = endReached,
+                        Components = components
+                    });
                 }
                 else
                 {
@@ -75,8 +98,6 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
                 webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetComponents)));
                 return Dto<ComponentPacket>.Fail(ex.Message);
             }
-
-            return null;
         }
 
         /// <summary>

@@ -29,6 +29,22 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
 
 
         /// <summary>
+        /// Enumerates the components starting with the specified component.
+        /// </summary>
+        private static IEnumerable<Component> EnumerateComponentsInternal(Component component)
+        {
+            yield return component;
+
+            if (component is Panel panel)
+            {
+                foreach (Component childComponent in panel.Components)
+                {
+                    EnumerateComponentsInternal(childComponent);
+                }
+            }
+        }
+
+        /// <summary>
         /// Loads the mimic from the XML node.
         /// </summary>
         protected virtual void LoadFromXml(XmlElement rootElem)
@@ -121,6 +137,20 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
             XmlElement rootElem = xmlDoc.CreateElement("Mimic");
             xmlDoc.AppendChild(rootElem);
             SaveToXml(rootElem);
+        }
+
+        /// <summary>
+        /// Enumerates the components recursively.
+        /// </summary>
+        public IEnumerable<Component> EnumerateComponents()
+        {
+            foreach (Component component in Components)
+            {
+                foreach (Component childComponent in EnumerateComponentsInternal(component))
+                {
+                    yield return childComponent;
+                }
+            }
         }
     }
 }
