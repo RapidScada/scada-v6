@@ -20,11 +20,11 @@ namespace Scada.Web.Plugins.PlgMimic.Models
         /// <summary>
         /// Gets the components.
         /// </summary>
-        public List<Component> Components { get; init; }
+        public IList<Component> Components { get; init; }
 
         /// <summary>
         /// Gets the images.
         /// </summary>
-        public List<Image> Images { get; init; }
+        public IList<Image> Images { get; init; }
     }
 }

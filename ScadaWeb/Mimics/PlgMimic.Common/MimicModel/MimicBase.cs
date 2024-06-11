@@ -26,6 +26,11 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// Gets the images accessed by name.
         /// </summary>
         public SortedList<string, Image> Images { get; } = [];
+        
+        /// <summary>
+        /// Gets an object that can be used to synchronize access to the mimic.
+        /// </summary>
+        public object SyncRoot => this;
 
 
         /// <summary>

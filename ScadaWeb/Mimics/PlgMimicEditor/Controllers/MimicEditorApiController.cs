@@ -3,6 +3,7 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Scada.Lang;
 using Scada.Web.Api;
 using Scada.Web.Authorization;
 using Scada.Web.Lang;
@@ -21,6 +22,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
     [ApiController]
     [Route("Api/MimicEditor/[action]")]
     [Authorize(Policy = PolicyName.Administrators)]
+    [TypeFilter(typeof(MimicLockFilter))]
     [CamelCaseJsonFormatter]
     public class MimicEditorApiController(
         IWebContext webContext,
@@ -84,6 +86,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
                     
                     return Dto<ComponentPacket>.Success(new ComponentPacket
                     {
+                        MimicStamp = key,
                         EndOfComponents = endReached,
                         Components = components
                     });
@@ -138,6 +141,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
 
                     return Dto<ImagePacket>.Success(new ImagePacket
                     {
+                        MimicStamp = key,
                         EndOfImages = currentIndex >= imageCount,
                         Images = images
                     });
@@ -159,7 +163,37 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
         /// </summary>
         public Dto<FaceplatePacket> GetFaceplate(long key, string typeName)
         {
-            return null;
+            try
+            {
+                if (editorManager.FindMimic(key, out MimicInstance mimicInstance, out string errMsg))
+                {
+                    if (mimicInstance.Mimic.Faceplates.TryGetValue(typeName, out Faceplate faceplate))
+                    {
+                        return Dto<FaceplatePacket>.Success(new FaceplatePacket
+                        {
+                            MimicStamp = key,
+                            Document = faceplate.Document,
+                            Components = faceplate.Components,
+                            Images = faceplate.Images.Values
+                        });
+                    }
+                    else
+                    {
+                        return Dto<FaceplatePacket>.Fail(Locale.IsRussian ?
+                            "Фейсплейт не найден." :
+                            "Faceplate not found.");
+                    }
+                }
+                else
+                {
+                    return Dto<FaceplatePacket>.Fail(errMsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetFaceplate)));
+                return Dto<FaceplatePacket>.Fail(ex.Message);
+            }
         }
     }
 }
