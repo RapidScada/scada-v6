@@ -59,6 +59,23 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
         /// </summary>
         public Dto<ComponentPacket> GetComponents(long key, int index, int count)
         {
+            try
+            {
+                if (editorManager.FindMimic(key, out MimicInstance mimicInstance, out string errMsg))
+                {
+
+                }
+                else
+                {
+                    return Dto<ComponentPacket>.Fail(errMsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetComponents)));
+                return Dto<ComponentPacket>.Fail(ex.Message);
+            }
+
             return null;
         }
 
@@ -72,14 +89,18 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
                 if (editorManager.FindMimic(key, out MimicInstance mimicInstance, out string errMsg))
                 {
                     List<Image> images = [];
-                    int currentIndex = 0;
+                    int currentIndex = index;
+                    int imageCount = mimicInstance.Mimic.Images.Count;
+                    int counter = 0;
                     int totalSize = 0;
 
-                    foreach (Image image in mimicInstance.Mimic.EnumerateImages())
+                    while (currentIndex < imageCount && counter < count)
                     {
-                        if (currentIndex++ >= index)
+                        if (currentIndex >= 0)
                         {
-                            if (images.Count < count && (images.Count == 0 || totalSize + image.DataSize <= size))
+                            Image image = mimicInstance.Mimic.Images.GetValueAtIndex(currentIndex);
+
+                            if (images.Count == 0 || totalSize + image.DataSize <= size)
                             {
                                 images.Add(image);
                                 totalSize += image.DataSize;
@@ -89,11 +110,14 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
                                 break;
                             }
                         }
+
+                        currentIndex++;
+                        counter++;
                     }
 
                     return Dto<ImagePacket>.Success(new ImagePacket
                     {
-                        EndOfImages = images.Count <= count,
+                        EndOfImages = currentIndex >= imageCount,
                         Images = images
                     });
                 }

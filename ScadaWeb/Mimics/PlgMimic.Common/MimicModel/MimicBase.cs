@@ -25,8 +25,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// <summary>
         /// Gets the images accessed by name.
         /// </summary>
-        // TODO: SortedList or List?
-        public Dictionary<string, Image> Images { get; } = [];
+        public SortedList<string, Image> Images { get; } = [];
 
 
         /// <summary>
@@ -88,7 +87,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
                 component.SaveToXml(componentsElem.AppendElem(component.TypeName));
             }
 
-            foreach (Image image in EnumerateImages())
+            foreach (Image image in Images.Values)
             {
                 image.SaveToXml(imagesElem.AppendElem("Image"));
             }
@@ -122,14 +121,6 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
             XmlElement rootElem = xmlDoc.CreateElement("Mimic");
             xmlDoc.AppendChild(rootElem);
             SaveToXml(rootElem);
-        }
-
-        /// <summary>
-        /// Enumerates the images ordered by name.
-        /// </summary>
-        public IEnumerable<Image> EnumerateImages()
-        {
-            return Images.OrderBy(kvp => kvp.Key).Select(kvp => kvp.Value);
         }
     }
 }
