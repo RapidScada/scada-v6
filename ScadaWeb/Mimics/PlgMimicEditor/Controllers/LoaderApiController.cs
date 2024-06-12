@@ -16,15 +16,15 @@ using Scada.Web.Services;
 namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
 {
     /// <summary>
-    /// Represents the mimic editor web API.
-    /// <para>Представляет веб-API редактора мнемосхем.</para>
+    /// Represents a web API for loading mimic diagrams.
+    /// <para>Представляет веб-API для загрузки мнемосхем.</para>
     /// </summary>
     [ApiController]
-    [Route("Api/MimicEditor/[action]")]
+    [Route("Api/MimicEditor/Loader/[action]")]
     [Authorize(Policy = PolicyName.Administrators)]
     [TypeFilter(typeof(MimicLockFilter))]
     [CamelCaseJsonFormatter]
-    public class MimicEditorApiController(
+    public class LoaderApiController(
         IWebContext webContext,
         EditorManager editorManager) : ControllerBase, IMimicApiController
     {

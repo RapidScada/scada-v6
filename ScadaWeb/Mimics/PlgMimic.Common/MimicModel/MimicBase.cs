@@ -36,15 +36,18 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// <summary>
         /// Enumerates the components starting with the specified component.
         /// </summary>
-        private static IEnumerable<Component> EnumerateComponentsInternal(Component component)
+        private static IEnumerable<Component> EnumerateComponentsInternal(IEnumerable<Component> components)
         {
-            yield return component;
-
-            if (component is Panel panel)
+            foreach (Component component in components)
             {
-                foreach (Component childComponent in panel.Components)
+                yield return component;
+
+                if (component is Panel panel)
                 {
-                    EnumerateComponentsInternal(childComponent);
+                    foreach (Component childComponent in EnumerateComponentsInternal(panel.Components))
+                    {
+                        yield return childComponent;
+                    }
                 }
             }
         }
@@ -149,12 +152,9 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// </summary>
         public IEnumerable<Component> EnumerateComponents()
         {
-            foreach (Component component in Components)
+            foreach (Component component in EnumerateComponentsInternal(Components))
             {
-                foreach (Component childComponent in EnumerateComponentsInternal(component))
-                {
-                    yield return childComponent;
-                }
+                yield return component;
             }
         }
     }
