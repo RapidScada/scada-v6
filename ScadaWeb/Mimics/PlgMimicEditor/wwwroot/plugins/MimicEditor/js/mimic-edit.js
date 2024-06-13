@@ -4,6 +4,7 @@ const mimic = new rs.mimic.Mimic();
 const rendererSet = new rs.mimic.RendererSet();
 const renderContext = new rs.mimic.RenderContext();
 
+var rootPath = "/";
 var editorKey = "0";
 var splitter = null;
 
@@ -26,14 +27,24 @@ function updateLayout() {
 }
 
 function loadMimic() {
+    let dto = mimic.load(getLoaderUrl(), editorKey);
 
+    if (dto.ok) {
+
+    } else {
+
+    }
 }
 
-$(function () {
+function getLoaderUrl() {
+    return rootPath + "Api/MimicEditor/Loader/";
+}
+
+$(async function () {
     renderContext.editMode = true;
     splitter = new Splitter("divSplitter");
 
     bindEvents();
     updateLayout();
-    loadMimic();
+    await loadMimic();
 });
