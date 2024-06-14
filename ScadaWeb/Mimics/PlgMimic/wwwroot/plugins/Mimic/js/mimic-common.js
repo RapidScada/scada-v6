@@ -26,15 +26,16 @@ rs.mimic.LoadContext = class {
     static IMAGES_TO_REQUEST = 100;
     static IMAGE_TOTAL_SIZE = 1048576;
 
-    constructor(controllerUrl, mimicKey) {
-        this.controllerUrl = controllerUrl;
-        this.mimicKey = mimicKey;
-    }
-
     controllerUrl = "";
     mimicKey = "";
     result = new rs.mimic.LoadResult();
     step = rs.mimic.LoadStep.UNDEFINED;
     componentIndex = 0;
     imageIndex = 0;
+    faceplateIndex = 0;
+
+    constructor(controllerUrl, mimicKey) {
+        this.controllerUrl = controllerUrl;
+        this.mimicKey = mimicKey;
+    }
 }
