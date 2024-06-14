@@ -1,10 +1,13 @@
-﻿// Contains classes: Mimic, Component
+﻿// Contains classes: Mimic, FaceplateMeta, Component, Panel, Image, Faceplate
 // Depends on scada-common.js, mimic-common.js
 
 // Represents a mimic diagram.
 rs.mimic.Mimic = class {
     dependencies = [];
     document = {};
+    components = [];
+    images = [];
+    faceplates = [];
 
     // Loads a part of the mimic.
     async _loadPart(loadContext) {
@@ -109,8 +112,12 @@ rs.mimic.Mimic = class {
         if (response.ok) {
             let dto = await response.json();
 
-            if (dto.ok) {
+            if (dto.ok && Array.isArray(dto.data.components)) {
                 loadContext.componentIndex += dto.data.components.length;
+
+                for (let component of dto.data.components) {
+                    this.components.push(new rs.mimic.Component(component));
+                }
             }
 
             return dto;
@@ -131,8 +138,12 @@ rs.mimic.Mimic = class {
         if (response.ok) {
             let dto = await response.json();
 
-            if (dto.ok) {
+            if (dto.ok && Array.isArray(dto.data.images)) {
                 loadContext.imageIndex += dto.data.images.length;
+
+                for (let image of dto.data.images) {
+                    this.images.push(new rs.mimic.Image(image));
+                }
             }
 
             return dto;
@@ -154,6 +165,7 @@ rs.mimic.Mimic = class {
 
             if (dto.ok) {
                 loadContext.faceplateIndex++;
+                this.faceplates.push(new rs.mimic.Faceplate(dto.data));
             }
 
             return dto;
@@ -166,6 +178,9 @@ rs.mimic.Mimic = class {
     clear() {
         this.dependencies = [];
         this.document = {};
+        this.components = [];
+        this.images = [];
+        this.faceplates = [];
     }
 
     // Loads the mimic.
@@ -203,5 +218,41 @@ rs.mimic.FaceplateMeta = class {
 
 // Represents a component of a mimic diagram.
 rs.mimic.Component = class {
+    id = 0;
+    name = "";
+    typeName = "";
+    parentID = 0;
+    properties = null;
+    bindings = null;
+    access = null;
 
+    constructor(fields) {
+        Object.assign(this, fields);
+    }
+}
+
+// Represents a panel that can contain child components.
+rs.mimic.Panel = class extends rs.mimic.Component {
+    components = [];
+}
+
+// Represents an image of a mimic diagram.
+rs.mimic.Image = class {
+    name = "";
+    data = null;
+
+    constructor(fields) {
+        Object.assign(this, fields);
+    }
+}
+
+// Represents a faceplate, i.e. a user component.
+rs.mimic.Faceplate = class {
+    document = {};
+    components = [];
+    images = [];
+
+    constructor(fields) {
+        Object.assign(this, fields);
+    }
 }
