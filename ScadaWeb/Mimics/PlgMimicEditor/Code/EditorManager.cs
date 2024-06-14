@@ -84,11 +84,11 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             {
                 FileName = fileName,
                 Mimic = mimic,
-                EditorKey = ScadaUtils.GenerateUniqueID()
+                MimicKey = ScadaUtils.GenerateUniqueID()
             };
 
             mimicByFileName.Add(fileName, mimicInstance);
-            mimicByKey.Add(mimicInstance.EditorKey, mimicInstance);
+            mimicByKey.Add(mimicInstance.MimicKey, mimicInstance);
             mimicGroup.AddMimic(mimicInstance);
             return mimicInstance;
         }
@@ -126,7 +126,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                     return new OpenResult
                     {
                         IsSuccessful = true,
-                        EditorKey = openMimicInstance.EditorKey
+                        MimicKey = openMimicInstance.MimicKey
                     };
                 }
 
@@ -165,7 +165,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 return new OpenResult
                 {
                     IsSuccessful = true,
-                    EditorKey = mimicInstance.EditorKey
+                    MimicKey = mimicInstance.MimicKey
                 };
             }
             catch (Exception ex)
@@ -186,13 +186,13 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         }
 
         /// <summary>
-        /// Finds an open mimic by the editor key.
+        /// Finds an open mimic by the key.
         /// </summary>
-        public bool FindMimic(long editorKey, out MimicInstance mimicInstance, out string errMsg)
+        public bool FindMimic(long mimicKey, out MimicInstance mimicInstance, out string errMsg)
         {
             lock (editorLock)
             {
-                if (mimicByKey.TryGetValue(editorKey, out mimicInstance))
+                if (mimicByKey.TryGetValue(mimicKey, out mimicInstance))
                 {
                     errMsg = "";
                     return true;

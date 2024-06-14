@@ -93,12 +93,12 @@ rs.mimic.Mimic = class {
     }
 
     // Loads the mimic.
-    async load(controllerUrl, key) {
+    async load(controllerUrl, mimicKey) {
         let startTime = Date.now();
-        console.log(ScadaUtils.getCurrentTime() + " Load mimic with key " + key)
+        console.log(ScadaUtils.getCurrentTime() + " Load mimic with key " + mimicKey)
         this.clear();
 
-        let loadContext = new rs.mimic.LoadContext(controllerUrl, key);
+        let loadContext = new rs.mimic.LoadContext(controllerUrl, mimicKey);
 
         while (await this._loadPart(loadContext)) {
             // do nothing

@@ -40,7 +40,7 @@
             <div class="list-group list-group-flush">
                 @foreach (var mimic in mimicGroup.GetMimics())
                 {
-                    <a asp-page="/MimicEdit" asp-route-key="@mimic.EditorKey" target="_blank" class="list-group-item list-group-item-action">@mimic.FileName</a>
+                    <a asp-page="/MimicEdit" asp-route-key="@mimic.MimicKey" target="_blank" class="list-group-item list-group-item-action">@mimic.FileName</a>
                 }
             </div>
         </div>

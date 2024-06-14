@@ -18,11 +18,11 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages
     {
         public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
         public string ErrorMessage { get; private set; } = "";
-        public long EditorKey { get; private set; } = 0;
+        public long MimicKey { get; private set; } = 0;
 
         public void OnGet(long key)
         {
-            EditorKey = key;
+            MimicKey = key;
 
             if (editorManager.FindMimic(key, out MimicInstance mimicInstance, out string errMsg))
             {

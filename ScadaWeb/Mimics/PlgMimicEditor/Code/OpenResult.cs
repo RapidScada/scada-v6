@@ -20,8 +20,8 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         public string ErrorMessage { get; init; } = "";
 
         /// <summary>
-        /// Gets the key provided by the editor to access the mimic.
+        /// Gets the mimic key provided by the editor.
         /// </summary>
-        public long EditorKey { get; init; } = 0;
+        public long MimicKey { get; init; } = 0;
     }
 }

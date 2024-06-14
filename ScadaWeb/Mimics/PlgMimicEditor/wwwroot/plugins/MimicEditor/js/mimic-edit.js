@@ -5,7 +5,7 @@ const rendererSet = new rs.mimic.RendererSet();
 const renderContext = new rs.mimic.RenderContext();
 
 var rootPath = "/";
-var editorKey = "0";
+var mimicKey = "0";
 var splitter = null;
 
 function bindEvents() {
@@ -27,7 +27,7 @@ function updateLayout() {
 }
 
 function loadMimic() {
-    let dto = mimic.load(getLoaderUrl(), editorKey);
+    let dto = mimic.load(getLoaderUrl(), mimicKey);
 
     if (dto.ok) {
 

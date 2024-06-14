@@ -22,8 +22,8 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         public Mimic Mimic { get; init; }
 
         /// <summary>
-        /// Gets the editor key.
+        /// Gets the mimic key provided by the editor.
         /// </summary>
-        public long EditorKey { get; init; }
+        public long MimicKey { get; init; }
     }
 }
