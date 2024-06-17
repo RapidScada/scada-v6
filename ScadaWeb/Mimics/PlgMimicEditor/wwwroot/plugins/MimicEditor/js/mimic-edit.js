@@ -26,13 +26,13 @@ function updateLayout() {
     $("#divMimicWrapper").outerWidth(windowWidth - leftPanelWidth - splitterWidth);
 }
 
-function loadMimic() {
-    let dto = mimic.load(getLoaderUrl(), mimicKey);
+async function loadMimic() {
+    let result = await mimic.load(getLoaderUrl(), mimicKey);
 
-    if (dto.ok) {
+    if (result.ok) {
 
     } else {
-
+        // show error
     }
 }
 
@@ -46,5 +46,5 @@ $(async function () {
 
     bindEvents();
     updateLayout();
-    await loadMimic();
+    loadMimic();
 });

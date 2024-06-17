@@ -183,7 +183,7 @@ rs.mimic.Mimic = class {
         this.faceplates = [];
     }
 
-    // Loads the mimic.
+    // Loads the mimic. Returns a LoadResult.
     async load(controllerUrl, mimicKey) {
         let startTime = Date.now();
         console.log(ScadaUtils.getCurrentTime() + " Load mimic with key " + mimicKey)
