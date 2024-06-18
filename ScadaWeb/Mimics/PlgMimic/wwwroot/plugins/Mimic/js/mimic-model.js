@@ -6,6 +6,7 @@ rs.mimic.Mimic = class {
     dependencies = [];
     document = {};
     components = [];
+    componentMap = new Map();
     images = [];
     faceplates = [];
 
@@ -117,6 +118,7 @@ rs.mimic.Mimic = class {
 
                 for (let component of dto.data.components) {
                     this.components.push(new rs.mimic.Component(component));
+                    this.components.set(component.id, component);
                 }
             }
 
@@ -174,11 +176,28 @@ rs.mimic.Mimic = class {
         }
     }
 
+    // Finds a parent and children for each component.
+    _defineNesting() {
+        for (let component of this.components) {
+            if (component.parentID > 0) {
+                let parent = this.componentMap.get(component.parentID);
+
+                if (parent instanceof rs.mimic.Panel) {
+                    component.parent = parent;
+                    parent.children.push(component);
+                }
+            } else {
+                component.parent = this;
+            }
+        }
+    }
+
     // Clears the mimic.
     clear() {
         this.dependencies = [];
         this.document = {};
         this.components = [];
+        this.componentMap = new Map();
         this.images = [];
         this.faceplates = [];
     }
@@ -196,6 +215,7 @@ rs.mimic.Mimic = class {
         }
 
         if (loadContext.result.ok) {
+            this._defineNesting();
             console.info(ScadaUtils.getCurrentTime() + " Mimic loading completed successfully in " +
                 (Date.now() - startTime) + " ms");
         } else {
@@ -225,6 +245,9 @@ rs.mimic.Component = class {
     properties = null;
     bindings = null;
     access = null;
+    parent = null;   // mimic or panel
+    dom = null;      // jQuery objects representing DOM content
+    renderer = null; // renderer of the component
 
     constructor(fields) {
         Object.assign(this, fields);

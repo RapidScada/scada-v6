@@ -7,6 +7,7 @@ const renderContext = new rs.mimic.RenderContext();
 var rootPath = "/";
 var mimicKey = "0";
 var splitter = null;
+var mimicWrapperElem = $();
 
 function bindEvents() {
     $(window).on("resize", function () {
@@ -30,9 +31,35 @@ async function loadMimic() {
     let result = await mimic.load(getLoaderUrl(), mimicKey);
 
     if (result.ok) {
-
+        createDom();
     } else {
         // show error
+    }
+}
+
+function createDom() {
+    let startTime = Date.now();
+    rendererSet.mimicRenderer.createDom(mimic, renderContext);
+
+    for (let component of mimic.components) {
+        let componentRenderer = rendererSet.componentRenderers.get(component.typeName);
+
+        if (componentRenderer) {
+            component.renderer = componentRenderer;
+            componentRenderer.createDom(component, renderContext);
+
+            if (component.dom && component.parent?.dom) {
+                component.parent.dom.append(component.dom);
+            }
+        } else {
+            console.warn("Renderer not found for component with ID = " + component.id +
+                " of type '" + component.typeName + "'");
+        }
+    }
+
+    if (mimic.dom) {
+        mimicWrapperElem.append(mimic.dom);
+        console.info(ScadaUtils.getCurrentTime() + " Mimic DOM created in " + (Date.now() - startTime) + " ms");
     }
 }
 
@@ -43,6 +70,7 @@ function getLoaderUrl() {
 $(async function () {
     renderContext.editMode = true;
     splitter = new Splitter("divSplitter");
+    mimicWrapperElem = $("#divMimicWrapper");
 
     bindEvents();
     updateLayout();
