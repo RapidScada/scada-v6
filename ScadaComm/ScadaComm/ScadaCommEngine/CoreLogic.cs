@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2023
+ * Modified : 2024
  */
 
 using Scada.Comm.Config;
@@ -36,6 +36,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 
@@ -541,24 +542,24 @@ namespace Scada.Comm.Engine
 
                 // waiting for all lines to terminate
                 Stopwatch stopwatch = Stopwatch.StartNew();
-                bool linesTerminated;
+                Dictionary<int, bool> linesTerminated = new Dictionary<int, bool>(commLineArr.Length);
+                bool allTerminated;
 
                 do
                 {
-                    linesTerminated = true;
+                    allTerminated = true;
 
                     foreach (CommLine commLine in commLineArr)
                     {
-                        if (!commLine.IsTerminated)
-                        {
-                            linesTerminated = false;
-                            Thread.Sleep(ScadaUtils.ThreadDelay);
-                            break;
-                        }
-                    }
-                } while (!linesTerminated && stopwatch.ElapsedMilliseconds <= ScadaUtils.ThreadWait);
+                        bool isTerminated = commLine.IsTerminated;
+                        linesTerminated[commLine.CommLineNum] = isTerminated;
 
-                if (linesTerminated)
+                        if (!isTerminated)
+                            allTerminated = false;
+                    }
+                } while (!allTerminated && stopwatch.ElapsedMilliseconds <= ScadaUtils.ThreadWait);
+
+                if (allTerminated)
                 {
                     Log.WriteAction(Locale.IsRussian ?
                         "Все линии связи остановлены" :
@@ -567,8 +568,9 @@ namespace Scada.Comm.Engine
                 else
                 {
                     Log.WriteWarning(Locale.IsRussian ?
-                        "Некоторые линии связи всё ещё работают" :
-                        "Some communication lines are still working");
+                        "Следующие линии связи всё ещё работают: {0}" :
+                        "Following communication lines are still working: {0}",
+                        linesTerminated.Where(p => !p.Value).Select(p => p.Key).ToRangeString());
                 }
             }
             catch (Exception ex)
