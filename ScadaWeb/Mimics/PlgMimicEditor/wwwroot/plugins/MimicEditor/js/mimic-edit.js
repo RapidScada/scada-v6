@@ -52,7 +52,7 @@ function createDom() {
                 component.parent.dom.append(component.dom);
             }
         } else {
-            console.warn("Renderer not found for component with ID = " + component.id +
+            console.warn("Renderer not found for component with ID=" + component.id +
                 " of type '" + component.typeName + "'");
         }
     }

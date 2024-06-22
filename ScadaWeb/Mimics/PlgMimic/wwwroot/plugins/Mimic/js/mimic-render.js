@@ -4,8 +4,25 @@
 
 // Represents a renderer of a mimic or component.
 rs.mimic.Renderer = class {
-    // Creates a DOM content of the component according to the model.
+    // Sets the left and top of the specified jQuery object.
+    _setLocation(jqObj, location) {
+        jqObj.css({
+            "left": location.x + "px",
+            "top": location.y + "px"
+        });
+    }
+
+    // Sets the width and height of the specified jQuery object.
+    _setSize(jqObj, size) {
+        jqObj.css({
+            "width": size.width + "px",
+            "height": size.height + "px"
+        });
+    }
+
+    // Creates a DOM content of the component according to the model. Returns a jQuery object.
     createDom(component, renderContext) {
+        return null;
     }
 
     // Updates the component according to the current channel data.
@@ -18,18 +35,13 @@ rs.mimic.MimicRenderer = class extends rs.mimic.Renderer {
     createDom(component, renderContext) {
         component.dom = $("<div class='mimic'></div>");
         this.updateDom(component, renderContext);
+        return component.dom;
     }
 
     updateDom(component, renderContext) {
         if (component.dom instanceof jQuery) {
-            let mimicWidth = component.document.size.width;
-            let mimicHeight = component.document.size.height;
             let mimicElem = component.dom.first();
-
-            mimicElem.css({
-                "width": mimicWidth,
-                "height": mimicHeight
-            });
+            this._setSize(mimicElem, component.document.size);
         }
     }
 }
@@ -37,42 +49,50 @@ rs.mimic.MimicRenderer = class extends rs.mimic.Renderer {
 // Represents a component renderer.
 rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
     createDom(component, renderContext) {
-        component.dom = $("<div id='" + component.id + "' class='comp'></div>");
+        component.dom = $("<div id='comp" + component.id + "' class='comp'></div>");
+        return component.dom;
     }
 }
 
 // Represents a text component renderer.
 rs.mimic.TextRenderer = class extends rs.mimic.ComponentRenderer {
     createDom(component, renderContext) {
-        super.createDom(component, renderContext);
+        let textElem = super.createDom(component, renderContext);
+        let props = component.properties;
+        textElem.addClass("text").text(props.text);
+        this._setLocation(textElem, props.location);
+        this._setSize(textElem, props.size);
+        return textElem;
     }
 }
 
 // Represents a picture component renderer.
 rs.mimic.PictureRenderer = class extends rs.mimic.ComponentRenderer {
     createDom(component, renderContext) {
-        super.createDom(component, renderContext);
+        let pictureElem = super.createDom(component, renderContext);
+        let props = component.properties;
+        pictureElem.addClass("picture");
+        this._setLocation(pictureElem, props.location);
+        this._setSize(pictureElem, props.size);
+        return pictureElem;
     }
 }
 
 // Represents a panel component renderer.
 rs.mimic.PanelRenderer = class extends rs.mimic.ComponentRenderer {
     createDom(component, renderContext) {
-        super.createDom(component, renderContext);
+        let panelElem = super.createDom(component, renderContext);
+        panelElem.addClass("panel");
         this.updateDom(component, renderContext);
+        return panelElem;
     }
 
     updateDom(component, renderContext) {
         if (component.dom instanceof jQuery) {
             let panelElem = component.dom.first();
             let props = component.properties;
-
-            panelElem.css({
-                "left": props.location.x,
-                "top": props.location.y,
-                "width": props.size.width,
-                "height": props.size.height
-            });
+            this._setLocation(panelElem, props.location);
+            this._setSize(panelElem, props.size);
         }
     }
 }

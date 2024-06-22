@@ -116,9 +116,12 @@ rs.mimic.Mimic = class {
             if (dto.ok && Array.isArray(dto.data.components)) {
                 loadContext.componentIndex += dto.data.components.length;
 
-                for (let component of dto.data.components) {
-                    this.components.push(new rs.mimic.Component(component));
-                    this.components.set(component.id, component);
+                for (let componentObj of dto.data.components) {
+                    let component = componentObj.typeName === "Panel"
+                        ? new rs.mimic.Panel(componentObj)
+                        : new rs.mimic.Component(componentObj);
+                    this.components.push(component);
+                    this.componentMap.set(component.id, component);
                 }
             }
 
@@ -184,7 +187,7 @@ rs.mimic.Mimic = class {
 
                 if (parent instanceof rs.mimic.Panel) {
                     component.parent = parent;
-                    parent.children.push(component);
+                    parent.components.push(component);
                 }
             } else {
                 component.parent = this;
