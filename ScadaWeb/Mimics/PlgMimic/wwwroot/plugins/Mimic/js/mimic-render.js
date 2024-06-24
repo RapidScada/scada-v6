@@ -20,6 +20,21 @@ rs.mimic.Renderer = class {
         });
     }
 
+    // Sets the background image of the specified jQuery object.
+    _setBackgroundImage(jqObj, image) {
+        jqObj.css("background-image", this._imageToDataUrlCss(image));
+    }
+
+    // Returns a css property value for the image data URI.
+    _imageToDataUrlCss(image) {
+        return image ? "url('" + this._imageToDataUrl(image) + "')" : "";
+    }
+
+    // Returns a data URI containing a representation of the Image object.
+    _imageToDataUrl(image) {
+        return image ? "data:;base64," + image.data : "";
+    }
+
     // Creates a DOM content of the component according to the model. Returns a jQuery object.
     createDom(component, renderContext) {
         return null;
@@ -74,6 +89,7 @@ rs.mimic.PictureRenderer = class extends rs.mimic.ComponentRenderer {
         pictureElem.addClass("picture");
         this._setLocation(pictureElem, props.location);
         this._setSize(pictureElem, props.size);
+        this._setBackgroundImage(pictureElem, renderContext.getImage(props.imageName));
         return pictureElem;
     }
 }
@@ -100,6 +116,11 @@ rs.mimic.PanelRenderer = class extends rs.mimic.ComponentRenderer {
 // Encapsulates information about a rendering operation.
 rs.mimic.RenderContext = class {
     editMode = false;
+    imageMap = null;
+
+    getImage(imageName) {
+        return this.imageMap instanceof Map ? this.imageMap.get(imageName) : null;
+    }
 }
 
 // Contains renderers for a mimic and its components.

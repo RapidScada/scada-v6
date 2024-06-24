@@ -11,3 +11,8 @@
   line-height: normal;
   position: absolute;
 }
+.mimic-wrapper .mimic .comp.picture {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-clip: padding-box;
+}

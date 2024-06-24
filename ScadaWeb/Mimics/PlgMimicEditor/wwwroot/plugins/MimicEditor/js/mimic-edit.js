@@ -31,6 +31,7 @@ async function loadMimic() {
     let result = await mimic.load(getLoaderUrl(), mimicKey);
 
     if (result.ok) {
+        renderContext.imageMap = mimic.imageMap;
         createDom();
     } else {
         // show error

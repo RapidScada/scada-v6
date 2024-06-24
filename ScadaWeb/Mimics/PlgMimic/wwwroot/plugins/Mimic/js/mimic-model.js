@@ -8,6 +8,7 @@ rs.mimic.Mimic = class {
     components = [];
     componentMap = new Map();
     images = [];
+    imageMap = new Map();
     faceplates = [];
 
     // Loads a part of the mimic.
@@ -146,8 +147,10 @@ rs.mimic.Mimic = class {
             if (dto.ok && Array.isArray(dto.data.images)) {
                 loadContext.imageIndex += dto.data.images.length;
 
-                for (let image of dto.data.images) {
-                    this.images.push(new rs.mimic.Image(image));
+                for (let imageObj of dto.data.images) {
+                    let image = new rs.mimic.Image(imageObj);
+                    this.images.push(image);
+                    this.imageMap.set(image.name, image);
                 }
             }
 
@@ -202,6 +205,7 @@ rs.mimic.Mimic = class {
         this.components = [];
         this.componentMap = new Map();
         this.images = [];
+        this.imageMap = new Map();
         this.faceplates = [];
     }
 

@@ -10,6 +10,12 @@
             box-sizing: border-box;
             line-height: normal;
             position: absolute;
+
+            &.picture {
+                background-repeat: no-repeat;
+                background-position: center;
+                background-clip: padding-box;
+            }
         }
     }
 }
