@@ -50,15 +50,17 @@ function createMimicDom() {
     rendererSet.mimicRenderer.createDom(mimic, renderContext);
 
     for (let component of mimic.components) {
-        let renderer = rendererSet.componentRenderers.get(component.typeName);
-
-        if (renderer) {
-            component.renderer = renderer;
-            renderer.createDom(component, renderContext);
-        } else if (component.isFaceplate) {
+        if (component.isFaceplate) {
             createFaceplateDom(component);
         } else {
-            unknownTypes.add(component.typeName);
+            let renderer = rendererSet.componentRenderers.get(component.typeName);
+
+            if (renderer) {
+                component.renderer = renderer;
+                renderer.createDom(component, renderContext);
+            } else {
+                unknownTypes.add(component.typeName);
+            }
         }
 
         if (component.dom && component.parent?.dom) {
