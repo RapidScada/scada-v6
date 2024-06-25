@@ -1,17 +1,57 @@
-﻿// Contains classes: Mimic, Component, Panel, Image, FaceplateMeta, Faceplate, FaceplateInstance
+﻿// Contains classes: MimicHelper, MimicBase, Mimic, Component, Panel, Image, 
+//     FaceplateMeta, Faceplate, FaceplateInstance
 // Depends on scada-common.js, mimic-common.js
 
-// Represents a mimic diagram.
-rs.mimic.Mimic = class {
-    dependencies;
-    dependencyMap;
+// Provides helper methods for mimics and components.
+rs.mimic.MimicHelper = class {
+    // Finds a parent and children for each component.
+    static defineNesting(root, components, opt_componentMap) {
+        let componentMap = opt_componentMap ?? new Map(components.map(c => [c.id, c]));
+
+        for (let component of components) {
+            if (component.parentID > 0) {
+                let parent = componentMap.get(component.parentID);
+
+                if (parent instanceof rs.mimic.Panel) {
+                    component.parent = parent;
+                    parent.components.push(component);
+                }
+            } else {
+                component.parent = root;
+            }
+        }
+    }
+}
+
+// A base class for mimic diagrams and faceplates.
+rs.mimic.MimicBase = class {
     document;
     components;
-    componentMap;
     images;
-    imageMap;
+
+    // Creates a component instance based on the received object.
+    _createComponent(source) {
+        return source.typeName === "Panel"
+            ? new rs.mimic.Panel(source)
+            : new rs.mimic.Component(source);
+    }
+
+    // Finds a parent and children for each component.
+    _defineNesting(componentMap) {
+        rs.mimic.MimicHelper.defineNesting(this, this.components, componentMap);
+    }
+}
+
+// Represents a mimic diagram.
+rs.mimic.Mimic = class extends rs.mimic.MimicBase {
+    dependencies;
     faceplates;
+
+    componentMap;
+    imageMap;
+    dependencyMap;
     faceplateMap;
+    dom;
 
     // Loads a part of the mimic.
     async _loadPart(loadContext) {
@@ -121,8 +161,8 @@ rs.mimic.Mimic = class {
             if (dto.ok && Array.isArray(dto.data.components)) {
                 loadContext.componentIndex += dto.data.components.length;
 
-                for (let componentObj of dto.data.components) {
-                    let component = this._createComponent(componentObj);
+                for (let sourceComponent of dto.data.components) {
+                    let component = this._createComponent(sourceComponent);
                     this.components.push(component);
                     this.componentMap.set(component.id, component);
                 }
@@ -149,8 +189,8 @@ rs.mimic.Mimic = class {
             if (dto.ok && Array.isArray(dto.data.images)) {
                 loadContext.imageIndex += dto.data.images.length;
 
-                for (let imageObj of dto.data.images) {
-                    let image = new rs.mimic.Image(imageObj);
+                for (let sourceImage of dto.data.images) {
+                    let image = new rs.mimic.Image(sourceImage);
                     this.images.push(image);
                     this.imageMap.set(image.name, image);
                 }
@@ -188,42 +228,37 @@ rs.mimic.Mimic = class {
 
     // Creates a component instance based on the received object.
     _createComponent(source) {
-        if (source.typeName === "Panel") {
-            return new rs.mimic.Panel(source);
-        } else if (this.dependencyMap.has(source.typeName)) {
-            return new rs.mimic.FaceplateInstance(source);
-        } else {
-            return new rs.mimic.Component(source);
-        }
+        return this.dependencyMap.has(source.typeName)
+            ? new rs.mimic.FaceplateInstance(source)
+            : super._createComponent(source);
     }
 
-    // Finds a parent and children for each component.
-    _defineNesting() {
+    // Prepares the faceplates instances for use.
+    _prepareFaceplates() {
         for (let component of this.components) {
-            if (component.parentID > 0) {
-                let parent = this.componentMap.get(component.parentID);
+            if (component instanceof rs.mimic.FaceplateInstance) {
+                let faceplate = mimic.faceplateMap.get(component.typeName);
 
-                if (parent instanceof rs.mimic.Panel) {
-                    component.parent = parent;
-                    parent.components.push(component);
+                if (faceplate) {
+                    component.applyModel(faceplate);
                 }
-            } else {
-                component.parent = this;
             }
         }
     }
 
     // Clears the mimic.
     clear() {
-        this.dependencies = [];
-        this.dependencyMap = new Map();
         this.document = {};
         this.components = [];
-        this.componentMap = new Map();
         this.images = [];
-        this.imageMap = new Map();
+        this.dependencies = [];
         this.faceplates = [];
+
+        this.componentMap = new Map();
+        this.imageMap = new Map();
+        this.dependencyMap = new Map();
         this.faceplateMap = new Map();
+        this.dom = null;
     }
 
     // Loads the mimic. Returns a LoadResult.
@@ -239,7 +274,8 @@ rs.mimic.Mimic = class {
         }
 
         if (loadContext.result.ok) {
-            this._defineNesting();
+            this._defineNesting(this.componentMap);
+            this._prepareFaceplates();
             console.info(ScadaUtils.getCurrentTime() + " Mimic loading completed successfully in " +
                 (Date.now() - startTime) + " ms");
         } else {
@@ -264,8 +300,8 @@ rs.mimic.Component = class {
     dom = null;      // jQuery objects representing DOM content
     renderer = null; // renderer of the component
 
-    constructor(fields) {
-        Object.assign(this, fields);
+    constructor(source) {
+        Object.assign(this, source);
     }
 
     get isFaceplate() {
@@ -283,8 +319,8 @@ rs.mimic.Image = class {
     name = "";
     data = null;
 
-    constructor(fields) {
-        Object.assign(this, fields);
+    constructor(source) {
+        Object.assign(this, source);
     }
 }
 
@@ -293,27 +329,57 @@ rs.mimic.FaceplateMeta = class {
     typeName = "";
     path = "";
 
-    constructor(fields) {
-        Object.assign(this, fields);
+    constructor(source) {
+        Object.assign(this, source);
     }
 }
 
 // Represents a faceplate, i.e. a user component.
-rs.mimic.Faceplate = class {
-    document = {};
-    components = [];
-    images = [];
+rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
+    constructor(source) {
+        super();
+        this.document = source.document ?? {};
+        this.components = [];
+        this.images = [];
 
-    constructor(fields) {
-        Object.assign(this, fields);
+        if (Array.isArray(source.components)) {
+            for (let sourceComponent of source.components) {
+                this.components.push(this._createComponent(sourceComponent));
+            }
+
+            this._defineNesting(null);
+        }
+
+        if (Array.isArray(source.images)) {
+            for (let sourceImage of source.images) {
+                this.images.push(new rs.mimic.Image(sourceImage));
+            }
+        }
+    }
+
+    copyComponents() {
+        let components = [];
+
+        for (let sourceComponent of this.components) {
+            components.push(this._createComponent(sourceComponent));
+        }
+
+        return components;
     }
 }
 
 // Represents a faceplate instance.
 rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
-    model = null; // the faceplate model
+    model = null;      // the model of the Faceplate type
+    components = null; // the copy of the model components
 
     get isFaceplate() {
         return true;
+    }
+
+    applyModel(faceplate) {
+        this.model = faceplate;
+        this.components = faceplate.copyComponents();
+        rs.mimic.MimicHelper.defineNesting(this, this.components);
     }
 }

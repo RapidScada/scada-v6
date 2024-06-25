@@ -75,7 +75,7 @@ rs.mimic.MimicRenderer = class extends rs.mimic.Renderer {
 // Represents a component renderer.
 rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
     createDom(component, renderContext) {
-        component.dom = $("<div id='comp" + component.id + "' class='comp'></div>");
+        component.dom = $("<div id='comp" + renderContext.idPrefix + component.id + "' class='comp'></div>");
         return component.dom;
     }
 }
@@ -155,6 +155,7 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
 // Encapsulates information about a rendering operation.
 rs.mimic.RenderContext = class {
     editMode = false;
+    idPrefix = "";
     imageMap = null;
 
     getImage(imageName) {

@@ -31,7 +31,6 @@ async function loadMimic() {
     let result = await mimic.load(getLoaderUrl(), mimicKey);
 
     if (result.ok) {
-        renderContext.imageMap = mimic.imageMap;
         createMimicDom();
     } else {
         // show error
@@ -44,6 +43,10 @@ function getLoaderUrl() {
 
 function createMimicDom() {
     let startTime = Date.now();
+    let unknownTypes = new Set();
+
+    renderContext.idPrefix = "";
+    renderContext.imageMap = mimic.imageMap;
     rendererSet.mimicRenderer.createDom(mimic, renderContext);
 
     for (let component of mimic.components) {
@@ -53,24 +56,18 @@ function createMimicDom() {
             component.renderer = renderer;
             renderer.createDom(component, renderContext);
         } else if (component.isFaceplate) {
-            let faceplate = mimic.faceplateMap.get(component.typeName);
-
-            if (faceplate) {
-                component.renderer = rendererSet.faceplateRenderer;
-                component.model = faceplate;
-                createFaceplateDom(component);
-            } else {
-                console.warn("Faceplate not found for component with ID=" + component.id +
-                    " of type '" + component.typeName + "'");
-            }
+            createFaceplateDom(component);
         } else {
-            console.warn("Renderer not found for component with ID=" + component.id +
-                " of type '" + component.typeName + "'");
+            unknownTypes.add(component.typeName);
         }
 
         if (component.dom && component.parent?.dom) {
             component.parent.dom.append(component.dom);
         }
+    }
+
+    if (unknownTypes.size > 0) {
+        console.warn("Unknown component types: " + Array.from(unknownTypes).sort().join(", "));
     }
 
     if (mimic.dom) {
@@ -79,9 +76,33 @@ function createMimicDom() {
     }
 }
 
-function createFaceplateDom(faceplateInstance) {
-    rendererSet.faceplateRenderer.createDom(faceplateInstance, renderContext);
+function createFaceplateDom(faceplateInstance, unknownTypes) {
+    if (!faceplateInstance.model) {
+        unknownTypes.add(faceplateInstance.typeName);
+        return;
+    }
 
+    renderContext.idPrefix = "";
+    renderContext.imageMap = faceplateInstance.model.imageMap;
+
+    faceplateInstance.renderer = rendererSet.faceplateRenderer;
+    rendererSet.faceplateRenderer.createDom(faceplateInstance, renderContext);
+    renderContext.idPrefix = faceplateInstance.id + "-";
+
+    for (let component of faceplateInstance.components) {
+        let renderer = rendererSet.componentRenderers.get(component.typeName);
+
+        if (renderer) {
+            component.renderer = renderer;
+            renderer.createDom(component, renderContext);
+
+            if (component.dom && component.parent?.dom) {
+                component.parent.dom.append(component.dom);
+            }
+        } else {
+            unknownTypes.add(component.typeName);
+        }
+    }
 }
 
 $(async function () {
