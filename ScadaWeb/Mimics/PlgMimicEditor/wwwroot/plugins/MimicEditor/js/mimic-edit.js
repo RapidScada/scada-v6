@@ -32,29 +32,44 @@ async function loadMimic() {
 
     if (result.ok) {
         renderContext.imageMap = mimic.imageMap;
-        createDom();
+        createMimicDom();
     } else {
         // show error
     }
 }
 
-function createDom() {
+function getLoaderUrl() {
+    return rootPath + "Api/MimicEditor/Loader/";
+}
+
+function createMimicDom() {
     let startTime = Date.now();
     rendererSet.mimicRenderer.createDom(mimic, renderContext);
 
     for (let component of mimic.components) {
-        let componentRenderer = rendererSet.componentRenderers.get(component.typeName);
+        let renderer = rendererSet.componentRenderers.get(component.typeName);
 
-        if (componentRenderer) {
-            component.renderer = componentRenderer;
-            componentRenderer.createDom(component, renderContext);
+        if (renderer) {
+            component.renderer = renderer;
+            renderer.createDom(component, renderContext);
+        } else if (component.isFaceplate) {
+            let faceplate = mimic.faceplateMap.get(component.typeName);
 
-            if (component.dom && component.parent?.dom) {
-                component.parent.dom.append(component.dom);
+            if (faceplate) {
+                component.renderer = rendererSet.faceplateRenderer;
+                component.model = faceplate;
+                createFaceplateDom(component);
+            } else {
+                console.warn("Faceplate not found for component with ID=" + component.id +
+                    " of type '" + component.typeName + "'");
             }
         } else {
             console.warn("Renderer not found for component with ID=" + component.id +
                 " of type '" + component.typeName + "'");
+        }
+
+        if (component.dom && component.parent?.dom) {
+            component.parent.dom.append(component.dom);
         }
     }
 
@@ -64,8 +79,9 @@ function createDom() {
     }
 }
 
-function getLoaderUrl() {
-    return rootPath + "Api/MimicEditor/Loader/";
+function createFaceplateDom(faceplateInstance) {
+    rendererSet.faceplateRenderer.createDom(faceplateInstance, renderContext);
+
 }
 
 $(async function () {

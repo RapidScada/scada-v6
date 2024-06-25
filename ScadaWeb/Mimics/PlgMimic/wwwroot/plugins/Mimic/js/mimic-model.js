@@ -1,15 +1,17 @@
-﻿// Contains classes: Mimic, FaceplateMeta, Component, Panel, Image, Faceplate
+﻿// Contains classes: Mimic, Component, Panel, Image, FaceplateMeta, Faceplate, FaceplateInstance
 // Depends on scada-common.js, mimic-common.js
 
 // Represents a mimic diagram.
 rs.mimic.Mimic = class {
-    dependencies = [];
-    document = {};
-    components = [];
-    componentMap = new Map();
-    images = [];
-    imageMap = new Map();
-    faceplates = [];
+    dependencies;
+    dependencyMap;
+    document;
+    components;
+    componentMap;
+    images;
+    imageMap;
+    faceplates;
+    faceplateMap;
 
     // Loads a part of the mimic.
     async _loadPart(loadContext) {
@@ -90,7 +92,9 @@ rs.mimic.Mimic = class {
             if (dto.ok) {
                 if (Array.isArray(dto.data.dependencies)) {
                     for (let dependency of dto.data.dependencies) {
-                        this.dependencies.push(new rs.mimic.FaceplateMeta(dependency));
+                        let faceplateMeta = new rs.mimic.FaceplateMeta(dependency);
+                        this.dependencies.push(faceplateMeta);
+                        this.dependencyMap.set(faceplateMeta.typeName, faceplateMeta);
                     }
                 }
 
@@ -118,9 +122,7 @@ rs.mimic.Mimic = class {
                 loadContext.componentIndex += dto.data.components.length;
 
                 for (let componentObj of dto.data.components) {
-                    let component = componentObj.typeName === "Panel"
-                        ? new rs.mimic.Panel(componentObj)
-                        : new rs.mimic.Component(componentObj);
+                    let component = this._createComponent(componentObj);
                     this.components.push(component);
                     this.componentMap.set(component.id, component);
                 }
@@ -173,12 +175,25 @@ rs.mimic.Mimic = class {
 
             if (dto.ok) {
                 loadContext.faceplateIndex++;
-                this.faceplates.push(new rs.mimic.Faceplate(dto.data));
+                let faceplate = new rs.mimic.Faceplate(dto.data);
+                this.faceplates.push(faceplate);
+                this.faceplateMap.set(faceplateMeta.typeName, faceplate);
             }
 
             return dto;
         } else {
             return Dto.fail(await response.statusText);
+        }
+    }
+
+    // Creates a component instance based on the received object.
+    _createComponent(source) {
+        if (source.typeName === "Panel") {
+            return new rs.mimic.Panel(source);
+        } else if (this.dependencyMap.has(source.typeName)) {
+            return new rs.mimic.FaceplateInstance(source);
+        } else {
+            return new rs.mimic.Component(source);
         }
     }
 
@@ -201,12 +216,14 @@ rs.mimic.Mimic = class {
     // Clears the mimic.
     clear() {
         this.dependencies = [];
+        this.dependencyMap = new Map();
         this.document = {};
         this.components = [];
         this.componentMap = new Map();
         this.images = [];
         this.imageMap = new Map();
         this.faceplates = [];
+        this.faceplateMap = new Map();
     }
 
     // Loads the mimic. Returns a LoadResult.
@@ -233,16 +250,6 @@ rs.mimic.Mimic = class {
     }
 }
 
-// Represents information about a faceplate.
-rs.mimic.FaceplateMeta = class {
-    typeName = "";
-    path = "";
-
-    constructor(fields) {
-        Object.assign(this, fields);
-    }
-}
-
 // Represents a component of a mimic diagram.
 rs.mimic.Component = class {
     id = 0;
@@ -252,12 +259,17 @@ rs.mimic.Component = class {
     properties = null;
     bindings = null;
     access = null;
+
     parent = null;   // mimic or panel
     dom = null;      // jQuery objects representing DOM content
     renderer = null; // renderer of the component
 
     constructor(fields) {
         Object.assign(this, fields);
+    }
+
+    get isFaceplate() {
+        return false;
     }
 }
 
@@ -276,6 +288,16 @@ rs.mimic.Image = class {
     }
 }
 
+// Represents information about a faceplate.
+rs.mimic.FaceplateMeta = class {
+    typeName = "";
+    path = "";
+
+    constructor(fields) {
+        Object.assign(this, fields);
+    }
+}
+
 // Represents a faceplate, i.e. a user component.
 rs.mimic.Faceplate = class {
     document = {};
@@ -284,5 +306,14 @@ rs.mimic.Faceplate = class {
 
     constructor(fields) {
         Object.assign(this, fields);
+    }
+}
+
+// Represents a faceplate instance.
+rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
+    model = null; // the faceplate model
+
+    get isFaceplate() {
+        return true;
     }
 }
