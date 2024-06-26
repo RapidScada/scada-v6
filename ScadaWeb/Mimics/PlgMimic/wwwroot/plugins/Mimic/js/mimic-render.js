@@ -4,7 +4,10 @@
 
 // Represents a renderer of a mimic or component.
 rs.mimic.Renderer = class {
-    canUpdateDom = false; // the renderer supports DOM update
+    // Gets a value indocating whether the renderer supports DOM update.
+    get canUpdateDom() {
+        return false;
+    }
 
     // Sets the left and top of the specified jQuery object.
     _setLocation(jqObj, location) {
@@ -53,9 +56,8 @@ rs.mimic.Renderer = class {
 
 // Represents a mimic renderer.
 rs.mimic.MimicRenderer = class extends rs.mimic.Renderer {
-    constructor() {
-        super();
-        this.canUpdateDom = true;
+    get canUpdateDom() {
+        return true;
     }
 
     createDom(component, renderContext) {
@@ -107,9 +109,8 @@ rs.mimic.PictureRenderer = class extends rs.mimic.ComponentRenderer {
 
 // Represents a panel component renderer.
 rs.mimic.PanelRenderer = class extends rs.mimic.ComponentRenderer {
-    constructor() {
-        super();
-        this.canUpdateDom = true;
+    get canUpdateDom() {
+        return true;
     }
 
     createDom(component, renderContext) {
@@ -131,9 +132,8 @@ rs.mimic.PanelRenderer = class extends rs.mimic.ComponentRenderer {
 
 // Represents a faceplate renderer.
 rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
-    constructor() {
-        super();
-        this.canUpdateDom = true;
+    get canUpdateDom() {
+        return true;
     }
 
     createDom(component, renderContext) {
