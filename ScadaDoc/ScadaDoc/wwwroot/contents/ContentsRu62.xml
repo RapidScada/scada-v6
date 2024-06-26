@@ -74,6 +74,10 @@
         <Url>/ru/latest/configuration/database</Url>
       </Item>
       <Item>
+        <Text>Опрос устройств</Text>
+        <Url>/ru/latest/configuration/device-polling</Url>
+      </Item>
+      <Item>
         <Text>Скрипты и формулы</Text>
         <Url>/ru/latest/configuration/scripts</Url>
       </Item>
