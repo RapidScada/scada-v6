@@ -47,64 +47,64 @@
         </thead>
         <tbody>
             <tr>
-                <td>Активно</td>
-                <td>Означает, что устройство опрашивается</td>
+                <td>Active</td>
+                <td>Indicates that the device is being polled</td>
             </tr>
             <tr>
-                <td>Опрос только по команде</td>
-                <td>Чтобы выполнить опрос устройства, необходимо отправить команду</td>
+                <td>Poll only on command</td>
+                <td>To poll the device, send a command</td>
             </tr>
             <tr>
-                <td>Привязано к базе конфигурации</td>
-                <td>Если параметр включен, теги устройства привязываются к каналам базы конфигурации, и полученные данные отправляются приложению Сервер</td>
+                <td>Bound to the configuration database</td>
+                <td>If the option is set, the device tags are bound to the channels of the configuration database, and the received data is sent to the Server application</td>
             </tr>
             <tr>
-                <td>Номер</td>
-                <td>Номер устройства. Должен соответствовать номеру устройства в базе конфигурации</td>
+                <td>Number</td>
+                <td>Device number. It must match the device number in the configuration database</td>
             </tr>
             <tr>
-                <td>Наименование</td>
-                <td>Наименование устройства</td>
+                <td>Name</td>
+                <td>Device name</td>
             </tr>
             <tr>
-                <td>Драйвер</td>
-                <td>Драйвер, который реализует протокол обмена данными, поддерживаемый устройством</td>
+                <td>Driver</td>
+                <td>A driver that implements the communication protocol supported by the device</td>
             </tr>
             <tr>
-                <td>Числовой адрес</td>
-                <td>Адрес устройства в виде числа</td>
+                <td>Numeric address</td>
+                <td>Device address as a number</td>
             </tr>
             <tr>
-                <td>Строковый адрес или имя сервера</td>
-                <td>Адрес устройства в виде строки. Обычно это IP-адрес</td>
+                <td>String address or host name</td>
+                <td>Device address as a string. This is usually an IP address</td>
             </tr>
             <tr>
-                <td>Таймаут</td>
-                <td>Длительность ожидания ответа от устройства в миллисекундах</td>
+                <td>Timeout</td>
+                <td>Duration of waiting for a response from the device in milliseconds</td>
             </tr>
             <tr>
-                <td>Пауза</td>
-                <td>Задержка после приёма данных в миллисекундах</td>
+                <td>Delay</td>
+                <td>Delay after receiving data in milliseconds</td>
             </tr>
             <tr>
-                <td>Время и Период</td>
-                <td>Если оба параметра нулевые, то опрос устройства производится непрерывно циклически. Если указано время, а период равен нулю, то опрос выполняется один раз в сутки в указанное время. Если период не нулевой, то опрос выполняется периодически, начиная с заданного времени</td>
+                <td>Time and Period</td>
+                <td>If both options are zero, the device is polled continuously and cyclically. If the time is specified and the period is zero, the device is polled once a day at the specified time. If the period is greater than zero, the device is polled periodically, starting at the specified time</td>
             </tr>
             <tr>
-                <td>Командная строка</td>
-                <td>Дополнительные параметры, которые определяются драйвером и указаны в его описании</td>
+                <td>Command line</td>
+                <td>Additional options determined by the driver and described in its instructions</td>
             </tr>
             <tr>
-                <td>Параметры</td>
-                <td>Аналогично командной строке, но более структурированы</td>
+                <td>Options</td>
+                <td>Similar to command line, but more structured</td>
             </tr>
         </tbody>
     </table>
 
-    <p>Если устройство имеет специфичные для данного типа устройств параметры, то для их настройки нужно нажать кнопку <strong>Свойства</strong>, чтобы открыть окно настроек, предоставляемое драйвером. Кнопка <strong>Сброс</strong> возвращает параметры опроса устройства к значениям по умолчанию, которые определяются выбранным драйром.</p>
+    <p>If the device requires device type-specific options, click the <strong>Properties</strong> button to then to configure them in a dialog window provided by the driver. The <strong>Reset</strong> button restores the device polling options to the default values determined by the selected driver.</p>
 
     <h2 id="sync-settings">Synchronizing Settings</h2>
-    <p>Функция синхронизации позволяет создать линии связи и устройства в настройках Коммуникатора на основе данных из таблиц <strong>Линии связи</strong> и <strong>Устройства</strong> базы конфигурации. И наоборот, заполнить таблицы базы конфигурации на основе настроек Коммуникатора. Чтобы вызвать диалог синхронизации, в проводнике проекта щёлкните правой кнопкой мыши на узле <strong>Линии связи</strong> или на узле конкретной линии связи, затем в контекстном меню выберите пункт <strong>Синхронизировать</strong>.</p>
+    <p>The synchronization feature helps create communication lines and devices in the Communicator settings based on data from the <strong>Communication lines</strong> and <strong>Devices</strong> tables of the configuration database. And vice versa, fill the configuration database tables based on the Communicator settings. To open the synchronization dialog, in the project explorer, right-click the <strong>Communication Lines</strong> node or the node of a specific line, then select <strong>Synchronize</strong> from the context menu.</p>
 
     <figure class="figure">
         <img src="device-polling-files/line-device-sync-en.png" class="figure-img img-fluid" alt="Synchronize line and devices" />
