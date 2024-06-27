@@ -73,10 +73,10 @@
         <Text>Configuration Database</Text>
         <Url>/en/latest/configuration/database</Url>
       </Item>
-      <!--<Item>
+      <Item>
         <Text>Device Polling</Text>
         <Url>/en/latest/configuration/device-polling</Url>
-      </Item>-->
+      </Item>
       <Item>
         <Text>Scripts and Formulas</Text>
         <Url>/en/latest/configuration/scripts</Url>

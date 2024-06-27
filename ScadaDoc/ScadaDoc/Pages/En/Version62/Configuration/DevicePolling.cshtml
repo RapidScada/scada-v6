@@ -1,48 +1,48 @@
-﻿@page "/ru/latest/configuration/device-polling"
+﻿@page "/en/latest/configuration/device-polling"
 @{
     Layout = "_ArticleLayout";
-    ViewBag.Title = "Опрос устройств";
+    ViewBag.Title = "Device Polling";
 }
 
 <nav class="doc-toc">
-    <div class="h6">На этой странице</div>
+    <div class="h6">On this page</div>
     <hr>
     <ul>
-        <li><a href="#line-options">Параметры линии связи</a></li>
-        <li><a href="#device-options">Параметры устройства</a></li>
-        <li><a href="#sync-settings">Синхронизация настроек</a></li>
+        <li><a href="#line-options">Communication Line Options</a></li>
+        <li><a href="#device-options">Device Options</a></li>
+        <li><a href="#sync-settings">Synchronizing Settings</a></li>
     </ul>
 </nav>
 
 <div class="doc-content">
-    <h1>Опрос устройств</h1>
-    <p>Взаимодействие с устройствами выполняется приложением Коммуникатор, которое, выступая в качестве ведущего (Master) или ведомого (Slave), запрашивает данные и передаёт команды устройствам. Опрашиваемые устройства - это контроллеры, модули ввода-вывода, приборы учёта, а также внешние источники данных, которые условно тоже называются устройствами. Все устройства привязываются к своим линиям связи, которые не зависят друг от друга и работают параллельно.</p>
-    <p>Устройства опрашиваются с использованием различных протоколов обмена данными, например, Modbus, OPC или MQTT. За реализацию каждого протокола отвечает соответствующий драйвер. Часть драйверов устанавливается по умолчанию в процессе установки Rapid SCADA. Другие драйверы можно установить дополнительно.</p>
+    <h1>Device Polling</h1>
+    <p>Interaction with devices is performed by the Communicator application, which requests data and sends commands to devices, acting as a master or slave. The polled devices are controllers, input/output modules, metering devices, as well as external data sources, which are also conventionally called devices. All devices belong to communication lines that are independent and operate in parallel.</p>
+    <p>Devices are polled using various communication protocols, such as Modbus, OPC or MQTT. Each protocol is implemented by a corresponding driver. Some drivers are installed by default during the Rapid SCADA installation process. Other drivers can be installed additionally.</p>
 
-    <h2 id="line-options">Параметры линии связи</h2>
-    <p>На рис. 1 показан пример настройки основных параметров линии связи. Обратите внимание на настройку канала связи. Канал связи определяет, с помощью какого физического интерфейса или сетевого протокола производится опрос устройств. Поддерживаются следующие каналы связи: Последовательный порт, TCP-клиент, TCP-сервер, UDP, MQTT-клиент. В некоторых случаях, если подключение к устройствам реализовано непосредственно в драйвере (например, OPC), канал связи следует оставить незаданным.</p>
+    <h2 id="line-options">Communication Line Options</h2>
+    <p>Figure 1 shows an example of setting up the main options of a communication line. Pay attention to the communication channel settings. A communication channel defines a physical interface or network protocol used to poll devices. The following communication channels are supported: Serial port, TCP client, TCP server, UDP and MQTT client. In some cases, if device connection is implemented directly by a driver (for example, OPC), the communication channel should be left unspecified.</p>
     
     <figure class="figure">
-        <img src="device-polling-files/line-options-ru.png" class="figure-img img-fluid border" alt="Основные параметры линии" />
-        <figcaption class="figure-caption">Рис. 1. Основные параметры линии</figcaption>
+        <img src="device-polling-files/line-options-en.png" class="figure-img img-fluid border" alt="Main line options" />
+        <figcaption class="figure-caption">Figure 1. Main line options</figcaption>
     </figure>
 
-    <p>Пользовательские параметры линии связи являются специфичными для используемого драйвера. Их установка выполняется через пользовательский интерфейс, реализуемый драйвером, или может быть описана в инструкции по настройке конкретного типа устройств.</p>
+    <p>Custom line options are specific to the driver being used. They are configured using a user interface implemented by the driver, or can be set according to instructions for a certain device type.</p>
 
-    <h2 id="device-options">Параметры устройства</h2>
-    <p>В разделе <strong>Опрос устройств</strong> настраиваются индивидуальные параметры опроса каждого устройства, относящегося к линии связи.</p>
+    <h2 id="device-options">Device Options</h2>
+    <p>In the <strong>Device Polling</strong> section, individual polling options are configured for each device related to the communication line.</p>
 
     <figure class="figure">
-        <img src="device-polling-files/device-options-ru.png" class="figure-img img-fluid" alt="Параметры опроса устройства" />
-        <figcaption class="figure-caption">Рис. 2. Параметры опроса устройства</figcaption>
+        <img src="device-polling-files/device-options-en.png" class="figure-img img-fluid" alt="Device polling options" />
+        <figcaption class="figure-caption">Figure 2. Device polling options</figcaption>
     </figure>
 
-    <p>Таблица ниже содержит описание параметров опроса устройства.</p>
+    <p>The table below clarifies the device polling options.</p>
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>Параметр</th>
-                <th>Описание</th>
+                <th>Option</th>
+                <th>Description</th>
             </tr>
         </thead>
         <tbody>
@@ -103,12 +103,12 @@
 
     <p>Если устройство имеет специфичные для данного типа устройств параметры, то для их настройки нужно нажать кнопку <strong>Свойства</strong>, чтобы открыть окно настроек, предоставляемое драйвером. Кнопка <strong>Сброс</strong> возвращает параметры опроса устройства к значениям по умолчанию, которые определяются выбранным драйром.</p>
 
-    <h2 id="sync-settings">Синхронизация настроек</h2>
+    <h2 id="sync-settings">Synchronizing Settings</h2>
     <p>Функция синхронизации позволяет создать линии связи и устройства в настройках Коммуникатора на основе данных из таблиц <strong>Линии связи</strong> и <strong>Устройства</strong> базы конфигурации. И наоборот, заполнить таблицы базы конфигурации на основе настроек Коммуникатора. Чтобы вызвать диалог синхронизации, в проводнике проекта щёлкните правой кнопкой мыши на узле <strong>Линии связи</strong> или на узле конкретной линии связи, затем в контекстном меню выберите пункт <strong>Синхронизировать</strong>.</p>
 
     <figure class="figure">
-        <img src="device-polling-files/line-device-sync-ru.png" class="figure-img img-fluid" alt="Синхронизация линий и устройств" />
-        <figcaption class="figure-caption">Рис. 3. Синхронизация линий и устройств</figcaption>
+        <img src="device-polling-files/line-device-sync-en.png" class="figure-img img-fluid" alt="Synchronize line and devices" />
+        <figcaption class="figure-caption">Figure 3. Synchronize line and devices</figcaption>
     </figure>
 
 </div>
