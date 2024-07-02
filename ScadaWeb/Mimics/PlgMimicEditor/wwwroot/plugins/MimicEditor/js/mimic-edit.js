@@ -44,6 +44,10 @@ function getLoaderUrl() {
     return rootPath + "Api/MimicEditor/Loader/";
 }
 
+function getUpdaterUrl() {
+    return rootPath + "Api/MimicEditor/Updater/";
+}
+
 function createRenderContext() {
     let renderContext = new rs.mimic.RenderContext();
     renderContext.editMode = true;
