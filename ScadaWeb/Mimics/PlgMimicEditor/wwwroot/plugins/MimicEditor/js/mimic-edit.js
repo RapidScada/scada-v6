@@ -2,7 +2,6 @@
 
 const mimic = new rs.mimic.Mimic();
 const rendererSet = new rs.mimic.RendererSet();
-const renderContext = new rs.mimic.RenderContext();
 
 var rootPath = "/";
 var mimicKey = "0";
@@ -12,6 +11,10 @@ var mimicWrapperElem = $();
 function bindEvents() {
     $(window).on("resize", function () {
         updateLayout();
+    });
+
+    $("#btnCut").on("click", function () {
+        testEdit();
     });
 }
 
@@ -41,17 +44,23 @@ function getLoaderUrl() {
     return rootPath + "Api/MimicEditor/Loader/";
 }
 
+function createRenderContext() {
+    let renderContext = new rs.mimic.RenderContext();
+    renderContext.editMode = true;
+    return renderContext;
+}
+
 function createMimicDom() {
     let startTime = Date.now();
     let unknownTypes = new Set();
 
-    renderContext.idPrefix = "";
+    let renderContext = createRenderContext();
     renderContext.imageMap = mimic.imageMap;
     rendererSet.mimicRenderer.createDom(mimic, renderContext);
 
     for (let component of mimic.components) {
         if (component.isFaceplate) {
-            createFaceplateDom(component);
+            createFaceplateDom(component, unknownTypes);
         } else {
             let renderer = rendererSet.componentRenderers.get(component.typeName);
 
@@ -84,7 +93,7 @@ function createFaceplateDom(faceplateInstance, unknownTypes) {
         return;
     }
 
-    renderContext.idPrefix = "";
+    let renderContext = createRenderContext();
     renderContext.imageMap = faceplateInstance.model.imageMap;
 
     faceplateInstance.renderer = rendererSet.faceplateRenderer;
@@ -107,8 +116,37 @@ function createFaceplateDom(faceplateInstance, unknownTypes) {
     }
 }
 
+function updateComponentDom(component) {
+    if (component.dom && component.renderer) {
+        let renderContext = createRenderContext();
+
+        if (component.isFaceplate) {
+            renderContext.imageMap = component.model.imageMap;
+            component.renderer.updateDom(component, renderContext);
+        } else {
+            renderContext.imageMap = mimic.imageMap;
+
+            if (component.renderer.canUpdateDom) {
+                component.renderer.updateDom(component, renderContext);
+            } else {
+                let oldDom = component.dom;
+                component.renderer.createDom(component, renderContext);
+                oldDom.replaceWith(component.dom);
+            }
+        }
+    }
+}
+
+function testEdit() {
+    let component = mimic.componentMap.get(1);
+
+    if (component) {
+        component.properties.text = "Hello";
+        updateComponentDom(component);
+    }
+}
+
 $(async function () {
-    renderContext.editMode = true;
     splitter = new Splitter("divSplitter");
     mimicWrapperElem = $("#divMimicWrapper");
 
