@@ -25,5 +25,10 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// Gets the mimic key provided by the editor.
         /// </summary>
         public long MimicKey { get; init; }
+
+        /// <summary>
+        /// Gets the group containing the mimic.
+        /// </summary>
+        public MimicGroup ParentGroup { get; init; }
     }
 }

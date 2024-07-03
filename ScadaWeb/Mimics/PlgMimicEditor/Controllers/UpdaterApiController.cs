@@ -3,7 +3,9 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Scada.Web.Api;
 using Scada.Web.Authorization;
+using Scada.Web.Lang;
 using Scada.Web.Plugins.PlgMimicEditor.Code;
 using Scada.Web.Plugins.PlgMimicEditor.Models;
 using Scada.Web.Services;
@@ -21,22 +23,53 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
         IWebContext webContext,
         EditorManager editorManager) : ControllerBase
     {
+        /// <summary>
+        /// Updates the mimic.
+        /// </summary>
         [HttpPost]
-        public void UpdateMimic(UpdateDTO updateDto)
+        public Dto UpdateMimic([FromBody] UpdateDTO updateDTO)
         {
-
+            return Dto.Success();
         }
 
+        /// <summary>
+        /// Saves the mimic.
+        /// </summary>
         [HttpPost]
-        public void SaveMimic()
+        public Dto SaveMimic([FromQuery] long key)
         {
-
+            try
+            {
+                return editorManager.SaveMimic(key, out string errMsg)
+                    ? Dto.Success()
+                    : Dto.Fail(errMsg);
+            }
+            catch (Exception ex)
+            {
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(SaveMimic)));
+                return Dto.Fail(ex.Message);
+            }
         }
 
+        /// <summary>
+        /// Closes and optionally saves the mimic.
+        /// </summary>
         [HttpPost]
-        public void CloseMimic()
+        public Dto CloseMimic([FromQuery] long key, [FromQuery] bool save)
         {
-
+            try
+            {
+                if (save && !editorManager.SaveMimic(key, out string errMsg))
+                    return Dto.Fail(errMsg);
+                
+                editorManager.CloseMimic(key);
+                return Dto.Success();
+            }
+            catch (Exception ex)
+            {
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(CloseMimic)));
+                return Dto.Fail(ex.Message);
+            }
         }
     }
 }

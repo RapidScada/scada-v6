@@ -26,6 +26,20 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         public string Name { get; init; }
 
+        /// <summary>
+        /// Gets a value indicating whether the group does not contain any mimics.
+        /// </summary>
+        public bool IsEmpty
+        {
+            get
+            {
+                lock (mimicInstances)
+                {
+                    return mimicInstances.Count == 0;
+                }
+            }
+        }
+
 
         /// <summary>
         /// Adds the mimic to the group.
@@ -35,6 +49,17 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             lock (mimicInstances)
             {
                 mimicInstances.Add(mimicInstance.FileName, mimicInstance);
+            }
+        }
+
+        /// <summary>
+        /// Removes the mimic from the group.
+        /// </summary>
+        public void RemoveMimic(MimicInstance mimicInstance)
+        {
+            lock (mimicInstances)
+            {
+                mimicInstances.Remove(mimicInstance.FileName);
             }
         }
 

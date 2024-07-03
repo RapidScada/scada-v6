@@ -15,6 +15,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         public static string ProjectNotFound { get; private set; }
         public static string MimicNotFound { get; private set; }
         public static string LoadMimicError { get; private set; }
+        public static string SaveMimicError { get; private set; }
 
         // Scada.Web.Plugins.PlgMimicEditor.PlgMimicEditorLogic
         public static string EditorMenuItem { get; private set; }
@@ -26,6 +27,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             ProjectNotFound = dict[nameof(ProjectNotFound)];
             MimicNotFound = dict[nameof(MimicNotFound)];
             LoadMimicError = dict[nameof(LoadMimicError)];
+            SaveMimicError = dict[nameof(SaveMimicError)];
 
             dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMimicEditor.PlgMimicEditorLogic");
             EditorMenuItem = dict[nameof(EditorMenuItem)];

@@ -84,7 +84,8 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             {
                 FileName = fileName,
                 Mimic = mimic,
-                MimicKey = ScadaUtils.GenerateUniqueID()
+                MimicKey = ScadaUtils.GenerateUniqueID(),
+                ParentGroup = mimicGroup
             };
 
             mimicByFileName.Add(fileName, mimicInstance);
@@ -202,6 +203,58 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                     mimicInstance = null;
                     errMsg = EditorPhrases.MimicNotFound;
                     return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Saves the mimic specified by the key.
+        /// </summary>
+        public bool SaveMimic(long mimicKey, out string errMsg)
+        {
+            if (!FindMimic(mimicKey, out MimicInstance mimicInstance, out errMsg))
+                return false;
+
+            try
+            {
+                lock (mimicInstance.Mimic.SyncRoot)
+                {
+                    using FileStream mimicStream =
+                        new(mimicInstance.FileName, FileMode.Create, FileAccess.Write, FileShare.Read);
+                    mimicInstance.Mimic.Save(mimicStream);
+                }
+
+                errMsg = "";
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errMsg = ex.BuildErrorMessage(EditorPhrases.SaveMimicError);
+                PluginLog.WriteError(errMsg);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Closes the mimic specified by the key.
+        /// </summary>
+        public void CloseMimic(long mimicKey)
+        {
+            lock (editorLock)
+            {
+                if (mimicByKey.TryGetValue(mimicKey, out MimicInstance mimicInstance))
+                {
+                    mimicByFileName.Remove(mimicInstance.FileName);
+                    mimicByKey.Remove(mimicKey);
+
+                    lock (mimicGroups)
+                    {
+                        MimicGroup mimicGroup = mimicInstance.ParentGroup;
+                        mimicGroup.RemoveMimic(mimicInstance);
+
+                        if (mimicGroup.IsEmpty)
+                            mimicGroups.Remove(mimicGroup.Name);
+                    }
                 }
             }
         }
