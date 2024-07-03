@@ -11,10 +11,10 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Models
     /// </summary>
     public class UpdateDTO
     {
-        public long MimicKey { get; init; }
+        public long MimicKey { get; set; }
 
-        public Change[] Changes { get; init; }
+        public Change[] Changes { get; set; }
 
-        public bool Reverse { get; init; }
+        public bool Reverse { get; set; }
     }
 }
