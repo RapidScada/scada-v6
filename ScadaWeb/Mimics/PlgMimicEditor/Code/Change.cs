@@ -13,6 +13,23 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
     public class Change
     {
         /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public Change()
+        {
+            ChangeType = ChangeType.None;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public Change(ChangeType changeType)
+        {
+            ChangeType = changeType;
+        }
+
+
+        /// <summary>
         /// Gets or sets the change type.
         /// </summary>
         public ChangeType ChangeType { get; set; }
@@ -21,11 +38,6 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// Gets or sets the properties of a mimic or component being updated.
         /// </summary>
         public ExpandoObject Properties { get; set; }
-
-        /// <summary>
-        /// Gets or sets the previous values of the properties being updated.
-        /// </summary>
-        public ExpandoObject OldProperties { get; set; }
 
         /// <summary>
         /// Gets or sets the dependency being added or deleted.

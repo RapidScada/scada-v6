@@ -14,7 +14,5 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Models
         public long MimicKey { get; set; }
 
         public Change[] Changes { get; set; }
-
-        public bool Reverse { get; set; }
     }
 }

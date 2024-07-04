@@ -17,11 +17,6 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// </summary>
         protected static readonly HashSet<string> ComponentKnownNodes = ["ID", "Name"];
 
-        /// <summary>
-        /// Gets the names of nodes that are loaded explicitly.
-        /// </summary>
-        protected virtual HashSet<string> KnownNodes => ComponentKnownNodes;
-
 
         /// <summary>
         /// Gets or sets the component ID that is unique within the mimic.
@@ -57,7 +52,12 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// Gets the component access options.
         /// </summary>
         public ComponentAccess Access { get; } = new();
-        
+
+        /// <summary>
+        /// Gets the names of nodes that are loaded explicitly.
+        /// </summary>
+        public virtual HashSet<string> KnownNodes => ComponentKnownNodes;
+
 
         /// <summary>
         /// Loads the component from the XML node.

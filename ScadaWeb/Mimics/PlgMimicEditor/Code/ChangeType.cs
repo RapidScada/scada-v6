@@ -9,21 +9,21 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
     /// </summary>
     public enum ChangeType
     {
-        None,
+        None = 0,
 
-        UpdateDocument,
-        AddDependency,
-        DeleteDependency,
+        UpdateDocument = 1,
+        AddDependency = 2,
+        DeleteDependency = 3,
 
-        AddComponent,
-        UpdateComponent,
-        UpdateComponentParent,
-        UpdateComponentBindings,
-        UpdateComponentAccess,
-        DeleteComponent,
+        AddComponent = 4,
+        UpdateComponent = 5,
+        UpdateComponentParent = 6,
+        UpdateComponentBindings = 7,
+        UpdateComponentAccess = 8,
+        DeleteComponent = 9,
 
-        AddImage,
-        RenameImage,
-        DeleteImage
+        AddImage = 10,
+        RenameImage = 11,
+        DeleteImage = 12
     }
 }

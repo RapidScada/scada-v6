@@ -22,16 +22,17 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// </summary>
         private static readonly HashSet<string> PanelKnownNodes = [.. ComponentKnownNodes, "Components"];
 
-        /// <summary>
-        /// Gets the names of nodes that are loaded explicitly.
-        /// </summary>
-        protected override HashSet<string> KnownNodes => PanelKnownNodes;
 
         /// <summary>
         /// Gets the components contained within the panel.
         /// </summary>
         [JsonIgnore]
         public List<Component> Components { get; } = [];
+
+        /// <summary>
+        /// Gets the names of nodes that are loaded explicitly.
+        /// </summary>
+        public override HashSet<string> KnownNodes => PanelKnownNodes;
 
 
         /// <summary>
