@@ -23,6 +23,11 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         public List<Component> Components { get; } = [];
 
         /// <summary>
+        /// Gets the components accessed by ID.
+        /// </summary>
+        public Dictionary<int, Component> ComponentMap { get; } = [];
+
+        /// <summary>
         /// Gets the images accessed by name.
         /// </summary>
         public SortedList<string, Image> Images { get; } = [];
@@ -75,7 +80,10 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
                     component.LoadFromXml(childNode, componentIDs);
 
                     if (component.ID > 0 && !componentIDs.Contains(component.ID))
+                    {
                         Components.Add(component);
+                        ComponentMap.Add(component.ID, component);
+                    }
                 }
             }
 
