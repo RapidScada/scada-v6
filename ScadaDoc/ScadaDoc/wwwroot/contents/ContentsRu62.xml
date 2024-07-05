@@ -78,6 +78,10 @@
         <Url>/ru/latest/configuration/device-polling</Url>
       </Item>
       <Item>
+        <Text>Каналы</Text>
+        <Url>/ru/latest/configuration/channels</Url>
+      </Item>
+      <Item>
         <Text>Скрипты и формулы</Text>
         <Url>/ru/latest/configuration/scripts</Url>
       </Item>
