@@ -15,11 +15,73 @@
 
 <div class="doc-content">
     <h1>Каналы</h1>
+    <p><strong>Канал</strong> – это сущность, имеющая номер и наименование, с которой связаны текущие и исторические данные, а также события. Синонимы в других системах: переменная, тег.</p>
 
     <h2 id="channel-properties">Свойства канала</h2>
+    <p>Канал может быть редактирован непосредственно в таблице <strong>Каналы</strong>, а также с помощью формы свойств канала. Чтобы открыть форму свойств, выберите канал в таблице и нажмите кнопку <img src="../common-images/properties.png" /> или дважды щёлкните по строке таблицы. Далее показаны изображения страниц формы свойств канала и под каждым изображением перечислены особенности настройки соответствующих свойств.</p>
 
+    <figure class="figure">
+        <img src="channels-files/channel-general-ru.png" class="figure-img img-fluid" alt="Основные свойства канала" />
+        <figcaption class="figure-caption">Рис. 1. Основные свойства канала</figcaption>
+    </figure>
+    <p>Поле <strong>Код</strong> предназначено для интеграции со сторонними системами и не влияет на работу приложений Rapid SCADA. Если <strong>Тип данных</strong> не указан, то используется тип <em>Double</em>. Если задана <strong>Длина данных</strong>, и её значение больше 1, то приложение Сервер создаёт несколько каналов с последовательными номерами. <strong>Типы каналов</strong> описаны в одноименной таблице. Строковое поле <strong>Код тега</strong> предназначено для связи канала и тега устройства в Коммуникаторе. Числовое поле <strong>Номер тега</strong> работает аналогично, но является устаревшим.</p>
+
+    <figure class="figure">
+        <img src="channels-files/channel-display-ru.png" class="figure-img img-fluid" alt="Свойства отображения канала" />
+        <figcaption class="figure-caption">Рис. 2. Свойства отображения канала</figcaption>
+    </figure>
+    <p>Поле <strong>Формат</strong> определяет отображение значений канала в пользовательском интерфейсе, но не влияет на сохранение данных в архив. <strong>Формат команды</strong> необходимо задать в том случае, если при отправке требуется другое форматирование значений, чем при просмотре.</p>
+
+    <figure class="figure">
+        <img src="channels-files/channel-limits-ru.png" class="figure-img img-fluid" alt="Границы канала" />
+        <figcaption class="figure-caption">Рис. 3. Границы канала</figcaption>
+    </figure>
+    <p>Сущность границы может использоваться как одним, так и несколькими каналами. В втором случае граница помечается как <strong>общая</strong>. Если при создании границы включена опция <strong>Привязана к каналам</strong>, то в качестве фактических значений границы используются значения каналов, номера которых указаны при её создании.</p>
+
+    <figure class="figure">
+        <img src="channels-files/channel-archives-ru.png" class="figure-img img-fluid" alt="Свойства канала. Архивы" />
+        <figcaption class="figure-caption">Рис. 4. Свойства канала. Архивы</figcaption>
+    </figure>
+    <p>Для канала можно задать, в какие архивы записываются его данные. Если архивы не выбраны, то есть маска архивов пустая или равна 0, то данные канала записываются в архивы по умолчанию.</p>
+
+    <figure class="figure">
+        <img src="channels-files/channel-events-ru.png" class="figure-img img-fluid" alt="Свойства канала. События" />
+        <figcaption class="figure-caption">Рис. 5. Свойства канала. События</figcaption>
+    </figure>
+    <p>На странице <strong>События</strong> задаётся, какие события, относящиеся к каналу, необходимо записывать в архив событий.</p>
 
     <h2 id="tools">Инструменты</h2>
+    <p>Для создания каналов предназначен мастер, вызываемый кнопкой <img src="../common-images/create-cnls.png" />. Однако автоматическое создание каналов должно поддерживаться драйвером устройства, для которого создаются каналы, иначе потребуется прописать каналы вручную. Мастер создания каналов запускается после того, как опрос устройства настроен в приложении Коммуникатор.</p>
+
+    <figure class="figure">
+        <img src="channels-files/create-channels-step1-ru.png" class="figure-img img-fluid" alt="Мастер создания каналов. Шаг 1" />
+        <figcaption class="figure-caption">Рис. 6. Мастер создания каналов. Шаг 1</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="channels-files/create-channels-step2-ru.png" class="figure-img img-fluid" alt="Мастер создания каналов. Шаг 2" />
+        <figcaption class="figure-caption">Рис. 7. Мастер создания каналов. Шаг 2</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="channels-files/create-channels-step3-ru.png" class="figure-img img-fluid" alt="Мастер создания каналов. Шаг 3" />
+        <figcaption class="figure-caption">Рис. 8. Мастер создания каналов. Шаг 3</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="channels-files/clone-channels-ru.png" class="figure-img img-fluid" alt="Клонирование каналов" />
+        <figcaption class="figure-caption">Рис. 9. Клонирование каналов</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="channels-files/import-table-ru.png" class="figure-img img-fluid" alt="Импорт таблицы" />
+        <figcaption class="figure-caption">Рис. 10. Импорт таблицы</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="channels-files/export-table-ru.png" class="figure-img img-fluid" alt="Экспорт таблицы" />
+        <figcaption class="figure-caption">Рис. 11. Экспорт таблицы</figcaption>
+    </figure>
 
 
 </div>
