@@ -1,0 +1,96 @@
+﻿@page "/en/latest/configuration/channels"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Channels";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#channel-properties">Channel Properties</a></li>
+        <li><a href="#tools">Tools</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Channels</h1>
+    <p><strong>Канал</strong> – это сущность, имеющая номер и наименование, с которой связаны текущие и исторические данные, а также события. Синонимы в других системах: переменная, тег.</p>
+
+    <h2 id="channel-properties">Channel Properties</h2>
+    <p>Канал может быть отредактирован непосредственно в таблице <strong>Каналы</strong>, а также с помощью формы свойств канала. Чтобы открыть форму свойств, выберите канал в таблице и нажмите кнопку <img src="../common-images/properties.png" /> или дважды щёлкните по строке таблицы. Далее показаны изображения страниц формы свойств канала и под каждым изображением перечислены особенности настройки соответствующих свойств.</p>
+
+    <figure class="figure">
+        <img src="channels-files/channel-general-en.png" class="figure-img img-fluid" alt="General channel properties" />
+        <figcaption class="figure-caption">Figure 1. General channel properties</figcaption>
+    </figure>
+
+    <p>Если снять галочку <strong>Активный</strong> канал будет исключён из обработки. Поле <strong>Код</strong> предназначено для интеграции со сторонними системами и не влияет на работу приложений Rapid SCADA. Если <strong>Тип данных</strong> не указан, то используется тип <em>Double</em>. Если задана <strong>Длина данных</strong>, и её значение больше 1, то приложение Сервер создаёт несколько каналов с последовательными номерами. <strong>Типы каналов</strong> описаны в одноимённой таблице. Строковое поле <strong>Код тега</strong> предназначено для связи канала и тега устройства в Коммуникаторе. Числовое поле <strong>Номер тега</strong> работает аналогично, но является устаревшим. Использование формул описано в следующей <a href="scripts">статье</a>.</p>
+
+    <figure class="figure">
+        <img src="channels-files/channel-display-en.png" class="figure-img img-fluid" alt="Channel display properties" />
+        <figcaption class="figure-caption">Figure 2. Channel display properties</figcaption>
+    </figure>
+
+    <p>Поле <strong>Формат</strong> определяет отображение значений канала в пользовательском интерфейсе, но не влияет на сохранение данных в архив. <strong>Формат команды</strong> необходимо задать в том случае, если при отправке требуется иное форматирование значений, чем при просмотре.</p>
+
+    <figure class="figure">
+        <img src="channels-files/channel-limits-en.png" class="figure-img img-fluid" alt="Channel limits" />
+        <figcaption class="figure-caption">Figure 3. Channel limits</figcaption>
+    </figure>
+
+    <p>Сущность границы может использоваться как одним, так и несколькими каналами. В втором случае граница помечается как <strong>общая</strong>. Если при создании границы включена опция <strong>Привязана к каналам</strong>, то в качестве фактических значений границы используются значения каналов, номера которых указаны при её создании.</p>
+
+    <figure class="figure">
+        <img src="channels-files/channel-archives-en.png" class="figure-img img-fluid" alt="Channel properties. Archives" />
+        <figcaption class="figure-caption">Figure 4. Channel properties. Archives</figcaption>
+    </figure>
+
+    <p>Для канала можно задать, в какие архивы записываются его данные. Если архивы не выбраны, то есть маска архивов пустая или равна 0, то данные канала записываются в архивы по умолчанию.</p>
+
+    <figure class="figure">
+        <img src="channels-files/channel-events-en.png" class="figure-img img-fluid" alt="Channel properties. Events" />
+        <figcaption class="figure-caption">Figure 5. Channel properties. Events</figcaption>
+    </figure>
+
+    <p>На странице <strong>События</strong> задаётся, какие события, относящиеся к каналу, необходимо записывать в архив событий.</p>
+
+    <h2 id="tools">Tools</h2>
+    <p>Для создания каналов предназначен мастер (рис. 6-8), который вызывается кнопкой <img src="../common-images/create-cnls.png" />, расположенной на панели инструметов приложения Администратор. Однако автоматическое создание каналов должно поддерживаться драйвером устройства, для которого создаются каналы, иначе потребуется прописать каналы вручную. Мастер создания каналов запускается после того, как опрос устройства настроен в приложении Коммуникатор.</p>
+
+    <figure class="figure">
+        <img src="channels-files/create-channels-step1-en.png" class="figure-img img-fluid" alt="Channel creation wizard. Step 1" />
+        <figcaption class="figure-caption">Figure 6. Channel creation wizard. Step 1</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="channels-files/create-channels-step2-en.png" class="figure-img img-fluid" alt="Channel creation wizard. Step 2" />
+        <figcaption class="figure-caption">Figure 7. Channel creation wizard. Step 2</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="channels-files/create-channels-step3-en.png" class="figure-img img-fluid" alt="Channel creation wizard. Step 3" />
+        <figcaption class="figure-caption">Figure 8. Channel creation wizard. Step 3</figcaption>
+    </figure>
+
+    <p>Инструмент клонирования (рис. 9) позволяет быстро создать аналогичные каналы на основе существующих. На форме параметров клонирования необходимо задать исходные и новые номера каналов. Также можно выбрать новый объект и устройство для клонированных каналов. Функция обновления номеров каналов в формулах работает, если номер канала используется как аргумент в следующих функциях: N(), Val(), Stat(), SetVal(), SetStat() и SetData().</p>
+
+    <figure class="figure">
+        <img src="channels-files/clone-channels-en.png" class="figure-img img-fluid" alt="Cloning channels" />
+        <figcaption class="figure-caption">Figure 9. Cloning channels</figcaption>
+    </figure>
+
+    <p>Инструменты импорта и экспорта таблиц базы конфигурации (рис. 10 и 11) позволяют использовать сделанные ранее наработки из других проектов. Поддерживаются форматы таблиц DAT, XML и CSV. Чтобы ограничить диапазон загружемых и выгружаемых данных, задайте начальный и конечный идентификаторы.</p>
+
+    <figure class="figure">
+        <img src="channels-files/import-table-en.png" class="figure-img img-fluid" alt="Import table" />
+        <figcaption class="figure-caption">Figure 10. Import table</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="channels-files/export-table-en.png" class="figure-img img-fluid" alt="Export table" />
+        <figcaption class="figure-caption">Figure 11. Export table</figcaption>
+    </figure>
+
+    <p>Инструменты клонирования, импорта и экспорта вызываются через главное меню <strong>Инструменты &gt; Инструменты проекта</strong> приложения Администратор.</p>
+</div>
