@@ -15,48 +15,48 @@
 
 <div class="doc-content">
     <h1>Channels</h1>
-    <p><strong>Канал</strong> – это сущность, имеющая номер и наименование, с которой связаны текущие и исторические данные, а также события. Синонимы в других системах: переменная, тег.</p>
+    <p>A <strong>channel</strong> is an entity that has a number and name, with which current and historical data, as well as events, are associated. Synonyms in other systems: variable and tag.</p>
 
     <h2 id="channel-properties">Channel Properties</h2>
-    <p>Канал может быть отредактирован непосредственно в таблице <strong>Каналы</strong>, а также с помощью формы свойств канала. Чтобы открыть форму свойств, выберите канал в таблице и нажмите кнопку <img src="../common-images/properties.png" /> или дважды щёлкните по строке таблицы. Далее показаны изображения страниц формы свойств канала и под каждым изображением перечислены особенности настройки соответствующих свойств.</p>
+    <p>A channel can be edited directly in the <strong>Channels</strong> table, as well as using the channel properties form. To open the properties form, select a channel in the table and click the <img src="../common-images/properties.png" /> button or double-click a table row. Below are screenshots of the channel properties form and under each image the specifics of setting the corresponding properties are described.</p>
 
     <figure class="figure">
         <img src="channels-files/channel-general-en.png" class="figure-img img-fluid" alt="General channel properties" />
         <figcaption class="figure-caption">Figure 1. General channel properties</figcaption>
     </figure>
 
-    <p>Если снять галочку <strong>Активный</strong> канал будет исключён из обработки. Поле <strong>Код</strong> предназначено для интеграции со сторонними системами и не влияет на работу приложений Rapid SCADA. Если <strong>Тип данных</strong> не указан, то используется тип <em>Double</em>. Если задана <strong>Длина данных</strong>, и её значение больше 1, то приложение Сервер создаёт несколько каналов с последовательными номерами. <strong>Типы каналов</strong> описаны в одноимённой таблице. Строковое поле <strong>Код тега</strong> предназначено для связи канала и тега устройства в Коммуникаторе. Числовое поле <strong>Номер тега</strong> работает аналогично, но является устаревшим. Использование формул описано в следующей <a href="scripts">статье</a>.</p>
+    <p>If uncheck the <strong>Active</strong> checkbox, the channel will be excluded from processing. The <strong>Code</strong> field is intended for integration with third-party systems and does not affect the operation of Rapid SCADA applications. If <strong>Data type</strong> is not specified, then the <em>Double</em> type is used. If <strong>Data length</strong> is specified and its value is greater than 1, then the Server application creates several channels with sequential numbers. The <strong>Channel types</strong> are described in the table of the same name. The <strong>Tag Code</strong> string field is intended for linking the channel and device tag in Communicator. The <strong>Tag number</strong> numeric field works similarly, but is deprecated. The use of formulas is described in the next <a href="scripts">article</a>.</p>
 
     <figure class="figure">
         <img src="channels-files/channel-display-en.png" class="figure-img img-fluid" alt="Channel display properties" />
         <figcaption class="figure-caption">Figure 2. Channel display properties</figcaption>
     </figure>
 
-    <p>Поле <strong>Формат</strong> определяет отображение значений канала в пользовательском интерфейсе, но не влияет на сохранение данных в архив. <strong>Формат команды</strong> необходимо задать в том случае, если при отправке требуется иное форматирование значений, чем при просмотре.</p>
+    <p>The <strong>Format</strong> field determines the display of channel values ​​in the user interface, but does not affect saving data to the archive. Specify a <strong>Command format</strong> if the values ​​in the command sending window should be formatted differently than when viewed.</p>
 
     <figure class="figure">
         <img src="channels-files/channel-limits-en.png" class="figure-img img-fluid" alt="Channel limits" />
         <figcaption class="figure-caption">Figure 3. Channel limits</figcaption>
     </figure>
 
-    <p>Сущность границы может использоваться как одним, так и несколькими каналами. В втором случае граница помечается как <strong>общая</strong>. Если при создании границы включена опция <strong>Привязана к каналам</strong>, то в качестве фактических значений границы используются значения каналов, номера которых указаны при её создании.</p>
+    <p>A limit record can be used by one or more channels. In the second case, the limit is marked as <strong>shared</strong>. If the <strong>Bound to channels</strong> option is enabled when creating a limit, then the actual values ​​of the limit are the values ​​of the channels whose numbers were specified when creating it.</p>
 
     <figure class="figure">
         <img src="channels-files/channel-archives-en.png" class="figure-img img-fluid" alt="Channel properties. Archives" />
         <figcaption class="figure-caption">Figure 4. Channel properties. Archives</figcaption>
     </figure>
 
-    <p>Для канала можно задать, в какие архивы записываются его данные. Если архивы не выбраны, то есть маска архивов пустая или равна 0, то данные канала записываются в архивы по умолчанию.</p>
+    <p>It is possible for a channel to specify in which archives its data is stored. If archives are not selected, that is, the archive mask is empty or equal to 0, then the channel data is stored in the default archives.</p>
 
     <figure class="figure">
         <img src="channels-files/channel-events-en.png" class="figure-img img-fluid" alt="Channel properties. Events" />
         <figcaption class="figure-caption">Figure 5. Channel properties. Events</figcaption>
     </figure>
 
-    <p>На странице <strong>События</strong> задаётся, какие события, относящиеся к каналу, необходимо записывать в архив событий.</p>
+    <p>On the <strong>Events</strong> page, set the criteria by which events related to the channel should be recorded in the event archive.</p>
 
     <h2 id="tools">Tools</h2>
-    <p>Для создания каналов предназначен мастер (рис. 6-8), который вызывается кнопкой <img src="../common-images/create-cnls.png" />, расположенной на панели инструметов приложения Администратор. Однако автоматическое создание каналов должно поддерживаться драйвером устройства, для которого создаются каналы, иначе потребуется прописать каналы вручную. Мастер создания каналов запускается после того, как опрос устройства настроен в приложении Коммуникатор.</p>
+    <p>To create channels, there is a wizard (see Figures 6-8), which is called by the <img src="../common-images/create-cnls.png" /> button located on the Administrator application toolbar. However, automatic creation of channels must be supported by the driver of the device for which the channels are created, otherwise the channels are created manually. The channel creation wizard starts <em>after</em> device polling is configured in the Communicator application.</p>
 
     <figure class="figure">
         <img src="channels-files/create-channels-step1-en.png" class="figure-img img-fluid" alt="Channel creation wizard. Step 1" />
@@ -73,14 +73,14 @@
         <figcaption class="figure-caption">Figure 8. Channel creation wizard. Step 3</figcaption>
     </figure>
 
-    <p>Инструмент клонирования (рис. 9) позволяет быстро создать аналогичные каналы на основе существующих. На форме параметров клонирования необходимо задать исходные и новые номера каналов. Также можно выбрать новый объект и устройство для клонированных каналов. Функция обновления номеров каналов в формулах работает, если номер канала используется как аргумент в следующих функциях: N(), Val(), Stat(), SetVal(), SetStat() и SetData().</p>
+    <p>The cloning tool (see Figure 9) allows to quickly create similar channels based on existing ones. On the cloning form, specify the source and destination channel numbers. You can also select a new object and device for the cloned channels. The feature of updating channel numbers in formulas works if the channel number is used as an argument in the following functions: N(), Val(), Stat(), SetVal(), SetStat() and SetData().</p>
 
     <figure class="figure">
         <img src="channels-files/clone-channels-en.png" class="figure-img img-fluid" alt="Cloning channels" />
         <figcaption class="figure-caption">Figure 9. Cloning channels</figcaption>
     </figure>
 
-    <p>Инструменты импорта и экспорта таблиц базы конфигурации (рис. 10 и 11) позволяют использовать сделанные ранее наработки из других проектов. Поддерживаются форматы таблиц DAT, XML и CSV. Чтобы ограничить диапазон загружемых и выгружаемых данных, задайте начальный и конечный идентификаторы.</p>
+    <p>Tools for importing and exporting configuration database tables (see Figures 10 and 11) make it easier to use previously made work from other projects. DAT, XML and CSV table formats are supported. To limit the range of data that is imported and exported, specify the start and end IDs.</p>
 
     <figure class="figure">
         <img src="channels-files/import-table-en.png" class="figure-img img-fluid" alt="Import table" />
@@ -92,5 +92,5 @@
         <figcaption class="figure-caption">Figure 11. Export table</figcaption>
     </figure>
 
-    <p>Инструменты клонирования, импорта и экспорта вызываются через главное меню <strong>Инструменты &gt; Инструменты проекта</strong> приложения Администратор.</p>
+    <p>The cloning, import and export tools are accessed through the <strong>Tools &gt; Project Tools</strong> menu of the Administrator application.</p>
 </div>

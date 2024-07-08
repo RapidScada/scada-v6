@@ -77,10 +77,10 @@
         <Text>Device Polling</Text>
         <Url>/en/latest/configuration/device-polling</Url>
       </Item>
-      <!--<Item>
+      <Item>
         <Text>Channels</Text>
         <Url>/en/latest/configuration/channels</Url>
-      </Item>-->
+      </Item>
       <Item>
         <Text>Scripts and Formulas</Text>
         <Url>/en/latest/configuration/scripts</Url>
