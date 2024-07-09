@@ -37,12 +37,24 @@
     {
         <div class="card mb-3">
             <h5 class="card-header">@mimicGroup.Name</h5>
-            <div class="list-group list-group-flush">
+            <ul class="list-group list-group-flush">
                 @foreach (var mimic in mimicGroup.GetMimics())
                 {
-                    <a asp-page="/MimicEdit" asp-route-key="@mimic.MimicKey" target="_blank" class="list-group-item list-group-item-action">@mimic.FileName</a>
+                    <li class="list-group-item list-group-item-action d-flex align-items-center">
+                        <a class="flex-fill text-break py-2" asp-page="/MimicEdit" asp-route-key="@mimic.MimicKey" target="_blank">@mimic.FileName</a>
+                        <div class="dropdown">
+                            <button class="btn btn-light" type="button" data-bs-toggle="dropdown">
+                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Save</a></li>
+                                <li><a class="dropdown-item" href="#">Save and Close</a></li>
+                                <li><a class="dropdown-item" href="#">Close without Saving</a></li>
+                            </ul>
+                        </div>
+                    </li>
                 }
-            </div>
+            </ul>
         </div>
     }
 }
