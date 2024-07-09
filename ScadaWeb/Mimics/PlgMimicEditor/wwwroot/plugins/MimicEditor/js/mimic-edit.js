@@ -1,7 +1,9 @@
-﻿// Depends on jquery, mimic-common.js, mimic-model.js, mimic-render.js
+﻿// Depends on jquery, scada-common.js, mimic-common.js, mimic-model.js, mimic-render.js
 
+const UPDATE_RATE = 1000;
 const mimic = new rs.mimic.Mimic();
 const rendererSet = new rs.mimic.RendererSet();
+const updateQueue = [];
 
 var rootPath = "/";
 var mimicKey = "0";
@@ -38,6 +40,11 @@ async function loadMimic() {
     } else {
         // show error
     }
+}
+
+async function startUpdatingBackend() {
+    await postUpdates();
+    setTimeout(startUpdatingBackend, UPDATE_RATE);
 }
 
 function getLoaderUrl() {
@@ -141,12 +148,53 @@ function updateComponentDom(component) {
     }
 }
 
+async function postUpdates() {
+    while (updateQueue.length > 0) {
+        let updateDTO = updateQueue.shift();
+        let result = await postUpdate(updateDTO);
+
+        if (!result) {
+            updateQueue.unshift(updateDTO);
+            break;
+        }
+    }
+}
+
+async function postUpdate(updateDTO) {
+    try {
+        let response = await fetch(getUpdaterUrl() + "UpdateMimic", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updateDTO)
+        });
+
+        if (response.ok) {
+            let dto = await response.json();
+
+            if (!dto.ok) {
+                console.error("Error processing update: " + dto.msg);
+            }
+        }
+
+        return true;
+    } catch {
+        return false;
+    }
+}
+
 function testEdit() {
     let component = mimic.componentMap.get(1);
 
     if (component) {
-        component.properties.text = "Hello";
+        // update client side
+        const textValue = "Hello";
+        component.properties.text = textValue;
         updateComponentDom(component);
+
+        // update server side
+        let change = Change.updateComponent(component.id, { text: textValue });
+        let updateDTO = new UpdateDTO(mimicKey, change);
+        updateQueue.push(updateDTO);
     }
 }
 
@@ -156,5 +204,6 @@ $(async function () {
 
     bindEvents();
     updateLayout();
-    loadMimic();
+    await loadMimic();
+    await startUpdatingBackend();
 });

@@ -1,4 +1,5 @@
-﻿// Contains classes: ...
+﻿// Contains classes: LoadStep, LoadResult, LoadContext
+// No dependencies
 
 // Namespaces
 const rs = {};
