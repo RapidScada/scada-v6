@@ -22,11 +22,28 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
 
                 foreach (KeyValuePair<string, object> kvp in change.Properties)
                 {
-                    if (!component.KnownNodes.Contains(kvp.Key))
-                        componentProps[kvp.Key] = kvp.Value;
+                    string propName = kvp.Key.ToPascalCase();
+
+                    if (!component.KnownNodes.Contains(propName))
+                        componentProps[propName] = kvp.Value;
                 }
             }
         }
+
+        /// <summary>
+        /// Convers the property name to a pascal-casing format.
+        /// </summary>
+        private static string ToPascalCase(this string s)
+        {
+            if (string.IsNullOrEmpty(s) || char.IsUpper(s[0]))
+                return s;
+
+            if (s == "id")
+                return "ID";
+
+            return s[0].ToString().ToUpperInvariant() + s[1..];
+        }
+
 
         /// <summary>
         /// Applies the changes to the mimic.

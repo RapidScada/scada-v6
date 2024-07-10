@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Dynamic;
+using System.Text.Json.Serialization;
 using System.Xml;
 
 namespace Scada.Web.Plugins.PlgMimic.MimicModel
@@ -56,6 +57,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// <summary>
         /// Gets the names of nodes that are loaded explicitly.
         /// </summary>
+        [JsonIgnore]
         public virtual HashSet<string> KnownNodes => ComponentKnownNodes;
 
 
