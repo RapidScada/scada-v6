@@ -16,10 +16,12 @@
 
   <ItemGroup>
     <Content Remove="compilerconfig.json" />
+    <Content Remove="wwwroot\plugins\Mimic\css\mimic-view.scss" />
   </ItemGroup>
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="compilerconfig.json" />
+    <_ContentIncludedByDefault Remove="wwwroot\plugins\Mimic\css\mimic-view.scss" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +30,7 @@
 
   <ItemGroup>
     <None Include="compilerconfig.json" />
+    <None Include="wwwroot\plugins\Mimic\css\mimic-view.scss" />
   </ItemGroup>
 
   <ItemGroup>
