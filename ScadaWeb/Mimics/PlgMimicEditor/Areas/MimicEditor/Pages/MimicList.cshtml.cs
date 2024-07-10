@@ -31,7 +31,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages
             {
                 // clear file name
                 FileName = "";
-                ModelState.Clear();
+                ModelState.Remove(nameof(FileName));
             }
             else
             {
@@ -39,19 +39,23 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages
             }
         }
 
-        public void OnPostSave()
+        public void OnPostSave(long mimicKey)
         {
-
+            if (!editorManager.SaveMimic(mimicKey, out string errMsg))
+                ErrorMessage = errMsg;
         }
 
-        public void OnPostSaveAndClose()
+        public void OnPostSaveAndClose(long mimicKey)
         {
-
+            if (editorManager.SaveMimic(mimicKey, out string errMsg))
+                editorManager.CloseMimic(mimicKey);
+            else
+                ErrorMessage = errMsg;
         }
 
-        public void OnPostCloseWithoutSaving()
+        public void OnPostCloseWithoutSaving(long mimicKey)
         {
-
+            editorManager.CloseMimic(mimicKey);
         }
     }
 }

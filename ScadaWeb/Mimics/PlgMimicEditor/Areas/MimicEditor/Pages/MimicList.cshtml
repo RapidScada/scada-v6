@@ -28,20 +28,21 @@
     </div>
 </form>
 
-<form method="post">
-    @{ var mimicGroups = editorManager.GetMimicGroups(); }
-    @if (mimicGroups.Length > 0)
-    {
-        <h2>@dict.ActiveMimicsHeader</h2>
+@{ var mimicGroups = editorManager.GetMimicGroups(); }
+@if (mimicGroups.Length > 0)
+{
+    <h2>@dict.ActiveMimicsHeader</h2>
 
-        foreach (var mimicGroup in mimicGroups)
-        {
-            <div class="card mb-3">
-                <h5 class="card-header">@mimicGroup.Name</h5>
-                <ul class="list-group list-group-flush">
-                    @foreach (var mimic in mimicGroup.GetMimics())
-                    {
+    foreach (var mimicGroup in mimicGroups)
+    {
+        <div class="card mb-3">
+            <h5 class="card-header">@mimicGroup.Name</h5>
+            <ul class="list-group list-group-flush">
+                @foreach (var mimic in mimicGroup.GetMimics())
+                {
+                    <form method="post">
                         <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <input type="hidden" name="mimicKey" value="@mimic.MimicKey" />
                             <a class="text-break py-2" asp-page="/MimicEdit" asp-route-key="@mimic.MimicKey" target="_blank">@mimic.FileName</a>
                             <div class="dropdown">
                                 <button class="btn btn-light px-3" type="button" data-bs-toggle="dropdown">
@@ -50,13 +51,13 @@
                                 <ul class="dropdown-menu">
                                     <li><button type="submit" class="dropdown-item" asp-page-handler="Save">@dict.btnSave</button></li>
                                     <li><button type="submit" class="dropdown-item" asp-page-handler="SaveAndClose">@dict.btnSaveAndClose</button></li>
-                                    <li><button type="submit" class="dropdown-item" asp-page-handler="SaveWithoutSaving">@dict.btnSaveWithoutSaving</button></li>
+                                    <li><button type="submit" class="dropdown-item" asp-page-handler="CloseWithoutSaving">@dict.btnCloseWithoutSaving</button></li>
                                 </ul>
                             </div>
                         </li>
-                    }
-                </ul>
-            </div>
-        }
+                    </form>
+                }
+            </ul>
+        </div>
     }
-</form>
+}

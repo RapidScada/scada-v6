@@ -224,6 +224,10 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                     mimicInstance.Mimic.Save(mimicStream);
                 }
 
+                PluginLog.WriteAction(Locale.IsRussian ?
+                    "Сохранена мнемосхема {0}" :
+                    "{0} mimic loaded", mimicInstance.FileName);
+
                 errMsg = "";
                 return true;
             }
@@ -255,6 +259,10 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                         if (mimicGroup.IsEmpty)
                             mimicGroups.Remove(mimicGroup.Name);
                     }
+
+                    PluginLog.WriteAction(Locale.IsRussian ?
+                        "Закрыта мнемосхема {0}" :
+                        "{0} mimic closed", mimicInstance.FileName);
                 }
             }
         }

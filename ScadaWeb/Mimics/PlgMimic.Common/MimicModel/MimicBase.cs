@@ -145,7 +145,6 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         {
             ArgumentNullException.ThrowIfNull(stream, nameof(stream));
 
-            using StreamWriter writer = new(stream);
             XmlDocument xmlDoc = new();
             XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
             xmlDoc.AppendChild(xmlDecl);
@@ -153,6 +152,8 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
             XmlElement rootElem = xmlDoc.CreateElement("Mimic");
             xmlDoc.AppendChild(rootElem);
             SaveToXml(rootElem);
+
+            xmlDoc.Save(stream);
         }
 
         /// <summary>
