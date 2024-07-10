@@ -5,7 +5,10 @@
     <Phrase key="OpenMimicHeader">Open Mimic</Phrase>
     <Phrase key="ActiveMimicsHeader">Active Mimics</Phrase>
     <Phrase key="txtFileName_Placeholder">Mimic file path (*.mim)</Phrase>
-    <Phrase key="btnOpenMimic">Open</Phrase>
+    <Phrase key="btnOpen">Open</Phrase>
+    <Phrase key="btnSave">Save</Phrase>
+    <Phrase key="btnSaveAndClose">Save and Close</Phrase>
+    <Phrase key="btnSaveWithoutSaving">Close without Saving</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Code.EditorManager">
     <Phrase key="ProjectNotFound">Project not found for the mimic.</Phrase>

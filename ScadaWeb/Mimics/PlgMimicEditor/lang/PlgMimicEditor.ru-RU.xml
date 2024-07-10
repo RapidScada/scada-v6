@@ -5,7 +5,10 @@
     <Phrase key="OpenMimicHeader">Открыть мнемосхему</Phrase>
     <Phrase key="ActiveMimicsHeader">Активные мнемосхемы</Phrase>
     <Phrase key="txtFileName_Placeholder">Путь к файлу мнемосхемы (*.mim)</Phrase>
-    <Phrase key="btnOpenMimic">Открыть</Phrase>
+    <Phrase key="btnOpen">Открыть</Phrase>
+    <Phrase key="btnSave">Сохранить</Phrase>
+    <Phrase key="btnSaveAndClose">Сохранить и закрыть</Phrase>
+    <Phrase key="btnSaveWithoutSaving">Закрыть без сохранения</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Code.EditorManager">
     <Phrase key="ProjectNotFound">Не найден проект для мнемосхемы.</Phrase>

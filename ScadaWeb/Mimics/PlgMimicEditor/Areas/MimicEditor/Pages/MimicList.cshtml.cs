@@ -23,18 +23,35 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages
         public string FileName { get; set; }
 
 
-        public void OnGet()
-        {
-        }
-
-        public IActionResult OnPost()
+        public void OnPostOpen()
         {
             OpenResult result = editorManager.OpenMimic(FileName);
 
-            if (!result.IsSuccessful)
+            if (result.IsSuccessful)
+            {
+                // clear file name
+                FileName = "";
+                ModelState.Clear();
+            }
+            else
+            {
                 ErrorMessage = result.ErrorMessage;
+            }
+        }
 
-            return Page();
+        public void OnPostSave()
+        {
+
+        }
+
+        public void OnPostSaveAndClose()
+        {
+
+        }
+
+        public void OnPostCloseWithoutSaving()
+        {
+
         }
     }
 }
