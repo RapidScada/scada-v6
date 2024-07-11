@@ -53,38 +53,9 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
         {
             try
             {
-                if (editorManager.FindMimic(key, out MimicInstance mimicInstance, out string errMsg))
-                {
-                    List<Component> components = [];
-                    int currentIndex = 0;
-                    bool endReached = true;
-                    
-                    foreach (Component component in mimicInstance.Mimic.EnumerateComponents())
-                    {
-                        if (currentIndex++ >= index)
-                        {
-                            if (components.Count < count)
-                                components.Add(component);
-
-                            if (components.Count >= count)
-                            {
-                                endReached = false;
-                                break;
-                            }
-                        }
-                    }
-                    
-                    return Dto<ComponentPacket>.Success(new ComponentPacket
-                    {
-                        MimicKey = key,
-                        EndOfComponents = endReached,
-                        Components = components
-                    });
-                }
-                else
-                {
-                    return Dto<ComponentPacket>.Fail(errMsg);
-                }
+                return editorManager.FindMimic(key, out MimicInstance mimicInstance, out string errMsg)
+                    ? Dto<ComponentPacket>.Success(new ComponentPacket(key, mimicInstance.Mimic, index, count))
+                    : Dto<ComponentPacket>.Fail(errMsg);
             }
             catch (Exception ex)
             {
@@ -100,46 +71,9 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
         {
             try
             {
-                if (editorManager.FindMimic(key, out MimicInstance mimicInstance, out string errMsg))
-                {
-                    List<Image> images = [];
-                    int currentIndex = index;
-                    int imageCount = mimicInstance.Mimic.Images.Count;
-                    int counter = 0;
-                    int totalSize = 0;
-
-                    while (currentIndex < imageCount && counter < count)
-                    {
-                        if (currentIndex >= 0)
-                        {
-                            Image image = mimicInstance.Mimic.Images.GetValueAtIndex(currentIndex);
-
-                            if (images.Count == 0 || totalSize + image.DataSize <= size)
-                            {
-                                images.Add(image);
-                                totalSize += image.DataSize;
-                            }
-                            else
-                            {
-                                break;
-                            }
-                        }
-
-                        currentIndex++;
-                        counter++;
-                    }
-
-                    return Dto<ImagePacket>.Success(new ImagePacket
-                    {
-                        MimicKey = key,
-                        EndOfImages = currentIndex >= imageCount,
-                        Images = images
-                    });
-                }
-                else
-                {
-                    return Dto<ImagePacket>.Fail(errMsg);
-                }
+                return editorManager.FindMimic(key, out MimicInstance mimicInstance, out string errMsg)
+                    ? Dto<ImagePacket>.Success(new ImagePacket(key, mimicInstance.Mimic, index, count, size))
+                    : Dto<ImagePacket>.Fail(errMsg);
             }
             catch (Exception ex)
             {
@@ -159,13 +93,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
                 {
                     if (mimicInstance.Mimic.Faceplates.TryGetValue(typeName, out Faceplate faceplate))
                     {
-                        return Dto<FaceplatePacket>.Success(new FaceplatePacket
-                        {
-                            MimicKey = key,
-                            Document = faceplate.Document,
-                            Components = faceplate.Components,
-                            Images = faceplate.Images.Values
-                        });
+                        return Dto<FaceplatePacket>.Success(new FaceplatePacket(key, faceplate));
                     }
                     else
                     {

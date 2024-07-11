@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Web.Plugins.PlgMimic.MimicModel;
+using System.Reflection.Metadata;
 
 namespace Scada.Web.Plugins.PlgMimic.Models
 {
@@ -12,13 +13,42 @@ namespace Scada.Web.Plugins.PlgMimic.Models
     public class ComponentPacket : PacketBase
     {
         /// <summary>
-        /// Gets or sets a value indicating whether all components have been read.
+        /// Initializes a new instance of the class.
         /// </summary>
-        public bool EndOfComponents { get; set; } = false;
+        public ComponentPacket(long mimicKey, Mimic mimic, int index, int count)
+            : base(mimicKey)
+        {
+            ArgumentNullException.ThrowIfNull(mimic, nameof(mimic));
+
+            int currentIndex = 0;
+            Components = [];
+            EndOfComponents = true;
+
+            foreach (Component component in mimic.EnumerateComponents())
+            {
+                if (currentIndex++ >= index)
+                {
+                    if (Components.Count < count)
+                        Components.Add(component);
+
+                    if (Components.Count >= count)
+                    {
+                        EndOfComponents = false;
+                        break;
+                    }
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Gets a value indicating whether all components have been read.
+        /// </summary>
+        public bool EndOfComponents { get; }
 
         /// <summary>
         /// Gets the components.
         /// </summary>
-        public List<Component> Components { get; init; }
+        public List<Component> Components { get; }
     }
 }

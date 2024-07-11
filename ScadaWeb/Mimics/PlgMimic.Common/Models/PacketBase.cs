@@ -14,14 +14,6 @@ namespace Scada.Web.Plugins.PlgMimic.Models
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public PacketBase()
-        {
-            MimicKey = 0;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
         public PacketBase(long mimicKey)
         {
             MimicKey = mimicKey;
@@ -31,6 +23,6 @@ namespace Scada.Web.Plugins.PlgMimic.Models
         /// Gets the mimic key that ensures data integrity.
         /// </summary>
         [JsonNumberHandling(JsonNumberHandling.WriteAsString)]
-        public long MimicKey { get; init; }
+        public long MimicKey { get; }
     }
 }

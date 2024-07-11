@@ -12,13 +12,52 @@ namespace Scada.Web.Plugins.PlgMimic.Models
     public class ImagePacket : PacketBase
     {
         /// <summary>
-        /// Gets or sets a value indicating whether all images have been read.
+        /// Initializes a new instance of the class.
         /// </summary>
-        public bool EndOfImages { get; set; } = false;
+        public ImagePacket(long mimicKey, Mimic mimic, int index, int count, int size)
+            : base(mimicKey)
+        {
+            ArgumentNullException.ThrowIfNull(mimic, nameof(mimic));
+
+            Images = [];
+            int currentIndex = index;
+            int imageCount = mimic.Images.Count;
+            int counter = 0;
+            int totalSize = 0;
+
+            while (currentIndex < imageCount && counter < count)
+            {
+                if (currentIndex >= 0)
+                {
+                    Image image = mimic.Images.GetValueAtIndex(currentIndex);
+
+                    if (Images.Count == 0 || totalSize + image.DataSize <= size)
+                    {
+                        Images.Add(image);
+                        totalSize += image.DataSize;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                currentIndex++;
+                counter++;
+            }
+
+            EndOfImages = currentIndex >= imageCount;
+        }
+
+
+        /// <summary>
+        /// Gets a value indicating whether all images have been read.
+        /// </summary>
+        public bool EndOfImages { get; }
 
         /// <summary>
         /// Gets the images.
         /// </summary>
-        public List<Image> Images { get; init; }
+        public List<Image> Images { get; }
     }
 }

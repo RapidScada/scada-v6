@@ -13,18 +13,31 @@ namespace Scada.Web.Plugins.PlgMimic.Models
     public class FaceplatePacket : PacketBase
     {
         /// <summary>
-        /// Gets or sets the faceplate document.
+        /// Initializes a new instance of the class.
         /// </summary>
-        public ExpandoObject Document { get; init; }
+        public FaceplatePacket(long mimicKey, Faceplate faceplate)
+            : base(mimicKey)
+        {
+            ArgumentNullException.ThrowIfNull(faceplate, nameof(faceplate));
+            Document = faceplate.Document;
+            Components = faceplate.Components;
+            Images = faceplate.Images.Values;
+        }
+
+
+        /// <summary>
+        /// Gets the faceplate document.
+        /// </summary>
+        public ExpandoObject Document { get; }
 
         /// <summary>
         /// Gets the components.
         /// </summary>
-        public IList<Component> Components { get; init; }
+        public IList<Component> Components { get; }
 
         /// <summary>
         /// Gets the images.
         /// </summary>
-        public IList<Image> Images { get; init; }
+        public IList<Image> Images { get; }
     }
 }

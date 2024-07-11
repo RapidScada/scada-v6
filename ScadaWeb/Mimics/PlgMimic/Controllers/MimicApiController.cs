@@ -2,9 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Mvc;
+using Scada.Lang;
 using Scada.Web.Api;
 using Scada.Web.Lang;
 using Scada.Web.Plugins.PlgMimic.Code;
+using Scada.Web.Plugins.PlgMimic.MimicModel;
 using Scada.Web.Plugins.PlgMimic.Models;
 using Scada.Web.Services;
 
@@ -44,7 +46,17 @@ namespace Scada.Web.Plugins.PlgMimic.Controllers
         /// </summary>
         public Dto<ComponentPacket> GetComponents(long key, int index, int count)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return viewLoader.GetView((int)key, false, out MimicView mimicView, out string errMsg)
+                    ? Dto<ComponentPacket>.Success(new ComponentPacket(key, mimicView.Mimic, index, count))
+                    : Dto<ComponentPacket>.Fail(errMsg);
+            }
+            catch (Exception ex)
+            {
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetComponents)));
+                return Dto<ComponentPacket>.Fail(ex.Message);
+            }
         }
 
         /// <summary>
@@ -52,7 +64,9 @@ namespace Scada.Web.Plugins.PlgMimic.Controllers
         /// </summary>
         public Dto<ImagePacket> GetImages(long key, int index, int count, int size)
         {
-            throw new NotImplementedException();
+            return viewLoader.GetView((int)key, false, out MimicView mimicView, out string errMsg)
+                ? Dto<ImagePacket>.Success(new ImagePacket(key, mimicView.Mimic, index, count, size))
+                : Dto<ImagePacket>.Fail(errMsg);
         }
 
         /// <summary>
@@ -60,7 +74,31 @@ namespace Scada.Web.Plugins.PlgMimic.Controllers
         /// </summary>
         public Dto<FaceplatePacket> GetFaceplate(long key, string typeName)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (viewLoader.GetView((int)key, false, out MimicView mimicView, out string errMsg))
+                {
+                    if (mimicView.Mimic.Faceplates.TryGetValue(typeName, out Faceplate faceplate))
+                    {
+                        return Dto<FaceplatePacket>.Success(new FaceplatePacket(key, faceplate));
+                    }
+                    else
+                    {
+                        return Dto<FaceplatePacket>.Fail(Locale.IsRussian ?
+                            "Фейсплейт не найден." :
+                            "Faceplate not found.");
+                    }
+                }
+                else
+                {
+                    return Dto<FaceplatePacket>.Fail(errMsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetFaceplate)));
+                return Dto<FaceplatePacket>.Fail(ex.Message);
+            }
         }
     }
 }
