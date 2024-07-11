@@ -12,9 +12,25 @@ namespace Scada.Web.Plugins.PlgMimic.Models
     public abstract class PacketBase
     {
         /// <summary>
-        /// Gets or sets the stamp of the mimic that ensures data integrity.
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public PacketBase()
+        {
+            MimicKey = 0;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public PacketBase(long mimicKey)
+        {
+            MimicKey = mimicKey;
+        }
+
+        /// <summary>
+        /// Gets the mimic key that ensures data integrity.
         /// </summary>
         [JsonNumberHandling(JsonNumberHandling.WriteAsString)]
-        public long MimicStamp { get; set; } = 0;
+        public long MimicKey { get; init; }
     }
 }

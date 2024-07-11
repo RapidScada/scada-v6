@@ -3,8 +3,10 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Scada.Web.Api;
-using Scada.Web.Plugins.PlgMimic.MimicModel;
-using System.Dynamic;
+using Scada.Web.Lang;
+using Scada.Web.Plugins.PlgMimic.Code;
+using Scada.Web.Plugins.PlgMimic.Models;
+using Scada.Web.Services;
 
 namespace Scada.Web.Plugins.PlgMimic.Controllers
 {
@@ -14,28 +16,51 @@ namespace Scada.Web.Plugins.PlgMimic.Controllers
     /// </summary>
     [ApiController]
     [Route("Api/Mimic/[action]")]
-    public class MimicApiController : ControllerBase //, IMimicApiController
+    [CamelCaseJsonFormatter]
+    public class MimicApiController(
+        IWebContext webContext,
+        IViewLoader viewLoader) : ControllerBase, IMimicApiController
     {
-        public Dto<Component> GetComponent()
+        /// <summary>
+        /// Gets the mimic properties.
+        /// </summary>
+        public Dto<MimicPacket> GetMimicProperties(long key)
         {
-            Component component = new()
+            try
             {
-                ID = 1,
-                Name = "Test"
-            };
+                return viewLoader.GetView((int)key, true, out MimicView mimicView, out string errMsg)
+                    ? Dto<MimicPacket>.Success(new MimicPacket(key, mimicView.Mimic))
+                    : Dto<MimicPacket>.Fail(errMsg);
+            }
+            catch (Exception ex)
+            {
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetMimicProperties)));
+                return Dto<MimicPacket>.Fail(ex.Message);
+            }
+        }
 
-            dynamic props = component.Properties;
-            props.Prop1 = "aaa";
-            props.Prop2 = DateTime.UtcNow;
+        /// <summary>
+        /// Gets a range of components.
+        /// </summary>
+        public Dto<ComponentPacket> GetComponents(long key, int index, int count)
+        {
+            throw new NotImplementedException();
+        }
 
-            dynamic myObj = new ExpandoObject();
-            myObj.Field1 = 123.45;
-            props.Prop3 = myObj;
+        /// <summary>
+        /// Gets a range of images.
+        /// </summary>
+        public Dto<ImagePacket> GetImages(long key, int index, int count, int size)
+        {
+            throw new NotImplementedException();
+        }
 
-            IDictionary<string, object> dict = component.Properties;
-            dict.Add("Prop4", "abc");
-
-            return Dto<Component>.Success(component);
+        /// <summary>
+        /// Gets the faceplate.
+        /// </summary>
+        public Dto<FaceplatePacket> GetFaceplate(long key, string typeName)
+        {
+            throw new NotImplementedException();
         }
     }
 }

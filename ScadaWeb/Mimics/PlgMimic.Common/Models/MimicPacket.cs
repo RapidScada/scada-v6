@@ -13,13 +13,25 @@ namespace Scada.Web.Plugins.PlgMimic.Models
     public class MimicPacket : PacketBase
     {
         /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public MimicPacket(long mimicKey, Mimic mimic)
+            : base(mimicKey)
+        {
+            ArgumentNullException.ThrowIfNull(mimic, nameof(mimic));
+            Dependencies = mimic.Dependencies;
+            Document = mimic.Document;
+        }
+
+
+        /// <summary>
         /// Gets the mimic dependencies.
         /// </summary>
-        public List<FaceplateMeta> Dependencies { get; init; }
+        public List<FaceplateMeta> Dependencies { get; }
 
         /// <summary>
         /// Gets or sets the mimic document.
         /// </summary>
-        public ExpandoObject Document { get; init; }
+        public ExpandoObject Document { get; }
     }
 }

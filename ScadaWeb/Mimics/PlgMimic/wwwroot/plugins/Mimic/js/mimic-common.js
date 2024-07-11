@@ -37,6 +37,6 @@ rs.mimic.LoadContext = class {
 
     constructor(controllerUrl, mimicKey) {
         this.controllerUrl = controllerUrl;
-        this.mimicKey = mimicKey;
+        this.mimicKey = mimicKey.toString();
     }
 }

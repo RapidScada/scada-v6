@@ -35,19 +35,9 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
         {
             try
             {
-                if (editorManager.FindMimic(key, out MimicInstance mimicInstance, out string errMsg))
-                {
-                    return Dto<MimicPacket>.Success(new MimicPacket
-                    {
-                        MimicStamp = key,
-                        Dependencies = mimicInstance.Mimic.Dependencies,
-                        Document = mimicInstance.Mimic.Document
-                    });
-                }
-                else
-                {
-                    return Dto<MimicPacket>.Fail(errMsg);
-                }
+                return editorManager.FindMimic(key, out MimicInstance mimicInstance, out string errMsg)
+                    ? Dto<MimicPacket>.Success(new MimicPacket(key, mimicInstance.Mimic))
+                    : Dto<MimicPacket>.Fail(errMsg);
             }
             catch (Exception ex)
             {
@@ -86,7 +76,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
                     
                     return Dto<ComponentPacket>.Success(new ComponentPacket
                     {
-                        MimicStamp = key,
+                        MimicKey = key,
                         EndOfComponents = endReached,
                         Components = components
                     });
@@ -141,7 +131,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
 
                     return Dto<ImagePacket>.Success(new ImagePacket
                     {
-                        MimicStamp = key,
+                        MimicKey = key,
                         EndOfImages = currentIndex >= imageCount,
                         Images = images
                     });
@@ -171,7 +161,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
                     {
                         return Dto<FaceplatePacket>.Success(new FaceplatePacket
                         {
-                            MimicStamp = key,
+                            MimicKey = key,
                             Document = faceplate.Document,
                             Components = faceplate.Components,
                             Images = faceplate.Images.Values

@@ -2,6 +2,7 @@
 @model MimicViewModel
 @{
     Layout = "_BasicLayout";
+    dynamic dict = Locale.GetDictionary(Model.GetType().FullName);
 }
 
 @section Styles {
@@ -16,7 +17,17 @@
     <script src="~/plugins/Mimic/js/mimic-model.js" asp-append-version="true"></script>
     <script src="~/plugins/Mimic/js/mimic-render.js" asp-append-version="true"></script>
     <script src="~/plugins/Mimic/js/mimic-view.js" asp-append-version="true"></script>
+    <script>
+        viewID = @Model.ViewID;
+    </script>
 }
 
 <div id="divMimicWrapper" class="mimic-wrapper"></div>
-<div id="divToolbar"></div>
+<div id="divToolbar"><button type="button" 
+    id="btnFitScreen" class="tool-btn" title="@dict.btnFitScreen_ToolTip"><i class="fa-solid fa-up-down-left-right"></i></button><button type="button"
+    id="btnFitWidthBtn" class="tool-btn" title="@dict.btnFitWidth_ToolTip"><i class="fa-solid fa-solid fa-left-right"></i></button><button type="button"
+    id="btnZoomOutBtn" class="tool-btn" title="@dict.btnZoomOut_ToolTip"><i class="fa-solid fa-search-minus"></i></button><button type="button"
+    id="btnZoomInBtn" class="tool-btn" title="@dict.btnZoomIn_ToolTip"><i class="fa-solid fa-search-plus"></i></button><span
+    id="spanScale">100%</span><span 
+    id="spanError"><i class="fa-solid fa-triangle-exclamation"></i></span>
+</div>

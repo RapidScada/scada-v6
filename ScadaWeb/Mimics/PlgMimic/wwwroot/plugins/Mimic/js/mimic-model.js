@@ -108,7 +108,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
         if (dto !== null) {
             if (dto.ok) {
-                if (dto.data.mimicStamp === loadContext.mimicKey) {
+                if (dto.data.mimicKey === loadContext.mimicKey) {
                     continueLoading = true;
                 } else {
                     loadContext.result.msg = "Stamp mismatch.";
