@@ -1,6 +1,6 @@
 ﻿// Contains classes: Renderer, MimicRenderer, ComponentRenderer,
-// TextRenderer, PictureRenderer, PanelRenderer, RenderContext, RendererSet
-// Depends on jquery, mimic-common.js
+// TextRenderer, PictureRenderer, PanelRenderer, RenderContext, RendererSet, UnitedRenderer
+// Depends on jquery, scada-common.js, mimic-common.js
 
 // Represents a renderer of a mimic or component.
 rs.mimic.Renderer = class {
@@ -172,4 +172,112 @@ rs.mimic.RendererSet = class {
         ["Picture", new rs.mimic.PictureRenderer()],
         ["Panel", new rs.mimic.PanelRenderer()]
     ]);
+}
+
+// Renders a mimic using appropriate renderers.
+rs.mimic.UnitedRenderer = class {
+    mimic;
+    editMode;
+    rendererSet;
+
+    constructor(mimic, editMode) {
+        this.mimic = mimic;
+        this.editMode = editMode;
+        this.rendererSet = new rs.mimic.RendererSet();
+    }
+
+    // Creates a faceplate DOM content.
+    _createFaceplateDom(faceplateInstance, unknownTypes) {
+        if (!faceplateInstance.model) {
+            unknownTypes.add(faceplateInstance.typeName);
+            return;
+        }
+
+        let renderContext = new rs.mimic.RenderContext();
+        renderContext.editMode = this.editMode;
+        renderContext.imageMap = faceplateInstance.model.imageMap;
+
+        faceplateInstance.renderer = this.rendererSet.faceplateRenderer;
+        this.rendererSet.faceplateRenderer.createDom(faceplateInstance, renderContext);
+        renderContext.idPrefix = faceplateInstance.id + "-";
+
+        for (let component of faceplateInstance.components) {
+            let renderer = this.rendererSet.componentRenderers.get(component.typeName);
+
+            if (renderer) {
+                component.renderer = renderer;
+                renderer.createDom(component, renderContext);
+
+                if (component.dom && component.parent?.dom) {
+                    component.parent.dom.append(component.dom);
+                }
+            } else {
+                unknownTypes.add(component.typeName);
+            }
+        }
+    }
+
+    // Creates a mimic DOM content according to the mimic model. Returns a jQuery object.
+    createMimicDom() {
+        let startTime = Date.now();
+        let unknownTypes = new Set();
+
+        let renderContext = new rs.mimic.RenderContext();
+        renderContext.editMode = this.editMode;
+        renderContext.imageMap = this.mimic.imageMap;
+        this.rendererSet.mimicRenderer.createDom(this.mimic, renderContext);
+
+        for (let component of this.mimic.components) {
+            if (component.isFaceplate) {
+                this._createFaceplateDom(component, unknownTypes);
+            } else {
+                let renderer = this.rendererSet.componentRenderers.get(component.typeName);
+
+                if (renderer) {
+                    component.renderer = renderer;
+                    renderer.createDom(component, renderContext);
+                } else {
+                    unknownTypes.add(component.typeName);
+                }
+            }
+
+            if (component.dom && component.parent?.dom) {
+                component.parent.dom.append(component.dom);
+            }
+        }
+
+        if (unknownTypes.size > 0) {
+            console.warn("Unknown component types: " + Array.from(unknownTypes).sort().join(", "));
+        }
+
+        if (this.mimic.dom) {
+            console.info(ScadaUtils.getCurrentTime() + " Mimic DOM created in " + (Date.now() - startTime) + " ms");
+            return this.mimic.dom;
+        } else {
+            return $();
+        }
+    }
+
+    // Update the component DOM content according to the component model.
+    updateComponentDom(component) {
+        if (component.dom && component.renderer) {
+            let renderContext = new rs.mimic.RenderContext();
+            renderContext.editMode = this.editMode;
+
+            if (component.isFaceplate) {
+                renderContext.imageMap = component.model.imageMap;
+                component.renderer.updateDom(component, renderContext);
+            } else {
+                renderContext.imageMap = mimic.imageMap;
+
+                if (component.renderer.canUpdateDom) {
+                    component.renderer.updateDom(component, renderContext);
+                } else {
+                    let oldDom = component.dom;
+                    component.renderer.createDom(component, renderContext);
+                    oldDom.replaceWith(component.dom);
+                }
+            }
+        }
+    }
 }

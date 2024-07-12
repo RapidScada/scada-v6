@@ -2,7 +2,7 @@
 
 const UPDATE_RATE = 1000;
 const mimic = new rs.mimic.Mimic();
-const rendererSet = new rs.mimic.RendererSet();
+const unitedRenderer = new rs.mimic.UnitedRenderer(mimic, true);
 const updateQueue = [];
 
 var rootPath = "/";
@@ -36,7 +36,7 @@ async function loadMimic() {
     let result = await mimic.load(getLoaderUrl(), mimicKey);
 
     if (result.ok) {
-        createMimicDom();
+        mimicWrapperElem.append(unitedRenderer.createMimicDom());
     } else {
         // show error
     }
@@ -53,99 +53,6 @@ function getLoaderUrl() {
 
 function getUpdaterUrl() {
     return rootPath + "Api/MimicEditor/Updater/";
-}
-
-function createRenderContext() {
-    let renderContext = new rs.mimic.RenderContext();
-    renderContext.editMode = true;
-    return renderContext;
-}
-
-function createMimicDom() {
-    let startTime = Date.now();
-    let unknownTypes = new Set();
-
-    let renderContext = createRenderContext();
-    renderContext.imageMap = mimic.imageMap;
-    rendererSet.mimicRenderer.createDom(mimic, renderContext);
-
-    for (let component of mimic.components) {
-        if (component.isFaceplate) {
-            createFaceplateDom(component, unknownTypes);
-        } else {
-            let renderer = rendererSet.componentRenderers.get(component.typeName);
-
-            if (renderer) {
-                component.renderer = renderer;
-                renderer.createDom(component, renderContext);
-            } else {
-                unknownTypes.add(component.typeName);
-            }
-        }
-
-        if (component.dom && component.parent?.dom) {
-            component.parent.dom.append(component.dom);
-        }
-    }
-
-    if (unknownTypes.size > 0) {
-        console.warn("Unknown component types: " + Array.from(unknownTypes).sort().join(", "));
-    }
-
-    if (mimic.dom) {
-        mimicWrapperElem.append(mimic.dom);
-        console.info(ScadaUtils.getCurrentTime() + " Mimic DOM created in " + (Date.now() - startTime) + " ms");
-    }
-}
-
-function createFaceplateDom(faceplateInstance, unknownTypes) {
-    if (!faceplateInstance.model) {
-        unknownTypes.add(faceplateInstance.typeName);
-        return;
-    }
-
-    let renderContext = createRenderContext();
-    renderContext.imageMap = faceplateInstance.model.imageMap;
-
-    faceplateInstance.renderer = rendererSet.faceplateRenderer;
-    rendererSet.faceplateRenderer.createDom(faceplateInstance, renderContext);
-    renderContext.idPrefix = faceplateInstance.id + "-";
-
-    for (let component of faceplateInstance.components) {
-        let renderer = rendererSet.componentRenderers.get(component.typeName);
-
-        if (renderer) {
-            component.renderer = renderer;
-            renderer.createDom(component, renderContext);
-
-            if (component.dom && component.parent?.dom) {
-                component.parent.dom.append(component.dom);
-            }
-        } else {
-            unknownTypes.add(component.typeName);
-        }
-    }
-}
-
-function updateComponentDom(component) {
-    if (component.dom && component.renderer) {
-        let renderContext = createRenderContext();
-
-        if (component.isFaceplate) {
-            renderContext.imageMap = component.model.imageMap;
-            component.renderer.updateDom(component, renderContext);
-        } else {
-            renderContext.imageMap = mimic.imageMap;
-
-            if (component.renderer.canUpdateDom) {
-                component.renderer.updateDom(component, renderContext);
-            } else {
-                let oldDom = component.dom;
-                component.renderer.createDom(component, renderContext);
-                oldDom.replaceWith(component.dom);
-            }
-        }
-    }
 }
 
 async function postUpdates() {
@@ -189,7 +96,7 @@ function testEdit() {
         // update client side
         const textValue = "Hello";
         component.properties.text = textValue;
-        updateComponentDom(component);
+        unitedRenderer.updateComponentDom(component);
 
         // update server side
         let change = Change.updateComponent(component.id, { text: textValue });
