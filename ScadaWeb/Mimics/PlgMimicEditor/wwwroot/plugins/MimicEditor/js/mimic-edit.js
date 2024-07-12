@@ -32,6 +32,22 @@ function updateLayout() {
     $("#divMimicWrapper").outerWidth(windowWidth - leftPanelWidth - splitterWidth);
 }
 
+function initTweakpane() {
+    let PARAMS = {
+        text: 'hello, world',
+        number: 1.0
+    };
+
+    let containerElem = $("<div id='tweakpane'></div>").appendTo("#divLeftPanel");
+
+    let pane = new Pane({
+        container: containerElem[0]
+    });
+
+    pane.addBinding(PARAMS, "text");
+    pane.addBinding(PARAMS, "number");
+}
+
 async function loadMimic() {
     let result = await mimic.load(getLoaderUrl(), mimicKey);
 
@@ -111,6 +127,7 @@ $(async function () {
 
     bindEvents();
     updateLayout();
+    initTweakpane();
     await loadMimic();
     await startUpdatingBackend();
 });

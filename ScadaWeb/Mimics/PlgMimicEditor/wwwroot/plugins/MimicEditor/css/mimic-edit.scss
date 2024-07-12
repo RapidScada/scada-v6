@@ -37,3 +37,29 @@ $border-color: var(--bs-gray-500);
 #divMimicWrapper {
     background-color: var(--bs-gray-100);
 }
+
+/* Tweakpane */
+#tweakpane {
+    --tp-base-background-color: hsla(230, 5%, 90%, 1.00);
+    --tp-base-shadow-color: transparent;
+    --tp-button-background-color: hsla(230, 7%, 75%, 1.00);
+    --tp-button-background-color-active: hsla(230, 7%, 60%, 1.00);
+    --tp-button-background-color-focus: hsla(230, 7%, 65%, 1.00);
+    --tp-button-background-color-hover: hsla(230, 7%, 70%, 1.00);
+    --tp-button-foreground-color: hsla(230, 10%, 30%, 1.00);
+    --tp-container-background-color: hsla(230, 15%, 30%, 0.20);
+    --tp-container-background-color-active: hsla(230, 15%, 30%, 0.32);
+    --tp-container-background-color-focus: hsla(230, 15%, 30%, 0.28);
+    --tp-container-background-color-hover: hsla(230, 15%, 30%, 0.24);
+    --tp-container-foreground-color: hsla(230, 10%, 30%, 1.00);
+    --tp-groove-foreground-color: hsla(230, 15%, 30%, 0.10);
+    --tp-input-background-color: hsla(230, 15%, 30%, 0.10);
+    --tp-input-background-color-active: hsla(230, 15%, 30%, 0.22);
+    --tp-input-background-color-focus: hsla(230, 15%, 30%, 0.18);
+    --tp-input-background-color-hover: hsla(230, 15%, 30%, 0.14);
+    --tp-input-foreground-color: hsla(230, 10%, 30%, 1.00);
+    --tp-label-foreground-color: hsla(230, 10%, 30%, 0.70);
+    --tp-monitor-background-color: hsla(230, 15%, 30%, 0.10);
+    --tp-monitor-foreground-color: hsla(230, 10%, 30%, 0.50);
+    --tp-base-border-radius: 0;
+}

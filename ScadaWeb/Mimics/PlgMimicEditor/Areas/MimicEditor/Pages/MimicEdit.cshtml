@@ -10,6 +10,10 @@
 }
 
 @section Scripts {
+    <script type="module">
+        import { Pane } from './../../../plugins/MimicEditor/lib/tweakpane/tweakpane-4.0.4.min.js';
+        window.Pane = Pane;
+    </script>
     <script src="~/js/components/splitter.js" asp-append-version="true"></script>
     <script src="~/plugins/Mimic/js/mimic-common.js" asp-append-version="true"></script>
     <script src="~/plugins/Mimic/js/mimic-model.js" asp-append-version="true"></script>
