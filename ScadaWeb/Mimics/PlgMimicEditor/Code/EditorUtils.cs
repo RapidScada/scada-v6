@@ -36,5 +36,13 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             projectFileName = "";
             return false;
         }
+
+        /// <summary>
+        /// Gets the directory of views for the specified project.
+        /// </summary>
+        public static string GetViewDir(string projectFileName)
+        {
+            return ScadaUtils.NormalDir(Path.Combine(Path.GetDirectoryName(projectFileName), "Views"));
+        }
     }
 }

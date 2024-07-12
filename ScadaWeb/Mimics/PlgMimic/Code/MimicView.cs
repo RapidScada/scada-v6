@@ -30,27 +30,18 @@ namespace Scada.Web.Plugins.PlgMimic.Code
 
 
         /// <summary>
-        /// Gets a resource path relative to the view directory.
-        /// </summary>
-        private static string GetResourcePath(string mimicDir, string faceplatePath)
-        {
-            return mimicDir + '\\' + faceplatePath;
-        }
-
-        /// <summary>
         /// Loads the view from the specified stream.
         /// </summary>
         public override void LoadView(Stream stream)
         {
             Mimic.Load(stream);
-            string mimicDir = Path.GetDirectoryName(ViewEntity.Path);
 
             foreach (FaceplateMeta faceplateMeta in Mimic.Dependencies)
             {
                 Resources.Add(new ViewResource
                 {
                     TypeCode = faceplateMeta.TypeName,
-                    Path = GetResourcePath(mimicDir, faceplateMeta.Path)
+                    Path = faceplateMeta.Path
                 });
             }
         }

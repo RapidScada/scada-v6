@@ -15,16 +15,22 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public MimicGroup()
+        public MimicGroup(string projectFileName)
         {
+            ProjectFileName = projectFileName;
             mimicInstances = [];
         }
 
 
         /// <summary>
+        /// Gets the name of the project file corresponding to the group.
+        /// </summary>
+        public string ProjectFileName { get; }
+
+        /// <summary>
         /// Gets the group name.
         /// </summary>
-        public string Name { get; init; }
+        public string Name => ProjectFileName;
 
         /// <summary>
         /// Gets a value indicating whether the group does not contain any mimics.

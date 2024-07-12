@@ -18,7 +18,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
     {
         private readonly IWebContext webContext; // the web application context
         private readonly object editorLock;      // synchronizes access to the open mimics
-        private readonly Dictionary<string, MimicGroup> mimicGroups;        // the mimic groups accessed by group name
+        private readonly Dictionary<string, MimicGroup> mimicGroups;        // the mimic groups by project file name
         private readonly Dictionary<string, MimicInstance> mimicByFileName; // the mimics accessed by file name
         private readonly Dictionary<long, MimicInstance> mimicByKey;        // the mimics accessed by editor key
 
@@ -63,32 +63,28 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// <summary>
         /// Adds the specified mimic to the editor.
         /// </summary>
-        private MimicInstance AddMimic(string fileName, Mimic mimic)
+        private MimicInstance AddMimic(string projectFileName, string mimicFileName, Mimic mimic)
         {
-            if (!EditorUtils.FindProject(fileName, out string projectFileName))
-                throw new ScadaException(EditorPhrases.ProjectNotFound);
-
-            string groupName = projectFileName;
             MimicGroup mimicGroup;
 
             lock (mimicGroups)
             {
-                if (!mimicGroups.TryGetValue(groupName, out mimicGroup))
+                if (!mimicGroups.TryGetValue(projectFileName, out mimicGroup))
                 {
-                    mimicGroup = new MimicGroup { Name = groupName };
-                    mimicGroups.Add(groupName, mimicGroup);
+                    mimicGroup = new MimicGroup(projectFileName);
+                    mimicGroups.Add(projectFileName, mimicGroup);
                 }
             }
 
             MimicInstance mimicInstance = new()
             {
-                FileName = fileName,
+                FileName = mimicFileName,
                 Mimic = mimic,
                 MimicKey = ScadaUtils.GenerateUniqueID(),
                 ParentGroup = mimicGroup
             };
 
-            mimicByFileName.Add(fileName, mimicInstance);
+            mimicByFileName.Add(mimicFileName, mimicInstance);
             mimicByKey.Add(mimicInstance.MimicKey, mimicInstance);
             mimicGroup.AddMimic(mimicInstance);
             return mimicInstance;
@@ -131,6 +127,10 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                     };
                 }
 
+                // find project
+                if (!EditorUtils.FindProject(fileName, out string projectFileName))
+                    throw new ScadaException(EditorPhrases.ProjectNotFound);
+
                 // load mimic
                 Mimic mimic = new();
 
@@ -140,14 +140,14 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 }
 
                 // load faceplates
-                string mimicDir = Path.GetDirectoryName(fileName);
+                string viewDir = EditorUtils.GetViewDir(projectFileName);
 
                 foreach (FaceplateMeta faceplateMeta in mimic.Dependencies)
                 {
                     if (!string.IsNullOrEmpty(faceplateMeta.TypeName) &&
                         !mimic.Faceplates.ContainsKey(faceplateMeta.TypeName))
                     {
-                        string faceplateFileName = Path.Combine(mimicDir, faceplateMeta.Path);
+                        string faceplateFileName = Path.Combine(viewDir, faceplateMeta.Path);
                         using FileStream faceplateStream =
                             new(faceplateFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
@@ -158,7 +158,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 }
 
                 // add mimic to the editor
-                MimicInstance mimicInstance = AddMimic(fileName, mimic);
+                MimicInstance mimicInstance = AddMimic(projectFileName, fileName, mimic);
                 PluginLog.WriteAction(Locale.IsRussian ?
                     "Загружена мнемосхема {0}" :
                     "{0} mimic loaded", fileName);
