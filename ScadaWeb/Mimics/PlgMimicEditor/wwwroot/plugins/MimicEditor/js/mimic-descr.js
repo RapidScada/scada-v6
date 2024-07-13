@@ -20,12 +20,13 @@ rs.mimic.PropertyDescriptor = class {
 rs.mimic.BasicType = class {
     static UNDEFINED = 0;
     static BOOL = 1;
-    static ENUM = 2;
-    static FLOAT = 3;
-    static INT = 4;
-    static POINT = 5;
-    static SIZE = 6;
-    static STRING = 7;
+    static COLOR = 2;
+    static ENUM = 3;
+    static FLOAT = 4;
+    static INT = 5;
+    static POINT = 6;
+    static SIZE = 7;
+    static STRING = 8;
 }
 
 // Represents a descriptor of a mimic or component.
