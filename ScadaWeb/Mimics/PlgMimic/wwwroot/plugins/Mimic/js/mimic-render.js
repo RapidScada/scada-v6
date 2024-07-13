@@ -1,5 +1,5 @@
 ﻿// Contains classes: Renderer, MimicRenderer, ComponentRenderer,
-// TextRenderer, PictureRenderer, PanelRenderer, RenderContext, RendererSet, UnitedRenderer
+//     TextRenderer, PictureRenderer, PanelRenderer, RenderContext, RendererSet, UnitedRenderer
 // Depends on jquery, scada-common.js, mimic-common.js
 
 // Represents a renderer of a mimic or component.
@@ -165,9 +165,9 @@ rs.mimic.RenderContext = class {
 
 // Contains renderers for a mimic and its components.
 rs.mimic.RendererSet = class {
-    mimicRenderer = new rs.mimic.MimicRenderer();
-    faceplateRenderer = new rs.mimic.FaceplateRenderer();
-    componentRenderers = new Map([
+    static mimicRenderer = new rs.mimic.MimicRenderer();
+    static faceplateRenderer = new rs.mimic.FaceplateRenderer();
+    static componentRenderers = new Map([
         ["Text", new rs.mimic.TextRenderer()],
         ["Picture", new rs.mimic.PictureRenderer()],
         ["Panel", new rs.mimic.PanelRenderer()]
@@ -178,12 +178,10 @@ rs.mimic.RendererSet = class {
 rs.mimic.UnitedRenderer = class {
     mimic;
     editMode;
-    rendererSet;
 
     constructor(mimic, editMode) {
         this.mimic = mimic;
         this.editMode = editMode;
-        this.rendererSet = new rs.mimic.RendererSet();
     }
 
     // Creates a faceplate DOM content.
@@ -197,12 +195,13 @@ rs.mimic.UnitedRenderer = class {
         renderContext.editMode = this.editMode;
         renderContext.imageMap = faceplateInstance.model.imageMap;
 
-        faceplateInstance.renderer = this.rendererSet.faceplateRenderer;
-        this.rendererSet.faceplateRenderer.createDom(faceplateInstance, renderContext);
+        const RendererSet = rs.mimic.RendererSet;
+        faceplateInstance.renderer = RendererSet.faceplateRenderer;
+        RendererSet.faceplateRenderer.createDom(faceplateInstance, renderContext);
         renderContext.idPrefix = faceplateInstance.id + "-";
 
         for (let component of faceplateInstance.components) {
-            let renderer = this.rendererSet.componentRenderers.get(component.typeName);
+            let renderer = RendererSet.componentRenderers.get(component.typeName);
 
             if (renderer) {
                 component.renderer = renderer;
@@ -219,19 +218,20 @@ rs.mimic.UnitedRenderer = class {
 
     // Creates a mimic DOM content according to the mimic model. Returns a jQuery object.
     createMimicDom() {
+        const RendererSet = rs.mimic.RendererSet;
         let startTime = Date.now();
         let unknownTypes = new Set();
 
         let renderContext = new rs.mimic.RenderContext();
         renderContext.editMode = this.editMode;
         renderContext.imageMap = this.mimic.imageMap;
-        this.rendererSet.mimicRenderer.createDom(this.mimic, renderContext);
+        RendererSet.mimicRenderer.createDom(this.mimic, renderContext);
 
         for (let component of this.mimic.components) {
             if (component.isFaceplate) {
                 this._createFaceplateDom(component, unknownTypes);
             } else {
-                let renderer = this.rendererSet.componentRenderers.get(component.typeName);
+                let renderer = RendererSet.componentRenderers.get(component.typeName);
 
                 if (renderer) {
                     component.renderer = renderer;
