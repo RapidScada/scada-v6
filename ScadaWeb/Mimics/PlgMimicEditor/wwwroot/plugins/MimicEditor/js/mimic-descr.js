@@ -1,4 +1,4 @@
-﻿// Contains classes: PropertyDescriptor, BasicType, TypeDescriptor, Descriptor, MimicDescriptor, ComponentDescriptor,
+﻿// Contains classes: PropertyDescriptor, BasicType, Descriptor, MimicDescriptor, ComponentDescriptor,
 //     TextDescriptor, PictureDescriptor, PanelDescriptor, DescriptorSet, Translation
 // Depends on mimic-common.js
 
@@ -8,7 +8,8 @@ rs.mimic.PropertyDescriptor = class {
     displayName = "";
     isReadOnly = false;
     defaultValue = undefined;
-    type = rs.mimic.TypeDescriptor.STRING;
+    type = rs.mimic.BasicType.UNDEFINED;
+    format = {}; // Tweakpane binding options
 
     constructor(source) {
         Object.assign(this, source);
@@ -27,36 +28,6 @@ rs.mimic.BasicType = class {
     static STRING = 7;
 }
 
-// Provides meta information about a property type and format.
-rs.mimic.TypeDescriptor = class {
-    static BOOL;
-    static FLOAT;
-    static INT;
-    static POINT;
-    static SIZE;
-    static STRING;
-
-    basicType;
-    format; // Tweakpane binding options
-
-    static {
-        const BasicType = rs.mimic.BasicType;
-        const TypeDescriptor = this;
-
-        TypeDescriptor.BOOL = new TypeDescriptor(BasicType.BOOL);
-        TypeDescriptor.FLOAT = new TypeDescriptor(BasicType.FLOAT);
-        TypeDescriptor.INT = new TypeDescriptor(BasicType.INT);
-        TypeDescriptor.POINT = new TypeDescriptor(BasicType.POINT);
-        TypeDescriptor.SIZE = new TypeDescriptor(BasicType.SIZE);
-        TypeDescriptor.STRING = new TypeDescriptor(BasicType.STRING);
-    }
-
-    constructor(basicType, opt_format) {
-        this.basicType = basicType;
-        this.format = opt_format;
-    }
-}
-
 // Represents a descriptor of a mimic or component.
 rs.mimic.Descriptor = class {
     propertyDescriptors = [];
@@ -71,7 +42,7 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.Descriptor {
         this.propertyDescriptors.push(new PropertyDescriptor({
             name: "size",
             displayName: "Size",
-            type: rs.mimic.TypeDescriptor.SIZE
+            type: rs.mimic.BasicType.SIZE
         }));
     }
 }
@@ -86,25 +57,25 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.Descriptor {
             name: "id",
             displayName: "ID",
             isReadOnly: true,
-            type: rs.mimic.TypeDescriptor.INT
+            type: rs.mimic.BasicType.INT
         }));
 
         this.propertyDescriptors.push(new PropertyDescriptor({
             name: "name",
             displayName: "Name",
-            type: rs.mimic.TypeDescriptor.STRING
+            type: rs.mimic.BasicType.STRING
         }));
 
         this.propertyDescriptors.push(new PropertyDescriptor({
             name: "location",
             displayName: "Location",
-            type: rs.mimic.TypeDescriptor.POINT
+            type: rs.mimic.BasicType.POINT
         }));
 
         this.propertyDescriptors.push(new PropertyDescriptor({
             name: "size",
             displayName: "Size",
-            type: rs.mimic.TypeDescriptor.SIZE
+            type: rs.mimic.BasicType.SIZE
         }));
     }
 }
@@ -118,7 +89,7 @@ rs.mimic.TextDescriptor = class extends rs.mimic.ComponentDescriptor {
         this.propertyDescriptors.push(new PropertyDescriptor({
             name: "text",
             displayName: "Text",
-            type: rs.mimic.TypeDescriptor.STRING
+            type: rs.mimic.BasicType.STRING
         }));
     }
 }
@@ -132,7 +103,7 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.ComponentDescriptor {
         this.propertyDescriptors.push(new PropertyDescriptor({
             name: "imageName",
             displayName: "Image name",
-            type: rs.mimic.TypeDescriptor.STRING
+            type: rs.mimic.BasicType.STRING
         }));
     }
 }
