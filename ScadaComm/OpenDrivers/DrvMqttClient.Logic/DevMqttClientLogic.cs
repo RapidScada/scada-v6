@@ -171,8 +171,9 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
             jsEngine.SetValue("payload", message.Payload);
 
             // load source code
-            subscriptionTag.JsSource ??=
-                Storage.ReadText(Storages.DataCategory.Config, subscriptionTag.SubscriptionConfig.JsFileName);
+            // braces are needed to distinguish variable scopes between executions
+            subscriptionTag.JsSource ??= "{" + 
+                Storage.ReadText(Storages.DataCategory.Config, subscriptionTag.SubscriptionConfig.JsFileName) + "}";
 
             // initialize tag data
             int tagCount = Math.Max(1, subscriptionTag.SubscriptionConfig.SubItems.Count);
