@@ -48,6 +48,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         private readonly ModuleConfig moduleConfig; // the module configuration
         private readonly InfluxHAO options;         // the archive options
         private readonly int writingPeriod;         // the writing period in seconds
+        private readonly int writingOffset;         // the writing offset in seconds
         private readonly ILog appLog;               // the application log
         private readonly ILog arcLog;               // the archive log
         private readonly CnlDataEqualsDelegate cnlDataEqualsFunc; // the function for comparing channel data
@@ -71,7 +72,8 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         {
             this.moduleConfig = moduleConfig ?? throw new ArgumentNullException(nameof(moduleConfig));
             options = new InfluxHAO(archiveConfig.CustomOptions);
-            writingPeriod = GetPeriodInSec(options.WritingPeriod, options.WritingPeriodUnit);
+            writingPeriod = ConvertToSeconds(options.WritingPeriod, options.WritingPeriodUnit);
+            writingOffset = ConvertToSeconds(options.WritingOffset, options.WritingOffsetUnit);
             appLog = archiveContext.Log;
             arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
             cnlDataEqualsFunc = SelectCnlDataEquals();
@@ -292,7 +294,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         {
             lock (writingLock)
             {
-                DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod);
+                DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod, writingOffset);
                 nextWriteTime = writeTime.AddSeconds(writingPeriod);
 
                 Stopwatch stopwatch = Stopwatch.StartNew();
@@ -440,7 +442,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
             if (!options.ReadOnly)
             {
                 if (options.WriteWithPeriod)
-                    nextWriteTime = GetNextWriteTime(DateTime.UtcNow, writingPeriod);
+                    nextWriteTime = GetNextWriteTime(DateTime.UtcNow, writingPeriod, writingOffset);
 
                 if (options.WriteOnChange)
                     appLog.WriteWarning(ServerPhrases.ArchiveMessage, Code, ServerPhrases.WritingOnChangeIsSlow);
@@ -637,8 +639,8 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
             else if (options.IsPeriodic)
             {
                 return options.PullToPeriod > 0
-                    ? PullTimeToPeriod(ref timestamp, writingPeriod, options.PullToPeriod)
-                    : TimeIsMultipleOfPeriod(timestamp, writingPeriod);
+                    ? PullTimeToPeriod(ref timestamp, writingPeriod, writingOffset, options.PullToPeriod)
+                    : TimeIsMultipleOfPeriod(timestamp, writingPeriod, writingOffset);
             }
             else
             {

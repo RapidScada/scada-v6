@@ -180,35 +180,35 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
-        /// Gets the time period in seconds.
+        /// Converts the specified value to seconds according to its unit.
         /// </summary>
-        protected static int GetPeriodInSec(int period, TimeUnit timeUnit)
+        protected static int ConvertToSeconds(int value, TimeUnit timeUnit)
         {
             switch (timeUnit)
             {
                 case TimeUnit.Minute:
-                    return period * 60;
+                    return value * 60;
                 case TimeUnit.Hour:
-                    return period * 3600;
+                    return value * 3600;
                 default: // TimeUnit.Second
-                    return period;
+                    return value;
             }
         }
 
         /// <summary>
         /// Checks that the timestamp is a multiple of the period.
         /// </summary>
-        protected static bool TimeIsMultipleOfPeriod(DateTime timestamp, int period)
+        protected static bool TimeIsMultipleOfPeriod(DateTime timestamp, int period, int offset)
         {
-            return period > 0 && (int)Math.Round(timestamp.TimeOfDay.TotalMilliseconds) % (period * 1000) == 0;
+            return period > 0 && (int)timestamp.TimeOfDay.TotalMilliseconds % (period * 1000) == offset * 1000;
         }
 
         /// <summary>
         /// Pulls a timestamp to the closest periodic timestamp within the specified range.
         /// </summary>
-        protected static bool PullTimeToPeriod(ref DateTime timestamp, int period, int pullingRange)
+        protected static bool PullTimeToPeriod(ref DateTime timestamp, int period, int offset, int pullingRange)
         {
-            DateTime closestTime = GetClosestWriteTime(timestamp, period);
+            DateTime closestTime = GetClosestWriteTime(timestamp, period, offset);
 
             if ((timestamp - closestTime).TotalSeconds <= pullingRange)
             {

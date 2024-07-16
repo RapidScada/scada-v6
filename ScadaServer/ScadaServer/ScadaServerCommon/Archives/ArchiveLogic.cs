@@ -214,21 +214,30 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Gets the closest time to write data to the archive, less than or equal to the specified timestamp.
         /// </summary>
-        protected static DateTime GetClosestWriteTime(DateTime timestamp, int period)
+        protected static DateTime GetClosestWriteTime(DateTime timestamp, int period, int offset)
         {
-            return period > 0 ?
-                timestamp.Date.AddSeconds((int)timestamp.TimeOfDay.TotalSeconds / period * period) :
-                timestamp;
+            if (period <= 0)
+                return timestamp;
+
+            if (offset < 0)
+                offset = 0;
+            else if (offset >= period)
+                offset %= period;
+
+            int secondOfDay = (int)timestamp.TimeOfDay.TotalSeconds;
+            return secondOfDay < offset
+                ? timestamp.Date.AddSeconds(offset).AddSeconds(-period)
+                : timestamp.Date.AddSeconds((secondOfDay - offset) / period * period + offset);
         }
 
         /// <summary>
         /// Gets the next time to write data to the archive, greater than or equal to the specified timestamp.
         /// </summary>
-        protected static DateTime GetNextWriteTime(DateTime timestamp, int period)
+        protected static DateTime GetNextWriteTime(DateTime timestamp, int period, int offset)
         {
-            return period > 0 ?
-                timestamp.Date.AddSeconds(((int)timestamp.TimeOfDay.TotalSeconds / period + 1) * period) :
-                timestamp;
+            return period > 0 
+                ? GetClosestWriteTime(timestamp, period, offset).AddSeconds(period) 
+                : timestamp;
         }
 
         /// <summary>
