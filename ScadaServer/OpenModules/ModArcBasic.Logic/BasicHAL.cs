@@ -29,6 +29,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         private readonly ModuleConfig moduleConfig;        // the module configuration
         private readonly BasicHAO options;                 // the archive options
         private readonly int writingPeriod;                // the writing period in seconds
+        private readonly int writingOffset;                // the writing offset in seconds
         private readonly ILog appLog;                      // the application log
         private readonly ILog arcLog;                      // the archive log
         private readonly DataQueue<Slice> sliceQueue;      // contains slices for writing
@@ -53,7 +54,8 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         {
             this.moduleConfig = moduleConfig ?? throw new ArgumentNullException(nameof(moduleConfig));
             options = new BasicHAO(archiveConfig.CustomOptions);
-            writingPeriod = GetPeriodInSec(options.WritingPeriod, options.WritingPeriodUnit);
+            writingPeriod = ConvertToSeconds(options.WritingPeriod, options.WritingPeriodUnit);
+            writingOffset = ConvertToSeconds(options.WritingOffset, options.WritingOffsetUnit);
             appLog = archiveContext.Log;
             arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
             sliceQueue = new DataQueue<Slice>(options.MaxQueueSize);
@@ -276,7 +278,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             CheckCurrentTrendTable(utcNow);
 
             if (options.WriteWithPeriod)
-                nextWriteTime = GetNextWriteTime(utcNow, writingPeriod);
+                nextWriteTime = GetNextWriteTime(utcNow, writingPeriod, writingOffset);
 
             // start thread for writing data
             terminated = false;
@@ -533,7 +535,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         {
             if (options.WriteWithPeriod && nextWriteTime <= curData.Timestamp)
             {
-                DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod);
+                DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod, writingOffset);
                 nextWriteTime = writeTime.AddSeconds(writingPeriod);
 
                 Slice slice = new Slice(writeTime, CnlNums);
@@ -550,9 +552,9 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         {
             if (TimeInsideRetention(timestamp, DateTime.UtcNow))
             {
-                return options.PullToPeriod > 0 ?
-                    PullTimeToPeriod(ref timestamp, writingPeriod, options.PullToPeriod) :
-                    TimeIsMultipleOfPeriod(timestamp, writingPeriod);
+                return options.PullToPeriod > 0 
+                    ? PullTimeToPeriod(ref timestamp, writingPeriod, writingOffset, options.PullToPeriod)
+                    : TimeIsMultipleOfPeriod(timestamp, writingPeriod, writingOffset);
             }
             else
             {

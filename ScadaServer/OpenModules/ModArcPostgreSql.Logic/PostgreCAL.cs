@@ -326,7 +326,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         {
             if (!options.ReadOnly && nextWriteTime <= curData.Timestamp)
             {
-                nextWriteTime = GetNextWriteTime(curData.Timestamp, options.FlushPeriod);
+                nextWriteTime = GetNextWriteTime(curData.Timestamp, options.FlushPeriod, 0);
                 WriteData(curData);
             }
         }
