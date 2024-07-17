@@ -212,31 +212,54 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
+        /// Converts the specified value to a TimeSpan according to its unit.
+        /// </summary>
+        protected static TimeSpan ConvertToTimeSpan(int value, TimeUnit timeUnit)
+        {
+            switch (timeUnit)
+            {
+                case TimeUnit.Millisecond:
+                    return TimeSpan.FromMilliseconds(value);
+                case TimeUnit.Minute:
+                    return TimeSpan.FromMinutes(value);
+                case TimeUnit.Hour:
+                    return TimeSpan.FromHours(value);
+                case TimeUnit.Day:
+                    return TimeSpan.FromDays(value);
+                default: // TimeUnit.Second
+                    return TimeSpan.FromSeconds(value);
+            }
+        }
+
+        /// <summary>
         /// Gets the closest time to write data to the archive, less than or equal to the specified timestamp.
         /// </summary>
-        protected static DateTime GetClosestWriteTime(DateTime timestamp, int period, int offset)
+        protected static DateTime GetClosestWriteTime(DateTime timestamp, TimeSpan period, TimeSpan offset)
         {
-            if (period <= 0)
+            if (period <= TimeSpan.Zero)
                 return timestamp;
 
-            if (offset < 0)
-                offset = 0;
+            if (offset < TimeSpan.Zero)
+                offset = TimeSpan.Zero;
             else if (offset >= period)
-                offset %= period;
+                offset = TimeSpan.FromTicks(offset.Ticks % period.Ticks);
 
-            int secondOfDay = (int)timestamp.TimeOfDay.TotalSeconds;
-            return secondOfDay < offset
-                ? timestamp.Date.AddSeconds(offset).AddSeconds(-period)
-                : timestamp.Date.AddSeconds((secondOfDay - offset) / period * period + offset);
+            DateTime startDate = period.TotalDays <= 1
+                ? timestamp.Date
+                : new DateTime(timestamp.Year, 1, 1, 0, 0, 0, timestamp.Kind);
+            TimeSpan timeSpan = timestamp - startDate;
+            return timeSpan < offset
+                ? startDate.Add(-period).Add(offset)
+                : startDate.AddTicks((timeSpan - offset).Ticks / period.Ticks * period.Ticks + offset.Ticks);
         }
 
         /// <summary>
         /// Gets the next time to write data to the archive, greater than or equal to the specified timestamp.
         /// </summary>
-        protected static DateTime GetNextWriteTime(DateTime timestamp, int period, int offset)
+        protected static DateTime GetNextWriteTime(DateTime timestamp, TimeSpan period, TimeSpan offset)
         {
-            return period > 0 
-                ? GetClosestWriteTime(timestamp, period, offset).AddSeconds(period) 
+            return period > TimeSpan.Zero
+                ? GetClosestWriteTime(timestamp, period, offset).Add(period)
                 : timestamp;
         }
 

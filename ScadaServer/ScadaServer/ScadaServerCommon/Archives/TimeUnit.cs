@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2024
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -33,8 +33,10 @@ namespace Scada.Server.Archives
     /// </summary>
     public enum TimeUnit
     {
+        Millisecond,
         Second,
         Minute,
-        Hour
+        Hour,
+        Day
     }
 }

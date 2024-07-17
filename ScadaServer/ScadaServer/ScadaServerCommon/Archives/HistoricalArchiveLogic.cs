@@ -180,37 +180,32 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
-        /// Converts the specified value to seconds according to its unit.
-        /// </summary>
-        protected static int ConvertToSeconds(int value, TimeUnit timeUnit)
-        {
-            switch (timeUnit)
-            {
-                case TimeUnit.Minute:
-                    return value * 60;
-                case TimeUnit.Hour:
-                    return value * 3600;
-                default: // TimeUnit.Second
-                    return value;
-            }
-        }
-
-        /// <summary>
         /// Checks that the timestamp is a multiple of the period.
         /// </summary>
-        protected static bool TimeIsMultipleOfPeriod(DateTime timestamp, int period, int offset)
+        protected static bool TimeIsMultipleOfPeriod(DateTime timestamp, TimeSpan period, TimeSpan offset)
         {
-            return period > 0 && (int)timestamp.TimeOfDay.TotalMilliseconds % (period * 1000) == offset * 1000;
+            if (period <= TimeSpan.Zero)
+                return false;
+
+            if (period.TotalDays <= 1)
+            {
+                return (int)timestamp.TimeOfDay.TotalMilliseconds % (int)period.TotalMilliseconds ==
+                    (int)offset.TotalMilliseconds;
+            }
+
+            DateTime startDate = new DateTime(timestamp.Year, 1, 1, 0, 0, 0, timestamp.Kind);
+            return (int)(timestamp - startDate).TotalSeconds % (int)period.TotalSeconds == (int)offset.TotalSeconds;
         }
 
         /// <summary>
         /// Pulls a timestamp to the closest periodic timestamp within the specified range.
         /// </summary>
-        protected static bool PullTimeToPeriod(ref DateTime timestamp, int period, int offset, int pullingRange)
+        protected static bool PullTimeToPeriod(ref DateTime timestamp, TimeSpan period, TimeSpan offset,
+            TimeSpan pullingRange)
         {
             DateTime closestTime = GetClosestWriteTime(timestamp, period, offset);
 
-            if ((timestamp - closestTime).TotalSeconds <= pullingRange)
+            if (timestamp - closestTime <= pullingRange)
             {
                 timestamp = closestTime;
                 return true;

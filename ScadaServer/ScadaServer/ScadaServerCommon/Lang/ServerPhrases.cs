@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2023
+ * Modified : 2024
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -43,6 +43,7 @@ namespace Scada.Server.Lang
         public static string ArchiveMessage { get; private set; }
         public static string NullResultNotAllowed { get; private set; }
         public static string InvalidWritingPeriod { get; private set; }
+        public static string TimeUnitNotSupported { get; private set; }
         public static string ReadOnlyNotSupported { get; private set; }
         public static string WritingOnChangeNotSupported { get; private set; }
         public static string WritingOnChangeIsSlow { get; private set; }
@@ -108,6 +109,7 @@ namespace Scada.Server.Lang
                 ArchiveMessage = "Архив {0}: {1}";
                 NullResultNotAllowed = "Результат метода не может быть null.";
                 InvalidWritingPeriod = "Период записи должен быть положительным.";
+                TimeUnitNotSupported = "Архив не поддерживает указанную единицу измерения времени.";
                 ReadOnlyNotSupported = "Архив не может быть только для чтения.";
                 WritingOnChangeNotSupported = "Архив не поддерживает запись данных по изменению.";
                 WritingOnChangeIsSlow = "Запись данных по изменению может снизить производительность";
@@ -152,6 +154,7 @@ namespace Scada.Server.Lang
                 ArchiveMessage = "Archive {0}: {1}";
                 NullResultNotAllowed = "Method result must not be null.";
                 InvalidWritingPeriod = "Writing period must be positive.";
+                TimeUnitNotSupported = "Archive does not support the specified time unit.";
                 ReadOnlyNotSupported = "Archive cannot be read only.";
                 WritingOnChangeNotSupported = "Archive does not support writing data on change.";
                 WritingOnChangeIsSlow = "Writing data on change can degrade performance";
