@@ -29,6 +29,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
 
         private readonly ModuleConfig moduleConfig; // the module configuration
         private readonly BasicCAO options;          // the archive options
+        private readonly TimeSpan flushPeriod;      // the flushing period
         private readonly ILog arcLog;               // the archive log
         private readonly SliceTableAdapter adapter; // reads and writes current data
         private readonly Slice slice;               // the slice for writing
@@ -47,6 +48,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         {
             this.moduleConfig = moduleConfig ?? throw new ArgumentNullException(nameof(moduleConfig));
             options = new BasicCAO(archiveConfig.CustomOptions);
+            flushPeriod = ConvertToTimeSpan(options.FlushPeriod, TimeUnit.Second);
             arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
             adapter = new SliceTableAdapter();
             slice = new Slice(DateTime.MinValue, cnlNums);
@@ -65,7 +67,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         {
             adapter.FileName = Path.Combine(moduleConfig.SelectArcDir(options.UseCopyDir), Code, CurDataFileName);
             Directory.CreateDirectory(Path.GetDirectoryName(adapter.FileName));
-            nextWriteTime = GetNextWriteTime(DateTime.UtcNow, options.FlushPeriod, 0);
+            nextWriteTime = GetNextWriteTime(DateTime.UtcNow, flushPeriod, TimeSpan.Zero);
         }
 
         /// <summary>
@@ -143,7 +145,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         {
             if (nextWriteTime <= curData.Timestamp)
             {
-                nextWriteTime = GetNextWriteTime(curData.Timestamp, options.FlushPeriod, 0);
+                nextWriteTime = GetNextWriteTime(curData.Timestamp, flushPeriod, TimeSpan.Zero);
                 WriteData(curData);
             }
         }
