@@ -36,6 +36,9 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             txtPullToPeriodUnit = new TextBox();
             numPullToPeriod = new NumericUpDown();
             lblPullToPeriod = new Label();
+            cbWritingOffsetUnit = new ComboBox();
+            numWritingOffset = new NumericUpDown();
+            lblWritingOffset = new Label();
             cbWritingPeriodUnit = new ComboBox();
             numWritingPeriod = new NumericUpDown();
             lblWritingPeriod = new Label();
@@ -47,12 +50,13 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             chkLogEnabled = new CheckBox();
             lblLogEnabled = new Label();
             gbWritingOptions = new GroupBox();
-            lblUseCopyDir = new Label();
-            chkUseCopyDir = new CheckBox();
             numMaxQueueSize = new NumericUpDown();
             lblMaxQueueSize = new Label();
+            lblUseCopyDir = new Label();
+            chkUseCopyDir = new CheckBox();
             gbGeneralOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numPullToPeriod).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numWritingOffset).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numWritingPeriod).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numRetention).BeginInit();
             gbWritingOptions.SuspendLayout();
@@ -61,7 +65,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             // 
             // btnOK
             // 
-            btnOK.Location = new Point(216, 296);
+            btnOK.Location = new Point(216, 325);
             btnOK.Name = "btnOK";
             btnOK.Size = new Size(75, 23);
             btnOK.TabIndex = 3;
@@ -71,7 +75,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(297, 296);
+            btnCancel.Location = new Point(297, 325);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(75, 23);
             btnCancel.TabIndex = 4;
@@ -80,7 +84,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             // 
             // btnShowDir
             // 
-            btnShowDir.Location = new Point(12, 296);
+            btnShowDir.Location = new Point(12, 325);
             btnShowDir.Name = "btnShowDir";
             btnShowDir.Size = new Size(100, 23);
             btnShowDir.TabIndex = 2;
@@ -93,6 +97,9 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             gbGeneralOptions.Controls.Add(txtPullToPeriodUnit);
             gbGeneralOptions.Controls.Add(numPullToPeriod);
             gbGeneralOptions.Controls.Add(lblPullToPeriod);
+            gbGeneralOptions.Controls.Add(cbWritingOffsetUnit);
+            gbGeneralOptions.Controls.Add(numWritingOffset);
+            gbGeneralOptions.Controls.Add(lblWritingOffset);
             gbGeneralOptions.Controls.Add(cbWritingPeriodUnit);
             gbGeneralOptions.Controls.Add(numWritingPeriod);
             gbGeneralOptions.Controls.Add(lblWritingPeriod);
@@ -106,42 +113,70 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             gbGeneralOptions.Location = new Point(12, 12);
             gbGeneralOptions.Name = "gbGeneralOptions";
             gbGeneralOptions.Padding = new Padding(10, 3, 10, 10);
-            gbGeneralOptions.Size = new Size(360, 174);
+            gbGeneralOptions.Size = new Size(360, 203);
             gbGeneralOptions.TabIndex = 0;
             gbGeneralOptions.TabStop = false;
             gbGeneralOptions.Text = "General Options";
             // 
             // txtPullToPeriodUnit
             // 
-            txtPullToPeriodUnit.Location = new Point(277, 138);
+            txtPullToPeriodUnit.Location = new Point(277, 167);
             txtPullToPeriodUnit.Name = "txtPullToPeriodUnit";
             txtPullToPeriodUnit.ReadOnly = true;
             txtPullToPeriodUnit.Size = new Size(70, 23);
-            txtPullToPeriodUnit.TabIndex = 12;
+            txtPullToPeriodUnit.TabIndex = 15;
             txtPullToPeriodUnit.Text = "Sec";
             // 
             // numPullToPeriod
             // 
-            numPullToPeriod.Location = new Point(196, 138);
+            numPullToPeriod.Location = new Point(196, 167);
             numPullToPeriod.Maximum = new decimal(new int[] { 3600, 0, 0, 0 });
             numPullToPeriod.Name = "numPullToPeriod";
             numPullToPeriod.Size = new Size(75, 23);
-            numPullToPeriod.TabIndex = 11;
+            numPullToPeriod.TabIndex = 14;
             // 
             // lblPullToPeriod
             // 
             lblPullToPeriod.AutoSize = true;
-            lblPullToPeriod.Location = new Point(13, 142);
+            lblPullToPeriod.Location = new Point(13, 171);
             lblPullToPeriod.Name = "lblPullToPeriod";
             lblPullToPeriod.Size = new Size(78, 15);
-            lblPullToPeriod.TabIndex = 10;
+            lblPullToPeriod.TabIndex = 13;
             lblPullToPeriod.Text = "Pull to period";
+            // 
+            // cbWritingOffsetUnit
+            // 
+            cbWritingOffsetUnit.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbWritingOffsetUnit.FormattingEnabled = true;
+            cbWritingOffsetUnit.Items.AddRange(new object[] { "Sec", "Min", "Hour", "Day" });
+            cbWritingOffsetUnit.Location = new Point(277, 138);
+            cbWritingOffsetUnit.Name = "cbWritingOffsetUnit";
+            cbWritingOffsetUnit.Size = new Size(70, 23);
+            cbWritingOffsetUnit.TabIndex = 12;
+            // 
+            // numWritingOffset
+            // 
+            numWritingOffset.Location = new Point(196, 138);
+            numWritingOffset.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            numWritingOffset.Name = "numWritingOffset";
+            numWritingOffset.Size = new Size(75, 23);
+            numWritingOffset.TabIndex = 11;
+            numWritingOffset.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
+            // lblWritingOffset
+            // 
+            lblWritingOffset.AutoSize = true;
+            lblWritingOffset.Location = new Point(13, 142);
+            lblWritingOffset.Name = "lblWritingOffset";
+            lblWritingOffset.Size = new Size(79, 15);
+            lblWritingOffset.TabIndex = 10;
+            lblWritingOffset.Text = "Writing offset";
             // 
             // cbWritingPeriodUnit
             // 
             cbWritingPeriodUnit.DropDownStyle = ComboBoxStyle.DropDownList;
             cbWritingPeriodUnit.FormattingEnabled = true;
-            cbWritingPeriodUnit.Items.AddRange(new object[] { "Sec", "Min", "Hour" });
+            cbWritingPeriodUnit.Items.AddRange(new object[] { "Sec", "Min", "Hour", "Day" });
             cbWritingPeriodUnit.Location = new Point(277, 109);
             cbWritingPeriodUnit.Name = "cbWritingPeriodUnit";
             cbWritingPeriodUnit.Size = new Size(70, 23);
@@ -236,13 +271,30 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             gbWritingOptions.Controls.Add(lblMaxQueueSize);
             gbWritingOptions.Controls.Add(lblUseCopyDir);
             gbWritingOptions.Controls.Add(chkUseCopyDir);
-            gbWritingOptions.Location = new Point(12, 192);
+            gbWritingOptions.Location = new Point(12, 221);
             gbWritingOptions.Name = "gbWritingOptions";
             gbWritingOptions.Padding = new Padding(10, 3, 10, 10);
             gbWritingOptions.Size = new Size(360, 88);
             gbWritingOptions.TabIndex = 1;
             gbWritingOptions.TabStop = false;
             gbWritingOptions.Text = "Writing Options";
+            // 
+            // numMaxQueueSize
+            // 
+            numMaxQueueSize.Location = new Point(196, 52);
+            numMaxQueueSize.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
+            numMaxQueueSize.Name = "numMaxQueueSize";
+            numMaxQueueSize.Size = new Size(151, 23);
+            numMaxQueueSize.TabIndex = 3;
+            // 
+            // lblMaxQueueSize
+            // 
+            lblMaxQueueSize.AutoSize = true;
+            lblMaxQueueSize.Location = new Point(13, 56);
+            lblMaxQueueSize.Name = "lblMaxQueueSize";
+            lblMaxQueueSize.Size = new Size(120, 15);
+            lblMaxQueueSize.TabIndex = 2;
+            lblMaxQueueSize.Text = "Maximum queue size";
             // 
             // lblUseCopyDir
             // 
@@ -262,30 +314,13 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             chkUseCopyDir.TabIndex = 1;
             chkUseCopyDir.UseVisualStyleBackColor = true;
             // 
-            // numMaxQueueSize
-            // 
-            numMaxQueueSize.Location = new Point(196, 52);
-            numMaxQueueSize.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
-            numMaxQueueSize.Name = "numMaxQueueSize";
-            numMaxQueueSize.Size = new Size(151, 23);
-            numMaxQueueSize.TabIndex = 3;
-            // 
-            // lblMaxQueueSize
-            // 
-            lblMaxQueueSize.AutoSize = true;
-            lblMaxQueueSize.Location = new Point(13, 56);
-            lblMaxQueueSize.Name = "lblMaxQueueSize";
-            lblMaxQueueSize.Size = new Size(120, 15);
-            lblMaxQueueSize.TabIndex = 2;
-            lblMaxQueueSize.Text = "Maximum queue size";
-            // 
             // FrmBasicHAO
             // 
             AcceptButton = btnOK;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = btnCancel;
-            ClientSize = new Size(384, 331);
+            ClientSize = new Size(384, 360);
             Controls.Add(btnCancel);
             Controls.Add(btnOK);
             Controls.Add(btnShowDir);
@@ -302,6 +337,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             gbGeneralOptions.ResumeLayout(false);
             gbGeneralOptions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)numPullToPeriod).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numWritingOffset).EndInit();
             ((System.ComponentModel.ISupportInitialize)numWritingPeriod).EndInit();
             ((System.ComponentModel.ISupportInitialize)numRetention).EndInit();
             gbWritingOptions.ResumeLayout(false);
@@ -333,5 +369,8 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         private CheckBox chkUseCopyDir;
         private NumericUpDown numMaxQueueSize;
         private Label lblMaxQueueSize;
+        private ComboBox cbWritingOffsetUnit;
+        private NumericUpDown numWritingOffset;
+        private Label lblWritingOffset;
     }
 }
