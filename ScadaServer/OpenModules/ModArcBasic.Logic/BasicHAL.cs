@@ -109,7 +109,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         private TrendTable CreateTable(DateTime tableDate)
         {
-            return new TrendTable(tableDate, (int)writingPeriod.TotalSeconds) 
+            return new TrendTable(tableDate, (int)writingPeriod.TotalSeconds, (int)writingOffset.TotalSeconds)
             { 
                 CnlNumList = cnlNumList 
             };

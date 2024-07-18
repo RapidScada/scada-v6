@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2024
  */
 
 using System;
@@ -61,6 +61,11 @@ namespace Scada.Data.Tables
         public int WritingPeriod { get; set; }
 
         /// <summary>
+        /// Gets or sets the writing offset in seconds.
+        /// </summary>
+        public int WritingOffset { get; set; }
+
+        /// <summary>
         /// Gets or sets the page capacity.
         /// </summary>
         public int PageCapacity { get; set; }
@@ -77,6 +82,21 @@ namespace Scada.Data.Tables
                 meta.MaxTimestamp == MaxTimestamp &&
                 meta.WritingPeriod == WritingPeriod &&
                 meta.PageCapacity == PageCapacity;
+        }
+
+        /// <summary>
+        /// Validates the metadata, raises an exception on failure.
+        /// </summary>
+        public void Validate()
+        {
+            if (WritingPeriod <= 0)
+                throw new ScadaException("Writing period must be greater than zero.");
+
+            if (WritingOffset < 0)
+                throw new ScadaException("Writing offset must be greater than or equal to zero.");
+
+            if (WritingOffset >= WritingPeriod)
+                throw new ScadaException("Writing offset must be less than writing period.");
         }
     }
 }
