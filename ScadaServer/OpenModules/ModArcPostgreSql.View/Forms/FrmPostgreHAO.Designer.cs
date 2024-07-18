@@ -57,7 +57,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             btnManageConn.Location = new Point(12, 6);
             btnManageConn.Name = "btnManageConn";
             btnManageConn.Size = new Size(140, 23);
-            btnManageConn.TabIndex = 2;
+            btnManageConn.TabIndex = 0;
             btnManageConn.Text = "Manage Connections";
             btnManageConn.UseVisualStyleBackColor = true;
             btnManageConn.Click += btnManageConn_Click;
@@ -67,7 +67,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             btnCancel.Location = new Point(297, 6);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(75, 23);
-            btnCancel.TabIndex = 4;
+            btnCancel.TabIndex = 2;
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = true;
             // 
@@ -76,7 +76,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             btnOK.Location = new Point(216, 6);
             btnOK.Name = "btnOK";
             btnOK.Size = new Size(75, 23);
-            btnOK.TabIndex = 3;
+            btnOK.TabIndex = 1;
             btnOK.Text = "OK";
             btnOK.UseVisualStyleBackColor = true;
             btnOK.Click += btnOK_Click;
@@ -97,7 +97,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             tabControl.Name = "tabControl";
             tabControl.SelectedIndex = 0;
             tabControl.Size = new Size(384, 324);
-            tabControl.TabIndex = 5;
+            tabControl.TabIndex = 0;
             // 
             // pageGeneral
             // 
@@ -130,7 +130,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             panel1.Location = new Point(0, 324);
             panel1.Name = "panel1";
             panel1.Size = new Size(384, 41);
-            panel1.TabIndex = 6;
+            panel1.TabIndex = 1;
             // 
             // FrmPostgreHAO
             // 
