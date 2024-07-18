@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ModArcPostgreSqlDictionaries>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Controls.CtrlDatabaseOptions">
-    <Phrase key="gbDbOptions">Database Options</Phrase>
     <Phrase key="lblUseDefaultConn">Use default connection</Phrase>
     <Phrase key="lblConnection">Connection</Phrase>
     <Phrase key="lblPartitionSize">Partition size</Phrase>
@@ -38,6 +37,8 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreHAO">
     <Phrase key="this">Historical Archive Options</Phrase>
+    <Phrase key="pageGeneral">General</Phrase>
+    <Phrase key="pageDatabase">Database</Phrase>
     <Phrase key="btnManageConn">Manage Connections</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>

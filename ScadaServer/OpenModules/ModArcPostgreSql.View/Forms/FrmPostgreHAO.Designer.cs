@@ -34,19 +34,27 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             btnCancel = new Button();
             btnOK = new Button();
             ctrlDatabaseOptions = new Controls.CtrlDatabaseOptions();
+            tabControl = new TabControl();
+            pageGeneral = new TabPage();
+            pageDatabase = new TabPage();
+            panel1 = new Panel();
+            tabControl.SuspendLayout();
+            pageGeneral.SuspendLayout();
+            pageDatabase.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // ctrlHistoricalArchiveOptions
             // 
             ctrlHistoricalArchiveOptions.ArchiveOptions = null;
-            ctrlHistoricalArchiveOptions.Location = new Point(12, 12);
+            ctrlHistoricalArchiveOptions.Location = new Point(8, 8);
             ctrlHistoricalArchiveOptions.Name = "ctrlHistoricalArchiveOptions";
-            ctrlHistoricalArchiveOptions.Size = new Size(360, 290);
+            ctrlHistoricalArchiveOptions.Size = new Size(360, 280);
             ctrlHistoricalArchiveOptions.TabIndex = 0;
             // 
             // btnManageConn
             // 
-            btnManageConn.Location = new Point(12, 499);
+            btnManageConn.Location = new Point(12, 6);
             btnManageConn.Name = "btnManageConn";
             btnManageConn.Size = new Size(140, 23);
             btnManageConn.TabIndex = 2;
@@ -56,7 +64,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(297, 499);
+            btnCancel.Location = new Point(297, 6);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(75, 23);
             btnCancel.TabIndex = 4;
@@ -65,7 +73,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             // 
             // btnOK
             // 
-            btnOK.Location = new Point(216, 499);
+            btnOK.Location = new Point(216, 6);
             btnOK.Name = "btnOK";
             btnOK.Size = new Size(75, 23);
             btnOK.TabIndex = 3;
@@ -75,10 +83,54 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             // 
             // ctrlDatabaseOptions
             // 
-            ctrlDatabaseOptions.Location = new Point(12, 308);
+            ctrlDatabaseOptions.Location = new Point(8, 8);
             ctrlDatabaseOptions.Name = "ctrlDatabaseOptions";
-            ctrlDatabaseOptions.Size = new Size(360, 175);
-            ctrlDatabaseOptions.TabIndex = 1;
+            ctrlDatabaseOptions.Size = new Size(360, 140);
+            ctrlDatabaseOptions.TabIndex = 0;
+            // 
+            // tabControl
+            // 
+            tabControl.Controls.Add(pageGeneral);
+            tabControl.Controls.Add(pageDatabase);
+            tabControl.Dock = DockStyle.Fill;
+            tabControl.Location = new Point(0, 0);
+            tabControl.Name = "tabControl";
+            tabControl.SelectedIndex = 0;
+            tabControl.Size = new Size(384, 324);
+            tabControl.TabIndex = 5;
+            // 
+            // pageGeneral
+            // 
+            pageGeneral.Controls.Add(ctrlHistoricalArchiveOptions);
+            pageGeneral.Location = new Point(4, 24);
+            pageGeneral.Name = "pageGeneral";
+            pageGeneral.Padding = new Padding(5);
+            pageGeneral.Size = new Size(376, 296);
+            pageGeneral.TabIndex = 0;
+            pageGeneral.Text = "General";
+            pageGeneral.UseVisualStyleBackColor = true;
+            // 
+            // pageDatabase
+            // 
+            pageDatabase.Controls.Add(ctrlDatabaseOptions);
+            pageDatabase.Location = new Point(4, 24);
+            pageDatabase.Name = "pageDatabase";
+            pageDatabase.Padding = new Padding(5);
+            pageDatabase.Size = new Size(376, 296);
+            pageDatabase.TabIndex = 1;
+            pageDatabase.Text = "Database";
+            pageDatabase.UseVisualStyleBackColor = true;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(btnCancel);
+            panel1.Controls.Add(btnManageConn);
+            panel1.Controls.Add(btnOK);
+            panel1.Dock = DockStyle.Bottom;
+            panel1.Location = new Point(0, 324);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(384, 41);
+            panel1.TabIndex = 6;
             // 
             // FrmPostgreHAO
             // 
@@ -86,12 +138,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = btnCancel;
-            ClientSize = new Size(384, 534);
-            Controls.Add(btnCancel);
-            Controls.Add(btnOK);
-            Controls.Add(btnManageConn);
-            Controls.Add(ctrlDatabaseOptions);
-            Controls.Add(ctrlHistoricalArchiveOptions);
+            ClientSize = new Size(384, 365);
+            Controls.Add(tabControl);
+            Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             MinimizeBox = false;
@@ -100,6 +149,10 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             StartPosition = FormStartPosition.CenterParent;
             Text = "Historical Archive Options";
             Load += FrmPostgreHAO_Load;
+            tabControl.ResumeLayout(false);
+            pageGeneral.ResumeLayout(false);
+            pageDatabase.ResumeLayout(false);
+            panel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -109,5 +162,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         private System.Windows.Forms.Button btnOK;
         private Scada.Server.Forms.Controls.CtrlHistoricalArchiveOptions ctrlHistoricalArchiveOptions;
         private Controls.CtrlDatabaseOptions ctrlDatabaseOptions;
+        private TabControl tabControl;
+        private TabPage pageGeneral;
+        private TabPage pageDatabase;
+        private Panel panel1;
     }
 }

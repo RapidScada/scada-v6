@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            gbDbOptions = new GroupBox();
             numBatchSize = new NumericUpDown();
             lblBatchSize = new Label();
             numMaxQueueSize = new NumericUpDown();
@@ -39,34 +38,14 @@
             lblConnection = new Label();
             chkUseDefaultConn = new CheckBox();
             lblUseDefaultConn = new Label();
-            gbDbOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numBatchSize).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numMaxQueueSize).BeginInit();
             SuspendLayout();
             // 
-            // gbDbOptions
-            // 
-            gbDbOptions.Controls.Add(numBatchSize);
-            gbDbOptions.Controls.Add(lblBatchSize);
-            gbDbOptions.Controls.Add(numMaxQueueSize);
-            gbDbOptions.Controls.Add(lblMaxQueueSize);
-            gbDbOptions.Controls.Add(cbPartitionSize);
-            gbDbOptions.Controls.Add(lblPartitionSize);
-            gbDbOptions.Controls.Add(cbConnection);
-            gbDbOptions.Controls.Add(lblConnection);
-            gbDbOptions.Controls.Add(chkUseDefaultConn);
-            gbDbOptions.Controls.Add(lblUseDefaultConn);
-            gbDbOptions.Location = new Point(0, 0);
-            gbDbOptions.Name = "gbDbOptions";
-            gbDbOptions.Padding = new Padding(10, 3, 10, 10);
-            gbDbOptions.Size = new Size(360, 175);
-            gbDbOptions.TabIndex = 0;
-            gbDbOptions.TabStop = false;
-            gbDbOptions.Text = "Database Options";
-            // 
             // numBatchSize
             // 
-            numBatchSize.Location = new Point(196, 139);
+            numBatchSize.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            numBatchSize.Location = new Point(209, 113);
             numBatchSize.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
             numBatchSize.Name = "numBatchSize";
             numBatchSize.Size = new Size(151, 23);
@@ -75,7 +54,7 @@
             // lblBatchSize
             // 
             lblBatchSize.AutoSize = true;
-            lblBatchSize.Location = new Point(13, 143);
+            lblBatchSize.Location = new Point(-3, 117);
             lblBatchSize.Name = "lblBatchSize";
             lblBatchSize.Size = new Size(118, 15);
             lblBatchSize.TabIndex = 8;
@@ -83,7 +62,8 @@
             // 
             // numMaxQueueSize
             // 
-            numMaxQueueSize.Location = new Point(196, 110);
+            numMaxQueueSize.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            numMaxQueueSize.Location = new Point(209, 84);
             numMaxQueueSize.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             numMaxQueueSize.Name = "numMaxQueueSize";
             numMaxQueueSize.Size = new Size(151, 23);
@@ -92,7 +72,7 @@
             // lblMaxQueueSize
             // 
             lblMaxQueueSize.AutoSize = true;
-            lblMaxQueueSize.Location = new Point(13, 114);
+            lblMaxQueueSize.Location = new Point(-3, 88);
             lblMaxQueueSize.Name = "lblMaxQueueSize";
             lblMaxQueueSize.Size = new Size(120, 15);
             lblMaxQueueSize.TabIndex = 6;
@@ -100,10 +80,11 @@
             // 
             // cbPartitionSize
             // 
+            cbPartitionSize.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             cbPartitionSize.DropDownStyle = ComboBoxStyle.DropDownList;
             cbPartitionSize.FormattingEnabled = true;
             cbPartitionSize.Items.AddRange(new object[] { "One day", "One month", "One year" });
-            cbPartitionSize.Location = new Point(196, 81);
+            cbPartitionSize.Location = new Point(209, 55);
             cbPartitionSize.Name = "cbPartitionSize";
             cbPartitionSize.Size = new Size(151, 23);
             cbPartitionSize.TabIndex = 5;
@@ -111,7 +92,7 @@
             // lblPartitionSize
             // 
             lblPartitionSize.AutoSize = true;
-            lblPartitionSize.Location = new Point(13, 85);
+            lblPartitionSize.Location = new Point(-3, 59);
             lblPartitionSize.Name = "lblPartitionSize";
             lblPartitionSize.Size = new Size(74, 15);
             lblPartitionSize.TabIndex = 4;
@@ -119,8 +100,9 @@
             // 
             // cbConnection
             // 
+            cbConnection.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             cbConnection.FormattingEnabled = true;
-            cbConnection.Location = new Point(196, 52);
+            cbConnection.Location = new Point(209, 26);
             cbConnection.Name = "cbConnection";
             cbConnection.Size = new Size(151, 23);
             cbConnection.TabIndex = 3;
@@ -128,7 +110,7 @@
             // lblConnection
             // 
             lblConnection.AutoSize = true;
-            lblConnection.Location = new Point(13, 56);
+            lblConnection.Location = new Point(-3, 30);
             lblConnection.Name = "lblConnection";
             lblConnection.Size = new Size(69, 15);
             lblConnection.TabIndex = 2;
@@ -136,8 +118,9 @@
             // 
             // chkUseDefaultConn
             // 
+            chkUseDefaultConn.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             chkUseDefaultConn.AutoSize = true;
-            chkUseDefaultConn.Location = new Point(332, 26);
+            chkUseDefaultConn.Location = new Point(345, 0);
             chkUseDefaultConn.Name = "chkUseDefaultConn";
             chkUseDefaultConn.Size = new Size(15, 14);
             chkUseDefaultConn.TabIndex = 1;
@@ -147,7 +130,7 @@
             // lblUseDefaultConn
             // 
             lblUseDefaultConn.AutoSize = true;
-            lblUseDefaultConn.Location = new Point(13, 26);
+            lblUseDefaultConn.Location = new Point(-3, 0);
             lblUseDefaultConn.Name = "lblUseDefaultConn";
             lblUseDefaultConn.Size = new Size(129, 15);
             lblUseDefaultConn.TabIndex = 0;
@@ -157,19 +140,25 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(gbDbOptions);
+            Controls.Add(numBatchSize);
+            Controls.Add(lblBatchSize);
+            Controls.Add(numMaxQueueSize);
+            Controls.Add(lblMaxQueueSize);
+            Controls.Add(cbPartitionSize);
+            Controls.Add(lblPartitionSize);
+            Controls.Add(cbConnection);
+            Controls.Add(lblConnection);
+            Controls.Add(chkUseDefaultConn);
+            Controls.Add(lblUseDefaultConn);
             Name = "CtrlDatabaseOptions";
-            Size = new Size(360, 175);
-            gbDbOptions.ResumeLayout(false);
-            gbDbOptions.PerformLayout();
+            Size = new Size(360, 140);
             ((System.ComponentModel.ISupportInitialize)numBatchSize).EndInit();
             ((System.ComponentModel.ISupportInitialize)numMaxQueueSize).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
-
-        private GroupBox gbDbOptions;
         private NumericUpDown numBatchSize;
         private Label lblBatchSize;
         private ComboBox cbPartitionSize;
