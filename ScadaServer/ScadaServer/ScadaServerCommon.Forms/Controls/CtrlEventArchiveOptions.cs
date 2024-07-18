@@ -50,14 +50,14 @@ namespace Scada.Server.Forms.Controls
         {
             if (options == null)
             {
-                gbOptions.Enabled = false;
+                Enabled = false;
                 chkReadOnly.Checked = false;
                 chkLogEnabled.Checked = false;
                 numRetention.Value = 1;
             }
             else
             {
-                gbOptions.Enabled = true;
+                Enabled = true;
                 chkReadOnly.Checked = options.ReadOnly;
                 chkLogEnabled.Checked = options.LogEnabled;
                 numRetention.SetValue(options.Retention);

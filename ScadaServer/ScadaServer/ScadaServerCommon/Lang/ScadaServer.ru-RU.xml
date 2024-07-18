@@ -20,14 +20,12 @@
   </Dictionary>
   <!-- ScadaServerCommon.Forms.dll -->
   <Dictionary key="Scada.Server.Forms.Controls.CtrlCurrentArchiveOptions">
-    <Phrase key="gbOptions">Основные параметры</Phrase>
     <Phrase key="lblReadOnly">Только чтение</Phrase>
     <Phrase key="lblLogEnabled">Журнал включен</Phrase>
     <Phrase key="lblFlushPeriod">Период сохранения</Phrase>
     <Phrase key="txtFlushPeriodUnit">Сек.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Forms.Controls.CtrlEventArchiveOptions">
-    <Phrase key="gbOptions">Основные параметры</Phrase>
     <Phrase key="lblReadOnly">Только чтение</Phrase>
     <Phrase key="lblLogEnabled">Журнал включен</Phrase>
     <Phrase key="lblRetention">Период хранения</Phrase>
