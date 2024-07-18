@@ -218,8 +218,6 @@ namespace Scada.Server.Archives
         {
             switch (timeUnit)
             {
-                case TimeUnit.Millisecond:
-                    return TimeSpan.FromMilliseconds(value);
                 case TimeUnit.Minute:
                     return TimeSpan.FromMinutes(value);
                 case TimeUnit.Hour:

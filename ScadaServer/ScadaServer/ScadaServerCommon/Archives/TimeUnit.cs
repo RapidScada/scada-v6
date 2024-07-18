@@ -33,7 +33,6 @@ namespace Scada.Server.Archives
     /// </summary>
     public enum TimeUnit
     {
-        Millisecond,
         Second,
         Minute,
         Hour,
