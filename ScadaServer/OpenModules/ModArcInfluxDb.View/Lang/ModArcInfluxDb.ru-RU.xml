@@ -18,7 +18,8 @@
    </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmInfluxHAO">
     <Phrase key="this">Параметры архива исторических данных</Phrase>
-    <Phrase key="gbDbOptions">Параметры базы данных</Phrase>
+    <Phrase key="pageGeneral">Основные</Phrase>
+    <Phrase key="pageDatabase">База данных</Phrase>
     <Phrase key="lblConnection">Соединение</Phrase>
     <Phrase key="lblBatchSize">Размер пакета</Phrase>
     <Phrase key="lblFlushInterval">Интервал передачи</Phrase>

@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             ctrlHistoricalArchiveOptions = new Server.Forms.Controls.CtrlHistoricalArchiveOptions();
-            gbDbOptions = new GroupBox();
             txtFlushIntervalUnit = new TextBox();
             numFlushInterval = new NumericUpDown();
             lblFlushInterval = new Label();
@@ -40,39 +39,29 @@
             btnCancel = new Button();
             btnOK = new Button();
             btnManageConn = new Button();
-            gbDbOptions.SuspendLayout();
+            tabControl = new TabControl();
+            pageGeneral = new TabPage();
+            pageDatabase = new TabPage();
+            pnlBottom = new Panel();
             ((System.ComponentModel.ISupportInitialize)numFlushInterval).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numBatchSize).BeginInit();
+            tabControl.SuspendLayout();
+            pageGeneral.SuspendLayout();
+            pageDatabase.SuspendLayout();
+            pnlBottom.SuspendLayout();
             SuspendLayout();
             // 
             // ctrlHistoricalArchiveOptions
             // 
             ctrlHistoricalArchiveOptions.ArchiveOptions = null;
-            ctrlHistoricalArchiveOptions.Location = new Point(12, 12);
+            ctrlHistoricalArchiveOptions.Location = new Point(8, 8);
             ctrlHistoricalArchiveOptions.Name = "ctrlHistoricalArchiveOptions";
             ctrlHistoricalArchiveOptions.Size = new Size(360, 290);
             ctrlHistoricalArchiveOptions.TabIndex = 0;
             // 
-            // gbDbOptions
-            // 
-            gbDbOptions.Controls.Add(txtFlushIntervalUnit);
-            gbDbOptions.Controls.Add(numFlushInterval);
-            gbDbOptions.Controls.Add(lblFlushInterval);
-            gbDbOptions.Controls.Add(numBatchSize);
-            gbDbOptions.Controls.Add(lblBatchSize);
-            gbDbOptions.Controls.Add(cbConnection);
-            gbDbOptions.Controls.Add(lblConnection);
-            gbDbOptions.Location = new Point(12, 308);
-            gbDbOptions.Name = "gbDbOptions";
-            gbDbOptions.Padding = new Padding(10, 3, 10, 10);
-            gbDbOptions.Size = new Size(360, 116);
-            gbDbOptions.TabIndex = 1;
-            gbDbOptions.TabStop = false;
-            gbDbOptions.Text = "Database Options";
-            // 
             // txtFlushIntervalUnit
             // 
-            txtFlushIntervalUnit.Location = new Point(277, 80);
+            txtFlushIntervalUnit.Location = new Point(298, 66);
             txtFlushIntervalUnit.Name = "txtFlushIntervalUnit";
             txtFlushIntervalUnit.ReadOnly = true;
             txtFlushIntervalUnit.Size = new Size(70, 23);
@@ -81,7 +70,7 @@
             // 
             // numFlushInterval
             // 
-            numFlushInterval.Location = new Point(196, 80);
+            numFlushInterval.Location = new Point(217, 66);
             numFlushInterval.Maximum = new decimal(new int[] { 60000, 0, 0, 0 });
             numFlushInterval.Minimum = new decimal(new int[] { 100, 0, 0, 0 });
             numFlushInterval.Name = "numFlushInterval";
@@ -92,7 +81,7 @@
             // lblFlushInterval
             // 
             lblFlushInterval.AutoSize = true;
-            lblFlushInterval.Location = new Point(13, 84);
+            lblFlushInterval.Location = new Point(8, 70);
             lblFlushInterval.Name = "lblFlushInterval";
             lblFlushInterval.Size = new Size(77, 15);
             lblFlushInterval.TabIndex = 4;
@@ -100,7 +89,7 @@
             // 
             // numBatchSize
             // 
-            numBatchSize.Location = new Point(196, 51);
+            numBatchSize.Location = new Point(217, 37);
             numBatchSize.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             numBatchSize.Minimum = new decimal(new int[] { 100, 0, 0, 0 });
             numBatchSize.Name = "numBatchSize";
@@ -111,7 +100,7 @@
             // lblBatchSize
             // 
             lblBatchSize.AutoSize = true;
-            lblBatchSize.Location = new Point(13, 55);
+            lblBatchSize.Location = new Point(8, 41);
             lblBatchSize.Name = "lblBatchSize";
             lblBatchSize.Size = new Size(59, 15);
             lblBatchSize.TabIndex = 2;
@@ -120,7 +109,7 @@
             // cbConnection
             // 
             cbConnection.FormattingEnabled = true;
-            cbConnection.Location = new Point(196, 22);
+            cbConnection.Location = new Point(217, 8);
             cbConnection.Name = "cbConnection";
             cbConnection.Size = new Size(151, 23);
             cbConnection.TabIndex = 1;
@@ -128,7 +117,7 @@
             // lblConnection
             // 
             lblConnection.AutoSize = true;
-            lblConnection.Location = new Point(13, 26);
+            lblConnection.Location = new Point(8, 12);
             lblConnection.Name = "lblConnection";
             lblConnection.Size = new Size(69, 15);
             lblConnection.TabIndex = 0;
@@ -136,32 +125,82 @@
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(297, 440);
+            btnCancel.Location = new Point(297, 6);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(75, 23);
-            btnCancel.TabIndex = 4;
+            btnCancel.TabIndex = 2;
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = true;
             // 
             // btnOK
             // 
-            btnOK.Location = new Point(216, 440);
+            btnOK.Location = new Point(216, 6);
             btnOK.Name = "btnOK";
             btnOK.Size = new Size(75, 23);
-            btnOK.TabIndex = 3;
+            btnOK.TabIndex = 1;
             btnOK.Text = "OK";
             btnOK.UseVisualStyleBackColor = true;
             btnOK.Click += btnOK_Click;
             // 
             // btnManageConn
             // 
-            btnManageConn.Location = new Point(12, 440);
+            btnManageConn.Location = new Point(12, 6);
             btnManageConn.Name = "btnManageConn";
             btnManageConn.Size = new Size(140, 23);
-            btnManageConn.TabIndex = 2;
+            btnManageConn.TabIndex = 0;
             btnManageConn.Text = "Manage Connections";
             btnManageConn.UseVisualStyleBackColor = true;
             btnManageConn.Click += btnManageConn_Click;
+            // 
+            // tabControl
+            // 
+            tabControl.Controls.Add(pageGeneral);
+            tabControl.Controls.Add(pageDatabase);
+            tabControl.Dock = DockStyle.Fill;
+            tabControl.Location = new Point(0, 0);
+            tabControl.Name = "tabControl";
+            tabControl.SelectedIndex = 0;
+            tabControl.Size = new Size(384, 324);
+            tabControl.TabIndex = 0;
+            // 
+            // pageGeneral
+            // 
+            pageGeneral.Controls.Add(ctrlHistoricalArchiveOptions);
+            pageGeneral.Location = new Point(4, 24);
+            pageGeneral.Name = "pageGeneral";
+            pageGeneral.Padding = new Padding(5);
+            pageGeneral.Size = new Size(376, 296);
+            pageGeneral.TabIndex = 0;
+            pageGeneral.Text = "General";
+            pageGeneral.UseVisualStyleBackColor = true;
+            // 
+            // pageDatabase
+            // 
+            pageDatabase.Controls.Add(txtFlushIntervalUnit);
+            pageDatabase.Controls.Add(numFlushInterval);
+            pageDatabase.Controls.Add(lblFlushInterval);
+            pageDatabase.Controls.Add(numBatchSize);
+            pageDatabase.Controls.Add(lblBatchSize);
+            pageDatabase.Controls.Add(cbConnection);
+            pageDatabase.Controls.Add(lblConnection);
+            pageDatabase.Location = new Point(4, 24);
+            pageDatabase.Name = "pageDatabase";
+            pageDatabase.Padding = new Padding(5);
+            pageDatabase.Size = new Size(376, 296);
+            pageDatabase.TabIndex = 1;
+            pageDatabase.Text = "Database";
+            pageDatabase.UseVisualStyleBackColor = true;
+            // 
+            // pnlBottom
+            // 
+            pnlBottom.Controls.Add(btnManageConn);
+            pnlBottom.Controls.Add(btnOK);
+            pnlBottom.Controls.Add(btnCancel);
+            pnlBottom.Dock = DockStyle.Bottom;
+            pnlBottom.Location = new Point(0, 324);
+            pnlBottom.Name = "pnlBottom";
+            pnlBottom.Size = new Size(384, 41);
+            pnlBottom.TabIndex = 1;
             // 
             // FrmInfluxHAO
             // 
@@ -169,12 +208,9 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = btnCancel;
-            ClientSize = new Size(384, 475);
-            Controls.Add(btnCancel);
-            Controls.Add(btnOK);
-            Controls.Add(btnManageConn);
-            Controls.Add(gbDbOptions);
-            Controls.Add(ctrlHistoricalArchiveOptions);
+            ClientSize = new Size(384, 365);
+            Controls.Add(tabControl);
+            Controls.Add(pnlBottom);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             MinimizeBox = false;
@@ -182,17 +218,19 @@
             StartPosition = FormStartPosition.CenterParent;
             Text = "Historical Archive Options";
             Load += FrmInfluxHAO_Load;
-            gbDbOptions.ResumeLayout(false);
-            gbDbOptions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)numFlushInterval).EndInit();
             ((System.ComponentModel.ISupportInitialize)numBatchSize).EndInit();
+            tabControl.ResumeLayout(false);
+            pageGeneral.ResumeLayout(false);
+            pageDatabase.ResumeLayout(false);
+            pageDatabase.PerformLayout();
+            pnlBottom.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
 
         private Server.Forms.Controls.CtrlHistoricalArchiveOptions ctrlHistoricalArchiveOptions;
-        private GroupBox gbDbOptions;
         private ComboBox cbConnection;
         private Label lblConnection;
         private Button btnCancel;
@@ -203,5 +241,9 @@
         private Label lblFlushInterval;
         private NumericUpDown numBatchSize;
         private Label lblBatchSize;
+        private TabControl tabControl;
+        private TabPage pageGeneral;
+        private TabPage pageDatabase;
+        private Panel pnlBottom;
     }
 }

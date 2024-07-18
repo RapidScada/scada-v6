@@ -52,7 +52,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View.Forms
                 if (moduleConfig.Load(configFileName, out string errMsg))
                 {
                     comboBox.Items.Clear();
-                    comboBox.Items.AddRange(moduleConfig.Connections.Keys.ToArray());
+                    comboBox.Items.AddRange([.. moduleConfig.Connections.Keys]);
                 }
                 else
                 {
