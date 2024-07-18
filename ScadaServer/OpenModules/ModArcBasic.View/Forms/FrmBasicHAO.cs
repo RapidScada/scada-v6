@@ -48,9 +48,9 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             numRetention.SetValue(options.Retention);
             chkWriteWithPeriod.Checked = options.WriteWithPeriod;
             numWritingPeriod.SetValue(options.WritingPeriod);
-            cbWritingPeriodUnit.SelectedIndex = (int)options.WritingPeriodUnit - 1; // omit milliseconds
+            cbWritingPeriodUnit.SelectedIndex = (int)options.WritingPeriodUnit;
             numWritingOffset.SetValue(options.WritingOffset);
-            cbWritingOffsetUnit.SelectedIndex = (int)options.WritingOffsetUnit - 1;
+            cbWritingOffsetUnit.SelectedIndex = (int)options.WritingOffsetUnit;
             numPullToPeriod.SetValue(options.PullToPeriod);
 
             chkUseCopyDir.Checked = options.UseCopyDir;
@@ -66,9 +66,9 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             options.Retention = Convert.ToInt32(numRetention.Value);
             options.WriteWithPeriod = chkWriteWithPeriod.Checked;
             options.WritingPeriod = Convert.ToInt32(numWritingPeriod.Value);
-            options.WritingPeriodUnit = (TimeUnit)(cbWritingPeriodUnit.SelectedIndex + 1); // omit milliseconds
+            options.WritingPeriodUnit = (TimeUnit)cbWritingPeriodUnit.SelectedIndex;
             options.WritingOffset = Convert.ToInt32(numWritingOffset.Value);
-            options.WritingOffsetUnit = (TimeUnit)(cbWritingOffsetUnit.SelectedIndex + 1);
+            options.WritingOffsetUnit = (TimeUnit)cbWritingOffsetUnit.SelectedIndex;
             options.PullToPeriod = Convert.ToInt32(numPullToPeriod.Value);
 
             options.UseCopyDir = chkUseCopyDir.Checked;

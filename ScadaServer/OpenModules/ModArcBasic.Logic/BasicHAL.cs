@@ -128,12 +128,6 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
 
             if (options.WritingPeriod <= 0)
                 throw new ScadaException(ServerPhrases.InvalidWritingPeriod);
-
-            if (options.WritingPeriodUnit == TimeUnit.Millisecond ||
-                options.WritingOffsetUnit == TimeUnit.Millisecond)
-            {
-                throw new ScadaException(ServerPhrases.TimeUnitNotSupported);
-            }
         }
 
         /// <summary>
