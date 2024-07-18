@@ -143,7 +143,7 @@
             cbWritingPeriodUnit.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             cbWritingPeriodUnit.DropDownStyle = ComboBoxStyle.DropDownList;
             cbWritingPeriodUnit.FormattingEnabled = true;
-            cbWritingPeriodUnit.Items.AddRange(new object[] { "Ms", "Sec", "Min", "Hour", "Day" });
+            cbWritingPeriodUnit.Items.AddRange(new object[] { "Sec", "Min", "Hour", "Day" });
             cbWritingPeriodUnit.Location = new Point(290, 141);
             cbWritingPeriodUnit.Name = "cbWritingPeriodUnit";
             cbWritingPeriodUnit.Size = new Size(70, 23);
@@ -283,7 +283,7 @@
             cbWritingOffsetUnit.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             cbWritingOffsetUnit.DropDownStyle = ComboBoxStyle.DropDownList;
             cbWritingOffsetUnit.FormattingEnabled = true;
-            cbWritingOffsetUnit.Items.AddRange(new object[] { "Ms", "Sec", "Min", "Hour", "Day" });
+            cbWritingOffsetUnit.Items.AddRange(new object[] { "Sec", "Min", "Hour", "Day" });
             cbWritingOffsetUnit.Location = new Point(290, 170);
             cbWritingOffsetUnit.Name = "cbWritingOffsetUnit";
             cbWritingOffsetUnit.Size = new Size(70, 23);
