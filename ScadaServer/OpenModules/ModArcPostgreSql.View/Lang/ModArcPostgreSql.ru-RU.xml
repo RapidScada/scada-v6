@@ -20,18 +20,16 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreCAO">
     <Phrase key="this">Параметры архива текущих данных</Phrase>
-    <Phrase key="gbDbOptions">Параметры базы данных</Phrase>
-    <Phrase key="lblUseDefaultConn">Соединение по умолчанию</Phrase>
-    <Phrase key="lblConnection">Соединение</Phrase>
-    <Phrase key="lblMaxQueueSize">Макс. размер очереди</Phrase>
-    <Phrase key="lblBatchSize">Элементов на транзакцию</Phrase>
+    <Phrase key="pageGeneral">Основные</Phrase>
+    <Phrase key="pageDatabase">База данных</Phrase>
     <Phrase key="btnManageConn">Соединения</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreEAO">
     <Phrase key="this">Параметры архива событий</Phrase>
-    <Phrase key="gbDbOptions">Параметры базы данных</Phrase>
+    <Phrase key="pageGeneral">Основные</Phrase>
+    <Phrase key="pageDatabase">База данных</Phrase>
     <Phrase key="btnManageConn">Соединения</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>

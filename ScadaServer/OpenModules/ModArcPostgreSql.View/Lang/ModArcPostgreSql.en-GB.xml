@@ -20,17 +20,16 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreCAO">
     <Phrase key="this">Current Archive Options</Phrase>
-    <Phrase key="gbDbOptions">Database Options</Phrase>
-    <Phrase key="lblUseDefaultConn">Use default connection</Phrase>
-    <Phrase key="lblConnection">Connection</Phrase>
-    <Phrase key="lblMaxQueueSize">Maximum queue size</Phrase>
-    <Phrase key="lblBatchSize">Items per transaction</Phrase>
+    <Phrase key="pageGeneral">General</Phrase>
+    <Phrase key="pageDatabase">Database</Phrase>
     <Phrase key="btnManageConn">Manage Connections</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreEAO">
     <Phrase key="this">Event Archive Options</Phrase>
+    <Phrase key="pageGeneral">General</Phrase>
+    <Phrase key="pageDatabase">Database</Phrase>
     <Phrase key="btnManageConn">Manage Connections</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>

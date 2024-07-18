@@ -66,9 +66,19 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Controls
             {
                 chkUseDefaultConn.Checked = options.UseDefaultConn;
                 cbConnection.Text = options.Connection;
-                cbPartitionSize.SelectedIndex = (int)options.PartitionSize;
                 numMaxQueueSize.SetValue(options.MaxQueueSize);
                 numBatchSize.SetValue(options.BatchSize);
+
+                if (options.UsePartitioning)
+                {
+                    lblPartitionSize.Enabled = cbPartitionSize.Enabled = true;
+                    cbPartitionSize.SelectedIndex = (int)options.PartitionSize;
+                }
+                else
+                {
+                    lblPartitionSize.Enabled = cbPartitionSize.Enabled = false;
+                    cbPartitionSize.SelectedIndex = -1;
+                }
             }
         }
 
@@ -81,9 +91,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Controls
             {
                 options.UseDefaultConn = chkUseDefaultConn.Checked;
                 options.Connection = cbConnection.Text;
-                options.PartitionSize = (PartitionSize)cbPartitionSize.SelectedIndex;
                 options.MaxQueueSize = Convert.ToInt32(numMaxQueueSize.Value);
                 options.BatchSize = Convert.ToInt32(numBatchSize.Value);
+
+                if (options.UsePartitioning)
+                    options.PartitionSize = (PartitionSize)cbPartitionSize.SelectedIndex;
             }
         }
 

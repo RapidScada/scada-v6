@@ -10,7 +10,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
     /// Represents options of a current data archive.
     /// <para>Представляет параметры архива текущих данных.</para>
     /// </summary>
-    internal class PostgreCAO : CurrentArchiveOptions
+    internal class PostgreCAO : CurrentArchiveOptions, IDatabaseOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.
@@ -20,6 +20,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
         {
             UseDefaultConn = options.GetValueAsBool("UseDefaultConn", true);
             Connection = options.GetValueAsString("Connection");
+            PartitionSize = PartitionSize.OneMonth;
             MaxQueueSize = options.GetValueAsInt("MaxQueueSize", ModuleUtils.DefaultQueueSize);
             BatchSize = options.GetValueAsInt("BatchSize", ModuleUtils.DefaultBatchSize);
         }
@@ -34,6 +35,16 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
         /// Gets or sets the connection name.
         /// </summary>
         public string Connection { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether partitioning is used.
+        /// </summary>
+        public bool UsePartitioning => false;
+
+        /// <summary>
+        /// Gets or sets the partition size. Not used.
+        /// </summary>
+        public PartitionSize PartitionSize { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum queue size.

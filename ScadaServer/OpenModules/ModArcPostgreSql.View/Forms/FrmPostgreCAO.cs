@@ -4,6 +4,7 @@
 using Scada.Forms;
 using Scada.Server.Config;
 using Scada.Server.Modules.ModArcPostgreSql.Config;
+using Scada.Server.Modules.ModArcPostgreSql.View.Controls;
 
 namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
 {
@@ -43,14 +44,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         /// </summary>
         private void OptionsToControls()
         {
-            // general options
             ctrlCurrentArchiveOptions.ArchiveOptions = options;
-
-            // database options
-            chkUseDefaultConn.Checked = options.UseDefaultConn;
-            cbConnection.Text = options.Connection;
-            numMaxQueueSize.SetValue(options.MaxQueueSize);
-            numBatchSize.SetValue(options.BatchSize);
+            ctrlDatabaseOptions.DatabaseOptions = options;
         }
 
         /// <summary>
@@ -58,15 +53,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         /// </summary>
         private void ControlsToOptions()
         {
-            // general options
             ctrlCurrentArchiveOptions.ControlsToOptions();
-
-            // database options
-            options.UseDefaultConn = chkUseDefaultConn.Checked;
-            options.Connection = cbConnection.Text;
-            options.MaxQueueSize = Convert.ToInt32(numMaxQueueSize.Value);
-            options.BatchSize = Convert.ToInt32(numBatchSize.Value);
-
+            ctrlDatabaseOptions.ControlsToOptions();
             options.AddToOptionList(archiveConfig.CustomOptions);
         }
 
@@ -75,19 +63,15 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         {
             FormTranslator.Translate(this, GetType().FullName);
             FormTranslator.Translate(ctrlCurrentArchiveOptions, ctrlCurrentArchiveOptions.GetType().FullName);
+            FormTranslator.Translate(ctrlDatabaseOptions, ctrlDatabaseOptions.GetType().FullName);
 
             OptionsToControls();
-            UiUtils.FillConnections(cbConnection, appDirs.ConfigDir);
-        }
-
-        private void chkUseDefaultConn_CheckedChanged(object sender, EventArgs e)
-        {
-            cbConnection.Enabled = !chkUseDefaultConn.Checked;
+            UiUtils.FillConnections(ctrlDatabaseOptions.ConnectionComboBox, appDirs.ConfigDir);
         }
 
         private void btnManageConn_Click(object sender, EventArgs e)
         {
-            UiUtils.EditConnections(cbConnection, appDirs.ConfigDir);
+            UiUtils.EditConnections(ctrlDatabaseOptions.ConnectionComboBox, appDirs.ConfigDir);
         }
 
         private void btnOK_Click(object sender, EventArgs e)
