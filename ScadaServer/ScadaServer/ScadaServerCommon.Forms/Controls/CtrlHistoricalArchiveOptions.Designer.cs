@@ -84,7 +84,7 @@
             // lblDeadband
             // 
             lblDeadband.AutoSize = true;
-            lblDeadband.Location = new Point(0, 261);
+            lblDeadband.Location = new Point(-3, 261);
             lblDeadband.Name = "lblDeadband";
             lblDeadband.Size = new Size(61, 15);
             lblDeadband.TabIndex = 22;
@@ -104,7 +104,7 @@
             // lblWriteOnChange
             // 
             lblWriteOnChange.AutoSize = true;
-            lblWriteOnChange.Location = new Point(0, 232);
+            lblWriteOnChange.Location = new Point(-3, 232);
             lblWriteOnChange.Name = "lblWriteOnChange";
             lblWriteOnChange.Size = new Size(94, 15);
             lblWriteOnChange.TabIndex = 20;
@@ -132,7 +132,7 @@
             // lblPullToPeriod
             // 
             lblPullToPeriod.AutoSize = true;
-            lblPullToPeriod.Location = new Point(0, 203);
+            lblPullToPeriod.Location = new Point(-3, 203);
             lblPullToPeriod.Name = "lblPullToPeriod";
             lblPullToPeriod.Size = new Size(78, 15);
             lblPullToPeriod.TabIndex = 17;
@@ -163,7 +163,7 @@
             // lblWritingPeriod
             // 
             lblWritingPeriod.AutoSize = true;
-            lblWritingPeriod.Location = new Point(0, 145);
+            lblWritingPeriod.Location = new Point(-3, 145);
             lblWritingPeriod.Name = "lblWritingPeriod";
             lblWritingPeriod.Size = new Size(83, 15);
             lblWritingPeriod.TabIndex = 11;
@@ -183,7 +183,7 @@
             // lblWriteWithPeriod
             // 
             lblWriteWithPeriod.AutoSize = true;
-            lblWriteWithPeriod.Location = new Point(0, 116);
+            lblWriteWithPeriod.Location = new Point(-3, 116);
             lblWriteWithPeriod.Name = "lblWriteWithPeriod";
             lblWriteWithPeriod.Size = new Size(98, 15);
             lblWriteWithPeriod.TabIndex = 9;
@@ -203,7 +203,7 @@
             // lblIsPeriodic
             // 
             lblIsPeriodic.AutoSize = true;
-            lblIsPeriodic.Location = new Point(0, 87);
+            lblIsPeriodic.Location = new Point(-3, 87);
             lblIsPeriodic.Name = "lblIsPeriodic";
             lblIsPeriodic.Size = new Size(104, 15);
             lblIsPeriodic.TabIndex = 7;
@@ -233,7 +233,7 @@
             // lblRetention
             // 
             lblRetention.AutoSize = true;
-            lblRetention.Location = new Point(0, 58);
+            lblRetention.Location = new Point(-3, 58);
             lblRetention.Name = "lblRetention";
             lblRetention.Size = new Size(95, 15);
             lblRetention.TabIndex = 4;
@@ -252,7 +252,7 @@
             // lblLogEnabled
             // 
             lblLogEnabled.AutoSize = true;
-            lblLogEnabled.Location = new Point(0, 29);
+            lblLogEnabled.Location = new Point(-3, 29);
             lblLogEnabled.Name = "lblLogEnabled";
             lblLogEnabled.Size = new Size(72, 15);
             lblLogEnabled.TabIndex = 2;
@@ -272,7 +272,7 @@
             // lblReadOnly
             // 
             lblReadOnly.AutoSize = true;
-            lblReadOnly.Location = new Point(0, 0);
+            lblReadOnly.Location = new Point(-3, 0);
             lblReadOnly.Name = "lblReadOnly";
             lblReadOnly.Size = new Size(59, 15);
             lblReadOnly.TabIndex = 0;
@@ -302,7 +302,7 @@
             // lblWritingOffset
             // 
             lblWritingOffset.AutoSize = true;
-            lblWritingOffset.Location = new Point(0, 174);
+            lblWritingOffset.Location = new Point(-3, 174);
             lblWritingOffset.Name = "lblWritingOffset";
             lblWritingOffset.Size = new Size(79, 15);
             lblWritingOffset.TabIndex = 14;
