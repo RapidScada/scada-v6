@@ -85,6 +85,10 @@
         <Text>Скрипты и формулы</Text>
         <Url>/ru/latest/configuration/scripts</Url>
       </Item>
+      <Item>
+        <Text>Представления</Text>
+        <Url>/ru/latest/configuration/views</Url>
+      </Item>
     </Subitems>
   </Item>
 
