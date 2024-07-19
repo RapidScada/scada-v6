@@ -85,6 +85,10 @@
         <Text>Scripts and Formulas</Text>
         <Url>/en/latest/configuration/scripts</Url>
       </Item>
+      <!--<Item>
+        <Text>Views</Text>
+        <Url>/ru/latest/configuration/views</Url>
+      </Item>-->
     </Subitems>
   </Item>
 
