@@ -1,0 +1,59 @@
+﻿@page "/en/latest/configuration/views"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Views";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#creating-views">Creating Views</a></li>
+        <li><a href="#view-table">View Table</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Views</h1>
+    <p><strong>View</strong> is a form of data representation in the Webstation application. There are 3 types of views supported by default: table views, mimic diagrams and web pages. Support for other types of views can be added by installing additional plugins. A complete list of implemented view types is contained in the <strong>View types</strong> table of the configration database.</p>
+
+    <h2 id="creating-views">Creating Views</h2>
+    <p>View files are located in the <strong>Views</strong> section of a project. To create a file or folder in the views section, right-click on the explorer node in this section, then select <strong>New File</strong> or <strong>New Folder</strong> from the context menu that appears (see Figure 1).</p>
+
+    <figure class="figure">
+        <img src="views-files/view-menu-en.png" class="figure-img img-fluid" alt="View context menu" />
+        <figcaption class="figure-caption">Figure 1. View context menu</figcaption>
+    </figure>
+
+    <p>When creating a file, select a view type in the dialog box, specify a file name and click <strong>OK</strong> (see Figure 2). The created file will appear in the project explorer. Double-clicking opens the view in an editor corresponding to the file extension.</p>
+
+    <figure class="figure">
+        <img src="views-files/new-file-en.png" class="figure-img img-fluid" alt="View creation dialog" />
+        <figcaption class="figure-caption">Figure 2. View creation dialog</figcaption>
+    </figure>
+
+    <p>There are specialized editor applications for table views and mimic diagrams. Other types of view files are in XML format and can be edited using general-purpose text editors.</p>
+
+    <h2 id="view-table">View Table</h2>
+    <p>After a view file is created, it must be registered in the configuration database in the <strong>Views</strong> table, as shown in Figure 3. Subfolders in which the view files are located must also be listed in the table in order to assign access rights to them.</p>
+
+    <figure class="figure">
+        <img src="views-files/view-table-en.png" class="figure-img img-fluid" alt="View table" />
+        <figcaption class="figure-caption">Figure 3. View table</figcaption>
+    </figure>
+
+    <p><strong>Путь</strong> к представлению указывается относительно директории представлений. Независимо от операционной системы, используемой на сервере, разделителем пути является обратный слеш. Некоторые представления, например, представления типа <strong>Веб-страница</strong> не имеют файла представлений. Для таких представлений необходимо указать путь, который определит расположение представления в проводнике представлений приложения Вебстанция.</p>
+    <p><strong>Тип представления</strong> выбирается из выпадающего списка. Если файл представления имеет расширение, зарегистрированное в таблице <strong>Типы предоставлений</strong>, то тип можно не указывать, он будет определён автоматически.</p>
+    <p><strong>Объект</strong>, данные которого отображает представление, необходимо указать для разграничения прав доступа пользователей к представлению.</p>
+    <p>Столбец <strong>Аргументы</strong> содержит дополнительные параметры представления, которые влияют на его работу. Для представлений типа <strong>Веб-страница</strong> в качестве аргументов указывается её адрес.</p>
+    <p>Указанный для представления <strong>Заголовок</strong> отображается в дереве представлений. Если оставить заголовок пустым, то в качестве заголовка будет использовано имя файла.</p>
+    <p>Числовое поле <strong>Порядок</strong> определяет порядок обработки представлений при формировании дерева представлений. Если порядок не задан, представления обрабатываются по порядку их идентификаторов.</p>
+    <p>Галочка <strong>Скрыть</strong> позволяет убрать представление из дерева представлений. Это удобно для вспомогательных представлений, которые открываются по ссылке из других представлений.</p>
+
+    <figure class="figure">
+        <img src="views-files/explorer-en.png" class="figure-img img-fluid" alt="View explorer" />
+        <figcaption class="figure-caption">Figure 4. View explorer</figcaption>
+    </figure>
+
+    <p>Based on the view table under consideration, the view explorer is populated, which is shown in Figure 4.</p>
+</div>
