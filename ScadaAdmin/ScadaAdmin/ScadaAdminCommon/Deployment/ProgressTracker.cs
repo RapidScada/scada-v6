@@ -23,8 +23,6 @@
  * Modified : 2021
  */
 
-using System;
-
 namespace Scada.Admin.Deployment
 {
     /// <summary>

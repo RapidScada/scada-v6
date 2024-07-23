@@ -24,7 +24,6 @@
  */
 
 using Scada.Data.Tables;
-using System;
 
 namespace Scada.Admin.App.Code
 {

@@ -32,8 +32,6 @@ using Scada.Config;
 using Scada.Lang;
 using Scada.Log;
 using Scada.Server.Lang;
-using System;
-using System.IO;
 
 namespace Scada.Admin.App.Code
 {

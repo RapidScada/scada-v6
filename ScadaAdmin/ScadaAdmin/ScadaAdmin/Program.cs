@@ -27,11 +27,7 @@ using Scada.Admin.App.Code;
 using Scada.Admin.App.Forms;
 using Scada.Forms;
 using Scada.Lang;
-using System;
-using System.IO;
 using System.Reflection;
-using System.Threading;
-using System.Windows.Forms;
 
 namespace Scada.Admin.App
 {

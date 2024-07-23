@@ -24,10 +24,7 @@
  */
 
 using Scada.Forms;
-using System;
 using System.Collections;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Scada.Admin.App.Forms.Tables
 {

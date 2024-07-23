@@ -27,10 +27,7 @@ using Scada.Admin.App.Code;
 using Scada.Admin.Deployment;
 using Scada.Forms;
 using Scada.Lang;
-using System;
-using System.Collections.Generic;
 using System.Text;
-using System.Windows.Forms;
 
 namespace Scada.Admin.App.Forms.Deployment
 {

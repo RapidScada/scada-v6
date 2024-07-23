@@ -29,12 +29,8 @@ using Scada.Admin.Config;
 using Scada.Admin.Extensions;
 using Scada.Forms;
 using Scada.Lang;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Windows.Forms;
 
 namespace Scada.Admin.App.Forms.Tools
 {

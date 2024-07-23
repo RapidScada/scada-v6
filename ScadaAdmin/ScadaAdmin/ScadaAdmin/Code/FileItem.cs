@@ -23,9 +23,6 @@
  * Modified : 2021
  */
 
-using System;
-using System.IO;
-
 namespace Scada.Admin.App.Code
 {
     /// <summary>

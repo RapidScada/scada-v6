@@ -24,8 +24,6 @@
  */
 
 using Scada.Lang;
-using System;
-using System.IO;
 using System.Reflection;
 
 namespace Scada.Admin.Extensions

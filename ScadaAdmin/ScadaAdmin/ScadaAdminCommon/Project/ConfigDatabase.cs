@@ -28,9 +28,6 @@ using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Lang;
-using System;
-using System.IO;
-using System.Linq;
 
 namespace Scada.Admin.Project
 {

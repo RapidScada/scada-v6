@@ -28,10 +28,6 @@ using Scada.Admin.Deployment;
 using Scada.Admin.Project;
 using Scada.Dbms;
 using Scada.Lang;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions
 {

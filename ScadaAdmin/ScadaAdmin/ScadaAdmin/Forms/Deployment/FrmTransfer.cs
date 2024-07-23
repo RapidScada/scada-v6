@@ -28,11 +28,7 @@ using Scada.Admin.Deployment;
 using Scada.Admin.Extensions;
 using Scada.Admin.Project;
 using Scada.Forms;
-using System;
 using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Scada.Admin.App.Forms.Deployment
 {

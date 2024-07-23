@@ -25,7 +25,6 @@
 
 using Scada.Config;
 using Scada.Server.Config;
-using System.IO;
 
 namespace Scada.Admin.Project
 {

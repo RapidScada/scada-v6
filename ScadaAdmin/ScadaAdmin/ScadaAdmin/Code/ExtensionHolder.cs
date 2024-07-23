@@ -26,11 +26,6 @@
 using Scada.Admin.Extensions;
 using Scada.Admin.Lang;
 using Scada.Log;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Threading;
-using System.Windows.Forms;
 
 namespace Scada.Admin.App.Code
 {

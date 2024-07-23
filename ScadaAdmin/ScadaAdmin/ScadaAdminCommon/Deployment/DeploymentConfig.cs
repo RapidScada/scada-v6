@@ -24,8 +24,6 @@
  */
 
 using Scada.Admin.Lang;
-using System;
-using System.Collections.Generic;
 using System.Xml;
 
 namespace Scada.Admin.Deployment

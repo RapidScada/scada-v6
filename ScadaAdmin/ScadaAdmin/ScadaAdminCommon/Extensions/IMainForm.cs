@@ -24,8 +24,6 @@
  */
 
 using Scada.Agent;
-using System;
-using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions
 {

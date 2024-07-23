@@ -25,7 +25,6 @@
 
 using Scada.Client;
 using Scada.Dbms;
-using System;
 using System.Xml;
 
 namespace Scada.Admin.Deployment

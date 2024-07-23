@@ -23,8 +23,6 @@
  * Modified : 2023
  */
 
-using System.Windows.Forms;
-
 namespace Scada.Admin.App.Code
 {
     /// <summary>
