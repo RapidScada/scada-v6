@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Admin.Project;
+using WinControls;
 
 namespace Scada.Admin.Extensions.ExtProjectTools.Forms
 {
@@ -9,7 +10,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
     /// Represents an object editor form.
     /// <para>Представляет форму редактора проектов.</para>
     /// </summary>
-    public partial class FrmObjectEditor : Form
+    public partial class FrmObjectEditor : Form, IChildForm
     {
         private readonly IAdminContext adminContext;
         private readonly ConfigDatabase configDatabase;
@@ -18,7 +19,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmObjectEditor()
+        private FrmObjectEditor()
         {
             InitializeComponent();
         }
@@ -31,6 +32,38 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         {
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.configDatabase = configDatabase ?? throw new ArgumentNullException(nameof(configDatabase));
+            IsClosed = false;
+        }
+
+
+        /// <summary>
+        /// Gets or sets the object associated with the form.
+        /// </summary>
+        public ChildFormTag ChildFormTag { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the form has been closed.
+        /// </summary>
+        public bool IsClosed { get; private set; }
+
+
+        /// <summary>
+        /// Saves the settings.
+        /// </summary>
+        public void Save()
+        {
+
+        }
+
+
+        private void FrmObjectEditor_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FrmObjectEditor_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            IsClosed = true;
         }
     }
 }

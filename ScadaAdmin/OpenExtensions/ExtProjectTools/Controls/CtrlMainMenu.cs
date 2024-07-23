@@ -14,6 +14,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
     public partial class CtrlMainMenu : UserControl
     {
         private readonly IAdminContext adminContext; // the Administrator context
+        private FrmObjectEditor frmObjectEditor;     // the object editor form
 
 
         /// <summary>
@@ -34,6 +35,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             SetMenuItemsEnabled();
             adminContext.CurrentProjectChanged += AdminContext_CurrentProjectChanged;
             adminContext.MessageToExtension += AdminContext_MessageToExtension;
+            frmObjectEditor = null;
         }
 
 
@@ -48,6 +50,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             miChannelMapByObject.Enabled = projectIsOpen;
             miDeviceMap.Enabled = projectIsOpen;
             miObjectMap.Enabled = projectIsOpen;
+            miObjectEditor.Enabled = projectIsOpen;
             miCheckIntegrity.Enabled = projectIsOpen;
             miEncryptPassword.Enabled = true;
             miImportTable.Enabled = projectIsOpen;
@@ -141,6 +144,15 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
         private void miObjectMap_Click(object sender, EventArgs e)
         {
             GenerateObjectMap();
+        }
+
+        private void miObjectEditor_Click(object sender, EventArgs e)
+        {
+            // open object editor
+            if (frmObjectEditor == null || frmObjectEditor.IsClosed)
+                frmObjectEditor = new FrmObjectEditor(adminContext, adminContext.CurrentProject.ConfigDatabase);
+
+            adminContext.MainForm.AddChildForm(frmObjectEditor, null);
         }
 
         private void miCheckIntegrity_Click(object sender, EventArgs e)

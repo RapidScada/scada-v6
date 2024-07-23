@@ -35,6 +35,7 @@
     <Phrase key="miChannelMapByObject">Channel Map by Object</Phrase>
     <Phrase key="miDeviceMap">Device Map</Phrase>
     <Phrase key="miObjectMap">Object Map</Phrase>
+    <Phrase key="miObjectEditor">Object Editor</Phrase>
     <Phrase key="miCheckIntegrity">Check Integrity</Phrase>
     <Phrase key="miEncryptPassword">Encrypt Password...</Phrase>
     <Phrase key="miImportTable">Import Table...</Phrase>

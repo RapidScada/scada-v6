@@ -35,6 +35,7 @@
     <Phrase key="miChannelMapByObject">Карта каналов по объектам</Phrase>
     <Phrase key="miDeviceMap">Карта устройств</Phrase>
     <Phrase key="miObjectMap">Карта объектов</Phrase>
+    <Phrase key="miObjectEditor">Редактор объектов</Phrase>
     <Phrase key="miCheckIntegrity">Проверить целостность</Phrase>
     <Phrase key="miEncryptPassword">Шифровать пароль...</Phrase>
     <Phrase key="miImportTable">Импортировать таблицу...</Phrase>
