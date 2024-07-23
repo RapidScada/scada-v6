@@ -26,7 +26,7 @@
 using Scada.Admin.App.Code;
 using Scada.Forms;
 using System.Text;
-using WinControl;
+using WinControls;
 
 namespace Scada.Admin.App.Forms
 {

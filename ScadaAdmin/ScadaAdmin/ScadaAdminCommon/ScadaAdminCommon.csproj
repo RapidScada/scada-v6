@@ -19,7 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="WinControl" Version="2.1.1" />
+    <PackageReference Include="WinControl" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>

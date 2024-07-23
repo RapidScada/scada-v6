@@ -41,7 +41,7 @@ using Scada.Lang;
 using Scada.Log;
 using System.Collections;
 using System.ComponentModel;
-using WinControl;
+using WinControls;
 
 namespace Scada.Admin.App.Forms
 {

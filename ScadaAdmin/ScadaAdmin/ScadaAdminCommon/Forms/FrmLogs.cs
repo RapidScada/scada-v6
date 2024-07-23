@@ -29,7 +29,7 @@ using Scada.Agent;
 using Scada.Forms;
 using Scada.Lang;
 using Scada.Protocol;
-using WinControl;
+using WinControls;
 
 namespace Scada.Admin.Forms
 {

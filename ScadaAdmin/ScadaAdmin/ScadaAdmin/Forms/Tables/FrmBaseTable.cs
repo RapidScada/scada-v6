@@ -32,7 +32,7 @@ using Scada.Forms.Forms;
 using Scada.Lang;
 using System.Data;
 using System.Globalization;
-using WinControl;
+using WinControls;
 
 namespace Scada.Admin.App.Forms.Tables
 {

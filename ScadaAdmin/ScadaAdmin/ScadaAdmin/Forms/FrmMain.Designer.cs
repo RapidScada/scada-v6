@@ -78,7 +78,7 @@
             ilExplorer = new System.Windows.Forms.ImageList(components);
             splVert = new System.Windows.Forms.Splitter();
             pnlRight = new System.Windows.Forms.Panel();
-            wctrlMain = new WinControl.WinControl();
+            wctrlMain = new WinControls.WinControl();
             ofdProject = new System.Windows.Forms.OpenFileDialog();
             cmsInstance = new System.Windows.Forms.ContextMenuStrip(components);
             miInstanceAdd = new System.Windows.Forms.ToolStripMenuItem();
@@ -939,7 +939,7 @@
         private System.Windows.Forms.ToolStripSeparator miHelpSep1;
         private System.Windows.Forms.ToolStripButton btnFileNewProject;
         private System.Windows.Forms.TreeView tvExplorer;
-        private WinControl.WinControl wctrlMain;
+        private WinControls.WinControl wctrlMain;
         private System.Windows.Forms.ImageList ilExplorer;
         private System.Windows.Forms.OpenFileDialog ofdProject;
         private System.Windows.Forms.ContextMenuStrip cmsInstance;
