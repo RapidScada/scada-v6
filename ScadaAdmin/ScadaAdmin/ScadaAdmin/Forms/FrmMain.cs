@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2023
+ * Modified : 2024
  */
 
 using Scada.Admin.App.Code;
@@ -136,8 +136,7 @@ namespace Scada.Admin.App.Forms
         {
             FormTranslator.Translate(this, GetType().FullName, new FormTranslatorOptions
             {
-                ContextMenus = new ContextMenuStrip[] {
-                    cmsProject, cmsBase, cmsCnlTable, cmsDirectory, cmsFileItem, cmsInstance, cmsApp }
+                ContextMenus = [cmsProject, cmsBase, cmsCnlTable, cmsDirectory, cmsFileItem, cmsInstance, cmsApp]
             });
             Text = AppPhrases.EmptyTitle;
             wctrlMain.MessageText = AppPhrases.WelcomeMessage;
@@ -593,7 +592,7 @@ namespace Scada.Admin.App.Forms
         /// <summary>
         /// Creates a new Agent client for the specified instance.
         /// </summary>
-        private IAgentClient CreateAgentClient(LiveInstance liveInstance)
+        private AgentClient CreateAgentClient(LiveInstance liveInstance)
         {
             DeploymentProfile profile = GetDeploymentProfile(liveInstance);
             return profile != null && profile.AgentEnabled
@@ -877,6 +876,15 @@ namespace Scada.Admin.App.Forms
             }
         }
 
+
+        /// <summary>
+        /// Adds the specified child form to the main form.
+        /// </summary>
+        public void AddChildForm(Form form, Image image)
+        {
+            if (form != null)
+                wctrlMain.AddForm(form, "", image, null);
+        }
 
         /// <summary>
         /// Closes the specified child form.

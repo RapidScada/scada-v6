@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2022
+ * Modified : 2024
  */
 
 using Scada.Agent;
@@ -53,6 +53,11 @@ namespace Scada.Admin.Extensions
         /// </summary>
         Cursor Cursor { get; set; }
 
+
+        /// <summary>
+        /// Adds the specified child form to the main form.
+        /// </summary>
+        void AddChildForm(Form form, Image image);
 
         /// <summary>
         /// Closes the specified child form.
