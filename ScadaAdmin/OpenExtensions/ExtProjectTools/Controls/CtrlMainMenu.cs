@@ -98,7 +98,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
         /// </summary>
         public ToolStripItem[] GetMainMenuItems()
         {
-            return new ToolStripItem[] { miProjectTools };
+            return [miProjectTools];
         }
 
 

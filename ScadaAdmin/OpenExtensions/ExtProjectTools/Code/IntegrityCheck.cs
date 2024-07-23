@@ -51,8 +51,8 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
                         writer.Write(baseTable.Title);
                         writer.Write("...");
 
-                        SortedSet<int> requiredKeys = new();
-                        List<int> lostKeys = new();
+                        SortedSet<int> requiredKeys = [];
+                        List<int> lostKeys = [];
 
                         foreach (TableRelation relation in baseTable.Dependent)
                         {

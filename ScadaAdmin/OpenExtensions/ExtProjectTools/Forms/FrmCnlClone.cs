@@ -19,12 +19,12 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         /// <summary>
         /// The known functions that contain a channel number argument.
         /// </summary>
-        private static readonly string[] KnownFunctions = { "N(", "Val(", "Stat(", "Data(", "Time(", "Deriv(",
-            "PrevVal(", "PrevStat(", "PrevData(", "PrevTime(", "SetVal(", "SetStat(", "SetData(" };
+        private static readonly string[] KnownFunctions = ["N(", "Val(", "Stat(", "Data(", "Time(", "Deriv(",
+            "PrevVal(", "PrevStat(", "PrevData(", "PrevTime(", "SetVal(", "SetStat(", "SetData("];
         /// <summary>
         /// The possible end symbols of an argument.
         /// </summary>
-        private static readonly char[] ArgumentEnds = { ')', ',' };
+        private static readonly char[] ArgumentEnds = [')', ','];
 
         private readonly IAdminContext adminContext;    // the Administrator context
         private readonly ConfigDatabase configDatabase; // the configuration database
@@ -61,9 +61,11 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         /// </summary>
         private void FillObjList()
         {
-            List<Obj> objList = new(configDatabase.ObjTable.ItemCount + 2);
-            objList.Add(new Obj { ObjNum = -1, Name = ExtensionPhrases.KeepUnchanged });
-            objList.Add(new Obj { ObjNum = 0, Name = " " });
+            List<Obj> objList = new(configDatabase.ObjTable.ItemCount + 2)
+            {
+                new Obj { ObjNum = -1, Name = ExtensionPhrases.KeepUnchanged },
+                new Obj { ObjNum = 0, Name = " " }
+            };
             objList.AddRange(configDatabase.ObjTable.Enumerate().OrderBy(obj => obj.Name));
 
             cbReplaceObj.ValueMember = "ObjNum";
@@ -77,9 +79,11 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         /// </summary>
         private void FillDeviceList()
         {
-            List<Device> deviceList = new(configDatabase.DeviceTable.ItemCount + 2);
-            deviceList.Add(new Device { DeviceNum = -1, Name = ExtensionPhrases.KeepUnchanged });
-            deviceList.Add(new Device { DeviceNum = 0, Name = " " });
+            List<Device> deviceList = new(configDatabase.DeviceTable.ItemCount + 2)
+            {
+                new Device { DeviceNum = -1, Name = ExtensionPhrases.KeepUnchanged },
+                new Device { DeviceNum = 0, Name = " " }
+            };
             deviceList.AddRange(configDatabase.DeviceTable.Enumerate().OrderBy(obj => obj.Name));
 
             cbReplaceDevice.ValueMember = "DeviceNum";
@@ -194,7 +198,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                                 {
                                     funcFound = true;
                                     searchInd = argEnd;
-                                    formula = formula.Substring(0, argStart) + (cnlNum + shiftNum) + formula[argEnd..];
+                                    formula = formula[..argStart] + (cnlNum + shiftNum) + formula[argEnd..];
                                 }
                             }
                         }
