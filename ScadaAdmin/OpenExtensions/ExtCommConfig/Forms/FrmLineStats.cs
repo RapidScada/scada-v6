@@ -11,7 +11,7 @@ using Scada.Protocol;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using WinControl;
+using WinControls;
 
 namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 {

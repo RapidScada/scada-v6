@@ -8,7 +8,7 @@ using Scada.Forms;
 using Scada.Server.Config;
 using Scada.Server.Modules;
 using System.Text;
-using WinControl;
+using WinControls;
 
 namespace Scada.Admin.Extensions.ExtServerConfig.Forms
 {

@@ -10,7 +10,7 @@ using System;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using WinControl;
+using WinControls;
 
 namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 {

@@ -10,7 +10,7 @@ using Scada.Forms;
 using Scada.Lang;
 using Scada.Web.Plugins.PlgMain;
 using System.ComponentModel;
-using WinControl;
+using WinControls;
 
 namespace Scada.Admin.Extensions.ExtTableEditor.Forms
 {

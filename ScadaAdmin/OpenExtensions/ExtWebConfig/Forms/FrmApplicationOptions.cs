@@ -5,7 +5,7 @@ using Scada.Admin.Extensions.ExtWebConfig.Code;
 using Scada.Admin.Project;
 using Scada.Forms;
 using Scada.Web.Config;
-using WinControl;
+using WinControls;
 
 namespace Scada.Admin.Extensions.ExtWebConfig.Forms
 {

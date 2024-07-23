@@ -12,7 +12,7 @@ using Scada.Forms;
 using Scada.Lang;
 using System;
 using System.Windows.Forms;
-using WinControl;
+using WinControls;
 
 namespace Scada.Admin.Extensions.ExtCommConfig.Code
 {

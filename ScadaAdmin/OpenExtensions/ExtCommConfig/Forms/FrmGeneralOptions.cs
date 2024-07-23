@@ -7,7 +7,7 @@ using Scada.Forms;
 using Scada.Log;
 using System;
 using System.Windows.Forms;
-using WinControl;
+using WinControls;
 
 namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 {

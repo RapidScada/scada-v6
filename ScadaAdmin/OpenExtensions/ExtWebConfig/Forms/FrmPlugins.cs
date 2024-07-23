@@ -8,7 +8,7 @@ using Scada.Forms;
 using Scada.Web.Config;
 using Scada.Web.Plugins;
 using System.Text;
-using WinControl;
+using WinControls;
 
 namespace Scada.Admin.Extensions.ExtWebConfig.Forms
 {

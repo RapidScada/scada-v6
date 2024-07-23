@@ -3,7 +3,7 @@
 
 using Scada.Admin.Extensions.ExtCommConfig.Code;
 using Scada.Admin.Forms;
-using WinControl;
+using WinControls;
 
 namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 {
