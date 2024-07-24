@@ -57,7 +57,7 @@ namespace Scada.Admin.Extensions
         /// <summary>
         /// Adds the specified child form to the main form.
         /// </summary>
-        void AddChildForm(Form form, Image image);
+        void AddChildForm(Form form);
 
         /// <summary>
         /// Closes the specified child form.

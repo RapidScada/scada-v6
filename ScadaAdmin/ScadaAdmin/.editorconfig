@@ -3,5 +3,5 @@
 # IDE1006: Naming Styles
 dotnet_diagnostic.IDE1006.severity = silent
 
-# CA1806: Do not ignore method results
-dotnet_diagnostic.CA1806.severity = silent
+# IDE0290: Use primary constructor
+dotnet_diagnostic.IDE0290.severity = silent

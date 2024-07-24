@@ -880,10 +880,10 @@ namespace Scada.Admin.App.Forms
         /// <summary>
         /// Adds the specified child form to the main form.
         /// </summary>
-        public void AddChildForm(Form form, Image image)
+        public void AddChildForm(Form form)
         {
             if (form != null)
-                wctrlMain.AddForm(form, "", image, null);
+                wctrlMain.AddForm(form);
         }
 
         /// <summary>
