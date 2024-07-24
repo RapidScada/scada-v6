@@ -60,7 +60,7 @@ namespace Scada.Admin.Extensions.ExtTableEditor
         /// <summary>
         /// Gets the file extensions for which the extension provides an editor.
         /// </summary>
-        public override ICollection<string> FileExtensions => new string[] { "tbl" };
+        public override ICollection<string> FileExtensions => ["tbl"];
 
 
         /// <summary>
