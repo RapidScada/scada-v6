@@ -94,8 +94,8 @@ namespace Scada.Admin.Extensions.ExtServerConfig
             if (relatedObject is not ServerApp serverApp)
                 return null;
 
-            return new TreeNode[]
-            {
+            return
+            [
                 new TreeNode(ExtensionPhrases.GeneralOptionsNode)
                 {
                     ImageKey = ImageKey.GeneralOptions,
@@ -103,7 +103,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig
                     Tag = new TreeNodeTag
                     {
                         FormType = typeof(FrmGeneralOptions),
-                        FormArgs = new object[] { AdminContext, serverApp }
+                        FormArgs = [AdminContext, serverApp]
                     }
                 },
                 new TreeNode(ExtensionPhrases.ModulesNode)
@@ -113,7 +113,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig
                     Tag = new TreeNodeTag
                     {
                         FormType = typeof(FrmModules),
-                        FormArgs = new object[] { AdminContext, serverApp }
+                        FormArgs = [AdminContext, serverApp]
                     }
                 },
                 new TreeNode(ExtensionPhrases.ArchivesNode)
@@ -123,7 +123,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig
                     Tag = new TreeNodeTag
                     {
                         FormType = typeof(FrmArchives),
-                        FormArgs = new object[] { AdminContext, serverApp }
+                        FormArgs = [AdminContext, serverApp]
                     }
                 },
                 new TreeNode(ExtensionPhrases.LogsNode)
@@ -133,10 +133,10 @@ namespace Scada.Admin.Extensions.ExtServerConfig
                     Tag = new TreeNodeTag
                     {
                         FormType = typeof(FrmServerLogs),
-                        FormArgs = new object[] { AdminContext }
+                        FormArgs = [AdminContext]
                     }
                 }
-            };
+            ];
         }
 
         /// <summary>
