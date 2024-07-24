@@ -34,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="WinControl" Version="2.2.1" />
+    <PackageReference Include="WinControl" Version="2.2.2" />
   </ItemGroup>
 
   <ItemGroup>
