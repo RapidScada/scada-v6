@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Admin.Extensions.ExtProjectTools.Properties;
 using Scada.Admin.Project;
 using WinControls;
 
@@ -32,6 +33,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         {
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.configDatabase = configDatabase ?? throw new ArgumentNullException(nameof(configDatabase));
+            ChildFormTag = new ChildFormTag(new ChildFormOptions { Image = Resources.objects });
             IsClosed = false;
         }
 

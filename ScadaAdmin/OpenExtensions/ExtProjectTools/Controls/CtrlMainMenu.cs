@@ -152,7 +152,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             if (frmObjectEditor == null || frmObjectEditor.IsClosed)
                 frmObjectEditor = new FrmObjectEditor(adminContext, adminContext.CurrentProject.ConfigDatabase);
 
-            adminContext.MainForm.AddChildForm(frmObjectEditor, null);
+            adminContext.MainForm.AddChildForm(frmObjectEditor);
         }
 
         private void miCheckIntegrity_Click(object sender, EventArgs e)
