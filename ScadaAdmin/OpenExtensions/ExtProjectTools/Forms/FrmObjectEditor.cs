@@ -68,5 +68,18 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         {
             IsClosed = true;
         }
+
+        private void FrmObjectEditor_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control)
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.F:
+                        e.Handled = true;
+                        break;
+                }
+            }
+        }
     }
 }
