@@ -59,6 +59,9 @@
     <Phrase key="CloneChannelsCompleted">Клонирование завершено успешно.&#13;&#10;Добавлено каналов: {0}.</Phrase>
     <Phrase key="CloneChannelsError">Ошибка при клонировании каналов</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmObjectEditor">
+    <Phrase key="this">Редактор объектов</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
     <Phrase key="this">Шифрование пароля</Phrase>
     <Phrase key="lblPassword">Пароль</Phrase>

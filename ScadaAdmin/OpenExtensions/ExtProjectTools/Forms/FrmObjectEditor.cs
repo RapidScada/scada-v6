@@ -3,6 +3,7 @@
 
 using Scada.Admin.Extensions.ExtProjectTools.Properties;
 using Scada.Admin.Project;
+using Scada.Forms;
 using WinControls;
 
 namespace Scada.Admin.Extensions.ExtProjectTools.Forms
@@ -60,7 +61,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
 
         private void FrmObjectEditor_Load(object sender, EventArgs e)
         {
-
+            FormTranslator.Translate(this, GetType().FullName);
         }
 
         private void FrmObjectEditor_FormClosed(object sender, FormClosedEventArgs e)

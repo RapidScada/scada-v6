@@ -59,6 +59,9 @@
     <Phrase key="CloneChannelsCompleted">Cloning completed successfully.&#13;&#10;{0} channel(s) added.</Phrase>
     <Phrase key="CloneChannelsError">Error cloning channels</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmObjectEditor">
+    <Phrase key="this">Object Editor</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
     <Phrase key="this">Encrypt Password</Phrase>
     <Phrase key="lblPassword">Password</Phrase>
