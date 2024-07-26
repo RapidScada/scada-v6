@@ -103,9 +103,9 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap objects {
+        internal static System.Drawing.Bitmap obj {
             get {
-                object obj = ResourceManager.GetObject("objects", resourceCulture);
+                object obj = ResourceManager.GetObject("obj", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

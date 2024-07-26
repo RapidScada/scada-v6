@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             toolStrip = new ToolStrip();
             btnAddObject = new ToolStripButton();
             btnDeleteObject = new ToolStripButton();
@@ -36,7 +37,7 @@
             btnFind = new ToolStripButton();
             tvObj = new TreeView();
             pnlRight = new Panel();
-            gbObj = new GroupBox();
+            gbObject = new GroupBox();
             cbParentObj = new ComboBox();
             lblParentObj = new Label();
             txtCode = new TextBox();
@@ -45,9 +46,10 @@
             lblName = new Label();
             numObjNum = new NumericUpDown();
             lblObjNum = new Label();
+            ilTree = new ImageList(components);
             toolStrip.SuspendLayout();
             pnlRight.SuspendLayout();
-            gbObj.SuspendLayout();
+            gbObject.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numObjNum).BeginInit();
             SuspendLayout();
             // 
@@ -68,6 +70,7 @@
             btnAddObject.Name = "btnAddObject";
             btnAddObject.Size = new Size(23, 22);
             btnAddObject.ToolTipText = "Add Object";
+            btnAddObject.Click += btnAddObject_Click;
             // 
             // btnDeleteObject
             // 
@@ -77,6 +80,7 @@
             btnDeleteObject.Name = "btnDeleteObject";
             btnDeleteObject.Size = new Size(23, 22);
             btnDeleteObject.ToolTipText = "Delete Object";
+            btnDeleteObject.Click += btnDeleteObject_Click;
             // 
             // btnRefreshData
             // 
@@ -86,6 +90,7 @@
             btnRefreshData.Name = "btnRefreshData";
             btnRefreshData.Size = new Size(23, 22);
             btnRefreshData.ToolTipText = "Refresh Data";
+            btnRefreshData.Click += btnRefreshData_Click;
             // 
             // sep1
             // 
@@ -100,18 +105,22 @@
             btnFind.Name = "btnFind";
             btnFind.Size = new Size(23, 22);
             btnFind.ToolTipText = "Find (Ctrl+F)";
+            btnFind.Click += btnFind_Click;
             // 
             // tvObj
             // 
             tvObj.Dock = DockStyle.Fill;
+            tvObj.ImageIndex = 0;
+            tvObj.ImageList = ilTree;
             tvObj.Location = new Point(0, 25);
             tvObj.Name = "tvObj";
+            tvObj.SelectedImageIndex = 0;
             tvObj.Size = new Size(484, 436);
             tvObj.TabIndex = 1;
             // 
             // pnlRight
             // 
-            pnlRight.Controls.Add(gbObj);
+            pnlRight.Controls.Add(gbObject);
             pnlRight.Dock = DockStyle.Right;
             pnlRight.Location = new Point(484, 25);
             pnlRight.Name = "pnlRight";
@@ -119,24 +128,24 @@
             pnlRight.Size = new Size(300, 436);
             pnlRight.TabIndex = 2;
             // 
-            // gbObj
+            // gbObject
             // 
-            gbObj.Controls.Add(cbParentObj);
-            gbObj.Controls.Add(lblParentObj);
-            gbObj.Controls.Add(txtCode);
-            gbObj.Controls.Add(lblCode);
-            gbObj.Controls.Add(txtName);
-            gbObj.Controls.Add(lblName);
-            gbObj.Controls.Add(numObjNum);
-            gbObj.Controls.Add(lblObjNum);
-            gbObj.Dock = DockStyle.Fill;
-            gbObj.Location = new Point(12, 0);
-            gbObj.Name = "gbObj";
-            gbObj.Padding = new Padding(10, 3, 10, 10);
-            gbObj.Size = new Size(276, 424);
-            gbObj.TabIndex = 0;
-            gbObj.TabStop = false;
-            gbObj.Text = "Object Properties";
+            gbObject.Controls.Add(cbParentObj);
+            gbObject.Controls.Add(lblParentObj);
+            gbObject.Controls.Add(txtCode);
+            gbObject.Controls.Add(lblCode);
+            gbObject.Controls.Add(txtName);
+            gbObject.Controls.Add(lblName);
+            gbObject.Controls.Add(numObjNum);
+            gbObject.Controls.Add(lblObjNum);
+            gbObject.Dock = DockStyle.Fill;
+            gbObject.Location = new Point(12, 0);
+            gbObject.Name = "gbObject";
+            gbObject.Padding = new Padding(10, 3, 10, 10);
+            gbObject.Size = new Size(276, 424);
+            gbObject.TabIndex = 0;
+            gbObject.TabStop = false;
+            gbObject.Text = "Object Properties";
             // 
             // cbParentObj
             // 
@@ -146,6 +155,7 @@
             cbParentObj.Name = "cbParentObj";
             cbParentObj.Size = new Size(250, 23);
             cbParentObj.TabIndex = 7;
+            cbParentObj.SelectedIndexChanged += cbParentObj_SelectedIndexChanged;
             // 
             // lblParentObj
             // 
@@ -163,6 +173,7 @@
             txtCode.Name = "txtCode";
             txtCode.Size = new Size(250, 23);
             txtCode.TabIndex = 5;
+            txtCode.TextChanged += txtCode_TextChanged;
             // 
             // lblCode
             // 
@@ -180,6 +191,7 @@
             txtName.Name = "txtName";
             txtName.Size = new Size(250, 23);
             txtName.TabIndex = 3;
+            txtName.TextChanged += txtName_TextChanged;
             // 
             // lblName
             // 
@@ -200,6 +212,7 @@
             numObjNum.Size = new Size(120, 23);
             numObjNum.TabIndex = 1;
             numObjNum.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            numObjNum.ValueChanged += numObjNum_ValueChanged;
             // 
             // lblObjNum
             // 
@@ -209,6 +222,12 @@
             lblObjNum.Size = new Size(51, 15);
             lblObjNum.TabIndex = 0;
             lblObjNum.Text = "Number";
+            // 
+            // ilTree
+            // 
+            ilTree.ColorDepth = ColorDepth.Depth32Bit;
+            ilTree.ImageSize = new Size(16, 16);
+            ilTree.TransparentColor = Color.Transparent;
             // 
             // FrmObjectEditor
             // 
@@ -227,8 +246,8 @@
             toolStrip.ResumeLayout(false);
             toolStrip.PerformLayout();
             pnlRight.ResumeLayout(false);
-            gbObj.ResumeLayout(false);
-            gbObj.PerformLayout();
+            gbObject.ResumeLayout(false);
+            gbObject.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)numObjNum).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -243,7 +262,7 @@
         private ToolStripSeparator sep1;
         private TreeView tvObj;
         private Panel pnlRight;
-        private GroupBox gbObj;
+        private GroupBox gbObject;
         private NumericUpDown numObjNum;
         private Label lblObjNum;
         private TextBox txtCode;
@@ -253,5 +272,6 @@
         private ComboBox cbParentObj;
         private Label lblParentObj;
         private ToolStripButton btnRefreshData;
+        private ImageList ilTree;
     }
 }
