@@ -40,6 +40,7 @@
     <Phrase key="miEncryptPassword">Encrypt Password...</Phrase>
     <Phrase key="miImportTable">Import Table...</Phrase>
     <Phrase key="miExportTable">Export Table...</Phrase>
+    <Phrase key="btnObjectEditor.ToolTip">Object Editor</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmCnlClone">
     <Phrase key="this">Clone Channels</Phrase>

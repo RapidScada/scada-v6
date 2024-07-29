@@ -50,7 +50,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             miChannelMapByObject.Enabled = projectIsOpen;
             miDeviceMap.Enabled = projectIsOpen;
             miObjectMap.Enabled = projectIsOpen;
-            miObjectEditor.Enabled = projectIsOpen;
+            miObjectEditor.Enabled = btnObjectEditor.Enabled = projectIsOpen;
             miCheckIntegrity.Enabled = projectIsOpen;
             miEncryptPassword.Enabled = true;
             miImportTable.Enabled = projectIsOpen;
@@ -102,6 +102,14 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
         public ToolStripItem[] GetMainMenuItems()
         {
             return [miProjectTools];
+        }
+
+        /// <summary>
+        /// Gets tool buttons to add to the toolbar.
+        /// </summary>
+        public ToolStripItem[] GetToobarButtons()
+        {
+            return [btnObjectEditor];
         }
 
 

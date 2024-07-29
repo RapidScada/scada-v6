@@ -37,13 +37,16 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             miChannelMapByObject = new ToolStripMenuItem();
             miDeviceMap = new ToolStripMenuItem();
             miObjectMap = new ToolStripMenuItem();
+            miObjectEditor = new ToolStripMenuItem();
             miCheckIntegrity = new ToolStripMenuItem();
             miEncryptPassword = new ToolStripMenuItem();
             miSep = new ToolStripSeparator();
             miImportTable = new ToolStripMenuItem();
             miExportTable = new ToolStripMenuItem();
-            miObjectEditor = new ToolStripMenuItem();
+            toolStrip = new ToolStrip();
+            btnObjectEditor = new ToolStripButton();
             menuStrip.SuspendLayout();
+            toolStrip.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip
@@ -65,7 +68,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             // 
             miProjectTools.DropDownItems.AddRange(new ToolStripItem[] { miCloneChannels, miChannelMapByDevice, miChannelMapByObject, miDeviceMap, miObjectMap, miObjectEditor, miCheckIntegrity, miEncryptPassword, miSep, miImportTable, miExportTable });
             miProjectTools.Name = "miProjectTools";
-            miProjectTools.Size = new Size(180, 22);
+            miProjectTools.Size = new Size(141, 22);
             miProjectTools.Text = "Project Tools";
             // 
             // miCloneChannels
@@ -103,6 +106,13 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             miObjectMap.Text = "Object Map";
             miObjectMap.Click += miObjectMap_Click;
             // 
+            // miObjectEditor
+            // 
+            miObjectEditor.Name = "miObjectEditor";
+            miObjectEditor.Size = new Size(199, 22);
+            miObjectEditor.Text = "Object Editor";
+            miObjectEditor.Click += miObjectEditor_Click;
+            // 
             // miCheckIntegrity
             // 
             miCheckIntegrity.Name = "miCheckIntegrity";
@@ -136,21 +146,35 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             miExportTable.Text = "Export Table...";
             miExportTable.Click += miExportTable_Click;
             // 
-            // miObjectEditor
+            // toolStrip
             // 
-            miObjectEditor.Name = "miObjectEditor";
-            miObjectEditor.Size = new Size(199, 22);
-            miObjectEditor.Text = "Object Editor";
-            miObjectEditor.Click += miObjectEditor_Click;
+            toolStrip.Items.AddRange(new ToolStripItem[] { btnObjectEditor });
+            toolStrip.Location = new Point(0, 24);
+            toolStrip.Name = "toolStrip";
+            toolStrip.Size = new Size(150, 25);
+            toolStrip.TabIndex = 2;
+            // 
+            // btnObjectEditor
+            // 
+            btnObjectEditor.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            btnObjectEditor.Image = Properties.Resources.obj;
+            btnObjectEditor.ImageTransparentColor = Color.Magenta;
+            btnObjectEditor.Name = "btnObjectEditor";
+            btnObjectEditor.Size = new Size(23, 22);
+            btnObjectEditor.ToolTipText = "Object Editor";
+            btnObjectEditor.Click += miObjectEditor_Click;
             // 
             // CtrlMainMenu
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(toolStrip);
             Controls.Add(menuStrip);
             Name = "CtrlMainMenu";
             menuStrip.ResumeLayout(false);
             menuStrip.PerformLayout();
+            toolStrip.ResumeLayout(false);
+            toolStrip.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -170,5 +194,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
         private ToolStripMenuItem miEncryptPassword;
         private ToolStripMenuItem miObjectMap;
         private ToolStripMenuItem miObjectEditor;
+        private ToolStrip toolStrip;
+        private ToolStripButton btnObjectEditor;
     }
 }
