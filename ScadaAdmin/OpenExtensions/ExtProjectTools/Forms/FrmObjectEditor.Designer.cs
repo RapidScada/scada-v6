@@ -36,9 +36,13 @@
             sep1 = new ToolStripSeparator();
             btnFind = new ToolStripButton();
             tvObj = new TreeView();
+            cmsTree = new ContextMenuStrip(components);
+            miCollapseAll = new ToolStripMenuItem();
             ilTree = new ImageList(components);
             pnlRight = new Panel();
             gbObject = new GroupBox();
+            txtDescr = new TextBox();
+            lblDescr = new Label();
             cbParentObj = new ComboBox();
             lblParentObj = new Label();
             txtCode = new TextBox();
@@ -47,13 +51,11 @@
             lblName = new Label();
             numObjNum = new NumericUpDown();
             lblObjNum = new Label();
-            cmsTree = new ContextMenuStrip(components);
-            miCollapseAll = new ToolStripMenuItem();
             toolStrip.SuspendLayout();
+            cmsTree.SuspendLayout();
             pnlRight.SuspendLayout();
             gbObject.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numObjNum).BeginInit();
-            cmsTree.SuspendLayout();
             SuspendLayout();
             // 
             // toolStrip
@@ -114,6 +116,7 @@
             // 
             tvObj.ContextMenuStrip = cmsTree;
             tvObj.Dock = DockStyle.Fill;
+            tvObj.HideSelection = false;
             tvObj.ImageIndex = 0;
             tvObj.ImageList = ilTree;
             tvObj.Location = new Point(0, 25);
@@ -122,6 +125,20 @@
             tvObj.Size = new Size(484, 436);
             tvObj.TabIndex = 1;
             tvObj.AfterSelect += tvObj_AfterSelect;
+            // 
+            // cmsTree
+            // 
+            cmsTree.Items.AddRange(new ToolStripItem[] { miCollapseAll });
+            cmsTree.Name = "cmsTree";
+            cmsTree.Size = new Size(137, 26);
+            // 
+            // miCollapseAll
+            // 
+            miCollapseAll.Image = Properties.Resources.collapse_all;
+            miCollapseAll.Name = "miCollapseAll";
+            miCollapseAll.Size = new Size(136, 22);
+            miCollapseAll.Text = "Collapse All";
+            miCollapseAll.Click += miCollapseAll_Click;
             // 
             // ilTree
             // 
@@ -141,6 +158,8 @@
             // 
             // gbObject
             // 
+            gbObject.Controls.Add(txtDescr);
+            gbObject.Controls.Add(lblDescr);
             gbObject.Controls.Add(cbParentObj);
             gbObject.Controls.Add(lblParentObj);
             gbObject.Controls.Add(txtCode);
@@ -158,11 +177,30 @@
             gbObject.TabStop = false;
             gbObject.Text = "Object Properties";
             // 
+            // txtDescr
+            // 
+            txtDescr.Location = new Point(13, 241);
+            txtDescr.Margin = new Padding(3, 3, 3, 10);
+            txtDescr.Name = "txtDescr";
+            txtDescr.Size = new Size(250, 23);
+            txtDescr.TabIndex = 9;
+            txtDescr.TextChanged += txtDescr_TextChanged;
+            // 
+            // lblDescr
+            // 
+            lblDescr.AutoSize = true;
+            lblDescr.Location = new Point(10, 223);
+            lblDescr.Name = "lblDescr";
+            lblDescr.Size = new Size(67, 15);
+            lblDescr.TabIndex = 8;
+            lblDescr.Text = "Description";
+            // 
             // cbParentObj
             // 
             cbParentObj.DropDownStyle = ComboBoxStyle.DropDownList;
             cbParentObj.FormattingEnabled = true;
             cbParentObj.Location = new Point(13, 190);
+            cbParentObj.Margin = new Padding(3, 3, 3, 10);
             cbParentObj.Name = "cbParentObj";
             cbParentObj.Size = new Size(250, 23);
             cbParentObj.TabIndex = 7;
@@ -234,20 +272,6 @@
             lblObjNum.TabIndex = 0;
             lblObjNum.Text = "Number";
             // 
-            // cmsTree
-            // 
-            cmsTree.Items.AddRange(new ToolStripItem[] { miCollapseAll });
-            cmsTree.Name = "cmsTree";
-            cmsTree.Size = new Size(137, 26);
-            // 
-            // miCollapseAll
-            // 
-            miCollapseAll.Image = Properties.Resources.collapse_all;
-            miCollapseAll.Name = "miCollapseAll";
-            miCollapseAll.Size = new Size(136, 22);
-            miCollapseAll.Text = "Collapse All";
-            miCollapseAll.Click += miCollapseAll_Click;
-            // 
             // FrmObjectEditor
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -264,11 +288,11 @@
             KeyDown += FrmObjectEditor_KeyDown;
             toolStrip.ResumeLayout(false);
             toolStrip.PerformLayout();
+            cmsTree.ResumeLayout(false);
             pnlRight.ResumeLayout(false);
             gbObject.ResumeLayout(false);
             gbObject.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)numObjNum).EndInit();
-            cmsTree.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -295,5 +319,7 @@
         private ImageList ilTree;
         private ContextMenuStrip cmsTree;
         private ToolStripMenuItem miCollapseAll;
+        private TextBox txtDescr;
+        private Label lblDescr;
     }
 }
