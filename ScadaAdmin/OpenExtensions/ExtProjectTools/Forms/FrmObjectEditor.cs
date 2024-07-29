@@ -7,9 +7,7 @@ using Scada.Data.Entities;
 using Scada.Data.Tables;
 using Scada.Forms;
 using Scada.Lang;
-using System.Collections.Generic;
 using WinControls;
-using static System.ComponentModel.Design.ObjectSelectorEditor;
 
 namespace Scada.Admin.Extensions.ExtProjectTools.Forms
 {
