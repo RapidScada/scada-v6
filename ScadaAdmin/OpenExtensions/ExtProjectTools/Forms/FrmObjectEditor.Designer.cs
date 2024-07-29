@@ -36,6 +36,7 @@
             sep1 = new ToolStripSeparator();
             btnFind = new ToolStripButton();
             tvObj = new TreeView();
+            ilTree = new ImageList(components);
             pnlRight = new Panel();
             gbObject = new GroupBox();
             cbParentObj = new ComboBox();
@@ -46,11 +47,13 @@
             lblName = new Label();
             numObjNum = new NumericUpDown();
             lblObjNum = new Label();
-            ilTree = new ImageList(components);
+            cmsTree = new ContextMenuStrip(components);
+            miCollapseAll = new ToolStripMenuItem();
             toolStrip.SuspendLayout();
             pnlRight.SuspendLayout();
             gbObject.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numObjNum).BeginInit();
+            cmsTree.SuspendLayout();
             SuspendLayout();
             // 
             // toolStrip
@@ -109,6 +112,7 @@
             // 
             // tvObj
             // 
+            tvObj.ContextMenuStrip = cmsTree;
             tvObj.Dock = DockStyle.Fill;
             tvObj.ImageIndex = 0;
             tvObj.ImageList = ilTree;
@@ -117,6 +121,13 @@
             tvObj.SelectedImageIndex = 0;
             tvObj.Size = new Size(484, 436);
             tvObj.TabIndex = 1;
+            tvObj.AfterSelect += tvObj_AfterSelect;
+            // 
+            // ilTree
+            // 
+            ilTree.ColorDepth = ColorDepth.Depth32Bit;
+            ilTree.ImageSize = new Size(16, 16);
+            ilTree.TransparentColor = Color.Transparent;
             // 
             // pnlRight
             // 
@@ -223,11 +234,19 @@
             lblObjNum.TabIndex = 0;
             lblObjNum.Text = "Number";
             // 
-            // ilTree
+            // cmsTree
             // 
-            ilTree.ColorDepth = ColorDepth.Depth32Bit;
-            ilTree.ImageSize = new Size(16, 16);
-            ilTree.TransparentColor = Color.Transparent;
+            cmsTree.Items.AddRange(new ToolStripItem[] { miCollapseAll });
+            cmsTree.Name = "cmsTree";
+            cmsTree.Size = new Size(137, 26);
+            // 
+            // miCollapseAll
+            // 
+            miCollapseAll.Image = Properties.Resources.collapse_all;
+            miCollapseAll.Name = "miCollapseAll";
+            miCollapseAll.Size = new Size(136, 22);
+            miCollapseAll.Text = "Collapse All";
+            miCollapseAll.Click += miCollapseAll_Click;
             // 
             // FrmObjectEditor
             // 
@@ -249,6 +268,7 @@
             gbObject.ResumeLayout(false);
             gbObject.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)numObjNum).EndInit();
+            cmsTree.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -273,5 +293,7 @@
         private Label lblParentObj;
         private ToolStripButton btnRefreshData;
         private ImageList ilTree;
+        private ContextMenuStrip cmsTree;
+        private ToolStripMenuItem miCollapseAll;
     }
 }

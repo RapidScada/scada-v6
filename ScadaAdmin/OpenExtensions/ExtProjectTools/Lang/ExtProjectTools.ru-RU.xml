@@ -71,6 +71,7 @@
     <Phrase key="lblName">Наименование</Phrase>
     <Phrase key="lblCode">Код</Phrase>
     <Phrase key="lblParentObj">Родительский объект</Phrase>
+    <Phrase key="miCollapseAll">Свернуть все</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
     <Phrase key="this">Шифрование пароля</Phrase>

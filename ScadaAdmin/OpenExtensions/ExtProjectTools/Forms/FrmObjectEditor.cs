@@ -122,7 +122,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
 
         private void FrmObjectEditor_Load(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this, GetType().FullName);
+            FormTranslator.Translate(this, GetType().FullName, new FormTranslatorOptions { ContextMenus = [cmsTree] });
             AddTreeViewImages();
             FillTreeView();
         }
@@ -185,6 +185,22 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         private void cbParentObj_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+
+        private void tvObj_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+
+        }
+
+        private void miCollapseAll_Click(object sender, EventArgs e)
+        {
+            if (tvObj.Nodes.Count > 0)
+            {
+                tvObj.SelectedNode = null;
+                tvObj.CollapseAll();
+                tvObj.SelectedNode = tvObj.Nodes[0];
+            }
         }
     }
 }

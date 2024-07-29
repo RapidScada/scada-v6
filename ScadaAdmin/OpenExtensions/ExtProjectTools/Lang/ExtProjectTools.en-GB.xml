@@ -71,6 +71,7 @@
     <Phrase key="lblName">Name</Phrase>
     <Phrase key="lblCode">Code</Phrase>
     <Phrase key="lblParentObj">Parent object</Phrase>
+    <Phrase key="miCollapseAll">Collapse All</Phrase>
     <Phrase key=""></Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
