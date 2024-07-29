@@ -385,8 +385,8 @@ namespace Scada.Admin.App.Code
             return TranslateHeaders("ObjTable",
             [
                 NewTextBoxColumn("ObjNum", new ColumnOptions(ColumnKind.PrimaryKey)),
-                NewTextBoxColumn("Code", new ColumnOptions(ColumnLength.Code)),
                 NewTextBoxColumn("Name", new ColumnOptions(ColumnLength.Name)),
+                NewTextBoxColumn("Code", new ColumnOptions(ColumnLength.Code)),
                 NewComboBoxColumn("ParentObjNum", "ObjNum", "Name", configDatabase.ObjTable, true),
                 NewTextBoxColumn("Descr", new ColumnOptions(ColumnLength.Description))
             ]);
