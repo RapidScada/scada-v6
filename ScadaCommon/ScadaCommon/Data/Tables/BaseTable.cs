@@ -233,21 +233,21 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Adds or updates an item in the table.
         /// </summary>
+        public void AddObject(object obj)
+        {
+            if (obj is T item)
+                AddItem(item);
+        }
+
+        /// <summary>
+        /// Adds or updates an item in the table.
+        /// </summary>
         public void AddItem(T item)
         {
             int itemKey = GetPkValue(item);
             RemoveFromIndexes(itemKey);
             Items[itemKey] = item;
             AddToIndexes(item, itemKey);
-        }
-
-        /// <summary>
-        /// Adds or updates an item in the table.
-        /// </summary>
-        public void AddObject(object obj)
-        {
-            if (obj is T item)
-                AddItem(item);
         }
 
         /// <summary>
@@ -266,6 +266,15 @@ namespace Scada.Data.Tables
         {
             RemoveFromIndexes(key);
             Items.Remove(key);
+        }
+
+        /// <summary>
+        /// Removes the specified item.
+        /// </summary>
+        public void RemoveItem(T item)
+        {
+            int itemKey = GetPkValue(item);
+            RemoveItem(itemKey);
         }
 
         /// <summary>
