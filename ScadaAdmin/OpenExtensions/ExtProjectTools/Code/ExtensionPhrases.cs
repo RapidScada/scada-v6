@@ -40,6 +40,9 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
         public static string CloneChannelsError { get; private set; }
 
         // Scada.Admin.Extensions.ExtProjectTools.Forms.FrmObjectEditor
+        public static string ObjNumInUse { get; private set; }
+        public static string ObjNumReferenced { get; private set; }
+        public static string ParentObjectNotExists { get; private set; }
         public static string InvalidParentObject { get; private set; }
 
         // Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport
@@ -86,6 +89,9 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
             CloneChannelsError = dict[nameof(CloneChannelsError)];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Forms.FrmObjectEditor");
+            ObjNumInUse = dict[nameof(ObjNumInUse)];
+            ObjNumReferenced = dict[nameof(ObjNumReferenced)];
+            ParentObjectNotExists = dict[nameof(ParentObjectNotExists)];
             InvalidParentObject = dict[nameof(InvalidParentObject)];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport");

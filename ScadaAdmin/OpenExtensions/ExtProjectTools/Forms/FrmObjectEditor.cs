@@ -18,13 +18,14 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
     /// </summary>
     public partial class FrmObjectEditor : Form, IChildForm
     {
-        private readonly IAdminContext adminContext;
-        private readonly ConfigDatabase configDatabase;
-        private readonly ITableIndex parentObjIndex;
+        private readonly IAdminContext adminContext;    // the application context
+        private readonly ConfigDatabase configDatabase; // the configuration database
+        private readonly BaseTable<Obj> objTable;       // the object table
+        private readonly ITableIndex parentObjIndex;    // the index for searching by parent objects
 
-        private TreeNode selectedNode;
-        private Obj selectedObj;
-        private bool changing;
+        private TreeNode selectedNode; // the currently selected tree node
+        private Obj selectedObj;       // the currently selected object
+        private bool changing;         // controls are being changed programmatically
 
 
         /// <summary>
@@ -43,7 +44,8 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         {
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.configDatabase = configDatabase ?? throw new ArgumentNullException(nameof(configDatabase));
-            parentObjIndex = configDatabase.ObjTable.GetIndex("ParentObjNum", true);
+            objTable = configDatabase.ObjTable;
+            parentObjIndex = objTable.GetIndex("ParentObjNum", true);
 
             selectedNode = null;
             selectedObj = null;
@@ -80,7 +82,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         {
             FillParentObjects();
             FillTreeView();
-            ChildFormTag.Modified = configDatabase.ObjTable.Modified;
+            ChildFormTag.Modified = objTable.Modified;
         }
 
         /// <summary>
@@ -89,8 +91,8 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         private void FillParentObjects()
         {
             Obj emptyObj = new() { ObjNum = 0, Name = " " };
-            List<Obj> objs = new(configDatabase.ObjTable.ItemCount + 1) { emptyObj };
-            objs.AddRange(configDatabase.ObjTable.Enumerate().OrderBy(o => o.Name));
+            List<Obj> objs = new(objTable.ItemCount + 1) { emptyObj };
+            objs.AddRange(objTable.Enumerate().OrderBy(o => o.Name));
 
             changing = true;
             cbParentObj.ValueMember = "ObjNum";
@@ -110,7 +112,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 tvObj.BeginUpdate();
                 tvObj.Nodes.Clear();
 
-                if (configDatabase.ObjTable.ItemCount > 0)
+                if (objTable.ItemCount > 0)
                 {
                     AddChildObjects(0, tvObj.Nodes);
 
@@ -137,42 +139,6 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 TreeNode childNode = TreeViewExtensions.CreateNode(GetNodeText(childObj), "obj.png", childObj);
                 nodes.Add(childNode);
                 AddChildObjects(childObj.ObjNum, childNode.Nodes);
-            }
-        }
-
-        /// <summary>
-        /// Checks whether the specified objects are a parent and child object.
-        /// </summary>
-        private bool ObjectsAreRelatives(int parentObjNum, int childObjNum)
-        {
-            Obj obj = configDatabase.ObjTable.GetItem(childObjNum);
-
-            while (obj != null)
-            {
-                if (obj.ParentObjNum == null)
-                    return false;
-
-                if (obj.ParentObjNum.Value == parentObjNum)
-                    return true;
-
-                obj = configDatabase.ObjTable.GetItem(obj.ParentObjNum.Value);
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Selects a node corresponding to the specified object among the specified nodes.
-        /// </summary>
-        private void SelectNode(int objNum, TreeNodeCollection nodes)
-        {
-            foreach (TreeNode childNode in nodes)
-            {
-                if (((Obj)childNode.Tag).ObjNum == objNum)
-                {
-                    tvObj.SelectedNode = childNode;
-                    break;
-                }
             }
         }
 
@@ -206,11 +172,193 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         }
 
         /// <summary>
+        /// Validates the new object number before update.
+        /// </summary>
+        private bool ValidateObjNum(int oldObjNum, int newObjNum, out string errMsg)
+        {
+            if (objTable.PkExists(newObjNum))
+            {
+                errMsg = ExtensionPhrases.ObjNumInUse;
+                return false;
+            }
+
+            foreach (TableRelation relation in objTable.Dependent)
+            {
+                if (relation.ChildTable != objTable &&
+                    relation.ChildTable.TryGetIndex(relation.ChildColumn, out ITableIndex index) &&
+                    index.IndexKeyExists(oldObjNum))
+                {
+                    errMsg = string.Format(ExtensionPhrases.ObjNumReferenced, relation.ChildTable.Title);
+                    return false;
+                }
+            }
+
+            errMsg = "";
+            return true;
+        }
+
+        /// <summary>
+        /// Validates the new parent object before update.
+        /// </summary>
+        private bool ValidateParentObj(int objNum, int parentObjNum, out string errMsg)
+        {
+            if (!objTable.PkExists(parentObjNum))
+            {
+                errMsg = ExtensionPhrases.ParentObjectNotExists;
+                return false;
+            }
+
+            if (objNum == parentObjNum || 
+                ObjectsAreRelatives(objNum, parentObjNum))
+            {
+                errMsg = ExtensionPhrases.InvalidParentObject;
+                return false;
+            }
+
+            errMsg = "";
+            return true;
+        }
+
+        /// <summary>
+        /// Checks whether the specified objects are a parent and child object.
+        /// </summary>
+        private bool ObjectsAreRelatives(int parentObjNum, int childObjNum)
+        {
+            Obj obj = objTable.GetItem(childObjNum);
+
+            while (obj != null)
+            {
+                if (obj.ParentObjNum == null)
+                    return false;
+
+                if (obj.ParentObjNum.Value == parentObjNum)
+                    return true;
+
+                obj = objTable.GetItem(obj.ParentObjNum.Value);
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Updates the object number.
+        /// </summary>
+        private void UpdateObjNum(Obj sourceObj, int oldObjNum, int newObjNum)
+        {
+            try
+            {
+                // add new object
+                Obj newObj = sourceObj.DeepClone();
+                newObj.ObjNum = newObjNum;
+                objTable.AddItem(newObj);
+
+                // update object references
+                foreach (Obj childObj in parentObjIndex.SelectItems(oldObjNum).Cast<Obj>().ToList())
+                {
+                    Obj newChildObj = childObj.DeepClone();
+                    newChildObj.ParentObjNum = newObjNum;
+                    objTable.AddItem(newChildObj); // add with index update
+                }
+
+                // remove old object
+                objTable.RemoveItem(oldObjNum);
+                MarkDataAsModified();
+
+                // update tree view and list of parent objects
+                TreeNode parentNode = selectedNode.Parent;
+                TreeNodeCollection siblingNodes = parentNode == null ? tvObj.Nodes : parentNode.Nodes;
+
+                tvObj.SelectedNode = null;
+                FillParentObjects();
+
+                try
+                {
+                    tvObj.BeginUpdate();
+                    siblingNodes.Clear();
+                    AddChildObjects(newObj.ParentObjNum ?? 0, siblingNodes);
+                    SelectNode(newObj.ObjNum, siblingNodes);
+                }
+                finally
+                {
+                    tvObj.EndUpdate();
+                }
+            }
+            catch (Exception ex)
+            {
+                adminContext.ErrLog.HandleError(ex, "UpdateObjNumError");
+            }
+        }
+
+        /// <summary>
+        /// Updates the parent object number.
+        /// </summary>
+        private void UpdateParentObj(Obj sourceObj, int newParentObjNum)
+        {
+            try
+            {
+                // update object
+                Obj newObj = sourceObj.DeepClone();
+                newObj.ParentObjNum = newParentObjNum > 0 ? newParentObjNum : null;
+                objTable.AddItem(newObj); // add with index update
+                MarkDataAsModified();
+
+                // update tree view
+                try
+                {
+                    tvObj.BeginUpdate();
+                    selectedNode.Remove();
+
+                    if (newParentObjNum > 0)
+                    {
+                        TreeNode parentNode = tvObj.Nodes.IterateNodes()
+                            .Where(node => ((Obj)node.Tag).ObjNum == newParentObjNum).FirstOrDefault();
+
+                        if (parentNode != null)
+                        {
+                            parentNode.Nodes.Clear();
+                            AddChildObjects(newParentObjNum, parentNode.Nodes);
+                            SelectNode(newObj.ObjNum, parentNode.Nodes);
+                        }
+                    }
+                    else
+                    {
+                        tvObj.Nodes.Clear();
+                        AddChildObjects(0, tvObj.Nodes);
+                        SelectNode(newObj.ObjNum, tvObj.Nodes);
+                    }
+                }
+                finally
+                {
+                    tvObj.EndUpdate();
+                }
+            }
+            catch (Exception ex)
+            {
+                adminContext.ErrLog.HandleError(ex, "UpdateParentObjError");
+            }
+        }
+
+        /// <summary>
+        /// Selects a node corresponding to the specified object among the specified nodes.
+        /// </summary>
+        private void SelectNode(int objNum, TreeNodeCollection nodes)
+        {
+            foreach (TreeNode childNode in nodes)
+            {
+                if (((Obj)childNode.Tag).ObjNum == objNum)
+                {
+                    tvObj.SelectedNode = childNode;
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
         /// Sets the data change flag.
         /// </summary>
         private void MarkDataAsModified()
         {
-            configDatabase.ObjTable.Modified = true;
+            objTable.Modified = true;
             ChildFormTag.Modified = true;
         }
 
@@ -227,7 +375,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         /// </summary>
         public void Save()
         {
-            if (configDatabase.SaveTable(configDatabase.ObjTable, out string errMsg))
+            if (configDatabase.SaveTable(objTable, out string errMsg))
                 ChildFormTag.Modified = false;
             else
                 adminContext.ErrLog.HandleError(errMsg);
@@ -267,7 +415,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
 
         private void btnDeleteObject_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void btnRefreshData_Click(object sender, EventArgs e)
@@ -283,7 +431,24 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
 
         private void numObjNum_ValueChanged(object sender, EventArgs e)
         {
+            if (!changing && selectedObj != null && selectedNode != null)
+            {
+                int oldObjNum = selectedObj.ObjNum;
+                int newObjNum = Convert.ToInt32(numObjNum.Value);
 
+                // validate new object number
+                if (ValidateObjNum(oldObjNum, newObjNum, out string errMsg))
+                {
+                    UpdateObjNum(selectedObj, oldObjNum, newObjNum);
+                }
+                else
+                {
+                    ScadaUiUtils.ShowError(errMsg);
+                    numObjNum.ValueChanged -= numObjNum_ValueChanged;
+                    numObjNum.SetValue(oldObjNum);
+                    numObjNum.ValueChanged += numObjNum_ValueChanged;
+                }
+            }
         }
 
         private void txtName_TextChanged(object sender, EventArgs e)
@@ -309,53 +474,19 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         {
             if (!changing && selectedObj != null && selectedNode != null)
             {
-                int parentObjNum = (int)cbParentObj.SelectedValue;
+                int oldParentObjNum = selectedObj.ParentObjNum ?? 0;
+                int newParentObjNum = (int)cbParentObj.SelectedValue;
 
-                // validate new parent object
-                if (selectedObj.ObjNum == parentObjNum ||
-                    ObjectsAreRelatives(selectedObj.ObjNum, parentObjNum))
+                if (ValidateParentObj(selectedObj.ObjNum, newParentObjNum, out string errMsg))
                 {
-                    ScadaUiUtils.ShowError(ExtensionPhrases.InvalidParentObject);
+                    UpdateParentObj(selectedObj, newParentObjNum);
+                }
+                else
+                {
+                    ScadaUiUtils.ShowError(errMsg);
                     cbParentObj.SelectedIndexChanged -= cbParentObj_SelectedIndexChanged;
-                    cbParentObj.SelectedValue = selectedObj.ParentObjNum ?? 0;
+                    cbParentObj.SelectedValue = oldParentObjNum;
                     cbParentObj.SelectedIndexChanged += cbParentObj_SelectedIndexChanged;
-                    return;
-                }
-
-                // update object
-                Obj newObj = selectedObj.DeepClone();
-                newObj.ParentObjNum = parentObjNum > 0 ? parentObjNum : null;
-                configDatabase.ObjTable.AddItem(newObj); // add with index update
-                MarkDataAsModified();
-
-                // update tree view
-                try
-                {
-                    tvObj.BeginUpdate();
-                    selectedNode.Remove();
-
-                    if (parentObjNum > 0)
-                    {
-                        TreeNode parentNode = tvObj.Nodes.IterateNodes()
-                            .Where(node => ((Obj)node.Tag).ObjNum == parentObjNum).FirstOrDefault();
-                        
-                        if (parentNode != null)
-                        {
-                            parentNode.Nodes.Clear();
-                            AddChildObjects(parentObjNum, parentNode.Nodes);
-                            SelectNode(newObj.ObjNum, parentNode.Nodes);
-                        }
-                    }
-                    else
-                    {
-                        tvObj.Nodes.Clear();
-                        AddChildObjects(0, tvObj.Nodes);
-                        SelectNode(newObj.ObjNum, tvObj.Nodes);
-                    }
-                }
-                finally
-                {
-                    tvObj.EndUpdate();
                 }
             }
         }

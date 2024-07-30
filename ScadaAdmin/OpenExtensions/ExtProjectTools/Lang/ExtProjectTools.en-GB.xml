@@ -73,7 +73,12 @@
     <Phrase key="lblParentObj">Parent object</Phrase>
     <Phrase key="lblDescr">Description</Phrase>
     <Phrase key="miCollapseAll">Collapse All</Phrase>
+    <Phrase key="ObjNumInUse">The object number is already in use.</Phrase>
+    <Phrase key="ObjNumReferenced">The object number is referenced by a row from the &quot;{0}&quot; table.</Phrase>
+    <Phrase key="ParentObjectNotExists">The parent object no longer exists.</Phrase>
     <Phrase key="InvalidParentObject">The parent object cannot be the same or a child object.</Phrase>
+    <Phrase key="UpdateObjNumError">Error updating object number</Phrase>
+    <Phrase key="UpdateParentObjError">Error updating parent object</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
     <Phrase key="this">Encrypt Password</Phrase>
