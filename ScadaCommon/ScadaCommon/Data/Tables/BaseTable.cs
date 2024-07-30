@@ -329,8 +329,22 @@ namespace Scada.Data.Tables
         }
 
         /// <summary>
-        /// Gets an index by the column name, populating it if necessary.
+        /// Gets an index by the column name.
         /// </summary>
+        public ITableIndex GetIndex(string columnName, bool throwOnFail)
+        {
+            if (TryGetIndex(columnName, out ITableIndex index))
+                return index;
+            else if (throwOnFail)
+                throw new ScadaException($"Index for column {columnName} not found.");
+            else
+                return null;
+        }
+
+        /// <summary>
+        /// Gets an index by the column name.
+        /// </summary>
+        /// <remarks>Populates an index it if necessary.</remarks>
         public bool TryGetIndex(string columnName, out ITableIndex index)
         {
             if (Indexes.TryGetValue(columnName, out index))
@@ -391,24 +405,20 @@ namespace Scada.Data.Tables
             if (filter == null)
                 throw new ArgumentNullException(nameof(filter));
 
-            // find the property used by the filter
-            PropertyDescriptor filterProp = itemProps[filter.ColumnName] ??
-                throw new ArgumentException("The filter property not found.");
-
-            // get the matched items
-            if (TryGetIndex(filter.ColumnName, out ITableIndex index))
+            if (GetIndex(filter.ColumnName, indexRequired) is ITableIndex index)
             {
+                // select items using index
                 foreach (object item in index.SelectItems(filter.Argument))
                 {
                     yield return item;
                 }
             }
-            else if (indexRequired)
-            {
-                throw new ScadaException("Index not found.");
-            }
             else
             {
+                // select items without index
+                PropertyDescriptor filterProp = itemProps[filter.ColumnName] ??
+                    throw new ArgumentException("The filter property not found.");
+
                 foreach (T item in Items.Values)
                 {
                     object propVal = filterProp.GetValue(item);

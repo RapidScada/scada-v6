@@ -142,7 +142,12 @@ namespace Scada.Data.Tables
         ITableIndex AddIndex(string columnName);
 
         /// <summary>
-        /// Gets an index by the column name, populating it if necessary.
+        /// Gets an index by the column name.
+        /// </summary>
+        ITableIndex GetIndex(string columnName, bool throwOnFail);
+
+        /// <summary>
+        /// Gets an index by the column name.
         /// </summary>
         bool TryGetIndex(string columnName, out ITableIndex index);
 

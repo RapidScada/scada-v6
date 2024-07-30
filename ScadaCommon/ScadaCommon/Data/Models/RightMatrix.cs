@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2023
+ * Modified : 2024
  */
 
 using Scada.Data.Entities;
@@ -193,14 +193,9 @@ namespace Scada.Data.Models
             Matrix = new Dictionary<int, RightByObj>(configDataset.RoleTable.ItemCount);
 
             // get indexes
-            if (!configDataset.RoleRefTable.TryGetIndex("ChildRoleID", out ITableIndex roleRef_childRoleIndex))
-                throw new ScadaException(CommonPhrases.IndexNotFound);
-
-            if (!configDataset.ObjRightTable.TryGetIndex("RoleID", out ITableIndex objRight_roleIndex))
-                throw new ScadaException(CommonPhrases.IndexNotFound);
-
-            if (!configDataset.ObjTable.TryGetIndex("ParentObjNum", out ITableIndex obj_parentObjIndex))
-                throw new ScadaException(CommonPhrases.IndexNotFound);
+            ITableIndex roleRef_childRoleIndex = configDataset.RoleRefTable.GetIndex("ChildRoleID", true);
+            ITableIndex objRight_roleIndex = configDataset.ObjRightTable.GetIndex("RoleID", true);
+            ITableIndex obj_parentObjIndex = configDataset.ObjTable.GetIndex("ParentObjNum", true);
 
             // fill rights
             foreach (Role role in configDataset.RoleTable)
