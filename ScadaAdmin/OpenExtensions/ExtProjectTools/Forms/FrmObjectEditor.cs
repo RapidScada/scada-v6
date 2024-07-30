@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Admin.Extensions.ExtProjectTools.Code;
 using Scada.Admin.Extensions.ExtProjectTools.Properties;
 using Scada.Admin.Project;
 using Scada.Data.Entities;
@@ -19,6 +20,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
     {
         private readonly IAdminContext adminContext;
         private readonly ConfigDatabase configDatabase;
+        private readonly ITableIndex parentObjIndex;
 
         private TreeNode selectedNode;
         private Obj selectedObj;
@@ -41,6 +43,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         {
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.configDatabase = configDatabase ?? throw new ArgumentNullException(nameof(configDatabase));
+            parentObjIndex = configDatabase.ObjTable.GetIndex("ParentObjNum", true);
 
             selectedNode = null;
             selectedObj = null;
@@ -109,7 +112,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
 
                 if (configDatabase.ObjTable.ItemCount > 0)
                 {
-                    AddChildObjects(GetParentObjIndex(), 0, null);
+                    AddChildObjects(0, tvObj.Nodes);
 
                     if (tvObj.Nodes.Count > 0)
                         tvObj.SelectedNode = tvObj.Nodes[0];
@@ -122,20 +125,9 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         }
 
         /// <summary>
-        /// Gets an index of the ParentObjNum column, or raises an exception if the index is not found.
-        /// </summary>
-        private ITableIndex GetParentObjIndex()
-        {
-            if (configDatabase.ObjTable.TryGetIndex("ParentObjNum", out ITableIndex parentObjIndex))
-                return parentObjIndex;
-            else
-                throw new ScadaException(CommonPhrases.IndexNotFound);
-        }
-
-        /// <summary>
         /// Adds objects to the tree view recursively.
         /// </summary>
-        private void AddChildObjects(ITableIndex parentObjIndex, int parentObjNum, TreeNode parentNode)
+        private void AddChildObjects(int parentObjNum, TreeNodeCollection nodes)
         {
             foreach (Obj childObj in parentObjIndex.SelectItems(parentObjNum))
             {
@@ -143,13 +135,44 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                     continue; // protect from infinite loop
 
                 TreeNode childNode = TreeViewExtensions.CreateNode(GetNodeText(childObj), "obj.png", childObj);
+                nodes.Add(childNode);
+                AddChildObjects(childObj.ObjNum, childNode.Nodes);
+            }
+        }
 
-                if (parentNode == null)
-                    tvObj.Nodes.Add(childNode);
-                else
-                    parentNode.Nodes.Add(childNode);
+        /// <summary>
+        /// Checks whether the specified objects are a parent and child object.
+        /// </summary>
+        private bool ObjectsAreRelatives(int parentObjNum, int childObjNum)
+        {
+            Obj obj = configDatabase.ObjTable.GetItem(childObjNum);
 
-                AddChildObjects(parentObjIndex, childObj.ObjNum, childNode);
+            while (obj != null)
+            {
+                if (obj.ParentObjNum == null)
+                    return false;
+
+                if (obj.ParentObjNum.Value == parentObjNum)
+                    return true;
+
+                obj = configDatabase.ObjTable.GetItem(obj.ParentObjNum.Value);
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Selects a node corresponding to the specified object among the specified nodes.
+        /// </summary>
+        private void SelectNode(int objNum, TreeNodeCollection nodes)
+        {
+            foreach (TreeNode childNode in nodes)
+            {
+                if (((Obj)childNode.Tag).ObjNum == objNum)
+                {
+                    tvObj.SelectedNode = childNode;
+                    break;
+                }
             }
         }
 
@@ -288,10 +311,11 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
             {
                 int parentObjNum = (int)cbParentObj.SelectedValue;
 
-                // validate parent object
-                if (parentObjNum == selectedObj.ObjNum)
+                // validate new parent object
+                if (selectedObj.ObjNum == parentObjNum ||
+                    ObjectsAreRelatives(selectedObj.ObjNum, parentObjNum))
                 {
-                    ScadaUiUtils.ShowError("!!!"); // TODO: phrase
+                    ScadaUiUtils.ShowError(ExtensionPhrases.InvalidParentObject);
                     cbParentObj.SelectedIndexChanged -= cbParentObj_SelectedIndexChanged;
                     cbParentObj.SelectedValue = selectedObj.ParentObjNum ?? 0;
                     cbParentObj.SelectedIndexChanged += cbParentObj_SelectedIndexChanged;
@@ -309,7 +333,6 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 {
                     tvObj.BeginUpdate();
                     selectedNode.Remove();
-                    selectedNode.Tag = newObj;
 
                     if (parentObjNum > 0)
                     {
@@ -319,12 +342,15 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                         if (parentNode != null)
                         {
                             parentNode.Nodes.Clear();
-                            AddChildObjects(GetParentObjIndex(), parentObjNum, parentNode);
+                            AddChildObjects(parentObjNum, parentNode.Nodes);
+                            SelectNode(selectedObj.ObjNum, parentNode.Nodes);
                         }
                     }
                     else
                     {
-                        AddChildObjects(GetParentObjIndex(), 0, null);
+                        tvObj.Nodes.Clear();
+                        AddChildObjects(0, tvObj.Nodes);
+                        SelectNode(selectedObj.ObjNum, tvObj.Nodes);
                     }
                 }
                 finally

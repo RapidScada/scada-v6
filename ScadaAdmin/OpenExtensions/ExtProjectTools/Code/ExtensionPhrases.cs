@@ -39,6 +39,9 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
         public static string CloneChannelsCompleted { get; private set; }
         public static string CloneChannelsError { get; private set; }
 
+        // Scada.Admin.Extensions.ExtProjectTools.Forms.FrmObjectEditor
+        public static string InvalidParentObject { get; private set; }
+
         // Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport
         public static string ExportTableFilter { get; private set; }
         public static string ExportTableError { get; private set; }
@@ -56,45 +59,48 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Code.ChannelMap");
-            MapByDeviceTitle = dict["MapByDeviceTitle"];
-            MapByObjectTitle = dict["MapByObjectTitle"];
-            ChannelsCaption = dict["ChannelsCaption"];
-            NoChannels = dict["NoChannels"];
-            GenerateChannelMapError = dict["GenerateChannelMapError"];
+            MapByDeviceTitle = dict[nameof(MapByDeviceTitle)];
+            MapByObjectTitle = dict[nameof(MapByObjectTitle)];
+            ChannelsCaption = dict[nameof(ChannelsCaption)];
+            NoChannels = dict[nameof(NoChannels)];
+            GenerateChannelMapError = dict[nameof(GenerateChannelMapError)];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Code.DeviceMap");
-            DeviceMapTitle = dict["DeviceMapTitle"];
-            DevicesCaption = dict["DevicesCaption"];
-            NoDevices = dict["NoDevices"];
-            EmptyCommLine = dict["EmptyCommLine"];
-            GenerateDeviceMapError = dict["GenerateDeviceMapError"];
+            DeviceMapTitle = dict[nameof(DeviceMapTitle)];
+            DevicesCaption = dict[nameof(DevicesCaption)];
+            NoDevices = dict[nameof(NoDevices)];
+            EmptyCommLine = dict[nameof(EmptyCommLine)];
+            GenerateDeviceMapError = dict[nameof(GenerateDeviceMapError)];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Code.IntegrityCheck");
-            IntegrityCheckTitle = dict["IntegrityCheckTitle"];
-            TableCorrect = dict["TableCorrect"];
-            TableHasErrors = dict["TableHasErrors"];
-            LostPrimaryKeys = dict["LostPrimaryKeys"];
-            BaseHasErrors = dict["BaseHasErrors"];
-            IntegrityCheckError = dict["IntegrityCheckError"];
+            IntegrityCheckTitle = dict[nameof(IntegrityCheckTitle)];
+            TableCorrect = dict[nameof(TableCorrect)];
+            TableHasErrors = dict[nameof(TableHasErrors)];
+            LostPrimaryKeys = dict[nameof(LostPrimaryKeys)];
+            BaseHasErrors = dict[nameof(BaseHasErrors)];
+            IntegrityCheckError = dict[nameof(IntegrityCheckError)];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Forms.FrmCnlClone");
-            KeepUnchanged = dict["KeepUnchanged"];
-            CloneChannelsCompleted = dict["CloneChannelsCompleted"];
-            CloneChannelsError = dict["CloneChannelsError"];
+            KeepUnchanged = dict[nameof(KeepUnchanged)];
+            CloneChannelsCompleted = dict[nameof(CloneChannelsCompleted)];
+            CloneChannelsError = dict[nameof(CloneChannelsError)];
+
+            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Forms.FrmObjectEditor");
+            InvalidParentObject = dict[nameof(InvalidParentObject)];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport");
-            ExportTableFilter = dict["ExportTableFilter"];
-            ExportTableError = dict["ExportTableError"];
+            ExportTableFilter = dict[nameof(ExportTableFilter)];
+            ExportTableError = dict[nameof(ExportTableError)];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableImport");
-            ImportTableFilter = dict["ImportTableFilter"];
-            ImportTableCompleted = dict["ImportTableCompleted"];
-            ImportTableError = dict["ImportTableError"];
+            ImportTableFilter = dict[nameof(ImportTableFilter)];
+            ImportTableCompleted = dict[nameof(ImportTableCompleted)];
+            ImportTableError = dict[nameof(ImportTableError)];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Code.ObjectMap");
-            ObjectMapTitle = dict["ObjectMapTitle"];
-            NoObjects = dict["NoObjects"];
-            GenerateObjectMapError = dict["GenerateObjectMapError"];
+            ObjectMapTitle = dict[nameof(ObjectMapTitle)];
+            NoObjects = dict[nameof(NoObjects)];
+            GenerateObjectMapError = dict[nameof(GenerateObjectMapError)];
         }
     }
 }

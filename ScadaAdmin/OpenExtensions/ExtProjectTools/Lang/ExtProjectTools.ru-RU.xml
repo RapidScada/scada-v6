@@ -73,6 +73,7 @@
     <Phrase key="lblParentObj">Родительский объект</Phrase>
     <Phrase key="lblDescr">Описание</Phrase>
     <Phrase key="miCollapseAll">Свернуть все</Phrase>
+    <Phrase key="InvalidParentObject">Родительский объект не может быть тем же самым или дочерним объектом.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
     <Phrase key="this">Шифрование пароля</Phrase>

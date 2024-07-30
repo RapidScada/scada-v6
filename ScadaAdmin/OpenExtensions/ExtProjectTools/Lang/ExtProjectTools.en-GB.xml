@@ -73,7 +73,7 @@
     <Phrase key="lblParentObj">Parent object</Phrase>
     <Phrase key="lblDescr">Description</Phrase>
     <Phrase key="miCollapseAll">Collapse All</Phrase>
-    <Phrase key=""></Phrase>
+    <Phrase key="InvalidParentObject">The parent object cannot be the same or a child object.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
     <Phrase key="this">Encrypt Password</Phrase>
