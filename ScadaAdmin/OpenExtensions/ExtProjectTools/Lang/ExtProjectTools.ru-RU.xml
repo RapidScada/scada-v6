@@ -75,6 +75,7 @@
     <Phrase key="miCollapseAll">Свернуть все</Phrase>
     <Phrase key="ObjNumInUse">Номер объекта уже используется.</Phrase>
     <Phrase key="ObjNumReferenced">На данный номер объекта ссылается строка из таблицы &quot;{0}&quot;.</Phrase>
+    <Phrase key="ObjectReferenced">На данный объект или его дочерний объект ссылается строка из другой таблицы.</Phrase>
     <Phrase key="ParentObjectNotExists">Родительский объект больше не существует.</Phrase>
     <Phrase key="InvalidParentObject">Родительский объект не может быть тем же самым или дочерним объектом.</Phrase>
     <Phrase key="UpdateObjNumError">Ошибка при обновлении номера объекта</Phrase>

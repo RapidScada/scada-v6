@@ -182,15 +182,10 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 return false;
             }
 
-            foreach (TableRelation relation in objTable.Dependent)
+            if (ObjectIsReferenced(oldObjNum, out string tableTitle))
             {
-                if (relation.ChildTable != objTable &&
-                    relation.ChildTable.TryGetIndex(relation.ChildColumn, out ITableIndex index) &&
-                    index.IndexKeyExists(oldObjNum))
-                {
-                    errMsg = string.Format(ExtensionPhrases.ObjNumReferenced, relation.ChildTable.Title);
-                    return false;
-                }
+                errMsg = string.Format(ExtensionPhrases.ObjNumReferenced, tableTitle);
+                return false;
             }
 
             errMsg = "";
@@ -217,6 +212,26 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
 
             errMsg = "";
             return true;
+        }
+
+        /// <summary>
+        /// Checks whether the specified object is references by other tables.
+        /// </summary>
+        private bool ObjectIsReferenced(int objNum, out string tableTitle)
+        {
+            foreach (TableRelation relation in objTable.Dependent)
+            {
+                if (relation.ChildTable != objTable &&
+                    relation.ChildTable.TryGetIndex(relation.ChildColumn, out ITableIndex index) &&
+                    index.IndexKeyExists(objNum))
+                {
+                    tableTitle = relation.ChildTable.Title;
+                    return true;
+                }
+            }
+
+            tableTitle = "";
+            return false;
         }
 
         /// <summary>
@@ -354,6 +369,26 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         }
 
         /// <summary>
+        /// Recursively gets the hierarchy of objects starting from the specified object.
+        /// </summary>
+        private List<Obj> GetObjectHierarchy(Obj startObj)
+        {
+            List<Obj> objs = [startObj];
+
+            void AddChildren(Obj parentObj)
+            {
+                foreach (Obj childObj in parentObjIndex.SelectItems(parentObj.ObjNum))
+                {
+                    objs.Add(childObj);
+                    AddChildren(childObj);
+                }
+            }
+
+            AddChildren(startObj);
+            return objs;
+        }
+
+        /// <summary>
         /// Sets the data change flag.
         /// </summary>
         private void MarkDataAsModified()
@@ -415,7 +450,20 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
 
         private void btnDeleteObject_Click(object sender, EventArgs e)
         {
-            
+            if (selectedObj != null && selectedNode != null)
+            {
+                List<Obj> objectsToDelete = GetObjectHierarchy(selectedObj);
+
+                if (objectsToDelete.Any(obj => ObjectIsReferenced(obj.ObjNum, out _)))
+                {
+                    ScadaUiUtils.ShowError(ExtensionPhrases.ObjectReferenced);
+                }
+                else
+                {
+                    objectsToDelete.ForEach(objTable.RemoveItem);
+                    selectedNode.Remove();
+                }
+            }
         }
 
         private void btnRefreshData_Click(object sender, EventArgs e)

@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Lang;
+using System.Runtime.Serialization;
 
 namespace Scada.Admin.Extensions.ExtProjectTools.Code
 {
@@ -42,6 +43,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
         // Scada.Admin.Extensions.ExtProjectTools.Forms.FrmObjectEditor
         public static string ObjNumInUse { get; private set; }
         public static string ObjNumReferenced { get; private set; }
+        public static string ObjectReferenced { get; private set; }
         public static string ParentObjectNotExists { get; private set; }
         public static string InvalidParentObject { get; private set; }
 
@@ -91,6 +93,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Forms.FrmObjectEditor");
             ObjNumInUse = dict[nameof(ObjNumInUse)];
             ObjNumReferenced = dict[nameof(ObjNumReferenced)];
+            ObjectReferenced = dict[nameof(ObjectReferenced)];
             ParentObjectNotExists = dict[nameof(ParentObjectNotExists)];
             InvalidParentObject = dict[nameof(InvalidParentObject)];
 

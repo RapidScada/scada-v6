@@ -75,6 +75,7 @@
     <Phrase key="miCollapseAll">Collapse All</Phrase>
     <Phrase key="ObjNumInUse">The object number is already in use.</Phrase>
     <Phrase key="ObjNumReferenced">The object number is referenced by a row from the &quot;{0}&quot; table.</Phrase>
+    <Phrase key="ObjectReferenced">The object or its child is referenced by a row from another table.</Phrase>
     <Phrase key="ParentObjectNotExists">The parent object no longer exists.</Phrase>
     <Phrase key="InvalidParentObject">The parent object cannot be the same or a child object.</Phrase>
     <Phrase key="UpdateObjNumError">Error updating object number</Phrase>
