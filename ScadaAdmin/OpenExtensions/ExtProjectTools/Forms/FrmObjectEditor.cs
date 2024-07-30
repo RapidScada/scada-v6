@@ -343,14 +343,14 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                         {
                             parentNode.Nodes.Clear();
                             AddChildObjects(parentObjNum, parentNode.Nodes);
-                            SelectNode(selectedObj.ObjNum, parentNode.Nodes);
+                            SelectNode(newObj.ObjNum, parentNode.Nodes);
                         }
                     }
                     else
                     {
                         tvObj.Nodes.Clear();
                         AddChildObjects(0, tvObj.Nodes);
-                        SelectNode(selectedObj.ObjNum, tvObj.Nodes);
+                        SelectNode(newObj.ObjNum, tvObj.Nodes);
                     }
                 }
                 finally
