@@ -282,18 +282,16 @@ namespace Scada.Admin.App.Forms.Tables
         /// </summary>
         private bool NoReferencesToPk(int key, out string errMsg)
         {
-            foreach (TableRelation relation in baseTable.Dependent)
+            if (baseTable.KeyIsReferenced(key, false, out string tableTitle))
             {
-                if (relation.ChildTable.TryGetIndex(relation.ChildColumn, out ITableIndex index) &&
-                    index.IndexKeyExists(key))
-                {
-                    errMsg = string.Format(AppPhrases.KeyReferenced, relation.ChildTable.Title);
-                    return false;
-                }
+                errMsg = string.Format(AppPhrases.KeyReferenced, tableTitle);
+                return false;
             }
-
-            errMsg = "";
-            return true;
+            else
+            {
+                errMsg = "";
+                return true;
+            }
         }
 
         /// <summary>

@@ -182,7 +182,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 return false;
             }
 
-            if (ObjectIsReferenced(oldObjNum, out string tableTitle))
+            if (objTable.KeyIsReferenced(oldObjNum, true, out string tableTitle))
             {
                 errMsg = string.Format(ExtensionPhrases.ObjNumReferenced, tableTitle);
                 return false;
@@ -212,26 +212,6 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
 
             errMsg = "";
             return true;
-        }
-
-        /// <summary>
-        /// Checks whether the specified object is references by other tables.
-        /// </summary>
-        private bool ObjectIsReferenced(int objNum, out string tableTitle)
-        {
-            foreach (TableRelation relation in objTable.Dependent)
-            {
-                if (relation.ChildTable != objTable &&
-                    relation.ChildTable.TryGetIndex(relation.ChildColumn, out ITableIndex index) &&
-                    index.IndexKeyExists(objNum))
-                {
-                    tableTitle = relation.ChildTable.Title;
-                    return true;
-                }
-            }
-
-            tableTitle = "";
-            return false;
         }
 
         /// <summary>
@@ -454,7 +434,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
             {
                 List<Obj> objectsToDelete = GetObjectHierarchy(selectedObj);
 
-                if (objectsToDelete.Any(obj => ObjectIsReferenced(obj.ObjNum, out _)))
+                if (objectsToDelete.Any(obj => objTable.KeyIsReferenced(obj.ObjNum, true, out _)))
                 {
                     ScadaUiUtils.ShowError(ExtensionPhrases.ObjectReferenced);
                 }
@@ -484,7 +464,6 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 int oldObjNum = selectedObj.ObjNum;
                 int newObjNum = Convert.ToInt32(numObjNum.Value);
 
-                // validate new object number
                 if (ValidateObjNum(oldObjNum, newObjNum, out string errMsg))
                 {
                     UpdateObjNum(selectedObj, oldObjNum, newObjNum);

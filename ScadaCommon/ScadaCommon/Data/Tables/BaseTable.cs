@@ -479,6 +479,26 @@ namespace Scada.Data.Tables
         }
 
         /// <summary>
+        /// Checks whether the item specified by the key is referenced by items in dependent tables.
+        /// </summary>
+        public bool KeyIsReferenced(int key, bool skipSelf, out string tableTitle)
+        {
+            foreach (TableRelation relation in Dependent)
+            {
+                if ((!skipSelf || relation.ChildTable != this) &&
+                    relation.ChildTable.TryGetIndex(relation.ChildColumn, out ITableIndex index) &&
+                    index.IndexKeyExists(key))
+                {
+                    tableTitle = relation.ChildTable.Title;
+                    return true;
+                }
+            }
+
+            tableTitle = "";
+            return false;
+        }
+
+        /// <summary>
         /// Loads the table from the specified file.
         /// </summary>
         public void Load(string fileName)

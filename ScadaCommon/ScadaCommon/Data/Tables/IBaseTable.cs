@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2022
+ * Modified : 2024
  */
 
 using System;
@@ -166,6 +166,11 @@ namespace Scada.Data.Tables
         /// Selects the items that match the specified filter.
         /// </summary>
         IEnumerable SelectItems(TableFilter tableFilter, bool indexRequired = false);
+
+        /// <summary>
+        /// Checks whether the item specified by the key is referenced by items in dependent tables.
+        /// </summary>
+        bool KeyIsReferenced(int key, bool skipSelf, out string tableTitle);
 
         /// <summary>
         /// Loads the table from the specified file.
