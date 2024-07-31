@@ -451,6 +451,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 switch (e.KeyCode)
                 {
                     case Keys.F:
+                        btnFind_Click(null, null);
                         e.Handled = true;
                         break;
                 }
