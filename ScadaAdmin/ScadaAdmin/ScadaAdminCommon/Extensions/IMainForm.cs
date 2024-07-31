@@ -24,6 +24,7 @@
  */
 
 using Scada.Agent;
+using Scada.Data.Tables;
 
 namespace Scada.Admin.Extensions
 {
@@ -80,7 +81,12 @@ namespace Scada.Admin.Extensions
         void RefreshBaseTables(Type itemType, bool saveChanges);
 
         /// <summary>
-        /// Finds a tree node that represents a configuration database table.
+        /// Opens a table of the configuration database.
+        /// </summary>
+        void OpenBaseTable(Type itemType, TableFilter tableFilter);
+
+        /// <summary>
+        /// Finds a tree node that represents a table of the configuration database.
         /// </summary>
         TreeNode FindBaseTableNode(Type itemType, object filterArgument);
 

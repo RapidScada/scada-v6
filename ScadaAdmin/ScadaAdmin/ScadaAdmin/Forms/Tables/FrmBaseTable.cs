@@ -20,10 +20,11 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2022
+ * Modified : 2024
  */
 
 using Scada.Admin.App.Code;
+using Scada.Admin.App.Properties;
 using Scada.Admin.Project;
 using Scada.Data.Entities;
 using Scada.Data.Tables;
@@ -97,6 +98,8 @@ namespace Scada.Admin.App.Forms.Tables
             frmFind = null;
             frmFilter = null;
 
+            ChildFormTag = new ChildFormTag(new ChildFormOptions { Image = Resources.table });
+            ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
             Text = baseTable.Title + (tableFilter == null ? "" : " - " + tableFilter);
         }
 
@@ -698,6 +701,7 @@ namespace Scada.Admin.App.Forms.Tables
             }
         }
 
+
         /// <summary>
         /// Commits and ends the edit operation on the current cell and row.
         /// </summary>
@@ -730,6 +734,18 @@ namespace Scada.Admin.App.Forms.Tables
         }
 
         /// <summary>
+        /// Indicates that the form contains data of the specified type and with the specified filter.
+        /// </summary>
+        public bool Mathes(Type itemType, TableFilter tableFilter)
+        {
+            return ItemType == itemType &&
+                (this.tableFilter == tableFilter ||
+                this.tableFilter != null && tableFilter != null &&
+                this.tableFilter.ColumnName == tableFilter.ColumnName &&
+                this.tableFilter.Argument?.ToString() == tableFilter.Argument?.ToString());
+        }
+
+        /// <summary>
         /// Saves the table.
         /// </summary>
         public void Save()
@@ -749,7 +765,6 @@ namespace Scada.Admin.App.Forms.Tables
             if (lblCount.Text.Contains("{0}"))
                 bindingNavigator.CountItemFormat = lblCount.Text;
 
-            ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
             btnProperties.Visible = ProperiesAvailable;
             btnAddNew.Visible = false;
         }

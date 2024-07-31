@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2019
- * Modified : 2022
+ * Modified : 2024
  */
 
 using Scada.Admin.App.Code;
@@ -131,7 +131,7 @@ namespace Scada.Admin.App.Forms
                 if (File.Exists(item.Path))
                 {
                     ChildFormTag.SendMessage(this, AdminMessage.OpenProject,
-                        new Dictionary<string, object> { { "Path", item.Path } });
+                        new Dictionary<string, object> { { "path", item.Path } });
                 }
                 else
                 {

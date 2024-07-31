@@ -876,6 +876,18 @@ namespace Scada.Admin.App.Forms
             }
         }
 
+        /// <summary>
+        /// Closes child forms of the specified type.
+        /// </summary>
+        private void CloseChildForms(Type formType, bool saveChanges)
+        {
+            foreach (Form form in wctrlMain.Forms.ToList())
+            {
+                if (form.GetType() == formType)
+                    CloseChildForm(form, saveChanges);
+            }
+        }
+
 
         /// <summary>
         /// Adds the specified child form to the main form.
@@ -954,7 +966,31 @@ namespace Scada.Admin.App.Forms
         }
 
         /// <summary>
-        /// Finds a tree node that represents a configuration database table.
+        /// Opens a table of the configuration database.
+        /// </summary>
+        public void OpenBaseTable(Type itemType, TableFilter tableFilter)
+        {
+            if (Project != null &&
+                Project.ConfigDatabase.GetTable(itemType) is IBaseTable baseTable)
+            {
+                foreach (Form form in wctrlMain.Forms)
+                {
+                    if (form is FrmBaseTable baseTableForm && baseTableForm.Mathes(itemType, tableFilter))
+                    {
+                        // activate existing form
+                        wctrlMain.ActivateForm(baseTableForm);
+                        return;
+                    }
+                }
+
+                // open new form
+                FrmBaseTable frmBaseTable = new(baseTable, tableFilter, Project, appData);
+                wctrlMain.AddForm(frmBaseTable);
+            }
+        }
+
+        /// <summary>
+        /// Finds a tree node that represents a table of the configuration database.
         /// </summary>
         public TreeNode FindBaseTableNode(Type itemType, object filterArgument)
         {
@@ -1181,7 +1217,7 @@ namespace Scada.Admin.App.Forms
             if (e.Message == AdminMessage.NewProject)
                 NewProject();
             else if (e.Message == AdminMessage.OpenProject)
-                OpenProject(e.GetArgument("Path") as string);
+                OpenProject(e.GetArgument("path") as string);
         }
 
         private void wctrlMain_ChildFormModifiedChanged(object sender, ChildFormEventArgs e)
@@ -1448,6 +1484,7 @@ namespace Scada.Admin.App.Forms
             if (Project != null)
             {
                 CloseChildForms(explorerBuilder.ConfigDatabaseNode, false);
+                CloseChildForms(typeof(FrmBaseTable), false);
                 Project.ConfigDatabase.Loaded = false;
 
                 if (!Project.ConfigDatabase.Load(out string errMsg))
