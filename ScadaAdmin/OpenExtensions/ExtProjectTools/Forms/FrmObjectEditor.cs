@@ -21,11 +21,11 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         private readonly IAdminContext adminContext;    // the application context
         private readonly ConfigDatabase configDatabase; // the configuration database
         private readonly BaseTable<Obj> objTable;       // the object table
-        private readonly ITableIndex parentObjIndex;    // the index for searching by parent objects
 
-        private TreeNode selectedNode; // the currently selected tree node
-        private Obj selectedObj;       // the currently selected object
-        private bool changing;         // controls are being changed programmatically
+        private ITableIndex parentObjIndex; // the index for searching objects by parent
+        private TreeNode selectedNode;      // the currently selected tree node
+        private Obj selectedObj;            // the currently selected object
+        private bool changing;              // controls are being changed programmatically
 
 
         /// <summary>
@@ -45,8 +45,8 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.configDatabase = configDatabase ?? throw new ArgumentNullException(nameof(configDatabase));
             objTable = configDatabase.ObjTable;
-            parentObjIndex = objTable.GetIndex("ParentObjNum", true);
 
+            parentObjIndex = null;
             selectedNode = null;
             selectedObj = null;
             changing = false;
@@ -80,6 +80,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         /// </summary>
         private void ShowData()
         {
+            parentObjIndex = objTable.GetIndex("ParentObjNum", true);
             FillParentObjects();
             FillTreeView();
             ChildFormTag.Modified = objTable.Modified;
