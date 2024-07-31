@@ -1456,6 +1456,9 @@ namespace Scada.Admin.App.Forms
                 // refresh channel table subnodes
                 TreeNode cnlTableNode = explorerBuilder.BaseTableNodes[Project.ConfigDatabase.CnlTable.Name];
                 explorerBuilder.FillCnlTableNode(cnlTableNode, Project.ConfigDatabase);
+
+                // refresh child forms
+                MessageToChildForms(AdminMessage.BaseReload);
             }
         }
 
