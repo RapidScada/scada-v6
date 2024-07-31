@@ -230,7 +230,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 return false;
             }
 
-            if (objNum == parentObjNum || 
+            if (objNum == parentObjNum ||
                 ObjectsAreRelatives(objNum, parentObjNum))
             {
                 errMsg = ExtensionPhrases.InvalidParentObject;
@@ -403,7 +403,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
             objTable.Modified = true;
             ChildFormTag.Modified = true;
         }
-        
+
         /// <summary>
         /// Creates a tree node that represents the specified object.
         /// </summary>
@@ -616,12 +616,24 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         }
 
 
+        private void tvObj_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            // select a tree node on right click
+            if (e.Button == MouseButtons.Right && e.Node != null)
+                tvObj.SelectedNode = e.Node;
+        }
+
         private void tvObj_AfterSelect(object sender, TreeViewEventArgs e)
         {
             selectedNode = e.Node;
             selectedObj = selectedNode.Tag as Obj;
             btnDeleteObject.Enabled = selectedObj != null;
             ShowObjectProperties();
+        }
+
+        private void cmsTree_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            miOpenChannels.Enabled = selectedObj != null;
         }
 
         private void miCollapseAll_Click(object sender, EventArgs e)
@@ -631,6 +643,19 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 tvObj.SelectedNode = null;
                 tvObj.CollapseAll();
                 tvObj.SelectedNode = tvObj.Nodes[0];
+            }
+        }
+
+        private void miOpenChannels_Click(object sender, EventArgs e)
+        {
+            if (selectedObj != null)
+            {
+                adminContext.MainForm.OpenBaseTable(
+                    typeof(Cnl),
+                    new TableFilter("ObjNum", selectedObj.ObjNum)
+                    {
+                        Title = string.Format(ExtensionPhrases.ObjectFilter, selectedObj.ObjNum)
+                    });
             }
         }
     }

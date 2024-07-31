@@ -38,6 +38,7 @@
             tvObj = new TreeView();
             cmsTree = new ContextMenuStrip(components);
             miCollapseAll = new ToolStripMenuItem();
+            miOpenChannels = new ToolStripMenuItem();
             ilTree = new ImageList(components);
             pnlRight = new Panel();
             gbObject = new GroupBox();
@@ -125,20 +126,30 @@
             tvObj.Size = new Size(484, 436);
             tvObj.TabIndex = 1;
             tvObj.AfterSelect += tvObj_AfterSelect;
+            tvObj.NodeMouseClick += tvObj_NodeMouseClick;
             // 
             // cmsTree
             // 
-            cmsTree.Items.AddRange(new ToolStripItem[] { miCollapseAll });
+            cmsTree.Items.AddRange(new ToolStripItem[] { miCollapseAll, miOpenChannels });
             cmsTree.Name = "cmsTree";
-            cmsTree.Size = new Size(137, 26);
+            cmsTree.Size = new Size(156, 48);
+            cmsTree.Opening += cmsTree_Opening;
             // 
             // miCollapseAll
             // 
             miCollapseAll.Image = Properties.Resources.collapse_all;
             miCollapseAll.Name = "miCollapseAll";
-            miCollapseAll.Size = new Size(136, 22);
+            miCollapseAll.Size = new Size(155, 22);
             miCollapseAll.Text = "Collapse All";
             miCollapseAll.Click += miCollapseAll_Click;
+            // 
+            // miOpenChannels
+            // 
+            miOpenChannels.Image = Properties.Resources.table;
+            miOpenChannels.Name = "miOpenChannels";
+            miOpenChannels.Size = new Size(155, 22);
+            miOpenChannels.Text = "Open Channels";
+            miOpenChannels.Click += miOpenChannels_Click;
             // 
             // ilTree
             // 
@@ -321,5 +332,6 @@
         private ToolStripMenuItem miCollapseAll;
         private TextBox txtDescr;
         private Label lblDescr;
+        private ToolStripMenuItem miOpenChannels;
     }
 }

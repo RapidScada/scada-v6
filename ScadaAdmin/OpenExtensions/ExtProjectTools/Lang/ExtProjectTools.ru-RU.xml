@@ -73,6 +73,7 @@
     <Phrase key="lblParentObj">Родительский объект</Phrase>
     <Phrase key="lblDescr">Описание</Phrase>
     <Phrase key="miCollapseAll">Свернуть все</Phrase>
+    <Phrase key="miOpenChannels">Открыть каналы</Phrase>
     <Phrase key="ObjNumInUse">Номер объекта уже используется.</Phrase>
     <Phrase key="ObjNumReferenced">На данный номер объекта ссылается строка из таблицы &quot;{0}&quot;.</Phrase>
     <Phrase key="ObjectReferenced">На данный объект или его дочерний объект ссылается строка из другой таблицы.</Phrase>
@@ -81,6 +82,7 @@
     <Phrase key="UpdateObjNumError">Ошибка при обновлении номера объекта</Phrase>
     <Phrase key="UpdateParentObjError">Ошибка при обновлении родительского объекта</Phrase>
     <Phrase key="DeleteObjectConfirm">Вы уверены, что хотите удалить объект?</Phrase>
+    <Phrase key="ObjectFilter">Объект {0}</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
     <Phrase key="this">Шифрование пароля</Phrase>

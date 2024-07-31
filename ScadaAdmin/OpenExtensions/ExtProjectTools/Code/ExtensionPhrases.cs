@@ -49,6 +49,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
         public static string UpdateObjNumError { get; private set; }
         public static string UpdateParentObjError { get; private set; }
         public static string DeleteObjectConfirm { get; private set; }
+        public static string ObjectFilter { get; private set; }
 
         // Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport
         public static string ExportTableFilter { get; private set; }
@@ -102,6 +103,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
             UpdateObjNumError = dict[nameof(UpdateObjNumError)];
             UpdateParentObjError = dict[nameof(UpdateParentObjError)];
             DeleteObjectConfirm = dict[nameof(DeleteObjectConfirm)];
+            ObjectFilter = dict[nameof(ObjectFilter)];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport");
             ExportTableFilter = dict[nameof(ExportTableFilter)];
