@@ -8,6 +8,7 @@ using Scada.Data.Entities;
 using Scada.Data.Tables;
 using Scada.Forms;
 using Scada.Lang;
+using System.Windows.Forms;
 using WinControls;
 
 namespace Scada.Admin.Extensions.ExtProjectTools.Forms
@@ -52,6 +53,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
             changing = false;
 
             ChildFormTag = new ChildFormTag(new ChildFormOptions { Image = Resources.obj });
+            ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
             IsClosed = false;
         }
 
@@ -305,7 +307,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
             }
             catch (Exception ex)
             {
-                adminContext.ErrLog.HandleError(ex, "UpdateObjNumError");
+                adminContext.ErrLog.HandleError(ex, ExtensionPhrases.UpdateObjNumError);
             }
         }
 
@@ -354,7 +356,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
             }
             catch (Exception ex)
             {
-                adminContext.ErrLog.HandleError(ex, "UpdateParentObjError");
+                adminContext.ErrLog.HandleError(ex, ExtensionPhrases.UpdateParentObjError);
             }
         }
 
@@ -455,6 +457,15 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
             }
         }
 
+        private void ChildFormTag_MessageToChildForm(object sender, FormMessageEventArgs e)
+        {
+            if (e.Message == AdminMessage.BaseReload)
+            {
+                ShowData();
+                ChildFormTag.Modified = false;
+            }
+        }
+
 
         private void btnAddObject_Click(object sender, EventArgs e)
         {
@@ -499,6 +510,12 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         {
             if (selectedObj != null && selectedNode != null)
             {
+                if (MessageBox.Show(ExtensionPhrases.DeleteObjectConfirm, CommonPhrases.QuestionCaption,
+                    MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) != DialogResult.Yes)
+                {
+                    return;
+                }
+
                 List<Obj> objectsToDelete = GetObjectHierarchy(selectedObj);
 
                 if (objectsToDelete.Any(obj => objTable.KeyIsReferenced(obj.ObjNum, true, out _)))

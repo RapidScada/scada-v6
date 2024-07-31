@@ -80,6 +80,7 @@
     <Phrase key="InvalidParentObject">The parent object cannot be the same or a child object.</Phrase>
     <Phrase key="UpdateObjNumError">Error updating object number</Phrase>
     <Phrase key="UpdateParentObjError">Error updating parent object</Phrase>
+    <Phrase key="DeleteObjectConfirm">Are you sure you want to delete the object?</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
     <Phrase key="this">Encrypt Password</Phrase>

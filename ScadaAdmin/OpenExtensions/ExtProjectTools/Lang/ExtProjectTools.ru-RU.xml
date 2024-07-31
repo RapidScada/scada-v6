@@ -80,6 +80,7 @@
     <Phrase key="InvalidParentObject">Родительский объект не может быть тем же самым или дочерним объектом.</Phrase>
     <Phrase key="UpdateObjNumError">Ошибка при обновлении номера объекта</Phrase>
     <Phrase key="UpdateParentObjError">Ошибка при обновлении родительского объекта</Phrase>
+    <Phrase key="DeleteObjectConfirm">Вы уверены, что хотите удалить объект?</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
     <Phrase key="this">Шифрование пароля</Phrase>
