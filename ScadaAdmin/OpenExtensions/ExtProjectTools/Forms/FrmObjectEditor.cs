@@ -103,6 +103,30 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         }
 
         /// <summary>
+        /// Refreshes the combo box containing parent objects.
+        /// </summary>
+        private void RefreshParentObjects()
+        {
+            try
+            {
+                cbParentObj.SelectedIndexChanged -= cbParentObj_SelectedIndexChanged;
+                cbParentObj.BeginUpdate();
+
+                object dataSource = cbParentObj.DataSource;
+                cbParentObj.DataSource = null;
+
+                cbParentObj.ValueMember = "ObjNum";
+                cbParentObj.DisplayMember = "Name";
+                cbParentObj.DataSource = dataSource;
+            }
+            finally
+            {
+                cbParentObj.EndUpdate();
+                cbParentObj.SelectedIndexChanged += cbParentObj_SelectedIndexChanged;
+            }
+        }
+
+        /// <summary>
         /// Fills the object tree.
         /// </summary>
         private void FillTreeView()
@@ -136,7 +160,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 if (childObj.ObjNum <= 0)
                     continue; // protect from infinite loop
 
-                TreeNode childNode = TreeViewExtensions.CreateNode(GetNodeText(childObj), "obj.png", childObj);
+                TreeNode childNode = CreateObjNode(childObj);
                 nodes.Add(childNode);
                 AddChildObjects(childObj.ObjNum, childNode.Nodes);
             }
@@ -259,12 +283,12 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 objTable.RemoveItem(oldObjNum);
                 MarkDataAsModified();
 
-                // update tree view and list of parent objects
+                // update list of parent objects
+                FillParentObjects();
+
+                // update tree view
                 TreeNode parentNode = selectedNode.Parent;
                 TreeNodeCollection siblingNodes = parentNode == null ? tvObj.Nodes : parentNode.Nodes;
-
-                tvObj.SelectedNode = null;
-                FillParentObjects();
 
                 try
                 {
@@ -376,6 +400,14 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
             objTable.Modified = true;
             ChildFormTag.Modified = true;
         }
+        
+        /// <summary>
+        /// Creates a tree node that represents the specified object.
+        /// </summary>
+        private static TreeNode CreateObjNode(Obj obj)
+        {
+            return TreeViewExtensions.CreateNode(GetNodeText(obj), "obj.png", obj);
+        }
 
         /// <summary>
         /// Gets the text for an object tree node.
@@ -425,7 +457,41 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
 
         private void btnAddObject_Click(object sender, EventArgs e)
         {
+            // determine new object number
+            int objNum;
+            TreeNode parentNode = selectedNode?.Parent;
+            Obj parentObj = parentNode == null ? null : (Obj)parentNode.Tag;
 
+            if (parentObj == null)
+            {
+                objNum = objTable.GetNextPk();
+            }
+            else
+            {
+                objNum = ((Obj)parentNode.LastNode.Tag).ObjNum + 1;
+
+                if (objTable.PkExists(objNum))
+                    objNum = objTable.GetNextPk();
+            }
+
+            // create object
+            Obj obj = new()
+            {
+                ObjNum = objNum,
+                Name = "",
+                Code = "",
+                ParentObjNum = parentObj?.ObjNum,
+                Descr = ""
+            };
+
+            objTable.AddItem(obj);
+
+            // show created object
+            FillParentObjects();
+            TreeNode objNode = CreateObjNode(obj);
+            (parentNode == null ? tvObj.Nodes : parentNode.Nodes).Add(objNode);
+            tvObj.SelectedNode = objNode;
+            txtName.Focus();
         }
 
         private void btnDeleteObject_Click(object sender, EventArgs e)
@@ -441,6 +507,9 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 else
                 {
                     objectsToDelete.ForEach(objTable.RemoveItem);
+                    MarkDataAsModified();
+
+                    FillParentObjects();
                     selectedNode.Remove();
                 }
             }
@@ -485,6 +554,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 selectedObj.Name = txtName.Text;
                 selectedNode.Text = GetNodeText(selectedObj);
                 MarkDataAsModified();
+                RefreshParentObjects();
             }
         }
 
