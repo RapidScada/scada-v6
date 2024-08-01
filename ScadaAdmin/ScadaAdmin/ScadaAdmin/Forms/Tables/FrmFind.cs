@@ -163,7 +163,7 @@ namespace Scada.Admin.App.Forms.Tables
         }
 
         /// <summary>
-        /// Resets the starting point of the search
+        /// Resets the starting point of the search.
         /// </summary>
         private void ResetSearch()
         {
