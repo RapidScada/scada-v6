@@ -38,6 +38,7 @@
             chkWholeStringOnly = new CheckBox();
             btnFindNext = new Button();
             btnClose = new Button();
+            chkCaseSensitive = new CheckBox();
             gbLookAt.SuspendLayout();
             SuspendLayout();
             // 
@@ -123,32 +124,43 @@
             // chkWholeStringOnly
             // 
             chkWholeStringOnly.AutoSize = true;
-            chkWholeStringOnly.Location = new Point(12, 191);
+            chkWholeStringOnly.Location = new Point(12, 216);
             chkWholeStringOnly.Name = "chkWholeStringOnly";
             chkWholeStringOnly.Size = new Size(154, 19);
-            chkWholeStringOnly.TabIndex = 3;
+            chkWholeStringOnly.TabIndex = 4;
             chkWholeStringOnly.Text = "Match whole string only";
             chkWholeStringOnly.UseVisualStyleBackColor = true;
             // 
             // btnFindNext
             // 
-            btnFindNext.Location = new Point(186, 216);
+            btnFindNext.Enabled = false;
+            btnFindNext.Location = new Point(186, 241);
             btnFindNext.Name = "btnFindNext";
             btnFindNext.Size = new Size(90, 23);
-            btnFindNext.TabIndex = 4;
+            btnFindNext.TabIndex = 5;
             btnFindNext.Text = "Find Next";
             btnFindNext.UseVisualStyleBackColor = true;
             btnFindNext.Click += btnFindNext_Click;
             // 
             // btnClose
             // 
-            btnClose.Location = new Point(282, 216);
+            btnClose.Location = new Point(282, 241);
             btnClose.Name = "btnClose";
             btnClose.Size = new Size(90, 23);
-            btnClose.TabIndex = 5;
+            btnClose.TabIndex = 6;
             btnClose.Text = "Close";
             btnClose.UseVisualStyleBackColor = true;
             btnClose.Click += btnClose_Click;
+            // 
+            // chkCaseSensitive
+            // 
+            chkCaseSensitive.AutoSize = true;
+            chkCaseSensitive.Location = new Point(12, 191);
+            chkCaseSensitive.Name = "chkCaseSensitive";
+            chkCaseSensitive.Size = new Size(86, 19);
+            chkCaseSensitive.TabIndex = 3;
+            chkCaseSensitive.Text = "Match case";
+            chkCaseSensitive.UseVisualStyleBackColor = true;
             // 
             // FrmFindObject
             // 
@@ -156,10 +168,11 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = btnClose;
-            ClientSize = new Size(384, 251);
+            ClientSize = new Size(384, 276);
             Controls.Add(btnClose);
             Controls.Add(btnFindNext);
             Controls.Add(chkWholeStringOnly);
+            Controls.Add(chkCaseSensitive);
             Controls.Add(gbLookAt);
             Controls.Add(txtFind);
             Controls.Add(lblFind);
@@ -188,5 +201,6 @@
         private CheckBox chkName;
         private CheckBox chkObjNum;
         private CheckBox chkDescr;
+        private CheckBox chkCaseSensitive;
     }
 }

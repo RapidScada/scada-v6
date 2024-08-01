@@ -68,9 +68,12 @@
     <Phrase key="chkName">Name</Phrase>
     <Phrase key="chkCode">Code</Phrase>
     <Phrase key="chkDescr">Description</Phrase>
+    <Phrase key="chkCaseSensitive">Match case</Phrase>
     <Phrase key="chkWholeStringOnly">Match whole string only</Phrase>
     <Phrase key="btnFindNext">Find Next</Phrase>
     <Phrase key="btnClose">Close</Phrase>
+    <Phrase key="ObjectNotFound">Object not found.</Phrase>
+    <Phrase key="SearchCompleted">Search completed.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmObjectEditor">
     <Phrase key="this">Object Editor</Phrase>

@@ -68,9 +68,12 @@
     <Phrase key="chkName">Наименование</Phrase>
     <Phrase key="chkCode">Код</Phrase>
     <Phrase key="chkDescr">Описание</Phrase>
+    <Phrase key="chkCaseSensitive">Учитывать регистр</Phrase>
     <Phrase key="chkWholeStringOnly">Только строку целиком</Phrase>
     <Phrase key="btnFindNext">Найти далее</Phrase>
     <Phrase key="btnClose">Закрыть</Phrase>
+    <Phrase key="ObjectNotFound">Объект не найден.</Phrase>
+    <Phrase key="SearchCompleted">Поиск завершён.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmObjectEditor">
     <Phrase key="this">Редактор объектов</Phrase>

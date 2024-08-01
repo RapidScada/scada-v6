@@ -40,6 +40,10 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
         public static string CloneChannelsCompleted { get; private set; }
         public static string CloneChannelsError { get; private set; }
 
+        // Scada.Admin.Extensions.ExtProjectTools.Forms.FrmFindObject
+        public static string ObjectNotFound { get; private set; }
+        public static string SearchCompleted { get; private set; }
+
         // Scada.Admin.Extensions.ExtProjectTools.Forms.FrmObjectEditor
         public static string ObjNumInUse { get; private set; }
         public static string ObjNumReferenced { get; private set; }
@@ -93,6 +97,10 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
             KeepUnchanged = dict[nameof(KeepUnchanged)];
             CloneChannelsCompleted = dict[nameof(CloneChannelsCompleted)];
             CloneChannelsError = dict[nameof(CloneChannelsError)];
+
+            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Forms.FrmFindObject");
+            ObjectNotFound = dict[nameof(ObjectNotFound)];
+            SearchCompleted = dict[nameof(SearchCompleted)];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Forms.FrmObjectEditor");
             ObjNumInUse = dict[nameof(ObjNumInUse)];
