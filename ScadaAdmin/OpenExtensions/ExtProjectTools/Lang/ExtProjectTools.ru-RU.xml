@@ -60,6 +60,18 @@
     <Phrase key="CloneChannelsCompleted">Клонирование завершено успешно.&#13;&#10;Добавлено каналов: {0}.</Phrase>
     <Phrase key="CloneChannelsError">Ошибка при клонировании каналов</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmFindObject">
+    <Phrase key="this">Найти объект</Phrase>
+    <Phrase key="lblFind">Найти</Phrase>
+    <Phrase key="gbLookAt">Просмотривать при поиске</Phrase>
+    <Phrase key="chkObjNum">Номер</Phrase>
+    <Phrase key="chkName">Наименование</Phrase>
+    <Phrase key="chkCode">Код</Phrase>
+    <Phrase key="chkDescr">Описание</Phrase>
+    <Phrase key="chkWholeStringOnly">Только строку целиком</Phrase>
+    <Phrase key="btnFindNext">Найти далее</Phrase>
+    <Phrase key="btnClose">Закрыть</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmObjectEditor">
     <Phrase key="this">Редактор объектов</Phrase>
     <Phrase key="btnAddObject.ToolTip">Добавить объект</Phrase>

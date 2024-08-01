@@ -400,7 +400,7 @@
     <Phrase key="lblFind">Find what</Phrase>
     <Phrase key="lblReplaceWith">Replace with</Phrase>
     <Phrase key="chkCaseSensitive">Match case</Phrase>
-    <Phrase key="chkWholeCellOnly">Match whole cell</Phrase>
+    <Phrase key="chkWholeCellOnly">Match whole cell only</Phrase>
     <Phrase key="btnFindNext">FindNext</Phrase>
     <Phrase key="btnReplace">Replace</Phrase>
     <Phrase key="btnReplaceAll">Replace All</Phrase>

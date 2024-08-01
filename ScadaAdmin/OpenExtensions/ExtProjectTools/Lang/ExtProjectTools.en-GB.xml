@@ -60,6 +60,18 @@
     <Phrase key="CloneChannelsCompleted">Cloning completed successfully.&#13;&#10;{0} channel(s) added.</Phrase>
     <Phrase key="CloneChannelsError">Error cloning channels</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmFindObject">
+    <Phrase key="this">Find Object</Phrase>
+    <Phrase key="lblFind">Find what</Phrase>
+    <Phrase key="gbLookAt">Look at</Phrase>
+    <Phrase key="chkObjNum">Number</Phrase>
+    <Phrase key="chkName">Name</Phrase>
+    <Phrase key="chkCode">Code</Phrase>
+    <Phrase key="chkDescr">Description</Phrase>
+    <Phrase key="chkWholeStringOnly">Match whole string only</Phrase>
+    <Phrase key="btnFindNext">Find Next</Phrase>
+    <Phrase key="btnClose">Close</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmObjectEditor">
     <Phrase key="this">Object Editor</Phrase>
     <Phrase key="btnAddObject.ToolTip">Add Object</Phrase>

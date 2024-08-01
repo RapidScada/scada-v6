@@ -28,191 +28,190 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnReplaceAll = new System.Windows.Forms.Button();
-            this.btnClose = new System.Windows.Forms.Button();
-            this.lblColumn = new System.Windows.Forms.Label();
-            this.cbColumn = new System.Windows.Forms.ComboBox();
-            this.lblFind = new System.Windows.Forms.Label();
-            this.txtFind = new System.Windows.Forms.TextBox();
-            this.lblReplaceWith = new System.Windows.Forms.Label();
-            this.txtReplaceWith = new System.Windows.Forms.TextBox();
-            this.chkCaseSensitive = new System.Windows.Forms.CheckBox();
-            this.chkWholeCellOnly = new System.Windows.Forms.CheckBox();
-            this.cbFind = new System.Windows.Forms.ComboBox();
-            this.cbReplaceWith = new System.Windows.Forms.ComboBox();
-            this.btnFindNext = new System.Windows.Forms.Button();
-            this.btnReplace = new System.Windows.Forms.Button();
-            this.SuspendLayout();
+            btnReplaceAll = new Button();
+            btnClose = new Button();
+            lblColumn = new Label();
+            cbColumn = new ComboBox();
+            lblFind = new Label();
+            txtFind = new TextBox();
+            lblReplaceWith = new Label();
+            txtReplaceWith = new TextBox();
+            chkCaseSensitive = new CheckBox();
+            chkWholeCellOnly = new CheckBox();
+            cbFind = new ComboBox();
+            cbReplaceWith = new ComboBox();
+            btnFindNext = new Button();
+            btnReplace = new Button();
+            SuspendLayout();
             // 
             // btnReplaceAll
             // 
-            this.btnReplaceAll.Location = new System.Drawing.Point(282, 194);
-            this.btnReplaceAll.Name = "btnReplaceAll";
-            this.btnReplaceAll.Size = new System.Drawing.Size(90, 23);
-            this.btnReplaceAll.TabIndex = 12;
-            this.btnReplaceAll.Text = "Replace All";
-            this.btnReplaceAll.UseVisualStyleBackColor = true;
-            this.btnReplaceAll.Click += new System.EventHandler(this.btnReplaceAll_Click);
+            btnReplaceAll.Location = new Point(282, 194);
+            btnReplaceAll.Name = "btnReplaceAll";
+            btnReplaceAll.Size = new Size(90, 23);
+            btnReplaceAll.TabIndex = 12;
+            btnReplaceAll.Text = "Replace All";
+            btnReplaceAll.UseVisualStyleBackColor = true;
+            btnReplaceAll.Click += btnReplaceAll_Click;
             // 
             // btnClose
             // 
-            this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(282, 223);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(90, 23);
-            this.btnClose.TabIndex = 13;
-            this.btnClose.Text = "Close";
-            this.btnClose.UseVisualStyleBackColor = true;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            btnClose.DialogResult = DialogResult.Cancel;
+            btnClose.Location = new Point(282, 223);
+            btnClose.Name = "btnClose";
+            btnClose.Size = new Size(90, 23);
+            btnClose.TabIndex = 13;
+            btnClose.Text = "Close";
+            btnClose.UseVisualStyleBackColor = true;
+            btnClose.Click += btnClose_Click;
             // 
             // lblColumn
             // 
-            this.lblColumn.AutoSize = true;
-            this.lblColumn.Location = new System.Drawing.Point(9, 9);
-            this.lblColumn.Name = "lblColumn";
-            this.lblColumn.Size = new System.Drawing.Size(50, 15);
-            this.lblColumn.TabIndex = 0;
-            this.lblColumn.Text = "Column";
+            lblColumn.AutoSize = true;
+            lblColumn.Location = new Point(9, 9);
+            lblColumn.Name = "lblColumn";
+            lblColumn.Size = new Size(50, 15);
+            lblColumn.TabIndex = 0;
+            lblColumn.Text = "Column";
             // 
             // cbColumn
             // 
-            this.cbColumn.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbColumn.FormattingEnabled = true;
-            this.cbColumn.Location = new System.Drawing.Point(12, 27);
-            this.cbColumn.Name = "cbColumn";
-            this.cbColumn.Size = new System.Drawing.Size(360, 23);
-            this.cbColumn.TabIndex = 1;
-            this.cbColumn.SelectedIndexChanged += new System.EventHandler(this.cbColumn_SelectedIndexChanged);
+            cbColumn.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbColumn.FormattingEnabled = true;
+            cbColumn.Location = new Point(12, 27);
+            cbColumn.Name = "cbColumn";
+            cbColumn.Size = new Size(360, 23);
+            cbColumn.TabIndex = 1;
+            cbColumn.SelectedIndexChanged += cbColumn_SelectedIndexChanged;
             // 
             // lblFind
             // 
-            this.lblFind.AutoSize = true;
-            this.lblFind.Location = new System.Drawing.Point(9, 53);
-            this.lblFind.Name = "lblFind";
-            this.lblFind.Size = new System.Drawing.Size(59, 15);
-            this.lblFind.TabIndex = 2;
-            this.lblFind.Text = "Find what";
+            lblFind.AutoSize = true;
+            lblFind.Location = new Point(9, 53);
+            lblFind.Name = "lblFind";
+            lblFind.Size = new Size(59, 15);
+            lblFind.TabIndex = 2;
+            lblFind.Text = "Find what";
             // 
             // txtFind
             // 
-            this.txtFind.Location = new System.Drawing.Point(12, 71);
-            this.txtFind.Name = "txtFind";
-            this.txtFind.Size = new System.Drawing.Size(360, 23);
-            this.txtFind.TabIndex = 3;
-            this.txtFind.TextChanged += new System.EventHandler(this.txtFind_TextChanged);
+            txtFind.Location = new Point(12, 71);
+            txtFind.Name = "txtFind";
+            txtFind.Size = new Size(360, 23);
+            txtFind.TabIndex = 3;
+            txtFind.TextChanged += txtFind_TextChanged;
             // 
             // lblReplaceWith
             // 
-            this.lblReplaceWith.AutoSize = true;
-            this.lblReplaceWith.Location = new System.Drawing.Point(9, 97);
-            this.lblReplaceWith.Name = "lblReplaceWith";
-            this.lblReplaceWith.Size = new System.Drawing.Size(74, 15);
-            this.lblReplaceWith.TabIndex = 5;
-            this.lblReplaceWith.Text = "Replace with";
+            lblReplaceWith.AutoSize = true;
+            lblReplaceWith.Location = new Point(9, 97);
+            lblReplaceWith.Name = "lblReplaceWith";
+            lblReplaceWith.Size = new Size(74, 15);
+            lblReplaceWith.TabIndex = 5;
+            lblReplaceWith.Text = "Replace with";
             // 
             // txtReplaceWith
             // 
-            this.txtReplaceWith.Location = new System.Drawing.Point(12, 115);
-            this.txtReplaceWith.Name = "txtReplaceWith";
-            this.txtReplaceWith.Size = new System.Drawing.Size(360, 23);
-            this.txtReplaceWith.TabIndex = 6;
+            txtReplaceWith.Location = new Point(12, 115);
+            txtReplaceWith.Name = "txtReplaceWith";
+            txtReplaceWith.Size = new Size(360, 23);
+            txtReplaceWith.TabIndex = 6;
             // 
             // chkCaseSensitive
             // 
-            this.chkCaseSensitive.AutoSize = true;
-            this.chkCaseSensitive.Location = new System.Drawing.Point(12, 144);
-            this.chkCaseSensitive.Name = "chkCaseSensitive";
-            this.chkCaseSensitive.Size = new System.Drawing.Size(86, 19);
-            this.chkCaseSensitive.TabIndex = 8;
-            this.chkCaseSensitive.Text = "Match case";
-            this.chkCaseSensitive.UseVisualStyleBackColor = true;
+            chkCaseSensitive.AutoSize = true;
+            chkCaseSensitive.Location = new Point(12, 144);
+            chkCaseSensitive.Name = "chkCaseSensitive";
+            chkCaseSensitive.Size = new Size(86, 19);
+            chkCaseSensitive.TabIndex = 8;
+            chkCaseSensitive.Text = "Match case";
+            chkCaseSensitive.UseVisualStyleBackColor = true;
             // 
             // chkWholeCellOnly
             // 
-            this.chkWholeCellOnly.AutoSize = true;
-            this.chkWholeCellOnly.Checked = true;
-            this.chkWholeCellOnly.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkWholeCellOnly.Location = new System.Drawing.Point(12, 169);
-            this.chkWholeCellOnly.Name = "chkWholeCellOnly";
-            this.chkWholeCellOnly.Size = new System.Drawing.Size(116, 19);
-            this.chkWholeCellOnly.TabIndex = 9;
-            this.chkWholeCellOnly.Text = "Match whole cell";
-            this.chkWholeCellOnly.UseVisualStyleBackColor = true;
+            chkWholeCellOnly.AutoSize = true;
+            chkWholeCellOnly.Checked = true;
+            chkWholeCellOnly.CheckState = CheckState.Checked;
+            chkWholeCellOnly.Location = new Point(12, 169);
+            chkWholeCellOnly.Name = "chkWholeCellOnly";
+            chkWholeCellOnly.Size = new Size(142, 19);
+            chkWholeCellOnly.TabIndex = 9;
+            chkWholeCellOnly.Text = "Match whole cell only";
+            chkWholeCellOnly.UseVisualStyleBackColor = true;
             // 
             // cbFind
             // 
-            this.cbFind.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbFind.FormattingEnabled = true;
-            this.cbFind.Location = new System.Drawing.Point(12, 81);
-            this.cbFind.Name = "cbFind";
-            this.cbFind.Size = new System.Drawing.Size(360, 23);
-            this.cbFind.TabIndex = 4;
-            this.cbFind.Visible = false;
-            this.cbFind.SelectedIndexChanged += new System.EventHandler(this.cbFind_SelectedIndexChanged);
+            cbFind.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbFind.FormattingEnabled = true;
+            cbFind.Location = new Point(12, 81);
+            cbFind.Name = "cbFind";
+            cbFind.Size = new Size(360, 23);
+            cbFind.TabIndex = 4;
+            cbFind.Visible = false;
+            cbFind.SelectedIndexChanged += cbFind_SelectedIndexChanged;
             // 
             // cbReplaceWith
             // 
-            this.cbReplaceWith.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbReplaceWith.FormattingEnabled = true;
-            this.cbReplaceWith.Location = new System.Drawing.Point(12, 125);
-            this.cbReplaceWith.Name = "cbReplaceWith";
-            this.cbReplaceWith.Size = new System.Drawing.Size(360, 23);
-            this.cbReplaceWith.TabIndex = 7;
-            this.cbReplaceWith.Visible = false;
-            this.cbReplaceWith.SelectedIndexChanged += new System.EventHandler(this.cbReplaceWith_SelectedIndexChanged);
+            cbReplaceWith.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbReplaceWith.FormattingEnabled = true;
+            cbReplaceWith.Location = new Point(12, 125);
+            cbReplaceWith.Name = "cbReplaceWith";
+            cbReplaceWith.Size = new Size(360, 23);
+            cbReplaceWith.TabIndex = 7;
+            cbReplaceWith.Visible = false;
+            cbReplaceWith.SelectedIndexChanged += cbReplaceWith_SelectedIndexChanged;
             // 
             // btnFindNext
             // 
-            this.btnFindNext.Location = new System.Drawing.Point(90, 194);
-            this.btnFindNext.Name = "btnFindNext";
-            this.btnFindNext.Size = new System.Drawing.Size(90, 23);
-            this.btnFindNext.TabIndex = 10;
-            this.btnFindNext.Text = "Find Next";
-            this.btnFindNext.UseVisualStyleBackColor = true;
-            this.btnFindNext.Click += new System.EventHandler(this.btnFindNext_Click);
+            btnFindNext.Location = new Point(90, 194);
+            btnFindNext.Name = "btnFindNext";
+            btnFindNext.Size = new Size(90, 23);
+            btnFindNext.TabIndex = 10;
+            btnFindNext.Text = "Find Next";
+            btnFindNext.UseVisualStyleBackColor = true;
+            btnFindNext.Click += btnFindNext_Click;
             // 
             // btnReplace
             // 
-            this.btnReplace.Location = new System.Drawing.Point(186, 194);
-            this.btnReplace.Name = "btnReplace";
-            this.btnReplace.Size = new System.Drawing.Size(90, 23);
-            this.btnReplace.TabIndex = 11;
-            this.btnReplace.Text = "Replace";
-            this.btnReplace.UseVisualStyleBackColor = true;
-            this.btnReplace.Click += new System.EventHandler(this.btnReplace_Click);
+            btnReplace.Location = new Point(186, 194);
+            btnReplace.Name = "btnReplace";
+            btnReplace.Size = new Size(90, 23);
+            btnReplace.TabIndex = 11;
+            btnReplace.Text = "Replace";
+            btnReplace.UseVisualStyleBackColor = true;
+            btnReplace.Click += btnReplace_Click;
             // 
             // FrmFind
             // 
-            this.AcceptButton = this.btnFindNext;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(384, 258);
-            this.Controls.Add(this.btnReplace);
-            this.Controls.Add(this.btnFindNext);
-            this.Controls.Add(this.cbReplaceWith);
-            this.Controls.Add(this.cbFind);
-            this.Controls.Add(this.chkWholeCellOnly);
-            this.Controls.Add(this.chkCaseSensitive);
-            this.Controls.Add(this.txtReplaceWith);
-            this.Controls.Add(this.lblReplaceWith);
-            this.Controls.Add(this.txtFind);
-            this.Controls.Add(this.lblFind);
-            this.Controls.Add(this.cbColumn);
-            this.Controls.Add(this.lblColumn);
-            this.Controls.Add(this.btnReplaceAll);
-            this.Controls.Add(this.btnClose);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FrmFind";
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "Find and Replace";
-            this.Load += new System.EventHandler(this.FrmReplace_Load);
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AcceptButton = btnFindNext;
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            CancelButton = btnClose;
+            ClientSize = new Size(384, 258);
+            Controls.Add(btnReplace);
+            Controls.Add(btnFindNext);
+            Controls.Add(cbReplaceWith);
+            Controls.Add(cbFind);
+            Controls.Add(chkWholeCellOnly);
+            Controls.Add(chkCaseSensitive);
+            Controls.Add(txtReplaceWith);
+            Controls.Add(lblReplaceWith);
+            Controls.Add(txtFind);
+            Controls.Add(lblFind);
+            Controls.Add(cbColumn);
+            Controls.Add(lblColumn);
+            Controls.Add(btnReplaceAll);
+            Controls.Add(btnClose);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "FrmFind";
+            ShowInTaskbar = false;
+            StartPosition = FormStartPosition.Manual;
+            Text = "Find and Replace";
+            Load += FrmReplace_Load;
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
