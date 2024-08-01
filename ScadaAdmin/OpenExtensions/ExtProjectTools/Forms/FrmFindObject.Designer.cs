@@ -56,6 +56,7 @@
             txtFind.Name = "txtFind";
             txtFind.Size = new Size(360, 23);
             txtFind.TabIndex = 1;
+            txtFind.TextChanged += txtFind_TextChanged;
             // 
             // gbLookAt
             // 
@@ -74,6 +75,8 @@
             // chkDescr
             // 
             chkDescr.AutoSize = true;
+            chkDescr.Checked = true;
+            chkDescr.CheckState = CheckState.Checked;
             chkDescr.Location = new Point(13, 97);
             chkDescr.Name = "chkDescr";
             chkDescr.Size = new Size(86, 19);
@@ -84,6 +87,8 @@
             // chkCode
             // 
             chkCode.AutoSize = true;
+            chkCode.Checked = true;
+            chkCode.CheckState = CheckState.Checked;
             chkCode.Location = new Point(13, 72);
             chkCode.Name = "chkCode";
             chkCode.Size = new Size(54, 19);
@@ -94,6 +99,8 @@
             // chkName
             // 
             chkName.AutoSize = true;
+            chkName.Checked = true;
+            chkName.CheckState = CheckState.Checked;
             chkName.Location = new Point(13, 47);
             chkName.Name = "chkName";
             chkName.Size = new Size(58, 19);
@@ -104,6 +111,8 @@
             // chkObjNum
             // 
             chkObjNum.AutoSize = true;
+            chkObjNum.Checked = true;
+            chkObjNum.CheckState = CheckState.Checked;
             chkObjNum.Location = new Point(13, 22);
             chkObjNum.Name = "chkObjNum";
             chkObjNum.Size = new Size(70, 19);
@@ -123,21 +132,23 @@
             // 
             // btnFindNext
             // 
-            btnFindNext.Location = new Point(186, 226);
+            btnFindNext.Location = new Point(186, 216);
             btnFindNext.Name = "btnFindNext";
             btnFindNext.Size = new Size(90, 23);
             btnFindNext.TabIndex = 4;
             btnFindNext.Text = "Find Next";
             btnFindNext.UseVisualStyleBackColor = true;
+            btnFindNext.Click += btnFindNext_Click;
             // 
             // btnClose
             // 
-            btnClose.Location = new Point(282, 226);
+            btnClose.Location = new Point(282, 216);
             btnClose.Name = "btnClose";
             btnClose.Size = new Size(90, 23);
             btnClose.TabIndex = 5;
             btnClose.Text = "Close";
             btnClose.UseVisualStyleBackColor = true;
+            btnClose.Click += btnClose_Click;
             // 
             // FrmFindObject
             // 
@@ -145,7 +156,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = btnClose;
-            ClientSize = new Size(384, 261);
+            ClientSize = new Size(384, 251);
             Controls.Add(btnClose);
             Controls.Add(btnFindNext);
             Controls.Add(chkWholeStringOnly);
@@ -156,8 +167,9 @@
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "FrmFindObject";
-            StartPosition = FormStartPosition.CenterParent;
+            StartPosition = FormStartPosition.Manual;
             Text = "Find Object";
+            Load += FrmFindObject_Load;
             gbLookAt.ResumeLayout(false);
             gbLookAt.PerformLayout();
             ResumeLayout(false);

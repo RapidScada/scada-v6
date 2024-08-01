@@ -23,10 +23,11 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         private readonly ConfigDatabase configDatabase; // the configuration database
         private readonly BaseTable<Obj> objTable;       // the object table
 
-        private ITableIndex parentObjIndex; // the index for searching objects by parent
-        private TreeNode selectedNode;      // the currently selected tree node
-        private Obj selectedObj;            // the currently selected object
-        private bool changing;              // controls are being changed programmatically
+        private ITableIndex parentObjIndex;  // the index for searching objects by parent
+        private TreeNode selectedNode;       // the currently selected tree node
+        private Obj selectedObj;             // the currently selected object
+        private bool changing;               // controls are being changed programmatically
+        private FrmFindObject frmFindObject; // the find form
 
 
         /// <summary>
@@ -51,6 +52,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
             selectedNode = null;
             selectedObj = null;
             changing = false;
+            frmFindObject = null;
 
             ChildFormTag = new ChildFormTag(new ChildFormOptions { Image = Resources.obj });
             ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
@@ -458,6 +460,16 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
             }
         }
 
+        private void FrmObjectEditor_VisibleChanged(object sender, EventArgs e)
+        {
+            // close find form
+            if (frmFindObject != null)
+            {
+                frmFindObject.Close();
+                frmFindObject = null;
+            }
+        }
+
         private void ChildFormTag_MessageToChildForm(object sender, FormMessageEventArgs e)
         {
             if (e.Message == AdminMessage.BaseReload)
@@ -541,7 +553,19 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
 
         private void btnFind_Click(object sender, EventArgs e)
         {
+            if (frmFindObject == null || !frmFindObject.Visible)
+            {
+                frmFindObject = new FrmFindObject(tvObj);
 
+                // center the form within the bounds of its parent
+                frmFindObject.Left = (ParentForm.Left + ParentForm.Right - frmFindObject.Width) / 2;
+                frmFindObject.Top = (ParentForm.Top + ParentForm.Bottom - frmFindObject.Height) / 2;
+                frmFindObject.Show(this);
+            }
+            else
+            {
+                frmFindObject.Activate();
+            }
         }
 
 

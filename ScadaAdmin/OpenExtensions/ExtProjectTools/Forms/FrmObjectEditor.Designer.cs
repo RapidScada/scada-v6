@@ -296,6 +296,7 @@
             Text = "Object Editor";
             FormClosed += FrmObjectEditor_FormClosed;
             Load += FrmObjectEditor_Load;
+            VisibleChanged += FrmObjectEditor_VisibleChanged;
             KeyDown += FrmObjectEditor_KeyDown;
             toolStrip.ResumeLayout(false);
             toolStrip.PerformLayout();
