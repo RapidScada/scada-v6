@@ -31,16 +31,18 @@
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Controls.CtrlMainMenu">
     <Phrase key="miProjectTools">Project Tools</Phrase>
     <Phrase key="miCloneChannels">Clone Channels...</Phrase>
+    <Phrase key="miEncryptPassword">Encrypt Password...</Phrase>
     <Phrase key="miChannelMapByDevice">Channel Map by Device</Phrase>
     <Phrase key="miChannelMapByObject">Channel Map by Object</Phrase>
     <Phrase key="miDeviceMap">Device Map</Phrase>
     <Phrase key="miObjectMap">Object Map</Phrase>
-    <Phrase key="miObjectEditor">Object Editor</Phrase>
     <Phrase key="miCheckIntegrity">Check Integrity</Phrase>
-    <Phrase key="miEncryptPassword">Encrypt Password...</Phrase>
+    <Phrase key="miObjectEditor">Object Editor</Phrase>
+    <Phrase key="miRightMatrix">Right Matrix</Phrase>
     <Phrase key="miImportTable">Import Table...</Phrase>
     <Phrase key="miExportTable">Export Table...</Phrase>
     <Phrase key="btnObjectEditor.ToolTip">Object Editor</Phrase>
+    <Phrase key="btnRightMatrix.ToolTip">Right Matrix</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmCnlClone">
     <Phrase key="this">Clone Channels</Phrase>

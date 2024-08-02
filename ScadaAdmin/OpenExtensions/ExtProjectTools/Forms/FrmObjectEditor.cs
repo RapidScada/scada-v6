@@ -56,7 +56,6 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
 
             ChildFormTag = new ChildFormTag(new ChildFormOptions { Image = Resources.obj });
             ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
-            IsClosed = false;
         }
 
 
@@ -64,11 +63,6 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         /// Gets or sets the object associated with the form.
         /// </summary>
         public ChildFormTag ChildFormTag { get; set; }
-
-        /// <summary>
-        /// Gets a value indicating whether the form has been closed.
-        /// </summary>
-        public bool IsClosed { get; private set; }
 
 
         /// <summary>
@@ -444,11 +438,6 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
             FormTranslator.Translate(this, GetType().FullName, new FormTranslatorOptions { ContextMenus = [cmsTree] });
             AddTreeViewImages();
             ShowData();
-        }
-
-        private void FrmObjectEditor_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            IsClosed = true;
         }
 
         private void FrmObjectEditor_KeyDown(object sender, KeyEventArgs e)
