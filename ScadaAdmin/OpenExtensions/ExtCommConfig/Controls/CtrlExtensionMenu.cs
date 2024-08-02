@@ -193,8 +193,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             if (e.Message == KnownExtensionMessage.UpdateLineNode)
             {
                 UpdateLineNode(
-                    (string)e.Arguments["InstanceName"],
-                    (int)e.Arguments["CommLineNum"]);
+                    (string)e.Arguments["instanceName"],
+                    (int)e.Arguments["commLineNum"]);
             }
         }
 
