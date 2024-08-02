@@ -88,6 +88,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
             FillParentObjects();
             FillTreeView();
             ChildFormTag.Modified = objTable.Modified;
+            frmFindObject?.ResetSearchCache();
         }
 
         /// <summary>
@@ -306,6 +307,8 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 {
                     tvObj.EndUpdate();
                 }
+
+                frmFindObject?.ResetSearchCache();
             }
             catch (Exception ex)
             {
@@ -355,6 +358,8 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 {
                     tvObj.EndUpdate();
                 }
+
+                frmFindObject?.ResetSearchCache();
             }
             catch (Exception ex)
             {
@@ -510,6 +515,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
             };
 
             objTable.AddItem(obj);
+            MarkDataAsModified();
 
             // show created object
             FillParentObjects();
@@ -517,6 +523,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
             (parentNode == null ? tvObj.Nodes : parentNode.Nodes).Add(objNode);
             tvObj.SelectedNode = objNode;
             txtName.Focus();
+            frmFindObject?.ResetSearchCache();
         }
 
         private void btnDeleteObject_Click(object sender, EventArgs e)
@@ -542,6 +549,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
 
                     FillParentObjects();
                     selectedNode.Remove();
+                    frmFindObject?.ResetSearchCache();
                 }
             }
         }

@@ -22,8 +22,11 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
             public required Obj Obj { get; init; }
         }
 
-        private readonly TreeView treeView;              // the tree into which the search is performed
-        private SortedList<int, SearchItem> searchItems; // the linear list for search accessed by object number
+        private readonly TreeView treeView;         // the tree into which the search is performed
+        private List<SearchItem> searchItems;       // the linear list for search
+        private Dictionary<int, int> searchIndexes; // contains the search item indexes accessed by object number
+        private int startSearchIndex;               // the starting position of the search
+        private bool foundSomething;                // at least one result found
 
 
         /// <summary>
@@ -41,7 +44,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
             : this()
         {
             this.treeView = treeView ?? throw new ArgumentNullException(nameof(treeView));
-            ResetSearch();
+            ResetSearchCache();
             FormTranslator.Translate(this, GetType().FullName);
         }
 
@@ -59,37 +62,43 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 return;
             }
 
-            // TODO: search
-            TreeNode startNode = treeView.SelectedNode ?? treeView.Nodes[0];
-            int startObjNum = startNode.Tag is Obj obj ? obj.ObjNum : 0;
-            int startIndex = searchItems.IndexOfKey(startObjNum) + 1;
-            int searchIndex = startIndex;
+            TreeNode currentNode = treeView.SelectedNode ?? treeView.Nodes[0];
+            int currentObjNum = currentNode.Tag is Obj obj ? obj.ObjNum : 0;
+            int searchIndex = searchIndexes.TryGetValue(currentObjNum, out int index) ? index : -1;
             bool found = false;
             bool endReached = false;
 
+            if (++searchIndex >= searchItems.Count)
+                searchIndex = 0;
+
+            if (startSearchIndex < 0)
+                startSearchIndex = searchIndex;
+
             do
             {
-                SearchItem searchItem = searchItems.Values[searchIndex];
+                SearchItem searchItem = searchItems[searchIndex];
 
                 if (IsMatched(searchItem.Obj))
                 {
                     found = true;
+                    foundSomething = true;
                     treeView.SelectedNode = searchItem.TreeNode;
                 }
 
                 if (++searchIndex >= searchItems.Count)
                     searchIndex = 0;
 
-                if (searchIndex == startIndex)
+                if (searchIndex == startSearchIndex)
                     endReached = true;
 
             } while (!found && !endReached);
 
             if (!found || endReached)
             {
-                ScadaUiUtils.ShowInfo(found 
+                ScadaUiUtils.ShowInfo(foundSomething
                     ? ExtensionPhrases.SearchCompleted 
                     : ExtensionPhrases.ObjectNotFound);
+                ResetSearchPosition();
             }
         }
 
@@ -101,16 +110,20 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
             if (searchItems == null)
             {
                 searchItems = [];
+                searchIndexes = [];
+                int index = 0;
 
                 foreach (TreeNode treeNode in treeView.Nodes.IterateNodes())
                 {
                     if (treeNode.Tag is Obj obj)
                     {
-                        searchItems[obj.ObjNum] = new SearchItem
+                        searchItems.Add(new SearchItem
                         {
                             TreeNode = treeNode,
                             Obj = obj
-                        };
+                        });
+                        searchIndexes[obj.ObjNum] = index;
+                        index++;
                     }
                 }
             }
@@ -125,7 +138,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 return false;
 
             string filter = txtFind.Text;
-            bool ignoreCase = chkCaseSensitive.Checked;
+            bool ignoreCase = !chkCaseSensitive.Checked;
             bool wholeStringOnly = chkWholeStringOnly.Checked;
 
             if (chkObjNum.Checked && IsMatched(obj.ObjNum.ToString(), filter, ignoreCase, wholeStringOnly))
@@ -154,24 +167,32 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
             }
             else
             {
-                return field.Contains(filter, ignoreCase
+                return field != null && field.Contains(filter, ignoreCase
                     ? StringComparison.CurrentCultureIgnoreCase
                     : StringComparison.CurrentCulture);
             }
         }
 
         /// <summary>
+        /// Resets the search position.
+        /// </summary>
+        private void ResetSearchPosition()
+        {
+
+            startSearchIndex = -1;
+            foundSomething = false;
+        }
+
+        /// <summary>
         /// Resets the search cache.
         /// </summary>
-        public void ResetSearch()
+        public void ResetSearchCache()
         {
             searchItems = null;
+            searchIndexes = null;
+            ResetSearchPosition();
         }
 
-
-        private void FrmFindObject_Load(object sender, EventArgs e)
-        {
-        }
 
         private void txtFind_TextChanged(object sender, EventArgs e)
         {

@@ -182,7 +182,6 @@
             Name = "FrmFindObject";
             StartPosition = FormStartPosition.Manual;
             Text = "Find Object";
-            Load += FrmFindObject_Load;
             gbLookAt.ResumeLayout(false);
             gbLookAt.PerformLayout();
             ResumeLayout(false);
