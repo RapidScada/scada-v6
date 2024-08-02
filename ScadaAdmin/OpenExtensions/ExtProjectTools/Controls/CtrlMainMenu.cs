@@ -125,7 +125,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
         private void AdminContext_MessageToExtension(object sender, MessageEventArgs e)
         {
             if (e.Message == KnownExtensionMessage.GenerateChannelMap)
-                GenerateChannelMap((bool)e.Arguments["groupByDevices"]);
+                GenerateChannelMap((bool)e.Arguments["GroupByDevices"]);
             else if (e.Message == KnownExtensionMessage.GenerateDeviceMap)
                 GenerateDeviceMap();
         }

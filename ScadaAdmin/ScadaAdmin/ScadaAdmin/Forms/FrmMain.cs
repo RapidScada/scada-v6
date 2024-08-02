@@ -1217,7 +1217,7 @@ namespace Scada.Admin.App.Forms
             if (e.Message == AdminMessage.NewProject)
                 NewProject();
             else if (e.Message == AdminMessage.OpenProject)
-                OpenProject(e.GetArgument("path") as string);
+                OpenProject(e.GetArgument("Path") as string);
         }
 
         private void wctrlMain_ChildFormModifiedChanged(object sender, ChildFormEventArgs e)

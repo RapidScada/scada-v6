@@ -133,7 +133,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             adminContext.MessageToExtensions(new MessageEventArgs
             {
                 Message = KnownExtensionMessage.GenerateChannelMap,
-                Arguments = new Dictionary<string, object> { { "groupByDevices", true } }
+                Arguments = new Dictionary<string, object> { { "GroupByDevices", true } }
             });
         }
 

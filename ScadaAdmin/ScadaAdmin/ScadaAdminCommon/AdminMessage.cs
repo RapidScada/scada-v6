@@ -58,7 +58,7 @@ namespace Scada.Admin
 
         /// <summary>
         /// Tells the application to open the specified project.
-        /// Message arguments: string path
+        /// Message arguments: string Path
         /// </summary>
         public const string OpenProject = "Admin.OpenProject";
     }

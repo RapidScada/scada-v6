@@ -131,7 +131,7 @@ namespace Scada.Admin.App.Forms
                 if (File.Exists(item.Path))
                 {
                     ChildFormTag.SendMessage(this, AdminMessage.OpenProject,
-                        new Dictionary<string, object> { { "path", item.Path } });
+                        new Dictionary<string, object> { { "Path", item.Path } });
                 }
                 else
                 {

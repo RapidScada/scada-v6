@@ -33,7 +33,7 @@ namespace Scada.Admin.Extensions
     {
         /// <summary>
         /// Calls the Project Tools extension to generate a channel map.
-        /// Arguments: bool groupByDevices
+        /// Arguments: bool GroupByDevices
         /// </summary>
         public const string GenerateChannelMap = "ExtProjectTools.GenerateChannelMap";
 
@@ -44,7 +44,7 @@ namespace Scada.Admin.Extensions
 
         /// <summary>
         /// Calls the Communicator Configurator extension to update the communication line node.
-        /// Arguments: string instanceName, int commLineNum
+        /// Arguments: string InstanceName, int CommLineNum
         /// </summary>
         public const string UpdateLineNode = "ExtCommConfig.UpdateLineNode";
     }
