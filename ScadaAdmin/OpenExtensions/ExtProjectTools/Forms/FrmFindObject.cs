@@ -54,7 +54,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         /// </summary>
         private void FindNext()
         {
-            InitSearchItems();
+            InitSearchCache();
 
             if (searchItems.Count == 0 || treeView.Nodes.Count == 0)
             {
@@ -103,9 +103,9 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         }
 
         /// <summary>
-        /// Initializes the linear list for search.
+        /// Initializes the linear list and indexes for search.
         /// </summary>
-        private void InitSearchItems()
+        private void InitSearchCache()
         {
             if (searchItems == null)
             {
