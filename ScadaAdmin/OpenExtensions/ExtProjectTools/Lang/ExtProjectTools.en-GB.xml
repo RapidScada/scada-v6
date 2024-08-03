@@ -108,6 +108,11 @@
     <Phrase key="btnCopy">Copy</Phrase>
     <Phrase key="btnClose">Close</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmRightMatrix">
+    <Phrase key="this">Right Matrix</Phrase>
+    <Phrase key="ViewRightSymbol">V</Phrase>
+    <Phrase key="ControlRightSymbol">C</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
     <Phrase key="this">Export Table</Phrase>
     <Phrase key="lblTable">Table</Phrase>

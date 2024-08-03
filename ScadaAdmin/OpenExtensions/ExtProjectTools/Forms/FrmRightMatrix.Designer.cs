@@ -28,13 +28,36 @@
         /// </summary>
         private void InitializeComponent()
         {
+            lvMatrix = new ListView();
+            colObj = new ColumnHeader();
             SuspendLayout();
+            // 
+            // lvMatrix
+            // 
+            lvMatrix.BorderStyle = BorderStyle.None;
+            lvMatrix.Columns.AddRange(new ColumnHeader[] { colObj });
+            lvMatrix.Dock = DockStyle.Fill;
+            lvMatrix.FullRowSelect = true;
+            lvMatrix.GridLines = true;
+            lvMatrix.Location = new Point(0, 0);
+            lvMatrix.MultiSelect = false;
+            lvMatrix.Name = "lvMatrix";
+            lvMatrix.Size = new Size(784, 461);
+            lvMatrix.TabIndex = 0;
+            lvMatrix.UseCompatibleStateImageBehavior = false;
+            lvMatrix.View = View.Details;
+            // 
+            // colObj
+            // 
+            colObj.Text = "";
+            colObj.Width = 100;
             // 
             // FrmRightMatrix
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(784, 461);
+            Controls.Add(lvMatrix);
             Name = "FrmRightMatrix";
             Text = "Right Matrix";
             Load += FrmRightMatrix_Load;
@@ -42,5 +65,8 @@
         }
 
         #endregion
+
+        private ListView lvMatrix;
+        private ColumnHeader colObj;
     }
 }

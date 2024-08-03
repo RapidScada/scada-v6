@@ -216,11 +216,11 @@ namespace Scada.Data.Models
         /// <summary>
         /// Gets the rights of the role on the object.
         /// </summary>
-        public virtual Right GetRight(int roleID, int objID)
+        public virtual Right GetRight(int roleID, int objNum)
         {
             return Matrix != null &&
                 Matrix.TryGetValue(roleID, out RightByObj rightByObj) &&
-                rightByObj.TryGetValue(objID, out Right right)
+                rightByObj.TryGetValue(objNum, out Right right)
                 ? right
                 : Right.Empty;
         }

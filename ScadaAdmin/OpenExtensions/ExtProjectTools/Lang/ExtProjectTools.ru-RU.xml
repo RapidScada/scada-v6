@@ -108,6 +108,11 @@
     <Phrase key="btnCopy">Копировать</Phrase>
     <Phrase key="btnClose">Закрыть</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmRightMatrix">
+    <Phrase key="this">Матрица прав</Phrase>
+    <Phrase key="ViewRightSymbol">П</Phrase>
+    <Phrase key="ControlRightSymbol">У</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
     <Phrase key="this">Экспорт таблицы</Phrase>
     <Phrase key="lblTable">Таблица</Phrase>
