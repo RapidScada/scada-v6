@@ -4,11 +4,11 @@
 using Scada.Admin.Extensions.ExtProjectTools.Code;
 using Scada.Admin.Extensions.ExtProjectTools.Properties;
 using Scada.Admin.Project;
+using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Forms;
 using Scada.Lang;
-using System.Drawing.Drawing2D;
 using WinControls;
 
 namespace Scada.Admin.Extensions.ExtProjectTools.Forms
@@ -61,7 +61,9 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 lvMatrix.BeginUpdate();
 
                 // add roles to the header
-                foreach (Role role in configDatabase.RoleTable)
+                List<Role> customRoles = configDatabase.RoleTable.Where(r => !RoleID.IsBuiltIn(r.RoleID)).ToList();
+
+                foreach (Role role in customRoles)
                 {
                     string roleCaption = string.Format(CommonPhrases.EntityCaption, role.RoleID, role.Name);
                     ColumnHeader column = lvMatrix.Columns.Add(roleCaption);
@@ -73,12 +75,12 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
 
                 foreach (Obj obj in configDatabase.ObjTable)
                 {
-                    List<string> cells = new(configDatabase.RoleTable.ItemCount + 1)
+                    List<string> cells = new(customRoles.Count + 1)
                     {
                         string.Format(CommonPhrases.EntityCaption, obj.ObjNum, obj.Name)
                     };
 
-                    foreach (Role role in configDatabase.RoleTable)
+                    foreach (Role role in customRoles)
                     {
                         Right right = rightMatrix.GetRight(role.RoleID, obj.ObjNum);
                         cells.Add(GetRightText(right));
@@ -91,8 +93,11 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 lvMatrix.Items.Add("");
                 lvMatrix.Items.Add(ExtensionPhrases.ViewRightLegend);
                 lvMatrix.Items.Add(ExtensionPhrases.ControlRightLegend);
+
+                ColumnHeader tempColumn = lvMatrix.Columns.Add(""); // for correct sizing
                 lvMatrix.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
                 lvMatrix.AutoResizeColumn(0, ColumnHeaderAutoResizeStyle.ColumnContent);
+                lvMatrix.Columns.Remove(tempColumn);
             }
             catch (Exception ex)
             {
