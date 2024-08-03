@@ -111,7 +111,10 @@
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmRightMatrix">
     <Phrase key="this">Right Matrix</Phrase>
     <Phrase key="ViewRightSymbol">V</Phrase>
+    <Phrase key="ViewRightLegend">V - view</Phrase>
     <Phrase key="ControlRightSymbol">C</Phrase>
+    <Phrase key="ControlRightLegend">C - control</Phrase>
+    <Phrase key="DisplayMatrixError">Error displaying right matrix</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
     <Phrase key="this">Export Table</Phrase>

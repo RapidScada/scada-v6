@@ -57,7 +57,10 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
 
         // Scada.Admin.Extensions.ExtProjectTools.Forms.FrmRightMatrix
         public static string ViewRightSymbol { get; private set; }
+        public static string ViewRightLegend { get; private set; }
         public static string ControlRightSymbol { get; private set; }
+        public static string ControlRightLegend { get; private set; }
+        public static string DisplayMatrixError { get; private set; }
 
         // Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport
         public static string ExportTableFilter { get; private set; }
@@ -119,7 +122,10 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Forms.FrmRightMatrix");
             ViewRightSymbol = dict[nameof(ViewRightSymbol)];
+            ViewRightLegend = dict[nameof(ViewRightLegend)];
             ControlRightSymbol = dict[nameof(ControlRightSymbol)];
+            ControlRightLegend = dict[nameof(ControlRightLegend)];
+            DisplayMatrixError = dict[nameof(DisplayMatrixError)];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport");
             ExportTableFilter = dict[nameof(ExportTableFilter)];

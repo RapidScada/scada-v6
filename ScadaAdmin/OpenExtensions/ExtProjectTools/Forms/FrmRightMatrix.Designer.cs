@@ -42,6 +42,7 @@
             lvMatrix.Location = new Point(0, 0);
             lvMatrix.MultiSelect = false;
             lvMatrix.Name = "lvMatrix";
+            lvMatrix.ShowItemToolTips = true;
             lvMatrix.Size = new Size(784, 461);
             lvMatrix.TabIndex = 0;
             lvMatrix.UseCompatibleStateImageBehavior = false;
@@ -50,7 +51,6 @@
             // colObj
             // 
             colObj.Text = "";
-            colObj.Width = 100;
             // 
             // FrmRightMatrix
             // 

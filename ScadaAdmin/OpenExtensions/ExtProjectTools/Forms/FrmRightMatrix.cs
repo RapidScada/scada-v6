@@ -8,6 +8,7 @@ using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Forms;
 using Scada.Lang;
+using System.Drawing.Drawing2D;
 using WinControls;
 
 namespace Scada.Admin.Extensions.ExtProjectTools.Forms
@@ -55,15 +56,11 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         /// </summary>
         private void ShowData()
         {
-            // prepare data
-            RightMatrix rightMatrix = new(configDatabase);
-
-            // display data
             try
             {
                 lvMatrix.BeginUpdate();
 
-                // add role names
+                // add roles to the header
                 foreach (Role role in configDatabase.RoleTable)
                 {
                     string roleCaption = string.Format(CommonPhrases.EntityCaption, role.RoleID, role.Name);
@@ -71,7 +68,9 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                     column.TextAlign = HorizontalAlignment.Center;
                 }
 
-                // add object names
+                // add objects and rights
+                RightMatrix rightMatrix = new(configDatabase);
+
                 foreach (Obj obj in configDatabase.ObjTable)
                 {
                     List<string> cells = new(configDatabase.RoleTable.ItemCount + 1)
@@ -89,7 +88,15 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                     lvMatrix.Items.Add(item);
                 }
 
+                lvMatrix.Items.Add("");
+                lvMatrix.Items.Add(ExtensionPhrases.ViewRightLegend);
+                lvMatrix.Items.Add(ExtensionPhrases.ControlRightLegend);
                 lvMatrix.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+                lvMatrix.AutoResizeColumn(0, ColumnHeaderAutoResizeStyle.ColumnContent);
+            }
+            catch (Exception ex)
+            {
+                adminContext.ErrLog.HandleError(ex, ExtensionPhrases.DisplayMatrixError);
             }
             finally
             {

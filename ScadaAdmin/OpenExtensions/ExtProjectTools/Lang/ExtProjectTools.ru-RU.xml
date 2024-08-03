@@ -111,7 +111,10 @@
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmRightMatrix">
     <Phrase key="this">Матрица прав</Phrase>
     <Phrase key="ViewRightSymbol">П</Phrase>
+    <Phrase key="ViewRightLegend">П - просмотр</Phrase>
     <Phrase key="ControlRightSymbol">У</Phrase>
+    <Phrase key="ControlRightLegend">У - управление</Phrase>
+    <Phrase key="DisplayMatrixError">Ошибка при отображении матрицы прав</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
     <Phrase key="this">Экспорт таблицы</Phrase>
