@@ -7,6 +7,7 @@ using Scada.Admin.Project;
 using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
+using Scada.Data.Tables;
 using Scada.Forms;
 using Scada.Lang;
 using WinControls;
@@ -19,6 +20,15 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
     /// </summary>
     public partial class FrmRightMatrix : Form, IChildForm
     {
+        /// <summary>
+        /// Represents an object to display in the matrix.
+        /// </summary>
+        private class ObjItem
+        {
+            public int ObjNum { get; init; }
+            public string Text { get; init; }
+        }
+
         private readonly IAdminContext adminContext;    // the application context
         private readonly ConfigDatabase configDatabase; // the configuration database
 
@@ -73,16 +83,13 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 // add objects and rights
                 RightMatrix rightMatrix = new(configDatabase);
 
-                foreach (Obj obj in configDatabase.ObjTable)
+                foreach (ObjItem objItem in GetObjects())
                 {
-                    List<string> cells = new(customRoles.Count + 1)
-                    {
-                        string.Format(CommonPhrases.EntityCaption, obj.ObjNum, obj.Name)
-                    };
+                    List<string> cells = new(customRoles.Count + 1) { objItem.Text };
 
                     foreach (Role role in customRoles)
                     {
-                        Right right = rightMatrix.GetRight(role.RoleID, obj.ObjNum);
+                        Right right = rightMatrix.GetRight(role.RoleID, objItem.ObjNum);
                         cells.Add(GetRightText(right));
                     }
 
@@ -107,6 +114,37 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
             {
                 lvMatrix.EndUpdate();
             }
+        }
+
+        /// <summary>
+        /// Gets the objects in hierarchical form.
+        /// </summary>
+        private List<ObjItem> GetObjects()
+        {
+            List<ObjItem> objItems = new(configDatabase.ObjTable.ItemCount);
+            ITableIndex parentObjIndex = configDatabase.ObjTable.GetIndex("ParentObjNum", true);
+
+            void AddChildren(int parentObjNum, int level)
+            {
+                foreach (Obj childObj in parentObjIndex.SelectItems(parentObjNum))
+                {
+                    if (childObj.ObjNum <= 0)
+                        continue; // protect from infinite loop
+
+                    objItems.Add(new ObjItem
+                    {
+                        ObjNum = childObj.ObjNum,
+                        Text =
+                            (level > 0 ? new string('-', level * 2) + " " : "") + 
+                            string.Format(CommonPhrases.EntityCaption, childObj.ObjNum, childObj.Name)
+                    });
+
+                    AddChildren(childObj.ObjNum, level + 1);
+                }
+            }
+
+            AddChildren(0, 0);
+            return objItems;
         }
 
         /// <summary>
