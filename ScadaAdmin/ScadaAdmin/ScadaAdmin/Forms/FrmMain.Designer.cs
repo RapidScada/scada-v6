@@ -44,7 +44,7 @@
             miFileSep3 = new ToolStripSeparator();
             miFileExit = new ToolStripMenuItem();
             miEdit = new ToolStripMenuItem();
-            miEditRefreshData = new ToolStripMenuItem();
+            miEditRefresh = new ToolStripMenuItem();
             miEditFind = new ToolStripMenuItem();
             miDeploy = new ToolStripMenuItem();
             miDeployInstanceProfile = new ToolStripMenuItem();
@@ -241,19 +241,19 @@
             // 
             // miEdit
             // 
-            miEdit.DropDownItems.AddRange(new ToolStripItem[] { miEditRefreshData, miEditFind });
+            miEdit.DropDownItems.AddRange(new ToolStripItem[] { miEditRefresh, miEditFind });
             miEdit.Name = "miEdit";
             miEdit.Size = new Size(39, 20);
             miEdit.Text = "&Edit";
             // 
-            // miEditRefreshData
+            // miEditRefresh
             // 
-            miEditRefreshData.Image = Properties.Resources.refresh;
-            miEditRefreshData.Name = "miEditRefreshData";
-            miEditRefreshData.ShortcutKeys = Keys.Control | Keys.R;
-            miEditRefreshData.Size = new Size(181, 22);
-            miEditRefreshData.Text = "Refresh Data";
-            miEditRefreshData.Click += miEditRefreshData_Click;
+            miEditRefresh.Image = Properties.Resources.refresh;
+            miEditRefresh.Name = "miEditRefresh";
+            miEditRefresh.ShortcutKeys = Keys.Control | Keys.R;
+            miEditRefresh.Size = new Size(181, 22);
+            miEditRefresh.Text = "Refresh Data";
+            miEditRefresh.Click += miEditRefresh_Click;
             // 
             // miEditFind
             // 
@@ -453,8 +453,8 @@
             btnEditRefresh.ImageTransparentColor = Color.Magenta;
             btnEditRefresh.Name = "btnEditRefresh";
             btnEditRefresh.Size = new Size(23, 22);
-            btnEditRefresh.ToolTipText = "Refresh Data (Ctrl + R)";
-            btnEditRefresh.Click += miEditRefreshData_Click;
+            btnEditRefresh.ToolTipText = "Refresh Data (Ctrl+R)";
+            btnEditRefresh.Click += miEditRefresh_Click;
             // 
             // btnEditFind
             // 
@@ -463,7 +463,7 @@
             btnEditFind.ImageTransparentColor = Color.Magenta;
             btnEditFind.Name = "btnEditFind";
             btnEditFind.Size = new Size(23, 22);
-            btnEditFind.ToolTipText = "Find (Ctrl + F)";
+            btnEditFind.ToolTipText = "Find (Ctrl+F)";
             btnEditFind.Click += miEditFind_Click;
             // 
             // toolSep2
@@ -1070,7 +1070,7 @@
         private ToolStripButton btnEditFind;
         private ToolStripSeparator toolSep2;
         private ToolStripMenuItem miEdit;
-        private ToolStripMenuItem miEditRefreshData;
+        private ToolStripMenuItem miEditRefresh;
         private ToolStripMenuItem miEditFind;
     }
 }

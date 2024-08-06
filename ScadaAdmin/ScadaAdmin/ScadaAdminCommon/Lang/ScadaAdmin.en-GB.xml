@@ -533,6 +533,9 @@
     <Phrase key="miFileClose">Close</Phrase>
     <Phrase key="miFileCloseProject">Close Project</Phrase>
     <Phrase key="miFileExit">Exit</Phrase>
+    <Phrase key="miEdit">&amp;Edit</Phrase>
+    <Phrase key="miEditRefresh">Refresh Data</Phrase>
+    <Phrase key="miEditFind">Find</Phrase>
     <Phrase key="miDeploy">&amp;Deploy</Phrase>
     <Phrase key="miDeployInstanceProfile">Deployment Profile...</Phrase>
     <Phrase key="miDeployDownloadConfig">Download Configuration...</Phrase>
@@ -553,6 +556,8 @@
     <Phrase key="btnFileOpenProject.ToolTip">Open Project (Ctrl+O)</Phrase>
     <Phrase key="btnFileSave.ToolTip">Save (Ctrl+S)</Phrase>
     <Phrase key="btnFileSaveAll.ToolTip">Save All</Phrase>
+    <Phrase key="btnEditRefresh.ToolTip">Refresh Data (Ctrl+R)</Phrase>
+    <Phrase key="btnEditFind.ToolTip">Find (Ctrl+F)</Phrase>
     <Phrase key="btnDeployInstanceProfile.ToolTip">Deployment Profile</Phrase>
     <Phrase key="btnDeployDownloadConfig.ToolTip">Download Configuration</Phrase>
     <Phrase key="btnDeployUploadConfig.ToolTip">Upload Configuration (Ctrl+U)</Phrase>

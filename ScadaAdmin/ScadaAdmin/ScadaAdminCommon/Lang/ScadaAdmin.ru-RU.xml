@@ -533,6 +533,9 @@
     <Phrase key="miFileClose">Закрыть</Phrase>
     <Phrase key="miFileCloseProject">Закрыть проект</Phrase>
     <Phrase key="miFileExit">Выход</Phrase>
+    <Phrase key="miEdit">&amp;Правка</Phrase>
+    <Phrase key="miEditRefresh">Обновить данные</Phrase>
+    <Phrase key="miEditFind">Найти</Phrase>
     <Phrase key="miDeploy">&amp;Развертывание</Phrase>
     <Phrase key="miDeployInstanceProfile">Профиль развёртывания...</Phrase>
     <Phrase key="miDeployDownloadConfig">Скачать конфигурацию...</Phrase>
@@ -553,6 +556,8 @@
     <Phrase key="btnFileOpenProject.ToolTip">Открыть проект (Ctrl+O)</Phrase>
     <Phrase key="btnFileSave.ToolTip">Сохранить (Ctrl+S)</Phrase>
     <Phrase key="btnFileSaveAll.ToolTip">Сохранить все</Phrase>
+    <Phrase key="btnEditRefresh.ToolTip">Обновить данные (Ctrl+R)</Phrase>
+    <Phrase key="btnEditFind.ToolTip">Найти (Ctrl+F)</Phrase>
     <Phrase key="btnDeployInstanceProfile.ToolTip">Профиль развёртывания</Phrase>
     <Phrase key="btnDeployDownloadConfig.ToolTip">Скачать конфигурацию</Phrase>
     <Phrase key="btnDeployUploadConfig.ToolTip">Передать конфигурацию (Ctrl+U)</Phrase>

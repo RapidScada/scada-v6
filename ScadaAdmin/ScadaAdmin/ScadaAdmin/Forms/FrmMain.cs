@@ -207,6 +207,8 @@ namespace Scada.Admin.App.Forms
             miFileSave.Enabled = btnFileSave.Enabled = false;
             miFileSaveAll.Enabled = btnFileSaveAll.Enabled = false;
             miFileCloseProject.Enabled = Project != null;
+            miEditRefresh.Enabled = btnEditRefresh.Enabled = false;
+            miEditFind.Enabled = btnEditFind.Enabled = false;
             SetDeployMenuItemsEnabled();
         }
 
@@ -1190,9 +1192,11 @@ namespace Scada.Admin.App.Forms
 
         private void wctrlMain_ActiveFormChanged(object sender, EventArgs e)
         {
-            // enable or disable the Save menu item
-            miFileSave.Enabled = btnFileSave.Enabled =
-                wctrlMain.ActiveForm is IChildForm childForm && childForm.ChildFormTag.Modified;
+            // enable or disable menu items that depend on child form
+            ChildFormTag childFormTag = (wctrlMain.ActiveForm as IChildForm)?.ChildFormTag;
+            miFileSave.Enabled = btnFileSave.Enabled = childFormTag?.Modified ?? false;
+            miEditRefresh.Enabled = btnEditRefresh.Enabled = childFormTag?.Options?.CanRefresh ?? false;
+            miEditFind.Enabled = btnEditFind.Enabled = childFormTag?.Options?.CanFind ?? false;
         }
 
         private void wctrlMain_ChildFormClosed(object sender, ChildFormClosedEventArgs e)
@@ -1284,14 +1288,32 @@ namespace Scada.Admin.App.Forms
             Close();
         }
 
-        private void miEditRefreshData_Click(object sender, EventArgs e)
+        private void miEditRefresh_Click(object sender, EventArgs e)
         {
-
+            // execute the refresh operation
+            foreach (Form form in wctrlMain.Forms)
+            {
+                if (form is IChildForm childForm &&
+                    childForm.ChildFormTag.Options is ChildFormOptions options &&
+                    options.CanRefresh)
+                {
+                    childForm.Refresh();
+                }
+            }
         }
 
         private void miEditFind_Click(object sender, EventArgs e)
         {
-
+            // execute the find operation
+            foreach (Form form in wctrlMain.Forms)
+            {
+                if (form is IChildForm childForm &&
+                    childForm.ChildFormTag.Options is ChildFormOptions options &&
+                    options.CanFind)
+                {
+                    childForm.Find();
+                }
+            }
         }
 
         private void miDeployInstanceProfile_Click(object sender, EventArgs e)
