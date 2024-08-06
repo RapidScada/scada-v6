@@ -22,7 +22,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
     /// </summary>
     public class CommandModel : PageModel
     {
-        public enum InputType { Dec, Hex, Enum, Date, Str }
+        public enum InputType { Dec, Hex, Bin, Enum, Date, Str }
 
         private readonly IWebContext webContext;
         private readonly IUserContext userContext;
@@ -59,13 +59,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         [BindProperty]
         public string Password { get; set; }
         [BindProperty]
-        public string CmdDec { get; set; }
-        [BindProperty]
-        public string CmdHex { get; set; }
-        [BindProperty]
-        public string CmdEnum { get; set; }
-        [BindProperty]
-        public string CmdDate { get; set; }
+        public string CmdVal { get; set; }
         [BindProperty]
         public string CmdData { get; set; }
         [BindProperty]
@@ -140,19 +134,23 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                 switch (Input)
                 {
                     case InputType.Dec:
-                        command.CmdVal = ScadaUtils.ParseDouble(CmdDec);
+                        command.CmdVal = ScadaUtils.ParseDouble(CmdVal);
                         break;
 
                     case InputType.Hex:
-                        command.CmdVal = int.Parse(CmdHex, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+                        command.CmdVal = int.Parse(CmdVal, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+                        break;
+
+                    case InputType.Bin:
+                        command.CmdVal = int.Parse(CmdVal, NumberStyles.BinaryNumber, CultureInfo.InvariantCulture);
                         break;
 
                     case InputType.Enum:
-                        command.CmdVal = int.Parse(CmdEnum);
+                        command.CmdVal = int.Parse(CmdVal);
                         break;
 
                     case InputType.Date:
-                        command.CmdData = TeleCommand.StringToCmdData(CmdDate);
+                        command.CmdData = TeleCommand.StringToCmdData(CmdData);
                         break;
 
                     case InputType.Str:
@@ -247,10 +245,13 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                     {
                         Input = InputType.Str;
                     }
-                    else if (Format.IsNumber && Format.Frmt != null &&
-                        (Format.Frmt.StartsWith('x') || Format.Frmt.StartsWith('X')))
+                    else if (Format.IsHex())
                     {
                         Input = InputType.Hex;
+                    }
+                    else if (Format.IsBin())
+                    {
+                        Input = InputType.Bin;
                     }
                 }
             }

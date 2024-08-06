@@ -10,6 +10,7 @@
     <Phrase key="lblPassword">Пароль</Phrase>
     <Phrase key="lblCmdDec">Значение команды</Phrase>
     <Phrase key="lblCmdHex">Значение команды (16-ричное число)</Phrase>
+    <Phrase key="lblCmdBin">Значение команды (бинарное число)</Phrase>
     <Phrase key="lblCmdEnum">Команда</Phrase>
     <Phrase key="lblCmdDate">Значение команды (дата/время)</Phrase>
     <Phrase key="lblCmdData">Данные команды</Phrase>
