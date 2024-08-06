@@ -835,10 +835,6 @@ namespace Scada.Admin.App.Forms.Tables
                         PasteCell();
                         e.Handled = true;
                         break;
-                    case Keys.F:
-                        btnFind_Click(null, null);
-                        e.Handled = true;
-                        break;
                 }
             }
         }
