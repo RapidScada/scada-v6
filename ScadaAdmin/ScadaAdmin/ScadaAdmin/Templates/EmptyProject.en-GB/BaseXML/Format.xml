@@ -124,6 +124,27 @@
     <Frmt>X8</Frmt>
   </Format>
   <Format>
+    <FormatID>13</FormatID>
+    <Name>Binary</Name>
+    <Code>B</Code>
+    <IsNumber>true</IsNumber>
+    <IsEnum>false</IsEnum>
+    <IsDate>false</IsDate>
+    <IsString>false</IsString>
+    <Frmt>B</Frmt>
+    <Descr>Binary representation of a number</Descr>
+  </Format>
+  <Format>
+    <FormatID>14</FormatID>
+    <Name>Binary 8 digits</Name>
+    <Code>B8</Code>
+    <IsNumber>true</IsNumber>
+    <IsEnum>false</IsEnum>
+    <IsDate>false</IsDate>
+    <IsString>false</IsString>
+    <Frmt>B8</Frmt>
+  </Format>
+  <Format>
     <FormatID>21</FormatID>
     <Name>Off-On</Name>
     <Code>OffOn</Code>

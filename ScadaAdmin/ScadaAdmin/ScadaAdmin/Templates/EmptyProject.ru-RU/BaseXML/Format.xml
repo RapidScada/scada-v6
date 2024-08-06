@@ -115,13 +115,34 @@
   </Format>
   <Format>
     <FormatID>12</FormatID>
-    <Name>16-ричный 8 цифры</Name>
+    <Name>16-ричный 8 цифр</Name>
     <Code>X8</Code>
     <IsNumber>true</IsNumber>
     <IsEnum>false</IsEnum>
     <IsDate>false</IsDate>
     <IsString>false</IsString>
     <Frmt>X8</Frmt>
+  </Format>
+  <Format>
+    <FormatID>13</FormatID>
+    <Name>Двоичный</Name>
+    <Code>B</Code>
+    <IsNumber>true</IsNumber>
+    <IsEnum>false</IsEnum>
+    <IsDate>false</IsDate>
+    <IsString>false</IsString>
+    <Frmt>B</Frmt>
+    <Descr>Двоичное представление числа</Descr>
+  </Format>
+  <Format>
+    <FormatID>14</FormatID>
+    <Name>Двоичный 8 цифр</Name>
+    <Code>B8</Code>
+    <IsNumber>true</IsNumber>
+    <IsEnum>false</IsEnum>
+    <IsDate>false</IsDate>
+    <IsString>false</IsString>
+    <Frmt>B8</Frmt>
   </Format>
   <Format>
     <FormatID>21</FormatID>
