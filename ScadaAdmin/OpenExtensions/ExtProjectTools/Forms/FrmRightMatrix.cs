@@ -50,7 +50,11 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.configDatabase = configDatabase ?? throw new ArgumentNullException(nameof(configDatabase));
 
-            ChildFormTag = new ChildFormTag(new ChildFormOptions { Image = Resources.matrix });
+            ChildFormTag = new ChildFormTag(new ChildFormOptions
+            {
+                Image = Resources.matrix,
+                CanRefresh = true
+            });
             ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
         }
 
@@ -69,18 +73,21 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
             try
             {
                 lvMatrix.BeginUpdate();
+                lvMatrix.Columns.Clear();
+                lvMatrix.Items.Clear();
 
-                // add roles to the header
+                // add columns
+                lvMatrix.Columns.Add(""); // object column
                 List<Role> customRoles = configDatabase.RoleTable.Where(r => !RoleID.IsBuiltIn(r.RoleID)).ToList();
 
                 foreach (Role role in customRoles)
                 {
                     string roleCaption = string.Format(CommonPhrases.EntityCaption, role.RoleID, role.Name);
-                    ColumnHeader column = lvMatrix.Columns.Add(roleCaption);
-                    column.TextAlign = HorizontalAlignment.Center;
+                    ColumnHeader roleColumn = lvMatrix.Columns.Add(roleCaption);
+                    roleColumn.TextAlign = HorizontalAlignment.Center;
                 }
 
-                // add objects and rights
+                // add items
                 RightMatrix rightMatrix = new(configDatabase);
 
                 foreach (ObjItem objItem in GetObjects())
@@ -97,10 +104,12 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                     lvMatrix.Items.Add(item);
                 }
 
+                // add legend items
                 lvMatrix.Items.Add("");
                 lvMatrix.Items.Add(ExtensionPhrases.ViewRightLegend);
                 lvMatrix.Items.Add(ExtensionPhrases.ControlRightLegend);
 
+                // auto resize
                 ColumnHeader tempColumn = lvMatrix.Columns.Add(""); // for correct sizing
                 lvMatrix.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
                 lvMatrix.AutoResizeColumn(0, ColumnHeaderAutoResizeStyle.ColumnContent);
@@ -163,11 +172,11 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         }
 
         /// <summary>
-        /// Saves the changes.
+        /// Refreshes the data displayed by the child form.
         /// </summary>
-        public void Save()
+        void IChildForm.Refresh()
         {
-            // do nothing
+            ShowData();
         }
 
 
