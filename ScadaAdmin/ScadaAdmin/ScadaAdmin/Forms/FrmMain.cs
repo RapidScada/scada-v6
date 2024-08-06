@@ -1284,6 +1284,16 @@ namespace Scada.Admin.App.Forms
             Close();
         }
 
+        private void miEditRefreshData_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void miEditFind_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void miDeployInstanceProfile_Click(object sender, EventArgs e)
         {
             // select instance profile
