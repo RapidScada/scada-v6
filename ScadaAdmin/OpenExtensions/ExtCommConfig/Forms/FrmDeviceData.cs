@@ -97,14 +97,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                 CommUtils.GetDeviceLogFileName(deviceConfig.DeviceNum, ".txt"));
         }
 
-        /// <summary>
-        /// Saves the changes of the child form data.
-        /// </summary>
-        public void Save()
-        {
-            // do nothing
-        }
-
 
         private void FrmDeviceData_Load(object sender, EventArgs e)
         {

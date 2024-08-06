@@ -153,14 +153,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                 .ToString();
         }
 
-        /// <summary>
-        /// Saves the changes of the child form data.
-        /// </summary>
-        public void Save()
-        {
-            // do nothing
-        }
-
 
         private void FrmDrivers_Load(object sender, EventArgs e)
         {
