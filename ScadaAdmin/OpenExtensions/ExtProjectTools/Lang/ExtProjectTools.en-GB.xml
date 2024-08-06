@@ -81,8 +81,6 @@
     <Phrase key="this">Object Editor</Phrase>
     <Phrase key="btnAddObject.ToolTip">Add Object</Phrase>
     <Phrase key="btnDeleteObject.ToolTip">Delete Object</Phrase>
-    <Phrase key="btnRefreshData.ToolTip">Refresh Data</Phrase>
-    <Phrase key="btnFind.ToolTip">Find (Ctrl+F)</Phrase>
     <Phrase key="gbObject">Object Properties</Phrase>
     <Phrase key="lblObjNum">Number</Phrase>
     <Phrase key="lblName">Name</Phrase>

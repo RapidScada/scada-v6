@@ -32,9 +32,6 @@
             toolStrip = new ToolStrip();
             btnAddObject = new ToolStripButton();
             btnDeleteObject = new ToolStripButton();
-            btnRefreshData = new ToolStripButton();
-            sep1 = new ToolStripSeparator();
-            btnFind = new ToolStripButton();
             tvObj = new TreeView();
             cmsTree = new ContextMenuStrip(components);
             miCollapseAll = new ToolStripMenuItem();
@@ -61,7 +58,7 @@
             // 
             // toolStrip
             // 
-            toolStrip.Items.AddRange(new ToolStripItem[] { btnAddObject, btnDeleteObject, btnRefreshData, sep1, btnFind });
+            toolStrip.Items.AddRange(new ToolStripItem[] { btnAddObject, btnDeleteObject });
             toolStrip.Location = new Point(0, 0);
             toolStrip.Name = "toolStrip";
             toolStrip.Size = new Size(784, 25);
@@ -87,31 +84,6 @@
             btnDeleteObject.Size = new Size(23, 22);
             btnDeleteObject.ToolTipText = "Delete Object";
             btnDeleteObject.Click += btnDeleteObject_Click;
-            // 
-            // btnRefreshData
-            // 
-            btnRefreshData.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            btnRefreshData.Image = Properties.Resources.refresh;
-            btnRefreshData.ImageTransparentColor = Color.Magenta;
-            btnRefreshData.Name = "btnRefreshData";
-            btnRefreshData.Size = new Size(23, 22);
-            btnRefreshData.ToolTipText = "Refresh Data";
-            btnRefreshData.Click += btnRefreshData_Click;
-            // 
-            // sep1
-            // 
-            sep1.Name = "sep1";
-            sep1.Size = new Size(6, 25);
-            // 
-            // btnFind
-            // 
-            btnFind.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            btnFind.Image = Properties.Resources.find;
-            btnFind.ImageTransparentColor = Color.Magenta;
-            btnFind.Name = "btnFind";
-            btnFind.Size = new Size(23, 22);
-            btnFind.ToolTipText = "Find (Ctrl+F)";
-            btnFind.Click += btnFind_Click;
             // 
             // tvObj
             // 
@@ -291,12 +263,10 @@
             Controls.Add(tvObj);
             Controls.Add(pnlRight);
             Controls.Add(toolStrip);
-            KeyPreview = true;
             Name = "FrmObjectEditor";
             Text = "Object Editor";
             Load += FrmObjectEditor_Load;
             VisibleChanged += FrmObjectEditor_VisibleChanged;
-            KeyDown += FrmObjectEditor_KeyDown;
             toolStrip.ResumeLayout(false);
             toolStrip.PerformLayout();
             cmsTree.ResumeLayout(false);
@@ -313,8 +283,6 @@
         private ToolStrip toolStrip;
         private ToolStripButton btnAddObject;
         private ToolStripButton btnDeleteObject;
-        private ToolStripButton btnFind;
-        private ToolStripSeparator sep1;
         private TreeView tvObj;
         private Panel pnlRight;
         private GroupBox gbObject;
@@ -326,7 +294,6 @@
         private Label lblName;
         private ComboBox cbParentObj;
         private Label lblParentObj;
-        private ToolStripButton btnRefreshData;
         private ImageList ilTree;
         private ContextMenuStrip cmsTree;
         private ToolStripMenuItem miCollapseAll;

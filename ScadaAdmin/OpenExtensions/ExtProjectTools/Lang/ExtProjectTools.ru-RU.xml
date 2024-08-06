@@ -81,8 +81,6 @@
     <Phrase key="this">Редактор объектов</Phrase>
     <Phrase key="btnAddObject.ToolTip">Добавить объект</Phrase>
     <Phrase key="btnDeleteObject.ToolTip">Удалить объект</Phrase>
-    <Phrase key="btnRefreshData.ToolTip">Обновить данные</Phrase>
-    <Phrase key="btnFind.ToolTip">Найти (Ctrl+F)</Phrase>
     <Phrase key="gbObject">Свойства объекта</Phrase>
     <Phrase key="lblObjNum">Номер</Phrase>
     <Phrase key="lblName">Наименование</Phrase>

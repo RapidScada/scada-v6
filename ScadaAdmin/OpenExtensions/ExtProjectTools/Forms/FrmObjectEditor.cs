@@ -53,7 +53,12 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
             changing = false;
             frmFindObject = null;
 
-            ChildFormTag = new ChildFormTag(new ChildFormOptions { Image = Resources.obj });
+            ChildFormTag = new ChildFormTag(new ChildFormOptions
+            {
+                Image = Resources.obj,
+                CanRefresh = true,
+                CanFind = true
+            });
             ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
         }
 
@@ -405,6 +410,26 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         }
 
         /// <summary>
+        /// Opens the find form.
+        /// </summary>
+        private void OpenFindForm()
+        {
+            if (frmFindObject == null || !frmFindObject.Visible)
+            {
+                frmFindObject = new FrmFindObject(tvObj);
+
+                // center the form within the bounds of its parent
+                frmFindObject.Left = (ParentForm.Left + ParentForm.Right - frmFindObject.Width) / 2;
+                frmFindObject.Top = (ParentForm.Top + ParentForm.Bottom - frmFindObject.Height) / 2;
+                frmFindObject.Show(this);
+            }
+            else
+            {
+                frmFindObject.Activate();
+            }
+        }
+
+        /// <summary>
         /// Creates a tree node that represents the specified object.
         /// </summary>
         private static TreeNode CreateObjNode(Obj obj)
@@ -420,15 +445,32 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
             return string.Format(CommonPhrases.EntityCaption, obj.ObjNum, obj.Name);
         }
 
+
         /// <summary>
         /// Saves the changes.
         /// </summary>
-        public void Save()
+        void IChildForm.Save()
         {
             if (configDatabase.SaveTable(objTable, out string errMsg))
                 ChildFormTag.Modified = false;
             else
                 adminContext.ErrLog.HandleError(errMsg);
+        }
+
+        /// <summary>
+        /// Refreshes the data displayed by the child form.
+        /// </summary>
+        void IChildForm.Refresh()
+        {
+            ShowData();
+        }
+
+        /// <summary>
+        /// Opens a find form associated with the child form.
+        /// </summary>
+        void IChildForm.Find()
+        {
+            OpenFindForm();
         }
 
 
@@ -437,20 +479,6 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
             FormTranslator.Translate(this, GetType().FullName, new FormTranslatorOptions { ContextMenus = [cmsTree] });
             AddTreeViewImages();
             ShowData();
-        }
-
-        private void FrmObjectEditor_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Control)
-            {
-                switch (e.KeyCode)
-                {
-                    case Keys.F:
-                        btnFind_Click(null, null);
-                        e.Handled = true;
-                        break;
-                }
-            }
         }
 
         private void FrmObjectEditor_VisibleChanged(object sender, EventArgs e)
@@ -539,28 +567,6 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                     selectedNode.Remove();
                     frmFindObject?.ResetSearchCache();
                 }
-            }
-        }
-
-        private void btnRefreshData_Click(object sender, EventArgs e)
-        {
-            ShowData();
-        }
-
-        private void btnFind_Click(object sender, EventArgs e)
-        {
-            if (frmFindObject == null || !frmFindObject.Visible)
-            {
-                frmFindObject = new FrmFindObject(tvObj);
-
-                // center the form within the bounds of its parent
-                frmFindObject.Left = (ParentForm.Left + ParentForm.Right - frmFindObject.Width) / 2;
-                frmFindObject.Top = (ParentForm.Top + ParentForm.Bottom - frmFindObject.Height) / 2;
-                frmFindObject.Show(this);
-            }
-            else
-            {
-                frmFindObject.Activate();
             }
         }
 
