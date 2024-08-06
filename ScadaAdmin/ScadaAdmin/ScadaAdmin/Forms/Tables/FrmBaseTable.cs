@@ -98,7 +98,12 @@ namespace Scada.Admin.App.Forms.Tables
             frmFind = null;
             frmFilter = null;
 
-            ChildFormTag = new ChildFormTag(new ChildFormOptions { Image = Resources.table });
+            ChildFormTag = new ChildFormTag(new ChildFormOptions
+            { 
+                Image = Resources.table,
+                CanRefresh = true,
+                CanFind = true
+            });
             ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
             Text = baseTable.Title + (tableFilter == null ? "" : " - " + tableFilter);
         }
@@ -675,6 +680,26 @@ namespace Scada.Admin.App.Forms.Tables
                 }
             }
         }
+        
+        /// <summary>
+        /// Opens the find form.
+        /// </summary>
+        private void OpenFindForm()
+        {
+            if (frmFind == null || !frmFind.Visible)
+            {
+                frmFind = new FrmFind(this, dataGridView);
+
+                // center the form within the bounds of its parent
+                frmFind.Left = (ParentForm.Left + ParentForm.Right - frmFind.Width) / 2;
+                frmFind.Top = (ParentForm.Top + ParentForm.Bottom - frmFind.Height) / 2;
+                frmFind.Show(this);
+            }
+            else
+            {
+                frmFind.Activate();
+            }
+        }
 
         /// <summary>
         /// Converts string to color.
@@ -746,9 +771,9 @@ namespace Scada.Admin.App.Forms.Tables
         }
 
         /// <summary>
-        /// Saves the table.
+        /// Saves the changes of the child form data.
         /// </summary>
-        public void Save()
+        void IChildForm.Save()
         {
             if (project.ConfigDatabase.SaveTable(baseTable, out string errMsg))
                 ChildFormTag.Modified = false;
@@ -756,11 +781,29 @@ namespace Scada.Admin.App.Forms.Tables
                 appData.ErrLog.HandleError(errMsg);
         }
 
+        /// <summary>
+        /// Refreshes the data displayed by the child form.
+        /// </summary>
+        void IChildForm.Refresh()
+        {
+            // refresh data of the table and the combo box columns
+            if (EndEdit())
+                LoadTableData();
+        }
+
+        /// <summary>
+        /// Opens a find form associated with the child form.
+        /// </summary>
+        void IChildForm.Find()
+        {
+            OpenFindForm();
+        }
+
 
         private void FrmBaseTable_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName,
-                new FormTranslatorOptions { ContextMenus = new ContextMenuStrip[] { cmsTable } });
+                new FormTranslatorOptions { ContextMenus = [cmsTable] });
 
             if (lblCount.Text.Contains("{0}"))
                 bindingNavigator.CountItemFormat = lblCount.Text;

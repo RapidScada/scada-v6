@@ -20,10 +20,11 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2021
+ * Modified : 2024
  */
 
 using Scada.Admin.App.Code;
+using Scada.Admin.App.Properties;
 using Scada.Forms;
 using System.Text;
 using WinControls;
@@ -58,6 +59,8 @@ namespace Scada.Admin.App.Forms
             this.appData = appData ?? throw new ArgumentNullException(nameof(appData));
             this.fileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
             changing = false;
+
+            ChildFormTag = new ChildFormTag(new ChildFormOptions { CanRefresh = true });
             Text = Path.GetFileName(fileName);
         }
 
@@ -71,7 +74,7 @@ namespace Scada.Admin.App.Forms
         /// <summary>
         /// Loads the file.
         /// </summary>
-        public void LoadFile()
+        private void LoadFile()
         {
             try
             {
@@ -95,7 +98,8 @@ namespace Scada.Admin.App.Forms
         /// <summary>
         /// Saves the file.
         /// </summary>
-        public void Save()
+        /// <summary>
+        private void SaveFile()
         {
             try
             {
@@ -108,6 +112,21 @@ namespace Scada.Admin.App.Forms
             {
                 appData.ErrLog.HandleError(ex, AppPhrases.SaveTextFileError);
             }
+        }
+
+        /// Saves the changes of the child form data.
+        /// </summary>
+        void IChildForm.Save()
+        {
+            SaveFile();
+        }
+
+        /// <summary>
+        /// Refreshes the data displayed by the child form.
+        /// </summary>
+        void IChildForm.Refresh()
+        {
+            LoadFile();
         }
 
 

@@ -313,7 +313,6 @@
     <Phrase key="btnMoveLast.ToolTip">Move Last</Phrase>
     <Phrase key="btnApplyEdit.ToolTip">Apply Edit Operation</Phrase>
     <Phrase key="btnCancelEdit.ToolTip">Cancel Edit Operation</Phrase>
-    <Phrase key="btnRefresh.ToolTip">Refresh Data</Phrase>
     <Phrase key="btnAddNew.ToolTip">Add New</Phrase>
     <Phrase key="btnDelete.ToolTip">Delete</Phrase>
     <Phrase key="btnClear.ToolTip">Clear Table</Phrase>
@@ -321,7 +320,6 @@
     <Phrase key="btnCopy.ToolTip">Copy (Ctrl+C)</Phrase>
     <Phrase key="btnPaste.ToolTip">Paste (Ctrl+V)</Phrase>
     <Phrase key="btnFilter.ToolTip">Filter</Phrase>
-    <Phrase key="btnFind.ToolTip">Find and Replace (Ctrl+F)</Phrase>
     <Phrase key="btnAutoSizeColumns.ToolTip">Autofit Column Widths</Phrase>
     <Phrase key="btnProperties.ToolTip">Item Properties</Phrase>
     <Phrase key="GridViewError">Error displaying table, the &quot;{0}&quot; column</Phrase>
@@ -638,7 +636,6 @@
     <Phrase key="btnOpenProject">Open Project</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmTextEditor">
-    <Phrase key="btnReload.ToolTip">Reload File</Phrase>
     <Phrase key="OpenTextFileError">Error opening file</Phrase>
     <Phrase key="SaveTextFileError">Error saving file</Phrase>
   </Dictionary>

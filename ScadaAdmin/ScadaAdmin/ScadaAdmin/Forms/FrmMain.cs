@@ -1290,29 +1290,23 @@ namespace Scada.Admin.App.Forms
 
         private void miEditRefresh_Click(object sender, EventArgs e)
         {
-            // execute the refresh operation
-            foreach (Form form in wctrlMain.Forms)
+            // execute the refresh operation of the active form
+            if (wctrlMain.ActiveForm is IChildForm childForm &&
+                childForm.ChildFormTag.Options is ChildFormOptions options &&
+                options.CanRefresh)
             {
-                if (form is IChildForm childForm &&
-                    childForm.ChildFormTag.Options is ChildFormOptions options &&
-                    options.CanRefresh)
-                {
-                    childForm.Refresh();
-                }
+                childForm.Refresh();
             }
         }
 
         private void miEditFind_Click(object sender, EventArgs e)
         {
-            // execute the find operation
-            foreach (Form form in wctrlMain.Forms)
+            // execute the find operation of the active form
+            if (wctrlMain.ActiveForm is IChildForm childForm &&
+                childForm.ChildFormTag.Options is ChildFormOptions options &&
+                options.CanFind)
             {
-                if (form is IChildForm childForm &&
-                    childForm.ChildFormTag.Options is ChildFormOptions options &&
-                    options.CanFind)
-                {
-                    childForm.Find();
-                }
+                childForm.Find();
             }
         }
 
