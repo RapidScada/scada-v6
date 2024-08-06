@@ -53,12 +53,17 @@ namespace Scada
             /// </summary>
             public bool IsHex { get; set; }
             /// <summary>
+            /// Gets a value indicating whether the result is a binary number.
+            /// </summary>
+            public bool IsBin { get; set; }
+            /// <summary>
             /// Resets the information.
             /// </summary>
             internal void Reset()
             {
                 IsFloat = false;
                 IsHex = false;
+                IsBin = false;
             }
         }
 
@@ -132,14 +137,6 @@ namespace Scada
 
 
         /// <summary>
-        /// Determines whether the specified format represents a hexadecimal number.
-        /// </summary>
-        private bool FormatIsHex(string format)
-        {
-            return format != null && format.Length > 0 && (format[0] == 'x' || format[0] == 'X');
-        }
-
-        /// <summary>
         /// Formats the channel value depending on the data type.
         /// </summary>
         private string FormatByDataType(double cnlVal, int dataTypeID)
@@ -170,13 +167,22 @@ namespace Scada
         /// </summary>
         private string FormatNumber(double cnlVal, int dataTypeID, string format)
         {
+            char c = format != null && format.Length > 0 ? format[0] : ' ';
+            bool IsHex() => c == 'x' || c == 'X';
+            bool IsBin() => c == 'b' || c == 'B';
+
             switch (dataTypeID)
             {
                 case DataTypeID.Double:
-                    if (FormatIsHex(format))
+                    if (IsHex())
                     {
                         LastResultInfo.IsHex = true;
                         return ((long)cnlVal).ToString(format, culture) + 'h';
+                    }
+                    else if (IsBin())
+                    {
+                        LastResultInfo.IsBin = true;
+                        return ((long)cnlVal).ToString(format, culture) + 'b';
                     }
                     else
                     {
@@ -187,10 +193,15 @@ namespace Scada
                 case DataTypeID.Int64:
                     string s = CnlDataConverter.DoubleToInt64(cnlVal).ToString(format, culture);
 
-                    if (FormatIsHex(format))
+                    if (IsHex())
                     {
                         LastResultInfo.IsHex = true;
                         return s + 'h';
+                    }
+                    else if (IsBin())
+                    {
+                        LastResultInfo.IsBin = true;
+                        return s + 'b';
                     }
                     else
                     {
