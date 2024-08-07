@@ -546,11 +546,12 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             {
                 DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod, writingOffset);
                 nextWriteTime = writeTime.Add(writingPeriod);
+                DateTime timestamp = options.UsePeriodStartTime ? writeTime.Add(-writingPeriod) : writeTime;
 
-                Slice slice = new Slice(writeTime, CnlNums);
+                Slice slice = new Slice(timestamp, CnlNums);
                 InitCnlIndexes(curData, ref cnlIndexes);
                 CopyCnlData(curData, slice, cnlIndexes);
-                sliceQueue.Enqueue(slice.Timestamp, slice);
+                sliceQueue.Enqueue(curData.Timestamp, slice);
             }
         }
 

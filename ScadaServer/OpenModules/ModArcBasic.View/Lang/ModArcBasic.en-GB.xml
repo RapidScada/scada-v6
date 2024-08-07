@@ -44,6 +44,7 @@
     <Phrase key="lblRetention">Retention period</Phrase>
     <Phrase key="txtRetentionUnit">Day</Phrase>
     <Phrase key="lblWriteWithPeriod">Write with period</Phrase>
+    <Phrase key="lblUsePeriodStartTime">Timestamp at period start</Phrase>
     <Phrase key="lblWritingPeriod">Writing period</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[0]">Sec</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[1]">Min</Phrase>

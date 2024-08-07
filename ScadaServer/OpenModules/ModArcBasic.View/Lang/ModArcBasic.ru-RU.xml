@@ -44,6 +44,7 @@
     <Phrase key="lblRetention">Период хранения</Phrase>
     <Phrase key="txtRetentionUnit">День</Phrase>
     <Phrase key="lblWriteWithPeriod">Записывать периодически</Phrase>
+    <Phrase key="lblUsePeriodStartTime">Время на начало периода</Phrase>
     <Phrase key="lblWritingPeriod">Период записи</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[0]">Сек.</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[1]">Мин.</Phrase>
