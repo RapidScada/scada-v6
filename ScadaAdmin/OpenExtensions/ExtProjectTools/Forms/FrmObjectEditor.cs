@@ -225,17 +225,20 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         /// </summary>
         private bool ValidateParentObj(int objNum, int parentObjNum, out string errMsg)
         {
-            if (!objTable.PkExists(parentObjNum))
+            if (parentObjNum > 0)
             {
-                errMsg = ExtensionPhrases.ParentObjectNotExists;
-                return false;
-            }
+                if (!objTable.PkExists(parentObjNum))
+                {
+                    errMsg = ExtensionPhrases.ParentObjectNotExists;
+                    return false;
+                }
 
-            if (objNum == parentObjNum ||
-                ObjectsAreRelatives(objNum, parentObjNum))
-            {
-                errMsg = ExtensionPhrases.InvalidParentObject;
-                return false;
+                if (objNum == parentObjNum ||
+                    ObjectsAreRelatives(objNum, parentObjNum))
+                {
+                    errMsg = ExtensionPhrases.InvalidParentObject;
+                    return false;
+                }
             }
 
             errMsg = "";
