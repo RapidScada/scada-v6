@@ -986,8 +986,7 @@ namespace Scada.Admin.App.Forms.Tables
         {
             // generate a new ID
             int newRowID = maxRowID + 1;
-            if (!baseTable.PkExists(newRowID))
-                e.Row[0] = newRowID;
+            e.Row[0] = baseTable.PkExists(newRowID) ? baseTable.GetNextPk() : newRowID;
         }
 
         private void dataTable_RowChanged(object sender, DataRowChangeEventArgs e)
