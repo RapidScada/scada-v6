@@ -43,6 +43,7 @@ namespace Scada.Server.Archives
             Retention = options.GetValueAsInt("Retention", 365);
             IsPeriodic = options.GetValueAsBool("IsPeriodic", true);
             WriteWithPeriod = options.GetValueAsBool("WriteWithPeriod", true);
+            WriteAtPeriodStart = options.GetValueAsBool("WriteAtPeriodStart", false);
             WritingPeriod = options.GetValueAsInt("WritingPeriod", 1);
             WritingPeriodUnit = options.GetValueAsEnum("WritingPeriodUnit", TimeUnit.Minute);
             WritingOffset = options.GetValueAsInt("WritingOffset", 0);
@@ -78,6 +79,11 @@ namespace Scada.Server.Archives
         /// Gets or sets a value indicating whether to append current data to the archive with a period.
         /// </summary>
         public bool WriteWithPeriod { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to write data with the start timestamp of the period.
+        /// </summary>
+        public bool WriteAtPeriodStart { get; set; }
 
         /// <summary>
         /// Gets or sets the period of writing data to the archive.
@@ -135,6 +141,7 @@ namespace Scada.Server.Archives
 
                 if (WriteWithPeriod)
                 {
+                    options["WriteAtPeriodStart"] = WriteAtPeriodStart.ToLowerString();
                     options["WritingPeriod"] = WritingPeriod.ToString();
                     options["WritingPeriodUnit"] = WritingPeriodUnit.ToString();
                     options["WritingOffset"] = WritingOffset.ToString();
