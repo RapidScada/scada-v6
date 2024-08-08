@@ -545,8 +545,8 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             if (options.WriteWithPeriod && nextWriteTime <= curData.Timestamp)
             {
                 DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod, writingOffset);
-                nextWriteTime = writeTime.Add(writingPeriod);
                 DateTime timestamp = options.UsePeriodStartTime ? writeTime.Add(-writingPeriod) : writeTime;
+                nextWriteTime = writeTime.Add(writingPeriod);
 
                 Slice slice = new Slice(timestamp, CnlNums);
                 InitCnlIndexes(curData, ref cnlIndexes);

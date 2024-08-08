@@ -229,6 +229,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             lock (writingLock)
             {
                 DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod, writingOffset);
+                DateTime timestamp = options.UsePeriodStartTime ? writeTime.Add(-writingPeriod) : writeTime;
                 nextWriteTime = writeTime.Add(writingPeriod);
 
                 Stopwatch stopwatch = Stopwatch.StartNew();
@@ -246,7 +247,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                         if (prevCnlData != null)
                             prevCnlData[i] = cnlData;
 
-                        if (pointQueue.EnqueueNoLock(new CnlDataPoint(CnlNums[i], writeTime, cnlData)))
+                        if (pointQueue.EnqueueNoLock(new CnlDataPoint(CnlNums[i], timestamp, cnlData)))
                         {
                             addedCnt++;
                         }

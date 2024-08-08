@@ -297,12 +297,13 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
             lock (writingLock)
             {
                 DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod, writingOffset);
+                DateTime timestamp = options.UsePeriodStartTime ? writeTime.Add(-writingPeriod) : writeTime;
                 nextWriteTime = writeTime.Add(writingPeriod);
 
                 Stopwatch stopwatch = Stopwatch.StartNew();
                 InitCnlIndexes(curData, ref cnlIndexes);
                 InitPrevCnlData(curData, cnlIndexes, ref prevCnlData);
-                WriteFlag(writeTime);
+                WriteFlag(timestamp);
                 int cnlCnt = CnlNums.Length;
 
                 for (int i = 0; i < cnlCnt; i++)
@@ -312,7 +313,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
                     if (prevCnlData != null)
                         prevCnlData[i] = cnlData;
 
-                    WritePoint(writeTime, CnlNums[i], cnlData);
+                    WritePoint(timestamp, CnlNums[i], cnlData);
                 }
 
                 stopwatch.Stop();
