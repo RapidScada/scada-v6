@@ -111,6 +111,7 @@ namespace Scada.Server.Forms.Controls
                 numRetention.Value = 1;
                 chkIsPeriodic.Checked = false;
                 chkWriteWithPeriod.Checked = false;
+                chkUsePeriodStartTime.Checked = false;
                 numWritingPeriod.Value = 1;
                 cbWritingPeriodUnit.SelectedIndex = 0;
                 numWritingOffset.Value = 0;
@@ -128,6 +129,7 @@ namespace Scada.Server.Forms.Controls
                 numRetention.SetValue(options.Retention);
                 chkIsPeriodic.Checked = options.IsPeriodic;
                 chkWriteWithPeriod.Checked = options.WriteWithPeriod;
+                chkUsePeriodStartTime.Checked = options.UsePeriodStartTime;
                 numWritingPeriod.SetValue(options.WritingPeriod);
                 cbWritingPeriodUnit.SelectedIndex = (int)options.WritingPeriodUnit;
                 numWritingOffset.SetValue(options.WritingOffset);
@@ -151,6 +153,7 @@ namespace Scada.Server.Forms.Controls
                 options.Retention = Convert.ToInt32(numRetention.Value);
                 options.IsPeriodic = chkIsPeriodic.Checked;
                 options.WriteWithPeriod = chkWriteWithPeriod.Checked;
+                options.UsePeriodStartTime = chkUsePeriodStartTime.Checked;
                 options.WritingPeriod = Convert.ToInt32(numWritingPeriod.Value);
                 options.WritingPeriodUnit = (TimeUnit)cbWritingPeriodUnit.SelectedIndex;
                 options.WritingOffset = Convert.ToInt32(numWritingOffset.Value);
