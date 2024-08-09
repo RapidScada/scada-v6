@@ -2,10 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Comm.Channels;
+using Scada.Comm.Drivers.DrvModbus.Protocol;
 using Scada.Log;
 using System.Globalization;
 
-namespace Scada.Comm.Drivers.DrvModbus.Protocol
+namespace Scada.Comm.Drivers.DrvModbus.Logic
 {
     /// <summary>
     /// Polls devices using Modbus protocol.
