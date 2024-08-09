@@ -26,10 +26,6 @@
 using Microsoft.AspNetCore.DataProtection.Repositories;
 using Scada.Log;
 using Scada.Storages;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Xml.Linq;
 
 namespace Scada.Web.Code

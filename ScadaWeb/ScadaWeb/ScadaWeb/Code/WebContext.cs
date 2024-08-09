@@ -35,11 +35,7 @@ using Scada.Web.Config;
 using Scada.Web.Lang;
 using Scada.Web.Plugins;
 using Scada.Web.Services;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
-using System.Threading;
 
 namespace Scada.Web.Code
 {

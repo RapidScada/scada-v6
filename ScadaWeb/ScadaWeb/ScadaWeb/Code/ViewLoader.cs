@@ -34,8 +34,6 @@ using Scada.Web.Audit;
 using Scada.Web.Lang;
 using Scada.Web.Plugins;
 using Scada.Web.Services;
-using System;
-using System.IO;
 
 namespace Scada.Web.Code
 {

@@ -23,15 +23,12 @@
  * Modified : 2023
  */
 
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.DependencyInjection;
 using Scada.Data.Entities;
 using Scada.Lang;
 using Scada.Log;
 using Scada.Web.Services;
 using Scada.Web.Users;
-using System;
 
 namespace Scada.Web.Code
 {

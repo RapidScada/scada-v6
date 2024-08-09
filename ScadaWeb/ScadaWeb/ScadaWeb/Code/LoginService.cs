@@ -25,7 +25,6 @@
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
 using Scada.Data.Const;
 using Scada.Data.Models;
 using Scada.Lang;
@@ -34,10 +33,7 @@ using Scada.Web.Config;
 using Scada.Web.Lang;
 using Scada.Web.Plugins;
 using Scada.Web.Services;
-using System;
-using System.Collections.Generic;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace Scada.Web.Code
 {

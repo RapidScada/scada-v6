@@ -4,10 +4,8 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
 using Scada.Lang;
 using Scada.Log;
-using System;
 using System.Diagnostics;
 
 /// <summary>

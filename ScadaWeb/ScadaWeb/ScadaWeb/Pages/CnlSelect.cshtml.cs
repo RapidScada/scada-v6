@@ -13,8 +13,6 @@ using Scada.Web.Authorization;
 using Scada.Web.Components;
 using Scada.Web.Services;
 using Scada.Web.Users;
-using System;
-using System.Collections.Generic;
 
 namespace Scada.Web.Pages
 {
