@@ -23,15 +23,12 @@
  * Modified : 2023
  */
 
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.DependencyInjection;
 using Scada.Data.Entities;
 using Scada.Lang;
 using Scada.Log;
 using Scada.Web.Services;
 using Scada.Web.Users;
-using System;
 
 namespace Scada.Web.Code
 {
@@ -44,7 +41,7 @@ namespace Scada.Web.Code
         /// <summary>
         /// Creates a new user context.
         /// </summary>
-        private static UserContext CreateUserContext(int userID, 
+        private static UserContext CreateUserContext(int userID,
             IWebContext webContext, IClientAccessor clientAccessor)
         {
             User userEntity = webContext.ConfigDatabase.UserTable.GetItem(userID) ??
@@ -68,7 +65,7 @@ namespace Scada.Web.Code
 
                 UserConfig userConfig = webContext.PluginHolder.GetUserConfig(userID);
                 userContext.SetTimeZone(
-                    userConfig?.TimeZone ?? 
+                    userConfig?.TimeZone ??
                     webContext.AppConfig.GeneralOptions.DefaultTimeZone);
 
                 return userContext;

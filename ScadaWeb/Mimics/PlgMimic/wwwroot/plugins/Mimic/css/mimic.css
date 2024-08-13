@@ -1,0 +1,18 @@
+﻿.mimic-wrapper {
+  overflow: auto;
+  position: relative; /*affects scrolling and scaling*/
+}
+.mimic-wrapper .mimic {
+  position: absolute; /*affects scaling*/
+  transform-origin: left top; /*affects scaling*/
+}
+.mimic-wrapper .mimic .comp {
+  box-sizing: border-box;
+  line-height: normal;
+  position: absolute;
+}
+.mimic-wrapper .mimic .comp.picture {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-clip: padding-box;
+}

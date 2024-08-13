@@ -83,7 +83,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             {
                 EventReportBuilder builder = new(CreateReportContext());
                 builder.Generate(args, stream);
-                fileName = ReportUtils.BuildFileName(EventReportPrefix, 
+                fileName = ReportUtils.BuildFileName(EventReportPrefix,
                     userContext.ConvertTimeFromUtc(builder.GenerateTime), OutputFormat.Xml2003);
                 stream.Position = 0;
                 success = true;
@@ -237,7 +237,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
 
             if (objNum <= 0)
             {
-                objNums = userContext.Rights.ViewAll 
+                objNums = userContext.Rights.ViewAll
                     ? null // all objects
                     : userContext.Rights.GetAvailableObjs().ToArray();
             }
@@ -271,7 +271,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Generates a historical data report.
         /// </summary>
-        public IActionResult PrintHistDataReport(DateTime startTime, DateTime endTime, 
+        public IActionResult PrintHistDataReport(DateTime startTime, DateTime endTime,
             string archive, IntRange cnlNums)
         {
             MemoryStream stream = new();

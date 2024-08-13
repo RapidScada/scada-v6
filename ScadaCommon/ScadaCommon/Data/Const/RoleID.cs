@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2024
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -38,5 +38,13 @@ namespace Scada.Data.Const
         public const int Dispatcher = 2;
         public const int Guest = 3;
         public const int Application = 4;
+
+        /// <summary>
+        /// Gets a value indicating whether the role is one of the built-in roles.
+        /// </summary>
+        public static bool IsBuiltIn(int roleID)
+        {
+            return Disabled <= roleID && roleID <= Application;
+        }
     }
 }

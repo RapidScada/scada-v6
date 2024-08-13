@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2023
+ * Modified : 2024
  */
 
 using Scada.Data.Models;
@@ -112,7 +112,7 @@ namespace Scada.Server.Archives
         /// </summary>
         protected void InitPrevCnlData(ICurrentData curData, int[] cnlIndexes, ref CnlData[] prevCnlData)
         {
-            if (ArchiveOptions != null && ArchiveOptions.WriteOnChange && 
+            if (ArchiveOptions != null && ArchiveOptions.WriteOnChange &&
                 cnlIndexes != null && prevCnlData == null)
             {
                 int cnlCnt = CnlNums.Length;
@@ -140,7 +140,7 @@ namespace Scada.Server.Archives
         protected bool CnlDataEquals2(CnlData x, CnlData y)
         {
             return ArchiveOptions != null && x.Stat == y.Stat && (
-                x.Val.Equals(y.Val) || 
+                x.Val.Equals(y.Val) ||
                 Math.Abs(x.Val - y.Val) <= ArchiveOptions.Deadband);
         }
 
@@ -180,37 +180,32 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
-        /// Gets the time period in seconds.
-        /// </summary>
-        protected static int GetPeriodInSec(int period, TimeUnit timeUnit)
-        {
-            switch (timeUnit)
-            {
-                case TimeUnit.Minute:
-                    return period * 60;
-                case TimeUnit.Hour:
-                    return period * 3600;
-                default: // TimeUnit.Second
-                    return period;
-            }
-        }
-
-        /// <summary>
         /// Checks that the timestamp is a multiple of the period.
         /// </summary>
-        protected static bool TimeIsMultipleOfPeriod(DateTime timestamp, int period)
+        protected static bool TimeIsMultipleOfPeriod(DateTime timestamp, TimeSpan period, TimeSpan offset)
         {
-            return period > 0 && (int)Math.Round(timestamp.TimeOfDay.TotalMilliseconds) % (period * 1000) == 0;
+            if (period <= TimeSpan.Zero)
+                return false;
+
+            if (period.TotalDays <= 1)
+            {
+                return (int)timestamp.TimeOfDay.TotalMilliseconds % (int)period.TotalMilliseconds ==
+                    (int)offset.TotalMilliseconds;
+            }
+
+            DateTime startDate = new DateTime(timestamp.Year, 1, 1, 0, 0, 0, timestamp.Kind);
+            return (int)(timestamp - startDate).TotalSeconds % (int)period.TotalSeconds == (int)offset.TotalSeconds;
         }
 
         /// <summary>
         /// Pulls a timestamp to the closest periodic timestamp within the specified range.
         /// </summary>
-        protected static bool PullTimeToPeriod(ref DateTime timestamp, int period, int pullingRange)
+        protected static bool PullTimeToPeriod(ref DateTime timestamp, TimeSpan period, TimeSpan offset,
+            TimeSpan pullingRange)
         {
-            DateTime closestTime = GetClosestWriteTime(timestamp, period);
+            DateTime closestTime = GetClosestWriteTime(timestamp, period, offset);
 
-            if ((timestamp - closestTime).TotalSeconds <= pullingRange)
+            if (timestamp - closestTime <= pullingRange)
             {
                 timestamp = closestTime;
                 return true;
@@ -258,6 +253,16 @@ namespace Scada.Server.Archives
         /// </summary>
         /// <remarks>The timestamp can be adjusted by the archive.</remarks>
         public abstract bool AcceptData(ref DateTime timestamp);
+
+        /// <summary>
+        /// Accepts or rejects data with the specified timestamp.
+        /// </summary>
+        public bool AcceptData(DateTime timestamp, out DateTime adjustedTimestamp)
+        {
+            bool accepted = AcceptData(ref timestamp);
+            adjustedTimestamp = timestamp;
+            return accepted;
+        }
 
         /// <summary>
         /// Maintains performance when data is written one at a time.

@@ -91,10 +91,10 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
                     {
                         string driverCode = ScadaUtils.RemoveFileNameSuffixes(fileInfo.Name);
 
-                        if (ExtensionUtils.GetDriverView(adminContext, commApp, driverCode, 
+                        if (ExtensionUtils.GetDriverView(adminContext, commApp, driverCode,
                             out DriverView driverView, out string message))
                         {
-                            if (driverView.CanCreateChannel && 
+                            if (driverView.CanCreateChannel &&
                                 driverView.ChannelTypes is ICollection<ChannelTypeName> channelTypeNames)
                             {
                                 foreach (ChannelTypeName channelTypeName in channelTypeNames)

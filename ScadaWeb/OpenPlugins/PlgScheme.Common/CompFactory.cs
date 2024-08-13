@@ -14,10 +14,10 @@ namespace Scada.Web.Plugins.PlgScheme
         /// <summary>
         /// Определить, что имена типов равны
         /// </summary>
-        protected static bool NameEquals(string expectedShortName, string expectedFullName, 
+        protected static bool NameEquals(string expectedShortName, string expectedFullName,
             string actualName, bool nameIsShort)
         {
-            return string.Equals(nameIsShort ? expectedShortName : expectedFullName, 
+            return string.Equals(nameIsShort ? expectedShortName : expectedFullName,
                 actualName, StringComparison.OrdinalIgnoreCase);
         }
 

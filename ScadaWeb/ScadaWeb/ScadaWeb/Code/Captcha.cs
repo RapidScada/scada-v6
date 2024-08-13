@@ -24,8 +24,6 @@
  */
 
 using SkiaSharp;
-using System;
-using System.IO;
 
 namespace Scada.Web.Code
 {

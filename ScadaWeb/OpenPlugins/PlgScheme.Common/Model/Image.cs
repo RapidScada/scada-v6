@@ -55,8 +55,8 @@ namespace Scada.Web.Plugins.PlgScheme.Model
                 throw new ArgumentNullException(nameof(xmlElem));
 
             xmlElem.AppendElem("Name", Name);
-            xmlElem.AppendElem("Data", 
-                Data != null && Data.Length > 0 ? 
+            xmlElem.AppendElem("Data",
+                Data != null && Data.Length > 0 ?
                 Convert.ToBase64String(Data, Base64FormattingOptions.None) : "");
         }
 

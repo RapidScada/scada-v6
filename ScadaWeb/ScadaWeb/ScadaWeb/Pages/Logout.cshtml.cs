@@ -4,7 +4,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Scada.Web.Services;
-using System.Threading.Tasks;
 
 namespace Scada.Web.Pages
 {

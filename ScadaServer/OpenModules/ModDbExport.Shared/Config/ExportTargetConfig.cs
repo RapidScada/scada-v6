@@ -22,7 +22,7 @@ namespace Scada.Server.Modules.ModDbExport.Config
             GeneralOptions = new GeneralOptions();
             ConnectionOptions = new DbConnectionOptions();
             ExportOptions = new ExportOptions();
-            Queries = new QueryOptionList();
+            Queries = [];
             Parent = null;
         }
 

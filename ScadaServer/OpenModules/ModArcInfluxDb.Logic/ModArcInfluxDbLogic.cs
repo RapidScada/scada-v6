@@ -53,11 +53,11 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// <summary>
         /// Creates a new archive logic.
         /// </summary>
-        public override ArchiveLogic CreateArchive(IArchiveContext archiveContext, ArchiveConfig archiveConfig, 
+        public override ArchiveLogic CreateArchive(IArchiveContext archiveContext, ArchiveConfig archiveConfig,
             int[] cnlNums)
         {
-            return archiveConfig.Kind == ArchiveKind.Historical 
-                ? new InfluxHAL(archiveContext, archiveConfig, cnlNums, moduleConfig) 
+            return archiveConfig.Kind == ArchiveKind.Historical
+                ? new InfluxHAL(archiveContext, archiveConfig, cnlNums, moduleConfig)
                 : null;
         }
 

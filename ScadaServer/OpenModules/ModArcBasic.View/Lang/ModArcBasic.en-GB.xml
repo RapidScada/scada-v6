@@ -44,10 +44,17 @@
     <Phrase key="lblRetention">Retention period</Phrase>
     <Phrase key="txtRetentionUnit">Day</Phrase>
     <Phrase key="lblWriteWithPeriod">Write with period</Phrase>
+    <Phrase key="lblUsePeriodStartTime">Timestamp at period start</Phrase>
     <Phrase key="lblWritingPeriod">Writing period</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[0]">Sec</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[1]">Min</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[2]">Hour</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[3]">Day</Phrase>
+    <Phrase key="lblWritingOffset">Writing offset</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[0]">Sec</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[1]">Min</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[2]">Hour</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[3]">Day</Phrase>
     <Phrase key="lblPullToPeriod">Pull to period</Phrase>
     <Phrase key="txtPullToPeriodUnit">Sec</Phrase>
     <Phrase key="gbWritingOptions">Writing Options</Phrase>

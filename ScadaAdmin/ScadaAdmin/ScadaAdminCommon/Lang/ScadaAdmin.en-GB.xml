@@ -313,7 +313,6 @@
     <Phrase key="btnMoveLast.ToolTip">Move Last</Phrase>
     <Phrase key="btnApplyEdit.ToolTip">Apply Edit Operation</Phrase>
     <Phrase key="btnCancelEdit.ToolTip">Cancel Edit Operation</Phrase>
-    <Phrase key="btnRefresh.ToolTip">Refresh Data</Phrase>
     <Phrase key="btnAddNew.ToolTip">Add New</Phrase>
     <Phrase key="btnDelete.ToolTip">Delete</Phrase>
     <Phrase key="btnClear.ToolTip">Clear Table</Phrase>
@@ -321,7 +320,6 @@
     <Phrase key="btnCopy.ToolTip">Copy (Ctrl+C)</Phrase>
     <Phrase key="btnPaste.ToolTip">Paste (Ctrl+V)</Phrase>
     <Phrase key="btnFilter.ToolTip">Filter</Phrase>
-    <Phrase key="btnFind.ToolTip">Find and Replace (Ctrl+F)</Phrase>
     <Phrase key="btnAutoSizeColumns.ToolTip">Autofit Column Widths</Phrase>
     <Phrase key="btnProperties.ToolTip">Item Properties</Phrase>
     <Phrase key="GridViewError">Error displaying table, the &quot;{0}&quot; column</Phrase>
@@ -400,7 +398,7 @@
     <Phrase key="lblFind">Find what</Phrase>
     <Phrase key="lblReplaceWith">Replace with</Phrase>
     <Phrase key="chkCaseSensitive">Match case</Phrase>
-    <Phrase key="chkWholeCellOnly">Match whole cell</Phrase>
+    <Phrase key="chkWholeCellOnly">Match whole cell only</Phrase>
     <Phrase key="btnFindNext">FindNext</Phrase>
     <Phrase key="btnReplace">Replace</Phrase>
     <Phrase key="btnReplaceAll">Replace All</Phrase>
@@ -533,6 +531,9 @@
     <Phrase key="miFileClose">Close</Phrase>
     <Phrase key="miFileCloseProject">Close Project</Phrase>
     <Phrase key="miFileExit">Exit</Phrase>
+    <Phrase key="miEdit">&amp;Edit</Phrase>
+    <Phrase key="miEditRefresh">Refresh Data</Phrase>
+    <Phrase key="miEditFind">Find</Phrase>
     <Phrase key="miDeploy">&amp;Deploy</Phrase>
     <Phrase key="miDeployInstanceProfile">Deployment Profile...</Phrase>
     <Phrase key="miDeployDownloadConfig">Download Configuration...</Phrase>
@@ -553,6 +554,8 @@
     <Phrase key="btnFileOpenProject.ToolTip">Open Project (Ctrl+O)</Phrase>
     <Phrase key="btnFileSave.ToolTip">Save (Ctrl+S)</Phrase>
     <Phrase key="btnFileSaveAll.ToolTip">Save All</Phrase>
+    <Phrase key="btnEditRefresh.ToolTip">Refresh Data (Ctrl+R)</Phrase>
+    <Phrase key="btnEditFind.ToolTip">Find (Ctrl+F)</Phrase>
     <Phrase key="btnDeployInstanceProfile.ToolTip">Deployment Profile</Phrase>
     <Phrase key="btnDeployDownloadConfig.ToolTip">Download Configuration</Phrase>
     <Phrase key="btnDeployUploadConfig.ToolTip">Upload Configuration (Ctrl+U)</Phrase>
@@ -633,7 +636,6 @@
     <Phrase key="btnOpenProject">Open Project</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmTextEditor">
-    <Phrase key="btnReload.ToolTip">Reload File</Phrase>
     <Phrase key="OpenTextFileError">Error opening file</Phrase>
     <Phrase key="SaveTextFileError">Error saving file</Phrase>
   </Dictionary>

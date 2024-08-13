@@ -40,7 +40,7 @@ namespace Scada.Comm.Engine
         /// <summary>
         /// Gets a new communication line including communication channel and devices.
         /// </summary>
-        public static bool GetCommLine(LineConfig lineConfig, CoreLogic coreLogic, DriverHolder driverHolder, 
+        public static bool GetCommLine(LineConfig lineConfig, CoreLogic coreLogic, DriverHolder driverHolder,
             out CommLine commLine, out string errMsg)
         {
             if (lineConfig == null)

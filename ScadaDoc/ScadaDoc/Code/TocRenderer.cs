@@ -49,7 +49,7 @@ namespace Scada.Doc.Code
             else
             {
                 string itemUrl = urlHelper.Content(item.Url.PrependTilde());
-                string itemClass = string.Equals(item.Url, ActivePagePath, StringComparison.OrdinalIgnoreCase) ? 
+                string itemClass = string.Equals(item.Url, ActivePagePath, StringComparison.OrdinalIgnoreCase) ?
                     "active" : "";
                 sbHtml.AppendFormat("<div class=\"item-text {0}\"><a href=\"{1}\">", itemClass, itemUrl);
                 sbHtml.Append(HttpUtility.HtmlEncode(item.Text));

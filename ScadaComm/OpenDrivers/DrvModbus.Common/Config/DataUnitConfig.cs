@@ -91,8 +91,8 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         /// </summary>
         public virtual int GetMaxElemCnt(DataBlock dataBlock)
         {
-            return dataBlock == DataBlock.DiscreteInputs || dataBlock == DataBlock.Coils 
-                ? 2000 
+            return dataBlock == DataBlock.DiscreteInputs || dataBlock == DataBlock.Coils
+                ? 2000
                 : 125;
         }
     }

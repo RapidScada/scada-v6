@@ -114,7 +114,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         {
             List<Cnl> cnls = new();
             int cnlNum = ctrlCnlCreate3.StartCnlNum;
-            string namePrefix = adminContext.AppConfig.ChannelNumberingOptions.PrependDeviceName ? 
+            string namePrefix = adminContext.AppConfig.ChannelNumberingOptions.PrependDeviceName ?
                 ctrlCnlCreate1.SelectedDevice.Name + " - " : "";
             int? objNum = ctrlCnlCreate2.ObjNum;
             int deviceNum = ctrlCnlCreate1.SelectedDevice.DeviceNum;

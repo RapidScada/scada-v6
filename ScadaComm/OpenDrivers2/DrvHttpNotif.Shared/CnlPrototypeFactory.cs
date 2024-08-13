@@ -19,7 +19,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif
         public static CnlPrototypeGroup GetGroup()
         {
             CnlPrototypeGroup group = new CnlPrototypeGroup();
-            
+
             group.CnlPrototypes.Add(new CnlPrototype
             {
                 Name = Locale.IsRussian ? "Уведомления" : "Notifications",

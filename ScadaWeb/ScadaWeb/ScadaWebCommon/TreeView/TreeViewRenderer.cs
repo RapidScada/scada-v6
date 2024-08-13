@@ -132,8 +132,8 @@ namespace Scada.Web.TreeView
         /// </summary>
         protected void RenderTreeView(IList treeNodes, bool topLevel, StringBuilder sbHtml)
         {
-            sbHtml.AppendLine(topLevel ? 
-                "<div class='tree-view'>" : 
+            sbHtml.AppendLine(topLevel ?
+                "<div class='tree-view'>" :
                 "<div class='child-nodes hidden'>");
 
             if (treeNodes != null)
@@ -144,8 +144,8 @@ namespace Scada.Web.TreeView
                     {
                         bool childrenExist = webTreeNode.Children.Count > 0;
                         bool urlIsEmpty = string.IsNullOrEmpty(webTreeNode.Url);
-                        string nodeCssClass = 
-                            (webTreeNode.Represents(SelectedObject) ? " selected" : "") + 
+                        string nodeCssClass =
+                            (webTreeNode.Represents(SelectedObject) ? " selected" : "") +
                             (!childrenExist && urlIsEmpty ? " disabled" : "");
                         string dataAttrs = RenderDataAttrs(webTreeNode);
                         string expanderCssClass = childrenExist ? "" : " empty";
@@ -167,8 +167,8 @@ namespace Scada.Web.TreeView
 
                         if (options.ShowIcons)
                         {
-                            string iconUrl = string.IsNullOrEmpty(webTreeNode.IconUrl) 
-                                ? (childrenExist ? options.FolderIconUrl : options.NodeIconUrl) 
+                            string iconUrl = string.IsNullOrEmpty(webTreeNode.IconUrl)
+                                ? (childrenExist ? options.FolderIconUrl : options.NodeIconUrl)
                                 : webTreeNode.IconUrl;
                             iconHtml = $"<div class='icon'><img src='{urlHelper.Content(iconUrl)}' alt='' /></div>";
                         }

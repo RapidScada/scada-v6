@@ -31,14 +31,18 @@
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Controls.CtrlMainMenu">
     <Phrase key="miProjectTools">Инструменты проекта</Phrase>
     <Phrase key="miCloneChannels">Клонировать каналы...</Phrase>
+    <Phrase key="miEncryptPassword">Шифровать пароль...</Phrase>
     <Phrase key="miChannelMapByDevice">Карта каналов по устройствам</Phrase>
     <Phrase key="miChannelMapByObject">Карта каналов по объектам</Phrase>
     <Phrase key="miDeviceMap">Карта устройств</Phrase>
     <Phrase key="miObjectMap">Карта объектов</Phrase>
     <Phrase key="miCheckIntegrity">Проверить целостность</Phrase>
-    <Phrase key="miEncryptPassword">Шифровать пароль...</Phrase>
+    <Phrase key="miObjectEditor">Редактор объектов</Phrase>
+    <Phrase key="miRightMatrix">Матрица прав</Phrase>
     <Phrase key="miImportTable">Импортировать таблицу...</Phrase>
     <Phrase key="miExportTable">Экспортировать таблицу...</Phrase>
+    <Phrase key="btnObjectEditor.ToolTip">Редактор объектов</Phrase>
+    <Phrase key="btnRightMatrix.ToolTip">Матрица прав</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmCnlClone">
     <Phrase key="this">Клонирование каналов</Phrase>
@@ -58,12 +62,57 @@
     <Phrase key="CloneChannelsCompleted">Клонирование завершено успешно.&#13;&#10;Добавлено каналов: {0}.</Phrase>
     <Phrase key="CloneChannelsError">Ошибка при клонировании каналов</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmFindObject">
+    <Phrase key="this">Найти объект</Phrase>
+    <Phrase key="lblFind">Найти</Phrase>
+    <Phrase key="gbLookAt">Просмотривать при поиске</Phrase>
+    <Phrase key="chkObjNum">Номер</Phrase>
+    <Phrase key="chkName">Наименование</Phrase>
+    <Phrase key="chkCode">Код</Phrase>
+    <Phrase key="chkDescr">Описание</Phrase>
+    <Phrase key="chkCaseSensitive">Учитывать регистр</Phrase>
+    <Phrase key="chkWholeStringOnly">Только строку целиком</Phrase>
+    <Phrase key="btnFindNext">Найти далее</Phrase>
+    <Phrase key="btnClose">Закрыть</Phrase>
+    <Phrase key="ObjectNotFound">Объект не найден.</Phrase>
+    <Phrase key="SearchCompleted">Поиск завершён.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmObjectEditor">
+    <Phrase key="this">Редактор объектов</Phrase>
+    <Phrase key="btnAddObject.ToolTip">Добавить объект</Phrase>
+    <Phrase key="btnDeleteObject.ToolTip">Удалить объект</Phrase>
+    <Phrase key="gbObject">Свойства объекта</Phrase>
+    <Phrase key="lblObjNum">Номер</Phrase>
+    <Phrase key="lblName">Наименование</Phrase>
+    <Phrase key="lblCode">Код</Phrase>
+    <Phrase key="lblParentObj">Родительский объект</Phrase>
+    <Phrase key="lblDescr">Описание</Phrase>
+    <Phrase key="miCollapseAll">Свернуть все</Phrase>
+    <Phrase key="miOpenChannels">Открыть каналы</Phrase>
+    <Phrase key="ObjNumInUse">Номер объекта уже используется.</Phrase>
+    <Phrase key="ObjNumReferenced">На данный номер объекта ссылается строка из таблицы &quot;{0}&quot;.</Phrase>
+    <Phrase key="ObjectReferenced">На данный объект или его дочерний объект ссылается строка из другой таблицы.</Phrase>
+    <Phrase key="ParentObjectNotExists">Родительский объект больше не существует.</Phrase>
+    <Phrase key="InvalidParentObject">Родительский объект не может быть тем же самым или дочерним объектом.</Phrase>
+    <Phrase key="UpdateObjNumError">Ошибка при обновлении номера объекта</Phrase>
+    <Phrase key="UpdateParentObjError">Ошибка при обновлении родительского объекта</Phrase>
+    <Phrase key="DeleteObjectConfirm">Вы уверены, что хотите удалить объект?</Phrase>
+    <Phrase key="ObjectFilter">Объект {0}</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
     <Phrase key="this">Шифрование пароля</Phrase>
     <Phrase key="lblPassword">Пароль</Phrase>
     <Phrase key="lblPasswordEncrypted">Зашифрованный пароль</Phrase>
     <Phrase key="btnCopy">Копировать</Phrase>
     <Phrase key="btnClose">Закрыть</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmRightMatrix">
+    <Phrase key="this">Матрица прав</Phrase>
+    <Phrase key="ViewRightSymbol">П</Phrase>
+    <Phrase key="ViewRightLegend">П - просмотр</Phrase>
+    <Phrase key="ControlRightSymbol">У</Phrase>
+    <Phrase key="ControlRightLegend">У - управление</Phrase>
+    <Phrase key="DisplayMatrixError">Ошибка при отображении матрицы прав</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
     <Phrase key="this">Экспорт таблицы</Phrase>

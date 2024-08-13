@@ -15,7 +15,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
         /// <summary>
         /// Normalizes the source IDs for importing into the configuration database table.
         /// </summary>
-        public static void NormalizeIdRange(int minID, int maxID, 
+        public static void NormalizeIdRange(int minID, int maxID,
             ref int srcStartID, ref int srcEndID, int destStartID, out int idOffset)
         {
             idOffset = destStartID - srcStartID;

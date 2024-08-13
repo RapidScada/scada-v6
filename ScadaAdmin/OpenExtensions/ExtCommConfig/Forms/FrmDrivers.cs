@@ -4,14 +4,13 @@
 using Scada.Admin.Extensions.ExtCommConfig.Code;
 using Scada.Admin.Forms;
 using Scada.Admin.Project;
-using Scada.Comm.Config;
 using Scada.Comm.Drivers;
 using Scada.Forms;
 using System;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using WinControl;
+using WinControls;
 
 namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 {
@@ -154,14 +153,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                 .ToString();
         }
 
-        /// <summary>
-        /// Saves the changes of the child form data.
-        /// </summary>
-        public void Save()
-        {
-            // do nothing
-        }
-
 
         private void FrmDrivers_Load(object sender, EventArgs e)
         {
@@ -173,7 +164,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         private void btnProperties_Click(object sender, EventArgs e)
         {
             // show properties of the selected driver
-            if (lbDrivers.SelectedItem is DriverItem driverItem && 
+            if (lbDrivers.SelectedItem is DriverItem driverItem &&
                 driverItem.DriverView != null && driverItem.DriverView.CanShowProperties)
             {
                 lbDrivers.Focus();

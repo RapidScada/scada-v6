@@ -23,8 +23,6 @@
  * Modified : 2021
  */
 
-using System;
-
 namespace Scada.Admin.Deployment
 {
     /// <summary>
@@ -135,7 +133,7 @@ namespace Scada.Admin.Deployment
             }
             else
             {
-                transferControl.SetProgress((double)taskIndex / taskCount + 
+                transferControl.SetProgress((double)taskIndex / taskCount +
                     (subtaskCount > 0 ? (double)subtaskIndex / subtaskCount / taskCount : 0));
             }
         }

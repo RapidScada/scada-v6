@@ -20,23 +20,20 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2022
+ * Modified : 2024
  */
 
 using Scada.Admin.App.Code;
+using Scada.Admin.App.Properties;
 using Scada.Admin.Project;
 using Scada.Data.Entities;
 using Scada.Data.Tables;
 using Scada.Forms;
 using Scada.Forms.Forms;
 using Scada.Lang;
-using System;
 using System.Data;
-using System.Drawing;
 using System.Globalization;
-using System.IO;
-using System.Windows.Forms;
-using WinControl;
+using WinControls;
 
 namespace Scada.Admin.App.Forms.Tables
 {
@@ -101,6 +98,13 @@ namespace Scada.Admin.App.Forms.Tables
             frmFind = null;
             frmFilter = null;
 
+            ChildFormTag = new ChildFormTag(new ChildFormOptions
+            { 
+                Image = Resources.table,
+                CanRefresh = true,
+                CanFind = true
+            });
+            ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
             Text = baseTable.Title + (tableFilter == null ? "" : " - " + tableFilter);
         }
 
@@ -286,18 +290,16 @@ namespace Scada.Admin.App.Forms.Tables
         /// </summary>
         private bool NoReferencesToPk(int key, out string errMsg)
         {
-            foreach (TableRelation relation in baseTable.Dependent)
+            if (baseTable.KeyIsReferenced(key, false, out string tableTitle))
             {
-                if (relation.ChildTable.TryGetIndex(relation.ChildColumn, out ITableIndex index) &&
-                    index.IndexKeyExists(key))
-                {
-                    errMsg = string.Format(AppPhrases.KeyReferenced, relation.ChildTable.Title);
-                    return false;
-                }
+                errMsg = string.Format(AppPhrases.KeyReferenced, tableTitle);
+                return false;
             }
-
-            errMsg = "";
-            return true;
+            else
+            {
+                errMsg = "";
+                return true;
+            }
         }
 
         /// <summary>
@@ -678,6 +680,26 @@ namespace Scada.Admin.App.Forms.Tables
                 }
             }
         }
+        
+        /// <summary>
+        /// Opens the find form.
+        /// </summary>
+        private void OpenFindForm()
+        {
+            if (frmFind == null || !frmFind.Visible)
+            {
+                frmFind = new FrmFind(this, dataGridView);
+
+                // center the form within the bounds of its parent
+                frmFind.Left = (ParentForm.Left + ParentForm.Right - frmFind.Width) / 2;
+                frmFind.Top = (ParentForm.Top + ParentForm.Bottom - frmFind.Height) / 2;
+                frmFind.Show(this);
+            }
+            else
+            {
+                frmFind.Activate();
+            }
+        }
 
         /// <summary>
         /// Converts string to color.
@@ -703,6 +725,7 @@ namespace Scada.Admin.App.Forms.Tables
                 return Color.Black;
             }
         }
+
 
         /// <summary>
         /// Commits and ends the edit operation on the current cell and row.
@@ -736,9 +759,21 @@ namespace Scada.Admin.App.Forms.Tables
         }
 
         /// <summary>
-        /// Saves the table.
+        /// Indicates that the form contains data of the specified type and with the specified filter.
         /// </summary>
-        public void Save()
+        public bool Mathes(Type itemType, TableFilter tableFilter)
+        {
+            return ItemType == itemType &&
+                (this.tableFilter == tableFilter ||
+                this.tableFilter != null && tableFilter != null &&
+                this.tableFilter.ColumnName == tableFilter.ColumnName &&
+                this.tableFilter.Argument?.ToString() == tableFilter.Argument?.ToString());
+        }
+
+        /// <summary>
+        /// Saves the changes of the child form data.
+        /// </summary>
+        void IChildForm.Save()
         {
             if (project.ConfigDatabase.SaveTable(baseTable, out string errMsg))
                 ChildFormTag.Modified = false;
@@ -746,16 +781,33 @@ namespace Scada.Admin.App.Forms.Tables
                 appData.ErrLog.HandleError(errMsg);
         }
 
+        /// <summary>
+        /// Refreshes the data displayed by the child form.
+        /// </summary>
+        void IChildForm.Refresh()
+        {
+            // refresh data of the table and the combo box columns
+            if (EndEdit())
+                LoadTableData();
+        }
+
+        /// <summary>
+        /// Opens a find form associated with the child form.
+        /// </summary>
+        void IChildForm.Find()
+        {
+            OpenFindForm();
+        }
+
 
         private void FrmBaseTable_Load(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this, GetType().FullName, 
-                new FormTranslatorOptions { ContextMenus = new ContextMenuStrip[] { cmsTable } });
+            FormTranslator.Translate(this, GetType().FullName,
+                new FormTranslatorOptions { ContextMenus = [cmsTable] });
 
             if (lblCount.Text.Contains("{0}"))
                 bindingNavigator.CountItemFormat = lblCount.Text;
 
-            ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
             btnProperties.Visible = ProperiesAvailable;
             btnAddNew.Visible = false;
         }
@@ -783,10 +835,6 @@ namespace Scada.Admin.App.Forms.Tables
                         PasteCell();
                         e.Handled = true;
                         break;
-                    case Keys.F:
-                        btnFind_Click(null, null);
-                        e.Handled = true;
-                        break;
                 }
             }
         }
@@ -812,7 +860,7 @@ namespace Scada.Admin.App.Forms.Tables
         {
             int colInd = e.ColumnIndex;
 
-            if (0 <= colInd && colInd < dataGridView.ColumnCount && 
+            if (0 <= colInd && colInd < dataGridView.ColumnCount &&
                 dataGridView.Columns[colInd].Tag is ColumnOptions options)
             {
                 if (e.Value is string valStr && valStr != "")
@@ -938,8 +986,7 @@ namespace Scada.Admin.App.Forms.Tables
         {
             // generate a new ID
             int newRowID = maxRowID + 1;
-            if (!baseTable.PkExists(newRowID))
-                e.Row[0] = newRowID;
+            e.Row[0] = baseTable.PkExists(newRowID) ? baseTable.GetNextPk() : newRowID;
         }
 
         private void dataTable_RowChanged(object sender, DataRowChangeEventArgs e)
@@ -1062,7 +1109,7 @@ namespace Scada.Admin.App.Forms.Tables
         {
             if (MessageBox.Show(
                     dataGridView.SelectedRows.Count > 1 ? AppPhrases.DeleteRowsConfirm : AppPhrases.DeleteRowConfirm,
-                    CommonPhrases.QuestionCaption, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) == 
+                    CommonPhrases.QuestionCaption, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) ==
                     DialogResult.Yes)
             {
                 DeleteSelectedRows();
@@ -1116,8 +1163,8 @@ namespace Scada.Admin.App.Forms.Tables
 
             if (frmFilter.ShowDialog() == DialogResult.OK)
             {
-                btnFilter.Image = frmFilter.FilterIsEmpty ? 
-                    Properties.Resources.filter : 
+                btnFilter.Image = frmFilter.FilterIsEmpty ?
+                    Properties.Resources.filter :
                     Properties.Resources.filter_set;
             }
         }

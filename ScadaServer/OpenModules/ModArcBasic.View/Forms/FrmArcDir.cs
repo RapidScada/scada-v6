@@ -110,7 +110,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         private void chkUseDefaultDir_CheckedChanged(object sender, EventArgs e)
         {
             txtArcDir.Enabled = btnBrowseArcDir.Enabled =
-                txtArcCopyDir.Enabled = btnBrowseArcCopyDir.Enabled = 
+                txtArcCopyDir.Enabled = btnBrowseArcCopyDir.Enabled =
                 btnSetToDefaultWin.Enabled = btnSetToDefaultLinux.Enabled = !chkUseDefaultDir.Checked;
         }
 

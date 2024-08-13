@@ -228,8 +228,8 @@ namespace Scada.Comm.Devices
 
                             case TagFormatType.Date:
                                 DateTime dt = new DateTime(longVal, DateTimeKind.Utc).ToLocalTime();
-                                return string.IsNullOrEmpty(tagFormat.Format) 
-                                    ? dt.ToLocalizedString() 
+                                return string.IsNullOrEmpty(tagFormat.Format)
+                                    ? dt.ToLocalizedString()
                                     : dt.ToString(tagFormat.Format);
 
                             default:
@@ -255,15 +255,15 @@ namespace Scada.Comm.Devices
 
                             case TagFormatType.Date:
                                 DateTime dt = DateTime.FromOADate(doubleVal).ToLocalTime();
-                                return string.IsNullOrEmpty(tagFormat.Format) 
-                                    ? dt.ToLocalizedString() 
+                                return string.IsNullOrEmpty(tagFormat.Format)
+                                    ? dt.ToLocalizedString()
                                     : dt.ToString(tagFormat.Format);
 
                             default:
-                                return string.IsNullOrEmpty(tagFormat.Format) 
-                                    ? doubleVal.ToString(DefaultFormat) 
-                                    : FormatIsHex(tagFormat.Format) 
-                                        ? ((int)doubleVal).ToString(tagFormat.Format) + 'h' 
+                                return string.IsNullOrEmpty(tagFormat.Format)
+                                    ? doubleVal.ToString(DefaultFormat)
+                                    : FormatIsHex(tagFormat.Format)
+                                        ? ((int)doubleVal).ToString(tagFormat.Format) + 'h'
                                         : doubleVal.ToString(tagFormat.Format);
                         }
                     }
@@ -433,7 +433,7 @@ namespace Scada.Comm.Devices
             if (cnlData.IsDefined)
             {
                 DeviceTag deviceTag = deviceTags[tagIndex];
-                
+
                 if (deviceTag.DataType == TagDataType.Int64)
                     return new DateTime(BitConverter.DoubleToInt64Bits(cnlData.Val), DateTimeKind.Utc);
                 else if (deviceTag.DataType == TagDataType.Double)
@@ -643,7 +643,7 @@ namespace Scada.Comm.Devices
         {
             if (deviceTags.ContainsTag(CommUtils.StatusTagCode))
             {
-                this[CommUtils.StatusTagCode] = status == DeviceStatus.Undefined 
+                this[CommUtils.StatusTagCode] = status == DeviceStatus.Undefined
                     ? CnlData.Empty
                     : new CnlData((double)status - 1, CnlStatusID.Defined);
             }

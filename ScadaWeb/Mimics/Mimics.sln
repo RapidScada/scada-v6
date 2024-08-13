@@ -1,0 +1,68 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgMimic", "PlgMimic\PlgMimic.csproj", "{2D6F0F3E-E990-4C34-A0E5-9FEA0A5BC6E3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgMimic.Common", "PlgMimic.Common\PlgMimic.Common.csproj", "{59FF0A45-F899-4B1F-97DB-79062CB70D15}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgMimic.View", "PlgMimic.View\PlgMimic.View.csproj", "{A8C669E5-CB91-4EF0-BB2C-8A4AD77FB0E7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgMimicEditor", "PlgMimicEditor\PlgMimicEditor.csproj", "{569EB001-F5D2-4C9E-B1D5-65B6CA9D67C8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlgMimic", "PlgMimic", "{DC98F470-EC7E-466B-A828-A3AC72BC1AAD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlgMimicEditor", "PlgMimicEditor", "{B222C848-3353-4DAC-A4DE-05D2868A6BDB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgMimicEditor.View", "PlgMimicEditor.View\PlgMimicEditor.View.csproj", "{B0D9FFC8-EC3C-4A8C-8D60-31354F744DF4}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "PlgMimicEditor.Shared", "PlgMimicEditor.Shared\PlgMimicEditor.Shared.shproj", "{5C9D4988-2F33-4EB8-A045-9343C158C8D3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2D6F0F3E-E990-4C34-A0E5-9FEA0A5BC6E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D6F0F3E-E990-4C34-A0E5-9FEA0A5BC6E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D6F0F3E-E990-4C34-A0E5-9FEA0A5BC6E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D6F0F3E-E990-4C34-A0E5-9FEA0A5BC6E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59FF0A45-F899-4B1F-97DB-79062CB70D15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59FF0A45-F899-4B1F-97DB-79062CB70D15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59FF0A45-F899-4B1F-97DB-79062CB70D15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59FF0A45-F899-4B1F-97DB-79062CB70D15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8C669E5-CB91-4EF0-BB2C-8A4AD77FB0E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8C669E5-CB91-4EF0-BB2C-8A4AD77FB0E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8C669E5-CB91-4EF0-BB2C-8A4AD77FB0E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8C669E5-CB91-4EF0-BB2C-8A4AD77FB0E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{569EB001-F5D2-4C9E-B1D5-65B6CA9D67C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{569EB001-F5D2-4C9E-B1D5-65B6CA9D67C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{569EB001-F5D2-4C9E-B1D5-65B6CA9D67C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{569EB001-F5D2-4C9E-B1D5-65B6CA9D67C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0D9FFC8-EC3C-4A8C-8D60-31354F744DF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0D9FFC8-EC3C-4A8C-8D60-31354F744DF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0D9FFC8-EC3C-4A8C-8D60-31354F744DF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0D9FFC8-EC3C-4A8C-8D60-31354F744DF4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2D6F0F3E-E990-4C34-A0E5-9FEA0A5BC6E3} = {DC98F470-EC7E-466B-A828-A3AC72BC1AAD}
+		{59FF0A45-F899-4B1F-97DB-79062CB70D15} = {DC98F470-EC7E-466B-A828-A3AC72BC1AAD}
+		{A8C669E5-CB91-4EF0-BB2C-8A4AD77FB0E7} = {DC98F470-EC7E-466B-A828-A3AC72BC1AAD}
+		{569EB001-F5D2-4C9E-B1D5-65B6CA9D67C8} = {B222C848-3353-4DAC-A4DE-05D2868A6BDB}
+		{B0D9FFC8-EC3C-4A8C-8D60-31354F744DF4} = {B222C848-3353-4DAC-A4DE-05D2868A6BDB}
+		{5C9D4988-2F33-4EB8-A045-9343C158C8D3} = {B222C848-3353-4DAC-A4DE-05D2868A6BDB}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {481E3627-5BA5-4BA4-B5A9-38732C697B7D}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		PlgMimicEditor.Shared\PlgMimicEditor.Shared.projitems*{569eb001-f5d2-4c9e-b1d5-65b6ca9d67c8}*SharedItemsImports = 5
+		PlgMimicEditor.Shared\PlgMimicEditor.Shared.projitems*{5c9d4988-2f33-4eb8-a045-9343c158c8d3}*SharedItemsImports = 13
+		PlgMimicEditor.Shared\PlgMimicEditor.Shared.projitems*{b0d9ffc8-ec3c-4a8c-8d60-31354f744df4}*SharedItemsImports = 5
+	EndGlobalSection
+EndGlobal

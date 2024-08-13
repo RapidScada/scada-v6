@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Comm.Drivers.DrvMqtt;
 using Scada.Config;
 
 namespace Scada.Comm.Drivers.DrvDsMqtt
@@ -25,8 +24,7 @@ namespace Scada.Comm.Drivers.DrvDsMqtt
             MaxQueueSize = options.GetValueAsInt("MaxQueueSize", 1000);
             DataLifetime = options.GetValueAsInt("DataLifetime", 60);
             DetailedLog = options.GetValueAsBool("DetailedLog");
-            DeviceFilter = new List<int>();
-            DeviceFilter.AddRange(ScadaUtils.ParseRange(options.GetValueAsString("DeviceFilter"), true, true));
+            DeviceFilter = [.. ScadaUtils.ParseRange(options.GetValueAsString("DeviceFilter"), true, true)];
         }
 
 
@@ -44,7 +42,7 @@ namespace Scada.Comm.Drivers.DrvDsMqtt
         /// Gets or sets the format of published channel data.
         /// </summary>
         public string PublishFormat { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the quality of service level.
         /// </summary>
@@ -64,7 +62,7 @@ namespace Scada.Comm.Drivers.DrvDsMqtt
         /// Gets or sets the data lifetime in the queue, in seconds.
         /// </summary>
         public int DataLifetime { get; set; }
-        
+
         /// <summary>
         /// Gets or sets a value indicating whether to write detailed information to the log.
         /// </summary>

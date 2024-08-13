@@ -1,0 +1,49 @@
+﻿@page "{key}"
+@model MimicEditModel
+@{
+    Layout = "_BasicLayout";
+}
+
+@section Styles {
+    <link href="~/plugins/Mimic/css/mimic.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/plugins/MimicEditor/css/mimic-edit.min.css" rel="stylesheet" asp-append-version="true" />
+}
+
+@section Scripts {
+    <script type="module">
+        import { Pane } from './../../../plugins/MimicEditor/lib/tweakpane/tweakpane-4.0.4.min.js';
+        window.Pane = Pane;
+    </script>
+    <script src="~/js/components/splitter.js" asp-append-version="true"></script>
+    <script src="~/plugins/Mimic/js/mimic-common.js" asp-append-version="true"></script>
+    <script src="~/plugins/Mimic/js/mimic-model.js" asp-append-version="true"></script>
+    <script src="~/plugins/Mimic/js/mimic-render.js" asp-append-version="true"></script>
+    <script src="~/plugins/MimicEditor/js/editor.js" asp-append-version="true"></script>
+    <script src="~/plugins/MimicEditor/js/mimic-descr.js" asp-append-version="true"></script>
+    <script src="~/plugins/MimicEditor/js/mimic-edit.js" asp-append-version="true"></script>
+    <script>
+        rootPath = "@Url.Content("~/")";
+        mimicKey = "@Model.MimicKey";
+    </script>
+}
+
+@if (Model.HasError)
+{
+    <div class="box-center fs-2 text-danger">
+        @Model.ErrorMessage
+    </div>
+    return;
+}
+
+<div id="divToolbar"><button type="button" 
+    id="btnCut" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-scissors"></i></button><button type="button"
+    id="btnCopy" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-copy"></i></button><button type="button" 
+    id="btnPaste" class="btn btn-outline-primary btn-sm"><i class="fa-regular fa-paste"></i></button><span class="splitter"></span><button type="button" 
+    id="btnUndo" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-rotate-left"></i></button><button type="button" 
+    id="btnRedo" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-rotate-right"></i></button>
+</div>
+<div id="divMain">
+    <div id="divLeftPanel"></div>
+    <div id="divSplitter" class="splitter vert"></div>
+    <div id="divMimicWrapper" class="mimic-wrapper"></div>
+</div>

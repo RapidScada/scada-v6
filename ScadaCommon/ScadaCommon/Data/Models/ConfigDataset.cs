@@ -155,7 +155,7 @@ namespace Scada.Data.Models
         /// Gets all the tables of the configuration database.
         /// </summary>
         public IBaseTable[] AllTables { get; private set; }
-        
+
         /// <summary>
         /// Gets the enumerations.
         /// </summary>
@@ -244,7 +244,7 @@ namespace Scada.Data.Models
             childTable.DependsOn.Add(relation);
             parentTable.Dependent.Add(relation);
         }
-        
+
         /// <summary>
         /// Initializes data objects based on the configuration database tables.
         /// </summary>

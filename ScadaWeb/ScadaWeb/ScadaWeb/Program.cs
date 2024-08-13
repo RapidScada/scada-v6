@@ -25,20 +25,14 @@
 
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Scada.Data.Const;
 using Scada.Lang;
 using Scada.Web.Authorization;
 using Scada.Web.Code;
 using Scada.Web.Services;
-using System;
-using System.IO;
 using System.Reflection;
 using System.Security.Claims;
 
@@ -59,7 +53,7 @@ namespace Scada.Web
         private static void InitContext()
         {
             webContext = new WebContext();
-            
+
             if (webContext.Init())
             {
                 webContext.StartProcessing();

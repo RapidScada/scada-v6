@@ -29,14 +29,7 @@ using Scada.Agent;
 using Scada.Forms;
 using Scada.Lang;
 using Scada.Protocol;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using WinControl;
+using WinControls;
 
 namespace Scada.Admin.Forms
 {
@@ -270,9 +263,9 @@ namespace Scada.Admin.Forms
         private void FrmLogs_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, typeof(FrmLogs).FullName);
-            
+
             ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
-            
+
             FillFilter();
             InitLogBox();
             tmrRefresh.Start();

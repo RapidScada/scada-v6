@@ -15,7 +15,7 @@ namespace Scada.Web.Plugins.PlgChart
         /// The plugin code.
         /// </summary>
         public const string PluginCode = "PlgChart";
-        
+
         /// <summary>
         /// Gets the plugin code.
         /// </summary>

@@ -314,7 +314,7 @@ namespace Scada.Comm.Drivers.DrvSms.Logic.Protocol
                     string ud = pdu.Substring(udPos);                // message text
 
                     // check length of message text, different modems calculate UDL differently
-                    if (dcs == "00" && ud.Length * 4 / 7 == udl || 
+                    if (dcs == "00" && ud.Length * 4 / 7 == udl ||
                         dcs != "00" && ud.Length == udl * 2)
                     {
                         logMsg = "";

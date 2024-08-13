@@ -164,7 +164,7 @@ namespace Scada.Web.Plugins
         {
             return !string.IsNullOrEmpty(pluginCode) && pluginMap.ContainsKey(pluginCode);
         }
-        
+
         /// <summary>
         /// Gets the plugin by view type.
         /// </summary>

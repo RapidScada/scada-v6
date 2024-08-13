@@ -68,7 +68,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                     return serialConn == null ?
                         "Последовательный порт" :
                         serialConn.SerialPort.PortName + (serialConn.Connected ? ", открыт" : ", закрыт");
-                } 
+                }
                 else
                 {
                     return serialConn == null ?
@@ -102,7 +102,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                 "Close serial port {0}", serialConn.SerialPort.PortName);
             serialConn.Close();
         }
-        
+
         /// <summary>
         /// Listens to the serial port for incoming data.
         /// </summary>
@@ -144,9 +144,9 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
 
             serialConn = new SerialPortConnection(Log, new SerialPort(
                 options.PortName, options.BaudRate, options.Parity, options.DataBits, options.StopBits)
-            { 
-                DtrEnable = options.DtrEnable, 
-                RtsEnable = options.RtsEnable 
+            {
+                DtrEnable = options.DtrEnable,
+                RtsEnable = options.RtsEnable
             });
 
             SetDeviceConnection(serialConn);

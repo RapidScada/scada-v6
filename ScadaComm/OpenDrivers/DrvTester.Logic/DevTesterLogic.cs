@@ -33,7 +33,7 @@ namespace Scada.Comm.Drivers.DrvTester.Logic
             options = new TesterOptions(deviceConfig.PollingOptions.CustomOptions);
             inBuf = new byte[options.BufferLength];
             binStopCond = options.BinStopCode > 0 ? new BinStopCondition(options.BinStopCode) : null;
-            textStopCond = string.IsNullOrEmpty(options.StopEnding) ? 
+            textStopCond = string.IsNullOrEmpty(options.StopEnding) ?
                 TextStopCondition.OneLine : new TextStopCondition(options.StopEnding);
 
             CanSendCommands = true;

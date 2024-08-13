@@ -20,12 +20,11 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2023
+ * Modified : 2024
  */
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
 using Scada.Data.Const;
 using Scada.Data.Models;
 using Scada.Lang;
@@ -34,10 +33,7 @@ using Scada.Web.Config;
 using Scada.Web.Lang;
 using Scada.Web.Plugins;
 using Scada.Web.Services;
-using System;
-using System.Collections.Generic;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace Scada.Web.Code
 {
@@ -62,7 +58,7 @@ namespace Scada.Web.Code
             this.webContext = webContext ?? throw new ArgumentNullException(nameof(webContext));
             this.auditLog = auditLog ?? throw new ArgumentNullException(nameof(auditLog));
             this.clientAccessor = clientAccessor ?? throw new ArgumentNullException(nameof(clientAccessor));
-            httpContext = httpContextAccessor?.HttpContext ?? 
+            httpContext = httpContextAccessor?.HttpContext ??
                 throw new ArgumentException("HTTP context must not be null.", nameof(httpContextAccessor));
         }
 
@@ -70,15 +66,15 @@ namespace Scada.Web.Code
         /// <summary>
         /// Logs in.
         /// </summary>
-        private async Task DoLoginAsync(string username, int userID, int roleID, 
+        private async Task DoLoginAsync(string username, int userID, int roleID,
             bool rememberMe, int rememberMeExpires)
         {
-            List<Claim> claims = new()
-            {
+            List<Claim> claims =
+            [
                 new Claim(ClaimTypes.Name, username),
                 new Claim(ClaimTypes.NameIdentifier, userID.ToString(), ClaimValueTypes.Integer),
                 new Claim(ClaimTypes.Role, roleID.ToString(), ClaimValueTypes.Integer)
-            };
+            ];
 
             ClaimsIdentity claimsIdentity = new(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             AuthenticationProperties authProperties = new();
@@ -145,7 +141,7 @@ namespace Scada.Web.Code
             if (userLoginArgs.UserIsValid)
             {
                 LoginOptions loginOptions = webContext.AppConfig.LoginOptions;
-                await DoLoginAsync(username, result.UserID, result.RoleID, 
+                await DoLoginAsync(username, result.UserID, result.RoleID,
                     loginOptions.AllowRememberMe && rememberMe, loginOptions.RememberMeExpires);
 
                 webContext.Log.WriteAction(Locale.IsRussian ?

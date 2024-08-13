@@ -11,7 +11,9 @@
     <Phrase key="ClearBase">Clear the configuration database</Phrase>
     <Phrase key="CreateBase">Create the configuration database</Phrase>
     <Phrase key="DeleteTable">Delete the {0} table</Phrase>
+    <Phrase key="TruncateTable">Truncate the {0} table</Phrase>
     <Phrase key="CreateTable">Create the {0} table</Phrase>
+    <Phrase key="FillTable">Fill the {0} table</Phrase>
     <Phrase key="CreateFKs">Create foreign keys</Phrase>
     <Phrase key="CreateTableFKs">Create foreign keys for the {0} table</Phrase>
     <Phrase key="ClearViews">Clear views</Phrase>
@@ -22,5 +24,14 @@
     <Phrase key="CreateAppConfig">Create configuration of the {0} application</Phrase>
     <Phrase key="CreateConfigFile">Create configuration file &quot;{0}&quot;</Phrase>
     <Phrase key="UnableRestartServices">Unable to restart services because Agent is disabled</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ClearBaseMethod">
+    <Phrase key="DropTables">Drop tables</Phrase>
+    <Phrase key="TruncateTables">Truncate tables</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ExtensionConfig">
+    <Phrase key="ClearBaseMethod.DisplayName">Clear method</Phrase>
+    <Phrase key="ClearBaseMethod.Category">Main Parameters</Phrase>
+    <Phrase key="ClearBaseMethod.Description">The method for clearing the configuration database. The truncate method is possible if the tables have already been created.</Phrase>
   </Dictionary>
 </ExtDepPostgreSqlDictionaries>

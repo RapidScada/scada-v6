@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System.Xml;
-using System.ComponentModel;
 using Scada.Web.Plugins.PlgScheme.Model.DataTypes;
 using Scada.Web.Plugins.PlgScheme.Model.PropertyGrid;
+using System.ComponentModel;
+using System.Xml;
 
 namespace Scada.Web.Plugins.PlgSchBasicComp.Code
 {
@@ -33,8 +33,8 @@ namespace Scada.Web.Plugins.PlgSchBasicComp.Code
         //[Editor(typeof(ColorEditor), typeof(UITypeEditor))]
         #endregion
         public string Color { get; set; }
-        
-        
+
+
         /// <summary>
         /// Загрузить условие из XML-узла.
         /// </summary>

@@ -28,9 +28,7 @@ using Scada.Admin.Project;
 using Scada.Data.Entities;
 using Scada.Forms;
 using Scada.Lang;
-using System;
 using System.Text;
-using System.Windows.Forms;
 
 namespace Scada.Admin.App.Forms.Tables
 {

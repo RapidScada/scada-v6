@@ -20,12 +20,9 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2022
+ * Modified : 2024
  */
 
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Xml;
 
 namespace Scada.Admin.App.Code
@@ -80,7 +77,7 @@ namespace Scada.Admin.App.Code
             ProjectDir = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                 AdminUtils.ProjectDir);
-            RecentProjects = new List<string>();
+            RecentProjects = [];
         }
 
         /// <summary>

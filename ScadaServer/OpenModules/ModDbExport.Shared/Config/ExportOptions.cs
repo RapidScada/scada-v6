@@ -37,8 +37,8 @@ namespace Scada.Server.Modules.ModDbExport.Config
         /// Gets the archive replication options.
         /// </summary>
         public ArcReplicationOptions ArcReplicationOptions { get; }
-        
-        
+
+
         /// <summary>
         /// Loads the options from the XML node.
         /// </summary>

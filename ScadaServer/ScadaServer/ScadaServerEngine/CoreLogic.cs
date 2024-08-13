@@ -106,7 +106,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CoreLogic(InstanceConfig instanceConfig, ServerConfig appConfig, ServerDirs appDirs, 
+        public CoreLogic(InstanceConfig instanceConfig, ServerConfig appConfig, ServerDirs appDirs,
             IStorage storage, ILog log)
         {
             InstanceConfig = instanceConfig ?? throw new ArgumentNullException(nameof(instanceConfig));
@@ -698,7 +698,7 @@ namespace Scada.Server.Engine
 
                     if (commandItem.Result.TransmitToClients)
                     {
-                        listener.EnqueueCommand(commandItem.Command, 
+                        listener.EnqueueCommand(commandItem.Command,
                             commandItem.Flags.HasFlag(WriteCommandFlags.ReturnToSender));
                         Log.WriteAction(Locale.IsRussian ?
                             "Команда поставлена в очередь на отправку клиентам" :
@@ -811,7 +811,7 @@ namespace Scada.Server.Engine
             else if (cnlData.Stat == CnlStatusID.Defined && cnlTag.Lim != null)
             {
                 // set status depending on channel limits
-                GetCnlLimits(cnlTag, out double lolo, out double low, 
+                GetCnlLimits(cnlTag, out double lolo, out double low,
                     out double high, out double hihi, out double deadband);
                 int newStat = GetCnlStatus(cnlData.Val, lolo, low, high, hihi);
                 int prevStat = prevCnlData.Stat;
@@ -834,7 +834,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Updates the channel status after formula calculation for the archive at the timestamp.
         /// </summary>
-        private void UpdateCnlStatus(HistoricalArchiveLogic archiveLogic, DateTime timestamp, 
+        private void UpdateCnlStatus(HistoricalArchiveLogic archiveLogic, DateTime timestamp,
             CnlTag cnlTag, ref CnlData cnlData)
         {
             if (double.IsNaN(cnlData.Val))
@@ -850,7 +850,7 @@ namespace Scada.Server.Engine
                 }
                 else
                 {
-                    GetCnlLimits(archiveLogic, timestamp, cnlTag, 
+                    GetCnlLimits(archiveLogic, timestamp, cnlTag,
                         out double lolo, out double low, out double high, out double hihi);
                     cnlData.Stat = GetCnlStatus(cnlData.Val, lolo, low, high, hihi);
                 }
@@ -860,7 +860,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Get the channel limits for the current data.
         /// </summary>
-        private void GetCnlLimits(CnlTag cnlTag, out double lolo, out double low, 
+        private void GetCnlLimits(CnlTag cnlTag, out double lolo, out double low,
             out double high, out double hihi, out double deadband)
         {
             double GetLimit(int cnlIndex, double defaultVal)
@@ -892,7 +892,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Get the channel limits for the archive at the timestamp.
         /// </summary>
-        private void GetCnlLimits(HistoricalArchiveLogic archiveLogic, DateTime timestamp, CnlTag cnlTag, 
+        private void GetCnlLimits(HistoricalArchiveLogic archiveLogic, DateTime timestamp, CnlTag cnlTag,
             out double lolo, out double low, out double high, out double hihi)
         {
             double GetLimit(double cnlNum)
@@ -941,13 +941,13 @@ namespace Scada.Server.Engine
             Cnl cnl = cnlTag.Cnl;
             EventMask eventMask = new EventMask(cnl.EventMask);
 
-            bool DataChanged() => cnlData.IsDefined && prevCnlDataDef.IsDefined && 
+            bool DataChanged() => cnlData.IsDefined && prevCnlDataDef.IsDefined &&
                 cnlData != prevCnlDataDef && cnl.IsNumeric();
-            bool ValueChanged() => cnlData.IsDefined && prevCnlDataDef.IsDefined && 
+            bool ValueChanged() => cnlData.IsDefined && prevCnlDataDef.IsDefined &&
                 !cnlData.Val.Equals(prevCnlDataDef.Val) && cnl.IsNumeric(); // NaN == NaN
             bool StatusChanged() => cnlData.IsDefined && prevCnlDataDef.IsDefined &&
                 cnlData.Stat != prevCnlDataDef.Stat && (cnl.IsNumeric() || cnlTag.ArrIdx == 0);
-            bool UndefinedChanged() => cnlData.IsUndefined != prevCnlData.IsUndefined && 
+            bool UndefinedChanged() => cnlData.IsUndefined != prevCnlData.IsUndefined &&
                 (cnl.IsNumeric() || cnlTag.ArrIdx == 0);
 
             if (eventMask.Enabled)
@@ -1009,7 +1009,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Adds the command to the queue.
         /// </summary>
-        private void EnqueueCommand(User user, OutCnlTag outCnlTag, 
+        private void EnqueueCommand(User user, OutCnlTag outCnlTag,
             TeleCommand command, WriteCommandFlags flags, CommandResult result)
         {
             lock (commandQueue)
@@ -1032,10 +1032,10 @@ namespace Scada.Server.Engine
         {
             lock (eventQueue)
             {
-                eventQueue.Enqueue(new EventItem 
+                eventQueue.Enqueue(new EventItem
                 {
-                    ArchiveMask = archiveMask, 
-                    Event = ev 
+                    ArchiveMask = archiveMask,
+                    Event = ev
                 });
             }
         }
@@ -1051,7 +1051,7 @@ namespace Scada.Server.Engine
                 if (thread == null)
                 {
                     Log.WriteAction(CommonPhrases.StartLogic);
-                    
+
                     if (PrepareProcessing() && listener.Start())
                     {
                         thread = new Thread(Execute);
@@ -1348,7 +1348,6 @@ namespace Scada.Server.Engine
             try
             {
                 moduleHolder.OnHistoricalDataProcessing(slice);
-                DateTime timestamp = slice.Timestamp;
 
                 if (archiveMask == ArchiveMask.Default)
                     archiveMask = archiveHolder.DefaultArchiveMask;
@@ -1370,9 +1369,9 @@ namespace Scada.Server.Engine
 
                 for (int archiveBit = 0; archiveBit < ServerUtils.MaxArchiveCount; archiveBit++)
                 {
-                    if (archiveMask.BitIsSet(archiveBit) && 
+                    if (archiveMask.BitIsSet(archiveBit) &&
                         archiveHolder.GetArchive(archiveBit, out HistoricalArchiveLogic archiveLogic) &&
-                        archiveLogic.AcceptData(ref timestamp))
+                        archiveLogic.AcceptData(slice.Timestamp, out DateTime timestamp))
                     {
                         UpdateContext updateContext = new UpdateContext(timestamp, slice.DeviceNum);
 

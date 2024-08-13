@@ -3,8 +3,10 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>disable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Scada.Admin.App</RootNamespace>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
@@ -12,7 +14,7 @@
     <Copyright>Copyright © 2024</Copyright>
     <ApplicationIcon>lamp.ico</ApplicationIcon>
     <Version>6.2.0</Version>
-    <AssemblyVersion>6.2.0.0</AssemblyVersion>
+    <AssemblyVersion>6.2.1.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -95,7 +97,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="WinControl" Version="2.1.1" />
+    <PackageReference Include="WinControl" Version="2.2.3" />
   </ItemGroup>
 
   <ItemGroup>

@@ -25,8 +25,6 @@
 
 using Scada.Admin.Lang;
 using Scada.Config;
-using System;
-using System.IO;
 using System.Xml;
 
 namespace Scada.Admin.Project
@@ -85,8 +83,8 @@ namespace Scada.Admin.Project
         {
             get
             {
-                return string.IsNullOrEmpty(AppDir) 
-                    ? "" 
+                return string.IsNullOrEmpty(AppDir)
+                    ? ""
                     : ScadaUtils.NormalDir(Path.Combine(AppDir, "Config"));
             }
         }

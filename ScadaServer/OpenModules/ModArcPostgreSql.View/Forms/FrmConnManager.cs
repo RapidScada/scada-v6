@@ -27,7 +27,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         {
             InitializeComponent();
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
@@ -43,7 +43,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         /// <summary>
         /// Gets the connection names.
         /// </summary>
-        public string[] ConnectionNames => moduleConfig.Connections.Keys.ToArray();
+        public string[] ConnectionNames => [.. moduleConfig.Connections.Keys];
 
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             if (options == null)
                 return "";
 
-            ScadaUtils.RetrieveHostAndPort(options.Server, NpgsqlConnection.DefaultPort, 
+            ScadaUtils.RetrieveHostAndPort(options.Server, NpgsqlConnection.DefaultPort,
                 out string host, out int port);
 
             return new NpgsqlConnectionStringBuilder

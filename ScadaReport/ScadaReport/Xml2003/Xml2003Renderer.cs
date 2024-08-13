@@ -123,8 +123,8 @@ namespace Scada.Report.Xml2003
                 return false;
             }
         }
-        
-        
+
+
         /// <summary>
         /// Renders a document to the output stream.
         /// </summary>

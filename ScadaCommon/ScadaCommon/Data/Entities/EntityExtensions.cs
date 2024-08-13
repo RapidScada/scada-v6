@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2023
+ * Modified : 2024
  */
 
 using Scada.Data.Const;
@@ -112,6 +112,25 @@ namespace Scada.Data.Entities
         public static int GetJoinLength(this Cnl cnl)
         {
             return cnl.IsString() ? cnl.GetDataLength() : 1;
+        }
+
+
+        /// <summary>
+        /// Gets a value indicating whether the format is hexadecimal.
+        /// </summary>
+        public static bool IsHex(this Format format)
+        {
+            return format.IsNumber && format.Frmt != null && format.Frmt.Length > 0 &&
+                (format.Frmt[0] == 'x' || format.Frmt[0] == 'X');
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the format is binary.
+        /// </summary>
+        public static bool IsBin(this Format format)
+        {
+            return format.IsNumber && format.Frmt != null && format.Frmt.Length > 0 &&
+                (format.Frmt[0] == 'b' || format.Frmt[0] == 'B');
         }
     }
 }

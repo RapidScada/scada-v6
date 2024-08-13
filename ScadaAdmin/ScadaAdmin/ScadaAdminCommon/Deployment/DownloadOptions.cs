@@ -24,7 +24,6 @@
  */
 
 using Scada.Agent;
-using System;
 
 namespace Scada.Admin.Deployment
 {

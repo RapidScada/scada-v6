@@ -23,8 +23,6 @@
  * Modified : 2021
  */
 
-using System.Threading;
-
 namespace Scada.Admin.Deployment
 {
     /// <summary>
@@ -53,7 +51,7 @@ namespace Scada.Admin.Deployment
         /// Writes the message to a terminal.
         /// </summary>
         void WriteMessage(string text);
-        
+
         /// <summary>
         /// Writes the error message to a terminal.
         /// </summary>

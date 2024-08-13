@@ -89,7 +89,7 @@ namespace Scada.Comm.Channels
         /// Gets or sets the format of communication protocol data packets.
         /// </summary>
         public ProtocolFormat ProtocolFormat { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the remote address of the connection.
         /// </summary>
@@ -115,7 +115,7 @@ namespace Scada.Comm.Channels
         /// Reads data.
         /// </summary>
         /// <returns>The number of bytes read.</returns>
-        public abstract int Read(byte[] buffer, int offset, int count, int timeout, 
+        public abstract int Read(byte[] buffer, int offset, int count, int timeout,
             ProtocolFormat format, out string logText);
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace Scada.Comm.Channels
         public virtual int Read(byte[] buffer, int offset, int maxCount, int timeout, BinStopCondition stopCond,
             out bool stopReceived)
         {
-            int readCnt = Read(buffer, offset, maxCount, timeout, stopCond, 
+            int readCnt = Read(buffer, offset, maxCount, timeout, stopCond,
                 out stopReceived, ProtocolFormat, out string logText);
             Log?.WriteLine(logText);
             return readCnt;
@@ -149,7 +149,7 @@ namespace Scada.Comm.Channels
         /// <summary>
         /// Reads lines.
         /// </summary>
-        public abstract List<string> ReadLines(int timeout, TextStopCondition stopCond, 
+        public abstract List<string> ReadLines(int timeout, TextStopCondition stopCond,
             out bool stopReceived, out string logText);
 
         /// <summary>

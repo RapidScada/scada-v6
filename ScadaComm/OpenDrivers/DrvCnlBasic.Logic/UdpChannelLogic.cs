@@ -110,7 +110,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             {
                 if (options.DeviceMapping == DeviceMapping.ByIPAddress)
                 {
-                    if (deviceDict.GetDeviceGroup(slaveConn.RemoteAddress, 
+                    if (deviceDict.GetDeviceGroup(slaveConn.RemoteAddress,
                         out DeviceDictionary.DeviceGroup deviceGroup))
                     {
                         lock (deviceLock)

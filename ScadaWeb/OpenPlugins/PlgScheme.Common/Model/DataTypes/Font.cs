@@ -50,17 +50,17 @@ namespace Scada.Web.Plugins.PlgScheme.Model.DataTypes
         /// Получить или установить размер
         /// </summary>
         public int Size { get; set; }
-        
+
         /// <summary>
         /// Получить или установить признак, что шрифт жирный
         /// </summary>
         public bool Bold { get; set; }
-        
+
         /// <summary>
         /// Получить или установить признак, что шрифт курсив
         /// </summary>
         public bool Italic { get; set; }
-        
+
         /// <summary>
         /// Получить или установить признак, что шрифт подчёркнутый
         /// </summary>

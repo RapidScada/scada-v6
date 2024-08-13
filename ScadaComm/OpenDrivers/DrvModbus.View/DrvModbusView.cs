@@ -33,8 +33,8 @@ namespace Scada.Comm.Drivers.DrvModbus.View
         {
             get
             {
-                return Locale.IsRussian ? 
-                    "Драйвер Modbus" : 
+                return Locale.IsRussian ?
+                    "Драйвер Modbus" :
                     "Modbus Driver";
             }
         }

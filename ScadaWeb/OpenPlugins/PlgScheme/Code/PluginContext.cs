@@ -71,7 +71,7 @@ namespace Scada.Web.Plugins.PlgScheme.Code
                     if (pluginLogic is ISchemeComp schemeComp)
                     {
                         CompManager.AddComponents(schemeComp);
-                        log.WriteAction(WebPhrases.PluginMessage, SchemePluginInfo.PluginCode, 
+                        log.WriteAction(WebPhrases.PluginMessage, SchemePluginInfo.PluginCode,
                             string.Format(Locale.IsRussian ?
                                 "Добавлены компоненты из плагина {0}" :
                                 "Added components from the {0} plugin", pluginLogic.Code));

@@ -575,7 +575,7 @@ namespace Scada.Server.Engine
                 CnlData prevData = calcContext.GetPrevCnlData(n);
                 DateTime prevTime = calcContext.GetPrevCnlTime(n);
 
-                return actualData.Stat > CnlStatusID.Defined && prevData.Stat > CnlStatusID.Defined && 
+                return actualData.Stat > CnlStatusID.Defined && prevData.Stat > CnlStatusID.Defined &&
                     actualTime > prevTime && prevTime > DateTime.MinValue ?
                     (actualData.Val - prevData.Val) / (actualTime - prevTime).TotalSeconds : double.NaN;
             }

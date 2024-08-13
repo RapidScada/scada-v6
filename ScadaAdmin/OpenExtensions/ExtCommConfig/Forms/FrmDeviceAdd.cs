@@ -46,7 +46,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.project = project ?? throw new ArgumentNullException(nameof(project));
             this.recentSelection = recentSelection ?? throw new ArgumentNullException(nameof(recentSelection));
-            
+
             Instance = null;
             DeviceConfig = null;
             LineConfig = null;
@@ -139,7 +139,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                     cbInstance.SelectedIndex = 0;
             }
         }
-        
+
         /// <summary>
         /// Sets the device number by default.
         /// </summary>
@@ -238,7 +238,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         {
             if (!string.IsNullOrEmpty(DeviceConfig.Driver))
             {
-                if (ExtensionUtils.GetDriverView(adminContext, Instance.CommApp, DeviceConfig.Driver, 
+                if (ExtensionUtils.GetDriverView(adminContext, Instance.CommApp, DeviceConfig.Driver,
                     out DriverView driverView, out string message))
                 {
                     if (driverView.CanCreateDevice)
@@ -300,7 +300,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 
                     if (instance.CommApp.Enabled && lineConfig != null)
                     {
-                        DeviceConfig = CommConfigConverter.CreateDeviceConfig(deviceEntity, 
+                        DeviceConfig = CommConfigConverter.CreateDeviceConfig(deviceEntity,
                             project.ConfigDatabase.DevTypeTable);
                         DeviceConfig.Parent = lineConfig;
                         lineConfig.DevicePolling.Add(DeviceConfig);

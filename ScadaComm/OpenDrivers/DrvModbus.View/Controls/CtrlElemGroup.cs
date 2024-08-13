@@ -200,8 +200,8 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
 
                 bool cancel = elemGroup.Elems.Count > maxElemCnt &&
                     MessageBox.Show(
-                        string.Format(DriverPhrases.ElemRemoveWarning, maxElemCnt), 
-                        CommonPhrases.QuestionCaption, MessageBoxButtons.YesNoCancel, 
+                        string.Format(DriverPhrases.ElemRemoveWarning, maxElemCnt),
+                        CommonPhrases.QuestionCaption, MessageBoxButtons.YesNoCancel,
                         MessageBoxIcon.Question) != DialogResult.Yes;
 
                 if (cancel)

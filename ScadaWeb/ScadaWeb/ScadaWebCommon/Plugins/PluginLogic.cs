@@ -79,7 +79,7 @@ namespace Scada.Web.Plugins
         {
             get
             {
-                return Info == null 
+                return Info == null
                     ? GetType().Name
                     : Info.Code;
             }
@@ -142,7 +142,7 @@ namespace Scada.Web.Plugins
         public virtual void LoadConfig()
         {
         }
-        
+
         /// <summary>
         /// Resets the plugin cache.
         /// </summary>

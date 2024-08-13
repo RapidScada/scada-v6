@@ -14,12 +14,6 @@ namespace Scada.MultiDb
     public class MySqlDataSource : DataSource
     {
         /// <summary>
-        /// The default port of the database server.
-        /// </summary>
-        private const int DefaultPort = 3306;
-
-
-        /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public MySqlDataSource(DbConnectionOptions connectionOptions)
@@ -41,8 +35,8 @@ namespace Scada.MultiDb
         /// </summary>
         protected override DbParameter AddParamWithValue(DbCommand cmd, string paramName, object value)
         {
-            return cmd is MySqlCommand mySqlCommand 
-                ? mySqlCommand.Parameters.AddWithValue(paramName, value) 
+            return cmd is MySqlCommand mySqlCommand
+                ? mySqlCommand.Parameters.AddWithValue(paramName, value)
                 : throw new ArgumentException("MySqlCommand is required.", nameof(cmd));
         }
 

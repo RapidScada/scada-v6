@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Admin.Extensions.ExtCommConfig.Code;
-using Scada.Admin.Project;
 using Scada.Comm;
 using Scada.Comm.Config;
 using Scada.Data.Entities;

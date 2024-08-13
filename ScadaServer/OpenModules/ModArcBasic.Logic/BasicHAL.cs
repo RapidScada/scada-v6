@@ -28,7 +28,9 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
     {
         private readonly ModuleConfig moduleConfig;        // the module configuration
         private readonly BasicHAO options;                 // the archive options
-        private readonly int writingPeriod;                // the writing period in seconds
+        private readonly TimeSpan writingPeriod;           // the writing period
+        private readonly TimeSpan writingOffset;           // the writing offset
+        private readonly TimeSpan pullToPeriod;            // the possible timestamp deviation
         private readonly ILog appLog;                      // the application log
         private readonly ILog arcLog;                      // the archive log
         private readonly DataQueue<Slice> sliceQueue;      // contains slices for writing
@@ -48,12 +50,14 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public BasicHAL(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums, 
+        public BasicHAL(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums,
             ModuleConfig moduleConfig) : base(archiveContext, archiveConfig, cnlNums)
         {
             this.moduleConfig = moduleConfig ?? throw new ArgumentNullException(nameof(moduleConfig));
             options = new BasicHAO(archiveConfig.CustomOptions);
-            writingPeriod = GetPeriodInSec(options.WritingPeriod, options.WritingPeriodUnit);
+            writingPeriod = ConvertToTimeSpan(options.WritingPeriod, options.WritingPeriodUnit);
+            writingOffset = ConvertToTimeSpan(options.WritingOffset, options.WritingOffsetUnit);
+            pullToPeriod = ConvertToTimeSpan(options.PullToPeriod, TimeUnit.Second);
             appLog = archiveContext.Log;
             arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
             sliceQueue = new DataQueue<Slice>(options.MaxQueueSize);
@@ -75,7 +79,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// Gets the archive options.
         /// </summary>
         protected override HistoricalArchiveOptions ArchiveOptions => options;
-        
+
         /// <summary>
         /// Gets the current archive status as text.
         /// </summary>
@@ -101,6 +105,17 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         }
 
         /// <summary>
+        /// Creates a trend table.
+        /// </summary>
+        private TrendTable CreateTable(DateTime tableDate)
+        {
+            return new TrendTable(tableDate, (int)writingPeriod.TotalSeconds, (int)writingOffset.TotalSeconds)
+            { 
+                CnlNumList = cnlNumList 
+            };
+        }
+
+        /// <summary>
         /// Validates the archive options and throws an exception on fail.
         /// </summary>
         private void ValidateOptions()
@@ -118,9 +133,9 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Checks and updates the today's trend table.
         /// </summary>
-        private void CheckCurrentTrendTable(DateTime nowDT)
+        private void CheckCurrentTable(DateTime nowDT)
         {
-            TrendTable currentTable = new TrendTable(nowDT.Date, writingPeriod) { CnlNumList = cnlNumList };
+            TrendTable currentTable = CreateTable(nowDT.Date);
             currentTable.SetDefaultMetadata();
 
             string tableDir = readingAdapter.GetTablePath(currentTable);
@@ -191,14 +206,10 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Gets the trend table from the cache, creating a table if necessary.
         /// </summary>
-        private TrendTable GetTrendTable(DateTime timestamp)
+        private TrendTable GetTable(DateTime timestamp)
         {
             DateTime tableDate = timestamp.Date;
-
-            return tableCache.GetOrCreate(tableDate, () =>
-            {
-                return new TrendTable(tableDate, writingPeriod) { CnlNumList = cnlNumList };
-            });
+            return tableCache.GetOrCreate(tableDate, () => CreateTable(tableDate));
         }
 
         /// <summary>
@@ -215,8 +226,8 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                     if (sliceQueue.TryDequeueValue(out Slice slice))
                     {
                         Stopwatch stopwatch = Stopwatch.StartNew();
-                        TrendTable trendTable = GetTrendTable(slice.Timestamp);
-                        
+                        TrendTable trendTable = GetTable(slice.Timestamp);
+
                         lock (trendTable)
                         {
                             writingAdapter.WriteSlice(trendTable, slice);
@@ -273,10 +284,10 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             Directory.CreateDirectory(parentDir);
 
             DateTime utcNow = DateTime.UtcNow;
-            CheckCurrentTrendTable(utcNow);
+            CheckCurrentTable(utcNow);
 
             if (options.WriteWithPeriod)
-                nextWriteTime = GetNextWriteTime(utcNow, writingPeriod);
+                nextWriteTime = GetNextWriteTime(utcNow, writingPeriod, writingOffset);
 
             // start thread for writing data
             terminated = false;
@@ -338,7 +349,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
 
                 foreach (DateTime date in EnumerateDates(timeRange))
                 {
-                    TrendTable trendTable = GetTrendTable(date);
+                    TrendTable trendTable = GetTable(date);
                     TrendBundle bundle;
 
                     lock (trendTable)
@@ -395,7 +406,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
 
                 foreach (DateTime date in EnumerateDates(timeRange))
                 {
-                    TrendTable trendTable = GetTrendTable(date);
+                    TrendTable trendTable = GetTable(date);
                     Trend trend;
 
                     lock (trendTable)
@@ -447,7 +458,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
 
                 foreach (DateTime date in EnumerateDates(timeRange))
                 {
-                    TrendTable trendTable = GetTrendTable(date);
+                    TrendTable trendTable = GetTable(date);
                     List<DateTime> timestamps;
 
                     lock (trendTable)
@@ -493,7 +504,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             lock (readingLock)
             {
                 Stopwatch stopwatch = Stopwatch.StartNew();
-                TrendTable trendTable = GetTrendTable(timestamp);
+                TrendTable trendTable = GetTable(timestamp);
                 Slice slice;
 
                 lock (trendTable)
@@ -517,7 +528,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
 
             lock (readingLock)
             {
-                TrendTable trendTable = GetTrendTable(timestamp);
+                TrendTable trendTable = GetTable(timestamp);
 
                 lock (trendTable)
                 {
@@ -533,13 +544,14 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         {
             if (options.WriteWithPeriod && nextWriteTime <= curData.Timestamp)
             {
-                DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod);
-                nextWriteTime = writeTime.AddSeconds(writingPeriod);
+                DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod, writingOffset);
+                DateTime timestamp = options.UsePeriodStartTime ? writeTime.Add(-writingPeriod) : writeTime;
+                nextWriteTime = writeTime.Add(writingPeriod);
 
-                Slice slice = new Slice(writeTime, CnlNums);
+                Slice slice = new Slice(timestamp, CnlNums);
                 InitCnlIndexes(curData, ref cnlIndexes);
                 CopyCnlData(curData, slice, cnlIndexes);
-                sliceQueue.Enqueue(slice.Timestamp, slice);
+                sliceQueue.Enqueue(curData.Timestamp, slice);
             }
         }
 
@@ -550,9 +562,9 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         {
             if (TimeInsideRetention(timestamp, DateTime.UtcNow))
             {
-                return options.PullToPeriod > 0 ?
-                    PullTimeToPeriod(ref timestamp, writingPeriod, options.PullToPeriod) :
-                    TimeIsMultipleOfPeriod(timestamp, writingPeriod);
+                return pullToPeriod > TimeSpan.Zero
+                    ? PullTimeToPeriod(ref timestamp, writingPeriod, writingOffset, pullToPeriod)
+                    : TimeIsMultipleOfPeriod(timestamp, writingPeriod, writingOffset);
             }
             else
             {

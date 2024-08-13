@@ -128,7 +128,7 @@ namespace Scada.Report.Xml2003.Excel
         public void AppendColumn(Column column)
         {
             if (columns.Count > 0)
-                node.InsertAfter(column.Node, columns[columns.Count - 1].Node);
+                node.InsertAfter(column.Node, columns[^1].Node);
             else
                 node.PrependChild(column.Node);
 

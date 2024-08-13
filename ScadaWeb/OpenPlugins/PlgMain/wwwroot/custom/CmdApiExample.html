@@ -23,16 +23,16 @@
     <script src="../plugins/Main/js/main-api.js"></script>
 
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(function () {
             let mainApi = new MainApi({ rootPath: "../" });
 
             $("#btnSend").on("click", function () {
-                const CNL_NUM = 104;
-                let cmdVal = $("#txtCmdVal").val();
+                let cnlNum = parseInt($("#txtCnlNum").val());
+                let cmdVal = parseFloat($("#txtCmdVal").val());
                 let cmdData = $("#txtCmdData").val();
                 $("#txtResult").val("Sending...");
 
-                mainApi.sendCommand(CNL_NUM, cmdVal, false, cmdData, function (dto) {
+                mainApi.sendCommand(cnlNum, cmdVal, false, cmdData, function (dto) {
                     if (dto.ok) {
                         $("#txtResult").val("Command sent successfully.");
                     } else {
@@ -46,6 +46,8 @@
 <body>
     <h1>Command API Example</h1>
     <div class="group">
+        <div>Channel number:</div>
+        <div><input id="txtCnlNum" type="number" autocomplete="off" value="104" /></div>
         <div>Command value:</div>
         <div><input id="txtCmdVal" type="number" autocomplete="off" value="0" /></div>
         <div>Command data:</div>
@@ -54,7 +56,7 @@
     </div>
     <div class="group">
         <div>Result:</div>
-        <div><textarea id="txtResult" rows="5"></textarea></div>
+        <div><textarea id="txtResult" rows="5" readonly="readonly"></textarea></div>
     </div>
 </body>
 </html>

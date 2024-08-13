@@ -19,7 +19,7 @@ namespace Scada.Web.Plugins.PlgChart
         /// The number of array elements.
         /// </summary>
         private const int ElemCount = 3;
-        
+
 
         /// <summary>
         /// Initializes a new instance of the class.

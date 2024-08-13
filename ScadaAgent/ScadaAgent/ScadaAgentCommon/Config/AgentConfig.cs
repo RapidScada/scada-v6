@@ -61,7 +61,7 @@ namespace Scada.Agent.Config
         /// Gets the reverse connection options.
         /// </summary>
         public ReverseConnectionOptions ReverseConnectionOptions { get; private set; }
-        
+
         /// <summary>
         /// Gets the options of the instances.
         /// </summary>

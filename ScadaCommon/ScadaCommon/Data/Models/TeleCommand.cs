@@ -165,7 +165,7 @@ namespace Scada.Data.Models
         {
             return CmdDataToString(CmdData);
         }
-        
+
         /// <summary>
         /// Retrieves arguments from the command data.
         /// </summary>
@@ -257,7 +257,7 @@ namespace Scada.Data.Models
         {
             try
             {
-                using (FileStream stream = 
+                using (FileStream stream =
                     new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                 {
                     Load(stream);
@@ -312,7 +312,7 @@ namespace Scada.Data.Models
         {
             try
             {
-                using (FileStream stream = 
+                using (FileStream stream =
                     new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
                 {
                     Save(stream);

@@ -72,8 +72,8 @@ namespace Scada.Comm.Config
         /// Gets or sets a value indicating whether to write detailed information to the log.
         /// </summary>
         public bool DetailedLog { get; set; }
-        
-        
+
+
         /// <summary>
         /// Loads the options from the XML node.
         /// </summary>

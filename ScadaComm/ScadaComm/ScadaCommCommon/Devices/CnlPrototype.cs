@@ -95,7 +95,7 @@ namespace Scada.Comm.Devices
                 case Data.Const.FormatCode.OffOn:
                     return TagFormat.OffOn;
 
-                default: 
+                default:
                     return null;
             }
         }

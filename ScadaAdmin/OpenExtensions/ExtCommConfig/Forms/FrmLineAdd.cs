@@ -141,7 +141,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                 return false;
             }
 
-            if (chkAddToComm.Checked && 
+            if (chkAddToComm.Checked &&
                 cbInstance.SelectedItem is ProjectInstance instance && instance.CommApp.Enabled)
             {
                 if (!instance.LoadAppConfig(out string errMsg))

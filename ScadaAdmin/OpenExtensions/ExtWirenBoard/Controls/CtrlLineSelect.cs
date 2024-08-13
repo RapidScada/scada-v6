@@ -97,7 +97,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
                 cbLine.DisplayMember = "Name";
                 cbLine.DataSource = lines;
 
-                try 
+                try
                 {
                     if (recentSelection.CommLineNum > 0)
                     {
@@ -116,7 +116,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
                         }
                     }
                 }
-                catch 
+                catch
                 {
                     if (cbLine.Items.Count > 0)
                         cbLine.SelectedIndex = 0;

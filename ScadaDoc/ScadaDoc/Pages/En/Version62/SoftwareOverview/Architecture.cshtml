@@ -1,0 +1,28 @@
+﻿@page "/en/latest/software-overview/architecture"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Software Architecture";
+}
+
+<h1>Software Architecture</h1>
+
+<p>Rapid SCADA software has a multi-tier architecture. Applications (services) included in the software interact with each other using the TCP protocol. Figure 1 shows a commonly used architecture for a simple system that is deployed in the default installation. Figure 2 shows a distributed architecture in which different services are deployed on separate hosts.</p>
+
+<figure class="figure">
+    <img src="architecture-files/scada-arc-simple-en.png" class="figure-img img-fluid" alt="Default architecture" />
+    <figcaption class="figure-caption">Figure. 1. Default architecture</figcaption>
+</figure>
+
+<figure class="figure">
+    <img src="architecture-files/scada-arc-complex-en.png" class="figure-img img-fluid" alt="Distributed architecture" />
+    <figcaption class="figure-caption">Figure. 2. Distributed architecture</figcaption>
+</figure>
+
+<p>Rapid SCADA includes the following main applications:</p>
+<ol>
+    <li><em>Webstation</em> is a web application that displays information to a dispatcher via a browser in tabular form, on diagrams and graphs, and also generates reports.</li>
+    <li><em>Server</em> manages the data archives, performs mathematical calculations and provides information to the client applications.</li>
+    <li><em>Communicator</em> collects data from controllers, diagnoses devices, and transmits information to the Server application over the network.</li>
+</ol>
+
+<p>Note that Rapid SCADA supports architecture options in which instances of the Server application exchange data with each other for the purpose of redundancy.</p>

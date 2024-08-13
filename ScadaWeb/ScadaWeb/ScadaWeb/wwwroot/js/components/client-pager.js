@@ -77,7 +77,7 @@ class ClientPager {
         return pageNumbers;
     }
 
-    // Create a DOM content of the pager.
+    // Creates a DOM content of the pager.
     static _createDom(pageIndex, pageCount) {
         let listElem = $("<ul class='pagination'></ul>");
         let activePage = pageIndex + 1;

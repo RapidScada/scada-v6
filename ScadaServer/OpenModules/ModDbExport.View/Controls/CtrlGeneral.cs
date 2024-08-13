@@ -65,7 +65,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
                 txtName.Text = "";
                 txtCmdCode.Text = "";
                 numStatusCnlNum.Value = numStatusCnlNum.Minimum;
-                numMaxQueueSize.Value = numMaxQueueSize.Minimum;                
+                numMaxQueueSize.Value = numMaxQueueSize.Minimum;
                 numDataLifetime.Value = numDataLifetime.Minimum;
             }
             else
@@ -162,15 +162,15 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
         {
             if (generalOptions != null && ConfigDataset != null)
             {
-                FrmEntitySelect frmEntitySelect = new(ConfigDataset.CnlStatusTable)
+                FrmCnlSelect frmCnlSelect = new(ConfigDataset)
                 {
                     MultiSelect = false,
-                    SelectedID = generalOptions.StatusCnlNum
+                    SelectedCnlNum = generalOptions.StatusCnlNum
                 };
 
-                if (frmEntitySelect.ShowDialog() == DialogResult.OK)
+                if (frmCnlSelect.ShowDialog() == DialogResult.OK)
                 {
-                    numStatusCnlNum.Value = frmEntitySelect.SelectedID;
+                    numStatusCnlNum.Value = frmCnlSelect.SelectedCnlNum;
                     OnObjectChanged(TreeUpdateTypes.None);
                 }
             }

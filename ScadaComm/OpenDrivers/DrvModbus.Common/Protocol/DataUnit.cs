@@ -46,7 +46,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         /// Gets or sets the zero-based address of the start element.
         /// </summary>
         public ushort Address { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the auxiliary object.
         /// </summary>
@@ -185,7 +185,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             }
             else if (respFuncCode == ExcFuncCode)
             {
-                errMsg = length == 2 ? 
+                errMsg = length == 2 ?
                     ModbusPhrases.DeviceError + ": " + ModbusUtils.GetExcDescr(buffer[offset + 1]) :
                     ModbusPhrases.InvalidPduLength;
             }

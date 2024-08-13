@@ -85,5 +85,14 @@ namespace Scada.Doc.Code
                 Monitor.Exit(tocs);
             }
         }
+
+        /// <summary>
+        /// Gets the table of contents corresponding to the web page path.
+        /// </summary>
+        public Toc GetToc(string pagePath)
+        {
+            PageMeta pageMeta = PageMeta.Parse(pagePath);
+            return GetToc(pageMeta);
+        }
     }
 }

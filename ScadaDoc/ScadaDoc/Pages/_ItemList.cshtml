@@ -1,0 +1,18 @@
+﻿@inject TocManager tocManager
+@{
+    var pagePath = Context.Request.Path;
+    var toc = tocManager.GetToc(pagePath);
+    var menuItem = toc != null && toc.ItemMap.ContainsKey(pagePath)
+        ? toc.ItemMap[pagePath]
+        : new MenuItem { Text = "Menu item not found" };
+
+    Layout = "_ArticleLayout";
+    ViewBag.Title = menuItem.Text;
+}
+
+<h1>@menuItem.Text</h1>
+
+@foreach (var subitem in menuItem.Subitems)
+{
+    <p><a href="@Url.Content(subitem.Url.PrependTilde())">@subitem.Text</a></p>
+}

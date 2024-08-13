@@ -42,7 +42,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public Uploader(AdminDirs appDirs, ScadaProject project, ProjectInstance instance, 
+        public Uploader(AdminDirs appDirs, ScadaProject project, ProjectInstance instance,
             DeploymentProfile profile, ITransferControl transferControl)
         {
             this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
@@ -60,7 +60,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         /// </summary>
         private string GetTempFileName()
         {
-            return Path.Combine(appDirs.TempDir, 
+            return Path.Combine(appDirs.TempDir,
                 AgentConst.UploadConfigPrefix + ScadaUtils.GenerateUniqueID() + ".zip");
         }
 
@@ -135,7 +135,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
 
                     if (filterByObj)
                     {
-                        PackFiles(zipArchive, project.Views.ViewDir, GetFilteredViews(project.ConfigDatabase.ViewTable, 
+                        PackFiles(zipArchive, project.Views.ViewDir, GetFilteredViews(project.ConfigDatabase.ViewTable,
                             project.Views.ViewDir, uploadOptions.ObjectFilter), "Views/");
                     }
                     else
@@ -148,7 +148,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
                 if (uploadOptions.IncludeServer && instance.ServerApp.Enabled)
                 {
                     transferControl.ThrowIfCancellationRequested();
-                    transferControl.WriteMessage(string.Format(ExtensionPhrases.CompressAppConfig, 
+                    transferControl.WriteMessage(string.Format(ExtensionPhrases.CompressAppConfig,
                         CommonPhrases.ServerAppName));
                     PackDirectory(zipArchive, instance.ServerApp.AppDir, "ScadaServer/", ignoreRegKeys);
                 }
@@ -175,7 +175,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
                 transferControl.ThrowIfCancellationRequested();
                 transferControl.WriteMessage(ExtensionPhrases.AddProjectInfo);
 
-                using (Stream entryStream = 
+                using (Stream entryStream =
                     zipArchive.CreateEntry(AgentConst.ProjectInfoEntry, CompressionLevel.Fastest).Open())
                 {
                     using StreamWriter writer = new(entryStream, Encoding.UTF8);
@@ -186,7 +186,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
                 transferControl.ThrowIfCancellationRequested();
                 transferControl.WriteMessage(ExtensionPhrases.AddTransferOptions);
 
-                using (Stream entryStream = 
+                using (Stream entryStream =
                     zipArchive.CreateEntry(AgentConst.UploadOptionsEntry, CompressionLevel.Fastest).Open())
                 {
                     uploadOptions.Save(entryStream);
@@ -209,7 +209,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
             transferControl.ThrowIfCancellationRequested();
             transferControl.WriteLine();
             transferControl.WriteMessage(ExtensionPhrases.TransferConfig);
-            transferControl.WriteMessage(string.Format(ExtensionPhrases.ArchiveSize, 
+            transferControl.WriteMessage(string.Format(ExtensionPhrases.ArchiveSize,
                 new FileInfo(srcFileName).Length.ToString("N0", Locale.Culture)));
 
             agentClient.UploadConfig(srcFileName, transferControl.CancellationToken);
@@ -237,7 +237,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         /// <summary>
         /// Gets the existing view files filtered by objects.
         /// </summary>
-        private static IEnumerable<string> GetFilteredViews(BaseTable<View> viewTable, string viewDir, 
+        private static IEnumerable<string> GetFilteredViews(BaseTable<View> viewTable, string viewDir,
             List<int> objNums)
         {
             foreach (int objNum in objNums)
@@ -255,7 +255,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         /// <summary>
         /// Adds the specified files to the archive.
         /// </summary>
-        private void PackFiles(ZipArchive zipArchive, string srcDir, IEnumerable<string> srcFileNames, 
+        private void PackFiles(ZipArchive zipArchive, string srcDir, IEnumerable<string> srcFileNames,
             string entryPrefix)
         {
             int srcDirLen = srcDir.Length;

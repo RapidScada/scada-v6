@@ -47,7 +47,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
                 comboBox.BeginUpdate();
                 comboBox.Items.Clear();
                 DirectoryInfo dirInfo = new(adminContext.AppDirs.LibDir);
-                
+
                 foreach (FileInfo fileInfo in
                     dirInfo.EnumerateFiles("Plg*.View.dll", SearchOption.TopDirectoryOnly))
                 {

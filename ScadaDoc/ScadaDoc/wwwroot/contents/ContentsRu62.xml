@@ -3,10 +3,19 @@
   <!-- Обзор -->
   <Item>
     <Text>Обзор</Text>
+    <Url>/ru/latest/software-overview/</Url>
     <Subitems>
       <Item>
         <Text>Введение</Text>
         <Url>/ru/latest/software-overview/introduction</Url>
+      </Item>
+      <Item>
+        <Text>Приложения</Text>
+        <Url>/ru/latest/software-overview/applications</Url>
+      </Item>
+      <Item>
+        <Text>Архитектура ПО</Text>
+        <Url>/ru/latest/software-overview/architecture</Url>
       </Item>
     </Subitems>
   </Item>
@@ -14,6 +23,7 @@
   <!-- Установка -->
   <Item>
     <Text>Установка</Text>
+    <Url>/ru/latest/installation/</Url>
     <Subitems>
       <Item>
         <Text>Системные требования</Text>
@@ -36,6 +46,14 @@
         <Url>/ru/latest/installation/install-modules</Url>
       </Item>
       <Item>
+        <Text>Управление службами</Text>
+        <Url>/ru/latest/installation/services</Url>
+      </Item>
+      <Item>
+        <Text>Перенос на новый сервер</Text>
+        <Url>/ru/latest/installation/transfer</Url>
+      </Item>
+      <Item>
         <Text>Безопасность</Text>
         <Url>/ru/latest/installation/safety</Url>
       </Item>
@@ -45,10 +63,31 @@
   <!-- Настройка -->
   <Item>
     <Text>Настройка</Text>
+    <Url>/ru/latest/configuration/</Url>
     <Subitems>
+      <Item>
+        <Text>Основы настройки</Text>
+        <Url>/ru/latest/configuration/configuration-basics</Url>
+      </Item>
+      <Item>
+        <Text>База конфигурации</Text>
+        <Url>/ru/latest/configuration/database</Url>
+      </Item>
+      <Item>
+        <Text>Опрос устройств</Text>
+        <Url>/ru/latest/configuration/device-polling</Url>
+      </Item>
+      <Item>
+        <Text>Каналы</Text>
+        <Url>/ru/latest/configuration/channels</Url>
+      </Item>
       <Item>
         <Text>Скрипты и формулы</Text>
         <Url>/ru/latest/configuration/scripts</Url>
+      </Item>
+      <Item>
+        <Text>Представления</Text>
+        <Url>/ru/latest/configuration/views</Url>
       </Item>
     </Subitems>
   </Item>
@@ -56,6 +95,7 @@
   <!-- Модули -->
   <Item>
     <Text>Модули</Text>
+    <Url>/ru/latest/modules/</Url>
     <Subitems>
       <Item>
         <Text>Плагин Графики Про</Text>
@@ -75,7 +115,24 @@
   <!-- Разработчикам -->
   <Item>
     <Text>Разработчикам</Text>
+    <Url>/ru/latest/developers/</Url>
     <Subitems>
+      <Item>
+        <Text>Основы разработки</Text>
+        <Url>/ru/latest/developers/development-basics</Url>
+      </Item>
+      <Item>
+        <Text>Разработка логических модулей</Text>
+        <Url>/ru/latest/developers/module-development</Url>
+      </Item>
+      <Item>
+        <Text>Разработка драйверов</Text>
+        <Url>/ru/latest/developers/driver-development</Url>
+      </Item>
+      <Item>
+        <Text>Разработка веб-плагинов</Text>
+        <Url>/ru/latest/developers/plugin-development</Url>
+      </Item>
       <Item>
         <Text>Магазин модулей</Text>
         <Url>/ru/latest/developers/store</Url>
@@ -86,6 +143,7 @@
   <!-- История версий -->
   <Item>
     <Text>История версий</Text>
+    <Url>/ru/latest/version-history/</Url>
     <Subitems>
       <Item>
         <Text>История Rapid SCADA</Text>

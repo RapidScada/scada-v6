@@ -88,7 +88,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
         {
             if (!changing)
                 OnOptionsChanged();
-            
+
             numRememberMeExpires.Enabled = chkAllowRememberMe.Checked;
         }
     }

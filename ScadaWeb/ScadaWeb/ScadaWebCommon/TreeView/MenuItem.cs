@@ -131,7 +131,7 @@ namespace Scada.Web.TreeView
 
             return string.Compare(Url, other.Url, StringComparison.OrdinalIgnoreCase);
         }
-        
+
         /// <summary>
         /// Creates a menu item according to the known menu item.
         /// </summary>

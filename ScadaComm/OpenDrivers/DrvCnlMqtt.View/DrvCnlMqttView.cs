@@ -31,8 +31,8 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.View
         {
             get
             {
-                return Locale.IsRussian ? 
-                    "Канал связи MQTT" : 
+                return Locale.IsRussian ?
+                    "Канал связи MQTT" :
                     "MQTT Communication Channel";
             }
         }
@@ -57,9 +57,9 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.View
         {
             get
             {
-                return new ChannelTypeName[] { new ChannelTypeName("MqttClient", Locale.IsRussian ?
-                    "MQTT-клиент" : 
-                    "MQTT client") };
+                return [ new ChannelTypeName("MqttClient", Locale.IsRussian ?
+                    "MQTT-клиент" :
+                    "MQTT client") ];
             }
         }
 

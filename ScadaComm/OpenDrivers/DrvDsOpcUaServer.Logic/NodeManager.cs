@@ -62,9 +62,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
             ICommContext commContext, OpcUaServerDSO options, ILog log)
             : base(server, configuration, NamespaceUri)
         {
-            if (options == null)
-                throw new ArgumentNullException(nameof(options));
-
+            ArgumentNullException.ThrowIfNull(options, nameof(options));
             this.commContext = commContext ?? throw new ArgumentNullException(nameof(commContext));
             deviceFilter = options.DeviceFilter.Count > 0 ? new HashSet<int>(options.DeviceFilter) : null;
             this.log = log ?? throw new ArgumentNullException(nameof(log));
@@ -126,7 +124,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
                     break;
             }
 
-            BaseDataVariableState variable = CreateVariable(parent, pathPrefix + deviceTag.Code, 
+            BaseDataVariableState variable = CreateVariable(parent, pathPrefix + deviceTag.Code,
                 deviceTag.Code, deviceTag.Name, opcDataType, deviceTag.IsNumericArray, defaultValue);
             return variable;
         }
@@ -134,7 +132,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// <summary>
         /// Creates a new variable.
         /// </summary>
-        private BaseDataVariableState CreateVariable(NodeState parent, string path, 
+        private BaseDataVariableState CreateVariable(NodeState parent, string path,
             string name, string displayName, NodeId dataType, bool isArray, object defaultValue)
         {
             BaseDataVariableState variable = new(parent)
@@ -158,7 +156,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
             };
 
             if (isArray)
-                variable.ArrayDimensions = new ReadOnlyList<uint>(new List<uint> { 0 });
+                variable.ArrayDimensions = new ReadOnlyList<uint>([0]);
 
             parent?.AddChild(variable);
             return variable;
@@ -171,10 +169,12 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         {
             foreach (ILineContext lineContext in commContext.GetCommLines())
             {
-                List<DeviceLogic> devices = new();
-                devices.AddRange(deviceFilter == null ? 
-                    lineContext.SelectDevices() :
-                    lineContext.SelectDevices(d => deviceFilter.Contains(d.DeviceNum)));
+                List<DeviceLogic> devices =
+                [
+                    .. deviceFilter == null
+                        ? lineContext.SelectDevices()
+                        : lineContext.SelectDevices(d => deviceFilter.Contains(d.DeviceNum)),
+                ];
 
                 if (devices.Count > 0)
                 {
@@ -215,7 +215,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// <summary>
         /// Creates OPC server nodes that correspond to device tags.
         /// </summary>
-        private void CreateDeviceTagNodes(FolderState folder, DeviceLogic deviceLogic, TagGroup tagGroup, 
+        private void CreateDeviceTagNodes(FolderState folder, DeviceLogic deviceLogic, TagGroup tagGroup,
             DeviceVars deviceVars)
         {
             string pathPrefix = CommUtils.GetDeviceLogFileName(deviceLogic.DeviceNum, ".");
@@ -254,14 +254,14 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
                 switch (deviceTag.DataType)
                 {
                     case TagDataType.Double:
-                        value = deviceTag.IsNumericArray 
-                            ? (object)CnlDataConverter.GetDoubleArray(cnlData, dataIndex, dataLength) 
+                        value = deviceTag.IsNumericArray
+                            ? (object)CnlDataConverter.GetDoubleArray(cnlData, dataIndex, dataLength)
                             : CnlDataConverter.GetDouble(cnlData, dataIndex);
                         break;
 
                     case TagDataType.Int64:
-                        value = deviceTag.IsNumericArray 
-                            ? (object)CnlDataConverter.GetInt64Array(cnlData, dataIndex, dataLength) 
+                        value = deviceTag.IsNumericArray
+                            ? (object)CnlDataConverter.GetInt64Array(cnlData, dataIndex, dataLength)
                             : CnlDataConverter.GetInt64(cnlData, dataIndex);
                         break;
 
@@ -404,8 +404,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// </summary>
         public void WriteCurrentData(DeviceSlice deviceSlice)
         {
-            if (deviceSlice == null)
-                throw new ArgumentNullException(nameof(deviceSlice));
+            ArgumentNullException.ThrowIfNull(deviceSlice);
 
             if (varByDevice != null && varByDevice.TryGetValue(deviceSlice.DeviceNum, out DeviceVars deviceVars))
             {
@@ -450,14 +449,14 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
 
                 if (externalReferences == null)
                 {
-                    nodeReferences = new List<IReference>();
-                    log.WriteWarning(Locale.IsRussian ? 
+                    nodeReferences = [];
+                    log.WriteWarning(Locale.IsRussian ?
                         "Ссылки OPC-узлов не определены" :
                         "OPC node references undefined");
                 }
                 else if (!externalReferences.TryGetValue(ObjectIds.ObjectsFolder, out nodeReferences))
                 {
-                    nodeReferences = new List<IReference>();
+                    nodeReferences = [];
                     externalReferences[ObjectIds.ObjectsFolder] = nodeReferences;
                 }
 
@@ -469,8 +468,8 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
                 AddRootNotifier(rootFolder);
 
                 // create child nodes
-                varByDevice = new Dictionary<int, DeviceVars>();
-                varByPath = new Dictionary<string, VarItem>();
+                varByDevice = [];
+                varByPath = [];
                 CreateChildNodes(rootFolder);
 
                 // recursively index the node

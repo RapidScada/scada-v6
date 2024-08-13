@@ -42,9 +42,9 @@ namespace Scada.Admin.Extensions.ExtCommConfig
                     ExtensionUtils.MenuControl = new CtrlExtensionMenu(AdminContext);
                     FormTranslator.Translate(ExtensionUtils.MenuControl, typeof(CtrlExtensionMenu).FullName,
                         new FormTranslatorOptions
-                        { 
-                            ContextMenus = ExtensionUtils.MenuControl.AllContextMenus, 
-                            SkipUserControls = false 
+                        {
+                            ContextMenus = ExtensionUtils.MenuControl.AllContextMenus,
+                            SkipUserControls = false
                         });
                 }
 

@@ -25,14 +25,7 @@
 
 using Scada.Admin.Extensions;
 using Scada.Admin.Lang;
-using Scada.Agent;
 using Scada.Log;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Threading;
-using System.Windows.Forms;
 
 namespace Scada.Admin.App.Code
 {
@@ -125,7 +118,7 @@ namespace Scada.Admin.App.Code
                     }
                     catch (Exception ex)
                     {
-                        log.WriteError(ex, AdminPhrases.ErrorInExtension, 
+                        log.WriteError(ex, AdminPhrases.ErrorInExtension,
                             nameof(LoadDictionaries), extensionLogic.Code);
                     }
                 }
@@ -171,7 +164,7 @@ namespace Scada.Admin.App.Code
                     }
                     catch (Exception ex)
                     {
-                        log.WriteError(ex, AdminPhrases.ErrorInExtension, 
+                        log.WriteError(ex, AdminPhrases.ErrorInExtension,
                             nameof(GetMainMenuItems), extensionLogic.Code);
                     }
                 }
@@ -201,7 +194,7 @@ namespace Scada.Admin.App.Code
                     }
                     catch (Exception ex)
                     {
-                        log.WriteError(ex, AdminPhrases.ErrorInExtension, 
+                        log.WriteError(ex, AdminPhrases.ErrorInExtension,
                             nameof(GetToobarButtons), extensionLogic.Code);
                     }
                 }
@@ -260,7 +253,7 @@ namespace Scada.Admin.App.Code
                     }
                     catch (Exception ex)
                     {
-                        log.WriteError(ex, AdminPhrases.ErrorInExtension, 
+                        log.WriteError(ex, AdminPhrases.ErrorInExtension,
                             nameof(GetTreeViewImages), extensionLogic.Code);
                     }
                 }

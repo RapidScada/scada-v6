@@ -20,10 +20,10 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2023
+ * Modified : 2024
  */
 
-namespace Scada.Web.Authorization
+namespace Scada.Web.Api
 {
     /// <summary>
     /// Represents an exception raised in web API classes and usually does not require logging.
@@ -34,7 +34,7 @@ namespace Scada.Web.Authorization
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ApiException(string message) 
+        public ApiException(string message)
             : base(message)
         {
         }

@@ -20,8 +20,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Config
             Username = options.GetValueAsString("Username");
             Password = ScadaUtils.Decrypt(options.GetValueAsString("Password"));
             ConfigFileName = options.GetValueAsString("ConfigFileName");
-            DeviceFilter = new List<int>();
-            DeviceFilter.AddRange(ScadaUtils.ParseRange(options.GetValueAsString("DeviceFilter"), true, true));
+            DeviceFilter = [.. ScadaUtils.ParseRange(options.GetValueAsString("DeviceFilter"), true, true)];
         }
 
 

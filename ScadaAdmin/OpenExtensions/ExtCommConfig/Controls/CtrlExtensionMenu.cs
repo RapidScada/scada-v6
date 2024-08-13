@@ -16,7 +16,7 @@ using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
-using WinControl;
+using WinControls;
 
 namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 {
@@ -404,8 +404,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             {
                 if (adminContext.MainForm.GetAgentClient(SelectedNode, false) is IAgentClient agentClient)
                 {
-                    TeleCommand cmd = new() 
-                    { 
+                    TeleCommand cmd = new()
+                    {
                         CmdVal = lineConfig.CommLineNum
                     };
 

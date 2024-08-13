@@ -194,7 +194,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private static TreeNode CreateSubscriptionNode(SubscriptionConfig subscriptionConfig)
         {
             return TreeViewExtensions.CreateNode(
-                GetDisplayName(subscriptionConfig.DisplayName, DriverPhrases.UnnamedSubscription), 
+                GetDisplayName(subscriptionConfig.DisplayName, DriverPhrases.UnnamedSubscription),
                 ImageKey.FolderClosed,
                 subscriptionConfig);
         }
@@ -205,7 +205,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private static TreeNode CreateItemNode(ItemConfig itemConfig)
         {
             return TreeViewExtensions.CreateNode(
-                GetDisplayName(itemConfig.DisplayName, DriverPhrases.UnnamedItem), 
+                GetDisplayName(itemConfig.DisplayName, DriverPhrases.UnnamedItem),
                 ImageKey.Variable,
                 itemConfig);
         }
@@ -216,7 +216,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private static TreeNode CreateCommandNode(CommandConfig commandConfig)
         {
             return TreeViewExtensions.CreateNode(
-                GetDisplayName(commandConfig.DisplayName, DriverPhrases.UnnamedCommand), 
+                GetDisplayName(commandConfig.DisplayName, DriverPhrases.UnnamedCommand),
                 ImageKey.Command,
                 commandConfig);
         }
@@ -354,8 +354,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             try
             {
                 OpcClientHelperView helper = new(lineConfig.ConnectionOptions, LogStub.Instance, appDirs)
-                { 
-                    AutoAccept = true 
+                {
+                    AutoAccept = true
                 };
 
                 await helper.ConnectAsync();
@@ -470,10 +470,10 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         /// </summary>
         private bool AddItem(TreeNode serverNode)
         {
-            if (serverNode?.Tag is ServerNodeTag serverNodeTag && 
+            if (serverNode?.Tag is ServerNodeTag serverNodeTag &&
                 serverNodeTag.ClassIs(NodeClass.Variable, NodeClass.Method))
             {
-                if (TreeViewExtensions.GetTopParentNode(tvDevice.SelectedNode) == commandsNode || 
+                if (TreeViewExtensions.GetTopParentNode(tvDevice.SelectedNode) == commandsNode ||
                     serverNodeTag.ClassIs(NodeClass.Method))
                 {
                     AddCommand(serverNodeTag, serverNode.Parent?.Tag as ServerNodeTag);

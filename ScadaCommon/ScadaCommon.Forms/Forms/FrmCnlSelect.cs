@@ -108,7 +108,7 @@ namespace Scada.Forms.Forms
 
             foreach (Cnl srcItem in configDataset.CnlTable)
             {
-                SelectableItem item = new() 
+                SelectableItem item = new()
                 {
                     Selected = selectedIdSet.Contains(srcItem.CnlNum),
                     CnlNum = srcItem.CnlNum,

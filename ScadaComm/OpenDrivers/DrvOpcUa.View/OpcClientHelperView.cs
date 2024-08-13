@@ -18,8 +18,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
         private const string ViewOpcConfig = "DrvOpcUa.View.xml";
 
         private readonly AppDirs appDirs; // the application directories
-        
-        
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>

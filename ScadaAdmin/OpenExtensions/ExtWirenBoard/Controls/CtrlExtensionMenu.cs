@@ -98,8 +98,8 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
                     adminContext.MessageToExtensions(new MessageEventArgs
                     {
                         Message = KnownExtensionMessage.UpdateLineNode,
-                        Arguments = new Dictionary<string, object> 
-                        { 
+                        Arguments = new Dictionary<string, object>
+                        {
                             { "InstanceName", frmWirenBoardWizard.Instance.Name },
                             { "CommLineNum", frmWirenBoardWizard.Line.CommLineNum }
                         }

@@ -44,7 +44,7 @@ namespace Scada.Web.Authorization
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ObjRightHandler(IWebContext webContext, IUserContext userContext, 
+        public ObjRightHandler(IWebContext webContext, IUserContext userContext,
             IHttpContextAccessor httpContextAccessor)
         {
             this.webContext = webContext ?? throw new ArgumentNullException(nameof(webContext));

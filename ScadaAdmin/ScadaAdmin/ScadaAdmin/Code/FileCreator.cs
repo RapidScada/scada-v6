@@ -23,7 +23,6 @@
  * Modified : 2021
  */
 
-using System.IO;
 using System.Xml;
 
 namespace Scada.Admin.App.Code

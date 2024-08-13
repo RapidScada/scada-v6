@@ -61,11 +61,18 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public TrendTable(DateTime tableDate, int writingPeriod)
+        public TrendTable(DateTime tableDate, int writingPeriod, int writingOffset)
             : this()
         {
+            if (writingPeriod <= 0)
+                throw new ArgumentException("Writing period must be greater than zero.");
+
+            if (writingOffset < 0)
+                throw new ArgumentException("Writing offset must be greater than or equal to zero.");
+
             TableDate = tableDate;
             WritingPeriod = writingPeriod;
+            WritingOffset = writingOffset < writingPeriod ? writingOffset : writingOffset % writingPeriod;
             TableCapacity = GetTableCapacity();
         }
 
@@ -85,6 +92,11 @@ namespace Scada.Data.Tables
         /// Gets the writing period in seconds.
         /// </summary>
         public int WritingPeriod { get; protected set; }
+
+        /// <summary>
+        /// Gets the writing offset in seconds. The offset is less than the period.
+        /// </summary>
+        public int WritingOffset { get; protected set; }
 
         /// <summary>
         /// Gets or sets the table capacity.
@@ -112,9 +124,6 @@ namespace Scada.Data.Tables
         /// </summary>
         protected int GetTableCapacity()
         {
-            if (WritingPeriod <= 0)
-                throw new ScadaException("Writing period must be greater than zero.");
-
             return SecondsPerDay / WritingPeriod;
         }
 
@@ -123,10 +132,6 @@ namespace Scada.Data.Tables
         /// </summary>
         protected int GetPageCapacity()
         {
-            if (WritingPeriod <= 0)
-            {
-                throw new ScadaException("Writing period must be greater than zero.");
-            }
             if (WritingPeriod >= SecondsPerDay)
             {
                 return 1;
@@ -165,6 +170,7 @@ namespace Scada.Data.Tables
                         MinTimestamp = timestamp,
                         MaxTimestamp = nextTimestamp,
                         WritingPeriod = WritingPeriod,
+                        WritingOffset = WritingOffset,
                         PageCapacity = pageCapacity
                     }));
 
@@ -188,7 +194,7 @@ namespace Scada.Data.Tables
                 return false;
             }
 
-            isExactMatch = (int)Math.Round(timestamp.TimeOfDay.TotalMilliseconds) % (WritingPeriod * 1000) == 0;
+            isExactMatch = (int)timestamp.TimeOfDay.TotalMilliseconds % (WritingPeriod * 1000) == WritingOffset * 1000;
             return !exactMatchRequired || isExactMatch && timestamp < Metadata.MaxTimestamp;
         }
 
@@ -202,6 +208,7 @@ namespace Scada.Data.Tables
                 MinTimestamp = TableDate,
                 MaxTimestamp = TableDate.AddDays(1.0),
                 WritingPeriod = WritingPeriod,
+                WritingOffset = WritingOffset,
                 PageCapacity = GetPageCapacity()
             };
 
@@ -216,8 +223,10 @@ namespace Scada.Data.Tables
             if (meta == null)
                 throw new ArgumentNullException(nameof(meta));
 
+            meta.Validate();
             TableDate = meta.MinTimestamp.Date;
             WritingPeriod = meta.WritingPeriod;
+            WritingOffset = meta.WritingOffset;
             TableCapacity = GetTableCapacity();
             Metadata = meta;
             Pages = CreatePages();

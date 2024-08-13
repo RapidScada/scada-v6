@@ -45,7 +45,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public BasicEAL(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums, 
+        public BasicEAL(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums,
             ModuleConfig moduleConfig) : base(archiveContext, archiveConfig, cnlNums)
         {
             this.moduleConfig = moduleConfig ?? throw new ArgumentNullException(nameof(moduleConfig));

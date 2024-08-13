@@ -26,7 +26,6 @@
 using Scada.Comm.DataSources;
 using Scada.Comm.Devices;
 using Scada.Comm.Lang;
-using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Log;
 using System;
@@ -226,7 +225,7 @@ namespace Scada.Comm.Engine
                 }
                 catch (Exception ex)
                 {
-                    log.WriteError(ex, CommPhrases.ErrorInDataSource, 
+                    log.WriteError(ex, CommPhrases.ErrorInDataSource,
                         nameof(ReadConfigDatabase), dataSourceLogic.Code);
                 }
             }
@@ -249,7 +248,7 @@ namespace Scada.Comm.Engine
                 }
                 catch (Exception ex)
                 {
-                    log.WriteError(ex, CommPhrases.ErrorInDataSource, 
+                    log.WriteError(ex, CommPhrases.ErrorInDataSource,
                         nameof(WriteCurrentData), dataSourceLogic.Code);
                 }
             }
@@ -269,7 +268,7 @@ namespace Scada.Comm.Engine
                 }
                 catch (Exception ex)
                 {
-                    log.WriteError(ex, CommPhrases.ErrorInDataSource, 
+                    log.WriteError(ex, CommPhrases.ErrorInDataSource,
                         nameof(WriteHistoricalData), dataSourceLogic.Code);
                 }
             }

@@ -68,7 +68,7 @@ namespace Scada.Server.Modules.ModActiveDirectory.View
         public override bool ShowProperties()
         {
             return new FrmOptions
-            { 
+            {
                 Config = new ModuleConfig(),
                 ConfigFileName = Path.Combine(AppDirs.ConfigDir, ModuleConfig.DefaultFileName)
             }

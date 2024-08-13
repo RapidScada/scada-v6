@@ -47,7 +47,9 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
 
         private readonly ModuleConfig moduleConfig; // the module configuration
         private readonly InfluxHAO options;         // the archive options
-        private readonly int writingPeriod;         // the writing period in seconds
+        private readonly TimeSpan writingPeriod;    // the writing period
+        private readonly TimeSpan writingOffset;    // the writing offset
+        private readonly TimeSpan pullToPeriod;     // the possible timestamp deviation
         private readonly ILog appLog;               // the application log
         private readonly ILog arcLog;               // the archive log
         private readonly CnlDataEqualsDelegate cnlDataEqualsFunc; // the function for comparing channel data
@@ -66,12 +68,14 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public InfluxHAL(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums, 
+        public InfluxHAL(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums,
             ModuleConfig moduleConfig) : base(archiveContext, archiveConfig, cnlNums)
         {
             this.moduleConfig = moduleConfig ?? throw new ArgumentNullException(nameof(moduleConfig));
             options = new InfluxHAO(archiveConfig.CustomOptions);
-            writingPeriod = GetPeriodInSec(options.WritingPeriod, options.WritingPeriodUnit);
+            writingPeriod = ConvertToTimeSpan(options.WritingPeriod, options.WritingPeriodUnit);
+            writingOffset = ConvertToTimeSpan(options.WritingOffset, options.WritingOffsetUnit);
+            pullToPeriod = ConvertToTimeSpan(options.PullToPeriod, TimeUnit.Second);
             appLog = archiveContext.Log;
             arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
             cnlDataEqualsFunc = SelectCnlDataEquals();
@@ -292,13 +296,14 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         {
             lock (writingLock)
             {
-                DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod);
-                nextWriteTime = writeTime.AddSeconds(writingPeriod);
+                DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod, writingOffset);
+                DateTime timestamp = options.UsePeriodStartTime ? writeTime.Add(-writingPeriod) : writeTime;
+                nextWriteTime = writeTime.Add(writingPeriod);
 
                 Stopwatch stopwatch = Stopwatch.StartNew();
                 InitCnlIndexes(curData, ref cnlIndexes);
                 InitPrevCnlData(curData, cnlIndexes, ref prevCnlData);
-                WriteFlag(writeTime);
+                WriteFlag(timestamp);
                 int cnlCnt = CnlNums.Length;
 
                 for (int i = 0; i < cnlCnt; i++)
@@ -308,7 +313,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
                     if (prevCnlData != null)
                         prevCnlData[i] = cnlData;
 
-                    WritePoint(writeTime, CnlNums[i], cnlData);
+                    WritePoint(timestamp, CnlNums[i], cnlData);
                 }
 
                 stopwatch.Stop();
@@ -348,7 +353,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
                 {
                     WriteFlag(curData.Timestamp);
                     stopwatch.Stop();
-                    arcLog?.WriteAction(ServerPhrases.WritingPointsCompleted, 
+                    arcLog?.WriteAction(ServerPhrases.WritingPointsCompleted,
                         changesCnt, stopwatch.ElapsedMilliseconds);
                 }
                 else
@@ -385,7 +390,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// <summary>
         /// Processes the records.
         /// </summary>
-        private static void ProcessRecords(List<FluxRecord> records, TimeRange timeRange, 
+        private static void ProcessRecords(List<FluxRecord> records, TimeRange timeRange,
             Action<DateTime, FluxRecord> processFunc)
         {
             // by default records are sorted by time (except using groups)
@@ -425,8 +430,8 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
             if (!moduleConfig.Connections.TryGetValue(options.Connection, out connOptions))
                 throw new ScadaException(CommonPhrases.ConnectionNotFound, options.Connection);
 
-            client = string.IsNullOrEmpty(connOptions.Token) 
-                ? new InfluxDBClient(connOptions.Url, connOptions.Username, connOptions.Password) 
+            client = string.IsNullOrEmpty(connOptions.Token)
+                ? new InfluxDBClient(connOptions.Url, connOptions.Username, connOptions.Password)
                 : new InfluxDBClient(connOptions.Url, connOptions.Token);
             client.EnableGzip();
             writeApi = client.GetWriteApi(new WriteOptions
@@ -440,7 +445,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
             if (!options.ReadOnly)
             {
                 if (options.WriteWithPeriod)
-                    nextWriteTime = GetNextWriteTime(DateTime.UtcNow, writingPeriod);
+                    nextWriteTime = GetNextWriteTime(DateTime.UtcNow, writingPeriod, writingOffset);
 
                 if (options.WriteOnChange)
                     appLog.WriteWarning(ServerPhrases.ArchiveMessage, Code, ServerPhrases.WritingOnChangeIsSlow);
@@ -490,8 +495,8 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// </summary>
         public override TrendBundle GetTrends(TimeRange timeRange, int[] cnlNums)
         {
-            return cnlNums.Length == 1 
-                ? GetFirstTrend(timeRange, cnlNums) 
+            return cnlNums.Length == 1
+                ? GetFirstTrend(timeRange, cnlNums)
                 : MergeTrends(timeRange, cnlNums);
         }
 
@@ -587,7 +592,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
                 }
 
                 stopwatch.Stop();
-                arcLog?.WriteAction(ServerPhrases.ReadingSliceCompleted, 
+                arcLog?.WriteAction(ServerPhrases.ReadingSliceCompleted,
                     cnlNums.Length, stopwatch.ElapsedMilliseconds);
                 return slice;
             }
@@ -636,9 +641,9 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
             }
             else if (options.IsPeriodic)
             {
-                return options.PullToPeriod > 0
-                    ? PullTimeToPeriod(ref timestamp, writingPeriod, options.PullToPeriod)
-                    : TimeIsMultipleOfPeriod(timestamp, writingPeriod);
+                return pullToPeriod > TimeSpan.Zero
+                    ? PullTimeToPeriod(ref timestamp, writingPeriod, writingOffset, pullToPeriod)
+                    : TimeIsMultipleOfPeriod(timestamp, writingPeriod, writingOffset);
             }
             else
             {

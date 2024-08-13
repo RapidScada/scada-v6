@@ -33,8 +33,8 @@ namespace Scada.Comm.Drivers.DrvMqttClient.View
         {
             get
             {
-                return Locale.IsRussian ? 
-                    "MQTT-клиент" : 
+                return Locale.IsRussian ?
+                    "MQTT-клиент" :
                     "MQTT Client";
             }
         }

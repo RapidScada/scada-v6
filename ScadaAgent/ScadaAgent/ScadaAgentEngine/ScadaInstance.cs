@@ -247,7 +247,7 @@ namespace Scada.Agent.Engine
                 }
             }
 
-            if (instanceOptions.ProxyMode && 
+            if (instanceOptions.ProxyMode &&
                 string.Equals(instanceOptions.AgentUser.Username, username, StringComparison.OrdinalIgnoreCase))
             {
                 if (instanceOptions.AgentUser.Password == password)
@@ -277,7 +277,7 @@ namespace Scada.Agent.Engine
 
                 if (File.Exists(statusFileName))
                 {
-                    using (FileStream stream = 
+                    using (FileStream stream =
                         new FileStream(statusFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                     {
                         using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))

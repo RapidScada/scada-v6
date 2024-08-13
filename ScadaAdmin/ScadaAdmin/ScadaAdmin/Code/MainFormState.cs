@@ -25,9 +25,6 @@
 
 using Scada.Admin.App.Forms;
 using Scada.Forms;
-using System;
-using System.Drawing;
-using System.Windows.Forms;
 using System.Xml;
 
 namespace Scada.Admin.App.Code
@@ -101,7 +98,7 @@ namespace Scada.Admin.App.Code
             Maximized = true;
             ExplorerWidth = 250;
         }
-        
+
         /// <summary>
         /// Loads the state from the XML node.
         /// </summary>

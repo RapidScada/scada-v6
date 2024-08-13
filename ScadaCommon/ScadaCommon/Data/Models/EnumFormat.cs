@@ -62,7 +62,7 @@ namespace Scada.Data.Models
         /// <summary>
         /// Gets or sets the format ID.
         /// </summary>
-        public int FormatID { get; set;  }
+        public int FormatID { get; set; }
 
         /// <summary>
         /// Gets the display values corresponding to channel values.

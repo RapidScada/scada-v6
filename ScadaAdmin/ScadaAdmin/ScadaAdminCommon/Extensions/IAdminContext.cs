@@ -26,7 +26,6 @@
 using Scada.Admin.Config;
 using Scada.Admin.Project;
 using Scada.Log;
-using System;
 
 namespace Scada.Admin.Extensions
 {
@@ -72,7 +71,7 @@ namespace Scada.Admin.Extensions
         /// Occurs when the current project changes.
         /// </summary>
         event EventHandler CurrentProjectChanged;
-        
+
         /// <summary>
         /// Occurs when some extension sends a message to other extensions.
         /// </summary>

@@ -54,7 +54,7 @@ namespace Scada.Web.Services
         /// <summary>
         /// Creates a time range with UTC timestamps.
         /// </summary>
-        public static TimeRange CreateTimeRangeUtc(this IUserContext userContext, 
+        public static TimeRange CreateTimeRangeUtc(this IUserContext userContext,
             DateTime startTime, DateTime endTime, bool endInclusive)
         {
             return new TimeRange(

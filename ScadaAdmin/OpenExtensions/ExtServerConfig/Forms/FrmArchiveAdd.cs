@@ -93,7 +93,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
                 Module = cbModule.Text
             };
 
-            if (cbSourceArchive.SelectedValue is Archive archive && 
+            if (cbSourceArchive.SelectedValue is Archive archive &&
                 archive.ArchiveID > 0)
             {
                 ArchiveConfig.Code = archive.Code;

@@ -15,7 +15,7 @@ namespace Scada.Web.Plugins.PlgScheme
         /// The plugin code.
         /// </summary>
         public const string PluginCode = "PlgScheme";
-        
+
         /// <summary>
         /// Gets the plugin code.
         /// </summary>

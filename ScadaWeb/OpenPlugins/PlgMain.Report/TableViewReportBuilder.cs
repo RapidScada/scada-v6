@@ -207,8 +207,8 @@ namespace Scada.Web.Plugins.PlgMain.Report
                 foreach (ColumnMeta columnMeta in columnMetas)
                 {
                     Cell dataColCell = dataColCellTemplate.Clone();
-                    dataColCell.Text = showDate 
-                        ? columnMeta.ShortDate + " " + columnMeta.ShortTime 
+                    dataColCell.Text = showDate
+                        ? columnMeta.ShortDate + " " + columnMeta.ShortTime
                         : columnMeta.ShortTime;
                     headerRow.AppendCell(dataColCell);
                 }
@@ -225,7 +225,7 @@ namespace Scada.Web.Plugins.PlgMain.Report
                     renderer.ProcessRow(itemRow);
 
                     TrendBundle.CnlDataList trend = cnlNumMap.TryGetValue(tableItem.CnlNum, out int cnlIdx)
-                        ? trendBundle.Trends[cnlIdx] 
+                        ? trendBundle.Trends[cnlIdx]
                         : null;
                     Cnl itemCnl = tableItem.Cnl;
                     bool showVal = trend != null && itemCnl != null && itemCnl.IsArchivable();
@@ -251,9 +251,9 @@ namespace Scada.Web.Plugins.PlgMain.Report
                             }
                             else
                             {
-                                dataCell.Text = prevColumnMeta != null && 
+                                dataCell.Text = prevColumnMeta != null &&
                                     prevColumnMeta.UtcTime < GenerateTime && GenerateTime <= columnMeta.UtcTime
-                                    ? NextTimeSymbol 
+                                    ? NextTimeSymbol
                                     : "";
                             }
                         }

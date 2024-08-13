@@ -18,8 +18,8 @@ namespace Scada.Comm.Drivers.DrvDbImport.Config
         /// Gets the database connection options.
         /// </summary>
         public DbConnectionOptions ConnectionOptions { get; private set; }
-        
-        
+
+
         /// <summary>
         /// Sets the default values.
         /// </summary>

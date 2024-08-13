@@ -25,7 +25,6 @@
 
 using Scada.Lang;
 using System;
-using System.Diagnostics;
 using System.Net.Sockets;
 
 namespace Scada.Protocol
@@ -76,8 +75,8 @@ namespace Scada.Protocol
         /// </summary>
         public static string EncryptPassword(string password, long sessionID, byte[] secretKey)
         {
-            return secretKey == null 
-                ? password 
+            return secretKey == null
+                ? password
                 : ScadaUtils.Encrypt(password, secretKey, CreateIV(sessionID));
         }
 
@@ -87,7 +86,7 @@ namespace Scada.Protocol
         public static string DecryptPassword(string encryptedPassword, long sessionID, byte[] secretKey)
         {
             return secretKey == null
-                ? encryptedPassword 
+                ? encryptedPassword
                 : ScadaUtils.Decrypt(encryptedPassword, secretKey, CreateIV(sessionID));
         }
 

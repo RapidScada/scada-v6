@@ -23,7 +23,6 @@
  * Modified : 2022
  */
 
-using System.IO;
 using System.Reflection;
 
 namespace Scada.Admin

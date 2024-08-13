@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2006
- * Modified : 2023
+ * Modified : 2024
  */
 
 using Scada.Comm.Channels;
@@ -384,13 +384,9 @@ namespace Scada.Comm.Devices
                         DeviceTags.TryGetTag(cnl.TagNum.Value - 1, out deviceTag);
                     }
 
-                    // check match and bind tag
-                    if (deviceTag != null &&
-                        (int)deviceTag.DataType == (cnl.DataTypeID ?? DataTypeID.Double) &&
-                        deviceTag.DataLength == Math.Max(cnl.DataLen ?? 1, 1))
-                    {
+                    // check and bind tag, data type matching is not required
+                    if (deviceTag != null && deviceTag.DataLength == cnl.GetDataLength())
                         deviceTag.Cnl = cnl;
-                    }
                 }
             }
         }
@@ -416,8 +412,8 @@ namespace Scada.Comm.Devices
         /// </summary>
         public virtual DeviceSlice GetCurrentData(bool allData)
         {
-            return allData 
-                ? DeviceData.GetCurrentData() 
+            return allData
+                ? DeviceData.GetCurrentData()
                 : DeviceData.GetModifiedData();
         }
 
@@ -476,7 +472,7 @@ namespace Scada.Comm.Devices
         /// <summary>
         /// Processes the incoming request that has already been read in slave mode.
         /// </summary>
-        public virtual void ProcessIncomingRequest(byte[] buffer, int offset, int count, 
+        public virtual void ProcessIncomingRequest(byte[] buffer, int offset, int count,
             IncomingRequestArgs requestArgs)
         {
             Log.WriteLine();

@@ -16,8 +16,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         /// Gets the connection options.
         /// </summary>
         public OpcConnectionOptions ConnectionOptions { get; private set; }
-        
-        
+
+
         /// <summary>
         /// Sets the default values.
         /// </summary>

@@ -30,9 +30,6 @@ using Scada.Agent;
 using Scada.Agent.Client;
 using Scada.Forms;
 using Scada.Lang;
-using System;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Scada.Admin.App.Forms.Deployment
 {

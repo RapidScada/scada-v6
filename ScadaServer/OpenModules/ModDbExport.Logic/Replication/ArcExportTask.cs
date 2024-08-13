@@ -58,7 +58,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Replication
             Name = string.Format(Locale.IsRussian ?
                 "Экспорт с {0} по {1}" :
                 "Export from {0} to {1}",
-                StartDT.ToLocalTime().ToLocalizedString(), 
+                StartDT.ToLocalTime().ToLocalizedString(),
                 EndDT.ToLocalTime().ToLocalizedString());
         }
 

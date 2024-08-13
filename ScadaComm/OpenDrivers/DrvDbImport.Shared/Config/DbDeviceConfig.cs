@@ -29,8 +29,8 @@ namespace Scada.Comm.Drivers.DrvDbImport.Config
         /// </summary>
         protected override void SetToDefault()
         {
-            Queries = new List<QueryConfig>();
-            Commands = new List<CommandConfig>();
+            Queries = [];
+            Commands = [];
         }
 
         /// <summary>

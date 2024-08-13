@@ -32,8 +32,8 @@ namespace Scada.Server.Modules.ModArcBasic.Config
         /// Gets or sets the root directory of the archive copy.
         /// </summary>
         public string ArcCopyDir { get; set; }
-        
-        
+
+
         /// <summary>
         /// Sets the default values.
         /// </summary>
@@ -57,7 +57,7 @@ namespace Scada.Server.Modules.ModArcBasic.Config
             ArcDir = ScadaUtils.NormalDir(rootElem.GetChildAsString("ArcDir"));
             ArcCopyDir = ScadaUtils.NormalDir(rootElem.GetChildAsString("ArcCopyDir"));
         }
-        
+
         /// <summary>
         /// Saves the configuration to the specified writer.
         /// </summary>

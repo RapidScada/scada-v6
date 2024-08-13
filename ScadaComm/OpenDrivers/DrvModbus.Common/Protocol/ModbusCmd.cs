@@ -106,7 +106,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
                 int dataLength = Data == null ? 0 : Data.Length;
                 ReqPDU = new byte[1 + dataLength];
                 ReqPDU[0] = FuncCode;
-                
+
                 if (dataLength > 0)
                     Buffer.BlockCopy(Data, 0, ReqPDU, 1, dataLength);
 

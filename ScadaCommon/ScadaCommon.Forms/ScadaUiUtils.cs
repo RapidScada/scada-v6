@@ -150,7 +150,7 @@ namespace Scada.Forms
                     column.Width = MaxColumnWidth;
             }
         }
-        
+
         /// <summary>
         /// Draws a list box item representing a tab.
         /// </summary>
@@ -275,10 +275,10 @@ namespace Scada.Forms
                             {
                                 string[] parts = pos.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-                                if (parts.Length >= 4 && 
-                                    int.TryParse(parts[0], out int x) && 
+                                if (parts.Length >= 4 &&
+                                    int.TryParse(parts[0], out int x) &&
                                     int.TryParse(parts[1], out int y) &&
-                                    int.TryParse(parts[2], out int w) && 
+                                    int.TryParse(parts[2], out int w) &&
                                     int.TryParse(parts[3], out int h))
                                 {
                                     // check link location and size

@@ -30,10 +30,8 @@ using Scada.Data.Tables;
 using Scada.Forms;
 using Scada.Forms.Controls;
 using Scada.Lang;
-using System;
 using System.Data;
 using System.Text;
-using System.Windows.Forms;
 
 namespace Scada.Admin.App.Forms.Tables
 {

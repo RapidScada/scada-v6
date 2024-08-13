@@ -63,7 +63,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// <summary>
         /// Creates a necessary partition if it does not exist.
         /// </summary>
-        public static void CreatePartition(NpgsqlConnection conn, string tableName, 
+        public static void CreatePartition(NpgsqlConnection conn, string tableName,
             DateTime today, PartitionSize partitionSize, out string partitionName)
         {
             ArgumentNullException.ThrowIfNull(conn, nameof(conn));
@@ -109,7 +109,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             string sql = "SELECT inhrelid::regclass::varchar AS child FROM pg_catalog.pg_inherits " +
                 $"WHERE inhparent = '{tableName}'::regclass";
             NpgsqlCommand cmd = new(sql, conn);
-            List<string> partitionsToDelete = new();
+            List<string> partitionsToDelete = [];
 
             using (NpgsqlDataReader reader = cmd.ExecuteReader())
             {

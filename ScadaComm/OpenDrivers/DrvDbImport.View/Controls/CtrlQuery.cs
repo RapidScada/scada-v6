@@ -41,7 +41,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Controls
                 queryConfig = value;
             }
         }
-        
+
         /// <summary>
         /// Gets the tool tip to be accessed on the main form.
         /// </summary>
@@ -128,7 +128,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Controls
             if (queryConfig != null)
             {
                 queryConfig.TagCodes.Clear();
-     
+
                 foreach (string tag in txtTags.Lines)
                 {
                     if (!string.IsNullOrEmpty(tag))

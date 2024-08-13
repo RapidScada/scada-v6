@@ -356,7 +356,7 @@ namespace Scada.Server.Engine
             Event ev = GetEvent(request.Buffer, ref index);
             coreLogic.WriteEvent(archiveMask, ev);
 
-            response = new ResponsePacket(request, client.OutBuf) { ArgumentLength = 8 } ;
+            response = new ResponsePacket(request, client.OutBuf) { ArgumentLength = 8 };
             CopyInt64(ev.EventID, client.OutBuf, ArgumentIndex);
         }
 
@@ -520,14 +520,14 @@ namespace Scada.Server.Engine
                 {
                     log.WriteError(Locale.IsRussian ?
                         "Результат проверки имени и пароля пользователя {0} отрицательный: {1}" :
-                        "Checking username and password for user {0} is not successful: {1}", 
+                        "Checking username and password for user {0} is not successful: {1}",
                         username, result.ErrorMessage);
                 }
                 else
                 {
                     log.WriteError(Locale.IsRussian ?
                         "Ошибка аутентификации пользователя {0}: {1}" :
-                        "Authentication failed for user {0}: {1}", 
+                        "Authentication failed for user {0}: {1}",
                         username, result.ErrorMessage);
                 }
             }

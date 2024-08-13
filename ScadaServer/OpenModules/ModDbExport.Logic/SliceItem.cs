@@ -14,7 +14,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public SliceItem(Slice slice) 
+        public SliceItem(Slice slice)
         {
             Slice = slice ?? throw new ArgumentNullException(nameof(slice));
             QueryID = 0;
@@ -31,7 +31,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         /// Gets the ID of the query that exports the slice.
         /// </summary>
         public int QueryID { get; init; }
-        
+
         /// <summary>
         /// Gets a value indicating whether the item is intended for the specified type of query.
         /// </summary>

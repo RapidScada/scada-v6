@@ -37,25 +37,25 @@ namespace Scada.Data.Models
         /// <summary>
         /// The critical severity from 1 to 249.
         /// </summary>
-        public static readonly SeverityRange Critical = 
+        public static readonly SeverityRange Critical =
             new SeverityRange(Severity.Critical, Severity.Major - 1, CommonPhrases.CriticalSeverity);
 
         /// <summary>
         /// The major severity from 250 to 499.
         /// </summary>
-        public static readonly SeverityRange Major = 
+        public static readonly SeverityRange Major =
             new SeverityRange(Severity.Major, Severity.Minor - 1, CommonPhrases.MajorSeverity);
 
         /// <summary>
         /// The minor severity from 500 to 749.
         /// </summary>
-        public static readonly SeverityRange Minor = 
+        public static readonly SeverityRange Minor =
             new SeverityRange(Severity.Minor, Severity.Info - 1, CommonPhrases.MinorSeverity);
 
         /// <summary>
         /// The informational severity from 750 to 999.
         /// </summary>
-        public static readonly SeverityRange Info = 
+        public static readonly SeverityRange Info =
             new SeverityRange(Severity.Info, Severity.Max, CommonPhrases.InfoSeverity);
 
 

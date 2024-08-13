@@ -74,7 +74,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
             {
                 MqttFactory mqttFactory = new();
                 mqttClient = mqttFactory.CreateMqttClient();
-                mqttClient.ApplicationMessageReceivedAsync += 
+                mqttClient.ApplicationMessageReceivedAsync +=
                     async e => await Task.Run(() => MqttClient_ApplicationMessageReceived(e));
 
                 logHelper.WriteMessage(string.Format(Locale.IsRussian ?
@@ -82,7 +82,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
                     "Connect to {0}:{1}",
                     connOptions.Server, connOptions.Port));
 
-                MqttClientConnectResultCode resultCode = 
+                MqttClientConnectResultCode resultCode =
                     mqttClient.ConnectAsync(connOptions.ToMqttClientOptions(), tokenSource.Token)
                     .Result.ResultCode;
 

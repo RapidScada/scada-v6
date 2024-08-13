@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2023
+ * Modified : 2024
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member

@@ -36,7 +36,12 @@ namespace Scada.Comm.Drivers.DrvModbus
 
         static ModbusPhrases()
         {
-            if (Locale.IsRussian)
+            Init(Locale.IsRussian);
+        }
+
+        public static void Init(bool isRussian)
+        {
+            if (isRussian)
             {
                 LoadTemplateError = "Ошибка при загрузке шаблона устройства";
                 SaveTemplateError = "Ошибка при сохранении шаблона устройства";

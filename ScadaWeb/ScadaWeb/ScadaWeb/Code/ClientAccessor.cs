@@ -25,7 +25,6 @@
 
 using Scada.Client;
 using Scada.Web.Services;
-using System;
 
 namespace Scada.Web.Code
 {

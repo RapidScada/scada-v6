@@ -125,7 +125,7 @@ namespace Scada.Web.Users
                 // add menu items from plugins
                 foreach (PluginLogic pluginLogic in webContext.PluginHolder.EnumeratePlugins())
                 {
-                    MergeMenuItems(MenuItems, 
+                    MergeMenuItems(MenuItems,
                         webContext.PluginHolder.GetUserMenuItems(pluginLogic, user, userRights), 0);
                 }
 

@@ -24,16 +24,16 @@ namespace Scada.Forms.Forms
             private bool selected;
 
             public bool Selected
-            { 
-                get 
-                { 
-                    return selected; 
-                } 
-                set 
-                { 
-                    selected = value; 
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Selected))); 
-                } 
+            {
+                get
+                {
+                    return selected;
+                }
+                set
+                {
+                    selected = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Selected)));
+                }
             }
             public object SourceItem { get; set; }
             public int ID { get; set; }
@@ -48,7 +48,7 @@ namespace Scada.Forms.Forms
         /// Contains item property descriptors.
         /// <para>Содержит дескрипторы свойств элемента.</para>
         /// </summary>
-        private struct ItemProps
+        private readonly struct ItemProps
         {
             public ItemProps(Type itemType)
             {
@@ -146,7 +146,7 @@ namespace Scada.Forms.Forms
             {
                 int itemID = baseTable.GetPkValue(srcItem);
 
-                SelectableItem item = new() 
+                SelectableItem item = new()
                 {
                     Selected = selectedIdSet.Contains(itemID),
                     SourceItem = srcItem,

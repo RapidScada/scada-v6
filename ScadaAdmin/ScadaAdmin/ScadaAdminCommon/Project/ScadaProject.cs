@@ -26,10 +26,6 @@
 using Scada.Admin.Deployment;
 using Scada.Admin.Lang;
 using Scada.Lang;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text;
 using System.Xml;
 

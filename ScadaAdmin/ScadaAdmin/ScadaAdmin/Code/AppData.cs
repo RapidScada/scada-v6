@@ -32,8 +32,6 @@ using Scada.Config;
 using Scada.Lang;
 using Scada.Log;
 using Scada.Server.Lang;
-using System;
-using System.IO;
 
 namespace Scada.Admin.App.Code
 {
@@ -88,7 +86,7 @@ namespace Scada.Admin.App.Code
         /// Gets the extension holder.
         /// </summary>
         public ExtensionHolder ExtensionHolder { get; private set; }
-        
+
         /// <summary>
         /// Gets or sets the project currently open.
         /// </summary>

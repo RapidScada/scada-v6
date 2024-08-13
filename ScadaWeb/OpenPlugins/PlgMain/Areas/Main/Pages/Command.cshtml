@@ -67,14 +67,21 @@
         { 
             <div class="mb-3">
                 <label id="lblCmdDec" for="txtCmdDec" class="form-label">@dict.lblCmdDec</label>
-                <input type="number" id="txtCmdDec" class="form-control @cmdExtraClass" step="any" required autofocus asp-for="CmdDec" />
+                <input type="number" id="txtCmdDec" class="form-control @cmdExtraClass" step="any" required autofocus asp-for="CmdVal" />
             </div>
         }
         else if (Model.Input == CommandModel.InputType.Hex)
         { 
             <div class="mb-3">
                 <label id="lblCmdHex" for="txtCmdHex" class="form-label">@dict.lblCmdHex</label>
-                <input type="text" id="txtCmdHex" class="form-control @cmdExtraClass" pattern="[a-fA-F0-9]+" required autofocus asp-for="CmdHex" />
+                <input type="text" id="txtCmdHex" class="form-control @cmdExtraClass" pattern="[a-fA-F0-9]+" required autofocus asp-for="CmdVal" />
+            </div>
+        }
+        else if (Model.Input == CommandModel.InputType.Bin)
+        {
+            <div class="mb-3">
+                <label id="lblCmdBin" for="txtCmdBin" class="form-label">@dict.lblCmdBin</label>
+                <input type="text" id="txtCmdBin" class="form-control @cmdExtraClass" pattern="[0-1]+" required autofocus asp-for="CmdVal" />
             </div>
         }
         else if (Model.Input == CommandModel.InputType.Enum)
@@ -91,7 +98,7 @@
                         }
                     }
                 </div>
-                <input type="hidden" id="hidCmdEnum" asp-for="CmdEnum" />
+                <input type="hidden" id="hidCmdEnum" asp-for="CmdVal" />
             </div>
         }
         else if (Model.Input == CommandModel.InputType.Date)
@@ -105,7 +112,7 @@
 
             <div class="mb-3">
                 <label id="lblCmdDate" for="txtCmdDate" class="form-label">@dict.lblCmdDate</label>
-                <input type="@inputSubtype" id="txtCmdDate" class="form-control" required autofocus asp-for="CmdDate" />
+                <input type="@inputSubtype" id="txtCmdDate" class="form-control" required autofocus asp-for="CmdData" />
             </div>
         }
         else if (Model.Input == CommandModel.InputType.Str)

@@ -22,6 +22,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
     {
         private readonly ModuleConfig moduleConfig; // the module configuration
         private readonly PostgreCAO options;        // the archive options
+        private readonly TimeSpan flushPeriod;      // the flushing period
         private readonly ILog appLog;               // the application log
         private readonly ILog arcLog;               // the archive log
         private readonly QueryBuilder queryBuilder; // builds SQL requests
@@ -45,6 +46,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         {
             this.moduleConfig = moduleConfig ?? throw new ArgumentNullException(nameof(moduleConfig));
             options = new PostgreCAO(archiveConfig.CustomOptions);
+            flushPeriod = ConvertToTimeSpan(options.FlushPeriod, TimeUnit.Second);
             appLog = archiveContext.Log;
             arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
             queryBuilder = new QueryBuilder(Code);
@@ -217,7 +219,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
 
                 string sql = "SELECT cnl_num, time_stamp, val, stat FROM " + queryBuilder.CurrentTable;
                 NpgsqlCommand cmd = new(sql, readingConn, trans);
-                List<int> cnlsToDelete = new();
+                List<int> cnlsToDelete = [];
                 int pointCnt = 0;
 
                 using (NpgsqlDataReader reader = cmd.ExecuteReader())
@@ -326,7 +328,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         {
             if (!options.ReadOnly && nextWriteTime <= curData.Timestamp)
             {
-                nextWriteTime = GetNextWriteTime(curData.Timestamp, options.FlushPeriod);
+                nextWriteTime = GetNextWriteTime(curData.Timestamp, flushPeriod, TimeSpan.Zero);
                 WriteData(curData);
             }
         }

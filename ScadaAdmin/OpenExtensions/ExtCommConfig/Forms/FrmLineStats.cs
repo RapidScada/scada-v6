@@ -11,7 +11,7 @@ using Scada.Protocol;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using WinControl;
+using WinControls;
 
 namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 {
@@ -97,14 +97,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                 CommUtils.GetLineLogFileName(lineConfig.CommLineNum, ".txt"));
             logBox.LogPath = new RelativePath(TopFolder.Comm, AppFolder.Log,
                 CommUtils.GetLineLogFileName(lineConfig.CommLineNum, ".log"));
-        }
-
-        /// <summary>
-        /// Saves the changes of the child form data.
-        /// </summary>
-        public void Save()
-        {
-            // do nothing
         }
 
 

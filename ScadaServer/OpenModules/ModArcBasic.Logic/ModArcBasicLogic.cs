@@ -55,7 +55,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Creates a new archive logic.
         /// </summary>
-        public override ArchiveLogic CreateArchive(IArchiveContext archiveContext, ArchiveConfig archiveConfig, 
+        public override ArchiveLogic CreateArchive(IArchiveContext archiveContext, ArchiveConfig archiveConfig,
             int[] cnlNums)
         {
             switch (archiveConfig.Kind)

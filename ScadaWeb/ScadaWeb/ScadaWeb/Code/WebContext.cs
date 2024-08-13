@@ -35,11 +35,7 @@ using Scada.Web.Config;
 using Scada.Web.Lang;
 using Scada.Web.Plugins;
 using Scada.Web.Services;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
-using System.Threading;
 
 namespace Scada.Web.Code
 {
@@ -296,7 +292,7 @@ namespace Scada.Web.Code
 
                 foreach (string pluginCode in AppConfig.PluginCodes)
                 {
-                    if (PluginFactory.GetPluginLogic(AppDirs.ExeDir, pluginCode, this, 
+                    if (PluginFactory.GetPluginLogic(AppDirs.ExeDir, pluginCode, this,
                         out PluginLogic pluginLogic, out string message))
                     {
                         Log.WriteAction(message);
@@ -392,7 +388,7 @@ namespace Scada.Web.Code
             // duplicate channels for arrays and strings
             List<Cnl> duplicatedCnls = [];
 
-            foreach (Cnl cnl in configDatabase.CnlTable.Enumerate())
+            foreach (Cnl cnl in configDatabase.CnlTable)
             {
                 if (cnl.IsArray() && cnl.IsArchivable())
                 {
@@ -418,7 +414,7 @@ namespace Scada.Web.Code
                 }
             }
 
-            duplicatedCnls.ForEach(cnl => configDatabase.CnlTable.AddItem(cnl));
+            duplicatedCnls.ForEach(configDatabase.CnlTable.AddItem);
 
             // initialize data objects
             configDatabase.Init();

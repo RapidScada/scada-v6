@@ -44,10 +44,17 @@
     <Phrase key="lblRetention">Период хранения</Phrase>
     <Phrase key="txtRetentionUnit">День</Phrase>
     <Phrase key="lblWriteWithPeriod">Записывать периодически</Phrase>
+    <Phrase key="lblUsePeriodStartTime">Время на начало периода</Phrase>
     <Phrase key="lblWritingPeriod">Период записи</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[0]">Сек.</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[1]">Мин.</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[2]">Час</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[3]">День</Phrase>
+    <Phrase key="lblWritingOffset">Смещение записи</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[0]">Сек.</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[1]">Мин.</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[2]">Час</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[3]">День</Phrase>
     <Phrase key="lblPullToPeriod">Притягивать к периоду</Phrase>
     <Phrase key="txtPullToPeriodUnit">Сек.</Phrase>
     <Phrase key="gbWritingOptions">Параметры записи</Phrase>

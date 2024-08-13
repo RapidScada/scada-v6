@@ -303,7 +303,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
                 : 1;
 
             // update element groups and elements
-            for (int nodeIdx = startGroupNode.Index, nodeCnt = elemGroupsNode.Nodes.Count; 
+            for (int nodeIdx = startGroupNode.Index, nodeCnt = elemGroupsNode.Nodes.Count;
                 nodeIdx < nodeCnt; nodeIdx++)
             {
                 TreeNode groupNode = elemGroupsNode.Nodes[nodeIdx];
@@ -467,7 +467,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         {
             if (Modified)
             {
-                return MessageBox.Show(DriverPhrases.SaveTemplateConfirm, CommonPhrases.QuestionCaption, 
+                return MessageBox.Show(DriverPhrases.SaveTemplateConfirm, CommonPhrases.QuestionCaption,
                     MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) switch
                 {
                     DialogResult.Yes => SaveChanges(false),
@@ -559,8 +559,8 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         private void FrmDevTemplate_Load(object sender, EventArgs e)
         {
             // translate form
-            FormTranslator.Translate(this, GetType().FullName, new FormTranslatorOptions 
-            { 
+            FormTranslator.Translate(this, GetType().FullName, new FormTranslatorOptions
+            {
                 ContextMenus = new ContextMenuStrip[] { cmsTree }
             });
             FormTranslator.Translate(ctrlElemGroup, ctrlElemGroup.GetType().FullName);

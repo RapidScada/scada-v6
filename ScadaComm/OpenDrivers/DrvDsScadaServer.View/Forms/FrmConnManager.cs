@@ -26,7 +26,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View.Forms
         {
             InitializeComponent();
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2023
+ * Modified : 2024
  */
 
 using System;
@@ -93,9 +93,7 @@ namespace Scada.Data.Tables
                 if (string.IsNullOrEmpty(value))
                     throw new ArgumentException("Primary key must not be empty.");
 
-                PropertyDescriptor pkProp = itemProps[value];
-
-                if (pkProp == null)
+                PropertyDescriptor pkProp = itemProps[value] ??
                     throw new ArgumentException("Primary key property not found.");
 
                 if (pkProp.PropertyType != typeof(int))
@@ -235,21 +233,21 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Adds or updates an item in the table.
         /// </summary>
+        public void AddObject(object obj)
+        {
+            if (obj is T item)
+                AddItem(item);
+        }
+
+        /// <summary>
+        /// Adds or updates an item in the table.
+        /// </summary>
         public void AddItem(T item)
         {
             int itemKey = GetPkValue(item);
             RemoveFromIndexes(itemKey);
             Items[itemKey] = item;
             AddToIndexes(item, itemKey);
-        }
-
-        /// <summary>
-        /// Adds or updates an item in the table.
-        /// </summary>
-        public void AddObject(object obj)
-        {
-            if (obj is T item)
-                AddItem(item);
         }
 
         /// <summary>
@@ -268,6 +266,15 @@ namespace Scada.Data.Tables
         {
             RemoveFromIndexes(key);
             Items.Remove(key);
+        }
+
+        /// <summary>
+        /// Removes the specified item.
+        /// </summary>
+        public void RemoveItem(T item)
+        {
+            int itemKey = GetPkValue(item);
+            RemoveItem(itemKey);
         }
 
         /// <summary>
@@ -320,9 +327,7 @@ namespace Scada.Data.Tables
         /// </summary>
         public ITableIndex AddIndex(string columnName)
         {
-            PropertyDescriptor colProp = itemProps[columnName];
-
-            if (colProp == null)
+            PropertyDescriptor colProp = itemProps[columnName] ??
                 throw new ArgumentException("Column property not found.");
 
             Type indexType = typeof(TableIndex<,>);
@@ -333,8 +338,22 @@ namespace Scada.Data.Tables
         }
 
         /// <summary>
-        /// Gets an index by the column name, populating it if necessary.
+        /// Gets an index by the column name.
         /// </summary>
+        public ITableIndex GetIndex(string columnName, bool throwOnFail)
+        {
+            if (TryGetIndex(columnName, out ITableIndex index))
+                return index;
+            else if (throwOnFail)
+                throw new ScadaException($"Index for column {columnName} not found.");
+            else
+                return null;
+        }
+
+        /// <summary>
+        /// Gets an index by the column name.
+        /// </summary>
+        /// <remarks>Populates an index it if necessary.</remarks>
         public bool TryGetIndex(string columnName, out ITableIndex index)
         {
             if (Indexes.TryGetValue(columnName, out index))
@@ -395,25 +414,20 @@ namespace Scada.Data.Tables
             if (filter == null)
                 throw new ArgumentNullException(nameof(filter));
 
-            // find the property used by the filter
-            PropertyDescriptor filterProp = itemProps[filter.ColumnName];
-            if (filterProp == null)
-                throw new ArgumentException("The filter property not found.");
-
-            // get the matched items
-            if (TryGetIndex(filter.ColumnName, out ITableIndex index))
+            if (GetIndex(filter.ColumnName, indexRequired) is ITableIndex index)
             {
+                // select items using index
                 foreach (object item in index.SelectItems(filter.Argument))
                 {
                     yield return item;
                 }
             }
-            else if (indexRequired)
-            {
-                throw new ScadaException("Index not found.");
-            }
             else
             {
+                // select items without index
+                PropertyDescriptor filterProp = itemProps[filter.ColumnName] ??
+                    throw new ArgumentException("The filter property not found.");
+
                 foreach (T item in Items.Values)
                 {
                     object propVal = filterProp.GetValue(item);
@@ -462,6 +476,26 @@ namespace Scada.Data.Tables
             }
 
             return default;
+        }
+
+        /// <summary>
+        /// Checks whether the item specified by the key is referenced by items in dependent tables.
+        /// </summary>
+        public bool KeyIsReferenced(int key, bool skipSelf, out string tableTitle)
+        {
+            foreach (TableRelation relation in Dependent)
+            {
+                if ((!skipSelf || relation.ChildTable != this) &&
+                    relation.ChildTable.TryGetIndex(relation.ChildColumn, out ITableIndex index) &&
+                    index.IndexKeyExists(key))
+                {
+                    tableTitle = relation.ChildTable.Title;
+                    return true;
+                }
+            }
+
+            tableTitle = "";
+            return false;
         }
 
         /// <summary>

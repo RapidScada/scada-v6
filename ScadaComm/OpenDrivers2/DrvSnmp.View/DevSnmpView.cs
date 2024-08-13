@@ -63,7 +63,7 @@ namespace Scada.Comm.Drivers.DrvSnmp.View
                         Active = varGroupConfig.Active,
                         Name = variableConfig.Name,
                         DataTypeID = dataTypeID > 0 ? dataTypeID : null,
-                        DataLen = variableConfig.DataLen > 0 ? 
+                        DataLen = variableConfig.DataLen > 0 ?
                             DeviceTag.CalcDataLength(variableConfig.DataLen, variableConfig.DataType) : null,
                         CnlTypeID = CnlTypeID.Input,
                         TagCode = variableConfig.TagCode,

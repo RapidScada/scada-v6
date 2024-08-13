@@ -3,7 +3,6 @@
 
 using Scada.Lang;
 using System.ComponentModel;
-using System.Xml.Linq;
 
 namespace Scada.Forms.Controls
 {

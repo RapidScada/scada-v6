@@ -12,7 +12,7 @@ using Scada.Forms;
 using Scada.Lang;
 using System;
 using System.Windows.Forms;
-using WinControl;
+using WinControls;
 
 namespace Scada.Admin.Extensions.ExtCommConfig.Code
 {
@@ -94,7 +94,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
                 errMsg = ExtensionPhrases.DriverNotSpecified;
                 return false;
             }
-            else if (!GetDriverView(adminContext, commApp, deviceConfig.Driver, 
+            else if (!GetDriverView(adminContext, commApp, deviceConfig.Driver,
                 out DriverView driverView, out errMsg))
             {
                 return false;

@@ -31,8 +31,8 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.View
         {
             get
             {
-                return Locale.IsRussian ? 
-                    "Сервер OPC UA" : 
+                return Locale.IsRussian ?
+                    "Сервер OPC UA" :
                     "OPC UA Server";
             }
         }

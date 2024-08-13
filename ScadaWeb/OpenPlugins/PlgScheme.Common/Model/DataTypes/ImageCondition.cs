@@ -33,8 +33,8 @@ namespace Scada.Web.Plugins.PlgScheme.Model.DataTypes
         [DefaultValue("")]
         #endregion
         public string ImageName { get; set; }
-        
-        
+
+
         /// <summary>
         /// Загрузить условие из XML-узла
         /// </summary>

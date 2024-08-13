@@ -30,8 +30,8 @@ namespace Scada.Comm.Drivers.DrvSimulator.View
         {
             get
             {
-                return Locale.IsRussian ? 
-                    "Симулятор устройства" : 
+                return Locale.IsRussian ?
+                    "Симулятор устройства" :
                     "Device Simulator";
             }
         }

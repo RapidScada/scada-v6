@@ -152,8 +152,8 @@ namespace Scada.Client
                 throw new ArgumentNullException(nameof(baseTable));
 
             DownloadFile(
-                new RelativePath(TopFolder.Base, AppFolder.Root, baseTable.FileNameDat), 
-                0, 0, false, DateTime.MinValue, false, () => { return new MemoryStream(); }, 
+                new RelativePath(TopFolder.Base, AppFolder.Root, baseTable.FileNameDat),
+                0, 0, false, DateTime.MinValue, false, () => { return new MemoryStream(); },
                 out _, out FileReadingResult readingResult, out Stream stream);
 
             try

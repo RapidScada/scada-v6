@@ -4,7 +4,6 @@
 using Npgsql;
 using NpgsqlTypes;
 using Scada.Data.Models;
-using Scada.Dbms;
 using Scada.Server.Lang;
 
 namespace Scada.Server.Modules.ModArcPostgreSql.Logic

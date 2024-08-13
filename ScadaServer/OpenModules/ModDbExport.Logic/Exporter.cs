@@ -49,7 +49,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         private readonly DataQueue<EventAck> eventAckQueue;    // the event acknowledgement queue
         private readonly DataQueue<TeleCommand> cmdQueue;      // the command queue
 
-        private readonly ILog exporterLog;                     // the exporter log
+        private readonly LogFile exporterLog;                  // the exporter log
         private readonly string filePrefix;                    // the prefix of the exporter files
         private readonly string infoFileName;                  // the information file name
         private readonly Dictionary<int, CnlData> prevCnlData; // the previous channel data
@@ -90,7 +90,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             // create queues
             int maxQueueSize = exporterConfig.GeneralOptions.MaxQueueSize;
             curDataQueue = new DataQueue<SliceItem>(classifiedQueries.CurDataQueries.Count > 0, maxQueueSize,
-                Locale.IsRussian ? "Текущие данные" : "Current Data") { RemoveExceeded = true };
+                Locale.IsRussian ? "Текущие данные" : "Current Data")
+            { RemoveExceeded = true };
             histDataQueue = new DataQueue<SliceItem>(classifiedQueries.HistDataQueries.Count > 0, maxQueueSize,
                 Locale.IsRussian ? "Исторические данные" : "Historical Data");
             eventQueue = new DataQueue<Event>(classifiedQueries.EventQueries.Count > 0, maxQueueSize,
@@ -108,10 +109,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                 CapacityMB = serverContext.AppConfig.GeneralOptions.MaxLogSize
             };
             infoFileName = Path.Combine(serverContext.AppDirs.LogDir, filePrefix + ".txt");
-            prevCnlData = curDataQueue.Enabled ?
-                new Dictionary<int, CnlData>() : null;
-            histTimestamps = histDataQueue.Enabled && histDataExportOptions.IncludeCalculated ?
-                new Dictionary<DateTime, DateTime>() : null;
+            prevCnlData = curDataQueue.Enabled ? [] : null;
+            histTimestamps = histDataQueue.Enabled && histDataExportOptions.IncludeCalculated ? [] : null;
             arcReplicator = arcReplicationOptions.Enabled ?
                 new ArcReplicator(serverContext, this) : null;
 
@@ -143,7 +142,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                 if (exporterConfig.GeneralOptions.StatusCnlNum > 0)
                 {
                     serverContext.WriteCurrentData(
-                        exporterConfig.GeneralOptions.StatusCnlNum, 
+                        exporterConfig.GeneralOptions.StatusCnlNum,
                         connStatus switch
                         {
                             ConnectionStatus.Normal => new CnlData(0, CnlStatusID.Defined),
@@ -307,7 +306,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                     {
                         curCalcCnlNums = cnlNumRange == null
                             ? serverContext.Cnls.CalcCnls.Keys
-                            : cnlNumRange.Where(n => serverContext.Cnls.CalcCnls.ContainsKey(n)).ToArray();
+                            : cnlNumRange.Where(serverContext.Cnls.CalcCnls.ContainsKey).ToArray();
                     }
                 }
                 else // ExportTrigger.OnTimer
@@ -322,7 +321,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                     {
                         timerCnlNums = cnlNumRange == null
                             ? serverContext.Cnls.MeasCnls.Keys
-                            : cnlNumRange.Where(n => serverContext.Cnls.MeasCnls.ContainsKey(n)).ToArray();
+                            : cnlNumRange.Where(serverContext.Cnls.MeasCnls.ContainsKey).ToArray();
                     }
                 }
             }
@@ -331,7 +330,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             if (histDataQueue.Enabled && histDataExportOptions.IncludeCalculated)
             {
                 histCalcCnlNums = classifiedQueries.HistDataQueries.All(q => q.CnlNumFilter.Count > 0)
-                    ? classifiedQueries.HistDataQueries.SelectMany(q => q.CnlNumFilter).Distinct().OrderBy(n => n).ToArray()
+                    ? [.. classifiedQueries.HistDataQueries.SelectMany(q => q.CnlNumFilter).Distinct().OrderBy(n => n)]
                     : serverContext.Cnls.CalcCnls.Keys;
             }
         }
@@ -780,7 +779,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             {
                 exporterLog.WriteError(Locale.IsRussian ?
                     "Ошибка при экспорте события по запросу \"{0}\": {1}" :
-                    "Error exporting event by the query \"{0}\": {1}", 
+                    "Error exporting event by the query \"{0}\": {1}",
                     currentQuery?.Name, ex.Message);
                 return false;
             }
@@ -882,9 +881,9 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                 if (destCnlNums.Count > 0)
                 {
                     return new SliceItem(new Slice(
-                        slice.Timestamp, 
-                        destCnlNums.ToArray(), 
-                        destCnlData.ToArray()));
+                        slice.Timestamp,
+                        [.. destCnlNums],
+                        [.. destCnlData]));
                 }
                 else
                 {
@@ -948,7 +947,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                             slice.CnlData[i] = serverContext.GetCurrentData(cnlNum);
                         }
 
-                        curDataQueue.Enqueue(DateTime.UtcNow, 
+                        curDataQueue.Enqueue(DateTime.UtcNow,
                             new SliceItem(slice) { QueryID = dataQuery.QueryID }, out _);
                     }
                 }
@@ -1011,8 +1010,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic
 
             void AddSlice()
             {
-                Slice slice = new(utcNow, sliceCnlNums.ToArray(), sliceCnlData.ToArray());
-                sliceItems ??= new List<SliceItem>();
+                Slice slice = new(utcNow, [.. sliceCnlNums], [.. sliceCnlData]);
+                sliceItems ??= [];
                 sliceItems.Add(new SliceItem(slice) { SingleQuery = false });
                 sliceCnlNums = null;
                 sliceCnlData = null;
@@ -1058,8 +1057,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             void AddSlice()
             {
                 Slice slice = serverContext.GetSlice(
-                    histDataExportOptions.HistArchiveBit, timestamp, sliceCnlNums.ToArray());
-                sliceItems ??= new List<SliceItem>();
+                    histDataExportOptions.HistArchiveBit, timestamp, [.. sliceCnlNums]);
+                sliceItems ??= [];
                 sliceItems.Add(new SliceItem(slice) { SingleQuery = false });
                 sliceCnlNums = null;
             }
@@ -1089,7 +1088,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                 // prepare information
                 StringBuilder sbInfo = new();
                 string dbName = ScadaUtils.FirstNonEmpty(
-                    exporterConfig.ConnectionOptions.Server, 
+                    exporterConfig.ConnectionOptions.Server,
                     exporterConfig.ConnectionOptions.Name);
 
                 if (Locale.IsRussian)

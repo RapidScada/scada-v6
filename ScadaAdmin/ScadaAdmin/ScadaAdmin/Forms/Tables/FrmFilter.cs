@@ -26,10 +26,8 @@
 using Scada.Admin.App.Code;
 using Scada.Data.Tables;
 using Scada.Forms;
-using System;
 using System.Data;
 using System.Globalization;
-using System.Windows.Forms;
 
 namespace Scada.Admin.App.Forms.Tables
 {
@@ -122,8 +120,8 @@ namespace Scada.Admin.App.Forms.Tables
                 return currentFilter == null;
             }
         }
-        
-        
+
+
         /// <summary>
         /// Fills the column list.
         /// </summary>
@@ -137,7 +135,7 @@ namespace Scada.Admin.App.Forms.Tables
 
                 foreach (DataGridViewColumn column in dataGridView.Columns)
                 {
-                    if (column is DataGridViewTextBoxColumn || 
+                    if (column is DataGridViewTextBoxColumn ||
                         column is DataGridViewComboBoxColumn ||
                         column is DataGridViewCheckBoxColumn)
                     {
@@ -146,7 +144,7 @@ namespace Scada.Admin.App.Forms.Tables
 
                         if (column.Name == selectedColumnName)
                             selectedIndex = index;
-                   }
+                    }
                 }
 
                 if (cbColumn.Items.Count > 0)

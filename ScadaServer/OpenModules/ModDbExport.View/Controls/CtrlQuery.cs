@@ -131,12 +131,12 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
                 OnObjectChanged(TreeUpdateTypes.None);
             }
         }
-        
+
         /// <summary>
         /// Opens a form for selecting numbers.
         /// </summary>
         private void SelectNums(List<int> numsList, TextBox textBox, IBaseTable baseTable)
-        {          
+        {
             FrmEntitySelect frmEntitySelect = new(baseTable)
             {
                 SelectedIDs = numsList
@@ -213,7 +213,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
         /// </summary>
         [Category("Property Changed")]
         public event EventHandler<ObjectChangedEventArgs> ObjectChanged;
-        
+
 
         private void chkActive_CheckedChanged(object sender, EventArgs e)
         {
@@ -232,7 +232,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
                 OnObjectChanged(TreeUpdateTypes.CurrentNode);
 
                 gbFilter.Visible = queryOptions.DataKind != DataKind.EventAck;
-                chkSingleQuery.Enabled = queryOptions.DataKind == DataKind.Current || 
+                chkSingleQuery.Enabled = queryOptions.DataKind == DataKind.Current ||
                     queryOptions.DataKind == DataKind.Historical;
             }
         }
@@ -332,11 +332,11 @@ namespace Scada.Server.Modules.ModDbExport.View.Controls
         {
             filterChanged = false;
         }
-        
+
         private void txtObjNum_TextChanged(object sender, EventArgs e)
         {
             filterChanged = true;
-        }     
+        }
 
         private void txtObjNum_Validating(object sender, CancelEventArgs e)
         {

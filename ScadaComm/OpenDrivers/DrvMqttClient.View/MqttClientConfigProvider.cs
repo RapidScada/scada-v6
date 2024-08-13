@@ -109,7 +109,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.View
         {
             btnAddSubscription = new ToolStripMenuItem(DriverPhrases.AddSubscriptionButton, Resources.elem);
             btnAddCommand = new ToolStripMenuItem(DriverPhrases.AddCommandButton, Resources.cmd);
-            return new ToolStripItem[] { btnAddSubscription, btnAddCommand };
+            return [btnAddSubscription, btnAddCommand];
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.View
                 commandsNode.Nodes.Add(CreateCommandNode(command));
             }
 
-            return new TreeNode[] { optionsNode, subscriptionsNode, commandsNode };
+            return [optionsNode, subscriptionsNode, commandsNode];
         }
 
         /// <summary>

@@ -121,8 +121,8 @@ namespace Scada.Server.Modules.ModDiffCalculator.Logic
         /// </summary>
         public DateTime GetNextCalculationTime(DateTime timestamp)
         {
-            return periodIsMonth 
-                ? timestamp.AddMonths(1) 
+            return periodIsMonth
+                ? timestamp.AddMonths(1)
                 : timestamp.AddSeconds(period);
         }
     }

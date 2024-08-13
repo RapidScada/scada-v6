@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2023
+ * Modified : 2024
  */
 
 using Scada.Data.Models;
@@ -46,7 +46,7 @@ namespace Scada.Data.Adapters
         /// <summary>
         /// The minor version number.
         /// </summary>
-        protected const ushort MinorVersion = 0;
+        protected const ushort MinorVersion = 1;
         /// <summary>
         /// The header size in a file.
         /// </summary>
@@ -184,18 +184,22 @@ namespace Scada.Data.Adapters
                     throw new ScadaException("Unexpected end of stream.");
 
                 int index = 0;
-                if (GetUInt16(buffer, ref index) != TableType.TrendTable)
+                ushort tableType = GetUInt16(buffer, ref index);
+                ushort majorVersion = GetUInt16(buffer, ref index);
+                ushort minorVersion = GetUInt16(buffer, ref index);
+
+                if (tableType != TableType.TrendTable)
                     throw new ScadaException("Invalid table type.");
 
-                if (GetUInt16(buffer, ref index) != MajorVersion)
+                if (majorVersion != MajorVersion)
                     throw new ScadaException("Incompatible format version.");
 
-                index += 2; // skip minor version
                 return new TrendTableMeta
                 {
                     MinTimestamp = GetTime(buffer, ref index),
                     MaxTimestamp = GetTime(buffer, ref index),
                     WritingPeriod = GetInt32(buffer, ref index),
+                    WritingOffset = minorVersion == 0 ? 0 : GetInt32(buffer, ref index),
                     PageCapacity = GetInt32(buffer, ref index)
                 };
             }
@@ -212,8 +216,9 @@ namespace Scada.Data.Adapters
             writer.Write(meta.MinTimestamp.Ticks);
             writer.Write(meta.MaxTimestamp.Ticks);
             writer.Write(meta.WritingPeriod);
+            writer.Write(meta.WritingOffset);
             writer.Write(meta.PageCapacity);
-            writer.Write(ReserveBuffer, 0, 20);
+            writer.Write(ReserveBuffer, 0, 16);
         }
 
         /// <summary>
@@ -515,7 +520,9 @@ namespace Scada.Data.Adapters
 
                             // create timestamps
                             int writingPeriod = page.Metadata.WritingPeriod;
-                            DateTime timestamp = page.Metadata.MinTimestamp.AddSeconds(startPointIndex * writingPeriod);
+                            int writingOffset = page.Metadata.WritingOffset;
+                            DateTime timestamp = page.Metadata.MinTimestamp
+                                .AddSeconds(startPointIndex * writingPeriod + writingOffset);
 
                             for (int i = 0; i < pointsToRead; i++)
                             {
@@ -616,7 +623,9 @@ namespace Scada.Data.Adapters
 
                             // read trend
                             int writingPeriod = page.Metadata.WritingPeriod;
-                            DateTime timestamp = page.Metadata.MinTimestamp.AddSeconds(startPointIndex * writingPeriod);
+                            int writingOffset = page.Metadata.WritingOffset;
+                            DateTime timestamp = page.Metadata.MinTimestamp
+                                .AddSeconds(startPointIndex * writingPeriod + writingOffset);
 
                             if (page.GetCnlIndex(cnlNum, out int cnlIndex))
                             {
@@ -709,7 +718,9 @@ namespace Scada.Data.Adapters
 
                             // create timestamps
                             int writingPeriod = page.Metadata.WritingPeriod;
-                            DateTime timestamp = page.Metadata.MinTimestamp.AddSeconds(startPointIndex * writingPeriod);
+                            int writingOffset = page.Metadata.WritingOffset;
+                            DateTime timestamp = page.Metadata.MinTimestamp
+                                .AddSeconds(startPointIndex * writingPeriod + writingOffset);
 
                             for (int i = 0; i < pointsToRead; i++)
                             {

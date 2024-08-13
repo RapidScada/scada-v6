@@ -174,7 +174,6 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                     foreach (DeviceLogic deviceLogic in deviceGroup)
                     {
                         conn.BindDevice(deviceLogic);
-                        deviceLogic.Connection = conn;
                     }
                 }
             }
@@ -288,7 +287,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             {
                 if (currentConn.Connected)
                 {
-                    if (!options.StayConnected || options.DisconnectOnError && 
+                    if (!options.StayConnected || options.DisconnectOnError &&
                         deviceLogic.DeviceStatus == DeviceStatus.Error)
                     {
                         Log.WriteLine();

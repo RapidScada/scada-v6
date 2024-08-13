@@ -32,7 +32,7 @@ namespace Scada.Web.Plugins.PlgMain.Models
         /// </summary>
         public static TimeRecord Create(DateTime dateTime, TimeZoneInfo timeZone)
         {
-            DateTime utcTime = dateTime.Kind == DateTimeKind.Utc ? 
+            DateTime utcTime = dateTime.Kind == DateTimeKind.Utc ?
                 dateTime : TimeZoneInfo.ConvertTimeToUtc(dateTime, timeZone);
             DateTime localTime;
 

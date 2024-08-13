@@ -52,9 +52,9 @@ namespace Scada.Web.Plugins.PlgChart
         {
             return periodInDays switch
             {
-                > 0     => new TimeRange(startDate, startDate.AddDays(periodInDays), endInclusive),
+                > 0 => new TimeRange(startDate, startDate.AddDays(periodInDays), endInclusive),
                 0 or -1 => new TimeRange(startDate, startDate.AddDays(1), endInclusive),
-                _       => new TimeRange(startDate.AddDays(periodInDays + 1), startDate.AddDays(1), endInclusive)
+                _ => new TimeRange(startDate.AddDays(periodInDays + 1), startDate.AddDays(1), endInclusive)
             };
         }
 

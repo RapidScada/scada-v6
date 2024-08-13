@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <RootNamespace>Scada.Web.Plugins.PlgScheme</RootNamespace>
@@ -10,8 +10,8 @@
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
     <Copyright>Copyright © 2024</Copyright>
-    <Version>6.0.2</Version>
-    <AssemblyVersion>6.0.2.0</AssemblyVersion>
+    <Version>6.1.0</Version>
+    <AssemblyVersion>6.1.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

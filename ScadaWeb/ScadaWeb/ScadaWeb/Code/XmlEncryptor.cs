@@ -24,9 +24,7 @@
  */
 
 using Microsoft.AspNetCore.DataProtection.XmlEncryption;
-using Microsoft.Extensions.DependencyInjection;
 using Scada.Log;
-using System;
 using System.Xml.Linq;
 
 namespace Scada.Web.Code

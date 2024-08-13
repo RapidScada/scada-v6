@@ -28,7 +28,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Scada.Lang;
 using System.Net;
-using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
@@ -57,7 +56,7 @@ namespace Scada.Web
         /// <summary>
         /// Specifies how objects are converted to JSON.
         /// </summary>
-        private static readonly JsonSerializerOptions JsonOptions = 
+        private static readonly JsonSerializerOptions JsonOptions =
             new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
 

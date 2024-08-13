@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0-windows;net8.0-windows</TargetFrameworks>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>disable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
@@ -24,7 +24,7 @@
       <HintPath>..\..\..\ScadaCommon\ScadaCommon\bin\Release\netstandard2.0\ScadaCommon.dll</HintPath>
     </Reference>
     <Reference Include="ScadaCommon.Forms">
-      <HintPath>..\..\..\ScadaCommon\ScadaCommon.Forms\bin\Release\net6.0-windows\ScadaCommon.Forms.dll</HintPath>
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon.Forms\bin\Release\net8.0-windows\ScadaCommon.Forms.dll</HintPath>
     </Reference>
   </ItemGroup>
 

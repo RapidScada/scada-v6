@@ -19,8 +19,8 @@ namespace Scada.MultiDb
         {
             ConnectionOptions = connectionOptions ?? throw new ArgumentNullException(nameof(connectionOptions));
             Connection = CreateConnection();
-            Connection.ConnectionString = string.IsNullOrEmpty(connectionOptions.ConnectionString) 
-                ? BuildConnectionString() 
+            Connection.ConnectionString = string.IsNullOrEmpty(connectionOptions.ConnectionString)
+                ? BuildConnectionString()
                 : connectionOptions.ConnectionString;
         }
 

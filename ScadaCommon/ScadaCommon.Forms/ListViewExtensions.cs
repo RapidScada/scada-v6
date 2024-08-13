@@ -19,8 +19,8 @@ namespace Scada.Forms
             try
             {
                 listView.BeginUpdate();
-                int index = listView.SelectedIndices.Count > 0 
-                    ? listView.SelectedIndices[0] + 1 
+                int index = listView.SelectedIndices.Count > 0
+                    ? listView.SelectedIndices[0] + 1
                     : listView.Items.Count;
                 listView.Items.Insert(index, item).Selected = true;
 

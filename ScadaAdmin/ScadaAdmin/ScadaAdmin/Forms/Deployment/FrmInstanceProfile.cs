@@ -31,9 +31,7 @@ using Scada.Agent.Client;
 using Scada.Client;
 using Scada.Dbms;
 using Scada.Forms;
-using System;
 using System.Text;
-using System.Windows.Forms;
 
 namespace Scada.Admin.App.Forms.Deployment
 {

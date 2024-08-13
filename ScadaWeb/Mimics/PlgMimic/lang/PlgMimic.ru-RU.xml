@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PlgMimicDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgMimic.Areas.Mimic.Pages.MimicViewModel">
+    <Phrase key="btnFitScreen_ToolTip">По размеру экрана</Phrase>
+    <Phrase key="btnFitWidth_ToolTip">По ширине</Phrase>
+    <Phrase key="btnZoomOut_ToolTip">Уменьшить</Phrase>
+    <Phrase key="btnZoomIn_ToolTip">Увеличить</Phrase>
+  </Dictionary>
+</PlgMimicDictionaries>

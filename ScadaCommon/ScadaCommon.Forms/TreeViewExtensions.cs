@@ -285,7 +285,7 @@ namespace Scada.Forms
         /// <summary>
         /// Adds the specified tree node as the last child of the given parent node.
         /// </summary>
-        public static void Add(this TreeView treeView, TreeNode parentNode, TreeNode nodeToAdd, 
+        public static void Add(this TreeView treeView, TreeNode parentNode, TreeNode nodeToAdd,
             IList destList, object objToAdd)
         {
             ArgumentNullException.ThrowIfNull(nodeToAdd, nameof(nodeToAdd));
@@ -316,7 +316,7 @@ namespace Scada.Forms
         /// <summary>
         /// Inserts the specified tree node as a child of the given parent node after the selected node.
         /// </summary>
-        public static void Insert(this TreeView treeView, TreeNode parentNode, TreeNode nodeToInsert, 
+        public static void Insert(this TreeView treeView, TreeNode parentNode, TreeNode nodeToInsert,
             IList destList, object objToInsert)
         {
             ArgumentNullException.ThrowIfNull(nodeToInsert, nameof(nodeToInsert));
@@ -420,14 +420,14 @@ namespace Scada.Forms
                     TreeNode parentNode = selectedNode.Parent;
                     TreeNode parentNodePrev = parentNode?.PrevNode;
 
-                    if (parentNode?.Tag is ITreeNode && 
+                    if (parentNode?.Tag is ITreeNode &&
                         parentNodePrev?.Tag is ITreeNode parentPrevObj &&
                         parentNode.Tag.GetType() == parentNodePrev.Tag.GetType())
                     {
                         // the node being moved gets a new parent
                         siblings.RemoveAt(index);
                         parentNodePrev.Nodes.Add(selectedNode);
-                        
+
                         list.RemoveAt(index);
                         parentPrevObj.Children.Add(selectedObj);
                         selectedObj.Parent = parentPrevObj;
@@ -515,7 +515,7 @@ namespace Scada.Forms
                     TreeNode parentNode = selectedNode.Parent;
                     TreeNode parentNodeNext = parentNode?.NextNode;
 
-                    if (parentNode?.Tag is ITreeNode && 
+                    if (parentNode?.Tag is ITreeNode &&
                         parentNodeNext?.Tag is ITreeNode nextParentObj &&
                         parentNode.Tag.GetType() == parentNodeNext.Tag.GetType())
                     {

@@ -23,7 +23,6 @@
  * Modified : 2023
  */
 
-using System;
 using System.Xml;
 
 namespace Scada.Admin.Config

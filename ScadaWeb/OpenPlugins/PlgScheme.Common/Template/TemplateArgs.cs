@@ -26,7 +26,7 @@ namespace Scada.Web.Plugins.PlgScheme.Template
         /// Gets or sets the offset of input channel numbers.
         /// </summary>
         public int InCnlOffset { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the offset of output channel numbers.
         /// </summary>

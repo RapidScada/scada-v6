@@ -3,10 +3,19 @@
   <!-- Overview -->
   <Item>
     <Text>Overview</Text>
+    <Url>/en/latest/software-overview/</Url>
     <Subitems>
       <Item>
         <Text>Introduction</Text>
         <Url>/en/latest/software-overview/introduction</Url>
+      </Item>
+      <Item>
+        <Text>Applications</Text>
+        <Url>/en/latest/software-overview/applications</Url>
+      </Item>
+      <Item>
+        <Text>Software Architecture</Text>
+        <Url>/en/latest/software-overview/architecture</Url>
       </Item>
     </Subitems>
   </Item>
@@ -14,6 +23,7 @@
   <!-- Installation -->
   <Item>
     <Text>Installation</Text>
+    <Url>/en/latest/installation/</Url>
     <Subitems>
       <Item>
         <Text>System Requirements</Text>
@@ -36,6 +46,14 @@
         <Url>/en/latest/installation/install-modules</Url>
       </Item>
       <Item>
+        <Text>Service Management</Text>
+        <Url>/en/latest/installation/services</Url>
+      </Item>
+      <Item>
+        <Text>Transfer to New Server</Text>
+        <Url>/en/latest/installation/transfer</Url>
+      </Item>
+      <Item>
         <Text>Safety</Text>
         <Url>/en/latest/installation/safety</Url>
       </Item>
@@ -45,10 +63,31 @@
   <!-- Configuration -->
   <Item>
     <Text>Configuration</Text>
+    <Url>/en/latest/configuration/</Url>
     <Subitems>
+      <Item>
+        <Text>Configuration Basics</Text>
+        <Url>/en/latest/configuration/configuration-basics</Url>
+      </Item>
+      <Item>
+        <Text>Configuration Database</Text>
+        <Url>/en/latest/configuration/database</Url>
+      </Item>
+      <Item>
+        <Text>Device Polling</Text>
+        <Url>/en/latest/configuration/device-polling</Url>
+      </Item>
+      <Item>
+        <Text>Channels</Text>
+        <Url>/en/latest/configuration/channels</Url>
+      </Item>
       <Item>
         <Text>Scripts and Formulas</Text>
         <Url>/en/latest/configuration/scripts</Url>
+      </Item>
+      <Item>
+        <Text>Views</Text>
+        <Url>/en/latest/configuration/views</Url>
       </Item>
     </Subitems>
   </Item>
@@ -56,6 +95,7 @@
   <!-- Modules -->
   <Item>
     <Text>Modules</Text>
+    <Url>/en/latest/modules/</Url>
     <Subitems>
       <Item>
         <Text>Chart Pro Plugin</Text>
@@ -75,7 +115,24 @@
   <!-- Developers -->
   <Item>
     <Text>Developers</Text>
+    <Url>/en/latest/developers/</Url>
     <Subitems>
+      <Item>
+        <Text>Development Basics</Text>
+        <Url>/en/latest/developers/development-basics</Url>
+      </Item>
+      <Item>
+        <Text>Logic Module Development</Text>
+        <Url>/en/latest/developers/module-development</Url>
+      </Item>
+      <Item>
+        <Text>Driver Development</Text>
+        <Url>/en/latest/developers/driver-development</Url>
+      </Item>
+      <Item>
+        <Text>Web Plugin Development</Text>
+        <Url>/en/latest/developers/plugin-development</Url>
+      </Item>
       <Item>
         <Text>Module Store</Text>
         <Url>/en/latest/developers/store</Url>
@@ -86,6 +143,7 @@
   <!-- Version History -->
   <Item>
     <Text>Version History</Text>
+    <Url>/en/latest/version-history/</Url>
     <Subitems>
       <Item>
         <Text>History of Rapid SCADA</Text>

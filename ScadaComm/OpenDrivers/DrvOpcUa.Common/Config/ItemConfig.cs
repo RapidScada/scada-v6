@@ -26,7 +26,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
             Tag = null;
         }
 
-        
+
         /// <summary>
         /// Gets or sets a value indicating that the item is active.
         /// </summary>

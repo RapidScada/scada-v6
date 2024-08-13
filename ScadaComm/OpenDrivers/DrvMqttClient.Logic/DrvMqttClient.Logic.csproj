@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <EnableDynamicLoading>true</EnableDynamicLoading>
@@ -10,13 +10,13 @@
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
     <Copyright>Copyright © 2024</Copyright>
-    <Version>6.0.0</Version>
-    <AssemblyVersion>6.0.0.4</AssemblyVersion>
+    <Version>6.1.0</Version>
+    <AssemblyVersion>6.1.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Jint" Version="2.11.58" />
-    <PackageReference Include="MQTTnet" Version="4.1.4.563" />
+    <PackageReference Include="Jint" Version="3.1.5" />
+    <PackageReference Include="MQTTnet" Version="4.3.6.1152" />
   </ItemGroup>
 
   <ItemGroup>

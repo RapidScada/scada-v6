@@ -56,8 +56,8 @@ namespace Scada.Comm.Drivers.DrvDbImport.Logic
             : base(commContext, lineContext, deviceConfig)
         {
             config = new DbDeviceConfig();
-            queryItems = new List<QueryItem>();
-            cmdByCode = new Dictionary<string, CommandConfig>();
+            queryItems = [];
+            cmdByCode = [];
 
             configError = false;
             lineData = null;

@@ -41,11 +41,11 @@ namespace Scada.Server.Modules.ModDiffCalculator.Config
         public int SrcCnlNum
         {
             get
-            { 
-                return srcCnlNum; 
+            {
+                return srcCnlNum;
             }
             set
-            { 
+            {
                 srcCnlNum = value;
                 OnPropertyChanged();
             }

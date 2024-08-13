@@ -52,15 +52,15 @@ namespace Scada.Comm.Drivers.DrvCsvReader
         [Description("The delimiter used to separate fields.")]
         public string FieldDelimiter { get; set; }
 
-        [Description("The reading mode. " + 
+        [Description("The reading mode. " +
             "In RealTime mode, the driver reads data according to the current time. " +
             "In Demo mode, the driver reads data cyclically.")]
         public ReadMode ReadMode { get; set; }
 
         [Description("The data period defining the reading loop in demo mode.")]
         public DemoPeriod DemoPeriod { get; set; }
-        
-        
+
+
         /// <summary>
         /// Adds the options to the list.
         /// </summary>

@@ -24,9 +24,7 @@
  */
 
 using Scada.Config;
-using Scada.Lang;
 using Scada.Server.Config;
-using System.IO;
 
 namespace Scada.Admin.Project
 {
@@ -82,8 +80,8 @@ namespace Scada.Admin.Project
         /// </summary>
         public override void InitAppDir(string instanceDir)
         {
-            AppDir = string.IsNullOrEmpty(instanceDir) 
-                ? "" 
+            AppDir = string.IsNullOrEmpty(instanceDir)
+                ? ""
                 : ScadaUtils.NormalDir(Path.Combine(instanceDir, "ScadaServer"));
         }
     }

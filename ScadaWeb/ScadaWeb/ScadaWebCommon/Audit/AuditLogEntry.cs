@@ -46,7 +46,7 @@ namespace Scada.Web.Audit
             Severity = null;
             Message = null;
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>

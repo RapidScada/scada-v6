@@ -20,6 +20,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
         string Connection { get; set; }
 
         /// <summary>
+        /// Gets a value indicating whether partitioning is used.
+        /// </summary>
+        bool UsePartitioning { get; }
+
+        /// <summary>
         /// Gets or sets the partition size.
         /// </summary>
         PartitionSize PartitionSize { get; set; }

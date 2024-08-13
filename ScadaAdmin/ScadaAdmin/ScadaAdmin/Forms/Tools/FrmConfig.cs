@@ -29,12 +29,8 @@ using Scada.Admin.Config;
 using Scada.Admin.Extensions;
 using Scada.Forms;
 using Scada.Lang;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Windows.Forms;
 
 namespace Scada.Admin.App.Forms.Tools
 {
@@ -69,7 +65,7 @@ namespace Scada.Admin.App.Forms.Tools
         {
             InitializeComponent();
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
@@ -261,7 +257,7 @@ namespace Scada.Admin.App.Forms.Tools
                 btnDeactivateExt.Enabled = true;
                 btnMoveUpExt.Enabled = lbActiveExt.SelectedIndex > 0;
                 btnMoveDownExt.Enabled = lbActiveExt.SelectedIndex < lbActiveExt.Items.Count - 1;
-                btnExtProperties.Enabled = extensionItem.ExtensionLogic != null && 
+                btnExtProperties.Enabled = extensionItem.ExtensionLogic != null &&
                     extensionItem.ExtensionLogic.CanShowProperties;
             }
             else
@@ -421,6 +417,7 @@ namespace Scada.Admin.App.Forms.Tools
                 extentionItem.ExtensionLogic != null && extentionItem.ExtensionLogic.CanShowProperties)
             {
                 lbActiveExt.Focus();
+                extentionItem.ExtensionLogic.LoadConfig();
                 extentionItem.ExtensionLogic.ShowProperties(config);
             }
         }

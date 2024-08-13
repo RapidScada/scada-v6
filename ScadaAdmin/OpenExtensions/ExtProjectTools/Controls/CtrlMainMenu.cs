@@ -14,6 +14,8 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
     public partial class CtrlMainMenu : UserControl
     {
         private readonly IAdminContext adminContext; // the Administrator context
+        private FrmObjectEditor frmObjectEditor;     // the object editor form
+        private FrmRightMatrix frmRightMatrix;       // the right matrix form
 
 
         /// <summary>
@@ -31,9 +33,12 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             : this()
         {
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
-            SetMenuItemsEnabled();
             adminContext.CurrentProjectChanged += AdminContext_CurrentProjectChanged;
             adminContext.MessageToExtension += AdminContext_MessageToExtension;
+
+            frmObjectEditor = null;
+            frmRightMatrix = null;
+            SetMenuItemsEnabled();
         }
 
 
@@ -44,12 +49,14 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
         {
             bool projectIsOpen = adminContext.CurrentProject != null;
             miCloneChannels.Enabled = projectIsOpen;
+            miEncryptPassword.Enabled = true;
             miChannelMapByDevice.Enabled = projectIsOpen;
             miChannelMapByObject.Enabled = projectIsOpen;
             miDeviceMap.Enabled = projectIsOpen;
             miObjectMap.Enabled = projectIsOpen;
             miCheckIntegrity.Enabled = projectIsOpen;
-            miEncryptPassword.Enabled = true;
+            miObjectEditor.Enabled = btnObjectEditor.Enabled = projectIsOpen;
+            miRightMatrix.Enabled = btnRightMatrix.Enabled = projectIsOpen;
             miImportTable.Enabled = projectIsOpen;
             miExportTable.Enabled = projectIsOpen;
         }
@@ -98,7 +105,15 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
         /// </summary>
         public ToolStripItem[] GetMainMenuItems()
         {
-            return new ToolStripItem[] { miProjectTools };
+            return [miProjectTools];
+        }
+
+        /// <summary>
+        /// Gets tool buttons to add to the toolbar.
+        /// </summary>
+        public ToolStripItem[] GetToobarButtons()
+        {
+            return [btnObjectEditor, btnRightMatrix];
         }
 
 
@@ -128,6 +143,11 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             }
         }
 
+        private void miEncryptPassword_Click(object sender, EventArgs e)
+        {
+            new FrmPasswordEncrypt().ShowDialog();
+        }
+
         private void miChannelMap_Click(object sender, EventArgs e)
         {
             GenerateChannelMap(sender == miChannelMapByDevice);
@@ -153,9 +173,28 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             }
         }
 
-        private void miEncryptPassword_Click(object sender, EventArgs e)
+        private void miObjectEditor_Click(object sender, EventArgs e)
         {
-            new FrmPasswordEncrypt().ShowDialog();
+            // open object editor
+            if (frmObjectEditor == null)
+            {
+                frmObjectEditor = new FrmObjectEditor(adminContext, adminContext.CurrentProject.ConfigDatabase);
+                frmObjectEditor.FormClosed += (object sender, FormClosedEventArgs e) => { frmObjectEditor = null; };
+            }
+
+            adminContext.MainForm.AddChildForm(frmObjectEditor);
+        }
+
+        private void miRightMatrix_Click(object sender, EventArgs e)
+        {
+            // open right matrix
+            if (frmRightMatrix == null)
+            {
+                frmRightMatrix = new FrmRightMatrix(adminContext, adminContext.CurrentProject.ConfigDatabase);
+                frmRightMatrix.FormClosed += (object sender, FormClosedEventArgs e) => { frmRightMatrix = null; };
+            }
+
+            adminContext.MainForm.AddChildForm(frmRightMatrix);
         }
 
         private void miImportTable_Click(object sender, EventArgs e)

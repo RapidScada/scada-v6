@@ -3,7 +3,6 @@
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Scada.Lang;
@@ -11,8 +10,6 @@ using Scada.Web.Code;
 using Scada.Web.Config;
 using Scada.Web.Services;
 using Scada.Web.Users;
-using System;
-using System.Threading.Tasks;
 
 namespace Scada.Web.Pages
 {

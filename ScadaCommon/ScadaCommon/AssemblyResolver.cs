@@ -85,7 +85,7 @@ namespace Scada
 
             // search in the directory of the requesting assembly
             string assemblyDir = Path.GetDirectoryName(requestingAssembly.Location);
-            Assembly assembly = 
+            Assembly assembly =
                 LoadAssembly(shortFileName, assemblyDir) ??
                 LoadAssembly(shortFileName, Path.Combine(assemblyDir, requestingAssembly.GetName().Name));
 

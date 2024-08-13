@@ -9,9 +9,11 @@
     <Phrase key="CreateSchema">Создание схемы базы данных</Phrase>
     <Phrase key="CreateAppDict">Создание справочника приложений</Phrase>
     <Phrase key="ClearBase">Очистка базы конфигурации</Phrase>
-    <Phrase key="CreateBase">Удаление таблицы {0}</Phrase>
-    <Phrase key="DeleteTable">Создание базы конфигурации</Phrase>
+    <Phrase key="CreateBase">Создание базы конфигурации</Phrase>
+    <Phrase key="DeleteTable">Удаление таблицы {0}</Phrase>
+    <Phrase key="TruncateTable">Обрезка таблицы {0}</Phrase>
     <Phrase key="CreateTable">Создание таблицы {0}</Phrase>
+    <Phrase key="FillTable">Заполнение таблицы {0}</Phrase>
     <Phrase key="CreateFKs">Создание внешних ключей</Phrase>
     <Phrase key="CreateTableFKs">Создание внешних ключей таблицы {0}</Phrase>
     <Phrase key="ClearViews">Очистка представлений</Phrase>
@@ -22,5 +24,14 @@
     <Phrase key="CreateAppConfig">Создание конфигурации приложения {0}</Phrase>
     <Phrase key="CreateConfigFile">Создание файла конфигурации &quot;{0}&quot;</Phrase>
     <Phrase key="UnableRestartServices">Невозможно перезапустить службы, потому что Агент отключен</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ClearBaseMethod">
+    <Phrase key="DropTables">Удалить таблицы</Phrase>
+    <Phrase key="TruncateTables">Обрезать таблицы</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ExtensionConfig">
+    <Phrase key="ClearBaseMethod.DisplayName">Метод очистки</Phrase>
+    <Phrase key="ClearBaseMethod.Category">Основные параметры</Phrase>
+    <Phrase key="ClearBaseMethod.Description">Метод очистки базы конфигурации. Метод обрезки возможен, если таблицы уже созданы.</Phrase>
   </Dictionary>
 </ExtDepPostgreSqlDictionaries>

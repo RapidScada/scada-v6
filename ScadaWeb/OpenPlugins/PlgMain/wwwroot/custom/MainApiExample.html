@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Main API Example</title>
+
+    <style type="text/css">
+        body {
+            margin: 20px;
+        }
+
+        div.descr {
+            margin: 5px 0;
+        }
+
+        div.data {
+            border: 1px solid gray;
+            height: 100px;
+            margin: 5px 0;
+            overflow: scroll;
+            white-space: nowrap;
+        }
+
+        #divData1 {
+            height: 70px;
+        }
+
+        #divData2 {
+            height: 500px;
+        }
+    </style>
+
+    <script src="../lib/jquery/dist/jquery.min.js"></script>
+    <script src="../plugins/Main/js/main-api.js"></script>
+
+    <script type="text/javascript">
+        const REFR_RATE = 1000; // the refresh rate of current data, ms
+        const CNL_NUM = 101;    // the channel number to read
+        const ARCHIVE_BIT = 2;  // specifies the hourly archive
+        var mainApi = null;     // the API instance
+
+        // Starts cyclic update of current data.
+        function startUpdatingCurData() {
+            getCurData(function () {
+                setTimeout(startUpdatingCurData, REFR_RATE);
+            });
+        }
+
+        // Requests and displays current data.
+        function getCurData(callback) {
+            mainApi.getCurData(CNL_NUM, function (dto) {
+                if (dto.ok) {
+                    let cnlData = dto.data[0];
+                    $("#divData1").html("Value = " + cnlData.val + "<br />Status = " + cnlData.stat);
+                } else {
+                    $("#divData1").text("Error getting current data: " + dto.msg);
+                }
+
+                callback();
+            });
+        }
+
+        // Requests and displays hourly data.
+        function getHourData() {
+            let myDate = new Date(); // current time
+            myDate.setHours(0, 0, 0, 0); // today
+            let startTime = myDate.toISOString();
+            myDate.setDate(myDate.getDate() + 1); // tomorrow
+            let endTime = myDate.toISOString();
+            let timeRange = new TimeRange(startTime, endTime, false);
+
+            mainApi.getHistData(ARCHIVE_BIT, timeRange, CNL_NUM, function (dto) {
+                let outElem = $("#divData2");
+
+                if (dto.ok) {
+                    outElem.html("");
+                    let timestamps = dto.data.timestamps;
+
+                    if (timestamps.length > 0) {
+                        let trend = dto.data.trends[0];
+
+                        for (let i = 0; i < timestamps.length; i++) {
+                            let timestamp = timestamps[i];
+                            let record = trend[i];
+                            outElem.append(
+                                "Time = " + timestamp.ut + ", " +
+                                "Local time = " + timestamp.lt + ", " +
+                                "Value = " + record.d.val + ", " +
+                                "Status = " + record.d.stat + ", " +
+                                "Display value = " + record.df.dispVal + "<br />");
+                        }
+                    } else {
+                        outElem.text("No data");
+                    }
+                } else {
+                    outElem.text("Error getting hourly data: " + dto.msg);
+                }
+            });
+        }
+
+        $(function () {
+            // initialize the API
+            mainApi = new MainApi({ rootPath: "../" });
+
+            // prepare a web page
+            $("#divDescr1").text("Cyclically request the current data of channel " + CNL_NUM);
+            $("#divDescr2").text("Request the hourly data of channel " + CNL_NUM + " for the current date");
+
+            // request data
+            startUpdatingCurData();
+            getHourData();
+        });
+    </script>
+</head>
+<body>
+    <h1>Main API Example</h1>
+
+    <h2>Get Current Data Example</h2>
+    <div id="divDescr1" class="descr">Description</div>
+    <div id="divData1" class="data"></div>
+
+    <h2>Get Hourly Data Example</h2>
+    <div id="divDescr2" class="descr">Description</div>
+    <div id="divData2" class="data"></div>
+</body>
+</html>

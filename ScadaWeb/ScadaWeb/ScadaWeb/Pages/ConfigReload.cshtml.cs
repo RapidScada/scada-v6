@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Scada.Data.Const;
 using Scada.Lang;
 using Scada.Web.Services;
-using System.IO;
 
 namespace Scada.Web.Pages
 {

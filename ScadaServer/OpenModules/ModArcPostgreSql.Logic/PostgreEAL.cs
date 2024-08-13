@@ -301,7 +301,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 DateTime timestamp = DbUtils.GetLastWriteTime(readingConn, queryBuilder.EventTable);
 
                 // get the last acknowledge timestamp of the past day
-                string sql = $"SELECT MAX(ack_timestamp) FROM {queryBuilder.EventTable} " + 
+                string sql = $"SELECT MAX(ack_timestamp) FROM {queryBuilder.EventTable} " +
                     "WHERE @startTime <= time_stamp AND time_stamp < @endTime";
                 NpgsqlCommand cmd = new(sql, readingConn);
                 DateTime utcNow = DateTime.UtcNow;
@@ -456,7 +456,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
 
                 if (rowsAffected > 0)
                 {
-                    arcLog?.WriteAction(ServerPhrases.AckEventCompleted, eventAck.EventID, 
+                    arcLog?.WriteAction(ServerPhrases.AckEventCompleted, eventAck.EventID,
                         stopwatch.ElapsedMilliseconds);
                 }
                 else

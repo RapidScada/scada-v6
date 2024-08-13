@@ -39,12 +39,14 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
         /// <summary>
         /// Writes objects recursively.
         /// </summary>
-        private static void WriteChildObjects(StreamWriter writer, ITableIndex parentObjIndex, 
+        private static void WriteChildObjects(StreamWriter writer, ITableIndex parentObjIndex,
             int parentObjNum, int level)
         {
-            // infinite recursion is not possible for objects
             foreach (Obj childObj in parentObjIndex.SelectItems(parentObjNum))
             {
+                if (childObj.ObjNum <= 0)
+                    continue; // protect from infinite loop
+
                 if (level > 0)
                     writer.Write(new string('-', level * 2) + " ");
 

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2023
+ * Modified : 2024
  */
 
 using Scada.Data.Entities;
@@ -106,7 +106,7 @@ namespace Scada.Data.Models
                 {
                     yield return childObj;
 
-                    foreach (Obj grandchildObj in 
+                    foreach (Obj grandchildObj in
                         EnumerateChildObjects(obj_parentObjIndex, childObj.ObjNum, protectionSet))
                     {
                         yield return grandchildObj;
@@ -124,7 +124,7 @@ namespace Scada.Data.Models
             {
                 HashSet<int> protectionSet = new HashSet<int> { childObjNum };
 
-                while (childObj.ParentObjNum != null && 
+                while (childObj.ParentObjNum != null &&
                     protectionSet.Add(childObj.ParentObjNum.Value) &&
                     objTable.GetItem(childObj.ParentObjNum.Value) is Obj parentObj)
                 {
@@ -193,14 +193,9 @@ namespace Scada.Data.Models
             Matrix = new Dictionary<int, RightByObj>(configDataset.RoleTable.ItemCount);
 
             // get indexes
-            if (!configDataset.RoleRefTable.TryGetIndex("ChildRoleID", out ITableIndex roleRef_childRoleIndex))
-                throw new ScadaException(CommonPhrases.IndexNotFound);
-
-            if (!configDataset.ObjRightTable.TryGetIndex("RoleID", out ITableIndex objRight_roleIndex))
-                throw new ScadaException(CommonPhrases.IndexNotFound);
-
-            if (!configDataset.ObjTable.TryGetIndex("ParentObjNum", out ITableIndex obj_parentObjIndex))
-                throw new ScadaException(CommonPhrases.IndexNotFound);
+            ITableIndex roleRef_childRoleIndex = configDataset.RoleRefTable.GetIndex("ChildRoleID", true);
+            ITableIndex objRight_roleIndex = configDataset.ObjRightTable.GetIndex("RoleID", true);
+            ITableIndex obj_parentObjIndex = configDataset.ObjTable.GetIndex("ParentObjNum", true);
 
             // fill rights
             foreach (Role role in configDataset.RoleTable)
@@ -221,12 +216,12 @@ namespace Scada.Data.Models
         /// <summary>
         /// Gets the rights of the role on the object.
         /// </summary>
-        public virtual Right GetRight(int roleID, int objID)
+        public virtual Right GetRight(int roleID, int objNum)
         {
-            return Matrix != null && 
-                Matrix.TryGetValue(roleID, out RightByObj rightByObj) && 
-                rightByObj.TryGetValue(objID, out Right right)
-                ? right 
+            return Matrix != null &&
+                Matrix.TryGetValue(roleID, out RightByObj rightByObj) &&
+                rightByObj.TryGetValue(objNum, out Right right)
+                ? right
                 : Right.Empty;
         }
 

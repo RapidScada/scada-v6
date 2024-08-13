@@ -31,8 +31,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View
         {
             get
             {
-                return Locale.IsRussian ? 
-                    "Архив PostgreSQL" : 
+                return Locale.IsRussian ?
+                    "Архив PostgreSQL" :
                     "PostgreSQL Archive";
             }
         }

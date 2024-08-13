@@ -20,19 +20,14 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2019
- * Modified : 2022
+ * Modified : 2024
  */
 
 using Scada.Admin.App.Code;
 using Scada.Forms;
 using Scada.Lang;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.IO;
-using System.Windows.Forms;
-using WinControl;
+using WinControls;
 
 namespace Scada.Admin.App.Forms
 {
@@ -172,8 +167,8 @@ namespace Scada.Admin.App.Forms
 
         private void FrmStartPage_Load(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this, GetType().FullName, 
-                new FormTranslatorOptions { ContextMenus = new ContextMenuStrip[] { cmsProjectList } });
+            FormTranslator.Translate(this, GetType().FullName,
+                new FormTranslatorOptions { ContextMenus = [cmsProjectList] });
             FillRecentProjectList();
         }
 

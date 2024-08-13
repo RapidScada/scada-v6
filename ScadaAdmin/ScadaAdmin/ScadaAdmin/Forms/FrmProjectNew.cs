@@ -27,9 +27,6 @@ using Scada.Admin.App.Code;
 using Scada.Admin.Project;
 using Scada.Forms;
 using Scada.Lang;
-using System;
-using System.IO;
-using System.Windows.Forms;
 
 namespace Scada.Admin.App.Forms
 {
@@ -81,7 +78,7 @@ namespace Scada.Admin.App.Forms
                 return txtName.Text.Trim();
             }
         }
-        
+
         /// <summary>
         /// Gets the project location.
         /// </summary>
@@ -224,7 +221,7 @@ namespace Scada.Admin.App.Forms
             // validate template
             if (template == "")
             {
-                if (MessageBox.Show(AppPhrases.ProjectTemplateEmpty, CommonPhrases.QuestionCaption, 
+                if (MessageBox.Show(AppPhrases.ProjectTemplateEmpty, CommonPhrases.QuestionCaption,
                     MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) != DialogResult.Yes)
                 {
                     return false;

@@ -24,7 +24,6 @@
  */
 
 using Scada.Data.Models;
-using System;
 
 namespace Scada.Comm.Devices
 {

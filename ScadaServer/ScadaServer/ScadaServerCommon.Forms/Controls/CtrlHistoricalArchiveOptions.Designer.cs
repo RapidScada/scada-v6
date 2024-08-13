@@ -28,331 +28,349 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.gbOptions = new System.Windows.Forms.GroupBox();
-            this.cbDeadbandUnit = new System.Windows.Forms.ComboBox();
-            this.numDeadband = new System.Windows.Forms.NumericUpDown();
-            this.lblDeadband = new System.Windows.Forms.Label();
-            this.chkWriteOnChange = new System.Windows.Forms.CheckBox();
-            this.lblWriteOnChange = new System.Windows.Forms.Label();
-            this.txtPullToPeriodUnit = new System.Windows.Forms.TextBox();
-            this.numPullToPeriod = new System.Windows.Forms.NumericUpDown();
-            this.lblPullToPeriod = new System.Windows.Forms.Label();
-            this.cbWritingPeriodUnit = new System.Windows.Forms.ComboBox();
-            this.numWritingPeriod = new System.Windows.Forms.NumericUpDown();
-            this.lblWritingPeriod = new System.Windows.Forms.Label();
-            this.chkWriteWithPeriod = new System.Windows.Forms.CheckBox();
-            this.lblWriteWithPeriod = new System.Windows.Forms.Label();
-            this.chkIsPeriodic = new System.Windows.Forms.CheckBox();
-            this.lblIsPeriodic = new System.Windows.Forms.Label();
-            this.txtRetentionUnit = new System.Windows.Forms.TextBox();
-            this.numRetention = new System.Windows.Forms.NumericUpDown();
-            this.lblRetention = new System.Windows.Forms.Label();
-            this.chkLogEnabled = new System.Windows.Forms.CheckBox();
-            this.lblLogEnabled = new System.Windows.Forms.Label();
-            this.chkReadOnly = new System.Windows.Forms.CheckBox();
-            this.lblReadOnly = new System.Windows.Forms.Label();
-            this.gbOptions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numDeadband)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numPullToPeriod)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numWritingPeriod)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numRetention)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // gbOptions
-            // 
-            this.gbOptions.Controls.Add(this.cbDeadbandUnit);
-            this.gbOptions.Controls.Add(this.numDeadband);
-            this.gbOptions.Controls.Add(this.lblDeadband);
-            this.gbOptions.Controls.Add(this.chkWriteOnChange);
-            this.gbOptions.Controls.Add(this.lblWriteOnChange);
-            this.gbOptions.Controls.Add(this.txtPullToPeriodUnit);
-            this.gbOptions.Controls.Add(this.numPullToPeriod);
-            this.gbOptions.Controls.Add(this.lblPullToPeriod);
-            this.gbOptions.Controls.Add(this.cbWritingPeriodUnit);
-            this.gbOptions.Controls.Add(this.numWritingPeriod);
-            this.gbOptions.Controls.Add(this.lblWritingPeriod);
-            this.gbOptions.Controls.Add(this.chkWriteWithPeriod);
-            this.gbOptions.Controls.Add(this.lblWriteWithPeriod);
-            this.gbOptions.Controls.Add(this.chkIsPeriodic);
-            this.gbOptions.Controls.Add(this.lblIsPeriodic);
-            this.gbOptions.Controls.Add(this.txtRetentionUnit);
-            this.gbOptions.Controls.Add(this.numRetention);
-            this.gbOptions.Controls.Add(this.lblRetention);
-            this.gbOptions.Controls.Add(this.chkLogEnabled);
-            this.gbOptions.Controls.Add(this.lblLogEnabled);
-            this.gbOptions.Controls.Add(this.chkReadOnly);
-            this.gbOptions.Controls.Add(this.lblReadOnly);
-            this.gbOptions.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbOptions.Location = new System.Drawing.Point(0, 0);
-            this.gbOptions.Name = "gbOptions";
-            this.gbOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbOptions.Size = new System.Drawing.Size(360, 290);
-            this.gbOptions.TabIndex = 0;
-            this.gbOptions.TabStop = false;
-            this.gbOptions.Text = "General Options";
+            cbDeadbandUnit = new ComboBox();
+            numDeadband = new NumericUpDown();
+            lblDeadband = new Label();
+            chkWriteOnChange = new CheckBox();
+            lblWriteOnChange = new Label();
+            txtPullToPeriodUnit = new TextBox();
+            numPullToPeriod = new NumericUpDown();
+            lblPullToPeriod = new Label();
+            cbWritingPeriodUnit = new ComboBox();
+            numWritingPeriod = new NumericUpDown();
+            lblWritingPeriod = new Label();
+            chkWriteWithPeriod = new CheckBox();
+            lblWriteWithPeriod = new Label();
+            chkIsPeriodic = new CheckBox();
+            lblIsPeriodic = new Label();
+            txtRetentionUnit = new TextBox();
+            numRetention = new NumericUpDown();
+            lblRetention = new Label();
+            chkLogEnabled = new CheckBox();
+            lblLogEnabled = new Label();
+            chkReadOnly = new CheckBox();
+            lblReadOnly = new Label();
+            cbWritingOffsetUnit = new ComboBox();
+            numWritingOffset = new NumericUpDown();
+            lblWritingOffset = new Label();
+            chkUsePeriodStartTime = new CheckBox();
+            lblUsePeriodStartTime = new Label();
+            ((System.ComponentModel.ISupportInitialize)numDeadband).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numPullToPeriod).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numWritingPeriod).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numRetention).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numWritingOffset).BeginInit();
+            SuspendLayout();
             // 
             // cbDeadbandUnit
             // 
-            this.cbDeadbandUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbDeadbandUnit.FormattingEnabled = true;
-            this.cbDeadbandUnit.Items.AddRange(new object[] {
-            "Abs.",
-            "%"});
-            this.cbDeadbandUnit.Location = new System.Drawing.Point(277, 254);
-            this.cbDeadbandUnit.Name = "cbDeadbandUnit";
-            this.cbDeadbandUnit.Size = new System.Drawing.Size(70, 23);
-            this.cbDeadbandUnit.TabIndex = 21;
+            cbDeadbandUnit.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            cbDeadbandUnit.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbDeadbandUnit.FormattingEnabled = true;
+            cbDeadbandUnit.Items.AddRange(new object[] { "Abs.", "%" });
+            cbDeadbandUnit.Location = new Point(290, 286);
+            cbDeadbandUnit.Name = "cbDeadbandUnit";
+            cbDeadbandUnit.Size = new Size(70, 23);
+            cbDeadbandUnit.TabIndex = 26;
             // 
             // numDeadband
             // 
-            this.numDeadband.DecimalPlaces = 6;
-            this.numDeadband.Location = new System.Drawing.Point(196, 254);
-            this.numDeadband.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.numDeadband.Name = "numDeadband";
-            this.numDeadband.Size = new System.Drawing.Size(75, 23);
-            this.numDeadband.TabIndex = 20;
+            numDeadband.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            numDeadband.DecimalPlaces = 6;
+            numDeadband.Location = new Point(209, 286);
+            numDeadband.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
+            numDeadband.Name = "numDeadband";
+            numDeadband.Size = new Size(75, 23);
+            numDeadband.TabIndex = 25;
             // 
             // lblDeadband
             // 
-            this.lblDeadband.AutoSize = true;
-            this.lblDeadband.Location = new System.Drawing.Point(13, 258);
-            this.lblDeadband.Name = "lblDeadband";
-            this.lblDeadband.Size = new System.Drawing.Size(61, 15);
-            this.lblDeadband.TabIndex = 19;
-            this.lblDeadband.Text = "Deadband";
+            lblDeadband.AutoSize = true;
+            lblDeadband.Location = new Point(-3, 290);
+            lblDeadband.Name = "lblDeadband";
+            lblDeadband.Size = new Size(61, 15);
+            lblDeadband.TabIndex = 24;
+            lblDeadband.Text = "Deadband";
             // 
             // chkWriteOnChange
             // 
-            this.chkWriteOnChange.AutoSize = true;
-            this.chkWriteOnChange.Location = new System.Drawing.Point(332, 229);
-            this.chkWriteOnChange.Name = "chkWriteOnChange";
-            this.chkWriteOnChange.Size = new System.Drawing.Size(15, 14);
-            this.chkWriteOnChange.TabIndex = 18;
-            this.chkWriteOnChange.UseVisualStyleBackColor = true;
-            this.chkWriteOnChange.CheckedChanged += new System.EventHandler(this.chkWriteOnChange_CheckedChanged);
+            chkWriteOnChange.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            chkWriteOnChange.AutoSize = true;
+            chkWriteOnChange.Location = new Point(345, 261);
+            chkWriteOnChange.Name = "chkWriteOnChange";
+            chkWriteOnChange.Size = new Size(15, 14);
+            chkWriteOnChange.TabIndex = 23;
+            chkWriteOnChange.UseVisualStyleBackColor = true;
+            chkWriteOnChange.CheckedChanged += chkWriteOnChange_CheckedChanged;
             // 
             // lblWriteOnChange
             // 
-            this.lblWriteOnChange.AutoSize = true;
-            this.lblWriteOnChange.Location = new System.Drawing.Point(13, 229);
-            this.lblWriteOnChange.Name = "lblWriteOnChange";
-            this.lblWriteOnChange.Size = new System.Drawing.Size(94, 15);
-            this.lblWriteOnChange.TabIndex = 17;
-            this.lblWriteOnChange.Text = "Write on change";
+            lblWriteOnChange.AutoSize = true;
+            lblWriteOnChange.Location = new Point(-3, 261);
+            lblWriteOnChange.Name = "lblWriteOnChange";
+            lblWriteOnChange.Size = new Size(94, 15);
+            lblWriteOnChange.TabIndex = 22;
+            lblWriteOnChange.Text = "Write on change";
             // 
             // txtPullToPeriodUnit
             // 
-            this.txtPullToPeriodUnit.Location = new System.Drawing.Point(277, 196);
-            this.txtPullToPeriodUnit.Name = "txtPullToPeriodUnit";
-            this.txtPullToPeriodUnit.ReadOnly = true;
-            this.txtPullToPeriodUnit.Size = new System.Drawing.Size(70, 23);
-            this.txtPullToPeriodUnit.TabIndex = 16;
-            this.txtPullToPeriodUnit.Text = "Sec";
+            txtPullToPeriodUnit.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            txtPullToPeriodUnit.Location = new Point(290, 228);
+            txtPullToPeriodUnit.Name = "txtPullToPeriodUnit";
+            txtPullToPeriodUnit.ReadOnly = true;
+            txtPullToPeriodUnit.Size = new Size(70, 23);
+            txtPullToPeriodUnit.TabIndex = 21;
+            txtPullToPeriodUnit.Text = "Sec";
             // 
             // numPullToPeriod
             // 
-            this.numPullToPeriod.Location = new System.Drawing.Point(196, 196);
-            this.numPullToPeriod.Maximum = new decimal(new int[] {
-            3600,
-            0,
-            0,
-            0});
-            this.numPullToPeriod.Name = "numPullToPeriod";
-            this.numPullToPeriod.Size = new System.Drawing.Size(75, 23);
-            this.numPullToPeriod.TabIndex = 15;
+            numPullToPeriod.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            numPullToPeriod.Location = new Point(209, 228);
+            numPullToPeriod.Maximum = new decimal(new int[] { 3600, 0, 0, 0 });
+            numPullToPeriod.Name = "numPullToPeriod";
+            numPullToPeriod.Size = new Size(75, 23);
+            numPullToPeriod.TabIndex = 20;
             // 
             // lblPullToPeriod
             // 
-            this.lblPullToPeriod.AutoSize = true;
-            this.lblPullToPeriod.Location = new System.Drawing.Point(13, 200);
-            this.lblPullToPeriod.Name = "lblPullToPeriod";
-            this.lblPullToPeriod.Size = new System.Drawing.Size(78, 15);
-            this.lblPullToPeriod.TabIndex = 14;
-            this.lblPullToPeriod.Text = "Pull to period";
+            lblPullToPeriod.AutoSize = true;
+            lblPullToPeriod.Location = new Point(-3, 232);
+            lblPullToPeriod.Name = "lblPullToPeriod";
+            lblPullToPeriod.Size = new Size(78, 15);
+            lblPullToPeriod.TabIndex = 19;
+            lblPullToPeriod.Text = "Pull to period";
             // 
             // cbWritingPeriodUnit
             // 
-            this.cbWritingPeriodUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbWritingPeriodUnit.FormattingEnabled = true;
-            this.cbWritingPeriodUnit.Items.AddRange(new object[] {
-            "Sec",
-            "Min",
-            "Hour"});
-            this.cbWritingPeriodUnit.Location = new System.Drawing.Point(277, 167);
-            this.cbWritingPeriodUnit.Name = "cbWritingPeriodUnit";
-            this.cbWritingPeriodUnit.Size = new System.Drawing.Size(70, 23);
-            this.cbWritingPeriodUnit.TabIndex = 13;
+            cbWritingPeriodUnit.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            cbWritingPeriodUnit.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbWritingPeriodUnit.FormattingEnabled = true;
+            cbWritingPeriodUnit.Items.AddRange(new object[] { "Sec", "Min", "Hour", "Day" });
+            cbWritingPeriodUnit.Location = new Point(290, 170);
+            cbWritingPeriodUnit.Name = "cbWritingPeriodUnit";
+            cbWritingPeriodUnit.Size = new Size(70, 23);
+            cbWritingPeriodUnit.TabIndex = 15;
             // 
             // numWritingPeriod
             // 
-            this.numWritingPeriod.Location = new System.Drawing.Point(196, 167);
-            this.numWritingPeriod.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.numWritingPeriod.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numWritingPeriod.Name = "numWritingPeriod";
-            this.numWritingPeriod.Size = new System.Drawing.Size(75, 23);
-            this.numWritingPeriod.TabIndex = 12;
-            this.numWritingPeriod.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            numWritingPeriod.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            numWritingPeriod.Location = new Point(209, 170);
+            numWritingPeriod.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            numWritingPeriod.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numWritingPeriod.Name = "numWritingPeriod";
+            numWritingPeriod.Size = new Size(75, 23);
+            numWritingPeriod.TabIndex = 14;
+            numWritingPeriod.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // lblWritingPeriod
             // 
-            this.lblWritingPeriod.AutoSize = true;
-            this.lblWritingPeriod.Location = new System.Drawing.Point(13, 171);
-            this.lblWritingPeriod.Name = "lblWritingPeriod";
-            this.lblWritingPeriod.Size = new System.Drawing.Size(83, 15);
-            this.lblWritingPeriod.TabIndex = 11;
-            this.lblWritingPeriod.Text = "Writing period";
+            lblWritingPeriod.AutoSize = true;
+            lblWritingPeriod.Location = new Point(-3, 174);
+            lblWritingPeriod.Name = "lblWritingPeriod";
+            lblWritingPeriod.Size = new Size(83, 15);
+            lblWritingPeriod.TabIndex = 13;
+            lblWritingPeriod.Text = "Writing period";
             // 
             // chkWriteWithPeriod
             // 
-            this.chkWriteWithPeriod.AutoSize = true;
-            this.chkWriteWithPeriod.Location = new System.Drawing.Point(332, 142);
-            this.chkWriteWithPeriod.Name = "chkWriteWithPeriod";
-            this.chkWriteWithPeriod.Size = new System.Drawing.Size(15, 14);
-            this.chkWriteWithPeriod.TabIndex = 10;
-            this.chkWriteWithPeriod.UseVisualStyleBackColor = true;
-            this.chkWriteWithPeriod.CheckedChanged += new System.EventHandler(this.chkWriteWithPeriod_CheckedChanged);
+            chkWriteWithPeriod.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            chkWriteWithPeriod.AutoSize = true;
+            chkWriteWithPeriod.Location = new Point(345, 116);
+            chkWriteWithPeriod.Name = "chkWriteWithPeriod";
+            chkWriteWithPeriod.Size = new Size(15, 14);
+            chkWriteWithPeriod.TabIndex = 10;
+            chkWriteWithPeriod.UseVisualStyleBackColor = true;
+            chkWriteWithPeriod.CheckedChanged += chkWriteWithPeriod_CheckedChanged;
             // 
             // lblWriteWithPeriod
             // 
-            this.lblWriteWithPeriod.AutoSize = true;
-            this.lblWriteWithPeriod.Location = new System.Drawing.Point(13, 142);
-            this.lblWriteWithPeriod.Name = "lblWriteWithPeriod";
-            this.lblWriteWithPeriod.Size = new System.Drawing.Size(98, 15);
-            this.lblWriteWithPeriod.TabIndex = 9;
-            this.lblWriteWithPeriod.Text = "Write with period";
+            lblWriteWithPeriod.AutoSize = true;
+            lblWriteWithPeriod.Location = new Point(-3, 116);
+            lblWriteWithPeriod.Name = "lblWriteWithPeriod";
+            lblWriteWithPeriod.Size = new Size(98, 15);
+            lblWriteWithPeriod.TabIndex = 9;
+            lblWriteWithPeriod.Text = "Write with period";
             // 
             // chkIsPeriodic
             // 
-            this.chkIsPeriodic.AutoSize = true;
-            this.chkIsPeriodic.Location = new System.Drawing.Point(332, 113);
-            this.chkIsPeriodic.Name = "chkIsPeriodic";
-            this.chkIsPeriodic.Size = new System.Drawing.Size(15, 14);
-            this.chkIsPeriodic.TabIndex = 8;
-            this.chkIsPeriodic.UseVisualStyleBackColor = true;
-            this.chkIsPeriodic.CheckedChanged += new System.EventHandler(this.chkIsPeriodic_CheckedChanged);
+            chkIsPeriodic.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            chkIsPeriodic.AutoSize = true;
+            chkIsPeriodic.Location = new Point(345, 87);
+            chkIsPeriodic.Name = "chkIsPeriodic";
+            chkIsPeriodic.Size = new Size(15, 14);
+            chkIsPeriodic.TabIndex = 8;
+            chkIsPeriodic.UseVisualStyleBackColor = true;
+            chkIsPeriodic.CheckedChanged += chkIsPeriodic_CheckedChanged;
             // 
             // lblIsPeriodic
             // 
-            this.lblIsPeriodic.AutoSize = true;
-            this.lblIsPeriodic.Location = new System.Drawing.Point(13, 113);
-            this.lblIsPeriodic.Name = "lblIsPeriodic";
-            this.lblIsPeriodic.Size = new System.Drawing.Size(104, 15);
-            this.lblIsPeriodic.TabIndex = 7;
-            this.lblIsPeriodic.Text = "Only periodic data";
+            lblIsPeriodic.AutoSize = true;
+            lblIsPeriodic.Location = new Point(-3, 87);
+            lblIsPeriodic.Name = "lblIsPeriodic";
+            lblIsPeriodic.Size = new Size(104, 15);
+            lblIsPeriodic.TabIndex = 7;
+            lblIsPeriodic.Text = "Only periodic data";
             // 
             // txtRetentionUnit
             // 
-            this.txtRetentionUnit.Location = new System.Drawing.Point(277, 80);
-            this.txtRetentionUnit.Name = "txtRetentionUnit";
-            this.txtRetentionUnit.ReadOnly = true;
-            this.txtRetentionUnit.Size = new System.Drawing.Size(70, 23);
-            this.txtRetentionUnit.TabIndex = 6;
-            this.txtRetentionUnit.Text = "Day";
+            txtRetentionUnit.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            txtRetentionUnit.Location = new Point(290, 54);
+            txtRetentionUnit.Name = "txtRetentionUnit";
+            txtRetentionUnit.ReadOnly = true;
+            txtRetentionUnit.Size = new Size(70, 23);
+            txtRetentionUnit.TabIndex = 6;
+            txtRetentionUnit.Text = "Day";
             // 
             // numRetention
             // 
-            this.numRetention.Location = new System.Drawing.Point(196, 80);
-            this.numRetention.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.numRetention.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numRetention.Name = "numRetention";
-            this.numRetention.Size = new System.Drawing.Size(75, 23);
-            this.numRetention.TabIndex = 5;
-            this.numRetention.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            numRetention.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            numRetention.Location = new Point(209, 54);
+            numRetention.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
+            numRetention.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numRetention.Name = "numRetention";
+            numRetention.Size = new Size(75, 23);
+            numRetention.TabIndex = 5;
+            numRetention.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // lblRetention
             // 
-            this.lblRetention.AutoSize = true;
-            this.lblRetention.Location = new System.Drawing.Point(13, 84);
-            this.lblRetention.Name = "lblRetention";
-            this.lblRetention.Size = new System.Drawing.Size(95, 15);
-            this.lblRetention.TabIndex = 4;
-            this.lblRetention.Text = "Retention period";
+            lblRetention.AutoSize = true;
+            lblRetention.Location = new Point(-3, 58);
+            lblRetention.Name = "lblRetention";
+            lblRetention.Size = new Size(95, 15);
+            lblRetention.TabIndex = 4;
+            lblRetention.Text = "Retention period";
             // 
             // chkLogEnabled
             // 
-            this.chkLogEnabled.AutoSize = true;
-            this.chkLogEnabled.Location = new System.Drawing.Point(332, 55);
-            this.chkLogEnabled.Name = "chkLogEnabled";
-            this.chkLogEnabled.Size = new System.Drawing.Size(15, 14);
-            this.chkLogEnabled.TabIndex = 3;
-            this.chkLogEnabled.UseVisualStyleBackColor = true;
+            chkLogEnabled.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            chkLogEnabled.AutoSize = true;
+            chkLogEnabled.Location = new Point(345, 29);
+            chkLogEnabled.Name = "chkLogEnabled";
+            chkLogEnabled.Size = new Size(15, 14);
+            chkLogEnabled.TabIndex = 3;
+            chkLogEnabled.UseVisualStyleBackColor = true;
             // 
             // lblLogEnabled
             // 
-            this.lblLogEnabled.AutoSize = true;
-            this.lblLogEnabled.Location = new System.Drawing.Point(13, 55);
-            this.lblLogEnabled.Name = "lblLogEnabled";
-            this.lblLogEnabled.Size = new System.Drawing.Size(72, 15);
-            this.lblLogEnabled.TabIndex = 2;
-            this.lblLogEnabled.Text = "Log enabled";
+            lblLogEnabled.AutoSize = true;
+            lblLogEnabled.Location = new Point(-3, 29);
+            lblLogEnabled.Name = "lblLogEnabled";
+            lblLogEnabled.Size = new Size(72, 15);
+            lblLogEnabled.TabIndex = 2;
+            lblLogEnabled.Text = "Log enabled";
             // 
             // chkReadOnly
             // 
-            this.chkReadOnly.AutoSize = true;
-            this.chkReadOnly.Location = new System.Drawing.Point(332, 26);
-            this.chkReadOnly.Name = "chkReadOnly";
-            this.chkReadOnly.Size = new System.Drawing.Size(15, 14);
-            this.chkReadOnly.TabIndex = 1;
-            this.chkReadOnly.UseVisualStyleBackColor = true;
-            this.chkReadOnly.CheckedChanged += new System.EventHandler(this.chkReadOnly_CheckedChanged);
+            chkReadOnly.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            chkReadOnly.AutoSize = true;
+            chkReadOnly.Location = new Point(345, 0);
+            chkReadOnly.Name = "chkReadOnly";
+            chkReadOnly.Size = new Size(15, 14);
+            chkReadOnly.TabIndex = 1;
+            chkReadOnly.UseVisualStyleBackColor = true;
+            chkReadOnly.CheckedChanged += chkReadOnly_CheckedChanged;
             // 
             // lblReadOnly
             // 
-            this.lblReadOnly.AutoSize = true;
-            this.lblReadOnly.Location = new System.Drawing.Point(13, 26);
-            this.lblReadOnly.Name = "lblReadOnly";
-            this.lblReadOnly.Size = new System.Drawing.Size(59, 15);
-            this.lblReadOnly.TabIndex = 0;
-            this.lblReadOnly.Text = "Read only";
+            lblReadOnly.AutoSize = true;
+            lblReadOnly.Location = new Point(-3, 0);
+            lblReadOnly.Name = "lblReadOnly";
+            lblReadOnly.Size = new Size(59, 15);
+            lblReadOnly.TabIndex = 0;
+            lblReadOnly.Text = "Read only";
+            // 
+            // cbWritingOffsetUnit
+            // 
+            cbWritingOffsetUnit.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            cbWritingOffsetUnit.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbWritingOffsetUnit.FormattingEnabled = true;
+            cbWritingOffsetUnit.Items.AddRange(new object[] { "Sec", "Min", "Hour", "Day" });
+            cbWritingOffsetUnit.Location = new Point(290, 199);
+            cbWritingOffsetUnit.Name = "cbWritingOffsetUnit";
+            cbWritingOffsetUnit.Size = new Size(70, 23);
+            cbWritingOffsetUnit.TabIndex = 18;
+            // 
+            // numWritingOffset
+            // 
+            numWritingOffset.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            numWritingOffset.Location = new Point(209, 199);
+            numWritingOffset.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            numWritingOffset.Name = "numWritingOffset";
+            numWritingOffset.Size = new Size(75, 23);
+            numWritingOffset.TabIndex = 17;
+            numWritingOffset.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
+            // lblWritingOffset
+            // 
+            lblWritingOffset.AutoSize = true;
+            lblWritingOffset.Location = new Point(-3, 203);
+            lblWritingOffset.Name = "lblWritingOffset";
+            lblWritingOffset.Size = new Size(79, 15);
+            lblWritingOffset.TabIndex = 16;
+            lblWritingOffset.Text = "Writing offset";
+            // 
+            // chkUsePeriodStartTime
+            // 
+            chkUsePeriodStartTime.AutoSize = true;
+            chkUsePeriodStartTime.Location = new Point(345, 145);
+            chkUsePeriodStartTime.Name = "chkUsePeriodStartTime";
+            chkUsePeriodStartTime.Size = new Size(15, 14);
+            chkUsePeriodStartTime.TabIndex = 12;
+            chkUsePeriodStartTime.UseVisualStyleBackColor = true;
+            // 
+            // lblUsePeriodStartTime
+            // 
+            lblUsePeriodStartTime.AutoSize = true;
+            lblUsePeriodStartTime.Location = new Point(-3, 145);
+            lblUsePeriodStartTime.Name = "lblUsePeriodStartTime";
+            lblUsePeriodStartTime.Size = new Size(142, 15);
+            lblUsePeriodStartTime.TabIndex = 11;
+            lblUsePeriodStartTime.Text = "Timestamp at period start";
             // 
             // CtrlHistoricalArchiveOptions
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.gbOptions);
-            this.Name = "CtrlHistoricalArchiveOptions";
-            this.Size = new System.Drawing.Size(360, 290);
-            this.gbOptions.ResumeLayout(false);
-            this.gbOptions.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numDeadband)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numPullToPeriod)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numWritingPeriod)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numRetention)).EndInit();
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(cbDeadbandUnit);
+            Controls.Add(numDeadband);
+            Controls.Add(lblDeadband);
+            Controls.Add(chkWriteOnChange);
+            Controls.Add(lblWriteOnChange);
+            Controls.Add(txtPullToPeriodUnit);
+            Controls.Add(numPullToPeriod);
+            Controls.Add(lblPullToPeriod);
+            Controls.Add(cbWritingOffsetUnit);
+            Controls.Add(numWritingOffset);
+            Controls.Add(lblWritingOffset);
+            Controls.Add(cbWritingPeriodUnit);
+            Controls.Add(numWritingPeriod);
+            Controls.Add(lblWritingPeriod);
+            Controls.Add(chkUsePeriodStartTime);
+            Controls.Add(lblUsePeriodStartTime);
+            Controls.Add(chkWriteWithPeriod);
+            Controls.Add(lblWriteWithPeriod);
+            Controls.Add(chkIsPeriodic);
+            Controls.Add(lblIsPeriodic);
+            Controls.Add(txtRetentionUnit);
+            Controls.Add(numRetention);
+            Controls.Add(lblRetention);
+            Controls.Add(chkLogEnabled);
+            Controls.Add(lblLogEnabled);
+            Controls.Add(chkReadOnly);
+            Controls.Add(lblReadOnly);
+            Name = "CtrlHistoricalArchiveOptions";
+            Size = new Size(360, 309);
+            ((System.ComponentModel.ISupportInitialize)numDeadband).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numPullToPeriod).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numWritingPeriod).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numRetention).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numWritingOffset).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
-
-        private GroupBox gbOptions;
         private CheckBox chkLogEnabled;
         private Label lblLogEnabled;
         private NumericUpDown numRetention;
@@ -375,5 +393,10 @@
         private ComboBox cbDeadbandUnit;
         private TextBox txtRetentionUnit;
         private TextBox txtPullToPeriodUnit;
+        private ComboBox cbWritingOffsetUnit;
+        private NumericUpDown numWritingOffset;
+        private Label lblWritingOffset;
+        private CheckBox chkUsePeriodStartTime;
+        private Label lblUsePeriodStartTime;
     }
 }

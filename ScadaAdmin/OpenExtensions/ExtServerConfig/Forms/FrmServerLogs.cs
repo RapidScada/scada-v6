@@ -3,7 +3,7 @@
 
 using Scada.Admin.Extensions.ExtServerConfig.Code;
 using Scada.Admin.Forms;
-using WinControl;
+using WinControls;
 
 namespace Scada.Admin.Extensions.ExtServerConfig.Forms
 {
@@ -27,7 +27,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         /// </summary>
         protected override void FillFilter()
         {
-            FilterComboBox.Items.AddRange(new FilterItem[] 
+            FilterComboBox.Items.AddRange(new FilterItem[]
             {
                 new FilterItem
                 {

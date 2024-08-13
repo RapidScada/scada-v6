@@ -21,7 +21,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Code
             ArgumentNullException.ThrowIfNull(adminContext, nameof(adminContext));
             ArgumentNullException.ThrowIfNull(webApp, nameof(webApp));
 
-            if (PluginViewFactory.GetPluginView(adminContext.AppDirs.LibDir, pluginCode, out pluginView, out message))            
+            if (PluginViewFactory.GetPluginView(adminContext.AppDirs.LibDir, pluginCode, out pluginView, out message))
             {
                 pluginView.ConfigDataset = adminContext.CurrentProject.ConfigDatabase;
                 pluginView.AppDirs = adminContext.AppDirs.CreateDirsForView(webApp.ConfigDir);
@@ -31,7 +31,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Code
             }
             else
             {
-                return false; 
+                return false;
             };
         }
     }

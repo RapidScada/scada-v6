@@ -2,12 +2,19 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Npgsql;
+using Scada.Admin.Config;
 using Scada.Admin.Deployment;
+using Scada.Admin.Extensions.ExtDepPostgreSql.Config;
 using Scada.Admin.Lang;
 using Scada.Admin.Project;
+using Scada.ComponentModel;
 using Scada.Dbms;
+using Scada.Forms;
+using Scada.Forms.Forms;
 using Scada.Lang;
 using System;
+using System.IO;
+using System.Windows.Forms;
 using static Scada.Storages.PostgreSqlStorage.PostgreSqlStorageShared;
 
 namespace Scada.Admin.Extensions.ExtDepPostgreSql
@@ -18,15 +25,27 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
     /// </summary>
     public class ExtDepPostgreSqlLogic : ExtensionLogic
     {
+        private readonly ExtensionConfig extensionConfig;
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public ExtDepPostgreSqlLogic(IAdminContext adminContext)
             : base(adminContext)
         {
+            extensionConfig = new ExtensionConfig();
+
+            CanShowProperties = true;
             CanDeploy = true;
         }
 
+
+        /// <summary>
+        /// Gets the full name of the extension configuration file.
+        /// </summary>
+        private string ConfigFileName =>
+            Path.Combine(AdminContext.AppDirs.ConfigDir, ExtensionConfig.DefaultFileName);
 
         /// <summary>
         /// Gets the extension code.
@@ -73,6 +92,35 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                 AdminContext.ErrLog.WriteError(AdminPhrases.ExtensionMessage, Code, errMsg);
 
             ExtensionPhrases.Init();
+            AttrTranslator.Translate(typeof(ExtensionConfig));
+        }
+
+        /// <summary>
+        /// Loads the extension configuration.
+        /// </summary>
+        public override void LoadConfig()
+        {
+            string fileName = ConfigFileName;
+
+            if (File.Exists(fileName) &&
+                !extensionConfig.Load(fileName, out string errMsg))
+            {
+                AdminContext.ErrLog.WriteError(AdminPhrases.ExtensionMessage, Code, errMsg);
+            }
+        }
+
+        /// <summary>
+        /// Shows a modal dialog box for editing extension properties.
+        /// </summary>
+        public override void ShowProperties(AdminConfig adminConfig)
+        {
+            FrmOptions frmOptions = new() { Options = extensionConfig };
+
+            if (frmOptions.ShowDialog() == DialogResult.OK &&
+                !extensionConfig.Save(ConfigFileName, out string errMsg))
+            {
+                AdminContext.ErrLog.HandleError(errMsg);
+            }
         }
 
         /// <summary>
@@ -109,7 +157,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         }
 
         /// <summary>
-        /// Downloads the configuration.
+        /// Downloads the project configuration.
         /// </summary>
         public override void DownloadConfig(ScadaProject project, ProjectInstance instance, DeploymentProfile profile,
             ITransferControl transferControl)
@@ -118,12 +166,12 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         }
 
         /// <summary>
-        /// Uploads the configuration.
+        /// Uploads the project configuration.
         /// </summary>
         public override void UploadConfig(ScadaProject project, ProjectInstance instance, DeploymentProfile profile,
             ITransferControl transferControl)
         {
-            new Uploader(project, instance, profile, transferControl).Upload();
+            new Uploader(project, instance, profile, transferControl, extensionConfig).Upload();
         }
     }
 }

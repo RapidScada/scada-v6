@@ -16,6 +16,11 @@ namespace Scada.Doc.Code
         /// </summary>
         public List<MenuItem> Items { get; } = new();
 
+        /// <summary>
+        /// Gets the items accessed by URL.
+        /// </summary>
+        public Dictionary<string, MenuItem> ItemMap { get; } = new();
+
 
         /// <summary>
         /// Loads the item and subitems recursively.
@@ -50,6 +55,9 @@ namespace Scada.Doc.Code
                 MenuItem item = new();
                 LoadItem(item, itemNode);
                 Items.Add(item);
+
+                if (!string.IsNullOrEmpty(item.Url) && !ItemMap.ContainsKey(item.Url))
+                    ItemMap.Add(item.Url, item);
             }
         }
 

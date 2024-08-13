@@ -82,7 +82,7 @@ namespace Scada.Web
             SortedViews.AddRange(ViewTable.Enumerate());
             SortedViews.Sort(new ViewComparer());
         }
-        
+
         /// <summary>
         /// Finds an archive bit by the specified archive code.
         /// </summary>

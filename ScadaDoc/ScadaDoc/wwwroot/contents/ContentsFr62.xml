@@ -3,6 +3,7 @@
   <!-- Overview -->
   <Item>
     <Text>Overview</Text>
+    <Url>/fr/latest/software-overview/</Url>
     <Subitems>
       <Item>
         <Text>Introduction</Text>
@@ -14,6 +15,7 @@
   <!-- Installation -->
   <Item>
     <Text>Installation</Text>
+    <Url>/fr/latest/installation/</Url>
     <Subitems>
       <Item>
         <Text>Configurations requises</Text>

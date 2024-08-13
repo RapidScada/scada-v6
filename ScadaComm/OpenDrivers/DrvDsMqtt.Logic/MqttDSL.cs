@@ -60,7 +60,7 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
             mqttClientHelper = new MqttClientHelper(dsOptions.ConnectionOptions, dsLog);
             commandTopic = dsOptions.PublishOptions.RootTopic + CommandTopic;
             dataLifetime = TimeSpan.FromSeconds(dsOptions.PublishOptions.DataLifetime);
-            deviceFilter = dsOptions.PublishOptions.DeviceFilter.Count > 0 ? 
+            deviceFilter = dsOptions.PublishOptions.DeviceFilter.Count > 0 ?
                 new HashSet<int>(dsOptions.PublishOptions.DeviceFilter) : null;
             curDataQueue = new DataQueue<DeviceSlice>(true, dsOptions.PublishOptions.MaxQueueSize,
                 Locale.IsRussian ? "Очередь текущих данных" : "Current data queue") { RemoveExceeded = true };
@@ -78,11 +78,11 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
         {
             // topic example:
             // Communicator/line001/device001/Sin
-            Dictionary<int, DeviceTopics> topics = new();
+            Dictionary<int, DeviceTopics> topics = [];
 
             foreach (ILineContext lineContext in CommContext.GetCommLines())
             {
-                string lineTopic = dsOptions.PublishOptions.RootTopic + 
+                string lineTopic = dsOptions.PublishOptions.RootTopic +
                     CommUtils.GetLineLogFileName(lineContext.CommLineNum, "") + "/";
 
                 IEnumerable<DeviceLogic> devices = deviceFilter == null
@@ -190,14 +190,14 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
 
                     foreach (DeviceTag deviceTag in deviceSlice.DeviceTags)
                     {
-                        if (!string.IsNullOrEmpty(deviceTag.Code) && 
+                        if (!string.IsNullOrEmpty(deviceTag.Code) &&
                             deviceTopics.TryGetValue(deviceTag.Code, out string topic))
                         {
                             string payloadStr = BuildPayload(deviceTag, deviceSlice.CnlData, dataIndex);
                             MqttApplicationMessage message = new()
                             {
                                 Topic = topic,
-                                Payload = Encoding.UTF8.GetBytes(payloadStr),
+                                PayloadSegment = Encoding.UTF8.GetBytes(payloadStr),
                                 QualityOfServiceLevel = (MqttQualityOfServiceLevel)dsOptions.PublishOptions.QosLevel,
                                 Retain = dsOptions.PublishOptions.Retain
                             };
@@ -358,7 +358,7 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
         public override void MakeReady()
         {
             dsLog.WriteBreak();
-            mqttClientHelper.Client.ApplicationMessageReceivedAsync += 
+            mqttClientHelper.Client.ApplicationMessageReceivedAsync +=
                 async e => await Task.Run(() => MqttClient_ApplicationMessageReceived(e));
         }
 
@@ -426,7 +426,7 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
             if (CheckDeviceFilter(deviceSlice.DeviceNum))
                 curDataQueue.Enqueue(deviceSlice.Timestamp, deviceSlice, out _);
         }
-        
+
         /// <summary>
         /// Appends information about the data source to the string builder.
         /// </summary>

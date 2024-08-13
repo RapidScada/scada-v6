@@ -34,8 +34,6 @@ using Scada.Web.Audit;
 using Scada.Web.Lang;
 using Scada.Web.Plugins;
 using Scada.Web.Services;
-using System;
-using System.IO;
 
 namespace Scada.Web.Code
 {
@@ -166,7 +164,7 @@ namespace Scada.Web.Code
             {
                 webContext.Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при загрузке представления с ид. {0} по пути {1}" :
-                    "Error loading view with ID {0} by the path {1}", 
+                    "Error loading view with ID {0} by the path {1}",
                     viewEntity.ViewID, viewEntity.Path);
 
                 view = null;

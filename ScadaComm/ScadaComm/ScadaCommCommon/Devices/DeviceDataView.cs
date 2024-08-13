@@ -200,11 +200,11 @@ namespace Scada.Comm.Devices
                 AppendComma();
                 sb.Append("Val=").Append(cmd.CmdVal.ToString(CnlDataFormatter.DefaultFormat, Locale.Culture));
             }
-            
+
             if (cmd.CmdData != null && cmd.CmdData.Length > 0)
             {
                 AppendComma();
-                sb.Append("Data=").Append(ScadaUtils.BytesToHex(cmd.CmdData, 0, 
+                sb.Append("Data=").Append(ScadaUtils.BytesToHex(cmd.CmdData, 0,
                     Math.Min(CnlDataFormatter.DataDisplayLength, cmd.CmdData.Length)));
 
                 if (CnlDataFormatter.DataDisplayLength < cmd.CmdData.Length)
@@ -437,7 +437,7 @@ namespace Scada.Comm.Devices
 
                             if (cnlNum > 0)
                             {
-                                row.Cells[4] = dataLen > 1 ? 
+                                row.Cells[4] = dataLen > 1 ?
                                     cnlNum + "-" + (cnlNum + dataLen - 1) : cnlNum.ToString();
                             }
 

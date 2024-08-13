@@ -10,6 +10,7 @@
     <ul>
         <li><a href="#communicator-app">Приложение Коммуникатор</a></li>
         <li><a href="#drv-anemon">Анемон</a></li>
+        <li><a href="#drv-azimuth51pro">Азимут 5.1 Pro</a></li>
         <li><a href="#drv-cnl-basic">Основные каналы связи</a></li>
         <li><a href="#drv-cnl-mqtt">Канал связи MQTT</a></li>
         <li><a href="#drv-csv-reader">CSV-считыватель</a></li>
@@ -37,6 +38,12 @@
 <div class="doc-content">
     <h1>История Коммуникатора</h1>
     <h2 id="communicator-app">Приложение Коммуникатор</h2>
+    <div>ScadaComm 6.2.0.1 (12.08.2024)</div>
+    <ul>
+        <li>Соответствие типов данных между каналом и тегом не требуется</li>
+        <li>Выводит в журнал список линий связи, которые не остановились</li>
+    </ul>
+
     <div>ScadaComm 6.2.0.0 (27.01.2024)</div>
     <ul>
         <li>Переход на .NET 8.0</li>
@@ -98,8 +105,25 @@
         <li>Портирование драйвера на новую версию</li>
     </ul>
 
+    @**** DrvAzimuth51Pro ****@
+    <h2 id="drv-azimuth51pro">Азимут 5.1 Pro</h2>
+    <div>DrvAzimuth51Pro 6.1.0.0 (12.08.2024)</div>
+    <ul>
+        <li>Переход на .NET 8.0</li>
+    </ul>
+
+    <div>DrvAzimuth51Pro 6.0.0.0 (30.01.2024)</div>
+    <ul>
+        <li>Поддержка исполнения WiFi</li>
+    </ul>
+
     @**** DrvCnlBasic ****@
     <h2 id="drv-cnl-basic">Основные каналы связи</h2>
+    <div>DrvCnlBasic 6.1.0.1 (12.08.2024)</div>
+    <ul>
+        <li>Оптимизирован канал связи TCP-клиент</li>
+    </ul>
+
     <div>DrvCnlBasic 6.1.0.0 (27.01.2024)</div>
     <ul>
         <li>Переход на .NET 8.0</li>
@@ -122,6 +146,11 @@
 
     @**** DrvCnlMqtt ****@
     <h2 id="drv-cnl-mqtt">Канал связи MQTT</h2>
+    <div>DrvCnlMqtt 6.1.0.0 (12.08.2024)</div>
+    <ul>
+        <li>Переход на .NET 8.0</li>
+    </ul>
+
     <div>DrvCnlMqtt 6.0.0.2 (21.03.2023)</div>
     <ul>
         <li>Исправлено отображение статуса канала</li>
@@ -146,6 +175,11 @@
 
     @**** DrvDbImport ****@
     <h2 id="drv-db-import">Импорт из БД</h2>
+    <div>DrvDbImport 6.1.0.0 (12.08.2024)</div>
+    <ul>
+        <li>Переход на .NET 8.0</li>
+    </ul>
+
     <div>DrvDbImport 6.0.0.1 (25.09.2023)</div>
     <ul>
         <li>Исправлено редактирование параметров запроса</li>
@@ -160,6 +194,11 @@
 
     @**** DrvDsMqtt ****@
     <h2 id="drv-ds-mqtt">Источник данных MQTT</h2>
+    <div>DrvDsMqtt 6.1.0.0 (12.08.2024)</div>
+    <ul>
+        <li>Переход на .NET 8.0</li>
+    </ul>
+
     <div>DrvDsMqtt 6.0.0.2 (21.03.2023)</div>
     <ul>
         <li>Рефакторинг очереди данных</li>
@@ -177,6 +216,11 @@
 
     @**** DrvDsOpcUaServer ****@
     <h2 id="drv-ds-opc-ua-server">Сервер OPC UA</h2>
+    <div>DrvDsOpcUaServer 6.1.0.0 (12.08.2024)</div>
+    <ul>
+        <li>Переход на .NET 8.0</li>
+    </ul>
+
     <div>DrvDsOpcUaServer 6.0.0.2 (26.03.2024)</div>
     <ul>
         <li>Обновлены зависимости OPCFoundation.NetStandard.Opc.Ua</li>
@@ -238,6 +282,11 @@
 
     @**** DrvModbus ****@
     <h2 id="drv-modbus">Modbus</h2>
+    <div>DrvModbus 6.0.0.4 (12.08.2024)</div>
+    <ul>
+        <li>Исправлена ошибка в запросах в режиме ASCII на Linux</li>
+    </ul>
+
     <div>DrvModbus 6.0.0.3 (15.05.2023)</div>
     <ul>
         <li>Поддержка цифр A...F в порядке байт</li>
@@ -265,6 +314,16 @@
 
     @**** DrvModbusSlave ****@
     <h2 id="drv-modbus-slave">Modbus Slave</h2>
+    <div>DrvModbusSlave 6.1.0.0 (12.08.2024)</div>
+    <ul>
+        <li>Переход на .NET 8.0</li>
+    </ul>
+
+    <div>DrvModbusSlave 6.0.0.1 (11.04.2024)</div>
+    <ul>
+        <li>Исправлена ошибка чтения данных в режиме Независимое устройство</li>
+    </ul>
+
     <div>DrvModbusSlave 6.0.0.0 (21.03.2023)</div>
     <ul>
         <li>Режим шлюза для выбранных каналов</li>
@@ -272,6 +331,11 @@
 
     @**** DrvMqttClient ****@
     <h2 id="drv-mqtt-client">MQTT-клиент</h2>
+    <div>DrvMqttClient 6.1.0.0 (12.08.2024)</div>
+    <ul>
+        <li>Переход на .NET 8.0</li>
+    </ul>
+
     <div>DrvMqttClient 6.0.0.4 (10.12.2023)</div>
     <ul>
         <li>Исправлено выполнение JavaScript</li>
@@ -299,6 +363,11 @@
 
     @**** DrvMqttPublisher ****@
     <h2 id="drv-mqtt-publisher">MQTT-издатель</h2>
+    <div>DrvMqttPublisher 6.1.0.0 (12.08.2024)</div>
+    <ul>
+        <li>Переход на .NET 8.0</li>
+    </ul>
+
     <div>DrvMqttPublisher 6.0.0.3 (04.07.2023)</div>
     <ul>
         <li>Оптимизация исходного кода конфигурации драйвера</li>
@@ -347,6 +416,11 @@
 
     @**** DrvOpcUa ****@
     <h2 id="drv-opc-ua">OPC UA</h2>
+    <div>DrvOpcUa 6.1.0.0 (12.08.2024)</div>
+    <ul>
+        <li>Переход на .NET 8.0</li>
+    </ul>
+
     <div>DrvOpcUa 6.0.0.1 (26.03.2024)</div>
     <ul>
         <li>Обновлены зависимости OPCFoundation.NetStandard.Opc.Ua</li>
@@ -388,6 +462,11 @@
 
     @**** DrvTelegram ****@
     <h2 id="drv-telegram">Telegram</h2>
+    <div>DrvTelegram 6.1.0.0 (12.08.2024)</div>
+    <ul>
+        <li>Переход на .NET 8.0</li>
+    </ul>
+
     <div>DrvTelegram 6.0.0.1 (15.05.2023)</div>
     <ul>
         <li>Исправлен ввод идентификатора чата</li>

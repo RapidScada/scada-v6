@@ -74,7 +74,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
                     queryOptions.Sql.Contains("@deviceNum", StringComparison.OrdinalIgnoreCase));
             }
 
-            CnlNumFilter = new HashSet<int>();
+            CnlNumFilter = [];
         }
 
 
@@ -114,7 +114,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
             // extract channels from object filter
             if (Options.Filter.ObjNums.Count > 0)
             {
-                List<int> cnlNumsByObj = new();
+                List<int> cnlNumsByObj = [];
 
                 foreach (int objNum in Options.Filter.ObjNums)
                 {
@@ -138,7 +138,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
             // extract channels from device filter
             if (Options.Filter.DeviceNums.Count > 0)
             {
-                List<int> cnlNumsByDevice = new();
+                List<int> cnlNumsByDevice = [];
 
                 foreach (int deviceNum in Options.Filter.DeviceNums)
                 {

@@ -21,7 +21,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// Gets the subscription configuration.
         /// </summary>
         public SubscriptionConfig SubscriptionConfig { get; init; }
-        
+
         /// <summary>
         /// Gets or sets the OPC subscription.
         /// </summary>

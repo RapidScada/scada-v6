@@ -5,7 +5,6 @@ using Scada.Config;
 using Scada.Forms;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions.ExtCommConfig.Controls

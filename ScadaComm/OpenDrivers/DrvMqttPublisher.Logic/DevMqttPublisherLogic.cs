@@ -57,7 +57,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
             : base(commContext, lineContext, deviceConfig)
         {
             config = new MqttPublisherDeviceConfig();
-            tagByCnlNum = new Dictionary<int, DeviceTag>();
+            tagByCnlNum = [];
 
             fatalError = false;
             mqttClientChannel = null;
@@ -220,7 +220,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
 
             return sendOK;
         }
-        
+
         /// <summary>
         /// Subscribes to the device tag.
         /// </summary>
@@ -262,7 +262,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
                 payloadStr = MqttUtils.FormatPayload(config.DeviceOptions.PublishFormat, valStr, cnlData.Stat);
             }
 
-            message.Payload = Encoding.UTF8.GetBytes(payloadStr);
+            message.PayloadSegment = Encoding.UTF8.GetBytes(payloadStr);
             return message;
         }
 
@@ -369,7 +369,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
             DeviceTags.AddGroup(tagGroup);
             DeviceTags.FlattenGroups = true;
             DeviceTags.UseStatusTag = false;
-            publishCnlNums = cnlNumList.ToArray();
+            publishCnlNums = [.. cnlNumList];
         }
 
         /// <summary>

@@ -19,7 +19,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.Config
         {
             Active = true;
             Name = "";
-            TagCodes = new List<string>();
+            TagCodes = [];
             SingleRow = false;
             Sql = "";
         }

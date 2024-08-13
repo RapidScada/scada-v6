@@ -43,9 +43,9 @@ namespace Scada.Server.Modules.ModDbExport.View
             get
             {
                 return Locale.IsRussian ?
-                    "Модуль экспортирует данные в сторонние базы данных. " + 
+                    "Модуль экспортирует данные в сторонние базы данных. " +
                     "Поддерживает Microsoft SQL Server, Oracle, PostgreSQL и MySQL." :
-                    "The module exports data to external databases. " + 
+                    "The module exports data to external databases. " +
                     "Supports Microsoft SQL Server, Oracle, PostgreSQL and MySQL.";
             }
         }
@@ -58,7 +58,7 @@ namespace Scada.Server.Modules.ModDbExport.View
         {
             if (!Locale.LoadDictionaries(AppDirs.LangDir, ModuleUtils.ModuleCode, out string errMsg))
                 ScadaUiUtils.ShowError(errMsg);
-            
+
             ModulePhrases.Init();
         }
 
@@ -71,4 +71,3 @@ namespace Scada.Server.Modules.ModDbExport.View
         }
     }
 }
- 

@@ -41,7 +41,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Controls
                 commandConfig = value;
             }
         }
-        
+
         /// <summary>
         /// Gets the tool tip to be accessed on the main form.
         /// </summary>

@@ -99,5 +99,13 @@ namespace Scada.Admin.Extensions.ExtProjectTools
         {
             return CtrlMainMenu.GetMainMenuItems();
         }
+
+        /// <summary>
+        /// Gets tool buttons to add to the toolbar.
+        /// </summary>
+        public override ToolStripItem[] GetToobarButtons()
+        {
+            return CtrlMainMenu.GetToobarButtons();
+        }
     }
 }

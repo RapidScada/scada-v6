@@ -24,9 +24,7 @@
  */
 
 using Scada.Config;
-using Scada.Lang;
 using Scada.Web.Config;
-using System.IO;
 
 namespace Scada.Admin.Project
 {
@@ -67,8 +65,8 @@ namespace Scada.Admin.Project
         {
             get
             {
-                return string.IsNullOrEmpty(AppDir) 
-                    ? "" 
+                return string.IsNullOrEmpty(AppDir)
+                    ? ""
                     : ScadaUtils.NormalDir(Path.Combine(AppDir, "config"));
             }
         }
@@ -95,8 +93,8 @@ namespace Scada.Admin.Project
         /// </summary>
         public override void InitAppDir(string instanceDir)
         {
-            AppDir = string.IsNullOrEmpty(instanceDir) 
-                ? "" 
+            AppDir = string.IsNullOrEmpty(instanceDir)
+                ? ""
                 : ScadaUtils.NormalDir(Path.Combine(instanceDir, "ScadaWeb"));
         }
     }

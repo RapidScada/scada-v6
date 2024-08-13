@@ -38,9 +38,9 @@ namespace Scada.Forms
         /// </summary>
         public IAgentClient AgentClient
         {
-            get 
-            { 
-                return agentClient; 
+            get
+            {
+                return agentClient;
             }
             set
             {

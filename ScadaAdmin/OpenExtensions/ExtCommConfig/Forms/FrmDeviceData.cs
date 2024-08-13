@@ -12,7 +12,7 @@ using Scada.Protocol;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using WinControl;
+using WinControls;
 
 namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 {
@@ -41,7 +41,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmDeviceData(IAdminContext adminContext, CommApp commApp, DeviceConfig deviceConfig) : 
+        public FrmDeviceData(IAdminContext adminContext, CommApp commApp, DeviceConfig deviceConfig) :
             this()
         {
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
@@ -95,14 +95,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         {
             dataBox.LogPath = new RelativePath(TopFolder.Comm, AppFolder.Log,
                 CommUtils.GetDeviceLogFileName(deviceConfig.DeviceNum, ".txt"));
-        }
-
-        /// <summary>
-        /// Saves the changes of the child form data.
-        /// </summary>
-        public void Save()
-        {
-            // do nothing
         }
 
 

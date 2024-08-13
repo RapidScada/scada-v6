@@ -23,11 +23,8 @@
  * Modified : 2021
  */
 
-using System;
-using System.Collections;
-using System.Drawing;
-using System.Windows.Forms;
 using Scada.Forms;
+using System.Collections;
 
 namespace Scada.Admin.App.Forms.Tables
 {

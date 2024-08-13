@@ -91,7 +91,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 lineData = new OpcUaLineData()
                 {
                     FatalError = lineConfigError,
-                    ClientHelper = new OpcClientHelper(lineConfig.ConnectionOptions, Log, Storage) 
+                    ClientHelper = new OpcClientHelper(lineConfig.ConnectionOptions, Log, Storage)
                 };
 
                 LineContext.SharedData[nameof(OpcUaLineData)] = lineData;
@@ -121,8 +121,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             {
                 foreach (ItemConfig itemConfig in subscriptionConfig.Items)
                 {
-                    if (itemConfig.Active && 
-                        !string.IsNullOrEmpty(itemConfig.TagCode) && 
+                    if (itemConfig.Active &&
+                        !string.IsNullOrEmpty(itemConfig.TagCode) &&
                         !cmdByCode.ContainsKey(itemConfig.TagCode))
                     {
                         cmdByCode.Add(itemConfig.TagCode, new CommandConfig
@@ -280,7 +280,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                     Value = new DataValue(new Variant(itemVal))
                 };
 
-                opcSession.Write(null, new WriteValueCollection { valueToWrite }, 
+                opcSession.Write(null, new WriteValueCollection { valueToWrite },
                     out StatusCodeCollection results, out _);
 
                 if (StatusCode.IsGood(results[0]))
@@ -530,7 +530,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 
                 foreach (MonitoredItemNotification change in notificationMessage.GetDataChanges(false))
                 {
-                    if (subscriptionTag.Subscription?.FindItemByClientHandle(change.ClientHandle) is 
+                    if (subscriptionTag.Subscription?.FindItemByClientHandle(change.ClientHandle) is
                         MonitoredItem monitoredItem)
                     {
                         Log.WriteLine("{0} {1} = {2} ({3})", CommPhrases.ReceiveNotation,
@@ -574,7 +574,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                     {
                         Log.WriteLine(Locale.IsRussian ?
                             "{0} Неизвестный элемент {1} = {2} ({3})" :
-                            "{0} Unknown item {1} = {2} ({3})", 
+                            "{0} Unknown item {1} = {2} ({3})",
                             CommPhrases.ReceiveNotation, change.ClientHandle, change.Value, change.Value.StatusCode);
                     }
                 }

@@ -56,8 +56,8 @@ namespace Scada.Server.Archives
         /// Gets or sets a value indicating whether to write the archive log.
         /// </summary>
         public bool LogEnabled { get; set; }
-        
-        
+
+
         /// <summary>
         /// Adds the options to the list.
         /// </summary>

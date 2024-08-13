@@ -167,22 +167,25 @@ namespace Scada.Comm.Drivers.DrvOpcUa
             }
 
             // check application certificate
-            bool haveAppCertificate = await application.CheckApplicationInstanceCertificate(false, 0);
-
-            if (!haveAppCertificate)
+            if (connectionOptions.SecurityMode != MessageSecurityMode.None)
             {
-                throw new ScadaException(Locale.IsRussian ?
-                    "Сертификат экземпляра приложения недействителен." :
-                    "Application instance certificate is invalid.");
+                bool haveAppCertificate = await application.CheckApplicationInstanceCertificate(false, 0);
+    
+                if (!haveAppCertificate)
+                {
+                    throw new ScadaException(Locale.IsRussian ?
+                        "Сертификат экземпляра приложения недействителен." :
+                        "Application instance certificate is invalid.");
+                }
+    
+                config.ApplicationUri = X509Utils.GetApplicationUriFromCertificate(
+                    config.SecurityConfiguration.ApplicationCertificate.Certificate);
+    
+                if (config.SecurityConfiguration.AutoAcceptUntrustedCertificates)
+                    AutoAccept = true;
+    
+                config.CertificateValidator.CertificateValidation += CertificateValidator_CertificateValidation;
             }
-
-            config.ApplicationUri = X509Utils.GetApplicationUriFromCertificate(
-                config.SecurityConfiguration.ApplicationCertificate.Certificate);
-
-            if (config.SecurityConfiguration.AutoAcceptUntrustedCertificates)
-                AutoAccept = true;
-
-            config.CertificateValidator.CertificateValidation += CertificateValidator_CertificateValidation;
 
             // create session
             EndpointDescription selectedEndpoint = SelectEndpoint();

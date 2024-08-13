@@ -16,11 +16,11 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaServerCommon
- * Summary  : Specifies the time units
+ * Summary  : Specifies the time units for archives
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2024
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -28,13 +28,14 @@
 namespace Scada.Server.Archives
 {
     /// <summary>
-    /// Specifies the time units.
-    /// <para>Задаёт единицы измерения времени.</para>
+    /// Specifies the time units for archives.
+    /// <para>Задаёт единицы измерения времени для архивов.</para>
     /// </summary>
     public enum TimeUnit
     {
         Second,
         Minute,
-        Hour
+        Hour,
+        Day
     }
 }

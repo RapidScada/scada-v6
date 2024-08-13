@@ -27,7 +27,7 @@ namespace Scada.Web.Plugins.PlgChart.Areas.Chart.Pages
         private readonly IAuditLog auditLog;
         private readonly IClientAccessor clientAccessor;
 
-        public ChartModel(IWebContext webContext, IUserContext userContext, 
+        public ChartModel(IWebContext webContext, IUserContext userContext,
             IAuditLog auditLog, IClientAccessor clientAccessor)
         {
             this.webContext = webContext;
@@ -68,7 +68,7 @@ namespace Scada.Web.Plugins.PlgChart.Areas.Chart.Pages
             // get chart title and status
             dynamic dict = Locale.GetDictionary("Scada.Web.Plugins.PlgChart.Areas.Chart.Pages.Chart");
             ViewData["Title"] = string.Format(dict.Title, cnlNum);
-            string chartTitle = string.Format("[{0}] {1}, {2}", cnlNum, 
+            string chartTitle = string.Format("[{0}] {1}, {2}", cnlNum,
                 webContext.ConfigDatabase.CnlTable.GetItem(cnlNum)?.Name,
                 userContext.ConvertTimeFromUtc(utcStartDate).ToLocalizedDateString());
             string chartStatus = dict.Generated + userContext.ConvertTimeFromUtc(DateTime.UtcNow).ToLocalizedString();

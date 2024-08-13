@@ -97,11 +97,10 @@ namespace Scada.Storages.PostgreSqlStorage
                 Monitor.Enter(conn);
                 conn.Open();
 
-                using (NpgsqlDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow))
-                {
-                    if (reader.Read())
-                        return reader.IsDBNull(0) ? "" : reader.GetString(0);
-                }
+                using NpgsqlDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow);
+
+                if (reader.Read())
+                    return reader.IsDBNull(0) ? "" : reader.GetString(0);
             }
             finally
             {
@@ -144,8 +143,8 @@ namespace Scada.Storages.PostgreSqlStorage
         /// </summary>
         private void WriteVarcharContents(string tableName, ServiceApp app, string path, string contents)
         {
-            string sql = 
-                $"INSERT INTO {tableName} (app_id, path, contents, write_time) " + 
+            string sql =
+                $"INSERT INTO {tableName} (app_id, path, contents, write_time) " +
                 "VALUES (@appID, @path, @contents, @writeTime) " +
                 "ON CONFLICT (app_id, path) DO UPDATE SET contents = @contents, write_time = @writeTime";
 
@@ -153,7 +152,7 @@ namespace Scada.Storages.PostgreSqlStorage
             cmd.Parameters.AddWithValue("appID", (int)app);
             cmd.Parameters.AddWithValue("path", NormalizePath(path));
             cmd.Parameters.AddWithValue("writeTime", DateTime.UtcNow);
-            cmd.Parameters.AddWithValue("contents", 
+            cmd.Parameters.AddWithValue("contents",
                 string.IsNullOrEmpty(contents) ? DBNull.Value : contents);
 
             try
@@ -182,7 +181,7 @@ namespace Scada.Storages.PostgreSqlStorage
             NpgsqlCommand cmd = new(sql, conn);
             cmd.Parameters.AddWithValue("path", NormalizePath(path));
             cmd.Parameters.AddWithValue("writeTime", DateTime.UtcNow);
-            cmd.Parameters.AddWithValue("contents", 
+            cmd.Parameters.AddWithValue("contents",
                 bytes == null || bytes.Length == 0 ? DBNull.Value : bytes);
 
             try
@@ -206,7 +205,7 @@ namespace Scada.Storages.PostgreSqlStorage
             string sql = $"SELECT contents FROM {GetTableName(DataCategory.View)} WHERE path = @path LIMIT 1";
             NpgsqlCommand cmd = new(sql, conn);
             cmd.Parameters.AddWithValue("path", NormalizePath(path));
-            
+
             NpgsqlDataReader reader = null;
             bool postponeClose = false;
 
@@ -483,8 +482,8 @@ namespace Scada.Storages.PostgreSqlStorage
             NpgsqlCommand cmd = new(sql, conn);
             cmd.Parameters.AddWithValue("path", NormalizePath(path));
             cmd.Parameters.AddWithValue("pathLen", (path ?? "").Length + 1);
-            cmd.Parameters.AddWithValue("searchPattern", string.IsNullOrEmpty(searchPattern) 
-                ? "%" 
+            cmd.Parameters.AddWithValue("searchPattern", string.IsNullOrEmpty(searchPattern)
+                ? "%"
                 : searchPattern.Replace('*', '%').Replace('?', '_'));
 
             if (category != DataCategory.View)

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>disable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
@@ -12,12 +12,12 @@
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
     <Copyright>Copyright © 2024</Copyright>
-    <Version>6.1.2</Version>
-    <AssemblyVersion>6.1.2.1</AssemblyVersion>
+    <Version>6.2.0</Version>
+    <AssemblyVersion>6.2.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Npgsql" Version="6.0.10" />
+    <PackageReference Include="Npgsql" Version="8.0.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,7 +25,7 @@
       <HintPath>..\..\..\ScadaCommon\ScadaCommon\bin\Release\netstandard2.0\ScadaCommon.dll</HintPath>
     </Reference>
     <Reference Include="ScadaCommon.Forms">
-      <HintPath>..\..\..\ScadaCommon\ScadaCommon.Forms\bin\Release\net6.0-windows\ScadaCommon.Forms.dll</HintPath>
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon.Forms\bin\Release\net8.0-windows\ScadaCommon.Forms.dll</HintPath>
     </Reference>
     <Reference Include="ScadaCommon.Log">
       <HintPath>..\..\..\ScadaCommon\ScadaCommon.Log\bin\Release\netstandard2.0\ScadaCommon.Log.dll</HintPath>
@@ -34,7 +34,7 @@
       <HintPath>..\..\ScadaServer\ScadaServerCommon\bin\Release\netstandard2.0\ScadaServerCommon.dll</HintPath>
     </Reference>
     <Reference Include="ScadaServerCommon.Forms">
-      <HintPath>..\..\ScadaServer\ScadaServerCommon.Forms\bin\Release\net6.0-windows\ScadaServerCommon.Forms.dll</HintPath>
+      <HintPath>..\..\ScadaServer\ScadaServerCommon.Forms\bin\Release\net8.0-windows\ScadaServerCommon.Forms.dll</HintPath>
     </Reference>
   </ItemGroup>
 

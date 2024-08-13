@@ -1,0 +1,10 @@
+﻿[
+  {
+    "outputFile": "wwwroot/plugins/Mimic/css/mimic.css",
+    "inputFile": "wwwroot/plugins/Mimic/css/mimic.scss"
+  },
+  {
+    "outputFile": "wwwroot/plugins/Mimic/css/mimic-view.css",
+    "inputFile": "wwwroot/plugins/Mimic/css/mimic-view.scss"
+  }
+]

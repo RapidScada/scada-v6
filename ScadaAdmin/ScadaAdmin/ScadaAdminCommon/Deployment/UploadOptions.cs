@@ -24,8 +24,6 @@
  */
 
 using Scada.Agent;
-using System;
-using System.Collections.Generic;
 using System.Xml;
 
 namespace Scada.Admin.Deployment
@@ -86,7 +84,7 @@ namespace Scada.Admin.Deployment
             if (objNums != null)
                 ObjectFilter.AddRange(objNums);
         }
-                
+
         /// <summary>
         /// Loads the settings from the XML node.
         /// </summary>

@@ -60,7 +60,7 @@ namespace Scada.Web.Plugins.PlgMain
         /// </summary>
         protected static string TrimDeviceName(string deviceName, string cnlName)
         {
-            return !string.IsNullOrEmpty(deviceName) && !string.IsNullOrEmpty(cnlName) && 
+            return !string.IsNullOrEmpty(deviceName) && !string.IsNullOrEmpty(cnlName) &&
                 cnlName.StartsWith(deviceName, StringComparison.Ordinal)
                 ? cnlName[deviceName.Length..].TrimStart('-', '.', ' ')
                 : cnlName;
@@ -167,7 +167,7 @@ namespace Scada.Web.Plugins.PlgMain
                     // note that Webstation duplicates channels for arrays and strings
                     int hiddenCnlNum = 0;
 
-                    foreach (Cnl cnl in 
+                    foreach (Cnl cnl in
                         configDataset.CnlTable.Select(new TableFilter("DeviceNum", item.DeviceNum), true))
                     {
                         if (cnl.Active)

@@ -28,63 +28,36 @@
         /// </summary>
         private void InitializeComponent()
         {
-            richTextBox = new System.Windows.Forms.RichTextBox();
-            toolStrip = new System.Windows.Forms.ToolStrip();
-            btnReload = new System.Windows.Forms.ToolStripButton();
-            toolStrip.SuspendLayout();
+            richTextBox = new RichTextBox();
             SuspendLayout();
             // 
             // richTextBox
             // 
             richTextBox.AcceptsTab = true;
-            richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            richTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            richTextBox.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            richTextBox.Location = new System.Drawing.Point(0, 25);
+            richTextBox.BorderStyle = BorderStyle.None;
+            richTextBox.Dock = DockStyle.Fill;
+            richTextBox.Font = new Font("Consolas", 9.75F);
+            richTextBox.Location = new Point(0, 0);
             richTextBox.Name = "richTextBox";
-            richTextBox.Size = new System.Drawing.Size(584, 336);
+            richTextBox.Size = new Size(584, 361);
             richTextBox.TabIndex = 0;
             richTextBox.Text = "";
             richTextBox.WordWrap = false;
             richTextBox.TextChanged += richTextBox_TextChanged;
             // 
-            // toolStrip
-            // 
-            toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { btnReload });
-            toolStrip.Location = new System.Drawing.Point(0, 0);
-            toolStrip.Name = "toolStrip";
-            toolStrip.Size = new System.Drawing.Size(584, 25);
-            toolStrip.TabIndex = 1;
-            // 
-            // btnReload
-            // 
-            btnReload.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            btnReload.Image = Properties.Resources.refresh;
-            btnReload.ImageTransparentColor = System.Drawing.Color.Magenta;
-            btnReload.Name = "btnReload";
-            btnReload.Size = new System.Drawing.Size(23, 22);
-            btnReload.ToolTipText = "Reload File";
-            btnReload.Click += btnReload_Click;
-            // 
             // FrmTextEditor
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(584, 361);
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(584, 361);
             Controls.Add(richTextBox);
-            Controls.Add(toolStrip);
             Name = "FrmTextEditor";
             Text = "FrmTextEditor";
             Load += FrmTextEditor_Load;
-            toolStrip.ResumeLayout(false);
-            toolStrip.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
         private System.Windows.Forms.RichTextBox richTextBox;
-        private System.Windows.Forms.ToolStrip toolStrip;
-        private System.Windows.Forms.ToolStripButton btnReload;
     }
 }

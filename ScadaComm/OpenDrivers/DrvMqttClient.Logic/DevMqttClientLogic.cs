@@ -58,7 +58,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
             : base(commContext, lineContext, deviceConfig)
         {
             config = new MqttClientDeviceConfig();
-            cmdByCode = new Dictionary<string, CommandConfig>();
+            cmdByCode = [];
 
             mqttClientChannel = null;
             jsEngine = null;
@@ -140,12 +140,12 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
             if (!double.IsNaN(cmd.CmdVal))
             {
                 valStr = cmd.CmdVal.ToString(NumberFormatInfo.InvariantInfo);
-                message.Payload = Encoding.UTF8.GetBytes(valStr);
+                message.PayloadSegment = Encoding.UTF8.GetBytes(valStr);
             }
             else if (cmd.CmdData != null)
             {
                 valStr = Locale.IsRussian ? "<данные>" : "<data>";
-                message.Payload = cmd.CmdData;
+                message.PayloadSegment = cmd.CmdData;
             }
             else
             {
@@ -166,12 +166,14 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
 
             // set script methods and variables that depend on current call
             jsEngine.SetValue("setValue", new Action<int, double>((i, x) => { subscriptionTag.JsValues[i] = x; }));
+            jsEngine.SetValue("getValue", new Func<int, double>(i => DeviceData.Get(subscriptionTag.TagIndex + i)));
             jsEngine.SetValue("topic", message.Topic);
             jsEngine.SetValue("payload", message.Payload);
 
             // load source code
-            subscriptionTag.JsSource ??= 
-                Storage.ReadText(Storages.DataCategory.Config, subscriptionTag.SubscriptionConfig.JsFileName);
+            // braces are needed to distinguish variable scopes between executions
+            subscriptionTag.JsSource ??= "{" + 
+                Storage.ReadText(Storages.DataCategory.Config, subscriptionTag.SubscriptionConfig.JsFileName) + "}";
 
             // initialize tag data
             int tagCount = Math.Max(1, subscriptionTag.SubscriptionConfig.SubItems.Count);
@@ -359,7 +361,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
                     "Ошибка: соединение с MQTT-брокером не установлено" :
                     "Error: connection with the MQTT broker is not established");
             }
-            else if (string.IsNullOrEmpty(cmd.CmdCode) || 
+            else if (string.IsNullOrEmpty(cmd.CmdCode) ||
                 !cmdByCode.TryGetValue(cmd.CmdCode, out CommandConfig commandConfig))
             {
                 Log.WriteLine(CommPhrases.InvalidCommand);

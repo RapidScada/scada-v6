@@ -41,7 +41,7 @@ namespace Scada.Comm.Devices
             : this("", "")
         {
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
@@ -182,8 +182,8 @@ namespace Scada.Comm.Devices
             switch (dataType)
             {
                 case TagDataType.Unicode:
-                    return elementCount <= 0 
-                        ? 1 
+                    return elementCount <= 0
+                        ? 1
                         : elementCount / 4 + ((elementCount % 4) == 0 ? 0 : 1);
 
                 case TagDataType.ASCII:

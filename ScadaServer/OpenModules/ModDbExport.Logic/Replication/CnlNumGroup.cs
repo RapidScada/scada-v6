@@ -38,8 +38,8 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Replication
         /// Gets a value indicating whether the group is intended for the specified type of query.
         /// </summary>
         public bool? SingleQuery { get; init; }
-        
-        
+
+
         /// <summary>
         /// Changes the number of elements of the channel array.
         /// </summary>

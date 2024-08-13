@@ -134,7 +134,7 @@ namespace Scada.Server.Engine
             // add formulas
             foreach (Cnl cnl in cnlTable)
             {
-                if (cnl.Active && cnl.FormulaEnabled && (enableFormulasObjNums == null || 
+                if (cnl.Active && cnl.FormulaEnabled && (enableFormulasObjNums == null ||
                     cnl.ObjNum.HasValue && enableFormulasObjNums.Contains(cnl.ObjNum.Value)))
                 {
                     bool inFormulaExists = !string.IsNullOrEmpty(cnl.InFormula);
@@ -157,7 +157,7 @@ namespace Scada.Server.Engine
 
             // close the last class
             if (classCnt > 0)
-                sourceCode.AppendLine("}"); 
+                sourceCode.AppendLine("}");
 
             // close namespace
             sourceCode.AppendLine("}");
@@ -267,7 +267,7 @@ namespace Scada.Server.Engine
                 "CalcEngine",
                 new[] { CSharpSyntaxTree.ParseText(sourceCode) },
                 refPaths.Select(path => MetadataReference.CreateFromFile(path)).ToArray(),
-                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, 
+                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary,
                     optimizationLevel: OptimizationLevel.Release));
 
             return compilation;
@@ -276,8 +276,8 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Retrieve methods for getting channel data from the assembly.
         /// </summary>
-        private void RetrieveMethods(Assembly assembly, 
-            Dictionary<int, CnlTag> cnlTags, Dictionary<int, OutCnlTag> outCnlTags, 
+        private void RetrieveMethods(Assembly assembly,
+            Dictionary<int, CnlTag> cnlTags, Dictionary<int, OutCnlTag> outCnlTags,
             Dictionary<int, string> cnlClassNames)
         {
             Dictionary<string, CalcEngine> calcEngineMap = new Dictionary<string, CalcEngine>();
@@ -437,7 +437,7 @@ namespace Scada.Server.Engine
         /// <remarks>The method is thread-safe.</remarks>
         public CnlData CalcCnlData(ICalcContext calcContext, CnlTag cnlTag, CnlData initialCnlData)
         {
-            if (calcContext != null && cnlTag != null && cnlTag.CalcCnlDataFunc != null && 
+            if (calcContext != null && cnlTag != null && cnlTag.CalcCnlDataFunc != null &&
                 cnlTag.CalcEngine is CalcEngine calcEngine)
             {
                 try
@@ -468,8 +468,8 @@ namespace Scada.Server.Engine
         /// Calculates the command data.
         /// </summary>
         /// <remarks>The method is thread-safe.</remarks>
-        public bool CalcCmdData(ICalcContext calcContext, OutCnlTag outCnlTag, 
-            double initialCmdVal, byte[] initialCmdData, 
+        public bool CalcCmdData(ICalcContext calcContext, OutCnlTag outCnlTag,
+            double initialCmdVal, byte[] initialCmdData,
             out double cmdVal, out byte[] cmdData, out string errMsg)
         {
             if (calcContext != null && outCnlTag != null && outCnlTag.CalcCmdDataFunc != null &&

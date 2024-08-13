@@ -25,8 +25,6 @@
 
 using Scada.Admin.Project;
 using Scada.Forms;
-using System;
-using System.Windows.Forms;
 
 namespace Scada.Admin.App.Forms
 {
@@ -68,7 +66,7 @@ namespace Scada.Admin.App.Forms
             get
             {
                 return new ProjectVersion(
-                    Convert.ToInt32(numMajorVersion.Value), 
+                    Convert.ToInt32(numMajorVersion.Value),
                     Convert.ToInt32(numMinorVersion.Value));
             }
             set

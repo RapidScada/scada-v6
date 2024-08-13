@@ -8,7 +8,7 @@ using Scada.Server.Archives;
 using Scada.Server.Config;
 using Scada.Server.Lang;
 using Scada.Server.Modules;
-using WinControl;
+using WinControls;
 
 namespace Scada.Admin.Extensions.ExtServerConfig.Forms
 {
@@ -127,7 +127,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
                 lvArchive.EndUpdate();
             }
         }
-        
+
         /// <summary>
         /// Sets the configuration according to the controls.
         /// </summary>
@@ -417,7 +417,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
                 }
                 else if (!moduleView.CanCreateArchive(archiveConfig.Kind))
                 {
-                    ScadaUiUtils.ShowError(ExtensionPhrases.ArchiveNotSupported, 
+                    ScadaUiUtils.ShowError(ExtensionPhrases.ArchiveNotSupported,
                         TranslateArchiveKind(archiveConfig.Kind));
                 }
                 else if (moduleView.CreateArchiveView(archiveConfig) is not ArchiveView archiveView)

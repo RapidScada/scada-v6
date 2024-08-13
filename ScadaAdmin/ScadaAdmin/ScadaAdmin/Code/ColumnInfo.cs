@@ -23,9 +23,7 @@
  * Modified : 2021
  */
 
-using System;
 using System.Data;
-using System.Windows.Forms;
 
 namespace Scada.Admin.App.Code
 {

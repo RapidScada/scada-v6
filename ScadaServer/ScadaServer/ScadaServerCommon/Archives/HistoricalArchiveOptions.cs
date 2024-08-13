@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2022
+ * Modified : 2024
  */
 
 using Scada.Config;
@@ -43,8 +43,11 @@ namespace Scada.Server.Archives
             Retention = options.GetValueAsInt("Retention", 365);
             IsPeriodic = options.GetValueAsBool("IsPeriodic", true);
             WriteWithPeriod = options.GetValueAsBool("WriteWithPeriod", true);
+            UsePeriodStartTime = options.GetValueAsBool("UsePeriodStartTime", false);
             WritingPeriod = options.GetValueAsInt("WritingPeriod", 1);
             WritingPeriodUnit = options.GetValueAsEnum("WritingPeriodUnit", TimeUnit.Minute);
+            WritingOffset = options.GetValueAsInt("WritingOffset", 0);
+            WritingOffsetUnit = options.GetValueAsEnum("WritingOffsetUnit", TimeUnit.Second);
             PullToPeriod = options.GetValueAsInt("PullToPeriod", 0);
 
             if (IsPeriodic)
@@ -78,7 +81,12 @@ namespace Scada.Server.Archives
         public bool WriteWithPeriod { get; set; }
 
         /// <summary>
-        /// Gets or sets the period of writing data to a file.
+        /// Gets or sets a value indicating whether data is added with the start timestamp of the period.
+        /// </summary>
+        public bool UsePeriodStartTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the period of writing data to the archive.
         /// </summary>
         public int WritingPeriod { get; set; }
 
@@ -86,6 +94,16 @@ namespace Scada.Server.Archives
         /// Gets or sets the unit of measure for the writing period.
         /// </summary>
         public TimeUnit WritingPeriodUnit { get; set; }
+
+        /// <summary>
+        /// Gets or sets the time offset when using periodic writing.
+        /// </summary>
+        public int WritingOffset { get; set; }
+
+        /// <summary>
+        /// Gets or sets the unit of measure for the writing offset.
+        /// </summary>
+        public TimeUnit WritingOffsetUnit { get; set; }
 
         /// <summary>
         /// Gets or sets the deviation of timestamps from the writing period to update timestamps, in seconds.
@@ -120,9 +138,16 @@ namespace Scada.Server.Archives
                 options["Retention"] = Retention.ToString();
                 options["IsPeriodic"] = IsPeriodic.ToLowerString();
                 options["WriteWithPeriod"] = WriteWithPeriod.ToLowerString();
-                options["WritingPeriod"] = WritingPeriod.ToString();
-                options["WritingPeriodUnit"] = WritingPeriodUnit.ToString();
-                options["PullToPeriod"] = PullToPeriod.ToString();
+
+                if (WriteWithPeriod)
+                {
+                    options["UsePeriodStartTime"] = UsePeriodStartTime.ToLowerString();
+                    options["WritingPeriod"] = WritingPeriod.ToString();
+                    options["WritingPeriodUnit"] = WritingPeriodUnit.ToString();
+                    options["WritingOffset"] = WritingOffset.ToString();
+                    options["WritingOffsetUnit"] = WritingOffsetUnit.ToString();
+                    options["PullToPeriod"] = PullToPeriod.ToString();
+                }
 
                 if (!IsPeriodic)
                 {

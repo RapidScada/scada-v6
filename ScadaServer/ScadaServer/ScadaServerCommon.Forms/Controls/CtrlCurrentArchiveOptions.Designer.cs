@@ -28,130 +28,104 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.gbOptions = new System.Windows.Forms.GroupBox();
-            this.txtFlushPeriodUnit = new System.Windows.Forms.TextBox();
-            this.numFlushPeriod = new System.Windows.Forms.NumericUpDown();
-            this.lblFlushPeriod = new System.Windows.Forms.Label();
-            this.chkLogEnabled = new System.Windows.Forms.CheckBox();
-            this.lblLogEnabled = new System.Windows.Forms.Label();
-            this.chkReadOnly = new System.Windows.Forms.CheckBox();
-            this.lblReadOnly = new System.Windows.Forms.Label();
-            this.gbOptions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numFlushPeriod)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // gbOptions
-            // 
-            this.gbOptions.Controls.Add(this.txtFlushPeriodUnit);
-            this.gbOptions.Controls.Add(this.numFlushPeriod);
-            this.gbOptions.Controls.Add(this.lblFlushPeriod);
-            this.gbOptions.Controls.Add(this.chkLogEnabled);
-            this.gbOptions.Controls.Add(this.lblLogEnabled);
-            this.gbOptions.Controls.Add(this.chkReadOnly);
-            this.gbOptions.Controls.Add(this.lblReadOnly);
-            this.gbOptions.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbOptions.Location = new System.Drawing.Point(0, 0);
-            this.gbOptions.Name = "gbOptions";
-            this.gbOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbOptions.Size = new System.Drawing.Size(360, 116);
-            this.gbOptions.TabIndex = 0;
-            this.gbOptions.TabStop = false;
-            this.gbOptions.Text = "General Options";
+            txtFlushPeriodUnit = new TextBox();
+            numFlushPeriod = new NumericUpDown();
+            lblFlushPeriod = new Label();
+            chkLogEnabled = new CheckBox();
+            lblLogEnabled = new Label();
+            chkReadOnly = new CheckBox();
+            lblReadOnly = new Label();
+            ((System.ComponentModel.ISupportInitialize)numFlushPeriod).BeginInit();
+            SuspendLayout();
             // 
             // txtFlushPeriodUnit
             // 
-            this.txtFlushPeriodUnit.Location = new System.Drawing.Point(277, 80);
-            this.txtFlushPeriodUnit.Name = "txtFlushPeriodUnit";
-            this.txtFlushPeriodUnit.ReadOnly = true;
-            this.txtFlushPeriodUnit.Size = new System.Drawing.Size(70, 23);
-            this.txtFlushPeriodUnit.TabIndex = 6;
-            this.txtFlushPeriodUnit.Text = "Sec";
+            txtFlushPeriodUnit.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            txtFlushPeriodUnit.Location = new Point(290, 54);
+            txtFlushPeriodUnit.Name = "txtFlushPeriodUnit";
+            txtFlushPeriodUnit.ReadOnly = true;
+            txtFlushPeriodUnit.Size = new Size(70, 23);
+            txtFlushPeriodUnit.TabIndex = 6;
+            txtFlushPeriodUnit.Text = "Sec";
             // 
             // numFlushPeriod
             // 
-            this.numFlushPeriod.Location = new System.Drawing.Point(196, 80);
-            this.numFlushPeriod.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.numFlushPeriod.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numFlushPeriod.Name = "numFlushPeriod";
-            this.numFlushPeriod.Size = new System.Drawing.Size(75, 23);
-            this.numFlushPeriod.TabIndex = 5;
-            this.numFlushPeriod.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            numFlushPeriod.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            numFlushPeriod.Location = new Point(209, 54);
+            numFlushPeriod.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            numFlushPeriod.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numFlushPeriod.Name = "numFlushPeriod";
+            numFlushPeriod.Size = new Size(75, 23);
+            numFlushPeriod.TabIndex = 5;
+            numFlushPeriod.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // lblFlushPeriod
             // 
-            this.lblFlushPeriod.AutoSize = true;
-            this.lblFlushPeriod.Location = new System.Drawing.Point(13, 84);
-            this.lblFlushPeriod.Name = "lblFlushPeriod";
-            this.lblFlushPeriod.Size = new System.Drawing.Size(72, 15);
-            this.lblFlushPeriod.TabIndex = 4;
-            this.lblFlushPeriod.Text = "Flush period";
+            lblFlushPeriod.AutoSize = true;
+            lblFlushPeriod.Location = new Point(-3, 58);
+            lblFlushPeriod.Name = "lblFlushPeriod";
+            lblFlushPeriod.Size = new Size(72, 15);
+            lblFlushPeriod.TabIndex = 4;
+            lblFlushPeriod.Text = "Flush period";
             // 
             // chkLogEnabled
             // 
-            this.chkLogEnabled.AutoSize = true;
-            this.chkLogEnabled.Location = new System.Drawing.Point(332, 55);
-            this.chkLogEnabled.Name = "chkLogEnabled";
-            this.chkLogEnabled.Size = new System.Drawing.Size(15, 14);
-            this.chkLogEnabled.TabIndex = 3;
-            this.chkLogEnabled.UseVisualStyleBackColor = true;
+            chkLogEnabled.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            chkLogEnabled.AutoSize = true;
+            chkLogEnabled.Location = new Point(345, 29);
+            chkLogEnabled.Name = "chkLogEnabled";
+            chkLogEnabled.Size = new Size(15, 14);
+            chkLogEnabled.TabIndex = 3;
+            chkLogEnabled.UseVisualStyleBackColor = true;
             // 
             // lblLogEnabled
             // 
-            this.lblLogEnabled.AutoSize = true;
-            this.lblLogEnabled.Location = new System.Drawing.Point(13, 55);
-            this.lblLogEnabled.Name = "lblLogEnabled";
-            this.lblLogEnabled.Size = new System.Drawing.Size(72, 15);
-            this.lblLogEnabled.TabIndex = 2;
-            this.lblLogEnabled.Text = "Log enabled";
+            lblLogEnabled.AutoSize = true;
+            lblLogEnabled.Location = new Point(-3, 29);
+            lblLogEnabled.Name = "lblLogEnabled";
+            lblLogEnabled.Size = new Size(72, 15);
+            lblLogEnabled.TabIndex = 2;
+            lblLogEnabled.Text = "Log enabled";
             // 
             // chkReadOnly
             // 
-            this.chkReadOnly.AutoSize = true;
-            this.chkReadOnly.Location = new System.Drawing.Point(332, 26);
-            this.chkReadOnly.Name = "chkReadOnly";
-            this.chkReadOnly.Size = new System.Drawing.Size(15, 14);
-            this.chkReadOnly.TabIndex = 1;
-            this.chkReadOnly.UseVisualStyleBackColor = true;
-            this.chkReadOnly.CheckedChanged += new System.EventHandler(this.chkReadOnly_CheckedChanged);
+            chkReadOnly.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            chkReadOnly.AutoSize = true;
+            chkReadOnly.Location = new Point(345, 0);
+            chkReadOnly.Name = "chkReadOnly";
+            chkReadOnly.Size = new Size(15, 14);
+            chkReadOnly.TabIndex = 1;
+            chkReadOnly.UseVisualStyleBackColor = true;
+            chkReadOnly.CheckedChanged += chkReadOnly_CheckedChanged;
             // 
             // lblReadOnly
             // 
-            this.lblReadOnly.AutoSize = true;
-            this.lblReadOnly.Location = new System.Drawing.Point(13, 26);
-            this.lblReadOnly.Name = "lblReadOnly";
-            this.lblReadOnly.Size = new System.Drawing.Size(59, 15);
-            this.lblReadOnly.TabIndex = 0;
-            this.lblReadOnly.Text = "Read only";
+            lblReadOnly.AutoSize = true;
+            lblReadOnly.Location = new Point(-3, 0);
+            lblReadOnly.Name = "lblReadOnly";
+            lblReadOnly.Size = new Size(59, 15);
+            lblReadOnly.TabIndex = 0;
+            lblReadOnly.Text = "Read only";
             // 
             // CtrlCurrentArchiveOptions
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.gbOptions);
-            this.Name = "CtrlCurrentArchiveOptions";
-            this.Size = new System.Drawing.Size(360, 116);
-            this.gbOptions.ResumeLayout(false);
-            this.gbOptions.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numFlushPeriod)).EndInit();
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(txtFlushPeriodUnit);
+            Controls.Add(numFlushPeriod);
+            Controls.Add(lblFlushPeriod);
+            Controls.Add(chkLogEnabled);
+            Controls.Add(lblLogEnabled);
+            Controls.Add(chkReadOnly);
+            Controls.Add(lblReadOnly);
+            Name = "CtrlCurrentArchiveOptions";
+            Size = new Size(360, 80);
+            ((System.ComponentModel.ISupportInitialize)numFlushPeriod).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
-
-        private GroupBox gbOptions;
         private TextBox txtFlushPeriodUnit;
         private NumericUpDown numFlushPeriod;
         private Label lblFlushPeriod;

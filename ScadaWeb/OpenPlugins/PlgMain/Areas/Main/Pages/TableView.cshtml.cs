@@ -85,8 +85,8 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                 ErrorMessage = errMsg;
             }
 
-            ViewData["Title"] = tableView == null 
-                ? string.Format(PluginPhrases.TableViewTitle, ViewID) 
+            ViewData["Title"] = tableView == null
+                ? string.Format(PluginPhrases.TableViewTitle, ViewID)
                 : tableView.Title;
         }
 
@@ -130,7 +130,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
         private string GetQuantityIconUrl(Cnl cnl)
         {
-            string icon = cnl?.QuantityID == null ? 
+            string icon = cnl?.QuantityID == null ?
                 "" : webContext.ConfigDatabase.QuantityTable.GetItem(cnl.QuantityID.Value).Icon;
 
             if (string.IsNullOrEmpty(icon))
