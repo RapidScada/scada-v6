@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2023
+ * Modified : 2024
  */
 
 using Scada.Lang;
@@ -28,6 +28,7 @@ using Scada.Storages;
 using System;
 using System.IO;
 using System.Text;
+using System.Xml;
 
 namespace Scada.Config
 {
@@ -43,8 +44,16 @@ namespace Scada.Config
         /// </summary>
         public ConfigBase()
         {
+            UseOutputBuffer = true;
             SetToDefault();
         }
+
+
+        /// <summary>
+        /// Gets or sets a value indicating whether data should be saved to the buffer first and then written to file.
+        /// This helps prevent file corruption if the Save method fails.
+        /// </summary>
+        protected bool UseOutputBuffer { get; set; }
 
 
         /// <summary>
@@ -59,12 +68,35 @@ namespace Scada.Config
         /// </summary>
         protected virtual void Load(TextReader reader)
         {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(reader);
+            LoadFromXml(xmlDoc);
+        }
+
+        /// <summary>
+        /// Loads the configuration from the XML document.
+        /// </summary>
+        protected virtual void LoadFromXml(XmlDocument xmlDoc)
+        {
         }
 
         /// <summary>
         /// Saves the configuration to the specified writer.
         /// </summary>
         protected virtual void Save(TextWriter writer)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
+            xmlDoc.AppendChild(xmlDecl);
+
+            SaveToXml(xmlDoc);
+            xmlDoc.Save(writer);
+        }
+
+        /// <summary>
+        /// Saves the configuration into the XML document.
+        /// </summary>
+        protected virtual void SaveToXml(XmlDocument xmlDoc)
         {
         }
 
@@ -173,9 +205,32 @@ namespace Scada.Config
         {
             try
             {
-                using (StreamWriter writer = new StreamWriter(fileName))
+                if (UseOutputBuffer)
                 {
-                    Save(writer);
+                    using (MemoryStream memoryStream = new MemoryStream())
+                    {
+                        using (StreamWriter writer = new StreamWriter(memoryStream))
+                        {
+                            // save to buffer
+                            Save(writer);
+                            byte[] buffer = memoryStream.ToArray();
+
+                            // write to file
+                            using (FileStream fileStream = 
+                                new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.Read))
+                            {
+                                fileStream.Write(buffer, 0, buffer.Length);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // save to file
+                    using (StreamWriter writer = new StreamWriter(fileName))
+                    {
+                        Save(writer);
+                    }
                 }
 
                 errMsg = "";
