@@ -89,6 +89,10 @@
         <Text>Views</Text>
         <Url>/en/latest/configuration/views</Url>
       </Item>
+      <!--<Item>
+        <Text>Table Views</Text>
+        <Url>/en/latest/configuration/table-views</Url>
+      </Item>-->
     </Subitems>
   </Item>
 

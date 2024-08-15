@@ -89,6 +89,10 @@
         <Text>Представления</Text>
         <Url>/ru/latest/configuration/views</Url>
       </Item>
+      <Item>
+        <Text>Табличные представления</Text>
+        <Url>/ru/latest/configuration/table-views</Url>
+      </Item>
     </Subitems>
   </Item>
 
