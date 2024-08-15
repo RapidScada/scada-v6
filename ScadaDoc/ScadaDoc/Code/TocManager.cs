@@ -27,7 +27,7 @@ namespace Scada.Doc.Code
 
             webRootPath = webHostEnvironment.WebRootPath;
             this.logger = logger;
-            tocs = new Dictionary<string, Toc>();
+            tocs = [];
         }
 
 
