@@ -48,6 +48,9 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
             tableView = new TableView(new Data.Entities.View());
             this.fileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
             preventNodeExpand = false;
+
+            ChildFormTag = new ChildFormTag(new ChildFormOptions { CanRefresh = true });
+            ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
         }
 
 
@@ -334,14 +337,24 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
         }
 
         /// <summary>
-        /// Saves the file.
+        /// Saves the changes.
         /// </summary>
-        public void Save()
+        void IChildForm.Save()
         {
             if (tableView.SaveToFile(fileName, out string errMsg))
                 ChildFormTag.Modified = false;
             else
                 adminContext.ErrLog.HandleError(errMsg);
+        }
+        
+        /// <summary>
+        /// Refreshes the data displayed by the child form.
+        /// </summary>
+        void IChildForm.Refresh()
+        {
+            FillTreeView();
+            SetTableItemAutoText();
+            bindingSource.ResetBindings(false);
         }
 
 
@@ -349,7 +362,6 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
         {
             FormTranslator.Translate(this, GetType().FullName,
                 new FormTranslatorOptions { ContextMenus = [cmsDevice] });
-            ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
             Text = Path.GetFileName(fileName);
 
             TakeTreeViewImages();
@@ -366,13 +378,6 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
                 fileName = newFileName;
                 Text = Path.GetFileName(fileName);
             }
-        }
-
-        private void btnRefreshBase_Click(object sender, EventArgs e)
-        {
-            FillTreeView();
-            SetTableItemAutoText();
-            bindingSource.ResetBindings(false);
         }
 
         private void btnAddItem_Click(object sender, EventArgs e)

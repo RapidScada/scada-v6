@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ExtTableEditorDictionaries>
   <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableEditor">
-    <Phrase key="btnRefreshBase.ToolTip">Обновить базу конфигурации</Phrase>
     <Phrase key="btnAddItem.ToolTip">Добавить элемент</Phrase>
     <Phrase key="btnAddEmptyItem.ToolTip">Добавить пустой элемент</Phrase>
     <Phrase key="btnMoveUpItem.ToolTip">Переместить элемент вверх</Phrase>
