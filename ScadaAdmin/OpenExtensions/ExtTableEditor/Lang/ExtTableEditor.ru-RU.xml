@@ -7,7 +7,7 @@
     <Phrase key="btnMoveDownItem.ToolTip">Переместить элемент вниз</Phrase>
     <Phrase key="btnDeleteItem.ToolTip">Удалить выбранные элементы</Phrase>
     <Phrase key="btnTableOptions.ToolTip">Параметры табличного представления</Phrase>
-    <Phrase key="lblHint">Нажмите Enter или дважды щелкните узел, чтобы добавить его в таблицу. Щелкните правой кнопкой мыши узел устройства, чтобы отобразить контекстное меню.</Phrase>
+    <Phrase key="lblHint">Нажмите Enter или дважды щелкните узел, чтобы добавить его в таблицу. Правый щелчок по узлу устройства вызывает контекстное меню.</Phrase>
     <Phrase key="colCnlNum">Канал</Phrase>
     <Phrase key="colDeviceNum">Устройство</Phrase>
     <Phrase key="colAutoText">Авто текст</Phrase>
