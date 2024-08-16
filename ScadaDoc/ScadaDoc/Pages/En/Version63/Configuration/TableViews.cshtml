@@ -23,7 +23,7 @@
     </figure>
 
     <h2 id="editing">Creating and Editing</h2>
-    <p>Одним из преимуществ табличных представлений является простота их создания. Перейдите в раздел <strong>Представления</strong> проекта, щёлкните правой кнопокой мыши на нужной папке и выберите пункт <strong>Создать файл</strong> в контекстном меню. В открывшемся окне (рис. 2) выберите тип представления <strong>Таблица</strong>, укажите имя файла и нажмите кнопку <strong>OK</strong>. Созданный файл отобразится в проводнике проекта. По двойному щелчку представление открывается в Редакторе таблиц (рис. 3).</p>
+    <p>One of the advantages of table views is that they are easy to create. Navigate to the <strong>Views</strong> section of a project, right-click on the desired folder and select <strong>New File</strong> from the context menu. In the dialog box that opens (see Figure 2), select the <strong>Table View</strong> type, specify a file name and click <strong>OK</strong>. The created file will appear in the project explorer. Double-clicking opens the view in Table Editor (see Figure 3).</p>
 
     <figure class="figure">
         <img src="table-views-files/new-table-en.png" class="figure-img img-fluid" alt="View creation dialog" />
@@ -35,13 +35,13 @@
         <figcaption class="figure-caption">Figure 3. Table editor</figcaption>
     </figure>
 
-    <p>Левая панель редактора содержит список каналов, сгруппированных по устройствам. В основной части окна отображается содержимое табличного представления. Каждый элемент представления связан с устройством или каналом. Чтобы добавить элемент в представление, нужно выбрать соответствующий узел дерева на левой панели, затем нажать кнопку <img src="../common-images/add.png" />, клавишу <kbd>Enter</kbd> или дважды щёлкнуть узел дерева. Кнопка <img src="table-views-files/add-empty.png" /> добавляет пустую строку. Если база конфигурации изменилась, нажмите кнопку <img src="../common-images/refresh.png" />, расположенную на панели инструментов приложения, чтобы обновить устройства и каналы.</p>
-    <p>Если для элемента представления установлена галочка <strong>Авто текст</strong>, то в качестве текста элемента автоматически подставляется наименование устройства ила канала. Если это наименование будет позже изменено в таблице базы конфигурации, обновлять представление не потребуется.</p>
-    <p>Галочка <strong>Скрыть</strong> позволяет убрать элемент из отображаемой таблицы. При этом номера каналов, соответствующих скрытому элементу, продолжат использоваться фильтром событий по представлению.</p>
-    <p>После создания табличного представления его необходимо прописать в базе конфигурации в таблице <strong>Представления</strong>, как описано в предыдущей <a href="views#view-table">статье</a>.</p>
+    <p>The left panel of the editor contains a list of channels grouped by devices. The main part of the window displays the contents of the table view. Each view item is associated with a device or channel. To add an item to the view, select the corresponding tree node in the left pane, then click the <img src="../common-images/add.png" /> button, press <kbd>Enter</kbd>, or double-click the tree node. The <img src="table-views-files/add-empty.png" /> button adds an empty line. If the configuration database has changed, click the <img src="../common-images/refresh.png" /> button located on the application toolbar to refresh devices and channels.</p>
+    <p>If the <strong>Auto Text</strong> checkbox is checked for a view item, the device or channel name is automatically used as the item's text. If this name is later changed in the configuration database table, there is no need to update the view.</p>
+    <p>The <strong>Hide</strong> checkbox removes an item from the displayed table. However, the channel numbers corresponding to the hidden element continue to be used by the event filter by view.</p>
+    <p>After creating a table view, it must be registered in the configuration database in the <strong>Views</strong> table, as described in the previous <a href="views#view-table">article</a>.</p>
 
     <h2 id="options">View Options</h2>
-    <p>Окно, содержащее параметры табличного представления (рис. 4), вызывается кнопкой <img src="../common-images/options.png" />, которая расположена на панели инструментов редактора. Параметры задаются для конкретного редактируемого представления.</p>
+    <p>A window containing the table view options (see Figure 4) is called by the <img src="../common-images/options.png" /> button located on the editor toolbar. The options are set for the certain view being edited.</p>
 
     <figure class="figure">
         <img src="table-views-files/table-options-en.png" class="figure-img img-fluid" alt="Table view options" />
@@ -51,28 +51,27 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>Параметр</th>
-                <th>Описание</th>
+                <th>Option</th>
+                <th>Description</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>Код архива</td>
-                <td>Определяет, из какого исторического архива извлекать исторические данные</td>
+                <td>Archive code</td>
+                <td>Specifies the archive from which historical data is retrieved</td>
             </tr>
             <tr>
-                <td>Период таблицы</td>
-                <td>Шаг времени, используемый при формировании столбцов табличного представления</td>
+                <td>Table period</td>
+                <td>Time step used to generate the table view columns</td>
             </tr>
             <tr>
-                <td>Аргументы графика</td>
-                <td>Аргументы, разделённые символом <code>&amp;</code>, которые добавляются в адресную строку при открытии графика</td>
+                <td>Chart arguments</td>
+                <td>Arguments separated by <code>&amp;</code> that are added to the address bar when a chart opens</td>
             </tr>
         </tbody>
     </table>
 
-    <p>Пример аргументов для стандартного плагина Графики: <code>archive=Min&amp;gap=90</code>, где <code>archive</code> - код архива, <code>gap</code> - расстояние между точками, соединяемое линией (в секундах).</p>
-    <p>Пример аргументов для плагина <a href="../modules/plg-chart-pro">Графики Про</a>: <code>profile=PlgChartPro.xml</code>, где <code>profile</code> - имя файла профиля графика.</p>
-
-    <p>Если установлена галочка <strong>Использовать параметры по умолчанию</strong>, то код архива и период загружаются из конфигурационного файла веб-приложения <code>ScadaWebConfig.xml</code>. Используются параметры <code>TableArchiveCode</code> и <code>TablePeriod</code>, расположенные в секции <code>CustomOptions</code> в группе <code>Main</code>.</p>
+    <p>Example of arguments for the standard Chart plugin: <code>archive=Min&amp;gap=90</code>, where <code>archive</code> is the archive code, <code>gap</code> is the distance between points connected by a line (in seconds).</p>
+    <p>Example of arguments for <a href="../modules/plg-chart-pro">Chart Pro Plugin</a>: <code>profile=PlgChartPro.xml</code>, where <code>profile</code> is the name of the chart profile file.</p>
+    <p>If the <strong>Use default options</strong> checkbox is checked, the archive code and period are loaded from the web application configuration file <code>ScadaWebConfig.xml</code>. The <code>TableArchiveCode</code> and <code>TablePeriod</code> options located in the <code>Main</code> group of the <code>CustomOptions</code> section are used.</p>
 </div>
