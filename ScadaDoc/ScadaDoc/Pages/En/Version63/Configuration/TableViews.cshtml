@@ -1,0 +1,78 @@
+﻿@page "/en/latest/configuration/table-views"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Table Views";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#editing">Creating and Editing</a></li>
+        <li><a href="#options">View Options</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Table Views</h1>
+    <p>A table view (see Figure 1) is designed to display historical data for a day with a specified period, as well as current data. Clicking a table item opens a chart of the channel associated with the item. The <img src="table-views-files/rocket.png" /> button brings up a dialog for sending a command.</p>
+
+    <figure class="figure">
+        <img src="table-views-files/table-view-en.png" class="figure-img img-fluid" alt="Table view" />
+        <figcaption class="figure-caption">Figure 1. Table view</figcaption>
+    </figure>
+
+    <h2 id="editing">Creating and Editing</h2>
+    <p>Одним из преимуществ табличных представлений является простота их создания. Перейдите в раздел <strong>Представления</strong> проекта, щёлкните правой кнопокой мыши на нужной папке и выберите пункт <strong>Создать файл</strong> в контекстном меню. В открывшемся окне (рис. 2) выберите тип представления <strong>Таблица</strong>, укажите имя файла и нажмите кнопку <strong>OK</strong>. Созданный файл отобразится в проводнике проекта. По двойному щелчку представление открывается в Редакторе таблиц (рис. 3).</p>
+
+    <figure class="figure">
+        <img src="table-views-files/new-table-en.png" class="figure-img img-fluid" alt="View creation dialog" />
+        <figcaption class="figure-caption">Figure 2. View creation dialog</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="table-views-files/table-editor-en.png" class="figure-img img-fluid" alt="Table editor" />
+        <figcaption class="figure-caption">Figure 3. Table editor</figcaption>
+    </figure>
+
+    <p>Левая панель редактора содержит список каналов, сгруппированных по устройствам. В основной части окна отображается содержимое табличного представления. Каждый элемент представления связан с устройством или каналом. Чтобы добавить элемент в представление, нужно выбрать соответствующий узел дерева на левой панели, затем нажать кнопку <img src="../common-images/add.png" />, клавишу <kbd>Enter</kbd> или дважды щёлкнуть узел дерева. Кнопка <img src="table-views-files/add-empty.png" /> добавляет пустую строку. Если база конфигурации изменилась, нажмите кнопку <img src="../common-images/refresh.png" />, расположенную на панели инструментов приложения, чтобы обновить устройства и каналы.</p>
+    <p>Если для элемента представления установлена галочка <strong>Авто текст</strong>, то в качестве текста элемента автоматически подставляется наименование устройства ила канала. Если это наименование будет позже изменено в таблице базы конфигурации, обновлять представление не потребуется.</p>
+    <p>Галочка <strong>Скрыть</strong> позволяет убрать элемент из отображаемой таблицы. При этом номера каналов, соответствующих скрытому элементу, продолжат использоваться фильтром событий по представлению.</p>
+    <p>После создания табличного представления его необходимо прописать в базе конфигурации в таблице <strong>Представления</strong>, как описано в предыдущей <a href="views#view-table">статье</a>.</p>
+
+    <h2 id="options">View Options</h2>
+    <p>Окно, содержащее параметры табличного представления (рис. 4), вызывается кнопкой <img src="../common-images/options.png" />, которая расположена на панели инструментов редактора. Параметры задаются для конкретного редактируемого представления.</p>
+
+    <figure class="figure">
+        <img src="table-views-files/table-options-en.png" class="figure-img img-fluid" alt="Table view options" />
+        <figcaption class="figure-caption">Figure 4. Table view options</figcaption>
+    </figure>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Параметр</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Код архива</td>
+                <td>Определяет, из какого исторического архива извлекать исторические данные</td>
+            </tr>
+            <tr>
+                <td>Период таблицы</td>
+                <td>Шаг времени, используемый при формировании столбцов табличного представления</td>
+            </tr>
+            <tr>
+                <td>Аргументы графика</td>
+                <td>Аргументы, разделённые символом <code>&amp;</code>, которые добавляются в адресную строку при открытии графика</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Пример аргументов для стандартного плагина Графики: <code>archive=Min&amp;gap=90</code>, где <code>archive</code> - код архива, <code>gap</code> - расстояние между точками, соединяемое линией (в секундах).</p>
+    <p>Пример аргументов для плагина <a href="../modules/plg-chart-pro">Графики Про</a>: <code>profile=PlgChartPro.xml</code>, где <code>profile</code> - имя файла профиля графика.</p>
+
+    <p>Если установлена галочка <strong>Использовать параметры по умолчанию</strong>, то код архива и период загружаются из конфигурационного файла веб-приложения <code>ScadaWebConfig.xml</code>. Используются параметры <code>TableArchiveCode</code> и <code>TablePeriod</code>, расположенные в секции <code>CustomOptions</code> в группе <code>Main</code>.</p>
+</div>
