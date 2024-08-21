@@ -20,8 +20,10 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2024
  */
+
+using System;
 
 namespace Scada.Data.Models
 {
@@ -43,7 +45,7 @@ namespace Scada.Data.Models
             Descr = "";
             Sev = "";
             Ack = "";
-            Color = "";
+            Colors = null;
             Beep = false;
         }
 
@@ -86,11 +88,43 @@ namespace Scada.Data.Models
         /// <summary>
         /// Gets or sets the display color.
         /// </summary>
-        public string Color { get; set; }
+        [Obsolete("Use the Colors property.")]
+        public string Color => GetFirstColor();
+
+        /// <summary>
+        /// Gets or sets the main, second and background colors.
+        /// </summary>
+        public string[] Colors { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether a client application should play a beep.
         /// </summary>
         public bool Beep { get; set; }
+
+
+        /// <summary>
+        /// Gets the first color, or an empty string if it does not exist.
+        /// </summary>
+        public string GetFirstColor()
+        {
+            return GetFirstColor(out string color) ? color : "";
+        }
+
+        /// <summary>
+        /// Gets the first color.
+        /// </summary>
+        public bool GetFirstColor(out string color)
+        {
+            if (Colors != null && Colors.Length > 0)
+            {
+                color = Colors[0];
+                return true;
+            }
+            else
+            {
+                color = "";
+                return false;
+            }
+        }
     }
 }

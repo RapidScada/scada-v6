@@ -463,8 +463,7 @@ namespace Scada
             }
 
             // color
-            if (dataFormatted.Colors.Length > 0)
-                eventFormatted.Color = dataFormatted.Colors[0];
+            eventFormatted.Colors = dataFormatted.Colors;
 
             // beep
             if (cnl != null && new EventMask(cnl.EventMask).Beep)

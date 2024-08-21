@@ -251,9 +251,9 @@ class MainApi {
         return record.df.dispVal + (opt_unit && record.d.stat > 0 ? " " + opt_unit : "");
     }
 
-    // Gets the specified color from the record.
+    // Gets the specified color from the channel data or event record.
     static getColor(record, colorIndex, opt_defaultColor) {
-        let colors = record.df.colors;
+        let colors = (record.df ?? record.ef)?.colors;
         return Array.isArray(colors) && colors.length > colorIndex && colors[colorIndex]
             ? colors[colorIndex]
             : opt_defaultColor ?? "";
