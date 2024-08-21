@@ -259,8 +259,8 @@ namespace Scada.Web.Plugins.PlgMain.Report
                 else if (e.DirectiveValue == "Ack")
                     cellText = currentEventF.Ack;
 
-                if (currentEventF.GetFirstColor(out string mainColor))
-                    renderer.Workbook.SetColor(e.Cell.Node, null, mainColor);
+                if (currentEventF.GetMainColor(out string color))
+                    renderer.Workbook.SetColor(e.Cell.Node, null, color);
             }
 
             if (cellText != null)

@@ -88,7 +88,7 @@ namespace Scada.Web.Plugins.PlgMain.Report
         /// </summary>
         private static Dictionary<int, int> MapCnlNums(TrendBundle trendBundle)
         {
-            Dictionary<int, int> map = new();
+            Dictionary<int, int> map = [];
             int idx = 0;
 
             foreach (int cnlNum in trendBundle.CnlNums)
@@ -106,7 +106,7 @@ namespace Scada.Web.Plugins.PlgMain.Report
         /// </summary>
         private List<ColumnMeta> GetColumnMetas(TrendBundle trendBundle)
         {
-            List<ColumnMeta> columnMetas = new();
+            List<ColumnMeta> columnMetas = [];
             DateTime curDT = reportArgs.StartTime;
             int tablePeriod = reportArgs.TableOptions.Period <= 0
                 ? TableOptions.DefaultPeriod
@@ -246,8 +246,8 @@ namespace Scada.Web.Plugins.PlgMain.Report
                                 if (formatter.LastResultInfo.IsFloat)
                                     dataCell.SetNumberType();
 
-                                if (cnlDataF.Colors.Length > 0)
-                                    renderer.Workbook.SetColor(dataCell.Node, null, cnlDataF.Colors[0]);
+                                if (cnlDataF.GetMainColor(out string color))
+                                    renderer.Workbook.SetColor(dataCell.Node, null, color);
                             }
                             else
                             {
