@@ -462,7 +462,7 @@ namespace Scada
                     TimeZoneInfo.ConvertTimeFromUtc(ev.AckTimestamp, timeZone).ToLocalizedString();
             }
 
-            // color
+            // colors
             eventFormatted.Colors = dataFormatted.Colors;
 
             // beep
