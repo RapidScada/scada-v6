@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2024
  */
 
 using Scada.Data.Entities;
@@ -40,10 +40,46 @@ namespace Scada.Data.Models
         public string DispVal { get; set; }
 
         /// <summary>
-        /// Gets or sets the main, second and background colors of the channel value.
+        /// Gets or sets the main, second and background colors.
         /// </summary>
         public string[] Colors { get; set; }
 
+
+        /// <summary>
+        /// Gets the main color, or null if it does not exist.
+        /// </summary>
+        public string GetMainColor()
+        {
+            return GetMainColor(out string color) ? color : null;
+        }
+
+        /// <summary>
+        /// Gets the main color.
+        /// </summary>
+        public bool GetMainColor(out string color)
+        {
+            if (Colors != null && Colors.Length > 0)
+            {
+                color = Colors[0];
+                return true;
+            }
+            else
+            {
+                color = null;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Sets the main color keeping the others unchanged.
+        /// </summary>
+        public void SetMainColor(string color)
+        {
+            if (Colors == null || Colors.Length == 0)
+                Colors = new string[] { color };
+            else
+                Colors[0] = color;
+        }
 
         /// <summary>
         /// Sets the default colors.
@@ -51,17 +87,6 @@ namespace Scada.Data.Models
         public void SetColorsToDefault()
         {
             Colors = Array.Empty<string>();
-        }
-
-        /// <summary>
-        /// Sets the first color keeping the others unchanged.
-        /// </summary>
-        public void SetFirstColor(string color)
-        {
-            if (Colors == null || Colors.Length == 0)
-                Colors = new string[] { color };
-            else
-                Colors[0] = color;
         }
 
         /// <summary>

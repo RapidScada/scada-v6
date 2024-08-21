@@ -324,7 +324,7 @@ namespace Scada
                     0 <= cnlData.Val && cnlData.Val < enumFormat.Colors.Length &&
                     enumFormat.Colors[(int)cnlData.Val] is string color && color != "")
                 {
-                    cnlDataFormatted.SetFirstColor(color);
+                    cnlDataFormatted.SetMainColor(color);
                 }
             }
             catch
