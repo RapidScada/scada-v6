@@ -312,7 +312,7 @@ namespace Scada
                 cnlDataFormatted.DispVal = FormatError;
             }
 
-            // color
+            // colors
             try
             {
                 // color determined by status
