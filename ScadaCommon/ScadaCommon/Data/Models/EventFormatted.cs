@@ -89,7 +89,7 @@ namespace Scada.Data.Models
         /// Gets or sets the display color.
         /// </summary>
         [Obsolete("Use the Colors property.")]
-        public string Color => GetFirstColor();
+        public string Color => GetMainColor();
 
         /// <summary>
         /// Gets or sets the main, second and background colors.
@@ -103,17 +103,17 @@ namespace Scada.Data.Models
 
 
         /// <summary>
-        /// Gets the first color, or an empty string if it does not exist.
+        /// Gets the main color, or null if it does not exist.
         /// </summary>
-        public string GetFirstColor()
+        public string GetMainColor()
         {
-            return GetFirstColor(out string color) ? color : "";
+            return GetMainColor(out string color) ? color : null;
         }
 
         /// <summary>
-        /// Gets the first color.
+        /// Gets the main color.
         /// </summary>
-        public bool GetFirstColor(out string color)
+        public bool GetMainColor(out string color)
         {
             if (Colors != null && Colors.Length > 0)
             {
@@ -122,7 +122,7 @@ namespace Scada.Data.Models
             }
             else
             {
-                color = "";
+                color = null;
                 return false;
             }
         }
