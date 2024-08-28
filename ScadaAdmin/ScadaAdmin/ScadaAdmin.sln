@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScadaAdminCommon.Subset", "ScadaAdminCommon.Subset\ScadaAdminCommon.Subset.csproj", "{9141B9A5-6A17-40C9-9AA2-FA36E8D97E2B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{A87D0CE9-1691-4513-8B86-CBB68EE9D1A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A87D0CE9-1691-4513-8B86-CBB68EE9D1A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A87D0CE9-1691-4513-8B86-CBB68EE9D1A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9141B9A5-6A17-40C9-9AA2-FA36E8D97E2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9141B9A5-6A17-40C9-9AA2-FA36E8D97E2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9141B9A5-6A17-40C9-9AA2-FA36E8D97E2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9141B9A5-6A17-40C9-9AA2-FA36E8D97E2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

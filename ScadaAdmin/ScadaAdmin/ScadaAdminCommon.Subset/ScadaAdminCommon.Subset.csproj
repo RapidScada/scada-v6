@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <RootNamespace>Scada.Admin</RootNamespace>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <Version>6.2.0</Version>
+    <Authors>Mikhail Shiryaev</Authors>
+    <Company>Rapid Software LLC</Company>
+    <Product>Rapid SCADA</Product>
+    <Copyright>Copyright © 2024</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\ScadaAdminCommon\Deployment\DeploymentConfig.cs" Link="Deployment\DeploymentConfig.cs" />
+    <Compile Include="..\ScadaAdminCommon\Deployment\DeploymentProfile.cs" Link="Deployment\DeploymentProfile.cs" />
+    <Compile Include="..\ScadaAdminCommon\Deployment\DownloadOptions.cs" Link="Deployment\DownloadOptions.cs" />
+    <Compile Include="..\ScadaAdminCommon\Deployment\ITransferControl.cs" Link="Deployment\ITransferControl.cs" />
+    <Compile Include="..\ScadaAdminCommon\Deployment\ProgressTracker.cs" Link="Deployment\ProgressTracker.cs" />
+    <Compile Include="..\ScadaAdminCommon\Deployment\UploadOptions.cs" Link="Deployment\UploadOptions.cs" />
+    <Compile Include="..\ScadaAdminCommon\Lang\AdminPhrases.cs" Link="Lang\AdminPhrases.cs" />
+    <Compile Include="..\ScadaAdminCommon\Project\CommApp.cs" Link="Project\CommApp.cs" />
+    <Compile Include="..\ScadaAdminCommon\Project\ConfigDatabase.cs" Link="Project\ConfigDatabase.cs" />
+    <Compile Include="..\ScadaAdminCommon\Project\ProjectApp.cs" Link="Project\ProjectApp.cs" />
+    <Compile Include="..\ScadaAdminCommon\Project\ProjectInstance.cs" Link="Project\ProjectInstance.cs" />
+    <Compile Include="..\ScadaAdminCommon\Project\ProjectVersion.cs" Link="Project\ProjectVersion.cs" />
+    <Compile Include="..\ScadaAdminCommon\Project\ProjectViews.cs" Link="Project\ProjectViews.cs" />
+    <Compile Include="..\ScadaAdminCommon\Project\ScadaProject.cs" Link="Project\ScadaProject.cs" />
+    <Compile Include="..\ScadaAdminCommon\Project\ServerApp.cs" Link="Project\ServerApp.cs" />
+    <Compile Include="..\ScadaAdminCommon\Project\WebApp.cs" Link="Project\WebApp.cs" />
+    <Compile Include="..\ScadaAdminCommon\AdminUtils.cs" Link="AdminUtils.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ScadaCommCommon">
+      <HintPath>..\..\..\ScadaComm\ScadaComm\ScadaCommCommon\bin\Release\netstandard2.0\ScadaCommCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon">
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon\bin\Release\netstandard2.0\ScadaCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon.Log">
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon.Log\bin\Release\netstandard2.0\ScadaCommon.Log.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaServerCommon">
+      <HintPath>..\..\..\ScadaServer\ScadaServer\ScadaServerCommon\bin\Release\netstandard2.0\ScadaServerCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaWebCommon.Subset">
+      <HintPath>..\..\..\ScadaWeb\ScadaWeb\ScadaWebCommon.Subset\bin\Release\net8.0\ScadaWebCommon.Subset.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
