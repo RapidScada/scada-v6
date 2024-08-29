@@ -34,7 +34,6 @@ namespace Scada.Data.Tables
     /// </summary>
     public interface ITableIndex
     {
-
         /// <summary>
         /// Gets a value indicating whether the index is ready to use.
         /// </summary>
