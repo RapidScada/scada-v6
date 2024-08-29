@@ -22,6 +22,7 @@
     <Phrase key="CnlNum">数字</Phrase>
     <Phrase key="Active">活动</Phrase>
     <Phrase key="Name">名称</Phrase>
+    <Phrase key="Code">Code</Phrase>
     <Phrase key="DataTypeID">数据类型</Phrase>
     <Phrase key="DataLen">数据长度</Phrase>
     <Phrase key="CnlTypeID">通道类型</Phrase>
@@ -33,6 +34,7 @@
     <Phrase key="InFormula">输入公式</Phrase>
     <Phrase key="OutFormula">输出公式</Phrase>
     <Phrase key="FormatID">格式</Phrase>
+    <Phrase key="OutFormatID">Command Format</Phrase>
     <Phrase key="QuantityID">数量</Phrase>
     <Phrase key="UnitID">单位</Phrase>
     <Phrase key="LimID">限制</Phrase>
@@ -263,7 +265,6 @@
     <Phrase key="btnRestartWeb">重启</Phrase>
     <Phrase key="lblUpdateTime">更新时间</Phrase>
     <Phrase key="btnClose">关闭</Phrase>
-    <Phrase key="ControlServiceSuccessful">服务控制命令已成功完成。</Phrase>
     <Phrase key="UnableControlService">无法执行服务控制命令。</Phrase>
     <Phrase key="ControlServiceError">发送服务控制命令发生错误</Phrase>
     <Phrase key="AgentDisabled">代理已禁用</Phrase>
@@ -312,7 +313,6 @@
     <Phrase key="btnMoveLast.ToolTip">移动到最后</Phrase>
     <Phrase key="btnApplyEdit.ToolTip">应用编辑操作</Phrase>
     <Phrase key="btnCancelEdit.ToolTip">取消编辑操作</Phrase>
-    <Phrase key="btnRefresh.ToolTip">刷新数据</Phrase>
     <Phrase key="btnAddNew.ToolTip">新增</Phrase>
     <Phrase key="btnDelete.ToolTip">删除</Phrase>
     <Phrase key="btnClear.ToolTip">清除表</Phrase>
@@ -320,7 +320,6 @@
     <Phrase key="btnCopy.ToolTip">复制 (Ctrl+C)</Phrase>
     <Phrase key="btnPaste.ToolTip">粘贴 (Ctrl+V)</Phrase>
     <Phrase key="btnFilter.ToolTip">筛选</Phrase>
-    <Phrase key="btnFind.ToolTip">查找和替换 (Ctrl+F)</Phrase>
     <Phrase key="btnAutoSizeColumns.ToolTip">自动调整列宽</Phrase>
     <Phrase key="btnProperties.ToolTip">属性</Phrase>
     <Phrase key="GridViewError">错误显示表, 列 "{0}"</Phrase>
@@ -334,6 +333,42 @@
     <Phrase key="KeyReferenced">主键由表 "{0}"的一行引用。</Phrase>
     <Phrase key="DataNotExist"> 不存在 "{0}" 任何数据.</Phrase>
     <Phrase key="DataChangeError">更改数据表发生错误</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Tables.FrmCnl">
+    <Phrase key="this">通道属性</Phrase>
+    <Phrase key="pageGeneral">通用</Phrase>
+    <Phrase key="chkActive">激活</Phrase>
+    <Phrase key="lblCnlNum">编号</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblCode">Code</Phrase>
+    <Phrase key="lblDataType">数据类型</Phrase>
+    <Phrase key="lblDataLen">数据长度</Phrase>
+    <Phrase key="lblCnlType">通道类型</Phrase>
+    <Phrase key="lblObj">对象</Phrase>
+    <Phrase key="lblDevice">设备</Phrase>
+    <Phrase key="lblTagNum">标签号</Phrase>
+    <Phrase key="lblTagCode">标签代码</Phrase>
+    <Phrase key="chkFormulaEnabled">公式</Phrase>
+    <Phrase key="lblInFormula">输入</Phrase>
+    <Phrase key="lblOutFormula">输出</Phrase>
+    <Phrase key="pageDisplay">Display</Phrase>
+    <Phrase key="lblFormat">格式</Phrase>
+    <Phrase key="lblOutFormat">Command format</Phrase>
+    <Phrase key="lblQuantity">数量</Phrase>
+    <Phrase key="lblUnit">单位</Phrase>
+    <Phrase key="pageLim">限制</Phrase>
+    <Phrase key="lblLim">限制</Phrase>
+    <Phrase key="btnCreateLim">创建</Phrase>
+    <Phrase key="chkShared">仅显示共享限制</Phrase>
+    <Phrase key="lblLoLo">极低</Phrase>
+    <Phrase key="lblLow">低</Phrase>
+    <Phrase key="lblHigh">高</Phrase>
+    <Phrase key="lblHiHi">极高</Phrase>
+    <Phrase key="lblDeadband">死区</Phrase>
+    <Phrase key="pageArchives">存档</Phrase>
+    <Phrase key="pageEvents">事件</Phrase>
+    <Phrase key="btnOK">确定</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmColorDialog">
     <Phrase key="this">选择颜色</Phrase>
@@ -387,39 +422,7 @@
     <Phrase key="btnCancel">取消</Phrase>
     <Phrase key="LimExistsInConfigDatabase">配置数据库中已存在具有相同 ID 的限制</Phrase>
     <Phrase key="DefaultLimName">限制的通道{0}</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Admin.App.Forms.Tables.FrmCnl">
-    <Phrase key="this">通道属性</Phrase>
-    <Phrase key="pageGeneral">通用</Phrase>
-    <Phrase key="chkActive">激活</Phrase>
-    <Phrase key="lblCnlNum">编号</Phrase>
-    <Phrase key="lblDataType">数据类型</Phrase>
-    <Phrase key="lblDataLen">数据长度</Phrase>
-    <Phrase key="lblCnlType">通道类型</Phrase>
-    <Phrase key="lblObj">对象</Phrase>
-    <Phrase key="lblDevice">设备</Phrase>
-    <Phrase key="lblTagNum">标签号</Phrase>
-    <Phrase key="lblTagCode">标签代码</Phrase>
-    <Phrase key="chkFormulaEnabled">公式</Phrase>
-    <Phrase key="lblInFormula">输入</Phrase>
-    <Phrase key="lblOutFormula">输出</Phrase>
-    <Phrase key="lblFormat">格式</Phrase>
-    <Phrase key="lblQuantity">数量</Phrase>
-    <Phrase key="lblUnit">单位</Phrase>
-    <Phrase key="pageLim">限制</Phrase>
-    <Phrase key="lblLim">限制</Phrase>
-    <Phrase key="btnCreateLim">创建</Phrase>
-    <Phrase key="chkShared">仅显示共享限制</Phrase>
-    <Phrase key="lblLoLo">极低</Phrase>
-    <Phrase key="lblLow">低</Phrase>
-    <Phrase key="lblHigh">高</Phrase>
-    <Phrase key="lblHiHi">极高</Phrase>
-    <Phrase key="lblDeadband">死区</Phrase>
-    <Phrase key="pageArchives">存档</Phrase>
-    <Phrase key="pageEvents">事件</Phrase>
-    <Phrase key="btnOK">确定</Phrase>
-    <Phrase key="btnCancel">取消</Phrase>
-  </Dictionary>
+  </Dictionary>  
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmPassword">
     <Phrase key="this">设置密码</Phrase>
     <Phrase key="lblUserID">用户ID</Phrase>
@@ -528,6 +531,9 @@
     <Phrase key="miFileClose">关闭</Phrase>
     <Phrase key="miFileCloseProject">关闭项目</Phrase>
     <Phrase key="miFileExit">退出</Phrase>
+    <Phrase key="miEdit">&amp;Edit</Phrase>
+    <Phrase key="miEditRefresh">Refresh Data</Phrase>
+    <Phrase key="miEditFind">Find</Phrase>
     <Phrase key="miDeploy">&amp;部署</Phrase>
     <Phrase key="miDeployInstanceProfile">部署配置文件...</Phrase>
     <Phrase key="miDeployDownloadConfig">下载配置...</Phrase>
@@ -548,6 +554,8 @@
     <Phrase key="btnFileOpenProject.ToolTip">打开项目 (Ctrl+O)</Phrase>
     <Phrase key="btnFileSave.ToolTip">保存 (Ctrl+S)</Phrase>
     <Phrase key="btnFileSaveAll.ToolTip">全部保存</Phrase>
+    <Phrase key="btnEditRefresh.ToolTip">Refresh Data (Ctrl+R)</Phrase>
+    <Phrase key="btnEditFind.ToolTip">Find (Ctrl+F)</Phrase>
     <Phrase key="btnDeployInstanceProfile.ToolTip">部署配置文件</Phrase>
     <Phrase key="btnDeployDownloadConfig.ToolTip">下载配置</Phrase>
     <Phrase key="btnDeployUploadConfig.ToolTip">上传配置 (Ctrl+U)</Phrase>
@@ -555,6 +563,8 @@
     <Phrase key="miProjectOpenInExplorer">在文件资源管理器中打开文件夹</Phrase>
     <Phrase key="miProjectRename">项目名称</Phrase>
     <Phrase key="miProjectProperties">属性</Phrase>
+    <Phrase key="miBaseOpenInExplorer">Open Folder in File Explorer</Phrase>
+    <Phrase key="miBaseReload">Reload Configuration Database</Phrase>
     <Phrase key="miCnlTableComm">转到通信器</Phrase>
     <Phrase key="miCnlTableRefresh">刷新</Phrase>
     <Phrase key="miDirectoryNewFile">新文件...</Phrase>
@@ -626,7 +636,6 @@
     <Phrase key="btnOpenProject">打开项目</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmTextEditor">
-    <Phrase key="btnReload.ToolTip">重新加载文件</Phrase>
     <Phrase key="OpenTextFileError">打开文件发生错误</Phrase>
     <Phrase key="SaveTextFileError">保存文件发生错误</Phrase>
   </Dictionary>
@@ -662,16 +671,6 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.Forms.FrmRegistration">
     <Phrase key="this">注册</Phrase>
-    <Phrase key="lblProductName">产品名称</Phrase>
-    <Phrase key="lblCompCode">计算机代码</Phrase>
-    <Phrase key="btnCopyCompCode">拷贝</Phrase>
-    <Phrase key="btnRefreshCompCode">刷新</Phrase>
-    <Phrase key="lblCompCodeInfo">如果缺少代码，请上传配置并重新启动服务.</Phrase>
-    <Phrase key="lblRegKey">注册表项</Phrase>
-    <Phrase key="btnPasteRegKey">粘贴</Phrase>
-    <Phrase key="lblRegKeyInfo">密钥验证结果写入应用程序或模块日志。</Phrase>
-    <Phrase key="llblGetPermanentKey">获取永久密钥</Phrase>
-    <Phrase key="llblGetTrialKey">获取试用密钥</Phrase>
     <Phrase key="btnSave">保存</Phrase>
     <Phrase key="btnCancel">取消</Phrase>
     <Phrase key="LoadRegKeyError">加载注册密钥发生错误</Phrase>

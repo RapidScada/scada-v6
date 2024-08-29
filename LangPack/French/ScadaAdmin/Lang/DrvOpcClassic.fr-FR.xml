@@ -49,6 +49,7 @@
     <Phrase key="lblUpdateRate">Taux de mise à jour, ms</Phrase>
     <Phrase key="lblKeepAlive">Reste en vie, mademoiselle</Phrase>
     <Phrase key="lblDeadband">Bande morte, %</Phrase>
+    <Phrase key="chkReadSync">Lire de manière synchrone</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Forms.FrmDeviceConfig">
     <Phrase key="this">Propriétés de l'appareil {0} - OPC Classic</Phrase>

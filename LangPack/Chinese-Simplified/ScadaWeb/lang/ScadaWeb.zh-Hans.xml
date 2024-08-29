@@ -51,6 +51,9 @@
     <Phrase key="PageTitle">选择通道</Phrase>
     <Phrase key="lblObj">对象</Phrase>
     <Phrase key="lblOnlySelected">只显示选择的通道</Phrase>
+    <Phrase key="SelectedColumn">Selected</Phrase>
+    <Phrase key="NumberColumn">Number</Phrase>
+    <Phrase key="NameColumn">Name</Phrase>
     <Phrase key="SelectObjectItem">-- 选择一个对象 --</Phrase>
     <Phrase key="FilterRequired">请指定一个过滤器</Phrase>
     <Phrase key="NoChannels">没有通道匹配过滤器</Phrase>

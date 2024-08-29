@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<PlgWebPageDictionaries culture="zh-Hans" lang="ChineseSimplified">
-  <Dictionary key="Scada.Web.Plugins.PlgWebPage.Areas.Main.Pages.Landing">
-    <Phrase key="PageTitle">页 {0}</Phrase>
-    <Phrase key="UrlIsEmpty">无法转向空白URL</Phrase>
-  </Dictionary>
-</PlgWebPageDictionaries>

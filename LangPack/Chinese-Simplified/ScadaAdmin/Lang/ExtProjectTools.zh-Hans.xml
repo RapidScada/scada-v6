@@ -23,15 +23,26 @@
     <Phrase key="BaseHasErrors">配置数据库有错误。</Phrase>
     <Phrase key="IntegrityCheckError">完整性检测错误</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.ObjectMap">
+    <Phrase key="ObjectMapTitle">Object Hierarchy</Phrase>
+    <Phrase key="NoObjects">No objects</Phrase>
+    <Phrase key="GenerateObjectMapError">Error generating object map</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Controls.CtrlMainMenu">
     <Phrase key="miProjectTools">项目工具</Phrase>
     <Phrase key="miCloneChannels">克隆通道...</Phrase>
+    <Phrase key="miEncryptPassword">Encrypt Password...</Phrase>
     <Phrase key="miChannelMapByDevice">按设备映射通道</Phrase>
     <Phrase key="miChannelMapByObject">按对象映射通道</Phrase>
     <Phrase key="miDeviceMap">设备映射</Phrase>
+    <Phrase key="miObjectMap">Object Map</Phrase>
     <Phrase key="miCheckIntegrity">完整性检测</Phrase>
+    <Phrase key="miObjectEditor">Object Editor</Phrase>
+    <Phrase key="miRightMatrix">Right Matrix</Phrase>
     <Phrase key="miImportTable">导入表...</Phrase>
     <Phrase key="miExportTable">导出表...</Phrase>
+    <Phrase key="btnObjectEditor.ToolTip">Object Editor</Phrase>
+    <Phrase key="btnRightMatrix.ToolTip">Right Matrix</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmCnlClone">
     <Phrase key="this">克隆通道</Phrase>
@@ -50,6 +61,58 @@
     <Phrase key="KeepUnchanged">&lt;保持不变&gt;</Phrase>
     <Phrase key="CloneChannelsCompleted">克隆已经成功完成.&#13;&#10;{0} 通道(s) 已经添加.</Phrase>
     <Phrase key="CloneChannelsError">克隆通道发生错误</Phrase>
+  </Dictionary>
+ <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmFindObject">
+    <Phrase key="this">Find Object</Phrase>
+    <Phrase key="lblFind">Find what</Phrase>
+    <Phrase key="gbLookAt">Look at</Phrase>
+    <Phrase key="chkObjNum">Number</Phrase>
+    <Phrase key="chkName">Name</Phrase>
+    <Phrase key="chkCode">Code</Phrase>
+    <Phrase key="chkDescr">Description</Phrase>
+    <Phrase key="chkCaseSensitive">Match case</Phrase>
+    <Phrase key="chkWholeStringOnly">Match whole string only</Phrase>
+    <Phrase key="btnFindNext">Find Next</Phrase>
+    <Phrase key="btnClose">Close</Phrase>
+    <Phrase key="ObjectNotFound">Object not found.</Phrase>
+    <Phrase key="SearchCompleted">Search completed.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmObjectEditor">
+    <Phrase key="this">Object Editor</Phrase>
+    <Phrase key="btnAddObject.ToolTip">Add Object</Phrase>
+    <Phrase key="btnDeleteObject.ToolTip">Delete Object</Phrase>
+    <Phrase key="gbObject">Object Properties</Phrase>
+    <Phrase key="lblObjNum">Number</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblCode">Code</Phrase>
+    <Phrase key="lblParentObj">Parent object</Phrase>
+    <Phrase key="lblDescr">Description</Phrase>
+    <Phrase key="miCollapseAll">Collapse All</Phrase>
+    <Phrase key="miOpenChannels">Open Channels</Phrase>
+    <Phrase key="ObjNumInUse">The object number is already in use.</Phrase>
+    <Phrase key="ObjNumReferenced">The object number is referenced by a row from the &quot;{0}&quot; table.</Phrase>
+    <Phrase key="ObjectReferenced">The object or its child is referenced by a row from another table.</Phrase>
+    <Phrase key="ParentObjectNotExists">The parent object no longer exists.</Phrase>
+    <Phrase key="InvalidParentObject">The parent object cannot be the same or a child object.</Phrase>
+    <Phrase key="UpdateObjNumError">Error updating object number</Phrase>
+    <Phrase key="UpdateParentObjError">Error updating parent object</Phrase>
+    <Phrase key="DeleteObjectConfirm">Are you sure you want to delete the object?</Phrase>
+    <Phrase key="ObjectFilter">Object {0}</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
+    <Phrase key="this">Encrypt Password</Phrase>
+    <Phrase key="lblPassword">Password</Phrase>
+    <Phrase key="lblPasswordEncrypted">Encrypted password</Phrase>
+    <Phrase key="btnCopy">Copy</Phrase>
+    <Phrase key="btnClose">Close</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmRightMatrix">
+    <Phrase key="this">Right Matrix</Phrase>
+    <Phrase key="ViewRightSymbol">V</Phrase>
+    <Phrase key="ViewRightLegend">V - view</Phrase>
+    <Phrase key="ControlRightSymbol">C</Phrase>
+    <Phrase key="ControlRightLegend">C - control</Phrase>
+    <Phrase key="DisplayMatrixError">Error displaying right matrix</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
     <Phrase key="this">导出表</Phrase>
