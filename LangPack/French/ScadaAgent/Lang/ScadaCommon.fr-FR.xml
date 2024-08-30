@@ -19,7 +19,6 @@
     <Phrase key="ThreadFatalError">Erreur fatale dans le fil</Phrase>
     <Phrase key="WriteInfoError">Erreur lors de l'écriture des informations d'application dans le fichier</Phrase>
     <Phrase key="ConnectionNotFound">Connexion "{0}" introuvable.</Phrase>
-    <Phrase key="ConnOptionsNotFound">Options de connexion introuvables.</Phrase>
     <Phrase key="DatabaseNotSupported">Base de données non prise en charge.</Phrase>
     <Phrase key="OperationNotSupported">Opération non prise en charge.</Phrase>
     <Phrase key="CommandSent">La commande a été envoyée.</Phrase>
@@ -134,6 +133,18 @@
     <Phrase key="lblUsername">Nom d'utilisateur</Phrase>
     <Phrase key="lblPassword">Mot de passe</Phrase>
     <Phrase key="chkConnectionString">Chaîne de connexion</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlRegistration">
+    <Phrase key="lblProductName">Nom du produit</Phrase>
+    <Phrase key="lblCompCode">Code informatique</Phrase>
+    <Phrase key="btnCopyCompCode">Copie</Phrase>
+    <Phrase key="btnRefreshCompCode">Rafraîchir</Phrase>
+    <Phrase key="lblCompCodeInfo">Si le code est manquant, téléchargez la configuration et redémarrez le service.</Phrase>
+    <Phrase key="lblRegKey">Clé d'enregistrement</Phrase>
+    <Phrase key="btnPasteRegKey">Coller</Phrase>
+    <Phrase key="lblRegKeyInfo">Le résultat de la vérification de la clé est écrit dans le journal de l'application ou du module.</Phrase>
+    <Phrase key="llblGetPermanentKey">Obtenir une clé permanente</Phrase>
+    <Phrase key="llblGetTrialKey">Obtenir la clé d'essai</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmBitmask">
     <Phrase key="this">Masque de bits</Phrase>
