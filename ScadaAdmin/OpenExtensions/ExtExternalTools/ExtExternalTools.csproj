@@ -31,6 +31,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Config\ExtExternalTools.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Lang\ExtExternalTools.ru-RU.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
