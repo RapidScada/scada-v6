@@ -8,6 +8,10 @@ using System.Xml;
 
 namespace Scada.Admin.Extensions.ExtDepPostgreSql.Config
 {
+    /// <summary>
+    /// Represents an extension configuration.
+    /// <para>Представляет конфигурацию расширения.</para>
+    /// </summary>
     internal class ExtensionConfig : ConfigBase
     {
         /// <summary>
