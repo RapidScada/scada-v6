@@ -49,7 +49,11 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
             this.fileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
             preventNodeExpand = false;
 
-            ChildFormTag = new ChildFormTag(new ChildFormOptions { CanRefresh = true });
+            ChildFormTag = new ChildFormTag(new ChildFormOptions 
+            {
+                FileName = fileName,
+                CanRefresh = true
+            });
             ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
         }
 
