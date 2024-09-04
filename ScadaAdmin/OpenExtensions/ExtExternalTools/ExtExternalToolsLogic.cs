@@ -145,6 +145,7 @@ namespace Scada.Admin.Extensions.ExtExternalTools
 
                 if (braceIdx1 >= 0 && braceIdx2 >= 0 && braceIdx2 - braceIdx1 > 1)
                 {
+                    sbArgs.Append(s[startIdx..braceIdx1]);
                     startIdx = braceIdx2 + 1;
                     string varName = s[(braceIdx1 + 1)..braceIdx2];
 
