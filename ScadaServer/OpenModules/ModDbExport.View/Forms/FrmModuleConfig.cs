@@ -13,6 +13,7 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
 {
     /// <summary>
     /// Represents a form for editing a module configuration.
+    /// <para>Представляет форму для редактирования конфигурации модуля.</para>
     /// </summary>
     public partial class FrmModuleConfig : Form
     {

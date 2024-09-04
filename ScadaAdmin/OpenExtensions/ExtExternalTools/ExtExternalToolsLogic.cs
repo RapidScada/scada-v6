@@ -1,9 +1,12 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Admin.Config;
 using Scada.Admin.Extensions.ExtExternalTools.Config;
+using Scada.Admin.Extensions.ExtExternalTools.Forms;
 using Scada.Admin.Lang;
 using Scada.Forms;
+using Scada.Forms.Forms;
 using Scada.Lang;
 using System.Diagnostics;
 using System.Text;
@@ -27,8 +30,15 @@ namespace Scada.Admin.Extensions.ExtExternalTools
             : base(adminContext)
         {
             extensionConfig = new ExtensionConfig();
+            CanShowProperties = true;
         }
 
+
+        /// <summary>
+        /// Gets the full name of the extension configuration file.
+        /// </summary>
+        private string ConfigFileName =>
+            Path.Combine(AdminContext.AppDirs.ConfigDir, ExtensionConfig.DefaultFileName);
 
         /// <summary>
         /// Gets the extension code.
@@ -190,12 +200,26 @@ namespace Scada.Admin.Extensions.ExtExternalTools
         /// </summary>
         public override void LoadConfig()
         {
-            string fileName = Path.Combine(AdminContext.AppDirs.ConfigDir, ExtensionConfig.DefaultFileName);
+            string fileName = ConfigFileName;
 
             if (File.Exists(fileName) &&
                 !extensionConfig.Load(fileName, out string errMsg))
             {
                 AdminContext.ErrLog.WriteError(AdminPhrases.ExtensionMessage, Code, errMsg);
+            }
+        }
+
+        /// <summary>
+        /// Shows a modal dialog box for editing extension properties.
+        /// </summary>
+        public override void ShowProperties(AdminConfig adminConfig)
+        {
+            FrmExtensionConfig frmExtensionConfig = new(extensionConfig);
+
+            if (frmExtensionConfig.ShowDialog() == DialogResult.OK &&
+                !extensionConfig.Save(ConfigFileName, out string errMsg))
+            {
+                AdminContext.ErrLog.HandleError(errMsg);
             }
         }
 
