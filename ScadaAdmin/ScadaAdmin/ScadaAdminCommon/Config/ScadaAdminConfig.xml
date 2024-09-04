@@ -7,6 +7,7 @@
     <Extension code="ExtCommConfig" />
     <Extension code="ExtWebConfig" />
     <Extension code="ExtProjectTools" />
+    <Extension code="ExtExternalTools" />
     <Extension code="ExtTableEditor" />
   </Extensions>
   <FileAssociations>

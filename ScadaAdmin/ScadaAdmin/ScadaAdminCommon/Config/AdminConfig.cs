@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2022
+ * Modified : 2024
  */
 
 using Scada.Config;
@@ -88,23 +88,24 @@ namespace Scada.Admin.Config
         /// </summary>
         public void SetToDefault(string instanceDir)
         {
-            ExtensionCodes = new List<string>
-            {
+            ExtensionCodes =
+            [
                 "ExtDepAgent",
                 "ExtDepPostgreSql",
                 "ExtServerConfig",
                 "ExtCommConfig",
                 "ExtWebConfig",
                 "ExtProjectTools",
+                "ExtExternalTools",
                 "ExtTableEditor"
-            };
+            ];
 
             FileAssociations = new SortedList<string, string>
             {
                 { "sch", Path.Combine(instanceDir, @"ScadaSchemeEditor\ScadaSchemeEditor.exe") }
             };
 
-            CustomOptions = new SortedList<string, OptionList>();
+            CustomOptions = [];
         }
 
         /// <summary>
@@ -122,7 +123,7 @@ namespace Scada.Admin.Config
 
                 if (rootElem.SelectSingleNode("Extensions") is XmlNode modulesNode)
                 {
-                    HashSet<string> extensionCodes = new();
+                    HashSet<string> extensionCodes = [];
 
                     foreach (XmlElement moduleElem in modulesNode.SelectNodes("Extension"))
                     {
@@ -150,7 +151,7 @@ namespace Scada.Admin.Config
                 {
                     foreach (XmlElement optionGroupElem in customOptionsNode.SelectNodes("OptionGroup"))
                     {
-                        OptionList optionList = new();
+                        OptionList optionList = [];
                         optionList.LoadFromXml(optionGroupElem);
                         CustomOptions[optionGroupElem.GetAttrAsString("name")] = optionList;
                     }
@@ -222,7 +223,7 @@ namespace Scada.Admin.Config
         {
             if (!CustomOptions.TryGetValue(groupName, out OptionList options))
             {
-                options = new OptionList();
+                options = [];
 
                 if (addIfMissing)
                     CustomOptions.Add(groupName, options);
