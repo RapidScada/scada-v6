@@ -178,6 +178,14 @@ namespace Scada.Admin.Extensions.ExtExternalTools.Forms
         }
 
         /// <summary>
+        /// Adds the specified variable to the arguments.
+        /// </summary>
+        private void AddArgument(string varName)
+        {
+            txtArguments.Text += (txtArguments.Text == "" ? "" : " ") + "{" + varName + "}";
+        }
+
+        /// <summary>
         /// Creates a new list view item that represents the specified tool item.
         /// </summary>
         private static ListViewItem CreateToolItem(ToolItemConfig toolItemConfig)
@@ -202,7 +210,9 @@ namespace Scada.Admin.Extensions.ExtExternalTools.Forms
 
         private void FrmExtensionConfig_Load(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this, GetType().FullName);
+            FormTranslator.Translate(this, GetType().FullName, 
+                new FormTranslatorOptions() { ContextMenus = [cmsArg] });
+
             ActiveControl = lvTool;
             LoadConfig();
             FillToolList();
@@ -308,23 +318,48 @@ namespace Scada.Admin.Extensions.ExtExternalTools.Forms
 
         private void btnBrowseFile_Click(object sender, EventArgs e)
         {
+            if (File.Exists(txtFileName.Text))
+            {
+                openFileDialog.InitialDirectory = Path.GetDirectoryName(txtFileName.Text);
+                openFileDialog.FileName = Path.GetFileName(txtFileName.Text);
+            }
+            else
+            {
+                openFileDialog.InitialDirectory = "";
+                openFileDialog.FileName = "";
+            }
 
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+                txtFileName.Text = openFileDialog.FileName;
         }
 
         private void btnAddArgument_Click(object sender, EventArgs e)
         {
-
+            cmsArg.Show(btnAddArgument, btnAddArgument.Width, 0);
         }
 
         private void btnBrowseDir_Click(object sender, EventArgs e)
         {
+            folderBrowserDialog.SelectedPath = txtWorkingDirectory.Text.Trim();
 
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+                txtWorkingDirectory.Text = ScadaUtils.NormalDir(folderBrowserDialog.SelectedPath);
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
             if (SaveConfig())
                 DialogResult = DialogResult.OK;
+        }
+
+        private void miProjectFileName_Click(object sender, EventArgs e)
+        {
+            AddArgument(VarName.ProjectFileName);
+        }
+
+        private void miItemFileName_Click(object sender, EventArgs e)
+        {
+            AddArgument(VarName.ItemFileName);
         }
     }
 }

@@ -11,6 +11,8 @@
     <Phrase key="lblFileName">Исполняемый файл</Phrase>
     <Phrase key="lblArguments">Аргументы</Phrase>
     <Phrase key="lblWorkingDirectory">Рабочая директория</Phrase>
+    <Phrase key="miProjectFileName">Имя файла проекта</Phrase>
+    <Phrase key="miItemFileName">Имя файла элемента</Phrase>
     <Phrase key="UnnamedTool">&lt;Безымянный инструмент&gt;</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtExternalTools.ExtExternalToolsLogic">

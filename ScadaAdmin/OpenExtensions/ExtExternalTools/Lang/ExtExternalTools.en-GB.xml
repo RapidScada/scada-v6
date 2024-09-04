@@ -11,9 +11,9 @@
     <Phrase key="lblFileName">Executable file</Phrase>
     <Phrase key="lblArguments">Arguments</Phrase>
     <Phrase key="lblWorkingDirectory">Working directory</Phrase>
+    <Phrase key="miProjectFileName">Project File Name</Phrase>
+    <Phrase key="miItemFileName">Item File Name</Phrase>
     <Phrase key="UnnamedTool">&lt;Unnamed Tool&gt;</Phrase>
-    <Phrase key=""></Phrase>
-    <Phrase key=""></Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtExternalTools.ExtExternalToolsLogic">
     <Phrase key="ParentMenuItem">External Tools</Phrase>

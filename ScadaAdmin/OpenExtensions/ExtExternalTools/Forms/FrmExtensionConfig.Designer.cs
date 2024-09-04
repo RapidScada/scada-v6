@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             lvTool = new ListView();
             colTitle = new ColumnHeader();
             btnAdd = new Button();
@@ -48,7 +49,13 @@
             lblTitle = new Label();
             btnOK = new Button();
             btnCancel = new Button();
+            folderBrowserDialog = new FolderBrowserDialog();
+            openFileDialog = new OpenFileDialog();
+            cmsArg = new ContextMenuStrip(components);
+            miProjectFileName = new ToolStripMenuItem();
+            miItemFileName = new ToolStripMenuItem();
             gbTool.SuspendLayout();
+            cmsArg.SuspendLayout();
             SuspendLayout();
             // 
             // lvTool
@@ -252,6 +259,30 @@
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = true;
             // 
+            // folderBrowserDialog
+            // 
+            folderBrowserDialog.RootFolder = Environment.SpecialFolder.MyComputer;
+            // 
+            // cmsArg
+            // 
+            cmsArg.Items.AddRange(new ToolStripItem[] { miProjectFileName, miItemFileName });
+            cmsArg.Name = "cmsArg";
+            cmsArg.Size = new Size(181, 70);
+            // 
+            // miProjectFileName
+            // 
+            miProjectFileName.Name = "miProjectFileName";
+            miProjectFileName.Size = new Size(180, 22);
+            miProjectFileName.Text = "Project File Name";
+            miProjectFileName.Click += miProjectFileName_Click;
+            // 
+            // miItemFileName
+            // 
+            miItemFileName.Name = "miItemFileName";
+            miItemFileName.Size = new Size(180, 22);
+            miItemFileName.Text = "Item File Name";
+            miItemFileName.Click += miItemFileName_Click;
+            // 
             // FrmExtensionConfig
             // 
             AcceptButton = btnOK;
@@ -278,6 +309,7 @@
             Load += FrmExtensionConfig_Load;
             gbTool.ResumeLayout(false);
             gbTool.PerformLayout();
+            cmsArg.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -303,5 +335,10 @@
         private Button btnOK;
         private Button btnCancel;
         private ColumnHeader colTitle;
+        private FolderBrowserDialog folderBrowserDialog;
+        private OpenFileDialog openFileDialog;
+        private ContextMenuStrip cmsArg;
+        private ToolStripMenuItem miProjectFileName;
+        private ToolStripMenuItem miItemFileName;
     }
 }
