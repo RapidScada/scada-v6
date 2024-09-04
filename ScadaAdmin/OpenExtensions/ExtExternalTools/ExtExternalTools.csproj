@@ -16,6 +16,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="WinControl" Version="2.2.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="ScadaAdminCommon">
       <HintPath>..\..\ScadaAdmin\ScadaAdminCommon\bin\Release\net8.0-windows\ScadaAdminCommon.dll</HintPath>
     </Reference>

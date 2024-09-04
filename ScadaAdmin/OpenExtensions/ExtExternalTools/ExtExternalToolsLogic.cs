@@ -3,8 +3,11 @@
 
 using Scada.Admin.Extensions.ExtExternalTools.Config;
 using Scada.Admin.Lang;
+using Scada.Forms;
 using Scada.Lang;
 using System.Diagnostics;
+using System.Text;
+using WinControls;
 
 namespace Scada.Admin.Extensions.ExtExternalTools
 {
@@ -71,15 +74,102 @@ namespace Scada.Admin.Extensions.ExtExternalTools
             if (sender is ToolStripMenuItem menuItem && 
                 menuItem.Tag is ToolItemConfig itemConfig)
             {
-                // call external program
-                ProcessStartInfo startInfo = new()
+                if (!File.Exists(itemConfig.FileName))
                 {
-                    FileName = itemConfig.FileName,
-                    Arguments = itemConfig.Arguments,
-                    WorkingDirectory = itemConfig.WorkingDirectory,
-                    UseShellExecute = true
-                };
-                Process.Start(startInfo);
+                    ScadaUiUtils.ShowError("Не найден исполняемый файл инструмента.");
+                }
+                else if (!GetArguments(itemConfig.Arguments, out string args, out string errMsg))
+                {
+                    ScadaUiUtils.ShowError(errMsg);
+                }
+                else
+                {
+                    // call external program
+                    try
+                    {
+                        ProcessStartInfo startInfo = new()
+                        {
+                            FileName = itemConfig.FileName,
+                            Arguments = args,
+                            WorkingDirectory = itemConfig.WorkingDirectory,
+                            UseShellExecute = true
+                        };
+                        Process.Start(startInfo);
+                    }
+                    catch (Exception ex)
+                    {
+                        AdminContext.ErrLog.HandleError(ex, "Ошибка при запуске инструмента");
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the arguments from the string that may contain variables.
+        /// </summary>
+        private bool GetArguments(string s, out string args, out string errMsg)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                args = "";
+                errMsg = "";
+                return true;
+            }
+
+            StringBuilder sbArgs = new();
+            bool hasEmptyVar = false;
+            int startIdx = 0;
+
+            void AppendVar(string value)
+            {
+                if (string.IsNullOrEmpty(value))
+                    hasEmptyVar = true;
+                else
+                    sbArgs.Append(value);
+            }
+
+            while (startIdx < s.Length)
+            {
+                int braceIdx1 = s.IndexOf('{', startIdx);
+                int braceIdx2 = braceIdx1 < 0 ? -1 : s.IndexOf('}', braceIdx1 + 1);
+
+                if (braceIdx1 >= 0 && braceIdx2 >= 0 && braceIdx2 - braceIdx1 > 1)
+                {
+                    startIdx = braceIdx2 + 1;
+                    string varName = s[(braceIdx1 + 1)..braceIdx2];
+
+                    if (varName == VarName.ProjectFileName)
+                    {
+                        AppendVar(AdminContext.CurrentProject?.FileName);
+                    }
+                    else if (varName == VarName.ItemFileName)
+                    {
+                        AppendVar((AdminContext.MainForm.ActiveChildForm as IChildForm)?
+                            .ChildFormTag?.Options?.FileName);
+                    }
+                    else
+                    {
+                        sbArgs.Append(s[braceIdx1..(braceIdx2 + 1)]);
+                    }
+                }
+                else
+                {
+                    sbArgs.Append(s[startIdx..]);
+                    break;
+                }
+            }
+
+            args = sbArgs.ToString();
+
+            if (hasEmptyVar)
+            {
+                errMsg = "Переменные, используемые в аргументах, имеют пустые значения.";
+                return false;
+            }
+            else
+            {
+                errMsg = "";
+                return true;
             }
         }
 
