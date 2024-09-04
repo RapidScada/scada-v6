@@ -99,7 +99,8 @@ namespace Scada.Admin.App.Forms.Tables
             frmFilter = null;
 
             ChildFormTag = new ChildFormTag(new ChildFormOptions
-            { 
+            {
+                FileName = project.ConfigDatabase.GetTableFileName(baseTable),
                 Image = Resources.table,
                 CanRefresh = true,
                 CanFind = true

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2023
+ * Modified : 2024
  */
 
 using Scada.Admin.Lang;
@@ -162,6 +162,14 @@ namespace Scada.Admin.Project
             return null;
         }
 
+        /// <summary>
+        /// Gets the full file name of the specified table.
+        /// </summary>
+        public string GetTableFileName(IBaseTable baseTable)
+        {
+            return Path.Combine(BaseDir, baseTable.FileName);
+        }
+
 
         /// <summary>
         /// Loads the configuration database if needed.
@@ -221,7 +229,7 @@ namespace Scada.Admin.Project
         public void LoadTable(IBaseTable baseTable)
         {
             ArgumentNullException.ThrowIfNull(baseTable, nameof(baseTable));
-            string fileName = Path.Combine(BaseDir, baseTable.FileName);
+            string fileName = GetTableFileName(baseTable);
 
             if (!File.Exists(fileName))
             {
@@ -249,7 +257,7 @@ namespace Scada.Admin.Project
 
             try
             {
-                string fileName = Path.Combine(BaseDir, baseTable.FileName);
+                string fileName = GetTableFileName(baseTable);
                 baseTable.Save(fileName);
             }
             catch (Exception ex)
@@ -268,7 +276,7 @@ namespace Scada.Admin.Project
             try
             {
                 Directory.CreateDirectory(BaseDir);
-                string fileName = Path.Combine(BaseDir, baseTable.FileName);
+                string fileName = GetTableFileName(baseTable);
                 baseTable.Save(fileName);
                 errMsg = "";
                 return true;
