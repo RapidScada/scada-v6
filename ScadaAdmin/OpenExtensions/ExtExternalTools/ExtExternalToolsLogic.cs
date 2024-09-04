@@ -76,7 +76,7 @@ namespace Scada.Admin.Extensions.ExtExternalTools
             {
                 if (!File.Exists(itemConfig.FileName))
                 {
-                    ScadaUiUtils.ShowError("Не найден исполняемый файл инструмента.");
+                    ScadaUiUtils.ShowError(ExtensionPhrases.ExecutableNotFound);
                 }
                 else if (!GetArguments(itemConfig.Arguments, out string args, out string errMsg))
                 {
@@ -98,7 +98,7 @@ namespace Scada.Admin.Extensions.ExtExternalTools
                     }
                     catch (Exception ex)
                     {
-                        AdminContext.ErrLog.HandleError(ex, "Ошибка при запуске инструмента");
+                        AdminContext.ErrLog.HandleError(ex, ExtensionPhrases.StartToolError);
                     }
                 }
             }
@@ -117,18 +117,18 @@ namespace Scada.Admin.Extensions.ExtExternalTools
             }
 
             StringBuilder sbArgs = new();
-            bool hasEmptyVar = false;
+            bool undefArgs = false;
             int startIdx = 0;
 
             void AppendVar(string value)
             {
                 if (string.IsNullOrEmpty(value))
-                    hasEmptyVar = true;
+                    undefArgs = true;
                 else
                     sbArgs.Append(value);
             }
 
-            while (startIdx < s.Length)
+            while (startIdx < s.Length && !undefArgs)
             {
                 int braceIdx1 = s.IndexOf('{', startIdx);
                 int braceIdx2 = braceIdx1 < 0 ? -1 : s.IndexOf('}', braceIdx1 + 1);
@@ -161,9 +161,9 @@ namespace Scada.Admin.Extensions.ExtExternalTools
 
             args = sbArgs.ToString();
 
-            if (hasEmptyVar)
+            if (undefArgs)
             {
-                errMsg = "Переменные, используемые в аргументах, имеют пустые значения.";
+                errMsg = ExtensionPhrases.UndefinedArgs;
                 return false;
             }
             else

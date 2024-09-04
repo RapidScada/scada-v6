@@ -2,5 +2,8 @@
 <ExtExternalToolsDictionaries>
   <Dictionary key="Scada.Admin.Extensions.ExtExternalTools.ExtExternalToolsLogic">
     <Phrase key="ParentMenuItem">Внешние инструменты</Phrase>
+    <Phrase key="ExecutableNotFound">Не найден исполняемый файл инструмента.</Phrase>
+    <Phrase key="UndefinedArgs">Аргументы инструмента не определены.</Phrase>
+    <Phrase key="StartToolError">Ошибка при запуске инструмента</Phrase>
   </Dictionary>
 </ExtExternalToolsDictionaries>

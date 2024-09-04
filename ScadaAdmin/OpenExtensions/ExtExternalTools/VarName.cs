@@ -14,7 +14,7 @@ namespace Scada.Admin.Extensions.ExtExternalTools
         public const string ProjectFileName = nameof(ProjectFileName);
 
         /// <summary>
-        /// The file name corresponding to the active window
+        /// The file name corresponding to the active window.
         /// </summary>
         public const string ItemFileName = nameof(ItemFileName);
     }
