@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             lvTool = new ListView();
+            colTitle = new ColumnHeader();
             btnAdd = new Button();
             btnMoveUp = new Button();
             btnMoveDown = new Button();
@@ -52,15 +53,23 @@
             // 
             // lvTool
             // 
+            lvTool.Columns.AddRange(new ColumnHeader[] { colTitle });
+            lvTool.FullRowSelect = true;
             lvTool.HeaderStyle = ColumnHeaderStyle.None;
             lvTool.Location = new Point(12, 12);
             lvTool.MultiSelect = false;
             lvTool.Name = "lvTool";
+            lvTool.ShowGroups = false;
+            lvTool.ShowItemToolTips = true;
             lvTool.Size = new Size(274, 200);
             lvTool.TabIndex = 0;
             lvTool.UseCompatibleStateImageBehavior = false;
             lvTool.View = View.Details;
             lvTool.SelectedIndexChanged += lvTool_SelectedIndexChanged;
+            // 
+            // colTitle
+            // 
+            colTitle.Width = 270;
             // 
             // btnAdd
             // 
@@ -203,9 +212,9 @@
             lblFileName.AutoSize = true;
             lblFileName.Location = new Point(10, 63);
             lblFileName.Name = "lblFileName";
-            lblFileName.Size = new Size(58, 15);
+            lblFileName.Size = new Size(83, 15);
             lblFileName.TabIndex = 2;
-            lblFileName.Text = "File name";
+            lblFileName.Text = "Executable file";
             // 
             // txtTitle
             // 
@@ -265,6 +274,7 @@
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;
             Text = "External Tools";
+            FormClosing += FrmExtensionConfig_FormClosing;
             Load += FrmExtensionConfig_Load;
             gbTool.ResumeLayout(false);
             gbTool.PerformLayout();
@@ -292,5 +302,6 @@
         private TextBox txtWorkingDirectory;
         private Button btnOK;
         private Button btnCancel;
+        private ColumnHeader colTitle;
     }
 }

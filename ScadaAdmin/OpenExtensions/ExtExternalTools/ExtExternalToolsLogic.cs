@@ -214,13 +214,7 @@ namespace Scada.Admin.Extensions.ExtExternalTools
         /// </summary>
         public override void ShowProperties(AdminConfig adminConfig)
         {
-            FrmExtensionConfig frmExtensionConfig = new(extensionConfig);
-
-            if (frmExtensionConfig.ShowDialog() == DialogResult.OK &&
-                !extensionConfig.Save(ConfigFileName, out string errMsg))
-            {
-                AdminContext.ErrLog.HandleError(errMsg);
-            }
+            new FrmExtensionConfig(ConfigFileName).ShowDialog();
         }
 
         /// <summary>
