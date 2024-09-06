@@ -93,6 +93,10 @@
         <Text>Table Views</Text>
         <Url>/en/latest/configuration/table-views</Url>
       </Item>
+      <!--<Item>
+        <Text>User Management</Text>
+        <Url>/en/latest/configuration/user-management</Url>
+      </Item>-->
     </Subitems>
   </Item>
 

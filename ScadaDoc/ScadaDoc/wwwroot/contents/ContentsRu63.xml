@@ -93,6 +93,10 @@
         <Text>Табличные представления</Text>
         <Url>/ru/latest/configuration/table-views</Url>
       </Item>
+      <Item>
+        <Text>Управление пользователями</Text>
+        <Url>/ru/latest/configuration/user-management</Url>
+      </Item>
     </Subitems>
   </Item>
 
