@@ -18,4 +18,55 @@
 
 <div class="doc-content">
     <h1>Управление пользователями</h1>
+    <h2 id="creating-users">Создание пользователей</h2>
+
+    <h2 id="rights-assignment">Назначение прав</h2>
+
+    <h2 id="built-in-roles">Стандартные роли</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Идент.</th>
+                <th>Наименование</th>
+                <th>Код</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>0</td>
+                <td>Отключен</td>
+                <td>ScadaDisabled</td>
+                <td>Доступ запрещён</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Администратор</td>
+                <td>ScadaAdmin</td>
+                <td>Полный доступ</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Диспетчер</td>
+                <td>ScadaDispatcher</td>
+                <td>Может просматривать информацию и отправлять команды</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Гость</td>
+                <td>ScadaGuest</td>
+                <td>Может просматривать информацию</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Приложение</td>
+                <td>ScadaApp</td>
+                <td>Взаимодействует с сервером</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2 id="custom-roles">Собственные роли</h2>
+
+    <h2 id="role-inheritance">Наследование ролей</h2>
 </div>
