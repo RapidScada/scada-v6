@@ -49,6 +49,7 @@
     <Phrase key="lblUpdateRate">Rychlost aktualizace, ms</Phrase>
     <Phrase key="lblKeepAlive">Zůstaňte naživu, slečno</Phrase>
     <Phrase key="lblDeadband">Pásmo necitlivosti, %</Phrase>
+    <Phrase key="chkReadSync">Čtěte synchronně</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Forms.FrmDeviceConfig">
     <Phrase key="this">Vlastnosti zařízení {0} – OPC Classic</Phrase>

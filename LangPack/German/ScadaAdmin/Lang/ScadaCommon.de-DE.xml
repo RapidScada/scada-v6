@@ -18,8 +18,7 @@
     <Phrase key="LogicLoopError">Fehler in der Logikschleife</Phrase>
     <Phrase key="ThreadFatalError">Schwerwiegender Fehler im Thread</Phrase>
     <Phrase key="WriteInfoError">Fehler beim Schreiben der Anwendungsinformationen in die Datei</Phrase>
-    <Phrase key="ConnectionNotFound">Verbindung &quot;{0}&quot; nicht gefunden.</Phrase>
-    <Phrase key="ConnOptionsNotFound">Verbindungsoptionen nicht gefunden.</Phrase>
+    <Phrase key="ConnectionNotFound">Verbindung "{0}" nicht gefunden.</Phrase>
     <Phrase key="DatabaseNotSupported">Datenbank wird nicht unterstützt.</Phrase>
     <Phrase key="OperationNotSupported">Vorgang wird nicht unterstützt.</Phrase>
     <Phrase key="CommandSent">Befehl wurde gesendet.</Phrase>
@@ -74,7 +73,7 @@
     <Phrase key="DateTimeRequired">Datum und Uhrzeit sind erforderlich.</Phrase>
     <Phrase key="NotNumber">String ist keine Zahl.</Phrase>
     <Phrase key="NotHexadecimal">String ist nicht hexadezimal.</Phrase>
-    <Phrase key="InvalidParamVal">Ungültiger Wert des Parameters &quot;{0}&quot;.</Phrase>
+    <Phrase key="InvalidParamVal">Ungültiger Wert des Parameters "{0}".</Phrase>
     <Phrase key="InvalidSecretKey">Ungültiger geheimer Schlüssel.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms">
@@ -134,6 +133,18 @@
     <Phrase key="lblUsername">Nutzername</Phrase>
     <Phrase key="lblPassword">Passwort</Phrase>
     <Phrase key="chkConnectionString">Verbindungszeichenfolge</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlRegistration">
+    <Phrase key="lblProductName">Produktname</Phrase>
+    <Phrase key="lblCompCode">Computercode</Phrase>
+    <Phrase key="btnCopyCompCode">Kopie</Phrase>
+    <Phrase key="btnRefreshCompCode">Aktualisieren</Phrase>
+    <Phrase key="lblCompCodeInfo">Wenn der Code fehlt, laden Sie die Konfiguration hoch und starten Sie den Dienst neu.</Phrase>
+    <Phrase key="lblRegKey">Registrierungsschlüssel</Phrase>
+    <Phrase key="btnPasteRegKey">Paste</Phrase>
+    <Phrase key="lblRegKeyInfo">Das Ergebnis der Schlüsselüberprüfung wird in das Anwendungs- oder Modulprotokoll geschrieben.</Phrase>
+    <Phrase key="llblGetPermanentKey">Holen Sie sich einen dauerhaften Schlüssel</Phrase>
+    <Phrase key="llblGetTrialKey">Holen Sie sich den Testschlüssel</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmBitmask">
     <Phrase key="this">Bitmaske</Phrase>

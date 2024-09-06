@@ -22,6 +22,7 @@
     <Phrase key="CnlNum">Číslo</Phrase>
     <Phrase key="Active">Aktivní</Phrase>
     <Phrase key="Name">název</Phrase>
+    <Phrase key="Code">Kód</Phrase>
     <Phrase key="DataTypeID">Datový typ</Phrase>
     <Phrase key="DataLen">Délka dat</Phrase>
     <Phrase key="CnlTypeID">Typ kanálu</Phrase>
@@ -225,8 +226,8 @@
   <Dictionary key="Scada.Admin.App.Forms">
     <Phrase key="SelectedColumn">Vybraný</Phrase>
     <Phrase key="NoProfileConnections">Profil neobsahuje připojení.</Phrase>
-    <Phrase key="ExtensionNotFound">Rozšíření &quot;{0}&quot; nebylo nalezeno.</Phrase>
-    <Phrase key="ExtensionCannotDeploy">Rozšíření &quot;{0}&quot; nepodporuje nasazení.</Phrase>
+    <Phrase key="ExtensionNotFound">Rozšíření "{0}" nebylo nalezeno.</Phrase>
+    <Phrase key="ExtensionCannotDeploy">Rozšíření "{0}" nepodporuje nasazení.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmDownloadConfig">
     <Phrase key="this">Stáhnout konfiguraci</Phrase>
@@ -251,11 +252,11 @@
     <Phrase key="gbStatus">Postavení</Phrase>
     <Phrase key="lblServerStatus">Server</Phrase>
     <Phrase key="btnStartServer">Start</Phrase>
-    <Phrase key="btnStopServer">Stop</Phrase>
+    <Phrase key="btnStopServer">Zastávka</Phrase>
     <Phrase key="btnRestartServer">Restartujte</Phrase>
     <Phrase key="lblCommStatus">Komunikátor</Phrase>
     <Phrase key="btnStartComm">Start</Phrase>
-    <Phrase key="btnStopComm">Stop</Phrase>
+    <Phrase key="btnStopComm">Zastávka</Phrase>
     <Phrase key="btnRestartComm">Restartujte</Phrase>
     <Phrase key="lblWebStatus">Webstation</Phrase>
     <Phrase key="txtWebStatus">Stav není podporován</Phrase>
@@ -312,7 +313,6 @@
     <Phrase key="btnMoveLast.ToolTip">Přesunout jako poslední</Phrase>
     <Phrase key="btnApplyEdit.ToolTip">Použít operaci úprav</Phrase>
     <Phrase key="btnCancelEdit.ToolTip">Zrušit operaci úprav</Phrase>
-    <Phrase key="btnRefresh.ToolTip">Obnovit data</Phrase>
     <Phrase key="btnAddNew.ToolTip">Přidat nový</Phrase>
     <Phrase key="btnDelete.ToolTip">Vymazat</Phrase>
     <Phrase key="btnClear.ToolTip">Vymazat tabulku</Phrase>
@@ -320,19 +320,18 @@
     <Phrase key="btnCopy.ToolTip">Kopírovat (Ctrl+C)</Phrase>
     <Phrase key="btnPaste.ToolTip">Vložit (Ctrl+V)</Phrase>
     <Phrase key="btnFilter.ToolTip">Filtr</Phrase>
-    <Phrase key="btnFind.ToolTip">Najít a nahradit (Ctrl+F)</Phrase>
     <Phrase key="btnAutoSizeColumns.ToolTip">Automaticky přizpůsobit šířky sloupců</Phrase>
     <Phrase key="btnProperties.ToolTip">Vlastnosti položky</Phrase>
-    <Phrase key="GridViewError">Chyba při zobrazování tabulky, sloupce &quot;{0}&quot;.</Phrase>
+    <Phrase key="GridViewError">Chyba při zobrazování tabulky, sloupce "{0}".</Phrase>
     <Phrase key="ColumnLabel">Sloupec:</Phrase>
     <Phrase key="DeleteRowConfirm">Opravdu chcete smazat řádek?</Phrase>
     <Phrase key="DeleteRowsConfirm">Opravdu chcete smazat řádky?</Phrase>
     <Phrase key="ClearTableConfirm">Opravdu chcete vyčistit stůl?</Phrase>
     <Phrase key="RowsNotDeleted">Některé řádky nebyly odstraněny, protože se na ně odkazuje.</Phrase>
-    <Phrase key="ColumnNotNull">Sloupec &quot;{0}&quot; nemůže obsahovat prázdné hodnoty.</Phrase>
-    <Phrase key="UniqueRequired">Do sloupce &quot;{0}&quot; nelze vložit duplicitní hodnotu.</Phrase>
-    <Phrase key="KeyReferenced">Na primární klíč odkazuje řádek z tabulky &quot;{0}&quot;.</Phrase>
-    <Phrase key="DataNotExist">Pro sloupec &quot;{0}&quot; neexistují žádná data.</Phrase>
+    <Phrase key="ColumnNotNull">Sloupec "{0}" nemůže obsahovat prázdné hodnoty.</Phrase>
+    <Phrase key="UniqueRequired">Do sloupce "{0}" nelze vložit duplicitní hodnotu.</Phrase>
+    <Phrase key="KeyReferenced">Na primární klíč odkazuje řádek z tabulky "{0}".</Phrase>
+    <Phrase key="DataNotExist">Pro sloupec "{0}" neexistují žádná data.</Phrase>
     <Phrase key="DataChangeError">Při změně dat tabulky došlo k chybě</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmCnl">
@@ -340,34 +339,36 @@
     <Phrase key="pageGeneral">Všeobecné</Phrase>
     <Phrase key="chkActive">Aktivní</Phrase>
     <Phrase key="lblCnlNum">Číslo</Phrase>
-    <Phrase key="lblDataType">Datový typ</Phrase>
-    <Phrase key="lblDataLen">Délka dat</Phrase>
-    <Phrase key="lblCnlType">Typ kanálu</Phrase>
-    <Phrase key="lblObj">Objekt</Phrase>
-    <Phrase key="lblDevice">přístroj</Phrase>
-    <Phrase key="lblTagNum">Označ číslo</Phrase>
-    <Phrase key="lblTagCode">Kód značky</Phrase>
-    <Phrase key="chkFormulaEnabled">Vzorec</Phrase>
-    <Phrase key="lblInFormula">v</Phrase>
-    <Phrase key="lblOutFormula">Ven</Phrase>
-    <Phrase key="pageDisplay">Zobrazit</Phrase>
-    <Phrase key="lblFormat">Formát</Phrase>
-    <Phrase key="lblOutFormat">Formát příkazu</Phrase>
-    <Phrase key="lblQuantity">Množství</Phrase>
-    <Phrase key="lblUnit">Jednotka</Phrase>
-    <Phrase key="pageLim">Limity</Phrase>
-    <Phrase key="lblLim">Omezit</Phrase>
-    <Phrase key="btnCreateLim">Vytvořit</Phrase>
-    <Phrase key="chkShared">Zobrazit pouze sdílené limity</Phrase>
-    <Phrase key="lblLoLo">Extrémně nízké</Phrase>
-    <Phrase key="lblLow">Nízký</Phrase>
-    <Phrase key="lblHigh">Vysoký</Phrase>
-    <Phrase key="lblHiHi">Extrémně vysoký</Phrase>
-    <Phrase key="lblDeadband">Mrtvý pás</Phrase>
-    <Phrase key="pageArchives">Archiv</Phrase>
-    <Phrase key="pageEvents">Události</Phrase>
-    <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnCancel">zrušení</Phrase>
+    <Phrase key="lblName">Datový typ</Phrase>
+    <Phrase key="lblCode">Délka dat</Phrase>
+    <Phrase key="lblDataType">Typ kanálu</Phrase>
+    <Phrase key="lblDataLen">Objekt</Phrase>
+    <Phrase key="lblCnlType">přístroj</Phrase>
+    <Phrase key="lblObj">Označ číslo</Phrase>
+    <Phrase key="lblDevice">Kód značky</Phrase>
+    <Phrase key="lblTagNum">Vzorec</Phrase>
+    <Phrase key="lblTagCode">v</Phrase>
+    <Phrase key="chkFormulaEnabled">Ven</Phrase>
+    <Phrase key="lblInFormula">Zobrazit</Phrase>
+    <Phrase key="lblOutFormula">Formát</Phrase>
+    <Phrase key="pageDisplay">Formát příkazu</Phrase>
+    <Phrase key="lblFormat">Množství</Phrase>
+    <Phrase key="lblOutFormat">Jednotka</Phrase>
+    <Phrase key="lblQuantity">Limity</Phrase>
+    <Phrase key="lblUnit">Omezit</Phrase>
+    <Phrase key="pageLim">Vytvořit</Phrase>
+    <Phrase key="lblLim">Zobrazit pouze sdílené limity</Phrase>
+    <Phrase key="btnCreateLim">Extrémně nízké</Phrase>
+    <Phrase key="chkShared">Nízký</Phrase>
+    <Phrase key="lblLoLo">Vysoký</Phrase>
+    <Phrase key="lblLow">Extrémně vysoký</Phrase>
+    <Phrase key="lblHigh">Mrtvý pás</Phrase>
+    <Phrase key="lblHiHi">Archiv</Phrase>
+    <Phrase key="lblDeadband">Události</Phrase>
+    <Phrase key="pageArchives">OK</Phrase>
+    <Phrase key="pageEvents">zrušení</Phrase>
+    <Phrase key="btnOK"></Phrase>
+    <Phrase key="btnCancel"></Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmColorDialog">
     <Phrase key="this">Vyberte Barva</Phrase>
@@ -465,7 +466,7 @@
     <Phrase key="lblInfo">Změny se projeví po restartování aplikace.</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">zrušení</Phrase>
-    <Phrase key="ProjectExtRegistered">Rozšíření &quot;{0}&quot; bylo úspěšně zaregistrováno.</Phrase>
+    <Phrase key="ProjectExtRegistered">Rozšíření "{0}" bylo úspěšně zaregistrováno.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tools.FrmCulture">
     <Phrase key="this">Jazyk</Phrase>
@@ -531,6 +532,9 @@ Změny se projeví po restartování aplikace.</Phrase>
     <Phrase key="miFileClose">Zavřít</Phrase>
     <Phrase key="miFileCloseProject">Zavřít projekt</Phrase>
     <Phrase key="miFileExit">Výstup</Phrase>
+    <Phrase key="miEdit">&amp;Edit</Phrase>
+    <Phrase key="miEditRefresh">Refresh Data</Phrase>
+    <Phrase key="miEditFind">Find</Phrase>
     <Phrase key="miDeploy">&amp;Nasadit</Phrase>
     <Phrase key="miDeployInstanceProfile">Profil nasazení...</Phrase>
     <Phrase key="miDeployDownloadConfig">Stáhnout konfiguraci...</Phrase>
@@ -551,6 +555,8 @@ Změny se projeví po restartování aplikace.</Phrase>
     <Phrase key="btnFileOpenProject.ToolTip">Otevřít projekt (Ctrl+O)</Phrase>
     <Phrase key="btnFileSave.ToolTip">Uložit (Ctrl+S)</Phrase>
     <Phrase key="btnFileSaveAll.ToolTip">Uložit vše</Phrase>
+    <Phrase key="btnEditRefresh.ToolTip">Refresh Data (Ctrl+R)</Phrase>
+    <Phrase key="btnEditFind.ToolTip">Find (Ctrl+F)</Phrase>
     <Phrase key="btnDeployInstanceProfile.ToolTip">Profil nasazení</Phrase>
     <Phrase key="btnDeployDownloadConfig.ToolTip">Stáhnout konfiguraci</Phrase>
     <Phrase key="btnDeployUploadConfig.ToolTip">Nahrát konfiguraci (Ctrl+U)</Phrase>
@@ -558,6 +564,8 @@ Změny se projeví po restartování aplikace.</Phrase>
     <Phrase key="miProjectOpenInExplorer">Otevřete složku v Průzkumníku souborů</Phrase>
     <Phrase key="miProjectRename">Přejmenovat projekt</Phrase>
     <Phrase key="miProjectProperties">Vlastnosti</Phrase>
+    <Phrase key="miBaseOpenInExplorer">Open Folder in File Explorer</Phrase>
+    <Phrase key="miBaseReload">Reload Configuration Database</Phrase>
     <Phrase key="miCnlTableComm">Přejděte do aplikace Communicator</Phrase>
     <Phrase key="miCnlTableRefresh">Obnovit</Phrase>
     <Phrase key="miDirectoryNewFile">Nový soubor...</Phrase>
@@ -586,7 +594,8 @@ Změny se projeví po restartování aplikace.</Phrase>
     <Phrase key="miAppReloadConfig">Znovu načíst konfiguraci</Phrase>
     <Phrase key="EmptyTitle">Správce</Phrase>
     <Phrase key="ProjectTitle">{0} – Administrátor</Phrase>
-    <Phrase key="WelcomeMessage">Vytvořte nový projekt nebo&#13;&#10;otevřete existující projekt.</Phrase>
+    <Phrase key="WelcomeMessage">Vytvořte nový projekt nebo
+otevřete existující projekt.</Phrase>
     <Phrase key="SelectItemMessage">Vyberte položku v průzkumníku projektu.</Phrase>
     <Phrase key="ProjectFileFilter">Projekty (*.rsproj)|*.rsproj|Všechny soubory (*.*)|*.*</Phrase>
     <Phrase key="ConfirmDeleteDirectory">Opravdu chcete složku smazat?</Phrase>
@@ -629,7 +638,6 @@ Změny se projeví po restartování aplikace.</Phrase>
     <Phrase key="btnOpenProject">Otevřete projekt</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmTextEditor">
-    <Phrase key="btnReload.ToolTip">Znovu načíst soubor</Phrase>
     <Phrase key="OpenTextFileError">Chyba při otevírání souboru</Phrase>
     <Phrase key="SaveTextFileError">Při ukládání souboru došlo k chybě</Phrase>
   </Dictionary>
@@ -665,16 +673,6 @@ Změny se projeví po restartování aplikace.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Forms.FrmRegistration">
     <Phrase key="this">Registrace</Phrase>
-    <Phrase key="lblProductName">Jméno výrobku</Phrase>
-    <Phrase key="lblCompCode">Počítačový kód</Phrase>
-    <Phrase key="btnCopyCompCode">kopírovat</Phrase>
-    <Phrase key="btnRefreshCompCode">Obnovit</Phrase>
-    <Phrase key="lblCompCodeInfo">Pokud kód chybí, nahrajte konfiguraci a restartujte služby.</Phrase>
-    <Phrase key="lblRegKey">Registrační klíč</Phrase>
-    <Phrase key="btnPasteRegKey">Vložit</Phrase>
-    <Phrase key="lblRegKeyInfo">Výsledek ověření klíče je zapsán do protokolu aplikace nebo modulu.</Phrase>
-    <Phrase key="llblGetPermanentKey">Získejte trvalý klíč</Phrase>
-    <Phrase key="llblGetTrialKey">Získejte zkušební klíč</Phrase>
     <Phrase key="btnSave">Uložit</Phrase>
     <Phrase key="btnCancel">zrušení</Phrase>
     <Phrase key="LoadRegKeyError">Při načítání registračního klíče došlo k chybě</Phrase>

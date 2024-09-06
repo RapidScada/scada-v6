@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ModArcPostgreSqlDictionaries>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Controls.CtrlDatabaseOptions">
-    <Phrase key="gbDbOptions">Možnosti databáze</Phrase>
-    <Phrase key="lblUseStorageConn">Použijte připojení úložiště</Phrase>
+    <Phrase key="lblUseDefaultConn">Použít výchozí připojení</Phrase>
     <Phrase key="lblConnection">Spojení</Phrase>
     <Phrase key="lblPartitionSize">Velikost oddílu</Phrase>
-    <Phrase key="cbPartitionSize.Items[0]">Jeden měsíc</Phrase>
-    <Phrase key="cbPartitionSize.Items[1]">Jeden rok</Phrase>
+    <Phrase key="cbPartitionSize.Items[0]">Jednoho dne</Phrase>
+    <Phrase key="cbPartitionSize.Items[1]">Jeden měsíc</Phrase>
+    <Phrase key="cbPartitionSize.Items[2]">Jeden rok</Phrase>
     <Phrase key="lblMaxQueueSize">Maximální velikost fronty</Phrase>
     <Phrase key="lblBatchSize">Položky na transakci</Phrase>
   </Dictionary>
@@ -16,29 +16,30 @@
     <Phrase key="btnNewConn">Nový</Phrase>
     <Phrase key="btnDeleteConn">Vymazat</Phrase>
     <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnCancel">zrušení</Phrase>
+    <Phrase key="btnCancel">Zrušit</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreCAO">
     <Phrase key="this">Aktuální možnosti archivace</Phrase>
-    <Phrase key="gbDbOptions">Možnosti databáze</Phrase>
-    <Phrase key="lblUseStorageConn">Použijte připojení úložiště</Phrase>
-    <Phrase key="lblConnection">Spojení</Phrase>
-    <Phrase key="lblMaxQueueSize">Maximální velikost fronty</Phrase>
-    <Phrase key="lblBatchSize">Položky na transakci</Phrase>
+    <Phrase key="pageGeneral">Generál</Phrase>
+    <Phrase key="pageDatabase">Databáze</Phrase>
     <Phrase key="btnManageConn">Správa připojení</Phrase>
     <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnCancel">zrušení</Phrase>
+    <Phrase key="btnCancel">Zrušit</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreEAO">
     <Phrase key="this">Možnosti archivace událostí</Phrase>
+    <Phrase key="pageGeneral">Generál</Phrase>
+    <Phrase key="pageDatabase">Databáze</Phrase>
     <Phrase key="btnManageConn">Správa připojení</Phrase>
     <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnCancel">zrušení</Phrase>
+    <Phrase key="btnCancel">Zrušit</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreHAO">
     <Phrase key="this">Možnosti historického archivu</Phrase>
+    <Phrase key="pageGeneral">Generál</Phrase>
+    <Phrase key="pageDatabase">Databáze</Phrase>
     <Phrase key="btnManageConn">Správa připojení</Phrase>
     <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnCancel">zrušení</Phrase>
+    <Phrase key="btnCancel">Zrušit</Phrase>
   </Dictionary>
 </ModArcPostgreSqlDictionaries>
