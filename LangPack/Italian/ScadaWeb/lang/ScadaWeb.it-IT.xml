@@ -51,6 +51,9 @@
     <Phrase key="PageTitle">Seleziona Canali</Phrase>
     <Phrase key="lblObj">Oggetto</Phrase>
     <Phrase key="lblOnlySelected">Mostra solo i canali selezionati</Phrase>
+    <Phrase key="SelectedColumn">-- Seleziona un oggetto --</Phrase>
+    <Phrase key="NumberColumn">Si prega di specificare un filtro.</Phrase>
+    <Phrase key="NameColumn">Nessun canale corrispondente al filtro.</Phrase>
     <Phrase key="SelectObjectItem">-- Seleziona un oggetto --</Phrase>
     <Phrase key="FilterRequired">Si prega di specificare un filtro.</Phrase>
     <Phrase key="NoChannels">Nessun canale corrispondente al filtro.</Phrase>
