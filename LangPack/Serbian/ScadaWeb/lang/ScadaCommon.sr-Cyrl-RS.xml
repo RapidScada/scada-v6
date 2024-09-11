@@ -18,8 +18,7 @@
     <Phrase key="LogicLoopError">Грешка у логичкој петљи</Phrase>
     <Phrase key="ThreadFatalError">Фатална грешка у нити</Phrase>
     <Phrase key="WriteInfoError">Грешка при писању информација о апликацији у датотеку</Phrase>
-    <Phrase key="ConnectionNotFound">Веза &quot;{0}&quot; није пронађена.</Phrase>
-    <Phrase key="ConnOptionsNotFound">Опције везе нису пронађене.</Phrase>
+    <Phrase key="ConnectionNotFound">Веза "{0}" није пронађена.</Phrase>
     <Phrase key="DatabaseNotSupported">База података није подржана.</Phrase>
     <Phrase key="OperationNotSupported">Операција није подржана.</Phrase>
     <Phrase key="CommandSent">Команда је послата.</Phrase>
@@ -37,7 +36,7 @@
     <Phrase key="DataTypeTable">Типови података</Phrase>
     <Phrase key="DeviceTable">Уређаји</Phrase>
     <Phrase key="DevTypeTable">Типови уређаја</Phrase>
-    <Phrase key="FormatTable">Форматс</Phrase>
+    <Phrase key="FormatTable">Formats</Phrase>
     <Phrase key="LimTable">Ограничења</Phrase>
     <Phrase key="ObjTable">Објекти</Phrase>
     <Phrase key="ObjRightTable">Права на објекте</Phrase>
@@ -56,7 +55,7 @@
     <Phrase key="FileNotFound">Фајл није пронађен.</Phrase>
     <Phrase key="NamedFileNotFound">Датотека {0} није пронађена.</Phrase>
     <Phrase key="DirectoryNotExists">Именик не постоји.</Phrase>
-    <Phrase key="PathNotSupported">Путања није подржана.</Phrase>
+    <Phrase key="PathNotSupported">Path not supported.</Phrase>
     <Phrase key="InvalidFileFormat">Неважећи формат датотеке.</Phrase>
     <Phrase key="LoadConfigError">Грешка при учитавању конфигурације</Phrase>
     <Phrase key="SaveConfigError">Грешка при чувању конфигурације</Phrase>
@@ -74,7 +73,7 @@
     <Phrase key="DateTimeRequired">Датум и време су обавезни.</Phrase>
     <Phrase key="NotNumber">Стринг није број.</Phrase>
     <Phrase key="NotHexadecimal">Стринг није һексадецималан.</Phrase>
-    <Phrase key="InvalidParamVal">Неважећа вредност параметра &quot;{0}&quot;.</Phrase>
+    <Phrase key="InvalidParamVal">Неважећа вредност параметра "{0}".</Phrase>
     <Phrase key="InvalidSecretKey">Неважећи тајни кључ.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms">
@@ -115,8 +114,8 @@
   <Dictionary key="Scada.Forms.Controls.CtrlClientConnection">
     <Phrase key="gbConnectionOptions">Опције везе</Phrase>
     <Phrase key="lblName">Име</Phrase>
-    <Phrase key="lblHost">Домаћин</Phrase>
-    <Phrase key="lblPort">Лука</Phrase>
+    <Phrase key="lblHost">Host</Phrase>
+    <Phrase key="lblPort">Port</Phrase>
     <Phrase key="lblTimeout">Пауза у утакмици</Phrase>
     <Phrase key="lblUsername">Корисничко име</Phrase>
     <Phrase key="lblPassword">Лозинка</Phrase>
@@ -134,6 +133,18 @@
     <Phrase key="lblUsername">Корисничко име</Phrase>
     <Phrase key="lblPassword">Лозинка</Phrase>
     <Phrase key="chkConnectionString">Низ везе</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlRegistration">
+    <Phrase key="lblProductName">Назив производа</Phrase>
+    <Phrase key="lblCompCode">Рачунарски код</Phrase>
+    <Phrase key="btnCopyCompCode">Копирај</Phrase>
+    <Phrase key="btnRefreshCompCode">Освежи</Phrase>
+    <Phrase key="lblCompCodeInfo">Ако код недостаје, отпремите конфигурацију и поново покрените услугу.</Phrase>
+    <Phrase key="lblRegKey">Регистрациони кључ</Phrase>
+    <Phrase key="btnPasteRegKey">Залепите</Phrase>
+    <Phrase key="lblRegKeyInfo">Резултат верификације кључа се уписује у дневник апликације или модула.</Phrase>
+    <Phrase key="llblGetPermanentKey">Набавите трајни кључ</Phrase>
+    <Phrase key="llblGetTrialKey">Узмите пробни кључ</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmBitmask">
     <Phrase key="this">Бит Маск</Phrase>
@@ -164,7 +175,7 @@
     <Phrase key="btnApplyFilter">Применити</Phrase>
     <Phrase key="chkOnlySelected">Прикажи само изабране редове</Phrase>
     <Phrase key="colSelected">Одабрано</Phrase>
-    <Phrase key="colID">ИД</Phrase>
+    <Phrase key="colID">ID</Phrase>
     <Phrase key="colName">Име</Phrase>
     <Phrase key="colCode">Код</Phrase>
     <Phrase key="colDescr">Опис</Phrase>

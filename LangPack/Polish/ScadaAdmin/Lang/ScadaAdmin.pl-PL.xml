@@ -22,6 +22,7 @@
     <Phrase key="CnlNum">Numer</Phrase>
     <Phrase key="Active">Aktywny</Phrase>
     <Phrase key="Name">Nazwa</Phrase>
+    <Phrase key="Code">Code</Phrase>
     <Phrase key="DataTypeID">Typ danych</Phrase>
     <Phrase key="DataLen">Długość danych</Phrase>
     <Phrase key="CnlTypeID">Typ kanału</Phrase>
@@ -225,8 +226,8 @@
   <Dictionary key="Scada.Admin.App.Forms">
     <Phrase key="SelectedColumn">Wybrany</Phrase>
     <Phrase key="NoProfileConnections">Profil nie zawiera połączeń.</Phrase>
-    <Phrase key="ExtensionNotFound">Nie znaleziono rozszerzenia &quot;{0}&quot;.</Phrase>
-    <Phrase key="ExtensionCannotDeploy">Rozszerzenie &quot;{0}&quot; nie obsługuje wdrażania.</Phrase>
+    <Phrase key="ExtensionNotFound">Nie znaleziono rozszerzenia "{0}".</Phrase>
+    <Phrase key="ExtensionCannotDeploy">Rozszerzenie "{0}" nie obsługuje wdrażania.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmDownloadConfig">
     <Phrase key="this">Pobierz konfigurację</Phrase>
@@ -312,7 +313,6 @@
     <Phrase key="btnMoveLast.ToolTip">Przenieś ostatni</Phrase>
     <Phrase key="btnApplyEdit.ToolTip">Zastosuj operację edycji</Phrase>
     <Phrase key="btnCancelEdit.ToolTip">Anuluj operację edycji</Phrase>
-    <Phrase key="btnRefresh.ToolTip">Odśwież dane</Phrase>
     <Phrase key="btnAddNew.ToolTip">Dodaj nowe</Phrase>
     <Phrase key="btnDelete.ToolTip">Usuwać</Phrase>
     <Phrase key="btnClear.ToolTip">Wyczyść tabelę</Phrase>
@@ -320,19 +320,18 @@
     <Phrase key="btnCopy.ToolTip">Kopiuj (Ctrl+C)</Phrase>
     <Phrase key="btnPaste.ToolTip">Wklej (Ctrl+V)</Phrase>
     <Phrase key="btnFilter.ToolTip">Filtr</Phrase>
-    <Phrase key="btnFind.ToolTip">Znajdź i zamień (Ctrl+F)</Phrase>
     <Phrase key="btnAutoSizeColumns.ToolTip">Automatyczne dopasowanie szerokości kolumn</Phrase>
     <Phrase key="btnProperties.ToolTip">Właściwości przedmiotu</Phrase>
-    <Phrase key="GridViewError">Błąd podczas wyświetlania tabeli, kolumna &quot;{0}&quot;.</Phrase>
+    <Phrase key="GridViewError">Błąd podczas wyświetlania tabeli, kolumna "{0}".</Phrase>
     <Phrase key="ColumnLabel">Kolumna:</Phrase>
     <Phrase key="DeleteRowConfirm">Czy na pewno chcesz usunąć wiersz?</Phrase>
     <Phrase key="DeleteRowsConfirm">Czy na pewno chcesz usunąć wiersze?</Phrase>
     <Phrase key="ClearTableConfirm">Czy na pewno chcesz wyczyścić stół?</Phrase>
     <Phrase key="RowsNotDeleted">Niektóre wiersze nie zostały usunięte, ponieważ istnieją odniesienia.</Phrase>
-    <Phrase key="ColumnNotNull">Kolumna &quot;{0}&quot; nie może zawierać pustych wartości.</Phrase>
-    <Phrase key="UniqueRequired">Nie można wstawić zduplikowanej wartości do kolumny &quot;{0}&quot;.</Phrase>
-    <Phrase key="KeyReferenced">Do klucza podstawowego odwołuje się wiersz z tabeli &quot;{0}&quot;.</Phrase>
-    <Phrase key="DataNotExist">Brak danych dla kolumny &quot;{0}&quot;.</Phrase>
+    <Phrase key="ColumnNotNull">Kolumna "{0}" nie może zawierać pustych wartości.</Phrase>
+    <Phrase key="UniqueRequired">Nie można wstawić zduplikowanej wartości do kolumny "{0}".</Phrase>
+    <Phrase key="KeyReferenced">Do klucza podstawowego odwołuje się wiersz z tabeli "{0}".</Phrase>
+    <Phrase key="DataNotExist">Brak danych dla kolumny "{0}".</Phrase>
     <Phrase key="DataChangeError">Błąd podczas zmiany danych tabeli</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmCnl">
@@ -340,32 +339,34 @@
     <Phrase key="pageGeneral">Ogólny</Phrase>
     <Phrase key="chkActive">Aktywny</Phrase>
     <Phrase key="lblCnlNum">Numer</Phrase>
-    <Phrase key="lblDataType">Typ danych</Phrase>
-    <Phrase key="lblDataLen">Długość danych</Phrase>
-    <Phrase key="lblCnlType">Typ kanału</Phrase>
-    <Phrase key="lblObj">Obiekt</Phrase>
-    <Phrase key="lblDevice">Urządzenie</Phrase>
-    <Phrase key="lblTagNum">Numer znacznika</Phrase>
-    <Phrase key="lblTagCode">Kod znacznika</Phrase>
-    <Phrase key="chkFormulaEnabled">Formuła</Phrase>
-    <Phrase key="lblInFormula">W</Phrase>
-    <Phrase key="lblOutFormula">Na zewnątrz</Phrase>
-    <Phrase key="pageDisplay">Wyświetlacz</Phrase>
-    <Phrase key="lblFormat">Format</Phrase>
-    <Phrase key="lblOutFormat">Format polecenia</Phrase>
-    <Phrase key="lblQuantity">Ilość</Phrase>
-    <Phrase key="lblUnit">Jednostka</Phrase>
-    <Phrase key="pageLim">Granice</Phrase>
-    <Phrase key="lblLim">Limit</Phrase>
-    <Phrase key="btnCreateLim">Tworzyć</Phrase>
-    <Phrase key="chkShared">Pokaż tylko wspólne limity</Phrase>
-    <Phrase key="lblLoLo">Ekstremalnie niski</Phrase>
-    <Phrase key="lblLow">Niski</Phrase>
-    <Phrase key="lblHigh">Wysoki</Phrase>
-    <Phrase key="lblHiHi">Ekstremalnie wysoko</Phrase>
-    <Phrase key="lblDeadband">Strefa martwa</Phrase>
-    <Phrase key="pageArchives">Archiwa</Phrase>
-    <Phrase key="pageEvents">Wydarzenia</Phrase>
+    <Phrase key="lblName">Typ danych</Phrase>
+    <Phrase key="lblCode">Długość danych</Phrase>
+    <Phrase key="lblDataType">Typ kanału</Phrase>
+    <Phrase key="lblDataLen">Obiekt</Phrase>
+    <Phrase key="lblCnlType">Urządzenie</Phrase>
+    <Phrase key="lblObj">Numer znacznika</Phrase>
+    <Phrase key="lblDevice">Kod znacznika</Phrase>
+    <Phrase key="lblTagNum">Formuła</Phrase>
+    <Phrase key="lblTagCode">W</Phrase>
+    <Phrase key="chkFormulaEnabled">Na zewnątrz</Phrase>
+    <Phrase key="lblInFormula">Wyświetlacz</Phrase>
+    <Phrase key="lblOutFormula">Format</Phrase>
+    <Phrase key="pageDisplay">Format polecenia</Phrase>
+    <Phrase key="lblFormat">Ilość</Phrase>
+    <Phrase key="lblOutFormat">Jednostka</Phrase>
+    <Phrase key="lblQuantity">Granice</Phrase>
+    <Phrase key="lblUnit">Limit</Phrase>
+    <Phrase key="pageLim">Tworzyć</Phrase>
+    <Phrase key="lblLim">Pokaż tylko wspólne limity</Phrase>
+    <Phrase key="btnCreateLim">Ekstremalnie niski</Phrase>
+    <Phrase key="chkShared">Niski</Phrase>
+    <Phrase key="lblLoLo">Wysoki</Phrase>
+    <Phrase key="lblLow">Ekstremalnie wysoko</Phrase>
+    <Phrase key="lblHigh">Strefa martwa</Phrase>
+    <Phrase key="lblHiHi">Archiwa</Phrase>
+    <Phrase key="lblDeadband">Wydarzenia</Phrase>
+    <Phrase key="pageArchives">OK</Phrase>
+    <Phrase key="pageEvents">Anulować</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Anulować</Phrase>
   </Dictionary>
@@ -465,11 +466,12 @@
     <Phrase key="lblInfo">Zmiany zaczną obowiązywać po ponownym uruchomieniu aplikacji.</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Anulować</Phrase>
-    <Phrase key="ProjectExtRegistered">Rozszerzenie &quot;{0}&quot;zostało pomyślnie zarejestrowane.</Phrase>
+    <Phrase key="ProjectExtRegistered">Rozszerzenie "{0}"zostało pomyślnie zarejestrowane.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tools.FrmCulture">
     <Phrase key="this">Język</Phrase>
-    <Phrase key="lblInfo">Wymagane uprawnienia administratora.&#13;&#10;Zmiany zaczną obowiązywać po ponownym uruchomieniu aplikacji.</Phrase>
+    <Phrase key="lblInfo">Wymagane uprawnienia administratora.
+Zmiany zaczną obowiązywać po ponownym uruchomieniu aplikacji.</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Anulować</Phrase>
     <Phrase key="LoadCulturesError">Błąd ładowania kultur</Phrase>
@@ -530,6 +532,9 @@
     <Phrase key="miFileClose">Zamknąć</Phrase>
     <Phrase key="miFileCloseProject">Zamknij projekt</Phrase>
     <Phrase key="miFileExit">Wyjście</Phrase>
+    <Phrase key="miEdit">&amp;Redagować</Phrase>
+    <Phrase key="miEditRefresh">Odśwież dane</Phrase>
+    <Phrase key="miEditFind">Znajdować</Phrase>
     <Phrase key="miDeploy">&amp;Wdrożyć</Phrase>
     <Phrase key="miDeployInstanceProfile">Profil wdrażania...</Phrase>
     <Phrase key="miDeployDownloadConfig">Pobierz konfigurację...</Phrase>
@@ -550,6 +555,8 @@
     <Phrase key="btnFileOpenProject.ToolTip">Otwórz projekt (Ctrl+O)</Phrase>
     <Phrase key="btnFileSave.ToolTip">Zapisz (Ctrl+S)</Phrase>
     <Phrase key="btnFileSaveAll.ToolTip">Zapisz wszystko</Phrase>
+    <Phrase key="btnEditRefresh.ToolTip">Odśwież dane (Ctrl+R)</Phrase>
+    <Phrase key="btnEditFind.ToolTip">Znajdź (Ctrl+F)</Phrase>
     <Phrase key="btnDeployInstanceProfile.ToolTip">Profil wdrażania</Phrase>
     <Phrase key="btnDeployDownloadConfig.ToolTip">Pobierz konfigurację</Phrase>
     <Phrase key="btnDeployUploadConfig.ToolTip">Prześlij konfigurację (Ctrl+U)</Phrase>
@@ -557,6 +564,8 @@
     <Phrase key="miProjectOpenInExplorer">Otwórz folder w Eksploratorze plików</Phrase>
     <Phrase key="miProjectRename">Zmień nazwę projektu</Phrase>
     <Phrase key="miProjectProperties">Nieruchomości</Phrase>
+    <Phrase key="miBaseOpenInExplorer">Otwórz folder w Eksploratorze plików</Phrase>
+    <Phrase key="miBaseReload">Załaduj ponownie bazę danych konfiguracji</Phrase>
     <Phrase key="miCnlTableComm">Przejdź do komunikatora</Phrase>
     <Phrase key="miCnlTableRefresh">Odświeżać</Phrase>
     <Phrase key="miDirectoryNewFile">Nowy plik...</Phrase>
@@ -585,7 +594,8 @@
     <Phrase key="miAppReloadConfig">Przeładuj konfigurację</Phrase>
     <Phrase key="EmptyTitle">Administrator</Phrase>
     <Phrase key="ProjectTitle">{0} — Administrator</Phrase>
-    <Phrase key="WelcomeMessage">Utwórz nowy projekt lub&#13;&#10;otwórz istniejący projekt.</Phrase>
+    <Phrase key="WelcomeMessage">Utwórz nowy projekt lub
+otwórz istniejący projekt.</Phrase>
     <Phrase key="SelectItemMessage">Wybierz element w eksploratorze projektu.</Phrase>
     <Phrase key="ProjectFileFilter">Projekty (*.rsproj)|*.rsproj|Wszystkie pliki (*.*)|*.*</Phrase>
     <Phrase key="ConfirmDeleteDirectory">Czy na pewno chcesz usunąć folder?</Phrase>
@@ -628,7 +638,6 @@
     <Phrase key="btnOpenProject">Otwarty projekt</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmTextEditor">
-    <Phrase key="btnReload.ToolTip">Załaduj ponownie plik</Phrase>
     <Phrase key="OpenTextFileError">Błąd podczas otwierania pliku</Phrase>
     <Phrase key="SaveTextFileError">Błąd podczas zapisywania pliku</Phrase>
   </Dictionary>
@@ -664,16 +673,6 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.Forms.FrmRegistration">
     <Phrase key="this">Rejestracja</Phrase>
-    <Phrase key="lblProductName">Nazwa produktu</Phrase>
-    <Phrase key="lblCompCode">Kod komputerowy</Phrase>
-    <Phrase key="btnCopyCompCode">Kopiuj</Phrase>
-    <Phrase key="btnRefreshCompCode">Odświeżać</Phrase>
-    <Phrase key="lblCompCodeInfo">Jeśli brakuje kodu, prześlij konfigurację i zrestartuj usługi.</Phrase>
-    <Phrase key="lblRegKey">Klucz rejestracyjny</Phrase>
-    <Phrase key="btnPasteRegKey">Pasta</Phrase>
-    <Phrase key="lblRegKeyInfo">Wynik weryfikacji klucza zapisywany jest w logu aplikacji lub modułu.</Phrase>
-    <Phrase key="llblGetPermanentKey">Zdobądź stały klucz</Phrase>
-    <Phrase key="llblGetTrialKey">Zdobądź klucz próbny</Phrase>
     <Phrase key="btnSave">Ratować</Phrase>
     <Phrase key="btnCancel">Anulować</Phrase>
     <Phrase key="LoadRegKeyError">Błąd ładowania klucza rejestracyjnego</Phrase>

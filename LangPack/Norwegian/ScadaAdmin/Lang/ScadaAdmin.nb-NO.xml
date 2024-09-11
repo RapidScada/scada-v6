@@ -22,6 +22,7 @@
     <Phrase key="CnlNum">Antall</Phrase>
     <Phrase key="Active">Aktiv</Phrase>
     <Phrase key="Name">Navn</Phrase>
+    <Phrase key="Code">Kode</Phrase>
     <Phrase key="DataTypeID">Data-type</Phrase>
     <Phrase key="DataLen">Datalengde</Phrase>
     <Phrase key="CnlTypeID">Kanaltype</Phrase>
@@ -225,8 +226,8 @@
   <Dictionary key="Scada.Admin.App.Forms">
     <Phrase key="SelectedColumn">Valgt</Phrase>
     <Phrase key="NoProfileConnections">Profilen inneholder ikke koblinger.</Phrase>
-    <Phrase key="ExtensionNotFound">Finner ikke utvidelsen &quot;{0}&quot;.</Phrase>
-    <Phrase key="ExtensionCannotDeploy">Utvidelsen &quot;{0}&quot; støtter ikke distribusjon.</Phrase>
+    <Phrase key="ExtensionNotFound">Finner ikke utvidelsen "{0}".</Phrase>
+    <Phrase key="ExtensionCannotDeploy">Utvidelsen "{0}" støtter ikke distribusjon.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmDownloadConfig">
     <Phrase key="this">Last ned konfigurasjon</Phrase>
@@ -312,7 +313,6 @@
     <Phrase key="btnMoveLast.ToolTip">Flytt sist</Phrase>
     <Phrase key="btnApplyEdit.ToolTip">Bruk redigeringsoperasjon</Phrase>
     <Phrase key="btnCancelEdit.ToolTip">Avbryt redigeringsoperasjonen</Phrase>
-    <Phrase key="btnRefresh.ToolTip">Oppdater data</Phrase>
     <Phrase key="btnAddNew.ToolTip">Legg til ny</Phrase>
     <Phrase key="btnDelete.ToolTip">Slett</Phrase>
     <Phrase key="btnClear.ToolTip">Rydd tabell</Phrase>
@@ -320,19 +320,18 @@
     <Phrase key="btnCopy.ToolTip">Kopier (Ctrl+C)</Phrase>
     <Phrase key="btnPaste.ToolTip">Lim inn (Ctrl+V)</Phrase>
     <Phrase key="btnFilter.ToolTip">Filter</Phrase>
-    <Phrase key="btnFind.ToolTip">Finn og erstatt (Ctrl+F)</Phrase>
     <Phrase key="btnAutoSizeColumns.ToolTip">Autotilpass kolonnebredder</Phrase>
     <Phrase key="btnProperties.ToolTip">Vareegenskaper</Phrase>
-    <Phrase key="GridViewError">Feil ved visning av tabell, kolonnen &quot;{0}&quot;.</Phrase>
+    <Phrase key="GridViewError">Feil ved visning av tabell, kolonnen "{0}".</Phrase>
     <Phrase key="ColumnLabel">Kolonne:</Phrase>
     <Phrase key="DeleteRowConfirm">Er du sikker på at du vil slette raden?</Phrase>
     <Phrase key="DeleteRowsConfirm">Er du sikker på at du vil slette radene?</Phrase>
     <Phrase key="ClearTableConfirm">Er du sikker på at du vil rydde bordet?</Phrase>
     <Phrase key="RowsNotDeleted">Noen rader er ikke slettet fordi de er referert til.</Phrase>
-    <Phrase key="ColumnNotNull">&quot;{0}&quot;-kolonnen kan ikke inneholde tomme verdier.</Phrase>
-    <Phrase key="UniqueRequired">En duplikatverdi kan ikke settes inn i &quot;{0}&quot;-kolonnen.</Phrase>
-    <Phrase key="KeyReferenced">Primærnøkkelen refereres til av en rad fra &quot;{0}&quot;-tabellen.</Phrase>
-    <Phrase key="DataNotExist">Det finnes ingen data for &quot;{0}&quot;-kolonnen.</Phrase>
+    <Phrase key="ColumnNotNull">"{0}"-kolonnen kan ikke inneholde tomme verdier.</Phrase>
+    <Phrase key="UniqueRequired">En duplikatverdi kan ikke settes inn i "{0}"-kolonnen.</Phrase>
+    <Phrase key="KeyReferenced">Primærnøkkelen refereres til av en rad fra "{0}"-tabellen.</Phrase>
+    <Phrase key="DataNotExist">Det finnes ingen data for "{0}"-kolonnen.</Phrase>
     <Phrase key="DataChangeError">Feil ved endring av tabelldata</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmCnl">
@@ -340,34 +339,36 @@
     <Phrase key="pageGeneral">Generell</Phrase>
     <Phrase key="chkActive">Aktiv</Phrase>
     <Phrase key="lblCnlNum">Antall</Phrase>
-    <Phrase key="lblDataType">Data-type</Phrase>
-    <Phrase key="lblDataLen">Datalengde</Phrase>
-    <Phrase key="lblCnlType">Kanaltype</Phrase>
-    <Phrase key="lblObj">Gjenstand</Phrase>
-    <Phrase key="lblDevice">Enhet</Phrase>
-    <Phrase key="lblTagNum">Tag nummer</Phrase>
-    <Phrase key="lblTagCode">Tag kode</Phrase>
-    <Phrase key="chkFormulaEnabled">Formel</Phrase>
-    <Phrase key="lblInFormula">I</Phrase>
-    <Phrase key="lblOutFormula">Ute</Phrase>
-    <Phrase key="pageDisplay">Vise</Phrase>
-    <Phrase key="lblFormat">Format</Phrase>
-    <Phrase key="lblOutFormat">Kommandoformat</Phrase>
-    <Phrase key="lblQuantity">Mengde</Phrase>
-    <Phrase key="lblUnit">Enhet</Phrase>
-    <Phrase key="pageLim">Grenser</Phrase>
-    <Phrase key="lblLim">Grense</Phrase>
-    <Phrase key="btnCreateLim">Skape</Phrase>
-    <Phrase key="chkShared">Vis bare delte grenser</Phrase>
-    <Phrase key="lblLoLo">Ekstremt lavt</Phrase>
-    <Phrase key="lblLow">Lav</Phrase>
-    <Phrase key="lblHigh">Høy</Phrase>
-    <Phrase key="lblHiHi">Ekstremt høy</Phrase>
-    <Phrase key="lblDeadband">Dødbånd</Phrase>
-    <Phrase key="pageArchives">Arkiv</Phrase>
-    <Phrase key="pageEvents">arrangementer</Phrase>
+    <Phrase key="lblName">Data-type</Phrase>
+    <Phrase key="lblCode">Datalengde</Phrase>
+    <Phrase key="lblDataType">Kanaltype</Phrase>
+    <Phrase key="lblDataLen">Gjenstand</Phrase>
+    <Phrase key="lblCnlType">Enhet</Phrase>
+    <Phrase key="lblObj">Tag nummer</Phrase>
+    <Phrase key="lblDevice">Tag kode</Phrase>
+    <Phrase key="lblTagNum">Formel</Phrase>
+    <Phrase key="lblTagCode">I</Phrase>
+    <Phrase key="chkFormulaEnabled">Ute</Phrase>
+    <Phrase key="lblInFormula">Vise</Phrase>
+    <Phrase key="lblOutFormula">Format</Phrase>
+    <Phrase key="pageDisplay">Kommandoformat</Phrase>
+    <Phrase key="lblFormat">Mengde</Phrase>
+    <Phrase key="lblOutFormat">Enhet</Phrase>
+    <Phrase key="lblQuantity">Grenser</Phrase>
+    <Phrase key="lblUnit">Grense</Phrase>
+    <Phrase key="pageLim">Skape</Phrase>
+    <Phrase key="lblLim">Vis bare delte grenser</Phrase>
+    <Phrase key="btnCreateLim">Ekstremt lavt</Phrase>
+    <Phrase key="chkShared">Lav</Phrase>
+    <Phrase key="lblLoLo">Høy</Phrase>
+    <Phrase key="lblLow">Ekstremt høy</Phrase>
+    <Phrase key="lblHigh">Dødbånd</Phrase>
+    <Phrase key="lblHiHi">Arkiv</Phrase>
+    <Phrase key="lblDeadband">arrangementer</Phrase>
+    <Phrase key="pageArchives">OK</Phrase>
+    <Phrase key="pageEvents">Avbryt</Phrase>
     <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnCancel">Avbryt</Phrase>
+    <Phrase key="btnCancel">Kansellere</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmColorDialog">
     <Phrase key="this">Velg Farge</Phrase>
@@ -465,7 +466,7 @@
     <Phrase key="lblInfo">Endringer trer i kraft etter omstart av applikasjonen.</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Avbryt</Phrase>
-    <Phrase key="ProjectExtRegistered">Utvidelsen &quot;{0}&quot; er registrert.</Phrase>
+    <Phrase key="ProjectExtRegistered">Utvidelsen "{0}" er registrert.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tools.FrmCulture">
     <Phrase key="this">Språk</Phrase>
@@ -531,6 +532,9 @@ Endringene trer i kraft etter å ha startet programmet på nytt.</Phrase>
     <Phrase key="miFileClose">Lukk</Phrase>
     <Phrase key="miFileCloseProject">Lukk prosjekt</Phrase>
     <Phrase key="miFileExit">Exit</Phrase>
+    <Phrase key="miEdit">&amp;Redigere</Phrase>
+    <Phrase key="miEditRefresh">Oppdater data</Phrase>
+    <Phrase key="miEditFind">Finne</Phrase>
     <Phrase key="miDeploy">&amp;Utplassere</Phrase>
     <Phrase key="miDeployInstanceProfile">Implementeringsprofil...</Phrase>
     <Phrase key="miDeployDownloadConfig">Last ned konfigurasjon...</Phrase>
@@ -551,6 +555,8 @@ Endringene trer i kraft etter å ha startet programmet på nytt.</Phrase>
     <Phrase key="btnFileOpenProject.ToolTip">Åpne prosjekt (Ctrl+O)</Phrase>
     <Phrase key="btnFileSave.ToolTip">Lagre (Ctrl+S)</Phrase>
     <Phrase key="btnFileSaveAll.ToolTip">Lagre alt</Phrase>
+    <Phrase key="btnEditRefresh.ToolTip">Refresh Data (Ctrl+R)</Phrase>
+    <Phrase key="btnEditFind.ToolTip">Finn (Ctrl+F)</Phrase>
     <Phrase key="btnDeployInstanceProfile.ToolTip">Implementeringsprofil</Phrase>
     <Phrase key="btnDeployDownloadConfig.ToolTip">Last ned konfigurasjon</Phrase>
     <Phrase key="btnDeployUploadConfig.ToolTip">Last opp konfigurasjon (Ctrl+U)</Phrase>
@@ -558,6 +564,8 @@ Endringene trer i kraft etter å ha startet programmet på nytt.</Phrase>
     <Phrase key="miProjectOpenInExplorer">Åpne mappe i filutforsker</Phrase>
     <Phrase key="miProjectRename">Gi nytt navn til prosjekt</Phrase>
     <Phrase key="miProjectProperties">Egenskaper</Phrase>
+    <Phrase key="miBaseOpenInExplorer">Åpne mappe i filutforsker</Phrase>
+    <Phrase key="miBaseReload">Last inn konfigurasjonsdatabase på nytt</Phrase>
     <Phrase key="miCnlTableComm">Gå til Communicator</Phrase>
     <Phrase key="miCnlTableRefresh">Forfriske</Phrase>
     <Phrase key="miDirectoryNewFile">Ny fil...</Phrase>
@@ -586,7 +594,8 @@ Endringene trer i kraft etter å ha startet programmet på nytt.</Phrase>
     <Phrase key="miAppReloadConfig">Last inn konfigurasjon på nytt</Phrase>
     <Phrase key="EmptyTitle">Administrator</Phrase>
     <Phrase key="ProjectTitle">{0} – Administrator</Phrase>
-    <Phrase key="WelcomeMessage">Opprett et nytt prosjekt eller&#13;&#10;åpne et eksisterende prosjekt.</Phrase>
+    <Phrase key="WelcomeMessage">Opprett et nytt prosjekt eller
+åpne et eksisterende prosjekt.</Phrase>
     <Phrase key="SelectItemMessage">Velg et element i prosjektutforskeren.</Phrase>
     <Phrase key="ProjectFileFilter">Prosjekter (*.rsproj)|*.rsproj|Alle filer (*.*)|*.*</Phrase>
     <Phrase key="ConfirmDeleteDirectory">Er du sikker på at du vil slette mappen?</Phrase>
@@ -629,7 +638,6 @@ Endringene trer i kraft etter å ha startet programmet på nytt.</Phrase>
     <Phrase key="btnOpenProject">Åpne prosjekt</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmTextEditor">
-    <Phrase key="btnReload.ToolTip">Last inn filen på nytt</Phrase>
     <Phrase key="OpenTextFileError">Feil ved åpning av fil</Phrase>
     <Phrase key="SaveTextFileError">Feil under lagring av fil</Phrase>
   </Dictionary>
@@ -665,16 +673,6 @@ Endringene trer i kraft etter å ha startet programmet på nytt.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Forms.FrmRegistration">
     <Phrase key="this">Registrering</Phrase>
-    <Phrase key="lblProductName">Produktnavn</Phrase>
-    <Phrase key="lblCompCode">Datamaskinkode</Phrase>
-    <Phrase key="btnCopyCompCode">Kopiere</Phrase>
-    <Phrase key="btnRefreshCompCode">Forfriske</Phrase>
-    <Phrase key="lblCompCodeInfo">Hvis koden mangler, last opp konfigurasjonen og start tjenestene på nytt.</Phrase>
-    <Phrase key="lblRegKey">Registreringsnøkkel</Phrase>
-    <Phrase key="btnPasteRegKey">Lim inn</Phrase>
-    <Phrase key="lblRegKeyInfo">Nøkkelverifiseringsresultat skrives i applikasjons- eller modulloggen.</Phrase>
-    <Phrase key="llblGetPermanentKey">Få permanent nøkkel</Phrase>
-    <Phrase key="llblGetTrialKey">Få prøvenøkkel</Phrase>
     <Phrase key="btnSave">Lagre</Phrase>
     <Phrase key="btnCancel">Avbryt</Phrase>
     <Phrase key="LoadRegKeyError">Feil ved innlasting av registreringsnøkkel</Phrase>

@@ -19,7 +19,6 @@
     <Phrase key="ThreadFatalError">スレッド内の致命的なエラー</Phrase>
     <Phrase key="WriteInfoError">アプリケーション情報をファイルに書き込むときにエラーが発生しました</Phrase>
     <Phrase key="ConnectionNotFound">接続&quot;{0}&quot;が見つかりません。</Phrase>
-    <Phrase key="ConnOptionsNotFound">接続オプションが見つかりません。</Phrase>
     <Phrase key="DatabaseNotSupported">データベースはサポートされていません。</Phrase>
     <Phrase key="OperationNotSupported">操作はサポートされていません。</Phrase>
     <Phrase key="CommandSent">コマンドが送信されました。</Phrase>
@@ -134,6 +133,18 @@
     <Phrase key="lblUsername">ユーザー名</Phrase>
     <Phrase key="lblPassword">パスワード</Phrase>
     <Phrase key="chkConnectionString">接続文字列</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlRegistration">
+    <Phrase key="lblProductName">製品名</Phrase>
+    <Phrase key="lblCompCode">コンピュータコード</Phrase>
+    <Phrase key="btnCopyCompCode">コピー</Phrase>
+    <Phrase key="btnRefreshCompCode">リフレッシュ</Phrase>
+    <Phrase key="lblCompCodeInfo">コードが欠落している場合は、構成をアップロードしてサービスを再起動します。</Phrase>
+    <Phrase key="lblRegKey">登録キー</Phrase>
+    <Phrase key="btnPasteRegKey">ペースト</Phrase>
+    <Phrase key="lblRegKeyInfo">キーの検証結果はアプリケーションまたはモジュールのログに書き込まれます。</Phrase>
+    <Phrase key="llblGetPermanentKey">永久キーを取得する</Phrase>
+    <Phrase key="llblGetTrialKey">トライアルキーを入手</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmBitmask">
     <Phrase key="this">ビットマスク</Phrase>

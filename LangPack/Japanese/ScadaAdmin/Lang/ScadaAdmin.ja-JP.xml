@@ -312,7 +312,6 @@
     <Phrase key="btnMoveLast.ToolTip">最後に移動</Phrase>
     <Phrase key="btnApplyEdit.ToolTip">編集操作を適用</Phrase>
     <Phrase key="btnCancelEdit.ToolTip">編集操作のキャンセル</Phrase>
-    <Phrase key="btnRefresh.ToolTip">データを更新する</Phrase>
     <Phrase key="btnAddNew.ToolTip">新しく追加する</Phrase>
     <Phrase key="btnDelete.ToolTip">消去</Phrase>
     <Phrase key="btnClear.ToolTip">クリアテーブル</Phrase>
@@ -320,7 +319,6 @@
     <Phrase key="btnCopy.ToolTip">コピー (Ctrl+C)</Phrase>
     <Phrase key="btnPaste.ToolTip">貼り付け(Ctrl+V)</Phrase>
     <Phrase key="btnFilter.ToolTip">フィルター</Phrase>
-    <Phrase key="btnFind.ToolTip">検索と置換 (Ctrl+F)</Phrase>
     <Phrase key="btnAutoSizeColumns.ToolTip">列幅の自動調整</Phrase>
     <Phrase key="btnProperties.ToolTip">アイテムのプロパティ</Phrase>
     <Phrase key="GridViewError">テーブル &quot;{0}&quot;列の表示中にエラーが発生しました</Phrase>
@@ -628,7 +626,6 @@
     <Phrase key="btnOpenProject">プロジェクトを開く</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmTextEditor">
-    <Phrase key="btnReload.ToolTip">ファイルをリロードする</Phrase>
     <Phrase key="OpenTextFileError">ファイルを開くときにエラーが発生しました</Phrase>
     <Phrase key="SaveTextFileError">ファイルの保存中にエラーが発生しました</Phrase>
   </Dictionary>
@@ -664,16 +661,6 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.Forms.FrmRegistration">
     <Phrase key="this">登録</Phrase>
-    <Phrase key="lblProductName">商品名</Phrase>
-    <Phrase key="lblCompCode">コンピュータコード</Phrase>
-    <Phrase key="btnCopyCompCode">コピー</Phrase>
-    <Phrase key="btnRefreshCompCode">リフレッシュ</Phrase>
-    <Phrase key="lblCompCodeInfo">コードが欠落している場合は、構成をアップロードしてサービスを再起動します。</Phrase>
-    <Phrase key="lblRegKey">登録キー</Phrase>
-    <Phrase key="btnPasteRegKey">ペースト</Phrase>
-    <Phrase key="lblRegKeyInfo">キーの検証結果はアプリケーションまたはモジュールのログに書き込まれます。</Phrase>
-    <Phrase key="llblGetPermanentKey">永久キーを取得する</Phrase>
-    <Phrase key="llblGetTrialKey">トライアルキーを入手</Phrase>
     <Phrase key="btnSave">保存</Phrase>
     <Phrase key="btnCancel">キャンセル</Phrase>
     <Phrase key="LoadRegKeyError">登録キーの読み込みエラー</Phrase>

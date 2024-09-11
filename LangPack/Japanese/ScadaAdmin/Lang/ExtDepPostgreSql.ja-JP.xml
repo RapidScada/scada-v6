@@ -2,8 +2,8 @@
 <ExtDepPostgreSqlDictionaries>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Downloader">
     <Phrase key="DownloadTable">{0} テーブルをダウンロードする</Phrase>
-    <Phrase key="DownloadView">「ビュー&quot;{0}&quot;をダウンロード</Phrase>
-    <Phrase key="DownloadConfigFile">構成ファイル&quot;{0}&quot;をダウンロードします</Phrase>
+    <Phrase key="DownloadView">「ビュー"{0}"をダウンロード</Phrase>
+    <Phrase key="DownloadConfigFile">構成ファイル"{0}"をダウンロードします</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Uploader">
     <Phrase key="CreateSchema">データベーススキーマの作成</Phrase>
@@ -11,16 +11,27 @@
     <Phrase key="ClearBase">構成データベースをクリアする</Phrase>
     <Phrase key="CreateBase">構成データベースを作成する</Phrase>
     <Phrase key="DeleteTable">{0} テーブルを削除します</Phrase>
+    <Phrase key="TruncateTable">{0} テーブルを切り詰めます</Phrase>
     <Phrase key="CreateTable">{0} テーブルを作成します</Phrase>
+    <Phrase key="FillTable">{0} テーブルに記入します</Phrase>
     <Phrase key="CreateFKs">外部キーを作成する</Phrase>
     <Phrase key="CreateTableFKs">{0} テーブルの外部キーを作成します</Phrase>
     <Phrase key="ClearViews">クリアな視界</Phrase>
     <Phrase key="CreateViews">ビューの作成</Phrase>
-    <Phrase key="CreateView">ビュー&quot;{0}&quot;を作成します</Phrase>
+    <Phrase key="CreateView">ビュー"{0}"を作成します</Phrase>
     <Phrase key="ClearAllAppConfig">すべてのアプリケーションの明確な構成</Phrase>
     <Phrase key="ClearAppConfig">{0} アプリケーションの構成をクリアします</Phrase>
     <Phrase key="CreateAppConfig">{0} アプリケーションの構成を作成します</Phrase>
-    <Phrase key="CreateConfigFile">構成ファイル&quot;{0}&quot;を作成します</Phrase>
+    <Phrase key="CreateConfigFile">構成ファイル"{0}"を作成します</Phrase>
     <Phrase key="UnableRestartServices">エージェントが無効になっているためサービスを再起動できません</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ClearBaseMethod">
+    <Phrase key="DropTables">テーブルを削除する</Phrase>
+    <Phrase key="TruncateTables">テーブルの切り詰め</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ExtensionConfig">
+    <Phrase key="ClearBaseMethod.DisplayName">明確な方法</Phrase>
+    <Phrase key="ClearBaseMethod.Category">主なパラメータ</Phrase>
+    <Phrase key="ClearBaseMethod.Description">構成データベースをクリアする方法。 テーブルがすでに作成されている場合は、truncate メソッドが可能です。</Phrase>
   </Dictionary>
 </ExtDepPostgreSqlDictionaries>

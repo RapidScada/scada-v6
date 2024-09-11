@@ -20,35 +20,39 @@
   </Dictionary>
   <!-- ScadaServerCommon.Forms.dll -->
   <Dictionary key="Scada.Server.Forms.Controls.CtrlCurrentArchiveOptions">
-    <Phrase key="gbOptions">Opcje ogólne</Phrase>
     <Phrase key="lblReadOnly">Tylko czytać</Phrase>
     <Phrase key="lblLogEnabled">Dziennik włączony</Phrase>
     <Phrase key="lblFlushPeriod">Okres płukania</Phrase>
     <Phrase key="txtFlushPeriodUnit">sek</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Forms.Controls.CtrlEventArchiveOptions">
-    <Phrase key="gbOptions">Opcje ogólne</Phrase>
     <Phrase key="lblReadOnly">Tylko czytać</Phrase>
     <Phrase key="lblLogEnabled">Dziennik włączony</Phrase>
     <Phrase key="lblRetention">Okres przechowywania</Phrase>
     <Phrase key="txtRetentionUnit">Dzień</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Forms.Controls.CtrlHistoricalArchiveOptions">
-    <Phrase key="gbOptions">Opcje ogólne</Phrase>
-    <Phrase key="lblReadOnly">Tylko czytać</Phrase>
-    <Phrase key="lblLogEnabled">Dziennik włączony</Phrase>
+    <Phrase key="lblReadOnly">Tylko do odczytu</Phrase>
+    <Phrase key="lblLogEnabled">Log włączony</Phrase>
     <Phrase key="lblRetention">Okres przechowywania</Phrase>
     <Phrase key="txtRetentionUnit">Dzień</Phrase>
     <Phrase key="lblIsPeriodic">Tylko dane okresowe</Phrase>
-    <Phrase key="lblWriteWithPeriod">Pisz z kropką</Phrase>
+    <Phrase key="lblWriteWithPeriod">Napisz z kropką</Phrase>
+    <Phrase key="lblUsePeriodStartTime">Znacznik czasu na początku okresu</Phrase>
     <Phrase key="lblWritingPeriod">Okres pisania</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[0]">sek</Phrase>
-    <Phrase key="cbWritingPeriodUnit.Items[1]">min</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[1]">Min</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[2]">Godzina</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[3]">Dzień</Phrase>
+    <Phrase key="lblWritingOffset">Przesunięcie zapisu</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[0]">sek</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[1]">Min</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[2]">Godzina</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[3]">Dzień</Phrase>
     <Phrase key="lblPullToPeriod">Pociągnij do okresu</Phrase>
     <Phrase key="txtPullToPeriodUnit">sek</Phrase>
-    <Phrase key="lblWriteOnChange">Pisz o zmianie</Phrase>
-    <Phrase key="lblDeadband">Strefa martwa</Phrase>
+    <Phrase key="lblWriteOnChange">Napisz o zmianie</Phrase>
+    <Phrase key="lblDeadband">Strefa nieczułości</Phrase>
     <Phrase key="cbDeadbandUnit.Items[0]">Abs.</Phrase>
     <Phrase key="cbDeadbandUnit.Items[1]">%</Phrase>
   </Dictionary>

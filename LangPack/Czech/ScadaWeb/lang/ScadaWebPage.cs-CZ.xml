@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<PlgWebPageDictionaries>
-  <Dictionary key="Scada.Web.Plugins.PlgWebPage.Areas.Main.Pages.Landing">
-    <Phrase key="PageTitle">stránka {0}</Phrase>
-    <Phrase key="UrlIsEmpty">Nelze přesměrovat, protože adresa URL je prázdná</Phrase>
-  </Dictionary>
-</PlgWebPageDictionaries>

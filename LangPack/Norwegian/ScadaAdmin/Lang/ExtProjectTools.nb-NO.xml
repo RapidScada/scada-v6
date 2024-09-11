@@ -23,16 +23,26 @@
     <Phrase key="BaseHasErrors">Konfigurasjonsdatabasen har feil.</Phrase>
     <Phrase key="IntegrityCheckError">Feil under kontroll av integritet</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.ObjectMap">
+    <Phrase key="ObjectMapTitle">Objekthierarki</Phrase>
+    <Phrase key="NoObjects">Ingen gjenstander</Phrase>
+    <Phrase key="GenerateObjectMapError">Feil under generering av objektkart</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Controls.CtrlMainMenu">
     <Phrase key="miProjectTools">Prosjektverktøy</Phrase>
     <Phrase key="miCloneChannels">Klone kanaler...</Phrase>
+    <Phrase key="miEncryptPassword">Krypter passord...</Phrase>
     <Phrase key="miChannelMapByDevice">Kanalkart etter enhet</Phrase>
     <Phrase key="miChannelMapByObject">Kanalkart etter objekt</Phrase>
     <Phrase key="miDeviceMap">Enhetskart</Phrase>
+    <Phrase key="miObjectMap">Objektkart</Phrase>
     <Phrase key="miCheckIntegrity">Sjekk integritet</Phrase>
-    <Phrase key="miEncryptPassword">Krypter passord...</Phrase>
+    <Phrase key="miObjectEditor">Objektredigerer</Phrase>
+    <Phrase key="miRightMatrix">Høyre matrise</Phrase>
     <Phrase key="miImportTable">Importer tabell...</Phrase>
     <Phrase key="miExportTable">Eksporter tabell...</Phrase>
+    <Phrase key="btnObjectEditor.ToolTip">Objektredigerer</Phrase>
+    <Phrase key="btnRightMatrix.ToolTip">Høyre matrise</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmCnlClone">
     <Phrase key="this">Klone kanaler</Phrase>
@@ -45,19 +55,65 @@
     <Phrase key="gbOptions">Alternativer</Phrase>
     <Phrase key="lblReplaceObj">Bytt ut objektet</Phrase>
     <Phrase key="lblReplaceDevice">Bytt ut enheten</Phrase>
-    <Phrase key="chkUpdateFormulas">Oppdater kanalnumre i formler</Phrase>
+    <Phrase key="chkUpdateFormulas">Oppdater kanalnummer i formler</Phrase>
     <Phrase key="btnClone">Klone</Phrase>
-    <Phrase key="btnClose">Lukk</Phrase>
+    <Phrase key="btnClose">Lukke</Phrase>
     <Phrase key="KeepUnchanged">&lt;Behold uendret&gt;</Phrase>
-    <Phrase key="CloneChannelsCompleted">Kloning fullført.&#13;&#10;{0} kanal(er) er lagt til.</Phrase>
+    <Phrase key="CloneChannelsCompleted">Kloning fullført.
+{0} kanal(er) er lagt til.</Phrase>
     <Phrase key="CloneChannelsError">Feil ved kloning av kanaler</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmFindObject">
+    <Phrase key="this">Finn objekt</Phrase>
+    <Phrase key="lblFind">Finn hva</Phrase>
+    <Phrase key="gbLookAt">Se på</Phrase>
+    <Phrase key="chkObjNum">Tall</Phrase>
+    <Phrase key="chkName">Navn</Phrase>
+    <Phrase key="chkCode">Kode</Phrase>
+    <Phrase key="chkDescr">Beskrivelse</Phrase>
+    <Phrase key="chkCaseSensitive">Matchetui</Phrase>
+    <Phrase key="chkWholeStringOnly">Match bare hele strengen</Phrase>
+    <Phrase key="btnFindNext">Finn neste</Phrase>
+    <Phrase key="btnClose">Lukke</Phrase>
+    <Phrase key="ObjectNotFound">Objekt ikke funnet.</Phrase>
+    <Phrase key="SearchCompleted">Søket er fullført.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmObjectEditor">
+    <Phrase key="this">Objektredigerer</Phrase>
+    <Phrase key="btnAddObject.ToolTip">Legg til objekt</Phrase>
+    <Phrase key="btnDeleteObject.ToolTip">Slett objekt</Phrase>
+    <Phrase key="gbObject">Objektegenskaper</Phrase>
+    <Phrase key="lblObjNum">Tall</Phrase>
+    <Phrase key="lblName">Navn</Phrase>
+    <Phrase key="lblCode">Kode</Phrase>
+    <Phrase key="lblParentObj">Overordnet objekt</Phrase>
+    <Phrase key="lblDescr">Beskrivelse</Phrase>
+    <Phrase key="miCollapseAll">Skjul alle</Phrase>
+    <Phrase key="miOpenChannels">Åpne kanaler</Phrase>
+    <Phrase key="ObjNumInUse">Objektnummeret er allerede i bruk.</Phrase>
+    <Phrase key="ObjNumReferenced">Objektnummeret refereres til av en rad fra "{0}"-tabellen.</Phrase>
+    <Phrase key="ObjectReferenced">Objektet eller dets underordnede er referert av en rad fra en annen tabell.</Phrase>
+    <Phrase key="ParentObjectNotExists">Det overordnede objektet eksisterer ikke lenger.</Phrase>
+    <Phrase key="InvalidParentObject">Det overordnede objektet kan ikke være det samme eller et underordnet objekt.</Phrase>
+    <Phrase key="UpdateObjNumError">Feil ved oppdatering av objektnummer</Phrase>
+    <Phrase key="UpdateParentObjError">Feil under oppdatering av overordnet objekt</Phrase>
+    <Phrase key="DeleteObjectConfirm">Er du sikker på at du vil slette objektet?</Phrase>
+    <Phrase key="ObjectFilter">Objekt {0}</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
     <Phrase key="this">Krypter passord</Phrase>
     <Phrase key="lblPassword">Passord</Phrase>
     <Phrase key="lblPasswordEncrypted">Kryptert passord</Phrase>
     <Phrase key="btnCopy">Kopiere</Phrase>
-    <Phrase key="btnClose">Lukk</Phrase>
+    <Phrase key="btnClose">Lukke</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmRightMatrix">
+    <Phrase key="this">Høyre matrise</Phrase>
+    <Phrase key="ViewRightSymbol">V</Phrase>
+    <Phrase key="ViewRightLegend">V - utsikt</Phrase>
+    <Phrase key="ControlRightSymbol">C</Phrase>
+    <Phrase key="ControlRightLegend">C - kontroll</Phrase>
+    <Phrase key="DisplayMatrixError">Feil ved visning av høyre matrise</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
     <Phrase key="this">Eksporter tabell</Phrase>
@@ -67,7 +123,7 @@
     <Phrase key="lblStartID">Start</Phrase>
     <Phrase key="lblEndID">Slutt</Phrase>
     <Phrase key="btnExport">Eksport</Phrase>
-    <Phrase key="btnClose">Lukk</Phrase>
+    <Phrase key="btnClose">Lukke</Phrase>
     <Phrase key="ExportTableFilter">Tabeller (*.dat;*.xml;*.csv)|*.dat;*.xml;*.csv|Alle filer (*.*)|*.*</Phrase>
     <Phrase key="ExportTableError">Feil ved eksport av tabell</Phrase>
   </Dictionary>
@@ -79,13 +135,14 @@
     <Phrase key="gbSrcIDs">Kilde-ID-er</Phrase>
     <Phrase key="lblSrcStartID">Start</Phrase>
     <Phrase key="lblSrcEndID">Slutt</Phrase>
-    <Phrase key="gbDestIDs">Destinasjons-IDer</Phrase>
+    <Phrase key="gbDestIDs">Destinasjons-ID-er</Phrase>
     <Phrase key="lblDestStartID">Start</Phrase>
     <Phrase key="lblDestEndID">Slutt</Phrase>
     <Phrase key="btnImport">Import</Phrase>
-    <Phrase key="btnClose">Lukk</Phrase>
+    <Phrase key="btnClose">Lukke</Phrase>
     <Phrase key="ImportTableFilter">Tabeller (*.dat;*.xml;*.csv)|*.dat;*.xml;*.csv|Alle filer (*.*)|*.*</Phrase>
-    <Phrase key="ImportTableCompleted">Importen er fullført.&#13;&#10;{0} rad(er) er berørt.</Phrase>
+    <Phrase key="ImportTableCompleted">Importen er fullført.
+{0} rad(er) er berørt.</Phrase>
     <Phrase key="ImportTableError">Feil ved import av tabell</Phrase>
   </Dictionary>
 </ExtProjectToolsDictionaries>

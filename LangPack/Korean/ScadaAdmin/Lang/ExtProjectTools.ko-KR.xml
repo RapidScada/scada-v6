@@ -2,17 +2,17 @@
 <ExtProjectToolsDictionaries>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.ChannelMap">
     <Phrase key="MapByDeviceTitle">기기별 채널</Phrase>
-    <Phrase key="MapByObjectTitle">객체별 채널</Phrase>
-    <Phrase key="ChannelsCaption">채널 :</Phrase>
+    <Phrase key="MapByObjectTitle">개체별 채널</Phrase>
+    <Phrase key="ChannelsCaption">채널:</Phrase>
     <Phrase key="NoChannels">채널 없음</Phrase>
-    <Phrase key="GenerateChannelMapError">채널 맵 생성 오류</Phrase>
+    <Phrase key="GenerateChannelMapError">채널 맵을 생성하는 중에 오류가 발생했습니다.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.DeviceMap">
-    <Phrase key="DeviceMapTitle">통신 회선별 장치</Phrase>
+    <Phrase key="DeviceMapTitle">통신선별 장치</Phrase>
     <Phrase key="DevicesCaption">장치:</Phrase>
     <Phrase key="NoDevices">기기 없음</Phrase>
     <Phrase key="EmptyCommLine">빈 통신 회선</Phrase>
-    <Phrase key="GenerateDeviceMapError">장치 맵 생성 오류</Phrase>
+    <Phrase key="GenerateDeviceMapError">장치 맵을 생성하는 중에 오류가 발생했습니다.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.IntegrityCheck">
     <Phrase key="IntegrityCheckTitle">무결성 검사</Phrase>
@@ -21,18 +21,28 @@
     <Phrase key="LostPrimaryKeys">기본 키 분실:</Phrase>
     <Phrase key="BaseCorrect">구성 데이터베이스가 정확합니다.</Phrase>
     <Phrase key="BaseHasErrors">구성 데이터베이스에 오류가 있습니다.</Phrase>
-    <Phrase key="IntegrityCheckError">무결성 검사 오류</Phrase>
+    <Phrase key="IntegrityCheckError">무결성을 확인하는 중에 오류가 발생했습니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.ObjectMap">
+    <Phrase key="ObjectMapTitle">객체 계층</Phrase>
+    <Phrase key="NoObjects">개체 없음</Phrase>
+    <Phrase key="GenerateObjectMapError">개체 맵을 생성하는 중에 오류가 발생했습니다.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Controls.CtrlMainMenu">
     <Phrase key="miProjectTools">프로젝트 도구</Phrase>
-    <Phrase key="miCloneChannels">클론 채널...</Phrase>
-    <Phrase key="miChannelMapByDevice">장치별 채널 맵</Phrase>
+    <Phrase key="miCloneChannels">채널 복제...</Phrase>
+    <Phrase key="miEncryptPassword">비밀번호 암호화...</Phrase>
+    <Phrase key="miChannelMapByDevice">기기별 채널 맵</Phrase>
     <Phrase key="miChannelMapByObject">객체별 채널 맵</Phrase>
-    <Phrase key="miDeviceMap">장치 맵</Phrase>
+    <Phrase key="miDeviceMap">장치 지도</Phrase>
+    <Phrase key="miObjectMap">객체 맵</Phrase>
     <Phrase key="miCheckIntegrity">무결성 확인</Phrase>
-    <Phrase key="miEncryptPassword">암호 암호화...</Phrase>
+    <Phrase key="miObjectEditor">개체 편집기</Phrase>
+    <Phrase key="miRightMatrix">오른쪽 행렬</Phrase>
     <Phrase key="miImportTable">테이블 가져오기...</Phrase>
     <Phrase key="miExportTable">테이블 내보내기...</Phrase>
+    <Phrase key="btnObjectEditor.ToolTip">개체 편집기</Phrase>
+    <Phrase key="btnRightMatrix.ToolTip">오른쪽 행렬</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmCnlClone">
     <Phrase key="this">클론 채널</Phrase>
@@ -43,14 +53,52 @@
     <Phrase key="lblDestStartNum">시작</Phrase>
     <Phrase key="lblDestEndNum">끝</Phrase>
     <Phrase key="gbOptions">옵션</Phrase>
-    <Phrase key="lblReplaceObj">개체 바꾸기</Phrase>
-    <Phrase key="lblReplaceDevice">기기 교체</Phrase>
-    <Phrase key="chkUpdateFormulas">수식에서 채널 번호 업데이트</Phrase>
+    <Phrase key="lblReplaceObj">객체 교체</Phrase>
+    <Phrase key="lblReplaceDevice">장치 교체</Phrase>
+    <Phrase key="chkUpdateFormulas">수식의 채널 번호 업데이트</Phrase>
     <Phrase key="btnClone">클론</Phrase>
     <Phrase key="btnClose">닫다</Phrase>
     <Phrase key="KeepUnchanged">&lt;변경하지 않고 유지&gt;</Phrase>
-    <Phrase key="CloneChannelsCompleted">복제가 성공적으로 완료되었습니다.&#13;&#10;{0}개의 채널이 추가되었습니다.</Phrase>
-    <Phrase key="CloneChannelsError">채널 복제 오류</Phrase>
+    <Phrase key="CloneChannelsCompleted">복제가 성공적으로 완료되었습니다.
+{0}개의 채널이 추가되었습니다.</Phrase>
+    <Phrase key="CloneChannelsError">채널 복제 중 오류 발생</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmFindObject">
+    <Phrase key="this">개체 찾기</Phrase>
+    <Phrase key="lblFind">무엇을 찾으세요?</Phrase>
+    <Phrase key="gbLookAt">봐</Phrase>
+    <Phrase key="chkObjNum">숫자</Phrase>
+    <Phrase key="chkName">이름</Phrase>
+    <Phrase key="chkCode">암호</Phrase>
+    <Phrase key="chkDescr">설명</Phrase>
+    <Phrase key="chkCaseSensitive">성냥갑</Phrase>
+    <Phrase key="chkWholeStringOnly">전체 문자열만 일치</Phrase>
+    <Phrase key="btnFindNext">다음 찾기</Phrase>
+    <Phrase key="btnClose">닫다</Phrase>
+    <Phrase key="ObjectNotFound">개체를 찾을 수 없습니다.</Phrase>
+    <Phrase key="SearchCompleted">검색이 완료되었습니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmObjectEditor">
+    <Phrase key="this">개체 편집기</Phrase>
+    <Phrase key="btnAddObject.ToolTip">개체 추가</Phrase>
+    <Phrase key="btnDeleteObject.ToolTip">개체 삭제</Phrase>
+    <Phrase key="gbObject">개체 속성</Phrase>
+    <Phrase key="lblObjNum">숫자</Phrase>
+    <Phrase key="lblName">이름</Phrase>
+    <Phrase key="lblCode">암호</Phrase>
+    <Phrase key="lblParentObj">상위 개체</Phrase>
+    <Phrase key="lblDescr">설명</Phrase>
+    <Phrase key="miCollapseAll">모두 축소</Phrase>
+    <Phrase key="miOpenChannels">오픈 채널</Phrase>
+    <Phrase key="ObjNumInUse">개체 번호가 이미 사용 중입니다.</Phrase>
+    <Phrase key="ObjNumReferenced">개체 번호는 "{0}" 테이블의 행에서 참조됩니다.</Phrase>
+    <Phrase key="ObjectReferenced">객체 또는 해당 하위가 다른 테이블의 행에서 참조됩니다.</Phrase>
+    <Phrase key="ParentObjectNotExists">상위 개체가 더 이상 존재하지 않습니다.</Phrase>
+    <Phrase key="InvalidParentObject">상위 개체는 동일하거나 하위 개체일 수 없습니다.</Phrase>
+    <Phrase key="UpdateObjNumError">개체 번호를 업데이트하는 중에 오류가 발생했습니다.</Phrase>
+    <Phrase key="UpdateParentObjError">상위 개체를 업데이트하는 중에 오류가 발생했습니다.</Phrase>
+    <Phrase key="DeleteObjectConfirm">개체를 삭제하시겠습니까?</Phrase>
+    <Phrase key="ObjectFilter">개체 {0}</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
     <Phrase key="this">비밀번호 암호화</Phrase>
@@ -58,6 +106,14 @@
     <Phrase key="lblPasswordEncrypted">암호화된 비밀번호</Phrase>
     <Phrase key="btnCopy">복사</Phrase>
     <Phrase key="btnClose">닫다</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmRightMatrix">
+    <Phrase key="this">오른쪽 행렬</Phrase>
+    <Phrase key="ViewRightSymbol">다섯</Phrase>
+    <Phrase key="ViewRightLegend">V-보기</Phrase>
+    <Phrase key="ControlRightSymbol">기음</Phrase>
+    <Phrase key="ControlRightLegend">C-제어</Phrase>
+    <Phrase key="DisplayMatrixError">오른쪽 행렬을 표시하는 중 오류가 발생했습니다.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
     <Phrase key="this">테이블 내보내기</Phrase>
@@ -72,20 +128,21 @@
     <Phrase key="ExportTableError">테이블을 내보내는 중에 오류가 발생했습니다.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableImport">
-    <Phrase key="this">가져오기 테이블</Phrase>
+    <Phrase key="this">테이블 가져오기</Phrase>
     <Phrase key="lblTable">테이블</Phrase>
     <Phrase key="lblSrcFile">소스 파일</Phrase>
-    <Phrase key="btnBrowse">검색...</Phrase>
+    <Phrase key="btnBrowse">먹다...</Phrase>
     <Phrase key="gbSrcIDs">소스 ID</Phrase>
     <Phrase key="lblSrcStartID">시작</Phrase>
     <Phrase key="lblSrcEndID">끝</Phrase>
-    <Phrase key="gbDestIDs">대상 ID</Phrase>
+    <Phrase key="gbDestIDs">목적지 ID</Phrase>
     <Phrase key="lblDestStartID">시작</Phrase>
     <Phrase key="lblDestEndID">끝</Phrase>
     <Phrase key="btnImport">수입</Phrase>
     <Phrase key="btnClose">닫다</Phrase>
     <Phrase key="ImportTableFilter">테이블(*.dat;*.xml;*.csv)|*.dat;*.xml;*.csv|모든 파일(*.*)|*.*</Phrase>
-    <Phrase key="ImportTableCompleted">가져오기가 성공적으로 완료되었습니다.&#13;&#10;{0}개의 행이 영향을 받았습니다.</Phrase>
-    <Phrase key="ImportTableError">테이블 가져오기 오류</Phrase>
+    <Phrase key="ImportTableCompleted">가져오기가 성공적으로 완료되었습니다.
+{0}행이 영향을 받았습니다.</Phrase>
+    <Phrase key="ImportTableError">테이블을 가져오는 중에 오류가 발생했습니다.</Phrase>
   </Dictionary>
 </ExtProjectToolsDictionaries>

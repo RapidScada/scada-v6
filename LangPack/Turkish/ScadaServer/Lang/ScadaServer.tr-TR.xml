@@ -20,36 +20,40 @@
   </Dictionary>
   <!-- ScadaServerCommon.Forms.dll -->
   <Dictionary key="Scada.Server.Forms.Controls.CtrlCurrentArchiveOptions">
-    <Phrase key="gbOptions">Genel seçenekler</Phrase>
     <Phrase key="lblReadOnly">Sadece oku</Phrase>
     <Phrase key="lblLogEnabled">Günlük etkinleştirildi</Phrase>
     <Phrase key="lblFlushPeriod">Yıkama dönemi</Phrase>
     <Phrase key="txtFlushPeriodUnit">saniye</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Forms.Controls.CtrlEventArchiveOptions">
-    <Phrase key="gbOptions">Genel seçenekler</Phrase>
     <Phrase key="lblReadOnly">Sadece oku</Phrase>
     <Phrase key="lblLogEnabled">Günlük etkinleştirildi</Phrase>
     <Phrase key="lblRetention">Saklama süresi</Phrase>
     <Phrase key="txtRetentionUnit">Gün</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Forms.Controls.CtrlHistoricalArchiveOptions">
-    <Phrase key="gbOptions">Genel seçenekler</Phrase>
-    <Phrase key="lblReadOnly">Sadece oku</Phrase>
+    <Phrase key="lblReadOnly">Salt okunur</Phrase>
     <Phrase key="lblLogEnabled">Günlük etkinleştirildi</Phrase>
     <Phrase key="lblRetention">Saklama süresi</Phrase>
     <Phrase key="txtRetentionUnit">Gün</Phrase>
-    <Phrase key="lblIsPeriodic">Sadece periyodik veriler</Phrase>
-    <Phrase key="lblWriteWithPeriod">Nokta ile yaz</Phrase>
+    <Phrase key="lblIsPeriodic">Yalnızca periyodik veriler</Phrase>
+    <Phrase key="lblWriteWithPeriod">Noktayla yaz</Phrase>
+    <Phrase key="lblUsePeriodStartTime">Dönem başlangıcındaki zaman damgası</Phrase>
     <Phrase key="lblWritingPeriod">Yazma dönemi</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[0]">saniye</Phrase>
-    <Phrase key="cbWritingPeriodUnit.Items[1]">dak.</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[1]">Min.</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[2]">Saat</Phrase>
-    <Phrase key="lblPullToPeriod">Döneme çek</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[3]">Gün</Phrase>
+    <Phrase key="lblWritingOffset">Ofset yazma</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[0]">saniye</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[1]">Min.</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[2]">Saat</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[3]">Gün</Phrase>
+    <Phrase key="lblPullToPeriod">Döneme kadar çek</Phrase>
     <Phrase key="txtPullToPeriodUnit">saniye</Phrase>
     <Phrase key="lblWriteOnChange">Değişiklik üzerine yaz</Phrase>
-    <Phrase key="lblDeadband">ölü bant</Phrase>
-    <Phrase key="cbDeadbandUnit.Items[0]">karın</Phrase>
+    <Phrase key="lblDeadband">Ölü bant</Phrase>
+    <Phrase key="cbDeadbandUnit.Items[0]">Abs.</Phrase>
     <Phrase key="cbDeadbandUnit.Items[1]">%</Phrase>
   </Dictionary>
 </ScadaServerDictionaries>

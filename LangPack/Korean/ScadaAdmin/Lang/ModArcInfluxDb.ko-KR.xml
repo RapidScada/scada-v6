@@ -18,7 +18,8 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmInfluxHAO">
     <Phrase key="this">히스토리컬 아카이브 옵션</Phrase>
-    <Phrase key="gbDbOptions">데이터베이스 옵션</Phrase>
+    <Phrase key="pageGeneral">일반적인</Phrase>
+    <Phrase key="pageDatabase">데이터 베이스</Phrase>
     <Phrase key="lblConnection">연결</Phrase>
     <Phrase key="lblBatchSize">배치 크기</Phrase>
     <Phrase key="lblFlushInterval">플러시 간격</Phrase>

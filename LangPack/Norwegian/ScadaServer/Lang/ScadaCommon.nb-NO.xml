@@ -18,8 +18,7 @@
     <Phrase key="LogicLoopError">Feil i logikksløyfen</Phrase>
     <Phrase key="ThreadFatalError">Fatal feil i tråden</Phrase>
     <Phrase key="WriteInfoError">Feil ved skriving av programinformasjon til filen</Phrase>
-    <Phrase key="ConnectionNotFound">Fant ikke tilkoblingen  &quot;{0}&quot;.</Phrase>
-    <Phrase key="ConnOptionsNotFound">Finner ikke tilkoblingsalternativer.</Phrase>
+    <Phrase key="ConnectionNotFound">Fant ikke tilkoblingen "{0}".</Phrase>
     <Phrase key="DatabaseNotSupported">Database støttes ikke.</Phrase>
     <Phrase key="OperationNotSupported">Operasjonen støttes ikke.</Phrase>
     <Phrase key="CommandSent">Kommandoen er sendt.</Phrase>
@@ -74,7 +73,7 @@
     <Phrase key="DateTimeRequired">Dato og klokkeslett er påkrevd.</Phrase>
     <Phrase key="NotNumber">String er ikke et tall.</Phrase>
     <Phrase key="NotHexadecimal">Strengen er ikke heksadesimal.</Phrase>
-    <Phrase key="InvalidParamVal">Ugyldig verdi for  &quot;{0}&quot;-parameteren.</Phrase>
+    <Phrase key="InvalidParamVal">Ugyldig verdi for "{0}"-parameteren.</Phrase>
     <Phrase key="InvalidSecretKey">Ugyldig hemmelig nøkkel.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms">
@@ -134,6 +133,18 @@
     <Phrase key="lblUsername">Brukernavn</Phrase>
     <Phrase key="lblPassword">Passord</Phrase>
     <Phrase key="chkConnectionString">Tilkoblingsstreng</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlRegistration">
+    <Phrase key="lblProductName">Produktnavn</Phrase>
+    <Phrase key="lblCompCode">Datamaskinkode</Phrase>
+    <Phrase key="btnCopyCompCode">Kopiere</Phrase>
+    <Phrase key="btnRefreshCompCode">Forfriske</Phrase>
+    <Phrase key="lblCompCodeInfo">Hvis koden mangler, last opp konfigurasjonen og start tjenesten på nytt.</Phrase>
+    <Phrase key="lblRegKey">Registreringsnøkkel</Phrase>
+    <Phrase key="btnPasteRegKey">Lim inn</Phrase>
+    <Phrase key="lblRegKeyInfo">Nøkkelverifiseringsresultat skrives i applikasjons- eller modulloggen.</Phrase>
+    <Phrase key="llblGetPermanentKey">Få permanent nøkkel</Phrase>
+    <Phrase key="llblGetTrialKey">Få prøvenøkkel</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmBitmask">
     <Phrase key="this">Bit Mask</Phrase>

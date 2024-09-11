@@ -49,6 +49,7 @@
     <Phrase key="lblUpdateRate">更新速度、ミリ秒</Phrase>
     <Phrase key="lblKeepAlive">生きてください、ミズさん</Phrase>
     <Phrase key="lblDeadband">不感帯、%</Phrase>
+    <Phrase key="chkReadSync">同期的に読み取る</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Forms.FrmDeviceConfig">
     <Phrase key="this">デバイス {0} プロパティ - OPC クラシック</Phrase>

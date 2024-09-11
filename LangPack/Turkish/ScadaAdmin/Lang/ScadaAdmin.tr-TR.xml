@@ -22,6 +22,7 @@
     <Phrase key="CnlNum">Sayı</Phrase>
     <Phrase key="Active">Aktif</Phrase>
     <Phrase key="Name">İsim</Phrase>
+    <Phrase key="Code">Kod</Phrase>
     <Phrase key="DataTypeID">Veri tipi</Phrase>
     <Phrase key="DataLen">Veri Uzunluğu</Phrase>
     <Phrase key="CnlTypeID">Kanal Türü</Phrase>
@@ -225,8 +226,8 @@
   <Dictionary key="Scada.Admin.App.Forms">
     <Phrase key="SelectedColumn">Seçildi</Phrase>
     <Phrase key="NoProfileConnections">Profil bağlantı içermiyor.</Phrase>
-    <Phrase key="ExtensionNotFound">&quot;{0}&quot; uzantısı bulunamadı.</Phrase>
-    <Phrase key="ExtensionCannotDeploy">&quot;{0}&quot; uzantısı dağıtımı desteklemiyor.</Phrase>
+    <Phrase key="ExtensionNotFound">"{0}" uzantısı bulunamadı.</Phrase>
+    <Phrase key="ExtensionCannotDeploy">"{0}" uzantısı dağıtımı desteklemiyor.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmDownloadConfig">
     <Phrase key="this">Yapılandırmayı İndir</Phrase>
@@ -312,7 +313,6 @@
     <Phrase key="btnMoveLast.ToolTip">Son Taşı</Phrase>
     <Phrase key="btnApplyEdit.ToolTip">Düzenleme İşlemini Uygula</Phrase>
     <Phrase key="btnCancelEdit.ToolTip">Düzenleme İşlemini İptal Et</Phrase>
-    <Phrase key="btnRefresh.ToolTip">Bilgiyi Yenile</Phrase>
     <Phrase key="btnAddNew.ToolTip">Yeni ekle</Phrase>
     <Phrase key="btnDelete.ToolTip">Silmek</Phrase>
     <Phrase key="btnClear.ToolTip">Tabloyu Temizle</Phrase>
@@ -320,19 +320,18 @@
     <Phrase key="btnCopy.ToolTip">Kopyala (Ctrl+C)</Phrase>
     <Phrase key="btnPaste.ToolTip">Yapıştır (Ctrl+V)</Phrase>
     <Phrase key="btnFilter.ToolTip">filtre</Phrase>
-    <Phrase key="btnFind.ToolTip">Bul ve Değiştir (Ctrl+F)</Phrase>
     <Phrase key="btnAutoSizeColumns.ToolTip">Sütun Genişliklerini Otomatik Sığdır</Phrase>
     <Phrase key="btnProperties.ToolTip">Öğe Özellikleri</Phrase>
-    <Phrase key="GridViewError">Tablo, &quot;{0}&quot; sütunu görüntülenirken hata oluştu</Phrase>
+    <Phrase key="GridViewError">Tablo, "{0}" sütunu görüntülenirken hata oluştu</Phrase>
     <Phrase key="ColumnLabel">Kolon:</Phrase>
     <Phrase key="DeleteRowConfirm">Satırı silmek istediğinizden emin misiniz?</Phrase>
     <Phrase key="DeleteRowsConfirm">Satırları silmek istediğinizden emin misiniz?</Phrase>
     <Phrase key="ClearTableConfirm">Masayı temizlemek istediğinizden emin misiniz?</Phrase>
     <Phrase key="RowsNotDeleted">Referans verildiği için bazı satırlar silinmedi.</Phrase>
-    <Phrase key="ColumnNotNull">&quot;{0}&quot; sütunu boş değerler içeremez.</Phrase>
-    <Phrase key="UniqueRequired">&quot;{0}&quot; sütununa yinelenen bir değer eklenemez.</Phrase>
-    <Phrase key="KeyReferenced">Birincil anahtara &quot;{0}&quot; tablosundan bir satır başvurulur.</Phrase>
-    <Phrase key="DataNotExist">&quot;{0}&quot; sütunu için veri yok.</Phrase>
+    <Phrase key="ColumnNotNull">"{0}" sütunu boş değerler içeremez.</Phrase>
+    <Phrase key="UniqueRequired">"{0}" sütununa yinelenen bir değer eklenemez.</Phrase>
+    <Phrase key="KeyReferenced">Birincil anahtara "{0}" tablosundan bir satır başvurulur.</Phrase>
+    <Phrase key="DataNotExist">"{0}" sütunu için veri yok.</Phrase>
     <Phrase key="DataChangeError">Tablo verileri değiştirilirken hata oluştu</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmCnl">
@@ -340,32 +339,34 @@
     <Phrase key="pageGeneral">Genel</Phrase>
     <Phrase key="chkActive">Aktif</Phrase>
     <Phrase key="lblCnlNum">Sayı</Phrase>
-    <Phrase key="lblDataType">Veri tipi</Phrase>
-    <Phrase key="lblDataLen">veri uzunluğu</Phrase>
-    <Phrase key="lblCnlType">kanal tipi</Phrase>
-    <Phrase key="lblObj">Nesne</Phrase>
-    <Phrase key="lblDevice">Cihaz</Phrase>
-    <Phrase key="lblTagNum">Etiket numarası</Phrase>
-    <Phrase key="lblTagCode">etiket kodu</Phrase>
-    <Phrase key="chkFormulaEnabled">formül</Phrase>
-    <Phrase key="lblInFormula">İçinde</Phrase>
-    <Phrase key="lblOutFormula">Dışarı</Phrase>
-    <Phrase key="pageDisplay">Görüntülemek</Phrase>
-    <Phrase key="lblFormat">Biçim</Phrase>
-    <Phrase key="lblOutFormat">Komut formatı</Phrase>
-    <Phrase key="lblQuantity">Miktar</Phrase>
-    <Phrase key="lblUnit">Birim</Phrase>
-    <Phrase key="pageLim">Limitler</Phrase>
-    <Phrase key="lblLim">sınır</Phrase>
-    <Phrase key="btnCreateLim">Yaratmak</Phrase>
-    <Phrase key="chkShared">Yalnızca paylaşılan sınırları göster</Phrase>
-    <Phrase key="lblLoLo">Son derece düşük</Phrase>
-    <Phrase key="lblLow">Düşük</Phrase>
-    <Phrase key="lblHigh">Yüksek</Phrase>
-    <Phrase key="lblHiHi">Son derece yüksek</Phrase>
-    <Phrase key="lblDeadband">ölü bant</Phrase>
-    <Phrase key="pageArchives">Arşivler</Phrase>
-    <Phrase key="pageEvents">Olaylar</Phrase>
+    <Phrase key="lblName">Veri tipi</Phrase>
+    <Phrase key="lblCode">veri uzunluğu</Phrase>
+    <Phrase key="lblDataType">kanal tipi</Phrase>
+    <Phrase key="lblDataLen">Nesne</Phrase>
+    <Phrase key="lblCnlType">Cihaz</Phrase>
+    <Phrase key="lblObj">Etiket numarası</Phrase>
+    <Phrase key="lblDevice">etiket kodu</Phrase>
+    <Phrase key="lblTagNum">formül</Phrase>
+    <Phrase key="lblTagCode">İçinde</Phrase>
+    <Phrase key="chkFormulaEnabled">Dışarı</Phrase>
+    <Phrase key="lblInFormula">Görüntülemek</Phrase>
+    <Phrase key="lblOutFormula">Biçim</Phrase>
+    <Phrase key="pageDisplay">Komut formatı</Phrase>
+    <Phrase key="lblFormat">Miktar</Phrase>
+    <Phrase key="lblOutFormat">Birim</Phrase>
+    <Phrase key="lblQuantity">Limitler</Phrase>
+    <Phrase key="lblUnit">sınır</Phrase>
+    <Phrase key="pageLim">Yaratmak</Phrase>
+    <Phrase key="lblLim">Yalnızca paylaşılan sınırları göster</Phrase>
+    <Phrase key="btnCreateLim">Son derece düşük</Phrase>
+    <Phrase key="chkShared">Düşük</Phrase>
+    <Phrase key="lblLoLo">Yüksek</Phrase>
+    <Phrase key="lblLow">Son derece yüksek</Phrase>
+    <Phrase key="lblHigh">ölü bant</Phrase>
+    <Phrase key="lblHiHi">Arşivler</Phrase>
+    <Phrase key="lblDeadband">Olaylar</Phrase>
+    <Phrase key="pageArchives">TAMAM</Phrase>
+    <Phrase key="pageEvents">İptal etmek</Phrase>
     <Phrase key="btnOK">TAMAM</Phrase>
     <Phrase key="btnCancel">İptal etmek</Phrase>
   </Dictionary>
@@ -465,11 +466,12 @@
     <Phrase key="lblInfo">Değişiklikler, uygulamayı yeniden başlattıktan sonra geçerli olacaktır.</Phrase>
     <Phrase key="btnOK">TAMAM</Phrase>
     <Phrase key="btnCancel">İptal etmek</Phrase>
-    <Phrase key="ProjectExtRegistered">&quot;{0}&quot; uzantısı başarıyla kaydedildi.</Phrase>
+    <Phrase key="ProjectExtRegistered">"{0}" uzantısı başarıyla kaydedildi.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tools.FrmCulture">
     <Phrase key="this">Dil</Phrase>
-    <Phrase key="lblInfo">Yönetici izinleri gerekli.&#13;&#10;Değişiklikler, uygulama yeniden başlatıldıktan sonra geçerli olacaktır.</Phrase>
+    <Phrase key="lblInfo">Yönetici izinleri gerekli.
+Değişiklikler, uygulama yeniden başlatıldıktan sonra geçerli olacaktır.</Phrase>
     <Phrase key="btnOK">TAMAM</Phrase>
     <Phrase key="btnCancel">İptal etmek</Phrase>
     <Phrase key="LoadCulturesError">Kültürler yüklenirken hata oluştu</Phrase>
@@ -530,6 +532,9 @@
     <Phrase key="miFileClose">Kapalı</Phrase>
     <Phrase key="miFileCloseProject">Projeyi Kapat</Phrase>
     <Phrase key="miFileExit">çıkış</Phrase>
+    <Phrase key="miEdit">&amp;Düzenlemek</Phrase>
+    <Phrase key="miEditRefresh">Verileri Yenile</Phrase>
+    <Phrase key="miEditFind">Bulmak</Phrase>
     <Phrase key="miDeploy">&amp;Dağıtmak</Phrase>
     <Phrase key="miDeployInstanceProfile">Dağıtım Profili...</Phrase>
     <Phrase key="miDeployDownloadConfig">Yapılandırmayı İndir...</Phrase>
@@ -550,6 +555,8 @@
     <Phrase key="btnFileOpenProject.ToolTip">Proje Aç (Ctrl+O)</Phrase>
     <Phrase key="btnFileSave.ToolTip">Kaydet (Ctrl+S)</Phrase>
     <Phrase key="btnFileSaveAll.ToolTip">Hepsini kaydet</Phrase>
+    <Phrase key="btnEditRefresh.ToolTip">Verileri Yenile (Ctrl+R)</Phrase>
+    <Phrase key="btnEditFind.ToolTip">Bul (Ctrl+F)</Phrase>
     <Phrase key="btnDeployInstanceProfile.ToolTip">Dağıtım Profili</Phrase>
     <Phrase key="btnDeployDownloadConfig.ToolTip">Yapılandırmayı İndir</Phrase>
     <Phrase key="btnDeployUploadConfig.ToolTip">Yükleme Yapılandırması (Ctrl+U)</Phrase>
@@ -557,6 +564,8 @@
     <Phrase key="miProjectOpenInExplorer">Dosya Gezgini'nde Klasörü Aç</Phrase>
     <Phrase key="miProjectRename">Projeyi Yeniden Adlandır</Phrase>
     <Phrase key="miProjectProperties">Özellikler</Phrase>
+    <Phrase key="miBaseOpenInExplorer">Klasörü Dosya Gezgini'nde Aç</Phrase>
+    <Phrase key="miBaseReload">Yapılandırma Veritabanını Yeniden Yükle</Phrase>
     <Phrase key="miCnlTableComm">Communicator'a git</Phrase>
     <Phrase key="miCnlTableRefresh">Yenile</Phrase>
     <Phrase key="miDirectoryNewFile">Yeni dosya...</Phrase>
@@ -585,7 +594,8 @@
     <Phrase key="miAppReloadConfig">Yapılandırmayı Yeniden Yükle</Phrase>
     <Phrase key="EmptyTitle">yönetici</Phrase>
     <Phrase key="ProjectTitle">{0} - Yönetici</Phrase>
-    <Phrase key="WelcomeMessage">Yeni bir proje oluşturun veya&#13;&#10;mevcut bir projeyi açın.</Phrase>
+    <Phrase key="WelcomeMessage">Yeni bir proje oluşturun veya
+mevcut bir projeyi açın.</Phrase>
     <Phrase key="SelectItemMessage">Proje gezgininde bir öğe seçin.</Phrase>
     <Phrase key="ProjectFileFilter">Projeler (*.rsproj)|*.rsproj|Tüm Dosyalar (*.*)|*.*</Phrase>
     <Phrase key="ConfirmDeleteDirectory">Klasörü silmek istediğinizden emin misiniz?</Phrase>
@@ -628,7 +638,6 @@
     <Phrase key="btnOpenProject">Açık Proje</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmTextEditor">
-    <Phrase key="btnReload.ToolTip">dosyayı yeniden yükle</Phrase>
     <Phrase key="OpenTextFileError">Dosya açılırken hata oluştu</Phrase>
     <Phrase key="SaveTextFileError">Dosya kaydedilirken hata oluştu</Phrase>
   </Dictionary>
@@ -664,16 +673,6 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.Forms.FrmRegistration">
     <Phrase key="this">Kayıt</Phrase>
-    <Phrase key="lblProductName">Ürün adı</Phrase>
-    <Phrase key="lblCompCode">Bilgisayar kodu</Phrase>
-    <Phrase key="btnCopyCompCode">kopyala</Phrase>
-    <Phrase key="btnRefreshCompCode">Yenile</Phrase>
-    <Phrase key="lblCompCodeInfo">Kod eksikse yapılandırmayı yükleyin ve hizmetleri yeniden başlatın.</Phrase>
-    <Phrase key="lblRegKey">Kayıt anahtarı</Phrase>
-    <Phrase key="btnPasteRegKey">Yapıştırmak</Phrase>
-    <Phrase key="lblRegKeyInfo">Anahtar doğrulama sonucu, uygulama veya modül günlüğüne yazılır.</Phrase>
-    <Phrase key="llblGetPermanentKey">kalıcı anahtar al</Phrase>
-    <Phrase key="llblGetTrialKey">deneme anahtarı al</Phrase>
     <Phrase key="btnSave">Kaydetmek</Phrase>
     <Phrase key="btnCancel">İptal etmek</Phrase>
     <Phrase key="LoadRegKeyError">Kayıt anahtarı yüklenirken hata oluştu</Phrase>

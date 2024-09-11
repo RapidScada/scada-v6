@@ -2,12 +2,13 @@
 <ModArcPostgreSqlDictionaries>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Controls.CtrlDatabaseOptions">
     <Phrase key="gbDbOptions">Databasealternativer</Phrase>
-    <Phrase key="lblUseStorageConn">Bruk lagringstilkobling</Phrase>
+    <Phrase key="lblUseDefaultConn">Bruk lagringstilkobling</Phrase>
     <Phrase key="lblConnection">Forbindelse</Phrase>
     <Phrase key="lblPartitionSize">Partisjonsstørrelse</Phrase>
     <Phrase key="cbPartitionSize.Items[0]">En måned</Phrase>
     <Phrase key="cbPartitionSize.Items[1]">Ett år</Phrase>
-    <Phrase key="lblMaxQueueSize">Maksimal køstørrelse</Phrase>
+    <Phrase key="cbPartitionSize.Items[2]">Maksimal køstørrelse</Phrase>
+    <Phrase key="lblMaxQueueSize">Varer per transaksjon</Phrase>
     <Phrase key="lblBatchSize">Varer per transaksjon</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmConnManager">
@@ -21,7 +22,7 @@
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreCAO">
     <Phrase key="this">Gjeldende arkivalternativer</Phrase>
     <Phrase key="gbDbOptions">Databasealternativer</Phrase>
-    <Phrase key="lblUseStorageConn">Bruk lagringstilkobling</Phrase>
+    <Phrase key="lblUseDefaultConn">Bruk lagringstilkobling</Phrase>
     <Phrase key="lblConnection">Forbindelse</Phrase>
     <Phrase key="lblMaxQueueSize">Maksimal køstørrelse</Phrase>
     <Phrase key="lblBatchSize">Varer per transaksjon</Phrase>

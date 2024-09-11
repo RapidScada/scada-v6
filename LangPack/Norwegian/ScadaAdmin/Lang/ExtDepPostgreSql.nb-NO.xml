@@ -2,8 +2,8 @@
 <ExtDepPostgreSqlDictionaries>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Downloader">
     <Phrase key="DownloadTable">Last ned tabellen {0}</Phrase>
-    <Phrase key="DownloadView">"Last ned visning &quot;{0}&quot;</Phrase>
-    <Phrase key="DownloadConfigFile">Last ned konfigurasjonsfilen &quot;{0}&quot;</Phrase>
+    <Phrase key="DownloadView">"Last ned visning "{0}"</Phrase>
+    <Phrase key="DownloadConfigFile">Last ned konfigurasjonsfilen "{0}"</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Uploader">
     <Phrase key="CreateSchema">Lag databaseskjema</Phrase>
@@ -11,16 +11,27 @@
     <Phrase key="ClearBase">Tøm konfigurasjonsdatabasen</Phrase>
     <Phrase key="CreateBase">Opprett konfigurasjonsdatabasen</Phrase>
     <Phrase key="DeleteTable">Slett tabellen {0}</Phrase>
+    <Phrase key="TruncateTable">Avkort {0}-tabellen</Phrase>
     <Phrase key="CreateTable">Opprett {0}-tabellen</Phrase>
+    <Phrase key="FillTable">Fyll {0}-tabellen</Phrase>
     <Phrase key="CreateFKs">Lag fremmednøkler</Phrase>
     <Phrase key="CreateTableFKs">Opprett fremmednøkler for tabellen {0}</Phrase>
     <Phrase key="ClearViews">Tydelig utsikt</Phrase>
     <Phrase key="CreateViews">Opprett visninger</Phrase>
-    <Phrase key="CreateView">Opprett visning &quot;{0}&quot;</Phrase>
+    <Phrase key="CreateView">Opprett visning "{0}"</Phrase>
     <Phrase key="ClearAllAppConfig">Tydelig konfigurasjon av alle applikasjoner</Phrase>
     <Phrase key="ClearAppConfig">Slett konfigurasjonen av {0}-applikasjonen</Phrase>
     <Phrase key="CreateAppConfig">Opprett konfigurasjon av {0}-applikasjonen</Phrase>
-    <Phrase key="CreateConfigFile">Opprett konfigurasjonsfil &quot;{0}&quot;</Phrase>
+    <Phrase key="CreateConfigFile">Opprett konfigurasjonsfil "{0}"</Phrase>
     <Phrase key="UnableRestartServices">Kan ikke starte tjenester på nytt fordi agenten er deaktivert</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ClearBaseMethod">
+    <Phrase key="DropTables">Slipp bord</Phrase>
+    <Phrase key="TruncateTables">Kutt av tabeller</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ExtensionConfig">
+    <Phrase key="ClearBaseMethod.DisplayName">Klar metode</Phrase>
+    <Phrase key="ClearBaseMethod.Category">Hovedparametere</Phrase>
+    <Phrase key="ClearBaseMethod.Description">Metoden for å tømme konfigurasjonsdatabasen.  Trunkeringsmetoden er mulig hvis tabellene allerede er opprettet.</Phrase>
   </Dictionary>
 </ExtDepPostgreSqlDictionaries>
