@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtWirenBoardDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlDeviceTree">
+    <Phrase key="btnSelectAll">Изабери све</Phrase>
+    <Phrase key="btnSelectNone">Изаберите ниједан</Phrase>
+    <Phrase key="SelectDevice">Изаберите најмање један уређај.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlEntityID">
+    <Phrase key="lblStartDeviceNum">Број почетног уређаја</Phrase>
+    <Phrase key="btnDeviceMap">Мапа</Phrase>
+    <Phrase key="lblStartCnlNum">Почетни број канала</Phrase>
+    <Phrase key="btnCnlMap">Мапа</Phrase>
+    <Phrase key="lblObj">Објекат</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlExtensionMenu">
+    <Phrase key="miWirenBoard">Wiren Board</Phrase>
+    <Phrase key="miCreateConfig">Креирај конфигурацију...</Phrase>
+    <Phrase key="btnCreateConfig.ToolTip">Креирајте конфигурацију пројекта за Wiren Board</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlLineSelect">
+    <Phrase key="lblInstance">Инстанце</Phrase>
+    <Phrase key="lblLine">Комуникациона линија</Phrase>
+    <Phrase key="lblWirenBoardIP">IP адреса Wiren Board</Phrase>
+    <Phrase key="CommLineRequired">Молимо изаберите линију комуникације.</Phrase>
+    <Phrase key="MqttLineRequired">Тип канала изабране линије мора бити MQTT клијент.</Phrase>
+    <Phrase key="WirenBoardIpRequired">Потребна је IP адреса Wiren Board.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Forms.FrmWirenBoardWizard">
+    <Phrase key="this">Чаробњак за конфигурацију пројекта за Wiren Board</Phrase>
+    <Phrase key="btnBack">&lt; Назад</Phrase>
+    <Phrase key="btnNext">Следећи &gt;</Phrase>
+    <Phrase key="btnCreate">Креирај</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+    <Phrase key="Step1Descr">Корак 1 од 5: Изаберите комуникациону линију</Phrase>
+    <Phrase key="Step2Descr">Корак 2 од 5: Прочитајте теме саWiren Board</Phrase>
+    <Phrase key="Step3Descr">Корак 3 од 5: Изаберите уређаје и контроле за увоз</Phrase>
+    <Phrase key="Step4Descr">Корак 4 од 5: Подесите ИД-ове за конфигурациону базу података</Phrase>
+    <Phrase key="Step5Descr">Корак 5 од 5: Проверите да ли је конфигурација креирана</Phrase>
+    <Phrase key="CreateConfigCompleted">Конфигурација је успешно направљена</Phrase>
+    <Phrase key="CreateConfigError">Грешка при креирању конфигурације</Phrase>
+  </Dictionary>
+</ExtWirenBoardDictionaries>

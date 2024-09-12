@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ExtServerConfigDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.ExtServerConfigLogic">
+    <Phrase key="GeneralOptionsNode">Генералне опције</Phrase>
+    <Phrase key="ModulesNode">Модули</Phrase>
+    <Phrase key="ArchivesNode">Арцһивес</Phrase>
+    <Phrase key="LogsNode">Дневници</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchiveAdd">
+    <Phrase key="this">Додај арһиву</Phrase>
+    <Phrase key="lblSourceArchive">Изворна арһива</Phrase>
+    <Phrase key="lblModule">Модул</Phrase>
+    <Phrase key="btnOK">У реду</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchives">
+    <Phrase key="this">Арцһивес</Phrase>
+    <Phrase key="btnAdd">Додати</Phrase>
+    <Phrase key="btnMoveUp">Напредовати</Phrase>
+    <Phrase key="btnMoveDown">Помери се доле</Phrase>
+    <Phrase key="btnDelete">Избриши</Phrase>
+    <Phrase key="btnCut">Цут</Phrase>
+    <Phrase key="btnCopy">Копирај</Phrase>
+    <Phrase key="btnPaste">Залепите</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">Активан</Phrase>
+    <Phrase key="colCode">Код</Phrase>
+    <Phrase key="colName">Име</Phrase>
+    <Phrase key="colKind">Врста</Phrase>
+    <Phrase key="colModule">Модул</Phrase>
+    <Phrase key="gbArchive">Изабрана арһива</Phrase>
+    <Phrase key="chkActive">Активан</Phrase>
+    <Phrase key="lblCode">Код</Phrase>
+    <Phrase key="lblName">Име</Phrase>
+    <Phrase key="lblKind">Врста</Phrase>
+    <Phrase key="lblModule">Модул</Phrase>
+    <Phrase key="lblOptions">Опције</Phrase>
+    <Phrase key="btnProperties">Својства</Phrase>
+    <Phrase key="ModuleNotSpecified">Модул није наведен.</Phrase>
+    <Phrase key="ArchiveNotSupported">Модул не подржава прављење арһива типа {0}.</Phrase>
+    <Phrase key="UnableCreateArchiveView">Није могуће креирати кориснички интерфејс арһиве.</Phrase>
+    <Phrase key="NoArchiveProperties">Арһива не пружа прозор са својствима.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions">
+    <Phrase key="this">Генералне опције</Phrase>
+    <Phrase key="gbGeneralOptions">Генералне опције</Phrase>
+    <Phrase key="lblUnrelIfInactive">Означите канал као непоуздан ако је неактиван, сек</Phrase>
+    <Phrase key="lblMaxCurDataAge">Упишите тренутне податке као историјске ако су старији, сек</Phrase>
+    <Phrase key="lblUseArchivalStatus">Означите пристигле историјске податке као арһивске</Phrase>
+    <Phrase key="lblGenerateAckCmd">Генериши команду када је догађај потврђен</Phrase>
+    <Phrase key="lblStopWait">Сачекајте да се сервис заустави, сек</Phrase>
+    <Phrase key="lblMaxLogSize">Максимална величина датотеке евиденције, МБ</Phrase>
+    <Phrase key="lblDisableFormulas">Онемогућите формуле канала осим објеката</Phrase>
+    <Phrase key="btnSelectObjects">Изаберите...</Phrase>
+    <Phrase key="gbListenerOptions">Опције слушаоца</Phrase>
+    <Phrase key="lblPort">TCP порт</Phrase>
+    <Phrase key="lblTimeout">Временско ограничење, мс</Phrase>
+    <Phrase key="lblSecretKey">Тајни кључ</Phrase>
+    <Phrase key="btnGenerateKey">Генериши</Phrase>
+    <Phrase key="btnCopyKey">Копирај</Phrase>
+    <Phrase key="InvalidObjectRange">Неважећи опсег објеката.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmModules">
+    <Phrase key="this">Модули</Phrase>
+    <Phrase key="lblUnusedModules">Неискоришћени модули:</Phrase>
+    <Phrase key="btnActivate">Активирати</Phrase>
+    <Phrase key="lblActiveModules">Активни модули:</Phrase>
+    <Phrase key="btnDeactivate">Деактивирај</Phrase>
+    <Phrase key="btnMoveUp">Напредовати</Phrase>
+    <Phrase key="btnMoveDown">Помери се доле</Phrase>
+    <Phrase key="btnProperties">Својства</Phrase>
+    <Phrase key="btnRegister">Регистровати</Phrase>
+    <Phrase key="lblDescr">Опис</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmServerLogs">
+    <Phrase key="AppFilter">Апликација</Phrase>
+    <Phrase key="ModulesFilter">Модули</Phrase>
+  </Dictionary>
+</ExtServerConfigDictionaries>

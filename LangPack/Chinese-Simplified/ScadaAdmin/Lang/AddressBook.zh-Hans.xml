@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AddressBookDictionaries culture="zh-Hans" lang="ChineseSimplified">
+  <Dictionary key="Scada.AB.Forms.FrmAddressBook">
+    <Phrase key="this">地址簿</Phrase>
+    <Phrase key="btnAddContactGroup.ToolTip">添加联系人组</Phrase>
+    <Phrase key="btnAddContact.ToolTip">添加联系人</Phrase>
+    <Phrase key="btnAddPhoneNumber.ToolTip">添加电话号码</Phrase>
+    <Phrase key="btnAddEmail.ToolTip">添加电子邮件</Phrase>
+    <Phrase key="btnEdit.ToolTip">编辑</Phrase>
+    <Phrase key="btnDelete.ToolTip">删除</Phrase>
+    <Phrase key="btnSave">保存</Phrase>
+    <Phrase key="btnClose">关闭</Phrase>
+    <Phrase key="AddressBookNode">地址簿</Phrase>
+    <Phrase key="NewContactGroup">新组</Phrase>
+    <Phrase key="NewContact">新联系人</Phrase>
+    <Phrase key="NewPhoneNumber">新电话号码</Phrase>
+    <Phrase key="NewEmail">新电子邮件</Phrase>
+    <Phrase key="ContactGroupExists">联系人组已存在。</Phrase>
+    <Phrase key="ContactExists">组中已存在联系人。</Phrase>
+    <Phrase key="PhoneNumberExists">联系人已包含指定的电话号码。</Phrase>
+    <Phrase key="EmailExists">联系人已包含指定的电子邮件。</Phrase>
+    <Phrase key="IncorrectEmail">电子邮件不正确。</Phrase>
+    <Phrase key="EmptyValueNotAllowed">不允许空值。</Phrase>
+    <Phrase key="SaveAddressBookConfirm">通讯录已被修改，是否保存?</Phrase>
+  </Dictionary>
+</AddressBookDictionaries>

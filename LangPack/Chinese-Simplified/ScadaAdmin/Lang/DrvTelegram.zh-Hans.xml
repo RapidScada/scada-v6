@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvTelegramDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvTelegram.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">设备 {0} 属性 - Telegram</Phrase>
+    <Phrase key="lblBotToken">机器人令牌</Phrase>
+    <Phrase key="btnPasteBotToken.ToolTip">粘贴机器人令牌</Phrase>
+    <Phrase key="lblSubscr">订阅</Phrase>
+    <Phrase key="btnAddSubscr.ToolTip">添加订阅</Phrase>
+    <Phrase key="btnEditSubscr.ToolTip">编辑选定的订阅</Phrase>
+    <Phrase key="btnDeleteSubscr.ToolTip">删除选定的订阅</Phrase>
+    <Phrase key="btnCopySubscrName.ToolTip">复制订阅名称</Phrase>
+    <Phrase key="colSubscrID">ID</Phrase>
+    <Phrase key="colSubscrName">姓名</Phrase>
+    <Phrase key="btnSave">节省</Phrase>
+    <Phrase key="btnClose">关闭</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvTelegram.View.Forms.FrmSubscriptionOptions">
+    <Phrase key="lblChatID">聊天ID</Phrase>
+    <Phrase key="lblName">姓名</Phrase>
+    <Phrase key="btnOK">好的</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+    <Phrase key="NewSubscriptionTitle">新订阅</Phrase>
+    <Phrase key="EditSubscriptionTitle">编辑订阅</Phrase>
+  </Dictionary>
+</DrvTelegramDictionaries>

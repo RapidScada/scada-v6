@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvCnlBasicDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.BasicChannelView">
+    <Phrase key="ChannelTypeNotFound">Type de canal de communication introuvable.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmSerialPortChannelOptions">
+    <Phrase key="this">Options de port série</Phrase>
+    <Phrase key="gbPort">Port série</Phrase>
+    <Phrase key="lblPortName">Nom du port</Phrase>
+    <Phrase key="lblBaudRate">Débit en bauds</Phrase>
+    <Phrase key="lblDataBits">Bits de données</Phrase>
+    <Phrase key="lblParity">Parité</Phrase>
+    <Phrase key="cbParity.Items[0]">Aucun</Phrase>
+    <Phrase key="cbParity.Items[1]">Impair</Phrase>
+    <Phrase key="cbParity.Items[2]">Même</Phrase>
+    <Phrase key="cbParity.Items[3]">Marquer</Phrase>
+    <Phrase key="cbParity.Items[4]">Espace</Phrase>
+    <Phrase key="lblStopBits">Bits d'arrêt</Phrase>
+    <Phrase key="lblDtrEnable">DTR</Phrase>
+    <Phrase key="lblRtsEnable">RTS</Phrase>
+    <Phrase key="gbMode">Mode de fonctionnement</Phrase>
+    <Phrase key="lblBehavior">Comportement</Phrase>
+    <Phrase key="cbBehavior.Items[0]">Maître</Phrase>
+    <Phrase key="cbBehavior.Items[1]">Esclave</Phrase>
+    <Phrase key="btnOK">D'ACCORD</Phrase>
+    <Phrase key="btnCancel">Annuler</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpClientChannelOptions">
+    <Phrase key="this">Options du client TCP</Phrase>
+    <Phrase key="gbMode">Mode de fonctionnement</Phrase>
+    <Phrase key="lblBehavior">Comportement</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Maître - Le Communicateur envoie une requête à un appareil et reçoit une réponse.&#13;&#10;Slave - Le Communicateur attend passivement les données d'un appareil.</Phrase>
+    <Phrase key="lblConnectionMode">Mode de connexion</Phrase>
+    <Phrase key="cbConnectionMode.Items[0]">Individuel</Phrase>
+    <Phrase key="cbConnectionMode.Items[1]">partagé</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">Individuel - Communicator établit une connexion TCP individuelle avec chaque appareil.&#13;&#10;Partagé - Communicator établit une connexion partagée unique pour tous les appareils de la ligne de communication&#13;&#10;à l'aide de l'adresse IP distante spécifiée.&#13;&#10;Une connexion partagée est utilisée,  par exemple, si les appareils sont connectés via une passerelle Ethernet-série.</Phrase>
+    <Phrase key="gbConnection">Connexion</Phrase>
+    <Phrase key="lblHost">Hôte distant</Phrase>
+    <Phrase key="pbHostHint.ToolTip">Nom DNS distant ou adresse IP en cas d'utilisation d'une connexion partagée.</Phrase>
+    <Phrase key="lblTcpPort">Port TCP distant</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">En mode de connexion individuelle, il est utilisé comme port TCP par défaut si aucun port n'est spécifié pour un appareil.&#13;&#10;En mode de connexion partagée, le paramètre est obligatoire.&#13;&#10;Le port 502 est le port TCP Modbus par défaut.</Phrase>
+    <Phrase key="lblReconnectAfter">Reconnectez-vous, seconde</Phrase>
+    <Phrase key="pbReconnectAfterHint.ToolTip">Spécifie l'intervalle de temps pour se reconnecter après une tentative infructueuse.</Phrase>
+    <Phrase key="lblStayConnected">Rester connecté</Phrase>
+    <Phrase key="pbStayConnectedHint.ToolTip">S'il est défini, la connexion est active entre les sessions de communication.&#13;&#10;Sinon, la connexion est interrompue après chaque session.</Phrase>
+    <Phrase key="lblDisconnectOnError">Déconnecter en cas d'erreur</Phrase>
+    <Phrase key="pbDisconnectOnError.ToolTip">Indique s'il faut se déconnecter en cas d'échec d'une session.</Phrase>
+    <Phrase key="btnOK">D'ACCORD</Phrase>
+    <Phrase key="btnCancel">Annuler</Phrase>
+    <Phrase key="HostRequired">Un hôte distant est requis.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpServerChannelOptions">
+    <Phrase key="this">Options du serveur TCP</Phrase>
+    <Phrase key="gbMode">Mode de fonctionnement</Phrase>
+    <Phrase key="lblBehavior">Comportement</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Maître - après avoir établi la connexion, Communicator envoie une demande à un appareil et reçoit une réponse.&#13;&#10;Slave - Communicator attend passivement les données d'un appareil.</Phrase>
+    <Phrase key="lblConnectionMode">Mode de connexion</Phrase>
+    <Phrase key="cbConnectionMode.Items[0]">Individuel</Phrase>
+    <Phrase key="cbConnectionMode.Items[1]">partagé</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">Individuel - Communicator établit une connexion TCP individuelle avec chaque appareil.&#13;&#10;Partagé - Communicator établit une seule connexion partagée pour tous les appareils de la ligne de communication.&#13;&#10;La connexion partagée est utilisée, par exemple, si les appareils sont connectés via  une passerelle Ethernet-série.</Phrase>
+    <Phrase key="lblDeviceMapping">Cartographie des appareils</Phrase>
+    <Phrase key="cbDeviceMapping.Items[0]">Par adresse IP</Phrase>
+    <Phrase key="cbDeviceMapping.Items[1]">Par paquet bonjour</Phrase>
+    <Phrase key="cbDeviceMapping.Items[2]">Chauffeur déterminé</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">La méthode de liaison d'une nouvelle connexion entrante à un appareil :&#13;&#10;Par adresse IP - l'adresse IP distante équivaut à une adresse de chaîne d'appareil.&#13;&#10;Par paquet hello - un premier paquet reçu d'un appareil contient l'adresse de chaîne.&lt;  br/&gt; Pilote déterminé - l'algorithme est implémenté dans le pilote de périphérique.</Phrase>
+    <Phrase key="gbConnection">Connexion</Phrase>
+    <Phrase key="lblTcpPort">Port TCP local</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">Port TCP local pour les connexions entrantes.&#13;&#10;Les connexions entrantes doivent être autorisées par un pare-feu.</Phrase>
+    <Phrase key="lblClientLifetime">Durée de vie inactive, sec</Phrase>
+    <Phrase key="pbClientLifetimeHint.ToolTip">Le temps après lequel un client inactif est déconnecté.</Phrase>
+    <Phrase key="btnOK">D'ACCORD</Phrase>
+    <Phrase key="btnCancel">Annuler</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmUdpChannelOptions">
+    <Phrase key="this">Options UDP</Phrase>
+    <Phrase key="gbMode">Mode de fonctionnement</Phrase>
+    <Phrase key="lblBehavior">Comportement</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Maître - Le Communicateur envoie une requête à un appareil et reçoit une réponse.&#13;&#10;Slave - Le Communicateur attend passivement les données d'un appareil.</Phrase>
+    <Phrase key="lblDeviceMapping">Cartographie des appareils</Phrase>
+    <Phrase key="cbDeviceMapping.Items[0]">Par adresse IP</Phrase>
+    <Phrase key="cbDeviceMapping.Items[1]">Chauffeur déterminé</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">La méthode de liaison d'une nouvelle connexion entrante à un appareil :&#13;&#10;Par adresse IP - l'adresse IP distante équivaut à une adresse de chaîne d'appareil.&#13;&#10;Pilote déterminé - l'algorithme est implémenté dans le pilote de l'appareil.</Phrase>
+    <Phrase key="gbConnection">Connexion</Phrase>
+    <Phrase key="lblLocalUdpPort">Port UDP local</Phrase>
+    <Phrase key="pbLocalUdpPortHint.ToolTip">Port UDP local pour les connexions entrantes.&#13;&#10;Les connexions entrantes doivent être autorisées par un pare-feu.</Phrase>
+    <Phrase key="lblRemoteUdpPort">Port UDP distant</Phrase>
+    <Phrase key="pbRemoteUdpPortHint.ToolTip">Le port UDP distant par défaut.  Idem pour tous les appareils de la ligne de communication.</Phrase>
+    <Phrase key="lblRemoteIpAddress">Adresse IP distante</Phrase>
+    <Phrase key="pbRemoteIpAddressHint.ToolTip">L'adresse IP distante par défaut.&#13;&#10;Elle peut être utilisée, par exemple, si les appareils sont connectés via une passerelle Ethernet-série.</Phrase>
+    <Phrase key="btnOK">D'ACCORD</Phrase>
+    <Phrase key="btnCancel">Annuler</Phrase>
+  </Dictionary>
+</DrvCnlBasicDictionaries>

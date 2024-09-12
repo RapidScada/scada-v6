@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvOpcUaDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlCommand">
+    <Phrase key="gbCommand">Цомманд Параметерс</Phrase>
+    <Phrase key="lblDisplayName">Показати име</Phrase>
+    <Phrase key="lblCmdCode">Командни код</Phrase>
+    <Phrase key="lblCmdNum">Број команде</Phrase>
+    <Phrase key="lblNodeID">ID чвора</Phrase>
+    <Phrase key="lblParentNodeID">ID родитељског чвора</Phrase>
+    <Phrase key="lblDataType">Тип података</Phrase>
+    <Phrase key="chkIsMethod">Је метод</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Controls.CtrlEmptyItem">
+    <Phrase key="gbEmptyItem">Параметри ставке</Phrase>
+    <Phrase key="lblNotSelected">Ставка није изабрана</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlItem">
+    <Phrase key="gbItem">Параметри ставке</Phrase>
+    <Phrase key="chkItemActive">Активан</Phrase>
+    <Phrase key="lblDisplayName">Показати име</Phrase>
+    <Phrase key="lblTagCode">Таг цоде</Phrase>
+    <Phrase key="lblTagNum">Ознака број</Phrase>
+    <Phrase key="lblNodeID">ID чвора</Phrase>
+    <Phrase key="lblDataType">Тип података</Phrase>
+    <Phrase key="chkIsString">Ис стринг</Phrase>
+    <Phrase key="chkIsArray">Је низ</Phrase>
+    <Phrase key="lblDataLen">Дужина низа или низа</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlSubscription">
+    <Phrase key="gbSubscription">Параметри претплате</Phrase>
+    <Phrase key="chkSubscrActive">Активан</Phrase>
+    <Phrase key="lblDisplayName">Показати име</Phrase>
+    <Phrase key="lblPublishingInterval">Интервал објављивања</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">Својства уређаја {0} – OPC UA</Phrase>
+    <Phrase key="gbConnectionOptions">Опције везе</Phrase>
+    <Phrase key="lblServerUrl">URL сервера</Phrase>
+    <Phrase key="btnSecurityOptions.ToolTip">Безбедносне опције</Phrase>
+    <Phrase key="lblConnectionInfo">Опције повезивања су заједничке за комуникациону линију.</Phrase>
+    <Phrase key="gbServerBrowse">Сервер Бровсе</Phrase>
+    <Phrase key="btnConnect.ToolTip">Повежите се са сервером</Phrase>
+    <Phrase key="btnDisconnect.ToolTip">Прекините везу са сервером</Phrase>
+    <Phrase key="btnViewAttrs.ToolTip">Виев Аттрибутес</Phrase>
+    <Phrase key="gbDevice">Конфигурација уређаја</Phrase>
+    <Phrase key="btnAddItem.ToolTip">Додај изабрану ставку</Phrase>
+    <Phrase key="btnAddSubscription.ToolTip">Додај претплату</Phrase>
+    <Phrase key="btnMoveUpItem.ToolTip">Напредовати</Phrase>
+    <Phrase key="btnMoveDownItem.ToolTip">Помери се доле</Phrase>
+    <Phrase key="btnDeleteItem.ToolTip">Избриши</Phrase>
+    <Phrase key="btnEditingOptions">Опције</Phrase>
+    <Phrase key="btnSave">сачувати</Phrase>
+    <Phrase key="btnClose">Близу</Phrase>
+    <Phrase key="ConnectServerError">Грешка при повезивању са OPC сервером</Phrase>
+    <Phrase key="DisconnectServerError">Грешка при прекиду везе са OPC сервером</Phrase>
+    <Phrase key="BrowseServerError">Грешка при прегледању ставке OPC сервера</Phrase>
+    <Phrase key="UnableToReadData">Није могуће прочитати податке.</Phrase>
+    <Phrase key="GetDataTypeError">Грешка при преузимању типа података</Phrase>
+    <Phrase key="ServerUrlRequired">URL сервера не сме бити празан.</Phrase>
+    <Phrase key="EmptyNode">Празан</Phrase>
+    <Phrase key="SubscriptionsNode">Претплате</Phrase>
+    <Phrase key="CommandsNode">Команде</Phrase>
+    <Phrase key="UnnamedSubscription">&lt;Неименована претплата&gt;</Phrase>
+    <Phrase key="UnnamedItem">&lt;Неименовани предмет&gt;</Phrase>
+    <Phrase key="UnnamedCommand">&lt;Неименована команда&gt;</Phrase>
+    <Phrase key="UnknownDataType">Тип података &quot;{0}&quot; је непознат.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmEditingOptions">
+    <Phrase key="this">Опције уређивања</Phrase>
+    <Phrase key="lblDefaultTagCode">Подразумевани код ознаке</Phrase>
+    <Phrase key="cbDefaultTagCode.Items[0]">ID чвора</Phrase>
+    <Phrase key="cbDefaultTagCode.Items[1]">Показати име</Phrase>
+    <Phrase key="btnOK">У реду</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmNodeAttr">
+    <Phrase key="this">Атрибути чвора</Phrase>
+    <Phrase key="colName">Име</Phrase>
+    <Phrase key="colValue">Валуе</Phrase>
+    <Phrase key="btnClose">Близу</Phrase>
+    <Phrase key="ReadAttrError">Грешка при читању атрибута са OPC сервера</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmSecurityOptions">
+    <Phrase key="this">Безбедносне опције</Phrase>
+    <Phrase key="lblSecurityMode">Режим заштите</Phrase>
+    <Phrase key="cbSecurityMode.Items[0]">Ниједан</Phrase>
+    <Phrase key="cbSecurityMode.Items[1]">Сигн</Phrase>
+    <Phrase key="cbSecurityMode.Items[2]">Потпишите и шифрујте</Phrase>
+    <Phrase key="lblSecurityPolicy">Безбедносна политика</Phrase>
+    <Phrase key="cbSecurityPolicy.Items[0]">Ниједан</Phrase>
+    <Phrase key="lblAuthenticationMode">Режим аутентификације</Phrase>
+    <Phrase key="cbAuthenticationMode.Items[0]">Анонимоус</Phrase>
+    <Phrase key="cbAuthenticationMode.Items[1]">Корисничко име и лозинка</Phrase>
+    <Phrase key="lblUsername">Корисничко име</Phrase>
+    <Phrase key="lblPassword">Лозинка</Phrase>
+    <Phrase key="btnOK">У реду</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+  </Dictionary>
+</DrvOpcUaDictionaries>

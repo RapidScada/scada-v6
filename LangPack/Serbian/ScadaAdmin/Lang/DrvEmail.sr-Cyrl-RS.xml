@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvEmailDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvEmail.View.Forms.FrmConfig">
+    <Phrase key="this">Својства уређаја {0} – Е-пошта</Phrase>
+    <Phrase key="gbServer">SMTP сервер</Phrase>
+    <Phrase key="lblHost">Сервер host</Phrase>
+    <Phrase key="lblPort">Port</Phrase>
+    <Phrase key="lblUsername">Корисничко име</Phrase>
+    <Phrase key="lblPassword">Лозинка</Phrase>
+    <Phrase key="chkEnableSsl">Користите SSL</Phrase>
+    <Phrase key="gbSender">Од</Phrase>
+    <Phrase key="lblSenderAddress">Адреса пошиљаоца</Phrase>
+    <Phrase key="lblSenderDisplayName">Показати име</Phrase>
+    <Phrase key="btnAddressBook">Адресар</Phrase>
+    <Phrase key="btnOK">У реду</Phrase>
+    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+  </Dictionary>
+</DrvEmailDictionaries>

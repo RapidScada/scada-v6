@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvHttpNotifDictionaries culture="zh-Hans" lang="ChineseSimplified">
+  <Dictionary key="Scada.Comm.Drivers.DrvHttpNotif.View.Forms.FrmConfig">
+    <Phrase key="this">设备 {0} 属性 - HTTP 通知</Phrase>
+    <Phrase key="pageGeneral">通用</Phrase>
+    <Phrase key="lblMethod">方法</Phrase>
+    <Phrase key="lblUri">URI</Phrase>
+    <Phrase key="lblUriHint">可能包含的参数, 例如 {phone}, {email} 和 {text}</Phrase>
+    <Phrase key="gbParam">参数</Phrase>
+    <Phrase key="chkParamEnabled">启用的参数</Phrase>
+    <Phrase key="lblParamBegin">开始</Phrase>
+    <Phrase key="lblParamEnd">结束</Phrase>
+    <Phrase key="lblAddrSep">分隔符</Phrase>
+    <Phrase key="pageHeaders">标题</Phrase>
+    <Phrase key="colName">名称</Phrase>
+    <Phrase key="colValue">值</Phrase>
+    <Phrase key="pageContent">内容</Phrase>
+    <Phrase key="lblContentType">内容类型</Phrase>
+    <Phrase key="lblContentEscaping">转义</Phrase>
+    <Phrase key="cbContentEscaping.Items[0]">无</Phrase>
+    <Phrase key="cbContentEscaping.Items[1]">URL</Phrase>
+    <Phrase key="cbContentEscaping.Items[2]">JSON</Phrase>
+    <Phrase key="lblContent">正文</Phrase>
+    <Phrase key="lblContentHint">可能包含的参数, 例如 {phone}, {email} 和 {text}</Phrase>
+    <Phrase key="btnAddressBook">地址簿</Phrase>
+    <Phrase key="btnSave">保存</Phrase>
+    <Phrase key="btnClose">关闭</Phrase>
+  </Dictionary>
+</DrvHttpNotifDictionaries>
