@@ -1,5 +1,5 @@
 Language                 : Serbian
 Culture name:            : sr-Cyrl-RS
-Rapid SCADA version      : 6.1.2
+Rapid SCADA version      : 6.3.0
 Rapid SCADA applications : All
 Author                   : Machine translate
