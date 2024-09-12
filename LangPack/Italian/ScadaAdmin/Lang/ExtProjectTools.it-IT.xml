@@ -3,7 +3,7 @@
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.ChannelMap">
     <Phrase key="MapByDeviceTitle">Canali per dispositivo</Phrase>
     <Phrase key="MapByObjectTitle">Canali per oggetto</Phrase>
-    <Phrase key="ChannelsCaption">Canali :</Phrase>
+    <Phrase key="ChannelsCaption">Canali:</Phrase>
     <Phrase key="NoChannels">Nessun canale</Phrase>
     <Phrase key="GenerateChannelMapError">Errore durante la generazione della mappa dei canali</Phrase>
   </Dictionary>
@@ -23,41 +23,97 @@
     <Phrase key="BaseHasErrors">Il database di configurazione contiene errori.</Phrase>
     <Phrase key="IntegrityCheckError">Errore durante il controllo dell'integrità</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.ObjectMap">
+    <Phrase key="ObjectMapTitle">Gerarchia degli oggetti</Phrase>
+    <Phrase key="NoObjects">Nessun oggetto</Phrase>
+    <Phrase key="GenerateObjectMapError">Errore durante la generazione della mappa oggetti</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Controls.CtrlMainMenu">
     <Phrase key="miProjectTools">Strumenti di progetto</Phrase>
     <Phrase key="miCloneChannels">Clona canali...</Phrase>
-    <Phrase key="miChannelMapByDevice">Mappa dei canali per dispositivo</Phrase>
-    <Phrase key="miChannelMapByObject">Mappa dei canali per oggetto</Phrase>
-    <Phrase key="miDeviceMap">Mappa del dispositivo</Phrase>
-    <Phrase key="miCheckIntegrity">Controlla l'integrità</Phrase>
     <Phrase key="miEncryptPassword">Crittografa password...</Phrase>
+    <Phrase key="miChannelMapByDevice">Mappa canali per dispositivo</Phrase>
+    <Phrase key="miChannelMapByObject">Mappa canali per oggetto</Phrase>
+    <Phrase key="miDeviceMap">Mappa dei dispositivi</Phrase>
+    <Phrase key="miObjectMap">Mappa degli oggetti</Phrase>
+    <Phrase key="miCheckIntegrity">Controlla l'integrità</Phrase>
+    <Phrase key="miObjectEditor">Editor di oggetti</Phrase>
+    <Phrase key="miRightMatrix">Matrice giusta</Phrase>
     <Phrase key="miImportTable">Importa tabella...</Phrase>
     <Phrase key="miExportTable">Esporta tabella...</Phrase>
+    <Phrase key="btnObjectEditor.ToolTip">Editor di oggetti</Phrase>
+    <Phrase key="btnRightMatrix.ToolTip">Matrice giusta</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmCnlClone">
-    <Phrase key="this">Clonare canali</Phrase>
-    <Phrase key="gbSrcNums">Numeri di canale sorgente</Phrase>
+    <Phrase key="this">Canali clonati</Phrase>
+    <Phrase key="gbSrcNums">Numeri dei canali sorgente</Phrase>
     <Phrase key="lblSrcStartNum">Inizio</Phrase>
     <Phrase key="lblSrcEndNum">FINE</Phrase>
-    <Phrase key="gbDestNums">Numeri di canale di destinazione</Phrase>
+    <Phrase key="gbDestNums">Numeri dei canali di destinazione</Phrase>
     <Phrase key="lblDestStartNum">Inizio</Phrase>
     <Phrase key="lblDestEndNum">FINE</Phrase>
     <Phrase key="gbOptions">Opzioni</Phrase>
     <Phrase key="lblReplaceObj">Sostituisci oggetto</Phrase>
-    <Phrase key="lblReplaceDevice">Sostituire il dispositivo</Phrase>
+    <Phrase key="lblReplaceDevice">Sostituisci il dispositivo</Phrase>
     <Phrase key="chkUpdateFormulas">Aggiorna i numeri dei canali nelle formule</Phrase>
     <Phrase key="btnClone">Clone</Phrase>
     <Phrase key="btnClose">Vicino</Phrase>
-    <Phrase key="KeepUnchanged">&lt;Mantieni invariatod&gt;</Phrase>
-    <Phrase key="CloneChannelsCompleted">Clonazione completata correttamente.&#13;&#10;{0} canali aggiunti.</Phrase>
+    <Phrase key="KeepUnchanged">&lt;Mantieni invariato&gt;</Phrase>
+    <Phrase key="CloneChannelsCompleted">Clonazione completata con successo.
+{0} canale/i aggiunto/i.</Phrase>
     <Phrase key="CloneChannelsError">Errore durante la clonazione dei canali</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
-    <Phrase key="this">Crittografare la password</Phrase>
-    <Phrase key="lblPassword">Parola d'ordine</Phrase>
-    <Phrase key="lblPasswordEncrypted">Password crittografata</Phrase>
-    <Phrase key="btnCopy">copia</Phrase>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmFindObject">
+    <Phrase key="this">Trova oggetto</Phrase>
+    <Phrase key="lblFind">Trova cosa</Phrase>
+    <Phrase key="gbLookAt">Guardare</Phrase>
+    <Phrase key="chkObjNum">Numero</Phrase>
+    <Phrase key="chkName">Nome</Phrase>
+    <Phrase key="chkCode">Codice</Phrase>
+    <Phrase key="chkDescr">Descrizione</Phrase>
+    <Phrase key="chkCaseSensitive">Caso di corrispondenza</Phrase>
+    <Phrase key="chkWholeStringOnly">Corrisponde solo all'intera stringa</Phrase>
+    <Phrase key="btnFindNext">Trova successivo</Phrase>
     <Phrase key="btnClose">Vicino</Phrase>
+    <Phrase key="ObjectNotFound">Oggetto non trovato.</Phrase>
+    <Phrase key="SearchCompleted">Ricerca completata.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmObjectEditor">
+    <Phrase key="this">Editor di oggetti</Phrase>
+    <Phrase key="btnAddObject.ToolTip">Aggiungi oggetto</Phrase>
+    <Phrase key="btnDeleteObject.ToolTip">Elimina oggetto</Phrase>
+    <Phrase key="gbObject">Proprietà dell'oggetto</Phrase>
+    <Phrase key="lblObjNum">Numero</Phrase>
+    <Phrase key="lblName">Nome</Phrase>
+    <Phrase key="lblCode">Codice</Phrase>
+    <Phrase key="lblParentObj">Oggetto genitore</Phrase>
+    <Phrase key="lblDescr">Descrizione</Phrase>
+    <Phrase key="miCollapseAll">Comprimi tutto</Phrase>
+    <Phrase key="miOpenChannels">Canali aperti</Phrase>
+    <Phrase key="ObjNumInUse">Il numero dell'oggetto è già in uso.</Phrase>
+    <Phrase key="ObjNumReferenced">Al numero dell'oggetto fa riferimento una riga della tabella "{0}".</Phrase>
+    <Phrase key="ObjectReferenced">All'oggetto o al suo figlio fa riferimento una riga di un'altra tabella.</Phrase>
+    <Phrase key="ParentObjectNotExists">L'oggetto genitore non esiste più.</Phrase>
+    <Phrase key="InvalidParentObject">L'oggetto genitore non può essere lo stesso o un oggetto figlio.</Phrase>
+    <Phrase key="UpdateObjNumError">Errore durante l'aggiornamento del numero dell'oggetto</Phrase>
+    <Phrase key="UpdateParentObjError">Errore durante l'aggiornamento dell'oggetto principale</Phrase>
+    <Phrase key="DeleteObjectConfirm">Sei sicuro di voler eliminare l'oggetto?</Phrase>
+    <Phrase key="ObjectFilter">Oggetto {0}</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
+    <Phrase key="this">Crittografa la password</Phrase>
+    <Phrase key="lblPassword">Password</Phrase>
+    <Phrase key="lblPasswordEncrypted">Password crittografata</Phrase>
+    <Phrase key="btnCopy">Copia</Phrase>
+    <Phrase key="btnClose">Vicino</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmRightMatrix">
+    <Phrase key="this">Matrice giusta</Phrase>
+    <Phrase key="ViewRightSymbol">V</Phrase>
+    <Phrase key="ViewRightLegend">V - vista</Phrase>
+    <Phrase key="ControlRightSymbol">C</Phrase>
+    <Phrase key="ControlRightLegend">C - controllo</Phrase>
+    <Phrase key="DisplayMatrixError">Errore nella visualizzazione della matrice destra</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
     <Phrase key="this">Tabella di esportazione</Phrase>
@@ -74,9 +130,9 @@
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableImport">
     <Phrase key="this">Tabella di importazione</Phrase>
     <Phrase key="lblTable">Tavolo</Phrase>
-    <Phrase key="lblSrcFile">File sorgente</Phrase>
-    <Phrase key="btnBrowse">Navigare...</Phrase>
-    <Phrase key="gbSrcIDs">ID sorgente</Phrase>
+    <Phrase key="lblSrcFile">File di origine</Phrase>
+    <Phrase key="btnBrowse">Sfoglia...</Phrase>
+    <Phrase key="gbSrcIDs">ID di origine</Phrase>
     <Phrase key="lblSrcStartID">Inizio</Phrase>
     <Phrase key="lblSrcEndID">FINE</Phrase>
     <Phrase key="gbDestIDs">ID di destinazione</Phrase>
@@ -85,7 +141,8 @@
     <Phrase key="btnImport">Importare</Phrase>
     <Phrase key="btnClose">Vicino</Phrase>
     <Phrase key="ImportTableFilter">Tabelle (*.dat;*.xml;*.csv)|*.dat;*.xml;*.csv|Tutti i file (*.*)|*.*</Phrase>
-    <Phrase key="ImportTableCompleted">Importazione completata correttamente.&#13;&#10;{0} righe interessate.</Phrase>
+    <Phrase key="ImportTableCompleted">Importazione completata correttamente.
+{0} riga/e interessata/e.</Phrase>
     <Phrase key="ImportTableError">Errore durante l'importazione della tabella</Phrase>
   </Dictionary>
 </ExtProjectToolsDictionaries>

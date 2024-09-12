@@ -18,7 +18,8 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmInfluxHAO">
     <Phrase key="this">Opcje archiwum historycznego</Phrase>
-    <Phrase key="gbDbOptions">Opcje bazy danych</Phrase>
+    <Phrase key="pageGeneral">Ogólny</Phrase>
+    <Phrase key="pageDatabase">Baza danych</Phrase>
     <Phrase key="lblConnection">Połączenie</Phrase>
     <Phrase key="lblBatchSize">Wielkość partii</Phrase>
     <Phrase key="lblFlushInterval">Interwał płukania</Phrase>

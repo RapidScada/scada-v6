@@ -19,7 +19,6 @@
     <Phrase key="ThreadFatalError">Závažná chyba ve vláknu</Phrase>
     <Phrase key="WriteInfoError">Chyba při zápisu informací o aplikaci do souboru</Phrase>
     <Phrase key="ConnectionNotFound">Připojení &quot;{0}&quot; nebylo nalezeno.</Phrase>
-    <Phrase key="ConnOptionsNotFound">Možnosti připojení nebyly nalezeny.</Phrase>
     <Phrase key="DatabaseNotSupported">Databáze není podporována.</Phrase>
     <Phrase key="OperationNotSupported">Operace není podporována.</Phrase>
     <Phrase key="CommandSent">Příkaz byl odeslán.</Phrase>
@@ -134,6 +133,18 @@
     <Phrase key="lblUsername">Uživatelské jméno</Phrase>
     <Phrase key="lblPassword">Heslo</Phrase>
     <Phrase key="chkConnectionString">Spojovací řetězec</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlRegistration">
+    <Phrase key="lblProductName">Název produktu</Phrase>
+    <Phrase key="lblCompCode">Počítačový kód</Phrase>
+    <Phrase key="btnCopyCompCode">Kopie</Phrase>
+    <Phrase key="btnRefreshCompCode">Obnovit</Phrase>
+    <Phrase key="lblCompCodeInfo">Pokud kód chybí, nahrajte konfiguraci a restartujte službu.</Phrase>
+    <Phrase key="lblRegKey">Registrační klíč</Phrase>
+    <Phrase key="btnPasteRegKey">Pasta</Phrase>
+    <Phrase key="lblRegKeyInfo">Výsledek ověření klíče je zapsán do protokolu aplikace nebo modulu.</Phrase>
+    <Phrase key="llblGetPermanentKey">Získejte trvalý klíč</Phrase>
+    <Phrase key="llblGetTrialKey">Získejte zkušební klíč</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmBitmask">
     <Phrase key="this">Bitová maska</Phrase>

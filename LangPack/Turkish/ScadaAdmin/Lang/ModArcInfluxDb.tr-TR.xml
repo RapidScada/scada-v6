@@ -18,7 +18,8 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmInfluxHAO">
     <Phrase key="this">Tarihsel Arşiv Seçenekleri</Phrase>
-    <Phrase key="gbDbOptions">Veritabanı Seçenekleri</Phrase>
+    <Phrase key="pageGeneral">Genel</Phrase>
+    <Phrase key="pageDatabase">Veritabanı</Phrase>
     <Phrase key="lblConnection">Bağlantı</Phrase>
     <Phrase key="lblBatchSize">Parti boyutu</Phrase>
     <Phrase key="lblFlushInterval">Yıkama aralığı</Phrase>

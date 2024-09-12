@@ -2,8 +2,8 @@
 <ExtDepPostgreSqlDictionaries>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Downloader">
     <Phrase key="DownloadTable">Descargar la tabla {0}</Phrase>
-    <Phrase key="DownloadView">"Descargar vista &quot;{0}&quot;</Phrase>
-    <Phrase key="DownloadConfigFile">Descargar archivo de configuración &quot;{0}&quot;</Phrase>
+    <Phrase key="DownloadView">"Descargar vista "{0}"</Phrase>
+    <Phrase key="DownloadConfigFile">Descargar archivo de configuración "{0}"</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Uploader">
     <Phrase key="CreateSchema">Crear esquema de base de datos</Phrase>
@@ -11,16 +11,27 @@
     <Phrase key="ClearBase">Borrar la base de datos de configuración</Phrase>
     <Phrase key="CreateBase">Crear la base de datos de configuración</Phrase>
     <Phrase key="DeleteTable">Eliminar la tabla {0}</Phrase>
-    <Phrase key="CreateTable">Crear la tabla {0}</Phrase>
+    <Phrase key="TruncateTable">Truncar la tabla {0}</Phrase>
+    <Phrase key="CreateTable">Crea la tabla {0}</Phrase>
+    <Phrase key="FillTable">Llene la tabla {0}</Phrase>
     <Phrase key="CreateFKs">Crear claves foráneas</Phrase>
     <Phrase key="CreateTableFKs">Crear claves foráneas para la tabla {0}</Phrase>
     <Phrase key="ClearViews">Borrar vistas</Phrase>
     <Phrase key="CreateViews">Crear vistas</Phrase>
-    <Phrase key="CreateView">Crear vista &quot;{0}&quot;</Phrase>
+    <Phrase key="CreateView">Crear vista "{0}"</Phrase>
     <Phrase key="ClearAllAppConfig">Configuración clara de todas las aplicaciones</Phrase>
     <Phrase key="ClearAppConfig">Borrar configuración de la aplicación {0}</Phrase>
     <Phrase key="CreateAppConfig">Crear configuración de la aplicación {0}</Phrase>
-    <Phrase key="CreateConfigFile">Crear archivo de configuración &quot;{0}&quot;</Phrase>
+    <Phrase key="CreateConfigFile">Crear archivo de configuración "{0}"</Phrase>
     <Phrase key="UnableRestartServices">No se pueden reiniciar los servicios porque el agente está deshabilitado</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ClearBaseMethod">
+    <Phrase key="DropTables">Mesas desplegables</Phrase>
+    <Phrase key="TruncateTables">Truncar tablas</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ExtensionConfig">
+    <Phrase key="ClearBaseMethod.DisplayName">método claro</Phrase>
+    <Phrase key="ClearBaseMethod.Category">Parámetros principales</Phrase>
+    <Phrase key="ClearBaseMethod.Description">El método para borrar la base de datos de configuración.  El método truncar es posible si las tablas ya han sido creadas.</Phrase>
   </Dictionary>
 </ExtDepPostgreSqlDictionaries>

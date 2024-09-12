@@ -2,11 +2,12 @@
 <ModArcPostgreSqlDictionaries>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Controls.CtrlDatabaseOptions">
     <Phrase key="gbDbOptions">데이터베이스 옵션</Phrase>
-    <Phrase key="lblUseStorageConn">스토리지 연결 사용</Phrase>
+    <Phrase key="lblUseDefaultConn">스토리지 연결 사용</Phrase>
     <Phrase key="lblConnection">연결</Phrase>
     <Phrase key="lblPartitionSize">파티션 크기</Phrase>
     <Phrase key="cbPartitionSize.Items[0]">한달</Phrase>
     <Phrase key="cbPartitionSize.Items[1]">1년</Phrase>
+    <Phrase key="cbPartitionSize.Items[2]">1년</Phrase>
     <Phrase key="lblMaxQueueSize">최대 대기열 크기</Phrase>
     <Phrase key="lblBatchSize">거래당 항목</Phrase>
   </Dictionary>
@@ -21,7 +22,7 @@
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreCAO">
     <Phrase key="this">현재 아카이브 옵션</Phrase>
     <Phrase key="gbDbOptions">데이터베이스 옵션</Phrase>
-    <Phrase key="lblUseStorageConn">스토리지 연결 사용</Phrase>
+    <Phrase key="lblUseDefaultConn">스토리지 연결 사용</Phrase>
     <Phrase key="lblConnection">연결</Phrase>
     <Phrase key="lblMaxQueueSize">최대 대기열 크기</Phrase>
     <Phrase key="lblBatchSize">거래당 항목</Phrase>

@@ -20,31 +20,35 @@
   </Dictionary>
   <!-- ScadaServerCommon.Forms.dll -->
   <Dictionary key="Scada.Server.Forms.Controls.CtrlCurrentArchiveOptions">
-    <Phrase key="gbOptions">Генералне опције</Phrase>
     <Phrase key="lblReadOnly">Само за читање</Phrase>
     <Phrase key="lblLogEnabled">Дневник је омогућен</Phrase>
     <Phrase key="lblFlushPeriod">Период испирања</Phrase>
     <Phrase key="txtFlushPeriodUnit">Сец</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Forms.Controls.CtrlEventArchiveOptions">
-    <Phrase key="gbOptions">Генералне опције</Phrase>
     <Phrase key="lblReadOnly">Само за читање</Phrase>
     <Phrase key="lblLogEnabled">Дневник је омогућен</Phrase>
     <Phrase key="lblRetention">Период задржавања</Phrase>
     <Phrase key="txtRetentionUnit">Дан</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Forms.Controls.CtrlHistoricalArchiveOptions">
-    <Phrase key="gbOptions">Генералне опције</Phrase>
     <Phrase key="lblReadOnly">Само за читање</Phrase>
     <Phrase key="lblLogEnabled">Дневник је омогућен</Phrase>
     <Phrase key="lblRetention">Период задржавања</Phrase>
     <Phrase key="txtRetentionUnit">Дан</Phrase>
     <Phrase key="lblIsPeriodic">Само периодични подаци</Phrase>
     <Phrase key="lblWriteWithPeriod">Пишите са тачком</Phrase>
+    <Phrase key="lblUsePeriodStartTime">Временска ознака на почетку периода</Phrase>
     <Phrase key="lblWritingPeriod">Период писања</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[0]">Сец</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[1]">Мин</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[2]">Сат</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[3]">Дан</Phrase>
+    <Phrase key="lblWritingOffset">Писање оффсет</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[0]">Сец</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[1]">Мин</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[2]">Сат</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[3]">Дан</Phrase>
     <Phrase key="lblPullToPeriod">Повуците до тачке</Phrase>
     <Phrase key="txtPullToPeriodUnit">Сец</Phrase>
     <Phrase key="lblWriteOnChange">Пишите о промени</Phrase>

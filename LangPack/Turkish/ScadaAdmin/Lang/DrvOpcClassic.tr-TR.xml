@@ -49,6 +49,7 @@
     <Phrase key="lblUpdateRate">Güncelleme hızı, ms</Phrase>
     <Phrase key="lblKeepAlive">Hayatta kalın hanımefendi</Phrase>
     <Phrase key="lblDeadband">Ölü bant, %</Phrase>
+    <Phrase key="chkReadSync">Eş zamanlı oku</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Forms.FrmDeviceConfig">
     <Phrase key="this">Cihaz {0} Özellikleri - OPC Classic</Phrase>

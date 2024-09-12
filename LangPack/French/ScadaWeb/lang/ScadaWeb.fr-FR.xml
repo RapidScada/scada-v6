@@ -51,6 +51,9 @@
     <Phrase key="PageTitle">Sélectionnez les chaînes</Phrase>
     <Phrase key="lblObj">Objet</Phrase>
     <Phrase key="lblOnlySelected">Afficher uniquement les chaînes sélectionnées</Phrase>
+    <Phrase key="SelectedColumn">Choisi</Phrase>
+    <Phrase key="NumberColumn">Nombre</Phrase>
+    <Phrase key="NameColumn">Nom</Phrase>
     <Phrase key="SelectObjectItem">-- Sélectionnez un objet --</Phrase>
     <Phrase key="FilterRequired">Veuillez spécifier un filtre.</Phrase>
     <Phrase key="NoChannels">Aucune chaîne ne correspond au filtre.</Phrase>

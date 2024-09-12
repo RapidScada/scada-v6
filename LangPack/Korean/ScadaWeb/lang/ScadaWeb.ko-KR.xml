@@ -51,8 +51,11 @@
     <Phrase key="PageTitle">채널 선택</Phrase>
     <Phrase key="lblObj">물체</Phrase>
     <Phrase key="lblOnlySelected">선택한 채널만 표시</Phrase>
-    <Phrase key="SelectObjectItem">-- 개체 선택 --</Phrase>
-    <Phrase key="FilterRequired">필터를 지정하십시오.</Phrase>
+    <Phrase key="SelectedColumn">-- 개체 선택 --</Phrase>
+    <Phrase key="NumberColumn">필터를 지정하십시오.</Phrase>
+    <Phrase key="NameColumn">필터와 일치하는 채널이 없습니다.</Phrase>
+    <Phrase key="SelectObjectItem">-- 객체를 선택하세요 --</Phrase>
+    <Phrase key="FilterRequired">필터를 지정하세요.</Phrase>
     <Phrase key="NoChannels">필터와 일치하는 채널이 없습니다.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Error">

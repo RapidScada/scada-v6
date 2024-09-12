@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ModDiffCalculatorDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModDiffCalculator.Config.GeneralOptions">
+    <Phrase key="CmdCode.DisplayName">Command code</Phrase>
+    <Phrase key="CmdCode.Category">General Options</Phrase>
+    <Phrase key="CmdCode.Description">The command code to control the module.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDiffCalculator.Config.GroupConfig">
+    <Phrase key="Active.DisplayName">Active</Phrase>
+    <Phrase key="Active.Category">Main Parameters</Phrase>
+    <Phrase key="Active.Description">A value indicating whether the group is active.</Phrase>
+    <Phrase key="CustomPeriod.DisplayName">Custom period</Phrase>
+    <Phrase key="CustomPeriod.Category">Behavior</Phrase>
+    <Phrase key="CustomPeriod.Description">The custom calculation period.</Phrase>
+    <Phrase key="Delay.DisplayName">Delay</Phrase>
+    <Phrase key="Delay.Category">Behavior</Phrase>
+    <Phrase key="Delay.Description">The delay before calculation when it is time to calculate, seconds.</Phrase>
+    <Phrase key="Name.DisplayName">Name</Phrase>
+    <Phrase key="Name.Category">Main Parameters</Phrase>
+    <Phrase key="Name.Description">The group name.</Phrase>
+    <Phrase key="Offset.DisplayName">Offset</Phrase>
+    <Phrase key="Offset.Category">Behavior</Phrase>
+    <Phrase key="Offset.Description">The calculation time offset.</Phrase>
+    <Phrase key="PeriodType.DisplayName">Period type</Phrase>
+    <Phrase key="PeriodType.Category">Behavior</Phrase>
+    <Phrase key="PeriodType.Description">The calculation period type.</Phrase>
+    <Phrase key="ArchiveBit.DisplayName">Archive bit</Phrase>
+    <Phrase key="ArchiveBit.Category">Data</Phrase>
+    <Phrase key="ArchiveBit.Description">The bit number of the archive for reading and writing data.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDiffCalculator.Config.ItemConfig">
+    <Phrase key="DestCnlNum.DisplayName">Destination channel</Phrase>
+    <Phrase key="DestCnlNum.Category">Main Parameters</Phrase>
+    <Phrase key="DestCnlNum.Description">The destination channel number into which a calculation result is written.</Phrase>
+    <Phrase key="SrcCnlNum.DisplayName">Source channel</Phrase>
+    <Phrase key="SrcCnlNum.Category">Main Parameters</Phrase>
+    <Phrase key="SrcCnlNum.Description">The source channel number from which data for calculation is taken.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDiffCalculator.Config.PeriodType">
+    <Phrase key="Custom">Custom</Phrase>
+    <Phrase key="Day">Day</Phrase>
+    <Phrase key="Hour">Hour</Phrase>
+    <Phrase key="Minute">Minute</Phrase>
+    <Phrase key="Month">Month</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModDiffCalculator.View.ModuleConfigProvider">
+    <Phrase key="FormTitle">Difference Calculator</Phrase>
+    <Phrase key="AddGroupButton">Add Group</Phrase>
+    <Phrase key="AddItemButton">Add Item</Phrase>
+    <Phrase key="GeneralOptionsNode">General Options</Phrase>
+    <Phrase key="GroupsNode">Groups</Phrase>
+    <Phrase key="ItemNode">Channels {0}, {1}</Phrase>
+    <Phrase key="UnnamedGroup">&lt;Unnamed Group&gt;</Phrase>
+  </Dictionary>
+</ModDiffCalculatorDictionaries>

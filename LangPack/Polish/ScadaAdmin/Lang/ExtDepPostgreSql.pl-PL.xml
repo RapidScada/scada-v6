@@ -2,8 +2,8 @@
 <ExtDepPostgreSqlDictionaries>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Downloader">
     <Phrase key="DownloadTable">Pobierz tabelę {0}</Phrase>
-    <Phrase key="DownloadView">"Pobierz widok &quot;{0}&quot;</Phrase>
-    <Phrase key="DownloadConfigFile">Pobierz plik konfiguracyjny &quot;{0}&quot;</Phrase>
+    <Phrase key="DownloadView">"Pobierz widok "{0}"</Phrase>
+    <Phrase key="DownloadConfigFile">Pobierz plik konfiguracyjny "{0}"</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Uploader">
     <Phrase key="CreateSchema">Utwórz schemat bazy danych</Phrase>
@@ -11,7 +11,9 @@
     <Phrase key="ClearBase">Wyczyść bazę danych konfiguracji</Phrase>
     <Phrase key="CreateBase">Utwórz bazę danych konfiguracji</Phrase>
     <Phrase key="DeleteTable">Usuń tabelę {0}</Phrase>
+    <Phrase key="TruncateTable">Obetnij tabelę {0}</Phrase>
     <Phrase key="CreateTable">Utwórz tabelę {0}</Phrase>
+    <Phrase key="FillTable">Wypełnij tabelę {0}</Phrase>
     <Phrase key="CreateFKs">Utwórz klucze obce</Phrase>
     <Phrase key="CreateTableFKs">Utwórz klucze obce dla tabeli {0}</Phrase>
     <Phrase key="ClearViews">Jasne widoki</Phrase>
@@ -20,7 +22,16 @@
     <Phrase key="ClearAllAppConfig">Przejrzysta konfiguracja wszystkich aplikacji</Phrase>
     <Phrase key="ClearAppConfig">Wyczyść konfigurację aplikacji {0}</Phrase>
     <Phrase key="CreateAppConfig">Utwórz konfigurację aplikacji {0}</Phrase>
-    <Phrase key="CreateConfigFile">Utwórz plik konfiguracyjny &quot;{0}&quot;</Phrase>
+    <Phrase key="CreateConfigFile">Utwórz plik konfiguracyjny "{0}"</Phrase>
     <Phrase key="UnableRestartServices">Nie można ponownie uruchomić usług, ponieważ agent jest wyłączony</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ClearBaseMethod">
+    <Phrase key="DropTables">Upuść tabele</Phrase>
+    <Phrase key="TruncateTables">Obetnij tabele</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ExtensionConfig">
+    <Phrase key="ClearBaseMethod.DisplayName">Jasna metoda</Phrase>
+    <Phrase key="ClearBaseMethod.Category">Główne parametry</Phrase>
+    <Phrase key="ClearBaseMethod.Description">Sposób czyszczenia bazy danych konfiguracyjnych.  Metoda obcięcia jest możliwa, jeśli tabele zostały już utworzone.</Phrase>
   </Dictionary>
 </ExtDepPostgreSqlDictionaries>

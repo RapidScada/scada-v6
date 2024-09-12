@@ -3,19 +3,19 @@
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.ChannelMap">
     <Phrase key="MapByDeviceTitle">Chaînes par appareil</Phrase>
     <Phrase key="MapByObjectTitle">Canaux par objet</Phrase>
-    <Phrase key="ChannelsCaption">Chaînes :</Phrase>
+    <Phrase key="ChannelsCaption">Canaux :</Phrase>
     <Phrase key="NoChannels">Aucune chaîne</Phrase>
     <Phrase key="GenerateChannelMapError">Erreur lors de la génération de la carte des canaux</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.DeviceMap">
     <Phrase key="DeviceMapTitle">Appareils par ligne de communication</Phrase>
-    <Phrase key="DevicesCaption">Dispositifs :</Phrase>
+    <Phrase key="DevicesCaption">Appareils :</Phrase>
     <Phrase key="NoDevices">Aucun appareil</Phrase>
     <Phrase key="EmptyCommLine">Ligne de communication vide</Phrase>
     <Phrase key="GenerateDeviceMapError">Erreur lors de la génération de la carte des appareils</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.IntegrityCheck">
-    <Phrase key="IntegrityCheckTitle">Vérification de l'intégrité</Phrase>
+    <Phrase key="IntegrityCheckTitle">Contrôle d'intégrité</Phrase>
     <Phrase key="TableCorrect">D'ACCORD</Phrase>
     <Phrase key="TableHasErrors">Erreur</Phrase>
     <Phrase key="LostPrimaryKeys">Clés primaires perdues :</Phrase>
@@ -23,44 +23,100 @@
     <Phrase key="BaseHasErrors">La base de données de configuration contient des erreurs.</Phrase>
     <Phrase key="IntegrityCheckError">Erreur lors de la vérification de l'intégrité</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.ObjectMap">
+    <Phrase key="ObjectMapTitle">Hiérarchie des objets</Phrase>
+    <Phrase key="NoObjects">Aucun objet</Phrase>
+    <Phrase key="GenerateObjectMapError">Erreur lors de la génération de la carte d'objets</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Controls.CtrlMainMenu">
     <Phrase key="miProjectTools">Outils de projet</Phrase>
-    <Phrase key="miCloneChannels">Cloner des canaux...</Phrase>
+    <Phrase key="miCloneChannels">Cloner des chaînes...</Phrase>
+    <Phrase key="miEncryptPassword">Chiffrer le mot de passe...</Phrase>
     <Phrase key="miChannelMapByDevice">Carte des chaînes par appareil</Phrase>
     <Phrase key="miChannelMapByObject">Carte des canaux par objet</Phrase>
     <Phrase key="miDeviceMap">Carte des appareils</Phrase>
+    <Phrase key="miObjectMap">Carte d'objets</Phrase>
     <Phrase key="miCheckIntegrity">Vérifier l'intégrité</Phrase>
-    <Phrase key="miEncryptPassword">Crypter le mot de passe...</Phrase>
+    <Phrase key="miObjectEditor">Editeur d'objets</Phrase>
+    <Phrase key="miRightMatrix">Matrice droite</Phrase>
     <Phrase key="miImportTable">Importer le tableau...</Phrase>
     <Phrase key="miExportTable">Exporter le tableau...</Phrase>
+    <Phrase key="btnObjectEditor.ToolTip">Editeur d'objets</Phrase>
+    <Phrase key="btnRightMatrix.ToolTip">Matrice droite</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmCnlClone">
     <Phrase key="this">Cloner des canaux</Phrase>
-    <Phrase key="gbSrcNums">Numéros de canal source</Phrase>
+    <Phrase key="gbSrcNums">Numéros des canaux sources</Phrase>
     <Phrase key="lblSrcStartNum">Commencer</Phrase>
     <Phrase key="lblSrcEndNum">Fin</Phrase>
-    <Phrase key="gbDestNums">Numéros de canal de destination</Phrase>
+    <Phrase key="gbDestNums">Numéros de canaux de destination</Phrase>
     <Phrase key="lblDestStartNum">Commencer</Phrase>
     <Phrase key="lblDestEndNum">Fin</Phrase>
-    <Phrase key="gbOptions">Choix</Phrase>
+    <Phrase key="gbOptions">Possibilités</Phrase>
     <Phrase key="lblReplaceObj">Remplacer l'objet</Phrase>
     <Phrase key="lblReplaceDevice">Remplacer l'appareil</Phrase>
-    <Phrase key="chkUpdateFormulas">Mettre à jour les numéros de canal dans les formules</Phrase>
+    <Phrase key="chkUpdateFormulas">Mettre à jour les numéros de chaînes dans les formules</Phrase>
     <Phrase key="btnClone">Cloner</Phrase>
     <Phrase key="btnClose">Fermer</Phrase>
-    <Phrase key="KeepUnchanged">&lt;Garder inchangé&gt;</Phrase>
-    <Phrase key="CloneChannelsCompleted">Le clonage s'est terminé avec succès.&#13;&#10;{0} chaîne(s) ajoutée(s).</Phrase>
-    <Phrase key="CloneChannelsError">Erreur lors du clonage des chaînes</Phrase>
+    <Phrase key="KeepUnchanged">&lt;Conserver inchangé&gt;</Phrase>
+    <Phrase key="CloneChannelsCompleted">Clonage terminé avec succès.
+{0} canal(s) ajouté(s).</Phrase>
+    <Phrase key="CloneChannelsError">Erreur de clonage des canaux</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmFindObject">
+    <Phrase key="this">Rechercher un objet</Phrase>
+    <Phrase key="lblFind">Trouver quoi</Phrase>
+    <Phrase key="gbLookAt">Regarder</Phrase>
+    <Phrase key="chkObjNum">Nombre</Phrase>
+    <Phrase key="chkName">Nom</Phrase>
+    <Phrase key="chkCode">Code</Phrase>
+    <Phrase key="chkDescr">Description</Phrase>
+    <Phrase key="chkCaseSensitive">Étui de correspondance</Phrase>
+    <Phrase key="chkWholeStringOnly">Correspond à la chaîne entière uniquement</Phrase>
+    <Phrase key="btnFindNext">Rechercher suivant</Phrase>
+    <Phrase key="btnClose">Fermer</Phrase>
+    <Phrase key="ObjectNotFound">Objet introuvable.</Phrase>
+    <Phrase key="SearchCompleted">Recherche terminée.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmObjectEditor">
+    <Phrase key="this">Editeur d'objets</Phrase>
+    <Phrase key="btnAddObject.ToolTip">Ajouter un objet</Phrase>
+    <Phrase key="btnDeleteObject.ToolTip">Supprimer l'objet</Phrase>
+    <Phrase key="gbObject">Propriétés de l'objet</Phrase>
+    <Phrase key="lblObjNum">Nombre</Phrase>
+    <Phrase key="lblName">Nom</Phrase>
+    <Phrase key="lblCode">Code</Phrase>
+    <Phrase key="lblParentObj">Objet parent</Phrase>
+    <Phrase key="lblDescr">Description</Phrase>
+    <Phrase key="miCollapseAll">Réduire tout</Phrase>
+    <Phrase key="miOpenChannels">Canaux ouverts</Phrase>
+    <Phrase key="ObjNumInUse">Le numéro d'objet est déjà utilisé.</Phrase>
+    <Phrase key="ObjNumReferenced">Le numéro d'objet est référencé par une ligne de la table "{0}".</Phrase>
+    <Phrase key="ObjectReferenced">L'objet ou son enfant est référencé par une ligne d'une autre table.</Phrase>
+    <Phrase key="ParentObjectNotExists">L'objet parent n'existe plus.</Phrase>
+    <Phrase key="InvalidParentObject">L'objet parent ne peut pas être le même ni un objet enfant.</Phrase>
+    <Phrase key="UpdateObjNumError">Erreur lors de la mise à jour du numéro d'objet</Phrase>
+    <Phrase key="UpdateParentObjError">Erreur lors de la mise à jour de l'objet parent</Phrase>
+    <Phrase key="DeleteObjectConfirm">Etes-vous sûr de vouloir supprimer l'objet ?</Phrase>
+    <Phrase key="ObjectFilter">Objet {0}</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
-    <Phrase key="this">Crypter le mot de passe</Phrase>
+    <Phrase key="this">Chiffrer le mot de passe</Phrase>
     <Phrase key="lblPassword">Mot de passe</Phrase>
     <Phrase key="lblPasswordEncrypted">Mot de passe crypté</Phrase>
     <Phrase key="btnCopy">Copie</Phrase>
     <Phrase key="btnClose">Fermer</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmRightMatrix">
+    <Phrase key="this">Matrice droite</Phrase>
+    <Phrase key="ViewRightSymbol">V</Phrase>
+    <Phrase key="ViewRightLegend">V - vue</Phrase>
+    <Phrase key="ControlRightSymbol">C</Phrase>
+    <Phrase key="ControlRightLegend">C-contrôle</Phrase>
+    <Phrase key="DisplayMatrixError">Erreur d'affichage de la matrice de droite</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
-    <Phrase key="this">Tableau d'exportation</Phrase>
+    <Phrase key="this">Exporter le tableau</Phrase>
     <Phrase key="lblTable">Tableau</Phrase>
     <Phrase key="lblFormat">Format</Phrase>
     <Phrase key="gbIDs">identifiants</Phrase>
@@ -85,7 +141,8 @@
     <Phrase key="btnImport">Importer</Phrase>
     <Phrase key="btnClose">Fermer</Phrase>
     <Phrase key="ImportTableFilter">Tableaux (*.dat;*.xml;*.csv)|*.dat;*.xml;*.csv|Tous les fichiers (*.*)|*.*</Phrase>
-    <Phrase key="ImportTableCompleted">Importation terminée avec succès.&#13;&#10;{0} ligne(s) concernée(s).</Phrase>
-    <Phrase key="ImportTableError">Erreur lors de l'importation du tableau</Phrase>
+    <Phrase key="ImportTableCompleted">L'importation a réussi.
+{0} ligne(s) affectée(s).</Phrase>
+    <Phrase key="ImportTableError">Erreur lors de l'importation de la table</Phrase>
   </Dictionary>
 </ExtProjectToolsDictionaries>

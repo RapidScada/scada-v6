@@ -1,9 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <DrvModbusDictionaries culture="zh-Hans" lang="ChineseSimplified">
-  <Dictionary key="Scada.Comm.Drivers.DrvModbus.Config.DeviceTemplate">
-    <Phrase key="LoadTemplateError">加载设备模板发生错误</Phrase>
-    <Phrase key="SaveTemplateError">保存设备模板发生错误</Phrase>
-  </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls">
     <Phrase key="AddressHint">{0}, 从 {1} 开始</Phrase>
     <Phrase key="ElemRemoveWarning">数据块最多允许 {0} 元素.&#13;&#10;多余的元素将被删除。 继续?</Phrase>
@@ -79,7 +75,6 @@
     <Phrase key="gbDevice">设备</Phrase>
     <Phrase key="lblTemplateFileName">设备模板</Phrase>
     <Phrase key="btnBrowseTemplate">浏览模板...</Phrase>
-    <Phrase key="btnCreateTemplate">创建模板</Phrase>
     <Phrase key="btnEditTemplate">编辑模板</Phrase>
     <Phrase key="btnOK">确定</Phrase>
     <Phrase key="btnCancel">取消</Phrase>

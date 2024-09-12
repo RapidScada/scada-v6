@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgStoreDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgStore.Areas.Store.Pages.InstalledModel">
+    <Phrase key="PageTitle">Nainstalované pluginy</Phrase>
+    <Phrase key="NoData">Žádná data</Phrase>
+    <Phrase key="NameColumn">Jméno</Phrase>
+    <Phrase key="DescriptionColumn">Popis</Phrase>
+    <Phrase key="VersionColumn">Verze</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgStore.Areas.Store.Pages.DownloadModel">
+    <Phrase key="PageTitle">Stáhněte si pluginy</Phrase>
+    <Phrase key="txtFilter_Placeholder">Vyhledávání</Phrase>
+    <Phrase key="btnSearch">Vyhledávání</Phrase>
+    <Phrase key="NameColumn">Jméno</Phrase>
+    <Phrase key="DescriptionColumn">Popis</Phrase>
+    <Phrase key="PriceColumn">Cena</Phrase>
+    <Phrase key="AuthorColumn">Autor</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgStore.Areas.Store.Pages.DownloadModel.Js">
+    <Phrase key="Loading">Načítání...</Phrase>
+    <Phrase key="LoadError">Chyba při načítání seznamu pluginů</Phrase>
+    <Phrase key="NoData">Žádná data</Phrase>
+    <Phrase key="New">Nový</Phrase>
+    <Phrase key="Details">Zobrazit podrobnosti</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgStore.PlgStoreLogic">
+    <Phrase key="InstalledMenuItem">Instalováno</Phrase>
+    <Phrase key="DownloadMenuItem">Stáhnout</Phrase>
+  </Dictionary>
+</PlgStoreDictionaries>

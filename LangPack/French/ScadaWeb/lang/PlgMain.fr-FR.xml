@@ -10,6 +10,7 @@
     <Phrase key="lblPassword">Mot de passe</Phrase>
     <Phrase key="lblCmdDec">Valeur de commande</Phrase>
     <Phrase key="lblCmdHex">Valeur de commande (hexadécimal)</Phrase>
+    <Phrase key="lblCmdBin">Valeur de commande (binaire)</Phrase>
     <Phrase key="lblCmdEnum">Commande</Phrase>
     <Phrase key="lblCmdDate">Valeur de commande (date/heure)</Phrase>
     <Phrase key="lblCmdData">Données de commande</Phrase>

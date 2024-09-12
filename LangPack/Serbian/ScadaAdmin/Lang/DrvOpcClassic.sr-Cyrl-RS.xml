@@ -49,6 +49,7 @@
     <Phrase key="lblUpdateRate">Брзина ажурирања, мс</Phrase>
     <Phrase key="lblKeepAlive">Останите живи, мс</Phrase>
     <Phrase key="lblDeadband">Мртва зона, %</Phrase>
+    <Phrase key="chkReadSync">Читајте синхроно</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Forms.FrmDeviceConfig">
     <Phrase key="this">Својства уређаја {0} – OPC Classic</Phrase>

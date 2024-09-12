@@ -51,6 +51,9 @@
     <Phrase key="PageTitle">Vyberte Kanály</Phrase>
     <Phrase key="lblObj">Objekt</Phrase>
     <Phrase key="lblOnlySelected">Zobrazit pouze vybrané kanály</Phrase>
+    <Phrase key="SelectedColumn">Vybraný</Phrase>
+    <Phrase key="NumberColumn">Číslo</Phrase>
+    <Phrase key="NameColumn">Jméno</Phrase>
     <Phrase key="SelectObjectItem">-- Vyberte objekt --</Phrase>
     <Phrase key="FilterRequired">Zadejte filtr.</Phrase>
     <Phrase key="NoChannels">Žádné kanály neodpovídají filtru.</Phrase>

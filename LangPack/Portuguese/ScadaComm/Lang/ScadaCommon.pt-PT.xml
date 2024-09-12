@@ -18,13 +18,12 @@
     <Phrase key="LogicLoopError">Erro no loop lógico</Phrase>
     <Phrase key="ThreadFatalError">Erro fatal no tópico</Phrase>
     <Phrase key="WriteInfoError">Erro ao gravar informações do aplicativo no arquivo</Phrase>
-    <Phrase key="ConnectionNotFound">Conexão &quot;{0}&quot;não encontrada.</Phrase>
-    <Phrase key="ConnOptionsNotFound">Opções de conexão não encontradas.</Phrase>
-    <Phrase key="DatabaseNotSupported">Banco de dados não suportado.</Phrase>
-    <Phrase key="OperationNotSupported">Operação não suportada.</Phrase>
-    <Phrase key="CommandSent">O comando foi enviado.</Phrase>
-    <Phrase key="SendCommandError">Erro ao enviar comando</Phrase>
-    <Phrase key="AgentDisabled">O agente está desativado.</Phrase>
+    <Phrase key="ConnectionNotFound">Conexão "{0}" não encontrada.</Phrase>
+    <Phrase key="DatabaseNotSupported">Opções de conexão não encontradas.</Phrase>
+    <Phrase key="OperationNotSupported">Banco de dados não suportado.</Phrase>
+    <Phrase key="CommandSent">Operação não suportada.</Phrase>
+    <Phrase key="SendCommandError">O comando foi enviado.</Phrase>
+    <Phrase key="AgentDisabled">Erro ao enviar comando</Phrase>
   </Dictionary>
   <Dictionary key="Scada.ConfigDatabase">
     <Phrase key="UndefinedTable">Indefinido</Phrase>
@@ -74,7 +73,7 @@
     <Phrase key="DateTimeRequired">Data e hora são obrigatórios.</Phrase>
     <Phrase key="NotNumber">String não é um número.</Phrase>
     <Phrase key="NotHexadecimal">String não é hexadecimal.</Phrase>
-    <Phrase key="InvalidParamVal">Valor inválido do parâmetro &quot;{0}&quot;.</Phrase>
+    <Phrase key="InvalidParamVal">Valor inválido do parâmetro "{0}".</Phrase>
     <Phrase key="InvalidSecretKey">Chave secreta inválida.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms">
@@ -135,72 +134,84 @@
     <Phrase key="lblPassword">Senha</Phrase>
     <Phrase key="chkConnectionString">Cadeia de conexão</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Forms.Forms.FrmBitmask">
-    <Phrase key="this">máscara de bits</Phrase>
-    <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnCancel">Cancelar</Phrase>
+  <Dictionary key="Scada.Forms.Controls.CtrlRegistration">
+    <Phrase key="lblProductName">máscara de bits</Phrase>
+    <Phrase key="lblCompCode">OK</Phrase>
+    <Phrase key="btnCopyCompCode">Cancelar</Phrase>
+    <Phrase key="btnRefreshCompCode">Atualizar</Phrase>
+    <Phrase key="lblCompCodeInfo">Se o código estiver faltando, carregue a configuração e reinicie o serviço.</Phrase>
+    <Phrase key="lblRegKey">Chave de registro</Phrase>
+    <Phrase key="btnPasteRegKey">Colar</Phrase>
+    <Phrase key="lblRegKeyInfo">O resultado da verificação chave é gravado no log do aplicativo ou módulo.</Phrase>
+    <Phrase key="llblGetPermanentKey">Obtenha a chave permanente</Phrase>
+    <Phrase key="llblGetTrialKey">Obtenha a chave de teste</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Forms.Forms.FrmBitSelect">
+  <Dictionary key="Scada.Forms.Forms.FrmBitmask">
     <Phrase key="this">Selecione o bit</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancelar</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Forms.Forms.FrmCnlSelect">
+  <Dictionary key="Scada.Forms.Forms.FrmBitSelect">
     <Phrase key="this">Selecionar canais</Phrase>
+    <Phrase key="btnOK">Filtro</Phrase>
+    <Phrase key="btnCancel">Aplicar</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmCnlSelect">
+    <Phrase key="this">Selecione de {0}</Phrase>
     <Phrase key="lblFilter">Filtro</Phrase>
     <Phrase key="btnApplyFilter">Aplicar</Phrase>
-    <Phrase key="lblObj">Objeto</Phrase>
-    <Phrase key="lblDevice">Dispositivo</Phrase>
-    <Phrase key="chkOnlySelected">Mostrar apenas as linhas selecionadas</Phrase>
-    <Phrase key="colSelected">Selecionado</Phrase>
-    <Phrase key="colCnlNum">Número</Phrase>
-    <Phrase key="colName">Nome</Phrase>
+    <Phrase key="lblObj">Mostrar apenas as linhas selecionadas</Phrase>
+    <Phrase key="lblDevice">Selecionado</Phrase>
+    <Phrase key="chkOnlySelected">EU IA</Phrase>
+    <Phrase key="colSelected">Nome</Phrase>
+    <Phrase key="colCnlNum">Código</Phrase>
+    <Phrase key="colName">Descrição</Phrase>
     <Phrase key="btnSelect">Selecione</Phrase>
     <Phrase key="btnCancel">Cancelar</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmEntitySelect">
-    <Phrase key="this">Selecione de {0}</Phrase>
-    <Phrase key="lblFilter">Filtro</Phrase>
-    <Phrase key="btnApplyFilter">Aplicar</Phrase>
-    <Phrase key="chkOnlySelected">Mostrar apenas as linhas selecionadas</Phrase>
-    <Phrase key="colSelected">Selecionado</Phrase>
-    <Phrase key="colID">EU IA</Phrase>
-    <Phrase key="colName">Nome</Phrase>
-    <Phrase key="colCode">Código</Phrase>
-    <Phrase key="colDescr">Descrição</Phrase>
-    <Phrase key="btnSelect">Selecione</Phrase>
-    <Phrase key="btnCancel">Cancelar</Phrase>
+    <Phrase key="this">Configuração do módulo</Phrase>
+    <Phrase key="lblFilter">Adicionar</Phrase>
+    <Phrase key="btnApplyFilter">Subir</Phrase>
+    <Phrase key="chkOnlySelected">mover para baixo</Phrase>
+    <Phrase key="colSelected">Excluir</Phrase>
+    <Phrase key="colID">Salvar</Phrase>
+    <Phrase key="colName">Cancelar</Phrase>
+    <Phrase key="colCode">Fechar</Phrase>
+    <Phrase key="colDescr">Recolher todos</Phrase>
+    <Phrase key="btnSelect"></Phrase>
+    <Phrase key="btnCancel"></Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmModuleConfig">
-    <Phrase key="this">Configuração do módulo</Phrase>
-    <Phrase key="btnAdd.ToolTip">Adicionar</Phrase>
-    <Phrase key="btnMoveUp.ToolTip">Subir</Phrase>
-    <Phrase key="btnMoveDown.ToolTip">mover para baixo</Phrase>
-    <Phrase key="btnDelete.ToolTip">Excluir</Phrase>
-    <Phrase key="btnSave">Salvar</Phrase>
-    <Phrase key="btnCancel">Cancelar</Phrase>
-    <Phrase key="btnClose">Fechar</Phrase>
-    <Phrase key="miCollapseAll">Recolher todos</Phrase>
+    <Phrase key="this">Opções</Phrase>
+    <Phrase key="btnAdd.ToolTip">OK</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Cancelar</Phrase>
+    <Phrase key="btnMoveDown.ToolTip"></Phrase>
+    <Phrase key="btnDelete.ToolTip"></Phrase>
+    <Phrase key="btnSave"></Phrase>
+    <Phrase key="btnCancel"></Phrase>
+    <Phrase key="btnClose"></Phrase>
+    <Phrase key="miCollapseAll"></Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmOptions">
-    <Phrase key="this">Opções</Phrase>
-    <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnCancel">Cancelar</Phrase>
+    <Phrase key="this">Editar intervalo</Phrase>
+    <Phrase key="btnOK">Intervalo de números inteiros</Phrase>
+    <Phrase key="btnCancel">Por exemplo: 1 - 5, 10</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmRangeEdit">
-    <Phrase key="this">Editar intervalo</Phrase>
-    <Phrase key="lblRange">Intervalo de números inteiros</Phrase>
-    <Phrase key="lblExample">Por exemplo: 1 - 5, 10</Phrase>
-    <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnCancel">Cancelar</Phrase>
+    <Phrase key="this">Evento ativado</Phrase>
+    <Phrase key="lblRange">Bipe de evento</Phrase>
+    <Phrase key="lblExample">Os dados do canal foram alterados</Phrase>
+    <Phrase key="btnOK">O valor do canal mudou</Phrase>
+    <Phrase key="btnCancel">O status do canal mudou</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.BitItemCollection">
-    <Phrase key="EventEnabled">Evento ativado</Phrase>
-    <Phrase key="EventBeep">Bipe de evento</Phrase>
-    <Phrase key="DataChangeEvent">Os dados do canal foram alterados</Phrase>
-    <Phrase key="ValueChangeEvent">O valor do canal mudou</Phrase>
-    <Phrase key="StatusChangeEvent">O status do canal mudou</Phrase>
-    <Phrase key="CnlUndefinedEvent">O canal está indefinido</Phrase>
-    <Phrase key="CommandEvent">O comando foi enviado</Phrase>
+    <Phrase key="EventEnabled"></Phrase>
+    <Phrase key="EventBeep"></Phrase>
+    <Phrase key="DataChangeEvent"></Phrase>
+    <Phrase key="ValueChangeEvent"></Phrase>
+    <Phrase key="StatusChangeEvent"></Phrase>
+    <Phrase key="CnlUndefinedEvent"></Phrase>
+    <Phrase key="CommandEvent"></Phrase>
   </Dictionary>
 </ScadaDictionaries>
