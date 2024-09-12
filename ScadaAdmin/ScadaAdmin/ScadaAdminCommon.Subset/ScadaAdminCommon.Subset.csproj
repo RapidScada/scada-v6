@@ -14,6 +14,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\ScadaAdminCommon\Config\AdminConfig.cs" Link="Config\AdminConfig.cs" />
+    <Compile Include="..\ScadaAdminCommon\Config\ChannelNumberingOptions.cs" Link="Config\ChannelNumberingOptions.cs" />
+    <Compile Include="..\ScadaAdminCommon\Config\NumberingOptions.cs" Link="Config\NumberingOptions.cs" />
     <Compile Include="..\ScadaAdminCommon\Deployment\DeploymentConfig.cs" Link="Deployment\DeploymentConfig.cs" />
     <Compile Include="..\ScadaAdminCommon\Deployment\DeploymentProfile.cs" Link="Deployment\DeploymentProfile.cs" />
     <Compile Include="..\ScadaAdminCommon\Deployment\DownloadOptions.cs" Link="Deployment\DownloadOptions.cs" />
