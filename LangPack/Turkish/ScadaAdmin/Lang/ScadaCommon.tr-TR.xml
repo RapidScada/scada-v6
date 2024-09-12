@@ -18,8 +18,7 @@
     <Phrase key="LogicLoopError">Mantık döngüsünde hata</Phrase>
     <Phrase key="ThreadFatalError">İş parçacığında önemli hata</Phrase>
     <Phrase key="WriteInfoError">Uygulama bilgileri dosyaya yazılırken hata oluştu</Phrase>
-    <Phrase key="ConnectionNotFound">&quot;{0}&quot; bağlantısı bulunamadı.</Phrase>
-    <Phrase key="ConnOptionsNotFound">Bağlantı seçenekleri bulunamadı.</Phrase>
+    <Phrase key="ConnectionNotFound">"{0}" bağlantısı bulunamadı.</Phrase>
     <Phrase key="DatabaseNotSupported">Veritabanı desteklenmiyor.</Phrase>
     <Phrase key="OperationNotSupported">İşlem desteklenmiyor.</Phrase>
     <Phrase key="CommandSent">Komut gönderildi.</Phrase>
@@ -74,7 +73,7 @@
     <Phrase key="DateTimeRequired">Tarih ve saat gereklidir.</Phrase>
     <Phrase key="NotNumber">Dize bir sayı değildir.</Phrase>
     <Phrase key="NotHexadecimal">Dize onaltılık değil.</Phrase>
-    <Phrase key="InvalidParamVal">&quot;{0}&quot; parametresinin geçersiz değeri.</Phrase>
+    <Phrase key="InvalidParamVal">"{0}" parametresinin geçersiz değeri.</Phrase>
     <Phrase key="InvalidSecretKey">Geçersiz gizli anahtar.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms">
@@ -134,6 +133,18 @@
     <Phrase key="lblUsername">Kullanıcı adı</Phrase>
     <Phrase key="lblPassword">Şifre</Phrase>
     <Phrase key="chkConnectionString">Bağlantı dizisi</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlRegistration">
+    <Phrase key="lblProductName">Ürün adı</Phrase>
+    <Phrase key="lblCompCode">Bilgisayar kodu</Phrase>
+    <Phrase key="btnCopyCompCode">Kopyala</Phrase>
+    <Phrase key="btnRefreshCompCode">Yenile</Phrase>
+    <Phrase key="lblCompCodeInfo">Kod eksikse yapılandırmayı yükleyin ve hizmeti yeniden başlatın.</Phrase>
+    <Phrase key="lblRegKey">Kayıt anahtarı</Phrase>
+    <Phrase key="btnPasteRegKey">Yapıştır</Phrase>
+    <Phrase key="lblRegKeyInfo">Anahtar doğrulama sonucu uygulama veya modül günlüğüne yazılır.</Phrase>
+    <Phrase key="llblGetPermanentKey">Kalıcı anahtar alın</Phrase>
+    <Phrase key="llblGetTrialKey">Deneme anahtarını alın</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmBitmask">
     <Phrase key="this">Bit Maskesi</Phrase>

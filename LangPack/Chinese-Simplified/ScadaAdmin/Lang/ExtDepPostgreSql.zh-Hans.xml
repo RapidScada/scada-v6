@@ -11,7 +11,9 @@
     <Phrase key="ClearBase">清除配置数据库</Phrase>
     <Phrase key="CreateBase">创建配置数据库</Phrase>
     <Phrase key="DeleteTable">删除表 {0} </Phrase>
+    <Phrase key="TruncateTable">Truncate the {0} table</Phrase>
     <Phrase key="CreateTable">创建表 {0} </Phrase>
+    <Phrase key="FillTable">Fill the {0} table</Phrase>
     <Phrase key="CreateFKs">创建外键</Phrase>
     <Phrase key="CreateTableFKs">为表 {0} 创建外键</Phrase>
     <Phrase key="ClearViews">清除视图</Phrase>
@@ -23,4 +25,13 @@
     <Phrase key="CreateConfigFile">创建 &quot;{0}&quot; 的配置</Phrase>
     <Phrase key="UnableRestartServices">由于代理已禁用，无法重启服务</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ClearBaseMethod">
+     <Phrase key="DropTables">Drop tables</Phrase>
+     <Phrase key="TruncateTables">Truncate tables</Phrase>
+   </Dictionary>
+   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ExtensionConfig">
+     <Phrase key="ClearBaseMethod.DisplayName">Clear method</Phrase>
+     <Phrase key="ClearBaseMethod.Category">Main Parameters</Phrase>
+     <Phrase key="ClearBaseMethod.Description">The method for clearing the configuration database. The truncate method is possible if the tables have already been created.</Phrase>
+   </Dictionary>
 </ExtDepPostgreSqlDictionaries>

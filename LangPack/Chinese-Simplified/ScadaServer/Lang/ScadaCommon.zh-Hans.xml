@@ -19,7 +19,6 @@
     <Phrase key="ThreadFatalError">线程发生严重错误</Phrase>
     <Phrase key="WriteInfoError">将应用程序信息写入文件时出错</Phrase>
     <Phrase key="ConnectionNotFound">未发现连接&quot;{0}&quot;。</Phrase>
-    <Phrase key="ConnOptionsNotFound">未发现连接选项。</Phrase>
     <Phrase key="DatabaseNotSupported">数据库不支持。</Phrase>
     <Phrase key="OperationNotSupported">操作不支持。</Phrase>
     <Phrase key="CommandSent">命令已经发送。</Phrase>
@@ -104,6 +103,7 @@
     <Phrase key="MajorSeverity">主要</Phrase>
     <Phrase key="MinorSeverity">轻微</Phrase>
     <Phrase key="InfoSeverity">信息</Phrase>
+    <Phrase key="UnknownUser">User {0}</Phrase>
   </Dictionary>
   <!-- ScadaCommon.Forms.dll -->
   <Dictionary key="Scada.Forms.Controls.CtrlBitmask">
@@ -127,11 +127,24 @@
     <Phrase key="gbConnectionOptions">连接选项</Phrase>
     <Phrase key="lblName">名称</Phrase>
     <Phrase key="lblDbms">数据库管理系统</Phrase>
+    <Phrase key="cbDbms.Items[0]">Undefined</Phrase>
     <Phrase key="lblServer">服务器</Phrase>
     <Phrase key="lblDatabase">数据库</Phrase>
     <Phrase key="lblUsername">用户名</Phrase>
     <Phrase key="lblPassword">密码</Phrase>
     <Phrase key="chkConnectionString">连接字符串</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlRegistration">
+    <Phrase key="lblProductName">Product name</Phrase>
+    <Phrase key="lblCompCode">Computer code</Phrase>
+    <Phrase key="btnCopyCompCode">Copy</Phrase>
+    <Phrase key="btnRefreshCompCode">Refresh</Phrase>
+    <Phrase key="lblCompCodeInfo">If the code is missing, upload the configuration and restart the service.</Phrase>
+    <Phrase key="lblRegKey">Registration key</Phrase>
+    <Phrase key="btnPasteRegKey">Paste</Phrase>
+    <Phrase key="lblRegKeyInfo">Key verification result is written in the application or module log.</Phrase>
+    <Phrase key="llblGetPermanentKey">Get permanent key</Phrase>
+    <Phrase key="llblGetTrialKey">Get trial key</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmBitmask">
     <Phrase key="this">位掩码</Phrase>
@@ -184,6 +197,13 @@
     <Phrase key="this">选项</Phrase>
     <Phrase key="btnOK">确定</Phrase>
     <Phrase key="btnCancel">取消</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmRangeEdit">
+    <Phrase key="this">Edit Range</Phrase>
+    <Phrase key="lblRange">Range of integer numbers</Phrase>
+    <Phrase key="lblExample">For example: 1 - 5, 10</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.BitItemCollection">
     <Phrase key="EventEnabled">启用事件</Phrase>

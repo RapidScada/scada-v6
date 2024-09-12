@@ -2,12 +2,13 @@
 <ModArcPostgreSqlDictionaries>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Controls.CtrlDatabaseOptions">
     <Phrase key="gbDbOptions">Опције базе података</Phrase>
-    <Phrase key="lblUseStorageConn">Користите везу за складиштење</Phrase>
+    <Phrase key="lblUseDefaultConn">Користите везу за складиштење</Phrase>
     <Phrase key="lblConnection">Веза</Phrase>
     <Phrase key="lblPartitionSize">Величина партиције</Phrase>
     <Phrase key="cbPartitionSize.Items[0]">Један месец</Phrase>
     <Phrase key="cbPartitionSize.Items[1]">Годину дана</Phrase>
-    <Phrase key="lblMaxQueueSize">Максимална величина реда</Phrase>
+    <Phrase key="cbPartitionSize.Items[2]">Максимална величина реда</Phrase>
+    <Phrase key="lblMaxQueueSize">Ставке по трансакцији</Phrase>
     <Phrase key="lblBatchSize">Ставке по трансакцији</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmConnManager">
@@ -21,7 +22,7 @@
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreCAO">
     <Phrase key="this">Тренутне опције арһиве</Phrase>
     <Phrase key="gbDbOptions">Опције базе података</Phrase>
-    <Phrase key="lblUseStorageConn">Користите везу за складиштење</Phrase>
+    <Phrase key="lblUseDefaultConn">Користите везу за складиштење</Phrase>
     <Phrase key="lblConnection">Веза</Phrase>
     <Phrase key="lblMaxQueueSize">Максимална величина реда</Phrase>
     <Phrase key="lblBatchSize">Ставке по трансакцији</Phrase>

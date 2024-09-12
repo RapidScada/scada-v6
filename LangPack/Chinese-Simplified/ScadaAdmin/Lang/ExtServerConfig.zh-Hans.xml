@@ -45,7 +45,10 @@
     <Phrase key="this">常规选项</Phrase>
     <Phrase key="gbGeneralOptions">常规选项</Phrase>
     <Phrase key="lblUnrelIfInactive">如果通道处于非活动状态，则标记为不可靠, 秒</Phrase>
+    <Phrase key="lblMaxCurDataAge">Write current data as historical if older, sec</Phrase>
+    <Phrase key="lblUseArchivalStatus">Mark incoming historical data as archival</Phrase>
     <Phrase key="lblGenerateAckCmd">事件确认时生成命令</Phrase>
+    <Phrase key="lblStopWait">Wait for service stop, sec</Phrase>
     <Phrase key="lblMaxLogSize">最大日志文件大小, MB</Phrase>
     <Phrase key="lblDisableFormulas">属于对象的通道除外 禁用通道公式</Phrase>
     <Phrase key="btnSelectObjects">选择...</Phrase>

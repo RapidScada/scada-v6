@@ -10,11 +10,12 @@
     <Phrase key="lblPassword">Şifre</Phrase>
     <Phrase key="lblCmdDec">Komut değeri</Phrase>
     <Phrase key="lblCmdHex">Komut değeri (onaltılık)</Phrase>
-    <Phrase key="lblCmdEnum">Emretmek</Phrase>
-    <Phrase key="lblCmdDate">Komut değeri (tarih/saat)</Phrase>
-    <Phrase key="lblCmdData">Komut verileri</Phrase>
-    <Phrase key="lblStr">Sicim</Phrase>
-    <Phrase key="lblHex">onaltılık</Phrase>
+    <Phrase key="lblCmdBin">Emretmek</Phrase>
+    <Phrase key="lblCmdEnum">Komut değeri (tarih/saat)</Phrase>
+    <Phrase key="lblCmdDate">Komut verileri</Phrase>
+    <Phrase key="lblCmdData">Sicim</Phrase>
+    <Phrase key="lblStr">onaltılık</Phrase>
+    <Phrase key="lblHex">Onaltılık</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventAck">
     <Phrase key="PageTitle">Etkinlik</Phrase>

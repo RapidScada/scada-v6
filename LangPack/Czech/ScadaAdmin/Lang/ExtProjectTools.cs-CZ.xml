@@ -23,16 +23,26 @@
     <Phrase key="BaseHasErrors">Konfigurační databáze obsahuje chyby.</Phrase>
     <Phrase key="IntegrityCheckError">Chyba při kontrole integrity</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.ObjectMap">
+    <Phrase key="ObjectMapTitle">Hierarchie objektů</Phrase>
+    <Phrase key="NoObjects">Žádné předměty</Phrase>
+    <Phrase key="GenerateObjectMapError">Chyba při generování mapy objektu</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Controls.CtrlMainMenu">
     <Phrase key="miProjectTools">Projektové nástroje</Phrase>
     <Phrase key="miCloneChannels">Klonovat kanály...</Phrase>
+    <Phrase key="miEncryptPassword">Šifrovat heslo...</Phrase>
     <Phrase key="miChannelMapByDevice">Mapa kanálů podle zařízení</Phrase>
     <Phrase key="miChannelMapByObject">Mapa kanálů podle objektu</Phrase>
     <Phrase key="miDeviceMap">Mapa zařízení</Phrase>
+    <Phrase key="miObjectMap">Mapa objektů</Phrase>
     <Phrase key="miCheckIntegrity">Zkontrolujte integritu</Phrase>
-    <Phrase key="miEncryptPassword">Šifrovat heslo...</Phrase>
+    <Phrase key="miObjectEditor">Editor objektů</Phrase>
+    <Phrase key="miRightMatrix">Pravý Matrix</Phrase>
     <Phrase key="miImportTable">Importovat tabulku...</Phrase>
     <Phrase key="miExportTable">Exportovat tabulku...</Phrase>
+    <Phrase key="btnObjectEditor.ToolTip">Editor objektů</Phrase>
+    <Phrase key="btnRightMatrix.ToolTip">Pravý Matrix</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmCnlClone">
     <Phrase key="this">Klonování kanálů</Phrase>
@@ -49,8 +59,46 @@
     <Phrase key="btnClone">Klonovat</Phrase>
     <Phrase key="btnClose">Zavřít</Phrase>
     <Phrase key="KeepUnchanged">&lt;Zachovat nezměněné&gt;</Phrase>
-    <Phrase key="CloneChannelsCompleted">Klonování bylo úspěšně dokončeno.&#13;&#10;Přidáno {0} kanálů.</Phrase>
+    <Phrase key="CloneChannelsCompleted">Klonování bylo úspěšně dokončeno.
+Přidáno {0} kanálů.</Phrase>
     <Phrase key="CloneChannelsError">Chyba při klonování kanálů</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmFindObject">
+    <Phrase key="this">Najít objekt</Phrase>
+    <Phrase key="lblFind">Najděte co</Phrase>
+    <Phrase key="gbLookAt">Podívat se na</Phrase>
+    <Phrase key="chkObjNum">Číslo</Phrase>
+    <Phrase key="chkName">Jméno</Phrase>
+    <Phrase key="chkCode">Kód</Phrase>
+    <Phrase key="chkDescr">Popis</Phrase>
+    <Phrase key="chkCaseSensitive">Případ zápasu</Phrase>
+    <Phrase key="chkWholeStringOnly">Porovnat pouze celý řetězec</Phrase>
+    <Phrase key="btnFindNext">Najít další</Phrase>
+    <Phrase key="btnClose">Blízko</Phrase>
+    <Phrase key="ObjectNotFound">Objekt nenalezen.</Phrase>
+    <Phrase key="SearchCompleted">Hledání dokončeno.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmObjectEditor">
+    <Phrase key="this">Editor objektů</Phrase>
+    <Phrase key="btnAddObject.ToolTip">Přidat objekt</Phrase>
+    <Phrase key="btnDeleteObject.ToolTip">Smazat objekt</Phrase>
+    <Phrase key="gbObject">Vlastnosti objektu</Phrase>
+    <Phrase key="lblObjNum">Číslo</Phrase>
+    <Phrase key="lblName">Jméno</Phrase>
+    <Phrase key="lblCode">Kód</Phrase>
+    <Phrase key="lblParentObj">Nadřazený objekt</Phrase>
+    <Phrase key="lblDescr">Popis</Phrase>
+    <Phrase key="miCollapseAll">Sbalit vše</Phrase>
+    <Phrase key="miOpenChannels">Otevřete kanály</Phrase>
+    <Phrase key="ObjNumInUse">Číslo objektu se již používá.</Phrase>
+    <Phrase key="ObjNumReferenced">Na číslo objektu odkazuje řádek z tabulky "{0}".</Phrase>
+    <Phrase key="ObjectReferenced">Na objekt nebo jeho potomka odkazuje řádek z jiné tabulky.</Phrase>
+    <Phrase key="ParentObjectNotExists">Nadřazený objekt již neexistuje.</Phrase>
+    <Phrase key="InvalidParentObject">Nadřazený objekt nemůže být stejný nebo podřízený objekt.</Phrase>
+    <Phrase key="UpdateObjNumError">Při aktualizaci čísla objektu došlo k chybě</Phrase>
+    <Phrase key="UpdateParentObjError">Při aktualizaci nadřazeného objektu došlo k chybě</Phrase>
+    <Phrase key="DeleteObjectConfirm">Opravdu chcete objekt smazat?</Phrase>
+    <Phrase key="ObjectFilter">objekt {0}</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
     <Phrase key="this">Šifrovat heslo</Phrase>
@@ -58,6 +106,14 @@
     <Phrase key="lblPasswordEncrypted">Zašifrované heslo</Phrase>
     <Phrase key="btnCopy">kopírovat</Phrase>
     <Phrase key="btnClose">Zavřít</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmRightMatrix">
+    <Phrase key="this">Right Matrix</Phrase>
+    <Phrase key="ViewRightSymbol">V</Phrase>
+    <Phrase key="ViewRightLegend">V - view</Phrase>
+    <Phrase key="ControlRightSymbol">C</Phrase>
+    <Phrase key="ControlRightLegend">C - control</Phrase>
+    <Phrase key="DisplayMatrixError">Error displaying right matrix</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
     <Phrase key="this">Export tabulky</Phrase>
@@ -85,7 +141,8 @@
     <Phrase key="btnImport">Import</Phrase>
     <Phrase key="btnClose">Zavřít</Phrase>
     <Phrase key="ImportTableFilter">Tabulky (*.dat;*.xml;*.csv)|*.dat;*.xml;*.csv|Všechny soubory (*.*)|*.*</Phrase>
-    <Phrase key="ImportTableCompleted">Import byl úspěšně dokončen.&#13;&#10;Ovlivněných řádků: {0}.</Phrase>
+    <Phrase key="ImportTableCompleted">Import byl úspěšně dokončen.
+Ovlivněných řádků: {0}.</Phrase>
     <Phrase key="ImportTableError">Při importu tabulky došlo k chybě</Phrase>
   </Dictionary>
 </ExtProjectToolsDictionaries>

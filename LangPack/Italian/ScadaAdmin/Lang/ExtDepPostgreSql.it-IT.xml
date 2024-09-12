@@ -2,7 +2,7 @@
 <ExtDepPostgreSqlDictionaries>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Downloader">
     <Phrase key="DownloadTable">Scarica la tabella {0}</Phrase>
-    <Phrase key="DownloadView">"Scarica vista &quot;{0}&quot;</Phrase>
+    <Phrase key="DownloadView">"Scarica vista "{0}"</Phrase>
     <Phrase key="DownloadConfigFile">Scarica il file di configurazione "{0}"</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Uploader">
@@ -11,7 +11,9 @@
     <Phrase key="ClearBase">Cancella il database di configurazione</Phrase>
     <Phrase key="CreateBase">Creare il database di configurazione</Phrase>
     <Phrase key="DeleteTable">Elimina la tabella {0}</Phrase>
+    <Phrase key="TruncateTable">Tronca la tabella {0}</Phrase>
     <Phrase key="CreateTable">Crea la tabella {0}</Phrase>
+    <Phrase key="FillTable">Compila la tabella {0}</Phrase>
     <Phrase key="CreateFKs">Crea chiavi esterne</Phrase>
     <Phrase key="CreateTableFKs">Crea chiavi esterne per la tabella {0}</Phrase>
     <Phrase key="ClearViews">Viste chiare</Phrase>
@@ -22,5 +24,14 @@
     <Phrase key="CreateAppConfig">Crea la configurazione dell'applicazione {0}</Phrase>
     <Phrase key="CreateConfigFile">Crea file di configurazione "{0}"</Phrase>
     <Phrase key="UnableRestartServices">Impossibile riavviare i servizi perché l'agente è disabilitato</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ClearBaseMethod">
+    <Phrase key="DropTables">Elimina tabelle</Phrase>
+    <Phrase key="TruncateTables">Troncare le tabelle</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ExtensionConfig">
+    <Phrase key="ClearBaseMethod.DisplayName">Metodo chiaro</Phrase>
+    <Phrase key="ClearBaseMethod.Category">Parametri principali</Phrase>
+    <Phrase key="ClearBaseMethod.Description">Il metodo per cancellare il database di configurazione.  Il metodo troncato è possibile se le tabelle sono già state create.</Phrase>
   </Dictionary>
 </ExtDepPostgreSqlDictionaries>

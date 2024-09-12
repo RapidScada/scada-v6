@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ModArcPostgreSqlDictionaries>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Controls.CtrlDatabaseOptions">
-    <Phrase key="gbDbOptions">データベースオプション</Phrase>
-    <Phrase key="lblUseStorageConn">ストレージ接続を使用する</Phrase>
+    <Phrase key="lblUseDefaultConn">デフォルトの接続を使用する</Phrase>
     <Phrase key="lblConnection">繋がり</Phrase>
     <Phrase key="lblPartitionSize">パーティションサイズ</Phrase>
-    <Phrase key="cbPartitionSize.Items[0]">一か月</Phrase>
-    <Phrase key="cbPartitionSize.Items[1]">1年</Phrase>
+    <Phrase key="cbPartitionSize.Items[0]">ある日</Phrase>
+    <Phrase key="cbPartitionSize.Items[1]">1ヶ月</Phrase>
+    <Phrase key="cbPartitionSize.Items[2]">1年</Phrase>
     <Phrase key="lblMaxQueueSize">最大キューサイズ</Phrase>
     <Phrase key="lblBatchSize">トランザクションごとのアイテム</Phrase>
   </Dictionary>
@@ -14,31 +14,32 @@
     <Phrase key="this">PostgreSQL 接続</Phrase>
     <Phrase key="gbConnList">接続</Phrase>
     <Phrase key="btnNewConn">新しい</Phrase>
-    <Phrase key="btnDeleteConn">消去</Phrase>
-    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnDeleteConn">なくす</Phrase>
+    <Phrase key="btnOK">わかりました</Phrase>
     <Phrase key="btnCancel">キャンセル</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreCAO">
     <Phrase key="this">現在のアーカイブ オプション</Phrase>
-    <Phrase key="gbDbOptions">データベースオプション</Phrase>
-    <Phrase key="lblUseStorageConn">ストレージ接続を使用する</Phrase>
-    <Phrase key="lblConnection">繋がり</Phrase>
-    <Phrase key="lblMaxQueueSize">最大キューサイズ</Phrase>
-    <Phrase key="lblBatchSize">トランザクションごとのアイテム</Phrase>
-    <Phrase key="btnManageConn">接続の管理</Phrase>
-    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="pageGeneral">一般的な</Phrase>
+    <Phrase key="pageDatabase">データベース</Phrase>
+    <Phrase key="btnManageConn">接続を管理する</Phrase>
+    <Phrase key="btnOK">わかりました</Phrase>
     <Phrase key="btnCancel">キャンセル</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreEAO">
     <Phrase key="this">イベントアーカイブオプション</Phrase>
-    <Phrase key="btnManageConn">接続の管理</Phrase>
-    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="pageGeneral">一般的な</Phrase>
+    <Phrase key="pageDatabase">データベース</Phrase>
+    <Phrase key="btnManageConn">接続を管理する</Phrase>
+    <Phrase key="btnOK">わかりました</Phrase>
     <Phrase key="btnCancel">キャンセル</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreHAO">
     <Phrase key="this">履歴アーカイブのオプション</Phrase>
-    <Phrase key="btnManageConn">接続の管理</Phrase>
-    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="pageGeneral">一般的な</Phrase>
+    <Phrase key="pageDatabase">データベース</Phrase>
+    <Phrase key="btnManageConn">接続を管理する</Phrase>
+    <Phrase key="btnOK">わかりました</Phrase>
     <Phrase key="btnCancel">キャンセル</Phrase>
   </Dictionary>
 </ModArcPostgreSqlDictionaries>

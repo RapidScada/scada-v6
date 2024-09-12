@@ -22,6 +22,7 @@
     <Phrase key="CnlNum">Numero</Phrase>
     <Phrase key="Active">Attivo</Phrase>
     <Phrase key="Name">Nome</Phrase>
+    <Phrase key="Code">Code</Phrase>
     <Phrase key="DataTypeID">Tipo di dati</Phrase>
     <Phrase key="DataLen">Lunghezza dei dati</Phrase>
     <Phrase key="CnlTypeID">Tipo di canale</Phrase>
@@ -312,7 +313,6 @@
     <Phrase key="btnMoveLast.ToolTip">Sposta ultimo</Phrase>
     <Phrase key="btnApplyEdit.ToolTip">Applica l'operazione di modifica</Phrase>
     <Phrase key="btnCancelEdit.ToolTip">Annulla operazione di modifica</Phrase>
-    <Phrase key="btnRefresh.ToolTip">Aggiorna dati</Phrase>
     <Phrase key="btnAddNew.ToolTip">Aggiungere nuova</Phrase>
     <Phrase key="btnDelete.ToolTip">Eliminare</Phrase>
     <Phrase key="btnClear.ToolTip">Tabella chiara</Phrase>
@@ -320,7 +320,6 @@
     <Phrase key="btnCopy.ToolTip">Copia (Ctrl+C)</Phrase>
     <Phrase key="btnPaste.ToolTip">Incolla (Ctrl+V)</Phrase>
     <Phrase key="btnFilter.ToolTip">Filtro</Phrase>
-    <Phrase key="btnFind.ToolTip">Trova e sostituisci (Ctrl+F)</Phrase>
     <Phrase key="btnAutoSizeColumns.ToolTip">Adatta automaticamente la larghezza delle colonne</Phrase>
     <Phrase key="btnProperties.ToolTip">Proprietà oggetto</Phrase>
     <Phrase key="GridViewError">Errore durante la visualizzazione della tabella, colonna &quot;{0}&quot;.</Phrase>
@@ -629,7 +628,6 @@ Le modifiche avranno effetto dopo il riavvio dell'applicazione.</Phrase>
     <Phrase key="btnOpenProject">Progetto aperto</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmTextEditor">
-    <Phrase key="btnReload.ToolTip">Ricarica file</Phrase>
     <Phrase key="OpenTextFileError">Errore durante l'apertura del file</Phrase>
     <Phrase key="SaveTextFileError">Errore durante il salvataggio del file</Phrase>
   </Dictionary>
@@ -665,16 +663,6 @@ Le modifiche avranno effetto dopo il riavvio dell'applicazione.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Forms.FrmRegistration">
     <Phrase key="this">Registrazione</Phrase>
-    <Phrase key="lblProductName">Nome del prodotto</Phrase>
-    <Phrase key="lblCompCode">Codice informatico</Phrase>
-    <Phrase key="btnCopyCompCode">copia</Phrase>
-    <Phrase key="btnRefreshCompCode">ricaricare</Phrase>
-    <Phrase key="lblCompCodeInfo">Se manca il codice, carica la configurazione e riavvia i servizi.</Phrase>
-    <Phrase key="lblRegKey">Chiave di registrazione</Phrase>
-    <Phrase key="btnPasteRegKey">Impasto</Phrase>
-    <Phrase key="lblRegKeyInfo">Il risultato della verifica della chiave è scritto nel registro dell'applicazione o del modulo.</Phrase>
-    <Phrase key="llblGetPermanentKey">Ottieni una chiave permanente</Phrase>
-    <Phrase key="llblGetTrialKey">Ottieni la chiave di prova</Phrase>
     <Phrase key="btnSave">Salva</Phrase>
     <Phrase key="btnCancel">Annulla</Phrase>
     <Phrase key="LoadRegKeyError">Errore durante il caricamento della chiave di registrazione</Phrase>

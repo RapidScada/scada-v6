@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgStoreDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgStore.Areas.Store.Pages.InstalledModel">
+    <Phrase key="PageTitle">Plugins installés</Phrase>
+    <Phrase key="NoData">Aucune donnée</Phrase>
+    <Phrase key="NameColumn">Nom</Phrase>
+    <Phrase key="DescriptionColumn">Description</Phrase>
+    <Phrase key="VersionColumn">Version</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgStore.Areas.Store.Pages.DownloadModel">
+    <Phrase key="PageTitle">Télécharger des plugins</Phrase>
+    <Phrase key="txtFilter_Placeholder">Recherche</Phrase>
+    <Phrase key="btnSearch">Recherche</Phrase>
+    <Phrase key="NameColumn">Nom</Phrase>
+    <Phrase key="DescriptionColumn">Description</Phrase>
+    <Phrase key="PriceColumn">Prix</Phrase>
+    <Phrase key="AuthorColumn">Auteur</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgStore.Areas.Store.Pages.DownloadModel.Js">
+    <Phrase key="Loading">Chargement...</Phrase>
+    <Phrase key="LoadError">Erreur lors du chargement de la liste des plugins</Phrase>
+    <Phrase key="NoData">Aucune donnée</Phrase>
+    <Phrase key="New">Nouveau</Phrase>
+    <Phrase key="Details">Afficher les détails</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgStore.PlgStoreLogic">
+    <Phrase key="InstalledMenuItem">Installé</Phrase>
+    <Phrase key="DownloadMenuItem">Télécharger</Phrase>
+  </Dictionary>
+</PlgStoreDictionaries>

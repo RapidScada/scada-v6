@@ -51,9 +51,12 @@
     <Phrase key="PageTitle">Selecionar canais</Phrase>
     <Phrase key="lblObj">Objeto</Phrase>
     <Phrase key="lblOnlySelected">Mostrar apenas canais selecionados</Phrase>
+    <Phrase key="SelectedColumn">-- Selecione um objeto --</Phrase>
+    <Phrase key="NumberColumn">Especifique um filtro.</Phrase>
+    <Phrase key="NameColumn">Nenhum canal corresponde ao filtro.</Phrase>
     <Phrase key="SelectObjectItem">-- Selecione um objeto --</Phrase>
     <Phrase key="FilterRequired">Especifique um filtro.</Phrase>
-    <Phrase key="NoChannels">Nenhum canal corresponde ao filtro.</Phrase>
+    <Phrase key="NoChannels">Nenhum canal correspondente ao filtro.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Error">
     <Phrase key="PageTitle">Erro</Phrase>

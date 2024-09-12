@@ -19,7 +19,6 @@
     <Phrase key="ThreadFatalError">Errore irreversibile nel thread</Phrase>
     <Phrase key="WriteInfoError">Errore durante la scrittura delle informazioni sull'applicazione nel file</Phrase>
     <Phrase key="ConnectionNotFound">Connessione &quot;{0}&quot; non trovata.</Phrase>
-    <Phrase key="ConnOptionsNotFound">Opzioni di connessione non trovate.</Phrase>
     <Phrase key="DatabaseNotSupported">Database non supportato.</Phrase>
     <Phrase key="OperationNotSupported">Operazione non supportata.</Phrase>
     <Phrase key="CommandSent">Il comando è stato inviato.</Phrase>
@@ -134,6 +133,18 @@
     <Phrase key="lblUsername">Nome utente</Phrase>
     <Phrase key="lblPassword">Parola d'ordine</Phrase>
     <Phrase key="chkConnectionString">Stringa di connessione</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlRegistration">
+    <Phrase key="lblProductName">Nome del prodotto</Phrase>
+    <Phrase key="lblCompCode">Codice informatico</Phrase>
+    <Phrase key="btnCopyCompCode">Copia</Phrase>
+    <Phrase key="btnRefreshCompCode">Aggiorna</Phrase>
+    <Phrase key="lblCompCodeInfo">Se manca il codice, carica la configurazione e riavvia il servizio.</Phrase>
+    <Phrase key="lblRegKey">Chiave di registrazione</Phrase>
+    <Phrase key="btnPasteRegKey">Impasto</Phrase>
+    <Phrase key="lblRegKeyInfo">Il risultato della verifica della chiave viene scritto nel registro dell'applicazione o del modulo.</Phrase>
+    <Phrase key="llblGetPermanentKey">Ottieni la chiave permanente</Phrase>
+    <Phrase key="llblGetTrialKey">Ottieni la chiave di prova</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmBitmask">
     <Phrase key="this">Maschera di bit</Phrase>

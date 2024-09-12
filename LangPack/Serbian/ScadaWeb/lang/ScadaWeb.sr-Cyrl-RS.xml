@@ -51,6 +51,9 @@
     <Phrase key="PageTitle">Изаберите Канали</Phrase>
     <Phrase key="lblObj">Објекат</Phrase>
     <Phrase key="lblOnlySelected">Прикажи само изабране канале</Phrase>
+    <Phrase key="SelectedColumn">-- Изаберите објекат --</Phrase>
+    <Phrase key="NumberColumn">Наведите филтер.</Phrase>
+    <Phrase key="NameColumn">Нема канала који одговарају филтеру.</Phrase>
     <Phrase key="SelectObjectItem">-- Изаберите објекат --</Phrase>
     <Phrase key="FilterRequired">Наведите филтер.</Phrase>
     <Phrase key="NoChannels">Нема канала који одговарају филтеру.</Phrase>

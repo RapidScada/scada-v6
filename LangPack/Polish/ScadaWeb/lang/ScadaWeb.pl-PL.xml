@@ -51,6 +51,9 @@
     <Phrase key="PageTitle">Wybierz kanały</Phrase>
     <Phrase key="lblObj">Obiekt</Phrase>
     <Phrase key="lblOnlySelected">Pokaż tylko wybrane kanały</Phrase>
+    <Phrase key="SelectedColumn">-- Wybierz obiekt --</Phrase>
+    <Phrase key="NumberColumn">Proszę określić filtr.</Phrase>
+    <Phrase key="NameColumn">Brak kanałów pasujących do filtra.</Phrase>
     <Phrase key="SelectObjectItem">-- Wybierz obiekt --</Phrase>
     <Phrase key="FilterRequired">Proszę określić filtr.</Phrase>
     <Phrase key="NoChannels">Brak kanałów pasujących do filtra.</Phrase>

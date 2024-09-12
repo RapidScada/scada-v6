@@ -18,12 +18,13 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmInfluxHAO">
     <Phrase key="this">Options d'archivage historique</Phrase>
-    <Phrase key="gbDbOptions">Options de base de données</Phrase>
-    <Phrase key="lblConnection">Connexion</Phrase>
-    <Phrase key="lblBatchSize">Taille du lot</Phrase>
-    <Phrase key="lblFlushInterval">Intervalle de rinçage</Phrase>
-    <Phrase key="txtFlushIntervalUnit">SP</Phrase>
-    <Phrase key="btnManageConn">Gérer les connexions</Phrase>
+    <Phrase key="pageGeneral">Options de base de données</Phrase>
+    <Phrase key="pageDatabase">Connexion</Phrase>
+    <Phrase key="lblConnection">Taille du lot</Phrase>
+    <Phrase key="lblBatchSize">Intervalle de rinçage</Phrase>
+    <Phrase key="lblFlushInterval">SP</Phrase>
+    <Phrase key="txtFlushIntervalUnit">Gérer les connexions</Phrase>
+    <Phrase key="btnManageConn">D'ACCORD</Phrase>
     <Phrase key="btnOK">D'ACCORD</Phrase>
     <Phrase key="btnCancel">Annuler</Phrase>
   </Dictionary>

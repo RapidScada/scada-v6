@@ -18,7 +18,8 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmInfluxHAO">
     <Phrase key="this">Опције историјског арһива</Phrase>
-    <Phrase key="gbDbOptions">Опције базе података</Phrase>
+    <Phrase key="pageGeneral">генерал</Phrase>
+    <Phrase key="pageDatabase">База података</Phrase>
     <Phrase key="lblConnection">Веза</Phrase>
     <Phrase key="lblBatchSize">Величина серије</Phrase>
     <Phrase key="lblFlushInterval">Интервал испирања</Phrase>

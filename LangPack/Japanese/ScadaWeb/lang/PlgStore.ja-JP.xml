@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgStoreDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgStore.Areas.Store.Pages.InstalledModel">
+    <Phrase key="PageTitle">インストールされているプラ​​グイン</Phrase>
+    <Phrase key="NoData">データなし</Phrase>
+    <Phrase key="NameColumn">名前</Phrase>
+    <Phrase key="DescriptionColumn">説明</Phrase>
+    <Phrase key="VersionColumn">バージョン</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgStore.Areas.Store.Pages.DownloadModel">
+    <Phrase key="PageTitle">プラグインのダウンロード</Phrase>
+    <Phrase key="txtFilter_Placeholder">検索</Phrase>
+    <Phrase key="btnSearch">検索</Phrase>
+    <Phrase key="NameColumn">名前</Phrase>
+    <Phrase key="DescriptionColumn">説明</Phrase>
+    <Phrase key="PriceColumn">価格</Phrase>
+    <Phrase key="AuthorColumn">著者</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgStore.Areas.Store.Pages.DownloadModel.Js">
+    <Phrase key="Loading">読み込み中...</Phrase>
+    <Phrase key="LoadError">プラグインリストの読み込みエラー</Phrase>
+    <Phrase key="NoData">データなし</Phrase>
+    <Phrase key="New">新しい</Phrase>
+    <Phrase key="Details">詳細を見る</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgStore.PlgStoreLogic">
+    <Phrase key="InstalledMenuItem">インストール済み</Phrase>
+    <Phrase key="DownloadMenuItem">ダウンロード</Phrase>
+  </Dictionary>
+</PlgStoreDictionaries>

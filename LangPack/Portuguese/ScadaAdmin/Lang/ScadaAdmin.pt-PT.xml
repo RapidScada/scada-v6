@@ -22,6 +22,7 @@
     <Phrase key="CnlNum">Número</Phrase>
     <Phrase key="Active">Ativo</Phrase>
     <Phrase key="Name">Nome</Phrase>
+    <Phrase key="Code">Código</Phrase>
     <Phrase key="DataTypeID">Tipo de dados</Phrase>
     <Phrase key="DataLen">Comprimento dos dados</Phrase>
     <Phrase key="CnlTypeID">Tipo de Canal</Phrase>
@@ -312,7 +313,6 @@
     <Phrase key="btnMoveLast.ToolTip">mover por último</Phrase>
     <Phrase key="btnApplyEdit.ToolTip">Aplicar operação de edição</Phrase>
     <Phrase key="btnCancelEdit.ToolTip">Cancelar operação de edição</Phrase>
-    <Phrase key="btnRefresh.ToolTip">Atualizar dados</Phrase>
     <Phrase key="btnAddNew.ToolTip">Adicionar novo</Phrase>
     <Phrase key="btnDelete.ToolTip">Excluir</Phrase>
     <Phrase key="btnClear.ToolTip">Limpar Tabela</Phrase>
@@ -320,7 +320,6 @@
     <Phrase key="btnCopy.ToolTip">Copiar (Ctrl+C)</Phrase>
     <Phrase key="btnPaste.ToolTip">Colar (Ctrl+V)</Phrase>
     <Phrase key="btnFilter.ToolTip">Filtro</Phrase>
-    <Phrase key="btnFind.ToolTip">Localizar e substituir (Ctrl+F)</Phrase>
     <Phrase key="btnAutoSizeColumns.ToolTip">Larguras de coluna de ajuste automático</Phrase>
     <Phrase key="btnProperties.ToolTip">Propriedades do item</Phrase>
     <Phrase key="GridViewError">Erro ao exibir a tabela, a coluna "{0}"</Phrase>
@@ -340,32 +339,34 @@
     <Phrase key="pageGeneral">Em geral</Phrase>
     <Phrase key="chkActive">Ativo</Phrase>
     <Phrase key="lblCnlNum">Número</Phrase>
-    <Phrase key="lblDataType">Tipo de dados</Phrase>
-    <Phrase key="lblDataLen">Comprimento dos dados</Phrase>
-    <Phrase key="lblCnlType">Tipo de canal</Phrase>
-    <Phrase key="lblObj">Objeto</Phrase>
-    <Phrase key="lblDevice">Dispositivo</Phrase>
-    <Phrase key="lblTagNum">Número da etiqueta</Phrase>
-    <Phrase key="lblTagCode">Código da etiqueta</Phrase>
-    <Phrase key="chkFormulaEnabled">Fórmula</Phrase>
-    <Phrase key="lblInFormula">Em</Phrase>
-    <Phrase key="lblOutFormula">Fora</Phrase>
-    <Phrase key="pageDisplay">Mostrar</Phrase>
-    <Phrase key="lblFormat">Formatar</Phrase>
-    <Phrase key="lblOutFormat">Formato de comando</Phrase>
-    <Phrase key="lblQuantity">Quantidade</Phrase>
-    <Phrase key="lblUnit">Unidade</Phrase>
-    <Phrase key="pageLim">Limites</Phrase>
-    <Phrase key="lblLim">Limite</Phrase>
-    <Phrase key="btnCreateLim">Criar</Phrase>
-    <Phrase key="chkShared">Mostrar apenas limites compartilhados</Phrase>
-    <Phrase key="lblLoLo">Extremamente baixo</Phrase>
-    <Phrase key="lblLow">Baixo</Phrase>
-    <Phrase key="lblHigh">Alto</Phrase>
-    <Phrase key="lblHiHi">Extremamente alto</Phrase>
-    <Phrase key="lblDeadband">Banda morta</Phrase>
-    <Phrase key="pageArchives">Arquivos</Phrase>
-    <Phrase key="pageEvents">Eventos</Phrase>
+    <Phrase key="lblName">Tipo de dados</Phrase>
+    <Phrase key="lblCode">Comprimento dos dados</Phrase>
+    <Phrase key="lblDataType">Tipo de canal</Phrase>
+    <Phrase key="lblDataLen">Objeto</Phrase>
+    <Phrase key="lblCnlType">Dispositivo</Phrase>
+    <Phrase key="lblObj">Número da etiqueta</Phrase>
+    <Phrase key="lblDevice">Código da etiqueta</Phrase>
+    <Phrase key="lblTagNum">Fórmula</Phrase>
+    <Phrase key="lblTagCode">Em</Phrase>
+    <Phrase key="chkFormulaEnabled">Fora</Phrase>
+    <Phrase key="lblInFormula">Mostrar</Phrase>
+    <Phrase key="lblOutFormula">Formatar</Phrase>
+    <Phrase key="pageDisplay">Formato de comando</Phrase>
+    <Phrase key="lblFormat">Quantidade</Phrase>
+    <Phrase key="lblOutFormat">Unidade</Phrase>
+    <Phrase key="lblQuantity">Limites</Phrase>
+    <Phrase key="lblUnit">Limite</Phrase>
+    <Phrase key="pageLim">Criar</Phrase>
+    <Phrase key="lblLim">Mostrar apenas limites compartilhados</Phrase>
+    <Phrase key="btnCreateLim">Extremamente baixo</Phrase>
+    <Phrase key="chkShared">Baixo</Phrase>
+    <Phrase key="lblLoLo">Alto</Phrase>
+    <Phrase key="lblLow">Extremamente alto</Phrase>
+    <Phrase key="lblHigh">Banda morta</Phrase>
+    <Phrase key="lblHiHi">Arquivos</Phrase>
+    <Phrase key="lblDeadband">Eventos</Phrase>
+    <Phrase key="pageArchives">OK</Phrase>
+    <Phrase key="pageEvents">Cancelar</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancelar</Phrase>
   </Dictionary>
@@ -531,6 +532,9 @@ As alterações entrarão em vigor após a reinicialização do aplicativo.</Phr
     <Phrase key="miFileClose">Fechar</Phrase>
     <Phrase key="miFileCloseProject">Fechar Projeto</Phrase>
     <Phrase key="miFileExit">Saída</Phrase>
+    <Phrase key="miEdit">&amp;Editar</Phrase>
+    <Phrase key="miEditRefresh">Atualizar dados</Phrase>
+    <Phrase key="miEditFind">Encontrar</Phrase>
     <Phrase key="miDeploy">&amp;Implantar</Phrase>
     <Phrase key="miDeployInstanceProfile">Perfil de implantação...</Phrase>
     <Phrase key="miDeployDownloadConfig">Baixar configuração...</Phrase>
@@ -551,6 +555,8 @@ As alterações entrarão em vigor após a reinicialização do aplicativo.</Phr
     <Phrase key="btnFileOpenProject.ToolTip">Abrir Projeto (Ctrl+O)</Phrase>
     <Phrase key="btnFileSave.ToolTip">Salvar (Ctrl+S)</Phrase>
     <Phrase key="btnFileSaveAll.ToolTip">Salvar tudo</Phrase>
+    <Phrase key="btnEditRefresh.ToolTip">Atualizar dados (Ctrl+R)</Phrase>
+    <Phrase key="btnEditFind.ToolTip">Localizar (Ctrl+F)</Phrase>
     <Phrase key="btnDeployInstanceProfile.ToolTip">Perfil de implantação</Phrase>
     <Phrase key="btnDeployDownloadConfig.ToolTip">Baixar configuração</Phrase>
     <Phrase key="btnDeployUploadConfig.ToolTip">Carregar Configuração (Ctrl+U)</Phrase>
@@ -558,6 +564,8 @@ As alterações entrarão em vigor após a reinicialização do aplicativo.</Phr
     <Phrase key="miProjectOpenInExplorer">Abrir Pasta no Explorador de Arquivos</Phrase>
     <Phrase key="miProjectRename">Renomear Projeto</Phrase>
     <Phrase key="miProjectProperties">Propriedades</Phrase>
+    <Phrase key="miBaseOpenInExplorer">Abra a pasta no Explorador de Arquivos</Phrase>
+    <Phrase key="miBaseReload">Recarregar banco de dados de configuração</Phrase>
     <Phrase key="miCnlTableComm">Ir para o comunicador</Phrase>
     <Phrase key="miCnlTableRefresh">Atualizar</Phrase>
     <Phrase key="miDirectoryNewFile">Novo arquivo...</Phrase>
@@ -586,7 +594,8 @@ As alterações entrarão em vigor após a reinicialização do aplicativo.</Phr
     <Phrase key="miAppReloadConfig">Recarregar configuração</Phrase>
     <Phrase key="EmptyTitle">Administrador</Phrase>
     <Phrase key="ProjectTitle">{0} - Administrador</Phrase>
-    <Phrase key="WelcomeMessage">Crie um novo projeto ou&#13;&#10;abra um projeto existente.</Phrase>
+    <Phrase key="WelcomeMessage">Crie um novo projeto ou
+abra um projeto existente.</Phrase>
     <Phrase key="SelectItemMessage">Selecione um item no explorador de projetos.</Phrase>
     <Phrase key="ProjectFileFilter">Projetos (*.rsproj)|*.rsproj|Todos os arquivos (*.*)|*.*</Phrase>
     <Phrase key="ConfirmDeleteDirectory">Tem certeza de que deseja excluir a pasta?</Phrase>
@@ -629,7 +638,6 @@ As alterações entrarão em vigor após a reinicialização do aplicativo.</Phr
     <Phrase key="btnOpenProject">Projeto aberto</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmTextEditor">
-    <Phrase key="btnReload.ToolTip">Recarregar arquivo</Phrase>
     <Phrase key="OpenTextFileError">Erro ao abrir arquivo</Phrase>
     <Phrase key="SaveTextFileError">Erro ao salvar arquivo</Phrase>
   </Dictionary>
@@ -665,16 +673,6 @@ As alterações entrarão em vigor após a reinicialização do aplicativo.</Phr
   </Dictionary>
   <Dictionary key="Scada.Admin.Forms.FrmRegistration">
     <Phrase key="this">Cadastro</Phrase>
-    <Phrase key="lblProductName">Nome do Produto</Phrase>
-    <Phrase key="lblCompCode">código de computador</Phrase>
-    <Phrase key="btnCopyCompCode">cópia de</Phrase>
-    <Phrase key="btnRefreshCompCode">Atualizar</Phrase>
-    <Phrase key="lblCompCodeInfo">Se o código estiver faltando, carregue a configuração e reinicie os serviços.</Phrase>
-    <Phrase key="lblRegKey">Chave de registro</Phrase>
-    <Phrase key="btnPasteRegKey">Colar</Phrase>
-    <Phrase key="lblRegKeyInfo">O resultado da verificação da chave é gravado no log do aplicativo ou do módulo.</Phrase>
-    <Phrase key="llblGetPermanentKey">Obter chave permanente</Phrase>
-    <Phrase key="llblGetTrialKey">Obter chave de avaliação</Phrase>
     <Phrase key="btnSave">Salvar</Phrase>
     <Phrase key="btnCancel">Cancelar</Phrase>
     <Phrase key="LoadRegKeyError">Erro ao carregar a chave de registro</Phrase>

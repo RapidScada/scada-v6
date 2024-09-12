@@ -2,8 +2,8 @@
 <ExtDepPostgreSqlDictionaries>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Downloader">
     <Phrase key="DownloadTable">{0} 테이블 다운로드</Phrase>
-    <Phrase key="DownloadView">"&quot;{0}&quot; 보기 다운로드</Phrase>
-    <Phrase key="DownloadConfigFile">구성 파일 &quot;{0}&quot; 다운로드</Phrase>
+    <Phrase key="DownloadView">""{0}" 보기 다운로드</Phrase>
+    <Phrase key="DownloadConfigFile">구성 파일 "{0}" 다운로드</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Uploader">
     <Phrase key="CreateSchema">데이터베이스 스키마 생성</Phrase>
@@ -11,7 +11,9 @@
     <Phrase key="ClearBase">구성 데이터베이스 지우기</Phrase>
     <Phrase key="CreateBase">구성 데이터베이스 만들기</Phrase>
     <Phrase key="DeleteTable">{0} 테이블 삭제</Phrase>
+    <Phrase key="TruncateTable">{0} 테이블 자르기</Phrase>
     <Phrase key="CreateTable">{0} 테이블 생성</Phrase>
+    <Phrase key="FillTable">{0} 테이블을 채우세요</Phrase>
     <Phrase key="CreateFKs">외래 키 만들기</Phrase>
     <Phrase key="CreateTableFKs">{0} 테이블에 대한 외래 키 생성</Phrase>
     <Phrase key="ClearViews">선명한 보기</Phrase>
@@ -20,7 +22,16 @@
     <Phrase key="ClearAllAppConfig">모든 애플리케이션의 명확한 구성</Phrase>
     <Phrase key="ClearAppConfig">{0} 애플리케이션의 구성 지우기</Phrase>
     <Phrase key="CreateAppConfig">{0} 애플리케이션의 구성 만들기</Phrase>
-    <Phrase key="CreateConfigFile">구성 파일 &quot;{0}&quot; 생성</Phrase>
+    <Phrase key="CreateConfigFile">구성 파일 "{0}" 생성</Phrase>
     <Phrase key="UnableRestartServices">에이전트가 비활성화되어 서비스를 다시 시작할 수 없습니다.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ClearBaseMethod">
+    <Phrase key="DropTables">테이블 삭제</Phrase>
+    <Phrase key="TruncateTables">테이블 자르기</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ExtensionConfig">
+    <Phrase key="ClearBaseMethod.DisplayName">명확한 방법</Phrase>
+    <Phrase key="ClearBaseMethod.Category">주요 매개변수</Phrase>
+    <Phrase key="ClearBaseMethod.Description">구성 데이터베이스를 지우는 방법입니다.  테이블이 이미 생성된 경우 자르기 방법이 가능합니다.</Phrase>
   </Dictionary>
 </ExtDepPostgreSqlDictionaries>

@@ -18,8 +18,7 @@
     <Phrase key="LogicLoopError">Error en el bucle lógico</Phrase>
     <Phrase key="ThreadFatalError">Error fatal en hilo</Phrase>
     <Phrase key="WriteInfoError">Error al escribir la información de la aplicación en el archivo</Phrase>
-    <Phrase key="ConnectionNotFound">Conexión &quot;{0}&quot; no encontrada.</Phrase>
-    <Phrase key="ConnOptionsNotFound">Opciones de conexión no encontradas.</Phrase>
+    <Phrase key="ConnectionNotFound">Conexión "{0}" no encontrada.</Phrase>
     <Phrase key="DatabaseNotSupported">Base de datos no compatible.</Phrase>
     <Phrase key="OperationNotSupported">Operación no admitida.</Phrase>
     <Phrase key="CommandSent">El comando ha sido enviado.</Phrase>
@@ -74,7 +73,7 @@
     <Phrase key="DateTimeRequired">La fecha y la hora son obligatorias.</Phrase>
     <Phrase key="NotNumber">La cadena no es un número.</Phrase>
     <Phrase key="NotHexadecimal">La cadena no es hexadecimal.</Phrase>
-    <Phrase key="InvalidParamVal">Valor no válido del parámetro &quot;{0}&quot;.</Phrase>
+    <Phrase key="InvalidParamVal">Valor no válido del parámetro "{0}".</Phrase>
     <Phrase key="InvalidSecretKey">Clave secreta no válida.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms">
@@ -134,6 +133,18 @@
     <Phrase key="lblUsername">Nombre de usuario</Phrase>
     <Phrase key="lblPassword">Contraseña</Phrase>
     <Phrase key="chkConnectionString">Cadena de conexión</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlRegistration">
+    <Phrase key="lblProductName">Product name</Phrase>
+    <Phrase key="lblCompCode">código de computadora</Phrase>
+    <Phrase key="btnCopyCompCode">Copiar</Phrase>
+    <Phrase key="btnRefreshCompCode">Refrescar</Phrase>
+    <Phrase key="lblCompCodeInfo">Si falta el código, cargue la configuración y reinicie el servicio.</Phrase>
+    <Phrase key="lblRegKey">Clave de registro</Phrase>
+    <Phrase key="btnPasteRegKey">Pasta</Phrase>
+    <Phrase key="lblRegKeyInfo">El resultado de la verificación clave se escribe en el registro de la aplicación o del módulo.</Phrase>
+    <Phrase key="llblGetPermanentKey">Obtener clave permanente</Phrase>
+    <Phrase key="llblGetTrialKey">Obtener clave de prueba</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmBitmask">
     <Phrase key="this">Máscara de bits</Phrase>

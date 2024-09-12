@@ -49,6 +49,7 @@
     <Phrase key="lblUpdateRate">Oppdateringshastighet, ms</Phrase>
     <Phrase key="lblKeepAlive">Hold deg i live, ms</Phrase>
     <Phrase key="lblDeadband">Dødbånd, %</Phrase>
+    <Phrase key="chkReadSync">Les synkront</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Forms.FrmDeviceConfig">
     <Phrase key="this">Egenskaper for enhet {0} – OPC Classic</Phrase>

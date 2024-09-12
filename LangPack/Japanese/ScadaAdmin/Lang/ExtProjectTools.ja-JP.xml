@@ -16,23 +16,33 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.IntegrityCheck">
     <Phrase key="IntegrityCheckTitle">整合性チェック</Phrase>
-    <Phrase key="TableCorrect">OK</Phrase>
+    <Phrase key="TableCorrect">わかりました</Phrase>
     <Phrase key="TableHasErrors">エラー</Phrase>
     <Phrase key="LostPrimaryKeys">主キーの紛失:</Phrase>
     <Phrase key="BaseCorrect">構成データベースは正しいです。</Phrase>
     <Phrase key="BaseHasErrors">構成データベースにエラーがあります。</Phrase>
     <Phrase key="IntegrityCheckError">整合性チェック中にエラーが発生しました</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.ObjectMap">
+    <Phrase key="ObjectMapTitle">オブジェクト階層</Phrase>
+    <Phrase key="NoObjects">オブジェクトがありません</Phrase>
+    <Phrase key="GenerateObjectMapError">オブジェクト マップの生成中にエラーが発生しました</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Controls.CtrlMainMenu">
     <Phrase key="miProjectTools">プロジェクトツール</Phrase>
     <Phrase key="miCloneChannels">チャネルのクローンを作成...</Phrase>
+    <Phrase key="miEncryptPassword">パスワードを暗号化...</Phrase>
     <Phrase key="miChannelMapByDevice">デバイス別のチャネルマップ</Phrase>
     <Phrase key="miChannelMapByObject">オブジェクト別のチャネルマップ</Phrase>
     <Phrase key="miDeviceMap">デバイスマップ</Phrase>
+    <Phrase key="miObjectMap">オブジェクトマップ</Phrase>
     <Phrase key="miCheckIntegrity">整合性のチェック</Phrase>
-    <Phrase key="miEncryptPassword">パスワードを暗号化...</Phrase>
+    <Phrase key="miObjectEditor">オブジェクトエディタ</Phrase>
+    <Phrase key="miRightMatrix">右行列</Phrase>
     <Phrase key="miImportTable">テーブルをインポート...</Phrase>
     <Phrase key="miExportTable">テーブルをエクスポート...</Phrase>
+    <Phrase key="btnObjectEditor.ToolTip">オブジェクトエディタ</Phrase>
+    <Phrase key="btnRightMatrix.ToolTip">右行列</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmCnlClone">
     <Phrase key="this">チャネルのクローンを作成する</Phrase>
@@ -49,8 +59,46 @@
     <Phrase key="btnClone">クローン</Phrase>
     <Phrase key="btnClose">近い</Phrase>
     <Phrase key="KeepUnchanged">&lt;変更しない&gt;</Phrase>
-    <Phrase key="CloneChannelsCompleted">クローン作成が正常に完了しました。&#13;&#10;{0} 個のチャネルが追加されました。</Phrase>
+    <Phrase key="CloneChannelsCompleted">クローン作成が正常に完了しました。
+{0} 個のチャネルが追加されました。</Phrase>
     <Phrase key="CloneChannelsError">チャネルのクローン作成エラー</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmFindObject">
+    <Phrase key="this">オブジェクトの検索</Phrase>
+    <Phrase key="lblFind">何を見つけるか</Phrase>
+    <Phrase key="gbLookAt">見てください</Phrase>
+    <Phrase key="chkObjNum">番号</Phrase>
+    <Phrase key="chkName">名前</Phrase>
+    <Phrase key="chkCode">コード</Phrase>
+    <Phrase key="chkDescr">説明</Phrase>
+    <Phrase key="chkCaseSensitive">大文字と小文字を区別する</Phrase>
+    <Phrase key="chkWholeStringOnly">文字列全体のみに一致</Phrase>
+    <Phrase key="btnFindNext">次を探す</Phrase>
+    <Phrase key="btnClose">近い</Phrase>
+    <Phrase key="ObjectNotFound">オブジェクトが見つかりません。</Phrase>
+    <Phrase key="SearchCompleted">検索が完了しました。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmObjectEditor">
+    <Phrase key="this">オブジェクトエディタ</Phrase>
+    <Phrase key="btnAddObject.ToolTip">オブジェクトの追加</Phrase>
+    <Phrase key="btnDeleteObject.ToolTip">オブジェクトの削除</Phrase>
+    <Phrase key="gbObject">オブジェクトのプロパティ</Phrase>
+    <Phrase key="lblObjNum">番号</Phrase>
+    <Phrase key="lblName">名前</Phrase>
+    <Phrase key="lblCode">コード</Phrase>
+    <Phrase key="lblParentObj">親オブジェクト</Phrase>
+    <Phrase key="lblDescr">説明</Phrase>
+    <Phrase key="miCollapseAll">すべて折りたたむ</Phrase>
+    <Phrase key="miOpenChannels">オープンチャネル</Phrase>
+    <Phrase key="ObjNumInUse">オブジェクト番号はすでに使用されています。</Phrase>
+    <Phrase key="ObjNumReferenced">オブジェクト番号は、「{0}」テーブルの行によって参照されます。</Phrase>
+    <Phrase key="ObjectReferenced">オブジェクトまたはその子が、別のテーブルの行によって参照されています。</Phrase>
+    <Phrase key="ParentObjectNotExists">親オブジェクトはもう存在しません。</Phrase>
+    <Phrase key="InvalidParentObject">親オブジェクトを同じオブジェクトにしたり、子オブジェクトにすることはできません。</Phrase>
+    <Phrase key="UpdateObjNumError">オブジェクト番号の更新中にエラーが発生しました</Phrase>
+    <Phrase key="UpdateParentObjError">親オブジェクトの更新中にエラーが発生しました</Phrase>
+    <Phrase key="DeleteObjectConfirm">オブジェクトを削除してもよろしいですか?</Phrase>
+    <Phrase key="ObjectFilter">オブジェクト {0}</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
     <Phrase key="this">パスワードを暗号化する</Phrase>
@@ -59,10 +107,18 @@
     <Phrase key="btnCopy">コピー</Phrase>
     <Phrase key="btnClose">近い</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmRightMatrix">
+    <Phrase key="this">右行列</Phrase>
+    <Phrase key="ViewRightSymbol">V</Phrase>
+    <Phrase key="ViewRightLegend">V - ビュー</Phrase>
+    <Phrase key="ControlRightSymbol">C</Phrase>
+    <Phrase key="ControlRightLegend">C - コントロール</Phrase>
+    <Phrase key="DisplayMatrixError">右のマトリックスの表示中にエラーが発生しました</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
     <Phrase key="this">エクスポートテーブル</Phrase>
     <Phrase key="lblTable">テーブル</Phrase>
-    <Phrase key="lblFormat">フォーマット</Phrase>
+    <Phrase key="lblFormat">形式</Phrase>
     <Phrase key="gbIDs">ID</Phrase>
     <Phrase key="lblStartID">始める</Phrase>
     <Phrase key="lblEndID">終わり</Phrase>
@@ -85,7 +141,8 @@
     <Phrase key="btnImport">輸入</Phrase>
     <Phrase key="btnClose">近い</Phrase>
     <Phrase key="ImportTableFilter">テーブル (*.dat;*.xml;*.csv)|*.dat;*.xml;*.csv|すべてのファイル (*.*)|*.*</Phrase>
-    <Phrase key="ImportTableCompleted">インポートは正常に完了しました。&#13;&#10;{0} 行が影響を受けました。</Phrase>
+    <Phrase key="ImportTableCompleted">インポートは正常に完了しました。
+{0} 行が影響を受けました。</Phrase>
     <Phrase key="ImportTableError">テーブルのインポート中にエラーが発生しました</Phrase>
   </Dictionary>
 </ExtProjectToolsDictionaries>
