@@ -249,7 +249,7 @@ namespace Scada.Admin.Project
             xmlDoc.AppendChild(xmlDecl);
 
             XmlElement rootElem = xmlDoc.CreateElement("ScadaProject");
-            rootElem.AppendElem("AdminVersion", AdminUtils.AppVersion);
+            rootElem.AppendElem("AdminVersion", AdminUtils.BasicVersion);
             rootElem.AppendElem("ProjectVersion", Version);
             rootElem.AppendElem("Description", Description);
             xmlDoc.AppendChild(rootElem);
