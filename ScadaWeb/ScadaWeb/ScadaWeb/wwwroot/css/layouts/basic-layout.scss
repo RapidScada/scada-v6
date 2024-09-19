@@ -2,7 +2,14 @@
 @import '../_mixins';
 
 body {
-    @include link-colored;
+    --bs-link-color: #{$link-fore-color};
+    --bs-link-color-rgb: #{$link-fore-color-rgb};
+    --bs-link-hover-color: #{$link-hover-fore-color};
+    --bs-link-hover-color-rgb: #{$link-hover-fore-color-rgb};
+
+    a {
+        text-decoration: none;
+    }
 
     &.modal-page {
         overflow: hidden;
