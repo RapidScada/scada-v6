@@ -16,7 +16,6 @@ body {
 
 /********** Header **********/
 #Main_divHeader {
-    @include link-no-decor;
     position: fixed;
     display: none;
     left: 0;
@@ -53,7 +52,6 @@ body {
 }
 
 #Main_divNoHeaderMenu {
-    @include link-no-decor;
     height: $header-height;
     opacity: 0.5;
     position: fixed;
@@ -134,7 +132,6 @@ body {
 
 /********** Left panel **********/
 #Main_divLeftPanel {
-    @include link-no-decor;
     position: fixed;
     display: none;
     left: 0;

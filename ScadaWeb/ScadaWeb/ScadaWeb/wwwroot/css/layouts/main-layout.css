@@ -220,11 +220,6 @@ body.left-panel-visible {
   background-color: #23282d;
   color: #eee;
 }
-#Main_divHeader a, #Main_divHeader a:active, #Main_divHeader a:focus, #Main_divHeader a:hover, #Main_divHeader a:visited {
-  color: inherit;
-  outline: 0;
-  text-decoration: none;
-}
 #Main_divHeader .main-hdr-block {
   position: absolute;
   top: 0;
@@ -251,11 +246,6 @@ body.left-panel-visible {
   top: 0;
   background-color: white;
   z-index: 901;
-}
-#Main_divNoHeaderMenu a, #Main_divNoHeaderMenu a:active, #Main_divNoHeaderMenu a:focus, #Main_divNoHeaderMenu a:hover, #Main_divNoHeaderMenu a:visited {
-  color: inherit;
-  outline: 0;
-  text-decoration: none;
 }
 #Main_divNoHeaderMenu:hover {
   opacity: 1;
@@ -323,11 +313,6 @@ body:not(.full-screen) #Main_spanExitFullscreenBtn {
   background-color: #23282d;
   color: #eee;
   overflow: hidden;
-}
-#Main_divLeftPanel a, #Main_divLeftPanel a:active, #Main_divLeftPanel a:focus, #Main_divLeftPanel a:hover, #Main_divLeftPanel a:visited {
-  color: inherit;
-  outline: 0;
-  text-decoration: none;
 }
 #Main_divLeftPanel .tree-view {
   font-size: 14px;
