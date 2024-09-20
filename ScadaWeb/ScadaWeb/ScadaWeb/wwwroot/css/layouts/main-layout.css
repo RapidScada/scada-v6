@@ -30,7 +30,7 @@
   right: 0;
   top: 30px;
   width: 30%;
-  z-index: 900;
+  z-index: 1005;
 }
 .notif-panel.hidden {
   display: none;
@@ -245,7 +245,7 @@ body.left-panel-visible {
   right: 0;
   top: 0;
   background-color: white;
-  z-index: 901;
+  z-index: 1006;
 }
 #Main_divNoHeaderMenu:hover {
   opacity: 1;
