@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2022
+ * Modified : 2024
  */
 
 using Scada.Admin.Deployment;
@@ -146,7 +146,7 @@ namespace Scada.Admin.Project
             Description = "";
             ConfigDatabase = new ConfigDatabase();
             Views = new ProjectViews();
-            Instances = new List<ProjectInstance>();
+            Instances = [];
             DeploymentConfig = new DeploymentConfig();
         }
 
@@ -204,7 +204,7 @@ namespace Scada.Admin.Project
             // load instances
             if (rootElem.SelectSingleNode("Instances") is XmlNode instancesNode)
             {
-                HashSet<int> instanceIDs = new();
+                HashSet<int> instanceIDs = [];
                 string projectDir = ProjectDir;
 
                 foreach (XmlNode instanceNode in instancesNode.SelectNodes("Instance"))
@@ -249,7 +249,7 @@ namespace Scada.Admin.Project
             xmlDoc.AppendChild(xmlDecl);
 
             XmlElement rootElem = xmlDoc.CreateElement("ScadaProject");
-            rootElem.AppendElem("AdminVersion", AdminUtils.AppVersion);
+            rootElem.AppendElem("AdminVersion", AdminUtils.BasicVersion);
             rootElem.AppendElem("ProjectVersion", Version);
             rootElem.AppendElem("Description", Description);
             xmlDoc.AppendChild(rootElem);
@@ -346,7 +346,7 @@ namespace Scada.Admin.Project
         /// </summary>
         public HashSet<string> GetInstanceNames(bool lowercase, string exceptName = null)
         {
-            HashSet<string> instanceNames = new();
+            HashSet<string> instanceNames = [];
             exceptName = exceptName == null ? null : (lowercase ? exceptName.ToLowerInvariant() : exceptName);
 
             foreach (ProjectInstance instance in Instances)

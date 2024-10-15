@@ -51,6 +51,9 @@
     <Phrase key="PageTitle">チャンネルの選択</Phrase>
     <Phrase key="lblObj">物体</Phrase>
     <Phrase key="lblOnlySelected">選択したチャンネルのみを表示</Phrase>
+    <Phrase key="SelectedColumn">-- オブジェクトを選択します --</Phrase>
+    <Phrase key="NumberColumn">フィルタを指定してください。</Phrase>
+    <Phrase key="NameColumn">フィルターに一致するチャンネルがありません。</Phrase>
     <Phrase key="SelectObjectItem">-- オブジェクトを選択します --</Phrase>
     <Phrase key="FilterRequired">フィルタを指定してください。</Phrase>
     <Phrase key="NoChannels">フィルターに一致するチャンネルがありません。</Phrase>

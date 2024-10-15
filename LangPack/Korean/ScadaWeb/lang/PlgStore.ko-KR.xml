@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgStoreDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgStore.Areas.Store.Pages.InstalledModel">
+    <Phrase key="PageTitle">설치된 플러그인</Phrase>
+    <Phrase key="NoData">데이터 없음</Phrase>
+    <Phrase key="NameColumn">이름</Phrase>
+    <Phrase key="DescriptionColumn">설명</Phrase>
+    <Phrase key="VersionColumn">버전</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgStore.Areas.Store.Pages.DownloadModel">
+    <Phrase key="PageTitle">플러그인 다운로드</Phrase>
+    <Phrase key="txtFilter_Placeholder">찾다</Phrase>
+    <Phrase key="btnSearch">찾다</Phrase>
+    <Phrase key="NameColumn">이름</Phrase>
+    <Phrase key="DescriptionColumn">설명</Phrase>
+    <Phrase key="PriceColumn">가격</Phrase>
+    <Phrase key="AuthorColumn">작가</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgStore.Areas.Store.Pages.DownloadModel.Js">
+    <Phrase key="Loading">로드 중...</Phrase>
+    <Phrase key="LoadError">플러그인 목록을 로드하는 중에 오류가 발생했습니다.</Phrase>
+    <Phrase key="NoData">데이터 없음</Phrase>
+    <Phrase key="New">새로운</Phrase>
+    <Phrase key="Details">세부정보 보기</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgStore.PlgStoreLogic">
+    <Phrase key="InstalledMenuItem">설치됨</Phrase>
+    <Phrase key="DownloadMenuItem">다운로드</Phrase>
+  </Dictionary>
+</PlgStoreDictionaries>

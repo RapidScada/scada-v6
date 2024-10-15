@@ -312,7 +312,6 @@
     <Phrase key="btnMoveLast.ToolTip">Zuletzt bewegen</Phrase>
     <Phrase key="btnApplyEdit.ToolTip">Bearbeitungsvorgang anwenden</Phrase>
     <Phrase key="btnCancelEdit.ToolTip">Bearbeitungsvorgang abbrechen</Phrase>
-    <Phrase key="btnRefresh.ToolTip">Daten aktualisieren</Phrase>
     <Phrase key="btnAddNew.ToolTip">Neue hinzufügen</Phrase>
     <Phrase key="btnDelete.ToolTip">Löschen</Phrase>
     <Phrase key="btnClear.ToolTip">Klarer Tisch</Phrase>
@@ -320,7 +319,6 @@
     <Phrase key="btnCopy.ToolTip">Kopieren (Strg+C)</Phrase>
     <Phrase key="btnPaste.ToolTip">Einfügen (Strg+V)</Phrase>
     <Phrase key="btnFilter.ToolTip">Filter</Phrase>
-    <Phrase key="btnFind.ToolTip">Suchen und Ersetzen (Strg+F)</Phrase>
     <Phrase key="btnAutoSizeColumns.ToolTip">Spaltenbreiten automatisch anpassen</Phrase>
     <Phrase key="btnProperties.ToolTip">Artikeleigenschaften</Phrase>
     <Phrase key="GridViewError">Fehler beim Anzeigen der Tabelle, Spalte &quot;{0}&quot;.</Phrase>
@@ -629,7 +627,6 @@
     <Phrase key="btnOpenProject">Offenes Projekt</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmTextEditor">
-    <Phrase key="btnReload.ToolTip">Datei neu laden</Phrase>
     <Phrase key="OpenTextFileError">Fehler beim Öffnen der Datei</Phrase>
     <Phrase key="SaveTextFileError">Fehler beim Speichern der Datei</Phrase>
   </Dictionary>
@@ -665,16 +662,6 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.Forms.FrmRegistration">
     <Phrase key="this">Anmeldung</Phrase>
-    <Phrase key="lblProductName">Produktname</Phrase>
-    <Phrase key="lblCompCode">Computercode</Phrase>
-    <Phrase key="btnCopyCompCode">Kopieren</Phrase>
-    <Phrase key="btnRefreshCompCode">Aktualisierung</Phrase>
-    <Phrase key="lblCompCodeInfo">Wenn der Code fehlt, laden Sie die Konfiguration hoch und starten Sie die Dienste neu.</Phrase>
-    <Phrase key="lblRegKey">Registrierungsschlüssel</Phrase>
-    <Phrase key="btnPasteRegKey">Paste</Phrase>
-    <Phrase key="lblRegKeyInfo">Das Ergebnis der Schlüsselüberprüfung wird in das Anwendungs- oder Modulprotokoll geschrieben.</Phrase>
-    <Phrase key="llblGetPermanentKey">Holen Sie sich einen dauerhaften Schlüssel</Phrase>
-    <Phrase key="llblGetTrialKey">Holen Sie sich den Testschlüssel</Phrase>
     <Phrase key="btnSave">Speichern</Phrase>
     <Phrase key="btnCancel">Stornieren</Phrase>
     <Phrase key="LoadRegKeyError">Fehler beim Laden des Registrierungsschlüssels</Phrase>

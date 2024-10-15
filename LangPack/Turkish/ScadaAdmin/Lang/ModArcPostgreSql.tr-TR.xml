@@ -2,13 +2,14 @@
 <ModArcPostgreSqlDictionaries>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Controls.CtrlDatabaseOptions">
     <Phrase key="gbDbOptions">Veritabanı Seçenekleri</Phrase>
-    <Phrase key="lblUseStorageConn">Depolama bağlantısını kullan</Phrase>
+    <Phrase key="lblUseDefaultConn">Depolama bağlantısını kullan</Phrase>
     <Phrase key="lblConnection">Bağlantı</Phrase>
     <Phrase key="lblPartitionSize">Bölüm boyutu</Phrase>
     <Phrase key="cbPartitionSize.Items[0]">Bir ay</Phrase>
     <Phrase key="cbPartitionSize.Items[1]">Bir yıl</Phrase>
-    <Phrase key="lblMaxQueueSize">Maksimum sıra boyutu</Phrase>
-    <Phrase key="lblBatchSize">İşlem başına ürün sayısı</Phrase>
+    <Phrase key="cbPartitionSize.Items[2]">Maksimum sıra boyutu</Phrase>
+    <Phrase key="lblMaxQueueSize">İşlem başına ürün sayısı</Phrase>
+    <Phrase key="lblBatchSize">İşlem başına öğeler</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmConnManager">
     <Phrase key="this">PostgreSQL Bağlantıları</Phrase>
@@ -21,7 +22,7 @@
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreCAO">
     <Phrase key="this">Mevcut Arşiv Seçenekleri</Phrase>
     <Phrase key="gbDbOptions">Veritabanı Seçenekleri</Phrase>
-    <Phrase key="lblUseStorageConn">Depolama bağlantısını kullan</Phrase>
+    <Phrase key="lblUseDefaultConn">Depolama bağlantısını kullan</Phrase>
     <Phrase key="lblConnection">Bağlantı</Phrase>
     <Phrase key="lblMaxQueueSize">Maksimum sıra boyutu</Phrase>
     <Phrase key="lblBatchSize">İşlem başına ürün sayısı</Phrase>

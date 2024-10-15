@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ExtExternalTools>
+  <!--
+  The extension is inspired by https://learn.microsoft.com/en-us/visualstudio/ide/managing-external-tools
+  
+  Arguments support the following variables:
+  {ProjectFileName} - the file name of the open project,
+  {ItemFileName} - the file name corresponding to the active window.
+  -->
+  <ToolItem>
+    <Title>Open in Notepad++</Title>
+    <FileName>C:\Program Files\Notepad++\notepad++.exe</FileName>
+    <Arguments>{ItemFileName}</Arguments>
+    <WorkingDirectory></WorkingDirectory>
+  </ToolItem>
+</ExtExternalTools>

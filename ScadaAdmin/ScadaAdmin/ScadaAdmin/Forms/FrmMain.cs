@@ -124,6 +124,11 @@ namespace Scada.Admin.App.Forms
         TreeNode IMainForm.SelectedNode => tvExplorer.SelectedNode;
 
         /// <summary>
+        /// Gets the active child form.
+        /// </summary>
+        Form IMainForm.ActiveChildForm => wctrlMain.ActiveForm;
+
+        /// <summary>
         /// Gets the item type of the configuration database table of the active child form.
         /// </summary>
         Type IMainForm.ActiveBaseTable => (wctrlMain.ActiveForm as FrmBaseTable)?.ItemType;

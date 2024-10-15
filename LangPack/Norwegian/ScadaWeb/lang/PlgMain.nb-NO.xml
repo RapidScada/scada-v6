@@ -10,10 +10,11 @@
     <Phrase key="lblPassword">Passord</Phrase>
     <Phrase key="lblCmdDec">Kommandoverdi</Phrase>
     <Phrase key="lblCmdHex">Kommandoverdi (heksadesimal)</Phrase>
-    <Phrase key="lblCmdEnum">Kommando</Phrase>
-    <Phrase key="lblCmdDate">Kommandoverdi (dato/klokkeslett)</Phrase>
-    <Phrase key="lblCmdData">Kommandodata</Phrase>
-    <Phrase key="lblStr">String</Phrase>
+    <Phrase key="lblCmdBin">Kommando</Phrase>
+    <Phrase key="lblCmdEnum">Kommandoverdi (dato/klokkeslett)</Phrase>
+    <Phrase key="lblCmdDate">Kommandodata</Phrase>
+    <Phrase key="lblCmdData">String</Phrase>
+    <Phrase key="lblStr">Heksadesimal</Phrase>
     <Phrase key="lblHex">Heksadesimal</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventAck">

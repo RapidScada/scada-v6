@@ -175,8 +175,8 @@ namespace Scada.Web.Plugins.PlgMain.Report
                     if (formatter.LastResultInfo.IsFloat)
                         dataCell.SetNumberType();
 
-                    if (cnlDataF.Colors.Length > 0)
-                        renderer.Workbook.SetColor(dataCell.Node, null, cnlDataF.Colors[0]);
+                    if (cnlDataF.GetMainColor(out string color))
+                        renderer.Workbook.SetColor(dataCell.Node, null, color);
 
                     dataRow.AppendCell(dataCell);
                     totals[cnlIdx].CountData(cnlData);

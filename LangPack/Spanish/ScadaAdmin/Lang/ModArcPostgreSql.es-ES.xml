@@ -2,12 +2,13 @@
 <ModArcPostgreSqlDictionaries>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Controls.CtrlDatabaseOptions">
     <Phrase key="gbDbOptions">Opciones de base de datos</Phrase>
-    <Phrase key="lblUseStorageConn">Usar conexión de almacenamiento</Phrase>
+    <Phrase key="lblUseDefaultConn">Usar conexión de almacenamiento</Phrase>
     <Phrase key="lblConnection">Conexión</Phrase>
     <Phrase key="lblPartitionSize">Tamaño de la partición</Phrase>
     <Phrase key="cbPartitionSize.Items[0]">Un mes</Phrase>
     <Phrase key="cbPartitionSize.Items[1]">Un año</Phrase>
-    <Phrase key="lblMaxQueueSize">Tamaño máximo de cola</Phrase>
+    <Phrase key="cbPartitionSize.Items[2]">Tamaño máximo de cola</Phrase>
+    <Phrase key="lblMaxQueueSize">Artículos por transacción</Phrase>
     <Phrase key="lblBatchSize">Artículos por transacción</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmConnManager">
@@ -21,7 +22,7 @@
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreCAO">
     <Phrase key="this">Opciones de archivo actual</Phrase>
     <Phrase key="gbDbOptions">Opciones de base de datos</Phrase>
-    <Phrase key="lblUseStorageConn">Usar conexión de almacenamiento</Phrase>
+    <Phrase key="lblUseDefaultConn">Usar conexión de almacenamiento</Phrase>
     <Phrase key="lblConnection">Conexión</Phrase>
     <Phrase key="lblMaxQueueSize">Tamaño máximo de cola</Phrase>
     <Phrase key="lblBatchSize">Artículos por transacción</Phrase>

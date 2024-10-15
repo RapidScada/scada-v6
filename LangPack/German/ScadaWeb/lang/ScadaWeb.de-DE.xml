@@ -52,6 +52,9 @@
     <Phrase key="lblObj">Objekt</Phrase>
     <Phrase key="lblOnlySelected">Nur ausgewählte Kanäle anzeigen</Phrase>
     <Phrase key="SelectObjectItem">-- Wählen Sie ein Objekt aus --</Phrase>
+    <Phrase key="SelectedColumn">Selected</Phrase>
+    <Phrase key="NumberColumn">Number</Phrase>
+    <Phrase key="NameColumn">Name</Phrase>
     <Phrase key="FilterRequired">Bitte geben Sie einen Filter an.</Phrase>
     <Phrase key="NoChannels">Keine Kanäle, die dem Filter entsprechen.</Phrase>
   </Dictionary>

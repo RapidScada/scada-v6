@@ -52,7 +52,7 @@
         <form method="post"></form>
     }
 
-    <table id="tblEvent" class="table-main" data-color="@Model.EventF.Color">
+    <table id="tblEvent" class="table-main" data-color="@Model.EventF.GetMainColor()">
         <tr>
             <th>@dict.TimeRow</th>
             <td>@Model.EventF.Time</td>

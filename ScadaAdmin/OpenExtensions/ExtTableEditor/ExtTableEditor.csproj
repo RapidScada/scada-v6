@@ -11,11 +11,11 @@
     <Product>Rapid SCADA</Product>
     <Copyright>Copyright © 2024</Copyright>
     <Version>6.1.0</Version>
-    <AssemblyVersion>6.1.0.0</AssemblyVersion>
+    <AssemblyVersion>6.1.0.1</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="WinControl" Version="2.2.3" />
+    <PackageReference Include="WinControl" Version="2.2.4" />
   </ItemGroup>
 
   <ItemGroup>

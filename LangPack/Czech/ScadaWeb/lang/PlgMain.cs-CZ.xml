@@ -10,6 +10,7 @@
     <Phrase key="lblPassword">Heslo</Phrase>
     <Phrase key="lblCmdDec">Hodnota příkazu</Phrase>
     <Phrase key="lblCmdHex">Hodnota příkazu (hexadecimální)</Phrase>
+    <Phrase key="lblCmdBin">Hodnota příkazu (binární)</Phrase>
     <Phrase key="lblCmdEnum">Příkaz</Phrase>
     <Phrase key="lblCmdDate">Hodnota příkazu (datum/čas)</Phrase>
     <Phrase key="lblCmdData">Data příkazů</Phrase>

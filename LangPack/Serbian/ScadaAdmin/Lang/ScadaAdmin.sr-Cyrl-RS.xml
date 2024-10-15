@@ -22,6 +22,7 @@
     <Phrase key="CnlNum">Број</Phrase>
     <Phrase key="Active">Активан</Phrase>
     <Phrase key="Name">Име</Phrase>
+    <Phrase key="Code">Code</Phrase>
     <Phrase key="DataTypeID">Тип података</Phrase>
     <Phrase key="DataLen">Дужина података</Phrase>
     <Phrase key="CnlTypeID">Врста канала</Phrase>
@@ -225,8 +226,8 @@
   <Dictionary key="Scada.Admin.App.Forms">
     <Phrase key="SelectedColumn">Одабрано</Phrase>
     <Phrase key="NoProfileConnections">Профил не садржи везе.</Phrase>
-    <Phrase key="ExtensionNotFound">Екстензија &quot;{0}&quot; није пронађена.</Phrase>
-    <Phrase key="ExtensionCannotDeploy">Екстензија &quot;{0}&quot; не подржава примену.</Phrase>
+    <Phrase key="ExtensionNotFound">Екстензија "{0}" није пронађена.</Phrase>
+    <Phrase key="ExtensionCannotDeploy">Екстензија "{0}" не подржава примену.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmDownloadConfig">
     <Phrase key="this">Преузмите конфигурацију</Phrase>
@@ -312,7 +313,6 @@
     <Phrase key="btnMoveLast.ToolTip">Помери последњи</Phrase>
     <Phrase key="btnApplyEdit.ToolTip">Примените операцију уређивања</Phrase>
     <Phrase key="btnCancelEdit.ToolTip">Откажите операцију уређивања</Phrase>
-    <Phrase key="btnRefresh.ToolTip">Освежи податке</Phrase>
     <Phrase key="btnAddNew.ToolTip">Додај нови</Phrase>
     <Phrase key="btnDelete.ToolTip">Избриши</Phrase>
     <Phrase key="btnClear.ToolTip">Цлеар Табле</Phrase>
@@ -320,19 +320,18 @@
     <Phrase key="btnCopy.ToolTip">Копирај (Ctrl+C)</Phrase>
     <Phrase key="btnPaste.ToolTip">Налепи ((Ctrl+V)</Phrase>
     <Phrase key="btnFilter.ToolTip">Филтер</Phrase>
-    <Phrase key="btnFind.ToolTip">Пронађи и замени (Ctrl+F)</Phrase>
     <Phrase key="btnAutoSizeColumns.ToolTip">Аутофит Цолумн Видтһс</Phrase>
     <Phrase key="btnProperties.ToolTip">Својства предмета</Phrase>
-    <Phrase key="GridViewError">Грешка при приказивању табеле, колоне &quot;{0}&quot;.</Phrase>
+    <Phrase key="GridViewError">Грешка при приказивању табеле, колоне "{0}".</Phrase>
     <Phrase key="ColumnLabel">Колона:</Phrase>
     <Phrase key="DeleteRowConfirm">Да ли сте сигурни да желите да избришете ред?</Phrase>
     <Phrase key="DeleteRowsConfirm">Да ли сте сигурни да желите да избришете редове?</Phrase>
     <Phrase key="ClearTableConfirm">Да ли сте сигурни да желите да очистите сто?</Phrase>
     <Phrase key="RowsNotDeleted">Неки редови нису избрисани јер су референцирани.</Phrase>
-    <Phrase key="ColumnNotNull">Колона &quot;{0}&quot; не може да садржи празне вредности.</Phrase>
-    <Phrase key="UniqueRequired">Дупликат вредности не може да се убаци у колону &quot;{0}&quot;.</Phrase>
-    <Phrase key="KeyReferenced">На примарни кључ упућује ред из табеле &quot;{0}&quot;.</Phrase>
-    <Phrase key="DataNotExist">Нема података за колону &quot;{0}&quot;.</Phrase>
+    <Phrase key="ColumnNotNull">Колона "{0}" не може да садржи празне вредности.</Phrase>
+    <Phrase key="UniqueRequired">Дупликат вредности не може да се убаци у колону "{0}".</Phrase>
+    <Phrase key="KeyReferenced">На примарни кључ упућује ред из табеле "{0}".</Phrase>
+    <Phrase key="DataNotExist">Нема података за колону "{0}".</Phrase>
     <Phrase key="DataChangeError">Грешка при промени података табеле</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmCnl">
@@ -340,34 +339,36 @@
     <Phrase key="pageGeneral">Генерал</Phrase>
     <Phrase key="chkActive">Активан</Phrase>
     <Phrase key="lblCnlNum">Број</Phrase>
-    <Phrase key="lblDataType">Тип података</Phrase>
-    <Phrase key="lblDataLen">Дужина података</Phrase>
-    <Phrase key="lblCnlType">Врста канала</Phrase>
-    <Phrase key="lblObj">Објекат</Phrase>
-    <Phrase key="lblDevice">Уређај</Phrase>
-    <Phrase key="lblTagNum">Ознака број</Phrase>
-    <Phrase key="lblTagCode">Таг цоде</Phrase>
-    <Phrase key="chkFormulaEnabled">Формула</Phrase>
-    <Phrase key="lblInFormula">Ин</Phrase>
-    <Phrase key="lblOutFormula">Напоље</Phrase>
-    <Phrase key="pageDisplay">Приказ</Phrase>
-    <Phrase key="lblFormat">Формат</Phrase>
-    <Phrase key="lblOutFormat">Формат команде</Phrase>
-    <Phrase key="lblQuantity">Количина</Phrase>
-    <Phrase key="lblUnit">Јединица</Phrase>
-    <Phrase key="pageLim">Ограничења</Phrase>
-    <Phrase key="lblLim">Лимит</Phrase>
-    <Phrase key="btnCreateLim">Креирај</Phrase>
-    <Phrase key="chkShared">Прикажи само дељена ограничења</Phrase>
-    <Phrase key="lblLoLo">Екстремно ниска</Phrase>
-    <Phrase key="lblLow">Ниско</Phrase>
-    <Phrase key="lblHigh">Високо</Phrase>
-    <Phrase key="lblHiHi">Изузетно висок</Phrase>
-    <Phrase key="lblDeadband">Деадбанд</Phrase>
-    <Phrase key="pageArchives">Арцһивес</Phrase>
-    <Phrase key="pageEvents">Догађаји</Phrase>
-    <Phrase key="btnOK">У реду</Phrase>
-    <Phrase key="btnCancel">Поништити, отказати</Phrase>
+    <Phrase key="lblName">Тип података</Phrase>
+    <Phrase key="lblCode">Дужина података</Phrase>
+    <Phrase key="lblDataType">Врста канала</Phrase>
+    <Phrase key="lblDataLen">Објекат</Phrase>
+    <Phrase key="lblCnlType">Уређај</Phrase>
+    <Phrase key="lblObj">Ознака број</Phrase>
+    <Phrase key="lblDevice">Таг цоде</Phrase>
+    <Phrase key="lblTagNum">Формула</Phrase>
+    <Phrase key="lblTagCode">Ин</Phrase>
+    <Phrase key="chkFormulaEnabled">Напоље</Phrase>
+    <Phrase key="lblInFormula">Приказ</Phrase>
+    <Phrase key="lblOutFormula">Формат</Phrase>
+    <Phrase key="pageDisplay">Формат команде</Phrase>
+    <Phrase key="lblFormat">Количина</Phrase>
+    <Phrase key="lblOutFormat">Јединица</Phrase>
+    <Phrase key="lblQuantity">Ограничења</Phrase>
+    <Phrase key="lblUnit">Лимит</Phrase>
+    <Phrase key="pageLim">Креирај</Phrase>
+    <Phrase key="lblLim">Прикажи само дељена ограничења</Phrase>
+    <Phrase key="btnCreateLim">Екстремно ниска</Phrase>
+    <Phrase key="chkShared">Ниско</Phrase>
+    <Phrase key="lblLoLo">Високо</Phrase>
+    <Phrase key="lblLow">Изузетно висок</Phrase>
+    <Phrase key="lblHigh">Деадбанд</Phrase>
+    <Phrase key="lblHiHi">Арцһивес</Phrase>
+    <Phrase key="lblDeadband">Догађаји</Phrase>
+    <Phrase key="pageArchives">У реду</Phrase>
+    <Phrase key="pageEvents">Поништити, отказати</Phrase>
+    <Phrase key="btnOK">ОК</Phrase>
+    <Phrase key="btnCancel">Откажи</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmColorDialog">
     <Phrase key="this">Изаберите Боја</Phrase>
@@ -425,7 +426,7 @@
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmPassword">
     <Phrase key="this">Постави лозинку</Phrase>
     <Phrase key="lblUserID">ID корисник</Phrase>
-    <Phrase key="lblPassword">New password</Phrase>
+    <Phrase key="lblPassword">Нова лозинка</Phrase>
     <Phrase key="btnShowPassword">Прикажи</Phrase>
     <Phrase key="btnHidePassword">Сакрити</Phrase>
     <Phrase key="lblInfo">Промена корисничког ИД-а поништиће лозинку.</Phrase>
@@ -465,11 +466,12 @@
     <Phrase key="lblInfo">Промене ће ступити на снагу након поновног покретања апликације.</Phrase>
     <Phrase key="btnOK">У реду</Phrase>
     <Phrase key="btnCancel">Поништити, отказати</Phrase>
-    <Phrase key="ProjectExtRegistered">Екстензија &quot;{0}&quot; је успешно регистрована.</Phrase>
+    <Phrase key="ProjectExtRegistered">Екстензија "{0}" је успешно регистрована.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tools.FrmCulture">
     <Phrase key="this">Језик</Phrase>
-    <Phrase key="lblInfo">Потребне су администраторске дозволе.&#13;&#10;Промене ће ступити на снагу након поновног покретања апликације.</Phrase>
+    <Phrase key="lblInfo">Потребне су администраторске дозволе.
+Промене ће ступити на снагу након поновног покретања апликације.</Phrase>
     <Phrase key="btnOK">У реду</Phrase>
     <Phrase key="btnCancel">Поништити, отказати</Phrase>
     <Phrase key="LoadCulturesError">Грешка при учитавању култура</Phrase>
@@ -530,6 +532,9 @@
     <Phrase key="miFileClose">Близу</Phrase>
     <Phrase key="miFileCloseProject">Затвори пројекат</Phrase>
     <Phrase key="miFileExit">Изађи</Phrase>
+    <Phrase key="miEdit">&amp;Edit</Phrase>
+    <Phrase key="miEditRefresh">Refresh Data</Phrase>
+    <Phrase key="miEditFind">Find</Phrase>
     <Phrase key="miDeploy">&amp;Развити</Phrase>
     <Phrase key="miDeployInstanceProfile">Профил примене...</Phrase>
     <Phrase key="miDeployDownloadConfig">Преузмите конфигурацију...</Phrase>
@@ -550,6 +555,8 @@
     <Phrase key="btnFileOpenProject.ToolTip">Отвори пројекат (Ctrl+O)</Phrase>
     <Phrase key="btnFileSave.ToolTip">Сачувај  (Ctrl+S)</Phrase>
     <Phrase key="btnFileSaveAll.ToolTip">Спаси све</Phrase>
+    <Phrase key="btnEditRefresh.ToolTip">Освежи податке (Ctrl+E)</Phrase>
+    <Phrase key="btnEditFind.ToolTip">Пронађите (Ctrl+F)</Phrase>
     <Phrase key="btnDeployInstanceProfile.ToolTip">Деплоимент Профиле</Phrase>
     <Phrase key="btnDeployDownloadConfig.ToolTip">Преузмите конфигурацију</Phrase>
     <Phrase key="btnDeployUploadConfig.ToolTip">Отпремање конфигурације  (Ctrl+U)</Phrase>
@@ -557,6 +564,8 @@
     <Phrase key="miProjectOpenInExplorer">Отворите фасциклу у Филе Екплорер-у</Phrase>
     <Phrase key="miProjectRename">Преименуј пројекат</Phrase>
     <Phrase key="miProjectProperties">Својства</Phrase>
+    <Phrase key="miBaseOpenInExplorer">Отворите фасциклу у Филе Екплорер-у</Phrase>
+    <Phrase key="miBaseReload">Поново учитај конфигурациону базу података</Phrase>
     <Phrase key="miCnlTableComm">Идите на Комуникатор</Phrase>
     <Phrase key="miCnlTableRefresh">Освјежи</Phrase>
     <Phrase key="miDirectoryNewFile">Нова датотека...</Phrase>
@@ -585,7 +594,8 @@
     <Phrase key="miAppReloadConfig">Поново учитај конфигурацију</Phrase>
     <Phrase key="EmptyTitle">Администратор</Phrase>
     <Phrase key="ProjectTitle">{0} – Администратор</Phrase>
-    <Phrase key="WelcomeMessage">Направите нови пројекат или&#13;&#10;отворите постојећи пројекат.</Phrase>
+    <Phrase key="WelcomeMessage">Направите нови пројекат или
+отворите постојећи пројекат.</Phrase>
     <Phrase key="SelectItemMessage">Изаберите ставку у истраживачу пројекта.</Phrase>
     <Phrase key="ProjectFileFilter">Projects (*.rsproj)|*.rsproj|All Files (*.*)|*.*</Phrase>
     <Phrase key="ConfirmDeleteDirectory">Да ли сте сигурни да желите да избришете фасциклу?</Phrase>
@@ -628,7 +638,6 @@
     <Phrase key="btnOpenProject">Отворите пројекат</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmTextEditor">
-    <Phrase key="btnReload.ToolTip">Поново учитај датотеку</Phrase>
     <Phrase key="OpenTextFileError">Грешка при отварању датотеке</Phrase>
     <Phrase key="SaveTextFileError">Грешка при чувању датотеке</Phrase>
   </Dictionary>
@@ -664,16 +673,6 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.Forms.FrmRegistration">
     <Phrase key="this">Регистрација</Phrase>
-    <Phrase key="lblProductName">Назив производа</Phrase>
-    <Phrase key="lblCompCode">Рачунарски код</Phrase>
-    <Phrase key="btnCopyCompCode">Копирај</Phrase>
-    <Phrase key="btnRefreshCompCode">Освјежи</Phrase>
-    <Phrase key="lblCompCodeInfo">Ако код недостаје, отпремите конфигурацију и поново покрените услуге.</Phrase>
-    <Phrase key="lblRegKey">Кључ за регистрацију</Phrase>
-    <Phrase key="btnPasteRegKey">Залепите</Phrase>
-    <Phrase key="lblRegKeyInfo">Резултат верификације кључа се уписује у дневник апликације или модула.</Phrase>
-    <Phrase key="llblGetPermanentKey">Набавите трајни кључ</Phrase>
-    <Phrase key="llblGetTrialKey">Узми пробни кључ</Phrase>
     <Phrase key="btnSave">сачувати</Phrase>
     <Phrase key="btnCancel">Поништити, отказати</Phrase>
     <Phrase key="LoadRegKeyError">Грешка при учитавању кључа за регистрацију</Phrase>

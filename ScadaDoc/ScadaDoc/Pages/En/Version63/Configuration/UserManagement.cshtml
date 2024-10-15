@@ -1,0 +1,118 @@
+﻿@page "/en/latest/configuration/user-management"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "User Management";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#creating-users">Creating Users</a></li>
+        <li><a href="#rights-assignment">Rights Assignment</a></li>
+        <li><a href="#built-in-roles">Built-in Roles</a></li>
+        <li><a href="#custom-roles">Custom Roles</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>User Management</h1>
+    <h2 id="creating-users">Creating Users</h2>
+    <p>Creating, editing and deleting users is performed in the Administrator application in the Users table (see Figure 1).</p>
+
+    <figure class="figure">
+        <img src="user-management-files/users-table-en.png" class="figure-img img-fluid" alt="Users table" />
+        <figcaption class="figure-caption">Figure 1. Users table</figcaption>
+    </figure>
+
+    <p>Users with IDs from 1 to 12 are created by default from the project template. The <em>ScadaWeb</em> and <em>ScadaComm</em> users are intended to connect the Webstation and Communicator client applications to the Server application. The <em>admin</em> and <em>guest</em> users who use the <a href="#built-in-roles">built-in roles</a> are intended to log in to the system. The <em>alex</em>, <em>john</em> and <em>maria</em> users who use <a href="#custom-roles">custom roles</a> are created as an example.</p>
+
+    <h2 id="rights-assignment">Rights Assignment</h2>
+    <p>Rights are assigned to roles on objects. Note that rights are assigned only for custom roles. For built-in roles, permission check is already implemented in applications. A <strong>role</strong> is a named set of rights.</p>
+    <p>Before assigning rights, fill in the <strong>Objects</strong> and <strong>Roles</strong> tables (see Figures 2 and 3). Next, specify the rights in the <strong>Object&nbsp;rights</strong> table (see Figure 4). Objects can relate to each other hierarchically (see Figure 5). If a top-level object has certain permissions, they are inherited by lower-level objects.</p>
+
+    <figure class="figure">
+        <img src="user-management-files/objects-table-en.png" class="figure-img img-fluid" alt="Objects table" />
+        <figcaption class="figure-caption">Figure 2. Objects table</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="user-management-files/roles-table-en.png" class="figure-img img-fluid" alt="Roles table" />
+        <figcaption class="figure-caption">Figure 3. Roles table</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="user-management-files/object-rights-table-en.png" class="figure-img img-fluid" alt="Object rights table" />
+        <figcaption class="figure-caption">Figure 4. Object rights table</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="user-management-files/object-tree-en.png" class="figure-img img-fluid" alt="Object hierarchy" />
+        <figcaption class="figure-caption">Figure 5. Object hierarchy</figcaption>
+    </figure>
+
+    <h2 id="built-in-roles">Built-in Roles</h2>
+    <p>Built-in roles whose permissions are hard-coded into the applications are listed in the following table.</p>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>0</td>
+                <td>Disabled</td>
+                <td>Access denied</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Administrator</td>
+                <td>Full access</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Dispatcher</td>
+                <td>Can view information and send commands</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Guest</td>
+                <td>Can view information</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Application</td>
+                <td>Interacts with the server</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Features of the built-in roles:</p>
+    <ul>
+        <li>Their IDs are from 0 to 4.</li>
+        <li>They apply to all objects.</li>
+        <li>Cannot be changed.</li>
+    </ul>
+
+    <h2 id="custom-roles">Custom Roles</h2>
+    <p>Custom roles are roles created by the project developer. In the example above, the custom roles are <em>My&nbsp;role&nbsp;1</em>, <em>My&nbsp;role&nbsp;2</em>, and <em>My&nbsp;role&nbsp;3</em>.</p>
+    <p>It is recommended to assign IDs to custom roles starting from 101. The <strong>Code</strong> field of a role is intended for integration with third-party systems and databases. If integration is not used, the code can be left blank.</p>
+    <p>By using the role inheritance mechanism, it is possible to significantly reduce the number of records that are added to the <strong>Object rights</strong> table.</p>
+    <p>In the <strong>Role inheritance</strong> table shown in Figure 6, the child role <em>My&nbsp;role&nbsp;3</em> inherits from the parent roles <em>My&nbsp;role&nbsp;1</em> and <em>My&nbsp;role&nbsp;2</em> the sum of the rights of both.</p>
+
+    <figure class="figure">
+        <img src="user-management-files/role-inheritance-table-en.png" class="figure-img img-fluid" alt="Role inheritance" />
+        <figcaption class="figure-caption">Figure 6. Role inheritance</figcaption>
+    </figure>
+
+    <p>To check whether the rights are configured properly, open the <strong>Rights Matrix</strong> window (see Figure 7), which is called by the <img src="../common-images/matrix.png" /> button located on the toolbar of the Administrator application. The figure below shows how role inheritance works.</p>
+
+    <figure class="figure">
+        <img src="user-management-files/right-matrix-en.png" class="figure-img img-fluid" alt="Right matrix" />
+        <figcaption class="figure-caption">Figure 7. Right matrix</figcaption>
+    </figure>
+</div>

@@ -51,6 +51,9 @@
     <Phrase key="PageTitle">Velg Kanaler</Phrase>
     <Phrase key="lblObj">Gjenstand</Phrase>
     <Phrase key="lblOnlySelected">Vis kun valgte kanaler</Phrase>
+    <Phrase key="SelectedColumn">-- Velg et objekt --</Phrase>
+    <Phrase key="NumberColumn">Vennligst spesifiser et filter.</Phrase>
+    <Phrase key="NameColumn">Ingen kanaler samsvarer med filteret.</Phrase>
     <Phrase key="SelectObjectItem">-- Velg et objekt --</Phrase>
     <Phrase key="FilterRequired">Vennligst spesifiser et filter.</Phrase>
     <Phrase key="NoChannels">Ingen kanaler samsvarer med filteret.</Phrase>

@@ -49,6 +49,7 @@
     <Phrase key="lblUpdateRate">업데이트 속도, ms</Phrase>
     <Phrase key="lblKeepAlive">계속 살아있어, ms</Phrase>
     <Phrase key="lblDeadband">데드밴드, %</Phrase>
+    <Phrase key="chkReadSync">동기적으로 읽기</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcClassic.View.Forms.FrmDeviceConfig">
     <Phrase key="this">장치 {0} 속성 - OPC 클래식</Phrase>

@@ -20,31 +20,35 @@
   </Dictionary>
   <!-- ScadaServerCommon.Forms.dll -->
   <Dictionary key="Scada.Server.Forms.Controls.CtrlCurrentArchiveOptions">
-    <Phrase key="gbOptions">Opzioni generali</Phrase>
     <Phrase key="lblReadOnly">Sola lettura</Phrase>
     <Phrase key="lblLogEnabled">Registro abilitato</Phrase>
     <Phrase key="lblFlushPeriod">Periodo di lavaggio</Phrase>
     <Phrase key="txtFlushPeriodUnit">Sez</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Forms.Controls.CtrlEventArchiveOptions">
-    <Phrase key="gbOptions">Opzioni generali</Phrase>
     <Phrase key="lblReadOnly">Sola lettura</Phrase>
     <Phrase key="lblLogEnabled">Registro abilitato</Phrase>
     <Phrase key="lblRetention">Periodo di conservazione</Phrase>
     <Phrase key="txtRetentionUnit">Giorno</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Forms.Controls.CtrlHistoricalArchiveOptions">
-    <Phrase key="gbOptions">Opzioni generali</Phrase>
     <Phrase key="lblReadOnly">Sola lettura</Phrase>
     <Phrase key="lblLogEnabled">Registro abilitato</Phrase>
     <Phrase key="lblRetention">Periodo di conservazione</Phrase>
     <Phrase key="txtRetentionUnit">Giorno</Phrase>
     <Phrase key="lblIsPeriodic">Solo dati periodici</Phrase>
     <Phrase key="lblWriteWithPeriod">Scrivi con il punto</Phrase>
+    <Phrase key="lblUsePeriodStartTime">Timestamp all'inizio del periodo</Phrase>
     <Phrase key="lblWritingPeriod">Periodo di scrittura</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[0]">Sez</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[1]">min</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[2]">Ora</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[3]">Giorno</Phrase>
+    <Phrase key="lblWritingOffset">Offset di scrittura</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[0]">Sez</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[1]">min</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[2]">Ora</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[3]">Giorno</Phrase>
     <Phrase key="lblPullToPeriod">Tirare al punto</Phrase>
     <Phrase key="txtPullToPeriodUnit">Sez</Phrase>
     <Phrase key="lblWriteOnChange">Scrivi sul cambiamento</Phrase>

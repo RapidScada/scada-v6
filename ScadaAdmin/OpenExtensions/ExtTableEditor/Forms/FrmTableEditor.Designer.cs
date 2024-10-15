@@ -45,7 +45,6 @@
             colHidden = new DataGridViewCheckBoxColumn();
             bindingSource = new BindingSource(components);
             toolStrip = new ToolStrip();
-            btnRefreshBase = new ToolStripButton();
             btnAddItem = new ToolStripButton();
             btnAddEmptyItem = new ToolStripButton();
             btnMoveUpItem = new ToolStripButton();
@@ -188,21 +187,11 @@
             // 
             // toolStrip
             // 
-            toolStrip.Items.AddRange(new ToolStripItem[] { btnRefreshBase, btnAddItem, btnAddEmptyItem, btnMoveUpItem, btnMoveDownItem, btnDeleteItem, toolStripSeparator1, btnTableOptions });
+            toolStrip.Items.AddRange(new ToolStripItem[] { btnAddItem, btnAddEmptyItem, btnMoveUpItem, btnMoveDownItem, btnDeleteItem, toolStripSeparator1, btnTableOptions });
             toolStrip.Location = new Point(0, 0);
             toolStrip.Name = "toolStrip";
             toolStrip.Size = new Size(734, 25);
             toolStrip.TabIndex = 0;
-            // 
-            // btnRefreshBase
-            // 
-            btnRefreshBase.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            btnRefreshBase.Image = Properties.Resources.refresh;
-            btnRefreshBase.ImageTransparentColor = Color.Magenta;
-            btnRefreshBase.Name = "btnRefreshBase";
-            btnRefreshBase.Size = new Size(23, 22);
-            btnRefreshBase.ToolTipText = "Refresh Configuration Database";
-            btnRefreshBase.Click += btnRefreshBase_Click;
             // 
             // btnAddItem
             // 
@@ -320,7 +309,6 @@
         private TreeView treeView;
         private Label lblHint;
         private ToolStrip toolStrip;
-        private ToolStripButton btnRefreshBase;
         private ToolStripButton btnAddItem;
         private ToolStripButton btnAddEmptyItem;
         private ToolStripButton btnMoveUpItem;

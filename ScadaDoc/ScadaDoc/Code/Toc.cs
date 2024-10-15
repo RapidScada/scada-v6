@@ -14,12 +14,12 @@ namespace Scada.Doc.Code
         /// <summary>
         /// Gets the items.
         /// </summary>
-        public List<MenuItem> Items { get; } = new();
+        public List<MenuItem> Items { get; } = [];
 
         /// <summary>
         /// Gets the items accessed by URL.
         /// </summary>
-        public Dictionary<string, MenuItem> ItemMap { get; } = new();
+        public Dictionary<string, MenuItem> ItemMap { get; } = [];
 
 
         /// <summary>

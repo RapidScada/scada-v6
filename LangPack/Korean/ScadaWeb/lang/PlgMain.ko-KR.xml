@@ -10,10 +10,11 @@
     <Phrase key="lblPassword">비밀번호</Phrase>
     <Phrase key="lblCmdDec">명령 값</Phrase>
     <Phrase key="lblCmdHex">명령 값(16진수)</Phrase>
-    <Phrase key="lblCmdEnum">명령</Phrase>
-    <Phrase key="lblCmdDate">명령 값(날짜/시간)</Phrase>
-    <Phrase key="lblCmdData">명령 데이터</Phrase>
-    <Phrase key="lblStr">끈</Phrase>
+    <Phrase key="lblCmdBin">명령</Phrase>
+    <Phrase key="lblCmdEnum">명령 값(날짜/시간)</Phrase>
+    <Phrase key="lblCmdDate">명령 데이터</Phrase>
+    <Phrase key="lblCmdData">끈</Phrase>
+    <Phrase key="lblStr">16진수</Phrase>
     <Phrase key="lblHex">16진수</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventAck">

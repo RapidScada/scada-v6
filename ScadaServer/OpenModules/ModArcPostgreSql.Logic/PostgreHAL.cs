@@ -182,14 +182,16 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 TrendBundle trendBundle = new(cnlNums, 0);
                 TrendBundle.CnlDataList trend = trendBundle.Trends[0];
                 NpgsqlCommand cmd = CreateTrendCommand(timeRange, cnlNums[0]);
-                NpgsqlDataReader reader = cmd.ExecuteReader();
-
-                while (reader.Read())
+                
+                using (NpgsqlDataReader reader = cmd.ExecuteReader())
                 {
-                    trendBundle.Timestamps.Add(reader.GetDateTimeUtc(0));
-                    trend.Add(new CnlData(
-                        reader.GetDouble(1),
-                        reader.GetInt32(2)));
+                    while (reader.Read())
+                    {
+                        trendBundle.Timestamps.Add(reader.GetDateTimeUtc(0));
+                        trend.Add(new CnlData(
+                            reader.GetDouble(1),
+                            reader.GetInt32(2)));
+                    }
                 }
 
                 stopwatch.Stop();
@@ -472,14 +474,16 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
 
                 Trend trend = new(cnlNum, 0);
                 NpgsqlCommand cmd = CreateTrendCommand(timeRange, cnlNum);
-                NpgsqlDataReader reader = cmd.ExecuteReader();
 
-                while (reader.Read())
+                using (NpgsqlDataReader reader = cmd.ExecuteReader())
                 {
-                    trend.Points.Add(new TrendPoint(
-                        reader.GetDateTimeUtc(0),
-                        reader.GetDouble(1),
-                        reader.GetInt32(2)));
+                    while (reader.Read())
+                    {
+                        trend.Points.Add(new TrendPoint(
+                            reader.GetDateTimeUtc(0),
+                            reader.GetDouble(1),
+                            reader.GetInt32(2)));
+                    }
                 }
 
                 stopwatch.Stop();
@@ -514,11 +518,13 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 NpgsqlCommand cmd = new(sql, readingConn);
                 cmd.Parameters.Add("startTime", NpgsqlDbType.TimestampTz).Value = timeRange.StartTime;
                 cmd.Parameters.Add("endTime", NpgsqlDbType.TimestampTz).Value = timeRange.EndTime;
-                NpgsqlDataReader reader = cmd.ExecuteReader();
-
-                while (reader.Read())
+                
+                using (NpgsqlDataReader reader = cmd.ExecuteReader())
                 {
-                    timestamps.Add(reader.GetDateTimeUtc(0));
+                    while (reader.Read())
+                    {
+                        timestamps.Add(reader.GetDateTimeUtc(0));
+                    }
                 }
 
                 stopwatch.Stop();
@@ -552,19 +558,21 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     $"WHERE cnl_num IN ({string.Join(",", cnlNums)}) AND time_stamp = @timestamp ";
                 NpgsqlCommand cmd = new(sql, readingConn);
                 cmd.Parameters.AddWithValue("timestamp", timestamp);
-                NpgsqlDataReader reader = cmd.ExecuteReader();
-
-                while (reader.Read())
+                
+                using (NpgsqlDataReader reader = cmd.ExecuteReader())
                 {
-                    int cnlNum = reader.GetInt32(0);
-
-                    if (cnlIndexes.TryGetValue(cnlNum, out int cnlIndex))
+                    while (reader.Read())
                     {
-                        slice.CnlData[cnlIndex] = new CnlData
+                        int cnlNum = reader.GetInt32(0);
+
+                        if (cnlIndexes.TryGetValue(cnlNum, out int cnlIndex))
                         {
-                            Val = reader.GetDouble(1),
-                            Stat = reader.GetInt32(2)
-                        };
+                            slice.CnlData[cnlIndex] = new CnlData
+                            {
+                                Val = reader.GetDouble(1),
+                                Stat = reader.GetInt32(2)
+                            };
+                        }
                     }
                 }
 
@@ -598,8 +606,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 NpgsqlCommand cmd = new(sql, readingConn);
                 cmd.Parameters.AddWithValue("cnlNum", cnlNum);
                 cmd.Parameters.AddWithValue("timestamp", timestamp);
-                NpgsqlDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow);
 
+                using NpgsqlDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow);
                 return reader.Read() ?
                     new CnlData(reader.GetDouble(0), reader.GetInt32(1)) :
                     CnlData.Empty;

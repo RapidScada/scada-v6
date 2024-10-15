@@ -20,31 +20,35 @@
   </Dictionary>
   <!-- ScadaServerCommon.Forms.dll -->
   <Dictionary key="Scada.Server.Forms.Controls.CtrlCurrentArchiveOptions">
-    <Phrase key="gbOptions">Options générales</Phrase>
     <Phrase key="lblReadOnly">Lecture seulement</Phrase>
     <Phrase key="lblLogEnabled">Journal activé</Phrase>
     <Phrase key="lblFlushPeriod">Période de rinçage</Phrase>
     <Phrase key="txtFlushPeriodUnit">Seconde</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Forms.Controls.CtrlEventArchiveOptions">
-    <Phrase key="gbOptions">Options générales</Phrase>
     <Phrase key="lblReadOnly">Lecture seulement</Phrase>
     <Phrase key="lblLogEnabled">Journal activé</Phrase>
     <Phrase key="lblRetention">Durée de conservation</Phrase>
     <Phrase key="txtRetentionUnit">Jour</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Forms.Controls.CtrlHistoricalArchiveOptions">
-    <Phrase key="gbOptions">Options générales</Phrase>
     <Phrase key="lblReadOnly">Lecture seulement</Phrase>
     <Phrase key="lblLogEnabled">Journal activé</Phrase>
     <Phrase key="lblRetention">Durée de conservation</Phrase>
     <Phrase key="txtRetentionUnit">Jour</Phrase>
     <Phrase key="lblIsPeriodic">Uniquement des données périodiques</Phrase>
     <Phrase key="lblWriteWithPeriod">Écrire avec un point</Phrase>
+    <Phrase key="lblUsePeriodStartTime">Horodatage au début de la période</Phrase>
     <Phrase key="lblWritingPeriod">Période d'écriture</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[0]">Seconde</Phrase>
-    <Phrase key="cbWritingPeriodUnit.Items[1]">Min</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[1]">Min.</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[2]">Heure</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[3]">Jour</Phrase>
+    <Phrase key="lblWritingOffset">Écriture du décalage</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[0]">Seconde</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[1]">Min.</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[2]">Heure</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[3]">Jour</Phrase>
     <Phrase key="lblPullToPeriod">Tirer à la période</Phrase>
     <Phrase key="txtPullToPeriodUnit">Seconde</Phrase>
     <Phrase key="lblWriteOnChange">Écrire au changement</Phrase>

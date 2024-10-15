@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2022
+ * Modified : 2024
  */
 
 using System.Reflection;
@@ -34,9 +34,9 @@ namespace Scada.Admin
     public static class AdminUtils
     {
         /// <summary>
-        /// The application version.
+        /// The basic version of the application.
         /// </summary>
-        public static readonly string AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        public static readonly string BasicVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         /// <summary>
         /// The application log file name.
         /// </summary>

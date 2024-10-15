@@ -60,7 +60,11 @@ namespace Scada.Admin.App.Forms
             this.fileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
             changing = false;
 
-            ChildFormTag = new ChildFormTag(new ChildFormOptions { CanRefresh = true });
+            ChildFormTag = new ChildFormTag(new ChildFormOptions 
+            {
+                FileName = fileName,
+                CanRefresh = true 
+            });
             Text = Path.GetFileName(fileName);
         }
 

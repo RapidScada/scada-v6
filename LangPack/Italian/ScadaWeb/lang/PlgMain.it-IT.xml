@@ -10,10 +10,11 @@
     <Phrase key="lblPassword">Parola d'ordine</Phrase>
     <Phrase key="lblCmdDec">Valore di comando</Phrase>
     <Phrase key="lblCmdHex">Valore del comando (esadecimale)</Phrase>
-    <Phrase key="lblCmdEnum">Comando</Phrase>
-    <Phrase key="lblCmdDate">Valore del comando (data/ora)</Phrase>
-    <Phrase key="lblCmdData">Dati di comando</Phrase>
-    <Phrase key="lblStr">Corda</Phrase>
+    <Phrase key="lblCmdBin">Comando</Phrase>
+    <Phrase key="lblCmdEnum">Valore del comando (data/ora)</Phrase>
+    <Phrase key="lblCmdDate">Dati di comando</Phrase>
+    <Phrase key="lblCmdData">Corda</Phrase>
+    <Phrase key="lblStr">Esadecimale</Phrase>
     <Phrase key="lblHex">Esadecimale</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventAck">

@@ -51,6 +51,9 @@
     <Phrase key="PageTitle">Kanal Seç</Phrase>
     <Phrase key="lblObj">Nesne</Phrase>
     <Phrase key="lblOnlySelected">Yalnızca seçili kanalları göster</Phrase>
+    <Phrase key="SelectedColumn">-- Bir nesne seçin --</Phrase>
+    <Phrase key="NumberColumn">Lütfen bir filtre belirtin.</Phrase>
+    <Phrase key="NameColumn">Filtreyle eşleşen kanal yok.</Phrase>
     <Phrase key="SelectObjectItem">-- Bir nesne seçin --</Phrase>
     <Phrase key="FilterRequired">Lütfen bir filtre belirtin.</Phrase>
     <Phrase key="NoChannels">Filtreyle eşleşen kanal yok.</Phrase>

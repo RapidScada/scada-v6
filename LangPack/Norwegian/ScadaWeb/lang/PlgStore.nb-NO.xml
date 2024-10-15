@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlgStoreDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgStore.Areas.Store.Pages.InstalledModel">
+    <Phrase key="PageTitle">Installerte plugins</Phrase>
+    <Phrase key="NoData">Ingen data</Phrase>
+    <Phrase key="NameColumn">Navn</Phrase>
+    <Phrase key="DescriptionColumn">Beskrivelse</Phrase>
+    <Phrase key="VersionColumn">Versjon</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgStore.Areas.Store.Pages.DownloadModel">
+    <Phrase key="PageTitle">Last ned plugins</Phrase>
+    <Phrase key="txtFilter_Placeholder">Søk</Phrase>
+    <Phrase key="btnSearch">Søk</Phrase>
+    <Phrase key="NameColumn">Navn</Phrase>
+    <Phrase key="DescriptionColumn">Beskrivelse</Phrase>
+    <Phrase key="PriceColumn">Pris</Phrase>
+    <Phrase key="AuthorColumn">Forfatter</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgStore.Areas.Store.Pages.DownloadModel.Js">
+    <Phrase key="Loading">Laster inn...</Phrase>
+    <Phrase key="LoadError">Feil ved lasting av programtilleggsliste</Phrase>
+    <Phrase key="NoData">Ingen data</Phrase>
+    <Phrase key="New">Ny</Phrase>
+    <Phrase key="Details">Vis detaljer</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgStore.PlgStoreLogic">
+    <Phrase key="InstalledMenuItem">Installert</Phrase>
+    <Phrase key="DownloadMenuItem">Last ned</Phrase>
+  </Dictionary>
+</PlgStoreDictionaries>

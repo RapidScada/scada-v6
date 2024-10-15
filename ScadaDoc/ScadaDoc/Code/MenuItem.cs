@@ -22,6 +22,6 @@ namespace Scada.Doc.Code
         /// <summary>
         /// Gets the subitems.
         /// </summary>
-        public List<MenuItem> Subitems { get; } = new();
+        public List<MenuItem> Subitems { get; } = [];
     }
 }

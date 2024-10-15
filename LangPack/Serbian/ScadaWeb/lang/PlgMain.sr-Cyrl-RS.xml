@@ -10,11 +10,12 @@
     <Phrase key="lblPassword">Лозинка</Phrase>
     <Phrase key="lblCmdDec">Вредност команде</Phrase>
     <Phrase key="lblCmdHex">Вредност команде (һексадецимална)</Phrase>
-    <Phrase key="lblCmdEnum">Цомманд</Phrase>
-    <Phrase key="lblCmdDate">Вредност команде (датум/време)</Phrase>
-    <Phrase key="lblCmdData">Командни подаци</Phrase>
-    <Phrase key="lblStr">Низ</Phrase>
-    <Phrase key="lblHex">Һексадецимални</Phrase>
+    <Phrase key="lblCmdBin">Цомманд</Phrase>
+    <Phrase key="lblCmdEnum">Вредност команде (датум/време)</Phrase>
+    <Phrase key="lblCmdDate">Командни подаци</Phrase>
+    <Phrase key="lblCmdData">Низ</Phrase>
+    <Phrase key="lblStr">Һексадецимални</Phrase>
+    <Phrase key="lblHex">Хексадецимални</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventAck">
     <Phrase key="PageTitle">Догађај</Phrase>

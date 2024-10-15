@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2010
- * Modified : 2021
+ * Modified : 2024
  */
 
 using Scada.Admin.App.Code;
@@ -80,14 +80,14 @@ namespace Scada.Admin.App.Forms
                 activePictureBox = pbAboutRu;
                 pbAboutEn.Visible = false;
                 lblVersionEn.Visible = false;
-                lblVersionRu.Text = "Версия " + AdminUtils.AppVersion;
+                lblVersionRu.Text = "Версия " + AppUtils.AppVersion;
             }
             else
             {
                 activePictureBox = pbAboutEn;
                 pbAboutRu.Visible = false;
                 lblVersionRu.Visible = false;
-                lblVersionEn.Text = "Version " + AdminUtils.AppVersion;
+                lblVersionEn.Text = "Version " + AppUtils.AppVersion;
             }
 
             // load image and hyperlink from files if the files exist

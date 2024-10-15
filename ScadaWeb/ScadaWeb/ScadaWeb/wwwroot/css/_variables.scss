@@ -13,7 +13,9 @@ $title-font-family: "Open Sans", sans-serif;
 $awesome-font-family: "Font Awesome 6 Free";
 
 $link-fore-color: #0073aa;
+$link-fore-color-rgb: "0, 115, 170";
 $link-hover-fore-color: #00a0d2;
+$link-hover-fore-color-rgb: "0, 160, 210";
 
 // Main layout
 $header-height: 30px;
@@ -56,4 +58,4 @@ $form-width-large: 800px;
 
 // Z-indexes
 // The values below take into account Bootstrap z-indexes https://getbootstrap.com/docs/5.3/layout/z-index/
-$zindex-notif: 900; // used by the notification panel
+$zindex-notif: 1005; // used by the notification panel

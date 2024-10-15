@@ -1,0 +1,77 @@
+﻿@page "/en/latest/configuration/table-views"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Table Views";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#editing">Creating and Editing</a></li>
+        <li><a href="#options">View Options</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Table Views</h1>
+    <p>A table view (see Figure 1) is designed to display historical data for a day with a specified period, as well as current data. Clicking a table item opens a chart of the channel associated with the item. The <img src="table-views-files/rocket.png" /> button brings up a dialog for sending a command.</p>
+
+    <figure class="figure">
+        <img src="table-views-files/table-view-en.png" class="figure-img img-fluid" alt="Table view" />
+        <figcaption class="figure-caption">Figure 1. Table view</figcaption>
+    </figure>
+
+    <h2 id="editing">Creating and Editing</h2>
+    <p>One of the advantages of table views is that they are easy to create. Navigate to the <strong>Views</strong> section of a project, right-click on the desired folder and select <strong>New File</strong> from the context menu. In the dialog box that opens (see Figure 2), select the <strong>Table View</strong> type, specify a file name and click <strong>OK</strong>. The created file will appear in the project explorer. Double-clicking opens the view in Table Editor (see Figure 3).</p>
+
+    <figure class="figure">
+        <img src="table-views-files/new-table-en.png" class="figure-img img-fluid" alt="View creation dialog" />
+        <figcaption class="figure-caption">Figure 2. View creation dialog</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="table-views-files/table-editor-en.png" class="figure-img img-fluid" alt="Table editor" />
+        <figcaption class="figure-caption">Figure 3. Table editor</figcaption>
+    </figure>
+
+    <p>The left panel of the editor contains a list of channels grouped by devices. The main part of the window displays the contents of the table view. Each view item is associated with a device or channel. To add an item to the view, select the corresponding tree node in the left pane, then click the <img src="../common-images/add.png" /> button, press <kbd>Enter</kbd>, or double-click the tree node. The <img src="table-views-files/add-empty.png" /> button adds an empty line. If the configuration database has changed, click the <img src="../common-images/refresh.png" /> button located on the application toolbar to refresh devices and channels.</p>
+    <p>If the <strong>Auto Text</strong> checkbox is checked for a view item, the device or channel name is automatically used as the item's text. If this name is later changed in the configuration database table, there is no need to update the view.</p>
+    <p>The <strong>Hide</strong> checkbox removes an item from the displayed table. However, the channel numbers corresponding to the hidden element continue to be used by the event filter by view.</p>
+    <p>After creating a table view, it must be registered in the configuration database in the <strong>Views</strong> table, as described in the previous <a href="views#view-table">article</a>.</p>
+
+    <h2 id="options">View Options</h2>
+    <p>A window containing the table view options (see Figure 4) is called by the <img src="../common-images/options.png" /> button located on the editor toolbar. The options are set for the certain view being edited.</p>
+
+    <figure class="figure">
+        <img src="table-views-files/table-options-en.png" class="figure-img img-fluid" alt="Table view options" />
+        <figcaption class="figure-caption">Figure 4. Table view options</figcaption>
+    </figure>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Option</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Archive code</td>
+                <td>Specifies the archive from which historical data is retrieved</td>
+            </tr>
+            <tr>
+                <td>Table period</td>
+                <td>Time step used to generate the table view columns</td>
+            </tr>
+            <tr>
+                <td>Chart arguments</td>
+                <td>Arguments separated by <code>&amp;</code> that are added to the address bar when a chart opens</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Example of arguments for the standard Chart plugin: <code>archive=Min&amp;gap=90</code>, where <code>archive</code> is the archive code, <code>gap</code> is the distance between points connected by a line (in seconds).</p>
+    <p>Example of arguments for <a href="../modules/plg-chart-pro">Chart Pro Plugin</a>: <code>profile=PlgChartPro.xml</code>, where <code>profile</code> is the name of the chart profile file.</p>
+    <p>If the <strong>Use default options</strong> checkbox is checked, the archive code and period are loaded from the web application configuration file <code>ScadaWebConfig.xml</code>. The <code>TableArchiveCode</code> and <code>TablePeriod</code> options located in the <code>Main</code> group of the <code>CustomOptions</code> section are used.</p>
+</div>

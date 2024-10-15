@@ -3,7 +3,7 @@
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Downloader">
     <Phrase key="DownloadTable">Laden Sie die Tabelle {0} herunter</Phrase>
     <Phrase key="DownloadView">„Ansicht „{0}“ herunterladen“</Phrase>
-    <Phrase key="DownloadConfigFile">Konfigurationsdatei &quot;{0}&quot; herunterladen</Phrase>
+    <Phrase key="DownloadConfigFile">Konfigurationsdatei "{0}" herunterladen</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Uploader">
     <Phrase key="CreateSchema">Erstellen Sie ein Datenbankschema</Phrase>
@@ -11,16 +11,27 @@
     <Phrase key="ClearBase">Löschen Sie die Konfigurationsdatenbank</Phrase>
     <Phrase key="CreateBase">Erstellen Sie die Konfigurationsdatenbank</Phrase>
     <Phrase key="DeleteTable">Löschen Sie die Tabelle {0}</Phrase>
+    <Phrase key="TruncateTable">Truncate the {0} table</Phrase>
     <Phrase key="CreateTable">Erstellen Sie die Tabelle {0}</Phrase>
+    <Phrase key="FillTable">Fill the {0} table</Phrase>
     <Phrase key="CreateFKs">Fremdschlüssel erstellen</Phrase>
     <Phrase key="CreateTableFKs">Erstellen Sie Fremdschlüssel für die Tabelle {0}</Phrase>
     <Phrase key="ClearViews">Klare Ansichten</Phrase>
     <Phrase key="CreateViews">Ansichten erstellen</Phrase>
-    <Phrase key="CreateView">Ansicht &quot;{0}&quot; erstellen</Phrase>
+    <Phrase key="CreateView">Ansicht "{0}" erstellen</Phrase>
     <Phrase key="ClearAllAppConfig">Übersichtliche Konfiguration aller Anwendungen</Phrase>
     <Phrase key="ClearAppConfig">Klare Konfiguration der {0}-Anwendung</Phrase>
     <Phrase key="CreateAppConfig">Erstellen Sie eine Konfiguration der Anwendung {0}</Phrase>
-    <Phrase key="CreateConfigFile">Konfigurationsdatei &quot;{0}&quot; erstellen</Phrase>
+    <Phrase key="CreateConfigFile">Konfigurationsdatei "{0}" erstellen</Phrase>
     <Phrase key="UnableRestartServices">Die Dienste können nicht neu gestartet werden, da der Agent deaktiviert ist</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ClearBaseMethod">
+    <Phrase key="DropTables">Drop-Tische</Phrase>
+    <Phrase key="TruncateTables">Tabellen abschneiden</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ExtensionConfig">
+    <Phrase key="ClearBaseMethod.DisplayName">Klare Methode</Phrase>
+    <Phrase key="ClearBaseMethod.Category">Hauptparameter</Phrase>
+    <Phrase key="ClearBaseMethod.Description">Die Methode zum Löschen der Konfigurationsdatenbank.  Die Truncate-Methode ist möglich, wenn die Tabellen bereits erstellt wurden.</Phrase>
   </Dictionary>
 </ExtDepPostgreSqlDictionaries>

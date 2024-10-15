@@ -312,7 +312,7 @@ namespace Scada
                 cnlDataFormatted.DispVal = FormatError;
             }
 
-            // color
+            // colors
             try
             {
                 // color determined by status
@@ -324,7 +324,7 @@ namespace Scada
                     0 <= cnlData.Val && cnlData.Val < enumFormat.Colors.Length &&
                     enumFormat.Colors[(int)cnlData.Val] is string color && color != "")
                 {
-                    cnlDataFormatted.SetFirstColor(color);
+                    cnlDataFormatted.SetMainColor(color);
                 }
             }
             catch
@@ -462,9 +462,8 @@ namespace Scada
                     TimeZoneInfo.ConvertTimeFromUtc(ev.AckTimestamp, timeZone).ToLocalizedString();
             }
 
-            // color
-            if (dataFormatted.Colors.Length > 0)
-                eventFormatted.Color = dataFormatted.Colors[0];
+            // colors
+            eventFormatted.Colors = dataFormatted.Colors;
 
             // beep
             if (cnl != null && new EventMask(cnl.EventMask).Beep)

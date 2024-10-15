@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2022
+ * Modified : 2024
  */
 
 using System.Collections;
@@ -34,6 +34,10 @@ namespace Scada.Data.Tables
     /// </summary>
     public interface ITableIndex
     {
+        /// <summary>
+        /// Gets the name of the indexed column.
+        /// </summary>
+        string ColumnName { get; }
 
         /// <summary>
         /// Gets a value indicating whether the index is ready to use.

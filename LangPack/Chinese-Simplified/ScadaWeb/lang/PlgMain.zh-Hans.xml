@@ -10,6 +10,7 @@
     <Phrase key="lblPassword">密码</Phrase>
     <Phrase key="lblCmdDec">命令值</Phrase>
     <Phrase key="lblCmdHex">命令值（十六进制）</Phrase>
+    <Phrase key="lblCmdBin">Command value (binary)</Phrase>
     <Phrase key="lblCmdEnum">命令</Phrase>
     <Phrase key="lblCmdDate">命令值（日期/时间）</Phrase>
     <Phrase key="lblCmdData">命令数据</Phrase>
@@ -99,7 +100,6 @@
     <Phrase key="EventReport">事件报表</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Report">
-    <Phrase key="ArchiveNotFound">在配置的数据库中未发现存档。</Phrase>
     <Phrase key="GenCaption">创建者：</Phrase>
     <Phrase key="TzCaption">时区：</Phrase>
     <Phrase key="ArcCaption">存档：</Phrase>

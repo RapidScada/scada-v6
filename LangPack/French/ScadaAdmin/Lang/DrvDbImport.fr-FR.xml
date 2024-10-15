@@ -4,7 +4,7 @@
     <Phrase key="gbCommand">Paramètres de commande</Phrase>
     <Phrase key="lblName">Nom</Phrase>
     <Phrase key="lblCmdCode">Code de commande</Phrase>
-    <Phrase key="lblCmdCodeWarn">Remplir le code</Phrase>
+    <Phrase key="lblCmdCodeWarn">Remplissez le code</Phrase>
     <Phrase key="lblSql">SQL</Phrase>
     <Phrase key="pbSqlInfo.ToolTip">Paramètres disponibles : @cmdVal, @cmdData</Phrase>
   </Dictionary>
@@ -12,20 +12,21 @@
     <Phrase key="gbQuery">Paramètres de requête</Phrase>
     <Phrase key="chkActive">Actif</Phrase>
     <Phrase key="lblName">Nom</Phrase>
-    <Phrase key="lblTag">Mots clés</Phrase>
+    <Phrase key="lblTag">Balises</Phrase>
     <Phrase key="lblSQL">SQL</Phrase>
     <Phrase key="chkSingleRow">Résultat sur une seule ligne</Phrase>
     <Phrase key="pbTagInfo.ToolTip">Chaque ligne contient un code de balise.</Phrase>
-    <Phrase key="pbSqlInfo.ToolTip">ON - la requête renvoie une seule ligne, dont chaque champ contient une valeur de balise.&#13;&#10;OFF - la requête renvoie un ensemble de lignes, chaque ligne contient une valeur de balise.  Colonnes obligatoires : code et val.</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">ON - la requête renvoie une seule ligne, dont chaque champ contient une valeur de balise.
+OFF - la requête renvoie un ensemble de lignes, chaque ligne contient une valeur de balise.  Colonnes obligatoires : code et val.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Forms.FrmDeviceConfig">
-    <Phrase key="this">Propriétés de l'appareil {0} - Importation de la base de données</Phrase>
+    <Phrase key="this">Propriétés du périphérique {0} - Importation de base de données</Phrase>
     <Phrase key="btnAddQuery.ToolTip">Ajouter une requête</Phrase>
     <Phrase key="btnAddCommand.ToolTip">Ajouter une commande</Phrase>
-    <Phrase key="btnMoveUp.ToolTip">Déplacer vers le haut</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Monter</Phrase>
     <Phrase key="btnMoveDown.ToolTip">Descendre</Phrase>
     <Phrase key="btnDelete.ToolTip">Supprimer</Phrase>
-    <Phrase key="gbDevice">Configuration de l'appareil</Phrase>
+    <Phrase key="gbDevice">Configuration du périphérique</Phrase>
     <Phrase key="btnSave">Sauvegarder</Phrase>
     <Phrase key="btnCancel">Annuler</Phrase>
     <Phrase key="btnClose">Fermer</Phrase>
@@ -33,7 +34,7 @@
     <Phrase key="ConnectionNode">Options de connexion</Phrase>
     <Phrase key="CommandName">Commande {0}</Phrase>
     <Phrase key="CommandsNode">Commandes</Phrase>
-    <Phrase key="QueryName">Requête {0}</Phrase>
+    <Phrase key="QueryName">Requête {0}</Phrase>
     <Phrase key="QueriesNode">Requêtes</Phrase>
     <Phrase key="SelectChildNode">Sélectionnez le nœud enfant</Phrase>
     <Phrase key="UnnamedCommand">&lt;Commande sans nom&gt;</Phrase>

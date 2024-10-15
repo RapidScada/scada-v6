@@ -18,7 +18,8 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmInfluxHAO">
     <Phrase key="this">履歴アーカイブのオプション</Phrase>
-    <Phrase key="gbDbOptions">データベースオプション</Phrase>
+    <Phrase key="pageGeneral">一般的な</Phrase>
+    <Phrase key="pageDatabase">データベース</Phrase>
     <Phrase key="lblConnection">繋がり</Phrase>
     <Phrase key="lblBatchSize">バッチサイズ</Phrase>
     <Phrase key="lblFlushInterval">フラッシュ間隔</Phrase>

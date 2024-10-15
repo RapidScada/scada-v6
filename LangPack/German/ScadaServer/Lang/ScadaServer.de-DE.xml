@@ -20,31 +20,35 @@
   </Dictionary>
   <!-- ScadaServerCommon.Forms.dll -->
   <Dictionary key="Scada.Server.Forms.Controls.CtrlCurrentArchiveOptions">
-    <Phrase key="gbOptions">Allgemeine Optionen</Phrase>
     <Phrase key="lblReadOnly">Schreibgeschützt</Phrase>
     <Phrase key="lblLogEnabled">Protokoll aktiviert</Phrase>
     <Phrase key="lblFlushPeriod">Spülzeitraum</Phrase>
     <Phrase key="txtFlushPeriodUnit">Sek</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Forms.Controls.CtrlEventArchiveOptions">
-    <Phrase key="gbOptions">Allgemeine Optionen</Phrase>
     <Phrase key="lblReadOnly">Schreibgeschützt</Phrase>
     <Phrase key="lblLogEnabled">Protokoll aktiviert</Phrase>
     <Phrase key="lblRetention">Aufbewahrungsfrist</Phrase>
     <Phrase key="txtRetentionUnit">Tag</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Forms.Controls.CtrlHistoricalArchiveOptions">
-    <Phrase key="gbOptions">Allgemeine Optionen</Phrase>
     <Phrase key="lblReadOnly">Schreibgeschützt</Phrase>
     <Phrase key="lblLogEnabled">Protokoll aktiviert</Phrase>
     <Phrase key="lblRetention">Aufbewahrungsfrist</Phrase>
     <Phrase key="txtRetentionUnit">Tag</Phrase>
     <Phrase key="lblIsPeriodic">Nur periodische Daten</Phrase>
     <Phrase key="lblWriteWithPeriod">Schreiben Sie mit Punkt</Phrase>
+    <Phrase key="lblUsePeriodStartTime">Zeitstempel am Beginn der Periode</Phrase>
     <Phrase key="lblWritingPeriod">Schreibzeitraum</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[0]">Sek</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[1]">Mindest</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[2]">Stunde</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[3]">Tag</Phrase>
+    <Phrase key="lblWritingOffset">Schreibversatz</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[0]">Sek</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[1]">Min</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[2]">Stunde</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[3]">Tag</Phrase>
     <Phrase key="lblPullToPeriod">Ziehen Sie zur Periode</Phrase>
     <Phrase key="txtPullToPeriodUnit">Sek</Phrase>
     <Phrase key="lblWriteOnChange">Schreiben Sie über Veränderung</Phrase>

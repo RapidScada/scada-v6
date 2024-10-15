@@ -7,6 +7,7 @@
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Scada.Admin</RootNamespace>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Version>6.2.0</Version>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
@@ -19,7 +20,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="WinControl" Version="2.2.3" />
+    <PackageReference Include="WinControl" Version="2.2.4" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PlgMainDictionaries>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command">
-    <Phrase key="PageTitle">指図</Phrase>
+    <Phrase key="PageTitle">指示</Phrase>
     <Phrase key="CommandSent">コマンドが送信されました。</Phrase>
     <Phrase key="CmdParseError">コマンド解析エラー</Phrase>
     <Phrase key="CnlRow">チャネル：</Phrase>
@@ -10,7 +10,8 @@
     <Phrase key="lblPassword">パスワード</Phrase>
     <Phrase key="lblCmdDec">指令値</Phrase>
     <Phrase key="lblCmdHex">指令値（16進数）</Phrase>
-    <Phrase key="lblCmdEnum">指図</Phrase>
+    <Phrase key="lblCmdBin">指令値（バイナリ）</Phrase>
+    <Phrase key="lblCmdEnum">指示</Phrase>
     <Phrase key="lblCmdDate">指令値(日付/時刻)</Phrase>
     <Phrase key="lblCmdData">コマンドデータ</Phrase>
     <Phrase key="lblStr">弦</Phrase>
@@ -69,7 +70,7 @@
     <Phrase key="lblEndTime">に</Phrase>
     <Phrase key="lblArchive">アーカイブ</Phrase>
     <Phrase key="lblCnlNums">チャンネル</Phrase>
-    <Phrase key="btnSelectCnls">選択する...</Phrase>
+    <Phrase key="btnSelectCnls">選択してください...</Phrase>
     <Phrase key="btnGenerateReport">レポートのダウンロード</Phrase>
     <Phrase key="divWaitHint">レポートを生成しています。 お待ちください...</Phrase>
   </Dictionary>
@@ -112,7 +113,7 @@
   <Dictionary key="Scada.Web.Plugins.PlgMain.Report.EventReportBuilder">
     <Phrase key="GeneralTitleFormat">イベント、{0} - {1}</Phrase>
     <Phrase key="TailTitleFormat">{1} 時間以内の最後の {0} 件のイベント</Phrase>
-    <Phrase key="ViewCaption">意見：</Phrase>
+    <Phrase key="ViewCaption">ビュー：</Phrase>
     <Phrase key="ObjCaption">オブジェクト:</Phrase>
     <Phrase key="SevCaption">重大度：</Phrase>
     <Phrase key="TimeCol">日時</Phrase>
@@ -132,7 +133,7 @@
     <Phrase key="AvgCaption">平均</Phrase>
     <Phrase key="MinCaption">最小</Phrase>
     <Phrase key="MaxCaption">最大</Phrase>
-    <Phrase key="WorksheetName">歴史的なデータ</Phrase>
+    <Phrase key="WorksheetName">過去のデータ</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Report.TableViewReportBuilder">
     <Phrase key="TitleFormat">{0}、{1} - {2}</Phrase>

@@ -20,8 +20,10 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2019
- * Modified : 2023
+ * Modified : 2024
  */
+
+using System.Reflection;
 
 namespace Scada.Admin.App.Code
 {
@@ -31,6 +33,10 @@ namespace Scada.Admin.App.Code
     /// </summary>
     internal static class AppUtils
     {
+        /// <summary>
+        /// The application version.
+        /// </summary>
+        public static readonly string AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         /// <summary>
         /// The hyperlink to the documentation.
         /// </summary>

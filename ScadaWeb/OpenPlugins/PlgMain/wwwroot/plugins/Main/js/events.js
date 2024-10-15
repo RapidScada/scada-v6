@@ -148,11 +148,8 @@ function showEvents(data, enableEffects) {
                 .append(createCell("cnl", ef.cnl))
                 .append(createCell("descr", ef.descr))
                 .append(createCell("sev", getSeverityElem(e.severity, ef.sev)))
-                .append(createCell("ack", getAckElem(e, ef)));
-
-            if (ef.color) {
-                row.css("color", ef.color);
-            }
+                .append(createCell("ack", getAckElem(e, ef)))
+                .css("color", MainApi.getColor(record, ColorIndex.MAIN_COLOR));
 
             if (ef.beep) {
                 newEventBeepTime = e.timestamp;

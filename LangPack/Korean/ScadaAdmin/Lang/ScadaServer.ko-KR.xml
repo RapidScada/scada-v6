@@ -20,36 +20,40 @@
   </Dictionary>
   <!-- ScadaServerCommon.Forms.dll -->
   <Dictionary key="Scada.Server.Forms.Controls.CtrlCurrentArchiveOptions">
-    <Phrase key="gbOptions">일반 옵션</Phrase>
     <Phrase key="lblReadOnly">읽기 전용</Phrase>
     <Phrase key="lblLogEnabled">로그 활성화</Phrase>
     <Phrase key="lblFlushPeriod">플러시 기간</Phrase>
     <Phrase key="txtFlushPeriodUnit">비서</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Forms.Controls.CtrlEventArchiveOptions">
-    <Phrase key="gbOptions">일반 옵션</Phrase>
     <Phrase key="lblReadOnly">읽기 전용</Phrase>
     <Phrase key="lblLogEnabled">로그 활성화</Phrase>
     <Phrase key="lblRetention">보유 기간</Phrase>
     <Phrase key="txtRetentionUnit">낮</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Forms.Controls.CtrlHistoricalArchiveOptions">
-    <Phrase key="gbOptions">일반 옵션</Phrase>
     <Phrase key="lblReadOnly">읽기 전용</Phrase>
-    <Phrase key="lblLogEnabled">로그 활성화</Phrase>
-    <Phrase key="lblRetention">보유 기간</Phrase>
+    <Phrase key="lblLogEnabled">로그가 활성화되었습니다.</Phrase>
+    <Phrase key="lblRetention">보유기간</Phrase>
     <Phrase key="txtRetentionUnit">낮</Phrase>
     <Phrase key="lblIsPeriodic">주기적인 데이터만</Phrase>
     <Phrase key="lblWriteWithPeriod">마침표로 쓰기</Phrase>
-    <Phrase key="lblWritingPeriod">집필 기간</Phrase>
+    <Phrase key="lblUsePeriodStartTime">기간 시작 시 타임스탬프</Phrase>
+    <Phrase key="lblWritingPeriod">집필기간</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[0]">비서</Phrase>
-    <Phrase key="cbWritingPeriodUnit.Items[1]">분</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[1]">최소</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[2]">시간</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[3]">낮</Phrase>
+    <Phrase key="lblWritingOffset">쓰기 오프셋</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[0]">비서</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[1]">최소</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[2]">시간</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[3]">낮</Phrase>
     <Phrase key="lblPullToPeriod">기간으로 가져오기</Phrase>
     <Phrase key="txtPullToPeriodUnit">비서</Phrase>
-    <Phrase key="lblWriteOnChange">변화에 쓰기</Phrase>
-    <Phrase key="lblDeadband">데드밴드</Phrase>
-    <Phrase key="cbDeadbandUnit.Items[0]">복근</Phrase>
+    <Phrase key="lblWriteOnChange">변경 사항에 대해 쓰기</Phrase>
+    <Phrase key="lblDeadband">불감대</Phrase>
+    <Phrase key="cbDeadbandUnit.Items[0]">Abs.</Phrase>
     <Phrase key="cbDeadbandUnit.Items[1]">%</Phrase>
   </Dictionary>
 </ScadaServerDictionaries>

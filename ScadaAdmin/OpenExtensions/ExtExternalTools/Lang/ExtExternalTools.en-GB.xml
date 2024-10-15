@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ExtExternalToolsDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtExternalTools.Forms.FrmExtensionConfig">
+    <Phrase key="this">External Tools</Phrase>
+    <Phrase key="btnAdd">Add</Phrase>
+    <Phrase key="btnMoveUp">Move Up</Phrase>
+    <Phrase key="btnMoveDown">Move Down</Phrase>
+    <Phrase key="btnDelete">Delete</Phrase>
+    <Phrase key="gbTool">Selected Tool</Phrase>
+    <Phrase key="lblTitle">Title</Phrase>
+    <Phrase key="lblFileName">Executable file</Phrase>
+    <Phrase key="lblArguments">Arguments</Phrase>
+    <Phrase key="lblWorkingDirectory">Working directory</Phrase>
+    <Phrase key="miProjectFileName">Project File Name</Phrase>
+    <Phrase key="miItemFileName">Item File Name</Phrase>
+    <Phrase key="UnnamedTool">&lt;Unnamed Tool&gt;</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtExternalTools.ExtExternalToolsLogic">
+    <Phrase key="ParentMenuItem">External Tools</Phrase>
+    <Phrase key="ExecutableNotFound">Tool executable file not found.</Phrase>
+    <Phrase key="UndefinedArgs">Tool arguments are not defined.</Phrase>
+    <Phrase key="StartToolError">Error starting tool</Phrase>
+  </Dictionary>
+</ExtExternalToolsDictionaries>

@@ -18,8 +18,12 @@
   </Dictionary>  
   <Dictionary key="Scada.Server.Modules.ModArcInfluxDb.View.Forms.FrmInfluxHAO">
     <Phrase key="this">历史存档选项</Phrase>
-    <Phrase key="gbDbOptions">数据库选项</Phrase>  
+    <Phrase key="pageGeneral">General</Phrase>
+    <Phrase key="pageDatabase">Database</Phrase>
     <Phrase key="lblConnection">连接</Phrase>
+    <Phrase key="lblBatchSize">Batch size</Phrase>
+    <Phrase key="lblFlushInterval">Flush interval</Phrase>
+    <Phrase key="txtFlushIntervalUnit">ms</Phrase>
     <Phrase key="btnManageConn">管理连接</Phrase>
     <Phrase key="btnOK">确定</Phrase>
     <Phrase key="btnCancel">取消</Phrase>

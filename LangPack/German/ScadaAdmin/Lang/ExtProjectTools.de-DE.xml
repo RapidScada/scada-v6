@@ -23,16 +23,26 @@
     <Phrase key="BaseHasErrors">Die Konfigurationsdatenbank weist Fehler auf.</Phrase>
     <Phrase key="IntegrityCheckError">Fehler bei der Überprüfung der Integrität</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.ObjectMap">
+    <Phrase key="ObjectMapTitle">Object Hierarchy</Phrase>
+    <Phrase key="NoObjects">No objects</Phrase>
+    <Phrase key="GenerateObjectMapError">Error generating object map</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Controls.CtrlMainMenu">
     <Phrase key="miProjectTools">Projekttools</Phrase>
     <Phrase key="miCloneChannels">Kanäle klonen...</Phrase>
+    <Phrase key="miEncryptPassword">Passwort verschlüsseln...</Phrase>
     <Phrase key="miChannelMapByDevice">Kanalkarte nach Gerät</Phrase>
     <Phrase key="miChannelMapByObject">Kanalzuordnung nach Objekt</Phrase>
     <Phrase key="miDeviceMap">Gerätekarte</Phrase>
+    <Phrase key="miObjectMap">Objektkarte</Phrase>
     <Phrase key="miCheckIntegrity">Überprüfen Sie die Integrität</Phrase>
-    <Phrase key="miEncryptPassword">Passwort verschlüsseln...</Phrase>
+    <Phrase key="miObjectEditor">Objekteditor</Phrase>
+    <Phrase key="miRightMatrix">Richtige Matrix</Phrase>
     <Phrase key="miImportTable">Tabelle importieren...</Phrase>
     <Phrase key="miExportTable">Tabelle exportieren...</Phrase>
+    <Phrase key="btnObjectEditor.ToolTip">Objekteditor</Phrase>
+    <Phrase key="btnRightMatrix.ToolTip">Richtige Matrix</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmCnlClone">
     <Phrase key="this">Kanäle klonen</Phrase>
@@ -49,8 +59,46 @@
     <Phrase key="btnClone">Klon</Phrase>
     <Phrase key="btnClose">Schließen</Phrase>
     <Phrase key="KeepUnchanged">&lt;Unverändert beibehalten&gt;</Phrase>
-    <Phrase key="CloneChannelsCompleted">Das Klonen wurde erfolgreich abgeschlossen.&#13;&#10;{0} Kanal(e) hinzugefügt.</Phrase>
+    <Phrase key="CloneChannelsCompleted">Das Klonen wurde erfolgreich abgeschlossen.
+{0} Kanal(e) hinzugefügt.</Phrase>
     <Phrase key="CloneChannelsError">Fehler beim Klonen von Kanälen</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmFindObject">
+    <Phrase key="this">Objekt finden</Phrase>
+    <Phrase key="lblFind">Finden Sie was</Phrase>
+    <Phrase key="gbLookAt">Schauen Sie sich an</Phrase>
+    <Phrase key="chkObjNum">Nummer</Phrase>
+    <Phrase key="chkName">Name</Phrase>
+    <Phrase key="chkCode">Code</Phrase>
+    <Phrase key="chkDescr">Beschreibung</Phrase>
+    <Phrase key="chkCaseSensitive">Streichholzetui</Phrase>
+    <Phrase key="chkWholeStringOnly">Nur ganze Zeichenfolge abgleichen</Phrase>
+    <Phrase key="btnFindNext">Weiter finden</Phrase>
+    <Phrase key="btnClose">Schließen</Phrase>
+    <Phrase key="ObjectNotFound">Objekt nicht gefunden.</Phrase>
+    <Phrase key="SearchCompleted">Suche abgeschlossen.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmObjectEditor">
+    <Phrase key="this">Objekteditor</Phrase>
+    <Phrase key="btnAddObject.ToolTip">Objekt hinzufügen</Phrase>
+    <Phrase key="btnDeleteObject.ToolTip">Objekt löschen</Phrase>
+    <Phrase key="gbObject">Objekteigenschaften</Phrase>
+    <Phrase key="lblObjNum">Nummer</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblCode">Code</Phrase>
+    <Phrase key="lblParentObj">Übergeordnetes Objekt</Phrase>
+    <Phrase key="lblDescr">Beschreibung</Phrase>
+    <Phrase key="miCollapseAll">Alles reduzieren</Phrase>
+    <Phrase key="miOpenChannels">Offene Kanäle</Phrase>
+    <Phrase key="ObjNumInUse">Die Objektnummer wird bereits verwendet.</Phrase>
+    <Phrase key="ObjNumReferenced">Die Objektnummer wird durch eine Zeile aus der Tabelle „{0}“ referenziert.</Phrase>
+    <Phrase key="ObjectReferenced">Das Objekt oder sein untergeordnetes Objekt wird von einer Zeile aus einer anderen Tabelle referenziert.</Phrase>
+    <Phrase key="ParentObjectNotExists">Das übergeordnete Objekt existiert nicht mehr.</Phrase>
+    <Phrase key="InvalidParentObject">Das übergeordnete Objekt kann nicht dasselbe oder ein untergeordnetes Objekt sein.</Phrase>
+    <Phrase key="UpdateObjNumError">Fehler beim Aktualisieren der Objektnummer</Phrase>
+    <Phrase key="UpdateParentObjError">Fehler beim Aktualisieren des übergeordneten Objekts</Phrase>
+    <Phrase key="DeleteObjectConfirm">Sind Sie sicher, dass Sie das Objekt löschen möchten?</Phrase>
+    <Phrase key="ObjectFilter">Objekt {0}</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmPasswordEncrypt">
     <Phrase key="this">Passwort verschlüsseln</Phrase>
@@ -58,6 +106,14 @@
     <Phrase key="lblPasswordEncrypted">Verschlüsseltes Passwort</Phrase>
     <Phrase key="btnCopy">Kopieren</Phrase>
     <Phrase key="btnClose">Schließen</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmRightMatrix">
+    <Phrase key="this">Right Matrix</Phrase>
+    <Phrase key="ViewRightSymbol">V</Phrase>
+    <Phrase key="ViewRightLegend">V - view</Phrase>
+    <Phrase key="ControlRightSymbol">C</Phrase>
+    <Phrase key="ControlRightLegend">C - control</Phrase>
+    <Phrase key="DisplayMatrixError">Fehler beim Anzeigen der rechten Matrix</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
     <Phrase key="this">Tabelle exportieren</Phrase>
@@ -85,7 +141,8 @@
     <Phrase key="btnImport">Importieren</Phrase>
     <Phrase key="btnClose">Schließen</Phrase>
     <Phrase key="ImportTableFilter">Tabellen (*.dat;*.xml;*.csv)|*.dat;*.xml;*.csv|Alle Dateien (*.*)|*.*</Phrase>
-    <Phrase key="ImportTableCompleted">Der Import wurde erfolgreich abgeschlossen.&#13;&#10;{0} Zeile(n) betroffen.</Phrase>
+    <Phrase key="ImportTableCompleted">Der Import wurde erfolgreich abgeschlossen.
+{0} Zeile(n) betroffen.</Phrase>
     <Phrase key="ImportTableError">Fehler beim Importieren der Tabelle</Phrase>
   </Dictionary>
 </ExtProjectToolsDictionaries>

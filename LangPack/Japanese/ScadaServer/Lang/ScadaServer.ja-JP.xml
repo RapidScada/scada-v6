@@ -20,31 +20,35 @@
   </Dictionary>
   <!-- ScadaServerCommon.Forms.dll -->
   <Dictionary key="Scada.Server.Forms.Controls.CtrlCurrentArchiveOptions">
-    <Phrase key="gbOptions">一般的なオプション</Phrase>
     <Phrase key="lblReadOnly">読み取り専用</Phrase>
     <Phrase key="lblLogEnabled">ログを有効にする</Phrase>
     <Phrase key="lblFlushPeriod">フラッシュ期間</Phrase>
     <Phrase key="txtFlushPeriodUnit">秒</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Forms.Controls.CtrlEventArchiveOptions">
-    <Phrase key="gbOptions">一般的なオプション</Phrase>
     <Phrase key="lblReadOnly">読み取り専用</Phrase>
     <Phrase key="lblLogEnabled">ログを有効にする</Phrase>
     <Phrase key="lblRetention">保存期間</Phrase>
     <Phrase key="txtRetentionUnit">日</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Forms.Controls.CtrlHistoricalArchiveOptions">
-    <Phrase key="gbOptions">一般的なオプション</Phrase>
     <Phrase key="lblReadOnly">読み取り専用</Phrase>
     <Phrase key="lblLogEnabled">ログを有効にする</Phrase>
     <Phrase key="lblRetention">保存期間</Phrase>
     <Phrase key="txtRetentionUnit">日</Phrase>
     <Phrase key="lblIsPeriodic">定期的なデータのみ</Phrase>
     <Phrase key="lblWriteWithPeriod">ピリオドを付けて書く</Phrase>
+    <Phrase key="lblUsePeriodStartTime">期間開始時のタイムスタンプ</Phrase>
     <Phrase key="lblWritingPeriod">執筆期間</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[0]">秒</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[1]">分</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[2]">時間</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[3]">日</Phrase>
+    <Phrase key="lblWritingOffset">書き込みオフセット</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[0]">秒</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[1]">分</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[2]">時間</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[3]">日</Phrase>
     <Phrase key="lblPullToPeriod">ピリオドまでプル</Phrase>
     <Phrase key="txtPullToPeriodUnit">秒</Phrase>
     <Phrase key="lblWriteOnChange">変更時に書き込みます</Phrase>

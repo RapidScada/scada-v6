@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DrvSnmpDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvSnmp.Config.DeviceOptions">
+    <Phrase key="ReadCommunity.DisplayName">Read community</Phrase>
+    <Phrase key="ReadCommunity.Category">Main Parameters</Phrase>
+    <Phrase key="ReadCommunity.Description">The password for reading data.</Phrase>
+    <Phrase key="WriteCommunity.DisplayName">Write community</Phrase>
+    <Phrase key="WriteCommunity.Category">Main Parameters</Phrase>
+    <Phrase key="WriteCommunity.Description">The password for writing data.</Phrase>
+    <Phrase key="SnmpVersion.DisplayName">SNMP version</Phrase>
+    <Phrase key="SnmpVersion.Category">Main Parameters</Phrase>
+    <Phrase key="SnmpVersion.Description">The protocol version. Supported versions are 1 and 2.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvSnmp.Config.VarGroupConfig">
+    <Phrase key="Active.DisplayName">Active</Phrase>
+    <Phrase key="Active.Category">Main Parameters</Phrase>
+    <Phrase key="Active.Description">A value indicating whether the group is active.</Phrase>
+    <Phrase key="Name.DisplayName">Name</Phrase>
+    <Phrase key="Name.Category">Main Parameters</Phrase>
+    <Phrase key="Name.Description">The group name.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvSnmp.Config.VariableConfig">
+    <Phrase key="Name.DisplayName">Name</Phrase>
+    <Phrase key="Name.Category">Main Parameters</Phrase>
+    <Phrase key="Name.Description">The variable name.</Phrase>
+    <Phrase key="TagCode.DisplayName">Tag code</Phrase>
+    <Phrase key="TagCode.Category">Main Parameters</Phrase>
+    <Phrase key="TagCode.Description">The tag code associated with the variable.</Phrase>
+    <Phrase key="OID.DisplayName">OID</Phrase>
+    <Phrase key="OID.Category">Main Parameters</Phrase>
+    <Phrase key="OID.Description">The object identifier. For example, .1.3.6.1.2.1.1.5.0</Phrase>
+    <Phrase key="DataType.DisplayName">Data type</Phrase>
+    <Phrase key="DataType.Category">Main Parameters</Phrase>
+    <Phrase key="DataType.Description">The data type of the device tag associated with the variable.</Phrase>
+    <Phrase key="DataLen.DisplayName">Data length</Phrase>
+    <Phrase key="DataLen.Category">Main Parameters</Phrase>
+    <Phrase key="DataLen.Description">The data length if the variable represents a string or an array. For strings, this is the number of characters. Otherwise, the number of 8-byte blocks.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvSnmp.View.SnmpConfigProvider">
+    <Phrase key="FormTitle">Device {0} Properties - SNMP</Phrase>
+    <Phrase key="AddVarGroupButton">Add Group</Phrase>
+    <Phrase key="AddVariableButton">Add Variable</Phrase>
+    <Phrase key="OptionsNode">Options</Phrase>
+    <Phrase key="VarGroupsNode">Variable Groups</Phrase>
+    <Phrase key="UnnamedGroup">&lt;Unnamed Group&gt;</Phrase>
+    <Phrase key="UnnamedVariable">&lt;Unnamed Variable&gt;</Phrase>
+  </Dictionary>
+</DrvSnmpDictionaries>

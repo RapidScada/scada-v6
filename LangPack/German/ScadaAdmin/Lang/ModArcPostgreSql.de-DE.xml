@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ModArcPostgreSqlDictionaries>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Controls.CtrlDatabaseOptions">
-    <Phrase key="gbDbOptions">Datenbankoptionen</Phrase>
-    <Phrase key="lblUseStorageConn">Speicherverbindung nutzen</Phrase>
+    <Phrase key="lblUseDefaultConn">Standardverbindung verwenden</Phrase>
     <Phrase key="lblConnection">Verbindung</Phrase>
     <Phrase key="lblPartitionSize">Partitionsgröße</Phrase>
-    <Phrase key="cbPartitionSize.Items[0]">Ein Monat</Phrase>
-    <Phrase key="cbPartitionSize.Items[1]">Ein Jahr</Phrase>
+    <Phrase key="cbPartitionSize.Items[0]">Einmal</Phrase>
+    <Phrase key="cbPartitionSize.Items[1]">Einen Monat</Phrase>
+    <Phrase key="cbPartitionSize.Items[2]">Ein Jahr</Phrase>
     <Phrase key="lblMaxQueueSize">Maximale Warteschlangengröße</Phrase>
     <Phrase key="lblBatchSize">Artikel pro Transaktion</Phrase>
   </Dictionary>
@@ -20,24 +20,25 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreCAO">
     <Phrase key="this">Aktuelle Archivoptionen</Phrase>
-    <Phrase key="gbDbOptions">Datenbankoptionen</Phrase>
-    <Phrase key="lblUseStorageConn">Speicherverbindung nutzen</Phrase>
-    <Phrase key="lblConnection">Verbindung</Phrase>
-    <Phrase key="lblMaxQueueSize">Maximale Warteschlangengröße</Phrase>
-    <Phrase key="lblBatchSize">Artikel pro Transaktion</Phrase>
-    <Phrase key="btnManageConn">Verwalten von Verbindungen</Phrase>
+    <Phrase key="pageGeneral">Allgemein</Phrase>
+    <Phrase key="pageDatabase">Datenbank</Phrase>
+    <Phrase key="btnManageConn">Verbindungen verwalten</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Stornieren</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreEAO">
     <Phrase key="this">Optionen für das Ereignisarchiv</Phrase>
-    <Phrase key="btnManageConn">Verwalten von Verbindungen</Phrase>
+    <Phrase key="pageGeneral">Allgemein</Phrase>
+    <Phrase key="pageDatabase">Datenbank</Phrase>
+    <Phrase key="btnManageConn">Verbindungen verwalten</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Stornieren</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreHAO">
     <Phrase key="this">Historische Archivoptionen</Phrase>
-    <Phrase key="btnManageConn">Verwalten von Verbindungen</Phrase>
+    <Phrase key="pageGeneral">Allgemein</Phrase>
+    <Phrase key="pageDatabase">Datenbank</Phrase>
+    <Phrase key="btnManageConn">Verbindungen verwalten</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Stornieren</Phrase>
   </Dictionary>

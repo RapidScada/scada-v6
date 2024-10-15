@@ -1,11 +1,10 @@
-﻿body a, body a:active, body a:focus, body a:visited {
-  color: #0073aa;
-  outline: 0;
-  text-decoration: none;
+﻿body {
+  --bs-link-color: #0073aa;
+  --bs-link-color-rgb: 0, 115, 170;
+  --bs-link-hover-color: #00a0d2;
+  --bs-link-hover-color-rgb: 0, 160, 210;
 }
-body a:hover {
-  color: #00a0d2;
-  outline: 0;
+body a {
   text-decoration: none;
 }
 body.modal-page {

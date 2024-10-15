@@ -5,8 +5,6 @@
 @import '../components/_tree-view';
 
 body {
-    @include link-no-decor;
-
     &.header-visible {
         padding-top: $header-height;
     }

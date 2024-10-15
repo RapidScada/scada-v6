@@ -158,7 +158,7 @@ public string DecodeUnicode(double val)
 // Извлекает подстроку из строки с проверкой границ.
 public string Substring(string s, int startIndex, int length)
 {
-    if (string.IsNullOrEmpty(s))
+    if (string.IsNullOrEmpty(s) || startIndex &gt;= s.Length)
         return "";
 
     if (startIndex &lt; 0)
