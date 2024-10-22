@@ -74,7 +74,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
                     queryOptions.Sql.Contains("@deviceNum", StringComparison.OrdinalIgnoreCase));
             }
 
-            CnlNumFilter = [];
+            CombinedFilter = new CombinedFilter();
         }
 
 
@@ -89,9 +89,9 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         public bool CnlPropsRequired { get; }
 
         /// <summary>
-        /// Gets the channel filter that combines channel, device, and object filters.
+        /// Gets the combined query filter.
         /// </summary>
-        public HashSet<int> CnlNumFilter { get; }
+        public CombinedFilter CombinedFilter { get; }
 
 
         /// <summary>
@@ -104,60 +104,11 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
         }
 
         /// <summary>
-        /// Fills the combined channel filter.
+        /// Initializes the combined query filter.
         /// </summary>
-        public void FillCnlNumFilter(ConfigDatabase configDatabase)
+        public void InitCombinedFilter(ConfigDatabase configDatabase)
         {
-            ArgumentNullException.ThrowIfNull(configDatabase, nameof(configDatabase));
-            CnlNumFilter.UnionWith(Options.Filter.CnlNums);
-
-            // extract channels from object filter
-            if (Options.Filter.ObjNums.Count > 0)
-            {
-                List<int> cnlNumsByObj = [];
-
-                foreach (int objNum in Options.Filter.ObjNums)
-                {
-                    foreach (Cnl cnl in configDatabase.CnlTable
-                        .Select(new TableFilter("ObjNum", objNum), true)
-                        .Where(c => c.Active))
-                    {
-                        for (int i = 0, len = cnl.GetDataLength(); i < len; i++)
-                        {
-                            cnlNumsByObj.Add(cnl.CnlNum + i);
-                        }
-                    }
-                }
-
-                if (CnlNumFilter.Count > 0)
-                    CnlNumFilter.IntersectWith(cnlNumsByObj);
-                else
-                    CnlNumFilter.UnionWith(cnlNumsByObj);
-            }
-
-            // extract channels from device filter
-            if (Options.Filter.DeviceNums.Count > 0)
-            {
-                List<int> cnlNumsByDevice = [];
-
-                foreach (int deviceNum in Options.Filter.DeviceNums)
-                {
-                    foreach (Cnl cnl in configDatabase.CnlTable
-                        .Select(new TableFilter("DeviceNum", deviceNum), true)
-                        .Where(c => c.Active))
-                    {
-                        for (int i = 0, len = cnl.GetDataLength(); i < len; i++)
-                        {
-                            cnlNumsByDevice.Add(cnl.CnlNum + i);
-                        }
-                    }
-                }
-
-                if (CnlNumFilter.Count > 0)
-                    CnlNumFilter.IntersectWith(cnlNumsByDevice);
-                else
-                    CnlNumFilter.UnionWith(cnlNumsByDevice);
-            }
+            CombinedFilter.Init(Options, configDatabase);
         }
     }
 }

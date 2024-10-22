@@ -133,10 +133,10 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Replication
         /// </summary>
         private void InitCnlNumGroups()
         {
-            cnlNumGroups = new List<CnlNumGroup>();
+            cnlNumGroups = [];
             IEnumerable<int> histCnlNums =
-                exporterContext.ClassifiedQueries.HistDataQueries.All(q => q.CnlNumFilter.Count > 0)
-                ? exporterContext.ClassifiedQueries.HistDataQueries.SelectMany(q => q.CnlNumFilter)
+                exporterContext.ClassifiedQueries.HistDataQueries.All(q => q.CombinedFilter.Enabled)
+                ? exporterContext.ClassifiedQueries.HistDataQueries.SelectMany(q => q.CombinedFilter.CnlNums)
                 .Distinct().OrderBy(n => n)
                 : serverContext.Cnls.ArcCnls.Keys;
 
@@ -165,10 +165,10 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Replication
 
             // create groups for single queries
             foreach (DataQuery query in exporterContext.ClassifiedQueries.HistDataQueries
-                .Where(q => q.Options.SingleQuery && q.Filter.CnlNums.Count > 0))
+                .Where(q => q.Options.SingleQuery && q.RuntimeFilter.CnlNums.Count > 0))
             {
-                cnlNumGroup = new(query.Filter.CnlNums.Count) { QueryID = query.QueryID };
-                query.Filter.CnlNums.CopyTo(cnlNumGroup.CnlNums);
+                cnlNumGroup = new(query.RuntimeFilter.CnlNums.Count) { QueryID = query.QueryID };
+                query.RuntimeFilter.CnlNums.CopyTo(cnlNumGroup.CnlNums);
                 cnlNumGroups.Add(cnlNumGroup);
             }
 
