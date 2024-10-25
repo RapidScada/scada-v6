@@ -14,7 +14,7 @@
     <Copyright>Copyright © 2024</Copyright>
     <ApplicationIcon>lamp.ico</ApplicationIcon>
     <Version>6.2.0</Version>
-    <AssemblyVersion>6.2.1.1</AssemblyVersion>
+    <AssemblyVersion>6.2.1.2</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

@@ -698,7 +698,8 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void SaveAll()
         {
-            foreach (Form form in wctrlMain.Forms)
+            // make a snapshot of the form collection as some forms may be closed during saving
+            foreach (Form form in wctrlMain.Forms.ToList())
             {
                 if (form is IChildForm childForm && childForm.ChildFormTag.Modified)
                     childForm.Save();
