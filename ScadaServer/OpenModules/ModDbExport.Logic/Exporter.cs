@@ -1240,7 +1240,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                 {
                     lock (histTimestamps)
                     {
-                        histTimestamps[slice.Timestamp] = utcNow;
+                        histTimestamps.TryAdd(slice.Timestamp, utcNow);
                     }
                 }
             }
