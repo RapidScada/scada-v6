@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DrvDbImportDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlCommand">
+    <Phrase key="gbCommand">命令參數</Phrase>
+    <Phrase key="lblName">姓名</Phrase>
+    <Phrase key="lblCmdCode">指令碼</Phrase>
+    <Phrase key="lblCmdCodeWarn">填寫代碼</Phrase>
+    <Phrase key="lblSql">SQL</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">可用參數：@cmdVal、@cmdData</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Controls.CtrlQuery">
+    <Phrase key="gbQuery">查詢參數</Phrase>
+    <Phrase key="chkActive">積極的</Phrase>
+    <Phrase key="lblName">姓名</Phrase>
+    <Phrase key="lblTag">標籤</Phrase>
+    <Phrase key="lblSQL">SQL</Phrase>
+    <Phrase key="chkSingleRow">單行結果</Phrase>
+    <Phrase key="pbTagInfo.ToolTip">每行包含一個標籤代碼。</Phrase>
+    <Phrase key="pbSqlInfo.ToolTip">ON - 請求傳回一行，其中每個欄位包含一個標籤值。 必填列：代碼和值。</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvDbImport.View.Forms.FrmDeviceConfig">
+    <Phrase key="this">設備 {0} 屬性 - 資料庫導入</Phrase>
+    <Phrase key="btnAddQuery.ToolTip">新增查詢</Phrase>
+    <Phrase key="btnAddCommand.ToolTip">新增命令</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">向上移動</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">下移</Phrase>
+    <Phrase key="btnDelete.ToolTip">刪除</Phrase>
+    <Phrase key="gbDevice">設備配置</Phrase>
+    <Phrase key="btnSave">節省</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
+    <Phrase key="btnClose">關閉</Phrase>
+    <Phrase key="miCollapseAll">全部折疊</Phrase>
+    <Phrase key="ConnectionNode">連線選項</Phrase>
+    <Phrase key="CommandName">指令{0}</Phrase>
+    <Phrase key="CommandsNode">命令</Phrase>
+    <Phrase key="QueryName">查詢{0}</Phrase>
+    <Phrase key="QueriesNode">查詢</Phrase>
+    <Phrase key="SelectChildNode">選擇子節點</Phrase>
+    <Phrase key="UnnamedCommand">&lt;未命名指令&gt;</Phrase>
+    <Phrase key="UnnamedQuery">&lt;未命名查詢&gt;</Phrase>
+  </Dictionary>
+</DrvDbImportDictionaries>

@@ -60,10 +60,10 @@
     <Phrase key="chkGrActive">活动</Phrase>
     <Phrase key="lblGrName">名称</Phrase>
     <Phrase key="lblGrDataBlock">数据块</Phrase>
-    <Phrase key="cbGrTableType.Items[0]">Discrete Inputs (1X)</Phrase>
-    <Phrase key="cbGrTableType.Items[1]">Coils (0X)</Phrase>
-    <Phrase key="cbGrTableType.Items[2]">Input Registers (3X)</Phrase>
-    <Phrase key="cbGrTableType.Items[3]">Holding Registers (4X)</Phrase>
+    <Phrase key="cbGrTableType.Items[0]">離散輸入 (1X)</Phrase>
+    <Phrase key="cbGrTableType.Items[1]">線圈 (0X)</Phrase>
+    <Phrase key="cbGrTableType.Items[2]">輸入暫存器 (3X)</Phrase>
+    <Phrase key="cbGrTableType.Items[3]">持有暫存器 (4X)</Phrase>
     <Phrase key="lblGrFuncCode">功能码</Phrase>
     <Phrase key="lblGrAddress">起始成员地址</Phrase>
     <Phrase key="lblGrElemCnt">成员数量</Phrase>
