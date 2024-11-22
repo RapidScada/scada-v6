@@ -4,8 +4,8 @@
   <Dictionary key="Scada.Application">
     <Phrase key="ProductName">Rapid SCADA</Phrase>
     <Phrase key="ServerAppName">服务器</Phrase>
-    <Phrase key="CommAppName">Communicator</Phrase>
-    <Phrase key="WebAppName">Webstation</Phrase>
+    <Phrase key="CommAppName">通訊器</Phrase>
+    <Phrase key="WebAppName">網站</Phrase>
     <Phrase key="WebsiteUrl">https://rapidscada.org</Phrase>
     <Phrase key="UnhandledException">未知错误</Phrase>
     <Phrase key="ExecutionImpossible">无法正常执行</Phrase>
@@ -15,10 +15,10 @@
     <Phrase key="LogicStopped">逻辑处理已经停止</Phrase>
     <Phrase key="UnableToStopLogic">无法在指定时间内停止逻辑处理</Phrase>
     <Phrase key="StopLogicError">停止逻辑处理时发生错误</Phrase>
-    <Phrase key="LogicLoopError">Error in the logic loop</Phrase>
+    <Phrase key="LogicCycleError">逻辑工作周期错误</Phrase>
     <Phrase key="ThreadFatalError">线程发生严重错误</Phrase>
     <Phrase key="WriteInfoError">将应用程序信息写入文件时出错</Phrase>
-    <Phrase key="ConnectionNotFound">未发现连接&quot;{0}&quot;。</Phrase>
+    <Phrase key="ConnectionNotFound">未发现连接"{0}"。</Phrase>
     <Phrase key="DatabaseNotSupported">数据库不支持。</Phrase>
     <Phrase key="OperationNotSupported">操作不支持。</Phrase>
     <Phrase key="CommandSent">命令已经发送。</Phrase>
@@ -73,7 +73,7 @@
     <Phrase key="DateTimeRequired">需要日期和时间。</Phrase>
     <Phrase key="NotNumber">不是一个数字。</Phrase>
     <Phrase key="NotHexadecimal">不是一个十六进制数字。</Phrase>
-    <Phrase key="InvalidParamVal">参数 &quot;{0}&quot; 的值无效。</Phrase>
+    <Phrase key="InvalidParamVal">参数 "{0}" 的值无效。</Phrase>
     <Phrase key="InvalidSecretKey">无效的密钥。</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms">
@@ -135,16 +135,16 @@
     <Phrase key="chkConnectionString">连接字符串</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Controls.CtrlRegistration">
-    <Phrase key="lblProductName">Product name</Phrase>
-    <Phrase key="lblCompCode">Computer code</Phrase>
-    <Phrase key="btnCopyCompCode">Copy</Phrase>
-    <Phrase key="btnRefreshCompCode">Refresh</Phrase>
-    <Phrase key="lblCompCodeInfo">If the code is missing, upload the configuration and restart the service.</Phrase>
-    <Phrase key="lblRegKey">Registration key</Phrase>
-    <Phrase key="btnPasteRegKey">Paste</Phrase>
-    <Phrase key="lblRegKeyInfo">Key verification result is written in the application or module log.</Phrase>
-    <Phrase key="llblGetPermanentKey">Get permanent key</Phrase>
-    <Phrase key="llblGetTrialKey">Get trial key</Phrase>
+    <Phrase key="lblProductName">產品名稱</Phrase>
+    <Phrase key="lblCompCode">電腦程式碼</Phrase>
+    <Phrase key="btnCopyCompCode">複製</Phrase>
+    <Phrase key="btnRefreshCompCode">重新整理</Phrase>
+    <Phrase key="lblCompCodeInfo">如果程式碼遺失，請上傳配置並重新啟動服務。</Phrase>
+    <Phrase key="lblRegKey">註冊碼</Phrase>
+    <Phrase key="btnPasteRegKey">貼上</Phrase>
+    <Phrase key="lblRegKeyInfo">密鑰驗證結果寫入應用程式或模組日誌中。</Phrase>
+    <Phrase key="llblGetPermanentKey">取得永久密鑰</Phrase>
+    <Phrase key="llblGetTrialKey">取得試用金鑰</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmBitmask">
     <Phrase key="this">位掩码</Phrase>
@@ -199,11 +199,11 @@
     <Phrase key="btnCancel">取消</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmRangeEdit">
-    <Phrase key="this">Edit Range</Phrase>
-    <Phrase key="lblRange">Range of integer numbers</Phrase>
-    <Phrase key="lblExample">For example: 1 - 5, 10</Phrase>
-    <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnCancel">Cancel</Phrase>
+    <Phrase key="this">編輯範圍</Phrase>
+    <Phrase key="lblRange">整數範圍</Phrase>
+    <Phrase key="lblExample">例如：1 - 5、10</Phrase>
+    <Phrase key="btnOK">好的</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.BitItemCollection">
     <Phrase key="EventEnabled">启用事件</Phrase>

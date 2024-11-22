@@ -9,7 +9,7 @@
     <Phrase key="UndefinedValue.Description">通道值未定义时要发送的有效负载。</Phrase>
     <Phrase key="PublishFormat.DisplayName">发布格式</Phrase>
     <Phrase key="PublishFormat.Category">主要参数</Phrase>
-    <Phrase key="PublishFormat.Description">已发布通道数据的格式.&#13;&#10;F例如: { "Val": @val, "Stat": @stat }&#13;&#10;Empty format equals to @val</Phrase>
+    <Phrase key="PublishFormat.Description">已发布通道数据的格式.&#13;&#10;F例如: { "Val": @val, "Stat": @stat }&#13;&#10;空格式等於 @val</Phrase>
     <Phrase key="PublishOnChange.DisplayName">更改时发布</Phrase>
     <Phrase key="PublishOnChange.Category">主要参数</Phrase>
     <Phrase key="PublishOnChange.Description">表示更改时是否发送通道数据的一个值。</Phrase>
