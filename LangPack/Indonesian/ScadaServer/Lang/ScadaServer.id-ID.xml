@@ -36,7 +36,7 @@
     <Phrase key="lblRetention">Jangka waktu penyimpanan</Phrase>
     <Phrase key="txtRetentionUnit">Hari</Phrase>
     <Phrase key="lblIsPeriodic">Hanya data berkala</Phrase>
-    <Phrase key="lblWriteWithPeriod">Tulis dengan titik</Phrase>
+    <Phrase key="lblWriteWithPeriod">Tulis dengan periode</Phrase>
     <Phrase key="lblUsePeriodStartTime">Stempel waktu di awal periode</Phrase>
     <Phrase key="lblWritingPeriod">Periode penulisan</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[0]">Detik</Phrase>
