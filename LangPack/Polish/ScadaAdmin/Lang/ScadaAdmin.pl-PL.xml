@@ -226,8 +226,8 @@
   <Dictionary key="Scada.Admin.App.Forms">
     <Phrase key="SelectedColumn">Wybrany</Phrase>
     <Phrase key="NoProfileConnections">Profil nie zawiera połączeń.</Phrase>
-    <Phrase key="ExtensionNotFound">Nie znaleziono rozszerzenia "{0}".</Phrase>
-    <Phrase key="ExtensionCannotDeploy">Rozszerzenie "{0}" nie obsługuje wdrażania.</Phrase>
+    <Phrase key="ExtensionNotFound">Nie znaleziono rozszerzenia &quot;{0}&quot;.</Phrase>
+    <Phrase key="ExtensionCannotDeploy">Rozszerzenie &quot;{0}&quot; nie obsługuje wdrażania.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmDownloadConfig">
     <Phrase key="this">Pobierz konfigurację</Phrase>
@@ -322,16 +322,16 @@
     <Phrase key="btnFilter.ToolTip">Filtr</Phrase>
     <Phrase key="btnAutoSizeColumns.ToolTip">Automatyczne dopasowanie szerokości kolumn</Phrase>
     <Phrase key="btnProperties.ToolTip">Właściwości przedmiotu</Phrase>
-    <Phrase key="GridViewError">Błąd podczas wyświetlania tabeli, kolumna "{0}".</Phrase>
+    <Phrase key="GridViewError">Błąd podczas wyświetlania tabeli, kolumna &quot;{0}&quot;.</Phrase>
     <Phrase key="ColumnLabel">Kolumna:</Phrase>
     <Phrase key="DeleteRowConfirm">Czy na pewno chcesz usunąć wiersz?</Phrase>
     <Phrase key="DeleteRowsConfirm">Czy na pewno chcesz usunąć wiersze?</Phrase>
     <Phrase key="ClearTableConfirm">Czy na pewno chcesz wyczyścić stół?</Phrase>
     <Phrase key="RowsNotDeleted">Niektóre wiersze nie zostały usunięte, ponieważ istnieją odniesienia.</Phrase>
-    <Phrase key="ColumnNotNull">Kolumna "{0}" nie może zawierać pustych wartości.</Phrase>
-    <Phrase key="UniqueRequired">Nie można wstawić zduplikowanej wartości do kolumny "{0}".</Phrase>
-    <Phrase key="KeyReferenced">Do klucza podstawowego odwołuje się wiersz z tabeli "{0}".</Phrase>
-    <Phrase key="DataNotExist">Brak danych dla kolumny "{0}".</Phrase>
+    <Phrase key="ColumnNotNull">Kolumna &quot;{0}&quot; nie może zawierać pustych wartości.</Phrase>
+    <Phrase key="UniqueRequired">Nie można wstawić zduplikowanej wartości do kolumny &quot;{0}&quot;.</Phrase>
+    <Phrase key="KeyReferenced">Do klucza podstawowego odwołuje się wiersz z tabeli &quot;{0}&quot;.</Phrase>
+    <Phrase key="DataNotExist">Brak danych dla kolumny &quot;{0}&quot;.</Phrase>
     <Phrase key="DataChangeError">Błąd podczas zmiany danych tabeli</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmCnl">
@@ -466,7 +466,7 @@
     <Phrase key="lblInfo">Zmiany zaczną obowiązywać po ponownym uruchomieniu aplikacji.</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Anulować</Phrase>
-    <Phrase key="ProjectExtRegistered">Rozszerzenie "{0}"zostało pomyślnie zarejestrowane.</Phrase>
+    <Phrase key="ProjectExtRegistered">Rozszerzenie &quot;{0}&quot;zostało pomyślnie zarejestrowane.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tools.FrmCulture">
     <Phrase key="this">Język</Phrase>

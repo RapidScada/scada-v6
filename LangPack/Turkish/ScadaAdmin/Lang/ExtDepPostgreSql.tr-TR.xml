@@ -2,8 +2,8 @@
 <ExtDepPostgreSqlDictionaries>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Downloader">
     <Phrase key="DownloadTable">{0} tablosunu indirin</Phrase>
-    <Phrase key="DownloadView">"{0}" görünümünü indir</Phrase>
-    <Phrase key="DownloadConfigFile">"{0}" yapılandırma dosyasını indir</Phrase>
+    <Phrase key="DownloadView">&quot;{0}&quot; görünümünü indir</Phrase>
+    <Phrase key="DownloadConfigFile">&quot;{0}&quot; yapılandırma dosyasını indir</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Uploader">
     <Phrase key="CreateSchema">Veritabanı şeması oluştur</Phrase>
@@ -18,11 +18,11 @@
     <Phrase key="CreateTableFKs">{0} tablosu için yabancı anahtarlar oluşturun</Phrase>
     <Phrase key="ClearViews">Görünümleri temizle</Phrase>
     <Phrase key="CreateViews">Görünümler oluştur</Phrase>
-    <Phrase key="CreateView">"{0}" görünümünü oluştur</Phrase>
+    <Phrase key="CreateView">&quot;{0}&quot; görünümünü oluştur</Phrase>
     <Phrase key="ClearAllAppConfig">Tüm uygulamaların açık yapılandırması</Phrase>
     <Phrase key="ClearAppConfig">{0} uygulamasının yapılandırmasını temizleyin</Phrase>
     <Phrase key="CreateAppConfig">{0} uygulamasının yapılandırmasını oluşturun</Phrase>
-    <Phrase key="CreateConfigFile">"{0}" yapılandırma dosyasını oluştur</Phrase>
+    <Phrase key="CreateConfigFile">&quot;{0}&quot; yapılandırma dosyasını oluştur</Phrase>
     <Phrase key="UnableRestartServices">Aracı devre dışı bırakıldığı için hizmetler yeniden başlatılamıyor</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ClearBaseMethod">

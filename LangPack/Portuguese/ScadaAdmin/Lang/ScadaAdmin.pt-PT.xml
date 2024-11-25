@@ -226,8 +226,8 @@
   <Dictionary key="Scada.Admin.App.Forms">
     <Phrase key="SelectedColumn">Selecionado</Phrase>
     <Phrase key="NoProfileConnections">O perfil não contém conexões.</Phrase>
-    <Phrase key="ExtensionNotFound">Extensão "{0}" não encontrada.</Phrase>
-    <Phrase key="ExtensionCannotDeploy">A extensão "{0}" não oferece suporte à implantação.</Phrase>
+    <Phrase key="ExtensionNotFound">Extensão &quot;{0}&quot; não encontrada.</Phrase>
+    <Phrase key="ExtensionCannotDeploy">A extensão &quot;{0}&quot; não oferece suporte à implantação.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmDownloadConfig">
     <Phrase key="this">Baixar configuração</Phrase>
@@ -322,16 +322,16 @@
     <Phrase key="btnFilter.ToolTip">Filtro</Phrase>
     <Phrase key="btnAutoSizeColumns.ToolTip">Larguras de coluna de ajuste automático</Phrase>
     <Phrase key="btnProperties.ToolTip">Propriedades do item</Phrase>
-    <Phrase key="GridViewError">Erro ao exibir a tabela, a coluna "{0}"</Phrase>
+    <Phrase key="GridViewError">Erro ao exibir a tabela, a coluna &quot;{0}&quot;</Phrase>
     <Phrase key="ColumnLabel">Coluna:</Phrase>
     <Phrase key="DeleteRowConfirm">Tem certeza de que deseja excluir a linha?</Phrase>
     <Phrase key="DeleteRowsConfirm">Tem certeza de que deseja excluir as linhas?</Phrase>
     <Phrase key="ClearTableConfirm">Tem certeza de que deseja limpar a mesa?</Phrase>
     <Phrase key="RowsNotDeleted">Algumas linhas não foram excluídas porque são referenciadas.</Phrase>
-    <Phrase key="ColumnNotNull">A coluna "{0}" não pode conter valores vazios.</Phrase>
-    <Phrase key="UniqueRequired">Um valor duplicado não pode ser inserido na coluna "{0}".</Phrase>
-    <Phrase key="KeyReferenced">A chave primária é referenciada por uma linha da tabela "{0}".</Phrase>
-    <Phrase key="DataNotExist">Não existem dados para a coluna "{0}".</Phrase>
+    <Phrase key="ColumnNotNull">A coluna &quot;{0}&quot; não pode conter valores vazios.</Phrase>
+    <Phrase key="UniqueRequired">Um valor duplicado não pode ser inserido na coluna &quot;{0}&quot;.</Phrase>
+    <Phrase key="KeyReferenced">A chave primária é referenciada por uma linha da tabela &quot;{0}&quot;.</Phrase>
+    <Phrase key="DataNotExist">Não existem dados para a coluna &quot;{0}&quot;.</Phrase>
     <Phrase key="DataChangeError">Erro ao alterar os dados da tabela</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmCnl">
@@ -466,7 +466,7 @@
     <Phrase key="lblInfo">As alterações entrarão em vigor após reiniciar o aplicativo.</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancelar</Phrase>
-    <Phrase key="ProjectExtRegistered">A extensão "{0}" foi registrada com sucesso.</Phrase>
+    <Phrase key="ProjectExtRegistered">A extensão &quot;{0}&quot; foi registrada com sucesso.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tools.FrmCulture">
     <Phrase key="this">Linguagem</Phrase>

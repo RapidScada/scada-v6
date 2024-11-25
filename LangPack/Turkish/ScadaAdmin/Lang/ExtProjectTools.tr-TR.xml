@@ -91,7 +91,7 @@ Dodano {0} kanałów.</Phrase>
     <Phrase key="miCollapseAll">Zwiń wszystko</Phrase>
     <Phrase key="miOpenChannels">Otwarte kanalı</Phrase>
     <Phrase key="ObjNumInUse">Sayı şu anda gerçekleşti.</Phrase>
-    <Phrase key="ObjNumReferenced">"{0}" adlı tabloya ait bir sayı belirtin.</Phrase>
+    <Phrase key="ObjNumReferenced">&quot;{0}&quot; adlı tabloya ait bir sayı belirtin.</Phrase>
     <Phrase key="ObjectReferenced">Bunu yapmak için, tablonun en iyi şekilde kullanılması gerekir.</Phrase>
     <Phrase key="ParentObjectNotExists">Obiekt nadrzędny już nie istnieje.</Phrase>
     <Phrase key="InvalidParentObject">Hiçbir şey yapılmadı ve hiçbir şey yapılmadı.</Phrase>

@@ -224,8 +224,8 @@
   <Dictionary key="Scada.Admin.App.Forms">
     <Phrase key="SelectedColumn">Terpilih</Phrase>
     <Phrase key="NoProfileConnections">Profil tidak berisi koneksi.</Phrase>
-    <Phrase key="ExtensionNotFound">Ekstensi "{0}" tidak ditemukan.</Phrase>
-    <Phrase key="ExtensionCannotDeploy">Ekstensi "{0}" tidak mendukung terapan.</Phrase>
+    <Phrase key="ExtensionNotFound">Ekstensi &quot;{0}&quot; tidak ditemukan.</Phrase>
+    <Phrase key="ExtensionCannotDeploy">Ekstensi &quot;{0}&quot; tidak mendukung terapan.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmDownloadConfig">
     <Phrase key="this">Unduh Konfigurasi</Phrase>
@@ -323,16 +323,16 @@
     <Phrase key="btnFind.ToolTip">Temukan dan Ganti (Ctrl+F)</Phrase>
     <Phrase key="btnAutoSizeColumns.ToolTip">Lebar Otomatis</Phrase>
     <Phrase key="btnProperties.ToolTip">Properti Isi</Phrase>
-    <Phrase key="GridViewError">Kesalahan menampilkan tabel, kolom "{0}"</Phrase>
+    <Phrase key="GridViewError">Kesalahan menampilkan tabel, kolom &quot;{0}&quot;</Phrase>
     <Phrase key="ColumnLabel">Kolom:</Phrase>
     <Phrase key="DeleteRowConfirm">Anda yakin ingin menghapus baris?</Phrase>
     <Phrase key="DeleteRowsConfirm">Anda yakin ingin menghapus beberapa baris?</Phrase>
     <Phrase key="ClearTableConfirm">Apakah Anda yakin ingin mengosongkan tabel?</Phrase>
     <Phrase key="RowsNotDeleted">Beberapa baris belum dihapus karena direferensikan.</Phrase>
-    <Phrase key="ColumnNotNull">Kolom "{0}" tidak boleh berisi nilai kosong.</Phrase>
-    <Phrase key="UniqueRequired">Nilai duplikat tidak dapat dimasukkan ke dalam kolom "{0}".</Phrase>
-    <Phrase key="KeyReferenced">Kunci utama direferensikan oleh baris dari tabel "{0}".</Phrase>
-    <Phrase key="DataNotExist">Tidak ada data untuk kolom "{0}".</Phrase>
+    <Phrase key="ColumnNotNull">Kolom &quot;{0}&quot; tidak boleh berisi nilai kosong.</Phrase>
+    <Phrase key="UniqueRequired">Nilai duplikat tidak dapat dimasukkan ke dalam kolom &quot;{0}&quot;.</Phrase>
+    <Phrase key="KeyReferenced">Kunci utama direferensikan oleh baris dari tabel &quot;{0}&quot;.</Phrase>
+    <Phrase key="DataNotExist">Tidak ada data untuk kolom &quot;{0}&quot;.</Phrase>
     <Phrase key="DataChangeError">Terjadi kesalahan saat mengubah data tabel</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmColorDialog">
@@ -463,7 +463,7 @@
     <Phrase key="lblInfo">Perubahan akan berlaku setelah memulai ulang aplikasi.</Phrase>
     <Phrase key="btnOK">Oke</Phrase>
     <Phrase key="btnCancel">Batal</Phrase>
-    <Phrase key="ProjectExtRegistered">Ekstensi "{0}" telah berhasil didaftarkan.</Phrase>
+    <Phrase key="ProjectExtRegistered">Ekstensi &quot;{0}&quot; telah berhasil didaftarkan.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tools.FrmCulture">
     <Phrase key="this">Bahasa</Phrase>

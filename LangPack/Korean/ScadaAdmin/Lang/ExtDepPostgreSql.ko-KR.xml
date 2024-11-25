@@ -2,8 +2,8 @@
 <ExtDepPostgreSqlDictionaries>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Downloader">
     <Phrase key="DownloadTable">{0} 테이블 다운로드</Phrase>
-    <Phrase key="DownloadView">""{0}" 보기 다운로드</Phrase>
-    <Phrase key="DownloadConfigFile">구성 파일 "{0}" 다운로드</Phrase>
+    <Phrase key="DownloadView">&quot;{0}&quot; 보기 다운로드</Phrase>
+    <Phrase key="DownloadConfigFile">구성 파일 &quot;{0}&quot; 다운로드</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Uploader">
     <Phrase key="CreateSchema">데이터베이스 스키마 생성</Phrase>
@@ -18,11 +18,11 @@
     <Phrase key="CreateTableFKs">{0} 테이블에 대한 외래 키 생성</Phrase>
     <Phrase key="ClearViews">선명한 보기</Phrase>
     <Phrase key="CreateViews">보기 만들기</Phrase>
-    <Phrase key="CreateView">보기 "{0}" 만들기</Phrase>
+    <Phrase key="CreateView">보기 &quot;{0}&quot; 만들기</Phrase>
     <Phrase key="ClearAllAppConfig">모든 애플리케이션의 명확한 구성</Phrase>
     <Phrase key="ClearAppConfig">{0} 애플리케이션의 구성 지우기</Phrase>
     <Phrase key="CreateAppConfig">{0} 애플리케이션의 구성 만들기</Phrase>
-    <Phrase key="CreateConfigFile">구성 파일 "{0}" 생성</Phrase>
+    <Phrase key="CreateConfigFile">구성 파일 &quot;{0}&quot; 생성</Phrase>
     <Phrase key="UnableRestartServices">에이전트가 비활성화되어 서비스를 다시 시작할 수 없습니다.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ClearBaseMethod">

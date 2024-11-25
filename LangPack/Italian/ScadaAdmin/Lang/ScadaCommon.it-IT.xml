@@ -18,7 +18,7 @@
     <Phrase key="LogicLoopError">Errore nel ciclo logico</Phrase>
     <Phrase key="ThreadFatalError">Errore irreversibile nel thread</Phrase>
     <Phrase key="WriteInfoError">Errore durante la scrittura delle informazioni sull'applicazione nel file</Phrase>
-    <Phrase key="ConnectionNotFound">Connessione "{0}" non trovata.</Phrase>
+    <Phrase key="ConnectionNotFound">Connessione &quot;{0}&quot; non trovata.</Phrase>
     <Phrase key="DatabaseNotSupported">Database non supportato.</Phrase>
     <Phrase key="OperationNotSupported">Operazione non supportata.</Phrase>
     <Phrase key="CommandSent">Il comando è stato inviato.</Phrase>
@@ -73,7 +73,7 @@
     <Phrase key="DateTimeRequired">Data e ora sono obbligatori.</Phrase>
     <Phrase key="NotNumber">La stringa non è un numero.</Phrase>
     <Phrase key="NotHexadecimal">La stringa non è esadecimale.</Phrase>
-    <Phrase key="InvalidParamVal">Valore non valido del parametro "{0}".</Phrase>
+    <Phrase key="InvalidParamVal">Valore non valido del parametro &quot;{0}&quot;.</Phrase>
     <Phrase key="InvalidSecretKey">Chiave segreta non valida.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms">

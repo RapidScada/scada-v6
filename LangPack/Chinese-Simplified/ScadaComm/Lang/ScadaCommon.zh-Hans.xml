@@ -18,7 +18,7 @@
     <Phrase key="LogicCycleError">逻辑工作周期错误</Phrase>
     <Phrase key="ThreadFatalError">线程发生严重错误</Phrase>
     <Phrase key="WriteInfoError">将应用程序信息写入文件时出错</Phrase>
-    <Phrase key="ConnectionNotFound">未发现连接"{0}"。</Phrase>
+    <Phrase key="ConnectionNotFound">未发现连接&quot;{0}&quot;。</Phrase>
     <Phrase key="DatabaseNotSupported">数据库不支持。</Phrase>
     <Phrase key="OperationNotSupported">操作不支持。</Phrase>
     <Phrase key="CommandSent">命令已经发送。</Phrase>
@@ -73,7 +73,7 @@
     <Phrase key="DateTimeRequired">需要日期和时间。</Phrase>
     <Phrase key="NotNumber">不是一个数字。</Phrase>
     <Phrase key="NotHexadecimal">不是一个十六进制数字。</Phrase>
-    <Phrase key="InvalidParamVal">参数 "{0}" 的值无效。</Phrase>
+    <Phrase key="InvalidParamVal">参数 &quot;{0}&quot; 的值无效。</Phrase>
     <Phrase key="InvalidSecretKey">无效的密钥。</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms">
