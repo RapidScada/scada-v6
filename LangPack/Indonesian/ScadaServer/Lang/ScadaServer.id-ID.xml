@@ -31,21 +31,27 @@
     <Phrase key="txtRetentionUnit">Hari</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Forms.Controls.CtrlHistoricalArchiveOptions">
-    <Phrase key="gbOptions">Pilihan Utama</Phrase>
     <Phrase key="lblReadOnly">Hanya baca</Phrase>
-    <Phrase key="lblLogEnabled">Catatan diaktifkan</Phrase>
-    <Phrase key="lblRetention">Jangka waktu penyimpanan</Phrase>
+    <Phrase key="lblLogEnabled">Log diaktifkan</Phrase>
+    <Phrase key="lblRetention">Periode retensi</Phrase>
     <Phrase key="txtRetentionUnit">Hari</Phrase>
     <Phrase key="lblIsPeriodic">Hanya data berkala</Phrase>
-    <Phrase key="lblWriteWithPeriod">Tulis dengan periode</Phrase>
+    <Phrase key="lblWriteWithPeriod">Tulis dengan titik</Phrase>
+    <Phrase key="lblUsePeriodStartTime">Stempel waktu di awal periode</Phrase>
     <Phrase key="lblWritingPeriod">Periode penulisan</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[0]">Detik</Phrase>
-    <Phrase key="cbWritingPeriodUnit.Items[1]">Menit</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[1]">Minimal</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[2]">Jam</Phrase>
-    <Phrase key="lblPullToPeriod">Tarik ke periode</Phrase>
+    <Phrase key="cbWritingPeriodUnit.Items[3]">Hari</Phrase>
+    <Phrase key="lblWritingOffset">Penulisan offset</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[0]">Detik</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[1]">Minimal</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[2]">Jam</Phrase>
+    <Phrase key="cbWritingOffsetUnit.Items[3]">Hari</Phrase>
+    <Phrase key="lblPullToPeriod">Tarik ke titik</Phrase>
     <Phrase key="txtPullToPeriodUnit">Detik</Phrase>
-    <Phrase key="lblWriteOnChange">Tulis saat berubah</Phrase>
-    <Phrase key="lblDeadband">Deadband</Phrase>
+    <Phrase key="lblWriteOnChange">Tulis tentang perubahan</Phrase>
+    <Phrase key="lblDeadband">Band mati</Phrase>
     <Phrase key="cbDeadbandUnit.Items[0]">Abs.</Phrase>
     <Phrase key="cbDeadbandUnit.Items[1]">%</Phrase>
   </Dictionary>
