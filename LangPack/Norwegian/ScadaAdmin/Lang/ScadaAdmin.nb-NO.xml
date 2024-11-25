@@ -226,8 +226,8 @@
   <Dictionary key="Scada.Admin.App.Forms">
     <Phrase key="SelectedColumn">Valgt</Phrase>
     <Phrase key="NoProfileConnections">Profilen inneholder ikke koblinger.</Phrase>
-    <Phrase key="ExtensionNotFound">Finner ikke utvidelsen "{0}".</Phrase>
-    <Phrase key="ExtensionCannotDeploy">Utvidelsen "{0}" støtter ikke distribusjon.</Phrase>
+    <Phrase key="ExtensionNotFound">Finner ikke utvidelsen &quot;{0}&quot;.</Phrase>
+    <Phrase key="ExtensionCannotDeploy">Utvidelsen &quot;{0}&quot; støtter ikke distribusjon.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmDownloadConfig">
     <Phrase key="this">Last ned konfigurasjon</Phrase>
@@ -322,16 +322,16 @@
     <Phrase key="btnFilter.ToolTip">Filter</Phrase>
     <Phrase key="btnAutoSizeColumns.ToolTip">Autotilpass kolonnebredder</Phrase>
     <Phrase key="btnProperties.ToolTip">Vareegenskaper</Phrase>
-    <Phrase key="GridViewError">Feil ved visning av tabell, kolonnen "{0}".</Phrase>
+    <Phrase key="GridViewError">Feil ved visning av tabell, kolonnen &quot;{0}&quot;.</Phrase>
     <Phrase key="ColumnLabel">Kolonne:</Phrase>
     <Phrase key="DeleteRowConfirm">Er du sikker på at du vil slette raden?</Phrase>
     <Phrase key="DeleteRowsConfirm">Er du sikker på at du vil slette radene?</Phrase>
     <Phrase key="ClearTableConfirm">Er du sikker på at du vil rydde bordet?</Phrase>
     <Phrase key="RowsNotDeleted">Noen rader er ikke slettet fordi de er referert til.</Phrase>
-    <Phrase key="ColumnNotNull">"{0}"-kolonnen kan ikke inneholde tomme verdier.</Phrase>
-    <Phrase key="UniqueRequired">En duplikatverdi kan ikke settes inn i "{0}"-kolonnen.</Phrase>
-    <Phrase key="KeyReferenced">Primærnøkkelen refereres til av en rad fra "{0}"-tabellen.</Phrase>
-    <Phrase key="DataNotExist">Det finnes ingen data for "{0}"-kolonnen.</Phrase>
+    <Phrase key="ColumnNotNull">&quot;{0}&quot;-kolonnen kan ikke inneholde tomme verdier.</Phrase>
+    <Phrase key="UniqueRequired">En duplikatverdi kan ikke settes inn i &quot;{0}&quot;-kolonnen.</Phrase>
+    <Phrase key="KeyReferenced">Primærnøkkelen refereres til av en rad fra &quot;{0}&quot;-tabellen.</Phrase>
+    <Phrase key="DataNotExist">Det finnes ingen data for &quot;{0}&quot;-kolonnen.</Phrase>
     <Phrase key="DataChangeError">Feil ved endring av tabelldata</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmCnl">
@@ -466,7 +466,7 @@
     <Phrase key="lblInfo">Endringer trer i kraft etter omstart av applikasjonen.</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Avbryt</Phrase>
-    <Phrase key="ProjectExtRegistered">Utvidelsen "{0}" er registrert.</Phrase>
+    <Phrase key="ProjectExtRegistered">Utvidelsen &quot;{0}&quot; er registrert.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tools.FrmCulture">
     <Phrase key="this">Språk</Phrase>

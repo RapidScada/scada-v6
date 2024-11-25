@@ -18,7 +18,7 @@
     <Phrase key="LogicLoopError">논리 루프의 오류</Phrase>
     <Phrase key="ThreadFatalError">스레드의 치명적인 오류</Phrase>
     <Phrase key="WriteInfoError">파일에 응용 프로그램 정보를 쓰는 중 오류가 발생했습니다.</Phrase>
-    <Phrase key="ConnectionNotFound">연결 "{0}"을(를) 찾을 수 없습니다.</Phrase>
+    <Phrase key="ConnectionNotFound">연결 &quot;{0}&quot;을(를) 찾을 수 없습니다.</Phrase>
     <Phrase key="DatabaseNotSupported">데이터베이스가 지원되지 않습니다.</Phrase>
     <Phrase key="OperationNotSupported">지원되지 않는 작업입니다.</Phrase>
     <Phrase key="CommandSent">명령이 전송되었습니다.</Phrase>
@@ -73,7 +73,7 @@
     <Phrase key="DateTimeRequired">날짜와 시간이 필요합니다.</Phrase>
     <Phrase key="NotNumber">문자열은 숫자가 아닙니다.</Phrase>
     <Phrase key="NotHexadecimal">문자열이 16진수가 아닙니다.</Phrase>
-    <Phrase key="InvalidParamVal">"{0}" 매개변수 값이 잘못되었습니다.</Phrase>
+    <Phrase key="InvalidParamVal">&quot;{0}&quot; 매개변수 값이 잘못되었습니다.</Phrase>
     <Phrase key="InvalidSecretKey">잘못된 비밀 키입니다.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms">

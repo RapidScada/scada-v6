@@ -91,7 +91,7 @@
     <Phrase key="miCollapseAll">Réduire tout</Phrase>
     <Phrase key="miOpenChannels">Canaux ouverts</Phrase>
     <Phrase key="ObjNumInUse">Le numéro d'objet est déjà utilisé.</Phrase>
-    <Phrase key="ObjNumReferenced">Le numéro d'objet est référencé par une ligne de la table "{0}".</Phrase>
+    <Phrase key="ObjNumReferenced">Le numéro d'objet est référencé par une ligne de la table &quot;{0}&quot;.</Phrase>
     <Phrase key="ObjectReferenced">L'objet ou son enfant est référencé par une ligne d'une autre table.</Phrase>
     <Phrase key="ParentObjectNotExists">L'objet parent n'existe plus.</Phrase>
     <Phrase key="InvalidParentObject">L'objet parent ne peut pas être le même ni un objet enfant.</Phrase>

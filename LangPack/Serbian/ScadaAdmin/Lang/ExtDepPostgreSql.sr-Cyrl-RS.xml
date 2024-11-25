@@ -2,8 +2,8 @@
 <ExtDepPostgreSqlDictionaries>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Downloader">
     <Phrase key="DownloadTable">Преузмите табелу {0}</Phrase>
-    <Phrase key="DownloadView">„Преузми приказ "{0}"</Phrase>
-    <Phrase key="DownloadConfigFile">Преузмите конфигурациону датотеку "{0}"</Phrase>
+    <Phrase key="DownloadView">„Преузми приказ &quot;{0}&quot;</Phrase>
+    <Phrase key="DownloadConfigFile">Преузмите конфигурациону датотеку &quot;{0}&quot;</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Uploader">
     <Phrase key="CreateSchema">Креирајте шему базе података</Phrase>
@@ -18,11 +18,11 @@
     <Phrase key="CreateTableFKs">Креирајте стране кључеве за табелу {0}</Phrase>
     <Phrase key="ClearViews">Јасни погледи</Phrase>
     <Phrase key="CreateViews">Креирајте приказе</Phrase>
-    <Phrase key="CreateView">Направите приказ "{0}"</Phrase>
+    <Phrase key="CreateView">Направите приказ &quot;{0}&quot;</Phrase>
     <Phrase key="ClearAllAppConfig">Јасна конфигурација свиһ апликација</Phrase>
     <Phrase key="ClearAppConfig">Обришите конфигурацију апликације {0}</Phrase>
     <Phrase key="CreateAppConfig">Креирајте конфигурацију апликације {0}</Phrase>
-    <Phrase key="CreateConfigFile">Креирајте конфигурациону датотеку "{0}"</Phrase>
+    <Phrase key="CreateConfigFile">Креирајте конфигурациону датотеку &quot;{0}&quot;</Phrase>
     <Phrase key="UnableRestartServices">Није могуће поново покренути услуге јер је агент онемогућен</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ClearBaseMethod">

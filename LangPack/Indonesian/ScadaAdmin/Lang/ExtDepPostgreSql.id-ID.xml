@@ -2,8 +2,8 @@
 <ExtDepPostgreSqlDictionaries culture="id-ID" lang="Indonesian">
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Downloader">
     <Phrase key="DownloadTable">Unduh tabel {0}</Phrase>
-    <Phrase key="DownloadView">"Unduh tampilan "{0}"</Phrase>
-    <Phrase key="DownloadConfigFile">Unduh berkas konfigurasi "{0}"</Phrase>
+    <Phrase key="DownloadView">"Unduh tampilan &quot;{0}&quot;</Phrase>
+    <Phrase key="DownloadConfigFile">Unduh berkas konfigurasi &quot;{0}&quot;</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Uploader">
     <Phrase key="CreateSchema">Buat skema basis data</Phrase>
@@ -16,11 +16,11 @@
     <Phrase key="CreateTableFKs">Buat kunci asing untuk tabel {0}</Phrase>
     <Phrase key="ClearViews">Hapus tampilan</Phrase>
     <Phrase key="CreateViews">Buat tampilan</Phrase>
-    <Phrase key="CreateView">Buat tampilan "{0}"</Phrase>
+    <Phrase key="CreateView">Buat tampilan &quot;{0}&quot;</Phrase>
     <Phrase key="ClearAllAppConfig">Hapus konfigurasi semua aplikasi</Phrase>
     <Phrase key="ClearAppConfig">Hapus konfigurasi aplikasi {0}</Phrase>
     <Phrase key="CreateAppConfig">Buat konfigurasi aplikasi {0}</Phrase>
-    <Phrase key="CreateConfigFile">Buat berkas konfigurasi "{0}"</Phrase>
+    <Phrase key="CreateConfigFile">Buat berkas konfigurasi &quot;{0}&quot;</Phrase>
     <Phrase key="UnableRestartServices">Tidak dapat memulai ulang layanan karena Agent dinonaktifkan</Phrase>
   </Dictionary>
 </ExtDepPostgreSqlDictionaries>

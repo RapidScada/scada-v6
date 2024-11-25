@@ -18,7 +18,7 @@
     <Phrase key="LogicCycleError">Kesalahan dalam siklus kerja logika</Phrase>
     <Phrase key="ThreadFatalError">Kesalahan fatal di proses</Phrase>
     <Phrase key="WriteInfoError">Kesalahan saat menulis informasi aplikasi ke berkas</Phrase>
-    <Phrase key="ConnectionNotFound">Sambungan "{0}" tidak ditemukan.</Phrase>
+    <Phrase key="ConnectionNotFound">Sambungan &quot;{0}&quot; tidak ditemukan.</Phrase>
     <Phrase key="ConnOptionsNotFound">Opsi koneksi tidak ditemukan.</Phrase>
     <Phrase key="DatabaseNotSupported">Basis data tidak didukung.</Phrase>
     <Phrase key="OperationNotSupported">Operasi tidak didukung.</Phrase>
@@ -74,7 +74,7 @@
     <Phrase key="DateTimeRequired">Tanggal dan waktu wajib diisi.</Phrase>
     <Phrase key="NotNumber">String bukan angka.</Phrase>
     <Phrase key="NotHexadecimal">String bukan heksadesimal.</Phrase>
-    <Phrase key="InvalidParamVal">Nilai parameter "{0}" tidak valid.</Phrase>
+    <Phrase key="InvalidParamVal">Nilai parameter &quot;{0}&quot; tidak valid.</Phrase>
     <Phrase key="InvalidSecretKey">Kunci rahasia tidak valid.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms">

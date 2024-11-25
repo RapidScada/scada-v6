@@ -91,7 +91,7 @@
     <Phrase key="miCollapseAll">Skjul alle</Phrase>
     <Phrase key="miOpenChannels">Åpne kanaler</Phrase>
     <Phrase key="ObjNumInUse">Objektnummeret er allerede i bruk.</Phrase>
-    <Phrase key="ObjNumReferenced">Objektnummeret refereres til av en rad fra "{0}"-tabellen.</Phrase>
+    <Phrase key="ObjNumReferenced">Objektnummeret refereres til av en rad fra &quot;{0}&quot;-tabellen.</Phrase>
     <Phrase key="ObjectReferenced">Objektet eller dets underordnede er referert av en rad fra en annen tabell.</Phrase>
     <Phrase key="ParentObjectNotExists">Det overordnede objektet eksisterer ikke lenger.</Phrase>
     <Phrase key="InvalidParentObject">Det overordnede objektet kan ikke være det samme eller et underordnet objekt.</Phrase>

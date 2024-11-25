@@ -2,8 +2,8 @@
 <ExtDepPostgreSqlDictionaries>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Downloader">
     <Phrase key="DownloadTable">Last ned tabellen {0}</Phrase>
-    <Phrase key="DownloadView">"Last ned visning "{0}"</Phrase>
-    <Phrase key="DownloadConfigFile">Last ned konfigurasjonsfilen "{0}"</Phrase>
+    <Phrase key="DownloadView">"Last ned visning &quot;{0}&quot;</Phrase>
+    <Phrase key="DownloadConfigFile">Last ned konfigurasjonsfilen &quot;{0}&quot;</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Uploader">
     <Phrase key="CreateSchema">Lag databaseskjema</Phrase>
@@ -18,11 +18,11 @@
     <Phrase key="CreateTableFKs">Opprett fremmednøkler for tabellen {0}</Phrase>
     <Phrase key="ClearViews">Tydelig utsikt</Phrase>
     <Phrase key="CreateViews">Opprett visninger</Phrase>
-    <Phrase key="CreateView">Opprett visning "{0}"</Phrase>
+    <Phrase key="CreateView">Opprett visning &quot;{0}&quot;</Phrase>
     <Phrase key="ClearAllAppConfig">Tydelig konfigurasjon av alle applikasjoner</Phrase>
     <Phrase key="ClearAppConfig">Slett konfigurasjonen av {0}-applikasjonen</Phrase>
     <Phrase key="CreateAppConfig">Opprett konfigurasjon av {0}-applikasjonen</Phrase>
-    <Phrase key="CreateConfigFile">Opprett konfigurasjonsfil "{0}"</Phrase>
+    <Phrase key="CreateConfigFile">Opprett konfigurasjonsfil &quot;{0}&quot;</Phrase>
     <Phrase key="UnableRestartServices">Kan ikke starte tjenester på nytt fordi agenten er deaktivert</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ClearBaseMethod">

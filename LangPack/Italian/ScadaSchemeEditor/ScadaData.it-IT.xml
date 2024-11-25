@@ -28,7 +28,7 @@
     <Phrase key="NonemptyRequired">È richiesto un valore non vuoto.</Phrase>
     <Phrase key="DateTimeRequired">Data e ora sono obbligatori.</Phrase>
     <Phrase key="LineLengthLimit">La lunghezza della stringa deve essere di {0} simboli o meno.</Phrase>
-    <Phrase key="NotNumber">"{0}" non è un numero.</Phrase>
+    <Phrase key="NotNumber">&quot;{0}&quot; non è un numero.</Phrase>
     <Phrase key="NotHexadecimal">La stringa non è esadecimale.</Phrase>
     <Phrase key="LoadImageError">Errore durante il caricamento dell'immagine dal file:&#13;&#10;{0}</Phrase>
     <Phrase key="LoadHyperlinkError">Errore durante il caricamento del collegamento ipertestuale dal file:&#13;&#10;{0}</Phrase>

@@ -2,8 +2,8 @@
 <ExtDepPostgreSqlDictionaries>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Downloader">
     <Phrase key="DownloadTable">Stáhněte si tabulku {0}</Phrase>
-    <Phrase key="DownloadView">"Stáhnout zobrazení  "{0}"</Phrase>
-    <Phrase key="DownloadConfigFile">Stáhnout konfigurační soubor  "{0}"</Phrase>
+    <Phrase key="DownloadView">"Stáhnout zobrazení  &quot;{0}&quot;</Phrase>
+    <Phrase key="DownloadConfigFile">Stáhnout konfigurační soubor  &quot;{0}&quot;</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Uploader">
     <Phrase key="CreateSchema">Vytvořte schéma databáze</Phrase>
@@ -18,11 +18,11 @@
     <Phrase key="CreateTableFKs">Vytvořte cizí klíče pro tabulku {0}</Phrase>
     <Phrase key="ClearViews">Jasné výhledy</Phrase>
     <Phrase key="CreateViews">Vytvářejte pohledy</Phrase>
-    <Phrase key="CreateView">Vytvořit výběr dat  "{0}"</Phrase>
+    <Phrase key="CreateView">Vytvořit výběr dat  &quot;{0}&quot;</Phrase>
     <Phrase key="ClearAllAppConfig">Přehledná konfigurace všech aplikací</Phrase>
     <Phrase key="ClearAppConfig">Vymazat konfiguraci aplikace {0}</Phrase>
     <Phrase key="CreateAppConfig">Vytvořte konfiguraci aplikace {0}</Phrase>
-    <Phrase key="CreateConfigFile">Vytvořit konfigurační soubor  "{0}"</Phrase>
+    <Phrase key="CreateConfigFile">Vytvořit konfigurační soubor &quot;{0}&quot;</Phrase>
     <Phrase key="UnableRestartServices">Služby nelze restartovat, protože je zakázán agent</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ClearBaseMethod">
