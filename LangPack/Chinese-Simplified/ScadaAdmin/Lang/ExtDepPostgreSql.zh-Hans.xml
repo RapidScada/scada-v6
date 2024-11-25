@@ -2,7 +2,7 @@
 <ExtDepPostgreSqlDictionaries culture="zh-Hans" lang="ChineseSimplified">
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Downloader">
     <Phrase key="DownloadTable">下载表 {0} </Phrase>
-    <Phrase key="DownloadView">"下载视图 &quot;{0}&quot;3</Phrase>
+    <Phrase key="DownloadView">"下载视图 &quot;{0}&quot;</Phrase>
     <Phrase key="DownloadConfigFile">下载配置文件 &quot;{0}&quot;</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Uploader">
