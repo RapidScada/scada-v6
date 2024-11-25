@@ -48,7 +48,7 @@
     <Phrase key="cbWritingOffsetUnit.Items[1]">Menit</Phrase>
     <Phrase key="cbWritingOffsetUnit.Items[2]">Jam</Phrase>
     <Phrase key="cbWritingOffsetUnit.Items[3]">Hari</Phrase>
-    <Phrase key="lblPullToPeriod">Tarik ke titik</Phrase>
+    <Phrase key="lblPullToPeriod">Tarik ke periode</Phrase>
     <Phrase key="txtPullToPeriodUnit">Detik</Phrase>
     <Phrase key="lblWriteOnChange">Tulis saat berubah</Phrase>
     <Phrase key="lblDeadband">Deadband</Phrase>
