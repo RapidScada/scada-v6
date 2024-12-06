@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2023
+ * Modified : 2024
  */
 
 using Scada.Data.Entities;
@@ -68,6 +68,7 @@ namespace Scada.Server.Engine
             arcByBit = new ArchiveLogic[ServerUtils.MaxArchiveCount];
             maxTitleLength = 0;
             DefaultArchiveMask = 0;
+            DefaultEventArchiveMask = 0;
         }
 
 
@@ -75,6 +76,11 @@ namespace Scada.Server.Engine
         /// Gets the archive mask that defines the default archives.
         /// </summary>
         public int DefaultArchiveMask { get; private set; }
+
+        /// <summary>
+        /// Gets the archive mask that defines the default event archives.
+        /// </summary>
+        public int DefaultEventArchiveMask { get; private set; }
 
 
         /// <summary>
@@ -124,7 +130,10 @@ namespace Scada.Server.Engine
                 eventArchives.Add(eventArchiveLogic);
 
                 if (archiveEntity.IsDefault)
+                {
                     defaultEventArchives.Add(eventArchiveLogic);
+                    DefaultEventArchiveMask = DefaultEventArchiveMask.SetBit(archiveEntity.Bit, true);
+                }
             }
 
             // add archive to array by bit number
@@ -540,7 +549,7 @@ namespace Scada.Server.Engine
                 }
             }
 
-            if (archiveMask == ArchiveMask.Default)
+            if (archiveMask == DefaultEventArchiveMask || archiveMask == ArchiveMask.Default)
             {
                 foreach (EventArchiveLogic archiveLogic in defaultEventArchives)
                 {

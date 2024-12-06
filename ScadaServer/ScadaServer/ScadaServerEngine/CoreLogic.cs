@@ -666,7 +666,7 @@ namespace Scada.Server.Engine
                     "Создано событие с ид. {0} и каналом {1}" :
                     "Created event with ID {0} and channel {1}", ev.EventID, ev.CnlNum);
 
-                moduleHolder.OnEvent(ev);
+                moduleHolder.OnEvent(eventItem.ArchiveMask, ev);
                 archiveHolder.WriteEvent(eventItem.ArchiveMask, ev);
             }
         }
@@ -1347,10 +1347,10 @@ namespace Scada.Server.Engine
 
             try
             {
-                moduleHolder.OnHistoricalDataProcessing(slice);
-
                 if (archiveMask == ArchiveMask.Default)
                     archiveMask = archiveHolder.DefaultArchiveMask;
+
+                moduleHolder.OnHistoricalDataProcessing(archiveMask, slice);
 
                 // find channel tags of the slice
                 int cnlCnt = slice.Length;
@@ -1431,7 +1431,7 @@ namespace Scada.Server.Engine
             finally
             {
                 // in case of archive error, slice data may be inconsistent
-                moduleHolder.OnHistoricalDataProcessed(slice);
+                moduleHolder.OnHistoricalDataProcessed(archiveMask, slice);
             }
         }
 
@@ -1489,6 +1489,9 @@ namespace Scada.Server.Engine
                     ev.CnlVal = 0.0;
                     ev.CnlStat = 0;
                 }
+
+                if (archiveMask == ArchiveMask.Default)
+                    archiveMask = archiveHolder.DefaultEventArchiveMask;
 
                 EnqueueEvent(archiveMask, ev);
             }
