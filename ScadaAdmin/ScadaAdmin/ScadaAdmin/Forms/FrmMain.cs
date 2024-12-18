@@ -41,6 +41,7 @@ using Scada.Lang;
 using Scada.Log;
 using System.Collections;
 using System.ComponentModel;
+using System.Diagnostics;
 using WinControls;
 
 namespace Scada.Admin.App.Forms
@@ -55,6 +56,7 @@ namespace Scada.Admin.App.Forms
         private readonly ExplorerBuilder explorerBuilder; // the object to manipulate the explorer tree
         private FrmStartPage frmStartPage;                // the start page
         private bool preventNodeExpand;                   // prevent a tree node from expanding or collapsing
+        private bool isSchemeEditorProcess = false;       // to handle treeview update on schemeEditor close
 
 
         /// <summary>
@@ -326,8 +328,25 @@ namespace Scada.Admin.App.Forms
                     if (appData.AppConfig.FileAssociations.TryGetValue(
                         AppUtils.GetExtensionLower(fileItem.Name), out string exePath) && File.Exists(exePath))
                     {
-                        // run external editor
-                        ScadaUiUtils.StartProcess(exePath, $"\"{fileItem.Path}\"");
+                        //update TreeNode after Process Exited
+                        if (exePath.Contains("SchemeEditor"))
+                        {
+                            isSchemeEditorProcess = true;
+                            ProcessStartInfo startInfo = new ProcessStartInfo();
+                            startInfo.FileName = exePath;
+                            startInfo.Arguments = $"\"{fileItem.Path}\"";
+                            Process process = new Process();
+                            process.StartInfo = startInfo;
+                            process.EnableRaisingEvents = true;
+                            process.Exited += ScheEditorProcess_Exited;
+                            process.Start();
+                        }
+                        else
+                        {
+                            isSchemeEditorProcess = false;
+                            //run external editor
+                            ScadaUiUtils.StartProcess(exePath, $"\"{fileItem.Path}\"");
+                        }
                     }
                     else
                     {
@@ -342,6 +361,26 @@ namespace Scada.Admin.App.Forms
                 {
                     // activate existing form
                     wctrlMain.ActivateForm(tag.ExistingForm);
+                }
+            }
+        }
+
+        private void ScheEditorProcess_Exited(object sender, EventArgs e)
+        {
+
+            if (tvExplorer.InvokeRequired)
+            {
+                tvExplorer.Invoke(new EventHandler(miDirectoryRefresh_Click));
+            }
+            else
+            {
+                //View node selection
+                TreeNode selectedNode = tvExplorer.Nodes[0].Nodes[1];
+
+                if (TryGetFilePath(selectedNode, out string path))
+                {
+                    CloseChildForms(selectedNode, true);
+                    explorerBuilder.FillFileNode(selectedNode, path);
                 }
             }
         }
@@ -1733,6 +1772,11 @@ namespace Scada.Admin.App.Forms
         {
             // refresh the tree nodes corresponding to the selected directory
             TreeNode selectedNode = tvExplorer.SelectedNode;
+
+            if (isSchemeEditorProcess)
+            {
+                selectedNode = tvExplorer.Nodes[0].Nodes[1];
+            }
 
             if (TryGetFilePath(selectedNode, out string path))
             {
