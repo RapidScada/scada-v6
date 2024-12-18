@@ -48,7 +48,11 @@ namespace Scada.Admin.App.Code
         public static string WebNode { get; private set; }
         public static string AppConfigNode { get; private set; }
         public static string DeviceFilter { get; private set; }
+        public static string ObjectFilter { get; private set; }
         public static string EmptyDeviceFilter { get; private set; }
+        public static string MainObjectFolder { get; private set; }
+        public static string InfiniteLoopError { get; private set; }
+        public static string InfiniteLoopNoParentError { get; private set; }
 
         // Scada.Admin.App.Controls.Deployment.CtrlProfileSelector
         public static string ProfileNotSet { get; private set; }
@@ -195,6 +199,10 @@ namespace Scada.Admin.App.Code
             AppConfigNode = dict[nameof(AppConfigNode)];
             DeviceFilter = dict[nameof(DeviceFilter)];
             EmptyDeviceFilter = dict[nameof(EmptyDeviceFilter)];
+            ObjectFilter = dict[nameof(ObjectFilter)];
+            MainObjectFolder = dict[nameof(MainObjectFolder)];
+            InfiniteLoopError = dict[nameof(InfiniteLoopError)];
+            InfiniteLoopNoParentError = dict[nameof(InfiniteLoopNoParentError)];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Controls.Deployment.CtrlProfileSelector");
             ProfileNotSet = dict[nameof(ProfileNotSet)];
