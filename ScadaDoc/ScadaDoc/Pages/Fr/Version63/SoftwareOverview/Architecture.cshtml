@@ -1,0 +1,28 @@
+﻿@page "/fr/latest/software-overview/architecture"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Architecture Logicielle";
+}
+
+<h1>Architecture Logicielle</h1>
+
+<p>Le logiciel Rapid SCADA possède une architecture multi-niveaux. Les applications (services) incluses dans le logiciel interagissent entre elles à l'aide du protocole TCP. La figure 1 montre une architecture couramment utilisée pour un système simple déployé avec l'installation par défaut. La figure 2 illustre une architecture distribuée dans laquelle différents services sont déployés sur des hôtes distincts.</p>
+
+<figure class="figure">
+    <img src="architecture-files/scada-arc-simple-en.png" class="figure-img img-fluid" alt="Architecture par défaut" />
+    <figcaption class="figure-caption">Figure 1. Architecture par défaut</figcaption>
+</figure>
+
+<figure class="figure">
+    <img src="architecture-files/scada-arc-complex-en.png" class="figure-img img-fluid" alt="Architecture distribuée" />
+    <figcaption class="figure-caption">Figure 2. Architecture distribuée</figcaption>
+</figure>
+
+<p>Rapid SCADA inclut les applications principales suivantes :</p>
+<ol>
+    <li><em>Webstation</em> est une application web qui affiche des informations à un opérateur via un navigateur sous forme tabulaire, sur des diagrammes et des graphiques, et génère également des rapports.</li>
+    <li><em>Serveur</em> gère les archives de données, effectue des calculs mathématiques et fournit des informations aux applications clientes.</li>
+    <li><em>Communicator</em> collecte des données des contrôleurs, diagnostique les dispositifs, et transmet les informations à l'application Serveur via le réseau.</li>
+</ol>
+
+<p>Notez que Rapid SCADA prend en charge des options architecturales dans lesquelles des instances de l'application Serveur échangent des données entre elles dans le but de redondance.</p>
