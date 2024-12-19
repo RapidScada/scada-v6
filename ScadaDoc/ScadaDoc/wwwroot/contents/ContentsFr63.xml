@@ -45,7 +45,15 @@
         <Text>Installation des modules</Text>
         <Url>/fr/latest/installation/install-modules</Url>
       </Item>
-      <Item>
+	  <Item>
+		<Text>Gestion des Services</Text>
+		<Url>/fr/latest/installation/services</Url>
+	  </Item>
+	  <Item>
+		<Text>Transfert vers un Nouveau Serveur</Text>
+		<Url>/fr/latest/installation/transfer</Url>
+	  </Item>
+	  <Item>
         <Text>Recommandations de sécurité</Text>
         <Url>/fr/latest/installation/safety</Url>
       </Item>
