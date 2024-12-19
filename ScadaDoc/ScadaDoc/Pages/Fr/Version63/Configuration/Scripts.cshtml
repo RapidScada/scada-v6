@@ -1,0 +1,463 @@
+﻿@page "/fr/latest/configuration/scripts"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Scripts et Formules";
+}
+
+<nav class="doc-toc">
+    <div class="h6">Sur cette page</div>
+    <hr>
+    <ul>
+        <li><a href="#script-rules">Règles de Création de Scripts</a></li>
+        <li><a href="#available-variables">Variables Disponibles</a></li>
+        <li><a href="#available-functions">Fonctions Disponibles</a></li>
+        <li><a href="#template-functions">Fonctions du Modèle de Projet</a></li>
+        <li><a href="#debugging">Débogage des Scripts</a></li>
+        <li><a href="#examples">Exemples de Formules</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Scripts et Formules</h1>
+    <p>L'application Serveur dispose d'un moteur intégré pour exécuter des scripts utilisateurs. Les scripts sont utilisés pour calculer les valeurs et statuts des canaux, ainsi que pour calculer les valeurs des commandes.</p>
+    <p>Les scripts sont écrits dans la table <strong>Scripts</strong> de la base de données de configuration. Un projet créé à l'aide d'un modèle contient déjà un ensemble initial de scripts qui peuvent être utilisés comme exemples pour développer vos propres scripts. Les variables et fonctions implémentées dans la table <strong>Scripts</strong> sont ensuite appelées dans les colonnes <strong>Formule d'Entrée</strong> et <strong>Formule de Sortie</strong> de la table <strong>Canaux</strong>. Pour effectuer des calculs de formule pour un canal, sélectionnez la case dans la colonne <strong>Formule Activée</strong>.</p>
+
+    <h2 id="script-rules">Règles de Création de Scripts</h2>
+    <p>Règles générales pour écrire et utiliser des scripts :</p>
+    <ol>
+        <li>Les scripts sont écrits selon la <a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/" target="_blank">syntaxe du langage C#</a>. Diverses classes du framework .NET sont disponibles, telles que Math, DateTime et File.</li>
+        <li>De nouvelles constantes, champs, propriétés et méthodes sont ajoutés à la table <strong>Scripts</strong> et deviennent disponibles dans les formules des canaux.</li>
+        <li>Si au moins un script ou une formule contient une erreur, le fonctionnement du Serveur est impossible. Les informations sur les erreurs dans les scripts sont écrites dans le journal d'application du Serveur.</li>
+    </ol>
+
+    <p>Règles pour le calcul des formules des canaux :</p>
+    <ol>
+        <li>Une formule d'entrée pour les canaux des types <em>Entrée</em> et <em>Entrée/Sortie</em> est calculée uniquement lorsque le Serveur reçoit de nouvelles données pour ces canaux. Utilisez ces types de canaux si les données proviennent de dispositifs.</li>
+        <li>Une formule d'entrée pour les canaux des types <em>Calculé</em> et <em>Calculé/Sortie</em> est calculée en continu à chaque itération de la boucle principale du Serveur. La séquence de calcul va du numéro de canal le plus petit au plus grand.</li>
+        <li>Une formule de sortie pour les canaux des types <em>Entrée/Sortie</em>, <em>Calculé/Sortie</em> et <em>Sortie</em> est calculée lorsqu'une commande est envoyée au canal correspondant.</li>
+        <li>Un statut de canal après le calcul d'une formule d'entrée pour les types <em>Entrée</em> et <em>Entrée/Sortie</em> est égal au statut des données transférées au Serveur, sauf si le calcul du statut est explicitement spécifié dans la formule.</li>
+        <li>Pour les canaux des types <em>Calculé</em> et <em>Calculé/Sortie</em>, le statut est défini sur <em>Défini</em> si le calcul du statut n'est pas explicitement spécifié dans la formule.</li>
+        <li>Si une formule d'entrée contient le symbole ";", elle est divisée en deux parties : la première calcule la valeur du canal, et la seconde calcule le statut du canal.</li>
+        <li>Si un canal a des limites spécifiées, le statut du canal est recalculé en tenant compte des limites après le calcul de la formule d'entrée du canal.</li>
+        <li>Les formules doivent retourner des valeurs de types de données spécifiques, décrits ci-dessous.</li>
+    </ol>
+
+    <p>Les formules d'entrée des canaux retournent des données des types suivants :</p>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Type de Données</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>double</td>
+                <td>Valeur du canal</td>
+            </tr>
+            <tr>
+                <td>CnlData</td>
+                <td>Valeur et statut du canal</td>
+            </tr>
+            <tr>
+                <td>long</td>
+                <td>Valeur entière 64 bits d'un canal dont le type de données est défini sur <em>Entier</em> dans la table <strong>Canaux</strong></td>
+            </tr>
+            <tr>
+                <td>string</td>
+                <td>Valeur texte d'un canal dont le type de données est défini sur <em>Chaîne ASCII</em> ou <em>Chaîne Unicode</em> dans la table <strong>Canaux</strong></td>
+            </tr>
+        </tbody>
+    </table>
+    <p>Si une formule d'entrée retourne un type de données autre que ceux listés ci-dessus, la valeur retournée par la formule est convertie au type approprié basé sur le type de données du canal. La partie de la formule d'entrée du canal qui calcule le statut du canal doit retourner une valeur entière de type <code>int</code>.</p>
+
+    <p>Les formules de sortie des canaux retournent des données des types suivants :</p>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Type de Données</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>double</td>
+                <td>Valeur de commande. Pour annuler une commande, la formule doit retourner <code>double.NaN</code></td>
+            </tr>
+            <tr>
+                <td>CnlData</td>
+                <td>Valeur de commande. Pour annuler une commande, la formule doit retourner <code>CnlData.Empty</code></td>
+            </tr>
+            <tr>
+                <td>byte[]</td>
+                <td>Données binaires de commande. Pour annuler une commande, la formule doit retourner <code>null</code></td>
+            </tr>
+            <tr>
+                <td>string</td>
+                <td>Données de commande sous forme de chaîne. Converties par le Serveur en un tableau de bytes</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2 id="available-variables">Variables Disponibles</h2>
+    <p>Le moteur de script fournit les variables intégrées suivantes :</p>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Variable</th>
+                <th>Type de Données</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Timestamp</td>
+                <td>DateTime</td>
+                <td>Horodatage des données traitées (UTC)</td>
+            </tr>
+            <tr>
+                <td>IsCurrent</td>
+                <td>bool</td>
+                <td>Indique si les données traitées sont des données actuelles</td>
+            </tr>
+            <tr>
+                <td>CnlNum</td>
+                <td>int</td>
+                <td>Numéro du canal pour lequel la formule est calculée</td>
+            </tr>
+            <tr>
+                <td>Channel</td>
+                <td>Cnl</td>
+                <td>Propriétés du canal pour lequel la formule est calculée</td>
+            </tr>
+            <tr>
+                <td>ArrIdx</td>
+                <td>int</td>
+                <td>Index de l'élément du tableau traité</td>
+            </tr>
+            <tr>
+                <td>Cnl, CnlVal</td>
+                <td>double</td>
+                <td>Valeur du canal transmise au Serveur avant le calcul</td>
+            </tr>
+            <tr>
+                <td>CnlStat</td>
+                <td>int</td>
+                <td>Statut du canal transmis au Serveur avant le calcul</td>
+            </tr>
+            <tr>
+                <td>CnlData</td>
+                <td>CnlData</td>
+                <td>Données du canal transmises au Serveur avant le calcul</td>
+            </tr>
+            <tr>
+                <td>Cmd, CmdVal</td>
+                <td>double</td>
+                <td>Valeur de commande transmise au Serveur avant le calcul</td>
+            </tr>
+            <tr>
+                <td>CmdData</td>
+                <td>byte[]</td>
+                <td>Données de commande transmises au Serveur</td>
+            </tr>
+            <tr>
+                <td>CmdDataStr</td>
+                <td>string</td>
+                <td>Données de commande sous forme de chaîne</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <h2 id="available-functions">Fonctions Disponibles</h2>
+    <p>Le moteur de script fournit les fonctions intégrées suivantes :</p>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Fonction</th>
+                <th>Type de Données</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>N(n)</td>
+                <td>int</td>
+                <td>Retourne le numéro du canal n. Utilisé dans le clonage de canaux</td>
+            </tr>
+            <tr>
+                <td>Val()</td>
+                <td>double</td>
+                <td>Valeur actuelle du canal pour la formule</td>
+            </tr>
+            <tr>
+                <td>Val(n)</td>
+                <td>double</td>
+                <td>Valeur actuelle du canal n</td>
+            </tr>
+            <tr>
+                <td>SetVal(n, val)</td>
+                <td>double</td>
+                <td>Définit la valeur actuelle du canal n</td>
+            </tr>
+            <tr>
+                <td>Stat()</td>
+                <td>int</td>
+                <td>Statut actuel du canal pour la formule</td>
+            </tr>
+            <tr>
+                <td>Stat(n)</td>
+                <td>int</td>
+                <td>Statut actuel du canal n</td>
+            </tr>
+            <tr>
+                <td>SetStat(n, stat)</td>
+                <td>int</td>
+                <td>Définit le statut actuel du canal n</td>
+            </tr>
+            <tr>
+                <td>Data()</td>
+                <td>CnlData</td>
+                <td>Données actuelles du canal pour la formule</td>
+            </tr>
+            <tr>
+                <td>Data(n)</td>
+                <td>CnlData</td>
+                <td>Données actuelles du canal n</td>
+            </tr>
+            <tr>
+                <td>SetData(n, val, stat)</td>
+                <td>double</td>
+                <td>Définit la valeur et le statut actuels du canal n</td>
+            </tr>
+            <tr>
+                <td>SetData(n, cnlData)</td>
+                <td>double</td>
+                <td>Définit les données actuelles du canal n</td>
+            </tr>
+            <tr>
+                <td>NewData(val, stat)</td>
+                <td>CnlData</td>
+                <td>Crée une nouvelle instance de données de canal</td>
+            </tr>
+            <tr>
+                <td>PrevVal()</td>
+                <td>double</td>
+                <td>Valeur précédente du canal pour la formule</td>
+            </tr>
+            <tr>
+                <td>PrevVal(n)</td>
+                <td>double</td>
+                <td>Valeur précédente du canal n</td>
+            </tr>
+            <tr>
+                <td>PrevStat()</td>
+                <td>int</td>
+                <td>Statut précédent du canal pour la formule</td>
+            </tr>
+            <tr>
+                <td>PrevStat(n)</td>
+                <td>int</td>
+                <td>Statut précédent du canal n</td>
+            </tr>
+            <tr>
+                <td>PrevData()</td>
+                <td>CnlData</td>
+                <td>Données précédentes du canal pour la formule</td>
+            </tr>
+            <tr>
+                <td>PrevData(n)</td>
+                <td>CnlData</td>
+                <td>Données précédentes du canal n</td>
+            </tr>
+            <tr>
+                <td>Time()</td>
+                <td>DateTime</td>
+                <td>Horodatage actuel du canal pour la formule</td>
+            </tr>
+            <tr>
+                <td>Time(n)</td>
+                <td>DateTime</td>
+                <td>Horodatage actuel du canal n</td>
+            </tr>
+            <tr>
+                <td>PrevTime()</td>
+                <td>DateTime</td>
+                <td>Horodatage précédent du canal pour la formule</td>
+            </tr>
+            <tr>
+                <td>PrevTime(n)</td>
+                <td>DateTime</td>
+                <td>Horodatage précédent du canal n</td>
+            </tr>
+            <tr>
+                <td>Deriv(n)</td>
+                <td>double</td>
+                <td>Dérivée temporelle du canal n</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2 id="template-functions">Fonctions du Modèle de Projet</h2>
+    <p>Dans un projet créé à partir d'un modèle standard, la table <strong>Scripts</strong> contient les fonctions suivantes :</p>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Fonction</th>
+                <th>Type de Données</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>GetBit(val, n)</td>
+                <td>double</td>
+                <td>Retourne le n<sup>ème</sup> bit de la valeur spécifiée</td>
+            </tr>
+            <tr>
+                <td>GetBit(cnlData, val)</td>
+                <td>CnlData</td>
+                <td>Retourne les données du canal composées du n<sup>ème</sup> bit de la valeur et du statut du canal</td>
+            </tr>
+            <tr>
+                <td>SetBit(val, n, isOn)</td>
+                <td>double</td>
+                <td>Définit le n<sup>ème</sup> bit de la valeur spécifiée</td>
+            </tr>
+            <tr>
+                <td>SetBit(cnlData, n, isOn)</td>
+                <td>CnlData</td>
+                <td>Définit le n<sup>ème</sup> bit de la valeur du canal, tout en conservant le statut du canal</td>
+            </tr>
+            <tr>
+                <td>GetByte(val, n)</td>
+                <td>double</td>
+                <td>Retourne le n<sup>ème</sup> octet de la valeur spécifiée</td>
+            </tr>
+            <tr>
+                <td>DataRel(offset)</td>
+                <td>CnlData</td>
+                <td>Données du canal relatives au canal actuel</td>
+            </tr>
+            <tr>
+                <td>SetData()</td>
+                <td>double</td>
+                <td>Définit les données actuelles du canal en fonction de la valeur de commande</td>
+            </tr>
+            <tr>
+                <td>Now()</td>
+                <td>double</td>
+                <td>La date et l'heure actuelles sous forme de nombre à virgule flottante. Utilise le fuseau horaire du serveur</td>
+            </tr>
+            <tr>
+                <td>UtcNow()</td>
+                <td>double</td>
+                <td>La date et l'heure actuelles sous forme de nombre à virgule flottante. Utilise le fuseau horaire universel (UTC)</td>
+            </tr>
+            <tr>
+                <td>UnixTime()</td>
+                <td>long</td>
+                <td>Heure Unix actuelle en secondes</td>
+            </tr>
+            <tr>
+                <td>EncodeDate(dateTime)</td>
+                <td>double</td>
+                <td>Convertit la date et l'heure spécifiées en une valeur de canal de type Double</td>
+            </tr>
+            <tr>
+                <td>DecodeDate(val)</td>
+                <td>DateTime</td>
+                <td>Convertit la valeur du canal en une date et une heure</td>
+            </tr>
+            <tr>
+                <td>EncodeAscii(s)</td>
+                <td>double</td>
+                <td>Convertit une chaîne ASCII de 8 caractères maximum en un nombre à virgule flottante</td>
+            </tr>
+            <tr>
+                <td>EncodeUnicode(s)</td>
+                <td>double</td>
+                <td>Convertit une chaîne Unicode de 4 caractères maximum en un nombre à virgule flottante</td>
+            </tr>
+            <tr>
+                <td>DecodeAscii(val)</td>
+                <td>string</td>
+                <td>Convertit la valeur spécifiée en une chaîne ASCII de 8 caractères maximum</td>
+            </tr>
+            <tr>
+                <td>DecodeUnicode(val)</td>
+                <td>string</td>
+                <td>Convertit la valeur spécifiée en une chaîne Unicode de 4 caractères maximum</td>
+            </tr>
+            <tr>
+                <td>Substring(s, startIndex, length)</td>
+                <td>string</td>
+                <td>Extrait une sous-chaîne de la chaîne avec vérification des limites</td>
+            </tr>
+            <tr>
+                <td>SplitAscii(getStringFunc)</td>
+                <td>string</td>
+                <td>Divise une chaîne ASCII pour être stockée dans plusieurs canaux</td>
+            </tr>
+            <tr>
+                <td>SplitUnicode(getStringFunc)</td>
+                <td>string</td>
+                <td>Divise une chaîne Unicode pour être stockée dans plusieurs canaux</td>
+            </tr>
+            <tr>
+                <td>EverySec(getDataFunc)</td>
+                <td>CnlData</td>
+                <td>Exécute la fonction spécifiée toutes les secondes</td>
+            </tr>
+            <tr>
+                <td>EveryMin(getDataFunc)</td>
+                <td>CnlData</td>
+                <td>Exécute la fonction spécifiée toutes les minutes</td>
+            </tr>
+            <tr>
+                <td>EveryHour(getDataFunc)</td>
+                <td>CnlData</td>
+                <td>Exécute la fonction spécifiée toutes les heures</td>
+            </tr>
+            <tr>
+                <td>CountPulse(cnlNum)</td>
+                <td>double</td>
+                <td>Compte les impulsions du canal spécifié</td>
+            </tr>
+            <tr>
+                <td>HourStarted()</td>
+                <td>bool</td>
+                <td>Indique qu'une nouvelle heure a commencé. Le résultat est vrai une fois pour chaque canal</td>
+            </tr>
+            <tr>
+                <td>DayStarted()</td>
+                <td>bool</td>
+                <td>Indique qu'un nouveau jour a commencé. Le résultat est vrai une fois pour chaque canal</td>
+            </tr>
+            <tr>
+                <td>MonthStarted()</td>
+                <td>bool</td>
+                <td>Indique qu'un nouveau mois a commencé. Le résultat est vrai une fois pour chaque canal</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Des scripts supplémentaires, notamment pour le calcul de moyennes, sont disponibles sur <a href="https://github.com/RapidScada/scada-community/tree/master/Formulas" target="_blank">GitHub</a>.</p>
+
+    <h2 id="debugging">Débogage des Scripts</h2>
+    <p>Lors du développement de vos propres scripts, suivez les règles de syntaxe et vérifiez que les scripts fonctionnent correctement. Si le service Serveur ne parvient pas à compiler les scripts au démarrage, les informations sur les erreurs s'affichent dans le journal des opérations du Serveur <code>ScadaServer.log</code>, et le code source compilé est disponible dans le fichier <code>CalcEngine.cs</code>, situé dans le répertoire des journaux du Serveur. Pour développer des formules complexes, nous recommandons d'utiliser Microsoft Visual Studio ou Visual Studio Code.</p>
+
+    <h2 id="examples">Exemples de Formules</h2>
+    <p>Exemple 1 : Transformation linéaire de la valeur d'un canal reçue d'un dispositif. La formule est utilisée pour un canal de type <em>Entrée</em>.</p>
+<pre><code>10 * Cnl + 1</code></pre>
+
+    <p>Exemple 2 : La somme des valeurs des canaux 101 et 102. Le statut est extrait du canal 101. La formule est utilisée pour un canal de type <em>Calculé</em>.</p>
+<pre><code>Val(101) + Val(102); Stat(101)</code></pre>
+
+    <p>Exemple 3 : La formule utilisée pour un canal de type calcul extrait le 0<sup>ème</sup> bit des données du canal 105.</p>
+<pre><code>GetBit(Data(105), 0)</code></pre>
+
+    <p>Exemple 4 : La formule incrémente le compteur d'une unité chaque minute, en réinitialisant le compteur au début de chaque heure.</p>
+<pre><code>EveryMin(() => HourStarted() ? 0 : Val() + 1)</code></pre>
+</div>
+

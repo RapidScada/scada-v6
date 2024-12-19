@@ -1,0 +1,77 @@
+﻿@page "/fr/latest/configuration/table-views"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Vues Tableaux";
+}
+
+<nav class="doc-toc">
+    <div class="h6">Sur cette page</div>
+    <hr>
+    <ul>
+        <li><a href="#editing">Création et Édition</a></li>
+        <li><a href="#options">Options de la Vue</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Vues Tableaux</h1>
+    <p>Une vue tableau (voir Figure 1) est conçue pour afficher des données historiques pour une journée avec une période spécifiée, ainsi que des données actuelles. En cliquant sur un élément du tableau, un graphique du canal associé à l'élément s'ouvre. Le bouton <img src="table-views-files/rocket.png" /> ouvre une boîte de dialogue pour l'envoi d'une commande.</p>
+
+    <figure class="figure">
+        <img src="table-views-files/table-view-en.png" class="figure-img img-fluid" alt="Vue tableau" />
+        <figcaption class="figure-caption">Figure 1. Vue tableau</figcaption>
+    </figure>
+
+    <h2 id="editing">Création et Édition</h2>
+    <p>L'un des avantages des vues tableaux est leur simplicité de création. Accédez à la section <strong>Vues</strong> d'un projet, cliquez avec le bouton droit sur le dossier souhaité et sélectionnez <strong>Nouveau Fichier</strong> dans le menu contextuel. Dans la boîte de dialogue qui s'ouvre (voir Figure 2), sélectionnez le type <strong>Vue Tableau</strong>, spécifiez un nom de fichier et cliquez sur <strong>OK</strong>. Le fichier créé apparaîtra dans l'explorateur de projet. Un double-clic ouvre la vue dans l'éditeur de tableaux (voir Figure 3).</p>
+
+    <figure class="figure">
+        <img src="table-views-files/new-table-en.png" class="figure-img img-fluid" alt="Boîte de dialogue de création de vue" />
+        <figcaption class="figure-caption">Figure 2. Boîte de dialogue de création de vue</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="table-views-files/table-editor-en.png" class="figure-img img-fluid" alt="Éditeur de tableaux" />
+        <figcaption class="figure-caption">Figure 3. Éditeur de tableaux</figcaption>
+    </figure>
+
+    <p>Le panneau gauche de l'éditeur contient une liste des canaux regroupés par dispositifs. La partie principale de la fenêtre affiche le contenu de la vue tableau. Chaque élément de la vue est associé à un dispositif ou à un canal. Pour ajouter un élément à la vue, sélectionnez le nœud correspondant dans l'arborescence du panneau gauche, puis cliquez sur le bouton <img src="../common-images/add.png" />, appuyez sur <kbd>Entrée</kbd> ou double-cliquez sur le nœud de l'arborescence. Le bouton <img src="table-views-files/add-empty.png" /> ajoute une ligne vide. Si la base de données de configuration a été modifiée, cliquez sur le bouton <img src="../common-images/refresh.png" /> situé dans la barre d'outils de l'application pour actualiser les dispositifs et les canaux.</p>
+    <p>Si la case <strong>Texte Auto</strong> est cochée pour un élément de la vue, le nom du dispositif ou du canal est automatiquement utilisé comme texte de l'élément. Si ce nom est modifié ultérieurement dans la table de la base de données de configuration, il n'est pas nécessaire de mettre à jour la vue.</p>
+    <p>La case <strong>Masquer</strong> supprime un élément du tableau affiché. Cependant, les numéros de canaux correspondant à l'élément masqué continuent d'être utilisés par le filtre d'événements par vue.</p>
+    <p>Après avoir créé une vue tableau, elle doit être enregistrée dans la base de données de configuration dans la table <strong>Vues</strong>, comme décrit dans le précédent <a href="views#view-table">article</a>.</p>
+
+    <h2 id="options">Options de la Vue</h2>
+    <p>Une fenêtre contenant les options de la vue tableau (voir Figure 4) est accessible via le bouton <img src="../common-images/options.png" /> situé dans la barre d'outils de l'éditeur. Les options sont définies pour la vue en cours d'édition.</p>
+
+    <figure class="figure">
+        <img src="table-views-files/table-options-en.png" class="figure-img img-fluid" alt="Options de la vue tableau" />
+        <figcaption class="figure-caption">Figure 4. Options de la vue tableau</figcaption>
+    </figure>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Option</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Code d'archive</td>
+                <td>Spécifie l'archive à partir de laquelle les données historiques sont récupérées</td>
+            </tr>
+            <tr>
+                <td>Période du tableau</td>
+                <td>Pas de temps utilisé pour générer les colonnes de la vue tableau</td>
+            </tr>
+            <tr>
+                <td>Arguments du graphique</td>
+                <td>Arguments séparés par <code>&amp;</code> qui sont ajoutés à la barre d'adresse lors de l'ouverture d'un graphique</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Exemple d'arguments pour le plugin Graphique standard : <code>archive=Min&amp;gap=90</code>, où <code>archive</code> est le code d'archive et <code>gap</code> est la distance entre les points connectés par une ligne (en secondes).</p>
+    <p>Exemple d'arguments pour le <a href="../modules/plg-chart-pro">plugin Chart Pro</a> : <code>profile=PlgChartPro.xml</code>, où <code>profile</code> est le nom du fichier de profil de graphique.</p>
+    <p>Si la case <strong>Utiliser les options par défaut</strong> est cochée, le code d'archive et la période sont chargés à partir du fichier de configuration de l'application web <code>ScadaWebConfig.xml</code>. Les options <code>TableArchiveCode</code> et <code>TablePeriod</code> situées dans le groupe <code>Main</code> de la section <code>CustomOptions</code> sont utilisées.</p>
+</div>

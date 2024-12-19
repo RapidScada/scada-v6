@@ -1,0 +1,114 @@
+﻿@page "/fr/latest/configuration/device-polling"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Interrogation des Dispositifs";
+}
+
+<nav class="doc-toc">
+    <div class="h6">Sur cette page</div>
+    <hr>
+    <ul>
+        <li><a href="#line-options">Options des Lignes de Communication</a></li>
+        <li><a href="#device-options">Options des Dispositifs</a></li>
+        <li><a href="#sync-settings">Synchronisation des Paramètres</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Interrogation des Dispositifs</h1>
+    <p>L'interaction avec les dispositifs est réalisée par l'application Communicator, qui demande des données et envoie des commandes aux dispositifs, agissant comme maître ou esclave. Les dispositifs interrogés incluent des contrôleurs, des modules d'entrée/sortie, des dispositifs de mesure, ainsi que des sources de données externes, également appelées dispositifs. Tous les dispositifs appartiennent à des lignes de communication qui sont indépendantes et fonctionnent en parallèle.</p>
+    <p>Les dispositifs sont interrogés en utilisant divers protocoles de communication, tels que Modbus, OPC ou MQTT. Chaque protocole est implémenté par un pilote correspondant. Certains pilotes sont installés par défaut lors de l'installation de Rapid SCADA. D'autres pilotes peuvent être installés ultérieurement.</p>
+
+    <h2 id="line-options">Options des Lignes de Communication</h2>
+    <p>La figure 1 montre un exemple de configuration des principales options d'une ligne de communication. Portez une attention particulière aux paramètres du canal de communication. Un canal de communication définit une interface physique ou un protocole réseau utilisé pour interroger les dispositifs. Les canaux de communication suivants sont pris en charge : Port série, Client TCP, Serveur TCP, UDP et Client MQTT. Dans certains cas, si la connexion au dispositif est directement gérée par un pilote (par exemple, OPC), le canal de communication peut être laissé non spécifié.</p>
+
+    <figure class="figure">
+        <img src="device-polling-files/line-options-en.png" class="figure-img img-fluid border" alt="Options principales de la ligne" />
+        <figcaption class="figure-caption">Figure 1. Options principales de la ligne</figcaption>
+    </figure>
+
+    <p>Les options personnalisées de la ligne sont spécifiques au pilote utilisé. Elles sont configurées via une interface utilisateur implémentée par le pilote ou selon les instructions pour un type de dispositif spécifique.</p>
+
+    <h2 id="device-options">Options des Dispositifs</h2>
+    <p>Dans la section <strong>Interrogation des Dispositifs</strong>, des options individuelles sont configurées pour chaque dispositif lié à la ligne de communication.</p>
+
+    <figure class="figure">
+        <img src="device-polling-files/device-options-en.png" class="figure-img img-fluid" alt="Options d'interrogation des dispositifs" />
+        <figcaption class="figure-caption">Figure 2. Options d'interrogation des dispositifs</figcaption>
+    </figure>
+
+    <p>Le tableau ci-dessous clarifie les options d'interrogation des dispositifs.</p>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Option</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Actif</td>
+                <td>Indique que le dispositif est interrogé</td>
+            </tr>
+            <tr>
+                <td>Interroger uniquement sur commande</td>
+                <td>Pour interroger le dispositif, envoyez une commande</td>
+            </tr>
+            <tr>
+                <td>Lier à la base de données de configuration</td>
+                <td>Si l'option est activée, les tags des dispositifs sont liés aux canaux de la base de données de configuration, et les données reçues sont envoyées à l'application Serveur</td>
+            </tr>
+            <tr>
+                <td>Numéro</td>
+                <td>Numéro du dispositif. Il doit correspondre au numéro du dispositif dans la base de données de configuration</td>
+            </tr>
+            <tr>
+                <td>Nom</td>
+                <td>Nom du dispositif</td>
+            </tr>
+            <tr>
+                <td>Pilote</td>
+                <td>Un pilote qui implémente le protocole de communication pris en charge par le dispositif</td>
+            </tr>
+            <tr>
+                <td>Adresse numérique</td>
+                <td>Adresse du dispositif sous forme de nombre</td>
+            </tr>
+            <tr>
+                <td>Adresse textuelle ou nom d'hôte</td>
+                <td>Adresse du dispositif sous forme de chaîne. Il s'agit généralement d'une adresse IP</td>
+            </tr>
+            <tr>
+                <td>Temps d'attente</td>
+                <td>Durée d'attente d'une réponse du dispositif en millisecondes</td>
+            </tr>
+            <tr>
+                <td>Délai</td>
+                <td>Délai après réception des données en millisecondes</td>
+            </tr>
+            <tr>
+                <td>Heure et Période</td>
+                <td>Si les deux options sont à zéro, le dispositif est interrogé en continu et de manière cyclique. Si l'heure est spécifiée et la période est à zéro, le dispositif est interrogé une fois par jour à l'heure spécifiée. Si la période est supérieure à zéro, le dispositif est interrogé périodiquement, à partir de l'heure spécifiée</td>
+            </tr>
+            <tr>
+                <td>Ligne de commande</td>
+                <td>Options supplémentaires définies par le pilote et décrites dans ses instructions</td>
+            </tr>
+            <tr>
+                <td>Options</td>
+                <td>Similaire à la ligne de commande, mais plus structurée</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Si le dispositif nécessite des options spécifiques au type de dispositif, cliquez sur le bouton <strong>Propriétés</strong> pour les configurer dans une fenêtre de dialogue fournie par le pilote. Le bouton <strong>Réinitialiser</strong> restaure les options d'interrogation du dispositif à leurs valeurs par défaut déterminées par le pilote sélectionné.</p>
+
+    <h2 id="sync-settings">Synchronisation des Paramètres</h2>
+    <p>La fonction de synchronisation aide à créer des lignes de communication et des dispositifs dans les paramètres de Communicator à partir des données des tables <strong>Lignes de communication</strong> et <strong>Dispositifs</strong> de la base de données de configuration. Et inversement, elle permet de remplir les tables de la base de données de configuration à partir des paramètres de Communicator. Pour ouvrir la boîte de dialogue de synchronisation, dans l'explorateur de projet, cliquez avec le bouton droit sur le nœud <strong>Lignes de Communication</strong> ou sur le nœud d'une ligne spécifique, puis sélectionnez <strong>Synchroniser</strong> dans le menu contextuel.</p>
+
+    <figure class="figure">
+        <img src="device-polling-files/line-device-sync-en.png" class="figure-img img-fluid" alt="Synchronisation des lignes et dispositifs" />
+        <figcaption class="figure-caption">Figure 3. Synchronisation des lignes et dispositifs</figcaption>
+    </figure>
+
+</div>

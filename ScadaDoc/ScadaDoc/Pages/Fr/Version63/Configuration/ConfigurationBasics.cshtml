@@ -1,0 +1,64 @@
+﻿@page "/fr/latest/configuration/configuration-basics"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Notions de Base sur la Configuration";
+}
+
+<nav class="doc-toc">
+    <div class="h6">Sur cette page</div>
+    <hr>
+    <ul>
+        <li><a href="#creating-project">Création d'un Projet</a></li>
+        <li><a href="#project-structure">Structure du Projet</a></li>
+        <li><a href="#configuration-sequence">Séquence de Configuration</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Notions de Base sur la Configuration</h1>
+
+    <h2 id="creating-project">Création d'un Projet</h2>
+    <p>La configuration de Rapid SCADA se fait sur la base d'un projet. Un projet est un ensemble de fichiers dans divers formats qui sont stockés dans le répertoire du projet. Pour créer et éditer des projets, utilisez l'application Administrateur. Lorsque l'Administrateur démarre, la <strong>Page de Démarrage</strong> s'ouvre, contenant les boutons pour créer un nouveau projet ou ouvrir un projet existant (voir Figure 1).</p>
+
+    <figure class="figure">
+        <img src="configuration-basics-files/start-page-en.png" class="figure-img img-fluid border" alt="Page de démarrage" />
+        <figcaption class="figure-caption">Figure 1. Page de démarrage</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="configuration-basics-files/new-project-en.png" class="figure-img img-fluid" alt="Formulaire de création de projet" />
+        <figcaption class="figure-caption">Figure 2. Formulaire de création de projet</figcaption>
+    </figure>
+
+    <p>Faites attention au champ <strong>Modèle</strong> sur le formulaire de création de projet (voir Figure 2). Le modèle définit la configuration initiale qui est ajoutée au projet. Un autre projet existant peut être utilisé comme modèle.</p>
+
+    <h2 id="project-structure">Structure du Projet</h2>
+    <p>La structure du projet Rapid SCADA est affichée dans l'explorateur de projet, situé sur le côté gauche de la fenêtre principale de l'Administrateur. Le projet est composé des parties principales suivantes (voir Figure 3) :</p>
+    <ul>
+        <li>La <strong>Base de Données de Configuration</strong>, composée de tables. C'est une description structurée générale du système automatisé. Les réglages détaillés se réfèrent aux applications correspondantes.</li>
+        <li>La section <strong>Vues</strong> contient des fichiers de vue affichés par l'application Webstation, ainsi que des fichiers de configuration de rapports. Les exemples de vues sont des schémas graphiques, des tableaux, des cartes et des tableaux de bord.</li>
+        <li>Paramètres de l'application Serveur.</li>
+        <li>Paramètres de l'application Communicator.</li>
+        <li>Paramètres de l'application web Webstation.</li>
+    </ul>
+
+    <figure class="figure">
+        <img src="configuration-basics-files/project-structure-en.png" class="figure-img img-fluid border" alt="Structure du projet" />
+        <figcaption class="figure-caption">Figure 3. Structure du projet</figcaption>
+    </figure>
+
+    <p>Une <strong>instance</strong> est un ensemble d'applications Rapid SCADA exécutant le même projet et installées sur le même ordinateur.</p>
+    <p>Un seul projet peut inclure plusieurs instances qui échangent des données. L'application Administrateur peut se connecter à des serveurs distants, permettant ainsi à un ingénieur de configurer et de contrôler Rapid SCADA à partir d'un poste de travail unique.</p>
+
+    <h2 id="configuration-sequence">Séquence de Configuration</h2>
+    <p>Pour commencer à travailler avec Rapid SCADA, il est recommandé de suivre la séquence générale de configuration décrite ci-dessous. Avec un peu d'expérience et une meilleure compréhension des dépendances entre les applications, la séquence peut être modifiée pour augmenter l'efficacité.</p>
+    <ol>
+        <li>Créez un nouveau projet ou ouvrez un projet existant dans l'application Administrateur.</li>
+        <li>Ajoutez des objets, des lignes de communication et des dispositifs dans la base de données de configuration. Pour créer des lignes de communication et des dispositifs, il est recommandé d'utiliser les assistants accessibles via les boutons <img src="../common-images/add-line.png" /> et <img src="../common-images/add-device.png" /> situés dans la barre d'outils de l'Administrateur.</li>
+        <li>Vérifiez que les lignes de communication et les dispositifs ajoutés sont présents dans les paramètres de Communicator. Si nécessaire, créez-les en sélectionnant l'élément de menu <strong>Synchroniser</strong> dans le menu contextuel du nœud <strong>Lignes de Communication</strong> dans l'explorateur de projet.</li>
+        <li>Configurez l'<a href="device-polling">interrogation des dispositifs</a> dans Communicator.</li>
+        <li>Créez des <a href="channels">canaux</a> dans la base de données de configuration. Il est recommandé d'utiliser l'assistant accessible via le bouton <img src="../common-images/create-cnls.png" />.</li>
+        <li>Créez des <a href="views">vues</a> et spécifiez-les dans la table <strong>Vues</strong> de la base de données de configuration.</li>
+        <li>Téléchargez le projet pour exécution à l'aide du bouton <img src="../common-images/upload.png" />.</li>
+    </ol>
+</div>

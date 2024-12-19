@@ -59,4 +59,45 @@
       </Item>
     </Subitems>
   </Item>
+	
+	<!-- Configuration -->
+	<Item>
+		<Text>Configuration</Text>
+		<Url>/fr/latest/configuration/</Url>
+		<Subitems>
+			<Item>
+				<Text>Notions de Base sur la Configuration</Text>
+				<Url>/fr/latest/configuration/configuration-basics</Url>
+			</Item>
+			<Item>
+				<Text>Base de Données de Configuration</Text>
+				<Url>/fr/latest/configuration/database</Url>
+			</Item>
+			<Item>
+				<Text>Sondage des Dispositifs</Text>
+				<Url>/fr/latest/configuration/device-polling</Url>
+			</Item>
+			<Item>
+				<Text>Canaux</Text>
+				<Url>/fr/latest/configuration/channels</Url>
+			</Item>
+			<Item>
+				<Text>Scripts et Formules</Text>
+				<Url>/fr/latest/configuration/scripts</Url>
+			</Item>
+			<Item>
+				<Text>Vues</Text>
+				<Url>/fr/latest/configuration/views</Url>
+			</Item>
+			<Item>
+				<Text>Vues Tableaux</Text>
+				<Url>/fr/latest/configuration/table-views</Url>
+			</Item>
+			<Item>
+				<Text>Gestion des Utilisateurs</Text>
+				<Url>/fr/latest/configuration/user-management</Url>
+			</Item>
+		</Subitems>
+	</Item>
+
 </TableOfContents>
