@@ -1,0 +1,73 @@
+﻿@page "/fr/latest/software-overview/applications"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Applications";
+}
+
+<nav class="doc-toc">
+    <div class="h6">Sur cette page</div>
+    <hr>
+    <ul>
+        <li><a href="#server">Serveur</a></li>
+        <li><a href="#communicator">Communicator</a></li>
+        <li><a href="#webstation">Webstation</a></li>
+        <li><a href="#agent">Agent</a></li>
+        <li><a href="#administrator">Administrateur</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Applications</h1>
+    <h2 id="server">Serveur</h2>
+    <p>Le Serveur gère les archives de données, effectue des calculs mathématiques et fournit des informations aux applications clientes. Le Serveur écrit les données dans l'archive principale tout en créant une copie de sauvegarde simultanément.</p>
+    <figure class="figure">
+        <img src="applications-files/scada-server-en.png" class="figure-img img-fluid" alt="Interface graphique pour la configuration du Serveur">
+        <figcaption class="figure-caption">Figure 1. Interface graphique pour la configuration du Serveur</figcaption>
+    </figure>
+    <p>Le Serveur fonctionne comme un service. Il ne dispose pas d'interface utilisateur. Il opère en continu en arrière-plan, indépendamment des connexions et déconnexions des utilisateurs. L'interface graphique pour la configuration du Serveur est intégrée à l'application Administrateur (voir Figure 1).</p>
+    <p>L'application surveille les connexions des utilisateurs et vérifie leurs droits tout en traitant les requêtes et en transmettant les commandes. Les informations sur l'état de l'application et les actions effectuées sont enregistrées dans des fichiers journaux. Le Serveur est conçu pour un fonctionnement continu.</p>
+    <p>Des modules supplémentaires permettent d'étendre les fonctionnalités du Serveur selon les besoins des clients.</p>
+
+    <h2 id="communicator">Communicator</h2>
+    <p>Communicator interagit avec les contrôleurs et transmet les données à l'application Serveur. La communication avec les contrôleurs connectés au système s'exécute en parallèle sur plusieurs lignes. Communicator reçoit des données actuelles, des données d'archives et des événements des contrôleurs et envoie des commandes aux contrôleurs. L'application aide à diagnostiquer les problèmes avec les lignes de communication et les dispositifs.</p>
+    <figure class="figure">
+        <img src="applications-files/scada-comm-en.png" class="figure-img img-fluid" alt="Interface graphique pour la configuration de Communicator">
+        <figcaption class="figure-caption">Figure 2. Interface graphique pour la configuration de Communicator</figcaption>
+    </figure>
+    <p>Communicator fonctionne comme un service et ne dispose pas d'interface utilisateur. L'interface graphique pour la configuration de Communicator est intégrée à l'application Administrateur (voir Figure 2). Les informations sur l'application, les lignes de communication et chaque dispositif connecté sont consignées dans des fichiers journaux. Communicator est conçu pour un fonctionnement continu.</p>
+    <p>Les développeurs peuvent implémenter leurs propres pilotes de dispositifs pour interagir avec une variété de contrôleurs.</p>
+
+    <h2 id="webstation">Webstation</h2>
+    <p>Webstation est une application web qui affiche des informations à un opérateur via un navigateur et permet l'envoi de commandes. Les données peuvent être représentées sous différentes formes telles que des tableaux, des schémas graphiques, des rapports, etc. Les rapports sont générés dans des formats courants comme Excel, PDF et HTML.</p>
+    <figure class="figure">
+        <img src="applications-files/scada-web-scheme-en.png" class="figure-img img-fluid" alt="Application Webstation. Vue schéma">
+        <figcaption class="figure-caption">Figure 3. Application Webstation. Vue schéma</figcaption>
+    </figure>
+    <figure class="figure">
+        <img src="applications-files/scada-web-table-en.png" class="figure-img img-fluid" alt="Application Webstation. Vue tableau">
+        <figcaption class="figure-caption">Figure 4. Application Webstation. Vue tableau</figcaption>
+    </figure>
+    <p>L'utilisateur peut choisir une vue (tableau ou schéma) et une date pour accéder aux données d'archive. Pour afficher une tendance, cliquez sur une icône dans un tableau ou un élément correspondant dans un schéma.</p>
+    <p>Webstation est accessible depuis n'importe quel ordinateur ou tablette connectée au réseau de l'organisation, sans besoin d'installation logicielle. L'accès est géré par un administrateur système qui définit les droits des utilisateurs.</p>
+    <p>La fonctionnalité de Webstation peut être étendue par des plugins supplémentaires. Par exemple, le <a href="../modules/plg-chart-pro">plugin Chart Pro</a> améliore les capacités des graphiques de Rapid SCADA : ajout de fonctions de zoom, affichage de plusieurs graphiques, export vers PNG et PDF. Le <a href="../modules/plg-elastic-report">plugin Elastic Report</a> permet de générer des rapports selon une configuration personnalisée. En utilisant ce plugin, vous pouvez construire presque tout type de rapport souhaité. Les développeurs peuvent créer leurs propres plugins pour l'application web, affichant des informations à l'opérateur sous différentes formes.</p>
+
+    <h2 id="agent">Agent</h2>
+    <p>L'Agent transfère les configurations entre une instance Rapid SCADA et l'application Administrateur. De plus, l'Agent fournit les fichiers journaux pour affichage dans l'Administrateur. L'Agent fonctionne comme un service sur un serveur où une instance de Rapid SCADA contrôlée par l'Agent est installée. Une instance de Rapid SCADA inclut les applications Serveur, Communicator et Webstation, toutes ou une partie de ces applications.</p>
+    <p>L'Agent communique avec l'Administrateur via TCP. Par conséquent, l'Administrateur peut être installé sur le même ordinateur que l'Agent, ou sur un autre ordinateur accessible via le réseau. Par défaut, l'Agent utilise le port TCP 10002. En cas d'accès distant, les connexions entrantes sur ce port doivent être autorisées par le pare-feu du serveur.</p>
+    <p>L'Agent ne dispose pas d'interface utilisateur. Pour vérifier son fonctionnement, on utilise des fichiers journaux.</p>
+
+    <h2 id="administrator">Administrateur</h2>
+    <p>L'application Administrateur (voir Figure 5) est destinée à développer des projets Rapid SCADA et à surveiller l'état du système automatisé. L'Administrateur est un environnement de développement intégré qui permet d'éditer la base de données de configuration, de configurer les principales applications Rapid SCADA, les modules Serveur et les pilotes de dispositifs.</p>
+    <figure class="figure">
+        <img src="applications-files/scada-admin-en.png" class="figure-img img-fluid" alt="Application Administrateur">
+        <figcaption class="figure-caption">Figure 5. Application Administrateur</figcaption>
+    </figure>
+    <p>Les outils et fonctionnalités de l'application Administrateur qui accélèrent le processus de configuration incluent :</p>
+    <ul>
+        <li>Assistants pour créer des lignes de communication, des dispositifs et des canaux.</li>
+        <li>Import et export des tables de la base de données de configuration pour échanger des travaux entre projets.</li>
+        <li>Clonage de canaux pour minimiser les saisies manuelles.</li>
+        <li>Recherche, tri et filtrage des tables de la base de données de configuration.</li>
+    </ul>
+    <p>Un projet contient un ensemble de fichiers de configuration, principalement au format XML. Cette approche facilite la copie de projets d'un ordinateur à un autre. Pour contrôler les versions de projet et collaborer, Git est le meilleur choix.</p>
+</div>

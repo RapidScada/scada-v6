@@ -1,0 +1,137 @@
+﻿@page "/fr/latest/configuration/database"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Base de Données de Configuration";
+}
+
+<nav class="doc-toc">
+    <div class="h6">Sur cette page</div>
+    <hr>
+    <ul>
+        <li><a href="#model">Modèle de Base de Données</a></li>
+        <li><a href="#editing">Édition de la Base de Données</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Base de Données de Configuration</h1>
+
+    <h2 id="model">Modèle de Base de Données</h2>
+    <p>La base de données de configuration fait partie du projet, se compose de tables et est commune à toutes les instances du projet. Les applications incluses dans Rapid SCADA utilisent les informations de la base de données de configuration en conjonction avec leurs paramètres.</p>
+    <p>La base de données de configuration est modifiée à l'aide de l'application Administrateur. La copie modifiée de la base de données de configuration est au format de fichier XML. Lorsqu'un projet est téléchargé sur un serveur pour exécution, la base de données de configuration est convertie en un format DAT spécial.</p>
+    <p>La base de données de configuration se compose de tables, qui sont elles-mêmes composées de colonnes et de lignes. Chaque table appartient à l'un des groupes suivants :</p>
+    <ol>
+        <li>Tables principales. Ce groupe contient les tables qui définissent le fonctionnement d'un projet particulier.</li>
+        <li>Tables secondaires. Pendant le développement du projet, des ajouts mineurs sont effectués dans les tables de ce groupe.</li>
+    </ol>
+    <p>Voici une liste des tables de la base de données de configuration avec une brève description.</p>
+
+    <table class="table table-hover">
+        <tr class="table-secondary">
+            <td colspan="2"><strong>Tables Principales</strong></td>
+        </tr>
+        <tr>
+            <td>Objets</td>
+            <td>Contient les objets logiques utilisés pour structurer les informations dans le système et gérer les droits d'accès. Les objets peuvent être hiérarchiques</td>
+        </tr>
+        <tr>
+            <td>Lignes de communication</td>
+            <td>Décrit les lignes de communication qui regroupent les dispositifs et déterminent l'ordre d'interrogation</td>
+        </tr>
+        <tr>
+            <td>Dispositifs</td>
+            <td>Contient une liste de dispositifs physiques ou virtuels</td>
+        </tr>
+        <tr>
+            <td>Canaux</td>
+            <td>Nécessaires pour stocker les données mesurées, effectuer des calculs mathématiques et envoyer des commandes</td>
+        </tr>
+        <tr>
+            <td>Limites</td>
+            <td>Contient une liste de limites pour les valeurs des canaux</td>
+        </tr>
+        <tr>
+            <td>Vues</td>
+            <td>Contient les attributs des vues et spécifie la structure de l'arborescence des vues</td>
+        </tr>
+        <tr>
+            <td>Rôles</td>
+            <td>Contient une liste des rôles utilisateurs. Un rôle est un ensemble de droits d'accès. Ne modifiez pas ou ne supprimez pas les rôles intégrés</td>
+        </tr>
+        <tr>
+            <td>Héritage des rôles</td>
+            <td>Permet de configurer un rôle parent basé sur les droits des rôles enfants</td>
+        </tr>
+        <tr>
+            <td>Droits des objets</td>
+            <td>Définit les droits des rôles personnalisés sur les objets</td>
+        </tr>
+        <tr>
+            <td>Utilisateurs</td>
+            <td>Contient une liste d'utilisateurs avec leurs rôles. La colonne Mot de Passe stocke les hachages de mots de passe</td>
+        </tr>
+        <tr class="table-secondary">
+            <td colspan="2"><strong>Tables Secondaires</strong></td>
+        </tr>
+        <tr>
+            <td>Types d'archives</td>
+            <td>Dictionnaire des types d'archives</td>
+        </tr>
+        <tr>
+            <td>Archives</td>
+            <td>Dictionnaire des archives. Les archives de cette table correspondent à celles des paramètres du Serveur</td>
+        </tr>
+        <tr>
+            <td>Statuts des canaux</td>
+            <td>Dictionnaire des statuts des canaux. Entre autres, il associe un statut de canal à certains paramètres d'événement</td>
+        </tr>
+        <tr>
+            <td>Types de canaux</td>
+            <td>Dictionnaire des types de canaux</td>
+        </tr>
+        <tr>
+            <td>Types de données</td>
+            <td>Dictionnaire des types de données</td>
+        </tr>
+        <tr>
+            <td>Types de dispositifs</td>
+            <td>Dictionnaire des types de dispositifs (pilotes)</td>
+        </tr>
+        <tr>
+            <td>Formats</td>
+            <td>Dictionnaire des formats utilisés pour afficher les valeurs des canaux et des commandes</td>
+        </tr>
+        <tr>
+            <td>Quantités</td>
+            <td>Dictionnaire des quantités</td>
+        </tr>
+        <tr>
+            <td>Scripts</td>
+            <td>Dictionnaire des scripts et formules utilisés pour calculer les valeurs des canaux et des commandes</td>
+        </tr>
+        <tr>
+            <td>Unités</td>
+            <td>Dictionnaire des unités</td>
+        </tr>
+        <tr>
+            <td>Types de vues</td>
+            <td>Dictionnaire des types de vues</td>
+        </tr>
+    </table>
+
+    <h2 id="editing">Édition de la Base de Données</h2>
+    <p>Les tables de la base de données de configuration sont reliées entre elles, c'est-à-dire qu'une cellule d'une table peut faire référence à un enregistrement d'une autre table. Par exemple, un dispositif fait référence à une ligne de communication à laquelle il est connecté. Par conséquent, il est efficace d'éditer les tables dans un certain ordre. Pour les tables du groupe <strong>Tables principales</strong>, saisissez les données dans l'ordre en commençant par la table <strong>Objets</strong> et en terminant par la table <strong>Utilisateurs</strong>.</p>
+    <p>L'application Administrateur fournit des outils qui rendent l'édition de la base de données de configuration plus rapide et pratique :</p>
+
+    <ul>
+        <li>La boîte de dialogue de recherche et remplacement est accessible via le bouton <img src="../common-images/find.png" />, situé sur la barre d'outils de l'application, ou par le raccourci clavier <kbd>Ctrl</kbd> + <kbd>F</kbd>.</li>
+        <li>Le filtrage d'une table masque les lignes inutiles. Si la table est filtrée, la recherche et le remplacement s'effectuent uniquement sur les lignes affichées. La fenêtre de filtre est accessible via le bouton <img src="../common-images/filter.png" />.</li>
+        <li>Lors de l'édition des cellules de table, utilisez les fonctions couper <kbd>Ctrl</kbd> + <kbd>X</kbd>, copier <kbd>Ctrl</kbd> + <kbd>C</kbd> et coller <kbd>Ctrl</kbd> + <kbd>V</kbd>. Ces fonctions peuvent également être appliquées aux cellules dont les valeurs sont sélectionnées dans une liste déroulante.</li>
+        <li>Un clic sur un en-tête de colonne trie les lignes de la table par les valeurs de cette colonne.</li>
+        <li>Si le bouton des propriétés est affiché sur la barre d'outils de la table, les lignes de cette table peuvent être modifiées à l'aide d'un formulaire de dialogue.</li>
+        <li>Les assistants, accessibles via les boutons <img src="../common-images/add-line.png" />, <img src="../common-images/add-device.png" /> et <img src="../common-images/create-cnls.png" /> situés sur la barre d'outils principale, permettent de remplir rapidement les tables <strong>Lignes de communication</strong>, <strong>Dispositifs</strong> et <strong>Canaux</strong>.</li>
+        <li>L'outil de clonage de canaux est utile pour remplir la table <strong>Canaux</strong> si le système contient de nombreux dispositifs similaires. Cet outil est disponible via le menu principal <strong>Outils &gt; Outils de projet &gt; Cloner les canaux</strong>.</li>
+        <li>En utilisant les fonctions d'importation et d'exportation des tables, vous pouvez transférer des travaux précédemment réalisés entre projets. Les formats de données XML, CSV et DAT sont pris en charge. Ces fonctions sont disponibles dans la section du menu principal <strong>Outils &gt; Outils de projet</strong>.</li>
+        <li>L'outil de vérification d'intégrité aide à garantir que les relations entre les tables sont valides et que les clés étrangères des tables pointent vers des enregistrements existants.</li>
+    </ul>
+</div>

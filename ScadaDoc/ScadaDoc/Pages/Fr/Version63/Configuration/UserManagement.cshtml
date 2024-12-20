@@ -1,0 +1,119 @@
+﻿@page "/fr/latest/configuration/user-management"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Gestion des Utilisateurs";
+}
+
+<nav class="doc-toc">
+    <div class="h6">Sur cette page</div>
+    <hr>
+    <ul>
+        <li><a href="#creating-users">Création d'Utilisateurs</a></li>
+        <li><a href="#rights-assignment">Attribution des Droits</a></li>
+        <li><a href="#built-in-roles">Rôles Intégrés</a></li>
+        <li><a href="#custom-roles">Rôles Personnalisés</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Gestion des Utilisateurs</h1>
+
+    <h2 id="creating-users">Création d'Utilisateurs</h2>
+    <p>La création, l'édition et la suppression des utilisateurs sont effectuées dans l'application Administrateur dans la table Utilisateurs (voir Figure 1).</p>
+
+    <figure class="figure">
+        <img src="user-management-files/users-table-en.png" class="figure-img img-fluid" alt="Table des utilisateurs" />
+        <figcaption class="figure-caption">Figure 1. Table des utilisateurs</figcaption>
+    </figure>
+
+    <p>Les utilisateurs avec des ID allant de 1 à 12 sont créés par défaut à partir du modèle de projet. Les utilisateurs <em>ScadaWeb</em> et <em>ScadaComm</em> sont destinés à connecter les applications clientes Webstation et Communicator à l'application Serveur. Les utilisateurs <em>admin</em> et <em>guest</em>, qui utilisent les <a href="#built-in-roles">rôles intégrés</a>, sont destinés à se connecter au système. Les utilisateurs <em>alex</em>, <em>john</em> et <em>maria</em>, qui utilisent des <a href="#custom-roles">rôles personnalisés</a>, sont créés comme exemples.</p>
+
+    <h2 id="rights-assignment">Attribution des Droits</h2>
+    <p>Les droits sont attribués aux rôles sur des objets. Notez que les droits ne sont attribués qu'aux rôles personnalisés. Pour les rôles intégrés, les vérifications des autorisations sont déjà implémentées dans les applications. Un <strong>rôle</strong> est un ensemble nommé de droits.</p>
+    <p>Avant d'attribuer des droits, remplissez les tables <strong>Objets</strong> et <strong>Rôles</strong> (voir Figures 2 et 3). Ensuite, spécifiez les droits dans la table <strong>Droits sur les objets</strong> (voir Figure 4). Les objets peuvent être hiérarchiquement liés entre eux (voir Figure 5). Si un objet de niveau supérieur possède certaines autorisations, elles sont héritées par les objets de niveau inférieur.</p>
+
+    <figure class="figure">
+        <img src="user-management-files/objects-table-en.png" class="figure-img img-fluid" alt="Table des objets" />
+        <figcaption class="figure-caption">Figure 2. Table des objets</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="user-management-files/roles-table-en.png" class="figure-img img-fluid" alt="Table des rôles" />
+        <figcaption class="figure-caption">Figure 3. Table des rôles</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="user-management-files/object-rights-table-en.png" class="figure-img img-fluid" alt="Table des droits sur les objets" />
+        <figcaption class="figure-caption">Figure 4. Table des droits sur les objets</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="user-management-files/object-tree-en.png" class="figure-img img-fluid" alt="Hiérarchie des objets" />
+        <figcaption class="figure-caption">Figure 5. Hiérarchie des objets</figcaption>
+    </figure>
+
+    <h2 id="built-in-roles">Rôles Intégrés</h2>
+    <p>Les rôles intégrés, dont les autorisations sont codées en dur dans les applications, sont répertoriés dans le tableau suivant.</p>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>0</td>
+                <td>Désactivé</td>
+                <td>Accès refusé</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Administrateur</td>
+                <td>Accès complet</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Dispatching</td>
+                <td>Peut consulter des informations et envoyer des commandes</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Invité</td>
+                <td>Peut consulter des informations</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Application</td>
+                <td>Interagit avec le serveur</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Caractéristiques des rôles intégrés :</p>
+    <ul>
+        <li>Leurs ID vont de 0 à 4.</li>
+        <li>Ils s'appliquent à tous les objets.</li>
+        <li>Ils ne peuvent pas être modifiés.</li>
+    </ul>
+
+    <h2 id="custom-roles">Rôles Personnalisés</h2>
+    <p>Les rôles personnalisés sont créés par le développeur du projet. Dans l'exemple ci-dessus, les rôles personnalisés sont <em>Mon rôle 1</em>, <em>Mon rôle 2</em> et <em>Mon rôle 3</em>.</p>
+    <p>Il est recommandé d'attribuer des ID aux rôles personnalisés à partir de 101. Le champ <strong>Code</strong> d'un rôle est destiné à l'intégration avec des systèmes tiers et des bases de données. Si l'intégration n'est pas utilisée, le code peut être laissé vide.</p>
+    <p>En utilisant le mécanisme d'héritage des rôles, il est possible de réduire considérablement le nombre d'enregistrements ajoutés à la table <strong>Droits sur les objets</strong>.</p>
+    <p>Dans la table <strong>Héritage des rôles</strong> présentée à la Figure 6, le rôle enfant <em>Mon rôle 3</em> hérite des rôles parents <em>Mon rôle 1</em> et <em>Mon rôle 2</em> la somme des droits des deux.</p>
+
+    <figure class="figure">
+        <img src="user-management-files/role-inheritance-table-en.png" class="figure-img img-fluid" alt="Héritage des rôles" />
+        <figcaption class="figure-caption">Figure 6. Héritage des rôles</figcaption>
+    </figure>
+
+    <p>Pour vérifier si les droits sont correctement configurés, ouvrez la fenêtre <strong>Matrice des droits</strong> (voir Figure 7), accessible via le bouton <img src="../common-images/matrix.png" /> situé dans la barre d'outils de l'application Administrateur. La figure ci-dessous montre comment fonctionne l'héritage des rôles.</p>
+
+    <figure class="figure">
+        <img src="user-management-files/right-matrix-en.png" class="figure-img img-fluid" alt="Matrice des droits" />
+        <figcaption class="figure-caption">Figure 7. Matrice des droits</figcaption>
+    </figure>
+</div>

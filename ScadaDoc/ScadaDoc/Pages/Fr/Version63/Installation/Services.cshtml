@@ -1,0 +1,72 @@
+﻿@page "/fr/latest/installation/services"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Gestion des Services";
+}
+
+@section Styles {
+    <link href="~/lib/prismjs/prism.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="~/lib/prismjs/prism.js"></script>
+}
+
+<h1>Gestion des Services</h1>
+<p>Les applications Serveur, Communicator et Agent s'exécutent en tant que services. Sous Linux, l'application Webstation fonctionne également comme un service distinct. Pour gérer les services Rapid SCADA, utilisez l'application Administrateur ou les outils du système d'exploitation.</p>
+<p>Les services sont gérés par l'application Administrateur à l'aide du formulaire Statut de l'Instance, qui est ouvert via le bouton <img src="../common-images/status.png" /> situé dans la barre d'outils de l'application.</p>
+
+<figure class="figure">
+    <img src="services-files/instance-status-en.png" class="figure-img img-fluid" alt="Statut de l'instance dans l'Administrateur" />
+</figure>
+
+<p>Le tableau suivant contient les noms des services Windows et des services Linux inclus dans Rapid SCADA.</p>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Application</th>
+            <th>Service Windows</th>
+            <th>Service Linux</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Serveur</td>
+            <td>ScadaServer6</td>
+            <td>scadaserver6</td>
+        </tr>
+        <tr>
+            <td>Communicator</td>
+            <td>ScadaComm6</td>
+            <td>scadacomm6</td>
+        </tr>
+        <tr>
+            <td>Webstation</td>
+            <td>-</td>
+            <td>scadaweb6</td>
+        </tr>
+        <tr>
+            <td>Agent</td>
+            <td>ScadaAgent6</td>
+            <td>scadaagent6</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>Sur Windows, le composant enfichable <code>services.msc</code> est disponible pour gérer les services. Le type de démarrage des services Serveur, Communicator et Agent est défini sur Automatique par défaut, de sorte que les services démarrent lorsque le système d'exploitation démarre et s'arrêtent lorsqu'il s'éteint. Si le démarrage automatique n'est pas requis, définissez le type de démarrage sur Manuel dans les propriétés des services correspondants.</p>
+
+<figure class="figure">
+    <img src="services-files/services-en.png" class="figure-img img-fluid" alt="Services Windows" />
+</figure>
+
+<p>Commandes pour démarrer les services Linux :</p>
+<pre><code class="language-sh">sudo systemctl start scadaagent6
+sudo systemctl start scadaserver6
+sudo systemctl start scadacomm6
+sudo systemctl start scadaweb6</code></pre>
+
+<p>Commandes pour arrêter les services Linux :</p>
+<pre><code class="language-sh">sudo systemctl stop scadaweb6
+sudo systemctl stop scadacomm6
+sudo systemctl stop scadaserver6
+sudo systemctl stop scadaagent6</code></pre>

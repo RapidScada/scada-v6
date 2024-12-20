@@ -1,0 +1,96 @@
+﻿@page "/fr/latest/configuration/channels"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Canaux";
+}
+
+<nav class="doc-toc">
+    <div class="h6">Sur cette page</div>
+    <hr>
+    <ul>
+        <li><a href="#channel-properties">Propriétés des Canaux</a></li>
+        <li><a href="#tools">Outils</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Canaux</h1>
+    <p>Un <strong>canal</strong> est une entité qui possède un numéro et un nom, auxquels sont associées des données actuelles et historiques, ainsi que des événements. Synonymes dans d'autres systèmes : variable et tag.</p>
+
+    <h2 id="channel-properties">Propriétés des Canaux</h2>
+    <p>Un canal peut être modifié directement dans la table <strong>Canaux</strong>, ainsi qu'en utilisant le formulaire des propriétés du canal. Pour ouvrir le formulaire des propriétés, sélectionnez un canal dans la table et cliquez sur le bouton <img src="../common-images/properties.png" /> ou double-cliquez sur une ligne de la table. Ci-dessous figurent des captures d'écran du formulaire des propriétés du canal et sous chaque image, les spécificités de la configuration des propriétés correspondantes sont décrites.</p>
+
+    <figure class="figure">
+        <img src="channels-files/channel-general-en.png" class="figure-img img-fluid" alt="Propriétés générales du canal" />
+        <figcaption class="figure-caption">Figure 1. Propriétés générales du canal</figcaption>
+    </figure>
+
+    <p>Si la case <strong>Actif</strong> est décochée, le canal sera exclu du traitement. Le champ <strong>Code</strong> est destiné à l'intégration avec des systèmes tiers et n'affecte pas le fonctionnement des applications Rapid SCADA. Si le <strong>Type de données</strong> n'est pas spécifié, le type <em>Double</em> est utilisé. Si une <strong>Longueur des données</strong> est spécifiée avec une valeur supérieure à 1, l'application Serveur crée plusieurs canaux avec des numéros séquentiels. Les <strong>Types de canaux</strong> sont décrits dans le tableau portant le même nom. Le champ texte <strong>Code du Tag</strong> est destiné à lier le canal et le tag du dispositif dans Communicator. Le champ numérique <strong>Numéro de Tag</strong> fonctionne de manière similaire, mais est obsolète. L'utilisation des formules est décrite dans le prochain <a href="scripts">article</a>.</p>
+
+    <figure class="figure">
+        <img src="channels-files/channel-display-en.png" class="figure-img img-fluid" alt="Propriétés d'affichage du canal" />
+        <figcaption class="figure-caption">Figure 2. Propriétés d'affichage du canal</figcaption>
+    </figure>
+
+    <p>Le champ <strong>Format</strong> détermine l'affichage des valeurs du canal dans l'interface utilisateur, mais n'affecte pas la sauvegarde des données dans l'archive. Spécifiez un <strong>Format de commande</strong> si les valeurs dans la fenêtre d'envoi de commande doivent être formatées différemment de l'affichage habituel.</p>
+
+    <figure class="figure">
+        <img src="channels-files/channel-limits-en.png" class="figure-img img-fluid" alt="Limites du canal" />
+        <figcaption class="figure-caption">Figure 3. Limites du canal</figcaption>
+    </figure>
+
+    <p>Un enregistrement de limite peut être utilisé par un ou plusieurs canaux. Dans le second cas, la limite est marquée comme <strong>partagée</strong>. Si l'option <strong>Lier aux canaux</strong> est activée lors de la création d'une limite, les valeurs réelles de la limite sont celles des canaux dont les numéros ont été spécifiés lors de la création.</p>
+
+    <figure class="figure">
+        <img src="channels-files/channel-archives-en.png" class="figure-img img-fluid" alt="Propriétés du canal. Archives" />
+        <figcaption class="figure-caption">Figure 4. Propriétés du canal. Archives</figcaption>
+    </figure>
+
+    <p>Il est possible pour un canal de spécifier dans quelles archives ses données sont stockées. Si aucune archive n'est sélectionnée, c'est-à-dire si le masque d'archive est vide ou égal à 0, alors les données du canal sont stockées dans les archives par défaut.</p>
+
+    <figure class="figure">
+        <img src="channels-files/channel-events-en.png" class="figure-img img-fluid" alt="Propriétés du canal. Événements" />
+        <figcaption class="figure-caption">Figure 5. Propriétés du canal. Événements</figcaption>
+    </figure>
+
+    <p>Sur la page <strong>Événements</strong>, définissez les critères selon lesquels les événements liés au canal doivent être enregistrés dans l'archive des événements.</p>
+
+    <h2 id="tools">Outils</h2>
+    <p>Pour créer des canaux, un assistant est disponible (voir Figures 6-8), accessible via le bouton <img src="../common-images/create-cnls.png" /> situé dans la barre d'outils de l'application Administrateur. Cependant, la création automatique de canaux doit être prise en charge par le pilote du dispositif pour lequel les canaux sont créés, sinon les canaux sont créés manuellement. L'assistant de création de canaux démarre <em>après</em> que l'interrogation du dispositif soit configurée dans l'application Communicator.</p>
+
+    <figure class="figure">
+        <img src="channels-files/create-channels-step1-en.png" class="figure-img img-fluid" alt="Assistant de création de canaux. Étape 1" />
+        <figcaption class="figure-caption">Figure 6. Assistant de création de canaux. Étape 1</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="channels-files/create-channels-step2-en.png" class="figure-img img-fluid" alt="Assistant de création de canaux. Étape 2" />
+        <figcaption class="figure-caption">Figure 7. Assistant de création de canaux. Étape 2</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="channels-files/create-channels-step3-en.png" class="figure-img img-fluid" alt="Assistant de création de canaux. Étape 3" />
+        <figcaption class="figure-caption">Figure 8. Assistant de création de canaux. Étape 3</figcaption>
+    </figure>
+
+    <p>L'outil de clonage (voir Figure 9) permet de créer rapidement des canaux similaires à partir de canaux existants. Sur le formulaire de clonage, spécifiez les numéros de canal source et destination. Vous pouvez également sélectionner un nouvel objet et dispositif pour les canaux clonés. La fonction de mise à jour des numéros de canal dans les formules fonctionne si le numéro de canal est utilisé comme argument dans les fonctions suivantes : N(), Val(), Stat(), SetVal(), SetStat() et SetData().</p>
+
+    <figure class="figure">
+        <img src="channels-files/clone-channels-en.png" class="figure-img img-fluid" alt="Clonage de canaux" />
+        <figcaption class="figure-caption">Figure 9. Clonage de canaux</figcaption>
+    </figure>
+
+    <p>Les outils d'importation et d'exportation des tables de base de données de configuration (voir Figures 10 et 11) facilitent l'utilisation des travaux précédemment réalisés à partir d'autres projets. Les formats de table DAT, XML et CSV sont pris en charge. Pour limiter la portée des données importées et exportées, spécifiez les ID de début et de fin.</p>
+
+    <figure class="figure">
+        <img src="channels-files/import-table-en.png" class="figure-img img-fluid" alt="Importer une table" />
+        <figcaption class="figure-caption">Figure 10. Importer une table</figcaption>
+    </figure>
+
+    <figure class="figure">
+        <img src="channels-files/export-table-en.png" class="figure-img img-fluid" alt="Exporter une table" />
+        <figcaption class="figure-caption">Figure 11. Exporter une table</figcaption>
+    </figure>
+
+    <p>Les outils de clonage, d'importation et d'exportation sont accessibles via le menu <strong>Outils &gt; Outils de projet</strong> de l'application Administrateur.</p>
+</div>
