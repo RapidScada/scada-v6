@@ -117,6 +117,10 @@
         <Text>Плагин Гибкий отчёт</Text>
         <Url>/ru/latest/modules/plg-elastic-report</Url>
       </Item>
+      <Item>
+        <Text>Модуль автоматического управления</Text>
+        <Url>/ru/latest/modules/mod-auto-control</Url>
+      </Item>
     </Subitems>
   </Item>
 

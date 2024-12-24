@@ -1,0 +1,86 @@
+﻿@page "/ru/latest/modules/mod-auto-control"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Модуль автоматического управления";
+}
+
+<nav class="doc-toc">
+    <div class="h6">На этой странице</div>
+    <hr>
+    <ul>
+        <li><a href="#overview">Обзор</a></li>
+        <li><a href="#installation">Установка</a></li>
+        <li><a href="#configuring">Конфигурирование</a></li>
+        <li><a href="#triggers">Триггеры</a></li>
+        <li><a href="#variables">Переменные</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Модуль автоматического управления</h1>
+    <h2 id="overview">Обзор</h2>
+
+
+    <h2 id="installation">Установка</h2>
+
+
+    <h2 id="configuring">Конфигурирование</h2>
+
+
+    <h2 id="triggers">Триггеры</h2>
+
+
+    <h2 id="variables">Переменные</h2>
+    <p>Строковые данные команд, которые отправляются при сработке триггеров, могут содержать переменные. Переменные записываются в фигурных скобках.</p>
+    <p>Поддерживаются следующие переменные:</p>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Переменная</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="2"><strong>Для триггеров всех типов</strong></td>
+            </tr>
+            <tr>
+                <td>{n}</td>
+                <td>Текущее значение канала n, форматированное, с размерностью. Если n = 0, используется канал триггера (если применимо)</td>
+            </tr>
+            <tr>
+                <td>{Now}</td>
+                <td>Текущие дата и время в часовом поясе сервера</td>
+            </tr>
+            <tr>
+                <td>{NowUtc}</td>
+                <td>Текущие дата и время UTC</td>
+            </tr>
+            <tr>
+                <td>{Time}</td>
+                <td>Время сработки триггера в часовом поясе сервера</td>
+            </tr>
+            <tr>
+                <td>{TimeUtc}</td>
+                <td>Время сработки триггера UTC</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
