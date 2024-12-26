@@ -10,27 +10,75 @@
     <ul>
         <li><a href="#overview">Обзор</a></li>
         <li><a href="#installation">Установка</a></li>
-        <li><a href="#configuring">Конфигурирование</a></li>
-        <li><a href="#triggers">Триггеры</a></li>
-        <li><a href="#variables">Переменные</a></li>
+        <li>
+            <a href="#configuring">Конфигурирование</a>
+            <ul>
+                <li><a href="#triggers">Триггеры</a></li>
+                <li><a href="#commands">Команды</a></li>
+                <li><a href="#events">События</a></li>
+                <li><a href="#variables">Переменные</a></li>
+            </ul>
+        </li>
     </ul>
 </nav>
 
 <div class="doc-content">
     <h1>Модуль автоматического управления</h1>
     <h2 id="overview">Обзор</h2>
-
+    <p>Модуль автоматического управления отправляет команды и генерирует события при выполнении определённых условий. Модуль работает под управлением приложения Сервер. На следующем рисунке показана форма для настройки модуля.</p>
+    <figure class="figure">
+        <img src="mod-auto-control-files/auto-control-ru.png" class="figure-img img-fluid" alt="Модуль автоматического управления" />
+    </figure>
+    <p>Информация о срабатывании триггеров, отправленных командах и событиях записывается в файл журнала модуля <code>ModAutoControl.log</code>, который можно просмотреть с помощью приложения Администратор или любого текстового редактора.</p>
 
     <h2 id="installation">Установка</h2>
-
+    <p>Модуль автоматического управления устанавливается по <a href="../installation/install-modules#modules">инструкции</a>. Последовательность установки модуля стандартная.</p>
 
     <h2 id="configuring">Конфигурирование</h2>
 
 
-    <h2 id="triggers">Триггеры</h2>
+    <h3 id="triggers">Триггеры</h3>
+    <h4>Триггер на данные канала</h4>
+    <figure class="figure">
+        <img src="mod-auto-control-files/cnl-data-trigger-ru.png" class="figure-img img-fluid" alt="Триггер на данные канала" />
+    </figure>
 
+    <h4>Триггер на данные нескольких каналов</h4>
+    <figure class="figure">
+        <img src="mod-auto-control-files/multi-cnl-data-trigger-ru.png" class="figure-img img-fluid" alt="Триггер на данные нескольких каналов" />
+    </figure>
 
-    <h2 id="variables">Переменные</h2>
+    <h4>Триггер на изменение данных канала</h4>
+    <figure class="figure">
+        <img src="mod-auto-control-files/cnl-data-change-trigger-ru.png" class="figure-img img-fluid" alt="Триггер на изменение данных канала" />
+    </figure>
+
+    <h4>Триггер на событие</h4>
+    <figure class="figure">
+        <img src="mod-auto-control-files/event-trigger-ru.png" class="figure-img img-fluid" alt="Триггер на событие" />
+    </figure>
+
+    <h4>Триггер по времени</h4>
+    <figure class="figure">
+        <img src="mod-auto-control-files/time-trigger-ru.png" class="figure-img img-fluid" alt="Триггер по времени" />
+    </figure>
+
+    <h4>Триггер на команду</h4>
+    <figure class="figure">
+        <img src="mod-auto-control-files/command-trigger-ru.png" class="figure-img img-fluid" alt="Триггер на команду" />
+    </figure>
+
+    <h3 id="commands">Команды</h3>
+    <figure class="figure">
+        <img src="mod-auto-control-files/command-config-ru.png" class="figure-img img-fluid" alt="Параметры команды" />
+    </figure>
+
+    <h3 id="events">События</h3>
+    <figure class="figure">
+        <img src="mod-auto-control-files/event-config-ru.png" class="figure-img img-fluid" alt="Параметры события" />
+    </figure>
+
+    <h3 id="variables">Переменные</h3>
     <p>Строковые данные команд, которые отправляются при сработке триггеров, могут содержать переменные. Переменные записываются в фигурных скобках.</p>
     <p>Поддерживаются следующие переменные:</p>
 
