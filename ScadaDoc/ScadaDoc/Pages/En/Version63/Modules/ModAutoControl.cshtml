@@ -25,52 +25,52 @@
 <div class="doc-content">
     <h1>Automatic Control Module</h1>
     <h2 id="overview">Overview</h2>
-    <p>Модуль автоматического управления - это дополнительный модуль для приложения Сервер, который отправляет команды и генерирует события при выполнении определённых условий. Модуль позволяет реализовать различные алгоритмы управления и рассылку уведомлений без необходимости программирования, посредством пользовательского интерфейса. На следующем рисунке показана форма для настройки модуля.</p>
+    <p>Automatic Control Module is an additional module for the Server application that sends commands and generates events when certain conditions are met. The module helps to implement various control algorithms and sending notifications without the need for programming, through the user interface. The following figure shows the form for configuring the module.</p>
     <figure class="figure">
         <img src="mod-auto-control-files/auto-control-en.png" class="figure-img img-fluid" alt="Automatic Control Module" />
     </figure>
-    <p>Информация о срабатывании триггеров, отправленных командах и событиях записывается в файл журнала модуля <code>ModAutoControl.log</code>, который можно просмотреть с помощью приложения Администратор или любого текстового редактора.</p>
+    <p>Information about fired triggers, sent commands and events is recorded in the <code>ModAutoControl.log</code> module log file, which can be viewed using the Administrator application or any text editor.</p>
 
     <h2 id="installation">Installation</h2>
-    <p>Модуль автоматического управления устанавливается по <a href="../installation/install-modules#modules">инструкции</a>. Последовательность установки модуля стандартная.</p>
+    <p>Automatic Control Module is installed according to the <a href="../installation/install-modules#modules">instructions</a>. The module installation sequence is typical.</p>
 
     <h2 id="configuring">Configuring</h2>
-    <p>Настройка модуля заключается в создании триггеров, которые срабатывают при выполнении определённых условий. Триггеры могут быть различных типов, рассмотренных далее. При срабатывании триггера модуль отправляет команды и генерирует события, которые относятся к этому триггеру.</p>
-    <p>Чтобы открыть форму для настройки модуля, на странице <strong>Сервер &gt; Модули</strong> выберите модуль <strong>ModAutoControl</strong> и нажмите кнопку <strong>Свойства</strong>. Модуль должен находиться в списке активных модулей. Конфигурация модуля сохраняется в файл <code>ModAutoControl.xml</code>.</p>
+    <p>Setting up the module involves creating triggers that fire when certain conditions are met. Triggers can be of different types, discussed below. When a trigger fires, the module sends commands and generates events that relate to that trigger.</p>
+    <p>To open the module configuration form, go to the <strong>Server &gt; Modules</strong> page, select the <strong>ModAutoControl</strong> module and click the <strong>Properties</strong> button. The module should be in the list of active modules. The module configuration is saved in the <code>ModAutoControl.xml</code> file.</p>
 
     <h3 id="triggers">Triggers</h3>
-    <h4>Триггер на данные канала</h4>
+    <h4>Channel Data Trigger</h4>
     <p>Триггер на данные канала срабатывает, когда значение и статус канала соответствует условиям, заданным в параметрах триггера. При запуске модуль заполняет список каналов, удовлетворяющих фильтру каналов. Выполнение условий проверяется индивидуально для каждого канала из этого списка. Если фильтр каналов пуст, то триггер работает для всех активных каналов входного типа.</p>
     <p>Триггер имеет состояние, которое позволяет реализовать задержку и повтор сработки триггера. Состояние триггера сохраняется в процессе работы модуля и загружается при запуске Сервера.</p>
     <figure class="figure">
         <img src="mod-auto-control-files/cnl-data-trigger-en.png" class="figure-img img-fluid" alt="Channel data trigger" />
     </figure>
 
-    <h4>Триггер на данные нескольких каналов</h4>
+    <h4>Multi-Channel Data Trigger</h4>
     <p>Этот тип триггера используется, если условие должно учитывать значения более, чем одного канала. Если статус какого-либо из указанных каналов не определён, то считается, что условие для этого канала не выполняется. Состояние триггера сохраняется и загружается модулем.</p>
     <figure class="figure">
         <img src="mod-auto-control-files/multi-cnl-data-trigger-en.png" class="figure-img img-fluid" alt="Multi-channel data trigger" />
     </figure>
 
-    <h4>Триггер на изменение данных канала</h4>
+    <h4>Channel Data Change Trigger</h4>
     <p>Триггер срабатывает, если значение или статус указанного канала изменились. Для ограничения частоты срабатывания триггера предназначен соответствующий параметр.</p>
     <figure class="figure">
         <img src="mod-auto-control-files/cnl-data-change-trigger-en.png" class="figure-img img-fluid" alt="Channel data change trigger" />
     </figure>
 
-    <h4>Триггер на событие</h4>
+    <h4>Event Trigger</h4>
     <p>Триггер на событие срабатывает, если возникшее в системе событие удовлетворяет указанным условиям. Триггер в том числе срабатывает на события, которые генерируются самим модулем. При срабатывании триггера новые события не могут быть сгенерированы, чтобы избежать бесконечного цикла.</p>
     <figure class="figure">
         <img src="mod-auto-control-files/event-trigger-en.png" class="figure-img img-fluid" alt="Event trigger" />
     </figure>
 
-    <h4>Триггер по времени</h4>
+    <h4>Time Trigger</h4>
     <p>Триггер по времени может срабатывать каждый день в указанные моменты времени, в определённые дни недели, дни месяца или в конкретную дату.</p>
     <figure class="figure">
         <img src="mod-auto-control-files/time-trigger-en.png" class="figure-img img-fluid" alt="Time trigger" />
     </figure>
 
-    <h4>Триггер на команду</h4>
+    <h4>Command Trigger</h4>
     <p>Триггер на команду удобно использовать в тех случаях, когда по одной команде необходимо отправить серию команд. Если для триггера задано условие проверки данных, то данные поступающих команд преобразуются в строку, используя кодировку UTF8, а затем проверяются на соответствие условию.</p>
     <p>Триггер срабатывает в том числе на команды, отправленные самим модулем. Максимальная глубина рекурсии ограничена 10 уровнями.</p>
     <figure class="figure">
