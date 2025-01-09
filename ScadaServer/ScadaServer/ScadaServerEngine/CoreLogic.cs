@@ -2079,6 +2079,7 @@ namespace Scada.Server.Engine
                 dbUser.PwdComplicatedFormat = user.PwdComplicatedFormat;
                 dbUser.PwdUsedDifferent = user.PwdUsedDifferent;
                 dbUser.PwdUsedTimes = user.PwdUsedTimes;
+                dbUser.TimeZone = user.TimeZone;
                 this.UpdateUserInfo(dbUser);
             }
             InitUsers();
@@ -2175,6 +2176,24 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
+        /// 用户更新时区
+        /// </summary>
+        internal bool UpdateUserTimeZone(int userID, string timeZone, out string errMsg)
+        {
+            errMsg = string.Empty;
+            User user = ConfigDatabase.UserTable.GetItem(userID);
+            if (user == null)
+            {
+                errMsg = "User not exist";
+                return false;
+            }
+
+            user.TimeZone = timeZone;
+            this.UpdateUserInfo(user);
+            return true;
+        }
+
+        /// <summary>
         /// 检验密码期限
         /// </summary>
         internal bool WebCheckPwd(int userID, out string errMsg)
@@ -2239,5 +2258,66 @@ namespace Scada.Server.Engine
             }
             return true;
         }
+
+        #region Chart收藏历史
+
+        #endregion
+
+        /// <summary>
+        /// 编辑
+        /// </summary>
+        internal bool EditUserHistChart(UserHistChart histChart, out string errMsg)
+        {
+            errMsg = string.Empty;
+            if (histChart.Id == 0)
+            {
+                histChart.Id = ConfigDatabase.UserHistChartTable.GetNextPk();
+                ConfigDatabase.UserHistChartTable.AddItem(histChart);
+                //只存10条
+                var expireFavors = ConfigDatabase.UserHistChartTable.Where(x=>x.UserID == histChart.UserID)
+                    .OrderByDescending(x=>x.UpdateTime).Skip(10).ToList();
+                expireFavors.ForEach(e => ConfigDatabase.UserHistChartTable.RemoveItem(e.Id));
+                Storage.EditUserHistChart(ConfigDatabase.UserHistChartTable, histChart);
+            }
+            else
+            {
+                var dbInfo = ConfigDatabase.UserHistChartTable.GetItem(histChart.Id);
+                if (dbInfo != null)
+                {
+                    dbInfo.Content = histChart.Content;
+                    dbInfo.UpdateTime = histChart.UpdateTime;
+                    Storage.EditUserHistChart(ConfigDatabase.UserHistChartTable, dbInfo);
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 删除, id=0为清空历史
+        /// </summary>
+        internal bool DelUserHistChart(int id, int userID, out string errMsg)
+        {
+            errMsg = string.Empty;
+            if (id != 0)
+            {
+                var dbInfo = ConfigDatabase.UserHistChartTable.GetItem(id);
+                if (dbInfo == null) return true;
+                ConfigDatabase.UserHistChartTable.RemoveItem(id);
+                Storage.DelUserHistChart(ConfigDatabase.UserHistChartTable, dbInfo);
+            }
+            else
+            {
+                var baseTable = ConfigDatabase.UserHistChartTable;
+                var allInfos = baseTable.EnumerateItems().Cast<UserHistChart>();
+                allInfos = allInfos.Where(x => x.UserID == userID).OrderByDescending(x => x.UpdateTime).ToList();
+                for (int i = 0; i < allInfos.Count(); i++)
+                {
+                    ConfigDatabase.UserHistChartTable.RemoveItem(allInfos.ElementAt(i).Id);
+                }
+                Storage.DelUserHistChart(ConfigDatabase.UserHistChartTable, new UserHistChart());
+            }
+            return true;
+        }
+
     }
 }

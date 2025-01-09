@@ -149,6 +149,15 @@ namespace Scada.Storages
         /// </summary>
         public abstract void AddUserUsedPwd(IBaseTable baseTable, UserUsedPwd userUsedPwd);
 
+        /// <summary>
+        /// 编辑图表收藏
+        /// </summary>
+        public abstract void EditUserHistChart(IBaseTable baseTable, UserHistChart histChartPro);
+        
+        /// <summary>
+        /// 删除图表收藏
+        /// </summary>
+        public abstract int DelUserHistChart(IBaseTable baseTable, UserHistChart histChartPro);
 
         /// <summary>
         /// Writes the text to the file.

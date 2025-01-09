@@ -489,6 +489,23 @@ namespace Scada.Storages.PostgreSqlStorage
         }
 
         /// <summary>
+        /// 保存图表收藏
+        /// </summary>
+        public override void EditUserHistChart(IBaseTable baseTable, UserHistChart histChartPro)
+        {
+            //todo: 未实现
+        }
+
+        /// <summary>
+        /// 删除图表收藏
+        /// </summary>
+        public override int DelUserHistChart(IBaseTable baseTable, UserHistChart histChartPro)
+        {
+            //todo: 未实现
+            return 1;
+        }
+
+        /// <summary>
         /// Writes the text to the file.
         /// </summary>
         public override void WriteText(DataCategory category, string path, string contents)

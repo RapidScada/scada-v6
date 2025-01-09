@@ -90,10 +90,12 @@ namespace Scada.Agent.Engine
         {
 #if DEBUG
             System.Diagnostics.Debugger.Launch();
-#endif
-
             // load instance configuration
+            AppDirs.Init("C:\\SCADAV6_Vol\\ScadaAgent");
+#else
+
             AppDirs.Init(Assembly.GetExecutingAssembly());
+#endif
             InstanceConfig instanceConfig = new InstanceConfig();
             Locale.SetCultureToEnglish();
 

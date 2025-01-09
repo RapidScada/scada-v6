@@ -123,5 +123,10 @@ namespace Scada.Data.Entities
         /// 密码更新时间
         /// </summary>
         public DateTime PwdUpdateTime { get; set; }
+
+        /// <summary>
+        /// 时区
+        /// </summary>
+        public string TimeZone { get; set; }
     }
 }

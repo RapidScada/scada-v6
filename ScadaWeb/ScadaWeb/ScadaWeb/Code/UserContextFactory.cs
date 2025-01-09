@@ -66,10 +66,11 @@ namespace Scada.Web.Code
                 userContext.Reports.Init(webContext, userEntity, userContext.Rights);
                 userContext.Views.Init(webContext, userContext.Rights);
 
-                UserConfig userConfig = webContext.PluginHolder.GetUserConfig(userID);
-                userContext.SetTimeZone(
-                    userConfig?.TimeZone ?? 
-                    webContext.AppConfig.GeneralOptions.DefaultTimeZone);
+                //UserConfig userConfig = webContext.PluginHolder.GetUserConfig(userID);
+                var userTimeZone = string.IsNullOrEmpty(userEntity.TimeZone) ?
+                    webContext.AppConfig.GeneralOptions.DefaultTimeZone : userEntity.TimeZone;
+                webContext.Log.WriteError("User with ID {0}, timezone is {1}", userID, string.IsNullOrEmpty(userTimeZone)?"not set": userTimeZone);
+                userContext.SetTimeZone(userTimeZone);
 
                 return userContext;
             }

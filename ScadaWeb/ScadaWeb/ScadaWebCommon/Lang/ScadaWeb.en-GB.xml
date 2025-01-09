@@ -69,10 +69,10 @@
   <Dictionary key="Scada.Web.Pages.Login">
     <Phrase key="PageTitle">Login</Phrase>
     <Phrase key="NotReady">The application is not ready. Try again later.</Phrase>
-    <Phrase key="InvalidCaptcha">Invalid protection code.</Phrase>
+    <Phrase key="InvalidCaptcha">Invalid captcha.</Phrase>
     <Phrase key="lblUsername">User ID</Phrase>
     <Phrase key="lblPassword">Password</Phrase>
-    <Phrase key="lblCaptcha">Protection code</Phrase>
+    <Phrase key="lblCaptcha">Captcha</Phrase>
     <Phrase key="lblRememberMe">Remember me</Phrase>
     <Phrase key="btnLogin">Login</Phrase>
   </Dictionary>
@@ -101,6 +101,9 @@
 	<Phrase key="tipsPwdContNum">Password should contains number.</Phrase>
 	<Phrase key="tipsPwdContLetter">Password should contains letter(lower and upper).</Phrase>
 	<Phrase key="tipsPwdContSymbol">Password should contains symbol.</Phrase>
+	<Phrase key="btnUpdateTimezone">Modify</Phrase>
+	<Phrase key="btnConfirmTimezone">Confirm</Phrase>
+	<Phrase key="TimeZoneModified">Modified Success</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.UserManager">
     <Phrase key="PageTitle">User Manager</Phrase>
@@ -124,6 +127,7 @@
 	<Phrase key="lblEmail">Email</Phrase>
 	<Phrase key="lblPhone">Phone</Phrase>
 	<Phrase key="lblRole">Role</Phrase>
+	<Phrase key="lblTimeZone">TimeZone</Phrase>
 	<Phrase key="lblLogin">Login</Phrase>
 	<Phrase key="lblUserPwdLogin">UserPwd</Phrase>
 	<Phrase key="lbl2FaLogin">2Fa</Phrase>

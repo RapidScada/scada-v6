@@ -67,5 +67,25 @@ namespace Scada.Web.Services
         /// 下载登录日志
         /// </summary>
         SimpleResult DownloadLoginLog(string username);
+
+        /// <summary>
+        /// [HistChart]获取列表
+        /// </summary>
+        SimpleResult ListHistChart(int offset, int limit, int userID);
+
+        /// <summary>
+        /// [HistChart]新建/更新
+        /// </summary>
+        SimpleResult EditHistChart(UserHistChart histChart);
+
+        /// <summary>
+        /// [HistChart]删除
+        /// </summary>
+        SimpleResult DelHistChart(int id,int userID);
+
+        /// <summary>
+        /// 更新用户时区
+        /// </summary>
+        SimpleResult UpdateTimeZone(int userId, string timeZone);
     }
 }

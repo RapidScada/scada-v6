@@ -109,6 +109,11 @@ scada.scheme.Renderer.prototype.setBackgroundImage = function (jqObj, image, opt
     }
 };
 
+// 设置旋转角度
+scada.scheme.Renderer.prototype.setRotate = function (jqObj, angle) {
+    jqObj.css("transform", "rotate(" + angle + "deg)")
+};
+
 // Returns a data URI containing a representation of the image
 scada.scheme.Renderer.prototype.imageToDataURL = function (image) {
     return image ?
@@ -391,7 +396,8 @@ scada.scheme.ComponentRenderer.prototype.prepareComponent = function (jqObj, com
         this.setBorderColor(jqObj, props.borderColor);
         this.setBorderWidth(jqObj, props.borderWidth);
     }
-
+    //设置旋转角度
+    if (props.rotate) this.setRotate(jqObj, props.rotate);
     this.setToolTip(jqObj, props.toolTip);
 };
 

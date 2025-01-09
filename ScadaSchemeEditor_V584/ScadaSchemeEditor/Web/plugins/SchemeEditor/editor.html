@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Scheme Editor</title>
+    <link href="css/editor.min.css" rel="stylesheet" type="text/css" />
+    {0}
+    <script type="text/javascript" src="../../lib/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/api/checkbrowser.js"></script>
+    <script type="text/javascript" src="../../js/api/utils.js"></script>
+    <script type="text/javascript" src="../../js/api/ajaxqueue.js"></script>
+    <script type="text/javascript" src="../Scheme/js/schemecommon.js"></script>
+    <script type="text/javascript" src="../Scheme/js/schememodel.js"></script>
+    <script type="text/javascript" src="../Scheme/js/schemerender.js"></script>
+    {1}
+    <script type="text/javascript" src="js/editablescheme.js"></script>
+    <script type="text/javascript" src="js/showalert.js"></script>
+    {2}
+    <script type="text/javascript">
+        $(document).ready(function () {{
+            if (!checkBrowser()) {{
+                showAlert(phrases.BrowserOutdated);
+            }}
+        }});
+    </script>
+    <script type="text/javascript" src="js/editor.js"></script>
+</head>
+<body>
+    <div id="divSchWrapper" class="scheme-wrapper"></div>
+    <div id="divAlertWrapper"></div>
+    <div id="guide"
+         style="--guide-scale: scale(1); --guide-padding: 0px 0px; --guide-width: 1920px; --guide-height: 1080px; --guide-ml: 0px; --guide-mt: 0px; --guide-x: none; --guide-left: 0px; --guide-y: none; --guide-top: 0px;">
+        <div id="guide-x"></div>
+        <div id="guide-y"></div>
+    </div>
+</body>
+</html>

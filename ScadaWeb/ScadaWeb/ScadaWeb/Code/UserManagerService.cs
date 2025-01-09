@@ -141,6 +141,58 @@ namespace Scada.Web.Code
                 return SimpleResult.Fail(ex.Message);
             }
         }
-         
+
+        /// <summary>
+        /// [HistChart]获取列表
+        /// </summary>
+        public SimpleResult ListHistChart(int offset, int limit, int userID)
+        {
+            try
+            {
+                return clientAccessor.ScadaClient.ListUserHisChart(offset, limit, userID);
+            }
+            catch (Exception ex)
+            {
+                return SimpleResult.Fail(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// [HistChart]新建/更新
+        /// </summary>
+        public SimpleResult EditHistChart(UserHistChart histChart)
+        {
+            try
+            {
+                return clientAccessor.ScadaClient.SaveUserHisChart(histChart);
+            }
+            catch (Exception ex)
+            {
+                return SimpleResult.Fail(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// [HistChart]删除
+        /// </summary>
+        public SimpleResult DelHistChart(int id, int userID)
+        {
+            try
+            {
+                return clientAccessor.ScadaClient.DelUserHistChart(id, userID);
+            }
+            catch (Exception ex)
+            {
+                return SimpleResult.Fail(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 更新用户时区
+        /// </summary>
+        public SimpleResult UpdateTimeZone(int userId, string timeZone)
+        {
+            return clientAccessor.ScadaClient.UpdateUserTimeZone(userId, timeZone);
+        }
     }
 }

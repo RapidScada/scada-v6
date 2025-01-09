@@ -409,6 +409,28 @@ namespace Scada.Client
             return res ? SimpleResult.Success(resStr) : SimpleResult.Fail(resStr);
         }
 
+        /// <summary>
+        /// 用户修改时区
+        /// </summary>
+        public SimpleResult UpdateUserTimeZone(int userID, string timeZone)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.UpdateUserTimeZone);
+            int index = ArgumentIndex;
+            CopyInt32(userID, outBuf, ref index);
+            CopyString(timeZone, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            ReceiveResponse(request);
+            index = ArgumentIndex;
+
+            var res = GetBool(inBuf, ref index);
+            var err = GetString(inBuf, ref index);
+            return res ? SimpleResult.Success(err) : SimpleResult.Fail(err);
+        }
+
         private SimpleResult ReceiveUserList(DataPacket request, PaginationResult pagination)
         {
             List<User> userList = null;
@@ -430,6 +452,102 @@ namespace Scada.Client
             pagination.Data = userList;
             return SimpleResult.Success(pagination);
         }
+
+        #region Chart历史收藏功能
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        public SimpleResult ListUserHisChart(int offset, int limit, int userID)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.ListUserHisChart);
+            int index = ArgumentIndex;
+            CopyInt32(offset, outBuf, ref index);
+            CopyInt32(limit, outBuf, ref index);
+            CopyInt32(userID, outBuf, ref index);
+            var pageResult = PaginationResult.Empty(offset, limit);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            return ReceiveUserHistChartList(request, pageResult);
+        }
+
+        /// <summary>
+        /// 添加或更新
+        /// </summary>
+        public SimpleResult SaveUserHisChart(UserHistChart userHistChart)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.EditUserHistChart);
+            int index = ArgumentIndex;
+            CopyInt32(userHistChart.Id, outBuf, ref index);
+            CopyInt32(userHistChart.UserID, outBuf, ref index);
+            CopyString(userHistChart.Content, outBuf, ref index);
+            CopyTime(userHistChart.CreateTime, outBuf, ref index);
+            CopyTime(userHistChart.UpdateTime, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            ReceiveResponse(request);
+            index = ArgumentIndex;
+            var res = GetBool(inBuf, ref index);
+            var userID = GetInt32(inBuf, ref index);
+            var err = GetString(inBuf, ref index);
+            return res ? SimpleResult.Success(userID) : SimpleResult.Fail(err);
+        }
+
+        /// <summary>
+        /// 删除, id=0为清空历史
+        /// </summary>
+        public SimpleResult DelUserHistChart(int id,int userID)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.DelUserHistChart);
+            int index = ArgumentIndex;
+            CopyInt32(id, outBuf, ref index);
+            CopyInt32(userID, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            ReceiveResponse(request);
+            index = ArgumentIndex;
+
+            var res = GetBool(inBuf, ref index);
+            var err = GetString(inBuf, ref index);
+            return res ? SimpleResult.Success(res) : SimpleResult.Fail(err);
+        }
+
+
+
+        private SimpleResult ReceiveUserHistChartList(DataPacket request, PaginationResult pagination)
+        {
+            List<UserHistChart> userList = null;
+
+            ReceiveResponse(request);
+            int index = ArgumentIndex;
+            int totalCount = GetInt32(inBuf, ref index);
+            int pageCount = GetInt32(inBuf, ref index);
+            if (userList == null) userList = new List<UserHistChart>(pageCount);
+
+            for (int i = 0; i < pageCount; i++)
+            {
+                var userHistChart = new UserHistChart();
+                userHistChart.Id = GetInt32(inBuf, ref index);
+                userHistChart.UserID = GetInt32(inBuf, ref index);
+                userHistChart.Content = GetString(inBuf, ref index);
+                userHistChart.CreateTime =  GetTime(inBuf, ref index);
+                userHistChart.UpdateTime = GetTime(inBuf, ref index);
+                userList.Add(userHistChart);
+            }
+            pagination.Count = totalCount;
+            pagination.Data = userList;
+            return SimpleResult.Success(pagination);
+        }
+        #endregion
 
         /// <summary>
         /// Downloads the table of the configuration database.

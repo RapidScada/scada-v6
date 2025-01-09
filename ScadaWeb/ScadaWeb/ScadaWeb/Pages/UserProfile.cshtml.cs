@@ -7,7 +7,9 @@ using Scada.Lang;
 using Scada.Web.Lang;
 using Scada.Web.Services;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 
 namespace Scada.Web.Pages
 {
@@ -31,6 +33,7 @@ namespace Scada.Web.Pages
         public int UserID { get; set; }
         public string Username { get; set; }
         public string RoleName { get; set; }
+        public string TimeZoneId { get; set; }
         public string TimeZone { get; set; }
 
         public string OldPwd { get; set; }
@@ -42,8 +45,8 @@ namespace Scada.Web.Pages
         public bool IsFirstLogin { get; set; } = false;
 
         public int PwdLenLimit { get; set; }
-
         public string PwdComplicatedFormat { get; set; }
+        public string TimeZoneMapper { get; set; }
 
         public IActionResult OnGet(int? id)
         {
@@ -79,6 +82,7 @@ namespace Scada.Web.Pages
                 Username = userEntity.Name;
                 Data.Entities.Role roleEntity = webContext.ConfigDatabase.RoleTable.GetItem(userEntity.RoleID);
                 RoleName = roleEntity == null ? "" : roleEntity.Name;
+                TimeZoneId = UserID == currentUserID ? userContext.TimeZone.Id : "";
                 TimeZone = UserID == currentUserID ? userContext.TimeZone.DisplayName : CommonPhrases.UndefinedSign;
                 if (!string.IsNullOrEmpty(userEntity.PwdComplicatedFormat))
                 {
@@ -91,6 +95,13 @@ namespace Scada.Web.Pages
                 PwdLenLimit = userContext.UserEntity.PwdLenLimit;
                 PwdComplicatedFormat = userContext.UserEntity.PwdComplicatedRequire ? userContext.UserEntity.PwdComplicatedFormat : "";
             }
+
+            var timeZoneDic = new Dictionary<string, string>();
+            foreach (TimeZoneInfo timeZone in TimeZoneInfo.GetSystemTimeZones())
+            {
+                timeZoneDic.Add(timeZone.Id, timeZone.DisplayName);
+            }
+            this.TimeZoneMapper = JsonSerializer.Serialize(timeZoneDic);
 
             return Page();
         }

@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scada.Data.Entities;
+using Scada.Web.Code;
 using Scada.Web.Services;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Scada.Web.Controllers
@@ -18,10 +21,12 @@ namespace Scada.Web.Controllers
     {
         protected readonly IUserManagerService userManagerService;
         protected readonly IWebContext webContext;
-        public UserController(IUserManagerService userManagerService, IWebContext webContext)
+        protected readonly IUserContext userContext;
+        public UserController(IUserManagerService userManagerService, IWebContext webContext,IUserContext userContext)
         {
             this.userManagerService = userManagerService;
             this.webContext = webContext;
+            this.userContext = userContext;
 
         }
         /// <summary>
@@ -109,7 +114,6 @@ namespace Scada.Web.Controllers
             return Json(res);
         }
 
-
         /// <summary>
         /// 获取用户登录列表
         /// </summary>
@@ -147,5 +151,14 @@ namespace Scada.Web.Controllers
     {
         public int UserID { get; set; }
         public string Password { get; set; }
+    }
+
+    /// <summary>
+    /// 更新时区
+    /// </summary>
+    public class UpdateTimeZoneDto
+    {
+        public int UserID { get; set; }
+        public string TimeZone { get; set; }
     }
 }

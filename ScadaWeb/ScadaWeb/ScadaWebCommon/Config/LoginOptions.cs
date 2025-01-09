@@ -47,6 +47,7 @@ namespace Scada.Web.Config
             GoogleLoginUri = "";
             GoogleClientId = "";
             GoogleClientSecret = "";
+            ClientIpOrder = 1;
         }
 
 
@@ -94,6 +95,11 @@ namespace Scada.Web.Config
         public string GoogleClientSecret { get; set; }
 
         /// <summary>
+        /// 倒序取客户端IP顺序
+        /// </summary>
+        public int ClientIpOrder { get; set; }
+
+        /// <summary>
         /// Loads the options from the XML node.
         /// </summary>
         public void LoadFromXml(XmlNode xmlNode)
@@ -110,6 +116,7 @@ namespace Scada.Web.Config
             GoogleLoginUri = xmlNode.GetChildAsString("GoogleLoginUri");
             GoogleClientId = xmlNode.GetChildAsString("GoogleClientId");
             GoogleClientSecret = xmlNode.GetChildAsString("GoogleClientSecret");
+            ClientIpOrder = xmlNode.GetChildAsInt("ClientIpOrder");
         }
 
         /// <summary>
@@ -128,6 +135,7 @@ namespace Scada.Web.Config
             xmlElem.AppendElem("GoogleLoginUri", GoogleLoginUri);
             xmlElem.AppendElem("GoogleClientId", GoogleClientId);
             xmlElem.AppendElem("GoogleClientSecret", GoogleClientSecret);
+            xmlElem.AppendElem("ClientIpOrder", ClientIpOrder);
         }
     }
 }

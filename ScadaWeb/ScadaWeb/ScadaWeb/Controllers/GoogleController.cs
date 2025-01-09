@@ -1,15 +1,10 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Mvc;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System;
-using Scada.Web.Services;
+﻿using Google.Apis.Auth;
 using Microsoft.AspNetCore.Authorization;
-using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using Scada.Protocol;
-using System.Web;
+using Scada.Web.Services;
+using System;
+using System.Threading.Tasks;
 
 namespace Scada.Web.Controllers
 {
@@ -41,19 +36,31 @@ namespace Scada.Web.Controllers
             }
             if (googleAuth.Credential != "")
             {
-                var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
-                var readJwtToken = jwtSecurityTokenHandler.ReadJwtToken(googleAuth.Credential);
-                
-                var jwtClaims = readJwtToken.Claims;
-                var username = jwtClaims.FirstOrDefault(c => c.Type == "email").Value;
-                var result = await loginService.LoginAsync(username, "", WebLoginType.GoogleOAuth, "", false);
-                if (result.Ok)
+                try
                 {
-                    return Redirect(WebPath.Root);
+                    //后台校验收到的token
+                    var validPayload = await GoogleJsonWebSignature.ValidateAsync(googleAuth.Credential);
+                    if (validPayload == null)
+                    {
+                        HttpContext.Response.Cookies.Append("loginErr", "Google Credential is not valid");
+                        return Redirect(WebPath.LoginPage);
+                    }
+
+                    var result = await loginService.LoginAsync(validPayload.Email, "", WebLoginType.GoogleOAuth, "", false);
+                    if (result.Ok)
+                    {
+                        HttpContext.Response.Cookies.Append("google_name", validPayload.Name);
+                        HttpContext.Response.Cookies.Append("google_avator", validPayload.Picture);
+                        return Redirect(WebPath.Root);
+                    }
+                    else
+                    {
+                        HttpContext.Response.Cookies.Append("loginErr", $"{result.Msg}");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    HttpContext.Response.Cookies.Append("loginErr", $"{result.Msg}");
+                    HttpContext.Response.Cookies.Append("loginErr", $"{ex.Message}");
                 }
             }
             else

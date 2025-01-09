@@ -388,6 +388,7 @@ namespace Scada
                 PwdUsedDifferent = GetBool(buffer, ref index),
                 PwdUsedTimes = GetInt32(buffer, ref index),
                 PwdUpdateTime = GetTime(buffer, ref index),
+                TimeZone = GetString(buffer, ref index),
             };
         }
         
@@ -420,6 +421,7 @@ namespace Scada
                 CopyBool(user.PwdUsedDifferent, buffer, ref index);
                 CopyInt32(user.PwdUsedTimes, buffer, ref index);
                 CopyTime(user.PwdUpdateTime, buffer, ref index);
+                CopyString(user.TimeZone, buffer, ref index);
             }
         }
 

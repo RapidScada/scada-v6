@@ -334,8 +334,8 @@
                             success: function (data) {
                                 that.roleList = data;
                             },
-                            error: function (data) {
-                                layer.msg(data.msg);
+                            error: function (xhr, status, error) {
+                                console.error(xhr, status, error);
                             }
                         });
                     },

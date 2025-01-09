@@ -27,13 +27,13 @@ body {
     height: $header-height;
     margin: 0;
     padding: 0;
-    background-color: $main-menu-back-color;
+    background-color: $main-header-back-color;
     color: $main-menu-fore-color;
 
     .main-hdr-block {
         position: absolute;
         top: 0;
-        background-color: $main-menu-back-color;
+        background-color: $main-header-back-color;
 
         &.left {
             left: 0;
@@ -44,7 +44,7 @@ body {
         }
 
         &.right {
-            right: 0;
+            right: 15px;
 
             .main-hdr-btn {
                 margin-left: 5px;
@@ -108,11 +108,20 @@ body {
 #Main_spanAppTitle {
     position: relative;
     display: inline-block;
-    top: 1px;
-    margin-left: 10px;
+    /*top: 1px;
+    margin-left: 10px;*/
     font-family: $title-font-family;
     font-size: $title-font-size;
     white-space: nowrap;
+
+    img {
+        height: calc($header-height - 3px);
+    }
+
+    .product_name {
+        border-left: solid 2px white;
+        padding-left: 15px;
+    }
 }
 
 .main-hdr-btn {
@@ -248,4 +257,13 @@ body {
     height: 0;
     border: none;
     visibility: hidden;
+}
+
+.hist-chart-item {
+    background-color:#343a40 !important;
+    color:white !important;
+
+    p {
+        margin: 0 !important;
+    }
 }

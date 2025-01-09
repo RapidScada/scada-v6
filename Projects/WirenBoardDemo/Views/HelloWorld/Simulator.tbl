@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<TableView>
-  <TableOptions>
-    <UseDefault>true</UseDefault>
-  </TableOptions>
-  <TableItems>
-    <Item deviceNum="1" autoText="true" />
-  </TableItems>
-</TableView>

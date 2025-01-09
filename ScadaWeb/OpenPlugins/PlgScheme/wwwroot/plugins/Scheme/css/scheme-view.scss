@@ -104,4 +104,6 @@ body {
 /* custom */
 .custom-tooltip {
     font-size: 16px;
+    --bs-tooltip-bg: #005089;
+    --bs-tooltip-color: var(--bs-white);
 }

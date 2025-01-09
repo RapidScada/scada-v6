@@ -153,6 +153,10 @@ namespace Scada.Data.Models
         /// 登录日志
         /// </summary>
         public BaseTable<UserLoginLog> UserLoginLogTable { get; private set; }
+        /// <summary>
+        /// Pro收藏历史
+        /// </summary>
+        public BaseTable<UserHistChart> UserHistChartTable { get; private set; }
 
         /// <summary>
         /// Gets the view table.
@@ -207,6 +211,7 @@ namespace Scada.Data.Models
                 UserUsedPwdTable = new BaseTable<UserUsedPwd>("Id", CommonPhrases.UserUsedPwdTable),
                 UserMachineCodeTable = new BaseTable<UserMachineCode>("Id", CommonPhrases.UserMachineCodeTable),
                 UserLoginLogTable = new BaseTable<UserLoginLog>("Id", CommonPhrases.UserLoginLogTable),
+                UserHistChartTable = new BaseTable<UserHistChart>("Id", CommonPhrases.UserHistChartTable),
             };
         }
 

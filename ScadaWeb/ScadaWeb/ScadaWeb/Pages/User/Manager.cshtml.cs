@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Scada.Data.Const;
 using Scada.Web.Services;
+using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -22,6 +23,7 @@ namespace Scada.Web.Pages
         public Dictionary<int, string> RoleMapperDic = new Dictionary<int, string>();
         public string RoleMapper = string.Empty;
         public string CurUserName = string.Empty;
+        public string TimeZoneMapper = string.Empty;
         public UserManagerModel(IWebContext webContext,IUserContext userContext)
         {
             this.userContext = userContext;
@@ -41,7 +43,12 @@ namespace Scada.Web.Pages
                 else this.RoleMapperDic.Add(roleItem.Key, roleItem.Value.Name);
             }
             this.RoleMapper = JsonSerializer.Serialize(this.RoleMapperDic);
-
+            var timeZoneDic = new Dictionary<string, string>();
+            foreach (TimeZoneInfo timeZone in TimeZoneInfo.GetSystemTimeZones())
+            {
+                timeZoneDic.Add(timeZone.Id, timeZone.DisplayName);
+            }
+            this.TimeZoneMapper = JsonSerializer.Serialize(timeZoneDic);
             return Page();
         }
     }

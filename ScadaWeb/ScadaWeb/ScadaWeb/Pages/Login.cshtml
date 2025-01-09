@@ -1,12 +1,12 @@
 ﻿@page
 @model LoginModel
-@inject IWebContext webContext 
+@inject IWebContext webContext
 @{
     dynamic dict = Locale.GetDictionary("Scada.Web.Pages.Login");
     ViewBag.Title = dict.PageTitle;
 }
 
-@section Scripts{
+@section Scripts {
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="~/lib/fingerprint/FingerprintJS-v3.4.1.js"></script>
     <script src="~/lib/jquery.md5.min.js"></script>
@@ -21,112 +21,131 @@
                     var browserIdKey = "ScadaIdentity";
                     if (localStorage.getItem(browserIdKey)) {
                         var existVisitorId = localStorage.getItem(browserIdKey);
-                        if (visitorId != existVisitorId){
+                        if (visitorId != existVisitorId) {
                             localStorage.setItem(browserIdKey, visitorId);
                         }
-                    }else{
+                    } else {
                         localStorage.setItem(browserIdKey, visitorId);
                     }
                 })
         }, 1000);
-        $(function(){
+        $(function () {
             $('#btnLogin').click(function () {
                 var password = $('#txtPassword').val();
                 $('#txtPassword').val($.md5(password));
                 $('#loginForm').submit();
             })
+            //移除cookie
+            $.removeCookie('google_name', { path: '/' });
+            $.removeCookie('google_avator', { path: '/' });
+            if (@ModelState.ErrorCount > 0) {
+                const toastLiveExample = document.getElementById('errToast');
+                const toast = new bootstrap.Toast(toastLiveExample);
+                $('#errToast .toast-body ul').attr("class", "list-group list-group-flush")
+                $('#errToast .toast-body li').attr("class", "list-group-item text-danger")
+                toast.show();
+            }
         })
     </script>
 }
-
 @section Styles {
     <link href="~/css/pages/login.min.css" rel="stylesheet" asp-append-version="true" />
 }
 
-<form id="loginForm" method="post" class="height100">
-    <div class="container-fluid login_container height100">
-        <div class="row height100">
-            <div class="offset-xxl-9 col-xxl-3 offset-md-8 col-md-4 right-container height100 position-relative">
-                <div id="divLogo" class="my-4 text-center">
-                    <a href="@CommonPhrases.WebsiteUrl" target="_blank"><img src="~/images/gear.png" alt="Logo" class="img_logo" /></a>
-                </div>
-                <div id="divTitle" class="fs-1 my-4 text-center">@CommonPhrases.ProductName</div>
-                <div id="divAlertsOuter"><div id="divAlertsInner"></div></div>
-                <div id="divAlert" class="alert alert-danger alert-dismissible mx-auto" role="alert" asp-validation-summary="All">
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    <div>@WebPhrases.CorrectErrors</div>
-                </div>
-                <div id="divLoginBox" class="rounded p-4 mx-auto">
-                    <div class="row g-3 align-items-center mb-4">
-                        <div class="col-md-4 col-xxl-3">
-                            <label id="lblUsername" for="txtUsername" class="form-label">@dict.lblUsername</label>
-                        </div>
-                        <div class="col-md-8 col-xxl-9">
-                            <input type="text" id="txtUsername" class="form-control" autofocus="autofocus" asp-for="Username" />
-                        </div>
+<form method="post" class="login-form d-flex flex-column justify-content-center">
+    <div class="container-fluid">
+        @* <div id="divLogo" class="my-4 text-center">
+            <a href="@CommonPhrases.WebsiteUrl" target="_blank"><img src="~/images/gear.png" alt="Logo" /></a>
+        </div> 
+        <div id="divTitle" class="fs-1 my-4 text-center">@CommonPhrases.ProductName</div>
+        <div id="divAlert" class="alert alert-danger alert-dismissible mx-auto" role="alert" asp-validation-summary="All">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div> *@
+        <div id="divLoginBox" class="border rounded-4 p-4 mx-auto position-relative shadow-lg">
+            <div class="mb-3 d-flex justify-content-between">
+                <div class="divLogoSmall"><a href="@CommonPhrases.WebsiteUrl" target="_blank"><img src="~/images/gear.png" alt="Logo" /></a></div>
+                <div><button type="button" class="btn btn-outline-secondary" disabled>@Model.Version</button></div>
+            </div>
+            <div class="p-3" style="padding-bottom:0 !important;">
+                <div class="mb-3 row">
+                    <label id="lblUsername" for="txtUsername" class="col-3 col-form-label">@dict.lblUsername</label>
+                    <div class="col-9">
+                        <input type="text" id="txtUsername" class="form-control" autofocus="autofocus" asp-for="Username" />
                     </div>
-                    <div class="row g-3 align-items-center mb-4">
-                        <div class="col-md-4 col-xxl-3">
-                            <label id="lblPassword" for="txtPassword" class="form-label">@dict.lblPassword</label>
-                        </div>
-                        <div class="col-md-8 col-xxl-9">
-                            <input type="password" id="txtPassword" class="form-control" asp-for="Password" />
-                        </div>
+                </div>
+                <div class="mb-3 row">
+                    <label id="lblPassword" for="txtPassword" class="col-3 col-form-label">@dict.lblPassword</label>
+                    <div class="col-9">
+                        <input type="password" id="txtPassword" class="form-control" asp-for="Password" />
                     </div>
-                    @if (webContext.AppConfig.LoginOptions.RequireCaptcha)
-                    {
-                        <div class="row g-3 align-items-center mb-4">
-                            <div class="col-md-4 col-xxl-3">
-                                <label id="lblCaptcha" for="txtCaptcha" class="form-label">@dict.lblCaptcha</label>
-                            </div>
-                            <div class="col-md-4 col-xxl-5">
-                                <img id="imgCaptcha" src="@Model.GetCaptchaImage()" />
-                            </div>
-                            <div class="col-md-4 col-xxl-4">
-                                <input type="text" id="txtCaptcha" class="form-control" autocomplete="off" asp-for="CaptchaCode" />
-                            </div>
-                        </div>
-                    }
-                    <div class="row mb-4">
-                        <div class="col">
-                            @if (webContext.AppConfig.LoginOptions.AllowRememberMe)
-                            {
-                                <div class="form-check">
-                                    <input type="checkbox" id="chkRememberMe" class="form-check-input" asp-for="RememberMe" />
-                                    <label id="lblRememberMe" class="form-check-label" for="chkRememberMe">@dict.lblRememberMe</label>
+                </div>
+                @if (webContext.AppConfig.LoginOptions.RequireCaptcha)
+                {
+                    <div class="mb-3 row">
+                        <label id="lblCaptcha" for="txtCaptcha" class="col-3 col-form-label">@dict.lblCaptcha</label>
+                        <div class="col-9">
+                            <div class="row">
+                                <div class="col-4">
+                                    <img id="imgCaptcha" src="@Model.GetCaptchaImage()" />
                                 </div>
-                            }
-                        </div>
-                        <div class="col-auto">
-                            <button type="button" id="btnLogin" class="btn btn-primary">@dict.btnLogin</button>
+                                <div class="col-8">
+                                    <input type="text" id="txtCaptcha" class="form-control" autocomplete="off" asp-for="CaptchaCode" />
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-                    <!-- 以下新增 -->
-                    <div style="display:none;">
-                        <input type="text" id="txtBrowserIdentity" asp-for="BrowserIdentity" />
+                }
+                <div class="row mb-3">
+                    <div class="col">
+                        @if (webContext.AppConfig.LoginOptions.AllowRememberMe)
+                        {
+                            <div class="form-check">
+                                <input type="checkbox" id="chkRememberMe" class="form-check-input" asp-for="RememberMe" />
+                                <label id="lblRememberMe" class="form-check-label" for="chkRememberMe">@dict.lblRememberMe</label>
+                            </div>
+                        }
                     </div>
-                    <div class="mb-3 d-flex flex-row-reverse">
-                        <div id="g_id_onload"
-                             data-client_id="@Model.LoginOptions.GoogleClientId"
-                             data-context="signin"
-                             data-ux_mode="popup"
-                             data-login_uri="@Model.LoginOptions.GoogleLoginUri"
-                             data-auto_prompt="false">
-                        </div>
-
-                        <div class="g_id_signin"
-                             data-type="standard"
-                             data-shape="rectangular"
-                             data-theme="filled_blue"
-                             data-text="signin_with"
-                             data-size="medium"
-                             data-logo_alignment="left">
-                        </div>
+                    <div class="col-auto">
+                        <button type="submit" id="btnLogin" class="btn btn-primary">@dict.btnLogin</button>
                     </div>
                 </div>
-                <div class="position-absolute start-50 translate-middle-x" style="bottom: 20px;">@Model.Version</div>
+            </div>
+
+            <!-- 以下新增 -->
+            <div style="display:none;">
+                <input type="text" id="txtBrowserIdentity" asp-for="BrowserIdentity" />
+            </div>
+            <div class="mx-auto" style="width:320px;">
+                <div id="g_id_onload"
+                     data-client_id="@Model.LoginOptions.GoogleClientId"
+                     data-context="signin"
+                     data-ux_mode="popup"
+                     data-login_uri="@Model.LoginOptions.GoogleLoginUri"
+                     data-auto_prompt="false">
+                </div>
+
+                <div class="g_id_signin"
+                     data-type="standard"
+                     data-shape="pill"
+                     data-theme="outline"
+                     data-text="signin_with"
+                     data-size="medium"
+                     data-width="320"
+                     data-logo_alignment="left">
+                </div>
             </div>
         </div>
+        
     </div>
 </form>
+<!-- 告警提示 -->
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false" id="errToast" style="background-color:white !important;">
+        <div class="toast-header">
+            <strong class="me-auto">@WebPhrases.CorrectErrors</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body" asp-validation-summary="All">
+        </div>
+    </div>
+</div>

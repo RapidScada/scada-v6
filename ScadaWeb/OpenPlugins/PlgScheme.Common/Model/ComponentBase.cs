@@ -51,6 +51,8 @@ namespace Scada.Web.Plugins.PlgScheme.Model
             Location = Point.Default;
             Size = Size.Default;
             ZIndex = 0;
+            AuxData = "";
+            Rotate = 0;
         }
 
 
@@ -154,6 +156,22 @@ namespace Scada.Web.Plugins.PlgScheme.Model
         public int ZIndex { get; set; }
 
         /// <summary>
+        /// 旋转角度
+        /// </summary>
+        #region Attributes
+        [DisplayName("Rotate"), Category(Categories.Layout)]
+        [Description("The rotate angle of the scheme component.")]
+        #endregion
+        public short Rotate { get; set; }
+
+        /// <summary>
+        /// 附加属性
+        /// </summary>
+        [DisplayName("Aux data"), Category(Categories.Data), ReadOnly(true)]
+        [Description("[Ext property]The aux data is extra self data for component.")]
+        public string AuxData { get; set; }
+
+        /// <summary>
         /// Получить или установить ссылку на представление схемы.
         /// </summary>
         [Browsable(false), JsonIgnore]
@@ -229,6 +247,8 @@ namespace Scada.Web.Plugins.PlgScheme.Model
             Location = Point.GetChildAsPoint(xmlNode, "Location");
             Size = Size.GetChildAsSize(xmlNode, "Size");
             ZIndex = xmlNode.GetChildAsInt("ZIndex");
+            AuxData = xmlNode.GetChildAsString("AuxData");
+            Rotate = (short)xmlNode.GetChildAsInt("Rotate");
         }
 
         /// <summary>
@@ -248,6 +268,8 @@ namespace Scada.Web.Plugins.PlgScheme.Model
             Point.AppendElem(xmlElem, "Location", Location);
             Size.AppendElem(xmlElem, "Size", Size);
             xmlElem.AppendElem("ZIndex", ZIndex);
+            xmlElem.AppendElem("AuxData", AuxData);
+            xmlElem.AppendElem("Rotate", Rotate);
         }
 
         /// <summary>

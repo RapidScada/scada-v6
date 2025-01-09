@@ -22,7 +22,7 @@ namespace Scada.Storages.FileStorage
         private readonly string baseDir; // the directory of the configuration database in DAT format
         private readonly string baseUserExtDir; // the directory of the configuration database in DAT format
         private readonly string viewDir; // the directory of views
-
+        private readonly object tableLocker = new object();
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -88,7 +88,7 @@ namespace Scada.Storages.FileStorage
         }
 
 
-        private string[] createIfNotExistArr = new string[] { "userloginlog", "usermachinecode", "userusedpwd" };
+        private string[] createIfNotExistArr = new string[] { "userloginlog", "usermachinecode", "userusedpwd", "userhistchart" };
 
         /// <summary>
         /// Reads the table of the configuration database.
@@ -127,7 +127,10 @@ namespace Scada.Storages.FileStorage
                 fileName = Path.Combine(baseUserExtDir, baseTable.FileNameDat);
                 adapter.FileName = fileName;
             }
-            adapter.Update(baseTable);
+            lock (baseTable)
+            {
+                adapter.Update(baseTable);
+            }
         }
 
         /// <summary>
@@ -170,6 +173,24 @@ namespace Scada.Storages.FileStorage
         {
             this.UpdateBaseTable(baseTable);
         }
+
+        /// <summary>
+        /// 保存图表收藏
+        /// </summary>
+        public override void EditUserHistChart(IBaseTable baseTable, UserHistChart histChartPro)
+        {
+            this.UpdateBaseTable(baseTable);
+        }
+
+        /// <summary>
+        /// 删除图表收藏
+        /// </summary>
+        public override int DelUserHistChart(IBaseTable baseTable, UserHistChart histChartPro)
+        {
+            this.UpdateBaseTable(baseTable);
+            return 1;
+        }
+
 
         /// <summary>
         /// Writes the text to the file.

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Scada.Web.Code;
 using Scada.Web.Services;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -12,11 +13,12 @@ namespace Scada.Web.Controllers
 
         protected readonly IUserManagerService userManagerService;
         protected readonly IWebContext webContext;
-        public AccountController(IUserManagerService userManagerService, IWebContext webContext)
+        protected readonly IUserContext userContext;
+        public AccountController(IUserManagerService userManagerService, IWebContext webContext, IUserContext userContext)
         {
             this.userManagerService = userManagerService;
             this.webContext = webContext;
-
+            this.userContext = userContext;
         }
 
         /// <summary>
@@ -38,6 +40,18 @@ namespace Scada.Web.Controllers
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var res = this.userManagerService.CheckPassword(int.Parse(userId));
+            return Json(res);
+        }
+
+        /// <summary>
+        /// 用户修改时区
+        /// </summary>
+        [HttpPost("updatetimezone")]
+        public IActionResult UpdateTimezone([FromBody] UpdateTimeZoneDto user)
+        {
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var res = this.userManagerService.UpdateTimeZone(int.Parse(userId), user.TimeZone);
+            if (res.Ok) ((UserContext)this.userContext).SetTimeZone(user.TimeZone);
             return Json(res);
         }
     }

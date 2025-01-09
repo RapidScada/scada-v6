@@ -73,7 +73,7 @@
             // 
             ctrlLoginOptions.Location = new Point(159, 14);
             ctrlLoginOptions.Name = "ctrlLoginOptions";
-            ctrlLoginOptions.Size = new Size(550, 374);
+            ctrlLoginOptions.Size = new Size(550, 394);
             ctrlLoginOptions.TabIndex = 4;
             ctrlLoginOptions.OptionsChanged += control_Changed;
             // 

@@ -1,0 +1,203 @@
+﻿body {
+}
+
+.swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-slide {
+    text-align: left;
+    /* font-size: 18px; */
+    /* Center slide text vertically */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: flex-start;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+
+.reflect-container {
+    text-align: center;
+    /* Center slide text vertically */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+
+@keyframes wavemove1 {
+    0% {
+        transform: translateX(-500px) scaleX(2.5);
+    }
+
+    100% {
+        transform: translateX(0) scaleX(2.5);
+    }
+}
+
+@keyframes wavemove2 {
+    0% {
+        transform: translateX(-600px) scaleX(3);
+    }
+
+    100% {
+        transform: translateX(0) scaleX(3);
+    }
+}
+
+@keyframes wavemove3 {
+    0% {
+        transform: translateX(-800px) scaleX(4);
+    }
+
+    100% {
+        transform: translateX(0) scaleX(4);
+    }
+}
+
+.wave1 {
+    animation: wavemove1 5s linear infinite;
+}
+
+.wave2 {
+    animation: wavemove2 3s linear infinite;
+}
+
+.wave3 {
+    animation: wavemove3 5s linear infinite;
+}
+
+
+/* 正向流动效果 */
+.svg_ani_flow {
+    stroke-dasharray: 10, 5;
+    animation: ani_flow 10s linear infinite;
+    animation-fill-mode: forwards;
+    -webkit-animation: ani_flow 10s linear infinite;
+    -webkit-animation-fill-mode: forwards;
+}
+
+@keyframes ani_flow {
+    from {
+        stroke-dashoffset: 0;
+    }
+
+    to {
+        stroke-dashoffset: 500;
+    }
+}
+
+@-webkit-keyframes ani_flow {
+    from {
+        stroke-dashoffset: 0;
+    }
+
+    to {
+        stroke-dashoffset: 500;
+    }
+}
+
+/* 停止流动效果 */
+.svg_ani_flow_stop {
+    stroke-dasharray: 10, 5;
+    animation: ani_flow_stop 10s linear infinite;
+    animation-fill-mode: forwards;
+    -webkit-animation: ani_flow_stop 10s linear infinite;
+    -webkit-animation-fill-mode: forwards;
+}
+
+@keyframes ani_flow_stop {
+    from {
+        stroke-dashoffset: 0;
+    }
+
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@-webkit-keyframes ani_flow_stop {
+    from {
+        stroke-dashoffset: 0;
+    }
+
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* 反向流动效果 */
+.svg_ani_flow_back {
+    stroke-dasharray: 10, 5;
+    animation: ani_flow_back 10s linear infinite;
+    animation-fill-mode: forwards;
+    -webkit-animation: ani_flow_back 10s linear infinite;
+    -webkit-animation-fill-mode: forwards;
+}
+
+@keyframes ani_flow_back {
+    from {
+        stroke-dashoffset: 500;
+    }
+
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@-webkit-keyframes ani_flow_back {
+    from {
+        stroke-dashoffset: 500;
+    }
+
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* 以最大40高度填充 */
+.svg_ani_fill_h40 {
+    animation: ani_fill_h40 5s linear infinite;
+    animation-fill-mode: forwards;
+    -webkit-animation: ani_fill_h40 5s linear infinite;
+    -webkit-animation-fill-mode: forwards;
+}
+
+@keyframes ani_fill_h40 {
+    from {
+        height: 0px;
+    }
+
+    to {
+        height: 40px;
+    }
+}
+
+@-webkit-keyframes ani_flow_stop {
+    from {
+        stroke-dasharray: 10, 5;
+    }
+
+    to {
+        stroke-dasharray: 10, 5;
+    }
+}
+  

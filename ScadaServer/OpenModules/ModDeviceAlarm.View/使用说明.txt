@@ -1,0 +1,7 @@
+﻿
+邮件标题和内容的占位符：
+
+设备名称：    @Device
+数据中断时常：@DataAbnormalPeriod
+设备状态中文：@AlarmStatusCn 
+设备状态英文：@AlarmStatusEn

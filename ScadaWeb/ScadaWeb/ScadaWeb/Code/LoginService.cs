@@ -41,6 +41,7 @@ using Scada.Web.Plugins;
 using Scada.Web.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -119,11 +120,10 @@ namespace Scada.Web.Code
             string friendlyError;
 
             // check user by server
+            var clientIp = GetIp(username);
             try
             {
-                //获取客户端IP地址
-                var clientIpAddr = httpContext.Connection.RemoteIpAddress.MapToIPv4()?.ToString();
-                result = clientAccessor.ScadaClient.ValidateWebUser(username, password, loginType, browserIdentity, clientIpAddr);
+                result = clientAccessor.ScadaClient.ValidateWebUser(username, password, loginType, browserIdentity, clientIp);
 
                 friendlyError = result.ErrorMessage;
             }
@@ -140,7 +140,7 @@ namespace Scada.Web.Code
                 UserID = result.UserID,
                 RoleID = result.RoleID,
                 SessionID = httpContext.Session.Id,
-                RemoteIP = httpContext.Connection.RemoteIpAddress?.ToString(),
+                RemoteIP = clientIp,
                 UserIsValid = result.IsValid,
                 ErrorMessage = result.ErrorMessage,
                 FriendlyError = friendlyError
@@ -176,6 +176,51 @@ namespace Scada.Web.Code
                     "Unsuccessful login attempt for user {0}, IP {1}: {2}",
                     username, userLoginArgs.RemoteIP, userLoginArgs.ErrorMessage);
                 return SimpleResult.Fail(userLoginArgs.FriendlyError);
+            }
+        }
+
+        private string GetIp(string username)
+        {
+            //获取客户端IP地址
+            var clientIpAddr = httpContext.Connection.RemoteIpAddress.MapToIPv4()?.ToString();
+            string functionReturnValue = null;
+            //Gets IP of actual device versus the proxy (WAP Gateway)
+            functionReturnValue = httpContext.Request.Headers["X-FORWARDED-FOR"]; //functionReturnValue = null
+            if (string.IsNullOrEmpty(functionReturnValue))
+            {
+                functionReturnValue = httpContext.Request.Headers["X-Forwarded-For"];//functionReturnValue = null
+                if (string.IsNullOrEmpty(functionReturnValue))
+                {
+                    //If not using a proxy then get the device IP
+                    if (string.IsNullOrEmpty(functionReturnValue))
+                        functionReturnValue = httpContext.Request.Headers["x-forword-ip"];
+                }
+            }
+            var ipList = new List<string>();
+            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex("(\\d{1,3}\\.){3}\\d{0,3}");
+            if (functionReturnValue != null)
+            {
+                if (regex.IsMatch(functionReturnValue))
+                {
+                    ipList = regex.Matches(functionReturnValue).Select(x=>x.Value).ToList();
+                }
+                regex = null;
+            }
+
+            if (ipList.Any())
+            {
+                webContext.Log.WriteAction("User {0}, IP List: {1}", username, string.Join(",", ipList));
+                ipList.Reverse();//反转顺序
+                LoginOptions loginOptions = webContext.AppConfig.LoginOptions;
+                if (loginOptions != null && loginOptions.ClientIpOrder > 0 && ipList.Count >= loginOptions.ClientIpOrder)
+                {
+                    return ipList.Skip(loginOptions.ClientIpOrder - 1).First();//取第N个
+                }
+                return ipList.First();//取第一个
+            }
+            else
+            {
+                return clientIpAddr;
             }
         }
 

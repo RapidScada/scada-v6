@@ -266,10 +266,128 @@ var mainLayout = {
     selectView: function (viewID) {
         this._activateTab(this.tabs.viewExplorer);
         this.viewExplorer.selectNode(this.viewExplorer.treeViewElem.find(".node[data-viewid=" + viewID + "]"));
+    },
+    showGoogleUser: function () {
+        var googleName = $.cookie('google_name');
+        if (googleName) {
+            $('#Main_userName').html(googleName)
+            $('#Main_userAvator img').attr('src', $.cookie('google_avator'))
+        }
+    },
+    getHistChart: function () {
+        let that = this;
+        $.ajax({
+            url: '/chartfavor/list',
+            type: 'GET',
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (respData) {
+                console.log('ListHistChart', respData);
+                if (respData.ok) {
+                    var rowData = respData.data.data;
+                    that.showHistChart(rowData);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr, status, error);
+            }
+        });
+    },
+    showHistChart: function (rowData) {
+        $('#histChartDropdown').empty();
+        if (rowData.length == 0) {
+            var newElem = $(`<a href="#" class="list-group-item hist-chart-item">
+               <div class="d-flex w-100 justify-content-between">
+                   <h5 class="mb-1">Empty</h5>
+               </div></a>`)
+            $('#histChartDropdown').append(newElem);
+            return;
+        }
+        for (var i = 0; i < rowData.length; i++) {
+            var curData = rowData[i];
+            var curContent = JSON.parse(curData.content);
+            var targetHref = curContent.origin + curContent.path + this.getHistChartSearch(curContent);
+            var newElem = $(`                        
+            <a href="${targetHref}" target="_blank" class="list-group-item hist-chart-item">
+               <div class="d-flex w-100 justify-content-between">
+                   <h5 class="mb-1" style="font-size:1rem;">${curContent.name}</h5>
+                   <small>
+                       <span class="badge bg-secondary text-bg-dark">${curContent.btnName || 'Unknown'}</span>
+                       <span class="badge text-danger hist-chart-del"><i class="fa-regular fa-x"></i></span>
+                   </small>
+               </div>
+            </a>`)
+            newElem.data("data", curData);
+            $('#histChartDropdown').append(newElem);
+        }
+    },
+    getHistChartSearch: function (content) {
+        console.log('content: ', content);
+        if (content.btnName == "Custom") return "?" + content.search;
+        var searchParams = new URLSearchParams(content.search);
+        let startDate = new Date(ScadaUtils.dateFormat(new Date(), "yyyy-MM-dd"));
+        if (content.btnName == "PastMonth") {
+            let daysInCurMonth = ScadaUtils.daysInMonth(startDate.getUTCFullYear(), startDate.getUTCMonth());
+            let daysInMonth = startDate.getUTCDate() === daysInCurMonth
+                ? daysInCurMonth
+                : ScadaUtils.daysInMonth(startDate.getUTCFullYear(), startDate.getUTCMonth() - 1); // previous month
+            content.offsetFromToday = 1 - daysInMonth;
+            content.period = daysInMonth;
+        }
+        if (content.btnName != "Custom") {
+            if (content.offsetFromToday !== 0) {
+                startDate.setUTCDate(startDate.getUTCDate() + (+content.offsetFromToday || 0));
+            }
+            searchParams.set("startDate", startDate.toISOString().substring(0, 10));
+            if (content.period) searchParams.set("period", content.period || 1);
+        }
+        return "?" + searchParams.toString();
+    },
+    delHistChart: function (data) {
+        var content = JSON.parse(data.content)
+        var confirmTips = "Are you sure to delete this favorite [" + content.name + "]?";
+        layer.confirm(confirmTips, { icon: 3, title: 'Del tips' }, function (index) {
+            $.ajax({
+                url: '/chartfavor/delete?id=' + data.id,
+                type: 'POST',
+                contentType: "application/json",
+                dataType: 'json',
+                data: JSON.stringify({}),
+                success: function (data) {
+                    if (data.ok) {
+                        layer.msg('Delete success!');
+                        mainLayout.getHistChart();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr, status, error);
+                    layer.msg('Save with unkonw error!');
+                }
+            });
+            layer.close(index);
+        });
     }
 };
 
 $(document).ready(function () {
     mainLayout.prepare();
     mainLayout.updateLayout();
+    mainLayout.showGoogleUser();
+    mainLayout.getHistChart();
+
+    $(document).on("click", '.hist-chart-item', function (event) {
+        event.preventDefault();
+        var href = $(this).attr('href');
+        $.cookie("histChartObject", JSON.stringify($(this).data('data')), { path: '/' });
+        setTimeout(() => {
+            window.open(href, "_blank")
+        }, 100);
+    });
+
+    $(document).on("click", '.hist-chart-item .hist-chart-del', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        var chartItem = $(this).parents('.hist-chart-item');
+        mainLayout.delHistChart(chartItem.data('data'));
+    });
 });

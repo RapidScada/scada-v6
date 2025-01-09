@@ -721,8 +721,7 @@ namespace Scada.Server.Engine
             {
                 //生成csv文件
                 var filePath = Path.Combine(coreLogic.AppDirs.InstanceDir, "TempFile");
-                //删除10天前的文件
-                if(Directory.Exists(filePath) && Directory.GetCreationTime(filePath) < DateTime.Now.AddDays(-10)) { Directory.Delete(filePath); }
+                DeleteExpiredFiles(filePath);
                 if(!Directory.Exists(filePath)) Directory.CreateDirectory(filePath);
                 var fileFullName = Path.Combine(filePath,$"UserLoginLog_{DateTime.Now:yyyyMMddHHmmss}.csv");
                 using (Stream stream = new FileStream(fileFullName,FileMode.Create,FileAccess.Write))
@@ -754,6 +753,25 @@ namespace Scada.Server.Engine
             CopyBool(csvRes, buffer, ref index);
             CopyString(resMsg, buffer, ref index);
             response.BufferLength = index;
+        }
+
+        /// <summary>
+        /// 删除1天前的日志文件
+        /// </summary>
+        private void DeleteExpiredFiles(string filePath)
+        {
+            try
+            {
+                if (!Directory.Exists(filePath)) return;
+                foreach (string file in Directory.GetFiles(filePath))
+                {
+                    if (File.GetCreationTime(file) < DateTime.Now.AddDays(-1)) File.Delete(file);
+                }
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         /// <summary>
@@ -888,6 +906,111 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
+        /// 用户更新时区
+        /// </summary>
+        private void UpdateUserTimeZone(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            byte[] buffer = request.Buffer;
+            int index = ArgumentIndex;
+            int userID = GetInt32(buffer, ref index);
+            string timeZone = GetString(buffer, ref index);
+
+            var res = coreLogic.UpdateUserTimeZone(userID, timeZone, out string errMsg);
+            buffer = client.OutBuf;
+            index = ArgumentIndex;
+            response = new ResponsePacket(request, buffer);
+            CopyBool(res, buffer, ref index);
+            CopyString(errMsg, buffer, ref index);
+            response.BufferLength = index;
+        }
+
+        #region 收藏历史Chart信息功能
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        private void ListUserHisChart(ConnectedClient client, DataPacket request)
+        {
+            byte[] buffer = request.Buffer;
+            int index = ArgumentIndex;
+            int offset = GetInt32(buffer, ref index);
+            int limit = GetInt32(buffer, ref index);
+            int userID = GetInt32(buffer, ref index);
+
+            var baseTable = coreLogic.ConfigDatabase.UserHistChartTable;
+            var allInfos = baseTable.EnumerateItems().Cast<UserHistChart>();
+            allInfos = allInfos.Where(x => x.UserID == userID).OrderByDescending(x=>x.UpdateTime);
+            var pageInfos = allInfos.Skip(offset).Take(limit).ToList();
+
+            int allCount = allInfos.Count();
+            int pageCount = pageInfos.Count();
+            buffer = client.OutBuf;
+
+            index = ArgumentIndex;
+            ResponsePacket response = new ResponsePacket(request, buffer);
+            CopyInt32(allCount, buffer, ref index); //总量
+            CopyInt32(pageCount, buffer, ref index); //当前页数量
+
+            for (int i = 0; i < pageCount; i++)
+            {
+                var userHistChart = pageInfos[i];
+                CopyInt32(userHistChart.Id, buffer, ref index);
+                CopyInt32(userHistChart.UserID, buffer, ref index);
+                CopyString(userHistChart.Content, buffer, ref index);
+                CopyTime(userHistChart.CreateTime, buffer, ref index);
+                CopyTime(userHistChart.UpdateTime, buffer, ref index);
+            }
+            response.BufferLength = index;
+            client.SendResponse(response);
+        }
+
+        /// <summary>
+        /// 新增、修改
+        /// </summary>
+        private void EditUserHistChart(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            byte[] buffer = request.Buffer;
+            int index = ArgumentIndex;
+            var userHistChart = new UserHistChart();
+            userHistChart.Id = GetInt32(buffer, ref index);
+            userHistChart.UserID = GetInt32(buffer, ref index);
+            userHistChart.Content = GetString(buffer, ref index);
+            userHistChart.CreateTime = GetTime(buffer, ref index);
+            userHistChart.UpdateTime = GetTime(buffer, ref index);
+            var res = coreLogic.EditUserHistChart(userHistChart, out string errMsg);
+
+            buffer = client.OutBuf;
+            index = ArgumentIndex;
+            response = new ResponsePacket(request, buffer);
+            CopyBool(res, buffer, ref index);
+            CopyInt32(userHistChart.Id, buffer, ref index);
+            CopyString(errMsg, buffer, ref index);
+            response.BufferLength = index;
+        }
+
+
+        /// <summary>
+        /// 删除, id=0为清空历史
+        /// </summary>
+        private void DelUserHistChart(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            byte[] buffer = request.Buffer;
+            int index = ArgumentIndex;
+            int id = GetInt32(buffer, ref index);
+            int userID = GetInt32(buffer, ref index);
+
+            var res = coreLogic.DelUserHistChart(id, userID, out string errMsg);
+            buffer = client.OutBuf;
+            index = ArgumentIndex;
+            response = new ResponsePacket(request, buffer);
+            CopyBool(res, buffer, ref index);
+            CopyString(errMsg, buffer, ref index);
+            response.BufferLength = index;
+        }
+
+        #endregion
+
+        /// <summary>
         /// Updates the client mode.
         /// </summary>
         protected override void UpdateClientMode(ConnectedClient client, int clientMode)
@@ -988,12 +1111,25 @@ namespace Scada.Server.Engine
                 case FunctionID.WebCheckPwd:
                     WebCheckPwd(client, request, out response);
                     break;
+                case FunctionID.UpdateUserTimeZone:
+                    UpdateUserTimeZone(client, request, out response);
+                    break;
 
                 case FunctionID.GetUserLoginLogList:
                     GetUserLoginLogList(client, request);
                     break;
                 case FunctionID.DownloadUserLoginLog:
                     DownloadUserLoginLog(client, request, out response);
+                    break;
+
+                case FunctionID.ListUserHisChart:
+                    ListUserHisChart(client, request);
+                    break;
+                case FunctionID.EditUserHistChart:
+                    EditUserHistChart(client, request, out response);
+                    break;
+                case FunctionID.DelUserHistChart:
+                    DelUserHistChart(client, request, out response);
                     break;
                 default:
                     handled = false;

@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaSchemeEditorDictionaries>
+  <Dictionary key="Scada.Scheme.Editor.Editor">
+    <Phrase key="EditorTitle">Редактор схем</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FrmMain">
+    <Phrase key="miFile">&amp;Файл</Phrase>
+    <Phrase key="miFileNew">Новый</Phrase>
+    <Phrase key="miFileOpen">Открыть...</Phrase>
+    <Phrase key="miFileSave">Сохранить</Phrase>
+    <Phrase key="miFileSaveAs">Сохранить как...</Phrase>
+    <Phrase key="miFileOpenBrowser">Открыть браузер</Phrase>
+    <Phrase key="miFileImport">Импорт...</Phrase>
+    <Phrase key="miFileExit">Выход</Phrase>
+    <Phrase key="miEdit">&amp;Правка</Phrase>
+    <Phrase key="miEditCut">Вырезать</Phrase>
+    <Phrase key="miEditCopy">Копировать</Phrase>
+    <Phrase key="miEditPaste">Вставить</Phrase>
+    <Phrase key="miEditPasteSpecial">Специальная вставка...</Phrase>
+    <Phrase key="miEditUndo">Отменить</Phrase>
+    <Phrase key="miEditRedo">Вернуть</Phrase>
+    <Phrase key="miEditPointer">Указатель</Phrase>
+    <Phrase key="miEditDelete">Удалить</Phrase>
+    <Phrase key="miTools">&amp;Инструменты</Phrase>
+    <Phrase key="miToolsOptions">Настройки...</Phrase>
+    <Phrase key="miHelp">&amp;Справка</Phrase>
+    <Phrase key="miHelpAbout">О программе</Phrase>
+    <Phrase key="btnFileNew.ToolTip">Новая схема (Ctrl+N)</Phrase>
+    <Phrase key="btnFileOpen.ToolTip">Открыть схему (Ctrl+O)</Phrase>
+    <Phrase key="btnFileSave.ToolTip">Сохранить схему (Ctrl+S)</Phrase>
+    <Phrase key="miFileSaveAs2">Сохранить как...</Phrase>
+    <Phrase key="btnFileOpenBrowser.ToolTip">Открыть новую вкладку браузера</Phrase>
+    <Phrase key="btnEditCut.ToolTip">Вырезать компоненты схемы (Ctrl+X)</Phrase>
+    <Phrase key="btnEditCopy.ToolTip">Копировать компоненты схемы (Ctrl+C)</Phrase>
+    <Phrase key="btnEditPaste.ToolTip">Вставить компоненты схемы (Ctrl+V)</Phrase>
+    <Phrase key="btnEditUndo.ToolTip">Отменить (Ctrl+Z)</Phrase>
+    <Phrase key="btnEditRedo.ToolTip">Вернуть (Ctrl+Y)</Phrase>
+    <Phrase key="btnSchemePointer.ToolTip">Отменить добавление компонента (Esc)</Phrase>
+    <Phrase key="btnSchemeDelete.ToolTip">Удалить выбранные компоненты (Del)</Phrase>
+    <Phrase key="pageComponents">Компоненты</Phrase>
+    <Phrase key="pageProperties">Свойства</Phrase>
+    <Phrase key="lvgStandard">Стандартные</Phrase>
+    <Phrase key="lvCompTypes.Items[0]">Указатель</Phrase>
+    <Phrase key="lvCompTypes.Items[1]">Статическая надпись</Phrase>
+    <Phrase key="lvCompTypes.Items[2]">Динамическая надпись</Phrase>
+    <Phrase key="lvCompTypes.Items[3]">Статический рисунок</Phrase>
+    <Phrase key="lvCompTypes.Items[4]">Динамический рисунок</Phrase>
+    <Phrase key="CloseSecondInstance">Редактор схем уже запущен.&#13;&#10;Вторая копия будет закрыта.</Phrase>
+    <Phrase key="FailedToStartEditor">Не удалось запустить Редактор схем.&#13;&#10;Смотрите подробности в &#13;&#10;{0}</Phrase>
+    <Phrase key="OpenBrowserError">Ошибка при открытии браузера</Phrase>
+    <Phrase key="PointerItem">Указатель</Phrase>
+    <Phrase key="SchemeFileFilter">Схемы (*.sch)|*.sch|Все файлы (*.*)|*.*</Phrase>
+    <Phrase key="SaveSchemeConfirm">Схема была изменена. Сохранить изменения?</Phrase>
+    <Phrase key="RestartNeeded">Изменения настроек вступят в силу после перезапуска приложения.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FrmPasteSpecial">
+    <Phrase key="this">Специальная вставка</Phrase>
+    <Phrase key="lblInCnlOffset">Увеличить номера входных каналов на</Phrase>
+    <Phrase key="lblCtrlCnlOffset">Увеличить номера каналов управления на</Phrase>
+    <Phrase key="btnPaste">Вставить</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FrmSettings">
+    <Phrase key="this">Настройки</Phrase>
+    <Phrase key="lblWebDir">Директория веб-приложения</Phrase>
+    <Phrase key="gbBrowser">Браузер</Phrase>
+    <Phrase key="rbDefault">По умолчанию</Phrase>
+    <Phrase key="rbChrome">Chrome</Phrase>
+    <Phrase key="rbFirefox">Firefox</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+    <Phrase key="WebDirNotExists">Директория веб-приложения не существует.</Phrase>
+    <Phrase key="ChooseWebDir">Выберите директорию веб-приложения</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.FormState">
+    <Phrase key="LoadFormStateError">Ошибка при загрузке состояния формы</Phrase>
+    <Phrase key="SaveFormStateError">Ошибка при сохранении состояния формы</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Scheme.Editor.Js">
+    <Phrase key="UnableLoadScheme">Не удалось загрузить схему на веб-страницу.</Phrase>
+    <Phrase key="PageNotValid">Веб-страница более не актуальна. Рекомендуется её закрыть.</Phrase>
+    <Phrase key="DataError">Ошибка при обработке данных.</Phrase>
+    <Phrase key="EditorClosed">Редактор схем, вероятно, был закрыт. Рекомендуется закрыть веб-страницу.</Phrase>
+    <Phrase key="BrowserOutdated">Ваш браузер устарел. Установите современный браузер, пожалуйста.</Phrase>
+  </Dictionary>
+</ScadaSchemeEditorDictionaries>

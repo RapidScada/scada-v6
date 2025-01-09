@@ -85,6 +85,13 @@ namespace Scada.Protocol
 
         public const ushort GetUserLoginLogList = 0x1012; //获取用户登录日志
         public const ushort DownloadUserLoginLog = 0x1013; //下载用户登录日志
+        public const ushort UpdateUserTimeZone = 0x1014; //修改用户时区
+
+        // ChartPro历史浏览收藏,CURD
+        public const ushort ListUserHisChart = 0x1020;
+        public const ushort EditUserHistChart = 0x1021;
+        public const ushort DelUserHistChart = 0x1022;
+
 
         private static readonly Dictionary<ushort, string> FunctionNames = new Dictionary<ushort, string>
         {
@@ -114,6 +121,10 @@ namespace Scada.Protocol
             { ControlService, nameof(ControlService) },
             { WriteCommandFile, nameof(WriteCommandFile) },
             { DownloadUserLoginLog, nameof(DownloadUserLoginLog) },
+            { ListUserHisChart, nameof(ListUserHisChart) },
+            { EditUserHistChart, nameof(EditUserHistChart) },
+            { DelUserHistChart, nameof(DelUserHistChart) },
+            { UpdateUserTimeZone, nameof(UpdateUserTimeZone) },
         };
 
         /// <summary>

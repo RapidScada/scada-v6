@@ -31,10 +31,30 @@
             <input id="txtRole" type="text" class="form-control-plaintext" readonly value="@Model.RoleName">
         </div>
     </div>
-    <div class="row">
+    <div class="row" id="timezoneShow">
         <label id="lblTimeZone" for="txtRole" class="col-sm-3 col-form-label">@dict.lblTimeZone</label>
         <div class="col-sm-9">
-            <input id="txtTimeZone" type="text" class="form-control-plaintext" readonly value="@Model.TimeZone">
+            <div class="row">
+                <div class="col-sm-9">
+                    <input id="txtTimeZone" type="text" class="form-control-plaintext" readonly value="@Model.TimeZone">
+                </div>
+                <div class="col-sm-3">
+                    <button type="button" id="timezoneUpdateBtn" class="btn btn-primary">@dict.btnUpdateTimezone</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="timezoneModify" style="display:none;">
+        <label id="lblTimeZone" for="txtRole" class="col-sm-3 col-form-label">@dict.lblTimeZone</label>
+        <div class="col-sm-9">
+            <div class="row">
+                <div class="col-sm-9">
+                    <select class="form-select" aria-label="select role" id="timezonSelect"></select>
+                </div>
+                <div class="col-sm-3">
+                    <button type="button" id="timezoneConfirmBtn" class="btn btn-primary">@dict.btnConfirmTimezone</button>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -86,6 +106,7 @@
 @section Scripts{
     <script src="~/lib/jquery.md5.min.js"></script>
     <script>
+        var timeZoneMapper = JSON.parse('@Model.TimeZoneMapper'.replaceAll('&quot;', '"'));
         $(function () {
             $('#btnModifyPassword').click(function () {
                 $(this).hide();
@@ -100,8 +121,16 @@
             var regNum = new RegExp(/^.*[0-9]+.*$/);
             var regLetter = new RegExp(/(?=.*[a-z])(?=.*[A-Z])/);
             var regSymbol = new RegExp(/[\s~`!@@#$%^&*()\-_=+[\]{}|;:'",<.>/?]/);
-            function layeralert(msg) {
-                layer.alert(msg, { title: 'tips', btn: ['@dict.btnLayerConfirm'] });
+            function layeralert(msg,callback) {
+                layer.alert(msg, { title: 'tips', btn: ['@dict.btnLayerConfirm'] }, callback);
+            }
+            function initTimeZoneOptions(){
+                $("#timezonSelect").append('<option value=""></option>');
+                for (let timezone in timeZoneMapper) {
+                    let timezoneOpt = $("<option value='" + timezone + "'>" + timeZoneMapper[timezone] + "</option>")
+                    if ('@Model.TimeZoneId' == timezone) timezoneOpt.attr("selected", "selected");
+                    $("#timezonSelect").append(timezoneOpt);
+                }
             }
             $('#btnConfirm').click(function () {
                 var oldPwd = $('#txtOldPwd').val();
@@ -124,27 +153,56 @@
                     data: JSON.stringify({ oldPwd: oldPwd, newPwd: newPwd }),
                     success: function (data) {
                         if (data.ok) {
-                            layeralert('@dict.MsgPwdModified');
                             $('#btnModifyPassword').show();
                             $('#pwdDiv').hide();
-                            //修改成功退出登录
-                            setTimeout(function () {
-                                window.location.href = '@Url.Content("~/logout")';
-                            }, 200);
+                            layeralert('@dict.MsgPwdModified',function(){
+                                setTimeout(function () {
+                                    window.location.href = '@Url.Content("~/logout")';
+                                }, 200);
+                            });
+                            
                         }
                         else {
                             layeralert(data.msg);
                         }
                     },
                     error: function (xhr, status, error) {
-                        layeralert('error');
+                        layeralert('unknow error');
                     }
                 });
             });
+            $("#timezoneUpdateBtn").click(function () {
+                $("#timezoneShow").hide();
+                $("#timezoneModify").show();
+            })
+            $("#timezoneConfirmBtn").click(function () {
+                var timeZone = $("#timezonSelect").val();
+                $.ajax({
+                    url: '@Url.Content("/account/updatetimezone")',
+                    type: 'POST',
+                    contentType: "application/json",
+                    dataType: 'json',
+                    data: JSON.stringify({ timeZone: timeZone }),
+                    success: function (data) {
+                        if (data.ok) {
+                            layeralert('@dict.TimeZoneModified',function(){
+                                window.location.reload();
+                            });
+                        }
+                        else {
+                            layeralert(data.msg);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        layeralert('unknow error');
+                    }
+                });
+            })
             $('#btnCancel').click(function () {
                 $('#btnModifyPassword').show();
                 $('#pwdDiv').hide();
             });
+            initTimeZoneOptions();
         })
     </script>
 }

@@ -123,3 +123,10 @@ body {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 12px;
 }
+
+/* custom */
+.custom-tooltip {
+  font-size: 16px;
+  --bs-tooltip-bg: #005089;
+  --bs-tooltip-color: var(--bs-white);
+}

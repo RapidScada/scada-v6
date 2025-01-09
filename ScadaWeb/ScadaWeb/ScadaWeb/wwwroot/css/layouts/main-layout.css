@@ -28,7 +28,7 @@
   padding: 30px 0 0;
   position: fixed;
   right: 0;
-  top: 30px;
+  top: 56px;
   width: 30%;
   z-index: 900;
 }
@@ -72,11 +72,11 @@
 }
 
 body:not(.header-visible) .notif-panel {
-  padding-top: 60px;
+  padding-top: 86px;
   top: 0;
 }
 body:not(.header-visible) .notif-panel .notif-toolbar {
-  top: 30px;
+  top: 56px;
 }
 
 /********** Notification **********/
@@ -205,7 +205,7 @@ body a, body a:active, body a:focus, body a:hover, body a:visited {
   text-decoration: none;
 }
 body.header-visible {
-  padding-top: 30px;
+  padding-top: 56px;
 }
 body.left-panel-visible {
   padding-left: 300px;
@@ -219,16 +219,16 @@ body.left-panel-visible {
   top: 0;
   width: 100%;
   min-width: 300px;
-  height: 30px;
+  height: 56px;
   margin: 0;
   padding: 0;
-  background-color: #23282d;
+  background-color: #002d62;
   color: #eee;
 }
 #Main_divHeader .main-hdr-block {
   position: absolute;
   top: 0;
-  background-color: #23282d;
+  background-color: #002d62;
 }
 #Main_divHeader .main-hdr-block.left {
   left: 0;
@@ -237,14 +237,14 @@ body.left-panel-visible {
   margin-right: 5px;
 }
 #Main_divHeader .main-hdr-block.right {
-  right: 0;
+  right: 15px;
 }
 #Main_divHeader .main-hdr-block.right .main-hdr-btn {
   margin-left: 5px;
 }
 
 #Main_divNoHeaderMenu {
-  height: 30px;
+  height: 56px;
   opacity: 0.5;
   position: fixed;
   right: 0;
@@ -284,17 +284,24 @@ body:not(.full-screen) #Main_spanExitFullscreenBtn {
 #Main_spanAppTitle {
   position: relative;
   display: inline-block;
-  top: 1px;
-  margin-left: 10px;
+  /*top: 1px;
+  margin-left: 10px;*/
   font-family: "Open Sans", sans-serif;
-  font-size: 17px;
+  font-size: 22px;
   white-space: nowrap;
+}
+#Main_spanAppTitle img {
+  height: 53px;
+}
+#Main_spanAppTitle .product_name {
+  border-left: solid 2px white;
+  padding-left: 15px;
 }
 
 .main-hdr-btn {
   display: inline-block;
-  height: 30px;
-  line-height: 30px;
+  height: 56px;
+  line-height: 56px;
   margin: 0;
   padding: 0 10px;
   cursor: pointer;
@@ -345,7 +352,7 @@ body:not(.full-screen) #Main_spanExitFullscreenBtn {
 }
 
 body.header-visible #Main_divLeftPanel {
-  top: 30px;
+  top: 56px;
 }
 body.left-panel-visible #Main_divLeftPanel {
   display: block;
@@ -406,4 +413,12 @@ body.left-panel-visible #Main_divLeftPanel {
   height: 0;
   border: none;
   visibility: hidden;
+}
+
+.hist-chart-item {
+  background-color: #343a40 !important;
+  color: white !important;
+}
+.hist-chart-item p {
+  margin: 0 !important;
 }

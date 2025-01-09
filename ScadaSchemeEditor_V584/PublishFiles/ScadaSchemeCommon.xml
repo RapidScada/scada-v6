@@ -1,0 +1,2309 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ScadaSchemeCommon</name>
+    </assembly>
+    <members>
+        <member name="T:Scada.Scheme.CompFactory">
+            <summary>
+            The base class for creating scheme components
+            <para>Базовый класс для создания компонентов схемы</para>
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.CompFactory.NameEquals(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Определить, что имена типов равны
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.CompFactory.CreateComponent(System.String,System.Boolean)">
+            <summary>
+            Создать компонент схемы
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.CompLibSpec">
+            <summary>
+            The base class for scheme component library specification
+            <para>Родительский класс спецификации библиотеки компонентов схем</para>
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.CompLibSpec.compItems">
+            <summary>
+            Элементы списка компонентов в редакторе
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.CompLibSpec.compFactory">
+            <summary>
+            Фабрика для создания компонентов
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.CompLibSpec.#ctor">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.CompLibSpec.XmlPrefix">
+            <summary>
+            Получить префикс XML-элементов
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.CompLibSpec.XmlNs">
+            <summary>
+            Получить пространство имён XML-элементов
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.CompLibSpec.GroupHeader">
+            <summary>
+            Получить заголовок группы в редакторе
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.CompLibSpec.CompItems">
+            <summary>
+            Получить элементы списка компонентов в редакторе
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.CompLibSpec.CompFactory">
+            <summary>
+            Получить фабрику для создания компонентов
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.CompLibSpec.Styles">
+            <summary>
+            Получить ссылки на файлы CSS, которые необходимы для работы компонентов
+            </summary>
+            <remarks>Путь указывается относительно директории плагинов</remarks>
+        </member>
+        <member name="P:Scada.Scheme.CompLibSpec.Scripts">
+            <summary>
+            Получить ссылки на файлы JavaScript, которые необходимы для работы компонентов
+            </summary>
+            <remarks>Путь указывается относительно директории плагинов</remarks>
+        </member>
+        <member name="M:Scada.Scheme.CompLibSpec.CreateCompItems">
+            <summary>
+            Создать элементы списка компонентов
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.CompLibSpec.CreateCompFactory">
+            <summary>
+            Создать фабрику компонентов
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.CompLibSpec.Validate(System.String@)">
+            <summary>
+            Проверить, что библиотека компонентов пригодна к использованию
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.CompManager">
+            <summary>
+            Manages scheme components.
+            <para>Менеджер, управляющий компонентами схемы.</para>
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.CompManager.CompLibMask">
+            <summary>
+            Маска для поиска файлов библиотек компонентов.
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.CompManager.StandardCompTypes">
+            <summary>
+            Стандартные типы компонентов, ключ - полное имя типа.
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.CompManager.instance">
+            <summary>
+            Экземпляр объекта менеджера.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.CompManager.#cctor">
+            <summary>
+            Статический конструктор.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.CompManager.#ctor">
+            <summary>
+            Конструктор, ограничивающий создание объекта из других классов.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.CompManager.LoadErrors">
+            <summary>
+            Получить ошибки при загрузке библиотек.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.CompManager.ClearDicts">
+            <summary>
+            Очистить словари
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.CompManager.AddComponents(Scada.Scheme.ISchemeComp,Scada.Scheme.Model.PropertyGrid.AttrTranslator)">
+            <summary>
+            Добавить компоненты в словари.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.CompManager.TypeIsStrandard(System.Type)">
+            <summary>
+            Проверить, что тип компонента относится к стандартным типам.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.CompManager.Init(Scada.Web.AppDirs,Utils.ILog)">
+            <summary>
+            Инициализировать менеджер компонентов.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.CompManager.LoadCompFromFiles">
+            <summary>
+            Загрузить компоненты из файлов.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.CompManager.RetrieveCompFromPlugins(System.Collections.Generic.List{Scada.Web.Plugins.PluginSpec})">
+            <summary>
+            Извлечь компоненты из загруженных плагинов.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.CompManager.CreateComponent(System.Xml.XmlNode,System.String@)">
+            <summary>
+            Создать компонент на основе XML-узла.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.CompManager.CreateComponent(System.String)">
+            <summary>
+            Создать компонент заданного типа.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.CompManager.GetSpecByType(System.Type)">
+            <summary>
+            Получить спецификацию библиотеки по типу компонента.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.CompManager.GetSortedSpecs">
+            <summary>
+            Получить спецификации библиотек, отсортированные по заголовкам групп.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.CompManager.GetAllStyles">
+            <summary>
+            Получить объединённый список стилей компонентов.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.CompManager.GetAllScripts">
+            <summary>
+            Получить объединённый список скриптов компонентов.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.CompManager.GetInstance">
+            <summary>
+            Получить единственный экземпляр менеджера.
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.CompItem">
+            <summary>
+            Item of the component list in the editor
+            <para>Элемент списка компонентов в редакторе</para>
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.CompItem.#ctor(System.Drawing.Image,System.Type)">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.CompItem.#ctor(System.Drawing.Image,System.String,System.Type)">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.CompItem.Icon">
+            <summary>
+            Получить иконку, отображаемую в редакторе
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.CompItem.DisplayName">
+            <summary>
+            Получить наименование, отображаемое в редакторе
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.CompItem.CompType">
+            <summary>
+            Получить тип компонента
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.CompItem.GetDisplayName(System.Type)">
+            <summary>
+            Получить отображаемое наименование из словарей
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.DataTransfer.ComponentsDTO">
+            <summary>
+            The class for transfer scheme components
+            <para>Класс для передачи компонентов схемы</para>
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.DataTransfer.ComponentsDTO.#ctor">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.DataTransfer.ComponentsDTO.#ctor(System.Int32)">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.DataTransfer.ComponentsDTO.EndOfComponents">
+            <summary>
+            Получить или установить признак, что считаны все компоненты схемы
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.DataTransfer.ComponentsDTO.Components">
+            <summary>
+            Получить компоненты схемы
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.DataTransfer.ComponentsDTO.CopyComponents(System.Collections.Generic.IList{Scada.Scheme.Model.BaseComponent},System.Int32,System.Int32)">
+            <summary>
+            Копировать заданные компоненты в объект для передачи данных
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.DataTransfer.ImageDTO">
+            <summary>
+            The class for transfer scheme image
+            <para>Класс для передачи изображения схемы</para>
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.DataTransfer.ImageDTO.#ctor">
+            <summary>
+            Конструктор, ограничивающий создание объекта без параметров
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.DataTransfer.ImageDTO.#ctor(Scada.Scheme.Model.Image)">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.DataTransfer.ImageDTO.Name">
+            <summary>
+            Получить наименование
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.DataTransfer.ImageDTO.MediaType">
+            <summary>
+            Получить медиа-тип
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.DataTransfer.ImageDTO.Data">
+            <summary>
+            Получить данные в формате base 64
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.DataTransfer.ImageDTO.SetMediaType">
+            <summary>
+            Установить медиа-тип на основе наименования
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.DataTransfer.ImagesDTO">
+            <summary>
+            The class for transfer scheme images
+            <para>Класс для передачи изображений схемы</para>
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.DataTransfer.ImagesDTO.#ctor">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.DataTransfer.ImagesDTO.EndOfImages">
+            <summary>
+            Получить или установить признак, что считаны все изображения схемы
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.DataTransfer.ImagesDTO.Images">
+            <summary>
+            Получить изображения схемы
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.DataTransfer.ImagesDTO.CopyImages(System.Collections.Generic.ICollection{Scada.Scheme.Model.Image},System.Int32,System.Int32)">
+            <summary>
+            Копировать заданные изображения в объект для передачи данных
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.DataTransfer.SchemeDocDTO">
+            <summary>
+            The class for transfer scheme document properties
+            <para>Класс для передачи свойств документа схемы</para>
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.DataTransfer.SchemeDocDTO.#ctor">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.DataTransfer.SchemeDocDTO.SchemeDoc">
+            <summary>
+            Получить или установить свойства схемы
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.DataTransfer.SchemeDTO">
+            <summary>
+            The base class for scheme data transfer objects
+            <para>Базовый класс для объектов передачи данных схемы</para>
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.DataTransfer.SchemeDTO.#ctor">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.DataTransfer.SchemeDTO.ViewStamp">
+            <summary>
+            Получить или установить метку представления, уникальную в пределах приложения
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.DataTransfer.SchemeDTO.EditorUnknown">
+            <summary>
+            Получить или установить признак, что заданный в запросе Редактор схем неизвестен
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.ISchemeComp">
+            <summary>
+            Indicates that a plugin provides scheme components
+            <para>Показывает, что плагин предоставляет компоненты схем</para>
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.ISchemeComp.CompLibSpec">
+            <summary>
+            Получить спецификацию библиотеки компонентов
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.BaseComponent">
+            <summary>
+            The base class for scheme component.
+            <para>Базовый класс компонента схемы.</para>
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.BaseComponent.MaxAuxTextLength">
+            <summary>
+            Макс. длина произвольного текста в отображаемом имени.
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.BaseComponent.schemeView">
+            <summary>
+            Ссылка на представление схемы.
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.BaseComponent.serBinder">
+            <summary>
+            Ссылка на объект, контролирующий загрузку классов при клонировании.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.BaseComponent.#ctor">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.BaseComponent.BackColor">
+            <summary>
+            Получить или установить цвет фона.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.BaseComponent.BorderColor">
+            <summary>
+            Получить или установить цвет границы.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.BaseComponent.BorderWidth">
+            <summary>
+            Получить или установить ширину границы.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.BaseComponent.ToolTip">
+            <summary>
+            Получить или установить подсказку.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.BaseComponent.ID">
+            <summary>
+            Получить или установить идентификатор.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.BaseComponent.Name">
+            <summary>
+            Получить или установить наименование.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.BaseComponent.TypeName">
+            <summary>
+            Получить имя типа компонента.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.BaseComponent.Location">
+            <summary>
+            Получить или установить положение.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.BaseComponent.Rotate">
+            <summary>
+            旋转角度
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.BaseComponent.Size">
+            <summary>
+            Получить или установить размер.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.BaseComponent.ZIndex">
+            <summary>
+            Получить или установить порядок отображения.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.BaseComponent.SchemeView">
+            <summary>
+            Получить или установить ссылку на представление схемы.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.BaseComponent.AuxData">
+            <summary>
+            附加属性
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.BaseComponent.BuildDisplayName(System.String)">
+            <summary>
+            Builds the display name for an editor.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.BaseComponent.BuildDisplayName(System.Int32,System.String,System.String,System.String)">
+            <summary>
+            Builds the display name for an editor.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.BaseComponent.GetInCnlNums">
+            <summary>
+            Gets the input channel numbers associated with the component.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.BaseComponent.GetCtrlCnlNums">
+            <summary>
+            Gets the output channel numbers associated with the component.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.BaseComponent.LoadFromXml(System.Xml.XmlNode)">
+            <summary>
+            Загрузить конфигурацию компонента из XML-узла.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.BaseComponent.SaveToXml(System.Xml.XmlElement)">
+            <summary>
+            Сохранить конфигурацию компонента в XML-узле.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.BaseComponent.Clone">
+            <summary>
+            Клонировать объект.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.BaseComponent.ToString">
+            <summary>
+            Вернуть строковое представление объекта.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.BaseComponent.OnItemChanged(Scada.Scheme.Model.SchemeChangeTypes,System.Object,System.Object)">
+            <summary>
+            Вызвать событие ItemChanged.
+            </summary>
+        </member>
+        <member name="E:Scada.Scheme.Model.BaseComponent.ItemChanged">
+            <summary>
+            Событие возникающее при изменении компонента.
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.CompAlignEnum">
+            <summary>
+            元素对齐
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.CompAlignEnum.Left">
+            <summary>
+            左
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.CompAlignEnum.Right">
+            <summary>
+            右
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.CompAlignEnum.Top">
+            <summary>
+            上
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.CompAlignEnum.Bottom">
+            <summary>
+            下
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.CompAlignEnum.Verticle">
+            <summary>
+            水平
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.CompAlignEnum.Center">
+            <summary>
+            垂直
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.CompAlignEnum.PicSide">
+            <summary>
+            左右均匀
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.CompAlignEnum.PicCenter">
+            <summary>
+            上下均匀
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.DataTypes.Actions">
+            <summary>
+            Actions of a dynamic component
+            <para>Действия динамического элемента</para>
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.Actions.None">
+            <summary>
+            Не задано
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.Actions.DrawDiagram">
+            <summary>
+            Построить график
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.Actions.SendCommand">
+            <summary>
+            Отправить команду
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.Actions.SendCommandNow">
+            <summary>
+            Отправить команду сразу
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.DataTypes.CompareOperators">
+            <summary>
+            Compare operators
+            <para>Операторы сравнения</para>
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.CompareOperators.Equal">
+            <summary>
+            Равно
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.CompareOperators.NotEqual">
+            <summary>
+            Не равно
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.CompareOperators.LessThan">
+            <summary>
+            Меньше
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.CompareOperators.LessThanEqual">
+            <summary>
+            Меньше или равно
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.CompareOperators.GreaterThan">
+            <summary>
+            Больше
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.CompareOperators.GreaterThanEqual">
+            <summary>
+            Больше или равно
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.DataTypes.Condition">
+            <summary>
+            The base class defining the condition.
+            <para>Базовый класс, определяющий условие.</para>
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.Condition.ConditionCat">
+            <summary>
+            Наименование категории условия.
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.Condition.schemeView">
+            <summary>
+            Ссылка на представление схемы.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.DataTypes.Condition.#ctor">
+            <summary>
+            Конструктор.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DataTypes.Condition.CompareOperator1">
+            <summary>
+            Получить или установить 1-й оператор сравнения.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DataTypes.Condition.CompareArgument1">
+            <summary>
+            Получить или установить аргумент для сравнения 1-м оператором.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DataTypes.Condition.LogicalOperator">
+            <summary>
+            Получить или установить логический оператор, применяемый к результатам сравнения.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DataTypes.Condition.CompareOperator2">
+            <summary>
+            Получить или установить 2-й оператор сравнения.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DataTypes.Condition.CompareArgument2">
+            <summary>
+            Получить или установить аргумент для сравнения 2-м оператором.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DataTypes.Condition.SchemeView">
+            <summary>
+            Получить или установить ссылку на представление схемы.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.DataTypes.Condition.OperToString(Scada.Scheme.Model.DataTypes.CompareOperators)">
+            <summary>
+            Преобразовать оператор сравнения в строку.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.DataTypes.Condition.OperToString(Scada.Scheme.Model.DataTypes.LogicalOperators)">
+            <summary>
+            Преобразовать логический оператор в строку.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.DataTypes.Condition.LoadFromXml(System.Xml.XmlNode)">
+            <summary>
+            Загрузить условие из XML-узла.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.DataTypes.Condition.SaveToXml(System.Xml.XmlElement)">
+            <summary>
+            Сохранить условие в XML-узле.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.DataTypes.Condition.Clone">
+            <summary>
+            Клонировать объект.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.DataTypes.Condition.ToString">
+            <summary>
+            Получить строковое представление объекта.
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.DataTypes.ImageCondition">
+            <summary>
+            Condition that defines an image
+            <para>Условие, которое определяет изображение</para>
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.DataTypes.ImageCondition.#ctor">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DataTypes.ImageCondition.ImageName">
+            <summary>
+            Получить или установить наименование изображения, отображаемого при выполнении условия
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.DataTypes.ImageCondition.LoadFromXml(System.Xml.XmlNode)">
+            <summary>
+            Загрузить условие из XML-узла
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.DataTypes.ImageCondition.SaveToXml(System.Xml.XmlElement)">
+            <summary>
+            Сохранить условие в XML-узле
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.DataTypes.ImageStretches">
+            <summary>
+            Ways of stretching image
+            <para>Способы растяжения изображения</para>
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.ImageStretches.None">
+            <summary>
+            Не задано
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.ImageStretches.Fill">
+            <summary>
+            Заполнить заданный размер
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.ImageStretches.Zoom">
+            <summary>
+            Растянуть пропорционально в рамках заданного размера
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.DataTypes.LogicalOperators">
+            <summary>
+            Logical operators
+            <para>Логические операторы</para>
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.LogicalOperators.None">
+            <summary>
+            Не задан
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.LogicalOperators.And">
+            <summary>
+            И
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.LogicalOperators.Or">
+            <summary>
+            Или
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.DataTypes.Point">
+            <summary>
+            Point in a two-dimensional plane
+            <para>Точка в двумерной плоскости</para>
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.Point.Default">
+            <summary>
+            Точка по умолчанию
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.DataTypes.Point.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DataTypes.Point.X">
+            <summary>
+            Получить или установить координату X
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DataTypes.Point.Y">
+            <summary>
+            Получить или установить координату Y
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.DataTypes.Point.GetChildAsPoint(System.Xml.XmlNode,System.String)">
+            <summary>
+            Получить значение дочернего XML-узла в виде точки
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.DataTypes.Point.AppendElem(System.Xml.XmlElement,System.String,Scada.Scheme.Model.DataTypes.Point)">
+            <summary>
+            Создать и добавить XML-элемент точки
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.DataTypes.ShowValueKinds">
+            <summary>
+            Kinds of displaying input channel value of a dynamic component
+            <para>Виды отображения значения входного канала динамического компонента</para>
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.ShowValueKinds.NotShow">
+            <summary>
+            Нет
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.ShowValueKinds.ShowWithUnit">
+            <summary>
+            С размерностью
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.ShowValueKinds.ShowWithoutUnit">
+            <summary>
+            Без размерности
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.DataTypes.Size">
+            <summary>
+            Size in two-dimensional space
+            <para>Размер в двумерном пространстве</para>
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.Size.Zero">
+            <summary>
+            Нулевой размер
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.Size.Default">
+            <summary>
+            Размер по умолчанию
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.DataTypes.Size.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DataTypes.Size.Width">
+            <summary>
+            Получить или установить ширину
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DataTypes.Size.Height">
+            <summary>
+            Получить или установить высоту
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.DataTypes.Size.GetChildAsSize(System.Xml.XmlNode,System.String,System.Nullable{Scada.Scheme.Model.DataTypes.Size})">
+            <summary>
+            Получить значение дочернего XML-узла в виде размера
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.DataTypes.Size.AppendElem(System.Xml.XmlElement,System.String,Scada.Scheme.Model.DataTypes.Size)">
+            <summary>
+            Создать и добавить XML-элемент размера
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.DataTypes.Font">
+            <summary>
+            Defines a font
+            <para>Определяет шрифт</para>
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.Font.DefaultName">
+            <summary>
+            Наименование по умолчанию
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.Font.DefaultSize">
+            <summary>
+            Размер по умолчанию
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.Font.Default">
+            <summary>
+            Шрифт по умолчанию
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.DataTypes.Font.#ctor">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DataTypes.Font.Name">
+            <summary>
+            Получить или установить наименование
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DataTypes.Font.Size">
+            <summary>
+            Получить или установить размер
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DataTypes.Font.Bold">
+            <summary>
+            Получить или установить признак, что шрифт жирный
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DataTypes.Font.Italic">
+            <summary>
+            Получить или установить признак, что шрифт курсив
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DataTypes.Font.Underline">
+            <summary>
+            Получить или установить признак, что шрифт подчёркнутый
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.DataTypes.Font.GetChildAsFont(System.Xml.XmlNode,System.String)">
+            <summary>
+            Получить значение дочернего XML-узла в виде шрифта
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.DataTypes.Font.AppendElem(System.Xml.XmlElement,System.String,Scada.Scheme.Model.DataTypes.Font)">
+            <summary>
+            Создать и добавить XML-элемент шрифта
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.DataTypes.Font.Clone">
+            <summary>
+            Клонировать объект
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.DataTypes.HorizontalAlignments">
+            <summary>
+            Horizontal alignments
+            <para>Горизонтальные выравнивания</para>
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.HorizontalAlignments.Left">
+            <summary>
+            Слева
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.HorizontalAlignments.Center">
+            <summary>
+            По центру
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.HorizontalAlignments.Right">
+            <summary>
+            Справа
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.DataTypes.VerticalAlignments">
+            <summary>
+            Vertical alignments
+            <para>Вертикальные выравнивания</para>
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.VerticalAlignments.Top">
+            <summary>
+            Сверху
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.VerticalAlignments.Center">
+            <summary>
+            По центру
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DataTypes.VerticalAlignments.Bottom">
+            <summary>
+            Снизу
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.DynamicPicture">
+            <summary>
+            Scheme component that represents dynamic picture
+            <para>Компонент схемы, представляющий динамический рисунок</para>
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.DynamicPicture.#ctor">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DynamicPicture.BackColorOnHover">
+            <summary>
+            Получить или установить цвет фона при наведении указателя мыши
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DynamicPicture.BorderColorOnHover">
+            <summary>
+            Получить или установить цвет рамки при наведении указателя мыши
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DynamicPicture.ImageOnHoverName">
+            <summary>
+            Получить или установить наименование изображения, отображаемого при наведении указателя мыши
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DynamicPicture.Action">
+            <summary>
+            Получить или установить действие
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DynamicPicture.Conditions">
+            <summary>
+            Получить условия вывода изображений
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DynamicPicture.InCnlNum">
+            <summary>
+            Получить или установить номер входного канала
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DynamicPicture.CtrlCnlNum">
+            <summary>
+            Получить или установить номер канала управления
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.DynamicPicture.LoadFromXml(System.Xml.XmlNode)">
+            <summary>
+            Загрузить конфигурацию компонента из XML-узла
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.DynamicPicture.SaveToXml(System.Xml.XmlElement)">
+            <summary>
+            Сохранить конфигурацию компонента в XML-узле
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.DynamicPicture.Clone">
+            <summary>
+            Клонировать объект
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.DynamicText">
+            <summary>
+            Scheme component that represents dynamic text
+            <para>Компонент схемы, представляющий динамическую надпись</para>
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.DynamicText.DefaultText">
+            <summary>
+            Текст надписи по умолчанию
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.DynamicText.#ctor">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DynamicText.BackColorOnHover">
+            <summary>
+            Получить или установить цвет фона при наведении указателя мыши
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DynamicText.BorderColorOnHover">
+            <summary>
+            Получить или установить цвет рамки при наведении указателя мыши
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DynamicText.ForeColorOnHover">
+            <summary>
+            Получить или установить цвет текста при наведени указателя мыши
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DynamicText.UnderlineOnHover">
+            <summary>
+            Получить или установить признак подчёркивания при наведении указателя мыши
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DynamicText.Action">
+            <summary>
+            Получить или установить действие
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DynamicText.ShowValue">
+            <summary>
+            Получить или установить признак вывода значения входного канала
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DynamicText.InCnlNum">
+            <summary>
+            Получить или установить номер входного канала
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.DynamicText.CtrlCnlNum">
+            <summary>
+            Получить или установить номер канала управления
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.DynamicText.LoadFromXml(System.Xml.XmlNode)">
+            <summary>
+            Загрузить конфигурацию компонента из XML-узла
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.DynamicText.SaveToXml(System.Xml.XmlElement)">
+            <summary>
+            Сохранить конфигурацию компонента в XML-узле
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.IDynamicComponent">
+            <summary>
+            Specifies scheme components bound to input or output channels.
+            <para>Определяет компоненты схемы, привязаные к входным каналам или каналам управления.</para>
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.IDynamicComponent.Action">
+            <summary>
+            Получить или установить действие.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.IDynamicComponent.InCnlNum">
+            <summary>
+            Получить или установить номер входного канала.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.IDynamicComponent.CtrlCnlNum">
+            <summary>
+            Получить или установить номер канала управления.
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.Image">
+            <summary>
+            Image of a scheme
+            <para>Изображение схемы</para>
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.Image.#ctor">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.Image.Name">
+            <summary>
+            Получить или установить наименование
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.Image.Data">
+            <summary>
+            Получить или установить данные
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.Image.LoadFromXml(System.Xml.XmlNode)">
+            <summary>
+            Загрузить изображение из XML-узла
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.Image.SaveToXml(System.Xml.XmlElement)">
+            <summary>
+            Сохранить изображение в XML-узле
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.Image.Copy">
+            <summary>
+            Копировать объект
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.IObservableItem">
+            <summary>
+            Specifies items whose changes are observed
+            <para>Определяет элементы, изменения которых отслеживаются</para>
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.IObservableItem.OnItemChanged(Scada.Scheme.Model.SchemeChangeTypes,System.Object,System.Object)">
+            <summary>
+            Вызвать событие ItemChanged
+            </summary>
+        </member>
+        <member name="E:Scada.Scheme.Model.IObservableItem.ItemChanged">
+            <summary>
+            Событие возникающее при изменении элемента
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.ISchemeViewAvailable">
+            <summary>
+            Defines the scheme view reference.
+            <para>Определяет ссылку на представление схемы.</para>
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.ISchemeViewAvailable.SchemeView">
+            <summary>
+            Gets or sets the reference to a scheme view.
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.ItemChangedEventHandler">
+            <summary>
+            Represents a method that will handle an event raised when a scheme item is changed
+            <para>Представляет метод для обработки события, возникающего при изменении элемента схемы</para>
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.IUniqueItem">
+            <summary>
+            Specifies items with unique keys
+            <para>Определяет элементы с уникальными ключами</para>
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.IUniqueItem.KeyIsUnique(System.String)">
+            <summary>
+            Проверить ключ на уникальность
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.AttrTranslator">
+            <summary>
+            Type attributes translation
+            <para>Перевод атрибутов типа</para>
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.AttrTranslator.PropAttrs">
+            <summary>
+            Атрибуты свойства
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.AttrTranslator.PropAttrs.#ctor">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.PropertyGrid.AttrTranslator.PropAttrs.DisplayName">
+            <summary>
+            Получить или установить отображаемое имя
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.PropertyGrid.AttrTranslator.PropAttrs.Category">
+            <summary>
+            Получить или установить категорию
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.PropertyGrid.AttrTranslator.PropAttrs.Description">
+            <summary>
+            Получить или установить описание
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.AttrTranslator.GetPropAttrsDict(Scada.Localization.Dict)">
+            <summary>
+            Получить словарь атрибутов свойств
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.AttrTranslator.TranslateAttrs(System.Type)">
+            <summary>
+            Перевести атрибуты заданного типа
+            </summary>
+            <remarks>Используется словарь с ключём, совпадающим с полным именем типа</remarks>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.BooleanConverter">
+            <summary>
+            Converter of boolean values for PropertyGrid which uses 'Yes' and 'No' labels
+            <para>Преобразователь логических значений для PropertyGrid, который использует обозначения 'Да' и 'Нет'</para>
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.Categories">
+            <summary>
+            Categories of PropertyGrid
+            <para>Категории PropertyGrid</para>
+            </summary>
+            <remarks>
+            Predefined categories:
+            https://msdn.microsoft.com/en-us/library/system.componentmodel.categoryattribute(v=vs.110).aspx
+            </remarks>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.CategoryAttribute">
+            <summary>
+            Specifies the category displayed in PropertyGrid which can be changed programmatically
+            <para>Задаёт категорию, отображаемую в PropertyGrid, которая может быть изменена программно</para>
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.CategoryAttribute.#ctor">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.CategoryAttribute.#ctor(System.String)">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.PropertyGrid.CategoryAttribute.CategoryName">
+            <summary>
+            Получить или установить наименование категории
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.CategoryAttribute.GetLocalizedString(System.String)">
+            <summary>
+            Вывести локализованное имя категории
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.ComponentConverter">
+            <summary>
+            Converter of component ID for PropertyGrid.
+            <para>Преобразователь идентификатора компонента для PropertyGrid.</para>
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.ComponentEditor">
+            <summary>
+            Component selection editor for PropertyGrid.
+            <para>Редактор выбора компонента для PropertyGrid.</para>
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.RangeEditor">
+            <summary>
+            Integer range editor for PropertyGrid.
+            <para>Редактор диапазона целых числел для PropertyGrid.</para>
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.FrmRangeDialog">
+            <summary>
+            Form for editing range of integers.
+            <para>Форма редактирования диапазона целых чисел.</para>
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.FrmRangeDialog.#ctor">
+            <summary>
+            Initializes a new instance of the class.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.FrmRangeDialog.#ctor(System.Collections.Generic.ICollection{System.Int32})">
+            <summary>
+            Initializes a new instance of the class.
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.PropertyGrid.FrmRangeDialog.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.FrmRangeDialog.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.FrmRangeDialog.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.RangeConverter">
+            <summary>
+            Converter of integer range for PropertyGrid.
+            <para>Преобразователь диапазона целых числел для PropertyGrid.</para>
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.CollectionConverter">
+            <summary>
+            Converter of collections for PropertyGrid which reflects existence of items.
+            <para>Преобразователь коллекций для PropertyGrid, который отображает существование элементов.</para>
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.ColorEditor">
+            <summary>
+            Editor of color for PropertyGrid.
+            <para>Редактор цвета для PropertyGrid.</para>
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.ColorEditor.ColorComparer">
+            <summary>
+            Сравнение цветов по восприятию.
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.CollectionEditor">
+            <summary>
+            Collection editor for PropertyGrid.
+            <para>Редактор коллекции для PropertyGrid.</para>
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.CtrlSvgViewer">
+            <summary>
+            Control for displaying SVG images.
+            <para>Элемент управления для отображения изображений в формате SVG.</para>
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.CtrlSvgViewer.#ctor">
+            <summary>
+            Initializes a new instance of the class.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.CtrlSvgViewer.ShowImage(System.Byte[])">
+            <summary>
+            Shows the specified image.
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.PropertyGrid.CtrlSvgViewer.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.CtrlSvgViewer.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.CtrlSvgViewer.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.ExpandableObjectConverter">
+            <summary>
+            Converter of objects for PropertyGrid which reflects existence of an object
+            <para>Преобразователь объектов для PropertyGrid, который отображает существование объекта</para>
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.FrmCollectionDialog">
+            <summary>
+            Form for editing collection.
+            <para>Форма редактирования коллекции.</para>
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.FrmCollectionDialog.#ctor">
+            <summary>
+            Initializes a new instance of the class.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.FrmCollectionDialog.#ctor(System.Collections.IList,System.Type,Scada.Scheme.Model.ISchemeViewAvailable)">
+            <summary>
+            Initializes a new instance of the class.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.FrmCollectionDialog.SetBtnsEnabled">
+            <summary>
+            Enables or disables the buttons.
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.PropertyGrid.FrmCollectionDialog.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.FrmCollectionDialog.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.FrmCollectionDialog.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.DescriptionAttribute">
+            <summary>
+            Specifies the description for a property displayed in PropertyGrid which can be changed programmatically
+            <para>Задаёт описание свойства, отображаемое в PropertyGrid, которое может быть изменено программно</para>
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.DescriptionAttribute.#ctor">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.DescriptionAttribute.#ctor(System.String)">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.PropertyGrid.DescriptionAttribute.DescriptionValue">
+            <summary>
+            Получить или установить описание
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.DisplayNameAttribute">
+            <summary>
+            Specifies the name for a property displayed in PropertyGrid which can be changed programmatically
+            <para>Задаёт имя свойства, отображаемое в PropertyGrid, которое может быть изменено программно</para>
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.DisplayNameAttribute.#ctor">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.DisplayNameAttribute.#ctor(System.String)">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.PropertyGrid.DisplayNameAttribute.DisplayNameValue">
+            <summary>
+            Получить или установить отображаемое имя
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.EnumConverter">
+            <summary>
+            Converter of enumerations for PropertyGrid which reflects element description
+            <para>Преобразователь перечислений для PropertyGrid, который отображает описание элемента</para>
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.FontConverter">
+            <summary>
+            Converter of fonts for PropertyGrid
+            <para>Преобразователь шрифтов для PropertyGrid</para>
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.FontEditor">
+            <summary>
+            Editor of font for PropertyGrid
+            <para>Редактор шрифта для PropertyGrid</para>
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.FrmFontDialog">
+            <summary>
+            Form for editing font
+            <para>Форма редактирования шрифта</para>
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.FrmFontDialog.FontListItem">
+            <summary>
+            Элемент списка шрифтов
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.FrmFontDialog.FontListItem.#ctor(System.Drawing.FontFamily)">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.PropertyGrid.FrmFontDialog.FontListItem.FontFamily">
+            <summary>
+            Получить группу шрифтов
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.FrmFontDialog.FontListItem.ToString">
+            <summary>
+            Получить строковое представление объекта
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.FrmFontDialog.#ctor">
+            <summary>
+            Конструктор, ограничивающий создание объекта без параметров
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.FrmFontDialog.#ctor(Scada.Scheme.Model.DataTypes.Font)">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.PropertyGrid.FrmFontDialog.FontResult">
+            <summary>
+            Получить шрифт в результате редактирования
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.FrmFontDialog.FillFontList">
+            <summary>
+            Заполнить список доступных шрифтов
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.PropertyGrid.FrmFontDialog.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.FrmFontDialog.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.FrmFontDialog.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.FrmImageDialog">
+            <summary>
+            Form for editing image dictionary.
+            <para>Форма редактирования словаря изображений.</para>
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.FrmImageDialog.#ctor">
+            <summary>
+            Конструктор, ограничивающий создание объекта без параметров.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.FrmImageDialog.#ctor(System.Collections.Generic.Dictionary{System.String,Scada.Scheme.Model.Image},Scada.Scheme.Model.IObservableItem)">
+            <summary>
+            Конструктор для режима редактирования словаря изображений.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.FrmImageDialog.#ctor(System.String,System.Collections.Generic.Dictionary{System.String,Scada.Scheme.Model.Image},Scada.Scheme.Model.IObservableItem)">
+            <summary>
+            Конструктор для режима выбора изображения.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.PropertyGrid.FrmImageDialog.CanSelectImage">
+            <summary>
+            Получить признак, что форма позволяет выбирать изображение.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.PropertyGrid.FrmImageDialog.SelectedImageName">
+            <summary>
+            Получить наименование выбранного изображения.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.PropertyGrid.FrmImageDialog.ImageDir">
+            <summary>
+            Получить или установить директорию, из которой открывались изображения.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.FrmImageDialog.FillImageList">
+            <summary>
+            Заполнить список изображений.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.FrmImageDialog.ChooseImageViewer(Scada.Scheme.Model.PropertyGrid.ImageListItem)">
+            <summary>
+            Makes the appropriate image viewer visible.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.FrmImageDialog.SetBtnsEnabled">
+            <summary>
+            Установить доступность кнопок.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.FrmImageDialog.ImageNameIsUnique(System.String)">
+            <summary>
+            Проверить уникальность наименования изображения.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.FrmImageDialog.LoadImage(System.String,Scada.Scheme.Model.Image@)">
+            <summary>
+            Загрузить изображение из файла.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.FrmImageDialog.SaveImage(System.String,Scada.Scheme.Model.PropertyGrid.ImageListItem)">
+            <summary>
+            Сохранить изображение в файле.
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.PropertyGrid.FrmImageDialog.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.FrmImageDialog.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.FrmImageDialog.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.ImageConverter">
+            <summary>
+            Converter of images for PropertyGrid
+            <para>Преобразователь изображений для PropertyGrid</para>
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.ImageEditor">
+            <summary>
+            Editor of images for PropertyGrid.
+            <para>Редактор изображений для PropertyGrid.</para>
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.PropertyGrid.ImageEditor.ImageDir">
+            <summary>
+            Директория, из которой открывались изображения.
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.ImageListItem">
+            <summary>
+            Image list item.
+            <para>Элемент списка изображений.</para>
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.ImageListItem.#ctor">
+            <summary>
+            Конструктор, ограничивающий создание объекта без параметров.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.ImageListItem.#ctor(Scada.Scheme.Model.Image,System.Func{System.String,System.Boolean})">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.PropertyGrid.ImageListItem.Image">
+            <summary>
+            Получить изображение.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.PropertyGrid.ImageListItem.Source">
+            <summary>
+            Получить источник данных изображения.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.PropertyGrid.ImageListItem.Name">
+            <summary>
+            Получить или установить наименование изображения.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.PropertyGrid.ImageListItem.DataSize">
+            <summary>
+            Получить размер данных изображения.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.PropertyGrid.ImageListItem.ImageSize">
+            <summary>
+            Получить размер изображения.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.PropertyGrid.ImageListItem.Format">
+            <summary>
+            Получить формат данных изображения.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.PropertyGrid.ImageListItem.IsSvg">
+            <summary>
+            Gets a value indicating whether the image is in SVG format.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.ImageListItem.LoadImage">
+            <summary>
+            Загрузить изображение из его данных.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.ImageListItem.KeyIsUnique(System.String)">
+            <summary>
+            Проверить наименование на уникальность.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.PropertyGrid.ImageListItem.ToString">
+            <summary>
+            Получить строковое представление объекта.
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.PointConverter">
+            <summary>
+            Converter of Point structures for PropertyGrid
+            <para>Преобразователь структур типа Point для PropertyGrid</para>
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.SizeConverter">
+            <summary>
+            Converter of Size structures for PropertyGrid
+            <para>Преобразователь структур типа Size для PropertyGrid</para>
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.PropertyGrid.UniqueStringConverter">
+            <summary>
+            Converter of strings for PropertyGrid which checks value uniqueness
+            <para>Преобразователь строк для PropertyGrid, который проверяет уникальность значения</para>
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.SchemeChangeTypes">
+            <summary>
+            Types of scheme changes
+            <para>Типы изменений схемы</para>
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.SchemeChangeTypes.None">
+            <summary>
+            Нет изменений
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.SchemeChangeTypes.SchemeDocChanged">
+            <summary>
+            Изменён документ схемы
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.SchemeChangeTypes.ComponentAdded">
+            <summary>
+            Добавлен компонент
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.SchemeChangeTypes.ComponentChanged">
+            <summary>
+            Изменён компонент
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.SchemeChangeTypes.ComponentDeleted">
+            <summary>
+            Удалён компонент
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.SchemeChangeTypes.ImageAdded">
+            <summary>
+            Добавлено изображение
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.SchemeChangeTypes.ImageRenamed">
+            <summary>
+            Переименовано изображение
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.SchemeChangeTypes.ImageDeleted">
+            <summary>
+            Удалено изображение
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.SchemeDocument">
+            <summary>
+            Scheme document properties.
+            <para>Свойства документа схемы.</para>
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.SchemeDocument.DefaultSize">
+            <summary>
+            Размер схемы по умолчанию.
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.SchemeDocument.schemeView">
+            <summary>
+            Ссылка на представление схемы.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.SchemeDocument.#ctor">
+            <summary>
+            Конструктор.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.SchemeDocument.Version">
+            <summary>
+            Получить версию редактора схем, в котором сохранён файл схемы.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.SchemeDocument.Size">
+            <summary>
+            Получить или установить размер.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.SchemeDocument.BackColor">
+            <summary>
+            Получить или установить цвет фона.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.SchemeDocument.BackImageName">
+            <summary>
+            Получить или установить наименование фонового изображения.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.SchemeDocument.Font">
+            <summary>
+            Получить или установить шрифт.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.SchemeDocument.ForeColor">
+            <summary>
+            Получить или установить основной цвет.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.SchemeDocument.Title">
+            <summary>
+            Получить или установить заголовок.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.SchemeDocument.CnlFilter">
+            <summary>
+            Получить фильтр по входным каналам.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.SchemeDocument.Images">
+            <summary>
+            Получить словарь изображений схемы.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.SchemeDocument.SchemeView">
+            <summary>
+            Получить или установить ссылку на представление схемы.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.SchemeDocument.SetToDefault">
+            <summary>
+            Установить значения свойств документа схемы по умолчанию.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.SchemeDocument.LoadFromXml(System.Xml.XmlNode)">
+            <summary>
+            Загрузить свойства документа схемы из XML-узла.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.SchemeDocument.SaveToXml(System.Xml.XmlElement)">
+            <summary>
+            Сохранить свойства документа схемы в XML-узле.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.SchemeDocument.ToString">
+            <summary>
+            Вернуть строковое представление объекта.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.SchemeDocument.CopyTo(Scada.Scheme.Model.SchemeDocument)">
+            <summary>
+            Копировать свойства объекта в заданный объект.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.SchemeDocument.Copy">
+            <summary>
+            Копировать объект.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.SchemeDocument.OnItemChanged(Scada.Scheme.Model.SchemeChangeTypes,System.Object,System.Object)">
+            <summary>
+            Вызвать событие ItemChanged.
+            </summary>
+        </member>
+        <member name="E:Scada.Scheme.Model.SchemeDocument.ItemChanged">
+            <summary>
+            Событие возникающее при изменении документа схемы.
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.StaticPicture">
+            <summary>
+            Scheme component that represents static picture
+            <para>Компонент схемы, представляющий статический рисунок</para>
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.StaticPicture.#ctor">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.StaticPicture.ImageName">
+            <summary>
+            Получить или установить наименование изображения
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.StaticPicture.ImageStretch">
+            <summary>
+            Получить или установить растяжение изображения
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.StaticPicture.LoadFromXml(System.Xml.XmlNode)">
+            <summary>
+            Загрузить конфигурацию компонента из XML-узла
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.StaticPicture.SaveToXml(System.Xml.XmlElement)">
+            <summary>
+            Сохранить конфигурацию компонента в XML-узле
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.StaticPicture.ToString">
+            <summary>
+            Вернуть строковое представление объекта
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.StaticText">
+            <summary>
+            Scheme component that represents static text
+            <para>Компонент схемы, представляющий статическую надпись</para>
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.Model.StaticText.DefaultText">
+            <summary>
+            Текст надписи по умолчанию
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.StaticText.#ctor">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.StaticText.ForeColor">
+            <summary>
+            Получить или установить цвет текста
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.StaticText.Font">
+            <summary>
+            Получить или установить шрифт
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.StaticText.Text">
+            <summary>
+            Получить или установить текст
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.StaticText.HAlign">
+            <summary>
+            Получить или установить горизонтальное выравнивание
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.StaticText.VAlign">
+            <summary>
+            Получить или установить вертикальное выравнивание
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.StaticText.WordWrap">
+            <summary>
+            Получить или установить признак переноса текста по словам
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.StaticText.AutoSize">
+            <summary>
+            Получить или установить признак авто размера
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.StaticText.LoadFromXml(System.Xml.XmlNode)">
+            <summary>
+            Загрузить конфигурацию компонента из XML-узла
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.StaticText.SaveToXml(System.Xml.XmlElement)">
+            <summary>
+            Сохранить конфигурацию компонента в XML-узле
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.StaticText.ToString">
+            <summary>
+            Вернуть строковое представление объекта
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Model.UnknownComponent">
+            <summary>
+            Unknown scheme component
+            <para>Неизвестный компонент схемы</para>
+            </summary>
+            <remarks>Stores the properties of the component that failed to load
+            <para>Сохраняет свойства компонента, который не удалось загрузить</para></remarks>
+        </member>
+        <member name="P:Scada.Scheme.Model.UnknownComponent.XmlNode">
+            <summary>
+            Получить или установить XML-узел, содержащий свойства компонента
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Model.UnknownComponent.XmlNodeName">
+            <summary>
+            Получить наименование XML-узла
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Model.UnknownComponent.ToString">
+            <summary>
+            Вернуть строковое представление объекта
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.SchemeContext">
+            <summary>
+            Specifies the contextual information about a scheme.
+            <para>Определяет контекстную информацию о схеме.</para>
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.SchemeContext.instance">
+            <summary>
+            The current scheme context.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.SchemeContext.#cctor">
+            <summary>
+            Initializes the static data of the class.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.SchemeContext.#ctor">
+            <summary>
+            Initializes a new instance of the class.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.SchemeContext.EditorMode">
+            <summary>
+            Gets a value indicating that the running application is Scheme Editor.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.SchemeContext.AppDirs">
+            <summary>
+            Gets the application directories.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.SchemeContext.GetEditorMode">
+            <summary>
+            Determines whether the editor mode is running.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.SchemeContext.Init(Scada.Web.AppDirs)">
+            <summary>
+            Initializes the scheme context.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.SchemeContext.GetInstance">
+            <summary>
+            Gets the current scheme context.
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.SchemeUtils">
+            <summary>
+            The class contains utility methods for the schemes.
+            <para>Класс, содержащий вспомогательные методы для схем.</para>
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.SchemeUtils.SchemeVersion">
+            <summary>
+            The schemes version.
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.SchemeUtils.StatusColor">
+            <summary>
+            The color name which means that color depends on channel status.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.SchemeUtils.ViewStampsMatched(System.Int64,System.Int64)">
+            <summary>
+            Checks that the view stamps are matched.
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.SchemeView">
+            <summary>
+            Scheme view.
+            <para>Представление схемы.</para>
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.SchemeView.maxComponentID">
+            <summary>
+            The maximum ID of the scheme components.
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.SchemeView.templateArgs">
+            <summary>
+            The scheme arguments in template mode.
+            </summary>
+        </member>
+        <member name="F:Scada.Scheme.SchemeView.templateBindings">
+            <summary>
+            The scheme template bindings.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.SchemeView.#ctor">
+            <summary>
+            Конструктор.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.SchemeView.SchemeDoc">
+            <summary>
+            Получить свойства документа схемы.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.SchemeView.Components">
+            <summary>
+            Получить компоненты схемы, ключ - идентификатор компонента.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.SchemeView.LoadErrors">
+            <summary>
+            Получить ошибки при загрузке схемы.
+            </summary>
+            <remarks>Необходимо для контроля загрузки библиотек и компонентов.</remarks>
+        </member>
+        <member name="M:Scada.Scheme.SchemeView.AddInCnlNums(System.Collections.Generic.List{System.Int32},System.Int32)">
+            <summary>
+            Adds the input channels to the view.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.SchemeView.AddCtrlCnlNums(System.Collections.Generic.List{System.Int32},System.Int32)">
+            <summary>
+            Adds the ouput channels to the view.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.SchemeView.SetArgs(System.String)">
+            <summary>
+            Sets the view arguments.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.SchemeView.UpdateTitle(System.String)">
+            <summary>
+            Updates the view title.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.SchemeView.LoadFromStream(System.IO.Stream)">
+            <summary>
+            Загрузить представление из потока.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.SchemeView.LoadFromFile(System.String,System.String@)">
+            <summary>
+            Загрузить схему из файла.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.SchemeView.SaveToFile(System.String,System.String@)">
+            <summary>
+            Сохранить схему в файле.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.SchemeView.Clear">
+            <summary>
+            Очистить представление.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.SchemeView.GetNextComponentID">
+            <summary>
+            Получить следующий идентификатор компонента схемы.
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.SchemePhrases">
+            <summary>
+            The common phrases for schemes.
+            <para>Общие фразы для схем.</para>
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Template.ComponentBinding">
+            <summary>
+            Represents component bindings to channels.
+            <para>Представляет привязки компонента к каналам.</para>
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Template.ComponentBinding.#ctor">
+            <summary>
+            Initializes a new instance of the class.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Template.ComponentBinding.CompID">
+            <summary>
+            Gets or sets the component ID.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Template.ComponentBinding.InCnlNum">
+            <summary>
+            Gets or sets the input channel number to which the component is bound.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Template.ComponentBinding.CtrlCnlNum">
+            <summary>
+            Gets or sets the output channel number to which the component is bound.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Template.ComponentBinding.LoadFromXml(System.Xml.XmlElement)">
+            <summary>
+            Loads the bindongs from the XML node.
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Template.TemplateArgs">
+            <summary>
+            Represents scheme arguments in template mode.
+            <para>Представляет аргументы схемы в режиме шаблона.</para>
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Template.TemplateArgs.#ctor">
+            <summary>
+            Initializes a new instance of the class.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Template.TemplateArgs.InCnlOffset">
+            <summary>
+            Gets or sets the offset of input channel numbers.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Template.TemplateArgs.CtrlCnlOffset">
+            <summary>
+            Gets or sets the offset of output channel numbers.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Template.TemplateArgs.TitleCompID">
+            <summary>
+            Gets or sets the ID of the component that displays a scheme title.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Template.TemplateArgs.BindingFileName">
+            <summary>
+            Gets or sets the name of the file that defines bindings.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Template.TemplateArgs.Init(System.Collections.Generic.SortedList{System.String,System.String})">
+            <summary>
+            Initializes the template arguments.
+            </summary>
+        </member>
+        <member name="T:Scada.Scheme.Template.TemplateBindings">
+            <summary>
+            Represents bindings of a scheme template.
+            <para>Представляет привязки шаблона схемы.</para>
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Template.TemplateBindings.#ctor">
+            <summary>
+            Initializes a new instance of the class.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Template.TemplateBindings.TemplateFileName">
+            <summary>
+            Gets or sets the scheme template file name.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Template.TemplateBindings.TitleCompID">
+            <summary>
+            Gets or sets the ID of the component that displays a scheme title.
+            </summary>
+        </member>
+        <member name="P:Scada.Scheme.Template.TemplateBindings.ComponentBindings">
+            <summary>
+            Gets the bindings of the scheme components.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Template.TemplateBindings.SetToDefault">
+            <summary>
+            Sets the default values.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Template.TemplateBindings.Load(System.String)">
+            <summary>
+            Loads the bindings from the specified file.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Template.TemplateBindings.Load(System.String,System.String@)">
+            <summary>
+            Loads the bindings from the specified file.
+            </summary>
+        </member>
+        <member name="M:Scada.Scheme.Template.TemplateBindings.Save(System.String,System.String@)">
+            <summary>
+            Saves the bindings from the specified file.
+            </summary>
+        </member>
+    </members>
+</doc>

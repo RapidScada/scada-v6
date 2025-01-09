@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             gbLoginOptions = new GroupBox();
+            numClientIpOrder = new NumericUpDown();
+            lblClientIpOrder = new Label();
             txtAutoLoginPassword = new TextBox();
             lblAutoLoginPassword = new Label();
             txtAutoLoginUsername = new TextBox();
@@ -47,12 +49,15 @@
             txtGoogleLoginUri = new TextBox();
             lblGoogleLoginUri = new Label();
             gbLoginOptions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numClientIpOrder).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numRememberMeExpires).BeginInit();
             gbGoogleSSO.SuspendLayout();
             SuspendLayout();
             // 
             // gbLoginOptions
             // 
+            gbLoginOptions.Controls.Add(numClientIpOrder);
+            gbLoginOptions.Controls.Add(lblClientIpOrder);
             gbLoginOptions.Controls.Add(txtAutoLoginPassword);
             gbLoginOptions.Controls.Add(lblAutoLoginPassword);
             gbLoginOptions.Controls.Add(txtAutoLoginUsername);
@@ -67,10 +72,30 @@
             gbLoginOptions.Margin = new Padding(10, 3, 10, 11);
             gbLoginOptions.Name = "gbLoginOptions";
             gbLoginOptions.Padding = new Padding(10, 3, 10, 11);
-            gbLoginOptions.Size = new Size(500, 195);
+            gbLoginOptions.Size = new Size(500, 231);
             gbLoginOptions.TabIndex = 0;
             gbLoginOptions.TabStop = false;
             gbLoginOptions.Text = "Login Options";
+            // 
+            // numClientIpOrder
+            // 
+            numClientIpOrder.Location = new Point(387, 196);
+            numClientIpOrder.Maximum = new decimal(new int[] { 365, 0, 0, 0 });
+            numClientIpOrder.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numClientIpOrder.Name = "numClientIpOrder";
+            numClientIpOrder.Size = new Size(100, 23);
+            numClientIpOrder.TabIndex = 11;
+            numClientIpOrder.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            numClientIpOrder.ValueChanged += control_Changed;
+            // 
+            // lblClientIpOrder
+            // 
+            lblClientIpOrder.AutoSize = true;
+            lblClientIpOrder.Location = new Point(10, 200);
+            lblClientIpOrder.Name = "lblClientIpOrder";
+            lblClientIpOrder.Size = new Size(198, 17);
+            lblClientIpOrder.TabIndex = 10;
+            lblClientIpOrder.Text = "Client Ip order(from right to left)";
             // 
             // txtAutoLoginPassword
             // 
@@ -173,11 +198,11 @@
             gbGoogleSSO.Controls.Add(lblGoogleClientId);
             gbGoogleSSO.Controls.Add(txtGoogleLoginUri);
             gbGoogleSSO.Controls.Add(lblGoogleLoginUri);
-            gbGoogleSSO.Location = new Point(0, 209);
+            gbGoogleSSO.Location = new Point(0, 245);
             gbGoogleSSO.Margin = new Padding(10, 3, 10, 11);
             gbGoogleSSO.Name = "gbGoogleSSO";
             gbGoogleSSO.Padding = new Padding(10, 3, 10, 11);
-            gbGoogleSSO.Size = new Size(500, 135);
+            gbGoogleSSO.Size = new Size(500, 124);
             gbGoogleSSO.TabIndex = 10;
             gbGoogleSSO.TabStop = false;
             gbGoogleSSO.Text = "GoogleSSO";
@@ -242,10 +267,11 @@
             Controls.Add(gbGoogleSSO);
             Controls.Add(gbLoginOptions);
             Name = "CtrlLoginOptions";
-            Size = new Size(521, 389);
+            Size = new Size(521, 393);
             Load += CtrlLoginOptions_Load;
             gbLoginOptions.ResumeLayout(false);
             gbLoginOptions.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numClientIpOrder).EndInit();
             ((System.ComponentModel.ISupportInitialize)numRememberMeExpires).EndInit();
             gbGoogleSSO.ResumeLayout(false);
             gbGoogleSSO.PerformLayout();
@@ -272,5 +298,7 @@
         private Label lblGoogleClientId;
         private TextBox txtGoogleLoginUri;
         private Label lblGoogleLoginUri;
+        private NumericUpDown numClientIpOrder;
+        private Label lblClientIpOrder;
     }
 }

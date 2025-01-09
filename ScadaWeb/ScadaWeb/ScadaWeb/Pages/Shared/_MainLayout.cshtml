@@ -25,7 +25,6 @@
 }
 
     @section Scripts {
-    <script src="~/lib/layer/layer.js"></script>
     <script src="~/js/components/modal.js" asp-append-version="true"></script>
     <script src="~/js/components/notif-panel.js" asp-append-version="true"></script>
     <script src="~/js/components/tree-view.js" asp-append-version="true"></script>
@@ -77,16 +76,44 @@
 @if (displayOptions.ShowHeader)
 {
     <div id="Main_divHeader">
-        <div class="main-hdr-block left">@*
-            *@<span id="Main_spanMenuBtn" class="main-hdr-btn" title="@dict.spanMenuBtn_ToolTip"><i class="fa-solid fa-bars"></i></span>@*
-            *@<span id="Main_spanAppTitle">@CommonPhrases.ProductName</span>
+        <div class="main-hdr-block left">
+            <span id="Main_spanMenuBtn" class="main-hdr-btn" title="@dict.spanMenuBtn_ToolTip"><i class="fa-solid fa-bars"></i></span>
+            @* <span id="Main_spanAppTitle">@CommonPhrases.ProductName</span>*@
+
+            <span id="Main_spanAppTitle">
+                <img class="" src="~/images/logo.png" />
+                <span class="product_name">
+                    @CommonPhrases.ProductName
+                </span>
+            </span>
         </div>
 
-        <div class="main-hdr-block right">@*
-            *@<span id="Main_spanNotifBtn" class="main-hdr-btn notif-bell" title="@dict.spanNotifBtn_ToolTip"><i class="fa-regular fa-bell"></i></span>@*
-            *@<a asp-page="@userProfileUrl" asp-route-id="@userID"><span id="Main_spanProfileBtn" class="main-hdr-btn">@username</span></a>@*
-            *@<a asp-page="/Logout"><span id="Main_spanLogoutBtn" class="main-hdr-btn">@dict.spanLogoutBtn</span></a>@*
-            *@<span id="Main_spanFullscreenBtn" class="main-hdr-btn" title="@dict.spanFullscreenBtn_ToolTip"><i class="fa-solid fa-expand"></i></span>
+        <div class="main-hdr-block right">
+
+            <a href="#" role="button" data-bs-offset="10,20" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-regular fa-star"></i></a>
+            <div class="dropdown-menu dropdown-menu-dark" style="width:380px;">
+                <div class="card" style="background-color:#343a40 !important;color:white !important;">
+                    <div class="card-body">
+                        <h5 class="card-title">Favorites</h5>
+                        <div class="list-group list-group-flush" id="histChartDropdown">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <span id="Main_spanNotifBtn" class="main-hdr-btn notif-bell" title="@dict.spanNotifBtn_ToolTip"><i class="fa-regular fa-bell"></i></span>
+            <span id="Main_spanFullscreenBtn" class="main-hdr-btn" title="@dict.spanFullscreenBtn_ToolTip"><i class="fa-solid fa-expand" style="width:16px;height:16px;"></i></span>
+            @*<a asp-page="@userProfileUrl" asp-route-id="@userID"><span id="Main_spanProfileBtn" class="main-hdr-btn">@username</span></a>
+        <a asp-page="/Logout"><span id="Main_spanLogoutBtn" class="main-hdr-btn">@dict.spanLogoutBtn</span></a>*@
+            <a href="#" id="Main_userAvator">
+                <img src="~/images/avator.jpg" class="img-fluid rounded-circle" style="width:32px;height:32px;">
+            </a>
+            <a class="dropdown-toggle" id="Main_userName" href="#" role="button" data-bs-offset="10,20" data-bs-toggle ="dropdown" aria-expanded="false">
+                @username
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" asp-page="@userProfileUrl">Profile</a></li>
+                <li><a class="dropdown-item" asp-page="/Logout">@dict.spanLogoutBtn</a></li>
+            </ul>
         </div>
     </div>
 }

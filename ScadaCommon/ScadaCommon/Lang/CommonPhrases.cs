@@ -150,6 +150,7 @@ namespace Scada.Lang
         public static string UserUsedPwdTable { get; private set; }
         public static string UserMachineCodeTable { get; private set; }
         public static string UserLoginLogTable { get; private set; }
+        public static string UserHistChartTable { get; private set; }
 
         static CommonPhrases()
         {
@@ -224,6 +225,7 @@ namespace Scada.Lang
             UserUsedPwdTable = dict[nameof(UserUsedPwdTable)];
             UserMachineCodeTable = dict[nameof(UserMachineCodeTable)];
             UserLoginLogTable = dict[nameof(UserLoginLogTable)];
+            UserHistChartTable = dict[nameof(UserHistChartTable)];
 
             dict = Locale.GetDictionary("Scada.Files");
             FileNotFound = dict[nameof(FileNotFound)];

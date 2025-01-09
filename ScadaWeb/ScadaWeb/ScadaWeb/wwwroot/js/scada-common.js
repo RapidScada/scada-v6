@@ -199,6 +199,39 @@ class ScadaUtils {
 
         return s;
     }
+
+    static setCookie(cname, cvalue, exseconds) {
+        if (!exseconds) exseconds = 24 * 60 * 60;
+        var d = new Date();
+        d.setTime(d.getTime() + (exseconds * 1000));
+        var expires = "expires=" + d.toGMTString();
+        document.cookie = cname + "=" + cvalue + "; " + expires;
+    }
+    static getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i].trim();
+            if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+        }
+        return "";
+    }
+    static dateFormat(dateStr, fmt) {
+        var date = new Date(dateStr);
+        var o = {
+            "M+": date.getUTCMonth() + 1, //月份  
+            "d+": date.getUTCDate(), //日  
+            "H+": date.getUTCHours(), //小时  
+            "m+": date.getUTCMinutes(), //分  
+            "s+": date.getUTCSeconds(), //秒  
+            "q+": Math.floor((date.getMonth() + 3) / 3), //季度  
+            "S": date.getMilliseconds() //毫秒  
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
 }
 
 // Specifies event types.
@@ -385,5 +418,5 @@ const appEnvStub = {
     isStub: true,
     rootPath: "/",
     locale: "en-GB",
-    productName: "Rapid SCADA"
+    productName: "Cloud SCADA"
 };

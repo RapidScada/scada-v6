@@ -1,14 +1,22 @@
 ﻿@import '../_variables';
 
-$loginbox-width: 400px;
+$loginbox-width: 450px;
 
 body {
+    background-color: $gray-100;
+}
+
+.login-form {
     height: 100vh;
+}
+
+.divLogoSmall img {
+    width: 140px;
 }
 
 #divAlert {
     max-width: $loginbox-width;
-    
+
     &.validation-summary-valid {
         display: none;
     }
@@ -17,28 +25,18 @@ body {
         margin-bottom: 0;
     }
 }
-.height100 {
-    height: 100%;
-}
+
 #divLoginBox {
-    // background-color: $body-bg;
+    background-color: $body-bg;
     max-width: $loginbox-width;
 }
-
+/*已修改*/
 #imgCaptcha {
-    //width: 100%;
-    height: 30px;
-    margin-bottom: 0.5rem;
+    width: 200%;
+    height: auto;
+    /*margin-bottom: 0.5rem;*/
 }
 
-.right-container{
-    background-color:rgba(225, 217, 217,0.7);
-}
-
-.img_logo {
-    height: 60px;
-    max-width: 100%;
-}
 
 @media screen and (min-width: 768px) {
     body {

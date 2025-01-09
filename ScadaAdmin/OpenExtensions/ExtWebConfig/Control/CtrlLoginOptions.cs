@@ -50,6 +50,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
 
             numRememberMeExpires.Enabled = loginOptions.AllowRememberMe;
 
+            numClientIpOrder.SetValue(loginOptions.ClientIpOrder);
             txtGoogleLoginUri.Text = loginOptions.GoogleLoginUri;
             txtGoogleClientId.Text = loginOptions.GoogleClientId;
             txtGoogleClientSecret.Text = loginOptions.GoogleClientSecret;
@@ -69,6 +70,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
             loginOptions.AutoLoginUsername = txtAutoLoginUsername.Text;
             loginOptions.AutoLoginPassword = txtAutoLoginPassword.Text;
 
+            loginOptions.ClientIpOrder = Convert.ToInt32(numClientIpOrder.Value);
             loginOptions.GoogleLoginUri = txtGoogleLoginUri.Text;
             loginOptions.GoogleClientId = txtGoogleClientId.Text;
             loginOptions.GoogleClientSecret = txtGoogleClientSecret.Text;

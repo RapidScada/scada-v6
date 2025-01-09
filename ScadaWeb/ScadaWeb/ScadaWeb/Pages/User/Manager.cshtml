@@ -79,6 +79,13 @@
             <span class="layui-badge layui-bg-gray"> @dict.lblDisable </span>
         {{#  } }}
     </script>
+    <script type="text/html" id="timeZoneFunc">
+        {{#  if(d.timeZone){ }}
+            {{ timeZoneMapper[d.timeZone] }}
+        {{#  } else { }}
+            -
+        {{#  } }}
+    </script>
     <script type="text/html" id="actionFormatter">
         <button type="button" class="layui-btn layui-btn-xs" lay-event="tool-edit">@dict.btnEdit</button>
         <button type="button" class="layui-btn layui-btn-xs" lay-event="tool-resetPwd">@dict.btnResetPwd</button>
@@ -98,6 +105,7 @@
 
     <script>
         var roleMapper = JSON.parse('@Model.RoleMapper'.replaceAll('&quot;', '"'));
+        var timeZoneMapper = JSON.parse('@Model.TimeZoneMapper'.replaceAll('&quot;', '"'));
         //var roleMapper = { 1: "Admin", 3: "Guest" };
         var $table = null, appForm = null;
         var userModal = null,resetPwdModal = null;
@@ -153,7 +161,13 @@
                     templet: '#googleEnabledFunc',
                     align: 'center',
                     width: 130
-                }, {
+            }, {
+                field: 'timeZone',
+                title: 'TimeZone',
+                templet: '#timeZoneFunc',
+                align: 'center',
+                width: 120
+            }, {
                     title: 'Options',
                     fixed: 'right',
                     templet: '#actionFormatter',
@@ -349,13 +363,15 @@
                             Letter: false,
                             Symbol: false,
                         },
-                        roleList: []
+                        roleList: [],
+                        timeZoneMapper:[]
                     }
                 },
                 created: function () {
 
                 },
                 mounted: function () {
+                    this.timeZoneMapper = timeZoneMapper;
                     this.getRoleList()
                 },
                 methods: {
@@ -565,6 +581,17 @@
                                 <div class="col-sm-8">
                                     <select class="form-select" aria-label="select role" v-model="form.roleID">
                                         <option v-for="(item,index) in roleList" :value="item.roleID">{{item.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row mb-3">
+                                <label for="inputTimeZone" class="col-sm-4 col-form-label text-end">@dict.lblTimeZone</label>
+                                <div class="col-sm-8">
+                                    <select class="form-select" aria-label="select role" v-model="form.timeZone">
+                                        <option value=""></option>
+                                        <option v-for="(value, key,index) in timeZoneMapper" :value="key">{{value}}</option>
                                     </select>
                                 </div>
                             </div>

@@ -29,6 +29,7 @@
     <Phrase key="lblRememberMeExpires">Login expires, days</Phrase>
     <Phrase key="lblAutoLoginUsername">Username for automatic login</Phrase>
     <Phrase key="lblAutoLoginPassword">Password for automatic login</Phrase>
+    <Phrase key="lblClientIpOrder">Client Ip order(from right to left)</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlPluginAssignment">
     <Phrase key="gbPluginAssignment">Plugin Assigment</Phrase>

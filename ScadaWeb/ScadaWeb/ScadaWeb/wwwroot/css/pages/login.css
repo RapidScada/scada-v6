@@ -1,9 +1,18 @@
-﻿body {
+﻿@charset "UTF-8";
+body {
+  background-color: #f8f9fa;
+}
+
+.login-form {
   height: 100vh;
 }
 
+.divLogoSmall img {
+  width: 140px;
+}
+
 #divAlert {
-  max-width: 400px;
+  max-width: 450px;
 }
 #divAlert.validation-summary-valid {
   display: none;
@@ -14,10 +23,27 @@
 
 #divLoginBox {
   background-color: #fff;
-  max-width: 400px;
+  max-width: 450px;
 }
 
+/*已修改*/
 #imgCaptcha {
-  height: 30px;
-  margin-bottom: 0.5rem;
+  width: 200%;
+  height: auto;
+  /*margin-bottom: 0.5rem;*/
+}
+
+@media screen and (min-width: 768px) {
+  body {
+    background-size: 100% 100%;
+    background-image: url("../../images/bg.png");
+  }
+  .right-container {
+    padding-top: 100px;
+  }
+}
+@media screen and (max-width: 768px) {
+  body {
+    background-color: #f8f9fa;
+  }
 }
