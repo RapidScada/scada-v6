@@ -121,6 +121,10 @@
         <Text>Модуль автоматического управления</Text>
         <Url>/ru/latest/modules/mod-auto-control</Url>
       </Item>
+      <Item>
+        <Text>Драйвер Telegram</Text>
+        <Url>/ru/latest/modules/drv-telegram</Url>
+      </Item>
     </Subitems>
   </Item>
 
