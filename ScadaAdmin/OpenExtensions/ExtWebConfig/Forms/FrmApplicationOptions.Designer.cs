@@ -49,7 +49,7 @@
             "Connection Options",
             "Login Options",
             "Display Options",
-            "Plugin Assigment"});
+            "Plugin Assignment"});
             this.lbTabs.Location = new System.Drawing.Point(0, 0);
             this.lbTabs.Name = "lbTabs";
             this.lbTabs.Size = new System.Drawing.Size(150, 561);

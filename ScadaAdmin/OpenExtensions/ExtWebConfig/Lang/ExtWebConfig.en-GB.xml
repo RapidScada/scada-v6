@@ -30,7 +30,7 @@
     <Phrase key="lblAutoLoginPassword">Password for automatic login</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlPluginAssignment">
-    <Phrase key="gbPluginAssignment">Plugin Assigment</Phrase>
+    <Phrase key="gbPluginAssignment">Plugin Assignment</Phrase>
     <Phrase key="lblChartFeature">Plugin for charting</Phrase>
     <Phrase key="lblCommandFeature">Plugin for sending commands</Phrase>
     <Phrase key="lblEventAckFeature">Plugin for event acknowledgement</Phrase>
@@ -43,7 +43,7 @@
     <Phrase key="lbTabs.Items[1]">Connection Options</Phrase>
     <Phrase key="lbTabs.Items[2]">Login Options</Phrase>
     <Phrase key="lbTabs.Items[3]">Display Options</Phrase>
-    <Phrase key="lbTabs.Items[4]">Plugin Assigment</Phrase>
+    <Phrase key="lbTabs.Items[4]">Plugin Assignment</Phrase>
     <Phrase key="ApplicationConfigTitle">Application Options</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Forms.FrmPlugins">
