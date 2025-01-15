@@ -25,68 +25,69 @@
 <div class="doc-content">
     <h1>Telegram Driver</h1>
     <h2 id="overview">Overview</h2>
-    <p>Драйвер Telegram предназначен для рассылки уведомлений пользователям с помощью популярного мессенджера Telegram. Преимуществами использования Telegram является оперативность получения уведомлений, отсутствие платы за использование сервиса и удобство управления группами рассылки.</p>
+    <p>Telegram Driver is designed to send notifications using the popular Telegram messenger. The advantages of using Telegram is quickness of receiving notifications, no fee for the service and easy management of notification groups.</p>
 
     <h2 id="installation">Installation</h2>
-    <p>Драйвер Telegram устанавливается в соответствии с <a href="../installation/install-modules#drivers">общей последовательностью установки драйверов</a>.</p>
+    <p>Telegram Driver is installed in accordance with the <a href="../installation/install-modules#drivers">general sequence of installing drivers</a>.</p>
 
     <h2 id="configuring">Configuring</h2>
     <h3 id="creating-bot">Creating Bot</h3>
-    <p>Чтобы драйвер мог взаимодействовать с мессенджером Telegram, необходимо создать Telegram-бота. Для этого выполните следующие действия:</p>
+    <p>In order for the driver to interact with the Telegram messenger, it is necessary to create a Telegram bot.</p>
+    <p>Чтобы драйвер мог взаимодействовать с мессенджером Telegram, необходимо создать Telegram-бота. Follow these steps:</p>
     <ol>
-        <li>Установите приложение и зарегистрируйтесь в <a href="https://telegram.org/" target="_blank">Telegram</a>.</li>
+        <li>Install the application and register <a href="https://telegram.org/" target="_blank">Telegram</a>.</li>
         <li>
-            Добавьте в список контактов бота <a href="https://telegram.me/botfather" target="_blank">BotFather</a>.
+            Add the bot named <a href="https://telegram.me/botfather" target="_blank">BotFather</a> to the contact list.
             <figure class="figure text-start">
                 <img src="drv-telegram-files/telegram-bot-father.png" class="figure-img img-fluid" alt="Telegram BotFather" />
             </figure>
         </li>
         <li>
-            В режиме диалога с BotFather выполните команду <code>/newbot</code> и следуйте инструкциям от BotFather, чтобы создать нового бота. После того как бот создан, скопируйте токен бота.
+            In the dialog with BotFather, run the command <code>/newbot</code> and follow the instructions from BotFather to create a new bot. Once the bot is created, copy the bot token.
             <figure class="figure text-start">
                 <img src="drv-telegram-files/telegram-new-bot.png" class="figure-img img-fluid" alt="Creating a bot" />
             </figure>
         </li>
     </ol>
     <div class="alert alert-warning">
-        <strong>Важно!</strong> Сохраняйте токен бота в тайне.
+        <strong>Important!</strong> Keep the bot token secret.
     </div>
 
     <h3 id="driver-settings">Driver Settings</h3>
-    <p>Последовательность настройки драйвера Telegram:</p>
+    <p>Telegram driver setup sequence:</p>
     <ol>
-        <li>Создайте отдельную линию связи, содержащую единственное устройство типа Telegram, используя мастеры, которые вызываются с помощью кнопок <img src="../common-images/add-line.png" /> и <img src="../common-images/add-device.png" />.</li>
+        <li>Create a separate communication line containing a single device of the Telegram type. Use the wizards that are called using the <img src="../common-images/add-line.png" /> and <img src="../common-images/add-device.png" /> buttons.</li>
         <li>
-            Откройте свойства устройства, введите полученный ранее токен бота и нажмите кнопку <strong>Сохранить</strong>.
+            Open the device properties, enter the bot token obtained earlier and click the <strong>Save</strong> button.
             <figure class="figure text-start">
                 <img src="drv-telegram-files/config-token-en.png" class="figure-img img-fluid" alt="Entering a bot token" />
             </figure>
         </li>
-        <li>Передайте проект на выполнение с помощью кнопки <img src="../common-images/upload.png" />.</li>
-        <li>Откройте страницу <strong>Коммуникатор &gt; Драйверы</strong>, выберите драйвер <strong>DrvTelegram</strong> и зарегистрируйте драйвер.</li>
-        <li>Повторно передайте проект на выполнение.</li>
+        <li>Upload the project for execution by the <img src="../common-images/upload.png" /> button.</li>
+        <li>Open the <strong>Communicator &gt; Drivers page</strong>, select the <strong>DrvTelegram</strong> driver and register the driver.</li>
+        <li>Re-upload the project for execution.</li>
     </ol>
-    <p>После выполнения описанных действий с помощью журнала линии связи проконтролируйте, что запросы на сервер Telegram отправляются успешно и на них приходят ответы.</p>
+    <p>After completing the described actions, use the communication line log to check that requests to the Telegram server are sent successfully and that responses are received.</p>
     <figure class="figure text-start">
         <img src="drv-telegram-files/line-log-en.png" class="figure-img img-fluid border" alt="Communication line log" />
     </figure>
 
     <h3 id="managing-subscriptions">Managing Subscriptions</h3>
-    <p>Чтобы получать сообщения, отправленные драйвером Telegram, необходимо создать чат, в котором одним из участников будет Ваш бот. В приложении Telegram создайте новую группу, добавьте в неё созданного ранее бота и другие контакты, которые будут получать сообщения.</p>
-    <p>Если настройка выполнена правильно, Ваш бот будет отвечать на команды, отправленные из мессенджера, например, команду <code>/help</code>. Выполнив команду <code>/info</code>, получите идентификатор и наименование чата. </p>
+    <p>To receive messages sent by the Telegram driver, create a chat in which one of the participants will be your bot. In the Telegram application, create a new group, add the previously created bot and other contacts who will receive messages.</p>
+    <p>If the settings are correct, your bot will respond to commands sent from the messenger, for example, the <code>/help</code> command. Run the <code>/info</code> command to get the chat ID and name.</p>
     <figure class="figure">
         <img src="drv-telegram-files/telegram-chat-en.png" class="figure-img img-fluid" alt="Chat info" />
     </figure>
 
-    <p>Пропишите идентификатор и наименование чата в конфигурации устройства, как показано на рисунке ниже. После сохранения свойств повторно передайте проект на выполнение.</p>
+    <p>Enter the chat ID and name in the device properties form as shown in the figure below. After saving the properties, upload the project for execution again.</p>
     <figure class="figure">
         <img src="drv-telegram-files/config-subscriptions-en.png" class="figure-img img-fluid" alt="Subscriptions" />
     </figure>
 
     <h2 id="sending-messages">Sending Messages</h2>
-    <p>Для отправки сообщения в группу Telegram, необходимо отправить команду с кодом <code>Notif</code>, содержащую наименование (или идентификатор) группы и текст сообщения. Пример отправки команды из приложения Администратор показан на следующем рисунке.</p>
+    <p>To send a message to a Telegram group, you need to send a command with the <code>Notif</code> code, containing the group name (or identifier) and the message text. An example of sending a command from the Administrator application is shown in the following figure.</p>
     <figure class="figure">
         <img src="drv-telegram-files/send-message-en.png" class="figure-img img-fluid" alt="Sending a message" />
     </figure>
-    <p>Автоматическая рассылка уведомлений при выполнении определённых условий и возникновении событий осуществляется с помощью <a href="mod-auto-control">Модуля автоматического управления.</a></p>
+    <p>Automatic sending of notifications when certain conditions are met and events occur is carried out by <a href="mod-auto-control">Automatic Control Module</a>.</p>
 </div>
