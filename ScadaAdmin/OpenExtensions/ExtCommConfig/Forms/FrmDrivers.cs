@@ -179,8 +179,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                 driverItem.DriverView != null && driverItem.DriverView.RequireRegistration)
             {
                 lbDrivers.Focus();
-                new FrmRegistration(adminContext, commApp,
-                    driverItem.DriverView.ProductCode, driverItem.DriverView.Name).ShowDialog();
+                new FrmRegistration(adminContext, commApp, driverItem.DriverView.GetRegistrationInfo())
+                    .ShowDialog();
             }
         }
 

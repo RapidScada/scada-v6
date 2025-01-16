@@ -65,12 +65,12 @@ namespace Scada.Forms.Controls
         }
 
         /// <summary>
-        /// Gets the URL to get a permanent key.
+        /// Gets or sets the URL to get a permanent key.
         /// </summary>
         public string PermanentKeyUrl { get; set; }
 
         /// <summary>
-        /// Gets the default URL to get a trial key.
+        /// Gets or sets the default URL to get a trial key.
         /// </summary>
         public string TrialKeyUrl { get; set; }
 

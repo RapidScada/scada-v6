@@ -323,8 +323,8 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
                 moduleItem.ModuleView != null && moduleItem.ModuleView.RequireRegistration)
             {
                 lbActiveModules.Focus();
-                new FrmRegistration(adminContext, serverApp,
-                    moduleItem.ModuleView.ProductCode, moduleItem.ModuleView.Name).ShowDialog();
+                new FrmRegistration(adminContext, serverApp, moduleItem.ModuleView.GetRegistrationInfo())
+                    .ShowDialog();
             }
         }
 

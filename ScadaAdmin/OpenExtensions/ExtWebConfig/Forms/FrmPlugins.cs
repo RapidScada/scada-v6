@@ -323,8 +323,8 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Forms
                 pluginItem.PluginView != null && pluginItem.PluginView.RequireRegistration)
             {
                 lbActivePlugins.Focus();
-                new FrmRegistration(adminContext, webApp,
-                    pluginItem.PluginView.ProductCode, pluginItem.PluginView.Name).ShowDialog();
+                new FrmRegistration(adminContext, webApp, pluginItem.PluginView.GetRegistrationInfo())
+                    .ShowDialog();
             }
         }
 
