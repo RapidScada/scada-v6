@@ -152,7 +152,7 @@ namespace Scada.Server.Archives
         {
             return ArchiveOptions != null && x.Stat == y.Stat && (
                 x.Val.Equals(y.Val) ||
-                x.Val != 0 && Math.Abs((x.Val - y.Val) / x.Val / 100) <= ArchiveOptions.Deadband);
+                x.Val != 0 && Math.Abs((x.Val - y.Val) / x.Val * 100) <= ArchiveOptions.Deadband);
         }
 
         /// <summary>
