@@ -91,7 +91,7 @@
     <Phrase key="miCollapseAll">모두 축소</Phrase>
     <Phrase key="miOpenChannels">오픈 채널</Phrase>
     <Phrase key="ObjNumInUse">개체 번호가 이미 사용 중입니다.</Phrase>
-    <Phrase key="ObjNumReferenced">개체 번호는 "{0}" 테이블의 행에서 참조됩니다.</Phrase>
+    <Phrase key="ObjNumReferenced">개체 번호는 &quot;{0}&quot; 테이블의 행에서 참조됩니다.</Phrase>
     <Phrase key="ObjectReferenced">객체 또는 해당 하위가 다른 테이블의 행에서 참조됩니다.</Phrase>
     <Phrase key="ParentObjectNotExists">상위 개체가 더 이상 존재하지 않습니다.</Phrase>
     <Phrase key="InvalidParentObject">상위 개체는 동일하거나 하위 개체일 수 없습니다.</Phrase>

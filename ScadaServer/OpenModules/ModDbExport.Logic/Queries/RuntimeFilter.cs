@@ -10,12 +10,12 @@ namespace Scada.Server.Modules.ModDbExport.Logic.Queries
     /// Represents a runtime query filter.
     /// <para>Представляет фильтр запроса времени выполнения.</para>
     /// </summary>
-    internal class QueryFilterRuntime
+    internal class RuntimeFilter
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public QueryFilterRuntime(QueryFilter queryFilter)
+        public RuntimeFilter(QueryFilter queryFilter)
         {
             ArgumentNullException.ThrowIfNull(queryFilter, nameof(queryFilter));
             CnlNums = new HashSet<int>(queryFilter.CnlNums);

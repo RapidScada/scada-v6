@@ -6,7 +6,7 @@
     <Phrase key="lblServer">服务器</Phrase>
     <Phrase key="lblPort"> TCP端口</Phrase>
     <Phrase key="lblTimeout">超时时间, ms</Phrase>
-    <Phrase key="lblUseTls">Use TLS</Phrase>
+    <Phrase key="lblUseTls">使用 TLS</Phrase>
     <Phrase key="lblClientID">客户端ID</Phrase>
     <Phrase key="lblUsername">用户名</Phrase>
     <Phrase key="lblPassword">密码</Phrase>

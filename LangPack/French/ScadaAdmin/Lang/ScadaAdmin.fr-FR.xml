@@ -226,8 +226,8 @@
   <Dictionary key="Scada.Admin.App.Forms">
     <Phrase key="SelectedColumn">Choisi</Phrase>
     <Phrase key="NoProfileConnections">Le profil ne contient pas de connexions.</Phrase>
-    <Phrase key="ExtensionNotFound">Extension "{0}" introuvable.</Phrase>
-    <Phrase key="ExtensionCannotDeploy">L'extension "{0}" ne prend pas en charge le déploiement.</Phrase>
+    <Phrase key="ExtensionNotFound">Extension &quot;{0}&quot; introuvable.</Phrase>
+    <Phrase key="ExtensionCannotDeploy">L'extension &quot;{0}&quot; ne prend pas en charge le déploiement.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmDownloadConfig">
     <Phrase key="this">Télécharger la configuration</Phrase>
@@ -322,16 +322,16 @@
     <Phrase key="btnFilter.ToolTip">Filtre</Phrase>
     <Phrase key="btnAutoSizeColumns.ToolTip">Ajustement automatique des largeurs de colonne</Phrase>
     <Phrase key="btnProperties.ToolTip">Propriétés de l'élément</Phrase>
-    <Phrase key="GridViewError">Erreur lors de l'affichage du tableau, la colonne "{0}"</Phrase>
+    <Phrase key="GridViewError">Erreur lors de l'affichage du tableau, la colonne &quot;{0}&quot;</Phrase>
     <Phrase key="ColumnLabel">Colonne:</Phrase>
     <Phrase key="DeleteRowConfirm">Voulez-vous vraiment supprimer la ligne ?</Phrase>
     <Phrase key="DeleteRowsConfirm">Voulez-vous vraiment supprimer les lignes ?</Phrase>
     <Phrase key="ClearTableConfirm">Voulez-vous vraiment débarrasser la table ?</Phrase>
     <Phrase key="RowsNotDeleted">Certaines lignes n'ont pas été supprimées car elles sont référencées.</Phrase>
-    <Phrase key="ColumnNotNull">La colonne "{0}" ne peut pas contenir de valeurs vides.</Phrase>
-    <Phrase key="UniqueRequired">Une valeur en double ne peut pas être insérée dans la colonne "{0}".</Phrase>
-    <Phrase key="KeyReferenced">La clé primaire est référencée par une ligne de la table "{0}".</Phrase>
-    <Phrase key="DataNotExist">Aucune donnée n'existe pour la colonne "{0}".</Phrase>
+    <Phrase key="ColumnNotNull">La colonne &quot;{0}&quot; ne peut pas contenir de valeurs vides.</Phrase>
+    <Phrase key="UniqueRequired">Une valeur en double ne peut pas être insérée dans la colonne &quot;{0}&quot;.</Phrase>
+    <Phrase key="KeyReferenced">La clé primaire est référencée par une ligne de la table &quot;{0}&quot;.</Phrase>
+    <Phrase key="DataNotExist">Aucune donnée n'existe pour la colonne &quot;{0}&quot;.</Phrase>
     <Phrase key="DataChangeError">Erreur lors de la modification des données de la table</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmCnl">
@@ -466,7 +466,7 @@
     <Phrase key="lblInfo">Les modifications prendront effet après le redémarrage de l'application.</Phrase>
     <Phrase key="btnOK">D'ACCORD</Phrase>
     <Phrase key="btnCancel">Annuler</Phrase>
-    <Phrase key="ProjectExtRegistered">L'extension "{0}" a été enregistrée avec succès.</Phrase>
+    <Phrase key="ProjectExtRegistered">L'extension &quot;{0}&quot; a été enregistrée avec succès.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tools.FrmCulture">
     <Phrase key="this">Langue</Phrase>

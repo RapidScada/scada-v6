@@ -18,7 +18,7 @@
     <Phrase key="LogicLoopError">Mantık döngüsünde hata</Phrase>
     <Phrase key="ThreadFatalError">İş parçacığında önemli hata</Phrase>
     <Phrase key="WriteInfoError">Uygulama bilgileri dosyaya yazılırken hata oluştu</Phrase>
-    <Phrase key="ConnectionNotFound">"{0}" bağlantısı bulunamadı.</Phrase>
+    <Phrase key="ConnectionNotFound">&quot;{0}&quot; bağlantısı bulunamadı.</Phrase>
     <Phrase key="DatabaseNotSupported">Veritabanı desteklenmiyor.</Phrase>
     <Phrase key="OperationNotSupported">İşlem desteklenmiyor.</Phrase>
     <Phrase key="CommandSent">Komut gönderildi.</Phrase>
@@ -73,7 +73,7 @@
     <Phrase key="DateTimeRequired">Tarih ve saat gereklidir.</Phrase>
     <Phrase key="NotNumber">Dize bir sayı değildir.</Phrase>
     <Phrase key="NotHexadecimal">Dize onaltılık değil.</Phrase>
-    <Phrase key="InvalidParamVal">"{0}" parametresinin geçersiz değeri.</Phrase>
+    <Phrase key="InvalidParamVal">&quot;{0}&quot; parametresinin geçersiz değeri.</Phrase>
     <Phrase key="InvalidSecretKey">Geçersiz gizli anahtar.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms">

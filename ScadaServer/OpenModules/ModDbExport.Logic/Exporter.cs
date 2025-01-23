@@ -268,10 +268,9 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                 }
                 else
                 {
+                    classifiedQueries.CurDataQueries.ForEach(q => q.InitCombinedFilter(serverContext.ConfigDatabase));
+                    classifiedQueries.HistDataQueries.ForEach(q => q.InitCombinedFilter(serverContext.ConfigDatabase));
                     InitCnlNums();
-
-                    classifiedQueries.CurDataQueries.ForEach(q => q.FillCnlNumFilter(serverContext.ConfigDatabase));
-                    classifiedQueries.HistDataQueries.ForEach(q => q.FillCnlNumFilter(serverContext.ConfigDatabase));
 
                     if (arcReplicationOptions.Enabled)
                         arcReplicator.Init();
@@ -294,8 +293,9 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             if (curDataQueue.Enabled)
             {
                 // get all channel numbers specified in the filters of the current data queries
-                IEnumerable<int> cnlNumRange = classifiedQueries.CurDataQueries.All(q => q.CnlNumFilter.Count > 0)
-                    ? classifiedQueries.CurDataQueries.SelectMany(q => q.CnlNumFilter).Distinct().OrderBy(n => n)
+                IEnumerable<int> cnlNumRange = classifiedQueries.CurDataQueries.All(q => q.CombinedFilter.Enabled)
+                    ? classifiedQueries.CurDataQueries
+                        .SelectMany(q => q.CombinedFilter.CnlNums).Distinct().OrderBy(n => n)
                     : null;
 
                 if (curDataExportOptions.Trigger == ExportTrigger.OnReceive)
@@ -329,8 +329,11 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             // define channel numbers for exporting historical data
             if (histDataQueue.Enabled && histDataExportOptions.IncludeCalculated)
             {
-                histCalcCnlNums = classifiedQueries.HistDataQueries.All(q => q.CnlNumFilter.Count > 0)
-                    ? [.. classifiedQueries.HistDataQueries.SelectMany(q => q.CnlNumFilter).Distinct().OrderBy(n => n)]
+                histCalcCnlNums = classifiedQueries.HistDataQueries.All(q => q.CombinedFilter.Enabled)
+                    ? classifiedQueries.HistDataQueries
+                        .SelectMany(q => q.CombinedFilter.CnlNums)
+                        .Where(serverContext.Cnls.CalcCnls.ContainsKey)
+                        .Distinct().OrderBy(n => n).ToArray()
                     : serverContext.Cnls.CalcCnls.Keys;
             }
         }
@@ -670,7 +673,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
 
                     if ((sliceItem.QueryID <= 0 || sliceItem.QueryID == query.QueryID) &&
                         (sliceItem.SingleQuery == null || sliceItem.SingleQuery == query.Options.SingleQuery) &&
-                        (query.CnlNumFilter.Count == 0 || query.CnlNumFilter.Overlaps(slice.CnlNums)))
+                        (!query.CombinedFilter.Enabled || query.CombinedFilter.CnlNums.Overlaps(slice.CnlNums)))
                     {
                         query.Command.Transaction = trans;
                         query.Parameters.Timestamp.Value = slice.Timestamp;
@@ -689,7 +692,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                                 for (int i = 0, cnlCnt = slice.Length; i < cnlCnt; i++)
                                 {
                                     int cnlNum = slice.CnlNums[i];
-                                    if (query.CnlNumFilter.Contains(cnlNum))
+                                    if (query.CombinedFilter.CnlNums.Contains(cnlNum))
                                         query.SetCnlDataParams(cnlNum, slice.CnlData[i]);
                                 }
 
@@ -720,12 +723,12 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                                 query.Command.ExecuteNonQuery();
                             }
 
-                            if (query.CnlNumFilter.Count > 0)
+                            if (query.CombinedFilter.Enabled)
                             {
                                 for (int i = 0, cnlCnt = slice.Length; i < cnlCnt; i++)
                                 {
                                     int cnlNum = slice.CnlNums[i];
-                                    if (query.CnlNumFilter.Contains(cnlNum))
+                                    if (query.CombinedFilter.CnlNums.Contains(cnlNum))
                                         ExportDataPoint(cnlNum, slice.CnlData[i]);
                                 }
                             }
@@ -765,7 +768,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                 {
                     currentQuery = query;
 
-                    if (query.Filter.Match(ev))
+                    if (query.RuntimeFilter.Match(ev))
                     {
                         query.SetParameters(ev);
                         query.Command.Transaction = trans;
@@ -827,7 +830,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                 {
                     currentQuery = query;
 
-                    if (query.Filter.Match(command))
+                    if (query.RuntimeFilter.Match(command))
                     {
                         query.SetParameters(command);
                         query.Command.Transaction = trans;
@@ -1239,7 +1242,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                 {
                     lock (histTimestamps)
                     {
-                        histTimestamps[slice.Timestamp] = utcNow;
+                        histTimestamps.TryAdd(slice.Timestamp, utcNow);
                     }
                 }
             }

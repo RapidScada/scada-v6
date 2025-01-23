@@ -2,8 +2,8 @@
 <ExtDepPostgreSqlDictionaries>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Downloader">
     <Phrase key="DownloadTable">Pobierz tabelę {0}</Phrase>
-    <Phrase key="DownloadView">"Pobierz widok "{0}"</Phrase>
-    <Phrase key="DownloadConfigFile">Pobierz plik konfiguracyjny "{0}"</Phrase>
+    <Phrase key="DownloadView">"Pobierz widok &quot;{0}&quot;</Phrase>
+    <Phrase key="DownloadConfigFile">Pobierz plik konfiguracyjny &quot;{0}&quot;</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Uploader">
     <Phrase key="CreateSchema">Utwórz schemat bazy danych</Phrase>
@@ -18,11 +18,11 @@
     <Phrase key="CreateTableFKs">Utwórz klucze obce dla tabeli {0}</Phrase>
     <Phrase key="ClearViews">Jasne widoki</Phrase>
     <Phrase key="CreateViews">Twórz widoki</Phrase>
-    <Phrase key="CreateView">Utwórz widok „{0}”</Phrase>
+    <Phrase key="CreateView">Utwórz widok &quot;{0}&quot;</Phrase>
     <Phrase key="ClearAllAppConfig">Przejrzysta konfiguracja wszystkich aplikacji</Phrase>
     <Phrase key="ClearAppConfig">Wyczyść konfigurację aplikacji {0}</Phrase>
     <Phrase key="CreateAppConfig">Utwórz konfigurację aplikacji {0}</Phrase>
-    <Phrase key="CreateConfigFile">Utwórz plik konfiguracyjny "{0}"</Phrase>
+    <Phrase key="CreateConfigFile">Utwórz plik konfiguracyjny &quot;{0}&quot;</Phrase>
     <Phrase key="UnableRestartServices">Nie można ponownie uruchomić usług, ponieważ agent jest wyłączony</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ClearBaseMethod">

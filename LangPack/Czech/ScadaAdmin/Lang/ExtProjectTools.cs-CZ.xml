@@ -91,7 +91,7 @@ Přidáno {0} kanálů.</Phrase>
     <Phrase key="miCollapseAll">Sbalit vše</Phrase>
     <Phrase key="miOpenChannels">Otevřete kanály</Phrase>
     <Phrase key="ObjNumInUse">Číslo objektu se již používá.</Phrase>
-    <Phrase key="ObjNumReferenced">Na číslo objektu odkazuje řádek z tabulky "{0}".</Phrase>
+    <Phrase key="ObjNumReferenced">Na číslo objektu odkazuje řádek z tabulky &quot;{0}&quot;.</Phrase>
     <Phrase key="ObjectReferenced">Na objekt nebo jeho potomka odkazuje řádek z jiné tabulky.</Phrase>
     <Phrase key="ParentObjectNotExists">Nadřazený objekt již neexistuje.</Phrase>
     <Phrase key="InvalidParentObject">Nadřazený objekt nemůže být stejný nebo podřízený objekt.</Phrase>

@@ -117,6 +117,14 @@
         <Text>Elastic Report Plugin</Text>
         <Url>/en/latest/modules/plg-elastic-report</Url>
       </Item>
+      <Item>
+        <Text>Automatic Control Module</Text>
+        <Url>/en/latest/modules/mod-auto-control</Url>
+      </Item>
+      <Item>
+        <Text>Telegram Driver</Text>
+        <Url>/en/latest/modules/drv-telegram</Url>
+      </Item>
     </Subitems>
   </Item>
 

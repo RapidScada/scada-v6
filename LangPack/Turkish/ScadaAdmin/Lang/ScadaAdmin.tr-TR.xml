@@ -226,8 +226,8 @@
   <Dictionary key="Scada.Admin.App.Forms">
     <Phrase key="SelectedColumn">Seçildi</Phrase>
     <Phrase key="NoProfileConnections">Profil bağlantı içermiyor.</Phrase>
-    <Phrase key="ExtensionNotFound">"{0}" uzantısı bulunamadı.</Phrase>
-    <Phrase key="ExtensionCannotDeploy">"{0}" uzantısı dağıtımı desteklemiyor.</Phrase>
+    <Phrase key="ExtensionNotFound">&quot;{0}&quot; uzantısı bulunamadı.</Phrase>
+    <Phrase key="ExtensionCannotDeploy">&quot;{0}&quot; uzantısı dağıtımı desteklemiyor.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmDownloadConfig">
     <Phrase key="this">Yapılandırmayı İndir</Phrase>
@@ -322,16 +322,16 @@
     <Phrase key="btnFilter.ToolTip">filtre</Phrase>
     <Phrase key="btnAutoSizeColumns.ToolTip">Sütun Genişliklerini Otomatik Sığdır</Phrase>
     <Phrase key="btnProperties.ToolTip">Öğe Özellikleri</Phrase>
-    <Phrase key="GridViewError">Tablo, "{0}" sütunu görüntülenirken hata oluştu</Phrase>
+    <Phrase key="GridViewError">Tablo, &quot;{0}&quot; sütunu görüntülenirken hata oluştu</Phrase>
     <Phrase key="ColumnLabel">Kolon:</Phrase>
     <Phrase key="DeleteRowConfirm">Satırı silmek istediğinizden emin misiniz?</Phrase>
     <Phrase key="DeleteRowsConfirm">Satırları silmek istediğinizden emin misiniz?</Phrase>
     <Phrase key="ClearTableConfirm">Masayı temizlemek istediğinizden emin misiniz?</Phrase>
     <Phrase key="RowsNotDeleted">Referans verildiği için bazı satırlar silinmedi.</Phrase>
-    <Phrase key="ColumnNotNull">"{0}" sütunu boş değerler içeremez.</Phrase>
-    <Phrase key="UniqueRequired">"{0}" sütununa yinelenen bir değer eklenemez.</Phrase>
-    <Phrase key="KeyReferenced">Birincil anahtara "{0}" tablosundan bir satır başvurulur.</Phrase>
-    <Phrase key="DataNotExist">"{0}" sütunu için veri yok.</Phrase>
+    <Phrase key="ColumnNotNull">&quot;{0}&quot; sütunu boş değerler içeremez.</Phrase>
+    <Phrase key="UniqueRequired">&quot;{0}&quot; sütununa yinelenen bir değer eklenemez.</Phrase>
+    <Phrase key="KeyReferenced">Birincil anahtara &quot;{0}&quot; tablosundan bir satır başvurulur.</Phrase>
+    <Phrase key="DataNotExist">&quot;{0}&quot; sütunu için veri yok.</Phrase>
     <Phrase key="DataChangeError">Tablo verileri değiştirilirken hata oluştu</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmCnl">
@@ -466,7 +466,7 @@
     <Phrase key="lblInfo">Değişiklikler, uygulamayı yeniden başlattıktan sonra geçerli olacaktır.</Phrase>
     <Phrase key="btnOK">TAMAM</Phrase>
     <Phrase key="btnCancel">İptal etmek</Phrase>
-    <Phrase key="ProjectExtRegistered">"{0}" uzantısı başarıyla kaydedildi.</Phrase>
+    <Phrase key="ProjectExtRegistered">&quot;{0}&quot; uzantısı başarıyla kaydedildi.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tools.FrmCulture">
     <Phrase key="this">Dil</Phrase>

@@ -171,7 +171,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         /// <summary>
         /// Performs actions after receiving and processing new historical data.
         /// </summary>
-        public override void OnHistoricalDataProcessed(Slice slice)
+        public override void OnHistoricalDataProcessed(int archiveMask, Slice slice)
         {
             foreach (Exporter exporter in exporters)
             {
@@ -182,7 +182,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
         /// <summary>
         /// Performs actions after creating and before writing an event.
         /// </summary>
-        public override void OnEvent(Event ev)
+        public override void OnEvent(int archiveMask, Event ev)
         {
             foreach (Exporter exporter in exporters)
             {

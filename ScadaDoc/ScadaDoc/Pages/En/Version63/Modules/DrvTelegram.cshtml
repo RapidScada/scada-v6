@@ -1,0 +1,92 @@
+﻿@page "/en/latest/modules/drv-telegram"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Telegram Driver";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li>
+            <a href="#configuring">Configuring</a>
+            <ul>
+                <li><a href="#creating-bot">Creating Bot</a></li>
+                <li><a href="#driver-settings">Driver Settings</a></li>
+                <li><a href="#managing-subscriptions">Managing Subscriptions</a></li>
+            </ul>
+        </li>
+        <li><a href="#sending-messages">Sending Messages</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Telegram Driver</h1>
+    <h2 id="overview">Overview</h2>
+    <p>Telegram Driver is designed to send notifications using the popular Telegram messenger. The advantages of using Telegram is quickness of receiving notifications, no fee for the service and easy management of notification groups.</p>
+
+    <h2 id="installation">Installation</h2>
+    <p>Telegram Driver is installed in accordance with the <a href="../installation/install-modules#drivers">general sequence of installing drivers</a>.</p>
+
+    <h2 id="configuring">Configuring</h2>
+    <h3 id="creating-bot">Creating Bot</h3>
+    <p>In order for the driver to interact with the Telegram messenger, it is necessary to create a Telegram bot.</p>
+    <ol>
+        <li>Install the application and register <a href="https://telegram.org/" target="_blank">Telegram</a>.</li>
+        <li>
+            Add the bot named <a href="https://telegram.me/botfather" target="_blank">BotFather</a> to the contact list.
+            <figure class="figure text-start">
+                <img src="drv-telegram-files/telegram-bot-father.png" class="figure-img img-fluid" alt="Telegram BotFather" />
+            </figure>
+        </li>
+        <li>
+            In the dialog with BotFather, run the command <code>/newbot</code> and follow the instructions from BotFather to create a new bot. Once the bot is created, copy the bot token.
+            <figure class="figure text-start">
+                <img src="drv-telegram-files/telegram-new-bot.png" class="figure-img img-fluid" alt="Creating a bot" />
+            </figure>
+        </li>
+    </ol>
+    <div class="alert alert-warning">
+        <strong>Important!</strong> Keep the bot token secret.
+    </div>
+
+    <h3 id="driver-settings">Driver Settings</h3>
+    <p>Telegram driver setup sequence:</p>
+    <ol>
+        <li>Create a separate communication line containing a single device of the Telegram type. Use the wizards that are called using the <img src="../common-images/add-line.png" /> and <img src="../common-images/add-device.png" /> buttons.</li>
+        <li>
+            Open the device properties, enter the bot token obtained earlier and click the <strong>Save</strong> button.
+            <figure class="figure text-start">
+                <img src="drv-telegram-files/config-token-en.png" class="figure-img img-fluid" alt="Entering a bot token" />
+            </figure>
+        </li>
+        <li>Upload the project for execution by the <img src="../common-images/upload.png" /> button.</li>
+        <li>Open the <strong>Communicator &gt; Drivers page</strong>, select the <strong>DrvTelegram</strong> driver and register the driver.</li>
+        <li>Re-upload the project for execution.</li>
+    </ol>
+    <p>After completing the described actions, use the communication line log to check that requests to the Telegram server are sent successfully and that responses are received.</p>
+    <figure class="figure text-start">
+        <img src="drv-telegram-files/line-log-en.png" class="figure-img img-fluid border" alt="Communication line log" />
+    </figure>
+
+    <h3 id="managing-subscriptions">Managing Subscriptions</h3>
+    <p>To receive messages sent by the Telegram driver, create a chat in which one of the participants will be your bot. In the Telegram application, create a new group, add the previously created bot and other contacts who will receive messages.</p>
+    <p>If the settings are correct, your bot will respond to commands sent from the messenger, for example, the <code>/help</code> command. Run the <code>/info</code> command to get the chat ID and name.</p>
+    <figure class="figure">
+        <img src="drv-telegram-files/telegram-chat-en.png" class="figure-img img-fluid" alt="Chat info" />
+    </figure>
+
+    <p>Enter the chat ID and name in the device properties form as shown in the figure below. After saving the properties, upload the project for execution again.</p>
+    <figure class="figure">
+        <img src="drv-telegram-files/config-subscriptions-en.png" class="figure-img img-fluid" alt="Subscriptions" />
+    </figure>
+
+    <h2 id="sending-messages">Sending Messages</h2>
+    <p>To send a message to a Telegram group, you need to send a command with the <code>Notif</code> code, containing the group name (or identifier) and the message text. An example of sending a command from the Administrator application is shown in the following figure.</p>
+    <figure class="figure">
+        <img src="drv-telegram-files/send-message-en.png" class="figure-img img-fluid" alt="Sending a message" />
+    </figure>
+    <p>Automatic sending of notifications when certain conditions are met and events occur is carried out by <a href="mod-auto-control">Automatic Control Module</a>.</p>
+</div>

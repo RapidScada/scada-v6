@@ -17,9 +17,9 @@ namespace Scada.Server.Modules.ModDbExport.Config
         /// </summary>
         public QueryFilter()
         {
-            CnlNums = new List<int>();
-            ObjNums = new List<int>();
-            DeviceNums = new List<int>();
+            CnlNums = [];
+            ObjNums = [];
+            DeviceNums = [];
         }
 
 
@@ -37,6 +37,14 @@ namespace Scada.Server.Modules.ModDbExport.Config
         /// Gets the device numbers.
         /// </summary>
         public List<int> DeviceNums { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the filter is not set.
+        /// </summary>
+        public bool IsEmpty =>
+            CnlNums.Count == 0 && 
+            ObjNums.Count == 0 && 
+            DeviceNums.Count == 0;
 
 
         /// <summary>

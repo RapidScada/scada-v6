@@ -8,7 +8,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <RootNamespace>Scada.Server.Forms</RootNamespace>
-    <Version>6.2.0</Version>
+    <Version>6.2.1</Version>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>

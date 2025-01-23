@@ -226,8 +226,8 @@
   <Dictionary key="Scada.Admin.App.Forms">
     <Phrase key="SelectedColumn">Vybraný</Phrase>
     <Phrase key="NoProfileConnections">Profil neobsahuje připojení.</Phrase>
-    <Phrase key="ExtensionNotFound">Rozšíření "{0}" nebylo nalezeno.</Phrase>
-    <Phrase key="ExtensionCannotDeploy">Rozšíření "{0}" nepodporuje nasazení.</Phrase>
+    <Phrase key="ExtensionNotFound">Rozšíření &quot;{0}&quot; nebylo nalezeno.</Phrase>
+    <Phrase key="ExtensionCannotDeploy">Rozšíření &quot;{0}&quot; nepodporuje nasazení.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmDownloadConfig">
     <Phrase key="this">Stáhnout konfiguraci</Phrase>
@@ -322,16 +322,16 @@
     <Phrase key="btnFilter.ToolTip">Filtr</Phrase>
     <Phrase key="btnAutoSizeColumns.ToolTip">Automaticky přizpůsobit šířky sloupců</Phrase>
     <Phrase key="btnProperties.ToolTip">Vlastnosti položky</Phrase>
-    <Phrase key="GridViewError">Chyba při zobrazování tabulky, sloupce "{0}".</Phrase>
+    <Phrase key="GridViewError">Chyba při zobrazování tabulky, sloupce &quot;{0}&quot;.</Phrase>
     <Phrase key="ColumnLabel">Sloupec:</Phrase>
     <Phrase key="DeleteRowConfirm">Opravdu chcete smazat řádek?</Phrase>
     <Phrase key="DeleteRowsConfirm">Opravdu chcete smazat řádky?</Phrase>
     <Phrase key="ClearTableConfirm">Opravdu chcete vyčistit stůl?</Phrase>
     <Phrase key="RowsNotDeleted">Některé řádky nebyly odstraněny, protože se na ně odkazuje.</Phrase>
-    <Phrase key="ColumnNotNull">Sloupec "{0}" nemůže obsahovat prázdné hodnoty.</Phrase>
-    <Phrase key="UniqueRequired">Do sloupce "{0}" nelze vložit duplicitní hodnotu.</Phrase>
-    <Phrase key="KeyReferenced">Na primární klíč odkazuje řádek z tabulky "{0}".</Phrase>
-    <Phrase key="DataNotExist">Pro sloupec "{0}" neexistují žádná data.</Phrase>
+    <Phrase key="ColumnNotNull">Sloupec &quot;{0}&quot; nemůže obsahovat prázdné hodnoty.</Phrase>
+    <Phrase key="UniqueRequired">Do sloupce &quot;{0}&quot; nelze vložit duplicitní hodnotu.</Phrase>
+    <Phrase key="KeyReferenced">Na primární klíč odkazuje řádek z tabulky &quot;{0}&quot;.</Phrase>
+    <Phrase key="DataNotExist">Pro sloupec &quot;{0}&quot; neexistují žádná data.</Phrase>
     <Phrase key="DataChangeError">Při změně dat tabulky došlo k chybě</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmCnl">
@@ -466,7 +466,7 @@
     <Phrase key="lblInfo">Změny se projeví po restartování aplikace.</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">zrušení</Phrase>
-    <Phrase key="ProjectExtRegistered">Rozšíření "{0}" bylo úspěšně zaregistrováno.</Phrase>
+    <Phrase key="ProjectExtRegistered">Rozšíření &quot;{0}&quot; bylo úspěšně zaregistrováno.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tools.FrmCulture">
     <Phrase key="this">Jazyk</Phrase>

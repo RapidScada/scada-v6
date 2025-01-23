@@ -40,14 +40,17 @@ namespace Scada.Admin.Forms
         /// Initializes a new instance of the class.
         /// </summary>
         public FrmRegistration(IAdminContext adminContext, ProjectApp projectApp,
-            string productCode, string productName) : this()
+            RegistrationInfo registrationInfo) : this()
         {
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.projectApp = projectApp ?? throw new ArgumentNullException(nameof(projectApp));
-            regKeyFileName = Path.Combine(projectApp.ConfigDir, productCode + "_Reg.xml");
+            ArgumentNullException.ThrowIfNull(registrationInfo, nameof(registrationInfo));
 
-            ctrlRegistration.ProductCode = productCode;
-            ctrlRegistration.ProductName = productName;
+            regKeyFileName = Path.Combine(projectApp.ConfigDir, registrationInfo.ProductCode + "_Reg.xml");
+            ctrlRegistration.ProductCode = registrationInfo.ProductCode;
+            ctrlRegistration.ProductName = registrationInfo.ProductName;
+            ctrlRegistration.PermanentKeyUrl = registrationInfo.PermanentKeyUrl;
+            ctrlRegistration.TrialKeyUrl = registrationInfo.TrialKeyUrl;
         }
 
 

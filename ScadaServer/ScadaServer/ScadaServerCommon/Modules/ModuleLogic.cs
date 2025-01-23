@@ -148,21 +148,21 @@ namespace Scada.Server.Modules
         /// <summary>
         /// Performs actions after receiving and before processing new historical data.
         /// </summary>
-        public virtual void OnHistoricalDataProcessing(Slice slice)
+        public virtual void OnHistoricalDataProcessing(int archiveMask, Slice slice)
         {
         }
 
         /// <summary>
         /// Performs actions after receiving and processing new historical data.
         /// </summary>
-        public virtual void OnHistoricalDataProcessed(Slice slice)
+        public virtual void OnHistoricalDataProcessed(int archiveMask, Slice slice)
         {
         }
 
         /// <summary>
         /// Performs actions after creating and before writing an event.
         /// </summary>
-        public virtual void OnEvent(Event ev)
+        public virtual void OnEvent(int archiveMask, Event ev)
         {
         }
 

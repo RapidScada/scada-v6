@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2023
+ * Modified : 2024
  */
 
 using Scada.Data.Entities;
@@ -210,7 +210,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Calls the OnHistoricalDataProcessing method of the modules.
         /// </summary>
-        public void OnHistoricalDataProcessing(Slice slice)
+        public void OnHistoricalDataProcessing(int archiveMask, Slice slice)
         {
             if (serviceStopped)
                 return;
@@ -221,7 +221,7 @@ namespace Scada.Server.Engine
                 {
                     try
                     {
-                        moduleLogic.OnHistoricalDataProcessing(slice);
+                        moduleLogic.OnHistoricalDataProcessing(archiveMask, slice);
                     }
                     catch (Exception ex)
                     {
@@ -235,7 +235,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Calls the OnHistoricalDataProcessed method of the modules.
         /// </summary>
-        public void OnHistoricalDataProcessed(Slice slice)
+        public void OnHistoricalDataProcessed(int archiveMask, Slice slice)
         {
             if (serviceStopped)
                 return;
@@ -246,7 +246,7 @@ namespace Scada.Server.Engine
                 {
                     try
                     {
-                        moduleLogic.OnHistoricalDataProcessed(slice);
+                        moduleLogic.OnHistoricalDataProcessed(archiveMask, slice);
                     }
                     catch (Exception ex)
                     {
@@ -260,7 +260,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Calls the OnEvent method of the modules.
         /// </summary>
-        public void OnEvent(Event ev)
+        public void OnEvent(int archiveMask, Event ev)
         {
             if (serviceStopped)
                 return;
@@ -271,7 +271,7 @@ namespace Scada.Server.Engine
                 {
                     try
                     {
-                        moduleLogic.OnEvent(ev);
+                        moduleLogic.OnEvent(archiveMask, ev);
                     }
                     catch (Exception ex)
                     {

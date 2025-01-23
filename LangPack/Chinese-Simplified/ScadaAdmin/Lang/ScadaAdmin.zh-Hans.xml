@@ -226,8 +226,8 @@
   <Dictionary key="Scada.Admin.App.Forms">
     <Phrase key="SelectedColumn">选定</Phrase>
     <Phrase key="NoProfileConnections">配置文件不包含连接。</Phrase>
-    <Phrase key="ExtensionNotFound">未找到 "{0}" 扩展。</Phrase>
-    <Phrase key="ExtensionCannotDeploy">扩展 "{0}" 不支持部署。</Phrase>
+    <Phrase key="ExtensionNotFound">未找到 &quot;{0}&quot; 扩展。</Phrase>
+    <Phrase key="ExtensionCannotDeploy">扩展 &quot;{0}&quot; 不支持部署。</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmDownloadConfig">
     <Phrase key="this">下载配置</Phrase>
@@ -322,16 +322,16 @@
     <Phrase key="btnFilter.ToolTip">筛选</Phrase>
     <Phrase key="btnAutoSizeColumns.ToolTip">自动调整列宽</Phrase>
     <Phrase key="btnProperties.ToolTip">属性</Phrase>
-    <Phrase key="GridViewError">错误显示表, 列 "{0}"</Phrase>
+    <Phrase key="GridViewError">错误显示表, 列 &quot;{0}&quot;</Phrase>
     <Phrase key="ColumnLabel">列:</Phrase>
     <Phrase key="DeleteRowConfirm">是否确实要删除该行？</Phrase>
     <Phrase key="DeleteRowsConfirm">是否确实要删除行？</Phrase>
     <Phrase key="ClearTableConfirm">是否确实要清除表？</Phrase>
     <Phrase key="RowsNotDeleted">某些行未被删除，因为它们被引用。</Phrase>
-    <Phrase key="ColumnNotNull">列 "{0}" 不能包含空值。</Phrase>
-    <Phrase key="UniqueRequired">重复值不能插入到列 "{0}".</Phrase>
-    <Phrase key="KeyReferenced">主键由表 "{0}"的一行引用。</Phrase>
-    <Phrase key="DataNotExist"> 不存在 "{0}" 任何数据.</Phrase>
+    <Phrase key="ColumnNotNull">列 &quot;{0}&quot; 不能包含空值。</Phrase>
+    <Phrase key="UniqueRequired">重复值不能插入到列 &quot;{0}&quot;.</Phrase>
+    <Phrase key="KeyReferenced">主键由表 &quot;{0}&quot;的一行引用。</Phrase>
+    <Phrase key="DataNotExist"> 不存在 &quot;{0}&quot; 任何数据.</Phrase>
     <Phrase key="DataChangeError">更改数据表发生错误</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmCnl">
@@ -466,7 +466,7 @@
     <Phrase key="lblInfo">更改将在重新启动应用程序后生效。</Phrase>
     <Phrase key="btnOK">确定</Phrase>
     <Phrase key="btnCancel">取消</Phrase>
-    <Phrase key="ProjectExtRegistered">扩展名 "{0}"已成功注册 。</Phrase>
+    <Phrase key="ProjectExtRegistered">扩展名 &quot;{0}&quot;已成功注册 。</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tools.FrmCulture">
     <Phrase key="this">语言</Phrase>

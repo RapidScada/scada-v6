@@ -1,12 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ScadaDictionaries culture="zh-Hans" lang="ChineseSimplified">
   <!-- ScadaCommon.dll -->
-  <!-- ScadaCommon.dll -->
   <Dictionary key="Scada.Application">
     <Phrase key="ProductName">Rapid SCADA</Phrase>
     <Phrase key="ServerAppName">服务器</Phrase>
-    <Phrase key="CommAppName">Communicator</Phrase>
-    <Phrase key="WebAppName">Webstation</Phrase>
+    <Phrase key="CommAppName">通訊器</Phrase>
+    <Phrase key="WebAppName">網站</Phrase>
     <Phrase key="WebsiteUrl">https://rapidscada.org</Phrase>
     <Phrase key="UnhandledException">未知错误</Phrase>
     <Phrase key="ExecutionImpossible">无法正常执行</Phrase>
@@ -136,19 +135,19 @@
     <Phrase key="chkConnectionString">连接字符串</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Controls.CtrlRegistration">
-    <Phrase key="lblProductName">Product name</Phrase>
-    <Phrase key="lblCompCode">Computer code</Phrase>
-    <Phrase key="btnCopyCompCode">Copy</Phrase>
-    <Phrase key="btnRefreshCompCode">Refresh</Phrase>
-    <Phrase key="lblCompCodeInfo">If the code is missing, upload the configuration and restart the service.</Phrase>
-    <Phrase key="lblRegKey">Registration key</Phrase>
-    <Phrase key="btnPasteRegKey">Paste</Phrase>
-    <Phrase key="lblRegKeyInfo">Key verification result is written in the application or module log.</Phrase>
-    <Phrase key="llblGetPermanentKey">Get permanent key</Phrase>
-    <Phrase key="llblGetTrialKey">Get trial key</Phrase>
+    <Phrase key="lblProductName">產品名稱</Phrase>
+    <Phrase key="lblCompCode">電腦程式碼</Phrase>
+    <Phrase key="btnCopyCompCode">複製</Phrase>
+    <Phrase key="btnRefreshCompCode">重新整理</Phrase>
+    <Phrase key="lblCompCodeInfo">如果程式碼遺失，請上傳配置並重新啟動服務。</Phrase>
+    <Phrase key="lblRegKey">註冊碼</Phrase>
+    <Phrase key="btnPasteRegKey">貼上</Phrase>
+    <Phrase key="lblRegKeyInfo">密鑰驗證結果寫入應用程式或模組日誌中。</Phrase>
+    <Phrase key="llblGetPermanentKey">取得永久密鑰</Phrase>
+    <Phrase key="llblGetTrialKey">取得試用金鑰</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmBitmask">
-    <Phrase key="this">？位掩码？</Phrase>
+    <Phrase key="this">位掩码</Phrase>
     <Phrase key="btnOK">确定</Phrase>
     <Phrase key="btnCancel">取消</Phrase>
   </Dictionary>
@@ -200,11 +199,11 @@
     <Phrase key="btnCancel">取消</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmRangeEdit">
-    <Phrase key="this">Edit Range</Phrase>
-    <Phrase key="lblRange">Range of integer numbers</Phrase>
-    <Phrase key="lblExample">For example: 1 - 5, 10</Phrase>
-    <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnCancel">Cancel</Phrase>
+    <Phrase key="this">編輯範圍</Phrase>
+    <Phrase key="lblRange">整數範圍</Phrase>
+    <Phrase key="lblExample">例如：1 - 5、10</Phrase>
+    <Phrase key="btnOK">好的</Phrase>
+    <Phrase key="btnCancel">取消</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.BitItemCollection">
     <Phrase key="EventEnabled">启用事件</Phrase>

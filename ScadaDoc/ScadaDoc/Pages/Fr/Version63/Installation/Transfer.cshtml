@@ -1,0 +1,28 @@
+﻿@page "/fr/latest/installation/transfer"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Transfert vers un Nouveau Serveur";
+}
+
+<h1>Transfert vers un Nouveau Serveur</h1>
+<p>Cet article décrit comment migrer une instance en cours d'exécution de Rapid SCADA d'un serveur à un autre. La séquence des actions est la suivante :</p>
+
+<ol>
+    <li>
+        Vérifiez que les connexions avec les dispositifs sondés sont configurées sur le nouveau serveur :
+        <ul>
+            <li>il existe des ports série dont les numéros correspondent aux numéros de port sur l'ancien serveur,</li>
+            <li>les contrôleurs sondés via le réseau sont accessibles,</li>
+            <li>les serveurs OPC sont installés et configurés.</li>
+        </ul>
+    </li>
+    <li>Installez Rapid SCADA sur le nouveau serveur et vérifiez son bon fonctionnement avec la configuration par défaut.</li>
+    <li>Arrêtez les services Serveur et Communicator sur le nouveau serveur.</li>
+    <li>Arrêtez les services Serveur et Communicator sur l'ancien serveur et désactivez le démarrage automatique de ces services.</li>
+    <li>Copiez les archives de données de l'ancien serveur vers le nouveau. La méthode de copie dépend du type d'archives : basées sur des fichiers ou sur un SGBD.</li>
+    <li>Ouvrez le projet dans l'application Administrateur et téléchargez la configuration sur le nouveau serveur à l'aide du bouton <img src="../common-images/upload.png" />.</li>
+    <li>Si des modules supplémentaires sont utilisés, obtenez et entrez les clés d'enregistrement pour le nouveau serveur, puis rechargez le projet pour l'exécution.</li>
+    <li>Vérifiez si le nouveau serveur fonctionne correctement.</li>
+</ol>
+
+<p>Si le nouveau serveur ne fonctionne pas dès le premier essai, arrêtez les services Serveur et Communicator sur celui-ci et redémarrez ces services sur l'ancien serveur. Les informations qui peuvent aider à résoudre les problèmes techniques se trouvent dans les journaux de fonctionnement des applications et des modules.</p>

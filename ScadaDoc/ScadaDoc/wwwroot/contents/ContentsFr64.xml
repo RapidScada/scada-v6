@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TableOfContents>
+  <!-- Overview -->
+  <Item>
+    <Text>Overview</Text>
+    <Url>/fr/latest/software-overview/</Url>
+    <Subitems>
+      <Item>
+        <Text>Introduction</Text>
+        <Url>/fr/latest/software-overview/introduction</Url>
+      </Item>
+	  <Item>
+		<Text>Applications</Text>
+		<Url>/fr/latest/software-overview/applications</Url>
+	  </Item>
+      <Item>
+	    <Text>Architecture logicielle</Text>
+	    <Url>/fr/latest/software-overview/architecture</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
+  <!-- Installation -->
+  <Item>
+    <Text>Installation</Text>
+    <Url>/fr/latest/installation/</Url>
+    <Subitems>
+      <Item>
+        <Text>Configurations requises</Text>
+        <Url>/fr/latest/installation/system-requirements</Url>
+      </Item>
+      <Item>
+        <Text>Installation sur Windows</Text>
+        <Url>/fr/latest/installation/install-windows</Url>
+      </Item>
+      <Item>
+        <Text>Installation sur Windows manuellement</Text>
+        <Url>/fr/latest/installation/install-windows-manual</Url>
+      </Item>
+      <Item>
+        <Text>Installation sur Linux</Text>
+        <Url>/fr/latest/installation/install-linux</Url>
+      </Item>
+      <Item>
+        <Text>Installation des modules</Text>
+        <Url>/fr/latest/installation/install-modules</Url>
+      </Item>
+	  <Item>
+		<Text>Gestion des Services</Text>
+		<Url>/fr/latest/installation/services</Url>
+	  </Item>
+	  <Item>
+		<Text>Transfert vers un Nouveau Serveur</Text>
+		<Url>/fr/latest/installation/transfer</Url>
+	  </Item>
+	  <Item>
+        <Text>Recommandations de sécurité</Text>
+        <Url>/fr/latest/installation/safety</Url>
+      </Item>
+    </Subitems>
+  </Item>
+	
+	<!-- Configuration -->
+	<Item>
+		<Text>Configuration</Text>
+		<Url>/fr/latest/configuration/</Url>
+		<Subitems>
+			<Item>
+				<Text>Notions de Base sur la Configuration</Text>
+				<Url>/fr/latest/configuration/configuration-basics</Url>
+			</Item>
+			<Item>
+				<Text>Base de Données de Configuration</Text>
+				<Url>/fr/latest/configuration/database</Url>
+			</Item>
+			<Item>
+				<Text>Sondage des Dispositifs</Text>
+				<Url>/fr/latest/configuration/device-polling</Url>
+			</Item>
+			<Item>
+				<Text>Canaux</Text>
+				<Url>/fr/latest/configuration/channels</Url>
+			</Item>
+			<Item>
+				<Text>Scripts et Formules</Text>
+				<Url>/fr/latest/configuration/scripts</Url>
+			</Item>
+			<Item>
+				<Text>Vues</Text>
+				<Url>/fr/latest/configuration/views</Url>
+			</Item>
+			<Item>
+				<Text>Vues Tableaux</Text>
+				<Url>/fr/latest/configuration/table-views</Url>
+			</Item>
+			<Item>
+				<Text>Gestion des Utilisateurs</Text>
+				<Url>/fr/latest/configuration/user-management</Url>
+			</Item>
+		</Subitems>
+	</Item>
+
+</TableOfContents>

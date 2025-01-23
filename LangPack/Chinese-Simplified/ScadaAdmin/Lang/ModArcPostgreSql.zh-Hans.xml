@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ModArcPostgreSqlDictionaries culture="zh-Hans" lang="ChineseSimplified">
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Controls.CtrlDatabaseOptions">
-    <Phrase key="lblUseDefaultConn">Use default connection</Phrase>
-    <Phrase key="lblConnection">Connection</Phrase>
-    <Phrase key="lblPartitionSize">Partition size</Phrase>
-    <Phrase key="cbPartitionSize.Items[0]">One day</Phrase>
-    <Phrase key="cbPartitionSize.Items[1]">One month</Phrase>
-    <Phrase key="cbPartitionSize.Items[2]">One year</Phrase>
-    <Phrase key="lblMaxQueueSize">Maximum queue size</Phrase>
-    <Phrase key="lblBatchSize">Items per transaction</Phrase>
-  </Dictionary> 
+    <Phrase key="lblUseDefaultConn">使用預設連接</Phrase>
+    <Phrase key="lblConnection">聯繫</Phrase>
+    <Phrase key="lblPartitionSize">分割區大小</Phrase>
+    <Phrase key="cbPartitionSize.Items[0]">一天</Phrase>
+    <Phrase key="cbPartitionSize.Items[1]">一個月</Phrase>
+    <Phrase key="cbPartitionSize.Items[2]">一年</Phrase>
+    <Phrase key="lblMaxQueueSize">最大隊列大小</Phrase>
+    <Phrase key="lblBatchSize">每筆交易的項目</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmConnManager">
     <Phrase key="this">PostgreSQL连接</Phrase>
     <Phrase key="gbConnList">连接</Phrase>
@@ -20,24 +20,24 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreCAO">
     <Phrase key="this">当前存档选项</Phrase>
-    <Phrase key="pageGeneral">General</Phrase>
-    <Phrase key="pageDatabase">Database</Phrase>
+    <Phrase key="pageGeneral">一般的</Phrase>
+    <Phrase key="pageDatabase">資料庫</Phrase>
     <Phrase key="btnManageConn">管理连接</Phrase>
     <Phrase key="btnOK">确定</Phrase>
     <Phrase key="btnCancel">取消</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreEAO">
     <Phrase key="this">事件存档选项</Phrase>
-    <Phrase key="pageGeneral">General</Phrase>
-    <Phrase key="pageDatabase">Database</Phrase>
+    <Phrase key="pageGeneral">一般的</Phrase>
+    <Phrase key="pageDatabase">資料庫</Phrase>
     <Phrase key="btnManageConn">管理连接</Phrase>
     <Phrase key="btnOK">确定</Phrase>
     <Phrase key="btnCancel">取消</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreHAO">
     <Phrase key="this">历史存档选项</Phrase>
-    <Phrase key="pageGeneral">General</Phrase>
-    <Phrase key="pageDatabase">Database</Phrase>
+    <Phrase key="pageGeneral">一般的</Phrase>
+    <Phrase key="pageDatabase">資料庫</Phrase>
     <Phrase key="btnManageConn">管理连接</Phrase>
     <Phrase key="btnOK">确定</Phrase>
     <Phrase key="btnCancel">取消</Phrase>

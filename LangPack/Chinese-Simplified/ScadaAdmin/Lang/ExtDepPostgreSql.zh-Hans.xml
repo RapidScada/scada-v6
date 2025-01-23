@@ -11,7 +11,7 @@
     <Phrase key="ClearBase">清除配置数据库</Phrase>
     <Phrase key="CreateBase">创建配置数据库</Phrase>
     <Phrase key="DeleteTable">删除表 {0} </Phrase>
-    <Phrase key="TruncateTable">Truncate the {0} table</Phrase>
+    <Phrase key="TruncateTable">截斷 {0} 表</Phrase>
     <Phrase key="CreateTable">创建表 {0} </Phrase>
     <Phrase key="FillTable">Fill the {0} table</Phrase>
     <Phrase key="CreateFKs">创建外键</Phrase>
@@ -26,12 +26,12 @@
     <Phrase key="UnableRestartServices">由于代理已禁用，无法重启服务</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ClearBaseMethod">
-     <Phrase key="DropTables">Drop tables</Phrase>
-     <Phrase key="TruncateTables">Truncate tables</Phrase>
-   </Dictionary>
-   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ExtensionConfig">
-     <Phrase key="ClearBaseMethod.DisplayName">Clear method</Phrase>
-     <Phrase key="ClearBaseMethod.Category">Main Parameters</Phrase>
-     <Phrase key="ClearBaseMethod.Description">The method for clearing the configuration database. The truncate method is possible if the tables have already been created.</Phrase>
-   </Dictionary>
+    <Phrase key="DropTables">刪除表</Phrase>
+    <Phrase key="TruncateTables">截斷表</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ExtensionConfig">
+    <Phrase key="ClearBaseMethod.DisplayName">清除方法</Phrase>
+    <Phrase key="ClearBaseMethod.Category">主要參數</Phrase>
+    <Phrase key="ClearBaseMethod.Description">清除配置資料庫的方法。 如果已經建立了表，則可以使用截斷方法。</Phrase>
+  </Dictionary>
 </ExtDepPostgreSqlDictionaries>

@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2024 Rapid Software LLC
+ * Copyright 2025 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -698,7 +698,8 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void SaveAll()
         {
-            foreach (Form form in wctrlMain.Forms)
+            // make a snapshot of the form collection as some forms may be closed during saving
+            foreach (Form form in wctrlMain.Forms.ToList())
             {
                 if (form is IChildForm childForm && childForm.ChildFormTag.Modified)
                     childForm.Save();
