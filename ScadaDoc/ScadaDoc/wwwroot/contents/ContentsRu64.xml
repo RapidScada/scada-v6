@@ -118,6 +118,10 @@
         <Url>/ru/latest/modules/plg-elastic-report</Url>
       </Item>
       <Item>
+        <Text>Плагин Карты</Text>
+        <Url>/ru/latest/modules/plg-map</Url>
+      </Item>
+      <Item>
         <Text>Модуль автоматического управления</Text>
         <Url>/ru/latest/modules/mod-auto-control</Url>
       </Item>
