@@ -23,6 +23,7 @@
             <ul>
                 <li><a href="#plugin-settings">Настройка плагина</a></li>
                 <li><a href="#creating-map">Создание карты</a></li>
+                <li><a href="#map-structure">Структура файла карты</a></li>
             </ul>
         </li>
     </ul>
@@ -31,7 +32,10 @@
 <div class="doc-content">
     <h1>Плагин Плагин Карты</h1>
     <h2 id="overview">Обзор</h2>
-    <p>Плагин Карты отображает состояние и параметры стационарных и движущихся объектов на интерактивных картах OpenStreetMap. Плагин позволяет наглядно контролировать географически распределённые системы и транспорт, по щелчку переходить на страницу детальной информации по интересующему объекту. Скачать плагин можно по <a href="https://rapidscada.net/store/Module/ru/PlgMap" target="_blank">ссылке</a>.</p>
+    <p>Плагин Карты отображает состояние и параметры стационарных и движущихся объектов на интерактивных картах OpenStreetMap. Плагин позволяет наглядно контролировать географически распределённые системы и транспорт, по щелчку переходить на страницу детальной информации по интересующему объекту. Скачать плагин можно по <a href="https://rapidscada.net/store/Module/ru/PlgMap" target="_blank">ссылке</a>. Внешний вид плагина Карты показан на следующем рисунке.</p>
+    <figure class="figure">
+        <img src="plg-map-files/map-example-ru.png" class="figure-img img-fluid" alt="Плагин Карты" />
+    </figure>
 
     <h2 id="installation">Установка</h2>
     <p>Плагин Карты устанавливается по <a href="../installation/install-modules#plugins">инструкции</a>. В ходе установки выполните дополнительное действие: скопируйте файл <code>PlgMap.xml</code> из дистрибутива плагина в свой проект. Файл должен отображаться в проводнике проекта внутри узла <strong>Вебстанция &gt; Конфигурационные файлы</strong>.</p>
@@ -46,10 +50,96 @@
     <p>Секция <code>TileLayers</code> содержит настройки слоёв плиток. В зависимости от провайдера плиток каждый слой <code>TileLayer</code> имеет собственный набор параметров. Пользователь может переключать слой плиток на карте.</p>
     <p>В секции <code>MarkerIcons</code> определены значки маркеров, которые доступны на картах. Значки маркеров бывают двух типов:</p>
     <ol>
-        <li>Значки типа <code>Classic</code> основаны на графическом файле. Имя файла имеет суффикс, соотвествующий статусу объекта: <code>undefined</code> - не определён, <code>normal</code> - норма, <code>error</code> - ошибка, <code>unbound</code> - статус не привязан к каналу. Файлы значка располагаются в директории <code>SCADA\ScadaWeb\wwwroot\plugins\Map\images</code>.</li>
-        <li>Значки типа <code>Awesome</code> используют популярный графический шрифт <a href="https://fontawesome.com/search" target="_blank">Font Awesome</a></li>
+        <li>Значки типа <code>Classic</code> основаны на графическом файле. Имя файла имеет суффикс, соотвествующий статусу объекта: <code>undefined</code> - не определён, <code>normal</code> - норма, <code>error</code> - ошибка, <code>unbound</code> - статус не привязан к каналу. Файлы значков располагаются в директории <code>SCADA\ScadaWeb\wwwroot\plugins\Map\images</code>.</li>
+        <li>Значки типа <code>Awesome</code> используют популярный графический шрифт <a href="https://fontawesome.com/search" target="_blank">Font Awesome</a>.</li>
     </ol>
 
     <h3 id="creating-map">Создание карты</h3>
+    <p>Каждая карта сохраняется в отдельном файле формата XML, но с расширением <code>map</code>. Пример файла карты <code>MapExample.map</code> содержится в установочном пакете плагина. Файл карты должен располагаться в директории представлений или её поддиректории внутри проекта.</p>
+    <p>Таким образом, чтобы создать новую карту, в приложении Администратор создайте новый XML файл с расширением <code>map</code> в разделе проекта <strong>Представления</strong>, а затем укажите путь к созданному файлу в таблице <strong>Представления</strong>.</p>
+    <figure class="figure">
+        <img src="plg-map-files/new-map-file-ru.png" class="figure-img img-fluid" alt="Создание файла" />
+    </figure>
+    <figure class="figure">
+        <img src="plg-map-files/map-view-file-ru.png" class="figure-img img-fluid" alt="Файл карты" />
+    </figure>
+    <figure class="figure">
+        <img src="plg-map-files/map-view-table-ru.png" class="figure-img img-fluid" alt="Таблица Представления" />
+    </figure>
+
+    <h3 id="map-structure">Структура файла карты</h3>
+    <p>Расмотрим структуру файла карты на примере <code>MapExample.map</code>. Все XML-элементы карты находятся внутри корневого элемента <code>MapView</code>.</p>
+    <p>Элемент <code>InitialView</code> содержит начальные координаты и масштаб карты. Масштаб - это целое число от 0 до 18.</p>
+
+<pre><code class="language-xml">&lt;InitialView&gt;
+  &lt;Lat&gt;48.8430&lt;/Lat&gt;
+  &lt;Lon&gt;2.3275&lt;/Lon&gt;
+  &lt;Zoom&gt;13&lt;/Zoom&gt;
+&lt;/InitialView&gt;</code></pre>
+
+    <p>Далее следуют элементы <code>LayerGroup</code>, каждый из которых содержит группу объектов карты. Пользователь может включать и отключать видимость группы через веб-интерфейс.</p>
+    <p>Элемент <code>Options</code> внутри <code>LayerGroup</code> задаёт параметры группы.</p>
+
+<pre><code class="language-xml">&lt;Options&gt;
+  &lt;Name&gt;Main&lt;/Name&gt;
+  &lt;DefaultIcon&gt;Site&lt;/DefaultIcon&gt;
+  &lt;Visible&gt;true&lt;/Visible&gt;
+  &lt;ShowTooltips&gt;true&lt;/ShowTooltips&gt;
+&lt;/Options&gt;</code></pre>
+
+    <p>
+        <code>Name</code> - наименование группы;<br />
+        <code>DefaultIcon</code> - значок маркера по умолчанию;<br />
+        <code>Visible</code> - видимость объектов группы;<br />
+        <code>ShowTooltips</code> - отображать ли подсказки к объектам.
+    </p>
+    <p>Рассмотрим пример стационарного объекта, элемент <code>Location</code>:</p>
+
+<pre><code class="language-xml">&lt;Location&gt;
+  &lt;Name&gt;Eiffel Tower&lt;/Name&gt;
+  &lt;Descr&gt;Avenue Anatole France, Paris, France&lt;/Descr&gt;
+  &lt;Icon&gt;&lt;/Icon&gt;
+  &lt;Lat&gt;48.858222&lt;/Lat&gt;
+  &lt;Lon&gt;2.2945&lt;/Lon&gt;
+  &lt;StatusCnlNum&gt;0&lt;/StatusCnlNum&gt;
+  &lt;DataItems&gt;
+    &lt;DataItem cnlNum=&quot;101&quot; /&gt;
+    &lt;DataItem cnlNum=&quot;104&quot;&gt;My text&lt;/DataItem&gt;
+  &lt;/DataItems&gt;
+  &lt;Links&gt;
+    &lt;Link viewID=&quot;2&quot; /&gt;
+    &lt;Link viewID=&quot;2&quot;&gt;My link&lt;/Link&gt;
+  &lt;/Links&gt;
+&lt;/Location&gt;</code></pre>
+
+    <p>
+        <code>Name</code> - наименование объекта;<br />
+        <code>Descr</code> - описание объекта;<br />
+        <code>Icon</code> - значок маркера. Если не указан, используется значок по умолчанию;<br />
+        <code>Lat</code> и <code>Lon</code> - широта и долгота объекта;<br />
+        <code>StatusCnlNum</code> - номер входного канала, который показывает статус объекта. Параметр равен 0, если канал не задан. Допустимые данные канала: статус канала равен 0 - статус объекта не определён, значение канала равно 0 - объект в норме, значение канала равно 1 - объект в состоянии ошибки;<br />
+        <code>DataItems</code> - каналы, значения которых отображаются на всплывающей панели информации объекта;<br />
+        <code>Links</code> - ссылки на представления, на которые можно перейти из панели информации объекта.
+    </p>
+    <p>Рассмотрим пример мобильного объекта, элемент <code>Vehicle</code>:</p>
+
+<pre><code class="language-xml">&lt;Vehicle&gt;
+  &lt;Name&gt;Taxi&lt;/Name&gt;
+  &lt;Descr&gt;Uber&lt;/Descr&gt;
+  &lt;Icon&gt;Car&lt;/Icon&gt;
+  &lt;LatCnlNum&gt;201&lt;/LatCnlNum&gt;
+  &lt;LonCnlNum&gt;202&lt;/LonCnlNum&gt;
+  &lt;BearingCnlNum&gt;203&lt;/BearingCnlNum&gt;
+  &lt;StatusCnlNum&gt;204&lt;/StatusCnlNum&gt;
+  &lt;DataItems /&gt;
+  &lt;Links /&gt;
+&lt;/Vehicle&gt;</code></pre>
+
+    <p>
+        Параметры <code>Name</code>, <code>Descr</code>, <code>Icon</code>, <code>StatusCnlNum</code>, <code>DataItems</code> и <code>Links</code> аналогичны стационарному объекту.<br />
+        <code>LatCnlNum</code> и <code>LonCnlNum</code> - номера каналов, которые определяют широту и долготу объекта;<br />
+        <code>BearingCnlNum</code> - номер канала, который определяет поворот объекта. Поворот измеряется в градусах. Значение канала, равное 0, соответствует нейтральному положению объекта. Положительное значение - поворот по часовой стрелке, отрицательное - поворот против часовой стрелки.
+    </p>
+    <p>С помощью элементов <code>Circle</code>, <code>Polygon</code>, <code>Polyline</code> и <code>Rectangle</code> на карту добавляются круг, многоугольник, ломаная линия и прямоугольник соответственно.</p>
 
 </div>
