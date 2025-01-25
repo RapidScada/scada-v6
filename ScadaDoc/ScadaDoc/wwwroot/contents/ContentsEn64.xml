@@ -117,10 +117,10 @@
         <Text>Elastic Report Plugin</Text>
         <Url>/en/latest/modules/plg-elastic-report</Url>
       </Item>
-      <!--<Item>
+      <Item>
         <Text>Map Plugin</Text>
-        <Url>/ru/latest/modules/plg-map</Url>
-      </Item>-->
+        <Url>/en/latest/modules/plg-map</Url>
+      </Item>
       <Item>
         <Text>Automatic Control Module</Text>
         <Url>/en/latest/modules/mod-auto-control</Url>
