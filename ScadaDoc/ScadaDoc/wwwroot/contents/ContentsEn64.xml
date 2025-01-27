@@ -122,6 +122,10 @@
         <Url>/en/latest/modules/plg-map</Url>
       </Item>
       <Item>
+        <Text>Notification Plugin</Text>
+        <Url>/en/latest/modules/plg-notification</Url>
+      </Item>
+      <Item>
         <Text>Automatic Control Module</Text>
         <Url>/en/latest/modules/mod-auto-control</Url>
       </Item>

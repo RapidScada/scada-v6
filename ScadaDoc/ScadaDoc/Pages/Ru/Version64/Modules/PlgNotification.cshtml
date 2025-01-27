@@ -1,0 +1,79 @@
+﻿@page "/ru/latest/modules/plg-notification"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Плагин Уведомления";
+}
+
+<nav class="doc-toc">
+    <div class="h6">На этой странице</div>
+    <hr>
+    <ul>
+        <li><a href="#overview">Обзор</a></li>
+        <li><a href="#installation">Установка</a></li>
+        <li><a href="#configuring">Конфигурирование</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Плагин Уведомления</h1>
+    <h2 id="overview">Обзор</h2>
+    <p>Плагин Уведомления позволяет обратить внимание оператора на наиболее важные события. Плагин формирует уведомления на основе событий по заданным правилам и выводит их на панели уведомлений, которая появляется в правой части веб-страницы. Кроме того, плагин включает звуковое оповещение в зависимости от типа уведомлений. Скачать плагин можно по <a href="https://rapidscada.net/store/Module/ru/PlgNotification" target="_blank">ссылке</a>. Панель уведомлений показана на следующем рисунке.</p>
+    <figure class="figure">
+        <img src="plg-notification-files/notification-panel-ru.png" class="figure-img img-fluid" alt="Панель уведомлений" />
+    </figure>
+    <p>Плагин отображает только те события, которые требуют квитирования и ещё не квитированы. К отображаемым событиям применяется фильтр, заданный в конфигурации плагина.</p>
+
+    <h2 id="installation">Установка</h2>
+    <p>Плагин Уведомления устанавливается по <a href="../installation/install-modules#plugins">инструкции</a>. В ходе установки выполните дополнительные действия: </p>
+    <ul>
+        <li>Скопируйте файл <code>PlgNotification.xml</code> из дистрибутива плагина в свой проект. Файл должен отображаться в проводнике проекта внутри узла <strong>Вебстанция &gt; Конфигурационные файлы</strong>.</li>
+        <li>В параметрах приложения Вебстанция в разделе <strong>Назначение плагинов</strong> выберите плагин <strong>PlgNotification</strong> в качестве плагина управления уведомлениями.</li>
+    </ul>
+
+    <h2 id="configuring">Конфигурирование</h2>
+    <p>Файл конфигурации плагина Уведомления <code>PlgNotification.xml</code> содержит параметры, описанные в следующей таблице.</p>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>XML-элемент</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Плагин Уведомления также использует некоторые параметры из файла <code>ScadaWebConfig.xml</code>, общего конфигурационного файла приложения Вебстанция:</p>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Параметр</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>RefreshRate</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>EventArchiveCode</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>EventCount</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>EventDepth</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

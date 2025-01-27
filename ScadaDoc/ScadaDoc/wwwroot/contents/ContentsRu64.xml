@@ -122,6 +122,10 @@
         <Url>/ru/latest/modules/plg-map</Url>
       </Item>
       <Item>
+        <Text>Плагин Уведомления</Text>
+        <Url>/ru/latest/modules/plg-notification</Url>
+      </Item>
+      <Item>
         <Text>Модуль автоматического управления</Text>
         <Url>/ru/latest/modules/mod-auto-control</Url>
       </Item>
