@@ -106,6 +106,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
             numCmdAddress.Hexadecimal = !DecAddr;
             ShowFuncCode(cmd);
             ShowByteOrder(cmd);
+            ShowScaling(cmd);
 
             if (cmd == null)
             {
@@ -199,6 +200,23 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
         }
 
         /// <summary>
+        /// Shows the scaling of the command.
+        /// </summary>
+        private void ShowScaling(CmdConfig cmd)
+        {
+            if (cmd != null && cmd.ScalingEnabled)
+            {
+                txtCmdScaling.Text = cmd.Scaling;
+                txtCmdScaling.Enabled = true;
+            }
+            else
+            {
+                txtCmdScaling.Text = "";
+                txtCmdScaling.Enabled = false;
+            }
+        }
+
+        /// <summary>
         /// Raises an ObjectChanged event.
         /// </summary>
         private void OnObjectChanged(object changeArgument)
@@ -271,6 +289,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
 
                 ShowFuncCode(cmd);
                 ShowByteOrder(cmd);
+                ShowScaling(cmd);
                 OnObjectChanged(TreeUpdateTypes.CurrentNode);
 
                 if (cmd.DataBlock == DataBlock.Custom)
@@ -299,6 +318,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
                 cmd.Multiple = chkCmdMultiple.Checked;
                 ShowFuncCode(cmd);
                 ShowByteOrder(cmd);
+                ShowScaling(cmd);
                 OnObjectChanged(TreeUpdateTypes.None);
 
                 cbCmdElemType.SelectedIndex = (int)cmd.DefaultElemType;
@@ -377,6 +397,16 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
             if (cmd != null)
             {
                 cmd.ByteOrder = txtCmdByteOrder.Text;
+                OnObjectChanged(TreeUpdateTypes.None);
+            }
+        }
+
+        private void txtCmdScaling_TextChanged(object sender, EventArgs e)
+        {
+            // update scaling
+            if (cmd != null)
+            {
+                cmd.Scaling = txtCmdScaling.Text;
                 OnObjectChanged(TreeUpdateTypes.None);
             }
         }

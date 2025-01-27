@@ -17,6 +17,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             Name = "";
             ElemType = ElemType.Undefined;
             ByteOrder = null;
+            Scaling = "";
             Aux = null;
         }
 
@@ -35,6 +36,11 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         /// Gets or sets the byte order.
         /// </summary>
         public int[] ByteOrder { get; set; }
+
+        /// <summary>
+        /// Gets or sets the scaling double array.
+        /// </summary>
+        public string Scaling { get; set; }
 
         /// <summary>
         /// Gets or sets the auxiliary object.

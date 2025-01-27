@@ -25,6 +25,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
             ElemType = DefaultElemType;
             ElemCnt = 1;
             ByteOrder = "";
+            Scaling = "";
             CmdNum = 0;
             CmdCode = "";
         }
@@ -54,6 +55,11 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         /// Gets or sets the byte order.
         /// </summary>
         public string ByteOrder { get; set; }
+
+        /// <summary>
+        /// Gets or sets the scaling double array.
+        /// </summary>
+        public string Scaling { get; set; }
 
         /// <summary>
         /// Gets or sets the command number.
@@ -103,6 +109,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
             ElemType = xmlElem.GetAttrAsEnum("elemType", DefaultElemType);
             ElemCnt = xmlElem.GetAttrAsInt("elemCnt", 1);
             ByteOrder = xmlElem.GetAttrAsString("byteOrder");
+            Scaling = xmlElem.GetAttrAsString("scaling");
             CmdNum = xmlElem.GetAttrAsInt("cmdNum");
             CmdCode = xmlElem.GetAttrAsString("cmdCode");
             Name = xmlElem.GetAttrAsString("name");
@@ -135,6 +142,13 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
 
                 if (ByteOrderEnabled && !string.IsNullOrEmpty(ByteOrder))
                     xmlElem.SetAttribute("byteOrder", ByteOrder);
+
+                if (ScalingEnabled && !string.IsNullOrWhiteSpace(Scaling))
+                {
+                    double[] scaling = ModbusUtils.ParseDoubleArray(Scaling);
+                    if (scaling.Length == 4 && scaling[0] != scaling[1] && scaling[2] != scaling[3])
+                        xmlElem.SetAttribute("scaling", Scaling);
+                }
             }
 
             xmlElem.SetAttribute("cmdNum", CmdNum);

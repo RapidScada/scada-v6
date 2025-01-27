@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.gbElem = new System.Windows.Forms.GroupBox();
+            this.lblElemScalingExample = new System.Windows.Forms.Label();
+            this.txtElemScaling = new System.Windows.Forms.TextBox();
+            this.lblElemScaling = new System.Windows.Forms.Label();
             this.chkElemIsBitMask = new System.Windows.Forms.CheckBox();
             this.chkElemReadOnly = new System.Windows.Forms.CheckBox();
             this.lblElemByteOrderExample = new System.Windows.Forms.Label();
@@ -62,6 +65,9 @@
             // 
             // gbElem
             // 
+            this.gbElem.Controls.Add(this.lblElemScalingExample);
+            this.gbElem.Controls.Add(this.txtElemScaling);
+            this.gbElem.Controls.Add(this.lblElemScaling);
             this.gbElem.Controls.Add(this.chkElemIsBitMask);
             this.gbElem.Controls.Add(this.chkElemReadOnly);
             this.gbElem.Controls.Add(this.lblElemByteOrderExample);
@@ -89,10 +95,37 @@
             this.gbElem.Location = new System.Drawing.Point(0, 0);
             this.gbElem.Name = "gbElem";
             this.gbElem.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbElem.Size = new System.Drawing.Size(300, 395);
+            this.gbElem.Size = new System.Drawing.Size(300, 448);
             this.gbElem.TabIndex = 0;
             this.gbElem.TabStop = false;
             this.gbElem.Text = "Element Parameters";
+            // 
+            // lblElemScalingExample
+            // 
+            this.lblElemScalingExample.AutoSize = true;
+            this.lblElemScalingExample.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.lblElemScalingExample.Location = new System.Drawing.Point(150, 407);
+            this.lblElemScalingExample.Name = "lblElemScalingExample";
+            this.lblElemScalingExample.Size = new System.Drawing.Size(126, 15);
+            this.lblElemScalingExample.TabIndex = 26;
+            this.lblElemScalingExample.Text = "For example, 0;65535;0;35";
+            // 
+            // txtElemScaling
+            // 
+            this.txtElemScaling.Location = new System.Drawing.Point(13, 403);
+            this.txtElemScaling.Name = "txtElemScaling";
+            this.txtElemScaling.Size = new System.Drawing.Size(134, 23);
+            this.txtElemScaling.TabIndex = 25;
+            this.txtElemScaling.TextChanged += new System.EventHandler(this.txtScaling_TextChanged);
+            // 
+            // lblElemScaling
+            // 
+            this.lblElemScaling.AutoSize = true;
+            this.lblElemScaling.Location = new System.Drawing.Point(10, 385);
+            this.lblElemScaling.Name = "lblElemScaling";
+            this.lblElemScaling.Size = new System.Drawing.Size(61, 15);
+            this.lblElemScaling.TabIndex = 24;
+            this.lblElemScaling.Text = "Scaling";
             // 
             // chkElemIsBitMask
             // 
@@ -362,7 +395,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.gbElem);
             this.Name = "CtrlElem";
-            this.Size = new System.Drawing.Size(300, 395);
+            this.Size = new System.Drawing.Size(300, 448);
             this.gbElem.ResumeLayout(false);
             this.gbElem.PerformLayout();
             this.pnlElemTagCodeWarn.ResumeLayout(false);
@@ -378,6 +411,9 @@
         private System.Windows.Forms.Label lblElemByteOrderExample;
         private System.Windows.Forms.TextBox txtElemByteOrder;
         private System.Windows.Forms.Label lblElemByteOrder;
+        private System.Windows.Forms.Label lblElemScalingExample;
+        private System.Windows.Forms.TextBox txtElemScaling;
+        private System.Windows.Forms.Label lblElemScaling;
         private System.Windows.Forms.RadioButton rbDouble;
         private System.Windows.Forms.RadioButton rbLong;
         private System.Windows.Forms.RadioButton rbULong;

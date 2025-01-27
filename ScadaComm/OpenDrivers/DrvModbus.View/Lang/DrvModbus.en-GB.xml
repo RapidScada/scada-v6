@@ -32,6 +32,8 @@
     <Phrase key="lblCmdElemCnt">Element count</Phrase>
     <Phrase key="lblCmdByteOrder">Byte order</Phrase>
     <Phrase key="lblCmdByteOrderExample">For example, 01234567</Phrase>
+    <Phrase key="lblCmdScaling">Reverse scaling</Phrase>
+    <Phrase key="lblCmdScalingExample">For example, 0;65535;0;35</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlElem">
     <Phrase key="gbElem">Element Parameters</Phrase>
@@ -54,6 +56,8 @@
     <Phrase key="lblElemByteOrderExample">For example, 01234567</Phrase>
     <Phrase key="chkElemReadOnly">Read only</Phrase>
     <Phrase key="chkElemIsBitMask">Bit mask</Phrase>
+    <Phrase key="lblElemScaling">Scaling</Phrase>
+    <Phrase key="lblElemScalingExample">For example, 0;65535;0;35</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlElemGroup">
     <Phrase key="gbElemGroup">Element Group Parameters</Phrase>

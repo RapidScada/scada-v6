@@ -67,6 +67,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
             modbusCmd.ElemCnt = 1;
             modbusCmd.ByteOrder = ModbusUtils.ParseByteOrder(elemConfig.ByteOrder) ??
                 options.GetDefaultByteOrder(ModbusUtils.GetDataLength(elemConfig.ElemType));
+            modbusCmd.Scaling = elemConfig.Scaling;
             modbusCmd.CmdNum = 0;
             modbusCmd.CmdCode = elemConfig.TagCode;
 
@@ -87,6 +88,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
             modbusCmd.ElemCnt = cmdConfig.ElemCnt;
             modbusCmd.ByteOrder = ModbusUtils.ParseByteOrder(cmdConfig.ByteOrder) ??
                 options.GetDefaultByteOrder(ModbusUtils.GetDataLength(cmdConfig.ElemType) * cmdConfig.ElemCnt);
+            modbusCmd.Scaling = cmdConfig.Scaling;
             modbusCmd.CmdNum = cmdConfig.CmdNum;
             modbusCmd.CmdCode = cmdConfig.CmdCode;
 
@@ -153,6 +155,8 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
                 return TagFormat.FloatNumber;
             else if (elemConfig.IsBitMask)
                 return TagFormat.HexNumber;
+            else if (!string.IsNullOrWhiteSpace(elemConfig.Scaling))
+                return TagFormat.FloatNumber;
             else
                 return TagFormat.IntNumber;
         }
@@ -288,6 +292,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
                         elem.ElemType = elemConfig.ElemType;
                         elem.ByteOrder = ModbusUtils.ParseByteOrder(elemConfig.ByteOrder) ??
                             deviceTemplate.Options.GetDefaultByteOrder(ModbusUtils.GetDataLength(elemConfig.ElemType));
+                        elem.Scaling = elemConfig.Scaling;
                         elemGroup.Elems.Add(elem);
                     }
 

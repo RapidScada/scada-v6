@@ -85,6 +85,17 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether a scaling is applicable for the elements.
+        /// </summary>
+        public virtual bool ScalingEnabled
+        {
+            get
+            {
+                return DataBlock == DataBlock.InputRegisters || DataBlock == DataBlock.HoldingRegisters;
+            }
+        }
+
 
         /// <summary>
         /// Gets the maximum number of elements depending on the data block.

@@ -330,7 +330,7 @@
             this.ctrlElem.ElemTag = null;
             this.ctrlElem.Location = new System.Drawing.Point(318, 70);
             this.ctrlElem.Name = "ctrlElem";
-            this.ctrlElem.Size = new System.Drawing.Size(300, 395);
+            this.ctrlElem.Size = new System.Drawing.Size(300, 448);
             this.ctrlElem.TabIndex = 3;
             this.ctrlElem.ObjectChanged += new System.EventHandler<Scada.Forms.ObjectChangedEventArgs>(this.ctrlElem_ObjectChanged);
             // 
@@ -340,7 +340,7 @@
             this.ctrlCmd.Cmd = null;
             this.ctrlCmd.Location = new System.Drawing.Point(318, 120);
             this.ctrlCmd.Name = "ctrlCmd";
-            this.ctrlCmd.Size = new System.Drawing.Size(300, 409);
+            this.ctrlCmd.Size = new System.Drawing.Size(300, 457);
             this.ctrlCmd.TabIndex = 4;
             this.ctrlCmd.TemplateOptions = null;
             this.ctrlCmd.ObjectChanged += new System.EventHandler<Scada.Forms.ObjectChangedEventArgs>(this.ctrlCmd_ObjectChanged);

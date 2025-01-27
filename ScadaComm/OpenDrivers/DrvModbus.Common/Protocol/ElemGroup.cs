@@ -196,12 +196,15 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             }
 
             // calculate value
+            double elemValue;
             switch (elem.ElemType)
             {
                 case ElemType.UShort:
-                    return BitConverter.ToUInt16(buf, 0);
+                    elemValue = BitConverter.ToUInt16(buf, 0);
+                    break;
                 case ElemType.Short:
-                    return BitConverter.ToInt16(buf, 0);
+                    elemValue = BitConverter.ToInt16(buf, 0);
+                    break;
                 case ElemType.UInt:
                     return BitConverter.ToUInt32(buf, 0);
                 case ElemType.Int:
@@ -219,6 +222,17 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
                 default:
                     return 0.0;
             }
+
+            // Check if scaling is needed
+            if (!string.IsNullOrWhiteSpace(elem.Scaling))
+            {
+                double[] scaling = ModbusUtils.ParseDoubleArray(elem.Scaling);
+                if (scaling.Length == 4 && scaling[0] != scaling[1] && scaling[2] != scaling[3])
+                    return ModbusUtils.GetScaledValue(elemValue, scaling[0], scaling[1], scaling[2], scaling[3]);
+            }
+
+            // Return the original value
+            return elemValue;
         }
     }
 }

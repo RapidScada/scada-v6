@@ -100,6 +100,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
                 elemConfig.ByteOrder = elemElem.GetAttrAsString("byteOrder");
                 elemConfig.ReadOnly = elemElem.GetAttrAsBool("readOnly", defaultReadOnly);
                 elemConfig.IsBitMask = elemElem.GetAttrAsBool("isBitMask", defaultBitMask);
+                elemConfig.Scaling = elemElem.GetAttrAsString("scaling", "");
                 elemConfig.TagCode = elemElem.GetAttrAsString("tagCode");
                 elemConfig.Name = elemElem.GetAttrAsString("name");
                 Elems.Add(elemConfig);
@@ -123,6 +124,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
             bool byteOrderEnabled = ByteOrderEnabled;
             bool readOnlyEnabled = ReadOnlyEnabled;
             bool bitMaskEnabled = BitMaskEnabled;
+            bool scalingEnabled = ScalingEnabled;
 
             foreach (ElemConfig elemConfig in Elems)
             {
@@ -139,6 +141,13 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
 
                 if (bitMaskEnabled)
                     elemElem.SetAttribute("isBitMask", elemConfig.IsBitMask);
+
+                if (scalingEnabled && !string.IsNullOrWhiteSpace(elemConfig.Scaling))
+                {
+                    double[] scaling = ModbusUtils.ParseDoubleArray(elemConfig.Scaling);
+                    if (scaling.Length == 4 && scaling[0] != scaling[1] && scaling[2] != scaling[3])
+                        elemElem.SetAttribute("scaling", elemConfig.Scaling);
+                }
 
                 elemElem.SetAttribute("tagCode", elemConfig.TagCode);
                 elemElem.SetAttribute("name", elemConfig.Name);

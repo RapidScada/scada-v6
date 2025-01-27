@@ -30,6 +30,9 @@
         {
             this.gbCmd = new System.Windows.Forms.GroupBox();
             this.pnlCmdElem = new System.Windows.Forms.Panel();
+            this.lblCmdScalingExample = new System.Windows.Forms.Label();
+            this.txtCmdScaling = new System.Windows.Forms.TextBox();
+            this.lblCmdScaling = new System.Windows.Forms.Label();
             this.lblCmdByteOrderExample = new System.Windows.Forms.Label();
             this.txtCmdByteOrder = new System.Windows.Forms.TextBox();
             this.lblCmdByteOrder = new System.Windows.Forms.Label();
@@ -86,13 +89,16 @@
             this.gbCmd.Location = new System.Drawing.Point(0, 0);
             this.gbCmd.Name = "gbCmd";
             this.gbCmd.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbCmd.Size = new System.Drawing.Size(300, 409);
+            this.gbCmd.Size = new System.Drawing.Size(300, 457);
             this.gbCmd.TabIndex = 0;
             this.gbCmd.TabStop = false;
             this.gbCmd.Text = "Command Parameters";
             // 
             // pnlCmdElem
             // 
+            this.pnlCmdElem.Controls.Add(this.lblCmdScalingExample);
+            this.pnlCmdElem.Controls.Add(this.txtCmdScaling);
+            this.pnlCmdElem.Controls.Add(this.lblCmdScaling);
             this.pnlCmdElem.Controls.Add(this.lblCmdByteOrderExample);
             this.pnlCmdElem.Controls.Add(this.txtCmdByteOrder);
             this.pnlCmdElem.Controls.Add(this.lblCmdByteOrder);
@@ -105,8 +111,35 @@
             this.pnlCmdElem.Controls.Add(this.lblCmdAddress);
             this.pnlCmdElem.Location = new System.Drawing.Point(13, 267);
             this.pnlCmdElem.Name = "pnlCmdElem";
-            this.pnlCmdElem.Size = new System.Drawing.Size(274, 129);
+            this.pnlCmdElem.Size = new System.Drawing.Size(274, 177);
             this.pnlCmdElem.TabIndex = 14;
+            // 
+            // lblCmdScalingExample
+            // 
+            this.lblCmdScalingExample.AutoSize = true;
+            this.lblCmdScalingExample.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.lblCmdScalingExample.Location = new System.Drawing.Point(137, 154);
+            this.lblCmdScalingExample.Name = "lblCmdScalingExample";
+            this.lblCmdScalingExample.Size = new System.Drawing.Size(126, 15);
+            this.lblCmdScalingExample.TabIndex = 12;
+            this.lblCmdScalingExample.Text = "For example, 0;65535;0;35";
+            // 
+            // txtCmdScaling
+            // 
+            this.txtCmdScaling.Location = new System.Drawing.Point(0, 150);
+            this.txtCmdScaling.Name = "txtCmdScaling";
+            this.txtCmdScaling.Size = new System.Drawing.Size(134, 23);
+            this.txtCmdScaling.TabIndex = 11;
+            this.txtCmdScaling.TextChanged += new System.EventHandler(this.txtCmdScaling_TextChanged);
+            // 
+            // lblCmdScaling
+            // 
+            this.lblCmdScaling.AutoSize = true;
+            this.lblCmdScaling.Location = new System.Drawing.Point(-3, 132);
+            this.lblCmdScaling.Name = "lblCmdScaling";
+            this.lblCmdScaling.Size = new System.Drawing.Size(61, 15);
+            this.lblCmdScaling.TabIndex = 10;
+            this.lblCmdScaling.Text = "Reverse scaling";
             // 
             // lblCmdByteOrderExample
             // 
@@ -401,7 +434,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.gbCmd);
             this.Name = "CtrlCmd";
-            this.Size = new System.Drawing.Size(300, 409);
+            this.Size = new System.Drawing.Size(300, 457);
             this.gbCmd.ResumeLayout(false);
             this.gbCmd.PerformLayout();
             this.pnlCmdElem.ResumeLayout(false);
@@ -436,6 +469,9 @@
         private System.Windows.Forms.Label lblCmdByteOrderExample;
         private System.Windows.Forms.TextBox txtCmdByteOrder;
         private System.Windows.Forms.Label lblCmdByteOrder;
+        private System.Windows.Forms.Label lblCmdScalingExample;
+        private System.Windows.Forms.TextBox txtCmdScaling;
+        private System.Windows.Forms.Label lblCmdScaling;
         private System.Windows.Forms.Label lblCmdAddressHint;
         private System.Windows.Forms.Label lblCmdElemType;
         private System.Windows.Forms.ComboBox cbCmdElemType;

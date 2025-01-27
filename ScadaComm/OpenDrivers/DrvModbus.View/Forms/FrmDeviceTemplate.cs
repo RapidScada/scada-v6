@@ -842,6 +842,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
                         elemConfig.ByteOrder = selectedElem.ByteOrder;
                         elemConfig.ReadOnly = selectedElem.ReadOnly;
                         elemConfig.IsBitMask = selectedElem.IsBitMask;
+                        elemConfig.Scaling = selectedElem.Scaling;
                     }
                 }
 

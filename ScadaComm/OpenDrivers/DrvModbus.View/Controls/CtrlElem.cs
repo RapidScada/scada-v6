@@ -61,6 +61,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
                 txtElemByteOrder.Text = "";
                 chkElemReadOnly.Checked = false;
                 chkElemIsBitMask.Checked = false;
+                txtElemScaling.Text = "";
                 gbElem.Enabled = false;
             }
             else
@@ -124,6 +125,9 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
                 chkElemReadOnly.Enabled = elemGroup.ReadOnlyEnabled;
                 chkElemIsBitMask.Checked = elem.IsBitMask;
                 chkElemIsBitMask.Enabled = elemGroup.BitMaskEnabled;
+                txtElemScaling.Text = elem.Scaling;
+                txtElemScaling.Enabled = elemGroup.ScalingEnabled &&
+                        (elem.ElemType == ElemType.UShort || elem.ElemType == ElemType.Short);
                 gbElem.Enabled = true;
             }
         }
@@ -205,6 +209,9 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
 
                 elemTag.Elem.ElemType = elemType;
                 txtElemAddress.Text = elemTag.AddressRange;
+                txtElemScaling.Text = elemTag.Elem.Scaling;
+                txtElemScaling.Enabled = elemTag.ElemGroup.ScalingEnabled &&
+                        (elemType == ElemType.UShort || elemType == ElemType.Short);
                 OnObjectChanged(TreeUpdateTypes.CurrentNode | TreeUpdateTypes.NextSiblings);
             }
         }
@@ -235,6 +242,16 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
             if (elemTag != null)
             {
                 elemTag.Elem.IsBitMask = chkElemIsBitMask.Checked;
+                OnObjectChanged(TreeUpdateTypes.None);
+            }
+        }
+
+        private void txtScaling_TextChanged(object sender, EventArgs e)
+        {
+            // update scaling
+            if (elemTag != null)
+            {
+                elemTag.Elem.Scaling = txtElemScaling.Text;
                 OnObjectChanged(TreeUpdateTypes.None);
             }
         }
