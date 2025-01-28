@@ -130,6 +130,10 @@
         <Url>/en/latest/modules/mod-auto-control</Url>
       </Item>
       <Item>
+        <Text>Rapid Gate Module</Text>
+        <Url>/en/latest/modules/mod-rapid-gate</Url>
+      </Item>
+      <Item>
         <Text>Telegram Driver</Text>
         <Url>/en/latest/modules/drv-telegram</Url>
       </Item>
