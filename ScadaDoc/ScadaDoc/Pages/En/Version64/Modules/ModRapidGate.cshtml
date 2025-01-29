@@ -1,107 +1,108 @@
-﻿@page "/ru/latest/modules/mod-rapid-gate"
+﻿@page "/en/latest/modules/mod-rapid-gate"
 @{
     Layout = "_ArticleLayout";
-    ViewBag.Title = "Модуль Быстрый шлюз";
+    ViewBag.Title = "Rapid Gate Module";
 }
 
 <nav class="doc-toc">
-    <div class="h6">На этой странице</div>
+    <div class="h6">On this page</div>
     <hr>
     <ul>
-        <li><a href="#overview">Обзор</a></li>
-        <li><a href="#installation">Установка</a></li>
-        <li><a href="#configuring">Конфигурирование</a></li>
-        <li><a href="#commands">Команды модулю</a></li>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#configuring">Configuring</a></li>
+        <li><a href="#commands">Commands to Module</a></li>
     </ul>
 </nav>
 
 <div class="doc-content">
-    <h1>Модуль Быстрый шлюз</h1>
-    <h2 id="overview">Обзор</h2>
-    <p>Модуль Быстрый шлюз предназначен для синхронизации данных между экземплярами Rapid SCADA. Скачать модуль можно по <a href="https://rapidscada.net/store/Module/ru/ModRapidGate" target="_blank">ссылке</a>. На следующем рисунке показана форма для настройки модуля.</p>
+    <h1>Rapid Gate Module</h1>
+    <h2 id="overview">Overview</h2>
+    <p>Rapid Gate Module is designed to synchronize data between Rapid SCADA instances. Download the module using the <a href="https://rapidscada.net/store/Module/en/ModRapidGate" target="_blank">link</a>. The following figure shows the form for configuring the module.</p>
     <figure class="figure">
-        <img src="mod-rapid-gate-files/rapid-gate-ru.png" class="figure-img img-fluid" alt="Модуль Быстрый шлюз" />
+        <img src="mod-rapid-gate-files/rapid-gate-en.png" class="figure-img img-fluid" alt="Rapid Gate Module" />
     </figure>
-    <p>Модуль применяется для решения следующих задач:</p>
+    <p>The module is used to implement the following functions:</p>
     <ol>
-        <li>Передача данных с нижестоящего сервера Rapid SCADA на вышестоящий сервер в распределённых системах автоматизации.</li>
-        <li>Синхронизация данных между основным и резервным сервером Rapid SCADA.</li>
+        <li>Transferring data from a downstream Rapid SCADA server to an upstream server in distributed automation systems.</li>
+        <li>Synchronization of data between the primary and backup Rapid SCADA server.</li>
     </ol>
-    <p>Основная функция модуля - это передача текущих, исторических данных, событий и команд с того сервера, на котором работает модуль, на указанный в настройках сервер Rapid SCADA. Модуль поддерживает произвольное количество независимых шлюзов для обмена информацией с несколькими серверами Rapid SCADA. Данные, которые необходимо передать, добавляются модулем в очередь. Такой подход обеспечивает надёжную работу даже при нестабильном сетевом соединении.</p>
-    <p>Информация о работе модуля записывается в файл журнала <code>ModRapidGate.log</code>, информация о работе каждого шлюза записывается в файлы <code>ModRapidGate_*.log</code> и <code>ModRapidGate_*.txt</code>.</p>
+    <p>The main function of the module is the transfer of current data, historical data, events and commands from the server on which the module is running to the Rapid SCADA server specified in the settings. The module supports any number of independent gateways for exchanging information with multiple Rapid SCADA servers. The data to be transmitted is added to the queue by the module. This approach ensures reliable operation even with an unstable network connection.</p>
+    <p>Information about the module operation is recorded in the <code>ModRapidGate.log</code> file. Information about the operation of each gateway is written in <code>ModRapidGate_*.log</code> and <code>ModRapidGate_*.txt</code> files.</p>
 
-    <h2 id="installation">Установка</h2>
-    <p>Модуль Быстрый шлюз устанавливается по <a href="../installation/install-modules#modules">инструкции</a>. В ходе установки каких-либо нестандартных действий не требуется.</p>
+    <h2 id="installation">Installation</h2>
+    <p>Rapid Gate Module is installed according to the <a href="../installation/install-modules#modules">instructions</a>. No additional actions are required during installation.</p>
 
-    <h2 id="configuring">Конфигурирование</h2>
+    <h2 id="configuring">Configuring</h2>
     <p>Чтобы открыть форму для настройки модуля, на странице <strong>Сервер &gt; Модули</strong> выберите модуль <strong>ModRapidGate</strong> и нажмите кнопку <strong>Свойства</strong>. Модуль должен находиться в списке активных модулей. Конфигурация модуля сохраняется в файл <code>ModRapidGate.xml</code>.</p>
     <p>Добавьте новый шлюз в конфигурацию модуля с помощью кнопки <img src="../common-images/add.png" />. Рассмотрим страницы, содержащие различные группы настроек шлюза. На скриншотах ниже показаны значения параметров по умолчанию.</p>
 
     <figure class="figure">
-        <img src="mod-rapid-gate-files/general-options-ru.png" class="figure-img img-fluid" alt="Основные параметры" />
+        <img src="mod-rapid-gate-files/general-options-en.png" class="figure-img img-fluid" alt="General options" />
     </figure>
     <p>Укажите <strong>Код команды</strong>, если планируется вручную отправлять команды на синхронизацию архивов. Задайте маски архивов, если шлюз должен передавать данные в конкретные архивы. Если маски архивов равны <em>-1</em>, то шлюз передаёт данные в архивы по умолчанию, определённые в базе конфигурации. Параметры очереди подбираются экспериментальным путём в зависимости от предполагаемого времени отсутствия связи с сервером, с которым взаимодействует шлюз.</p>
 
     <figure class="figure">
-        <img src="mod-rapid-gate-files/connection-options-ru.png" class="figure-img img-fluid" alt="Параметры соединения" />
+        <img src="mod-rapid-gate-files/connection-options-en.png" class="figure-img img-fluid" alt="Connection options" />
     </figure>
     <p>Пропишите параметры соединения с удалённым сервером. В настройках брандмауэра удалённого сервера необходимо разрешить входящие подключения по используемому TCP-порту (10000). Рекомендуется завести в базе конфигурации отдельного пользователя <em>RapidGate</em> с ролью <em>Приложение</em> для использования модулем. <strong>Секретный ключ</strong> скопируйте из параметров прослушивателя удалённого сервера.</p>
 
     <figure class="figure">
-        <img src="mod-rapid-gate-files/mapping-options-ru.png" class="figure-img img-fluid" alt="Соответствие идентификаторов" />
+        <img src="mod-rapid-gate-files/mapping-options-en.png" class="figure-img img-fluid" alt="Mapping options" />
     </figure>
     <p>Если на локальном и удалённом серверах выполняются разные проекты, имеющие не совпадающие идентификаторы в таблицах базы конфигурации, задайте соответствие идентификаторов. Если идентификаторы одинаковые, оставьте параметры соответствия пустыми.</p>
 
     <figure class="figure">
-        <img src="mod-rapid-gate-files/cur-data-transfer-ru.png" class="figure-img img-fluid" alt="Передача текущих данных" />
+        <img src="mod-rapid-gate-files/cur-data-transfer-en.png" class="figure-img img-fluid" alt="Current data transfer" />
     </figure>
     <p>Текущие данные могут передаваться шлюзом на удалённый сервер <em>При получении</em> локальным Сервером от Коммуникатора или <em>По таймеру</em>. Передача данных при получнии позволяет увидеть новые данные на удалённом сервере максимально быстро. Передача данных по таймеру экономит сетевой трафик.</p>
 
     <figure class="figure">
-        <img src="mod-rapid-gate-files/hist-data-transfer-ru.png" class="figure-img img-fluid" alt="Передача исторических данных" />
+        <img src="mod-rapid-gate-files/hist-data-transfer-en.png" class="figure-img img-fluid" alt="Historical data transfer" />
     </figure>
     <p>Под передачей исторических данных подразумеваются данные, передаваемые с меткой времени, например, архивы, которые скачиваются Коммуникатором из приборов учёта и передаются на Сервер.</p>
 
     <figure class="figure">
-        <img src="mod-rapid-gate-files/event-transfer-ru.png" class="figure-img img-fluid" alt="Передача событий" />
+        <img src="mod-rapid-gate-files/event-transfer-en.png" class="figure-img img-fluid" alt="Event transfer" />
     </figure>
     <p>При передаче событий и квитирования теоретически может возникнуть ситуация, что квитирование будет передано раньше события. Тогда событие на удалённом сервере останется не квитированным. Важно обеспечить синхронизацию времени между локальным и удалённым серверами, иначе последние переданные события могут не отображаться приложением Вебстанция на удалённом сервере.</p>
 
     <figure class="figure">
-        <img src="mod-rapid-gate-files/in-cmd-transfer-ru.png" class="figure-img img-fluid" alt="Передача входящих команд" />
+        <img src="mod-rapid-gate-files/in-cmd-transfer-en.png" class="figure-img img-fluid" alt="Incoming command transfer" />
     </figure>
     <p>Шлюз запрашивает на удалённом сервере команды с частотой, которая указана в настройках. Чтобы уменьшить сетевой трафик, увеличьте значение частоты опроса.</p>
 
     <figure class="figure">
-        <img src="mod-rapid-gate-files/out-cmd-transfer-ru.png" class="figure-img img-fluid" alt="Передача исходящих команд" />
+        <img src="mod-rapid-gate-files/out-cmd-transfer-en.png" class="figure-img img-fluid" alt="Outcoming command transfer" />
     </figure>
     <p>При передаче исходящих команд команды приложению не передаются. На удалённом сервере к значению команды будет применена выходная формула того канала, к которому относится команда.</p>
 
     <figure class="figure">
-        <img src="mod-rapid-gate-files/arc-replication-ru.png" class="figure-img img-fluid" alt="Репликация архивов" />
+        <img src="mod-rapid-gate-files/arc-replication-en.png" class="figure-img img-fluid" alt="Archive replication" />
     </figure>
     <p>Репликация архивов обеспечивает идентичность архивов на локальном и удалённом сервере. Репликация может выполняться от локального сервера на удалённый и наоборот. Направление передачи данных определяется автоматически в зависимости от доступности данных. <strong>Канал доступности данных</strong> позволяет однозначно определить наличие данных на локальном сервере. Если канал не задан, проверяется наличие любых данных в архиве за период времени, соответствующий шагу репликации. Состояние репликации сохраняется в процессе работы модуля и загружается при перезапуске службы Сервера.</p>
 
-    <h2 id="commands">Команды модулю</h2>
-    <p>Модуль Быстрый шлюз поддерживает приём команд. Для отправки команд модулю в базе конфигурации должны быть созданы каналы выходного типа. <strong>Код тега</strong> канала должен совпадать с <strong>Кодом команды</strong>, который указан в основных параметрах шлюза. Команда может быть отправлена через веб-интерфейс приложения Вебстанция или с помощью другого клиента, взаимодействующего с приложением Сервер.</p>
-    <p>При получении корректной команды, создаётся задание и добавляется в очередь заданий шлюза. Максимальная длина очереди заданий равна 10. Если очередь заполнена, новые команды будут проигнорированы.</p>
-    <p>Пример команды, которая передаёт архив с локального сервера на удалённый:</p>
+    <h2 id="commands">Commands to Module</h2>
+    <p>Rapid Gate Module supports receiving commands. To send commands to the module, create output type channels in the configuration database. The <strong>Tag code</strong> of the channel must match the <strong>Command code</strong> specified in the general gateway options. A command can be sent via the Webstation application web interface or using another client interacting with the Server application.</p>
+    <p>When a valid command is received, a task is created and added to the gateway task queue. The maximum length of a task queue is 10. If the queue is full, new commands will be ignored.</p>
+
+    <p>An example of a command that transfers data from the local server to the remote server:</p>
     <pre><code>cmd=UploadArchive
 startDT=2025-12-31 10:00:00
 endDT=2025-12-31 11:00:00</code></pre>
 
-    <p>Скачать архив с удалённого сервера на локальный:</p>
+    <p>Download an archive from the remote server to the local server:</p>
     <pre><code>cmd=DownloadArchive
 startDT=2025-12-31 10:00:00
 endDT=2025-12-31 11:00:00</code></pre>
 
-    <p>Синхронизировать (передать и скачать) архивы:</p>
+    <p>Synchronize (upload and download) archives:</p>
     <pre><code>cmd=SyncArchive
 startDT=2025-12-31 10:00:00
 endDT=2025-12-31 11:00:00</code></pre>
 
-    <p>Очистить очередь заданий шлюза:</p>
+    <p>Clear the gateway task queue:</p>
     <pre><code>cmd=ClearTaskQueue</code></pre>
 
-    <p>В аргументах команд указывается время UTC.</p>
+    <p>The command arguments specify UTC time.</p>
 </div>
