@@ -130,6 +130,10 @@
         <Url>/ru/latest/modules/mod-auto-control</Url>
       </Item>
       <Item>
+        <Text>Модуль экспорта в БД</Text>
+        <Url>/ru/latest/modules/mod-db-export</Url>
+      </Item>
+      <Item>
         <Text>Модуль Быстрый шлюз</Text>
         <Url>/ru/latest/modules/mod-rapid-gate</Url>
       </Item>
