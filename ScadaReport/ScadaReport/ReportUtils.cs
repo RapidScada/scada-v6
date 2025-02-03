@@ -18,8 +18,8 @@ namespace Scada.Report
             DateTime localStartTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, timeZone);
 
             localStartTime = unit == PeriodUnit.Month
-                ? new DateTime(localStartTime.Year, localStartTime.Month, 1, 0, 0, 0, DateTimeKind.Local)
-                : localStartTime.Date;
+                ? new DateTime(localStartTime.Year, localStartTime.Month, 1, 0, 0, 0, DateTimeKind.Unspecified)
+                : localStartTime.Date; // unspecified kind
 
             return TimeZoneInfo.ConvertTimeToUtc(localStartTime, timeZone);
         }
