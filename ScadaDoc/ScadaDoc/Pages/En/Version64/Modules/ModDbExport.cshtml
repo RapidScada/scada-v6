@@ -56,18 +56,18 @@
     <figure class="figure">
         <img src="mod-db-export-files/arc-replication-en.png" class="figure-img img-fluid" alt="Archive replication" />
     </figure>
-    <p>Репликация архивов обеспечивает идентичность информации в архиве Rapid SCADA и в БД. Если включена репликация архивов и установлена галочка <strong>Автоматический экспорт архивов</strong>, то исторические данные и события, получаемые Сервером от клиентов, не добавляются в очередь на экспорт, чтобы избежать дублирования. Состояние репликации сохраняется в процессе работы модуля и загружается при перезапуске службы Сервера.</p>
+    <p>Archive replication ensures that the information in the Rapid SCADA archive and in the database is identical. If archive replication is enabled and the <strong>Automatically export archives</strong> checkbox is checked, historical data and events received by the Server service from clients are not added to the export queue to avoid duplication. The replication state is saved while the module is running and is loaded when the Server service is restarted.</p>
 
     <figure class="figure">
         <img src="mod-db-export-files/query-options-en.png" class="figure-img img-fluid" alt="Query options" />
     </figure>
-    <p>На рисунке выше показаны параметры SQL-запроса, который вызывается экспортёром при получении Сервером соответствующих данных или при репликации архива. По <a href="https://github.com/RapidScada/scada-v6/tree/master/ScadaServer/OpenModules/ModDbExport.Logic/Scripts" target="_blank">ссылке</a> доступны скрипты для создания модели БД и содержащие примеры запросов. SQL-запросы могут содержать параметры, которые указываются с префиксом <code>&commat;</code>. Чтобы просмотреть список доступных параметров, зависящий от разновидности данных запроса, нажмите кнопку <img src="mod-db-export-files/parameters.png" />.</p>
-    <p>Если галочка <strong>Одним запросом</strong> снята, SQL-запрос будет вызван для каждого канала, данные которого обрабатываются. Параметры запроса для экспорта значения и статуса канала: <code>&commat;val</code> и <code>&commat;stat</code>.</p>
-    <p>Если галочка <strong>Одним запросом</strong> установлена, SQL-запрос будет вызван один раз только для тех каналов, номера которых явно заданы в фильтре запроса. При этом наименования параметров значения и статуса канала содержат номер канала, например, <code>&commat;val101</code> и <code>&commat;stat101</code>.</p>
-    <p>Запросы с установленной галочкой <strong>Одним запросом</strong> игнорируются:</p>
+    <p>The figure above shows the options of the SQL query that is called by the exporter when Server receives the corresponding data or when replicating the archive. The <a href="https://github.com/RapidScada/scada-v6/tree/master/ScadaServer/OpenModules/ModDbExport.Logic/Scripts" target="_blank">link</a> contains scripts for creating a database model and sample queries. SQL queries can contain parameters, which are specified with the <code>&commat;</code> prefix. To view a list of available parameters depending on the request data kind, click the <img src="mod-db-export-files/parameters.png" /> button.</p>
+    <p>If the <strong>Single query</strong> checkbox is unchecked, the SQL query will be called for each channel whose data is processed. The request parameters for exporting the channel value and status are <code>&commat;val</code> and <code>&commat;stat</code>.</p>
+    <p>If the <strong>Single query</strong> checkbox is checked, the SQL query will be called once only for those channels whose numbers are explicitly specified in the query filter. In this case, the names of the channel value and status parameters contain the channel number, for example, <code>&commat;val101</code> and <code>&commat;stat101</code>.</p>
+    <p>Queries that have the <strong>Single query</strong> checkbox checked are ignored:</p>
     <ol>
-        <li>Если текущие данные экспортируются при получении.</li>
-        <li>При экспорте исторических данных, полученных от клиентов.</li>
+        <li>If current data is exported on receive.</li>
+        <li>When exporting historical data received from clients.</li>
     </ol>
 
     <h2 id="commands">Commands</h2>
