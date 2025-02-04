@@ -85,9 +85,11 @@ namespace Scada.Report
         /// </summary>
         public static DateTime AddPeriod(DateTime dateTime, int period, PeriodUnit unit)
         {
-            return unit == PeriodUnit.Month
-                ? dateTime.AddMonths(period)
-                : dateTime.AddDays(period);
+            return period == 0
+                ? dateTime
+                : unit == PeriodUnit.Month 
+                    ? dateTime.AddMonths(period) 
+                    : dateTime.AddDays(period);
         }
 
         /// <summary>
