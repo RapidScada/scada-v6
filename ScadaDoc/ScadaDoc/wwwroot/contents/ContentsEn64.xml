@@ -138,6 +138,10 @@
         <Url>/en/latest/modules/mod-rapid-gate</Url>
       </Item>
       <Item>
+        <Text>Database Import Driver</Text>
+        <Url>/en/latest/modules/drv-db-import</Url>
+      </Item>
+      <Item>
         <Text>Telegram Driver</Text>
         <Url>/en/latest/modules/drv-telegram</Url>
       </Item>

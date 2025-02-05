@@ -138,6 +138,10 @@
         <Url>/ru/latest/modules/mod-rapid-gate</Url>
       </Item>
       <Item>
+        <Text>Драйвер импорта из БД</Text>
+        <Url>/ru/latest/modules/drv-db-import</Url>
+      </Item>
+      <Item>
         <Text>Драйвер Telegram</Text>
         <Url>/ru/latest/modules/drv-telegram</Url>
       </Item>
