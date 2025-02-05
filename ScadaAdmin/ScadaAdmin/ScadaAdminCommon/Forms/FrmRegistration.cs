@@ -19,12 +19,13 @@ namespace Scada.Admin.Forms
     public partial class FrmRegistration : Form
     {
         /// <summary>
-        /// The computer code file name.
+        /// The default computer code file name.
         /// </summary>
         public const string CompCodeFileName = "CompCode.txt";
 
         private readonly IAdminContext adminContext; // the Administrator context
         private readonly ProjectApp projectApp;      // the application containing the registered module
+        private readonly string compCodeFileName;    // the computer code file name
         private readonly string regKeyFileName;      // the registration key file name
 
 
@@ -46,7 +47,11 @@ namespace Scada.Admin.Forms
             this.projectApp = projectApp ?? throw new ArgumentNullException(nameof(projectApp));
             ArgumentNullException.ThrowIfNull(registrationInfo, nameof(registrationInfo));
 
-            regKeyFileName = Path.Combine(projectApp.ConfigDir, registrationInfo.ProductCode + "_Reg.xml");
+            compCodeFileName = ScadaUtils.FirstNonEmpty(registrationInfo.CompCodeFileName, CompCodeFileName);
+            regKeyFileName = string.IsNullOrEmpty(registrationInfo.RegKeyFileName)
+                ? Path.Combine(projectApp.ConfigDir, registrationInfo.ProductCode + "_Reg.xml")
+                : Path.Combine(projectApp.ConfigDir, registrationInfo.RegKeyFileName);
+
             ctrlRegistration.ProductCode = registrationInfo.ProductCode;
             ctrlRegistration.ProductName = registrationInfo.ProductName;
             ctrlRegistration.PermanentKeyUrl = registrationInfo.PermanentKeyUrl;
@@ -70,7 +75,7 @@ namespace Scada.Admin.Forms
                     lock (agentClient.SyncRoot)
                     {
                         agentClient.ReadTextFile(
-                            new RelativePath(projectApp.ServiceApp, AppFolder.Log, CompCodeFileName),
+                            new RelativePath(projectApp.ServiceApp, AppFolder.Log, compCodeFileName),
                             ref newerThan, out lines);
                     }
 
