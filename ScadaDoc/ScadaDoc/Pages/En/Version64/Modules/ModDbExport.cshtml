@@ -51,7 +51,7 @@
         <li>Archives that are downloaded by Communicator from metering devices and transferred to Server.</li>
         <li>Data received from <a href="mod-rapid-gate">Rapid Gate Module</a> installed on a remote server when replicating archives.</li>
     </ul>
-    <p>The <strong>Delay before export</strong> option helps the exporter accumulate some amount of historical data to transfer it in one transaction, which is more efficient. The <strong>Bit of historical archive</strong> is used to retrieve data from the calculated channels.</p>
+    <p>The <strong>Delay before export</strong> option helps to avoid multiple exports of calculated data if several data slices with the same timestamp are received one after another. The <strong>Bit of historical archive</strong> is used to retrieve data from the calculated channels.</p>
 
     <figure class="figure">
         <img src="mod-db-export-files/arc-replication-en.png" class="figure-img img-fluid" alt="Archive replication" />
