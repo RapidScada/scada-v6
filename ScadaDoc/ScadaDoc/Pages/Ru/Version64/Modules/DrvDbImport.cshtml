@@ -4,12 +4,21 @@
     ViewBag.Title = "Драйвер импорта из БД";
 }
 
+@section Styles {
+    <link href="~/lib/prismjs/prism.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="~/lib/prismjs/prism.js"></script>
+}
+
 <nav class="doc-toc">
     <div class="h6">На этой странице</div>
     <hr>
     <ul>
         <li><a href="#overview">Обзор</a></li>
         <li><a href="#configuring">Конфигурирование</a></li>
+        <li><a href="#sql">SQL-скрипты</a></li>
     </ul>
 </nav>
 
@@ -19,5 +28,72 @@
     <p>Драйвер импорта из БД предназначен для чтения текущих данных из сторонней базы данных, а также для записи в стороннюю БД с помощью команд управления. Поддерживаются СУБД Microsoft SQL Server, Oracle, PostgreSQL и MySQL. Драйвер входит в дистрибутив Rapid SCADA и его отдельная установка не требуется.</p>
     
     <h2 id="configuring">Конфигурирование</h2>
+    <p>Создайте новую линию связи и устройство типа <em>DB Import</em> с помощью мастеров, которые вызываются кнопками <img src="../common-images/add-line.png" /> и <img src="../common-images/add-device.png" />. Линия связи отвечает за соединение с одной БД. Тип канала связи линии - <em>Не задан</em>. На следующем рисунке показан узел линии связи в проводнике проекта.</p>
+    <figure class="figure">
+        <img src="drv-db-import-files/line-node-ru.png" class="figure-img img-fluid" alt="Узел линии связи" />
+    </figure>
+    <p>Откройте свойства созданного устройства. Настройки устройства описывают получение значений тегов и отправку команд посредством SQL-запросов.</p>
+    <figure class="figure">
+        <img src="drv-db-import-files/connection-options-ru.png" class="figure-img img-fluid" alt="Параметры соединения" />
+    </figure>
+    <p>Предполагается, что база данных, которая служит источником информации для драйвера, уже существует и содержит необходимые таблицы. Параметры для соединения с БД уточните у её администратора.</p>
 
+    <p>На рисунках ниже показаны параметры запросов для получения значений тегов устройства.</p>
+    <figure class="figure">
+        <img src="drv-db-import-files/query1-params-ru.png" class="figure-img img-fluid" alt="Параметры запроса" />
+    </figure>
+    <figure class="figure">
+        <img src="drv-db-import-files/query2-params-ru.png" class="figure-img img-fluid" alt="Параметры запроса" />
+    </figure>
+    <p>В поле <strong>Теги</strong> необходимо указать коды тегов устройства. Каждая строка содержит код одного тега. В поле <strong>SQL</strong> содержится текст запроса на языке SQL. Если галочка <strong>Результат одной строкой</strong> установлена (Запрос 1), запрос должен возвращать одну строку, каждое поле которой содержит значение тега. Если галочка снята (Запрос 2), запрос должен возвращать набор строк, каждая из которых содержит код и значение тега. Во втором случае результат запроса должен содержать столбцы <code>code</code> и <code>val</code>.</p>
+
+    <figure class="figure">
+        <img src="drv-db-import-files/command-params-ru.png" class="figure-img img-fluid" alt="Параметры команды" />
+    </figure>
+    <p>Поддержка команд позволяет с помощью драйвера записывать информацию в БД по команде, отправленной оператором или автоматически. <strong>Код команды</strong> должен совпадать с кодом тега канала, через который отправляется команда. В тексте SQL-запроса значение и данные команды доступны через параметры <code>&commat;cmdVal</code> и <code>&commat;cmdData</code>.</p>
+    <p>Когда свойства устройства настроены, создайте каналы в базе конфигурации с помощью мастера, вызываемого кнопкой <img src="../common-images/create-cnls.png" />.</p>
+
+    <p>Если настройка выполнена корректно, то на странице данных устройства можно будет увидеть полученные значения.</p>
+    <figure class="figure">
+        <img src="drv-db-import-files/device-data-ru.png" class="figure-img img-fluid" alt="Данные устройства" />
+    </figure>
+
+    <h2 id="sql">SQL-скрипты</h2>
+    <p>Примеры скриптов для PostgreSQL:</p>
+    <pre><code class="language-sql">CREATE SCHEMA IF NOT EXISTS drv_db_import
+    AUTHORIZATION postgres;
+
+CREATE TABLE IF NOT EXISTS drv_db_import.table1
+(
+    id integer NOT NULL,
+    val1 double precision,
+    val2 character varying,
+    val3 timestamp with time zone,
+    CONSTRAINT table1_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS drv_db_import.table2
+(
+    id integer NOT NULL,
+    code character varying,
+    val double precision,
+    CONSTRAINT table2_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS drv_db_import.table_out
+(
+    create_time time with time zone DEFAULT now(),
+    cmd_val double precision,
+    cmd_data bytea
+);
+
+-- Query 1
+SELECT val1, val2, val3 FROM drv_db_import.table1 LIMIT 1
+
+-- Query 2
+SELECT code, val FROM drv_db_import.table2
+
+-- Command
+INSERT INTO drv_db_import.table_out (cmd_val, cmd_data) VALUES (@@cmdVal, @@cmdData)
+</code></pre>
 </div>
