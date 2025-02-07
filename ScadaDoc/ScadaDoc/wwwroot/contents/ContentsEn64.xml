@@ -142,6 +142,10 @@
         <Url>/en/latest/modules/drv-db-import</Url>
       </Item>
       <Item>
+        <Text>Modbus Slave Driver</Text>
+        <Url>/en/latest/modules/drv-modbus-slave</Url>
+      </Item>
+      <Item>
         <Text>Telegram Driver</Text>
         <Url>/en/latest/modules/drv-telegram</Url>
       </Item>
