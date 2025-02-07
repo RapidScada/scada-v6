@@ -1,0 +1,33 @@
+﻿@page "/ru/latest/modules/drv-modbus-slave"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Драйвер Modbus Slave";
+}
+
+<nav class="doc-toc">
+    <div class="h6">На этой странице</div>
+    <hr>
+    <ul>
+        <li><a href="#overview">Обзор</a></li>
+        <li><a href="#installation">Установка</a></li>
+        <li><a href="#configuring">Конфигурирование</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Драйвер Modbus Slave</h1>
+    <h2 id="overview">Обзор</h2>
+    <p>Драйвер реализует стандартный протокол обмена данными <a href="https://ru.wikipedia.org/wiki/Modbus" target="_blank">Modbus</a> и работает в качестве ведомого. При использовании драйвера Коммуникатор ожидает входящих запросов и команд от стороннего устройства или приложения, которое является ведущим (мастером). Поддерживаются следующие каналы связи: последовательный порт, TCP-сервер и UDP. Драйвер может работать как в режиме Modbus RTU, так и в режиме Modbus TCP.</p>
+    <p>Функции драйвера Modbus Slave:</p>
+    <ol>
+        <li>Приём данных от ведущего устройства с помощью команд записи.</li>
+        <li>Предоставление данных ведущему устройству в ответ на команды чтения.</li>
+        <li>Работа в качестве шлюза, то есть трансляция значений каналов, полученных от других устройств.</li>
+    </ol>
+
+    <h2 id="installation">Установка</h2>
+    <p>Драйвер Modbus Slave устанавливается в соответствии с <a href="../installation/install-modules#drivers">общей последовательностью установки драйверов</a>.</p>
+
+    <h2 id="configuring">Конфигурирование</h2>
+
+</div>
