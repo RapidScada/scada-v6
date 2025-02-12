@@ -12,6 +12,7 @@ using Scada.Server.Lang;
 using Scada.Server.Modules.ModArcPostgreSql.Config;
 using System.Data;
 using System.Diagnostics;
+using CacheKey = (int CnlNum, System.DateTime Timestamp);
 
 namespace Scada.Server.Modules.ModArcPostgreSql.Logic
 {
@@ -30,7 +31,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         private readonly ILog arcLog;               // the archive log
         private readonly QueryBuilder queryBuilder; // builds SQL requests
         private readonly PointQueue pointQueue;     // contains data points for writing
-        private readonly CnlDataEqualsDelegate cnlDataEqualsFunc; // the function for comparing channel data
+        private readonly MemoryCache<CacheKey, CnlData> memoryCache; // the cache for reading data
+        private readonly CnlDataEqualsDelegate cnlDataEqualsFunc;    // the function for comparing channel data
         private readonly object readingLock;        // synchronizes reading from the archive
         private readonly object writingLock;        // synchronizes writing to the archive
 
@@ -41,6 +43,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         private DateTime nextWriteTime;             // the next time to write the current data
         private int[] cnlIndexes;                   // the channel mapping indexes
         private CnlData[] prevCnlData;              // the previous channel data
+        private int readCnt; // TODO: remove
 
 
         /// <summary>
@@ -57,15 +60,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             appLog = archiveContext.Log;
             arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
             queryBuilder = new QueryBuilder(Code);
-            pointQueue = options.ReadOnly
-                ? null
-                : new PointQueue(FixQueueSize(), options.BatchSize, queryBuilder.InsertHistoricalDataQuery)
-                {
-                    ReturnOnError = true,
-                    ArchiveCode = Code,
-                    AppLog = appLog,
-                    ArcLog = arcLog
-                };
+            pointQueue = options.ReadOnly ? null : CreatePointQueue();
+            memoryCache = options.UseMemoryCache ? CreateMemoryCache() : null;
             cnlDataEqualsFunc = SelectCnlDataEquals();
             readingLock = new object();
             writingLock = new object();
@@ -103,6 +99,30 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         private int FixQueueSize()
         {
             return Math.Max(options.MaxQueueSize, CnlNums.Length * 2);
+        }
+
+        /// <summary>
+        /// Creates a point queue.
+        /// </summary>
+        private PointQueue CreatePointQueue()
+        {
+            return new PointQueue(FixQueueSize(), options.BatchSize, queryBuilder.InsertHistoricalDataQuery)
+            {
+                ReturnOnError = true,
+                ArchiveCode = Code,
+                AppLog = appLog,
+                ArcLog = arcLog
+            };
+        }
+
+        /// <summary>
+        /// Creates a memory cache according to the archive options.
+        /// </summary>
+        private MemoryCache<CacheKey, CnlData> CreateMemoryCache()
+        {
+            return new MemoryCache<CacheKey, CnlData>(
+                    TimeSpan.FromDays(options.Retention), 
+                    (int)(CnlNums.Length * options.CacheSizeRatio));
         }
 
         /// <summary>
@@ -244,12 +264,14 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 {
                     for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
                     {
+                        int cnlNum = CnlNums[i];
                         CnlData cnlData = curData.CnlData[cnlIndexes[i]];
+                        memoryCache?.Set((cnlNum, timestamp), cnlData);
 
                         if (prevCnlData != null)
                             prevCnlData[i] = cnlData;
 
-                        if (pointQueue.EnqueueNoLock(new CnlDataPoint(CnlNums[i], timestamp, cnlData)))
+                        if (pointQueue.EnqueueNoLock(new CnlDataPoint(cnlNum, timestamp, cnlData)))
                         {
                             addedCnt++;
                         }
@@ -293,9 +315,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
 
                         if (!cnlDataEqualsFunc(prevCnlData[i], cnlData))
                         {
+                            int cnlNum = CnlNums[i];
+                            memoryCache?.Set((cnlNum, curData.Timestamp), cnlData);
                             prevCnlData[i] = cnlData;
 
-                            if (pointQueue.Enqueue(new CnlDataPoint(CnlNums[i], curData.Timestamp, cnlData)))
+                            if (pointQueue.Enqueue(new CnlDataPoint(cnlNum, curData.Timestamp, cnlData)))
                                 addedCnt++;
                             else
                                 lostCnt++;
@@ -593,7 +617,10 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public override CnlData GetCnlData(DateTime timestamp, int cnlNum)
         {
-            if (GetRecentCnlData(writingLock, timestamp, cnlNum, out CnlData cnlData))
+            if (memoryCache != null && memoryCache.TryGetValue((cnlNum, timestamp), out CnlData cnlData))
+                return cnlData;
+
+            if (GetRecentCnlData(writingLock, timestamp, cnlNum, out cnlData))
                 return cnlData;
 
             try
@@ -608,9 +635,13 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 cmd.Parameters.AddWithValue("timestamp", timestamp);
 
                 using NpgsqlDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow);
-                return reader.Read() ?
+                cnlData = reader.Read() ?
                     new CnlData(reader.GetDouble(0), reader.GetInt32(1)) :
                     CnlData.Empty;
+
+                memoryCache?.Set((cnlNum, timestamp), cnlData);
+                readCnt++;
+                return cnlData;
             }
             finally
             {
@@ -660,6 +691,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         public override void BeginUpdate(UpdateContext updateContext)
         {
             Monitor.Enter(writingLock);
+            readCnt = 0;
         }
 
         /// <summary>
@@ -669,12 +701,13 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         {
             if (!options.ReadOnly)
             {
+                updateContext.UpdatedData[cnlNum] = cnlData;
+                memoryCache?.Set((cnlNum, updateContext.Timestamp), cnlData);
+
                 if (pointQueue.Enqueue(new CnlDataPoint(cnlNum, updateContext.Timestamp, cnlData)))
                     updateContext.UpdatedCount++;
                 else
                     updateContext.LostCount++;
-
-                updateContext.UpdatedData[cnlNum] = cnlData;
             }
         }
 
@@ -692,6 +725,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             if (updateContext.LostCount > 0)
                 arcLog?.WriteWarning(ServerPhrases.PointsLost, updateContext.LostCount);
 
+            arcLog?.WriteAction("Чтений {0}!", readCnt);
             Monitor.Exit(writingLock);
         }
     }
