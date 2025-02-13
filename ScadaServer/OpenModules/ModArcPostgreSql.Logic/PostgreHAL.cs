@@ -43,7 +43,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         private DateTime nextWriteTime;             // the next time to write the current data
         private int[] cnlIndexes;                   // the channel mapping indexes
         private CnlData[] prevCnlData;              // the previous channel data
-        private int readCnt; // TODO: remove
 
 
         /// <summary>
@@ -640,7 +639,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     CnlData.Empty;
 
                 memoryCache?.Set((cnlNum, timestamp), cnlData);
-                readCnt++;
                 return cnlData;
             }
             finally
@@ -691,7 +689,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         public override void BeginUpdate(UpdateContext updateContext)
         {
             Monitor.Enter(writingLock);
-            readCnt = 0;
         }
 
         /// <summary>
@@ -725,7 +722,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             if (updateContext.LostCount > 0)
                 arcLog?.WriteWarning(ServerPhrases.PointsLost, updateContext.LostCount);
 
-            arcLog?.WriteAction("Чтений {0}!", readCnt);
             Monitor.Exit(writingLock);
         }
     }
