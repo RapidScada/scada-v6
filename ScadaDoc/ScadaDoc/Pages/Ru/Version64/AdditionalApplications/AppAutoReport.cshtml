@@ -31,7 +31,7 @@
     <p>Последовательность установки приложения Автоотчёт на Windows:</p>
     <ol>
         <li>Распаковать архив дистрибутива приложения.</li>
-        <li>Скопировать все файлы из папки SCADA дистрибутива в директорию установки Rapid SCADA.</li>
+        <li>Скопировать содержимое папки <code>SCADA</code> дистрибутива в директорию установки Rapid SCADA.</li>
         <li>Запустить файл <code>ScadaAutoReport\svc_install.bat</code> от имени администратора для регистрации службы.</li>
         <li>Создать ярлык на рабочем столе к файлу <code>ScadaAutoReport\ScadaAutoReportConfig.exe</code> для запуска конфигуратора приложения Автоотчёт.</li>
         <li>
@@ -42,4 +42,24 @@
             </ol>
         </li>
     </ol>
+
+    <p>Последовательность установки на Linux:</p>
+    <ol>
+        <li>Распаковать архив дистрибутива приложения.</li>
+        <li>Скопировать содержимое папки <code>SCADA</code> дистрибутива в директорию <code>/opt/scada/</code></li>
+        <li>Скопировать файл <code>Daemons/scadareport6.service</code> из дистрибутива в директорию <code>/etc/systemd/system</code></li>
+        <li>
+            Включить службу, выполнив команду
+            <pre><code>sudo systemctl enable scadareport6.service</code></pre>
+        </li>
+        <li>
+            Для запуска, перезапуска и остановки службы используйте команды
+            <pre><code>sudo systemctl start scadareport6
+sudo systemctl restart scadareport6
+sudo systemctl stop scadareport6</code></pre>
+        </li>
+    </ol>
+
+    <h2 id="configuring">Конфигурирование</h2>
+
 </div>
