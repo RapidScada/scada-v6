@@ -152,6 +152,18 @@
     </Subitems>
   </Item>
 
+  <!-- Дополнительные приложения -->
+  <Item>
+    <Text>Дополнительные приложения</Text>
+    <Url>/ru/latest/additional-applications/</Url>
+    <Subitems>
+      <Item>
+        <Text>Автоотчёт</Text>
+        <Url>/ru/latest/additional-applications/app-auto-report</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
   <!-- Разработчикам -->
   <Item>
     <Text>Разработчикам</Text>

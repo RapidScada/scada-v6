@@ -1,0 +1,29 @@
+﻿@page "/ru/latest/additional-applications/app-auto-report"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Приложение Автоотчёт";
+}
+
+<nav class="doc-toc">
+    <div class="h6">На этой странице</div>
+    <hr>
+    <ul>
+        <li><a href="#overview">Обзор</a></li>
+        <li><a href="#algorithm">Алгоритм работы</a></li>
+        <li><a href="#installation">Установка</a></li>
+        <li><a href="#configuring">Конфигурирование</a></li>
+        <li><a href="#operation">Запуск</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Приложение Автоотчёт</h1>
+    <h2 id="overview">Обзор</h2>
+    <p>Приложение Автоотчёт предназначено для автоматического формирования различных отчётов по расписанию, их сохранения на диск и рассылки по электронной почте. Скачать приложение можно по <a href="https://rapidscada.net/store/Module/ru/ScadaAutoReport" target="_blank">ссылке</a>. Отправка отчётов по электронной почте обеспечивается драйвером DrvEmail.dll, который входит в дистрибутив Rapid SCADA и не требует отдельной установки.</p>
+    <p>Приложение позволяет расширять перечень формируемых типов отчётов новыми библиотеками. По умолчанию поддерживаются следующие типы отчётов:</p>
+    <ul>
+        <li>отчёт по историческим данным;</li>
+        <li>отчёт по событиям</li>
+        <li>гибкий отчёт.</li>
+    </ul>
+</div>
