@@ -18,7 +18,7 @@
 <div class="doc-content">
     <h1>Приложение Автоотчёт</h1>
     <h2 id="overview">Обзор</h2>
-    <p>Приложение Автоотчёт предназначено для автоматического формирования различных отчётов по расписанию, их сохранения на диск и рассылки по электронной почте. Скачать приложение можно по <a href="https://rapidscada.net/store/Module/ru/ScadaAutoReport" target="_blank">ссылке</a>. Отправка отчётов по электронной почте обеспечивается драйвером DrvEmail.dll, который входит в дистрибутив Rapid SCADA и не требует отдельной установки.</p>
+    <p>Приложение Автоотчёт предназначено для автоматического формирования различных отчётов по расписанию, их сохранения на диск и рассылки по электронной почте. Скачать приложение можно по <a href="https://rapidscada.net/store/Module/ru/ScadaAutoReport" target="_blank">ссылке</a>. Отправка отчётов по электронной почте обеспечивается драйвером DrvEmail, который входит в дистрибутив Rapid SCADA и не требует отдельной установки.</p>
     <p>Приложение позволяет расширять перечень формируемых типов отчётов новыми библиотеками. По умолчанию поддерживаются следующие типы отчётов:</p>
     <ul>
         <li>отчёт по историческим данным;</li>
@@ -61,5 +61,40 @@ sudo systemctl stop scadareport6</code></pre>
     </ol>
 
     <h2 id="configuring">Конфигурирование</h2>
+    <p>Конфигурация приложения сохраняется в файл <code>ScadaAutoReportConfig.xml</code>, который находится в поддиректории <code>Config</code> приложения. При использовании Автоотчёта на Windows настройка выполняется с помощью программы-конфигуратора, которая запускается из файла <code>ScadaAutoReportConfig.exe</code>. При работе на Linux конфигурационный файл редактируется вручную с помощью текстового редактора.</p>
+    <p>На скриншотах ниже показаны параметры приложения Автоотчёт, редактируемые в программе-конфигураторе.</p>
+    
+    <figure class="figure">
+        <img src="app-auto-report-files/general-options-ru.png" class="figure-img img-fluid" alt="Основные параметры" />
+    </figure>
+    <p>Установите параметр <strong>Культура</strong>, если используемая при формировании отчётов культура должна отличаться от культуры, установленной в приложении Администратор для всех приложений. Установите <strong>Часовой пояс</strong>, если он отличается от часового пояса сервера. Оставьте оба параметра пустыми, чтобы использовать значения по умолчанию.</p>
+    <p><strong>Путь CSS</strong> используется при формировании отчётов в формате HTML для тех типов отчётов, которые поддерживают этот формат. <strong>Директория отчётов</strong> задаётся в том случае, если отчёты должны сохраняться в директорию, отличную от директории отчётов по умолчанию - директории <code>Reports</code>, расположенной на уровень выше директори приложения Автоотчёт. </p>
+    <p>Если установлена галочка <strong>Архивировать отчёты</strong>, то отчёты будут сохраняться на диск в виде ZIP-архивов. Параметр <strong>Период хранения</strong> определяет, сколько дней хранить отчёты на диске.</p>
+    <p>Задайте <strong>Номер канала для приёма команд</strong>, если отчёты необходимо формировать не только по расписанию, но также по команде оператора. <strong>Номер канала для отправки писем</strong> используется при рассылке отчётов по электронной почте, чтобы передавать команды драйверу.</p>
+
+    <figure class="figure">
+        <img src="app-auto-report-files/connection-options-ru.png" class="figure-img img-fluid" alt="Параметры соединения" />
+    </figure>
+
+    <figure class="figure">
+        <img src="app-auto-report-files/elastic-report-type-ru.png" class="figure-img img-fluid" alt="Тип Гибкий отчёт" />
+    </figure>
+
+    <figure class="figure">
+        <img src="app-auto-report-files/task-options-ru.png" class="figure-img img-fluid" alt="Параметры задачи" />
+    </figure>
+
+    <figure class="figure">
+        <img src="app-auto-report-files/schedule-options-ru.png" class="figure-img img-fluid" alt="Параметры расписания" />
+    </figure>
+
+    <figure class="figure">
+        <img src="app-auto-report-files/mail-options-ru.png" class="figure-img img-fluid" alt="Параметры почты" />
+    </figure>
+
+    <figure class="figure">
+        <img src="app-auto-report-files/report-config-ru.png" class="figure-img img-fluid" alt="Настройки отчёта" />
+    </figure>
+
 
 </div>
