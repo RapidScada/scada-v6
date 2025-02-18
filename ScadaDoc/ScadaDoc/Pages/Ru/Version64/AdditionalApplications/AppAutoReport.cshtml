@@ -52,12 +52,7 @@
             Включить службу, выполнив команду
             <pre><code>sudo systemctl enable scadareport6.service</code></pre>
         </li>
-        <li>
-            Для запуска, перезапуска и остановки службы используйте команды
-            <pre><code>sudo systemctl start scadareport6
-sudo systemctl restart scadareport6
-sudo systemctl stop scadareport6</code></pre>
-        </li>
+        <li>После первого <a href="#operation">запуска</a> службы скопировать код компьютера из журнала, получить регистрационный ключ и зарегистрировать приложение.</li>
     </ol>
 
     <h2 id="configuring">Конфигурирование</h2>
@@ -75,26 +70,60 @@ sudo systemctl stop scadareport6</code></pre>
     <figure class="figure">
         <img src="app-auto-report-files/connection-options-ru.png" class="figure-img img-fluid" alt="Параметры соединения" />
     </figure>
+    <p>На вкладке <strong>Соединение с сервером</strong> задаются параметры для подключения к приложению Сервер. Указанный пользователь должен существовать в базе конфигурации. <strong>Секретный ключ</strong> необходимо скопировать из параметров Сервера.</p>
+    <p>На вкладке <strong>Соединение с БД</strong> задаются параметры для подключения к базе данных, которая содержит информацию, необходимую для формирования отчётов. Для тех типов отчётов, которые доступны по умолчанию, соединение с БД не требуется.</p>
 
     <figure class="figure">
         <img src="app-auto-report-files/elastic-report-type-ru.png" class="figure-img img-fluid" alt="Тип Гибкий отчёт" />
     </figure>
+    <p>Информация о типах отчётов в конфигураторе доступна только для просмотра. Для редактирования типов отчётов через файл конфигурации необходимо обратиться за консультацией к разработчикам.</p>
 
     <figure class="figure">
         <img src="app-auto-report-files/task-options-ru.png" class="figure-img img-fluid" alt="Параметры задачи" />
     </figure>
+    <p>Чтобы добавить новую задачу, нажмите кнопку <img src="app-auto-report-files/task.png" /> на панели инструментов конфигуратора. Задача включает в себя несколько отчётов и выполняется по расписанию или по команде. <strong>Наименование</strong> задачи используется в имени файла отчёта, поэтому в нём допускается использовать только те символы, которые разрешены в именах файлов. Параметр <strong>Начальная дата</strong> определяет начало периода формируемого отчёта относительно текущей даты. Параметр <strong>Период</strong> задаёт длительность периода отчёта.</p>
 
     <figure class="figure">
         <img src="app-auto-report-files/schedule-options-ru.png" class="figure-img img-fluid" alt="Параметры расписания" />
     </figure>
+    <p>Задача на формирование отчёта может автоматически запускаться <em>Каждый день</em>, в определённые <em>Дни недели</em> или <em>Дни месяца</em>. Параметр <strong>Время</strong> задаёт время суток, в которое запускается задача.</p>
 
     <figure class="figure">
         <img src="app-auto-report-files/mail-options-ru.png" class="figure-img img-fluid" alt="Параметры почты" />
     </figure>
+    <p>Если галочка <strong>Включено</strong> установлена, то сгенерированные отчёты будут не только сохранены на диск, но также отправлены по электронной почте с помощью драйвера DrvEmail. Контакт, указанный в поле <strong>Кому</strong>, должен существовать в адресной книге драйвера.</p>
 
     <figure class="figure">
         <img src="app-auto-report-files/report-config-ru.png" class="figure-img img-fluid" alt="Настройки отчёта" />
     </figure>
+    <p>Для добавления нового отчёта в задачу нажмите кнопку <img src="app-auto-report-files/report.png" />. Сняв галочку <strong>Активный</strong>, можно исключить формирование отчёта при выполнении задачи. <strong>Префикс</strong> используется в имени файла отчёта. Если отчёт использует данные из архива, который записывается приложением Сервер, необходимо указать <strong>Код архива</strong>. <strong>Пользовательские аргументы</strong> специфичны для выбранного типа отчёта.</p>
 
+    <p>Для работы приложения Автоотчёт необходимо в проекте с помощью приложения Администратор выполнить следующие настройки:</p>
+    <ol>
+        <li>Добавить нового пользователя, который используется в параметрах соединения с сервером.</li>
+        <li>Создать линию связи, устройство и каналы для работы электронной почты, если она используется.</li>
+        <li>Создать канал для передачи команд на ручное формирование отчётов, если данная функция необходима.</li>
+    </ol>
+    <p>На рисунках ниже показаны примеры настройки базы конфигурации проекта для работы приложения Автоотчёт.</p>
+    <figure class="figure">
+        <img src="app-auto-report-files/users-table-ru.png" class="figure-img img-fluid" alt="Таблица пользователей" />
+    </figure>
+    <figure class="figure">
+        <img src="app-auto-report-files/devices-table-ru.png" class="figure-img img-fluid" alt="Таблица устройств" />
+    </figure>
+    <figure class="figure">
+        <img src="app-auto-report-files/command-channel-ru.png" class="figure-img img-fluid" alt="Канал для приёма команд" />
+    </figure>
+    <figure class="figure">
+        <img src="app-auto-report-files/mail-channel-ru.png" class="figure-img img-fluid" alt="Канал для отправки писем" />
+    </figure>
 
+    <h2 id="operation">Запуск</h2>
+    <p>На Windows запуск, перезапуск и остановка службы Автоотчёт производится с помощью кнопок <img src="app-auto-report-files/start.png" />, <img src="app-auto-report-files/restart.png" /> и <img src="app-auto-report-files/stop.png" />, расположенных на панели инструментов конфигуратора.</p>
+    <p>На Linux для запуска, перезапуска и остановки службы используйте команды:</p>
+    <pre><code>sudo systemctl start scadareport6
+sudo systemctl restart scadareport6
+sudo systemctl stop scadareport6</code></pre>
+    <p>Когда служба работает, задачи выполняются по указанному расписанию. Для ручного запуска задачи отправьте команду на канал, который указан в основных параметрах конфигурации. Значение команды соответствует идентификатору запускаемой задачи.</p>
+    <p>В файл журнала <code>ScadaAutoReport.log</code> выводится подробная информация о работе приложения.</p>
 </div>
