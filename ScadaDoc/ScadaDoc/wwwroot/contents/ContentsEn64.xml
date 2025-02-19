@@ -152,6 +152,18 @@
     </Subitems>
   </Item>
 
+  <!-- Additional Applications -->
+  <Item>
+    <Text>Additional Applications</Text>
+    <Url>/en/latest/additional-applications/</Url>
+    <Subitems>
+      <Item>
+        <Text>Auto Report</Text>
+        <Url>/en/latest/additional-applications/app-auto-report</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
   <!-- Developers -->
   <Item>
     <Text>Developers</Text>

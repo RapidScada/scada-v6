@@ -1,33 +1,33 @@
-﻿@page "/ru/latest/additional-applications/app-auto-report"
+﻿@page "/en/latest/additional-applications/app-auto-report"
 @{
     Layout = "_ArticleLayout";
-    ViewBag.Title = "Автоотчёт";
+    ViewBag.Title = "Auto Report";
 }
 
 <nav class="doc-toc">
-    <div class="h6">На этой странице</div>
+    <div class="h6">On this page</div>
     <hr>
     <ul>
-        <li><a href="#overview">Обзор</a></li>
-        <li><a href="#installation">Установка</a></li>
-        <li><a href="#configuring">Конфигурирование</a></li>
-        <li><a href="#operation">Запуск</a></li>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#configuring">Configuring</a></li>
+        <li><a href="#operation">Operation</a></li>
     </ul>
 </nav>
 
 <div class="doc-content">
-    <h1>Автоотчёт</h1>
-    <h2 id="overview">Обзор</h2>
-    <p>Приложение Автоотчёт предназначено для автоматического формирования различных отчётов по расписанию, их сохранения на диск и рассылки по электронной почте. Скачать приложение можно по <a href="https://rapidscada.net/store/Module/ru/ScadaAutoReport" target="_blank">ссылке</a>. Отправка отчётов по электронной почте обеспечивается драйвером DrvEmail, который входит в дистрибутив Rapid SCADA и не требует отдельной установки.</p>
-    <p>Приложение позволяет расширять перечень формируемых типов отчётов новыми библиотеками. По умолчанию поддерживаются следующие типы отчётов:</p>
+    <h1>Auto Report</h1>
+    <h2 id="overview">Overview</h2>
+    <p>The Auto Report application is designed to automatically generate various reports according to a schedule, save them to disk and send them by email. Download the application using the <a href="https://rapidscada.net/store/Module/en/ScadaAutoReport" target="_blank">link</a>. Sending reports by email is provided by the DrvEmail driver, which is included in the Rapid SCADA distribution and does not require separate installation.</p>
+    <p>The application supports adding new libraries to the list of generated report types. The following report types are supported by default:</p>
     <ul>
-        <li>отчёт по историческим данным;</li>
-        <li>отчёт по событиям</li>
-        <li>гибкий отчёт.</li>
+        <li>Historical data report.</li>
+        <li>Event report.</li>
+        <li>Elastic report.</li>
     </ul>
-    <p>Автоотчёт работает как служба. По расписанию приложение запускает задачи на формирование отчётов. Сформированные отчёты сохраняются на диск и, если включена соответствующая опция, отправляются по электронной почте. Автоотчёт подключается к приложению Сервер для приёма команд на формирование отчётов и для отправки команд на их рассылку.</p>
+    <p>Auto Report works as a service. The application runs tasks to generate reports according to the schedule. Generated reports are saved to disk and, if the corresponding option is enabled, sent by email. Auto Report connects to the Server application to receive commands for generating reports and to send commands for sending reports via email.</p>
 
-    <h2 id="installation">Установка</h2>
+    <h2 id="installation">Installation</h2>
     <p>Последовательность установки приложения Автоотчёт на Windows:</p>
     <ol>
         <li>Распаковать архив дистрибутива приложения.</li>
@@ -55,12 +55,12 @@
         <li>После первого <a href="#operation">запуска</a> службы скопировать код компьютера из журнала, получить регистрационный ключ и зарегистрировать приложение.</li>
     </ol>
 
-    <h2 id="configuring">Конфигурирование</h2>
+    <h2 id="configuring">Configuring</h2>
     <p>Конфигурация приложения сохраняется в файл <code>ScadaAutoReportConfig.xml</code>, который находится в поддиректории <code>Config</code> приложения. При использовании Автоотчёта на Windows настройка выполняется с помощью программы-конфигуратора, которая запускается из файла <code>ScadaAutoReportConfig.exe</code>. При работе на Linux конфигурационный файл редактируется вручную с помощью текстового редактора.</p>
     <p>На скриншотах ниже показаны параметры приложения Автоотчёт, редактируемые в программе-конфигураторе.</p>
     
     <figure class="figure">
-        <img src="app-auto-report-files/general-options-ru.png" class="figure-img img-fluid" alt="Основные параметры" />
+        <img src="app-auto-report-files/general-options-en.png" class="figure-img img-fluid" alt="General options" />
     </figure>
     <p>Установите параметр <strong>Культура</strong>, если используемая при формировании отчётов культура должна отличаться от культуры, установленной в приложении Администратор для всех приложений. Установите <strong>Часовой пояс</strong>, если он отличается от часового пояса сервера. Оставьте оба параметра пустыми, чтобы использовать значения по умолчанию.</p>
     <p><strong>Путь CSS</strong> используется при формировании отчётов в формате HTML для тех типов отчётов, которые поддерживают этот формат. <strong>Директория отчётов</strong> задаётся в том случае, если отчёты должны сохраняться в директорию, отличную от директории отчётов по умолчанию - директории <code>Reports</code>, расположенной на уровень выше директори приложения Автоотчёт. </p>
@@ -68,33 +68,33 @@
     <p>Задайте <strong>Номер канала для приёма команд</strong>, если отчёты необходимо формировать не только по расписанию, но также по команде оператора. <strong>Номер канала для отправки писем</strong> используется при рассылке отчётов по электронной почте, чтобы передавать команды драйверу.</p>
 
     <figure class="figure">
-        <img src="app-auto-report-files/connection-options-ru.png" class="figure-img img-fluid" alt="Параметры соединения" />
+        <img src="app-auto-report-files/connection-options-en.png" class="figure-img img-fluid" alt="Connection options" />
     </figure>
     <p>На вкладке <strong>Соединение с сервером</strong> задаются параметры для подключения к приложению Сервер. Указанный пользователь должен существовать в базе конфигурации. <strong>Секретный ключ</strong> необходимо скопировать из параметров Сервера.</p>
     <p>На вкладке <strong>Соединение с БД</strong> задаются параметры для подключения к базе данных, которая содержит информацию, необходимую для формирования отчётов. Для тех типов отчётов, которые доступны по умолчанию, соединение с БД не требуется.</p>
 
     <figure class="figure">
-        <img src="app-auto-report-files/elastic-report-type-ru.png" class="figure-img img-fluid" alt="Тип Гибкий отчёт" />
+        <img src="app-auto-report-files/elastic-report-type-en.png" class="figure-img img-fluid" alt="Elastic report type" />
     </figure>
     <p>Информация о типах отчётов в конфигураторе доступна только для просмотра. Для редактирования типов отчётов через файл конфигурации необходимо обратиться за консультацией к разработчикам.</p>
 
     <figure class="figure">
-        <img src="app-auto-report-files/task-options-ru.png" class="figure-img img-fluid" alt="Параметры задачи" />
+        <img src="app-auto-report-files/task-options-en.png" class="figure-img img-fluid" alt="Task options" />
     </figure>
     <p>Чтобы добавить новую задачу, нажмите кнопку <img src="app-auto-report-files/task.png" /> на панели инструментов конфигуратора. Задача включает в себя несколько отчётов и выполняется по расписанию или по команде. <strong>Наименование</strong> задачи используется в имени файла отчёта, поэтому в нём допускается использовать только те символы, которые разрешены в именах файлов. Параметр <strong>Начальная дата</strong> определяет начало периода формируемого отчёта относительно текущей даты. Параметр <strong>Период</strong> задаёт длительность периода отчёта.</p>
 
     <figure class="figure">
-        <img src="app-auto-report-files/schedule-options-ru.png" class="figure-img img-fluid" alt="Параметры расписания" />
+        <img src="app-auto-report-files/schedule-options-en.png" class="figure-img img-fluid" alt="Schedule options" />
     </figure>
     <p>Задача на формирование отчёта может автоматически запускаться <em>Каждый день</em>, в определённые <em>Дни недели</em> или <em>Дни месяца</em>. Параметр <strong>Время</strong> задаёт время суток, в которое запускается задача.</p>
 
     <figure class="figure">
-        <img src="app-auto-report-files/mail-options-ru.png" class="figure-img img-fluid" alt="Параметры почты" />
+        <img src="app-auto-report-files/mail-options-en.png" class="figure-img img-fluid" alt="Mail options" />
     </figure>
     <p>Если в параметрах почты галочка <strong>Включено</strong> установлена, то сгенерированные отчёты будут не только сохранены на диск, но также отправлены по электронной почте с помощью драйвера DrvEmail. В поле <strong>Кому</strong> указывается имя контакта из адресной книги драйвера, имя группы контактов или непосредственно адрес электронной почты.</p>
 
     <figure class="figure">
-        <img src="app-auto-report-files/report-config-ru.png" class="figure-img img-fluid" alt="Настройки отчёта" />
+        <img src="app-auto-report-files/report-config-en.png" class="figure-img img-fluid" alt="Report configuration" />
     </figure>
     <p>Для добавления нового отчёта в задачу нажмите кнопку <img src="app-auto-report-files/report.png" />. Сняв галочку <strong>Активный</strong>, можно исключить формирование отчёта при выполнении задачи. <strong>Префикс</strong> используется в имени файла отчёта. Доступные для выбора форматы (PDF, XML 2003, XLSX, HTML) зависят от типа отчёта. Если отчёт использует данные из архива, который записывается приложением Сервер, необходимо указать <strong>Код архива</strong>. <strong>Пользовательские аргументы</strong> специфичны для выбранного типа отчёта.</p>
 
@@ -106,19 +106,19 @@
     </ol>
     <p>На рисунках ниже показаны примеры настройки базы конфигурации проекта.</p>
     <figure class="figure">
-        <img src="app-auto-report-files/users-table-ru.png" class="figure-img img-fluid" alt="Таблица пользователей" />
+        <img src="app-auto-report-files/users-table-en.png" class="figure-img img-fluid" alt="Users table" />
     </figure>
     <figure class="figure">
-        <img src="app-auto-report-files/devices-table-ru.png" class="figure-img img-fluid" alt="Таблица устройств" />
+        <img src="app-auto-report-files/devices-table-en.png" class="figure-img img-fluid" alt="Devices table" />
     </figure>
     <figure class="figure">
-        <img src="app-auto-report-files/command-channel-ru.png" class="figure-img img-fluid" alt="Канал для приёма команд" />
+        <img src="app-auto-report-files/command-channel-en.png" class="figure-img img-fluid" alt="Channel for receiving commands" />
     </figure>
     <figure class="figure">
-        <img src="app-auto-report-files/mail-channel-ru.png" class="figure-img img-fluid" alt="Канал для отправки писем" />
+        <img src="app-auto-report-files/mail-channel-en.png" class="figure-img img-fluid" alt="Channel for sending emails" />
     </figure>
 
-    <h2 id="operation">Запуск</h2>
+    <h2 id="operation">Operation</h2>
     <p>На Windows запуск, перезапуск и остановка службы Автоотчёт производится с помощью кнопок <img src="app-auto-report-files/start.png" />, <img src="app-auto-report-files/restart.png" /> и <img src="app-auto-report-files/stop.png" />, расположенных на панели инструментов конфигуратора.</p>
     <p>На Linux для запуска, перезапуска и остановки службы используйте команды:</p>
     <pre><code>sudo systemctl start scadareport6
