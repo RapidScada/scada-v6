@@ -28,83 +28,83 @@
     <p>Auto Report works as a service. The application runs tasks to generate reports according to the schedule. Generated reports are saved to disk and, if the corresponding option is enabled, sent by email. Auto Report connects to the Server application to receive commands for generating reports and to send commands for sending reports via email.</p>
 
     <h2 id="installation">Installation</h2>
-    <p>Последовательность установки приложения Автоотчёт на Windows:</p>
+    <p>The sequence of installing the Auto Report application on Windows:</p>
     <ol>
-        <li>Распаковать архив дистрибутива приложения.</li>
-        <li>Скопировать содержимое папки <code>SCADA</code> дистрибутива в директорию установки Rapid SCADA.</li>
-        <li>Запустить файл <code>ScadaAutoReport\svc_install.bat</code> от имени администратора для регистрации службы.</li>
-        <li>Создать ярлык на рабочем столе к файлу <code>ScadaAutoReport\ScadaAutoReportConfig.exe</code> для запуска конфигуратора приложения Автоотчёт.</li>
+        <li>Unzip the application distribution package.</li>
+        <li>Copy the contents of the <code>SCADA</code> distribution folder to the Rapid SCADA installation directory.</li>
+        <li>Run the <code>ScadaAutoReport\svc_install.bat</code> file as administrator to register the service.</li>
+        <li>Create a shortcut on the desktop to the <code>ScadaAutoReport\ScadaAutoReportConfig.exe</code> file to launch the Auto Report configurator.</li>
         <li>
-            Запустить конфигуратор и выполнить в нём следующие действия:
+            Launch the configurator and perform the following actions:
             <ol type="a">
-                <li>Запустить службу Автоотчёт кнопкой <img src="app-auto-report-files/start.png" />.</li>
-                <li>Открыть форму регистрации кнопкой <img src="app-auto-report-files/key.png" /> и зарегистрировать приложение.</li>
+                <li>Start the Auto Report service by clicking the <img src="app-auto-report-files/start.png" /> button.</li>
+                <li>Open the registration form using the <img src="app-auto-report-files/key.png" /> button and register the application.</li>
             </ol>
         </li>
     </ol>
 
-    <p>Последовательность установки на Linux:</p>
+    <p>The installation sequence on Linux is as follows:</p>
     <ol>
-        <li>Распаковать архив дистрибутива приложения.</li>
-        <li>Скопировать содержимое папки <code>SCADA</code> дистрибутива в директорию <code>/opt/scada/</code></li>
-        <li>Скопировать файл <code>Daemons/scadareport6.service</code> из дистрибутива в директорию <code>/etc/systemd/system</code></li>
+        <li>Unzip the application distribution package.</li>
+        <li>Copy the contents of the <code>SCADA</code> distribution folder to the <code>/opt/scada/</code> directory.</li>
+        <li>Copy the <code>Daemons/scadareport6.service</code> file from the distribution to the <code>/etc/systemd/system</code> directory.</li>
         <li>
-            Включить службу, выполнив команду
+            Enable the service by running the command
             <pre><code>sudo systemctl enable scadareport6.service</code></pre>
         </li>
-        <li>После первого <a href="#operation">запуска</a> службы скопировать код компьютера из журнала, получить регистрационный ключ и зарегистрировать приложение.</li>
+        <li>After the first <a href="#operation">start</a> of the service, copy the computer code from the log, get the registration key and register the application.</li>
     </ol>
 
     <h2 id="configuring">Configuring</h2>
-    <p>Конфигурация приложения сохраняется в файл <code>ScadaAutoReportConfig.xml</code>, который находится в поддиректории <code>Config</code> приложения. При использовании Автоотчёта на Windows настройка выполняется с помощью программы-конфигуратора, которая запускается из файла <code>ScadaAutoReportConfig.exe</code>. При работе на Linux конфигурационный файл редактируется вручную с помощью текстового редактора.</p>
-    <p>На скриншотах ниже показаны параметры приложения Автоотчёт, редактируемые в программе-конфигураторе.</p>
+    <p>The application configuration is saved in the <code>ScadaAutoReportConfig.xml</code> file, which is located in the <code>Config</code> subdirectory of the application. When using Auto Report on Windows, the configuration is performed using the configurator application, which is launched from the <code>ScadaAutoReportConfig.exe</code> file. When running on Linux, the configuration file is edited manually using a text editor.</p>
+    <p>The screenshots below show the options of the Auto Report application, edited in the configurator application.</p>
     
     <figure class="figure">
         <img src="app-auto-report-files/general-options-en.png" class="figure-img img-fluid" alt="General options" />
     </figure>
-    <p>Установите параметр <strong>Культура</strong>, если используемая при формировании отчётов культура должна отличаться от культуры, установленной в приложении Администратор для всех приложений. Установите <strong>Часовой пояс</strong>, если он отличается от часового пояса сервера. Оставьте оба параметра пустыми, чтобы использовать значения по умолчанию.</p>
-    <p><strong>Путь CSS</strong> используется при формировании отчётов в формате HTML для тех типов отчётов, которые поддерживают этот формат. <strong>Директория отчётов</strong> задаётся в том случае, если отчёты должны сохраняться в директорию, отличную от директории отчётов по умолчанию - директории <code>Reports</code>, расположенной на уровень выше директори приложения Автоотчёт. </p>
-    <p>Если установлена галочка <strong>Архивировать отчёты</strong>, то отчёты будут сохраняться на диск в виде ZIP-архивов. Параметр <strong>Период хранения</strong> определяет, сколько дней хранить отчёты на диске.</p>
-    <p>Задайте <strong>Номер канала для приёма команд</strong>, если отчёты необходимо формировать не только по расписанию, но также по команде оператора. <strong>Номер канала для отправки писем</strong> используется при рассылке отчётов по электронной почте, чтобы передавать команды драйверу.</p>
+    <p>Set the <strong>Culture</strong> option to a non-empty value if the culture used to generate reports should be different from the culture set in the Administrator application for all applications. Specify the <strong>Time zone</strong> if it is different from the server time zone. Leave both options blank to use the default values.</p>
+    <p>The <strong>CSS path</strong> is used when generating reports in HTML format for those report types that support this format. The <strong>Report directory</strong> is specified if reports should be saved in a directory other than the default report directory. By default, the <code>Reports</code> directory, located one level above the Auto Report application directory, is used to save reports.</p>
+    <p>If the <strong>Pack reports</strong> checkbox is checked, the reports are saved to disk as ZIP archives. The <strong>Retention</strong> option determines how many days to keep reports on disk.</p>
+    <p>Specify the <strong>Channel number to receive commands</strong> if reports need to be generated not only according to the schedule, but also upon operator command. The <strong>Channel number to send emails</strong> is used when sending reports via email to transmit commands to the driver.</p>
 
     <figure class="figure">
         <img src="app-auto-report-files/connection-options-en.png" class="figure-img img-fluid" alt="Connection options" />
     </figure>
-    <p>На вкладке <strong>Соединение с сервером</strong> задаются параметры для подключения к приложению Сервер. Указанный пользователь должен существовать в базе конфигурации. <strong>Секретный ключ</strong> необходимо скопировать из параметров Сервера.</p>
-    <p>На вкладке <strong>Соединение с БД</strong> задаются параметры для подключения к базе данных, которая содержит информацию, необходимую для формирования отчётов. Для тех типов отчётов, которые доступны по умолчанию, соединение с БД не требуется.</p>
+    <p>The <strong>Server Connection</strong> tab contains the options for connecting to the Server application. The specified user must exist in the configuration database. The <strong>Secret key</strong> should be copied from the Server settings.</p>
+    <p>The <strong>DB Connection</strong> tab is used to set parameters for connecting to a database that contains the information needed to generate reports. For the report types available by default, a database connection is not required.</p>
 
     <figure class="figure">
         <img src="app-auto-report-files/elastic-report-type-en.png" class="figure-img img-fluid" alt="Elastic report type" />
     </figure>
-    <p>Информация о типах отчётов в конфигураторе доступна только для просмотра. Для редактирования типов отчётов через файл конфигурации необходимо обратиться за консультацией к разработчикам.</p>
+    <p>Information about report types in the configurator is available for viewing only. To edit report types through the configuration file, please consult the developers.</p>
 
     <figure class="figure">
         <img src="app-auto-report-files/task-options-en.png" class="figure-img img-fluid" alt="Task options" />
     </figure>
-    <p>Чтобы добавить новую задачу, нажмите кнопку <img src="app-auto-report-files/task.png" /> на панели инструментов конфигуратора. Задача включает в себя несколько отчётов и выполняется по расписанию или по команде. <strong>Наименование</strong> задачи используется в имени файла отчёта, поэтому в нём допускается использовать только те символы, которые разрешены в именах файлов. Параметр <strong>Начальная дата</strong> определяет начало периода формируемого отчёта относительно текущей даты. Параметр <strong>Период</strong> задаёт длительность периода отчёта.</p>
+    <p>To add a new task, click the <img src="app-auto-report-files/task.png" /> button on the configurator toolbar. The task includes up to several reports and is executed on schedule or on command. The task name is used in the report file name, so it can only contain characters that are allowed in file names. The <strong>Start date</strong> option defines the beginning of the period of the generated report relative to the current date. The <strong>Period</strong> option specifies the duration of the report period.</p>
 
     <figure class="figure">
         <img src="app-auto-report-files/schedule-options-en.png" class="figure-img img-fluid" alt="Schedule options" />
     </figure>
-    <p>Задача на формирование отчёта может автоматически запускаться <em>Каждый день</em>, в определённые <em>Дни недели</em> или <em>Дни месяца</em>. Параметр <strong>Время</strong> задаёт время суток, в которое запускается задача.</p>
+    <p>The task for generating a report can be automatically launched <em>Every Day</em>, on certain <em>Days of Week</em> or <em>Days of Month</em>. The <strong>Time</strong> option specifies the time of day at which the task runs.</p>
 
     <figure class="figure">
         <img src="app-auto-report-files/mail-options-en.png" class="figure-img img-fluid" alt="Mail options" />
     </figure>
-    <p>Если в параметрах почты галочка <strong>Включено</strong> установлена, то сгенерированные отчёты будут не только сохранены на диск, но также отправлены по электронной почте с помощью драйвера DrvEmail. В поле <strong>Кому</strong> указывается имя контакта из адресной книги драйвера, имя группы контактов или непосредственно адрес электронной почты.</p>
+    <p>If the <strong>Enabled</strong> checkbox is checked in the mail options, then the generated reports, in addition to being saved to disk, are also sent by email using the DrvEmail driver. The <strong>To</strong> field specifies the name of a contact from the driver's address book, the name of a contact group, or an email address.</p>
 
     <figure class="figure">
         <img src="app-auto-report-files/report-config-en.png" class="figure-img img-fluid" alt="Report configuration" />
     </figure>
-    <p>Для добавления нового отчёта в задачу нажмите кнопку <img src="app-auto-report-files/report.png" />. Сняв галочку <strong>Активный</strong>, можно исключить формирование отчёта при выполнении задачи. <strong>Префикс</strong> используется в имени файла отчёта. Доступные для выбора форматы (PDF, XML 2003, XLSX, HTML) зависят от типа отчёта. Если отчёт использует данные из архива, который записывается приложением Сервер, необходимо указать <strong>Код архива</strong>. <strong>Пользовательские аргументы</strong> специфичны для выбранного типа отчёта.</p>
+    <p>To add a new report to the task, click the <img src="app-auto-report-files/report.png" /> button. Uncheck the <strong>Active</strong> checkbox to exclude the generation of the report when the task is running. The <strong>Prefix</strong> is ​​used in the report file name. The formats available for selection (PDF, XML 2003, XLSX, HTML) depend on the report type. Specify the <strong>Archive code</strong> if the report uses data from the archive that is written by the Server application. The <strong>Custom arguments</strong> are specific to the selected report type.</p>
 
-    <p>Для работы приложения Автоотчёт необходимо в проекте с помощью приложения Администратор выполнить следующие настройки:</p>
+    <p>To use the Auto Report application, make the following settings in the project using the Administrator application:</p>
     <ol>
-        <li>Добавить нового пользователя, который указывается в параметрах соединения с сервером.</li>
-        <li>Создать линию связи, устройство и каналы для работы электронной почты, если она используется.</li>
-        <li>Создать канал для передачи команд на ручное формирование отчётов, если данная функция необходима.</li>
+        <li>Add a new user, which is specified in the server connection options.</li>
+        <li>Create a communication line, device and channels for email operation, if used.</li>
+        <li>Create a channel for sending commands to generate reports by an operator, if required.</li>
     </ol>
-    <p>На рисунках ниже показаны примеры настройки базы конфигурации проекта.</p>
+    <p>The figures below show examples of setting up the configuration database of the project.</p>
     <figure class="figure">
         <img src="app-auto-report-files/users-table-en.png" class="figure-img img-fluid" alt="Users table" />
     </figure>
@@ -119,11 +119,11 @@
     </figure>
 
     <h2 id="operation">Operation</h2>
-    <p>На Windows запуск, перезапуск и остановка службы Автоотчёт производится с помощью кнопок <img src="app-auto-report-files/start.png" />, <img src="app-auto-report-files/restart.png" /> и <img src="app-auto-report-files/stop.png" />, расположенных на панели инструментов конфигуратора.</p>
-    <p>На Linux для запуска, перезапуска и остановки службы используйте команды:</p>
+    <p>On Windows, the Auto Report service is started, restarted, and stopped using the <img src="app-auto-report-files/start.png" />, <img src="app-auto-report-files/restart.png" />, and <img src="app-auto-report-files/stop.png" /> buttons located on the configurator toolbar.</p>
+    <p>On Linux, to start, restart, and stop the service, use the commands:</p>
     <pre><code>sudo systemctl start scadareport6
 sudo systemctl restart scadareport6
 sudo systemctl stop scadareport6</code></pre>
-    <p>Если конфигурация приложения изменилась, перезапустите службу Автоотчёт, чтобы изменения вступили в силу. Контролируйте работу приложения с помощью файла журнала <code>ScadaAutoReport.log</code>.</p>
-    <p>Когда служба работает, задачи выполняются по указанному расписанию. Для ручного запуска задачи отправьте команду на канал, который указан в основных параметрах конфигурации. Значение команды соответствует идентификатору запускаемой задачи.</p>
+    <p>If the application configuration has changed, restart the Auto Report service for the changes to take effect. Monitor the application's operation using the <code>ScadaAutoReport.log</code> file.</p>
+    <p>When the service is running, tasks are executed according to the specified schedule. To manually start a task, send a command to the channel specified in the general application options. The command value corresponds to the ID of the task to be launched.</p>
 </div>
