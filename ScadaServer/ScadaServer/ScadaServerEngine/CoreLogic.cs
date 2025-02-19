@@ -837,7 +837,8 @@ namespace Scada.Server.Engine
         private void UpdateCnlStatus(HistoricalArchiveLogic archiveLogic, DateTime timestamp,
             CnlTag cnlTag, ref CnlData cnlData)
         {
-            if (double.IsNaN(cnlData.Val))
+            if (double.IsNaN(cnlData.Val) ||
+                double.IsInfinity(cnlData.Val))
             {
                 cnlData = CnlData.Empty;
             }
