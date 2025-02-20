@@ -164,6 +164,26 @@
     </Subitems>
   </Item>
 
+  <!-- Редакция Enterprise -->
+  <Item>
+    <Text>Редакция Enterprise</Text>
+    <Url>/ru/latest/enterprise-edition/</Url>
+    <Subitems>
+      <Item>
+        <Text>Обзор</Text>
+        <Url>/ru/latest/enterprise-edition/overview</Url>
+      </Item>
+      <Item>
+        <Text>Плагин Журнал аудита</Text>
+        <Url>/ru/latest/modules/plg-audit</Url>
+      </Item>
+      <Item>
+        <Text>Плагин Защитник</Text>
+        <Url>/ru/latest/modules/plg-guard</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
   <!-- Разработчикам -->
   <Item>
     <Text>Разработчикам</Text>
