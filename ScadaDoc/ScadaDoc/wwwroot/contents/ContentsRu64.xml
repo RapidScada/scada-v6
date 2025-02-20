@@ -175,11 +175,11 @@
       </Item>
       <Item>
         <Text>Плагин Журнал аудита</Text>
-        <Url>/ru/latest/modules/plg-audit</Url>
+        <Url>/ru/latest/enterprise-edition/plg-audit</Url>
       </Item>
       <Item>
         <Text>Плагин Защитник</Text>
-        <Url>/ru/latest/modules/plg-guard</Url>
+        <Url>/ru/latest/enterprise-edition/plg-guard</Url>
       </Item>
     </Subitems>
   </Item>
