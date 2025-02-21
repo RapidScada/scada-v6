@@ -164,6 +164,26 @@
     </Subitems>
   </Item>
 
+  <!-- Enterprise Edition -->
+  <Item>
+    <Text>Enterprise Edition</Text>
+    <Url>/en/latest/enterprise-edition/</Url>
+    <Subitems>
+      <Item>
+        <Text>Overview</Text>
+        <Url>/en/latest/enterprise-edition/overview</Url>
+      </Item>
+      <Item>
+        <Text>Audit Log Plugin</Text>
+        <Url>/en/latest/enterprise-edition/plg-audit</Url>
+      </Item>
+      <Item>
+        <Text>Guard Plugin</Text>
+        <Url>/en/latest/enterprise-edition/plg-guard</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
   <!-- Developers -->
   <Item>
     <Text>Developers</Text>
