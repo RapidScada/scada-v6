@@ -82,12 +82,6 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                     Stopwatch stopwatch = Stopwatch.StartNew();
                     Slice slice = adapter.ReadSingleSlice();
 
-                    if (slice == null)
-                    {
-                        completed = false;
-                        return;
-                    }
-
                     for (int i = 0, len = slice.Length; i < len; i++)
                     {
                         int cnlNum = slice.CnlNums[i];
