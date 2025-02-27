@@ -1,5 +1,5 @@
 ﻿// Contains classes: PropertyDescriptor, BasicType, Descriptor, MimicDescriptor, ComponentDescriptor,
-//     TextDescriptor, PictureDescriptor, PanelDescriptor, DescriptorSet, Translation
+//     TextDescriptor, PictureDescriptor, PanelDescriptor, DescriptorSet, TranslationSet
 // Depends on mimic-common.js
 
 // Provides meta information about a property of a mimic or component.
@@ -31,7 +31,16 @@ rs.mimic.BasicType = class {
 
 // Represents a descriptor of a mimic or component.
 rs.mimic.Descriptor = class {
-    propertyDescriptors = [];
+    // Key is a property name. Value is a property descriptor.
+    propertyDescriptors = new Map();
+
+    _add(propertyDescriptor) {
+        this.propertyDescriptors.set(propertyDescriptor.name, propertyDescriptor);
+    }
+
+    get(propertyName) {
+        return this.propertyDescriptors.get(propertyName);
+    }
 }
 
 // Represents a mimic descriptor.
@@ -40,7 +49,7 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.Descriptor {
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
         super();
 
-        this.propertyDescriptors.push(new PropertyDescriptor({
+        this._add(new PropertyDescriptor({
             name: "size",
             displayName: "Size",
             type: rs.mimic.BasicType.SIZE
@@ -54,26 +63,26 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.Descriptor {
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
         super();
 
-        this.propertyDescriptors.push(new PropertyDescriptor({
+        this._add(new PropertyDescriptor({
             name: "id",
             displayName: "ID",
             isReadOnly: true,
             type: rs.mimic.BasicType.INT
         }));
 
-        this.propertyDescriptors.push(new PropertyDescriptor({
+        this._add(new PropertyDescriptor({
             name: "name",
             displayName: "Name",
             type: rs.mimic.BasicType.STRING
         }));
 
-        this.propertyDescriptors.push(new PropertyDescriptor({
+        this._add(new PropertyDescriptor({
             name: "location",
             displayName: "Location",
             type: rs.mimic.BasicType.POINT
         }));
 
-        this.propertyDescriptors.push(new PropertyDescriptor({
+        this._add(new PropertyDescriptor({
             name: "size",
             displayName: "Size",
             type: rs.mimic.BasicType.SIZE
@@ -87,7 +96,7 @@ rs.mimic.TextDescriptor = class extends rs.mimic.ComponentDescriptor {
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
         super();
 
-        this.propertyDescriptors.push(new PropertyDescriptor({
+        this._add(new PropertyDescriptor({
             name: "text",
             displayName: "Text",
             type: rs.mimic.BasicType.STRING
@@ -101,7 +110,7 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.ComponentDescriptor {
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
         super();
 
-        this.propertyDescriptors.push(new PropertyDescriptor({
+        this._add(new PropertyDescriptor({
             name: "imageName",
             displayName: "Image name",
             type: rs.mimic.BasicType.STRING
@@ -123,8 +132,8 @@ rs.mimic.DescriptorSet = class {
     ]);
 }
 
-// Collects component translations.
-rs.mimic.Translation = class {
+// Contains translations for a mimic and its components.
+rs.mimic.TranslationSet = class {
     // Key is a property name. Value is a display name.
     static mimicTranslation = new Map();
     // Key is a component type name. Value is a map containing property names and their display names.
