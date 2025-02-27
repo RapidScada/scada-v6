@@ -18,53 +18,66 @@ class PropGrid {
         }
     }
 
-    _addBlades(obj, parent, opt_descriptor) {
+    _addBlades(container, target, parent, descriptor) {
         const thisObj = this;
 
-        if (obj) {
-            for (let [name, value] of Object.entries(obj)) {
-                let propDescr = opt_descriptor?.get(name);
-
-                if (typeof value === "number" ||
-                    typeof value === "string") {
-                    // simple property is editable in row
-                    this._pane
-                        .addBinding(obj, name, {
-                            label: propDescr?.displayName ?? name
-                        })
-                        .on("change", function (event) {
-                            if (event.last) {
-                                thisObj._handleBindingChange(obj, name, event.value);
-                            }
-                        });
-                } else if (name === "location") {
-                    // temporary
-                    this._pane.addBinding({
-                        location: new LocationProxy(value)
-                    }, name, {
-                        x: { step: 1 },
-                        y: { step: 1 }
-                    });
-                } else if (value instanceof Object) {
-                    // complex property requires braking into simple properties
-                    this._pane
-                        .addButton({
-                            label: name,
-                            title: "Edit"
-                        })
-                        .on("click", function () {
-                            thisObj._selectChildObject(value, obj);
-                        });
-                }
+        if (target) {
+            for (let [name, value] of Object.entries(target)) {
+                this._addBlade(container, target, name, value, descriptor);
             }
         }
 
         if (parent) {
-            this._pane.addButton({
-                title: "Return to Parent"
-            }).on("click", function () {
-                thisObj._selectParentObject();
-            });
+            container
+                .addButton({
+                    title: "Return to Parent"
+                })
+                .on("click", function () {
+                    thisObj._selectParentObject();
+                });
+        }
+    }
+
+    _addBlade(container, target, propertyName, propertyValue, objectDescriptor) {
+        const thisObj = this;
+        let propertyDescriptor = objectDescriptor?.get(propertyName);
+        let displayName = propertyDescriptor?.displayName ?? propertyName;
+
+        if (typeof propertyValue === "number" ||
+            typeof propertyValue === "string") {
+            // simple property is editable in row
+            container
+                .addBinding(target, propertyName, {
+                    label: displayName
+                })
+                .on("change", function (event) {
+                    if (event.last) {
+                        thisObj._handleBindingChange(target, propertyName, event.value);
+                    }
+                });
+        } else if (propertyValue instanceof Object) {
+            let proxyObject = this._createProxyObject(propertyValue, propertyDescriptor);
+
+            if (proxyObject) {
+                // use proxy object
+                container
+                    .addBinding({ proxy: proxyObject }, "proxy", this._getBindingOptions(propertyDescriptor))
+                    .on("change", function (event) {
+                        if (event.last) {
+                            thisObj._handleBindingChange(target, propertyName, event.value);
+                        }
+                    });
+            } else {
+                // complex property requires braking into simple properties
+                container
+                    .addButton({
+                        label: displayName,
+                        title: "Edit"
+                    })
+                    .on("click", function () {
+                        thisObj._selectChildObject(propertyValue, target);
+                    });
+            }
         }
     }
 
@@ -73,21 +86,31 @@ class PropGrid {
         this._selectedObject = obj;
         this._parentStack = [];
         this._clearPane();
-        this._addBlades(obj, null, descriptor);
+
+        if (obj instanceof rs.mimic.Component) {
+            this._addBlade(this._pane, obj, "id", obj.id, descriptor);
+            this._addBlade(this._pane, obj, "name", obj.name, descriptor);
+            this._addBlade(this._pane, obj, "typeName", obj.typeName, descriptor);
+            this._addBlades(this._pane, obj.properties, null, descriptor);
+        } else if (obj instanceof rs.mimic.Mimic) {
+
+        } else {
+            this._addBlades(this._pane, obj, null, descriptor);
+        }
     }
 
     _selectChildObject(obj, parent) {
         this._selectedObject = obj;
         this._parentStack.push(parent);
         this._clearPane();
-        this._addBlades(obj, parent);
+        this._addBlades(this._pane, obj, parent, null);
     }
 
     _selectParentObject() {
         let parent = this._parentStack.pop();
         let grandParent = this._parentStack.at(-1); // last
         this._clearPane();
-        this._addBlades(parent, grandParent);
+        this._addBlades(this._pane, parent, grandParent, null);
     }
 
     _getDescriptor(obj) {
@@ -102,8 +125,38 @@ class PropGrid {
         }
     }
 
-    _handleBindingChange(obj, propName, value) {
-        console.log(propName + " = " + value);
+    _createProxyObject(target, propertyDescriptor) {
+        const BasicType = rs.mimic.BasicType;
+        let proxy = null;
+
+        if (propertyDescriptor) {
+            if (propertyDescriptor.type === BasicType.POINT) {
+                proxy = new PointProxy(target);
+            }
+        }
+
+        return proxy;
+    }
+
+    _getBindingOptions(propertyDescriptor) {
+        const BasicType = rs.mimic.BasicType;
+        let bindingOptions = null;
+
+        if (propertyDescriptor) {
+            if (propertyDescriptor.type === BasicType.POINT) {
+                bindingOptions = {
+                    label: propertyDescriptor.displayName,
+                    x: { step: 1 },
+                    y: { step: 1 }
+                };
+            }
+        }
+
+        return bindingOptions;
+    }
+
+    _handleBindingChange(target, propertyName, value) {
+        console.log(propertyName + " = " + JSON.stringify(value));
     }
 
     get selectedObject() {
@@ -128,8 +181,8 @@ class ProxyObject {
     }
 }
 
-// Represents a proxy object for editing location as a Point2d.
-class LocationProxy extends ProxyObject {
+// Represents a proxy object for editing point as a Point2d.
+class PointProxy extends ProxyObject {
     get x() {
         return parseInt(this.target.x);
     }

@@ -6,6 +6,7 @@
 rs.mimic.PropertyDescriptor = class {
     name = "";
     displayName = "";
+    category = "";
     isReadOnly = false;
     defaultValue = undefined;
     type = rs.mimic.BasicType.UNDEFINED;
@@ -14,6 +15,16 @@ rs.mimic.PropertyDescriptor = class {
     constructor(source) {
         Object.assign(this, source);
     }
+}
+
+// Specifies the known categories.
+rs.mimic.KnownCategory = class {
+    static APPEARANCE = "APPEARANCE";
+    static BEHAVIOR = "BEHAVIOR";
+    static DATA = "DATA";
+    static DESIGN = "DESIGN";
+    static LAYOUT = "LAYOUT";
+    static MISC = "MISC";
 }
 
 // Specifies the basic types.
@@ -52,6 +63,7 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.Descriptor {
         this._add(new PropertyDescriptor({
             name: "size",
             displayName: "Size",
+            category: rs.mimic.KnownCategory.LAYOUT,
             type: rs.mimic.BasicType.SIZE
         }));
     }
@@ -66,6 +78,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.Descriptor {
         this._add(new PropertyDescriptor({
             name: "id",
             displayName: "ID",
+            category: rs.mimic.KnownCategory.DESIGN,
             isReadOnly: true,
             type: rs.mimic.BasicType.INT
         }));
@@ -73,18 +86,21 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.Descriptor {
         this._add(new PropertyDescriptor({
             name: "name",
             displayName: "Name",
+            category: rs.mimic.KnownCategory.DESIGN,
             type: rs.mimic.BasicType.STRING
         }));
 
         this._add(new PropertyDescriptor({
             name: "location",
             displayName: "Location",
+            category: rs.mimic.KnownCategory.LAYOUT,
             type: rs.mimic.BasicType.POINT
         }));
 
         this._add(new PropertyDescriptor({
             name: "size",
             displayName: "Size",
+            category: rs.mimic.KnownCategory.LAYOUT,
             type: rs.mimic.BasicType.SIZE
         }));
     }
@@ -99,6 +115,7 @@ rs.mimic.TextDescriptor = class extends rs.mimic.ComponentDescriptor {
         this._add(new PropertyDescriptor({
             name: "text",
             displayName: "Text",
+            category: rs.mimic.KnownCategory.APPEARANCE,
             type: rs.mimic.BasicType.STRING
         }));
     }
@@ -113,6 +130,7 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.ComponentDescriptor {
         this._add(new PropertyDescriptor({
             name: "imageName",
             displayName: "Image name",
+            category: rs.mimic.KnownCategory.APPEARANCE,
             type: rs.mimic.BasicType.STRING
         }));
     }
