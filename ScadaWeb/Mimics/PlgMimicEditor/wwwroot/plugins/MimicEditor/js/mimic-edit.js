@@ -1,4 +1,6 @@
-﻿// Depends on jquery, scada-common.js, mimic-common.js, mimic-model.js, mimic-render.js
+﻿// Depends on jquery, tweakpane, scada-common.js, 
+//     mimic-common.js, mimic-model.js, mimic-render.js,
+//     editor.js, prop-grid.js
 
 const UPDATE_RATE = 1000;
 const mimic = new rs.mimic.Mimic();
@@ -9,6 +11,7 @@ var rootPath = "/";
 var mimicKey = "0";
 var splitter = null;
 var mimicWrapperElem = $();
+var propGrid = null;
 
 function bindEvents() {
     $(window).on("resize", function () {
@@ -16,7 +19,11 @@ function bindEvents() {
     });
 
     $("#btnCut").on("click", function () {
-        testEdit();
+        testSelect();
+    });
+
+    $("#btnCopy").on("click", function () {
+        //testEdit();
     });
 }
 
@@ -33,19 +40,11 @@ function updateLayout() {
 }
 
 function initTweakpane() {
-    let PARAMS = {
-        text: 'hello, world',
-        number: 1.0
-    };
-
     let containerElem = $("<div id='tweakpane'></div>").appendTo("#divLeftPanel");
-
     let pane = new Pane({
         container: containerElem[0]
     });
-
-    pane.addBinding(PARAMS, "text");
-    pane.addBinding(PARAMS, "number");
+    propGrid = new PropGrid(pane);
 }
 
 async function loadMimic() {
@@ -103,6 +102,14 @@ async function postUpdate(updateDTO) {
     } catch {
         return false;
     }
+}
+
+function testSelect() {
+    let component = mimic.componentMap.get(1);
+    propGrid.selectedObject = component;
+    //propGrid.selectedObject = component?.properties;
+    //propGrid.selectedObject = mimic.document;
+    //propGrid.selectedObject = { num: 1.0, str: "abc" };
 }
 
 function testEdit() {
