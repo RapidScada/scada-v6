@@ -109,11 +109,12 @@ async function postUpdate(updateDTO) {
 }
 
 function handlePropertyChanged(eventData) {
+    let selectedObject = eventData.selectedObject;
     let propertyName = eventData.propertyName;
     let value = eventData.value;
     console.log(propertyName + " = " + JSON.stringify(value));
 
-    if (eventData.selectedObject instanceof rs.mimic.Component) {
+    if (selectedObject instanceof rs.mimic.Component) {
         // update client side
         let component = eventData.selectedObject;
         unitedRenderer.updateComponentDom(component);

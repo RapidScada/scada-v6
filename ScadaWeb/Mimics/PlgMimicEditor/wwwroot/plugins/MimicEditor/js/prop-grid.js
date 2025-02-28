@@ -93,7 +93,7 @@ class PropGrid {
                 .addBinding(target, propertyName, this._getBindingOptions(propertyDescriptor))
                 .on("change", function (event) {
                     if (event.last) {
-                        thisObj._handleBindingChange(selObj, propertyName, event.value);
+                        thisObj._handleBindingChange(selObj, target, propertyName, event.value);
                     }
                 });
         } else if (propertyValue instanceof Object) {
@@ -105,7 +105,7 @@ class PropGrid {
                     .addBinding({ proxy: proxyObject }, "proxy", this._getBindingOptions(propertyDescriptor))
                     .on("change", function (event) {
                         if (event.last) {
-                            thisObj._handleBindingChange(selObj, propertyName, event.value);
+                            thisObj._handleBindingChange(selObj, target, propertyName, event.value);
                         }
                     });
             } else {
@@ -217,10 +217,11 @@ class PropGrid {
         return bindingOptions;
     }
 
-    _handleBindingChange(selectedObject, propertyName, value) {
+    _handleBindingChange(selectedObject, changedObject, propertyName, value) {
         this._elem.dispatchEvent(new CustomEvent("propertyChanged", {
             detail: {
                 selectedObject: selectedObject,
+                changedObject: changedObject,
                 propertyName: propertyName,
                 value: value instanceof ProxyObject ? value.target : value
             }
