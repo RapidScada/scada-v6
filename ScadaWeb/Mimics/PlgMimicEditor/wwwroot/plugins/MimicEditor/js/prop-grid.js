@@ -167,8 +167,14 @@ class PropGrid {
         let proxy = null;
 
         if (propertyDescriptor) {
-            if (propertyDescriptor.type === BasicType.POINT) {
-                proxy = new PointProxy(target);
+            switch (propertyDescriptor.type) {
+                case BasicType.POINT:
+                    proxy = new PointProxy(target);
+                    break;
+
+                case BasicType.SIZE:
+                    proxy = new SizeProxy(target);
+                    break;
             }
         }
 
@@ -195,6 +201,7 @@ class PropGrid {
                     break;
 
                 case BasicType.POINT:
+                case BasicType.SIZE:
                     bindingOptions.x = { step: 1 };
                     bindingOptions.y = { step: 1 };
                     break;
@@ -250,5 +257,24 @@ class PointProxy extends ProxyObject {
 
     set y(value) {
         this.target.y = value.toString();
+    }
+}
+
+// Represents a proxy object for editing size as a Point2d.
+class SizeProxy extends ProxyObject {
+    get x() {
+        return parseInt(this.target.width);
+    }
+
+    set x(value) {
+        this.target.width = value.toString();
+    }
+
+    get y() {
+        return parseInt(this.target.height);
+    }
+
+    set y(value) {
+        this.target.height = value.toString();
     }
 }
