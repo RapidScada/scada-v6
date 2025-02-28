@@ -109,11 +109,17 @@ async function postUpdate(updateDTO) {
 }
 
 function handlePropertyChanged(eventData) {
-    // update server side
+    let propertyName = eventData.propertyName;
+    let value = eventData.value;
+    console.log(propertyName + " = " + JSON.stringify(value));
+
     if (eventData.selectedObject instanceof rs.mimic.Component) {
-        let change = Change
-            .updateComponent(eventData.selectedObject.id)
-            .setProperty(eventData.propertyName, eventData.value);
+        // update client side
+        let component = eventData.selectedObject;
+        unitedRenderer.updateComponentDom(component);
+
+        // update server side
+        let change = Change.updateComponent(component.id).setProperty(propertyName, value);
         let updateDTO = new UpdateDTO(mimicKey, change);
         updateQueue.push(updateDTO);
     }

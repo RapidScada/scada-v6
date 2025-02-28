@@ -218,12 +218,11 @@ class PropGrid {
     }
 
     _handleBindingChange(selectedObject, propertyName, value) {
-        console.log(propertyName + " = " + JSON.stringify(value));
         this._elem.dispatchEvent(new CustomEvent("propertyChanged", {
             detail: {
                 selectedObject: selectedObject,
                 propertyName: propertyName,
-                value: value
+                value: value instanceof ProxyObject ? value.target : value
             }
         }));
     }
