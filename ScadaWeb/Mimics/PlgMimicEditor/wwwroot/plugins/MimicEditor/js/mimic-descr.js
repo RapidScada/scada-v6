@@ -46,7 +46,7 @@ rs.mimic.ObjectDescriptor = class {
     // Key is a property name. Value is a property descriptor.
     propertyDescriptors = new Map();
 
-    _add(propertyDescriptor) {
+    add(propertyDescriptor) {
         this.propertyDescriptors.set(propertyDescriptor.name, propertyDescriptor);
     }
 
@@ -61,7 +61,7 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
         super();
 
-        this._add(new PropertyDescriptor({
+        this.add(new PropertyDescriptor({
             name: "size",
             displayName: "Size",
             category: rs.mimic.KnownCategory.LAYOUT,
@@ -76,7 +76,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
         super();
 
-        this._add(new PropertyDescriptor({
+        this.add(new PropertyDescriptor({
             name: "id",
             displayName: "ID",
             category: rs.mimic.KnownCategory.DESIGN,
@@ -84,14 +84,14 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             type: rs.mimic.BasicType.INT
         }));
 
-        this._add(new PropertyDescriptor({
+        this.add(new PropertyDescriptor({
             name: "name",
             displayName: "Name",
             category: rs.mimic.KnownCategory.DESIGN,
             type: rs.mimic.BasicType.STRING
         }));
 
-        this._add(new PropertyDescriptor({
+        this.add(new PropertyDescriptor({
             name: "typeName",
             displayName: "Type name",
             category: rs.mimic.KnownCategory.DESIGN,
@@ -99,14 +99,14 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             type: rs.mimic.BasicType.STRING
         }));
 
-        this._add(new PropertyDescriptor({
+        this.add(new PropertyDescriptor({
             name: "location",
             displayName: "Location",
             category: rs.mimic.KnownCategory.LAYOUT,
             type: rs.mimic.BasicType.POINT
         }));
 
-        this._add(new PropertyDescriptor({
+        this.add(new PropertyDescriptor({
             name: "size",
             displayName: "Size",
             category: rs.mimic.KnownCategory.LAYOUT,
@@ -121,7 +121,7 @@ rs.mimic.TextDescriptor = class extends rs.mimic.ComponentDescriptor {
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
         super();
 
-        this._add(new PropertyDescriptor({
+        this.add(new PropertyDescriptor({
             name: "text",
             displayName: "Text",
             category: rs.mimic.KnownCategory.APPEARANCE,
@@ -136,7 +136,7 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.ComponentDescriptor {
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
         super();
 
-        this._add(new PropertyDescriptor({
+        this.add(new PropertyDescriptor({
             name: "imageName",
             displayName: "Image name",
             category: rs.mimic.KnownCategory.APPEARANCE,
