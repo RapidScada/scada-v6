@@ -43,10 +43,19 @@ class Change {
         this.changeType = changeType ?? ChangeType.NONE;
     }
 
-    static updateComponent(componentID, properties) {
+    setProperty(propertyName, value) {
+        if (typeof this.properties === "undefined") {
+            this.properties = {};
+        }
+
+        this.properties[propertyName] = value;
+        return this;
+    }
+
+    static updateComponent(componentID, opt_properties) {
         let change = new Change(ChangeType.UPDATE_COMPONENT);
         change.componentID = componentID;
-        change.properties = properties;
+        change.properties = opt_properties;
         return change;
     }
 }

@@ -1,9 +1,10 @@
 ﻿// Contains classes: PropGrid, ProxyObject, PointProxy
-// Depends on jquery, tweakpane, scada-common.js, mimic-model.js, mimic-descr.js
+// Depends on tweakpane, scada-common.js, mimic-model.js, mimic-descr.js
 
 // Interacts with Tweakpane to provide property grid functionality.
 class PropGrid {
     _pane; // Tweakpane
+    _elem = document.createElement("propgrid");
     _selectedObject = null;
     _parentStack = [];
     _descriptorSet = new rs.mimic.DescriptorSet();
@@ -82,6 +83,7 @@ class PropGrid {
         }
 
         const thisObj = this;
+        const selObj = this._selectedObject;
         let container = this._selectContainer(folderMap, propertyDescriptor);
 
         if (typeof propertyValue === "number" ||
@@ -91,7 +93,7 @@ class PropGrid {
                 .addBinding(target, propertyName, this._getBindingOptions(propertyDescriptor))
                 .on("change", function (event) {
                     if (event.last) {
-                        thisObj._handleBindingChange(target, propertyName, event.value);
+                        thisObj._handleBindingChange(selObj, propertyName, event.value);
                     }
                 });
         } else if (propertyValue instanceof Object) {
@@ -103,7 +105,7 @@ class PropGrid {
                     .addBinding({ proxy: proxyObject }, "proxy", this._getBindingOptions(propertyDescriptor))
                     .on("change", function (event) {
                         if (event.last) {
-                            thisObj._handleBindingChange(target, propertyName, event.value);
+                            thisObj._handleBindingChange(selObj, propertyName, event.value);
                         }
                     });
             } else {
@@ -114,7 +116,7 @@ class PropGrid {
                         title: "Edit"
                     })
                     .on("click", function () {
-                        thisObj._selectChildObject(propertyValue, thisObj._selectedObject);
+                        thisObj._selectChildObject(propertyValue, selObj);
                     });
             }
         }
@@ -215,8 +217,15 @@ class PropGrid {
         return bindingOptions;
     }
 
-    _handleBindingChange(target, propertyName, value) {
+    _handleBindingChange(selectedObject, propertyName, value) {
         console.log(propertyName + " = " + JSON.stringify(value));
+        this._elem.dispatchEvent(new CustomEvent("propertyChanged", {
+            detail: {
+                selectedObject: selectedObject,
+                propertyName: propertyName,
+                value: value
+            }
+        }));
     }
 
     get selectedObject() {
@@ -225,6 +234,10 @@ class PropGrid {
 
     set selectedObject(value) {
         this._selectObject(value);
+    }
+
+    addEventListener(type, listener) {
+        this._elem.addEventListener(type, listener);
     }
 }
 

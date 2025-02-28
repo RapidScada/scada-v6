@@ -55,7 +55,7 @@ class ViewHub {
 
     // Pulls the trigger of the main window.
     notifyMainWindow(eventType, opt_extraParams) {
-        this.mainWindow.dispatchEvent(new CustomEvent(eventType, opt_extraParams));
+        this.mainWindow.dispatchEvent(new CustomEvent(eventType, { detail: opt_extraParams }));
         //this.mainWindow.$(this.mainWindow).trigger(eventType, opt_extraParams);
     }
 

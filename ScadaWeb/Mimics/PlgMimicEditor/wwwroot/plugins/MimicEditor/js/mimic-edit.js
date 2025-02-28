@@ -46,6 +46,9 @@ function initTweakpane() {
         container: containerElem[0]
     });
     propGrid = new PropGrid(pane);
+    propGrid.addEventListener("propertyChanged", function (event) {
+        handlePropertyChanged(event.detail);
+    });
 }
 
 async function loadMimic() {
@@ -105,12 +108,20 @@ async function postUpdate(updateDTO) {
     }
 }
 
+function handlePropertyChanged(eventData) {
+    // update server side
+    if (eventData.selectedObject instanceof rs.mimic.Component) {
+        let change = Change
+            .updateComponent(eventData.selectedObject.id)
+            .setProperty(eventData.propertyName, eventData.value);
+        let updateDTO = new UpdateDTO(mimicKey, change);
+        updateQueue.push(updateDTO);
+    }
+}
+
 function testSelect() {
     let component = mimic.componentMap.get(1);
     propGrid.selectedObject = component;
-    //propGrid.selectedObject = component?.properties;
-    //propGrid.selectedObject = mimic.document;
-    //propGrid.selectedObject = { num: 1.0, str: "abc" };
 }
 
 function testEdit() {

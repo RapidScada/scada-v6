@@ -16,7 +16,8 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         private static void ApplyUpdateComponent(Mimic mimic, Change change)
         {
-            if (mimic.ComponentMap.TryGetValue(change.ComponentID, out Component component))
+            if (change.Properties != null &&
+                mimic.ComponentMap.TryGetValue(change.ComponentID, out Component component))
             {
                 IDictionary<string, object> componentProps = component.Properties;
 
