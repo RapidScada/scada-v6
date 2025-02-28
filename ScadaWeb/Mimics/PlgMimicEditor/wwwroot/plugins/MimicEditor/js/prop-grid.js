@@ -1,5 +1,5 @@
-﻿// Contains classes: PropGrid, ProxyObject
-// Depends on jquery, tweakpane, mimic-model.js, mimic-descr.js
+﻿// Contains classes: PropGrid, ProxyObject, PointProxy
+// Depends on jquery, tweakpane, scada-common.js, mimic-model.js, mimic-descr.js
 
 // Interacts with Tweakpane to provide property grid functionality.
 class PropGrid {
@@ -12,23 +12,59 @@ class PropGrid {
         this._pane = pane;
     }
 
+    _selectObject(obj) {
+        this._selectedObject = obj;
+        this._parentStack = [];
+        this._showObjectProperties(obj, null);
+    }
+
+    _selectChildObject(obj, parent) {
+        this._selectedObject = obj;
+        this._parentStack.push(parent);
+        this._showObjectProperties(obj, parent);
+    }
+
+    _selectParentObject() {
+        let parent = this._parentStack.pop();
+        let grandParent = this._parentStack.at(-1); // last
+        this._selectedObject = parent;
+        this._showObjectProperties(parent, grandParent);
+    }
+
+    _showObjectProperties(obj, parent) {
+        this._clearPane();
+        let descriptor = this._getObjectDescriptor(obj);
+        let folderMap = this._addFolders(descriptor);
+
+        if (obj instanceof rs.mimic.Component) {
+            this._addBlade(folderMap, obj, "id", obj.id, descriptor);
+            this._addBlade(folderMap, obj, "name", obj.name, descriptor);
+            this._addBlade(folderMap, obj, "typeName", obj.typeName, descriptor);
+            this._addBlades(folderMap, obj.properties, null, descriptor);
+        } else if (obj instanceof rs.mimic.Mimic) {
+            this._addBlades(folderMap, obj.document, null, descriptor);
+        } else {
+            this._addBlades(folderMap, obj, parent, descriptor);
+        }
+    }
+
     _clearPane() {
         for (let child of this._pane.children) {
             child.dispose();
         }
     }
 
-    _addBlades(container, target, parent, descriptor) {
+    _addBlades(folderMap, target, parent, objectDescriptor) {
         const thisObj = this;
 
         if (target) {
             for (let [name, value] of Object.entries(target)) {
-                this._addBlade(container, target, name, value, descriptor);
+                this._addBlade(folderMap, target, name, value, objectDescriptor);
             }
         }
 
         if (parent) {
-            container
+            this._pane
                 .addButton({
                     title: "Return to Parent"
                 })
@@ -38,18 +74,21 @@ class PropGrid {
         }
     }
 
-    _addBlade(container, target, propertyName, propertyValue, objectDescriptor) {
-        const thisObj = this;
+    _addBlade(folderMap, target, propertyName, propertyValue, objectDescriptor) {
         let propertyDescriptor = objectDescriptor?.get(propertyName);
-        let displayName = propertyDescriptor?.displayName ?? propertyName;
+
+        if (propertyDescriptor && !propertyDescriptor.isBrowsable) {
+            return;
+        }
+
+        const thisObj = this;
+        let container = this._selectContainer(folderMap, propertyDescriptor);
 
         if (typeof propertyValue === "number" ||
             typeof propertyValue === "string") {
             // simple property is editable in row
             container
-                .addBinding(target, propertyName, {
-                    label: displayName
-                })
+                .addBinding(target, propertyName, this._getBindingOptions(propertyDescriptor))
                 .on("change", function (event) {
                     if (event.last) {
                         thisObj._handleBindingChange(target, propertyName, event.value);
@@ -71,49 +110,17 @@ class PropGrid {
                 // complex property requires braking into simple properties
                 container
                     .addButton({
-                        label: displayName,
+                        label: propertyDescriptor?.displayName ?? propertyName,
                         title: "Edit"
                     })
                     .on("click", function () {
-                        thisObj._selectChildObject(propertyValue, target);
+                        thisObj._selectChildObject(propertyValue, thisObj._selectedObject);
                     });
             }
         }
     }
 
-    _selectObject(obj) {
-        let descriptor = this._getDescriptor(obj);
-        this._selectedObject = obj;
-        this._parentStack = [];
-        this._clearPane();
-
-        if (obj instanceof rs.mimic.Component) {
-            this._addBlade(this._pane, obj, "id", obj.id, descriptor);
-            this._addBlade(this._pane, obj, "name", obj.name, descriptor);
-            this._addBlade(this._pane, obj, "typeName", obj.typeName, descriptor);
-            this._addBlades(this._pane, obj.properties, null, descriptor);
-        } else if (obj instanceof rs.mimic.Mimic) {
-
-        } else {
-            this._addBlades(this._pane, obj, null, descriptor);
-        }
-    }
-
-    _selectChildObject(obj, parent) {
-        this._selectedObject = obj;
-        this._parentStack.push(parent);
-        this._clearPane();
-        this._addBlades(this._pane, obj, parent, null);
-    }
-
-    _selectParentObject() {
-        let parent = this._parentStack.pop();
-        let grandParent = this._parentStack.at(-1); // last
-        this._clearPane();
-        this._addBlades(this._pane, parent, grandParent, null);
-    }
-
-    _getDescriptor(obj) {
+    _getObjectDescriptor(obj) {
         const DescriptorSet = rs.mimic.DescriptorSet;
 
         if (obj instanceof rs.mimic.Component) {
@@ -123,6 +130,36 @@ class PropGrid {
         } else {
             return null;
         }
+    }
+
+    _addFolders(objectDescriptor) {
+        let folderMap = new Map();
+
+        if (objectDescriptor) {
+            // get distinct categories
+            let categorySet = new Set();
+
+            for (let propertyDescriptor of objectDescriptor.propertyDescriptors.values()) {
+                if (propertyDescriptor.isBrowsable && propertyDescriptor.category) {
+                    categorySet.add(propertyDescriptor.category);
+                }
+            }
+
+            // create folders
+            for (let category of Array.from(categorySet).sort()) {
+                folderMap.set(category, this._pane.addFolder({
+                    title: category
+                }));
+            }
+        }
+
+        return folderMap;
+    }
+
+    _selectContainer(folderMap, propertyDescriptor) {
+        return propertyDescriptor && propertyDescriptor.category
+            ? folderMap.get(propertyDescriptor.category) ?? this._pane
+            : this._pane;
     }
 
     _createProxyObject(target, propertyDescriptor) {
@@ -143,12 +180,28 @@ class PropGrid {
         let bindingOptions = null;
 
         if (propertyDescriptor) {
-            if (propertyDescriptor.type === BasicType.POINT) {
-                bindingOptions = {
-                    label: propertyDescriptor.displayName,
-                    x: { step: 1 },
-                    y: { step: 1 }
-                };
+            bindingOptions = {
+                label: propertyDescriptor.displayName
+            };
+
+            if (propertyDescriptor.isReadOnly) {
+                bindingOptions.readonly = true;
+                bindingOptions.interval = ScadaUtils.MS_PER_DAY;
+            }
+
+            switch (propertyDescriptor.type) {
+                case BasicType.INT:
+                    bindingOptions.format = (v) => v.toFixed();
+                    break;
+
+                case BasicType.POINT:
+                    bindingOptions.x = { step: 1 };
+                    bindingOptions.y = { step: 1 };
+                    break;
+            }
+
+            if (propertyDescriptor.format instanceof Object) {
+                Object.assign(bindingOptions, propertyDescriptor.format);
             }
         }
 

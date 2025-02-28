@@ -8,6 +8,7 @@ rs.mimic.PropertyDescriptor = class {
     displayName = "";
     category = "";
     isReadOnly = false;
+    isBrowsable = true;
     defaultValue = undefined;
     type = rs.mimic.BasicType.UNDEFINED;
     format = {}; // Tweakpane binding options
@@ -41,7 +42,7 @@ rs.mimic.BasicType = class {
 }
 
 // Represents a descriptor of a mimic or component.
-rs.mimic.Descriptor = class {
+rs.mimic.ObjectDescriptor = class {
     // Key is a property name. Value is a property descriptor.
     propertyDescriptors = new Map();
 
@@ -55,7 +56,7 @@ rs.mimic.Descriptor = class {
 }
 
 // Represents a mimic descriptor.
-rs.mimic.MimicDescriptor = class extends rs.mimic.Descriptor {
+rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
     constructor() {
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
         super();
@@ -70,7 +71,7 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.Descriptor {
 }
 
 // Represents a component descriptor.
-rs.mimic.ComponentDescriptor = class extends rs.mimic.Descriptor {
+rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
     constructor() {
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
         super();
@@ -87,6 +88,14 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.Descriptor {
             name: "name",
             displayName: "Name",
             category: rs.mimic.KnownCategory.DESIGN,
+            type: rs.mimic.BasicType.STRING
+        }));
+
+        this._add(new PropertyDescriptor({
+            name: "typeName",
+            displayName: "Type name",
+            category: rs.mimic.KnownCategory.DESIGN,
+            isReadOnly: true,
             type: rs.mimic.BasicType.STRING
         }));
 
