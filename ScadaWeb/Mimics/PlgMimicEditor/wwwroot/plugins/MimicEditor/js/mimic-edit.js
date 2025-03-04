@@ -25,6 +25,28 @@ function bindEvents() {
     $("#btnCopy").on("click", function () {
         //testEdit();
     });
+
+    // select component
+    mimicWrapperElem.on("click", ".comp", function () {
+        let compElem = $(this);
+        let faceplateElem = compElem.closest(".comp.faceplate");
+
+        if (faceplateElem.length > 0) {
+            // select faceplate
+            compElem = faceplateElem;
+        }
+
+        let id = compElem.data("id");
+        let component = mimic.componentMap.get(id);
+        propGrid.selectedObject = component;
+        return false; // prevent parent selection
+    });
+
+    // select mimic
+    mimicWrapperElem.on("click", function () {
+        propGrid.selectedObject = mimic;
+        return false;
+    })
 }
 
 function updateLayout() {

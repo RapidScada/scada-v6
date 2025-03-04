@@ -77,7 +77,9 @@ rs.mimic.MimicRenderer = class extends rs.mimic.Renderer {
 // Represents a component renderer.
 rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
     createDom(component, renderContext) {
-        component.dom = $("<div id='comp" + renderContext.idPrefix + component.id + "' class='comp'></div>");
+        component.dom = $("<div class='comp'></div>")
+            .attr("id", "comp" + renderContext.idPrefix + component.id)
+            .attr("data-id", component.id);
         return component.dom;
     }
 }
