@@ -233,7 +233,9 @@ class PropGrid {
     }
 
     set selectedObject(value) {
-        this._selectObject(value);
+        if (this._selectedObject !== value) {
+            this._selectObject(value);
+        }
     }
 
     addEventListener(type, listener) {

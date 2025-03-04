@@ -10,8 +10,9 @@ const updateQueue = [];
 var rootPath = "/";
 var mimicKey = "0";
 var splitter = null;
-var mimicWrapperElem = $();
 var propGrid = null;
+var mimicWrapperElem = $();
+var selectedElem = $();
 
 function bindEvents() {
     $(window).on("resize", function () {
@@ -26,27 +27,43 @@ function bindEvents() {
         //testEdit();
     });
 
+    // select mimic
+    mimicWrapperElem.on("click", function () {
+        selectedElem.removeClass("selected");
+        selectedElem = $();
+        propGrid.selectedObject = mimic;
+        console.log("Mimic selected");
+        return false;
+    });
+
     // select component
     mimicWrapperElem.on("click", ".comp", function () {
         let compElem = $(this);
         let faceplateElem = compElem.closest(".comp.faceplate");
 
+        // select faceplate
         if (faceplateElem.length > 0) {
-            // select faceplate
             compElem = faceplateElem;
         }
 
+        // find component by ID
         let id = compElem.data("id");
         let component = mimic.componentMap.get(id);
+
+        // select component
+        selectedElem.removeClass("selected");
+
+        if (component) {
+            selectedElem = compElem;
+            selectedElem.addClass("selected");
+        } else {
+            selectedElem = $();
+        }
+
         propGrid.selectedObject = component;
+        console.log(`Component with ID ${id} selected`);
         return false; // prevent parent selection
     });
-
-    // select mimic
-    mimicWrapperElem.on("click", function () {
-        propGrid.selectedObject = mimic;
-        return false;
-    })
 }
 
 function updateLayout() {
