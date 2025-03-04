@@ -19,12 +19,8 @@ function bindEvents() {
         updateLayout();
     });
 
-    $("#btnCut").on("click", function () {
-        testSelect();
-    });
-
-    $("#btnCopy").on("click", function () {
-        //testEdit();
+    $("#btnSave").on("click", async function () {
+        await save();
     });
 
     // select mimic
@@ -165,25 +161,42 @@ function handlePropertyChanged(eventData) {
     }
 }
 
-function testSelect() {
-    let component = mimic.componentMap.get(1);
-    propGrid.selectedObject = component;
+async function save() {
+    let response = await fetch(getUpdaterUrl() + "SaveMimic?key=" + mimicKey, { method: "POST" });
+
+    if (response.ok) {
+        let dto = await response.json();
+
+        if (dto.ok) {
+            console.log("Mimic saved successfully");
+        } else {
+            console.error("Error saving mimic: " + dto.msg);
+        }
+    }
 }
 
-function testEdit() {
-    let component = mimic.componentMap.get(1);
+function undo() {
 
-    if (component) {
-        // update client side
-        const textValue = "Hello";
-        component.properties.text = textValue;
-        unitedRenderer.updateComponentDom(component);
+}
 
-        // update server side
-        let change = Change.updateComponent(component.id, { text: textValue });
-        let updateDTO = new UpdateDTO(mimicKey, change);
-        updateQueue.push(updateDTO);
-    }
+function redo() {
+
+}
+
+function cut() {
+
+}
+
+function copy() {
+
+}
+
+function paste() {
+
+}
+
+function deleteComponent() {
+
 }
 
 $(async function () {

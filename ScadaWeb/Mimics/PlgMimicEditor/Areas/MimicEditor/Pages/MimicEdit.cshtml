@@ -37,11 +37,31 @@
 }
 
 <div id="divToolbar"><button type="button" 
-    id="btnCut" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-scissors"></i></button><button type="button"
-    id="btnCopy" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-copy"></i></button><button type="button" 
-    id="btnPaste" class="btn btn-outline-primary btn-sm"><i class="fa-regular fa-paste"></i></button><span class="splitter"></span><button type="button" 
-    id="btnUndo" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-rotate-left"></i></button><button type="button" 
-    id="btnRedo" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-rotate-right"></i></button>
+    id="btnSave" class="btn btn-outline-primary btn-sm" title="Save"><i class="fa-regular fa-floppy-disk"></i></button><span class="splitter"></span><button type="button" 
+    id="btnUndo" class="btn btn-outline-primary btn-sm" title="Undo"><i class="fa-solid fa-arrow-rotate-left"></i></button><button type="button" 
+    id="btnRedo" class="btn btn-outline-primary btn-sm" title="Redo"><i class="fa-solid fa-arrow-rotate-right"></i></button><span class="splitter"></span><button type="button" 
+    id="btnCut" class="btn btn-outline-primary btn-sm" title="Cut"><i class="fa-solid fa-scissors"></i></button><button type="button"
+    id="btnCopy" class="btn btn-outline-primary btn-sm" title="Copy"><i class="fa-solid fa-copy"></i></button><button type="button" 
+    id="btnPaste" class="btn btn-outline-primary btn-sm" title="Paste"><i class="fa-regular fa-paste"></i></button><button type="button" 
+    id="btnDelete" class="btn btn-outline-primary btn-sm" title="Delete"><i class="fa-regular fa-trash-can"></i></button><span class="splitter"></span><div class="dropdown d-inline-block">
+        <button type="button" id="btnAlign" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" title="Align"><i class="fa-solid fa-arrows-down-to-line"></i></button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Align Lefts</a></li>
+            <li><a class="dropdown-item" href="#">Align Centers</a></li>
+            <li><a class="dropdown-item" href="#">Align Rights</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Align Tops</a></li>
+            <li><a class="dropdown-item" href="#">Align Middles</a></li>
+            <li><a class="dropdown-item" href="#">Align Bottoms</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Make Same Width</a></li>
+            <li><a class="dropdown-item" href="#">Make Same Height</a></li>
+            <li><a class="dropdown-item" href="#">Make Same Size</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Make Horizontal Spacing Equal</a></li>
+            <li><a class="dropdown-item" href="#">Make Vertical Spacing Equal</a></li>
+        </ul>
+    </div>
 </div>
 <div id="divMain">
     <div id="divLeftPanel"></div>

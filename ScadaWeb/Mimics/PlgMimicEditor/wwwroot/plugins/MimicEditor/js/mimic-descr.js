@@ -62,6 +62,11 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
         super();
 
         this.add(new PropertyDescriptor({
+            name: "editorVersion",
+            isBrowsable: false
+        }));
+
+        this.add(new PropertyDescriptor({
             name: "size",
             displayName: "Size",
             category: rs.mimic.KnownCategory.LAYOUT,

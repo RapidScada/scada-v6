@@ -1,4 +1,6 @@
-﻿.mimic-wrapper {
+﻿$component-selected-color: lime;
+
+.mimic-wrapper {
     overflow: auto;
     position: relative; /*affects scrolling and scaling*/
 
@@ -10,6 +12,10 @@
             box-sizing: border-box;
             line-height: normal;
             position: absolute;
+
+            &.selected {
+                box-shadow: 0 0 0 1px $component-selected-color;
+            }
 
             &.picture {
                 background-repeat: no-repeat;
