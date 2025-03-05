@@ -154,7 +154,7 @@ namespace Scada.Admin.Extensions
         /// </summary>
         public virtual OpenFileResult OpenFile(string fileName)
         {
-            return new OpenFileResult { Ok = false };
+            return new OpenFileResult { Handled = false };
         }
 
         /// <summary>

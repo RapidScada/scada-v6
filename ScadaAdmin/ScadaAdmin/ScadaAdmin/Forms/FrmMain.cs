@@ -333,7 +333,7 @@ namespace Scada.Admin.App.Forms
                     {
                         // open file by extension or use default text editor
                         OpenFileResult result = appData.ExtensionHolder.OpenFile(fileItem.Path);
-                        Form form = result.Ok ? result.EditorForm : new FrmTextEditor(appData, fileItem.Path);
+                        Form form = result.Handled ? result.EditorForm : new FrmTextEditor(appData, fileItem.Path);
 
                         if (form != null)
                         {

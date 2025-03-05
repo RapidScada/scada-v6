@@ -10,13 +10,13 @@ namespace Scada.Admin.Extensions
     public class OpenFileResult
     {
         /// <summary>
-        /// Gets a value indicating whether the result is successful.
+        /// Gets a value indicating whether the operation was handled.
         /// </summary>
-        public bool Ok { get; init; } = false;
+        public bool Handled { get; init; }
 
         /// <summary>
         /// Gets the form to edit the open file.
         /// </summary>
-        public Form EditorForm { get; init; } = null;
+        public Form EditorForm { get; init; }
     }
 }

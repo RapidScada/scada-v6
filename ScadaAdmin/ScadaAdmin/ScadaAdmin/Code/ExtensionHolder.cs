@@ -274,7 +274,7 @@ namespace Scada.Admin.App.Code
                 }
             }
 
-            return new OpenFileResult { Ok = false };
+            return new OpenFileResult { Handled = false };
         }
     }
 }

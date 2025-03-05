@@ -79,7 +79,7 @@ namespace Scada.Admin.Extensions.ExtTableEditor
         {
             return new OpenFileResult 
             {
-                Ok = true,
+                Handled = true,
                 EditorForm = new FrmTableEditor(AdminContext, fileName)
             };
         }
