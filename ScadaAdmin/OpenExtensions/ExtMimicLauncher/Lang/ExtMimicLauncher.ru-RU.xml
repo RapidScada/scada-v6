@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ExtExternalToolsDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtMimicLauncher.Forms.FrmExtensionConfig">
+    <Phrase key="this"></Phrase>
+    <Phrase key=""></Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtMimicLauncher.ExtMimicLauncherLogic">
+    <Phrase key="OpenMimicError">Ошибка при открытии мнемосхемы</Phrase>
+  </Dictionary>
+</ExtExternalToolsDictionaries>
