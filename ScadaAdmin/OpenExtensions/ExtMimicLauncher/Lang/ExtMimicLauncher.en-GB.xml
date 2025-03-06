@@ -1,8 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ExtExternalToolsDictionaries>
-  <Dictionary key="Scada.Admin.Extensions.ExtMimicLauncher.Forms.FrmExtensionConfig">
-    <Phrase key="this"></Phrase>
-    <Phrase key=""></Phrase>
+  <Dictionary key="Scada.Admin.Extensions.ExtMimicLauncher.Config.ExtensionConfig">
+    <Phrase key="WebUrl.DisplayName">Webstation URL</Phrase>
+    <Phrase key="WebUrl.Category">Main Parameters</Phrase>
+    <Phrase key="WebUrl.Description">The web application address. Must be local.</Phrase>
+    <Phrase key="Browser.DisplayName">Browser</Phrase>
+    <Phrase key="Browser.Category">Main Parameters</Phrase>
+    <Phrase key="Browser.Description">The browser for editing mimics.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtMimicLauncher.ExtMimicLauncherLogic">
     <Phrase key="OpenMimicError">Error opening mimic</Phrase>

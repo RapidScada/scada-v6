@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.ComponentModel;
 using Scada.Config;
 using System.Xml;
 
@@ -17,11 +18,13 @@ namespace Scada.Admin.Extensions.ExtMimicLauncher.Config
         /// <summary>
         /// Gets or sets the web application address.
         /// </summary>
+        [DisplayName, Category, Description]
         public string WebUrl { get; set; }
 
         /// <summary>
         /// Gets or sets the browser for editing mimics.
         /// </summary>
+        [DisplayName, Category, Description]
         public Browser Browser { get; set; }
 
 

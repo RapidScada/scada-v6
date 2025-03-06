@@ -1,8 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ExtExternalToolsDictionaries>
-  <Dictionary key="Scada.Admin.Extensions.ExtMimicLauncher.Forms.FrmExtensionConfig">
-    <Phrase key="this"></Phrase>
-    <Phrase key=""></Phrase>
+  <Dictionary key="Scada.Admin.Extensions.ExtMimicLauncher.Config.ExtensionConfig">
+    <Phrase key="WebUrl.DisplayName">Адрес Вебстанции</Phrase>
+    <Phrase key="WebUrl.Category">Основные параметры</Phrase>
+    <Phrase key="WebUrl.Description">Адрес веб-приложения. Должен быть локальным.</Phrase>
+    <Phrase key="Browser.DisplayName">Браузер</Phrase>
+    <Phrase key="Browser.Category">Основные параметры</Phrase>
+    <Phrase key="Browser.Description">Браузер для редактирования мнемосхем.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtMimicLauncher.ExtMimicLauncherLogic">
     <Phrase key="OpenMimicError">Ошибка при открытии мнемосхемы</Phrase>

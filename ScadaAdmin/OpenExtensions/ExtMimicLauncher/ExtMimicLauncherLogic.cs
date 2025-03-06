@@ -1,9 +1,12 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Admin.Config;
 using Scada.Admin.Extensions.ExtMimicLauncher.Config;
 using Scada.Admin.Lang;
+using Scada.ComponentModel;
 using Scada.Forms;
+using Scada.Forms.Forms;
 using Scada.Lang;
 using System.Net;
 
@@ -85,6 +88,7 @@ namespace Scada.Admin.Extensions.ExtMimicLauncher
                 AdminContext.ErrLog.WriteError(AdminPhrases.ExtensionMessage, Code, errMsg);
 
             ExtensionPhrases.Init();
+            AttrTranslator.Translate(typeof(ExtensionConfig));
         }
 
         /// <summary>
@@ -98,6 +102,21 @@ namespace Scada.Admin.Extensions.ExtMimicLauncher
                 !extensionConfig.Load(fileName, out string errMsg))
             {
                 AdminContext.ErrLog.WriteError(AdminPhrases.ExtensionMessage, Code, errMsg);
+            }
+        }
+
+        /// <summary>
+        /// Shows a modal dialog box for editing extension properties.
+        /// </summary>
+        public override void ShowProperties(AdminConfig adminConfig)
+        {
+            FrmOptions frmOptions = new() { Options = extensionConfig };
+
+            if (frmOptions.ShowDialog() == DialogResult.OK &&
+                !extensionConfig.Save(ConfigFileName, out string errMsg))
+            {
+                AdminContext.ErrLog.WriteError(AdminPhrases.ExtensionMessage, Code, errMsg);
+                ScadaUiUtils.ShowError(errMsg);
             }
         }
 
