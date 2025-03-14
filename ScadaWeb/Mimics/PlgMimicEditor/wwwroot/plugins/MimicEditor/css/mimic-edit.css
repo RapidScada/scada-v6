@@ -58,6 +58,13 @@
   background-color: var(--bs-gray-100);
 }
 
+#divToastContainer {
+  bottom: 0;
+  padding: 1rem;
+  position: fixed;
+  right: 0;
+}
+
 /* Tweakpane */
 #tweakpane {
   --tp-base-background-color: hsla(230, 5%, 90%, 1.00);

@@ -23,6 +23,10 @@ function bindEvents() {
         await save();
     });
 
+    $("#btnUndo").on("click", async function () {
+        showToast("Test toast");
+    });
+
     // select mimic
     mimicWrapperElem.on("click", function () {
         selectedElem.removeClass("selected");
@@ -169,8 +173,10 @@ async function save() {
 
         if (dto.ok) {
             console.log("Mimic saved successfully");
+            showToast("Mimic saved successfully", MessageType.SUCCESS);
         } else {
-            console.error("Error saving mimic: " + dto.msg);
+            console.error(dto.msg);
+            showToast("Error saving mimic", MessageType.ERROR);
         }
     }
 }
@@ -197,6 +203,42 @@ function paste() {
 
 function deleteComponent() {
 
+}
+
+function showToast(message, opt_messageType) {
+    // construct toast
+    let toastElem = $("<div class='toast align-items-center'></div>");
+
+    if (opt_messageType) {
+        switch (opt_messageType) {
+            case MessageType.INFO:
+                toastElem.addClass("text-bg-info");
+                break;
+            case MessageType.SUCCESS:
+                toastElem.addClass("text-bg-success");
+                break;
+            case MessageType.WARNING:
+                toastElem.addClass("text-bg-warning");
+                break;
+            case MessageType.ERROR:
+                toastElem.addClass("text-bg-danger");
+                break;
+        }
+    }
+
+    let wrapperElem = $("<div class='d-flex'></div>").appendTo(toastElem);
+    $("<div class='toast-body'></div>").text(message).appendTo(wrapperElem);
+    $("<button type='button' class='btn-close me-2 m-auto' data-bs-dismiss='toast'></button>").appendTo(wrapperElem);
+    $("#divToastContainer").prepend(toastElem);
+
+    // show toast
+    let toast = bootstrap.Toast.getOrCreateInstance(toastElem[0]);
+    toast.show();
+
+    // delete hidden toast
+    toastElem.on("hidden.bs.toast", function () {
+        toastElem.remove();
+    });
 }
 
 $(async function () {

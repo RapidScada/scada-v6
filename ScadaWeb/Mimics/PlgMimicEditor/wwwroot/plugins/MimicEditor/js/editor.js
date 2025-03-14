@@ -59,3 +59,11 @@ class Change {
         return change;
     }
 }
+
+// Specifies the message types for toasts.
+class MessageType {
+    static INFO = 0;
+    static SUCCESS = 1;
+    static WARNING = 2;
+    static ERROR = 3;
+}
