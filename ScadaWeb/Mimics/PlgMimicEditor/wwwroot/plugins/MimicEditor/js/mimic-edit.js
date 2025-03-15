@@ -79,9 +79,8 @@ function updateLayout() {
 }
 
 function initTweakpane() {
-    let containerElem = $("<div id='tweakpane'></div>").appendTo("#divLeftPanel");
+    let containerElem = $("<div id='tweakpane'></div>").appendTo("#divProperties");
     let pane = new Pane({
-        title: "Properties",
         container: containerElem[0]
     });
     propGrid = new PropGrid(pane);

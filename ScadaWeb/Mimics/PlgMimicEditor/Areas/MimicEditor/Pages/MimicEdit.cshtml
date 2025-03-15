@@ -64,7 +64,24 @@
     </div>
 </div>
 <div id="divMain">
-    <div id="divLeftPanel"></div>
+    <div id="divLeftPanel">
+        <ul class="nav nav-tabs nav-fill">
+            <li class="nav-item">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#divComponents" title="Components"><i class="fa-solid fa-cubes"></i></button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#divStructure" title="Structure"><i class="fa-solid fa-folder-tree"></i></button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#divProperties" title="Properties"><i class="fa-solid fa-table-list"></i></button>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div id="divComponents" class="tab-pane fade show active"></div>
+            <div id="divStructure" class="tab-pane fade"></div>
+            <div id="divProperties" class="tab-pane fade"></div>
+        </div>
+    </div>
     <div id="divSplitter" class="splitter vert"></div>
     <div id="divMimicWrapper" class="mimic-wrapper"></div>
 </div>
