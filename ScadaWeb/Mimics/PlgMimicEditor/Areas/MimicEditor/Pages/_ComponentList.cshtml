@@ -1,0 +1,14 @@
+﻿@model ComponentList
+
+@foreach (var group in Model.Groups)
+{
+    <div>@group.Name</div>
+
+    foreach (var item in group.Items)
+    {
+        <div>
+            <img src="@Url.Content(item.IconUrl)" />
+            @item.DisplayName
+        </div>
+    }
+}

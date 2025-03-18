@@ -41,6 +41,8 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 FileName = Path.Combine(webContext.AppDirs.LogDir, EditorUtils.LogFileName),
                 CapacityMB = webContext.AppConfig.GeneralOptions.MaxLogSize
             };
+            ComponentList = new ComponentList();
+            ComponentList.Groups.Add(new StandardComponentGroup());
         }
 
 
@@ -59,7 +61,12 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         public ILog PluginLog { get; }
 
+        /// <summary>
+        /// Gets the list of available components.
+        /// </summary>
+        public ComponentList ComponentList { get; }
 
+        
         /// <summary>
         /// Adds the specified mimic to the editor.
         /// </summary>

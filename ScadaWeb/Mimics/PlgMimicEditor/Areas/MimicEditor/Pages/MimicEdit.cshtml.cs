@@ -19,6 +19,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages
         public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
         public string ErrorMessage { get; private set; } = "";
         public long MimicKey { get; private set; } = 0;
+        public ComponentList ComponentList => editorManager.ComponentList;
 
         public void OnGet(long key)
         {
