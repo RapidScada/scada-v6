@@ -204,6 +204,10 @@ function deleteComponent() {
 
 }
 
+function enablePointer() {
+
+}
+
 function showToast(message, opt_messageType) {
     // construct toast
     let toastElem = $("<div class='toast align-items-center'></div>");

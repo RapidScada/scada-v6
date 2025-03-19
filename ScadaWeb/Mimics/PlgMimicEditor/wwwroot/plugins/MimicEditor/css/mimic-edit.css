@@ -74,6 +74,7 @@
   height: 16px;
   margin-right: 5px;
 }
+
 #divSplitter {
   border-left: 1px solid var(--bs-gray-500);
   border-right: 1px solid var(--bs-gray-500);
