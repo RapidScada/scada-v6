@@ -14,7 +14,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         public StandardComponentGroup()
         {
-            Name = "Standard";
+            Name = "STANDARD";
             const string IconPath = "~/plugins/MimicEditor/images/";
 
             Items.Add(new ComponentItem

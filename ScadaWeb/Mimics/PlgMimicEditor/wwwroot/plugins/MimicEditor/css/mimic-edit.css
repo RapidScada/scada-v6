@@ -49,6 +49,31 @@
   width: 300px;
 }
 
+#divComponents {
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 16px;
+}
+#divComponents .component-group-header {
+  background-color: hsla(230deg, 15%, 30%, 0.2);
+  padding: 5px 10px;
+}
+#divComponents .component-group-header:hover {
+  background-color: hsla(230deg, 15%, 30%, 0.24);
+}
+#divComponents .component-item {
+  cursor: pointer;
+  display: flex;
+  padding: 5px 10px;
+}
+#divComponents .component-item:hover {
+  background-color: var(--bs-gray-200);
+}
+#divComponents .component-item .component-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+}
 #divSplitter {
   border-left: 1px solid var(--bs-gray-500);
   border-right: 1px solid var(--bs-gray-500);
@@ -89,4 +114,5 @@
   --tp-monitor-background-color: hsla(230, 15%, 30%, 0.10);
   --tp-monitor-foreground-color: hsla(230, 10%, 30%, 0.50);
   --tp-base-border-radius: 0;
+  --tp-base-font-family: var(--bs-body-font-family);
 }

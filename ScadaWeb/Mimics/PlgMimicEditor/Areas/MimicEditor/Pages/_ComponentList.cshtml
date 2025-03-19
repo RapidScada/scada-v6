@@ -2,13 +2,13 @@
 
 @foreach (var group in Model.Groups)
 {
-    <div>@group.Name</div>
-
-    foreach (var item in group.Items)
-    {
-        <div>
-            <img src="@Url.Content(item.IconUrl)" />
-            @item.DisplayName
-        </div>
-    }
+    <div class="component-group">
+        <div class="component-group-header">@group.Name</div>
+        @foreach (var item in group.Items)
+        {
+            <div class="component-item"><img 
+                class="component-icon" src="@Url.Content(item.IconUrl)" /><span 
+                class="component-name">@item.DisplayName</span></div>
+        }
+    </div>
 }
