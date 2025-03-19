@@ -143,7 +143,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
             return dto;
         } else {
-            return Dto.fail(await response.statusText);
+            return Dto.fail(response.statusText);
         }
     }
 
@@ -170,7 +170,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
             return dto;
         } else {
-            return Dto.fail(await response.statusText);
+            return Dto.fail(response.statusText);
         }
     }
 
@@ -198,7 +198,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
             return dto;
         } else {
-            return Dto.fail(await response.statusText);
+            return Dto.fail(response.statusText);
         }
     }
 
@@ -222,7 +222,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
             return dto;
         } else {
-            return Dto.fail(await response.statusText);
+            return Dto.fail(response.statusText);
         }
     }
 
@@ -306,6 +306,12 @@ rs.mimic.Component = class {
 
     get isFaceplate() {
         return false;
+    }
+
+    get displayName() {
+        return this.name
+            ? `[${this.id}] ${this.name} - ${this.typeName}`
+            : `[${this.id}] ${this.typeName}`;
     }
 }
 

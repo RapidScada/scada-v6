@@ -50,7 +50,7 @@
 }
 
 #divComponents {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   line-height: 16px;
 }
@@ -73,6 +73,31 @@
   width: 16px;
   height: 16px;
   margin-right: 5px;
+}
+
+#divStructure {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 10px;
+}
+#divStructure ul {
+  list-style-type: none;
+  margin: 0 0 0 20px;
+  padding: 0;
+}
+#divStructure ul.top-level-list {
+  margin-left: 0;
+}
+#divStructure ul li {
+  white-space: nowrap;
+}
+#divStructure ul li span {
+  cursor: pointer;
+  margin-left: -5px;
+  padding: 2px 5px;
+}
+#divStructure ul li span:hover {
+  background-color: var(--bs-gray-200);
 }
 
 #divSplitter {
@@ -116,4 +141,7 @@
   --tp-monitor-foreground-color: hsla(230, 10%, 30%, 0.50);
   --tp-base-border-radius: 0;
   --tp-base-font-family: var(--bs-body-font-family);
+}
+#tweakpane .tp-rotv {
+  font-size: 12px;
 }

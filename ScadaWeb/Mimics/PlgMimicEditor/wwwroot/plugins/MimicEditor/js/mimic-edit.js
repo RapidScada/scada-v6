@@ -27,41 +27,13 @@ function bindEvents() {
         showToast("Test toast");
     });
 
-    // select mimic
     mimicWrapperElem.on("click", function () {
-        selectedElem.removeClass("selected");
-        selectedElem = $();
-        propGrid.selectedObject = mimic;
-        console.log("Mimic selected");
+        selectMimic();
         return false;
     });
 
-    // select component
     mimicWrapperElem.on("click", ".comp", function () {
-        let compElem = $(this);
-        let faceplateElem = compElem.closest(".comp.faceplate");
-
-        // select faceplate
-        if (faceplateElem.length > 0) {
-            compElem = faceplateElem;
-        }
-
-        // find component by ID
-        let id = compElem.data("id");
-        let component = mimic.componentMap.get(id);
-
-        // select component
-        selectedElem.removeClass("selected");
-
-        if (component) {
-            selectedElem = compElem;
-            selectedElem.addClass("selected");
-        } else {
-            selectedElem = $();
-        }
-
-        propGrid.selectedObject = component;
-        console.log(`Component with ID ${id} selected`);
+        selectComponent($(this));
         return false; // prevent parent selection
     });
 }
@@ -94,14 +66,93 @@ async function loadMimic() {
 
     if (result.ok) {
         mimicWrapperElem.append(unitedRenderer.createMimicDom());
+        showMimicStructure();
     } else {
-        // show error
+        console.error(dto.msg);
+        showToast("Error loading mimic", MessageType.ERROR);
     }
 }
 
 async function startUpdatingBackend() {
     await postUpdates();
     setTimeout(startUpdatingBackend, UPDATE_RATE);
+}
+
+async function save() {
+    let response = await fetch(getUpdaterUrl() + "SaveMimic?key=" + mimicKey, { method: "POST" });
+
+    if (response.ok) {
+        let dto = await response.json();
+
+        if (dto.ok) {
+            console.log("Mimic saved successfully");
+            showToast("Mimic saved successfully", MessageType.SUCCESS);
+        } else {
+            console.error(dto.msg);
+            showToast("Error saving mimic", MessageType.ERROR);
+        }
+    }
+}
+
+function undo() {
+
+}
+
+function redo() {
+
+}
+
+function cut() {
+
+}
+
+function copy() {
+
+}
+
+function paste() {
+
+}
+
+function deleteComponent() {
+
+}
+
+function enablePointer() {
+
+}
+
+function selectMimic() {
+    selectedElem.removeClass("selected");
+    selectedElem = $();
+    propGrid.selectedObject = mimic;
+    console.log("Mimic selected");
+}
+
+function selectComponent(compElem) {
+    let faceplateElem = compElem.closest(".comp.faceplate");
+
+    // select faceplate
+    if (faceplateElem.length > 0) {
+        compElem = faceplateElem;
+    }
+
+    // find component by ID
+    let id = compElem.data("id");
+    let component = mimic.componentMap.get(id);
+
+    // select component
+    selectedElem.removeClass("selected");
+
+    if (component) {
+        selectedElem = compElem;
+        selectedElem.addClass("selected");
+    } else {
+        selectedElem = $();
+    }
+
+    propGrid.selectedObject = component;
+    console.log(`Component with ID ${id} selected`);
 }
 
 function getLoaderUrl() {
@@ -164,48 +215,38 @@ function handlePropertyChanged(eventData) {
     }
 }
 
-async function save() {
-    let response = await fetch(getUpdaterUrl() + "SaveMimic?key=" + mimicKey, { method: "POST" });
+function showMimicStructure() {
+    let listElem = $("<ul class='top-level-list'></ul>");
 
-    if (response.ok) {
-        let dto = await response.json();
+    // dependencies
+    let dependenciesItem = $("<li></li>").text("Dependencies").appendTo(listElem);
+    let dependenciesList = $("<ul></ul>").appendTo(dependenciesItem);
 
-        if (dto.ok) {
-            console.log("Mimic saved successfully");
-            showToast("Mimic saved successfully", MessageType.SUCCESS);
-        } else {
-            console.error(dto.msg);
-            showToast("Error saving mimic", MessageType.ERROR);
-        }
+    for (let dependency of mimic.dependencies) {
+        let dependencyNode = $("<span></span>").text(dependency.typeName);
+        $("<li></li>").append(dependencyNode).appendTo(dependenciesList);
     }
-}
 
-function undo() {
+    // components
+    let mimicNode = $("<span></span>").text("Mimic");
+    let mimicItem = $("<li></li>").append(mimicNode).appendTo(listElem);
+    let componentList = $("<ul></ul>").appendTo(mimicItem);
 
-}
+    for (let component of mimic.components) {
+        let componentNode = $("<span></span>").text(component.displayName);
+        $("<li></li>").append(componentNode).appendTo(componentList);
+    }
 
-function redo() {
+    // images
+    let imagesItem = $("<li></li>").text("Images").appendTo(listElem);
+    let imagesList = $("<ul></ul>").appendTo(imagesItem);
 
-}
+    for (let image of mimic.images) {
+        let imageNode = $("<span></span>").text(image.name);
+        $("<li></li>").append(imageNode).appendTo(imagesList);
+    }
 
-function cut() {
-
-}
-
-function copy() {
-
-}
-
-function paste() {
-
-}
-
-function deleteComponent() {
-
-}
-
-function enablePointer() {
-
+    $("#divStructure").append(listElem);
 }
 
 function showToast(message, opt_messageType) {

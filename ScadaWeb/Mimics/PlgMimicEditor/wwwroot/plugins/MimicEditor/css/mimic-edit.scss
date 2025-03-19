@@ -2,7 +2,8 @@
 
 $left-panel-width: 300px;
 $border-color: var(--bs-gray-500);
-$tool-window-font-size: 11px;
+$tool-window-font-size: 12px;
+$tool-window-font-weight: 500;
 
 #divToolbar {
     border-bottom: 1px solid $border-color;
@@ -32,7 +33,7 @@ $tool-window-font-size: 11px;
 
 #divComponents {
     font-size: $tool-window-font-size;
-    font-weight: 500;
+    font-weight: $tool-window-font-weight;
     line-height: 16px;
 
     .component-group-header {
@@ -57,6 +58,36 @@ $tool-window-font-size: 11px;
             width: 16px;
             height: 16px;
             margin-right: 5px;
+        }
+    }
+}
+
+#divStructure {
+    font-size: $tool-window-font-size;
+    font-weight: $tool-window-font-weight;
+    padding: 10px;
+
+    ul {
+        list-style-type: none;
+        margin: 0 0 0 20px;
+        padding: 0;
+
+        &.top-level-list {
+            margin-left: 0;
+        }
+
+        li {
+            white-space: nowrap;
+
+            span {
+                cursor: pointer;
+                margin-left: -5px;
+                padding: 2px 5px;
+
+                &:hover {
+                    background-color: var(--bs-gray-200);
+                }
+            }
         }
     }
 }
@@ -102,4 +133,8 @@ $tool-window-font-size: 11px;
     --tp-monitor-foreground-color: hsla(230, 10%, 30%, 0.50);
     --tp-base-border-radius: 0;
     --tp-base-font-family: var(--bs-body-font-family);
+
+    .tp-rotv {
+        font-size: $tool-window-font-size;
+    }
 }
