@@ -232,9 +232,21 @@ function showMimicStructure() {
     let mimicItem = $("<li></li>").append(mimicNode).appendTo(listElem);
     let componentList = $("<ul></ul>").appendTo(mimicItem);
 
-    for (let component of mimic.components) {
+    function appendComponent(list, component) {
         let componentNode = $("<span></span>").text(component.displayName);
-        $("<li></li>").append(componentNode).appendTo(componentList);
+        let componentItem = $("<li></li>").append(componentNode).appendTo(list);
+
+        if (component.isContainer && component.children.length > 0) {
+            let childList = $("<ul></ul>").appendTo(componentItem);
+
+            for (let childComponent of component.children) {
+                appendComponent(childList, childComponent);
+            }
+        }
+    }
+
+    for (let component of mimic.children) {
+        appendComponent(componentList, component);
     }
 
     // images
