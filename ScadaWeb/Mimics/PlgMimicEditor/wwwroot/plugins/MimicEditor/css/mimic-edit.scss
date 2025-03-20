@@ -1,6 +1,7 @@
 ﻿@import '../../../css/components/_splitter';
 
 $left-panel-width: 300px;
+$left-panel-min-width: 200px;
 $border-color: var(--bs-gray-500);
 $tool-window-font-size: 12px;
 $tool-window-font-weight: 500;
@@ -26,9 +27,14 @@ $tool-window-font-weight: 500;
 
 #divLeftPanel {
     background-color: var(--bs-gray-100);
-    overflow-x: hidden;
-    overflow-y: auto;
+    min-width: $left-panel-min-width;
+    overflow: hidden;
     width: $left-panel-width;
+
+    .tab-pane {
+        height: 100%;
+        overflow: auto;
+    }
 }
 
 #divComponents {

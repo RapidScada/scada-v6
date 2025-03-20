@@ -44,9 +44,13 @@
 
 #divLeftPanel {
   background-color: var(--bs-gray-100);
-  overflow-x: hidden;
-  overflow-y: auto;
+  min-width: 200px;
+  overflow: hidden;
   width: 300px;
+}
+#divLeftPanel .tab-pane {
+  height: 100%;
+  overflow: auto;
 }
 
 #divComponents {

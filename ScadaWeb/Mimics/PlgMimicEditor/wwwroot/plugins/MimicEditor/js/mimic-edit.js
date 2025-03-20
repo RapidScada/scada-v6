@@ -41,12 +41,15 @@ function bindEvents() {
 function updateLayout() {
     let windowHeight = $(window).height();
     let toolbarHeight = $("#divToolbar").outerHeight();
+    let tabHeight = $("#divLeftPanel .nav-tabs").outerHeight();
+    let mainHeight = windowHeight - toolbarHeight;
 
     let windowWidth = $(window).width();
     let leftPanelWidth = $("#divLeftPanel").width();
     let splitterWidth = $("#divSplitter").width();
 
-    $("#divMain").outerHeight(windowHeight - toolbarHeight);
+    $("#divMain").outerHeight(mainHeight);
+    $("#divLeftPanel .tab-content").outerHeight(mainHeight - tabHeight);
     $("#divMimicWrapper").outerWidth(windowWidth - leftPanelWidth - splitterWidth);
 }
 
