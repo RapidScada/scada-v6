@@ -2,6 +2,7 @@
 @model MimicEditModel
 @{
     Layout = "_BasicLayout";
+    dynamic dict = Locale.GetDictionary(Model.GetType().FullName);
 }
 
 @if (Model.HasError)
@@ -33,6 +34,7 @@
     <script>
         rootPath = "@Url.Content("~/")";
         mimicKey = "@Model.MimicKey";
+        phrases = @WebUtils.DictionaryToJs(Model.GetType().FullName + ".Js");
     </script>
 }
 
@@ -41,13 +43,13 @@
     <div id="divLeftPanel">
         <ul class="nav nav-tabs nav-fill flex-nowrap">
             <li class="nav-item">
-                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#divComponents" title="Components"><i class="fa-solid fa-cubes"></i></button>
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#divComponents" title="@dict.btnComponents"><i class="fa-solid fa-cubes"></i></button>
             </li>
             <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#divStructure" title="Structure"><i class="fa-solid fa-folder-tree"></i></button>
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#divStructure" title="@dict.btnStructure"><i class="fa-solid fa-folder-tree"></i></button>
             </li>
             <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#divProperties" title="Properties"><i class="fa-solid fa-table-list"></i></button>
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#divProperties" title="@dict.btnProperties"><i class="fa-solid fa-table-list"></i></button>
             </li>
         </ul>
         <div class="tab-content">

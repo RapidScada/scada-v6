@@ -9,6 +9,7 @@ const updateQueue = [];
 
 var rootPath = "/";
 var mimicKey = "0";
+var phrases = {};
 var splitter = null;
 var propGrid = null;
 var mimicWrapperElem = $();
@@ -72,7 +73,7 @@ async function loadMimic() {
         showMimicStructure();
     } else {
         console.error(dto.msg);
-        showToast("Error loading mimic", MessageType.ERROR);
+        showToast(phrases.mimicLoadError, MessageType.ERROR);
     }
 }
 
@@ -88,11 +89,11 @@ async function save() {
         let dto = await response.json();
 
         if (dto.ok) {
-            console.log("Mimic saved successfully");
-            showToast("Mimic saved successfully", MessageType.SUCCESS);
+            console.log(phrases.mimicSaved);
+            showToast(phrases.mimicSaved, MessageType.SUCCESS);
         } else {
             console.error(dto.msg);
-            showToast("Error saving mimic", MessageType.ERROR);
+            showToast(phrases.mimicSaveError, MessageType.ERROR);
         }
     }
 }

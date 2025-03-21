@@ -1,5 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <PlgMimicEditorDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel">
+    <Phrase key="btnComponents">Components</Phrase>
+    <Phrase key="btnStructure">Structure</Phrase>
+    <Phrase key="btnProperties">Properties</Phrase>
+    <Phrase key=""></Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js">
+    <Phrase key="MimicSaved">Mimic saved successfully</Phrase>
+    <Phrase key="LoadMimicError">Error loading mimic</Phrase>
+    <Phrase key="SaveMimicError">Error saving mimic</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ToolbarContents">
+    <Phrase key="btnSave">Save</Phrase>
+    <Phrase key="btnUndo">Undo</Phrase>
+    <Phrase key="btnRedo">Redo</Phrase>
+    <Phrase key="btnCut">Cut</Phrase>
+    <Phrase key="btnCopy">Copy</Phrase>
+    <Phrase key="btnPaste">Paste</Phrase>
+    <Phrase key="btnDelete">Delete</Phrase>
+    <Phrase key="btnPointer">Pointer Tool</Phrase>
+    <Phrase key="btnAlign">Align</Phrase>
+    <Phrase key="btnAlignLefts">Align Lefts</Phrase>
+    <Phrase key="btnAlignCenters">Align Centers</Phrase>
+    <Phrase key="btnAlignRights">Align Rights</Phrase>
+    <Phrase key="btnAlignTops">Align Tops</Phrase>
+    <Phrase key="btnAlignMiddles">Align Middles</Phrase>
+    <Phrase key="btnAlignBottoms">Align Bottoms</Phrase>
+    <Phrase key="btnMakeSameWidth">Make Same Width</Phrase>
+    <Phrase key="btnMakeSameHeight">Make Same Height</Phrase>
+    <Phrase key="btnMakeSameSize">Make Same Size</Phrase>
+    <Phrase key="btnMakeHorizontalSpacingEqual">Make Horizontal Spacing Equal</Phrase>
+    <Phrase key="btnMakeVerticalSpacingEqual">Make Vertical Spacing Equal</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicListModel">
     <Phrase key="PageTitle">Mimic Editor</Phrase>
     <Phrase key="OpenMimicHeader">Open Mimic</Phrase>
