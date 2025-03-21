@@ -6,6 +6,9 @@
     <Phrase key="btnProperties">Свойства</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js">
+    <Phrase key="DependenciesNode">Зависимости</Phrase>
+    <Phrase key="MimicNode">Мнемосхема</Phrase>
+    <Phrase key="ImagesNode">Изображения</Phrase>
     <Phrase key="MimicSaved">Мнемосхема сохранена успешно</Phrase>
     <Phrase key="LoadMimicError">Ошибка при загрузке мнемосхемы</Phrase>
     <Phrase key="SaveMimicError">Ошибка при сохранении мнемосхемы</Phrase>
@@ -47,6 +50,12 @@
     <Phrase key="MimicNotFound">Мнемосхема не найдена.</Phrase>
     <Phrase key="LoadMimicError">Ошибка при загрузке мнемосхемы</Phrase>
     <Phrase key="SaveMimicError">Ошибка при сохранении мнемосхемы</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Code.StandardComponentGroup">
+    <Phrase key="StandardGroup">СТАНДАРТНЫЕ</Phrase>
+    <Phrase key="TextComponent">Текст</Phrase>
+    <Phrase key="PictureComponent">Рисунок</Phrase>
+    <Phrase key="PanelComponent">Панель</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.PlgMimicEditorLogic">
     <Phrase key="EditorMenuItem">Редактор мнемосхем</Phrase>

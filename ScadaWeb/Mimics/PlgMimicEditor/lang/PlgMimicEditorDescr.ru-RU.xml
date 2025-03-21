@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Dictionaries>
+  <Dictionary key="Category">
+    <Phrase key="APPEARANCE">ВНЕШНИЙ ВИД</Phrase>
+  </Dictionary>
+  <Dictionary key="Mimic">
+    <Phrase key="size">Размер</Phrase>
+  </Dictionary>
+  <Dictionary key="Component">
+    <Phrase key="id">Идентификатор</Phrase>
+    <Phrase key="name">Наименование</Phrase>
+  </Dictionary>
+  <Dictionary key="Text">
+    <Phrase key="text">Текст</Phrase>
+  </Dictionary>
+  <Dictionary key="Picture">
+    <Phrase key="imageName">Изображение</Phrase>
+  </Dictionary>
+  <Dictionary key="Panel">
+  </Dictionary>
+</Dictionaries>

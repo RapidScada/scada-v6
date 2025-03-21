@@ -42,7 +42,6 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 CapacityMB = webContext.AppConfig.GeneralOptions.MaxLogSize
             };
             ComponentList = new ComponentList();
-            ComponentList.Groups.Add(new StandardComponentGroup());
         }
 
 
@@ -113,6 +112,14 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 PluginLog.WriteError(errMsg);
                 webContext.Log.WriteError(WebPhrases.PluginMessage, EditorPluginInfo.PluginCode, errMsg);
             }
+        }
+
+        /// <summary>
+        /// Obtains components from the active plugins.
+        /// </summary>
+        public void ObtainComponents()
+        {
+            ComponentList.Groups.Add(new StandardComponentGroup());
         }
 
         /// <summary>

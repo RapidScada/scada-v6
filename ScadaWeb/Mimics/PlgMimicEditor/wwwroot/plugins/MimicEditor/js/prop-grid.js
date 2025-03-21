@@ -7,7 +7,6 @@ class PropGrid {
     _elem = document.createElement("propgrid");
     _selectedObject = null;
     _parentStack = [];
-    _descriptorSet = new rs.mimic.DescriptorSet();
 
     constructor(pane) {
         this._pane = pane;

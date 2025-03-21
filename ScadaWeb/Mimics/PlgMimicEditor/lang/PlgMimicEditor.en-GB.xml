@@ -7,6 +7,9 @@
     <Phrase key=""></Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js">
+    <Phrase key="DependenciesNode">Dependencies</Phrase>
+    <Phrase key="MimicNode">Mimic</Phrase>
+    <Phrase key="ImagesNode">Images</Phrase>
     <Phrase key="MimicSaved">Mimic saved successfully</Phrase>
     <Phrase key="LoadMimicError">Error loading mimic</Phrase>
     <Phrase key="SaveMimicError">Error saving mimic</Phrase>
@@ -48,6 +51,12 @@
     <Phrase key="MimicNotFound">Mimic not found.</Phrase>
     <Phrase key="LoadMimicError">Error loading mimic</Phrase>
     <Phrase key="SaveMimicError">Error saving mimic</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Code.StandardComponentGroup">
+    <Phrase key="StandardGroup">STANDARD</Phrase>
+    <Phrase key="TextComponent">Text</Phrase>
+    <Phrase key="PictureComponent">Picture</Phrase>
+    <Phrase key="PanelComponent">Panel</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.PlgMimicEditorLogic">
     <Phrase key="EditorMenuItem">Mimic Editor</Phrase>

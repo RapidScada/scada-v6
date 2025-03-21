@@ -223,7 +223,7 @@ function showMimicStructure() {
     let listElem = $("<ul class='top-level-list'></ul>");
 
     // dependencies
-    let dependenciesItem = $("<li></li>").text("Dependencies").appendTo(listElem);
+    let dependenciesItem = $("<li></li>").text(phrases.dependenciesNode).appendTo(listElem);
     let dependenciesList = $("<ul></ul>").appendTo(dependenciesItem);
 
     for (let dependency of mimic.dependencies) {
@@ -232,7 +232,7 @@ function showMimicStructure() {
     }
 
     // components
-    let mimicNode = $("<span></span>").text("Mimic");
+    let mimicNode = $("<span></span>").text(phrases.mimicNode);
     let mimicItem = $("<li></li>").append(mimicNode).appendTo(listElem);
     let componentList = $("<ul></ul>").appendTo(mimicItem);
 
@@ -254,7 +254,7 @@ function showMimicStructure() {
     }
 
     // images
-    let imagesItem = $("<li></li>").text("Images").appendTo(listElem);
+    let imagesItem = $("<li></li>").text(phrases.imagesNode).appendTo(listElem);
     let imagesList = $("<ul></ul>").appendTo(imagesItem);
 
     for (let image of mimic.images) {
@@ -308,6 +308,7 @@ $(async function () {
     bindEvents();
     updateLayout();
     initTweakpane();
+    //translateDescriptors();
     await loadMimic();
     await startUpdatingBackend();
 });

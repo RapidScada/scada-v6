@@ -143,7 +143,7 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.ComponentDescriptor {
 
         this.add(new PropertyDescriptor({
             name: "imageName",
-            displayName: "Image name",
+            displayName: "Image",
             category: rs.mimic.KnownCategory.APPEARANCE,
             type: rs.mimic.BasicType.STRING
         }));
