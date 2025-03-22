@@ -10,6 +10,7 @@ const updateQueue = [];
 var rootPath = "/";
 var mimicKey = "0";
 var phrases = {};
+var translation = {};
 
 let splitter = null;
 let propGrid = null;

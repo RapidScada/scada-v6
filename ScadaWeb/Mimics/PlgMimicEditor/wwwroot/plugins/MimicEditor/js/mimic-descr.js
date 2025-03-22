@@ -163,11 +163,3 @@ rs.mimic.DescriptorSet = class {
         ["Panel", new rs.mimic.PanelDescriptor()]
     ]);
 }
-
-// Contains translations for a mimic and its components.
-rs.mimic.TranslationSet = class {
-    // Key is a property name. Value is a display name.
-    static mimicTranslation = new Map();
-    // Key is a component type name. Value is a map containing property names and their display names.
-    static componentTranslations = new Map();
-}

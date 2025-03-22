@@ -42,6 +42,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 CapacityMB = webContext.AppConfig.GeneralOptions.MaxLogSize
             };
             ComponentList = new ComponentList();
+            Translation = new PropertyTranslation();
         }
 
 
@@ -64,6 +65,11 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// Gets the list of available components.
         /// </summary>
         public ComponentList ComponentList { get; }
+
+        /// <summary>
+        /// Gets the translation of mimic and component properties.
+        /// </summary>
+        public PropertyTranslation Translation { get; }
 
         
         /// <summary>
@@ -120,6 +126,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         public void ObtainComponents()
         {
             ComponentList.Groups.Add(new StandardComponentGroup());
+            Translation.Init(ComponentList);
         }
 
         /// <summary>

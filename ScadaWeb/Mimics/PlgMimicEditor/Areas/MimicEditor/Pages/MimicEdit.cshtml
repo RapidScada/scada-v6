@@ -1,5 +1,6 @@
 ﻿@page "{key}"
 @model MimicEditModel
+@inject EditorManager editorManager
 @{
     Layout = "_BasicLayout";
     dynamic dict = Locale.GetDictionary(Model.GetType().FullName);
@@ -53,7 +54,7 @@
             </li>
         </ul>
         <div class="tab-content">
-            <div id="divComponents" class="tab-pane fade show active"><partial name="_ComponentList" model="Model.ComponentList" /></div>
+            <div id="divComponents" class="tab-pane fade show active"><partial name="_ComponentList" model="@editorManager.ComponentList" /></div>
             <div id="divStructure" class="tab-pane fade"></div>
             <div id="divProperties" class="tab-pane fade"></div>
         </div>
