@@ -7,6 +7,7 @@ const mimic = new rs.mimic.Mimic();
 const unitedRenderer = new rs.mimic.UnitedRenderer(mimic, true);
 const updateQueue = [];
 
+// Set in MimicEdit.cshtml and MimicEditLang.cshtml
 var rootPath = "/";
 var mimicKey = "0";
 var phrases = {};
@@ -196,6 +197,8 @@ function selectComponent(compElem) {
 }
 
 function selectNone() {
+    selectedElem.removeClass("selected");
+    selectedElem = $();
     propGrid.selectedObject = null;
 }
 
