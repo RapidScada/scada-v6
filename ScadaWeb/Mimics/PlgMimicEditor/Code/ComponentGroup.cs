@@ -15,6 +15,11 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         public string Name { get; init; } = "";
 
         /// <summary>
+        /// Gets the dictionary key prefix for translating component properties.
+        /// </summary>
+        public string DictionaryKeyPrefix { get; init; } = "";
+
+        /// <summary>
         /// Gets the items.
         /// </summary>
         public List<ComponentItem> Items { get; } = [];

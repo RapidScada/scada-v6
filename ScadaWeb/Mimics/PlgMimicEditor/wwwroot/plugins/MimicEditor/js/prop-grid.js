@@ -43,7 +43,7 @@ class PropGrid {
             this._addBlades(folderMap, obj.properties, null, descriptor);
         } else if (obj instanceof rs.mimic.Mimic) {
             this._addBlades(folderMap, obj.document, null, descriptor);
-        } else {
+        } else if (obj) {
             this._addBlades(folderMap, obj, parent, descriptor);
         }
     }

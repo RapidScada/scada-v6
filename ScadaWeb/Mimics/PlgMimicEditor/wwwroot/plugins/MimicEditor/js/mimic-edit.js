@@ -67,13 +67,47 @@ function initTweakpane() {
     });
 }
 
+function translateProperties() {
+    const DescriptorSet = rs.mimic.DescriptorSet;
+
+    // translate mimic
+    translateObject(DescriptorSet.mimicDescriptor, translation.mimic);
+
+    // translate components
+    for (let [typeName, componentDescriptor] of DescriptorSet.componentDescriptors) {
+        translateObject(componentDescriptor, translation.components.get(typeName));
+    }
+
+    // translate object
+    function translateObject(objectDescriptor, dictionary) {
+        if (!dictionary) {
+            return;
+        }
+
+        for (let propertyDescriptor of objectDescriptor.propertyDescriptors.values()) {
+            let displayName = dictionary[propertyDescriptor.name] ?? translation.component[propertyDescriptor.name];
+            let category = translation.category[propertyDescriptor.category];
+
+            if (displayName) {
+                propertyDescriptor.displayName = displayName;
+            }
+
+            if (category) {
+                propertyDescriptor.category = category;
+            }
+        }
+    }
+}
+
 async function loadMimic() {
     let result = await mimic.load(getLoaderUrl(), mimicKey);
 
     if (result.ok) {
         mimicWrapperElem.append(unitedRenderer.createMimicDom());
         showMimicStructure();
+        selectMimic();
     } else {
+        selectNone();
         console.error(dto.msg);
         showToast(phrases.mimicLoadError, MessageType.ERROR);
     }
@@ -159,6 +193,10 @@ function selectComponent(compElem) {
 
     propGrid.selectedObject = component;
     console.log(`Component with ID ${id} selected`);
+}
+
+function selectNone() {
+    propGrid.selectedObject = null;
 }
 
 function getLoaderUrl() {
@@ -310,7 +348,7 @@ $(async function () {
     bindEvents();
     updateLayout();
     initTweakpane();
-    //translateDescriptors();
+    translateProperties();
     await loadMimic();
     await startUpdatingBackend();
 });

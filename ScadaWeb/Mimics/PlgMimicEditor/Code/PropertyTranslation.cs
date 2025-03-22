@@ -42,10 +42,20 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         {
             ArgumentNullException.ThrowIfNull(componentList, nameof(componentList));
 
-            const string DictKeyPrefix = "Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.";
-            CategoryDict = Locale.GetDictionary(DictKeyPrefix + "Category");
-            MimicDict = Locale.GetDictionary(DictKeyPrefix + "Mimic");
-            ComponentDict = Locale.GetDictionary(DictKeyPrefix + "Component");
+            const string Prefix = StandardComponentGroup.MimicModelPrefix;
+            CategoryDict = Locale.GetDictionary(Prefix + "Category");
+            MimicDict = Locale.GetDictionary(Prefix + "Mimic");
+            ComponentDict = Locale.GetDictionary(Prefix + "Component");
+            ComponentDicts = [];
+
+            foreach (ComponentGroup componentGroup in componentList.Groups)
+            {
+                foreach (ComponentItem componentItem in componentGroup.Items)
+                {
+                    ComponentDicts[componentItem.TypeName] = 
+                        Locale.GetDictionary(componentGroup.DictionaryKeyPrefix + componentItem.TypeName);
+                }
+            }
         }
     }
 }
