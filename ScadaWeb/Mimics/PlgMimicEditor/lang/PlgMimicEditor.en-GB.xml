@@ -62,4 +62,31 @@
     <Phrase key="EditorMenuItem">Mimic Editor</Phrase>
     <Phrase key="MimicsMenuItem">Active Mimics</Phrase>
   </Dictionary>
+  <!-- Mimic Model -->
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Category">
+    <Phrase key="Appearance">APPEARANCE</Phrase>
+    <Phrase key="Behavior">BEHAVIOR</Phrase>
+    <Phrase key="Data">DATA</Phrase>
+    <Phrase key="Design">DESIGN</Phrase>
+    <Phrase key="Layout">LAYOUT</Phrase>
+    <Phrase key="Misc">MISC</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Mimic">
+    <Phrase key="Size">Size</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Component">
+    <Phrase key="ID">ID</Phrase>
+    <Phrase key="Name">Name</Phrase>
+    <Phrase key="TypeName">Type name</Phrase>
+    <Phrase key="Location">Location</Phrase>
+    <Phrase key="Size">Size</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Text">
+    <Phrase key="Text">Text</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Picture">
+    <Phrase key="ImageName">Image</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Panel">
+  </Dictionary>
 </PlgMimicEditorDictionaries>

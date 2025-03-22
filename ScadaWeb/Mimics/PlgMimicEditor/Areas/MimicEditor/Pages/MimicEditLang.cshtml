@@ -1,0 +1,5 @@
+﻿@page "~/plugins/MimicEditor/js/mimic-edit-lang.js"
+@{
+    Response.ContentType = "text/javascript";
+}
+phrases = @WebUtils.DictionaryToJs(typeof(MimicEditModel).FullName + ".Js");

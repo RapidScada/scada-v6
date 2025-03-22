@@ -61,4 +61,31 @@
     <Phrase key="EditorMenuItem">Редактор мнемосхем</Phrase>
     <Phrase key="MimicsMenuItem">Активные мнемосхемы</Phrase>
   </Dictionary>
+  <!-- Mimic Model -->
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Category">
+    <Phrase key="Appearance">ВНЕШНИЙ ВИД</Phrase>
+    <Phrase key="Behavior">ПОВЕДЕНИЕ</Phrase>
+    <Phrase key="Data">ДАННЫЕ</Phrase>
+    <Phrase key="Design">ДИЗАЙН</Phrase>
+    <Phrase key="Layout">МАКЕТ</Phrase>
+    <Phrase key="Misc">РАЗНОЕ</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Mimic">
+    <Phrase key="Size">Размер</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Component">
+    <Phrase key="ID">Идентификатор</Phrase>
+    <Phrase key="Name">Наименование</Phrase>
+    <Phrase key="TypeName">Имя типа</Phrase>
+    <Phrase key="Location">Положение</Phrase>
+    <Phrase key="Size">Размер</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Text">
+    <Phrase key="Text">Текст</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Picture">
+    <Phrase key="ImageName">Изображение</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Panel">
+  </Dictionary>
 </PlgMimicEditorDictionaries>

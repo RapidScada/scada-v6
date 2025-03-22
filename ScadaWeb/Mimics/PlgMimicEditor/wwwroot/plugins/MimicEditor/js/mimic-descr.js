@@ -20,12 +20,12 @@ rs.mimic.PropertyDescriptor = class {
 
 // Specifies the known categories.
 rs.mimic.KnownCategory = class {
-    static APPEARANCE = "APPEARANCE";
-    static BEHAVIOR = "BEHAVIOR";
-    static DATA = "DATA";
-    static DESIGN = "DESIGN";
-    static LAYOUT = "LAYOUT";
-    static MISC = "MISC";
+    static APPEARANCE = "appearance";
+    static BEHAVIOR = "behavior";
+    static DATA = "data";
+    static DESIGN = "design";
+    static LAYOUT = "layout";
+    static MISC = "misc";
 }
 
 // Specifies the basic types.

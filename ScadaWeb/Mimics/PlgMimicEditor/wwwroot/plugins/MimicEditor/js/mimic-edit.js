@@ -10,10 +10,11 @@ const updateQueue = [];
 var rootPath = "/";
 var mimicKey = "0";
 var phrases = {};
-var splitter = null;
-var propGrid = null;
-var mimicWrapperElem = $();
-var selectedElem = $();
+
+let splitter = null;
+let propGrid = null;
+let mimicWrapperElem = $();
+let selectedElem = $();
 
 function bindEvents() {
     $(window).on("resize", function () {

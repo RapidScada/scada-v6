@@ -31,10 +31,10 @@
     <script src="~/plugins/MimicEditor/js/mimic-descr.js" asp-append-version="true"></script>
     <script src="~/plugins/MimicEditor/js/prop-grid.js" asp-append-version="true"></script>
     <script src="~/plugins/MimicEditor/js/mimic-edit.js" asp-append-version="true"></script>
+    <script src="~/plugins/MimicEditor/js/mimic-edit-lang.js"></script>
     <script>
         rootPath = "@Url.Content("~/")";
         mimicKey = "@Model.MimicKey";
-        phrases = @WebUtils.DictionaryToJs(Model.GetType().FullName + ".Js");
     </script>
 }
 
