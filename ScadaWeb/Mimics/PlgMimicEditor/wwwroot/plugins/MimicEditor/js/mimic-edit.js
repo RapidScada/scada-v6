@@ -255,6 +255,9 @@ function handlePropertyChanged(eventData) {
         let component = eventData.selectedObject;
         unitedRenderer.updateComponentDom(component);
 
+        // update selected element
+        selectedElem = component.dom.addClass("selected");
+
         // update server side
         let change = Change.updateComponent(component.id).setProperty(propertyName, value);
         let updateDTO = new UpdateDTO(mimicKey, change);

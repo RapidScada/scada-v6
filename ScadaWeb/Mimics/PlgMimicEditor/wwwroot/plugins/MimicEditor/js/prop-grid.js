@@ -101,7 +101,8 @@ class PropGrid {
             if (proxyObject) {
                 // use proxy object
                 container
-                    .addBinding({ proxy: proxyObject }, "proxy", this._getBindingOptions(propertyDescriptor))
+                    .addBinding({ [propertyName]: proxyObject }, propertyName,
+                        this._getBindingOptions(propertyDescriptor))
                     .on("change", function (event) {
                         if (event.last) {
                             thisObj._handleBindingChange(selObj, target, propertyName, event.value);
@@ -239,6 +240,17 @@ class PropGrid {
 
     addEventListener(type, listener) {
         this._elem.addEventListener(type, listener);
+    }
+
+    refreshProperty(propertyName) {
+        for (let folder of this._pane.children) {
+            for (let binding of folder.children) {
+                if (binding.key === propertyName) {
+                    binding.refresh();
+                    return;
+                }
+            }
+        }
     }
 }
 

@@ -14,9 +14,9 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
     public class Component
     {
         /// <summary>
-        /// The names of component nodes that are loaded explicitly.
+        /// The component properties that are loaded explicitly.
         /// </summary>
-        protected static readonly HashSet<string> ComponentKnownNodes = ["ID", "Name"];
+        protected static readonly HashSet<string> ComponentKnownProperties = ["ID", "Name", "TypeName"];
 
 
         /// <summary>
@@ -55,10 +55,10 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         public ComponentAccess Access { get; } = new();
 
         /// <summary>
-        /// Gets the names of nodes that are loaded explicitly.
+        /// Gets the properties that are loaded explicitly.
         /// </summary>
         [JsonIgnore]
-        public virtual HashSet<string> KnownNodes => ComponentKnownNodes;
+        public virtual HashSet<string> KnownProperties => ComponentKnownProperties;
 
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
 
             foreach (XmlNode childNode in xmlNode.ChildNodes)
             {
-                if (!KnownNodes.Contains(childNode.Name))
+                if (!KnownProperties.Contains(childNode.Name))
                     Properties.LoadProperty(childNode);
             }
         }

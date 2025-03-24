@@ -18,9 +18,9 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         public const string NodeName = "Panel";
 
         /// <summary>
-        /// The names of panel nodes that are loaded explicitly.
+        /// The panel properties that are loaded explicitly.
         /// </summary>
-        private static readonly HashSet<string> PanelKnownNodes = [.. ComponentKnownNodes, "Components"];
+        private static readonly HashSet<string> PanelKnownProperties = [.. ComponentKnownProperties, "Components"];
 
 
         /// <summary>
@@ -30,9 +30,9 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         public List<Component> Components { get; } = [];
 
         /// <summary>
-        /// Gets the names of nodes that are loaded explicitly.
+        /// Gets the properties that are loaded explicitly.
         /// </summary>
-        public override HashSet<string> KnownNodes => PanelKnownNodes;
+        public override HashSet<string> KnownProperties => PanelKnownProperties;
 
 
         /// <summary>
