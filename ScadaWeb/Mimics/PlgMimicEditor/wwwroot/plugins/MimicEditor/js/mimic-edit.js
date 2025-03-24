@@ -2,7 +2,8 @@
 //     mimic-common.js, mimic-model.js, mimic-render.js,
 //     editor.js, prop-grid.js
 
-const UPDATE_RATE = 1000;
+const UPDATE_RATE = 1000; // ms
+const KEEP_ALIVE_INTERVAL = 10000; // ms
 const mimic = new rs.mimic.Mimic();
 const unitedRenderer = new rs.mimic.UnitedRenderer(mimic, true);
 const updateQueue = [];
@@ -17,6 +18,7 @@ let splitter = null;
 let propGrid = null;
 let mimicWrapperElem = $();
 let selectedElem = $();
+let lastUpdateTime = 0;
 
 function bindEvents() {
     $(window).on("resize", function () {
@@ -211,14 +213,20 @@ function getUpdaterUrl() {
 }
 
 async function postUpdates() {
-    while (updateQueue.length > 0) {
-        let updateDTO = updateQueue.shift();
-        let result = await postUpdate(updateDTO);
+    if (updateQueue.length > 0) {
+        // send changes
+        while (updateQueue.length > 0) {
+            let updateDTO = updateQueue.shift();
+            let result = await postUpdate(updateDTO);
 
-        if (!result) {
-            updateQueue.unshift(updateDTO);
-            break;
+            if (!result) {
+                updateQueue.unshift(updateDTO);
+                break;
+            }
         }
+    } else if (Date.now() - lastUpdateTime >= KEEP_ALIVE_INTERVAL) {
+        // heartbeat
+        await postUpdate(new UpdateDTO(mimicKey));
     }
 }
 
@@ -238,6 +246,7 @@ async function postUpdate(updateDTO) {
             }
         }
 
+        lastUpdateTime = Date.now();
         return true;
     } catch {
         return false;
