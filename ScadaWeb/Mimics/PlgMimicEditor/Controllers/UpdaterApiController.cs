@@ -35,6 +35,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
                 {
                     lock (mimicInstance.Mimic.SyncRoot)
                     {
+                        mimicInstance.RegisterClientActivity();
                         mimicInstance.Mimic.ApplyChanges(updateDto.Changes);
                         return Dto.Success();
                     }
