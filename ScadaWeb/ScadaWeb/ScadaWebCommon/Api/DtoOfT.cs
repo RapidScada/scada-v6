@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
- * Modified : 2022
+ * Modified : 2025
  */
 
 namespace Scada.Web.Api
@@ -55,11 +55,19 @@ namespace Scada.Web.Api
         /// </summary>
         public static new Dto<TData> Fail(string msg)
         {
+            return Fail(msg, default);
+        }
+
+        /// <summary>
+        /// Creates a new data transfer object with the failed result.
+        /// </summary>
+        public static Dto<TData> Fail(string msg, TData data)
+        {
             return new Dto<TData>
             {
                 Ok = false,
                 Msg = msg,
-                Data = default
+                Data = data
             };
         }
     }
