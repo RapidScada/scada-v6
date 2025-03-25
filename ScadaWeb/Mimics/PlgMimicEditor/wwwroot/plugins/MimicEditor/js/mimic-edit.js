@@ -4,9 +4,11 @@
 
 const UPDATE_RATE = 1000; // ms
 const KEEP_ALIVE_INTERVAL = 10000; // ms
+const TOAST_MESSAGE_LENGTH = 100;
 const mimic = new rs.mimic.Mimic();
 const unitedRenderer = new rs.mimic.UnitedRenderer(mimic, true);
 const updateQueue = [];
+const toastMessages = new Set();
 
 // Set in MimicEdit.cshtml and MimicEditLang.cshtml
 var rootPath = "/";
@@ -112,7 +114,7 @@ async function loadMimic() {
     } else {
         selectNone();
         console.error(dto.msg);
-        showToast(phrases.mimicLoadError, MessageType.ERROR);
+        showToast(phrases.loadMimicError, MessageType.ERROR);
     }
 }
 
@@ -132,7 +134,7 @@ async function save() {
             showToast(phrases.mimicSaved, MessageType.SUCCESS);
         } else {
             console.error(dto.msg);
-            showToast(phrases.mimicSaveError, MessageType.ERROR);
+            showToast(phrases.saveMimicError, MessageType.ERROR);
         }
     }
 }
@@ -216,39 +218,41 @@ async function postUpdates() {
     if (updateQueue.length > 0) {
         // send changes
         while (updateQueue.length > 0) {
-            let updateDTO = updateQueue.shift();
-            let result = await postUpdate(updateDTO);
+            let updateDto = updateQueue.shift();
+            let result = await postUpdate(updateDto);
 
             if (!result) {
-                updateQueue.unshift(updateDTO);
+                updateQueue.unshift(updateDto);
                 break;
             }
         }
     } else if (Date.now() - lastUpdateTime >= KEEP_ALIVE_INTERVAL) {
         // heartbeat
-        await postUpdate(new UpdateDTO(mimicKey));
+        await postUpdate(new UpdateDto(mimicKey));
     }
 }
 
-async function postUpdate(updateDTO) {
+async function postUpdate(updateDto) {
     try {
         let response = await fetch(getUpdaterUrl() + "UpdateMimic", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(updateDTO)
+            body: JSON.stringify(updateDto)
         });
 
         if (response.ok) {
             let dto = await response.json();
 
             if (!dto.ok) {
-                console.error("Error processing update: " + dto.msg);
+                console.error(dto.msg);
+                showPermanentToast(shortenMessage(dto.msg), MessageType.ERROR);
             }
         }
 
         lastUpdateTime = Date.now();
         return true;
     } catch {
+        showPermanentToast(phrases.postUpdateError, MessageType.ERROR);
         return false;
     }
 }
@@ -269,8 +273,8 @@ function handlePropertyChanged(eventData) {
 
         // update server side
         let change = Change.updateComponent(component.id).setProperty(propertyName, value);
-        let updateDTO = new UpdateDTO(mimicKey, change);
-        updateQueue.push(updateDTO);
+        let updateDto = new UpdateDto(mimicKey, change);
+        updateQueue.push(updateDto);
     }
 }
 
@@ -320,7 +324,13 @@ function showMimicStructure() {
     $("#divStructure").append(listElem);
 }
 
-function showToast(message, opt_messageType) {
+function shortenMessage(message) {
+    return message && message.length > TOAST_MESSAGE_LENGTH
+        ? message.substring(0, TOAST_MESSAGE_LENGTH) + "..."
+        : message;
+}
+
+function showToast(message, opt_messageType, opt_toastOptions) {
     // construct toast
     let toastElem = $("<div class='toast align-items-center'></div>");
 
@@ -341,19 +351,32 @@ function showToast(message, opt_messageType) {
         }
     }
 
-    let wrapperElem = $("<div class='d-flex'></div>").appendTo(toastElem);
-    $("<div class='toast-body'></div>").text(message).appendTo(wrapperElem);
-    $("<button type='button' class='btn-close me-2 m-auto' data-bs-dismiss='toast'></button>").appendTo(wrapperElem);
+    let contentsElem = $("<div class='d-flex'></div>").appendTo(toastElem);
+    $("<div class='toast-body'></div>").text(message).appendTo(contentsElem);
+    $("<button type='button' class='btn-close me-2 m-auto' data-bs-dismiss='toast'></button>").appendTo(contentsElem);
     $("#divToastContainer").prepend(toastElem);
 
     // show toast
-    let toast = bootstrap.Toast.getOrCreateInstance(toastElem[0]);
+    let toast = bootstrap.Toast.getOrCreateInstance(toastElem[0], opt_toastOptions);
     toast.show();
 
     // delete hidden toast
     toastElem.on("hidden.bs.toast", function () {
+        if (toastElem.data("permanent")) {
+            toastMessages.delete(message);
+        }
+
         toastElem.remove();
     });
+
+    return toastElem;
+}
+
+function showPermanentToast(message, opt_messageType) {
+    if (!toastMessages.has(message)) {
+        toastMessages.add(message);
+        showToast(message, opt_messageType, { autohide: false }).data("permanent", true);
+    }
 }
 
 $(async function () {

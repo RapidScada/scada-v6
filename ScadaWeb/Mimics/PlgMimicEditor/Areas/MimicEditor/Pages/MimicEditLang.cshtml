@@ -2,6 +2,7 @@
 @inject EditorManager editorManager
 @{
     Response.ContentType = "text/javascript";
+    Response.Headers.CacheControl = "no-cache, no-store";
     var trans = editorManager.Translation;
 }
 phrases = @WebUtils.DictionaryToJs(typeof(MimicEditModel).FullName + ".Js");

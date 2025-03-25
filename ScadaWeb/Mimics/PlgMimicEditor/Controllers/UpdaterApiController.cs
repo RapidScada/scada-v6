@@ -27,7 +27,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
         /// Updates the mimic.
         /// </summary>
         [HttpPost]
-        public Dto<MimicStatus> UpdateMimic([FromBody] UpdateDto updateDto)
+        public Dto UpdateMimic([FromBody] UpdateDto updateDto)
         {
             try
             {
@@ -36,21 +36,18 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
                     lock (mimicInstance.Mimic.SyncRoot)
                     {
                         mimicInstance.Mimic.ApplyChanges(updateDto.Changes);
-                        return Dto<MimicStatus>.Success(MimicStatus.Good);
+                        return Dto.Success();
                     }
                 }
                 else
                 {
-                    return Dto<MimicStatus>.Fail(errMsg, new MimicStatus
-                    {
-                        NotFound = true
-                    });
+                    return Dto.Fail(errMsg);
                 }
             }
             catch (Exception ex)
             {
                 webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(UpdateMimic)));
-                return Dto<MimicStatus>.Fail(ex.Message);
+                return Dto.Fail(ex.Message);
             }
         }
 

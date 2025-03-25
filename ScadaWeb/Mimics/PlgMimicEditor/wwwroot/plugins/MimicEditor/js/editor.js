@@ -1,8 +1,8 @@
-﻿// Contains classes: UpdateDTO, ChangeType, Change.
+﻿// Contains classes: UpdateDto, ChangeType, Change.
 // No dependencies
 
 // Represents a data transfer object containing mimic changes.
-class UpdateDTO {
+class UpdateDto {
     mimicKey;
     changes = [];
 
