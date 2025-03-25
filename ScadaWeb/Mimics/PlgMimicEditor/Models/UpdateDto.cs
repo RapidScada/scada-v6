@@ -9,7 +9,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Models
     /// Represents a data transfer object containing mimic changes.
     /// <para>Представляет объект передачи данных, содержащий изменения мнемосхемы.</para>
     /// </summary>
-    public class UpdateDto2
+    public class UpdateDto
     {
         public long MimicKey { get; set; }
 
