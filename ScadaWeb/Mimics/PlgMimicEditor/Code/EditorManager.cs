@@ -286,11 +286,11 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 }
 
                 // add mimic to the editor
+                StartCleanup();
                 MimicInstance mimicInstance = AddMimic(projectFileName, fileName, mimic);
                 PluginLog.WriteAction(Locale.IsRussian ?
                     "Загружена мнемосхема {0}" :
                     "{0} mimic loaded", fileName);
-                StartCleanup();
 
                 return new OpenResult
                 {

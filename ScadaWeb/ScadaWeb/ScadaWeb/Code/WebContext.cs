@@ -495,7 +495,6 @@ namespace Scada.Web.Code
                 }
                 finally
                 {
-                    PluginHolder.OnAppStop();
                     Thread.Sleep(ScadaUtils.ThreadDelay);
                 }
             }
@@ -563,6 +562,7 @@ namespace Scada.Web.Code
         public void FinalizeContext()
         {
             StopProcessing();
+            PluginHolder.OnAppStop();
             storageWrapper?.CloseStorage();
 
             Log.WriteAction(Locale.IsRussian ?
