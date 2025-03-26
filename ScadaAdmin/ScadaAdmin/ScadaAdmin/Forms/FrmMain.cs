@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2024 Rapid Software LLC
+ * Copyright 2025 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -331,11 +331,15 @@ namespace Scada.Admin.App.Forms
                     }
                     else
                     {
-                        // create editor form by extension or use default text editor
-                        Form form = appData.ExtensionHolder.GetEditorForm(fileItem.Path) ??
-                            new FrmTextEditor(appData, fileItem.Path);
-                        tag.ExistingForm = form;
-                        wctrlMain.AddForm(form, treeNode.FullPath, ilExplorer.Images[treeNode.ImageKey], treeNode);
+                        // open file by extension or use default text editor
+                        OpenFileResult result = appData.ExtensionHolder.OpenFile(fileItem.Path);
+                        Form form = result.Handled ? result.EditorForm : new FrmTextEditor(appData, fileItem.Path);
+
+                        if (form != null)
+                        {
+                            tag.ExistingForm = form;
+                            wctrlMain.AddForm(form, treeNode.FullPath, ilExplorer.Images[treeNode.ImageKey], treeNode);
+                        }
                     }
                 }
                 else
@@ -698,7 +702,8 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void SaveAll()
         {
-            foreach (Form form in wctrlMain.Forms)
+            // make a snapshot of the form collection as some forms may be closed during saving
+            foreach (Form form in wctrlMain.Forms.ToList())
             {
                 if (form is IChildForm childForm && childForm.ChildFormTag.Modified)
                     childForm.Save();

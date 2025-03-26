@@ -1,0 +1,23 @@
+﻿@page "~/plugins/MimicEditor/js/mimic-edit-lang.js"
+@inject EditorManager editorManager
+@{
+    Response.ContentType = "text/javascript";
+    Response.Headers.CacheControl = "no-cache, no-store";
+    var trans = editorManager.Translation;
+}
+phrases = @WebUtils.DictionaryToJs(typeof(MimicEditModel).FullName + ".Js");
+
+translation = {
+category: @WebUtils.DictionaryToJs(trans.CategoryDict, true),
+mimic: @WebUtils.DictionaryToJs(trans.MimicDict, true),
+component: @WebUtils.DictionaryToJs(trans.ComponentDict, true),
+components: new Map([
+@foreach (var (typeName, dict) in trans.ComponentDicts.OrderBy(pair => pair.Key))
+{
+    @string.Format("['{0}',", typeName).ToHtmlString()
+    @WebUtils.DictionaryToJs(dict, true)
+    @("],")
+    @Environment.NewLine.ToHtmlString()
+}
+])
+};

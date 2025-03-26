@@ -1,14 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ModActiveDirectoryDictionaries>
   <Dictionary key="Scada.Server.Modules.ModActiveDirectory.Config.ModuleConfig">
-    <Phrase key="LdapServer.DisplayName">LDAP server</Phrase>
-    <Phrase key="LdapServer.Category">Main Parameters</Phrase>
-    <Phrase key="LdapServer.Description">The domain controller host or IP address. For example, 127.0.0.1</Phrase>
-    <Phrase key="EnableSearch.DisplayName">Enable search</Phrase>
-    <Phrase key="EnableSearch.Category">Main Parameters</Phrase>
-    <Phrase key="EnableSearch.Description">Enable user search in Active Directory and PostgreSQL.</Phrase>
-    <Phrase key="SearchRoot.DisplayName">Search root</Phrase>
-    <Phrase key="SearchRoot.Category">Main Parameters</Phrase>
-    <Phrase key="SearchRoot.Description">The search root in Active Directory. For example, DC=company,DC=com</Phrase>
+    <Phrase key="LdapServer.DisplayName">LDAP伺服器</Phrase>
+    <Phrase key="LdapServer.Category">主要參數</Phrase>
+    <Phrase key="LdapServer.Description">網域控制器主機或 IP 位址。 例如，127.0.0.1</Phrase>
+    <Phrase key="EnableSearch.DisplayName">啟用搜尋</Phrase>
+    <Phrase key="EnableSearch.Category">主要參數</Phrase>
+    <Phrase key="EnableSearch.Description">在 Active Directory 和 PostgreSQL 中啟用使用者搜尋。</Phrase>
+    <Phrase key="SearchRoot.DisplayName">搜尋根</Phrase>
+    <Phrase key="SearchRoot.Category">主要參數</Phrase>
+    <Phrase key="SearchRoot.Description">Active Directory 中的搜尋根。 例如，DC=公司，DC=com</Phrase>
   </Dictionary>
 </ModActiveDirectoryDictionaries>

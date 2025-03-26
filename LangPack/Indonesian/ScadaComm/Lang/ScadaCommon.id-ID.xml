@@ -18,7 +18,7 @@
     <Phrase key="LogicCycleError">Kesalahan dalam siklus kerja logika</Phrase>
     <Phrase key="ThreadFatalError">Kesalahan fatal di proses</Phrase>
     <Phrase key="WriteInfoError">Kesalahan saat menulis informasi aplikasi ke berkas</Phrase>
-    <Phrase key="ConnectionNotFound">Sambungan "{0}" tidak ditemukan.</Phrase>
+    <Phrase key="ConnectionNotFound">Sambungan &quot;{0}&quot; tidak ditemukan.</Phrase>
     <Phrase key="ConnOptionsNotFound">Opsi koneksi tidak ditemukan.</Phrase>
     <Phrase key="DatabaseNotSupported">Basis data tidak didukung.</Phrase>
     <Phrase key="OperationNotSupported">Operasi tidak didukung.</Phrase>
@@ -74,7 +74,7 @@
     <Phrase key="DateTimeRequired">Tanggal dan waktu wajib diisi.</Phrase>
     <Phrase key="NotNumber">String bukan angka.</Phrase>
     <Phrase key="NotHexadecimal">String bukan heksadesimal.</Phrase>
-    <Phrase key="InvalidParamVal">Nilai parameter "{0}" tidak valid.</Phrase>
+    <Phrase key="InvalidParamVal">Nilai parameter &quot;{0}&quot; tidak valid.</Phrase>
     <Phrase key="InvalidSecretKey">Kunci rahasia tidak valid.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms">
@@ -133,6 +133,18 @@
     <Phrase key="lblUsername">Nama pengguna</Phrase>
     <Phrase key="lblPassword">Kata sandi</Phrase>
     <Phrase key="chkConnectionString">String koneksi</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Controls.CtrlRegistration">
+    <Phrase key="lblProductName">Nama Produk</Phrase>
+    <Phrase key="lblCompCode">Kode komputer</Phrase>
+    <Phrase key="btnCopyCompCode">Menyalin</Phrase>
+    <Phrase key="btnRefreshCompCode">Menyegarkan</Phrase>
+    <Phrase key="lblCompCodeInfo">Jika kodenya hilang, unggah konfigurasi dan mulai ulang layanan.</Phrase>
+    <Phrase key="lblRegKey">Kunci pendaftaran</Phrase>
+    <Phrase key="btnPasteRegKey">Pasta</Phrase>
+    <Phrase key="lblRegKeyInfo">Hasil verifikasi kunci ditulis dalam log aplikasi atau modul.</Phrase>
+    <Phrase key="llblGetPermanentKey">Dapatkan kunci permanen</Phrase>
+    <Phrase key="llblGetTrialKey">Dapatkan kunci uji coba</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmBitmask">
     <Phrase key="this">Masker Bit</Phrase>

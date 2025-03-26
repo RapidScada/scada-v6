@@ -58,7 +58,7 @@ namespace Scada.Admin.Extensions.ExtTableEditor
         }
 
         /// <summary>
-        /// Gets the file extensions for which the extension provides an editor.
+        /// Gets the file extensions that the extension can open.
         /// </summary>
         public override ICollection<string> FileExtensions => ["tbl"];
 
@@ -73,11 +73,15 @@ namespace Scada.Admin.Extensions.ExtTableEditor
         }
 
         /// <summary>
-        /// Gets a form to edit the specified file.
+        /// Opens the specified file.
         /// </summary>
-        public override Form GetEditorForm(string fileName)
+        public override OpenFileResult OpenFile(string fileName)
         {
-            return new FrmTableEditor(AdminContext, fileName);
+            return new OpenFileResult 
+            {
+                Handled = true,
+                EditorForm = new FrmTableEditor(AdminContext, fileName)
+            };
         }
     }
 }

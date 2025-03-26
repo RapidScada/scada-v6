@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2024 Rapid Software LLC
+ * Copyright 2025 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2024
+ * Modified : 2025
  */
 
 using Scada.Data.Const;
@@ -575,7 +575,7 @@ namespace Scada.Server.Engine
                 CnlData prevData = calcContext.GetPrevCnlData(n);
                 DateTime prevTime = calcContext.GetPrevCnlTime(n);
 
-                return actualData.Stat > CnlStatusID.Defined && prevData.Stat > CnlStatusID.Defined &&
+                return actualData.IsDefined && prevData.IsDefined &&
                     actualTime > prevTime && prevTime > DateTime.MinValue ?
                     (actualData.Val - prevData.Val) / (actualTime - prevTime).TotalSeconds : double.NaN;
             }

@@ -55,6 +55,33 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         }
 
         /// <summary>
+        /// Check if the data point should to be returned to the queue.
+        /// </summary>
+        private bool CheckReturnPoint(Exception ex, CnlDataPoint point)
+        {
+            if (ReturnOnError)
+            {
+                // no partition found
+                if (ex is PostgresException pgEx && 
+                    pgEx.SqlState == PostgresErrorCodes.CheckViolation && 
+                    pgEx.Routine == "ExecFindPartition")
+                {
+                    string errMsg = string.Format(ModulePhrases.NoPartitionFound,
+                        point.Timestamp.ToLocalizedString(), point.CnlNum);
+                    AppLog?.WriteError(ServerPhrases.ArchiveMessage, ArchiveCode, errMsg);
+                    ArcLog?.WriteError(errMsg);
+                    return false;
+                }
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Retrieves items from the queue and inserts or updates them in the database.
         /// </summary>
         public override bool ProcessItems()
@@ -86,10 +113,10 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                         SetCommandParams(point);
                         command.ExecuteNonQuery();
                     }
-                    catch
+                    catch (Exception ex)
                     {
                         // return the unwritten data point to the queue
-                        if (ReturnOnError)
+                        if (CheckReturnPoint(ex, point))
                             Enqueue(point);
 
                         throw;

@@ -2,8 +2,8 @@
 <ExtDepPostgreSqlDictionaries>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Downloader">
     <Phrase key="DownloadTable">Télécharger le tableau {0}</Phrase>
-    <Phrase key="DownloadView">"Télécharger la vue "{0}"</Phrase>
-    <Phrase key="DownloadConfigFile">Télécharger le fichier de configuration "{0}"</Phrase>
+    <Phrase key="DownloadView">"Télécharger la vue &quot;{0}&quot;</Phrase>
+    <Phrase key="DownloadConfigFile">Télécharger le fichier de configuration &quot;{0}&quot;</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Uploader">
     <Phrase key="CreateSchema">Créer un schéma de base de données</Phrase>
@@ -16,13 +16,13 @@
     <Phrase key="FillTable">Créer des clés étrangères pour la table {0}</Phrase>
     <Phrase key="CreateFKs">Vues claires</Phrase>
     <Phrase key="CreateTableFKs">Créer des vues</Phrase>
-    <Phrase key="ClearViews">Créer la vue "{0}"</Phrase>
+    <Phrase key="ClearViews">Créer la vue &quot;{0}&quot;</Phrase>
     <Phrase key="CreateViews">Configuration claire de toutes les applications</Phrase>
     <Phrase key="CreateView">Effacer la configuration de l'application {0}</Phrase>
     <Phrase key="ClearAllAppConfig">Créer la configuration de l'application {0}</Phrase>
-    <Phrase key="ClearAppConfig">Créer le fichier de configuration "{0}"</Phrase>
+    <Phrase key="ClearAppConfig">Créer le fichier de configuration &quot;{0}&quot;</Phrase>
     <Phrase key="CreateAppConfig">Impossible de redémarrer les services car l'agent est désactivé</Phrase>
-    <Phrase key="CreateConfigFile">Créer le fichier de configuration "{0}"</Phrase>
+    <Phrase key="CreateConfigFile">Créer le fichier de configuration &quot;{0}&quot;</Phrase>
     <Phrase key="UnableRestartServices">Impossible de redémarrer les services car l'agent est désactivé</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ClearBaseMethod">

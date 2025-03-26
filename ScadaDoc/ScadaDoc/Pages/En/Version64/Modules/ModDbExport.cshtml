@@ -1,0 +1,85 @@
+﻿@page "/en/latest/modules/mod-db-export"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Database Export Module";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#configuring">Configuring</a></li>
+        <li><a href="#commands">Commands</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Database Export Module</h1>
+    <h2 id="overview">Overview</h2>
+    <p>Database Export Module provides real-time export of data received from devices to popular databases. Supported DBMS are Microsoft SQL Server, Oracle, PostgreSQL and MySQL. The module is included in the Rapid SCADA distribution and does not require separate installation. The following figure shows the form for configuring the module.</p>
+    <figure class="figure">
+        <img src="mod-db-export-files/db-export-en.png" class="figure-img img-fluid" alt="Database Export Module" />
+    </figure>
+    <p>The module supports export to several different databases in parallel. The database to which the export is performed is called the <strong>export target</strong>. Based on the export target options, the module creates an <strong>exporter</strong>, a software object that processes data queues and calls SQL queries.</p>
+    <p>Information about the module operation is recorded in the <code>ModDbExport.log</code> file. Information about the operation of each exporter is written in <code>ModDbExport_*.log</code> and <code>ModDbExport_*.txt</code> files.</p>
+
+    <h2 id="configuring">Configuring</h2>
+    <p>To open the module configuration form, go to the <strong>Server &gt; Modules</strong> page, select the <strong>ModDbExport</strong> module and click the <strong>Properties</strong> button. The module should be in the list of active modules. The module configuration is saved in the <code>ModDbExport.xml</code> file.</p>
+    <p>Add a new export target to the module configuration using the <img src="mod-db-export-files/add-db.png" /> button, selecting the DBMS from the drop-down list. Next, let's look at the pages containing various groups of export target settings. The screenshots below show the default parameter values.</p>
+
+    <figure class="figure">
+        <img src="mod-db-export-files/general-options-en.png" class="figure-img img-fluid" alt="General options" />
+    </figure>
+    <p>Specify the <strong>Command code</strong> if users plan to manually send commands to export archives. Set the <strong>Status channel number</strong> to monitor the export status via the web interface. A channel of the <em>Calculated</em> type should be created in the configuration database. Channel values: <em>0</em> - normal, <em>1</em> - error. The queue options are set experimentally depending on the amount of exported data and the performance of the database server.</p>
+
+    <figure class="figure">
+        <img src="mod-db-export-files/connection-options-en.png" class="figure-img img-fluid" alt="Connection options" />
+    </figure>
+    <p>A database into which the export is performed must be previously created and contain tables for storing information. The options for connecting to the database should be clarified with its administrator. If the database server is deployed on a separate computer, the server's firewall settings must be configured to allow incoming connections on the TCP port being used.</p>
+
+    <figure class="figure">
+        <img src="mod-db-export-files/cur-data-export-en.png" class="figure-img img-fluid" alt="Export current data" />
+    </figure>
+    <p>Current data can be exported <em>On Receive</em> by Server from Communicator or <em>On Timer</em>. Transferring data when received ensures that all current data received from the polled devices is uploaded to the database. Transferring data by timer reduces the database size and saves network traffic.</p>
+
+    <figure class="figure">
+        <img src="mod-db-export-files/hist-data-export-en.png" class="figure-img img-fluid" alt="Export historical data" />
+    </figure>
+    <p>Historical data export refers to data that is transferred with a timestamp, such as:</p>
+    <ul>
+        <li>Archives that are downloaded by Communicator from metering devices and transferred to Server.</li>
+        <li>Data received from <a href="mod-rapid-gate">Rapid Gate Module</a> installed on a remote server when replicating archives.</li>
+    </ul>
+    <p>The <strong>Delay before export</strong> option helps to avoid multiple exports of calculated data if several data slices with the same timestamp are received one after another. The <strong>Bit of historical archive</strong> is used to retrieve data from the calculated channels.</p>
+
+    <figure class="figure">
+        <img src="mod-db-export-files/arc-replication-en.png" class="figure-img img-fluid" alt="Archive replication" />
+    </figure>
+    <p>Archive replication ensures that the information in the Rapid SCADA archive and in the database is identical. If archive replication is enabled and the <strong>Automatically export archives</strong> checkbox is checked, historical data and events received by the Server service from clients are not added to the export queue to avoid duplication. The replication state is saved while the module is running and is loaded when the Server service is restarted.</p>
+
+    <figure class="figure">
+        <img src="mod-db-export-files/query-options-en.png" class="figure-img img-fluid" alt="Query options" />
+    </figure>
+    <p>The figure above shows the options of the SQL query that is called by the exporter when Server receives the corresponding data or when replicating the archive. The <a href="https://github.com/RapidScada/scada-v6/tree/master/ScadaServer/OpenModules/ModDbExport.Logic/Scripts" target="_blank">link</a> contains scripts for creating a database model and sample queries. SQL queries can contain parameters, which are specified with the <code>&commat;</code> prefix. To view a list of available parameters depending on the request data kind, click the <img src="mod-db-export-files/parameters.png" /> button.</p>
+    <p>If the <strong>Single query</strong> checkbox is unchecked, the SQL query will be called for each channel whose data is processed. The request parameters for exporting the channel value and status are <code>&commat;val</code> and <code>&commat;stat</code>.</p>
+    <p>If the <strong>Single query</strong> checkbox is checked, the SQL query will be called once only for those channels whose numbers are explicitly specified in the query filter. In this case, the names of the channel value and status parameters contain the channel number, for example, <code>&commat;val101</code> and <code>&commat;stat101</code>.</p>
+    <p>Queries that have the <strong>Single query</strong> checkbox checked are ignored:</p>
+    <ol>
+        <li>If current data is exported on receive.</li>
+        <li>When exporting historical data received from clients.</li>
+    </ol>
+
+    <h2 id="commands">Commands</h2>
+    <p>Database Export Module supports receiving commands. To send commands to the module, create output type channels in the configuration database. The <strong>Tag code</strong> of the channel must match the <strong>Command code</strong> specified in the general export target options. A command can be sent via the Webstation application web interface or using another client interacting with the Server application.</p>
+    <p>When a valid command is received, a task is created and added to the exporter task queue. The maximum length of a task queue is 10. If the queue is full, new commands will be ignored.</p>
+    <p>Example of archive export command:</p>
+    <pre><code>cmd=ExportArchive
+startDT=2025-12-31 10:00:00
+endDT=2025-12-31 11:00:00</code></pre>
+
+    <p>Clear the exporter task queue:</p>
+    <pre><code>cmd=ClearTaskQueue</code></pre>
+
+    <p>The command arguments specify UTC time.</p>
+</div>

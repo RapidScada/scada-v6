@@ -18,7 +18,7 @@
     <Phrase key="LogicLoopError">論理ループ内のエラー</Phrase>
     <Phrase key="ThreadFatalError">スレッド内の致命的なエラー</Phrase>
     <Phrase key="WriteInfoError">アプリケーション情報をファイルに書き込むときにエラーが発生しました</Phrase>
-    <Phrase key="ConnectionNotFound">接続"{0}"が見つかりません。</Phrase>
+    <Phrase key="ConnectionNotFound">接続&quot;{0}&quot;が見つかりません。</Phrase>
     <Phrase key="DatabaseNotSupported">データベースはサポートされていません。</Phrase>
     <Phrase key="OperationNotSupported">操作はサポートされていません。</Phrase>
     <Phrase key="CommandSent">コマンドが送信されました。</Phrase>
@@ -73,7 +73,7 @@
     <Phrase key="DateTimeRequired">日付と時刻は必須です。</Phrase>
     <Phrase key="NotNumber">文字列は数値ではありません。</Phrase>
     <Phrase key="NotHexadecimal">文字列が 16 進数ではありません。</Phrase>
-    <Phrase key="InvalidParamVal">"{0}"パラメータの値が無効です。</Phrase>
+    <Phrase key="InvalidParamVal">&quot;{0}&quot;パラメータの値が無効です。</Phrase>
     <Phrase key="InvalidSecretKey">無効な秘密キーです。</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms">

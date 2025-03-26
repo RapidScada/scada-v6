@@ -1,0 +1,146 @@
+﻿@page "/en/latest/modules/plg-map"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Map Plugin";
+}
+
+@section Styles {
+    <link href="~/lib/prismjs/prism.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="~/lib/prismjs/prism.js"></script>
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li>
+            <a href="#configuring">Configuring</a>
+            <ul>
+                <li><a href="#plugin-settings">Plugin Settings</a></li>
+                <li><a href="#creating-map">Creating Map</a></li>
+                <li><a href="#map-structure">Map File Structure</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Map Plugin</h1>
+    <h2 id="overview">Overview</h2>
+    <p>Map Plugin displays the status and parameters of stationary and moving objects on interactive OpenStreetMap maps. The plugin provides visual control of geographically distributed systems and transport. By clicking, a user is taken to a page with detailed information on the object of interest. Download the plugin using the <a href="https://rapidscada.net/store/Module/en/PlgMap" target="_blank">link</a>. The appearance of Map Plugin is shown in the following figure.</p>
+    <figure class="figure">
+        <img src="plg-map-files/map-example-en.png" class="figure-img img-fluid" alt="Map Plugin" />
+    </figure>
+
+    <h2 id="installation">Installation</h2>
+    <p>Map Plugin is installed according to the <a href="../installation/install-modules#plugins">instructions</a>. During installation, complete the following additional step: copy the <code>PlgMap.xml</code> file from the plugin distribution into your project. The file should be displayed in the project explorer under the <strong>Webstation &gt; Configuration Files</strong> node.</p>
+
+    <h2 id="configuring">Configuring</h2>
+    <h3 id="plugin-settings">Plugin Settings</h3>
+    <p>General plugin settings that affect the display of all maps are located in the <code>PlgMap.xml</code> file.</p>
+
+    <p>
+        The <code>GeneralOptions</code> section contains general plugin options:<br />
+        <code>PopupOnClick</code> - whether to show the coordinates of the point a user clicked on.
+    </p>
+    <p>The <code>TileLayers</code> section contains tile layer settings. Depending on the tile provider, each <code>TileLayer</code> has its own set of options. A user can switch tile layers on the map.</p>
+    <p>The <code>MarkerIcons</code> section defines the marker icons that are available on maps. There are two types of marker icons:</p>
+
+    <ol>
+        <li>Icons of the <code>Classic</code> type icons are based on an image file. The file name has a suffix corresponding to the object status: <code>undefined</code>, <code>normal</code>, <code>error</code>, and <code>unbound</code> (the status is not bound to a channel). The icon files are located in the <code>SCADA\ScadaWeb\wwwroot\plugins\Map\images</code> directory.</li>
+        <li>Icons of the <code>Awesome</code> type use the popular graphic font called <a href="https://fontawesome.com/search" target="_blank">Font Awesome</a>.</li>
+    </ol>
+
+    <h3 id="creating-map">Creating Map</h3>
+    <p>Each map is saved in a separate XML file with the <code>map</code> extension. The map example, <code>MapExample.map</code>, is included in the plugin installation package. Map files should be located in the views directory or its subdirectory.</p>
+    <p>So, to create a new map, in the Administrator application, create a new XML file with the <code>map</code> extension in the <strong>Views</strong> section of the project, and then specify the path to the created file in the <strong>Views</strong> table.</p>
+    <figure class="figure">
+        <img src="plg-map-files/new-map-file-en.png" class="figure-img img-fluid" alt="New file" />
+    </figure>
+    <figure class="figure">
+        <img src="plg-map-files/map-view-file-en.png" class="figure-img img-fluid" alt="Map file" />
+    </figure>
+    <figure class="figure">
+        <img src="plg-map-files/map-view-table-en.png" class="figure-img img-fluid" alt="Views table" />
+    </figure>
+
+    <h3 id="map-structure">Map File Structure</h3>
+    <p>Consider the structure of the map file using <code>MapExample.map</code> as an example. All map XML elements are contained within the root <code>MapView</code> element.</p>
+    <p>The <code>InitialView</code> element contains the initial coordinates and scale of the map. The scale is an integer between 0 and 18.</p>
+
+<pre><code class="language-xml">&lt;InitialView&gt;
+  &lt;Lat&gt;48.8430&lt;/Lat&gt;
+  &lt;Lon&gt;2.3275&lt;/Lon&gt;
+  &lt;Zoom&gt;13&lt;/Zoom&gt;
+&lt;/InitialView&gt;</code></pre>
+
+    <p>Next come the <code>LayerGroup</code> elements, each of which contains a group of map objects. A user can show and hide the group via the web interface.</p>
+    <p>The <code>Options</code> element inside a <code>LayerGroup</code> specifies the group's options.</p>
+
+<pre><code class="language-xml">&lt;Options&gt;
+  &lt;Name&gt;Main&lt;/Name&gt;
+  &lt;DefaultIcon&gt;Site&lt;/DefaultIcon&gt;
+  &lt;Visible&gt;true&lt;/Visible&gt;
+  &lt;ShowTooltips&gt;true&lt;/ShowTooltips&gt;
+&lt;/Options&gt;</code></pre>
+
+    <p>
+        <code>Name</code> - group name;<br />
+        <code>DefaultIcon</code> - default marker icon;<br />
+        <code>Visible</code> - visibility of group objects;<br />
+        <code>ShowTooltips</code> - whether to display tooltips for objects.
+    </p>
+    <p>Let's look at an example of a stationary object, the <code>Location</code> element:</p>
+
+<pre><code class="language-xml">&lt;Location&gt;
+  &lt;Name&gt;Eiffel Tower&lt;/Name&gt;
+  &lt;Descr&gt;Avenue Anatole France, Paris, France&lt;/Descr&gt;
+  &lt;Icon&gt;&lt;/Icon&gt;
+  &lt;Lat&gt;48.858222&lt;/Lat&gt;
+  &lt;Lon&gt;2.2945&lt;/Lon&gt;
+  &lt;StatusCnlNum&gt;0&lt;/StatusCnlNum&gt;
+  &lt;DataItems&gt;
+    &lt;DataItem cnlNum=&quot;101&quot; /&gt;
+    &lt;DataItem cnlNum=&quot;104&quot;&gt;My text&lt;/DataItem&gt;
+  &lt;/DataItems&gt;
+  &lt;Links&gt;
+    &lt;Link viewID=&quot;2&quot; /&gt;
+    &lt;Link viewID=&quot;2&quot;&gt;My link&lt;/Link&gt;
+  &lt;/Links&gt;
+&lt;/Location&gt;</code></pre>
+
+    <p>
+        <code>Name</code> - object name;<br />
+        <code>Descr</code> - object description;<br />
+        <code>Icon</code> - marker icon. If not specified, the default icon is used;<br />
+        <code>Lat</code> and <code>Lon</code> - latitude and longitude of the object;<br />
+        <code>StatusCnlNum</code> - the number of the input channel that shows the object status. Equals 0 if the channel is not specified. Valid channel data: channel status equal to 0 means that the object status is not defined, channel value equal to 0 means the object is normal, channel value equal to 1 means the object is in an error state;<br />
+        <code>DataItems</code> - channels whose values ​​are displayed in the object information popup;<br />
+        <code>Links</code> - links to views that can be accessed from the information popup.
+    </p>
+    <p>Let's consider an example of a mobile object, the <code>Vehicle</code> element:</p>
+
+<pre><code class="language-xml">&lt;Vehicle&gt;
+  &lt;Name&gt;Taxi&lt;/Name&gt;
+  &lt;Descr&gt;Uber&lt;/Descr&gt;
+  &lt;Icon&gt;Car&lt;/Icon&gt;
+  &lt;LatCnlNum&gt;201&lt;/LatCnlNum&gt;
+  &lt;LonCnlNum&gt;202&lt;/LonCnlNum&gt;
+  &lt;BearingCnlNum&gt;203&lt;/BearingCnlNum&gt;
+  &lt;StatusCnlNum&gt;204&lt;/StatusCnlNum&gt;
+  &lt;DataItems /&gt;
+  &lt;Links /&gt;
+&lt;/Vehicle&gt;</code></pre>
+
+    <p>
+        The <code>Name</code>, <code>Descr</code>, <code>Icon</code>, <code>StatusCnlNum</code>, <code>DataItems</code> and <code>Links</code> parameters are similar to a stationary object.<br />
+        <code>LatCnlNum</code> and <code>LonCnlNum</code> - channel numbers that determine the latitude and longitude of the object;<br />
+        <code>BearingCnlNum</code> - channel number that determines the rotation of the object. Rotation is measured in degrees. A channel value of 0 corresponds to neutral object rotation. A positive value means clockwise rotation, while a negative value means counterclockwise rotation.
+    </p>
+    <p>The <code>Circle</code>, <code>Polygon</code>, <code>Polyline</code> and <code>Rectangle</code> elements are used to add corresponding geometric shapes to the map.</p>
+</div>

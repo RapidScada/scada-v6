@@ -1,7 +1,10 @@
 ﻿@import '../../../css/components/_splitter';
 
 $left-panel-width: 300px;
+$left-panel-min-width: 200px;
 $border-color: var(--bs-gray-500);
+$tool-window-font-size: 12px;
+$tool-window-font-weight: 500;
 
 #divToolbar {
     border-bottom: 1px solid $border-color;
@@ -24,9 +27,75 @@ $border-color: var(--bs-gray-500);
 
 #divLeftPanel {
     background-color: var(--bs-gray-100);
-    overflow-x: hidden;
-    overflow-y: auto;
+    min-width: $left-panel-min-width;
+    overflow: hidden;
     width: $left-panel-width;
+
+    .tab-pane {
+        height: 100%;
+        overflow: auto;
+    }
+}
+
+#divComponents {
+    font-size: $tool-window-font-size;
+    font-weight: $tool-window-font-weight;
+    line-height: 16px;
+
+    .component-group-header {
+        background-color: hsl(230, 15%, 30%, 0.20);
+        padding: 5px 10px;
+
+        &:hover {
+            background-color: hsl(230, 15%, 30%, 0.24);
+        }
+    }
+
+    .component-item {
+        cursor: pointer;
+        display: flex;
+        padding: 5px 10px;
+
+        &:hover {
+            background-color: var(--bs-gray-200);
+        }
+
+        .component-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 5px;
+        }
+    }
+}
+
+#divStructure {
+    font-size: $tool-window-font-size;
+    font-weight: $tool-window-font-weight;
+    padding: 10px;
+
+    ul {
+        list-style-type: none;
+        margin: 0 0 0 20px;
+        padding: 0;
+
+        &.top-level-list {
+            margin-left: 0;
+        }
+
+        li {
+            white-space: nowrap;
+
+            span {
+                cursor: pointer;
+                margin-left: -5px;
+                padding: 2px 5px;
+
+                &:hover {
+                    background-color: var(--bs-gray-200);
+                }
+            }
+        }
+    }
 }
 
 #divSplitter {
@@ -36,6 +105,13 @@ $border-color: var(--bs-gray-500);
 
 #divMimicWrapper {
     background-color: var(--bs-gray-100);
+}
+
+#divToastContainer {
+    bottom: 0;
+    padding: 1rem;
+    position: fixed;
+    right: 0;
 }
 
 /* Tweakpane */
@@ -62,4 +138,9 @@ $border-color: var(--bs-gray-500);
     --tp-monitor-background-color: hsla(230, 15%, 30%, 0.10);
     --tp-monitor-foreground-color: hsla(230, 10%, 30%, 0.50);
     --tp-base-border-radius: 0;
+    --tp-base-font-family: var(--bs-body-font-family);
+
+    .tp-rotv {
+        font-size: $tool-window-font-size;
+    }
 }

@@ -1,0 +1,30 @@
+﻿@{
+    dynamic dict = Locale.GetDictionary(typeof(MimicEditModel).FullName + ".ToolbarContents");
+}
+<button type="button" 
+id="btnSave" class="btn btn-outline-primary btn-sm" title="@dict.btnSave"><i class="fa-regular fa-floppy-disk"></i></button><span class="splitter"></span><button type="button" 
+id="btnUndo" class="btn btn-outline-primary btn-sm" title="@dict.btnUndo"><i class="fa-solid fa-arrow-rotate-left"></i></button><button type="button" 
+id="btnRedo" class="btn btn-outline-primary btn-sm" title="@dict.btnRedo"><i class="fa-solid fa-arrow-rotate-right"></i></button><span class="splitter"></span><button type="button" 
+id="btnCut" class="btn btn-outline-primary btn-sm" title="@dict.btnCut"><i class="fa-solid fa-scissors"></i></button><button type="button"
+id="btnCopy" class="btn btn-outline-primary btn-sm" title="@dict.btnCopy"><i class="fa-solid fa-copy"></i></button><button type="button" 
+id="btnPaste" class="btn btn-outline-primary btn-sm" title="@dict.btnPaste"><i class="fa-regular fa-paste"></i></button><button type="button" 
+id="btnDelete" class="btn btn-outline-primary btn-sm" title="@dict.btnDelete"><i class="fa-regular fa-trash-can"></i></button><span class="splitter"></span><button type="button" 
+id="btnPointer" class="btn btn-outline-primary btn-sm" title="@dict.btnPointer"><i class="fa-solid fa-arrow-pointer"></i></button><div class="dropdown d-inline-block">
+    <button type="button" id="btnAlign" class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" title="@dict.btnAlign"><i class="fa-solid fa-align-left"></i></button>
+    <ul class="dropdown-menu">
+        <li><button id="btnAlignLefts" class="dropdown-item" href="#">@dict.btnAlignLefts</button></li>
+        <li><button id="btnAlignCenters" class="dropdown-item" href="#">@dict.btnAlignCenters</button></li>
+        <li><button id="btnAlignRights" class="dropdown-item" href="#">@dict.btnAlignRights</button></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><button id="btnAlignTops" class="dropdown-item" href="#">@dict.btnAlignTops</button></li>
+        <li><button id="btnAlignMiddles" class="dropdown-item" href="#">@dict.btnAlignMiddles</button></li>
+        <li><button id="btnAlignBottoms" class="dropdown-item" href="#">@dict.btnAlignBottoms</button></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><button id="btnMakeSameWidth" class="dropdown-item" href="#">@dict.btnMakeSameWidth</button></li>
+        <li><button id="btnMakeSameHeight" class="dropdown-item" href="#">@dict.btnMakeSameHeight</button></li>
+        <li><button id="btnMakeSameSize" class="dropdown-item" href="#">@dict.btnMakeSameSize</button></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><button id="btnMakeHorizontalSpacingEqual" class="dropdown-item" href="#">@dict.btnMakeHorizontalSpacingEqual</button></li>
+        <li><button id="btnMakeVerticalSpacingEqual" class="dropdown-item" href="#">@dict.btnMakeVerticalSpacingEqual</button></li>
+    </ul>
+</div>

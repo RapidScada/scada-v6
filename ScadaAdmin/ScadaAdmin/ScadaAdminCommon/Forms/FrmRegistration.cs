@@ -19,12 +19,13 @@ namespace Scada.Admin.Forms
     public partial class FrmRegistration : Form
     {
         /// <summary>
-        /// The computer code file name.
+        /// The default computer code file name.
         /// </summary>
         public const string CompCodeFileName = "CompCode.txt";
 
         private readonly IAdminContext adminContext; // the Administrator context
         private readonly ProjectApp projectApp;      // the application containing the registered module
+        private readonly string compCodeFileName;    // the computer code file name
         private readonly string regKeyFileName;      // the registration key file name
 
 
@@ -40,14 +41,21 @@ namespace Scada.Admin.Forms
         /// Initializes a new instance of the class.
         /// </summary>
         public FrmRegistration(IAdminContext adminContext, ProjectApp projectApp,
-            string productCode, string productName) : this()
+            RegistrationInfo registrationInfo) : this()
         {
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.projectApp = projectApp ?? throw new ArgumentNullException(nameof(projectApp));
-            regKeyFileName = Path.Combine(projectApp.ConfigDir, productCode + "_Reg.xml");
+            ArgumentNullException.ThrowIfNull(registrationInfo, nameof(registrationInfo));
 
-            ctrlRegistration.ProductCode = productCode;
-            ctrlRegistration.ProductName = productName;
+            compCodeFileName = ScadaUtils.FirstNonEmpty(registrationInfo.CompCodeFileName, CompCodeFileName);
+            regKeyFileName = string.IsNullOrEmpty(registrationInfo.RegKeyFileName)
+                ? Path.Combine(projectApp.ConfigDir, registrationInfo.ProductCode + "_Reg.xml")
+                : Path.Combine(projectApp.ConfigDir, registrationInfo.RegKeyFileName);
+
+            ctrlRegistration.ProductCode = registrationInfo.ProductCode;
+            ctrlRegistration.ProductName = registrationInfo.ProductName;
+            ctrlRegistration.PermanentKeyUrl = registrationInfo.PermanentKeyUrl;
+            ctrlRegistration.TrialKeyUrl = registrationInfo.TrialKeyUrl;
         }
 
 
@@ -67,7 +75,7 @@ namespace Scada.Admin.Forms
                     lock (agentClient.SyncRoot)
                     {
                         agentClient.ReadTextFile(
-                            new RelativePath(projectApp.ServiceApp, AppFolder.Log, CompCodeFileName),
+                            new RelativePath(projectApp.ServiceApp, AppFolder.Log, compCodeFileName),
                             ref newerThan, out lines);
                     }
 

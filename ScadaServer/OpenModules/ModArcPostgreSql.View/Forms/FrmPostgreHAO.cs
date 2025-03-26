@@ -45,6 +45,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         {
             ctrlHistoricalArchiveOptions.ArchiveOptions = options;
             ctrlDatabaseOptions.DatabaseOptions = options;
+            chkUseMemoryCache.Checked = options.UseMemoryCache;
+            numCacheSizeRatio.SetValue(Convert.ToDecimal(options.CacheSizeRatio));
         }
 
         /// <summary>
@@ -54,6 +56,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         {
             ctrlHistoricalArchiveOptions.ControlsToOptions();
             ctrlDatabaseOptions.ControlsToOptions();
+            options.UseMemoryCache = chkUseMemoryCache.Checked;
+            options.CacheSizeRatio = Convert.ToDouble(numCacheSizeRatio.Value);
             options.AddToOptionList(archiveConfig.CustomOptions);
         }
 

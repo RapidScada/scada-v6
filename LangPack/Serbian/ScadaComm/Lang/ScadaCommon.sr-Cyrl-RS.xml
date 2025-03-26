@@ -18,7 +18,7 @@
     <Phrase key="LogicLoopError">Грешка у логичкој петљи</Phrase>
     <Phrase key="ThreadFatalError">Фатална грешка у нити</Phrase>
     <Phrase key="WriteInfoError">Грешка при писању информација о апликацији у датотеку</Phrase>
-    <Phrase key="ConnectionNotFound">Веза "{0}" није пронађена.</Phrase>
+    <Phrase key="ConnectionNotFound">Веза &quot;{0}&quot; није пронађена.</Phrase>
     <Phrase key="DatabaseNotSupported">База података није подржана.</Phrase>
     <Phrase key="OperationNotSupported">Операција није подржана.</Phrase>
     <Phrase key="CommandSent">Команда је послата.</Phrase>
@@ -73,7 +73,7 @@
     <Phrase key="DateTimeRequired">Датум и време су обавезни.</Phrase>
     <Phrase key="NotNumber">Стринг није број.</Phrase>
     <Phrase key="NotHexadecimal">Стринг није һексадецималан.</Phrase>
-    <Phrase key="InvalidParamVal">Неважећа вредност параметра "{0}".</Phrase>
+    <Phrase key="InvalidParamVal">Неважећа вредност параметра &quot;{0}&quot;.</Phrase>
     <Phrase key="InvalidSecretKey">Неважећи тајни кључ.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms">

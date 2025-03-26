@@ -3,7 +3,6 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Scada.Lang;
 using Scada.Web.Authorization;
 using Scada.Web.Plugins.PlgMimicEditor.Code;
 

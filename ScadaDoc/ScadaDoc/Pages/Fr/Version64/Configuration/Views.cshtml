@@ -1,0 +1,59 @@
+﻿@page "/fr/latest/configuration/views"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Vues";
+}
+
+<nav class="doc-toc">
+    <div class="h6">Sur cette page</div>
+    <hr>
+    <ul>
+        <li><a href="#creating-views">Création des Vues</a></li>
+        <li><a href="#view-table">Table des Vues</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Vues</h1>
+    <p>Une <strong>vue</strong> est une forme de représentation des données dans l'application Webstation. Trois types de vues sont pris en charge par défaut : les vues tableaux, les diagrammes mimétiques et les pages web. Le support d'autres types de vues peut être ajouté en installant des plugins supplémentaires. Une liste complète des types de vues implémentés se trouve dans la table <strong>Types de vues</strong> de la base de données de configuration.</p>
+
+    <h2 id="creating-views">Création des Vues</h2>
+    <p>Les fichiers de vue sont situés dans la section <strong>Vues</strong> d'un projet. Pour créer un fichier ou un dossier dans cette section, cliquez avec le bouton droit sur le nœud de l'explorateur correspondant, puis sélectionnez <strong>Nouveau Fichier</strong> ou <strong>Nouveau Dossier</strong> dans le menu contextuel (voir Figure 1).</p>
+
+    <figure class="figure">
+        <img src="views-files/view-menu-en.png" class="figure-img img-fluid" alt="Menu contextuel de vue" />
+        <figcaption class="figure-caption">Figure 1. Menu contextuel de vue</figcaption>
+    </figure>
+
+    <p>Lors de la création d'un fichier, sélectionnez un type de vue dans la boîte de dialogue, spécifiez un nom de fichier et cliquez sur <strong>OK</strong> (voir Figure 2). Le fichier créé apparaîtra dans l'explorateur de projet. Un double-clic ouvre la vue dans un éditeur correspondant à l'extension du fichier.</p>
+
+    <figure class="figure">
+        <img src="views-files/new-file-en.png" class="figure-img img-fluid" alt="Boîte de dialogue de création de vue" />
+        <figcaption class="figure-caption">Figure 2. Boîte de dialogue de création de vue</figcaption>
+    </figure>
+
+    <p>Des applications d'édition spécialisées sont disponibles pour les vues tableaux et les diagrammes mimétiques. Les autres types de fichiers de vue sont au format XML et peuvent être édités à l'aide d'éditeurs de texte généralistes.</p>
+
+    <h2 id="view-table">Table des Vues</h2>
+    <p>Une fois un fichier de vue créé, il doit être enregistré dans la base de données de configuration dans la table <strong>Vues</strong>, comme indiqué à la Figure 3. Les sous-dossiers dans lesquels se trouvent les fichiers de vue doivent également être listés dans la table afin d'y attribuer des droits d'accès.</p>
+
+    <figure class="figure">
+        <img src="views-files/view-table-en.png" class="figure-img img-fluid" alt="Table des vues" />
+        <figcaption class="figure-caption">Figure 3. Table des vues</figcaption>
+    </figure>
+
+    <p><strong>Chemin</strong> d'une vue est relatif au répertoire des vues. Quel que soit le système d'exploitation utilisé sur le serveur, le séparateur de chemin est une barre oblique inverse. Certaines vues, telles que les vues de type <strong>Page web</strong>, n'ont pas de fichier de vue. Pour ces vues, spécifiez un chemin qui détermine l'emplacement de la vue dans l'explorateur de vues de l'application Webstation.</p>
+    <p><strong>Type de Vue</strong> est sélectionné dans une liste déroulante. Si un fichier de vue a une extension enregistrée dans la table des types de vues, le type de vue n'a pas besoin d'être spécifié, car il sera déterminé automatiquement.</p>
+    <p>Un <strong>Objet</strong> dont les données sont affichées par la vue doit être spécifié pour configurer les droits d'accès.</p>
+    <p>La colonne <strong>Arguments</strong> contient des paramètres supplémentaires pour la vue qui influencent son comportement. Pour les vues de type <strong>Page web</strong>, une adresse de page est spécifiée en tant qu'arguments.</p>
+    <p>Un <strong>Titre</strong> spécifié pour une vue est affiché dans l'arborescence des vues. Si le titre est vide, le nom du fichier est utilisé comme titre.</p>
+    <p>Le champ numérique <strong>Ordre</strong> détermine l'ordre dans lequel les vues sont traitées lors de la génération de l'explorateur de vues. Si aucun ordre n'est spécifié, les vues sont traitées dans l'ordre de leurs ID.</p>
+    <p>La case à cocher <strong>Masquer</strong> permet de cacher une vue dans l'explorateur de vues. Cela est utile pour les vues auxiliaires ouvertes par un lien depuis d'autres vues.</p>
+
+    <figure class="figure">
+        <img src="views-files/explorer-en.png" class="figure-img img-fluid" alt="Explorateur de vues" />
+        <figcaption class="figure-caption">Figure 4. Explorateur de vues</figcaption>
+    </figure>
+
+    <p>Basé sur la table des vues examinée, l'explorateur de vues est rempli, comme montré à la Figure 4.</p>
+</div>

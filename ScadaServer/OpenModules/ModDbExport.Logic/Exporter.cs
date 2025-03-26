@@ -331,7 +331,9 @@ namespace Scada.Server.Modules.ModDbExport.Logic
             {
                 histCalcCnlNums = classifiedQueries.HistDataQueries.All(q => q.CombinedFilter.Enabled)
                     ? classifiedQueries.HistDataQueries
-                        .SelectMany(q => q.CombinedFilter.CnlNums).Distinct().OrderBy(n => n).ToArray()
+                        .SelectMany(q => q.CombinedFilter.CnlNums)
+                        .Where(serverContext.Cnls.CalcCnls.ContainsKey)
+                        .Distinct().OrderBy(n => n).ToArray()
                     : serverContext.Cnls.CalcCnls.Keys;
             }
         }
@@ -1240,7 +1242,7 @@ namespace Scada.Server.Modules.ModDbExport.Logic
                 {
                     lock (histTimestamps)
                     {
-                        histTimestamps[slice.Timestamp] = utcNow;
+                        histTimestamps.TryAdd(slice.Timestamp, utcNow);
                     }
                 }
             }

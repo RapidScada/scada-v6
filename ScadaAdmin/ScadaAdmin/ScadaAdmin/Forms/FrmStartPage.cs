@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2024 Rapid Software LLC
+ * Copyright 2025 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -213,15 +213,21 @@ namespace Scada.Admin.App.Forms
             lbRecentProjects.Cursor = hoverItemIndex >= 0 ? Cursors.Hand : Cursors.Default;
 
             if (hoverItemIndex != prevIndex)
-                lbRecentProjects.Invalidate();
+            {
+                if (prevIndex >= 0)
+                    lbRecentProjects.Invalidate(lbRecentProjects.GetItemRectangle(prevIndex));
+
+                if (hoverItemIndex >= 0)
+                    lbRecentProjects.Invalidate(lbRecentProjects.GetItemRectangle(hoverItemIndex));
+            }
         }
 
         private void lbRecentProjects_MouseLeave(object sender, EventArgs e)
         {
-            if (hoverItemIndex != -1)
+            if (hoverItemIndex >= 0)
             {
+                lbRecentProjects.Invalidate(lbRecentProjects.GetItemRectangle(hoverItemIndex));
                 hoverItemIndex = -1;
-                lbRecentProjects.Invalidate();
             }
         }
 

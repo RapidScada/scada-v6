@@ -18,7 +18,7 @@
     <Phrase key="lblLogEnabled">启用日志</Phrase>
     <Phrase key="lblFlushPeriod">冲刷周期</Phrase>
     <Phrase key="txtFlushPeriodUnit">秒</Phrase>
-    <Phrase key="gbWritingOptions">Writing Options</Phrase>
+    <Phrase key="gbWritingOptions">寫作選項</Phrase>
     <Phrase key="lblUseCopyDir">写入副本目录</Phrase>
     <Phrase key="btnShowDir">目录</Phrase>
     <Phrase key="btnOK">确定</Phrase>
@@ -30,9 +30,9 @@
     <Phrase key="lblLogEnabled">启用日志</Phrase>
     <Phrase key="lblRetention">渲染周期</Phrase>
     <Phrase key="txtRetentionUnit">天</Phrase>
-    <Phrase key="gbWritingOptions">Writing Options</Phrase>
+    <Phrase key="gbWritingOptions">寫作選項</Phrase>
     <Phrase key="lblUseCopyDir">写入副本目录</Phrase>
-    <Phrase key="lblMaxQueueSize">Maximum queue size</Phrase>
+    <Phrase key="lblMaxQueueSize">最大隊列大小</Phrase>
     <Phrase key="btnShowDir">目录</Phrase>
     <Phrase key="btnOK">确定</Phrase>
     <Phrase key="btnCancel">取消</Phrase>
@@ -44,7 +44,7 @@
     <Phrase key="lblRetention">渲染周期</Phrase>
     <Phrase key="txtRetentionUnit">天</Phrase>
     <Phrase key="lblWriteWithPeriod">周期性写入？</Phrase>
-    <Phrase key="lblUsePeriodStartTime">Timestamp at period start</Phrase>
+    <Phrase key="lblUsePeriodStartTime">期間開始時的時間戳</Phrase>
     <Phrase key="lblWritingPeriod">写入时间段</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[0]">秒</Phrase>
     <Phrase key="cbWritingPeriodUnit.Items[1]">分</Phrase>
@@ -57,9 +57,9 @@
     <Phrase key="cbWritingOffsetUnit.Items[3]">Day</Phrase>
     <Phrase key="lblPullToPeriod">拉至时段？</Phrase>
     <Phrase key="txtPullToPeriodUnit">秒</Phrase>
-    <Phrase key="gbWritingOptions">Writing Options</Phrase>
+    <Phrase key="gbWritingOptions">寫作選項</Phrase>
     <Phrase key="lblUseCopyDir">写入副本目录</Phrase>
-    <Phrase key="lblMaxQueueSize">Maximum queue size</Phrase>
+    <Phrase key="lblMaxQueueSize">最大隊列大小</Phrase>
     <Phrase key="btnShowDir">目录</Phrase>
     <Phrase key="btnOK">确定</Phrase>
     <Phrase key="btnCancel">取消</Phrase>

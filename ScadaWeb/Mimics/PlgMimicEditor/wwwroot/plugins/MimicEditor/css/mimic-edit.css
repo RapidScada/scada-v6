@@ -44,9 +44,64 @@
 
 #divLeftPanel {
   background-color: var(--bs-gray-100);
-  overflow-x: hidden;
-  overflow-y: auto;
+  min-width: 200px;
+  overflow: hidden;
   width: 300px;
+}
+#divLeftPanel .tab-pane {
+  height: 100%;
+  overflow: auto;
+}
+
+#divComponents {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+}
+#divComponents .component-group-header {
+  background-color: hsla(230deg, 15%, 30%, 0.2);
+  padding: 5px 10px;
+}
+#divComponents .component-group-header:hover {
+  background-color: hsla(230deg, 15%, 30%, 0.24);
+}
+#divComponents .component-item {
+  cursor: pointer;
+  display: flex;
+  padding: 5px 10px;
+}
+#divComponents .component-item:hover {
+  background-color: var(--bs-gray-200);
+}
+#divComponents .component-item .component-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+}
+
+#divStructure {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 10px;
+}
+#divStructure ul {
+  list-style-type: none;
+  margin: 0 0 0 20px;
+  padding: 0;
+}
+#divStructure ul.top-level-list {
+  margin-left: 0;
+}
+#divStructure ul li {
+  white-space: nowrap;
+}
+#divStructure ul li span {
+  cursor: pointer;
+  margin-left: -5px;
+  padding: 2px 5px;
+}
+#divStructure ul li span:hover {
+  background-color: var(--bs-gray-200);
 }
 
 #divSplitter {
@@ -56,6 +111,13 @@
 
 #divMimicWrapper {
   background-color: var(--bs-gray-100);
+}
+
+#divToastContainer {
+  bottom: 0;
+  padding: 1rem;
+  position: fixed;
+  right: 0;
 }
 
 /* Tweakpane */
@@ -82,4 +144,8 @@
   --tp-monitor-background-color: hsla(230, 15%, 30%, 0.10);
   --tp-monitor-foreground-color: hsla(230, 10%, 30%, 0.50);
   --tp-base-border-radius: 0;
+  --tp-base-font-family: var(--bs-body-font-family);
+}
+#tweakpane .tp-rotv {
+  font-size: 12px;
 }

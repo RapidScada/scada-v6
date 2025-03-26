@@ -6,9 +6,9 @@
     <Product>Rapid SCADA</Product>
     <Company>Rapid Software LLC</Company>
     <Authors>Mikhail Shiryaev</Authors>
-    <Copyright>Copyright © 2024</Copyright>
-    <Version>6.2.0</Version>
-    <AssemblyVersion>6.2.0.1</AssemblyVersion>
+    <Copyright>Copyright © 2025</Copyright>
+    <Version>6.2.1</Version>
+    <AssemblyVersion>6.2.1.1</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

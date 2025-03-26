@@ -2,8 +2,8 @@
 <ExtDepPostgreSqlDictionaries>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Downloader">
     <Phrase key="DownloadTable">{0} テーブルをダウンロードする</Phrase>
-    <Phrase key="DownloadView">「ビュー"{0}"をダウンロード</Phrase>
-    <Phrase key="DownloadConfigFile">構成ファイル"{0}"をダウンロードします</Phrase>
+    <Phrase key="DownloadView">「ビュー&quot;{0}&quot;をダウンロード</Phrase>
+    <Phrase key="DownloadConfigFile">構成ファイル&quot;{0}&quot;をダウンロードします</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Uploader">
     <Phrase key="CreateSchema">データベーススキーマの作成</Phrase>
@@ -18,11 +18,11 @@
     <Phrase key="CreateTableFKs">{0} テーブルの外部キーを作成します</Phrase>
     <Phrase key="ClearViews">クリアな視界</Phrase>
     <Phrase key="CreateViews">ビューの作成</Phrase>
-    <Phrase key="CreateView">ビュー"{0}"を作成します</Phrase>
+    <Phrase key="CreateView">ビュー&quot;{0}&quot;を作成します</Phrase>
     <Phrase key="ClearAllAppConfig">すべてのアプリケーションの明確な構成</Phrase>
     <Phrase key="ClearAppConfig">{0} アプリケーションの構成をクリアします</Phrase>
     <Phrase key="CreateAppConfig">{0} アプリケーションの構成を作成します</Phrase>
-    <Phrase key="CreateConfigFile">構成ファイル"{0}"を作成します</Phrase>
+    <Phrase key="CreateConfigFile">構成ファイル&quot;{0}&quot;を作成します</Phrase>
     <Phrase key="UnableRestartServices">エージェントが無効になっているためサービスを再起動できません</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Config.ClearBaseMethod">

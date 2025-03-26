@@ -63,7 +63,7 @@
     <Phrase key="UnnamedSubscription">&amp;lt;Langganan Tanpa Nama&amp;gt;</Phrase>
     <Phrase key="UnnamedItem">&amp;lt;Isi Tanpa Nama&amp;gt;</Phrase>
     <Phrase key="UnnamedCommand">&amp;lt;Perintah Tanpa Nama&amp;gt;</Phrase>
-    <Phrase key="UnknownDataType">Tipe data "{0}" tidak diketahui.</Phrase>
+    <Phrase key="UnknownDataType">Tipe data &quot;{0}&quot; tidak diketahui.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmEditingOptions">
     <Phrase key="this">Opsi Penyuntingan</Phrase>

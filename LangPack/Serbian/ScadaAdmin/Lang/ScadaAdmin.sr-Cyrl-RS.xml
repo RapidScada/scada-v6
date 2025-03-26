@@ -226,8 +226,8 @@
   <Dictionary key="Scada.Admin.App.Forms">
     <Phrase key="SelectedColumn">Одабрано</Phrase>
     <Phrase key="NoProfileConnections">Профил не садржи везе.</Phrase>
-    <Phrase key="ExtensionNotFound">Екстензија "{0}" није пронађена.</Phrase>
-    <Phrase key="ExtensionCannotDeploy">Екстензија "{0}" не подржава примену.</Phrase>
+    <Phrase key="ExtensionNotFound">Екстензија &quot;{0}&quot; није пронађена.</Phrase>
+    <Phrase key="ExtensionCannotDeploy">Екстензија &quot;{0}&quot; не подржава примену.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmDownloadConfig">
     <Phrase key="this">Преузмите конфигурацију</Phrase>
@@ -322,16 +322,16 @@
     <Phrase key="btnFilter.ToolTip">Филтер</Phrase>
     <Phrase key="btnAutoSizeColumns.ToolTip">Аутофит Цолумн Видтһс</Phrase>
     <Phrase key="btnProperties.ToolTip">Својства предмета</Phrase>
-    <Phrase key="GridViewError">Грешка при приказивању табеле, колоне "{0}".</Phrase>
+    <Phrase key="GridViewError">Грешка при приказивању табеле, колоне &quot;{0}&quot;.</Phrase>
     <Phrase key="ColumnLabel">Колона:</Phrase>
     <Phrase key="DeleteRowConfirm">Да ли сте сигурни да желите да избришете ред?</Phrase>
     <Phrase key="DeleteRowsConfirm">Да ли сте сигурни да желите да избришете редове?</Phrase>
     <Phrase key="ClearTableConfirm">Да ли сте сигурни да желите да очистите сто?</Phrase>
     <Phrase key="RowsNotDeleted">Неки редови нису избрисани јер су референцирани.</Phrase>
-    <Phrase key="ColumnNotNull">Колона "{0}" не може да садржи празне вредности.</Phrase>
-    <Phrase key="UniqueRequired">Дупликат вредности не може да се убаци у колону "{0}".</Phrase>
-    <Phrase key="KeyReferenced">На примарни кључ упућује ред из табеле "{0}".</Phrase>
-    <Phrase key="DataNotExist">Нема података за колону "{0}".</Phrase>
+    <Phrase key="ColumnNotNull">Колона &quot;{0}&quot; не може да садржи празне вредности.</Phrase>
+    <Phrase key="UniqueRequired">Дупликат вредности не може да се убаци у колону &quot;{0}&quot;.</Phrase>
+    <Phrase key="KeyReferenced">На примарни кључ упућује ред из табеле &quot;{0}&quot;.</Phrase>
+    <Phrase key="DataNotExist">Нема података за колону &quot;{0}&quot;.</Phrase>
     <Phrase key="DataChangeError">Грешка при промени података табеле</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmCnl">
@@ -466,7 +466,7 @@
     <Phrase key="lblInfo">Промене ће ступити на снагу након поновног покретања апликације.</Phrase>
     <Phrase key="btnOK">У реду</Phrase>
     <Phrase key="btnCancel">Поништити, отказати</Phrase>
-    <Phrase key="ProjectExtRegistered">Екстензија "{0}" је успешно регистрована.</Phrase>
+    <Phrase key="ProjectExtRegistered">Екстензија &quot;{0}&quot; је успешно регистрована.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tools.FrmCulture">
     <Phrase key="this">Језик</Phrase>

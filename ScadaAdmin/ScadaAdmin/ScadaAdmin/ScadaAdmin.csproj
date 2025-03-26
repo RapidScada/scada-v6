@@ -11,10 +11,10 @@
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
-    <Copyright>Copyright © 2024</Copyright>
+    <Copyright>Copyright © 2025</Copyright>
     <ApplicationIcon>lamp.ico</ApplicationIcon>
-    <Version>6.2.0</Version>
-    <AssemblyVersion>6.2.1.1</AssemblyVersion>
+    <Version>6.2.1</Version>
+    <AssemblyVersion>6.2.1.3</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

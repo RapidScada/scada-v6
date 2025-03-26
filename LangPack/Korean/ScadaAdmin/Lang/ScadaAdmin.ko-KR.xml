@@ -226,8 +226,8 @@
   <Dictionary key="Scada.Admin.App.Forms">
     <Phrase key="SelectedColumn">선택된</Phrase>
     <Phrase key="NoProfileConnections">프로필에 연결이 포함되어 있지 않습니다.</Phrase>
-    <Phrase key="ExtensionNotFound">확장자 "{0}"을(를) 찾을 수 없습니다.</Phrase>
-    <Phrase key="ExtensionCannotDeploy">확장 "{0}"은(는) 배포를 지원하지 않습니다.</Phrase>
+    <Phrase key="ExtensionNotFound">확장자 &quot;{0}&quot;을(를) 찾을 수 없습니다.</Phrase>
+    <Phrase key="ExtensionCannotDeploy">확장 &quot;{0}&quot;은(는) 배포를 지원하지 않습니다.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmDownloadConfig">
     <Phrase key="this">구성 다운로드</Phrase>
@@ -322,16 +322,16 @@
     <Phrase key="btnFilter.ToolTip">필터</Phrase>
     <Phrase key="btnAutoSizeColumns.ToolTip">열 너비 자동 맞춤</Phrase>
     <Phrase key="btnProperties.ToolTip">항목 속성</Phrase>
-    <Phrase key="GridViewError">테이블, "{0}" 열을 표시하는 동안 오류가 발생했습니다.</Phrase>
+    <Phrase key="GridViewError">테이블, &quot;{0}&quot; 열을 표시하는 동안 오류가 발생했습니다.</Phrase>
     <Phrase key="ColumnLabel">열:</Phrase>
     <Phrase key="DeleteRowConfirm">행을 삭제하시겠습니까?</Phrase>
     <Phrase key="DeleteRowsConfirm">행을 삭제하시겠습니까?</Phrase>
     <Phrase key="ClearTableConfirm">테이블을 비우시겠습니까?</Phrase>
     <Phrase key="RowsNotDeleted">일부 행은 참조되기 때문에 삭제되지 않았습니다.</Phrase>
-    <Phrase key="ColumnNotNull">"{0}" 열은 빈 값을 포함할 수 없습니다.</Phrase>
-    <Phrase key="UniqueRequired">"{0}" 열에 중복 값을 삽입할 수 없습니다.</Phrase>
-    <Phrase key="KeyReferenced">기본 키는 "{0}" 테이블의 행에서 참조합니다.</Phrase>
-    <Phrase key="DataNotExist">"{0}" 열에 대한 데이터가 없습니다.</Phrase>
+    <Phrase key="ColumnNotNull">&quot;{0}&quot; 열은 빈 값을 포함할 수 없습니다.</Phrase>
+    <Phrase key="UniqueRequired">&quot;{0}&quot; 열에 중복 값을 삽입할 수 없습니다.</Phrase>
+    <Phrase key="KeyReferenced">기본 키는 &quot;{0}&quot; 테이블의 행에서 참조합니다.</Phrase>
+    <Phrase key="DataNotExist">&quot;{0}&quot; 열에 대한 데이터가 없습니다.</Phrase>
     <Phrase key="DataChangeError">테이블 데이터 변경 오류</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmCnl">
@@ -466,7 +466,7 @@
     <Phrase key="lblInfo">응용 프로그램을 다시 시작하면 변경 사항이 적용됩니다.</Phrase>
     <Phrase key="btnOK">좋아요</Phrase>
     <Phrase key="btnCancel">취소</Phrase>
-    <Phrase key="ProjectExtRegistered">확장 프로그램 "{0}"이(가) 성공적으로 등록되었습니다.</Phrase>
+    <Phrase key="ProjectExtRegistered">확장 프로그램 &quot;{0}&quot;이(가) 성공적으로 등록되었습니다.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tools.FrmCulture">
     <Phrase key="this">언어</Phrase>

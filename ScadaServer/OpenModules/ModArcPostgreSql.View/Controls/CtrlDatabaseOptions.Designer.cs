@@ -74,7 +74,7 @@
             lblMaxQueueSize.AutoSize = true;
             lblMaxQueueSize.Location = new Point(-3, 88);
             lblMaxQueueSize.Name = "lblMaxQueueSize";
-            lblMaxQueueSize.Size = new Size(120, 15);
+            lblMaxQueueSize.Size = new Size(119, 15);
             lblMaxQueueSize.TabIndex = 6;
             lblMaxQueueSize.Text = "Maximum queue size";
             // 
@@ -151,7 +151,7 @@
             Controls.Add(chkUseDefaultConn);
             Controls.Add(lblUseDefaultConn);
             Name = "CtrlDatabaseOptions";
-            Size = new Size(360, 140);
+            Size = new Size(360, 136);
             ((System.ComponentModel.ISupportInitialize)numBatchSize).EndInit();
             ((System.ComponentModel.ISupportInitialize)numMaxQueueSize).EndInit();
             ResumeLayout(false);

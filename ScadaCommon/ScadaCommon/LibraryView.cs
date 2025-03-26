@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2024 Rapid Software LLC
+ * Copyright 2025 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,10 +43,11 @@ namespace Scada
             ConfigDataset = null;
             AppDirs = null;
             AgentClient = null;
-            CanShowProperties = false;
             Info = null;
+            CanShowProperties = false;
             RequireRegistration = false;
             ProductCode = "";
+            RegistrationInfo = null;
         }
 
         /// <summary>
@@ -83,6 +84,7 @@ namespace Scada
         /// <summary>
         /// Gets information about the library.
         /// </summary>
+        /// <remarks>Can be null.</remarks>
         public LibraryInfo Info { get; protected set; }
 
         /// <summary>
@@ -139,6 +141,12 @@ namespace Scada
         /// </summary>
         public string ProductCode { get; protected set; }
 
+        /// <summary>
+        /// Gets the registration information.
+        /// </summary>
+        /// <remarks>Can be null.</remarks>
+        public RegistrationInfo RegistrationInfo { get; protected set; }
+
 
         /// <summary>
         /// Loads language dictionaries.
@@ -153,6 +161,19 @@ namespace Scada
         public virtual bool ShowProperties()
         {
             return false;
+        }
+
+        /// <summary>
+        /// Gets existing or creates new registration information.
+        /// </summary>
+        public RegistrationInfo GetRegistrationInfo()
+        {
+            return RegistrationInfo ??
+                new RegistrationInfo
+                {
+                    ProductCode = ProductCode,
+                    ProductName = Name
+                };
         }
     }
 }

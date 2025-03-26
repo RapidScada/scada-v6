@@ -37,10 +37,15 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             tabControl = new TabControl();
             pageGeneral = new TabPage();
             pageDatabase = new TabPage();
+            numCacheSizeRatio = new NumericUpDown();
+            lblCacheSizeRatio = new Label();
+            chkUseMemoryCache = new CheckBox();
+            lblUseMemoryCache = new Label();
             panel1 = new Panel();
             tabControl.SuspendLayout();
             pageGeneral.SuspendLayout();
             pageDatabase.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numCacheSizeRatio).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -85,7 +90,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             // 
             ctrlDatabaseOptions.Location = new Point(8, 8);
             ctrlDatabaseOptions.Name = "ctrlDatabaseOptions";
-            ctrlDatabaseOptions.Size = new Size(360, 140);
+            ctrlDatabaseOptions.Size = new Size(360, 136);
             ctrlDatabaseOptions.TabIndex = 0;
             // 
             // tabControl
@@ -112,14 +117,55 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             // 
             // pageDatabase
             // 
+            pageDatabase.Controls.Add(numCacheSizeRatio);
+            pageDatabase.Controls.Add(lblCacheSizeRatio);
+            pageDatabase.Controls.Add(chkUseMemoryCache);
+            pageDatabase.Controls.Add(lblUseMemoryCache);
             pageDatabase.Controls.Add(ctrlDatabaseOptions);
             pageDatabase.Location = new Point(4, 24);
             pageDatabase.Name = "pageDatabase";
             pageDatabase.Padding = new Padding(5);
-            pageDatabase.Size = new Size(376, 296);
+            pageDatabase.Size = new Size(376, 325);
             pageDatabase.TabIndex = 1;
             pageDatabase.Text = "Database";
             pageDatabase.UseVisualStyleBackColor = true;
+            // 
+            // numCacheSizeRatio
+            // 
+            numCacheSizeRatio.DecimalPlaces = 2;
+            numCacheSizeRatio.Location = new Point(217, 179);
+            numCacheSizeRatio.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            numCacheSizeRatio.Name = "numCacheSizeRatio";
+            numCacheSizeRatio.Size = new Size(151, 23);
+            numCacheSizeRatio.TabIndex = 4;
+            numCacheSizeRatio.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
+            // lblCacheSizeRatio
+            // 
+            lblCacheSizeRatio.AutoSize = true;
+            lblCacheSizeRatio.Location = new Point(5, 183);
+            lblCacheSizeRatio.Name = "lblCacheSizeRatio";
+            lblCacheSizeRatio.Size = new Size(89, 15);
+            lblCacheSizeRatio.TabIndex = 3;
+            lblCacheSizeRatio.Text = "Cache size ratio";
+            // 
+            // chkUseMemoryCache
+            // 
+            chkUseMemoryCache.AutoSize = true;
+            chkUseMemoryCache.Location = new Point(353, 154);
+            chkUseMemoryCache.Name = "chkUseMemoryCache";
+            chkUseMemoryCache.Size = new Size(15, 14);
+            chkUseMemoryCache.TabIndex = 2;
+            chkUseMemoryCache.UseVisualStyleBackColor = true;
+            // 
+            // lblUseMemoryCache
+            // 
+            lblUseMemoryCache.AutoSize = true;
+            lblUseMemoryCache.Location = new Point(5, 154);
+            lblUseMemoryCache.Name = "lblUseMemoryCache";
+            lblUseMemoryCache.Size = new Size(123, 15);
+            lblUseMemoryCache.TabIndex = 1;
+            lblUseMemoryCache.Text = "Use in-memory cache";
             // 
             // panel1
             // 
@@ -152,6 +198,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             tabControl.ResumeLayout(false);
             pageGeneral.ResumeLayout(false);
             pageDatabase.ResumeLayout(false);
+            pageDatabase.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numCacheSizeRatio).EndInit();
             panel1.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -166,5 +214,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         private TabPage pageGeneral;
         private TabPage pageDatabase;
         private Panel panel1;
+        private CheckBox chkUseMemoryCache;
+        private Label lblUseMemoryCache;
+        private Label lblCacheSizeRatio;
+        private NumericUpDown numCacheSizeRatio;
     }
 }

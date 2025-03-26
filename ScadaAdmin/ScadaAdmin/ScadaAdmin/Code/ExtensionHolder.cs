@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2024 Rapid Software LLC
+ * Copyright 2025 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2022
+ * Modified : 2025
  */
 
 using Scada.Admin.Extensions;
@@ -48,9 +48,9 @@ namespace Scada.Admin.App.Code
         public ExtensionHolder(ILog log)
         {
             this.log = log ?? throw new ArgumentNullException(nameof(log));
-            extensions = new List<ExtensionLogic>();
-            extensionMap = new Dictionary<string, ExtensionLogic>();
-            fileExtMap = new Dictionary<string, ExtensionLogic>();
+            extensions = [];
+            extensionMap = [];
+            fileExtMap = [];
             extensionLock = new object();
         }
 
@@ -67,14 +67,7 @@ namespace Scada.Admin.App.Code
                 foreach (string ext in fileExtensions)
                 {
                     if (!string.IsNullOrEmpty(ext))
-                    {
-                        string extL = ext.ToLowerInvariant();
-
-                        if (!fileExtMap.ContainsKey(extL))
-                        {
-                            fileExtMap.Add(extL, extensionLogic);
-                        }
-                    }
+                        fileExtMap.TryAdd(ext.ToLowerInvariant(), extensionLogic);
                 }
             }
         }
@@ -84,8 +77,7 @@ namespace Scada.Admin.App.Code
         /// </summary>
         public void AddExtension(ExtensionLogic extensionLogic)
         {
-            if (extensionLogic == null)
-                throw new ArgumentNullException(nameof(extensionLogic));
+            ArgumentNullException.ThrowIfNull(extensionLogic);
 
             if (extensionMap.ContainsKey(extensionLogic.Code))
                 throw new ScadaException("Extension already exists.");
@@ -153,7 +145,7 @@ namespace Scada.Admin.App.Code
         {
             lock (extensionLock)
             {
-                List<ToolStripItem> items = new();
+                List<ToolStripItem> items = [];
 
                 foreach (ExtensionLogic extensionLogic in extensions)
                 {
@@ -180,7 +172,7 @@ namespace Scada.Admin.App.Code
         {
             lock (extensionLock)
             {
-                List<ToolStripItem> items = new();
+                List<ToolStripItem> items = [];
 
                 foreach (ExtensionLogic extensionLogic in extensions)
                 {
@@ -210,7 +202,7 @@ namespace Scada.Admin.App.Code
         {
             lock (extensionLock)
             {
-                List<TreeNode> items = new();
+                List<TreeNode> items = [];
 
                 foreach (ExtensionLogic extensionLogic in extensions)
                 {
@@ -236,7 +228,7 @@ namespace Scada.Admin.App.Code
         {
             lock (extensionLock)
             {
-                Dictionary<string, Image> items = new();
+                Dictionary<string, Image> items = [];
 
                 foreach (ExtensionLogic extensionLogic in extensions)
                 {
@@ -263,28 +255,26 @@ namespace Scada.Admin.App.Code
         }
 
         /// <summary>
-        /// Calls the GetEditorForm method of the corresponding extension.
+        /// Calls the OpenFile method of the corresponding extension.
         /// </summary>
-        public Form GetEditorForm(string fileName)
+        public OpenFileResult OpenFile(string fileName)
         {
             if (fileExtMap.TryGetValue(AppUtils.GetExtensionLower(fileName), out ExtensionLogic extensionLogic))
             {
-                try
+                lock (extensionLock)
                 {
-                    Monitor.Enter(extensionLock);
-                    return extensionLogic.GetEditorForm(fileName);
-                }
-                catch (Exception ex)
-                {
-                    log.WriteError(ex, AdminPhrases.ErrorInExtension, nameof(GetEditorForm), extensionLogic.Code);
-                }
-                finally
-                {
-                    Monitor.Exit(extensionLock);
+                    try
+                    {
+                        return extensionLogic.OpenFile(fileName);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteError(ex, AdminPhrases.ErrorInExtension, nameof(OpenFile), extensionLogic.Code);
+                    }
                 }
             }
 
-            return null;
+            return new OpenFileResult { Handled = false };
         }
     }
 }

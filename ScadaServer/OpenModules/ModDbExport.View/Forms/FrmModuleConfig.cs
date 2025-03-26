@@ -572,9 +572,14 @@ namespace Scada.Server.Modules.ModDbExport.View.Forms
             if (ValidateConfig())
             {
                 if (config.Save(configFileName, out string errMsg))
+                {
+                    configCopy = config.DeepClone();
                     Modified = false;
+                }
                 else
+                {
                     ScadaUiUtils.ShowError(errMsg);
+                }
             }
         }
 

@@ -407,6 +407,15 @@ namespace Scada
 
 
         /// <summary>
+        /// Creates an XML declaration and appends it to the document.
+        /// </summary>
+        public static void AppendXmlDeclaration(this XmlDocument xmlDoc)
+        {
+            XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
+            xmlDoc.AppendChild(xmlDecl);
+        }
+
+        /// <summary>
         /// Gets formatted XML from the XML document.
         /// </summary>
         public static string GetFormattedXml(this XmlDocument xmlDoc)
