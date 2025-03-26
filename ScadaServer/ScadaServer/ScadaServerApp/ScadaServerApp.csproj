@@ -10,8 +10,8 @@
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
     <Copyright>Copyright © 2025</Copyright>
-    <Version>6.2.1</Version>
-    <AssemblyVersion>6.2.1.1</AssemblyVersion>
+    <Version>6.2.2</Version>
+    <AssemblyVersion>6.2.2.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

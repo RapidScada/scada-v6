@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2015
- * Modified : 2023
+ * Modified : 2025
  */
 
 using Scada.Lang;
@@ -53,6 +53,8 @@ namespace Scada.Data.Models
             DeviceNum = 0;
             CmdNum = 0;
             CmdCode = "";
+            InitialCmdVal = double.NaN;
+            InitialCmdData = null;
             CmdVal = double.NaN;
             CmdData = null;
             RecursionLevel = 0;
@@ -126,6 +128,16 @@ namespace Scada.Data.Models
         /// Gets or sets the command code.
         /// </summary>
         public string CmdCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the initial command value before formula evaluation.
+        /// </summary>
+        public double InitialCmdVal { get; set; }
+
+        /// <summary>
+        /// Gets or sets the initial command binary data before formula evaluation.
+        /// </summary>
+        public byte[] InitialCmdData { get; set; }
 
         /// <summary>
         /// Gets or sets the command value.
