@@ -61,6 +61,14 @@ namespace Scada.Web.Plugins.PlgMimicEditor
         }
 
         /// <summary>
+        /// Performs actions when the application stops.
+        /// </summary>
+        public override void OnAppStop()
+        {
+            editorManager.StopCleanup();
+        }
+
+        /// <summary>
         /// Gets menu items available for the specified user.
         /// </summary>
         public override List<MenuItem> GetUserMenuItems(User user, UserRights userRights)

@@ -16,11 +16,23 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
     /// </summary>
     public class EditorManager
     {
+        /// <summary>
+        /// The period of cleaning up inactive mimics.
+        /// </summary>
+        private static readonly TimeSpan CleanupPeriod = TimeSpan.FromMinutes(1);
+        /// <summary>
+        /// The period for keeping inactive mimics alive.
+        /// </summary>
+        private static readonly TimeSpan KeepInactiveMimics = TimeSpan.FromMinutes(10);
+
         private readonly IWebContext webContext; // the web application context
         private readonly object editorLock;      // synchronizes access to the open mimics
         private readonly Dictionary<string, MimicGroup> mimicGroups;        // the mimic groups by project file name
         private readonly Dictionary<string, MimicInstance> mimicByFileName; // the mimics accessed by file name
         private readonly Dictionary<long, MimicInstance> mimicByKey;        // the mimics accessed by editor key
+
+        private Thread cleanupThread;     // the thread to cleanup inactive mimics
+        private volatile bool terminated; // necessary to stop the thread
 
 
         /// <summary>
@@ -33,6 +45,9 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             mimicGroups = [];
             mimicByFileName = [];
             mimicByKey = [];
+
+            cleanupThread = null;
+            terminated = false;
 
             EditorConfig = new EditorConfig();
             MimicPluginConfig = new MimicPluginConfig();
@@ -101,6 +116,104 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             mimicGroup.AddMimic(mimicInstance);
             return mimicInstance;
         }
+
+        /// <summary>
+        /// Starts a process of cleaning up inactive mimics.
+        /// </summary>
+        private void StartCleanup()
+        {
+            lock (editorLock)
+            {
+                if (cleanupThread == null)
+                {
+                    PluginLog.WriteAction(Locale.IsRussian ?
+                        "Запуск очистки неактивных мнемосхем" :
+                        "Start cleanup inactive mimics");
+                    terminated = false;
+                    cleanupThread = new Thread(ExecuteCleanup) { Priority = ThreadPriority.BelowNormal };
+                    cleanupThread.Start();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Stops the process of cleaning up inactive mimics.
+        /// </summary>
+        private void StopCleanup(bool onlyIfEmpty)
+        {
+            lock (editorLock)
+            {
+                if (cleanupThread != null && (!onlyIfEmpty || mimicByKey.Count == 0))
+                {
+                    PluginLog.WriteAction(Locale.IsRussian ?
+                        "Остановка очистки неактивных мнемосхем" :
+                        "Stop cleanup inactive mimics");
+                    terminated = true;
+                    cleanupThread.Join();
+                    cleanupThread = null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Cleans up inactive mimics in a separate thread.
+        /// </summary>
+        private void ExecuteCleanup()
+        {
+            DateTime utcNow = DateTime.UtcNow;
+            DateTime cleanupTime = utcNow;
+
+            while (!terminated)
+            {
+                utcNow = DateTime.UtcNow;
+
+                if (utcNow - cleanupTime >= CleanupPeriod)
+                {
+                    cleanupTime = utcNow;
+                    CloseInactiveMimics();
+                }
+
+                Thread.Sleep(ScadaUtils.ThreadDelay);
+            }
+        }
+
+        /// <summary>
+        /// Closes inactive mimics.
+        /// </summary>
+        private void CloseInactiveMimics()
+        {
+            try
+            {
+                Monitor.Enter(editorLock);
+
+                // find inactive mimics
+                DateTime utcNow = DateTime.UtcNow;
+                List<long> mimicsToClose = [];
+
+                foreach (MimicInstance mimicInstance in mimicByKey.Values)
+                {
+                    if (utcNow - mimicInstance.ClientAccessTime > KeepInactiveMimics)
+                        mimicsToClose.Add(mimicInstance.MimicKey);
+                }
+
+                // close found mimics
+                foreach (long mimicKey in mimicsToClose)
+                {
+                    CloseMimic(mimicKey);
+                }
+            }
+            catch (Exception ex)
+            {
+                PluginLog.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при закрытии неактивных мнемосхем" :
+                    "Error closing inactive mimics");
+            }
+            finally
+            {
+                Monitor.Exit(editorLock);
+            }
+        }
+
 
         /// <summary>
         /// Loads the configuration of the editor and mimic plugins.
@@ -183,6 +296,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 PluginLog.WriteAction(Locale.IsRussian ?
                     "Загружена мнемосхема {0}" :
                     "{0} mimic loaded", fileName);
+                StartCleanup();
 
                 return new OpenResult
                 {
@@ -284,6 +398,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                     PluginLog.WriteAction(Locale.IsRussian ?
                         "Закрыта мнемосхема {0}" :
                         "{0} mimic closed", mimicInstance.FileName);
+                    StopCleanup(true);
                 }
             }
         }
@@ -297,6 +412,14 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             {
                 return [.. mimicGroups.Values.OrderBy(g => g.Name)];
             }
+        }
+
+        /// <summary>
+        /// Stops the process of cleaning up inactive mimics.
+        /// </summary>
+        public void StopCleanup()
+        {
+            StopCleanup(false);
         }
     }
 }
