@@ -122,17 +122,14 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         private void StartCleanup()
         {
-            lock (editorLock)
+            if (cleanupThread == null)
             {
-                if (cleanupThread == null)
-                {
-                    PluginLog.WriteAction(Locale.IsRussian ?
-                        "Запуск очистки неактивных мнемосхем" :
-                        "Start cleanup inactive mimics");
-                    terminated = false;
-                    cleanupThread = new Thread(ExecuteCleanup) { Priority = ThreadPriority.BelowNormal };
-                    cleanupThread.Start();
-                }
+                PluginLog.WriteAction(Locale.IsRussian ?
+                    "Запуск очистки неактивных мнемосхем" :
+                    "Start cleanup inactive mimics");
+                terminated = false;
+                cleanupThread = new Thread(ExecuteCleanup) { Priority = ThreadPriority.BelowNormal };
+                cleanupThread.Start();
             }
         }
 
@@ -141,17 +138,14 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         private void StopCleanup(bool onlyIfEmpty)
         {
-            lock (editorLock)
+            if (cleanupThread != null && (!onlyIfEmpty || mimicByKey.Count == 0))
             {
-                if (cleanupThread != null && (!onlyIfEmpty || mimicByKey.Count == 0))
-                {
-                    PluginLog.WriteAction(Locale.IsRussian ?
-                        "Остановка очистки неактивных мнемосхем" :
-                        "Stop cleanup inactive mimics");
-                    terminated = true;
-                    cleanupThread.Join();
-                    cleanupThread = null;
-                }
+                PluginLog.WriteAction(Locale.IsRussian ?
+                    "Остановка очистки неактивных мнемосхем" :
+                    "Stop cleanup inactive mimics");
+                terminated = true;
+                cleanupThread.Join();
+                cleanupThread = null;
             }
         }
 
@@ -419,7 +413,10 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         public void StopCleanup()
         {
-            StopCleanup(false);
+            lock (editorLock)
+            {
+                StopCleanup(false);
+            }
         }
     }
 }
