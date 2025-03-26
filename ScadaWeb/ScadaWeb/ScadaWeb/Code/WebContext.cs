@@ -495,6 +495,7 @@ namespace Scada.Web.Code
                 }
                 finally
                 {
+                    PluginHolder.OnAppStop();
                     Thread.Sleep(ScadaUtils.ThreadDelay);
                 }
             }

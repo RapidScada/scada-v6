@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2023
+ * Modified : 2025
  */
 
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -168,6 +168,13 @@ namespace Scada.Web.Plugins
         /// Performs actions when the application is ready for operating.
         /// </summary>
         public virtual void OnAppReady()
+        {
+        }
+
+        /// <summary>
+        /// Performs actions when the application stops.
+        /// </summary>
+        public virtual void OnAppStop()
         {
         }
 
