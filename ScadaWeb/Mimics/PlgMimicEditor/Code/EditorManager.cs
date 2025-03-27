@@ -136,15 +136,15 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// <summary>
         /// Stops the process of cleaning up inactive mimics.
         /// </summary>
-        private void StopCleanup(bool onlyIfEmpty)
+        private void StopCleanupInternal()
         {
-            if (cleanupThread != null && (!onlyIfEmpty || mimicByKey.Count == 0))
+            if (cleanupThread != null)
             {
+                // do not wait for the thread by calling Join()
                 PluginLog.WriteAction(Locale.IsRussian ?
                     "Остановка очистки неактивных мнемосхем" :
                     "Stop cleanup inactive mimics");
                 terminated = true;
-                cleanupThread.Join();
                 cleanupThread = null;
             }
         }
@@ -164,7 +164,12 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 if (utcNow - cleanupTime >= CleanupPeriod)
                 {
                     cleanupTime = utcNow;
-                    CloseInactiveMimics();
+
+                    if (CloseInactiveMimics())
+                    {
+                        StopCleanupInternal();
+                        break;
+                    }
                 }
 
                 Thread.Sleep(ScadaUtils.ThreadDelay);
@@ -172,9 +177,9 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         }
 
         /// <summary>
-        /// Closes inactive mimics.
+        /// Closes inactive mimics. Returns true if there are no open mimics.
         /// </summary>
-        private void CloseInactiveMimics()
+        private bool CloseInactiveMimics()
         {
             try
             {
@@ -195,12 +200,15 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 {
                     CloseMimic(mimicKey);
                 }
+
+                return mimicByKey.Count == 0;
             }
             catch (Exception ex)
             {
                 PluginLog.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при закрытии неактивных мнемосхем" :
                     "Error closing inactive mimics");
+                return false;
             }
             finally
             {
@@ -392,7 +400,6 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                     PluginLog.WriteAction(Locale.IsRussian ?
                         "Закрыта мнемосхема {0}" :
                         "{0} mimic closed", mimicInstance.FileName);
-                    StopCleanup(true);
                 }
             }
         }
@@ -415,7 +422,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         {
             lock (editorLock)
             {
-                StopCleanup(false);
+                StopCleanupInternal();
             }
         }
     }
