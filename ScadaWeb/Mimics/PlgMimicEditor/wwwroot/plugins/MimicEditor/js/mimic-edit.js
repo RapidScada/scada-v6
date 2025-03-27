@@ -21,6 +21,7 @@ let propGrid = null;
 let mimicWrapperElem = $();
 let selectedElem = $();
 let lastUpdateTime = 0;
+let longAction = null;
 
 function bindEvents() {
     $(window).on("resize", function () {
@@ -31,19 +32,35 @@ function bindEvents() {
         await save();
     });
 
-    $("#btnUndo").on("click", async function () {
+    $("#btnUndo").on("click", function () {
         showToast("Test toast");
     });
 
-    mimicWrapperElem.on("click", function () {
-        selectMimic();
-        return false;
+    $("#btnPointer").on("click", function () {
+        clearLongAction();
     });
 
-    mimicWrapperElem.on("click", ".comp", function () {
-        selectComponent($(this));
-        return false; // prevent parent selection
+    $("#divComponents .component-item").on("click", function () {
+        let typeName = $(this).data("type-name");
+        longAction = LongAction.startAdding(typeName);
+        mimicWrapperElem.css("cursor", longAction.getCursor());
     });
+
+    mimicWrapperElem
+        .on("mousedown", function (event) {
+            if (longAction == null) {
+                selectMimic();
+            } else if (longAction.actionType = LongActionType.ADDING) {
+                addComponent(longAction.componentTypeName, getMimicPoint(event));
+                clearLongAction();
+            }
+        })
+        .on("mousedown", ".comp", function () {
+            if (longAction == null) {
+                selectComponent($(this));
+                return false; // prevent parent selection
+            }
+        });
 }
 
 function updateLayout() {
@@ -204,6 +221,28 @@ function selectNone() {
     selectedElem.removeClass("selected");
     selectedElem = $();
     propGrid.selectedObject = null;
+}
+
+function getMimicPoint(event) {
+    let offset = mimicWrapperElem.offset();
+    return new DOMPoint(
+        parseInt(event.pageX - offset.left),
+        parseInt(event.pageY - offset.top)
+    );
+}
+
+function addComponent(typeName, point) {
+    console.log(`Add component ${typeName} ${point.x}, ${point.y}`);
+}
+
+function clearLongAction() {
+    if (longAction) {
+        if (longAction.actionType === LongActionType.ADDING) {
+            mimicWrapperElem.css("cursor", "");
+        }
+
+        longAction = null;
+    }
 }
 
 function getLoaderUrl() {
