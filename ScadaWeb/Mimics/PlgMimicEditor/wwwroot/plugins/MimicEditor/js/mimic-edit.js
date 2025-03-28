@@ -23,14 +23,17 @@ let selectedElem = $();
 let lastUpdateTime = 0;
 let longAction = null;
 let mimicModified = false;
+let maxComponentId = null;
 
 function bindEvents() {
     $(window)
         .on("resize", function () {
             updateLayout();
         })
-        .on("beforeunload", function () {
-            return !mimicModified;
+        .on("beforeunload", function (event) {
+            if (mimicModified) {
+                event.preventDefault();
+            }
         });
 
     $("#btnSave").on("click", async function () {
@@ -42,7 +45,7 @@ function bindEvents() {
     });
 
     $("#btnPointer").on("click", function () {
-        clearLongAction();
+        pointer();
     });
 
     $("#divComponents .component-item").on("click", function () {
@@ -186,8 +189,8 @@ function deleteComponent() {
 
 }
 
-function enablePointer() {
-
+function pointer() {
+    clearLongAction();
 }
 
 function selectMimic() {
@@ -238,7 +241,57 @@ function getMimicPoint(event) {
 }
 
 function addComponent(typeName, point) {
-    console.log(`Add component ${typeName} ${point.x}, ${point.y}`);
+    console.log(`Add ${typeName} component at ${point.x}, ${point.y}`);
+    let factory = rs.mimic.FactorySet.componentFactories.get(typeName);
+    let renderer = rs.mimic.RendererSet.componentRenderers.get(typeName);
+
+    if (factory && renderer) {
+        // TODO: refactor
+        // create component
+        let component = factory.createComponent();
+        component.id = getNextComponentId();
+        component.properties.location = { x: point.x.toString(), y: point.y.toString() };
+        component.parent = mimic;
+        mimic.components.push(component);
+        mimic.componentMap.set(component.id, component);
+        mimic.children.push(component);
+
+        // render component
+        let renderContext = new rs.mimic.RenderContext();
+        renderContext.editMode = true;
+        renderContext.imageMap = mimic.imageMap;
+
+        component.renderer = renderer;
+        renderer.createDom(component, renderContext);
+
+        if (component.dom && component.parent.dom) {
+            component.parent.dom.append(component.dom);
+            selectComponent(component.dom);
+        }
+
+        // update server side
+        let change = Change.addComponent(component);
+        let updateDto = new UpdateDto(mimicKey, change);
+        updateQueue.push(updateDto);
+
+        // update structure
+        // ...
+    } else {
+        if (!factory) {
+            console.error("Component factory not found.");
+        }
+
+        if (!renderer) {
+            console.error("Component renderer not found.");
+        }
+
+        showToast(phrases.unableAddComponent, MessageType.ERROR);
+    }
+}
+
+function getNextComponentId() {
+    maxComponentId ??= Math.max(...mimic.componentMap.keys());
+    return ++maxComponentId;
 }
 
 function clearLongAction() {

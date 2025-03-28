@@ -67,6 +67,14 @@ class Change {
         return this;
     }
 
+    static addComponent(component) {
+        let change = new Change(ChangeType.ADD_COMPONENT);
+        change.componentID = component.id;
+        change.parentID = component.parentID;
+        change.properties = component.properties;
+        return change;
+    }
+
     static updateComponent(componentID, opt_properties) {
         let change = new Change(ChangeType.UPDATE_COMPONENT);
         change.componentID = componentID;

@@ -14,6 +14,7 @@
     <Phrase key="LoadMimicError">Error loading mimic</Phrase>
     <Phrase key="SaveMimicError">Error saving mimic</Phrase>
     <Phrase key="PostUpdateError">Error posting update</Phrase>
+    <Phrase key="UnableAddComponent">Unable to add component.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ToolbarContents">
     <Phrase key="btnSave">Save</Phrase>
