@@ -22,11 +22,16 @@ let mimicWrapperElem = $();
 let selectedElem = $();
 let lastUpdateTime = 0;
 let longAction = null;
+let mimicModified = false;
 
 function bindEvents() {
-    $(window).on("resize", function () {
-        updateLayout();
-    });
+    $(window)
+        .on("resize", function () {
+            updateLayout();
+        })
+        .on("beforeunload", function () {
+            return !mimicModified;
+        });
 
     $("#btnSave").on("click", async function () {
         await save();
@@ -147,6 +152,7 @@ async function save() {
         let dto = await response.json();
 
         if (dto.ok) {
+            mimicModified = false;
             console.log(phrases.mimicSaved);
             showToast(phrases.mimicSaved, MessageType.SUCCESS);
         } else {
@@ -260,7 +266,9 @@ async function postUpdates() {
             let updateDto = updateQueue.shift();
             let result = await postUpdate(updateDto);
 
-            if (!result) {
+            if (result) {
+                mimicModified = true;
+            } else {
                 updateQueue.unshift(updateDto);
                 break;
             }
