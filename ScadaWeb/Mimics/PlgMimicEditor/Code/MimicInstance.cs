@@ -30,5 +30,19 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// Gets the group containing the mimic.
         /// </summary>
         public MimicGroup ParentGroup { get; init; }
+
+        /// <summary>
+        /// Gets the timestamp when the mimic was accessed by the client.
+        /// </summary>
+        public DateTime ClientAccessTime { get; private set; } = DateTime.MinValue;
+
+
+        /// <summary>
+        /// Registers access to the mimic from the client side.
+        /// </summary>
+        public void RegisterClientActivity()
+        {
+            ClientAccessTime = DateTime.UtcNow;
+        }
     }
 }

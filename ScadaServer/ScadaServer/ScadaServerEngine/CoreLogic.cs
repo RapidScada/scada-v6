@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2024 Rapid Software LLC
+ * Copyright 2025 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -837,7 +837,8 @@ namespace Scada.Server.Engine
         private void UpdateCnlStatus(HistoricalArchiveLogic archiveLogic, DateTime timestamp,
             CnlTag cnlTag, ref CnlData cnlData)
         {
-            if (double.IsNaN(cnlData.Val))
+            if (double.IsNaN(cnlData.Val) ||
+                double.IsInfinity(cnlData.Val))
             {
                 cnlData = CnlData.Empty;
             }
@@ -989,6 +990,7 @@ namespace Scada.Server.Engine
             {
                 DateTime utcNow = DateTime.UtcNow;
                 TeleCommand command = commandItem.Command;
+                bool cmdValIsEmpty = double.IsNaN(command.InitialCmdVal);
 
                 EnqueueEvent(ArchiveMask.Default, new Event
                 {
@@ -997,11 +999,11 @@ namespace Scada.Server.Engine
                     CnlNum = command.CnlNum,
                     ObjNum = command.ObjNum,
                     DeviceNum = command.DeviceNum,
-                    CnlVal = double.IsNaN(command.CmdVal) ? 0.0 : command.CmdVal,
-                    CnlStat = double.IsNaN(command.CmdVal) ? CnlStatusID.Undefined : CnlStatusID.Defined,
+                    CnlVal = cmdValIsEmpty ? 0.0 : command.InitialCmdVal,
+                    CnlStat = cmdValIsEmpty ? CnlStatusID.Undefined : CnlStatusID.Defined,
                     TextFormat = EventTextFormat.Command,
                     Text = string.Format(ServerPhrases.CommandSentBy, commandItem.User.Name),
-                    Data = command.CmdData
+                    Data = command.InitialCmdData
                 });
             }
         }
@@ -1602,6 +1604,8 @@ namespace Scada.Server.Engine
                         command.DeviceNum = outCnl.DeviceNum ?? 0;
                         command.CmdNum = outCnl.TagNum ?? 0;
                         command.CmdCode = outCnl.TagCode;
+                        command.InitialCmdVal = command.CmdVal;
+                        command.InitialCmdData = command.CmdData;
 
                         lock (curData)
                         {

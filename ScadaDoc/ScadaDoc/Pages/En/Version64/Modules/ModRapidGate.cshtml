@@ -1,0 +1,108 @@
+﻿@page "/en/latest/modules/mod-rapid-gate"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Rapid Gate Module";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#configuring">Configuring</a></li>
+        <li><a href="#commands">Commands</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Rapid Gate Module</h1>
+    <h2 id="overview">Overview</h2>
+    <p>Rapid Gate Module is designed to synchronize data between Rapid SCADA instances. Download the module using the <a href="https://rapidscada.net/store/Module/en/ModRapidGate" target="_blank">link</a>. The following figure shows the form for configuring the module.</p>
+    <figure class="figure">
+        <img src="mod-rapid-gate-files/rapid-gate-en.png" class="figure-img img-fluid" alt="Rapid Gate Module" />
+    </figure>
+    <p>The module is used to implement the following functions:</p>
+    <ol>
+        <li>Transferring data from a downstream Rapid SCADA server to an upstream server in distributed automation systems.</li>
+        <li>Synchronization of data between the primary and backup Rapid SCADA server.</li>
+    </ol>
+    <p>The main function of the module is the transfer of current data, historical data, events and commands from the server on which the module is running to the Rapid SCADA server specified in the settings. The module supports any number of independent gateways for exchanging information with multiple Rapid SCADA servers. The data to be transmitted is added to the queue by the module. This approach ensures reliable operation even with an unstable network connection.</p>
+    <p>Information about the module operation is recorded in the <code>ModRapidGate.log</code> file. Information about the operation of each gateway is written in <code>ModRapidGate_*.log</code> and <code>ModRapidGate_*.txt</code> files.</p>
+
+    <h2 id="installation">Installation</h2>
+    <p>Rapid Gate Module is installed according to the <a href="../installation/install-modules#modules">instructions</a>. No additional actions are required during installation.</p>
+
+    <h2 id="configuring">Configuring</h2>
+    <p>To open the module configuration form, go to the <strong>Server &gt; Modules</strong> page, select the <strong>ModRapidGate</strong> module and click the <strong>Properties</strong> button. The module should be in the list of active modules. The module configuration is saved in the <code>ModRapidGate.xml</code> file.</p>
+    <p>Add a new gateway to the module configuration using the <img src="../common-images/add.png" /> button. Next, let's look at the pages containing various groups of gateway settings. The screenshots below show the default parameter values.</p>
+
+    <figure class="figure">
+        <img src="mod-rapid-gate-files/general-options-en.png" class="figure-img img-fluid" alt="General options" />
+    </figure>
+    <p>Specify the <strong>Command code</strong> if users plan to manually send commands to synchronize archives. Specify archive masks if the gateway should transfer data to specific archives. If the archive masks are equal to <em>-1</em>, the gateway transfers data to the default archives defined in the configuration database. The queue options are set experimentally depending on the expected time of loss of connection with the remote server.</p>
+
+    <figure class="figure">
+        <img src="mod-rapid-gate-files/connection-options-en.png" class="figure-img img-fluid" alt="Connection options" />
+    </figure>
+    <p>Specify the options for connecting to the remote server. In the firewall settings of the remote server, allow incoming connections on the TCP port being used (10000). It is recommended to create a separate <em>RapidGate</em> user with the <em>Application</em> role in the configuration database for use by the module. Copy the <strong>Secret key</strong> from the remote server listener options.</p>
+
+    <figure class="figure">
+        <img src="mod-rapid-gate-files/mapping-options-en.png" class="figure-img img-fluid" alt="Mapping options" />
+    </figure>
+    <p>If different projects are running on the local and remote servers and have different identifiers in the configuration database tables, fill in the ID mapping options. If the IDs are the same, leave the mapping options blank.</p>
+
+    <figure class="figure">
+        <img src="mod-rapid-gate-files/cur-data-transfer-en.png" class="figure-img img-fluid" alt="Current data transfer" />
+    </figure>
+    <p>Current data can be transferred by the gateway to the remote server <em>On Receive</em> by the local Server from Communicator or <em>On Timer</em>. Transferring data when received ensures that new data is displayed on the remote server as quickly as possible. Timer-based data transfer saves network traffic.</p>
+
+    <figure class="figure">
+        <img src="mod-rapid-gate-files/hist-data-transfer-en.png" class="figure-img img-fluid" alt="Historical data transfer" />
+    </figure>
+    <p>Transfer of historical data refers to data transferred with a timestamp, for example, archives that are downloaded by Communicator from metering devices and transferred to Server.</p>
+
+    <figure class="figure">
+        <img src="mod-rapid-gate-files/event-transfer-en.png" class="figure-img img-fluid" alt="Event transfer" />
+    </figure>
+    <p>When transferring events and acknowledgements, it is theoretically possible that the acknowledgement will be transmitted before the event. In this case, the event on the remote server will remain unacknowledged. It is important to ensure time synchronization between the local and remote servers, otherwise the latest sent events may not be displayed by the Webstation application on the remote server.</p>
+
+    <figure class="figure">
+        <img src="mod-rapid-gate-files/in-cmd-transfer-en.png" class="figure-img img-fluid" alt="Incoming command transfer" />
+    </figure>
+    <p>The gateway requests commands from the remote server at a frequency specified in the settings. To reduce network traffic, increase the polling rate value.</p>
+
+    <figure class="figure">
+        <img src="mod-rapid-gate-files/out-cmd-transfer-en.png" class="figure-img img-fluid" alt="Outcoming command transfer" />
+    </figure>
+    <p>When transferring outcoming commands, commands intended for an application are not sent. On the remote server, the output formula of the channel to which the command relates is applied to the command value.</p>
+
+    <figure class="figure">
+        <img src="mod-rapid-gate-files/arc-replication-en.png" class="figure-img img-fluid" alt="Archive replication" />
+    </figure>
+    <p>Archive replication ensures that archives on the local and remote servers are identical. Replication can be performed from a local server to a remote one and vice versa. The direction of data transfer is determined automatically based on data availability. The data availability channel is intended to unambiguously determine the presence of data on the local server. If the channel is not specified, the gateway checks for any data in the archive for the time period corresponding to the replication step. The replication state is saved while the module is running and is loaded when the Server service is restarted.</p>
+
+    <h2 id="commands">Commands</h2>
+    <p>Rapid Gate Module supports receiving commands. To send commands to the module, create output type channels in the configuration database. The <strong>Tag code</strong> of the channel must match the <strong>Command code</strong> specified in the general gateway options. A command can be sent via the Webstation application web interface or using another client interacting with the Server application.</p>
+    <p>When a valid command is received, a task is created and added to the gateway task queue. The maximum length of a task queue is 10. If the queue is full, new commands will be ignored.</p>
+
+    <p>An example of a command that transfers data from the local server to the remote server:</p>
+    <pre><code>cmd=UploadArchive
+startDT=2025-12-31 10:00:00
+endDT=2025-12-31 11:00:00</code></pre>
+
+    <p>Download an archive from the remote server to the local server:</p>
+    <pre><code>cmd=DownloadArchive
+startDT=2025-12-31 10:00:00
+endDT=2025-12-31 11:00:00</code></pre>
+
+    <p>Synchronize (upload and download) archives:</p>
+    <pre><code>cmd=SyncArchive
+startDT=2025-12-31 10:00:00
+endDT=2025-12-31 11:00:00</code></pre>
+
+    <p>Clear the gateway task queue:</p>
+    <pre><code>cmd=ClearTaskQueue</code></pre>
+
+    <p>The command arguments specify UTC time.</p>
+</div>

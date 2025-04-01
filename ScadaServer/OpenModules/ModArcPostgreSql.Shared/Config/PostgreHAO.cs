@@ -3,6 +3,7 @@
 
 using Scada.Config;
 using Scada.Server.Archives;
+using System.Globalization;
 
 namespace Scada.Server.Modules.ModArcPostgreSql.Config
 {
@@ -23,6 +24,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
             PartitionSize = options.GetValueAsEnum("PartitionSize", PartitionSize.OneMonth);
             MaxQueueSize = options.GetValueAsInt("MaxQueueSize", ModuleUtils.DefaultQueueSize);
             BatchSize = options.GetValueAsInt("BatchSize", ModuleUtils.DefaultBatchSize);
+            UseMemoryCache = options.GetValueAsBool("UseMemoryCache", false);
+            CacheSizeRatio = options.GetValueAsDouble("CacheSizeRatio", 1.0);
         }
 
 
@@ -56,6 +59,16 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
         /// </summary>
         public int BatchSize { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to use a memory cache when reading individual data points.
+        /// </summary>
+        public bool UseMemoryCache { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ratio of the cache size to the number of archive channels.
+        /// </summary>
+        public double CacheSizeRatio { get; set; }
+
 
         /// <summary>
         /// Adds the options to the list.
@@ -72,6 +85,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Config
                 options["MaxQueueSize"] = MaxQueueSize.ToString();
                 options["BatchSize"] = BatchSize.ToString();
             }
+
+            options["UseMemoryCache"] = UseMemoryCache.ToString();
+            options["CacheSizeRatio"] = CacheSizeRatio.ToString(NumberFormatInfo.InvariantInfo);
         }
     }
 }

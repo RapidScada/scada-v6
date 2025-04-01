@@ -1,0 +1,49 @@
+﻿@page "/en/latest/enterprise-edition/plg-audit"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Audit Log Plugin";
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#configuring">Configuring</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Audit Log Plugin</h1>
+    <h2 id="overview">Overview</h2>
+    <p>Audit Log Plugin records the actions of Webstation application users in a PostgreSQL database. The following types of actions are recorded:</p>
+    <ul>
+        <li>Login.</li>
+        <li>Logout.</li>
+        <li>Open view.</li>
+        <li>Open chart.</li>
+        <li>Generate report.</li>
+        <li>Send command.</li>
+    </ul>
+
+    <p>Users with the <em>Administrator</em> role have access to generate audit log reports. To generate a report, navigate to <strong>Main Menu &gt; Reports &gt; Audit Log</strong>. An example report is shown in the following figure.</p>
+    <figure class="figure">
+        <img src="plg-audit-files/audit-report-en.png" class="figure-img img-fluid" alt="Report" />
+    </figure>
+    <p>Reports are generated in XLSX format and can be opened using Microsoft Excel and LibreOffice Calc.</p>
+
+    <h2 id="installation">Installation</h2>
+    <p>Audit Log Plugin is installed according to the <a href="../installation/install-modules#plugins">instructions</a>. To generate a report, the plugin uses the libraries included in Elastic Report Plugin, so Elastic Report Plugin must also be installed and activated.</p>
+    <p>The plugin uses a PostgreSQL database, which must be created in advance. The <code>plg_audit</code> schema and <code>audit_log</code> table are created by the plugin automatically upon startup. The database connection options are specified in the <code>ScadaInstanceConfig.xml</code> file, which is located in the <code>Config</code> subdirectory of the Rapid SCADA installation directory.</p>
+    <p>
+        The default database connection options are as follows:<br />
+        Database name: <em>rapid_scada</em><br />
+        Username: <em>postgres</em><br />
+        Password: <em>postgres</em>
+    </p>
+    <p>The password specified in the <code>ScadaInstanceConfig.xml</code> file is encrypted using the Administrator application. Password encryption is available in the <strong>Tools &gt; Project Tools &gt; Encrypt Password</strong> menu.</p>
+
+    <h2 id="configuring">Configuring</h2>
+    <p>In general, Audit Log Plugin does not require any configuration. If the retention period for user actions needs to be changed, in the <code>ScadaWebConfig.xml</code> file, find the <code>Audit</code> option group and edit the <code>Retension</code> option. This option is measured in days.</p>
+</div>

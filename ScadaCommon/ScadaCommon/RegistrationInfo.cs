@@ -47,8 +47,18 @@ namespace Scada
         public string PermanentKeyUrl { get; set; }
 
         /// <summary>
-        /// Gets or sets the default URL to get a trial key.
+        /// Gets or sets the URL to get a trial key.
         /// </summary>
         public string TrialKeyUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets the computer code file name.
+        /// </summary>
+        public string CompCodeFileName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the registration key file name.
+        /// </summary>
+        public string RegKeyFileName { get; set; }
     }
 }

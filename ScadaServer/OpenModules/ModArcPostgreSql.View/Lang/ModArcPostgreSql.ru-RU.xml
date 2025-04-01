@@ -38,6 +38,8 @@
     <Phrase key="this">Параметры архива исторических данных</Phrase>
     <Phrase key="pageGeneral">Основные</Phrase>
     <Phrase key="pageDatabase">База данных</Phrase>
+    <Phrase key="lblUseMemoryCache">Использовать кэш в памяти</Phrase>
+    <Phrase key="lblCacheSizeRatio">Коэффициент размера кэша</Phrase>
     <Phrase key="btnManageConn">Соединения</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>

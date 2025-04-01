@@ -118,12 +118,68 @@
         <Url>/en/latest/modules/plg-elastic-report</Url>
       </Item>
       <Item>
+        <Text>Map Plugin</Text>
+        <Url>/en/latest/modules/plg-map</Url>
+      </Item>
+      <Item>
+        <Text>Notification Plugin</Text>
+        <Url>/en/latest/modules/plg-notification</Url>
+      </Item>
+      <Item>
         <Text>Automatic Control Module</Text>
         <Url>/en/latest/modules/mod-auto-control</Url>
       </Item>
       <Item>
+        <Text>Database Export Module</Text>
+        <Url>/en/latest/modules/mod-db-export</Url>
+      </Item>
+      <Item>
+        <Text>Rapid Gate Module</Text>
+        <Url>/en/latest/modules/mod-rapid-gate</Url>
+      </Item>
+      <Item>
+        <Text>Database Import Driver</Text>
+        <Url>/en/latest/modules/drv-db-import</Url>
+      </Item>
+      <Item>
+        <Text>Modbus Slave Driver</Text>
+        <Url>/en/latest/modules/drv-modbus-slave</Url>
+      </Item>
+      <Item>
         <Text>Telegram Driver</Text>
         <Url>/en/latest/modules/drv-telegram</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
+  <!-- Additional Applications -->
+  <Item>
+    <Text>Additional Applications</Text>
+    <Url>/en/latest/additional-applications/</Url>
+    <Subitems>
+      <Item>
+        <Text>Auto Report</Text>
+        <Url>/en/latest/additional-applications/app-auto-report</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
+  <!-- Enterprise Edition -->
+  <Item>
+    <Text>Enterprise Edition</Text>
+    <Url>/en/latest/enterprise-edition/</Url>
+    <Subitems>
+      <Item>
+        <Text>Overview</Text>
+        <Url>/en/latest/enterprise-edition/overview</Url>
+      </Item>
+      <Item>
+        <Text>Audit Log Plugin</Text>
+        <Url>/en/latest/enterprise-edition/plg-audit</Url>
+      </Item>
+      <Item>
+        <Text>Guard Plugin</Text>
+        <Url>/en/latest/enterprise-edition/plg-guard</Url>
       </Item>
     </Subitems>
   </Item>

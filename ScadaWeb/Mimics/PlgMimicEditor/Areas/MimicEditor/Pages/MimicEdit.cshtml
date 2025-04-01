@@ -1,30 +1,9 @@
 ﻿@page "{key}"
 @model MimicEditModel
+@inject EditorManager editorManager
 @{
     Layout = "_BasicLayout";
-}
-
-@section Styles {
-    <link href="~/plugins/Mimic/css/mimic.min.css" rel="stylesheet" asp-append-version="true" />
-    <link href="~/plugins/MimicEditor/css/mimic-edit.min.css" rel="stylesheet" asp-append-version="true" />
-}
-
-@section Scripts {
-    <script type="module">
-        import { Pane } from './../../../plugins/MimicEditor/lib/tweakpane/tweakpane-4.0.4.min.js';
-        window.Pane = Pane;
-    </script>
-    <script src="~/js/components/splitter.js" asp-append-version="true"></script>
-    <script src="~/plugins/Mimic/js/mimic-common.js" asp-append-version="true"></script>
-    <script src="~/plugins/Mimic/js/mimic-model.js" asp-append-version="true"></script>
-    <script src="~/plugins/Mimic/js/mimic-render.js" asp-append-version="true"></script>
-    <script src="~/plugins/MimicEditor/js/editor.js" asp-append-version="true"></script>
-    <script src="~/plugins/MimicEditor/js/mimic-descr.js" asp-append-version="true"></script>
-    <script src="~/plugins/MimicEditor/js/mimic-edit.js" asp-append-version="true"></script>
-    <script>
-        rootPath = "@Url.Content("~/")";
-        mimicKey = "@Model.MimicKey";
-    </script>
+    dynamic dict = Locale.GetDictionary(Model.GetType().FullName);
 }
 
 @if (Model.HasError)
@@ -35,15 +14,53 @@
     return;
 }
 
-<div id="divToolbar"><button type="button" 
-    id="btnCut" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-scissors"></i></button><button type="button"
-    id="btnCopy" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-copy"></i></button><button type="button" 
-    id="btnPaste" class="btn btn-outline-primary btn-sm"><i class="fa-regular fa-paste"></i></button><span class="splitter"></span><button type="button" 
-    id="btnUndo" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-rotate-left"></i></button><button type="button" 
-    id="btnRedo" class="btn btn-outline-primary btn-sm"><i class="fa-solid fa-arrow-rotate-right"></i></button>
-</div>
+@section Styles {
+    <link href="~/plugins/Mimic/css/mimic.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/plugins/MimicEditor/css/mimic-edit.min.css" rel="stylesheet" asp-append-version="true" />
+}
+
+@section Scripts {
+    <script type="module">
+        import { Pane } from './../../../plugins/MimicEditor/lib/tweakpane/tweakpane-4.0.5.min.js';
+        window.Pane = Pane;
+    </script>
+    <script src="~/js/components/splitter.js" asp-append-version="true"></script>
+    <script src="~/plugins/Mimic/js/mimic-common.js" asp-append-version="true"></script>
+    <script src="~/plugins/Mimic/js/mimic-model.js" asp-append-version="true"></script>
+    <script src="~/plugins/Mimic/js/mimic-render.js" asp-append-version="true"></script>
+    <script src="~/plugins/MimicEditor/js/editor.js" asp-append-version="true"></script>
+    <script src="~/plugins/MimicEditor/js/mimic-descr.js" asp-append-version="true"></script>
+    <script src="~/plugins/MimicEditor/js/mimic-factory.js" asp-append-version="true"></script>
+    <script src="~/plugins/MimicEditor/js/prop-grid.js" asp-append-version="true"></script>
+    <script src="~/plugins/MimicEditor/js/mimic-edit.js" asp-append-version="true"></script>
+    <script src="~/plugins/MimicEditor/js/mimic-edit-lang.js"></script>
+    <script>
+        rootPath = "@Url.Content("~/")";
+        mimicKey = "@Model.MimicKey";
+    </script>
+}
+
+<div id="divToolbar"><partial name="_ToolbarContents" /></div>
 <div id="divMain">
-    <div id="divLeftPanel"></div>
+    <div id="divLeftPanel">
+        <ul class="nav nav-tabs nav-fill flex-nowrap">
+            <li class="nav-item">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#divComponents" title="@dict.btnComponents"><i class="fa-solid fa-cubes"></i></button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#divStructure" title="@dict.btnStructure"><i class="fa-solid fa-folder-tree"></i></button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#divProperties" title="@dict.btnProperties"><i class="fa-solid fa-table-list"></i></button>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div id="divComponents" class="tab-pane show active"><partial name="_ComponentList" model="@editorManager.ComponentList" /></div>
+            <div id="divStructure" class="tab-pane"></div>
+            <div id="divProperties" class="tab-pane"></div>
+        </div>
+    </div>
     <div id="divSplitter" class="splitter vert"></div>
     <div id="divMimicWrapper" class="mimic-wrapper"></div>
 </div>
+<div id="divToastContainer" class="toast-container"></div>

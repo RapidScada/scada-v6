@@ -331,11 +331,15 @@ namespace Scada.Admin.App.Forms
                     }
                     else
                     {
-                        // create editor form by extension or use default text editor
-                        Form form = appData.ExtensionHolder.GetEditorForm(fileItem.Path) ??
-                            new FrmTextEditor(appData, fileItem.Path);
-                        tag.ExistingForm = form;
-                        wctrlMain.AddForm(form, treeNode.FullPath, ilExplorer.Images[treeNode.ImageKey], treeNode);
+                        // open file by extension or use default text editor
+                        OpenFileResult result = appData.ExtensionHolder.OpenFile(fileItem.Path);
+                        Form form = result.Handled ? result.EditorForm : new FrmTextEditor(appData, fileItem.Path);
+
+                        if (form != null)
+                        {
+                            tag.ExistingForm = form;
+                            wctrlMain.AddForm(form, treeNode.FullPath, ilExplorer.Images[treeNode.ImageKey], treeNode);
+                        }
                     }
                 }
                 else

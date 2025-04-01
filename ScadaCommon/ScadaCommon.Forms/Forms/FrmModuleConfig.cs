@@ -302,9 +302,14 @@ namespace Scada.Forms.Forms
         private void btnSave_Click(object sender, EventArgs e)
         {
             if (configProvider.SaveConfig(out string errMsg))
+            {
+                configProvider.BackupConfig();
                 Modified = false;
+            }
             else
+            {
                 ScadaUiUtils.ShowError(errMsg);
+            }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

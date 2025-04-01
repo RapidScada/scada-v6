@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2023
+ * Modified : 2025
  */
 
 using Scada.Admin.Config;
@@ -80,7 +80,7 @@ namespace Scada.Admin.Extensions
         }
 
         /// <summary>
-        /// Gets the file extensions for which the extension provides an editor.
+        /// Gets the file extensions that the extension can open.
         /// </summary>
         /// <remarks>The period is not included.</remarks>
         public virtual ICollection<string> FileExtensions => null;
@@ -150,11 +150,11 @@ namespace Scada.Admin.Extensions
         }
 
         /// <summary>
-        /// Gets a form to edit the specified file.
+        /// Opens the specified file.
         /// </summary>
-        public virtual Form GetEditorForm(string fileName)
+        public virtual OpenFileResult OpenFile(string fileName)
         {
-            return null;
+            return new OpenFileResult { Handled = false };
         }
 
         /// <summary>

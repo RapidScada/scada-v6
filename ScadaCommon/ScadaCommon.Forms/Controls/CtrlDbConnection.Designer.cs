@@ -63,6 +63,7 @@ namespace Scada.Forms.Controls
             // 
             // pnlConnectionOptions
             // 
+            pnlConnectionOptions.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             pnlConnectionOptions.Controls.Add(txtConnectionString);
             pnlConnectionOptions.Controls.Add(lblName);
             pnlConnectionOptions.Controls.Add(chkConnectionString);

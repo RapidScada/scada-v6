@@ -1,5 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <PlgMimicEditorDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel">
+    <Phrase key="btnComponents">Компоненты</Phrase>
+    <Phrase key="btnStructure">Структура</Phrase>
+    <Phrase key="btnProperties">Свойства</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js">
+    <Phrase key="DependenciesNode">Зависимости</Phrase>
+    <Phrase key="MimicNode">Мнемосхема</Phrase>
+    <Phrase key="ImagesNode">Изображения</Phrase>
+    <Phrase key="MimicSaved">Мнемосхема сохранена успешно</Phrase>
+    <Phrase key="LoadMimicError">Ошибка при загрузке мнемосхемы</Phrase>
+    <Phrase key="SaveMimicError">Ошибка при сохранении мнемосхемы</Phrase>
+    <Phrase key="PostUpdateError">Ошибка при передаче обновления</Phrase>
+    <Phrase key="UnableAddComponent">Невозможно добавить компонент.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ToolbarContents">
+    <Phrase key="btnSave">Сохранить</Phrase>
+    <Phrase key="btnUndo">Отменить</Phrase>
+    <Phrase key="btnRedo">Вернуть</Phrase>
+    <Phrase key="btnCut">Вырезать</Phrase>
+    <Phrase key="btnCopy">Копировать</Phrase>
+    <Phrase key="btnPaste">Вставить</Phrase>
+    <Phrase key="btnDelete">Удалить</Phrase>
+    <Phrase key="btnPointer">Указатель</Phrase>
+    <Phrase key="btnAlign">Выровнять</Phrase>
+    <Phrase key="btnAlignLefts">По левому краю</Phrase>
+    <Phrase key="btnAlignCenters">По центру горизонтально</Phrase>
+    <Phrase key="btnAlignRights">По правому краю</Phrase>
+    <Phrase key="btnAlignTops">По верхнему краю</Phrase>
+    <Phrase key="btnAlignMiddles">По центру вертикально</Phrase>
+    <Phrase key="btnAlignBottoms">По нижнему краю</Phrase>
+    <Phrase key="btnMakeSameWidth">Одинаковая ширина</Phrase>
+    <Phrase key="btnMakeSameHeight">Одинаковая высота</Phrase>
+    <Phrase key="btnMakeSameSize">Одинаковый размер</Phrase>
+    <Phrase key="btnMakeHorizontalSpacingEqual">Горизонтальный интервал</Phrase>
+    <Phrase key="btnMakeVerticalSpacingEqual">Вертикальный интервал</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicListModel">
     <Phrase key="PageTitle">Редактор мнемосхем</Phrase>
     <Phrase key="OpenMimicHeader">Открыть мнемосхему</Phrase>
@@ -16,8 +53,41 @@
     <Phrase key="LoadMimicError">Ошибка при загрузке мнемосхемы</Phrase>
     <Phrase key="SaveMimicError">Ошибка при сохранении мнемосхемы</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Code.StandardComponentGroup">
+    <Phrase key="StandardGroup">СТАНДАРТНЫЕ</Phrase>
+    <Phrase key="TextComponent">Текст</Phrase>
+    <Phrase key="PictureComponent">Рисунок</Phrase>
+    <Phrase key="PanelComponent">Панель</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.PlgMimicEditorLogic">
     <Phrase key="EditorMenuItem">Редактор мнемосхем</Phrase>
     <Phrase key="MimicsMenuItem">Активные мнемосхемы</Phrase>
+  </Dictionary>
+  <!-- Mimic Model -->
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Category">
+    <Phrase key="Appearance">ВНЕШНИЙ ВИД</Phrase>
+    <Phrase key="Behavior">ПОВЕДЕНИЕ</Phrase>
+    <Phrase key="Data">ДАННЫЕ</Phrase>
+    <Phrase key="Design">ДИЗАЙН</Phrase>
+    <Phrase key="Layout">МАКЕТ</Phrase>
+    <Phrase key="Misc">РАЗНОЕ</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Mimic">
+    <Phrase key="Size">Размер</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Component">
+    <Phrase key="ID">Идентификатор</Phrase>
+    <Phrase key="Name">Наименование</Phrase>
+    <Phrase key="TypeName">Имя типа</Phrase>
+    <Phrase key="Location">Положение</Phrase>
+    <Phrase key="Size">Размер</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Text">
+    <Phrase key="Text">Текст</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Picture">
+    <Phrase key="ImageName">Изображение</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.MimicModel.Js.Panel">
   </Dictionary>
 </PlgMimicEditorDictionaries>

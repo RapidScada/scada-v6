@@ -1,0 +1,99 @@
+﻿@page "/en/latest/modules/drv-db-import"
+@{
+    Layout = "_ArticleLayout";
+    ViewBag.Title = "Database Import Driver";
+}
+
+@section Styles {
+    <link href="~/lib/prismjs/prism.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="~/lib/prismjs/prism.js"></script>
+}
+
+<nav class="doc-toc">
+    <div class="h6">On this page</div>
+    <hr>
+    <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#configuring">Configuring</a></li>
+        <li><a href="#sql">SQL Scripts</a></li>
+    </ul>
+</nav>
+
+<div class="doc-content">
+    <h1>Database Import Driver</h1>
+    <h2 id="overview">Overview</h2>
+    <p>Database Import Driver is designed to read current data from a third-party database, as well as to write to a third-party database using commands. Supported DBMS are Microsoft SQL Server, Oracle, PostgreSQL and MySQL. The driver is included in the Rapid SCADA distribution and does not require separate installation.</p>
+    
+    <h2 id="configuring">Configuring</h2>
+    <p>Create a new communication line and a device of the <em>DB Import</em> type using the wizards called up by the <img src="../common-images/add-line.png" /> and <img src="../common-images/add-device.png" /> buttons. The communication line is responsible for connecting to one database. The communication channel type of the line is <em>Undefined</em>. The following figure shows a communication line node in the project explorer.</p>
+    <figure class="figure">
+        <img src="drv-db-import-files/line-node-en.png" class="figure-img img-fluid" alt="Communication line node" />
+    </figure>
+    <p>Open the properties of the created device. The device settings specify receiving tag values ​​and sending commands via SQL queries.</p>
+    <figure class="figure">
+        <img src="drv-db-import-files/connection-options-en.png" class="figure-img img-fluid" alt="Connection options" />
+    </figure>
+    <p>It is assumed that the database that serves as the source of information for the driver already exists and contains the necessary tables. Contact the database administrator for information about database connection options.</p>
+
+    <p>The figures below show the query parameters for getting device tag values.</p>
+    <figure class="figure">
+        <img src="drv-db-import-files/query1-params-en.png" class="figure-img img-fluid" alt="Query parameters" />
+    </figure>
+    <figure class="figure">
+        <img src="drv-db-import-files/query2-params-en.png" class="figure-img img-fluid" alt="Query parameters" />
+    </figure>
+    <p>In the <strong>Tags</strong> field, enter the device tag codes. Each line contains the code of one tag. The <strong>SQL</strong> field contains the query text. If the <strong>Single row result</strong> check box is checked (Query 1), the query should return a single row, each field of which contains a tag value. If the checkbox is unchecked (Query 2), the query should return a set of rows, each containing the tag code and value. In the second case, the query result must contain the <code>code</code> and <code>val</code> columns.</p>
+
+    <figure class="figure">
+        <img src="drv-db-import-files/command-params-en.png" class="figure-img img-fluid" alt="Command parameters" />
+    </figure>
+    <p>Due to command support, the driver can write information to the database by a command sent by an operator or automatically. The <strong>Command code</strong> must match the tag code of the channel through which the command is sent. In the SQL query text, the value and data of the command are available through the <code>&commat;cmdVal</code> and <code>&commat;cmdData</code> parameters.</p>
+    <p>Once the device properties are configured, create channels in the configuration database using the wizard called up by the <img src="../common-images/create-cnls.png" /> button.</p>
+
+    <p>If the configuration is correct, the device data page will display the obtained values.</p>
+    <figure class="figure">
+        <img src="drv-db-import-files/device-data-en.png" class="figure-img img-fluid" alt="Device data" />
+    </figure>
+
+    <h2 id="sql">SQL Scripts</h2>
+    <p>Example scripts for PostgreSQL:</p>
+    <pre><code class="language-sql">CREATE SCHEMA IF NOT EXISTS drv_db_import
+    AUTHORIZATION postgres;
+
+CREATE TABLE IF NOT EXISTS drv_db_import.table1
+(
+    id integer NOT NULL,
+    val1 double precision,
+    val2 character varying,
+    val3 timestamp with time zone,
+    CONSTRAINT table1_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS drv_db_import.table2
+(
+    id integer NOT NULL,
+    code character varying,
+    val double precision,
+    CONSTRAINT table2_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS drv_db_import.table_out
+(
+    create_time time with time zone DEFAULT now(),
+    cmd_val double precision,
+    cmd_data bytea
+);
+
+-- Query 1
+SELECT val1, val2, val3 FROM drv_db_import.table1 LIMIT 1
+
+-- Query 2
+SELECT code, val FROM drv_db_import.table2
+
+-- Command
+INSERT INTO drv_db_import.table_out (cmd_val, cmd_data) VALUES (@@cmdVal, @@cmdData)
+</code></pre>
+</div>

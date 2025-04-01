@@ -199,7 +199,7 @@ namespace Scada.Data.Adapters
                 // read header
                 byte[] buffer = new byte[HeaderSize];
                 if (!ReadHeader(reader, buffer))
-                    return null;
+                    return new Slice(DateTime.MinValue, 0); // empty slice
 
                 // read the first slice
                 if (reader.ReadUInt16() != BlockMarker)
@@ -245,7 +245,7 @@ namespace Scada.Data.Adapters
             catch (EndOfStreamException)
             {
                 // unable to read slice
-                return null;
+                throw new ScadaException("Data is corrupted.");
             }
             finally
             {

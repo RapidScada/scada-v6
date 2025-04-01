@@ -38,6 +38,8 @@
     <Phrase key="this">Historical Archive Options</Phrase>
     <Phrase key="pageGeneral">General</Phrase>
     <Phrase key="pageDatabase">Database</Phrase>
+    <Phrase key="lblUseMemoryCache">Use in-memory cache</Phrase>
+    <Phrase key="lblCacheSizeRatio">Cache size ratio</Phrase>
     <Phrase key="btnManageConn">Manage Connections</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>

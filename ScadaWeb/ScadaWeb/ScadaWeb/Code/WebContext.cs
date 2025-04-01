@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2024 Rapid Software LLC
+ * Copyright 2025 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -562,6 +562,7 @@ namespace Scada.Web.Code
         public void FinalizeContext()
         {
             StopProcessing();
+            PluginHolder.OnAppStop();
             storageWrapper?.CloseStorage();
 
             Log.WriteAction(Locale.IsRussian ?

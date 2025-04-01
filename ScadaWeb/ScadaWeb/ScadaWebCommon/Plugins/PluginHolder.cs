@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2024 Rapid Software LLC
+ * Copyright 2025 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2023
+ * Modified : 2025
  */
 
 using Microsoft.AspNetCore.Html;
@@ -438,6 +438,27 @@ namespace Scada.Web.Plugins
                     catch (Exception ex)
                     {
                         log.WriteError(ex, WebPhrases.ErrorInPlugin, nameof(OnAppReady), pluginLogic.Code);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Calls the OnAppStop method of the plugins.
+        /// </summary>
+        public void OnAppStop()
+        {
+            lock (pluginLock)
+            {
+                foreach (PluginLogic pluginLogic in plugins)
+                {
+                    try
+                    {
+                        pluginLogic.OnAppStop();
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteError(ex, WebPhrases.ErrorInPlugin, nameof(OnAppStop), pluginLogic.Code);
                     }
                 }
             }

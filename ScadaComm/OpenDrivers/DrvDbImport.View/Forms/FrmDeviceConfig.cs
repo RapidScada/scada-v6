@@ -93,6 +93,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
             {
                 lineConfigModified = value;
                 btnSave.Enabled = Modified;
+                btnCancel.Enabled = Modified;
             }
         }
 
@@ -236,6 +237,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
             {
                 if (lineConfig.Save(lineConfigFileName, out string errMsg))
                 {
+                    lineConfigCopy = lineConfig.DeepClone();
                     LineConfigModified = false;
                 }
                 else
@@ -250,6 +252,7 @@ namespace Scada.Comm.Drivers.DrvDbImport.View.Forms
             {
                 if (deviceConfig.Save(deviceConfigFileName, out string errMsg))
                 {
+                    deviceConfigCopy = deviceConfig.DeepClone();
                     DeviceConfigModified = false;
                 }
                 else

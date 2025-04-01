@@ -4,7 +4,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Scada.Data.Entities;
 using Scada.Lang;
-using Scada.Log;
 using Scada.Web.Lang;
 using Scada.Web.Plugins.PlgMimicEditor.Code;
 using Scada.Web.Services;
@@ -50,6 +49,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor
         public override void LoadConfig()
         {
             editorManager.LoadConfig();
+            editorManager.ObtainComponents();
         }
 
         /// <summary>
@@ -58,6 +58,14 @@ namespace Scada.Web.Plugins.PlgMimicEditor
         public override void AddServices(IServiceCollection services)
         {
             services.AddSingleton(editorManager);
+        }
+
+        /// <summary>
+        /// Performs actions when the application stops.
+        /// </summary>
+        public override void OnAppStop()
+        {
+            editorManager.StopCleanup();
         }
 
         /// <summary>

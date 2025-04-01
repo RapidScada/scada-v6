@@ -10,17 +10,23 @@ namespace Scada.Report
     public static class ReportUtils
     {
         /// <summary>
+        /// Gets the report start time in the specified time zone.
+        /// </summary>
+        public static DateTime GetStartTime(DateTime utcNow, TimeZoneInfo timeZone, PeriodUnit unit)
+        {
+            ArgumentNullException.ThrowIfNull(timeZone, nameof(timeZone));
+            DateTime localNow = TimeZoneInfo.ConvertTimeFromUtc(utcNow, timeZone);
+            return unit == PeriodUnit.Month
+                ? new DateTime(localNow.Year, localNow.Month, 1, 0, 0, 0, DateTimeKind.Unspecified)
+                : localNow.Date; // unspecified kind
+        }
+
+        /// <summary>
         /// Gets the report start time as UTC.
         /// </summary>
         public static DateTime GetUtcStartTime(DateTime utcNow, TimeZoneInfo timeZone, PeriodUnit unit)
         {
-            ArgumentNullException.ThrowIfNull(timeZone, nameof(timeZone));
-            DateTime localStartTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, timeZone);
-
-            localStartTime = unit == PeriodUnit.Month
-                ? new DateTime(localStartTime.Year, localStartTime.Month, 1, 0, 0, 0, DateTimeKind.Local)
-                : localStartTime.Date;
-
+            DateTime localStartTime = GetStartTime(utcNow, timeZone, unit);
             return TimeZoneInfo.ConvertTimeToUtc(localStartTime, timeZone);
         }
 
@@ -85,9 +91,11 @@ namespace Scada.Report
         /// </summary>
         public static DateTime AddPeriod(DateTime dateTime, int period, PeriodUnit unit)
         {
-            return unit == PeriodUnit.Month
-                ? dateTime.AddMonths(period)
-                : dateTime.AddDays(period);
+            return period == 0
+                ? dateTime
+                : unit == PeriodUnit.Month 
+                    ? dateTime.AddMonths(period) 
+                    : dateTime.AddDays(period);
         }
 
         /// <summary>

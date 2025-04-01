@@ -118,12 +118,68 @@
         <Url>/ru/latest/modules/plg-elastic-report</Url>
       </Item>
       <Item>
+        <Text>Плагин Карты</Text>
+        <Url>/ru/latest/modules/plg-map</Url>
+      </Item>
+      <Item>
+        <Text>Плагин Уведомления</Text>
+        <Url>/ru/latest/modules/plg-notification</Url>
+      </Item>
+      <Item>
         <Text>Модуль автоматического управления</Text>
         <Url>/ru/latest/modules/mod-auto-control</Url>
       </Item>
       <Item>
+        <Text>Модуль экспорта в БД</Text>
+        <Url>/ru/latest/modules/mod-db-export</Url>
+      </Item>
+      <Item>
+        <Text>Модуль Быстрый шлюз</Text>
+        <Url>/ru/latest/modules/mod-rapid-gate</Url>
+      </Item>
+      <Item>
+        <Text>Драйвер импорта из БД</Text>
+        <Url>/ru/latest/modules/drv-db-import</Url>
+      </Item>
+      <Item>
+        <Text>Драйвер Modbus Slave</Text>
+        <Url>/ru/latest/modules/drv-modbus-slave</Url>
+      </Item>
+      <Item>
         <Text>Драйвер Telegram</Text>
         <Url>/ru/latest/modules/drv-telegram</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
+  <!-- Дополнительные приложения -->
+  <Item>
+    <Text>Дополнительные приложения</Text>
+    <Url>/ru/latest/additional-applications/</Url>
+    <Subitems>
+      <Item>
+        <Text>Автоотчёт</Text>
+        <Url>/ru/latest/additional-applications/app-auto-report</Url>
+      </Item>
+    </Subitems>
+  </Item>
+
+  <!-- Редакция Enterprise -->
+  <Item>
+    <Text>Редакция Enterprise</Text>
+    <Url>/ru/latest/enterprise-edition/</Url>
+    <Subitems>
+      <Item>
+        <Text>Обзор</Text>
+        <Url>/ru/latest/enterprise-edition/overview</Url>
+      </Item>
+      <Item>
+        <Text>Плагин Журнал аудита</Text>
+        <Url>/ru/latest/enterprise-edition/plg-audit</Url>
+      </Item>
+      <Item>
+        <Text>Плагин Защитник</Text>
+        <Url>/ru/latest/enterprise-edition/plg-guard</Url>
       </Item>
     </Subitems>
   </Item>

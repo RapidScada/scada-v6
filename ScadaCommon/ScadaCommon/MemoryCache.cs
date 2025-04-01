@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2025
  */
 
 using System;
@@ -175,7 +175,7 @@ namespace Scada
 
                 if (!entries.ContainsKey(key))
                 {
-                    entries.Add(key, new CacheEntry(key, value, DateTime.UtcNow));
+                    entries.Add(key, new CacheEntry(key, value, utcNow));
                     added = true;
                 }
 
@@ -185,28 +185,17 @@ namespace Scada
         }
 
         /// <summary>
-        /// Gets an entry from the cache, or null if the specified key is not found.
+        /// Gets the value associated with the specified key, or a default value if the key is not found.
         /// </summary>
         public TValue Get(TKey key)
         {
-            lock (entries)
-            {
-                DateTime utcNow = DateTime.UtcNow;
-                TValue value = default;
-
-                if (entries.TryGetValue(key, out CacheEntry entry))
-                {
-                    entry.LastAccessTime = utcNow;
-                    value = entry.Value;
-                }
-
-                RemoveOutdatedItems(utcNow);
-                return value;
-            }
+            TryGetValue(key, out TValue value);
+            return value;
         }
 
         /// <summary>
-        /// Gets an entry from the cache, or creates a new one and adds it to the cache.
+        /// Gets the value associated with the specified key if it exists,
+        /// or creates a new entry and adds it to the cache.
         /// </summary>
         public TValue GetOrCreate(TKey key, Func<TValue> factory)
         {
@@ -232,6 +221,56 @@ namespace Scada
 
                 RemoveOutdatedItems(utcNow);
                 return value;
+            }
+        }
+
+        /// <summary>
+        /// Tries to get the value associated with the specified key.
+        /// </summary>
+        public bool TryGetValue(TKey key, out TValue value)
+        {
+            lock (entries)
+            {
+                DateTime utcNow = DateTime.UtcNow;
+                bool found;
+
+                if (entries.TryGetValue(key, out CacheEntry entry))
+                {
+                    entry.LastAccessTime = utcNow;
+                    value = entry.Value;
+                    found = true;
+                }
+                else
+                {
+                    value = default;
+                    found = false;
+                }
+
+                RemoveOutdatedItems(utcNow);
+                return found;
+            }
+        }
+
+        /// <summary>
+        /// Sets a cache entry with the specified key and value.
+        /// </summary>
+        public void Set(TKey key, TValue value)
+        {
+            lock (entries)
+            {
+                DateTime utcNow = DateTime.UtcNow;
+
+                if (entries.TryGetValue(key, out CacheEntry entry))
+                {
+                    entry.LastAccessTime = utcNow;
+                    entry.Value = value;
+                }
+                else
+                {
+                    entries.Add(key, new CacheEntry(key, value, utcNow));
+                }
+
+                RemoveOutdatedItems(utcNow);
             }
         }
 

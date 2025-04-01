@@ -27,15 +27,16 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
         /// Updates the mimic.
         /// </summary>
         [HttpPost]
-        public Dto UpdateMimic([FromBody] UpdateDTO updateDTO)
+        public Dto UpdateMimic([FromBody] UpdateDto updateDto)
         {
             try
             {
-                if (editorManager.FindMimic(updateDTO.MimicKey, out MimicInstance mimicInstance, out string errMsg))
+                if (editorManager.FindMimic(updateDto.MimicKey, out MimicInstance mimicInstance, out string errMsg))
                 {
                     lock (mimicInstance.Mimic.SyncRoot)
                     {
-                        mimicInstance.Mimic.ApplyChanges(updateDTO.Changes);
+                        mimicInstance.RegisterClientActivity();
+                        mimicInstance.Mimic.ApplyChanges(updateDto.Changes);
                         return Dto.Success();
                     }
                 }

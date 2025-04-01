@@ -158,7 +158,7 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
                 {
                     Topic = e.ApplicationMessage.Topic,
                     Payload = e.ApplicationMessage.ConvertPayloadToString() ?? "",
-                    PayloadData = [.. e.ApplicationMessage.PayloadSegment]
+                    PayloadData = e.ApplicationMessage.ConvertPayloadToArray() // can be null
                 };
 
                 Log.WriteLine();

@@ -1,0 +1,14 @@
+﻿@model ComponentList
+
+@foreach (var group in Model.Groups)
+{
+    <div class="component-group">
+        <div class="component-group-header">@group.Name</div>
+        @foreach (var item in group.Items)
+        {
+            <div class="component-item" data-type-name="@item.TypeName"><img 
+                class="component-icon" src="@Url.Content(item.IconUrl)" /><span 
+                class="component-name">@item.DisplayName</span></div>
+        }
+    </div>
+}
