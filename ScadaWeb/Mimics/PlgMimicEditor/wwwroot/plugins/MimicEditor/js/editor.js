@@ -53,6 +53,9 @@ class MessageType {
 // Represents a change in a mimic.
 class Change {
     changeType;
+    objectID;
+    objectName;
+    properties;
 
     constructor(changeType) {
         this.changeType = changeType ?? ChangeType.NONE;
@@ -69,15 +72,17 @@ class Change {
 
     static addComponent(component) {
         let change = new Change(ChangeType.ADD_COMPONENT);
-        change.componentID = component.id;
-        change.parentID = component.parentID;
+        change.objectID = component.id;
         change.properties = component.properties;
+        change.properties.name = component.name;
+        change.properties.typeName = component.typeName;
+        change.properties.parentID = component.parentID;
         return change;
     }
 
     static updateComponent(componentID, opt_properties) {
         let change = new Change(ChangeType.UPDATE_COMPONENT);
-        change.componentID = componentID;
+        change.objectID = componentID;
         change.properties = opt_properties;
         return change;
     }

@@ -6,6 +6,7 @@ using Scada.Log;
 using Scada.Web.Lang;
 using Scada.Web.Plugins.PlgMimic.Config;
 using Scada.Web.Plugins.PlgMimic.MimicModel;
+using Scada.Web.Plugins.PlgMimicEditor.Models;
 using Scada.Web.Services;
 
 namespace Scada.Web.Plugins.PlgMimicEditor.Code
@@ -103,11 +104,9 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 }
             }
 
-            MimicInstance mimicInstance = new()
+            MimicInstance mimicInstance = new(mimic)
             {
                 FileName = mimicFileName,
-                Mimic = mimic,
-                MimicKey = ScadaUtils.GenerateUniqueID(),
                 ParentGroup = mimicGroup
             };
 
@@ -403,6 +402,33 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                         "Закрыта мнемосхема {0}" :
                         "{0} mimic closed", mimicInstance.FileName);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Updates the mimic specified by the key.
+        /// </summary>
+        public bool UpdateMimic(long mimicKey, IEnumerable<Change> changes, out string errMsg)
+        {
+            if (!FindMimic(mimicKey, out MimicInstance mimicInstance, out errMsg))
+                return false;
+
+            try
+            {
+                lock (mimicInstance.Mimic.SyncRoot)
+                {
+                    mimicInstance.RegisterClientActivity();
+                    mimicInstance.Updater.ApplyChanges(changes);
+                }
+
+                errMsg = "";
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errMsg = ex.BuildErrorMessage(EditorPhrases.UpdateMimicError);
+                PluginLog.WriteError(errMsg);
+                return false;
             }
         }
 

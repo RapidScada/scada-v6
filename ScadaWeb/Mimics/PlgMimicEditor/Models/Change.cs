@@ -3,8 +3,9 @@
 
 using Scada.Web.Plugins.PlgMimic.MimicModel;
 using System.Dynamic;
+using System.Text.Json;
 
-namespace Scada.Web.Plugins.PlgMimicEditor.Code
+namespace Scada.Web.Plugins.PlgMimicEditor.Models
 {
     /// <summary>
     /// Represents a change in a mimic.
@@ -35,45 +36,35 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         public ChangeType ChangeType { get; set; }
 
         /// <summary>
-        /// Gets or sets the properties of a mimic or component being updated.
+        /// Gets or sets the ID of the affected object.
+        /// </summary>
+        public int ObjectID { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the affected object.
+        /// </summary>
+        public int ObjectName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the properties of the object being added or updated.
         /// </summary>
         public ExpandoObject Properties { get; set; }
 
-        /// <summary>
-        /// Gets or sets the dependency being added or deleted.
-        /// </summary>
-        public FaceplateMeta Dependency { get; set; }
-
 
         /// <summary>
-        /// Gets or sets the ID of the affected component.
+        /// Gets the property value as a string.
         /// </summary>
-        public int ComponentID { get; set; }
+        public string GetString(string propertyName)
+        {
+            return Properties.GetValue(propertyName)?.ToString();
+        }
 
         /// <summary>
-        /// Gets or sets the ID of the parent component.
+        /// Gets the property value as an integer.
         /// </summary>
-        public int ParentID { get; set; }
-
-        /// <summary>
-        /// Gets or sets the previous ID of the parent component.
-        /// </summary>
-        public int OldParentID { get; set; }
-
-
-        /// <summary>
-        /// Gets or sets the image being added.
-        /// </summary>
-        public Image Image { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the image being renamed or deleted.
-        /// </summary>
-        public string ImageName { get; set; }
-
-        /// <summary>
-        /// Gets or sets the previous name of the image being renamed.
-        /// </summary>
-        public string OldImageName { get; set; }
+        public int GetInt32(string propertyName)
+        {
+            return Properties.GetValue<JsonElement>(propertyName).GetInt32();
+        }
     }
 }

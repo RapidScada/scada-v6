@@ -53,6 +53,7 @@
     <Phrase key="MimicNotFound">Mimic not found.</Phrase>
     <Phrase key="LoadMimicError">Error loading mimic</Phrase>
     <Phrase key="SaveMimicError">Error saving mimic</Phrase>
+    <Phrase key="UpdateMimicError">Error updating mimic</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Code.StandardComponentGroup">
     <Phrase key="StandardGroup">STANDARD</Phrase>
