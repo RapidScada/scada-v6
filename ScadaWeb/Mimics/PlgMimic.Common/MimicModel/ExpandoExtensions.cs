@@ -13,6 +13,32 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
     public static class ExpandoExtensions
     {
         /// <summary>
+        /// Gets the property value.
+        /// </summary>
+        public static object GetValue(this ExpandoObject obj, string propertyName)
+        {
+            IDictionary<string, object> dict = obj;
+            return dict[propertyName];
+        }
+
+        /// <summary>
+        /// Gets the property value.
+        /// </summary>
+        public static T GetValue<T>(this ExpandoObject obj, string propertyName)
+        {
+            return (T)obj.GetValue(propertyName);
+        }
+
+        /// <summary>
+        /// Sets the property value.
+        /// </summary>
+        public static void SetValue(this ExpandoObject obj, string propertyName, object propertyValue)
+        {
+            IDictionary<string, object> dict = obj;
+            dict[propertyName] = propertyValue;
+        }
+
+        /// <summary>
         /// Loads the object property from the XML node.
         /// </summary>
         public static void LoadProperty(this ExpandoObject obj, XmlNode propertyNode)
@@ -50,8 +76,8 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
             ArgumentNullException.ThrowIfNull(objectNode, nameof(objectNode));
             ArgumentException.ThrowIfNullOrEmpty(propertyName, nameof(propertyName));
             
-            XmlNode propertyNode = objectNode.OwnerDocument.CreateElement(propertyName);
-            objectNode.AppendChild(propertyNode);
+            XmlElement propertyElem = objectNode.OwnerDocument.CreateElement(propertyName);
+            objectNode.AppendChild(propertyElem);
 
             if (propertyValue != null)
             {
@@ -59,12 +85,12 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
                 {
                     foreach (KeyValuePair<string, object> kvp in obj)
                     {
-                        SaveProperty(propertyNode, kvp.Key, kvp.Value);
+                        SaveProperty(propertyElem, kvp.Key, kvp.Value);
                     }
                 }
                 else
                 {
-                    propertyNode.InnerText = propertyValue.ToString();
+                    propertyElem.InnerText = propertyValue.ToString();
                 }
             }
         }

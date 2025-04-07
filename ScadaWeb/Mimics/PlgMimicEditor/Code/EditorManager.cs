@@ -6,6 +6,7 @@ using Scada.Log;
 using Scada.Web.Lang;
 using Scada.Web.Plugins.PlgMimic.Config;
 using Scada.Web.Plugins.PlgMimic.MimicModel;
+using Scada.Web.Plugins.PlgMimicEditor.Models;
 using Scada.Web.Services;
 
 namespace Scada.Web.Plugins.PlgMimicEditor.Code
@@ -16,11 +17,23 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
     /// </summary>
     public class EditorManager
     {
+        /// <summary>
+        /// The period of cleaning up inactive mimics.
+        /// </summary>
+        private static readonly TimeSpan CleanupPeriod = TimeSpan.FromMinutes(1);
+        /// <summary>
+        /// The period for keeping inactive mimics alive.
+        /// </summary>
+        private static readonly TimeSpan KeepInactiveMimics = TimeSpan.FromMinutes(10);
+
         private readonly IWebContext webContext; // the web application context
         private readonly object editorLock;      // synchronizes access to the open mimics
         private readonly Dictionary<string, MimicGroup> mimicGroups;        // the mimic groups by project file name
         private readonly Dictionary<string, MimicInstance> mimicByFileName; // the mimics accessed by file name
         private readonly Dictionary<long, MimicInstance> mimicByKey;        // the mimics accessed by editor key
+
+        private Thread cleanupThread;     // the thread to cleanup inactive mimics
+        private volatile bool terminated; // necessary to stop the thread
 
 
         /// <summary>
@@ -33,6 +46,9 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             mimicGroups = [];
             mimicByFileName = [];
             mimicByKey = [];
+
+            cleanupThread = null;
+            terminated = false;
 
             EditorConfig = new EditorConfig();
             MimicPluginConfig = new MimicPluginConfig();
@@ -88,11 +104,9 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 }
             }
 
-            MimicInstance mimicInstance = new()
+            MimicInstance mimicInstance = new(mimic)
             {
                 FileName = mimicFileName,
-                Mimic = mimic,
-                MimicKey = ScadaUtils.GenerateUniqueID(),
                 ParentGroup = mimicGroup
             };
 
@@ -101,6 +115,106 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             mimicGroup.AddMimic(mimicInstance);
             return mimicInstance;
         }
+
+        /// <summary>
+        /// Starts a process of cleaning up inactive mimics.
+        /// </summary>
+        private void StartCleanup()
+        {
+            if (cleanupThread == null)
+            {
+                PluginLog.WriteAction(Locale.IsRussian ?
+                    "Запуск очистки неактивных мнемосхем" :
+                    "Start cleanup inactive mimics");
+                terminated = false;
+                cleanupThread = new Thread(ExecuteCleanup) { Priority = ThreadPriority.BelowNormal };
+                cleanupThread.Start();
+            }
+        }
+
+        /// <summary>
+        /// Stops the process of cleaning up inactive mimics.
+        /// </summary>
+        private void StopCleanupInternal()
+        {
+            if (cleanupThread != null)
+            {
+                // do not wait for the thread by calling Join()
+                PluginLog.WriteAction(Locale.IsRussian ?
+                    "Остановка очистки неактивных мнемосхем" :
+                    "Stop cleanup inactive mimics");
+                terminated = true;
+                cleanupThread = null;
+            }
+        }
+
+        /// <summary>
+        /// Cleans up inactive mimics in a separate thread.
+        /// </summary>
+        private void ExecuteCleanup()
+        {
+            DateTime utcNow = DateTime.UtcNow;
+            DateTime cleanupTime = utcNow;
+
+            while (!terminated)
+            {
+                utcNow = DateTime.UtcNow;
+
+                if (utcNow - cleanupTime >= CleanupPeriod)
+                {
+                    cleanupTime = utcNow;
+
+                    if (CloseInactiveMimics())
+                    {
+                        StopCleanupInternal();
+                        break;
+                    }
+                }
+
+                Thread.Sleep(ScadaUtils.ThreadDelay);
+            }
+        }
+
+        /// <summary>
+        /// Closes inactive mimics. Returns true if there are no open mimics.
+        /// </summary>
+        private bool CloseInactiveMimics()
+        {
+            try
+            {
+                Monitor.Enter(editorLock);
+
+                // find inactive mimics
+                DateTime utcNow = DateTime.UtcNow;
+                List<long> mimicsToClose = [];
+
+                foreach (MimicInstance mimicInstance in mimicByKey.Values)
+                {
+                    if (utcNow - mimicInstance.ClientAccessTime > KeepInactiveMimics)
+                        mimicsToClose.Add(mimicInstance.MimicKey);
+                }
+
+                // close found mimics
+                foreach (long mimicKey in mimicsToClose)
+                {
+                    CloseMimic(mimicKey);
+                }
+
+                return mimicByKey.Count == 0;
+            }
+            catch (Exception ex)
+            {
+                PluginLog.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при закрытии неактивных мнемосхем" :
+                    "Error closing inactive mimics");
+                return false;
+            }
+            finally
+            {
+                Monitor.Exit(editorLock);
+            }
+        }
+
 
         /// <summary>
         /// Loads the configuration of the editor and mimic plugins.
@@ -168,7 +282,9 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                     if (!string.IsNullOrEmpty(faceplateMeta.TypeName) &&
                         !mimic.Faceplates.ContainsKey(faceplateMeta.TypeName))
                     {
-                        string faceplateFileName = Path.Combine(viewDir, faceplateMeta.Path);
+                        string faceplateFileName = Path.Combine(viewDir, 
+                            ScadaUtils.NormalPathSeparators(faceplateMeta.Path));
+
                         using FileStream faceplateStream =
                             new(faceplateFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
@@ -179,6 +295,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 }
 
                 // add mimic to the editor
+                StartCleanup();
                 MimicInstance mimicInstance = AddMimic(projectFileName, fileName, mimic);
                 PluginLog.WriteAction(Locale.IsRussian ?
                     "Загружена мнемосхема {0}" :
@@ -289,6 +406,33 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         }
 
         /// <summary>
+        /// Updates the mimic specified by the key.
+        /// </summary>
+        public bool UpdateMimic(long mimicKey, IEnumerable<Change> changes, out string errMsg)
+        {
+            if (!FindMimic(mimicKey, out MimicInstance mimicInstance, out errMsg))
+                return false;
+
+            try
+            {
+                lock (mimicInstance.Mimic.SyncRoot)
+                {
+                    mimicInstance.RegisterClientActivity();
+                    mimicInstance.Updater.ApplyChanges(changes);
+                }
+
+                errMsg = "";
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errMsg = ex.BuildErrorMessage(EditorPhrases.UpdateMimicError);
+                PluginLog.WriteError(errMsg);
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Gets a snapshot containing the mimic groups.
         /// </summary>
         public MimicGroup[] GetMimicGroups()
@@ -296,6 +440,17 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             lock (mimicGroups)
             {
                 return [.. mimicGroups.Values.OrderBy(g => g.Name)];
+            }
+        }
+
+        /// <summary>
+        /// Stops the process of cleaning up inactive mimics.
+        /// </summary>
+        public void StopCleanup()
+        {
+            lock (editorLock)
+            {
+                StopCleanupInternal();
             }
         }
     }

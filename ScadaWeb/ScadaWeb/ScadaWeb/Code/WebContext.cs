@@ -562,6 +562,7 @@ namespace Scada.Web.Code
         public void FinalizeContext()
         {
             StopProcessing();
+            PluginHolder.OnAppStop();
             storageWrapper?.CloseStorage();
 
             Log.WriteAction(Locale.IsRussian ?

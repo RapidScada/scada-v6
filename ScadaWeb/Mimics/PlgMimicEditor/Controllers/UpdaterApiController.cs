@@ -31,19 +31,9 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
         {
             try
             {
-                if (editorManager.FindMimic(updateDto.MimicKey, out MimicInstance mimicInstance, out string errMsg))
-                {
-                    lock (mimicInstance.Mimic.SyncRoot)
-                    {
-                        mimicInstance.RegisterClientActivity();
-                        mimicInstance.Mimic.ApplyChanges(updateDto.Changes);
-                        return Dto.Success();
-                    }
-                }
-                else
-                {
-                    return Dto.Fail(errMsg);
-                }
+                return editorManager.UpdateMimic(updateDto.MimicKey, updateDto.Changes, out string errMsg)
+                    ? Dto.Success()
+                    : Dto.Fail(errMsg);
             }
             catch (Exception ex)
             {

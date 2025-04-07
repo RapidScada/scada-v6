@@ -21,29 +21,54 @@ let propGrid = null;
 let mimicWrapperElem = $();
 let selectedElem = $();
 let lastUpdateTime = 0;
+let longAction = null;
+let mimicModified = false;
+let maxComponentId = null;
 
 function bindEvents() {
-    $(window).on("resize", function () {
-        updateLayout();
-    });
+    $(window)
+        .on("resize", function () {
+            updateLayout();
+        })
+        .on("beforeunload", function (event) {
+            if (mimicModified) {
+                event.preventDefault();
+            }
+        });
 
     $("#btnSave").on("click", async function () {
         await save();
     });
 
-    $("#btnUndo").on("click", async function () {
+    $("#btnUndo").on("click", function () {
         showToast("Test toast");
     });
 
-    mimicWrapperElem.on("click", function () {
-        selectMimic();
-        return false;
+    $("#btnPointer").on("click", function () {
+        pointer();
     });
 
-    mimicWrapperElem.on("click", ".comp", function () {
-        selectComponent($(this));
-        return false; // prevent parent selection
+    $("#divComponents .component-item").on("click", function () {
+        let typeName = $(this).data("type-name");
+        longAction = LongAction.startAdding(typeName);
+        mimicWrapperElem.css("cursor", longAction.getCursor());
     });
+
+    mimicWrapperElem
+        .on("mousedown", function (event) {
+            if (longAction == null) {
+                selectMimic();
+            } else if (longAction.actionType = LongActionType.ADDING) {
+                addComponent(longAction.componentTypeName, getMimicPoint(event));
+                clearLongAction();
+            }
+        })
+        .on("mousedown", ".comp", function () {
+            if (longAction == null) {
+                selectComponent($(this));
+                return false; // prevent parent selection
+            }
+        });
 }
 
 function updateLayout() {
@@ -130,6 +155,7 @@ async function save() {
         let dto = await response.json();
 
         if (dto.ok) {
+            mimicModified = false;
             console.log(phrases.mimicSaved);
             showToast(phrases.mimicSaved, MessageType.SUCCESS);
         } else {
@@ -163,8 +189,8 @@ function deleteComponent() {
 
 }
 
-function enablePointer() {
-
+function pointer() {
+    clearLongAction();
 }
 
 function selectMimic() {
@@ -206,6 +232,78 @@ function selectNone() {
     propGrid.selectedObject = null;
 }
 
+function getMimicPoint(event) {
+    let offset = mimicWrapperElem.offset();
+    return new DOMPoint(
+        parseInt(event.pageX - offset.left),
+        parseInt(event.pageY - offset.top)
+    );
+}
+
+function addComponent(typeName, point) {
+    console.log(`Add ${typeName} component at ${point.x}, ${point.y}`);
+    let factory = rs.mimic.FactorySet.componentFactories.get(typeName);
+    let renderer = rs.mimic.RendererSet.componentRenderers.get(typeName);
+
+    if (factory && renderer) {
+        // TODO: refactor
+        // create component
+        let component = factory.createComponent();
+        component.id = getNextComponentId();
+        component.properties.location = { x: point.x.toString(), y: point.y.toString() };
+        component.parent = mimic;
+        mimic.components.push(component);
+        mimic.componentMap.set(component.id, component);
+        mimic.children.push(component);
+
+        // render component
+        let renderContext = new rs.mimic.RenderContext();
+        renderContext.editMode = true;
+        renderContext.imageMap = mimic.imageMap;
+
+        component.renderer = renderer;
+        renderer.createDom(component, renderContext);
+
+        if (component.dom && component.parent.dom) {
+            component.parent.dom.append(component.dom);
+            selectComponent(component.dom);
+        }
+
+        // update server side
+        let change = Change.addComponent(component);
+        let updateDto = new UpdateDto(mimicKey, change);
+        updateQueue.push(updateDto);
+
+        // update structure
+        // ...
+    } else {
+        if (!factory) {
+            console.error("Component factory not found.");
+        }
+
+        if (!renderer) {
+            console.error("Component renderer not found.");
+        }
+
+        showToast(phrases.unableAddComponent, MessageType.ERROR);
+    }
+}
+
+function getNextComponentId() {
+    maxComponentId ??= Math.max(...mimic.componentMap.keys());
+    return ++maxComponentId;
+}
+
+function clearLongAction() {
+    if (longAction) {
+        if (longAction.actionType === LongActionType.ADDING) {
+            mimicWrapperElem.css("cursor", "");
+        }
+
+        longAction = null;
+    }
+}
+
 function getLoaderUrl() {
     return rootPath + "Api/MimicEditor/Loader/";
 }
@@ -221,7 +319,9 @@ async function postUpdates() {
             let updateDto = updateQueue.shift();
             let result = await postUpdate(updateDto);
 
-            if (!result) {
+            if (result) {
+                mimicModified = true;
+            } else {
                 updateQueue.unshift(updateDto);
                 break;
             }
