@@ -16,7 +16,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// <summary>
         /// The component properties that are loaded explicitly.
         /// </summary>
-        protected static readonly HashSet<string> ComponentKnownProperties = ["ID", "Name", "TypeName"];
+        protected static readonly HashSet<string> ComponentKnownProperties = ["ID", "Name", "TypeName", "ParentID"];
 
 
         /// <summary>

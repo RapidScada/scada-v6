@@ -215,6 +215,11 @@ function selectMimic() {
 }
 
 function selectComponent(compElem) {
+    if (!compElem) {
+        selectNone();
+        return;
+    }
+
     let faceplateElem = compElem.closest(".comp.faceplate");
 
     // select faceplate
@@ -263,26 +268,16 @@ function addComponent(typeName, parentID, point) {
     let parent = parentID > 0 ? mimic.componentMap.get(parentID) : mimic;
 
     if (factory && renderer && parent) {
-        // TODO: refactor
         // create component
         let component = factory.createComponent();
         component.id = getNextComponentId();
         mimic.addComponent(component, parent, point.x, point.y);
 
         // render component
-        let renderContext = new rs.mimic.RenderContext();
-        renderContext.editMode = true;
-        renderContext.imageMap = mimic.imageMap;
+        unitedRenderer.createComponentDom(component);
+        selectComponent(component.dom);
 
-        component.renderer = renderer;
-        renderer.createDom(component, renderContext);
-
-        if (component.dom && component.parent.dom) {
-            component.parent.dom.append(component.dom);
-            selectComponent(component.dom);
-        }
-
-        // update structure
+        // update structure tree
         structTree.addComponent(component);
 
         // update server side

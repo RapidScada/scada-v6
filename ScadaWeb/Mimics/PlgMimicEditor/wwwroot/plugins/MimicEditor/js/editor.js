@@ -73,7 +73,7 @@ class Change {
     static addComponent(component) {
         let change = new Change(ChangeType.ADD_COMPONENT);
         change.objectID = component.id;
-        change.properties = component.properties;
+        change.properties = Object.assign({}, component.properties);
         change.properties.name = component.name;
         change.properties.typeName = component.typeName;
         change.properties.parentID = component.parentID;

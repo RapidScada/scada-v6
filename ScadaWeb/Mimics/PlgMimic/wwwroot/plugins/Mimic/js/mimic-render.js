@@ -187,9 +187,9 @@ rs.mimic.UnitedRenderer = class {
     }
 
     // Creates a faceplate DOM content.
-    _createFaceplateDom(faceplateInstance, unknownTypes) {
+    _createFaceplateDom(faceplateInstance, opt_unknownTypes) {
         if (!faceplateInstance.model) {
-            unknownTypes.add(faceplateInstance.typeName);
+            opt_unknownTypes?.add(faceplateInstance.typeName);
             return;
         }
 
@@ -213,7 +213,7 @@ rs.mimic.UnitedRenderer = class {
                     component.parent.dom.append(component.dom);
                 }
             } else {
-                unknownTypes.add(component.typeName);
+                opt_unknownTypes?.add(component.typeName);
             }
         }
     }
@@ -260,7 +260,29 @@ rs.mimic.UnitedRenderer = class {
         }
     }
 
-    // Update the component DOM content according to the component model.
+    // Creates a component DOM content according to the component model.
+    createComponentDom(component) {
+        if (component.isFaceplate) {
+            this._createFaceplateDom(component);
+        } else {
+            let renderer = rs.mimic.RendererSet.componentRenderers.get(component.typeName);
+
+            if (renderer) {
+                let renderContext = new rs.mimic.RenderContext();
+                renderContext.editMode = this.editMode;
+                renderContext.imageMap = this.mimic.imageMap;
+
+                component.renderer = renderer;
+                renderer.createDom(component, renderContext);
+            }
+        }
+
+        if (component.dom && component.parent?.dom) {
+            component.parent.dom.append(component.dom);
+        }
+    }
+
+    // Updates the component DOM content according to the component model.
     updateComponentDom(component) {
         if (component.dom && component.renderer) {
             let renderContext = new rs.mimic.RenderContext();
