@@ -288,6 +288,27 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
         return loadContext.result;
     }
+
+    // Adds the component to the mimic.
+    addComponent(component, parent, x, y) {
+        if (parent instanceof rs.mimic.Component && parent.isContainer) {
+            component.parentID = parent.id;
+            component.parent = parent;
+            parent.children.push(component);
+        } else {
+            component.parentID = 0;
+            component.parent = this;
+            this.children.push(component);
+        }
+
+        component.properties.location = {
+            x: x.toString(),
+            y: y.toString()
+        };
+
+        this.components.push(component);
+        this.componentMap.set(component.id, component);
+    }
 }
 
 // Represents a component of a mimic diagram.

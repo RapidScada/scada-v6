@@ -1,6 +1,6 @@
 ﻿// Depends on jquery, tweakpane, scada-common.js, 
 //     mimic-common.js, mimic-model.js, mimic-render.js,
-//     editor.js, prop-grid.js
+//     editor.js, prop-grid.js, struct-tree.js
 
 const UPDATE_RATE = 1000; // ms
 const KEEP_ALIVE_INTERVAL = 10000; // ms
@@ -18,6 +18,7 @@ var translation = {};
 
 let splitter = null;
 let propGrid = null;
+let structTree = null;
 let mimicWrapperElem = $();
 let selectedElem = $();
 let lastUpdateTime = 0;
@@ -59,14 +60,22 @@ function bindEvents() {
             if (longAction == null) {
                 selectMimic();
             } else if (longAction.actionType = LongActionType.ADDING) {
-                addComponent(longAction.componentTypeName, getMimicPoint(event));
+                addComponent(longAction.componentTypeName, 0, getMimicPoint(event, mimicWrapperElem));
                 clearLongAction();
             }
         })
-        .on("mousedown", ".comp", function () {
+        .on("mousedown", ".comp", function (event) {
+            let compElem = $(this);
+
             if (longAction == null) {
-                selectComponent($(this));
-                return false; // prevent parent selection
+                selectComponent(compElem);
+                event.stopPropagation();
+            } else if (longAction.actionType = LongActionType.ADDING) {
+                if (compElem.hasClass("panel")) {
+                    addComponent(longAction.componentTypeName, compElem.data("id"), getMimicPoint(event, compElem));
+                    clearLongAction();
+                    event.stopPropagation();
+                }
             }
         });
 }
@@ -134,7 +143,7 @@ async function loadMimic() {
 
     if (result.ok) {
         mimicWrapperElem.append(unitedRenderer.createMimicDom());
-        showMimicStructure();
+        showStructure();
         selectMimic();
     } else {
         selectNone();
@@ -193,6 +202,11 @@ function pointer() {
     clearLongAction();
 }
 
+function showStructure() {
+    structTree ??= new StructTree("divStructure", mimic, phrases);
+    structTree.prepare();
+}
+
 function selectMimic() {
     selectedElem.removeClass("selected");
     selectedElem = $();
@@ -232,29 +246,28 @@ function selectNone() {
     propGrid.selectedObject = null;
 }
 
-function getMimicPoint(event) {
-    let offset = mimicWrapperElem.offset();
+function getMimicPoint(event, elem) {
+    let offset = elem.offset();
     return new DOMPoint(
         parseInt(event.pageX - offset.left),
         parseInt(event.pageY - offset.top)
     );
 }
 
-function addComponent(typeName, point) {
-    console.log(`Add ${typeName} component at ${point.x}, ${point.y}`);
+function addComponent(typeName, parentID, point) {
+    console.log(`Add ${typeName} component at ${point.x}, ${point.y}` +
+        (parentID > 0 ? ` inside component ${parentID}` : ""));
+
     let factory = rs.mimic.FactorySet.componentFactories.get(typeName);
     let renderer = rs.mimic.RendererSet.componentRenderers.get(typeName);
+    let parent = parentID > 0 ? mimic.componentMap.get(parentID) : mimic;
 
-    if (factory && renderer) {
+    if (factory && renderer && parent) {
         // TODO: refactor
         // create component
         let component = factory.createComponent();
         component.id = getNextComponentId();
-        component.properties.location = { x: point.x.toString(), y: point.y.toString() };
-        component.parent = mimic;
-        mimic.components.push(component);
-        mimic.componentMap.set(component.id, component);
-        mimic.children.push(component);
+        mimic.addComponent(component, parent, point.x, point.y);
 
         // render component
         let renderContext = new rs.mimic.RenderContext();
@@ -269,13 +282,11 @@ function addComponent(typeName, point) {
             selectComponent(component.dom);
         }
 
-        // update server side
-        let change = Change.addComponent(component);
-        let updateDto = new UpdateDto(mimicKey, change);
-        updateQueue.push(updateDto);
-
         // update structure
-        // ...
+        structTree.addComponent(component);
+
+        // update server side
+        pushChanges(Change.addComponent(component));
     } else {
         if (!factory) {
             console.error("Component factory not found.");
@@ -283,6 +294,10 @@ function addComponent(typeName, point) {
 
         if (!renderer) {
             console.error("Component renderer not found.");
+        }
+
+        if (!parent) {
+            console.error("Component parent not found.");
         }
 
         showToast(phrases.unableAddComponent, MessageType.ERROR);
@@ -310,6 +325,11 @@ function getLoaderUrl() {
 
 function getUpdaterUrl() {
     return rootPath + "Api/MimicEditor/Updater/";
+}
+
+function pushChanges(...changes) {
+    let updateDto = new UpdateDto(mimicKey, ...changes);
+    updateQueue.push(updateDto);
 }
 
 async function postUpdates() {
@@ -373,55 +393,8 @@ function handlePropertyChanged(eventData) {
 
         // update server side
         let change = Change.updateComponent(component.id).setProperty(propertyName, value);
-        let updateDto = new UpdateDto(mimicKey, change);
-        updateQueue.push(updateDto);
+        pushChanges(change);
     }
-}
-
-function showMimicStructure() {
-    let listElem = $("<ul class='top-level-list'></ul>");
-
-    // dependencies
-    let dependenciesItem = $("<li></li>").text(phrases.dependenciesNode).appendTo(listElem);
-    let dependenciesList = $("<ul></ul>").appendTo(dependenciesItem);
-
-    for (let dependency of mimic.dependencies) {
-        let dependencyNode = $("<span></span>").text(dependency.typeName);
-        $("<li></li>").append(dependencyNode).appendTo(dependenciesList);
-    }
-
-    // components
-    let mimicNode = $("<span></span>").text(phrases.mimicNode);
-    let mimicItem = $("<li></li>").append(mimicNode).appendTo(listElem);
-    let componentList = $("<ul></ul>").appendTo(mimicItem);
-
-    function appendComponent(list, component) {
-        let componentNode = $("<span></span>").text(component.displayName);
-        let componentItem = $("<li></li>").append(componentNode).appendTo(list);
-
-        if (component.isContainer && component.children.length > 0) {
-            let childList = $("<ul></ul>").appendTo(componentItem);
-
-            for (let childComponent of component.children) {
-                appendComponent(childList, childComponent);
-            }
-        }
-    }
-
-    for (let component of mimic.children) {
-        appendComponent(componentList, component);
-    }
-
-    // images
-    let imagesItem = $("<li></li>").text(phrases.imagesNode).appendTo(listElem);
-    let imagesList = $("<ul></ul>").appendTo(imagesItem);
-
-    for (let image of mimic.images) {
-        let imageNode = $("<span></span>").text(image.name);
-        $("<li></li>").append(imageNode).appendTo(imagesList);
-    }
-
-    $("#divStructure").append(listElem);
 }
 
 function shortenMessage(message) {

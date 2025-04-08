@@ -11,11 +11,18 @@
   line-height: normal;
   position: absolute;
 }
-.mimic-wrapper .mimic .comp.selected {
-  box-shadow: 0 0 0 1px lime;
-}
 .mimic-wrapper .mimic .comp.picture {
   background-repeat: no-repeat;
   background-position: center;
   background-clip: padding-box;
+}
+
+.mimic-wrapper.edit-mode .mimic .comp.selected {
+  box-shadow: 0 0 0 1px lime;
+}
+.mimic-wrapper.edit-mode .mimic .comp:not(.selected):hover {
+  box-shadow: 0 0 0 1px var(--bs-gray-500);
+}
+.mimic-wrapper.edit-mode .mimic .comp.faceplate .comp:hover {
+  box-shadow: none;
 }
