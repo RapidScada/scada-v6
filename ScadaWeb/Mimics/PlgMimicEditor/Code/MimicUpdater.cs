@@ -45,19 +45,18 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             SetComponentProperties(component, change);
 
             // add component
-            if (component.ParentID > 0)
+            if (component.ParentID > 0 &&
+                mimic.ComponentMap.TryGetValue(component.ParentID, out Component parent) &&
+                parent is Panel panel)
             {
-                if (mimic.ComponentMap.TryGetValue(component.ParentID, out Component parent) &&
-                    parent is Panel panel)
-                {
-                    panel.Components.Add(component);
-                }
+                panel.Components.Add(component);
             }
             else
             {
                 mimic.Components.Add(component);
-                mimic.ComponentMap.Add(component.ID, component);
             }
+
+            mimic.ComponentMap.Add(component.ID, component);
         }
 
         /// <summary>

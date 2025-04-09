@@ -291,7 +291,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
     // Adds the component to the mimic.
     addComponent(component, parent, x, y) {
-        if (parent instanceof rs.mimic.Component && parent.isContainer) {
+        if (parent instanceof rs.mimic.Panel) {
             component.parentID = parent.id;
             component.parent = parent;
             parent.children.push(component);
