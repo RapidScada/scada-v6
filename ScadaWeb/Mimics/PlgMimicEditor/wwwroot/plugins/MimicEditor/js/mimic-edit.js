@@ -386,6 +386,9 @@ function handlePropertyChanged(eventData) {
         // update selected element
         selectedElem = component.dom.addClass("selected");
 
+        // update structure tree
+        structTree.updateComponent(component);
+
         // update server side
         let change = Change.updateComponent(component.id).setProperty(propertyName, value);
         pushChanges(change);

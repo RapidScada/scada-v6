@@ -81,8 +81,15 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 {
                     string propName = kvp.Key.ToPascalCase();
 
-                    if (!component.KnownProperties.Contains(propName))
+                    if (component.KnownProperties.Contains(propName))
+                    {
+                        if (propName == "Name")
+                            component.Name = kvp.Value == null ? "" : kvp.Value.ToString();
+                    }
+                    else
+                    {
                         componentProps[propName] = kvp.Value;
+                    }
                 }
             }
         }

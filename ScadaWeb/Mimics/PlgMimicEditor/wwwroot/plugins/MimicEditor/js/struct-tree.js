@@ -72,6 +72,10 @@ class StructTree {
         }
     }
 
+    updateComponent(component) {
+        this.structElem.find(`#comp-item${component.id} span:first`).text(component.displayName);
+    }
+
     removeComponent(componentID) {
 
     }
