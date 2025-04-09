@@ -10,25 +10,25 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
     /// A base class for mimic diagrams and faceplates.
     /// <para>Базовый класс для мнемосхем и фейсплейтов.</para>
     /// </summary>
-    public abstract class MimicBase
+    public abstract class MimicBase : IContainer
     {
         /// <summary>
-        /// Gets the mimic document that groups its properties.
+        /// Gets the document that contains mimic properties.
         /// </summary>
         public ExpandoObject Document { get; } = new();
 
         /// <summary>
-        /// Gets the components contained within the mimic.
+        /// Gets the top-level components contained in the mimic.
         /// </summary>
         public List<Component> Components { get; } = [];
 
         /// <summary>
-        /// Gets the components accessed by ID.
+        /// Gets all mimic components accessible by ID.
         /// </summary>
         public Dictionary<int, Component> ComponentMap { get; } = [];
 
         /// <summary>
-        /// Gets the images accessed by name.
+        /// Gets the images accessible by name.
         /// </summary>
         public SortedList<string, Image> Images { get; } = [];
         
@@ -72,18 +72,14 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
 
             if (rootElem.SelectSingleNode("Components") is XmlNode componentsNode)
             {
-                HashSet<int> componentIDs = [];
-
                 foreach (XmlNode childNode in componentsNode.ChildNodes)
                 {
-                    Component component = childNode.Name == Panel.NodeName ? new Panel() : new Component();
-                    component.LoadFromXml(childNode, componentIDs);
+                    Component component = childNode.Name == Panel.NodeName 
+                        ? new Panel() 
+                        : new Component();
 
-                    if (component.ID > 0 && !componentIDs.Contains(component.ID))
-                    {
+                    if (component.LoadFromXml(childNode, ComponentMap))
                         Components.Add(component);
-                        ComponentMap.Add(component.ID, component);
-                    }
                 }
             }
 

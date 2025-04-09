@@ -29,8 +29,8 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         private readonly IWebContext webContext; // the web application context
         private readonly object editorLock;      // synchronizes access to the open mimics
         private readonly Dictionary<string, MimicGroup> mimicGroups;        // the mimic groups by project file name
-        private readonly Dictionary<string, MimicInstance> mimicByFileName; // the mimics accessed by file name
-        private readonly Dictionary<long, MimicInstance> mimicByKey;        // the mimics accessed by editor key
+        private readonly Dictionary<string, MimicInstance> mimicByFileName; // the mimics accessible by file name
+        private readonly Dictionary<long, MimicInstance> mimicByKey;        // the mimics accessible by editor key
 
         private Thread cleanupThread;     // the thread to cleanup inactive mimics
         private volatile bool terminated; // necessary to stop the thread

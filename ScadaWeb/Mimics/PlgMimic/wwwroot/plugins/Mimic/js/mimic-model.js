@@ -26,10 +26,10 @@ rs.mimic.MimicHelper = class {
 
 // A base class for mimic diagrams and faceplates.
 rs.mimic.MimicBase = class {
-    document;
-    components;
-    images;
-    children;
+    document;   // mimic properties
+    components; // all components
+    images;     // image collection
+    children;   // top-level components
 
     // Creates a component instance based on the received object.
     _createComponent(source) {
@@ -309,6 +309,35 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         this.components.push(component);
         this.componentMap.set(component.id, component);
     }
+
+    // Removes the component from the mimic. Returns the removed component.
+    removeComponent(componentID) {
+        let component = this.componentMap.get(componentID);
+
+        if (component) {
+            let idsToRemove = new Set();
+            idsToRemove.add(componentID);
+
+            if (component.parent) {
+                let index = component.parent.children.indexOf(component);
+                component.parent.children.splice(index, 1); // delete
+            }
+
+            if (component instanceof rs.mimic.Panel) {
+                for (let childComponent of component.getAllChildren()) {
+                    idsToRemove.add(childComponent.id);
+                }
+            }
+
+            this.components = this.components.filter(c => !idsToRemove.has(c.id));
+
+            for (let id of idsToRemove) {
+                this.componentMap.delete(id);
+            }
+        }
+
+        return component;
+    }
 }
 
 // Represents a component of a mimic diagram.
@@ -322,9 +351,9 @@ rs.mimic.Component = class {
     access = null;
 
     parent = null;   // mimic or panel
-    children = null; // child components
+    children = null; // top-level child components
     dom = null;      // jQuery objects representing DOM content
-    renderer = null; // renderer of the component
+    renderer = null; // renders the component
 
     constructor(source) {
         Object.assign(this, source);
@@ -354,6 +383,23 @@ rs.mimic.Panel = class extends rs.mimic.Component {
 
     get isContainer() {
         return true;
+    }
+
+    getAllChildren() {
+        let allChildren = [];
+
+        function appendChildren(panel) {
+            for (let child of panel.children) {
+                allChildren.push(child);
+
+                if (child instanceof rs.mimic.Panel) {
+                    appendChildren(child);
+                }
+            }
+        }
+
+        appendChildren(this);
+        return allChildren;
     }
 }
 
@@ -416,7 +462,7 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
 rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
     model = null;      // model of the Faceplate type
     components = null; // copy of the model components
-    children = null;   // top level child components
+    children = null;   // top-level child components
 
     get isFaceplate() {
         return true;

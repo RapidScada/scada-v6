@@ -404,5 +404,16 @@ namespace Scada
                 }
             }
         }
+
+        /// <summary>
+        /// Removes the elements with the specified keys from the dictionary.
+        /// </summary>
+        public static void Remove<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, IEnumerable<TKey> keys)
+        {
+            foreach (TKey key in keys)
+            {
+                dictionary.Remove(key);
+            }
+        }
     }
 }

@@ -22,7 +22,7 @@
     <Phrase key="btnCut">Вырезать</Phrase>
     <Phrase key="btnCopy">Копировать</Phrase>
     <Phrase key="btnPaste">Вставить</Phrase>
-    <Phrase key="btnDelete">Удалить</Phrase>
+    <Phrase key="btnRemove">Удалить</Phrase>
     <Phrase key="btnPointer">Указатель</Phrase>
     <Phrase key="btnAlign">Выровнять</Phrase>
     <Phrase key="btnAlignLefts">По левому краю</Phrase>

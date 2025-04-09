@@ -49,6 +49,10 @@ function bindEvents() {
         pointer();
     });
 
+    $("#btnRemove").on("click", function () {
+        remove();
+    });
+
     $("#divComponents .component-item").on("click", function () {
         let typeName = $(this).data("type-name");
         longAction = LongAction.startAdding(typeName);
@@ -194,8 +198,28 @@ function paste() {
 
 }
 
-function deleteComponent() {
+function remove() {
+    let componentID = selectedElem.data("id");
 
+    if (componentID > 0) {
+        console.log(`Remove component with ID ${componentID}`);
+
+        // remove component from mimic and DOM
+        let component = mimic.removeComponent(componentID);
+
+        if (component && component.dom) {
+            component.dom.remove();
+        }
+
+        // update structure and properties
+        structTree.removeComponent(componentID);
+        selectMimic();
+
+        // update server side
+        pushChanges(Change.removeComponent(componentID));
+    } else {
+        console.log("Component is not selected.");
+    }
 }
 
 function pointer() {
@@ -268,17 +292,15 @@ function addComponent(typeName, parentID, point) {
     let parent = parentID > 0 ? mimic.componentMap.get(parentID) : mimic;
 
     if (factory && renderer && parent) {
-        // create component
+        // create and render component
         let component = factory.createComponent();
         component.id = getNextComponentId();
         mimic.addComponent(component, parent, point.x, point.y);
-
-        // render component
         unitedRenderer.createComponentDom(component);
-        selectComponent(component.dom);
 
-        // update structure tree
+        // update structure and properties
         structTree.addComponent(component);
+        selectComponent(component.dom);
 
         // update server side
         pushChanges(Change.addComponent(component));
@@ -300,7 +322,7 @@ function addComponent(typeName, parentID, point) {
 }
 
 function getNextComponentId() {
-    maxComponentId ??= Math.max(...mimic.componentMap.keys());
+    maxComponentId ??= mimic.componentMap.size > 0 ? Math.max(...mimic.componentMap.keys()) : 0;
     return ++maxComponentId;
 }
 
@@ -362,6 +384,8 @@ async function postUpdate(updateDto) {
                 console.error(dto.msg);
                 showPermanentToast(shortenMessage(dto.msg), MessageType.ERROR);
             }
+        } else {
+            showPermanentToast(phrases.postUpdateError, MessageType.ERROR);
         }
 
         lastUpdateTime = Date.now();

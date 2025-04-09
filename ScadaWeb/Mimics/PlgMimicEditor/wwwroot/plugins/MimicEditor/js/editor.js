@@ -7,18 +7,19 @@ class ChangeType {
 
     static UPDATE_DOCUMENT = 1;
     static ADD_DEPENDENCY = 2;
-    static DELETE_DEPENDENCY = 3;
+    static REMOVE_DEPENDENCY = 3;
 
     static ADD_COMPONENT = 4;
     static UPDATE_COMPONENT = 5;
     static UPDATE_COMPONENT_PARENT = 6;
     static UPDATE_COMPONENT_BINDINGS = 7;
     static UPDATE_COMPONENT_ACCESS = 8;
-    static DELETE_COMPONENT = 9;
+    static REMOVE_COMPONENT = 9;
+    static REMOVE_COMPONENTS = 10;
 
-    static ADD_IMAGE = 10;
-    static RENAME_IMAGE = 11;
-    static DELETE_IMAGE = 12;
+    static ADD_IMAGE = 11;
+    static RENAME_IMAGE = 12;
+    static REMOVE_IMAGE = 13;
 }
 
 // Specifies the long action types.
@@ -52,10 +53,11 @@ class MessageType {
 
 // Represents a change in a mimic.
 class Change {
-    changeType;
-    objectID;
-    objectName;
-    properties;
+    changeType = ChangeType.NONE;
+    objectID = 0;
+    objectIDs = null;
+    objectName = "";
+    properties = null;
 
     constructor(changeType) {
         this.changeType = changeType ?? ChangeType.NONE;
@@ -84,6 +86,18 @@ class Change {
         let change = new Change(ChangeType.UPDATE_COMPONENT);
         change.objectID = componentID;
         change.properties = opt_properties;
+        return change;
+    }
+
+    static removeComponent(componentID) {
+        let change = new Change(ChangeType.REMOVE_COMPONENT);
+        change.objectID = componentID;
+        return change;
+    }
+
+    static removeComponents(...componentIDs) {
+        let change = new Change(ChangeType.REMOVE_COMPONENTS);
+        change.objectIDs = [...componentIDs];
         return change;
     }
 }

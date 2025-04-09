@@ -10,7 +10,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
     /// Represents a panel that can contain child components.
     /// <para>Представляет панель, которая может содержать дочерние компоненты.</para>
     /// </summary>
-    public class Panel : Component
+    public class Panel : Component, IContainer
     {
         /// <summary>
         /// The XML node name for panels.
@@ -24,7 +24,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
 
 
         /// <summary>
-        /// Gets the components contained within the panel.
+        /// Gets the top-level components contained in the panel.
         /// </summary>
         [JsonIgnore]
         public List<Component> Components { get; } = [];
@@ -38,23 +38,28 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// <summary>
         /// Loads the panel from the XML node.
         /// </summary>
-        public override void LoadFromXml(XmlNode xmlNode, HashSet<int> componentIDs)
+        public override bool LoadFromXml(XmlNode xmlNode, Dictionary<int, Component> componentMap)
         {
-            ArgumentNullException.ThrowIfNull(componentIDs, nameof(componentIDs));
-            base.LoadFromXml(xmlNode, componentIDs);
+            if (!base.LoadFromXml(xmlNode, componentMap))
+                return false;
 
             if (xmlNode.SelectSingleNode("Components") is XmlNode componentsNode)
             {
                 foreach (XmlNode childNode in componentsNode.ChildNodes)
                 {
-                    Component component = childNode.Name == NodeName ? new Panel() : new Component();
-                    component.LoadFromXml(childNode, componentIDs);
-                    component.ParentID = ID;
+                    Component component = childNode.Name == NodeName 
+                        ? new Panel() 
+                        : new Component();
 
-                    if (component.ID > 0 && !componentIDs.Contains(component.ID))
+                    if (component.LoadFromXml(childNode, componentMap))
+                    {
+                        component.ParentID = ID;
                         Components.Add(component);
+                    }
                 }
             }
+
+            return true;
         }
 
         /// <summary>
@@ -68,6 +73,25 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
             foreach (Component component in Components)
             {
                 component.SaveToXml(componentsElem.AppendElem(component.TypeName));
+            }
+        }
+
+        /// <summary>
+        /// Gets all child components contained by the panel, recursively.
+        /// </summary>
+        public IEnumerable<Component> GetAllChildren()
+        {
+            foreach (Component component in Components)
+            {
+                yield return component;
+
+                if (component is Panel panel)
+                {
+                    foreach (Component childComponent in panel.GetAllChildren())
+                    {
+                        yield return childComponent;
+                    }
+                }
             }
         }
     }

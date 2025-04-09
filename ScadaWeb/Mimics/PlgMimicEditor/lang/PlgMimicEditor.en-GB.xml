@@ -23,7 +23,7 @@
     <Phrase key="btnCut">Cut</Phrase>
     <Phrase key="btnCopy">Copy</Phrase>
     <Phrase key="btnPaste">Paste</Phrase>
-    <Phrase key="btnDelete">Delete</Phrase>
+    <Phrase key="btnRemove">Remove</Phrase>
     <Phrase key="btnPointer">Pointer Tool</Phrase>
     <Phrase key="btnAlign">Align</Phrase>
     <Phrase key="btnAlignLefts">Align Lefts</Phrase>

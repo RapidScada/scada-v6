@@ -77,6 +77,6 @@ class StructTree {
     }
 
     removeComponent(componentID) {
-
+        this.structElem.find("#comp-item" + componentID).remove();
     }
 }

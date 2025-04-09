@@ -17,7 +17,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         public List<FaceplateMeta> Dependencies { get; } = [];
 
         /// <summary>
-        /// Gets the faceplates accessed by type name.
+        /// Gets the faceplates accessible by type name.
         /// </summary>
         public Dictionary<string, Faceplate> Faceplates { get; } = [];
 

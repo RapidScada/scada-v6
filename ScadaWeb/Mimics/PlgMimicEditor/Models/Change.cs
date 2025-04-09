@@ -41,9 +41,14 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Models
         public int ObjectID { get; set; }
 
         /// <summary>
+        /// Gets or sets the IDs of the affected objects.
+        /// </summary>
+        public int[] ObjectIDs { get; set; }
+
+        /// <summary>
         /// Gets or sets the name of the affected object.
         /// </summary>
-        public int ObjectName { get; set; }
+        public string ObjectName { get; set; }
 
         /// <summary>
         /// Gets or sets the properties of the object being added or updated.
@@ -56,7 +61,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Models
         /// </summary>
         public string GetString(string propertyName)
         {
-            return Properties.GetValue(propertyName)?.ToString();
+            return Properties?.GetValue(propertyName)?.ToString();
         }
 
         /// <summary>
@@ -64,7 +69,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Models
         /// </summary>
         public int GetInt32(string propertyName)
         {
-            return Properties.GetValue<JsonElement>(propertyName).GetInt32();
+            return Properties == null ? 0 : Properties.GetValue<JsonElement>(propertyName).GetInt32();
         }
     }
 }
