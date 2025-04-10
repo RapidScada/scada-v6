@@ -42,15 +42,31 @@ function bindEvents() {
     });
 
     $("#btnUndo").on("click", function () {
-        showToast("Test toast");
+        undo();
     });
 
-    $("#btnPointer").on("click", function () {
-        pointer();
+    $("#btnRedo").on("click", function () {
+        redo();
+    });
+
+    $("#btnCut").on("click", function () {
+        cut();
+    });
+
+    $("#btnCopy").on("click", function () {
+        copy();
+    });
+
+    $("#btnPaste").on("click", function () {
+        paste();
     });
 
     $("#btnRemove").on("click", function () {
         remove();
+    });
+
+    $("#btnPointer").on("click", function () {
+        pointer();
     });
 
     $("#divComponents .component-item").on("click", function () {
