@@ -359,11 +359,11 @@ rs.mimic.Component = class {
         Object.assign(this, source);
     }
 
-    get isFaceplate() {
+    get isContainer() {
         return false;
     }
 
-    get isContainer() {
+    get isFaceplate() {
         return false;
     }
 
@@ -464,11 +464,11 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
     components = null; // copy of the model components
     children = null;   // top-level child components
 
-    get isFaceplate() {
+    get isContainer() {
         return true;
     }
 
-    get isContainer() {
+    get isFaceplate() {
         return true;
     }
 
