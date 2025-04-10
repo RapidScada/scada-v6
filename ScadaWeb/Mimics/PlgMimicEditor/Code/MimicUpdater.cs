@@ -68,12 +68,9 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 HashSet<int> idsToRemove = [change.ObjectID];
                 GetComponentParent(component).Components.Remove(component);
 
-                if (component is Panel panel)
+                foreach (Component childComponent in component.GetAllChildren())
                 {
-                    foreach (Component childComponent in panel.GetAllChildren())
-                    {
-                        idsToRemove.Add(childComponent.ID);
-                    }
+                    idsToRemove.Add(childComponent.ID);
                 }
 
                 mimic.ComponentMap.Remove(idsToRemove);
@@ -96,12 +93,9 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                     idsToRemove.Add(componentID);
                     parentIDs.Add(component.ParentID);
 
-                    if (component is Panel panel)
+                    foreach (Component childComponent in component.GetAllChildren())
                     {
-                        foreach (Component childComponent in panel.GetAllChildren())
-                        {
-                            idsToRemove.Add(childComponent.ID);
-                        }
+                        idsToRemove.Add(childComponent.ID);
                     }
                 }
             }
@@ -109,8 +103,8 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             // remove components
             foreach (int parentID in parentIDs)
             {
-                IContainer parent = parentID > 0 && mimic.ComponentMap.GetValueOrDefault(parentID) is Panel panel
-                    ? panel
+                IContainer parent = parentID > 0 && mimic.ComponentMap.TryGetValue(parentID, out Component component)
+                    ? component
                     : mimic;
                 parent.Components.RemoveAll(c => idsToRemove.Contains(c.ID)); // O(n) operation
             }
@@ -123,8 +117,8 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         private IContainer GetComponentParent(Component component)
         {
-            return component.ParentID > 0 && mimic.ComponentMap.GetValueOrDefault(component.ParentID) is Panel panel
-                ? panel
+            return component.ParentID > 0 && mimic.ComponentMap.TryGetValue(component.ParentID, out Component parent)
+                ? parent
                 : mimic;
         }
 
@@ -141,7 +135,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 {
                     string propName = kvp.Key.ToPascalCase();
 
-                    if (component.KnownProperties.Contains(propName))
+                    if (Component.KnownProperties.Contains(propName))
                     {
                         if (propName == "Name")
                             component.Name = kvp.Value == null ? "" : kvp.Value.ToString();
