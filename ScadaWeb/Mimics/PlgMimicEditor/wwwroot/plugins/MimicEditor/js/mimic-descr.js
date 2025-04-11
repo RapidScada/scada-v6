@@ -192,6 +192,10 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.ComponentDescriptor {
 
 // Represents a panel component descriptor.
 rs.mimic.PanelDescriptor = class extends rs.mimic.ComponentDescriptor {
+    repair(component) {
+        super.repair(component);
+        component.children = []; // accept child components
+    }
 }
 
 // Contains descriptors for a mimic and its components.
