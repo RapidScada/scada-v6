@@ -194,7 +194,7 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.ComponentDescriptor {
 rs.mimic.PanelDescriptor = class extends rs.mimic.ComponentDescriptor {
     repair(component) {
         super.repair(component);
-        component.children = []; // accept child components
+        component.children ??= []; // accept child components
     }
 }
 

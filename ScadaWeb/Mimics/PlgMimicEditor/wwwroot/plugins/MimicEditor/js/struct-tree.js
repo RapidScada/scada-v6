@@ -16,7 +16,7 @@ class StructTree {
     _appendComponent(listElem, component) {
         let componentNode = $("<span></span>").text(component.displayName);
         let componentItem = $("<li></li>")
-            .attr("id", "comp-item" + component.id)
+            .attr("id", "struct-comp-item" + component.id)
             .attr("data-id", component.id)
             .append(componentNode).appendTo(listElem);
 
@@ -64,7 +64,7 @@ class StructTree {
 
     addComponent(component) {
         let listElem = component.parentID > 0
-            ? this.structElem.find(`#comp-item${component.parentID}>ul`) 
+            ? this.structElem.find(`#struct-comp-item${component.parentID}>ul`) 
             : this.structElem.find(".mimic-item>ul");
 
         if (listElem.length > 0) {
@@ -73,10 +73,10 @@ class StructTree {
     }
 
     updateComponent(component) {
-        this.structElem.find(`#comp-item${component.id} span:first`).text(component.displayName);
+        this.structElem.find(`#struct-comp-item${component.id} span:first`).text(component.displayName);
     }
 
     removeComponent(componentID) {
-        this.structElem.find("#comp-item" + componentID).remove();
+        this.structElem.find("#struct-comp-item" + componentID).remove();
     }
 }
