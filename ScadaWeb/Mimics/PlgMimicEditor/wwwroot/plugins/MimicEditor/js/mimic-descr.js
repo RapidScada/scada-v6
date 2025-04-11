@@ -9,8 +9,9 @@ rs.mimic.PropertyDescriptor = class {
     category = "";
     isReadOnly = false;
     isBrowsable = true;
-    defaultValue = undefined;
+    isKnown = false;
     type = rs.mimic.BasicType.UNDEFINED;
+    defaultValue = undefined;
     format = {}; // Tweakpane binding options
 
     constructor(source) {
@@ -73,6 +74,27 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
             type: rs.mimic.BasicType.SIZE
         }));
     }
+
+    // Adds missing properties to the mimic document and components.
+    repair(mimic) {
+        mimic.document ??= {};
+
+        for (let propertyDescriptor of this.propertyDescriptors.values()) {
+            if (!propertyDescriptor.isKnown && !mimic.document.hasOwnProperty(propertyDescriptor.name)) {
+                mimic.document[propertyDescriptor.name] = propertyDescriptor.defaultValue;
+            }
+        }
+
+        if (Array.isArray(mimic.components)) {
+            for (let component of mimic.components) {
+                let componentDescriptor = rs.mimic.DescriptorSet.componentDescriptors.get(component.typeName);
+
+                if (componentDescriptor) {
+                    componentDescriptor.repair(component);
+                }
+            }
+        }
+    }
 }
 
 // Represents a component descriptor.
@@ -86,6 +108,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             displayName: "ID",
             category: rs.mimic.KnownCategory.DESIGN,
             isReadOnly: true,
+            isKnown: true,
             type: rs.mimic.BasicType.INT
         }));
 
@@ -93,6 +116,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "name",
             displayName: "Name",
             category: rs.mimic.KnownCategory.DESIGN,
+            isKnown: true,
             type: rs.mimic.BasicType.STRING
         }));
 
@@ -101,6 +125,7 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             displayName: "Type name",
             category: rs.mimic.KnownCategory.DESIGN,
             isReadOnly: true,
+            isKnown: true,
             type: rs.mimic.BasicType.STRING
         }));
 
@@ -108,15 +133,28 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
             name: "location",
             displayName: "Location",
             category: rs.mimic.KnownCategory.LAYOUT,
-            type: rs.mimic.BasicType.POINT
+            type: rs.mimic.BasicType.POINT,
+            defaultValue: { x: "0", y: "0"}
         }));
 
         this.add(new PropertyDescriptor({
             name: "size",
             displayName: "Size",
             category: rs.mimic.KnownCategory.LAYOUT,
-            type: rs.mimic.BasicType.SIZE
+            type: rs.mimic.BasicType.SIZE,
+            defaultValue: { width: "0", height: "0" }
         }));
+    }
+
+    // Adds missing properties to the component.
+    repair(component) {
+        component.properties ??= {};
+
+        for (let propertyDescriptor of this.propertyDescriptors.values()) {
+            if (!propertyDescriptor.isKnown && !component.properties.hasOwnProperty(propertyDescriptor.name)) {
+                component.properties[propertyDescriptor.name] = propertyDescriptor.defaultValue;
+            }
+        }
     }
 }
 
@@ -130,7 +168,8 @@ rs.mimic.TextDescriptor = class extends rs.mimic.ComponentDescriptor {
             name: "text",
             displayName: "Text",
             category: rs.mimic.KnownCategory.APPEARANCE,
-            type: rs.mimic.BasicType.STRING
+            type: rs.mimic.BasicType.STRING,
+            defaultValue: ""
         }));
     }
 }
@@ -145,7 +184,8 @@ rs.mimic.PictureDescriptor = class extends rs.mimic.ComponentDescriptor {
             name: "imageName",
             displayName: "Image",
             category: rs.mimic.KnownCategory.APPEARANCE,
-            type: rs.mimic.BasicType.STRING
+            type: rs.mimic.BasicType.STRING,
+            defaultValue: ""
         }));
     }
 }

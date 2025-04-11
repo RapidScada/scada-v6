@@ -1,6 +1,6 @@
-﻿// Depends on jquery, tweakpane, scada-common.js, 
+﻿// Depends on jquery, tweakpane, scada-common.js,
 //     mimic-common.js, mimic-model.js, mimic-render.js,
-//     editor.js, prop-grid.js, struct-tree.js
+//     editor.js, mimic-descr.js, mimic-factory.js, prop-grid.js, struct-tree.js
 
 const UPDATE_RATE = 1000; // ms
 const KEEP_ALIVE_INTERVAL = 10000; // ms
@@ -91,7 +91,7 @@ function bindEvents() {
                 selectComponent(compElem);
                 event.stopPropagation();
             } else if (longAction.actionType = LongActionType.ADDING) {
-                if (compElem.hasClass("panel")) {
+                if (compElem.hasClass("container")) {
                     addComponent(longAction.componentTypeName, compElem.data("id"), getMimicPoint(event, compElem));
                     clearLongAction();
                     event.stopPropagation();
@@ -162,6 +162,7 @@ async function loadMimic() {
     let result = await mimic.load(getLoaderUrl(), mimicKey);
 
     if (result.ok) {
+        rs.mimic.DescriptorSet.mimicDescriptor.repair(mimic);
         mimicWrapperElem.append(unitedRenderer.createMimicDom());
         showStructure();
         selectMimic();
@@ -304,13 +305,15 @@ function addComponent(typeName, parentID, point) {
         (parentID > 0 ? ` inside component ${parentID}` : ""));
 
     let factory = rs.mimic.FactorySet.componentFactories.get(typeName);
+    let descriptor = rs.mimic.DescriptorSet.componentDescriptors.get(typeName);
     let renderer = rs.mimic.RendererSet.componentRenderers.get(typeName);
     let parent = parentID > 0 ? mimic.componentMap.get(parentID) : mimic;
 
-    if (factory && renderer && parent) {
+    if (factory && descriptor && renderer && parent) {
         // create and render component
         let component = factory.createComponent();
         component.id = getNextComponentId();
+        descriptor.repair(component);
         mimic.addComponent(component, parent, point.x, point.y);
         unitedRenderer.createComponentDom(component);
 
@@ -323,6 +326,10 @@ function addComponent(typeName, parentID, point) {
     } else {
         if (!factory) {
             console.error("Component factory not found.");
+        }
+
+        if (!descriptor) {
+            console.error("Component descriptor not found.");
         }
 
         if (!renderer) {

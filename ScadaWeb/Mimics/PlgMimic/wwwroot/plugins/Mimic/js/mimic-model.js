@@ -12,12 +12,14 @@ rs.mimic.MimicHelper = class {
             if (component.parentID > 0) {
                 let parent = componentMap.get(component.parentID);
 
-                if (parent.isContainer) {
+                if (parent) {
                     component.parent = parent;
+                    parent.children ??= [];
                     parent.children.push(component);
                 }
             } else {
                 component.parent = root;
+                root.children ??= [];
                 root.children.push(component);
             }
         }
@@ -33,9 +35,7 @@ rs.mimic.MimicBase = class {
 
     // Creates a component instance based on the received object.
     _createComponent(source) {
-        return source.typeName === "Panel"
-            ? new rs.mimic.Panel(source)
-            : new rs.mimic.Component(source);
+        return new rs.mimic.Component(source);
     }
 
     // Finds a parent and children for each component.
@@ -291,7 +291,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
     // Adds the component to the mimic.
     addComponent(component, parent, x, y) {
-        if (parent instanceof rs.mimic.Panel) {
+        if (parent.isContainer) {
             component.parentID = parent.id;
             component.parent = parent;
             parent.children.push(component);
@@ -323,7 +323,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
                 component.parent.children.splice(index, 1); // delete
             }
 
-            if (component instanceof rs.mimic.Panel) {
+            if (component.isContainer) {
                 for (let childComponent of component.getAllChildren()) {
                     idsToRemove.add(childComponent.id);
                 }
@@ -360,7 +360,7 @@ rs.mimic.Component = class {
     }
 
     get isContainer() {
-        return false;
+        return Array.isArray(this.children);
     }
 
     get isFaceplate() {
@@ -372,27 +372,14 @@ rs.mimic.Component = class {
             ? `[${this.id}] ${this.name} - ${this.typeName}`
             : `[${this.id}] ${this.typeName}`;
     }
-}
-
-// Represents a panel that can contain child components.
-rs.mimic.Panel = class extends rs.mimic.Component {
-    constructor(source) {
-        super(source);
-        this.children = [];
-    }
-
-    get isContainer() {
-        return true;
-    }
 
     getAllChildren() {
         let allChildren = [];
 
-        function appendChildren(panel) {
-            for (let child of panel.children) {
-                allChildren.push(child);
-
-                if (child instanceof rs.mimic.Panel) {
+        function appendChildren(component) {
+            if (component.isContainer) {
+                for (let child of component.children) {
+                    allChildren.push(child);
                     appendChildren(child);
                 }
             }
@@ -465,7 +452,8 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
     children = null;   // top-level child components
 
     get isContainer() {
-        return true;
+        // child components are essential part of the faceplate, it does not accept additional components
+        return false;
     }
 
     get isFaceplate() {

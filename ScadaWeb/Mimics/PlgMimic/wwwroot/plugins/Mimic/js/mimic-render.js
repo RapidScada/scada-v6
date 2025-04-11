@@ -77,10 +77,16 @@ rs.mimic.MimicRenderer = class extends rs.mimic.Renderer {
 // Represents a component renderer.
 rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
     createDom(component, renderContext) {
-        component.dom = $("<div class='comp'></div>")
+        let componentElem = $("<div class='comp'></div>")
             .attr("id", "comp" + renderContext.idPrefix + component.id)
             .attr("data-id", component.id);
-        return component.dom;
+
+        if (renderContext.editMode && !renderContext.faceplateMode && component.isContainer) {
+            componentElem.addClass("container")
+        }
+
+        component.dom = componentElem;
+        return componentElem;
     }
 }
 
@@ -157,6 +163,7 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
 // Encapsulates information about a rendering operation.
 rs.mimic.RenderContext = class {
     editMode = false;
+    faceplateMode = false;
     idPrefix = "";
     imageMap = null;
 
@@ -195,6 +202,7 @@ rs.mimic.UnitedRenderer = class {
 
         let renderContext = new rs.mimic.RenderContext();
         renderContext.editMode = this.editMode;
+        renderContext.faceplateMode = true;
         renderContext.imageMap = faceplateInstance.model.imageMap;
 
         const RendererSet = rs.mimic.RendererSet;

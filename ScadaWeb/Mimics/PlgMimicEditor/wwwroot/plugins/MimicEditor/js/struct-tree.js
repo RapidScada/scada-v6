@@ -20,7 +20,7 @@ class StructTree {
             .attr("data-id", component.id)
             .append(componentNode).appendTo(listElem);
 
-        if (component.isContainer && !component.isFaceplate) {
+        if (component.isContainer) {
             let childList = $("<ul></ul>").appendTo(componentItem);
 
             for (let childComponent of component.children) {

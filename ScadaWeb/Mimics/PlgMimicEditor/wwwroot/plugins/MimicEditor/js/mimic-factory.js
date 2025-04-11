@@ -6,15 +6,11 @@ rs.mimic.ComponentFactory = class {
     createComponent(typeName) {
         let component = new rs.mimic.Component();
         component.typeName = typeName;
-        this.setProperties(component);
-        return component;
-    }
-
-    setProperties(component) {
         component.properties = {
             location: { x: "0", y: "0" },
             size: { width: "100", height: "100" }
         };
+        return component;
     }
 }
 
@@ -30,18 +26,15 @@ rs.mimic.TextFactory = class extends rs.mimic.ComponentFactory {
 // Creates components of the Picture type.
 rs.mimic.PictureFactory = class extends rs.mimic.ComponentFactory {
     createComponent() {
-        let component = super.createComponent("Picture");
-        component.properties.imageName = "";
-        return component;
+        return super.createComponent("Picture");
     }
 }
 
 // Creates components of the Panel type.
 rs.mimic.PanelFactory = class extends rs.mimic.ComponentFactory {
     createComponent() {
-        let component = new rs.mimic.Panel();
-        component.typeName = "Panel";
-        this.setProperties(component);
+        let component = super.createComponent("Panel");
+        component.children = [];
         return component;
     }
 }
