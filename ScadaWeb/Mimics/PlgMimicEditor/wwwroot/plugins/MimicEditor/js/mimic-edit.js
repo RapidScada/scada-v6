@@ -130,8 +130,9 @@ function initTweakpane() {
 function translateProperties() {
     const DescriptorSet = rs.mimic.DescriptorSet;
 
-    // translate mimic
+    // translate mimic and faceplates
     translateObject(DescriptorSet.mimicDescriptor, translation.mimic);
+    translateObject(DescriptorSet.faceplateDescriptor, translation.component);
 
     // translate components
     for (let [typeName, componentDescriptor] of DescriptorSet.componentDescriptors) {
