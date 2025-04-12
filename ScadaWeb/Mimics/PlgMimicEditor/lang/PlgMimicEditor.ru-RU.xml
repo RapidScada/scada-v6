@@ -6,6 +6,7 @@
     <Phrase key="btnProperties">Свойства</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js">
+    <Phrase key="FaceplateGroup">ФЕЙСПЛЕЙТЫ</Phrase>
     <Phrase key="DependenciesNode">Зависимости</Phrase>
     <Phrase key="MimicNode">Мнемосхема</Phrase>
     <Phrase key="ImagesNode">Изображения</Phrase>

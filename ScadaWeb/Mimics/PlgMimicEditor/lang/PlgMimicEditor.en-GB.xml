@@ -7,6 +7,7 @@
     <Phrase key=""></Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js">
+    <Phrase key="FaceplateGroup">FACEPLATES</Phrase>
     <Phrase key="DependenciesNode">Dependencies</Phrase>
     <Phrase key="MimicNode">Mimic</Phrase>
     <Phrase key="ImagesNode">Images</Phrase>

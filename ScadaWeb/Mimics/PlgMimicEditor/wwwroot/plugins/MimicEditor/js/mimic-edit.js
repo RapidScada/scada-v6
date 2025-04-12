@@ -5,6 +5,7 @@
 const UPDATE_RATE = 1000; // ms
 const KEEP_ALIVE_INTERVAL = 10000; // ms
 const TOAST_MESSAGE_LENGTH = 100;
+const IMAGES_PATH = "../../plugins/MimicEditor/images/";
 const mimic = new rs.mimic.Mimic();
 const unitedRenderer = new rs.mimic.UnitedRenderer(mimic, true);
 const updateQueue = [];
@@ -164,6 +165,7 @@ async function loadMimic() {
     if (result.ok) {
         rs.mimic.DescriptorSet.mimicDescriptor.repair(mimic);
         mimicWrapperElem.append(unitedRenderer.createMimicDom());
+        showFaceplates();
         showStructure();
         selectMimic();
     } else {
@@ -241,6 +243,41 @@ function remove() {
 
 function pointer() {
     clearLongAction();
+}
+
+function showFaceplates() {
+    // create new faceplate group
+    let newGroupElem;
+
+    if (mimic.dependencies.length > 0) {
+        newGroupElem = $("<div class='component-group faceplate-group'></div>");
+        $("<div class='component-group-header'></div>")
+            .text(phrases.faceplateGroup)
+            .appendTo(newGroupElem);
+
+        for (let faceplateMeta of mimic.dependencies) {
+            let faceplateElem = $("<div class='component-item'></div>")
+                .attr("data-type-name", faceplateMeta.typeName)
+                .appendTo(newGroupElem);
+            $("<img class='component-icon' />")
+                .attr("src", IMAGES_PATH + "faceplate-icon.png")
+                .appendTo(faceplateElem);
+            $("<span class='component-name'></span>")
+                .text(faceplateMeta.typeName)
+                .appendTo(faceplateElem);
+        }
+    } else {
+        newGroupElem = $();
+    }
+
+    // replace existing faceplate group
+    let oldGroupElem = $("#divComponents .faceplate-group");
+
+    if (oldGroupElem.length > 0) {
+        oldGroupElem.replaceWith(newGroupElem);
+    } else {
+        $("#divComponents").append(newGroupElem);
+    }
 }
 
 function showStructure() {
