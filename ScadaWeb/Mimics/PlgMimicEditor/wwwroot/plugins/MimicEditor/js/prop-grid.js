@@ -125,7 +125,9 @@ class PropGrid {
     _getObjectDescriptor(obj) {
         const DescriptorSet = rs.mimic.DescriptorSet;
 
-        if (obj instanceof rs.mimic.Component) {
+        if (obj instanceof rs.mimic.FaceplateInstance) {
+            return DescriptorSet.faceplateDescriptor;
+        } else if (obj instanceof rs.mimic.Component) {
             return DescriptorSet.componentDescriptors.get(obj.typeName);
         } else if (obj instanceof rs.mimic.Mimic) {
             return DescriptorSet.mimicDescriptor;

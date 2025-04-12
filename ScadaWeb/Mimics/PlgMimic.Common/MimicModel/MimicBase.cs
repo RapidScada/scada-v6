@@ -91,7 +91,10 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
 
             foreach (Component component in Components)
             {
-                component.SaveToXml(componentsElem.AppendElem(component.TypeName));
+                if (!string.IsNullOrEmpty(component.TypeName))
+                {
+                    component.SaveToXml(componentsElem.AppendElem(component.TypeName));
+                }
             }
 
             foreach (Image image in Images.Values)

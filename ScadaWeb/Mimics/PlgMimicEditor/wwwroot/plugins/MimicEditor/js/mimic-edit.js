@@ -70,7 +70,7 @@ function bindEvents() {
         pointer();
     });
 
-    $("#divComponents .component-item").on("click", function () {
+    $("#divComponents").on("click", ".component-item", function () {
         let typeName = $(this).data("type-name");
         longAction = LongAction.startAdding(typeName);
         mimicWrapperElem.css("cursor", longAction.getCursor());
@@ -341,10 +341,21 @@ function addComponent(typeName, parentID, point) {
     console.log(`Add ${typeName} component at ${point.x}, ${point.y}` +
         (parentID > 0 ? ` inside component ${parentID}` : ""));
 
-    let factory = rs.mimic.FactorySet.componentFactories.get(typeName);
-    let descriptor = rs.mimic.DescriptorSet.componentDescriptors.get(typeName);
-    let renderer = rs.mimic.RendererSet.componentRenderers.get(typeName);
+    let factory;
+    let descriptor;
+    let renderer;
     let parent = parentID > 0 ? mimic.componentMap.get(parentID) : mimic;
+    let faceplate = mimic.faceplateMap.get(typeName);
+
+    if (faceplate) {
+        factory = rs.mimic.FactorySet.getFaceplateFactory(faceplate);
+        descriptor = rs.mimic.DescriptorSet.faceplateDescriptor;
+        renderer = rs.mimic.RendererSet.faceplateRenderer;
+    } else {
+        factory = rs.mimic.FactorySet.componentFactories.get(typeName);
+        descriptor = rs.mimic.DescriptorSet.componentDescriptors.get(typeName);
+        renderer = rs.mimic.RendererSet.componentRenderers.get(typeName);
+    }
 
     if (factory && descriptor && renderer && parent) {
         // create and render component

@@ -39,6 +39,19 @@ rs.mimic.PanelFactory = class extends rs.mimic.ComponentFactory {
     }
 }
 
+// Creates faceplates.
+rs.mimic.FaceplateFactory = class {
+    static createComponent(faceplate) {
+        let faceplateInstance = new rs.mimic.FaceplateInstance();
+        faceplateInstance.typeName = faceplate.typeName;
+        faceplateInstance.properties = {
+            location: { x: "0", y: "0" }
+        };
+        faceplateInstance.applyModel(faceplate);
+        return faceplateInstance;
+    }
+}
+
 // Contains factories for mimic components.
 rs.mimic.FactorySet = class {
     static componentFactories = new Map([
@@ -46,4 +59,12 @@ rs.mimic.FactorySet = class {
         ["Picture", new rs.mimic.PictureFactory()],
         ["Panel", new rs.mimic.PanelFactory()]
     ]);
+
+    static getFaceplateFactory(faceplate) {
+        return {
+            createComponent: function () {
+                return rs.mimic.FaceplateFactory.createComponent(faceplate);
+            }
+        };
+    }
 }

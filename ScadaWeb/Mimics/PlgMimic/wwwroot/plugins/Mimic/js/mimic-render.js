@@ -154,8 +154,9 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
     updateDom(component, renderContext) {
         if (component.dom instanceof jQuery) {
             let faceplateElem = component.dom.first();
-            this._setLocation(faceplateElem, component.properties.location);
-            this._setSize(faceplateElem, component.model.document.size);
+            let props = component.properties;
+            this._setLocation(faceplateElem, props.location);
+            this._setSize(faceplateElem, props.size);
         }
     }
 }

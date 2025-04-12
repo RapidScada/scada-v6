@@ -207,19 +207,20 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
     // Loads a faceplate.
     async _loadFaceplate(loadContext) {
         let faceplateMeta = this.dependencies[loadContext.faceplateIndex];
-        console.log(ScadaUtils.getCurrentTime() + ` Load '${faceplateMeta.typeName}' faceplate`);
+        let typeName = faceplateMeta.typeName;
+        console.log(ScadaUtils.getCurrentTime() + ` Load '${typeName}' faceplate`);
         let response = await fetch(loadContext.controllerUrl +
             "GetFaceplate?key=" + loadContext.mimicKey +
-            "&typeName=" + faceplateMeta.typeName);
+            "&typeName=" + typeName);
 
         if (response.ok) {
             let dto = await response.json();
 
             if (dto.ok) {
                 loadContext.faceplateIndex++;
-                let faceplate = new rs.mimic.Faceplate(dto.data);
+                let faceplate = new rs.mimic.Faceplate(dto.data, typeName);
                 this.faceplates.push(faceplate);
-                this.faceplateMap.set(faceplateMeta.typeName, faceplate);
+                this.faceplateMap.set(typeName, faceplate);
             }
 
             return dto;
@@ -412,12 +413,15 @@ rs.mimic.FaceplateMeta = class {
 
 // Represents a faceplate, i.e. a user component.
 rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
-    constructor(source) {
+    typeName = "";
+
+    constructor(source, typeName) {
         super();
         this.document = source.document ?? {};
         this.components = [];
         this.images = [];
         this.children = [];
+        this.typeName = typeName;
 
         if (Array.isArray(source.components)) {
             for (let sourceComponent of source.components) {
@@ -461,6 +465,9 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
     }
 
     applyModel(faceplate) {
+        this.properties ??= {};
+        this.properties.size ??= Object.assign({}, faceplate.document.size);
+
         this.model = faceplate;
         this.components = faceplate.copyComponents();
         this.children = [];
