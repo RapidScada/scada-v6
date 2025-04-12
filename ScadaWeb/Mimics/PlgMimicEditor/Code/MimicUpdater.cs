@@ -3,6 +3,8 @@
 
 using Scada.Web.Plugins.PlgMimic.MimicModel;
 using Scada.Web.Plugins.PlgMimicEditor.Models;
+using System.Dynamic;
+using System.Text.Json;
 
 namespace Scada.Web.Plugins.PlgMimicEditor.Code
 {
@@ -134,17 +136,42 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 foreach (KeyValuePair<string, object> kvp in change.Properties)
                 {
                     string propName = kvp.Key.ToPascalCase();
+                    JsonElement propVal = (JsonElement)kvp.Value;
 
                     if (Component.KnownProperties.Contains(propName))
                     {
                         if (propName == "Name")
-                            component.Name = kvp.Value == null ? "" : kvp.Value.ToString();
+                            component.Name = propVal.ToString();
                     }
                     else
                     {
-                        componentProps[propName] = kvp.Value;
+                        componentProps[propName] = JsonElementToObject(propVal);
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Converts the specified JSON element to a component property.
+        /// </summary>
+        private static object JsonElementToObject(JsonElement jsonElement)
+        {
+            if (jsonElement.ValueKind == JsonValueKind.Object)
+            {
+                ExpandoObject expando = new();
+
+                foreach (JsonProperty jsonProperty in jsonElement.EnumerateObject())
+                {
+                    string propName = jsonProperty.Name.ToPascalCase();
+                    JsonElement propVal = jsonProperty.Value;
+                    expando.SetValue(propName, JsonElementToObject(propVal));
+                }
+
+                return expando;
+            }
+            else
+            {
+                return jsonElement.ToString();
             }
         }
 
