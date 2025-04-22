@@ -37,6 +37,6 @@
     <Phrase key="MaxHeader">Máximo</Phrase>
     <Phrase key="DayUnit">d</Phrase>
     <Phrase key="WorksheetName">Hoja {0}</Phrase>
-    <Phrase key="CloseButton">Cerca</Phrase>
+    <Phrase key="CloseButton">Cerrar</Phrase>
   </Dictionary>
 </PlgElasticReportDictionaries>
