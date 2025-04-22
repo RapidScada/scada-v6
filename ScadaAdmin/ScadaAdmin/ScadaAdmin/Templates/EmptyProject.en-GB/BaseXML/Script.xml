@@ -34,6 +34,21 @@ public CnlData GetBit(CnlData cnlData, int n)
     return NewData(GetBit(cnlData.Val, n), cnlData.Stat);
 }
 
+// Returns specified bits of the given value.
+// Возвращает заданные биты указанного значения.
+public double GetBits(double val, int n, int len)
+{
+    ulong ulVal = (ulong)val;
+    return (ulVal &gt;&gt; n) &amp; (ulong)((1 &lt;&lt; len) - 1);
+}
+
+// Returns a channel data consists of the specified bits of the value and the channel status.
+// Возвращает данные канала, состоящие из заданных бит значения и статуса канала.
+public CnlData GetBits(CnlData cnlData, int n, int len)
+{
+    return NewData(GetBits(cnlData.Val, n, len), cnlData.Stat);
+}
+
 // Sets the n-th bit of the specified value.
 // Устанавливает бит n значения val.
 public double SetBit(double val, int n, double isOn)
@@ -73,6 +88,13 @@ public CnlData DataRel(int offset)
 public double SetData()
 {
   return SetData(CnlNum, CmdVal, 1);
+}
+
+// Gets the default data of the calculated channel.
+// Получает данные по умолчанию для расчётного канала.
+public CnlData GetDefaultData(double val)
+{
+  return Stat() &gt; 0 ? Data() : NewData(val, 1);
 }
 </Source>
   </Script>
