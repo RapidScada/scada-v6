@@ -5,14 +5,14 @@
     <Phrase key="PluginsNode">Плагины</Phrase>
     <Phrase key="LogsNode">Журналы</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlDisplayOptions">
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Controls.CtrlDisplayOptions">
     <Phrase key="gbDisplayOptions">Параметры отображения</Phrase>
     <Phrase key="lblShowHeader">Показывать заголовок страницы</Phrase>
     <Phrase key="lblShowMainMenu">Показывать главное меню</Phrase>
     <Phrase key="lblShowViewExplorer">Показывать проводник представлений</Phrase>
     <Phrase key="lblRefreshRate">Частота обновления данных, мс</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlGeneralOptions">
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Controls.CtrlGeneralOptions">
     <Phrase key="gbGeneralOptions">Основные параметры</Phrase>
     <Phrase key="lblDefaultCulture">Культура по умолчанию</Phrase>
     <Phrase key="lblDefaultTimeZone">Часовой пояс по умолчанию</Phrase>
@@ -21,7 +21,7 @@
     <Phrase key="lblShareStats">Предоставлять обезличенную статистику разработчикам</Phrase>
     <Phrase key="lblMaxLogSize">Максимальный размер файла журнала, МБ</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlLoginOptions">
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Controls.CtrlLoginOptions">
     <Phrase key="gbLoginOptions">Параметры входа</Phrase>
     <Phrase key="lblRequireCaptcha">Требовать капчу при входе</Phrase>
     <Phrase key="lblAllowRememberMe">Разрешить запоминать вход пользователя</Phrase>
@@ -29,7 +29,7 @@
     <Phrase key="lblAutoLoginUsername">Имя пользователя для автовхода</Phrase>
     <Phrase key="lblAutoLoginPassword">Пароль для автовхода</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlPluginAssignment">
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Controls.CtrlPluginAssignment">
     <Phrase key="gbPluginAssignment">Назначение плагинов</Phrase>
     <Phrase key="lblChartFeature">Плагин графиков</Phrase>
     <Phrase key="lblCommandFeature">Плагин отправки команд</Phrase>

@@ -4,7 +4,7 @@
 using Scada.Client;
 using Scada.Forms;
 
-namespace Scada.Admin.Extensions.ExtWebConfig.Control
+namespace Scada.Admin.Extensions.ExtWebConfig.Controls
 {
     /// <summary>
     /// Represents a control for connection options.

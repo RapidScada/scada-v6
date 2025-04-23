@@ -1,4 +1,4 @@
-﻿namespace Scada.Admin.Extensions.ExtWebConfig.Control
+﻿namespace Scada.Admin.Extensions.ExtWebConfig.Controls
 {
     partial class CtrlDisplayOptions
     {

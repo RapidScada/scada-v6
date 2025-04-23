@@ -5,7 +5,7 @@ using Scada.Forms;
 using Scada.Web.Config;
 using System.Globalization;
 
-namespace Scada.Admin.Extensions.ExtWebConfig.Control
+namespace Scada.Admin.Extensions.ExtWebConfig.Controls
 {
     /// <summary>
     /// Represents a control for editing general options.
@@ -80,9 +80,10 @@ namespace Scada.Admin.Extensions.ExtWebConfig.Control
                 cbDefaultCulture.BeginUpdate();
                 cbDefaultCulture.Items.Clear();
 
-                foreach (CultureInfo cultureInfo in CultureInfo.GetCultures(CultureTypes.SpecificCultures))
+                foreach (CultureInfo cultureInfo in CultureInfo.GetCultures(CultureTypes.AllCultures))
                 {
-                    cbDefaultCulture.Items.Add(new CultureItem { CultureInfo = cultureInfo });
+                    if (!string.IsNullOrEmpty(cultureInfo.Name))
+                        cbDefaultCulture.Items.Add(new CultureItem { CultureInfo = cultureInfo });
                 }
             }
             finally

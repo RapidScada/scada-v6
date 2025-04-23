@@ -5,7 +5,7 @@ using Scada.Forms;
 using Scada.Web.Config;
 
 
-namespace Scada.Admin.Extensions.ExtWebConfig.Control
+namespace Scada.Admin.Extensions.ExtWebConfig.Controls
 {
     /// <summary>
     /// Represents a control for editing plugin assigment.
