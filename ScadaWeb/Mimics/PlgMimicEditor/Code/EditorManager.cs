@@ -280,7 +280,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 foreach (FaceplateMeta faceplateMeta in mimic.Dependencies)
                 {
                     if (!string.IsNullOrEmpty(faceplateMeta.TypeName) &&
-                        !mimic.Faceplates.ContainsKey(faceplateMeta.TypeName))
+                        !mimic.FaceplateMap.ContainsKey(faceplateMeta.TypeName))
                     {
                         string faceplateFileName = Path.Combine(viewDir, 
                             ScadaUtils.NormalPathSeparators(faceplateMeta.Path));
@@ -290,7 +290,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
 
                         Faceplate faceplate = new();
                         faceplate.Load(faceplateStream);
-                        mimic.Faceplates.Add(faceplateMeta.TypeName, faceplate);
+                        mimic.FaceplateMap.Add(faceplateMeta.TypeName, faceplate);
                     }
                 }
 

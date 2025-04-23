@@ -46,8 +46,8 @@ rs.mimic.MimicBase = class {
 
 // Represents a mimic diagram.
 rs.mimic.Mimic = class extends rs.mimic.MimicBase {
-    dependencies;
-    faceplates;
+    dependencies; // meta information about faceplates
+    faceplates;   // TODO: remove
 
     componentMap;
     imageMap;

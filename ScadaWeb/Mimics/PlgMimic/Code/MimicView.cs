@@ -52,11 +52,11 @@ namespace Scada.Web.Plugins.PlgMimic.Code
         public override void LoadResource(ViewResource resource, Stream stream)
         {
             if (!string.IsNullOrEmpty(resource.TypeCode) &&
-                !Mimic.Faceplates.ContainsKey(resource.TypeCode))
+                !Mimic.FaceplateMap.ContainsKey(resource.TypeCode))
             {
                 Faceplate faceplate = new();
                 faceplate.Load(stream);
-                Mimic.Faceplates.Add(resource.TypeCode, faceplate);
+                Mimic.FaceplateMap.Add(resource.TypeCode, faceplate);
             }
         }
 

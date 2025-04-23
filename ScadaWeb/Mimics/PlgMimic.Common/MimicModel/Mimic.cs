@@ -1,58 +1,70 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System.Xml;
-
 namespace Scada.Web.Plugins.PlgMimic.MimicModel
 {
     /// <summary>
     /// Represents a mimic diagram.
     /// <para>Представляет мнемосхему.</para>
     /// </summary>
+    /// <remarks>It could also be a faceplate being edited.</remarks>
     public class Mimic : MimicBase
     {
         /// <summary>
-        /// Gets the dependencies on the faceplates.
+        /// Gets all mimic components accessible by ID.
         /// </summary>
-        public List<FaceplateMeta> Dependencies { get; } = [];
+        public Dictionary<int, Component> ComponentMap { get; } = [];
+
+        /// <summary>
+        /// Gets the images accessible by name.
+        /// </summary>
+        public Dictionary<string, Image> ImageMap { get; } = [];
 
         /// <summary>
         /// Gets the faceplates accessible by type name.
         /// </summary>
-        public Dictionary<string, Faceplate> Faceplates { get; } = [];
+        public Dictionary<string, Faceplate> FaceplateMap { get; } = [];
+
+        /// <summary>
+        /// Gets an object that can be used to synchronize access to the mimic.
+        /// </summary>
+        public object SyncRoot => this;
 
 
         /// <summary>
-        /// Loads the mimic from the XML node.
+        /// Loads the mimic diagram.
         /// </summary>
-        protected override void LoadFromXml(XmlElement rootElem)
+        public override void Load(Stream stream)
         {
-            if (rootElem.SelectSingleNode("Dependencies") is XmlNode dependenciesNode)
+            base.Load(stream);
+
+            // map components
+            foreach (Component component in EnumerateComponents())
             {
-                foreach (XmlElement faceplateElem in dependenciesNode.SelectNodes("Faceplate"))
-                {
-                    FaceplateMeta faceplateMeta = new();
-                    faceplateMeta.LoadFromXml(faceplateElem);
-                    Dependencies.Add(faceplateMeta);
-                }
+                ComponentMap.Add(component.ID, component);
             }
 
-            base.LoadFromXml(rootElem);
+            // map images
+            foreach (Image image in Images)
+            {
+                ImageMap.Add(image.Name, image);
+            }
         }
 
         /// <summary>
-        /// Saves the mimic into the XML node.
+        /// Enumerates the components recursively.
         /// </summary>
-        protected override void SaveToXml(XmlElement rootElem)
+        public IEnumerable<Component> EnumerateComponents()
         {
-            XmlElement dependenciesElem = rootElem.AppendElem("Dependencies");
-
-            foreach (FaceplateMeta faceplateMeta in Dependencies)
+            foreach (Component component in Components)
             {
-                faceplateMeta.SaveToXml(dependenciesElem.AppendElem("Faceplate"));
-            }
+                yield return component;
 
-            base.SaveToXml(rootElem);
+                foreach (Component childComponent in component.GetAllChildren())
+                {
+                    yield return childComponent;
+                }
+            }
         }
     }
 }

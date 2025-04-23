@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Web.Plugins.PlgMimic.MimicModel;
-using System.Reflection.Metadata;
 
 namespace Scada.Web.Plugins.PlgMimic.Models
 {
@@ -19,25 +18,8 @@ namespace Scada.Web.Plugins.PlgMimic.Models
             : base(mimicKey)
         {
             ArgumentNullException.ThrowIfNull(mimic, nameof(mimic));
-
-            int currentIndex = 0;
-            Components = [];
-            EndOfComponents = true;
-
-            foreach (Component component in mimic.EnumerateComponents())
-            {
-                if (currentIndex++ >= index)
-                {
-                    if (Components.Count < count)
-                        Components.Add(component);
-
-                    if (Components.Count >= count)
-                    {
-                        EndOfComponents = false;
-                        break;
-                    }
-                }
-            }
+            Components = mimic.EnumerateComponents().Skip(index).Take(count).ToList();
+            EndOfComponents = Components.Count < count;
         }
 
 
