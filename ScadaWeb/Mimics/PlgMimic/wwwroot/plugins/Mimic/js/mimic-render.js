@@ -194,6 +194,26 @@ rs.mimic.UnitedRenderer = class {
         this.editMode = editMode;
     }
 
+    // Creates a component DOM content.
+    _createComponentDom(component, renderContext, opt_unknownTypes) {
+        if (component.isFaceplate) {
+            this._createFaceplateDom(component, opt_unknownTypes);
+        } else {
+            let renderer = rs.mimic.RendererSet.componentRenderers.get(component.typeName);
+
+            if (renderer) {
+                component.renderer = renderer;
+                renderer.createDom(component, renderContext);
+            } else {
+                opt_unknownTypes?.add(component.typeName);
+            }
+
+            if (component.dom && component.parent?.dom) {
+                component.parent.dom.append(component.dom);
+            }
+        }
+    }
+
     // Creates a faceplate DOM content.
     _createFaceplateDom(faceplateInstance, opt_unknownTypes) {
         if (!faceplateInstance.model) {
@@ -212,18 +232,7 @@ rs.mimic.UnitedRenderer = class {
         renderContext.idPrefix = faceplateInstance.id + "-";
 
         for (let component of faceplateInstance.components) {
-            let renderer = RendererSet.componentRenderers.get(component.typeName);
-
-            if (renderer) {
-                component.renderer = renderer;
-                renderer.createDom(component, renderContext);
-
-                if (component.dom && component.parent?.dom) {
-                    component.parent.dom.append(component.dom);
-                }
-            } else {
-                opt_unknownTypes?.add(component.typeName);
-            }
+            this._createComponentDom(component, renderContext, opt_unknownTypes);
         }
     }
 
@@ -239,22 +248,7 @@ rs.mimic.UnitedRenderer = class {
         RendererSet.mimicRenderer.createDom(this.mimic, renderContext);
 
         for (let component of this.mimic.components) {
-            if (component.isFaceplate) {
-                this._createFaceplateDom(component, unknownTypes);
-            } else {
-                let renderer = RendererSet.componentRenderers.get(component.typeName);
-
-                if (renderer) {
-                    component.renderer = renderer;
-                    renderer.createDom(component, renderContext);
-                } else {
-                    unknownTypes.add(component.typeName);
-                }
-            }
-
-            if (component.dom && component.parent?.dom) {
-                component.parent.dom.append(component.dom);
-            }
+            this._createComponentDom(component, renderContext, unknownTypes);
         }
 
         if (unknownTypes.size > 0) {
@@ -298,6 +292,7 @@ rs.mimic.UnitedRenderer = class {
             renderContext.editMode = this.editMode;
 
             if (component.isFaceplate) {
+                renderContext.faceplateMode = true;
                 renderContext.imageMap = component.model.imageMap;
                 component.renderer.updateDom(component, renderContext);
             } else {
