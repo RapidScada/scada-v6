@@ -21,6 +21,11 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// </summary>
         public string Path { get; set; }
 
+        /// <summary>
+        /// Gets a value indicating whether the faceplate is referenced by another faceplate of the mimic.
+        /// </summary>
+        public bool IsTransitive { get; init; }
+
 
         /// <summary>
         /// Loads the faceplate information from the XML node.
@@ -40,6 +45,19 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
             ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
             xmlElem.SetAttribute("typeName", TypeName);
             xmlElem.SetAttribute("path", Path);
+        }
+
+        /// <summary>
+        /// Creates a copy of the current object and marks it as transitive.
+        /// </summary>
+        public FaceplateMeta Transit()
+        {
+            return new FaceplateMeta
+            {
+                TypeName = TypeName,
+                Path = Path,
+                IsTransitive = true
+            };
         }
     }
 }

@@ -45,7 +45,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
             {
                 foreach (XmlElement faceplateElem in dependenciesNode.SelectNodes("Faceplate"))
                 {
-                    FaceplateMeta faceplateMeta = new();
+                    FaceplateMeta faceplateMeta = new() { IsTransitive = false };
                     faceplateMeta.LoadFromXml(faceplateElem);
                     Dependencies.Add(faceplateMeta);
                 }
@@ -97,7 +97,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
             XmlElement componentsElem = rootElem.AppendElem("Components");
             XmlElement imagesElem = rootElem.AppendElem("Images");
 
-            foreach (FaceplateMeta faceplateMeta in Dependencies)
+            foreach (FaceplateMeta faceplateMeta in Dependencies.OrderBy(d => d.TypeName))
             {
                 faceplateMeta.SaveToXml(dependenciesElem.AppendElem("Faceplate"));
             }

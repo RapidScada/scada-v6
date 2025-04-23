@@ -276,9 +276,13 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
 
                 // load faceplates
                 string viewDir = EditorUtils.GetViewDir(projectFileName);
+                int dependencyIndex = 0;
 
-                foreach (FaceplateMeta faceplateMeta in mimic.Dependencies)
+                while (dependencyIndex < mimic.Dependencies.Count)
                 {
+                    FaceplateMeta faceplateMeta = mimic.Dependencies[dependencyIndex];
+                    dependencyIndex++;
+
                     if (!string.IsNullOrEmpty(faceplateMeta.TypeName) &&
                         !mimic.FaceplateMap.ContainsKey(faceplateMeta.TypeName))
                     {
@@ -291,6 +295,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                         Faceplate faceplate = new();
                         faceplate.Load(faceplateStream);
                         mimic.FaceplateMap.Add(faceplateMeta.TypeName, faceplate);
+                        faceplate.Dependencies.ForEach(d => mimic.Dependencies.Add(d.Transit()));
                     }
                 }
 

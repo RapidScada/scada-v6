@@ -28,10 +28,11 @@ rs.mimic.MimicHelper = class {
 
 // A base class for mimic diagrams and faceplates.
 rs.mimic.MimicBase = class {
-    document;   // mimic properties
-    components; // all components
-    images;     // image collection
-    children;   // top-level components
+    dependencies; // meta information about faceplates
+    document;     // mimic properties
+    components;   // all components
+    images;       // image collection
+    children;     // top-level components
 
     // Creates a component instance based on the received object.
     _createComponent(source) {
@@ -46,12 +47,9 @@ rs.mimic.MimicBase = class {
 
 // Represents a mimic diagram.
 rs.mimic.Mimic = class extends rs.mimic.MimicBase {
-    dependencies; // meta information about faceplates
-    faceplates;   // TODO: remove
-
+    dependencyMap;
     componentMap;
     imageMap;
-    dependencyMap;
     faceplateMap;
     dom;
 
@@ -219,7 +217,6 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
             if (dto.ok) {
                 loadContext.faceplateIndex++;
                 let faceplate = new rs.mimic.Faceplate(dto.data, typeName);
-                this.faceplates.push(faceplate);
                 this.faceplateMap.set(typeName, faceplate);
             }
 
@@ -251,17 +248,15 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
     // Clears the mimic.
     clear() {
+        this.dependencies = [];
         this.document = {};
         this.components = [];
         this.images = [];
         this.children = [];
 
-        this.dependencies = [];
-        this.faceplates = [];
-
+        this.dependencyMap = new Map();
         this.componentMap = new Map();
         this.imageMap = new Map();
-        this.dependencyMap = new Map();
         this.faceplateMap = new Map();
         this.dom = null;
     }
@@ -405,6 +400,7 @@ rs.mimic.Image = class {
 rs.mimic.FaceplateMeta = class {
     typeName = "";
     path = "";
+    isTransitive = false;
 
     constructor(source) {
         Object.assign(this, source);
@@ -417,11 +413,18 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
 
     constructor(source, typeName) {
         super();
+        this.dependencies = [];
         this.document = source.document ?? {};
         this.components = [];
         this.images = [];
         this.children = [];
         this.typeName = typeName;
+
+        if (Array.isArray(source.dependencies)) {
+            for (let sourceDependency of source.dependencies) {
+                this.dependencies.push(new rs.mimic.FaceplateMeta(sourceDependency));
+            }
+        }
 
         if (Array.isArray(source.components)) {
             for (let sourceComponent of source.components) {
@@ -453,7 +456,6 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
 rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
     model = null;      // model of the Faceplate type
     components = null; // copy of the model components
-    children = null;   // top-level child components
 
     get isContainer() {
         // child components are essential part of the faceplate, it does not accept additional components
@@ -467,10 +469,10 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
     applyModel(faceplate) {
         this.properties ??= {};
         this.properties.size ??= Object.assign({}, faceplate.document.size);
+        this.children = [];
 
         this.model = faceplate;
         this.components = faceplate.copyComponents();
-        this.children = [];
         rs.mimic.MimicHelper.defineNesting(this, this.components);
     }
 }

@@ -37,8 +37,10 @@ class StructTree {
         let dependenciesList = $("<ul></ul>").appendTo(dependenciesItem);
 
         for (let dependency of this.mimic.dependencies) {
-            let dependencyNode = $("<span></span>").text(dependency.typeName);
-            $("<li></li>").append(dependencyNode).appendTo(dependenciesList);
+            if (!dependency.isTransitive) {
+                let dependencyNode = $("<span></span>").text(dependency.typeName);
+                $("<li></li>").append(dependencyNode).appendTo(dependenciesList);
+            }
         }
 
         // components

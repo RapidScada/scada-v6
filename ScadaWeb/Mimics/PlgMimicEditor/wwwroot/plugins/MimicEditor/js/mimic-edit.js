@@ -257,15 +257,17 @@ function showFaceplates() {
             .appendTo(newGroupElem);
 
         for (let faceplateMeta of mimic.dependencies) {
-            let faceplateElem = $("<div class='component-item'></div>")
-                .attr("data-type-name", faceplateMeta.typeName)
-                .appendTo(newGroupElem);
-            $("<img class='component-icon' />")
-                .attr("src", IMAGES_PATH + "faceplate-icon.png")
-                .appendTo(faceplateElem);
-            $("<span class='component-name'></span>")
-                .text(faceplateMeta.typeName)
-                .appendTo(faceplateElem);
+            if (!faceplateMeta.isTransitive) {
+                let faceplateElem = $("<div class='component-item'></div>")
+                    .attr("data-type-name", faceplateMeta.typeName)
+                    .appendTo(newGroupElem);
+                $("<img class='component-icon' />")
+                    .attr("src", IMAGES_PATH + "faceplate-icon.png")
+                    .appendTo(faceplateElem);
+                $("<span class='component-name'></span>")
+                    .text(faceplateMeta.typeName)
+                    .appendTo(faceplateElem);
+            }
         }
     } else {
         newGroupElem = $();
