@@ -165,8 +165,8 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
 rs.mimic.RenderContext = class {
     editMode = false;
     faceplateMode = false;
-    idPrefix = "";
     imageMap = null;
+    idPrefix = "";
 
     getImage(imageName) {
         return this.imageMap instanceof Map ? this.imageMap.get(imageName) : null;
@@ -194,45 +194,51 @@ rs.mimic.UnitedRenderer = class {
         this.editMode = editMode;
     }
 
+    // Appends the component DOM content to its parent.
+    _appendToParent(component) {
+        if (component.dom && component.parent?.dom) {
+            component.parent.dom.append(component.dom);
+        }
+    }
+
     // Creates a component DOM content.
     _createComponentDom(component, renderContext, opt_unknownTypes) {
         if (component.isFaceplate) {
-            this._createFaceplateDom(component, opt_unknownTypes);
+            this._createFaceplateDom(component, renderContext, opt_unknownTypes);
         } else {
             let renderer = rs.mimic.RendererSet.componentRenderers.get(component.typeName);
 
             if (renderer) {
                 component.renderer = renderer;
                 renderer.createDom(component, renderContext);
+                this._appendToParent(component);
             } else {
                 opt_unknownTypes?.add(component.typeName);
-            }
-
-            if (component.dom && component.parent?.dom) {
-                component.parent.dom.append(component.dom);
             }
         }
     }
 
     // Creates a faceplate DOM content.
-    _createFaceplateDom(faceplateInstance, opt_unknownTypes) {
+    _createFaceplateDom(faceplateInstance, renderContext, opt_unknownTypes) {
         if (!faceplateInstance.model) {
             opt_unknownTypes?.add(faceplateInstance.typeName);
             return;
         }
 
-        let renderContext = new rs.mimic.RenderContext();
-        renderContext.editMode = this.editMode;
-        renderContext.faceplateMode = true;
-        renderContext.imageMap = faceplateInstance.model.imageMap;
+        let faceplateContext = new rs.mimic.RenderContext();
+        faceplateContext.editMode = this.editMode;
+        faceplateContext.faceplateMode = true;
+        faceplateContext.imageMap = faceplateInstance.model.imageMap;
+        faceplateContext.idPrefix = renderContext.idPrefix;
 
-        const RendererSet = rs.mimic.RendererSet;
-        faceplateInstance.renderer = RendererSet.faceplateRenderer;
-        RendererSet.faceplateRenderer.createDom(faceplateInstance, renderContext);
-        renderContext.idPrefix = faceplateInstance.id + "-";
+        let renderer = rs.mimic.RendererSet.faceplateRenderer;
+        faceplateInstance.renderer = renderer;
+        renderer.createDom(faceplateInstance, faceplateContext);
+        this._appendToParent(faceplateInstance);
+        faceplateContext.idPrefix += faceplateInstance.id + "-";
 
         for (let component of faceplateInstance.components) {
-            this._createComponentDom(component, renderContext, opt_unknownTypes);
+            this._createComponentDom(component, faceplateContext, opt_unknownTypes);
         }
     }
 
@@ -265,24 +271,10 @@ rs.mimic.UnitedRenderer = class {
 
     // Creates a component DOM content according to the component model.
     createComponentDom(component) {
-        if (component.isFaceplate) {
-            this._createFaceplateDom(component);
-        } else {
-            let renderer = rs.mimic.RendererSet.componentRenderers.get(component.typeName);
-
-            if (renderer) {
-                let renderContext = new rs.mimic.RenderContext();
-                renderContext.editMode = this.editMode;
-                renderContext.imageMap = this.mimic.imageMap;
-
-                component.renderer = renderer;
-                renderer.createDom(component, renderContext);
-            }
-        }
-
-        if (component.dom && component.parent?.dom) {
-            component.parent.dom.append(component.dom);
-        }
+        let renderContext = new rs.mimic.RenderContext();
+        renderContext.editMode = this.editMode;
+        renderContext.imageMap = this.mimic.imageMap;
+        this._createComponentDom(component, renderContext);
     }
 
     // Updates the component DOM content according to the component model.
