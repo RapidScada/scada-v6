@@ -240,6 +240,18 @@ class PropGrid {
         }
     }
 
+    get selectedObjects() {
+        return [this._selectedObject];
+    }
+
+    set selectedObjects(value) {
+        if (Array.isArray(value)) {
+            this.selectedObject = value.length > 0 ? value[0] : null;
+        } else {
+            this.selectedObject = value;
+        }
+    }
+
     addEventListener(type, listener) {
         this._elem.addEventListener(type, listener);
     }
