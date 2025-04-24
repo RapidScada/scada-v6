@@ -301,7 +301,7 @@ function selectComponent(compElem) {
         return;
     }
 
-    let faceplateElem = compElem.closest(".comp.faceplate");
+    let faceplateElem = compElem.parents(".comp.faceplate").last();
 
     // select faceplate
     if (faceplateElem.length > 0) {
