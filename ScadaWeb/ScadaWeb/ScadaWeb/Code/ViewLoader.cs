@@ -220,8 +220,13 @@ namespace Scada.Web.Code
             // load resources
             if (view.Resources != null)
             {
-                foreach (ViewResource resource in view.Resources)
+                int index = 0;
+
+                while (index < view.Resources.Count)
                 {
+                    ViewResource resource = view.Resources[index];
+                    index++;
+
                     if (resource != null)
                     {
                         using MemoryStream memoryStream = new();
