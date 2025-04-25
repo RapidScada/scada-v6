@@ -15,11 +15,10 @@ class ChangeType {
     static UPDATE_COMPONENT_BINDINGS = 7;
     static UPDATE_COMPONENT_ACCESS = 8;
     static REMOVE_COMPONENT = 9;
-    static REMOVE_COMPONENTS = 10;
 
-    static ADD_IMAGE = 11;
-    static RENAME_IMAGE = 12;
-    static REMOVE_IMAGE = 13;
+    static ADD_IMAGE = 10;
+    static RENAME_IMAGE = 11;
+    static REMOVE_IMAGE = 12;
 }
 
 // Specifies the long action types.
@@ -95,8 +94,8 @@ class Change {
         return change;
     }
 
-    static removeComponents(...componentIDs) {
-        let change = new Change(ChangeType.REMOVE_COMPONENTS);
+    static removeComponents(componentIDs) {
+        let change = new Change(ChangeType.REMOVE_COMPONENT);
         change.objectIDs = [...componentIDs];
         return change;
     }

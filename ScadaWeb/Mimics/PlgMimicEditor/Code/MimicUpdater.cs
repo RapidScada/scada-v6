@@ -65,53 +65,17 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         private void ApplyRemoveComponent(Change change)
         {
-            if (mimic.ComponentMap.TryGetValue(change.ObjectID, out Component component))
+            if (change.ObjectID > 0)
             {
-                HashSet<int> idsToRemove = [change.ObjectID];
-                GetComponentParent(component).Components.Remove(component);
-
-                foreach (Component childComponent in component.GetAllChildren())
-                {
-                    idsToRemove.Add(childComponent.ID);
-                }
-
-                mimic.ComponentMap.Remove(idsToRemove);
+                RemoveSingleComponent(change.ObjectID);
             }
-        }
-
-        /// <summary>
-        /// Applies the change of the RemoveComponent type.
-        /// </summary>
-        private void ApplyRemoveComponents(Change change)
-        {
-            // find components to remove
-            HashSet<int> idsToRemove = [];
-            HashSet<int> parentIDs = [];
-
-            foreach (int componentID in change.ObjectIDs)
+            else if (change.ObjectIDs != null)
             {
-                if (mimic.ComponentMap.TryGetValue(componentID, out Component component))
-                {
-                    idsToRemove.Add(componentID);
-                    parentIDs.Add(component.ParentID);
-
-                    foreach (Component childComponent in component.GetAllChildren())
-                    {
-                        idsToRemove.Add(childComponent.ID);
-                    }
-                }
+                if (change.ObjectIDs.Length == 1)
+                    RemoveSingleComponent(change.ObjectIDs[0]);
+                else if (change.ObjectIDs.Length > 1)
+                    RemoveMultipleComponents(change.ObjectIDs);
             }
-
-            // remove components
-            foreach (int parentID in parentIDs)
-            {
-                IContainer parent = parentID > 0 && mimic.ComponentMap.TryGetValue(parentID, out Component component)
-                    ? component
-                    : mimic;
-                parent.Components.RemoveAll(c => idsToRemove.Contains(c.ID)); // O(n) operation
-            }
-
-            mimic.ComponentMap.Remove(idsToRemove);
         }
 
         /// <summary>
@@ -175,6 +139,60 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             }
         }
 
+        /// <summary>
+        /// Removes the specified component.
+        /// </summary>
+        private void RemoveSingleComponent(int componentID)
+        {
+            if (mimic.ComponentMap.TryGetValue(componentID, out Component component))
+            {
+                HashSet<int> idsToRemove = [componentID];
+                GetComponentParent(component).Components.Remove(component);
+
+                foreach (Component childComponent in component.GetAllChildren())
+                {
+                    idsToRemove.Add(childComponent.ID);
+                }
+
+                mimic.ComponentMap.Remove(idsToRemove);
+            }
+        }
+
+        /// <summary>
+        /// Removes the specified components.
+        /// </summary>
+        private void RemoveMultipleComponents(int[] componentIDs)
+        {
+            // find components to remove
+            HashSet<int> idsToRemove = [];
+            HashSet<int> parentIDs = [];
+
+            foreach (int componentID in componentIDs)
+            {
+                if (mimic.ComponentMap.TryGetValue(componentID, out Component component))
+                {
+                    idsToRemove.Add(componentID);
+                    parentIDs.Add(component.ParentID);
+
+                    foreach (Component childComponent in component.GetAllChildren())
+                    {
+                        idsToRemove.Add(childComponent.ID);
+                    }
+                }
+            }
+
+            // remove components
+            foreach (int parentID in parentIDs)
+            {
+                IContainer parent = parentID > 0 && mimic.ComponentMap.TryGetValue(parentID, out Component component)
+                    ? component
+                    : mimic;
+                parent.Components.RemoveAll(c => idsToRemove.Contains(c.ID)); // O(n) operation
+            }
+
+            mimic.ComponentMap.Remove(idsToRemove);
+        }
+
 
         /// <summary>
         /// Applies the changes to the mimic.
@@ -197,10 +215,6 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
 
                     case ChangeType.RemoveComponent:
                         ApplyRemoveComponent(change);
-                        break;
-
-                    case ChangeType.RemoveComponents:
-                        ApplyRemoveComponents(change);
                         break;
                 }
             }

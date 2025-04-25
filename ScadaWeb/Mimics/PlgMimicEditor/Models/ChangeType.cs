@@ -21,10 +21,9 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Models
         UpdateComponentBindings = 7,
         UpdateComponentAccess = 8,
         RemoveComponent = 9,
-        RemoveComponents = 10,
 
-        AddImage = 11,
-        RenameImage = 12,
-        RemoveImage = 13
+        AddImage = 10,
+        RenameImage = 11,
+        RemoveImage = 12
     }
 }

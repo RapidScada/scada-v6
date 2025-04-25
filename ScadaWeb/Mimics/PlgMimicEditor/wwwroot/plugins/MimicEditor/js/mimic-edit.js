@@ -21,7 +21,7 @@ let splitter = null;
 let propGrid = null;
 let structTree = null;
 let mimicWrapperElem = $();
-let selectedElem = $();
+let selectedComps = [];
 let lastUpdateTime = 0;
 let longAction = null;
 let mimicModified = false;
@@ -81,19 +81,34 @@ function bindEvents() {
             if (longAction == null) {
                 selectMimic();
             } else if (longAction.actionType = LongActionType.ADDING) {
+                // add component to mimic
                 addComponent(longAction.componentTypeName, 0, getMimicPoint(event, mimicWrapperElem));
                 clearLongAction();
             }
         })
         .on("mousedown", ".comp", function (event) {
-            let compElem = $(this);
+            let thisElem = $(this);
 
             if (longAction == null) {
-                selectComponent(compElem);
+                // select or deselect component
+                let compElem = closestCompElem(thisElem);
+                let isSelected = compElem.hasClass("selected");
+
+                if (event.ctrlKey) {
+                    if (isSelected) {
+                        removeFromSelection(compElem);
+                    } else {
+                        addToSelection(compElem);
+                    }
+                } else if (!isSelected) {
+                    selectComponent(compElem);
+                }
+
                 event.stopPropagation();
             } else if (longAction.actionType = LongActionType.ADDING) {
-                if (compElem.hasClass("container")) {
-                    addComponent(longAction.componentTypeName, compElem.data("id"), getMimicPoint(event, compElem));
+                // add component to container
+                if (thisElem.hasClass("container")) {
+                    addComponent(longAction.componentTypeName, thisElem.data("id"), getMimicPoint(event, thisElem));
                     clearLongAction();
                     event.stopPropagation();
                 }
@@ -219,26 +234,29 @@ function paste() {
 }
 
 function remove() {
-    let componentID = selectedElem.data("id");
+    if (selectedComps.length > 0) {
+        let componentIDs = selectedComps.map(c => c.id);
+        console.log("Remove components with IDs " + componentIDs.join(", "));
 
-    if (componentID > 0) {
-        console.log(`Remove component with ID ${componentID}`);
+        for (let componentID of componentIDs) {
+            // remove component from mimic and DOM
+            let component = mimic.removeComponent(componentID);
 
-        // remove component from mimic and DOM
-        let component = mimic.removeComponent(componentID);
+            if (component && component.dom) {
+                component.dom.remove();
+            }
 
-        if (component && component.dom) {
-            component.dom.remove();
+            // update structure tree
+            structTree.removeComponent(componentID);
         }
 
-        // update structure and properties
-        structTree.removeComponent(componentID);
+        // update selection and properties
         selectMimic();
 
         // update server side
-        pushChanges(Change.removeComponent(componentID));
+        pushChanges(Change.removeComponents(componentIDs));
     } else {
-        console.log("Component is not selected.");
+        console.log("No components selected.");
     }
 }
 
@@ -289,47 +307,73 @@ function showStructure() {
 }
 
 function selectMimic() {
-    selectedElem.removeClass("selected");
-    selectedElem = $();
+    clearSelection();
     propGrid.selectedObject = mimic;
     console.log("Mimic selected");
 }
 
-function selectComponent(compElem) {
-    if (!compElem) {
-        selectNone();
-        return;
-    }
-
-    let faceplateElem = compElem.parents(".comp.faceplate").last();
-
-    // select faceplate
-    if (faceplateElem.length > 0) {
-        compElem = faceplateElem;
-    }
-
-    // find component by ID
-    let id = compElem.data("id");
-    let component = mimic.componentMap.get(id);
-
-    // select component
-    selectedElem.removeClass("selected");
-
-    if (component) {
-        selectedElem = compElem;
-        selectedElem.addClass("selected");
-    } else {
-        selectedElem = $();
-    }
-
-    propGrid.selectedObject = component;
-    console.log(`Component with ID ${id} selected`);
+function selectNone() {
+    clearSelection();
+    propGrid.selectedObject = null;
 }
 
-function selectNone() {
-    selectedElem.removeClass("selected");
-    selectedElem = $();
-    propGrid.selectedObject = null;
+function clearSelection() {
+    selectedComps.forEach(c => c.dom?.removeClass("selected"));
+    selectedComps = [];
+}
+
+function closestCompElem(clickedElem) {
+    let faceplateElem = clickedElem.parents(".comp.faceplate").last();
+    return faceplateElem.length > 0 ? faceplateElem : clickedElem.closest(".comp");
+}
+
+function selectComponent(compElem) {
+    clearSelection();
+    let component = getComponentByDom(compElem);
+
+    if (component) {
+        compElem.addClass("selected");
+        selectedComps.push(component)
+
+        propGrid.selectedObjects = selectedComps;
+        console.log(`Component with ID ${component.id} selected`);
+    } else {
+        propGrid.selectedObject = null;
+    }
+}
+
+function addToSelection(compElem) {
+    let component = getComponentByDom(compElem);
+
+    if (component) {
+        compElem.addClass("selected");
+        selectedComps.push(component)
+
+        propGrid.selectedObjects = selectedComps;
+        console.log(`Component with ID ${component.id} added to selection`);
+    }
+}
+
+function removeFromSelection(compElem) {
+    let component = getComponentByDom(compElem);
+    let index = selectedComps.indexOf(component);
+
+    if (index >= 0) {
+        compElem.removeClass("selected");
+        selectedComps.splice(index, 1);
+
+        propGrid.selectedObjects = selectedComps;
+        console.log(`Component with ID ${component.id} removed from selection`);
+    }
+}
+
+function getComponentByDom(compElem) {
+    if (compElem) {
+        let id = compElem.data("id");
+        return mimic.componentMap.get(id);
+    } else {
+        return null;
+    }
 }
 
 function getMimicPoint(event, elem) {
@@ -480,9 +524,7 @@ function handlePropertyChanged(eventData) {
         // update client side
         let component = eventData.selectedObject;
         unitedRenderer.updateComponentDom(component);
-
-        // update selected element
-        selectedElem = component.dom.addClass("selected");
+        component.dom.addClass("selected");
 
         // update structure tree
         structTree.updateComponent(component);
