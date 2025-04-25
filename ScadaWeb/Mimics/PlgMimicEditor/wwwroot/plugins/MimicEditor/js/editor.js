@@ -62,6 +62,14 @@ class Change {
         this.changeType = changeType ?? ChangeType.NONE;
     }
 
+    _setObjectID(objectID) {
+        if (Array.isArray(objectID)) {
+            this.objectIDs = objectID;
+        } else {
+            this.objectID = objectID;
+        }
+    }
+
     setProperty(propertyName, value) {
         if (typeof this.properties === "undefined") {
             this.properties = {};
@@ -83,20 +91,14 @@ class Change {
 
     static updateComponent(componentID, opt_properties) {
         let change = new Change(ChangeType.UPDATE_COMPONENT);
-        change.objectID = componentID;
+        change._setObjectID(componentID);
         change.properties = opt_properties;
         return change;
     }
 
     static removeComponent(componentID) {
         let change = new Change(ChangeType.REMOVE_COMPONENT);
-        change.objectID = componentID;
-        return change;
-    }
-
-    static removeComponents(componentIDs) {
-        let change = new Change(ChangeType.REMOVE_COMPONENT);
-        change.objectIDs = [...componentIDs];
+        change._setObjectID(componentID);
         return change;
     }
 }

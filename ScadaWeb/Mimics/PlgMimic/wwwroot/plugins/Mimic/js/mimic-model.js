@@ -386,6 +386,10 @@ rs.mimic.Component = class {
         appendChildren(this);
         return allChildren;
     }
+
+    toString() {
+        return this.displayName;
+    }
 }
 
 // Represents an image of a mimic diagram.

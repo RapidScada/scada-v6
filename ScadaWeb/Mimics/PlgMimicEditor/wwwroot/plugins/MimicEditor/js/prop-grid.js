@@ -1,4 +1,4 @@
-﻿// Contains classes: PropGrid, ProxyObject, PointProxy
+﻿// Contains classes: PropGrid, ProxyObject, PointProxy, SizeProxy, UnionObject
 // Depends on tweakpane, scada-common.js, mimic-model.js, mimic-descr.js
 
 // Interacts with Tweakpane to provide property grid functionality.
@@ -43,7 +43,7 @@ class PropGrid {
             this._addBlades(folderMap, obj.properties, null, descriptor);
         } else if (obj instanceof rs.mimic.Mimic) {
             this._addBlades(folderMap, obj.document, null, descriptor);
-        } else if (obj) {
+        } else if (obj instanceof Object) {
             this._addBlades(folderMap, obj, parent, descriptor);
         }
     }
@@ -241,14 +241,20 @@ class PropGrid {
     }
 
     get selectedObjects() {
-        return [this._selectedObject];
+        return this._selectedObject instanceof UnionObject
+            ? this._selectedObject.targets
+            : [this._selectedObject];
     }
 
     set selectedObjects(value) {
         if (Array.isArray(value)) {
-            this.selectedObject = value.length > 0 ? value[0] : null;
-        } else {
-            this.selectedObject = value;
+            if (value.length === 0) {
+                this.selectedObject = null;
+            } else if (value.length === 1) {
+                this.selectedObject = value[0];
+            } else {
+                this.selectedObject = new UnionObject(value);
+            }
         }
     }
 
@@ -316,5 +322,18 @@ class SizeProxy extends ProxyObject {
 
     set y(value) {
         this.target.height = value.toString();
+    }
+}
+
+// Represents an intermediate object for editing multiple objects.
+class UnionObject {
+    targets;
+
+    constructor(targets) {
+        this.targets = targets;
+    }
+
+    toString() {
+        return "Union object";
     }
 }

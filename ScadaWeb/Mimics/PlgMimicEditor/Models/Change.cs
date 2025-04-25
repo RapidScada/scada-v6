@@ -57,6 +57,16 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Models
 
 
         /// <summary>
+        /// Gets the IDs of the affected objects as an array.
+        /// </summary>
+        public int[] GetObjectIDs()
+        {
+            return ObjectID > 0
+                ? [ObjectID]
+                : ObjectIDs;
+        }
+
+        /// <summary>
         /// Gets the property value as a string.
         /// </summary>
         public string GetString(string propertyName)

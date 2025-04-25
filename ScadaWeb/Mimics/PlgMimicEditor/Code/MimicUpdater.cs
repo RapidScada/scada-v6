@@ -56,8 +56,11 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         private void ApplyUpdateComponent(Change change)
         {
-            if (mimic.ComponentMap.TryGetValue(change.ObjectID, out Component component))
-                SetComponentProperties(component, change);
+            foreach (int componentID in change.GetObjectIDs())
+            {
+                if (mimic.ComponentMap.TryGetValue(componentID, out Component component))
+                    SetComponentProperties(component, change);
+            }
         }
 
         /// <summary>

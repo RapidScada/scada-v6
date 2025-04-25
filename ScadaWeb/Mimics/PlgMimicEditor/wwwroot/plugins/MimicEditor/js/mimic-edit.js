@@ -254,7 +254,7 @@ function remove() {
         selectMimic();
 
         // update server side
-        pushChanges(Change.removeComponents(componentIDs));
+        pushChanges(Change.removeComponent(componentIDs));
     } else {
         console.log("No components selected.");
     }
@@ -518,20 +518,29 @@ function handlePropertyChanged(eventData) {
     let selectedObject = eventData.selectedObject;
     let propertyName = eventData.propertyName;
     let value = eventData.value;
-    console.log(propertyName + " = " + JSON.stringify(value));
+    console.log(`Update ${selectedObject.toString()}: ${propertyName} = ${JSON.stringify(value) }`);
 
-    if (selectedObject instanceof rs.mimic.Component) {
-        // update client side
-        let component = eventData.selectedObject;
-        unitedRenderer.updateComponentDom(component);
-        component.dom.addClass("selected");
+    if (selectedObject instanceof rs.mimic.Component ||
+        selectedObject instanceof UnionObject) {
+        let components = selectedObject instanceof rs.mimic.Component
+            ? [selectedObject]
+            : selectedObject.targets.filter(t => t instanceof rs.mimic.Component);
 
-        // update structure tree
-        structTree.updateComponent(component);
+        for (let component of components) {
+            // update client side
+            unitedRenderer.updateComponentDom(component);
+            component.dom.addClass("selected");
+
+            // update structure tree
+            structTree.updateComponent(component);
+        }
 
         // update server side
-        let change = Change.updateComponent(component.id).setProperty(propertyName, value);
-        pushChanges(change);
+        pushChanges(Change
+            .updateComponent(components.map(c => c.id))
+            .setProperty(propertyName, value));
+    } else if (selectedObject instanceof rs.mimic.Mimic) {
+        // TODO: update mimic
     }
 }
 
