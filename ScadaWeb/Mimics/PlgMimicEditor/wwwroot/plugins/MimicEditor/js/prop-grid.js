@@ -40,9 +40,11 @@ class PropGrid {
             this._addBlade(folderMap, obj, "id", obj.id, descriptor);
             this._addBlade(folderMap, obj, "name", obj.name, descriptor);
             this._addBlade(folderMap, obj, "typeName", obj.typeName, descriptor);
-            this._addBlades(folderMap, obj.properties, null, descriptor);
+            this._addBlades(folderMap, obj.properties, parent, descriptor);
         } else if (obj instanceof rs.mimic.Mimic) {
-            this._addBlades(folderMap, obj.document, null, descriptor);
+            this._addBlades(folderMap, obj.document, parent, descriptor);
+        } else if (obj instanceof UnionObject) {
+            this._addBlades(folderMap, obj.properties, parent, descriptor);
         } else if (obj instanceof Object) {
             this._addBlades(folderMap, obj, parent, descriptor);
         }
@@ -131,6 +133,8 @@ class PropGrid {
             return DescriptorSet.componentDescriptors.get(obj.typeName);
         } else if (obj instanceof rs.mimic.Mimic) {
             return DescriptorSet.mimicDescriptor;
+        } else if (obj instanceof UnionObject) {
+            return obj.descriptor;
         } else {
             return null;
         }
@@ -327,10 +331,63 @@ class SizeProxy extends ProxyObject {
 
 // Represents an intermediate object for editing multiple objects.
 class UnionObject {
-    targets;
+    targets;    // objects included in the union
+    properties; // common properties
+    descriptor; // describes the union properties
 
     constructor(targets) {
-        this.targets = targets;
+        if (Array.isArray(targets)) {
+            this.targets = targets;
+        } else {
+            throw new Error("Targets must be an array.");
+        }
+
+        this._buildProperties();
+    }
+
+    _buildProperties() {
+        this.properties = {};
+        this.descriptor = null;
+        let index = 0;
+
+        for (let target of this.targets) {
+            let editableObj = this._getEditableObject(target);
+
+            if (index === 0) {
+                // add properties of the 1st object
+                for (let [name, value] of Object.entries(editableObj)) {
+                    this.properties[name] = value; // TODO: deep clone
+                }
+            } else {
+                // intersect with properties of other objects
+                for (let name of Object.keys(this.properties)) {
+                    if (editableObj.hasOwnProperty(name)) {
+                        let json1 = JSON.stringify(this.properties[name]);
+                        let json2 = JSON.stringify(editableObj[name]);
+
+                        if (json1 !== json2) {
+                            this.properties[name] = ""; // objects have the same property with different values
+                        }
+                    } else {
+                        delete this.properties[name];
+                    }
+                }
+            }
+
+            index++;
+        }
+    }
+
+    _getEditableObject(target) {
+        if (target instanceof rs.mimic.Component) {
+            return target.properties;
+        } else if (target instanceof rs.mimic.Mimic) {
+            return target.document;
+        } else if (target instanceof Object) {
+            return target;
+        } else {
+            return null;
+        }
     }
 
     toString() {
