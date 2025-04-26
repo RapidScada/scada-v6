@@ -1,4 +1,4 @@
-﻿// Contains classes: PropGrid, ProxyObject, PointProxy, SizeProxy, UnionObject
+﻿// Contains classes: PropGrid, PropGridHelper, ProxyObject, PointProxy, SizeProxy, UnionObject
 // Depends on tweakpane, scada-common.js, mimic-model.js, mimic-descr.js
 
 // Interacts with Tweakpane to provide property grid functionality.
@@ -33,7 +33,7 @@ class PropGrid {
 
     _showObjectProperties(obj, parent) {
         this._clearPane();
-        let descriptor = this._getObjectDescriptor(obj);
+        let descriptor = PropGridHelper.getObjectDescriptor(obj);
         let folderMap = this._addFolders(descriptor);
 
         if (obj instanceof rs.mimic.Component) {
@@ -124,22 +124,6 @@ class PropGrid {
         }
     }
 
-    _getObjectDescriptor(obj) {
-        const DescriptorSet = rs.mimic.DescriptorSet;
-
-        if (obj instanceof rs.mimic.FaceplateInstance) {
-            return DescriptorSet.faceplateDescriptor;
-        } else if (obj instanceof rs.mimic.Component) {
-            return DescriptorSet.componentDescriptors.get(obj.typeName);
-        } else if (obj instanceof rs.mimic.Mimic) {
-            return DescriptorSet.mimicDescriptor;
-        } else if (obj instanceof UnionObject) {
-            return obj.descriptor;
-        } else {
-            return null;
-        }
-    }
-
     _addFolders(objectDescriptor) {
         let folderMap = new Map();
 
@@ -224,6 +208,10 @@ class PropGrid {
     }
 
     _handleBindingChange(selectedObject, changedObject, propertyName, value) {
+        if (selectedObject instanceof UnionObject) {
+            selectedObject.setProperty(propertyName, value);
+        }
+
         this._elem.dispatchEvent(new CustomEvent("propertyChanged", {
             detail: {
                 selectedObject: selectedObject,
@@ -278,6 +266,25 @@ class PropGrid {
     }
 }
 
+// Provides helper methods for property grid.
+class PropGridHelper {
+    static getObjectDescriptor(obj) {
+        const DescriptorSet = rs.mimic.DescriptorSet;
+
+        if (obj instanceof rs.mimic.FaceplateInstance) {
+            return DescriptorSet.faceplateDescriptor;
+        } else if (obj instanceof rs.mimic.Component) {
+            return DescriptorSet.componentDescriptors.get(obj.typeName);
+        } else if (obj instanceof rs.mimic.Mimic) {
+            return DescriptorSet.mimicDescriptor;
+        } else if (obj instanceof UnionObject) {
+            return obj.descriptor;
+        } else {
+            return null;
+        }
+    }
+}
+
 // Represents an intermediate object intended for editing.
 class ProxyObject {
     target;
@@ -294,7 +301,7 @@ class ProxyObject {
 // Represents a proxy object for editing point as a Point2d.
 class PointProxy extends ProxyObject {
     get x() {
-        return parseInt(this.target.x);
+        return parseInt(this.target.x) || 0;
     }
 
     set x(value) {
@@ -302,7 +309,7 @@ class PointProxy extends ProxyObject {
     }
 
     get y() {
-        return parseInt(this.target.y);
+        return parseInt(this.target.y) || 0;
     }
 
     set y(value) {
@@ -313,7 +320,7 @@ class PointProxy extends ProxyObject {
 // Represents a proxy object for editing size as a Point2d.
 class SizeProxy extends ProxyObject {
     get x() {
-        return parseInt(this.target.width);
+        return parseInt(this.target.width) || 0;
     }
 
     set x(value) {
@@ -321,7 +328,7 @@ class SizeProxy extends ProxyObject {
     }
 
     get y() {
-        return parseInt(this.target.height);
+        return parseInt(this.target.height) || 0;
     }
 
     set y(value) {
@@ -347,29 +354,37 @@ class UnionObject {
 
     _buildProperties() {
         this.properties = {};
-        this.descriptor = null;
+        this.descriptor = new rs.mimic.ObjectDescriptor();
         let index = 0;
 
         for (let target of this.targets) {
+            let targetDescriptor = PropGridHelper.getObjectDescriptor(target);
             let editableObj = this._getEditableObject(target);
 
             if (index === 0) {
                 // add properties of the 1st object
                 for (let [name, value] of Object.entries(editableObj)) {
-                    this.properties[name] = value; // TODO: deep clone
+                    this.properties[name] = ScadaUtils.deepClone(value);
+                    let propertyDescriptor = targetDescriptor.get(name);
+
+                    if (propertyDescriptor) {
+                        this.descriptor.add(propertyDescriptor);
+                    }
                 }
             } else {
                 // intersect with properties of other objects
-                for (let name of Object.keys(this.properties)) {
-                    if (editableObj.hasOwnProperty(name)) {
-                        let json1 = JSON.stringify(this.properties[name]);
-                        let json2 = JSON.stringify(editableObj[name]);
+                for (let [name, value] of Object.entries(this.properties)) {
+                    let descriptor1 = this.descriptor.get(name);
+                    let descriptor2 = targetDescriptor.get(name);
 
-                        if (json1 !== json2) {
-                            this.properties[name] = ""; // objects have the same property with different values
+                    if (editableObj.hasOwnProperty(name) && this._sameProperties(descriptor1, descriptor2)) {
+                        if (!this._sameValues(value, editableObj[name])) {
+                            // objects have the same property with different values
+                            this.properties[name] = this._getDefaultValue(value);
                         }
                     } else {
                         delete this.properties[name];
+                        this.descriptor.delete(name);
                     }
                 }
             }
@@ -390,7 +405,43 @@ class UnionObject {
         }
     }
 
+    _sameProperties(descriptor1, descriptor2) {
+        return descriptor1 === descriptor2 ||
+            descriptor1 && descriptor2 && descriptor1.type === descriptor2.type;
+    }
+
+    _sameValues(value1, value2) {
+        let json1 = JSON.stringify(value1);
+        let json2 = JSON.stringify(value2);
+        return json1 === json2;
+    }
+
+    _getDefaultValue(existingValue) {
+        if (typeof existingValue === "number") {
+            return 0;
+        } else if (typeof existingValue === "string") {
+            return "";
+        } else if (existingValue instanceof Object) {
+            let result = {};
+
+            for (let [name, value] of Object.entries(existingValue)) {
+                result[name] = this._getDefaultValue(value);
+            }
+
+            return result;
+        } else {
+            return null; // property is not displayed
+        }
+    }
+
+    setProperty(name, value) {
+        for (let target of this.targets) {
+            let editableObj = this._getEditableObject(target);
+            editableObj[name] = value;
+        }
+    }
+
     toString() {
-        return "Union object";
+        return "Union";
     }
 }

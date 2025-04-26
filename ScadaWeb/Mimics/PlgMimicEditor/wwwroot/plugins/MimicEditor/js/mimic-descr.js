@@ -54,6 +54,10 @@ rs.mimic.ObjectDescriptor = class {
     get(propertyName) {
         return this.propertyDescriptors.get(propertyName);
     }
+
+    delete(propertyName) {
+        this.propertyDescriptors.delete(propertyName);
+    }
 }
 
 // Represents a mimic descriptor.
