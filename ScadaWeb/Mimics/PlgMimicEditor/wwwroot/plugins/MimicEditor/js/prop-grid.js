@@ -208,8 +208,10 @@ class PropGrid {
     }
 
     _handleBindingChange(selectedObject, changedObject, propertyName, value) {
+        let targetValue = value instanceof ProxyObject ? value.target : value;
+
         if (selectedObject instanceof UnionObject) {
-            selectedObject.setProperty(propertyName, value);
+            selectedObject.setProperty(propertyName, targetValue);
         }
 
         this._elem.dispatchEvent(new CustomEvent("propertyChanged", {
@@ -217,7 +219,7 @@ class PropGrid {
                 selectedObject: selectedObject,
                 changedObject: changedObject,
                 propertyName: propertyName,
-                value: value instanceof ProxyObject ? value.target : value
+                value: targetValue
             }
         }));
     }
@@ -378,9 +380,11 @@ class UnionObject {
                     let descriptor2 = targetDescriptor.get(name);
 
                     if (editableObj.hasOwnProperty(name) && this._sameProperties(descriptor1, descriptor2)) {
-                        if (!this._sameValues(value, editableObj[name])) {
+                        let value2 = editableObj[name];
+
+                        if (!this._sameValues(value, value2)) {
                             // objects have the same property with different values
-                            this.properties[name] = this._getDefaultValue(value);
+                            this.properties[name] = this._mergeValues(value, value2);
                         }
                     } else {
                         delete this.properties[name];
@@ -416,16 +420,16 @@ class UnionObject {
         return json1 === json2;
     }
 
-    _getDefaultValue(existingValue) {
-        if (typeof existingValue === "number") {
-            return 0;
-        } else if (typeof existingValue === "string") {
-            return "";
-        } else if (existingValue instanceof Object) {
+    _mergeValues(value1, value2) {
+        if (typeof value1 === "number") {
+            return value1 === value2 ? value1 : 0;
+        } else if (typeof value1 === "string") {
+            return value1 === value2 ? value1 : "";
+        } else if (value1 instanceof Object) {
             let result = {};
 
-            for (let [name, value] of Object.entries(existingValue)) {
-                result[name] = this._getDefaultValue(value);
+            for (let [name, value] of Object.entries(value1)) {
+                result[name] = this._mergeValues(value, value2[name]);
             }
 
             return result;
@@ -437,7 +441,7 @@ class UnionObject {
     setProperty(name, value) {
         for (let target of this.targets) {
             let editableObj = this._getEditableObject(target);
-            editableObj[name] = value;
+            editableObj[name] = ScadaUtils.deepClone(value);
         }
     }
 
