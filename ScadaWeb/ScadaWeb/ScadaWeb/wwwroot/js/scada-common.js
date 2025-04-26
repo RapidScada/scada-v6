@@ -171,6 +171,7 @@ class ScadaUtils {
 
     // Creates a full copy of the specified object.
     static deepClone(obj) {
+        // alternatively, use structuredClone()
         return JSON.parse(JSON.stringify(obj));
     }     
 
