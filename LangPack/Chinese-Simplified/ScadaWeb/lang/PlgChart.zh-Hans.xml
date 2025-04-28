@@ -2,6 +2,6 @@
 <PlgMainDictionaries culture="zh-Hans" lang="ChineseSimplified">
   <Dictionary key="Scada.Web.Plugins.PlgChart.Areas.Chart.Pages.Chart">
     <Phrase key="Title">{0} - 图表</Phrase>
-    <Phrase key="Generated">常规 </Phrase>
+    <Phrase key="Generated">生成于</Phrase>
   </Dictionary>
 </PlgMainDictionaries>

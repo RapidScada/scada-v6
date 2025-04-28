@@ -8,6 +8,6 @@
   <Dictionary key="Scada.Comm.Drivers">
     <Phrase key="LoadDriverConfigError">加载驱动配置时发生错误</Phrase>
     <Phrase key="SaveDriverConfigError">保存驱动配置时发生错误</Phrase>
-    <Phrase key="SaveDriverConfigConfirm">驱动配置已修改，是否保存?</Phrase>
+    <Phrase key="SaveDriverConfigConfirm">驱动配置已修改，是否保存？</Phrase>
   </Dictionary>
 </ScadaCommDictionaries>
