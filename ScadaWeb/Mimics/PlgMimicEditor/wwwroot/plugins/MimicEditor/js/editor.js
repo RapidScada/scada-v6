@@ -25,7 +25,8 @@ class ChangeType {
 class LongActionType {
     static NONE = 0;
     static ADDING = 1;
-    static DRAGGING = 2;
+    static PASTING = 2;
+    static DRAGGING = 3;
 }
 
 // Specifies the drag modes.
@@ -126,14 +127,19 @@ class LongAction {
         this.actionType = actionType ?? LongActionType.NONE;
     }
 
-    static startAdding(componentTypeName) {
+    static adding(componentTypeName) {
         let action = new LongAction(LongActionType.ADDING);
         action.componentTypeName = componentTypeName;
         return action;
     }
 
+    static pasting() {
+        return new LongAction(LongActionType.PASTING);
+    }
+
     getCursor() {
-        if (this.actionType === LongActionType.ADDING) {
+        if (this.actionType === LongActionType.ADDING ||
+            this.actionType === LongActionType.PASTING) {
             return "crosshair";
         }
 

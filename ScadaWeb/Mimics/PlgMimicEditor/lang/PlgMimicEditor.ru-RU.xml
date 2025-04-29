@@ -15,6 +15,9 @@
     <Phrase key="SaveMimicError">Ошибка при сохранении мнемосхемы</Phrase>
     <Phrase key="PostUpdateError">Ошибка при передаче обновления</Phrase>
     <Phrase key="UnableAddComponent">Невозможно добавить компонент.</Phrase>
+    <Phrase key="SelectionEmpty">Компоненты не выбраны.</Phrase>
+    <Phrase key="ClipboardEmpty">Буфер обмена пуст.</Phrase>
+    <Phrase key="SameParentRequired">Выбранные компоненты должны иметь общего родителя.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ToolbarContents">
     <Phrase key="btnSave">Сохранить</Phrase>

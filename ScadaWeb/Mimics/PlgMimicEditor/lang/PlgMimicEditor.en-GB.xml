@@ -16,6 +16,9 @@
     <Phrase key="SaveMimicError">Error saving mimic</Phrase>
     <Phrase key="PostUpdateError">Error posting update</Phrase>
     <Phrase key="UnableAddComponent">Unable to add component.</Phrase>
+    <Phrase key="SelectionEmpty">No components selected.</Phrase>
+    <Phrase key="ClipboardEmpty">Clipboard is empty.</Phrase>
+    <Phrase key="SameParentRequired">Selected components must have the same parent.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ToolbarContents">
     <Phrase key="btnSave">Save</Phrase>

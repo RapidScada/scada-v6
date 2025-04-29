@@ -60,6 +60,19 @@ rs.mimic.MimicBase = class {
         this.imageMap = new Map();
         this.children = [];
     }
+
+    // Creates a copy of the specified component.
+    copyComponent(source) {
+        return this._createComponent({
+            id: source.id,
+            name: source.name,
+            typeName: source.typeName,
+            parentID: source.parentID,
+            properties: ScadaUtils.deepClone(source.properties),
+            bindings: ScadaUtils.deepClone(source.bindings),
+            access: ScadaUtils.deepClone(source.access)
+        });
+    }
 }
 
 // Represents a mimic diagram.
@@ -371,6 +384,26 @@ rs.mimic.Component = class {
             : `[${this.id}] ${this.typeName}`;
     }
 
+    get x() {
+        return parseInt(this.properties?.location?.x) || 0;
+    }
+
+    set x(value) {
+        if (this.properties?.location) {
+            this.properties.location.x = value.toString();
+        }
+    }
+
+    get y() {
+        return parseInt(this.properties?.location?.y) || 0;
+    }
+
+    set y(value) {
+        if (this.properties?.location) {
+            this.properties.location.y = value.toString();
+        }
+    }
+
     getAllChildren() {
         let allChildren = [];
 
@@ -452,7 +485,7 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
         let components = [];
 
         for (let sourceComponent of this.components) {
-            components.push(this._createComponent(sourceComponent));
+            components.push(this.copyComponent(sourceComponent));
         }
 
         return components;
@@ -475,7 +508,7 @@ rs.mimic.FaceplateInstance = class extends rs.mimic.Component {
 
     applyModel(faceplate) {
         this.properties ??= {};
-        this.properties.size ??= Object.assign({}, faceplate.document.size);
+        this.properties.size ??= ScadaUtils.deepClone(faceplate.document.size);
 
         this.model = faceplate;
         this.components = faceplate.copyComponents();

@@ -22,6 +22,7 @@ let propGrid = null;
 let structTree = null;
 let mimicWrapperElem = $();
 let selectedComps = [];
+let copiedComps = [];
 let lastUpdateTime = 0;
 let longAction = null;
 let mimicModified = false;
@@ -72,24 +73,27 @@ function bindEvents() {
 
     $("#divComponents").on("click", ".component-item", function () {
         let typeName = $(this).data("type-name");
-        longAction = LongAction.startAdding(typeName);
-        mimicWrapperElem.css("cursor", longAction.getCursor());
+        startLongAction(LongAction.adding(typeName));
     });
 
     mimicWrapperElem
         .on("mousedown", function (event) {
-            if (longAction == null) {
+            if (!longAction) {
                 selectMimic();
-            } else if (longAction.actionType = LongActionType.ADDING) {
+            } else if (longAction.actionType === LongActionType.ADDING) {
                 // add component to mimic
                 addComponent(longAction.componentTypeName, 0, getMimicPoint(event, mimicWrapperElem));
+                clearLongAction();
+            } else if (longAction.actionType === LongActionType.PASTING) {
+                // paste components to mimic
+                pasteComponents(0, getMimicPoint(event, mimicWrapperElem));
                 clearLongAction();
             }
         })
         .on("mousedown", ".comp", function (event) {
             let thisElem = $(this);
 
-            if (longAction == null) {
+            if (!longAction) {
                 // select or deselect component
                 let compElem = closestCompElem(thisElem);
                 let isSelected = compElem.hasClass("selected");
@@ -105,10 +109,17 @@ function bindEvents() {
                 }
 
                 event.stopPropagation();
-            } else if (longAction.actionType = LongActionType.ADDING) {
+            } else if (longAction.actionType === LongActionType.ADDING) {
                 // add component to container
                 if (thisElem.hasClass("container")) {
                     addComponent(longAction.componentTypeName, thisElem.data("id"), getMimicPoint(event, thisElem));
+                    clearLongAction();
+                    event.stopPropagation();
+                }
+            } else if (longAction.actionType === LongActionType.PASTING) {
+                // paste components to container
+                if (thisElem.hasClass("container")) {
+                    pasteComponents(thisElem.data("id"), getMimicPoint(event, thisElem));
                     clearLongAction();
                     event.stopPropagation();
                 }
@@ -222,42 +233,98 @@ function redo() {
 }
 
 function cut() {
-
+    if (copy()) {
+        remove();
+    }
 }
 
 function copy() {
+    if (selectedComps.length === 0) {
+        showToast(phrases.selectionEmpty, MessageType.WARNING);
+        return false;
+    }
 
+    let componentIDs = selectedComps.map(c => c.id);
+    let parentIDs = new Set(selectedComps.map(c => c.parentID));
+    console.log("Copy components with IDs " + componentIDs.join(", "));
+
+    if (parentIDs.size !== 1) {
+        console.error(phrases.sameParentRequired);
+        showToast(phrases.sameParentRequired, MessageType.ERROR);
+        return false;
+    }
+
+    // copy components
+    copiedComps = [];
+    let children = [];
+    let minX = NaN;
+    let minY = NaN;
+
+    for (let component of selectedComps) {
+        let componentCopy = mimic.copyComponent(component);
+        copiedComps.push(componentCopy);
+
+        let x = component.x;
+        let y = component.y;
+
+        if (isNaN(minX) || minX > x) {
+            minX = x;
+        }
+
+        if (isNaN(minY) || minY > y) {
+            minY = y;
+        }
+
+        if (component.isContainer) {
+            children.push(...component.getAllChildren().map(c => mimic.copyComponent(c)));
+        }
+    }
+
+    // normalize locations
+    for (let componentCopy of copiedComps) {
+        componentCopy.x -= minX;
+        componentCopy.y -= minY;
+    }
+
+    // append child components
+    copiedComps.push(...children);
+    return true;
 }
 
 function paste() {
-
+    if (copiedComps.length > 0) {
+        startLongAction(LongAction.pasting());
+    } else {
+        showToast(phrases.clipboardEmpty, MessageType.WARNING);
+    }
 }
 
 function remove() {
-    if (selectedComps.length > 0) {
-        let componentIDs = selectedComps.map(c => c.id);
-        console.log("Remove components with IDs " + componentIDs.join(", "));
+    if (selectedComps.length === 0) {
+        showToast(phrases.selectionEmpty, MessageType.WARNING);
+        return;
+    }
 
-        for (let componentID of componentIDs) {
-            // remove component from mimic and DOM
-            let component = mimic.removeComponent(componentID);
+    let componentIDs = selectedComps.map(c => c.id);
+    console.log("Remove components with IDs " + componentIDs.join(", "));
 
-            if (component && component.dom) {
-                component.dom.remove();
-            }
+    for (let componentID of componentIDs) {
+        // remove component from mimic and DOM
+        let component = mimic.removeComponent(componentID);
 
-            // update structure tree
-            structTree.removeComponent(componentID);
+        if (component && component.dom) {
+            component.dom.remove();
         }
 
-        // update selection and properties
-        selectMimic();
-
-        // update server side
-        pushChanges(Change.removeComponent(componentIDs));
-    } else {
-        console.log("No components selected.");
+        // update structure tree
+        structTree.removeComponent(componentID);
     }
+
+    // update selection and properties
+    selectMimic();
+
+    // update server side
+    pushChanges(Change.removeComponent(componentIDs));
 }
 
 function pointer() {
@@ -444,13 +511,19 @@ function getNextComponentId() {
     return ++maxComponentId;
 }
 
+function pasteComponents(parentID, point) {
+    console.log("Paste components");
+}
+
+function startLongAction(action) {
+    longAction = action;
+    mimicWrapperElem.css("cursor", longAction.getCursor());
+}
+
 function clearLongAction() {
     if (longAction) {
-        if (longAction.actionType === LongActionType.ADDING) {
-            mimicWrapperElem.css("cursor", "");
-        }
-
         longAction = null;
+        mimicWrapperElem.css("cursor", "");
     }
 }
 
