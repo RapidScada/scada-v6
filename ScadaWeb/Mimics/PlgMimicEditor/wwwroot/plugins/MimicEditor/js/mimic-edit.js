@@ -26,7 +26,7 @@ let copiedComps = [];
 let lastUpdateTime = 0;
 let longAction = null;
 let mimicModified = false;
-let maxComponentId = null;
+let maxComponentID = null;
 
 function bindEvents() {
     $(window)
@@ -474,7 +474,7 @@ function addComponent(typeName, parentID, point) {
     if (factory && descriptor && renderer && parent) {
         // create and render component
         let component = factory.createComponent();
-        component.id = getNextComponentId();
+        component.id = getNextComponentID();
         descriptor.repair(component);
         mimic.addComponent(component, parent, point.x, point.y);
         unitedRenderer.createComponentDom(component);
@@ -506,13 +506,40 @@ function addComponent(typeName, parentID, point) {
     }
 }
 
-function getNextComponentId() {
-    maxComponentId ??= mimic.componentMap.size > 0 ? Math.max(...mimic.componentMap.keys()) : 0;
-    return ++maxComponentId;
+function pasteComponents(parentID, point) {
+    console.log(`Paste components at ${point.x}, ${point.y}` +
+        (parentID > 0 ? ` inside component ${parentID}` : ""));
+
+    let parent = parentID > 0 ? mimic.componentMap.get(parentID) : mimic;
+    let idMap = new Map(); // key is old ID, value is new ID
+    let changes = [];
+
+    /*if (parent) {
+        for (let sourceComponent of copiedComps) {
+            let component = mimic.copyComponent(sourceComponent);
+            let newID = getNextComponentID();
+            idMap.set(component.id, newID);
+            component.id = newID;
+            mimic.addComponent(component, parent, point.x + component.x, point.y + component.y);
+            unitedRenderer.createComponentDom(component);
+
+            // update structure and properties
+            structTree.addComponent(component);
+            //selectComponent(component.dom);
+
+            changes.push(Change.addComponent(component));
+        }
+
+        // update server side
+        //pushChanges(changes);
+    } else {
+        console.error("Component parent not found.");
+    }*/
 }
 
-function pasteComponents(parentID, point) {
-    console.log("Paste components");
+function getNextComponentID() {
+    maxComponentID ??= mimic.componentMap.size > 0 ? Math.max(...mimic.componentMap.keys()) : 0;
+    return ++maxComponentID;
 }
 
 function startLongAction(action) {
