@@ -146,3 +146,18 @@ class LongAction {
         return "";
     }
 }
+
+// Represents a clipboard for copying and pasting components.
+class MimicClipboard {
+    selectedComponents = [];
+    childComponents = [];
+
+    get isEmpty() {
+        return !(Array.isArray(this.selectedComponents) && this.selectedComponents.length > 0);
+    }
+
+    clear() {
+        this.selectedComponents = [];
+        this.childComponents = [];
+    }
+}

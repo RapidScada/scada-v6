@@ -10,6 +10,7 @@ const mimic = new rs.mimic.Mimic();
 const unitedRenderer = new rs.mimic.UnitedRenderer(mimic, true);
 const updateQueue = [];
 const toastMessages = new Set();
+const clipboard = new MimicClipboard();
 
 // Set in MimicEdit.cshtml and MimicEditLang.cshtml
 var rootPath = "/";
@@ -21,8 +22,7 @@ let splitter = null;
 let propGrid = null;
 let structTree = null;
 let mimicWrapperElem = $();
-let selectedComps = [];
-let copiedComps = [];
+let selectedComponents = [];
 let lastUpdateTime = 0;
 let longAction = null;
 let mimicModified = false;
@@ -239,13 +239,13 @@ function cut() {
 }
 
 function copy() {
-    if (selectedComps.length === 0) {
+    if (selectedComponents.length === 0) {
         showToast(phrases.selectionEmpty, MessageType.WARNING);
         return false;
     }
 
-    let componentIDs = selectedComps.map(c => c.id);
-    let parentIDs = new Set(selectedComps.map(c => c.parentID));
+    let componentIDs = selectedComponents.map(c => c.id);
+    let parentIDs = new Set(selectedComponents.map(c => c.parentID));
     console.log("Copy components with IDs " + componentIDs.join(", "));
 
     if (parentIDs.size !== 1) {
@@ -255,14 +255,17 @@ function copy() {
     }
 
     // copy components
-    copiedComps = [];
-    let children = [];
+    clipboard.clear();
     let minX = NaN;
     let minY = NaN;
 
-    for (let component of selectedComps) {
+    for (let component of selectedComponents) {
         let componentCopy = mimic.copyComponent(component);
-        copiedComps.push(componentCopy);
+        clipboard.selectedComponents.push(componentCopy);
+
+        if (component.isContainer) {
+            clipboard.childComponents.push(...component.getAllChildren().map(c => mimic.copyComponent(c)));
+        }
 
         let x = component.x;
         let y = component.y;
@@ -274,38 +277,32 @@ function copy() {
         if (isNaN(minY) || minY > y) {
             minY = y;
         }
-
-        if (component.isContainer) {
-            children.push(...component.getAllChildren().map(c => mimic.copyComponent(c)));
-        }
     }
 
     // normalize locations
-    for (let componentCopy of copiedComps) {
+    for (let componentCopy of clipboard.selectedComponents) {
         componentCopy.x -= minX;
         componentCopy.y -= minY;
     }
 
-    // append child components
-    copiedComps.push(...children);
     return true;
 }
 
 function paste() {
-    if (copiedComps.length > 0) {
-        startLongAction(LongAction.pasting());
-    } else {
+    if (clipboard.isEmpty) {
         showToast(phrases.clipboardEmpty, MessageType.WARNING);
+    } else {
+        startLongAction(LongAction.pasting());
     }
 }
 
 function remove() {
-    if (selectedComps.length === 0) {
+    if (selectedComponents.length === 0) {
         showToast(phrases.selectionEmpty, MessageType.WARNING);
         return;
     }
 
-    let componentIDs = selectedComps.map(c => c.id);
+    let componentIDs = selectedComponents.map(c => c.id);
     console.log("Remove components with IDs " + componentIDs.join(", "));
 
     for (let componentID of componentIDs) {
@@ -385,8 +382,48 @@ function selectNone() {
 }
 
 function clearSelection() {
-    selectedComps.forEach(c => c.dom?.removeClass("selected"));
-    selectedComps = [];
+    selectedComponents.forEach(c => c.dom?.removeClass("selected"));
+    selectedComponents = [];
+}
+
+function selectComponent(compElem) {
+    clearSelection();
+    addToSelection(compElem);
+}
+
+function addToSelection(compElem) {
+    // compElem can be a component or jQuery object
+    let component = getComponentByDom(compElem);
+
+    if (component) {
+        component.dom?.addClass("selected");
+        selectedComponents.push(component)
+        propGrid.selectedObjects = selectedComponents;
+        console.log(`Component with ID ${component.id} selected`);
+    }
+}
+
+function removeFromSelection(compElem) {
+    let component = getComponentByDom(compElem);
+    let index = selectedComponents.indexOf(component);
+
+    if (index >= 0) {
+        compElem.removeClass("selected");
+        selectedComponents.splice(index, 1);
+
+        propGrid.selectedObjects = selectedComponents;
+        console.log(`Component with ID ${component.id} removed from selection`);
+    }
+}
+
+function selectComponents(components) {
+    clearSelection();
+    components.forEach(c => c.dom?.addClass("selected"));
+    selectedComponents = components;
+    propGrid.selectedObjects = selectedComponents;
+
+    let componentIDs = selectedComponents.map(c => c.id);
+    console.log(`Components with IDs ${componentIDs.join(", ")} selected`);
 }
 
 function closestCompElem(clickedElem) {
@@ -394,48 +431,10 @@ function closestCompElem(clickedElem) {
     return faceplateElem.length > 0 ? faceplateElem : clickedElem.closest(".comp");
 }
 
-function selectComponent(compElem) {
-    clearSelection();
-    let component = getComponentByDom(compElem);
-
-    if (component) {
-        compElem.addClass("selected");
-        selectedComps.push(component)
-
-        propGrid.selectedObjects = selectedComps;
-        console.log(`Component with ID ${component.id} selected`);
-    } else {
-        propGrid.selectedObject = null;
-    }
-}
-
-function addToSelection(compElem) {
-    let component = getComponentByDom(compElem);
-
-    if (component) {
-        compElem.addClass("selected");
-        selectedComps.push(component)
-
-        propGrid.selectedObjects = selectedComps;
-        console.log(`Component with ID ${component.id} added to selection`);
-    }
-}
-
-function removeFromSelection(compElem) {
-    let component = getComponentByDom(compElem);
-    let index = selectedComps.indexOf(component);
-
-    if (index >= 0) {
-        compElem.removeClass("selected");
-        selectedComps.splice(index, 1);
-
-        propGrid.selectedObjects = selectedComps;
-        console.log(`Component with ID ${component.id} removed from selection`);
-    }
-}
-
 function getComponentByDom(compElem) {
-    if (compElem) {
+    if (compElem instanceof rs.mimic.Component) {
+        return compElem;
+    } else if (compElem instanceof jQuery) {
         let id = compElem.data("id");
         return mimic.componentMap.get(id);
     } else {
@@ -481,7 +480,7 @@ function addComponent(typeName, parentID, point) {
 
         // update structure and properties
         structTree.addComponent(component);
-        selectComponent(component.dom);
+        selectComponent(component);
 
         // update server side
         pushChanges(Change.addComponent(component));
@@ -513,28 +512,56 @@ function pasteComponents(parentID, point) {
     let parent = parentID > 0 ? mimic.componentMap.get(parentID) : mimic;
     let idMap = new Map(); // key is old ID, value is new ID
     let changes = [];
+    let componentsToSelect = [];
 
-    /*if (parent) {
-        for (let sourceComponent of copiedComps) {
+    if (!parent) {
+        console.error("Parent not found.");
+        return;
+    }
+
+    // add top-level components
+    for (let sourceComponent of clipboard.selectedComponents) {
+        let component = mimic.copyComponent(sourceComponent);
+        let newID = getNextComponentID();
+        idMap.set(component.id, newID);
+        component.id = newID;
+        mimic.addComponent(component, parent, point.x + component.x, point.y + component.y);
+        unitedRenderer.createComponentDom(component);
+
+        structTree.addComponent(component);
+        componentsToSelect.push(component);
+        changes.push(Change.addComponent(component));
+    }
+
+    // add child components
+    for (let sourceComponent of clipboard.childComponents) {
+        let newParentID = idMap.get(sourceComponent.parentID);
+        parent = mimic.componentMap.get(newParentID);
+
+        if (parent) {
             let component = mimic.copyComponent(sourceComponent);
             let newID = getNextComponentID();
             idMap.set(component.id, newID);
             component.id = newID;
-            mimic.addComponent(component, parent, point.x + component.x, point.y + component.y);
+            mimic.addComponent(component, parent, component.x, component.y);
             unitedRenderer.createComponentDom(component);
 
-            // update structure and properties
             structTree.addComponent(component);
-            //selectComponent(component.dom);
-
             changes.push(Change.addComponent(component));
         }
+    }
 
-        // update server side
-        //pushChanges(changes);
+    // update selection
+    if (componentsToSelect.length > 0) {
+        selectComponents(componentsToSelect);
     } else {
-        console.error("Component parent not found.");
-    }*/
+        selectNone();
+    }
+
+    // update server side
+    if (changes.length > 0) {
+        pushChanges(...changes);
+    }
 }
 
 function getNextComponentID() {
