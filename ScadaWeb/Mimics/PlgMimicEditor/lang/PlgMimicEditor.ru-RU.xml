@@ -35,11 +35,11 @@
     <Phrase key="btnAlignTops">По верхнему краю</Phrase>
     <Phrase key="btnAlignMiddles">По центру вертикально</Phrase>
     <Phrase key="btnAlignBottoms">По нижнему краю</Phrase>
-    <Phrase key="btnMakeSameWidth">Одинаковая ширина</Phrase>
-    <Phrase key="btnMakeSameHeight">Одинаковая высота</Phrase>
-    <Phrase key="btnMakeSameSize">Одинаковый размер</Phrase>
-    <Phrase key="btnMakeHorizontalSpacingEqual">Горизонтальный интервал</Phrase>
-    <Phrase key="btnMakeVerticalSpacingEqual">Вертикальный интервал</Phrase>
+    <Phrase key="btnSameWidth">Одинаковая ширина</Phrase>
+    <Phrase key="btnSameHeight">Одинаковая высота</Phrase>
+    <Phrase key="btnSameSize">Одинаковый размер</Phrase>
+    <Phrase key="btnHorizontalSpacing">Горизонтальный интервал</Phrase>
+    <Phrase key="btnVerticalSpacing">Вертикальный интервал</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicListModel">
     <Phrase key="PageTitle">Редактор мнемосхем</Phrase>

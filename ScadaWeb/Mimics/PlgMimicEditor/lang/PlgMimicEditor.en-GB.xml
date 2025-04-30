@@ -36,11 +36,11 @@
     <Phrase key="btnAlignTops">Align Tops</Phrase>
     <Phrase key="btnAlignMiddles">Align Middles</Phrase>
     <Phrase key="btnAlignBottoms">Align Bottoms</Phrase>
-    <Phrase key="btnMakeSameWidth">Make Same Width</Phrase>
-    <Phrase key="btnMakeSameHeight">Make Same Height</Phrase>
-    <Phrase key="btnMakeSameSize">Make Same Size</Phrase>
-    <Phrase key="btnMakeHorizontalSpacingEqual">Make Horizontal Spacing Equal</Phrase>
-    <Phrase key="btnMakeVerticalSpacingEqual">Make Vertical Spacing Equal</Phrase>
+    <Phrase key="btnSameWidth">Make Same Width</Phrase>
+    <Phrase key="btnSameHeight">Make Same Height</Phrase>
+    <Phrase key="btnSameSize">Make Same Size</Phrase>
+    <Phrase key="btnHorizontalSpacing">Make Horizontal Spacing Equal</Phrase>
+    <Phrase key="btnVerticalSpacing">Make Vertical Spacing Equal</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicListModel">
     <Phrase key="PageTitle">Mimic Editor</Phrase>
