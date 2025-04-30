@@ -525,6 +525,11 @@ function pasteComponents(parentID, point) {
         let newID = getNextComponentID();
         idMap.set(component.id, newID);
         component.id = newID;
+
+        if (component.isFaceplate) {
+            component.applyModel(mimic.faceplateMap.get(component.typeName));
+        }
+
         mimic.addComponent(component, parent, point.x + component.x, point.y + component.y);
         unitedRenderer.createComponentDom(component);
 
@@ -656,7 +661,7 @@ function handlePropertyChanged(eventData) {
         for (let component of components) {
             // update client side
             unitedRenderer.updateComponentDom(component);
-            component.dom.addClass("selected");
+            component.dom?.addClass("selected");
 
             // update structure tree
             structTree.updateComponent(component);
