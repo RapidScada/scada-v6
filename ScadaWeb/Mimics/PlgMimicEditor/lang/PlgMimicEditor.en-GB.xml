@@ -11,10 +11,10 @@
     <Phrase key="DependenciesNode">Dependencies</Phrase>
     <Phrase key="MimicNode">Mimic</Phrase>
     <Phrase key="ImagesNode">Images</Phrase>
-    <Phrase key="MimicSaved">Mimic saved successfully</Phrase>
-    <Phrase key="LoadMimicError">Error loading mimic</Phrase>
-    <Phrase key="SaveMimicError">Error saving mimic</Phrase>
-    <Phrase key="PostUpdateError">Error posting update</Phrase>
+    <Phrase key="MimicSaved">Mimic saved successfully.</Phrase>
+    <Phrase key="LoadMimicError">Error loading mimic.</Phrase>
+    <Phrase key="SaveMimicError">Error saving mimic.</Phrase>
+    <Phrase key="PostUpdateError">Error posting update.</Phrase>
     <Phrase key="UnableAddComponent">Unable to add component.</Phrase>
     <Phrase key="SelectionEmpty">No components selected.</Phrase>
     <Phrase key="ClipboardEmpty">Clipboard is empty.</Phrase>

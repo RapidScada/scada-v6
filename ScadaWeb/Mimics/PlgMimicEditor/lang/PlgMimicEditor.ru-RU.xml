@@ -10,10 +10,10 @@
     <Phrase key="DependenciesNode">Зависимости</Phrase>
     <Phrase key="MimicNode">Мнемосхема</Phrase>
     <Phrase key="ImagesNode">Изображения</Phrase>
-    <Phrase key="MimicSaved">Мнемосхема сохранена успешно</Phrase>
-    <Phrase key="LoadMimicError">Ошибка при загрузке мнемосхемы</Phrase>
-    <Phrase key="SaveMimicError">Ошибка при сохранении мнемосхемы</Phrase>
-    <Phrase key="PostUpdateError">Ошибка при передаче обновления</Phrase>
+    <Phrase key="MimicSaved">Мнемосхема сохранена успешно.</Phrase>
+    <Phrase key="LoadMimicError">Ошибка при загрузке мнемосхемы.</Phrase>
+    <Phrase key="SaveMimicError">Ошибка при сохранении мнемосхемы.</Phrase>
+    <Phrase key="PostUpdateError">Ошибка при передаче обновления.</Phrase>
     <Phrase key="UnableAddComponent">Невозможно добавить компонент.</Phrase>
     <Phrase key="SelectionEmpty">Компоненты не выбраны.</Phrase>
     <Phrase key="ClipboardEmpty">Буфер обмена пуст.</Phrase>
