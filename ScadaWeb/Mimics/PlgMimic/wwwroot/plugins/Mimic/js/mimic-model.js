@@ -418,11 +418,40 @@ rs.mimic.Component = class {
         }
     }
 
+    get width() {
+        return parseInt(this.properties?.size?.width) || 0;
+    }
+
+    set width(value) {
+        if (this.properties?.size) {
+            this.properties.size.width = value.toString();
+        }
+    }
+
+    get height() {
+        return parseInt(this.properties?.size?.height) || 0;
+    }
+
+    set height(value) {
+        if (this.properties?.size) {
+            this.properties.size.height = value.toString();
+        }
+    }
+
     setLocation(x, y) {
         if (this.properties) {
             this.properties.location = {
                 x: x.toString(),
                 y: y.toString()
+            };
+        }
+    }
+
+    setSize(width, height) {
+        if (this.properties) {
+            this.properties.size = {
+                width: width.toString(),
+                height: height.toString()
             };
         }
     }

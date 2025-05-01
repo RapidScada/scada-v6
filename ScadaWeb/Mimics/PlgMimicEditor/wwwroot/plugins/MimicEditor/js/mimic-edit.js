@@ -344,18 +344,39 @@ function align(action) {
     let changes = [];
 
     switch (action) {
-        case AlingAction.ALIGN_LEFTS:
+        case AlingAction.ALIGN_LEFTS: {
             let x = firstComponent.x;
             updatedComponents = selectedComponents.slice(1);
 
             for (let component of updatedComponents) {
                 component.x = x;
-                changes.push(Change
-                    .updateComponent(component.id)
-                    .setProperty("location", component.properties.location));
+                changes.push(Change.updateLocation(component));
             }
 
             break;
+        }
+        case AlingAction.ALIGN_CENTERS: {
+            let center = firstComponent.x + firstComponent.width / 2;
+            updatedComponents = selectedComponents.slice(1);
+
+            for (let component of updatedComponents) {
+                component.x += Math.trunc(center - (component.x + component.width / 2));
+                changes.push(Change.updateLocation(component));
+            }
+
+            break;
+        }
+        case AlingAction.ALIGN_RIGHTS: {
+            let right = firstComponent.x + firstComponent.width;
+            updatedComponents = selectedComponents.slice(1);
+
+            for (let component of updatedComponents) {
+                component.x = right - component.width;
+                changes.push(Change.updateLocation(component));
+            }
+
+            break;
+        }
     }
 
     if (updatedComponents.length > 0) {

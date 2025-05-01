@@ -116,6 +116,12 @@ class Change {
         return change;
     }
 
+    static updateLocation(component) {
+        return Change.updateComponent(component.id, {
+            location: component.properties.location
+        });
+    }
+
     static removeComponent(componentID) {
         let change = new Change(ChangeType.REMOVE_COMPONENT);
         change._setObjectID(componentID);
