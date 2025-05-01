@@ -410,6 +410,46 @@ function align(action) {
 
             break;
         }
+        case AlingAction.SAME_WIDTH: {
+            let width = firstComponent.width;
+            updatedComponents = selectedComponents.slice(1);
+
+            for (let component of updatedComponents) {
+                component.width = width;
+                changes.push(Change.updateSize(component));
+            }
+
+            break;
+        }
+        case AlingAction.SAME_HEIGHT: {
+            let height = firstComponent.height;
+            updatedComponents = selectedComponents.slice(1);
+
+            for (let component of updatedComponents) {
+                component.height = height;
+                changes.push(Change.updateSize(component));
+            }
+
+            break;
+        }
+        case AlingAction.SAME_SIZE: {
+            let width = firstComponent.width;
+            let height = firstComponent.height;
+            updatedComponents = selectedComponents.slice(1);
+
+            for (let component of updatedComponents) {
+                component.setSize(width, height);
+                changes.push(Change.updateSize(component));
+            }
+
+            break;
+        }
+        case AlingAction.HOR_SPACING: {
+            break;
+        }
+        case AlingAction.VERT_SPACING: {
+            break;
+        }
     }
 
     if (updatedComponents.length > 0) {

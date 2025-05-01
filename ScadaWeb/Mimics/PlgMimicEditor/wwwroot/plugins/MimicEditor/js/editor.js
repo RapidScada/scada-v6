@@ -122,6 +122,12 @@ class Change {
         });
     }
 
+    static updateSize(component) {
+        return Change.updateComponent(component.id, {
+            size: component.properties.size
+        });
+    }
+
     static removeComponent(componentID) {
         let change = new Change(ChangeType.REMOVE_COMPONENT);
         change._setObjectID(componentID);
