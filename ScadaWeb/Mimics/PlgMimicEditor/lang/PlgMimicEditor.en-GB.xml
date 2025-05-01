@@ -39,8 +39,8 @@
     <Phrase key="btnSameWidth">Make Same Width</Phrase>
     <Phrase key="btnSameHeight">Make Same Height</Phrase>
     <Phrase key="btnSameSize">Make Same Size</Phrase>
-    <Phrase key="btnHorizontalSpacing">Make Horizontal Spacing Equal</Phrase>
-    <Phrase key="btnVerticalSpacing">Make Vertical Spacing Equal</Phrase>
+    <Phrase key="btnHorSpacing">Make Horizontal Spacing Equal</Phrase>
+    <Phrase key="btnVertSpacing">Make Vertical Spacing Equal</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicListModel">
     <Phrase key="PageTitle">Mimic Editor</Phrase>

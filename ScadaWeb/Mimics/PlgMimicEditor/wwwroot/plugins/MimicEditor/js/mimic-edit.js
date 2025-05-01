@@ -71,6 +71,10 @@ function bindEvents() {
         pointer();
     });
 
+    $("button.rs-btn-align").on("click", function () {
+        align($(this).attr("data-action"));
+    });
+
     $("#divComponents").on("click", ".component-item", function () {
         let typeName = $(this).data("type-name");
         startLongAction(LongAction.adding(typeName));
@@ -328,6 +332,47 @@ function pointer() {
     clearLongAction();
 }
 
+function align(action) {
+    if (selectedComponents.length < 2) {
+        showToast("Select at least 2 components.", MessageType.WARNING); // TODO: message
+        return;
+    }
+
+    // update model
+    let firstComponent = selectedComponents[0];
+    let updatedComponents = [];
+    let changes = [];
+
+    switch (action) {
+        case AlingAction.ALIGN_LEFTS:
+            let x = firstComponent.x;
+            updatedComponents = selectedComponents.slice(1);
+
+            for (let component of updatedComponents) {
+                component.x = x;
+                changes.push(Change
+                    .updateComponent(component.id)
+                    .setProperty("location", component.properties.location));
+            }
+
+            break;
+    }
+
+    if (updatedComponents.length > 0) {
+        // update DOM
+        for (let component of updatedComponents) {
+            unitedRenderer.updateComponentDom(component);
+            component.dom?.addClass("selected");
+        }
+
+        // update properties
+        propGrid.selectedObjects = selectedComponents;
+
+        // update server side
+        pushChanges(...changes);
+    }
+}
+
 function showFaceplates() {
     // create new faceplate group
     let newGroupElem;
@@ -564,9 +609,7 @@ function pasteComponents(parentID, point) {
     }
 
     // update server side
-    if (changes.length > 0) {
-        pushChanges(...changes);
-    }
+    pushChanges(...changes);
 }
 
 function getNextComponentID() {
@@ -595,8 +638,10 @@ function getUpdaterUrl() {
 }
 
 function pushChanges(...changes) {
-    let updateDto = new UpdateDto(mimicKey, ...changes);
-    updateQueue.push(updateDto);
+    if (changes.length > 0) {
+        let updateDto = new UpdateDto(mimicKey, ...changes);
+        updateQueue.push(updateDto);
+    }
 }
 
 async function postUpdates() {

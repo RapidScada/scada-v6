@@ -1,5 +1,20 @@
-﻿// Contains classes: ChangeType, LongActionType, DragMode, MessageType, Change, UpdateDto, LongAction
+﻿// Contains classes: AlingAction, ChangeType, DragMode, LongActionType, MessageType, Change, UpdateDto, LongAction
 // No dependencies
+
+// Specifies the actions to aling components.
+class AlingAction {
+    static ALIGN_LEFTS = "align-lefts";
+    static ALIGN_CENTERS = "align-centers";
+    static ALIGN_RIGHTS = "align-rights";
+    static ALIGN_TOPS = "align-tops";
+    static ALIGN_MIDDLES = "align-middles";
+    static ALIGN_BOTTOMS = "align-bottoms";
+    static SAME_WIDTH = "same-width";
+    static SAME_HEIGHT = "same-height";
+    static SAME_SIZE = "same-size";
+    static HOR_SPACING = "hor-spacing";
+    static VERT_SPACING = "vert-spacing";
+}
 
 // Specifies the change types.
 class ChangeType {
@@ -21,14 +36,6 @@ class ChangeType {
     static REMOVE_IMAGE = 12;
 }
 
-// Specifies the long action types.
-class LongActionType {
-    static NONE = 0;
-    static ADDING = 1;
-    static PASTING = 2;
-    static DRAGGING = 3;
-}
-
 // Specifies the drag modes.
 class DragMode {
     static NONE = 0;
@@ -41,6 +48,14 @@ class DragMode {
     static RESIZE_TOP_RIGHT = 7;
     static RESIZE_BOT_LEFT = 8;
     static RESIZE_BOT_RIGHT = 9;
+}
+
+// Specifies the long action types.
+class LongActionType {
+    static NONE = 0;
+    static ADDING = 1;
+    static PASTING = 2;
+    static DRAGGING = 3;
 }
 
 // Specifies the message types for toasts.
@@ -65,7 +80,11 @@ class Change {
 
     _setObjectID(objectID) {
         if (Array.isArray(objectID)) {
-            this.objectIDs = objectID;
+            if (objectID.length === 1) {
+                this.objectID = objectID[0];
+            } else {
+                this.objectIDs = objectID;
+            }
         } else {
             this.objectID = objectID;
         }

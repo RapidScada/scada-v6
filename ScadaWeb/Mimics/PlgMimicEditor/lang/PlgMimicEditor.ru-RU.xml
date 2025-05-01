@@ -38,8 +38,8 @@
     <Phrase key="btnSameWidth">Одинаковая ширина</Phrase>
     <Phrase key="btnSameHeight">Одинаковая высота</Phrase>
     <Phrase key="btnSameSize">Одинаковый размер</Phrase>
-    <Phrase key="btnHorizontalSpacing">Горизонтальный интервал</Phrase>
-    <Phrase key="btnVerticalSpacing">Вертикальный интервал</Phrase>
+    <Phrase key="btnHorSpacing">Горизонтальный интервал</Phrase>
+    <Phrase key="btnVertSpacing">Вертикальный интервал</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicListModel">
     <Phrase key="PageTitle">Редактор мнемосхем</Phrase>
