@@ -377,6 +377,39 @@ function align(action) {
 
             break;
         }
+        case AlingAction.ALIGN_TOPS: {
+            let y = firstComponent.y;
+            updatedComponents = selectedComponents.slice(1);
+
+            for (let component of updatedComponents) {
+                component.y = y;
+                changes.push(Change.updateLocation(component));
+            }
+
+            break;
+        }
+        case AlingAction.ALIGN_MIDDLES: {
+            let middle = firstComponent.y + firstComponent.height / 2;
+            updatedComponents = selectedComponents.slice(1);
+
+            for (let component of updatedComponents) {
+                component.y += Math.trunc(middle - (component.y + component.height / 2));
+                changes.push(Change.updateLocation(component));
+            }
+
+            break;
+        }
+        case AlingAction.ALIGN_BOTTOMS: {
+            let bottom = firstComponent.y + firstComponent.height;
+            updatedComponents = selectedComponents.slice(1);
+
+            for (let component of updatedComponents) {
+                component.y = bottom - component.height;
+                changes.push(Change.updateLocation(component));
+            }
+
+            break;
+        }
     }
 
     if (updatedComponents.length > 0) {
