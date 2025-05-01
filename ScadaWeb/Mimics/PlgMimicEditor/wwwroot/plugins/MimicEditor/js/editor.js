@@ -1,8 +1,8 @@
-﻿// Contains classes: AlingAction, ChangeType, DragMode, LongActionType, MessageType, Change, UpdateDto, LongAction
+﻿// Contains classes: AlingActionType, ChangeType, DragMode, LongActionType, MessageType, Change, UpdateDto, LongAction
 // No dependencies
 
-// Specifies the actions to aling components.
-class AlingAction {
+// Specifies the actions types for component alignment.
+class AlingActionType {
     static ALIGN_LEFTS = "align-lefts";
     static ALIGN_CENTERS = "align-centers";
     static ALIGN_RIGHTS = "align-rights";
@@ -53,9 +53,9 @@ class DragMode {
 // Specifies the long action types.
 class LongActionType {
     static NONE = 0;
-    static ADDING = 1;
-    static PASTING = 2;
-    static DRAGGING = 3;
+    static ADD = 1;
+    static PASTE = 2;
+    static DRAG = 3;
 }
 
 // Specifies the message types for toasts.
@@ -159,18 +159,18 @@ class LongAction {
     }
 
     static adding(componentTypeName) {
-        let action = new LongAction(LongActionType.ADDING);
+        let action = new LongAction(LongActionType.ADD);
         action.componentTypeName = componentTypeName;
         return action;
     }
 
     static pasting() {
-        return new LongAction(LongActionType.PASTING);
+        return new LongAction(LongActionType.PASTE);
     }
 
     getCursor() {
-        if (this.actionType === LongActionType.ADDING ||
-            this.actionType === LongActionType.PASTING) {
+        if (this.actionType === LongActionType.ADD||
+            this.actionType === LongActionType.PASTE) {
             return "crosshair";
         }
 

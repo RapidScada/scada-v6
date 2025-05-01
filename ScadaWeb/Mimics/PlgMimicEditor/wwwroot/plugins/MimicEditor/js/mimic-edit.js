@@ -84,11 +84,11 @@ function bindEvents() {
         .on("mousedown", function (event) {
             if (!longAction) {
                 selectMimic();
-            } else if (longAction.actionType === LongActionType.ADDING) {
+            } else if (longAction.actionType === LongActionType.ADD) {
                 // add component to mimic
                 addComponent(longAction.componentTypeName, 0, getMimicPoint(event, mimicWrapperElem));
                 clearLongAction();
-            } else if (longAction.actionType === LongActionType.PASTING) {
+            } else if (longAction.actionType === LongActionType.PASTE) {
                 // paste components to mimic
                 pasteComponents(0, getMimicPoint(event, mimicWrapperElem));
                 clearLongAction();
@@ -113,14 +113,14 @@ function bindEvents() {
                 }
 
                 event.stopPropagation();
-            } else if (longAction.actionType === LongActionType.ADDING) {
+            } else if (longAction.actionType === LongActionType.ADD) {
                 // add component to container
                 if (thisElem.hasClass("container")) {
                     addComponent(longAction.componentTypeName, thisElem.data("id"), getMimicPoint(event, thisElem));
                     clearLongAction();
                     event.stopPropagation();
                 }
-            } else if (longAction.actionType === LongActionType.PASTING) {
+            } else if (longAction.actionType === LongActionType.PASTE) {
                 // paste components to container
                 if (thisElem.hasClass("container")) {
                     pasteComponents(thisElem.data("id"), getMimicPoint(event, thisElem));
@@ -344,7 +344,7 @@ function align(action) {
     let changes = [];
 
     switch (action) {
-        case AlingAction.ALIGN_LEFTS: {
+        case AlingActionType.ALIGN_LEFTS: {
             let x = firstComponent.x;
             updatedComponents = selectedComponents.slice(1);
 
@@ -355,7 +355,7 @@ function align(action) {
 
             break;
         }
-        case AlingAction.ALIGN_CENTERS: {
+        case AlingActionType.ALIGN_CENTERS: {
             let center = firstComponent.x + firstComponent.width / 2;
             updatedComponents = selectedComponents.slice(1);
 
@@ -366,7 +366,7 @@ function align(action) {
 
             break;
         }
-        case AlingAction.ALIGN_RIGHTS: {
+        case AlingActionType.ALIGN_RIGHTS: {
             let right = firstComponent.x + firstComponent.width;
             updatedComponents = selectedComponents.slice(1);
 
@@ -377,7 +377,7 @@ function align(action) {
 
             break;
         }
-        case AlingAction.ALIGN_TOPS: {
+        case AlingActionType.ALIGN_TOPS: {
             let y = firstComponent.y;
             updatedComponents = selectedComponents.slice(1);
 
@@ -388,7 +388,7 @@ function align(action) {
 
             break;
         }
-        case AlingAction.ALIGN_MIDDLES: {
+        case AlingActionType.ALIGN_MIDDLES: {
             let middle = firstComponent.y + firstComponent.height / 2;
             updatedComponents = selectedComponents.slice(1);
 
@@ -399,7 +399,7 @@ function align(action) {
 
             break;
         }
-        case AlingAction.ALIGN_BOTTOMS: {
+        case AlingActionType.ALIGN_BOTTOMS: {
             let bottom = firstComponent.y + firstComponent.height;
             updatedComponents = selectedComponents.slice(1);
 
@@ -410,7 +410,7 @@ function align(action) {
 
             break;
         }
-        case AlingAction.SAME_WIDTH: {
+        case AlingActionType.SAME_WIDTH: {
             let width = firstComponent.width;
             updatedComponents = selectedComponents.slice(1);
 
@@ -421,7 +421,7 @@ function align(action) {
 
             break;
         }
-        case AlingAction.SAME_HEIGHT: {
+        case AlingActionType.SAME_HEIGHT: {
             let height = firstComponent.height;
             updatedComponents = selectedComponents.slice(1);
 
@@ -432,7 +432,7 @@ function align(action) {
 
             break;
         }
-        case AlingAction.SAME_SIZE: {
+        case AlingActionType.SAME_SIZE: {
             let width = firstComponent.width;
             let height = firstComponent.height;
             updatedComponents = selectedComponents.slice(1);
@@ -444,7 +444,7 @@ function align(action) {
 
             break;
         }
-        case AlingAction.HOR_SPACING: {
+        case AlingActionType.HOR_SPACING: {
             let lastComponent = selectedComponents.at(-1);
             let spacing = lastComponent.x + lastComponent.width - firstComponent.x;
             selectedComponents.forEach(c => spacing -= c.width);
@@ -460,7 +460,7 @@ function align(action) {
 
             break;
         }
-        case AlingAction.VERT_SPACING: {
+        case AlingActionType.VERT_SPACING: {
             let lastComponent = selectedComponents.at(-1);
             let spacing = lastComponent.y + lastComponent.height - firstComponent.y;
             selectedComponents.forEach(c => spacing -= c.height);
