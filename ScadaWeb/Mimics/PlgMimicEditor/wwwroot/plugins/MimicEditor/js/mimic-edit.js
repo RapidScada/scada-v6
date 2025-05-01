@@ -445,6 +445,19 @@ function align(action) {
             break;
         }
         case AlingAction.HOR_SPACING: {
+            let lastComponent = selectedComponents.at(-1);
+            let spacing = lastComponent.x + lastComponent.width - firstComponent.x;
+            selectedComponents.forEach(c => spacing -= c.width);
+            spacing = Math.trunc(spacing / (selectedComponents.length - 1));
+            let x = firstComponent.x + firstComponent.width + spacing;
+            updatedComponents = selectedComponents.slice(1, -1);
+
+            for (let component of updatedComponents) {
+                component.x = x;
+                changes.push(Change.updateLocation(component));
+                x += component.width + spacing;
+            }
+
             break;
         }
         case AlingAction.VERT_SPACING: {
