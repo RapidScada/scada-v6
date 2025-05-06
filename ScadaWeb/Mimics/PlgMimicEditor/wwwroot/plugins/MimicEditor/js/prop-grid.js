@@ -266,6 +266,15 @@ class PropGrid {
             }
         }
     }
+
+    refresh() {
+        if (this._selectedObject instanceof UnionObject) {
+            let newUnion = new UnionObject(this._selectedObject.targets);
+            this._selectObject(newUnion);
+        } else {
+            this._selectObject(this._selectedObject);
+        }
+    }
 }
 
 // Provides helper methods for property grid.

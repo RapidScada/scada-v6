@@ -52,6 +52,57 @@ rs.mimic.Renderer = class {
     // Updates the component according to the current channel data.
     update(component, renderContext) {
     }
+
+    // Sets the location of the component DOM content.
+    setLocation(component, x, y) {
+        if (component.dom instanceof jQuery) {
+            this._setLocation(component.dom, {
+                x: x.toString(),
+                y: y.toString()
+            });
+        }
+    }
+
+    // Gets the component location from its DOM content.
+    getLocation(component) {
+        if (component.dom instanceof jQuery) {
+            let position = component.dom.position();
+            return {
+                x: position.left.toString(),
+                y: position.top.toString()
+            };
+        } else {
+            return {
+                x: "0",
+                y: "0"
+            };
+        }
+    }
+
+    // Sets the size of the component DOM content.
+    setSize(component, width, height) {
+        if (component.dom instanceof jQuery) {
+            this._setSize(component.dom, {
+                width: width.toString(),
+                height: height.toString()
+            });
+        }
+    }
+
+    // Gets the component size from its DOM content.
+    getSize(component) {
+        if (component.dom instanceof jQuery) {
+            return {
+                width: component.dom.outerWidth().toString(),
+                height: component.dom.outerHeight().toString()
+            };
+        } else {
+            return {
+                width: "0",
+                height: "0"
+            };
+        }
+    }
 }
 
 // Represents a mimic renderer.

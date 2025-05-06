@@ -75,6 +75,30 @@ class DragType {
 
         return "";
     }
+
+    static isResizeLeft(dragType) {
+        return dragType === DragType.RESIZE_LEFT ||
+            dragType === DragType.RESIZE_TOP_LEFT ||
+            dragType === DragType.RESIZE_BOT_LEFT;
+    }
+
+    static isResizeRight(dragType) {
+        return dragType === DragType.RESIZE_RIGHT ||
+            dragType === DragType.RESIZE_TOP_RIGHT ||
+            dragType === DragType.RESIZE_BOT_RIGHT;
+    }
+
+    static isResizeTop(dragType) {
+        return dragType === DragType.RESIZE_TOP ||
+            dragType === DragType.RESIZE_TOP_LEFT ||
+            dragType === DragType.RESIZE_TOP_RIGHT;
+    }
+
+    static isResizeBot(dragType) {
+        return dragType === DragType.RESIZE_BOT ||
+            dragType === DragType.RESIZE_BOT_LEFT ||
+            dragType === DragType.RESIZE_BOT_RIGHT;
+    }
 }
 
 // Specifies the long action types.
@@ -182,9 +206,22 @@ class LongAction {
     componentTypeName; // component to add
     dragType;          // drag type, move or resize
     startPoint;        // start point of drag
+    moved;             // components were moved during drag operation
+    resized;           // components were resized during drag operation
 
     constructor(actionType) {
         this.actionType = actionType ?? LongActionType.NONE;
+    }
+
+    getCursor() {
+        if (this.actionType === LongActionType.ADD ||
+            this.actionType === LongActionType.PASTE) {
+            return "crosshair";
+        } else if (this.actionType === LongActionType.DRAG) {
+            return DragType.getCursor(this.dragType);
+        } else {
+            return "";
+        }
     }
 
     static add(componentTypeName) {
@@ -201,18 +238,9 @@ class LongAction {
         let action = new LongAction(LongActionType.DRAG);
         action.dragType = dragType;
         action.startPoint = startPoint;
+        action.moved = false;
+        action.resized = false;
         return action;
-    }
-
-    getCursor() {
-        if (this.actionType === LongActionType.ADD ||
-            this.actionType === LongActionType.PASTE) {
-            return "crosshair";
-        } else if (this.actionType === LongActionType.DRAG) {
-            return DragType.getCursor(this.dragType);
-        } else {
-            return "";
-        }
     }
 }
 

@@ -5,6 +5,8 @@
 const UPDATE_RATE = 1000; // ms
 const KEEP_ALIVE_INTERVAL = 10000; // ms
 const RESIZE_BORDER_WIDTH = 5;
+const MIN_MOVE = 10;
+const MIN_SIZE = RESIZE_BORDER_WIDTH * 3;
 const TOAST_MESSAGE_LENGTH = 100;
 const IMAGES_PATH = "../../plugins/MimicEditor/images/";
 const mimic = new rs.mimic.Mimic();
@@ -140,7 +142,7 @@ function bindEvents() {
         .on("mousemove", function (event) {
             // continue dragging
             if (longAction?.actionType === LongActionType.DRAG) {
-
+                continueDragging(getMimicPoint(event, mimicWrapperElem));
             }
         })
         .on("mousemove", ".comp", function (event) {
@@ -152,6 +154,8 @@ function bindEvents() {
             }
         })
         .on("mouseup mouseleave", function () {
+            // finish dragging
+            finishDragging();
             clearLongAction();
         })
         .on("selectstart", false)
@@ -512,8 +516,8 @@ function align(action) {
             component.dom?.addClass("selected");
         }
 
-        // update properties
-        propGrid.selectedObjects = selectedComponents;
+        // refresh properties
+        propGrid.refresh();
 
         // update server side
         pushChanges(...changes);
@@ -647,11 +651,10 @@ function getDragType(event, compElem) {
         let component = getComponentByDom(compElem);
 
         if (component?.renderer?.allowResizing(component)) {
-            const minSize = RESIZE_BORDER_WIDTH * 3;
             let compW = compElem.outerWidth();
             let compH = compElem.outerHeight();
 
-            if (compW >= minSize && compH >= minSize) {
+            if (compW >= MIN_SIZE && compH >= MIN_SIZE) {
                 // check if cursor is over component border
                 let point = getMimicPoint(event, compElem);
                 let onLeft = point.x < RESIZE_BORDER_WIDTH;
@@ -681,6 +684,18 @@ function getDragType(event, compElem) {
     }
 
     return DragType.MOVE;
+}
+
+function startLongAction(action) {
+    longAction = action;
+    mimicWrapperElem.css("cursor", longAction.getCursor());
+}
+
+function clearLongAction() {
+    if (longAction) {
+        longAction = null;
+        mimicWrapperElem.css("cursor", "");
+    }
 }
 
 function addComponent(typeName, parentID, point) {
@@ -805,16 +820,94 @@ function getNextComponentID() {
     return ++maxComponentID;
 }
 
-function startLongAction(action) {
-    longAction = action;
-    mimicWrapperElem.css("cursor", longAction.getCursor());
+function continueDragging(point) {
+    if (!longAction?.dragType) {
+        return;
+    }
+
+    let offsetX = point.x - longAction.startPoint.x;
+    let offsetY = point.y - longAction.startPoint.y;
+
+    if (longAction.dragType === DragType.MOVE) {
+        // move
+        if (longAction.moved || Math.abs(offsetX) >= MIN_MOVE || Math.abs(offsetY) >= MIN_MOVE) {
+            longAction.moved = true;
+
+            for (let component of selectedComponents) {
+                if (component.renderer) {
+                    component.renderer.setLocation(component, component.x + offsetX, component.y + offsetY);
+                }
+            }
+        }
+    } else {
+        // resize
+        let isResizeLeft = DragType.isResizeLeft(longAction.dragType);
+        let isResizeRight = DragType.isResizeRight(longAction.dragType);
+        let isResizeTop = DragType.isResizeTop(longAction.dragType);
+        let isResizeBot = DragType.isResizeBot(longAction.dragType);
+
+        for (let component of selectedComponents) {
+            if (component.renderer) {
+                let oldX = component.x;
+                let oldY = component.y;
+                let oldWidth = component.width;
+                let oldHeight = component.height;
+                let newX = oldX;
+                let newY = oldY;
+                let newWidth = oldWidth;
+                let newHeight = oldHeight;
+
+                if (isResizeLeft) {
+                    newWidth = Math.max(oldWidth - offsetX, MIN_SIZE);
+                    newX -= newWidth - oldWidth;
+                } else if (isResizeRight) {
+                    newWidth = Math.max(oldWidth + offsetX, MIN_SIZE);
+                }
+
+                if (isResizeTop) {
+                    newHeight = Math.max(oldHeight - offsetY, MIN_SIZE);
+                    newY -= newHeight - oldHeight;
+                } else if (isResizeBot) {
+                    newHeight = Math.max(oldHeight + offsetY, MIN_SIZE);
+                }
+
+                if (oldX !== newX || oldY !== newY) {
+                    longAction.moved = true;
+                    component.renderer.setLocation(component, newX, newY);
+                }
+
+                if (oldWidth !== newWidth || oldHeight !== newHeight) {
+                    longAction.resized = true;
+                    component.renderer.setSize(component, newWidth, newHeight);
+                }
+            }
+        }
+    }
 }
 
-function clearLongAction() {
-    if (longAction) {
-        longAction = null;
-        mimicWrapperElem.css("cursor", "");
+function finishDragging() {
+    if (!(longAction?.dragType && (longAction.moved || longAction.resized))) {
+        return;
     }
+
+    let changes = [];
+
+    for (let component of selectedComponents) {
+        if (component.renderer) {
+            if (longAction.moved) {
+                component.properties.location = component.renderer.getLocation(component);
+                changes.push(Change.updateLocation(component));
+            }
+
+            if (longAction.resized) {
+                component.properties.size = component.renderer.getSize(component);
+                changes.push(Change.updateSize(component));
+            }
+        }
+    }
+
+    propGrid.refresh();
+    pushChanges(...changes);
 }
 
 function getLoaderUrl() {
