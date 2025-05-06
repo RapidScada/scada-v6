@@ -4,6 +4,7 @@
 
 const UPDATE_RATE = 1000; // ms
 const KEEP_ALIVE_INTERVAL = 10000; // ms
+const RESIZE_BORDER_WIDTH = 5;
 const TOAST_MESSAGE_LENGTH = 100;
 const IMAGES_PATH = "../../plugins/MimicEditor/images/";
 const mimic = new rs.mimic.Mimic();
@@ -77,7 +78,7 @@ function bindEvents() {
 
     $("#divComponents").on("click", ".component-item", function () {
         let typeName = $(this).data("type-name");
-        startLongAction(LongAction.adding(typeName));
+        startLongAction(LongAction.add(typeName));
     });
 
     mimicWrapperElem
@@ -98,7 +99,7 @@ function bindEvents() {
             let thisElem = $(this);
 
             if (!longAction) {
-                // select or deselect component
+                // select or deselect component, start dragging
                 let compElem = closestCompElem(thisElem);
                 let isSelected = compElem.hasClass("selected");
 
@@ -108,8 +109,15 @@ function bindEvents() {
                     } else {
                         addToSelection(compElem);
                     }
-                } else if (!isSelected) {
-                    selectComponent(compElem);
+                } else {
+                    if (isSelected) {
+                        startLongAction(LongAction.drag(
+                            getDragType(event, compElem),
+                            getMimicPoint(event, mimicWrapperElem)));
+                    } else {
+                        selectComponent(compElem);
+                        startLongAction(LongAction.drag(DragType.MOVE, getMimicPoint(event, mimicWrapperElem)));
+                    }
                 }
 
                 event.stopPropagation();
@@ -128,7 +136,26 @@ function bindEvents() {
                     event.stopPropagation();
                 }
             }
-        });
+        })
+        .on("mousemove", function (event) {
+            // continue dragging
+            if (longAction?.actionType === LongActionType.DRAG) {
+
+            }
+        })
+        .on("mousemove", ".comp", function (event) {
+            // set cursor
+            if (!longAction) {
+                let compElem = closestCompElem($(this));
+                let dragType = getDragType(event, compElem);
+                compElem.css("cursor", DragType.getCursor(dragType));
+            }
+        })
+        .on("mouseup mouseleave", function () {
+            clearLongAction();
+        })
+        .on("selectstart", false)
+        .on("dragstart", false);
 }
 
 function updateLayout() {
@@ -296,7 +323,7 @@ function paste() {
     if (clipboard.isEmpty) {
         showToast(phrases.clipboardEmpty, MessageType.WARNING);
     } else {
-        startLongAction(LongAction.pasting());
+        startLongAction(LongAction.paste());
     }
 }
 
@@ -613,6 +640,47 @@ function getMimicPoint(event, elem) {
         parseInt(event.pageX - offset.left),
         parseInt(event.pageY - offset.top)
     );
+}
+
+function getDragType(event, compElem) {
+    if (selectedComponents.length === 1) {
+        let component = getComponentByDom(compElem);
+
+        if (component?.renderer?.allowResizing(component)) {
+            const minSize = RESIZE_BORDER_WIDTH * 3;
+            let compW = compElem.outerWidth();
+            let compH = compElem.outerHeight();
+
+            if (compW >= minSize && compH >= minSize) {
+                // check if cursor is over component border
+                let point = getMimicPoint(event, compElem);
+                let onLeft = point.x < RESIZE_BORDER_WIDTH;
+                let onRight = point.x >= compW - RESIZE_BORDER_WIDTH;
+                let onTop = point.y < RESIZE_BORDER_WIDTH;
+                let atBot = point.y >= compH - RESIZE_BORDER_WIDTH;
+
+                if (onTop && onLeft) {
+                    return DragType.RESIZE_TOP_LEFT;
+                } else if (onTop && onRight) {
+                    return DragType.RESIZE_TOP_RIGHT;
+                } else if (atBot && onLeft) {
+                    return DragType.RESIZE_BOT_LEFT;
+                } else if (atBot && onRight) {
+                    return DragType.RESIZE_BOT_RIGHT;
+                } else if (onLeft) {
+                    return DragType.RESIZE_LEFT;
+                } else if (onRight) {
+                    return DragType.RESIZE_RIGHT;
+                } else if (onTop) {
+                    return DragType.RESIZE_TOP;
+                } else if (atBot) {
+                    return DragType.RESIZE_BOT;
+                }
+            }
+        }
+    }
+
+    return DragType.MOVE;
 }
 
 function addComponent(typeName, parentID, point) {

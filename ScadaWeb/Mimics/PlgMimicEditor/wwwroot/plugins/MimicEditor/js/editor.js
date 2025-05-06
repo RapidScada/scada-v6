@@ -1,4 +1,4 @@
-﻿// Contains classes: AlingActionType, ChangeType, DragMode, LongActionType, MessageType, Change, UpdateDto, LongAction
+﻿// Contains classes: AlingActionType, ChangeType, DragType, LongActionType, MessageType, Change, UpdateDto, LongAction
 // No dependencies
 
 // Specifies the actions types for component alignment.
@@ -36,8 +36,8 @@ class ChangeType {
     static REMOVE_IMAGE = 12;
 }
 
-// Specifies the drag modes.
-class DragMode {
+// Specifies the drag types.
+class DragType {
     static NONE = 0;
     static MOVE = 1;
     static RESIZE_LEFT = 2;
@@ -48,6 +48,33 @@ class DragMode {
     static RESIZE_TOP_RIGHT = 7;
     static RESIZE_BOT_LEFT = 8;
     static RESIZE_BOT_RIGHT = 9;
+
+    static getCursor(dragType) {
+        if (dragType) {
+            switch (dragType) {
+                case DragType.MOVE:
+                    return "move";
+
+                case DragType.RESIZE_LEFT:
+                case DragType.RESIZE_RIGHT:
+                    return "ew-resize";
+
+                case DragType.RESIZE_TOP:
+                case DragType.RESIZE_BOT:
+                    return "ns-resize";
+
+                case DragType.RESIZE_TOP_LEFT:
+                case DragType.RESIZE_BOT_RIGHT:
+                    return "nwse-resize";
+
+                case DragType.RESIZE_TOP_RIGHT:
+                case DragType.RESIZE_BOT_LEFT:
+                    return "nesw-resize";
+            }
+        }
+
+        return "";
+    }
 }
 
 // Specifies the long action types.
@@ -151,30 +178,41 @@ class UpdateDto {
 
 // Represents a continuous user action based on multiple mouse events.
 class LongAction {
-    actionType;
-    componentTypeName;
+    actionType;        // action type
+    componentTypeName; // component to add
+    dragType;          // drag type, move or resize
+    startPoint;        // start point of drag
 
     constructor(actionType) {
         this.actionType = actionType ?? LongActionType.NONE;
     }
 
-    static adding(componentTypeName) {
+    static add(componentTypeName) {
         let action = new LongAction(LongActionType.ADD);
         action.componentTypeName = componentTypeName;
         return action;
     }
 
-    static pasting() {
+    static paste() {
         return new LongAction(LongActionType.PASTE);
     }
 
+    static drag(dragType, startPoint) {
+        let action = new LongAction(LongActionType.DRAG);
+        action.dragType = dragType;
+        action.startPoint = startPoint;
+        return action;
+    }
+
     getCursor() {
-        if (this.actionType === LongActionType.ADD||
+        if (this.actionType === LongActionType.ADD ||
             this.actionType === LongActionType.PASTE) {
             return "crosshair";
+        } else if (this.actionType === LongActionType.DRAG) {
+            return DragType.getCursor(this.dragType);
+        } else {
+            return "";
         }
-
-        return "";
     }
 }
 

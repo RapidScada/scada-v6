@@ -88,6 +88,10 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
         component.dom = componentElem;
         return componentElem;
     }
+
+    allowResizing(component) {
+        return true;
+    }
 }
 
 // Represents a text component renderer.

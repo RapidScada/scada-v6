@@ -17,6 +17,9 @@
   background-clip: padding-box;
 }
 
+.mimic-wrapper.edit-mode {
+  cursor: default;
+}
 .mimic-wrapper.edit-mode .mimic .comp.selected {
   box-shadow: 0 0 0 1px lime;
 }

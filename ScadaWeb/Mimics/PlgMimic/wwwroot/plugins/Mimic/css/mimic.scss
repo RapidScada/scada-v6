@@ -24,6 +24,8 @@ $component-hover-color: var(--bs-gray-500);
 }
 
 .mimic-wrapper.edit-mode {
+    cursor: default;
+
     .mimic .comp {
         &.selected {
             box-shadow: 0 0 0 1px $component-selected-color;
