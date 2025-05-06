@@ -894,15 +894,19 @@ function finishDragging() {
 
     for (let component of selectedComponents) {
         if (component.renderer) {
+            let change = Change.updateComponent(component.id);
+
             if (longAction.moved) {
                 component.properties.location = component.renderer.getLocation(component);
-                changes.push(Change.updateLocation(component));
+                change.setProperty("location", component.properties.location);
             }
 
             if (longAction.resized) {
                 component.properties.size = component.renderer.getSize(component);
-                changes.push(Change.updateSize(component));
+                change.setProperty("size", component.properties.size);
             }
+
+            changes.push(change);
         }
     }
 

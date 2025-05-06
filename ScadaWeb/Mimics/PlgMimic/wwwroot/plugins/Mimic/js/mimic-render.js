@@ -40,12 +40,12 @@ rs.mimic.Renderer = class {
         return image ? "data:;base64," + image.data : "";
     }
 
-    // Creates a DOM content of the component according to the component model. Returns a jQuery object.
+    // Creates a component DOM according to the component model. Returns a jQuery object.
     createDom(component, renderContext) {
         return null;
     }
 
-    // Update the existing DOM content of the component according to the component model.
+    // Update the existing component DOM according to the component model.
     updateDom(component, renderContext) {
     }
 
@@ -53,7 +53,7 @@ rs.mimic.Renderer = class {
     update(component, renderContext) {
     }
 
-    // Sets the location of the component DOM content.
+    // Sets the location of the component DOM.
     setLocation(component, x, y) {
         if (component.dom instanceof jQuery) {
             this._setLocation(component.dom, {
@@ -63,7 +63,7 @@ rs.mimic.Renderer = class {
         }
     }
 
-    // Gets the component location from its DOM content.
+    // Gets the component location from its DOM.
     getLocation(component) {
         if (component.dom instanceof jQuery) {
             let position = component.dom.position();
@@ -79,7 +79,7 @@ rs.mimic.Renderer = class {
         }
     }
 
-    // Sets the size of the component DOM content.
+    // Sets the size of the component DOM.
     setSize(component, width, height) {
         if (component.dom instanceof jQuery) {
             this._setSize(component.dom, {
@@ -89,7 +89,7 @@ rs.mimic.Renderer = class {
         }
     }
 
-    // Gets the component size from its DOM content.
+    // Gets the component size from its DOM.
     getSize(component) {
         if (component.dom instanceof jQuery) {
             return {
@@ -249,14 +249,14 @@ rs.mimic.UnitedRenderer = class {
         this.editMode = editMode;
     }
 
-    // Appends the component DOM content to its parent.
+    // Appends the component DOM to its parent.
     _appendToParent(component) {
         if (component.dom && component.parent?.dom) {
             component.parent.dom.append(component.dom);
         }
     }
 
-    // Creates a component DOM content.
+    // Creates a component DOM.
     _createComponentDom(component, renderContext, opt_unknownTypes) {
         if (component.isFaceplate) {
             this._createFaceplateDom(component, renderContext, opt_unknownTypes);
@@ -273,7 +273,7 @@ rs.mimic.UnitedRenderer = class {
         }
     }
 
-    // Creates a faceplate DOM content.
+    // Creates a faceplate DOM.
     _createFaceplateDom(faceplateInstance, renderContext, opt_unknownTypes) {
         if (!faceplateInstance.model) {
             opt_unknownTypes?.add(faceplateInstance.typeName);
@@ -297,7 +297,7 @@ rs.mimic.UnitedRenderer = class {
         }
     }
 
-    // Creates a mimic DOM content according to the mimic model. Returns a jQuery object.
+    // Creates a mimic DOM according to the mimic model. Returns a jQuery object.
     createMimicDom() {
         const RendererSet = rs.mimic.RendererSet;
         let startTime = Date.now();
@@ -324,7 +324,7 @@ rs.mimic.UnitedRenderer = class {
         }
     }
 
-    // Creates a component DOM content according to the component model.
+    // Creates a component DOM according to the component model.
     createComponentDom(component) {
         let renderContext = new rs.mimic.RenderContext();
         renderContext.editMode = this.editMode;
@@ -332,7 +332,7 @@ rs.mimic.UnitedRenderer = class {
         this._createComponentDom(component, renderContext);
     }
 
-    // Updates the component DOM content according to the component model.
+    // Updates the component DOM according to the component model.
     updateComponentDom(component) {
         if (component.dom && component.renderer) {
             let renderContext = new rs.mimic.RenderContext();
