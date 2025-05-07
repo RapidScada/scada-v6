@@ -50,8 +50,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             cleanupThread = null;
             terminated = false;
 
-            EditorConfig = new EditorConfig();
-            MimicPluginConfig = new MimicPluginConfig();
+            PluginConfig = new MimicPluginConfig();
             PluginLog = new LogFile(LogFormat.Simple)
             {
                 FileName = Path.Combine(webContext.AppDirs.LogDir, EditorUtils.LogFileName),
@@ -63,14 +62,9 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
 
 
         /// <summary>
-        /// Gets the configuration of the editor plugin.
-        /// </summary>
-        public EditorConfig EditorConfig { get; }
-
-        /// <summary>
         /// Gets the configuration of the mimic plugin.
         /// </summary>
-        public MimicPluginConfig MimicPluginConfig { get; }
+        public MimicPluginConfig PluginConfig { get; }
 
         /// <summary>
         /// Gets the plugin log.
@@ -221,13 +215,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         public void LoadConfig()
         {
-            if (!EditorConfig.Load(webContext.Storage, EditorConfig.DefaultFileName, out string errMsg))
-            {
-                PluginLog.WriteError(errMsg);
-                webContext.Log.WriteError(WebPhrases.PluginMessage, EditorPluginInfo.PluginCode, errMsg);
-            }
-
-            if (!MimicPluginConfig.Load(webContext.Storage, MimicPluginConfig.DefaultFileName, out errMsg))
+            if (!PluginConfig.Load(webContext.Storage, MimicPluginConfig.DefaultFileName, out string errMsg))
             {
                 PluginLog.WriteError(errMsg);
                 webContext.Log.WriteError(WebPhrases.PluginMessage, EditorPluginInfo.PluginCode, errMsg);
