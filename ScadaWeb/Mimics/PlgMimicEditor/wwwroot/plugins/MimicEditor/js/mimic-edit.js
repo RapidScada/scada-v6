@@ -5,8 +5,8 @@
 const UPDATE_RATE = 1000; // ms
 const KEEP_ALIVE_INTERVAL = 10000; // ms
 const RESIZE_BORDER_WIDTH = 5;
-const MIN_MOVE = 10;
 const MIN_SIZE = RESIZE_BORDER_WIDTH * 3;
+const MIN_MOVE = 10;
 const TOAST_MESSAGE_LENGTH = 100;
 const IMAGES_PATH = "../../plugins/MimicEditor/images/";
 const mimic = new rs.mimic.Mimic();
