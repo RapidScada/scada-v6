@@ -18,6 +18,7 @@ const clipboard = new MimicClipboard();
 // Set in MimicEdit.cshtml and MimicEditLang.cshtml
 var rootPath = "/";
 var mimicKey = "0";
+var editorOptions = {};
 var phrases = {};
 var translation = {};
 
@@ -41,6 +42,13 @@ function bindEvents() {
                 event.preventDefault();
             }
         });
+
+    $(document).on("keydown", function (event) {
+        if (($(event.target).is("body") || event.code === "KeyS" && event.ctrlKey) &&
+            handleKey(event.code, event.ctrlKey, event.shiftKey)) {
+            event.preventDefault();
+        }
+    });
 
     $("#btnSave").on("click", async function () {
         await save();
@@ -1004,6 +1012,58 @@ function handlePropertyChanged(eventData) {
     } else if (selectedObject instanceof rs.mimic.Mimic) {
         // TODO: update mimic
     }
+}
+
+function handleKey(code, ctrlKey, shiftKey) {
+    // move and resize components
+    switch (code) {
+        case "ArrowLeft":
+        case "ArrowRight":
+        case "ArrowUp":
+        case "ArrowDown":
+            break;
+    }
+
+    // menu actions
+    if (ctrlKey) {
+        switch (code) {
+            case "KeyS":
+                save();
+                return true;
+
+            case "KeyZ":
+                undo();
+                return true;
+
+            case "KeyY":
+                redo();
+                return true;
+
+            case "KeyX":
+                cut();
+                return true;
+
+            case "KeyC":
+                copy();
+                return true;
+
+            case "KeyV":
+                paste();
+                return true;
+        }
+    }
+
+    switch (code) {
+        case "Delete":
+            remove();
+            return true;
+
+        case "Escape":
+            pointer();
+            return true;
+    }
+
+    return false; // not handled
 }
 
 function shortenMessage(message) {

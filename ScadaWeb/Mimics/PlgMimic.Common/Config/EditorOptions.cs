@@ -12,9 +12,15 @@ namespace Scada.Web.Plugins.PlgMimic.Config
     public class EditorOptions
     {
         /// <summary>
+        /// Gets or sets a value indicating whether components are aligned to the grid.
+        /// </summary>
+        public bool UseGrid { get; set; } = true;
+
+        /// <summary>
         /// Gets or sets the grid size in pixels.
         /// </summary>
         public int GridSize { get; set; } = 10;
+
 
         /// <summary>
         /// Loads the options from the XML node.
@@ -22,6 +28,7 @@ namespace Scada.Web.Plugins.PlgMimic.Config
         public void LoadFromXml(XmlNode xmlNode)
         {
             ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
+            UseGrid = xmlNode.GetChildAsBool("UseGrid", UseGrid);
             GridSize = xmlNode.GetChildAsInt("GridSize", GridSize);
         }
     }

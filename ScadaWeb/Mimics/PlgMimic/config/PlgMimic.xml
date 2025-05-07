@@ -10,6 +10,7 @@
     <RememberScale>true</RememberScale>
   </RuntimeOptions>
   <EditorOptions>
+    <UseGrid>true</UseGrid>
     <GridSize>10</GridSize>
   </EditorOptions>
 </PlgMimic>
