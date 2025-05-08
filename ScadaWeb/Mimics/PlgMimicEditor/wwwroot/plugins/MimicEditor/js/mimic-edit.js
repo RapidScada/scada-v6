@@ -660,8 +660,8 @@ function getMimicPoint(event, elem, opt_alignToGrid) {
         let gridSize = getGridSize();
 
         if (gridSize > 1) {
-            x = Math.trunc(Math.round(x / gridSize) * gridSize);
-            y = Math.trunc(Math.round(y / gridSize) * gridSize);
+            x = alignValue(x, gridSize);
+            y = alignValue(y, gridSize);
         }
     }
 
@@ -712,6 +712,10 @@ function getGridSize() {
     return editorOptions && editorOptions.useGrid && editorOptions.gridSize > 1
         ? editorOptions.gridSize
         : 1;
+}
+
+function alignValue(value, gridSize) {
+    return Math.trunc(Math.round(value / gridSize) * gridSize);
 }
 
 function startLongAction(action) {
@@ -853,8 +857,17 @@ function continueDragging(point) {
         return;
     }
 
+    // calculate offset
     let offsetX = point.x - longAction.startPoint.x;
     let offsetY = point.y - longAction.startPoint.y;
+
+    // align to grid
+    let gridSize = getGridSize();
+
+    if (gridSize > 1) {
+        offsetX = alignValue(offsetX, gridSize);
+        offsetY = alignValue(offsetY, gridSize);
+    }
 
     if (longAction.dragType === DragType.MOVE) {
         // move
@@ -982,10 +995,6 @@ function resizeComponents(offsetW, offsetH) {
 
     propGrid.refresh();
     pushChanges(...changes);
-}
-
-function calculateOffset(start, current, alignCalcType) {
-
 }
 
 function getLoaderUrl() {
