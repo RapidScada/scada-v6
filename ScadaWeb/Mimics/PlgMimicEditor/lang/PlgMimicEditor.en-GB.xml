@@ -21,14 +21,14 @@
     <Phrase key="SameParentRequired">Selected components must have the same parent.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ToolbarContents">
-    <Phrase key="btnSave">Save</Phrase>
-    <Phrase key="btnUndo">Undo</Phrase>
-    <Phrase key="btnRedo">Redo</Phrase>
-    <Phrase key="btnCut">Cut</Phrase>
-    <Phrase key="btnCopy">Copy</Phrase>
-    <Phrase key="btnPaste">Paste</Phrase>
-    <Phrase key="btnRemove">Remove</Phrase>
-    <Phrase key="btnPointer">Pointer Tool</Phrase>
+    <Phrase key="btnSave">Save (Ctrl + S)</Phrase>
+    <Phrase key="btnUndo">Undo (Ctrl + Z)</Phrase>
+    <Phrase key="btnRedo">Redo (Ctrl + Y)</Phrase>
+    <Phrase key="btnCut">Cut (Ctrl + X)</Phrase>
+    <Phrase key="btnCopy">Copy (Ctrl + C)</Phrase>
+    <Phrase key="btnPaste">Paste (Ctrl + V)</Phrase>
+    <Phrase key="btnRemove">Remove (Del)</Phrase>
+    <Phrase key="btnPointer">Pointer Tool (Esc)</Phrase>
     <Phrase key="btnAlign">Align</Phrase>
     <Phrase key="btnAlignLefts">Align Lefts</Phrase>
     <Phrase key="btnAlignCenters">Align Centers</Phrase>

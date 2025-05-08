@@ -20,14 +20,14 @@
     <Phrase key="SameParentRequired">Выбранные компоненты должны иметь общего родителя.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ToolbarContents">
-    <Phrase key="btnSave">Сохранить</Phrase>
-    <Phrase key="btnUndo">Отменить</Phrase>
-    <Phrase key="btnRedo">Вернуть</Phrase>
-    <Phrase key="btnCut">Вырезать</Phrase>
-    <Phrase key="btnCopy">Копировать</Phrase>
-    <Phrase key="btnPaste">Вставить</Phrase>
-    <Phrase key="btnRemove">Удалить</Phrase>
-    <Phrase key="btnPointer">Указатель</Phrase>
+    <Phrase key="btnSave">Сохранить (Ctrl + S)</Phrase>
+    <Phrase key="btnUndo">Отменить (Ctrl + Z)</Phrase>
+    <Phrase key="btnRedo">Вернуть (Ctrl + Y)</Phrase>
+    <Phrase key="btnCut">Вырезать (Ctrl + X)</Phrase>
+    <Phrase key="btnCopy">Копировать (Ctrl + C)</Phrase>
+    <Phrase key="btnPaste">Вставить (Ctrl + V)</Phrase>
+    <Phrase key="btnRemove">Удалить (Del)</Phrase>
+    <Phrase key="btnPointer">Указатель (Esc)</Phrase>
     <Phrase key="btnAlign">Выровнять</Phrase>
     <Phrase key="btnAlignLefts">По левому краю</Phrase>
     <Phrase key="btnAlignCenters">По центру горизонтально</Phrase>
