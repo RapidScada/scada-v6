@@ -1,7 +1,8 @@
-﻿// Contains classes: AlingActionType, ChangeType, DragType, LongActionType, MessageType, Change, UpdateDto, LongAction
+﻿// Contains classes: AlingActionType, ChangeType, DragType, LongActionType, MessageType,
+//     Change, UpdateDto, LongAction
 // No dependencies
 
-// Specifies the actions types for component alignment.
+// Specifies the action types for component alignment.
 class AlingActionType {
     static ALIGN_LEFTS = "align-lefts";
     static ALIGN_CENTERS = "align-centers";

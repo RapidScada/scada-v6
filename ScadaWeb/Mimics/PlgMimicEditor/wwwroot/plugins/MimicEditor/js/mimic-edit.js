@@ -45,7 +45,7 @@ function bindEvents() {
 
     $(document).on("keydown", function (event) {
         if (($(event.target).is("body") || event.code === "KeyS" && event.ctrlKey) &&
-            handleKey(event.code, event.ctrlKey, event.shiftKey)) {
+            handleKeyDown(event.code, event.ctrlKey, event.shiftKey)) {
             event.preventDefault();
         }
     });
@@ -97,11 +97,11 @@ function bindEvents() {
                 selectMimic();
             } else if (longAction.actionType === LongActionType.ADD) {
                 // add component to mimic
-                addComponent(longAction.componentTypeName, 0, getMimicPoint(event, mimicWrapperElem));
+                addComponent(longAction.componentTypeName, 0, getMimicPoint(event, mimicWrapperElem, true));
                 clearLongAction();
             } else if (longAction.actionType === LongActionType.PASTE) {
                 // paste components to mimic
-                pasteComponents(0, getMimicPoint(event, mimicWrapperElem));
+                pasteComponents(0, getMimicPoint(event, mimicWrapperElem, true));
                 clearLongAction();
             }
         })
@@ -134,14 +134,16 @@ function bindEvents() {
             } else if (longAction.actionType === LongActionType.ADD) {
                 // add component to container
                 if (thisElem.hasClass("container")) {
-                    addComponent(longAction.componentTypeName, thisElem.data("id"), getMimicPoint(event, thisElem));
+                    let parentID = thisElem.data("id");
+                    addComponent(longAction.componentTypeName, parentID, getMimicPoint(event, thisElem, true));
                     clearLongAction();
                     event.stopPropagation();
                 }
             } else if (longAction.actionType === LongActionType.PASTE) {
                 // paste components to container
                 if (thisElem.hasClass("container")) {
-                    pasteComponents(thisElem.data("id"), getMimicPoint(event, thisElem));
+                    let parentID = thisElem.data("id");
+                    pasteComponents(parentID, getMimicPoint(event, thisElem, true));
                     clearLongAction();
                     event.stopPropagation();
                 }
@@ -155,8 +157,11 @@ function bindEvents() {
         })
         .on("mousemove", ".comp", function (event) {
             // set cursor
-            if (!longAction) {
-                let compElem = closestCompElem($(this));
+            let compElem = closestCompElem($(this));
+
+            if (longAction) {
+                compElem.css("cursor", "");
+            } else {
                 let dragType = getDragType(event, compElem);
                 compElem.css("cursor", DragType.getCursor(dragType));
             }
@@ -646,12 +651,21 @@ function getComponentByDom(compElem) {
     }
 }
 
-function getMimicPoint(event, elem) {
+function getMimicPoint(event, elem, opt_alignToGrid) {
     let offset = elem.offset();
-    return new DOMPoint(
-        parseInt(event.pageX - offset.left),
-        parseInt(event.pageY - offset.top)
-    );
+    let x = parseInt(event.pageX - offset.left);
+    let y = parseInt(event.pageY - offset.top);
+
+    if (opt_alignToGrid) {
+        let gridSize = getGridSize();
+
+        if (gridSize > 1) {
+            x = Math.trunc(Math.round(x / gridSize) * gridSize);
+            y = Math.trunc(Math.round(y / gridSize) * gridSize);
+        }
+    }
+
+    return new DOMPoint(x, y);
 }
 
 function getDragType(event, compElem) {
@@ -692,6 +706,12 @@ function getDragType(event, compElem) {
     }
 
     return DragType.MOVE;
+}
+
+function getGridSize() {
+    return editorOptions && editorOptions.useGrid && editorOptions.gridSize > 1
+        ? editorOptions.gridSize
+        : 1;
 }
 
 function startLongAction(action) {
@@ -922,6 +942,52 @@ function finishDragging() {
     pushChanges(...changes);
 }
 
+function moveComponents(offsetX, offsetY) {
+    if (selectedComponents.length === 0) {
+        return;
+    }
+
+    console.log("Move selected components");
+    let changes = [];
+
+    for (let component of selectedComponents) {
+        component.setLocation(component.x + offsetX, component.y + offsetY);
+        changes.push(Change.updateLocation(component));
+
+        if (component.renderer) {
+            component.renderer.setLocation(component, component.x, component.y);
+        }
+    }
+
+    propGrid.refresh();
+    pushChanges(...changes);
+}
+
+function resizeComponents(offsetW, offsetH) {
+    if (selectedComponents.length === 0) {
+        return;
+    }
+
+    console.log("Resize selected components");
+    let changes = [];
+
+    for (let component of selectedComponents) {
+        component.setSize(component.width + offsetW, component.height + offsetH);
+        changes.push(Change.updateSize(component));
+
+        if (component.renderer) {
+            component.renderer.setSize(component, component.width, component.height);
+        }
+    }
+
+    propGrid.refresh();
+    pushChanges(...changes);
+}
+
+function calculateOffset(start, current, alignCalcType) {
+
+}
+
 function getLoaderUrl() {
     return rootPath + "Api/MimicEditor/Loader/";
 }
@@ -1014,14 +1080,42 @@ function handlePropertyChanged(eventData) {
     }
 }
 
-function handleKey(code, ctrlKey, shiftKey) {
-    // move and resize components
-    switch (code) {
-        case "ArrowLeft":
-        case "ArrowRight":
-        case "ArrowUp":
-        case "ArrowDown":
-            break;
+function handleKeyDown(code, ctrlKey, shiftKey) {
+    // move or resize components
+    if (code.startsWith("Arrow")) {
+        if (longAction?.actionType === LongActionType.DRAG) {
+            return false; // not handled
+        } else {
+            let size = ctrlKey || shiftKey ? 1 : getGridSize();
+            let offsetX = 0;
+            let offsetY = 0;
+
+            switch (code) {
+                case "ArrowLeft":
+                    offsetX = -size;
+                    break;
+
+                case "ArrowRight":
+                    offsetX = size;
+                    break;
+
+                case "ArrowUp":
+                    offsetY = -size;
+                    break;
+
+                case "ArrowDown":
+                    offsetY = size;
+                    break;
+            }
+
+            if (shiftKey) {
+                resizeComponents(offsetX, offsetY);
+            } else {
+                moveComponents(offsetX, offsetY);
+            }
+
+            return true; // handled
+        }
     }
 
     // menu actions
@@ -1051,19 +1145,19 @@ function handleKey(code, ctrlKey, shiftKey) {
                 paste();
                 return true;
         }
+    } else {
+        switch (code) {
+            case "Delete":
+                remove();
+                return true;
+
+            case "Escape":
+                pointer();
+                return true;
+        }
     }
 
-    switch (code) {
-        case "Delete":
-            remove();
-            return true;
-
-        case "Escape":
-            pointer();
-            return true;
-    }
-
-    return false; // not handled
+    return false;
 }
 
 function shortenMessage(message) {
