@@ -15,6 +15,17 @@ class AlingActionType {
     static SAME_SIZE = "same-size";
     static HOR_SPACING = "hor-spacing";
     static VERT_SPACING = "vert-spacing";
+
+    static sameParentRequired(actionType) {
+        return actionType === AlingActionType.ALIGN_LEFTS ||
+            actionType === AlingActionType.ALIGN_CENTERS ||
+            actionType === AlingActionType.ALIGN_RIGHTS ||
+            actionType === AlingActionType.ALIGN_TOPS ||
+            actionType === AlingActionType.ALIGN_MIDDLES ||
+            actionType === AlingActionType.ALIGN_BOTTOMS ||
+            actionType === AlingActionType.HOR_SPACING ||
+            actionType === AlingActionType.VERT_SPACING;
+    }
 }
 
 // Specifies the change types.

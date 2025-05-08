@@ -306,17 +306,16 @@ function copy() {
         return false;
     }
 
-    let componentIDs = selectedComponents.map(c => c.id);
-    let parentIDs = new Set(selectedComponents.map(c => c.parentID));
-    console.log("Copy components with IDs " + componentIDs.join(", "));
-
-    if (parentIDs.size !== 1) {
+    if (!siblingsSelected()) {
         console.error(phrases.sameParentRequired);
         showToast(phrases.sameParentRequired, MessageType.ERROR);
         return false;
     }
 
     // copy components
+    let componentIDs = selectedComponents.map(c => c.id);
+    console.log("Copy components with IDs " + componentIDs.join(", "));
+
     clipboard.clear();
     let minX = NaN;
     let minY = NaN;
@@ -388,8 +387,14 @@ function pointer() {
     clearLongAction();
 }
 
-function align(action) {
+function align(actionType) {
     if (selectedComponents.length < 2) {
+        return;
+    }
+
+    if (AlingActionType.sameParentRequired(actionType) && !siblingsSelected()) {
+        console.error(phrases.sameParentRequired);
+        showToast(phrases.sameParentRequired, MessageType.ERROR);
         return;
     }
 
@@ -398,7 +403,7 @@ function align(action) {
     let updatedComponents = [];
     let changes = [];
 
-    switch (action) {
+    switch (actionType) {
         case AlingActionType.ALIGN_LEFTS: {
             let x = firstComponent.x;
             updatedComponents = selectedComponents.slice(1);
@@ -647,6 +652,11 @@ function selectComponents(components) {
 
     let componentIDs = selectedComponents.map(c => c.id);
     console.log(`Components with IDs ${componentIDs.join(", ")} selected`);
+}
+
+function siblingsSelected() {
+    let parentIDs = new Set(selectedComponents.map(c => c.parentID));
+    return parentIDs.size <= 1;
 }
 
 function closestCompElem(clickedElem) {
