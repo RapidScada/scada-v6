@@ -50,39 +50,39 @@ function bindEvents() {
         }
     });
 
-    $("#btnSave").on("click", async function () {
+    $(ToolbarButton.SAVE).on("click", async function () {
         await save();
     });
 
-    $("#btnUndo").on("click", function () {
+    $(ToolbarButton.UNDO).on("click", function () {
         undo();
     });
 
-    $("#btnRedo").on("click", function () {
+    $(ToolbarButton.REDO).on("click", function () {
         redo();
     });
 
-    $("#btnCut").on("click", function () {
+    $(ToolbarButton.CUT).on("click", function () {
         cut();
     });
 
-    $("#btnCopy").on("click", function () {
+    $(ToolbarButton.COPY).on("click", function () {
         copy();
     });
 
-    $("#btnPaste").on("click", function () {
+    $(ToolbarButton.PASTE).on("click", function () {
         paste();
     });
 
-    $("#btnRemove").on("click", function () {
+    $(ToolbarButton.REMOVE).on("click", function () {
         remove();
     });
 
-    $("#btnPointer").on("click", function () {
+    $(ToolbarButton.POINTER).on("click", function () {
         pointer();
     });
 
-    $("button.rs-btn-align").on("click", function () {
+    $(ToolbarButton.ALIGN).on("click", function () {
         align($(this).attr("data-action"));
     });
 
@@ -168,8 +168,10 @@ function bindEvents() {
         })
         .on("mouseup mouseleave", function () {
             // finish dragging
-            finishDragging();
-            clearLongAction();
+            if (longAction?.actionType == LongActionType.DRAG) {
+                finishDragging();
+                clearLongAction();
+            }
         })
         .on("selectstart", false)
         .on("dragstart", false);
@@ -188,6 +190,19 @@ function updateLayout() {
     $("#divMain").outerHeight(mainHeight);
     $("#divLeftPanel .tab-content").outerHeight(mainHeight - tabHeight);
     $("#divMimicWrapper").outerWidth(windowWidth - leftPanelWidth - splitterWidth);
+}
+
+function setButtonsEnabled(opt_dependsOnSelection) {
+    let selectionNotEmpty = selectedComponents.length > 0;
+    setEnabled(ToolbarButton.CUT, selectionNotEmpty);
+    setEnabled(ToolbarButton.COPY, selectionNotEmpty);
+    setEnabled(ToolbarButton.REMOVE, selectionNotEmpty);
+    setEnabled(ToolbarButton.ALIGN, selectedComponents.length >= 2);
+
+    if (!opt_dependsOnSelection) {
+        setEnabled(ToolbarButton.PASTE, !clipboard.isEmpty);
+        setEnabled(ToolbarButton.POINTER, longAction?.actionTypeIs(LongActionType.ADD, LongActionType.PASTE));
+    }
 }
 
 function initTweakpane() {
@@ -288,7 +303,6 @@ function cut() {
 
 function copy() {
     if (selectedComponents.length === 0) {
-        showToast(phrases.selectionEmpty, MessageType.WARNING);
         return false;
     }
 
@@ -333,20 +347,18 @@ function copy() {
         componentCopy.y -= minY;
     }
 
+    setEnabled(ToolbarButton.PASTE, true);
     return true;
 }
 
 function paste() {
-    if (clipboard.isEmpty) {
-        showToast(phrases.clipboardEmpty, MessageType.WARNING);
-    } else {
+    if (!clipboard.isEmpty) {
         startLongAction(LongAction.paste());
     }
 }
 
 function remove() {
     if (selectedComponents.length === 0) {
-        showToast(phrases.selectionEmpty, MessageType.WARNING);
         return;
     }
 
@@ -378,7 +390,6 @@ function pointer() {
 
 function align(action) {
     if (selectedComponents.length < 2) {
-        showToast("Select at least 2 components.", MessageType.WARNING); // TODO: message
         return;
     }
 
@@ -593,6 +604,7 @@ function selectNone() {
 function clearSelection() {
     selectedComponents.forEach(c => c.dom?.removeClass("selected"));
     selectedComponents = [];
+    setButtonsEnabled(true);
 }
 
 function selectComponent(compElem) {
@@ -607,6 +619,7 @@ function addToSelection(compElem) {
     if (component) {
         component.dom?.addClass("selected");
         selectedComponents.push(component)
+        setButtonsEnabled(true);
         propGrid.selectedObjects = selectedComponents;
         console.log(`Component with ID ${component.id} selected`);
     }
@@ -619,7 +632,7 @@ function removeFromSelection(compElem) {
     if (index >= 0) {
         compElem.removeClass("selected");
         selectedComponents.splice(index, 1);
-
+        setButtonsEnabled(true);
         propGrid.selectedObjects = selectedComponents;
         console.log(`Component with ID ${component.id} removed from selection`);
     }
@@ -629,6 +642,7 @@ function selectComponents(components) {
     clearSelection();
     components.forEach(c => c.dom?.addClass("selected"));
     selectedComponents = components;
+    setButtonsEnabled(true);
     propGrid.selectedObjects = selectedComponents;
 
     let componentIDs = selectedComponents.map(c => c.id);
@@ -719,14 +733,18 @@ function alignValue(value, gridSize) {
 }
 
 function startLongAction(action) {
-    longAction = action;
-    mimicWrapperElem.css("cursor", longAction.getCursor());
+    if (action) {
+        longAction = action;
+        mimicWrapperElem.css("cursor", longAction.getCursor());
+        setEnabled(ToolbarButton.POINTER, longAction.actionTypeIs(LongActionType.ADD, LongActionType.PASTE));
+    }
 }
 
 function clearLongAction() {
     if (longAction) {
         longAction = null;
         mimicWrapperElem.css("cursor", "");
+        setEnabled(ToolbarButton.POINTER, false);
     }
 }
 
@@ -1176,6 +1194,10 @@ function handleKeyDown(code, ctrlKey, shiftKey) {
     return false;
 }
 
+function setEnabled(selector, enabled) {
+    $(selector).prop("disabled", !enabled);
+}
+
 function shortenMessage(message) {
     return message && message.length > TOAST_MESSAGE_LENGTH
         ? message.substring(0, TOAST_MESSAGE_LENGTH) + "..."
@@ -1237,6 +1259,7 @@ $(async function () {
 
     bindEvents();
     updateLayout();
+    setButtonsEnabled();
     initTweakpane();
     translateProperties();
     await loadMimic();

@@ -1,4 +1,4 @@
-﻿// Contains classes: AlingActionType, ChangeType, DragType, LongActionType, MessageType,
+﻿// Contains classes: AlingActionType, ChangeType, DragType, LongActionType, MessageType, ToolbarButton,
 //     Change, UpdateDto, LongAction
 // No dependencies
 
@@ -118,6 +118,19 @@ class MessageType {
     static ERROR = 3;
 }
 
+// Specifies the toolbar button selectors.
+class ToolbarButton {
+    static SAVE = "#btnSave";
+    static UNDO = "#btnUndo";
+    static REDO = "#btnRedo";
+    static CUT = "#btnCut";
+    static COPY = "#btnCopy";
+    static PASTE = "#btnPaste";
+    static REMOVE = "#btnRemove";
+    static POINTER = "#btnPointer";
+    static ALIGN = "button.rs-btn-align";
+}
+
 // Represents a change in a mimic.
 class Change {
     changeType = ChangeType.NONE;
@@ -223,6 +236,10 @@ class LongAction {
         } else {
             return "";
         }
+    }
+
+    actionTypeIs(...actionTypes) {
+        return actionTypes.indexOf(this.actionType) >= 0;
     }
 
     static add(componentTypeName) {
