@@ -927,7 +927,14 @@ function continueDragging(point) {
 }
 
 function finishDragging() {
-    if (!(longAction?.dragType && (longAction.moved || longAction.resized))) {
+    if (!longAction) {
+        return;
+    } else if (longAction.resized) {
+        console.log("Resize components");
+    }
+    else if (longAction.moved) {
+        console.log("Move components");
+    } else {
         return;
     }
 
@@ -960,7 +967,7 @@ function moveComponents(offsetX, offsetY) {
         return;
     }
 
-    console.log("Move selected components");
+    console.log("Move components");
     let changes = [];
 
     for (let component of selectedComponents) {
@@ -981,7 +988,7 @@ function resizeComponents(offsetW, offsetH) {
         return;
     }
 
-    console.log("Resize selected components");
+    console.log("Resize components");
     let changes = [];
 
     for (let component of selectedComponents) {
