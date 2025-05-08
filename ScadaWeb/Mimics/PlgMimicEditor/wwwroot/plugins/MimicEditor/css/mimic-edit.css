@@ -59,11 +59,11 @@
   line-height: 16px;
 }
 #divComponents .component-group-header {
-  background-color: hsla(230deg, 15%, 30%, 0.2);
+  background-color: hsla(230, 15%, 30%, 0.2);
   padding: 5px 10px;
 }
 #divComponents .component-group-header:hover {
-  background-color: hsla(230deg, 15%, 30%, 0.24);
+  background-color: hsla(230, 15%, 30%, 0.24);
 }
 #divComponents .component-item {
   cursor: pointer;
