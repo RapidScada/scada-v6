@@ -10,7 +10,8 @@ $tool-window-font-weight: 500;
     border-bottom: 1px solid $border-color;
     padding: 5px;
 
-    .btn {
+    .wrapper {
+        display: inline-block;
         margin-right: 5px;
     }
 
