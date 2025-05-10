@@ -363,6 +363,11 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
         return component;
     }
+
+    // Returns a string that represents the current object.
+    toString() {
+        return "Mimic";
+    }
 }
 
 // Represents a component of a mimic diagram.

@@ -24,8 +24,26 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         {
             this.mimic = mimic ?? throw new ArgumentNullException(nameof(mimic));
         }
-        
-        
+
+
+        /// <summary>
+        /// Applies the change of the UpdateDocument type.
+        /// </summary>
+        private void ApplyUpdateDocument(Change change)
+        {
+            if (change.Properties != null)
+            {
+                IDictionary<string, object> document = mimic.Document;
+
+                foreach (KeyValuePair<string, object> kvp in change.Properties)
+                {
+                    string propName = kvp.Key.ToPascalCase();
+                    JsonElement propVal = (JsonElement)kvp.Value;
+                    document[propName] = JsonElementToObject(propVal);
+                }
+            }
+        }
+
         /// <summary>
         /// Applies the change of the AddComponent type.
         /// </summary>
@@ -208,6 +226,10 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             {
                 switch (change.ChangeType)
                 {
+                    case ChangeType.UpdateDocument:
+                        ApplyUpdateDocument(change);
+                        break;
+
                     case ChangeType.AddComponent:
                         ApplyAddComponent(change);
                         break;

@@ -36,13 +36,13 @@ class PropGrid {
         let descriptor = PropGridHelper.getObjectDescriptor(obj);
         let folderMap = this._addFolders(descriptor);
 
-        if (obj instanceof rs.mimic.Component) {
+        if (obj instanceof rs.mimic.Mimic) {
+            this._addBlades(folderMap, obj.document, parent, descriptor);
+        } else if (obj instanceof rs.mimic.Component) {
             this._addBlade(folderMap, obj, "id", obj.id, descriptor);
             this._addBlade(folderMap, obj, "name", obj.name, descriptor);
             this._addBlade(folderMap, obj, "typeName", obj.typeName, descriptor);
             this._addBlades(folderMap, obj.properties, parent, descriptor);
-        } else if (obj instanceof rs.mimic.Mimic) {
-            this._addBlades(folderMap, obj.document, parent, descriptor);
         } else if (obj instanceof UnionObject) {
             this._addBlades(folderMap, obj.properties, parent, descriptor);
         } else if (obj instanceof Object) {

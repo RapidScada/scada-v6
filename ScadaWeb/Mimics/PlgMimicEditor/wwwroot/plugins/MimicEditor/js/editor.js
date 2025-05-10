@@ -32,10 +32,14 @@ class AlingActionType {
 class ChangeType {
     static NONE = 0;
 
-    static UPDATE_DOCUMENT = 1;
-    static ADD_DEPENDENCY = 2;
-    static REMOVE_DEPENDENCY = 3;
+    // Dependencies
+    static ADD_DEPENDENCY = 1;
+    static REMOVE_DEPENDENCY = 2;
 
+    // Document
+    static UPDATE_DOCUMENT = 3;
+
+    // Components
     static ADD_COMPONENT = 4;
     static UPDATE_COMPONENT = 5;
     static UPDATE_COMPONENT_PARENT = 6;
@@ -43,6 +47,7 @@ class ChangeType {
     static UPDATE_COMPONENT_ACCESS = 8;
     static REMOVE_COMPONENT = 9;
 
+    // Images
     static ADD_IMAGE = 10;
     static RENAME_IMAGE = 11;
     static REMOVE_IMAGE = 12;
@@ -173,6 +178,12 @@ class Change {
 
         this.properties[propertyName] = value;
         return this;
+    }
+
+    static updateDocument(opt_properties) {
+        let change = new Change(ChangeType.UPDATE_DOCUMENT);
+        change.properties = opt_properties;
+        return change;
     }
 
     static addComponent(component) {

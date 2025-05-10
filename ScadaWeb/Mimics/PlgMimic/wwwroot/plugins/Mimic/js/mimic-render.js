@@ -111,16 +111,16 @@ rs.mimic.MimicRenderer = class extends rs.mimic.Renderer {
         return true;
     }
 
-    createDom(component, renderContext) {
-        component.dom = $("<div class='mimic'></div>");
-        this.updateDom(component, renderContext);
-        return component.dom;
+    createDom(mimic, renderContext) {
+        mimic.dom = $("<div class='mimic'></div>");
+        this.updateDom(mimic, renderContext);
+        return mimic.dom;
     }
 
-    updateDom(component, renderContext) {
-        if (component.dom instanceof jQuery) {
-            let mimicElem = component.dom.first();
-            this._setSize(mimicElem, component.document.size);
+    updateDom(mimic, renderContext) {
+        if (mimic.dom instanceof jQuery) {
+            let mimicElem = mimic.dom.first();
+            this._setSize(mimicElem, mimic.document.size);
         }
     }
 }
@@ -324,12 +324,18 @@ rs.mimic.UnitedRenderer = class {
         }
     }
 
-    // Creates a component DOM according to the component model.
+    // Updates a mimic DOM according to the mimic model.
+    updateMimicDom() {
+        rs.mimic.RendererSet.mimicRenderer.updateDom(this.mimic);
+    }
+
+    // Creates a component DOM according to the component model. Returns a jQuery object.
     createComponentDom(component) {
         let renderContext = new rs.mimic.RenderContext();
         renderContext.editMode = this.editMode;
         renderContext.imageMap = this.mimic.imageMap;
         this._createComponentDom(component, renderContext);
+        return component.dom ?? $();
     }
 
     // Updates the component DOM according to the component model.

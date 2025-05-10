@@ -1103,8 +1103,11 @@ function handlePropertyChanged(eventData) {
     let value = eventData.value;
     console.log(`Update ${selectedObject.toString()}: ${propertyName} = ${JSON.stringify(value) }`);
 
-    if (selectedObject instanceof rs.mimic.Component ||
-        selectedObject instanceof UnionObject) {
+    if (selectedObject instanceof rs.mimic.Mimic) {
+        // update mimic
+        unitedRenderer.updateMimicDom();
+        pushChanges(Change.updateDocument().setProperty(propertyName, value));
+    } else if (selectedObject instanceof rs.mimic.Component || selectedObject instanceof UnionObject) {
         let components = selectedObject instanceof rs.mimic.Component
             ? [selectedObject]
             : selectedObject.targets.filter(t => t instanceof rs.mimic.Component);
@@ -1122,8 +1125,6 @@ function handlePropertyChanged(eventData) {
         pushChanges(Change
             .updateComponent(components.map(c => c.id))
             .setProperty(propertyName, value));
-    } else if (selectedObject instanceof rs.mimic.Mimic) {
-        // TODO: update mimic
     }
 }
 

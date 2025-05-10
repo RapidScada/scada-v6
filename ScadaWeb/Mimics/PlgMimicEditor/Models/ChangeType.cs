@@ -11,10 +11,14 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Models
     {
         None = 0,
 
-        UpdateDocument = 1,
-        AddDependency = 2,
-        DeleteDependency = 3,
+        // Dependencies
+        AddDependency = 1,
+        DeleteDependency = 2,
 
+        // Document
+        UpdateDocument = 3,
+
+        // Components
         AddComponent = 4,
         UpdateComponent = 5,
         UpdateComponentParent = 6,
@@ -22,6 +26,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Models
         UpdateComponentAccess = 8,
         RemoveComponent = 9,
 
+        // Images
         AddImage = 10,
         RenameImage = 11,
         RemoveImage = 12
