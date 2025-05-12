@@ -13,8 +13,56 @@ class StructTree {
         this.phrases = phrases;
     }
 
+    _prepareDependencies(listElem) {
+        let dependenciesNode = $("<span class='node'></span>").text(this.phrases.dependenciesNode);
+        let dependenciesItem = $("<li></li>").append(dependenciesNode).appendTo(listElem);
+        let dependenciesList = $("<ul></ul>").appendTo(dependenciesItem);
+
+        for (let dependency of this.mimic.dependencies) {
+            if (!dependency.isTransitive) {
+                let dependencyNode = $("<span class='node'></span>");
+                $("<span class='node-text'></span>").text(dependency.typeName)
+                    .appendTo(dependencyNode);
+                $("<span class='node-btn edit-btn'><i class='fa-solid fa-pen-to-square'></i></span>")
+                    .appendTo(dependencyNode);
+                $("<span class='node-btn remove-btn'><i class='fa-regular fa-trash-can'></i></span>")
+                    .appendTo(dependencyNode);
+                $("<li></li>").append(dependencyNode).appendTo(dependenciesList);
+            }
+        }
+    }
+
+    _prepareImages(listElem) {
+        let imagesNode = $("<span class='node'></span>").text(this.phrases.imagesNode);
+        let imagesItem = $("<li></li>").append(imagesNode).appendTo(listElem);
+        let imagesList = $("<ul></ul>").appendTo(imagesItem);
+
+        for (let image of this.mimic.images) {
+            let imageNode = $("<span class='node'></span>");
+            $("<span class='node-text'></span>").text(image.name)
+                .appendTo(imageNode);
+            $("<span class='node-btn view-btn'><i class='fa-regular fa-eye'></i></span>")
+                .appendTo(imageNode);
+            $("<span class='node-btn edit-btn'><i class='fa-solid fa-pen-to-square'></i></span>")
+                .appendTo(imageNode);
+            $("<span class='node-btn remove-btn'><i class='fa-regular fa-trash-can'></i></span>")
+                .appendTo(imageNode);
+            $("<li></li>").append(imageNode).appendTo(imagesList);
+        }
+    }
+
+    _prepareComponents(listElem) {
+        let mimicNode = $("<span class='node'></span>").text(this.phrases.mimicNode);
+        let mimicItem = $("<li class='mimic-item'></li>").append(mimicNode).appendTo(listElem);
+        let componentList = $("<ul></ul>").appendTo(mimicItem);
+
+        for (let component of this.mimic.children) {
+            this._appendComponent(componentList, component);
+        }
+    }
+
     _appendComponent(listElem, component) {
-        let componentNode = $("<span></span>").text(component.displayName);
+        let componentNode = $("<span class='node'></span>").text(component.displayName);
         let componentItem = $("<li></li>")
             .attr("id", "struct-comp-item" + component.id)
             .attr("data-id", component.id)
@@ -31,36 +79,9 @@ class StructTree {
 
     prepare() {
         let listElem = $("<ul class='top-level-list'></ul>");
-
-        // dependencies
-        let dependenciesItem = $("<li></li>").text(this.phrases.dependenciesNode).appendTo(listElem);
-        let dependenciesList = $("<ul></ul>").appendTo(dependenciesItem);
-
-        for (let dependency of this.mimic.dependencies) {
-            if (!dependency.isTransitive) {
-                let dependencyNode = $("<span></span>").text(dependency.typeName);
-                $("<li></li>").append(dependencyNode).appendTo(dependenciesList);
-            }
-        }
-
-        // components
-        let mimicNode = $("<span></span>").text(this.phrases.mimicNode);
-        let mimicItem = $("<li class='mimic-item'></li>").append(mimicNode).appendTo(listElem);
-        let componentList = $("<ul></ul>").appendTo(mimicItem);
-
-        for (let component of this.mimic.children) {
-            this._appendComponent(componentList, component);
-        }
-
-        // images
-        let imagesItem = $("<li></li>").text(this.phrases.imagesNode).appendTo(listElem);
-        let imagesList = $("<ul></ul>").appendTo(imagesItem);
-
-        for (let image of this.mimic.images) {
-            let imageNode = $("<span></span>").text(image.name);
-            $("<li></li>").append(imageNode).appendTo(imagesList);
-        }
-
+        this._prepareDependencies(listElem);
+        this._prepareImages(listElem);
+        this._prepareComponents(listElem);
         this.structElem.append(listElem);
     }
 

@@ -86,13 +86,46 @@ $tool-window-font-weight: 500;
         li {
             white-space: nowrap;
 
-            span {
-                cursor: pointer;
+            span.node {
+                cursor: default;
+                display: inline-block;
                 margin-left: -5px;
-                padding: 2px 5px;
+                padding: 0px 5px;
 
                 &:hover {
                     background-color: var(--bs-gray-200);
+
+                    .node-btn {
+                        color: var(--bs-primary);
+                    }
+                }
+
+                .node-text {
+                    display: inline-block;
+                }
+
+                .node-btn {
+                    border-radius: 4px;
+                    color: var(--bs-gray-300);
+                    cursor: pointer;
+                    display: inline-block;
+                    margin-left: 5px;
+                    padding: 0px 5px;
+
+                    &:last-child {
+                        margin-right: -5px;
+                    }
+
+                    &:hover {
+                        background-color: var(--bs-primary);
+                        color: var(--bs-white);
+                    }
+                }
+            }
+
+            &.mimic-item {
+                span.node {
+                    cursor: pointer;
                 }
             }
         }

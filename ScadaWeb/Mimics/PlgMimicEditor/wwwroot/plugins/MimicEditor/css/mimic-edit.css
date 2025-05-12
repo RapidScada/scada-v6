@@ -96,13 +96,38 @@
 #divStructure ul li {
   white-space: nowrap;
 }
-#divStructure ul li span {
-  cursor: pointer;
+#divStructure ul li span.node {
+  cursor: default;
+  display: inline-block;
   margin-left: -5px;
-  padding: 2px 5px;
+  padding: 0px 5px;
 }
-#divStructure ul li span:hover {
+#divStructure ul li span.node:hover {
   background-color: var(--bs-gray-200);
+}
+#divStructure ul li span.node:hover .node-btn {
+  color: var(--bs-primary);
+}
+#divStructure ul li span.node .node-text {
+  display: inline-block;
+}
+#divStructure ul li span.node .node-btn {
+  border-radius: 4px;
+  color: var(--bs-gray-300);
+  cursor: pointer;
+  display: inline-block;
+  margin-left: 5px;
+  padding: 0px 5px;
+}
+#divStructure ul li span.node .node-btn:last-child {
+  margin-right: -5px;
+}
+#divStructure ul li span.node .node-btn:hover {
+  background-color: var(--bs-primary);
+  color: var(--bs-white);
+}
+#divStructure ul li.mimic-item span.node {
+  cursor: pointer;
 }
 
 #divSplitter {
