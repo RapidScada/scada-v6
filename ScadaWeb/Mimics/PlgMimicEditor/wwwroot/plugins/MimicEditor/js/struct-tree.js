@@ -14,7 +14,10 @@ class StructTree {
     }
 
     _prepareDependencies(listElem) {
-        let dependenciesNode = $("<span class='node'></span>").text(this.phrases.dependenciesNode);
+        let dependenciesNode = $("<span class='node'></span>");
+        $("<span class='node-text'></span>").text(this.phrases.dependenciesNode).appendTo(dependenciesNode);
+        $("<span class='node-btn view-btn'><i class='fa-solid fa-plus'></i></span>").appendTo(dependenciesNode);
+
         let dependenciesItem = $("<li></li>").append(dependenciesNode).appendTo(listElem);
         let dependenciesList = $("<ul></ul>").appendTo(dependenciesItem);
 
@@ -33,7 +36,10 @@ class StructTree {
     }
 
     _prepareImages(listElem) {
-        let imagesNode = $("<span class='node'></span>").text(this.phrases.imagesNode);
+        let imagesNode = $("<span class='node'></span>");
+        $("<span class='node-text'></span>").text(this.phrases.imagesNode).appendTo(imagesNode);
+        $("<span class='node-btn view-btn'><i class='fa-solid fa-plus'></i></span>").appendTo(imagesNode);
+
         let imagesItem = $("<li></li>").append(imagesNode).appendTo(listElem);
         let imagesList = $("<ul></ul>").appendTo(imagesItem);
 
