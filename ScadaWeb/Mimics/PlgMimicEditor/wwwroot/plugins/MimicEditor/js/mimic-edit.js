@@ -208,6 +208,32 @@ function setButtonsEnabled(opt_dependsOnSelection) {
     }
 }
 
+function initStructTree() {
+    structTree = new StructTree("divStructure", mimic, phrases);
+
+    structTree.addEventListener(StructEventType.MIMIC_CLICK, function () {
+        selectMimic();
+    });
+
+    structTree.addEventListener(StructEventType.COMPONENT_CLICK, function (event) {
+        let eventData = event.detail;
+        let component = mimic.componentMap.get(eventData.componentID);
+        let compElem = component?.dom;
+
+        if (compElem) {
+            if (eventData.ctrlKey) {
+                if (eventData.isSelected) {
+                    removeFromSelection(compElem);
+                } else {
+                    addToSelection(compElem);
+                }
+            } else if (!eventData.isSelected) {
+                selectComponent(compElem);
+            }
+        }
+    });
+}
+
 function initTweakpane() {
     let containerElem = $("<div id='tweakpane'></div>").appendTo("#divProperties");
     let pane = new Pane({
@@ -594,7 +620,6 @@ function showFaceplates() {
 }
 
 function showStructure() {
-    structTree ??= new StructTree("divStructure", mimic, phrases);
     structTree.prepare();
 }
 
@@ -656,6 +681,7 @@ function selectComponents(components) {
     components.forEach(c => c.dom?.addClass("selected"));
     selectedComponents = components;
     setButtonsEnabled(true);
+    structTree.selectComponents(selectedComponents);
     propGrid.selectedObjects = selectedComponents;
 
     let componentIDs = selectedComponents.map(c => c.id);
@@ -1279,6 +1305,7 @@ $(async function () {
     bindEvents();
     updateLayout();
     setButtonsEnabled();
+    initStructTree();
     initTweakpane();
     translateProperties();
     await loadMimic();

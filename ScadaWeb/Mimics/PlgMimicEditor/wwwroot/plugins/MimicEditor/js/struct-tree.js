@@ -1,8 +1,10 @@
-﻿// Contains classes: StructTree
+﻿// Contains classes: StructTree, StructEventType
 // Depends on jquery
 
 // Represents a component for displaying mimic structure.
 class StructTree {
+    _eventSource = document.createElement("structtree");
+
     structElem;
     mimic;
     phrases;
@@ -58,7 +60,7 @@ class StructTree {
     }
 
     _prepareComponents(listElem) {
-        let mimicNode = $("<span class='node'></span>").text(this.phrases.mimicNode);
+        let mimicNode = $("<span class='node mimic-node'></span>").text(this.phrases.mimicNode);
         let mimicItem = $("<li class='mimic-item'></li>").append(mimicNode).appendTo(listElem);
         let componentList = $("<ul></ul>").appendTo(mimicItem);
 
@@ -68,7 +70,7 @@ class StructTree {
     }
 
     _appendComponent(listElem, component) {
-        let componentNode = $("<span class='node'></span>").text(component.displayName);
+        let componentNode = $("<span class='node comp-node'></span>").text(component.displayName);
         let componentItem = $("<li></li>")
             .attr("id", "struct-comp-item" + component.id)
             .attr("data-id", component.id)
@@ -83,6 +85,23 @@ class StructTree {
         }
     }
 
+    _bindEvents() {
+        const thisObj = this;
+        this.structElem
+            .on("click", ".mimic-node", function () {
+                thisObj._eventSource.dispatchEvent(new CustomEvent(StructEventType.MIMIC_CLICK));
+            })
+            .on("click", ".comp-node", function (event) {
+                thisObj._eventSource.dispatchEvent(new CustomEvent(StructEventType.COMPONENT_CLICK, {
+                    detail: {
+                        componentID: $(this).parent().data("id"),
+                        isSelected: $(this).hasClass("selected"),
+                        ctrlKey: event.ctrlKey
+                    }
+                }));
+            });
+    }
+
     _findMimicItem() {
         return this.structElem.find(".mimic-item");
     }
@@ -91,12 +110,17 @@ class StructTree {
         return this.structElem.find("#struct-comp-item" + component.id);
     }
 
+    _findComponentNode(component) {
+        return this._findComponentItem(component).children(".node");
+    }
+
     prepare() {
         let listElem = $("<ul class='top-level-list'></ul>");
         this._prepareDependencies(listElem);
         this._prepareImages(listElem);
         this._prepareComponents(listElem);
         this.structElem.append(listElem);
+        this._bindEvents();
     }
 
     addComponent(component) {
@@ -110,7 +134,7 @@ class StructTree {
     }
 
     updateComponent(component) {
-        this._findComponentItem(component).children(".node").text(component.displayName);
+        this._findComponentNode(component).text(component.displayName);
     }
 
     removeComponent(componentID) {
@@ -127,12 +151,40 @@ class StructTree {
         this._findMimicItem().find(".node").removeClass("selected");
     }
 
+    selectComponents(components) {
+        this.selectNone();
+
+        if (Array.isArray(components)) {
+            for (let component of components) {
+                this._findComponentNode(component).addClass("selected");
+            }
+        }
+    }
+
     addToSelection(component) {
         this._findMimicItem().children(".node").removeClass("selected");
-        this._findComponentItem(component).children(".node").addClass("selected");
+        this._findComponentNode(component).addClass("selected");
     }
 
     removeFromSelection(component) {
-        this._findComponentItem(component).children(".node").removeClass("selected");
+        this._findComponentNode(component).removeClass("selected");
     }
+
+    addEventListener(type, listener) {
+        this._eventSource.addEventListener(type, listener);
+    }
+}
+
+// Specifies the event types for a mimic structure component.
+class StructEventType {
+    static ADD_DEPENDENCY_CLICK = "addDependencyClick";
+    static EDIT_DEPENDENCY_CLICK = "editDependencyClick";
+    static REMOVE_DEPENDENCY_CLICK = "removeDependencyClick";
+
+    static ADD_IMAGE_CLICK = "addImageClick";
+    static EDIT_IMAGE_CLICK = "editImageClick";
+    static REMOVE_IMAGE_CLICK = "removeImageClick";
+
+    static MIMIC_CLICK = "mimicClick";
+    static COMPONENT_CLICK = "componentClick";
 }
