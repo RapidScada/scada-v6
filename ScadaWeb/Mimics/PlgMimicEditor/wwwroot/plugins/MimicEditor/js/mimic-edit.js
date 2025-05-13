@@ -218,17 +218,16 @@ function initStructTree() {
     structTree.addEventListener(StructEventType.COMPONENT_CLICK, function (event) {
         let eventData = event.detail;
         let component = mimic.componentMap.get(eventData.componentID);
-        let compElem = component?.dom;
 
-        if (compElem) {
+        if (component) {
             if (eventData.ctrlKey) {
                 if (eventData.isSelected) {
-                    removeFromSelection(compElem);
+                    removeFromSelection(component);
                 } else {
-                    addToSelection(compElem);
+                    addToSelection(component);
                 }
             } else if (!eventData.isSelected) {
-                selectComponent(compElem);
+                selectComponent(component);
             }
         }
     });
@@ -667,7 +666,7 @@ function removeFromSelection(compElem) {
     let index = selectedComponents.indexOf(component);
 
     if (index >= 0) {
-        compElem.removeClass("selected");
+        component.dom?.removeClass("selected");
         selectedComponents.splice(index, 1);
         setButtonsEnabled(true);
         structTree.removeFromSelection(component);
