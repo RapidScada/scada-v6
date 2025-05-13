@@ -211,6 +211,33 @@ function setButtonsEnabled(opt_dependsOnSelection) {
 function initStructTree() {
     structTree = new StructTree("divStructure", mimic, phrases);
 
+    // dependencies
+    structTree.addEventListener(StructTreeEventType.ADD_DEPENDENCY_CLICK, function () {
+        console.log("ADD_DEPENDENCY_CLICK");
+    });
+
+    structTree.addEventListener(StructTreeEventType.EDIT_DEPENDENCY_CLICK, function (event) {
+        console.log("EDIT_DEPENDENCY_CLICK");
+    });
+
+    structTree.addEventListener(StructTreeEventType.REMOVE_DEPENDENCY_CLICK, function (event) {
+        console.log("REMOVE_DEPENDENCY_CLICK");
+    });
+
+    // images
+    structTree.addEventListener(StructTreeEventType.ADD_IMAGE_CLICK, function () {
+        console.log("ADD_IMAGE_CLICK");
+    });
+
+    structTree.addEventListener(StructTreeEventType.EDIT_IMAGE_CLICK, function (event) {
+        console.log("EDIT_IMAGE_CLICK");
+    });
+
+    structTree.addEventListener(StructTreeEventType.REMOVE_IMAGE_CLICK, function (event) {
+        console.log("REMOVE_IMAGE_CLICK");
+    });
+
+    // mimic and components
     structTree.addEventListener(StructTreeEventType.MIMIC_CLICK, function () {
         selectMimic();
     });

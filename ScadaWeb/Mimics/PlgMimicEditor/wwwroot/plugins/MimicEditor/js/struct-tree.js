@@ -146,7 +146,7 @@ class StructTree {
                 }));
             });
 
-        // components
+        // mimic and components
         this.structElem.find(".mimic-item")
             .on("click", ".mimic-node", function () {
                 thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.MIMIC_CLICK));
