@@ -9,6 +9,7 @@ $tool-window-font-weight: 500;
 #divToolbar {
     border-bottom: 1px solid $border-color;
     padding: 5px;
+    white-space: nowrap;
 
     .wrapper {
         display: inline-block;
@@ -86,9 +87,10 @@ $tool-window-font-weight: 500;
         li {
             white-space: nowrap;
 
-            span.node {
+            .node {
                 cursor: default;
                 display: inline-block;
+                margin-bottom: 1px;
                 margin-left: -5px;
                 padding: 0px 5px;
 
@@ -124,8 +126,13 @@ $tool-window-font-weight: 500;
             }
 
             &.mimic-item {
-                span.node {
+                .node {
                     cursor: pointer;
+
+                    &.selected {
+                        background-color: var(--bs-primary);
+                        color: var(--bs-white);
+                    }
                 }
             }
         }

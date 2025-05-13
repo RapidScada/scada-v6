@@ -600,12 +600,14 @@ function showStructure() {
 
 function selectMimic() {
     clearSelection();
+    structTree.selectMimic();
     propGrid.selectedObject = mimic;
     console.log("Mimic selected");
 }
 
 function selectNone() {
     clearSelection();
+    structTree.selectNone();
     propGrid.selectedObject = null;
 }
 
@@ -617,6 +619,7 @@ function clearSelection() {
 
 function selectComponent(compElem) {
     clearSelection();
+    structTree.selectNone();
     addToSelection(compElem);
 }
 
@@ -628,6 +631,7 @@ function addToSelection(compElem) {
         component.dom?.addClass("selected");
         selectedComponents.push(component)
         setButtonsEnabled(true);
+        structTree.addToSelection(component);
         propGrid.selectedObjects = selectedComponents;
         console.log(`Component with ID ${component.id} selected`);
     }
@@ -641,6 +645,7 @@ function removeFromSelection(compElem) {
         compElem.removeClass("selected");
         selectedComponents.splice(index, 1);
         setButtonsEnabled(true);
+        structTree.removeFromSelection(component);
         propGrid.selectedObjects = selectedComponents;
         console.log(`Component with ID ${component.id} removed from selection`);
     }

@@ -18,7 +18,7 @@ class StructTree {
         $("<span class='node-text'></span>").text(this.phrases.dependenciesNode).appendTo(dependenciesNode);
         $("<span class='node-btn view-btn'><i class='fa-solid fa-plus'></i></span>").appendTo(dependenciesNode);
 
-        let dependenciesItem = $("<li></li>").append(dependenciesNode).appendTo(listElem);
+        let dependenciesItem = $("<li class='dependencies-item'></li>").append(dependenciesNode).appendTo(listElem);
         let dependenciesList = $("<ul></ul>").appendTo(dependenciesItem);
 
         for (let dependency of this.mimic.dependencies) {
@@ -40,7 +40,7 @@ class StructTree {
         $("<span class='node-text'></span>").text(this.phrases.imagesNode).appendTo(imagesNode);
         $("<span class='node-btn view-btn'><i class='fa-solid fa-plus'></i></span>").appendTo(imagesNode);
 
-        let imagesItem = $("<li></li>").append(imagesNode).appendTo(listElem);
+        let imagesItem = $("<li class='images-item'></li>").append(imagesNode).appendTo(listElem);
         let imagesList = $("<ul></ul>").appendTo(imagesItem);
 
         for (let image of this.mimic.images) {
@@ -83,6 +83,14 @@ class StructTree {
         }
     }
 
+    _findMimicItem() {
+        return this.structElem.find(".mimic-item");
+    }
+
+    _findComponentItem(component) {
+        return this.structElem.find("#struct-comp-item" + component.id);
+    }
+
     prepare() {
         let listElem = $("<ul class='top-level-list'></ul>");
         this._prepareDependencies(listElem);
@@ -102,10 +110,29 @@ class StructTree {
     }
 
     updateComponent(component) {
-        this.structElem.find(`#struct-comp-item${component.id} span:first`).text(component.displayName);
+        this._findComponentItem(component).children(".node").text(component.displayName);
     }
 
     removeComponent(componentID) {
         this.structElem.find("#struct-comp-item" + componentID).remove();
+    }
+
+    selectMimic() {
+        let mimicItem = this._findMimicItem();
+        mimicItem.children(".node").addClass("selected");
+        mimicItem.children("ul").find(".node").removeClass("selected");
+    }
+
+    selectNone() {
+        this._findMimicItem().find(".node").removeClass("selected");
+    }
+
+    addToSelection(component) {
+        this._findMimicItem().children(".node").removeClass("selected");
+        this._findComponentItem(component).children(".node").addClass("selected");
+    }
+
+    removeFromSelection(component) {
+        this._findComponentItem(component).children(".node").removeClass("selected");
     }
 }
