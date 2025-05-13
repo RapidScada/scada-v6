@@ -185,3 +185,9 @@ $tool-window-font-weight: 500;
         font-size: $tool-window-font-size;
     }
 }
+
+/* Popovers */
+.image-preview {
+    max-height: 100px;
+    max-width: 100px;
+}

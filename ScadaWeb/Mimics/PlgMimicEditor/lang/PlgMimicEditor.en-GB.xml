@@ -11,6 +11,7 @@
     <Phrase key="DependenciesNode">Dependencies</Phrase>
     <Phrase key="MimicNode">Mimic</Phrase>
     <Phrase key="ImagesNode">Images</Phrase>
+    <Phrase key="NoImagePreview">No image</Phrase>
     <Phrase key="MimicSaved">Mimic saved successfully.</Phrase>
     <Phrase key="LoadMimicError">Error loading mimic.</Phrase>
     <Phrase key="SaveMimicError">Error saving mimic.</Phrase>

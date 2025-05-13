@@ -1,5 +1,5 @@
 ﻿// Contains classes: StructTree, StructTreeEventType
-// Depends on jquery
+// Depends on jquery, bootstrap
 
 // Represents a component for displaying mimic structure.
 class StructTree {
@@ -50,7 +50,7 @@ class StructTree {
             let imageNode = $("<span class='node'></span>");
             $("<span class='node-text'></span>").text(image.name)
                 .appendTo(imageNode);
-            $("<span class='node-btn view-btn'><i class='fa-regular fa-eye'></i></span>")
+            let viewBtn = $("<span class='node-btn view-btn'><i class='fa-regular fa-eye'></i></span>")
                 .appendTo(imageNode);
             $("<span class='node-btn edit-btn'><i class='fa-solid fa-pen-to-square'></i></span>")
                 .appendTo(imageNode);
@@ -58,7 +58,31 @@ class StructTree {
                 .appendTo(imageNode);
             $("<li class='image-item'></li>").attr("data-name", image.name)
                 .append(imageNode).appendTo(imagesList);
+            this._initImagePopover(viewBtn, image.name);
         }
+    }
+
+    _initImagePopover(buttonElem, imageName) {
+        const thisObj = this;
+
+        bootstrap.Popover.getOrCreateInstance(buttonElem[0], {
+            html: true,
+            placement: "bottom",
+            content: function () {
+                // called twice by Bootstrap on each show
+                let popoverContent = buttonElem.data("popoverContent");
+
+                if (!popoverContent) {
+                    let imageData = thisObj.mimic.imageMap.get(imageName)?.data;
+                    popoverContent = imageData ?
+                        `<img class="image-preview" src="data:;base64,${imageData}" />` :
+                        thisObj.phrases.noImagePreview;
+                    buttonElem.data("popoverContent", popoverContent);
+                }
+
+                return popoverContent;
+            }
+        });
     }
 
     _prepareComponents(listElem) {
@@ -110,10 +134,6 @@ class StructTree {
         this.structElem.find(".images-item")
             .on("click", ".add-btn", function () {
                 thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.ADD_IMAGE_CLICK));
-            })
-            .on("click", ".view-btn", function () {
-                let imageName = $(this).closest(".image-item").data("name");
-                let image = this.mimic.imageMap.get(imageName);
             })
             .on("click", ".edit-btn", function () {
                 thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.EDIT_IMAGE_CLICK, {

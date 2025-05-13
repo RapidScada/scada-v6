@@ -181,3 +181,9 @@
 #tweakpane .tp-rotv {
   font-size: 12px;
 }
+
+/* Popovers */
+.image-preview {
+  max-height: 100px;
+  max-width: 100px;
+}

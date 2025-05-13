@@ -10,6 +10,7 @@
     <Phrase key="DependenciesNode">Зависимости</Phrase>
     <Phrase key="MimicNode">Мнемосхема</Phrase>
     <Phrase key="ImagesNode">Изображения</Phrase>
+    <Phrase key="NoImagePreview">Изображение отсутствует</Phrase>
     <Phrase key="MimicSaved">Мнемосхема сохранена успешно.</Phrase>
     <Phrase key="LoadMimicError">Ошибка при загрузке мнемосхемы.</Phrase>
     <Phrase key="SaveMimicError">Ошибка при сохранении мнемосхемы.</Phrase>
