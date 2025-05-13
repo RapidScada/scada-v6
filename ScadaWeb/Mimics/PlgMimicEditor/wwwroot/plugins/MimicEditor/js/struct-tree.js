@@ -1,4 +1,4 @@
-﻿// Contains classes: StructTree, StructEventType
+﻿// Contains classes: StructTree, StructTreeEventType
 // Depends on jquery
 
 // Represents a component for displaying mimic structure.
@@ -18,7 +18,7 @@ class StructTree {
     _prepareDependencies(listElem) {
         let dependenciesNode = $("<span class='node'></span>");
         $("<span class='node-text'></span>").text(this.phrases.dependenciesNode).appendTo(dependenciesNode);
-        $("<span class='node-btn view-btn'><i class='fa-solid fa-plus'></i></span>").appendTo(dependenciesNode);
+        $("<span class='node-btn add-btn'><i class='fa-solid fa-plus'></i></span>").appendTo(dependenciesNode);
 
         let dependenciesItem = $("<li class='dependencies-item'></li>").append(dependenciesNode).appendTo(listElem);
         let dependenciesList = $("<ul></ul>").appendTo(dependenciesItem);
@@ -32,7 +32,8 @@ class StructTree {
                     .appendTo(dependencyNode);
                 $("<span class='node-btn remove-btn'><i class='fa-regular fa-trash-can'></i></span>")
                     .appendTo(dependencyNode);
-                $("<li></li>").append(dependencyNode).appendTo(dependenciesList);
+                $("<li class='dependency-item'></li>").attr("data-name", dependency.typeName)
+                    .append(dependencyNode).appendTo(dependenciesList);
             }
         }
     }
@@ -40,7 +41,7 @@ class StructTree {
     _prepareImages(listElem) {
         let imagesNode = $("<span class='node'></span>");
         $("<span class='node-text'></span>").text(this.phrases.imagesNode).appendTo(imagesNode);
-        $("<span class='node-btn view-btn'><i class='fa-solid fa-plus'></i></span>").appendTo(imagesNode);
+        $("<span class='node-btn add-btn'><i class='fa-solid fa-plus'></i></span>").appendTo(imagesNode);
 
         let imagesItem = $("<li class='images-item'></li>").append(imagesNode).appendTo(listElem);
         let imagesList = $("<ul></ul>").appendTo(imagesItem);
@@ -55,7 +56,8 @@ class StructTree {
                 .appendTo(imageNode);
             $("<span class='node-btn remove-btn'><i class='fa-regular fa-trash-can'></i></span>")
                 .appendTo(imageNode);
-            $("<li></li>").append(imageNode).appendTo(imagesList);
+            $("<li class='image-item'></li>").attr("data-name", image.name)
+                .append(imageNode).appendTo(imagesList);
         }
     }
 
@@ -71,7 +73,7 @@ class StructTree {
 
     _appendComponent(listElem, component) {
         let componentNode = $("<span class='node comp-node'></span>").text(component.displayName);
-        let componentItem = $("<li></li>")
+        let componentItem = $("<li class='comp-item'></li>")
             .attr("id", "struct-comp-item" + component.id)
             .attr("data-id", component.id)
             .append(componentNode).appendTo(listElem);
@@ -87,12 +89,50 @@ class StructTree {
 
     _bindEvents() {
         const thisObj = this;
-        this.structElem
+
+        // dependencies
+        this.structElem.find(".dependencies-item")
+            .on("click", ".add-btn", function () {
+                thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.ADD_DEPENDENCY_CLICK));
+            })
+            .on("click", ".edit-btn", function () {
+                thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.EDIT_DEPENDENCY_CLICK, {
+                    detail: { name: $(this).closest(".dependency-item").data("name") }
+                }));
+            })
+            .on("click", ".remove-btn", function () {
+                thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.REMOVE_DEPENDENCY_CLICK, {
+                    detail: { name: $(this).closest(".dependency-item").data("name") }
+                }));
+            });
+
+        // images
+        this.structElem.find(".images-item")
+            .on("click", ".add-btn", function () {
+                thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.ADD_IMAGE_CLICK));
+            })
+            .on("click", ".view-btn", function () {
+                let imageName = $(this).closest(".image-item").data("name");
+                let image = this.mimic.imageMap.get(imageName);
+            })
+            .on("click", ".edit-btn", function () {
+                thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.EDIT_IMAGE_CLICK, {
+                    detail: { name: $(this).closest(".image-item").data("name") }
+                }));
+            })
+            .on("click", ".remove-btn", function () {
+                thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.REMOVE_IMAGE_CLICK, {
+                    detail: { name: $(this).closest(".image-item").data("name") }
+                }));
+            });
+
+        // components
+        this.structElem.find(".mimic-item")
             .on("click", ".mimic-node", function () {
-                thisObj._eventSource.dispatchEvent(new CustomEvent(StructEventType.MIMIC_CLICK));
+                thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.MIMIC_CLICK));
             })
             .on("click", ".comp-node", function (event) {
-                thisObj._eventSource.dispatchEvent(new CustomEvent(StructEventType.COMPONENT_CLICK, {
+                thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.COMPONENT_CLICK, {
                     detail: {
                         componentID: $(this).parent().data("id"),
                         isSelected: $(this).hasClass("selected"),
@@ -176,7 +216,7 @@ class StructTree {
 }
 
 // Specifies the event types for a mimic structure component.
-class StructEventType {
+class StructTreeEventType {
     static ADD_DEPENDENCY_CLICK = "addDependencyClick";
     static EDIT_DEPENDENCY_CLICK = "editDependencyClick";
     static REMOVE_DEPENDENCY_CLICK = "removeDependencyClick";

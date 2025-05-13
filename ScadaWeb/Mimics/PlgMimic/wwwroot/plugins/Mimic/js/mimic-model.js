@@ -34,10 +34,10 @@ rs.mimic.MimicBase = class {
     images;        // image collection
     faceplates;    // faceplate collection
 
-    dependencyMap; // dependencies acessible by type name
-    componentMap;  // components acessible by ID
-    imageMap;      // images acessible by name
-    faceplateMap;  // faceplates acessible by type name
+    dependencyMap; // dependencies accessible by type name
+    componentMap;  // components accessible by ID
+    imageMap;      // images accessible by name
+    faceplateMap;  // faceplates accessible by type name
     children;      // top-level components
 
     // Creates a component instance based on the received object.

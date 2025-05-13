@@ -1,4 +1,4 @@
-﻿// Contains classes: PropGrid, PropGridHelper, ProxyObject, PointProxy, SizeProxy, UnionObject
+﻿// Contains classes: PropGrid, PropGridEventType, PropGridHelper, ProxyObject, PointProxy, SizeProxy, UnionObject
 // Depends on tweakpane, scada-common.js, mimic-model.js, mimic-descr.js
 
 // Interacts with Tweakpane to provide property grid functionality.
@@ -214,7 +214,7 @@ class PropGrid {
             selectedObject.setProperty(propertyName, targetValue);
         }
 
-        this._elem.dispatchEvent(new CustomEvent("propertyChanged", {
+        this._elem.dispatchEvent(new CustomEvent(PropGridEventType.PROPERTY_CHANGED, {
             detail: {
                 selectedObject: selectedObject,
                 changedObject: changedObject,
@@ -275,6 +275,11 @@ class PropGrid {
             this._selectObject(this._selectedObject);
         }
     }
+}
+
+// Specifies the event types for property grid.
+class PropGridEventType {
+    static PROPERTY_CHANGED = "propertyChanged";
 }
 
 // Provides helper methods for property grid.

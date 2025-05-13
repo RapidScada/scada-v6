@@ -211,11 +211,11 @@ function setButtonsEnabled(opt_dependsOnSelection) {
 function initStructTree() {
     structTree = new StructTree("divStructure", mimic, phrases);
 
-    structTree.addEventListener(StructEventType.MIMIC_CLICK, function () {
+    structTree.addEventListener(StructTreeEventType.MIMIC_CLICK, function () {
         selectMimic();
     });
 
-    structTree.addEventListener(StructEventType.COMPONENT_CLICK, function (event) {
+    structTree.addEventListener(StructTreeEventType.COMPONENT_CLICK, function (event) {
         let eventData = event.detail;
         let component = mimic.componentMap.get(eventData.componentID);
 
@@ -233,13 +233,13 @@ function initStructTree() {
     });
 }
 
-function initTweakpane() {
+function initPropGrid() {
     let containerElem = $("<div id='tweakpane'></div>").appendTo("#divProperties");
     let pane = new Pane({
         container: containerElem[0]
     });
     propGrid = new PropGrid(pane);
-    propGrid.addEventListener("propertyChanged", function (event) {
+    propGrid.addEventListener(PropGridEventType.PROPERTY_CHANGED, function (event) {
         handlePropertyChanged(event.detail);
     });
 }
@@ -1305,7 +1305,7 @@ $(async function () {
     updateLayout();
     setButtonsEnabled();
     initStructTree();
-    initTweakpane();
+    initPropGrid();
     translateProperties();
     await loadMimic();
     await startUpdatingBackend();
