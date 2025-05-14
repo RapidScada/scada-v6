@@ -21,6 +21,7 @@
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ImageModal">
     <Phrase key="PageTitle">Image</Phrase>
+    <Phrase key="RequiredField">Please fill out this field.</Phrase>
     <Phrase key="NoImage">No image</Phrase>
     <Phrase key="lblName">Name</Phrase>
     <Phrase key="lblData">Data</Phrase>

@@ -20,6 +20,7 @@
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ImageModal">
     <Phrase key="PageTitle">Изображение</Phrase>
+    <Phrase key="RequiredField">Заполните это поле.</Phrase>
     <Phrase key="NoImage">Изображение отсутствует</Phrase>
     <Phrase key="lblName">Наименование</Phrase>
     <Phrase key="lblData">Данные</Phrase>

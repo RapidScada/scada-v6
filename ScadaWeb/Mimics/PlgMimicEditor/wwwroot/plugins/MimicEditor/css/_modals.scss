@@ -3,3 +3,10 @@
         min-width: 75px;
     }
 }
+
+#divImageModal {
+    .card img {
+        max-height: 200px;
+        width: fit-content;
+    }
+}

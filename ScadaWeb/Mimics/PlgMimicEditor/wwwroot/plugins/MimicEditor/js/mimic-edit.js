@@ -227,22 +227,34 @@ function initStructTree() {
 
     // images
     structTree.addEventListener(StructTreeEventType.ADD_IMAGE_CLICK, function () {
-        imageModal.show();
+        imageModal.show(null, function () {
+
+        });
     });
 
     structTree.addEventListener(StructTreeEventType.EDIT_IMAGE_CLICK, function (event) {
-        console.log("EDIT_IMAGE_CLICK");
+        let eventData = event.detail;
+        let image = mimic.imageMap.get(eventData.name);
+
+        if (image) {
+            imageModal.show(image, function () {
+
+            });
+        } else {
+            console.error("Image not found.");
+        }
     });
 
     structTree.addEventListener(StructTreeEventType.REMOVE_IMAGE_CLICK, function (event) {
         console.log("REMOVE_IMAGE_CLICK");
     });
 
-    // mimic and components
+    // mimic
     structTree.addEventListener(StructTreeEventType.MIMIC_CLICK, function () {
         selectMimic();
     });
 
+    // components
     structTree.addEventListener(StructTreeEventType.COMPONENT_CLICK, function (event) {
         let eventData = event.detail;
         let component = mimic.componentMap.get(eventData.componentID);
@@ -257,6 +269,8 @@ function initStructTree() {
             } else if (!eventData.isSelected) {
                 selectComponent(component);
             }
+        } else {
+            console.error("Component not found.");
         }
     });
 }

@@ -10,7 +10,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
     /// Represents an image of a mimic diagram.
     /// <para>Представляет изображение мнемосхемы.</para>
     /// </summary>
-    public class Image
+    public class Image : IComparable<Image>
     {
         /// <summary>
         /// Gets or sets the image name.
@@ -50,6 +50,14 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
                 Data != null && Data.Length > 0 
                 ? Convert.ToBase64String(Data, Base64FormattingOptions.None) 
                 : "");
+        }
+
+        /// <summary>
+        /// Compares the current instance with another object of the same type.
+        /// </summary>
+        public int CompareTo(Image other)
+        {
+            return string.CompareOrdinal(Name, other?.Name);
         }
     }
 }

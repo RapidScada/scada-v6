@@ -9,7 +9,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
     /// Represents information about a faceplate.
     /// <para>Представляет информацию о фейсплейте.</para>
     /// </summary>
-    public class FaceplateMeta
+    public class FaceplateMeta : IComparable<FaceplateMeta>
     {
         /// <summary>
         /// Gets or sets the name of the faceplate type.
@@ -58,6 +58,14 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
                 Path = Path,
                 IsTransitive = true
             };
+        }
+
+        /// <summary>
+        /// Compares the current instance with another object of the same type.
+        /// </summary>
+        public int CompareTo(FaceplateMeta other)
+        {
+            return string.CompareOrdinal(TypeName, other?.TypeName);
         }
     }
 }

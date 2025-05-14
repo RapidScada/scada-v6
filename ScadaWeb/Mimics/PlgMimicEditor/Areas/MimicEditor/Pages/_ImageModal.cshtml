@@ -9,20 +9,24 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form novalidate>
+                <form id="frmImageModal" class="needs-validation" novalidate>
                     <div class="mb-3">
                         <label id="imageModal_lblName" for="imageModal_txtName" class="form-label">@dict.lblName</label>
-                        <input type="text" id="imageModal_txtName" class="form-control" required>
+                        <input type="text" id="imageModal_txtName" class="form-control" required autocomplete="off">
+                        <div class="invalid-feedback">@dict.RequiredField</div>
                     </div>
                     <div>
                         <label id="imageModal_lblData" for="" class="form-label">@dict.lblData</label>
                         <div class="card text-center mb-3">
-                            <img id="imageModal_imgPreview" />
-                            <div id="imageModal_divNoImage" class="card-body">@dict.NoImage</div>
+                            <div class="card-body">
+                                <img id="imageModal_imgPreview" />
+                                <div id="imageModal_divNoImage">@dict.NoImage</div>
+                            </div>
                         </div>
                         <button type="button" id="imageModal_btnUpload" class="btn btn-outline-primary">@dict.btnUpload</button>
                         <button type="button" id="imageModal_btnDownload" class="btn btn-outline-primary">@dict.btnDownload</button>
                     </div>
+                    <button type="submit" class="d-none">Submit</button>
                 </form>
             </div>
             <div class="modal-footer">

@@ -85,6 +85,9 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
                         Images.Add(image);
                 }
             }
+
+            Dependencies.Sort();
+            Images.Sort();
         }
 
         /// <summary>
