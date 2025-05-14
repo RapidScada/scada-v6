@@ -55,7 +55,7 @@ class ImageModal {
             .on("shown.bs.modal", () => {
                 $("#imageModal_txtName").focus();
             })
-            .on("hide.bs.modal", () => {
+            .on("hidden.bs.modal", () => {
                 if (this._context.result && this._context.callback instanceof Function) {
                     this._context.callback.call(this);
                 }
