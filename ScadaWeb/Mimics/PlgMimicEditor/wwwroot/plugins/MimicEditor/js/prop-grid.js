@@ -4,12 +4,15 @@
 // Interacts with Tweakpane to provide property grid functionality.
 class PropGrid {
     _pane; // Tweakpane
-    _elem = document.createElement("propgrid");
+    _eventSource = document.createElement("propgrid");
     _selectedObject = null;
     _parentStack = [];
 
-    constructor(pane) {
-        this._pane = pane;
+    constructor(elemID) {
+        let containerElem = $("#" + elemID);
+        this._pane = new Pane({
+            container: containerElem[0]
+        });
     }
 
     _selectObject(obj) {
@@ -214,7 +217,7 @@ class PropGrid {
             selectedObject.setProperty(propertyName, targetValue);
         }
 
-        this._elem.dispatchEvent(new CustomEvent(PropGridEventType.PROPERTY_CHANGED, {
+        this._eventSource.dispatchEvent(new CustomEvent(PropGridEventType.PROPERTY_CHANGED, {
             detail: {
                 selectedObject: selectedObject,
                 changedObject: changedObject,
@@ -253,7 +256,7 @@ class PropGrid {
     }
 
     addEventListener(type, listener) {
-        this._elem.addEventListener(type, listener);
+        this._eventSource.addEventListener(type, listener);
     }
 
     refreshProperty(propertyName) {

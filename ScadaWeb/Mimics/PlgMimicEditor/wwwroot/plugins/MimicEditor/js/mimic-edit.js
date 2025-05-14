@@ -261,11 +261,7 @@ function initStructTree() {
 }
 
 function initPropGrid() {
-    let containerElem = $("<div id='tweakpane'></div>").appendTo("#divProperties");
-    let pane = new Pane({
-        container: containerElem[0]
-    });
-    propGrid = new PropGrid(pane);
+    propGrid = new PropGrid("tweakpane");
     propGrid.addEventListener(PropGridEventType.PROPERTY_CHANGED, function (event) {
         handlePropertyChanged(event.detail);
     });
