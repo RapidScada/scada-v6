@@ -1,0 +1,34 @@
+﻿@{
+    dynamic dict = Locale.GetDictionary(typeof(MimicEditModel).FullName + ".ImageModal");
+}
+<div id="divImageModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 text-truncate">@dict.PageTitle</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form novalidate>
+                    <div class="mb-3">
+                        <label id="imageModal_lblName" for="imageModal_txtName" class="form-label">@dict.lblName</label>
+                        <input type="text" id="imageModal_txtName" class="form-control" required>
+                    </div>
+                    <div>
+                        <label id="imageModal_lblData" for="" class="form-label">@dict.lblData</label>
+                        <div class="card text-center mb-3">
+                            <img id="imageModal_imgPreview" />
+                            <div id="imageModal_divNoImage" class="card-body">@dict.NoImage</div>
+                        </div>
+                        <button type="button" id="imageModal_btnUpload" class="btn btn-outline-primary">@dict.btnUpload</button>
+                        <button type="button" id="imageModal_btnDownload" class="btn btn-outline-primary">@dict.btnDownload</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="imageModal_btnOK" class="btn btn-primary">@dict.btnOK</button>
+                <button type="button" id="imageModal_btnClose" class="btn btn-secondary" data-bs-dismiss="modal">@dict.btnClose</button>
+            </div>
+        </div>
+    </div>
+</div>

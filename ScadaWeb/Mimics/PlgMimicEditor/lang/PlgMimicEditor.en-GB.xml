@@ -19,6 +19,16 @@
     <Phrase key="UnableAddComponent">Unable to add component.</Phrase>
     <Phrase key="SameParentRequired">Selected components must have the same parent.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ImageModal">
+    <Phrase key="PageTitle">Image</Phrase>
+    <Phrase key="NoImage">No image</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblData">Data</Phrase>
+    <Phrase key="btnUpload">Upload</Phrase>
+    <Phrase key="btnDownload">Download</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnClose">Close</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ToolbarContents">
     <Phrase key="btnSave">Save (Ctrl + S)</Phrase>
     <Phrase key="btnUndo">Undo (Ctrl + Z)</Phrase>

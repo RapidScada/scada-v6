@@ -25,6 +25,7 @@ var translation = {};
 let splitter = null;
 let propGrid = null;
 let structTree = null;
+let imageModal = null;
 let mimicWrapperElem = $();
 let selectedComponents = [];
 let lastUpdateTime = 0;
@@ -226,7 +227,7 @@ function initStructTree() {
 
     // images
     structTree.addEventListener(StructTreeEventType.ADD_IMAGE_CLICK, function () {
-        console.log("ADD_IMAGE_CLICK");
+        imageModal.show();
     });
 
     structTree.addEventListener(StructTreeEventType.EDIT_IMAGE_CLICK, function (event) {
@@ -265,6 +266,10 @@ function initPropGrid() {
     propGrid.addEventListener(PropGridEventType.PROPERTY_CHANGED, function (event) {
         handlePropertyChanged(event.detail);
     });
+}
+
+function initModals() {
+    imageModal = new ImageModal("divImageModal");
 }
 
 function translateProperties() {
@@ -1329,6 +1334,7 @@ $(async function () {
     setButtonsEnabled();
     initStructTree();
     initPropGrid();
+    initModals();
     translateProperties();
     await loadMimic();
     await startUpdatingBackend();
