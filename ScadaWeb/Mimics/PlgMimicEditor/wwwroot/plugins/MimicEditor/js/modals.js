@@ -72,9 +72,8 @@ class FaceplateModal extends ModalBase {
     }
 
     show(faceplateMeta, callback) {
-        let obj = faceplateMeta instanceof rs.mimic.FaceplateMeta
-            ? Object.assign({}, faceplateMeta)
-            : new rs.mimic.FaceplateMeta();
+        let obj = new rs.mimic.FaceplateMeta();
+        Object.assign(obj, faceplateMeta);
 
         this._context = new ModalContext({
             oldObject: faceplateMeta,
@@ -201,9 +200,8 @@ class ImageModal extends ModalBase {
     }
 
     show(image, callback) {
-        let obj = image instanceof rs.mimic.Image
-            ? Object.assign({}, this._context.oldObject)
-            : new rs.mimic.Image();
+        let obj = new rs.mimic.Image();
+        Object.assign(obj, image);
 
         this._context = new ModalContext({
             oldObject: image,

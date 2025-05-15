@@ -678,16 +678,16 @@ function showStructure() {
 
 function addDependency(faceplateMeta) {
     console.log(`Add '${faceplateMeta.typeName}' dependency`);
-    mimic.addDependency(faceplateMeta);
-    structTree.refreshDependencies();
-    pushChanges(Change.addDependency(image));
+//    mimic.addDependency(faceplateMeta);
+//    structTree.refreshDependencies();
+//    pushChanges(Change.addDependency(image));
 }
 
 function removeDependency(typeName) {
     console.log(`Remove '${typeName}' dependency`);
-    mimic.removeDependency(typeName);
-    structTree.refreshDependencies();
-    pushChanges(Change.removeDependency(typeName));
+//    mimic.removeDependency(typeName);
+//    structTree.refreshDependencies();
+//    pushChanges(Change.removeDependency(typeName));
 }
 
 function addImage(image) {
