@@ -25,6 +25,7 @@ var translation = {};
 let splitter = null;
 let propGrid = null;
 let structTree = null;
+let faceplateModal = null;
 let imageModal = null;
 let mimicWrapperElem = $();
 let selectedComponents = [];
@@ -214,11 +215,22 @@ function initStructTree() {
 
     // dependencies
     structTree.addEventListener(StructTreeEventType.ADD_DEPENDENCY_CLICK, function () {
-        console.log("ADD_DEPENDENCY_CLICK");
+        faceplateModal.show(null, function () {
+
+        });
     });
 
     structTree.addEventListener(StructTreeEventType.EDIT_DEPENDENCY_CLICK, function (event) {
-        console.log("EDIT_DEPENDENCY_CLICK");
+        let eventData = event.detail;
+        let faceplateMeta = mimic.dependencyMap.get(eventData.name);
+
+        if (faceplateMeta) {
+            faceplateModal.show(faceplateMeta, function () {
+
+            });
+        } else {
+            console.error("Dependency not found.");
+        }
     });
 
     structTree.addEventListener(StructTreeEventType.REMOVE_DEPENDENCY_CLICK, function (event) {
@@ -283,6 +295,7 @@ function initPropGrid() {
 }
 
 function initModals() {
+    faceplateModal = new FaceplateModal("divFaceplateModal");
     imageModal = new ImageModal("divImageModal");
 }
 

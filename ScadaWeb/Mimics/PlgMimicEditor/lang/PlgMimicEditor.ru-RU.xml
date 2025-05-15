@@ -18,6 +18,14 @@
     <Phrase key="UnableAddComponent">Невозможно добавить компонент.</Phrase>
     <Phrase key="SameParentRequired">Выбранные компоненты должны иметь общего родителя.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.FaceplateModal">
+    <Phrase key="PageTitle">Фейсплейт</Phrase>
+    <Phrase key="RequiredField">Заполните это поле.</Phrase>
+    <Phrase key="lblTypeName">Наименование типа</Phrase>
+    <Phrase key="lblPath">Путь (относительно директории представлений)</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.ImageModal">
     <Phrase key="PageTitle">Изображение</Phrase>
     <Phrase key="RequiredField">Заполните это поле.</Phrase>

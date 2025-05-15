@@ -1,4 +1,4 @@
-﻿// Contains classes: ModalContext, ImageModal
+﻿// Contains classes: ModalContext, ModalBase, FaceplateModal, ImageModal
 // Depends on jquery, bootstrap, mimic-model.js
 
 // Represents a context of a modal dialog.
@@ -12,8 +12,8 @@ class ModalContext {
     }
 }
 
-// Represents a modal dialog for editing an image.
-class ImageModal {
+// A base class for modal dialogs.
+class ModalBase {
     _elem;
     _modal;
     _context;
@@ -22,6 +22,66 @@ class ImageModal {
         this._elem = $("#" + elemID);
         this._modal = new bootstrap.Modal(this._elem[0]);
         this._context = new ModalContext();
+    }
+}
+
+// Represents a modal dialog for editing a faceplate meta.
+class FaceplateModal extends ModalBase {
+    constructor(elemID) {
+        super(elemID);
+        this._bindEvents();
+    }
+
+    _bindEvents() {
+        $("#frmFaceplateModal").on("submit", () => {
+            $("#faceplateModal_btnOK").trigger("click");
+            return false;
+        });
+
+        $("#faceplateModal_btnOK").on("click", () => {
+            let formElem = $("#frmFaceplateModal");
+
+            if (formElem[0].checkValidity()) {
+                this._readFields();
+                this._context.result = true;
+                this._modal.hide();
+            }
+
+            formElem.addClass("was-validated");
+        });
+
+        this._elem
+            .on("shown.bs.modal", () => {
+                $("#faceplateModal_txtTypeName").focus();
+            })
+            .on("hidden.bs.modal", () => {
+                if (this._context.result && this._context.callback instanceof Function) {
+                    this._context.callback.call(this);
+                }
+            });
+    }
+
+    show(faceplateMeta, callback) {
+        faceplateMeta = faceplateMeta instanceof rs.mimic.FaceplateMeta
+            ? faceplateMeta
+            : new rs.mimic.FaceplateMeta();
+
+        this._context = new ModalContext({
+            callback: callback,
+            objectToEdit: faceplateMeta
+        });
+
+        $("#frmFaceplateModal").removeClass("was-validated")
+        $("#faceplateModal_txtTypeName").val(faceplateMeta.typeName);
+        $("#faceplateModal_txtPath").val(faceplateMeta.path);
+        this._modal.show();
+    }
+}
+
+// Represents a modal dialog for editing an image.
+class ImageModal extends ModalBase {
+    constructor(elemID) {
+        super(elemID);
         this._bindEvents();
     }
 
