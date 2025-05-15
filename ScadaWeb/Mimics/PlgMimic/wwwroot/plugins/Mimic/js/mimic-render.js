@@ -32,12 +32,7 @@ rs.mimic.Renderer = class {
 
     // Returns a css property value for the image data URI.
     _imageToDataUrlCss(image) {
-        return image ? "url('" + this._imageToDataUrl(image) + "')" : "";
-    }
-
-    // Returns a data URI containing a representation of the Image object.
-    _imageToDataUrl(image) {
-        return image ? "data:;base64," + image.data : "";
+        return image ? "url('" + image.dataUrl + "')" : "";
     }
 
     // Creates a component DOM according to the component model. Returns a jQuery object.

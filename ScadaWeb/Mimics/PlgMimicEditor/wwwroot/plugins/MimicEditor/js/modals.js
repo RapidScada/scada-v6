@@ -44,11 +44,20 @@ class ImageModal {
         });
 
         $("#imageModal_btnUpload").on("click", () => {
-
+            $("#imageModal_file").trigger("click");
         });
 
-        $("#imageModal_btnDownload").on("click", () => {
+        $("#imageModal_btnDownload").on("click", (event) => {
+            let linkElem = $(event.target);
+            this._downloadImage(linkElem);
+        });
 
+        $("#imageModal_file").on("change", (event) => {
+            let file = event.target.files[0];
+
+            if (file) {
+                this._uploadImage(file);
+            }
         });
 
         this._elem
@@ -63,9 +72,52 @@ class ImageModal {
     }
 
     _readFields() {
-        if (this._context.objectToEdit) {
-            this._context.objectToEdit.name = $("#imageModal_txtName").val();
+        let obj = this._context.objectToEdit;
+
+        if (obj) {
+            obj.name = $("#imageModal_txtName").val();
+            obj.dataUrl = $("#imageModal_imgPreview").attr("src");
         }
+    }
+
+    _showImage(dataUrl) {
+        if (dataUrl) {
+            $("#imageModal_imgPreview").attr("src", dataUrl).removeClass("d-none");
+            $("#imageModal_divNoImage").addClass("d-none");
+            $("#imageModal_btnDownload").prop("disabled", false);
+        } else {
+            $("#imageModal_imgPreview").attr("src", "").addClass("d-none");
+            $("#imageModal_divNoImage").removeClass("d-none");
+            $("#imageModal_btnDownload").prop("disabled", true);
+        }
+    }
+
+    _uploadImage(file) {
+        let reader = new FileReader();
+
+        reader.onload = () => {
+            let txtName = $("#imageModal_txtName");
+
+            if (!txtName.val()) {
+                txtName.val(file.name);
+            }
+
+            this._showImage(reader.result);
+        };
+
+        reader.onerror = () => {
+            console.error("Error reading file.");
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+    _downloadImage(linkElem) {
+        let name = $("#imageModal_txtName").val();
+        let dataUrl = $("#imageModal_imgPreview").attr("src");
+        linkElem
+            .attr("download", name)
+            .attr("href", dataUrl);
     }
 
     show(image, callback) {
@@ -80,17 +132,7 @@ class ImageModal {
 
         $("#frmImageModal").removeClass("was-validated")
         $("#imageModal_txtName").val(image.name);
-
-        if (image.data) {
-            $("#imageModal_imgPreview").attr("src", "data:;base64," + image.data).removeClass("d-none");
-            $("#imageModal_divNoImage").addClass("d-none");
-            $("#imageModal_btnDownload").prop("disabled", false);
-        } else {
-            $("#imageModal_imgPreview").attr("src", "").addClass("d-none");
-            $("#imageModal_divNoImage").removeClass("d-none");
-            $("#imageModal_btnDownload").prop("disabled", true);
-        }
-
+        this._showImage(image.dataUrl);
         this._modal.show();
     }
 }

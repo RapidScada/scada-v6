@@ -73,10 +73,10 @@ class StructTree {
                 let popoverContent = buttonElem.data("popoverContent");
 
                 if (!popoverContent) {
-                    let imageData = thisObj.mimic.imageMap.get(imageName)?.data;
-                    popoverContent = imageData ?
-                        `<img class="image-preview" src="data:;base64,${imageData}" />` :
-                        thisObj.phrases.noImagePreview;
+                    let dataUrl = thisObj.mimic.imageMap.get(imageName)?.dataUrl;
+                    popoverContent = dataUrl
+                        ? `<img class="image-preview" src="${dataUrl}" />`
+                        : thisObj.phrases.noImagePreview;
                     buttonElem.data("popoverContent", popoverContent);
                 }
 

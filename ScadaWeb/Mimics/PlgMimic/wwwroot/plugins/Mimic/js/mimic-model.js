@@ -485,10 +485,29 @@ rs.mimic.Component = class {
 // Represents an image of a mimic diagram.
 rs.mimic.Image = class {
     name = "";
+    mediaType = "";
     data = null;
 
     constructor(source) {
         Object.assign(this, source);
+    }
+
+    get dataUrl() {
+        return this.data ? `data:${this.mediaType};base64,${this.data}` : "";
+    }
+
+    set dataUrl(value) {
+        if (value && value.startsWith("data:")) {
+            let index = value.indexOf(";base64,");
+
+            if (index >= 0) {
+                this.mediaType = value.substring(5, index);
+                this.data = value.substring(index + 8);
+                return;
+            } 
+        }
+
+        this.data = null;
     }
 }
 

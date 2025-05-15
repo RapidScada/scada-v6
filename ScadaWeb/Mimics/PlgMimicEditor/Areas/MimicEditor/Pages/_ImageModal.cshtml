@@ -16,7 +16,7 @@
                         <div class="invalid-feedback">@dict.RequiredField</div>
                     </div>
                     <div>
-                        <label id="imageModal_lblData" for="" class="form-label">@dict.lblData</label>
+                        <label id="imageModal_lblData" class="form-label">@dict.lblData</label>
                         <div class="card text-center mb-3">
                             <div class="card-body">
                                 <img id="imageModal_imgPreview" />
@@ -24,14 +24,17 @@
                             </div>
                         </div>
                         <button type="button" id="imageModal_btnUpload" class="btn btn-outline-primary">@dict.btnUpload</button>
-                        <button type="button" id="imageModal_btnDownload" class="btn btn-outline-primary">@dict.btnDownload</button>
+                        <a id="imageModal_btnDownload" class="btn btn-outline-primary">@dict.btnDownload</a>
                     </div>
-                    <button type="submit" class="d-none">Submit</button>
+                    <div class="d-none">
+                        <input type="file" id="imageModal_file" />
+                        <button type="submit">Submit</button>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" id="imageModal_btnOK" class="btn btn-primary">@dict.btnOK</button>
-                <button type="button" id="imageModal_btnClose" class="btn btn-secondary" data-bs-dismiss="modal">@dict.btnClose</button>
+                <button type="button" id="imageModal_btnCancel" class="btn btn-secondary" data-bs-dismiss="modal">@dict.btnCancel</button>
             </div>
         </div>
     </div>
