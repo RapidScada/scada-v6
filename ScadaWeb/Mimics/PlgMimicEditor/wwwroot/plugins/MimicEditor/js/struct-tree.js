@@ -183,6 +183,14 @@ class StructTree {
         this._bindEvents();
     }
 
+    refreshDependencies() {
+
+    }
+
+    refreshImages() {
+        //let imagesList = this.structElem.find(".images-list:first");
+    }
+
     addComponent(component) {
         let listElem = component.parentID > 0
             ? this.structElem.find(`#struct-comp-item${component.parentID}>ul`) 

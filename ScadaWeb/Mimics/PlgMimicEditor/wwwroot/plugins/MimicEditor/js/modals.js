@@ -3,9 +3,10 @@
 
 // Represents a context of a modal dialog.
 class ModalContext {
-    callback = null;
-    objectToEdit = null;
+    oldObject = null;
+    newObject = null;
     result = false;
+    callback = null;
 
     constructor(source) {
         Object.assign(this, source);
@@ -56,24 +57,34 @@ class FaceplateModal extends ModalBase {
             })
             .on("hidden.bs.modal", () => {
                 if (this._context.result && this._context.callback instanceof Function) {
-                    this._context.callback.call(this);
+                    this._context.callback.call(this, this._context);
                 }
             });
     }
 
+    _readFields() {
+        let obj = this._context.newObject;
+
+        if (obj) {
+            obj.name = $("#imageModal_txtName").val();
+            obj.dataUrl = $("#imageModal_imgPreview").attr("src");
+        }
+    }
+
     show(faceplateMeta, callback) {
-        faceplateMeta = faceplateMeta instanceof rs.mimic.FaceplateMeta
-            ? faceplateMeta
+        let obj = faceplateMeta instanceof rs.mimic.FaceplateMeta
+            ? Object.assign({}, faceplateMeta)
             : new rs.mimic.FaceplateMeta();
 
         this._context = new ModalContext({
-            callback: callback,
-            objectToEdit: faceplateMeta
+            oldObject: faceplateMeta,
+            newObject: obj,
+            callback: callback
         });
 
         $("#frmFaceplateModal").removeClass("was-validated")
-        $("#faceplateModal_txtTypeName").val(faceplateMeta.typeName);
-        $("#faceplateModal_txtPath").val(faceplateMeta.path);
+        $("#faceplateModal_txtTypeName").val(obj.typeName);
+        $("#faceplateModal_txtPath").val(obj.path);
         this._modal.show();
     }
 }
@@ -126,13 +137,13 @@ class ImageModal extends ModalBase {
             })
             .on("hidden.bs.modal", () => {
                 if (this._context.result && this._context.callback instanceof Function) {
-                    this._context.callback.call(this);
+                    this._context.callback.call(this, this._context);
                 }
             });
     }
 
     _readFields() {
-        let obj = this._context.objectToEdit;
+        let obj = this._context.newObject;
 
         if (obj) {
             obj.name = $("#imageModal_txtName").val();
@@ -190,20 +201,21 @@ class ImageModal extends ModalBase {
     }
 
     show(image, callback) {
-        image = image instanceof rs.mimic.Image
-            ? image
+        let obj = image instanceof rs.mimic.Image
+            ? Object.assign({}, this._context.oldObject)
             : new rs.mimic.Image();
 
         this._context = new ModalContext({
-            callback: callback,
-            objectToEdit: image
+            oldObject: image,
+            newObject: obj,
+            callback: callback
         });
 
         $("#frmImageModal").removeClass("was-validated")
-        $("#imageModal_txtName").val(image.name);
+        $("#imageModal_txtName").val(obj.name);
         $("#imageModal_file").val("");
-        this._showFileSize(this._getFileSize(image.data));
-        this._showImage(image.dataUrl);
+        this._showFileSize(this._getFileSize(obj.data));
+        this._showImage(obj.dataUrl);
         this._modal.show();
     }
 }

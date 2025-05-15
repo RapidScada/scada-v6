@@ -49,8 +49,7 @@ class ChangeType {
 
     // Images
     static ADD_IMAGE = 10;
-    static RENAME_IMAGE = 11;
-    static REMOVE_IMAGE = 12;
+    static REMOVE_IMAGE = 11;
 }
 
 // Specifies the drag types.
@@ -180,6 +179,14 @@ class Change {
         return this;
     }
 
+    static addDependency(dependency) {
+
+    }
+
+    static removeDependency(typeName) {
+
+    }
+
     static updateDocument(opt_properties) {
         let change = new Change(ChangeType.UPDATE_DOCUMENT);
         change.properties = opt_properties;
@@ -219,6 +226,14 @@ class Change {
         let change = new Change(ChangeType.REMOVE_COMPONENT);
         change._setObjectID(componentID);
         return change;
+    }
+
+    static addImage(image) {
+
+    }
+
+    static removeImage(imageName) {
+
     }
 }
 

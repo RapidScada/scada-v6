@@ -215,8 +215,8 @@ function initStructTree() {
 
     // dependencies
     structTree.addEventListener(StructTreeEventType.ADD_DEPENDENCY_CLICK, function () {
-        faceplateModal.show(null, function () {
-
+        faceplateModal.show(null, function (context) {
+            addDependency(context.newObject);
         });
     });
 
@@ -225,8 +225,8 @@ function initStructTree() {
         let faceplateMeta = mimic.dependencyMap.get(eventData.name);
 
         if (faceplateMeta) {
-            faceplateModal.show(faceplateMeta, function () {
-
+            faceplateModal.show(faceplateMeta, function (context) {
+                addDependency(context.newObject);
             });
         } else {
             console.error("Dependency not found.");
@@ -234,23 +234,22 @@ function initStructTree() {
     });
 
     structTree.addEventListener(StructTreeEventType.REMOVE_DEPENDENCY_CLICK, function (event) {
-        console.log("REMOVE_DEPENDENCY_CLICK");
+        removeDependency(event.detail.name);
     });
 
     // images
     structTree.addEventListener(StructTreeEventType.ADD_IMAGE_CLICK, function () {
-        imageModal.show(null, function () {
-
+        imageModal.show(null, function (context) {
+            addImage(context.newObject);
         });
     });
 
     structTree.addEventListener(StructTreeEventType.EDIT_IMAGE_CLICK, function (event) {
-        let eventData = event.detail;
-        let image = mimic.imageMap.get(eventData.name);
+        let image = mimic.imageMap.get(event.detail.name);
 
         if (image) {
-            imageModal.show(image, function () {
-
+            imageModal.show(image, function (context) {
+                addImage(context.newObject);
             });
         } else {
             console.error("Image not found.");
@@ -258,7 +257,7 @@ function initStructTree() {
     });
 
     structTree.addEventListener(StructTreeEventType.REMOVE_IMAGE_CLICK, function (event) {
-        console.log("REMOVE_IMAGE_CLICK");
+        removeImage(event.detail.name);
     });
 
     // mimic
@@ -675,6 +674,34 @@ function showFaceplates() {
 
 function showStructure() {
     structTree.prepare();
+}
+
+function addDependency(faceplateMeta) {
+    console.log(`Add '${faceplateMeta.typeName}' dependency`);
+    mimic.addDependency(faceplateMeta);
+    structTree.refreshDependencies();
+    pushChanges(Change.addDependency(image));
+}
+
+function removeDependency(typeName) {
+    console.log(`Remove '${typeName}' dependency`);
+    mimic.removeDependency(typeName);
+    structTree.refreshDependencies();
+    pushChanges(Change.removeDependency(typeName));
+}
+
+function addImage(image) {
+    console.log(`Add '${image.name}' image`);
+    mimic.addImage(image);
+    structTree.refreshImages();
+    pushChanges(Change.addImage(image));
+}
+
+function removeImage(imageName) {
+    console.log(`Remove '${imageName}' image`);
+    mimic.removeImage(imageName);
+    structTree.refreshImages();
+    pushChanges(Change.removeImage(imageName));
 }
 
 function selectMimic() {

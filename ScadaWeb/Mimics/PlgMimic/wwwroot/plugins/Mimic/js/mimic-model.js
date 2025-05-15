@@ -318,8 +318,60 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         return loadContext.result;
     }
 
+    // Adds the dependency to the mimic or replaces the existing one.
+    addDependency(faceplateMeta) {
+        let existingDependency = this.dependencyMap.get(faceplateMeta.typeName);
+
+        if (existingDependency) {
+            let index = this.dependencies.indexOf(existingDependency);
+            this.dependencies[index] = faceplateMeta;
+            this.dependencies.sort(); // by type name
+        }
+
+        this.dependencyMap.set(faceplateMeta.typeName, faceplateMeta);
+    }
+
+    // Removes the dependency from the mimic.
+    removeDependency(typeName) {
+        let dependency = this.dependencyMap.get(typeName);
+
+        if (dependency) {
+            let index = this.dependencies.indexOf(dependency);
+            this.dependencies.splice(index, 1); // delete
+            this.dependencyMap.delete(typeName);
+        }
+    }
+
+    // Adds the image to the mimic or replaces the existing one.
+    addImage(image) {
+        let existingImage = this.imageMap.get(image.name);
+
+        if (existingImage) {
+            let index = this.images.indexOf(existingImage);
+            this.images[index] = image;
+            this.images.sort(); // by name
+        }
+
+        this.imageMap.set(image.name, image);
+    }
+
+    // Removes the image from the mimic.
+    removeImage(imageName) {
+        let image = this.imageMap.get(imageName);
+
+        if (image) {
+            let index = this.images.indexOf(image);
+            this.images.splice(index, 1); // delete
+            this.imageMap.delete(imageName);
+        }
+    }
+
     // Adds the component to the mimic.
     addComponent(component, parent, x, y) {
+        if (component.id <= 0 || this.componentMap.has(component.id)) {
+            return;
+        }
+
         if (parent.isContainer) {
             component.parentID = parent.id;
             component.parent = parent;
@@ -509,6 +561,11 @@ rs.mimic.Image = class {
 
         this.data = null;
     }
+
+    toString() {
+        // required for sorting
+        return this.name;
+    }
 }
 
 // Represents information about a faceplate.
@@ -519,6 +576,11 @@ rs.mimic.FaceplateMeta = class {
 
     constructor(source) {
         Object.assign(this, source);
+    }
+
+    toString() {
+        // required for sorting
+        return this.typeName;
     }
 }
 

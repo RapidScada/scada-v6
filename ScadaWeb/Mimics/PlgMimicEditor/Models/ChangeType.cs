@@ -28,7 +28,6 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Models
 
         // Images
         AddImage = 10,
-        RenameImage = 11,
-        RemoveImage = 12
+        RemoveImage = 11
     }
 }
