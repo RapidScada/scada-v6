@@ -80,6 +80,14 @@ class ImageModal {
         }
     }
 
+    _showFileSize(size) {
+        $("#imageModal_spnFileSize").text(size ? "(" + Math.round(size / 1024) + " KB)" : "");
+    }
+
+    _getFileSize(imageData) {
+        return imageData ? atob(imageData).length : 0;
+    }
+
     _showImage(dataUrl) {
         if (dataUrl) {
             $("#imageModal_imgPreview").attr("src", dataUrl).removeClass("d-none");
@@ -102,6 +110,7 @@ class ImageModal {
                 txtName.val(file.name);
             }
 
+            this._showFileSize(file.size);
             this._showImage(reader.result);
         };
 
@@ -132,6 +141,8 @@ class ImageModal {
 
         $("#frmImageModal").removeClass("was-validated")
         $("#imageModal_txtName").val(image.name);
+        $("#imageModal_file").val("");
+        this._showFileSize(this._getFileSize(image.data));
         this._showImage(image.dataUrl);
         this._modal.show();
     }
