@@ -336,7 +336,7 @@ async function loadMimic() {
 
     if (result.ok) {
         rs.mimic.DescriptorSet.mimicDescriptor.repair(mimic);
-        mimicWrapperElem.append(unitedRenderer.createMimicDom());
+        showMimic();
         showFaceplates();
         showStructure();
         selectMimic();
@@ -635,6 +635,11 @@ function align(actionType) {
     }
 }
 
+function showMimic() {
+    mimicWrapperElem.empty();
+    mimicWrapperElem.append(unitedRenderer.createMimicDom());
+}
+
 function showFaceplates() {
     // create new faceplate group
     let newGroupElem;
@@ -699,6 +704,7 @@ function addImage(image, opt_oldImage) {
 
     mimic.addImage(image);
     structTree.refreshImages();
+    showMimic();
     pushChanges(Change.addImage(image));
 }
 
@@ -706,6 +712,7 @@ function removeImage(imageName) {
     console.log(`Remove '${imageName}' image`);
     mimic.removeImage(imageName);
     structTree.refreshImages();
+    showMimic();
     pushChanges(Change.removeImage(imageName));
 }
 

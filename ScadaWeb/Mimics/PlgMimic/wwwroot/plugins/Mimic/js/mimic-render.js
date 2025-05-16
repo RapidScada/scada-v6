@@ -312,7 +312,7 @@ rs.mimic.UnitedRenderer = class {
         }
 
         if (this.mimic.dom) {
-            console.info(ScadaUtils.getCurrentTime() + " Mimic DOM created in " + (Date.now() - startTime) + " ms");
+            console.info("Mimic DOM created in " + (Date.now() - startTime) + " ms");
             return this.mimic.dom;
         } else {
             return $();

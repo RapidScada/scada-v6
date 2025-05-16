@@ -329,7 +329,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
             this.dependencies.push(faceplateMeta);
         }
 
-        this.dependencies.sort(); // by type name
+        this.dependencies.sort(); // sort by type name
         this.dependencyMap.set(faceplateMeta.typeName, faceplateMeta);
     }
 
@@ -355,7 +355,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
             this.images.push(image);
         }
 
-        this.images.sort(); // by name
+        this.images.sort(); // sort by name
         this.imageMap.set(image.name, image);
     }
 

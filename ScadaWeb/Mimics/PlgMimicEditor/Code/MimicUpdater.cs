@@ -100,6 +100,38 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         }
 
         /// <summary>
+        /// Applies the change of the AddImage type.
+        /// </summary>
+        private void ApplyAddImage(Change change)
+        {
+            Image image = new()
+            {
+                Name = change.ObjectName,
+                MediaType = change.GetString("mediaType"),
+                Data = Convert.FromBase64String(change.GetString("data"))
+            };
+
+            // search in sorted list
+            int index = mimic.Images.BinarySearch(image);
+
+            if (index >= 0)
+                mimic.Images[index] = image;
+            else
+                mimic.Images.Insert(~index, image);
+
+            mimic.ImageMap[change.ObjectName] = image;
+        }
+
+        /// <summary>
+        /// Applies the change of the RemoveImage type.
+        /// </summary>
+        private void ApplyRemoveImage(Change change)
+        {
+            if (mimic.ImageMap.Remove(change.ObjectName, out Image image))
+                mimic.Images.Remove(image);
+        }
+
+        /// <summary>
         /// Gets the parent of the specified component.
         /// </summary>
         private IContainer GetComponentParent(Component component)
@@ -240,6 +272,14 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
 
                     case ChangeType.RemoveComponent:
                         ApplyRemoveComponent(change);
+                        break;
+
+                    case ChangeType.AddImage:
+                        ApplyAddImage(change);
+                        break;
+
+                    case ChangeType.RemoveImage:
+                        ApplyRemoveImage(change);
                         break;
                 }
             }
