@@ -111,6 +111,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
             Dependencies.ForEach(d => DependencyMap.Add(d.TypeName, d));
 
             // load faceplates
+            FaceplateMap.Clear();
             LoadFaceplates(viewDir);
         }
 

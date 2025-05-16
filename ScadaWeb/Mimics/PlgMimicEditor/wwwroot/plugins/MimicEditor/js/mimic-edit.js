@@ -331,7 +331,6 @@ async function loadMimic() {
         selectMimic();
     } else {
         selectNone();
-        console.error(dto.msg);
         showToast(phrases.loadMimicError, MessageType.ERROR);
     }
 }
