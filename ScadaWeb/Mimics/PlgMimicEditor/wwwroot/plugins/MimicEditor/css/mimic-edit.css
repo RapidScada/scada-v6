@@ -100,7 +100,7 @@
   margin: 0 0 0 20px;
   padding: 0;
 }
-#divStructure ul.top-level-list {
+#divStructure ul.list-top {
   margin-left: 0;
 }
 #divStructure ul li {
@@ -137,10 +137,10 @@
   background-color: var(--bs-primary);
   color: var(--bs-white);
 }
-#divStructure ul li.mimic-item .node {
+#divStructure ul li.item-mimic .node {
   cursor: pointer;
 }
-#divStructure ul li.mimic-item .node.selected {
+#divStructure ul li.item-mimic .node.selected {
   background-color: var(--bs-primary);
   color: var(--bs-white);
 }

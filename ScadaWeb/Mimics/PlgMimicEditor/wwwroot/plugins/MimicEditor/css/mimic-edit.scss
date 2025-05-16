@@ -81,7 +81,7 @@ $tool-window-font-weight: 500;
         margin: 0 0 0 20px;
         padding: 0;
 
-        &.top-level-list {
+        &.list-top {
             margin-left: 0;
         }
 
@@ -126,7 +126,7 @@ $tool-window-font-weight: 500;
                 }
             }
 
-            &.mimic-item {
+            &.item-mimic {
                 .node {
                     cursor: pointer;
 

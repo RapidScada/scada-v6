@@ -16,38 +16,38 @@ class StructTree {
     }
 
     _prepareDependencies(listElem) {
-        let dependenciesNode = $("<span class='node'></span>");
+        let dependenciesNode = $("<span class='node node-dependencies'></span>");
         $("<span class='node-text'></span>").text(this.phrases.dependenciesNode).appendTo(dependenciesNode);
         $("<span class='node-btn add-btn'><i class='fa-solid fa-plus'></i></span>").appendTo(dependenciesNode);
 
-        let dependenciesItem = $("<li class='dependencies-item'></li>").append(dependenciesNode).appendTo(listElem);
-        let dependenciesList = $("<ul></ul>").appendTo(dependenciesItem);
+        let dependenciesItem = $("<li class='item-dependencies'></li>").append(dependenciesNode).appendTo(listElem);
+        let dependenciesList = $("<ul class='list-dependencies'></ul>").appendTo(dependenciesItem);
 
         for (let dependency of this.mimic.dependencies) {
             if (!dependency.isTransitive) {
-                let dependencyNode = $("<span class='node'></span>");
+                let dependencyNode = $("<span class='node node-dependency'></span>");
                 $("<span class='node-text'></span>").text(dependency.typeName)
                     .appendTo(dependencyNode);
                 $("<span class='node-btn edit-btn'><i class='fa-solid fa-pen-to-square'></i></span>")
                     .appendTo(dependencyNode);
                 $("<span class='node-btn remove-btn'><i class='fa-regular fa-trash-can'></i></span>")
                     .appendTo(dependencyNode);
-                $("<li class='dependency-item'></li>").attr("data-name", dependency.typeName)
+                $("<li class='item-dependency'></li>").attr("data-name", dependency.typeName)
                     .append(dependencyNode).appendTo(dependenciesList);
             }
         }
     }
 
     _prepareImages(listElem) {
-        let imagesNode = $("<span class='node'></span>");
+        let imagesNode = $("<span class='node node-images'></span>");
         $("<span class='node-text'></span>").text(this.phrases.imagesNode).appendTo(imagesNode);
         $("<span class='node-btn add-btn'><i class='fa-solid fa-plus'></i></span>").appendTo(imagesNode);
 
-        let imagesItem = $("<li class='images-item'></li>").append(imagesNode).appendTo(listElem);
-        let imagesList = $("<ul></ul>").appendTo(imagesItem);
+        let imagesItem = $("<li class='item-images'></li>").append(imagesNode).appendTo(listElem);
+        let imagesList = $("<ul class='list-images'></ul>").appendTo(imagesItem);
 
         for (let image of this.mimic.images) {
-            let imageNode = $("<span class='node'></span>");
+            let imageNode = $("<span class='node node-image'></span>");
             $("<span class='node-text'></span>").text(image.name)
                 .appendTo(imageNode);
             let viewBtn = $("<span class='node-btn view-btn'><i class='fa-regular fa-eye'></i></span>")
@@ -56,7 +56,7 @@ class StructTree {
                 .appendTo(imageNode);
             $("<span class='node-btn remove-btn'><i class='fa-regular fa-trash-can'></i></span>")
                 .appendTo(imageNode);
-            $("<li class='image-item'></li>").attr("data-name", image.name)
+            $("<li class='item-image'></li>").attr("data-name", image.name)
                 .append(imageNode).appendTo(imagesList);
             this._initImagePopover(viewBtn, image.name);
         }
@@ -86,9 +86,9 @@ class StructTree {
     }
 
     _prepareComponents(listElem) {
-        let mimicNode = $("<span class='node mimic-node'></span>").text(this.phrases.mimicNode);
-        let mimicItem = $("<li class='mimic-item'></li>").append(mimicNode).appendTo(listElem);
-        let componentList = $("<ul></ul>").appendTo(mimicItem);
+        let mimicNode = $("<span class='node node-mimic'></span>").text(this.phrases.mimicNode);
+        let mimicItem = $("<li class='item-mimic'></li>").append(mimicNode).appendTo(listElem);
+        let componentList = $("<ul class='list-components'></ul>").appendTo(mimicItem);
 
         for (let component of this.mimic.children) {
             this._appendComponent(componentList, component);
@@ -96,8 +96,8 @@ class StructTree {
     }
 
     _appendComponent(listElem, component) {
-        let componentNode = $("<span class='node comp-node'></span>").text(component.displayName);
-        let componentItem = $("<li class='comp-item'></li>")
+        let componentNode = $("<span class='node node-comp'></span>").text(component.displayName);
+        let componentItem = $("<li class='item-comp'></li>")
             .attr("id", "struct-comp-item" + component.id)
             .attr("data-id", component.id)
             .append(componentNode).appendTo(listElem);
@@ -115,43 +115,43 @@ class StructTree {
         const thisObj = this;
 
         // dependencies
-        this.structElem.find(".dependencies-item")
+        this.structElem.find(".item-dependencies")
             .on("click", ".add-btn", function () {
                 thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.ADD_DEPENDENCY_CLICK));
             })
             .on("click", ".edit-btn", function () {
                 thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.EDIT_DEPENDENCY_CLICK, {
-                    detail: { name: $(this).closest(".dependency-item").data("name") }
+                    detail: { name: $(this).closest(".item-dependency").data("name") }
                 }));
             })
             .on("click", ".remove-btn", function () {
                 thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.REMOVE_DEPENDENCY_CLICK, {
-                    detail: { name: $(this).closest(".dependency-item").data("name") }
+                    detail: { name: $(this).closest(".item-dependency").data("name") }
                 }));
             });
 
         // images
-        this.structElem.find(".images-item")
+        this.structElem.find(".item-images")
             .on("click", ".add-btn", function () {
                 thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.ADD_IMAGE_CLICK));
             })
             .on("click", ".edit-btn", function () {
                 thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.EDIT_IMAGE_CLICK, {
-                    detail: { name: $(this).closest(".image-item").data("name") }
+                    detail: { name: $(this).closest(".item-image").data("name") }
                 }));
             })
             .on("click", ".remove-btn", function () {
                 thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.REMOVE_IMAGE_CLICK, {
-                    detail: { name: $(this).closest(".image-item").data("name") }
+                    detail: { name: $(this).closest(".item-image").data("name") }
                 }));
             });
 
         // mimic and components
-        this.structElem.find(".mimic-item")
-            .on("click", ".mimic-node", function () {
+        this.structElem.find(".item-mimic")
+            .on("click", ".node-mimic", function () {
                 thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.MIMIC_CLICK));
             })
-            .on("click", ".comp-node", function (event) {
+            .on("click", ".node-comp", function (event) {
                 thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.COMPONENT_CLICK, {
                     detail: {
                         componentID: $(this).parent().data("id"),
@@ -163,7 +163,7 @@ class StructTree {
     }
 
     _findMimicItem() {
-        return this.structElem.find(".mimic-item");
+        return this.structElem.find(".item-mimic");
     }
 
     _findComponentItem(component) {
@@ -175,7 +175,7 @@ class StructTree {
     }
 
     prepare() {
-        let listElem = $("<ul class='top-level-list'></ul>");
+        let listElem = $("<ul class='list-top'></ul>");
         this._prepareDependencies(listElem);
         this._prepareImages(listElem);
         this._prepareComponents(listElem);
@@ -194,7 +194,7 @@ class StructTree {
     addComponent(component) {
         let listElem = component.parentID > 0
             ? this.structElem.find(`#struct-comp-item${component.parentID}>ul`) 
-            : this.structElem.find(".mimic-item>ul");
+            : this.structElem.find(".item-mimic>ul");
 
         if (listElem.length > 0) {
             this._appendComponent(listElem, component);
