@@ -16,7 +16,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
 
 
         /// <summary>
-        /// Gets the dependencies on the faceplates.
+        /// Gets the dependencies on the faceplates sorted by type name.
         /// </summary>
         public List<FaceplateMeta> Dependencies { get; } = [];
 
@@ -31,7 +31,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         public List<Component> Components { get; } = [];
 
         /// <summary>
-        /// Gets the images.
+        /// Gets the images sorted by name.
         /// </summary>
         public List<Image> Images { get; } = [];
 
@@ -43,11 +43,15 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         {
             if (rootElem.SelectSingleNode("Dependencies") is XmlNode dependenciesNode)
             {
+                HashSet<string> typeNames = [];
+
                 foreach (XmlElement faceplateElem in dependenciesNode.SelectNodes("Faceplate"))
                 {
                     FaceplateMeta faceplateMeta = new() { IsTransitive = false };
                     faceplateMeta.LoadFromXml(faceplateElem);
-                    Dependencies.Add(faceplateMeta);
+
+                    if (!string.IsNullOrEmpty(faceplateMeta.TypeName) && typeNames.Add(faceplateMeta.TypeName))
+                        Dependencies.Add(faceplateMeta);
                 }
             }
 

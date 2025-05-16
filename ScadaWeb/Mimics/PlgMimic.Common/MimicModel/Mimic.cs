@@ -11,6 +11,11 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
     public class Mimic : MimicBase
     {
         /// <summary>
+        /// Gets the dependencies accessible by type name.
+        /// </summary>
+        public Dictionary<string, FaceplateMeta> DependencyMap { get; } = [];
+
+        /// <summary>
         /// Gets all mimic components accessible by ID.
         /// </summary>
         public Dictionary<int, Component> ComponentMap { get; } = [];
@@ -38,6 +43,12 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         {
             base.Load(stream);
 
+            // map dependencies
+            foreach (FaceplateMeta faceplateMeta in Dependencies)
+            {
+                DependencyMap.Add(faceplateMeta.TypeName, faceplateMeta);
+            }
+
             // map components
             foreach (Component component in EnumerateComponents())
             {
@@ -49,6 +60,58 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
             {
                 ImageMap.Add(image.Name, image);
             }
+        }
+
+        /// <summary>
+        /// Loads the mimic diagram from file.
+        /// </summary>
+        public void Load(string fileName)
+        {
+            using FileStream mimicStream = new(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            Load(mimicStream);
+        }
+
+        /// <summary>
+        /// Loads the faceplates specified in dependencies.
+        /// </summary>
+        public void LoadFaceplates(string viewDir)
+        {
+            int dependencyIndex = 0;
+
+            while (dependencyIndex < Dependencies.Count)
+            {
+                FaceplateMeta faceplateMeta = Dependencies[dependencyIndex];
+                dependencyIndex++;
+
+                if (!string.IsNullOrEmpty(faceplateMeta.TypeName) &&
+                    !FaceplateMap.ContainsKey(faceplateMeta.TypeName))
+                {
+                    string faceplateFileName = Path.Combine(viewDir,
+                        ScadaUtils.NormalPathSeparators(faceplateMeta.Path));
+
+                    using FileStream faceplateStream =
+                        new(faceplateFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+
+                    Faceplate faceplate = new();
+                    faceplate.Load(faceplateStream);
+                    FaceplateMap.Add(faceplateMeta.TypeName, faceplate);
+                    faceplate.Dependencies.ForEach(d => Dependencies.Add(d.Transit()));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Reloads faceplates.
+        /// </summary>
+        public void ReloadFaceplates(string viewDir)
+        {
+            // clean up dependencies
+            Dependencies.RemoveAll(d => d.IsTransitive);
+            DependencyMap.Clear();
+            Dependencies.ForEach(d => DependencyMap.Add(d.TypeName, d));
+
+            // load faceplates
+            LoadFaceplates(viewDir);
         }
 
         /// <summary>

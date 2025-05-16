@@ -22,7 +22,10 @@ class StructTree {
 
         let dependenciesItem = $("<li class='item-dependencies'></li>").append(dependenciesNode).appendTo(listElem);
         let dependenciesList = $("<ul class='list-dependencies'></ul>").appendTo(dependenciesItem);
+        this._appendDependencies(dependenciesList);
+    }
 
+    _appendDependencies(listElem) {
         for (let dependency of this.mimic.dependencies) {
             if (!dependency.isTransitive) {
                 let dependencyNode = $("<span class='node node-dependency'></span>");
@@ -33,7 +36,7 @@ class StructTree {
                 $("<span class='node-btn remove-btn'><i class='fa-regular fa-trash-can'></i></span>")
                     .appendTo(dependencyNode);
                 $("<li class='item-dependency'></li>").attr("data-name", dependency.typeName)
-                    .append(dependencyNode).appendTo(dependenciesList);
+                    .append(dependencyNode).appendTo(listElem);
             }
         }
     }
@@ -114,11 +117,11 @@ class StructTree {
         }
     }
 
-    _bindEvents() {
+    _bindEvents(listElem) {
         const thisObj = this;
 
         // dependencies
-        this.structElem.find(".item-dependencies")
+        listElem.find(".item-dependencies")
             .on("click", ".add-btn", function () {
                 thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.ADD_DEPENDENCY_CLICK));
             })
@@ -134,7 +137,7 @@ class StructTree {
             });
 
         // images
-        this.structElem.find(".item-images")
+        listElem.find(".item-images")
             .on("click", ".add-btn", function () {
                 thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.ADD_IMAGE_CLICK));
             })
@@ -150,7 +153,7 @@ class StructTree {
             });
 
         // mimic and components
-        this.structElem.find(".item-mimic")
+        listElem.find(".item-mimic")
             .on("click", ".node-mimic", function () {
                 thisObj._eventSource.dispatchEvent(new CustomEvent(StructTreeEventType.MIMIC_CLICK));
             })
@@ -177,17 +180,28 @@ class StructTree {
         return this._findComponentItem(component).children(".node");
     }
 
-    prepare() {
+    build() {
         let listElem = $("<ul class='list-top'></ul>");
         this._prepareDependencies(listElem);
         this._prepareImages(listElem);
         this._prepareComponents(listElem);
-        this.structElem.append(listElem);
-        this._bindEvents();
+        this._bindEvents(listElem);
+
+        // add new or replace existing element
+        let oldListElem = this.structElem.find(".list-top:first");
+
+        if (oldListElem.length > 0) {
+            oldListElem.replaceWith(listElem);
+        } else {
+            this.structElem.append(listElem);
+        }
     }
 
     refreshDependencies() {
-
+        let oldDependenciesList = this.structElem.find(".list-dependencies:first");
+        let newDependenciesList = $("<ul class='list-dependencies'></ul>");
+        this._appendDependencies(newDependenciesList);
+        oldDependenciesList.replaceWith(newDependenciesList);
     }
 
     refreshImages() {

@@ -23,8 +23,53 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         public MimicUpdater(Mimic mimic)
         {
             this.mimic = mimic ?? throw new ArgumentNullException(nameof(mimic));
+            DependenciesChanged = false;
         }
 
+
+        /// <summary>
+        /// Gets a value indicating whether the mimic dependencies were changed during the last update.
+        /// </summary>
+        public bool DependenciesChanged { get; private set; }
+
+
+        /// <summary>
+        /// Applies the change of the AddDependency type.
+        /// </summary>
+        private void ApplyAddDependency(Change change)
+        {
+            if (string.IsNullOrEmpty(change.ObjectName))
+                return;
+
+            FaceplateMeta faceplateMeta = new()
+            {
+                TypeName = change.ObjectName,
+                Path = change.GetString("path"),
+                IsTransitive = false
+            };
+
+            // search in sorted list
+            int index = mimic.Dependencies.BinarySearch(faceplateMeta);
+
+            if (index >= 0)
+                mimic.Dependencies[index] = faceplateMeta;
+            else
+                mimic.Dependencies.Insert(~index, faceplateMeta);
+
+            mimic.DependencyMap[change.ObjectName] = faceplateMeta;
+        }
+
+        /// <summary>
+        /// Applies the change of the RemoveDependency type.
+        /// </summary>
+        private void ApplyRemoveDependency(Change change)
+        {
+            if (!string.IsNullOrEmpty(change.ObjectName) &&
+                mimic.DependencyMap.Remove(change.ObjectName, out FaceplateMeta faceplateMeta))
+            {
+                mimic.Dependencies.Remove(faceplateMeta);
+            }
+        }
 
         /// <summary>
         /// Applies the change of the UpdateDocument type.
@@ -104,6 +149,9 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         private void ApplyAddImage(Change change)
         {
+            if (string.IsNullOrEmpty(change.ObjectName))
+                return;
+
             Image image = new()
             {
                 Name = change.ObjectName,
@@ -127,8 +175,11 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         private void ApplyRemoveImage(Change change)
         {
-            if (mimic.ImageMap.Remove(change.ObjectName, out Image image))
+            if (!string.IsNullOrEmpty(change.ObjectName) &&
+                mimic.ImageMap.Remove(change.ObjectName, out Image image))
+            {
                 mimic.Images.Remove(image);
+            }
         }
 
         /// <summary>
@@ -253,11 +304,22 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         public void ApplyChanges(IEnumerable<Change> changes)
         {
             ArgumentNullException.ThrowIfNull(changes, nameof(changes));
+            DependenciesChanged = false;
 
             foreach (Change change in changes)
             {
                 switch (change.ChangeType)
                 {
+                    case ChangeType.AddDependency:
+                        ApplyAddDependency(change);
+                        DependenciesChanged = true;
+                        break;
+
+                    case ChangeType.RemoveDependency:
+                        ApplyRemoveDependency(change);
+                        DependenciesChanged = true;
+                        break;
+
                     case ChangeType.UpdateDocument:
                         ApplyUpdateDocument(change);
                         break;

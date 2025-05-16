@@ -13,7 +13,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Models
 
         // Dependencies
         AddDependency = 1,
-        DeleteDependency = 2,
+        RemoveDependency = 2,
 
         // Document
         UpdateDocument = 3,

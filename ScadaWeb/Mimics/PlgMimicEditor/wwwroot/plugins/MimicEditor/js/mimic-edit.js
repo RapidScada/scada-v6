@@ -32,6 +32,7 @@ let selectedComponents = [];
 let lastUpdateTime = 0;
 let longAction = null;
 let mimicModified = false;
+let mimicReloadRequired = false;
 let maxComponentID = null;
 
 function bindEvents() {
@@ -197,19 +198,6 @@ function updateLayout() {
     $("#divMimicWrapper").outerWidth(windowWidth - leftPanelWidth - splitterWidth);
 }
 
-function setButtonsEnabled(opt_dependsOnSelection) {
-    let selectionNotEmpty = selectedComponents.length > 0;
-    setEnabled(ToolbarButton.CUT, selectionNotEmpty);
-    setEnabled(ToolbarButton.COPY, selectionNotEmpty);
-    setEnabled(ToolbarButton.REMOVE, selectionNotEmpty);
-    setEnabled(ToolbarButton.ALIGN, selectedComponents.length >= 2);
-
-    if (!opt_dependsOnSelection) {
-        setEnabled(ToolbarButton.PASTE, !clipboard.isEmpty);
-        setEnabled(ToolbarButton.POINTER, longAction?.actionTypeIs(LongActionType.ADD, LongActionType.PASTE));
-    }
-}
-
 function initStructTree() {
     structTree = new StructTree("divStructure", mimic, phrases);
 
@@ -226,7 +214,7 @@ function initStructTree() {
 
         if (faceplateMeta) {
             faceplateModal.show(faceplateMeta, function (context) {
-                addDependency(context.newObject);
+                addDependency(context.newObject, context.oldObject);
             });
         } else {
             console.error("Dependency not found.");
@@ -336,9 +324,10 @@ async function loadMimic() {
 
     if (result.ok) {
         rs.mimic.DescriptorSet.mimicDescriptor.repair(mimic);
-        showMimic();
+        setButtonsEnabled();
         showFaceplates();
         showStructure();
+        showMimic();
         selectMimic();
     } else {
         selectNone();
@@ -635,12 +624,16 @@ function align(actionType) {
     }
 }
 
-function showMimic() {
-    mimicWrapperElem.empty();
-    mimicWrapperElem.append(unitedRenderer.createMimicDom());
+function setButtonsEnabled(opt_dependsOnSelection) {
+    let selectionNotEmpty = selectedComponents.length > 0;
+    setEnabled(ToolbarButton.CUT, selectionNotEmpty);
+    setEnabled(ToolbarButton.COPY, selectionNotEmpty);
+    setEnabled(ToolbarButton.REMOVE, selectionNotEmpty);
+    setEnabled(ToolbarButton.ALIGN, selectedComponents.length >= 2);
 
-    for (let component of selectedComponents) {
-        component.dom?.addClass("selected");
+    if (!opt_dependsOnSelection) {
+        setEnabled(ToolbarButton.PASTE, !clipboard.isEmpty);
+        setEnabled(ToolbarButton.POINTER, longAction?.actionTypeIs(LongActionType.ADD, LongActionType.PASTE));
     }
 }
 
@@ -682,34 +675,58 @@ function showFaceplates() {
 }
 
 function showStructure() {
-    structTree.prepare();
+    structTree.build();
 }
 
-function addDependency(faceplateMeta) {
+function showMimic() {
+    mimicWrapperElem.empty();
+    mimicWrapperElem.append(unitedRenderer.createMimicDom());
+
+    for (let component of selectedComponents) {
+        component.dom?.addClass("selected");
+    }
+}
+
+function addDependency(faceplateMeta, opt_oldfaceplateMeta) {
     console.log(`Add '${faceplateMeta.typeName}' dependency`);
-//    mimic.addDependency(faceplateMeta);
-//    structTree.refreshDependencies();
-//    pushChanges(Change.addDependency(image));
+    let changes = [];
+    let oldTypeName = opt_oldfaceplateMeta?.typeName;
+
+    if (oldTypeName && oldTypeName !== faceplateMeta.typeName) {
+        mimic.removeDependency(oldTypeName);
+        changes.push(Change.removeDependency(typeName));
+    }
+
+    mimic.addDependency(faceplateMeta);
+    structTree.refreshDependencies();
+    changes.push(Change.addDependency(faceplateMeta));
+    mimicReloadRequired = true;
+    pushChanges(...changes);
 }
 
 function removeDependency(typeName) {
     console.log(`Remove '${typeName}' dependency`);
-//    mimic.removeDependency(typeName);
-//    structTree.refreshDependencies();
-//    pushChanges(Change.removeDependency(typeName));
+    mimic.removeDependency(typeName);
+    structTree.refreshDependencies();
+    mimicReloadRequired = true;
+    pushChanges(Change.removeDependency(typeName));
 }
 
 function addImage(image, opt_oldImage) {
     console.log(`Add '${image.name}' image`);
+    let changes = [];
+    let oldImageName = opt_oldImage?.name;
 
-    if (opt_oldImage && opt_oldImage.name !== image.name) {
-        mimic.removeImage(opt_oldImage.name);
+    if (oldImageName && oldImageName !== image.name) {
+        mimic.removeImage(oldImageName);
+        changes.push(Change.removeImage(oldImageName));
     }
 
     mimic.addImage(image);
     structTree.refreshImages();
     showMimic();
-    pushChanges(Change.addImage(image));
+    changes.push(Change.addImage(image));
+    pushChanges(...changes);
 }
 
 function removeImage(imageName) {
@@ -1187,6 +1204,10 @@ async function postUpdates() {
 
             if (result) {
                 mimicModified = true;
+
+                if (updateQueue.length === 0) {
+                    await handleQueueEmpty();
+                }
             } else {
                 updateQueue.unshift(updateDto);
                 break;
@@ -1222,6 +1243,16 @@ async function postUpdate(updateDto) {
     } catch {
         showPermanentToast(phrases.postUpdateError, MessageType.ERROR);
         return false;
+    }
+}
+
+async function handleQueueEmpty() {
+    if (mimicReloadRequired) {
+        mimicReloadRequired = false;
+        showToast(phrases.mimicReload, MessageType.WARNING);
+        clearSelection();
+        clearLongAction();
+        await loadMimic();
     }
 }
 
@@ -1401,7 +1432,6 @@ $(async function () {
 
     bindEvents();
     updateLayout();
-    setButtonsEnabled();
     initStructTree();
     initPropGrid();
     initModals();

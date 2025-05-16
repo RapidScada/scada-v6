@@ -66,8 +66,8 @@ class FaceplateModal extends ModalBase {
         let obj = this._context.newObject;
 
         if (obj) {
-            obj.name = $("#imageModal_txtName").val();
-            obj.dataUrl = $("#imageModal_imgPreview").attr("src");
+            obj.typeName = $("#faceplateModal_txtTypeName").val();
+            obj.path = $("#faceplateModal_txtPath").val();
         }
     }
 
