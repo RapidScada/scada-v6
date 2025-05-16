@@ -325,9 +325,11 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         if (existingDependency) {
             let index = this.dependencies.indexOf(existingDependency);
             this.dependencies[index] = faceplateMeta;
-            this.dependencies.sort(); // by type name
+        } else {
+            this.dependencies.push(faceplateMeta);
         }
 
+        this.dependencies.sort(); // by type name
         this.dependencyMap.set(faceplateMeta.typeName, faceplateMeta);
     }
 
@@ -349,9 +351,11 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         if (existingImage) {
             let index = this.images.indexOf(existingImage);
             this.images[index] = image;
-            this.images.sort(); // by name
+        } else {
+            this.images.push(image);
         }
 
+        this.images.sort(); // by name
         this.imageMap.set(image.name, image);
     }
 

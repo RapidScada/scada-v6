@@ -179,11 +179,16 @@ class Change {
     }
 
     static addDependency(dependency) {
-
+        let change = new Change(ChangeType.ADD_DEPENDENCY);
+        change.objectName = dependency.typeName;
+        change.properties = Object.assign({}, dependency);
+        return change;
     }
 
     static removeDependency(typeName) {
-
+        let change = new Change(ChangeType.REMOVE_DEPENDENCY);
+        change.objectName = typeName;
+        return change;
     }
 
     static updateDocument(opt_properties) {
@@ -221,6 +226,13 @@ class Change {
         });
     }
 
+    static orderComponent(componentID, shift) {
+        let change = new Change(ChangeType.ORDER_COMPONENT);
+        change._setObjectID(componentID);
+        change.orderShift = shift;
+        return change;
+    }
+
     static removeComponent(componentID) {
         let change = new Change(ChangeType.REMOVE_COMPONENT);
         change._setObjectID(componentID);
@@ -228,11 +240,16 @@ class Change {
     }
 
     static addImage(image) {
-
+        let change = new Change(ChangeType.ADD_IMAGE);
+        change.objectName = image.name;
+        change.properties = Object.assign({}, image);
+        return change;
     }
 
     static removeImage(imageName) {
-
+        let change = new Change(ChangeType.REMOVE_IMAGE);
+        change.objectName = imageName;
+        return change;
     }
 }
 

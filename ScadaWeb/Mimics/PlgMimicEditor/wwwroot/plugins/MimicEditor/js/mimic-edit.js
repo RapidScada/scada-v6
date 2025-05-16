@@ -249,7 +249,7 @@ function initStructTree() {
 
         if (image) {
             imageModal.show(image, function (context) {
-                addImage(context.newObject);
+                addImage(context.newObject, context.oldObject);
             });
         } else {
             console.error("Image not found.");
@@ -690,8 +690,13 @@ function removeDependency(typeName) {
 //    pushChanges(Change.removeDependency(typeName));
 }
 
-function addImage(image) {
+function addImage(image, opt_oldImage) {
     console.log(`Add '${image.name}' image`);
+
+    if (opt_oldImage && opt_oldImage.name !== image.name) {
+        mimic.removeImage(opt_oldImage.name);
+    }
+
     mimic.addImage(image);
     structTree.refreshImages();
     pushChanges(Change.addImage(image));

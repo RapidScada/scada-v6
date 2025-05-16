@@ -45,7 +45,10 @@ class StructTree {
 
         let imagesItem = $("<li class='item-images'></li>").append(imagesNode).appendTo(listElem);
         let imagesList = $("<ul class='list-images'></ul>").appendTo(imagesItem);
+        this._appendImages(imagesList);
+    }
 
+    _appendImages(listElem) {
         for (let image of this.mimic.images) {
             let imageNode = $("<span class='node node-image'></span>");
             $("<span class='node-text'></span>").text(image.name)
@@ -57,7 +60,7 @@ class StructTree {
             $("<span class='node-btn remove-btn'><i class='fa-regular fa-trash-can'></i></span>")
                 .appendTo(imageNode);
             $("<li class='item-image'></li>").attr("data-name", image.name)
-                .append(imageNode).appendTo(imagesList);
+                .append(imageNode).appendTo(listElem);
             this._initImagePopover(viewBtn, image.name);
         }
     }
@@ -88,10 +91,10 @@ class StructTree {
     _prepareComponents(listElem) {
         let mimicNode = $("<span class='node node-mimic'></span>").text(this.phrases.mimicNode);
         let mimicItem = $("<li class='item-mimic'></li>").append(mimicNode).appendTo(listElem);
-        let componentList = $("<ul class='list-components'></ul>").appendTo(mimicItem);
+        let componentsList = $("<ul class='list-components'></ul>").appendTo(mimicItem);
 
         for (let component of this.mimic.children) {
-            this._appendComponent(componentList, component);
+            this._appendComponent(componentsList, component);
         }
     }
 
@@ -188,7 +191,10 @@ class StructTree {
     }
 
     refreshImages() {
-        //let imagesList = this.structElem.find(".images-list:first");
+        let oldImagesList = this.structElem.find(".list-images:first");
+        let newImagesList = $("<ul class='list-images'></ul>");
+        this._appendImages(newImagesList);
+        oldImagesList.replaceWith(newImagesList);
     }
 
     addComponent(component) {
