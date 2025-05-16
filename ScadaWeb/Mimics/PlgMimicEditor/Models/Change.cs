@@ -55,6 +55,11 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Models
         /// </summary>
         public ExpandoObject Properties { get; set; }
 
+        /// <summary>
+        /// Gets or sets the number of steps by which the order of components is changed.
+        /// </summary>
+        public int OrderShift { get; set; }
+
 
         /// <summary>
         /// Gets the IDs of the affected objects as an array.

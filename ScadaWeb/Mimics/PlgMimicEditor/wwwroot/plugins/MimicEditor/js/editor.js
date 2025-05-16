@@ -42,14 +42,12 @@ class ChangeType {
     // Components
     static ADD_COMPONENT = 4;
     static UPDATE_COMPONENT = 5;
-    static UPDATE_COMPONENT_PARENT = 6;
-    static UPDATE_COMPONENT_BINDINGS = 7;
-    static UPDATE_COMPONENT_ACCESS = 8;
-    static REMOVE_COMPONENT = 9;
+    static ORDER_COMPONENT = 6;
+    static REMOVE_COMPONENT = 7;
 
     // Images
-    static ADD_IMAGE = 10;
-    static REMOVE_IMAGE = 11;
+    static ADD_IMAGE = 8;
+    static REMOVE_IMAGE = 9;
 }
 
 // Specifies the drag types.
@@ -153,6 +151,7 @@ class Change {
     objectIDs = null;
     objectName = "";
     properties = null;
+    orderShift = 0;
 
     constructor(changeType) {
         this.changeType = changeType ?? ChangeType.NONE;
