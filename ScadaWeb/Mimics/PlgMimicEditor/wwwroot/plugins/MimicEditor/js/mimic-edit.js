@@ -638,6 +638,10 @@ function align(actionType) {
 function showMimic() {
     mimicWrapperElem.empty();
     mimicWrapperElem.append(unitedRenderer.createMimicDom());
+
+    for (let component of selectedComponents) {
+        component.dom?.addClass("selected");
+    }
 }
 
 function showFaceplates() {
