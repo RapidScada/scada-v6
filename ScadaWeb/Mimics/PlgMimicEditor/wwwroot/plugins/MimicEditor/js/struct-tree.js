@@ -35,7 +35,9 @@ class StructTree {
                     .appendTo(dependencyNode);
                 $("<span class='node-btn remove-btn'><i class='fa-regular fa-trash-can'></i></span>")
                     .appendTo(dependencyNode);
-                $("<li class='item-dependency'></li>").attr("data-name", dependency.typeName)
+                $("<li class='item-dependency'></li>")
+                    .attr("data-name", dependency.typeName)
+                    .addClass(dependency.hasError ? "has-error" : "")
                     .append(dependencyNode).appendTo(listElem);
             }
         }

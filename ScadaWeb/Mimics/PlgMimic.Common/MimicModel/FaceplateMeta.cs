@@ -24,7 +24,12 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// <summary>
         /// Gets a value indicating whether the faceplate is referenced by another faceplate of the mimic.
         /// </summary>
-        public bool IsTransitive { get; init; }
+        public bool IsTransitive { get; init; } = false;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether an error occured while loading the faceplate.
+        /// </summary>
+        public bool HasError { get; set; } = false;
 
 
         /// <summary>

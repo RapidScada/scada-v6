@@ -114,8 +114,15 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
             case LoadStep.FACEPLATES:
                 if (this.dependencies.length > 0) {
-                    dto = await this._loadFaceplate(loadContext);
-                    if (dto.ok && loadContext.faceplateIndex >= this.dependencies.length) {
+                    let faceplateMeta = this.dependencies[loadContext.faceplateIndex];
+
+                    if (faceplateMeta.hasError) {
+                        continueLoading = true;
+                    } else {
+                        dto = await this._loadFaceplate(loadContext, faceplateMeta.typeName);
+                    }
+
+                    if (++loadContext.faceplateIndex >= this.dependencies.length) {
                         loadContext.step++;
                     }
                 } else {
@@ -231,9 +238,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
     }
 
     // Loads a faceplate.
-    async _loadFaceplate(loadContext) {
-        let faceplateMeta = this.dependencies[loadContext.faceplateIndex];
-        let typeName = faceplateMeta.typeName;
+    async _loadFaceplate(loadContext, typeName) {
         console.log(ScadaUtils.getCurrentTime() + ` Load '${typeName}' faceplate`);
         let response = await fetch(loadContext.controllerUrl +
             "GetFaceplate?key=" + loadContext.mimicKey +
@@ -243,7 +248,6 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
             let dto = await response.json();
 
             if (dto.ok) {
-                loadContext.faceplateIndex++;
                 let faceplate = new rs.mimic.Faceplate(dto.data, typeName);
                 this.faceplates.push(faceplate);
                 this.faceplateMap.set(typeName, faceplate);
@@ -577,6 +581,7 @@ rs.mimic.FaceplateMeta = class {
     typeName = "";
     path = "";
     isTransitive = false;
+    hasError = false;
 
     constructor(source) {
         Object.assign(this, source);

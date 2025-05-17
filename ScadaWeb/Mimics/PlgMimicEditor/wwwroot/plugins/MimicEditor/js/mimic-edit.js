@@ -647,7 +647,7 @@ function showFaceplates() {
             .appendTo(newGroupElem);
 
         for (let faceplateMeta of mimic.dependencies) {
-            if (!faceplateMeta.isTransitive) {
+            if (!faceplateMeta.isTransitive && !faceplateMeta.hasError) {
                 let faceplateElem = $("<div class='component-item'></div>")
                     .attr("data-type-name", faceplateMeta.typeName)
                     .appendTo(newGroupElem);

@@ -137,6 +137,10 @@
   background-color: var(--bs-primary);
   color: var(--bs-white);
 }
+#divStructure ul li.has-error .node-text {
+  color: var(--bs-danger);
+  text-decoration: line-through;
+}
 #divStructure ul li.item-mimic .node {
   cursor: pointer;
 }

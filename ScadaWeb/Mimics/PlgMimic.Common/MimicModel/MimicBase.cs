@@ -47,7 +47,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
 
                 foreach (XmlElement faceplateElem in dependenciesNode.SelectNodes("Faceplate"))
                 {
-                    FaceplateMeta faceplateMeta = new() { IsTransitive = false };
+                    FaceplateMeta faceplateMeta = new();
                     faceplateMeta.LoadFromXml(faceplateElem);
 
                     if (!string.IsNullOrEmpty(faceplateMeta.TypeName) && typeNames.Add(faceplateMeta.TypeName))
