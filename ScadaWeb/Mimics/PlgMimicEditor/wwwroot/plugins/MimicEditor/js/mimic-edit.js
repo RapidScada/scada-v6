@@ -92,6 +92,10 @@ function bindEvents() {
         align($(this).attr("data-action"));
     });
 
+    $(ToolbarButton.ARRANGE).on("click", function () {
+        arrange($(this).attr("data-action"));
+    });
+
     $("#divComponents").on("click", ".component-item", function () {
         let typeName = $(this).data("type-name");
         startLongAction(LongAction.add(typeName));
@@ -623,12 +627,37 @@ function align(actionType) {
     }
 }
 
+function arrange(actionType) {
+    if (selectedComponents.length === 0) {
+        return;
+    }
+
+    switch (actionType) {
+        case ArrangeActionType.BRING_TO_FRONT:
+            break;
+
+        case ArrangeActionType.BRING_FORWARD:
+            break;
+
+        case ArrangeActionType.SEND_BACKWARD:
+            break;
+
+        case ArrangeActionType.SEND_TO_BACK:
+            break;
+
+        case ArrangeActionType.SELECT_PARENT:
+            break;
+    }
+}
+
 function setButtonsEnabled(opt_dependsOnSelection) {
-    let selectionNotEmpty = selectedComponents.length > 0;
-    setEnabled(ToolbarButton.CUT, selectionNotEmpty);
-    setEnabled(ToolbarButton.COPY, selectionNotEmpty);
-    setEnabled(ToolbarButton.REMOVE, selectionNotEmpty);
-    setEnabled(ToolbarButton.ALIGN, selectedComponents.length >= 2);
+    let oneSelected = selectedComponents.length >= 1;
+    let twoSelected = selectedComponents.length >= 2;
+    setEnabled(ToolbarButton.CUT, oneSelected);
+    setEnabled(ToolbarButton.COPY, oneSelected);
+    setEnabled(ToolbarButton.REMOVE, oneSelected);
+    setEnabled(ToolbarButton.ALIGN, twoSelected);
+    setEnabled(ToolbarButton.ARRANGE, oneSelected);
 
     if (!opt_dependsOnSelection) {
         setEnabled(ToolbarButton.PASTE, !clipboard.isEmpty);

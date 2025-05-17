@@ -1,5 +1,5 @@
-﻿// Contains classes: AlingActionType, ChangeType, DragType, LongActionType, MessageType, ToolbarButton,
-//     Change, UpdateDto, LongAction
+﻿// Contains classes: AlingActionType, ArrangeActionType, ChangeType, DragType, LongActionType, MessageType,
+//     ToolbarButton, Change, UpdateDto, LongAction
 // No dependencies
 
 // Specifies the action types for component alignment.
@@ -26,6 +26,15 @@ class AlingActionType {
             actionType === AlingActionType.HOR_SPACING ||
             actionType === AlingActionType.VERT_SPACING;
     }
+}
+
+// Specifies the action types for component arrangement.
+class ArrangeActionType {
+    static BRING_TO_FRONT = "bring-to-front";
+    static BRING_FORWARD = "bring-forward";
+    static SEND_BACKWARD = "send-backward";
+    static SEND_TO_BACK = "send-to-back";
+    static SELECT_PARENT = "select-parent";
 }
 
 // Specifies the change types.
@@ -142,6 +151,7 @@ class ToolbarButton {
     static REMOVE = "#btnRemove";
     static POINTER = "#btnPointer";
     static ALIGN = "button.rs-btn-align";
+    static ARRANGE = "button.rs-btn-arrange";
 }
 
 // Represents a change in a mimic.
