@@ -21,6 +21,10 @@ $tool-window-font-weight: 500;
         display: inline-block;
         width: 10px;
     }
+
+    .dropdown .btn:first-child {
+        margin-right: 5px;
+    }
 }
 
 #divMain {

@@ -47,6 +47,9 @@
   display: inline-block;
   width: 10px;
 }
+#divToolbar .dropdown .btn:first-child {
+  margin-right: 5px;
+}
 
 #divMain {
   display: flex;

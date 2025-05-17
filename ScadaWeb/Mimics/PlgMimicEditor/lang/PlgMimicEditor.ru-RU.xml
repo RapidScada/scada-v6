@@ -59,6 +59,12 @@
     <Phrase key="btnSameSize">Одинаковый размер</Phrase>
     <Phrase key="btnHorSpacing">Горизонтальный интервал</Phrase>
     <Phrase key="btnVertSpacing">Вертикальный интервал</Phrase>
+    <Phrase key="btnArrange">Расположить</Phrase>
+    <Phrase key="btnBringToFront">На передний план</Phrase>
+    <Phrase key="btnBringForward">Переместить вперёд</Phrase>
+    <Phrase key="btnSendBackward">Переместить назад</Phrase>
+    <Phrase key="btnSendToBack">На задний план</Phrase>
+    <Phrase key="btnSelectParent">Выбрать родителя</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicListModel">
     <Phrase key="PageTitle">Редактор мнемосхем</Phrase>
