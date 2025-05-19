@@ -628,7 +628,13 @@ function align(actionType) {
 }
 
 function arrange(actionType) {
-    if (selectedComponents.length === 0) {
+    if (selectedComponents.length < 1) {
+        return;
+    }
+
+    if (!siblingsSelected()) {
+        console.error(phrases.sameParentRequired);
+        showToast(phrases.sameParentRequired, MessageType.ERROR);
         return;
     }
 
