@@ -21,7 +21,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Models
         // Components
         AddComponent = 4,
         UpdateComponent = 5,
-        OrderComponent = 6,
+        ArrangeComponent = 6,
         RemoveComponent = 7,
 
         // Images

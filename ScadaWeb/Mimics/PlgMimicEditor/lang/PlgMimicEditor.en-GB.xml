@@ -4,7 +4,6 @@
     <Phrase key="btnComponents">Components</Phrase>
     <Phrase key="btnStructure">Structure</Phrase>
     <Phrase key="btnProperties">Properties</Phrase>
-    <Phrase key=""></Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.Js">
     <Phrase key="FaceplateGroup">FACEPLATES</Phrase>
@@ -65,6 +64,8 @@
     <Phrase key="btnBringForward">Bring Forward</Phrase>
     <Phrase key="btnSendBackward">Send Backward</Phrase>
     <Phrase key="btnSendToBack">Send to Back</Phrase>
+    <Phrase key="btnPlaceBefore">In Front of Object</Phrase>
+    <Phrase key="btnPlaceAfter">Behind Object</Phrase>
     <Phrase key="btnSelectParent">Select Parent</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicListModel">

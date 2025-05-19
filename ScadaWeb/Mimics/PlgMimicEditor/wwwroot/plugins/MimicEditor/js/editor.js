@@ -34,6 +34,8 @@ class ArrangeActionType {
     static BRING_FORWARD = "bring-forward";
     static SEND_BACKWARD = "send-backward";
     static SEND_TO_BACK = "send-to-back";
+    static PLACE_BEFORE = "place-before";
+    static PLACE_AFTER = "place-after";
     static SELECT_PARENT = "select-parent";
 }
 
@@ -51,7 +53,7 @@ class ChangeType {
     // Components
     static ADD_COMPONENT = 4;
     static UPDATE_COMPONENT = 5;
-    static ORDER_COMPONENT = 6;
+    static ARRANGE_COMPONENT = 6;
     static REMOVE_COMPONENT = 7;
 
     // Images
@@ -161,7 +163,8 @@ class Change {
     objectIDs = null;
     objectName = "";
     properties = null;
-    orderShift = 0;
+    shift = 0;
+    siblingID = 0;
 
     constructor(changeType) {
         this.changeType = changeType ?? ChangeType.NONE;
@@ -236,10 +239,11 @@ class Change {
         });
     }
 
-    static orderComponent(componentID, shift) {
+    static arrangeComponent(componentID, shift, siblingID) {
         let change = new Change(ChangeType.ORDER_COMPONENT);
         change._setObjectID(componentID);
-        change.orderShift = shift;
+        change.shift = shift;
+        change.siblingID = siblingID;
         return change;
     }
 

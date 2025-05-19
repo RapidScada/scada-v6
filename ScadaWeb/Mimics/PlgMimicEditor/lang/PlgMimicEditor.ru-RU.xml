@@ -64,6 +64,8 @@
     <Phrase key="btnBringForward">Переместить вперёд</Phrase>
     <Phrase key="btnSendBackward">Переместить назад</Phrase>
     <Phrase key="btnSendToBack">На задний план</Phrase>
+    <Phrase key="btnPlaceBefore">Поместить перед объектом</Phrase>
+    <Phrase key="btnPlaceAfter">Поместить за объектом</Phrase>
     <Phrase key="btnSelectParent">Выбрать родителя</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicListModel">

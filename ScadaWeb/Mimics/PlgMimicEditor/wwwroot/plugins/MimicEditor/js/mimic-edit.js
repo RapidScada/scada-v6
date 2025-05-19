@@ -645,6 +645,12 @@ function arrange(actionType) {
         case ArrangeActionType.SEND_TO_BACK:
             break;
 
+        case ArrangeActionType.PLACE_BEFORE:
+            break;
+
+        case ArrangeActionType.PLACE_AFTER:
+            break;
+
         case ArrangeActionType.SELECT_PARENT:
             break;
     }

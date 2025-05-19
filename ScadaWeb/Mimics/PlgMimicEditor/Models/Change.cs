@@ -14,26 +14,9 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Models
     public class Change
     {
         /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public Change()
-        {
-            ChangeType = ChangeType.None;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public Change(ChangeType changeType)
-        {
-            ChangeType = changeType;
-        }
-
-
-        /// <summary>
         /// Gets or sets the change type.
         /// </summary>
-        public ChangeType ChangeType { get; set; }
+        public ChangeType ChangeType { get; set; } = ChangeType.None;
 
         /// <summary>
         /// Gets or sets the ID of the affected object.
@@ -56,9 +39,14 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Models
         public ExpandoObject Properties { get; set; }
 
         /// <summary>
-        /// Gets or sets the number of steps by which the order of components is changed.
+        /// Gets or sets the number of steps by which the components are shifted.
         /// </summary>
-        public int OrderShift { get; set; }
+        public int Shift { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ID of the sibling component to arrange the affected objects relative to it.
+        /// </summary>
+        public int SiblingID { get; set; }
 
 
         /// <summary>
