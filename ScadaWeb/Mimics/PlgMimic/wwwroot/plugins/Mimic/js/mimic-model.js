@@ -24,6 +24,91 @@ rs.mimic.MimicHelper = class {
             }
         }
     }
+
+    // Moves the components to the beginning of the parent's children.
+    static bringToFront(parent, components) {
+        if (parent.children) {
+            let componentIDs = new Set(components.map(c => c.id));
+            parent.children = parent.children.filter(c => !componentIDs.has(c.id));
+            parent.children.push(...components);
+        }
+    }
+
+    // Moves the components one position to the right.
+    static bringForward(parent, components) {
+        if (parent.children) {
+            let indexes = components.map(c => parent.children.indexOf(c)).sort();
+            let nextIndex = components.length - 1;
+
+            for (let i = indexes.length - 1; i >= 0; i--) {
+                let index = indexes[i];
+                let component = components[index];
+
+                if (0 <= index && index < nextIndex) {
+                    nextIndex = index + 1;
+                    components[index] = components[nextIndex];
+                    components[nextIndex] = component;
+                } else {
+                    nextIndex = index;
+                }
+            }
+        }
+    }
+
+    // Moves the components one position to the left.
+    static sendBackward(parent, components) {
+        if (parent.children) {
+            let indexes = components.map(c => parent.children.indexOf(c)).sort();
+            let prevIndex = 0;
+
+            for (let index of indexes) {
+                let component = components[index];
+
+                if (prevIndex < index) {
+                    prevIndex = index - 1;
+                    components[index] = components[prevIndex];
+                    components[prevIndex] = component;
+                } else {
+                    prevIndex = index;
+                }
+            }
+        }
+    }
+
+    // Moves the components to the end of the parent's children.
+    static sendToBack(parent, components) {
+        if (parent.children) {
+            let componentIDs = new Set(components.map(c => c.id));
+            parent.children = parent.children.filter(c => !componentIDs.has(c.id));
+            parent.children.unshift(...components);
+        }
+    }
+
+    // Moves the components before their sibling.
+    static placeBefore(parent, sibling, components) {
+        if (parent.children) {
+            let siblingIndex = parent.children.indexOf(sibling);
+
+            if (siblingIndex >= 0) {
+                let componentIDs = new Set(components.map(c => c.id));
+                parent.children = parent.children.filter(c => !componentIDs.has(c.id));
+                parent.children.splice(siblingIndex, 0, ...components);
+            }
+        }
+    }
+
+    // Moves the components after their sibling.
+    static placeAfter(parent, sibling, components) {
+        if (parent.children) {
+            let siblingIndex = parent.children.indexOf(sibling);
+
+            if (siblingIndex >= 0) {
+                let componentIDs = new Set(components.map(c => c.id));
+                parent.children = parent.children.filter(c => !componentIDs.has(c.id));
+                parent.children.splice(siblingIndex + 1, 0, ...components);
+            }
+        }
+    }
 }
 
 // A base class for mimic diagrams and faceplates.

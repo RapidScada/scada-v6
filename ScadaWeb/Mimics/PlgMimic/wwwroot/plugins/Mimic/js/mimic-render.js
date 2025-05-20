@@ -356,4 +356,9 @@ rs.mimic.UnitedRenderer = class {
             }
         }
     }
+
+    // Arranges the child component DOMs according to the parent's model.
+    arrangeChildren(parent) {
+
+    }
 }

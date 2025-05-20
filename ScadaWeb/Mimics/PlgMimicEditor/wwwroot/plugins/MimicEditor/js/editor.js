@@ -158,6 +158,8 @@ class ToolbarButton {
 
 // Represents a change in a mimic.
 class Change {
+    static MAX_SHIFT = 1000000;
+
     changeType = ChangeType.NONE;
     objectID = 0;
     objectIDs = null;
@@ -239,11 +241,11 @@ class Change {
         });
     }
 
-    static arrangeComponent(componentID, shift, siblingID) {
-        let change = new Change(ChangeType.ORDER_COMPONENT);
+    static arrangeComponent(componentID, shift, opt_siblingID) {
+        let change = new Change(ChangeType.ARRANGE_COMPONENT);
         change._setObjectID(componentID);
         change.shift = shift;
-        change.siblingID = siblingID;
+        change.siblingID = opt_siblingID;
         return change;
     }
 

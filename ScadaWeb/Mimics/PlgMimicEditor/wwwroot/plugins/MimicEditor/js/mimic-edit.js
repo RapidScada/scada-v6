@@ -638,17 +638,38 @@ function arrange(actionType) {
         return;
     }
 
+    const UnitedRenderer = rs.mimic.UnitedRenderer;
+    const MimicHelper = rs.mimic.MimicHelper;
+    let parent = selectedComponents[0].parent;
+    let getComponentIDs = () => selectedComponents.map(c => c.id);
+
     switch (actionType) {
         case ArrangeActionType.BRING_TO_FRONT:
+            MimicHelper.bringToFront(parent, selectedComponents);
+            UnitedRenderer.arrangeChildren(parent);
+            structTree.refreshComponents(parent, selectedComponents);
+            pushChanges(Change.arrangeComponent(getComponentIDs(), Change.MAX_SHIFT));
             break;
 
         case ArrangeActionType.BRING_FORWARD:
+            MimicHelper.bringForward(parent, selectedComponents);
+            UnitedRenderer.arrangeChildren(parent);
+            structTree.refreshComponents(parent, selectedComponents);
+            pushChanges(Change.arrangeComponent(getComponentIDs(), 1));
             break;
 
         case ArrangeActionType.SEND_BACKWARD:
+            MimicHelper.sendBackward(parent, selectedComponents);
+            UnitedRenderer.arrangeChildren(parent);
+            structTree.refreshComponents(parent, selectedComponents);
+            pushChanges(Change.arrangeComponent(getComponentIDs(), -1));
             break;
 
         case ArrangeActionType.SEND_TO_BACK:
+            MimicHelper.sendToBack(parent, selectedComponents);
+            UnitedRenderer.arrangeChildren(parent);
+            structTree.refreshComponents(parent, selectedComponents);
+            pushChanges(Change.arrangeComponent(getComponentIDs(), -Change.MAX_SHIFT));
             break;
 
         case ArrangeActionType.PLACE_BEFORE:

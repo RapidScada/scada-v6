@@ -213,6 +213,10 @@ class StructTree {
         oldImagesList.replaceWith(newImagesList);
     }
 
+    refreshComponents(parent, selectedComponents) {
+
+    }
+
     addComponent(component) {
         let listElem = component.parentID > 0
             ? this.structElem.find(`#struct-comp-item${component.parentID}>ul`) 
