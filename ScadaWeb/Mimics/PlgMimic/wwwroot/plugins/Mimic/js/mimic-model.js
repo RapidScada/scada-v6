@@ -43,13 +43,13 @@ rs.mimic.MimicHelper = class {
     static bringForward(parent, components) {
         if (parent.children) {
             let indexes = components.map(c => parent.children.indexOf(c)).sort();
-            let nextIndex = components.length - 1;
+            let nextIndex = parent.children.length;
 
             for (let i = indexes.length - 1; i >= 0; i--) {
                 let index = indexes[i];
                 let component = parent.children[index];
 
-                if (0 <= index && index < nextIndex) {
+                if (0 <= index && index + 1 < nextIndex) {
                     nextIndex = index + 1;
                     parent.children[index] = parent.children[nextIndex];
                     parent.children[nextIndex] = component;
@@ -64,12 +64,12 @@ rs.mimic.MimicHelper = class {
     static sendBackward(parent, components) {
         if (parent.children) {
             let indexes = components.map(c => parent.children.indexOf(c)).sort();
-            let prevIndex = 0;
+            let prevIndex = -1;
 
             for (let index of indexes) {
                 let component = parent.children[index];
 
-                if (prevIndex < index) {
+                if (prevIndex < index - 1) {
                     prevIndex = index - 1;
                     parent.children[index] = parent.children[prevIndex];
                     parent.children[prevIndex] = component;
@@ -163,7 +163,8 @@ rs.mimic.MimicBase = class {
 
 // Represents a mimic diagram.
 rs.mimic.Mimic = class extends rs.mimic.MimicBase {
-    dom; // mimic DOM as a jQuery object
+    dom;      // mimic DOM as a jQuery object
+    renderer; // renders the mimic
 
     // Loads a part of the mimic.
     async _loadPart(loadContext) {
@@ -379,6 +380,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
     clear() {
         super.clear();
         this.dom = null;
+        this.renderer = null;
     }
 
     // Loads the mimic. Returns a LoadResult.

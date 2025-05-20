@@ -301,14 +301,16 @@ rs.mimic.UnitedRenderer = class {
 
     // Creates a mimic DOM according to the mimic model. Returns a jQuery object.
     createMimicDom() {
-        const RendererSet = rs.mimic.RendererSet;
         let startTime = Date.now();
         let unknownTypes = new Set();
 
         let renderContext = new rs.mimic.RenderContext();
         renderContext.editMode = this.editMode;
         renderContext.imageMap = this.mimic.imageMap;
-        RendererSet.mimicRenderer.createDom(this.mimic, renderContext);
+
+        let renderer = rs.mimic.RendererSet.mimicRenderer;
+        this.mimic.renderer = renderer;
+        renderer.createDom(this.mimic, renderContext);
 
         for (let component of this.mimic.components) {
             this._createComponentDom(component, renderContext, unknownTypes);
