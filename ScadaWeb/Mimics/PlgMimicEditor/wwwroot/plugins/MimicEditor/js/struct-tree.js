@@ -1,5 +1,5 @@
 ﻿// Contains classes: StructTree, StructTreeEventType
-// Depends on jquery, bootstrap
+// Depends on jquery, bootstrap, mimic-model.js
 
 // Represents a component for displaying mimic structure.
 class StructTree {
@@ -97,9 +97,12 @@ class StructTree {
         let mimicNode = $("<span class='node node-mimic'></span>").text(this.phrases.mimicNode);
         let mimicItem = $("<li class='item-mimic'></li>").append(mimicNode).appendTo(listElem);
         let componentsList = $("<ul class='list-components'></ul>").appendTo(mimicItem);
+        this._appendComponents(componentsList);
+    }
 
+    _appendComponents(listElem) {
         for (let component of this.mimic.children) {
-            this._appendComponent(componentsList, component);
+            this._appendComponent(listElem, component);
         }
     }
 
@@ -214,7 +217,29 @@ class StructTree {
     }
 
     refreshComponents(parent, selectedComponents) {
+        if (parent instanceof rs.mimic.Mimic) {
+            // refresh all components
+            let oldListElem = this.structElem.find(".list-components:first");
+            let newListElem = $("<ul class='list-components'></ul>");
+            this._appendComponents(newListElem)
+            oldListElem.replaceWith(newListElem);
+        } else if (parent instanceof rs.mimic.Component) {
+            // refresh components belongs to the parent
+            let parentItem = this._findComponentItem(parent);
+            let oldListElem = parentItem.children("ul:first");
+            let newListElem = $("<ul></ul>");
 
+            for (let childComponent of parent.children) {
+                this._appendComponent(newListElem, childComponent);
+            }
+
+            oldListElem.replaceWith(newListElem);
+        }
+
+        // show selected components
+        for (let component of selectedComponents) {
+            this._findComponentNode(component).addClass("selected");
+        }
     }
 
     addComponent(component) {
