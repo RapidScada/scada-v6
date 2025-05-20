@@ -34,7 +34,7 @@ rs.mimic.MimicHelper = class {
         }
     }
 
-    // Moves the components one position to the right.
+    // Moves the components one position towards the end of the parent's children.
     static bringForward(parent, components) {
         if (parent.children) {
             let indexes = components.map(c => parent.children.indexOf(c)).sort();
@@ -42,12 +42,12 @@ rs.mimic.MimicHelper = class {
 
             for (let i = indexes.length - 1; i >= 0; i--) {
                 let index = indexes[i];
-                let component = components[index];
+                let component = parent.children[index];
 
                 if (0 <= index && index < nextIndex) {
                     nextIndex = index + 1;
-                    components[index] = components[nextIndex];
-                    components[nextIndex] = component;
+                    parent.children[index] = parent.children[nextIndex];
+                    parent.children[nextIndex] = component;
                 } else {
                     nextIndex = index;
                 }
@@ -55,19 +55,19 @@ rs.mimic.MimicHelper = class {
         }
     }
 
-    // Moves the components one position to the left.
+    // Moves the components one position towards the beginning of the parent's children.
     static sendBackward(parent, components) {
         if (parent.children) {
             let indexes = components.map(c => parent.children.indexOf(c)).sort();
             let prevIndex = 0;
 
             for (let index of indexes) {
-                let component = components[index];
+                let component = parent.children[index];
 
                 if (prevIndex < index) {
                     prevIndex = index - 1;
-                    components[index] = components[prevIndex];
-                    components[prevIndex] = component;
+                    parent.children[index] = parent.children[prevIndex];
+                    parent.children[prevIndex] = component;
                 } else {
                     prevIndex = index;
                 }
