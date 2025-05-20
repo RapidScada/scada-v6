@@ -4,6 +4,13 @@
 
 // Provides helper methods for mimics and components.
 rs.mimic.MimicHelper = class {
+    // Moves the components to the specified index of the parent's children.
+    static _moveComponents(parent, components, index) {
+        let componentIDs = new Set(components.map(c => c.id));
+        parent.children = parent.children.filter(c => !componentIDs.has(c.id));
+        parent.children.splice(index, 0, ...components);
+    }
+
     // Finds a parent and children for each component.
     static defineNesting(root, components, opt_componentMap) {
         let componentMap = opt_componentMap ?? new Map(components.map(c => [c.id, c]));
@@ -28,9 +35,7 @@ rs.mimic.MimicHelper = class {
     // Moves the components to the beginning of the parent's children.
     static bringToFront(parent, components) {
         if (parent.children) {
-            let componentIDs = new Set(components.map(c => c.id));
-            parent.children = parent.children.filter(c => !componentIDs.has(c.id));
-            parent.children.push(...components);
+            rs.mimic.MimicHelper._moveComponents(parent, components, parent.children.length);
         }
     }
 
@@ -78,9 +83,7 @@ rs.mimic.MimicHelper = class {
     // Moves the components to the end of the parent's children.
     static sendToBack(parent, components) {
         if (parent.children) {
-            let componentIDs = new Set(components.map(c => c.id));
-            parent.children = parent.children.filter(c => !componentIDs.has(c.id));
-            parent.children.unshift(...components);
+            rs.mimic.MimicHelper._moveComponents(parent, components, 0);
         }
     }
 
@@ -90,9 +93,7 @@ rs.mimic.MimicHelper = class {
             let siblingIndex = parent.children.indexOf(sibling);
 
             if (siblingIndex >= 0) {
-                let componentIDs = new Set(components.map(c => c.id));
-                parent.children = parent.children.filter(c => !componentIDs.has(c.id));
-                parent.children.splice(siblingIndex, 0, ...components);
+                rs.mimic.MimicHelper._moveComponents(parent, components, siblingIndex);
             }
         }
     }
@@ -103,9 +104,7 @@ rs.mimic.MimicHelper = class {
             let siblingIndex = parent.children.indexOf(sibling);
 
             if (siblingIndex >= 0) {
-                let componentIDs = new Set(components.map(c => c.id));
-                parent.children = parent.children.filter(c => !componentIDs.has(c.id));
-                parent.children.splice(siblingIndex + 1, 0, ...components);
+                rs.mimic.MimicHelper._moveComponents(parent, components, siblingIndex + 1);
             }
         }
     }
