@@ -40,12 +40,19 @@ rs.mimic.Renderer = class {
         return null;
     }
 
-    // Update the existing component DOM according to the component model.
+    // Updates the existing component DOM according to the component model.
     updateDom(component, renderContext) {
     }
 
-    // Updates the component according to the current channel data.
+    // Updates the component view according to the current channel data.
     update(component, renderContext) {
+    }
+
+    // Appends the child DOM into the parent DOM.
+    appendChild(parent, child) {
+        if (parent?.dom && child?.dom) {
+            parent.dom.append(child.dom);
+        }
     }
 
     // Sets the location of the component DOM.
@@ -246,8 +253,8 @@ rs.mimic.UnitedRenderer = class {
 
     // Appends the component DOM to its parent.
     _appendToParent(component) {
-        if (component.dom && component.parent?.dom) {
-            component.parent.dom.append(component.dom);
+        if (component.parent?.renderer) {
+            component.parent.renderer.appendChild(component.parent, component);
         }
     }
 
@@ -359,6 +366,18 @@ rs.mimic.UnitedRenderer = class {
 
     // Arranges the child component DOMs according to the parent's model.
     arrangeChildren(parent) {
+        if (parent.children) {
+            // detach components
+            for (let component of parent.children) {
+                if (component.dom) {
+                    component.dom.detach();
+                }
+            }
 
+            // append components
+            for (let component of parent.children) {
+                this._appendToParent(component);
+            }
+        }
     }
 }
