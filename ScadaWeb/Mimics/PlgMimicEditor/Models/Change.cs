@@ -39,12 +39,17 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Models
         public ExpandoObject Properties { get; set; }
 
         /// <summary>
+        /// Gets or sets the new parent ID of the components.
+        /// </summary>
+        public int ParentID { get; set; }
+
+        /// <summary>
         /// Gets or sets the number of steps by which the components are shifted.
         /// </summary>
         public int Shift { get; set; }
 
         /// <summary>
-        /// Gets or sets the ID of the sibling component to arrange the affected objects relative to it.
+        /// Gets or sets the ID of the sibling component to arrange the components relative to it.
         /// </summary>
         public int SiblingID { get; set; }
 

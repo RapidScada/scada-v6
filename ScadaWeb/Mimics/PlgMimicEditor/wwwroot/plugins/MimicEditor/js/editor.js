@@ -258,7 +258,7 @@ class Change {
     }
 
     static updateParent(component) {
-        let change = new Change(ChangeType.UPDATE_COMPONENT);
+        let change = new Change(ChangeType.UPDATE_PARENT);
         change.objectID = component.id;
         change.properties = {
             location: component.properties.location

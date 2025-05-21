@@ -958,7 +958,6 @@ function addComponent(typeName, parentID, point) {
     let factory;
     let descriptor;
     let renderer;
-    let parent = parentID > 0 ? mimic.componentMap.get(parentID) : mimic;
     let faceplate = mimic.faceplateMap.get(typeName);
 
     if (faceplate) {
@@ -971,20 +970,26 @@ function addComponent(typeName, parentID, point) {
         renderer = rs.mimic.RendererSet.componentRenderers.get(typeName);
     }
 
-    if (factory && descriptor && renderer && parent) {
+    if (factory && descriptor && renderer) {
         // create and render component
         let component = factory.createComponent();
+        let parent = parentID > 0 ? mimic.componentMap.get(parentID) : mimic;
         component.id = getNextComponentID();
         descriptor.repair(component);
-        mimic.addComponent(component, parent, point.x, point.y);
-        unitedRenderer.createComponentDom(component);
 
-        // update structure and properties
-        structTree.addComponent(component);
-        selectComponent(component);
+        if (mimic.addComponent(component, parent, point.x, point.y)) {
+            unitedRenderer.createComponentDom(component);
 
-        // update server side
-        pushChanges(Change.addComponent(component));
+            // update structure and properties
+            structTree.addComponent(component);
+            selectComponent(component);
+
+            // update server side
+            pushChanges(Change.addComponent(component));
+        } else {
+            console.error(phrases.unableAddComponent);
+            showToast(phrases.unableAddComponent, MessageType.ERROR);
+        }
     } else {
         if (!factory) {
             console.error("Component factory not found.");
@@ -996,10 +1001,6 @@ function addComponent(typeName, parentID, point) {
 
         if (!renderer) {
             console.error("Component renderer not found.");
-        }
-
-        if (!parent) {
-            console.error("Component parent not found.");
         }
 
         showToast(phrases.unableAddComponent, MessageType.ERROR);
@@ -1136,7 +1137,8 @@ function arrangeComponents(arrangeType, componentID, opt_point) {
 
         if (changes.length > 0) {
             structTree.refreshComponents(parent, selectedComponents);
-            pushChanges(changes);
+            propGrid.refresh();
+            pushChanges(...changes);
         }
     }
 

@@ -25,6 +25,21 @@ rs.mimic.MimicHelper = class {
         }
     }
 
+    // Checks whether the specified objects are a parent and a child.
+    static areRelatives(parent, child) {
+        let current = child.parent;
+
+        while (current) {
+            if (current === parent) {
+                return true;
+            }
+
+            current = current.parent;
+        }
+
+        return false;
+    }
+
     // Moves the components to the beginning of the parent's children.
     static sendToBack(parent, components) {
         if (parent.children) {
@@ -192,6 +207,11 @@ rs.mimic.MimicBase = class {
 rs.mimic.Mimic = class extends rs.mimic.MimicBase {
     dom;      // mimic DOM as a jQuery object
     renderer; // renders the mimic
+
+    // Indicates that a mimic can contain child components.
+    get isContainer() {
+        return true;
+    }
 
     // Loads a part of the mimic.
     async _loadPart(loadContext) {
@@ -487,30 +507,31 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         }
     }
 
-    // Adds the component to the mimic.
+    // Adds the component to the mimic. Returns true if the component was added.
     addComponent(component, parent, x, y) {
-        if (component.id <= 0 || this.componentMap.has(component.id)) {
-            return;
+        if (!component || !parent || !parent.isContainer ||
+            component.id <= 0 || this.componentMap.has(component.id)) {
+            return false;
         }
 
-        if (parent.isContainer) {
-            component.parentID = parent.id;
-            component.parent = parent;
-            parent.children.push(component);
-        } else {
-            component.parentID = 0;
-            component.parent = this;
-            this.children.push(component);
-        }
-
+        component.addToParent(parent);
         component.setLocation(x, y);
         this.components.push(component);
         this.componentMap.set(component.id, component);
+        return true;
     }
 
     // Updates the parent of the component. Returns true if the parent was updated.
     updateParent(component, parent, x, y) {
-        return false;
+        if (!component || !parent || !parent.isContainer || component === parent ||
+            rs.mimic.MimicHelper.areRelatives(component, parent) /*component contains parent*/) {
+            return false;
+        }
+
+        component.removeFromParent();
+        component.addToParent(parent);
+        component.setLocation(x, y);
+        return true;
     }
 
     // Removes the component from the mimic. Returns the removed component.
@@ -518,13 +539,9 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         let component = this.componentMap.get(componentID);
 
         if (component) {
+            // get IDs to remove
             let idsToRemove = new Set();
             idsToRemove.add(componentID);
-
-            if (component.parent) {
-                let index = component.parent.children.indexOf(component);
-                component.parent.children.splice(index, 1); // delete
-            }
 
             if (component.isContainer) {
                 for (let childComponent of component.getAllChildren()) {
@@ -532,7 +549,9 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
                 }
             }
 
+            // remove components
             this.components = this.components.filter(c => !idsToRemove.has(c.id));
+            component.removeFromParent();
 
             for (let id of idsToRemove) {
                 this.componentMap.delete(id);
@@ -653,6 +672,24 @@ rs.mimic.Component = class {
 
         appendChildren(this);
         return allChildren;
+    }
+
+    addToParent(parent) {
+        if (parent?.children) {
+            this.parentID = parent?.id ?? 0;
+            this.parent = parent;
+            parent.children.push(this);
+        }
+    }
+
+    removeFromParent() {
+        if (this.parent?.children) {
+            let index = this.parent.children.indexOf(this);
+
+            if (index >= 0) {
+                this.parent.children.splice(index, 1); // delete
+            }
+        }
     }
 
     toString() {
