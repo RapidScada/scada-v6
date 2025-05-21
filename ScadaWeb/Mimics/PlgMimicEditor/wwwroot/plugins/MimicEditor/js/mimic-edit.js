@@ -105,13 +105,8 @@ function bindEvents() {
         .on("mousedown", function (event) {
             if (!longAction) {
                 selectMimic();
-            } else if (longAction.actionType === LongActionType.ADD) {
-                // add component to mimic
-                addComponent(longAction.componentTypeName, 0, getMimicPoint(event, mimicWrapperElem, true));
-                clearLongAction();
-            } else if (longAction.actionType === LongActionType.PASTE) {
-                // paste components to mimic
-                pasteComponents(0, getMimicPoint(event, mimicWrapperElem, true));
+            } else if (LongActionType.isPointing(longAction.actionType)) {
+                finishPointing(0, getMimicPoint(event, mimicWrapperElem, true))
                 clearLongAction();
             }
         })
@@ -141,19 +136,16 @@ function bindEvents() {
                 }
 
                 event.stopPropagation();
-            } else if (longAction.actionType === LongActionType.ADD) {
-                // add component to container
+            } else if (LongActionType.isPointing(longAction.actionType)) {
+                // add or paste component to container, arrange components
+                let componentID = thisElem.data("id");
+
                 if (thisElem.hasClass("container")) {
-                    let parentID = thisElem.data("id");
-                    addComponent(longAction.componentTypeName, parentID, getMimicPoint(event, thisElem, true));
+                    finishPointing(componentID, getMimicPoint(event, thisElem, true));
                     clearLongAction();
                     event.stopPropagation();
-                }
-            } else if (longAction.actionType === LongActionType.PASTE) {
-                // paste components to container
-                if (thisElem.hasClass("container")) {
-                    let parentID = thisElem.data("id");
-                    pasteComponents(parentID, getMimicPoint(event, thisElem, true));
+                } else if (longAction.actionType === LongActionType.ARRANGE) {
+                    arrangeComponents(longAction.arrangeType, componentID);
                     clearLongAction();
                     event.stopPropagation();
                 }
@@ -672,12 +664,9 @@ function arrange(actionType) {
             break;
 
         case ArrangeActionType.PLACE_BEFORE:
-            break;
-
         case ArrangeActionType.PLACE_AFTER:
-            break;
-
         case ArrangeActionType.SELECT_PARENT:
+            startLongAction(LongAction.arrange(actionType));
             break;
     }
 }
@@ -693,7 +682,7 @@ function setButtonsEnabled(opt_dependsOnSelection) {
 
     if (!opt_dependsOnSelection) {
         setEnabled(ToolbarButton.PASTE, !clipboard.isEmpty);
-        setEnabled(ToolbarButton.POINTER, longAction?.actionTypeIs(LongActionType.ADD, LongActionType.PASTE));
+        setEnabled(ToolbarButton.POINTER, LongActionType.isPointing(longAction?.actionType));
     }
 }
 
@@ -954,7 +943,19 @@ function startLongAction(action) {
     if (action) {
         longAction = action;
         mimicWrapperElem.css("cursor", longAction.getCursor());
-        setEnabled(ToolbarButton.POINTER, longAction.actionTypeIs(LongActionType.ADD, LongActionType.PASTE));
+        setEnabled(ToolbarButton.POINTER, LongActionType.isPointing(longAction.actionType));
+    }
+}
+
+function finishPointing(componentID, point) {
+    if (!longAction) {
+        return;
+    } else if (longAction.actionType === LongActionType.ADD) {
+        addComponent(longAction.componentTypeName, componentID, point);
+    } else if (longAction.actionType === LongActionType.PASTE) {
+        pasteComponents(componentID, point);
+    } else if (longAction.actionType === LongActionType.ARRANGE) {
+        arrangeComponents(longAction.arrangeType, componentID, point);
     }
 }
 
@@ -1083,6 +1084,22 @@ function pasteComponents(parentID, point) {
     pushChanges(...changes);
 }
 
+function arrangeComponents(arrangeType, componentID, opt_point) {
+    const MimicHelper = rs.mimic.MimicHelper;
+
+    switch (arrangeType) {
+        case ArrangeActionType.PLACE_BEFORE:
+            //MimicHelper.placeBefore();
+            break;
+
+        case ArrangeActionType.PLACE_AFTER:
+            break;
+
+        case ArrangeActionType.SELECT_PARENT:
+            break;
+    }
+}
+
 function getNextComponentID() {
     maxComponentID ??= mimic.componentMap.size > 0 ? Math.max(...mimic.componentMap.keys()) : 0;
     return ++maxComponentID;
@@ -1167,8 +1184,7 @@ function finishDragging() {
         return;
     } else if (longAction.resized) {
         console.log("Resize components");
-    }
-    else if (longAction.moved) {
+    } else if (longAction.moved) {
         console.log("Move components");
     } else {
         return;

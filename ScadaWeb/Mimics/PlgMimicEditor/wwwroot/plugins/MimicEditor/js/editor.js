@@ -3,6 +3,7 @@
 // No dependencies
 
 // Specifies the action types for component alignment.
+// Readable values are used in data-* attributes.
 class AlingActionType {
     static ALIGN_LEFTS = "align-lefts";
     static ALIGN_CENTERS = "align-centers";
@@ -29,6 +30,7 @@ class AlingActionType {
 }
 
 // Specifies the action types for component arrangement.
+// Readable values are used in data-* attributes.
 class ArrangeActionType {
     static BRING_TO_FRONT = "bring-to-front";
     static BRING_FORWARD = "bring-forward";
@@ -40,6 +42,7 @@ class ArrangeActionType {
 }
 
 // Specifies the change types.
+// Readable values are sent in HTTP requests.
 class ChangeType {
     // Dependencies
     static ADD_DEPENDENCY = "add-dependency";
@@ -131,6 +134,12 @@ class LongActionType {
     static PASTE = 2;
     static DRAG = 3;
     static ARRANGE = 4;
+
+    static isPointing(actionType) {
+        return actionType == LongActionType.ADD ||
+            actionType == LongActionType.PASTE ||
+            actionType == LongActionType.ARRANGE;
+    }
 }
 
 // Specifies the message types for toasts.
@@ -286,10 +295,11 @@ class UpdateDto {
 class LongAction {
     actionType;        // action type
     componentTypeName; // component to add
-    dragType;          // drag type, move or resize
+    dragType;          // drag type: move or resize
     startPoint;        // start point of drag
     moved;             // components were moved during drag operation
     resized;           // components were resized during drag operation
+    arrangeType;       // arrange type: before, after or parent
 
     constructor(actionType) {
         this.actionType = actionType ?? LongActionType.NONE;
@@ -301,13 +311,11 @@ class LongAction {
             return "crosshair";
         } else if (this.actionType === LongActionType.DRAG) {
             return DragType.getCursor(this.dragType);
+        } else if (this.actionType === LongActionType.ARRANGE) {
+            return "pointer";
         } else {
             return "";
         }
-    }
-
-    actionTypeIs(...actionTypes) {
-        return actionTypes.indexOf(this.actionType) >= 0;
     }
 
     static add(componentTypeName) {
@@ -326,6 +334,12 @@ class LongAction {
         action.startPoint = startPoint;
         action.moved = false;
         action.resized = false;
+        return action;
+    }
+
+    static arrange(arrangeType) {
+        let action = new LongAction(LongActionType.ARRANGE);
+        action.arrangeType = arrangeType;
         return action;
     }
 }
