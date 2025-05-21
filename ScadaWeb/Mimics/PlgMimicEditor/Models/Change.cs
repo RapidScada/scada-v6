@@ -16,7 +16,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Models
         /// <summary>
         /// Gets or sets the change type.
         /// </summary>
-        public ChangeType ChangeType { get; set; } = ChangeType.None;
+        public string ChangeType { get; set; }
 
         /// <summary>
         /// Gets or sets the ID of the affected object.

@@ -41,24 +41,22 @@ class ArrangeActionType {
 
 // Specifies the change types.
 class ChangeType {
-    static NONE = 0;
-
     // Dependencies
-    static ADD_DEPENDENCY = 1;
-    static REMOVE_DEPENDENCY = 2;
+    static ADD_DEPENDENCY = "add-dependency";
+    static REMOVE_DEPENDENCY = "remove-dependency";
 
     // Document
-    static UPDATE_DOCUMENT = 3;
+    static UPDATE_DOCUMENT = "update-document";
 
     // Components
-    static ADD_COMPONENT = 4;
-    static UPDATE_COMPONENT = 5;
-    static ARRANGE_COMPONENT = 6;
-    static REMOVE_COMPONENT = 7;
+    static ADD_COMPONENT = "add-component";
+    static UPDATE_COMPONENT = "update-component";
+    static ARRANGE_COMPONENT = "arrange-component";
+    static REMOVE_COMPONENT = "remove-component";
 
     // Images
-    static ADD_IMAGE = 8;
-    static REMOVE_IMAGE = 9;
+    static ADD_IMAGE = "add-image";
+    static REMOVE_IMAGE = "remove-image";
 }
 
 // Specifies the drag types.
@@ -132,6 +130,7 @@ class LongActionType {
     static ADD = 1;
     static PASTE = 2;
     static DRAG = 3;
+    static ARRANGE = 4;
 }
 
 // Specifies the message types for toasts.
@@ -160,7 +159,7 @@ class ToolbarButton {
 class Change {
     static MAX_SHIFT = 1000000;
 
-    changeType = ChangeType.NONE;
+    changeType = "";
     objectID = 0;
     objectIDs = null;
     objectName = "";
@@ -169,7 +168,7 @@ class Change {
     siblingID = 0;
 
     constructor(changeType) {
-        this.changeType = changeType ?? ChangeType.NONE;
+        this.changeType = changeType;
     }
 
     _setObjectID(objectID) {
