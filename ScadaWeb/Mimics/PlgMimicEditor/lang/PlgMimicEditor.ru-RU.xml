@@ -61,12 +61,12 @@
     <Phrase key="btnHorSpacing">Горизонтальный интервал</Phrase>
     <Phrase key="btnVertSpacing">Вертикальный интервал</Phrase>
     <Phrase key="btnArrange">Расположить</Phrase>
-    <Phrase key="btnBringToFront">На передний план</Phrase>
-    <Phrase key="btnBringForward">Переместить вперёд</Phrase>
-    <Phrase key="btnSendBackward">Переместить назад</Phrase>
     <Phrase key="btnSendToBack">На задний план</Phrase>
-    <Phrase key="btnPlaceAfter">Поместить перед объектом</Phrase>
+    <Phrase key="btnSendBackward">Переместить назад</Phrase>
+    <Phrase key="btnBringForward">Переместить вперёд</Phrase>
+    <Phrase key="btnBringToFront">На передний план</Phrase>
     <Phrase key="btnPlaceBefore">Поместить за объектом</Phrase>
+    <Phrase key="btnPlaceAfter">Поместить перед объектом</Phrase>
     <Phrase key="btnSelectParent">Выбрать родителя</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicListModel">

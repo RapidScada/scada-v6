@@ -61,12 +61,12 @@
     <Phrase key="btnHorSpacing">Make Horizontal Spacing Equal</Phrase>
     <Phrase key="btnVertSpacing">Make Vertical Spacing Equal</Phrase>
     <Phrase key="btnArrange">Arrange</Phrase>
-    <Phrase key="btnBringToFront">Bring to Front</Phrase>
-    <Phrase key="btnBringForward">Bring Forward</Phrase>
-    <Phrase key="btnSendBackward">Send Backward</Phrase>
     <Phrase key="btnSendToBack">Send to Back</Phrase>
-    <Phrase key="btnPlaceAfter">In Front of Object</Phrase>
+    <Phrase key="btnSendBackward">Send Backward</Phrase>
+    <Phrase key="btnBringForward">Bring Forward</Phrase>
+    <Phrase key="btnBringToFront">Bring to Front</Phrase>
     <Phrase key="btnPlaceBefore">Behind Object</Phrase>
+    <Phrase key="btnPlaceAfter">In Front of Object</Phrase>
     <Phrase key="btnSelectParent">Select Parent</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicListModel">

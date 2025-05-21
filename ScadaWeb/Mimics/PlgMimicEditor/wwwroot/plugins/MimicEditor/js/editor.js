@@ -32,17 +32,17 @@ class AlingActionType {
 // Specifies the action types for component arrangement.
 // Readable values are used in data-* attributes.
 class ArrangeActionType {
-    static BRING_TO_FRONT = "bring-to-front";
-    static BRING_FORWARD = "bring-forward";
-    static SEND_BACKWARD = "send-backward";
     static SEND_TO_BACK = "send-to-back";
-    static PLACE_AFTER = "place-after";
+    static SEND_BACKWARD = "send-backward";
+    static BRING_FORWARD = "bring-forward";
+    static BRING_TO_FRONT = "bring-to-front";
     static PLACE_BEFORE = "place-before";
+    static PLACE_AFTER = "place-after";
     static SELECT_PARENT = "select-parent";
 
     static longActionRequired(actionType) {
-        return actionType === ArrangeActionType.PLACE_AFTER ||
-            actionType === ArrangeActionType.PLACE_BEFORE ||
+        return actionType === ArrangeActionType.PLACE_BEFORE ||
+            actionType === ArrangeActionType.PLACE_AFTER ||
             actionType === ArrangeActionType.SELECT_PARENT;
     }
 }

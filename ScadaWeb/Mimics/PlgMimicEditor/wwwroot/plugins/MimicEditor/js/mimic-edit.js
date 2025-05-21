@@ -1093,7 +1093,7 @@ function arrangeComponents(arrangeType, componentID, opt_point) {
     console.log("Arrange components");
     let errorMessage = "";
 
-    if (arrangeType == ArrangeActionType.PLACE_AFTER || arrangeType == ArrangeActionType.PLACE_BEFORE) {
+    if (arrangeType == ArrangeActionType.PLACE_BEFORE || arrangeType == ArrangeActionType.PLACE_AFTER) {
         const MimicHelper = rs.mimic.MimicHelper;
         let parent = selectedComponents[0].parent;
         let sibling = componentID > 0 ? mimic.componentMap.get(componentID) : null;
@@ -1102,12 +1102,12 @@ function arrangeComponents(arrangeType, componentID, opt_point) {
             if (sibling.parent === parent) {
                 let selectedIDs = selectedComponents.map(c => c.id);
 
-                if (arrangeType == ArrangeActionType.PLACE_AFTER) {
-                    MimicHelper.placeAfter(parent, sibling, selectedComponents);
-                    pushChanges(Change.arrangeComponent(selectedIDs, 1, componentID));
-                } else {
+                if (arrangeType == ArrangeActionType.PLACE_BEFORE) {
                     MimicHelper.placeBefore(parent, sibling, selectedComponents);
                     pushChanges(Change.arrangeComponent(selectedIDs, -1, componentID));
+                } else {
+                    MimicHelper.placeAfter(parent, sibling, selectedComponents);
+                    pushChanges(Change.arrangeComponent(selectedIDs, 1, componentID));
                 }
 
                 unitedRenderer.arrangeChildren(parent);

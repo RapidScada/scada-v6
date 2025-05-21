@@ -32,12 +32,32 @@ rs.mimic.MimicHelper = class {
         }
     }
 
-    // Moves the components to the end of the parent's children.
-    static bringToFront(parent, components) {
+    // Moves the components to the beginning of the parent's children.
+    static sendToBack(parent, components) {
         if (parent.children) {
             let componentIDs = new Set(components.map(c => c.id));
             parent.children = parent.children.filter(c => !componentIDs.has(c.id));
-            parent.children.push(...components);
+            parent.children.unshift(...components);
+        }
+    }
+
+    // Moves the components one position towards the beginning of the parent's children.
+    static sendBackward(parent, components) {
+        if (parent.children) {
+            let indexes = components.map(c => parent.children.indexOf(c)).sort();
+            let prevIndex = -1;
+
+            for (let index of indexes) {
+                let component = parent.children[index];
+
+                if (prevIndex < index - 1) {
+                    prevIndex = index - 1;
+                    parent.children[index] = parent.children[prevIndex];
+                    parent.children[prevIndex] = component;
+                } else {
+                    prevIndex = index;
+                }
+            }
         }
     }
 
@@ -62,46 +82,12 @@ rs.mimic.MimicHelper = class {
         }
     }
 
-    // Moves the components one position towards the beginning of the parent's children.
-    static sendBackward(parent, components) {
-        if (parent.children) {
-            let indexes = components.map(c => parent.children.indexOf(c)).sort();
-            let prevIndex = -1;
-
-            for (let index of indexes) {
-                let component = parent.children[index];
-
-                if (prevIndex < index - 1) {
-                    prevIndex = index - 1;
-                    parent.children[index] = parent.children[prevIndex];
-                    parent.children[prevIndex] = component;
-                } else {
-                    prevIndex = index;
-                }
-            }
-        }
-    }
-
-    // Moves the components to the beginning of the parent's children.
-    static sendToBack(parent, components) {
+    // Moves the components to the end of the parent's children.
+    static bringToFront(parent, components) {
         if (parent.children) {
             let componentIDs = new Set(components.map(c => c.id));
             parent.children = parent.children.filter(c => !componentIDs.has(c.id));
-            parent.children.unshift(...components);
-        }
-    }
-
-    // Moves the components after their sibling.
-    static placeAfter(parent, sibling, components) {
-        if (parent.children) {
-            let componentIDs = new Set(components.map(c => c.id));
-            let filtered = parent.children.filter(c => !componentIDs.has(c.id));
-            let index = filtered.indexOf(sibling);
-
-            if (index >= 0) {
-                parent.children = filtered;
-                parent.children.splice(index + 1, 0, ...components);
-            }
+            parent.children.push(...components);
         }
     }
 
@@ -115,6 +101,20 @@ rs.mimic.MimicHelper = class {
             if (index >= 0) {
                 parent.children = filtered;
                 parent.children.splice(index, 0, ...components);
+            }
+        }
+    }
+
+    // Moves the components after their sibling.
+    static placeAfter(parent, sibling, components) {
+        if (parent.children) {
+            let componentIDs = new Set(components.map(c => c.id));
+            let filtered = parent.children.filter(c => !componentIDs.has(c.id));
+            let index = filtered.indexOf(sibling);
+
+            if (index >= 0) {
+                parent.children = filtered;
+                parent.children.splice(index + 1, 0, ...components);
             }
         }
     }
