@@ -36,9 +36,15 @@ class ArrangeActionType {
     static BRING_FORWARD = "bring-forward";
     static SEND_BACKWARD = "send-backward";
     static SEND_TO_BACK = "send-to-back";
-    static PLACE_BEFORE = "place-before";
     static PLACE_AFTER = "place-after";
+    static PLACE_BEFORE = "place-before";
     static SELECT_PARENT = "select-parent";
+
+    static longActionRequired(actionType) {
+        return actionType === ArrangeActionType.PLACE_AFTER ||
+            actionType === ArrangeActionType.PLACE_BEFORE ||
+            actionType === ArrangeActionType.SELECT_PARENT;
+    }
 }
 
 // Specifies the change types.

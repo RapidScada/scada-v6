@@ -465,6 +465,7 @@ function align(actionType) {
     }
 
     // update model
+    console.log("Align components");
     let firstComponent = selectedComponents[0];
     let updatedComponents = [];
     let changes = [];
@@ -620,7 +621,7 @@ function align(actionType) {
 }
 
 function arrange(actionType) {
-    if (selectedComponents.length < 1) {
+    if (selectedComponents.length === 0) {
         return;
     }
 
@@ -630,6 +631,12 @@ function arrange(actionType) {
         return;
     }
 
+    if (ArrangeActionType.longActionRequired(actionType)) {
+        startLongAction(LongAction.arrange(actionType));
+        return;
+    }
+
+    console.log("Arrange components");
     const MimicHelper = rs.mimic.MimicHelper;
     let parent = selectedComponents[0].parent;
     let getComponentIDs = () => selectedComponents.map(c => c.id);
@@ -661,12 +668,6 @@ function arrange(actionType) {
             unitedRenderer.arrangeChildren(parent);
             structTree.refreshComponents(parent, selectedComponents);
             pushChanges(Change.arrangeComponent(getComponentIDs(), -Change.MAX_SHIFT));
-            break;
-
-        case ArrangeActionType.PLACE_BEFORE:
-        case ArrangeActionType.PLACE_AFTER:
-        case ArrangeActionType.SELECT_PARENT:
-            startLongAction(LongAction.arrange(actionType));
             break;
     }
 }
@@ -1085,18 +1086,45 @@ function pasteComponents(parentID, point) {
 }
 
 function arrangeComponents(arrangeType, componentID, opt_point) {
-    const MimicHelper = rs.mimic.MimicHelper;
+    if (selectedComponents.length === 0 || !siblingsSelected()) {
+        return;
+    }
 
-    switch (arrangeType) {
-        case ArrangeActionType.PLACE_BEFORE:
-            //MimicHelper.placeBefore();
-            break;
+    console.log("Arrange components");
+    let errorMessage = "";
 
-        case ArrangeActionType.PLACE_AFTER:
-            break;
+    if (arrangeType == ArrangeActionType.PLACE_AFTER || arrangeType == ArrangeActionType.PLACE_BEFORE) {
+        const MimicHelper = rs.mimic.MimicHelper;
+        let parent = selectedComponents[0].parent;
+        let sibling = componentID > 0 ? mimic.componentMap.get(componentID) : null;
 
-        case ArrangeActionType.SELECT_PARENT:
-            break;
+        if (sibling) {
+            if (sibling.parent === parent) {
+                let selectedIDs = selectedComponents.map(c => c.id);
+
+                if (arrangeType == ArrangeActionType.PLACE_AFTER) {
+                    MimicHelper.placeAfter(parent, sibling, selectedComponents);
+                    pushChanges(Change.arrangeComponent(selectedIDs, 1, componentID));
+                } else {
+                    MimicHelper.placeBefore(parent, sibling, selectedComponents);
+                    pushChanges(Change.arrangeComponent(selectedIDs, -1, componentID));
+                }
+
+                unitedRenderer.arrangeChildren(parent);
+                structTree.refreshComponents(parent, selectedComponents);
+            } else {
+                errorMessage = phrases.sameParentRequired;
+            }
+        } else {
+            errorMessage = phrases.componentNotSpecified;
+        }
+    } else if (arrangeType == ArrangeActionType.SELECT_PARENT) {
+
+    }
+
+    if (errorMessage) {
+        console.error(errorMessage);
+        showToast(errorMessage, MessageType.ERROR);
     }
 }
 
