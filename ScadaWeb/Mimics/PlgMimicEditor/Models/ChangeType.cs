@@ -19,6 +19,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Models
         // Components
         public const string AddComponent = "add-component";
         public const string UpdateComponent = "update-component";
+        public const string UpdateParent = "update-parent";
         public const string ArrangeComponent = "arrange-component";
         public const string RemoveComponent = "remove-component";
 

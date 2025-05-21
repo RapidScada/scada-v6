@@ -378,38 +378,21 @@ function copy() {
         return false;
     }
 
-    // copy components
     let componentIDs = selectedComponents.map(c => c.id);
     console.log("Copy components with IDs " + componentIDs.join(", "));
 
+    let minLocation = rs.mimic.MimicHelper.getMinLocation(selectedComponents);
     clipboard.clear();
-    let minX = NaN;
-    let minY = NaN;
 
     for (let component of selectedComponents) {
         let componentCopy = mimic.copyComponent(component);
+        componentCopy.x -= minLocation.x;
+        componentCopy.y -= minLocation.y;
         clipboard.selectedComponents.push(componentCopy);
 
         if (component.isContainer) {
             clipboard.childComponents.push(...component.getAllChildren().map(c => mimic.copyComponent(c)));
         }
-
-        let x = component.x;
-        let y = component.y;
-
-        if (isNaN(minX) || minX > x) {
-            minX = x;
-        }
-
-        if (isNaN(minY) || minY > y) {
-            minY = y;
-        }
-    }
-
-    // normalize locations
-    for (let componentCopy of clipboard.selectedComponents) {
-        componentCopy.x -= minX;
-        componentCopy.y -= minY;
     }
 
     setEnabled(ToolbarButton.PASTE, true);
@@ -1091,12 +1074,13 @@ function arrangeComponents(arrangeType, componentID, opt_point) {
     }
 
     console.log("Arrange components");
+    const MimicHelper = rs.mimic.MimicHelper;
     let errorMessage = "";
 
     if (arrangeType == ArrangeActionType.PLACE_BEFORE || arrangeType == ArrangeActionType.PLACE_AFTER) {
-        const MimicHelper = rs.mimic.MimicHelper;
         let parent = selectedComponents[0].parent;
-        let sibling = componentID > 0 ? mimic.componentMap.get(componentID) : null;
+        let siblingID = componentID;
+        let sibling = siblingID > 0 ? mimic.componentMap.get(siblingID) : null;
 
         if (sibling) {
             if (sibling.parent === parent) {
@@ -1104,10 +1088,10 @@ function arrangeComponents(arrangeType, componentID, opt_point) {
 
                 if (arrangeType == ArrangeActionType.PLACE_BEFORE) {
                     MimicHelper.placeBefore(parent, sibling, selectedComponents);
-                    pushChanges(Change.arrangeComponent(selectedIDs, -1, componentID));
+                    pushChanges(Change.arrangeComponent(selectedIDs, -1, siblingID));
                 } else {
                     MimicHelper.placeAfter(parent, sibling, selectedComponents);
-                    pushChanges(Change.arrangeComponent(selectedIDs, 1, componentID));
+                    pushChanges(Change.arrangeComponent(selectedIDs, 1, siblingID));
                 }
 
                 unitedRenderer.arrangeChildren(parent);
@@ -1119,7 +1103,41 @@ function arrangeComponents(arrangeType, componentID, opt_point) {
             errorMessage = phrases.componentNotSpecified;
         }
     } else if (arrangeType == ArrangeActionType.SELECT_PARENT) {
+        let parentID = componentID;
+        let parent = parentID > 0 ? mimic.componentMap.get(parentID) : mimic;
+        let minLocation = MimicHelper.getMinLocation(selectedComponents);
+        let offset = opt_point ?? { x: 0, y: 0 };
+        let changes = [];
 
+        for (let component of selectedComponents) {
+            let x = component.x - minLocation.x + offset.x;
+            let y = component.y - minLocation.y + offset.y;
+
+            if (mimic.updateParent(component, parent, x, y)) {
+                if (component.dom) {
+                    component.dom.detach();
+                }
+
+                if (component.renderer) {
+                    component.renderer.setLocation(component, x, y);
+                }
+
+                if (parent.renderer) {
+                    parent.renderer.appendChild(parent, component);
+                }
+
+                structTree.removeComponent(component.id);
+                changes.push(Change.updateParent(component));
+            } else {
+                errorMessage = phrases.unableChangeParent;
+                break;
+            }
+        }
+
+        if (changes.length > 0) {
+            structTree.refreshComponents(parent, selectedComponents);
+            pushChanges(changes);
+        }
     }
 
     if (errorMessage) {

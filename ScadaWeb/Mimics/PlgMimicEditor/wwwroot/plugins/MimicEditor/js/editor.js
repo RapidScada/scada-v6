@@ -1,5 +1,5 @@
 ﻿// Contains classes: AlingActionType, ArrangeActionType, ChangeType, DragType, LongActionType, MessageType,
-//     ToolbarButton, Change, UpdateDto, LongAction
+//     ToolbarButton, Change, UpdateDto, LongAction, MimicClipboard
 // No dependencies
 
 // Specifies the action types for component alignment.
@@ -60,6 +60,7 @@ class ChangeType {
     // Components
     static ADD_COMPONENT = "add-component";
     static UPDATE_COMPONENT = "update-component";
+    static UPDATE_PARENT = "update-parent";
     static ARRANGE_COMPONENT = "arrange-component";
     static REMOVE_COMPONENT = "remove-component";
 
@@ -179,6 +180,7 @@ class Change {
     objectIDs = null;
     objectName = "";
     properties = null;
+    parentID = 0;
     shift = 0;
     siblingID = 0;
 
@@ -253,6 +255,16 @@ class Change {
         return Change.updateComponent(component.id, {
             size: component.properties.size
         });
+    }
+
+    static updateParent(component) {
+        let change = new Change(ChangeType.UPDATE_COMPONENT);
+        change.objectID = component.id;
+        change.properties = {
+            location: component.properties.location
+        };
+        change.parentID = component.parent?.id ?? 0;
+        return change;
     }
 
     static arrangeComponent(componentID, shift, opt_siblingID) {

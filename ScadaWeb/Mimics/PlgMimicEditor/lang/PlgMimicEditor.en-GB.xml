@@ -17,6 +17,7 @@
     <Phrase key="SaveMimicError">Error saving mimic.</Phrase>
     <Phrase key="PostUpdateError">Error posting update.</Phrase>
     <Phrase key="UnableAddComponent">Unable to add component.</Phrase>
+    <Phrase key="UnableChangeParent">Unable to change parent.</Phrase>
     <Phrase key="SameParentRequired">Selected components must have the same parent.</Phrase>
     <Phrase key="ComponentNotSpecified">Component not specified.</Phrase>
   </Dictionary>

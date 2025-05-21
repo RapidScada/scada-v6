@@ -57,7 +57,7 @@ rs.mimic.Renderer = class {
 
     // Sets the location of the component DOM.
     setLocation(component, x, y) {
-        if (component.dom instanceof jQuery) {
+        if (component.dom) {
             this._setLocation(component.dom, {
                 x: x.toString(),
                 y: y.toString()
@@ -67,7 +67,7 @@ rs.mimic.Renderer = class {
 
     // Gets the component location from its DOM.
     getLocation(component) {
-        if (component.dom instanceof jQuery) {
+        if (component.dom) {
             let position = component.dom.position();
             return {
                 x: position.left.toString(),
@@ -83,7 +83,7 @@ rs.mimic.Renderer = class {
 
     // Sets the size of the component DOM.
     setSize(component, width, height) {
-        if (component.dom instanceof jQuery) {
+        if (component.dom) {
             this._setSize(component.dom, {
                 width: width.toString(),
                 height: height.toString()
@@ -93,7 +93,7 @@ rs.mimic.Renderer = class {
 
     // Gets the component size from its DOM.
     getSize(component) {
-        if (component.dom instanceof jQuery) {
+        if (component.dom) {
             return {
                 width: component.dom.outerWidth().toString(),
                 height: component.dom.outerHeight().toString()
@@ -120,7 +120,7 @@ rs.mimic.MimicRenderer = class extends rs.mimic.Renderer {
     }
 
     updateDom(mimic, renderContext) {
-        if (mimic.dom instanceof jQuery) {
+        if (mimic.dom) {
             let mimicElem = mimic.dom.first();
             this._setSize(mimicElem, mimic.document.size);
         }
@@ -186,7 +186,7 @@ rs.mimic.PanelRenderer = class extends rs.mimic.ComponentRenderer {
     }
 
     updateDom(component, renderContext) {
-        if (component.dom instanceof jQuery) {
+        if (component.dom) {
             let panelElem = component.dom.first();
             let props = component.properties;
             this._setLocation(panelElem, props.location);
@@ -209,7 +209,7 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
     }
 
     updateDom(component, renderContext) {
-        if (component.dom instanceof jQuery) {
+        if (component.dom) {
             let faceplateElem = component.dom.first();
             let props = component.properties;
             this._setLocation(faceplateElem, props.location);

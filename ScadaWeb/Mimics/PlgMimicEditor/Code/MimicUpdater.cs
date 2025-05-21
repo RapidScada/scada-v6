@@ -127,6 +127,14 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         }
 
         /// <summary>
+        /// Applies the change of the UpdateParent type.
+        /// </summary>
+        private void ApplyUpdateParent(Change change)
+        {
+
+        }
+
+        /// <summary>
         /// Applies the change of the ArrangeComponent type.
         /// </summary>
         private void ApplyArrangeComponent(Change change)
@@ -338,6 +346,10 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
 
                     case ChangeType.UpdateComponent:
                         ApplyUpdateComponent(change);
+                        break;
+
+                    case ChangeType.UpdateParent:
+                        ApplyUpdateParent(change);
                         break;
 
                     case ChangeType.ArrangeComponent:

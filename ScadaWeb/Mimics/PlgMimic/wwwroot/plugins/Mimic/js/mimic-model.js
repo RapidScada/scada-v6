@@ -4,13 +4,6 @@
 
 // Provides helper methods for mimics and components.
 rs.mimic.MimicHelper = class {
-    // Moves the components to the specified index of the parent's children.
-    static _moveComponents(parent, components, index) {
-        let componentIDs = new Set(components.map(c => c.id));
-        parent.children = parent.children.filter(c => !componentIDs.has(c.id));
-        parent.children.splice(index, 0, ...components);
-    }
-
     // Finds a parent and children for each component.
     static defineNesting(root, components, opt_componentMap) {
         let componentMap = opt_componentMap ?? new Map(components.map(c => [c.id, c]));
@@ -117,6 +110,30 @@ rs.mimic.MimicHelper = class {
                 parent.children.splice(index + 1, 0, ...components);
             }
         }
+    }
+
+    // Gets the minimum coordinates of the components.
+    static getMinLocation(components) {
+        let minX = NaN;
+        let minY = NaN;
+
+        for (let component of components) {
+            let x = component.x;
+            let y = component.y;
+
+            if (isNaN(minX) || minX > x) {
+                minX = x;
+            }
+
+            if (isNaN(minY) || minY > y) {
+                minY = y;
+            }
+        }
+
+        return {
+            x: minX,
+            y: minY
+        };
     }
 }
 
@@ -489,6 +506,11 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         component.setLocation(x, y);
         this.components.push(component);
         this.componentMap.set(component.id, component);
+    }
+
+    // Updates the parent of the component. Returns true if the parent was updated.
+    updateParent(component, parent, x, y) {
+        return false;
     }
 
     // Removes the component from the mimic. Returns the removed component.
