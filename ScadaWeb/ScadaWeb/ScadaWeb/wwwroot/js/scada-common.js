@@ -173,7 +173,7 @@ class ScadaUtils {
     static deepClone(obj) {
         // alternatively, use structuredClone()
         return JSON.parse(JSON.stringify(obj));
-    }     
+    }
 
     // Checks if the specified locale is Russian. If no argument is specified, the browser locale is checked.
     static isRussian(opt_locale) {
