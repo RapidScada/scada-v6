@@ -139,7 +139,11 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         private void ApplyUpdateParent(Change change)
         {
+            Component component = mimic.ComponentMap.GetValueOrDefault(change.ObjectID);
+            IContainer parent = GetComponentParent(component);
 
+            if (component == null || parent == null)
+                return;
         }
 
         /// <summary>
@@ -240,7 +244,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         private IContainer GetComponentParent(Component component)
         {
-            return GetComponentParent(component.ParentID);
+            return component == null ? null : GetComponentParent(component.ParentID);
         }
 
         /// <summary>
