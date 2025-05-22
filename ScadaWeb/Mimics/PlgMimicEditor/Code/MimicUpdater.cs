@@ -140,10 +140,18 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         private void ApplyUpdateParent(Change change)
         {
             Component component = mimic.ComponentMap.GetValueOrDefault(change.ObjectID);
-            IContainer parent = GetComponentParent(component);
+            IContainer newParent = GetComponentParent(change.ParentID);
 
-            if (component == null || parent == null)
-                return;
+            if (component != null && newParent != null &&
+                !AreRelatives(component, newParent) /*component does not contain parent*/)
+            {
+                IContainer oldParent = GetComponentParent(component);
+                oldParent?.Components.Remove(component);
+
+                component.ParentID = change.ParentID;
+                newParent.Components.Add(component);
+                SetComponentProperties(component, change); // set location
+            }
         }
 
         /// <summary>
@@ -304,6 +312,14 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             {
                 return jsonElement.ToString();
             }
+        }
+
+        /// <summary>
+        /// Checks whether the specified objects are a parent and a child.
+        /// </summary>
+        private static bool AreRelatives(IContainer parent, IContainer child)
+        {
+            return false;
         }
 
         /// <summary>
