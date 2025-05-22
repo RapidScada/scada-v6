@@ -56,12 +56,10 @@ rs.mimic.MimicHelper = class {
             let prevIndex = -1;
 
             for (let index of indexes) {
-                let component = parent.children[index];
-
-                if (prevIndex < index - 1) {
+                if (index >= 0 && prevIndex < index - 1) {
                     prevIndex = index - 1;
-                    parent.children[index] = parent.children[prevIndex];
-                    parent.children[prevIndex] = component;
+                    [parent.children[index], parent.children[prevIndex]] =
+                        [parent.children[prevIndex], parent.children[index]];
                 } else {
                     prevIndex = index;
                 }
@@ -77,12 +75,11 @@ rs.mimic.MimicHelper = class {
 
             for (let i = indexes.length - 1; i >= 0; i--) {
                 let index = indexes[i];
-                let component = parent.children[index];
 
-                if (0 <= index && index + 1 < nextIndex) {
+                if (index >= 0 && nextIndex > index + 1) {
                     nextIndex = index + 1;
-                    parent.children[index] = parent.children[nextIndex];
-                    parent.children[nextIndex] = component;
+                    [parent.children[index], parent.children[nextIndex]] =
+                        [parent.children[nextIndex], parent.children[index]];
                 } else {
                     nextIndex = index;
                 }

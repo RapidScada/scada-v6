@@ -14,6 +14,11 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
     /// </summary>
     public class MimicUpdater
     {
+        /// <summary>
+        /// Specifies the maximum shift of a component in an arrange operation.
+        /// </summary>
+        private const int MaxShift = 1000000;
+
         private readonly Mimic mimic; // the mimic to update
 
 
@@ -139,7 +144,36 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         private void ApplyArrangeComponent(Change change)
         {
+            List<Component> components = change
+                .GetObjectIDs()
+                .Select(id => mimic.ComponentMap.GetValueOrDefault(id))
+                .Where(c => c != null).ToList();
+            List<int> parentIDs = components.Select(c => c.ParentID).Distinct().ToList();
 
+            if (parentIDs.Count != 1)
+                return;
+
+            int parentID = parentIDs[0];
+            IContainer parent = parentID > 0 ? mimic.ComponentMap.GetValueOrDefault(parentID) : mimic;
+
+            if (parent == null)
+                return;
+
+            if (change.SiblingID > 0)
+            {
+
+            }
+            else
+            {
+                if (change.Shift <= -MaxShift)
+                    SendToBack(parent, components);
+                else if (change.Shift >= MaxShift)
+                    BringToFront(parent, components);
+                else if (change.Shift < 0)
+                    SendBackward(parent, components);
+                else if (change.Shift > 0)
+                    BringForward(parent, components);
+            }
         }
 
         /// <summary>
@@ -257,6 +291,70 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             {
                 return jsonElement.ToString();
             }
+        }
+
+        /// <summary>
+        /// Moves the components to the beginning of the parent's children.
+        /// </summary>
+        private static void SendToBack(IContainer parent, List<Component> components)
+        {
+            HashSet<int> componentIdSet = [.. components.Select(c => c.ID)];
+            parent.Components.RemoveAll(c => componentIdSet.Contains(c.ID));
+            parent.Components.InsertRange(0, components);
+        }
+
+        /// <summary>
+        /// Moves the components one position towards the beginning of the parent's children.
+        /// </summary>
+        private static void SendBackward(IContainer parent, List<Component> components)
+        {
+            List<int> indexes = components.Select(c => parent.Components.IndexOf(c)).Order().ToList();
+            int prevIndex = -1;
+
+            foreach (int index in indexes)
+            {
+                if (index >= 0 && prevIndex < index - 1)
+                {
+                    prevIndex = index - 1;
+                    parent.Components.Swap(index, prevIndex);
+                }
+                else
+                {
+                    prevIndex = index;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Moves the components one position towards the end of the parent's children.
+        /// </summary>
+        private static void BringForward(IContainer parent, List<Component> components)
+        {
+            List<int> indexes = components.Select(c => parent.Components.IndexOf(c)).OrderDescending().ToList();
+            int nextIndex = parent.Components.Count;
+
+            foreach (int index in indexes)
+            {
+                if (index >= 0 && nextIndex > index + 1)
+                {
+                    nextIndex = index + 1;
+                    parent.Components.Swap(index, nextIndex);
+                }
+                else
+                {
+                    nextIndex = index;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Moves the components to the end of the parent's children.
+        /// </summary>
+        private static void BringToFront(IContainer parent, List<Component> components)
+        {
+            HashSet<int> componentIdSet = [.. components.Select(c => c.ID)];
+            parent.Components.RemoveAll(c => componentIdSet.Contains(c.ID));
+            parent.Components.AddRange(components);
         }
 
         /// <summary>
