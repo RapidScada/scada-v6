@@ -115,8 +115,11 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             SetComponentProperties(component, change);
 
             // add component
-            GetComponentParent(component).Components.Add(component);
-            mimic.ComponentMap.Add(component.ID, component);
+            if (GetComponentParent(component) is IContainer parent)
+            {
+                parent.Components.Add(component);
+                mimic.ComponentMap.Add(component.ID, component);
+            }
         }
 
         /// <summary>
@@ -150,18 +153,18 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 .Where(c => c != null).ToList();
             List<int> parentIDs = components.Select(c => c.ParentID).Distinct().ToList();
 
-            if (parentIDs.Count != 1)
-                return;
-
-            int parentID = parentIDs[0];
-            IContainer parent = parentID > 0 ? mimic.ComponentMap.GetValueOrDefault(parentID) : mimic;
-
-            if (parent == null)
+            if (!(parentIDs.Count == 1 && GetComponentParent(parentIDs[0]) is IContainer parent))
                 return;
 
             if (change.SiblingID > 0)
             {
-
+                if (mimic.ComponentMap.TryGetValue(change.SiblingID, out Component sibling))
+                {
+                    if (change.Shift < 0)
+                        PlaceBefore(parent, sibling, components);
+                    else if (change.Shift > 0)
+                        PlaceAfter(parent, sibling, components);
+                }
             }
             else
             {
@@ -237,9 +240,15 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         private IContainer GetComponentParent(Component component)
         {
-            return component.ParentID > 0 && mimic.ComponentMap.TryGetValue(component.ParentID, out Component parent)
-                ? parent
-                : mimic;
+            return GetComponentParent(component.ParentID);
+        }
+
+        /// <summary>
+        /// Gets the parent by ID.
+        /// </summary>
+        private IContainer GetComponentParent(int parentID)
+        {
+            return parentID > 0 ? mimic.ComponentMap.GetValueOrDefault(parentID) : mimic;
         }
 
         /// <summary>
@@ -298,8 +307,8 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         private static void SendToBack(IContainer parent, List<Component> components)
         {
-            HashSet<int> componentIdSet = [.. components.Select(c => c.ID)];
-            parent.Components.RemoveAll(c => componentIdSet.Contains(c.ID));
+            HashSet<int> componentIDs = [.. components.Select(c => c.ID)];
+            parent.Components.RemoveAll(c => componentIDs.Contains(c.ID));
             parent.Components.InsertRange(0, components);
         }
 
@@ -352,9 +361,43 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         private static void BringToFront(IContainer parent, List<Component> components)
         {
-            HashSet<int> componentIdSet = [.. components.Select(c => c.ID)];
-            parent.Components.RemoveAll(c => componentIdSet.Contains(c.ID));
+            HashSet<int> componentIDs = [.. components.Select(c => c.ID)];
+            parent.Components.RemoveAll(c => componentIDs.Contains(c.ID));
             parent.Components.AddRange(components);
+        }
+
+        /// <summary>
+        /// Moves the components before their sibling.
+        /// </summary>
+        private static void PlaceBefore(IContainer parent, Component sibling, List<Component> components)
+        {
+            HashSet<int> componentIDs = [.. components.Select(c => c.ID)];
+            List<Component> filtered = parent.Components.Where(c => !componentIDs.Contains(c.ID)).ToList();
+            int index = filtered.IndexOf(sibling);
+
+            if (index >= 0)
+            {
+                filtered.InsertRange(index, components);
+                parent.Components.Clear();
+                parent.Components.AddRange(filtered);
+            }
+        }
+
+        /// <summary>
+        /// Moves the components after their sibling.
+        /// </summary>
+        private static void PlaceAfter(IContainer parent, Component sibling, List<Component> components)
+        {
+            HashSet<int> componentIDs = [.. components.Select(c => c.ID)];
+            List<Component> filtered = parent.Components.Where(c => !componentIDs.Contains(c.ID)).ToList();
+            int index = filtered.IndexOf(sibling);
+
+            if (index >= 0)
+            {
+                filtered.InsertRange(index + 1, components);
+                parent.Components.Clear();
+                parent.Components.AddRange(filtered);
+            }
         }
 
         /// <summary>
@@ -365,7 +408,6 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             if (mimic.ComponentMap.TryGetValue(componentID, out Component component))
             {
                 HashSet<int> idsToRemove = [componentID];
-                GetComponentParent(component).Components.Remove(component);
 
                 foreach (Component childComponent in component.GetAllChildren())
                 {
@@ -373,6 +415,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 }
 
                 mimic.ComponentMap.Remove(idsToRemove);
+                GetComponentParent(component)?.Components.Remove(component);
             }
         }
 
@@ -402,10 +445,8 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             // remove components
             foreach (int parentID in parentIDs)
             {
-                IContainer parent = parentID > 0 && mimic.ComponentMap.TryGetValue(parentID, out Component component)
-                    ? component
-                    : mimic;
-                parent.Components.RemoveAll(c => idsToRemove.Contains(c.ID)); // O(n) operation
+                IContainer parent = GetComponentParent(parentID);
+                parent?.Components.RemoveAll(c => idsToRemove.Contains(c.ID)); // O(n) operation
             }
 
             mimic.ComponentMap.Remove(idsToRemove);

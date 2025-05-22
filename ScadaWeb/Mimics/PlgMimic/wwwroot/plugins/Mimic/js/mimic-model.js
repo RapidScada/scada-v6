@@ -104,8 +104,8 @@ rs.mimic.MimicHelper = class {
             let index = filtered.indexOf(sibling);
 
             if (index >= 0) {
+                filtered.splice(index, 0, ...components);
                 parent.children = filtered;
-                parent.children.splice(index, 0, ...components);
             }
         }
     }
@@ -118,8 +118,8 @@ rs.mimic.MimicHelper = class {
             let index = filtered.indexOf(sibling);
 
             if (index >= 0) {
+                filtered.splice(index + 1, 0, ...components);
                 parent.children = filtered;
-                parent.children.splice(index + 1, 0, ...components);
             }
         }
     }
