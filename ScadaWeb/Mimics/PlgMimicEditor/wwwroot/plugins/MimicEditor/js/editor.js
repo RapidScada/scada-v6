@@ -394,7 +394,7 @@ class MimicClipboard {
         this._offset = { x: 0, y: 0 };
     }
 
-    _validate(clipboardData) {
+    static _validate(clipboardData) {
         return clipboardData &&
             Array.isArray(clipboardData.components) &&
             Number.isInteger(clipboardData.parentID) &&
@@ -451,7 +451,7 @@ class MimicClipboard {
             try { data = JSON.parse(text); }
             catch { data = null; }
 
-            if (this._validate(data)) {
+            if (MimicClipboard._validate(data)) {
                 this._clipboardData = data;
                 return data.components;
             }
