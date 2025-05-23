@@ -1,6 +1,6 @@
 ﻿// Contains classes: AlingActionType, ArrangeActionType, ChangeType, DragType, LongActionType, MessageType,
 //     ToolbarButton, Change, UpdateDto, LongAction, MimicClipboard
-// No dependencies
+// Depends on mimic-model.js
 
 // Specifies the action types for component alignment.
 // Readable values are used in data-* attributes.
@@ -364,15 +364,41 @@ class LongAction {
 
 // Represents a clipboard for copying and pasting components.
 class MimicClipboard {
-    selectedComponents = [];
-    childComponents = [];
+    componentJsons;
+    parentID;
+    offset;
+
+    constructor() {
+        this.clear();
+    }
 
     get isEmpty() {
-        return !(Array.isArray(this.selectedComponents) && this.selectedComponents.length > 0);
+        return !(Array.isArray(this.componentJsons) && this.componentJsons.length > 0);
     }
 
     clear() {
-        this.selectedComponents = [];
-        this.childComponents = [];
+        this.componentJsons = [];
+        this.parentID = 0;
+        this.offset = { x: 0, y: 0 };
+    }
+
+    writeComponents(components) {
+        if (Array.isArray(components) && components.length > 0) {
+            this.parentID = components[0].parentID; // assuming that parents are the same
+            this.offset = rs.mimic.MimicHelper.getMinLocation(components);
+
+            for (let component of components) {
+                this.componentJsons.push(component.toJson())
+
+                if (component.isContainer) {
+                    this.componentJsons.push(...component.getAllChildren().map(c => c.toJson()));
+                }
+            }
+        }
+    }
+
+    readComponents() {
+        // returns plain objects that are not instances of Component
+        return this.componentJsons.map(j => JSON.parse(j));
     }
 }

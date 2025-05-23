@@ -163,13 +163,6 @@ rs.mimic.MimicBase = class {
     faceplateMap;  // faceplates accessible by type name
     children;      // top-level components
 
-    // Creates a component instance based on the received object.
-    _createComponent(source) {
-        return this.dependencyMap?.has(source.typeName)
-            ? new rs.mimic.FaceplateInstance(source)
-            : new rs.mimic.Component(source);
-    }
-
     // Clears the mimic.
     clear() {
         this.dependencies = [];
@@ -185,12 +178,19 @@ rs.mimic.MimicBase = class {
         this.children = [];
     }
 
+    // Creates a component instance based on the source object.
+    createComponent(source) {
+        return this.dependencyMap?.has(source.typeName)
+            ? new rs.mimic.FaceplateInstance(source)
+            : new rs.mimic.Component(source);
+    }
+
     // Creates a copy of the component containing only the main properties.
     copyComponent(source) {
         let json = source instanceof rs.mimic.Component
             ? source.toJson()
             : JSON.stringify(source);
-        return this._createComponent(JSON.parse(json));
+        return this.createComponent(JSON.parse(json));
     }
 }
 
@@ -320,7 +320,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
                 loadContext.componentIndex += dto.data.components.length;
 
                 for (let sourceComponent of dto.data.components) {
-                    let component = this._createComponent(sourceComponent);
+                    let component = this.createComponent(sourceComponent);
                     this.components.push(component);
                     this.componentMap.set(component.id, component);
                 }
@@ -772,7 +772,7 @@ rs.mimic.Faceplate = class extends rs.mimic.MimicBase {
 
         if (Array.isArray(source.components)) {
             for (let sourceComponent of source.components) {
-                let component = this._createComponent(sourceComponent);
+                let component = this.createComponent(sourceComponent);
                 this.components.push(component);
                 this.componentMap.set(component.id, component);
             }

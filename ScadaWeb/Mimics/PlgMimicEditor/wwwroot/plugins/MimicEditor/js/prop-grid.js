@@ -1,5 +1,5 @@
 ﻿// Contains classes: PropGrid, PropGridEventType, PropGridHelper, ProxyObject, PointProxy, SizeProxy, UnionObject
-// Depends on tweakpane, scada-common.js, mimic-model.js, mimic-descr.js
+// Depends on jquery, tweakpane, scada-common.js, mimic-model.js, mimic-descr.js
 
 // Interacts with Tweakpane to provide property grid functionality.
 class PropGrid {

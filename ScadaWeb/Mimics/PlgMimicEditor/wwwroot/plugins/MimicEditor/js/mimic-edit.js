@@ -381,20 +381,8 @@ function copy() {
     let componentIDs = selectedComponents.map(c => c.id);
     console.log("Copy components with IDs " + componentIDs.join(", "));
 
-    let minLocation = rs.mimic.MimicHelper.getMinLocation(selectedComponents);
     clipboard.clear();
-
-    for (let component of selectedComponents) {
-        let componentCopy = mimic.copyComponent(component);
-        componentCopy.x -= minLocation.x;
-        componentCopy.y -= minLocation.y;
-        clipboard.selectedComponents.push(componentCopy);
-
-        if (component.isContainer) {
-            clipboard.childComponents.push(...component.getAllChildren().map(c => mimic.copyComponent(c)));
-        }
-    }
-
+    clipboard.writeComponents(selectedComponents);
     setEnabled(ToolbarButton.PASTE, true);
     return true;
 }
@@ -837,7 +825,7 @@ function selectComponents(components) {
 
 function siblingsSelected() {
     let parentIDs = new Set(selectedComponents.map(c => c.parentID));
-    return parentIDs.size <= 1;
+    return parentIDs.size === 1;
 }
 
 function closestCompElem(clickedElem) {
@@ -1010,20 +998,35 @@ function addComponent(typeName, parentID, point) {
 function pasteComponents(parentID, point) {
     console.log(`Paste components at ${point.x}, ${point.y}` +
         (parentID > 0 ? ` inside component ${parentID}` : ""));
-
     let parent = parentID > 0 ? mimic.componentMap.get(parentID) : mimic;
-    let idMap = new Map(); // key is old ID, value is new ID
-    let changes = [];
-    let componentsToSelect = [];
 
     if (!parent) {
         console.error("Parent not found.");
         return;
     }
 
+    // separate top-level and child components
+    let topComponents = [];
+    let childComponents = [];
+
+    for (let sourceComponent of clipboard.readComponents()) {
+        let componentCopy = mimic.createComponent(sourceComponent);
+
+        if (componentCopy.parentID === clipboard.parentID) {
+            componentCopy.x -= clipboard.offset.x;
+            componentCopy.y -= clipboard.offset.y;
+            topComponents.push(componentCopy);
+        } else {
+            childComponents.push(componentCopy);
+        }
+    }
+
     // add top-level components
-    for (let sourceComponent of clipboard.selectedComponents) {
-        let component = mimic.copyComponent(sourceComponent);
+    let idMap = new Map(); // key is old ID, value is new ID
+    let componentsToSelect = [];
+    let changes = [];
+
+    for (let component of topComponents) {
         let newID = getNextComponentID();
         idMap.set(component.id, newID);
         component.id = newID;
@@ -1041,12 +1044,11 @@ function pasteComponents(parentID, point) {
     }
 
     // add child components
-    for (let sourceComponent of clipboard.childComponents) {
-        let newParentID = idMap.get(sourceComponent.parentID);
+    for (let component of childComponents) {
+        let newParentID = idMap.get(component.parentID);
         parent = mimic.componentMap.get(newParentID);
 
         if (parent) {
-            let component = mimic.copyComponent(sourceComponent);
             let newID = getNextComponentID();
             idMap.set(component.id, newID);
             component.id = newID;
@@ -1070,7 +1072,7 @@ function pasteComponents(parentID, point) {
 }
 
 function arrangeComponents(arrangeType, componentID, opt_point) {
-    if (selectedComponents.length === 0 || !siblingsSelected()) {
+    if (!siblingsSelected()) {
         return;
     }
 
