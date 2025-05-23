@@ -364,41 +364,102 @@ class LongAction {
 
 // Represents a clipboard for copying and pasting components.
 class MimicClipboard {
-    componentJsons;
-    parentID;
-    offset;
+    _isEmpty;
+    _clipboardData;
+    _componentJsons;
+    _parentID;
+    _offset;
 
     constructor() {
-        this.clear();
+        this._clear();
+    }
+
+    get parentID() {
+        return this._clipboardData ? this._clipboardData.parentID : this._parentID;
+    }
+
+    get offset() {
+        return this._clipboardData ? this._clipboardData.offset : this._offset;
     }
 
     get isEmpty() {
-        return !(Array.isArray(this.componentJsons) && this.componentJsons.length > 0);
+        return this._isEmpty;
     }
 
-    clear() {
-        this.componentJsons = [];
-        this.parentID = 0;
-        this.offset = { x: 0, y: 0 };
+    _clear() {
+        this._isEmpty = true;
+        this._clipboardData = null;
+        this._componentJsons = [];
+        this._parentID = 0;
+        this._offset = { x: 0, y: 0 };
     }
 
-    writeComponents(components) {
-        if (Array.isArray(components) && components.length > 0) {
-            this.parentID = components[0].parentID; // assuming that parents are the same
-            this.offset = rs.mimic.MimicHelper.getMinLocation(components);
+    _validate(clipboardData) {
+        return clipboardData &&
+            Array.isArray(clipboardData.components) &&
+            Number.isInteger(clipboardData.parentID) &&
+            clipboardData.offset instanceof Object;
+    }
 
-            for (let component of components) {
-                this.componentJsons.push(component.toJson())
-
-                if (component.isContainer) {
-                    this.componentJsons.push(...component.getAllChildren().map(c => c.toJson()));
-                }
-            }
+    async defineEmptiness() {
+        if (this._componentJsons.length > 0) {
+            this._isEmpty = false;
+        } else {
+            try { this._isEmpty = !await navigator.clipboard.readText(); }
+            catch { this._isEmpty = true; }
         }
     }
 
-    readComponents() {
-        // returns plain objects that are not instances of Component
-        return this.componentJsons.map(j => JSON.parse(j));
+    async writeComponents(components) {
+        // extract information from components
+        let plainObjects = [];
+        this._clear();
+
+        if (Array.isArray(components) && components.length > 0) {
+            this._isEmpty = false;
+            this._parentID = components[0].parentID; // assuming that parents are the same
+            this._offset = rs.mimic.MimicHelper.getMinLocation(components);
+
+            for (let component of components) {
+                plainObjects.push(component.toPlainObject())
+
+                if (component.isContainer) {
+                    plainObjects.push(...component.getAllChildren().map(c => c.toPlainObject()));
+                }
+            }
+
+            this._componentJsons = plainObjects.map(o => JSON.stringify(o));
+        }
+
+        // write to system buffer
+        try {
+            await navigator.clipboard.writeText(JSON.stringify({
+                components: plainObjects,
+                parentID: this._parentID,
+                offset: this._offset
+            }));
+        } catch (ex) {
+            console.error("Error writing to clipboard: " + ex.message);
+        }
+    }
+
+    async readComponents() {
+        // read from system buffer first
+        try {
+            let text = await navigator.clipboard.readText();
+            let data;
+            try { data = JSON.parse(text); }
+            catch { data = null; }
+
+            if (this._validate(data)) {
+                this._clipboardData = data;
+                return data.components;
+            }
+        } catch (ex) {
+            console.error("Error reading from clipboard: " + ex.message);
+        }
+
+        // return plain objects that are not instances of Component
+        return this._componentJsons.map(j => JSON.parse(j));
     }
 }

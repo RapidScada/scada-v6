@@ -187,10 +187,9 @@ rs.mimic.MimicBase = class {
 
     // Creates a copy of the component containing only the main properties.
     copyComponent(source) {
-        let json = source instanceof rs.mimic.Component
-            ? source.toJson()
-            : JSON.stringify(source);
-        return this.createComponent(JSON.parse(json));
+        return this.createComponent(source instanceof rs.mimic.Component
+            ? source.toPlainObject()
+            : ScadaUtils.deepClone(source));
     }
 }
 
@@ -683,8 +682,8 @@ rs.mimic.Component = class {
         }
     }
 
-    toJson() {
-        return JSON.stringify({
+    toPlainObject() {
+        return {
             id: this.id,
             name: this.name,
             typeName: this.typeName,
@@ -693,7 +692,7 @@ rs.mimic.Component = class {
             bindings: this.bindings,
             access: this.access,
             children: this.children ? [] : null
-        });
+        };
     }
 
     toString() {

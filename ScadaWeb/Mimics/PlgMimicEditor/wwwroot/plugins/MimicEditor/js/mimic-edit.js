@@ -367,7 +367,7 @@ function cut() {
     }
 }
 
-function copy() {
+async function copy() {
     if (selectedComponents.length === 0) {
         return false;
     }
@@ -381,8 +381,7 @@ function copy() {
     let componentIDs = selectedComponents.map(c => c.id);
     console.log("Copy components with IDs " + componentIDs.join(", "));
 
-    clipboard.clear();
-    clipboard.writeComponents(selectedComponents);
+    await clipboard.writeComponents(selectedComponents);
     setEnabled(ToolbarButton.PASTE, true);
     return true;
 }
@@ -995,13 +994,21 @@ function addComponent(typeName, parentID, point) {
     }
 }
 
-function pasteComponents(parentID, point) {
+async function pasteComponents(parentID, point) {
     console.log(`Paste components at ${point.x}, ${point.y}` +
         (parentID > 0 ? ` inside component ${parentID}` : ""));
+
     let parent = parentID > 0 ? mimic.componentMap.get(parentID) : mimic;
+    let sourceComponents = await clipboard.readComponents();
 
     if (!parent) {
         console.error("Parent not found.");
+        return;
+    }
+
+    if (sourceComponents.length === 0) {
+        console.error(phrases.clipboardEmpty);
+        showToast(phrases.clipboardEmpty, MessageType.ERROR);
         return;
     }
 
@@ -1009,7 +1016,7 @@ function pasteComponents(parentID, point) {
     let topComponents = [];
     let childComponents = [];
 
-    for (let sourceComponent of clipboard.readComponents()) {
+    for (let sourceComponent of sourceComponents) {
         let componentCopy = mimic.createComponent(sourceComponent);
 
         if (componentCopy.parentID === clipboard.parentID) {
@@ -1562,6 +1569,7 @@ $(async function () {
     initPropGrid();
     initModals();
     translateProperties();
+    await clipboard.defineEmptiness();
     await loadMimic();
     await startUpdatingBackend();
 });
