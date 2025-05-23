@@ -47,9 +47,6 @@
     <Phrase key="btnCut">Вырезать (Ctrl + X)</Phrase>
     <Phrase key="btnCopy">Копировать (Ctrl + C)</Phrase>
     <Phrase key="btnPaste">Вставить (Ctrl + V)</Phrase>
-    <Phrase key="btnClipboard">Буфер обмена</Phrase>
-    <Phrase key="btnWriteClipboard">Записать в системный буфер</Phrase>
-    <Phrase key="btnReadClipboard">Считать из системного буфера</Phrase>
     <Phrase key="btnRemove">Удалить (Del)</Phrase>
     <Phrase key="btnPointer">Указатель (Esc)</Phrase>
     <Phrase key="btnAlign">Выровнять</Phrase>
