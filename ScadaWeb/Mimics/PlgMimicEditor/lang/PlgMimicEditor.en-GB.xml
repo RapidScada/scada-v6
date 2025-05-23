@@ -47,6 +47,9 @@
     <Phrase key="btnCut">Cut (Ctrl + X)</Phrase>
     <Phrase key="btnCopy">Copy (Ctrl + C)</Phrase>
     <Phrase key="btnPaste">Paste (Ctrl + V)</Phrase>
+    <Phrase key="btnClipboard">Clipboard</Phrase>
+    <Phrase key="btnWriteClipboard">Write to System Clipboard</Phrase>
+    <Phrase key="btnReadClipboard">Read from System Clipboard</Phrase>
     <Phrase key="btnRemove">Remove (Del)</Phrase>
     <Phrase key="btnPointer">Pointer Tool (Esc)</Phrase>
     <Phrase key="btnAlign">Align</Phrase>
