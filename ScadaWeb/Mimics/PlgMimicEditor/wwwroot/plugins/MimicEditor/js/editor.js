@@ -364,6 +364,8 @@ class LongAction {
 
 // Represents a clipboard for copying and pasting components.
 class MimicClipboard {
+    static _MARKER = "MimicEditor";
+
     _isEmpty;
     _clipboardData;
     _componentJsons;
@@ -396,6 +398,7 @@ class MimicClipboard {
 
     static _validate(clipboardData) {
         return clipboardData &&
+            clipboardData.marker === MimicClipboard._MARKER &&
             Array.isArray(clipboardData.components) &&
             Number.isInteger(clipboardData.parentID) &&
             clipboardData.offset instanceof Object;
@@ -434,6 +437,7 @@ class MimicClipboard {
         // write to system buffer
         try {
             await navigator.clipboard.writeText(JSON.stringify({
+                marker: MimicClipboard._MARKER,
                 components: plainObjects,
                 parentID: this._parentID,
                 offset: this._offset
