@@ -1,5 +1,5 @@
 ﻿// Contains classes: AlingActionType, ArrangeActionType, ChangeType, DragType, LongActionType, MessageType,
-//     ToolbarButton, Change, UpdateDto, LongAction, MimicClipboard
+//     ToolbarButton, Change, UpdateDto, LongAction, MimicClipboard, HistoryChange, HistoryPoint, History
 // Depends on mimic-model.js
 
 // Specifies the action types for component alignment.
@@ -465,5 +465,77 @@ class MimicClipboard {
 
         // return plain objects that are not instances of Component
         return this._componentJsons.map(j => JSON.parse(j));
+    }
+}
+
+// Represents a change in history.
+class HistoryChange extends Change {
+    oldObjectJsons = null;
+    newObjectJsons = null;
+    oldChildIndexes = null;
+    newChildIndexes = null;
+
+    constructor(source) {
+        Object.assign(this, source);
+    }
+}
+
+// Represents a single point in history.
+class HistoryPoint {
+    changes = [];
+
+    constructor(...changes) {
+        if (changes) {
+            this.changes.push(...changes);
+        }
+    }
+
+    toReversed() {
+
+    }
+}
+
+// Contains the history of mimic changes.
+class History {
+    static _MAX_SIZE = 20; // maximum number of history points
+
+    points;    // history points
+    headIndex; // index to add new points
+
+    constructor() {
+        this.clear();
+    }
+
+    get canUndo() {
+
+    }
+
+    get canRedo() {
+
+    }
+
+    clear() {
+        this.points = [];
+        this.headIndex = 0;
+    }
+
+    rememberDocument(mimic, updateExisting) {
+
+    }
+
+    rememberComponent(component, updateExisting) {
+
+    }
+
+    addPoint(mimic, point) {
+
+    }
+
+    getUndoPoint() {
+
+    }
+
+    getRedoPoint() {
+
     }
 }
