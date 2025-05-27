@@ -13,7 +13,8 @@ const mimic = new rs.mimic.Mimic();
 const unitedRenderer = new rs.mimic.UnitedRenderer(mimic, true);
 const updateQueue = [];
 const toastMessages = new Set();
-const clipboard = new MimicClipboard();
+const mimicHistory = new MimicHistory();
+const mimicClipboard = new MimicClipboard();
 
 // Set in MimicEdit.cshtml and MimicEditLang.cshtml
 var rootPath = "/";
@@ -354,11 +355,13 @@ async function save() {
 }
 
 function undo() {
-
+    applyHistoryPoint(mimicHistory.getUndoPoint());
+    setButtonsEnabled(EnabledDependsOn.HISTORY);
 }
 
 function redo() {
-
+    applyHistoryPoint(mimicHistory.getRedoPoint());
+    setButtonsEnabled(EnabledDependsOn.HISTORY);
 }
 
 function cut() {
@@ -381,13 +384,13 @@ async function copy() {
     let componentIDs = selectedComponents.map(c => c.id);
     console.log("Copy components with IDs " + componentIDs.join(", "));
 
-    await clipboard.writeComponents(selectedComponents);
+    await mimicClipboard.writeComponents(selectedComponents);
     setEnabled(ToolbarButton.PASTE, true);
     return true;
 }
 
 function paste() {
-    if (!clipboard.isEmpty) {
+    if (!mimicClipboard.isEmpty) {
         startLongAction(LongAction.paste());
     }
 }
@@ -642,17 +645,26 @@ function arrange(actionType) {
     }
 }
 
-function setButtonsEnabled(opt_dependsOnSelection) {
-    let oneSelected = selectedComponents.length >= 1;
-    let twoSelected = selectedComponents.length >= 2;
-    setEnabled(ToolbarButton.CUT, oneSelected);
-    setEnabled(ToolbarButton.COPY, oneSelected);
-    setEnabled(ToolbarButton.REMOVE, oneSelected);
-    setEnabled(ToolbarButton.ALIGN, twoSelected);
-    setEnabled(ToolbarButton.ARRANGE, oneSelected);
+function setButtonsEnabled(opt_dependsOn) {
+    let dependsOn = opt_dependsOn ?? EnabledDependsOn.NOT_SPECIFIED;
 
-    if (!opt_dependsOnSelection) {
-        setEnabled(ToolbarButton.PASTE, !clipboard.isEmpty);
+    if (dependsOn === EnabledDependsOn.NOT_SPECIFIED || dependsOn === EnabledDependsOn.SELECTION) {
+        let oneSelected = selectedComponents.length >= 1;
+        let twoSelected = selectedComponents.length >= 2;
+        setEnabled(ToolbarButton.CUT, oneSelected);
+        setEnabled(ToolbarButton.COPY, oneSelected);
+        setEnabled(ToolbarButton.REMOVE, oneSelected);
+        setEnabled(ToolbarButton.ALIGN, twoSelected);
+        setEnabled(ToolbarButton.ARRANGE, oneSelected);
+    }
+
+    if (dependsOn === EnabledDependsOn.NOT_SPECIFIED || dependsOn === EnabledDependsOn.HISTORY) {
+        setEnabled(ToolbarButton.UNDO, mimicHistory.canUndo);
+        setEnabled(ToolbarButton.REDO, mimicHistory.canRedo);
+    }
+
+    if (dependsOn === EnabledDependsOn.NOT_SPECIFIED) {
+        setEnabled(ToolbarButton.PASTE, !mimicClipboard.isEmpty);
         setEnabled(ToolbarButton.POINTER, LongActionType.isPointing(longAction?.actionType));
     }
 }
@@ -757,10 +769,23 @@ function removeImage(imageName) {
     pushChanges(Change.removeImage(imageName));
 }
 
+function applyHistoryPoint(historyPoint) {
+    if (!historyPoint) {
+        return;
+    }
+}
+
+function clearHistory() {
+    mimicHistory.clear();
+    setEnabled(ToolbarButton.UNDO, false);
+    setEnabled(ToolbarButton.REDO, false);
+}
+
 function selectMimic() {
     clearSelection();
     structTree.selectMimic();
     propGrid.selectedObject = mimic;
+    mimicHistory.rememberDocument(mimic, false);
     console.log("Mimic selected");
 }
 
@@ -773,7 +798,7 @@ function selectNone() {
 function clearSelection() {
     selectedComponents.forEach(c => c.dom?.removeClass("selected"));
     selectedComponents = [];
-    setButtonsEnabled(true);
+    setButtonsEnabled(EnabledDependsOn.SELECTION);
 }
 
 function selectComponent(compElem) {
@@ -789,9 +814,10 @@ function addToSelection(compElem) {
     if (component) {
         component.dom?.addClass("selected");
         selectedComponents.push(component)
-        setButtonsEnabled(true);
+        setButtonsEnabled(EnabledDependsOn.SELECTION);
         structTree.addToSelection(component);
         propGrid.selectedObjects = selectedComponents;
+        mimicHistory.rememberComponent(component, false);
         console.log(`Component with ID ${component.id} selected`);
     }
 }
@@ -803,7 +829,7 @@ function removeFromSelection(compElem) {
     if (index >= 0) {
         component.dom?.removeClass("selected");
         selectedComponents.splice(index, 1);
-        setButtonsEnabled(true);
+        setButtonsEnabled(EnabledDependsOn.SELECTION);
         structTree.removeFromSelection(component);
         propGrid.selectedObjects = selectedComponents;
         console.log(`Component with ID ${component.id} removed from selection`);
@@ -814,7 +840,7 @@ function selectComponents(components) {
     clearSelection();
     components.forEach(c => c.dom?.addClass("selected"));
     selectedComponents = components;
-    setButtonsEnabled(true);
+    setButtonsEnabled(EnabledDependsOn.SELECTION);
     structTree.selectComponents(selectedComponents);
     propGrid.selectedObjects = selectedComponents;
 
@@ -999,7 +1025,7 @@ async function pasteComponents(parentID, point) {
         (parentID > 0 ? ` inside component ${parentID}` : ""));
 
     let parent = parentID > 0 ? mimic.componentMap.get(parentID) : mimic;
-    let sourceComponents = await clipboard.readComponents();
+    let sourceComponents = await mimicClipboard.readComponents();
 
     if (!parent) {
         console.error("Parent not found.");
@@ -1019,9 +1045,9 @@ async function pasteComponents(parentID, point) {
     for (let sourceComponent of sourceComponents) {
         let componentCopy = mimic.createComponent(sourceComponent);
 
-        if (componentCopy.parentID === clipboard.parentID) {
-            componentCopy.x -= clipboard.offset.x;
-            componentCopy.y -= clipboard.offset.y;
+        if (componentCopy.parentID === mimicClipboard.parentID) {
+            componentCopy.x -= mimicClipboard.offset.x;
+            componentCopy.y -= mimicClipboard.offset.y;
             topComponents.push(componentCopy);
         } else {
             childComponents.push(componentCopy);
@@ -1325,6 +1351,7 @@ function pushChanges(...changes) {
     if (changes.length > 0) {
         let updateDto = new UpdateDto(mimicKey, ...changes);
         updateQueue.push(updateDto);
+        mimicHistory.addPoint(mimic, ...changes);
     }
 }
 
@@ -1385,6 +1412,7 @@ async function handleQueueEmpty() {
         showToast(phrases.mimicReload, MessageType.WARNING);
         clearSelection();
         clearLongAction();
+        clearHistory();
         await loadMimic();
     }
 }
@@ -1569,7 +1597,7 @@ $(async function () {
     initPropGrid();
     initModals();
     translateProperties();
-    await clipboard.defineEmptiness();
+    await mimicClipboard.defineEmptiness();
     await loadMimic();
     await startUpdatingBackend();
 });

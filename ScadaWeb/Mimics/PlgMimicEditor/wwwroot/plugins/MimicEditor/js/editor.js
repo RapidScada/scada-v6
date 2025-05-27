@@ -1,5 +1,6 @@
-﻿// Contains classes: AlingActionType, ArrangeActionType, ChangeType, DragType, LongActionType, MessageType,
-//     ToolbarButton, Change, UpdateDto, LongAction, MimicClipboard, HistoryChange, HistoryPoint, History
+﻿// Contains classes: AlingActionType, ArrangeActionType, ChangeType, DragType, EnabledDependsOn, LongActionType,
+//     MessageType, ToolbarButton, Change, UpdateDto, LongAction, MimicClipboard, 
+//     HistoryChange, HistoryPoint, MimicHistory
 // Depends on mimic-model.js
 
 // Specifies the action types for component alignment.
@@ -132,6 +133,13 @@ class DragType {
             dragType === DragType.RESIZE_BOT_LEFT ||
             dragType === DragType.RESIZE_BOT_RIGHT;
     }
+}
+
+// Specifies the categories on which the availability of the toolbar buttons depends.
+class EnabledDependsOn {
+    static NOT_SPECIFIED = 0;
+    static SELECTION = 1;
+    static HISTORY = 2;
 }
 
 // Specifies the long action types.
@@ -486,7 +494,13 @@ class HistoryPoint {
 
     constructor(...changes) {
         if (changes) {
-            this.changes.push(...changes);
+            for (let change of changes) {
+                if (change instanceof HistoryChange) {
+                    this.changes.push(change)
+                } else if (change instanceof Change) {
+                    this.changes.push(new HistoryChange(change))
+                }
+            }
         }
     }
 
@@ -496,7 +510,7 @@ class HistoryPoint {
 }
 
 // Contains the history of mimic changes.
-class History {
+class MimicHistory {
     static _MAX_SIZE = 20; // maximum number of history points
 
     points;    // history points
@@ -507,11 +521,11 @@ class History {
     }
 
     get canUndo() {
-
+        return true;
     }
 
     get canRedo() {
-
+        return true;
     }
 
     clear() {
@@ -519,15 +533,15 @@ class History {
         this.headIndex = 0;
     }
 
-    rememberDocument(mimic, updateExisting) {
+    rememberDocument(mimic, overwriteExisting) {
 
     }
 
-    rememberComponent(component, updateExisting) {
+    rememberComponent(component, overwriteExisting) {
 
     }
 
-    addPoint(mimic, point) {
+    addPoint(mimic, ...changes) {
 
     }
 
