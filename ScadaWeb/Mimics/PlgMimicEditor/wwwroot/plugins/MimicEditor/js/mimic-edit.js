@@ -786,8 +786,8 @@ function restoreHistoryPoint(historyPoint) {
 
     console.log("Restore history point");
 
-    for (let change of historyPoint.changes) {
-        switch (change.changeType) {
+    for (let historyChange of historyPoint.changes) {
+        switch (historyChange.changeType) {
             case ChangeType.UPDATE_DOCUMENT:
                 break;
 
