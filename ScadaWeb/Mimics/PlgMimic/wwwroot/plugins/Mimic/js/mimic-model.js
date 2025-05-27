@@ -187,9 +187,11 @@ rs.mimic.MimicBase = class {
 
     // Creates a copy of the component containing only the main properties.
     copyComponent(source) {
-        return this.createComponent(source instanceof rs.mimic.Component
-            ? source.toPlainObject()
-            : ScadaUtils.deepClone(source));
+        if (source instanceof rs.mimic.Component) {
+            source = source.toPlainObject();
+        }
+
+        return this.createComponent(ScadaUtils.deepClone(source));
     }
 }
 

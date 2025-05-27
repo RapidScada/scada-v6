@@ -308,11 +308,11 @@ class UpdateDto {
     mimicKey;
     changes = [];
 
-    constructor(mimicKey, ...changes) {
+    constructor(mimicKey, opt_changes) {
         this.mimicKey = mimicKey;
 
-        if (changes) {
-            this.changes.push(...changes);
+        if (opt_changes) {
+            this.changes.push(...opt_changes);
         }
     }
 }
@@ -372,7 +372,7 @@ class LongAction {
 
 // Represents a clipboard for copying and pasting components.
 class MimicClipboard {
-    static _MARKER = "MimicEditor";
+    static MARKER = "MimicEditor";
 
     _isEmpty;
     _clipboardData;
@@ -406,7 +406,7 @@ class MimicClipboard {
 
     static _validate(clipboardData) {
         return clipboardData &&
-            clipboardData.marker === MimicClipboard._MARKER &&
+            clipboardData.marker === MimicClipboard.MARKER &&
             Array.isArray(clipboardData.components) &&
             Number.isInteger(clipboardData.parentID) &&
             clipboardData.offset instanceof Object;
@@ -445,7 +445,7 @@ class MimicClipboard {
         // write to system buffer
         try {
             await navigator.clipboard.writeText(JSON.stringify({
-                marker: MimicClipboard._MARKER,
+                marker: MimicClipboard.MARKER,
                 components: plainObjects,
                 parentID: this._parentID,
                 offset: this._offset
@@ -484,72 +484,144 @@ class HistoryChange extends Change {
     newChildIndexes = null;
 
     constructor(source) {
+        super("");
         Object.assign(this, source);
     }
 }
 
 // Represents a single point in history.
 class HistoryPoint {
-    changes = [];
+    changes = []; // instances of HistoryChange class
 
-    constructor(...changes) {
+    constructor(changes) {
         if (changes) {
-            for (let change of changes) {
-                if (change instanceof HistoryChange) {
-                    this.changes.push(change)
-                } else if (change instanceof Change) {
-                    this.changes.push(new HistoryChange(change))
-                }
-            }
+            this.changes.push(...changes);
         }
     }
 
     toReversed() {
-
+        return null;
     }
 }
 
 // Contains the history of mimic changes.
 class MimicHistory {
-    static _MAX_SIZE = 20; // maximum number of history points
+    static MAX_SIZE = 20; // maximum number of history points
 
-    points;    // history points
-    headIndex; // index to add new points
+    _points;           // history points
+    _headIndex;        // index to add new points
+    _documentJson;     // chached mimic document as a JSON string
+    _componentJsonMap; // cached components as JSON strings accessible by ID
 
     constructor() {
         this.clear();
     }
 
     get canUndo() {
-        return true;
+        return this._headIndex > 0;
     }
 
     get canRedo() {
-        return true;
+        return this._headIndex < this._points.length;
+    }
+
+    _fillChangeData(change, mimic) {
+        switch (change.changeType) {
+            case ChangeType.UPDATE_DOCUMENT:
+                change.newObjectJsons = [JSON.stringify(mimic.document)];
+                change.oldObjectJsons = [this._documentJson];
+                this.rememberDocument(mimic, true);
+                break;
+
+            case ChangeType.ADD_COMPONENT:
+                break;
+
+            case ChangeType.UPDATE_COMPONENT:
+                break;
+
+            case ChangeType.REMOVE_COMPONENT:
+                break;
+
+            case ChangeType.UPDATE_PARENT:
+                break;
+
+            case ChangeType.ARRANGE_COMPONENT:
+                break;
+        }
     }
 
     clear() {
-        this.points = [];
-        this.headIndex = 0;
+        this._points = [];
+        this._headIndex = 0;
+        this._documentJson = null;
+        this._componentJsonMap = new Map();
     }
 
     rememberDocument(mimic, overwriteExisting) {
-
+        if (overwriteExisting || !this._documentJson) {
+            this._documentJson = JSON.stringify(mimic.document);
+        }
     }
 
     rememberComponent(component, overwriteExisting) {
-
+        if (overwriteExisting || !this._componentJsonMap.has(component.id)) {
+            this._componentJsonMap.set(component.id, JSON.stringify(component.toPlainObject()));
+        }
     }
 
-    addPoint(mimic, ...changes) {
+    addPoint(mimic, changes) {
+        // prepare history changes
+        let historyChanges = [];
 
+        for (let change of changes) {
+            if (change instanceof HistoryChange) {
+                historyChanges.push(change);
+            } else if (change instanceof Change) {
+                let historyChange = new HistoryChange(change);
+                this._fillChangeData(historyChange, mimic);
+                historyChanges.push(historyChange);
+            }
+        }
+
+        if (historyChanges.length > 0) {
+            // remove history points after head index
+            if (this._headIndex < this._points.length) {
+                this._points.length = this._headIndex;
+            }
+
+            // add history point
+            let point = new HistoryPoint(historyChanges);
+            this._points.push(point);
+
+            // remove history points if history size exceeded
+            let removeCount = this._points.length - MimicHistory.MAX_SIZE;
+
+            if (removeCount > 0) {
+                this._points.splice(0, removeCount);
+            }
+
+            // update head index
+            this._headIndex = this._points.length;
+        }
     }
 
     getUndoPoint() {
-
+        if (this._headIndex > 0) {
+            this._headIndex--;
+            let point = points[this._headIndex];
+            return point.toReversed();
+        } else {
+            return null;
+        }
     }
 
     getRedoPoint() {
-
+        if (this._headIndex < this._points.length) {
+            let point = points[this._headIndex];
+            this._headIndex++;
+            return point;
+        } else {
+            return null;
+        }
     }
 }

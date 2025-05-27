@@ -1349,9 +1349,9 @@ function getUpdaterUrl() {
 
 function pushChanges(...changes) {
     if (changes.length > 0) {
-        let updateDto = new UpdateDto(mimicKey, ...changes);
+        let updateDto = new UpdateDto(mimicKey, changes);
         updateQueue.push(updateDto);
-        mimicHistory.addPoint(mimic, ...changes);
+        mimicHistory.addPoint(mimic, changes);
     }
 }
 
