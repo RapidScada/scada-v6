@@ -355,12 +355,12 @@ async function save() {
 }
 
 function undo() {
-    applyHistoryPoint(mimicHistory.getUndoPoint());
+    restoreHistoryPoint(mimicHistory.getUndoPoint());
     setButtonsEnabled(EnabledDependsOn.HISTORY);
 }
 
 function redo() {
-    applyHistoryPoint(mimicHistory.getRedoPoint());
+    restoreHistoryPoint(mimicHistory.getRedoPoint());
     setButtonsEnabled(EnabledDependsOn.HISTORY);
 }
 
@@ -769,16 +769,44 @@ function removeImage(imageName) {
     pushChanges(Change.removeImage(imageName));
 }
 
-function applyHistoryPoint(historyPoint) {
-    if (!historyPoint) {
-        return;
-    }
+function addToHistory(changes) {
+    mimicHistory.addPoint(mimic, changes);
+    setButtonsEnabled(EnabledDependsOn.HISTORY);
 }
 
 function clearHistory() {
     mimicHistory.clear();
-    setEnabled(ToolbarButton.UNDO, false);
-    setEnabled(ToolbarButton.REDO, false);
+    setButtonsEnabled(EnabledDependsOn.HISTORY);
+}
+
+function restoreHistoryPoint(historyPoint) {
+    if (!historyPoint) {
+        return;
+    }
+
+    console.log("Restore history point");
+
+    for (let change of historyPoint.changes) {
+        switch (change.changeType) {
+            case ChangeType.UPDATE_DOCUMENT:
+                break;
+
+            case ChangeType.ADD_COMPONENT:
+                break;
+
+            case ChangeType.UPDATE_COMPONENT:
+                break;
+
+            case ChangeType.REMOVE_COMPONENT:
+                break;
+
+            case ChangeType.UPDATE_PARENT:
+                break;
+
+            case ChangeType.ARRANGE_COMPONENT:
+                break;
+        }
+    }
 }
 
 function selectMimic() {
@@ -1351,7 +1379,7 @@ function pushChanges(...changes) {
     if (changes.length > 0) {
         let updateDto = new UpdateDto(mimicKey, changes);
         updateQueue.push(updateDto);
-        mimicHistory.addPoint(mimic, changes);
+        addToHistory(changes);
     }
 }
 

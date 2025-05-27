@@ -61,7 +61,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Models
         {
             return ObjectID > 0
                 ? [ObjectID]
-                : ObjectIDs;
+                : (ObjectIDs ?? []);
         }
 
         /// <summary>

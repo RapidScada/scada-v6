@@ -208,6 +208,12 @@ class Change {
         }
     }
 
+    getObjectIDs() {
+        return this.objectID > 0
+            ? [this.objectID]
+            : (this.objectIDs ?? []);
+    }
+
     setProperty(propertyName, value) {
         if (typeof this.properties === "undefined") {
             this.properties = {};
@@ -500,7 +506,54 @@ class HistoryPoint {
     }
 
     toReversed() {
-        return null;
+        let reversedChanges = [];
+
+        for (let change of this.changes) {
+            switch (change.changeType) {
+                case ChangeType.UPDATE_DOCUMENT:
+                    reversedChanges.push(new HistoryChange({
+                        changeType: ChangeType.UPDATE_DOCUMENT,
+                        oldObjectJsons: change.newObjectJsons,
+                        newObjectJsons: change.oldObjectJsons
+                    }));
+                    break;
+
+                case ChangeType.ADD_COMPONENT:
+                    reversedChanges.push(new HistoryChange({
+                        changeType: ChangeType.REMOVE_COMPONENT,
+                        objectIDs: change.objectIDs,
+                        oldObjectJsons: change.newObjectJsons
+                    }));
+                    break;
+
+                case ChangeType.UPDATE_COMPONENT:
+                    reversedChanges.push(new HistoryChange({
+                        changeType: ChangeType.UPDATE_COMPONENT,
+                        objectIDs: change.objectIDs,
+                        oldObjectJsons: change.newObjectJsons,
+                        newObjectJsons: change.oldObjectJsons
+                    }));
+                    break;
+
+                case ChangeType.REMOVE_COMPONENT:
+                    reversedChanges.push(new HistoryChange({
+                        changeType: ChangeType.ADD_COMPONENT,
+                        objectIDs: change.objectIDs,
+                        newObjectJsons: change.oldObjectJsons
+                    }));
+                    break;
+
+                case ChangeType.UPDATE_PARENT:
+                    break;
+
+                case ChangeType.ARRANGE_COMPONENT:
+                    break;
+            }
+        }
+
+        return reversedChanges.length > 0
+            ? new HistoryPoint(reversedChanges)
+            : null;
     }
 }
 
@@ -526,20 +579,31 @@ class MimicHistory {
     }
 
     _fillChangeData(change, mimic) {
+        if (!change.objectIDs) {
+            change.objectIDs = change.getObjectIDs();
+        }
+
         switch (change.changeType) {
             case ChangeType.UPDATE_DOCUMENT:
-                change.newObjectJsons = [JSON.stringify(mimic.document)];
+                let documentJson = JSON.stringify(mimic.document);
+                change.newObjectJsons = [documentJson];
                 change.oldObjectJsons = [this._documentJson];
-                this.rememberDocument(mimic, true);
+                this._documentJson = documentJson;
                 break;
 
             case ChangeType.ADD_COMPONENT:
+                change.newObjectJsons = this._getComponentJsonsFromMimic(change.objectIDs, mimic);
+                this._updateComponentCache(change.objectIDs, change.newObjectJsons);
                 break;
 
             case ChangeType.UPDATE_COMPONENT:
+                change.oldObjectJsons = this._getComponentJsonsFromCache(change.objectIDs);
+                change.newObjectJsons = this._getComponentJsonsFromMimic(change.objectIDs, mimic);
+                this._updateComponentCache(change.objectIDs, change.newObjectJsons);
                 break;
 
             case ChangeType.REMOVE_COMPONENT:
+                change.oldObjectJsons = this._getComponentJsonsFromCache(change.objectIDs);
                 break;
 
             case ChangeType.UPDATE_PARENT:
@@ -548,6 +612,20 @@ class MimicHistory {
             case ChangeType.ARRANGE_COMPONENT:
                 break;
         }
+    }
+
+    _getComponentJsonsFromCache(componentIDs) {
+        return componentIDs.map(id => this._componentJsonMap.get(id));
+    }
+
+    _getComponentJsonsFromMimic(componentIDs, mimic) {
+        return componentIDs.map(id => JSON.stringify(mimic.componentMap.get(id).toPlainObject()));
+    }
+
+    _updateComponentCache(componentIDs, componentJsons) {
+        componentIDs.forEach((id, index) => {
+            this._componentJsonMap.set(id, componentJsons[index]);
+        });
     }
 
     clear() {
@@ -608,7 +686,7 @@ class MimicHistory {
     getUndoPoint() {
         if (this._headIndex > 0) {
             this._headIndex--;
-            let point = points[this._headIndex];
+            let point = this._points[this._headIndex];
             return point.toReversed();
         } else {
             return null;
@@ -617,7 +695,7 @@ class MimicHistory {
 
     getRedoPoint() {
         if (this._headIndex < this._points.length) {
-            let point = points[this._headIndex];
+            let point = this._points[this._headIndex];
             this._headIndex++;
             return point;
         } else {
