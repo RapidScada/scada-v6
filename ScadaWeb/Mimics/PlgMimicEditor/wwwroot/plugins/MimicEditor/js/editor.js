@@ -179,7 +179,7 @@ class ToolbarButton {
     static ARRANGE = "button.rs-btn-arrange";
 }
 
-// Represents a change in a mimic.
+// Represents a change in a mimic for data transfer.
 class Change {
     static MAX_SHIFT = 1000000;
 
