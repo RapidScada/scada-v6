@@ -483,14 +483,15 @@ class MimicClipboard {
 }
 
 // Represents a change in history.
-class HistoryChange extends Change {
-    oldObjectJsons = null;
-    newObjectJsons = null;
-    oldChildIndexes = null;
-    newChildIndexes = null;
+class HistoryChange {
+    changeType = "";
+    objectID = null;
+    oldObjectJson = null;
+    newObjectJson = null;
+    oldChildIndex = null;
+    newChildIndex = null;
 
     constructor(source) {
-        super("");
         Object.assign(this, source);
     }
 }
@@ -513,33 +514,33 @@ class HistoryPoint {
                 case ChangeType.UPDATE_DOCUMENT:
                     reversedChanges.push(new HistoryChange({
                         changeType: ChangeType.UPDATE_DOCUMENT,
-                        oldObjectJsons: change.newObjectJsons,
-                        newObjectJsons: change.oldObjectJsons
+                        oldObjectJson: change.newObjectJson,
+                        newObjectJson: change.oldObjectJson
                     }));
                     break;
 
                 case ChangeType.ADD_COMPONENT:
                     reversedChanges.push(new HistoryChange({
                         changeType: ChangeType.REMOVE_COMPONENT,
-                        objectIDs: change.objectIDs,
-                        oldObjectJsons: change.newObjectJsons
+                        objectID: change.objectID,
+                        oldObjectJson: change.newObjectJson
                     }));
                     break;
 
                 case ChangeType.UPDATE_COMPONENT:
                     reversedChanges.push(new HistoryChange({
                         changeType: ChangeType.UPDATE_COMPONENT,
-                        objectIDs: change.objectIDs,
-                        oldObjectJsons: change.newObjectJsons,
-                        newObjectJsons: change.oldObjectJsons
+                        objectID: change.objectID,
+                        oldObjectJson: change.newObjectJson,
+                        newObjectJson: change.oldObjectJson
                     }));
                     break;
 
                 case ChangeType.REMOVE_COMPONENT:
                     reversedChanges.push(new HistoryChange({
                         changeType: ChangeType.ADD_COMPONENT,
-                        objectIDs: change.objectIDs,
-                        newObjectJsons: change.oldObjectJsons
+                        objectID: change.objectID,
+                        newObjectJson: change.oldObjectJson
                     }));
                     break;
 
@@ -578,54 +579,78 @@ class MimicHistory {
         return this._headIndex < this._points.length;
     }
 
-    _fillChangeData(change, mimic) {
-        if (!change.objectIDs) {
-            change.objectIDs = change.getObjectIDs();
+    _createHistoryChanges(mimicChange, mimic) {
+        let historyChanges = [];
+
+        switch (mimicChange.changeType) {
+            case ChangeType.UPDATE_DOCUMENT: {
+                let oldDocumentJson = this._documentJson;
+                let newDocumentJson = JSON.stringify(mimic.document);
+                this._documentJson = newDocumentJson;
+
+                historyChanges.push(new HistoryChange({
+                    changeType: ChangeType.UPDATE_DOCUMENT,
+                    oldObjectJson: oldDocumentJson,
+                    newObjectJson: newDocumentJson
+                }));
+
+                break;
+            }
+            case ChangeType.ADD_COMPONENT: {
+                let componentID = mimicChange.objectID;
+                let componentJson = this_._getComponentJsonFromMimic(componentID, mimic);
+                this._componentJsonMap.set(componentID, componentJson);
+
+                historyChanges.push(new HistoryChange({
+                    changeType: ChangeType.ADD_COMPONENT,
+                    newObjectJson: componentJson
+                }));
+
+                break;
+            }
+            case ChangeType.UPDATE_COMPONENT: {
+                for (let componentID of mimicChange.getObjectIDs()) {
+                    let oldComponentJson = this._getComponentJsonFromCache(componentID);
+                    let newComponentJson = this._getComponentJsonFromMimic(componentID, mimic);
+                    this._componentJsonMap.set(componentID, newComponentJson);
+
+                    historyChanges.push(new HistoryChange({
+                        changeType: ChangeType.UPDATE_COMPONENT,
+                        oldObjectJson: oldComponentJson,
+                        newObjectJson: newComponentJson
+                    }));
+                }
+
+                break;
+            }
+            case ChangeType.REMOVE_COMPONENT: {
+                for (let componentID of mimicChange.getObjectIDs()) {
+                    historyChanges.push(new HistoryChange({
+                        changeType: ChangeType.REMOVE_COMPONENT,
+                        oldObjectJson: this._getComponentJsonFromCache(componentID)
+                    }));
+                }
+
+                break;
+            }
+            case ChangeType.UPDATE_PARENT: {
+                break;
+            }
+            case ChangeType.ARRANGE_COMPONENT: {
+                break;
+            }
         }
 
-        switch (change.changeType) {
-            case ChangeType.UPDATE_DOCUMENT:
-                let documentJson = JSON.stringify(mimic.document);
-                change.newObjectJsons = [documentJson];
-                change.oldObjectJsons = [this._documentJson];
-                this._documentJson = documentJson;
-                break;
-
-            case ChangeType.ADD_COMPONENT:
-                change.newObjectJsons = this._getComponentJsonsFromMimic(change.objectIDs, mimic);
-                this._updateComponentCache(change.objectIDs, change.newObjectJsons);
-                break;
-
-            case ChangeType.UPDATE_COMPONENT:
-                change.oldObjectJsons = this._getComponentJsonsFromCache(change.objectIDs);
-                change.newObjectJsons = this._getComponentJsonsFromMimic(change.objectIDs, mimic);
-                this._updateComponentCache(change.objectIDs, change.newObjectJsons);
-                break;
-
-            case ChangeType.REMOVE_COMPONENT:
-                change.oldObjectJsons = this._getComponentJsonsFromCache(change.objectIDs);
-                break;
-
-            case ChangeType.UPDATE_PARENT:
-                break;
-
-            case ChangeType.ARRANGE_COMPONENT:
-                break;
-        }
+        return historyChanges;
     }
 
-    _getComponentJsonsFromCache(componentIDs) {
-        return componentIDs.map(id => this._componentJsonMap.get(id));
+    _getComponentJsonFromCache(componentID) {
+        return this._componentJsonMap.get(componentID);
     }
 
-    _getComponentJsonsFromMimic(componentIDs, mimic) {
-        return componentIDs.map(id => JSON.stringify(mimic.componentMap.get(id).toPlainObject()));
-    }
-
-    _updateComponentCache(componentIDs, componentJsons) {
-        componentIDs.forEach((id, index) => {
-            this._componentJsonMap.set(id, componentJsons[index]);
-        });
+    _getComponentJsonFromMimic(componentID, mimic) {
+        let plainObject = mimic.componentMap.get(componentID)?.toPlainObject();
+        return plainObject ? JSON.stringify(plainObject) : null;
     }
 
     clear() {
@@ -647,17 +672,13 @@ class MimicHistory {
         }
     }
 
-    addPoint(mimic, changes) {
-        // prepare history changes
+    addPoint(mimic, mimicChanges) {
+        // create history changes
         let historyChanges = [];
 
-        for (let change of changes) {
-            if (change instanceof HistoryChange) {
-                historyChanges.push(change);
-            } else if (change instanceof Change) {
-                let historyChange = new HistoryChange(change);
-                this._fillChangeData(historyChange, mimic);
-                historyChanges.push(historyChange);
+        for (let mimicChange of mimicChanges) {
+            if (mimicChange instanceof Change) {
+                historyChanges.push(...this._createHistoryChanges(mimicChange, mimic));
             }
         }
 
