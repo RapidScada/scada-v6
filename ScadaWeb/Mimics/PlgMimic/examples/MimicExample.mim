@@ -1,11 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Mimic xmlns:basic="urn:rapidscada:mimic:basic">
+<Mimic editorVersion="6.0.0.0" xmlns:basic="urn:rapidscada:mimic:basic">
   <Dependencies>
     <Faceplate typeName="MyFaceplate" path="FaceplateExample.fp" />
   </Dependencies>
 
   <Document>
-    <EditorVersion>6.0.0.0</EditorVersion>
     <Size>
       <Width>500</Width>
       <Height>400</Height>

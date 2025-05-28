@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Faceplate>
+<Faceplate editorVersion="6.0.0.0">
   <Document>
-    <EditorVersion>6.0.0.0</EditorVersion>
     <Size>
       <Width>100</Width>
       <Height>100</Height>

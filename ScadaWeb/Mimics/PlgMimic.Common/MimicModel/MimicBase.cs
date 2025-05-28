@@ -104,6 +104,8 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
             XmlElement componentsElem = rootElem.AppendElem("Components");
             XmlElement imagesElem = rootElem.AppendElem("Images");
 
+            rootElem.SetAttribute("editorVersion", GetType().Assembly.GetName().Version);
+
             foreach (FaceplateMeta faceplateMeta in Dependencies.OrderBy(d => d.TypeName))
             {
                 faceplateMeta.SaveToXml(dependenciesElem.AppendElem("Faceplate"));
