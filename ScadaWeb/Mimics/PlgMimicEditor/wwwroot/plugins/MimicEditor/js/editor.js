@@ -189,6 +189,7 @@ class Change {
     objectName = "";
     properties = null;
     parentID = 0;
+    index = -1;
     shift = 0;
     siblingID = 0;
 
@@ -249,7 +250,8 @@ class Change {
         change.properties = Object.assign({}, component.properties);
         change.properties.name = component.name;
         change.properties.typeName = component.typeName;
-        change.properties.parentID = component.parentID;
+        change.parentID = component.parentID;
+        change.index = component.index;
         return change;
     }
 

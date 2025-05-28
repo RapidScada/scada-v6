@@ -44,6 +44,11 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Models
         public int ParentID { get; set; }
 
         /// <summary>
+        /// Gets or sets the index of the component among its siblings.
+        /// </summary>
+        public int Index { get; set; }
+
+        /// <summary>
         /// Gets or sets the number of steps by which the components are shifted.
         /// </summary>
         public int Shift { get; set; }

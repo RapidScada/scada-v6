@@ -502,7 +502,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
     }
 
     // Adds the component to the mimic. Returns true if the component was added.
-    addComponent(component, parent, opt_x, opt_y) {
+    addComponent(component, parent, opt_index, opt_x, opt_y) {
         if (!component || !parent || !parent.isContainer ||
             component.id <= 0 || this.componentMap.has(component.id)) {
             return false;
@@ -512,22 +512,25 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
             component.setLocation(opt_x, opt_y);
         }
 
-        component.addToParent(parent);
+        component.addToParent(parent, opt_index);
         this.components.push(component);
         this.componentMap.set(component.id, component);
         return true;
     }
 
     // Updates the parent of the component. Returns true if the parent was updated.
-    updateParent(component, parent, x, y) {
+    updateParent(component, parent, opt_index, opt_x, opt_y) {
         if (!component || !parent || !parent.isContainer || component === parent ||
             rs.mimic.MimicHelper.areRelatives(component, parent) /*component contains parent*/) {
             return false;
         }
 
+        if (opt_x && opt_y) {
+            component.setLocation(opt_x, opt_y);
+        }
+
         component.removeFromParent();
-        component.addToParent(parent);
-        component.setLocation(x, y);
+        component.addToParent(parent, opt_index);
         return true;
     }
 
@@ -673,21 +676,21 @@ rs.mimic.Component = class {
         return allChildren;
     }
 
-    addToParent(parent) {
+    addToParent(parent, opt_index) {
         if (parent?.children) {
-            this.parentID = parent?.id ?? 0;
+            this.parentID = parent.id ?? 0;
+            this.index = Number.isInteger(opt_index) && 0 <= opt_index && opt_index < parent.children.length
+                ? opt_index
+                : parent.children.length;
             this.parent = parent;
-            parent.children.push(this);
+            parent.children.splice(this.index, 0, this); // insert
         }
     }
 
     removeFromParent() {
-        if (this.parent?.children) {
-            let index = this.parent.children.indexOf(this);
-
-            if (index >= 0) {
-                this.parent.children.splice(index, 1); // delete
-            }
+        if (this.index >= 0 && this.parent?.children) {
+            this.parent.children.splice(this.index, 1); // delete
+            this.index = -1;
         }
     }
 

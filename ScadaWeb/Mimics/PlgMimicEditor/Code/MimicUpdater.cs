@@ -109,7 +109,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 ID = change.ObjectID,
                 Name = change.GetString("name"),
                 TypeName = change.GetString("typeName"),
-                ParentID = change.GetInt32("parentID")
+                ParentID = change.ParentID
             };
 
             SetComponentProperties(component, change);
@@ -117,7 +117,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             // add component
             if (GetComponentParent(component) is IContainer parent)
             {
-                parent.Components.Add(component);
+                parent.Components.Insert(change.Index, component);
                 mimic.ComponentMap.Add(component.ID, component);
             }
         }

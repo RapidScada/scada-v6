@@ -106,12 +106,26 @@ class StructTree {
         }
     }
 
-    _appendComponent(listElem, component) {
+    _appendComponent(listElem, component, opt_index) {
         let componentNode = $("<span class='node node-comp'></span>").text(component.displayName);
         let componentItem = $("<li class='item-comp'></li>")
             .attr("id", "struct-comp-item" + component.id)
             .attr("data-id", component.id)
-            .append(componentNode).appendTo(listElem);
+            .append(componentNode);
+
+        if (Number.isInteger(opt_index) && opt_index >= 0) {
+            // insert item at the specified index
+            let siblingItem = listElem.children().eq(opt_index);
+
+            if (siblingItem.length > 0) {
+                siblingItem.before(componentItem);
+            } else {
+                listElem.append(componentItem);
+            }
+        } else {
+            // append item
+            listElem.append(componentItem);
+        }
 
         if (component.isContainer) {
             let childList = $("<ul></ul>").appendTo(componentItem);
@@ -248,7 +262,7 @@ class StructTree {
             : this.structElem.find(".item-mimic>ul");
 
         if (listElem.length > 0) {
-            this._appendComponent(listElem, component);
+            this._appendComponent(listElem, component, component.index);
         }
     }
 

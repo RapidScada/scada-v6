@@ -799,7 +799,7 @@ function restoreHistoryPoint(historyPoint) {
                     let component = mimic.createComponent(componentSource);
                     let parent = component.parentID > 0 ? mimic.componentMap.get(component.parentID) : mimic;
 
-                    if (mimic.addComponent(component, parent)) {
+                    if (mimic.addComponent(component, parent, component.index)) {
                         unitedRenderer.createComponentDom(component);
                         structTree.addComponent(component);
                         changes.push(Change.addComponent(component));
@@ -1071,7 +1071,7 @@ function addComponent(typeName, parentID, point) {
         component.id = getNextComponentID();
         descriptor.repair(component);
 
-        if (mimic.addComponent(component, parent, point.x, point.y)) {
+        if (mimic.addComponent(component, parent, null, point.x, point.y)) {
             unitedRenderer.createComponentDom(component);
 
             // update structure and properties
@@ -1149,7 +1149,7 @@ async function pasteComponents(parentID, point) {
             component.applyModel(mimic.faceplateMap.get(component.typeName));
         }
 
-        mimic.addComponent(component, parent, point.x + component.x, point.y + component.y);
+        mimic.addComponent(component, parent, null, point.x + component.x, point.y + component.y);
         unitedRenderer.createComponentDom(component);
 
         structTree.addComponent(component);
@@ -1166,7 +1166,7 @@ async function pasteComponents(parentID, point) {
             let newID = getNextComponentID();
             idMap.set(component.id, newID);
             component.id = newID;
-            mimic.addComponent(component, parent, component.x, component.y);
+            mimic.addComponent(component, parent, null, component.x, component.y);
             unitedRenderer.createComponentDom(component);
 
             structTree.addComponent(component);
@@ -1230,7 +1230,7 @@ function arrangeComponents(arrangeType, componentID, opt_point) {
             let x = component.x - minLocation.x + offset.x;
             let y = component.y - minLocation.y + offset.y;
 
-            if (mimic.updateParent(component, parent, x, y)) {
+            if (mimic.updateParent(component, parent, null, x, y)) {
                 if (component.dom) {
                     component.dom.detach();
                 }
