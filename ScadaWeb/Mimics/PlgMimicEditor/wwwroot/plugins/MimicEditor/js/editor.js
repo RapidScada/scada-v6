@@ -215,10 +215,7 @@ class Change {
     }
 
     setProperty(propertyName, value) {
-        if (typeof this.properties === "undefined") {
-            this.properties = {};
-        }
-
+        this.properties ??= {};
         this.properties[propertyName] = value;
         return this;
     }
@@ -255,7 +252,11 @@ class Change {
     static updateComponent(componentID, opt_properties) {
         let change = new Change(ChangeType.UPDATE_COMPONENT);
         change._setObjectID(componentID);
-        change.properties = opt_properties;
+
+        if (opt_properties) {
+            change.properties = Object.assign({}, opt_properties);
+        }
+
         return change;
     }
 
@@ -494,6 +495,14 @@ class HistoryChange {
     constructor(source) {
         Object.assign(this, source);
     }
+
+    getOldObject() {
+        return this.oldObjectJson ? JSON.parse(this.oldObjectJson) : null;
+    }
+
+    getNewObject() {
+        return this.newObjectJson ? JSON.parse(this.newObjectJson) : null;
+    }
 }
 
 // Represents a single point in history.
@@ -603,6 +612,7 @@ class MimicHistory {
 
                 historyChanges.push(new HistoryChange({
                     changeType: ChangeType.ADD_COMPONENT,
+                    objectID: componentID,
                     newObjectJson: componentJson
                 }));
 
@@ -616,6 +626,7 @@ class MimicHistory {
 
                     historyChanges.push(new HistoryChange({
                         changeType: ChangeType.UPDATE_COMPONENT,
+                        objectID: componentID,
                         oldObjectJson: oldComponentJson,
                         newObjectJson: newComponentJson
                     }));
@@ -627,6 +638,7 @@ class MimicHistory {
                 for (let componentID of mimicChange.getObjectIDs()) {
                     historyChanges.push(new HistoryChange({
                         changeType: ChangeType.REMOVE_COMPONENT,
+                        objectID: componentID,
                         oldObjectJson: this._getComponentJsonFromCache(componentID)
                     }));
                 }

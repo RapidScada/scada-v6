@@ -785,6 +785,7 @@ function restoreHistoryPoint(historyPoint) {
     }
 
     console.log("Restore history point");
+    let changes = [];
 
     for (let historyChange of historyPoint.changes) {
         switch (historyChange.changeType) {
@@ -795,6 +796,23 @@ function restoreHistoryPoint(historyPoint) {
                 break;
 
             case ChangeType.UPDATE_COMPONENT:
+                let component = mimic.componentMap.get(historyChange.objectID);
+                let componentCopy = historyChange.getNewObject();
+
+                if (component && componentCopy) {
+                    Object.assign(component.properties, componentCopy.properties);
+                    let change = Change.updateComponent(component.id, component.properties);
+                    changes.push(change);
+
+                    if (component.name !== componentCopy.name) {
+                        component.name = componentCopy.name;
+                        change.properties.name = component.name;
+                    }
+
+                    unitedRenderer.updateComponentDom(component);
+                    structTree.updateComponent(component);
+                }
+
                 break;
 
             case ChangeType.REMOVE_COMPONENT:
@@ -807,6 +825,9 @@ function restoreHistoryPoint(historyPoint) {
                 break;
         }
     }
+
+    propGrid.refresh();
+    pushChangesNoHistory(...changes);
 }
 
 function selectMimic() {
@@ -1377,9 +1398,14 @@ function getUpdaterUrl() {
 
 function pushChanges(...changes) {
     if (changes.length > 0) {
-        let updateDto = new UpdateDto(mimicKey, changes);
-        updateQueue.push(updateDto);
+        updateQueue.push(new UpdateDto(mimicKey, changes));
         addToHistory(changes);
+    }
+}
+
+function pushChangesNoHistory(...changes) {
+    if (changes.length > 0) {
+        updateQueue.push(new UpdateDto(mimicKey, changes));
     }
 }
 
