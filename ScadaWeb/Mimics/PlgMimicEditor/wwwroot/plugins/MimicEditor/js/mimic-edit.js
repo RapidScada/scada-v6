@@ -408,10 +408,7 @@ function remove() {
     for (let componentID of componentIDs) {
         // remove component from mimic and DOM
         let component = mimic.removeComponent(componentID);
-
-        if (component && component.dom) {
-            component.dom.remove();
-        }
+        component?.dom?.remove();
 
         // update structure tree
         structTree.removeComponent(componentID);
@@ -784,35 +781,69 @@ function restoreHistoryPoint(historyPoint) {
 
     for (let historyChange of historyPoint.changes) {
         switch (historyChange.changeType) {
-            case ChangeType.UPDATE_DOCUMENT:
-                break;
+            case ChangeType.UPDATE_DOCUMENT: {
+                let documentSource = historyChange.getNewObject();
 
-            case ChangeType.ADD_COMPONENT:
-                break;
+                if (documentSource) {
+                    Object.assign(mimic.document, documentSource);
+                    unitedRenderer.updateMimicDom();
+                    changes.push(Change.updateDocument(mimic.document));
+                }
 
+                break;
+            }
+            case ChangeType.ADD_COMPONENT: {
+                let componentSource = historyChange.getNewObject();
+
+                if (componentSource) {
+                    let component = mimic.createComponent(componentSource);
+                    let parent = component.parentID > 0 ? mimic.componentMap.get(component.parentID) : mimic;
+
+                    if (mimic.addComponent(component, parent)) {
+                        unitedRenderer.createComponentDom(component);
+                        structTree.addComponent(component);
+                        changes.push(Change.addComponent(component));
+                    }
+                }
+
+                break;
+            }
             case ChangeType.UPDATE_COMPONENT: {
                 let component = mimic.componentMap.get(historyChange.objectID);
-                let componentCopy = historyChange.getNewObject();
+                let componentSource = historyChange.getNewObject();
 
-                if (component && componentCopy) {
-                    Object.assign(component.properties, componentCopy.properties);
+                if (component && componentSource) {
+                    Object.assign(component.properties, componentSource.properties);
                     let change = Change.updateComponent(component.id, component.properties);
-                    changes.push(change);
 
-                    if (component.name !== componentCopy.name) {
-                        component.name = componentCopy.name;
+                    if (component.name !== componentSource.name) {
+                        component.name = componentSource.name;
                         change.properties.name = component.name;
                     }
 
                     unitedRenderer.updateComponentDom(component);
                     structTree.updateComponent(component);
+                    changes.push(change);
                 }
 
                 break;
             }
-            case ChangeType.REMOVE_COMPONENT:
-                break;
+            case ChangeType.REMOVE_COMPONENT: {
+                let componentID = historyChange.objectID;
+                let component = mimic.removeComponent(componentID);
 
+                if (component) {
+                    if (component.isSelected) {
+                        removeFromSelection(component);
+                    }
+
+                    component.dom?.remove();
+                    structTree.removeComponent(componentID);
+                    changes.push(Change.removeComponent(componentID));
+                }
+
+                break;
+            }
             case ChangeType.UPDATE_PARENT:
                 break;
 

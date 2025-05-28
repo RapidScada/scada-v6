@@ -235,7 +235,11 @@ class Change {
 
     static updateDocument(opt_properties) {
         let change = new Change(ChangeType.UPDATE_DOCUMENT);
-        change.properties = opt_properties;
+
+        if (opt_properties) {
+            change.properties = Object.assign({}, opt_properties);
+        }
+
         return change;
     }
 

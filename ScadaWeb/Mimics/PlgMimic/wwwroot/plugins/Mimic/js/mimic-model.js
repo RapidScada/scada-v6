@@ -500,14 +500,17 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
     }
 
     // Adds the component to the mimic. Returns true if the component was added.
-    addComponent(component, parent, x, y) {
+    addComponent(component, parent, opt_x, opt_y) {
         if (!component || !parent || !parent.isContainer ||
             component.id <= 0 || this.componentMap.has(component.id)) {
             return false;
         }
 
+        if (opt_x && opt_y) {
+            component.setLocation(opt_x, opt_y);
+        }
+
         component.addToParent(parent);
-        component.setLocation(x, y);
         this.components.push(component);
         this.componentMap.set(component.id, component);
         return true;
