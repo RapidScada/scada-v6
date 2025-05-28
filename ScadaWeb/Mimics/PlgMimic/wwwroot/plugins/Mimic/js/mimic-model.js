@@ -13,13 +13,15 @@ rs.mimic.MimicHelper = class {
                 let parent = componentMap.get(component.parentID);
 
                 if (parent) {
-                    component.parent = parent;
                     parent.children ??= [];
+                    component.index = parent.children.length;
+                    component.parent = parent;
                     parent.children.push(component);
                 }
             } else {
-                component.parent = root;
                 root.children ??= [];
+                component.index = root.children.length;
+                component.parent = root;
                 root.children.push(component);
             }
         }
@@ -567,10 +569,11 @@ rs.mimic.Component = class {
     id = 0;
     name = "";
     typeName = "";
-    parentID = 0;
     properties = null;
     bindings = null;
     access = null;
+    parentID = 0;
+    index = -1;
 
     parent = null;      // mimic or panel
     children = null;    // top-level child components
@@ -693,10 +696,11 @@ rs.mimic.Component = class {
             id: this.id,
             name: this.name,
             typeName: this.typeName,
-            parentID: this.parentID,
             properties: this.properties,
             bindings: this.bindings,
             access: this.access,
+            parentID: this.parentID,
+            index: this.index,
             children: this.children ? [] : null
         };
     }

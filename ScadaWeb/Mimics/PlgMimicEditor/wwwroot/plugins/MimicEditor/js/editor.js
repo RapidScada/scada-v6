@@ -388,15 +388,15 @@ class MimicClipboard {
     _isEmpty;
     _clipboardData;
     _componentJsons;
-    _parentID;
+    _rootID;
     _offset;
 
     constructor() {
         this._clear();
     }
 
-    get parentID() {
-        return this._clipboardData ? this._clipboardData.parentID : this._parentID;
+    get rootID() {
+        return this._clipboardData ? this._clipboardData.rootID : this._rootID;
     }
 
     get offset() {
@@ -411,7 +411,7 @@ class MimicClipboard {
         this._isEmpty = true;
         this._clipboardData = null;
         this._componentJsons = [];
-        this._parentID = 0;
+        this._rootID = 0;
         this._offset = { x: 0, y: 0 };
     }
 
@@ -419,7 +419,7 @@ class MimicClipboard {
         return clipboardData &&
             clipboardData.marker === MimicClipboard.MARKER &&
             Array.isArray(clipboardData.components) &&
-            Number.isInteger(clipboardData.parentID) &&
+            Number.isInteger(clipboardData.rootID) &&
             clipboardData.offset instanceof Object;
     }
 
@@ -439,7 +439,7 @@ class MimicClipboard {
 
         if (Array.isArray(components) && components.length > 0) {
             this._isEmpty = false;
-            this._parentID = components[0].parentID; // assuming that parents are the same
+            this._rootID = components[0].parentID; // assuming that parents are the same
             this._offset = rs.mimic.MimicHelper.getMinLocation(components);
 
             for (let component of components) {
@@ -458,7 +458,7 @@ class MimicClipboard {
             await navigator.clipboard.writeText(JSON.stringify({
                 marker: MimicClipboard.MARKER,
                 components: plainObjects,
-                parentID: this._parentID,
+                rootID: this._rootID,
                 offset: this._offset
             }));
         } catch (ex) {

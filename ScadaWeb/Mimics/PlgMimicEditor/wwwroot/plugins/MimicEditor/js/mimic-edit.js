@@ -1126,7 +1126,7 @@ async function pasteComponents(parentID, point) {
     for (let sourceComponent of sourceComponents) {
         let componentCopy = mimic.createComponent(sourceComponent);
 
-        if (componentCopy.parentID === mimicClipboard.parentID) {
+        if (componentCopy.parentID === mimicClipboard.rootID) {
             componentCopy.x -= mimicClipboard.offset.x;
             componentCopy.y -= mimicClipboard.offset.y;
             topComponents.push(componentCopy);
