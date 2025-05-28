@@ -134,12 +134,24 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
             .attr("id", "comp" + renderContext.idPrefix + component.id)
             .attr("data-id", component.id);
 
-        if (renderContext.editMode && !renderContext.faceplateMode && component.isContainer) {
-            componentElem.addClass("container")
+        if (renderContext.editMode) {
+            if (!renderContext.faceplateMode && component.isContainer) {
+                componentElem.addClass("container")
+            }
+
+            if (component.isSelected) {
+                componentElem.addClass("selected")
+            }
         }
 
         component.dom = componentElem;
         return componentElem;
+    }
+
+    updateSelected(component) {
+        if (component.dom) {
+            component.dom.toggleClass("selected", component.isSelected);
+        }
     }
 
     allowResizing(component) {

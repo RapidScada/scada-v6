@@ -569,10 +569,11 @@ rs.mimic.Component = class {
     bindings = null;
     access = null;
 
-    parent = null;   // mimic or panel
-    children = null; // top-level child components
-    dom = null;      // jQuery objects representing DOM content
-    renderer = null; // renders the component
+    parent = null;      // mimic or panel
+    children = null;    // top-level child components
+    dom = null;         // jQuery objects representing DOM content
+    renderer = null;    // renders the component
+    isSelected = false; // selected in the editor
 
     constructor(source) {
         Object.assign(this, source);

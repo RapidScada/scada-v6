@@ -607,7 +607,7 @@ class MimicHistory {
             }
             case ChangeType.ADD_COMPONENT: {
                 let componentID = mimicChange.objectID;
-                let componentJson = this_._getComponentJsonFromMimic(componentID, mimic);
+                let componentJson = this._getComponentJsonFromMimic(componentID, mimic);
                 this._componentJsonMap.set(componentID, componentJson);
 
                 historyChanges.push(new HistoryChange({

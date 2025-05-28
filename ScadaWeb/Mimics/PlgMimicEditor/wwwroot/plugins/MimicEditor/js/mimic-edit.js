@@ -117,22 +117,24 @@ function bindEvents() {
             if (!longAction) {
                 // select or deselect component, start dragging
                 let compElem = closestCompElem(thisElem);
-                let isSelected = compElem.hasClass("selected");
+                let component = getComponentByDom(compElem);
 
-                if (event.ctrlKey) {
-                    if (isSelected) {
-                        removeFromSelection(compElem);
+                if (component) {
+                    if (event.ctrlKey) {
+                        if (component.isSelected) {
+                            removeFromSelection(component);
+                        } else {
+                            addToSelection(component);
+                        }
                     } else {
-                        addToSelection(compElem);
-                    }
-                } else {
-                    if (isSelected) {
-                        startLongAction(LongAction.drag(
-                            getDragType(event, compElem),
-                            getMimicPoint(event, mimicWrapperElem)));
-                    } else {
-                        selectComponent(compElem);
-                        startLongAction(LongAction.drag(DragType.MOVE, getMimicPoint(event, mimicWrapperElem)));
+                        if (component.isSelected) {
+                            startLongAction(LongAction.drag(
+                                getDragType(event, component),
+                                getMimicPoint(event, mimicWrapperElem)));
+                        } else {
+                            selectComponent(component);
+                            startLongAction(LongAction.drag(DragType.MOVE, getMimicPoint(event, mimicWrapperElem)));
+                        }
                     }
                 }
 
@@ -580,10 +582,7 @@ function align(actionType) {
 
     if (updatedComponents.length > 0) {
         // update DOM
-        for (let component of updatedComponents) {
-            unitedRenderer.updateComponentDom(component);
-            component.dom?.addClass("selected");
-        }
+        updatedComponents.forEach(c => unitedRenderer.updateComponentDom(c));
 
         // refresh properties
         propGrid.refresh();
@@ -713,10 +712,6 @@ function showStructure() {
 function showMimic() {
     mimicWrapperElem.empty();
     mimicWrapperElem.append(unitedRenderer.createMimicDom());
-
-    for (let component of selectedComponents) {
-        component.dom?.addClass("selected");
-    }
 }
 
 function addDependency(faceplateMeta, opt_oldfaceplateMeta) {
@@ -795,7 +790,7 @@ function restoreHistoryPoint(historyPoint) {
             case ChangeType.ADD_COMPONENT:
                 break;
 
-            case ChangeType.UPDATE_COMPONENT:
+            case ChangeType.UPDATE_COMPONENT: {
                 let component = mimic.componentMap.get(historyChange.objectID);
                 let componentCopy = historyChange.getNewObject();
 
@@ -814,7 +809,7 @@ function restoreHistoryPoint(historyPoint) {
                 }
 
                 break;
-
+            }
             case ChangeType.REMOVE_COMPONENT:
                 break;
 
@@ -845,49 +840,55 @@ function selectNone() {
 }
 
 function clearSelection() {
-    selectedComponents.forEach(c => c.dom?.removeClass("selected"));
+    for (let component of selectedComponents) {
+        component.isSelected = false;
+        component.renderer?.updateSelected(component);
+    }
+
     selectedComponents = [];
     setButtonsEnabled(EnabledDependsOn.SELECTION);
 }
 
-function selectComponent(compElem) {
+function selectComponent(component) {
     clearSelection();
     structTree.selectNone();
-    addToSelection(compElem);
+    addToSelection(component);
 }
 
-function addToSelection(compElem) {
-    // compElem can be a component or jQuery object
-    let component = getComponentByDom(compElem);
-
-    if (component) {
-        component.dom?.addClass("selected");
-        selectedComponents.push(component)
-        setButtonsEnabled(EnabledDependsOn.SELECTION);
-        structTree.addToSelection(component);
-        propGrid.selectedObjects = selectedComponents;
-        mimicHistory.rememberComponent(component, false);
-        console.log(`Component with ID ${component.id} selected`);
-    }
+function addToSelection(component) {
+    component.isSelected = true;
+    component.renderer?.updateSelected(component);
+    selectedComponents.push(component)
+    setButtonsEnabled(EnabledDependsOn.SELECTION);
+    structTree.addToSelection(component);
+    propGrid.selectedObjects = selectedComponents;
+    mimicHistory.rememberComponent(component, false);
+    console.log(`Component with ID ${component.id} selected`);
 }
 
-function removeFromSelection(compElem) {
-    let component = getComponentByDom(compElem);
+function removeFromSelection(component) {
+    component.isSelected = false;
+    component.renderer?.updateSelected(component);
     let index = selectedComponents.indexOf(component);
 
     if (index >= 0) {
-        component.dom?.removeClass("selected");
         selectedComponents.splice(index, 1);
-        setButtonsEnabled(EnabledDependsOn.SELECTION);
-        structTree.removeFromSelection(component);
-        propGrid.selectedObjects = selectedComponents;
-        console.log(`Component with ID ${component.id} removed from selection`);
     }
+
+    setButtonsEnabled(EnabledDependsOn.SELECTION);
+    structTree.removeFromSelection(component);
+    propGrid.selectedObjects = selectedComponents;
+    console.log(`Component with ID ${component.id} removed from selection`);
 }
 
 function selectComponents(components) {
     clearSelection();
-    components.forEach(c => c.dom?.addClass("selected"));
+
+    for (let component of components) {
+        component.isSelected = true;
+        component.renderer?.updateSelected(component);
+    }
+
     selectedComponents = components;
     setButtonsEnabled(EnabledDependsOn.SELECTION);
     structTree.selectComponents(selectedComponents);
@@ -1489,7 +1490,6 @@ function handlePropertyChanged(eventData) {
         for (let component of components) {
             // update client side
             unitedRenderer.updateComponentDom(component);
-            component.dom?.addClass("selected");
 
             // update structure tree
             structTree.updateComponent(component);
