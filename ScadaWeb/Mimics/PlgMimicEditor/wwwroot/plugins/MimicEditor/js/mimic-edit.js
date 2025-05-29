@@ -129,7 +129,7 @@ function bindEvents() {
                     } else {
                         if (component.isSelected) {
                             startLongAction(LongAction.drag(
-                                getDragType(event, component),
+                                getDragType(event, compElem),
                                 getMimicPoint(event, mimicWrapperElem)));
                         } else {
                             selectComponent(component);
@@ -1231,18 +1231,9 @@ function arrangeComponents(arrangeType, componentID, opt_point) {
             let y = component.y - minLocation.y + offset.y;
 
             if (mimic.updateParent(component, parent, null, x, y)) {
-                if (component.dom) {
-                    component.dom.detach();
-                }
-
-                if (component.renderer) {
-                    component.renderer.setLocation(component, x, y);
-                }
-
-                if (parent.renderer) {
-                    parent.renderer.appendChild(parent, component);
-                }
-
+                component.dom?.detach();
+                component.renderer?.setLocation(component, x, y);
+                parent.renderer?.appendChild(parent, component);
                 structTree.removeComponent(component.id);
                 changes.push(Change.updateParent(component));
             } else {
@@ -1292,9 +1283,7 @@ function continueDragging(point) {
             longAction.moved = true;
 
             for (let component of selectedComponents) {
-                if (component.renderer) {
-                    component.renderer.setLocation(component, component.x + offsetX, component.y + offsetY);
-                }
+                component.renderer?.setLocation(component, component.x + offsetX, component.y + offsetY);
             }
         }
     } else {
@@ -1388,11 +1377,8 @@ function moveComponents(offsetX, offsetY) {
 
     for (let component of selectedComponents) {
         component.setLocation(component.x + offsetX, component.y + offsetY);
+        component.renderer?.setLocation(component, component.x, component.y);
         changes.push(Change.updateLocation(component));
-
-        if (component.renderer) {
-            component.renderer.setLocation(component, component.x, component.y);
-        }
     }
 
     propGrid.refresh();
@@ -1409,11 +1395,8 @@ function resizeComponents(offsetW, offsetH) {
 
     for (let component of selectedComponents) {
         component.setSize(component.width + offsetW, component.height + offsetH);
+        component.renderer?.setSize(component, component.width, component.height);
         changes.push(Change.updateSize(component));
-
-        if (component.renderer) {
-            component.renderer.setSize(component, component.width, component.height);
-        }
     }
 
     propGrid.refresh();
@@ -1470,7 +1453,7 @@ async function postUpdate(updateDto) {
         let response = await fetch(getUpdaterUrl() + "UpdateMimic", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(updateDto)
+            body: updateDto.json
         });
 
         if (response.ok) {

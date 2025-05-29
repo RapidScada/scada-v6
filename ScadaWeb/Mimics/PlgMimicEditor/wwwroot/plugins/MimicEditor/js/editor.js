@@ -319,14 +319,16 @@ class Change {
 // Represents a data transfer object containing mimic changes.
 class UpdateDto {
     mimicKey;
-    changes = [];
+    changes;
+    json;
 
     constructor(mimicKey, opt_changes) {
         this.mimicKey = mimicKey;
-
-        if (opt_changes) {
-            this.changes.push(...opt_changes);
-        }
+        this.changes = opt_changes ?? [];
+        this.json = JSON.stringify({
+            mimicKey: this.mimicKey,
+            changes: this.changes
+        });
     }
 }
 

@@ -64,13 +64,15 @@ rs.mimic.ObjectDescriptor = class {
 rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
     constructor() {
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+        const KnownCategory = rs.mimic.KnownCategory;
+        const BasicType = rs.mimic.BasicType;
         super();
 
         this.add(new PropertyDescriptor({
             name: "size",
             displayName: "Size",
-            category: rs.mimic.KnownCategory.LAYOUT,
-            type: rs.mimic.BasicType.SIZE
+            category: KnownCategory.LAYOUT,
+            type: BasicType.SIZE
         }));
     }
 
@@ -100,47 +102,49 @@ rs.mimic.MimicDescriptor = class extends rs.mimic.ObjectDescriptor {
 rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
     constructor() {
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+        const KnownCategory = rs.mimic.KnownCategory;
+        const BasicType = rs.mimic.BasicType;
         super();
 
         this.add(new PropertyDescriptor({
             name: "id",
             displayName: "ID",
-            category: rs.mimic.KnownCategory.DESIGN,
+            category: KnownCategory.DESIGN,
             isReadOnly: true,
             isKnown: true,
-            type: rs.mimic.BasicType.INT
+            type: BasicType.INT
         }));
 
         this.add(new PropertyDescriptor({
             name: "name",
             displayName: "Name",
-            category: rs.mimic.KnownCategory.DESIGN,
+            category: KnownCategory.DESIGN,
             isKnown: true,
-            type: rs.mimic.BasicType.STRING
+            type: BasicType.STRING
         }));
 
         this.add(new PropertyDescriptor({
             name: "typeName",
             displayName: "Type name",
-            category: rs.mimic.KnownCategory.DESIGN,
+            category: KnownCategory.DESIGN,
             isReadOnly: true,
             isKnown: true,
-            type: rs.mimic.BasicType.STRING
+            type: BasicType.STRING
         }));
 
         this.add(new PropertyDescriptor({
             name: "location",
             displayName: "Location",
-            category: rs.mimic.KnownCategory.LAYOUT,
-            type: rs.mimic.BasicType.POINT,
+            category: KnownCategory.LAYOUT,
+            type: BasicType.POINT,
             defaultValue: { x: "0", y: "0"}
         }));
 
         this.add(new PropertyDescriptor({
             name: "size",
             displayName: "Size",
-            category: rs.mimic.KnownCategory.LAYOUT,
-            type: rs.mimic.BasicType.SIZE,
+            category: KnownCategory.LAYOUT,
+            type: BasicType.SIZE,
             defaultValue: { width: "0", height: "0" }
         }));
     }
@@ -161,13 +165,15 @@ rs.mimic.ComponentDescriptor = class extends rs.mimic.ObjectDescriptor {
 rs.mimic.TextDescriptor = class extends rs.mimic.ComponentDescriptor {
     constructor() {
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+        const KnownCategory = rs.mimic.KnownCategory;
+        const BasicType = rs.mimic.BasicType;
         super();
 
         this.add(new PropertyDescriptor({
             name: "text",
             displayName: "Text",
-            category: rs.mimic.KnownCategory.APPEARANCE,
-            type: rs.mimic.BasicType.STRING,
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.STRING,
             defaultValue: ""
         }));
     }
@@ -177,13 +183,15 @@ rs.mimic.TextDescriptor = class extends rs.mimic.ComponentDescriptor {
 rs.mimic.PictureDescriptor = class extends rs.mimic.ComponentDescriptor {
     constructor() {
         const PropertyDescriptor = rs.mimic.PropertyDescriptor;
+        const KnownCategory = rs.mimic.KnownCategory;
+        const BasicType = rs.mimic.BasicType;
         super();
 
         this.add(new PropertyDescriptor({
             name: "imageName",
             displayName: "Image",
-            category: rs.mimic.KnownCategory.APPEARANCE,
-            type: rs.mimic.BasicType.STRING,
+            category: KnownCategory.APPEARANCE,
+            type: BasicType.STRING,
             defaultValue: ""
         }));
     }
