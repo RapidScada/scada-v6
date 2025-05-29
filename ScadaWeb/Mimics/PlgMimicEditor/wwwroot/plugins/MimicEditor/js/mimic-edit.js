@@ -614,28 +614,28 @@ function arrange(actionType) {
         case ArrangeActionType.BRING_TO_FRONT:
             MimicHelper.bringToFront(parent, selectedComponents);
             unitedRenderer.arrangeChildren(parent);
-            structTree.refreshComponents(parent, selectedComponents);
+            structTree.refreshComponents(parent);
             pushChanges(Change.arrangeComponent(getComponentIDs(), Change.MAX_SHIFT));
             break;
 
         case ArrangeActionType.BRING_FORWARD:
             MimicHelper.bringForward(parent, selectedComponents);
             unitedRenderer.arrangeChildren(parent);
-            structTree.refreshComponents(parent, selectedComponents);
+            structTree.refreshComponents(parent);
             pushChanges(Change.arrangeComponent(getComponentIDs(), 1));
             break;
 
         case ArrangeActionType.SEND_BACKWARD:
             MimicHelper.sendBackward(parent, selectedComponents);
             unitedRenderer.arrangeChildren(parent);
-            structTree.refreshComponents(parent, selectedComponents);
+            structTree.refreshComponents(parent);
             pushChanges(Change.arrangeComponent(getComponentIDs(), -1));
             break;
 
         case ArrangeActionType.SEND_TO_BACK:
             MimicHelper.sendToBack(parent, selectedComponents);
             unitedRenderer.arrangeChildren(parent);
-            structTree.refreshComponents(parent, selectedComponents);
+            structTree.refreshComponents(parent);
             pushChanges(Change.arrangeComponent(getComponentIDs(), -Change.MAX_SHIFT));
             break;
     }
@@ -803,6 +803,8 @@ function restoreHistoryPoint(historyPoint) {
                         unitedRenderer.createComponentDom(component);
                         structTree.addComponent(component);
                         changes.push(Change.addComponent(component));
+                    } else {
+                        console.error(phrases.unableAddComponent);
                     }
                 }
 
@@ -844,9 +846,30 @@ function restoreHistoryPoint(historyPoint) {
 
                 break;
             }
-            case ChangeType.UPDATE_PARENT:
-                break;
+            case ChangeType.UPDATE_PARENT: {
+                let component = mimic.componentMap.get(historyChange.objectID);
+                let componentSource = historyChange.getNewObject();
 
+                if (component && componentSource) {
+                    let parentID = componentSource.parentID;
+                    let index = componentSource.index;
+                    let parent = parentID > 0 ? mimic.componentMap.get(parentID) : mimic;
+
+                    if (mimic.updateParent(component, parent, index)) {
+                        component.properties.location = componentSource.properties.location;
+                        component.dom?.detach();
+                        component.renderer?.updateLocation(component);
+                        parent.renderer?.appendChild(parent, component, index);
+                        structTree.removeComponent(component.id);
+                        structTree.addComponent(component);
+                        changes.push(Change.updateParent(component));
+                    } else {
+                        console.error(phrases.unableChangeParent);
+                    }
+                }
+
+                break;
+            }
             case ChangeType.ARRANGE_COMPONENT:
                 break;
         }
@@ -1212,7 +1235,7 @@ function arrangeComponents(arrangeType, componentID, opt_point) {
                 }
 
                 unitedRenderer.arrangeChildren(parent);
-                structTree.refreshComponents(parent, selectedComponents);
+                structTree.refreshComponents(parent);
             } else {
                 errorMessage = phrases.sameParentRequired;
             }
@@ -1232,7 +1255,7 @@ function arrangeComponents(arrangeType, componentID, opt_point) {
 
             if (mimic.updateParent(component, parent, null, x, y)) {
                 component.dom?.detach();
-                component.renderer?.setLocation(component, x, y);
+                component.renderer?.updateLocation(component);
                 parent.renderer?.appendChild(parent, component);
                 structTree.removeComponent(component.id);
                 changes.push(Change.updateParent(component));
@@ -1243,7 +1266,7 @@ function arrangeComponents(arrangeType, componentID, opt_point) {
         }
 
         if (changes.length > 0) {
-            structTree.refreshComponents(parent, selectedComponents);
+            structTree.refreshComponents(parent);
             propGrid.refresh();
             pushChanges(...changes);
         }

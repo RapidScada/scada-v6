@@ -48,10 +48,25 @@ rs.mimic.Renderer = class {
     update(component, renderContext) {
     }
 
-    // Appends the child DOM into the parent DOM.
-    appendChild(parent, child) {
-        if (parent?.dom && child?.dom) {
-            parent.dom.append(child.dom);
+    // Appends or inserts the child DOM into the parent DOM.
+    appendChild(parent, child, opt_index) {
+        let parentElem = parent?.dom;
+        let childElem = child?.dom;
+
+        if (parentElem && childElem) {
+            if (Number.isInteger(opt_index) && opt_index >= 0) {
+                // insert element at the specified index
+                let siblingElem = parentElem.children().eq(opt_index);
+
+                if (siblingElem.length > 0) {
+                    siblingElem.before(childElem);
+                } else {
+                    parentElem.append(childElem);
+                }
+            } else {
+                // append element
+                parentElem.append(childElem);
+            }
         }
     }
 
@@ -146,6 +161,12 @@ rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
 
         component.dom = componentElem;
         return componentElem;
+    }
+
+    updateLocation(component) {
+        if (component.dom) {
+            this._setLocation(component.dom, component.properties.location);
+        }
     }
 
     updateSelected(component) {

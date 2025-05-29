@@ -149,7 +149,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 oldParent?.Components.Remove(component);
 
                 component.ParentID = change.ParentID;
-                newParent.Components.Add(component);
+                newParent.Components.Insert(change.Index, component);
                 SetComponentProperties(component, change); // set location
             }
         }

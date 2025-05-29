@@ -134,6 +134,10 @@ class StructTree {
                 this._appendComponent(childList, childComponent);
             }
         }
+
+        if (component.isSelected) {
+            componentNode.addClass("selected");
+        }
     }
 
     _bindEvents(listElem) {
@@ -230,7 +234,7 @@ class StructTree {
         oldImagesList.replaceWith(newImagesList);
     }
 
-    refreshComponents(parent, selectedComponents) {
+    refreshComponents(parent) {
         if (parent instanceof rs.mimic.Mimic) {
             // refresh all components
             let oldListElem = this.structElem.find(".list-components:first");
@@ -248,11 +252,6 @@ class StructTree {
             }
 
             oldListElem.replaceWith(newListElem);
-        }
-
-        // show selected components
-        for (let component of selectedComponents) {
-            this._findComponentNode(component).addClass("selected");
         }
     }
 
