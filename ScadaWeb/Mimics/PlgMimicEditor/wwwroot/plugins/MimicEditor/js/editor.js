@@ -498,8 +498,8 @@ class HistoryChange {
     objectID = null;
     oldObjectJson = null;
     newObjectJson = null;
-    oldChildIndex = null;
-    newChildIndex = null;
+    oldIndex = null;
+    newIndex = null;
 
     constructor(source) {
         Object.assign(this, source);
@@ -516,16 +516,16 @@ class HistoryChange {
 
 // Represents a single point in history.
 class HistoryPoint {
-    changeType; // change type common for all changes
-    changes;    // instances of HistoryChange class
+    commonChangeType; // change type common for all changes
+    changes;          // instances of HistoryChange class
 
     constructor(changes) {
-        this.changeType = "";
+        this.commonChangeType = "";
         this.changes = changes ?? [];
         let changeTypeSet = new Set(this.changes.map(c => c.changeType));
 
         if (changeTypeSet.size === 1) {
-            this.changeType = changeTypeSet.values().next().value;
+            this.commonChangeType = changeTypeSet.values().next().value;
         }
     }
 
@@ -580,8 +580,8 @@ class HistoryPoint {
                     reversedChanges.push(new HistoryChange({
                         changeType: ChangeType.UPDATE_PARENT,
                         objectID: change.objectID,
-                        oldChildIndex: change.newChildIndex,
-                        newChildIndex: change.oldChildIndex
+                        oldIndex: change.newIndex,
+                        newIndex: change.oldIndex
                     }));
                     break;
             }
@@ -697,8 +697,8 @@ class MimicHistory {
                         historyChanges.push(new HistoryChange({
                             changeType: ChangeType.ARRANGE_COMPONENT,
                             objectID: componentID,
-                            oldChildIndex: oldComponent.index,
-                            newChildIndex: newComponent.index
+                            oldIndex: oldComponent.index,
+                            newIndex: newComponent.index
                         }));
                     }
                 }

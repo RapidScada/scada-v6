@@ -779,99 +779,120 @@ function restoreHistoryPoint(historyPoint) {
     console.log("Restore history point");
     let changes = [];
 
-    for (let historyChange of historyPoint.changes) {
-        switch (historyChange.changeType) {
-            case ChangeType.UPDATE_DOCUMENT: {
-                let documentSource = historyChange.getNewObject();
-
-                if (documentSource) {
-                    Object.assign(mimic.document, documentSource);
-                    unitedRenderer.updateMimicDom();
-                    changes.push(Change.updateDocument(mimic.document));
-                }
-
+    if (historyPoint.commonChangeType) {
+        switch (historyPoint.commonChangeType) {
+            default:
                 break;
-            }
-            case ChangeType.ADD_COMPONENT: {
-                let componentSource = historyChange.getNewObject();
+        }
+    } else {
+        for (let historyChange of historyPoint.changes) {
+            switch (historyChange.changeType) {
+                case ChangeType.UPDATE_DOCUMENT: {
+                    let documentSource = historyChange.getNewObject();
 
-                if (componentSource) {
-                    let component = mimic.createComponent(componentSource);
-                    let parent = component.parentID > 0 ? mimic.componentMap.get(component.parentID) : mimic;
-
-                    if (mimic.addComponent(component, parent, component.index)) {
-                        unitedRenderer.createComponentDom(component);
-                        structTree.addComponent(component);
-                        changes.push(Change.addComponent(component));
-                    } else {
-                        console.error(phrases.unableAddComponent);
-                    }
-                }
-
-                break;
-            }
-            case ChangeType.UPDATE_COMPONENT: {
-                let component = mimic.componentMap.get(historyChange.objectID);
-                let componentSource = historyChange.getNewObject();
-
-                if (component && componentSource) {
-                    Object.assign(component.properties, componentSource.properties);
-                    let change = Change.updateComponent(component.id, component.properties);
-
-                    if (component.name !== componentSource.name) {
-                        component.name = componentSource.name;
-                        change.properties.name = component.name;
+                    if (documentSource) {
+                        Object.assign(mimic.document, documentSource);
+                        unitedRenderer.updateMimicDom();
+                        changes.push(Change.updateDocument(mimic.document));
                     }
 
-                    unitedRenderer.updateComponentDom(component);
-                    structTree.updateComponent(component);
-                    changes.push(change);
+                    break;
                 }
+                case ChangeType.ADD_COMPONENT: {
+                    let componentSource = historyChange.getNewObject();
 
-                break;
-            }
-            case ChangeType.REMOVE_COMPONENT: {
-                let componentID = historyChange.objectID;
-                let component = mimic.removeComponent(componentID);
+                    if (componentSource) {
+                        let component = mimic.createComponent(componentSource);
+                        let parent = component.parentID > 0 ? mimic.componentMap.get(component.parentID) : mimic;
 
-                if (component) {
-                    if (component.isSelected) {
-                        removeFromSelection(component);
+                        if (mimic.addComponent(component, parent, component.index)) {
+                            unitedRenderer.createComponentDom(component);
+                            structTree.addComponent(component);
+                            changes.push(Change.addComponent(component));
+                        } else {
+                            console.error(phrases.unableAddComponent);
+                        }
                     }
 
-                    component.dom?.remove();
-                    structTree.removeComponent(componentID);
-                    changes.push(Change.removeComponent(componentID));
+                    break;
                 }
+                case ChangeType.UPDATE_COMPONENT: {
+                    let component = mimic.componentMap.get(historyChange.objectID);
+                    let componentSource = historyChange.getNewObject();
 
-                break;
-            }
-            case ChangeType.UPDATE_PARENT: {
-                let component = mimic.componentMap.get(historyChange.objectID);
-                let componentSource = historyChange.getNewObject();
+                    if (component && componentSource) {
+                        Object.assign(component.properties, componentSource.properties);
+                        let change = Change.updateComponent(component.id, component.properties);
 
-                if (component && componentSource) {
-                    let parentID = componentSource.parentID;
-                    let index = componentSource.index;
-                    let parent = parentID > 0 ? mimic.componentMap.get(parentID) : mimic;
+                        if (component.name !== componentSource.name) {
+                            component.name = componentSource.name;
+                            change.properties.name = component.name;
+                        }
 
-                    if (mimic.updateParent(component, parent, index)) {
-                        component.properties.location = componentSource.properties.location;
+                        unitedRenderer.updateComponentDom(component);
+                        structTree.updateComponent(component);
+                        changes.push(change);
+                    }
+
+                    break;
+                }
+                case ChangeType.REMOVE_COMPONENT: {
+                    /*let componentID = historyChange.objectID;
+                    let component = mimic.removeComponent(componentID);
+
+                    if (component) {
+                        if (component.isSelected) {
+                            removeFromSelection(component);
+                        }
+
+                        component.dom?.remove();
+                        structTree.removeComponent(componentID);
+                        changes.push(Change.removeComponent(componentID));
+                    }*/
+
+                    break;
+                }
+                case ChangeType.UPDATE_PARENT: {
+                    /*let component = mimic.componentMap.get(historyChange.objectID);
+                    let componentSource = historyChange.getNewObject();
+    
+                    if (component && componentSource) {
+                        let parentID = componentSource.parentID;
+                        let index = componentSource.index;
+                        let parent = parentID > 0 ? mimic.componentMap.get(parentID) : mimic;
+    
+                        if (mimic.updateParent(component, parent, index)) {
+                            component.properties.location = componentSource.properties.location;
+                            component.dom?.detach();
+                            component.renderer?.updateLocation(component);
+                            parent.renderer?.appendChild(parent, component, index);
+                            structTree.removeComponent(component.id);
+                            structTree.addComponent(component);
+                            changes.push(Change.updateParent(component));
+                        } else {
+                            console.error(phrases.unableChangeParent);
+                        }
+                    }*/
+
+                    break;
+                }
+                case ChangeType.ARRANGE_COMPONENT: {
+                    /*let component = mimic.componentMap.get(historyChange.objectID);
+                    let parent = component.parent;
+                    let newIndex = historyChange.newIndex;
+    
+                    if (component && parent && Number.isInteger(newIndex) && newIndex >= 0 &&
+                        mimic.updateParent(component, parent, index)) {
                         component.dom?.detach();
-                        component.renderer?.updateLocation(component);
                         parent.renderer?.appendChild(parent, component, index);
                         structTree.removeComponent(component.id);
                         structTree.addComponent(component);
                         changes.push(Change.updateParent(component));
-                    } else {
-                        console.error(phrases.unableChangeParent);
-                    }
-                }
+                    }*/
 
-                break;
+                    break;
+                }
             }
-            case ChangeType.ARRANGE_COMPONENT:
-                break;
         }
     }
 
