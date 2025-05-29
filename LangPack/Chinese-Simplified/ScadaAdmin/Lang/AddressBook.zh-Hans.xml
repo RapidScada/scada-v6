@@ -21,6 +21,6 @@
     <Phrase key="EmailExists">联系人已包含指定的电子邮件。</Phrase>
     <Phrase key="IncorrectEmail">电子邮件不正确。</Phrase>
     <Phrase key="EmptyValueNotAllowed">不允许空值。</Phrase>
-    <Phrase key="SaveAddressBookConfirm">通讯录已被修改，是否保存?</Phrase>
+    <Phrase key="SaveAddressBookConfirm">通讯录已被修改，是否保存？</Phrase>
   </Dictionary>
 </AddressBookDictionaries>

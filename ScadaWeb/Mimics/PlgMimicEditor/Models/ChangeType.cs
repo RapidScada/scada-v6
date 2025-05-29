@@ -7,23 +7,24 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Models
     /// Specifies the change types.
     /// <para>Задаёт типы изменений.</para>
     /// </summary>
-    public enum ChangeType
+    public static class ChangeType
     {
-        None = 0,
+        // Dependencies
+        public const string AddDependency = "add-dependency";
+        public const string RemoveDependency = "remove-dependency";
 
-        UpdateDocument = 1,
-        AddDependency = 2,
-        DeleteDependency = 3,
+        // Document
+        public const string UpdateDocument = "update-document";
 
-        AddComponent = 4,
-        UpdateComponent = 5,
-        UpdateComponentParent = 6,
-        UpdateComponentBindings = 7,
-        UpdateComponentAccess = 8,
-        DeleteComponent = 9,
+        // Components
+        public const string AddComponent = "add-component";
+        public const string UpdateComponent = "update-component";
+        public const string UpdateParent = "update-parent";
+        public const string ArrangeComponent = "arrange-component";
+        public const string RemoveComponent = "remove-component";
 
-        AddImage = 10,
-        RenameImage = 11,
-        DeleteImage = 12
+        // Images
+        public const string AddImage = "add-image";
+        public const string RemoveImage = "remove-image";
     }
 }

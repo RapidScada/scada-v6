@@ -1,4 +1,5 @@
 ﻿$component-selected-color: lime;
+$component-hover-color: var(--bs-gray-500);
 
 .mimic-wrapper {
     overflow: auto;
@@ -13,14 +14,32 @@
             line-height: normal;
             position: absolute;
 
-            &.selected {
-                box-shadow: 0 0 0 1px $component-selected-color;
-            }
-
             &.picture {
                 background-repeat: no-repeat;
                 background-position: center;
                 background-clip: padding-box;
+            }
+        }
+    }
+}
+
+.mimic-wrapper.edit-mode {
+    cursor: default;
+
+    .mimic .comp {
+        &.selected {
+            box-shadow: 0 0 0 1px $component-selected-color;
+        }
+
+        &:not(.selected):hover {
+            box-shadow: 0 0 0 1px $component-hover-color;
+        }
+
+        &.faceplate {
+            .comp {
+                &:hover {
+                    box-shadow: none;
+                }
             }
         }
     }

@@ -91,7 +91,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Controllers
             {
                 if (editorManager.FindMimic(key, out MimicInstance mimicInstance, out string errMsg))
                 {
-                    if (mimicInstance.Mimic.Faceplates.TryGetValue(typeName, out Faceplate faceplate))
+                    if (mimicInstance.Mimic.FaceplateMap.TryGetValue(typeName, out Faceplate faceplate))
                     {
                         return Dto<FaceplatePacket>.Success(new FaceplatePacket(key, faceplate));
                     }

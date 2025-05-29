@@ -1,12 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <PlgMimic>
-  <GeneralOptions>
+  <Fonts>
+    <Font name="Arial" family="Arial, Helvetica, sans-serif" url="~/lib/arial/css/arial.css" />
+  </Fonts>
+  <RuntimeOptions>
     <!-- ScaleType: Numeric | FitScreen | FitWidth -->
     <ScaleType>Numeric</ScaleType>
     <ScaleValue>100</ScaleValue>
     <RememberScale>true</RememberScale>
-  </GeneralOptions>
-  <Fonts>
-    <Font name="Arial" url="~/lib/arial/css/arial.css" />
-  </Fonts>
+  </RuntimeOptions>
+  <EditorOptions>
+    <UseGrid>true</UseGrid>
+    <GridSize>10</GridSize>
+  </EditorOptions>
 </PlgMimic>

@@ -5,14 +5,14 @@
     <Phrase key="PluginsNode">Plugins</Phrase>
     <Phrase key="LogsNode">Logs</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlDisplayOptions">    
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Controls.CtrlDisplayOptions">    
     <Phrase key="gbDisplayOptions">Display Options</Phrase>
     <Phrase key="lblShowHeader">Show page header</Phrase>
     <Phrase key="lblShowMainMenu">Show main menu</Phrase>
     <Phrase key="lblShowViewExplorer">Show view explorer</Phrase>
     <Phrase key="lblRefreshRate">Data refresh rate, ms</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlGeneralOptions">
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Controls.CtrlGeneralOptions">
     <Phrase key="gbGeneralOptions">General Options</Phrase>
     <Phrase key="lblDefaultCulture">Default culture name</Phrase>
     <Phrase key="lblDefaultTimeZone">Default time zone</Phrase>
@@ -21,7 +21,7 @@
     <Phrase key="lblShareStats">Share depersonalized stats with developers</Phrase>
     <Phrase key="lblMaxLogSize">Maximum log file size, MB</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlLoginOptions">
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Controls.CtrlLoginOptions">
     <Phrase key="gbLoginOptions">Login Options</Phrase>
     <Phrase key="lblRequireCaptcha">Require captcha at login</Phrase>
     <Phrase key="lblAllowRememberMe">Allow to remember login</Phrase>
@@ -29,7 +29,7 @@
     <Phrase key="lblAutoLoginUsername">Username for automatic login</Phrase>
     <Phrase key="lblAutoLoginPassword">Password for automatic login</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Control.CtrlPluginAssignment">
+  <Dictionary key="Scada.Admin.Extensions.ExtWebConfig.Controls.CtrlPluginAssignment">
     <Phrase key="gbPluginAssignment">Plugin Assignment</Phrase>
     <Phrase key="lblChartFeature">Plugin for charting</Phrase>
     <Phrase key="lblCommandFeature">Plugin for sending commands</Phrase>

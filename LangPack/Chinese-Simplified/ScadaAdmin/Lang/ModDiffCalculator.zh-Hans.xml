@@ -1,55 +1,55 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ModDiffCalculatorDictionaries>
   <Dictionary key="Scada.Server.Modules.ModDiffCalculator.Config.GeneralOptions">
-    <Phrase key="CmdCode.DisplayName">指令碼</Phrase>
-    <Phrase key="CmdCode.Category">一般選項</Phrase>
-    <Phrase key="CmdCode.Description">控制模組的命令代碼。</Phrase>
+    <Phrase key="CmdCode.DisplayName">命令代码</Phrase>
+    <Phrase key="CmdCode.Category">通用选项</Phrase>
+    <Phrase key="CmdCode.Description">控制模组的命令代码。</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDiffCalculator.Config.GroupConfig">
-    <Phrase key="Active.DisplayName">積極的</Phrase>
-    <Phrase key="Active.Category">主要參數</Phrase>
-    <Phrase key="Active.Description">指示組是否處於活動狀態的值。</Phrase>
-    <Phrase key="CustomPeriod.DisplayName">客製期</Phrase>
-    <Phrase key="CustomPeriod.Category">行為</Phrase>
-    <Phrase key="CustomPeriod.Description">自訂計算週期。</Phrase>
-    <Phrase key="Delay.DisplayName">延遲</Phrase>
-    <Phrase key="Delay.Category">行為</Phrase>
-    <Phrase key="Delay.Description">到計算時間時計算前的延遲時間，秒。</Phrase>
-    <Phrase key="Name.DisplayName">姓名</Phrase>
-    <Phrase key="Name.Category">主要參數</Phrase>
-    <Phrase key="Name.Description">組名。</Phrase>
-    <Phrase key="Offset.DisplayName">抵銷</Phrase>
-    <Phrase key="Offset.Category">行為</Phrase>
-    <Phrase key="Offset.Description">計算時間偏移。</Phrase>
-    <Phrase key="PeriodType.DisplayName">期間類型</Phrase>
-    <Phrase key="PeriodType.Category">行為</Phrase>
-    <Phrase key="PeriodType.Description">計算期間類型。</Phrase>
-    <Phrase key="ArchiveBit.DisplayName">存檔位</Phrase>
-    <Phrase key="ArchiveBit.Category">數據</Phrase>
-    <Phrase key="ArchiveBit.Description">用於讀取和寫入資料的存檔位數。</Phrase>
+    <Phrase key="Active.DisplayName">启用</Phrase>
+    <Phrase key="Active.Category">主要参数</Phrase>
+    <Phrase key="Active.Description">用于标记组是否被启用的值。</Phrase>
+    <Phrase key="CustomPeriod.DisplayName">自定义周期</Phrase>
+    <Phrase key="CustomPeriod.Category">行为</Phrase>
+    <Phrase key="CustomPeriod.Description">自定义计算周期。</Phrase>
+    <Phrase key="Delay.DisplayName">延迟</Phrase>
+    <Phrase key="Delay.Category">行为</Phrase>
+    <Phrase key="Delay.Description">到计算时间时，计算前的延时，秒。</Phrase>
+    <Phrase key="Name.DisplayName">名称</Phrase>
+    <Phrase key="Name.Category">主要参数</Phrase>
+    <Phrase key="Name.Description">组名。</Phrase>
+    <Phrase key="Offset.DisplayName">偏移</Phrase>
+    <Phrase key="Offset.Category">行为</Phrase>
+    <Phrase key="Offset.Description">计算时间偏移。</Phrase>
+    <Phrase key="PeriodType.DisplayName">周期类型</Phrase>
+    <Phrase key="PeriodType.Category">行为</Phrase>
+    <Phrase key="PeriodType.Description">计算周期类型。</Phrase>
+    <Phrase key="ArchiveBit.DisplayName">存档比特数</Phrase>
+    <Phrase key="ArchiveBit.Category">数据</Phrase>
+    <Phrase key="ArchiveBit.Description">用于读取和写入数据的存档比特数。</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDiffCalculator.Config.ItemConfig">
-    <Phrase key="DestCnlNum.DisplayName">目的地頻道</Phrase>
-    <Phrase key="DestCnlNum.Category">主要參數</Phrase>
-    <Phrase key="DestCnlNum.Description">寫入計算結果的目標頻道號碼。</Phrase>
-    <Phrase key="SrcCnlNum.DisplayName">來源頻道</Phrase>
-    <Phrase key="SrcCnlNum.Category">主要參數</Phrase>
-    <Phrase key="SrcCnlNum.Description">從中取得計算資料的來源通道號碼。</Phrase>
+    <Phrase key="DestCnlNum.DisplayName">目标通道</Phrase>
+    <Phrase key="DestCnlNum.Category">主要参数</Phrase>
+    <Phrase key="DestCnlNum.Description">用于写入计算结果的目标通道编号。</Phrase>
+    <Phrase key="SrcCnlNum.DisplayName">来源通道</Phrase>
+    <Phrase key="SrcCnlNum.Category">主要参数</Phrase>
+    <Phrase key="SrcCnlNum.Description">用于读取计算数据的来源通道编号。</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDiffCalculator.Config.PeriodType">
-    <Phrase key="Custom">風俗</Phrase>
+    <Phrase key="Custom">自定义</Phrase>
     <Phrase key="Day">天</Phrase>
-    <Phrase key="Hour">小時</Phrase>
-    <Phrase key="Minute">分分鐘</Phrase>
+    <Phrase key="Hour">小时</Phrase>
+    <Phrase key="Minute">分钟</Phrase>
     <Phrase key="Month">月</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModDiffCalculator.View.ModuleConfigProvider">
-    <Phrase key="FormTitle">差異計算器</Phrase>
-    <Phrase key="AddGroupButton">新增群組</Phrase>
-    <Phrase key="AddItemButton">新增項目</Phrase>
-    <Phrase key="GeneralOptionsNode">一般選項</Phrase>
-    <Phrase key="GroupsNode">團體</Phrase>
-    <Phrase key="ItemNode">頻道 {0}、{1}</Phrase>
-    <Phrase key="UnnamedGroup">&lt;未命名團體&gt;</Phrase>
+    <Phrase key="FormTitle">差异计算器</Phrase>
+    <Phrase key="AddGroupButton">新增组</Phrase>
+    <Phrase key="AddItemButton">新增项目</Phrase>
+    <Phrase key="GeneralOptionsNode">通用选项</Phrase>
+    <Phrase key="GroupsNode">组</Phrase>
+    <Phrase key="ItemNode">通道{0}、{1}</Phrase>
+    <Phrase key="UnnamedGroup">&lt;未命名组&gt;</Phrase>
   </Dictionary>
 </ModDiffCalculatorDictionaries>

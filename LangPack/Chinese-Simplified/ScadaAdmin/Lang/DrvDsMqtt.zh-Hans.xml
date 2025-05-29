@@ -5,8 +5,8 @@
     <Phrase key="pageConnectionOptions">连接</Phrase>
     <Phrase key="lblServer">服务器</Phrase>
     <Phrase key="lblPort"> TCP端口</Phrase>
-    <Phrase key="lblTimeout">超时时间, ms</Phrase>
-    <Phrase key="lblUseTls">使用 TLS</Phrase>
+    <Phrase key="lblTimeout">超时时间，毫秒</Phrase>
+    <Phrase key="lblUseTls">使用TLS</Phrase>
     <Phrase key="lblClientID">客户端ID</Phrase>
     <Phrase key="lblUsername">用户名</Phrase>
     <Phrase key="lblPassword">密码</Phrase>
@@ -27,7 +27,7 @@
     <Phrase key="lblMaxQueueSize">最大队列大小</Phrase>
     <Phrase key="lblDataLifetime">队列中的数据生存期，秒</Phrase>
     <Phrase key="lblDetailedLog">详细日志</Phrase>
-    <Phrase key="lblDeviceFilter">设备筛选器</Phrase>
+    <Phrase key="lblDeviceFilter">设备过滤器</Phrase>
     <Phrase key="btnOK">确定</Phrase>
     <Phrase key="btnCancel">取消</Phrase>
   </Dictionary>

@@ -32,11 +32,14 @@
     <script src="~/plugins/MimicEditor/js/mimic-descr.js" asp-append-version="true"></script>
     <script src="~/plugins/MimicEditor/js/mimic-factory.js" asp-append-version="true"></script>
     <script src="~/plugins/MimicEditor/js/prop-grid.js" asp-append-version="true"></script>
+    <script src="~/plugins/MimicEditor/js/struct-tree.js" asp-append-version="true"></script>
+    <script src="~/plugins/MimicEditor/js/modals.js" asp-append-version="true"></script>
     <script src="~/plugins/MimicEditor/js/mimic-edit.js" asp-append-version="true"></script>
     <script src="~/plugins/MimicEditor/js/mimic-edit-lang.js"></script>
     <script>
         rootPath = "@Url.Content("~/")";
         mimicKey = "@Model.MimicKey";
+        editorOptions = @editorManager.PluginConfig.EditorOptions.ToJs();
     </script>
 }
 
@@ -57,10 +60,13 @@
         <div class="tab-content">
             <div id="divComponents" class="tab-pane show active"><partial name="_ComponentList" model="@editorManager.ComponentList" /></div>
             <div id="divStructure" class="tab-pane"></div>
-            <div id="divProperties" class="tab-pane"></div>
+            <div id="divProperties" class="tab-pane"><div id="tweakpane"></div></div>
         </div>
     </div>
     <div id="divSplitter" class="splitter vert"></div>
-    <div id="divMimicWrapper" class="mimic-wrapper"></div>
+    <div id="divMimicWrapper" class="mimic-wrapper edit-mode"></div>
 </div>
 <div id="divToastContainer" class="toast-container"></div>
+
+<partial name="_ImageModal" />
+<partial name="_FaceplateModal" />

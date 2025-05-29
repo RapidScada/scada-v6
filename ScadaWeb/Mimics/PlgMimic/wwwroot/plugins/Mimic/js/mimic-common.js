@@ -2,8 +2,8 @@
 // No dependencies
 
 // Namespaces
-const rs = {};
-rs.mimic = rs.mimic || {};
+var rs = rs ?? {};
+rs.mimic = rs.mimic ?? {};
 
 // Specifies the steps for loading a mimic.
 rs.mimic.LoadStep = class {

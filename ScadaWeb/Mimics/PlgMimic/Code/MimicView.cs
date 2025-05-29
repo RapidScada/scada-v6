@@ -30,20 +30,24 @@ namespace Scada.Web.Plugins.PlgMimic.Code
 
 
         /// <summary>
+        /// Adds the faceplate to the view resources.
+        /// </summary>
+        private void AddToResources(FaceplateMeta faceplateMeta)
+        {
+            Resources.Add(new ViewResource
+            {
+                TypeCode = faceplateMeta.TypeName,
+                Path = faceplateMeta.Path
+            });
+        }
+
+        /// <summary>
         /// Loads the view from the specified stream.
         /// </summary>
         public override void LoadView(Stream stream)
         {
             Mimic.Load(stream);
-
-            foreach (FaceplateMeta faceplateMeta in Mimic.Dependencies)
-            {
-                Resources.Add(new ViewResource
-                {
-                    TypeCode = faceplateMeta.TypeName,
-                    Path = faceplateMeta.Path
-                });
-            }
+            Mimic.Dependencies.ForEach(AddToResources);
         }
 
         /// <summary>
@@ -52,11 +56,18 @@ namespace Scada.Web.Plugins.PlgMimic.Code
         public override void LoadResource(ViewResource resource, Stream stream)
         {
             if (!string.IsNullOrEmpty(resource.TypeCode) &&
-                !Mimic.Faceplates.ContainsKey(resource.TypeCode))
+                !Mimic.FaceplateMap.ContainsKey(resource.TypeCode))
             {
                 Faceplate faceplate = new();
                 faceplate.Load(stream);
-                Mimic.Faceplates.Add(resource.TypeCode, faceplate);
+                Mimic.FaceplateMap.Add(resource.TypeCode, faceplate);
+
+                foreach (FaceplateMeta dependency in faceplate.Dependencies)
+                {
+                    FaceplateMeta dependencyCopy = dependency.Transit();
+                    Mimic.Dependencies.Add(dependencyCopy);
+                    AddToResources(dependencyCopy);
+                }
             }
         }
 

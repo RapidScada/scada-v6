@@ -8,14 +8,14 @@
     <Phrase key="ObjRow">Objeto:</Phrase>
     <Phrase key="DevRow">Dispositivo:</Phrase>
     <Phrase key="lblPassword">Contraseña</Phrase>
-    <Phrase key="lblCmdDec">valor de comando</Phrase>
+    <Phrase key="lblCmdDec">Valor de comando</Phrase>
     <Phrase key="lblCmdHex">Valor de comando (hexadecimal)</Phrase>
-    <Phrase key="lblCmdBin">Dominio</Phrase>
-    <Phrase key="lblCmdEnum">Valor de comando (fecha/hora)</Phrase>
-    <Phrase key="lblCmdDate">Datos de comando</Phrase>
-    <Phrase key="lblCmdData">Cadena</Phrase>
-    <Phrase key="lblStr">hexadecimal</Phrase>
-    <Phrase key="lblHex">hexadecimal</Phrase>
+    <Phrase key="lblCmdBin">Valor de comando (binario)</Phrase>
+    <Phrase key="lblCmdEnum">Comando</Phrase>
+    <Phrase key="lblCmdDate">Valor de comando (fecha/hora)</Phrase>
+    <Phrase key="lblCmdData">Data de comando</Phrase>
+    <Phrase key="lblStr">String</Phrase>
+    <Phrase key="lblHex">Hexadecimal</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventAck">
     <Phrase key="PageTitle">Evento</Phrase>

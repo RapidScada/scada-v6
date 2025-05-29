@@ -10,58 +10,51 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
     /// A base class for mimic diagrams and faceplates.
     /// <para>Базовый класс для мнемосхем и фейсплейтов.</para>
     /// </summary>
-    public abstract class MimicBase
+    public abstract class MimicBase : IContainer
     {
+        private string rootElemName = "Mimic"; // the XML root element name
+
+
         /// <summary>
-        /// Gets the mimic document that groups its properties.
+        /// Gets the dependencies on the faceplates sorted by type name.
+        /// </summary>
+        public List<FaceplateMeta> Dependencies { get; } = [];
+
+        /// <summary>
+        /// Gets the document that contains mimic properties.
         /// </summary>
         public ExpandoObject Document { get; } = new();
 
         /// <summary>
-        /// Gets the components contained within the mimic.
+        /// Gets the top-level components contained in the mimic.
         /// </summary>
         public List<Component> Components { get; } = [];
 
         /// <summary>
-        /// Gets the components accessed by ID.
+        /// Gets the images sorted by name.
         /// </summary>
-        public Dictionary<int, Component> ComponentMap { get; } = [];
+        public List<Image> Images { get; } = [];
 
-        /// <summary>
-        /// Gets the images accessed by name.
-        /// </summary>
-        public SortedList<string, Image> Images { get; } = [];
-        
-        /// <summary>
-        /// Gets an object that can be used to synchronize access to the mimic.
-        /// </summary>
-        public object SyncRoot => this;
-
-
-        /// <summary>
-        /// Enumerates the components starting with the specified component.
-        /// </summary>
-        private static IEnumerable<Component> EnumerateComponentsInternal(IEnumerable<Component> components)
-        {
-            foreach (Component component in components)
-            {
-                yield return component;
-
-                if (component is Panel panel)
-                {
-                    foreach (Component childComponent in EnumerateComponentsInternal(panel.Components))
-                    {
-                        yield return childComponent;
-                    }
-                }
-            }
-        }
 
         /// <summary>
         /// Loads the mimic from the XML node.
         /// </summary>
-        protected virtual void LoadFromXml(XmlElement rootElem)
+        protected void LoadFromXml(XmlElement rootElem)
         {
+            if (rootElem.SelectSingleNode("Dependencies") is XmlNode dependenciesNode)
+            {
+                HashSet<string> typeNames = [];
+
+                foreach (XmlElement faceplateElem in dependenciesNode.SelectNodes("Faceplate"))
+                {
+                    FaceplateMeta faceplateMeta = new();
+                    faceplateMeta.LoadFromXml(faceplateElem);
+
+                    if (!string.IsNullOrEmpty(faceplateMeta.TypeName) && typeNames.Add(faceplateMeta.TypeName))
+                        Dependencies.Add(faceplateMeta);
+                }
+            }
+
             if (rootElem.SelectSingleNode("Document") is XmlNode documentNode)
             {
                 foreach (XmlNode childNode in documentNode.ChildNodes)
@@ -76,38 +69,47 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
 
                 foreach (XmlNode childNode in componentsNode.ChildNodes)
                 {
-                    Component component = childNode.Name == Panel.NodeName ? new Panel() : new Component();
-                    component.LoadFromXml(childNode, componentIDs);
+                    Component component = new();
 
-                    if (component.ID > 0 && !componentIDs.Contains(component.ID))
-                    {
+                    if (component.LoadFromXml(childNode, componentIDs))
                         Components.Add(component);
-                        ComponentMap.Add(component.ID, component);
-                    }
                 }
             }
 
             if (rootElem.SelectSingleNode("Images") is XmlNode imagesNode)
             {
+                HashSet<string> imageNames = [];
+
                 foreach (XmlNode imageNode in imagesNode.SelectNodes("Image"))
                 {
                     Image image = new();
                     image.LoadFromXml(imageNode);
 
-                    if (!string.IsNullOrEmpty(image.Name))
-                        Images.TryAdd(image.Name, image);
+                    if (!string.IsNullOrEmpty(image.Name) && imageNames.Add(image.Name))
+                        Images.Add(image);
                 }
             }
+
+            Dependencies.Sort();
+            Images.Sort();
         }
 
         /// <summary>
         /// Saves the mimic into the XML node.
         /// </summary>
-        protected virtual void SaveToXml(XmlElement rootElem)
+        protected void SaveToXml(XmlElement rootElem)
         {
+            XmlElement dependenciesElem = rootElem.AppendElem("Dependencies");
             XmlElement documentElem = rootElem.AppendElem("Document");
             XmlElement componentsElem = rootElem.AppendElem("Components");
             XmlElement imagesElem = rootElem.AppendElem("Images");
+
+            rootElem.SetAttribute("editorVersion", GetType().Assembly.GetName().Version);
+
+            foreach (FaceplateMeta faceplateMeta in Dependencies.OrderBy(d => d.TypeName))
+            {
+                faceplateMeta.SaveToXml(dependenciesElem.AppendElem("Faceplate"));
+            }
 
             foreach (KeyValuePair<string, object> kvp in Document)
             {
@@ -116,10 +118,13 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
 
             foreach (Component component in Components)
             {
-                component.SaveToXml(componentsElem.AppendElem(component.TypeName));
+                if (!string.IsNullOrEmpty(component.TypeName))
+                {
+                    component.SaveToXml(componentsElem.AppendElem(component.TypeName));
+                }
             }
 
-            foreach (Image image in Images.Values)
+            foreach (Image image in Images.OrderBy(i => i.Name))
             {
                 image.SaveToXml(imagesElem.AppendElem("Image"));
             }
@@ -135,6 +140,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
 
             XmlDocument xmlDoc = new();
             xmlDoc.Load(stream);
+            rootElemName = xmlDoc.DocumentElement.Name;
             LoadFromXml(xmlDoc.DocumentElement);
         }
 
@@ -149,22 +155,11 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
             XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
             xmlDoc.AppendChild(xmlDecl);
 
-            XmlElement rootElem = xmlDoc.CreateElement("Mimic");
+            XmlElement rootElem = xmlDoc.CreateElement(rootElemName);
             xmlDoc.AppendChild(rootElem);
             SaveToXml(rootElem);
 
             xmlDoc.Save(stream);
-        }
-
-        /// <summary>
-        /// Enumerates the components recursively.
-        /// </summary>
-        public IEnumerable<Component> EnumerateComponents()
-        {
-            foreach (Component component in EnumerateComponentsInternal(Components))
-            {
-                yield return component;
-            }
         }
     }
 }

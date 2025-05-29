@@ -9,7 +9,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
     /// Represents information about a faceplate.
     /// <para>Представляет информацию о фейсплейте.</para>
     /// </summary>
-    public class FaceplateMeta
+    public class FaceplateMeta : IComparable<FaceplateMeta>
     {
         /// <summary>
         /// Gets or sets the name of the faceplate type.
@@ -17,9 +17,19 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         public string TypeName { get; set; }
 
         /// <summary>
-        /// Gets or sets the file path relative to the mimic file.
+        /// Gets or sets the file path relative to the directory of views.
         /// </summary>
         public string Path { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the faceplate is referenced by another faceplate of the mimic.
+        /// </summary>
+        public bool IsTransitive { get; init; } = false;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether an error occured while loading the faceplate.
+        /// </summary>
+        public bool HasError { get; set; } = false;
 
 
         /// <summary>
@@ -40,6 +50,27 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
             ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
             xmlElem.SetAttribute("typeName", TypeName);
             xmlElem.SetAttribute("path", Path);
+        }
+
+        /// <summary>
+        /// Creates a copy of the current object and marks it as transitive.
+        /// </summary>
+        public FaceplateMeta Transit()
+        {
+            return new FaceplateMeta
+            {
+                TypeName = TypeName,
+                Path = Path,
+                IsTransitive = true
+            };
+        }
+
+        /// <summary>
+        /// Compares the current instance with another object of the same type.
+        /// </summary>
+        public int CompareTo(FaceplateMeta other)
+        {
+            return string.CompareOrdinal(TypeName, other?.TypeName);
         }
     }
 }

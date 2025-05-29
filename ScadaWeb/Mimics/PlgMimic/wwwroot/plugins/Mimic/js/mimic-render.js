@@ -32,25 +32,78 @@ rs.mimic.Renderer = class {
 
     // Returns a css property value for the image data URI.
     _imageToDataUrlCss(image) {
-        return image ? "url('" + this._imageToDataUrl(image) + "')" : "";
+        return image ? "url('" + image.dataUrl + "')" : "";
     }
 
-    // Returns a data URI containing a representation of the Image object.
-    _imageToDataUrl(image) {
-        return image ? "data:;base64," + image.data : "";
-    }
-
-    // Creates a DOM content of the component according to the component model. Returns a jQuery object.
+    // Creates a component DOM according to the component model. Returns a jQuery object.
     createDom(component, renderContext) {
         return null;
     }
 
-    // Update the existing DOM content of the component according to the component model.
+    // Updates the existing component DOM according to the component model.
     updateDom(component, renderContext) {
     }
 
-    // Updates the component according to the current channel data.
+    // Updates the component view according to the current channel data.
     update(component, renderContext) {
+    }
+
+    // Appends the child DOM into the parent DOM.
+    appendChild(parent, child) {
+        if (parent?.dom && child?.dom) {
+            parent.dom.append(child.dom);
+        }
+    }
+
+    // Sets the location of the component DOM.
+    setLocation(component, x, y) {
+        if (component.dom) {
+            this._setLocation(component.dom, {
+                x: x.toString(),
+                y: y.toString()
+            });
+        }
+    }
+
+    // Gets the component location from its DOM.
+    getLocation(component) {
+        if (component.dom) {
+            let position = component.dom.position();
+            return {
+                x: position.left.toString(),
+                y: position.top.toString()
+            };
+        } else {
+            return {
+                x: "0",
+                y: "0"
+            };
+        }
+    }
+
+    // Sets the size of the component DOM.
+    setSize(component, width, height) {
+        if (component.dom) {
+            this._setSize(component.dom, {
+                width: width.toString(),
+                height: height.toString()
+            });
+        }
+    }
+
+    // Gets the component size from its DOM.
+    getSize(component) {
+        if (component.dom) {
+            return {
+                width: component.dom.outerWidth().toString(),
+                height: component.dom.outerHeight().toString()
+            };
+        } else {
+            return {
+                width: "0",
+                height: "0"
+            };
+        }
     }
 }
 
@@ -60,16 +113,16 @@ rs.mimic.MimicRenderer = class extends rs.mimic.Renderer {
         return true;
     }
 
-    createDom(component, renderContext) {
-        component.dom = $("<div class='mimic'></div>");
-        this.updateDom(component, renderContext);
-        return component.dom;
+    createDom(mimic, renderContext) {
+        mimic.dom = $("<div class='mimic'></div>");
+        this.updateDom(mimic, renderContext);
+        return mimic.dom;
     }
 
-    updateDom(component, renderContext) {
-        if (component.dom instanceof jQuery) {
-            let mimicElem = component.dom.first();
-            this._setSize(mimicElem, component.document.size);
+    updateDom(mimic, renderContext) {
+        if (mimic.dom) {
+            let mimicElem = mimic.dom.first();
+            this._setSize(mimicElem, mimic.document.size);
         }
     }
 }
@@ -77,10 +130,32 @@ rs.mimic.MimicRenderer = class extends rs.mimic.Renderer {
 // Represents a component renderer.
 rs.mimic.ComponentRenderer = class extends rs.mimic.Renderer {
     createDom(component, renderContext) {
-        component.dom = $("<div class='comp'></div>")
+        let componentElem = $("<div class='comp'></div>")
             .attr("id", "comp" + renderContext.idPrefix + component.id)
             .attr("data-id", component.id);
-        return component.dom;
+
+        if (renderContext.editMode) {
+            if (!renderContext.faceplateMode && component.isContainer) {
+                componentElem.addClass("container")
+            }
+
+            if (component.isSelected) {
+                componentElem.addClass("selected")
+            }
+        }
+
+        component.dom = componentElem;
+        return componentElem;
+    }
+
+    updateSelected(component) {
+        if (component.dom) {
+            component.dom.toggleClass("selected", component.isSelected);
+        }
+    }
+
+    allowResizing(component) {
+        return true;
     }
 }
 
@@ -123,7 +198,7 @@ rs.mimic.PanelRenderer = class extends rs.mimic.ComponentRenderer {
     }
 
     updateDom(component, renderContext) {
-        if (component.dom instanceof jQuery) {
+        if (component.dom) {
             let panelElem = component.dom.first();
             let props = component.properties;
             this._setLocation(panelElem, props.location);
@@ -146,10 +221,11 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
     }
 
     updateDom(component, renderContext) {
-        if (component.dom instanceof jQuery) {
+        if (component.dom) {
             let faceplateElem = component.dom.first();
-            this._setLocation(faceplateElem, component.properties.location);
-            this._setSize(faceplateElem, component.model.document.size);
+            let props = component.properties;
+            this._setLocation(faceplateElem, props.location);
+            this._setSize(faceplateElem, props.size);
         }
     }
 }
@@ -157,8 +233,9 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
 // Encapsulates information about a rendering operation.
 rs.mimic.RenderContext = class {
     editMode = false;
-    idPrefix = "";
+    faceplateMode = false;
     imageMap = null;
+    idPrefix = "";
 
     getImage(imageName) {
         return this.imageMap instanceof Map ? this.imageMap.get(imageName) : null;
@@ -186,66 +263,69 @@ rs.mimic.UnitedRenderer = class {
         this.editMode = editMode;
     }
 
-    // Creates a faceplate DOM content.
-    _createFaceplateDom(faceplateInstance, unknownTypes) {
-        if (!faceplateInstance.model) {
-            unknownTypes.add(faceplateInstance.typeName);
-            return;
+    // Appends the component DOM to its parent.
+    _appendToParent(component) {
+        if (component.parent?.renderer) {
+            component.parent.renderer.appendChild(component.parent, component);
         }
+    }
 
-        let renderContext = new rs.mimic.RenderContext();
-        renderContext.editMode = this.editMode;
-        renderContext.imageMap = faceplateInstance.model.imageMap;
-
-        const RendererSet = rs.mimic.RendererSet;
-        faceplateInstance.renderer = RendererSet.faceplateRenderer;
-        RendererSet.faceplateRenderer.createDom(faceplateInstance, renderContext);
-        renderContext.idPrefix = faceplateInstance.id + "-";
-
-        for (let component of faceplateInstance.components) {
-            let renderer = RendererSet.componentRenderers.get(component.typeName);
+    // Creates a component DOM.
+    _createComponentDom(component, renderContext, opt_unknownTypes) {
+        if (component.isFaceplate) {
+            this._createFaceplateDom(component, renderContext, opt_unknownTypes);
+        } else {
+            let renderer = rs.mimic.RendererSet.componentRenderers.get(component.typeName);
 
             if (renderer) {
                 component.renderer = renderer;
                 renderer.createDom(component, renderContext);
-
-                if (component.dom && component.parent?.dom) {
-                    component.parent.dom.append(component.dom);
-                }
+                this._appendToParent(component);
             } else {
-                unknownTypes.add(component.typeName);
+                opt_unknownTypes?.add(component.typeName);
             }
         }
     }
 
-    // Creates a mimic DOM content according to the mimic model. Returns a jQuery object.
+    // Creates a faceplate DOM.
+    _createFaceplateDom(faceplateInstance, renderContext, opt_unknownTypes) {
+        if (!faceplateInstance.model) {
+            opt_unknownTypes?.add(faceplateInstance.typeName);
+            return;
+        }
+
+        let faceplateContext = new rs.mimic.RenderContext();
+        faceplateContext.editMode = this.editMode;
+        faceplateContext.faceplateMode = true;
+        faceplateContext.imageMap = faceplateInstance.model.imageMap;
+        faceplateContext.idPrefix = renderContext.idPrefix;
+
+        let renderer = rs.mimic.RendererSet.faceplateRenderer;
+        faceplateInstance.renderer = renderer;
+        renderer.createDom(faceplateInstance, faceplateContext);
+        this._appendToParent(faceplateInstance);
+        faceplateContext.idPrefix += faceplateInstance.id + "-";
+
+        for (let component of faceplateInstance.components) {
+            this._createComponentDom(component, faceplateContext, opt_unknownTypes);
+        }
+    }
+
+    // Creates a mimic DOM according to the mimic model. Returns a jQuery object.
     createMimicDom() {
-        const RendererSet = rs.mimic.RendererSet;
         let startTime = Date.now();
         let unknownTypes = new Set();
 
         let renderContext = new rs.mimic.RenderContext();
         renderContext.editMode = this.editMode;
         renderContext.imageMap = this.mimic.imageMap;
-        RendererSet.mimicRenderer.createDom(this.mimic, renderContext);
+
+        let renderer = rs.mimic.RendererSet.mimicRenderer;
+        this.mimic.renderer = renderer;
+        renderer.createDom(this.mimic, renderContext);
 
         for (let component of this.mimic.components) {
-            if (component.isFaceplate) {
-                this._createFaceplateDom(component, unknownTypes);
-            } else {
-                let renderer = RendererSet.componentRenderers.get(component.typeName);
-
-                if (renderer) {
-                    component.renderer = renderer;
-                    renderer.createDom(component, renderContext);
-                } else {
-                    unknownTypes.add(component.typeName);
-                }
-            }
-
-            if (component.dom && component.parent?.dom) {
-                component.parent.dom.append(component.dom);
-            }
+            this._createComponentDom(component, renderContext, unknownTypes);
         }
 
         if (unknownTypes.size > 0) {
@@ -253,20 +333,35 @@ rs.mimic.UnitedRenderer = class {
         }
 
         if (this.mimic.dom) {
-            console.info(ScadaUtils.getCurrentTime() + " Mimic DOM created in " + (Date.now() - startTime) + " ms");
+            console.info("Mimic DOM created in " + (Date.now() - startTime) + " ms");
             return this.mimic.dom;
         } else {
             return $();
         }
     }
 
-    // Update the component DOM content according to the component model.
+    // Updates a mimic DOM according to the mimic model.
+    updateMimicDom() {
+        rs.mimic.RendererSet.mimicRenderer.updateDom(this.mimic);
+    }
+
+    // Creates a component DOM according to the component model. Returns a jQuery object.
+    createComponentDom(component) {
+        let renderContext = new rs.mimic.RenderContext();
+        renderContext.editMode = this.editMode;
+        renderContext.imageMap = this.mimic.imageMap;
+        this._createComponentDom(component, renderContext);
+        return component.dom ?? $();
+    }
+
+    // Updates the component DOM according to the component model.
     updateComponentDom(component) {
         if (component.dom && component.renderer) {
             let renderContext = new rs.mimic.RenderContext();
             renderContext.editMode = this.editMode;
 
             if (component.isFaceplate) {
+                renderContext.faceplateMode = true;
                 renderContext.imageMap = component.model.imageMap;
                 component.renderer.updateDom(component, renderContext);
             } else {
@@ -279,6 +374,23 @@ rs.mimic.UnitedRenderer = class {
                     component.renderer.createDom(component, renderContext);
                     oldDom.replaceWith(component.dom);
                 }
+            }
+        }
+    }
+
+    // Arranges the child component DOMs according to the parent's model.
+    arrangeChildren(parent) {
+        if (parent.children) {
+            // detach components
+            for (let component of parent.children) {
+                if (component.dom) {
+                    component.dom.detach();
+                }
+            }
+
+            // append components
+            for (let component of parent.children) {
+                this._appendToParent(component);
             }
         }
     }

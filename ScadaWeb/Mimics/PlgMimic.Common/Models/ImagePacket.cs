@@ -21,15 +21,14 @@ namespace Scada.Web.Plugins.PlgMimic.Models
 
             Images = [];
             int currentIndex = index;
-            int imageCount = mimic.Images.Count;
             int counter = 0;
             int totalSize = 0;
 
-            while (currentIndex < imageCount && counter < count)
+            while (currentIndex < mimic.Images.Count && counter < count)
             {
                 if (currentIndex >= 0)
                 {
-                    Image image = mimic.Images.GetValueAtIndex(currentIndex);
+                    Image image = mimic.Images[currentIndex];
 
                     if (Images.Count == 0 || totalSize + image.DataSize <= size)
                     {
@@ -46,7 +45,7 @@ namespace Scada.Web.Plugins.PlgMimic.Models
                 counter++;
             }
 
-            EndOfImages = currentIndex >= imageCount;
+            EndOfImages = currentIndex >= mimic.Images.Count;
         }
 
 

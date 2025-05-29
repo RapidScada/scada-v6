@@ -1,58 +1,151 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System.Xml;
-
 namespace Scada.Web.Plugins.PlgMimic.MimicModel
 {
     /// <summary>
     /// Represents a mimic diagram.
     /// <para>Представляет мнемосхему.</para>
     /// </summary>
+    /// <remarks>It could also be a faceplate being edited.</remarks>
     public class Mimic : MimicBase
     {
         /// <summary>
-        /// Gets the dependencies on the faceplates.
+        /// Gets the dependencies accessible by type name.
         /// </summary>
-        public List<FaceplateMeta> Dependencies { get; } = [];
+        public Dictionary<string, FaceplateMeta> DependencyMap { get; } = [];
 
         /// <summary>
-        /// Gets the faceplates accessed by type name.
+        /// Gets all mimic components accessible by ID.
         /// </summary>
-        public Dictionary<string, Faceplate> Faceplates { get; } = [];
+        public Dictionary<int, Component> ComponentMap { get; } = [];
+
+        /// <summary>
+        /// Gets the images accessible by name.
+        /// </summary>
+        public Dictionary<string, Image> ImageMap { get; } = [];
+
+        /// <summary>
+        /// Gets the faceplates accessible by type name.
+        /// </summary>
+        public Dictionary<string, Faceplate> FaceplateMap { get; } = [];
+
+        /// <summary>
+        /// Gets an object that can be used to synchronize access to the mimic.
+        /// </summary>
+        public object SyncRoot => this;
 
 
         /// <summary>
-        /// Loads the mimic from the XML node.
+        /// Loads the mimic diagram.
         /// </summary>
-        protected override void LoadFromXml(XmlElement rootElem)
+        public override void Load(Stream stream)
         {
-            if (rootElem.SelectSingleNode("Dependencies") is XmlNode dependenciesNode)
+            base.Load(stream);
+
+            // map dependencies
+            foreach (FaceplateMeta faceplateMeta in Dependencies)
             {
-                foreach (XmlElement faceplateElem in dependenciesNode.SelectNodes("Faceplate"))
-                {
-                    FaceplateMeta faceplateMeta = new();
-                    faceplateMeta.LoadFromXml(faceplateElem);
-                    Dependencies.Add(faceplateMeta);
-                }
+                DependencyMap.Add(faceplateMeta.TypeName, faceplateMeta);
             }
 
-            base.LoadFromXml(rootElem);
+            // map components
+            foreach (Component component in EnumerateComponents())
+            {
+                ComponentMap.Add(component.ID, component);
+            }
+
+            // map images
+            foreach (Image image in Images)
+            {
+                ImageMap.Add(image.Name, image);
+            }
         }
 
         /// <summary>
-        /// Saves the mimic into the XML node.
+        /// Loads the mimic diagram from file.
         /// </summary>
-        protected override void SaveToXml(XmlElement rootElem)
+        public void Load(string fileName)
         {
-            XmlElement dependenciesElem = rootElem.AppendElem("Dependencies");
+            using FileStream mimicStream = new(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            Load(mimicStream);
+        }
 
-            foreach (FaceplateMeta faceplateMeta in Dependencies)
+        /// <summary>
+        /// Loads the faceplates specified in dependencies.
+        /// </summary>
+        public void LoadFaceplates(string viewDir, bool continueOnError, List<string> errors = null)
+        {
+            int dependencyIndex = 0;
+
+            while (dependencyIndex < Dependencies.Count)
             {
-                faceplateMeta.SaveToXml(dependenciesElem.AppendElem("Faceplate"));
-            }
+                FaceplateMeta faceplateMeta = Dependencies[dependencyIndex];
+                faceplateMeta.HasError = false;
+                dependencyIndex++;
 
-            base.SaveToXml(rootElem);
+                if (!string.IsNullOrEmpty(faceplateMeta.TypeName) &&
+                    !FaceplateMap.ContainsKey(faceplateMeta.TypeName))
+                {
+                    try
+                    {
+                        string faceplateFileName = Path.Combine(viewDir,
+                            ScadaUtils.NormalPathSeparators(faceplateMeta.Path));
+
+                        using FileStream faceplateStream =
+                            new(faceplateFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+
+                        Faceplate faceplate = new();
+                        faceplate.Load(faceplateStream);
+                        FaceplateMap.Add(faceplateMeta.TypeName, faceplate);
+                        faceplate.Dependencies.ForEach(d => Dependencies.Add(d.Transit()));
+                    }
+                    catch (Exception ex)
+                    {
+                        if (continueOnError)
+                        {
+                            faceplateMeta.HasError = true;
+                            errors?.Add(ex.Message);
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Reloads faceplates.
+        /// </summary>
+        public void ReloadFaceplates(string viewDir, out List<string> errors)
+        {
+            // clean up dependencies
+            Dependencies.RemoveAll(d => d.IsTransitive);
+            DependencyMap.Clear();
+            Dependencies.ForEach(d => DependencyMap.Add(d.TypeName, d));
+
+            // load faceplates
+            FaceplateMap.Clear();
+            errors = [];
+            LoadFaceplates(viewDir, true, errors);
+        }
+
+        /// <summary>
+        /// Enumerates the components recursively.
+        /// </summary>
+        public IEnumerable<Component> EnumerateComponents()
+        {
+            foreach (Component component in Components)
+            {
+                yield return component;
+
+                foreach (Component childComponent in component.GetAllChildren())
+                {
+                    yield return childComponent;
+                }
+            }
         }
     }
 }

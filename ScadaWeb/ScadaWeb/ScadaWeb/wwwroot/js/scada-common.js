@@ -169,6 +169,12 @@ class ScadaUtils {
         }
     }
 
+    // Creates a full copy of the specified object.
+    static deepClone(obj) {
+        // alternatively, use structuredClone()
+        return JSON.parse(JSON.stringify(obj));
+    }
+
     // Checks if the specified locale is Russian. If no argument is specified, the browser locale is checked.
     static isRussian(opt_locale) {
         let lang = opt_locale || navigator.language.toLowerCase();

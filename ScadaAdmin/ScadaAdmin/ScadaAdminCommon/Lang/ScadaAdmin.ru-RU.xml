@@ -626,6 +626,12 @@
     <Phrase key="ProjectTemplateEmpty">Создание проекта без шаблона не рекомендуется. Продолжить?</Phrase>
     <Phrase key="ProjectTemplateNotFound">Шаблон проекта не найден.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.FrmProjectProps">
+    <Phrase key="this">Свойства проекта</Phrase>
+    <Phrase key="lblName">Наименование проекта</Phrase>
+    <Phrase key="lblVersion">Версия</Phrase>
+    <Phrase key="lblDescr">Описание</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmStartPage">
     <Phrase key="this">Стартовая страница</Phrase>
     <Phrase key="miRemoveFromList">Удалить из списка</Phrase>

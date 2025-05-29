@@ -29,8 +29,8 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         private readonly IWebContext webContext; // the web application context
         private readonly object editorLock;      // synchronizes access to the open mimics
         private readonly Dictionary<string, MimicGroup> mimicGroups;        // the mimic groups by project file name
-        private readonly Dictionary<string, MimicInstance> mimicByFileName; // the mimics accessed by file name
-        private readonly Dictionary<long, MimicInstance> mimicByKey;        // the mimics accessed by editor key
+        private readonly Dictionary<string, MimicInstance> mimicByFileName; // the mimics accessible by file name
+        private readonly Dictionary<long, MimicInstance> mimicByKey;        // the mimics accessible by editor key
 
         private Thread cleanupThread;     // the thread to cleanup inactive mimics
         private volatile bool terminated; // necessary to stop the thread
@@ -50,8 +50,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             cleanupThread = null;
             terminated = false;
 
-            EditorConfig = new EditorConfig();
-            MimicPluginConfig = new MimicPluginConfig();
+            PluginConfig = new MimicPluginConfig();
             PluginLog = new LogFile(LogFormat.Simple)
             {
                 FileName = Path.Combine(webContext.AppDirs.LogDir, EditorUtils.LogFileName),
@@ -63,14 +62,9 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
 
 
         /// <summary>
-        /// Gets the configuration of the editor plugin.
-        /// </summary>
-        public EditorConfig EditorConfig { get; }
-
-        /// <summary>
         /// Gets the configuration of the mimic plugin.
         /// </summary>
-        public MimicPluginConfig MimicPluginConfig { get; }
+        public MimicPluginConfig PluginConfig { get; }
 
         /// <summary>
         /// Gets the plugin log.
@@ -114,6 +108,26 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             mimicByKey.Add(mimicInstance.MimicKey, mimicInstance);
             mimicGroup.AddMimic(mimicInstance);
             return mimicInstance;
+        }
+
+        /// <summary>
+        /// Reloads the faceplates of the specified mimic.
+        /// </summary>
+        private void ReloadFaceplates(MimicInstance mimicInstance)
+        {
+            PluginLog.WriteAction(Locale.IsRussian ?
+                "Перезагрузка фейсплейтов для мнемосхемы {0}" :
+                "Reload faceplates for mimic {0}", mimicInstance.FileName);
+            string viewDir = EditorUtils.GetViewDir(mimicInstance.ParentGroup.ProjectFileName);
+            mimicInstance.Mimic.ReloadFaceplates(viewDir, out List<string> errors);
+
+            if (errors.Count > 0)
+            {
+                PluginLog.WriteError(Locale.IsRussian ?
+                    "Ошибка при перезагрузке фейсплейтов:{0}{1}" :
+                    "Error reloading faceplates:{0}{1}",
+                    Environment.NewLine, string.Join(Environment.NewLine, errors));
+            }
         }
 
         /// <summary>
@@ -221,13 +235,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         public void LoadConfig()
         {
-            if (!EditorConfig.Load(webContext.Storage, EditorConfig.DefaultFileName, out string errMsg))
-            {
-                PluginLog.WriteError(errMsg);
-                webContext.Log.WriteError(WebPhrases.PluginMessage, EditorPluginInfo.PluginCode, errMsg);
-            }
-
-            if (!MimicPluginConfig.Load(webContext.Storage, MimicPluginConfig.DefaultFileName, out errMsg))
+            if (!PluginConfig.Load(webContext.Storage, MimicPluginConfig.DefaultFileName, out string errMsg))
             {
                 PluginLog.WriteError(errMsg);
                 webContext.Log.WriteError(WebPhrases.PluginMessage, EditorPluginInfo.PluginCode, errMsg);
@@ -268,38 +276,18 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
 
                 // load mimic
                 Mimic mimic = new();
-
-                using (FileStream mimicStream = new(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                {
-                    mimic.Load(mimicStream);
-                }
+                mimic.Load(fileName);
 
                 // load faceplates
                 string viewDir = EditorUtils.GetViewDir(projectFileName);
-
-                foreach (FaceplateMeta faceplateMeta in mimic.Dependencies)
-                {
-                    if (!string.IsNullOrEmpty(faceplateMeta.TypeName) &&
-                        !mimic.Faceplates.ContainsKey(faceplateMeta.TypeName))
-                    {
-                        string faceplateFileName = Path.Combine(viewDir, 
-                            ScadaUtils.NormalPathSeparators(faceplateMeta.Path));
-
-                        using FileStream faceplateStream =
-                            new(faceplateFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-
-                        Faceplate faceplate = new();
-                        faceplate.Load(faceplateStream);
-                        mimic.Faceplates.Add(faceplateMeta.TypeName, faceplate);
-                    }
-                }
+                mimic.LoadFaceplates(viewDir, false);
 
                 // add mimic to the editor
                 StartCleanup();
                 MimicInstance mimicInstance = AddMimic(projectFileName, fileName, mimic);
                 PluginLog.WriteAction(Locale.IsRussian ?
                     "Загружена мнемосхема {0}" :
-                    "{0} mimic loaded", fileName);
+                    "Mimic loaded {0}", fileName);
 
                 return new OpenResult
                 {
@@ -364,7 +352,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
 
                 PluginLog.WriteAction(Locale.IsRussian ?
                     "Сохранена мнемосхема {0}" :
-                    "{0} mimic loaded", mimicInstance.FileName);
+                    "Mimic saved {0}", mimicInstance.FileName);
 
                 errMsg = "";
                 return true;
@@ -400,7 +388,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
 
                     PluginLog.WriteAction(Locale.IsRussian ?
                         "Закрыта мнемосхема {0}" :
-                        "{0} mimic closed", mimicInstance.FileName);
+                        "Mimic closed {0}", mimicInstance.FileName);
                 }
             }
         }
@@ -419,6 +407,9 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 {
                     mimicInstance.RegisterClientActivity();
                     mimicInstance.Updater.ApplyChanges(changes);
+
+                    if (mimicInstance.Updater.DependenciesChanged)
+                        ReloadFaceplates(mimicInstance);
                 }
 
                 errMsg = "";

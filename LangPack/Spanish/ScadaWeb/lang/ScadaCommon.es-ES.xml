@@ -3,9 +3,9 @@
   <!-- ScadaCommon.dll -->
   <Dictionary key="Scada.Application">
     <Phrase key="ProductName">Rapid SCADA</Phrase>
-    <Phrase key="ServerAppName">Servidor</Phrase>
-    <Phrase key="CommAppName">Comunicador</Phrase>
-    <Phrase key="WebAppName">estación web</Phrase>
+    <Phrase key="ServerAppName">Server</Phrase>
+    <Phrase key="CommAppName">Comunicator</Phrase>
+    <Phrase key="WebAppName">Webstation</Phrase>
     <Phrase key="WebsiteUrl">https://rapidscada.org</Phrase>
     <Phrase key="UnhandledException">Excepción no controlada</Phrase>
     <Phrase key="ExecutionImpossible">La ejecución normal es imposible</Phrase>
@@ -97,7 +97,7 @@
   </Dictionary>
   <Dictionary key="Scada.CnlDataFormatter">
     <Phrase key="UndefinedSign">---</Phrase>
-    <Phrase key="CommandDescrPrefix">Dominio:</Phrase>
+    <Phrase key="CommandDescrPrefix">Comando:</Phrase>
     <Phrase key="StatusFormat">Estado {0}</Phrase>
     <Phrase key="CriticalSeverity">Crítico</Phrase>
     <Phrase key="MajorSeverity">Importante</Phrase>
@@ -148,12 +148,12 @@
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmBitmask">
     <Phrase key="this">Máscara de bits</Phrase>
-    <Phrase key="btnOK">DE ACUERDO</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancelar</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmBitSelect">
     <Phrase key="this">Seleccionar bit</Phrase>
-    <Phrase key="btnOK">DE ACUERDO</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancelar</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmCnlSelect">
@@ -185,24 +185,24 @@
   <Dictionary key="Scada.Forms.Forms.FrmModuleConfig">
     <Phrase key="this">Configuración del módulo</Phrase>
     <Phrase key="btnAdd.ToolTip">Agregar</Phrase>
-    <Phrase key="btnMoveUp.ToolTip">Ascender</Phrase>
-    <Phrase key="btnMoveDown.ToolTip">Mover hacia abajo</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Mover arriba</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Mover abajo</Phrase>
     <Phrase key="btnDelete.ToolTip">Borrar</Phrase>
-    <Phrase key="btnSave">Ahorrar</Phrase>
+    <Phrase key="btnSave">Guardar</Phrase>
     <Phrase key="btnCancel">Cancelar</Phrase>
-    <Phrase key="btnClose">Cerca</Phrase>
+    <Phrase key="btnClose">Cerrar</Phrase>
     <Phrase key="miCollapseAll">Desplegar todo</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmOptions">
     <Phrase key="this">Opciones</Phrase>
-    <Phrase key="btnOK">DE ACUERDO</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancelar</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmRangeEdit">
     <Phrase key="this">Editar rango</Phrase>
     <Phrase key="lblRange">Rango de números enteros</Phrase>
     <Phrase key="lblExample">Por ejemplo: 1 - 5, 10</Phrase>
-    <Phrase key="btnOK">DE ACUERDO</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancelar</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.BitItemCollection">

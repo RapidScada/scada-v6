@@ -11,12 +11,13 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
     /// Represents a component of a mimic diagram.
     /// <para>Представляет компонент мнемосхемы.</para>
     /// </summary>
-    public class Component
+    public sealed class Component : IContainer
     {
         /// <summary>
         /// The component properties that are loaded explicitly.
         /// </summary>
-        protected static readonly HashSet<string> ComponentKnownProperties = ["ID", "Name", "TypeName"];
+        public static readonly HashSet<string> KnownProperties = 
+            ["ID", "Name", "TypeName", "ParentID", "Components"];
 
 
         /// <summary>
@@ -35,11 +36,6 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         public string TypeName { get; set; } = "";
 
         /// <summary>
-        /// Gets or sets the ID of the parent component.
-        /// </summary>
-        public int ParentID { get; set; } = 0;
-
-        /// <summary>
         /// Gets the component properties.
         /// </summary>
         public ExpandoObject Properties { get; } = new();
@@ -55,33 +51,65 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         public ComponentAccess Access { get; } = new();
 
         /// <summary>
-        /// Gets the properties that are loaded explicitly.
+        /// Gets or sets the ID of the parent component.
+        /// </summary>
+        public int ParentID { get; set; } = 0;
+
+        /// <summary>
+        /// Gets the top-level child components.
         /// </summary>
         [JsonIgnore]
-        public virtual HashSet<string> KnownProperties => ComponentKnownProperties;
+        public List<Component> Components { get; } = [];
 
 
         /// <summary>
-        /// Loads the component from the XML node.
+        /// Loads the component from the XML node. Returns true if the component has been added to the map.
         /// </summary>
-        public virtual void LoadFromXml(XmlNode xmlNode, HashSet<int> componentIDs)
+        public bool LoadFromXml(XmlNode xmlNode, HashSet<int> componentIDs)
         {
             ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
+            ArgumentNullException.ThrowIfNull(componentIDs, nameof(componentIDs));
+
             ID = xmlNode.GetChildAsInt("ID");
             Name = xmlNode.GetChildAsString("Name");
             TypeName = xmlNode.Name;
 
-            foreach (XmlNode childNode in xmlNode.ChildNodes)
+            if (ID > 0 && componentIDs.Add(ID))
             {
-                if (!KnownProperties.Contains(childNode.Name))
-                    Properties.LoadProperty(childNode);
+                // load properties
+                foreach (XmlNode childNode in xmlNode.ChildNodes)
+                {
+                    if (!KnownProperties.Contains(childNode.Name))
+                        Properties.LoadProperty(childNode);
+                }
+
+                // load child components
+                if (xmlNode.SelectSingleNode("Components") is XmlNode componentsNode)
+                {
+                    foreach (XmlNode childNode in componentsNode.ChildNodes)
+                    {
+                        Component component = new();
+
+                        if (component.LoadFromXml(childNode, componentIDs))
+                        {
+                            component.ParentID = ID;
+                            Components.Add(component);
+                        }
+                    }
+                }
+
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
         /// <summary>
         /// Saves the component into the XML node.
         /// </summary>
-        public virtual void SaveToXml(XmlNode xmlNode)
+        public void SaveToXml(XmlNode xmlNode)
         {
             ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
             xmlNode.AppendElem("ID", ID);
@@ -90,6 +118,32 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
             foreach (KeyValuePair<string, object> kvp in Properties)
             {
                 ExpandoExtensions.SaveProperty(xmlNode, kvp.Key, kvp.Value);
+            }
+
+            if (Components.Count > 0)
+            {
+                XmlElement componentsElem = xmlNode.AppendElem("Components");
+
+                foreach (Component component in Components)
+                {
+                    component.SaveToXml(componentsElem.AppendElem(component.TypeName));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets all child components recursively.
+        /// </summary>
+        public IEnumerable<Component> GetAllChildren()
+        {
+            foreach (Component component in Components)
+            {
+                yield return component;
+
+                foreach (Component childComponent in component.GetAllChildren())
+                {
+                    yield return childComponent;
+                }
             }
         }
     }

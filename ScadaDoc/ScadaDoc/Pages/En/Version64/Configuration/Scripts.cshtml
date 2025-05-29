@@ -314,9 +314,19 @@
                 <td>Returns the n-th bit of the specified value</td>
             </tr>
             <tr>
-                <td>GetBit(cnlData, val)</td>
+                <td>GetBit(cnlData, n)</td>
                 <td>CnlData</td>
                 <td>Returns a channel data consists of the n-th bit of the value and the channel status</td>
+            </tr>
+            <tr>
+                <td>GetBits(val, n, len)</td>
+                <td>double</td>
+                <td>Returns specified bits of the given value</td>
+            </tr>
+            <tr>
+                <td>GetBits(cnlData, n, len)</td>
+                <td>CnlData</td>
+                <td>Returns a channel data consists of the specified bits of the value and the channel status</td>
             </tr>
             <tr>
                 <td>SetBit(val, n, isOn)</td>
@@ -342,6 +352,11 @@
                 <td>SetData()</td>
                 <td>double</td>
                 <td>Sets the current channel data according to the command value</td>
+            </tr>
+            <tr>
+                <td>GetDefaultData(val)</td>
+                <td>CnlData</td>
+                <td>Gets the default data of the calculated channel</td>
             </tr>
             <tr>
                 <td>Now()</td>

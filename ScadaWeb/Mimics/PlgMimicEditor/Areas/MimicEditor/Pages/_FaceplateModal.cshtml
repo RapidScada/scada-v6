@@ -1,0 +1,33 @@
+﻿@{
+    dynamic dict = Locale.GetDictionary(typeof(MimicEditModel).FullName + ".FaceplateModal");
+}
+<!-- Faceplate modal -->
+<div id="divFaceplateModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 text-truncate">@dict.PageTitle</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="frmFaceplateModal" class="needs-validation" novalidate spellcheck="false">
+                    <div class="mb-3">
+                        <label id="faceplateModal_lblTypeName" for="faceplateModal_txtTypeName" class="form-label">@dict.lblTypeName</label>
+                        <input type="text" id="faceplateModal_txtTypeName" class="form-control" required autocomplete="off">
+                        <div class="invalid-feedback">@dict.RequiredField</div>
+                    </div>
+                    <div class="mb-3">
+                        <label id="faceplateModal_lblPath" for="faceplateModal_txtPath" class="form-label">@dict.lblPath</label>
+                        <input type="text" id="faceplateModal_txtPath" class="form-control" required autocomplete="off">
+                        <div class="invalid-feedback">@dict.RequiredField</div>
+                    </div>
+                    <button type="submit" class="d-none">Submit</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="faceplateModal_btnOK" class="btn btn-primary">@dict.btnOK</button>
+                <button type="button" id="faceplateModal_btnCancel" class="btn btn-secondary" data-bs-dismiss="modal">@dict.btnCancel</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -10,12 +10,17 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
     /// Represents an image of a mimic diagram.
     /// <para>Представляет изображение мнемосхемы.</para>
     /// </summary>
-    public class Image
+    public class Image : IComparable<Image>
     {
         /// <summary>
         /// Gets or sets the image name.
         /// </summary>
         public string Name { get; set; } = "";
+
+        /// <summary>
+        /// Gets or sets the media type.
+        /// </summary>
+        public string MediaType { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the image data.
@@ -36,6 +41,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         {
             ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
             Name = xmlNode.GetChildAsString("Name");
+            MediaType = xmlNode.GetChildAsString("MediaType");
             Data = Convert.FromBase64String(xmlNode.GetChildAsString("Data"));
         }
 
@@ -46,10 +52,19 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         {
             ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
             xmlNode.AppendElem("Name", Name);
+            xmlNode.AppendElem("MediaType", MediaType);
             xmlNode.AppendElem("Data",
                 Data != null && Data.Length > 0 
                 ? Convert.ToBase64String(Data, Base64FormattingOptions.None) 
                 : "");
+        }
+
+        /// <summary>
+        /// Compares the current instance with another object of the same type.
+        /// </summary>
+        public int CompareTo(Image other)
+        {
+            return string.CompareOrdinal(Name, other?.Name);
         }
     }
 }

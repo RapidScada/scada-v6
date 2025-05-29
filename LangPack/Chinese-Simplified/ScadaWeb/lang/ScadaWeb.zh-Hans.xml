@@ -2,7 +2,7 @@
 <ScadaWebDictionaries culture="zh-Hans" lang="ChineseSimplified">
   <Dictionary key="Scada.Web">
     <Phrase key="CorrectErrors">请修正下面的错误：</Phrase>
-    <Phrase key="ClientError">与server通信时发生错误</Phrase>
+    <Phrase key="ClientError">与服务器通信时发生错误</Phrase>
     <Phrase key="UnknownUsername">未知</Phrase>
     <Phrase key="AccessDenied">访问受限</Phrase>
   </Dictionary>
@@ -73,7 +73,7 @@
     <Phrase key="btnLogin">登录</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Reports">
-    <Phrase key="PageTitle">报告</Phrase>
+    <Phrase key="PageTitle">报表</Phrase>
     <Phrase key="NoReports">无可用报表。</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.UserProfile">
@@ -93,15 +93,15 @@
   <Dictionary key="Scada.Web.Plugins">
     <Phrase key="LoadPluginConfigError">加载插件配置时发生错误</Phrase>
     <Phrase key="SavePluginConfigError">保存插件配置时发生错误</Phrase>
-    <Phrase key="CnlNotFound">通道 {0} 未发现。</Phrase>
-    <Phrase key="CnlNotOutput">通道 {0} 不是输出通道。</Phrase>
+    <Phrase key="CnlNotFound">通道{0}未发现。</Phrase>
+    <Phrase key="CnlNotOutput">通道{0}不是输出通道。</Phrase>
     <Phrase key="CommandsDisabled">命令已禁用。</Phrase>
-    <Phrase key="SendCommand">{1} 发送命令至通道 {0}</Phrase>
+    <Phrase key="SendCommand">{1}发送命令至通道{0}</Phrase>
     <Phrase key="ActionNotAllowed">操作不允许</Phrase>
     <Phrase key="ViewTitle">查看{0}</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.TreeView.MenuItem">
-    <Phrase key="ReportsMenuItem">报告</Phrase>
+    <Phrase key="ReportsMenuItem">报表</Phrase>
     <Phrase key="AdministrationMenuItem">管理</Phrase>
     <Phrase key="ConfigurationMenuItem">配置</Phrase>
     <Phrase key="RegistrationMenuItem">注册</Phrase>

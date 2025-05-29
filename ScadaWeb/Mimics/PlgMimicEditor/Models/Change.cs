@@ -14,26 +14,9 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Models
     public class Change
     {
         /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public Change()
-        {
-            ChangeType = ChangeType.None;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public Change(ChangeType changeType)
-        {
-            ChangeType = changeType;
-        }
-
-
-        /// <summary>
         /// Gets or sets the change type.
         /// </summary>
-        public ChangeType ChangeType { get; set; }
+        public string ChangeType { get; set; }
 
         /// <summary>
         /// Gets or sets the ID of the affected object.
@@ -41,22 +24,57 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Models
         public int ObjectID { get; set; }
 
         /// <summary>
+        /// Gets or sets the IDs of the affected objects.
+        /// </summary>
+        public int[] ObjectIDs { get; set; }
+
+        /// <summary>
         /// Gets or sets the name of the affected object.
         /// </summary>
-        public int ObjectName { get; set; }
+        public string ObjectName { get; set; }
 
         /// <summary>
         /// Gets or sets the properties of the object being added or updated.
         /// </summary>
         public ExpandoObject Properties { get; set; }
 
+        /// <summary>
+        /// Gets or sets the new parent ID of the components.
+        /// </summary>
+        public int ParentID { get; set; }
+
+        /// <summary>
+        /// Gets or sets the index of the component among its siblings.
+        /// </summary>
+        public int Index { get; set; }
+
+        /// <summary>
+        /// Gets or sets the number of steps by which the components are shifted.
+        /// </summary>
+        public int Shift { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ID of the sibling component to arrange the components relative to it.
+        /// </summary>
+        public int SiblingID { get; set; }
+
+
+        /// <summary>
+        /// Gets the IDs of the affected objects as an array.
+        /// </summary>
+        public int[] GetObjectIDs()
+        {
+            return ObjectID > 0
+                ? [ObjectID]
+                : (ObjectIDs ?? []);
+        }
 
         /// <summary>
         /// Gets the property value as a string.
         /// </summary>
         public string GetString(string propertyName)
         {
-            return Properties.GetValue(propertyName)?.ToString();
+            return Properties?.GetValue(propertyName)?.ToString();
         }
 
         /// <summary>
@@ -64,7 +82,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Models
         /// </summary>
         public int GetInt32(string propertyName)
         {
-            return Properties.GetValue<JsonElement>(propertyName).GetInt32();
+            return Properties == null ? 0 : Properties.GetValue<JsonElement>(propertyName).GetInt32();
         }
     }
 }

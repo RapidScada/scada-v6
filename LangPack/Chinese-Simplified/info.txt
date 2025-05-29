@@ -1,5 +1,6 @@
 Language                 : Chinese-Simplified
 Culture name:            : zh-Hans
-Rapid SCADA version      : 6.3.0
+Rapid SCADA version      : 6.4.0
 Rapid SCADA applications : All
-Author                   : geffzhang
+Rapid SCADA modules      : Chart Pro, Auto Control Module
+Author                   : geffzhang, JW Chen
