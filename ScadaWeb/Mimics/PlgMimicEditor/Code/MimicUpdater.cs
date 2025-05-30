@@ -117,7 +117,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             // add component
             if (GetComponentParent(component) is IContainer parent)
             {
-                parent.Components.Insert(change.Index, component);
+                parent.Components.Add(component);
                 mimic.ComponentMap.Add(component.ID, component);
             }
         }
@@ -149,7 +149,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 oldParent?.Components.Remove(component);
 
                 component.ParentID = change.ParentID;
-                newParent.Components.Insert(change.Index, component);
+                newParent.Components.Add(component);
                 SetComponentProperties(component, change); // set location
             }
         }
@@ -319,6 +319,18 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         private static bool AreRelatives(IContainer parent, IContainer child)
         {
             // TODO: implement
+            /*let current = child.parent;
+
+            while (current)
+            {
+                if (current === parent)
+                {
+                    return true;
+                }
+
+                current = current.parent;
+            }*/
+
             return false;
         }
 

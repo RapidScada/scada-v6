@@ -408,7 +408,7 @@ function remove() {
     for (let componentID of componentIDs) {
         // remove component from model and DOM
         let component = mimic.removeComponent(componentID);
-        rs.mimic.Renderer.removeDom(component);
+        rs.mimic.Renderer.remove(component);
 
         // update structure tree
         structTree.removeComponent(componentID);
@@ -856,7 +856,7 @@ function restoreHistoryPoint(historyPoint) {
                         removeFromSelection(component);
                     }
 
-                    Renderer.removeDom(component);
+                    Renderer.remove(component);
                     structTree.removeComponent(componentID);
                     changes.push(Change.removeComponent(componentID));
                 } else {
@@ -878,7 +878,7 @@ function restoreHistoryPoint(historyPoint) {
                         componentIndexes.push(componentSource.index);
 
                         component.properties.location = componentSource.properties.location;
-                        Renderer.detachDom(component);
+                        Renderer.detach(component);
                         component.renderer?.updateLocation(component);
                         Renderer.appendChild(parent, component);
 
@@ -1296,7 +1296,7 @@ function arrangeComponents(arrangeType, componentID, opt_point) {
             let y = component.y - minLocation.y + offset.y;
 
             if (mimic.updateParent(component, parent, null, x, y)) {
-                Renderer.detachDom(component);
+                Renderer.detach(component);
                 component.renderer?.updateLocation(component);
                 Renderer.appendChild(parent, component);
                 structTree.removeComponent(component.id);

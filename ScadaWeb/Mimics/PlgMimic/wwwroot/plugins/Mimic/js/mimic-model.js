@@ -191,19 +191,23 @@ rs.mimic.MimicHelper = class MimicHelper {
 
             // copy children to new array
             let arranged = [];
-            let index = 0;
+            let arrangedIndex = 0;
+            let sourceIndex = 0;
+            let length = parent.children.length;
 
-            for (let childComponent of parent.children) {
-                let extraComponent = componentByIndex.get(index);
+            while (arrangedIndex < length && sourceIndex < length) {
+                let component = componentByIndex.get(arrangedIndex);
 
-                if (extraComponent) {
-                    extraComponent.index = index++;
-                    arranged.push(extraComponent);
-                }
+                if (component) {
+                    component.index = arrangedIndex++;
+                    arranged.push(component);
+                } else {
+                    component = parent.children[sourceIndex++];
 
-                if (!componentIDs.has(childComponent.id)) {
-                    childComponent.index = index++;
-                    arranged.push(childComponent);
+                    if (!componentIDs.has(component.id)) {
+                        component.index = arrangedIndex++;
+                        arranged.push(component);
+                    }
                 }
             }
 

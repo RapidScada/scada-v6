@@ -107,12 +107,12 @@ rs.mimic.Renderer = class {
     }
 
     // Removes the component DOM from the mimic keeping data associated with the removed elements.
-    static detachDom(component) {
+    static detach(component) {
         component.dom?.detach();
     }
 
     // Removes the component DOM from the mimic.
-    static removeDom(component) {
+    static remove(component) {
         component.dom?.remove();
     }
 

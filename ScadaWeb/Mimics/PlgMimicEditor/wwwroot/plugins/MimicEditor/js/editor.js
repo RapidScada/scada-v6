@@ -189,7 +189,6 @@ class Change {
     objectName = "";
     properties = null;
     parentID = 0;
-    index = -1; // TODO: remove
     shift = 0;
     siblingID = 0;
     indexes = null;
@@ -526,18 +525,10 @@ class HistoryChange {
 
 // Represents a single point in history.
 class HistoryPoint {
-    // TODO: remove
-    commonChangeType; // change type common for all changes
-    changes;          // instances of HistoryChange class
+    changes; // instances of HistoryChange class
 
     constructor(changes) {
-        this.commonChangeType = "";
         this.changes = changes ?? [];
-        let changeTypeSet = new Set(this.changes.map(c => c.changeType));
-
-        if (changeTypeSet.size === 1) {
-            this.commonChangeType = changeTypeSet.values().next().value;
-        }
     }
 
     toReversed() {
