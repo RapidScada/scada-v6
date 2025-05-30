@@ -580,7 +580,7 @@ class HistoryPoint {
 
                 case ChangeType.ARRANGE_COMPONENT:
                     reversedChanges.push(new HistoryChange({
-                        changeType: ChangeType.UPDATE_PARENT,
+                        changeType: ChangeType.ARRANGE_COMPONENT,
                         objectID: change.objectID,
                         oldIndex: change.newIndex,
                         newIndex: change.oldIndex
