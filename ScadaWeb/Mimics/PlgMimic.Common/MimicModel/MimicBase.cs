@@ -35,6 +35,11 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         /// </summary>
         public List<Image> Images { get; } = [];
 
+        /// <summary>
+        /// Gets the parent container.
+        /// </summary>
+        public IContainer Parent => null;
+
 
         /// <summary>
         /// Loads the mimic from the XML node.
@@ -72,7 +77,10 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
                     Component component = new();
 
                     if (component.LoadFromXml(childNode, componentIDs))
+                    {
+                        component.Parent = this;
                         Components.Add(component);
+                    }
                 }
             }
 

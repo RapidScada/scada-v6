@@ -56,6 +56,12 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
         public int ParentID { get; set; } = 0;
 
         /// <summary>
+        /// Gets the parent container.
+        /// </summary>
+        [JsonIgnore]
+        public IContainer Parent { get; set; } = null;
+
+        /// <summary>
         /// Gets the top-level child components.
         /// </summary>
         [JsonIgnore]
@@ -93,6 +99,7 @@ namespace Scada.Web.Plugins.PlgMimic.MimicModel
                         if (component.LoadFromXml(childNode, componentIDs))
                         {
                             component.ParentID = ID;
+                            component.Parent = this;
                             Components.Add(component);
                         }
                     }

@@ -53,6 +53,11 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Models
         /// </summary>
         public int SiblingID { get; set; }
 
+        /// <summary>
+        /// Gets or sets the indexes of the components to arrange.
+        /// </summary>
+        public int[] Indexes { get; set; }
+
 
         /// <summary>
         /// Gets the IDs of the affected objects as an array.

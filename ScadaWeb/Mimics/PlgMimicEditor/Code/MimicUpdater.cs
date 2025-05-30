@@ -117,6 +117,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
             // add component
             if (GetComponentParent(component) is IContainer parent)
             {
+                component.Parent = parent;
                 parent.Components.Add(component);
                 mimic.ComponentMap.Add(component.ID, component);
             }
@@ -149,6 +150,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 oldParent?.Components.Remove(component);
 
                 component.ParentID = change.ParentID;
+                component.Parent = newParent;
                 newParent.Components.Add(component);
                 SetComponentProperties(component, change); // set location
             }
@@ -167,7 +169,11 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 .Select(id => mimic.ComponentMap.GetValueOrDefault(id))
                 .Where(c => c != null).ToList();
 
-            if (change.SiblingID > 0)
+            if (change.Indexes != null)
+            {
+                Arrange(parent, components, change.Indexes);
+            }
+            else if (change.SiblingID > 0)
             {
                 if (mimic.ComponentMap.TryGetValue(change.SiblingID, out Component sibling))
                 {
@@ -318,18 +324,15 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         private static bool AreRelatives(IContainer parent, IContainer child)
         {
-            // TODO: implement
-            /*let current = child.parent;
+            IContainer current = child.Parent;
 
-            while (current)
+            while (current != null)
             {
-                if (current === parent)
-                {
+                if (current == parent)
                     return true;
-                }
 
-                current = current.parent;
-            }*/
+                current = current.Parent;
+            }
 
             return false;
         }
@@ -430,6 +433,54 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
                 parent.Components.Clear();
                 parent.Components.AddRange(filtered);
             }
+        }
+
+        /// <summary>
+        /// Arranges the components according to the indexes.
+        /// </summary>
+        private static void Arrange(IContainer parent, List<Component> components, int[] indexes)
+        {
+            if (components.Count != indexes.Length)
+                return;
+
+            // map components
+            Dictionary<int, Component> componentByIndex = [];
+            HashSet<int> componentIDs = [];
+
+            for (int i = 0; i < components.Count; i++)
+            {
+                Component component = components[i];
+                componentByIndex[indexes[i]] = component;
+                componentIDs.Add(component.ID);
+            }
+
+            // copy children to new array
+            List<Component> arranged = [];
+            int arrangedIndex = 0;
+            int sourceIndex = 0;
+            int length = parent.Components.Count;
+
+            while (arrangedIndex < length && sourceIndex < length)
+            {
+                if (componentByIndex.TryGetValue(arrangedIndex, out Component component))
+                {
+                    arranged.Add(component);
+                    arrangedIndex++;
+                }
+                else
+                {
+                    component = parent.Components[sourceIndex++];
+
+                    if (!componentIDs.Contains(component.ID))
+                    {
+                        arranged.Add(component);
+                        arrangedIndex++;
+                    }
+                }
+            }
+
+            parent.Components.Clear();
+            parent.Components.AddRange(arranged);
         }
 
         /// <summary>
