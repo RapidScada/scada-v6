@@ -48,28 +48,6 @@ rs.mimic.Renderer = class {
     update(component, renderContext) {
     }
 
-    // Appends or inserts the child DOM into the parent DOM.
-    appendChild(parent, child, opt_index) {
-        let parentElem = parent?.dom;
-        let childElem = child?.dom;
-
-        if (parentElem && childElem) {
-            if (Number.isInteger(opt_index) && opt_index >= 0) {
-                // insert element at the specified index
-                let siblingElem = parentElem.children().eq(opt_index);
-
-                if (siblingElem.length > 0) {
-                    siblingElem.before(childElem);
-                } else {
-                    parentElem.append(childElem);
-                }
-            } else {
-                // append element
-                parentElem.append(childElem);
-            }
-        }
-    }
-
     // Sets the location of the component DOM.
     setLocation(component, x, y) {
         if (component.dom) {
@@ -118,6 +96,38 @@ rs.mimic.Renderer = class {
                 width: "0",
                 height: "0"
             };
+        }
+    }
+
+    // Appends the child DOM into the parent DOM.
+    static appendChild(parent, child) {
+        if (parent.dom && child.dom) {
+            parent.dom.append(child.dom);
+        }
+    }
+
+    // Removes the component DOM from the mimic keeping data associated with the removed elements.
+    static detachDom(component) {
+        component.dom?.detach();
+    }
+
+    // Removes the component DOM from the mimic.
+    static removeDom(component) {
+        component.dom?.remove();
+    }
+
+    // Arranges the child components according to their order.
+    static arrangeChildren(parent) {
+        if (parent.children && parent.dom) {
+            for (let component of parent.children) {
+                component.dom?.detach();
+            }
+
+            for (let component of parent.children) {
+                if (component.dom) {
+                    parent.dom.append(component.dom);
+                }
+            }
         }
     }
 }
@@ -286,8 +296,8 @@ rs.mimic.UnitedRenderer = class {
 
     // Appends the component DOM to its parent.
     _appendToParent(component) {
-        if (component.parent?.renderer) {
-            component.parent.renderer.appendChild(component.parent, component);
+        if (component.parent) {
+            rs.mimic.Renderer.appendChild(component.parent, component);
         }
     }
 

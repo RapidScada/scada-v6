@@ -189,9 +189,10 @@ class Change {
     objectName = "";
     properties = null;
     parentID = 0;
-    index = -1;
+    index = -1; // TODO: remove
     shift = 0;
     siblingID = 0;
+    indexes = null;
 
     constructor(changeType) {
         this.changeType = changeType;
@@ -289,11 +290,20 @@ class Change {
         return change;
     }
 
-    static arrangeComponent(componentID, shift, opt_siblingID) {
+    static arrangeComponent(parentID, componentID, shift, opt_siblingID) {
         let change = new Change(ChangeType.ARRANGE_COMPONENT);
         change._setObjectID(componentID);
+        change.parentID = parentID;
         change.shift = shift;
         change.siblingID = opt_siblingID;
+        return change;
+    }
+
+    static arrangeByIndexes(parentID, componentIDs, indexes) {
+        let change = new Change(ChangeType.ARRANGE_COMPONENT);
+        change.objectIDs = componentIDs;
+        change.parentID = parentID;
+        change.indexes = indexes;
         return change;
     }
 
@@ -516,6 +526,7 @@ class HistoryChange {
 
 // Represents a single point in history.
 class HistoryPoint {
+    // TODO: remove
     commonChangeType; // change type common for all changes
     changes;          // instances of HistoryChange class
 

@@ -18,6 +18,7 @@
     <Phrase key="PostUpdateError">Ошибка при передаче обновления.</Phrase>
     <Phrase key="UnableAddComponent">Невозможно добавить компонент.</Phrase>
     <Phrase key="UnableChangeParent">Невозможно изменить родителя.</Phrase>
+    <Phrase key="UnableRestoreHistory">Невозможно восстановить точку истории.</Phrase>
     <Phrase key="SameParentRequired">Выбранные компоненты должны иметь общего родителя.</Phrase>
     <Phrase key="ComponentNotSpecified">Компонент не указан.</Phrase>
     <Phrase key="ClipboardEmpty">Буфер обмена пуст.</Phrase>

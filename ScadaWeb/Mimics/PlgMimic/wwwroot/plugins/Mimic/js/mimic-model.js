@@ -5,12 +5,10 @@
 // Provides helper methods for mimics and components.
 rs.mimic.MimicHelper = class MimicHelper {
     // Indexes child components.
-    static _indexComponents(parent) {
-        let index = 0;
-
-        for (let component of parent.children) {
+    static _indexComponents(parent, opt_start) {
+        for (let index = opt_start ?? 0; index < parent.children.length; index++) {
+            let component = parent.children[index];
             component.index = index;
-            index++;
         }
     }
 
@@ -38,32 +36,26 @@ rs.mimic.MimicHelper = class MimicHelper {
     }
 
     // Adds the component to the parent.
-    static addToParent(parent, component, opt_index, opt_updateIndexes) {
+    static addToParent(parent, component, opt_index) {
         if (parent.children) {
             component.parentID = parent.id ?? 0;
-            component.index = Number.isInteger(opt_index) && 0 <= opt_index && opt_index < parent.children.length
+            let index = Number.isInteger(opt_index) && 0 <= opt_index && opt_index < parent.children.length
                 ? opt_index
                 : parent.children.length;
             component.parent = parent;
-            parent.children.splice(component.index, 0, component); // insert
-
-            if (opt_updateIndexes) {
-                MimicHelper._indexComponents(parent);
-            }
+            parent.children.splice(index, 0, component); // insert
+            MimicHelper._indexComponents(parent, index);
         }
     }
 
     // Removes the component from its parent.
-    static removeFromParent(component, opt_updateIndexes) {
+    static removeFromParent(component) {
         let parent = component.parent;
 
         if (parent.children && component.index >= 0) {
             parent.children.splice(component.index, 1); // delete
+            MimicHelper._indexComponents(parent, component.index);
             component.index = -1;
-
-            if (opt_updateIndexes) {
-                MimicHelper._indexComponents(parent);
-            }
         }
     }
 
@@ -80,6 +72,12 @@ rs.mimic.MimicHelper = class MimicHelper {
         }
 
         return false;
+    }
+
+    // Checks whether the specified components belong to the same parent.
+    static areSiblings(components) {
+        let parentIDs = new Set(components.map(c => c.parentID));
+        return parentIDs.size === 1;
     }
 
     // Moves the components to the beginning of the parent's children.
@@ -149,7 +147,7 @@ rs.mimic.MimicHelper = class MimicHelper {
     }
 
     // Moves the components before their sibling.
-    static placeBefore(parent, sibling, components) {
+    static placeBefore(parent, components, sibling) {
         if (parent.children) {
             let componentIDs = new Set(components.map(c => c.id));
             let filtered = parent.children.filter(c => !componentIDs.has(c.id));
@@ -164,7 +162,7 @@ rs.mimic.MimicHelper = class MimicHelper {
     }
 
     // Moves the components after their sibling.
-    static placeAfter(parent, sibling, components) {
+    static placeAfter(parent, components, sibling) {
         if (parent.children) {
             let componentIDs = new Set(components.map(c => c.id));
             let filtered = parent.children.filter(c => !componentIDs.has(c.id));
@@ -175,6 +173,41 @@ rs.mimic.MimicHelper = class MimicHelper {
                 parent.children = filtered;
                 MimicHelper._indexComponents(parent);
             }
+        }
+    }
+
+    // Arranges the components according to the indexes.
+    static arrange(parent, components, indexes) {
+        if (parent.children && components.length === indexes.length) {
+            // map components
+            let componentByIndex = new Map();
+            let componentIDs = new Set();
+
+            for (let i = 0; i < components.length; i++) {
+                let component = components[i];
+                componentByIndex.set(indexes[i], component);
+                componentIDs.add(component.id);
+            }
+
+            // copy children to new array
+            let arranged = [];
+            let index = 0;
+
+            for (let childComponent of parent.children) {
+                let extraComponent = componentByIndex.get(index);
+
+                if (extraComponent) {
+                    extraComponent.index = index++;
+                    arranged.push(extraComponent);
+                }
+
+                if (!componentIDs.has(childComponent.id)) {
+                    childComponent.index = index++;
+                    arranged.push(childComponent);
+                }
+            }
+
+            parent.children = arranged;
         }
     }
 
@@ -253,6 +286,11 @@ rs.mimic.MimicBase = class {
 rs.mimic.Mimic = class extends rs.mimic.MimicBase {
     dom;      // mimic DOM as a jQuery object
     renderer; // renders the mimic
+
+    // Imitates a component ID to use as a parent ID.
+    get id() {
+        return 0;
+    }
 
     // Indicates that a mimic can contain child components.
     get isContainer() {
@@ -564,7 +602,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
             component.setLocation(opt_x, opt_y);
         }
 
-        rs.mimic.MimicHelper.addToParent(parent, component, opt_index, true);
+        rs.mimic.MimicHelper.addToParent(parent, component, opt_index);
         this.components.push(component);
         this.componentMap.set(component.id, component);
         return true;
@@ -581,8 +619,8 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
             component.setLocation(opt_x, opt_y);
         }
 
-        rs.mimic.MimicHelper.removeFromParent(component, false);
-        rs.mimic.MimicHelper.addToParent(parent, component, opt_index, true);
+        rs.mimic.MimicHelper.removeFromParent(component);
+        rs.mimic.MimicHelper.addToParent(parent, component, opt_index);
         return true;
     }
 
@@ -603,7 +641,7 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
 
             // remove components
             this.components = this.components.filter(c => !idsToRemove.has(c.id));
-            rs.mimic.MimicHelper.removeFromParent(component, true);
+            rs.mimic.MimicHelper.removeFromParent(component);
 
             for (let id of idsToRemove) {
                 this.componentMap.delete(id);
@@ -611,6 +649,11 @@ rs.mimic.Mimic = class extends rs.mimic.MimicBase {
         }
 
         return component;
+    }
+
+    // Gets the parent of a compoment by ID.
+    getComponentParent(parentID) {
+        return parentID > 0 ? this.componentMap.get(parentID) : this;
     }
 
     // Returns a string that represents the current object.

@@ -159,23 +159,22 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         private void ApplyArrangeComponent(Change change)
         {
+            if (GetComponentParent(change.ParentID) is not IContainer parent)
+                return;
+
             List<Component> components = change
                 .GetObjectIDs()
                 .Select(id => mimic.ComponentMap.GetValueOrDefault(id))
                 .Where(c => c != null).ToList();
-            List<int> parentIDs = components.Select(c => c.ParentID).Distinct().ToList();
-
-            if (!(parentIDs.Count == 1 && GetComponentParent(parentIDs[0]) is IContainer parent))
-                return;
 
             if (change.SiblingID > 0)
             {
                 if (mimic.ComponentMap.TryGetValue(change.SiblingID, out Component sibling))
                 {
                     if (change.Shift < 0)
-                        PlaceBefore(parent, sibling, components);
+                        PlaceBefore(parent, components, sibling);
                     else if (change.Shift > 0)
-                        PlaceAfter(parent, sibling, components);
+                        PlaceAfter(parent, components, sibling);
                 }
             }
             else
@@ -248,7 +247,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         }
 
         /// <summary>
-        /// Gets the parent of the specified component.
+        /// Gets the parent of the component.
         /// </summary>
         private IContainer GetComponentParent(Component component)
         {
@@ -256,7 +255,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         }
 
         /// <summary>
-        /// Gets the parent by ID.
+        /// Gets the parent of a component by ID.
         /// </summary>
         private IContainer GetComponentParent(int parentID)
         {
@@ -319,6 +318,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// </summary>
         private static bool AreRelatives(IContainer parent, IContainer child)
         {
+            // TODO: implement
             return false;
         }
 
@@ -389,7 +389,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// <summary>
         /// Moves the components before their sibling.
         /// </summary>
-        private static void PlaceBefore(IContainer parent, Component sibling, List<Component> components)
+        private static void PlaceBefore(IContainer parent, List<Component> components, Component sibling)
         {
             HashSet<int> componentIDs = [.. components.Select(c => c.ID)];
             List<Component> filtered = parent.Components.Where(c => !componentIDs.Contains(c.ID)).ToList();
@@ -406,7 +406,7 @@ namespace Scada.Web.Plugins.PlgMimicEditor.Code
         /// <summary>
         /// Moves the components after their sibling.
         /// </summary>
-        private static void PlaceAfter(IContainer parent, Component sibling, List<Component> components)
+        private static void PlaceAfter(IContainer parent, List<Component> components, Component sibling)
         {
             HashSet<int> componentIDs = [.. components.Select(c => c.ID)];
             List<Component> filtered = parent.Components.Where(c => !componentIDs.Contains(c.ID)).ToList();
