@@ -6,7 +6,6 @@ const mimic = new rs.mimic.Mimic();
 const unitedRenderer = new rs.mimic.UnitedRenderer(mimic, false);
 
 var viewID = 0;
-var mimicWrapperElem = $();
 
 function bindEvents() {
     $(window).on("resize", function () {
@@ -23,7 +22,7 @@ async function loadMimic() {
     let result = await mimic.load(getLoaderUrl(), viewID);
 
     if (result.ok) {
-        mimicWrapperElem.append(unitedRenderer.createMimicDom());
+        $("#divMimicWrapper").append(unitedRenderer.createMimicDom());
     } else {
         // show error
     }
@@ -34,7 +33,6 @@ function getLoaderUrl() {
 }
 
 $(async function () {
-    mimicWrapperElem = $("#divMimicWrapper");
     bindEvents();
     updateLayout();
     await loadMimic();

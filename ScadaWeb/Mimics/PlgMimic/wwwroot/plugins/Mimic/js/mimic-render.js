@@ -133,15 +133,63 @@ rs.mimic.Renderer = class {
 }
 
 // Represents a mimic renderer.
-rs.mimic.MimicRenderer = class extends rs.mimic.Renderer {
+rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
     get canUpdateDom() {
         return true;
     }
 
+    static _createGrid(gridSize, mimicSize) {
+        // create canvas
+        let canvasElem = $("<canvas class='grid'></canvas>");
+        let canvas = canvasElem[0];
+        let width = canvas.width = mimicSize.width;
+        let height = canvas.height = mimicSize.height;
+
+        // prepare drawing context
+        const GRID_COLOR = "#dee2e6"; // gray-300
+        const DASH_PATTERN1 = [1, 1];
+        const DASH_PATTERN2 = [];
+
+        let context = canvas.getContext("2d");
+        context.lineWidth = 1;
+        context.strokeStyle = GRID_COLOR;
+
+        // draw grids with small and large cells
+        MimicRenderer._drawGrid(context, width, height, gridSize, DASH_PATTERN1);
+        MimicRenderer._drawGrid(context, width, height, gridSize * 10, DASH_PATTERN2);
+        return canvasElem;
+    }
+
+    static _drawGrid(context, width, height, cellSize, dashPattern) {
+        // draw vertical lines
+        for (let x = cellSize; x < width; x += cellSize) {
+            context.beginPath();
+            context.setLineDash(dashPattern);
+            context.moveTo(x, 0);
+            context.lineTo(x, height);
+            context.stroke();
+        }
+
+        // draw horizontal lines
+        for (let y = cellSize; y < height; y += cellSize) {
+            context.beginPath();
+            context.setLineDash(dashPattern);
+            context.moveTo(0, y);
+            context.lineTo(width, y);
+            context.stroke();
+        }
+    }
+
     createDom(mimic, renderContext) {
-        mimic.dom = $("<div class='mimic'></div>");
+        let mimicElem = $("<div class='mimic'></div>");
+        mimic.dom = mimicElem;
+
+        if (renderContext.gridSize > 1) {
+            mimicElem.append(MimicRenderer._createGrid(renderContext.gridSize, mimic.document.size));
+        }
+
         this.updateDom(mimic, renderContext);
-        return mimic.dom;
+        return mimicElem;
     }
 
     updateDom(mimic, renderContext) {
@@ -267,6 +315,7 @@ rs.mimic.RenderContext = class {
     faceplateMode = false;
     imageMap = null;
     idPrefix = "";
+    gridSize = 10;
 
     getImage(imageName) {
         return this.imageMap instanceof Map ? this.imageMap.get(imageName) : null;
