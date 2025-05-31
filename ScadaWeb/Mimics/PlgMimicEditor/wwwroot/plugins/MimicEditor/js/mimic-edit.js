@@ -28,7 +28,7 @@ let propGrid = null;
 let structTree = null;
 let faceplateModal = null;
 let imageModal = null;
-let mimicWrapperElem = $();
+let mimicElem = $();
 let selectedComponents = [];
 let lastUpdateTime = 0;
 let longAction = null;
@@ -102,12 +102,12 @@ function bindEvents() {
         startLongAction(LongAction.add(typeName));
     });
 
-    mimicWrapperElem
+    $("#divMimicWrapper")
         .on("mousedown", function (event) {
             if (!longAction) {
                 selectMimic();
             } else if (LongActionType.isPointing(longAction.actionType)) {
-                finishPointing(0, getMimicPoint(event, mimicWrapperElem, true))
+                finishPointing(0, getMimicPoint(event, mimicElem, true))
                 clearLongAction();
             }
         })
@@ -130,10 +130,10 @@ function bindEvents() {
                         if (component.isSelected) {
                             startLongAction(LongAction.drag(
                                 getDragType(event, compElem),
-                                getMimicPoint(event, mimicWrapperElem)));
+                                getMimicPoint(event, mimicElem)));
                         } else {
                             selectComponent(component);
-                            startLongAction(LongAction.drag(DragType.MOVE, getMimicPoint(event, mimicWrapperElem)));
+                            startLongAction(LongAction.drag(DragType.MOVE, getMimicPoint(event, mimicElem)));
                         }
                     }
                 }
@@ -157,7 +157,7 @@ function bindEvents() {
         .on("mousemove", function (event) {
             // continue dragging
             if (longAction?.actionType === LongActionType.DRAG) {
-                continueDragging(getMimicPoint(event, mimicWrapperElem));
+                continueDragging(getMimicPoint(event, mimicElem));
             }
         })
         .on("mousemove", ".comp", function (event) {
@@ -712,8 +712,8 @@ function showStructure() {
 }
 
 function showMimic() {
-    mimicWrapperElem.empty();
-    mimicWrapperElem.append(unitedRenderer.createMimicDom());
+    mimicElem = unitedRenderer.createMimicDom();
+    $("#divMimicWrapper").empty().append(mimicElem);
 }
 
 function addDependency(faceplateMeta, opt_oldfaceplateMeta) {
@@ -1091,7 +1091,7 @@ function alignValue(value, gridSize) {
 function startLongAction(action) {
     if (action) {
         longAction = action;
-        mimicWrapperElem.css("cursor", longAction.getCursor());
+        mimicElem.css("cursor", longAction.getCursor());
         setEnabled(ToolbarButton.POINTER, LongActionType.isPointing(longAction.actionType));
     }
 }
@@ -1111,7 +1111,7 @@ function finishPointing(componentID, point) {
 function clearLongAction() {
     if (longAction) {
         longAction = null;
-        mimicWrapperElem.css("cursor", "");
+        mimicElem.css("cursor", "");
         setEnabled(ToolbarButton.POINTER, false);
     }
 }
@@ -1723,8 +1723,6 @@ function showPermanentToast(message, opt_messageType) {
 
 $(async function () {
     splitter = new Splitter("divSplitter");
-    mimicWrapperElem = $("#divMimicWrapper");
-
     bindEvents();
     updateLayout();
     initStructTree();

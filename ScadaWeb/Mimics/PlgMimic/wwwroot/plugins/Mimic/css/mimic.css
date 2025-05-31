@@ -1,10 +1,13 @@
 ﻿.mimic-wrapper {
+  display: flex;
+  justify-content: center;
   overflow: auto;
-  position: relative; /*affects scrolling and scaling*/
+  position: relative;
 }
 .mimic-wrapper .mimic {
-  position: absolute; /*affects scaling*/
-  transform-origin: left top; /*affects scaling*/
+  background-color: white;
+  position: absolute;
+  transform-origin: left top;
 }
 .mimic-wrapper .mimic .comp {
   box-sizing: border-box;
@@ -18,7 +21,11 @@
 }
 
 .mimic-wrapper.edit-mode {
+  align-items: center;
   cursor: default;
+}
+.mimic-wrapper.edit-mode .mimic {
+  box-shadow: 0 0 0 1px var(--bs-gray-500);
 }
 .mimic-wrapper.edit-mode .mimic .comp.selected {
   box-shadow: 0 0 0 1px lime;
