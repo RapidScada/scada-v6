@@ -134,6 +134,8 @@ rs.mimic.Renderer = class {
 
 // Represents a mimic renderer.
 rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
+    static _GRID_COLOR = "#dee2e6"; // gray-300
+
     get canUpdateDom() {
         return true;
     }
@@ -146,25 +148,21 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         let height = canvas.height = mimicSize.height;
 
         // prepare drawing context
-        const GRID_COLOR = "#dee2e6"; // gray-300
-        const DASH_PATTERN1 = [1, 1];
-        const DASH_PATTERN2 = [];
-
         let context = canvas.getContext("2d");
         context.lineWidth = 1;
-        context.strokeStyle = GRID_COLOR;
+        context.strokeStyle = MimicRenderer._GRID_COLOR;
 
         // draw grids with small and large cells
-        MimicRenderer._drawGrid(context, width, height, gridSize, DASH_PATTERN1);
-        MimicRenderer._drawGrid(context, width, height, gridSize * 10, DASH_PATTERN2);
+        MimicRenderer._drawGrid(context, width, height, gridSize, [1, 1]);
+        MimicRenderer._drawGrid(context, width, height, gridSize * 10);
         return canvasElem;
     }
 
-    static _drawGrid(context, width, height, cellSize, dashPattern) {
+    static _drawGrid(context, width, height, cellSize, dashSegments = []) {
         // draw vertical lines
         for (let x = cellSize; x < width; x += cellSize) {
             context.beginPath();
-            context.setLineDash(dashPattern);
+            context.setLineDash(dashSegments);
             context.moveTo(x, 0);
             context.lineTo(x, height);
             context.stroke();
@@ -173,7 +171,7 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         // draw horizontal lines
         for (let y = cellSize; y < height; y += cellSize) {
             context.beginPath();
-            context.setLineDash(dashPattern);
+            context.setLineDash(dashSegments);
             context.moveTo(0, y);
             context.lineTo(width, y);
             context.stroke();
