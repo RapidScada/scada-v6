@@ -22,6 +22,8 @@
     <Phrase key="SameParentRequired">Выбранные компоненты должны иметь общего родителя.</Phrase>
     <Phrase key="ComponentNotSpecified">Компонент не указан.</Phrase>
     <Phrase key="ClipboardEmpty">Буфер обмена пуст.</Phrase>
+    <Phrase key="ConfirmDeleteDependency">Вы уверены, что хотите удалить зависимость?</Phrase>
+    <Phrase key="ConfirmDeleteImage">Вы уверены, что хотите удалить изображение?</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMimicEditor.Areas.MimicEditor.Pages.MimicEditModel.FaceplateModal">
     <Phrase key="PageTitle">Фейсплейт</Phrase>

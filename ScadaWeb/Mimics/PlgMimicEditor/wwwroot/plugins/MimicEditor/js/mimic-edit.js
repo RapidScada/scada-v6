@@ -221,7 +221,9 @@ function initStructTree() {
     });
 
     structTree.addEventListener(StructTreeEventType.REMOVE_DEPENDENCY_CLICK, function (event) {
-        removeDependency(event.detail.name);
+        if (confirm(phrases.confirmDeleteDependency)) {
+            removeDependency(event.detail.name);
+        }
     });
 
     // images
@@ -244,7 +246,9 @@ function initStructTree() {
     });
 
     structTree.addEventListener(StructTreeEventType.REMOVE_IMAGE_CLICK, function (event) {
-        removeImage(event.detail.name);
+        if (confirm(phrases.confirmDeleteImage)) {
+            removeImage(event.detail.name);
+        }
     });
 
     // mimic
