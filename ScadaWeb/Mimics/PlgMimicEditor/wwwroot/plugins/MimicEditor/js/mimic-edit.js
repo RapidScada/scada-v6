@@ -1027,11 +1027,11 @@ function getMimicPoint(event, elem, opt_alignToGrid) {
     let y = parseInt(event.pageY - offset.top);
 
     if (opt_alignToGrid) {
-        let gridSize = getGridSize();
+        let gridStep = getGridStep();
 
-        if (gridSize > 1) {
-            x = alignValue(x, gridSize);
-            y = alignValue(y, gridSize);
+        if (gridStep > 1) {
+            x = alignValue(x, gridStep);
+            y = alignValue(y, gridStep);
         }
     }
 
@@ -1078,14 +1078,14 @@ function getDragType(event, compElem) {
     return DragType.MOVE;
 }
 
-function getGridSize() {
-    return editorOptions && editorOptions.useGrid && editorOptions.gridSize > 1
-        ? editorOptions.gridSize
+function getGridStep() {
+    return editorOptions && editorOptions.useGrid && editorOptions.gridStep > 1
+        ? editorOptions.gridStep
         : 1;
 }
 
-function alignValue(value, gridSize) {
-    return Math.trunc(Math.round(value / gridSize) * gridSize);
+function alignValue(value, gridStep) {
+    return Math.trunc(Math.round(value / gridStep) * gridStep);
 }
 
 function startLongAction(action) {
@@ -1339,11 +1339,11 @@ function continueDragging(point) {
     let offsetY = point.y - longAction.startPoint.y;
 
     // align to grid
-    let gridSize = getGridSize();
+    let gridStep = getGridStep();
 
-    if (gridSize > 1) {
-        offsetX = alignValue(offsetX, gridSize);
-        offsetY = alignValue(offsetY, gridSize);
+    if (gridStep > 1) {
+        offsetX = alignValue(offsetX, gridStep);
+        offsetY = alignValue(offsetY, gridStep);
     }
 
     if (longAction.dragType === DragType.MOVE) {
@@ -1588,25 +1588,25 @@ function handleKeyDown(code, ctrlKey, shiftKey) {
         if (longAction?.actionType === LongActionType.DRAG) {
             return false; // not handled
         } else {
-            let size = ctrlKey || shiftKey ? 1 : getGridSize();
+            let step = ctrlKey || shiftKey ? 1 : getGridStep();
             let offsetX = 0;
             let offsetY = 0;
 
             switch (code) {
                 case "ArrowLeft":
-                    offsetX = -size;
+                    offsetX = -step;
                     break;
 
                 case "ArrowRight":
-                    offsetX = size;
+                    offsetX = step;
                     break;
 
                 case "ArrowUp":
-                    offsetY = -size;
+                    offsetY = -step;
                     break;
 
                 case "ArrowDown":
-                    offsetY = size;
+                    offsetY = step;
                     break;
             }
 
@@ -1722,7 +1722,9 @@ function showPermanentToast(message, opt_messageType) {
 }
 
 $(async function () {
+    unitedRenderer.editorOptions = editorOptions;
     splitter = new Splitter("divSplitter");
+
     bindEvents();
     updateLayout();
     initStructTree();

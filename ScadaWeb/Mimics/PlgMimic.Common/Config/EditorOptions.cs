@@ -17,9 +17,14 @@ namespace Scada.Web.Plugins.PlgMimic.Config
         public bool UseGrid { get; set; } = true;
 
         /// <summary>
-        /// Gets or sets the grid size in pixels.
+        /// Gets or sets a value indicating whether to show the grid over the mimic.
         /// </summary>
-        public int GridSize { get; set; } = 10;
+        public bool ShowGrid { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets the grid step in pixels.
+        /// </summary>
+        public int GridStep { get; set; } = 10;
 
 
         /// <summary>
@@ -29,7 +34,8 @@ namespace Scada.Web.Plugins.PlgMimic.Config
         {
             ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
             UseGrid = xmlNode.GetChildAsBool("UseGrid", UseGrid);
-            GridSize = xmlNode.GetChildAsInt("GridSize", GridSize);
+            ShowGrid = xmlNode.GetChildAsBool("ShowGrid", ShowGrid);
+            GridStep = xmlNode.GetChildAsInt("GridStep", GridStep);
         }
     }
 }

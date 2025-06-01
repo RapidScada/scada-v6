@@ -158,22 +158,24 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         return canvasElem;
     }
 
-    static _drawGrid(context, width, height, cellSize, dashSegments = []) {
+    static _drawGrid(context, width, height, gridStep, dashSegments = []) {
+        const adj = 0.5; // adjustment for sharpness of lines
+
         // draw vertical lines
-        for (let x = cellSize; x < width; x += cellSize) {
+        for (let x = gridStep; x < width; x += gridStep) {
             context.beginPath();
             context.setLineDash(dashSegments);
-            context.moveTo(x, 0);
-            context.lineTo(x, height);
+            context.moveTo(x + adj, 0);
+            context.lineTo(x + adj, height);
             context.stroke();
         }
 
         // draw horizontal lines
-        for (let y = cellSize; y < height; y += cellSize) {
+        for (let y = gridStep; y < height; y += gridStep) {
             context.beginPath();
             context.setLineDash(dashSegments);
-            context.moveTo(0, y);
-            context.lineTo(width, y);
+            context.moveTo(0, y + adj);
+            context.lineTo(width, y + adj);
             context.stroke();
         }
     }
@@ -182,8 +184,9 @@ rs.mimic.MimicRenderer = class MimicRenderer extends rs.mimic.Renderer {
         let mimicElem = $("<div class='mimic'></div>");
         mimic.dom = mimicElem;
 
-        if (renderContext.gridSize > 1) {
-            mimicElem.append(MimicRenderer._createGrid(renderContext.gridSize, mimic.document.size));
+        if (renderContext.editMode && renderContext.editorOptions &&
+            renderContext.editorOptions.showGrid && renderContext.editorOptions.gridStep > 1) {
+            mimicElem.append(MimicRenderer._createGrid(renderContext.editorOptions.gridStep, mimic.document.size));
         }
 
         this.updateDom(mimic, renderContext);
@@ -310,10 +313,14 @@ rs.mimic.FaceplateRenderer = class extends rs.mimic.ComponentRenderer {
 // Encapsulates information about a rendering operation.
 rs.mimic.RenderContext = class {
     editMode = false;
+    editorOptions = null;
     faceplateMode = false;
     imageMap = null;
     idPrefix = "";
-    gridSize = 10;
+
+    constructor(source) {
+        Object.assign(this, source);
+    }
 
     getImage(imageName) {
         return this.imageMap instanceof Map ? this.imageMap.get(imageName) : null;
@@ -335,10 +342,12 @@ rs.mimic.RendererSet = class {
 rs.mimic.UnitedRenderer = class {
     mimic;
     editMode;
+    editorOptions;
 
     constructor(mimic, editMode) {
         this.mimic = mimic;
         this.editMode = editMode;
+        this.editorOptions = null;
     }
 
     // Appends the component DOM to its parent.
@@ -372,12 +381,13 @@ rs.mimic.UnitedRenderer = class {
             return;
         }
 
-        let faceplateContext = new rs.mimic.RenderContext();
-        faceplateContext.editMode = this.editMode;
-        faceplateContext.faceplateMode = true;
-        faceplateContext.imageMap = faceplateInstance.model.imageMap;
-        faceplateContext.idPrefix = renderContext.idPrefix;
-
+        let faceplateContext = new rs.mimic.RenderContext({
+            editMode: this.editMode,
+            editorOptions: this.editorOptions,
+            faceplateMode: true,
+            imageMap: faceplateInstance.model.imageMap,
+            idPrefix: renderContext.idPrefix
+        });
         let renderer = rs.mimic.RendererSet.faceplateRenderer;
         faceplateInstance.renderer = renderer;
         renderer.createDom(faceplateInstance, faceplateContext);
@@ -393,11 +403,11 @@ rs.mimic.UnitedRenderer = class {
     createMimicDom() {
         let startTime = Date.now();
         let unknownTypes = new Set();
-
-        let renderContext = new rs.mimic.RenderContext();
-        renderContext.editMode = this.editMode;
-        renderContext.imageMap = this.mimic.imageMap;
-
+        let renderContext = new rs.mimic.RenderContext({
+            editMode: this.editMode,
+            editorOptions: this.editorOptions,
+            imageMap: this.mimic.imageMap
+        });
         let renderer = rs.mimic.RendererSet.mimicRenderer;
         this.mimic.renderer = renderer;
         renderer.createDom(this.mimic, renderContext);
@@ -425,18 +435,21 @@ rs.mimic.UnitedRenderer = class {
 
     // Creates a component DOM according to the component model. Returns a jQuery object.
     createComponentDom(component) {
-        let renderContext = new rs.mimic.RenderContext();
-        renderContext.editMode = this.editMode;
-        renderContext.imageMap = this.mimic.imageMap;
-        this._createComponentDom(component, renderContext);
+        this._createComponentDom(component, new rs.mimic.RenderContext({
+            editMode: this.editMode,
+            editorOptions: this.editorOptions,
+            imageMap: this.mimic.imageMap
+        }));
         return component.dom ?? $();
     }
 
     // Updates the component DOM according to the component model.
     updateComponentDom(component) {
         if (component.dom && component.renderer) {
-            let renderContext = new rs.mimic.RenderContext();
-            renderContext.editMode = this.editMode;
+            let renderContext = new rs.mimic.RenderContext({
+                editMode: this.editMode,
+                editorOptions: this.editorOptions
+            });
 
             if (component.isFaceplate) {
                 renderContext.faceplateMode = true;

@@ -37,7 +37,7 @@ $component-hover-color: var(--bs-gray-500);
 
         .comp {
             &.selected {
-                box-shadow: 0 0 0 1px $component-selected-color;
+                box-shadow: 0 0 0 3px $component-selected-color;
             }
 
             &:not(.selected):hover {

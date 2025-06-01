@@ -28,7 +28,7 @@
   box-shadow: 0 0 0 1px var(--bs-gray-500);
 }
 .mimic-wrapper.edit-mode .mimic .comp.selected {
-  box-shadow: 0 0 0 1px lime;
+  box-shadow: 0 0 0 3px lime;
 }
 .mimic-wrapper.edit-mode .mimic .comp:not(.selected):hover {
   box-shadow: 0 0 0 1px var(--bs-gray-500);
